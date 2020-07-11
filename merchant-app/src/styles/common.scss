@@ -167,10 +167,20 @@
 
 // button
 
+.form-cta {
+  display: flex;
+  justify-content: flex-end;
+  padding: 59px 0px;
+  border-top: 1px solid #c4c4c4;
+  & button {
+    margin-right: 32px;
+  }
+}
+
 .button {
   & button {
     background: #fff;
-    border: 1px solid;
+    border: 1px solid !important;
     color: #fff;
     font-size: 20px;
     line-height: 23px;
@@ -178,5 +188,14 @@
     padding: 13px 33px;
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & svg {
+      font-size: 27px;
+      vertical-align: middle;
+      margin-right: 23px;
+    }
   }
 }

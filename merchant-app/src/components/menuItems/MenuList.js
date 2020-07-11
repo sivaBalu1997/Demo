@@ -5,7 +5,7 @@ import nonVeg from "../../assets/images/non-veg.png";
 import Switchbox from "../common/Switchbox";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-const MenuList = ({tableData}) => {
+const MenuList = ({ results }) => {
   const [isChecked, setToggleTrue] = useState(true);
 
   const handleSwitch = (id) => {
@@ -30,7 +30,7 @@ const MenuList = ({tableData}) => {
             <th></th>
           </tr>
         </thead>
-        {tableData.rows.map((row) => {
+        {results.map((row) => {
           return (
             <tr key={row.id}>
               <td>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MenuList from "./MenuList";
 import Search from "../common/Search";
 import Dropdown from "../common/Dropdown";
@@ -108,16 +108,11 @@ const foodSelect = [
 const MenuItems = () => {
   const [selectValue, setSelectValue] = useState(foodSelect.option);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const handleSelect = (event) => {
     setSelectValue({
       value: event.target.value,
     });
   };
-  console.log(selectValue);
   return (
     <div className="menu-items">
       <div className="header-menu">
@@ -132,7 +127,7 @@ const MenuItems = () => {
           handleSelect={handleSelect}
         />
       </div>
-      <MenuList tableData={tableData} />
+      <MenuList results={tableData.rows} />
     </div>
   );
 };

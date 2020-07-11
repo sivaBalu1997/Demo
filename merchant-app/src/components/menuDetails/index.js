@@ -46,7 +46,7 @@ const MenuDetials = () => {
               name="price"
             />
             <div className="upload-sec">
-              <div class="upload-btn-wrapper">
+              <div className="upload-btn-wrapper">
                 <div className="file-add">
                   <IoIosAdd />
                   <p>Add Image</p>
@@ -141,7 +141,7 @@ const MenuDetials = () => {
               color={"#979797"}
             />
           </Link>
-          <Link to="/menulist">
+          <Link to="/menuCustomization">
             <Button
               type={"submit"}
               value={"Add Customization"}

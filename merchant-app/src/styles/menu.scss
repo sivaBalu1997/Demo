@@ -32,10 +32,14 @@
       top: 0; // Threshold is required
     }
   }
+  & .menu-sec {
+    width: 100%;
+  }
   & .menu-items {
     width: 100%;
-    margin-left: 39px;
-    margin-right: 108px;
+    padding-left: 39px;
+    padding-right: 108px;
+    box-sizing: border-box;
     & .header-menu {
       display: flex;
       justify-content: flex-start;
@@ -70,6 +74,10 @@
         line-height: 36px;
       }
     }
+  }
+
+  & .add-custom {
+    margin-top: 20px;
   }
   & .create-menu {
     width: 100%;
