@@ -28,16 +28,20 @@
       min-height: 400px;
 
       & .add-group {
-        width: 35%;
+        width: 37%;
       }
 
       & .add-item {
         display: flex;
         justify-content: flex-start;
-        align-items: center;
-        & > div {
-          margin-right: 20px;
-          width: 35%;
+        align-items: flex-end;
+
+        & .sub-item {
+          display: flex;
+          justify-content: flex-start;
+          & > div {
+            margin-right: 20px;
+          }
         }
       }
       & button {
@@ -46,9 +50,11 @@
         color: #0085ff;
         font-family: "Poppins", sans-serif;
         font-size: 14px;
-        margin-bottom: 20px;
+        margin-bottom: 37px;
         display: flex;
         align-items: center;
+        cursor: pointer;
+        outline: 0;
         & svg {
           margin-right: 5px;
           font-size: 23px;

@@ -14,6 +14,24 @@ const menuCategory = [
 
 const MenuDetials = () => {
   const [selectValue, setSelectValue] = useState(menuCategory.option);
+  const [urlImage, seturlImage] = useState("");
+  const [files, setFiles] = useState(false);
+
+  function readFile(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => resolve(reader.result), false);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function fileSelectedHandler(events) {
+    if (events && events.target && events.target.files[0]) {
+      setFiles(events.target.files);
+      const imageDataUrl = await readFile(events.target.files[0]);
+      seturlImage(imageDataUrl);
+    }
+  }
 
   const handleSelect = (event) => {
     setSelectValue({
@@ -46,20 +64,46 @@ const MenuDetials = () => {
               name="price"
             />
             <div className="upload-sec">
-              <div className="upload-btn-wrapper">
-                <div className="file-add">
-                  <IoIosAdd />
-                  <p>Add Image</p>
+              {urlImage === "" ? (
+                <React.Fragment>
+                  <div className="upload-btn-wrapper">
+                    <div className="file-add">
+                      <IoIosAdd />
+                      <p>Add Image</p>
+                    </div>
+                    <input
+                      type="file"
+                      id="imageUpload1"
+                      multiple="multiple"
+                      accept="image/x-png,image/gif,image/jpeg"
+                      onChange={fileSelectedHandler}
+                    />
+                  </div>
+                  <div className="upload-des">
+                    <p>
+                      {" "}
+                      <IoIosInformationCircleOutline />
+                      Add higher resolution images for better view{" "}
+                    </p>
+                  </div>
+                </React.Fragment>
+              ) : (
+                <div className="uploaded-file">
+                  <div className="upload-btn-wrapper">
+                    <div className="file-add">
+                      <p>change Image</p>
+                    </div>
+                    <input
+                      type="file"
+                      id="imageUpload1"
+                      multiple="multiple"
+                      accept="image/x-png,image/gif,image/jpeg"
+                      onChange={fileSelectedHandler}
+                    />
+                  </div>
+                  <img src={urlImage} alt="upload" />
                 </div>
-                <input type="file" name="myfile" />
-              </div>
-              <div className="upload-des">
-                <p>
-                  {" "}
-                  <IoIosInformationCircleOutline />
-                  Add higher resolution images for better view{" "}
-                </p>
-              </div>
+              )}
             </div>
             <h3>Other Deatils</h3>
             <Dropdown

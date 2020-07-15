@@ -83,6 +83,13 @@
       top: 0;
       opacity: 0;
     }
+    & .uploaded-file {
+      & img {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+      }
+    }
   }
   & textarea {
     font-weight: normal;
