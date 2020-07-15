@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 import Button from "../common/Button";
 
 const AddCustomizationInput = () => {
-  const [inputField, setInputField] = useState([]);
+  const [groupField, setGroupField] = useState([]);
 
-  const addInput = () => {
-    const documents = inputField.concat(AddItem);
-    setInputField(documents);
+  const addGroupInput = () => {
+    const documents = groupField.concat(AddGroup);
+    setGroupField(documents);
   };
+
   return (
     <div className="customization-sec">
       <div className="title">
@@ -22,33 +23,15 @@ const AddCustomizationInput = () => {
       </div>
       <form>
         <div className="customize-input">
-          <div className="add-group">
-            <TextInput
-              type={"text"}
-              placeholder={"Group"}
-              // value={"Item Price"}
-              name="price"
-            />
-          </div>
-          <div className="add-item">
-            <div>
-              {inputField.map((Element, index) => {
-                return (
-                  <div className="sub-item">
-                    <Element key={index} index={index} />
-                  </div>
-                );
-              })}
+          {groupField.map((Element, index) => {
+            return (
               <div className="sub-item">
-                <AddItem inputField={inputField} />
+                <Element key={index} index={index} />
               </div>
-            </div>
-            <button type="button" onClick={() => addInput()}>
-              {" "}
-              <IoIosAdd /> Add Item
-            </button>
-          </div>
-          <button>
+            );
+          })}
+          <AddGroup />
+          <button type="button" onClick={() => addGroupInput()}>
             {" "}
             <IoIosAdd /> Add Group
           </button>
@@ -93,5 +76,44 @@ const AddItem = () => (
     />
   </React.Fragment>
 );
+
+const AddGroup = () => {
+  const [inputField, setInputField] = useState([]);
+
+  const addInput = () => {
+    const documents = inputField.concat(AddItem);
+    setInputField(documents);
+  };
+  return (
+    <React.Fragment>
+      <div className="add-group">
+        <TextInput
+          type={"text"}
+          placeholder={"Group"}
+          // value={"Item Price"}
+          name="price"
+        />
+      </div>
+      <div className="add-item">
+        <div>
+          {inputField.map((Element, index) => {
+            return (
+              <div className="sub-item">
+                <Element key={index} index={index} />
+              </div>
+            );
+          })}
+          <div className="sub-item">
+            <AddItem inputField={inputField} />
+          </div>
+        </div>
+        <button type="button" onClick={() => addInput()}>
+          {" "}
+          <IoIosAdd /> Add Item
+        </button>
+      </div>
+    </React.Fragment>
+  );
+};
 
 export default AddCustomizationInput;
