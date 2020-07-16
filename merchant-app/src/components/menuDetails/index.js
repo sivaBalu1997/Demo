@@ -34,9 +34,7 @@ const MenuDetials = () => {
   }
 
   const handleSelect = (event) => {
-    setSelectValue({
-      value: event.target.value,
-    });
+    setSelectValue(event.target.value);
   };
   return (
     <div className="menu-details">

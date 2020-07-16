@@ -109,9 +109,7 @@ const MenuItems = () => {
   const [selectValue, setSelectValue] = useState(foodSelect.option);
 
   const handleSelect = (event) => {
-    setSelectValue({
-      value: event.target.value,
-    });
+    setSelectValue(event.target.value);
   };
   return (
     <div className="menu-items">

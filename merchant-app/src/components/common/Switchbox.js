@@ -7,9 +7,7 @@ const Switchbox = ({ isChecked, handleSwitch }) => {
       <label>
         <input
           checked={isChecked}
-          onChange={() => {
-            handleSwitch();
-          }}
+          onChange={handleSwitch}
           className="switch-input"
           type="checkbox"
         />
