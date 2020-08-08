@@ -1,0 +1,126 @@
+.home-section {
+  display: flex;
+  justify-content: flex-start;
+
+  & .main-section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    & .table-section {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      & > div {
+        background: #ffffff;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        padding: 40px 60px;
+        box-sizing: border-box;
+        margin-right: 71px;
+        text-align: center;
+
+        & img {
+          width: 168px;
+          height: 119px;
+          object-fit: contain;
+          margin-bottom: 44px;
+        }
+
+        & h3 {
+          font-weight: 500;
+          font-size: 35px;
+          line-height: 40px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.table-menu {
+  & .circle {
+    width: 80px;
+    height: 80px;
+    background: #565656;
+    position: fixed;
+    right: 89px;
+    bottom: 67px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & svg {
+      font-size: 50px;
+      color: #fff;
+    }
+  }
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .modal-main {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-circle {
+    border-radius: 50%;
+    position: absolute;
+    right: 233px;
+    bottom: 146px;
+    width: 102px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    & .inner-circle {
+      background: #fff;
+      border-radius: 50%;
+      padding: 12px 0px 5px;
+      box-sizing: border-box;
+      width: 64px;
+      box-shadow: 0px 0px 3px 2px #cccc;
+      cursor: pointer;
+    }
+    & img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+    & p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 19px;
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+      margin-top: 10px;
+    }
+    & svg {
+      font-size: 38px;
+    }
+  }
+
+  .display-block {
+    display: block;
+  }
+
+  .display-none {
+    display: none;
+  }
+}

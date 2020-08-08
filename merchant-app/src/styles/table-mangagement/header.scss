@@ -1,0 +1,45 @@
+.header {
+  background-color: #e5e5e5;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & h2 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 48px;
+    padding: 18px 0px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  & > div {
+    position: absolute;
+    right: 24px;
+    & span {
+      position: absolute;
+      top: -8px;
+      background: #2f2f2f;
+      color: #fff;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 21px;
+      display: flex;
+      align-items: center;
+      color: #ffffff;
+      right: -9px;
+    }
+    & svg {
+      font-size: 35px;
+    }
+  }
+}
