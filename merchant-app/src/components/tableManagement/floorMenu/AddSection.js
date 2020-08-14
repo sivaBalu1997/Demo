@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaRegClock } from "react-icons/fa";
 
 import Input from "../../common/input";
 import "../../../styles/table-mangagement/common.scss";
@@ -6,8 +7,21 @@ import "../../../styles/table-mangagement/floorPlan.scss";
 import TableButton from "../button";
 import { MdCompareArrows } from "react-icons/md";
 import { Link } from "react-router-dom";
+import CustomDropdown from "../../common/customDropdown";
+
+const options = ["9.00", "10.00", "11.00"];
+const optionsOne = ["22.00", "21.00", "20.00"];
 
 const AddSection = ({ setOpenModal }) => {
+  const [start, setstart] = useState("9.00");
+  const [end, setEnd] = useState("22.00");
+
+  const onStart = (option) => {
+    setstart(option);
+  };
+  const onEnd = (option) => {
+    setEnd(option);
+  };
   return (
     <div className="add-table">
       <div>
@@ -36,11 +50,23 @@ const AddSection = ({ setOpenModal }) => {
 
       <div>
         <div>
-          <label style={{ opacity: "1" }}>Section name</label>
+          <label style={{ opacity: "1" }}>Serving time</label>
           <div className="date-flex">
-            <Input type="date" name="table" />
+            <CustomDropdown
+              options={options}
+              value={start}
+              onSelect={onStart}
+              arrowClosed={<FaRegClock />}
+              arrowOpen={<FaRegClock />}
+            />
             <MdCompareArrows />
-            <Input type="date" name="table" />
+            <CustomDropdown
+              options={optionsOne}
+              value={end}
+              onSelect={onEnd}
+              arrowClosed={<FaRegClock />}
+              arrowOpen={<FaRegClock />}
+            />
           </div>
         </div>
         <div className="bottom-cta">
