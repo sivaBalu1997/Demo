@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { FaPencilAlt } from "react-icons/fa";
 
 import "../../../styles/table-mangagement/floorPlan.scss";
 import "../../../styles/table-mangagement/table.scss";
@@ -52,12 +53,12 @@ const AddTableView = () => {
       </div>
       <div className="table-header">
         {header.map((list) => (
-          <div
-            onClick={() => setActive(list.id)}
-            className={activeheader === list.id ? "active" : ""}
-          >
-            <p>{list.value}</p>
-          </div>
+          <HeaderPick
+            setActive={setActive}
+            id={list.id}
+            value={list.value}
+            activeheader={activeheader}
+          />
         ))}
       </div>
       <div className="table-view">
@@ -136,6 +137,30 @@ const AddTableView = () => {
         openSection={openSection}
         setSectionModal={setSectionModal}
       />
+    </div>
+  );
+};
+
+const HeaderPick = ({ setActive, id, activeheader, value }) => {
+  const [onEdit, setEdit] = useState(false);
+  const [drop, setDrop] = useState(false);
+  return (
+    <div
+      onClick={() => setActive(id)}
+      className={activeheader === id ? "active" : ""}
+      onMouseEnter={() => setEdit(true)}
+      onMouseLeave={() => setEdit(false)}
+    >
+      <p>{value}</p>
+      {onEdit === true ? <FaPencilAlt onClick={() => setDrop(!drop)} /> : null}
+      {/* {drop === true ? (
+        <ul className="table-dropdown">
+          <span>
+            <li>Edit</li>
+            <li>Delete</li>
+          </span>
+        </ul>
+      ) : null} */}
     </div>
   );
 };
