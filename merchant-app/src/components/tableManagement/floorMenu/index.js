@@ -20,7 +20,7 @@ const FloorMenu = ({
       <div
         onClick={() => setShow(!show)}
         className="circle"
-        style={{ zIndex: "unset" }}
+        style={{ zIndex: openModal || openSection === true ? "unset" : 9999 }}
       >
         {show === false ? <MdAdd /> : <MdClear />}
       </div>
