@@ -3,7 +3,6 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import store from "./store";
 import { Provider } from "react-redux";
 
-import Menu from "./components/menu";
 import "./styles/app.scss";
 import EmptyMenu from "./components/menuItems/EmtyMenu";
 import MenuItems from "./components/menuItems";
@@ -12,9 +11,8 @@ import MenuCustomization from "./components/menuCustomization";
 import AddCustomizationInput from "./components/menuCustomization/AddCustomizationInput";
 import ReviewMenu from "./components/reviewMenu";
 import Auth from "./components/Auth";
-// import Home from "./components/tableManagement/home";
-// import FloorPlan from "./components/tableManagement/floorPlan/index";
-// import AddTableView from "./components/tableManagement/floorPlan/AddTableView";
+import BasicDetails from "./components/Auth/BasicDetails";
+import Business from "./components/business";
 
 function App() {
   return (
@@ -22,9 +20,10 @@ function App() {
       <div className="app">
         <div className="main-section">
           <BrowserRouter>
-            {/* <Menu /> */}
             <Switch>
               <Route exact path="/" component={Auth} />
+              <Route path="/basic-details" component={BasicDetails} />
+              <Route path="/business" component={Business} />
               <Route path="/menu" component={EmptyMenu} />
               <Route path="/menulist" component={MenuItems} />
               <Route path="/menudetails" component={MenuDetials} />

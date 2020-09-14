@@ -1,0 +1,111 @@
+.business_sec {
+  width: 100%;
+  padding-left: 59px;
+  box-sizing: border-box;
+
+  & h3 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 36px;
+    color: #000000;
+    margin-bottom: 34px;
+  }
+  & .user_card {
+    display: flex;
+    // align-items: center;
+    background: #ffffff;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+    padding: 13px 18px;
+    box-sizing: border-box;
+    width: 65%;
+
+    & p {
+      margin: 0;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    & span {
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 21px;
+    }
+    & > div {
+      border-right: 1px solid #c4c4c4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 31%;
+    }
+
+    & > div:last-child {
+      border-right: 0px solid #c4c4c4;
+    }
+
+    & .first_sec {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      padding-right: 30px;
+      & img {
+        width: 83px;
+        height: 83px;
+        object-fit: cover;
+        margin-right: 17px;
+      }
+    }
+    & button {
+      font-size: 12px;
+      line-height: 18px;
+      color: #000000;
+      border: 0.5px solid #707070;
+      box-sizing: border-box;
+      border-radius: 1px;
+      font-family: "Poppins";
+      background-color: #fff;
+      padding: 1px 10px;
+    }
+  }
+
+  & .add_branch {
+    width: 65%;
+    padding: 15px 0px;
+
+    & span {
+      font-size: 14px;
+      line-height: 21px;
+      color: #000000;
+      opacity: 0.6;
+      cursor: pointer;
+    }
+
+    & input {
+      width: 47.5%;
+      padding: 16px 20px;
+      margin-right: 15px;
+    }
+    & form {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+    }
+
+    & .input_flex {
+      display: flex;
+      margin-bottom: 30px;
+
+      & .Dropdown-root {
+        width: 97.5%;
+        margin-right: 15px;
+      }
+    }
+    & .bottom_cta {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 100px;
+    }
+  }
+}

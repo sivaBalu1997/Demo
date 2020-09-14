@@ -18,11 +18,19 @@
       padding: 0;
       list-style: none;
       margin: 0;
+      & a {
+        color: #000;
+      }
       & li {
         margin-bottom: 30px;
         cursor: pointer;
         font-size: 16px;
         line-height: 24px;
+      }
+      & .active {
+        border-left: 3px solid #67833e;
+        margin-left: -10px;
+        padding-left: 10px;
       }
     }
   }

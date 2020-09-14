@@ -59,15 +59,20 @@ label {
 }
 
 .Dropdown-control {
-  border: 0px solid !important;
+  // border: 0px solid !important;
   border-bottom: 1px solid #c4c4c4 !important;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 23px;
   display: flex;
   align-items: center;
-  color: #000000;
-  opacity: 0.8;
-  padding: 15px 0px !important;
+  color: #979797 !important;
+  border-radius: 5px !important;
+  padding: 16px 20px !important;
+}
+
+.Dropdown-arrow {
+  right: 13px !important;
+  top: 25px !important;
 }
 
 .checkbox {

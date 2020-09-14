@@ -146,22 +146,20 @@
 
 // input
 
-.text-input {
-  & input {
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 27px;
-    border: 1px solid #dadada;
-    box-sizing: border-box;
-    border-radius: 5px;
+input {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 27px;
+  border: 1px solid #dadada;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: #979797;
+  padding: 5px 12px;
+  margin-bottom: 30px;
+  width: 100%;
+  &::placeholder {
     color: #979797;
-    padding: 5px 12px;
-    margin-bottom: 30px;
-    width: 100%;
-    &::placeholder {
-      color: #979797;
-      font-family: "Poppins", sans-serif;
-    }
+    font-family: "Poppins", sans-serif;
   }
 }
 

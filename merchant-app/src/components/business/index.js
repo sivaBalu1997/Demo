@@ -1,0 +1,96 @@
+import React, { useState } from "react";
+import user from "../../assets/images/user_one.png";
+import "../../styles/business.scss";
+import { MdAdd } from "react-icons/md";
+import TextInput from "../common/TextInput";
+import CustomDropdown from "../common/customDropdown";
+import Button from "../common/Button";
+import Menu from "../menu";
+
+const options = ["City", "City", "City"];
+const optionsTwo = ["State", "State", "State"];
+
+const Business = () => {
+  const [addBranch, setBranch] = useState(false);
+
+  const [defaultOptions, setDefaultOptions] = useState("City");
+  const [defaultOptionsTwo, setDefaultOptionsTwo] = useState("State");
+
+  const onSelect = (option) => {
+    setDefaultOptions(option);
+  };
+
+  const onSelectNext = (option) => {
+    setDefaultOptionsTwo(option);
+  };
+  return (
+    <>
+      <Menu />
+      <div className="business_sec">
+        <h3>Business Details</h3>
+
+        <div className="user_card">
+          <div className="first_sec">
+            <img src={user} alt="user" />
+            <div>
+              <p>Jack Sparrow</p>
+              <span>Owner</span>
+            </div>
+          </div>
+          <div>
+            <p>Jack Sparrow</p>
+            <span>Owner</span>
+          </div>
+          <div>
+            <button>Edit</button>
+          </div>
+        </div>
+
+        <div className="add_branch">
+          <div>
+            <span onClick={() => setBranch(true)}>
+              <MdAdd /> Add Branch
+            </span>
+          </div>
+          {addBranch ? (
+            <form>
+              <TextInput type="text" placeholder="Name" />
+              <TextInput type="text" placeholder="Role" />
+              <TextInput type="text" placeholder="Branch Area" />
+              <div>
+                <TextInput type="text" placeholder="Address Line 1" />
+                <TextInput type="text" placeholder="Address Line 2" />
+              </div>
+              <div className="input_flex">
+                <CustomDropdown
+                  options={options}
+                  value={defaultOptions}
+                  onSelect={onSelect}
+                />
+                <CustomDropdown
+                  options={optionsTwo}
+                  value={defaultOptionsTwo}
+                  onSelect={onSelectNext}
+                />
+              </div>
+              <div>
+                <TextInput type="text" placeholder="Pincode" />
+                <TextInput type="text" placeholder="Country" />
+              </div>
+              <div className="bottom_cta">
+                <Button
+                  type={"submit"}
+                  value={"Save"}
+                  backgroundColor={"#67833E"}
+                  color={"#fff"}
+                />
+              </div>
+            </form>
+          ) : null}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Business;

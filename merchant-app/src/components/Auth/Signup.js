@@ -1,8 +1,9 @@
 import React from "react";
 import logo from "../../assets/images/logo.png";
 import "../../styles/auth.scss";
+import { Link } from "react-router-dom";
 
-const OtpLogin = ({ setLogin }) => {
+const SignUp = ({ setLogin }) => {
   return (
     <div className="otp_login">
       <div className="logo">
@@ -12,16 +13,19 @@ const OtpLogin = ({ setLogin }) => {
         <h4>Sign In To Access</h4>
         <form>
           <input type="email" placeholder="Enter Your Mail ID / Phone No." />
-          <input type="number" placeholder="Enter OTP" />
-          <button>Verify</button>
+          <input type="password" placeholder="Enter Password" />
+
+          <button>
+            <Link to="/basic-details">Sign In </Link>
+          </button>
         </form>
         <p>
-          Already Have An Account?{" "}
-          <span onClick={() => setLogin(true)}>Sign In Now</span>
+          Don’t Have An Account Sign Up Now?{" "}
+          <span onClick={() => setLogin(false)}>Register Now</span>
         </p>
       </div>
     </div>
   );
 };
 
-export default OtpLogin;
+export default SignUp;
