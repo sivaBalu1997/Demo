@@ -57,6 +57,17 @@
   }
 }
 
+.f_psd {
+  margin: 0;
+  text-align: left;
+  /* font-size: 20px; */
+  line-height: 30px;
+  color: #000000;
+  cursor: pointer;
+  margin-bottom: 30px;
+  padding-left: 30px;
+}
+
 .basic_details {
   width: 100%;
   text-align: center;
@@ -126,5 +137,16 @@
       color: #2196f3;
       cursor: pointer;
     }
+  }
+
+  .Dropdown-control {
+    padding: 16px 20px;
+    color: #979797;
+    border: 1px solid #dadada;
+    text-align: left;
+  }
+
+  .Dropdown-arrow {
+    top: 26px;
   }
 }

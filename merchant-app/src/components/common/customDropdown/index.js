@@ -8,12 +8,14 @@ const CustomDropdown = ({
   onSelect,
   arrowClosed,
   arrowOpen,
+  placeholder,
 }) => {
   return (
     <Dropdown
       options={options}
       onChange={onSelect}
       value={value}
+      placeholder={placeholder}
       arrowClosed={arrowClosed}
       arrowOpen={arrowOpen}
     />

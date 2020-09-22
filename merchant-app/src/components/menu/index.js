@@ -13,10 +13,13 @@ const Menu = () => {
             Bussiness{" "}
           </NavLink>
         </li>
-
-        <li>Roles & Access</li>
-        <li>user</li>
-        <li>Menu</li>
+        <NavLink to="/employees" activeClassName="active">
+          <li>Employees</li>
+        </NavLink>
+        <NavLink to="/roles" activeClassName="active">
+          <li>Roles & Access</li>
+        </NavLink>
+        <li style={{ marginBottom: "30px" }}>Menu</li>
         <li>Drafts</li>
       </ul>
     </div>

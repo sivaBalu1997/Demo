@@ -14,11 +14,14 @@ const SignUp = ({ setLogin }) => {
         <form>
           <input type="email" placeholder="Enter Your Mail ID / Phone No." />
           <input type="password" placeholder="Enter Password" />
-
+          <Link to="/reset">
+            <p className="f_psd">Forgot Password ?</p>
+          </Link>
           <button>
             <Link to="/basic-details">Sign In </Link>
           </button>
         </form>
+
         <p>
           Don’t Have An Account Sign Up Now?{" "}
           <span onClick={() => setLogin(false)}>Register Now</span>

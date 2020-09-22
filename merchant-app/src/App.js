@@ -13,6 +13,9 @@ import ReviewMenu from "./components/reviewMenu";
 import Auth from "./components/Auth";
 import BasicDetails from "./components/Auth/BasicDetails";
 import Business from "./components/business";
+import Employees from "./components/employees";
+import RoleAccess from "./components/roles";
+import ForgotPsd from "./components/Auth/ForgotPsd";
 
 function App() {
   return (
@@ -22,8 +25,11 @@ function App() {
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Auth} />
+              <Route path="/reset" component={ForgotPsd} />
               <Route path="/basic-details" component={BasicDetails} />
               <Route path="/business" component={Business} />
+              <Route path="/employees" component={Employees} />
+              <Route path="/roles" component={RoleAccess} />
               <Route path="/menu" component={EmptyMenu} />
               <Route path="/menulist" component={MenuItems} />
               <Route path="/menudetails" component={MenuDetials} />
