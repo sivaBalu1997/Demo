@@ -3,6 +3,20 @@
   padding-left: 59px;
   box-sizing: border-box;
 
+  & #business_header {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    & p {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+
   & h3 {
     font-weight: 500;
     font-size: 24px;

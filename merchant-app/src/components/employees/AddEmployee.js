@@ -1,21 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { Link } from "react-router-dom";
 import Button from "../common/Button";
+import { useForm } from "react-hook-form";
 import TextInput from "../common/TextInput";
 import CustomDropdown from "../common/customDropdown";
 import Switchbox from "../common/Switchbox";
 import EmployeeList from "./EmployessList";
+import { useDispatch, useSelector } from "react-redux";
+import { CREDENTIALS } from "../../shared/constants";
+import { getOutlets } from "../../redux/actions/employeeActions";
 
-const options = ["chef", "restaurant"];
+const roles = [
+  "Restaurant_Owner",
+  "Restaurant_Manager",
+  "System_Admin",
+  "Owner",
+  "Cashier",
+  "Supervisor",
+  "Waiter",
+  "Host",
+  "Employee",
+];
 
 const AddEmployee = ({ setAddEmployee }) => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState("");
   const [list, setList] = useState(false);
+  const { handleSubmit, register, errors } = useForm();
+  const credentials = useSelector((state) => state.auth.credentials);
+  const outlets = useSelector((state) => state.employee.outlets);
+
+  useEffect(() => {
+    console.log("MerchantId:", credentials?.merchantId);
+    credentials && dispatch(getOutlets(credentials.merchantId));
+  }, []);
+
+  useEffect(() => {
+    console.log(outlets);
+  }, [outlets]);
+
+  const onSubmit = (values) => {
+    console.log("Employee details", values);
+  };
 
   const onChange = (option) => {
     setValue(option);
   };
+
   return (
     <>
       {list === false ? (
@@ -26,18 +57,26 @@ const AddEmployee = ({ setAddEmployee }) => {
               <IoIosArrowBack /> Add Employee
             </h2>
           </div>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="menu-details-form">
               <div className="primary-sec">
                 <div>
-                  <TextInput type="text" placeholder="First Name" />
+                  <TextInput
+                    type="text"
+                    placeholder="First Name"
+                    name="firstName"
+                  />
                 </div>
                 <div>
-                  <TextInput type="text" placeholder="Phone" />
+                  <TextInput
+                    type="text"
+                    placeholder="Phone"
+                    name="mobileNumber"
+                  />
                 </div>
                 <div>
                   <CustomDropdown
-                    options={options}
+                    options={roles}
                     placeholder={"Assign Role"}
                     onSelect={onChange}
                     value={value}
@@ -61,7 +100,7 @@ const AddEmployee = ({ setAddEmployee }) => {
                 </div>
                 <div>
                   <CustomDropdown
-                    options={options}
+                    options={roles}
                     placeholder={"Email"}
                     onSelect={onChange}
                     value={value}
@@ -69,7 +108,10 @@ const AddEmployee = ({ setAddEmployee }) => {
                 </div>
                 <div>
                   <CustomDropdown
-                    options={options}
+                    options={Array.from(
+                      outlets,
+                      (outlet) => outlet.locationName
+                    )}
                     placeholder={"Assign Outlet"}
                     onSelect={onChange}
                     value={value}

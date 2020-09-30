@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import user from "../../assets/images/user_one.png";
+import logout from "../../assets/images/logout.png";
 import "../../styles/business.scss";
 import { MdAdd } from "react-icons/md";
 import TextInput from "../common/TextInput";
 import CustomDropdown from "../common/customDropdown";
 import Button from "../common/Button";
 import Menu from "../menu";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { signOut } from "../../redux/actions/authActions";
 
 const options = ["City", "City", "City"];
 const optionsTwo = ["State", "State", "State"];
 
 const Business = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const [addBranch, setBranch] = useState(false);
 
   const [defaultOptions, setDefaultOptions] = useState("City");
@@ -23,11 +30,24 @@ const Business = () => {
   const onSelectNext = (option) => {
     setDefaultOptionsTwo(option);
   };
+
+  const logoutUser = () => {
+    localStorage.clear();
+    dispatch(signOut());
+    history.replace("/");
+  };
+
   return (
     <>
       <Menu />
       <div className="business_sec">
-        <h3>Business Details</h3>
+        <div id="business_header">
+          <h3>Business Details</h3>
+          <p onClick={logoutUser}>
+            {" "}
+            <img src={logout} alt="Logout" height="20" /> &nbsp; Logout
+          </p>
+        </div>
 
         <div className="user_card">
           <div className="first_sec">

@@ -1,7 +1,7 @@
-import React from "react";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
-import store from "./store";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
+import { Route, Switch, BrowserRouter, useHistory } from "react-router-dom";
+import store from "./redux/store";
+import { Provider, useDispatch } from "react-redux";
 
 import "./styles/app.scss";
 import EmptyMenu from "./components/menuItems/EmtyMenu";
@@ -16,10 +16,25 @@ import Business from "./components/business";
 import Employees from "./components/employees";
 import RoleAccess from "./components/roles";
 import ForgotPsd from "./components/Auth/ForgotPsd";
+import { CREDENTIALS } from "./shared/constants";
+import { storeCredentials } from "./redux/actions/authActions";
+
+const Loader = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const credentails = JSON.parse(localStorage.getItem(CREDENTIALS));
+    // console.log("Credentials:", credentails);
+    if (credentails) {
+      dispatch(storeCredentials(credentails));
+    }
+  }, []);
+  return <span></span>;
+};
 
 function App() {
   return (
     <Provider store={store}>
+      <Loader />
       <div className="app">
         <div className="main-section">
           <BrowserRouter>
@@ -45,3 +60,5 @@ function App() {
 }
 
 export default App;
+
+// Restaurant_Owner, Restaurant_Manager, System_Admin, Owner, Cashier,Supervisor, Waiter, Host, Employee
