@@ -1,14 +1,24 @@
-import React from "react";
+import React, { Fragment } from "react";
 
-const TextInput = ({ type, placeholder, value, name, ref }) => {
+const TextInput = ({
+  type,
+  placeholder,
+  value,
+  name,
+  refRegister,
+  disabled,
+}) => {
   return (
+    <Fragment>
     <input
       type={type}
       placeholder={placeholder}
       value={value}
       name={name}
-      ref={ref}
+      ref={refRegister}
+      disabled={disabled ?? false}
     />
+    </Fragment>
   );
 };
 

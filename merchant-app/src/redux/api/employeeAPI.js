@@ -18,3 +18,15 @@ export function fetchOutlets(merchantId) {
     },
   });
 }
+
+export function createEmployee(details) {
+  const token = Store.getState().auth.credentials.accessToken;
+  return API({
+    method: "post",
+    url: "/merchants/staff/onBoard",
+    data: details,
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  });
+}

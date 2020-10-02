@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import Button from "../common/Button";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import TextInput from "../common/TextInput";
 import CustomDropdown from "../common/customDropdown";
 import Switchbox from "../common/Switchbox";
 import EmployeeList from "./EmployessList";
 import { useDispatch, useSelector } from "react-redux";
-import { CREDENTIALS } from "../../shared/constants";
-import { getOutlets } from "../../redux/actions/employeeActions";
+import {
+  addEmployee,
+  getOutlets,
+  resetAddEmployee,
+} from "../../redux/actions/employeeActions";
 
 const roles = [
   "Restaurant_Owner",
@@ -24,10 +27,25 @@ const roles = [
 
 const AddEmployee = ({ setAddEmployee }) => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState("");
   const [list, setList] = useState(false);
-  const { handleSubmit, register, errors } = useForm();
+  const [outlet, setOutlet] = useState("");
+  const [pinEnabled, setPinEnabled] = useState(false);
+  const [role, setRole] = useState("");
+  const {
+    handleSubmit,
+    register,
+    errors,
+    setValue,
+    getValues,
+    control,
+    formState,
+  } = useForm();
   const credentials = useSelector((state) => state.auth.credentials);
+  const employeeAdded = useSelector((state) => state.employee.employeeAdded);
+  const addEmployeeLoading = useSelector(
+    (state) => state.employee.addEmployeeLoading
+  );
+
   const outlets = useSelector((state) => state.employee.outlets);
 
   useEffect(() => {
@@ -36,15 +54,21 @@ const AddEmployee = ({ setAddEmployee }) => {
   }, []);
 
   useEffect(() => {
-    console.log(outlets);
-  }, [outlets]);
+    if (!addEmployeeLoading && employeeAdded) {
+      console.log("Employee Added");
+      dispatch(resetAddEmployee());
+      setAddEmployee(false);
+    }
+  }, [addEmployeeLoading, employeeAdded]);
 
-  const onSubmit = (values) => {
-    console.log("Employee details", values);
-  };
-
-  const onChange = (option) => {
-    setValue(option);
+  const onSubmit = (formValues) => {
+    formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
+    formValues["businessName"] = credentials.businessName;
+    formValues["merchantId"] = credentials.merchantId;
+    delete formValues["firstName"];
+    delete formValues["lastName"];
+    console.log("Employee details", formValues);
+    dispatch(addEmployee(formValues));
   };
 
   return (
@@ -65,6 +89,9 @@ const AddEmployee = ({ setAddEmployee }) => {
                     type="text"
                     placeholder="First Name"
                     name="firstName"
+                    refRegister={register({
+                      required: "Required",
+                    })}
                   />
                 </div>
                 <div>
@@ -72,68 +99,127 @@ const AddEmployee = ({ setAddEmployee }) => {
                     type="text"
                     placeholder="Phone"
                     name="mobileNumber"
+                    refRegister={register()}
                   />
                 </div>
                 <div>
-                  <CustomDropdown
-                    options={roles}
-                    placeholder={"Assign Role"}
-                    onSelect={onChange}
-                    value={value}
+                  <Controller
+                    control={control}
+                    name="role"
+                    render={({ onChange, onBlur, value, name }) => (
+                      <CustomDropdown
+                        options={roles}
+                        placeholder={"Assign Role"}
+                        onSelect={(role) => {
+                          console.log("Role Changed:", role.value);
+                          onChange(role.value);
+                        }}
+                        value={value}
+                        name={name}
+                      />
+                    )}
                   />
                 </div>
                 <div className="acess-flex">
                   <p>User Access</p>
-                  <Switchbox />{" "}
-                  <TextInput type="number" placeholder="Create PIN" />
+                  <Switchbox
+                    isChecked={pinEnabled}
+                    handleSwitch={() => setPinEnabled(!pinEnabled)}
+                  />{" "}
+                  <TextInput
+                    type="number"
+                    placeholder="Create PIN"
+                    name="devicePin"
+                    refRegister={register()}
+                    disabled={!pinEnabled}
+                  />
                 </div>
                 <div>
-                  <TextInput type="number" placeholder="User ID" />
+                  <TextInput
+                    type="text"
+                    placeholder="User ID"
+                    name="userId"
+                    refRegister={register({
+                      required: "Required",
+                    })}
+                  />
                 </div>
                 <div>
-                  <TextInput type="password" placeholder="Create password" />
+                  <TextInput
+                    type="password"
+                    placeholder="Create password"
+                    name="password"
+                    refRegister={register({
+                      required: "Required",
+                    })}
+                  />
                 </div>
               </div>
               <div className="primary-sec">
                 <div>
-                  <TextInput type="text" placeholder="Last Name" />
-                </div>
-                <div>
-                  <CustomDropdown
-                    options={roles}
-                    placeholder={"Email"}
-                    onSelect={onChange}
-                    value={value}
+                  <TextInput
+                    type="text"
+                    placeholder="Last Name"
+                    name="lastName"
+                    refRegister={register({
+                      required: "Required",
+                    })}
                   />
                 </div>
                 <div>
-                  <CustomDropdown
-                    options={Array.from(
-                      outlets,
-                      (outlet) => outlet.locationName
+                  <TextInput
+                    type="email"
+                    placeholder="Email"
+                    name="email"
+                    refRegister={register()}
+                  />
+                </div>
+                <div>
+                  <Controller
+                    control={control}
+                    name="locationId"
+                    render={({ onChange, onBlur, value, name }) => (
+                      <CustomDropdown
+                        options={Array.from(
+                          outlets,
+                          (outlet) => outlet.locationName
+                        )}
+                        placeholder={"Assign Outlet"}
+                        onSelect={(outletSelected) => {
+                          const outletObject = outlets.filter(
+                            (outlet) =>
+                              outlet.locationName == outletSelected.value
+                          );
+                          onChange(outletObject[0].id);
+                        }}
+                        value={outlet}
+                        name={name}
+                      />
                     )}
-                    placeholder={"Assign Outlet"}
-                    onSelect={onChange}
-                    value={value}
                   />
                 </div>
               </div>
             </div>
+            <div className="form-cta">
+              <Button
+                value={"Cancel"}
+                backgroundColor={"#fff"}
+                color={"#979797"}
+                onClick={() => {
+                  setAddEmployee(false);
+                }}
+              />
+              <Button
+                type="submit"
+                value="Save"
+                backgroundColor={"#67833E"}
+                color={"#fff"}
+                onClick={() => {
+                  console.log(errors);
+                }}
+              />
+            </div>
           </form>
-          <div className="form-cta">
-            <Button
-              value={"Cancel"}
-              backgroundColor={"#fff"}
-              color={"#979797"}
-            />
-            <Button
-              type={"submit"}
-              value={"Save"}
-              backgroundColor={"#67833E"}
-              color={"#fff"}
-              onClick={() => setList(true)}
-            />
-          </div>
         </div>
       ) : (
         <EmployeeList setList={() => setList(false)} />
