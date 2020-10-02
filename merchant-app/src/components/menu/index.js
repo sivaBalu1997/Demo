@@ -20,7 +20,10 @@ const Menu = () => {
           <li>Roles & Access</li>
         </NavLink>
         <li style={{ marginBottom: "30px" }}>Menu</li>
-        <li>Drafts</li>
+        <li style={{ marginBottom: "30px" }}>Drafts</li>
+        <NavLink to="/report" activeClassName="active">
+          <li>Reports</li>
+        </NavLink>
       </ul>
     </div>
   );

@@ -18,12 +18,13 @@ import RoleAccess from "./components/roles";
 import ForgotPsd from "./components/Auth/ForgotPsd";
 import { CREDENTIALS } from "./shared/constants";
 import { storeCredentials } from "./redux/actions/authActions";
+import Report from "./components/Report";
 
 const Loader = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const credentails = JSON.parse(localStorage.getItem(CREDENTIALS));
-    // console.log("Credentials:", credentails);
+    //console.log("Credentials:", credentails);
     if (credentails) {
       dispatch(storeCredentials(credentails));
     }
@@ -51,6 +52,7 @@ function App() {
               <Route path="/menuCustomization" component={MenuCustomization} />
               <Route path="/menuInput" component={AddCustomizationInput} />
               <Route path="/review" component={ReviewMenu} />
+              <Route path="/report" component={Report} />
             </Switch>
           </BrowserRouter>
         </div>

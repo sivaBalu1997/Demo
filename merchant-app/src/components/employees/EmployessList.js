@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import Search from "../common/Search";
 import CustomDropdown from "../common/customDropdown";
+
 
 const rows = [
   {
@@ -80,7 +81,7 @@ const rows = [
 
 const options = ["chef", "restaurant"];
 
-const EmployeeList = () => {
+const EmployeeList = (props) => {
   const [value, setValue] = useState("");
 
   const onChange = (option) => {
@@ -100,33 +101,31 @@ const EmployeeList = () => {
           onSelect={onChange}
         />
       </div>
-
-      <div className="menu-list">
-        <table width="100%">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Role </th>
-              <th>Outlet </th>
-              <th>Contact</th>
-              <th>User ID</th>
-              <th></th>
-            </tr>
-          </thead>
-          {rows.map((row) => {
-            return (
-              <EmployeeRow
-                key={row.id}
-                name={row.name}
-                role={row.role}
-                outlet={row.outlet}
-                contact={row.contact}
-                userId={row.userId}
-              />
-            );
-          })}
-        </table>
-      </div>
+      {props.employeeList ? 
+        <div className="menu-list">
+          <table width="100%">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Outlet </th>
+                <th>Contact</th>
+                <th>User ID</th>
+                <th></th>
+              </tr>
+            </thead>
+            {props.employeeList.map((row) => {
+              return (
+                <EmployeeRow
+                  key={row.id}
+                  name={row.name}
+                  outlet={row.locationName}
+                  contact={row.mobileNumber}
+                  userId={row.userId}
+                />
+              );
+            })}
+          </table>
+        </div>: null}
     </div>
   );
 };
@@ -136,7 +135,6 @@ const EmployeeRow = ({ name, role, outlet, contact, userId }) => {
   return (
     <tr>
       <td>{name}</td>
-      <td>{role}</td>
       <td>{outlet}</td>
       <td> {contact}</td>
       <td>{userId}</td>
