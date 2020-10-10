@@ -19,11 +19,12 @@ export function fetchOutlets(merchantId) {
   });
 }
 
-export function getEmployeeDetails(merchantId) {
+export function createEmployee(details) {
   const token = Store.getState().auth.credentials.accessToken;
   return API({
-    method: "get",
-    url: "/merchants/" + merchantId + "/staff",
+    method: "post",
+    url: "/merchants/staff/onBoard",
+    data: details,
     headers: {
       Authorization: "bearer " + token,
     },

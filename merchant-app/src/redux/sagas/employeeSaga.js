@@ -1,8 +1,16 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { failedGetOutlet, successGetOutlet, successGetEmployees, failedGetEmployees } from "../actions/employeeActions";
-import { fetchOutlets, getEmployeeDetails } from "../api/employeeAPI";
+import {
+  failedAddEmployee,
+  failedGetOutlet,
+  successAddEmployee,
+  successGetOutlet,
+} from "../actions/employeeActions";
+import { createEmployee, fetchOutlets } from "../api/employeeAPI";
 
-import { OUTLET_REQUEST, GET_EMPLOYEE_REQUEST } from "../constants/employeeContants";
+import {
+  ADD_EMPLOYEE_REQUEST,
+  OUTLET_REQUEST,
+} from "../constants/employeeContants";
 
 function* getOutletsSaga(action) {
   try {
@@ -16,22 +24,18 @@ function* getOutletsSaga(action) {
   }
 }
 
-function* getEmployeesSaga(action) {
+function* addEmployeeSaga(action) {
   try {
-    const response = yield call(getEmployeeDetails, action.payload);
+    const response = yield call(createEmployee, action.payload);
     if (response.status === 200) {
-      //console.log("Employees :" + response.data);
-      yield put(successGetEmployees(response.data));
-    }
-    else {
-      yield put(failedGetEmployees({ message: "please Try Again" }));
+      yield put(successAddEmployee(response.data));
     }
   } catch (err) {
-    yield put(failedGetEmployees({ message: "please Try Again" }));
+    yield put(failedAddEmployee({ message: "Please Try Again" }));
   }
 }
 
 export default function* employeeSaga() {
   yield takeLatest(OUTLET_REQUEST, getOutletsSaga);
-  yield takeLatest(GET_EMPLOYEE_REQUEST, getEmployeesSaga);
+  yield takeLatest(ADD_EMPLOYEE_REQUEST, addEmployeeSaga);
 }

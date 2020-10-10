@@ -9,6 +9,7 @@ const CustomDropdown = ({
   arrowClosed,
   arrowOpen,
   placeholder,
+  name,
 }) => {
   return (
     <Dropdown
@@ -18,6 +19,7 @@ const CustomDropdown = ({
       placeholder={placeholder}
       arrowClosed={arrowClosed}
       arrowOpen={arrowOpen}
+      name={name}
     />
   );
 };
