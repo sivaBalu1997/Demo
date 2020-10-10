@@ -171,7 +171,7 @@ const Report = (props) => {
             width="1000"
             height="600"
             allowtransparency="true"
-            scrolling="hidden"
+            scrolling="no"
           ></iframe> : null}
       </div>
     </>

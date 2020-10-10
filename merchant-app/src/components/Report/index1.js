@@ -131,7 +131,10 @@ const Report1 = (props) => {
             src={headerDetails.UserProfileImage}
             className="user-profile"
             alt="loading" /> */}
-          <img onClick={logoutUser} src={logout} alt="Logout" height="20" style={{ marginLeft: '90%' }} /> &nbsp; Logout
+          <p onClick={logoutUser} style={{ marginLeft: '90%', display: 'flex', alignItems: 'center' }}>
+              <img  src={logout} alt="Logout" height="20"/>
+              &nbsp; Log Out
+            </p>
         </div>
         <div className="header-menu"
         style={{
