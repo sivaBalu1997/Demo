@@ -12,6 +12,9 @@ import {
   OTP_STATE_CLEAR,
   CREDENTIALS_STORE,
   SIGNOUT,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILURE,
 } from "../constants/authConstants";
 
 const initialAuthState = {
@@ -34,6 +37,10 @@ const initialAuthState = {
   // OTP
   otpVerficationLoading: false,
   otpVerifiedSuccess: false,
+
+  // Reset Password
+  resetPasswordLoading: false,
+  resetPasswordSuccess: false,
 };
 
 export default function authReducer(state = initialAuthState, action) {
@@ -91,6 +98,19 @@ export default function authReducer(state = initialAuthState, action) {
       case OTP_STATE_CLEAR:
         draft.otpVerficationLoading = false;
         draft.otpVerifiedSuccess = false;
+        break;
+      // Reset Password
+      case RESET_PASSWORD_REQUEST:
+        draft.resetPasswordLoading = true;
+        draft.resetPasswordSuccess = false;
+        break;
+      case RESET_PASSWORD_SUCCESS:
+        draft.resetPasswordLoading = false;
+        draft.resetPasswordSuccess = true;
+        break;
+      case RESET_PASSWORD_FAILURE:
+        draft.resetPasswordLoading = false;
+        draft.resetPasswordSuccess = false;
         break;
       default:
         break;

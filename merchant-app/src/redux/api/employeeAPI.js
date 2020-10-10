@@ -1,4 +1,3 @@
-import { CREDENTIALS } from "../../shared/constants";
 import Store from "../store";
 import API from "./api";
 
@@ -28,5 +27,16 @@ export function createEmployee(details) {
     headers: {
       Authorization: "bearer " + token,
     },
+  });
+}
+
+export function getEmployeeDetails(merchantId) {
+  const token = Store.getState().auth.credentials.accessToken;
+  return API({
+    method: "get",
+    url: "/merchants/" + merchantId + "/staff",
+    // headers: {
+    //   Authorization: "bearer " + token,
+    // },
   });
 }

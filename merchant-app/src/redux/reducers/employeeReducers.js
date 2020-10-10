@@ -7,6 +7,9 @@ import {
   ADD_EMPLOYEE_SUCCESS,
   ADD_EMPLOYEE_FAILURE,
   ADD_EMPLOYEE_RESET,
+  GET_EMPLOYEE_REQUEST,
+  GET_EMPLOYEE_FAILURE,
+  GET_EMPLOYEE_SUCCESS,
 } from "../constants/employeeContants";
 
 const initialEmployeeState = {
@@ -18,6 +21,11 @@ const initialEmployeeState = {
   employeeAdded: false,
   addEmployeeLoading: false,
   addEmployeeMessage: "",
+  
+  // Get Employee
+  employeeDetails: [],
+  employeeDetailsLoading: false,
+  employeeDetailsFailure: ""
 };
 
 export default function employeeReducer(state = initialEmployeeState, action) {
@@ -54,6 +62,21 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case ADD_EMPLOYEE_RESET:
         draft.employeeAdded = false;
         draft.addEmployeeMessage = "";
+
+      // Get Employee
+      case GET_EMPLOYEE_REQUEST:
+        draft.employeeDetails = [];
+        draft.employeeDetailsLoading = true;
+        draft.employeeDetailsFailure = '';
+        break;
+      case GET_EMPLOYEE_FAILURE:
+        draft.employeeDetailsLoading = false;
+        draft.employeeDetailsFailure = action.payload;
+        break;
+      case GET_EMPLOYEE_SUCCESS:
+        draft.employeeDetailsLoading = false;
+        draft.employeeDetailsFailure = '';
+        draft.employeeDetails = action.payload;
         break;
       default:
         break;

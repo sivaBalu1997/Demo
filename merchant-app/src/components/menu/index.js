@@ -9,18 +9,21 @@ const Menu = () => {
       <h2>Setup</h2>
       <ul>
         <li>
-          <NavLink to="/business" activeClassName="active">
+          {/* <NavLink to="/business" activeClassName="active">
             Bussiness{" "}
-          </NavLink>
+          </NavLink> */}
         </li>
         <NavLink to="/employees" activeClassName="active">
           <li>Employees</li>
         </NavLink>
-        <NavLink to="/roles" activeClassName="active">
+        {/* <NavLink to="/roles" activeClassName="active">
           <li>Roles & Access</li>
+        </NavLink> */}
+        {/* <li style={{ marginBottom: "30px" }}>Menu</li>
+        <li style={{ marginBottom: "30px" }}>Drafts</li> */}
+        <NavLink to="/report" activeClassName="active">
+          <li>Reports</li>
         </NavLink>
-        <li style={{ marginBottom: "30px" }}>Menu</li>
-        <li>Drafts</li>
       </ul>
     </div>
   );

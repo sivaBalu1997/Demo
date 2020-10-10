@@ -12,6 +12,9 @@ import {
   OTP_STATE_CLEAR,
   CREDENTIALS_STORE,
   SIGNOUT,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_FAILURE,
+  RESET_PASSWORD_SUCCESS,
 } from "../constants/authConstants";
 
 // Credential Store
@@ -82,4 +85,21 @@ export const successVerifyOTP = (details) => ({
 // clear OTP
 export const clearOTPState = () => ({
   type: OTP_STATE_CLEAR,
+});
+
+// reset Password
+export const resetPassword = (details) => ({
+  type: RESET_PASSWORD_REQUEST,
+  payload: details,
+});
+
+export const failedResetPassword = (details) => ({
+  // Replace any with Network Data Fail Data format
+  type: RESET_PASSWORD_FAILURE,
+  payload: details,
+});
+
+export const successResetPassword = (details) => ({
+  type: RESET_PASSWORD_SUCCESS,
+  payload: details,
 });
