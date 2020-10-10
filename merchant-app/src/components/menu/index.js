@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import "../../styles/menu.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link, Route } from "react-router-dom";
 import magilhub from "../../assets/images/magilhub.png";
 // import MenuItems from "../menuItems";
 
@@ -15,21 +15,14 @@ import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 
 const Menu = () => {
   const reportOptions = [{
+    title: "Today's report",
+    route: "/report/1",
+  },
+  {
     title: "Daily report",
-    route: "/report"
+    route: "/report/2",
   },
-  {
-    title: "Profit report",
-    route: "/notFound"
-  },
-  {
-    title: "Order report",
-    route: "/notFound"
-  },
-  {
-    title: "Employee report",
-    route: "/notFound"
-  }];
+  ];
 
   const menuOptions = [];
 
@@ -39,22 +32,22 @@ const Menu = () => {
     <div className="menu is-sticky">
       <img src={magilhub} />
       <ul>
-        <NavLink to="/business" activeClassName="active">
+        {/* <NavLink to="/business" activeClassName="active">
           <li />
           <Dollar className="menu-items-SVG" />
             Business{" "}
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/employees" activeClassName="active">
-          <li />
+          <li style={{marginBottom: 0}}/>
           <Employees className="menu-items-SVG" />
             Employees
         </NavLink>
-        <NavLink to="/roles" activeClassName="active">
+        {/* <NavLink to="/roles" activeClassName="active">
           <li />
           <Key className="menu-items-SVG" />
             Roles & Access
-        </NavLink>
-        <div
+        </NavLink> */}
+        {/* <div
           className={
             showOptions === "MenuOptions" ? "active drop-down" : "drop-down"}
           onClick={() =>
@@ -68,8 +61,8 @@ const Menu = () => {
             <Uparrow className="dropdown-arrow" /> :
             <Downarrow className="dropdown-arrow" />
           }
-        </div>
-        <ul>
+        </div> */}
+        {/* <ul>
           {showOptions === "menuOptions" ?
             menuOptions.map((option) => (
               <NavLink to={option} activeClassName="active" key={option}>
@@ -79,7 +72,7 @@ const Menu = () => {
               </NavLink>
             ))
             : null}
-        </ul>
+        </ul> */}
         {/* <li style={{ marginBottom: "30px" }}>Drafts</li> */}
         <div
           className={

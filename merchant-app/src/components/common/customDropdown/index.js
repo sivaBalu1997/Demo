@@ -20,6 +20,8 @@ const CustomDropdown = ({
       arrowClosed={arrowClosed}
       arrowOpen={arrowOpen}
       name={name}
+      className="report-drop-down"
+      menuClassName="menuClassName"
     />
   );
 };

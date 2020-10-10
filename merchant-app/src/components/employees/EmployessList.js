@@ -2,7 +2,6 @@ import React, { useState, useEffect, Fragment } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import Search from "../common/Search";
 import CustomDropdown from "../common/customDropdown";
-import Add from "../../assets/images/add.png";
 import logout from "../../assets/images/logout.png";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -26,10 +25,6 @@ const EmployeeList = (props) => {
     UserProfileImage: user
   });
 
-  const onChange = (option) => {
-    setValue(option);
-  }
-  
   const logoutUser = () => {
     localStorage.clear();
     dispatch(signOut());
@@ -41,7 +36,7 @@ const EmployeeList = (props) => {
       {!addEmployee ?
         <div className="menu-items">
           <div className="header">
-            <img src={headerDetails.merchantLogo} />
+            {/* <img src={headerDetails.merchantLogo} />
             <div>
               <p>{headerDetails.merchantName}</p>
               <p>{headerDetails.merchantAddress}</p>
@@ -49,7 +44,8 @@ const EmployeeList = (props) => {
             <img
               src={headerDetails.UserProfileImage}
               className="user-profile"
-              alt="loading" />
+              alt="loading" /> */}
+            <img  onClick={logoutUser} src={logout} alt="Logout" height="20" style={{marginLeft: '90%'}}/> &nbsp; Logout
           </div>
           <div className="header-menu">
             <div>
@@ -59,7 +55,6 @@ const EmployeeList = (props) => {
                 }} />
               <h2>Employees setup</h2>
             </div>
-            <Search />
           </div>
           {props.employeeList ?
             <div className="menu-list">

@@ -13,7 +13,7 @@ import { signOut } from "../../redux/actions/authActions";
 import { useHistory } from "react-router";
 
 const axios = require("axios");
-const Report = (props) => {
+const Report1 = (props) => {
 
   const credentials = useSelector((state) => state.auth.credentials);
   const outlets = useSelector((state) => state.employee.outlets);
@@ -133,17 +133,19 @@ const Report = (props) => {
             alt="loading" /> */}
           <img onClick={logoutUser} src={logout} alt="Logout" height="20" style={{ marginLeft: '90%' }} /> &nbsp; Logout
         </div>
-        <div className="header-menu" style={{
+        <div className="header-menu"
+        style={{
             justifyContent: "space-between"
           }}>
           <div>
             <Stats className="menu-items-SVG"
               style={{
                 marginBottom: 10
-              }} />
-            <h2 style={{
+              }}  />
+            <h2
+            style={{
                 marginBottom: 10
-              }}>{"Reports & Insights  >   Today's Report"}</h2>
+              }} >{"Reports & Insights  >   Daily Report"}</h2>
           </div>
           <div style={{
            marginTop:40,
@@ -157,7 +159,7 @@ const Report = (props) => {
                 );
                 setBranchId(outletObject[0].id);
                 setBranchName(outletSelected.value);
-                setReportId("1");
+                setReportId("2");
               }}
               value={branchName}
               name={"Branch"}
@@ -178,4 +180,4 @@ const Report = (props) => {
   );
 };
 
-export default Report;
+export default Report1;

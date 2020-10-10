@@ -16,11 +16,11 @@ import Business from "./components/business";
 import Employees from "./components/employees";
 import RoleAccess from "./components/roles";
 import ResetPassword from "./components/Auth/ResetPassword";
-import Report from "./components/report";
 import { CREDENTIALS } from "./shared/constants";
 import { storeCredentials } from "./redux/actions/authActions";
 import Report from "./components/Report";
 import NotFound from "./components/notFound";
+import Report1 from "./components/Report/index1";
 
 const Loader = () => {
   const dispatch = useDispatch();
@@ -54,7 +54,8 @@ function App() {
               <Route path="/menuCustomization" component={MenuCustomization} />
               <Route path="/menuInput" component={AddCustomizationInput} />
               <Route path="/review" component={ReviewMenu} />
-              <Route path="/report" component={Report} />
+              <Route path="/report/1" component={Report} />
+              <Route path="/report/2" component={Report1} />
               <Route path="/notFound" component={NotFound} />
             </Switch>
           </BrowserRouter>
