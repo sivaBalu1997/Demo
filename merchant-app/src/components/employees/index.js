@@ -18,7 +18,9 @@ const Employees = () => {
 
   useEffect(() => {
     dispatch(getEmployees(credentials?.merchantId));
+    console.log(addEmployee);
   }, []);
+
 
   return (
     <>
@@ -40,10 +42,10 @@ const Employees = () => {
             </div>
           </div>
         </div>
-      ) : {}(
+      ) : (
         <AddEmployee setAddEmployee={setAddEmployee} />
       ) : (
-          <EmployeeList employeeList={employeeList} />
+          <EmployeeList employeeList={employeeList} setAddEmployee={setAddEmployee}/>
         )}
     </>
   );

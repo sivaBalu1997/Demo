@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextInput = ({ type, placeholder, value, name, ref }) => {
+const TextInput = ({ type, placeholder, value, name, ref, maxLength, minLength }) => {
   return (
     <input
       type={type}
@@ -8,6 +8,8 @@ const TextInput = ({ type, placeholder, value, name, ref }) => {
       value={value}
       name={name}
       ref={ref}
+      maxLength={maxLength}
+      minLength={minLength}
     />
   );
 };

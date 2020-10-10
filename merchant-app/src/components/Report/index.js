@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Menu from "../menu";
 import { useSelector } from 'react-redux';
-import Search from "../common/Search";
-import CustomDropdown from "../common/customDropdown";
-import Store from "../../redux/store";
+import MerchantLogo from "../../assets/images/thalappakatti.png";
+import user from "../../assets/images/user_one.png";
 import API from "../../redux/api/api";
+import Search from "../common/Search";
+import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
 
 const axios = require('axios');
 const Report = () => {
@@ -17,6 +18,13 @@ const Report = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const [headerDetails, setHeaderDetails] = useState({
+        merchantName: "Thalapakatti Biriyani",
+        merchantAddress: "Aarapalayam",
+        merchantLogo: MerchantLogo,
+        UserProfileImage: user
+    });
 
     async function fetchData() {
         const token = credentials?.accessToken;
@@ -45,35 +53,27 @@ const Report = () => {
     return (
         <>
             <Menu />
-            <div style={{
-                paddingLeft: '5%'
-            }}>
-                <div className="header-menu" style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    width: '100%',
-                    justifyContent: 'space-between'
-                }}>
-                    <h2>Report</h2>
-                    <div style={{ width: '40%' }}>
-                        <Search />
+            <div className="menu-items">
+                <div className="header">
+                    <img src={headerDetails.merchantLogo} />
+                    <div>
+                        <p>{headerDetails.merchantName}</p>
+                        <p>{headerDetails.merchantAddress}</p>
                     </div>
+                    <img
+                        src={headerDetails.UserProfileImage}
+                        className="user-profile"
+                        alt="loading" />
                 </div>
-                <div className="drop-list" style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    width: '70%',
-                    justifyContent: 'space-between'
-                }}>
-                    <div style={{ width: '50%', marginRight: '2%' }}>
-                        <CustomDropdown
-                            placeholder="Select report"
-                        /></div>
-                    <div style={{ width: '30%' }}>
-                        <CustomDropdown
-                            placeholder="Branch"
-                        />
+                <div className="header-menu">
+                    <div>
+                        <Stats className="menu-items-SVG"
+                            style={{
+                                marginBottom: 5
+                            }} />
+                        <h2>{"Reports & Insights  >   Daily Report"}</h2>
                     </div>
+                    <Search />
                 </div>
                 {iframeSource.length > 0 ?
                     <iframe

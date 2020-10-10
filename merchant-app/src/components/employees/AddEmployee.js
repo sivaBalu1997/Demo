@@ -64,12 +64,16 @@ const AddEmployee = ({ setAddEmployee }) => {
                   <TextInput
                     type="text"
                     placeholder="First Name"
+                    maxLength={15}
+                    minLength={5}
                     name="firstName"
                   />
                 </div>
                 <div>
                   <TextInput
-                    type="text"
+                    type="number"
+                    maxLength={15}
+                    minLength={10}
                     placeholder="Phone"
                     name="mobileNumber"
                   />
@@ -85,18 +89,22 @@ const AddEmployee = ({ setAddEmployee }) => {
                 <div className="acess-flex">
                   <p>User Access</p>
                   <Switchbox />{" "}
-                  <TextInput type="number" placeholder="Create PIN" />
+                  <TextInput type="number" placeholder="Create PIN" maxLength={4}
+                    minLength={4}/>
                 </div>
                 <div>
-                  <TextInput type="number" placeholder="User ID" />
+                  <TextInput type="number" placeholder="User ID" maxLength={15}
+                    minLength={5}/>
                 </div>
                 <div>
-                  <TextInput type="password" placeholder="Create password" />
+                  <TextInput type="password" placeholder="Create password" 
+                    minLength={10}/>
                 </div>
               </div>
               <div className="primary-sec">
                 <div>
-                  <TextInput type="text" placeholder="Last Name" />
+                  <TextInput type="text" placeholder="Last Name" maxLength={15}
+                    minLength={5}/>
                 </div>
                 <div>
                   <CustomDropdown

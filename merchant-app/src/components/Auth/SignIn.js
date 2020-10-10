@@ -23,6 +23,12 @@ const SignIn = ({ setLogin }) => {
     }
   }, [authState.signInLoading]);
 
+  window.addEventListener("popstate", function (event) {
+    if(localStorage.length === 0) {
+      history.replace("/");
+    }
+  })
+
   return (
     <div className="otp_login">
       <div className="logo">

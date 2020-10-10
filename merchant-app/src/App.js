@@ -19,6 +19,7 @@ import ForgotPsd from "./components/Auth/ForgotPsd";
 import { CREDENTIALS } from "./shared/constants";
 import { storeCredentials } from "./redux/actions/authActions";
 import Report from "./components/Report";
+import NotFound from "./components/notFound";
 
 const Loader = () => {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function App() {
               <Route path="/menuInput" component={AddCustomizationInput} />
               <Route path="/review" component={ReviewMenu} />
               <Route path="/report" component={Report} />
+              <Route path="/notFound" component={NotFound} />
             </Switch>
           </BrowserRouter>
         </div>
