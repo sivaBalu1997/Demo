@@ -1,14 +1,24 @@
 import API from "./api";
+import Store from "../store";
 
 // SignUp
 export function signUp(userDetails) {
   return API({
     method: "post",
     url: "",
-    headers: {
-      Authorization: "",
-    },
     data: userDetails,
+  });
+}
+
+export function resetPassword(authDetails) {
+  const token = Store .getState().auth.credentials.accessToken;
+  return API({
+    method: "post",
+    url: "/merchants/resetPassword",
+    headers: {
+      Authorization: "bearer " + token,
+    },
+    data: authDetails,
   });
 }
 
@@ -17,9 +27,6 @@ export function signIn(userDetails) {
   return API({
     method: "post",
     url: "/merchants/staff/login",
-    headers: {
-      Authorization: "",
-    },
     data: userDetails,
   });
 }

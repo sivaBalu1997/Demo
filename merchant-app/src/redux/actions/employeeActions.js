@@ -6,8 +6,10 @@ import {
   OUTLET_FAILURE,
   OUTLET_REQUEST,
   OUTLET_SUCCESS,
+  GET_EMPLOYEE_REQUEST,
+  GET_EMPLOYEE_FAILURE,
+  GET_EMPLOYEE_SUCCESS,
 } from "../constants/employeeContants";
-
 // Get Outlet
 export const getOutlets = (merchantId) => ({
   type: OUTLET_REQUEST,
@@ -44,4 +46,21 @@ export const successAddEmployee = (details) => ({
 
 export const resetAddEmployee = () => ({
   type: ADD_EMPLOYEE_RESET,
+});
+
+
+// Get Employee
+export const getEmployees = (merchantId) => ({
+  type: GET_EMPLOYEE_REQUEST,
+  payload: merchantId,
+});
+
+export const failedGetEmployees = (details) => ({
+  type: GET_EMPLOYEE_FAILURE,
+  payload: details,
+});
+
+export const successGetEmployees = (details) => ({
+  type: GET_EMPLOYEE_SUCCESS,
+  payload: details,
 });

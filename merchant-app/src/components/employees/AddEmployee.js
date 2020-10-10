@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
+
 import Button from "../common/Button";
 import { useForm, Controller } from "react-hook-form";
 import TextInput from "../common/TextInput";
@@ -42,6 +43,9 @@ const AddEmployee = ({ setAddEmployee }) => {
   } = useForm();
   const credentials = useSelector((state) => state.auth.credentials);
   const employeeAdded = useSelector((state) => state.employee.employeeAdded);
+  const addEmployeeMessage = useSelector(
+    (state) => state.employee.addEmployeeMessage
+  );
   const addEmployeeLoading = useSelector(
     (state) => state.employee.addEmployeeLoading
   );
@@ -65,6 +69,11 @@ const AddEmployee = ({ setAddEmployee }) => {
     formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
     formValues["businessName"] = credentials.businessName;
     formValues["merchantId"] = credentials.merchantId;
+
+    if (!pinEnabled) {
+      formValues["devicePin"] = "";
+    }
+
     delete formValues["firstName"];
     delete formValues["lastName"];
     console.log("Employee details", formValues);
@@ -110,6 +119,8 @@ const AddEmployee = ({ setAddEmployee }) => {
                   <Controller
                     control={control}
                     name="role"
+                    defaultValue={""}
+                    // rules={{ required: true }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={roles}
@@ -131,7 +142,7 @@ const AddEmployee = ({ setAddEmployee }) => {
                     handleSwitch={() => setPinEnabled(!pinEnabled)}
                   />{" "}
                   <TextInput
-                    type="number"
+                    type="text"
                     placeholder="Create PIN"
                     name="devicePin"
                     refRegister={register()}
@@ -189,6 +200,8 @@ const AddEmployee = ({ setAddEmployee }) => {
                   <Controller
                     control={control}
                     name="locationId"
+                    defaultValue={""}
+                    rules={{ required: true }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={Array.from(
@@ -211,15 +224,24 @@ const AddEmployee = ({ setAddEmployee }) => {
                 </div>
               </div>
             </div>
+
             <div className="form-cta">
-              <Button
-                value={"Cancel"}
-                backgroundColor={"#fff"}
-                color={"#979797"}
+              <span style={{ border: 0, color: "tomato", marginRight: 100 }}>
+                {addEmployeeMessage}
+              </span>
+              <span
                 onClick={() => {
+                  console.log("Cancelling");
                   setAddEmployee(false);
                 }}
-              />
+              >
+                <Button
+                  value={"Cancel"}
+                  type="reset"
+                  backgroundColor={"#fff"}
+                  color={"#979797"}
+                />
+              </span>
               <Button
                 type="submit"
                 value="Save"

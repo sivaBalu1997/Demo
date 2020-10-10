@@ -15,7 +15,8 @@ import BasicDetails from "./components/Auth/BasicDetails";
 import Business from "./components/business";
 import Employees from "./components/employees";
 import RoleAccess from "./components/roles";
-import ForgotPsd from "./components/Auth/ForgotPsd";
+import ResetPassword from "./components/Auth/ResetPassword";
+import Report from "./components/report";
 import { CREDENTIALS } from "./shared/constants";
 import { storeCredentials } from "./redux/actions/authActions";
 import Report from "./components/Report";
@@ -42,7 +43,7 @@ function App() {
           <BrowserRouter>
             <Switch>
               <Route exact path="/" component={Auth} />
-              <Route path="/reset" component={ForgotPsd} />
+              <Route path="/reset" component={ResetPassword} />
               <Route path="/basic-details" component={BasicDetails} />
               <Route path="/business" component={Business} />
               <Route path="/employees" component={Employees} />

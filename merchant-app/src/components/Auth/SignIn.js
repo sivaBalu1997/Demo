@@ -18,8 +18,12 @@ const SignIn = ({ setLogin }) => {
   };
 
   useEffect(() => {
-    if (authState.signedIn) {
-      history.push("/employees");
+    if (!authState.signInLoading && authState.signedIn) {
+      if (authState.credentials.isTempPassword) {
+        history.push("/reset");
+      } else {
+        history.push("/employees");
+      }
     }
   }, [authState.signInLoading]);
 
