@@ -10,6 +10,7 @@ import {
   GET_EMPLOYEE_REQUEST,
   GET_EMPLOYEE_FAILURE,
   GET_EMPLOYEE_SUCCESS,
+  SET_EMPLOYEE_DETAILS_LOADING,
 } from "../constants/employeeContants";
 
 const initialEmployeeState = {
@@ -24,7 +25,7 @@ const initialEmployeeState = {
   
   // Get Employee
   employeeDetails: [],
-  employeeDetailsLoading: false,
+  employeeDetailsLoading: true,
   employeeDetailsFailure: ""
 };
 
@@ -77,6 +78,9 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.employeeDetailsLoading = false;
         draft.employeeDetailsFailure = '';
         draft.employeeDetails = action.payload;
+        break;
+      case SET_EMPLOYEE_DETAILS_LOADING: 
+        draft.employeeDetailsLoading = action.payload;
         break;
       default:
         break;

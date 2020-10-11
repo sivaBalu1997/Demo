@@ -7,21 +7,25 @@ const TextInput = ({
   name,
   refRegister,
   disabled,
-  maxLength, 
-  minLength
+  maxLength,
+  minLength,
+  style,
+  className
 }) => {
   return (
     <Fragment>
-    <input
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      name={name}
-      ref={refRegister}
-      disabled={disabled ?? false}
-      maxLength={maxLength}
-      minLength={minLength}
-    />
+      <input
+        style={style}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        name={name}
+        ref={refRegister}
+        disabled={disabled ?? false}
+        maxLength={maxLength}
+        minLength={minLength}
+        className={className}
+      />
     </Fragment>
   );
 };

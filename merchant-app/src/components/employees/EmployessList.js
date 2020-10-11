@@ -3,7 +3,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import Search from "../common/Search";
 import CustomDropdown from "../common/customDropdown";
 import logout from "../../assets/images/logout.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { signOut } from "../../redux/actions/authActions";
 import MerchantLogo from "../../assets/images/thalappakatti.png";
@@ -16,8 +16,7 @@ const EmployeeList = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [addEmployee, setAddEmployee] = useState(false);
-
+  const credentials = useSelector((state) => state.auth.credentials);
   const [headerDetails, setHeaderDetails] = useState({
     merchantName: "Thalapakatti Biriyani",
     merchantAddress: "Aarapalayam",
@@ -33,10 +32,9 @@ const EmployeeList = (props) => {
 
   return (
     <>
-      {!addEmployee ?
-        <div className="menu-items">
-          <div className="header">
-            {/* <img src={headerDetails.merchantLogo} />
+      <div className="menu-items">
+        <div className="header">
+          {/* <img src={headerDetails.merchantLogo} />
             <div>
               <p>{headerDetails.merchantName}</p>
               <p>{headerDetails.merchantAddress}</p>
@@ -45,55 +43,58 @@ const EmployeeList = (props) => {
               src={headerDetails.UserProfileImage}
               className="user-profile"
               alt="loading" /> */}
-            <p onClick={logoutUser} style={{ marginLeft: '90%', display: 'flex', alignItems: 'center' }}>
-              <img  src={logout} alt="Logout" height="20"/>
+          <p onClick={logoutUser} style={{
+            marginLeft: '88%',
+            display: 'flex',
+            alignItems: 'center',
+            whiteSpace: 'nowrap'
+          }}>
+            <img src={logout} alt="Logout" height="20" />
               &nbsp; Log Out
             </p>
+        </div>
+        <div className="header-menu">
+          <div>
+            <Employees className="menu-items-SVG"
+              style={{
+                marginBottom: 5
+              }} />
+            <h2>Employees setup</h2>
           </div>
-          <div className="header-menu">
-            <div>
-              <Employees className="menu-items-SVG"
-                style={{
-                  marginBottom: 5
-                }} />
-              <h2>Employees setup</h2>
-            </div>
-          </div>
-          {props.employeeList ?
-            <div className="menu-list">
-              <table width="100%" style={{ height: '50%' }}>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Outlet </th>
-                    <th>Contact</th>
-                    <th>User ID</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                {props.employeeList.map((row) => {
-                  return (
-                    <EmployeeRow
-                      key={row.id}
-                      name={row.name}
-                      outlet={row.locationName}
-                      contact={row.mobileNumber}
-                      userId={row.userId}
-                    />
-                  );
-                })}
-                <button
-                  onClick={() => setAddEmployee(true)}
-                  type={"button"}
-                  className="add-button"
-                >
-                  <Add />
-                </button>
-              </table>
-            </div> : null}
-        </div> :
-        <AddEmployee setAddEmployee={setAddEmployee} />
-      }
+        </div>
+        {props.employeeList ?
+          <div className="menu-list">
+            <table width="100%" style={{ height: '50%' }}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Outlet </th>
+                  <th>Contact</th>
+                  <th>User ID</th>
+                  <th></th>
+                </tr>
+              </thead>
+              {props.employeeList.map((row) => {
+                return (
+                  <EmployeeRow
+                    key={row.id}
+                    name={row.name}
+                    outlet={row.locationName.split(",")[1]}
+                    contact={row.mobileNumber}
+                    userId={row.userId}
+                  />
+                );
+              })}
+            </table>
+            <button
+              onClick={() => history.push("/management/employees/add")}
+              type={"button"}
+              className="add-button"
+            >
+              <Add />
+            </button>
+          </div> : null}
+      </div>
     </>
   );
 };

@@ -14,7 +14,7 @@ const Auth = () => {
     // console.log("Credentials:", credentails);
     if (credentails) {
       dispatch(storeCredentials(credentails));
-      history.replace("/employees");
+      history.replace("/management/employees");
     }
   }, []);
 

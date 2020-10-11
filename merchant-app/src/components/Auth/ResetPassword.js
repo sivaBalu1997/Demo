@@ -30,7 +30,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (!resetPasswordLoading && resetPasswordSuccess) {
-      history.push("/employees");
+      history.push("/management/employees");
     }
   }, [resetPasswordLoading, resetPasswordSuccess]);
 
@@ -85,10 +85,11 @@ const ResetPassword = () => {
             Reset Password
           </button>
         </form>
+        <br/> <br/>
         <span
-          style={{ cursor: "pointer", marginTop: "40px" }}
+          style={{ cursor: "pointer" }}
           onClick={() => {
-            history.push("/employees");
+            history.push("/management/employees");
           }}
         >
           skip for now

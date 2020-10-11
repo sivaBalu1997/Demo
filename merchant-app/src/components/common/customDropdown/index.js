@@ -10,6 +10,8 @@ const CustomDropdown = ({
   arrowOpen,
   placeholder,
   name,
+  arrowClassName,
+  controlClassName
 }) => {
   return (
     <Dropdown
@@ -20,8 +22,9 @@ const CustomDropdown = ({
       arrowClosed={arrowClosed}
       arrowOpen={arrowOpen}
       name={name}
-      className="report-drop-down"
-      menuClassName="menuClassName"
+      controlClassName={controlClassName}
+      arrowClassName={arrowClassName}
+      menuClassName="MenuClass"
     />
   );
 };

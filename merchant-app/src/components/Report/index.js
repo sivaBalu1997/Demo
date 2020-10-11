@@ -24,7 +24,8 @@ const Report = (props) => {
   const [reportId, setReportId] = useState("");
   const [branchId, setBranchId] = useState("");
   const [branchName, setBranchName] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (credentials) {
@@ -82,6 +83,7 @@ const Report = (props) => {
   }, [reportId, branchId]);
 
   async function fetchData() {
+    setLoading(true);
     const token = credentials?.accessToken;
     API({
       method: "get",
@@ -101,6 +103,7 @@ const Report = (props) => {
         if (res.status === 200) {
           console.log(res.data.url);
           setiFrameSource(res.data.url);
+          setLoading(false);
         } else {
           setError("please try again later");
         }
@@ -118,11 +121,9 @@ const Report = (props) => {
   };
 
   return (
-    <>
-      <Menu />
-      <div className="menu-items">
-        <div className="header">
-          {/* <img src={headerDetails.merchantLogo} />
+    <div className="menu-items">
+      <div className="header">
+        {/* <img src={headerDetails.merchantLogo} />
           <div>
             <p>{headerDetails.merchantName}</p>
             <p>{headerDetails.merchantAddress}</p>
@@ -131,50 +132,55 @@ const Report = (props) => {
             src={headerDetails.UserProfileImage}
             className="user-profile"
             alt="loading" /> */}
-          <img onClick={logoutUser} src={logout} alt="Logout" height="20" style={{ marginLeft: '90%' }} /> &nbsp; Logout
-        </div>
-        <div className="header-menu" style={{
-            justifyContent: "space-between"
-          }}>
-          <div>
-            <Stats className="menu-items-SVG"
-              style={{
-                marginBottom: 10
-              }} />
-            <h2 style={{
-                marginBottom: 10
-              }}>{"Reports & Insights  >   Today's Report"}</h2>
-          </div>
-          <div style={{
-           marginTop:40,
-          }}>
-            <CustomDropdown
-              options={Array.from(outlets, (outlet) => outlet.locationName)}
-              placeholder={"Branch"}
-              onSelect={(outletSelected) => {
-                const outletObject = outlets.filter(
-                  (outlet) => outlet.locationName == outletSelected.value
-                );
-                setBranchId(outletObject[0].id);
-                setBranchName(outletSelected.value);
-                setReportId("1");
-              }}
-              value={branchName}
-              name={"Branch"}
-            />
-          </div>
-        </div>
-        {iframeSource.length > 0 ?
-          <iframe
-            src={iframeSource}
-            frameBorder="0"
-            width="1000"
-            height="600"
-            allowtransparency="true"
-            scrolling="no"
-          ></iframe> : null}
+        <p onClick={logoutUser} style={{
+          marginLeft: '88%',
+          display: 'flex',
+          alignItems: 'center',
+          whiteSpace: 'nowrap'
+        }}>
+          <img src={logout} alt="Logout" height="20" />
+              &nbsp; Log Out
+            </p>
       </div>
-    </>
+      <div className="header-menu" style={{
+        justifyContent: "space-between"
+      }}>
+        <div>
+          <Stats className="menu-items-SVG" />
+          <h2 style={{
+            fontSize: '1.1vw'
+          }}>{`Reports & Insights  >   ${props.title}`}</h2>
+        </div>
+        <CustomDropdown
+          options={Array.from(outlets, (outlet) => outlet.locationName.split(",")[1])}
+          placeholder={"Branch"}
+          onSelect={(outletSelected) => {
+            const outletObject = outlets.filter(
+              (outlet) => outlet.locationName.includes(outletSelected.value)
+            );
+            setBranchId(outletObject[0].id);
+            setBranchName(outletSelected.value);
+            setReportId(props.id);
+          }}
+          value={branchName}
+          name={"Branch"}
+          controlClassName={"report-dropdown"}
+          arrowClassName={"report-dropdown-arrow"}
+        />
+      </div>
+      {iframeSource.length > 0 ?
+        <iframe
+          src={iframeSource}
+          frameBorder="0"
+          width="1000"
+          height="1800"
+          allowtransparency="true"
+          scrolling="no"
+        ></iframe> : loading ?
+          <p className="menu-list" style={{ display: 'flex', justifyContent: 'center', paddingTop: '25%' }}>Loading, Please Wait.....</p> :
+          error !== "" ?
+            <p className="menu-list" style={{ display: 'flex', justifyContent: 'center', paddingTop: '25%' }}>{error}</p> : null}
+    </div>
   );
 };
 

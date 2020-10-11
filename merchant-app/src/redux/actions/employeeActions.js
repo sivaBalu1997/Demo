@@ -9,6 +9,7 @@ import {
   GET_EMPLOYEE_REQUEST,
   GET_EMPLOYEE_FAILURE,
   GET_EMPLOYEE_SUCCESS,
+  SET_EMPLOYEE_DETAILS_LOADING,
 } from "../constants/employeeContants";
 // Get Outlet
 export const getOutlets = (merchantId) => ({
@@ -63,4 +64,9 @@ export const failedGetEmployees = (details) => ({
 export const successGetEmployees = (details) => ({
   type: GET_EMPLOYEE_SUCCESS,
   payload: details,
+});
+
+export const setEmployeeDetailsLoading = (isLoading) => ({
+  type: SET_EMPLOYEE_DETAILS_LOADING,
+  payload: isLoading
 });

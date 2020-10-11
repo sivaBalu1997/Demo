@@ -22,14 +22,14 @@ const SignIn = ({ setLogin }) => {
       if (authState.credentials.isTempPassword) {
         history.push("/reset");
       } else {
-        history.push("/employees");
+        history.push("/management/employees");
       }
     }
   }, [authState.signInLoading]);
 
   window.addEventListener("popstate", function (event) {
     if(localStorage.length === 0) {
-      history.replace("/");
+      history.replace("/notFound");
     }
   })
 

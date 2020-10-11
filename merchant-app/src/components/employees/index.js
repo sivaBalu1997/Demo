@@ -11,7 +11,7 @@ import logout from "../../assets/images/logout.png";
 import { signOut } from "../../redux/actions/authActions";
 
 const Employees = () => {
-  const [addEmployee, setAddEmployee] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const history = useHistory();
   const credentials = useSelector((state) => state.auth.credentials);
@@ -25,14 +25,18 @@ const Employees = () => {
 
   useEffect(() => {
     dispatch(getEmployees(credentials?.merchantId));
-    console.log(addEmployee);
   }, []);
 
   useEffect(() => {
-    if (!addEmployee && credentials) {
+    if (credentials) {
       dispatch(getEmployees(credentials?.merchantId));
     }
-  }, [addEmployee, credentials]);
+  }, [credentials]);
+
+  useEffect(() => {
+    setLoading(employeeDetailsLoading);
+    console.log(employeeDetailsLoading, "employeeDetailsLoading");
+  }, [employeeDetailsLoading, employeeList]);
 
   const logoutUser = () => {
     localStorage.clear();
@@ -42,38 +46,44 @@ const Employees = () => {
 
   return (
     <>
-      <Menu />
-      {employeeList?.length === 0 && !addEmployee ? (
-        <div className="menu-items">
-          <div id="employee_header">
-            <h2>Employees</h2>
-            <p onClick={logoutUser}>
-              {" "}
-              <img src={logout} alt="Logout" height="20" /> &nbsp; Logout
+      {loading ?
+        <div className="menu-items" style={{
+          display: 'flex',
+          justifyContent: 'center',
+          paddingTop: '25%',
+        }}>
+          Loading, Please wait!!
+      </div>
+        :
+        employeeList?.length === 0 && employeeDetailsFailure === "" ? (
+          <div className="menu-items">
+            <div id="employee_header">
+              <h2>Employees</h2>
+              <p onClick={logoutUser}>
+                {" "}
+                <img src={logout} alt="Logout" height="20" /> &nbsp; Logout
             </p>
-          </div>
+            </div>
 
-          <div className="header-menu">
-            <div className="empty-menu">
-              <img src={empIcon} alt={"emp"} />
-              <Button
-                type={"button"}
-                value={"Add Employee"}
-                backgroundColor={"#67833E"}
-                color={"#fff"}
-                iconType={"add"}
-                clickHandler={() => {
-                  setAddEmployee(true);
-                }}
-              />
+            <div className="header-menu">
+              <div className="empty-menu">
+                <img src={empIcon} alt={"emp"} />
+                <Button
+                  type={"button"}
+                  value={"Add Employee"}
+                  backgroundColor={"#67833E"}
+                  color={"#fff"}
+                  iconType={"add"}
+                  clickHandler={() => {
+                    history.push("/management/employees/add");
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      ) : addEmployee ? (
-        <AddEmployee setAddEmployee={setAddEmployee} />
-      ) : 
-          (<EmployeeList employeeList={employeeList} setAddEmployee={setAddEmployee}/>)
-        }
+        ) :
+          (<EmployeeList employeeList={employeeList} />)
+      }
     </>
   );
 };

@@ -6,6 +6,13 @@ import { useHistory } from "react-router";
 
 const NotFound = () => {
   const history = useHistory();
+
+  window.addEventListener("popstate", function (event) {
+    if (localStorage.length === 0) {
+      history.replace("/notFound");
+    }
+  })
+
   return (
     <div id="not-found-container">
       <Not_Found style={{ marginBottom: "4%" }} />
@@ -16,6 +23,11 @@ const NotFound = () => {
           Oops.. the page you were looking for <br /> is not available.
         </span>
       </div>
+      <button
+        onClick={() => { history.push("/"); }}
+        color="white"
+        className="login-again-button"
+      >LOGIN AGAIN</button>
     </div>
   );
 };

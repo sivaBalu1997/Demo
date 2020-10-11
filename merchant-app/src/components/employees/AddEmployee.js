@@ -12,7 +12,9 @@ import {
   addEmployee,
   getOutlets,
   resetAddEmployee,
+  setEmployeeDetailsLoading,
 } from "../../redux/actions/employeeActions";
+import { useHistory } from "react-router";
 
 const roles = [
   "Restaurant_Owner",
@@ -26,8 +28,9 @@ const roles = [
   "Employee",
 ];
 
-const AddEmployee = ({ setAddEmployee }) => {
+const AddEmployee = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [list, setList] = useState(false);
   const [outlet, setOutlet] = useState("");
   const [pinEnabled, setPinEnabled] = useState(false);
@@ -59,9 +62,8 @@ const AddEmployee = ({ setAddEmployee }) => {
 
   useEffect(() => {
     if (!addEmployeeLoading && employeeAdded) {
-      console.log("Employee Added");
       dispatch(resetAddEmployee());
-      setAddEmployee(false);
+      history.replace("/management/employees");
     }
   }, [addEmployeeLoading, employeeAdded]);
 
@@ -84,7 +86,7 @@ const AddEmployee = ({ setAddEmployee }) => {
     <>
       {list === false ? (
         <div className="menu-details">
-          <div onClick={() => setAddEmployee(false)} className="title">
+          <div onClick={() => history.replace("/management/employees")} className="title">
             <h2>
               {" "}
               <IoIosArrowBack /> Add Employee
@@ -93,34 +95,39 @@ const AddEmployee = ({ setAddEmployee }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="menu-details-form">
               <div className="primary-sec">
+                {errors.firstName?.type === "required" &&
+                  <p className="error-msg">First Name Required</p>
+                }
                 <div>
                   <TextInput
                     type="text"
                     placeholder="First Name"
                     maxLength={15}
-                    minLength={5}
                     name="firstName"
                     refRegister={register({
                       required: "Required",
                     })}
+                    className={"add-employee-text-input"}
                   />
                 </div>
                 <div>
                   <TextInput
                     type="number"
-                    maxLength={15}
-                    minLength={10}
                     placeholder="Phone"
                     name="mobileNumber"
                     refRegister={register()}
+                    className={"add-employee-text-input"}
                   />
                 </div>
+                {errors.role?.type === "required" &&
+                  <p className="error-msg">Role Required</p>
+                }
                 <div>
                   <Controller
                     control={control}
                     name="role"
                     defaultValue={""}
-                    // rules={{ required: true }}
+                    rules={{ required: true }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={roles}
@@ -131,11 +138,14 @@ const AddEmployee = ({ setAddEmployee }) => {
                         }}
                         value={value}
                         name={name}
+                        controlClassName={"add-employee-dropdown"}
+                        arrowClassName={"add-employee-dropdown-arrow"}
                       />
                     )}
                   />
                 </div>
-                <div className="acess-flex">
+                <div className="acess-flex"
+                  style={{ marginTop: 30 }}>
                   <p>User Access</p>
                   <Switchbox
                     isChecked={pinEnabled}
@@ -149,29 +159,37 @@ const AddEmployee = ({ setAddEmployee }) => {
                     disabled={!pinEnabled}
                     maxLength={4}
                     minLength={4}
+                    className={"add-employee-text-input"}
                   />
                 </div>
+                {errors.userId?.type === "required" &&
+                  <p className="error-msg">User Id Required</p>
+                }
                 <div>
                   <TextInput
                     type="text"
                     placeholder="User ID"
                     name="userId"
-                    maxLength={15}
-                    minLength={5}
                     refRegister={register({
                       required: "Required",
                     })}
+                    className={"add-employee-text-input"}
                   />
                 </div>
+
+                {errors.password?.type === "required" &&
+                  <p className="error-msg">Password Required</p>
+                }
                 <div>
                   <TextInput
                     type="password"
                     placeholder="Create password"
-                    minLength={10}
+                    minLength={6}
                     name="password"
                     refRegister={register({
                       required: "Required",
                     })}
+                    className={"add-employee-text-input"}
                   />
                 </div>
               </div>
@@ -181,11 +199,8 @@ const AddEmployee = ({ setAddEmployee }) => {
                     type="text"
                     placeholder="Last Name"
                     name="lastName"
-                    refRegister={register({
-                      required: "Required",
-                    })}
-                    maxLength={15}
-                    minLength={5}
+                    refRegister={register()}
+                    className={"add-employee-text-input"}
                   />
                 </div>
                 <div>
@@ -194,8 +209,10 @@ const AddEmployee = ({ setAddEmployee }) => {
                     placeholder="Email"
                     name="email"
                     refRegister={register()}
+                    className={"add-employee-text-input"}
                   />
                 </div>
+                {errors.locationId?.type === "required" && <p className="error-msg">Please Select Your Outlet</p>}
                 <div>
                   <Controller
                     control={control}
@@ -218,6 +235,8 @@ const AddEmployee = ({ setAddEmployee }) => {
                         }}
                         value={outlet}
                         name={name}
+                        controlClassName={"add-employee-dropdown"}
+                        arrowClassName={"add-employee-dropdown-arrow"}
                       />
                     )}
                   />
@@ -232,7 +251,7 @@ const AddEmployee = ({ setAddEmployee }) => {
               <span
                 onClick={() => {
                   console.log("Cancelling");
-                  setAddEmployee(false);
+                  history.replace("/management/employees");
                 }}
               >
                 <Button
@@ -242,21 +261,24 @@ const AddEmployee = ({ setAddEmployee }) => {
                   color={"#979797"}
                 />
               </span>
-              <Button
-                type="submit"
-                value="Save"
-                backgroundColor={"#67833E"}
-                color={"#fff"}
+              <span
                 onClick={() => {
-                  console.log(errors);
+                  console.log(errors, "errors");
                 }}
-              />
+              >
+                <Button
+                  type="submit"
+                  value="Save"
+                  backgroundColor={"#67833E"}
+                  color={"#fff"}
+                />
+              </span>
             </div>
           </form>
         </div>
       ) : (
-        <EmployeeList setList={() => setList(false)} />
-      )}
+          <EmployeeList setList={() => setList(false)} />
+        )}
     </>
   );
 };

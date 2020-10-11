@@ -18,9 +18,8 @@ import RoleAccess from "./components/roles";
 import ResetPassword from "./components/Auth/ResetPassword";
 import { CREDENTIALS } from "./shared/constants";
 import { storeCredentials } from "./redux/actions/authActions";
-import Report from "./components/Report";
 import NotFound from "./components/notFound";
-import Report1 from "./components/Report/index1";
+import Menu from "./components/menu";
 
 const Loader = () => {
   const dispatch = useDispatch();
@@ -35,6 +34,18 @@ const Loader = () => {
 };
 
 function App() {
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--wHeight",
+      window.innerHeight + "px"
+    );
+
+    document.documentElement.style.setProperty(
+      "--wWidth",
+      window.innerWidth + "px"
+    );
+    console.log(window.innerHeight, window.innerWidth);
+  }, []);
   return (
     <Provider store={store}>
       <Loader />
@@ -46,7 +57,6 @@ function App() {
               <Route path="/reset" component={ResetPassword} />
               <Route path="/basic-details" component={BasicDetails} />
               <Route path="/business" component={Business} />
-              <Route path="/employees" component={Employees} />
               <Route path="/roles" component={RoleAccess} />
               <Route path="/menu" component={EmptyMenu} />
               <Route path="/menulist" component={MenuItems} />
@@ -54,9 +64,8 @@ function App() {
               <Route path="/menuCustomization" component={MenuCustomization} />
               <Route path="/menuInput" component={AddCustomizationInput} />
               <Route path="/review" component={ReviewMenu} />
-              <Route path="/report/1" component={Report} />
-              <Route path="/report/2" component={Report1} />
               <Route path="/notFound" component={NotFound} />
+              <Route path="/management" component={Menu} />
             </Switch>
           </BrowserRouter>
         </div>

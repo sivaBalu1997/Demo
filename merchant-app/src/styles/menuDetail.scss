@@ -1,6 +1,7 @@
 .menu-details {
   margin-left: 60px;
   width: 80%;
+  padding-top: 4.5%;
   //position: fixed;
   & h2 {
     font-weight: normal;
@@ -31,7 +32,7 @@
   & .Dropdown-control {
     color: #979797;
     border: 1px solid #dadada;
-    margin-bottom: 30px;
+    //margin-bottom: 30px;
   }
 
   & .acess-flex {
@@ -43,13 +44,16 @@
       margin: 0;
       margin-left: 15px;
     }
+    & .pin-input::-webkit-input-placeholder {
+      width: 166.21px;
+    }
     .switch-container {
       display: flex;
     }
 
     & p {
       font-weight: normal;
-      font-size: 14px;
+      font-size: 18px;
       line-height: 21px;
       color: #979797;
       flex: 0 0 25%;
@@ -61,7 +65,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    border-bottom: 1px solid #c4c4c4;
+    //border-bottom: 1px solid #c4c4c4;
     & .primary-sec {
       flex: 0 0 35%;
       margin-right: 70px;

@@ -1,53 +1,66 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import "../../styles/menu.scss";
-import { NavLink, Link, Route } from "react-router-dom";
+import { NavLink, Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import magilhub from "../../assets/images/magilhub.png";
 // import MenuItems from "../menuItems";
 
 //SVG
 import { ReactComponent as Dollar } from "../../assets/svg/dollar.svg";
-import { ReactComponent as Employees } from "../../assets/svg/employees.svg";
+import { ReactComponent as EmployeesIcon } from "../../assets/svg/employees.svg";
 import { ReactComponent as Key } from "../../assets/svg/key.svg";
 import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
 import { ReactComponent as Tableware } from "../../assets/svg/tableware.svg";
 import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
+import Report from "../Report";
+import Employees from "../employees";
+import AddEmployee from "../employees/AddEmployee";
 
 const Menu = () => {
+
   const reportOptions = [{
     title: "Today's report",
-    route: "/report/1",
+    id: "1",
+    route: "report/1"
   },
   {
     title: "Daily report",
-    route: "/report/2",
+    id: "2",
+    route: "report/2"
   },
   ];
 
   const menuOptions = [];
 
+  const history = useHistory();
+  const location = useLocation();
+
   const [showOptions, setShowOptions] = useState("");
+  const [routeTo, setRouteTo] = useState({});
 
   return (
-    <div className="menu is-sticky">
-      <img src={magilhub} />
-      <ul>
-        {/* <NavLink to="/business" activeClassName="active">
+    <>
+      <div className="menu is-sticky">
+        <img src={magilhub} className="magilhub"/>
+        <ul>
+          {/* <NavLink to="/business" activeClassName="active">
           <li />
           <Dollar className="menu-items-SVG" />
             Business{" "}
         </NavLink> */}
-        <NavLink to="/employees" activeClassName="active">
-          <li style={{marginBottom: 0}}/>
-          <Employees className="menu-items-SVG" />
+          <div className={location.pathname === "/management/employees" ? "active" : ""} onClick={() => {
+            history.push("/management/employees");
+          }}>
+            <li style={{ marginBottom: 0 }} />
+            <EmployeesIcon className="menu-items-SVG" />
             Employees
-        </NavLink>
-        {/* <NavLink to="/roles" activeClassName="active">
+        </div>
+          {/* <NavLink to="/roles" activeClassName="active">
           <li />
           <Key className="menu-items-SVG" />
             Roles & Access
         </NavLink> */}
-        {/* <div
+          {/* <div
           className={
             showOptions === "MenuOptions" ? "active drop-down" : "drop-down"}
           onClick={() =>
@@ -62,7 +75,7 @@ const Menu = () => {
             <Downarrow className="dropdown-arrow" />
           }
         </div> */}
-        {/* <ul>
+          {/* <ul>
           {showOptions === "menuOptions" ?
             menuOptions.map((option) => (
               <NavLink to={option} activeClassName="active" key={option}>
@@ -73,35 +86,42 @@ const Menu = () => {
             ))
             : null}
         </ul> */}
-        {/* <li style={{ marginBottom: "30px" }}>Drafts</li> */}
-        <div
-          className={
-            showOptions === "reportOptions" ? "active drop-down" : "drop-down"}
-          onClick={() =>
-            showOptions !== "reportOptions" ?
-              setShowOptions("reportOptions") : setShowOptions("")}>
-          <div>
-            <Stats className="menu-items-SVG" />
+          {/* <li style={{ marginBottom: "30px" }}>Drafts</li> */}
+          <div
+            className={
+              showOptions === "reportOptions" ? "active drop-down" : "drop-down"}
+            onClick={() =>
+              showOptions !== "reportOptions" ?
+                setShowOptions("reportOptions") : setShowOptions("")}>
+            <div>
+              <Stats className="menu-items-SVG" />
             Reports & Insights
           </div>
-          {showOptions === "reportOptions" ?
-            <Uparrow className="dropdown-arrow" /> :
-            <Downarrow className="dropdown-arrow" />
-          }
-        </div>
-        <ul>
-          {showOptions === "reportOptions" ?
-            reportOptions.map((option) => (
-              <NavLink to={option.route} activeClassName="active" key={option.title}>
-                <li>
+            {showOptions === "reportOptions" ?
+              <Uparrow className="dropdown-arrow" /> :
+              <Downarrow className="dropdown-arrow" />
+            }
+          </div>
+          <ul>
+            {showOptions === "reportOptions" ?
+              reportOptions.map((option) => (
+                <li key={option.title} className={location.pathname === `/management/${option.route}` ? "active" : ""} onClick={() => {
+                  history.push(`/management/${option.route}`);
+                }}>
                   {option.title}
                 </li>
-              </NavLink>
-            ))
-            : null}
+              ))
+              : null}
+          </ul>
         </ul>
-      </ul>
-    </div>
+      </div>
+      <Switch>
+        <Route exact path="/management/employees" component={Employees} />
+        <Route exact path="/management/report/1" component={() => <Report id={"1"} title={"Today's report"} />} />
+        <Route exact path="/management/report/2" component={() => <Report id={"2"} title={"Daily report"} />} />
+        <Route exact path="/management/employees/add" component={() => <AddEmployee />} />
+      </Switch>
+    </>
   );
 };
 
