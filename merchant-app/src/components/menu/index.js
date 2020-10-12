@@ -12,7 +12,7 @@ import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
 import { ReactComponent as Tableware } from "../../assets/svg/tableware.svg";
 import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
-import Report from "../Report";
+import Report from "../report";
 import Employees from "../employees";
 import AddEmployee from "../employees/AddEmployee";
 
