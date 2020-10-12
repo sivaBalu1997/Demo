@@ -1,0 +1,145 @@
+.customization-sec {
+  width: 100%;
+  & .title {
+    margin-left: 43px;
+    & a {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    margin-bottom: 50px;
+
+    & h2 {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 36px;
+      margin-left: 30px;
+      color: #000;
+    }
+
+    & svg {
+      color: #000;
+      font-size: 30px;
+    }
+  }
+  & form {
+    .customize-input {
+      margin-left: 100px;
+      width: 60%;
+      height: auto;
+      min-height: 400px;
+
+      & .add-group {
+        width: 37%;
+      }
+
+      & .add-item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+
+        & .sub-item {
+          display: flex;
+          justify-content: flex-start;
+          & > div {
+            margin-right: 20px;
+          }
+        }
+      }
+      & button {
+        background: transparent;
+        border: 0;
+        color: #0085ff;
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        margin-bottom: 37px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        outline: 0;
+        & svg {
+          margin-right: 5px;
+          font-size: 23px;
+        }
+      }
+    }
+  }
+}
+
+.review-sec {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 100px;
+  & .review-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & h3 {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 27px;
+    }
+    & button {
+      background: transparent;
+      border: 0;
+      color: #0085ff;
+      font-family: "Poppins", sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
+
+  & h4 {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 10px;
+  }
+  & p {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+  }
+  & .primary-details {
+    flex: 0 0 50%;
+    border-right: 1px solid #c4c4c4;
+    padding-right: 56px;
+    box-sizing: border-box;
+    & img {
+      margin: 23px 0px;
+    }
+  }
+  & .custom-details {
+    flex: 0 0 40%;
+    margin-left: 60px;
+    & .custom-inner {
+      width: 50%;
+      margin-top: 30px;
+      & > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        & h4 {
+          margin-right: 80px;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  .custom-item {
+    display: flex;
+    justify-content: space-between;
+    & > div > div {
+      margin-bottom: 30px;
+    }
+  }
+  & .other-detail {
+    margin-top: 34px;
+    & > div {
+      margin-bottom: 30px;
+    }
+  }
+}

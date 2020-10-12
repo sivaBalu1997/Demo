@@ -1,0 +1,467 @@
+.main-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  & .menu {
+    width: 20%;
+    padding: 4.5% 2.5vw 11%;
+    border-right: 1px solid #c4c4c4;
+    height: 100vh;
+    box-sizing: border-box;
+    position: fixed;
+    & .magilhub {
+      width: 11vw;
+    }
+    & h2 {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 36px;
+      margin-bottom: 50px;
+    }
+    & ul {
+      padding: 0;
+      padding-top: 20px;
+      list-style: none;
+      margin: 0;
+     // list-style-type: disc;
+      & a {
+        color: #000;
+      }
+      & div {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        font-size: 0.95vw;
+      }
+      & li {
+        margin-bottom: 12%;
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 24px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      & a {
+        //margin-bottom: 30px;
+        display: flex;
+      }
+
+      & .menu-items-SVG {
+        padding-right: 12px;
+        // height: 30px;
+        // width: 30px;
+        padding-bottom: 1.9%;
+      }
+
+      & .menu-items-SVG path{
+        fill: #5F5F5F !important;
+      }
+
+      & .active {
+        color: #67833E;
+        list-style-type: disc;
+        & .menu-items-SVG path{
+            fill: #67833E !important;
+            //stroke: #67833E;
+          }
+      }
+
+      & ul {
+        padding-left: 47px;
+
+        & li {
+          font-size: 0.95vw;
+        }
+      }
+
+      & .drop-down {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10.8%;
+        & div {
+          & .menu-items-SVG {
+            //padding-top: 8px;
+          }
+        }
+      }
+    }
+  }
+  @supports (position: sticky) {
+    .is-sticky {
+      position: sticky;
+      top: 0; // Threshold is required
+    }
+  }
+  & .menu-sec {
+    width: 100%;
+  }
+  & .menu-items {
+    width: 80%;
+    padding-left: 39px;
+    padding-right: 108px;
+    padding-top: 4.5%;
+    box-sizing: border-box;
+
+    & #employee_header {
+      display: flex;
+      width: 90%;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      & p {
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
+
+    & .Dropdown-control {
+      margin-Top: 0px;
+    }
+    & .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      //justify-content: space-between;
+      padding-bottom: 10px;
+      width: 100%;
+      border-bottom: 1px solid #DADADA;
+      & div {
+        display: flex;
+        flex-direction: column;
+        //height: 40px;
+        justify-content: space-between;
+
+        & p {
+          margin: 0px;
+        }
+      }
+      & div p:nth-child(1) {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 18px;
+        white-space: nowrap;
+      }
+      & div p:nth-child(2) {
+        font-weight: 300;
+        font-size: 10px;
+        line-height: 15px;
+        white-space: nowrap;
+        padding-top: 5px;
+      }
+      & .user-profile {
+        margin-left: 82%;
+        width: 50px;
+        height: 50px;
+      }
+    }
+    & .header-menu {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-top: 25px;
+      & .menu-items-SVG path{
+        fill: #67833E !important;
+      }
+      & div {
+        display: flex;
+        align-items: center;
+        & h2 {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 27px;
+        color: #67833E;
+        margin-left: 10px;
+        white-space: nowrap;
+      }
+      }
+    }
+    & .drop-list {
+      width: 40%;
+    }
+    
+    & .empty-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 83px;
+      & img {
+        width: 245.41px;
+        height: 215px;
+        object-fit: contain;
+        margin-bottom: 62px;
+      }
+      & h3 {
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 36px;
+      }
+    }
+  }
+
+  & .add-custom {
+    margin-top: 20px;
+  }
+  & .create-menu {
+    width: 100%;
+    text-align: right;
+    & button {
+      cursor: pointer;
+      border: 0;
+      background: #00b71d;
+      border-radius: 50%;
+      color: #fff;
+      padding: 7px 8px;
+      & svg {
+        font-size: 34px;
+      }
+    }
+  }
+
+  & .menu-list {
+    width: 100%;
+    display: table;
+    & table {
+      border-collapse: collapse;
+      & thead {
+        & th {
+          font-size: 16px;
+          line-height: 24px;
+          color: #000000;
+          font-weight: normal;
+          text-align: left;
+          padding-bottom: 13px;
+          border-bottom: 1px solid #c4c4c4;
+          padding-left: 10px;
+        }
+      }
+    
+      & td {
+        padding: 20px 0px;
+        border-bottom: 1px solid #e5e5e5;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        color: #000000;
+        position: relative;
+        padding-left: 10px;
+        & svg{
+          cursor: pointer;
+        }
+
+        & ul {
+          position: absolute;
+          right: 20px;
+          top: 24px;
+          background: #fff;
+          padding: 0;
+          list-style-type: none;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+          border-radius: 5px;
+          padding: 13px 17px 0px;
+          z-index: 9999;
+          box-sizing: border-box;
+
+          & li {
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 21px;
+            /* identical to box height */
+
+            color: #000000;
+            margin-bottom: 17px;
+          }
+        }
+      }
+      & tr:nth-of-type(2n){
+        background: rgba(196,196,196, 0.4);
+      }
+      & .eye-icon {
+        & img {
+          width: 25px;
+          height: 25px;
+          object-fit: contain;
+          cursor: pointer;
+        }
+      }
+      & .item-type {
+        & img {
+          width: 11px;
+          height: 11px;
+          object-fit: contain;
+          margin-right: 4px;
+        }
+      }
+      & .custom {
+        color: #0085ff;
+        cursor: pointer;
+      }
+      & .edit-icon {
+        padding-right: 10px;
+        & svg {
+          font-size: 20px;
+          color: #0085ff;
+          cursor: pointer;
+        }
+      }
+      & .trash-icon {
+        & svg {
+          font-size: 20px;
+          color: #000;
+          opacity: 0.3;
+          cursor: pointer;
+        }
+      }
+      & .checkbox-label {
+        display: block;
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 26px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      /* Hide the browser's default checkbox */
+      & input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      /* Create a custom checkbox */
+      & .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #fff;
+        border: 1px solid #9a9a9a;
+        box-sizing: border-box;
+        border-radius: 2px;
+      }
+
+      /* On mouse-over, add a grey background color */
+      &:hover input ~ .checkmark {
+        background-color: #fff;
+      }
+
+      /* When the checkbox is checked, add a blue background */
+      & input:checked ~ .checkmark {
+        background-color: #2196f3;
+      }
+
+      /* Create the checkmark/indicator (hidden when not checked) */
+      & .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      /* Show the checkmark when checked */
+      & input:checked ~ .checkmark:after {
+        display: block;
+      }
+
+      /* Style the checkmark/indicator */
+      & .checkmark:after {
+        left: 6px;
+        top: 3px;
+        width: 4px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+    & .add-button {
+      position: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1%;
+      border-radius: 50%;
+      background-color: #67833E;
+      border: 0px;
+      bottom: calc(var(--wHeight) * 0.1);
+      right: 4.5%;
+      align-self: flex-end;
+    }
+    & .add-button:focus {
+      outline: none;
+    }
+  }
+}
+
+iframe {
+  width: 100%;
+  overflow: scroll;
+}
+
+.menuClassName {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-employee-dropdown {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+}
+
+.add-employee-text-input {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.add-employee-dropdown-arrow {
+  margin-top: 5px;
+}
+
+.report-dropdown {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  width: 30vw;
+  margin-top: 25px;
+}
+
+.report-dropdown-arrow {
+  margin-top: 5px;
+}
+
+.MenuClass {
+  display: flex;
+  flex-direction: column;
+  
+  & div {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}
+
+.error-msg {
+ color: red;
+ margin: 0px;
+ position: fixed;
+ margin-top: -23px;
+}
+
+.Dropdown-control .report-dropdown {
+  margin-bottom: 0px !important;
+}
+
