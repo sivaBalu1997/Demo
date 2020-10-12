@@ -43,6 +43,7 @@ const AddEmployee = () => {
     getValues,
     control,
     formState,
+    watch
   } = useForm();
   const credentials = useSelector((state) => state.auth.credentials);
   const employeeAdded = useSelector((state) => state.employee.employeeAdded);
@@ -55,6 +56,8 @@ const AddEmployee = () => {
 
   const outlets = useSelector((state) => state.employee.outlets);
 
+  const watchUserId = watch("userId");
+
   useEffect(() => {
     console.log("MerchantId:", credentials?.merchantId);
     credentials && dispatch(getOutlets(credentials.merchantId));
@@ -66,6 +69,12 @@ const AddEmployee = () => {
       history.replace("/management/employees");
     }
   }, [addEmployeeLoading, employeeAdded]);
+
+  useEffect(() => {
+    if (addEmployeeMessage !== "") {
+      dispatch(resetAddEmployee());
+    }
+  }, [watchUserId]);
 
   const onSubmit = (formValues) => {
     formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
