@@ -49,6 +49,7 @@ export default function authReducer(state = initialAuthState, action) {
       // Credential Reducer
       case CREDENTIALS_STORE:
         draft.credentials = action.payload;
+        break;
       // SignUp Reducers
       case SIGNUP_REQUEST:
         draft.signedUp = false;

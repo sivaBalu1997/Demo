@@ -25,7 +25,7 @@ const initialEmployeeState = {
   
   // Get Employee
   employeeDetails: [],
-  employeeDetailsLoading: true,
+  employeeDetailsLoading: false,
   employeeDetailsFailure: ""
 };
 
@@ -63,7 +63,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case ADD_EMPLOYEE_RESET:
         draft.employeeAdded = false;
         draft.addEmployeeMessage = "";
-
+        break;
       // Get Employee
       case GET_EMPLOYEE_REQUEST:
         draft.employeeDetails = [];

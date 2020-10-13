@@ -53,10 +53,11 @@ const AddEmployee = () => {
   const addEmployeeLoading = useSelector(
     (state) => state.employee.addEmployeeLoading
   );
-
   const outlets = useSelector((state) => state.employee.outlets);
 
   const watchUserId = watch("userId");
+  const watchFirstName = watch("firstName");
+  const watchLastName = watch("lastName");
 
   useEffect(() => {
     console.log("MerchantId:", credentials?.merchantId);
@@ -71,10 +72,71 @@ const AddEmployee = () => {
   }, [addEmployeeLoading, employeeAdded]);
 
   useEffect(() => {
+    if(getValues("userId") === " ") {
+      setValue("userId", "");
+    }
     if (addEmployeeMessage !== "") {
       dispatch(resetAddEmployee());
     }
   }, [watchUserId]);
+
+  useEffect(() => {
+    let name = getValues("firstName").replace(/[^A-Za-z ]/g, "");
+    var splitted = name.split(" ");
+    // console.log("Input Splitted: ", splitted);
+
+    if (
+      splitted.every((name) => {
+        return name == "";
+      })
+    ) {
+      setValue("firstName", "");
+    } else {
+      if (splitted.length > 0) {
+        for (var i = 0; i < splitted.length; i++) {
+          if (splitted[i].length === 1) {
+            //   console.log("one Len");
+            splitted[i] = splitted[i].charAt(0).toUpperCase();
+          } else {
+            splitted[i] =
+              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1);
+          }
+        }
+        name = splitted.join(" ");
+        // console.log("Output: ", name);
+        setValue("firstName", name);
+      }
+    }
+  },[watchFirstName]);
+
+  useEffect(() => {
+    let name = getValues("lastName").replace(/[^A-Za-z ]/g, "");
+    var splitted = name.split(" ");
+    // console.log("Input Splitted: ", splitted);
+
+    if (
+      splitted.every((name) => {
+        return name == "";
+      })
+    ) {
+      setValue("lastName", "");
+    } else {
+      if (splitted.length > 0) {
+        for (var i = 0; i < splitted.length; i++) {
+          if (splitted[i].length === 1) {
+            //   console.log("one Len");
+            splitted[i] = splitted[i].charAt(0).toUpperCase();
+          } else {
+            splitted[i] =
+              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1);
+          }
+        }
+        name = splitted.join(" ");
+        // console.log("Output: ", name);
+        setValue("lastName", name);
+      }
+    }
+  },[watchLastName]);
 
   const onSubmit = (formValues) => {
     formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
@@ -161,7 +223,7 @@ const AddEmployee = () => {
                     handleSwitch={() => setPinEnabled(!pinEnabled)}
                   />{" "}
                   <TextInput
-                    type="text"
+                    type="number"
                     placeholder="Create PIN"
                     name="devicePin"
                     refRegister={register()}
