@@ -52,6 +52,7 @@ function* addEmployeeSaga(action) {
 function* getEmployeesSaga(action) {
   try {
     const response = yield call(getEmployeeDetails, action.payload);
+    console.log(response, "employees");
     if (response.status === 200) {
       //console.log("Employees :" + response.data);
       yield put(successGetEmployees(response.data));

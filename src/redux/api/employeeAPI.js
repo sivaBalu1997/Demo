@@ -35,8 +35,8 @@ export function getEmployeeDetails(merchantId) {
   return API({
     method: "get",
     url: "/merchants/" + merchantId + "/staff",
-    // headers: {
-    //   Authorization: "bearer " + token,
-    // },
+    headers: {
+       Authorization: "bearer " + token,
+    },
   });
 }
