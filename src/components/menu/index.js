@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import "../../styles/menu.scss";
 import { NavLink, Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
 import magilhub from "../../assets/images/magilhub.png";
@@ -15,6 +15,7 @@ import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 import Report from "../report";
 import Employees from "../employees";
 import AddEmployee from "../employees/AddEmployee";
+//import { useSelector } from "react-redux";
 
 const Menu = () => {
 
@@ -27,8 +28,7 @@ const Menu = () => {
     title: "Daily report",
     id: "2",
     route: "report/2"
-  },
-  ];
+  }];
 
   const menuOptions = [];
 
@@ -37,6 +37,14 @@ const Menu = () => {
 
   const [showOptions, setShowOptions] = useState("");
   const [routeTo, setRouteTo] = useState({});
+  // const signedIn = useSelector((state) => state.auth.signedIn);
+
+  // useEffect(() => {
+  //   if (!signedIn) {
+  //     localStorage.clear();
+  //     history.replace("/");
+  //   }
+  // }, [signedIn]);
 
   return (
     <>
