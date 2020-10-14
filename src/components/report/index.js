@@ -173,7 +173,7 @@ const Report = (props) => {
           src={iframeSource}
           frameBorder="0"
           width="1000"
-          height="1800"
+          height="5000"
           allowtransparency="true"
           scrolling="no"
         ></iframe> : loading ?
