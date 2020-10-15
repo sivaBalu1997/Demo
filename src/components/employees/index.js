@@ -59,7 +59,7 @@ const Employees = () => {
           <div className="menu-items">
             <div id="employee_header">
               <h2>Employees</h2>
-              <p onClick={logoutUser}>
+              <p onClick={logoutUser} style={{cursor: 'pointer'}}>
                 {" "}
                 <img src={logout} alt="Logout" height="20" /> &nbsp; Logout
             </p>

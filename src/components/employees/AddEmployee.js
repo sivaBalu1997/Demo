@@ -32,9 +32,9 @@ const AddEmployee = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [list, setList] = useState(false);
-  const [outlet, setOutlet] = useState("");
+  //const [outlet, setOutlet] = useState([]);
   const [pinEnabled, setPinEnabled] = useState(false);
-  const [role, setRole] = useState("");
+  //const [role, setRole] = useState("");
   const {
     handleSubmit,
     register,
@@ -142,6 +142,7 @@ const AddEmployee = () => {
     formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
     formValues["businessName"] = credentials.businessName;
     formValues["merchantId"] = credentials.merchantId;
+    formValues["locationId"] = outlets.find((outlet) => outlet.locationName.includes(formValues["outlet"])).id;
 
     if (!pinEnabled) {
       formValues["devicePin"] = "";
@@ -149,6 +150,8 @@ const AddEmployee = () => {
 
     delete formValues["firstName"];
     delete formValues["lastName"];
+    delete formValues["outlet"];
+    
     console.log("Employee details", formValues);
     dispatch(addEmployee(formValues));
   };
@@ -188,12 +191,14 @@ const AddEmployee = () => {
                     name="mobileNumber"
                     refRegister={register()}
                     className={"add-employee-text-input"}
+                    min={0}
                   />
                 </div>
                 {errors.role?.type === "required" &&
                   <p className="error-msg">Role Required</p>
                 }
-                <div>
+                <div
+                style={{cursor: 'pointer'}}>
                   <Controller
                     control={control}
                     name="role"
@@ -230,6 +235,7 @@ const AddEmployee = () => {
                     disabled={!pinEnabled}
                     maxLength={4}
                     minLength={4}
+                    min={0}
                     className={"add-employee-text-input"}
                   />
                 </div>
@@ -272,6 +278,7 @@ const AddEmployee = () => {
                     name="lastName"
                     refRegister={register()}
                     className={"add-employee-text-input"}
+                    maxLength={15}
                   />
                 </div>
                 <div>
@@ -283,28 +290,30 @@ const AddEmployee = () => {
                     className={"add-employee-text-input"}
                   />
                 </div>
-                {errors.locationId?.type === "required" && <p className="error-msg">Please Select Your Outlet</p>}
-                <div>
+                {errors.outlet?.type === "required" && <p className="error-msg">Please Select Your Outlet</p>}
+                <div
+                style={{cursor: 'pointer'}}>
                   <Controller
                     control={control}
-                    name="locationId"
+                    name="outlet"
                     defaultValue={""}
                     rules={{ required: true }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={Array.from(
                           outlets,
-                          (outlet) => outlet.locationName
+                          (outlet) => outlet.locationName.split(",")[1]
                         )}
                         placeholder={"Assign Outlet"}
                         onSelect={(outletSelected) => {
-                          const outletObject = outlets.filter(
+                          console.log("outlet Changed:", outletSelected.value);
+                          const outletObject = outlets.find(
                             (outlet) =>
-                              outlet.locationName == outletSelected.value
+                              outlet.locationName.includes(outletSelected.value)
                           );
-                          onChange(outletObject[0].id);
+                          onChange(outletObject.locationName.split(",")[1]);
                         }}
-                        value={outlet}
+                        value={value}
                         name={name}
                         controlClassName={"add-employee-dropdown"}
                         arrowClassName={"add-employee-dropdown-arrow"}

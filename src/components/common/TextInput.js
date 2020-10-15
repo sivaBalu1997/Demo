@@ -10,7 +10,8 @@ const TextInput = ({
   maxLength,
   minLength,
   style,
-  className
+  className,
+  min
 }) => {
   return (
     <Fragment>
@@ -25,6 +26,7 @@ const TextInput = ({
         maxLength={maxLength}
         minLength={minLength}
         className={className}
+        min={min}
       />
     </Fragment>
   );

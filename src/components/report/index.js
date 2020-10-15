@@ -136,7 +136,8 @@ const Report = (props) => {
           marginLeft: '88%',
           display: 'flex',
           alignItems: 'center',
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          cursor: 'pointer'
         }}>
           <img src={logout} alt="Logout" height="20" />
               &nbsp; Log Out

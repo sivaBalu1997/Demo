@@ -47,7 +47,8 @@ const EmployeeList = (props) => {
             marginLeft: '88%',
             display: 'flex',
             alignItems: 'center',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            cursor: 'pointer'
           }}>
             <img src={logout} alt="Logout" height="20" />
               &nbsp; Log Out
@@ -63,10 +64,13 @@ const EmployeeList = (props) => {
           </div>
         </div>
         {props.employeeList ?
-          <div className="menu-list">
+          <div className="menu-list" style={{
+            paddingBottom: '3%'
+          }}>
             <table width="100%" style={{ height: '50%' }}>
               <thead>
                 <tr>
+                  <th>S.No</th>
                   <th>Name</th>
                   <th>Outlet </th>
                   <th>Contact</th>
@@ -74,17 +78,20 @@ const EmployeeList = (props) => {
                   <th></th>
                 </tr>
               </thead>
-              {props.employeeList.map((row) => {
-                return (
-                  <EmployeeRow
-                    key={row.id}
-                    name={row.name}
-                    outlet={row.locationName.split(",")[1]}
-                    contact={row.mobileNumber}
-                    userId={row.userId}
-                  />
-                );
-              })}
+              <tbody>
+                {props.employeeList.map((row, index) => {
+                  return (
+                    <EmployeeRow
+                      key={row.id}
+                      serialNumber={index}
+                      name={row.name}
+                      outlet={String(row.locationName).split(",")[1]}
+                      contact={row.mobileNumber}
+                      userId={row.userId}
+                    />
+                  );
+                })}
+              </tbody>
             </table>
             <button
               onClick={() => history.push("/management/employees/add")}
@@ -99,10 +106,11 @@ const EmployeeList = (props) => {
   );
 };
 
-const EmployeeRow = ({ name, role, outlet, contact, userId }) => {
+const EmployeeRow = ({ serialNumber, name, role, outlet, contact, userId }) => {
   const [show, setShow] = useState(false);
   return (
     <tr>
+      <td>{serialNumber}</td>
       <td>{name}</td>
       <td>{outlet}</td>
       <td> {contact}</td>

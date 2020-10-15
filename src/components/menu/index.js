@@ -49,16 +49,18 @@ const Menu = () => {
   return (
     <>
       <div className="menu is-sticky">
-        <img src={magilhub} className="magilhub"/>
+        <img src={magilhub} className="magilhub" />
         <ul>
           {/* <NavLink to="/business" activeClassName="active">
           <li />
           <Dollar className="menu-items-SVG" />
             Business{" "}
         </NavLink> */}
-          <div className={location.pathname === "/management/employees" ? "active" : ""} onClick={() => {
-            history.push("/management/employees");
-          }}>
+          <div className={location.pathname === "/management/employees" ? "active" : ""}
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              history.push("/management/employees");
+            }}>
             <li style={{ marginBottom: 0 }} />
             <EmployeesIcon className="menu-items-SVG" />
             Employees
@@ -100,7 +102,8 @@ const Menu = () => {
               showOptions === "reportOptions" ? "active drop-down" : "drop-down"}
             onClick={() =>
               showOptions !== "reportOptions" ?
-                setShowOptions("reportOptions") : setShowOptions("")}>
+                setShowOptions("reportOptions") : setShowOptions("")}
+            style={{ cursor: 'pointer' }}>
             <div>
               <Stats className="menu-items-SVG" />
             Reports & Insights
@@ -113,7 +116,9 @@ const Menu = () => {
           <ul>
             {showOptions === "reportOptions" ?
               reportOptions.map((option) => (
-                <li key={option.title} className={location.pathname === `/management/${option.route}` ? "active" : ""} onClick={() => {
+                <li key={option.title} 
+                style={{cursor: 'pointer'}}
+                className={location.pathname === `/management/${option.route}` ? "active" : ""} onClick={() => {
                   history.push(`/management/${option.route}`);
                 }}>
                   {option.title}
