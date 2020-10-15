@@ -20,7 +20,6 @@ const roles = [
   "Restaurant_Owner",
   "Restaurant_Manager",
   "System_Admin",
-  "Owner",
   "Cashier",
   "Supervisor",
   "Waiter",
