@@ -290,7 +290,7 @@ const AddEmployee = () => {
                     className={"add-employee-text-input"}
                   />
                 </div>
-                {errors.outlet?.type === "required" && <p className="error-msg">Please Select Your Outlet</p>}
+                {errors.outlet?.type === "required" && <p className="error-msg">Outlet Required</p>}
                 <div
                 style={{cursor: 'pointer'}}>
                   <Controller
