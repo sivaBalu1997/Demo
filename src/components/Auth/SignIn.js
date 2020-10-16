@@ -66,7 +66,7 @@ const SignIn = ({ setLogin }) => {
             justifyContent: 'flex-end'
           }}>
             <input
-              type="password"
+              type={isPasswordVisible? "text" : "password"}
               name="password"
               placeholder="Enter Password"
               ref={register({ required: "Required" })}
