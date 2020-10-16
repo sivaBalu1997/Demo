@@ -177,7 +177,8 @@ const Report = (props) => {
           height="5000"
           allowtransparency="true"
           scrolling="no"
-        ></iframe> : 
+        ></iframe> : loading ?
+          <p className="menu-list" style={{ display: 'flex', justifyContent: 'center', paddingTop: '25%' }}>Loading, Please Wait!!!</p> :
           error !== "" ?
             <p className="menu-list" style={{ display: 'flex', justifyContent: 'center', paddingTop: '25%' }}>{error}</p> : null}
     </div>
