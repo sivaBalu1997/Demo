@@ -44,7 +44,7 @@ function App() {
       "--wWidth",
       window.innerWidth + "px"
     );
-    console.log(window.innerHeight, window.innerWidth);
+    //console.log(window.innerHeight, window.innerWidth);
   }, []);
   return (
     <Provider store={store}>

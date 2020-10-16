@@ -22,7 +22,7 @@ import { CREDENTIALS } from "../../shared/constants";
 function* signUpSaga(action) {
   try {
     const response = yield call(signUp, action.payload);
-    console.log(response.data);
+    //console.log(response.data);
     if (response.status === 200) {
       const result = response.data;
       if (result.metaDataInfo.responseCode == "ERROR") {
@@ -53,7 +53,7 @@ function* signInSaga(action) {
         );
       } else {
         const result = response.data;
-        console.log(result);
+        //console.log(result);
         // Store Credentials in Local Storage
         localStorage.setItem(
           CREDENTIALS,
@@ -67,7 +67,7 @@ function* signInSaga(action) {
       );
     }
   } catch (err) {
-    console.log("Catch", err);
+    //console.log("Catch", err);
     yield put(failedSignIn({ message: "Failed to SignIn, Please Try Again" }));
   }
 }

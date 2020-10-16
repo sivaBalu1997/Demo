@@ -129,9 +129,9 @@ const ResetPassword = () => {
           </div>
           <button
             type="submit"
-            onClick={() => {
-              console.log(errors);
-            }}
+            // onClick={() => {
+            //   console.log(errors);
+            // }}
           >
             Reset Password
           </button>

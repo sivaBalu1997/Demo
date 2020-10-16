@@ -31,7 +31,7 @@ const Report = (props) => {
     if (credentials) {
       dispatch(getOutlets(credentials?.merchantId));
     }
-    console.log(props.id, 'id');
+    //console.log(props.id, 'id');
   }, []);
 
   useEffect(() => {
@@ -65,14 +65,14 @@ const Report = (props) => {
       .then(res => {
         //console.log(res);
         if (res.status === 200) {
-          console.log(res.data.url);
+          //console.log(res.data.url);
           setiFrameSource(res.data.url);
         }
         else {
           setError("please try again later");
         }
       }).catch(err => {
-        console.log(err);
+        //console.log(err);
         setError("please try again later");
       })
   }
@@ -101,7 +101,7 @@ const Report = (props) => {
       .then((res) => {
         //console.log(res);
         if (res.status === 200) {
-          console.log(res.data.url);
+          //console.log(res.data.url);
           setiFrameSource(res.data.url);
           setLoading(false);
         } else {
@@ -109,7 +109,7 @@ const Report = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         setError("please try again later");
       });
   }
@@ -154,7 +154,7 @@ const Report = (props) => {
         </div>
         <CustomDropdown
           options={Array.from(outlets, (outlet) => outlet.locationName.split(",")[1])}
-          placeholder={"Select Your Branch Here"}
+          placeholder={"Select Branch"}
           onSelect={(outletSelected) => {
             const outletObject = outlets.filter(
               (outlet) => outlet.locationName.includes(outletSelected.value)
