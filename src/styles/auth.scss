@@ -142,9 +142,15 @@
 
   .Dropdown-control {
     padding: 16px 20px;
-    color: #979797;
     border: 1px solid #dadada;
     text-align: left;
+    & .placeholder-class {
+      color: #979797;
+    }
+
+    & .is-selected {
+      color: #000000;
+    }
   }
 
   .Dropdown-arrow {

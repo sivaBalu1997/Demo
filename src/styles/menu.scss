@@ -115,6 +115,13 @@
 
     & .Dropdown-control {
       margin-Top: 0px;
+      & .placeholder-class {
+        color: #979797;
+      }
+  
+      & .is-selected {
+        color: #000000;
+      }
     }
     & .header {
       display: flex;
@@ -459,5 +466,12 @@ iframe {
 
 .Dropdown-control .report-dropdown {
   margin-bottom: 0px !important;
+  & .placeholder-class {
+    color: #979797;
+  }
+
+  & .is-selected {
+    color: #000000;
+  }
 }
 

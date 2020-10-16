@@ -154,7 +154,7 @@ const Report = (props) => {
         </div>
         <CustomDropdown
           options={Array.from(outlets, (outlet) => outlet.locationName.split(",")[1])}
-          placeholder={"Branch"}
+          placeholder={"Select Your Branch Here"}
           onSelect={(outletSelected) => {
             const outletObject = outlets.filter(
               (outlet) => outlet.locationName.includes(outletSelected.value)
@@ -177,8 +177,7 @@ const Report = (props) => {
           height="5000"
           allowtransparency="true"
           scrolling="no"
-        ></iframe> : loading ?
-          <p className="menu-list" style={{ display: 'flex', justifyContent: 'center', paddingTop: '25%' }}>Loading, Please Wait!!!</p> :
+        ></iframe> : 
           error !== "" ?
             <p className="menu-list" style={{ display: 'flex', justifyContent: 'center', paddingTop: '25%' }}>{error}</p> : null}
     </div>

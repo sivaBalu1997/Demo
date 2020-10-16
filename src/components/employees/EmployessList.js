@@ -83,7 +83,7 @@ const EmployeeList = (props) => {
                   return (
                     <EmployeeRow
                       key={row.id}
-                      serialNumber={index}
+                      serialNumber={index + 1}
                       name={row.name}
                       outlet={String(row.locationName).split(",")[1]}
                       contact={row.mobileNumber}

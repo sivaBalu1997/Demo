@@ -65,9 +65,15 @@ label {
   line-height: 23px;
   display: flex;
   align-items: center;
-  color: #979797 !important;
   border-radius: 5px !important;
   padding: 16px 20px !important;
+  & .placeholder-class {
+    color: #979797;
+  }
+
+  & .is-selected {
+    color: #000000;
+  }
 }
 
 .Dropdown-arrow {
@@ -173,4 +179,8 @@ label {
   border: 1px solid #000000;
   font-family: "Poppins", sans-serif;
   cursor: pointer;
+}
+
+.Dropdown-placeholder .placeholder-class {
+  color: blue;
 }

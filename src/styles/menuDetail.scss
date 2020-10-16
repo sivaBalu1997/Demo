@@ -30,9 +30,16 @@
   }
 
   & .Dropdown-control {
-    color: #979797;
     border: 1px solid #dadada;
     //margin-bottom: 30px;
+
+    & .placeholder-class {
+      color: #979797;
+    }
+
+    & .is-selected {
+      color: #000000;
+    }
   }
 
   & .acess-flex {
@@ -50,6 +57,13 @@
     .switch-container {
       display: flex;
     }
+    & .error-msg {
+      color: red;
+      margin: 0px;
+      position: absolute;
+      margin-top: -70px;
+      font-size: 16px;
+     }
 
     & p {
       font-weight: normal;

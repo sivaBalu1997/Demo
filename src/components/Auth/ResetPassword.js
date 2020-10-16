@@ -6,6 +6,9 @@ import { useHistory } from "react-router";
 import { resetPassword } from "../../redux/actions/authActions";
 import { useForm } from "react-hook-form";
 
+import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
+import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
+
 const ResetPassword = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -18,6 +21,10 @@ const ResetPassword = () => {
   const resetPasswordSuccess = useSelector(
     (state) => state.auth.resetPasswordSuccess
   );
+
+  const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
+  const [isRepasswordVisible, setIsRepasswordVisible] = useState(false);
+
   const {
     handleSubmit,
     register,
@@ -56,26 +63,70 @@ const ResetPassword = () => {
         <h4>Reset Password</h4>
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* <input type="password" placeholder="Current password" /> */}
-          <input
-            type="password"
-            value={password}
-            name="password"
-            placeholder="Enter new password"
-            onChange={(event) => {
-              setPassword(event.currentTarget.value);
-            }}
-            ref={register()}
-          />
-          <input
-            type="password"
-            name="repassword"
-            value={repassword}
-            placeholder="Re enter password"
-            onChange={(event) => {
-              setRePassword(event.currentTarget.value);
-            }}
-            ref={register()}
-          />
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end'
+          }}>
+            <input
+              type={isPasswordVisible ? "text" : "password"}
+              value={password}
+              name="password"
+              placeholder="Enter new password"
+              onChange={(event) => {
+                setPassword(event.currentTarget.value);
+              }}
+              ref={register()}
+            />
+            {
+              isPasswordVisible ?
+                <ClosedEyeIcon onClick={() => SetIsPasswordVisible(false)}
+                  style={{
+                    position: 'absolute',
+                    paddingTop: '1%',
+                    paddingRight: '1%'
+                  }} />
+                :
+                <OpenEyeIcon onClick={() => SetIsPasswordVisible(true)}
+                  style={{
+                    position: 'absolute',
+                    paddingTop: '1%',
+                    paddingRight: '1%'
+                  }} />
+            }
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end'
+          }}>
+            <input
+              type={isRepasswordVisible ? "text" : "password"}
+              name="repassword"
+              value={repassword}
+              placeholder="Re enter password"
+              onChange={(event) => {
+                setRePassword(event.currentTarget.value);
+              }}
+              ref={register()}
+            />
+            {
+              isRepasswordVisible ?
+                <ClosedEyeIcon onClick={() => setIsRepasswordVisible(false)}
+                  style={{
+                    position: 'absolute',
+                    paddingTop: '1%',
+                    paddingRight: '1%'
+                  }} />
+                :
+                <OpenEyeIcon onClick={() => setIsRepasswordVisible(true)}
+                  style={{
+                    position: 'absolute',
+                    paddingTop: '1%',
+                    paddingRight: '1%'
+                  }} />
+            }
+          </div>
           <button
             type="submit"
             onClick={() => {
@@ -85,7 +136,7 @@ const ResetPassword = () => {
             Reset Password
           </button>
         </form>
-        <br/> <br/>
+        <br /> <br />
         <span
           style={{ cursor: "pointer" }}
           onClick={() => {

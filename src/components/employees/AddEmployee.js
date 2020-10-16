@@ -16,6 +16,9 @@ import {
 } from "../../redux/actions/employeeActions";
 import { useHistory } from "react-router";
 
+import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
+import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
+
 const roles = [
   "Restaurant_Owner",
   "Restaurant_Manager",
@@ -58,6 +61,8 @@ const AddEmployee = () => {
   const watchFirstName = watch("firstName");
   const watchLastName = watch("lastName");
 
+  const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
+
   useEffect(() => {
     console.log("MerchantId:", credentials?.merchantId);
     credentials && dispatch(getOutlets(credentials.merchantId));
@@ -71,7 +76,7 @@ const AddEmployee = () => {
   }, [addEmployeeLoading, employeeAdded]);
 
   useEffect(() => {
-    if(getValues("userId") === " ") {
+    if (getValues("userId") === " ") {
       setValue("userId", "");
     }
     if (addEmployeeMessage !== "") {
@@ -106,7 +111,7 @@ const AddEmployee = () => {
         setValue("firstName", name);
       }
     }
-  },[watchFirstName]);
+  }, [watchFirstName]);
 
   useEffect(() => {
     let name = getValues("lastName").replace(/[^A-Za-z ]/g, "");
@@ -135,7 +140,7 @@ const AddEmployee = () => {
         setValue("lastName", name);
       }
     }
-  },[watchLastName]);
+  }, [watchLastName]);
 
   const onSubmit = (formValues) => {
     formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
@@ -150,7 +155,7 @@ const AddEmployee = () => {
     delete formValues["firstName"];
     delete formValues["lastName"];
     delete formValues["outlet"];
-    
+
     console.log("Employee details", formValues);
     dispatch(addEmployee(formValues));
   };
@@ -165,7 +170,7 @@ const AddEmployee = () => {
               <IoIosArrowBack /> Add Employee
             </h2>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             <div className="menu-details-form">
               <div className="primary-sec">
                 {errors.firstName?.type === "required" &&
@@ -197,7 +202,7 @@ const AddEmployee = () => {
                   <p className="error-msg">Role Required</p>
                 }
                 <div
-                style={{cursor: 'pointer'}}>
+                  style={{ cursor: 'pointer' }}>
                   <Controller
                     control={control}
                     name="role"
@@ -219,8 +224,10 @@ const AddEmployee = () => {
                     )}
                   />
                 </div>
-                <div className="acess-flex"
-                  style={{ marginTop: 30 }}>
+                <div className="acess-flex" style={{ marginTop: 35 }}>
+                  {errors.devicePin?.type === "minLength" || errors.devicePin?.type === "maxLength" ?
+                    <p className="error-msg">PIN Should Be of Length 4</p> : null
+                  }
                   <p>User Access</p>
                   <Switchbox
                     isChecked={pinEnabled}
@@ -229,11 +236,15 @@ const AddEmployee = () => {
                   <TextInput
                     type="number"
                     placeholder="Create PIN"
-                    name="devicePin"
-                    refRegister={register()}
-                    disabled={!pinEnabled}
                     maxLength={4}
                     minLength={4}
+                    name="devicePin"
+                    refRegister={register({
+                      required: pinEnabled,
+                      minLength: 4,
+                      maxLength: 4
+                    })}
+                    disabled={!pinEnabled}
                     min={0}
                     className={"add-employee-text-input"}
                   />
@@ -256,9 +267,13 @@ const AddEmployee = () => {
                 {errors.password?.type === "required" &&
                   <p className="error-msg">Password Required</p>
                 }
-                <div>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end'
+                }}>
                   <TextInput
-                    type="password"
+                    type={isPasswordVisible? "text" : "password"}
                     placeholder="Create password"
                     minLength={6}
                     name="password"
@@ -267,6 +282,22 @@ const AddEmployee = () => {
                     })}
                     className={"add-employee-text-input"}
                   />
+                  {
+                    isPasswordVisible ?
+                      <ClosedEyeIcon onClick={() => SetIsPasswordVisible(false)} 
+                      style={{
+                        position: 'absolute',
+                        paddingTop: '1%',
+                        paddingRight: '1%'
+                      }}/>
+                      :
+                      <OpenEyeIcon onClick={() => SetIsPasswordVisible(true)} 
+                      style={{
+                        position: 'absolute',
+                        paddingTop: '1%',
+                        paddingRight: '1%'
+                      }}/>
+                  }
                 </div>
               </div>
               <div className="primary-sec">
@@ -291,7 +322,7 @@ const AddEmployee = () => {
                 </div>
                 {errors.outlet?.type === "required" && <p className="error-msg">Outlet Required</p>}
                 <div
-                style={{cursor: 'pointer'}}>
+                  style={{ cursor: 'pointer' }}>
                   <Controller
                     control={control}
                     name="outlet"

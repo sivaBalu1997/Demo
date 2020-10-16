@@ -25,6 +25,7 @@ const CustomDropdown = ({
       controlClassName={controlClassName}
       arrowClassName={arrowClassName}
       menuClassName="MenuClass"
+      placeholderClassName="placeholder-class"
     />
   );
 };

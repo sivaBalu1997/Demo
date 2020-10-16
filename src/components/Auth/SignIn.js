@@ -1,16 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/images/logo.png";
 import { useForm } from "react-hook-form";
 import "../../styles/auth.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn, storeCredentials } from "../../redux/actions/authActions";
 import { useHistory } from "react-router";
+
+import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
+import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
+
 const SignIn = ({ setLogin }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { handleSubmit, register, errors } = useForm();
 
   const authState = useSelector((state) => state.auth);
+  const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
+
+  const elementId = document.getElementById("pass");
 
   const onSubmit = (values) => {
     console.log(values);
@@ -28,7 +35,7 @@ const SignIn = ({ setLogin }) => {
   }, [authState.signInLoading]);
 
   window.addEventListener("popstate", function (event) {
-    if(localStorage.length === 0) {
+    if (localStorage.length === 0) {
       history.replace("/notFound");
     }
   })
@@ -53,12 +60,34 @@ const SignIn = ({ setLogin }) => {
             placeholder="Enter Your User ID"
             ref={register({ required: "Required" })}
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter Password"
-            ref={register({ required: "Required" })}
-          />
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end'
+          }}>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter Password"
+              ref={register({ required: "Required" })}
+            />
+            {
+              isPasswordVisible ?
+                <ClosedEyeIcon onClick={() => SetIsPasswordVisible(false)} 
+                style={{
+                  position: 'absolute',
+                  paddingTop: '1%',
+                  paddingRight: '1%'
+                }}/>
+                :
+                <OpenEyeIcon onClick={() => SetIsPasswordVisible(true)} 
+                style={{
+                  position: 'absolute',
+                  paddingTop: '1%',
+                  paddingRight: '1%'
+                }}/>
+            }
+          </div>
           {/* <Link to="/reset">
             <p className="f_psd">Forgot Password ?</p>
           </Link> */}
