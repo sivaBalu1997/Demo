@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 const API = axios.create({
-  baseURL: "https://apiq.magilhub.com/magilhub-data-services",
+  baseURL: "https://api.magilhub.com/magilhub-data-services",
 });
 
 // API.interceptors.response.use(
