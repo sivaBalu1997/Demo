@@ -1,6 +1,13 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import "../../styles/menu.scss";
-import { NavLink, Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
+import {
+  NavLink,
+  Link,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 import magilhub from "../../assets/images/magilhub.png";
 // import MenuItems from "../menuItems";
 
@@ -18,17 +25,23 @@ import AddEmployee from "../employees/AddEmployee";
 //import { useSelector } from "react-redux";
 
 const Menu = () => {
-
-  const reportOptions = [{
-    title: "Today's report",
-    id: "1",
-    route: "report/1"
-  },
-  {
-    title: "Daily report",
-    id: "2",
-    route: "report/2"
-  }];
+  const reportOptions = [
+    {
+      title: "Today's report",
+      id: "1",
+      route: "report/1",
+    },
+    {
+      title: "Daily report",
+      id: "2",
+      route: "report/2",
+    },
+    {
+      title: "Sales report",
+      id: "4",
+      route: "report/4",
+    },
+  ];
 
   const menuOptions = [];
 
@@ -56,15 +69,19 @@ const Menu = () => {
           <Dollar className="menu-items-SVG" />
             Business{" "}
         </NavLink> */}
-          <div className={location.pathname === "/management/employees" ? "active" : ""}
-            style={{ cursor: 'pointer' }}
+          <div
+            className={
+              location.pathname === "/management/employees" ? "active" : ""
+            }
+            style={{ cursor: "pointer" }}
             onClick={() => {
               history.push("/management/employees");
-            }}>
+            }}
+          >
             <li style={{ marginBottom: 0 }} />
             <EmployeesIcon className="menu-items-SVG" />
             Employees
-        </div>
+          </div>
           {/* <NavLink to="/roles" activeClassName="active">
           <li />
           <Key className="menu-items-SVG" />
@@ -99,40 +116,69 @@ const Menu = () => {
           {/* <li style={{ marginBottom: "30px" }}>Drafts</li> */}
           <div
             className={
-              showOptions === "reportOptions" ? "active drop-down" : "drop-down"}
+              showOptions === "reportOptions" ? "active drop-down" : "drop-down"
+            }
             onClick={() =>
-              showOptions !== "reportOptions" ?
-                setShowOptions("reportOptions") : setShowOptions("")}
-            style={{ cursor: 'pointer' }}>
+              showOptions !== "reportOptions"
+                ? setShowOptions("reportOptions")
+                : setShowOptions("")
+            }
+            style={{ cursor: "pointer" }}
+          >
             <div>
               <Stats className="menu-items-SVG" />
-            Reports & Insights
-          </div>
-            {showOptions === "reportOptions" ?
-              <Uparrow className="dropdown-arrow" /> :
+              Reports & Insights
+            </div>
+            {showOptions === "reportOptions" ? (
+              <Uparrow className="dropdown-arrow" />
+            ) : (
               <Downarrow className="dropdown-arrow" />
-            }
+            )}
           </div>
           <ul>
-            {showOptions === "reportOptions" ?
-              reportOptions.map((option) => (
-                <li key={option.title} 
-                style={{cursor: 'pointer'}}
-                className={location.pathname === `/management/${option.route}` ? "active" : ""} onClick={() => {
-                  history.push(`/management/${option.route}`);
-                }}>
-                  {option.title}
-                </li>
-              ))
+            {showOptions === "reportOptions"
+              ? reportOptions.map((option) => (
+                  <li
+                    key={option.title}
+                    style={{ cursor: "pointer" }}
+                    className={
+                      location.pathname === `/management/${option.route}`
+                        ? "active"
+                        : ""
+                    }
+                    onClick={() => {
+                      history.push(`/management/${option.route}`);
+                    }}
+                  >
+                    {option.title}
+                  </li>
+                ))
               : null}
           </ul>
         </ul>
       </div>
       <Switch>
         <Route exact path="/management/employees" component={Employees} />
-        <Route exact path="/management/report/1" component={() => <Report id={"1"} title={"Today's report"} />} />
-        <Route exact path="/management/report/2" component={() => <Report id={"2"} title={"Daily report"} />} />
-        <Route exact path="/management/employees/add" component={() => <AddEmployee />} />
+        <Route
+          exact
+          path="/management/report/1"
+          component={() => <Report id={"1"} title={"Today's report"} />}
+        />
+        <Route
+          exact
+          path="/management/report/2"
+          component={() => <Report id={"2"} title={"Daily report"} />}
+        />
+        <Route
+          exact
+          path="/management/report/4"
+          component={() => <Report id={"4"} title={"Sales report"} />}
+        />
+        <Route
+          exact
+          path="/management/employees/add"
+          component={() => <AddEmployee />}
+        />
       </Switch>
     </>
   );
