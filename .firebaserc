@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "merchant-portal-f1a52"
+  },
+  "targets": {
+    "merchant-portal-f1a52": {
+      "hosting": {
+        "staging": [
+          "merchantportalstaging"
+        ],
+        "production": [
+          "merchant-portal-f1a52"
+        ]
+      }
+    }
   }
 }

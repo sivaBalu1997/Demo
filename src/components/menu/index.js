@@ -27,17 +27,22 @@ import AddEmployee from "../employees/AddEmployee";
 const Menu = () => {
   const reportOptions = [
     {
-      title: "Today's report",
+      title: "Checkin - Today's report",
       id: "1",
       route: "report/1",
     },
     {
-      title: "Daily report",
+      title: "Checkin - Daily report",
       id: "2",
       route: "report/2",
     },
     {
-      title: "Sales report",
+      title: "Sales - Transaction report",
+      id: "4",
+      route: "report/5",
+    },
+    {
+      title: "Sales - Daily report",
       id: "4",
       route: "report/4",
     },
@@ -162,17 +167,26 @@ const Menu = () => {
         <Route
           exact
           path="/management/report/1"
-          component={() => <Report id={"1"} title={"Today's report"} />}
+          component={() => (
+            <Report id={"1"} title={"Checkin - Today's report"} />
+          )}
         />
         <Route
           exact
           path="/management/report/2"
-          component={() => <Report id={"2"} title={"Daily report"} />}
+          component={() => <Report id={"2"} title={"Checkin - Daily report"} />}
         />
         <Route
           exact
           path="/management/report/4"
-          component={() => <Report id={"4"} title={"Sales report"} />}
+          component={() => <Report id={"4"} title={"Sales - Daily report"} />}
+        />
+        <Route
+          exact
+          path="/management/report/5"
+          component={() => (
+            <Report id={"5"} title={"Sales - Transaction report"} />
+          )}
         />
         <Route
           exact

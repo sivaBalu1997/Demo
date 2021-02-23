@@ -38,7 +38,7 @@ const SignIn = ({ setLogin }) => {
     if (localStorage.length === 0) {
       history.replace("/notFound");
     }
-  })
+  });
 
   return (
     <div className="otp_login">
@@ -60,33 +60,38 @@ const SignIn = ({ setLogin }) => {
             placeholder="Enter Your User ID"
             ref={register({ required: "Required" })}
           />
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-end'
-          }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+            }}
+          >
             <input
-              type={isPasswordVisible? "text" : "password"}
+              type={isPasswordVisible ? "text" : "password"}
               name="password"
               placeholder="Enter Password"
               ref={register({ required: "Required" })}
             />
-            {
-              isPasswordVisible ?
-                <ClosedEyeIcon onClick={() => SetIsPasswordVisible(false)} 
+            {isPasswordVisible ? (
+              <ClosedEyeIcon
+                onClick={() => SetIsPasswordVisible(false)}
                 style={{
-                  position: 'absolute',
-                  paddingTop: '1%',
-                  paddingRight: '1%'
-                }}/>
-                :
-                <OpenEyeIcon onClick={() => SetIsPasswordVisible(true)} 
+                  position: "absolute",
+                  paddingTop: "1%",
+                  paddingRight: "1%",
+                }}
+              />
+            ) : (
+              <OpenEyeIcon
+                onClick={() => SetIsPasswordVisible(true)}
                 style={{
-                  position: 'absolute',
-                  paddingTop: '1%',
-                  paddingRight: '1%'
-                }}/>
-            }
+                  position: "absolute",
+                  paddingTop: "1%",
+                  paddingRight: "1%",
+                }}
+              />
+            )}
           </div>
           {/* <Link to="/reset">
             <p className="f_psd">Forgot Password ?</p>
