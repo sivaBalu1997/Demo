@@ -64,7 +64,7 @@ const AddEmployee = () => {
   const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
 
   useEffect(() => {
-    console.log("MerchantId:", credentials?.merchantId);
+    //console.log("MerchantId:", credentials?.merchantId);
     credentials && dispatch(getOutlets(credentials.merchantId));
   }, []);
 
@@ -156,7 +156,7 @@ const AddEmployee = () => {
     delete formValues["lastName"];
     delete formValues["outlet"];
 
-    console.log("Employee details", formValues);
+    //console.log("Employee details", formValues);
     dispatch(addEmployee(formValues));
   };
 
@@ -213,7 +213,7 @@ const AddEmployee = () => {
                         options={roles}
                         placeholder={"Assign Role"}
                         onSelect={(role) => {
-                          console.log("Role Changed:", role.value);
+                          //console.log("Role Changed:", role.value);
                           onChange(role.value);
                         }}
                         value={value}
@@ -336,7 +336,7 @@ const AddEmployee = () => {
                         )}
                         placeholder={"Assign Outlet"}
                         onSelect={(outletSelected) => {
-                          console.log("outlet Changed:", outletSelected.value);
+                          //console.log("outlet Changed:", outletSelected.value);
                           const outletObject = outlets.find(
                             (outlet) =>
                               outlet.locationName.includes(outletSelected.value)
@@ -360,7 +360,7 @@ const AddEmployee = () => {
               </span>
               <span
                 onClick={() => {
-                  console.log("Cancelling");
+                  //console.log("Cancelling");
                   history.replace("/management/employees");
                 }}
               >
@@ -373,7 +373,7 @@ const AddEmployee = () => {
               </span>
               <span
                 onClick={() => {
-                  console.log(errors, "errors");
+                  //console.log(errors, "errors");
                 }}
               >
                 <Button

@@ -21,7 +21,7 @@ const menuTab = [
 const Menu = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [activeNav, setActiveNav] = useState(false);
-  console.log(activeNav);
+  //console.log(activeNav);
   return (
     <div className="menu" style={{ width: activeNav === true ? "55%" : "2%" }}>
       {activeNav === false ? (

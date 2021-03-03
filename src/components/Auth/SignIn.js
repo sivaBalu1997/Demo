@@ -20,7 +20,7 @@ const SignIn = ({ setLogin }) => {
   const elementId = document.getElementById("pass");
 
   const onSubmit = (values) => {
-    console.log(values);
+    //console.log(values);
     dispatch(signIn(values));
   };
 

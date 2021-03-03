@@ -35,7 +35,7 @@ const Employees = () => {
 
   useEffect(() => {
     setLoading(employeeDetailsLoading);
-    console.log(employeeDetailsLoading, "employeeDetailsLoading");
+    //console.log(employeeDetailsLoading, "employeeDetailsLoading");
   }, [employeeDetailsLoading, employeeList]);
 
   const logoutUser = () => {
