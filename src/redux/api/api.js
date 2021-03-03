@@ -2,9 +2,8 @@ import axios from "axios";
 //import { signOut } from "../actions/authActions";
 //import Store from "../store";
 
-
 const API = axios.create({
-  baseURL: "https://api.magilhub.com/magilhub-data-services",
+  baseURL: process.env.REACT_APP_API_ENDPOINT,
 });
 
 // API.interceptors.response.use(
