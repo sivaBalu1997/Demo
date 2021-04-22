@@ -17,12 +17,6 @@ const EmployeeList = (props) => {
   const dispatch = useDispatch();
 
   const credentials = useSelector((state) => state.auth.credentials);
-  const [headerDetails, setHeaderDetails] = useState({
-    merchantName: "Thalapakatti Biriyani",
-    merchantAddress: "Aarapalayam",
-    merchantLogo: MerchantLogo,
-    UserProfileImage: user
-  });
 
   const logoutUser = () => {
     localStorage.clear();
@@ -43,39 +37,45 @@ const EmployeeList = (props) => {
               src={headerDetails.UserProfileImage}
               className="user-profile"
               alt="loading" /> */}
-          <p onClick={logoutUser} style={{
-            marginLeft: '88%',
-            display: 'flex',
-            alignItems: 'center',
-            whiteSpace: 'nowrap',
-            cursor: 'pointer'
-          }}>
+          <p
+            onClick={logoutUser}
+            style={{
+              marginLeft: "88%",
+              display: "flex",
+              alignItems: "center",
+              whiteSpace: "nowrap",
+              cursor: "pointer",
+            }}
+          >
             <img src={logout} alt="Logout" height="20" />
-              &nbsp; Log Out
-            </p>
+            &nbsp; Log Out
+          </p>
         </div>
         <div className="header-menu">
           <div>
-            <Employees className="menu-items-SVG"
+            <Employees
+              className="menu-items-SVG"
               style={{
-                marginBottom: 5
-              }} />
+                marginBottom: 5,
+              }}
+            />
             <h2>Employees setup</h2>
           </div>
         </div>
-        {props.employeeList ?
-          <div className="menu-list" style={{
-            paddingBottom: '3%'
-          }}>
-            <table width="100%" style={{ height: '50%' }}>
+        {props.employeeList ? (
+          <div
+            className="menu-list"
+            style={{
+              paddingBottom: "3%",
+            }}
+          >
+            <table width="100%" style={{ height: "50%" }}>
               <thead>
                 <tr>
                   <th>S.No</th>
                   <th>Name</th>
                   <th>Outlet </th>
                   <th>Contact</th>
-                  <th>User ID</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -87,7 +87,6 @@ const EmployeeList = (props) => {
                       name={row.name}
                       outlet={String(row.locationName).split(",")[1]}
                       contact={row.mobileNumber}
-                      userId={row.userId}
                     />
                   );
                 })}
@@ -100,7 +99,8 @@ const EmployeeList = (props) => {
             >
               <Add />
             </button>
-          </div> : null}
+          </div>
+        ) : null}
       </div>
     </>
   );
@@ -114,7 +114,6 @@ const EmployeeRow = ({ serialNumber, name, role, outlet, contact, userId }) => {
       <td>{name}</td>
       <td>{outlet}</td>
       <td> {contact}</td>
-      <td>{userId.split("@")[0]}</td>
       {/* <td>
         <BiDotsVerticalRounded onClick={() => setShow(!show)} />
         {show ? (

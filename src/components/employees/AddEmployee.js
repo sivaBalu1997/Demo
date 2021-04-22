@@ -23,11 +23,10 @@ const roles = [
   "Restaurant_Owner",
   "Restaurant_Manager",
   "System_Admin",
-  "Cashier",
   "Supervisor",
   "Waiter",
   "Host",
-  "Employee",
+  "Delivery",
 ];
 
 const AddEmployee = () => {
@@ -45,7 +44,7 @@ const AddEmployee = () => {
     getValues,
     control,
     formState,
-    watch
+    watch,
   } = useForm();
   const credentials = useSelector((state) => state.auth.credentials);
   const employeeAdded = useSelector((state) => state.employee.employeeAdded);
@@ -146,7 +145,9 @@ const AddEmployee = () => {
     formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
     formValues["businessName"] = credentials.businessName;
     formValues["merchantId"] = credentials.merchantId;
-    formValues["locationId"] = outlets.find((outlet) => outlet.locationName.includes(formValues["outlet"])).id;
+    formValues["locationId"] = outlets.find((outlet) =>
+      outlet.locationName.includes(formValues["outlet"])
+    ).id;
 
     if (!pinEnabled) {
       formValues["devicePin"] = "";
@@ -164,7 +165,10 @@ const AddEmployee = () => {
     <>
       {list === false ? (
         <div className="menu-details">
-          <div onClick={() => history.replace("/management/employees")} className="title">
+          <div
+            onClick={() => history.replace("/management/employees")}
+            className="title"
+          >
             <h2>
               {" "}
               <IoIosArrowBack /> Add Employee
@@ -173,9 +177,9 @@ const AddEmployee = () => {
           <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             <div className="menu-details-form">
               <div className="primary-sec">
-                {errors.firstName?.type === "required" &&
+                {errors.firstName?.type === "required" && (
                   <p className="error-msg">First Name Required</p>
-                }
+                )}
                 <div>
                   <TextInput
                     type="text"
@@ -198,11 +202,10 @@ const AddEmployee = () => {
                     min={0}
                   />
                 </div>
-                {errors.role?.type === "required" &&
+                {errors.role?.type === "required" && (
                   <p className="error-msg">Role Required</p>
-                }
-                <div
-                  style={{ cursor: 'pointer' }}>
+                )}
+                <div style={{ cursor: "pointer" }}>
                   <Controller
                     control={control}
                     name="role"
@@ -225,9 +228,10 @@ const AddEmployee = () => {
                   />
                 </div>
                 <div className="acess-flex" style={{ marginTop: 35 }}>
-                  {errors.devicePin?.type === "minLength" || errors.devicePin?.type === "maxLength" ?
-                    <p className="error-msg">PIN Should Be of Length 4</p> : null
-                  }
+                  {errors.devicePin?.type === "minLength" ||
+                  errors.devicePin?.type === "maxLength" ? (
+                    <p className="error-msg">PIN Should Be of Length 4</p>
+                  ) : null}
                   <p>User Access</p>
                   <Switchbox
                     isChecked={pinEnabled}
@@ -242,16 +246,16 @@ const AddEmployee = () => {
                     refRegister={register({
                       required: pinEnabled,
                       minLength: 4,
-                      maxLength: 4
+                      maxLength: 4,
                     })}
                     disabled={!pinEnabled}
                     min={0}
                     className={"add-employee-text-input"}
                   />
                 </div>
-                {errors.userId?.type === "required" &&
+                {errors.userId?.type === "required" && (
                   <p className="error-msg">User Id Required</p>
-                }
+                )}
                 <div>
                   <TextInput
                     type="text"
@@ -264,16 +268,18 @@ const AddEmployee = () => {
                   />
                 </div>
 
-                {errors.password?.type === "required" &&
+                {errors.password?.type === "required" && (
                   <p className="error-msg">Password Required</p>
-                }
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end'
-                }}>
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                  }}
+                >
                   <TextInput
-                    type={isPasswordVisible? "text" : "password"}
+                    type={isPasswordVisible ? "text" : "password"}
                     placeholder="Create password"
                     minLength={6}
                     name="password"
@@ -282,22 +288,25 @@ const AddEmployee = () => {
                     })}
                     className={"add-employee-text-input"}
                   />
-                  {
-                    isPasswordVisible ?
-                      <ClosedEyeIcon onClick={() => SetIsPasswordVisible(false)} 
+                  {isPasswordVisible ? (
+                    <ClosedEyeIcon
+                      onClick={() => SetIsPasswordVisible(false)}
                       style={{
-                        position: 'absolute',
-                        paddingTop: '1%',
-                        paddingRight: '1%'
-                      }}/>
-                      :
-                      <OpenEyeIcon onClick={() => SetIsPasswordVisible(true)} 
+                        position: "absolute",
+                        paddingTop: "1%",
+                        paddingRight: "1%",
+                      }}
+                    />
+                  ) : (
+                    <OpenEyeIcon
+                      onClick={() => SetIsPasswordVisible(true)}
                       style={{
-                        position: 'absolute',
-                        paddingTop: '1%',
-                        paddingRight: '1%'
-                      }}/>
-                  }
+                        position: "absolute",
+                        paddingTop: "1%",
+                        paddingRight: "1%",
+                      }}
+                    />
+                  )}
                 </div>
               </div>
               <div className="primary-sec">
@@ -320,9 +329,10 @@ const AddEmployee = () => {
                     className={"add-employee-text-input"}
                   />
                 </div>
-                {errors.outlet?.type === "required" && <p className="error-msg">Outlet Required</p>}
-                <div
-                  style={{ cursor: 'pointer' }}>
+                {errors.outlet?.type === "required" && (
+                  <p className="error-msg">Outlet Required</p>
+                )}
+                <div style={{ cursor: "pointer" }}>
                   <Controller
                     control={control}
                     name="outlet"
@@ -337,9 +347,8 @@ const AddEmployee = () => {
                         placeholder={"Assign Outlet"}
                         onSelect={(outletSelected) => {
                           //console.log("outlet Changed:", outletSelected.value);
-                          const outletObject = outlets.find(
-                            (outlet) =>
-                              outlet.locationName.includes(outletSelected.value)
+                          const outletObject = outlets.find((outlet) =>
+                            outlet.locationName.includes(outletSelected.value)
                           );
                           onChange(outletObject.locationName.split(",")[1]);
                         }}
@@ -387,8 +396,8 @@ const AddEmployee = () => {
           </form>
         </div>
       ) : (
-          <EmployeeList setList={() => setList(false)} />
-        )}
+        <EmployeeList setList={() => setList(false)} />
+      )}
     </>
   );
 };
