@@ -11,7 +11,7 @@ export function signUp(userDetails) {
 }
 
 export function resetPassword(authDetails) {
-  const token = Store .getState().auth.credentials.accessToken;
+  const token = Store.getState().auth.credentials.accessToken;
   return API({
     method: "post",
     url: "/merchants/resetPassword",
@@ -37,5 +37,13 @@ export function verifyOTP(details) {
     method: "post",
     url: "",
     data: details,
+  });
+}
+
+// Get Restaurant Details
+export function getRestaurantDetails(id) {
+  return API({
+    method: "get",
+    url: "/merchants/location/" + id + "/details",
   });
 }

@@ -9,14 +9,24 @@ import {
   storeCredentials,
   failedResetPassword,
   successResetPassword,
+  getRestaurantFailed,
+  getRestaurantRequest,
+  getRestaurantSuccess,
 } from "../actions/authActions";
 import {
   SIGNUP_REQUEST,
   SIGNIN_REQUEST,
   OTP_VERIFICATION_REQUEST,
   RESET_PASSWORD_REQUEST,
+  RESTAURANT_DETAIL_REQUEST,
 } from "../constants/authConstants";
-import { signUp, signIn, verifyOTP, resetPassword } from "../api/authAPI";
+import {
+  signUp,
+  signIn,
+  verifyOTP,
+  resetPassword,
+  getRestaurantDetails,
+} from "../api/authAPI";
 import { CREDENTIALS } from "../../shared/constants";
 
 function* signUpSaga(action) {
@@ -114,9 +124,25 @@ function* resetPasswordSaga(action) {
   }
 }
 
+// Get Restaurant Details
+function* getRestaurantDetailsSaga(action) {
+  try {
+    const response = yield call(getRestaurantDetails, action.payload);
+    // console.log(response);
+    if (response.status === 200) {
+      yield put(getRestaurantSuccess(response.data));
+    } else if (response.status === 400) {
+      yield put(getRestaurantFailed({ message: "Please Try Again" }));
+    }
+  } catch (err) {
+    yield put(getRestaurantFailed({ message: "Please Try Again" }));
+  }
+}
+
 export default function* authSaga() {
   yield takeLatest(SIGNUP_REQUEST, signUpSaga);
   yield takeLatest(SIGNIN_REQUEST, signInSaga);
   yield takeLatest(OTP_VERIFICATION_REQUEST, verifyOTPSaga);
   yield takeLatest(RESET_PASSWORD_REQUEST, resetPasswordSaga);
+  yield takeLatest(RESTAURANT_DETAIL_REQUEST, getRestaurantDetailsSaga);
 }

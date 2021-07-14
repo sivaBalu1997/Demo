@@ -20,6 +20,7 @@ import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 
 const roles = [
+  "Chef",
   "Restaurant_Owner",
   "Restaurant_Manager",
   "System_Admin",

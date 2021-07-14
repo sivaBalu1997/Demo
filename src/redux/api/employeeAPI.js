@@ -36,7 +36,7 @@ export function getEmployeeDetails(merchantId) {
     method: "get",
     url: "/merchants/" + merchantId + "/staff",
     headers: {
-       Authorization: "bearer " + token,
+      Authorization: "bearer " + token,
     },
   });
 }

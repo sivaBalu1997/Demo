@@ -15,6 +15,10 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_FAILURE,
   RESET_PASSWORD_SUCCESS,
+  RESTAURANT_DETAIL_FAILURE,
+  RESTAURANT_DETAIL_REQUEST,
+  RESTAURANT_DETAIL_SUCCESS,
+  SELECTED_BRANCH,
 } from "../constants/authConstants";
 
 // Credential Store
@@ -101,5 +105,28 @@ export const failedResetPassword = (details) => ({
 
 export const successResetPassword = (details) => ({
   type: RESET_PASSWORD_SUCCESS,
+  payload: details,
+});
+
+// Restaurant Details
+export const getRestaurantRequest = (details) => ({
+  type: RESTAURANT_DETAIL_REQUEST,
+  payload: details,
+});
+
+export const getRestaurantSuccess = (details) => ({
+  type: RESTAURANT_DETAIL_SUCCESS,
+  payload: details,
+});
+
+export const getRestaurantFailed = (details) => ({
+  type: RESTAURANT_DETAIL_FAILURE,
+  payload: details,
+});
+
+//
+
+export const selectBranch = (details) => ({
+  type: SELECTED_BRANCH,
   payload: details,
 });

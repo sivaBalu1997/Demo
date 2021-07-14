@@ -15,6 +15,10 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
+  RESTAURANT_DETAIL_FAILURE,
+  RESTAURANT_DETAIL_REQUEST,
+  RESTAURANT_DETAIL_SUCCESS,
+  SELECTED_BRANCH,
 } from "../constants/authConstants";
 
 const initialAuthState = {
@@ -41,6 +45,14 @@ const initialAuthState = {
   // Reset Password
   resetPasswordLoading: false,
   resetPasswordSuccess: false,
+
+  //Restaurant Details
+  getRestaurantLoading: false,
+  getRestaurantSuccess: false,
+  restaurantDetails: {},
+
+  // Selected Branch
+  selectedBranch: {},
 };
 
 export default function authReducer(state = initialAuthState, action) {
@@ -112,6 +124,22 @@ export default function authReducer(state = initialAuthState, action) {
       case RESET_PASSWORD_FAILURE:
         draft.resetPasswordLoading = false;
         draft.resetPasswordSuccess = false;
+        break;
+      case RESTAURANT_DETAIL_SUCCESS:
+        draft.getRestaurantLoading = false;
+        draft.getRestaurantSuccess = true;
+        draft.restaurantDetails = action.payload;
+        break;
+      case RESTAURANT_DETAIL_REQUEST:
+        draft.getRestaurantLoading = true;
+        draft.getRestaurantSuccess = false;
+        break;
+      case RESTAURANT_DETAIL_FAILURE:
+        draft.getRestaurantLoading = false;
+        draft.getRestaurantSuccess = false;
+        break;
+      case SELECTED_BRANCH:
+        draft.selectedBranch = action.payload;
         break;
       default:
         break;

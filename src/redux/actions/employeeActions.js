@@ -49,7 +49,6 @@ export const resetAddEmployee = () => ({
   type: ADD_EMPLOYEE_RESET,
 });
 
-
 // Get Employee
 export const getEmployees = (merchantId) => ({
   type: GET_EMPLOYEE_REQUEST,
@@ -68,5 +67,5 @@ export const successGetEmployees = (details) => ({
 
 export const setEmployeeDetailsLoading = (isLoading) => ({
   type: SET_EMPLOYEE_DETAILS_LOADING,
-  payload: isLoading
+  payload: isLoading,
 });
