@@ -31,28 +31,39 @@ import EmptyMenu from "../menuItem/EmptyMenu";
 import AddItems from "../menuItem/AddItem";
 //import { useSelector } from "react-redux";
 
-const reportOptions = [
-  {
-    title: "Checkin - Today's report",
-    id: "1",
-    route: "report/1",
-  },
-  {
-    title: "Checkin - Daily report",
-    id: "2",
-    route: "report/2",
-  },
-  {
-    title: "Sales - Transaction report",
-    id: "4",
-    route: "report/5",
-  },
-  {
-    title: "Sales - Daily report",
-    id: "4",
-    route: "report/4",
-  },
-];
+const Menu = () => {
+  const reportOptions = [
+    {
+      title: "Checkin - Today's report",
+      id: "1",
+      route: "report/1",
+    },
+    {
+      title: "Checkin - Daily report",
+      id: "2",
+      route: "report/2",
+    },
+    {
+      title: "Order insights",
+      id: "4",
+      route: "report/4",
+    },
+    {
+      title: "Sales insights",
+      id: "7",
+      route: "report/12",
+    },
+    // {
+    //   title: "Product insights",
+    //   id: "8",
+    //   route: "report/8",
+    // },
+    {
+      title: "Sales - Transaction report",
+      id: "5",
+      route: "report/5",
+    },
+  ];
 
 const Menu = () => {
   // const menuOptions = ["Items", "Categories"];
@@ -277,7 +288,7 @@ const Menu = () => {
         <Route
           exact
           path="/management/report/4"
-          component={() => <Report id={"4"} title={"Sales - Daily report"} />}
+          component={() => <Report id={"4"} title={"Order insights"} />}
         />
         <Route
           exact
@@ -285,7 +296,23 @@ const Menu = () => {
           component={() => (
             <Report id={"5"} title={"Sales - Transaction report"} />
           )}
-        />
+          
+        />Product insights
+           <Route
+          exact
+          path="/management/report/12"
+          component={() => (
+            <Report id={"12"} title={"Sales insights"} />
+          )}
+          
+        // /> <Route
+        // exact
+        // path="/management/report/8"
+        // component={() => (
+        //   <Report id={"8"} title={"Product insights"} />
+        // )}
+        
+      />
         <Route
           exact
           path="/management/employees/add"
