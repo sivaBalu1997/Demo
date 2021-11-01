@@ -113,7 +113,8 @@ const AddEmployee = () => {
     if (
       credentials?.accessToken &&
       neighbourhoodDeliveryRole.includes(
-        jwt_decode(credentials?.accessToken).resource_access.kiosk.roles[0]
+        jwt_decode(credentials?.accessToken).resource_access["merchant-app"]
+          .roles[0]
       )
     ) {
       return [
@@ -304,9 +305,9 @@ const AddEmployee = () => {
                             if (
                               jwt_decode(
                                 credentials?.accessToken
-                              ).resource_access.kiosk.roles[0].includes(
-                                "neighbourhood"
-                              )
+                              ).resource_access[
+                                "merchant-app"
+                              ].roles[0].includes("neighbourhood")
                             )
                               onChange(role.value + "-neighbourhood");
                           }}

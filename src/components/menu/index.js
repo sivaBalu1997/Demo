@@ -98,7 +98,8 @@ const Menu = () => {
       credentials &&
       credentials?.accessToken &&
       neighbourhoodDeliveryRole.includes(
-        jwt_decode(credentials?.accessToken).resource_access.kiosk.roles[0]
+        jwt_decode(credentials?.accessToken).resource_access["merchant-app"]
+          .roles[0]
       )
     )
       return true;
