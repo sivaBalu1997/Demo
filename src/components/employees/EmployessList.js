@@ -1,42 +1,88 @@
-import React, { useState, useEffect, Fragment } from "react";
+import "./styles.css";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import Search from "../common/Search";
-import CustomDropdown from "../common/customDropdown";
 import logout from "../../assets/images/logout.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { SELECTED_BRANCH_DATA } from "../../shared/constants";
 import { signOut } from "../../redux/actions/authActions";
-import MerchantLogo from "../../assets/images/thalappakatti.png";
-import user from "../../assets/images/user_one.png";
 import { ReactComponent as Employees } from "../../assets/svg/employees.svg";
 import { ReactComponent as Add } from "../../assets/svg/add.svg";
-import AddEmployee from "./AddEmployee";
+import { ReactComponent as UserBlocker } from "../../assets/svg/userBlocked.svg";
+import {
+  manageUserAccess,
+  getEmployees,
+  clearManageUserAccess,
+  setEditEmployeeData,
+  clearEditEmployeeData,
+} from "../../redux/actions/employeeActions";
+import { clearMenuData } from "../../redux/actions/menuAction";
 
+import {
+  getRestaurantRequest,
+  selectBranch,
+} from "../../redux/actions/authActions";
+import { ReactComponent as Block } from "../../assets/svg/block.svg";
+import { ReactComponent as UnBlock } from "../../assets/svg/unblock.svg";
 const EmployeeList = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
-
   const credentials = useSelector((state) => state.auth.credentials);
-
   const logoutUser = () => {
+    dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");
   };
+  const manageAccessMessage = useSelector(
+    (state) => state.employee.manageAccessMessage
+  );
+  const manageAccessSuccess = useSelector(
+    (state) => state.employee.manageAccessSuccess
+  );
+  const manageAccessLoading = useSelector(
+    (state) => state.employee.manageAccessLoading
+  );
+  const restaurantDetails = useSelector(
+    (state) => state.auth.restaurantDetails
+  );
+  // const manage = useSelector((state) => console.log(state.employee, "State"));
+  // useEffect(() => {
+  //   if (manageAccessLoading) {
+  //     console.log("Inside IFfff::::::");
+  //     dispatch(getEmployees(credentials?.id));
+  //   }
+  // }, [manageAccessSuccess, manageAccessLoading]);
+
+  useEffect(() => {
+    dispatch(clearEditEmployeeData());
+  }, []);
+
+  useEffect(() => {
+    if (
+      restaurantDetails &&
+      restaurantDetails.branch &&
+      restaurantDetails.branch.length > 0
+    ) {
+      dispatch(selectBranch(restaurantDetails.branch[0]));
+      localStorage.setItem(
+        SELECTED_BRANCH_DATA,
+        JSON.stringify(restaurantDetails.branch[0])
+      );
+    }
+  }, [restaurantDetails]);
+
+  useEffect(() => {
+    if (manageAccessMessage) {
+      alert(manageAccessMessage); // replace with proper UX experience
+      dispatch(clearManageUserAccess());
+    }
+  }, [manageAccessSuccess]);
 
   return (
     <>
       <div className="menu-items">
         <div className="header">
-          {/* <img src={headerDetails.merchantLogo} />
-            <div>
-              <p>{headerDetails.merchantName}</p>
-              <p>{headerDetails.merchantAddress}</p>
-            </div>
-            <img
-              src={headerDetails.UserProfileImage}
-              className="user-profile"
-              alt="loading" /> */}
           <p
             onClick={logoutUser}
             style={{
@@ -60,6 +106,8 @@ const EmployeeList = (props) => {
               }}
             />
             <h2>Employees setup</h2>
+            <br />
+            <br />
           </div>
         </div>
         {props.employeeList ? (
@@ -87,6 +135,7 @@ const EmployeeList = (props) => {
                       name={row.name}
                       outlet={String(row.locationName).split(",")[1]}
                       contact={row.mobileNumber}
+                      data={row}
                     />
                   );
                 })}
@@ -97,7 +146,7 @@ const EmployeeList = (props) => {
               type={"button"}
               className="add-button"
             >
-              <Add />
+              <Add height={30} width={30} />
             </button>
           </div>
         ) : null}
@@ -106,23 +155,133 @@ const EmployeeList = (props) => {
   );
 };
 
-const EmployeeRow = ({ serialNumber, name, role, outlet, contact, userId }) => {
+const EmployeeRow = ({
+  serialNumber,
+  name,
+  role,
+  outlet,
+  contact,
+  userId,
+  data,
+}) => {
+  const dispatch = useDispatch();
+  const ref = useRef();
+  const credentials = useSelector((state) => state.auth.credentials);
+  const history = useHistory();
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      // If the menu is open and the clicked target is not within the menu,
+      // then close the menu
+      if (show && ref.current && !ref.current.contains(e.target)) {
+        setShow(false);
+      }
+    };
+
+    document.addEventListener("mousedown", checkIfClickedOutside);
+
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [show]);
+
+  const getOpacity = (data) => {
+    if (!data) return 0.5;
+    else return 1;
+  };
   return (
-    <tr>
-      <td>{serialNumber}</td>
-      <td>{name}</td>
-      <td>{outlet}</td>
-      <td> {contact}</td>
-      {/* <td>
+    <tr
+      onClick={() => {
+        if (show) {
+          setShow(!show);
+        }
+      }}
+    >
+      <td style={{ opacity: getOpacity(data.isEnabled) }}>{serialNumber}</td>
+
+      <td
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          opacity: getOpacity(data.isEnabled),
+        }}
+      >
+        <div>{name}</div>
+        <div>
+          {!data.isEnabled ? (
+            <UserBlocker style={{ position: "relative", left: 10, top: 2 }} />
+          ) : (
+            ""
+          )}
+        </div>
+      </td>
+      <td style={{ opacity: getOpacity(data.isEnabled) }}>{outlet}</td>
+      <td style={{ opacity: getOpacity(data.isEnabled) }}> {contact}</td>
+      <td ref={ref}>
         <BiDotsVerticalRounded onClick={() => setShow(!show)} />
         {show ? (
-          <ul>
-            <li>Edit</li>
-            <li>Delete</li>
+          <ul className="employeePopupContainer">
+            <li
+              onClick={() => {
+                let requestBody = {
+                  id: data.id,
+                  blockUser: data.isEnabled,
+                };
+                dispatch(manageUserAccess(requestBody));
+
+                setTimeout(() => {
+                  dispatch(getEmployees(credentials?.id));
+                }, 1000);
+                //    dispatch(getEmployees(credentials?.merchantId));
+              }}
+            >
+              {data.isEnabled ? (
+                <Fragment>
+                  <div className="popupInnerItem">
+                    <Block />
+                  </div>
+                  <div>&nbsp; &nbsp; Block</div>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <div className="popupInnerItem">
+                    <UnBlock />
+                  </div>
+                  &nbsp; <div> &nbsp; &nbsp;Unblock</div>
+                </Fragment>
+              )}
+            </li>
+            <li
+              onClick={() => {
+                dispatch(setEditEmployeeData(data));
+                history.push("/management/employees/add");
+              }}
+            >
+              <Fragment>
+                <div className="popupInnerItem">
+                  <UnBlock />
+                </div>
+                &nbsp; <div> &nbsp; &nbsp;Edit</div>
+              </Fragment>
+            </li>
+            {/* <li
+              onClick={() => {
+                console.log("Delete Clicked :::", data);
+                dispatch(
+                  deleteEmployee({
+                    businessName: businessName,
+                    userId: data.id,
+                  })
+                );
+              }}
+            >
+              Delete
+            </li> */}
           </ul>
         ) : null}
-      </td> */}
+      </td>
     </tr>
   );
 };

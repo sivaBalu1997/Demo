@@ -6,18 +6,31 @@ import {
   successGetOutlet,
   successGetEmployees,
   failedGetEmployees,
+  deleteEmployeeSuccess,
+  deleteEmployeeFailure,
+  successManageUserAccess,
+  failedManageUserAccess,
+  updateEmployeePINSuccess,
+  updateEmployeePINFailed,
 } from "../actions/employeeActions";
 import {
   fetchOutlets,
   getEmployeeDetails,
   createEmployee,
+  manageUserAccess,
+  removeEmployee,
+  updatePIN,
 } from "../api/employeeAPI";
+
 import {
   OUTLET_REQUEST,
   GET_EMPLOYEE_REQUEST,
   ADD_EMPLOYEE_REQUEST,
+  REMOVE_EMPLOYEE_REQUEST,
+  USER_ACCESS_EMPLOYEE_REQUEST,
+  EDIT_EMPLOYEE_DATA,
+  UPDATE_EMPLOYEE_PIN_REQUEST,
 } from "../constants/employeeContants";
-
 function* getOutletsSaga(action) {
   try {
     const response = yield call(fetchOutlets, action.payload);
@@ -49,12 +62,30 @@ function* addEmployeeSaga(action) {
   }
 }
 
+// Delete Employee
+function* deleteEmployeeSaga(action) {
+  try {
+    const response = yield call(removeEmployee, action.payload);
+    if (response.status === 200) {
+      if (response.data.metaDataInfo.responseCode == "ERROR") {
+        yield put(
+          deleteEmployeeFailure({
+            message: response.data.metaDataInfo.responseMessage,
+          })
+        );
+      } else {
+        yield put(deleteEmployeeSuccess(response.data));
+      }
+    }
+  } catch (err) {
+    yield put(deleteEmployeeFailure("Delete Employee Failed"));
+  }
+}
+
 function* getEmployeesSaga(action) {
   try {
-    const response = yield call(getEmployeeDetails, action.payload);
-    //console.log(response, "employees");
+    const response = yield call(getEmployeeDetails);
     if (response.status === 200) {
-      //console.log("Employees :" + response.data);
       yield put(successGetEmployees(response.data));
     } else {
       yield put(failedGetEmployees({ message: "please Try Again" }));
@@ -64,8 +95,46 @@ function* getEmployeesSaga(action) {
   }
 }
 
+function* manageUserAccessSaga(action) {
+  try {
+    const response = yield call(manageUserAccess, action.payload);
+    if (
+      response.status === 200 &&
+      response.data.metaDataInfo.responseCode == "SUCCESS"
+    ) {
+      yield put(
+        successManageUserAccess(response.data.metaDataInfo.responseMessage)
+      );
+    } else {
+      yield put(
+        failedManageUserAccess(response.data.metaDataInfo.responseMessage)
+      );
+    }
+  } catch (err) {
+    yield put(
+      failedManageUserAccess("Something went wrong. Please try again later")
+    );
+  }
+}
+
+function* updateEmployeePINSaga(action) {
+  try {
+    const response = yield call(updatePIN, action.payload);
+    if (response.status === 200) {
+      yield put(updateEmployeePINSuccess("PIN updated Successfully!"));
+    } else {
+      yield put(updateEmployeePINFailed(response.data));
+    }
+  } catch (err) {
+    yield put(updateEmployeePINFailed("Pin Already exists!"));
+  }
+}
+
 export default function* employeeSaga() {
   yield takeLatest(OUTLET_REQUEST, getOutletsSaga);
   yield takeLatest(ADD_EMPLOYEE_REQUEST, addEmployeeSaga);
   yield takeLatest(GET_EMPLOYEE_REQUEST, getEmployeesSaga);
+  yield takeLatest(REMOVE_EMPLOYEE_REQUEST, deleteEmployeeSaga);
+  yield takeLatest(USER_ACCESS_EMPLOYEE_REQUEST, manageUserAccessSaga);
+  yield takeLatest(UPDATE_EMPLOYEE_PIN_REQUEST, updateEmployeePINSaga);
 }

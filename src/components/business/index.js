@@ -7,6 +7,7 @@ import TextInput from "../common/TextInput";
 import CustomDropdown from "../common/customDropdown";
 import Button from "../common/Button";
 import Menu from "../menu";
+import { clearMenuData } from "../../redux/actions/menuAction";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { signOut } from "../../redux/actions/authActions";
@@ -32,6 +33,7 @@ const Business = () => {
   };
 
   const logoutUser = () => {
+    dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");

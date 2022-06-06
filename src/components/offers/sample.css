@@ -1,0 +1,234 @@
+.dropdown-check-list.dropdown-menu-styles {
+  display: block;
+  padding: 5px 50px 5px 10px;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.dropdown-check-list.dropdown-menu-styles .anchor {
+  position: absolute;
+  cursor: pointer;
+  display: inline-block;
+  right: 6px;
+}
+
+.dropdown-check-list.dropdown-menu-styles .anchor:after {
+  position: absolute;
+  content: "";
+  border-left: 1px solid #979797;
+  border-top: 1px solid #979797;
+  padding: 5px;
+  right: 10px;
+  top: 3px;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+.dropdown-check-list.dropdown-menu-styles .anchor:active:after {
+  right: 8px;
+  top: 21%;
+}
+
+.dropdown-check-list ul .items {
+  padding: 2px;
+  margin: 0;
+  /* border: 1px solid #ccc;
+    border-top: none; */
+  color: #b1b1b1;
+}
+
+.dropdown-check-list.dropdown-menu-styles ul.items li {
+  list-style: none;
+}
+
+.dropdown-menu-styles.dropdown-check-list.visible .anchor {
+  color: #0094ff;
+}
+.dropdown-menu-styles .dropdown-items ul {
+  padding: 0;
+  width: 100%;
+  margin: 10px 0;
+}
+.dropdown-check-list.visible .items {
+  display: block;
+}
+
+.display-block {
+  display: block !important;
+}
+.display-none {
+  display: none !important;
+}
+.display-flex {
+  display: flex !important;
+}
+.dropdown-menu-styles .dropdown-items {
+  list-style-type: none;
+}
+.dropdown-menu-styles .dropdown-items input {
+  width: auto;
+}
+.display-inline-block {
+  display: inline-block;
+}
+.dropdown-menu-styles .placeholder_text {
+  color: #b1b1b1 !important;
+}
+.dropdown-menu-styles ul li.items {
+  color: #979797;
+  font-size: 14px;
+  text-transform: capitalize;
+  list-style: none;
+}
+.dropdown-items-divs {
+  position: absolute;
+  background: #fff;
+  left: 0;
+  top: 108%;
+  width: calc(100% - 30px);
+  padding: 15px;
+  z-index: 10;
+  max-height: 200px;
+  overflow: auto;
+  box-shadow: 0px 0px 8px 3px #e3e3e3;
+}
+.dropdown-items.multiselecttext span {
+  font-size: 14px;
+  margin: 0 10px 10px 0;
+  color: #000;
+}
+.dropdown-items-divs ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+.bottom-add_fields .dropdown-items {
+  display: flex;
+}
+.addbtnset {
+  background: #67833e;
+  border: none;
+  padding: 0 10px;
+  color: #fff;
+}
+/*--Checkbox Styles---*/
+.dropdown-checkbox {
+  width: auto;
+  margin-right: 10px;
+  line-height: normal;
+}
+.checkbox-custom {
+  display: block;
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+/* Hide the default checkbox */
+.checkbox-custom input {
+  visibility: hidden;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+}
+
+/* Create a custom checkbox */
+.checkbox-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 15px;
+  width: 15px;
+  background-color: transparent;
+  border: 1px solid #979797;
+  border-radius: 3px;
+}
+
+.checkbox-custom:hover input ~ .checkbox-labels {
+  background-color: transparent;
+  border: 1px solid #979797;
+}
+
+.checkbox-custom input:checked ~ .checkbox-labels {
+  background-color: transparent;
+  border: 1px solid #979797;
+}
+
+/* Create the mark/indicator (hidden when not checked) */
+.checkbox-labels:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the mark when checked */
+.checkbox-custom input:checked ~ .checkbox-labels:after {
+  display: block;
+}
+
+/* Style the mark/indicator */
+.checkbox-custom .checkbox-labels:after {
+  left: 5px;
+  top: 1px;
+  width: 3px;
+  height: 9px;
+  border: solid #40c955;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.radiotypeitems .checkbox-labels {
+  border-radius: 100%;
+}
+.radiotypeitems .checkbox-custom .checkbox-labels:after {
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border: none !important;
+  transform: none !important;
+  background: #40c955;
+  border-radius: 100%;
+  right: 0;
+  margin: auto;
+  bottom: 0;
+}
+/*-------*/
+.addlink-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #2e9df4;
+  font-size: 14px;
+}
+
+.dropdown-menu-styles .bottom-add_fields .dropdown-items input {
+  width: 100%;
+  margin: 0;
+  padding: 5px 10px;
+  box-shadow: 0px 0px 8px 3px #e3e3e3;
+}
+.day_select {
+  /* display: flex; */
+  justify-content: space-between;
+}
+.day_select div {
+  padding: 3px;
+  display: inline-block;
+  color: #b1b1b1;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  margin-left: 10px;
+}
+.day_select .selected_weekday {
+  border: 1px solid #b3c19e;
+  color: #40c956;
+}

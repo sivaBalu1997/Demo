@@ -8,6 +8,7 @@ const Button = ({
   backgroundColor,
   color,
   clickHandler,
+  className,
 }) => {
   return (
     <div className="button">
@@ -15,6 +16,7 @@ const Button = ({
         style={{ background: backgroundColor, color: color }}
         type={type}
         onClick={clickHandler}
+        className={className}
       >
         {iconType === "add" ? <IoIosAdd /> : null}
         {value}

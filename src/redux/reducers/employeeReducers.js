@@ -11,6 +11,20 @@ import {
   GET_EMPLOYEE_FAILURE,
   GET_EMPLOYEE_SUCCESS,
   SET_EMPLOYEE_DETAILS_LOADING,
+  EDIT_EMPLOYEE_DATA,
+  CLEAR_EDIT_EMPLOYEE_DATA,
+  REMOVE_EMPLOYEE_FAILURE,
+  REMOVE_EMPLOYEE_SUCCESS,
+  REMOVE_EMPLOYEE_REQUEST,
+  RESET_REMOVE_EMPLOYEE_DATA,
+  USER_ACCESS_EMPLOYEE_REQUEST,
+  USER_ACCESS_EMPLOYEE_SUCCESS,
+  USER_ACCESS_EMPLOYEE_FAILURE,
+  USER_ACCESS_EMPLOYEE_CLEAR,
+  UPDATE_EMPLOYEE_PIN_CLEAR,
+  UPDATE_EMPLOYEE_PIN_FAILED,
+  UPDATE_EMPLOYEE_PIN_REQUEST,
+  UPDATE_EMPLOYEE_PIN_SUCCESS,
 } from "../constants/employeeContants";
 
 const initialEmployeeState = {
@@ -22,11 +36,30 @@ const initialEmployeeState = {
   employeeAdded: false,
   addEmployeeLoading: false,
   addEmployeeMessage: "",
-  
+
   // Get Employee
   employeeDetails: [],
   employeeDetailsLoading: false,
-  employeeDetailsFailure: ""
+  employeeDetailsFailure: "",
+  editEmployeeData: null,
+
+  //Remove Employee
+  deleteEmployeeLoading: false,
+  deleteEmployeeSuccess: false,
+  deleteEmployeeFailure: false,
+  deleteEmployeeData: null,
+  deleteEmployeeMessage: "",
+
+  manageAccessLoading: false,
+  manageAccessSuccess: false,
+  manageAccessFailure: false,
+  manageAccessMessage: "",
+
+  // Update Employee PIN
+  updateEmployeePINLoading: false,
+  updateEmployeePINSuccess: false,
+  updateEmployeePINFailed: false,
+  updateEmployeePINMessage: "",
 };
 
 export default function employeeReducer(state = initialEmployeeState, action) {
@@ -68,7 +101,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case GET_EMPLOYEE_REQUEST:
         draft.employeeDetails = [];
         draft.employeeDetailsLoading = true;
-        draft.employeeDetailsFailure = '';
+        draft.employeeDetailsFailure = "";
         break;
       case GET_EMPLOYEE_FAILURE:
         draft.employeeDetailsLoading = false;
@@ -76,11 +109,94 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         break;
       case GET_EMPLOYEE_SUCCESS:
         draft.employeeDetailsLoading = false;
-        draft.employeeDetailsFailure = '';
+        draft.employeeDetailsFailure = "";
         draft.employeeDetails = action.payload;
         break;
-      case SET_EMPLOYEE_DETAILS_LOADING: 
+      case SET_EMPLOYEE_DETAILS_LOADING:
         draft.employeeDetailsLoading = action.payload;
+        break;
+      case EDIT_EMPLOYEE_DATA:
+        draft.editEmployeeData = action.payload;
+        break;
+      case CLEAR_EDIT_EMPLOYEE_DATA:
+        draft.editEmployeeData = null;
+        break;
+
+      // Delete Employee
+      case REMOVE_EMPLOYEE_REQUEST:
+        draft.deleteEmployeeLoading = true;
+        draft.deleteEmployeeSuccess = false;
+        draft.deleteEmployeeFailure = false;
+        draft.deleteEmployeeData = action.payload;
+        break;
+      case REMOVE_EMPLOYEE_SUCCESS:
+        draft.deleteEmployeeLoading = false;
+        draft.deleteEmployeeSuccess = true;
+        draft.deleteEmployeeFailure = false;
+        draft.deleteEmployeeMessage = action.payload;
+        break;
+      case REMOVE_EMPLOYEE_FAILURE:
+        draft.deleteEmployeeLoading = false;
+        draft.deleteEmployeeSuccess = false;
+        draft.deleteEmployeeFailure = true;
+        draft.deleteEmployeeMessage = action.payload;
+
+        break;
+      case RESET_REMOVE_EMPLOYEE_DATA:
+        draft.deleteEmployeeLoading = false;
+        draft.deleteEmployeeSuccess = false;
+        draft.deleteEmployeeFailure = false;
+        draft.deleteEmployeeData = null;
+        draft.deleteEmployeeMessage = "";
+        break;
+      // Manage user Access
+      case USER_ACCESS_EMPLOYEE_REQUEST:
+        draft.manageAccessLoading = true;
+        draft.manageAccessSuccess = false;
+        draft.manageAccessFailure = false;
+        draft.manageAccessMessage = "";
+        break;
+      case USER_ACCESS_EMPLOYEE_SUCCESS:
+        draft.manageAccessLoading = false;
+        draft.manageAccessSuccess = true;
+        draft.manageAccessFailure = false;
+        draft.manageAccessMessage = action.payload;
+        break;
+      case USER_ACCESS_EMPLOYEE_FAILURE:
+        draft.manageAccessLoading = false;
+        draft.manageAccessSuccess = false;
+        draft.manageAccessFailure = true;
+        draft.manageAccessMessage = action.payload;
+        break;
+      case USER_ACCESS_EMPLOYEE_CLEAR:
+        draft.manageAccessMessage = "";
+        break;
+
+      //Update Employee PIN
+      case UPDATE_EMPLOYEE_PIN_REQUEST:
+        draft.updateEmployeePINLoading = true;
+        draft.updateEmployeePINSuccess = false;
+        draft.updateEmployeePINFailed = false;
+        draft.updateEmployeePINMessage = "";
+        break;
+      case UPDATE_EMPLOYEE_PIN_SUCCESS:
+        draft.updateEmployeePINLoading = false;
+        draft.updateEmployeePINSuccess = true;
+        draft.updateEmployeePINFailed = false;
+        draft.updateEmployeePINMessage = action.payload;
+        break;
+      case UPDATE_EMPLOYEE_PIN_FAILED:
+        console.log("Inside Failed :::", action.payload);
+        draft.updateEmployeePINLoading = false;
+        draft.updateEmployeePINSuccess = false;
+        draft.updateEmployeePINFailed = true;
+        draft.updateEmployeePINMessage = action.payload;
+        break;
+      case UPDATE_EMPLOYEE_PIN_CLEAR:
+        draft.updateEmployeePINLoading = false;
+        draft.updateEmployeePINSuccess = false;
+        draft.updateEmployeePINFailed = false;
+        draft.updateEmployeePINMessage = "";
         break;
       default:
         break;

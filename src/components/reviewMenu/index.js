@@ -3,130 +3,212 @@ import { IoIosArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import Button from "../common/Button";
 import menuIcon from "../../assets/images/food.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router";
+import { ReactComponent as PencilIcon } from "../../assets/svg/pencilIcon.svg";
 
-const ReviewMenu = () => {
+import {
+  addMenuItemRequest,
+  updateMenuItemSuccess,
+  clearMenuItemSuccess,
+  cleanMenuItemSuccessMsg,
+  updateMenuItemRequest,
+} from "../../redux/actions/productCatalogActions";
+
+const ReviewMenu = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { data, setstep } = props;
+  let values = data;
+  const updateMenuItemSuccess = useSelector(
+    (state) => state.productCatalog.updateMenuAttributeSuccess
+  );
+  const menucategory = useSelector(
+    (state) => state.productCatalog.categoryData
+  );
+  const subCategory = useSelector(
+    (state) => state.productCatalog.subCategoryData
+  );
+  const ingredients = useSelector((state) => state.productCatalog.ingredients);
+  // const getImageURL = useCallback((data) => {
+  //   return (
+  //     data.imageType &&
+  //     STORAGE_BUCKET_URL +
+  //       data.imageType.split("/")[0] +
+  //       "/" +
+  //       data.imageId +
+  //       "." +
+  //       data.imageType.split("/")[1]
+  //   );
+  // });
+  const getCategoryName = () => {
+    return menucategory.map((data, i) => {
+      if (data.id == values.categoryId) {
+        return data.name;
+      }
+    });
+  };
+  const getSubCategoryName = () => {
+    return subCategory.map((data, i) => {
+      if (data.id == values.subCategoryId) {
+        return data.name;
+      }
+    });
+  };
+  const getIngredients = () => {
+    let ingrData = [];
+    ingredients.filter((data) => {
+      if (values.ingredients.includes(data.id)) {
+        ingrData.push(data);
+      }
+    });
+    return ingrData;
+  };
   return (
     <div className="customization-sec">
-      <div className="title">
-        <Link to="/menuInput">
-          <IoIosArrowBack />
-          <h2>Review The Menu</h2>
-        </Link>
+      <div
+        onClick={() => {
+          // history.push("/management/menu/Items/Add");
+        }}
+        className="title"
+      >
+        <h2>Review The Menu</h2>
       </div>
       <div className="review-sec">
         <div className="primary-details">
           <div className="review-heading">
             <h3>Primary Details</h3>
-            <button>Edit</button>
+            <button
+              onClick={() => {
+                setstep(1);
+              }}
+              style={{
+                color: "#67833e",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <PencilIcon />
+              <span style={{ marginLeft: "10px" }}> Edit</span>
+            </button>
           </div>
-          <img src={menuIcon} alt="menu" />
+          <br />
+          <br />
           <div className="custom-item">
             <div>
               <div>
-                <h4>Item Code</h4>
-                <p>RX120000</p>
+                <span>Item name</span>
+                <p>{values ? values.itemName : null}</p>
               </div>
               <div>
-                <h4>Menu Category</h4>
-                <p>Lunch</p>
-              </div>
-              <div>
-                <h4>Item Price</h4>
-                <p>$ 50</p>
+                <span>Menu Category </span>
+                <p>{values ? getCategoryName() : null}</p>
               </div>
             </div>
             <div>
               <div>
-                <h4>Item Name</h4>
-                <p>Non Veg Loaded Pizza</p>
+                <span>Item Price</span>
+                <p>{values ? values.price : null}</p>
               </div>
               <div>
-                <h4>menu Sub Category</h4>
-                <p>Non Veg Pizza</p>
-              </div>
-              <div>
-                <h4>Dietary Type</h4>
-                <p>Non Veg</p>
+                <span>Menu Sub Category</span>
+                <p>{values ? getSubCategoryName() : null}</p>
               </div>
             </div>
           </div>
-          <h4>Description</h4>
-          <p>
-            This is lamb fried in low steam and then in high steam with onion,
-            tomato, chillies, pepper
-          </p>
-          <div className="other-detail">
+          <div>
+            <span>Description</span>
+            <p>{values ? values.description : null}</p>
+          </div>
+
+          {/* <div className="other-detail">
             <div className="review-heading">
               <h3>Other Details</h3>
-            </div>
-            <div>
-              <h4>UOM</h4>
+            </div> */}
+          {/* <div>
+              <span>UOM</span>
               <p>Per Piece</p>
             </div>
             <div>
-              <h4>Calorie Point</h4>
+              <span>Calorie Point</span>
               <p>214 Cal</p>
-            </div>
-            <div>
-              <h4>Select Outlet</h4>
+            </div> */}
+          {/* <div>
+              <span>Select Outlet</span>
               <p>Byepass Road, Anna Nagar</p>
-            </div>
-            <div>
-              <h4>Maximum Count For Online</h4>
+            </div> */}
+          {/* <div>
+              <span>Maximum Count For Online</span>
               <p>300</p>
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
-        <div className="custom-details">
+        <div style={{ marginLeft: "4.5%", width: "42%" }}>
           <div className="review-heading">
             <h3>Customization</h3>
-            <button>Edit</button>
+            <button
+              onClick={() => {
+                setstep(2);
+              }}
+              style={{
+                color: "#67833e",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <PencilIcon />
+              <span style={{ marginLeft: "10px" }}> Edit</span>
+            </button>
           </div>
-          <div className="custom-inner">
-            <h4>Size</h4>
-            <div>
-              <h4>Small</h4>
-              <p>$ 20</p>
-            </div>
-            <div>
-              <h4>Regular</h4>
-              <p>$ 35</p>
-            </div>
-            <div>
-              <h4>Large</h4>
-              <p>$ 40</p>
-            </div>
-          </div>
-          <div className="custom-inner">
-            <h4>Extras</h4>
-            <div>
-              <h4>Cheese</h4>
-              <p>$ 10</p>
-            </div>
-            <div>
-              <h4>Chicken</h4>
-              <p>$ 20</p>
-            </div>
-            <div>
-              <h4>Onions</h4>
-              <p>$ 5</p>
-            </div>
-          </div>
+          <>
+            {values &&
+              values.customization.map((item) => (
+                <div className="custom-details">
+                  <div className="custom-inner">
+                    <h4>{item.name ? item.name : item.modifierName}</h4>
+                    {item.options.map((option) => (
+                      <div>
+                        <span>{option.modifierOptionName}</span>
+                        <p> {option.cost}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+          </>
         </div>
       </div>
-      <div className="form-cta">
-        <Link to="/">
-          <Button value={"Cancel"} backgroundColor={"#fff"} color={"#979797"} />
-        </Link>
-        <Link to="/menulist">
+      {/* <div className="form-cta">
+        <Link to="/management/menu/Items">
           <Button
-            type={"submit"}
-            value={"Save The menu"}
-            backgroundColor={"#FF5554"}
-            color={"#fff"}
+            value={"Cancel"}
+            backgroundColor={"#fff"}
+            color={"rgb(103, 131, 62)"}
           />
         </Link>
-      </div>
+        <Button
+          onClick={() => {
+            const formData = new FormData();
+            if (
+              updateMenuItemSuccess &&
+              typeof updateMenuItemSuccess == "object"
+            ) {
+              values.modifiers = updateMenuItemSuccess;
+            }
+            formData.append("item", JSON.stringify(values));
+            //dispatch(updateMenuItemRequest(formData));
+            values.itemId != null
+              ? dispatch(updateMenuItemRequest(values))
+              : dispatch(addMenuItemRequest(formData));
+            history.push("/management/menu/Items");
+            dispatch(cleanMenuItemSuccessMsg());
+          }}
+          type={"submit"}
+          value={"Save & Publish"}
+          backgroundColor={"#67833E"}
+          className="submit-button button-text"
+        />
+      </div> */}
     </div>
   );
 };

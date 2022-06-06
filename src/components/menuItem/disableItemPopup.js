@@ -11,6 +11,7 @@ import Checkbox from "../common/Checkbox";
 import Switch from "react-switch";
 
 const DisableItemPopup = (props) => {
+  console.log(props,"check props data")
   const getFormattedDateFromISO = useCallback((dateISOString) => {
     return dateISOString.replace("T", " ").replace("Z", "");
   }, []);
@@ -122,8 +123,8 @@ const DisableItemPopup = (props) => {
               <div className="radio-container">
                 <span className="checkbox-content">
                   {isItemEnabled
-                    ? "Untill manually enabled"
-                    : "Untill manually disabled"}
+                    ? "Until manually enabled"
+                    : "Until manually disabled"}
                 </span>
                 <input
                   type="radio"

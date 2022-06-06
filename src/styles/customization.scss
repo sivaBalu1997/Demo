@@ -1,7 +1,8 @@
 .customization-sec {
   width: 100%;
+  // margin-right: 20%;
   & .title {
-    margin-left: 43px;
+    // margin-left: 43px;
     & a {
       display: flex;
       justify-content: flex-start;
@@ -13,8 +14,8 @@
       font-weight: 500;
       font-size: 24px;
       line-height: 36px;
-      margin-left: 30px;
-      color: #000;
+      // margin-left: 50px;
+      color: #67833e;
     }
 
     & svg {
@@ -70,7 +71,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  margin-left: 100px;
+  // margin-left: 50px;
   & .review-heading {
     display: flex;
     justify-content: space-between;
@@ -91,14 +92,21 @@
   }
 
   & h4 {
-    font-weight: 300;
+    font-weight: 500;
     font-size: 16px;
     line-height: 24px;
     margin-bottom: 10px;
   }
+
+  & span {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 24px;
+    // margin-bottom: 10px;
+  }
   & p {
     font-weight: normal;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     margin: 0;
   }
@@ -113,7 +121,7 @@
   }
   & .custom-details {
     flex: 0 0 40%;
-    margin-left: 60px;
+    // margin-left: 60px;
     & .custom-inner {
       width: 50%;
       margin-top: 30px;
@@ -121,7 +129,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        // margin-bottom: 20px;
         & h4 {
           margin-right: 80px;
           margin-bottom: 0;

@@ -1,0 +1,74 @@
+import Store from "../store";
+import API from "./api";
+
+export function getOfferList(offerListParams) {
+  console.log("getOfferList")
+  const token = Store.getState().auth.credentials.accessToken;
+  return API({
+    method: "GET",
+    url: `/coupon/offer/${offerListParams.locationId}/?status=${offerListParams.status}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  });
+}
+
+export function createOffer(createofferParams) {
+  const token = Store.getState().auth.credentials.accessToken;
+
+  return API({
+    method: "POST",
+    url: `/coupon/offer`,
+    data: createofferParams,
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  });
+}
+
+export function EditOffer(offerId) {
+
+  const token = Store.getState().auth.credentials.accessToken;
+ 
+  return API({
+    method: "POST",
+    url: `/coupon/offer/${offerId.id}`,
+    data:offerId.data ,
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  });
+}
+export function deleteOffer(offerId) {
+  const token = Store.getState().auth.credentials.accessToken;
+  return API({
+    method: "DELETE",
+    url: `/coupon/offer/${offerId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  });
+}
+
+export function disableOffer(offerId) {
+  const token = Store.getState().auth.credentials.accessToken;
+  return API({
+    method: "PATCH",
+    url: `/coupon/offer/${offerId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  });
+}
+
+export function getDropdownData(dropdownDataparams) {
+
+  const token = Store.getState().auth.credentials.accessToken;
+  return API({
+    method: "GET",
+    url: `/coupon/offer/details/${dropdownDataparams.locationId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  });
+}

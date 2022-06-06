@@ -1,0 +1,10 @@
+import Store from "../store";
+import API from "./api";
+
+export function makePayment(data) {
+  return API({
+    method: "post",
+    url: "/razorPay/account",
+    data: data,
+  });
+}

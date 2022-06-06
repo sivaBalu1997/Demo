@@ -19,6 +19,7 @@ import {
   RESTAURANT_DETAIL_REQUEST,
   RESTAURANT_DETAIL_SUCCESS,
   SELECTED_BRANCH,
+  CLEAR_SIGNIN
 } from "../constants/authConstants";
 
 // Credential Store
@@ -59,7 +60,11 @@ export const failedSignIn = (details) => ({
   type: SIGNIN_FAILURE,
   payload: details,
 });
-
+export const ClearSignIn = () => ({
+  // Replace any with Network Data Fail Data format
+  type: CLEAR_SIGNIN,
+  payload: "",
+});
 export const successSignIn = (details) => ({
   type: SIGNIN_SUCCESS,
   payload: details,

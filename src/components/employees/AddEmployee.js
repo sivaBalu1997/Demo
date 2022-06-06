@@ -7,36 +7,41 @@ import TextInput from "../common/TextInput";
 import CustomDropdown from "../common/customDropdown";
 import Switchbox from "../common/Switchbox";
 import EmployeeList from "./EmployessList";
+import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addEmployee,
   getOutlets,
   resetAddEmployee,
   setEmployeeDetailsLoading,
+  updateEmployeePIN,
+  updateEmployeeClear,
 } from "../../redux/actions/employeeActions";
 import { useHistory } from "react-router";
 
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 
-const roles = [
-  "Chef",
-  "Restaurant_Owner",
-  "Restaurant_Manager",
-  "System_Admin",
-  "Supervisor",
-  "Waiter",
-  "Host",
-  "Delivery",
-];
-
 const AddEmployee = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [list, setList] = useState(false);
   //const [outlet, setOutlet] = useState([]);
-  const [pinEnabled, setPinEnabled] = useState(false);
+  const editEmployeeData = useSelector(
+    (state) => state.employee.editEmployeeData
+  );
+
+  const editEmployee = editEmployeeData && {
+    firstName: editEmployeeData.name.split(" ")[0],
+    lastName: editEmployeeData.name.split(" ")[1],
+    mobileNumber: editEmployeeData.mobileNumber,
+    location: editEmployeeData.locationName.split(", ")[1],
+    email: editEmployeeData.email,
+    devicePin: editEmployeeData.devicePin,
+  };
+  const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false);
   //const [role, setRole] = useState("");
+
   const {
     handleSubmit,
     register,
@@ -47,10 +52,27 @@ const AddEmployee = () => {
     formState,
     watch,
   } = useForm();
+
+  const [pin, setPin] = useState(
+    editEmployee ? editEmployee.devicePin : getValues("devicePin")
+  );
+
   const credentials = useSelector((state) => state.auth.credentials);
   const employeeAdded = useSelector((state) => state.employee.employeeAdded);
+  const updatePinMessage = useSelector(
+    (state) => state.employee.updateEmployeePINMessage
+  );
+  const updatePinLoading = useSelector(
+    (state) => state.employee.updateEmployeePINLoading
+  );
+  const updatePinSuccess = useSelector(
+    (state) => state.employee.updateEmployeePINSuccess
+  );
+  const updatePinFailed = useSelector(
+    (state) => state.employee.updateEmployeePINFailed
+  );
   const addEmployeeMessage = useSelector(
-    (state) => state.employee.addEmployeeMessage
+    (state) => state.employee.addEmployeeMessage.updateEmployeePINMessage
   );
   const addEmployeeLoading = useSelector(
     (state) => state.employee.addEmployeeLoading
@@ -60,7 +82,6 @@ const AddEmployee = () => {
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
   const watchLastName = watch("lastName");
-
   const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
 
   useEffect(() => {
@@ -68,6 +89,53 @@ const AddEmployee = () => {
     credentials && dispatch(getOutlets(credentials.merchantId));
   }, []);
 
+  useEffect(() => {
+    if (!updatePinLoading && updatePinFailed && updatePinMessage) {
+      alert(updatePinMessage);
+      // history.goBack();
+      dispatch(updateEmployeeClear());
+    }
+
+    if (!updatePinLoading && updatePinSuccess && updatePinMessage) {
+      alert(updatePinMessage);
+      history.goBack();
+      dispatch(updateEmployeeClear());
+    }
+  }, [updatePinLoading, updatePinFailed, updatePinMessage, updatePinSuccess]);
+  const getRole = () => {
+    let neighbourhoodDeliveryRole = [
+      "Operator-neighbourhood",
+      "Branch manager-neighbourhood",
+      "Regional manager-neighbourhood",
+      "Owner-neighbourhood",
+      "Delivery-neighbourhood",
+    ];
+    if (
+      credentials?.accessToken &&
+      neighbourhoodDeliveryRole.includes(
+        jwt_decode(credentials?.accessToken).resource_access.kiosk.roles[0]
+      )
+    ) {
+      return [
+        "Branch Manager",
+        "Regional Manager",
+        "Operator",
+        "Owner",
+        "Delivery",
+      ];
+    } else {
+      return [
+        "Chef",
+        "Restaurant_Owner",
+        "Restaurant_Manager",
+        "System_Admin",
+        "Supervisor",
+        "Waiter",
+        "Host",
+        "Delivery",
+      ];
+    }
+  };
   useEffect(() => {
     if (!addEmployeeLoading && employeeAdded) {
       dispatch(resetAddEmployee());
@@ -143,13 +211,13 @@ const AddEmployee = () => {
   }, [watchLastName]);
 
   const onSubmit = (formValues) => {
+    let pin = formValues.devicePin;
     formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
     formValues["businessName"] = credentials.businessName;
     formValues["merchantId"] = credentials.merchantId;
     formValues["locationId"] = outlets.find((outlet) =>
       outlet.locationName.includes(formValues["outlet"])
     ).id;
-
     if (!pinEnabled) {
       formValues["devicePin"] = "";
     }
@@ -157,9 +225,13 @@ const AddEmployee = () => {
     delete formValues["firstName"];
     delete formValues["lastName"];
     delete formValues["outlet"];
-
     //console.log("Employee details", formValues);
-    dispatch(addEmployee(formValues));
+
+    if (editEmployee) {
+      dispatch(updateEmployeePIN({ id: editEmployeeData.id, pin: pin }));
+    } else {
+      dispatch(addEmployee(formValues));
+    }
   };
 
   return (
@@ -172,7 +244,8 @@ const AddEmployee = () => {
           >
             <h2>
               {" "}
-              <IoIosArrowBack /> Add Employee
+              <IoIosArrowBack />{" "}
+              {editEmployeeData ? "Edit Employee" : "Add Employee"}
             </h2>
           </div>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
@@ -188,9 +261,11 @@ const AddEmployee = () => {
                     maxLength={15}
                     name="firstName"
                     refRegister={register({
-                      required: "Required",
+                      required: !editEmployee && "Required",
                     })}
                     className={"add-employee-text-input"}
+                    value={editEmployee ? editEmployee.firstName : null}
+                    disabled={editEmployee && editEmployee.firstName}
                   />
                 </div>
                 <div>
@@ -201,34 +276,55 @@ const AddEmployee = () => {
                     refRegister={register()}
                     className={"add-employee-text-input"}
                     min={0}
+                    value={editEmployee ? editEmployee.mobileNumber : null}
+                    // disabled={editEmployee && editEmployee.mobileNumber}
+                    disabled={editEmployee}
                   />
                 </div>
                 {errors.role?.type === "required" && (
                   <p className="error-msg">Role Required</p>
                 )}
-                <div style={{ cursor: "pointer" }}>
-                  <Controller
-                    control={control}
-                    name="role"
-                    defaultValue={""}
-                    rules={{ required: true }}
-                    render={({ onChange, onBlur, value, name }) => (
-                      <CustomDropdown
-                        options={roles}
-                        placeholder={"Assign Role"}
-                        onSelect={(role) => {
-                          //console.log("Role Changed:", role.value);
-                          onChange(role.value);
-                        }}
-                        value={value}
-                        name={name}
-                        controlClassName={"add-employee-dropdown"}
-                        arrowClassName={"add-employee-dropdown-arrow"}
-                      />
-                    )}
-                  />
-                </div>
-                <div className="acess-flex" style={{ marginTop: 35 }}>
+
+                {!editEmployee && (
+                  <div style={{ cursor: "pointer" }}>
+                    <Controller
+                      control={control}
+                      name="role"
+                      defaultValue={""}
+                      rules={{
+                        // required: true
+                        required: !editEmployee && "Required",
+                      }}
+                      render={({ onChange, onBlur, value, name }) => (
+                        <CustomDropdown
+                          options={getRole()}
+                          placeholder={"Assign Role"}
+                          onSelect={(role) => {
+                            onChange(role.value);
+                            if (
+                              jwt_decode(
+                                credentials?.accessToken
+                              ).resource_access.kiosk.roles[0].includes(
+                                "neighbourhood"
+                              )
+                            )
+                              onChange(role.value + "-neighbourhood");
+                          }}
+                          value={value}
+                          name={name}
+                          placeholderClass={"dropDown"}
+                          controlClassName={"add-employee-dropdown"}
+                          arrowClassName={"add-employee-dropdown-arrow"}
+                          disabled={editEmployee}
+                        />
+                      )}
+                    />
+                  </div>
+                )}
+                <div
+                  className="acess-flex"
+                  style={{ marginTop: editEmployee ? 10 : 20 }}
+                >
                   {errors.devicePin?.type === "minLength" ||
                   errors.devicePin?.type === "maxLength" ? (
                     <p className="error-msg">PIN Should Be of Length 4</p>
@@ -239,11 +335,13 @@ const AddEmployee = () => {
                     handleSwitch={() => setPinEnabled(!pinEnabled)}
                   />{" "}
                   <TextInput
+                    containerStyle={{ paddingBottom: "0px" }}
                     type="number"
                     placeholder="Create PIN"
                     maxLength={4}
                     minLength={4}
                     name="devicePin"
+                    onChange={(e) => setPin(e.target.value)}
                     refRegister={register({
                       required: pinEnabled,
                       minLength: 4,
@@ -252,6 +350,7 @@ const AddEmployee = () => {
                     disabled={!pinEnabled}
                     min={0}
                     className={"add-employee-text-input"}
+                    value={pin}
                   />
                 </div>
                 {errors.userId?.type === "required" && (
@@ -263,9 +362,11 @@ const AddEmployee = () => {
                     placeholder="User ID"
                     name="userId"
                     refRegister={register({
-                      required: "Required",
+                      // required: "Required",
+                      required: !editEmployee && "Required",
                     })}
                     className={"add-employee-text-input"}
+                    disabled={editEmployee}
                   />
                 </div>
 
@@ -277,6 +378,9 @@ const AddEmployee = () => {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "flex-end",
+                    alignItems: "center",
+                    width: "36%",
+                    paddingRight: "20%",
                   }}
                 >
                   <TextInput
@@ -285,16 +389,21 @@ const AddEmployee = () => {
                     minLength={6}
                     name="password"
                     refRegister={register({
-                      required: "Required",
+                      // required: "Required",
+                      required: !editEmployee && "Required",
                     })}
                     className={"add-employee-text-input"}
+                    // style={{ fontSize: "18px" }}
+                    containerStyle={{ paddingBottom: "0px" }}
+                    disabled={editEmployee}
                   />
+                  {/* <div> */}
                   {isPasswordVisible ? (
                     <ClosedEyeIcon
                       onClick={() => SetIsPasswordVisible(false)}
                       style={{
                         position: "absolute",
-                        paddingTop: "1%",
+                        // paddingTop: "1%",
                         paddingRight: "1%",
                       }}
                     />
@@ -303,11 +412,12 @@ const AddEmployee = () => {
                       onClick={() => SetIsPasswordVisible(true)}
                       style={{
                         position: "absolute",
-                        paddingTop: "1%",
+                        // paddingTop: "1%",
                         paddingRight: "1%",
                       }}
                     />
                   )}
+                  {/* </div> */}
                 </div>
               </div>
               <div className="primary-sec">
@@ -319,6 +429,9 @@ const AddEmployee = () => {
                     refRegister={register()}
                     className={"add-employee-text-input"}
                     maxLength={15}
+                    value={editEmployee ? editEmployee.lastName : null}
+                    // disabled={editEmployee && editEmployee.lastName}
+                    disabled={editEmployee}
                   />
                 </div>
                 <div>
@@ -328,6 +441,9 @@ const AddEmployee = () => {
                     name="email"
                     refRegister={register()}
                     className={"add-employee-text-input"}
+                    value={editEmployee ? editEmployee.email : null}
+                    // disabled={editEmployee && editEmployee.email}
+                    disabled={editEmployee}
                   />
                 </div>
                 {errors.outlet?.type === "required" && (
@@ -338,7 +454,10 @@ const AddEmployee = () => {
                     control={control}
                     name="outlet"
                     defaultValue={""}
-                    rules={{ required: true }}
+                    rules={{
+                      // required: true
+                      required: !editEmployee && "Required",
+                    }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={Array.from(
@@ -353,10 +472,16 @@ const AddEmployee = () => {
                           );
                           onChange(outletObject.locationName.split(",")[1]);
                         }}
-                        value={value}
+                        value={editEmployee ? editEmployee.location : value}
                         name={name}
-                        controlClassName={"add-employee-dropdown"}
+                        controlClassName={
+                          editEmployee
+                            ? "disabled-dropdown add-employee-dropdown"
+                            : "add-employee-dropdown"
+                        }
                         arrowClassName={"add-employee-dropdown-arrow"}
+                        placeholderClass={"dropDown"}
+                        disabled={editEmployee}
                       />
                     )}
                   />

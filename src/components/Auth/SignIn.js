@@ -3,7 +3,7 @@ import logo from "../../assets/images/logo.png";
 import { useForm } from "react-hook-form";
 import "../../styles/auth.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn, storeCredentials } from "../../redux/actions/authActions";
+import { signIn, storeCredentials,ClearSignIn } from "../../redux/actions/authActions";
 import { useHistory } from "react-router";
 
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
@@ -31,6 +31,10 @@ const SignIn = ({ setLogin }) => {
       } else {
         history.push("/management/employees");
       }
+    }
+    else{ if (!authState.signInLoading && authState.signInMessage!="" && !authState.signedIn)
+      alert(authState.signInMessage);
+      dispatch(ClearSignIn());
     }
   }, [authState.signInLoading]);
 

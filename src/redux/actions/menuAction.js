@@ -3,6 +3,7 @@ import {
   GET_MENUS_FAILURE,
   GET_MENUS_REQUEST,
   GET_MENUS_SUCCESS,
+  CLEAR_MENU_DATA,
 } from "../constants/employeeContants";
 
 import {
@@ -34,6 +35,10 @@ export const failedGetMenus = (details) => ({
 export const successGetMenus = (details) => ({
   type: GET_MENUS_SUCCESS,
   payload: details,
+});
+
+export const clearMenuData = () => ({
+  type: CLEAR_MENU_DATA,
 });
 
 // Update Menu Item

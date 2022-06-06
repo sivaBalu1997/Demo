@@ -1,5 +1,6 @@
 #root {
   height: 100%;
+  overflow-x: hidden;
 }
 
 .app {
@@ -8,7 +9,7 @@
   box-sizing: border-box;
 }
 
-a{
+a {
   color: #fff;
 }
 
@@ -21,13 +22,14 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
-input[type=text],
-input[type=password],
-input[type=number],
-input[type=email] {
-  color: #000000;
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"] {
+  // color: #000000;
+  font-family: Poppins;
 }

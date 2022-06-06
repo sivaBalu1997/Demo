@@ -13,7 +13,11 @@ import { ReactComponent as SearchIcon } from "../../assets/svg/search.svg";
 import { ReactComponent as TickIcon } from "../../assets/svg/tickIcon.svg";
 import { ReactComponent as PlusIcon } from "../../assets/svg/plus.svg";
 import { ReactComponent as Loader } from "../../assets/svg/loader.svg";
+import { ReactComponent as CrossIcon } from "../../assets/svg/crossIcon.svg";
+
 import MenuItem from "./MenuItem";
+import { resetDeleteData } from "../../redux/actions/productCatalogActions";
+
 const EmptyMenu = () => {
   const dispatch = useDispatch();
   const menuList = useSelector((state) => state.menu.menu.menu);
@@ -27,37 +31,78 @@ const EmptyMenu = () => {
     }
   }, [branchDetails]);
 
+  const deleteItemSuccess = useSelector(
+    (state) => state.productCatalog.deleteMenuItemSuccess
+  );
+
+  const deleteItemLoading = useSelector(
+    (state) => state.productCatalog.deleteMenuItemLoading
+  );
+
   useEffect(() => {
-    if (menuList) {
-      setmenuItemLength(menuList.length);
+    if (!deleteItemLoading && deleteItemSuccess) {
+      alert("Item Deleted Successfully");
+      dispatch(resetDeleteData());
+      dispatch(getMenus({ locationId: branchDetails.id, type: "DineIn" }));
     }
-  }, [menuList]);
+  }, [deleteItemSuccess, deleteItemLoading]);
+
+  useEffect(() => {
+    if (menuList && !menuLoading) {
+      setmenuItemLength(menuList.length);
+      setmenuItems(menuList);
+    }
+  }, [menuList, menuLoading]);
   const history = useHistory();
   const [menuItemLength, setmenuItemLength] = useState();
+  const [searchText, setsearchText] = useState("");
+  const [menuItems, setmenuItems] = useState([]);
+
+  useEffect(() => {
+    if (searchText.length >= 3) {
+      let newArray = [...menuList];
+      const data = newArray.filter((contact) =>
+        contact.itemName.toLowerCase().includes(searchText.toLowerCase())
+      );
+
+      setmenuItems(data);
+    } else if (searchText.length < 3) {
+      setmenuItems(menuList);
+    }
+  }, [searchText]);
+
   return (
     <>
       <Fragment>
         <div className="container">
           <div>
             <div className="header">
-              <span>Items({menuItemLength})</span>
+              <span>Menu Items({menuItemLength})</span>
               <div className="header-right-container">
-                {/* <div className="search-box-container">
+                <div className="search-box-container">
                   <input
                     type="text"
                     className="search-input"
                     placeholder="Search"
+                    value={searchText}
+                    onChange={(e) => {
+                      setsearchText(e.target.value);
+                    }}
                   />
-                  <SearchIcon />
-                </div> */}
-                {/* <div
+                  {searchText.length > 0 ? (
+                    <CrossIcon onClick={() => setsearchText("")} />
+                  ) : (
+                    <SearchIcon />
+                  )}
+                </div>
+                <div
                   className="addItem-button-container"
                   onClick={() => history.push("/management/menu/Items/Add")}
                 >
                   <PlusIcon className="plus-icon" />
 
                   <span className="addItem-text"> Add Menu Item</span>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
@@ -97,22 +142,39 @@ const EmptyMenu = () => {
                       />
                     </td> */}
                     {/* <td scope="col">Image</td> */}
-                    <td scope="col">Item Name</td>
+                    <td scope="col" style={{ textAlign: "start", padding: 0 }}>
+                      Item Name
+                    </td>
                     {/* <td scope="col">Code</td> */}
-                    <td scope="col">Price</td>
+                    <td scope="col" style={{ padding: "0px" }}>
+                      Price
+                    </td>
                     {/* <td scope="col">Available at</td> */}
-                    <td scope="col">Status </td>
+                    <td scope="col" style={{ padding: "0px" }}>
+                      Status{" "}
+                    </td>
                   </tr>
                   {/* </div> */}
 
                   <tr>
                     {/* <td scope="col" className="empty"></td> */}
                     {/* <td scope="col" className="empty"></td> */}
-                    <td scope="col" className="empty"></td>
+                    <td
+                      scope="col"
+                      className="empty"
+                      style={{ padding: "0px" }}
+                    ></td>
                     {/* <td scope="col" className="empty"></td> */}
-                    <td scope="col" className="empty"></td>
+                    <td
+                      scope="col"
+                      className="empty"
+                      style={{ padding: "0px" }}
+                    ></td>
                     {/* <td scope="col" className="empty"></td> */}
-                    <td className="sub-category-container">
+                    <td
+                      className="sub-category-container"
+                      style={{ padding: "0px" }}
+                    >
                       <div className="sub-category-inner-container">
                         <span className="sub-category">Availability </span>
                         {/* <span className="sub-category">Pickup</span> */}
@@ -122,8 +184,10 @@ const EmptyMenu = () => {
                   </tr>
                 </thead>
                 <tbody style={{ marginTop: "5px" }}>
-                  {menuList &&
-                    menuList.map((u, i) => {
+                  {!menuLoading &&
+                    menuItems &&
+                    menuItems.length > 0 &&
+                    menuItems.map((u, i) => {
                       return <MenuItem key={u.itemId} data={u} />;
                     })}
                   {/* <MenuItem /> */}

@@ -11,7 +11,10 @@ const CustomDropdown = ({
   placeholder,
   name,
   arrowClassName,
-  controlClassName
+  controlClassName,
+  style,
+  placeholderClass,
+  disabled,
 }) => {
   return (
     <Dropdown
@@ -25,7 +28,12 @@ const CustomDropdown = ({
       controlClassName={controlClassName}
       arrowClassName={arrowClassName}
       menuClassName="MenuClass"
-      placeholderClassName="placeholder-class"
+      disabled={disabled}
+      placeholderClassName={
+        placeholderClass
+          ? `placeholder-class ${placeholderClass}`
+          : "placeholder-class"
+      }
     />
   );
 };

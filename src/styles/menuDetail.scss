@@ -34,7 +34,8 @@
     //margin-bottom: 30px;
 
     & .placeholder-class {
-      color: #979797;
+      color: #979797 !important;
+      font-size: 18px;
     }
 
     & .is-selected {
@@ -45,11 +46,11 @@
   & .acess-flex {
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     position: relative;
     & input {
       margin: 0;
-      margin-left: 15px;
+      margin: 0 0 0 15px;
     }
     & .pin-input::-webkit-input-placeholder {
       width: 166.21px;
@@ -71,7 +72,7 @@
       line-height: 21px;
       color: #979797;
       flex: 0 0 25%;
-      margin-right: 15px;
+      margin: 0;
     }
   }
 

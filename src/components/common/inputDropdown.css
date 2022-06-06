@@ -1,0 +1,156 @@
+.tag-selection-container {
+  background: #ffffff;
+  border: 0.5px solid #c1c1c1;
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  padding: 0.5em 0.8em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow: auto;
+  /* margin-top: 0.5em; */
+  /* min-width: 300px; */
+}
+
+.tag-selection-container svg {
+  height: 1.5em;
+}
+.tag-line {
+  margin: 0.15em 0em;
+  width: 100%;
+  color: #979797;
+}
+
+.tag-word {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.81rem;
+  font-family: Poppins;
+}
+.tag-default-info {
+  color: #2196f3;
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 0.8em;
+  font-style: italic;
+  margin-left: 10px;
+  margin-top: 2px;
+}
+.tag-set-default-info {
+  color: #2196f3;
+  font-family: Poppins;
+  font-weight: 300;
+  font-size: 0.71rem;
+  width: auto;
+  float: right;
+}
+
+.add-tag-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: auto;
+  /* border: 0.5px solid #2674ff; */
+  box-sizing: border-box;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  height: 1.8em;
+  font-family: Poppins;
+  font-weight: 400;
+}
+
+.add-tag-container > input[type="text"] {
+  padding-left: 1em;
+}
+.add-tag-btn {
+  background: #2196f3;
+  border-radius: 3px;
+  color: white;
+  width: 15%;
+  height: 100%;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.7em;
+  font-family: Poppins;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.add-new-tag {
+  font-family: Poppins;
+  font-size: 0.81rem;
+  color: #2196f3;
+  display: flex;
+  align-items: center;
+  margin: 0.15em 0em;
+}
+/* #tag-container {
+  padding: 4px 0px;
+  padding-top: 3.1%;
+  padding-bottom: 3.1%;
+} */
+
+#edit-location-input > input[type="text"] {
+  font-size: 0.8em;
+}
+
+#tag-container {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border: 1px solid #dadada;
+  font-size: 0.7em;
+  color: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+}
+
+#location-tags {
+  max-width: 90%;
+  word-wrap: break-word;
+  font-family: Poppins;
+  padding: 6px 0px;
+}
+
+#tag-container svg {
+  height: 0.8em;
+}
+
+.selectedItem-name {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 27px;
+  /* border: 1px solid #dadada; */
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: #979797;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.value-floating-label {
+  top: -5px;
+  left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 10px;
+  opacity: 1;
+  background-color: #fff;
+  position: absolute;
+  /* left: 12px; */
+  /* top: 5px; */
+  transition: 0.2s ease all;
+  color: #979797;
+  position: absolute;
+  /* color: #979797; */
+}

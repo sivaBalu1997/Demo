@@ -6,6 +6,7 @@ import Dropdown from "../common/Dropdown";
 import CustomDropdown from "../common/customDropdown";
 import API from "../../redux/api/api";
 import { getOutlets } from "../../redux/actions/employeeActions";
+import { clearMenuData } from "../../redux/actions/menuAction";
 import MerchantLogo from "../../assets/images/thalappakatti.png";
 import user from "../../assets/images/user_one.png";
 import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
@@ -137,6 +138,7 @@ const Report = (props) => {
   }
 
   const logoutUser = () => {
+    dispatch(clearMenuData());
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");
@@ -238,10 +240,21 @@ const Report = (props) => {
               }`}
               onClick={() => history.push("/management/report/4", "Sales")}
             >
-              Daily Report
+              Order insights
             </div>
           )}
-
+          {selectValue === "Sales" && (
+            <div
+              className={`tab ${
+                location.pathname === "/management/report/12"
+                  ? "selected"
+                  : "unselected"
+              }`}
+              onClick={() => history.push("/management/report/12", "Sales")}
+            >
+              Sales insights
+            </div>
+          )}
           {/* <div
             className={`tab ${
               location.pathname === "/management/report/4"

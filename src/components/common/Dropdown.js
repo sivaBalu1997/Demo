@@ -20,12 +20,20 @@ const Dropdown = ({
         {placeholder && <option> {placeholder}</option>}
         {data.map((item) => {
           return (
-            <option key={item.id} value={item.option}>
-              {item.option}
+            <option key={item.id} value={item.id}>
+              {item.option ? item.option : item.name}
             </option>
           );
         })}
+        {/* <option> */}
+        <input type="text" placeholder="Enter Category Name" />
+        {/* <span>Add Menu Item</span> */}
+        {/* </option> */}
       </select>
+      {/* <label style="display:none;">
+        Enter your Name
+        <input></input>
+      </label> */}
       <img src={downArrow} alt="arrow" className="select__arrow" />
     </div>
   );

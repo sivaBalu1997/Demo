@@ -4,6 +4,7 @@ import {
   GET_MENUS_FAILURE,
   GET_MENUS_SUCCESS,
   GET_MENUS_REQUEST,
+  CLEAR_MENU_DATA,
 } from "../constants/employeeContants";
 
 import {
@@ -48,7 +49,11 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.getMenuLoading = false;
         draft.getMenuError = action.payload;
         break;
-
+      case CLEAR_MENU_DATA:
+        draft.menu = [];
+        draft.getMenuLoading = false;
+        draft.getMenuError = "";
+        break;
       // Update Menu Option
       case UPDATE_ITEM_OPTION_REQUEST:
         draft.updateItemOptionLoading = true;

@@ -9,6 +9,5 @@ const Store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 // Middleware: Redux Saga
 sagaMiddleware.run(rootSaga);
 
-
 // Exports
 export default Store;

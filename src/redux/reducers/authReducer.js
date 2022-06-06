@@ -19,6 +19,7 @@ import {
   RESTAURANT_DETAIL_REQUEST,
   RESTAURANT_DETAIL_SUCCESS,
   SELECTED_BRANCH,
+  CLEAR_SIGNIN
 } from "../constants/authConstants";
 
 const initialAuthState = {
@@ -141,6 +142,9 @@ export default function authReducer(state = initialAuthState, action) {
       case SELECTED_BRANCH:
         draft.selectedBranch = action.payload;
         break;
+      case CLEAR_SIGNIN:
+        draft.signInMessage = "";
+        break;  
       default:
         break;
     }

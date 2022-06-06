@@ -1,0 +1,299 @@
+.row-header {
+  padding: 30px 0px 20px 0px;
+}
+
+.title-header {
+  // padding-left: 4.5%;
+  padding-bottom: 1.5vw;
+  font-size: 1.5rem;
+  color: #67833e;
+  font-weight: 500;
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+}
+
+.backButton {
+  cursor: pointer;
+}
+
+.row-header-text {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.row1 {
+  margin-bottom: 1rem;
+}
+
+.row1-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row-table-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 20px 25px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+}
+
+.row-table-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-table-value {
+  padding-top: 1.225rem;
+  font-size: 20px;
+  font-family: Poppins;
+}
+
+.plan-name-text {
+  font-weight: 600;
+  color: #fcab0d;
+}
+
+.renewal-date-text {
+  color: #484848;
+}
+
+.bill-amount-text {
+  color: #67833e;
+  font-weight: 500;
+}
+.row-table-key {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.row-table-divider {
+  border-left: 1px solid #ebeaea;
+}
+
+.row-options {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5%;
+}
+
+.row-option-text {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #0085ff;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.row-secondary-text-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-secondary-text {
+  font-family: Poppins;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  margin-top: 1rem;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.row-divider {
+  margin: 0px;
+  border-top: 1px solid #ebeaea;
+}
+
+.row4-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.changePlan-sub-header {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.sub-header-title {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  margin-left: 1.5rem;
+  color: #454545;
+}
+
+.changePlan-content-container {
+}
+
+.changePlan-plan-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.changePlan-plan-list-item {
+  // width: 90%;
+  display: flex;
+  padding: 35px 30px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.changePlan-plan-list-item-active {
+  border: 1px solid #6ec500;
+}
+
+.chnagePlan-plan-list-item-plan-text {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  // width: 15%;
+  color: #979797;
+}
+
+.chnagePlan-plan-list-item-price-text {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  // width: 15%;
+}
+
+.chnagePlan-plan-list-item-price-text-disable {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.chnagePlan-plan-list-item-facility-text {
+  font-family: Poppins;
+  font-size: 14px;
+  margin-right: 20px;
+  color: #797979;
+}
+
+.chnagePlan-plan-list-item-facility-text-disable {
+  opacity: 0.5;
+}
+.changePlan-text-Container {
+  width: 15%;
+  display: flex;
+  align-items: center;
+}
+
+.changePlan-secondary-list {
+  font-family: Poppins;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Silver {
+  color: #6e6e6e;
+}
+.Gold {
+  color: #fcab0d;
+}
+.Platinum {
+  color: #47aeff;
+}
+
+.Palladium {
+  color: #0061ad;
+}
+
+.changePlan-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  // position: absolute;
+  bottom: 70px;
+  right: 3%;
+  margin-top: 5%;
+}
+
+.changePlan-submit-button {
+  margin-left: 1.5rem;
+  min-width: 200px;
+}
+
+.cancelSub-content-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+}
+
+.cancelSub-question-text {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 20px;
+  color: #454545;
+}
+
+.cancelSub-answer-text {
+  font-family: Poppins;
+  font-size: 18px;
+  line-height: 27px;
+  margin-top: 10px;
+}
+
+.cancelSub-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 100px;
+}
+
+.billingHistory-table-header {
+  font-family: Poppins;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: normal !important;
+  line-height: 21px;
+  color: #9b9b9b;
+}
+
+.billingHistory-table-header th {
+  font-weight: normal;
+  text-align: left;
+}
+
+.billingHistory-table-data {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.billingHistory-table-data td {
+  padding: 20px 0px 10px 0px;
+}
+
+.card-number {
+  justify-content: flex-start;
+  display: flex;
+}
+
+.plan-content-container {
+  display: flex;
+  width: 100%;
+}

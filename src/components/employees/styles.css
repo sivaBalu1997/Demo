@@ -1,0 +1,12 @@
+.popupInnerItem {
+  display: flex;
+  align-items: center;
+}
+
+.employeePopupContainer {
+  width: 120px !important;
+}
+
+.dropDown {
+  font-size: 14px !important;
+}
