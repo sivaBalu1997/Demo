@@ -7,6 +7,7 @@ import {
   OFFER_DELETE_REQUEST,
   SET_OFFER_STATUS,
   OFFER_DELETE_SUCCESS,
+  OFFER_DELETE_FAILURE,
   OFFER_DISABLE_SUCCESS,
   CREATE_OFFER_REQUEST,
   CREATE_OFFER_SUCCESS,
@@ -17,6 +18,10 @@ import {
   EDIT_OFFER_REQUEST,
   EDIT_OFFER_SUCCESS,
   EDIT_OFFER_FAILURE,
+  DELETE_OFFER_REQUEST,
+  DELETE_OFFER_SUCCESS,
+  DELETE_OFFER_FAILED,
+  RESET_DELETE_DATA,
 } from "../constants/offerConstants";
 
 const initialOfferState = {
@@ -39,13 +44,17 @@ const initialOfferState = {
   EditOfferFailure: "",
   addOfferSuccess: false,
   addOfferFailed: false,
-  addOfferSuccessMessage: "Offer Added Successfully",
+  addOfferSuccessMessage: "",
   addOfferFailedMessage: "",
-
   updateOfferSuccess: false,
   updateOfferFailed: false,
   updateOfferSuccessMessage: "",
   updateOfferFailureMessage: "",
+  deleteOfferLoading: false,
+  deleteOfferSuccess: false,
+  deleteOfferFailed: false,
+  deleteOfferSuccessMessage: "",
+  deleteOfferFailureMessage: "",
 };
 
 export default function offerReducer(state = initialOfferState, action) {
@@ -79,7 +88,7 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.createOfferLoading = false;
         draft.addOfferSuccess = true;
         draft.addOfferFailed = false;
-        draft.addOfferSuccessMessage ="";
+        draft.addOfferSuccessMessage = "";
         draft.addOfferFailedMessage = "";
 
         break;
@@ -88,7 +97,7 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.createOfferFailure = true;
         draft.addOfferSuccess = false;
         draft.addOfferFailed = false;
-        draft.addOfferSuccessMessage ="";
+        draft.addOfferSuccessMessage = "";
         draft.addOfferFailedMessage = action.payload;
         break;
 
@@ -133,31 +142,50 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.dropdowndataFailure = "";
         break;
 
-      case OFFER_DELETE_REQUEST:
-        draft.offerListLoading = false;
-      
-        draft.offerListFailure = "";
+      // Delete Offer
+      case DELETE_OFFER_REQUEST:
+        draft.deleteOfferLoading = true;
+        draft.deleteOfferFailed = false;
+        draft.deleteOfferSuccess = false;
+        draft.deleteOfferFailureMessage = "";
+        draft.deleteOfferSuccessMessage = "";
         break;
+      case DELETE_OFFER_SUCCESS:
+        draft.deleteOfferLoading = false;
+        draft.deleteOfferFailed = false;
+        draft.deleteOfferSuccess = true;
+        draft.deleteOfferFailureMessage = "";
+        draft.deleteOfferSuccessMessage = action.payload;
+        break;
+      case DELETE_OFFER_FAILED:
+        draft.deleteOfferLoading = false;
+        draft.deleteOfferFailed = true;
+        draft.deleteOfferSuccess = false;
+        draft.deleteOfferFailureMessage = action.payload;
+        draft.deleteOfferSuccessMessage = "";
+        break;
+
+      case RESET_DELETE_DATA:
+        draft.deleteOfferLoading = false;
+        draft.deleteOfferFailed = false;
+        draft.deleteOfferSuccess = false;
+        draft.deleteOfferFailureMessage = "";
+        draft.deleteOfferSuccessMessage = "";
+        break;
+
+     
       case OFFER_DISABLE_REQUEST:
         draft.offerListLoading = false;
         draft.offerListFailure = "";
-      
         break;
-      case OFFER_DELETE_SUCCESS:
-        if (action.payload.metaDataInfo.responseCode === "ERROR") {
-          draft.isSelectedOfferDeleted = false;
-        } else if (action.payload.metaDataInfo.responseCode === "SUCCESS") {
-          draft.isSelectedOfferDeleted = true;
-        }
-    
-        break;
+   
       case OFFER_DISABLE_SUCCESS:
         if (action.payload.metaDataInfo.responseCode === "ERROR") {
           draft.isSelectedOfferDisabled = false;
         } else if (action.payload.metaDataInfo.responseCode === "SUCCESS") {
           draft.isSelectedOfferDisabled = true;
         }
-      
+
         break;
       case SET_OFFER_STATUS:
         draft.offerStatus = action.payload;

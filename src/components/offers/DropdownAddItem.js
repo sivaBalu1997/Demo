@@ -1,65 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 
-class DropdownAddItem extends React.Component {
-  constructor(props) {
-    super(props);
+const DropdownAddItem1 = (props) => {
+  const [value, setvalue] = useState("");
+  const [is_add, setisadd] = useState(false);
 
+  const handleChange = (event) => {
+    setvalue(event.target.value);
+  };
 
-    this.state = {
-      value: "",
-      is_add: false,
-    };
-  }
-
-  render() {
-    return (
-      <div className="bottom-add_fields">
-        <div
-          className={
-            !this.state.is_add
-              ? "addlink-btn display-block"
-              : "addlink-btn display-none"
-          }
-          onClick={() => this.setState({ is_add: true })}
-        >
-          <i className="bi bi-plus"></i>&nbsp;Add terms &amp; conditions
-        </div>
-
-        <div
-          className={
-            this.state.is_add
-              ? "dropdown-items display-flex"
-              : "dropdown-items display-none"
-          }
-        >
-          <input
-            type="text"
-            placeholder="Add"
-            onChange={this.handleChange.bind(this)}
-            value={this.state.value}
-            minLength="2"
-          />
-          <button
-            onClick={() => this.addDropdownItem(this.state.value)}
-            className="addbtnset"
-          >
-            Add
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-  }
-
-  addDropdownItem(value) {
+  const addDropdownItem = (value) => {
     if (value) {
-      this.setState({ value: "" });
-      this.props.addDropdownItem(this.props.dropdown_key, value);
+      setvalue("");
+      props.addDropdownItem(props.dropdown_key, value);
     }
-  }
-}
+  };
 
-export default DropdownAddItem;
+  return (
+    <div className="bottom-add_fields">
+      <div
+        className={
+          !is_add ? "addlink-btn display-block" : "addlink-btn display-none"
+        }
+        // onClick={() => this.setState({ is_add: true })}
+        onClick={() => setisadd(!is_add)}
+      >
+        <i className="bi bi-plus"></i>&nbsp;Add terms &amp; conditions
+      </div>
+
+      <div
+        className={
+          is_add ? "dropdown-items display-flex" : "dropdown-items display-none"
+        }
+      >
+        <input
+          type="text"
+          placeholder="Add"
+          onChange={handleChange}
+          value={value}
+          minLength="2"
+        />
+        <button onClick={() => addDropdownItem(value)} className="addbtnset">
+          Add
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default DropdownAddItem1;

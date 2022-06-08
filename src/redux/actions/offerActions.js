@@ -2,11 +2,9 @@ import {
   OFFER_LIST_SUCCESS,
   OFFER_LIST_FAILURE,
   OFFER_LIST_REQUEST,
-  OFFER_DELETE_REQUEST,
   OFFER_DISABLE_REQUEST,
   SET_OFFER_STATUS,
   OFFER_DISABLE_SUCCESS,
-  OFFER_DELETE_SUCCESS,
   CREATE_OFFER_REQUEST,
   CREATE_OFFER_SUCCESS,
   CREATE_OFFER_FAILURE,
@@ -17,6 +15,10 @@ import {
   EDIT_OFFER_SUCCESS,
   EDIT_OFFER_FAILURE,
   CLEAR_OFFER_SUCCESS,
+  DELETE_OFFER_REQUEST,
+  DELETE_OFFER_SUCCESS,
+  DELETE_OFFER_FAILED,
+  RESET_DELETE_DATA,
 } from "../constants/offerConstants";
 
 export const getOfferList = (offerListParams) => ({
@@ -65,11 +67,6 @@ export const failedEditOffer = (response) => ({
   payload: response,
 });
 
-export const deleteOffer = (offerId) => ({
-  type: OFFER_DELETE_REQUEST,
-  payload: offerId,
-});
-
 export const disableOffer = (offerId) => ({
   type: OFFER_DISABLE_REQUEST,
   payload: offerId,
@@ -91,11 +88,6 @@ export const failedGetOfferList = (response) => ({
 //     payload: offerId,
 // });
 
-export const successOnDeleteAnOffer = (response) => ({
-  type: OFFER_DELETE_SUCCESS,
-  payload: response,
-});
-
 export const successOnDisableAnOffer = (response) => ({
   type: OFFER_DISABLE_SUCCESS,
   payload: response,
@@ -112,4 +104,24 @@ export const cleanOfferSuccessMsg = () => ({
 export const clearOfferSuccess = () => ({
   type: CLEAR_OFFER_SUCCESS,
   payload: "",
+});
+
+// Delete Offer
+export const deleteOfferRequest = (data) => ({
+  type: DELETE_OFFER_REQUEST,
+  payload: data,
+});
+
+export const deleteOfferSuccess = (data) => ({
+  type: DELETE_OFFER_SUCCESS,
+  payload: data,
+});
+
+export const deleteOfferFailed = (data) => ({
+  type: DELETE_OFFER_FAILED,
+  payload: data,
+});
+
+export const resetDeleteData = () => ({
+  type: RESET_DELETE_DATA,
 });

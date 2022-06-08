@@ -232,3 +232,106 @@
   border: 1px solid #b3c19e;
   color: #40c956;
 }
+
+.load_div {
+  display: flex;
+  justify-content: center;
+  padding-top: 25%;
+}
+.p-3per {
+  padding: 3%;
+}
+.p-t-20 {
+  padding-top: 20px;
+}
+.m-r-10 {
+  margin-right: 10px;
+}
+.m-t-17 {
+  margin-top: 17px;
+}
+.m-t-20 {
+  margin-top: 20px;
+}
+.m-t-5 {
+  margin-top: 5px;
+}
+.m-b-20 {
+  margin-bottom: 20px;
+}
+.m-b-10 {
+  margin-bottom: 10px;
+}
+.m-b-0 {
+  margin-bottom: 0px;
+}
+.m-t-30 {
+  margin-top: 30px;
+}
+.d-inline-block {
+  display: inline-block;
+}
+
+.float-right {
+  float: right;
+}
+.w-12 {
+  width: 12px;
+}
+
+.small_txt {
+  color: #ccc;
+  display: block;
+}
+
+.label_checkbox {
+  opacity: 1;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.border_none {
+  border: none;
+}
+.rado_label {
+  opacity: 1;
+  position: relative;
+  padding-left: 35px;
+  font-size: 14px;
+}
+
+.back_arrow {
+  width: 14px;
+  vertical-align: middle;
+  margin-right: 20px;
+}
+.plus_img {
+  width: 14px;
+  vertical-align: middle;
+}
+.position-relative {
+  position: relative;
+}
+.m-l-25 {
+  margin-left: 25px;
+}
+.dis_value {
+  color: #6e6e6e;
+  margin-bottom: 20px;
+  display: block;
+}
+.tooltip_txt {
+  color: rgb(0, 0, 0);
+  margin-bottom: 20px;
+  display: block;
+}
+.offer_img {
+  width: 20px;
+  vertical-align: middle;
+}
+.text-center {
+  text-align: center;
+}
+.h-50per {
+  height: 50%;
+}

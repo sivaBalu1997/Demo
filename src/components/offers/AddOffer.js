@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Plus from "../../assets/images/add.png";
 import Back from "../../assets/images/back.png";
 import { Link } from "react-router-dom";
+
 const AddOffer = (props) => {
   let componentState = {
     id: null,
@@ -134,13 +135,13 @@ const AddOffer = (props) => {
   ]);
 
   const handleOfferChange = (event, data) => {
-    console.log(
-      "handleOfferChange - ",
-      event.target.checked,
-      event.target.value,
-      !offerstatus,
-      data
-    );
+    // console.log(
+    //   "handleOfferChange - ",
+    //   event.target.checked,
+    //   event.target.value,
+    //   !offerstatus,
+    //   data
+    // );
 
     if (event.target.checked) {
       componentState.offerType = data.offerType;
@@ -159,32 +160,14 @@ const AddOffer = (props) => {
   };
   return (
     <>
-      <div
-        className="menu-list offer_list"
-        style={{
-          padding: "3%",
-        }}
-      >
+      <div className="menu-list offer_list p-3per">
         <div>
           <h3 className="green-txt m-b-15 d-inline-block">
-            <img
-              src={Back}
-              alt=""
-              style={{
-                width: "14px",
-                verticalAlign: "middle",
-                marginRight: "20px",
-              }}
-            />{" "}
-            Add Offer
+            <img src={Back} alt="" className="back_arrow" /> Add Offer
           </h3>
 
           <button type={"button"} className="offer-btn top_btn float-right">
-            <img
-              src={Plus}
-              alt=""
-              style={{ width: "14px", verticalAlign: "middle" }}
-            />{" "}
+            <img src={Plus} alt="" className="plus_img" />{" "}
             <Link
               to={{
                 pathname: "/management/Offers/CreateOffer",
@@ -196,34 +179,21 @@ const AddOffer = (props) => {
           </button>
         </div>
         <div>
-          <p style={{ marginBottom: 0 }}>Offer Templates</p>
-          <small
-            style={{ color: "#ccc", marginBottom: "20px", display: "block" }}
-          >
+          <p className="m-b-0">Offer Templates</p>
+          <small className="small_txt m-b-20">
             Please select an offer template to create offer easily
           </small>
 
           {offerDetails.map((value, index) => (
             <div className="checkbox-radio m-b-30">
-              <label
-                style={{ opacity: "1", marginBottom: "15px", display: "block" }}
-              >
-                {value.value}
-              </label>
+              <label className="label_checkbox">{value.value}</label>
               <div>
                 {" "}
                 <div>
-                  <fieldset style ={{border:"none"}}>
+                  <fieldset className="border_none">
                     {value.offer.map((offervalue, index) => (
-                      <div style={{ marginBottom: "10px" }}>
-                        <label
-                          style={{
-                            opacity: "1",
-                            position: "relative",
-                            paddingLeft: "35px",
-                            fontSize: "14px",
-                          }}
-                        >
+                      <div className="m-b-10">
+                        <label className="rado_label">
                           <input
                             type="radio"
                             className="radio_btn"

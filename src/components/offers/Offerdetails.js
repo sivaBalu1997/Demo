@@ -8,11 +8,9 @@ import Plus from "../../assets/images/add.png";
 import Gift from "../../assets/images/gift.png";
 import { signOut } from "../../redux/actions/authActions";
 import {
-  changeOfferStatus, deleteOffer,
-  disableOffer,
-  getOfferList
+  changeOfferStatus, deleteOfferRequest, disableOffer,
+  getOfferList, resetDeleteData
 } from "../../redux/actions/offerActions";
-
 
 const Offerdetails = (props) => {
   const [loading, setLoading] = useState(true);
@@ -36,7 +34,26 @@ const Offerdetails = (props) => {
   // const isSelectedOfferDeleted = useSelector((state) => state.offer.isSelectedOfferDeleted);
 
   // const isSelectedOfferDisabled = useSelector((state) => state.offer.isSelectedOfferDisabled);
+  const deleteOffersSuccess = useSelector(
+    (state) => state.offer.deleteOfferSuccess
+  );
 
+  const deleteOffersLoading = useSelector(
+    (state) => state.offer.deleteOfferLoading
+  );
+
+  useEffect(() => {
+    if (!deleteOffersSuccess && deleteOffersLoading) {
+      alert("Item Deleted Successfully");
+      dispatch(resetDeleteData());
+      dispatch(
+        getOfferList({
+          locationId: credentials.locationId,
+          status: offerStatus,
+        })
+      );
+    }
+  }, [deleteOffersLoading, deleteOffersLoading]);
   useEffect(() => {
     if (offerList !== "") {
       setofferListdata(offerList);
@@ -70,7 +87,6 @@ const Offerdetails = (props) => {
   };
 
   const showOrderTypes = (orderTypeIds) => {
-   
     let orderTypes = [];
 
     if (Object.keys(selectedBranch?.orderTypes).length !== 0) {
@@ -110,36 +126,31 @@ const Offerdetails = (props) => {
       validityFrom,
       validityUntil
     );
-   
-   
+
     if (isTodayBeforeOfferValidity) {
-  
       return "Upcoming";
     } else if (isTodayInBetweenOfferValidity) {
       return "today";
     } else if (isTodayAfterOfferValidity) {
-     
       return "past";
     } else if (isTodayOfferValidity) {
-     
       return "sameday";
     }
   };
 
- 
   const handleSearch = async (e) => {
     let searchdata = e.target.value;
     let list = offerList;
     let result;
     let search = (list, text) =>
-      list.filter((i) =>i.offerName.toLowerCase().includes(text.toLowerCase()));
+      list.filter((i) =>
+        i.offerName.toLowerCase().includes(text.toLowerCase())
+      );
 
     if (searchdata !== "") {
-     
       result = search(list, searchdata);
 
       if (result.length > 0) {
-     
         await setOfferListNoData(true);
         await setsearchOfferList(result);
       } else {
@@ -152,48 +163,24 @@ const Offerdetails = (props) => {
     }
   };
 
-
-
-
   return (
     <>
       {loading ? (
-        <div
-          className="menu-items"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "25%",
-          }}
-        >
-          Loading, Please wait!!
-        </div>
+        <div className="menu-items load_div">Loading, Please wait!!</div>
       ) : offerList?.length === 0 && offerListFailure === "" ? (
-        <div
-          style={{
-            padding: "3%",
-          }}
-        >
+        <div className="p-3per">
           <img src={Gift} alt="" className="gift-img" />
 
-          <div style={{ textAlign: "center", marginTop: "30px" }}>
+          <div className="text-center m-t-30">
             <button type={"button"} className="offer-btn">
-              <img
-                src={Plus}
-                alt=""
-                style={{ width: "20px", verticalAlign: "middle" }}
-              />
+              <img src={Plus} alt="" className="offer_img" />
               <Link to={"/management/Offers/AddOffer"}>Add New Offers</Link>
             </button>
             <p>Add new offers by using offer template</p>
 
             <p>Or</p>
             <button type={"button"} className="offer-btn">
-              <img
-                src={Plus}
-                alt=""
-                style={{ width: "20px", verticalAlign: "middle" }}
-              />{" "}
+              <img src={Plus} alt="" className="offer_img" />{" "}
               <Link to={"/management/Offers/CreateOffer"}>
                 Create New Offers
               </Link>
@@ -202,23 +189,14 @@ const Offerdetails = (props) => {
           </div>
         </div>
       ) : (
-        <div
-          className="menu-list offer_list"
-          style={{
-            padding: "3%",
-          }}
-        >
+        <div className="menu-list offer_list p-3per">
           <div>
             <h3 className="green-txt m-b-15 d-inline-block">
               Offers ({offerList.length})
             </h3>
 
             <button type={"button"} className="offer-btn top_btn float-right">
-              <img
-                src={Plus}
-                alt=""
-                style={{ width: "14px", verticalAlign: "middle" }}
-              />
+              <img src={Plus} alt="" className="plus_img" />
 
               <Link to={"/management/Offers/TemplateOffer"}>
                 Add New Offers
@@ -246,17 +224,16 @@ const Offerdetails = (props) => {
             <div
               className={
                 offerStatus === 1
-                  ? " tab  d-inline-block "
-                  : " tab  d-inline-block selected"
+                  ? " tab  d-inline-block m-l-25"
+                  : " tab  d-inline-block selected m-l-25"
               }
-              style={{ marginLeft: "25px" }}
               onClick={() => onChangeOfOfferStatus(0)}
             >
               Completed
             </div>
           </div>
 
-          <table width="100%" style={{ height: "50%" }}>
+          <table width="100%" className="h-50per">
             <thead>
               <tr>
                 <th>Offer Name</th>
@@ -265,16 +242,14 @@ const Offerdetails = (props) => {
                 {/* <th>Visibility</th> */}
                 <th>Amount</th>
                 <th>Usage</th>
-              {  offerStatus === 1?   <th>Status</th>:""}
+                {offerStatus === 1 ? <th>Status</th> : ""}
                 <th></th>
               </tr>
             </thead>
             {offerListNoData === false ? (
               <tbody>
                 {offerListdata.map((row, index) => {
-                    
                   return (
-               
                     <OffersRow
                       key={row.id}
                       id={row.id}
@@ -291,10 +266,11 @@ const Offerdetails = (props) => {
                       offerData={row}
                       offerRate={`Rs.${row.offerRate}`}
                       usage={row.redeemedSofar}
-                      isEnabled={row.isEnabled ===1&&showOfferStatus(
-                        row.validityFrom,
-                        row.validityUntil
-                      )}
+                      isEnabled={
+                        row.isEnabled === 1 &&
+                        showOfferStatus(row.validityFrom, row.validityUntil)
+                      }
+                      index={index}
                     />
                   );
                 })}
@@ -302,7 +278,6 @@ const Offerdetails = (props) => {
             ) : (
               <tbody>
                 {searchOfferList.map((row, index) => {
-                 
                   return (
                     <OffersRow
                       key={row.id}
@@ -324,6 +299,7 @@ const Offerdetails = (props) => {
                         row.validityFrom,
                         row.validityUntil
                       )}
+                      index={index}
                     />
                   );
                 })}
@@ -347,6 +323,7 @@ const OffersRow = ({
   usage,
   isEnabled,
   offerData,
+  index,
 }) => {
   const { credentials, selectedBranch } = useSelector((state) => state.auth);
   const offerStatus = useSelector((state) => state.offer.offerStatus);
@@ -360,14 +337,6 @@ const OffersRow = ({
   const [expanded, setExpanded] = useState(false);
   const offerList = useSelector((state) => state.offer.offerList);
 
-
-  useEffect(
-    (id) => {
-      dispatch(deleteOffer(id));
-    },
-    [offerList]
-  );
-
   const expand = () => {
     setExpanded(!expanded);
   };
@@ -375,16 +344,11 @@ const OffersRow = ({
   const close = () => {
     setExpanded(false);
   };
+
   const tableRowOptions = async (id, operation) => {
     if (operation === "Delete") {
-      await dispatch(deleteOffer(id));
+      await dispatch(deleteOfferRequest(id));
       setReRender(!reRender);
-    await   dispatch(
-        getOfferList({
-          locationId: credentials.locationId,
-          status: offerStatus,
-        })
-      );
     } else if (operation === "Disable") {
       await dispatch(disableOffer(id));
       setReRender(!reRender);
@@ -430,7 +394,7 @@ const OffersRow = ({
         {offerType
           ? offerType.map((row) => {
               return (
-                <span key ="row">
+                <span>
                   {row}
                   <br />
                 </span>

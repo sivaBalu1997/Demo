@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import About from "../../assets/images/que.png";
 import { getMenus } from "../../redux/actions/menuAction";
 import { getDropdownData } from "../../redux/actions/offerActions";
+
 import CustomDropDown from "../common/custom_dropdown_with_multiselect/CustomDropdown";
 import TextInput from "../common/inputTextCustomized";
 import DropdownAddItem from "./DropdownAddItem";
@@ -88,7 +89,7 @@ const CreateOffer = (props) => {
     offerTerms = offerData.offerTerms ? offerData.offerTerms.split(",") : [];
 
     offerType = offerData.offerType ? offerData.offerType : "";
-    console.log(offerTypeIds, "offerTypeIds");
+
     if (offerData.offerAttributes) {
       visibleToList = offerData.offerAttributes.visibleTo
         ? offerData.offerAttributes.visibleTo
@@ -146,6 +147,7 @@ const CreateOffer = (props) => {
     "scaleLevel",
     "offerRate",
     "maxDiscount",
+    "outlets",
   ];
   const [errorMsg, setErrorMsg] = useState({});
 
@@ -157,35 +159,35 @@ const CreateOffer = (props) => {
       value: "Scale Level 1: 1 - 2 item at 0% off",
       id: "1",
       key: "2",
-      checked: scaleLevel == "2",
+      checked: scaleLevel === "2",
       replace: "0%",
     },
     {
       value: `Scale Level 2: 3 - 4 item at 0% off`,
       id: "2",
       key: "4",
-      checked: scaleLevel == "4",
+      checked: scaleLevel === "4",
       replace: "0%",
     },
     {
       value: "Scale Level 3: 5 - 6 item at 0% off",
       id: "3",
       key: "6",
-      checked: scaleLevel == "6",
+      checked: scaleLevel === "6",
       replace: "0%",
     },
     {
       value: "Scale Level 4: 7 - 8 item at 0% off",
       id: "4",
       key: "8",
-      checked: scaleLevel == "8",
+      checked: scaleLevel === "8",
       replace: "0%",
     },
     {
       value: " Scale Level 5: 8 - 9 item at 0% off",
       id: "5",
       key: "9",
-      checked: scaleLevel == "9",
+      checked: scaleLevel === "9",
       replace: "0%",
     },
 
@@ -193,58 +195,58 @@ const CreateOffer = (props) => {
       value: "Scale Level 6 : 9 - 10 item at 0% off",
       id: "6",
       key: "10",
-      checked: scaleLevel == "10",
+      checked: scaleLevel === "10",
       replace: "0%",
     },
   ]);
-  const [scaletext, setscaletext] = useState("");
-  console.log(scalevalue, "checking scalevaluee");
 
+  const [scaletext, setscaletext] = useState("");
+  const [scalevalueUpdate, setScalevalueUpdate] = useState(false);
   const [DaysArray, setDaysArray] = useState([
     {
       day: "Sun",
       value: "S",
-      id: 1,
-      selected: selectedDaysList.includes(1),
+      id: 7,
+      selected: selectedDaysList.includes(7),
     },
     {
       day: "Mon",
       value: "M",
-      id: 2,
-      selected: selectedDaysList.includes(2),
+      id: 1,
+      selected: selectedDaysList.includes(1),
     },
     {
       day: "Tue",
       value: "T",
-      id: 3,
-      selected: selectedDaysList.includes(3),
+      id: 2,
+      selected: selectedDaysList.includes(2),
     },
     {
       day: "Wed",
       value: "W",
-      id: 4,
-      selected: selectedDaysList.includes(4),
+      id: 3,
+      selected: selectedDaysList.includes(3),
     },
     {
       day: "Thur",
       value: "T",
-      id: 5,
-      selected: selectedDaysList.includes(5),
+      id: 4,
+      selected: selectedDaysList.includes(4),
     },
     {
       day: "Fri",
       value: "F",
-      id: 6,
-      selected: selectedDaysList.includes(6),
+      id: 5,
+      selected: selectedDaysList.includes(5),
     },
     {
       day: "Sat",
       value: "S",
-      id: 7,
-      selected: selectedDaysList.includes(7),
+      id: 6,
+      selected: selectedDaysList.includes(6),
     },
   ]);
-  const [offerscale, setofferscale] = useState(scaleLevel);
+
   const [Discountoffer, setDiscountoffer] = useState([]);
   const [DiscountType, setDiscountType] = useState([
     {
@@ -270,18 +272,14 @@ const CreateOffer = (props) => {
   const [EndDate, setEndDate] = useState(
     offerData.validityUntil ? new Date(offerData.validityUntil) : new Date()
   );
-  // const [branchoutletdata, setbranchoutletdata] = useState([]);
 
-  // const [ScaleLevelvalue, setScaleLevelvalue] = useState([]);
   const [ExtraDropDownvalue, setExtraDropDownvalue] = useState(false);
   const [scale, setscale] = useState([]);
 
   const [loading, setLoading] = useState(true);
-  const [sordertype, setsordertype] = useState([]);
+
   const credentials = useSelector((state) => state.auth.credentials);
-  // const dropdowndataLoading = useSelector(
-  //   (state) => state.offer.dropdowndataLoading
-  // );
+
   const DatatermsAndConditions = useSelector(
     (state) => state.offer.dropdownData.termsAndConditions
   );
@@ -297,8 +295,6 @@ const CreateOffer = (props) => {
 
   //setsordertype(sampleorderTypes);
   // const children = arr1.concat(arr2);
-
-  console.log(sampleorderTypes, sordertype, "checkingstate");
 
   const branchoutlet = useSelector(
     (state) => state.auth.restaurantDetails.branch
@@ -388,13 +384,14 @@ const CreateOffer = (props) => {
       setItemMenu(menuItem);
       let menuName = [];
       let selectedItem = "";
-      console.log(menuItem.menu);
+
       menuItem.menu.map((item, index) => {
         menuName.push({
           value: item.itemName,
           id: item.itemId,
           checked: false,
         });
+
         if (itemCode == item.itemId) {
           selectedItem = {
             value: item.itemName,
@@ -413,7 +410,6 @@ const CreateOffer = (props) => {
         menuName.map((menus) => {
           if (menus.id === offerData.offerAttributes.itemDetails.itemCode) {
             array.push({ value: menus.value, id: menus.id, checked: true });
-            console.log(array);
           }
           setstoremenuname(array);
         });
@@ -428,7 +424,7 @@ const CreateOffer = (props) => {
       }
     }
   }, [menuItem]);
-  const [selectValue, setselectValue] = useState(itemCode);
+
   useEffect(() => {
     if (selectedBranch !== undefined) {
       dispatch(
@@ -444,21 +440,27 @@ const CreateOffer = (props) => {
   }, [selectedBranch]);
 
   useEffect(() => {
-    let checkordertypes = [];
     if (sampleorderTypes !== undefined) {
       sampleorderTypes.map((i, j) => {
         if (i.orderTypes !== null) {
-          i.orderTypes.map((order, index) => {
-            checkordertypes.push(order);
+          let OrderTypeArray = i.orderTypes?.map((ordertype, index) => {
+            let result = {
+              value: ordertype.typeName,
+              id: ordertype.id,
+              checked: false,
+            };
+            if (offerTypeIds.includes(ordertype.id)) {
+              result.checked = true;
+            }
+            return result;
           });
-          setsordertype(checkordertypes);
-        }
 
-        //   console.log([...i.orderTypes])
+          setOrderType(OrderTypeArray ? OrderTypeArray : []);
+        }
       });
     }
   }, [sampleorderTypes]);
-  console.log(sordertype, "CCCCCCCCC");
+
   useEffect(() => {
     if (branchoutlet !== undefined) {
       let OutletArray = branchoutlet?.map((branchoutletData, index) => {
@@ -493,10 +495,8 @@ const CreateOffer = (props) => {
         setoutletbranchvalue(outletsvalue ? outletsvalue : []);
       }
     }
-    console.log(outletbranchvalue, "DDDD");
   }, [branchoutlet]);
 
-  console.log(offerscale, "offerscale");
   useEffect(() => {
     if (DatatermsAndConditions !== undefined) {
       // setcheckedListTermsAndConditions(DatatermsAndConditions);
@@ -517,24 +517,6 @@ const CreateOffer = (props) => {
     }
   }, [DatatermsAndConditions]);
 
-  useEffect(() => {
-    if (sordertype !== undefined) {
-      let OrderTypeArray = sordertype?.map((ordertype, index) => {
-        let result = {
-          value: ordertype.typeName,
-          id: ordertype.id,
-          checked: false,
-        };
-        if (offerTypeIds.includes(ordertype.id)) {
-          result.checked = true;
-        }
-        return result;
-      });
-
-      setOrderType(OrderTypeArray ? OrderTypeArray : []);
-    }
-  }, [sordertype]);
-
   const openScalePopup = (index, data, key) => {
     setScalePopupData({
       index,
@@ -544,50 +526,65 @@ const CreateOffer = (props) => {
   };
 
   const updateScaleLevel = (key, index, text) => {
-    console.log(key, index, text, "checkinggg");
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
     let scalevalueList = scalevalue;
+
     switch (key) {
       case "select_scale_dropdown":
         const replace = scalevalueList[index].replace;
-        scalevalueList[index].replace = text;
+
+        scalevalueList[index].replace = `${text}%`;
         scalevalueList[index].value = scalevalueList[index].value.replace(
           replace,
+
           `${text}%`
         );
+
         break;
 
       default:
         break;
     }
+
     setScalevalue(scalevalueList);
+    setScalevalueUpdate(!scalevalueUpdate);
     setScalePopupData("");
     setscaletext(text);
-    const errorObj = getErrorList(data);
-    setErrorMsg(errorObj);
   };
-  let scalelevelToId = scalevalue.filter((element) => element.checked);
-  console.log(scalelevelToId, "scalelevelToId");
+
+  let scalelevelToId = scalevalue.filter(
+    (element) => scaleLevel === element.checked
+  );
+
   const submitHandler = () => {
     isSubmitted = true;
     if (!validateForm(errorMsg)) {
       alert(
-        errorMsg.description,
-        errorMsg.discountType,
-        errorMsg.itemCode,
-        errorMsg.itemQuantity,
-        errorMsg.maxDiscount,
-        errorMsg.maxRedeem,
-        errorMsg.maxUsageAcrossAllTranscation,
-        errorMsg.offerBasedOn,
-        errorMsg.offerCode,
-        errorMsg.offerTerms,
-        errorMsg.offerType,
-        errorMsg.usageFrequencePerCustomer,
-        errorMsg.validOn,
-        errorMsg.visibleTo
+        errorMsg?.description !== undefined
+          ? errorMsg?.description
+          : "" + "\n" + errorMsg?.discountType !== undefined
+          ? errorMsg?.discountType
+          : "" + "\n" + errorMsg?.itemCode !== undefined
+          ? errorMsg?.itemCode
+          : "" + "\n" + errorMsg?.maxRedeem !== undefined
+          ? errorMsg?.maxDiscount
+          : "" + "\n" + errorMsg?.maxUsageAcrossAllTranscation !== undefined
+          ? errorMsg?.maxUsageAcrossAllTranscation
+          : "" + "\n" + errorMsg?.offerBasedOn !== undefined
+          ? errorMsg?.offerBasedOn
+          : "" + "\n" + errorMsg?.offerCode !== undefined
+          ? errorMsg?.offerCode
+          : "" + "\n" + errorMsg?.offerType !== undefined
+          ? errorMsg?.offerCode
+          : "" + "\n" + errorMsg?.usageFrequencePerCustomer !== undefined
+          ? errorMsg?.usageFrequencePerCustomer
+          : "" + "\n" + errorMsg?.validOn !== undefined
+          ? errorMsg?.validOn
+          : "" + "\n" + errorMsg?.visibleTo !== undefined
+          ? errorMsg?.visibleTo
+          : "" + "\n"
       );
-      console.log("validateForm error - ", errorMsg);
+
       return;
     }
     const offerTypeIds =
@@ -601,13 +598,15 @@ const CreateOffer = (props) => {
     let selectedOrderTypeId = OrderTypedropdown.filter((element) =>
       offerTypeIds.includes(element.id)
     );
-    console.log(selectedOrderTypeId, offerTypeIds, "offerTypeIds");
+
     let outletId = outletbranchvalue.filter((element) => element.checked);
     let visibleToId = VisibleTo.filter((element) => element.checked);
+    let scalelevelToId = scalevalue.filter(
+      (element) => scaleLevel === element.checked
+    );
 
-    let itemCodeId = storename.filter((element) => element.checked);
-    console.log(storename);
-    console.log(itemCodeId, "FFFFFFFF");
+    let itemCodeId = storename.filter((element) => itemCode == element.id);
+
     let data = {
       locationId: "" || offerData.locationId,
       id: offerData.id || null,
@@ -616,7 +615,7 @@ const CreateOffer = (props) => {
       offerType: offerData.offerType,
       offerRate: offerData.offerRate || Number(scaletext),
       minOrderAmount: Number(offerData.minOrderAmount),
-      maxDiscount: Number(offerData.maxDiscount),
+      maxDiscount: Number(offerData.maxDiscount) || offerData.offerRate,
       maxRedeem: Number(offerData.maxRedeem),
       redeemedSofar: Number(offerData.redeemedSofar),
       order_type_id: selectedOrderTypeId,
@@ -639,7 +638,7 @@ const CreateOffer = (props) => {
         offerBasedOn: offerData.offerAttributes.offerBasedOn,
         itemDetails: {
           discountType: offerData.offerAttributes.itemDetails.discountType,
-          offersAppliedAt: scalelevelToId.length > 0 ? "S" : "Q",
+          offersAppliedAt: scaleLevel ? "S" : "Q",
           itemCode:
             itemCodeId || offerData.offerAttributes.itemDetails.itemCode,
           itemQuantity: offerData.offerAttributes.itemDetails.itemQuantity || 0,
@@ -652,12 +651,10 @@ const CreateOffer = (props) => {
   };
 
   const isOfferBasedOn = (e, type) => {
-    console.log("isOfferBasedOn - ", e.target.checked, offerBasedOn, type);
     if (e.target.checked && offerBasedOn != type) {
       let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
       data.offerAttributes.offerBasedOn = type;
       if (type == 1) {
-        console.log("checkinggg");
         data.offerAttributes.itemDetails.offersAppliedAt = "Q";
       } else if (type == 0) {
         data.offerAttributes.itemDetails.offersAppliedAt = "S";
@@ -689,11 +686,6 @@ const CreateOffer = (props) => {
   };
 
   const handleUserDetails = ({ target }) => {
-    console.log(
-      target.value,
-      JSON.parse(JSON.stringify(offerData)),
-      "target.name"
-    );
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
     switch (target.name) {
       case "description":
@@ -781,14 +773,13 @@ const CreateOffer = (props) => {
   };
 
   const validateForm = (errors) => {
-    console.log(errors, "CCCCCCCCCCCCCC");
     let valid = true;
     Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
     return valid;
   };
-  const onSelect = (type, selectedList) => {
+  const onSelect = (type, selectedList, list) => {
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
-    console.log(data, selectedList, type, "data");
+
     switch (type) {
       case "order_type_dropdown":
         const orderTypeId = JSON.stringify({ typeIds: selectedList });
@@ -801,6 +792,7 @@ const CreateOffer = (props) => {
 
       case "visible_to_dropdown":
         data.offerAttributes.visibleTo = selectedList;
+
         break;
 
       case "usage_frequency_per_day_dropdown":
@@ -818,7 +810,8 @@ const CreateOffer = (props) => {
         data.offerAttributes.itemDetails.itemCode = selectedList;
         break;
       case "select_scale_dropdown":
-        offerData.offerAttributes.itemDetails.scaleLevel = selectedList;
+        data.offerAttributes.itemDetails.scaleLevel = selectedList;
+
         break;
 
       case "usage_customer_per_day_dropdown":
@@ -832,15 +825,13 @@ const CreateOffer = (props) => {
       default:
         break;
     }
-    console.log(data, "checking data");
+
     setOfferState(data);
     const errorObj = getErrorList(data);
     setErrorMsg(errorObj);
   };
 
   const addDropdownItem = (type, value) => {
-    console.log("addDropdownItem - ", type, value);
-
     if (!value) {
       return;
     }
@@ -949,8 +940,8 @@ const CreateOffer = (props) => {
                       disable={offerData?.id ? true : false}
                       dropdown_key="outlet_dropdown"
                       placeholder="Select Outlet"
-                      onSelect={(type, selectedList) =>
-                        onSelect(type, selectedList)
+                      onSelect={(type, selectedList, list) =>
+                        onSelect(type, selectedList, list)
                       }
                     />
                   </div>
@@ -965,8 +956,8 @@ const CreateOffer = (props) => {
                       disable={false}
                       dropdown_key="terms_conditions_dropdown"
                       placeholder="Select Terms and conditions"
-                      onSelect={(type, selectedList) =>
-                        onSelect(type, selectedList)
+                      onSelect={(type, selectedList, list) =>
+                        onSelect(type, selectedList, list)
                       }
                     >
                       <DropdownAddItem
@@ -985,13 +976,13 @@ const CreateOffer = (props) => {
                       show_all={true}
                       dropdown_key="visible_to_dropdown"
                       placeholder="Select Visible To"
-                      onSelect={(type, selectedList) =>
-                        onSelect(type, selectedList)
+                      onSelect={(type, selectedList, list) =>
+                        onSelect(type, selectedList, list)
                       }
                     />
                   </div>
                 </div>
-                <div className="row" style={{ marginTop: "20px" }}>
+                <div className="row m-t-20">
                   <div className="col-md-6">
                     <textarea
                       type="text"
@@ -1023,20 +1014,10 @@ const CreateOffer = (props) => {
               <div className="">
                 <div className="row m-0">
                   <div className="col-md-12 w-100">
-                    <h3
-                      className="tooltip m-b-15 subheadingsize"
-                      style={{ position: "relative" }}
-                    >
+                    <h3 className="tooltip m-b-15 subheadingsize position-relative">
                       Offer Type{" "}
                       <span class="tooltipalign">
-                        <img
-                          src={About}
-                          alt=""
-                          style={{
-                            width: "14px",
-                            verticalAlign: "middle",
-                          }}
-                        />
+                        <img src={About} alt="" className="plus_img" />
 
                         <p className="hover_tab tooltiptext">
                           Discount Value based on number of items or total
@@ -1045,15 +1026,7 @@ const CreateOffer = (props) => {
                       </span>
                     </h3>
 
-                    <small
-                      style={{
-                        color: "#6E6E6E",
-                        marginBottom: "20px",
-                        display: "block",
-                      }}
-                    >
-                      Discount value based on
-                    </small>
+                    <small className="dis_value">Discount value based on</small>
                     <div class="d-flex">
                       <div className="radiotypeitems mb-3 me-3">
                         <label class="checkbox-custom">
@@ -1083,15 +1056,12 @@ const CreateOffer = (props) => {
                         </label>
                       </div>
                     </div>
-                    <div
-                      className="quantity_invoice"
-                      style={{ marginTop: "20px" }}
-                    >
+                    <div className="quantity_invoice m-t-20">
                       <div className="row m-0 ml-8">
                         {offerBasedOn == 1 ? (
                           <div className="col-md-6">
                             <CustomDropDown
-                              selected_id={selectValue}
+                              selected_id={itemCode}
                               select_key="id"
                               hide_check_box={true}
                               list={storename}
@@ -1099,8 +1069,8 @@ const CreateOffer = (props) => {
                               dropdown_key="menu_category_dropdown"
                               placeholder="Menu Category"
                               disable={false}
-                              onSelect={(type, selectedList) =>
-                                onSelect(type, selectedList)
+                              onSelect={(type, selectedList, list) =>
+                                onSelect(type, selectedList, list)
                               }
                             />
 
@@ -1112,12 +1082,12 @@ const CreateOffer = (props) => {
                               is_single={true}
                               dropdown_key="Discount_Type"
                               placeholder="Discount Type"
-                              onSelect={(type, selectedList) =>
-                                onSelect(type, selectedList)
+                              onSelect={(type, selectedList, list) =>
+                                onSelect(type, selectedList, list)
                               }
                             />
 
-                            {scalelevelToId.length === 0 ? (
+                            {!scaleLevel ? (
                               <>
                                 {" "}
                                 <div>
@@ -1197,21 +1167,19 @@ const CreateOffer = (props) => {
                               is_single={true}
                               dropdown_key="Discount_Type"
                               placeholder="Discount Type"
-                              onSelect={(type, selectedList) =>
-                                onSelect(type, selectedList)
+                              onSelect={(type, selectedList, list) =>
+                                onSelect(type, selectedList, list)
                               }
                             />
 
                             <div>
                               <TextInput
                                 type="text"
-                                placeholder="Item's Quantity"
-                                name="itemQuantity"
+                                placeholder="Min Order Amount"
+                                name="minOrderAmount"
                                 value={
-                                  offerData.offerAttributes.itemDetails
-                                    .itemQuantity
-                                    ? offerData.offerAttributes.itemDetails
-                                        .itemQuantity
+                                  offerData.minOrderAmount
+                                    ? offerData.minOrderAmount
                                     : ""
                                 }
                                 onChange={(e) => handleUserDetails(e)}
@@ -1270,31 +1238,28 @@ const CreateOffer = (props) => {
                           ""
                         )}
                         {(offerBasedOn === 1 &&
-                          scalelevelToId.length > 0 &&
+                          offerBasedOn !== 0 &&
+                          scalelevelToId.length > 0) ||
+                        (offerBasedOn !== 0 &&
                           offerData.offerAttributes?.itemDetails
                             .itemQuantity === null) ||
-                        offerData.offerAttributes?.itemDetails.itemQuantity ===
-                          "" ||
-                        offerData.offerAttributes?.itemDetails.itemQuantity ===
-                          undefined ? (
+                        (offerData.offerAttributes?.itemDetails.itemQuantity ===
+                          "" &&
+                          offerBasedOn !== 0) ||
+                        (offerData.offerAttributes?.itemDetails.itemQuantity ===
+                          undefined &&
+                          offerBasedOn !== 0) ? (
                           <div className="col-md-6">
-                            <small
-                              style={{
-                                color: "rgb(0, 0, 0)",
-                                marginBottom: "20px",
-                                display: "block",
-                                position: "relative",
-                              }}
-                            >
+                            <small className="tooltip tooltip_txt m-b-15 subheadingsize">
                               Offer Applied at{" "}
-                              <img
-                                src={About}
-                                alt=""
-                                style={{
-                                  width: "14px",
-                                  verticalAlign: "middle",
-                                }}
-                              />
+                              <span class="tooltipalign">
+                                <img src={About} alt="" className="plus_img" />
+
+                                <p className="hover_tab tooltiptext">
+                                  Discount Value based on number of items or
+                                  total amount
+                                </p>
+                              </span>
                               <small
                                 className="hover_tab"
                                 style={{ display: "none" }}
@@ -1312,10 +1277,11 @@ const CreateOffer = (props) => {
                               openScalePopup={(index, data, key) =>
                                 openScalePopup(index, data, key)
                               }
+                              list_update={scalevalueUpdate}
                               dropdown_key="select_scale_dropdown"
                               placeholder="Select Scale"
-                              onSelect={(type, selectedList) =>
-                                onSelect(type, selectedList)
+                              onSelect={(type, selectedList, list) =>
+                                onSelect(type, selectedList, list)
                               }
                             />
                           </div>
@@ -1327,20 +1293,9 @@ const CreateOffer = (props) => {
                   </div>
                 </div>
               </div>
-              <div
-                className=""
-                style={{ marginTop: "20px", marginBottom: "20px" }}
-              >
+              <div className="m-t-20 m-b-20">
                 <h3 class="subheadingsize">Validity</h3>
-                <small
-                  style={{
-                    color: "#ccc",
-                    marginBottom: "20px",
-                    display: "block",
-                  }}
-                >
-                  Date &amp; Time
-                </small>
+                <small className="small_txt m-b-20">Date &amp; Time</small>
                 <div className="row">
                   <div className="col-md-6">
                     <DatePicker
@@ -1362,8 +1317,8 @@ const CreateOffer = (props) => {
                       is_single={true}
                       dropdown_key="usage_frequency_per_day_dropdown"
                       placeholder="Select Usage Frequency per customer"
-                      onSelect={(type, selectedList) =>
-                        onSelect(type, selectedList)
+                      onSelect={(type, selectedList, list) =>
+                        onSelect(type, selectedList, list)
                       }
                     />
                   </div>
@@ -1399,15 +1354,7 @@ const CreateOffer = (props) => {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
-                    <small
-                      style={{
-                        color: "#ccc",
-                        marginBottom: "20px",
-                        display: "block",
-                      }}
-                    >
-                      Valid On
-                    </small>
+                    <small className="small_txt m-b-20">Valid On</small>
                     <div className={"day_select"}>
                       {DaysArray.map((value, index) => (
                         <div
@@ -1434,8 +1381,8 @@ const CreateOffer = (props) => {
                       is_single={true}
                       dropdown_key="usage_customer_per_day_dropdown"
                       placeholder="Select Usage per customer per day"
-                      onSelect={(type, selectedList) =>
-                        onSelect(type, selectedList)
+                      onSelect={(type, selectedList, list) =>
+                        onSelect(type, selectedList, list)
                       }
                     />
                   </div>

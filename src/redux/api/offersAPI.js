@@ -2,7 +2,7 @@ import Store from "../store";
 import API from "./api";
 
 export function getOfferList(offerListParams) {
-  console.log("getOfferList")
+
   const token = Store.getState().auth.credentials.accessToken;
   return API({
     method: "GET",
@@ -40,6 +40,7 @@ export function EditOffer(offerId) {
   });
 }
 export function deleteOffer(offerId) {
+ 
   const token = Store.getState().auth.credentials.accessToken;
   return API({
     method: "DELETE",
