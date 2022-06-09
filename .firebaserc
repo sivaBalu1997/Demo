@@ -5,6 +5,9 @@
   "targets": {
     "merchant-portal-f1a52": {
       "hosting": {
+        "dev": [
+          "merchantportaldev"
+        ],
         "staging": [
           "merchantportalstaging"
         ],
