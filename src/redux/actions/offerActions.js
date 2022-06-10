@@ -2,23 +2,27 @@ import {
   OFFER_LIST_SUCCESS,
   OFFER_LIST_FAILURE,
   OFFER_LIST_REQUEST,
-  OFFER_DISABLE_REQUEST,
   SET_OFFER_STATUS,
-  OFFER_DISABLE_SUCCESS,
-  CREATE_OFFER_REQUEST,
+   CREATE_OFFER_REQUEST,
   CREATE_OFFER_SUCCESS,
   CREATE_OFFER_FAILURE,
+  CREATE_OFFER_CLEAR,
   DROPDOWN_DATA_REQUEST,
   DROPDOWN_DATA_SUCCESS,
   DROPDOWN_DATA_FAILURE,
   EDIT_OFFER_REQUEST,
   EDIT_OFFER_SUCCESS,
   EDIT_OFFER_FAILURE,
+  UPDATE_OFFER_CLEAR,
   CLEAR_OFFER_SUCCESS,
   DELETE_OFFER_REQUEST,
   DELETE_OFFER_SUCCESS,
   DELETE_OFFER_FAILED,
   RESET_DELETE_DATA,
+  DISABLE_OFFER_REQUEST,
+  DISABLE_OFFER_SUCCESS,
+  DISABLE_OFFER_FAILED,
+  RESET_DISABLE_DATA,
 } from "../constants/offerConstants";
 
 export const getOfferList = (offerListParams) => ({
@@ -37,6 +41,10 @@ export const createOfferSuccess = (createofferParams) => ({
 export const createOfferFailure = (createofferParams) => ({
   type: CREATE_OFFER_FAILURE,
   payload: createofferParams,
+});
+
+export const createOfferClear = () => ({
+  type:CREATE_OFFER_CLEAR,
 });
 export const getDropdownData = (dropDownParams) => ({
   type: DROPDOWN_DATA_REQUEST,
@@ -61,15 +69,13 @@ export const successEditOffer = (response) => ({
   payload: response,
 });
 
-// Add Employee
+export const updateOfferClear = () => ({
+  type:UPDATE_OFFER_CLEAR,
+});
+
 export const failedEditOffer = (response) => ({
   type: EDIT_OFFER_FAILURE,
   payload: response,
-});
-
-export const disableOffer = (offerId) => ({
-  type: OFFER_DISABLE_REQUEST,
-  payload: offerId,
 });
 
 export const successGetOfferList = (response) => ({
@@ -77,19 +83,8 @@ export const successGetOfferList = (response) => ({
   payload: response,
 });
 
-// Add Employee
 export const failedGetOfferList = (response) => ({
   type: OFFER_LIST_FAILURE,
-  payload: response,
-});
-
-// export const removeItemFromOfferList = (offerId) => ({
-//     type: OFFER_REMOVE_ITEM,
-//     payload: offerId,
-// });
-
-export const successOnDisableAnOffer = (response) => ({
-  type: OFFER_DISABLE_SUCCESS,
   payload: response,
 });
 
@@ -99,11 +94,31 @@ export const changeOfferStatus = (status) => ({
 });
 export const cleanOfferSuccessMsg = () => ({
   type: CLEAR_OFFER_SUCCESS,
-  payload: "",
+ 
 });
-export const clearOfferSuccess = () => ({
+export const clearOfferSuccess  = () => ({
   type: CLEAR_OFFER_SUCCESS,
-  payload: "",
+
+});
+
+// Disable Offer
+export const disableOfferRequest = (data) => ({
+  type: DISABLE_OFFER_REQUEST,
+  payload: data,
+});
+
+export const disableOfferSuccess = (data) => ({
+  type: DISABLE_OFFER_SUCCESS,
+  payload: data,
+});
+
+export const disableOfferFailed = (data) => ({
+  type: DISABLE_OFFER_FAILED,
+  payload: data,
+});
+
+export const resetDisableData = () => ({
+  type: RESET_DISABLE_DATA,
 });
 
 // Delete Offer

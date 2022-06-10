@@ -8,8 +8,12 @@ import Plus from "../../assets/images/add.png";
 import Gift from "../../assets/images/gift.png";
 import { signOut } from "../../redux/actions/authActions";
 import {
-  changeOfferStatus, deleteOfferRequest, disableOffer,
-  getOfferList, resetDeleteData
+  changeOfferStatus,
+  deleteOfferRequest,
+  disableOfferRequest,
+  getOfferList,
+  resetDeleteData,
+  resetDisableData,
 } from "../../redux/actions/offerActions";
 
 const Offerdetails = (props) => {
@@ -41,6 +45,13 @@ const Offerdetails = (props) => {
   const deleteOffersLoading = useSelector(
     (state) => state.offer.deleteOfferLoading
   );
+  const disableOffersSuccess = useSelector(
+    (state) => state.offer.disableOfferSuccess
+  );
+
+  const disableOffersLoading = useSelector(
+    (state) => state.offer.disableOfferLoading
+  );
 
   useEffect(() => {
     if (!deleteOffersSuccess && deleteOffersLoading) {
@@ -53,7 +64,21 @@ const Offerdetails = (props) => {
         })
       );
     }
-  }, [deleteOffersLoading, deleteOffersLoading]);
+  }, [deleteOffersSuccess, deleteOffersLoading]);
+
+  useEffect(() => {
+    if (!disableOffersSuccess && disableOffersLoading) {
+      alert("Item Disabled Successfully");
+      dispatch(resetDisableData());
+      dispatch(
+        getOfferList({
+          locationId: credentials.locationId,
+          status: offerStatus,
+        })
+      );
+    }
+  }, [disableOffersSuccess, disableOffersLoading]);
+
   useEffect(() => {
     if (offerList !== "") {
       setofferListdata(offerList);
@@ -237,7 +262,7 @@ const Offerdetails = (props) => {
             <thead>
               <tr>
                 <th>Offer Name</th>
-                <th>Start &amp; End Date</th>
+                <th>Offer Duration</th>
                 <th>Order Type </th>
                 {/* <th>Visibility</th> */}
                 <th>Amount</th>
@@ -350,15 +375,8 @@ const OffersRow = ({
       await dispatch(deleteOfferRequest(id));
       setReRender(!reRender);
     } else if (operation === "Disable") {
-      await dispatch(disableOffer(id));
+      await dispatch(disableOfferRequest(id));
       setReRender(!reRender);
-
-      dispatch(
-        getOfferList({
-          locationId: credentials.locationId,
-          status: offerStatus,
-        })
-      );
     } else if (operation === "Edit") {
       history.push("/management/Offers/CreateOffer", offerData);
       return;

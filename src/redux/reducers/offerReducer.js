@@ -3,25 +3,26 @@ import {
   OFFER_LIST_REQUEST,
   OFFER_LIST_SUCCESS,
   OFFER_LIST_FAILURE,
-  OFFER_DISABLE_REQUEST,
-  OFFER_DELETE_REQUEST,
   SET_OFFER_STATUS,
-  OFFER_DELETE_SUCCESS,
-  OFFER_DELETE_FAILURE,
-  OFFER_DISABLE_SUCCESS,
   CREATE_OFFER_REQUEST,
   CREATE_OFFER_SUCCESS,
   CREATE_OFFER_FAILURE,
+  CREATE_OFFER_CLEAR,
   DROPDOWN_DATA_REQUEST,
   DROPDOWN_DATA_SUCCESS,
   DROPDOWN_DATA_FAILURE,
   EDIT_OFFER_REQUEST,
   EDIT_OFFER_SUCCESS,
   EDIT_OFFER_FAILURE,
+  UPDATE_OFFER_CLEAR,
   DELETE_OFFER_REQUEST,
   DELETE_OFFER_SUCCESS,
   DELETE_OFFER_FAILED,
   RESET_DELETE_DATA,
+  DISABLE_OFFER_REQUEST,
+  DISABLE_OFFER_SUCCESS,
+  DISABLE_OFFER_FAILED,
+  RESET_DISABLE_DATA,
 } from "../constants/offerConstants";
 
 const initialOfferState = {
@@ -55,6 +56,11 @@ const initialOfferState = {
   deleteOfferFailed: false,
   deleteOfferSuccessMessage: "",
   deleteOfferFailureMessage: "",
+  disableOfferLoading: false,
+  disableOfferSuccess: false,
+  disableOfferFailed: false,
+  disableOfferSuccessMessage: "",
+  disableOfferFailureMessage: "",
 };
 
 export default function offerReducer(state = initialOfferState, action) {
@@ -100,7 +106,14 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.addOfferSuccessMessage = "";
         draft.addOfferFailedMessage = action.payload;
         break;
-
+      case CREATE_OFFER_CLEAR:
+        draft.createOfferLoading = false;
+        draft.createOfferFailure = false;
+        draft.addOfferSuccess = false;
+        draft.addOfferFailed = false;
+        draft.addOfferSuccessMessage = "";
+        draft.addOfferFailedMessage = "";
+        break;
       case EDIT_OFFER_REQUEST:
         draft.EditOffer = [];
         draft.EditOfferLoading = true;
@@ -126,9 +139,15 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.updateOfferSuccess = false;
         draft.updateOfferFailureMessage = action.payload;
         draft.updateMenuItemSuccessMessage = "";
-
         break;
-
+      case UPDATE_OFFER_CLEAR:
+        draft.EditOfferLoading = false;
+        draft.EditOfferFailure = "";
+        draft.updateOfferFailed = false;
+        draft.updateOfferSuccess = false;
+        draft.updateOfferFailureMessage = "";
+        draft.updateMenuItemSuccessMessage = "";
+        break;
       case DROPDOWN_DATA_REQUEST:
         draft.dropdownData = [];
         draft.dropdowndataLoading = true;
@@ -173,20 +192,37 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.deleteOfferSuccessMessage = "";
         break;
 
-     
-      case OFFER_DISABLE_REQUEST:
-        draft.offerListLoading = false;
-        draft.offerListFailure = "";
+      // Disable Offer
+      case DISABLE_OFFER_REQUEST:
+        draft.disableOfferLoading = true;
+        draft.disableOfferFailed = false;
+        draft.disableOfferSuccess = false;
+        draft.disableOfferFailureMessage = "";
+        draft.disableOfferSuccessMessage = "";
         break;
-   
-      case OFFER_DISABLE_SUCCESS:
-        if (action.payload.metaDataInfo.responseCode === "ERROR") {
-          draft.isSelectedOfferDisabled = false;
-        } else if (action.payload.metaDataInfo.responseCode === "SUCCESS") {
-          draft.isSelectedOfferDisabled = true;
-        }
+      case DISABLE_OFFER_SUCCESS:
+        draft.disableOfferLoading = false;
+        draft.disableOfferFailed = false;
+        draft.disableOfferSuccess = true;
+        draft.disableOfferFailureMessage = "";
+        draft.disableOfferSuccessMessage = action.payload;
+        break;
+      case DISABLE_OFFER_FAILED:
+        draft.disableOfferLoading = false;
+        draft.disableOfferFailed = true;
+        draft.disableOfferSuccess = false;
+        draft.disableOfferFailureMessage = action.payload;
+        draft.disableOfferSuccessMessage = "";
+        break;
 
+      case RESET_DISABLE_DATA:
+        draft.disableOfferLoading = false;
+        draft.disableOfferFailed = false;
+        draft.disableOfferSuccess = false;
+        draft.disableOfferFailureMessage = "";
+        draft.disableOfferSuccessMessage = "";
         break;
+
       case SET_OFFER_STATUS:
         draft.offerStatus = action.payload;
         break;

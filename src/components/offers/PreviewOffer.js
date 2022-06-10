@@ -5,14 +5,15 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import edit from "../../assets/images/edit.png";
 import {
-  cleanOfferSuccessMsg,
+  updateOfferClear,
+  createOfferClear,
   createOffer,
-  EditOffer
+  EditOffer,
 } from "../../redux/actions/offerActions";
 
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
-
+ // console.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -23,26 +24,26 @@ const PreviewOffer = (props) => {
 
   const addOfferSuccess = useSelector((state) => state.offer.addOfferSuccess);
   const EditOffersw = useSelector((state) => state.offer);
-
+ 
   const updateOfferSuccess = useSelector(
     (state) => state.offer.updateOfferSuccess
   );
 
   useEffect(() => {
     if (addOfferSuccess && !createOfferLoading && !updateOfferSuccess) {
-      alert(" Offer Added Sccessfully");
+      alert("Offer Added Sccessfully");
       history.push("/management/Offers");
-      dispatch(cleanOfferSuccessMsg());
+      dispatch(createOfferClear());
     }
-  }, [addOfferSuccess, createOfferLoading]);
+  }, [addOfferSuccess, createOfferLoading, updateOfferSuccess]);
 
   useEffect(() => {
     if (updateOfferSuccess && !EditOfferLoading && updateOfferSuccess) {
       alert("Offer Edited Successfully");
       history.push("/management/Offers");
-      dispatch(cleanOfferSuccessMsg());
+      dispatch(updateOfferClear());
     }
-  }, [updateOfferSuccess, EditOfferLoading]);
+  }, [updateOfferSuccess, EditOfferLoading, updateOfferSuccess]);
 
   const selectedDaysList =
     offerData.offerAttributes && offerData.offerAttributes.validOn
@@ -93,16 +94,21 @@ const PreviewOffer = (props) => {
         ? offerData.offerAttributes.itemDetails.itemCode
         : "";
 
+    // scaleLevel =
+    //   offerData.offerAttributes.itemDetails &&
+    //   offerData.offerAttributes.itemDetails.scaleLevel
+    //     ? offerData.offerAttributes.itemDetails.scaleLevel.map(
+    //         (result) => result.key
+    //       )
+    //     : 0;
+
     scaleLevel =
       offerData.offerAttributes.itemDetails &&
       offerData.offerAttributes.itemDetails.scaleLevel
-        ? offerData.offerAttributes.itemDetails.scaleLevel.map(
-            (result) => result.key
-          )
-        : 0;
-
+        ? offerData.offerAttributes.itemDetails.scaleLevel
+        : "";
     scaleLevelvalue = Object.assign({}, scaleLevel) || 0;
-
+  
     usageFrequencePerCustomer = offerData.offerAttributes
       .usageFrequencePerCustomer
       ? offerData.offerAttributes.usageFrequencePerCustomer

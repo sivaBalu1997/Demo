@@ -2,7 +2,7 @@ import { put, call, takeLatest } from "redux-saga/effects";
 import {
   successGetOfferList,
   failedGetOfferList,
-  successOnDisableAnOffer,
+ 
   failureDropdownData,
   successDropdownData,
   createOfferSuccess,
@@ -11,6 +11,8 @@ import {
   failedEditOffer,
   deleteOfferSuccess,
   deleteOfferFailed,
+  disableOfferSuccess,
+  disableOfferFailed,
 } from "../actions/offerActions";
 import {
   deleteOffer,
@@ -22,11 +24,13 @@ import {
 } from "../api/offersAPI";
 import {
   OFFER_LIST_REQUEST,
-   OFFER_DISABLE_REQUEST,
+  
   EDIT_OFFER_REQUEST,
   CREATE_OFFER_REQUEST,
   DROPDOWN_DATA_REQUEST,
   DELETE_OFFER_REQUEST,
+  DISABLE_OFFER_REQUEST,
+  
 } from "../constants/offerConstants";
 
 export function* getOfferListSaga(action) {
@@ -92,10 +96,13 @@ export function* disableOfferSaga(action) {
   try {
     const response = yield call(disableOffer, action.payload);
     if (response.status === 200) {
-      yield put(successOnDisableAnOffer(response.data));
+      yield put(disableOfferSuccess(response.data));
+    }
+    else {
+      yield put(disableOfferFailed({ message: "please Try Again" }));
     }
   } catch (err) {
-    yield put(failedGetOfferList({ message: "Please Try Again" }));
+    yield put(disableOfferFailed({ message: "Please Try Again" }));
   }
 }
 
@@ -103,7 +110,7 @@ export default function* offerSaga() {
   yield takeLatest(OFFER_LIST_REQUEST, getOfferListSaga);
   yield takeLatest(CREATE_OFFER_REQUEST, createOfferSaga);
   yield takeLatest(DELETE_OFFER_REQUEST, deleteOfferSaga);
-  yield takeLatest(OFFER_DISABLE_REQUEST, disableOfferSaga);
+  yield takeLatest(DISABLE_OFFER_REQUEST, disableOfferSaga);
   yield takeLatest(DROPDOWN_DATA_REQUEST, dropdownDataSaga);
   yield takeLatest(EDIT_OFFER_REQUEST, EditOfferSaga);
 }

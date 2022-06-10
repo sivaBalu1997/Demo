@@ -60,7 +60,7 @@ const CreateOffer = (props) => {
   const [offerData, setOfferState] = useState(
     location.state || componentState || ""
   );
-
+ // console.log(offerData, "check");
   const header = offerData.id ? "Edit" : "Create";
   let visibleToList = "";
   let selectedDaysList = [];
@@ -99,11 +99,13 @@ const CreateOffer = (props) => {
         ? offerData.offerAttributes.validOn
         : [];
 
-      outletsList = offerData.offerAttributes.outlets
-        ? offerData.offerAttributes.outlets.map(function (item) {
-            return item;
-          })
-        : [];
+      outletsList =
+        offerData.offerAttributes.outlets &&
+        offerData.offerAttributes.outlets.length > 0
+          ? offerData.offerAttributes.outlets
+          : offerData?.id && offerData.locationId
+          ? [offerData.locationId]
+          : [];
 
       itemCode = offerData.offerAttributes.itemDetails.itemCode
         ? offerData.offerAttributes.itemDetails.itemCode
@@ -116,7 +118,7 @@ const CreateOffer = (props) => {
       scaleLevel = offerData.offerAttributes.itemDetails.scaleLevel
         ? offerData.offerAttributes.itemDetails.scaleLevel
         : "";
-
+      //console.log(scaleLevel, "scaleLevel");
       usageFrequencePerCustomer = offerData.offerAttributes
         .usageFrequencePerCustomer
         ? offerData.offerAttributes.usageFrequencePerCustomer
@@ -147,7 +149,10 @@ const CreateOffer = (props) => {
     "scaleLevel",
     "offerRate",
     "maxDiscount",
-    "outlets",
+    "offerBasedOn",
+    "itemCode",
+    "validityFrom",
+    "validityUntil",
   ];
   const [errorMsg, setErrorMsg] = useState({});
 
@@ -156,35 +161,49 @@ const CreateOffer = (props) => {
 
   const [scalevalue, setScalevalue] = useState([
     {
-      value: "Scale Level 1: 1 - 2 item at 0% off",
+      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='2'
+        ? "Scale Level 1: 1 - 2 item at"+`${offerData.offerRate}` + "% off"
+        : "Scale Level 1: 1 - 2 item at 0% off",
       id: "1",
       key: "2",
       checked: scaleLevel === "2",
       replace: "0%",
     },
     {
-      value: `Scale Level 2: 3 - 4 item at 0% off`,
+      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='4'
+        ?"Scale Level 1: 3 - 4  item at"+`${offerData.offerRate}` + "% off"
+        : "Scale Level 2: 3 - 4 item at 0% off",
+
       id: "2",
       key: "4",
-      checked: scaleLevel === "4",
+      checked: scaleLevel =="4",
       replace: "0%",
     },
     {
-      value: "Scale Level 3: 5 - 6 item at 0% off",
+      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='6'
+        ? "Scale Level 1: 5 - 6  item at"+`${offerData.offerRate}` + "% off"
+        : "Scale Level 3: 5 - 6 item at 0% off",
+
       id: "3",
       key: "6",
       checked: scaleLevel === "6",
       replace: "0%",
     },
     {
-      value: "Scale Level 4: 7 - 8 item at 0% off",
+      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='8'
+        ?"Scale Level 4: 7 - 8 item at" +`${offerData.offerRate}` + "% off"
+        : "Scale Level 4: 7 - 8 item at 0% off",
+     
       id: "4",
       key: "8",
       checked: scaleLevel === "8",
       replace: "0%",
     },
     {
-      value: " Scale Level 5: 8 - 9 item at 0% off",
+      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='9'
+        ? "Scale Level 5: 8 - 9 item at "+`${offerData.offerRate}` + "% off"
+        : "Scale Level 5: 8 - 9 item at 0% off",
+
       id: "5",
       key: "9",
       checked: scaleLevel === "9",
@@ -192,10 +211,13 @@ const CreateOffer = (props) => {
     },
 
     {
-      value: "Scale Level 6 : 9 - 10 item at 0% off",
+      value: offerData.offerAttributes.itemDetails.scaleLevel
+        ? `${offerData.offerRate}` + "% off"
+        : "Scale Level 6 : 9 - 10 item at 0% off",
+
       id: "6",
       key: "10",
-      checked: scaleLevel === "10",
+      checked: scaleLevel == "10",
       replace: "0%",
     },
   ]);
@@ -479,16 +501,16 @@ const CreateOffer = (props) => {
 
     if (offerData.locationId !== null) {
       if (branchoutlet) {
-        let outletsvalue = branchoutlet.map((outlet, index) => {
+        let outletsvalue = branchoutlet?.map((outlet, index) => {
           let result = {
             value: `Outlet ${index + 1} -${outlet.locationName}`,
             id: outlet.id,
             checked: false,
           };
 
-          if (outlet.id?.includes(offerData.locationId)) {
+          if (outlet?.id?.includes(offerData.locationId)) {
             result.checked = true;
-            outletsList.push(outlet.id);
+            // outletsList.push(outlet?.id);
           }
           return result;
         });
@@ -545,7 +567,7 @@ const CreateOffer = (props) => {
       default:
         break;
     }
-
+//console.log(scalevalueList,scalevalueList[index].replace,"scalevalueList")
     setScalevalue(scalevalueList);
     setScalevalueUpdate(!scalevalueUpdate);
     setScalePopupData("");
@@ -559,11 +581,15 @@ const CreateOffer = (props) => {
   const submitHandler = () => {
     isSubmitted = true;
     if (!validateForm(errorMsg)) {
+     // console.log(errorMsg, "checkerror");
+      alert(errorMsg.offerCode);
       alert(
         errorMsg?.description !== undefined
           ? errorMsg?.description
           : "" + "\n" + errorMsg?.discountType !== undefined
           ? errorMsg?.discountType
+          : "" + "\n" + errorMsg.outlets !== undefined
+          ? errorMsg.outlets
           : "" + "\n" + errorMsg?.itemCode !== undefined
           ? errorMsg?.itemCode
           : "" + "\n" + errorMsg?.maxRedeem !== undefined
@@ -572,10 +598,8 @@ const CreateOffer = (props) => {
           ? errorMsg?.maxUsageAcrossAllTranscation
           : "" + "\n" + errorMsg?.offerBasedOn !== undefined
           ? errorMsg?.offerBasedOn
-          : "" + "\n" + errorMsg?.offerCode !== undefined
-          ? errorMsg?.offerCode
           : "" + "\n" + errorMsg?.offerType !== undefined
-          ? errorMsg?.offerCode
+          ? errorMsg?.offerType
           : "" + "\n" + errorMsg?.usageFrequencePerCustomer !== undefined
           ? errorMsg?.usageFrequencePerCustomer
           : "" + "\n" + errorMsg?.validOn !== undefined
@@ -615,7 +639,10 @@ const CreateOffer = (props) => {
       offerType: offerData.offerType,
       offerRate: offerData.offerRate || Number(scaletext),
       minOrderAmount: Number(offerData.minOrderAmount),
-      maxDiscount: Number(offerData.maxDiscount) || offerData.offerRate,
+      maxDiscount:
+        offerData.offerRate ||
+        Number(offerData.maxDiscount) ||
+        Number(scaletext),
       maxRedeem: Number(offerData.maxRedeem),
       redeemedSofar: Number(offerData.redeemedSofar),
       order_type_id: selectedOrderTypeId,
@@ -638,11 +665,15 @@ const CreateOffer = (props) => {
         offerBasedOn: offerData.offerAttributes.offerBasedOn,
         itemDetails: {
           discountType: offerData.offerAttributes.itemDetails.discountType,
-          offersAppliedAt: scaleLevel ? "S" : "Q",
+          offersAppliedAt:
+            offerData.offerAttributes.itemDetails.offersAppliedAt ||
+            offerData.offerAttributes.itemDetails.itemQuantity != ""
+              ? "S"
+              : "Q",
           itemCode:
             itemCodeId || offerData.offerAttributes.itemDetails.itemCode,
           itemQuantity: offerData.offerAttributes.itemDetails.itemQuantity || 0,
-          scaleLevel: scalelevelToId || 0,
+          scaleLevel: [scaleLevel] || scalelevelToId || 0,
         },
       },
     };
@@ -1246,6 +1277,9 @@ const CreateOffer = (props) => {
                         (offerData.offerAttributes?.itemDetails.itemQuantity ===
                           "" &&
                           offerBasedOn !== 0) ||
+                        (offerBasedOn !== 0 &&
+                          offerData.offerAttributes?.itemDetails
+                            .offersAppliedAt === "S") ||
                         (offerData.offerAttributes?.itemDetails.itemQuantity ===
                           undefined &&
                           offerBasedOn !== 0) ? (
