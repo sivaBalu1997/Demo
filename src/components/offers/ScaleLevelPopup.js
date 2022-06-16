@@ -4,10 +4,11 @@ import { ReactComponent as CrossIcon } from "../../assets/svg/crossIcon.svg";
 import "../../styles/menus.scss";
 
 const ScaleLevelPopup = (props) => {
+
   const data = props.data ? props.data : "";
   const scaleData = data.data ? data.data : "";
 
-  const [scaletext, setscaletext] = useState("");
+  const [scaletext, setscaletext] = useState(props.data.data.replace);
 
   const handlechange = (e) => {
     setscaletext(e.target.value);

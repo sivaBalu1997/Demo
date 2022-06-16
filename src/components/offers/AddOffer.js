@@ -135,13 +135,7 @@ const AddOffer = (props) => {
   ]);
 
   const handleOfferChange = (event, data) => {
-    // console.log(
-    //   "handleOfferChange - ",
-    //   event.target.checked,
-    //   event.target.value,
-    //   !offerstatus,
-    //   data
-    // );
+  
 
     if (event.target.checked) {
       componentState.offerType = data.offerType;
@@ -163,7 +157,12 @@ const AddOffer = (props) => {
       <div className="menu-list offer_list p-3per">
         <div>
           <h3 className="green-txt m-b-15 d-inline-block">
-            <img src={Back} alt="" className="back_arrow" /> Add Offer
+          <Link
+              to={{
+                pathname: "/management/Offers",
+               
+              }}
+            > <img src={Back} alt="" className="back_arrow" /></Link>  Add Offer
           </h3>
 
           <button type={"button"} className="offer-btn top_btn float-right">

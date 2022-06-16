@@ -3,28 +3,30 @@ import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import About from "../../assets/images/que.png";
 import { getMenus } from "../../redux/actions/menuAction";
 import { getDropdownData } from "../../redux/actions/offerActions";
-
 import CustomDropDown from "../common/custom_dropdown_with_multiselect/CustomDropdown";
 import TextInput from "../common/inputTextCustomized";
 import DropdownAddItem from "./DropdownAddItem";
 import PreviewOffer from "./PreviewOffer";
 import "./sample.css";
 import ScaleLevelPopup from "./ScaleLevelPopup";
+
 const CreateOffer = (props) => {
   const [previewData, setPreviewState] = useState("");
   const checkingstate = useSelector(
     (state) => state.auth.restaurantDetails.country
   );
+  const [scaletext, setscaletext] = useState("");
+
   let componentState = {
     id: null,
     locationId: null,
-    offerName: null,
-    offerCode: null,
+    offerName: "",
+    offerCode: "",
     offerType: null,
     offerRate: null,
     minOrderAmount: "",
@@ -37,7 +39,7 @@ const CreateOffer = (props) => {
     validityUntil: new Date(),
     isEnabled: 1,
     offerAttributes: {
-      description: null,
+      description: "",
       outlets: [],
       validOn: [],
       usageFrequencePerCustomer: null,
@@ -60,7 +62,7 @@ const CreateOffer = (props) => {
   const [offerData, setOfferState] = useState(
     location.state || componentState || ""
   );
- // console.log(offerData, "check");
+  // console.log(offerData, "check");
   const header = offerData.id ? "Edit" : "Create";
   let visibleToList = "";
   let selectedDaysList = [];
@@ -75,6 +77,7 @@ const CreateOffer = (props) => {
   let Discounttype = "";
   let usagePerCustomerPerDay = "";
   let offerBasedOn = null;
+  let offerRate = null;
 
   if (offerData) {
     offerTypeIds =
@@ -87,7 +90,6 @@ const CreateOffer = (props) => {
         : [];
 
     offerTerms = offerData.offerTerms ? offerData.offerTerms.split(",") : [];
-
     offerType = offerData.offerType ? offerData.offerType : "";
 
     if (offerData.offerAttributes) {
@@ -113,7 +115,7 @@ const CreateOffer = (props) => {
 
       offersAppliedAt = offerData.offerAttributes.itemDetails.offersAppliedAt
         ? offerData.offerAttributes.itemDetails.offersAppliedAt
-        : "";
+        : "Q";
 
       scaleLevel = offerData.offerAttributes.itemDetails.scaleLevel
         ? offerData.offerAttributes.itemDetails.scaleLevel
@@ -153,76 +155,129 @@ const CreateOffer = (props) => {
     "itemCode",
     "validityFrom",
     "validityUntil",
+    "offersAppliedAt",
+    offerData.id ? "outlets" : "",
   ];
   const [errorMsg, setErrorMsg] = useState({});
 
-  const history = useHistory();
   const dispatch = useDispatch();
+
+  const [checkingrupeessymbol, setcheckingrupeessymbol] = useState("");
 
   const [scalevalue, setScalevalue] = useState([
     {
-      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='2'
-        ? "Scale Level 1: 1 - 2 item at"+`${offerData.offerRate}` + "% off"
-        : "Scale Level 1: 1 - 2 item at 0% off",
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "2"
+          ? `Scale Level 1: 1 - 2 item at${offerData.offerRate}%off`
+          : "Scale Level 1: 1 - 2 item at 0% off",
       id: "1",
       key: "2",
       checked: scaleLevel === "2",
-      replace: "0%",
+      replace: "0",
     },
     {
-      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='4'
-        ?"Scale Level 1: 3 - 4  item at"+`${offerData.offerRate}` + "% off"
-        : "Scale Level 2: 3 - 4 item at 0% off",
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "4"
+          ? `Scale Level 2: 3 - 4  item at${offerData.offerRate}% off`
+          : "Scale Level 2: 3 - 4 item at 0% off",
 
       id: "2",
       key: "4",
-      checked: scaleLevel =="4",
-      replace: "0%",
+      checked: scaleLevel == "4",
+      replace: "0",
     },
     {
-      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='6'
-        ? "Scale Level 1: 5 - 6  item at"+`${offerData.offerRate}` + "% off"
-        : "Scale Level 3: 5 - 6 item at 0% off",
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "6"
+          ? `Scale Level 3: 5 - 6  item at${offerData.offerRate}% off`
+          : "Scale Level 3: 5 - 6 item at 0% off",
 
       id: "3",
       key: "6",
       checked: scaleLevel === "6",
-      replace: "0%",
+      replace: "0",
     },
     {
-      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='8'
-        ?"Scale Level 4: 7 - 8 item at" +`${offerData.offerRate}` + "% off"
-        : "Scale Level 4: 7 - 8 item at 0% off",
-     
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "8"
+          ? `Scale Level 4: 7 - 8 item at${offerData.offerRate}% off`
+          : "Scale Level 4: 7 - 8 item at 0% off",
+
       id: "4",
       key: "8",
       checked: scaleLevel === "8",
-      replace: "0%",
+      replace: "0",
     },
     {
-      value: offerData.offerAttributes.itemDetails.scaleLevel&&scaleLevel =='9'
-        ? "Scale Level 5: 8 - 9 item at "+`${offerData.offerRate}` + "% off"
-        : "Scale Level 5: 8 - 9 item at 0% off",
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "9"
+          ? `Scale Level 5: 9 - 10 item at ${offerData.offerRate}% off`
+          : "Scale Level 5: 9- 10 item at 0% off",
 
       id: "5",
-      key: "9",
-      checked: scaleLevel === "9",
-      replace: "0%",
-    },
-
-    {
-      value: offerData.offerAttributes.itemDetails.scaleLevel
-        ? `${offerData.offerRate}` + "% off"
-        : "Scale Level 6 : 9 - 10 item at 0% off",
-
-      id: "6",
       key: "10",
-      checked: scaleLevel == "10",
-      replace: "0%",
+      checked: scaleLevel === "10",
+      replace: "0",
     },
   ]);
 
-  const [scaletext, setscaletext] = useState("");
+  const [Flatscalevalue, setFlatscalevalue] = useState([
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "2"
+          ? `Scale Level 1: 1 - 2 item at Rs.${offerData.offerRate}off`
+          : `Scale Level 1: 1 - 2 item at Rs.0 off`,
+      id: "1",
+      key: "2",
+      checked: scaleLevel === "2",
+      replace: "0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "4"
+          ? `Scale Level 2: 3 - 4  item at Rs.${offerData.offerRate}off`
+          : "Scale Level 2: 3 - 4 item at  Rs.0 off",
+
+      id: "2",
+      key: "4",
+      checked: scaleLevel == "4",
+      replace: "0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "6"
+          ? `Scale Level 3: 5 - 6  item at Rs.${offerData.offerRate}off`
+          : "Scale Level 3: 5 - 6 item at Rs.0 off",
+
+      id: "3",
+      key: "6",
+      checked: scaleLevel === "6",
+      replace: "0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "8"
+          ? `Scale Level 4: 7 - 8  item at Rs.${offerData.offerRate}off`
+          : "Scale Level 4: 7 - 8 item at Rs.0 off",
+
+      id: "4",
+      key: "8",
+      checked: scaleLevel === "8",
+      replace: "0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "10"
+          ? `Scale Level 5: 9 - 10 item at Rs.${offerData.offerRate}off`
+          : "Scale Level 5: 9 - 10 item at Rs.0 off",
+
+      id: "5",
+      key: "10",
+      checked: scaleLevel === "10",
+      replace: "0",
+    },
+  ]);
+
   const [scalevalueUpdate, setScalevalueUpdate] = useState(false);
   const [DaysArray, setDaysArray] = useState([
     {
@@ -269,7 +324,6 @@ const CreateOffer = (props) => {
     },
   ]);
 
-  const [Discountoffer, setDiscountoffer] = useState([]);
   const [DiscountType, setDiscountType] = useState([
     {
       value: "Rate%",
@@ -285,9 +339,6 @@ const CreateOffer = (props) => {
     },
   ]);
 
-  const [dropdowntoggle, setdropdowntoogle] = useState(false);
-  const [AddbuttonClick, setAddbuttonClick] = useState(false);
-  const [AddbuttonscaleClick, setAddbuttonscaleClick] = useState(false);
   const [startDate, setStartDate] = useState(
     offerData.validityFrom ? new Date(offerData.validityFrom) : new Date()
   );
@@ -295,36 +346,20 @@ const CreateOffer = (props) => {
     offerData.validityUntil ? new Date(offerData.validityUntil) : new Date()
   );
 
-  const [ExtraDropDownvalue, setExtraDropDownvalue] = useState(false);
-  const [scale, setscale] = useState([]);
-
-  const [loading, setLoading] = useState(true);
-
   const credentials = useSelector((state) => state.auth.credentials);
 
   const DatatermsAndConditions = useSelector(
     (state) => state.offer.dropdownData.termsAndConditions
   );
-  const ScaleLevelData = useSelector(
-    (state) => state.offer.dropdownData.scaleLevels
-  );
-  const OrderType = useSelector(
-    (state) => state.auth.restaurantDetails.orderTypes
-  );
+
   const sampleorderTypes = useSelector(
     (state) => state.auth.restaurantDetails.branch
   );
-
-  //setsordertype(sampleorderTypes);
-  // const children = arr1.concat(arr2);
-
   const branchoutlet = useSelector(
     (state) => state.auth.restaurantDetails.branch
   );
 
-  // const statevalues = useSelector((state) => state);
   const selectedBranch = useSelector((state) => state.auth.selectedBranch);
-  // const offerList = useSelector((state) => state);
 
   const menuItem = useSelector((state) => state.menu.menu);
   const [itemMenu, setItemMenu] = useState([]);
@@ -395,12 +430,11 @@ const CreateOffer = (props) => {
     },
   ]);
 
-  const [name, setName] = useState("");
-  const [Termsstatus, setTermsstatus] = useState(false);
-  const [scalelevelstatus, setscalelevelstatus] = useState(false);
-
   const [scalePopupData, setScalePopupData] = useState("");
 
+  useEffect(() => {}, [checkingstate, Flatscalevalue, checkingrupeessymbol]);
+
+  useEffect(() => {}, [scaletext]);
   useEffect(() => {
     if (menuItem.menu !== undefined && menuItem?.menu?.length > 0) {
       setItemMenu(menuItem);
@@ -441,8 +475,6 @@ const CreateOffer = (props) => {
         setRateMenu(selectedItem);
       } else if (offerType === "FLATFEE") {
         setFlatMenu(selectedItem);
-      } else if (offerType === "QUANTITYDISCOUNT") {
-        setItemMenu(selectedItem);
       }
     }
   }, [menuItem]);
@@ -549,29 +581,40 @@ const CreateOffer = (props) => {
 
   const updateScaleLevel = (key, index, text) => {
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
-    let scalevalueList = scalevalue;
+
+    let scalevalueList =
+      data.offerAttributes.itemDetails.discountType === "R"
+        ? scalevalue
+        : Flatscalevalue;
 
     switch (key) {
       case "select_scale_dropdown":
         const replace = scalevalueList[index].replace;
 
-        scalevalueList[index].replace = `${text}%`;
-        scalevalueList[index].value = scalevalueList[index].value.replace(
-          replace,
-
-          `${text}%`
-        );
+        scalevalueList[index].replace = `${text}`;
+        scalevalueList[index].value =
+          data.offerAttributes.itemDetails.discountType === "R"
+            ? scalevalueList[index].value.replace(replace, `${text}`)
+            : scalevalueList[index].value.replace(replace, `${text}`);
 
         break;
 
       default:
         break;
     }
-//console.log(scalevalueList,scalevalueList[index].replace,"scalevalueList")
-    setScalevalue(scalevalueList);
-    setScalevalueUpdate(!scalevalueUpdate);
-    setScalePopupData("");
-    setscaletext(text);
+
+    if (data.offerAttributes.itemDetails.discountType === "R") {
+      setScalevalue(scalevalueList);
+      setScalevalueUpdate(!scalevalueUpdate);
+      setScalePopupData("");
+      setscaletext(text);
+    } else if (data.offerAttributes.itemDetails.discountType === "F") {
+      setFlatscalevalue(scalevalueList);
+      setScalevalueUpdate(!scalevalueUpdate);
+      setScalePopupData("");
+      setscaletext(text);
+      // setscaletext(prev => ([...prev, ...text]));
+    }
   };
 
   let scalelevelToId = scalevalue.filter(
@@ -581,33 +624,41 @@ const CreateOffer = (props) => {
   const submitHandler = () => {
     isSubmitted = true;
     if (!validateForm(errorMsg)) {
-     // console.log(errorMsg, "checkerror");
-      alert(errorMsg.offerCode);
-      alert(
-        errorMsg?.description !== undefined
-          ? errorMsg?.description
-          : "" + "\n" + errorMsg?.discountType !== undefined
-          ? errorMsg?.discountType
-          : "" + "\n" + errorMsg.outlets !== undefined
-          ? errorMsg.outlets
-          : "" + "\n" + errorMsg?.itemCode !== undefined
-          ? errorMsg?.itemCode
-          : "" + "\n" + errorMsg?.maxRedeem !== undefined
-          ? errorMsg?.maxDiscount
-          : "" + "\n" + errorMsg?.maxUsageAcrossAllTranscation !== undefined
-          ? errorMsg?.maxUsageAcrossAllTranscation
-          : "" + "\n" + errorMsg?.offerBasedOn !== undefined
-          ? errorMsg?.offerBasedOn
-          : "" + "\n" + errorMsg?.offerType !== undefined
-          ? errorMsg?.offerType
-          : "" + "\n" + errorMsg?.usageFrequencePerCustomer !== undefined
-          ? errorMsg?.usageFrequencePerCustomer
-          : "" + "\n" + errorMsg?.validOn !== undefined
-          ? errorMsg?.validOn
-          : "" + "\n" + errorMsg?.visibleTo !== undefined
-          ? errorMsg?.visibleTo
-          : "" + "\n"
-      );
+      //console.log(errorMsg, "checkerror");
+
+      if (errorMsg.offerCode) {
+        alert(errorMsg.offerCode);
+      } else if (errorMsg?.description) {
+        alert(errorMsg?.description);
+      } else if (errorMsg?.offerName) {
+        alert(errorMsg?.offerName);
+      } else if (errorMsg?.discountType) {
+        alert(errorMsg?.discountType);
+      } else if (errorMsg?.itemCode) {
+        alert(errorMsg?.itemCode);
+      } else if (errorMsg?.maxUsageAcrossAllTranscation) {
+        alert(errorMsg?.maxUsageAcrossAllTranscation);
+      } else if (errorMsg?.visibleTo) {
+        alert(errorMsg?.visibleTo);
+      } else if (errorMsg?.validOn) {
+        alert(errorMsg?.validOn);
+      } else if (errorMsg?.maxRedeem) {
+        alert(errorMsg?.maxRedeem);
+      } else if (errorMsg?.offerType) {
+        alert(errorMsg?.offerType);
+      } else if (errorMsg?.offersAppliedAt) {
+        alert(errorMsg?.offersAppliedAt);
+      } else if (errorMsg?.offerTerms) {
+        alert(errorMsg?.offerTerms);
+      } else if (errorMsg?.usageFrequencePerCustomer) {
+        alert(errorMsg?.usageFrequencePerCustomer);
+      } else if (errorMsg?.usagePerCustomerPerDay) {
+        alert(errorMsg?.usagePerCustomerPerDay);
+      } else if (errorMsg?.outlets) {
+        alert(errorMsg?.outlets);
+      } else if (errorMsg?.order_type_id) {
+        alert(errorMsg?.order_type_id);
+      }
 
       return;
     }
@@ -637,11 +688,16 @@ const CreateOffer = (props) => {
       offerName: offerData.offerName,
       offerCode: offerData.offerCode,
       offerType: offerData.offerType,
-      offerRate: offerData.offerRate || Number(scaletext),
+      offerRate:
+        offerData.offerRate === null
+          ? offerData.offerRate || Number(scaletext)
+          : offerData.offerRate !== null
+          ? Number(scaletext) || offerData.offerRate
+          : "",
       minOrderAmount: Number(offerData.minOrderAmount),
       maxDiscount:
-        offerData.offerRate ||
         Number(offerData.maxDiscount) ||
+        offerData.offerRate ||
         Number(scaletext),
       maxRedeem: Number(offerData.maxRedeem),
       redeemedSofar: Number(offerData.redeemedSofar),
@@ -666,10 +722,11 @@ const CreateOffer = (props) => {
         itemDetails: {
           discountType: offerData.offerAttributes.itemDetails.discountType,
           offersAppliedAt:
-            offerData.offerAttributes.itemDetails.offersAppliedAt ||
-            offerData.offerAttributes.itemDetails.itemQuantity != ""
-              ? "S"
-              : "Q",
+            offerData.offerAttributes.itemDetails.itemQuantity !== 0 &&
+            offerData.offerAttributes.itemDetails.itemQuantity !== null &&
+            offerData.offerAttributes.itemDetails.itemQuantity
+              ? "Q"
+              : offerData.offerAttributes.itemDetails.offersAppliedAt,
           itemCode:
             itemCodeId || offerData.offerAttributes.itemDetails.itemCode,
           itemQuantity: offerData.offerAttributes.itemDetails.itemQuantity || 0,
@@ -677,7 +734,12 @@ const CreateOffer = (props) => {
         },
       },
     };
-    setPreviewState(data);
+
+    if (data.offerCode !== null) {
+      setPreviewState(data);
+    } else {
+      alert("Please Fill all details");
+    }
     return;
   };
 
@@ -688,7 +750,7 @@ const CreateOffer = (props) => {
       if (type == 1) {
         data.offerAttributes.itemDetails.offersAppliedAt = "Q";
       } else if (type == 0) {
-        data.offerAttributes.itemDetails.offersAppliedAt = "S";
+        data.offerAttributes.itemDetails.offersAppliedAt = null;
       }
 
       setOfferState(data);
@@ -732,7 +794,7 @@ const CreateOffer = (props) => {
         break;
 
       case "offersAppliedAt":
-        data.offerAttributes.offersAppliedAt = target.value;
+        data.offerAttributes.itemDetails.offersAppliedAt = target.value;
         break;
 
       default:
@@ -835,13 +897,25 @@ const CreateOffer = (props) => {
           data.offerType = "PERCENT";
         } else if (selectedList == "F") {
           data.offerType = "FLATFEE";
+
+          if (checkingstate && checkingstate === "IN") {
+            setcheckingrupeessymbol("$");
+          } else if (checkingstate && checkingstate !== "IN") {
+            setcheckingrupeessymbol("Rs.");
+          }
         }
+        setScalevalueUpdate(!scalevalueUpdate);
         break;
       case "menu_category_dropdown":
         data.offerAttributes.itemDetails.itemCode = selectedList;
         break;
       case "select_scale_dropdown":
         data.offerAttributes.itemDetails.scaleLevel = selectedList;
+        if (selectedList != null) {
+          data.offerAttributes.itemDetails.offersAppliedAt = "S";
+        } else if (selectedList === null) {
+          data.offerAttributes.itemDetails.offersAppliedAt = "Q";
+        }
 
         break;
 
@@ -906,12 +980,7 @@ const CreateOffer = (props) => {
         />
       )}
 
-      <div
-        className="menu-list offer_list"
-        // style={{
-        //   padding: "3%",
-        // }}
-      >
+      <div className="menu-list offer_list">
         <div className="mainpage_boxshade">
           <div>
             <h2 className="green-txt m-b-15 d-inline-block">
@@ -919,7 +988,6 @@ const CreateOffer = (props) => {
             </h2>
             <div className="tab_border"></div>
             <div className="m-b-15">
-              {/* <div className="">Primary Details</div> */}
               <h3>Primary Details</h3>
             </div>
           </div>
@@ -930,8 +998,14 @@ const CreateOffer = (props) => {
                   <div className="col-md-6">
                     <TextInput
                       type="text"
+                      onKeyDown={(evt) =>
+                        offerData.offerName === "" &&
+                        evt.key === " " &&
+                        evt.preventDefault()
+                      }
                       placeholder="Offer Name (max 12 characters)"
                       name="offerName"
+                      maxLength={12}
                       value={offerData.offerName ? offerData.offerName : ""}
                       onChange={(e) => handleUserDetails(e)}
                     />
@@ -954,6 +1028,11 @@ const CreateOffer = (props) => {
                   <div className="col-md-6">
                     <TextInput
                       type="text"
+                      onKeyDown={(evt) =>
+                        offerData.offerCode === "" &&
+                        evt.key === " " &&
+                        evt.preventDefault()
+                      }
                       name="offerCode"
                       placeholder="Promocode (max 10 characters)"
                       maxLength={10}
@@ -1018,6 +1097,11 @@ const CreateOffer = (props) => {
                     <textarea
                       type="text"
                       name="description"
+                      onKeyDown={(evt) =>
+                        offerData.offerAttributes?.description === "" &&
+                        evt.key === " " &&
+                        evt.preventDefault()
+                      }
                       placeholder="Offer Description"
                       rows="4"
                       value={
@@ -1032,7 +1116,10 @@ const CreateOffer = (props) => {
                   </div>
                   <div className="col-md-6">
                     <TextInput
-                      type="text"
+                      type="number"
+                      onKeyDown={(evt) =>
+                        evt.key === "e" && evt.preventDefault()
+                      }
                       name="maxRedeem"
                       placeholder="Max person allowed to use this offer"
                       value={offerData.maxRedeem ? offerData.maxRedeem : ""}
@@ -1126,6 +1213,9 @@ const CreateOffer = (props) => {
                                     type="number"
                                     placeholder="Item's Quantity"
                                     name="itemQuantity"
+                                    onKeyDown={(evt) =>
+                                      evt.key === "e" && evt.preventDefault()
+                                    }
                                     value={
                                       offerData.offerAttributes?.itemDetails
                                         .itemQuantity
@@ -1142,6 +1232,9 @@ const CreateOffer = (props) => {
                                     <TextInput
                                       type="number"
                                       placeholder="Discount %"
+                                      onKeyDown={(evt) =>
+                                        evt.key === "e" && evt.preventDefault()
+                                      }
                                       name="offerRate"
                                       value={
                                         offerData.offerRate
@@ -1154,10 +1247,16 @@ const CreateOffer = (props) => {
                                 )}
                                 {offerData.offerAttributes?.itemDetails
                                   ?.discountType === "R" ? (
-                                  <div>
+                                  <div className="position-relative m-t-30">
+                                    <small className="option_txt">
+                                      Optional
+                                    </small>
                                     <TextInput
                                       type="number"
-                                      placeholder="Max. Discount account Amount"
+                                      placeholder="Max.discount amount(in Rs/$)"
+                                      onKeyDown={(evt) =>
+                                        evt.key === "e" && evt.preventDefault()
+                                      }
                                       name="maxDiscount"
                                       value={
                                         offerData.maxDiscount
@@ -1173,6 +1272,9 @@ const CreateOffer = (props) => {
                                     <TextInput
                                       type="number"
                                       placeholder="Flat discount Amount"
+                                      onKeyDown={(evt) =>
+                                        evt.key === "e" && evt.preventDefault()
+                                      }
                                       name="maxDiscount"
                                       value={
                                         offerData.maxDiscount
@@ -1205,9 +1307,12 @@ const CreateOffer = (props) => {
 
                             <div>
                               <TextInput
-                                type="text"
+                                type="number"
                                 placeholder="Min Order Amount"
                                 name="minOrderAmount"
+                                onKeyDown={(evt) =>
+                                  evt.key === "e" && evt.preventDefault()
+                                }
                                 value={
                                   offerData.minOrderAmount
                                     ? offerData.minOrderAmount
@@ -1220,9 +1325,12 @@ const CreateOffer = (props) => {
                               ?.discountType === "R" && (
                               <div>
                                 <TextInput
-                                  type="text"
+                                  type="number"
                                   placeholder="Discount %"
                                   name="offerRate"
+                                  onKeyDown={(evt) =>
+                                    evt.key === "e" && evt.preventDefault()
+                                  }
                                   value={
                                     offerData.offerRate
                                       ? offerData.offerRate
@@ -1237,9 +1345,12 @@ const CreateOffer = (props) => {
                               ?.discountType === "R" ? (
                               <div>
                                 <TextInput
-                                  type="text"
-                                  placeholder="Max. Discount account Amount"
+                                  type="number"
+                                  placeholder="Max. Discount  Amount"
                                   name="maxDiscount"
+                                  onKeyDown={(evt) =>
+                                    evt.key === "e" && evt.preventDefault()
+                                  }
                                   value={
                                     offerData.maxDiscount
                                       ? offerData.maxDiscount
@@ -1254,6 +1365,9 @@ const CreateOffer = (props) => {
                                 <TextInput
                                   type="number"
                                   placeholder="Flat discount Amount"
+                                  onKeyDown={(evt) =>
+                                    evt.key === "e" && evt.preventDefault()
+                                  }
                                   name="maxDiscount"
                                   value={
                                     offerData.maxDiscount
@@ -1274,7 +1388,9 @@ const CreateOffer = (props) => {
                         (offerBasedOn !== 0 &&
                           offerData.offerAttributes?.itemDetails
                             .itemQuantity === null) ||
-                        (offerData.offerAttributes?.itemDetails.itemQuantity ===
+                        offerData.offerAttributes?.itemDetails.itemQuantity ===
+                          0 ||
+                        (offerData.offerAttributes.itemDetails.itemQuantity ===
                           "" &&
                           offerBasedOn !== 0) ||
                         (offerBasedOn !== 0 &&
@@ -1284,29 +1400,43 @@ const CreateOffer = (props) => {
                           undefined &&
                           offerBasedOn !== 0) ? (
                           <div className="col-md-6">
-                            <small className="tooltip tooltip_txt m-b-15 subheadingsize">
-                              Offer Applied at{" "}
-                              <span class="tooltipalign">
-                                <img src={About} alt="" className="plus_img" />
+                            <div>
+                              <small className="tooltip tooltip_txt m-b-15 subheadingsize d-inline-block">
+                                Offer Applied at{" "}
+                                <span class="tooltipalign">
+                                  <img
+                                    src={About}
+                                    alt=""
+                                    className="plus_img"
+                                  />
 
-                                <p className="hover_tab tooltiptext">
-                                  Discount Value based on number of items or
-                                  total amount
-                                </p>
-                              </span>
-                              <small
-                                className="hover_tab"
-                                style={{ display: "none" }}
-                              >
-                                Discount Value applied on
+                                  <p className="hover_tab tooltiptext">
+                                    Discount Value applied on scale Level
+                                  </p>
+                                </span>
+                                <small
+                                  className="hover_tab"
+                                  style={{ display: "none" }}
+                                >
+                                  Discount Value applied on
+                                </small>
                               </small>
-                            </small>
+                            </div>
                             <label>Scale Level (optional)</label>
                             <CustomDropDown
+                              onChange={(e) => isOfferBasedOn(e, 1)}
                               selected_id={scaleLevel}
                               select_key="key"
                               type="radio"
-                              list={scalevalue}
+                              list={
+                                offerData.offerAttributes.itemDetails
+                                  .discountType == "R"
+                                  ? scalevalue
+                                  : offerData.offerAttributes.itemDetails
+                                      .discountType == "F"
+                                  ? Flatscalevalue
+                                  : ""
+                              }
                               is_single={true}
                               openScalePopup={(index, data, key) =>
                                 openScalePopup(index, data, key)
@@ -1373,9 +1503,12 @@ const CreateOffer = (props) => {
                   </div>
                   <div className="col-md-6">
                     <TextInput
-                      type="text"
+                      type="number"
                       placeholder="Max usage across all transactions"
                       name="maxUsageAcrossAllTranscation"
+                      onKeyDown={(evt) =>
+                        evt.key === "e" && evt.preventDefault()
+                      }
                       value={
                         offerData.offerAttributes?.maxUsageAcrossAllTranscation
                           ? offerData.offerAttributes

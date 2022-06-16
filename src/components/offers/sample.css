@@ -269,7 +269,8 @@
   margin-top: 30px;
 }
 .d-inline-block {
-  display: inline-block;
+  display: inline-block !important;
+  cursor:pointer;
 }
 
 .float-right {
@@ -308,6 +309,7 @@
 .plus_img {
   width: 14px;
   vertical-align: middle;
+  margin-right: 5px;
 }
 .position-relative {
   position: relative;
@@ -328,6 +330,7 @@
 .offer_img {
   width: 20px;
   vertical-align: middle;
+  margin-right: 5px;
 }
 .text-center {
   text-align: center;
@@ -335,3 +338,15 @@
 .h-50per {
   height: 50%;
 }
+.discription:focus-visible {
+  outline: none;
+}
+.option_txt {
+  position: absolute;
+  top: -20px;
+  right: 0;
+}
+.ul_list li{    padding: 5px 0px;
+  border-bottom: 1px solid #ccc ;}
+  .ul_list{width: auto !important;}
+  .ul_list li .plus_img{height: 16px;}

@@ -34,7 +34,7 @@ import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 import { ReactComponent as BillingIcon } from "../../assets/svg/billing.svg";
 import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
-
+import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
 import Report from "../report";
 import Employees from "../employees";
 import AddEmployee from "../employees/AddEmployee";
@@ -310,13 +310,13 @@ const Menu = () => {
             }
           >
             <div  style={{ cursor: "pointer" }}>
-              <Tableware className="menu-items-SVG" />
+              <Offer className="menu-items-SVG" />
               Offer Management
             </div>
             {showOfferOptions === "MenuOptions" ? (
-              <Uparrow className="dropdown-arrow" />
+              <Uparrow className="dropdown-arrow" style={{marginLeft: "15px"}} />
             ) : (
-              <Downarrow className="dropdown-arrow" />
+              <Downarrow className="dropdown-arrow" style={{marginLeft: "15px"}} />
             )}
           </div>
           <ul className="menu-items-list">
@@ -328,7 +328,7 @@ const Menu = () => {
                     key={option}
                   >
                     <li>
-                      <span style={{ marginLeft: "40px" }}>{option}</span>
+                      <span className="d-inline-block m-t-20" style={{ marginLeft: "40px" }}>{option}</span>
                     </li>
                   </NavLink>
                 ))

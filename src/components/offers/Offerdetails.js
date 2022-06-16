@@ -7,6 +7,10 @@ import { Link } from "react-router-dom";
 import Plus from "../../assets/images/add.png";
 import Gift from "../../assets/images/gift.png";
 import { signOut } from "../../redux/actions/authActions";
+import Duplicate from "../../assets/images/duplicate.png";
+import Tick from "../../assets/images/tick.png";
+import Delete from "../../assets/images/delete.png";
+import Edit from "../../assets/images/edit.png";
 import {
   changeOfferStatus,
   deleteOfferRequest,
@@ -197,13 +201,13 @@ const Offerdetails = (props) => {
           <img src={Gift} alt="" className="gift-img" />
 
           <div className="text-center m-t-30">
-            <button type={"button"} className="offer-btn">
+            {/* <button type={"button"} className="offer-btn">
               <img src={Plus} alt="" className="offer_img" />
               <Link to={"/management/Offers/AddOffer"}>Add New Offers</Link>
             </button>
             <p>Add new offers by using offer template</p>
 
-            <p>Or</p>
+            <p>Or</p> */}
             <button type={"button"} className="offer-btn">
               <img src={Plus} alt="" className="offer_img" />{" "}
               <Link to={"/management/Offers/CreateOffer"}>
@@ -222,10 +226,7 @@ const Offerdetails = (props) => {
 
             <button type={"button"} className="offer-btn top_btn float-right">
               <img src={Plus} alt="" className="plus_img" />
-
-              <Link to={"/management/Offers/TemplateOffer"}>
-                Add New Offers
-              </Link>
+              <Link to={"/management/Offers/CreateOffer"}> Add New Offers</Link>
             </button>
             <input
               className="srch_inpt"
@@ -266,7 +267,7 @@ const Offerdetails = (props) => {
                 <th>Order Type </th>
                 {/* <th>Visibility</th> */}
                 <th>Amount</th>
-                <th>Usage</th>
+                <th>Offer Used </th>
                 {offerStatus === 1 ? <th>Status</th> : ""}
                 <th></th>
               </tr>
@@ -289,7 +290,8 @@ const Offerdetails = (props) => {
                       //   row.offerAttributes.communicationMedium
                       // }
                       offerData={row}
-                      offerRate={`Rs.${row.offerRate}`}
+                      offerRate={`Rs.${row.offerRate === 0.0?row.maxDiscount:row.offerRate}`}
+                     
                       usage={row.redeemedSofar}
                       isEnabled={
                         row.isEnabled === 1 &&
@@ -318,7 +320,7 @@ const Offerdetails = (props) => {
                       //   row.offerAttributes.communicationMedium
                       // }
                       offerData={row}
-                      offerRate={row.offerRate}
+                      offerRate={`Rs.${row.offerRate === 0.0?row.maxDiscount:row.offerRate}`}
                       usage={row.redeemedSofar}
                       isEnabled={showOfferStatus(
                         row.validityFrom,
@@ -457,19 +459,30 @@ const OffersRow = ({
           </label>
         )}
       </td>
-      <td tabIndex={0} onFocus={expand} onBlur={close}>
+     
+      <td tabIndex={0} onBlur={close} onFocus={expand}>
         <BiDotsVerticalRounded onClick={() => setShow(!show)} />
         {expanded ? (
           show && offerStatus === 1 ? (
-            <ul>
+            <ul className="ul_list">
               <li onClick={() => tableRowOptions(id, "Duplicate")}>
+                <img src={Duplicate} alt="" className="plus_img m-r-20" />
                 Duplicate
               </li>
               {isEnabled === "Upcoming" && (
-                <li onClick={() => tableRowOptions(id, "Edit")}>Edit</li>
+                <li onClick={() => tableRowOptions(id, "Edit")}>
+                  <img src={Edit} alt="" className="plus_img m-r-20" />
+                  Edit
+                </li>
               )}
-              <li onClick={() => tableRowOptions(id, "Disable")}>Disable</li>
-              <li onClick={() => tableRowOptions(id, "Delete")}>Delete</li>
+              <li onClick={() => tableRowOptions(id, "Disable")}>
+                <img src={Tick} alt="" className="plus_img m-r-20" />
+                Disable
+              </li>
+              <li onClick={() => tableRowOptions(id, "Delete")}>
+                <img src={Delete} alt="" className="plus_img m-r-20" />
+                Delete
+              </li>
             </ul>
           ) : show && offerStatus === 0 ? (
             <ul>

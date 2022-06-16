@@ -10,10 +10,10 @@ import {
   createOffer,
   EditOffer,
 } from "../../redux/actions/offerActions";
-
+import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
- // console.log(offerData, "preview offer");
+  console.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -24,7 +24,7 @@ const PreviewOffer = (props) => {
 
   const addOfferSuccess = useSelector((state) => state.offer.addOfferSuccess);
   const EditOffersw = useSelector((state) => state.offer);
- 
+  console.log(EditOffersw);
   const updateOfferSuccess = useSelector(
     (state) => state.offer.updateOfferSuccess
   );
@@ -38,6 +38,7 @@ const PreviewOffer = (props) => {
   }, [addOfferSuccess, createOfferLoading, updateOfferSuccess]);
 
   useEffect(() => {
+    console.log(EditOffersw);
     if (updateOfferSuccess && !EditOfferLoading && updateOfferSuccess) {
       alert("Offer Edited Successfully");
       history.push("/management/Offers");
@@ -108,7 +109,7 @@ const PreviewOffer = (props) => {
         ? offerData.offerAttributes.itemDetails.scaleLevel
         : "";
     scaleLevelvalue = Object.assign({}, scaleLevel) || 0;
-  
+
     usageFrequencePerCustomer = offerData.offerAttributes
       .usageFrequencePerCustomer
       ? offerData.offerAttributes.usageFrequencePerCustomer
@@ -209,7 +210,7 @@ const PreviewOffer = (props) => {
     if (data.id) {
       //edit
       data.locationId = offerData.locationId;
-
+      console.log(data, EditOfferLoading, EditOffersw, "dat5aa");
       dispatch(
         EditOffer({
           data: data,
@@ -392,13 +393,16 @@ const PreviewOffer = (props) => {
           <Link to={"/management/Offers"} className="offer-btn cancel-btn">
             Cancel
           </Link>
-          <button
-            type={"button"}
-            className="offer-btn  float-right"
-            onClick={() => saveAndPublish()}
-          >
-            Save &amp; Publish
-          </button>
+
+         
+            <button
+              type={"button"}
+              className="offer-btn  float-right"
+              onClick={() => saveAndPublish()}
+            >
+           {EditOfferLoading || createOfferLoading ? (  <Loader height="15px" width="15px" />):  " Save & Publish"
+           }  </button>
+         
         </div>
       </div>
     </>

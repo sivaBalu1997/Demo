@@ -8,7 +8,7 @@ import ScaleLevelPopup from "../../offers/ScaleLevelPopup";
 
 const CustomDropDown = (props) => {
   const myRef = useRef(null);
-//console.log(props)
+  //console.log(props)
   const [dropdownData, setDropdownData] = useState({
     list: [],
     is_single: props.is_single ? true : false,
@@ -16,25 +16,23 @@ const CustomDropDown = (props) => {
     is_all_checked: false,
     selected_value: [],
     is_show: false,
-   
   });
-  const [format,setformat] = useState( /[:]/)
+  const [format, setformat] = useState(/[:]/);
 
   useEffect(() => {
-   
     let selectedValue = "";
     let isAllChecked = false;
     let selectedList = props.selected_list ? props.selected_list : [];
     let selectedId = props.selected_id ? props.selected_id : "";
     let isSingle = props.is_single ? true : false;
-   let listUpdate = props.list_update;
+    let listUpdate = props.list_update;
     let selectKey = props.select_key ? props.select_key : "id";
     let list = [];
 
     for (let i = 0; i < props.list.length; i++) {
       const data = props.list[i];
       data.checked = false;
-    
+
       if (
         !isSingle &&
         (selectedList.includes(data[selectKey]) || data.checked)
@@ -44,7 +42,6 @@ const CustomDropDown = (props) => {
         data.checked = true;
       }
       if (isSingle && selectedId == data[selectKey]) {
-     
         selectedValue = data.value;
         data.checked = true;
       }
@@ -58,14 +55,14 @@ const CustomDropDown = (props) => {
     //   selectedId,
     //   "selectedList"
     // );
- 
+
     let data = Object.assign({}, JSON.parse(JSON.stringify(dropdownData)));
     data.list = list;
     data.selected_value = selectedValue;
     data.is_all_checked = isAllChecked;
-   
+
     setDropdownData(data);
-  }, [props.list,props.selected_list, props.selected_id, props.list_update]);
+  }, [props.list, props.selected_list, props.selected_id, props.list_update]);
   const checkIfClickedOutside = (e) => {
     // If the menu is open and the clicked target is not within the menu,
     // then close the menu
@@ -103,7 +100,7 @@ const CustomDropDown = (props) => {
   const changeDropdownArrow = () => {
     let data = Object.assign({}, JSON.parse(JSON.stringify(dropdownData)));
     data.is_show = !data.is_show;
-   
+
     setDropdownData(data);
   };
 
@@ -115,7 +112,7 @@ const CustomDropDown = (props) => {
     let selectedId = null;
     let isAllChecked = false;
     let selectKey = props.select_key ? props.select_key : "id";
-    
+
     for (let i = 0; i < dropdownData.list.length; i++) {
       const data = dropdownData.list[i];
       if (type == "all" || e.target.id == data.id) {
@@ -128,7 +125,7 @@ const CustomDropDown = (props) => {
         isAllChecked = true;
         selectedList.push(data[selectKey]);
         selectedId = data[selectKey];
-        }
+      }
       list.push(data);
     }
     props.onSelect(
@@ -141,9 +138,8 @@ const CustomDropDown = (props) => {
     data.list = list;
     data.selected_value = selectedValue;
     data.is_all_checked = isAllChecked;
-   
+
     setDropdownData(data);
-  
   };
 
   return (
@@ -179,7 +175,6 @@ const CustomDropDown = (props) => {
             <animated.div className="dropdown-items-divs">
               {!dropdownData.is_single ? (
                 <ul>
-               
                   <li className="items">
                     {dropdownData.show_all === true && (
                       <div className="dropdown-items">
@@ -233,7 +228,6 @@ const CustomDropDown = (props) => {
                   {dropdownData?.is_single &&
                     dropdownData?.list.map((i, j) => (
                       <li key={i.id} className="items">
-                      
                         <div className="dropdown-items">
                           <label className="checkbox-custom">
                             {format.test(i.value) === true ? (
@@ -253,7 +247,7 @@ const CustomDropDown = (props) => {
                                       i,
                                       props.dropdown_key
                                     );
-                                    e.preventDefault();
+                                    // e.preventDefault();
                                   }}
                                 />
                                 <br />
@@ -262,7 +256,7 @@ const CustomDropDown = (props) => {
                             ) : (
                               <span>{i.value}</span>
                             )}
-                            
+
                             <input
                               type="checkbox"
                               className={
