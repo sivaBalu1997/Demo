@@ -14,7 +14,7 @@ import DropdownAddItem from "./DropdownAddItem";
 import PreviewOffer from "./PreviewOffer";
 import "./sample.css";
 import ScaleLevelPopup from "./ScaleLevelPopup";
-
+import Calendar from "../../assets/images/cal.png";
 const CreateOffer = (props) => {
   const [previewData, setPreviewState] = useState("");
   const checkingstate = useSelector(
@@ -47,7 +47,7 @@ const CreateOffer = (props) => {
       maxUsageAcrossAllTranscation: null,
       visibleTo: [],
       currencyType: checkingstate === "IN" ? "INR" : "USD",
-      offerBasedOn: null,
+      offerBasedOn: 0,
       itemDetails: {
         itemCode: null,
         itemQuantity: null,
@@ -626,39 +626,58 @@ const CreateOffer = (props) => {
     if (!validateForm(errorMsg)) {
       //console.log(errorMsg, "checkerror");
 
+      let error = "";
+     
       if (errorMsg.offerCode) {
-        alert(errorMsg.offerCode);
-      } else if (errorMsg?.description) {
-        alert(errorMsg?.description);
-      } else if (errorMsg?.offerName) {
-        alert(errorMsg?.offerName);
-      } else if (errorMsg?.discountType) {
-        alert(errorMsg?.discountType);
-      } else if (errorMsg?.itemCode) {
-        alert(errorMsg?.itemCode);
-      } else if (errorMsg?.maxUsageAcrossAllTranscation) {
-        alert(errorMsg?.maxUsageAcrossAllTranscation);
-      } else if (errorMsg?.visibleTo) {
-        alert(errorMsg?.visibleTo);
-      } else if (errorMsg?.validOn) {
-        alert(errorMsg?.validOn);
-      } else if (errorMsg?.maxRedeem) {
-        alert(errorMsg?.maxRedeem);
-      } else if (errorMsg?.offerType) {
-        alert(errorMsg?.offerType);
-      } else if (errorMsg?.offersAppliedAt) {
-        alert(errorMsg?.offersAppliedAt);
-      } else if (errorMsg?.offerTerms) {
-        alert(errorMsg?.offerTerms);
-      } else if (errorMsg?.usageFrequencePerCustomer) {
-        alert(errorMsg?.usageFrequencePerCustomer);
-      } else if (errorMsg?.usagePerCustomerPerDay) {
-        alert(errorMsg?.usagePerCustomerPerDay);
-      } else if (errorMsg?.outlets) {
-        alert(errorMsg?.outlets);
-      } else if (errorMsg?.order_type_id) {
-        alert(errorMsg?.order_type_id);
+        error += `${errorMsg.offerCode} \n`;
       }
+      if (errorMsg?.description) {
+        error += `${errorMsg.description} \n`;
+      }
+      if (errorMsg?.offerName) {
+        error += `${errorMsg.offerName} \n`;
+      }
+      if (errorMsg?.discountType) {
+        error += `${errorMsg.discountType} \n`;
+      }
+      if (errorMsg?.itemCode) {
+        error += `${errorMsg.itemCode} \n`;
+      }
+      if (errorMsg?.maxUsageAcrossAllTranscation) {
+        error += `${errorMsg.maxUsageAcrossAllTranscation} \n`;
+      }
+      if (errorMsg?.visibleTo) {
+        error += `${errorMsg.visibleTo} \n`;
+      }
+      if (errorMsg?.validOn) {
+        error += `${errorMsg.validOn} \n`;
+      }
+      if (errorMsg?.maxRedeem) {
+        error += `${errorMsg.maxRedeem} \n`;
+      }
+      if (errorMsg?.offerType) {
+        error += `${errorMsg.offerType} \n`;
+      }
+      if (errorMsg?.offersAppliedAt) {
+        error += `${errorMsg.offersAppliedAt} \n`;
+      }
+      if (errorMsg?.offerTerms) {
+        error += `${errorMsg.offerTerms} \n`;
+      }
+      if (errorMsg?.usageFrequencePerCustomer) {
+        error += `${errorMsg.usageFrequencePerCustomer} \n`;
+      }
+      if (errorMsg?.usagePerCustomerPerDay) {
+        error += `${errorMsg.usagePerCustomerPerDay} \n`;
+      }
+      if (errorMsg?.outlets) {
+        error += `${errorMsg.outlets} \n`;
+      }
+      if (errorMsg?.order_type_id) {
+        error += `${errorMsg.order_type_id} \n`;
+      }
+
+      alert(error);
 
       return;
     }
@@ -735,7 +754,7 @@ const CreateOffer = (props) => {
       },
     };
 
-    if (data.offerCode !== null) {
+    if (data.offerCode !== "") {
       setPreviewState(data);
     } else {
       alert("Please Fill all details");
@@ -1148,6 +1167,19 @@ const CreateOffer = (props) => {
                     <div class="d-flex">
                       <div className="radiotypeitems mb-3 me-3">
                         <label class="checkbox-custom">
+                          Invoice
+                          <input
+                            type="radio"
+                            className="radio_btn"
+                            checked={offerBasedOn == 0 ? "checked" : ""}
+                            name="radio"
+                            onChange={(e) => isOfferBasedOn(e, 0)}
+                          />
+                          <span class="checkbox-labels"></span>
+                        </label>
+                      </div>
+                      <div className="radiotypeitems mb-3">
+                        <label class="checkbox-custom">
                           Quantity
                           <input
                             type="radio"
@@ -1156,19 +1188,6 @@ const CreateOffer = (props) => {
                             name="radio"
                             value="R"
                             onChange={(e) => isOfferBasedOn(e, 1)}
-                          />
-                          <span class="checkbox-labels"></span>
-                        </label>
-                      </div>
-                      <div className="radiotypeitems mb-3">
-                        <label class="checkbox-custom">
-                          Invoice
-                          <input
-                            type="radio"
-                            className="radio_btn"
-                            checked={offerBasedOn == 0 ? "checked" : ""}
-                            name="radio"
-                            onChange={(e) => isOfferBasedOn(e, 0)}
                           />
                           <span class="checkbox-labels"></span>
                         </label>
@@ -1388,8 +1407,8 @@ const CreateOffer = (props) => {
                         (offerBasedOn !== 0 &&
                           offerData.offerAttributes?.itemDetails
                             .itemQuantity === null) ||
-                        offerData.offerAttributes?.itemDetails.itemQuantity ===
-                          0 ||
+                       ( offerData.offerAttributes?.itemDetails.itemQuantity ===
+                          0 && offerBasedOn !== 0)||
                         (offerData.offerAttributes.itemDetails.itemQuantity ===
                           "" &&
                           offerBasedOn !== 0) ||
@@ -1422,7 +1441,12 @@ const CreateOffer = (props) => {
                                 </small>
                               </small>
                             </div>
-                            <label>Scale Level (optional)</label>
+                            <label className="m-b-10 d-inline-block">
+                              Scale Level{" "}
+                              <span className="small_txt d-inline-block">
+                                (optional)
+                              </span>
+                            </label>
                             <CustomDropDown
                               onChange={(e) => isOfferBasedOn(e, 1)}
                               selected_id={scaleLevel}
@@ -1461,7 +1485,7 @@ const CreateOffer = (props) => {
                 <h3 class="subheadingsize">Validity</h3>
                 <small className="small_txt m-b-20">Date &amp; Time</small>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 position-relative">
                     <DatePicker
                       selected={startDate}
                       onChange={(date) => checkandSetStartDate(date)}
@@ -1471,8 +1495,9 @@ const CreateOffer = (props) => {
                       showTimeInput
                       placeholderText={"Start date"}
                     />
+                    <img className="cal_icon" src={Calendar} width="15" />
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 position-relative">
                     <CustomDropDown
                       selected_id={usageFrequencePerCustomer}
                       select_key="key"
@@ -1488,7 +1513,7 @@ const CreateOffer = (props) => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-6 position-relative">
                     <div class="react-datepicker-wrapper">
                       <DatePicker
                         selected={EndDate ? EndDate : ""}
@@ -1499,6 +1524,7 @@ const CreateOffer = (props) => {
                         minDate={new Date(startDate)}
                         placeholder="End Date"
                       />
+                      <img className="cal_icon" src={Calendar} width="15" />
                     </div>
                   </div>
                   <div className="col-md-6">

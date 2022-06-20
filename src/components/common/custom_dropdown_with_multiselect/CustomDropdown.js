@@ -8,7 +8,7 @@ import ScaleLevelPopup from "../../offers/ScaleLevelPopup";
 
 const CustomDropDown = (props) => {
   const myRef = useRef(null);
-  //console.log(props)
+  // console.log(props);
   const [dropdownData, setDropdownData] = useState({
     list: [],
     is_single: props.is_single ? true : false,
@@ -16,7 +16,9 @@ const CustomDropDown = (props) => {
     is_all_checked: false,
     selected_value: [],
     is_show: false,
+    error: props.error ? props.error : "",
   });
+  
   const [format, setformat] = useState(/[:]/);
 
   useEffect(() => {
@@ -28,7 +30,8 @@ const CustomDropDown = (props) => {
     let listUpdate = props.list_update;
     let selectKey = props.select_key ? props.select_key : "id";
     let list = [];
-
+    let error = props.error ? props.error : "";
+   
     for (let i = 0; i < props.list.length; i++) {
       const data = props.list[i];
       data.checked = false;
@@ -60,9 +63,15 @@ const CustomDropDown = (props) => {
     data.list = list;
     data.selected_value = selectedValue;
     data.is_all_checked = isAllChecked;
-
+    data.error = error;
     setDropdownData(data);
-  }, [props.list, props.selected_list, props.selected_id, props.list_update]);
+  }, [
+    props.list,
+    props.selected_list,
+    props.selected_id,
+    props.list_update,
+    props.error,
+  ]);
   const checkIfClickedOutside = (e) => {
     // If the menu is open and the clicked target is not within the menu,
     // then close the menu
@@ -138,7 +147,7 @@ const CustomDropDown = (props) => {
     data.list = list;
     data.selected_value = selectedValue;
     data.is_all_checked = isAllChecked;
-
+    data.is_show = dropdownData.is_single ? false : data.is_show;
     setDropdownData(data);
   };
 
@@ -189,9 +198,10 @@ const CustomDropDown = (props) => {
                             type="checkbox"
                             id={0}
                             onChange={(e) => selectValue(e, "all")}
-                            checked={
-                              dropdownData.is_all_checked > 0 ? true : false
-                            }
+                            // checked={
+                            //   dropdownData.is_all_checked === dropdownData?.list.length ? true : false
+                            // }
+                            checked={dropdownData.checked}
                           />
                           <span
                             className={
@@ -233,14 +243,14 @@ const CustomDropDown = (props) => {
                             {format.test(i.value) === true ? (
                               <>
                                 {" "}
-                                <span>{i.value.split(/[:]/)[0]}</span>:{" "}
+                                <span className="m-b-5">
+                                  {i.value.split(/[:]/)[0]}
+                                </span>
+                                :{" "}
                                 <img
                                   src={edit}
                                   alt="edit"
-                                  style={{
-                                    width: "12px",
-                                    marginLeft: " 200px",
-                                  }}
+                                  className="w-12 scale_option"
                                   onClick={(e) => {
                                     props.openScalePopup(
                                       j,
@@ -251,7 +261,9 @@ const CustomDropDown = (props) => {
                                   }}
                                 />
                                 <br />
-                                <span>{i.value.split(/[:]/)[1]}</span>
+                                <span className="m-t-5 d-inline-block m-b-10">
+                                  {i.value.split(/[:]/)[1]}
+                                </span>
                               </>
                             ) : (
                               <span>{i.value}</span>
@@ -286,6 +298,7 @@ const CustomDropDown = (props) => {
             </animated.div>
           )}
         </div>
+       
       </div>
     </>
   );

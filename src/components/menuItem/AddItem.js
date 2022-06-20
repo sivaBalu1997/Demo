@@ -344,6 +344,7 @@ const AddItem = (props) => {
                       if (!itemCost) {
                         error += "Please add Item Cost";
                       }
+                      console.log(error,"Chek error")
                       alert(error);
                     }
                     if (itemName && itemCost) {
@@ -1288,6 +1289,7 @@ const AddItem = (props) => {
                   if (!itemCost) {
                     error += "Please add Item Cost";
                   }
+                  console.log(error,"check error")
                   alert(error);
                 }
                 if (itemName && itemCost) {

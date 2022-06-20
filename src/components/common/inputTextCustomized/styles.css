@@ -29,7 +29,8 @@ input:focus:valid ~ .floating-label {
 
 .inputText {
   font-size: 14px;
-  color: #979797;
+  color:black;
+  /* color: #979797; */
   /* width: 200px; */
   /* height: 35px; */
 }

@@ -19,7 +19,7 @@ const TextInput = ({
 }) => {
   return (
     <Fragment>
-      <div style={{ marginBottom: "20px", position: "relative" }}>
+      <div style={{ marginBottom: "20px",position: "relative" }}>
         <input
           style={style}
           type={type}
@@ -45,7 +45,7 @@ const TextInput = ({
           {placeholder}
         </span>
         <span
-          style={{ fontSize: "14px", color: "#FF5554", paddingLeft: "13px" }}
+          style={{ fontSize: "14px", color: "#FF5554", position: "absolute", left: "0px", bottom: "-25px"}}
         >
           {error}
         </span>

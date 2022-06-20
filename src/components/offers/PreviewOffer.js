@@ -125,26 +125,29 @@ const PreviewOffer = (props) => {
       ? "MultipleTimes"
       : "Once"
     : "";
-
+console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
   let usagePerCustomerPerDayValue = "";
   switch (usagePerCustomerPerDay) {
-    case "4":
+    
+    case 4:
+    
       usagePerCustomerPerDayValue = "Multiple";
       break;
 
-    case "1":
+    case 1:
       usagePerCustomerPerDayValue = "Once";
       break;
 
-    case "2":
+    case 2:
       usagePerCustomerPerDayValue = "Twice";
       break;
 
-    case "3":
+    case 3:
       usagePerCustomerPerDayValue = "Thrice";
       break;
 
     default:
+      console.log("$$$$$$")
       break;
   }
 

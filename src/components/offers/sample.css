@@ -281,7 +281,7 @@
 }
 
 .small_txt {
-  color: #ccc;
+  color: #979797;
   display: block;
 }
 
@@ -346,7 +346,15 @@
   top: -20px;
   right: 0;
 }
-.ul_list li{    padding: 5px 0px;
+.ul_list li{    
+  padding: 5px 0px;
   border-bottom: 1px solid #ccc ;}
   .ul_list{width: auto !important;}
   .ul_list li .plus_img{height: 16px;}
+  .cal_icon{position: absolute;
+    right: 25px;
+    z-index: 2;
+    top: 10px;}
+    .scale_option{position: absolute;
+      right: 5px;
+      top: 10px;}

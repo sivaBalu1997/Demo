@@ -34,7 +34,7 @@ const DropdownAddItem1 = (props) => {
       >
         <input
           type="text"
-          placeholder="Add"
+          placeholder="New Term"
           onChange={handleChange}
           value={value}
           minLength="2"
