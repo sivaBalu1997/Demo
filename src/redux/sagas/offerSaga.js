@@ -53,7 +53,8 @@ export function* createOfferSaga(action) {
       yield put(createOfferSuccess(response.data));
     }
   } catch (err) {
-    yield put(createOfferFailure({ message: "Please Try Again" }));
+ 
+    yield put(createOfferFailure(err.response.data[0] ));
   }
 }
 
@@ -64,7 +65,7 @@ export function* EditOfferSaga(action) {
       yield put(successEditOffer(response.data));
     }
   } catch (err) {
-    yield put(failedEditOffer({ message: "Please Try Again" }));
+    yield put(failedEditOffer(err.response.data[0] ));
   }
 }
 

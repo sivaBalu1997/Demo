@@ -84,6 +84,7 @@ export default function offerReducer(state = initialOfferState, action) {
       case CREATE_OFFER_REQUEST:
         draft.createOffer = [];
         draft.createOfferLoading = true;
+        draft.createOfferFailure = false;
         draft.addOfferSuccess = false;
         draft.addOfferFailed = false;
         draft.addOfferSuccessMessage = "";
@@ -92,6 +93,7 @@ export default function offerReducer(state = initialOfferState, action) {
       case CREATE_OFFER_SUCCESS:
         draft.createOffer = action.payload;
         draft.createOfferLoading = false;
+        draft.createOfferFailure = false;
         draft.addOfferSuccess = true;
         draft.addOfferFailed = false;
         draft.addOfferSuccessMessage = "";
@@ -102,7 +104,7 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.createOfferLoading = false;
         draft.createOfferFailure = true;
         draft.addOfferSuccess = false;
-        draft.addOfferFailed = false;
+        draft.addOfferFailed = true;
         draft.addOfferSuccessMessage = "";
         draft.addOfferFailedMessage = action.payload;
         break;

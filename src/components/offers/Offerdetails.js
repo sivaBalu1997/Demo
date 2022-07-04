@@ -52,7 +52,7 @@ const Offerdetails = (props) => {
   const disableOffersSuccess = useSelector(
     (state) => state.offer.disableOfferSuccess
   );
-
+  
   const disableOffersLoading = useSelector(
     (state) => state.offer.disableOfferLoading
   );
@@ -72,7 +72,7 @@ const Offerdetails = (props) => {
 
   useEffect(() => {
     if (!disableOffersSuccess && disableOffersLoading) {
-      alert("Item Disabled Successfully");
+      alert(" Item Status changed Successfully");
       dispatch(resetDisableData());
       dispatch(
         getOfferList({
@@ -104,13 +104,9 @@ const Offerdetails = (props) => {
     setLoading(offerListLoading);
   }, [offerListLoading, offerList]);
 
-  const logoutUser = () => {
-    localStorage.clear();
-    dispatch(signOut());
-    history.replace("/");
-  };
 
   const onChangeOfOfferStatus = (status) => {
+  
     setcompletedStatus(!completedStatus);
     dispatch(changeOfferStatus(status));
   };
@@ -132,7 +128,7 @@ const Offerdetails = (props) => {
     return orderTypes;
   };
 
-  const showOfferStatus = (validityFrom, validityUntil) => {
+  const showOfferStatus = (validityFrom, validityUntil,isEnabled) => {
     var today = moment.utc(new Date()).format("YYYY MM DD");
     validityFrom = moment.utc(validityFrom).format("YYYY MM DD");
     validityUntil = moment.utc(validityUntil).format("YYYY MM DD");
@@ -142,29 +138,18 @@ const Offerdetails = (props) => {
       validityUntil
     );
 
-    var isTodayOfferValidity = moment(today).isSame(
-      validityFrom,
-      validityUntil
-    );
 
-    var isTodayInBetweenOfferValidity = moment(today).isBetween(
-      validityFrom,
-      validityUntil
-    );
-    var isTodayAfterOfferValidity = moment(today).isAfter(
-      validityFrom,
-      validityUntil
-    );
-
-    if (isTodayBeforeOfferValidity) {
+var isEnabledActive = isEnabled ===1?true:false
+var isEnabledPast = isEnabled ===0?true:false
+ 
+    if (isTodayBeforeOfferValidity&&isEnabled ===1) {
       return "Upcoming";
-    } else if (isTodayInBetweenOfferValidity) {
-      return "today";
-    } else if (isTodayAfterOfferValidity) {
-      return "past";
-    } else if (isTodayOfferValidity) {
-      return "sameday";
+    }else if(isEnabledActive) {
+      return "Active"
+    } else if(isEnabledPast) {
+      return "Disabled"
     }
+
   };
 
   const handleSearch = async (e) => {
@@ -239,7 +224,7 @@ const Offerdetails = (props) => {
           <div className="tab_border">
             <div
               className={
-                offerStatus === 0
+                offerStatus === 2
                   ? "  d-inline-block "
                   : "  d-inline-block selected"
               }
@@ -253,7 +238,7 @@ const Offerdetails = (props) => {
                   ? " tab  d-inline-block m-l-25"
                   : " tab  d-inline-block selected m-l-25"
               }
-              onClick={() => onChangeOfOfferStatus(0)}
+              onClick={() => onChangeOfOfferStatus(2)}
             >
               Completed
             </div>
@@ -273,7 +258,7 @@ const Offerdetails = (props) => {
               </tr>
             </thead>
             {offerListNoData === false ? (
-              <tbody>
+              <tbody >
                 {offerListdata.map((row, index) => {
                   return (
                     <OffersRow
@@ -283,27 +268,21 @@ const Offerdetails = (props) => {
                       validityFrom={row.validityFrom}
                       validityUntil={row.validityUntil}
                       offerType={showOrderTypes(row?.order_type_id)}
-                      // offerType={row?.order_type_id}
-                      // visibileTo={
-                      //   row?.offerAttributes?.communicationMedium &&
-                      //   row.offerAttributes.communicationMedium.length !== 0 &&
-                      //   row.offerAttributes.communicationMedium
-                      // }
+
                       offerData={row}
                       offerRate={`Rs.${row.offerRate === 0.0?row.maxDiscount:row.offerRate}`}
                      
                       usage={row.redeemedSofar}
-                      isEnabled={
-                        row.isEnabled === 1 &&
-                        showOfferStatus(row.validityFrom, row.validityUntil)
+                      isEnabled={showOfferStatus(row.validityFrom, row.validityUntil,row.isEnabled)
                       }
+                    
                       index={index}
                     />
                   );
                 })}
               </tbody>
             ) : (
-              <tbody>
+              <tbody >
                 {searchOfferList.map((row, index) => {
                   return (
                     <OffersRow
@@ -313,19 +292,10 @@ const Offerdetails = (props) => {
                       validityFrom={row.validityFrom}
                       validityUntil={row.validityUntil}
                       offerType={showOrderTypes(row?.order_type_id)}
-                      //  offerType={row?.order_type_id}
-                      // visibileTo={
-                      //   row?.offerAttributes?.communicationMedium &&
-                      //   row.offerAttributes.communicationMedium.length !== 0 &&
-                      //   row.offerAttributes.communicationMedium
-                      // }
                       offerData={row}
                       offerRate={`Rs.${row.offerRate === 0.0?row.maxDiscount:row.offerRate}`}
                       usage={row.redeemedSofar}
-                      isEnabled={showOfferStatus(
-                        row.validityFrom,
-                        row.validityUntil
-                      )}
+                      isEnabled={showOfferStatus(row.validityFrom, row.validityUntil,row.isEnabled)}
                       index={index}
                     />
                   );
@@ -364,6 +334,15 @@ const OffersRow = ({
   const [expanded, setExpanded] = useState(false);
   const offerList = useSelector((state) => state.offer.offerList);
 
+  const getOpacity = (data) => {
+    if(data ===1){
+      return 1
+    } else if(data ===2) {
+      return 1;
+    }else{
+      return 0.4;
+    }
+  }
   const expand = () => {
     setExpanded(!expanded);
   };
@@ -377,9 +356,14 @@ const OffersRow = ({
       await dispatch(deleteOfferRequest(id));
       setReRender(!reRender);
     } else if (operation === "Disable") {
-      await dispatch(disableOfferRequest(id));
+      await dispatch(disableOfferRequest({id:id,status:0}));
       setReRender(!reRender);
-    } else if (operation === "Edit") {
+    }else if(operation === "Enable"){
+      await dispatch(disableOfferRequest({id:id,status:1}));
+      setReRender(!reRender);
+    }
+    
+    else if (operation === "Edit") {
       history.push("/management/Offers/CreateOffer", offerData);
       return;
     } else if (operation === "Duplicate") {
@@ -399,18 +383,24 @@ const OffersRow = ({
     setShow(!show);
   };
   const handleBlur = () => setIsOpen(isOpen);
+  let date = moment.utc(validityFrom).format('YYYY-MM-DD HH:mm:ss');
+ let stillUtc = moment.utc(date).toDate();
+ let validityfrom = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
 
+let offerEnd = moment.utc(validityUntil).format('YYYY-MM-DD HH:mm:ss');
+let stillUtcofferEnd = moment.utc(offerEnd).toDate();
+let validityuntil =  moment(stillUtcofferEnd).local().format('YYYY-MM-DD HH:mm:ss');
   return (
     <tr id={id}>
-      <td>{offerName}</td>
-      <td>
-        {moment.utc(validityFrom).format("DD MMM ") +
+      <td style={{ opacity: getOpacity(offerData.isEnabled) }}>{offerName}</td>
+      <td  style={{ opacity: getOpacity(offerData.isEnabled) }}>
+        {moment(validityfrom).format("DD MMM ") +
           " - " +
-          moment.utc(validityUntil).format("DD MMM YYYY")}
+          moment(validityuntil).format("DD MMM YYYY")}
       </td>
       {/* {offerType.map((value,index) =>(<td>{value}</td>))}   */}
       {/* <td>{offerType}</td> */}
-      <td>
+      <td style={{ opacity: getOpacity(offerData.isEnabled) }}>
         {offerType
           ? offerType.map((row) => {
               return (
@@ -422,49 +412,28 @@ const OffersRow = ({
             })
           : "-"}
       </td>
-      {/* <td>
-        {" "}
-        {visibileTo.length !== 0
-          ? visibileTo.map((row) => {
-              return (
-                <span>
-                  {row}
-                  <br />
-                </span>
-              );
-            })
-          : "-"}
-      </td> */}
-      <td>{offerRate}</td>
-      <td>{usage}</td>
-      <td>
-        {isEnabled === "past" && (
-          <label className="switch">
-            <input type="checkbox" />
-            <span className="slider round"></span>
-          </label>
-        )}
-        {isEnabled === "today" && (
-          <label className="switch">
-            <input type="checkbox" checked />
-            <span className="slider round"></span>
-          </label>
-        )}
+     
+      <td style={{ opacity: getOpacity(offerData.isEnabled) }}>{offerRate}</td>
+      <td style={{ opacity: getOpacity(offerData.isEnabled ) }}>{usage}</td>
+      <td style={{ opacity: getOpacity(offerData.isEnabled ) }}>
+      
+     
+        {isEnabled === "Active" && <span>{isEnabled}</span>}
+          {isEnabled === "Disabled" && <span>{isEnabled}</span>
+      
+        }
         {isEnabled === "Upcoming" && <span>{isEnabled}</span>}
 
-        {isEnabled === "sameday" && (
-          <label className="switch">
-            <input type="checkbox" checked />
-            <span className="slider round"></span>
-          </label>
-        )}
+    
       </td>
      
       <td tabIndex={0} onBlur={close} onFocus={expand}>
         <BiDotsVerticalRounded onClick={() => setShow(!show)} />
         {expanded ? (
-          show && offerStatus === 1 ? (
+          show && offerStatus === 1&&isEnabled !=="Disabled" ? (
+           
             <ul className="ul_list">
+             
               <li onClick={() => tableRowOptions(id, "Duplicate")}>
                 <img src={Duplicate} alt="" className="plus_img m-r-20" />
                 Duplicate
@@ -484,13 +453,30 @@ const OffersRow = ({
                 Delete
               </li>
             </ul>
-          ) : show && offerStatus === 0 ? (
-            <ul>
-              <li onClick={() => tableRowOptions(id, "Duplicate")}>
+          ) : show && offerStatus === 2 ? (
+            <ul className="ul_list">
+            <li onClick={() => tableRowOptions(id, "Duplicate")}>
+                <img src={Duplicate} alt="" className="plus_img m-r-20" />
                 Duplicate
               </li>
             </ul>
-          ) : null
+          ) : show && offerStatus === 1&&isEnabled ==="Disabled" ? (
+            <ul className="ul_list">
+               <li onClick={() => tableRowOptions(id, "Enable")}>
+                <img src={Delete} alt="" className="plus_img m-r-20" />
+               Enable
+              </li>
+            <li onClick={() => tableRowOptions(id, "Duplicate")}>
+                <img src={Duplicate} alt="" className="plus_img m-r-20" />
+                Duplicate
+              </li>
+              <li onClick={() => tableRowOptions(id, "Delete")}>
+                <img src={Delete} alt="" className="plus_img m-r-20" />
+                Delete
+              </li>
+             
+            </ul>
+          ):null
         ) : (
           ""
         )}

@@ -52,10 +52,11 @@ export function deleteOffer(offerId) {
 }
 
 export function disableOffer(offerId) {
+  console.log(offerId,"checking disabled offers status")
   const token = Store.getState().auth.credentials.accessToken;
   return API({
     method: "PATCH",
-    url: `/coupon/offer/${offerId}`,
+    url: `/coupon/offer/${offerId.id}?status=${offerId.status}`,
     headers: {
       Authorization: "bearer " + token,
     },

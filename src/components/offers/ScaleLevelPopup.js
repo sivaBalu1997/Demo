@@ -4,7 +4,6 @@ import { ReactComponent as CrossIcon } from "../../assets/svg/crossIcon.svg";
 import "../../styles/menus.scss";
 
 const ScaleLevelPopup = (props) => {
-
   const data = props.data ? props.data : "";
   const scaleData = data.data ? data.data : "";
 

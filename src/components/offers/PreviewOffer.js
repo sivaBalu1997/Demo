@@ -13,7 +13,7 @@ import {
 import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
-  console.log(offerData, "preview offer");
+  //console.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -23,8 +23,10 @@ const PreviewOffer = (props) => {
   const EditOfferLoading = useSelector((state) => state.offer.EditOfferLoading);
 
   const addOfferSuccess = useSelector((state) => state.offer.addOfferSuccess);
-  const EditOffersw = useSelector((state) => state.offer);
-  console.log(EditOffersw);
+  const addOfferFailedMessage = useSelector((state) => state.offer.addOfferFailedMessage);
+  const editOfferFailedMessage = useSelector((state) => state.offer.updateOfferFailureMessage);
+
+
   const updateOfferSuccess = useSelector(
     (state) => state.offer.updateOfferSuccess
   );
@@ -35,15 +37,25 @@ const PreviewOffer = (props) => {
       history.push("/management/Offers");
       dispatch(createOfferClear());
     }
+    else if(addOfferFailedMessage!=="" ){
+      alert(addOfferFailedMessage)
+      dispatch(createOfferClear());
+    }
   }, [addOfferSuccess, createOfferLoading, updateOfferSuccess]);
 
   useEffect(() => {
-    console.log(EditOffersw);
+  
     if (updateOfferSuccess && !EditOfferLoading && updateOfferSuccess) {
       alert("Offer Edited Successfully");
       history.push("/management/Offers");
       dispatch(updateOfferClear());
     }
+    else if(editOfferFailedMessage!=="" ){
+      alert(editOfferFailedMessage)
+      dispatch(createOfferClear());
+    }
+
+
   }, [updateOfferSuccess, EditOfferLoading, updateOfferSuccess]);
 
   const selectedDaysList =
@@ -125,7 +137,7 @@ const PreviewOffer = (props) => {
       ? "MultipleTimes"
       : "Once"
     : "";
-console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
+//console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
   let usagePerCustomerPerDayValue = "";
   switch (usagePerCustomerPerDay) {
     
@@ -147,7 +159,7 @@ console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
       break;
 
     default:
-      console.log("$$$$$$")
+     // console.log("$$$$$$")
       break;
   }
 
@@ -213,7 +225,7 @@ console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
     if (data.id) {
       //edit
       data.locationId = offerData.locationId;
-      console.log(data, EditOfferLoading, EditOffersw, "dat5aa");
+   //   console.log(data, EditOfferLoading, EditOffersw, "dat5aa");
       dispatch(
         EditOffer({
           data: data,
@@ -290,10 +302,10 @@ console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
                       </p>
                     </div>
                     <div className="col-md-6">
-                      <p className="preview_hdng">
+                      {/* <p className="preview_hdng">
                         Max person allowed to use this offer
                       </p>
-                      <p className="m-t-5">{offerData.maxRedeem}</p>
+                      <p className="m-t-5">{offerData.maxRedeem}</p> */}
                     </div>
                   </div>
                 </div>
@@ -314,8 +326,8 @@ console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
                         Max. Discount amount(in Rs/$)
                       </p>
                       <p className="m-t-5">{offerData.maxDiscount}</p>
-                      <p className="preview_hdng">Discount %</p>
-                      <p className="m-t-5">{offerData.offerRate}</p>
+                     { offerData.offerType !=="FLATFEE"&&<>  <p className="preview_hdng">Discount %</p>
+                      <p className="m-t-5">{offerData.offerRate}</p></> }
                     </div>
                     <div className="col-md-6">
                       <h3>Discount value based on</h3>
@@ -357,11 +369,10 @@ console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
                       </small>
                       <p className="m-t-5">{usageFrequencePerCustomerValue}</p>
                       <small className="small_txt">
-                        Max. Usage across all transactions
+                      Max person allowed to use this offer
                       </small>
-                      <p className="m-t-5">
-                        {offerData.offerAttributes.maxUsageAcrossAllTranscation}
-                      </p>
+                     
+                      <p className="m-t-5">{offerData.maxRedeem}</p>
                     </div>
                   </div>
 

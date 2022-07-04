@@ -100,7 +100,13 @@ const CustomDropDown = (props) => {
     if (props.dropdown_key === "outlet_dropdown" && props.disable === true) {
       data.is_show = data.is_show;
       setDropdownData(data);
-    } else {
+    }  
+    else  if (props.dropdown_key === "usage_customer_per_day_dropdown" && props.disable === true) {
+      data.is_show = data.is_show;
+      setDropdownData(data);
+    }
+    
+    else {
       data.is_show = !data.is_show;
       setDropdownData(data);
     }
@@ -168,7 +174,7 @@ const CustomDropDown = (props) => {
           {dropdownData.selected_value && (
             <span
               // onClick={() => document.getElementById(name).focus()}
-              class={dropdownData.selected_value ? "value-floating-label " : ""}
+              className={dropdownData.selected_value ? "value-floating-label " : ""}
             >
               {props.placeholder}
             </span>
