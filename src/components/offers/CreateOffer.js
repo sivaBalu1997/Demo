@@ -15,6 +15,7 @@ import PreviewOffer from "./PreviewOffer";
 import "./sample.css";
 import ScaleLevelPopup from "./ScaleLevelPopup";
 import Calendar from "../../assets/images/cal.png";
+import Enable from "../../assets/svg/enable.svg";
 const CreateOffer = (props) => {
   const [previewData, setPreviewState] = useState("");
   const checkingstate = useSelector(
@@ -97,7 +98,7 @@ const CreateOffer = (props) => {
   const [offerData, setOfferState] = useState(
     location.state || componentState || ""
   );
-//console.log(location.state,offerData)
+  //console.log(location.state,offerData)
   const header = offerData.id ? "Edit" : "Create";
   let visibleToList = "";
   let selectedDaysList = [];
@@ -256,7 +257,7 @@ const CreateOffer = (props) => {
       sampleorderTypes.map((i, j) => {
         let someArray2 = i.orderTypes;
         someArray2 = someArray2.filter((el) => el.typeName !== "Instore");
-      //  console.log(someArray2);
+        //  console.log(someArray2);
         if (i.orderTypes !== null) {
           let OrderTypeArray = someArray2?.map((ordertype, index) => {
             let result = {
@@ -332,10 +333,6 @@ const CreateOffer = (props) => {
     }
   }, [DatatermsAndConditions]);
 
-
-
- 
-
   if (offerData) {
     offerTypeIds =
       offerData.order_type_id &&
@@ -400,9 +397,10 @@ const CreateOffer = (props) => {
   }
   const [Flatscalevalue, setFlatscalevalue] = useState([
     {
-      value: offerData.offerAttributes.itemDetails.scaleLevel&& scaleLevel == "2"
-        ? `Scale Level 1: 1 - 2 item at Rs.${offerData.offerRate}off`
-        : `Scale Level 1: 1 - 2 item at Rs.0 off`,
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "2"
+          ? `Scale Level 1: 1 - 2 item at Rs.${offerData.offerRate}off`
+          : `Scale Level 1: 1 - 2 item at Rs.0 off`,
       id: "1",
       key: "2",
       checked: scaleLevel === "2",
@@ -622,7 +620,7 @@ const CreateOffer = (props) => {
   const submitHandler = () => {
     isSubmitted = true;
     if (!validateForm(errorMsg)) {
-     // console.log(errorMsg, "checkerror");
+      // console.log(errorMsg, "checkerror");
 
       let error = "";
 
@@ -762,7 +760,7 @@ const CreateOffer = (props) => {
       data.offerCode !== "" &&
       data.validityFrom !== "1970-01-01T05:30:00+05:30"
     ) {
-     // console.log("dddddd");
+      // console.log("dddddd");
       setPreviewState(data);
     } else if (data.offerCode === null) {
       alert("Please Enter Promocode");
@@ -903,7 +901,7 @@ const CreateOffer = (props) => {
   };
   const onSelect = (type, selectedList, list) => {
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
-//console.log("selectedList",selectedList,type)
+    //console.log("selectedList",selectedList,type)
     switch (type) {
       case "order_type_dropdown":
         const orderTypeId = JSON.stringify({ typeIds: selectedList });
@@ -921,10 +919,10 @@ const CreateOffer = (props) => {
 
       case "usage_frequency_per_day_dropdown":
         data.offerAttributes.usageFrequencePerCustomer = selectedList;
-        if(selectedList === "ONE"){
-        data.offerAttributes.usagePerCustomerPerDay = "1"
-        }else{
-          data.offerAttributes.usagePerCustomerPerDay = ""
+        if (selectedList === "ONE") {
+          data.offerAttributes.usagePerCustomerPerDay = "1";
+        } else {
+          data.offerAttributes.usagePerCustomerPerDay = "";
         }
         break;
       case "Discount_Type":
@@ -996,12 +994,20 @@ const CreateOffer = (props) => {
   const checkandSetStartDate = (date) => {
     setStartDate(date);
     if (date && EndDate) {
-     // console.log(date, EndDate, "DDDD");
+      // console.log(date, EndDate, "DDDD");
       const dateEpoch = new Date(date).valueOf();
       const endDateEpoch = new Date(EndDate).valueOf();
       if (dateEpoch > endDateEpoch) {
         setEndDate(date);
       }
+    }
+  };
+
+  const checkmindate = (startDate) => {
+    if (new Date() && new Date(startDate)) {
+      return new Date(startDate);
+    } else {
+      return new Date(startDate);
     }
   };
 
@@ -1516,8 +1522,14 @@ const CreateOffer = (props) => {
                         dateFormat="dd/MM/yyyy h:mm aa"
                         showTimeInput
                         placeholderText={"Start"}
+                        disabledKeyboardNavigation
                       />
-                      <img className="cal_icon" alt=""src={Calendar} width="15" />
+                      <img
+                        className="cal_icon"
+                        alt=""
+                        src={Calendar}
+                        width="15"
+                      />
                     </label>
                   </div>
                   <div className="col-md-6 position-relative">
@@ -1545,12 +1557,22 @@ const CreateOffer = (props) => {
                           timeInputLabel="Time:"
                           dateFormat="dd/MM/yyyy h:mm aa"
                           showTimeInput
-                          minDate={location.state!==undefined?new Date():new Date(startDate)}
-                         // minDate={moment(startDate).toDate()}
-
+                          //minDate ={checkmindate(startDate)}
+                          minDate={
+                            location.state !== undefined
+                              ? checkmindate(startDate)
+                              : new Date(startDate)
+                          }
+                          // minDate={moment(startDate).toDate()}
+                          disabledKeyboardNavigation
                           placeholderText={"End "}
                         />
-                        <img className="cal_icon" alt="" src={Calendar} width="15" />
+                        <img
+                          className="cal_icon"
+                          alt=""
+                          src={Calendar}
+                          width="15"
+                        />
                       </label>
                     </div>
                   </div>
@@ -1560,13 +1582,9 @@ const CreateOffer = (props) => {
                       onKeyDown={(evt) =>
                         evt.key === "e" && evt.preventDefault()
                       }
-                     
                       name="maxRedeem"
                       placeholder="Max person allowed to use this offer"
-                      value={ offerData.maxRedeem
-                          ? offerData.maxRedeem
-                          : ""
-                      }
+                      value={offerData.maxRedeem ? offerData.maxRedeem : ""}
                       onChange={(e) => handleUserDetails(e)}
                     />
                     {/* <TextInput

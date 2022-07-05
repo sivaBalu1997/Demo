@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Plus from "../../assets/images/add.png";
 import Gift from "../../assets/images/gift.png";
 import { signOut } from "../../redux/actions/authActions";
-import Duplicate from "../../assets/images/duplicate.png";
+
 import Tick from "../../assets/images/tick.png";
 import Delete from "../../assets/images/delete.png";
 import Edit from "../../assets/images/edit.png";
@@ -19,7 +19,9 @@ import {
   resetDeleteData,
   resetDisableData,
 } from "../../redux/actions/offerActions";
-
+import Enable from "../../assets/svg/enable.svg";
+import Disable from "../../assets/svg/Disable.svg";
+import Duplicate from "../../assets/svg/Duplicate.svg";
 const Offerdetails = (props) => {
   const [loading, setLoading] = useState(true);
   const [offerListNoData, setOfferListNoData] = useState(false);
@@ -428,6 +430,7 @@ let validityuntil =  moment(stillUtcofferEnd).local().format('YYYY-MM-DD HH:mm:s
       </td>
      
       <td tabIndex={0} onBlur={close} onFocus={expand}>
+      {/* <td tabIndex={0} onFocus={expand} > */}
         <BiDotsVerticalRounded onClick={() => setShow(!show)} />
         {expanded ? (
           show && offerStatus === 1&&isEnabled !=="Disabled" ? (
@@ -445,7 +448,7 @@ let validityuntil =  moment(stillUtcofferEnd).local().format('YYYY-MM-DD HH:mm:s
                 </li>
               )}
               <li onClick={() => tableRowOptions(id, "Disable")}>
-                <img src={Tick} alt="" className="plus_img m-r-20" />
+                <img src={Disable} alt="" className="plus_img m-r-20" />
                 Disable
               </li>
               <li onClick={() => tableRowOptions(id, "Delete")}>
@@ -463,7 +466,7 @@ let validityuntil =  moment(stillUtcofferEnd).local().format('YYYY-MM-DD HH:mm:s
           ) : show && offerStatus === 1&&isEnabled ==="Disabled" ? (
             <ul className="ul_list">
                <li onClick={() => tableRowOptions(id, "Enable")}>
-                <img src={Delete} alt="" className="plus_img m-r-20" />
+                <img src={Enable} alt="" className="plus_img m-r-20" />
                Enable
               </li>
             <li onClick={() => tableRowOptions(id, "Duplicate")}>
