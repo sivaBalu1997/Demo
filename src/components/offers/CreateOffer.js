@@ -15,7 +15,7 @@ import PreviewOffer from "./PreviewOffer";
 import "./sample.css";
 import ScaleLevelPopup from "./ScaleLevelPopup";
 import Calendar from "../../assets/images/cal.png";
-import Enable from "../../assets/svg/enable.svg";
+
 const CreateOffer = (props) => {
   const [previewData, setPreviewState] = useState("");
   const checkingstate = useSelector(
