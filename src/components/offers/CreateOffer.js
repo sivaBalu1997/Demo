@@ -15,12 +15,25 @@ import PreviewOffer from "./PreviewOffer";
 import "./sample.css";
 import ScaleLevelPopup from "./ScaleLevelPopup";
 import Calendar from "../../assets/images/cal.png";
+import Enable from "../../assets/svg/enable.svg";
 
+import { setSeconds, setMinutes, endOfToday } from "date-fns";
+import setHours from "date-fns/setMinutes";
+import { isSameDay, startOfToday, endOfDay } from "date-fns";
 const CreateOffer = (props) => {
+  const calculateMinTime = (date) => {
+    let a = isSameDay(date, new Date()) ? new Date() : startOfToday();
+    return a;
+  };
+
+  const [minTimevalue, setMinTime] = useState(calculateMinTime(new Date()));
   const [previewData, setPreviewState] = useState("");
   const checkingstate = useSelector(
     (state) => state.auth.restaurantDetails.country
   );
+
+  const statevalue = useSelector((state) => state);
+  // console.log(statevalue, "checkstate");
   const [scaletext, setscaletext] = useState("");
   const [errorMsg, setErrorMsg] = useState({});
 
@@ -33,9 +46,9 @@ const CreateOffer = (props) => {
     (state) => state.offer.dropdownData.termsAndConditions
   );
 
-  const sampleorderTypes = useSelector(
-    (state) => state.auth.restaurantDetails.branch
-  );
+  const sampleorderTypes = useSelector((state) => state.auth.selectedBranch);
+
+  //console.log(sampleorderTypes,"")
   const branchoutlet = useSelector(
     (state) => state.auth.restaurantDetails.branch
   );
@@ -98,7 +111,8 @@ const CreateOffer = (props) => {
   const [offerData, setOfferState] = useState(
     location.state || componentState || ""
   );
-  //console.log(location.state,offerData)
+
+  //console.log("location.state", offerData);
   const header = offerData.id ? "Edit" : "Create";
   let visibleToList = "";
   let selectedDaysList = [];
@@ -114,7 +128,89 @@ const CreateOffer = (props) => {
   let usagePerCustomerPerDay = "";
   let offerBasedOn = null;
   let offerRate = null;
+  const [Flatscalevalue, setFlatscalevalue] = useState([
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel === "2"
+          ? checkingstate === "US"
+            ? `Scale Level 1: 1 - 2 item at  $${offerData?.offerRate}off`
+            : offerData?.offerRate === null &&
+              `Scale Level 1: 1 - 2 item at  Rs.0off`
+          : checkingstate === "US"
+          ? `Scale Level 1: 1 - 2 item at $.0 off`
+          : `Scale Level 1: 1 - 2 item at Rs.0 off`,
+      id: "1",
+      key: "2",
+      checked: scaleLevel === "2",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel 
+          ? checkingstate === "US"
+            ? `Scale Level 2: 3 - 4  item at $${offerData?.offerRate}off`
+            : `Scale Level 2: 3 - 4  item at Rs.${offerData?.offerRate}off`
+          : checkingstate === "US"
+          ? "Scale Level 2: 3 - 4 item at  $0 off"
+          : "Scale Level 2: 3 - 4 item at  Rs.0 off",
 
+      id: "2",
+      key: "4",
+      checked: scaleLevel == "4",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel 
+          ? checkingstate === "US"
+            ? `Scale Level 3: 5 - 6  item at $${offerData.offerRate}off`
+            : `Scale Level 3: 5 - 6  item at Rs.${offerData.offerRate}off`
+          : checkingstate === "US"
+          ? "Scale Level 3: 5 - 6 item at $0 off"
+          : "Scale Level 3: 5 - 6 item at Rs.0 off",
+
+      id: "3",
+      key: "6",
+      checked: scaleLevel === "6",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel 
+          ? checkingstate === "US"
+            ? `Scale Level 4: 7 - 8  item at $${offerData.offerRate}off`
+            : `Scale Level 4: 7 - 8  item at Rs.${offerData.offerRate}off`
+          : checkingstate === "US"
+          ? "Scale Level 4: 7 - 8 item at $0 off"
+          : "Scale Level 4: 7 - 8 item at Rs.0 off",
+
+      id: "4",
+      key: "8",
+      checked: scaleLevel === "8",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel
+          ? checkingstate === "US"
+            ? `Scale Level 5: 9 - 10 item at $${offerData.offerRate}off`
+            : `Scale Level 5: 9 - 10 item at Rs.${offerData.offerRate}off`
+          : checkingstate === "US"
+          ? "Scale Level 5: 9 - 10 item at $0 off"
+          : "Scale Level 5: 9 - 10 item at Rs.0 off",
+
+      id: "5",
+      key: "10",
+      checked: scaleLevel === "10",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+  ]);
+
+  
+  // useEffect(() => {
+  //   // console.log(offerData.offerRate, scalevalue);
+  //   setScalevalue(scalevalue);
+  // }, [scalevalue]);
   const [usageFrequency] = useState([
     {
       value: "Once",
@@ -172,8 +268,11 @@ const CreateOffer = (props) => {
   ]);
 
   const [startDate, setStartDate] = useState(
-    offerData.validityFrom ? new Date(offerData.validityFrom) : null
+    offerData.validityFrom
+      ? setHours(setMinutes(new Date(offerData.validityFrom), 30), 17)
+      : null
   );
+ 
   const [EndDate, setEndDate] = useState(
     offerData.validityUntil ? new Date(offerData.validityUntil) : null
   );
@@ -253,27 +352,27 @@ const CreateOffer = (props) => {
   }, [selectedBranch]);
 
   useEffect(() => {
-    if (sampleorderTypes !== undefined) {
-      sampleorderTypes.map((i, j) => {
-        let someArray2 = i.orderTypes;
-        someArray2 = someArray2.filter((el) => el.typeName !== "Instore");
-        //  console.log(someArray2);
-        if (i.orderTypes !== null) {
-          let OrderTypeArray = someArray2?.map((ordertype, index) => {
-            let result = {
-              value: ordertype.typeName,
-              id: ordertype.id,
-              checked: false,
-            };
-            if (offerTypeIds.includes(ordertype.id)) {
-              result.checked = true;
-            }
-            return result;
-          });
-
-          setOrderType(OrderTypeArray ? OrderTypeArray : []);
-        }
+    if (sampleorderTypes !== undefined || sampleorderTypes !== {}) {
+      let someArray2 = sampleorderTypes?.orderTypes;
+      someArray2 = someArray2?.filter((el) => {
+        let typename = el?.typeName.toLowerCase("Instore");
+        return typename !== "instore";
       });
+      if (sampleorderTypes.orderTypes !== null) {
+        let OrderTypeArray = someArray2?.map((ordertype, index) => {
+          let result = {
+            value: ordertype.typeName,
+            id: ordertype.id,
+            checked: false,
+          };
+          if (offerTypeIds.includes(ordertype.id)) {
+            result.checked = true;
+          }
+          return result;
+        });
+
+        setOrderType(OrderTypeArray ? OrderTypeArray : []);
+      }
     }
   }, [sampleorderTypes]);
 
@@ -395,115 +494,8 @@ const CreateOffer = (props) => {
         : "";
     }
   }
-  const [Flatscalevalue, setFlatscalevalue] = useState([
-    {
-      value:
-        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "2"
-          ? `Scale Level 1: 1 - 2 item at Rs.${offerData.offerRate}off`
-          : `Scale Level 1: 1 - 2 item at Rs.0 off`,
-      id: "1",
-      key: "2",
-      checked: scaleLevel === "2",
-      replace: "0",
-    },
-    {
-      value: offerData.offerAttributes.itemDetails.scaleLevel
-        ? `Scale Level 2: 3 - 4  item at Rs.${offerData.offerRate}off`
-        : "Scale Level 2: 3 - 4 item at  Rs.0 off",
-
-      id: "2",
-      key: "4",
-      checked: scaleLevel == "4",
-      replace: "0",
-    },
-    {
-      value: offerData.offerAttributes.itemDetails.scaleLevel
-        ? `Scale Level 3: 5 - 6  item at Rs.${offerData.offerRate}off`
-        : "Scale Level 3: 5 - 6 item at Rs.0 off",
-
-      id: "3",
-      key: "6",
-      checked: scaleLevel === "6",
-      replace: "0",
-    },
-    {
-      value: offerData.offerAttributes.itemDetails.scaleLevel
-        ? `Scale Level 4: 7 - 8  item at Rs.${offerData.offerRate}off`
-        : "Scale Level 4: 7 - 8 item at Rs.0 off",
-
-      id: "4",
-      key: "8",
-      checked: scaleLevel === "8",
-      replace: "0",
-    },
-    {
-      value:
-        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "10"
-          ? `Scale Level 5: 9 - 10 item at Rs.${offerData.offerRate}off`
-          : "Scale Level 5: 9 - 10 item at Rs.0 off",
-
-      id: "5",
-      key: "10",
-      checked: scaleLevel === "10",
-      replace: "0",
-    },
-  ]);
-  const [scalevalue, setScalevalue] = useState([
-    {
-      value:
-        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "2"
-          ? `Scale Level 1: 1 - 2 item at${offerData.offerRate}%off`
-          : "Scale Level 1: 1 - 2 item at 0% off",
-      id: "1",
-      key: "2",
-      checked: scaleLevel === "2",
-      replace: "0",
-    },
-    {
-      value:
-        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "4"
-          ? `Scale Level 2: 3 - 4  item at${offerData.offerRate}% off`
-          : "Scale Level 2: 3 - 4 item at 0% off",
-
-      id: "2",
-      key: "4",
-      checked: scaleLevel == "4",
-      replace: "0",
-    },
-    {
-      value:
-        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "6"
-          ? `Scale Level 3: 5 - 6  item at${offerData.offerRate}% off`
-          : "Scale Level 3: 5 - 6 item at 0% off",
-
-      id: "3",
-      key: "6",
-      checked: scaleLevel === "6",
-      replace: "0",
-    },
-    {
-      value:
-        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "8"
-          ? `Scale Level 4: 7 - 8 item at${offerData.offerRate}% off`
-          : "Scale Level 4: 7 - 8 item at 0% off",
-
-      id: "4",
-      key: "8",
-      checked: scaleLevel === "8",
-      replace: "0",
-    },
-    {
-      value:
-        offerData.offerAttributes.itemDetails.scaleLevel && scaleLevel == "9"
-          ? `Scale Level 5: 9 - 10 item at ${offerData.offerRate}% off`
-          : "Scale Level 5: 9- 10 item at 0% off",
-
-      id: "5",
-      key: "10",
-      checked: scaleLevel === "10",
-      replace: "0",
-    },
-  ]);
+ // console.log(offerData.offerRate, "checking offerDartaa");
+ 
   const [DaysArray, setDaysArray] = useState([
     {
       day: "Sun",
@@ -564,6 +556,7 @@ const CreateOffer = (props) => {
     "validityUntil",
     "offersAppliedAt",
     "maxUsageAcrossAllTranscation",
+    "description",
     offerData.id ? "outlets" : "",
   ];
 
@@ -574,20 +567,90 @@ const CreateOffer = (props) => {
       key,
     });
   };
+  const [scalevalue, setScalevalue] = useState([
+    {
+      value: offerData.offerAttributes.itemDetails.scaleLevel
+        ? `Scale Level 1: 1 - 2 item at${offerData.offerRate}%off`
+        : `Scale Level 1: 1 - 2 item at 0% off`,
+      id: "1",
+      key: "2",
+      checked: scaleLevel === "2",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel 
+          ? `Scale Level 2: 3 - 4  item at${offerData.offerRate}% off`
+          : "Scale Level 2: 3 - 4 item at 0% off",
 
+      id: "2",
+      key: "4",
+      checked: scaleLevel == "4",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel 
+          ? `Scale Level 3: 5 - 6  item at${offerData.offerRate}% off`
+          : "Scale Level 3: 5 - 6 item at 0% off",
+
+      id: "3",
+      key: "6",
+      checked: scaleLevel === "6",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel 
+          ? `Scale Level 4: 7 - 8 item at${offerData.offerRate}% off`
+          : "Scale Level 4: 7 - 8 item at 0% off",
+
+      id: "4",
+      key: "8",
+      checked: scaleLevel === "8",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+    {
+      value:
+        offerData.offerAttributes.itemDetails.scaleLevel 
+          ? `Scale Level 5: 9 - 10 item at ${offerData.offerRate}% off`
+          : "Scale Level 5: 9- 10 item at 0% off",
+
+      id: "5",
+      key: "10",
+      checked: scaleLevel === "10",
+      replace: offerData.offerRate?offerData.offerRate:"0",
+    },
+  ]);
   const updateScaleLevel = (key, index, text) => {
+    // console.log("checking keyon scalevel-->", key, index, text);
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
 
     let scalevalueList =
       data.offerAttributes.itemDetails.discountType === "R"
         ? scalevalue
         : Flatscalevalue;
-
+    // console.log(
+    //   scalevalueList[index].value.replace(
+    //     scalevalueList[index].replace,
+    //     `${text}`
+    //   ),
+    //   "checkingg"
+    // );
     switch (key) {
       case "select_scale_dropdown":
-        const replace = scalevalueList[index].replace;
+        const replace =
+          index === 4 && scalevalueList[index].replace == 0
+            ? new RegExp("(\\b" + 0 + "\\b)(?!.*\\b\\1\\b)", "i")
+            : scalevalueList[index].replace;
 
         scalevalueList[index].replace = `${text}`;
+        // console.log(
+        //   scalevalueList[index].replace,
+        //   scalevalueList[index],
+        //   replace,
+        //   `${text}`
+        // );
         scalevalueList[index].value =
           data.offerAttributes.itemDetails.discountType === "R"
             ? scalevalueList[index].value.replace(replace, `${text}`)
@@ -603,11 +666,14 @@ const CreateOffer = (props) => {
       setScalevalue(scalevalueList);
       setScalevalueUpdate(!scalevalueUpdate);
       setScalePopupData("");
+      data.offerRate = "";
       setscaletext(text);
     } else if (data.offerAttributes.itemDetails.discountType === "F") {
+      //  console.log(scalevalueList, text);
       setFlatscalevalue(scalevalueList);
       setScalevalueUpdate(!scalevalueUpdate);
       setScalePopupData("");
+      data.offerRate = "";
       setscaletext(text);
       // setscaletext(prev => ([...prev, ...text]));
     }
@@ -625,10 +691,13 @@ const CreateOffer = (props) => {
       let error = "";
 
       if (errorMsg.offerCode) {
-        error += `${errorMsg.offerCode} \n`;
+        error += `Promocode Should not be empty \n`;
       }
-      if (errorMsg?.description) {
-        error += `${errorMsg.description} \n`;
+      // if (errorMsg?.description) {
+      //   error += `${errorMsg.description} \n`;
+      // }
+      if (errorMsg?.offerRate) {
+        error += `${errorMsg.offerRate} \n`;
       }
       if (errorMsg?.offerName) {
         error += `${errorMsg.offerName} \n`;
@@ -649,7 +718,7 @@ const CreateOffer = (props) => {
         error += `${errorMsg.validOn} \n`;
       }
       if (errorMsg?.maxRedeem) {
-        error += `${errorMsg.maxRedeem} \n`;
+        error += `Max Person Allowed to use this offer Should not be empty \n`;
       }
       if (errorMsg?.offerType) {
         error += `${errorMsg.offerType} \n`;
@@ -670,7 +739,7 @@ const CreateOffer = (props) => {
         error += `${errorMsg.outlets} \n`;
       }
       if (errorMsg?.order_type_id) {
-        error += `${errorMsg.order_type_id} \n`;
+        error += `Please Select orderType \n`;
       }
       // if (errorMsg?.maxDiscount) {
       //   error += `${errorMsg.maxDiscount} \n`;
@@ -711,7 +780,9 @@ const CreateOffer = (props) => {
           ? offerData.offerRate || Number(scaletext)
           : offerData.offerRate !== null
           ? Number(scaletext) || offerData.offerRate
-          : "",
+          : offerData.offerAttributes.itemDetails.itemQuantity === 0
+          ? offerData.offerRate
+          : offerData.offerRate === 0 ? Number(offerData.maxDiscount):Number(scaletext),
       minOrderAmount: Number(offerData.minOrderAmount),
       maxDiscount:
         Number(offerData.maxDiscount) ||
@@ -726,7 +797,7 @@ const CreateOffer = (props) => {
       validity_options: "{}",
       isEnabled: "1",
       offerAttributes: {
-        description: offerData.offerAttributes.description,
+        description: "",
         outlets: outletId,
         validOn: offerData.offerAttributes.validOn,
         maxUsageAcrossAllTranscation: 0,
@@ -752,20 +823,28 @@ const CreateOffer = (props) => {
         },
       },
     };
+   // console.log(data, "checking the data passed to preview offer");
 
-    // 2015-09-13 09:39:27
-    // console.log(data,moment(new Date(startDate)).format(),startDate,moment.utc(new Date(startDate)).format(), "checking dataa");
     if (
       data.offerCode !== null &&
       data.offerCode !== "" &&
-      data.validityFrom !== "1970-01-01T05:30:00+05:30"
+      data.validityUntil !== "1970-01-01T00:00:00Z" &&
+      data.validityFrom !== "1970-01-01T00:00:00Z" &&
+      data.offerRate !== 0
     ) {
       // console.log("dddddd");
       setPreviewState(data);
     } else if (data.offerCode === null) {
       alert("Please Enter Promocode");
-    } else if (data.validityFrom === "1970-01-01T05:30:00+05:30") {
+    } else if (
+      data.validityFrom === "1970-01-01T00:00:00Z" ||
+      data.validityFrom === null ||
+      data.validityUntil === "1970-01-01T00:00:00Z" ||
+      data.validityUntil === null
+    ) {
       alert("Please Select validity");
+    } else if (data.offerRate === 0 || data.offerRate === null) {
+      alert("Please Enter Discount value");
     } else {
       alert("Please fill all details");
     }
@@ -809,17 +888,51 @@ const CreateOffer = (props) => {
 
   const handleUserDetails = ({ target }) => {
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
+
     switch (target.name) {
-      case "description":
-        data.offerAttributes.description = target.value;
-        break;
+      // case "description":
+      //   data.offerAttributes.description = target.value;
+      //   break;
 
       // case "maxUsageAcrossAllTranscation":
       //   data.offerAttributes.maxUsageAcrossAllTranscation = target.value;
-      //   break;
-
+      //   break;maxRedeem
+      case "maxRedeem":
+        if (Math.sign(target.value) >= 0) {
+          data.maxRedeem = target.value;
+        } else {
+          alert("Accepts only Positive numbers");
+        }
+        break;
+      case "offerRate":
+        if (Math.sign(target.value) >= 0) {
+          data.offerRate = target.value;
+          setscaletext("");
+        } else {
+          alert("Accepts only Positive numbers");
+        }
+        break;
+      case "minOrderAmount":
+        if (Math.sign(target.value) >= 0) {
+          data.minOrderAmount = target.value;
+        } else {
+          alert("Accepts only Positive numbers");
+        }
+        break;
+      case "maxDiscount":
+        if (Math.sign(target.value) >= 0) {
+          data.maxDiscount = target.value;
+        } else {
+          alert("Accepts only Positive numbers");
+        }
+        break;
       case "itemQuantity":
-        data.offerAttributes.itemDetails.itemQuantity = target.value;
+        if (Math.sign(target.value) >= 0) {
+          data.offerAttributes.itemDetails.itemQuantity = target.value;
+        } else {
+          alert("Accepts only Positive numbers");
+        }
+
         break;
 
       case "offersAppliedAt":
@@ -838,8 +951,10 @@ const CreateOffer = (props) => {
   const getErrorList = (data) => {
     let errorObj = {};
     let list = Object.keys(data);
+
     for (let i = 0; i < list.length; i++) {
       const value = list[i];
+
       if (!errorExceptionKeys.includes(value)) {
         let error = {};
         switch (typeof data[value]) {
@@ -863,6 +978,7 @@ const CreateOffer = (props) => {
           case "boolean":
           case "string":
             if (!data[value]) {
+              // console.log(data[value], "DDDDDDD");
               error = {
                 [value]: `${convertCamelCase(value)} Should not be empty.`,
               };
@@ -905,7 +1021,7 @@ const CreateOffer = (props) => {
     switch (type) {
       case "order_type_dropdown":
         const orderTypeId = JSON.stringify({ typeIds: selectedList });
-        data.order_type_id = orderTypeId;
+        data.order_type_id = selectedList.length > 0 ? orderTypeId : "";
         break;
 
       case "outlet_dropdown":
@@ -914,7 +1030,6 @@ const CreateOffer = (props) => {
 
       case "visible_to_dropdown":
         data.offerAttributes.visibleTo = selectedList;
-
         break;
 
       case "usage_frequency_per_day_dropdown":
@@ -992,15 +1107,38 @@ const CreateOffer = (props) => {
   };
 
   const checkandSetStartDate = (date) => {
-    setStartDate(date);
+    let today = new Date();
+    let isTodayBeforeOfferValidity = moment(today).isBefore(date);
+    let EndDate = new Date();
+    if (isTodayBeforeOfferValidity) {
+      setStartDate(date);
+    } else if (!isTodayBeforeOfferValidity) setStartDate(new Date());
+
     if (date && EndDate) {
-      // console.log(date, EndDate, "DDDD");
+      // console.log(date,EndDate,"check end date")
       const dateEpoch = new Date(date).valueOf();
+
       const endDateEpoch = new Date(EndDate).valueOf();
+
+      //console.log(dateEpoch,endDateEpoch,"-->endDateEpoch")
       if (dateEpoch > endDateEpoch) {
         setEndDate(date);
       }
     }
+  };
+
+  const checkandEndDate = (date) => {
+    // console.log(date<startDate,"checkandEndDate")
+    let today = new Date();
+    let isTodayBeforeOfferValidity = moment(today).isBefore(date);
+
+    if (isTodayBeforeOfferValidity) {
+      // if(date<startDate){
+
+      // }
+
+      date < startDate ? setEndDate(startDate) : setEndDate(date);
+    } else if (!isTodayBeforeOfferValidity) setEndDate(startDate);
   };
 
   const checkmindate = (startDate) => {
@@ -1010,6 +1148,17 @@ const CreateOffer = (props) => {
       return new Date(startDate);
     }
   };
+
+  //   const  calculateMinTime = date => {
+  //     console.log("first",date)
+  //     let isToday = moment(date).isSame(moment(), 'day');
+  //     if (isToday) {
+  //         let nowAddOneHour = moment(new Date()).add({hours: 1}).toDate();
+  //         return nowAddOneHour;
+  //     }
+  //     console.log(moment().startOf('day').toDate())
+  //     return moment().startOf('day').toDate();
+  // }
 
   return previewData ? (
     <PreviewOffer state={previewData} onBack={() => setPreviewState("")} />
@@ -1137,7 +1286,7 @@ const CreateOffer = (props) => {
                 </div>
                 <div className="row m-t-20">
                   <div className="col-md-6">
-                    <textarea
+                    {/* <textarea
                       type="text"
                       name="description"
                       onKeyDown={(evt) =>
@@ -1155,7 +1304,7 @@ const CreateOffer = (props) => {
                       cols="50"
                       className="discription"
                       onChange={(e) => handleUserDetails(e)}
-                    ></textarea>
+                    ></textarea> */}
                   </div>
                   <div className="col-md-6">
                     {/* <TextInput
@@ -1254,6 +1403,9 @@ const CreateOffer = (props) => {
                                 <div>
                                   <TextInput
                                     type="number"
+                                    // step={1}
+                                    // pattern="\d+"
+                                    // min={1}
                                     placeholder="Item's Quantity"
                                     name="itemQuantity"
                                     onKeyDown={(evt) =>
@@ -1320,10 +1472,10 @@ const CreateOffer = (props) => {
                                       onKeyDown={(evt) =>
                                         evt.key === "e" && evt.preventDefault()
                                       }
-                                      name="maxDiscount"
+                                      name="offerRate"
                                       value={
-                                        offerData.maxDiscount
-                                          ? offerData.maxDiscount
+                                       offerData.offerRate
+                                          ? offerData.offerRate
                                           : ""
                                       }
                                       onChange={(e) => handleUserDetails(e)}
@@ -1413,10 +1565,10 @@ const CreateOffer = (props) => {
                                   onKeyDown={(evt) =>
                                     evt.key === "e" && evt.preventDefault()
                                   }
-                                  name="maxDiscount"
+                                  name="offerRate"
                                   value={
-                                    offerData.maxDiscount
-                                      ? offerData.maxDiscount
+                                   offerData.offerRate
+                                      ? offerData.offerRate
                                       : ""
                                   }
                                   onChange={(e) => handleUserDetails(e)}
@@ -1522,7 +1674,9 @@ const CreateOffer = (props) => {
                         dateFormat="dd/MM/yyyy h:mm aa"
                         showTimeInput
                         placeholderText={"Start"}
+                        minTime={minTimevalue}
                         disabledKeyboardNavigation
+                        maxTime={moment().endOf("day").toDate()}
                       />
                       <img
                         className="cal_icon"
@@ -1553,7 +1707,7 @@ const CreateOffer = (props) => {
                       <label>
                         <DatePicker
                           selected={EndDate ? EndDate : ""}
-                          onChange={(date) => setEndDate(date)}
+                          onChange={(date) => checkandEndDate(date)}
                           timeInputLabel="Time:"
                           dateFormat="dd/MM/yyyy h:mm aa"
                           showTimeInput

@@ -13,7 +13,7 @@ import {
 import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
-  //console.log(offerData, "preview offer");
+ // console.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -23,9 +23,12 @@ const PreviewOffer = (props) => {
   const EditOfferLoading = useSelector((state) => state.offer.EditOfferLoading);
 
   const addOfferSuccess = useSelector((state) => state.offer.addOfferSuccess);
-  const addOfferFailedMessage = useSelector((state) => state.offer.addOfferFailedMessage);
-  const editOfferFailedMessage = useSelector((state) => state.offer.updateOfferFailureMessage);
-
+  const addOfferFailedMessage = useSelector(
+    (state) => state.offer.addOfferFailedMessage
+  );
+  const editOfferFailedMessage = useSelector(
+    (state) => state.offer.updateOfferFailureMessage
+  );
 
   const updateOfferSuccess = useSelector(
     (state) => state.offer.updateOfferSuccess
@@ -36,26 +39,21 @@ const PreviewOffer = (props) => {
       alert("Offer Added Sccessfully");
       history.push("/management/Offers");
       dispatch(createOfferClear());
-    }
-    else if(addOfferFailedMessage!=="" ){
-      alert(addOfferFailedMessage)
+    } else if (addOfferFailedMessage !== "") {
+      alert(addOfferFailedMessage);
       dispatch(createOfferClear());
     }
   }, [addOfferSuccess, createOfferLoading, updateOfferSuccess]);
 
   useEffect(() => {
-  
     if (updateOfferSuccess && !EditOfferLoading && updateOfferSuccess) {
       alert("Offer Edited Successfully");
       history.push("/management/Offers");
       dispatch(updateOfferClear());
-    }
-    else if(editOfferFailedMessage!=="" ){
-      alert(editOfferFailedMessage)
+    } else if (editOfferFailedMessage !== "") {
+      alert(editOfferFailedMessage);
       dispatch(createOfferClear());
     }
-
-
   }, [updateOfferSuccess, EditOfferLoading, updateOfferSuccess]);
 
   const selectedDaysList =
@@ -133,16 +131,14 @@ const PreviewOffer = (props) => {
   }
 
   const usageFrequencePerCustomerValue = usageFrequencePerCustomer
-    ? usageFrequencePerCustomer == 0
+    ? usageFrequencePerCustomer == "MUL"
       ? "MultipleTimes"
       : "Once"
     : "";
-//console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
+  //console.log(typeof usagePerCustomerPerDay,"usagePerCustomerPerDay")
   let usagePerCustomerPerDayValue = "";
   switch (usagePerCustomerPerDay) {
-    
     case 4:
-    
       usagePerCustomerPerDayValue = "Multiple";
       break;
 
@@ -159,7 +155,7 @@ const PreviewOffer = (props) => {
       break;
 
     default:
-     // console.log("$$$$$$")
+      // console.log("$$$$$$")
       break;
   }
 
@@ -225,7 +221,7 @@ const PreviewOffer = (props) => {
     if (data.id) {
       //edit
       data.locationId = offerData.locationId;
-   //   console.log(data, EditOfferLoading, EditOffersw, "dat5aa");
+      //   console.log(data, EditOfferLoading, EditOffersw, "dat5aa");
       dispatch(
         EditOffer({
           data: data,
@@ -296,10 +292,10 @@ const PreviewOffer = (props) => {
                   </div>
                   <div className="row m-t-20">
                     <div className="col-md-6">
-                      <p className="preview_hdng">Offer Description</p>
+                      {/* <p className="preview_hdng">Offer Description</p>
                       <p className="m-t-5">
                         {offerData.offerAttributes.description}
-                      </p>
+                      </p> */}
                     </div>
                     <div className="col-md-6">
                       {/* <p className="preview_hdng">
@@ -313,7 +309,11 @@ const PreviewOffer = (props) => {
                 <div className="">
                   <div className="row">
                     <div className="col-md-6">
-                      <h3>Offer Type</h3>
+                      <p className="m-t-5">{`Offer Type : ${
+                        offerData.offerAttributes.offerBasedOn === 0
+                          ? "Invoice"
+                          : "Quantity"
+                      }`}</p>
                       <p className="preview_hdng">Discount Type</p>
                       <p className="m-t-5">
                         {offerData.offerAttributes.itemDetails.discountType ===
@@ -322,30 +322,85 @@ const PreviewOffer = (props) => {
                           : "Flat"}
                       </p>
 
-                      <p className="preview_hdng">
-                        Max. Discount amount(in Rs/$)
-                      </p>
-                      <p className="m-t-5">{offerData.maxDiscount}</p>
-                     { offerData.offerType !=="FLATFEE"&&<>  <p className="preview_hdng">Discount %</p>
-                      <p className="m-t-5">{offerData.offerRate}</p></> }
+                      {offerData.offerAttributes.itemDetails.offersAppliedAt !==
+                      "S" ? (
+                        <>
+                          {" "}
+                          <p className="preview_hdng">
+                            Max. Discount amount(in Rs/$)
+                          </p>
+                          <p className="m-t-5">{offerData.maxDiscount}</p>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      {offerData.minOrderAmount !== 0 ? (
+                        <>
+                          {" "}
+                          <p className="preview_hdng">Min.Order Amount</p>
+                          <p className="m-t-5">{offerData.minOrderAmount}</p>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      {offerData.offerType !== "FLATFEE" && (
+                        <>
+                          {" "}
+                          <p className="preview_hdng">Discount %</p>
+                          <p className="m-t-5">{offerData.offerRate}</p>
+                        </>
+                      )}
+                      {offerData.offerType === "FLATFEE" && (
+                        <>
+                          {" "}
+                          <p className="preview_hdng">Discount Amount</p>
+                          <p className="m-t-5">{offerData.offerRate}</p>
+                        </>
+                      )}
                     </div>
-                    <div className="col-md-6">
-                      <h3>Discount value based on</h3>
-                      <p className="preview_hdng">Item Name</p>
-                      <p className="m-t-5">
-                        {itemCodeObj && itemCodeObj[0]?.value
-                          ? itemCodeObj[0].value
-                          : ""}
-                      </p>
-                      <p className="preview_hdng">Item Quantity</p>
-                      <p className="m-t-5">
-                        {offerData.offerAttributes.itemDetails.itemQuantity}
-                      </p>
-                    </div>
+                    {offerData.offerAttributes.offerBasedOn ? (
+                      <div className="col-md-6 m-t-5">
+                        {/* <h3>Discount value based on</h3> */}
+                        <p className="preview_hdng">Item Name</p>
+                        <p className="m-t-5">
+                          {itemCodeObj && itemCodeObj[0]?.value
+                            ? itemCodeObj[0].value
+                            : ""}
+                        </p>
+                        {offerData.offerAttributes.itemDetails
+                          .offersAppliedAt !== "S" ? (
+                          <>
+                            {" "}
+                            <p className="preview_hdng">Item Quantity</p>
+                            <p className="m-t-5">
+                              {
+                                offerData.offerAttributes.itemDetails
+                                  .itemQuantity
+                              }
+                            </p>{" "}
+                          </>
+                        ) : (
+                          <>
+                            {" "}
+                            <p className="preview_hdng">Item Quantity</p>
+                            <p className="m-t-5">
+                              {`${
+                                offerData.offerAttributes.itemDetails
+                                  .scaleLevel - 1
+                              }-${
+                                offerData.offerAttributes.itemDetails.scaleLevel
+                              }`}
+                            </p>{" "}
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 <div className="m-t-20 m-b-20">
-                  <h3>Validity</h3>
+                  <p className="m-t-5">Validity</p>
                   <p className="preview_hdng"> Date &amp; Time</p>
 
                   <div className="row">
@@ -369,9 +424,9 @@ const PreviewOffer = (props) => {
                       </small>
                       <p className="m-t-5">{usageFrequencePerCustomerValue}</p>
                       <small className="small_txt">
-                      Max person allowed to use this offer
+                        Max person allowed to use this offer
                       </small>
-                     
+
                       <p className="m-t-5">{offerData.maxRedeem}</p>
                     </div>
                   </div>
@@ -408,15 +463,17 @@ const PreviewOffer = (props) => {
             Cancel
           </Link>
 
-         
-            <button
-              type={"button"}
-              className="offer-btn  float-right"
-              onClick={() => saveAndPublish()}
-            >
-           {EditOfferLoading || createOfferLoading ? (  <Loader height="15px" width="15px" />):  " Save & Publish"
-           }  </button>
-         
+          <button
+            type={"button"}
+            className="offer-btn  float-right"
+            onClick={() => saveAndPublish()}
+          >
+            {EditOfferLoading || createOfferLoading ? (
+              <Loader height="15px" width="15px" />
+            ) : (
+              " Save & Publish"
+            )}{" "}
+          </button>
         </div>
       </div>
     </>

@@ -10,9 +10,13 @@ const ScaleLevelPopup = (props) => {
   const [scaletext, setscaletext] = useState(props.data.data.replace);
 
   const handlechange = (e) => {
+    if (Math.sign(e.target.value) >= 0) {
     setscaletext(e.target.value);
-  };
-
+  }
+  else{
+    alert("Accepts Positive Number")
+  }
+  }
   const submithandler = () => {
     if (scaletext) {
       props.updateScaleLevel(data.key, data.index, scaletext);
@@ -44,6 +48,8 @@ const ScaleLevelPopup = (props) => {
               onChange={(e) => {
                 handlechange(e);
               }}
+             
+              pattern = "+/d+"
             />
             <form id="value" onSubmit={(e) => <></>}>
               <div className="radio-outer-container">

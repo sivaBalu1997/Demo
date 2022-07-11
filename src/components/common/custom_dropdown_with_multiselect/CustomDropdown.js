@@ -114,9 +114,19 @@ const CustomDropDown = (props) => {
 
   const changeDropdownArrow = () => {
     let data = Object.assign({}, JSON.parse(JSON.stringify(dropdownData)));
-    data.is_show = !data.is_show;
-
-    setDropdownData(data);
+    if (props.dropdown_key === "outlet_dropdown" && props.disable === true) {
+      data.is_show = data.is_show;
+      setDropdownData(data);
+    }  
+    else  if (props.dropdown_key === "usage_customer_per_day_dropdown" && props.disable === true) {
+      data.is_show = data.is_show;
+      setDropdownData(data);
+    }
+    else {
+      data.is_show = !data.is_show;
+      setDropdownData(data);
+    }
+   
   };
 
   const selectValue = (e, type) => {

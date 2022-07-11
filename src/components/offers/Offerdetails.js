@@ -31,7 +31,11 @@ const Offerdetails = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { credentials, selectedBranch } = useSelector((state) => state.auth);
+  const { credentials, selectedBranch, restaurantDetails } = useSelector(
+    (state) => state.auth
+  );
+
+  // const checkstate = useSelector((state)=>state);
 
   const offerListLoading = useSelector((state) => state.offer.offerListLoading);
 
@@ -54,7 +58,7 @@ const Offerdetails = (props) => {
   const disableOffersSuccess = useSelector(
     (state) => state.offer.disableOfferSuccess
   );
-  
+
   const disableOffersLoading = useSelector(
     (state) => state.offer.disableOfferLoading
   );
@@ -106,16 +110,14 @@ const Offerdetails = (props) => {
     setLoading(offerListLoading);
   }, [offerListLoading, offerList]);
 
-
   const onChangeOfOfferStatus = (status) => {
-  
+    setOfferListNoData(false);
     setcompletedStatus(!completedStatus);
     dispatch(changeOfferStatus(status));
   };
 
   const showOrderTypes = (orderTypeIds) => {
     let orderTypes = [];
-
     if (Object.keys(selectedBranch?.orderTypes).length !== 0) {
       orderTypeIds = JSON.parse(orderTypeIds).typeIds;
       selectedBranch.orderTypes.map((orderType) => {
@@ -130,28 +132,26 @@ const Offerdetails = (props) => {
     return orderTypes;
   };
 
-  const showOfferStatus = (validityFrom, validityUntil,isEnabled) => {
-    var today = moment.utc(new Date()).format("YYYY MM DD");
-    validityFrom = moment.utc(validityFrom).format("YYYY MM DD");
-    validityUntil = moment.utc(validityUntil).format("YYYY MM DD");
+  const showOfferStatus = (validityFrom, validityUntil, isEnabled) => {
+    var today = new Date();
+    validityFrom = new Date(validityFrom);
+    validityUntil = new Date(validityUntil);
 
     var isTodayBeforeOfferValidity = moment(today).isBefore(
       validityFrom,
       validityUntil
     );
 
+    var isEnabledActive = isEnabled === 1 ? true : false;
+    var isEnabledPast = isEnabled === 0 ? true : false;
 
-var isEnabledActive = isEnabled ===1?true:false
-var isEnabledPast = isEnabled ===0?true:false
- 
-    if (isTodayBeforeOfferValidity&&isEnabled ===1) {
+    if (isTodayBeforeOfferValidity && isEnabled === 1) {
       return "Upcoming";
-    }else if(isEnabledActive) {
-      return "Active"
-    } else if(isEnabledPast) {
-      return "Disabled"
+    } else if (isEnabledActive) {
+      return "Active";
+    } else if (isEnabledPast) {
+      return "Disabled";
     }
-
   };
 
   const handleSearch = async (e) => {
@@ -172,10 +172,12 @@ var isEnabledPast = isEnabled ===0?true:false
       } else {
         await setsearchOfferList([]);
         await setOfferListNoData(true);
+       
       }
     } else {
       await setOfferListNoData(false);
       await setsearchOfferList(offerList);
+     
     }
   };
 
@@ -260,7 +262,7 @@ var isEnabledPast = isEnabled ===0?true:false
               </tr>
             </thead>
             {offerListNoData === false ? (
-              <tbody >
+              <tbody>
                 {offerListdata.map((row, index) => {
                   return (
                     <OffersRow
@@ -269,22 +271,38 @@ var isEnabledPast = isEnabled ===0?true:false
                       offerName={row.offerName}
                       validityFrom={row.validityFrom}
                       validityUntil={row.validityUntil}
-                      offerType={showOrderTypes(row?.order_type_id)}
-
-                      offerData={row}
-                      offerRate={`Rs.${row.offerRate === 0.0?row.maxDiscount:row.offerRate}`}
-                     
-                      usage={row.redeemedSofar}
-                      isEnabled={showOfferStatus(row.validityFrom, row.validityUntil,row.isEnabled)
+                      offerType={
+                        row?.order_type_id
+                          ? showOrderTypes(row?.order_type_id)
+                          : ""
                       }
-                    
+                      offerData={row}
+                      offerRate={
+                        restaurantDetails.country === "US"
+                          ? `$${
+                              row.offerRate === 0.0
+                                ? row.maxDiscount
+                                : row.offerRate
+                            }`
+                          : `Rs.${
+                              row.offerRate === 0.0
+                                ? row.maxDiscount
+                                : row.offerRate
+                            }`
+                      }
+                      usage={row.redeemedSofar}
+                      isEnabled={showOfferStatus(
+                        row.validityFrom,
+                        row.validityUntil,
+                        row.isEnabled
+                      )}
                       index={index}
                     />
                   );
                 })}
               </tbody>
             ) : (
-              <tbody >
+              <tbody>
                 {searchOfferList.map((row, index) => {
                   return (
                     <OffersRow
@@ -293,11 +311,21 @@ var isEnabledPast = isEnabled ===0?true:false
                       offerName={row.offerName}
                       validityFrom={row.validityFrom}
                       validityUntil={row.validityUntil}
-                      offerType={showOrderTypes(row?.order_type_id)}
+                      offerType={
+                        row?.order_type_id
+                          ? showOrderTypes(row?.order_type_id)
+                          : ""
+                      }
                       offerData={row}
-                      offerRate={`Rs.${row.offerRate === 0.0?row.maxDiscount:row.offerRate}`}
+                      offerRate={`Rs.${
+                        row.offerRate === 0.0 ? row.maxDiscount : row.offerRate
+                      }`}
                       usage={row.redeemedSofar}
-                      isEnabled={showOfferStatus(row.validityFrom, row.validityUntil,row.isEnabled)}
+                      isEnabled={showOfferStatus(
+                        row.validityFrom,
+                        row.validityUntil,
+                        row.isEnabled
+                      )}
                       index={index}
                     />
                   );
@@ -337,14 +365,14 @@ const OffersRow = ({
   const offerList = useSelector((state) => state.offer.offerList);
 
   const getOpacity = (data) => {
-    if(data ===1){
-      return 1
-    } else if(data ===2) {
+    if (data === 1) {
       return 1;
-    }else{
+    } else if (data === 2) {
+      return 1;
+    } else {
       return 0.4;
     }
-  }
+  };
   const expand = () => {
     setExpanded(!expanded);
   };
@@ -358,14 +386,12 @@ const OffersRow = ({
       await dispatch(deleteOfferRequest(id));
       setReRender(!reRender);
     } else if (operation === "Disable") {
-      await dispatch(disableOfferRequest({id:id,status:0}));
+      await dispatch(disableOfferRequest({ id: id, status: 0 }));
       setReRender(!reRender);
-    }else if(operation === "Enable"){
-      await dispatch(disableOfferRequest({id:id,status:1}));
+    } else if (operation === "Enable") {
+      await dispatch(disableOfferRequest({ id: id, status: 1 }));
       setReRender(!reRender);
-    }
-    
-    else if (operation === "Edit") {
+    } else if (operation === "Edit") {
       history.push("/management/Offers/CreateOffer", offerData);
       return;
     } else if (operation === "Duplicate") {
@@ -385,17 +411,19 @@ const OffersRow = ({
     setShow(!show);
   };
   const handleBlur = () => setIsOpen(isOpen);
-  let date = moment.utc(validityFrom).format('YYYY-MM-DD HH:mm:ss');
- let stillUtc = moment.utc(date).toDate();
- let validityfrom = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+  let date = moment.utc(validityFrom).format("YYYY-MM-DD HH:mm:ss");
+  let stillUtc = moment.utc(date).toDate();
+  let validityfrom = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
 
-let offerEnd = moment.utc(validityUntil).format('YYYY-MM-DD HH:mm:ss');
-let stillUtcofferEnd = moment.utc(offerEnd).toDate();
-let validityuntil =  moment(stillUtcofferEnd).local().format('YYYY-MM-DD HH:mm:ss');
+  let offerEnd = moment.utc(validityUntil).format("YYYY-MM-DD HH:mm:ss");
+  let stillUtcofferEnd = moment.utc(offerEnd).toDate();
+  let validityuntil = moment(stillUtcofferEnd)
+    .local()
+    .format("YYYY-MM-DD HH:mm:ss");
   return (
     <tr id={id}>
       <td style={{ opacity: getOpacity(offerData.isEnabled) }}>{offerName}</td>
-      <td  style={{ opacity: getOpacity(offerData.isEnabled) }}>
+      <td style={{ opacity: getOpacity(offerData.isEnabled) }}>
         {moment(validityfrom).format("DD MMM ") +
           " - " +
           moment(validityuntil).format("DD MMM YYYY")}
@@ -414,29 +442,21 @@ let validityuntil =  moment(stillUtcofferEnd).local().format('YYYY-MM-DD HH:mm:s
             })
           : "-"}
       </td>
-     
-      <td style={{ opacity: getOpacity(offerData.isEnabled) }}>{offerRate}</td>
-      <td style={{ opacity: getOpacity(offerData.isEnabled ) }}>{usage}</td>
-      <td style={{ opacity: getOpacity(offerData.isEnabled ) }}>
-      
-     
-        {isEnabled === "Active" && <span>{isEnabled}</span>}
-          {isEnabled === "Disabled" && <span>{isEnabled}</span>
-      
-        }
-        {isEnabled === "Upcoming" && <span>{isEnabled}</span>}
 
-    
+      <td style={{ opacity: getOpacity(offerData.isEnabled) }}>{offerRate}</td>
+      <td style={{ opacity: getOpacity(offerData.isEnabled) }}>{usage}</td>
+      <td style={{ opacity: getOpacity(offerData.isEnabled) }}>
+        {isEnabled === "Active" && <span>{isEnabled}</span>}
+        {isEnabled === "Disabled" && <span>{isEnabled}</span>}
+        {isEnabled === "Upcoming" && <span>{isEnabled}</span>}
       </td>
-     
+
       <td tabIndex={0} onBlur={close} onFocus={expand}>
-      {/* <td tabIndex={0} onFocus={expand} > */}
+        {/* <td tabIndex={0} onFocus={expand} > */}
         <BiDotsVerticalRounded onClick={() => setShow(!show)} />
         {expanded ? (
-          show && offerStatus === 1&&isEnabled !=="Disabled" ? (
-           
+          show && offerStatus === 1 && isEnabled !== "Disabled" ? (
             <ul className="ul_list">
-             
               <li onClick={() => tableRowOptions(id, "Duplicate")}>
                 <img src={Duplicate} alt="" className="plus_img m-r-20" />
                 Duplicate
@@ -458,18 +478,18 @@ let validityuntil =  moment(stillUtcofferEnd).local().format('YYYY-MM-DD HH:mm:s
             </ul>
           ) : show && offerStatus === 2 ? (
             <ul className="ul_list">
-            <li onClick={() => tableRowOptions(id, "Duplicate")}>
+              <li onClick={() => tableRowOptions(id, "Duplicate")}>
                 <img src={Duplicate} alt="" className="plus_img m-r-20" />
                 Duplicate
               </li>
             </ul>
-          ) : show && offerStatus === 1&&isEnabled ==="Disabled" ? (
+          ) : show && offerStatus === 1 && isEnabled === "Disabled" ? (
             <ul className="ul_list">
-               <li onClick={() => tableRowOptions(id, "Enable")}>
+              <li onClick={() => tableRowOptions(id, "Enable")}>
                 <img src={Enable} alt="" className="plus_img m-r-20" />
-               Enable
+                Enable
               </li>
-            <li onClick={() => tableRowOptions(id, "Duplicate")}>
+              <li onClick={() => tableRowOptions(id, "Duplicate")}>
                 <img src={Duplicate} alt="" className="plus_img m-r-20" />
                 Duplicate
               </li>
@@ -477,9 +497,8 @@ let validityuntil =  moment(stillUtcofferEnd).local().format('YYYY-MM-DD HH:mm:s
                 <img src={Delete} alt="" className="plus_img m-r-20" />
                 Delete
               </li>
-             
             </ul>
-          ):null
+          ) : null
         ) : (
           ""
         )}

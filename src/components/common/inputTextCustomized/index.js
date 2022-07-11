@@ -16,6 +16,7 @@ const TextInput = ({
   onBlur,
   error,
   onKeyDown,
+  pattern,
 }) => {
   return (
     <Fragment>
@@ -37,6 +38,7 @@ const TextInput = ({
           onBlur={onBlur}
           class={"inputText"}
           id={name}
+          pattern={pattern}
         />
         <span
           onClick={() => document.getElementById(name).focus()}
