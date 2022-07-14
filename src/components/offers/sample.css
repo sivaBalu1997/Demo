@@ -270,7 +270,7 @@
 }
 .d-inline-block {
   display: inline-block !important;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .float-right {
@@ -346,18 +346,31 @@
   top: -20px;
   right: 0;
 }
-.ul_list li{    
+.ul_list li {
   padding: 5px 0px;
-  border-bottom: 1px solid #ccc ;}
-  .ul_list{width: auto !important;}
-  .ul_list li .plus_img{height: 16px;}
-  .ul_list li:last-child {
-    border-bottom: none;
+  border-bottom: 1px solid #ccc;
 }
-  .cal_icon{position: absolute;
-    right: 25px;
-    z-index: 2;
-    top: 10px;}
-    .scale_option{position: absolute;
-      right: 5px;
-      top: 10px;}
+.ul_list {
+  width: auto !important;
+}
+.ul_list li .plus_img {
+  height: 16px;
+}
+.ul_list li:last-child {
+  border-bottom: none;
+}
+.cal_icon {
+  position: absolute;
+  right: 25px;
+  z-index: 2;
+  top: 10px;
+}
+.scale_option {
+  position: absolute;
+  right: 5px;
+  top: 10px;
+}
+
+.m-t-2 {
+  margin-top:"40px"
+}

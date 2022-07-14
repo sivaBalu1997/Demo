@@ -18,9 +18,9 @@ const CustomDropDown = (props) => {
     is_show: false,
     error: props.error ? props.error : "",
   });
-  
-  const [format, setformat] = useState(/[:]/);
 
+  const [format, setformat] = useState(/[:]/);
+  const [allcheckvalue, setAllCheckValue] = useState([]);
   useEffect(() => {
     let selectedValue = "";
     let isAllChecked = false;
@@ -31,7 +31,7 @@ const CustomDropDown = (props) => {
     let selectKey = props.select_key ? props.select_key : "id";
     let list = [];
     let error = props.error ? props.error : "";
-   
+
     for (let i = 0; i < props.list.length; i++) {
       const data = props.list[i];
       data.checked = false;
@@ -100,13 +100,13 @@ const CustomDropDown = (props) => {
     if (props.dropdown_key === "outlet_dropdown" && props.disable === true) {
       data.is_show = data.is_show;
       setDropdownData(data);
-    }  
-    else  if (props.dropdown_key === "usage_customer_per_day_dropdown" && props.disable === true) {
+    } else if (
+      props.dropdown_key === "usage_customer_per_day_dropdown" &&
+      props.disable === true
+    ) {
       data.is_show = data.is_show;
       setDropdownData(data);
-    }
-    
-    else {
+    } else {
       data.is_show = !data.is_show;
       setDropdownData(data);
     }
@@ -114,19 +114,20 @@ const CustomDropDown = (props) => {
 
   const changeDropdownArrow = () => {
     let data = Object.assign({}, JSON.parse(JSON.stringify(dropdownData)));
+  //  console.log(dropdownData, "checkinggg Changeee");
     if (props.dropdown_key === "outlet_dropdown" && props.disable === true) {
       data.is_show = data.is_show;
       setDropdownData(data);
-    }  
-    else  if (props.dropdown_key === "usage_customer_per_day_dropdown" && props.disable === true) {
+    } else if (
+      props.dropdown_key === "usage_customer_per_day_dropdown" &&
+      props.disable === true
+    ) {
       data.is_show = data.is_show;
       setDropdownData(data);
-    }
-    else {
+    } else {
       data.is_show = !data.is_show;
       setDropdownData(data);
     }
-   
   };
 
   const selectValue = (e, type) => {
@@ -142,6 +143,7 @@ const CustomDropDown = (props) => {
       const data = dropdownData.list[i];
       if (type == "all" || e.target.id == data.id) {
         data.checked = isChecked;
+       // console.log(data, "checkingddtaa");
       } else if (isChecked && dropdownData.is_single) {
         data.checked = false;
       }
@@ -165,8 +167,20 @@ const CustomDropDown = (props) => {
     data.is_all_checked = isAllChecked;
     data.is_show = dropdownData.is_single ? false : data.is_show;
     setDropdownData(data);
+   // console.log(dropdownData, "--->");
   };
 
+  useEffect(() => {
+    let checkvalue = [];
+    dropdownData.list.map((i) => {
+      if (i.checked === true) {
+        checkvalue.push(i);
+      }
+    });
+    setAllCheckValue(checkvalue);
+    // console.log(allcheckvalue,"allcheckvalue")
+  }, [dropdownData]);
+  
   return (
     <>
       <div className="dropdown" ref={myRef}>
@@ -184,7 +198,9 @@ const CustomDropDown = (props) => {
           {dropdownData.selected_value && (
             <span
               // onClick={() => document.getElementById(name).focus()}
-              className={dropdownData.selected_value ? "value-floating-label " : ""}
+              className={
+                dropdownData.selected_value ? "value-floating-label " : ""
+              }
             >
               {props.placeholder}
             </span>
@@ -198,6 +214,11 @@ const CustomDropDown = (props) => {
 
           {dropdownData.is_show && (
             <animated.div className="dropdown-items-divs">
+              {/* {console.log(
+                dropdownData.list.length > 0 &&
+                  dropdownData.list.map((i) => i.checked === true),
+                "chekinggg"
+              )} */}
               {!dropdownData.is_single ? (
                 <ul>
                   <li className="items">
@@ -214,10 +235,11 @@ const CustomDropDown = (props) => {
                             type="checkbox"
                             id={0}
                             onChange={(e) => selectValue(e, "all")}
-                            // checked={
-                            //   dropdownData.is_all_checked === dropdownData?.list.length ? true : false
-                            // }
-                            checked={dropdownData.checked}
+                            checked={
+                              allcheckvalue.length === dropdownData.list.length
+                                ? true
+                                : false
+                            }
                           />
                           <span
                             className={
@@ -314,7 +336,6 @@ const CustomDropDown = (props) => {
             </animated.div>
           )}
         </div>
-       
       </div>
     </>
   );

@@ -13,7 +13,7 @@ import {
 import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
- // console.log(offerData, "preview offer");
+  console.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -307,13 +307,17 @@ const PreviewOffer = (props) => {
                 </div>
 
                 <div className="">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <p className="m-t-5">{`Offer Type : ${
+                <div className="col-md-12">
+                    <p className="m-t-5 m-b-0">{`Offer Type : ${
                         offerData.offerAttributes.offerBasedOn === 0
                           ? "Invoice"
                           : "Quantity"
                       }`}</p>
+                      </div>
+                  <div className="row">
+                    
+                    <div className="col-md-6">
+                      
                       <p className="preview_hdng">Discount Type</p>
                       <p className="m-t-5">
                         {offerData.offerAttributes.itemDetails.discountType ===
@@ -323,7 +327,7 @@ const PreviewOffer = (props) => {
                       </p>
 
                       {offerData.offerAttributes.itemDetails.offersAppliedAt !==
-                      "S" ? (
+                      "S" ?offerData.offerType !== "FLATFEE"&& (
                         <>
                           {" "}
                           <p className="preview_hdng">
@@ -359,8 +363,8 @@ const PreviewOffer = (props) => {
                       )}
                     </div>
                     {offerData.offerAttributes.offerBasedOn ? (
-                      <div className="col-md-6 m-t-5">
-                        {/* <h3>Discount value based on</h3> */}
+                      <div className="col-md-6 m-t-2">
+                        {/* <h3></h3> */}
                         <p className="preview_hdng">Item Name</p>
                         <p className="m-t-5">
                           {itemCodeObj && itemCodeObj[0]?.value
@@ -419,10 +423,11 @@ const PreviewOffer = (props) => {
                       </p>
                     </div>
                     <div className="col-md-6">
-                      <small className="small_txt">
+                   {offerData.offerAttributes.usageFrequencePerCustomer !==null?  <> <small className="small_txt">
                         Usage Frequency per Customer
                       </small>
-                      <p className="m-t-5">{usageFrequencePerCustomerValue}</p>
+                     
+                      <p className="m-t-5">{usageFrequencePerCustomerValue}</p></>:""}
                       <small className="small_txt">
                         Max person allowed to use this offer
                       </small>
@@ -446,10 +451,10 @@ const PreviewOffer = (props) => {
                   </div>
                   <div className="row m-t-20">
                     <div className="col-md-6">
-                      <small className="small_txt">
+                   { offerData.offerAttributes.usagePerCustomerPerDay !==0?<>  <small className="small_txt">
                         Usage per Customer per day
                       </small>
-                      <p className="m-t-5">{usagePerCustomerPerDayValue}</p>
+                      <p className="m-t-5">{usagePerCustomerPerDayValue}</p></>:""}
                     </div>
                     <div className="col-md-6"></div>
                   </div>
