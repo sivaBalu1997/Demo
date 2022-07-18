@@ -962,6 +962,8 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
         data.maxDiscount = "";
         data.offerAttributes.itemDetails.offersAppliedAt = "Q";
       } else if (type == 0) {
+        data.offerAttributes.itemDetails.itemCode = "";
+        data.offerAttributes.itemDetails.itemQuantity = ""
         data.offerAttributes.itemDetails.discountType = "";
         data.offerRate = "";
         data.maxDiscount = "";
