@@ -633,7 +633,7 @@ const CreateOffer = (props) => {
       checked: visibleToList.includes("S"),
     },
   ]);
-  console.log("location.state", offerData);
+  //console.log("location.state", offerData);
 
   //console.log(offerData, "check");
 
@@ -688,11 +688,12 @@ const CreateOffer = (props) => {
     "locationId",
     offerData.offerAttributes.offerBasedOn === 1 ? "minOrderAmount" : "",
     "redeemedSofar",
-   "itemQuantity",
+    "guestUsableOffer",
+    "itemQuantity",
     "scaleLevel",
     "offerBasedOn",
     "isEnabled",
-    "itemCode",
+    offerData.offerAttributes.offerBasedOn === 0 ? "itemCode":"",
     "validityFrom",
     "validityUntil",
     "offersAppliedAt",
@@ -705,7 +706,7 @@ const CreateOffer = (props) => {
   ];
 
   const openScalePopup = (index, data, key) => {
-    console.log(index, data, key, "checking dataaa");
+   // console.log(index, data, key, "checking dataaa");
     setScalePopupData({
       index,
       data,
@@ -714,7 +715,7 @@ const CreateOffer = (props) => {
   };
 
   const updateScaleLevel = (key, index, text) => {
-    console.log("checking keyon scalevel-->", key, index, text);
+   // console.log("checking keyon scalevel-->", key, index, text);
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
     //  console.log(data, "checking data on scale edit");
 
@@ -779,7 +780,7 @@ const CreateOffer = (props) => {
   const submitHandler = () => {
     isSubmitted = true;
     if (!validateForm(errorMsg)) {
-      // console.log(errorMsg, "checkerror");
+     // console.log(errorMsg, "checkerror");
 
       let error = "";
 
@@ -799,7 +800,7 @@ const CreateOffer = (props) => {
         error += `${errorMsg.discountType} \n`;
       }
       if (errorMsg?.itemCode) {
-        error += `${errorMsg.itemCode} \n`;
+        error += `Menu Item Should not be Empty  \n`;
       }
       // if (errorMsg?.maxUsageAcrossAllTranscation) {
       //   error += `${errorMsg.maxUsageAcrossAllTranscation} \n`;

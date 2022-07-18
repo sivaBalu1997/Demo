@@ -12,9 +12,12 @@ const ScaleLevelPopup = (props) => {
   const handlechange = (e) => {
     if (Math.sign(e.target.value) >= 0) {
     setscaletext(e.target.value);
-  }
+  } 
   else{
     alert("Accepts Positive Number")
+  }
+  if(e.target.value === 0){
+    alert("Please Enter Greater than Zero")
   }
   }
   const submithandler = () => {

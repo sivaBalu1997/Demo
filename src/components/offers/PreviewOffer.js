@@ -13,7 +13,7 @@ import {
 import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
-  console.log(offerData, "preview offer");
+  //console.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
