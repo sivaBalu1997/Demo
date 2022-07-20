@@ -10,8 +10,10 @@ const ScaleLevelPopup = (props) => {
   const [scaletext, setscaletext] = useState(props.data.data.replace);
 
   const handlechange = (e) => {
-    if (Math.sign(e.target.value) >= 0) {
+    console.log(e.target.value,"checkingg")
     setscaletext(e.target.value);
+    if (Math.sign(e.target.value) >= 0) {
+   
   } 
   else{
     alert("Accepts Positive Number")
@@ -21,8 +23,11 @@ const ScaleLevelPopup = (props) => {
   }
   }
   const submithandler = () => {
+   
     if (scaletext) {
       props.updateScaleLevel(data.key, data.index, scaletext);
+    }else if(scaletext ===""){
+      alert("Please Enter valid number")
     }
   };
 
@@ -51,7 +56,9 @@ const ScaleLevelPopup = (props) => {
               onChange={(e) => {
                 handlechange(e);
               }}
-             
+              min="0"
+              maxlength="5"
+              onkeypress="return /[0-9]/i.test(event.key)"
               pattern = "+/d+"
             />
             <form id="value" onSubmit={(e) => <></>}>

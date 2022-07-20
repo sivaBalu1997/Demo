@@ -12,7 +12,7 @@ const CustomDropDown = (props) => {
   const [dropdownData, setDropdownData] = useState({
     list: [],
     is_single: props.is_single ? true : false,
-    show_all: props.show_all ? true : false,
+    show_all: props.show_all === true ? true : false,
     is_all_checked: false,
     selected_value: [],
     is_show: false,

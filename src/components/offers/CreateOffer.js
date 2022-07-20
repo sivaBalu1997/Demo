@@ -1,4 +1,3 @@
-
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
@@ -16,11 +15,15 @@ import DropdownAddItem from "./DropdownAddItem";
 import PreviewOffer from "./PreviewOffer";
 import "./sample.css";
 import ScaleLevelPopup from "./ScaleLevelPopup";
-
+import {
+  updateOfferClear,
+  createOfferClear,
+  createOffer,
+  EditOffer,
+} from "../../redux/actions/offerActions";
 const CreateOffer = (props) => {
-
   const dispatch = useDispatch();
- 
+
   const [previewData, setPreviewState] = useState("");
   const checkingstate = useSelector(
     (state) => state.auth.restaurantDetails.country
@@ -90,7 +93,7 @@ const CreateOffer = (props) => {
       offerBasedOn: 0,
       itemDetails: {
         itemCode: null,
-        itemQuantity: null,
+        itemQuantity: "",
         discountType: null,
         offersAppliedAt: null,
         scaleLevel: "",
@@ -184,6 +187,7 @@ const CreateOffer = (props) => {
   useEffect(() => {}, [scaletext]);
   useEffect(() => {
     if (menuItem.menu !== undefined && menuItem?.menu?.length > 0) {
+     // console.log("coming inside or nottt");
       // setItemMenu(menuItem);
       let menuName = [];
       let selectedItem = "";
@@ -208,21 +212,6 @@ const CreateOffer = (props) => {
       if (!selectedItem) {
         return;
       }
-      if (offerData.id) {
-        let array = [];
-        menuName.map((menus) => {
-          if (menus.id === offerData.offerAttributes.itemDetails.itemCode) {
-            array.push({ value: menus.value, id: menus.id, checked: true });
-          }
-          setstoremenuname(array);
-        });
-      }
-
-      // if (offerType === "PERCENT") {
-      //   // setRateMenu(selectedItem);
-      // } else if (offerType === "FLATFEE") {
-      //   setFlatMenu(selectedItem);
-      // }
     }
   }, [menuItem]);
 
@@ -635,7 +624,7 @@ const CreateOffer = (props) => {
   ]);
   //console.log("location.state", offerData);
 
-  //console.log(offerData, "check");
+  
 
   // console.log(offerData.offerRate, "checking offerDartaa");
 
@@ -689,24 +678,25 @@ const CreateOffer = (props) => {
     offerData.offerAttributes.offerBasedOn === 1 ? "minOrderAmount" : "",
     "redeemedSofar",
     "guestUsableOffer",
+    "offerUsageCount",
     "itemQuantity",
     "scaleLevel",
     "offerBasedOn",
     "isEnabled",
-    offerData.offerAttributes.offerBasedOn === 0 ? "itemCode":"",
+    offerData.offerAttributes.offerBasedOn === 0 ? "itemCode" : "",
     "validityFrom",
     "validityUntil",
     "offersAppliedAt",
     "maxUsageAcrossAllTranscation",
     "description",
     offerData.id ? "outlets" : "",
-
+    "maxDiscount",
     "usageFrequencePerCustomer",
     "usagePerCustomerPerDay",
   ];
 
   const openScalePopup = (index, data, key) => {
-   // console.log(index, data, key, "checking dataaa");
+    // console.log(index, data, key, "checking dataaa");
     setScalePopupData({
       index,
       data,
@@ -715,7 +705,7 @@ const CreateOffer = (props) => {
   };
 
   const updateScaleLevel = (key, index, text) => {
-   // console.log("checking keyon scalevel-->", key, index, text);
+    // console.log("checking keyon scalevel-->", key, index, text);
     let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
     //  console.log(data, "checking data on scale edit");
 
@@ -769,7 +759,7 @@ const CreateOffer = (props) => {
       data.offerRate = text;
       data.maxDiscount = text;
       setOfferState(data);
-      // setscaletext(prev => ([...prev, ...text]));
+   
     }
   };
 
@@ -778,6 +768,8 @@ const CreateOffer = (props) => {
   );
 
   const submitHandler = () => {
+    dispatch(createOfferClear());
+    dispatch(updateOfferClear());
     isSubmitted = true;
     if (!validateForm(errorMsg)) {
      // console.log(errorMsg, "checkerror");
@@ -838,7 +830,7 @@ const CreateOffer = (props) => {
       if (errorMsg?.order_type_id) {
         error += `Please Select orderType \n`;
       }
-if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
+      if (offerData.offerType !== "FLATFEE" && errorMsg?.maxDiscount) {
         error += `Please Enter MaxDiscount \n`;
       }
       if (errorMsg?.itemQuantity) {
@@ -913,7 +905,7 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
         },
       },
     };
-    // console.log(data, "checking the data passed to preview offer");
+    //console.log(data, "checking the data passed to preview offer");
 
     if (
       data.offerCode !== null &&
@@ -923,8 +915,41 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
       data.offerRate !== " 0" &&
       data.offerRate !== "0 "
     ) {
+      if (data.offerAttributes.offerBasedOn === 1) {
+        if (
+          data.offerAttributes.itemDetails.itemQuantity === 0 &&
+          offerData.offerAttributes.itemDetails.offersAppliedAt !== "S"
+        ) {
+          alert("Please Enter Item Quantity/ScaleLevel");
+        } else if (
+          data.offerAttributes.itemDetails.itemQuantity !== 0 &&
+          offerData.offerAttributes.itemDetails.offersAppliedAt !== "S" &&
+          data.maxDiscount === 0
+        ) {
+          alert("Please Enter MaxDiscount");
+        } else {
+          dispatch(createOfferClear());
+          dispatch(updateOfferClear());
+          setPreviewState(data);
+        }
+      } else if (data.offerAttributes.offerBasedOn === 0) {
+        if (
+          data.offerType !== "FLATFEE" &&
+         
+          data.maxDiscount === 0
+        ) {
+          alert("Please Enter MaxDiscount");
+        } else {
+          dispatch(createOfferClear());
+          dispatch(updateOfferClear());
+          setPreviewState(data);
+        }
+      } else {
+        dispatch(createOfferClear());
+        dispatch(updateOfferClear());
+        setPreviewState(data);
+      }
       // console.log("dddddd");
-      setPreviewState(data);
     } else if (data.offerCode === null) {
       alert("Please Enter Promocode");
     } else if (
@@ -938,15 +963,30 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
     ) {
       alert("Please Select validity until");
     } else if (
-      (data.offerRate !== " 0" && data.offerCode !== "") ||
-      (data.offerRate !== "0 " && data.offerCode !== "")
+      (data.offerRate === " 0" && data.offerCode !== "") ||
+      (data.offerRate === "0 " && data.offerCode !== "")
     ) {
       alert("Please enter Discount");
-    } else if (data.offerRate !== "0" && data.offerCode !== "") {
+    } else if (data.offerRate === "0" && data.offerCode !== "") {
       alert("Please enter Discount");
-    } else {
+    } else if (
+      (data.offerAttributes.offerBasedOn === 1 &&
+        data.offerAttributes.itemDetails.itemQuantity === 0) ||
+      (data.offerAttributes.itemDetails.itemQuantity === null &&
+        data.offerAttributes.itemDetails.scaleLevel === "")
+    ) {
+     
+      alert(`Please Enter Item Quantity/ScaleLevel`);
+    } else if (
+      data.offerType !== "FLATFEE" &&
+      data.maxDiscount === "" &&
+      data.offerAttributes.itemDetails.offersAppliedAt !== "S"
+    )
+      alert("Please Enter MaxDiscount");
+    else {
       alert("Please fill all details");
     }
+
     return;
   };
 
@@ -963,7 +1003,7 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
         data.offerAttributes.itemDetails.offersAppliedAt = "Q";
       } else if (type == 0) {
         data.offerAttributes.itemDetails.itemCode = "";
-        data.offerAttributes.itemDetails.itemQuantity = ""
+        data.offerAttributes.itemDetails.itemQuantity = "";
         data.offerAttributes.itemDetails.discountType = "";
         data.offerRate = "";
         data.maxDiscount = "";
@@ -1019,16 +1059,24 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
         break;
       case "offerRate":
         if (Math.sign(target.value) >= 0) {
-          data.offerRate = target.value;
-          if (offerData.offerAttributes.itemDetails.discountType === "F") {
-            data.maxDiscount = target.value;
-          }
+         
+          if (
+            target.value > 100 &&
+            offerData.offerAttributes.itemDetails.discountType === "R"
+          ) {
+            alert("Please Enter Within 100");
+          } else {
+            data.offerRate = target.value;
+            if (offerData.offerAttributes.itemDetails.discountType === "F") {
+              data.maxDiscount = target.value;
+            }
 
-          // setscaletext("");
-          if (data.offerRate === "0") {
-            alert("please enter greater than zero");
-            data.offerRate = "";
-            setscaletext("");
+            // setscaletext("");
+            if (data.offerRate === "0") {
+              alert("please enter greater than zero");
+              data.offerRate = "";
+              setscaletext("");
+            }
           }
         } else {
           alert("Accepts only Positive numbers");
@@ -1191,11 +1239,7 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
           setScalePopupData("");
           data.minOrderAmount = "";
           data.offerAttributes.itemDetails.scaleLevel = "";
-          // if (checkingstate && checkingstate === "IN") {
-          //   setcheckingrupeessymbol("$");
-          // } else if (checkingstate && checkingstate !== "IN") {
-          //   setcheckingrupeessymbol("Rs.");
-          // }
+        
         }
         setScalevalueUpdate(!scalevalueUpdate);
         break;
@@ -1204,9 +1248,7 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
         break;
       case "select_scale_dropdown":
         data.offerRate = "";
-        // data.maxDiscount =""
-
-        //console.log(selectedList, list, "checking slected list");
+       
 
         let scalearrayvalue = [];
         list.map((i, j) => {
@@ -1604,6 +1646,7 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
                                         evt.key === "e" && evt.preventDefault()
                                       }
                                       name="offerRate"
+                                      max="100"
                                       value={
                                         offerData.offerRate
                                           ? offerData.offerRate
@@ -1715,6 +1758,7 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
                                 <TextInput
                                   type="number"
                                   placeholder="Discount %"
+                                  Max="100"
                                   name="offerRate"
                                   onKeyDown={(evt) =>
                                     evt.key === "e" && evt.preventDefault()
@@ -1773,9 +1817,10 @@ if (offerData.offerType !=="FLATFEE"&&errorMsg?.maxDiscount) {
                         {(offerBasedOn === 1 &&
                           offerBasedOn !== 0 &&
                           scalelevelToId.length > 0) ||
-                        (offerBasedOn !== 0 &&
-                          offerData.offerAttributes?.itemDetails
-                            .itemQuantity === null) ||
+                        // (offerBasedOn !== 0 &&
+                        //   offerData.offerAttributes?.itemDetails
+                        //     .itemQuantity === null)
+                        // ||
                         (offerData.offerAttributes?.itemDetails.itemQuantity ===
                           0 &&
                           offerBasedOn !== 0) ||

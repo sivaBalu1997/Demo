@@ -92,6 +92,7 @@ const Offerdetails = (props) => {
   useEffect(() => {
     if (offerList !== "") {
       setofferListdata(offerList);
+      setsearchOfferList(offerList);
     }
   }, [offerList]);
 
@@ -255,7 +256,7 @@ const Offerdetails = (props) => {
                 <th>Offer Duration</th>
                 <th>Order Type </th>
                 {/* <th>Visibility</th> */}
-                <th>Amount</th>
+                <th>Disount</th>
                 <th>Offer Used </th>
                 {offerStatus === 1 ? <th>Status</th> : ""}
                 <th></th>
@@ -264,6 +265,7 @@ const Offerdetails = (props) => {
             {offerListNoData === false ? (
               <tbody>
                 {offerListdata.map((row, index) => {
+               
                   return (
                     <OffersRow
                       key={row.id}
@@ -277,18 +279,22 @@ const Offerdetails = (props) => {
                           : ""
                       }
                       offerData={row}
-                      offerRate={
-                        restaurantDetails.country === "US"
+                      offerRate={row.offerType ==="FLATFEE"?
+                       ( restaurantDetails.country === "US"
                           ? `$${
                               row.offerRate === 0.0
                                 ? row.maxDiscount
                                 : row.offerRate
                             }`
                           : `Rs.${
-                              row.offerRate === 0.0
-                                ? row.maxDiscount
-                                : row.offerRate
-                            }`
+                              row.offerRate}`): restaurantDetails.country === "US"
+                              ? `${
+                                  row.offerRate === 0.0
+                                    ? row.maxDiscount
+                                    : row.offerRate
+                                }%`
+                              : `${
+                                  row.offerRate}%`
                       }
                       usage={row.redeemedSofar}
                       isEnabled={showOfferStatus(
@@ -317,9 +323,23 @@ const Offerdetails = (props) => {
                           : ""
                       }
                       offerData={row}
-                      offerRate={`Rs.${
-                        row.offerRate === 0.0 ? row.maxDiscount : row.offerRate
-                      }`}
+                      offerRate={row.offerType ==="FLATFEE"?
+                       ( restaurantDetails.country === "US"
+                          ? `$${
+                              row.offerRate === 0.0
+                                ? row.maxDiscount
+                                : row.offerRate
+                            }`
+                          : `Rs.${
+                              row.offerRate}`): restaurantDetails.country === "US"
+                              ? `${
+                                  row.offerRate === 0.0
+                                    ? row.maxDiscount
+                                    : row.offerRate
+                                }%`
+                              : `${
+                                  row.offerRate}%`
+                      }
                       usage={row.redeemedSofar}
                       isEnabled={showOfferStatus(
                         row.validityFrom,

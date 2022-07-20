@@ -34,6 +34,11 @@ const PreviewOffer = (props) => {
     (state) => state.offer.updateOfferSuccess
   );
 
+
+  const offervalue = useSelector(
+    (state) => state.offer
+  );
+console.log(updateOfferSuccess && !EditOfferLoading && updateOfferSuccess,"checkoffervalue")
   useEffect(() => {
     if (addOfferSuccess && !createOfferLoading && !updateOfferSuccess) {
       alert("Offer Added Sccessfully");
@@ -46,12 +51,15 @@ const PreviewOffer = (props) => {
   }, [addOfferSuccess, createOfferLoading, updateOfferSuccess]);
 
   useEffect(() => {
+   console.log(editOfferFailedMessage,"editOfferFailedMessage")
     if (updateOfferSuccess && !EditOfferLoading && updateOfferSuccess) {
       alert("Offer Edited Successfully");
       history.push("/management/Offers");
       dispatch(updateOfferClear());
     } else if (editOfferFailedMessage !== "") {
       alert(editOfferFailedMessage);
+      dispatch(createOfferClear());
+    } else{
       dispatch(createOfferClear());
     }
   }, [updateOfferSuccess, EditOfferLoading, updateOfferSuccess]);
@@ -412,13 +420,13 @@ const PreviewOffer = (props) => {
                       <small className="small_txt">Start</small>
                       <p className="m-t-5">
                         {moment(offerData.validityFrom).format(
-                          "MM/DD/yyyy h:mm a"
+                          "DD-MM-yyyy h:mm a"
                         )}
                       </p>
                       <small className="small_txt">End</small>
                       <p className="m-t-5">
                         {moment(offerData.validityUntil).format(
-                          "MM/DD/yyyy h:mm a"
+                          "DD-MM-yyyy h:mm a"
                         )}
                       </p>
                     </div>
