@@ -4,6 +4,7 @@ import { ReactComponent as CrossIcon } from "../../assets/svg/crossIcon.svg";
 import "../../styles/menus.scss";
 
 const ScaleLevelPopup = (props) => {
+  console.log(props,props.data.data.value.includes("%"),"checking propss")
   const data = props.data ? props.data : "";
   const scaleData = data.data ? data.data : "";
 
@@ -11,9 +12,18 @@ const ScaleLevelPopup = (props) => {
 
   const handlechange = (e) => {
     console.log(e.target.value,"checkingg")
-    setscaletext(e.target.value);
+  
     if (Math.sign(e.target.value) >= 0) {
-   
+      if(props.data.data.value.includes("%") ===true){
+        if(e.target.value>100){
+          alert("Please Enter Within 100")
+        }else{
+          setscaletext(e.target.value);
+        }
+      }else{
+        setscaletext(e.target.value);
+      }
+     
   } 
   else{
     alert("Accepts Positive Number")

@@ -44,9 +44,11 @@ console.log(updateOfferSuccess && !EditOfferLoading && updateOfferSuccess,"check
       alert("Offer Added Sccessfully");
       history.push("/management/Offers");
       dispatch(createOfferClear());
+      dispatch(updateOfferClear());
     } else if (addOfferFailedMessage !== "") {
       alert(addOfferFailedMessage);
       dispatch(createOfferClear());
+      dispatch(updateOfferClear());
     }
   }, [addOfferSuccess, createOfferLoading, updateOfferSuccess]);
 
@@ -55,10 +57,12 @@ console.log(updateOfferSuccess && !EditOfferLoading && updateOfferSuccess,"check
     if (updateOfferSuccess && !EditOfferLoading && updateOfferSuccess) {
       alert("Offer Edited Successfully");
       history.push("/management/Offers");
+       dispatch(createOfferClear());
       dispatch(updateOfferClear());
     } else if (editOfferFailedMessage !== "") {
       alert(editOfferFailedMessage);
       dispatch(createOfferClear());
+      
     } else{
       dispatch(createOfferClear());
     }
