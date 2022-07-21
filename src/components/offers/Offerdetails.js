@@ -296,7 +296,7 @@ const Offerdetails = (props) => {
                               : `${
                                   row.offerRate}%`
                       }
-                      usage={row.redeemedSofar}
+                      usage={row.offerUsageCount}
                       isEnabled={showOfferStatus(
                         row.validityFrom,
                         row.validityUntil,
@@ -340,7 +340,7 @@ const Offerdetails = (props) => {
                               : `${
                                   row.offerRate}%`
                       }
-                      usage={row.redeemedSofar}
+                      usage={row.offerUsageCount}
                       isEnabled={showOfferStatus(
                         row.validityFrom,
                         row.validityUntil,
