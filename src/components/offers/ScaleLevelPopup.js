@@ -15,7 +15,11 @@ const ScaleLevelPopup = (props) => {
   
     if (Math.sign(e.target.value) >= 0) {
       if(props.data.data.value.includes("%") ===true){
-        if(e.target.value>100){
+       
+        if(e.target.value>100&&e.target.value.length>=3){
+         
+          alert("Please Enter Within 100")
+        }else if(e.target.value.length>=4){
           alert("Please Enter Within 100")
         }else{
           setscaletext(e.target.value);
@@ -34,9 +38,9 @@ const ScaleLevelPopup = (props) => {
   }
   const submithandler = () => {
    
-    if (scaletext) {
+    if (scaletext&&scaletext !=="000"&&scaletext !=="0"&&scaletext !=="00") {
       props.updateScaleLevel(data.key, data.index, scaletext);
-    }else if(scaletext ===""){
+    }else if(scaletext ===""||scaletext ==="000"||scaletext ==="0"||scaletext ==="00"){
       alert("Please Enter valid number")
     }
   };
