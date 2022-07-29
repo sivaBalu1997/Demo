@@ -13,7 +13,7 @@ import {
 import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
-  //console.log(offerData, "preview offer");
+  console.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -435,7 +435,7 @@ console.log(updateOfferSuccess && !EditOfferLoading && updateOfferSuccess,"check
                       </p>
                     </div>
                     <div className="col-md-6">
-                   {offerData.offerAttributes.usageFrequencePerCustomer !==null?  <> <small className="small_txt">
+                   {offerData.offerAttributes.visibleTo[0].key !=="S"&&offerData.offerAttributes.usageFrequencePerCustomer !==null?  <> <small className="small_txt">
                         Usage Frequency per Customer
                       </small>
                      
@@ -463,7 +463,7 @@ console.log(updateOfferSuccess && !EditOfferLoading && updateOfferSuccess,"check
                   </div>
                   <div className="row m-t-20">
                     <div className="col-md-6">
-                   { offerData.offerAttributes.usagePerCustomerPerDay !==0?<>  <small className="small_txt">
+                   {offerData.offerAttributes.visibleTo[0].key !=="S"&& offerData.offerAttributes.usagePerCustomerPerDay !==0?<>  <small className="small_txt">
                         Usage per Customer per day
                       </small>
                       <p className="m-t-5">{usagePerCustomerPerDayValue}</p></>:""}

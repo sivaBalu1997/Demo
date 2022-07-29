@@ -174,10 +174,10 @@ const CreateOffer = (props) => {
         : "";
 
       offerBasedOn = offerData.offerAttributes.offerBasedOn
-        ? offerData.offerAttributes.offerBasedOn
-        : offerData.offerAttributes.offerBasedOn == 0
-        ? 0
-        : null;
+        ? offerData.offerAttributes.visibleTo == "S"
+          ? offerData.offerAttributes.offerBasedOn == 1
+          : offerData.offerAttributes.offerBasedOn
+        : offerData.offerAttributes.offerBasedOn;
 
       Discounttype = offerData.offerAttributes.itemDetails.discountType
         ? offerData.offerAttributes.itemDetails.discountType
@@ -187,7 +187,7 @@ const CreateOffer = (props) => {
   useEffect(() => {}, [scaletext]);
   useEffect(() => {
     if (menuItem.menu !== undefined && menuItem?.menu?.length > 0) {
-     // console.log("coming inside or nottt");
+      // console.log("coming inside or nottt");
       // setItemMenu(menuItem);
       let menuName = [];
       let selectedItem = "";
@@ -624,8 +624,6 @@ const CreateOffer = (props) => {
   ]);
   //console.log("location.state", offerData);
 
-  
-
   // console.log(offerData.offerRate, "checking offerDartaa");
 
   const [DaysArray, setDaysArray] = useState([
@@ -759,7 +757,6 @@ const CreateOffer = (props) => {
       data.offerRate = text;
       data.maxDiscount = text;
       setOfferState(data);
-   
     }
   };
 
@@ -772,7 +769,7 @@ const CreateOffer = (props) => {
     dispatch(updateOfferClear());
     isSubmitted = true;
     if (!validateForm(errorMsg)) {
-     // console.log(errorMsg, "checkerror");
+      // console.log(errorMsg, "checkerror");
 
       let error = "";
 
@@ -860,6 +857,7 @@ const CreateOffer = (props) => {
     );
 
     let itemCodeId = storename.filter((element) => itemCode == element.id);
+    console.log(offerData, "CCCCCCC");
 
     let data = {
       locationId: "" || offerData.locationId,
@@ -867,7 +865,7 @@ const CreateOffer = (props) => {
       offerName: offerData.offerName,
       offerCode: offerData.offerCode,
       offerType: offerData.offerType,
-      offerRate: offerData.offerRate || Number(scaletext),
+      offerRate: Number(offerData.offerRate) || Number(scaletext),
       minOrderAmount: Number(offerData.minOrderAmount),
       maxDiscount: Number(offerData.maxDiscount),
       maxRedeem: Number(offerData.maxRedeem),
@@ -885,8 +883,10 @@ const CreateOffer = (props) => {
         maxUsageAcrossAllTranscation: 0,
         // offerData.offerAttributes.maxUsageAcrossAllTranscation, //1
         usageFrequencePerCustomer:
-          offerData.offerAttributes.usageFrequencePerCustomer,
-        usagePerCustomerPerDay: Number(usagePerCustomerPerDay),
+          offerData.offerAttributes.visibleTo === "S"
+            ? "MUL"
+            : offerData.offerAttributes.usageFrequencePerCustomer,
+        usagePerCustomerPerDay: offerData.offerAttributes.visibleTo === "S"?4:Number(usagePerCustomerPerDay),
         visibleTo: visibleToId,
         currencyType: checkingstate === "IN" ? "INR" : "USD",
         offerBasedOn: offerData.offerAttributes.offerBasedOn,
@@ -933,11 +933,7 @@ const CreateOffer = (props) => {
           setPreviewState(data);
         }
       } else if (data.offerAttributes.offerBasedOn === 0) {
-        if (
-          data.offerType !== "FLATFEE" &&
-         
-          data.maxDiscount === 0
-        ) {
+        if (data.offerType !== "FLATFEE" && data.maxDiscount === 0) {
           alert("Please Enter MaxDiscount");
         } else {
           dispatch(createOfferClear());
@@ -975,7 +971,6 @@ const CreateOffer = (props) => {
       (data.offerAttributes.itemDetails.itemQuantity === null &&
         data.offerAttributes.itemDetails.scaleLevel === "")
     ) {
-     
       alert(`Please Enter Item Quantity/ScaleLevel`);
     } else if (
       data.offerType !== "FLATFEE" &&
@@ -1059,7 +1054,6 @@ const CreateOffer = (props) => {
         break;
       case "offerRate":
         if (Math.sign(target.value) >= 0) {
-         
           if (
             target.value > 100 &&
             offerData.offerAttributes.itemDetails.discountType === "R"
@@ -1210,9 +1204,27 @@ const CreateOffer = (props) => {
       case "outlet_dropdown":
         data.offerAttributes.outlets = selectedList;
         break;
-
       case "visible_to_dropdown":
-        data.offerAttributes.visibleTo = selectedList;
+        //console.log(selectedList, "checking visibleto");
+
+        if (selectedList === "S") {
+          data.offerAttributes.offerBasedOn = 0;
+          data.offerRate = "";
+          data.maxDiscount = "";
+          setScalePopupData("");
+          data.offerAttributes.itemDetails.scaleLevel = "";
+          data.minOrderAmount = "";
+          data.offerAttributes.itemDetails.itemCode = "";
+          data.offerAttributes.itemDetails.itemQuantity = "";
+          data.offerAttributes.itemDetails.discountType = "";
+          data.offerAttributes.itemDetails.offersAppliedAt = null;
+          data.offerAttributes.visibleTo = selectedList;
+        } else {
+          data.offerAttributes.visibleTo = selectedList;
+        }
+        // else if(data.offerAttributes.visibleTo ==="C"){
+        //   data.offerAttributes.offerBasedOn = "0"
+        // }
         break;
 
       case "usage_frequency_per_day_dropdown":
@@ -1239,7 +1251,6 @@ const CreateOffer = (props) => {
           setScalePopupData("");
           data.minOrderAmount = "";
           data.offerAttributes.itemDetails.scaleLevel = "";
-        
         }
         setScalevalueUpdate(!scalevalueUpdate);
         break;
@@ -1248,7 +1259,6 @@ const CreateOffer = (props) => {
         break;
       case "select_scale_dropdown":
         data.offerRate = "";
-       
 
         let scalearrayvalue = [];
         list.map((i, j) => {
@@ -1490,10 +1500,11 @@ const CreateOffer = (props) => {
                   </div>
                   <div className="col-md-6">
                     <CustomDropDown
-                      selected_list={visibleToList}
+                      selected_id={visibleToList}
                       select_key="key"
                       list={VisibleTo}
-                      show_all={true}
+                      //show_all={true}
+                      is_single={true}
                       dropdown_key="visible_to_dropdown"
                       placeholder="Select Visible To"
                       onSelect={(type, selectedList, list) =>
@@ -1569,158 +1580,170 @@ const CreateOffer = (props) => {
                           <span className="checkbox-labels"></span>
                         </label>
                       </div>
-                      <div className="radiotypeitems mb-3">
-                        <label className="checkbox-custom">
-                          Quantity
-                          <input
-                            type="radio"
-                            className="radio_btn"
-                            checked={offerBasedOn == 1 ? "checked" : ""}
-                            name="radio"
-                            value="R"
-                            onChange={(e) => isOfferBasedOn(e, 1)}
-                          />
-                          <span className="checkbox-labels"></span>
-                        </label>
-                      </div>
+                      {offerData.offerAttributes.visibleTo == ["S"] ||
+                      offerData.offerAttributes.visibleTo == "S" ? (
+                        ""
+                      ) : (
+                        <div className="radiotypeitems mb-3">
+                          <label className="checkbox-custom">
+                            Quantity
+                            <input
+                              type="radio"
+                              className="radio_btn"
+                              checked={offerBasedOn == 1 ? "checked" : ""}
+                              name="radio"
+                              value="R"
+                              onChange={(e) => isOfferBasedOn(e, 1)}
+                            />
+                            <span className="checkbox-labels"></span>
+                          </label>
+                        </div>
+                      )}
                     </div>
                     <div className="quantity_invoice m-t-20">
                       <div className="row m-0 ml-8">
                         {offerBasedOn == 1 ? (
-                          <div className="col-md-6">
-                            <CustomDropDown
-                              selected_id={itemCode}
-                              select_key="id"
-                              hide_check_box={true}
-                              list={storename}
-                              is_single={true}
-                              dropdown_key="menu_category_dropdown"
-                              placeholder="Menu Category"
-                              disable={false}
-                              onSelect={(type, selectedList, list) =>
-                                onSelect(type, selectedList, list)
-                              }
-                            />
+                          offerData.offerAttributes.visibleTo == "C" && (
+                            <div className="col-md-6">
+                              <CustomDropDown
+                                selected_id={itemCode}
+                                select_key="id"
+                                hide_check_box={true}
+                                list={storename}
+                                is_single={true}
+                                dropdown_key="menu_category_dropdown"
+                                placeholder="Menu Category"
+                                disable={false}
+                                onSelect={(type, selectedList, list) =>
+                                  onSelect(type, selectedList, list)
+                                }
+                              />
 
-                            <CustomDropDown
-                              selected_id={Discounttype}
-                              select_key="key"
-                              type="radio"
-                              list={DiscountType}
-                              is_single={true}
-                              dropdown_key="Discount_Type"
-                              placeholder="Discount Type"
-                              onSelect={(type, selectedList, list) =>
-                                onSelect(type, selectedList, list)
-                              }
-                            />
+                              <CustomDropDown
+                                selected_id={Discounttype}
+                                select_key="key"
+                                type="radio"
+                                list={DiscountType}
+                                is_single={true}
+                                dropdown_key="Discount_Type"
+                                placeholder="Discount Type"
+                                onSelect={(type, selectedList, list) =>
+                                  onSelect(type, selectedList, list)
+                                }
+                              />
 
-                            {!scaleLevel ? (
-                              <>
-                                {" "}
-                                <div>
-                                  <TextInput
-                                    type="number"
-                                    placeholder="Item's Quantity"
-                                    name="itemQuantity"
-                                    onKeyDown={(evt) =>
-                                      evt.key === "e" && evt.preventDefault()
-                                    }
-                                    value={
-                                      offerData.offerAttributes?.itemDetails
-                                        .itemQuantity
-                                        ? offerData.offerAttributes?.itemDetails
-                                            .itemQuantity
-                                        : ""
-                                    }
-                                    onChange={(e) => handleUserDetails(e)}
-                                  />
-                                </div>
-                                {offerData.offerAttributes?.itemDetails
-                                  ?.discountType === "R" && (
+                              {!scaleLevel ? (
+                                <>
+                                  {" "}
                                   <div>
                                     <TextInput
                                       type="number"
-                                      placeholder="Discount %"
+                                      placeholder="Item's Quantity"
+                                      name="itemQuantity"
                                       onKeyDown={(evt) =>
                                         evt.key === "e" && evt.preventDefault()
                                       }
-                                      name="offerRate"
-                                      max="100"
                                       value={
-                                        offerData.offerRate
-                                          ? offerData.offerRate
+                                        offerData.offerAttributes?.itemDetails
+                                          .itemQuantity
+                                          ? offerData.offerAttributes
+                                              ?.itemDetails.itemQuantity
                                           : ""
                                       }
                                       onChange={(e) => handleUserDetails(e)}
                                     />
                                   </div>
-                                )}
-                                {offerData.offerAttributes?.itemDetails
-                                  ?.discountType === "R" ? (
-                                  offerData.offerAttributes?.itemDetails
-                                    .itemQuantity !== null ? (
+                                  {offerData.offerAttributes?.itemDetails
+                                    ?.discountType === "R" && (
+                                    <div>
+                                      <TextInput
+                                        type="number"
+                                        placeholder="Discount %"
+                                        onKeyDown={(evt) =>
+                                          evt.key === "e" &&
+                                          evt.preventDefault()
+                                        }
+                                        name="offerRate"
+                                        max="100"
+                                        value={
+                                          offerData.offerRate
+                                            ? offerData.offerRate
+                                            : ""
+                                        }
+                                        onChange={(e) => handleUserDetails(e)}
+                                      />
+                                    </div>
+                                  )}
+                                  {offerData.offerAttributes?.itemDetails
+                                    ?.discountType === "R" ? (
                                     offerData.offerAttributes?.itemDetails
-                                      .itemQuantity !== "" ? (
-                                      <div>
-                                        <TextInput
-                                          type="number"
-                                          placeholder="Max.discount amount(in Rs/$)"
-                                          onKeyDown={(evt) =>
-                                            evt.key === "e" &&
-                                            evt.preventDefault()
-                                          }
-                                          name="maxDiscount"
-                                          value={
-                                            offerData.maxDiscount
-                                              ? offerData.maxDiscount
-                                              : ""
-                                          }
-                                          min={0}
-                                          onChange={(e) => handleUserDetails(e)}
-                                        />
-                                      </div>
-                                    ) : (
-                                      ""
-                                    )
-                                  ) : (
-                                    ""
-                                  )
-                                ) : (
-                                  <div>
-                                    {" "}
-                                    {offerData.offerAttributes?.itemDetails
                                       .itemQuantity !== null ? (
                                       offerData.offerAttributes?.itemDetails
                                         .itemQuantity !== "" ? (
-                                        <TextInput
-                                          type="number"
-                                          placeholder="Flat discount Amount"
-                                          onKeyDown={(evt) =>
-                                            evt.key === "e" &&
-                                            evt.preventDefault()
-                                          }
-                                          name="offerRate"
-                                          value={
-                                            offerData.offerRate
-                                              ? offerData.offerRate
-                                              : ""
-                                          }
-                                          onChange={(e) => handleUserDetails(e)}
-                                        />
+                                        <div>
+                                          <TextInput
+                                            type="number"
+                                            placeholder="Max.discount amount(in Rs/$)"
+                                            onKeyDown={(evt) =>
+                                              evt.key === "e" &&
+                                              evt.preventDefault()
+                                            }
+                                            name="maxDiscount"
+                                            value={
+                                              offerData.maxDiscount
+                                                ? offerData.maxDiscount
+                                                : ""
+                                            }
+                                            min={0}
+                                            onChange={(e) =>
+                                              handleUserDetails(e)
+                                            }
+                                          />
+                                        </div>
                                       ) : (
                                         ""
                                       )
                                     ) : (
                                       ""
-                                    )}
-                                  </div>
-                                )}
-                              </>
-                            ) : (
-                              ""
-                            )}
-                          </div>
+                                    )
+                                  ) : (
+                                    <div>
+                                      {" "}
+                                      {offerData.offerAttributes?.itemDetails
+                                        .itemQuantity !== null ? (
+                                        offerData.offerAttributes?.itemDetails
+                                          .itemQuantity !== "" ? (
+                                          <TextInput
+                                            type="number"
+                                            placeholder="Flat discount Amount"
+                                            onKeyDown={(evt) =>
+                                              evt.key === "e" &&
+                                              evt.preventDefault()
+                                            }
+                                            name="offerRate"
+                                            value={
+                                              offerData.offerRate
+                                                ? offerData.offerRate
+                                                : ""
+                                            }
+                                            onChange={(e) =>
+                                              handleUserDetails(e)
+                                            }
+                                          />
+                                        ) : (
+                                          ""
+                                        )
+                                      ) : (
+                                        ""
+                                      )}
+                                    </div>
+                                  )}
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          )
                         ) : offerBasedOn == 0 ? (
                           <div className="col-md-6">
                             <CustomDropDown
@@ -1817,10 +1840,6 @@ const CreateOffer = (props) => {
                         {(offerBasedOn === 1 &&
                           offerBasedOn !== 0 &&
                           scalelevelToId.length > 0) ||
-                        // (offerBasedOn !== 0 &&
-                        //   offerData.offerAttributes?.itemDetails
-                        //     .itemQuantity === null)
-                        // ||
                         (offerData.offerAttributes?.itemDetails.itemQuantity ===
                           0 &&
                           offerBasedOn !== 0) ||
@@ -1899,7 +1918,7 @@ const CreateOffer = (props) => {
               <div className="m-t-20 m-b-20">
                 <h3 className="subheadingsize">Validity</h3>
                 <small className="small_txt m-b-20">Date &amp; Time</small>
-                <div className="row">
+                <div className="row m-b-20">
                   <div className="col-md-6 position-relative">
                     <label>
                       <DatePicker
@@ -1922,8 +1941,8 @@ const CreateOffer = (props) => {
                       />
                     </label>
                   </div>
-                  <div className="col-md-6 position-relative">
-                    <CustomDropDown
+                 <div className="col-md-6 position-relative customer_dropdown">
+                 {offerData.offerAttributes.visibleTo !== "S"&& <CustomDropDown
                       selected_id={usageFrequencePerCustomer}
                       select_key="key"
                       type="radio"
@@ -1934,7 +1953,7 @@ const CreateOffer = (props) => {
                       onSelect={(type, selectedList, list) =>
                         onSelect(type, selectedList, list)
                       }
-                    />
+                    /> }
                   </div>
                 </div>
                 <div className="row">
