@@ -622,7 +622,7 @@ const CreateOffer = (props) => {
       checked: visibleToList.includes("S"),
     },
   ]);
-  //console.log("location.state", offerData);
+  console.log("location.state", offerData);
 
   // console.log(offerData.offerRate, "checking offerDartaa");
 
@@ -779,8 +779,31 @@ const CreateOffer = (props) => {
       // if (errorMsg?.description) {
       //   error += `${errorMsg.description} \n`;
       // }
-      if (errorMsg?.offerRate) {
+      if (errorMsg?.offerRate && offerData.offerType !== "FLATFEE") {
         error += `Please Enter Discount  \n`;
+      }
+      if (
+        errorMsg?.offerRate &&
+        offerData.offerType === "FLATFEE" &&
+        offerData.offerAttributes.itemDetails.itemQuantity === "" &&
+        offerData.offerAttributes.offerBasedOn !== 0
+      ) {
+        error += `Please Enter Item Quantity/ScaleLevel  \n`;
+      }
+      if (
+        errorMsg?.offerRate &&
+        offerData.offerType === "FLATFEE" &&
+        offerData.offerAttributes.itemDetails.itemQuantity === "" &&
+        offerData.offerAttributes.offerBasedOn === 0
+      ) {
+        error += `Please Enter Discount  \n`;
+      }
+      if (
+        errorMsg?.offerRate &&
+        offerData.offerType === "FLATFEE" &&
+        offerData.offerAttributes.itemDetails.itemQuantity !== ""
+      ) {
+        error += `Please Enter Discount \n`;
       }
       if (errorMsg?.offerName) {
         error += `${errorMsg.offerName} \n`;
@@ -788,7 +811,10 @@ const CreateOffer = (props) => {
       if (errorMsg?.discountType) {
         error += `${errorMsg.discountType} \n`;
       }
-      if (errorMsg?.itemCode) {
+      if (
+        errorMsg?.itemCode &&
+        offerData.offerAttributes.itemDetails.itemQuantity === ""
+      ) {
         error += `Menu Item Should not be Empty  \n`;
       }
       // if (errorMsg?.maxUsageAcrossAllTranscation) {
@@ -803,7 +829,10 @@ const CreateOffer = (props) => {
       if (errorMsg?.maxRedeem) {
         error += `Max Person Allowed to use this offer Should not be empty \n`;
       }
-      if (errorMsg?.minOrderAmount) {
+      if (
+        errorMsg?.minOrderAmount &&
+        offerData.offerAttributes.offerBasedOn === 0
+      ) {
         error += `Min Order Amount Should not be empty \n`;
       }
       if (errorMsg?.offerType) {
@@ -857,7 +886,7 @@ const CreateOffer = (props) => {
     );
 
     let itemCodeId = storename.filter((element) => itemCode == element.id);
-    console.log(offerData, "CCCCCCC");
+    //console.log(offerData, "CCCCCCC");
 
     let data = {
       locationId: "" || offerData.locationId,
@@ -886,7 +915,10 @@ const CreateOffer = (props) => {
           offerData.offerAttributes.visibleTo === "S"
             ? "MUL"
             : offerData.offerAttributes.usageFrequencePerCustomer,
-        usagePerCustomerPerDay: offerData.offerAttributes.visibleTo === "S"?4:Number(usagePerCustomerPerDay),
+        usagePerCustomerPerDay:
+          offerData.offerAttributes.visibleTo === "S"
+            ? 4
+            : Number(usagePerCustomerPerDay),
         visibleTo: visibleToId,
         currencyType: checkingstate === "IN" ? "INR" : "USD",
         offerBasedOn: offerData.offerAttributes.offerBasedOn,
@@ -959,8 +991,12 @@ const CreateOffer = (props) => {
     ) {
       alert("Please Select validity until");
     } else if (
-      (data.offerRate === " 0" && data.offerCode !== "") ||
-      (data.offerRate === "0 " && data.offerCode !== "")
+      (data.offerRate === " 0" &&
+        data.offerCode !== "" &&
+        data.offerType !== "FLATFEE") ||
+      (data.offerRate === "0 " &&
+        data.offerCode !== "" &&
+        data.offerType !== "FLATFEE")
     ) {
       alert("Please enter Discount");
     } else if (data.offerRate === "0" && data.offerCode !== "") {
@@ -1221,6 +1257,10 @@ const CreateOffer = (props) => {
           data.offerAttributes.visibleTo = selectedList;
         } else {
           data.offerAttributes.visibleTo = selectedList;
+          data.offerRate = "";
+          data.maxDiscount = "";
+          data.minOrderAmount = "";
+          data.offerAttributes.itemDetails.discountType = "";
         }
         // else if(data.offerAttributes.visibleTo ==="C"){
         //   data.offerAttributes.offerBasedOn = "0"
@@ -1848,10 +1888,7 @@ const CreateOffer = (props) => {
                           offerBasedOn !== 0) ||
                         (offerBasedOn !== 0 &&
                           offerData.offerAttributes?.itemDetails
-                            .offersAppliedAt === "S") ||
-                        (offerData.offerAttributes?.itemDetails.itemQuantity ===
-                          undefined &&
-                          offerBasedOn !== 0) ? (
+                            .offersAppliedAt === "S") ? (
                           <div className="col-md-6">
                             <div>
                               <small className="tooltip tooltip_txt m-b-15 subheadingsize d-inline-block">
@@ -1941,19 +1978,23 @@ const CreateOffer = (props) => {
                       />
                     </label>
                   </div>
-                 <div className="col-md-6 position-relative customer_dropdown">
-                 {offerData.offerAttributes.visibleTo !== "S"&& <CustomDropDown
-                      selected_id={usageFrequencePerCustomer}
-                      select_key="key"
-                      type="radio"
-                      list={usageFrequency}
-                      is_single={true}
-                      dropdown_key="usage_frequency_per_day_dropdown"
-                      placeholder="Select Usage Frequency per customer"
-                      onSelect={(type, selectedList, list) =>
-                        onSelect(type, selectedList, list)
-                      }
-                    /> }
+                  <div className="col-md-6 position-relative customer_dropdown">
+                    {offerData.offerAttributes.visibleTo !== "S" &&
+                      offerData.offerAttributes.visibleTo === "C" &&
+                      offerData.offerAttributes.visibleTo !== ["S"] && (
+                        <CustomDropDown
+                          selected_id={usageFrequencePerCustomer}
+                          select_key="key"
+                          type="radio"
+                          list={usageFrequency}
+                          is_single={true}
+                          dropdown_key="usage_frequency_per_day_dropdown"
+                          placeholder="Select Usage Frequency per customer"
+                          onSelect={(type, selectedList, list) =>
+                            onSelect(type, selectedList, list)
+                          }
+                        />
+                      )}
                   </div>
                 </div>
                 <div className="row">
@@ -2033,8 +2074,14 @@ const CreateOffer = (props) => {
                   <div className="col-md-6"></div>
                 </div>
                 <div className="row m-t-20">
-                  {offerData?.offerAttributes?.usageFrequencePerCustomer !==
-                  null ? (
+                  {(offerData.offerAttributes.visibleTo !== "S" &&
+                    offerData.offerAttributes.visibleTo === "C" &&
+                    offerData.offerAttributes.visibleTo !== ["S"] &&
+                    offerData.offerAttributes.visibleTo !== ["C"]) ||
+                  (offerData.offerAttributes.usageFrequencePerCustomer !==
+                    null &&
+                    offerData.offerAttributes.visibleTo === "S" &&
+                    offerData.offerAttributes.visibleTo === ["S"]) ? (
                     <div className="col-md-6">
                       <CustomDropDown
                         selected_id={usagePerCustomerPerDay}

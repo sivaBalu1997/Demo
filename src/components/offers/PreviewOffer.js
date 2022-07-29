@@ -13,7 +13,7 @@ import {
 import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
-  console.log(offerData, "preview offer");
+  //.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -38,7 +38,7 @@ const PreviewOffer = (props) => {
   const offervalue = useSelector(
     (state) => state.offer
   );
-console.log(updateOfferSuccess && !EditOfferLoading && updateOfferSuccess,"checkoffervalue")
+//console.log(updateOfferSuccess && !EditOfferLoading && updateOfferSuccess,"checkoffervalue")
   useEffect(() => {
     if (addOfferSuccess && !createOfferLoading && !updateOfferSuccess) {
       alert("Offer Added Sccessfully");
@@ -53,7 +53,7 @@ console.log(updateOfferSuccess && !EditOfferLoading && updateOfferSuccess,"check
   }, [addOfferSuccess, createOfferLoading, updateOfferSuccess]);
 
   useEffect(() => {
-   console.log(editOfferFailedMessage,"editOfferFailedMessage")
+  // console.log(editOfferFailedMessage,"editOfferFailedMessage")
     if (updateOfferSuccess && !EditOfferLoading && updateOfferSuccess) {
       alert("Offer Edited Successfully");
       history.push("/management/Offers");
