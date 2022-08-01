@@ -622,7 +622,7 @@ const CreateOffer = (props) => {
       checked: visibleToList.includes("S"),
     },
   ]);
-  console.log("location.state", offerData);
+ // console.log("location.state", offerData);
 
   // console.log(offerData.offerRate, "checking offerDartaa");
 
@@ -813,8 +813,10 @@ const CreateOffer = (props) => {
       }
       if (
         errorMsg?.itemCode &&
-        offerData.offerAttributes.itemDetails.itemQuantity === ""
+        offerData.offerAttributes.itemDetails.itemQuantity == "" &&
+        offerData.offerAttributes.offerBasedOn === 1
       ) {
+       
         error += `Menu Item Should not be Empty  \n`;
       }
       // if (errorMsg?.maxUsageAcrossAllTranscation) {
