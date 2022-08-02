@@ -681,6 +681,7 @@ const CreateOffer = (props) => {
     "scaleLevel",
     "offerBasedOn",
     "isEnabled",
+    "offerType",
     offerData.offerAttributes.offerBasedOn === 0 ? "itemCode" : "",
     "validityFrom",
     "validityUntil",
@@ -837,9 +838,9 @@ const CreateOffer = (props) => {
       ) {
         error += `Min Order Amount Should not be empty \n`;
       }
-      if (errorMsg?.offerType) {
-        error += `${errorMsg.offerType} \n`;
-      }
+      // if (errorMsg?.offerType) {
+      //   error += `${errorMsg.offerType} \n`;
+      // }
       if (errorMsg?.offersAppliedAt) {
         error += `${errorMsg.offersAppliedAt} \n`;
       }
