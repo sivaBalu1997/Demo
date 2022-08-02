@@ -54,7 +54,7 @@ const CreateOffer = (props) => {
   // const [FlatMenu, setFlatMenu] = useState([]);
   // const [RateMenu, setRateMenu] = useState([]);
   const [storename, setstoremenuname] = useState([]);
-
+  console.log(storename, "DDDDD");
   const [termsConditions, settermsconditions] = useState([]);
 
   const [OrderTypedropdown, setOrderType] = useState([]);
@@ -191,13 +191,20 @@ const CreateOffer = (props) => {
       // setItemMenu(menuItem);
       let menuName = [];
       let selectedItem = "";
-
+      let data = [];
       menuItem.menu.map((item, index) => {
         menuName.push({
           value: item.itemName,
           id: item.itemId,
           checked: false,
         });
+        data =
+          menuName &&
+          menuName.sort((a, b) => {
+            if (a.value < b.value) return -1;
+            if (a.value > b.value) return 1;
+            return 0;
+          });
 
         if (itemCode == item.itemId) {
           selectedItem = {
@@ -622,7 +629,7 @@ const CreateOffer = (props) => {
       checked: visibleToList.includes("S"),
     },
   ]);
- // console.log("location.state", offerData);
+  console.log("location.state", offerData);
 
   // console.log(offerData.offerRate, "checking offerDartaa");
 
@@ -681,7 +688,6 @@ const CreateOffer = (props) => {
     "scaleLevel",
     "offerBasedOn",
     "isEnabled",
-    "offerType",
     offerData.offerAttributes.offerBasedOn === 0 ? "itemCode" : "",
     "validityFrom",
     "validityUntil",
@@ -817,7 +823,6 @@ const CreateOffer = (props) => {
         offerData.offerAttributes.itemDetails.itemQuantity == "" &&
         offerData.offerAttributes.offerBasedOn === 1
       ) {
-       
         error += `Menu Item Should not be Empty  \n`;
       }
       // if (errorMsg?.maxUsageAcrossAllTranscation) {
@@ -838,9 +843,9 @@ const CreateOffer = (props) => {
       ) {
         error += `Min Order Amount Should not be empty \n`;
       }
-      // if (errorMsg?.offerType) {
-      //   error += `${errorMsg.offerType} \n`;
-      // }
+      if (errorMsg?.offerType) {
+        error += `${errorMsg.offerType} \n`;
+      }
       if (errorMsg?.offersAppliedAt) {
         error += `${errorMsg.offersAppliedAt} \n`;
       }
@@ -1982,9 +1987,10 @@ const CreateOffer = (props) => {
                     </label>
                   </div>
                   <div className="col-md-6 position-relative customer_dropdown">
-                    {offerData.offerAttributes.visibleTo !== "S" &&
-                      offerData.offerAttributes.visibleTo === "C" &&
-                      offerData.offerAttributes.visibleTo !== ["S"] && (
+                    {
+                      offerData.offerAttributes.visibleTo == ["C"] &&
+                      offerData.offerAttributes.visibleTo !== ["S"] ||
+                      offerData.offerAttributes.visibleTo == "C" ? (
                         <CustomDropDown
                           selected_id={usageFrequencePerCustomer}
                           select_key="key"
@@ -1997,7 +2003,7 @@ const CreateOffer = (props) => {
                             onSelect(type, selectedList, list)
                           }
                         />
-                      )}
+                      ):""} 
                   </div>
                 </div>
                 <div className="row">
@@ -2077,10 +2083,10 @@ const CreateOffer = (props) => {
                   <div className="col-md-6"></div>
                 </div>
                 <div className="row m-t-20">
-                  {(offerData.offerAttributes.visibleTo !== "S" &&
-                    offerData.offerAttributes.visibleTo === "C" &&
-                    offerData.offerAttributes.visibleTo !== ["S"] &&
-                    offerData.offerAttributes.visibleTo !== ["C"]) ||
+                  {(offerData.offerAttributes.visibleTo != "S" &&
+                    offerData.offerAttributes.visibleTo == "C" ||
+                    offerData.offerAttributes.visibleTo != ["S"] &&
+                    offerData.offerAttributes.visibleTo == ["C"]) ||
                   (offerData.offerAttributes.usageFrequencePerCustomer !==
                     null &&
                     offerData.offerAttributes.visibleTo === "S" &&
