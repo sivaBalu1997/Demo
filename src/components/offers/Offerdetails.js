@@ -35,8 +35,8 @@ const Offerdetails = (props) => {
     (state) => state.auth
   );
 
-  // const checkstate = useSelector((state)=>state);
-
+//   const checkstate = useSelector((state)=>state);
+// console.log(checkstate,"Chckstateee")
   const offerListLoading = useSelector((state) => state.offer.offerListLoading);
 
   const offerListFailure = useSelector((state) => state.offer.offerListFailure);
@@ -69,7 +69,7 @@ const Offerdetails = (props) => {
       dispatch(resetDeleteData());
       dispatch(
         getOfferList({
-          locationId: credentials.locationId,
+          locationId: selectedBranch.id,
           status: offerStatus,
         })
       );
@@ -82,7 +82,8 @@ const Offerdetails = (props) => {
       dispatch(resetDisableData());
       dispatch(
         getOfferList({
-          locationId: credentials.locationId,
+          // locationId: credentials.locationId,
+          locationId: selectedBranch.id,
           status: offerStatus,
         })
       );
@@ -100,7 +101,8 @@ const Offerdetails = (props) => {
     if (credentials) {
       dispatch(
         getOfferList({
-          locationId: credentials.locationId,
+         // locationId: credentials.locationId,
+         locationId: selectedBranch.id,
           status: offerStatus,
         })
       );
@@ -118,11 +120,14 @@ const Offerdetails = (props) => {
   };
 
   const showOrderTypes = (orderTypeIds) => {
+   
     let orderTypes = [];
     if (Object.keys(selectedBranch?.orderTypes).length !== 0) {
       orderTypeIds = JSON.parse(orderTypeIds).typeIds;
       selectedBranch.orderTypes.map((orderType) => {
+       // console.log(orderType.id,orderTypeIds,"OOOO")
         if (orderTypeIds?.includes(orderType.id)) {
+         // console.log(orderType.typeName,"checkk")
           orderTypes.push(orderType.typeName);
         }
         return orderTypes.join(",");
