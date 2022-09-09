@@ -990,8 +990,15 @@ const CreateOffer = (props) => {
         setPreviewState(data);
       }
       // console.log("dddddd");
+    } else if (
+      data.offerCode === null &&
+      data.offerAttributes.outlets.length === 0
+    ) {
+      alert(`Please Enter Promocode \n` + "Please Select Outlet");
     } else if (data.offerCode === null) {
       alert("Please Enter Promocode");
+    } else if (data.offerAttributes.outlets.length === 0) {
+      alert("Please Select Outlet");
     } else if (
       data.validityFrom === "1970-01-01T00:00:00Z" &&
       data.offerCode !== ""
