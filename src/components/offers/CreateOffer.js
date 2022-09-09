@@ -54,7 +54,7 @@ const CreateOffer = (props) => {
   // const [FlatMenu, setFlatMenu] = useState([]);
   // const [RateMenu, setRateMenu] = useState([]);
   const [storename, setstoremenuname] = useState([]);
-  console.log(storename, "DDDDD");
+  // console.log(storename, "DDDDD");
   const [termsConditions, settermsconditions] = useState([]);
 
   const [OrderTypedropdown, setOrderType] = useState([]);
@@ -629,7 +629,7 @@ const CreateOffer = (props) => {
       checked: visibleToList.includes("S"),
     },
   ]);
-  console.log("location.state", offerData);
+  // console.log("location.state", offerData);
 
   // console.log(offerData.offerRate, "checking offerDartaa");
 
@@ -823,6 +823,10 @@ const CreateOffer = (props) => {
         offerData.offerAttributes.itemDetails.itemQuantity == "" &&
         offerData.offerAttributes.offerBasedOn === 1
       ) {
+        error += `Menu Item Should not be Empty  \n`;
+      }
+
+      if (errorMsg?.itemCode) {
         error += `Menu Item Should not be Empty  \n`;
       }
       // if (errorMsg?.maxUsageAcrossAllTranscation) {
@@ -1987,23 +1991,24 @@ const CreateOffer = (props) => {
                     </label>
                   </div>
                   <div className="col-md-6 position-relative customer_dropdown">
-                    {
-                      offerData.offerAttributes.visibleTo == ["C"] &&
-                      offerData.offerAttributes.visibleTo !== ["S"] ||
-                      offerData.offerAttributes.visibleTo == "C" ? (
-                        <CustomDropDown
-                          selected_id={usageFrequencePerCustomer}
-                          select_key="key"
-                          type="radio"
-                          list={usageFrequency}
-                          is_single={true}
-                          dropdown_key="usage_frequency_per_day_dropdown"
-                          placeholder="Select Usage Frequency per customer"
-                          onSelect={(type, selectedList, list) =>
-                            onSelect(type, selectedList, list)
-                          }
-                        />
-                      ):""} 
+                    {(offerData.offerAttributes.visibleTo == ["C"] &&
+                      offerData.offerAttributes.visibleTo !== ["S"]) ||
+                    offerData.offerAttributes.visibleTo == "C" ? (
+                      <CustomDropDown
+                        selected_id={usageFrequencePerCustomer}
+                        select_key="key"
+                        type="radio"
+                        list={usageFrequency}
+                        is_single={true}
+                        dropdown_key="usage_frequency_per_day_dropdown"
+                        placeholder="Select Usage Frequency per customer"
+                        onSelect={(type, selectedList, list) =>
+                          onSelect(type, selectedList, list)
+                        }
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
                 <div className="row">
@@ -2084,8 +2089,8 @@ const CreateOffer = (props) => {
                 </div>
                 <div className="row m-t-20">
                   {(offerData.offerAttributes.visibleTo != "S" &&
-                    offerData.offerAttributes.visibleTo == "C" ||
-                    offerData.offerAttributes.visibleTo != ["S"] &&
+                    offerData.offerAttributes.visibleTo == "C") ||
+                  (offerData.offerAttributes.visibleTo != ["S"] &&
                     offerData.offerAttributes.visibleTo == ["C"]) ||
                   (offerData.offerAttributes.usageFrequencePerCustomer !==
                     null &&
