@@ -812,6 +812,9 @@ const CreateOffer = (props) => {
       ) {
         error += `Please Enter Discount \n`;
       }
+      if (offerData.offerType !== "FLATFEE" && offerData.maxDiscount === "") {
+        error += `Please Enter Max Discount \n`;
+      }
       if (errorMsg?.offerName) {
         error += `${errorMsg.offerName} \n`;
       }
