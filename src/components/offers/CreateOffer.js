@@ -913,7 +913,7 @@ const CreateOffer = (props) => {
       minOrderAmount: Number(offerData.minOrderAmount),
       maxDiscount: Number(offerData.maxDiscount),
       maxRedeem: Number(offerData.maxRedeem),
-      redeemedSofar: Number(offerData.redeemedSofar),
+      redeemedSofar: 0,
       order_type_id: selectedOrderTypeId,
       offerTerms: offerTerms.toString(),
       validityFrom: moment.utc(new Date(startDate)).format(),
