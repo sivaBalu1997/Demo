@@ -254,7 +254,6 @@ const Report = (props) => {
         className="logout-user"
           onClick={logoutUser}
           style={{
-            marginLeft: "88%",
             display: "flex",
             alignItems: "center",
             whiteSpace: "nowrap",

@@ -1,7 +1,8 @@
 .otp_login {
   width: 100%;
   text-align: center;
-  padding-top: 4.5%;
+  padding-top: 80px;
+  margin: 0 30px;
   & .logo {
     margin-bottom: 100px;
     & img {
@@ -20,7 +21,9 @@
   & form {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    // width: 40%;
+    min-width: 40%;
+    max-width: 680px;
     margin: auto;
 
     & input {
@@ -46,6 +49,15 @@
       border-radius: 5px;
       box-sizing: border-box;
       font-size: 18px;
+    }
+
+    .login--password {
+      position: relative;
+      svg {
+        top: 30%;
+        transform: translateY(-50%);
+        padding-right: 15px;
+      }
     }
   }
   & p {
@@ -155,5 +167,16 @@
 
   .Dropdown-arrow {
     top: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .otp_login {
+    & .logo {
+      margin-bottom: 75px;
+      img {
+        width: 250px;
+      }
+    }
   }
 }

@@ -237,7 +237,7 @@ const Menu = () => {
           >
             <li style={{ marginBottom: 0 }} />
             <EmployeesIcon className="menu-items-SVG" />
-            Employees
+            <span className="menu-items-name">Employees</span>
           </div>
           {/* <NavLink to="/roles" activeClassName="active">
           <li />

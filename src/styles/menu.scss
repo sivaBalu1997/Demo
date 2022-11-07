@@ -110,6 +110,14 @@
     @media (max-width: 768px) {
       justify-content: center !important;
     }
+
+    @media (max-width: 1024px) {
+      padding: 4.5% 20px 11% 20px;
+    }
+
+    @media (max-width: 768px) {
+      justify-content: center !important;
+    }
   }
   @supports (position: sticky) {
     .is-sticky {
