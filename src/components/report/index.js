@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Menu from "../menu";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../common/Search";
@@ -13,6 +13,10 @@ import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
 import logout from "../../assets/images/logout.png";
 import { signOut } from "../../redux/actions/authActions";
 import { useHistory, useLocation } from "react-router";
+import { STORAGE_BUCKET_URL } from "../../shared/constants";
+import {
+  selectBranch,
+} from "../../redux/actions/authActions";
 
 const axios = require("axios");
 
@@ -39,8 +43,8 @@ const Report = (props) => {
   const [loading, setLoading] = useState(false);
   const [selectValue, setSelectValue] = useState(
     location.state ? location.state : reportCategory[0].option
-  );
-
+    );
+    const [reportData, setReportData] = useState([])
   useEffect(() => {
     if (credentials) {
       dispatch(getOutlets(credentials?.merchantId));
@@ -56,6 +60,10 @@ const Report = (props) => {
       history.push("/management/report/5", "Sales");
     }
   };
+
+  const restaurantDetails = useSelector(
+    (state) => state.auth.restaurantDetails
+  );
 
   useEffect(() => {
     if (outlets.length == 0 && credentials) {
@@ -137,6 +145,33 @@ const Report = (props) => {
       });
   }
 
+  const getReportData = async () => {
+    const token = credentials?.accessToken;
+      API({
+        method: "get",
+        url: "/merchants/" + merchantId +"/location/" + branchId + "/reports/" + process.env.REACT_APP_REPORT_ID,
+        headers: {
+          Authorization: "bearer " + token,
+        },
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            setReportData(res.data?.url);
+          } else {
+            setError("please try again later");
+          }
+        })
+        .catch((err) => {
+          setError("please try again later");
+        });
+    }
+
+  useEffect(() => {
+    if (window.innerWidth <= 575 && branchId && merchantId && props.id) {
+      getReportData();
+    }
+  }, [branchId, merchantId])
+
   const logoutUser = () => {
     dispatch(clearMenuData());
     localStorage.clear();
@@ -144,9 +179,68 @@ const Report = (props) => {
     history.replace("/");
   };
 
+  const getImageURL = useCallback(
+    (type) => {
+      if (
+        restaurantDetails &&
+        restaurantDetails.media &&
+        restaurantDetails.media.length > 0
+      ) {
+        const logoMedia = restaurantDetails.media.filter(
+          (media) => media.entityType == type
+        )[0];
+
+        return (
+          STORAGE_BUCKET_URL +
+          logoMedia.mimeType.split("/")[0] +
+          "/" +
+          logoMedia.id +
+          "." +
+          logoMedia.mimeType.split("/")[1]
+        );
+      } else {
+        return "";
+      }
+    },
+    [restaurantDetails]
+  );
+
   return (
     <div className="menu-items">
       <div className="header">
+      <div className="logo-container">
+          <div>
+            <img src={getImageURL("LOGO")} className="restaurant-logo" />
+          </div>
+          <div className="restaurant-name-container">
+            <span className="restaurant-name">
+              {restaurantDetails &&
+                restaurantDetails.branchName &&
+                restaurantDetails.branchName.split(",")[0]}
+            </span>
+            <div>
+              <select
+                className="branch-dropdown"
+                onChange={(e) => {
+                  // console.log(":: Method Called ::");
+                  dispatch(selectBranch(JSON.parse(e.target.value)));
+                }}
+              >
+                {restaurantDetails &&
+                  restaurantDetails.branch &&
+                  restaurantDetails.branch.map((u, i) => {
+                    return (
+                      <option value={`${JSON.stringify(u)}`}>
+                        {u.locationName.split(",")[1]}
+                      </option>
+                    );
+                  })}
+                {/* <option value="Madurai">Madurai </option>
+                <option value="K. K. Nagar">K. K. Nagar</option> */}
+              </select>
+            </div>
+          </div>
+        </div>
         {/* <img src={headerDetails.merchantLogo} />
           <div>
             <p>{headerDetails.merchantName}</p>
@@ -157,6 +251,7 @@ const Report = (props) => {
             className="user-profile"
             alt="loading" /> */}
         <p
+        className="logout-user"
           onClick={logoutUser}
           style={{
             marginLeft: "88%",
@@ -170,7 +265,7 @@ const Report = (props) => {
           &nbsp; Log Out
         </p>
       </div>
-      <div style={{ width: "150px", marginTop: "30px" }}>
+      <div className="report-checkin-dropDown" style={{ width: "150px", marginTop: "30px" }}>
         <Dropdown
           color={"#979797"}
           data={reportCategory}
@@ -296,8 +391,9 @@ const Report = (props) => {
           arrowClassName={"report-dropdown-arrow"}
         />
       </div>
-      {iframeSource.length > 0 ? (
+      {(iframeSource.length > 0 && window.innerWidth > 575) ? (
         <iframe
+        className="reportData-deskTop"
           src={iframeSource}
           frameBorder="0"
           width="1000"
@@ -328,6 +424,39 @@ const Report = (props) => {
           {error}
         </p>
       ) : null}
+      {
+        (reportData && window.innerWidth <= 575)  ? (<iframe
+        className="reportData-mobile"
+          src={reportData}
+          frameBorder="0"
+          width="1000"
+          height="5000"
+          allowtransparency="true"
+          scrolling="no"
+        ></iframe>) : loading ? (
+          <p
+            className="menu-list"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "25%",
+            }}
+          >
+            Loading, Please Wait!!!
+          </p>
+        ) : error !== "" ? (
+          <p
+            className="menu-list"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "25%",
+            }}
+          >
+            {error}
+          </p>
+        ) : null
+      }
     </div>
   );
 };

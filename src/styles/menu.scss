@@ -5,6 +5,7 @@
   align-items: flex-start;
   & .menu {
     width: 20%;
+    min-width: 150px;
     padding: 4.5% 2.5vw 11%;
     border-right: 1px solid #c4c4c4;
     height: 100vh;
@@ -88,6 +89,12 @@
         margin-top: 10.8%;
         cursor: pointer;
       }
+
+      .menu-items-name {
+        @media (max-width: 768px) {
+          font-size: 10px;
+        }
+      }
     }
   }
   @supports (position: sticky) {
@@ -123,6 +130,10 @@
       margin-top: 0px;
       & .placeholder-class {
         color: #979797;
+
+        @media (max-width: 575px) {
+          font-size: 12px;
+        }
       }
 
       & .is-selected {
@@ -164,6 +175,21 @@
         width: 50px;
         height: 50px;
       }
+
+      .logo-container {
+        display: none;
+
+        @media (max-width: 575px) {
+          display: flex;
+          width: 184px;
+          justify-self: flex-start;
+          flex-direction: row;
+        }
+      }
+
+      @media (max-width: 575px) {
+        justify-content: space-between;
+      }
     }
     & .header-menu {
       display: flex;
@@ -184,6 +210,30 @@
           margin-left: 10px;
           white-space: nowrap;
         }
+      }
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      &>div {
+        @media (max-width: 768px) {
+          width: 100%;
+          justify-content: space-evenly;
+          margin-bottom: 24px;
+        }
+
+        @media (max-width: 575px) {
+          justify-content: space-between;
+
+          &.Dropdown-root {
+            justify-content: center;
+            width: 100%;
+          }          
+        }
+      }
+
+      @media (max-width: 575px) {
+        display: none;         
       }
     }
     & .drop-list {
@@ -208,6 +258,10 @@
         font-size: 24px;
         line-height: 36px;
       }
+    }
+
+    @media (max-width: 575px) {
+      width: 100%;
     }
   }
 
@@ -409,6 +463,24 @@
       outline: none;
     }
   }
+
+  .logout-user {
+    img {
+      @media (max-width: 768px) {
+        height: 15px;
+      }  
+    }
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+  }
+
+  .menu.is-sticky{
+    @media (max-width: 575px) {
+      display: none;
+    }
+  }
+
 }
 
 iframe {
@@ -446,6 +518,22 @@ iframe {
   border-radius: 5px;
   width: 30vw;
   margin-top: 25px;
+
+  @media (max-width: 1200px) {
+    width: 300px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 200px;
+  }
+
+  @media (max-width: 768px) {
+    width: 300px;
+  }
+
+  @media (max-width: 575px) {
+    width: 80%;
+  }
 }
 
 .report-dropdown-arrow {
@@ -455,6 +543,12 @@ iframe {
 .MenuClass {
   display: flex;
   flex-direction: column;
+  @media (max-width: 768px) {
+    width: 300px;
+  }
+  @media (max-width: 575px) {
+    width: 80%;
+  }
 
   & div {
     width: 100%;
@@ -484,6 +578,10 @@ iframe {
 
 .tab {
   margin-left: 3.125rem;
+
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 }
 
 .selected {
@@ -533,7 +631,33 @@ iframe {
   line-height: 1em;
 }
 
-.magilhub-bottom-logo {
-  position: fixed;
-  bottom: 5%;
+  &>div{
+    @media (max-width: 1224px) {
+      text-align: center;
+      margin-top: 8px;
+    }
+  }
+}
+
+.report-checkin-dropDown{
+  @media (max-width: 575px) {
+    display: none;
+  }
+}
+
+.reportData-mobile {
+  margin-top: 25px;
+  display: none;
+
+  @media (max-width: 575px) {
+    display: flex;
+  }
+}
+
+.reportData-desktop {
+  display: flex;
+
+  @media (max-width: 575px) {
+    display: none;
+  }
 }

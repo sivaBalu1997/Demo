@@ -132,6 +132,10 @@
     @media (max-width: 1024px) {
       font-size: 16px;
     }
+
+    @media (max-width: 575px) {
+      font-size: 12px;
+    }
   }
 
   select::-ms-expand {
