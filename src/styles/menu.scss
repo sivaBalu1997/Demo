@@ -4,6 +4,8 @@
   position: relative;
   align-items: flex-start;
   & .menu {
+    z-index: 9;
+    background-color: #fff;
     width: 20%;
     min-width: 150px;
     padding: 4.5% 2.5vw 11%;
@@ -34,16 +36,19 @@
         display: flex;
         align-items: center;
         white-space: nowrap;
-        font-size: 0.95vw;
+        font-size: 16px;
+        @media (max-width: 991px) {
+          font-size: 14px;
+        }
       }
       & li {
         // margin-bottom: 12%;
         cursor: pointer;
-        font-size: 0.95vw;
+        font-size: 16px;
         line-height: 24px;
         align-items: center;
         justify-content: center;
-        // margin-top: 10px;
+        margin-top: 10px;
       }
 
       & a {
@@ -53,6 +58,7 @@
         // justify-content: center;
         align-content: center;
       }
+
       & .menu-items-SVG {
         padding-right: 12px;
         padding-left: 6px;
@@ -64,6 +70,7 @@
       & .menu-items-SVG path {
         fill: #5f5f5f !important;
       }
+
       & .active {
         color: #67833e;
         list-style-type: disc;
@@ -78,7 +85,7 @@
         padding-top: 0px;
 
         & li {
-          font-size: 0.95vw;
+          font-size: 16px;
         }
       }
 
@@ -87,7 +94,6 @@
         align-items: center;
         justify-content: space-between;
         margin-top: 10.8%;
-        cursor: pointer;
       }
 
       .menu-items-name {
@@ -95,6 +101,14 @@
           font-size: 10px;
         }
       }
+    }
+
+    @media (max-width: 1024px) {
+      padding: 4.5% 20px 11% 20px;
+    }
+
+    @media (max-width: 768px) {
+      justify-content: center !important;
     }
   }
   @supports (position: sticky) {
@@ -110,7 +124,14 @@
     width: 80%;
     padding-left: 39px;
     padding-right: 108px;
+    padding-top: 4.5%;
     box-sizing: border-box;
+    @media (max-width: 1024px) {
+      padding-right: 39px;
+    }
+    @media (max-width: 768px) {
+      padding: 0 15px;
+    }
 
     & #employee_header {
       display: flex;
@@ -142,11 +163,13 @@
     }
     & .header {
       display: flex;
+      justify-content: flex-end;
       flex-direction: row;
       align-items: center;
       //justify-content: space-between;
       padding-bottom: 10px;
       width: 100%;
+      border-bottom: 1px solid #dadada;
       & div {
         display: flex;
         flex-direction: column;
@@ -196,12 +219,19 @@
       justify-content: flex-start;
       align-items: center;
       margin-bottom: 20px;
+      margin-top: 25px;
       & .menu-items-SVG path {
         fill: #67833e !important;
       }
       & div {
         display: flex;
         align-items: center;
+        @media (max-width: 768px) {
+          text-align: center;
+          font-size: 14px;
+        }
+
+
         & h2 {
           font-weight: 500;
           font-size: 18px;
@@ -291,7 +321,7 @@
       border-collapse: collapse;
       & thead {
         & th {
-          font-size: 14px;
+          font-size: 16px;
           line-height: 24px;
           color: #000000;
           font-weight: normal;
@@ -303,9 +333,10 @@
       }
 
       & td {
-        padding: 10px 0px;
+        padding: 20px 0px;
+        border-bottom: 1px solid #e5e5e5;
         font-weight: normal;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 24px;
         color: #000000;
         position: relative;
@@ -316,14 +347,14 @@
 
         & ul {
           position: absolute;
-          width: 180%;
+          right: 20px;
           top: 24px;
           background: #fff;
           padding: 0;
           list-style-type: none;
           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
           border-radius: 5px;
-          padding: 10px 10px 10px 10px;
+          padding: 13px 17px 0px;
           z-index: 9999;
           box-sizing: border-box;
 
@@ -332,14 +363,14 @@
             font-size: 14px;
             line-height: 21px;
             /* identical to box height */
-            cursor: pointer;
+
             color: #000000;
-            // margin-bottom: 17px;
+            margin-bottom: 17px;
           }
         }
       }
       & tr:nth-of-type(2n) {
-        // background: rgba(210, 210, 210, 0.3);
+        background: rgba(196, 196, 196, 0.4);
       }
       & .eye-icon {
         & img {
@@ -499,10 +530,6 @@ iframe {
   border-radius: 5px;
 }
 
-.disabled-dropdown {
-  background: #fafafa;
-}
-
 .add-employee-text-input {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -516,7 +543,7 @@ iframe {
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 5px;
-  width: 30vw;
+  width: 400px;
   margin-top: 25px;
 
   @media (max-width: 1200px) {
@@ -586,7 +613,7 @@ iframe {
 
 .selected {
   border-bottom: 3px solid #67833e;
-  color: #67833e !important;
+  color: #67833e;
 }
 
 .unselected {
@@ -600,6 +627,10 @@ iframe {
   flex-direction: row;
   align-items: center;
   width: 100%;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 }
 
 .restaurant-logo {
@@ -612,6 +643,8 @@ iframe {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
+  display: inline-block;
+  text-align: center;
 }
 
 .branch-dropdown {
@@ -629,7 +662,9 @@ iframe {
 .restaurant-name-container {
   padding-left: 1rem;
   line-height: 1em;
-}
+  @media (max-width: 1024px) {
+    padding-left: 0;
+  }
 
   &>div{
     @media (max-width: 1224px) {
