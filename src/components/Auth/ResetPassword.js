@@ -37,7 +37,11 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (!resetPasswordLoading && resetPasswordSuccess) {
-      history.push("/management/employees");
+      if (window.innerWidth <= 575) {
+        history.push("/management/report/1");
+      } else {
+        history.push("/management/employees");
+      }
     }
   }, [resetPasswordLoading, resetPasswordSuccess]);
 
@@ -53,6 +57,9 @@ const ResetPassword = () => {
       );
     }
   };
+
+
+  console.log();
 
   return (
     <div className="otp_login">
@@ -140,7 +147,11 @@ const ResetPassword = () => {
         <span
           style={{ cursor: "pointer" }}
           onClick={() => {
-            history.push("/management/employees");
+            if (window.innerWidth <= 575) {
+              history.push("/management/report/1");
+            } else {
+              history.push("/management/employees");
+            }
           }}
         >
           skip for now

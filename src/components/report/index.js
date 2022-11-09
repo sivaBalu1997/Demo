@@ -30,6 +30,7 @@ const reportCategory = [
 const Report = (props) => {
   const credentials = useSelector((state) => state.auth.credentials);
   const outlets = useSelector((state) => state.employee.outlets);
+  const restaurantDetails = useSelector((state) => state.auth.restaurantDetails);
   const merchantId = credentials?.merchantId;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -45,6 +46,9 @@ const Report = (props) => {
     location.state ? location.state : reportCategory[0].option
   );
   const [reportData, setReportData] = useState([])
+  const [singleBranchId, setSingleBranchId] = useState(restaurantDetails?.branch?.length > 0 && restaurantDetails?.branch[0].id)
+
+  console.log(restaurantDetails?.branch);
 
   useEffect(() => {
     if (credentials) {
@@ -61,9 +65,6 @@ const Report = (props) => {
       history.push("/management/report/5", "Sales");
     }
   };
-  const restaurantDetails = useSelector(
-    (state) => state.auth.restaurantDetails
-  );
 
   useEffect(() => {
     if (outlets.length == 0 && credentials) {
@@ -150,7 +151,7 @@ const Report = (props) => {
     const token = credentials?.accessToken;
       API({
         method: "get",
-        url: "/merchants/" + merchantId +"/location/" + branchId + "/reports/" + process.env.REACT_APP_REPORT_ID,
+        url: "/merchants/" + merchantId +"/location/" + singleBranchId + "/reports/" + process.env.REACT_APP_REPORT_ID,
         headers: {
           Authorization: "bearer " + token,
         },
@@ -168,10 +169,10 @@ const Report = (props) => {
     }
 
   useEffect(() => {
-    if (window.innerWidth <= 575 && branchId && merchantId) {
+    if (window.innerWidth <= 575 && singleBranchId && merchantId) {
       getReportData();
     }
-  }, [branchId, merchantId])
+  }, [singleBranchId, merchantId])
 
   const logoutUser = () => {
     dispatch(clearMenuData());
@@ -223,7 +224,7 @@ const Report = (props) => {
               <select
                 className="branch-dropdown"
                 onChange={(e) => {
-                  // console.log(":: Method Called ::");
+                  setSingleBranchId((JSON.parse(e.target.value))?.id);
                   dispatch(selectBranch(JSON.parse(e.target.value)));
                 }}
               >
