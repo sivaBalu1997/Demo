@@ -29,7 +29,7 @@ const SignIn = ({ setLogin }) => {
       if (authState.credentials.isTempPassword) {
         history.push("/reset");
       } else {
-        history.push("/management/employees");
+        history.push("/management/report/1");
       }
     }
     else{ if (!authState.signInLoading && authState.signInMessage!="" && !authState.signedIn)
@@ -65,6 +65,7 @@ const SignIn = ({ setLogin }) => {
             ref={register({ required: "Required" })}
           />
           <div
+              className="login--password"
             style={{
               display: "flex",
               flexDirection: "row",
@@ -92,7 +93,6 @@ const SignIn = ({ setLogin }) => {
                 style={{
                   position: "absolute",
                   paddingTop: "1%",
-                  paddingRight: "1%",
                 }}
               />
             )}

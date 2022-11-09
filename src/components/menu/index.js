@@ -237,7 +237,7 @@ const Menu = () => {
           >
             <li style={{ marginBottom: 0 }} />
             <EmployeesIcon className="menu-items-SVG" />
-            Employees
+            <span className="menu-items-name">Employees</span>
           </div>
           {/* <NavLink to="/roles" activeClassName="active">
           <li />
@@ -264,7 +264,7 @@ const Menu = () => {
                   <li style={{ marginBottom: 0 }} />
                 ) : null}
                 <Tableware className="menu-items-SVG" />
-                Menu
+                <span className="menu-items-name">Menu</span>
               </div>
             )}
 
@@ -311,7 +311,7 @@ const Menu = () => {
           >
             <div  style={{ cursor: "pointer" }}>
               <Offer className="menu-items-SVG" />
-              Offer Management
+              <span className="menu-items-name">Offer Management</span>
             </div>
             {showOfferOptions === "MenuOptions" ? (
               <Uparrow className="dropdown-arrow" style={{marginLeft: "15px"}} />
@@ -355,7 +355,7 @@ const Menu = () => {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Stats className="menu-items-SVG" />
-                Reports & Insights
+                <span className="menu-items-name">Reports & Insights</span>
               </div>
             )}
             {/* {showOptions === "reportOptions" ? (
@@ -387,7 +387,7 @@ const Menu = () => {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Payment className="menu-items-SVG" />
-                Payments
+                <span className="menu-items-name">Payments</span>
               </div>
             )}
           </div>
@@ -409,7 +409,7 @@ const Menu = () => {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <BillingIcon className="menu-items-SVG" />
-                Billings
+                <span className="menu-items-name">Billings</span>
               </div>
             )}
           </div>
