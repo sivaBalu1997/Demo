@@ -29,7 +29,11 @@ const SignIn = ({ setLogin }) => {
       if (authState.credentials.isTempPassword) {
         history.push("/reset");
       } else {
-        history.push("/management/report/1");
+        if (window.innerWidth <= 575) {
+          history.push("/management/report/1");
+        } else {
+          history.push("/management/employees");
+        }
       }
     }
     else{ if (!authState.signInLoading && authState.signInMessage!="" && !authState.signedIn)
