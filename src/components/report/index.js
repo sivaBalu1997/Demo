@@ -48,8 +48,6 @@ const Report = (props) => {
   const [reportData, setReportData] = useState([])
   const [singleBranchId, setSingleBranchId] = useState(restaurantDetails?.branch?.length > 0 && restaurantDetails?.branch[0].id)
 
-  console.log(restaurantDetails?.branch);
-
   useEffect(() => {
     if (credentials) {
       dispatch(getOutlets(credentials?.merchantId));
