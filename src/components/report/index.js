@@ -108,33 +108,6 @@ const Report = (props) => {
       });
   }
 
-  const getReportData = async () => {
-    const token = credentials?.accessToken;
-      API({
-        method: "get",
-        url: "/merchants/" + merchantId +"/location/" + branchId + "/reports/" + process.env.REACT_APP_REPORT_ID,
-        headers: {
-          Authorization: "bearer " + token,
-        },
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            setReportData(res.data?.url);
-          } else {
-            setError("please try again later");
-          }
-        })
-        .catch((err) => {
-          setError("please try again later");
-        });
-    }
-
-  useEffect(() => {
-    if (window.innerWidth <= 575 && branchId && merchantId && props.id) {
-      getReportData();
-    }
-  }, [branchId, merchantId])
-
   useEffect(() => {
     if (reportId !== "") {
       fetchData();
@@ -172,6 +145,33 @@ const Report = (props) => {
         setError("please try again later");
       });
   }
+
+  const getReportData = async () => {
+    const token = credentials?.accessToken;
+      API({
+        method: "get",
+        url: "/merchants/" + merchantId +"/location/" + branchId + "/reports/" + process.env.REACT_APP_REPORT_ID,
+        headers: {
+          Authorization: "bearer " + token,
+        },
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            setReportData(res.data?.url);
+          } else {
+            setError("please try again later");
+          }
+        })
+        .catch((err) => {
+          setError("please try again later");
+        });
+    }
+
+  useEffect(() => {
+    if (window.innerWidth <= 575 && branchId && merchantId) {
+      getReportData();
+    }
+  }, [branchId, merchantId])
 
   const logoutUser = () => {
     dispatch(clearMenuData());
@@ -391,7 +391,6 @@ const Report = (props) => {
           arrowClassName={"report-dropdown-arrow"}
         />
       </div>
-      <hr className="line-mobile"/>
       {(iframeSource.length > 0 && window.innerWidth > 575) ? (
         <iframe
         className="reportData-deskTop"
