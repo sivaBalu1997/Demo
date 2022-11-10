@@ -104,6 +104,13 @@ const Menu = () => {
       return true;
   };
   const history = useHistory();
+
+  useEffect(() => {
+    if (window.innerWidth <= 575) {
+      history.push(`/management/report/1`);
+    }
+  }, [history])
+  
   const location = useLocation();
   const dispatch = useDispatch();
   const [showOptions, setShowOptions] = useState("employees");
@@ -215,7 +222,6 @@ const Menu = () => {
             </div>
           </div>
         </div>
-
         <ul>
           {/* <NavLink to="/business" activeClassName="active">
           <li />
