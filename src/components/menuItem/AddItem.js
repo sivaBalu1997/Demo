@@ -415,7 +415,7 @@ const AddItem = (props) => {
                       selectValue={selectValue}
                       placeholder="Menu Category"
                       name="menuCategory"
-                      value={state ? state.subCategory : ""}
+                      value={state ? state.category : ""}
                       handleSelect={(e) => {
                         setcategory(e);
                       }}
@@ -442,7 +442,7 @@ const AddItem = (props) => {
                       placeholder="Menu Sub Category"
                       name="menuSubCategory"
                       addItemText="Add Menu Sub Category"
-                      value={state ? state.category : ""}
+                      value={state ? state.subCategory : ""}
                       isAddItem
                       onAddItem={(name) => {
                         let data = {

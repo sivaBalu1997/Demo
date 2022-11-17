@@ -42,6 +42,7 @@ const EmptyMenu = () => {
   useEffect(() => {
     if (!deleteItemLoading && deleteItemSuccess) {
       alert("Item Deleted Successfully");
+      setsearchText('')
       dispatch(resetDeleteData());
       dispatch(getMenus({ locationId: branchDetails.id, type: "DineIn" }));
     }
