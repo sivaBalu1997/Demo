@@ -315,7 +315,7 @@ const AddItem = (props) => {
           {step !== 3 && (
             <>
               <div className="header">Menu Item Details</div>
-              <div className="tab-panel-container">
+              {/* <div className="tab-panel-container">
                 <div
                   className="tab-panel-container1"
                   onClick={() => setstep(1)}
@@ -365,7 +365,7 @@ const AddItem = (props) => {
                     }`}
                   ></div>
                 </div>
-              </div>
+              </div> */}
             </>
           )}
 
@@ -1293,7 +1293,7 @@ const AddItem = (props) => {
                   alert(error);
                 }
                 if (itemName && itemCost) {
-                  setstep(2);
+                  setstep(3);
                 }
               } else if (step === 2) {
                 // history.push({ pathname: "/review", state: data });
