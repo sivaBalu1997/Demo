@@ -16,7 +16,6 @@ import { ReactComponent as UnBlock } from "../../assets/svg/unblock.svg";
 import { deleteMenuItemRequest } from "../../redux/actions/productCatalogActions";
 import moment from "moment";
 const MenuItem = (props) => {
-  console.log(props,"DDDDDDD")
   const [disablePopup, setdisablePopup] = useState(false);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -93,6 +92,9 @@ const MenuItem = (props) => {
     ts = h + ts.substr(2, 3) + ampm;
     return ts;
   }
+  const restaurantLocation = useSelector(
+    (state) => state.auth.restaurantDetails.country
+  );
   const get12HoursTime = (t24Stamp) => {
     let timeString = t24Stamp.split("T")[1];
     if (timeString == "00:00:00") {
@@ -163,7 +165,9 @@ const MenuItem = (props) => {
           {/* Panner Butter Masala */}
         </td>
         {/* <td>12345</td> */}
-        <td>Rs. {props.data.price}</td>
+        <td>
+          {restaurantLocation == "US" ? "$" : "Rs."} {props.data.price}
+        </td>
         {/* <td>₹ 200</td> */}
         {/* <td>All Outlets</td> */}
         <td className="status-value-container">
