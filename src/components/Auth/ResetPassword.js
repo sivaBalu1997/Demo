@@ -38,7 +38,7 @@ const ResetPassword = () => {
   useEffect(() => {
     if (!resetPasswordLoading && resetPasswordSuccess) {
       if (window.innerWidth <= 575) {
-        history.push("/management/report/1");
+        history.push("/management/report/32");
       } else {
         history.push("/management/employees");
       }
@@ -148,7 +148,7 @@ const ResetPassword = () => {
           style={{ cursor: "pointer" }}
           onClick={() => {
             if (window.innerWidth <= 575) {
-              history.push("/management/report/1");
+              history.push("/management/report/32");
             } else {
               history.push("/management/employees");
             }

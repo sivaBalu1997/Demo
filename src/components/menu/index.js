@@ -49,7 +49,6 @@ import Payments from "../payment";
 import ReviewMenu from "../reviewMenu";
 //import { useSelector } from "react-redux";
 
-
 import Offerdetails from "../offers/Offerdetails";
 import TemplateOffer from "../offers/TemplateOffer";
 import AddOffer from "../offers/AddOffer";
@@ -108,14 +107,14 @@ const Menu = () => {
 
   useEffect(() => {
     if (window.innerWidth <= 575) {
-      history.push(`/management/report/1`);
+      history.push(`/management/report/32`);
     }
-  }, [history])
-  
+  }, [history]);
+
   const location = useLocation();
   const dispatch = useDispatch();
   const [showOptions, setShowOptions] = useState("employees");
-  const [showOfferOptions,setShowOfferOptions] = useState("");
+  const [showOfferOptions, setShowOfferOptions] = useState("");
   const [routeTo, setRouteTo] = useState({});
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails
@@ -304,11 +303,11 @@ const Menu = () => {
           {/* </ul> */}
           {/* <li style={{ marginBottom: "30px" }}>Drafts</li> */}
 
-
-
           <div
             className={
-              showOfferOptions === "MenuOptions" ? "active drop-down" : "drop-down"
+              showOfferOptions === "MenuOptions"
+                ? "active drop-down"
+                : "drop-down"
             }
             onClick={() =>
               showOfferOptions !== "MenuOptions"
@@ -316,14 +315,20 @@ const Menu = () => {
                 : setShowOfferOptions("")
             }
           >
-            <div  style={{ cursor: "pointer" }}>
+            <div style={{ cursor: "pointer" }}>
               <Offer className="menu-items-SVG" />
               <span className="menu-items-name">Offer Management</span>
             </div>
             {showOfferOptions === "MenuOptions" ? (
-              <Uparrow className="dropdown-arrow" style={{marginLeft: "15px"}} />
+              <Uparrow
+                className="dropdown-arrow"
+                style={{ marginLeft: "15px" }}
+              />
             ) : (
-              <Downarrow className="dropdown-arrow" style={{marginLeft: "15px"}} />
+              <Downarrow
+                className="dropdown-arrow"
+                style={{ marginLeft: "15px" }}
+              />
             )}
           </div>
           <ul className="menu-items-list">
@@ -335,7 +340,12 @@ const Menu = () => {
                     key={option}
                   >
                     <li>
-                      <span className="d-inline-block m-t-20" style={{ marginLeft: "40px" }}>{option}</span>
+                      <span
+                        className="d-inline-block m-t-20"
+                        style={{ marginLeft: "40px" }}
+                      >
+                        {option}
+                      </span>
                     </li>
                   </NavLink>
                 ))
@@ -354,7 +364,7 @@ const Menu = () => {
             onClick={() => {
               setShowOptions("reportOptions");
 
-              history.push(`/management/report/1`);
+              history.push(`/management/report/32`);
             }}
             style={{ cursor: "pointer" }}
           >
@@ -428,21 +438,39 @@ const Menu = () => {
       <Switch>
         <Route exact path="/review" component={ReviewMenu} />
         <Route exact path="/management/employees" component={Employees} />
-
         <Route exact path="/management/Offers" component={Offerdetails} />
-        <Route exact path ="/management/Offers/TemplateOffer" component = {TemplateOffer}/>
-        <Route exact path ="/management/Offers/AddOffer" component = {AddOffer}/>
-        <Route exact path ="/management/Offers/CreateOffer" component = {CreateOffer}/>
-        <Route exact path ="/management/Offers/EditOffer" component = {CreateOffer}/>
-        <Route exact path ="/management/Offers/PreviewOffer" component = {PreviewOffer}/>
-      
-
         <Route
           exact
-          path="/management/report/1"
+          path="/management/Offers/TemplateOffer"
+          component={TemplateOffer}
+        />
+        <Route exact path="/management/Offers/AddOffer" component={AddOffer} />
+        <Route
+          exact
+          path="/management/Offers/CreateOffer"
+          component={CreateOffer}
+        />
+        <Route
+          exact
+          path="/management/Offers/EditOffer"
+          component={CreateOffer}
+        />
+        <Route
+          exact
+          path="/management/Offers/PreviewOffer"
+          component={PreviewOffer}
+        />
+        <Route
+          exact
+          path="/management/report/32"
           component={() => (
-            <Report id={"1"} title={"Checkin - Today's report"} />
+            <Report id={"32"} title={"Sales Report"} />
           )}
+        />
+        <Route
+          exact
+          path="/management/report/32"
+          component={() => <Report id={"32"} title={"Sales report"} />}
         />
         <Route
           exact

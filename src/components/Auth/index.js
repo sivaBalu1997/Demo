@@ -15,7 +15,7 @@ const Auth = () => {
     if (credentails) {
       dispatch(storeCredentials(credentails));
       if (window.innerWidth <= 575) {
-        history.push("/management/report/1");
+        history.push("/management/report/32");
       } else {
         history.replace("/management/employees");
       }
