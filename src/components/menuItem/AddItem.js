@@ -590,20 +590,41 @@ const AddItem = (props) => {
                       <div className="availabilityDataContainer">
                         {Availability &&
                           Availability.map((u, i) => {
-                            let startTime = moment(
-                              new Date(
-                                new Date(
-                                  `1970-01-01T${u.startTime}.000Z`
-                                ).getTime()
-                              )
-                            ).format("LT");
-                            let endTime = moment(
-                              new Date(
-                                new Date(
-                                  `1970-01-01T${u.endTime}.000Z`
-                                ).getTime()
-                              )
-                            ).format("LT");
+                            let startTime = moment().isDST()
+                              ? moment(
+                                  new Date(
+                                    new Date(
+                                      `1970-01-01T${u.startTime}.000Z`
+                                    ).getTime()
+                                  )
+                                )
+                                  .add(1, "hours")
+                                  .format("LT")
+                              : moment(
+                                  new Date(
+                                    new Date(
+                                      `1970-01-01T${u.startTime}.000Z`
+                                    ).getTime()
+                                  )
+                                ).format("LT");
+
+                            let endTime = moment().isDST()
+                              ? moment(
+                                  new Date(
+                                    new Date(
+                                      `1970-01-01T${u.endTime}.000Z`
+                                    ).getTime()
+                                  )
+                                )
+                                  .add(1, "hours")
+                                  .format("LT")
+                              : moment(
+                                  new Date(
+                                    new Date(
+                                      `1970-01-01T${u.endTime}.000Z`
+                                    ).getTime()
+                                  )
+                                ).format("LT");
 
                             return (
                               <div className="availabilityContainer">
@@ -1288,7 +1309,7 @@ const AddItem = (props) => {
                   if (!itemCost) {
                     error += "Please add Item Cost";
                   }
-                  console.log(error,"check error")
+                  console.log(error, "check error");
                   alert(error);
                 }
                 if (itemName && itemCost) {
