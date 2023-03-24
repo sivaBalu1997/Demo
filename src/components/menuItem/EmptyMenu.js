@@ -27,7 +27,15 @@ const EmptyMenu = () => {
   const branchDetails = useSelector((state) => state.auth.selectedBranch);
   useEffect(() => {
     if (branchDetails && branchDetails.id) {
-      dispatch(getMenus({ locationId: branchDetails.id, type: "DineIn" }));
+      let orderTypeGroup;
+      branchDetails.orderTypes.filter((orderType) => {
+        if (orderType.typeGroup == "D") {
+          orderTypeGroup = orderType.typeName;
+        }
+      });
+      dispatch(
+        getMenus({ locationId: branchDetails.id, type: orderTypeGroup })
+      );
     }
   }, [branchDetails]);
 
@@ -41,10 +49,18 @@ const EmptyMenu = () => {
 
   useEffect(() => {
     if (!deleteItemLoading && deleteItemSuccess) {
+      let orderTypeGroup;
+      branchDetails.orderTypes.filter((orderType) => {
+        if (orderType.typeGroup == "D") {
+          orderTypeGroup = orderType.typeName;
+        }
+      });
       alert("Item Deleted Successfully");
-      setsearchText('')
+      setsearchText("");
       dispatch(resetDeleteData());
-      dispatch(getMenus({ locationId: branchDetails.id, type: "DineIn" }));
+      dispatch(
+        getMenus({ locationId: branchDetails.id, type: orderTypeGroup })
+      );
     }
   }, [deleteItemSuccess, deleteItemLoading]);
 

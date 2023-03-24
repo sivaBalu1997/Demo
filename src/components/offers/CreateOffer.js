@@ -224,10 +224,16 @@ const CreateOffer = (props) => {
 
   useEffect(() => {
     if (selectedBranch !== undefined) {
+      let orderTypeGroup;
+      selectedBranch.orderTypes.filter((orderType) => {
+        if (orderType.typeGroup == "D") {
+          orderTypeGroup = orderType.typeName;
+        }
+      });
       dispatch(
         getMenus({
           locationId: selectedBranch.id,
-          type: "DineIn",
+          type: orderTypeGroup,
         })
       );
       if (credentials) {
@@ -298,10 +304,16 @@ const CreateOffer = (props) => {
   }, [branchoutlet]);
   useEffect(() => {
     if (selectedBranch !== undefined) {
+      let orderTypeGroup;
+      selectedBranch.orderTypes.filter((orderType) => {
+        if (orderType.typeGroup == "D") {
+          orderTypeGroup = orderType.typeName;
+        }
+      });
       dispatch(
         getMenus({
           locationId: selectedBranch.id,
-          type: "DineIn",
+          type: orderTypeGroup,
         })
       );
       if (credentials) {

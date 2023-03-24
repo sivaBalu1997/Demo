@@ -78,7 +78,6 @@ const AddItem = (props) => {
   );
   const data = useSelector((state) => state);
   const [selectValue, setselectValue] = useState(menuCategories.name);
-  console.log(menuCategories,"checking menu ca")
   const [category, setcategory] = useState(state ? state.categoryId : "");
   const [tag, setTag] = useState(state ? state.tagId : []);
   const [searchIngredientText, setsearchIngredientText] = useState("");

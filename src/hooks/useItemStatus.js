@@ -20,11 +20,17 @@ export const useItemStatus = (props) => {
   // console.log(` ::::: props item Id ::::::`, props.itemId);
 
   const refreshMenuDetails = useCallback(() => {
+    let orderTypeGroup;
+    selectedBranch.orderTypes.filter((orderType) => {
+      if (orderType.typeGroup == "D") {
+        orderTypeGroup = orderType.typeName;
+      }
+    });
     selectedBranch &&
       dispatch(
         getMenus({
           locationId: selectedBranch.id,
-          type: "DineIn",
+          type: orderTypeGroup,
         })
       );
   }, []);
