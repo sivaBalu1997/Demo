@@ -104,10 +104,12 @@ const MenuItem = (props) => {
         return "Available by Tomorrow";
       }
     } else {
-      let hours = timeString.split(":")[0];
+      let hours = moment().isDST()
+        ? parseInt(timeString.split(":")[0]) + 1
+        : timeString.split(":")[0];
       let mins = timeString.split(":")[1];
       let median = "";
-      if (parseInt(hours) > 12) {
+      if (parseInt(hours) >= 12) {
         hours = parseInt(hours) - 12 + "";
         median = "PM";
       } else {
