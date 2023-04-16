@@ -15,7 +15,6 @@ import { signOut } from "../../redux/actions/authActions";
 import { useHistory, useLocation } from "react-router";
 import { STORAGE_BUCKET_URL } from "../../shared/constants";
 import { selectBranch } from "../../redux/actions/authActions";
-
 const axios = require("axios");
 
 const reportCategory = [
@@ -48,6 +47,10 @@ const Report = (props) => {
   const [singleBranchId, setSingleBranchId] = useState(
     restaurantDetails?.branch?.length > 0 && restaurantDetails?.branch[0].id
   );
+  const branchDetails = useSelector((state) => state.auth.selectedBranch);
+  useEffect(() => {
+    getReportData(branchDetails.id);
+  }, [branchDetails]);
 
   useEffect(() => {
     if (credentials) {
@@ -146,16 +149,23 @@ const Report = (props) => {
       });
   }
 
-  const getReportData = async () => {
+  const getReportData = async (locationId) => {
     const token = credentials?.accessToken;
-    let reportId = location.pathname === "/management/report/32" ? 32 : 2;
+    let reportId =
+      restaurantDetails.country == "US" &&
+      location.pathname === "/management/report/32"
+        ? 41
+        : restaurantDetails.country == "IN" &&
+          location.pathname === "/management/report/32"
+        ? 32
+        : 2;
     API({
       method: "get",
       url:
         "/merchants/" +
         merchantId +
         "/location/" +
-        singleBranchId +
+        locationId +
         "/reports/" +
         reportId,
       headers: {
@@ -174,12 +184,6 @@ const Report = (props) => {
         setError("please try again later");
       });
   };
-
-  useEffect(() => {
-    if (singleBranchId && merchantId) {
-      getReportData();
-    }
-  }, [singleBranchId, merchantId]);
 
   const logoutUser = () => {
     dispatch(clearMenuData());
@@ -402,10 +406,10 @@ const Report = (props) => {
           arrowClassName={"report-dropdown-arrow"}
         /> */}
       </div>
-      {iframeSource.length > 0 && window.innerWidth > 575 ? (
+      {reportData ? (
         <iframe
           className="reportData-deskTop"
-          src={iframeSource}
+          src={reportData}
           frameBorder="0"
           width="1000"
           height="5000"
