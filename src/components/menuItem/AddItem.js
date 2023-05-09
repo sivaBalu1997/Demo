@@ -274,7 +274,6 @@ const AddItem = (props) => {
       setIngredient(ingredients);
     }
   }, [searchIngredientText]);
-
   let populatedIngredients = selectedIngredients
     ? selectedIngredients.map((u) => {
         return u.id;
@@ -428,33 +427,38 @@ const AddItem = (props) => {
                           parentId: null,
                           operationObject: "Category",
                         };
-                        dispatch(updateMenuAttributeRequest(data));
-                      }}
-                    />
-                    <Dropdown
-                      color={"#979797"}
-                      data={menuSubCategories}
-                      selectValue={subCategory}
-                      handleSelect={(e) => {
-                        setsubCategory(e);
-                      }}
-                      placeholder="Menu Sub Category"
-                      name="menuSubCategory"
-                      addItemText="Add Menu Sub Category"
-                      value={state ? state.subCategory : ""}
-                      isAddItem
-                      onAddItem={(name) => {
-                        let data = {
-                          id: "",
-                          locationId: branchDetails.id,
-                          categoryName: name,
-                          parentId: category,
-                          operationObject: "Sub-Category",
-                        };
 
                         dispatch(updateMenuAttributeRequest(data));
                       }}
                     />
+                    {menuSubCategories.length > 0 ? (
+                      <Dropdown
+                        color={"#979797"}
+                        data={menuSubCategories}
+                        selectValue={subCategory}
+                        handleSelect={(e) => {
+                          setsubCategory(e);
+                        }}
+                        placeholder="Menu Sub Category"
+                        name="menuSubCategory"
+                        addItemText="Add Menu Sub Category"
+                        value={state ? state.subCategory : ""}
+                        isAddItem
+                        onAddItem={(name) => {
+                          let data = {
+                            id: "",
+                            locationId: branchDetails.id,
+                            categoryName: name,
+                            parentId: category,
+                            operationObject: "Sub-Category",
+                          };
+
+                          dispatch(updateMenuAttributeRequest(data));
+                        }}
+                      />
+                    ) : (
+                      ""
+                    )}
                     {/* <TextInput
                       type={"text"}
                       placeholder={"Calorie Point"}
@@ -1301,18 +1305,34 @@ const AddItem = (props) => {
             className="submit-button button-text"
             onClick={async () => {
               if (step === 1) {
-                if (!itemName || !itemCost) {
-                  let error = "";
+                let error = "";
+                if (
+                  !itemName ||
+                  !itemCost ||
+                  !category ||
+                  !tag.length > 0 ||
+                  menuSubCategories.length > 0
+                ) {
                   if (!itemName) {
-                    error += "Please add Item Name \n";
+                    error += "Item Name,";
+                  }
+                  if (!category) {
+                    error += "Category,";
+                  }
+                  if (!tag.length > 0) {
+                    error += "Kitchen station,";
+                  }
+                  if (menuSubCategories.length > 0 && !subCategory) {
+                    error += "Sub category, ";
                   }
                   if (!itemCost) {
-                    error += "Please add Item Cost";
+                    error += "Item Cost";
                   }
-                  console.log(error, "check error");
-                  alert(error);
+
+                  error != "" && alert(error + " is mandatory!");
                 }
-                if (itemName && itemCost) {
+
+                if (error == "") {
                   setstep(3);
                 }
               } else if (step === 2) {

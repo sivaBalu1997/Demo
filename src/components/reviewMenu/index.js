@@ -30,6 +30,8 @@ const ReviewMenu = (props) => {
     (state) => state.productCatalog.subCategoryData
   );
   const ingredients = useSelector((state) => state.productCatalog.ingredients);
+  const tagClasses = useSelector((state) => state.productCatalog.tagClass);
+
   // const getImageURL = useCallback((data) => {
   //   return (
   //     data.imageType &&
@@ -55,15 +57,14 @@ const ReviewMenu = (props) => {
       }
     });
   };
-  const getIngredients = () => {
-    let ingrData = [];
-    ingredients.filter((data) => {
-      if (values.ingredients.includes(data.id)) {
-        ingrData.push(data);
+  const getKitchenStation = () => {
+    return tagClasses.map((data, i) => {
+      if (data.id == values.kitchenStations[0]) {
+        return data.tagName;
       }
     });
-    return ingrData;
   };
+
   return (
     <div className="customization-sec">
       <div
@@ -104,6 +105,10 @@ const ReviewMenu = (props) => {
                 <span>Menu Category </span>
                 <p>{values ? getCategoryName() : null}</p>
               </div>
+              <div>
+                <span>Kitchen station</span>
+                <p>{values ? getKitchenStation() : null}</p>
+              </div>
             </div>
             <div>
               <div>
@@ -114,11 +119,11 @@ const ReviewMenu = (props) => {
                 <span>Menu Sub Category</span>
                 <p>{values ? getSubCategoryName() : null}</p>
               </div>
+              <div>
+                <span>Description</span>
+                <p>{values ? values.description : null}</p>
+              </div>
             </div>
-          </div>
-          <div>
-            <span>Description</span>
-            <p>{values ? values.description : null}</p>
           </div>
 
           {/* <div className="other-detail">

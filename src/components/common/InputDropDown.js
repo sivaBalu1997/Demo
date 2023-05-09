@@ -74,7 +74,6 @@ const Dropdown = ({
           }}
         >
           <animated.div className="tag-selection-container">
-            {console.log(data,"check data")}
             {data.map((data, index) => {
               return (
                 <div key={index} className="tag-line">
