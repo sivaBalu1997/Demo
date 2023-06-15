@@ -77,19 +77,20 @@ const AddItem = (props) => {
     (state) => state.productCatalog.availability
   );
 
-  console.log("state:::", state);
   const data = useSelector((state) => state);
-  const [selectValue, setselectValue] = useState(menuCategories.name);
+  const [selectValue, setselectValue] = useState("");
   const [category, setcategory] = useState(state ? state.categoryId : "");
-  const [tag, setTag] = useState(state && state.tagId ? state.tagId : []);
+  const [tag, setTag] = useState(
+    state && state?.itemTagResponses?.length > 0
+      ? [state?.itemTagResponses[0]?.tagId]
+      : []
+  );
   const [searchIngredientText, setsearchIngredientText] = useState("");
   const credentials = useSelector((state) => state.auth.credentials);
   // const branchDetails = useSelector((state) => state.auth.selectedBranch);
   const [subCategory, setsubCategory] = useState(
     state ? state.subCategoryId : ""
   );
-  console.log("subCategory", subCategory);
-  console.log("tag::::", tag);
   let filteredAvailability =
     state &&
     state.availability &&
@@ -320,6 +321,34 @@ const AddItem = (props) => {
   const validateName = customizedMenu.some((v) => v.modifierName === "");
   const validateMin = customizedMenu.some((v) => v.minCount === "");
   const validateMax = customizedMenu.some((v) => v.maxCount === "");
+
+  const getCategoryName = () => {
+    return menuCategories.map((data, i) => {
+      if (data.id == modifiedData.categoryId) {
+        return data.name;
+      }
+    });
+  };
+
+  const getSubCategoryName = () => {
+    return menuSubCategories.map((data, i) => {
+      if (data.id == modifiedData.subCategoryId) {
+        return data.name;
+      }
+    });
+  };
+
+  const getKitchenStation = () => {
+    return (
+      tagClasses &&
+      tagClasses?.map((data, i) => {
+        if (data.id == modifiedData.kitchenStations[0]) {
+          return data.tagName;
+        }
+      })
+    );
+  };
+
   return (
     <>
       {/* <div style={{ width: "78%" }}> */}
@@ -428,7 +457,8 @@ const AddItem = (props) => {
                       selectValue={selectValue}
                       placeholder="Menu Category"
                       name="menuCategory"
-                      value={state ? state.category : ""}
+                      // value={selectValue ? selectValue : ""}
+                      value={modifiedData.categoryId ? getCategoryName() : ""}
                       handleSelect={(e) => {
                         setcategory(e);
                       }}
@@ -457,7 +487,9 @@ const AddItem = (props) => {
                         placeholder="Menu Sub Category"
                         name="menuSubCategory"
                         addItemText="Add Menu Sub Category"
-                        value={state ? state.subCategory : ""}
+                        value={
+                          modifiedData.subCategoryId ? getSubCategoryName() : ""
+                        }
                         isAddItem
                         onAddItem={(name) => {
                           let data = {
@@ -520,6 +552,11 @@ const AddItem = (props) => {
                         selectValue={tagClasses}
                         placeholder="Kitchen Station"
                         name="kitchenStation"
+                        value={
+                          modifiedData.kitchenStations.length > 0
+                            ? getKitchenStation()
+                            : ""
+                        }
                         handleSelect={(e) => {
                           setTag([e]);
                         }}
