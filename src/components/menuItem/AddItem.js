@@ -76,16 +76,20 @@ const AddItem = (props) => {
   const Availability = useSelector(
     (state) => state.productCatalog.availability
   );
+
+  console.log("state:::", state);
   const data = useSelector((state) => state);
   const [selectValue, setselectValue] = useState(menuCategories.name);
   const [category, setcategory] = useState(state ? state.categoryId : "");
-  const [tag, setTag] = useState(state ? state.tagId : []);
+  const [tag, setTag] = useState(state && state.tagId ? state.tagId : []);
   const [searchIngredientText, setsearchIngredientText] = useState("");
   const credentials = useSelector((state) => state.auth.credentials);
   // const branchDetails = useSelector((state) => state.auth.selectedBranch);
   const [subCategory, setsubCategory] = useState(
     state ? state.subCategoryId : ""
   );
+  console.log("subCategory", subCategory);
+  console.log("tag::::", tag);
   let filteredAvailability =
     state &&
     state.availability &&
@@ -164,6 +168,8 @@ const AddItem = (props) => {
   const [itemCost, setItemCost] = useState(state ? state.price : "");
   const [altName, setaltName] = useState(state ? state.itemAltName : "");
   const [ingredient, setIngredient] = useState([]);
+  const [postData, setPostData] = useState(true);
+
   useEffect(() => {
     if (addItemSuccess && !addMenuLoading && addMenuSuccessMessage) {
       alert(addMenuSuccessMessage);
@@ -305,6 +311,15 @@ const AddItem = (props) => {
     itemId: state && state && state.itemId ? state.itemId : null,
   };
 
+  const validateAll = customizedMenu.some(
+    (v) => v.modifierName === "" && v.maxCount === "" && v.minCount === ""
+  );
+  const validateMinMax = customizedMenu.some(
+    (v) => v.maxCount === "" && v.minCount === ""
+  );
+  const validateName = customizedMenu.some((v) => v.modifierName === "");
+  const validateMin = customizedMenu.some((v) => v.minCount === "");
+  const validateMax = customizedMenu.some((v) => v.maxCount === "");
   return (
     <>
       {/* <div style={{ width: "78%" }}> */}
@@ -594,41 +609,20 @@ const AddItem = (props) => {
                       <div className="availabilityDataContainer">
                         {Availability &&
                           Availability.map((u, i) => {
-                            let startTime = moment().isDST()
-                              ? moment(
-                                  new Date(
-                                    new Date(
-                                      `1970-01-01T${u.startTime}.000Z`
-                                    ).getTime()
-                                  )
-                                )
-                                  .add(1, "hours")
-                                  .format("LT")
-                              : moment(
-                                  new Date(
-                                    new Date(
-                                      `1970-01-01T${u.startTime}.000Z`
-                                    ).getTime()
-                                  )
-                                ).format("LT");
-
-                            let endTime = moment().isDST()
-                              ? moment(
-                                  new Date(
-                                    new Date(
-                                      `1970-01-01T${u.endTime}.000Z`
-                                    ).getTime()
-                                  )
-                                )
-                                  .add(1, "hours")
-                                  .format("LT")
-                              : moment(
-                                  new Date(
-                                    new Date(
-                                      `1970-01-01T${u.endTime}.000Z`
-                                    ).getTime()
-                                  )
-                                ).format("LT");
+                            let startTime = moment(
+                              new Date(
+                                new Date(
+                                  `1970-01-01T${u.startTime}.000Z`
+                                ).getTime()
+                              )
+                            ).format("LT");
+                            let endTime = moment(
+                              new Date(
+                                new Date(
+                                  `1970-01-01T${u.endTime}.000Z`
+                                ).getTime()
+                              )
+                            ).format("LT");
 
                             return (
                               <div className="availabilityContainer">
@@ -990,7 +984,7 @@ const AddItem = (props) => {
                             modifierName: "",
                             name: "",
                             maxCount: "",
-                            minCount: 1,
+                            minCount: "",
                             // serviceStream: [],
                             newModifier: true,
                             options: [{ modifierOptionName: "", cost: "" }],
@@ -1061,7 +1055,7 @@ const AddItem = (props) => {
                                 data={noOfItem}
                                 selectValue={selectValue}
                                 style={{ marginLeft: "20px" }}
-                                value={u.maxCount}
+                                value={u.minCount}
                                 placeholder="Min. items can be selected"
                                 name="preparationTime"
                                 // isAddItem
@@ -1117,7 +1111,11 @@ const AddItem = (props) => {
                                   onClick={() => {
                                     let newArray = [...customizedMenu];
                                     newArray.splice(index, 1);
-                                    setcustomizedMenu(newArray);
+                                    customizedMenu?.length > 1
+                                      ? setcustomizedMenu(newArray)
+                                      : alert(
+                                          "Atleast one Customization Required"
+                                        );
                                   }}
                                   size={15}
                                 />
@@ -1194,32 +1192,6 @@ const AddItem = (props) => {
                                 </div>
                               );
                             })}
-                            {customizedMenu.length === index + 1 && (
-                              <span
-                                className="add-text"
-                                onClick={() => {
-                                  const customizationMenu = {
-                                    modifierName: "",
-                                    numberofItem: "",
-                                    maxCount: "",
-                                    minCount: 1,
-                                    // serviceStream: [],
-                                    options: [
-                                      { modifierOptionName: "", cost: "" },
-                                    ],
-                                    mendatory: false,
-                                    newModifier: true,
-                                  };
-                                  let newArray = [
-                                    ...customizedMenu,
-                                    customizationMenu,
-                                  ];
-                                  setcustomizedMenu(newArray);
-                                }}
-                              >
-                                + Add Group
-                              </span>
-                            )}
 
                             {/* <div className="customisation-container">
                               <div>
@@ -1247,6 +1219,27 @@ const AddItem = (props) => {
                         );
                       })}
                     </div>
+                  )}
+                  {customization && (
+                    <span
+                      className="add-text"
+                      onClick={() => {
+                        const customizationMenu = {
+                          modifierName: "",
+                          numberofItem: "",
+                          maxCount: "",
+                          minCount: "",
+                          // serviceStream: [],
+                          options: [{ modifierOptionName: "", cost: "" }],
+                          mendatory: false,
+                          newModifier: true,
+                        };
+                        let newArray = [...customizedMenu, customizationMenu];
+                        setcustomizedMenu(newArray);
+                      }}
+                    >
+                      + Add Group
+                    </span>
                   )}
                 </div>
               </div>
@@ -1301,7 +1294,7 @@ const AddItem = (props) => {
             Cancel
           </div>
 
-          <div
+          <button
             className="submit-button button-text"
             onClick={async () => {
               if (step === 1) {
@@ -1314,19 +1307,20 @@ const AddItem = (props) => {
                   menuSubCategories.length > 0
                 ) {
                   if (!itemName) {
-                    error += "Item Name,";
+                    error += error === "" ? "Item Name" : ", Item Name";
                   }
                   if (!category) {
-                    error += "Category,";
+                    error += error === "" ? "Category" : ", Category";
                   }
                   if (!tag.length > 0) {
-                    error += "Kitchen station,";
+                    error +=
+                      error === "" ? "Kitchen station" : ", Kitchen station";
                   }
                   if (menuSubCategories.length > 0 && !subCategory) {
-                    error += "Sub category, ";
+                    error += error === "" ? "Sub category" : ", Sub category";
                   }
                   if (!itemCost) {
-                    error += "Item Cost";
+                    error += error === "" ? "Item Cost" : ", Item Cost";
                   }
 
                   error != "" && alert(error + " is mandatory!");
@@ -1337,12 +1331,31 @@ const AddItem = (props) => {
                 }
               } else if (step === 2) {
                 // history.push({ pathname: "/review", state: data });
-                setstep(3);
+                if (!customization) {
+                  setstep(3);
+                } else {
+                  if (!validateName && !validateMin && !validateMax) {
+                    setstep(3);
+                  } else if (validateAll) {
+                    alert(
+                      "Please Enter Modifier Name \nPlease Enter Max Items \nPlease Enter Min Items"
+                    );
+                  } else if (validateMinMax) {
+                    alert("Please Enter Max Items \nPlease Enter Min Items");
+                  } else if (validateName) {
+                    alert("Please Enter Modifier Name");
+                  } else if (validateMax) {
+                    alert("Please Enter Max Items");
+                  } else if (validateMin) {
+                    alert("Please Enter Min Items");
+                  }
+                }
                 //  const formData = new FormData();
                 // formData.append("itemImage", selectedImage.image);
                 //formData.append("item", JSON.stringify(data));
                 //    dispatch(addMenuItemRequest(formData));
               } else if (step === 3) {
+                setPostData(false);
                 dispatch(clearMenuItemSuccess());
                 let customizationData = {
                   locationId: branchDetails.id,
@@ -1426,10 +1439,10 @@ const AddItem = (props) => {
                     ? dispatch(updateMenuItemRequest(values))
                     : dispatch(addMenuItemRequest(formData));
                 }, 1000);
-
                 // history.push("/management/menu/Items");
               }
             }}
+            disabled={!postData}
           >
             {step === 1 ? (
               "Next Step"
@@ -1440,7 +1453,7 @@ const AddItem = (props) => {
             ) : (
               "Save and Publish"
             )}
-          </div>
+          </button>
         </div>
       </div>
 
