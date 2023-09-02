@@ -158,6 +158,8 @@ const Report = (props) => {
         : restaurantDetails.country == "IN" &&
           location.pathname === "/management/report/32"
         ? 32
+        : location.pathname === "/management/report/51"
+        ? 51
         : 2;
     API({
       method: "get",
@@ -279,7 +281,7 @@ const Report = (props) => {
       </div>
       <div
         className="report-checkin-dropDown"
-        style={{ width: "150px", marginTop: "30px" }}
+        style={{ width: "100%", marginTop: "30px" }}
       >
         {/* <Dropdown
           color={"#979797"}
@@ -306,7 +308,7 @@ const Report = (props) => {
         <div>
           {selectValue === "Sales" && (
             <div
-              className={` ${
+              className={`${
                 location.pathname === "/management/report/32"
                   ? "selected"
                   : "unselected"
@@ -341,6 +343,19 @@ const Report = (props) => {
               Check-In Report
             </div>
           }
+
+          {selectValue === "Sales" && (
+            <div
+              className={` ${
+                location.pathname === "/management/report/51"
+                  ? "selected"
+                  : "unselected"
+              }`}
+              onClick={() => history.push("/management/report/51", "Sales")}
+            >
+              Customer Insights
+            </div>
+          )}
           {/* {selectValue === "Sales" && (
             <div
               className={`tab ${
