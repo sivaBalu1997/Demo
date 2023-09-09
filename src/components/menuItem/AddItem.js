@@ -1349,10 +1349,10 @@ const AddItem = (props) => {
                   if (!category) {
                     error += error === "" ? "Category" : ", Category";
                   }
-                  if (!tag.length > 0) {
-                    error +=
-                      error === "" ? "Kitchen station" : ", Kitchen station";
-                  }
+                  // if (!tag.length > 0) {
+                  //   error +=
+                  //     error === "" ? "Kitchen station" : ", Kitchen station";
+                  // }
                   if (menuSubCategories.length > 0 && !subCategory) {
                     error += error === "" ? "Sub category" : ", Sub category";
                   }
