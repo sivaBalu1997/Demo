@@ -160,6 +160,8 @@ const Report = (props) => {
         ? 32
         : location.pathname === "/management/report/51"
         ? 51
+        : location.pathname === "/management/report/57"
+        ? 57
         : 2;
     API({
       method: "get",
@@ -331,9 +333,22 @@ const Report = (props) => {
             </div>
           } */}
 
-          {
+          {selectValue === "Sales" && (
             <div
               className={`tab ${
+                location.pathname === "/management/report/57"
+                  ? "selected"
+                  : "unselected"
+              }`}
+              onClick={() => history.push("/management/report/57", "Sales")}
+            >
+              Product Insights
+            </div>
+          )}
+
+          {
+            <div
+              className={` ${
                 location.pathname === "/management/report/2"
                   ? "selected"
                   : "unselected"
@@ -346,7 +361,7 @@ const Report = (props) => {
 
           {selectValue === "Sales" && (
             <div
-              className={` ${
+              className={`tab ${
                 location.pathname === "/management/report/51"
                   ? "selected"
                   : "unselected"
