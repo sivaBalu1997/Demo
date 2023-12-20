@@ -409,7 +409,7 @@ const Menu = () => {
             )}
           </div>
 
-          <div
+          {/* <div
             className={
               showOptions === "billing" && location.pathname.includes("billing")
                 ? "active drop-down"
@@ -429,7 +429,7 @@ const Menu = () => {
                 <span className="menu-items-name">Billings</span>
               </div>
             )}
-          </div>
+          </div> */}
         </ul>
         <div>
           <MagilHub className="magilhub-bottom-logo" />
@@ -472,6 +472,13 @@ const Menu = () => {
           path="/management/report/51"
           component={() => (
             <Report id={"51"} title={"Customer Insights"} />
+          )}
+        />
+          <Route
+          exact
+          path="/management/report/63"
+          component={() => (
+            <Report id={"63"} title={"Consolidated Report"} />
           )}
         />
          <Route

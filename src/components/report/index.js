@@ -13,7 +13,7 @@ import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
 import logout from "../../assets/images/logout.png";
 import { signOut } from "../../redux/actions/authActions";
 import { useHistory, useLocation } from "react-router";
-import { STORAGE_BUCKET_URL } from "../../shared/constants";
+import { IS_SPORT_VERTICAL, STORAGE_BUCKET_URL } from "../../shared/constants";
 import { selectBranch } from "../../redux/actions/authActions";
 const axios = require("axios");
 
@@ -162,6 +162,8 @@ const Report = (props) => {
         ? 51
         : location.pathname === "/management/report/57"
         ? 57
+        : location.pathname === "/management/report/63"
+        ? 63
         : 2;
     API({
       method: "get",
@@ -369,6 +371,19 @@ const Report = (props) => {
               onClick={() => history.push("/management/report/51", "Sales")}
             >
               Customer Insights
+            </div>
+          )}
+           {branchDetails.cusine!=null && branchDetails.cusine[0]!=null &&
+            branchDetails.cusine[0]== IS_SPORT_VERTICAL && selectValue === "Sales"  && (
+            <div
+              className={` ${
+                location.pathname === "/management/report/63"
+                  ? "selected"
+                  : "unselected"
+              }`}
+              onClick={() => history.push("/management/report/63", "Sales")}
+            >
+            Consolidated Report
             </div>
           )}
           {/* {selectValue === "Sales" && (
