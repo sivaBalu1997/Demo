@@ -348,7 +348,7 @@ const Report = (props) => {
                   }`}
                   onClick={() => history.push("/management/report/67", "Sales")}
                 >
-                Enrollment tracker
+                Enrolment tracker
                 </div>
               )
 
