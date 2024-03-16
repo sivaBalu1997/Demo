@@ -13,7 +13,7 @@ import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
 import logout from "../../assets/images/logout.png";
 import { signOut } from "../../redux/actions/authActions";
 import { useHistory, useLocation } from "react-router";
-import { IS_SPORT_VERTICAL, STORAGE_BUCKET_URL } from "../../shared/constants";
+import { IS_SPORT_VERTICAL, STORAGE_BUCKET_URL, IS_SPORT_DOMAIN } from "../../shared/constants";
 import { selectBranch } from "../../redux/actions/authActions";
 const axios = require("axios");
 
@@ -164,6 +164,8 @@ const Report = (props) => {
         ? 57
         : location.pathname === "/management/report/63"
         ? 63
+        : location.pathname === "/management/report/67"
+        ? 67
         : 2;
     API({
       method: "get",
@@ -335,7 +337,23 @@ const Report = (props) => {
             </div>
           } */}
 
-          {selectValue === "Sales" && (
+              {
+              restaurantDetails.vertical== IS_SPORT_DOMAIN  
+              && (
+                <div
+                  className={`tab ${
+                    location.pathname === "/management/report/67"
+                      ? "selected"
+                      : "unselected"
+                  }`}
+                  onClick={() => history.push("/management/report/67", "Sales")}
+                >
+                Enrollment tracker
+                </div>
+              )
+
+          } 
+          {selectValue === "Sales" && !restaurantDetails.vertical== IS_SPORT_DOMAIN  && (
             <div
               className={`tab ${
                 location.pathname === "/management/report/57"
@@ -361,9 +379,9 @@ const Report = (props) => {
             </div>
           }
 
-          {selectValue === "Sales" && (
+          {selectValue === "Sales" && !restaurantDetails.vertical== IS_SPORT_DOMAIN&& (
             <div
-              className={`tab ${
+              className={` ${
                 location.pathname === "/management/report/51"
                   ? "selected"
                   : "unselected"

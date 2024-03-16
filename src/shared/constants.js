@@ -44,3 +44,4 @@ export const INACTIVE_SUBSCRIPTION_STATUS = [
 ];
 
 export const IS_SPORT_VERTICAL = "Sports";
+export const IS_SPORT_DOMAIN = "SPORTS";
