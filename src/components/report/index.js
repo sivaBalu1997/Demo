@@ -353,7 +353,7 @@ const Report = (props) => {
               )
 
           } 
-          {selectValue === "Sales" && !restaurantDetails.vertical== IS_SPORT_DOMAIN  && (
+          {selectValue === "Sales" && (
             <div
               className={`tab ${
                 location.pathname === "/management/report/57"
@@ -379,9 +379,9 @@ const Report = (props) => {
             </div>
           }
 
-          {selectValue === "Sales" && !restaurantDetails.vertical== IS_SPORT_DOMAIN&& (
+          {selectValue === "Sales" && (
             <div
-              className={` ${
+              className={`tab ${
                 location.pathname === "/management/report/51"
                   ? "selected"
                   : "unselected"
