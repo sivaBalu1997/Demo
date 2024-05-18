@@ -481,11 +481,18 @@ const Menu = () => {
             <Report id={"63"} title={"Consolidated Report"} />
           )}
         />
-             <Route
+          <Route
           exact
           path="/management/report/67"
           component={() => (
             <Report id={"63"} title={"Course management"} />
+          )}
+        />
+          <Route
+          exact
+          path="/management/report/82"
+          component={() => (
+            <Report id={"82"} title={"Category report"} />
           )}
         />
          <Route
