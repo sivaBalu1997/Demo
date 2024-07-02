@@ -1,0 +1,100 @@
+.headLine {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    /* height: fit-content; */
+}
+
+.headLine h3 {
+    margin-left: 10px;
+}
+
+.headLine img {
+    width: 35px;
+    cursor: pointer;
+}
+
+.dropDown {
+    border: 1px solid black;
+    width: fit-content;
+    padding: 5px 20px;
+    position: absolute;
+    right: 50px;
+    top: 55px; 
+    z-index: 999;
+}
+
+.actionTab {
+    display: flex;
+    cursor: pointer;
+}
+
+.actionTab img {
+    width: 25px;
+    margin-right: 10px;
+}
+
+.detailContainer {
+    margin-top: 40px;
+    margin-left: 100px;
+    display: flex;
+    flex-direction: row;
+    gap: 120px;
+}
+
+.title {
+    display: flex;
+    font-size: 14px;
+    width: fit-content;
+}
+
+.tag {
+    color: #67833E;
+    margin-left: 10px;
+    width: 130px;
+}
+
+.value {
+    margin-left: 80px;
+    width: fit-content;
+}
+
+.rolesContainer {
+    text-align: center;
+    border: 1px solid #67833E;
+    padding: 20px;
+    margin-top: 40px;
+    margin-left: 100px;
+    margin-bottom: 30px;
+}
+
+.rolesContainer h4 {
+    color: #67833E;
+    margin-bottom: 30px;
+}
+
+.roles {
+    display: flex;
+    gap: 60px;
+    padding: 20px;
+    text-align: left;
+}
+
+.rolesHeading {
+    font-size: 14px;
+}
+
+.backBtn{
+    width: 120px;
+    height: 40px;
+    margin-bottom: 50px;
+    float: right;
+    border: none;
+    color: white;
+    font-style: 13px;
+    font-weight: 600;
+    background-color: #67833E;
+    border-radius: 4px;
+    cursor: pointer;
+}

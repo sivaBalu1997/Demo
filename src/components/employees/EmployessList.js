@@ -17,35 +17,45 @@ import {
   clearEditEmployeeData,
 } from "../../redux/actions/employeeActions";
 import { clearMenuData } from "../../redux/actions/menuAction";
-
+import editImg from '../../assets/svg/edit.svg'
+import trashImg from '../../assets/svg/trash.svg'
+import blockImg from '../../assets/svg/blockImg.svg'
+import previewImg from '../../assets/svg/preview.svg'
+import searchImg from '../../assets/svg/searchImg.svg'
+import unBlockImg from '../../assets/svg/unBlockImg.svg'
+import activeIcon from '../../assets/svg/activeIcon.svg'
+import blockIcon from '../../assets/svg/yblockIcon.svg'
 import {
   getRestaurantRequest,
   selectBranch,
 } from "../../redux/actions/authActions";
 import { ReactComponent as Block } from "../../assets/svg/block.svg";
 import { ReactComponent as UnBlock } from "../../assets/svg/unblock.svg";
+import { employeeData } from "./data";
+
+
 const EmployeeList = (props) => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const credentials = useSelector((state) => state.auth.credentials);
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const credentials = useSelector((state) => state.auth.credentials)
   const logoutUser = () => {
-    dispatch(clearMenuData());
-    localStorage.clear();
-    dispatch(signOut());
-    history.replace("/");
-  };
+    dispatch(clearMenuData())
+    localStorage.clear()
+    dispatch(signOut())
+    history.replace("/")
+  }
   const manageAccessMessage = useSelector(
     (state) => state.employee.manageAccessMessage
-  );
+  )
   const manageAccessSuccess = useSelector(
     (state) => state.employee.manageAccessSuccess
-  );
+  )
   const manageAccessLoading = useSelector(
     (state) => state.employee.manageAccessLoading
-  );
+  )
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails
-  );
+  )
   // const manage = useSelector((state) => console.log(state.employee, "State"));
   // useEffect(() => {
   //   if (manageAccessLoading) {
@@ -79,10 +89,11 @@ const EmployeeList = (props) => {
     }
   }, [manageAccessSuccess]);
 
+
   return (
     <>
       <div className="menu-items">
-        <div className="header">
+        {/* <div className="header">
           <p
             onClick={logoutUser}
             style={{
@@ -96,7 +107,7 @@ const EmployeeList = (props) => {
             <img src={logout} alt="Logout" height="20" />
             &nbsp; Log Out
           </p>
-        </div>
+        </div> */}
         <div className="header-menu">
           <div>
             <Employees
@@ -105,10 +116,20 @@ const EmployeeList = (props) => {
                 marginBottom: 5,
               }}
             />
-            <h2>Employees setup</h2>
+            <h2>Employees Management</h2>
             <br />
             <br />
           </div>
+        </div>
+        <div className="searchContainer">
+          <div className="searchBox">
+            <input type="text"  className="searchBar" placeholder="Search"/>
+            <img src={searchImg} alt="" />
+          </div>
+          <input type="submit" value='Add New' className="addBtn"  
+            onClick={() => {
+              history.push("/management/employees/add")
+            }}/>
         </div>
         {props.employeeList ? (
           <div
@@ -122,39 +143,51 @@ const EmployeeList = (props) => {
                 <tr>
                   <th>S.No</th>
                   <th>Name</th>
+                  <th>Role</th>
+                  <th>Status</th>
                   <th>Outlet </th>
                   <th>Contact</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {props.employeeList.map((row, index) => {
+                {employeeData.map((row, index) => {
                   return (
                     <EmployeeRow
                       key={row.id}
                       serialNumber={index + 1}
                       name={row.name}
-                      outlet={String(row.locationName).split(",")[1]}
-                      contact={row.mobileNumber}
+                      role={row.role}
+                      status = {row.status}
+                      outlet={row.outlet}
+                      contact={row.contact}
                       data={row}
+                      // key={row.id}
+                      // serialNumber={index + 1}
+                      // name={row.name}                      
+                      // role={row.role}
+                      // status = {row.status}
+                      // outlet={String(row.locationName).split(",")[1]}
+                      // contact={row.mobileNumber}
+                      // data={row}
                     />
-                  );
+                  )
                 })}
               </tbody>
             </table>
-            <button
+            {/* <button
               onClick={() => history.push("/management/employees/add")}
               type={"button"}
               className="add-button"
             >
               <Add height={30} width={30} />
-            </button>
+            </button> */}
           </div>
         ) : null}
       </div>
     </>
   );
 };
-
 const EmployeeRow = ({
   serialNumber,
   name,
@@ -163,34 +196,36 @@ const EmployeeRow = ({
   contact,
   userId,
   data,
+  status
 }) => {
-  const dispatch = useDispatch();
-  const ref = useRef();
-  const credentials = useSelector((state) => state.auth.credentials);
-  const history = useHistory();
-  const [show, setShow] = useState(false);
+  const dispatch = useDispatch()
+  const ref = useRef()
+  const credentials = useSelector((state) => state.auth.credentials)
+  const history = useHistory()
+  const [show, setShow] = useState(false)
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
       // If the menu is open and the clicked target is not within the menu,
       // then close the menu
       if (show && ref.current && !ref.current.contains(e.target)) {
-        setShow(false);
+        setShow(false)
       }
-    };
+    }
 
-    document.addEventListener("mousedown", checkIfClickedOutside);
+    document.addEventListener("mousedown", checkIfClickedOutside)
 
     return () => {
       // Cleanup the event listener
-      document.removeEventListener("mousedown", checkIfClickedOutside);
-    };
-  }, [show]);
+      document.removeEventListener("mousedown", checkIfClickedOutside)
+    }
+  }, [show])
 
   const getOpacity = (data) => {
     if (!data) return 0.5;
     else return 1;
   };
+  
   return (
     <tr
       onClick={() => {
@@ -199,91 +234,96 @@ const EmployeeRow = ({
         }
       }}
     >
-      <td style={{ opacity: getOpacity(data.isEnabled) }}>{serialNumber}</td>
+      <td>{serialNumber}</td>
 
       <td
         style={{
           display: "flex",
           justifyContent: "flex-start",
-          opacity: getOpacity(data.isEnabled),
         }}
       >
         <div>{name}</div>
-        <div>
+        {/* <div>
           {!data.isEnabled ? (
             <UserBlocker style={{ position: "relative", left: 10, top: 2 }} />
           ) : (
             ""
           )}
-        </div>
+        </div> */}
       </td>
-      <td style={{ opacity: getOpacity(data.isEnabled) }}>{outlet}</td>
-      <td style={{ opacity: getOpacity(data.isEnabled) }}> {contact}</td>
+      <td>{role}</td>
+      <td style={{display:'flex'}}>
+        {data.isEnabled ? 
+          <img className="statusImg" src={activeIcon} alt="" /> 
+          : 
+          <img className="statusImg" src={blockIcon} alt="" />
+        }
+        {status}
+      </td>
+      <td>{outlet}</td>
+      <td> {contact}</td>
       <td ref={ref}>
-        <BiDotsVerticalRounded onClick={() => setShow(!show)} />
-        {show ? (
-          <ul className="employeePopupContainer">
+        {/* <BiDotsVerticalRounded onClick={() => setShow(!show)} /> */}
+        {/* <img src={editImg} className="actions"/> 
+        <img src={blockImg} className="actions"/> 
+        <img src={trashImg} className="actions"/> */}
+          <ul className="popupContainer">
             <li
+              className="containerList"
               onClick={() => {
                 let requestBody = {
                   id: data.id,
                   blockUser: data.isEnabled,
                 };
-                dispatch(manageUserAccess(requestBody));
+                dispatch(manageUserAccess(requestBody))
 
                 setTimeout(() => {
-                  dispatch(getEmployees(credentials?.id));
-                }, 1000);
+                  dispatch(getEmployees(credentials?.id))
+                }, 1000)
                 //    dispatch(getEmployees(credentials?.merchantId));
               }}
             >
               {data.isEnabled ? (
-                <Fragment>
-                  <div className="popupInnerItem">
-                    <Block />
-                  </div>
-                  <div>&nbsp; &nbsp; Block</div>
-                </Fragment>
+                <img src={blockImg} className="actions"/> 
               ) : (
-                <Fragment>
-                  <div className="popupInnerItem">
-                    <UnBlock />
-                  </div>
-                  &nbsp; <div> &nbsp; &nbsp;Unblock</div>
-                </Fragment>
+                <img src={unBlockImg} className="actions"/> 
               )}
             </li>
             <li
+              className="containerList"
               onClick={() => {
-                dispatch(setEditEmployeeData(data));
-                history.push("/management/employees/add");
+                dispatch(setEditEmployeeData(data))
+                history.push("/management/employees/add")
               }}
             >
-              <Fragment>
-                <div className="popupInnerItem">
-                  <UnBlock />
-                </div>
-                &nbsp; <div> &nbsp; &nbsp;Edit</div>
-              </Fragment>
+                <img src={editImg} className="actions"/> 
             </li>
-            {/* <li
+            <li
+              className="containerList"
               onClick={() => {
                 console.log("Delete Clicked :::", data);
-                dispatch(
-                  deleteEmployee({
-                    businessName: businessName,
-                    userId: data.id,
-                  })
-                );
+                // dispatch(
+                //   deleteEmployee({
+                //     businessName: businessName,
+                //     userId: data.id,
+                //   })
+                // );
               }}
             >
-              Delete
-            </li> */}
+               <img src={trashImg} className="actions"/>
+            </li>
           </ul>
-        ) : null}
+      </td>
+      
+      <td>
+        <img src={previewImg} className="previewActions" 
+          onClick={() => 
+            history.push("/management/employees/details")
+          }
+        />
       </td>
     </tr>
-  );
-};
+  )
+}
 
 export default EmployeeList;

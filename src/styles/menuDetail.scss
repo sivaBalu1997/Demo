@@ -1,8 +1,7 @@
-.menu-details {
-  margin-left: 60px;
-  width: 80%;
-  padding-top: 4.5%;
-  //position: fixed;
+.menu-details{
+  margin-top: 30px;
+  margin-left: 30px;
+
   & h2 {
     font-weight: normal;
     font-size: 24px;
@@ -12,8 +11,7 @@
     display: flex;
     align-items: center;
   }
-
-  & .title {
+  .title {
     cursor: pointer;
     & svg {
       color: #000;
@@ -22,152 +20,115 @@
     }
   }
 
-  & h3 {
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 27px;
-    margin-bottom: 17px;
+  h3{
+    margin: 10px 0 10px 0;
+    font-size: 20px;
+    font-weight: 400;
   }
 
-  & .Dropdown-control {
-    border: 1px solid #dadada;
-    //margin-bottom: 30px;
-
-    & .placeholder-class {
-      color: #979797 !important;
-      font-size: 18px;
-    }
-
-    & .is-selected {
-      color: #000000;
-    }
-  }
-
-  & .acess-flex {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-    & input {
-      margin: 0;
-      margin: 0 0 0 15px;
-    }
-    & .pin-input::-webkit-input-placeholder {
-      width: 166.21px;
-    }
-    .switch-container {
-      display: flex;
-    }
-    & .error-msg {
-      color: red;
-      margin: 0px;
-      position: absolute;
-      margin-top: -70px;
-      font-size: 16px;
-    }
-
-    & p {
-      font-weight: normal;
-      font-size: 18px;
-      line-height: 21px;
-      color: #979797;
-      flex: 0 0 25%;
-      margin: 0;
-    }
-  }
-
-  & .menu-details-form {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    //border-bottom: 1px solid #c4c4c4;
-    & .primary-sec {
-      flex: 0 0 35%;
-      margin-right: 70px;
-    }
-    & .secondary-sec {
-      flex: 0 0 35%;
-      margin-top: 43px;
-    }
-    & .upload-sec {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin: 23px 0px 43px 0px;
-
-      & .upload-des {
-        margin-left: 33px;
-        & p {
-          font-style: italic;
-          font-weight: normal;
-          font-size: 14px;
-          line-height: 21px;
-          display: flex;
-          align-items: center;
-          color: #000000;
-          opacity: 0.6;
-          & svg {
-            font-size: 20px;
-            margin-right: 9px;
-          }
-        }
-      }
-    }
-    & .upload-btn-wrapper {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      background: #ffffff;
-      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
-      cursor: pointer;
-      width: 50%;
-      & .file-add {
-        padding: 14px;
-        text-align: center;
-        & svg {
-          color: #0059a8;
-          font-size: 35px;
-          border: 1px solid;
-          border-radius: 50%;
-        }
-        & p {
-          margin: 0;
-          font-size: 14px;
-          color: #000000;
-          opacity: 0.7;
-        }
-      }
-    }
-
-    .upload-btn-wrapper input[type="file"] {
-      font-size: 100px;
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-    }
-    & .uploaded-file {
-      & img {
-        width: 150px;
-        height: 150px;
-        object-fit: contain;
-      }
-    }
-  }
-  & textarea {
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 27px;
-    border: 1px solid #dadada;
-    box-sizing: border-box;
-    border-radius: 5px;
-    color: #979797;
-    padding: 5px 12px;
-    margin-bottom: 30px;
+  .flexContainer{
     width: 100%;
-    &::placeholder {
-      color: #979797;
-      font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .inputBox{
+    width: 813px;
+    height: 50px;
+  }
+
+  .dateInput {
+    height: 50px;
+  }
+
+  .checkBox{
+    display: flex;
+    gap: 10px;
+    color: #979191;
+
+    input{
+      width: 15px;
+    }
+
+    p{
+      font-size: 14px;
     }
   }
+
+  .flexContainer input{
+    width: 400px;
+  }
+  
+  .placeholder-no-border {
+    border: none;
+  }
+
+  .acess-flex{
+    width: 813px;
+  }
+  
+  .selectContainer{
+    width: 400px;
+    height: 50px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+  
+    img{
+      width: 20px;
+    }
+  
+    .selectOutlet{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      color: rgba(51, 51, 51, 0.8);
+      font-size: 14px;
+    }
+  
+    .outletDropDown{
+      color: rgba(51, 51, 51, 0.8);
+      width: 390px;
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      z-index: 999;
+      border-radius: 4px;
+      padding: 5px;
+      margin-top: -2px;
+    }
+  }
+
+  .pinInput{
+    width: 200px;
+    border-radius: 100px;
+  }
+
+  .btn{
+    margin-top: 45px;
+    display: flex;
+    margin-bottom: 10px;
+    gap: 10px;
+    margin-left: 200px;
+
+  .clear-all-btn{
+    background-color: #fff;
+    color: #67833E;
+    width: 130px;
+    border-color: #67833E;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .save-btn{
+    background-color: #67833E;
+    color: #fff;
+    width: 130px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  } 
 }
+

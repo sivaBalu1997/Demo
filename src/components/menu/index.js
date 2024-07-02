@@ -54,6 +54,7 @@ import TemplateOffer from "../offers/TemplateOffer";
 import AddOffer from "../offers/AddOffer";
 import CreateOffer from "../offers/CreateOffer";
 import PreviewOffer from "../offers/PreviewOffer";
+import EmployeeDetails from "../employees/EmployeeDetails";
 
 const reportOptions = [
   {
@@ -541,6 +542,11 @@ const Menu = () => {
           exact
           path="/management/employees/add"
           component={() => <AddEmployee />}
+        />
+        <Route 
+          exact 
+          path="/management/employees/details"
+          component={() => <EmployeeDetails />}  
         />
         <Route exact path="/management/billing" component={() => <Billing />} />
         <Route
