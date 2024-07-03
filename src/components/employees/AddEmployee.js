@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import Button from "../common/Button";
 import { useForm, Controller } from "react-hook-form";
@@ -8,6 +8,9 @@ import Switchbox from "../common/Switchbox";
 import EmployeeList from "./EmployessList";
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import calendar from '../../assets/svg/calendar.svg'
 import {
   addEmployee,
   getOutlets,
@@ -22,6 +25,11 @@ import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import dropArrow from '../../assets/svg/dropArrow.svg'
 import { empRrole } from "./data";
+import { checkInFunctions } from "./data";
+import { menuFunctions } from "./data";
+import { serviceFunctions } from "./data";
+import { otherFunctions } from "./data";
+import ReactDatePicker from "react-datepicker";
  
 
 const AddEmployee = () => {
@@ -33,7 +41,12 @@ const AddEmployee = () => {
   const [isOutletDropdownOpen, setIsOutletDropdownOpen] = useState(false)
   const [isRoleDropDownOpen, setIsRoleDropDownOpen] = useState(false)
   const [role, setRole] = useState('')
+  const [openFunction, setOpenFuction] = useState(false)
   //const [outlet, setOutlet] = useState([]);
+  const [pins, setPins] = useState(['', '', '', '']);
+  const [showPin, setShowPin] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const inputRefs = useRef([]);
   const editEmployeeData = useSelector(
     (state) => state.employee.editEmployeeData
   )
@@ -183,11 +196,11 @@ const AddEmployee = () => {
           }
         }
         name = splitted.join(" ");
-        // console.log("Output: ", name);
-        setValue("firstName", name);
+        // console.log("Output: ", name)
+        setValue("firstName", name)
       }
     }
-  }, [watchFirstName]);
+  }, [watchFirstName])
 
   useEffect(() => {
     let name = getValues("lastName").replace(/[^A-Za-z ]/g, "");
@@ -228,6 +241,29 @@ const AddEmployee = () => {
     setIsRoleDropDownOpen(false);
   } 
 
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+    if (value.length <= 1 && /^\d*$/.test(value)) {
+      const newPin = [...pins];
+      newPin[index] = value;
+      setPins(newPin);
+      if (value && index < 3) {
+        inputRefs.current[index + 1].focus();
+      }
+    }
+  }
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Backspace' && !pins[index] && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  }
+
+  const toggleShowPin = () => {
+    setShowPin(!showPin);
+  }
+
+
   const onSubmit = (formValues) => {
     let pin = formValues.devicePin;
     formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
@@ -250,9 +286,9 @@ const AddEmployee = () => {
     } else {
       dispatch(addEmployee(formValues));
     }
-  };
+  }
 
-  console.log("Edit Employee :",editEmployeeData)
+  console.log("Error :", errors.role?.type)
 
   return (
     <>
@@ -273,19 +309,19 @@ const AddEmployee = () => {
             <div className="menu-details-form">
               <div className="primary-sec">
                 <div className="flexContainer">
-                  {errors.firstName?.type === "required" && (
+                  {/* {errors.firstName?.type === "required" && (
                     <p className="error-msg">First Name Required</p>
-                  )}
+                  )} */}
                   <div>
                     <TextInput
                       type="text"
-                      placeholder="First Name"
+                      placeholder={"First Name*" }
                       maxLength={15}
                       name="firstName"
                       refRegister={register({
                         required: !editEmployee && "Required",
                       })}
-                      className={"add-employee-text-input"}
+                      className={errors.firstName?.type === "required" ? 'fN errorInput' :'add-employee-text-input'}
                       value={editEmployee ? editEmployee.firstName : null}
                       disabled={editEmployee && editEmployee.firstName}
                     />
@@ -320,8 +356,10 @@ const AddEmployee = () => {
                 </div>
 
                 <div className="checkBox">
-                  <input type='checkbox' />
-                  <p>Utilize a nickname as needed in all forthcoming activities</p>
+                  <label> 
+                    <input type="checkbox" className="checkbox" />  
+                    <p>Utilize a nickname as needed in all forthcoming activities</p>
+                  </label>
                 </div>
 
                 <div className="flexContainer">
@@ -330,8 +368,10 @@ const AddEmployee = () => {
                       type="number"
                       placeholder="Phone"
                       name="mobileNumber"
-                      refRegister={register()}
-                      className={"add-employee-text-input"}
+                      refRegister={register({
+                        required: !editEmployee && "Required",
+                      })}
+                      className={errors.mobileNumber?.type === "required" ? 'num errorInput' :'add-employee-text-input'}
                       min={0}
                       value={editEmployee ? editEmployee.mobileNumber : null}
                       // disabled={editEmployee && editEmployee.mobileNumber}
@@ -391,28 +431,84 @@ const AddEmployee = () => {
                     />
                   </div>
                   <div>
-                    <TextInput
+                    {/* <TextInput
                       type="date"
                       placeholder="Date of birth"
-                      name="education"
+                      name="DOB"
                       // refRegister={register()}
                       className={"dateInput"}
                       // value={editEmployee ? editEmployee.address : null}
                       // disabled={editEmployee && editEmployee.email}
                       disabled={editEmployee}
+                    /> */}
+                    <DatePicker 
+                      placeholderText="DOB" 
+                      value={null} 
+                      name="DOB" 
+                      selected={selectedDate}
+                      onChange={(date) => setSelectedDate(date)}
+                      className={"dateInput"} 
+                      disabled={editEmployee} 
+                      yearDropdownItemNumber={15} 
+                      scrollableYearDropdown
                     />
                   </div>
                 </div>
-
+                <hr style={{marginRight:'40px'}}/>
+                
                 <h3>Formal Setup*</h3>
                 <div className="flexContainer">
-                {errors.outlet?.type === "required" && (
+                {/* {errors.outlet?.type === "required" && (
                   <p className="error-msg">Outlet Required</p>
-                )}
-                {/* <div className="controller" style={{ cursor: "pointer" }}>
+                )} */}
+                <div className={errors.outlet?.type ? 'errorCustomInput' :'selectContainer'} style={{ cursor: "pointer" }}>
+                  <div>
+                    <Controller
+                      control={control}
+                      name="outlet"
+                      defaultValue={""}
+                      refRegister={register({
+                        required: !editEmployee && "Required",
+                      })}
+                      rules={{
+                        // required: true
+                        required: !editEmployee && "Required",
+                      }}
+                      render={({ onChange, onBlur, value, name }) => (
+                        <CustomDropdown
+                          options={Array.from(
+                            outlets,
+                            (outlet) => outlet.locationName.split(",")[1]
+                          )}
+                          placeholder={"Assign Outlet"}
+                          onSelect={(outletSelected) => {
+                            //console.log("outlet Changed:", outletSelected.value);
+                            const outletObject = outlets.find((outlet) =>
+                              outlet.locationName.includes(outletSelected.value)
+                            );
+                            onChange(outletObject.locationName.split(",")[1])
+                          }}
+                          value={editEmployee ? editEmployee.location : value}
+                          name={name}
+                          controlClassName={
+                            editEmployee
+                              ? "disabled-dropdown add-employee-dropdown"
+                              : "add-employee-dropdown"
+                          }
+                          arrowClassName={"add-employee-dropdown-arrow"}
+                          placeholderClass={"dropDown"}
+
+                          disabled={editEmployee}
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+                
+                <div className={errors.role?.type  ? 'errorCustomInput' : "selectContainer" } style={{ cursor: "pointer" }}>
                   <Controller
                     control={control}
-                    name="outlet"
+                    name="role"
                     defaultValue={""}
                     rules={{
                       // required: true
@@ -420,157 +516,104 @@ const AddEmployee = () => {
                     }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
-                        options={Array.from(
-                          outlets,
-                          (outlet) => outlet.locationName.split(",")[1]
-                        )}
-                        placeholder={"Assign Outlet"}
-                        onSelect={(outletSelected) => {
-                          //console.log("outlet Changed:", outletSelected.value);
-                          const outletObject = outlets.find((outlet) =>
-                            outlet.locationName.includes(outletSelected.value)
-                          );
-                          onChange(outletObject.locationName.split(",")[1]);
+                        options={getRole()}
+                        placeholder={"Assign Role"}
+                        onSelect={(role) => {
+                          onChange(role.value);
+                          if (
+                            jwt_decode(
+                              credentials?.accessToken
+                            ).resource_access[
+                              "merchant-app"
+                            ].roles[0].includes("neighbourhood")
+                          )
+                            onChange(role.value + "-neighbourhood");
                         }}
-                        value={editEmployee ? editEmployee.location : value}
+                        value={value}
                         name={name}
-                        controlClassName={
-                          editEmployee
-                            ? "disabled-dropdown add-employee-dropdown"
-                            : "add-employee-dropdown"
-                        }
-                        arrowClassName={"add-employee-dropdown-arrow"}
                         placeholderClass={"dropDown"}
+                        controlClassName={"add-employee-dropdown"}
+                        arrowClassName={"add-employee-dropdown-arrow"}
                         disabled={editEmployee}
                       />
                     )}
                   />
-                </div> */}
-                <div className="selectContainer">
-                  <div
-                    className="selectOutlet"
-                    onClick={() => setIsOutletDropdownOpen(!isOutletDropdownOpen)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <div>{selectedOutlet || "Outlet"}</div>
-                    <img src={dropArrow} alt="Dropdown arrow" />
-                  </div>
-                  {isOutletDropdownOpen && (
-                    <div className="outletDropDown">
-                      {outlets.map((outlet, index) => (
-                        <p key={index} onClick={() => handleSelectOutlet(outlet)}>
-                          {outlet.locationName.split(",")[1]}
-                        </p>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-
-                {errors.role?.type === "required" && (
-                  <p className="error-msg">Role Required</p>
-                )}
-
-                {/* {!editEmployee && (
-                  <div style={{ cursor: "pointer" }}>
-                    <Controller
-                      control={control}
-                      name="role"
-                      defaultValue={""}
-                      rules={{
-                        // required: true
-                        required: !editEmployee && "Required",
-                      }}
-                      render={({ onChange, onBlur, value, name }) => (
-                        <CustomDropdown
-                          options={getRole()}
-                          placeholder={"Assign Role"}
-                          onSelect={(role) => {
-                            onChange(role.value);
-                            if (
-                              jwt_decode(
-                                credentials?.accessToken
-                              ).resource_access[
-                                "merchant-app"
-                              ].roles[0].includes("neighbourhood")
-                            )
-                              onChange(role.value + "-neighbourhood");
-                          }}
-                          value={value}
-                          name={name}
-                          placeholderClass={"dropDown"}
-                          controlClassName={"add-employee-dropdown"}
-                          arrowClassName={"add-employee-dropdown-arrow"}
-                          disabled={editEmployee}
-                        />
-                      )}
-                    />
-                  </div>
-                )} */}
-
-                <div className="selectContainer">
-                  <div
-                    className="selectOutlet"
-                    onClick={() => setIsRoleDropDownOpen(!isRoleDropDownOpen)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <div>{selectedRole || "Role"}</div>
-                    <img src={dropArrow} alt="Dropdown arrow" />
-                  </div>
-                  {isRoleDropDownOpen && (
-                    <div className="outletDropDown">
-                      {empRrole.map((role, index) => (
-                        <p key={index} onClick={() => handleSelectRole(role)}>
-                          {role}
-                        </p>
-                      ))}
-                    </div>
-                  )}
+                  {openFunction && 
                   <div className="functionsDropDown">
-                    <p>Roles/Function</p>
-                    <div>
-                      <input type="checkbox" />
+                    <p style={{textAlign:'center', fontWeight:600}}>Roles/Function</p>
+                    <div className="checkBoxContainer">
+                      <div className="checkboxList">
+                        {checkInFunctions.map((data) => (
+                          <div className="checkBoxItem" key={data}>
+                            <label>
+                              <input type="checkbox" className="checkbox" />
+                              <p>{data}</p>
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="checkboxList">
+                        {menuFunctions.map((data) => (
+                          <div className="checkBoxItem" key={data}>
+                            <label>
+                              <input type="checkbox" className="checkbox" />
+                              <p>{data}</p>
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="checkboxList">
+                        {serviceFunctions.map((data) => (
+                          <div className="checkBoxItem" key={data}>
+                            <label>
+                              <input type="checkbox" className="checkbox" />
+                              <p>{data}</p>
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="checkboxList">
+                        {otherFunctions.map((data) => (
+                          <div className="checkBoxItem" key={data}>
+                            <label>
+                              <input type="checkbox" className="checkbox" />
+                              <p>{data}</p>
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="functionBtn">
+                      <input className="saveBtn" type="button" value="Save" /> 
+                      <input className="resetbtn" type="button" value="Reset" />
                     </div>
                   </div>
-
+                  }
                   <div className="roleFunction">
-                    <p>Edit Roles/ Functions</p>
-                  </div>
+                    <p onClick={()=>setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
+                  </div>  
                 </div>
               </div>
 
 
               <div className="flexContainer">
-              {errors.userId?.type === "required" && (
+              {/* {errors.userId?.type === "required" && (
                   <p className="error-msg">User Id Required</p>
-                )}
+                )} */}
                 <div>
                   <TextInput
                     type="text"
                     placeholder="User ID"
                     name="userId"
                     refRegister={register({
-                      // required: "Required",
                       required: !editEmployee && "Required",
                     })}
-                    className={"add-employee-text-input"}
+                    className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
                     disabled={editEmployee}
                   />
                 </div>
-
-                {errors.password?.type === "required" && (
-                  <p className="error-msg">Password Required</p>
-                )}
-                <div
-                  // style={{
-                  //   display: "flex",
-                  //   flexDirection: "row",
-                  //   justifyContent: "flex-end",
-                  //   alignItems: "center",
-                  //   width: "36%",
-                  //   paddingRight: "20%",
-                  // }}
-                >
+                
+                <div>
                   <TextInput
                     type={isPasswordVisible ? "text" : "password"}
                     placeholder="Password"
@@ -580,7 +623,7 @@ const AddEmployee = () => {
                       // required: "Required",
                       required: !editEmployee && "Required",
                     })}
-                    className={"add-employee-text-input"}
+                    className={errors.password?.type === "required" ? 'pass errorInput' :'add-employee-text-input'}
                     // style={{ fontSize: "18px" }}
                     containerStyle={{ paddingBottom: "0px" }}
                     disabled={editEmployee}
@@ -622,7 +665,7 @@ const AddEmployee = () => {
                     isChecked={pinEnabled}
                     handleSwitch={() => setPinEnabled(!pinEnabled)}
                   />{" "} */}
-                  <TextInput
+                  {/* <TextInput
                     containerStyle={{ paddingBottom: "0px" }}
                     type="number"
                     placeholder="Create PIN"
@@ -638,11 +681,52 @@ const AddEmployee = () => {
                     min={0}
                     className={"pinInput"}
                     value={pin}
-                  />
+                  /> */}
+                  <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
+                    <div style={{ display: 'flex', border: '1px solid #ccc', borderRadius: '7px' }}>
+                      {[0, 1, 2, 3].map((i) => (
+                        <input
+                          key={i}
+                          ref={(el) => (inputRefs.current[i] = el)}
+                          type={showPin ? 'text' : 'password'}
+                          value={pins[i]}
+                          onChange={(e) => handleChange(e, i)}
+                          onKeyDown={(e) => handleKeyDown(e, i)}
+                          maxLength="1"
+                          style={{
+                            width: '40px',
+                            fontSize: '16px',
+                            textAlign: 'center',
+                            border: 'none',
+                            borderRight: i < 3 ? '1px solid #ccc' : 'none',
+                            padding: '10px',
+                            outline: 'none',
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <div>
+                      {showPin ? (
+                        <ClosedEyeIcon
+                          onClick={toggleShowPin}
+                          style={{
+                            position: "relative",
+                            left: 20, 
+                          }}
+                        />
+                      ) : (
+                        <OpenEyeIcon
+                          onClick={toggleShowPin}
+                          style={{
+                            position: "relative",
+                            left: 20, 
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
                 </div>
-
               </div>
-    
             </div>
 
             <div className="btn form-cta">
@@ -656,15 +740,6 @@ const AddEmployee = () => {
                   history.replace("/management/employees");
                 }}
               >
-                {/* <Button
-                  style={{backgroundColor:'#fff', color:'#979797'}}
-                  className='button'
-                  value="Clear All"
-                  type="reset"
-                  backgroundColor={"#fff"}
-                  color={"#979797"}
-                />
-                 */}
                  <input className="clear-all-btn" type="submit" value="Clear All" />
               </span>
               <span
@@ -672,15 +747,7 @@ const AddEmployee = () => {
                   //console.log(errors, "errors");
                 }}
               >
-                {/* <Button
-                  className='sbutton'
-                  type="submit"
-                  value="Save"
-                  backgroundColor={"#67833E"}
-                  color={"#fff"}
-                /> */}
-                <input className="save-btn" type="submit" value="Save" />
-                
+                <input className="save-btn" type="submit" value="Save" /> 
               </span>
             </div>
           </form>

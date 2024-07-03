@@ -25,6 +25,7 @@ import searchImg from '../../assets/svg/searchImg.svg'
 import unBlockImg from '../../assets/svg/unBlockImg.svg'
 import activeIcon from '../../assets/svg/activeIcon.svg'
 import blockIcon from '../../assets/svg/yblockIcon.svg'
+import thunder from '../../assets/svg/thunder.svg'
 import {
   getRestaurantRequest,
   selectBranch,
@@ -141,12 +142,12 @@ const EmployeeList = (props) => {
             <table width="100%" style={{ height: "50%" }}>
               <thead>
                 <tr>
-                  <th>S.No</th>
+                  {/* <th>S.No</th> */}
                   <th>Name</th>
                   <th>Role</th>
                   <th>Status</th>
-                  <th>Outlet </th>
-                  <th>Contact</th>
+                  {/* <th>Outlet </th> */}
+                  {/* <th>Contact</th> */}
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -175,13 +176,6 @@ const EmployeeList = (props) => {
                 })}
               </tbody>
             </table>
-            {/* <button
-              onClick={() => history.push("/management/employees/add")}
-              type={"button"}
-              className="add-button"
-            >
-              <Add height={30} width={30} />
-            </button> */}
           </div>
         ) : null}
       </div>
@@ -234,40 +228,44 @@ const EmployeeRow = ({
         }
       }}
     >
-      <td>{serialNumber}</td>
+      {/* <td>{serialNumber}</td> */}
 
       <td
         style={{
           display: "flex",
-          justifyContent: "flex-start",
+          justifyContent: "center",
         }}
       >
         <div>{name}</div>
-        {/* <div>
-          {!data.isEnabled ? (
-            <UserBlocker style={{ position: "relative", left: 10, top: 2 }} />
-          ) : (
-            ""
-          )}
-        </div> */}
       </td>
-      <td>{role}</td>
-      <td style={{display:'flex'}}>
+      <td >
+        <div className="rolesBox" >
+          <p>{role}</p>
+          {data.extraFunction && <img src={thunder} />}
+        </div>
+      </td>
+      <td className="statusBox">
         {data.isEnabled ? 
           <img className="statusImg" src={activeIcon} alt="" /> 
           : 
           <img className="statusImg" src={blockIcon} alt="" />
         }
-        {status}
+        <p>{status}</p>
       </td>
-      <td>{outlet}</td>
-      <td> {contact}</td>
+      {/* <td>{outlet}</td> */}
+      {/* <td> {contact}</td> */}
       <td ref={ref}>
         {/* <BiDotsVerticalRounded onClick={() => setShow(!show)} /> */}
-        {/* <img src={editImg} className="actions"/> 
-        <img src={blockImg} className="actions"/> 
-        <img src={trashImg} className="actions"/> */}
           <ul className="popupContainer">
+          <li
+              className="containerList"
+              onClick={() => {
+                dispatch(setEditEmployeeData(data))
+                history.push("/management/employees/add")
+              }}
+            >
+                <img src={editImg} className="actions"/> 
+            </li>
             <li
               className="containerList"
               onClick={() => {
@@ -289,15 +287,7 @@ const EmployeeRow = ({
                 <img src={unBlockImg} className="actions"/> 
               )}
             </li>
-            <li
-              className="containerList"
-              onClick={() => {
-                dispatch(setEditEmployeeData(data))
-                history.push("/management/employees/add")
-              }}
-            >
-                <img src={editImg} className="actions"/> 
-            </li>
+            
             <li
               className="containerList"
               onClick={() => {

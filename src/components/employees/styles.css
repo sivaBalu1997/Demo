@@ -1,15 +1,20 @@
 .popupInnerItem {
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row;
   align-items: center;
+  justify-content: center; */
 }
 
 .popupContainer {
   display: flex;
   flex-direction: row;
   margin-top: -17px;
-  width: 120px !important;  
+  width: 230px;  
+  margin-left: -100px;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .main-section .menu-list table{
   width: 100%;
@@ -24,10 +29,18 @@
   border-bottom: none;
   padding-left: 10px;
   font-weight: 500;
+  text-align: start;
+  padding-left: 20px;
 }
 
 .main-section .menu-list table td{
+  width: fit-content;
   border: none;
+  font-size: 15px;
+  padding: 5px 0 5px 0;
+  justify-content: center;
+  text-align: start;
+  padding-left: 15px;
 }
 
 .main-section .menu-list table td ul{
@@ -45,11 +58,16 @@ td .actions{
   margin-right: 15px;
   justify-content: center;
   cursor: pointer;
+  align-items: center;
 }
 
 .previewActions{
+  margin-top: 15px;
+  width: 15px;
   margin-left: 30px;
+  cursor: pointer;
 }
+
 
 .searchContainer{
   display: flex;
@@ -79,9 +97,87 @@ td .actions{
   cursor: pointer;
 }
 
+.rolesBox{
+  display: flex;
+  gap: 10px;
+}
+
+.statusBox{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .statusImg{
   width: 18px;
   height: 18px;
-  margin-top: 5px;
   margin-right: 9px;
+}
+
+.functionsDropDown{
+  position: absolute;
+  border: 1px solid black;
+  z-index: 999;
+  margin-bottom: 50px;
+  background-color: white;
+  margin-left: -20%;
+  width: fit-content;
+}
+
+.checkBoxContainer{
+  display: flex;
+}
+
+.checkboxList p{
+  font-size: 14px;
+  width: 150px;
+}
+
+.menu-details .flexContainer .checkBoxItem input{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.checkBoxItem label{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  left: 10px;
+  width: 190px;
+  padding: 0px 10px 0px 10px;
+  cursor: pointer;
+}
+
+.roleFunction{
+  width: 180px;
+  margin-left: 420px;
+  margin-top: -55px;
+  color: #67833E ;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.resetbtn{
+  background-color: #fff;
+  color: #67833E;
+  width: 80px;
+  border-color: #67833E;
+  cursor: pointer;
+  font-weight: 600;
+}
+.saveBtn{
+  background-color: #67833E;
+  color: #fff;
+  width: 80px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.menu-details .flexContainer .functionBtn input {
+  float: right;
+  width: 150px;
+  margin-top: 20px;
+  margin-left: 20px;
 }

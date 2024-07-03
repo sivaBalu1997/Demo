@@ -15,7 +15,8 @@ export const employeeData = [
         email : 'sandy@123',
         address : '2nd street, KK nagar, madurai - 221942',
         dob : '30/09/2001',
-        education : 'B.E (IT)'
+        education : 'B.E (IT)',
+        extraFunction : true
     },
     {   
         id : 2,
@@ -24,7 +25,7 @@ export const employeeData = [
         role : 'Waiter',
         status : 'Blocked',
         outlet : 'Madurai',
-        isEnabled : false,
+        isEnabled : true,
         contact : '9876542314',
         startDate : '20/02/2023',
         userId : 2834,
@@ -33,7 +34,8 @@ export const employeeData = [
         email : 'sid@123',
         address : '2nd street,KK nagar, madurai - 221942',
         dob : '05/09/2001',
-        education : 'B.E (CSE)'
+        education : 'B.E (CSE)',
+        extraFunction : false
 
     },
     {
@@ -42,9 +44,10 @@ export const employeeData = [
         name : 'Sreenath',
         role : 'Waiter',
         status : 'Active',
-        isEnabled : true,
+        isEnabled : false,
         outlet : 'Madurai',
-        contact : '9876542314'
+        contact : '9876542314',
+        extraFunction : true
     },
     {
         id : 4,
@@ -55,6 +58,7 @@ export const employeeData = [
         outlet : 'Madurai',
         contact : '9876542314',
         isEnabled : false,
+        extraFunction : false
     },
     {
         id : 5,
@@ -64,7 +68,8 @@ export const employeeData = [
         isEnabled : false,
         status : 'Blocked',
         outlet : 'Madurai',
-        contact : '9876542314'
+        contact : '9876542314',
+        extraFunction : false
     },
     {
         id : 6,
@@ -74,7 +79,8 @@ export const employeeData = [
         isEnabled : false,
         status : 'Blocked',
         outlet : 'Madurai',
-        contact : '9876542314'
+        contact : '9876542314',
+        extraFunction : false
     },
 ]
 
@@ -88,4 +94,37 @@ export const empRrole = [
     "Waiter",
     "Host",
     "Delivery",
+]
+
+
+export const checkInFunctions = [
+    "CheckIn",
+    "Create CheckIn",
+    "Assign CheckIn",
+    "Cancel CheckIn",
+    "Edit Guest Count",
+    "Edit Wait Times"
+]
+
+export const menuFunctions = [
+    "Menu",
+    'Edit Inventory',
+    'View Menu',
+    'Add to special menu',
+    'On/Off/edit item customize',
+    'On/Off/edit item available',
+] 
+
+export const serviceFunctions = [
+    "Service",
+    'Enable/disable menu',
+    'Enable/disable delivery',
+    'Enable/disable pickup',
+    'Enable/disable checkin',
+]
+
+export const otherFunctions = [
+    "Other Functions",
+    'Access Reports',
+    'Delivery Management view',
 ]
