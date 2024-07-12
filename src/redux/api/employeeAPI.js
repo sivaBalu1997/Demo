@@ -15,31 +15,58 @@ export function fetchOutlets(merchantId) {
     headers: {
       Authorization: "bearer " + token,
     },
-  });
+  })
 }
 
 export function createEmployee(details) {
   const token = Store.getState().auth.credentials.accessToken;
+  const merchantId = Store.getState().auth.credentials.merchantId;
   return API({
     method: "post",
-    url: "/merchants/staff/onBoard",
+    url: `/merchants/${merchantId}/staffs/create`, 
     data: details,
     headers: {
       Authorization: "bearer " + token,
     },
-  });
+  })
 }
+
+// export function getEmployeeDetails() {
+//   const token = Store.getState().auth.credentials.accessToken;
+//   const merchantId = Store.getState().auth.credentials.merchantId;
+//   return API({
+//     method: "get",
+//     url: "/merchants/" + merchantId + "/staff",
+//     headers: {
+//       Authorization: "bearer " + token,
+//     },
+//   });
+// }
 
 export function getEmployeeDetails() {
   const token = Store.getState().auth.credentials.accessToken;
   const merchantId = Store.getState().auth.credentials.merchantId;
   return API({
     method: "get",
-    url: "/merchants/" + merchantId + "/staff",
+    url: `/merchants/${merchantId}/staffs`,
     headers: {
       Authorization: "bearer " + token,
     },
-  });
+  })
+}
+
+export function getEmployeeById() {
+  const token = Store.getState().auth.credentials.accessToken;
+  const merchantId = Store.getState().auth.credentials.merchantId;
+  const staffId = Store.getState().employee.staffId
+  console.log("StaffID from API :",staffId)
+  return API({
+    method: 'get',
+    url: `/merchants/${merchantId}/staffs/${staffId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  })
 }
 
 export function removeEmployee(details) {
@@ -51,7 +78,7 @@ export function removeEmployee(details) {
     headers: {
       Authorization: "bearer " + token,
     },
-  });
+  })
 }
 export function manageUserAccess(details) {
   const token = Store.getState().auth.credentials.accessToken;
@@ -62,7 +89,7 @@ export function manageUserAccess(details) {
     headers: {
       Authorization: "bearer " + token,
     },
-  });
+  })
 }
 
 export function updatePIN(details) {
@@ -74,5 +101,5 @@ export function updatePIN(details) {
     headers: {
       Authorization: "bearer " + token,
     },
-  });
+  })
 }

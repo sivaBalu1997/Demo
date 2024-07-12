@@ -25,6 +25,9 @@ import {
   UPDATE_EMPLOYEE_PIN_FAILED,
   UPDATE_EMPLOYEE_PIN_REQUEST,
   UPDATE_EMPLOYEE_PIN_SUCCESS,
+  GET_EMPLOYEE_BY_ID_REQUEST,
+  GET_EMPLOYEE_BY_ID_SUCCESS,
+  GET_EMPLOYEE_BY_ID_FAILURE,
 } from "../constants/employeeContants";
 
 const initialEmployeeState = {
@@ -60,6 +63,11 @@ const initialEmployeeState = {
   updateEmployeePINSuccess: false,
   updateEmployeePINFailed: false,
   updateEmployeePINMessage: "",
+
+  //Get Employee By ID
+  employeeByIdDetails: {},
+  employeeByIdDetailsLoading: false,
+  employeeByIdDetailsFailure: ""
 };
 
 export default function employeeReducer(state = initialEmployeeState, action) {
@@ -198,6 +206,18 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.updateEmployeePINFailed = false;
         draft.updateEmployeePINMessage = "";
         break;
+
+      //Get Employee By ID  
+      case GET_EMPLOYEE_BY_ID_REQUEST:
+        draft.employeeByIdDetails = {};
+        draft.employeeByIdDetailsLoading = true;
+        draft.employeeByIdDetailsFailure = ""
+      case GET_EMPLOYEE_BY_ID_SUCCESS:
+        draft.employeeByIdDetails = action.payload;
+        draft.employeeByIdDetailsLoading = false;
+      case GET_EMPLOYEE_BY_ID_FAILURE:
+        draft.employeeByIdDetailsFailure = action.payload;
+        draft.employeeByIdDetailsLoading = false;      
       default:
         break;
     }

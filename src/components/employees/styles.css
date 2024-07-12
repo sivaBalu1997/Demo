@@ -1,8 +1,5 @@
 .popupInnerItem {
   display: flex;
-  /* flex-direction: row;
-  align-items: center;
-  justify-content: center; */
 }
 
 .popupContainer {
@@ -10,9 +7,9 @@
   flex-direction: row;
   margin-top: -17px;
   width: 230px;  
-  margin-left: -100px;
-  justify-content: center;
-  align-items: center;
+  justify-content: end;
+  text-align: end;
+  align-items: end;
 }
 
 
@@ -20,7 +17,26 @@
   width: 100%;
 }
 
+.main-section .menu-list {
+  height: 500px;
+  overflow: auto;
+}
+
+
+.main-section .menu-list table tr{
+  height: 20px;
+}
+
+.main-section .menu-list table tr:nth-of-type(odd) {
+  background-color: rgba(196, 196, 196, 0.4);
+}
+
+.main-section .menu-list table tr:nth-of-type(even) {
+  background-color: white;
+}
+
 .main-section .menu-list table thead th {
+  width: 150px;
   font-size: 16px;
   line-height: 24px;
   color: #000000;
@@ -31,6 +47,7 @@
   font-weight: 500;
   text-align: start;
   padding-left: 20px;
+  background-color: white;
 }
 
 .main-section .menu-list table td{
@@ -38,9 +55,10 @@
   border: none;
   font-size: 15px;
   padding: 5px 0 5px 0;
-  justify-content: center;
+  /* justify-content: center; */
   text-align: start;
   padding-left: 15px;
+  margin-right: 150px;
 }
 
 .main-section .menu-list table td ul{
@@ -52,7 +70,7 @@
   font-size: 14px !important;
 }
 
-td .actions{
+.actions{
   width: 20px;
   height: 20px;
   margin-right: 15px;
@@ -67,7 +85,6 @@ td .actions{
   margin-left: 30px;
   cursor: pointer;
 }
-
 
 .searchContainer{
   display: flex;
@@ -87,6 +104,10 @@ td .actions{
   border: none;
 }
 
+img{
+  cursor: pointer;
+}
+
 .addBtn{
   width: 120px;
   height: 40px;
@@ -100,6 +121,8 @@ td .actions{
 .rolesBox{
   display: flex;
   gap: 10px;
+  width: fit-content;
+  /* margin-left: -30px; */
 }
 
 .statusBox{
@@ -121,8 +144,8 @@ td .actions{
   z-index: 999;
   margin-bottom: 50px;
   background-color: white;
-  margin-left: -20%;
-  width: fit-content;
+  margin-left: -100%;
+  width: 1000px;
 }
 
 .checkBoxContainer{
@@ -180,4 +203,8 @@ td .actions{
   width: 150px;
   margin-top: 20px;
   margin-left: 20px;
+}
+
+.openedEyeIcon{
+  position: absolute;
 }

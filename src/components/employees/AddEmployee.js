@@ -24,12 +24,8 @@ import { useHistory } from "react-router";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import dropArrow from '../../assets/svg/dropArrow.svg'
-import { empRrole } from "./data";
-import { checkInFunctions } from "./data";
-import { menuFunctions } from "./data";
-import { serviceFunctions } from "./data";
-import { otherFunctions } from "./data";
-import ReactDatePicker from "react-datepicker";
+import { functionData } from "./data";
+import { rolesAndFunction } from "./data";
  
 
 const AddEmployee = () => {
@@ -43,10 +39,13 @@ const AddEmployee = () => {
   const [role, setRole] = useState('')
   const [openFunction, setOpenFuction] = useState(false)
   //const [outlet, setOutlet] = useState([]);
-  const [pins, setPins] = useState(['', '', '', '']);
-  const [showPin, setShowPin] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const inputRefs = useRef([]);
+  const [pins, setPins] = useState(['', '', '', ''])
+  const [showPin, setShowPin] = useState(false)
+  const [selectedDate, setSelectedDate] = useState("")
+  const inputRefs = useRef([])
+  const [checkedFunctions, setCheckedFunctions] = useState([])
+  const [openModal, setOpenModal] = useState(false)
+  const [checkedModules, setCheckedModules] = useState([])
   const editEmployeeData = useSelector(
     (state) => state.employee.editEmployeeData
   )
@@ -59,7 +58,7 @@ const AddEmployee = () => {
     email: editEmployeeData.email,
     devicePin: editEmployeeData.devicePin,
   }
-  const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false);
+  const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)
   //const [role, setRole] = useState("");
 
   const {
@@ -71,38 +70,40 @@ const AddEmployee = () => {
     control,
     formState,
     watch,
-  } = useForm();
+  } = useForm()
 
   const [pin, setPin] = useState(
     editEmployee ? editEmployee.devicePin : getValues("devicePin")
-  );
+  )
 
   const credentials = useSelector((state) => state.auth.credentials);
   const employeeAdded = useSelector((state) => state.employee.employeeAdded);
   const updatePinMessage = useSelector(
     (state) => state.employee.updateEmployeePINMessage
-  );
+  )
   const updatePinLoading = useSelector(
     (state) => state.employee.updateEmployeePINLoading
-  );
+  )
   const updatePinSuccess = useSelector(
     (state) => state.employee.updateEmployeePINSuccess
-  );
+  )
   const updatePinFailed = useSelector(
     (state) => state.employee.updateEmployeePINFailed
-  );
+  )
   const addEmployeeMessage = useSelector(
     (state) => state.employee.addEmployeeMessage.updateEmployeePINMessage
-  );
+  )
   const addEmployeeLoading = useSelector(
     (state) => state.employee.addEmployeeLoading
-  );
+  )
   const outlets = useSelector((state) => state.employee.outlets);
 
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
   const watchLastName = watch("lastName");
+  const useNickname = watch("useNickname", false);
   const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
+
 
   useEffect(() => {
     //console.log("MerchantId:", credentials?.merchantId);
@@ -117,9 +118,9 @@ const AddEmployee = () => {
     }
 
     if (!updatePinLoading && updatePinSuccess && updatePinMessage) {
-      alert(updatePinMessage);
-      history.goBack();
-      dispatch(updateEmployeeClear());
+      alert(updatePinMessage)
+      history.goBack()
+      dispatch(updateEmployeeClear())
     }
   }, [updatePinLoading, updatePinFailed, updatePinMessage, updatePinSuccess]);
   const getRole = () => {
@@ -147,22 +148,22 @@ const AddEmployee = () => {
     } else {
       return [
         "Chef",
-        "Restaurant_Owner",
-        "Restaurant_Manager",
-        "System_Admin",
+        "Restaurant Owner",
+        "Restaurant Manager",
+        "System Admin",
         "Supervisor",
         "Waiter",
         "Host",
         "Delivery",
-      ];
+      ]
     }
-  };
+  }
   useEffect(() => {
     if (!addEmployeeLoading && employeeAdded) {
       dispatch(resetAddEmployee());
-      history.replace("/management/employees");
+      history.replace("/management/employees")
     }
-  }, [addEmployeeLoading, employeeAdded]);
+  }, [addEmployeeLoading, employeeAdded])
 
   useEffect(() => {
     if (getValues("userId") === " ") {
@@ -174,7 +175,7 @@ const AddEmployee = () => {
   }, [watchUserId]);
 
   useEffect(() => {
-    let name = getValues("firstName").replace(/[^A-Za-z ]/g, "");
+    let name = getValues("firstName").replace(/[^A-Za-z ]/g, "")
     var splitted = name.split(" ");
     // console.log("Input Splitted: ", splitted);
 
@@ -183,16 +184,16 @@ const AddEmployee = () => {
         return name == "";
       })
     ) {
-      setValue("firstName", "");
+      setValue("firstName", "")
     } else {
       if (splitted.length > 0) {
         for (var i = 0; i < splitted.length; i++) {
           if (splitted[i].length === 1) {
             //   console.log("one Len");
-            splitted[i] = splitted[i].charAt(0).toUpperCase();
+            splitted[i] = splitted[i].charAt(0).toUpperCase()
           } else {
             splitted[i] =
-              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1);
+              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
           }
         }
         name = splitted.join(" ");
@@ -203,13 +204,13 @@ const AddEmployee = () => {
   }, [watchFirstName])
 
   useEffect(() => {
-    let name = getValues("lastName").replace(/[^A-Za-z ]/g, "");
+    let name = getValues("lastName").replace(/[^A-Za-z ]/g, "")
     var splitted = name.split(" ");
     // console.log("Input Splitted: ", splitted);
 
     if (
       splitted.every((name) => {
-        return name == "";
+        return name == ""
       })
     ) {
       setValue("lastName", "");
@@ -218,77 +219,169 @@ const AddEmployee = () => {
         for (var i = 0; i < splitted.length; i++) {
           if (splitted[i].length === 1) {
             //   console.log("one Len");
-            splitted[i] = splitted[i].charAt(0).toUpperCase();
+            splitted[i] = splitted[i].charAt(0).toUpperCase()
           } else {
             splitted[i] =
-              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1);
+              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
           }
         }
-        name = splitted.join(" ");
-        // console.log("Output: ", name);
-        setValue("lastName", name);
+        name = splitted.join(" ")
+        // console.log("Output: ", name)
+        setValue("lastName", name)
       }
     }
   }, [watchLastName]);
 
   const handleSelectOutlet = (outlet) => {
-    setSelectedOutlet(outlet.locationName.split(",")[1]);
-    setIsOutletDropdownOpen(false);
+    setSelectedOutlet(outlet.locationName.split(",")[1])
+    setIsOutletDropdownOpen(false)
   } 
 
   const handleSelectRole = (role) => {
-    setSelectedRole(role);
-    setIsRoleDropDownOpen(false);
+    setSelectedRole(role)
+    setIsRoleDropDownOpen(false)
   } 
 
   const handleChange = (e, index) => {
-    const value = e.target.value;
+    const value = e.target.value
     if (value.length <= 1 && /^\d*$/.test(value)) {
-      const newPin = [...pins];
-      newPin[index] = value;
-      setPins(newPin);
+      const newPin = [...pins]
+      newPin[index] = value
+      setPins(newPin)
       if (value && index < 3) {
-        inputRefs.current[index + 1].focus();
+        inputRefs.current[index + 1].focus()
       }
     }
   }
 
   const handleKeyDown = (e, index) => {
     if (e.key === 'Backspace' && !pins[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
+      inputRefs.current[index - 1].focus()
     }
   }
 
   const toggleShowPin = () => {
-    setShowPin(!showPin);
+    setShowPin(!showPin)
   }
 
+  const handleRoleChange = (role) => {
+    setSelectedRole(role)
+    const functionsForRole = rolesAndFunction
+      .flatMap((module) => module.functionality)
+      .filter((func) => func.roles.includes(role))
+      .flatMap((func) => func.name)
+    setCheckedFunctions(functionsForRole)
+  }
+
+  const isFunctionChecked = (functionName) => {
+    return checkedFunctions.includes(functionName.toLowerCase())
+  }
+
+  const handleCheckboxChange = (functionName) => {
+    setCheckedFunctions((prevCheckedFunctions) => {
+      if (prevCheckedFunctions.includes(functionName.toLowerCase())) {
+        return prevCheckedFunctions.filter((func) => func !== functionName.toLowerCase())
+      } else {
+        return [...prevCheckedFunctions, functionName.toLowerCase()]
+      }
+    })
+  }
+
+  const isModuleChecked = (moduleName) => {
+    return functionData
+      .find((module) => module.module.toLowerCase() === moduleName.toLowerCase())
+      .functionality.every((func) => checkedFunctions.includes(func.toLowerCase()));
+  };
+  
+  const handleModuleCheckboxChange = (moduleName) => {
+    const moduleFunctions = functionData
+      .find((module) => module.module.toLowerCase() === moduleName.toLowerCase())
+      .functionality.map((func) => func.toLowerCase());
+  
+    setCheckedFunctions((prevCheckedFunctions) => {
+      if (moduleFunctions.every((func) => prevCheckedFunctions.includes(func))) {
+        return prevCheckedFunctions.filter((func) => !moduleFunctions.includes(func));
+      } else {
+        return [...prevCheckedFunctions, ...moduleFunctions.filter((func) => !prevCheckedFunctions.includes(func))]
+      }
+    })
+  }
+
+  const getDefaultFunctionalitiesForRole = (role) => {
+    return rolesAndFunction
+      .flatMap((module) => module.functionality)
+      .filter((func) => func.roles.includes(role))
+      .flatMap((func) => func.name.map(name => name.toLowerCase()));
+  };
+  
+  const isDefaultActionsUpdated = (selectedFunctions, role) => {
+    const defaultFunctions = getDefaultFunctionalitiesForRole(role);
+    const selectedFunctionNames = selectedFunctions.flatMap(module => module.functions.map(func => func.name.toLowerCase()));
+    return selectedFunctionNames.some(func => !defaultFunctions.includes(func));
+  }
+  
+  const getFunctionUrl = (functionName) => {
+    for (const module of rolesAndFunction) {
+      for (const func of module.functionality) {
+        if (func.name.includes(functionName.toLowerCase())) {
+          return func.urls;
+        }
+      }
+    }
+    return []
+  }
+
+  const handleReset = () => {
+    const functionsForRole = getDefaultFunctionalitiesForRole(selectedRole);
+    setCheckedFunctions(functionsForRole);
+  };
 
   const onSubmit = (formValues) => {
-    let pin = formValues.devicePin;
-    formValues["fullName"] = formValues.firstName + " " + formValues.lastName;
-    formValues["businessName"] = credentials.businessName;
-    formValues["merchantId"] = credentials.merchantId;
+    // let pin = formValues.devicePin
+    const selectedFunctions = functionData.map((module) => ({
+      module: module.module,
+      functions: module.functionality
+        .filter((func) => checkedFunctions.includes(func.toLowerCase()))
+        .map((func) => ({
+          name: func,
+          urls: getFunctionUrl(func)
+        }))
+    })).filter((module) => module.functions.length > 0)
+  
+    formValues["rolesAndFunctions"] = selectedFunctions;
+    formValues["firstName"] = formValues.firstName
+    formValues["lastname"] = formValues.lastName
+    formValues["role"] = formValues.role
+    formValues["userId"] = credentials.businessName
+    formValues["nickName"] = formValues.nickName
+    formValues["email"] = formValues.email
+    formValues["phone"] = formValues.mobileNumber
+    formValues["address"] = `${formValues.address1} ${formValues.address2}`
+    formValues["dateOfBirth"] = selectedDate
+    formValues["education"] = formValues.education
+    // formValues["merchantId"] = credentials.merchantId
+    formValues["pin"] = pins.join('')
     formValues["locationId"] = outlets.find((outlet) =>
       outlet.locationName.includes(formValues["outlet"])
-    ).id;
-    if (!pinEnabled) {
-      formValues["devicePin"] = "";
-    }
+    ).id
+    formValues["isDefaultActionsUpdated"] = isDefaultActionsUpdated(selectedFunctions, formValues["role"])
+    // if (!pinEnabled) {
+    //   formValues["devicePin"] = ""
+    // }
 
-    delete formValues["firstName"];
-    delete formValues["lastName"];
-    delete formValues["outlet"];
-    //console.log("Employee details", formValues);
-
+    // delete formValues["firstName"]
+    delete formValues["lastName"]
+    delete formValues.address1;
+    delete formValues.address2;
+    delete formValues["outlet"]
+    //console.log("Employee details", formValues)
+    console.log("Form Submitted")
     if (editEmployee) {
-      dispatch(updateEmployeePIN({ id: editEmployeeData.id, pin: pin }));
+      dispatch(updateEmployeePIN({ id: editEmployeeData.id, pin: pin }))
     } else {
-      dispatch(addEmployee(formValues));
+      dispatch(addEmployee(formValues))
     }
   }
-
-  console.log("Error :", errors.role?.type)
 
   return (
     <>
@@ -322,8 +415,8 @@ const AddEmployee = () => {
                         required: !editEmployee && "Required",
                       })}
                       className={errors.firstName?.type === "required" ? 'fN errorInput' :'add-employee-text-input'}
-                      value={editEmployee ? editEmployee.firstName : null}
-                      disabled={editEmployee && editEmployee.firstName}
+                      // value={editEmployee ? editEmployee.firstName : null}
+                      // disabled={editEmployee && editEmployee.firstName}
                     />
                   </div>
                   <div>
@@ -336,7 +429,7 @@ const AddEmployee = () => {
                       maxLength={15}
                       value={editEmployee ? editEmployee.lastName : null}
                       // disabled={editEmployee && editEmployee.lastName}
-                      disabled={editEmployee}
+                      // disabled={editEmployee}
                     />
                   </div>
                 </div>
@@ -346,18 +439,21 @@ const AddEmployee = () => {
                     type="text"
                     placeholder="Nick Name"
                     name="nickName"
-                    refRegister={register()}
-                    className={"inputBox"}
+                    refRegister={register({
+                     required: useNickname && "Required"
+                    })}
+                    // className={""}
                     maxLength={15}
+                    className={errors.nickName ? 'fN errorInputBox' :'inputBox'}
                     // value={editEmployee ? editEmployee.nickName : null}
                     // disabled={editEmployee && editEmployee.lastName}
-                    disabled={editEmployee}
+                    // disabled={editEmployee}
                   />
                 </div>
 
                 <div className="checkBox">
                   <label> 
-                    <input type="checkbox" className="checkbox" />  
+                    <input type="checkbox" className="checkbox" name="useNickname" ref={register} />  
                     <p>Utilize a nickname as needed in all forthcoming activities</p>
                   </label>
                 </div>
@@ -366,7 +462,7 @@ const AddEmployee = () => {
                   <div>
                     <TextInput
                       type="number"
-                      placeholder="Phone"
+                      placeholder="Phone*"
                       name="mobileNumber"
                       refRegister={register({
                         required: !editEmployee && "Required",
@@ -375,7 +471,7 @@ const AddEmployee = () => {
                       min={0}
                       value={editEmployee ? editEmployee.mobileNumber : null}
                       // disabled={editEmployee && editEmployee.mobileNumber}
-                      disabled={editEmployee}
+                      // disabled={editEmployee}
                     />
                   </div>
                   <div>
@@ -387,7 +483,7 @@ const AddEmployee = () => {
                       className={"add-employee-text-input"}
                       value={editEmployee ? editEmployee.email : null}
                       // disabled={editEmployee && editEmployee.email}
-                      disabled={editEmployee}
+                      // disabled={editEmployee}
                     />
                   </div>
                 </div>
@@ -397,11 +493,11 @@ const AddEmployee = () => {
                     type="text"
                     placeholder="Address Line 1"
                     name="address1"
-                    // refRegister={register()}
+                    refRegister={register()}
                     className={"inputBox"}
                     // value={editEmployee ? editEmployee.address : null}
                     // disabled={editEmployee && editEmployee.email}
-                    disabled={editEmployee}
+                    // disabled={editEmployee}
                   />
                 </div>
                 <div>
@@ -409,11 +505,11 @@ const AddEmployee = () => {
                     type="text"
                     placeholder="Address Line 2"
                     name="address2"
-                    // refRegister={register()}
+                    refRegister={register()}
                     className={"inputBox"}
                     // value={editEmployee ? editEmployee.address : null}
                     // disabled={editEmployee && editEmployee.email}
-                    disabled={editEmployee}
+                    // disabled={editEmployee}
                   />
                 </div>
 
@@ -423,46 +519,48 @@ const AddEmployee = () => {
                       type="text"
                       placeholder="Education"
                       name="education"
-                      // refRegister={register()}
+                      refRegister={register()}
                       className={"add-employee-text-input"}
                       // value={editEmployee ? editEmployee.address : null}
                       // disabled={editEmployee && editEmployee.email}
-                      disabled={editEmployee}
+                      // disabled={editEmployee}
                     />
                   </div>
-                  <div>
-                    {/* <TextInput
-                      type="date"
-                      placeholder="Date of birth"
-                      name="DOB"
-                      // refRegister={register()}
-                      className={"dateInput"}
-                      // value={editEmployee ? editEmployee.address : null}
-                      // disabled={editEmployee && editEmployee.email}
-                      disabled={editEmployee}
-                    /> */}
-                    <DatePicker 
-                      placeholderText="DOB" 
-                      value={null} 
-                      name="DOB" 
-                      selected={selectedDate}
-                      onChange={(date) => setSelectedDate(date)}
-                      className={"dateInput"} 
-                      disabled={editEmployee} 
-                      yearDropdownItemNumber={15} 
-                      scrollableYearDropdown
-                    />
-                  </div>
+                    <div style={{zIndex:99999}}>
+                      {/* <TextInput
+                        type="date"
+                        placeholder="Date of birth"
+                        name="DOB"
+                        // refRegister={register()}
+                        className={"dateInput"}
+                        // value={editEmployee ? editEmployee.address : null}
+                        // disabled={editEmployee && editEmployee.email}
+                        disabled={editEmployee}
+                      /> */}
+                      <DatePicker 
+                        placeholderText="DOB" 
+                        value={null} 
+                        name="dob" 
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        className={"dateInput"} 
+                        refRegister={register()}
+                        // disabled={editEmployee} 
+                        yearDropdownItemNumber={50} 
+                        scrollableYearDropdown
+                        showYearDropdown
+                        minDate={new Date(1970, 0, 1)}  
+                        maxDate={new Date()}  
+                      />
+                    </div>
                 </div>
                 <hr style={{marginRight:'40px'}}/>
                 
                 <h3>Formal Setup*</h3>
                 <div className="flexContainer">
-                {/* {errors.outlet?.type === "required" && (
-                  <p className="error-msg">Outlet Required</p>
-                )} */}
+                
                 <div className={errors.outlet?.type ? 'errorCustomInput' :'selectContainer'} style={{ cursor: "pointer" }}>
-                  <div>
+                  <div style={{zIndex: 0}}>
                     <Controller
                       control={control}
                       name="outlet"
@@ -480,7 +578,7 @@ const AddEmployee = () => {
                             outlets,
                             (outlet) => outlet.locationName.split(",")[1]
                           )}
-                          placeholder={"Assign Outlet"}
+                          placeholder={"Assign Outlet*"}
                           onSelect={(outletSelected) => {
                             //console.log("outlet Changed:", outletSelected.value);
                             const outletObject = outlets.find((outlet) =>
@@ -497,104 +595,83 @@ const AddEmployee = () => {
                           }
                           arrowClassName={"add-employee-dropdown-arrow"}
                           placeholderClass={"dropDown"}
-
-                          disabled={editEmployee}
+                          // disabled={editEmployee}
                         />
                       )}
                     />
                   </div>
                 </div>
                 
-                <div className={errors.role?.type  ? 'errorCustomInput' : "selectContainer" } style={{ cursor: "pointer" }}>
+                <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
                   <Controller
                     control={control}
                     name="role"
                     defaultValue={""}
                     rules={{
-                      // required: true
                       required: !editEmployee && "Required",
                     }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={getRole()}
-                        placeholder={"Assign Role"}
+                        placeholder={"Assign Role*"}
                         onSelect={(role) => {
-                          onChange(role.value);
-                          if (
-                            jwt_decode(
-                              credentials?.accessToken
-                            ).resource_access[
-                              "merchant-app"
-                            ].roles[0].includes("neighbourhood")
-                          )
-                            onChange(role.value + "-neighbourhood");
+                          onChange(role.value)
+                          handleRoleChange(role.value)
+                          if (jwt_decode(credentials?.accessToken).resource_access["merchant-app"].roles[0].includes("neighbourhood"))
+                            onChange(role.value + "-neighbourhood")
                         }}
                         value={value}
                         name={name}
                         placeholderClass={"dropDown"}
                         controlClassName={"add-employee-dropdown"}
                         arrowClassName={"add-employee-dropdown-arrow"}
-                        disabled={editEmployee}
                       />
                     )}
                   />
-                  {openFunction && 
-                  <div className="functionsDropDown">
-                    <p style={{textAlign:'center', fontWeight:600}}>Roles/Function</p>
-                    <div className="checkBoxContainer">
-                      <div className="checkboxList">
-                        {checkInFunctions.map((data) => (
-                          <div className="checkBoxItem" key={data}>
-                            <label>
-                              <input type="checkbox" className="checkbox" />
-                              <p>{data}</p>
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="checkboxList">
-                        {menuFunctions.map((data) => (
-                          <div className="checkBoxItem" key={data}>
-                            <label>
-                              <input type="checkbox" className="checkbox" />
-                              <p>{data}</p>
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="checkboxList">
-                        {serviceFunctions.map((data) => (
-                          <div className="checkBoxItem" key={data}>
-                            <label>
-                              <input type="checkbox" className="checkbox" />
-                              <p>{data}</p>
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="checkboxList">
-                        {otherFunctions.map((data) => (
-                          <div className="checkBoxItem" key={data}>
-                            <label>
-                              <input type="checkbox" className="checkbox" />
-                              <p>{data}</p>
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="functionBtn">
-                      <input className="saveBtn" type="button" value="Save" /> 
-                      <input className="resetbtn" type="button" value="Reset" />
-                    </div>
-                  </div>
-                  }
                   <div className="roleFunction">
-                    <p onClick={()=>setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
-                  </div>  
+                    <p onClick={() => setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
+                  </div>
+                  {openFunction && (
+                    <div className="functionsDropDown">
+                      <p style={{textAlign: 'center', fontWeight: 600}}>Roles/Function</p>
+                      <div className="checkBoxContainer">
+                        {functionData.map((module) => (
+                          <div className="checkboxList" key={module.module}>
+                            <div className="checkBoxItem">
+                              <label>
+                                <input 
+                                  type="checkbox" 
+                                  className="checkbox" 
+                                  checked={isModuleChecked(module.module)} 
+                                  onChange={() => handleModuleCheckboxChange(module.module)} 
+                                />
+                                <p style={{fontWeight:600}}>{module.module}</p>
+                              </label>
+                            </div>
+                            {module.functionality.map((func) => (
+                              <div className="checkBoxItem" key={func}>
+                                <label>
+                                  <input 
+                                    type="checkbox" 
+                                    className="checkbox" 
+                                    checked={isFunctionChecked(func)} 
+                                    onChange={() => handleCheckboxChange(func)} 
+                                  />
+                                  <p>{func}</p>
+                                </label>
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="functionBtn">
+                        <input className="saveBtn" type="button" value="Save" onClick={() => setOpenFuction(!openFunction)} />
+                        <input className="resetbtn" type="button" value="Reset" onClick={handleReset} />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-
 
               <div className="flexContainer">
               {/* {errors.userId?.type === "required" && (
@@ -603,7 +680,7 @@ const AddEmployee = () => {
                 <div>
                   <TextInput
                     type="text"
-                    placeholder="User ID"
+                    placeholder="User ID*"
                     name="userId"
                     refRegister={register({
                       required: !editEmployee && "Required",
@@ -616,7 +693,7 @@ const AddEmployee = () => {
                 <div>
                   <TextInput
                     type={isPasswordVisible ? "text" : "password"}
-                    placeholder="Password"
+                    placeholder="Password*"
                     minLength={6}
                     name="password"
                     refRegister={register({
@@ -626,7 +703,7 @@ const AddEmployee = () => {
                     className={errors.password?.type === "required" ? 'pass errorInput' :'add-employee-text-input'}
                     // style={{ fontSize: "18px" }}
                     containerStyle={{ paddingBottom: "0px" }}
-                    disabled={editEmployee}
+                    // disabled={editEmployee}
                   />
                   {/* <div> */}
                   {isPasswordVisible ? (
@@ -636,6 +713,7 @@ const AddEmployee = () => {
                         position: "relative",
                         bottom: 30,
                         left: 370, 
+                        cursor:'pointer'
                       }}
                     />
                   ) : (
@@ -645,6 +723,7 @@ const AddEmployee = () => {
                         position: "relative",
                         bottom: 30,
                         left: 370, 
+                        cursor:'pointer'
                       }}
                     />
                   )}
@@ -660,7 +739,7 @@ const AddEmployee = () => {
                   errors.devicePin?.type === "maxLength" ? (
                     <p className="error-msg">PIN Should Be of Length 4</p>
                   ) : null}
-                  <p style={{fontSize: "15px", color:'#ccc'}}>Create Pin</p>
+                  <p style={{fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
                   {/* <Switchbox
                     isChecked={pinEnabled}
                     handleSwitch={() => setPinEnabled(!pinEnabled)}
@@ -683,25 +762,32 @@ const AddEmployee = () => {
                     value={pin}
                   /> */}
                   <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
-                    <div style={{ display: 'flex', border: '1px solid #ccc', borderRadius: '7px' }}>
+                    <div style={{ display: 'flex', border: errors.pin ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                       {[0, 1, 2, 3].map((i) => (
                         <input
                           key={i}
-                          ref={(el) => (inputRefs.current[i] = el)}
+                          refRegister={register()}
+                          ref={(el) => {
+                            inputRefs.current[i] = el;
+                            register(el, { required: "Required" });
+                          }}
                           type={showPin ? 'text' : 'password'}
                           value={pins[i]}
                           onChange={(e) => handleChange(e, i)}
                           onKeyDown={(e) => handleKeyDown(e, i)}
-                          maxLength="1"
+                          name='pin'
+                          // maxLength="4"
+                          // minLength="4"
                           style={{
                             width: '40px',
                             fontSize: '16px',
                             textAlign: 'center',
                             border: 'none',
-                            borderRight: i < 3 ? '1px solid #ccc' : 'none',
+                            borderRight: errors.pin ? '1px solid #FF0505' : '1px solid #ccc',
                             padding: '10px',
                             outline: 'none',
                           }}
+                          className={errors[`pin${i}`] ? 'errorInput' : ''}
                         />
                       ))}
                     </div>
@@ -712,7 +798,9 @@ const AddEmployee = () => {
                           style={{
                             position: "relative",
                             left: 20, 
+                            cursor: 'pointer'
                           }}
+                          className={'closedEyeIcon'}
                         />
                       ) : (
                         <OpenEyeIcon
@@ -720,7 +808,9 @@ const AddEmployee = () => {
                           style={{
                             position: "relative",
                             left: 20, 
+                            cursor: 'pointer'
                           }}
+                          className={'openedEyeIcon'}
                         />
                       )}
                     </div>
@@ -737,26 +827,41 @@ const AddEmployee = () => {
                 style={{marginLeft:'550px'}}
                 onClick={() => {
                   //console.log("Cancelling");
-                  history.replace("/management/employees");
+                  // history.replace("/management/employees")
+                  setOpenModal(!openModal)
                 }}
               >
-                 <input className="clear-all-btn" type="submit" value="Clear All" />
+                 <input className="clear-all-btn" type="button" value="Clear All" />
               </span>
               <span
                 onClick={() => {
-                  //console.log(errors, "errors");
+                  
+                  //console.log(errors, "errors")
+                  // history.replace('/management/employees')
                 }}
               >
                 <input className="save-btn" type="submit" value="Save" /> 
               </span>
             </div>
           </form>
+         {openModal && <div className="modal">
+            <div className="modalContainer">
+              <p>Are you sure?</p>
+              <p>All unsaved changes will be lost.</p>
+              <div className="modalBtn">
+                <input type="button" className="yesBtn" value='Yes' onClick={()=> {
+                  history.replace("/management/employees")
+                }} />
+                <input type="button" className="noBtn" value='No' onClick={()=>{setOpenModal(!openModal)}} />
+              </div>
+            </div>
+          </div>}
         </div>
       ) : (
         <EmployeeList setList={() => setList(false)} />
       )}
     </>
-  );
-};
+  )
+}
 
 export default AddEmployee;

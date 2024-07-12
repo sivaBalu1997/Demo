@@ -12,6 +12,8 @@ import {
   failedManageUserAccess,
   updateEmployeePINSuccess,
   updateEmployeePINFailed,
+  getEmployeeByIdSuccess,
+  getEmployeeByIdFailure,
 } from "../actions/employeeActions";
 import {
   fetchOutlets,
@@ -20,6 +22,7 @@ import {
   manageUserAccess,
   removeEmployee,
   updatePIN,
+  getEmployeeById,
 } from "../api/employeeAPI";
 
 import {
@@ -30,7 +33,9 @@ import {
   USER_ACCESS_EMPLOYEE_REQUEST,
   EDIT_EMPLOYEE_DATA,
   UPDATE_EMPLOYEE_PIN_REQUEST,
+  GET_EMPLOYEE_BY_ID_REQUEST,
 } from "../constants/employeeContants";
+
 function* getOutletsSaga(action) {
   try {
     const response = yield call(fetchOutlets, action.payload);
@@ -43,6 +48,7 @@ function* getOutletsSaga(action) {
   }
 }
 
+
 function* addEmployeeSaga(action) {
   try {
     const response = yield call(createEmployee, action.payload);
@@ -52,7 +58,7 @@ function* addEmployeeSaga(action) {
           failedAddEmployee({
             message: response.data.metaDataInfo.responseMessage,
           })
-        );
+        )
       } else {
         yield put(successAddEmployee(response.data));
       }
@@ -92,6 +98,20 @@ function* getEmployeesSaga(action) {
     }
   } catch (err) {
     yield put(failedGetEmployees({ message: "please Try Again" }));
+  }
+}
+
+//Get Employee By Id
+function* getEmployeeByIdSaga(action) {
+  try {
+    const response = yield call(getEmployeeById)
+    if(response.status === 200) {
+      yield put(getEmployeeByIdSuccess(response.data));
+    } else {
+      yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
+    }
+  } catch (err) {
+    yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
   }
 }
 
@@ -137,4 +157,5 @@ export default function* employeeSaga() {
   yield takeLatest(REMOVE_EMPLOYEE_REQUEST, deleteEmployeeSaga);
   yield takeLatest(USER_ACCESS_EMPLOYEE_REQUEST, manageUserAccessSaga);
   yield takeLatest(UPDATE_EMPLOYEE_PIN_REQUEST, updateEmployeePINSaga);
+  yield takeLatest(GET_EMPLOYEE_BY_ID_REQUEST, getEmployeeByIdSaga)
 }

@@ -24,7 +24,10 @@ import {
   UPDATE_EMPLOYEE_PIN_CLEAR,
   UPDATE_EMPLOYEE_PIN_SUCCESS,
   UPDATE_EMPLOYEE_PIN_FAILED,
+  GET_EMPLOYEE_BY_ID_REQUEST,
+  GET_EMPLOYEE_BY_ID_SUCCESS,
 } from "../constants/employeeContants";
+
 // Get Outlet
 export const getOutlets = (merchantId) => ({
   type: OUTLET_REQUEST,
@@ -149,4 +152,20 @@ export const updateEmployeePINFailed = (details) => ({
 });
 export const updateEmployeeClear = () => ({
   type: UPDATE_EMPLOYEE_PIN_CLEAR,
+});
+
+//Get Employee By Id
+export const getEmployeeById = (merchantId) => ({
+  type: GET_EMPLOYEE_BY_ID_REQUEST,
+  payload: merchantId
+});
+
+export const getEmployeeByIdSuccess = (details) => ({
+  type: GET_EMPLOYEE_BY_ID_SUCCESS,
+  payload: details
+});
+
+export const getEmployeeByIdFailure = (details) => ({
+  type: GET_EMPLOYEE_BY_ID_SUCCESS,
+  payload: details
 });

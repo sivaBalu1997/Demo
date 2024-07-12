@@ -1,14 +1,11 @@
 import "./styles.css";
 import React, { useState, useEffect, Fragment, useRef } from "react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
 import logout from "../../assets/images/logout.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { SELECTED_BRANCH_DATA } from "../../shared/constants";
 import { signOut } from "../../redux/actions/authActions";
 import { ReactComponent as Employees } from "../../assets/svg/employees.svg";
-import { ReactComponent as Add } from "../../assets/svg/add.svg";
-import { ReactComponent as UserBlocker } from "../../assets/svg/userBlocked.svg";
 import {
   manageUserAccess,
   getEmployees,
@@ -30,8 +27,6 @@ import {
   getRestaurantRequest,
   selectBranch,
 } from "../../redux/actions/authActions";
-import { ReactComponent as Block } from "../../assets/svg/block.svg";
-import { ReactComponent as UnBlock } from "../../assets/svg/unblock.svg";
 import { employeeData } from "./data";
 
 
@@ -39,6 +34,9 @@ const EmployeeList = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const credentials = useSelector((state) => state.auth.credentials)
+  const [employeeListData, setEmployeeListdata] = useState(employeeData)
+  const [searchInput, setSearchInput] = useState()
+
   const logoutUser = () => {
     dispatch(clearMenuData())
     localStorage.clear()
@@ -66,8 +64,8 @@ const EmployeeList = (props) => {
   // }, [manageAccessSuccess, manageAccessLoading]);
 
   useEffect(() => {
-    dispatch(clearEditEmployeeData());
-  }, []);
+    dispatch(clearEditEmployeeData())
+  }, [])
 
   useEffect(() => {
     if (
@@ -88,13 +86,34 @@ const EmployeeList = (props) => {
       alert(manageAccessMessage); // replace with proper UX experience
       dispatch(clearManageUserAccess());
     }
-  }, [manageAccessSuccess]);
+  }, [manageAccessSuccess])
 
+  const handleSearch = () => {
+    const filteredData = employeeData.filter(item => (
+      item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
+      item.role.toLowerCase().includes(searchInput.toLowerCase())
+    ))
+    setEmployeeListdata(filteredData)
+  }
+
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter'){
+      handleSearch()
+    }
+  }
+
+  useEffect(()=>{
+    if(searchInput === ''){
+      setEmployeeListdata(employeeData)
+    }
+  },[searchInput])
+
+  console.log(props.employeeList)
 
   return (
     <>
       <div className="menu-items">
-        {/* <div className="header">
+      {/* <div className="header">
           <p
             onClick={logoutUser}
             style={{
@@ -124,44 +143,49 @@ const EmployeeList = (props) => {
         </div>
         <div className="searchContainer">
           <div className="searchBox">
-            <input type="text"  className="searchBar" placeholder="Search"/>
-            <img src={searchImg} alt="" />
+            <input 
+              type="text"  
+              className="searchBar" 
+              placeholder="Search"
+              value={searchInput}  
+              onChange={(e)=>setSearchInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <img src={searchImg} alt="" 
+              onClick={handleSearch}
+            />
           </div>
           <input type="submit" value='Add New' className="addBtn"  
             onClick={() => {
               history.push("/management/employees/add")
             }}/>
         </div>
-        {props.employeeList ? (
+        {/* employeeListData */}
+        { props.employeeList ? (
           <div
             className="menu-list"
             style={{
               paddingBottom: "3%",
             }}
           >
-            <table width="100%" style={{ height: "50%" }}>
+            <table className="employeeTable" width="100%" >
               <thead>
                 <tr>
-                  {/* <th>S.No</th> */}
                   <th>Name</th>
                   <th>Role</th>
                   <th>Status</th>
-                  {/* <th>Outlet </th> */}
-                  {/* <th>Contact</th> */}
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                {employeeData.map((row, index) => {
+              <tbody style={{}}>
+                {/* employeeListData  */}
+                {props.employeeList.map((row, index) => {
                   return (
                     <EmployeeRow
                       key={row.id}
-                      serialNumber={index + 1}
-                      name={row.name}
+                      name={row.firstName}
                       role={row.role}
-                      status = {row.status}
-                      outlet={row.outlet}
-                      contact={row.contact}
+                      status = {row.isBlocked}
                       data={row}
                       // key={row.id}
                       // serialNumber={index + 1}
@@ -180,8 +204,8 @@ const EmployeeList = (props) => {
         ) : null}
       </div>
     </>
-  );
-};
+  )
+}
 const EmployeeRow = ({
   serialNumber,
   name,
@@ -216,20 +240,18 @@ const EmployeeRow = ({
   }, [show])
 
   const getOpacity = (data) => {
-    if (!data) return 0.5;
-    else return 1;
-  };
+    if (!data) return 0.5
+    else return 1
+  }
   
   return (
     <tr
       onClick={() => {
         if (show) {
-          setShow(!show);
+          setShow(!show)
         }
       }}
     >
-      {/* <td>{serialNumber}</td> */}
-
       <td
         style={{
           display: "flex",
@@ -241,19 +263,22 @@ const EmployeeRow = ({
       <td >
         <div className="rolesBox" >
           <p>{role}</p>
-          {data.extraFunction && <img src={thunder} />}
+          {data.isDefaultActionsUpdated && <img src={thunder} />}
         </div>
       </td>
       <td className="statusBox">
-        {data.isEnabled ? 
-          <img className="statusImg" src={activeIcon} alt="" /> 
+        {data.isBlocked ? 
+          <>
+            <img className="statusImg" src={blockIcon} alt="" /> 
+            <p>Blocked</p>
+          </>
           : 
-          <img className="statusImg" src={blockIcon} alt="" />
+          <>
+            <img className="statusImg" src={activeIcon} alt="" />
+            <p>Active</p>
+          </>
         }
-        <p>{status}</p>
       </td>
-      {/* <td>{outlet}</td> */}
-      {/* <td> {contact}</td> */}
       <td ref={ref}>
         {/* <BiDotsVerticalRounded onClick={() => setShow(!show)} /> */}
           <ul className="popupContainer">
@@ -281,10 +306,10 @@ const EmployeeRow = ({
                 //    dispatch(getEmployees(credentials?.merchantId));
               }}
             >
-              {data.isEnabled ? (
-                <img src={blockImg} className="actions"/> 
+              {data.isBlocked ? (
+                <img src={ unBlockImg} className="actions"/> 
               ) : (
-                <img src={unBlockImg} className="actions"/> 
+                <img src={ blockImg } className="actions"/> 
               )}
             </li>
             
@@ -300,16 +325,18 @@ const EmployeeRow = ({
                 // );
               }}
             >
-               <img src={trashImg} className="actions"/>
+              <img src={trashImg} className="actions"/>
             </li>
           </ul>
       </td>
       
       <td>
         <img src={previewImg} className="previewActions" 
-          onClick={() => 
+          onClick={() => {
+            // console.log("From preview data",data)
+            // dispatch(getEmployeeById(data))
             history.push("/management/employees/details")
-          }
+          }}
         />
       </td>
     </tr>

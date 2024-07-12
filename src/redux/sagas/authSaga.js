@@ -53,7 +53,8 @@ function* signUpSaga(action) {
 function* signInSaga(action) {
   try {
     const response = yield call(signIn, action.payload);
-    if (response.status == 200) {
+
+    if (response.status === 200) {
       const result = response.data;
       if (result.metaDataInfo.responseCode == "ERROR") {
         yield put(
