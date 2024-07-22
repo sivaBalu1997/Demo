@@ -7,16 +7,13 @@
     "customerapp-2d3e1": {
       "hosting": {
         "staging": [
-          "customerappstaging"
-        ],
-        "production": [
-          "customerappbeta"
+          "merchantportal-staging"
         ],
         "dev": [
-          "customerappdev"
+          "merchantportal-staging"
         ],
         "beta": [
-          "customerappbeta"
+          "merchantportal-staging"
         ]
       }
     }
