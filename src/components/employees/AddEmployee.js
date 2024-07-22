@@ -431,14 +431,7 @@ const AddEmployee = () => {
     if (editEmployee) {
       dispatch(updateEmployeeRequest(formValues))
     } else {
-      console.log("Outside alert function", addEmployeeMessage)
-      if(addEmployeeFailure){
-        console.log("In alert function", addEmployeeMessage)
-        alert(addEmployeeMessage)
-      }
-      else{
       dispatch(addEmployee(formValues));
-      }
     }
   }
 
@@ -501,6 +494,8 @@ const AddEmployee = () => {
       dispatch(resetEmployeeActionCompleted());
     }
   }, [employeeActionCompleted, history]);
+
+  console.log("Outlet",outlets)
 
   return (
     <>
@@ -661,16 +656,16 @@ const AddEmployee = () => {
                         <CustomDropdown
                           options={Array.from(
                             outlets,
-                            (outlet) => outlet.locationName.split(",")[1]
+                            (outlet) => outlet?.locationName   
                           )}
                           placeholder={"Assign Outlet*"}
                           onSelect={(outletSelected) => {
-                            const outletObject = outlets.find((outlet) =>
-                              outlet.locationName.includes(outletSelected.value)
+                            const outletObject = outlets?.find((outlet) =>
+                              outlet?.locationName?.includes(outletSelected?.value)
                             );
-                            onChange(outletObject.locationName.split(",")[1])
+                            onChange(outletObject?.locationName)
                           }}
-                          value={editEmployee ? editEmployee.outlet : ''}
+                          value={editEmployee ? editEmployee?.outlet : ''}
                           name={name}
                           controlClassName={
                             editEmployee
