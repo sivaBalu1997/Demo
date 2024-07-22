@@ -1,6 +1,7 @@
 import "./styles.css";
 import React, { useState, useEffect, Fragment, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import logout from "../../assets/images/logout.png";
 import { useHistory } from "react-router";
 import { SELECTED_BRANCH_DATA } from "../../shared/constants";
 import { signOut } from "../../redux/actions/authActions";
@@ -102,6 +103,21 @@ const EmployeeList = (props) => {
   return (
     <>
       <div className="menu-items">
+      <div className="header">
+          <p
+            onClick={logoutUser}
+            style={{
+              marginLeft: "88%",
+              display: "flex",
+              alignItems: "center",
+              whiteSpace: "nowrap",
+              cursor: "pointer",
+            }}
+          >
+            <img src={logout} alt="Logout" height="20" />
+            &nbsp; Log Out
+          </p>
+        </div>
         <div className="header-menu">
           <div>
             <Employees

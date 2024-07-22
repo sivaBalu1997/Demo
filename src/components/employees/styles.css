@@ -12,6 +12,16 @@
   align-items: end;
 }
 
+.main-section .menu-items .header {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 0px;
+  width: 100%;
+  border-bottom: none;
+}
+
 .main-section .menu-list table{
   width: 100%;
 }
