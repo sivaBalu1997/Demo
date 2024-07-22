@@ -28,6 +28,16 @@ import {
   GET_EMPLOYEE_BY_ID_REQUEST,
   GET_EMPLOYEE_BY_ID_SUCCESS,
   GET_EMPLOYEE_BY_ID_FAILURE,
+  ROLES_REQUEST,
+  ROLES_SUCCESS,
+  ROLES_FAILURE,
+  EMPLOYEE_STATUS_REQUEST,
+  EMPLOYEE_STATUS_SUCCESS,
+  EMPLOYEE_STATUS_FAILURE,
+  UPDATE_EMPLOYEE_REQUEST,
+  UPDATE_EMPLOYEE_SUCCESS,
+  UPDATE_EMPLOYEE_FAILURE,
+  RESET_EMPLOYEE_ACTION_COMPLETED,
 } from "../constants/employeeContants";
 
 const initialEmployeeState = {
@@ -38,6 +48,7 @@ const initialEmployeeState = {
   // Employee Add
   employeeAdded: false,
   addEmployeeLoading: false,
+  addEmployeeFailure: false,
   addEmployeeMessage: "",
 
   // Get Employee
@@ -48,7 +59,7 @@ const initialEmployeeState = {
 
   //Remove Employee
   deleteEmployeeLoading: false,
-  deleteEmployeeSuccess: false,
+  employeeDeleted: false,
   deleteEmployeeFailure: false,
   deleteEmployeeData: null,
   deleteEmployeeMessage: "",
@@ -64,15 +75,34 @@ const initialEmployeeState = {
   updateEmployeePINFailed: false,
   updateEmployeePINMessage: "",
 
+  //Update Employee
+  updateEmployee: {},
+  updateEmployeeFailure: '',
+  employeeUpdated: false,
+  employeeUpdateLoading: false,
+
   //Get Employee By ID
   employeeByIdDetails: {},
   employeeByIdDetailsLoading: false,
-  employeeByIdDetailsFailure: ""
+  employeeByIdDetailsFailure: "",
+
+  //Roles and Function
+  employeeRoleAndFunctions:[],
+  employeeRoleAndFunctionsLoading: false,
+  employeeRoleAndFunctionsFailure: "",
+
+  //Block/Unblock Employee
+  employeeStatus:'',
+  employeeStatusLoading: false,
+
+  employeeActionCompleted: false
+
 };
 
 export default function employeeReducer(state = initialEmployeeState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
+
       // SignUp Reducers
       case OUTLET_REQUEST:
         draft.outlets = [];
@@ -85,26 +115,35 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case OUTLET_FAILURE:
         draft.outletsLoading = false;
         break;
+
       // Employee ADD Reducers
       case ADD_EMPLOYEE_REQUEST:
         draft.employeeAdded = false;
         draft.addEmployeeLoading = true;
         draft.addEmployeeMessage = "";
+        draft.employeeActionCompleted = false;
+        draft.addEmployeeFailure = false;
         break;
       case ADD_EMPLOYEE_SUCCESS:
         draft.employeeAdded = true;
         draft.addEmployeeLoading = false;
         draft.addEmployeeMessage = "";
+        draft.employeeActionCompleted = true;
+        draft.addEmployeeFailure = false;
         break;
       case ADD_EMPLOYEE_FAILURE:
         draft.employeeAdded = false;
         draft.addEmployeeLoading = false;
         draft.addEmployeeMessage = action.payload.message;
+        draft.employeeActionCompleted = false;
+        draft.addEmployeeFailure = true;
         break;
       case ADD_EMPLOYEE_RESET:
         draft.employeeAdded = false;
         draft.addEmployeeMessage = "";
+        draft.employeeActionCompleted = false;
         break;
+
       // Get Employee
       case GET_EMPLOYEE_REQUEST:
         draft.employeeDetails = [];
@@ -133,30 +172,30 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       // Delete Employee
       case REMOVE_EMPLOYEE_REQUEST:
         draft.deleteEmployeeLoading = true;
-        draft.deleteEmployeeSuccess = false;
+        draft.employeeDeleted = false;
         draft.deleteEmployeeFailure = false;
         draft.deleteEmployeeData = action.payload;
         break;
       case REMOVE_EMPLOYEE_SUCCESS:
         draft.deleteEmployeeLoading = false;
-        draft.deleteEmployeeSuccess = true;
+        draft.employeeDeleted = true;
         draft.deleteEmployeeFailure = false;
         draft.deleteEmployeeMessage = action.payload;
         break;
       case REMOVE_EMPLOYEE_FAILURE:
         draft.deleteEmployeeLoading = false;
-        draft.deleteEmployeeSuccess = false;
+        draft.employeeDeleted = false;
         draft.deleteEmployeeFailure = true;
         draft.deleteEmployeeMessage = action.payload;
-
         break;
       case RESET_REMOVE_EMPLOYEE_DATA:
         draft.deleteEmployeeLoading = false;
-        draft.deleteEmployeeSuccess = false;
+        draft.employeeDeleted = false;
         draft.deleteEmployeeFailure = false;
         draft.deleteEmployeeData = null;
         draft.deleteEmployeeMessage = "";
         break;
+        
       // Manage user Access
       case USER_ACCESS_EMPLOYEE_REQUEST:
         draft.manageAccessLoading = true;
@@ -178,6 +217,33 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         break;
       case USER_ACCESS_EMPLOYEE_CLEAR:
         draft.manageAccessMessage = "";
+        break;
+
+      //Update Employee
+      case UPDATE_EMPLOYEE_REQUEST:
+        draft.employeeUpdated = false;
+        draft.employeeUpdateLoading = true;
+        draft.updateEmployee={};
+        draft.updateEmployeeFailure = '';
+        draft.employeeActionCompleted = false;
+        break
+      case UPDATE_EMPLOYEE_SUCCESS:
+        draft.employeeUpdated = true;
+        draft.employeeUpdateLoading = false;
+        draft.updateEmployee = action.payload;
+        draft.updateEmployeeFailure = '';
+        draft.employeeActionCompleted = true;
+        break
+      case UPDATE_EMPLOYEE_FAILURE:
+        draft.employeeUpdated = false;
+        draft.employeeUpdateLoading = false;
+        draft.updateEmployee = '';
+        draft.updateEmployeeFailure = action.payload;
+        draft.employeeActionCompleted = false;
+        break
+
+      case RESET_EMPLOYEE_ACTION_COMPLETED:
+        draft.employeeActionCompleted = false;
         break;
 
       //Update Employee PIN
@@ -212,14 +278,50 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.employeeByIdDetails = {};
         draft.employeeByIdDetailsLoading = true;
         draft.employeeByIdDetailsFailure = ""
+        break;
+      case GET_EMPLOYEE_BY_ID_FAILURE:
+        draft.employeeByIdDetailsFailure = action.payload.message;
+        draft.employeeByIdDetailsLoading = false;
+        break;
       case GET_EMPLOYEE_BY_ID_SUCCESS:
         draft.employeeByIdDetails = action.payload;
         draft.employeeByIdDetailsLoading = false;
-      case GET_EMPLOYEE_BY_ID_FAILURE:
-        draft.employeeByIdDetailsFailure = action.payload;
-        draft.employeeByIdDetailsLoading = false;      
+        draft.employeeByIdDetailsFailure = "";
+        break;
+        
+      //RolesAndFunctions
+      case ROLES_REQUEST:
+        draft.employeeRoleAndFunctions = [];
+        draft.employeeRoleAndFunctionsLoading = true;
+        draft.employeeRoleAndFunctionsFailure = ""
+        break;
+      case ROLES_FAILURE:
+        draft.employeeRoleAndFunctions = "";
+        draft.employeeRoleAndFunctionsLoading = false;
+        draft.employeeRoleAndFunctionsFailure = action.payload  
+        break;
+      case ROLES_SUCCESS:
+        draft.employeeRoleAndFunctions = action.payload;
+        draft.employeeRoleAndFunctionsLoading = false;
+        draft.employeeRoleAndFunctionsFailure = ""
+      break
+
+      //Block/Unblock Employee
+      case EMPLOYEE_STATUS_REQUEST:
+        draft.employeeStatus = '';
+        draft.employeeStatusLoading = true;
+        break
+      case EMPLOYEE_STATUS_SUCCESS:
+        draft.employeeStatus = action.payload;
+        draft.employeeStatusLoading = false
+        break      
+      case EMPLOYEE_STATUS_FAILURE:
+        draft.employeeStatus = action.payload;
+        draft.employeeStatusLoading = false;
+        break
+
       default:
         break;
     }
-  });
+  })
 }

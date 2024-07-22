@@ -86,24 +86,24 @@ const Menu = () => {
   const branch = JSON.parse(selectedBranch);
   const menuOptions = ["Items"];
   const offerMenuOptions = ["Offers"];
-  const getRole = () => {
-    let neighbourhoodDeliveryRole = [
-      "Operator-neighbourhood",
-      "Branch Manager-neighbourhood",
-      "Regional Manager-neighbourhood",
-      "Owner-neighbourhood",
-      "Delivery-neighbourhood",
-    ];
-    if (
-      credentials &&
-      credentials?.accessToken &&
-      neighbourhoodDeliveryRole.includes(
-        jwt_decode(credentials?.accessToken).resource_access["merchant-app"]
-          .roles[0]
-      )
-    )
-      return true;
-  };
+  // const getRole = () => {
+  //   let neighbourhoodDeliveryRole = [
+  //     "Operator-neighbourhood",
+  //     "Branch Manager-neighbourhood",
+  //     "Regional Manager-neighbourhood",
+  //     "Owner-neighbourhood",
+  //     "Delivery-neighbourhood",
+  //   ];
+  //   if (
+  //     credentials &&
+  //     credentials?.accessToken &&
+  //     neighbourhoodDeliveryRole.includes(
+  //       jwt_decode(credentials?.accessToken).resource_access["merchant-app"]
+  //         .roles[0]
+  //     )
+  //   )
+  //     return true;
+  // };
   const history = useHistory();
 
   useEffect(() => {
@@ -264,7 +264,7 @@ const Menu = () => {
               }
             }}
           >
-            {!getRole() && (
+            { (
               <div>
                 {showOptions === "MenuOptions" &&
                 !location.pathname.includes("menu") ? (
@@ -275,7 +275,7 @@ const Menu = () => {
               </div>
             )}
 
-            {!getRole() && (
+            { (
               <Fragment>
                 {showOptions === "MenuOptions" ? (
                   <Uparrow className="dropdown-arrow" />
@@ -369,7 +369,7 @@ const Menu = () => {
             }}
             style={{ cursor: "pointer" }}
           >
-            {!getRole() && (
+            { (
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Stats className="menu-items-SVG" />
@@ -401,7 +401,7 @@ const Menu = () => {
               }
             }}
           >
-            {!getRole() && (
+            { (
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Payment className="menu-items-SVG" />

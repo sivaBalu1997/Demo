@@ -26,6 +26,17 @@ import {
   UPDATE_EMPLOYEE_PIN_FAILED,
   GET_EMPLOYEE_BY_ID_REQUEST,
   GET_EMPLOYEE_BY_ID_SUCCESS,
+  GET_EMPLOYEE_BY_ID_FAILURE,
+  ROLES_REQUEST,
+  ROLES_SUCCESS,
+  ROLES_FAILURE,
+  EMPLOYEE_STATUS_REQUEST,
+  EMPLOYEE_STATUS_SUCCESS,
+  EMPLOYEE_STATUS_FAILURE,
+  UPDATE_EMPLOYEE_REQUEST,
+  UPDATE_EMPLOYEE_FAILURE,
+  UPDATE_EMPLOYEE_SUCCESS,
+  RESET_EMPLOYEE_ACTION_COMPLETED,
 } from "../constants/employeeContants";
 
 // Get Outlet
@@ -52,7 +63,6 @@ export const addEmployee = (details) => ({
 });
 
 export const failedAddEmployee = (details) => ({
-  // Replace any with Network Data Fail Data format
   type: ADD_EMPLOYEE_FAILURE,
   payload: details,
 });
@@ -88,6 +98,21 @@ export const setEmployeeDetailsLoading = (isLoading) => ({
 });
 
 // Edit Employee Data
+export const updateEmployeeRequest = (data) => ({
+  type: UPDATE_EMPLOYEE_REQUEST,
+  payload: data
+})
+
+export const updateEmployeeSuccess = (data) => ({
+  type: UPDATE_EMPLOYEE_SUCCESS,
+  payload: data
+})
+
+export const updateEmployeeFailure = (data) => ({
+  type: UPDATE_EMPLOYEE_FAILURE,
+  payload: data
+})
+
 export const setEditEmployeeData = (data) => ({
   type: EDIT_EMPLOYEE_DATA,
   payload: data,
@@ -97,10 +122,14 @@ export const clearEditEmployeeData = () => ({
   type: CLEAR_EDIT_EMPLOYEE_DATA,
 });
 
+export const resetEmployeeActionCompleted = () => ({
+  type: RESET_EMPLOYEE_ACTION_COMPLETED,
+});
+
 // Delete Employee Data
-export const deleteEmployee = (data) => ({
+export const deleteEmployee = (staffId) => ({
   type: REMOVE_EMPLOYEE_REQUEST,
-  payload: data,
+  payload: staffId,
 });
 
 export const deleteEmployeeSuccess = (data) => ({
@@ -118,7 +147,6 @@ export const clearDeleteEmployeeData = () => ({
 });
 
 // Manage user access
-
 export const manageUserAccess = (data) => ({
   type: USER_ACCESS_EMPLOYEE_REQUEST,
   payload: data,
@@ -155,9 +183,9 @@ export const updateEmployeeClear = () => ({
 });
 
 //Get Employee By Id
-export const getEmployeeById = (merchantId) => ({
+export const getEmployeeByIdRequest = (staffId) => ({
   type: GET_EMPLOYEE_BY_ID_REQUEST,
-  payload: merchantId
+  payload: staffId
 });
 
 export const getEmployeeByIdSuccess = (details) => ({
@@ -166,6 +194,38 @@ export const getEmployeeByIdSuccess = (details) => ({
 });
 
 export const getEmployeeByIdFailure = (details) => ({
-  type: GET_EMPLOYEE_BY_ID_SUCCESS,
+  type: GET_EMPLOYEE_BY_ID_FAILURE,
   payload: details
 });
+
+
+//Roles and Functions
+export const getEmployeeRoles = () => ({
+  type: ROLES_REQUEST,
+})
+
+export const getEmployeeRolesSuccess = (details) => ({
+  type: ROLES_SUCCESS,
+  payload: details
+})
+
+export const getEmployeeRolesFailure = (details) => ({
+  type: ROLES_FAILURE,
+  payload: details
+})
+
+//Block/Unblock Employee
+export const employeeStatusRequest = (staffId, isToBlock) => ({
+  type: EMPLOYEE_STATUS_REQUEST,
+  payload: {staffId, isToBlock}
+})
+
+export const employeeStatusSuccess = (details) => ({
+  type: EMPLOYEE_STATUS_SUCCESS,
+  payload: details
+})
+
+export const employeeStatusFailure = (details) => ({
+  type: EMPLOYEE_STATUS_FAILURE,
+  payload: details
+})

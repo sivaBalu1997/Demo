@@ -25,14 +25,16 @@ const Employees = () => {
   const employeeList = useSelector((state) => state.employee.employeeDetails);
 
   // useEffect(() => {
+  //   console.log('Hello from index')
   //   dispatch(getEmployees(credentials?.merchantId));
   // }, []);
+
 
   useEffect(() => {
     if (credentials) {
       dispatch(getEmployees(credentials?.merchantId));
     }
-  }, [credentials]);
+  }, [credentials])
 
   useEffect(() => {
     setLoading(employeeDetailsLoading);
@@ -44,7 +46,7 @@ const Employees = () => {
     localStorage.clear();
     dispatch(signOut());
     history.replace("/");
-  };
+  }
 
   return (
     <>

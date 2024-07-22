@@ -18,19 +18,21 @@ import {
   setEmployeeDetailsLoading,
   updateEmployeePIN,
   updateEmployeeClear,
+  getEmployeeRoles,
+  updateEmployeeRequest,
+  resetEmployeeActionCompleted,
 } from "../../redux/actions/employeeActions";
 import { useHistory } from "react-router";
 
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import dropArrow from '../../assets/svg/dropArrow.svg'
-import { functionData } from "./data";
-import { rolesAndFunction } from "./data";
- 
+import { employeeData, functionData } from "./data";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const dropdownRef = useRef(null)
   const [list, setList] = useState(false);
   const [selectedOutlet, setSelectedOutlet] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
@@ -38,7 +40,6 @@ const AddEmployee = () => {
   const [isRoleDropDownOpen, setIsRoleDropDownOpen] = useState(false)
   const [role, setRole] = useState('')
   const [openFunction, setOpenFuction] = useState(false)
-  //const [outlet, setOutlet] = useState([]);
   const [pins, setPins] = useState(['', '', '', ''])
   const [showPin, setShowPin] = useState(false)
   const [selectedDate, setSelectedDate] = useState("")
@@ -46,21 +47,27 @@ const AddEmployee = () => {
   const [checkedFunctions, setCheckedFunctions] = useState([])
   const [openModal, setOpenModal] = useState(false)
   const [checkedModules, setCheckedModules] = useState([])
+
   const editEmployeeData = useSelector(
     (state) => state.employee.editEmployeeData
   )
 
   const editEmployee = editEmployeeData && {
-    firstName: editEmployeeData.name.split(" ")[0],
-    lastName: editEmployeeData.name.split(" ")[1],
-    mobileNumber: editEmployeeData.mobileNumber,
-    location: editEmployeeData.locationName.split(", ")[1],
+    firstName: editEmployeeData.firstName,
+    lastName: editEmployeeData.lastName,
+    mobileNumber: editEmployeeData.phone,
+    nickName : editEmployeeData.nickName,
+    education: editEmployeeData.education,
+    role: editEmployeeData.assignedRole,
     email: editEmployeeData.email,
-    devicePin: editEmployeeData.devicePin,
+    pin: editEmployeeData.pin,
+    dateOfBirth: editEmployeeData.dateOfBirth,
+    userId: editEmployeeData.userId,
+    outlet: editEmployeeData.locationName.split(",")[1],
+    staffId: editEmployeeData.staffId
   }
-  const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)
-  //const [role, setRole] = useState("");
 
+  const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)
   const {
     handleSubmit,
     register,
@@ -97,13 +104,21 @@ const AddEmployee = () => {
     (state) => state.employee.addEmployeeLoading
   )
   const outlets = useSelector((state) => state.employee.outlets);
+  const employeeUpdateLoading = useSelector((state) => state.employee.employeeUpdateLoading)
+  const employeeUpdated = useSelector((state) => state.employee.employeeUpdated);
+  const employeeActionCompleted = useSelector((state) => state.employee.employeeActionCompleted);
+
+  useEffect(() => {
+    dispatch(getEmployeeRoles())
+  }, [])
+
+  const roles = useSelector((state) => state.employee.employeeRoleAndFunctions) 
 
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
   const watchLastName = watch("lastName");
   const useNickname = watch("useNickname", false);
   const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
-
 
   useEffect(() => {
     //console.log("MerchantId:", credentials?.merchantId);
@@ -123,24 +138,23 @@ const AddEmployee = () => {
       dispatch(updateEmployeeClear())
     }
   }, [updatePinLoading, updatePinFailed, updatePinMessage, updatePinSuccess]);
-  const getRole = () => {
-    let neighbourhoodDeliveryRole = [
+
+  const getRole = (credentials) => {
+    const neighbourhoodDeliveryRole = [
       "Operator-neighbourhood",
       "Branch manager-neighbourhood",
       "Regional manager-neighbourhood",
       "Owner-neighbourhood",
       "Delivery-neighbourhood",
     ];
-    if (
-      credentials?.accessToken &&
-      neighbourhoodDeliveryRole.includes(
-        jwt_decode(credentials?.accessToken).resource_access["merchant-app"]
-          .roles[0]
-      )
-    ) {
+  
+    const decodedToken = credentials?.accessToken ? jwt_decode(credentials.accessToken) : null;
+    const roles = decodedToken?.resource_access?.["merchant-app"]?.roles || [];
+  
+    if (roles.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
       return [
-        "Branch Manager",
-        "Regional Manager",
+        "Branch_Manager",
+        "Regional_Manager",
         "Operator",
         "Owner",
         "Delivery",
@@ -148,16 +162,17 @@ const AddEmployee = () => {
     } else {
       return [
         "Chef",
-        "Restaurant Owner",
-        "Restaurant Manager",
-        "System Admin",
+        "Restaurant_Owner",
+        "Restaurant_Manager",
+        "Admin",
         "Supervisor",
         "Waiter",
         "Host",
         "Delivery",
-      ]
+      ];
     }
-  }
+  };  
+  
   useEffect(() => {
     if (!addEmployeeLoading && employeeAdded) {
       dispatch(resetAddEmployee());
@@ -232,6 +247,29 @@ const AddEmployee = () => {
     }
   }, [watchLastName]);
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpenFuction(false);
+    }
+  };
+
+  useEffect(() => {
+    if (openFunction) {
+      document.addEventListener('mousedown', handleClickOutside)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    };
+  }, [openFunction])
+
+  useEffect(() => {
+    if (editEmployee && editEmployee.role) {
+      setSelectedRole(editEmployee.role);
+    }
+  }, [editEmployee]);
+
   const handleSelectOutlet = (outlet) => {
     setSelectedOutlet(outlet.locationName.split(",")[1])
     setIsOutletDropdownOpen(false)
@@ -265,123 +303,201 @@ const AddEmployee = () => {
   }
 
   const handleRoleChange = (role) => {
-    setSelectedRole(role)
-    const functionsForRole = rolesAndFunction
+    setSelectedRole(role);
+    const functionsForRole = roles
       .flatMap((module) => module.functionality)
-      .filter((func) => func.roles.includes(role))
-      .flatMap((func) => func.name)
-    setCheckedFunctions(functionsForRole)
-  }
+      .filter((func) => func.roles?.includes(role)) 
+      .flatMap((func) => func.name);
+    setCheckedFunctions(functionsForRole);
+  };
 
   const isFunctionChecked = (functionName) => {
-    return checkedFunctions.includes(functionName.toLowerCase())
-  }
+    return checkedFunctions.includes(functionName.toLowerCase());
+  };
 
   const handleCheckboxChange = (functionName) => {
     setCheckedFunctions((prevCheckedFunctions) => {
       if (prevCheckedFunctions.includes(functionName.toLowerCase())) {
-        return prevCheckedFunctions.filter((func) => func !== functionName.toLowerCase())
+        return prevCheckedFunctions.filter((func) => func !== functionName.toLowerCase());
       } else {
-        return [...prevCheckedFunctions, functionName.toLowerCase()]
+        return [...prevCheckedFunctions, functionName.toLowerCase()];
       }
-    })
-  }
+    });
+  };
 
   const isModuleChecked = (moduleName) => {
-    return functionData
+    return roles
       .find((module) => module.module.toLowerCase() === moduleName.toLowerCase())
-      .functionality.every((func) => checkedFunctions.includes(func.toLowerCase()));
+      .functionality.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
   };
-  
+
   const handleModuleCheckboxChange = (moduleName) => {
-    const moduleFunctions = functionData
+    const moduleFunctions = roles
       .find((module) => module.module.toLowerCase() === moduleName.toLowerCase())
-      .functionality.map((func) => func.toLowerCase());
-  
+      .functionality.map((func) => func.name.toLowerCase());
+
     setCheckedFunctions((prevCheckedFunctions) => {
       if (moduleFunctions.every((func) => prevCheckedFunctions.includes(func))) {
         return prevCheckedFunctions.filter((func) => !moduleFunctions.includes(func));
       } else {
-        return [...prevCheckedFunctions, ...moduleFunctions.filter((func) => !prevCheckedFunctions.includes(func))]
+        return [...prevCheckedFunctions, ...moduleFunctions.filter((func) => !prevCheckedFunctions.includes(func))];
       }
     })
   }
 
-  const getDefaultFunctionalitiesForRole = (role) => {
-    return rolesAndFunction
+  const handleReset = () => {
+    const functionsForRole = roles
+      .flatMap((module) => module.functionality)
+      .filter((func) => func.roles.includes(selectedRole))
+      .flatMap((func) => func.name.toLowerCase())
+    setCheckedFunctions(functionsForRole)
+  }
+
+  const isDefaultActionsUpdated = (selectedFunctions, role) => {
+    const defaultFunctions = roles
       .flatMap((module) => module.functionality)
       .filter((func) => func.roles.includes(role))
-      .flatMap((func) => func.name.map(name => name.toLowerCase()));
+      .map((func) => func.name.toLowerCase());
+  
+    const selectedFunctionNames = selectedFunctions.map((func) => func.name.toLowerCase());
+  
+    const isUpdated = selectedFunctionNames.some((func) => !defaultFunctions.includes(func));
+    return isUpdated;
   };
-  
-  const isDefaultActionsUpdated = (selectedFunctions, role) => {
-    const defaultFunctions = getDefaultFunctionalitiesForRole(role);
-    const selectedFunctionNames = selectedFunctions.flatMap(module => module.functions.map(func => func.name.toLowerCase()));
-    return selectedFunctionNames.some(func => !defaultFunctions.includes(func));
-  }
-  
-  const getFunctionUrl = (functionName) => {
-    for (const module of rolesAndFunction) {
-      for (const func of module.functionality) {
-        if (func.name.includes(functionName.toLowerCase())) {
-          return func.urls;
-        }
-      }
-    }
-    return []
-  }
 
-  const handleReset = () => {
-    const functionsForRole = getDefaultFunctionalitiesForRole(selectedRole);
-    setCheckedFunctions(functionsForRole);
-  };
+  useEffect(() => {
+    if (employeeAdded && !employeeUpdateLoading) {
+      history.replace('/management/employees');
+    }
+  }, [employeeAdded, employeeUpdateLoading, history]);
+
 
   const onSubmit = (formValues) => {
-    // let pin = formValues.devicePin
-    const selectedFunctions = functionData.map((module) => ({
-      module: module.module,
-      functions: module.functionality
-        .filter((func) => checkedFunctions.includes(func.toLowerCase()))
+    const rolesAndFunctions = roles.map((module) => {
+      const moduleFunctions = module.functionality
+        .filter((func) => checkedFunctions.includes(func.name.toLowerCase()))
         .map((func) => ({
-          name: func,
-          urls: getFunctionUrl(func)
-        }))
-    })).filter((module) => module.functions.length > 0)
+          moduleType: module.module,
+          moduleName: func.name,
+          urls: func.urls
+        }));
   
-    formValues["rolesAndFunctions"] = selectedFunctions;
-    formValues["firstName"] = formValues.firstName
-    formValues["lastname"] = formValues.lastName
-    formValues["role"] = formValues.role
-    formValues["userId"] = credentials.businessName
-    formValues["nickName"] = formValues.nickName
-    formValues["email"] = formValues.email
-    formValues["phone"] = formValues.mobileNumber
-    formValues["address"] = `${formValues.address1} ${formValues.address2}`
-    formValues["dateOfBirth"] = selectedDate
-    formValues["education"] = formValues.education
-    // formValues["merchantId"] = credentials.merchantId
-    formValues["pin"] = pins.join('')
+      return moduleFunctions.length > 0
+        ? moduleFunctions
+        : null;
+    }).flat().filter((item) => item !== null);
+  
+    // Update formValues
+    formValues["firstName"] = formValues.firstName;
+    formValues["fullName"] = `${formValues.firstName} ${formValues.lastName}`;
+    formValues["role"] = formValues.role;
+    formValues["businessName"] = credentials.businessName;
+    formValues["userId"] = formValues.userId;
+    formValues["nickName"] = formValues.nickName;
+    formValues["email"] = formValues.email;
+    formValues["mobileNumber"] = formValues.mobileNumber;
+    formValues["address"] = `${formValues.address1} ${formValues.address2}`;
+    formValues["dateOfBirth"] = selectedDate;
+    formValues["education"] = formValues.education;
+    formValues["merchantId"] = credentials.merchantId;
+    formValues["devicePin"] = pins.join('');
+    formValues["IsTempPassword"] = false;
+    formValues["password"] = formValues.password || null;
+    formValues["isToUseNickName"] = formValues.useNickname;
     formValues["locationId"] = outlets.find((outlet) =>
       outlet.locationName.includes(formValues["outlet"])
-    ).id
-    formValues["isDefaultActionsUpdated"] = isDefaultActionsUpdated(selectedFunctions, formValues["role"])
-    // if (!pinEnabled) {
-    //   formValues["devicePin"] = ""
-    // }
-
-    // delete formValues["firstName"]
-    delete formValues["lastName"]
+    ).id;
+    formValues["userAccessInfoList"] = rolesAndFunctions;
+    const isUpdated = isDefaultActionsUpdated(
+      rolesAndFunctions.map(module => ({ name: module.moduleName, urls: module.urls })),
+      formValues["role"]
+    );
+    formValues["isDefaultFunctionalityAccessUpdated"] = isUpdated;
+    if(editEmployeeData){
+      formValues["id"] = editEmployeeData.staffId
+    }
+    // Clean up formValues
     delete formValues.address1;
     delete formValues.address2;
-    delete formValues["outlet"]
-    //console.log("Employee details", formValues)
-    console.log("Form Submitted")
+    delete formValues["outlet"];
+    delete formValues["useNickname"];
+    delete formValues["pin"]
+  
+    // Submit the form
+    console.log("Form Submitted");
+
     if (editEmployee) {
-      dispatch(updateEmployeePIN({ id: editEmployeeData.id, pin: pin }))
+      dispatch(updateEmployeeRequest(formValues))
     } else {
-      dispatch(addEmployee(formValues))
+      console.log("Emp Add")
+      console.log(editEmployee)
+      dispatch(addEmployee(formValues));
     }
   }
+
+  const splitAddress = (address) => {
+    const parts = address.split(',');
+    if (parts.length > 1) {
+      const addressLine1 = parts.slice(0, -1).join(',').trim();
+      const addressLine2 = parts[parts.length - 1].trim();
+      return [addressLine1, addressLine2];
+    }
+  
+    const maxLength = 30;
+    if (address.length <= maxLength) {
+      return [address, ''];
+    }
+  
+    const splitIndex = address.lastIndexOf(' ', maxLength);
+    return [
+      address.slice(0, splitIndex),
+      address.slice(splitIndex + 1)
+    ];
+  };
+  
+  useEffect(() => {
+    if (editEmployeeData) {
+      if(editEmployeeData?.pin && editEmployeeData?.pin?.length === 4) {
+        const first = editEmployeeData?.pin?.split('')[0]
+        const second = editEmployeeData?.pin?.split('')[1]
+        const third = editEmployeeData?.pin?.split('')[2]
+        const fourth = editEmployeeData?.pin?.split('')[3]
+        setPins([first,second,third,fourth])
+      }
+
+      if(editEmployeeData?.dateOfBirth && editEmployeeData?.dateOfBirth?.length > 0){
+        const date = new Date(editEmployeeData.dateOfBirth);
+        setSelectedDate(date)
+      }
+      setValue('firstName',editEmployeeData.firstName || '')
+      setValue('lastName', editEmployeeData.lastName || '')
+      setValue('mobileNumber', editEmployeeData.mobileNumber || editEmployeeData.phone || '')
+      setValue('nickName', editEmployeeData.nickName || '')
+      setValue('education', editEmployeeData.education || '')
+      setValue('role', editEmployeeData.assignedRole || '')
+      setValue('email', editEmployeeData.email || '')
+      setValue('dateOfBirth', editEmployeeData.dateOfBirth || '')
+      setValue('userId', editEmployeeData.userId || '')
+      setValue('outlet', editEmployeeData.locationName.split(',')[1] || '')
+
+      if(editEmployeeData?.address){
+        const [address1, address2] = splitAddress(editEmployeeData.address)
+        setValue('address1', address1)
+        setValue('address2', address2)
+      }
+    }
+  }, [editEmployeeData]);
+
+  const addEmployeeFailure = useSelector((state) => state.employee.addEmployeeFailure)
+  const updateEmployeeFailure = useSelector((state) => state.employee.updateEmployeeFailure)
+
+  useEffect(() => {
+    if (employeeActionCompleted && (addEmployeeFailure || !employeeUpdated)) {
+      console.log("Emp Action Complete")
+      history.replace('/management/employees');
+      dispatch(resetEmployeeActionCompleted());
+    }
+  }, [employeeActionCompleted, history]);
 
   return (
     <>
@@ -402,34 +518,33 @@ const AddEmployee = () => {
             <div className="menu-details-form">
               <div className="primary-sec">
                 <div className="flexContainer">
-                  {/* {errors.firstName?.type === "required" && (
-                    <p className="error-msg">First Name Required</p>
-                  )} */}
                   <div>
+
                     <TextInput
                       type="text"
-                      placeholder={"First Name*" }
+                      placeholder="First Name*"
                       maxLength={15}
                       name="firstName"
-                      refRegister={register({
-                        required: !editEmployee && "Required",
+                      formRegister={register({
+                        required: "Required",
                       })}
-                      className={errors.firstName?.type === "required" ? 'fN errorInput' :'add-employee-text-input'}
-                      // value={editEmployee ? editEmployee.firstName : null}
-                      // disabled={editEmployee && editEmployee.firstName}
+                      error={null}
+                      className={
+                        errors.firstName?.type === "required"
+                          ? "fN errorInput"
+                          : "add-employee-text-input"
+                      }
                     />
                   </div>
+
                   <div>
                     <TextInput
                       type="text"
                       placeholder="Last Name"
                       name="lastName"
-                      refRegister={register()}
+                      formRegister={register()}
                       className={"add-employee-text-input"}
                       maxLength={15}
-                      value={editEmployee ? editEmployee.lastName : null}
-                      // disabled={editEmployee && editEmployee.lastName}
-                      // disabled={editEmployee}
                     />
                   </div>
                 </div>
@@ -439,15 +554,11 @@ const AddEmployee = () => {
                     type="text"
                     placeholder="Nick Name"
                     name="nickName"
-                    refRegister={register({
+                    formRegister={register({
                      required: useNickname && "Required"
                     })}
-                    // className={""}
                     maxLength={15}
                     className={errors.nickName ? 'fN errorInputBox' :'inputBox'}
-                    // value={editEmployee ? editEmployee.nickName : null}
-                    // disabled={editEmployee && editEmployee.lastName}
-                    // disabled={editEmployee}
                   />
                 </div>
 
@@ -464,14 +575,12 @@ const AddEmployee = () => {
                       type="number"
                       placeholder="Phone*"
                       name="mobileNumber"
-                      refRegister={register({
-                        required: !editEmployee && "Required",
+                      formRegister={register({
+                        required: "Required",
                       })}
                       className={errors.mobileNumber?.type === "required" ? 'num errorInput' :'add-employee-text-input'}
                       min={0}
-                      value={editEmployee ? editEmployee.mobileNumber : null}
-                      // disabled={editEmployee && editEmployee.mobileNumber}
-                      // disabled={editEmployee}
+                      // disabled={editEmployee && editEmployee.phone}
                     />
                   </div>
                   <div>
@@ -479,11 +588,8 @@ const AddEmployee = () => {
                       type="email"
                       placeholder="Email"
                       name="email"
-                      refRegister={register()}
+                      formRegister={register()}
                       className={"add-employee-text-input"}
-                      value={editEmployee ? editEmployee.email : null}
-                      // disabled={editEmployee && editEmployee.email}
-                      // disabled={editEmployee}
                     />
                   </div>
                 </div>
@@ -493,11 +599,8 @@ const AddEmployee = () => {
                     type="text"
                     placeholder="Address Line 1"
                     name="address1"
-                    refRegister={register()}
+                    formRegister={register()}
                     className={"inputBox"}
-                    // value={editEmployee ? editEmployee.address : null}
-                    // disabled={editEmployee && editEmployee.email}
-                    // disabled={editEmployee}
                   />
                 </div>
                 <div>
@@ -505,11 +608,8 @@ const AddEmployee = () => {
                     type="text"
                     placeholder="Address Line 2"
                     name="address2"
-                    refRegister={register()}
+                    formRegister={register()}
                     className={"inputBox"}
-                    // value={editEmployee ? editEmployee.address : null}
-                    // disabled={editEmployee && editEmployee.email}
-                    // disabled={editEmployee}
                   />
                 </div>
 
@@ -519,24 +619,11 @@ const AddEmployee = () => {
                       type="text"
                       placeholder="Education"
                       name="education"
-                      refRegister={register()}
+                      formRegister={register()}
                       className={"add-employee-text-input"}
-                      // value={editEmployee ? editEmployee.address : null}
-                      // disabled={editEmployee && editEmployee.email}
-                      // disabled={editEmployee}
                     />
                   </div>
                     <div style={{zIndex:99999}}>
-                      {/* <TextInput
-                        type="date"
-                        placeholder="Date of birth"
-                        name="DOB"
-                        // refRegister={register()}
-                        className={"dateInput"}
-                        // value={editEmployee ? editEmployee.address : null}
-                        // disabled={editEmployee && editEmployee.email}
-                        disabled={editEmployee}
-                      /> */}
                       <DatePicker 
                         placeholderText="DOB" 
                         value={null} 
@@ -544,8 +631,7 @@ const AddEmployee = () => {
                         selected={selectedDate}
                         onChange={(date) => setSelectedDate(date)}
                         className={"dateInput"} 
-                        refRegister={register()}
-                        // disabled={editEmployee} 
+                        formRegister={register()}
                         yearDropdownItemNumber={50} 
                         scrollableYearDropdown
                         showYearDropdown
@@ -565,12 +651,8 @@ const AddEmployee = () => {
                       control={control}
                       name="outlet"
                       defaultValue={""}
-                      refRegister={register({
-                        required: !editEmployee && "Required",
-                      })}
                       rules={{
-                        // required: true
-                        required: !editEmployee && "Required",
+                        required: "Required",
                       }}
                       render={({ onChange, onBlur, value, name }) => (
                         <CustomDropdown
@@ -580,13 +662,12 @@ const AddEmployee = () => {
                           )}
                           placeholder={"Assign Outlet*"}
                           onSelect={(outletSelected) => {
-                            //console.log("outlet Changed:", outletSelected.value);
                             const outletObject = outlets.find((outlet) =>
                               outlet.locationName.includes(outletSelected.value)
                             );
                             onChange(outletObject.locationName.split(",")[1])
                           }}
-                          value={editEmployee ? editEmployee.location : value}
+                          value={editEmployee ? editEmployee.outlet : ''}
                           name={name}
                           controlClassName={
                             editEmployee
@@ -595,12 +676,12 @@ const AddEmployee = () => {
                           }
                           arrowClassName={"add-employee-dropdown-arrow"}
                           placeholderClass={"dropDown"}
-                          // disabled={editEmployee}
                         />
                       )}
                     />
                   </div>
                 </div>
+
                 
                 <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
                   <Controller
@@ -608,19 +689,20 @@ const AddEmployee = () => {
                     name="role"
                     defaultValue={""}
                     rules={{
-                      required: !editEmployee && "Required",
+                      required: "Required",
                     }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={getRole()}
                         placeholder={"Assign Role*"}
                         onSelect={(role) => {
-                          onChange(role.value)
-                          handleRoleChange(role.value)
-                          if (jwt_decode(credentials?.accessToken).resource_access["merchant-app"].roles[0].includes("neighbourhood"))
-                            onChange(role.value + "-neighbourhood")
+                          onChange(role.value);
+                          handleRoleChange(role.value);
+                          if (jwt_decode(credentials?.accessToken)?.resource_access["merchant-app"]?.roles[0].includes("neighbourhood")) {
+                            onChange(role.value + "-neighbourhood");
+                          }
                         }}
-                        value={value}
+                        value={editEmployee ? editEmployee.role : ''}
                         name={name}
                         placeholderClass={"dropDown"}
                         controlClassName={"add-employee-dropdown"}
@@ -628,14 +710,14 @@ const AddEmployee = () => {
                       />
                     )}
                   />
-                  <div className="roleFunction">
+                  {selectedRole && <div className="roleFunction">
                     <p onClick={() => setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
-                  </div>
+                  </div>}
                   {openFunction && (
-                    <div className="functionsDropDown">
+                    <div className="functionsDropDown" ref={dropdownRef}>
                       <p style={{textAlign: 'center', fontWeight: 600}}>Roles/Function</p>
                       <div className="checkBoxContainer">
-                        {functionData.map((module) => (
+                        {roles.map((module) => (
                           <div className="checkboxList" key={module.module}>
                             <div className="checkBoxItem">
                               <label>
@@ -649,15 +731,15 @@ const AddEmployee = () => {
                               </label>
                             </div>
                             {module.functionality.map((func) => (
-                              <div className="checkBoxItem" key={func}>
+                              <div className="checkBoxItem" key={func.name}>
                                 <label>
                                   <input 
                                     type="checkbox" 
                                     className="checkbox" 
-                                    checked={isFunctionChecked(func)} 
-                                    onChange={() => handleCheckboxChange(func)} 
+                                    checked={isFunctionChecked(func.name)} 
+                                    onChange={() => handleCheckboxChange(func.name)} 
                                   />
-                                  <p>{func}</p>
+                                  <p>{func.name}</p>
                                 </label>
                               </div>
                             ))}
@@ -674,19 +756,15 @@ const AddEmployee = () => {
               </div>
 
               <div className="flexContainer">
-              {/* {errors.userId?.type === "required" && (
-                  <p className="error-msg">User Id Required</p>
-                )} */}
                 <div>
                   <TextInput
                     type="text"
                     placeholder="User ID*"
                     name="userId"
-                    refRegister={register({
-                      required: !editEmployee && "Required",
+                    formRegister={register({
+                      required: "Required",
                     })}
                     className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
-                    disabled={editEmployee}
                   />
                 </div>
                 
@@ -696,16 +774,12 @@ const AddEmployee = () => {
                     placeholder="Password*"
                     minLength={6}
                     name="password"
-                    refRegister={register({
-                      // required: "Required",
+                    formRegister={register({
                       required: !editEmployee && "Required",
                     })}
                     className={errors.password?.type === "required" ? 'pass errorInput' :'add-employee-text-input'}
-                    // style={{ fontSize: "18px" }}
                     containerStyle={{ paddingBottom: "0px" }}
-                    // disabled={editEmployee}
                   />
-                  {/* <div> */}
                   {isPasswordVisible ? (
                     <ClosedEyeIcon
                       onClick={() => SetIsPasswordVisible(false)}
@@ -727,7 +801,6 @@ const AddEmployee = () => {
                       }}
                     />
                   )}
-                  {/* </div> */}
                 </div>
               </div>
 
@@ -735,38 +808,13 @@ const AddEmployee = () => {
                   className="acess-flex"
                   style={{ marginTop: editEmployee ? 10 : 20 }}
                 >
-                  {errors.devicePin?.type === "minLength" ||
-                  errors.devicePin?.type === "maxLength" ? (
-                    <p className="error-msg">PIN Should Be of Length 4</p>
-                  ) : null}
                   <p style={{fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
-                  {/* <Switchbox
-                    isChecked={pinEnabled}
-                    handleSwitch={() => setPinEnabled(!pinEnabled)}
-                  />{" "} */}
-                  {/* <TextInput
-                    containerStyle={{ paddingBottom: "0px" }}
-                    type="number"
-                    placeholder="Create PIN"
-                    maxLength={4}
-                    minLength={4}
-                    name="devicePin"
-                    onChange={(e) => setPin(e.target.value)}
-                    refRegister={register({
-                      minLength: 4,
-                      maxLength: 4,
-                    })}
-                    // disabled={!pinEnabled}
-                    min={0}
-                    className={"pinInput"}
-                    value={pin}
-                  /> */}
                   <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                     <div style={{ display: 'flex', border: errors.pin ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                       {[0, 1, 2, 3].map((i) => (
                         <input
                           key={i}
-                          refRegister={register()}
+                          formRegister={register()}
                           ref={(el) => {
                             inputRefs.current[i] = el;
                             register(el, { required: "Required" });
@@ -826,32 +874,33 @@ const AddEmployee = () => {
               <span
                 style={{marginLeft:'550px'}}
                 onClick={() => {
-                  //console.log("Cancelling");
-                  // history.replace("/management/employees")
                   setOpenModal(!openModal)
                 }}
               >
                  <input className="clear-all-btn" type="button" value="Clear All" />
               </span>
-              <span
-                onClick={() => {
-                  
-                  //console.log(errors, "errors")
-                  // history.replace('/management/employees')
-                }}
-              >
-                <input className="save-btn" type="submit" value="Save" /> 
+              <span>
+                <input 
+                  className="save-btn" 
+                  type="submit" 
+                  value="Save" 
+                /> 
               </span>
             </div>
           </form>
+
          {openModal && <div className="modal">
             <div className="modalContainer">
               <p>Are you sure?</p>
               <p>All unsaved changes will be lost.</p>
               <div className="modalBtn">
-                <input type="button" className="yesBtn" value='Yes' onClick={()=> {
-                  history.replace("/management/employees")
-                }} />
+                <input type="button" 
+                  className="yesBtn" 
+                  value='Yes' 
+                  onClick={()=> {
+                    history.replace("/management/employees")
+                  }} 
+                />
                 <input type="button" className="noBtn" value='No' onClick={()=>{setOpenModal(!openModal)}} />
               </div>
             </div>

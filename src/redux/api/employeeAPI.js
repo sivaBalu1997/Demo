@@ -18,12 +18,14 @@ export function fetchOutlets(merchantId) {
   })
 }
 
+
+//Create Employee
 export function createEmployee(details) {
   const token = Store.getState().auth.credentials.accessToken;
-  const merchantId = Store.getState().auth.credentials.merchantId;
+  // const merchantId = Store.getState().auth.credentials.merchantId;
   return API({
     method: "post",
-    url: `/merchants/${merchantId}/staffs/create`, 
+    url: `/merchants/staffs`, 
     data: details,
     headers: {
       Authorization: "bearer " + token,
@@ -31,18 +33,7 @@ export function createEmployee(details) {
   })
 }
 
-// export function getEmployeeDetails() {
-//   const token = Store.getState().auth.credentials.accessToken;
-//   const merchantId = Store.getState().auth.credentials.merchantId;
-//   return API({
-//     method: "get",
-//     url: "/merchants/" + merchantId + "/staff",
-//     headers: {
-//       Authorization: "bearer " + token,
-//     },
-//   });
-// }
-
+//Get Employee
 export function getEmployeeDetails() {
   const token = Store.getState().auth.credentials.accessToken;
   const merchantId = Store.getState().auth.credentials.merchantId;
@@ -55,26 +46,29 @@ export function getEmployeeDetails() {
   })
 }
 
-export function getEmployeeById() {
+//Get Employee By ID
+export function getEmployeeById(staffId) {
   const token = Store.getState().auth.credentials.accessToken;
   const merchantId = Store.getState().auth.credentials.merchantId;
-  const staffId = Store.getState().employee.staffId
-  console.log("StaffID from API :",staffId)
+  const staff = staffId
+
   return API({
     method: 'get',
-    url: `/merchants/${merchantId}/staffs/${staffId}`,
+    url: `/merchants/${merchantId}/staffs/${staff}`,
     headers: {
       Authorization: "bearer " + token,
     },
   })
 }
 
-export function removeEmployee(details) {
+//Remove Employee
+export function removeEmployee(staffId) {
   const token = Store.getState().auth.credentials.accessToken;
+  const staff = staffId
   return API({
-    method: "post",
-    url: "/merchants/staff/delete",
-    data: details,
+    method: "delete",
+    url: `/merchants/staffs/${staffId}`, 
+    // data: details,
     headers: {
       Authorization: "bearer " + token,
     },
@@ -101,5 +95,45 @@ export function updatePIN(details) {
     headers: {
       Authorization: "bearer " + token,
     },
+  })
+}
+
+//Roles and Functions
+export const rolesAndFunctions = () => {
+  const token = Store.getState().auth.credentials.accessToken;
+  return API ({
+    method: 'get',
+    url: `/api-info`,
+    headers: {
+      Authorization: "bearer " + token,
+    }
+  })
+}
+
+//Block or Unblock employee
+export const employeeStatus = ({staffId, isToBlock}) => {
+  const token = Store.getState().auth.credentials.accessToken;
+  const staff = staffId;
+  
+  return API ({
+    method: 'patch',
+    url:`/merchants/staffs/${staffId}?isToBlock=${isToBlock}`,
+    headers: {
+      Authorization: "bearer " + token,
+    }
+  })
+}
+
+//Edit Employee
+export const editEmployee = (details) => {
+  const token = Store.getState().auth.credentials.accessToken;
+
+  return API ({
+    method: 'put',
+    url:`/merchants/staffs`,
+    data:details,
+    headers: {
+      Authorization: "bearer " + token,
+    }
   })
 }

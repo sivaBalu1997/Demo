@@ -1,17 +1,18 @@
 import "./styles.css";
 import React, { useState, useEffect, Fragment, useRef } from "react";
-import logout from "../../assets/images/logout.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { SELECTED_BRANCH_DATA } from "../../shared/constants";
 import { signOut } from "../../redux/actions/authActions";
 import { ReactComponent as Employees } from "../../assets/svg/employees.svg";
 import {
-  manageUserAccess,
   getEmployees,
   clearManageUserAccess,
   setEditEmployeeData,
   clearEditEmployeeData,
+  getEmployeeByIdRequest,
+  deleteEmployee,
+  employeeStatusRequest,
 } from "../../redux/actions/employeeActions";
 import { clearMenuData } from "../../redux/actions/menuAction";
 import editImg from '../../assets/svg/edit.svg'
@@ -24,18 +25,15 @@ import activeIcon from '../../assets/svg/activeIcon.svg'
 import blockIcon from '../../assets/svg/yblockIcon.svg'
 import thunder from '../../assets/svg/thunder.svg'
 import {
-  getRestaurantRequest,
   selectBranch,
 } from "../../redux/actions/authActions";
-import { employeeData } from "./data";
-
 
 const EmployeeList = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const credentials = useSelector((state) => state.auth.credentials)
-  const [employeeListData, setEmployeeListdata] = useState(employeeData)
-  const [searchInput, setSearchInput] = useState()
+  const [employeeListData, setEmployeeListdata] = useState(props.EmployeeList)
+  const [searchInput, setSearchInput] = useState('')
 
   const logoutUser = () => {
     dispatch(clearMenuData())
@@ -55,13 +53,6 @@ const EmployeeList = (props) => {
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails
   )
-  // const manage = useSelector((state) => console.log(state.employee, "State"));
-  // useEffect(() => {
-  //   if (manageAccessLoading) {
-  //     console.log("Inside IFfff::::::");
-  //     dispatch(getEmployees(credentials?.id));
-  //   }
-  // }, [manageAccessSuccess, manageAccessLoading]);
 
   useEffect(() => {
     dispatch(clearEditEmployeeData())
@@ -77,7 +68,7 @@ const EmployeeList = (props) => {
       localStorage.setItem(
         SELECTED_BRANCH_DATA,
         JSON.stringify(restaurantDetails.branch[0])
-      );
+      )
     }
   }, [restaurantDetails]);
 
@@ -89,7 +80,7 @@ const EmployeeList = (props) => {
   }, [manageAccessSuccess])
 
   const handleSearch = () => {
-    const filteredData = employeeData.filter(item => (
+    const filteredData = props.employeeList.filter(item => (
       item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
       item.role.toLowerCase().includes(searchInput.toLowerCase())
     ))
@@ -104,30 +95,13 @@ const EmployeeList = (props) => {
 
   useEffect(()=>{
     if(searchInput === ''){
-      setEmployeeListdata(employeeData)
+      setEmployeeListdata(props.employeeList)
     }
   },[searchInput])
-
-  console.log(props.employeeList)
 
   return (
     <>
       <div className="menu-items">
-      {/* <div className="header">
-          <p
-            onClick={logoutUser}
-            style={{
-              marginLeft: "88%",
-              display: "flex",
-              alignItems: "center",
-              whiteSpace: "nowrap",
-              cursor: "pointer",
-            }}
-          >
-            <img src={logout} alt="Logout" height="20" />
-            &nbsp; Log Out
-          </p>
-        </div> */}
         <div className="header-menu">
           <div>
             <Employees
@@ -160,41 +134,31 @@ const EmployeeList = (props) => {
               history.push("/management/employees/add")
             }}/>
         </div>
-        {/* employeeListData */}
-        { props.employeeList ? (
+        { employeeListData ? (
           <div
             className="menu-list"
             style={{
               paddingBottom: "3%",
             }}
           >
-            <table className="employeeTable" width="100%" >
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Role</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+            <table className="employeeTable">
+              <thead className="employeeTableHead">
+                <tr className="employeeTableRow">
+                  <th className="tHeading">Name</th>
+                  <th className="tHeading">Role</th>
+                  <th className="tHeading">Status</th>
+                  <th className="tHeading">Actions</th>
                 </tr>
               </thead>
-              <tbody style={{}}>
-                {/* employeeListData  */}
-                {props.employeeList.map((row, index) => {
+              <tbody className="tBody">
+                { employeeListData.map((row, index) => {
                   return (
                     <EmployeeRow
                       key={row.id}
                       name={row.firstName}
                       role={row.role}
-                      status = {row.isBlocked}
+                      status = {row.isActive}
                       data={row}
-                      // key={row.id}
-                      // serialNumber={index + 1}
-                      // name={row.name}                      
-                      // role={row.role}
-                      // status = {row.status}
-                      // outlet={String(row.locationName).split(",")[1]}
-                      // contact={row.mobileNumber}
-                      // data={row}
                     />
                   )
                 })}
@@ -206,6 +170,7 @@ const EmployeeList = (props) => {
     </>
   )
 }
+
 const EmployeeRow = ({
   serialNumber,
   name,
@@ -221,126 +186,214 @@ const EmployeeRow = ({
   const credentials = useSelector((state) => state.auth.credentials)
   const history = useHistory()
   const [show, setShow] = useState(false)
+  const [editTriggered, setEditTriggered] = useState(false);
+  const [openEditModal, setEditOpenModal] = useState(false);
+  const [openDeleteModal, setDeleteOpenModal] = useState(false);
+  const [employeeToUpdate, setEmployeeToUpdate] = useState(null);
+  const [isBlocking, setIsBlocking] = useState(true);
+  const [statusUpdateCompleted, setStatusUpdateCompleted] = useState(false);
+  const [employeeDeleteCompleted, setEmployeeDeleteCompleted] = useState(false);
+  const [employeeToDelete, setEmployeeToDelete] = useState(null);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
-      // If the menu is open and the clicked target is not within the menu,
-      // then close the menu
       if (show && ref.current && !ref.current.contains(e.target)) {
         setShow(false)
       }
     }
-
     document.addEventListener("mousedown", checkIfClickedOutside)
-
     return () => {
-      // Cleanup the event listener
       document.removeEventListener("mousedown", checkIfClickedOutside)
     }
   }, [show])
 
-  const getOpacity = (data) => {
-    if (!data) return 0.5
-    else return 1
+  const employee = useSelector((state) => state.employee.employeeByIdDetails)
+  const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading);
+
+  const handleEdit = (staffId) => {
+    dispatch(getEmployeeByIdRequest(staffId));
+    setEditTriggered(true);
   }
-  
+
+  useEffect(() => {
+    if (editTriggered && employee && employee.staffId === data.staffId) {
+      dispatch(setEditEmployeeData(employee))
+      history.push("/management/employees/add")
+      setEditTriggered(false);
+    }
+  }, [employee, editTriggered, data.staffId])
+
+  useEffect(() => {
+    if (editTriggered && employee && employee.staffId === data.staffId) {
+      dispatch(setEditEmployeeData(employee));
+      history.push("/management/employees/add");
+      setEditTriggered(false);
+    }
+  }, [employee, editTriggered, data.staffId]);
+
+  const handleBlockClick = (employee, block) => {
+    setEmployeeToUpdate(employee);
+    setIsBlocking(block);
+    setEditOpenModal(true);
+  };
+
+  const handleYesClick = () => {
+    dispatch(employeeStatusRequest(employeeToUpdate.staffId, isBlocking));
+    setStatusUpdateCompleted(true);
+    setEditOpenModal(false);
+    setEmployeeToUpdate(null);
+  };
+
+  useEffect(() => {
+    if (statusUpdateCompleted && !employeeStatusLoading) {
+      dispatch(getEmployees(credentials?.id))
+      setStatusUpdateCompleted(false)
+    }
+  }, [employeeStatusLoading, statusUpdateCompleted, credentials?.id]);
+
+  const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
+  const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
+
+  const handleDeleteClick = (employee) => {
+    setEmployeeToDelete(employee);
+    setDeleteOpenModal(true);
+  }
+
+  const handleEmpDelete = () => {
+    dispatch(deleteEmployee(employeeToDelete.staffId));
+    setEmployeeDeleteCompleted(true);
+    setDeleteOpenModal(false);
+    setEmployeeToDelete(null);
+  }
+
+  useEffect(() => {
+    if (employeeDeleteCompleted && !deleteEmployeeLoading) {
+      dispatch(getEmployees(credentials?.id))
+      setEmployeeDeleteCompleted(!employeeDeleteCompleted)
+    }
+  }, [employeeDeleted, credentials?.id])
+
   return (
-    <tr
-      onClick={() => {
-        if (show) {
-          setShow(!show)
-        }
-      }}
-    >
-      <td
-        style={{
-          display: "flex",
-          justifyContent: "center",
+    <>
+      <tr
+        onClick={() => {
+          if (show) {
+            setShow(!show)
+          }
         }}
       >
-        <div>{name}</div>
-      </td>
-      <td >
-        <div className="rolesBox" >
-          <p>{role}</p>
-          {data.isDefaultActionsUpdated && <img src={thunder} />}
-        </div>
-      </td>
-      <td className="statusBox">
-        {data.isBlocked ? 
-          <>
-            <img className="statusImg" src={blockIcon} alt="" /> 
-            <p>Blocked</p>
-          </>
-          : 
-          <>
-            <img className="statusImg" src={activeIcon} alt="" />
-            <p>Active</p>
-          </>
-        }
-      </td>
-      <td ref={ref}>
-        {/* <BiDotsVerticalRounded onClick={() => setShow(!show)} /> */}
+        <td
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <div>{name}</div>
+        </td>
+        <td >
+          <div className="rolesBox" >
+            <p>{role}</p>
+            {data.isDefaultActionsUpdated && <img src={thunder} />}
+          </div>
+        </td>
+        <td className="statusBox">
+          {!data.isActive ?
+            <>
+              <img className="statusImg" src={blockIcon} alt="" />
+              <p>Blocked</p>
+            </>
+            :
+            <>
+              <img className="statusImg" src={activeIcon} alt="" />
+              <p>Active</p>
+            </>
+          }
+        </td>
+        <td ref={ref}>
           <ul className="popupContainer">
-          <li
+            <li
               className="containerList"
-              onClick={() => {
-                dispatch(setEditEmployeeData(data))
-                history.push("/management/employees/add")
-              }}
+              onClick={() => { handleEdit(data.staffId) }}
             >
-                <img src={editImg} className="actions"/> 
+              <img src={editImg} className="actions" />
             </li>
             <li
               className="containerList"
               onClick={() => {
-                let requestBody = {
-                  id: data.id,
-                  blockUser: data.isEnabled,
-                };
-                dispatch(manageUserAccess(requestBody))
-
-                setTimeout(() => {
-                  dispatch(getEmployees(credentials?.id))
-                }, 1000)
-                //    dispatch(getEmployees(credentials?.merchantId));
+                handleBlockClick(data, data.isActive)
               }}
             >
-              {data.isBlocked ? (
-                <img src={ unBlockImg} className="actions"/> 
+              {!data.isActive ? (
+                <img src={unBlockImg}
+                  className="actions"
+                />
               ) : (
-                <img src={ blockImg } className="actions"/> 
+                <img src={blockImg}
+                  className="actions"
+                />
               )}
             </li>
-            
+
             <li
               className="containerList"
               onClick={() => {
-                console.log("Delete Clicked :::", data);
-                // dispatch(
-                //   deleteEmployee({
-                //     businessName: businessName,
-                //     userId: data.id,
-                //   })
-                // );
+                handleDeleteClick(data);
               }}
             >
-              <img src={trashImg} className="actions"/>
+              <img src={trashImg} className="actions" />
             </li>
           </ul>
-      </td>
-      
-      <td>
-        <img src={previewImg} className="previewActions" 
-          onClick={() => {
-            // console.log("From preview data",data)
-            // dispatch(getEmployeeById(data))
-            history.push("/management/employees/details")
-          }}
-        />
-      </td>
-    </tr>
+        </td>
+
+        <td>
+          <img src={previewImg} className="previewActions"
+            onClick={() => {
+              let staffId = data.staffId
+              dispatch(getEmployeeByIdRequest(staffId));
+              history.push("/management/employees/details")
+            }}
+          />
+        </td>
+      </tr>
+
+      {openDeleteModal && (
+        <div className="modal">
+          <div className="modalContainer">
+            <p>Do you want to delete?</p>
+            <div className="modalBtn">
+              <button
+                className="yesBtn"
+                onClick={handleEmpDelete}
+              >Yes</button>
+              <button
+                className="noBtn"
+                onClick={() => setDeleteOpenModal(!openDeleteModal)}
+              >No</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {openEditModal && (
+        <div className="modal">
+          <div className="modalContainer">
+            <p>{data.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}</p>
+            <div className="modalBtn">
+              <button
+                className="yesBtn"
+                onClick={handleYesClick}
+              >Yes</button>
+              <button
+                className="noBtn"
+                onClick={() => setEditOpenModal(false)}
+              >No</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
+
 
 export default EmployeeList;

@@ -5,7 +5,7 @@ const TextInput = ({
   placeholder,
   value,
   name,
-  refRegister,
+  formRegister,
   disabled,
   maxLength,
   minLength,
@@ -18,6 +18,7 @@ const TextInput = ({
   onKeyDown,
   containerStyle,
 }) => {
+
   return (
     <Fragment>
       <div style={containerStyle ? containerStyle : { marginBottom: "20px" }}>
@@ -26,10 +27,10 @@ const TextInput = ({
           type={type}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
-          value={value}
+          value={value || null}
           name={name}
-          ref={refRegister}
-          disabled={disabled ?? false}
+          ref={formRegister ?? null}
+          // disabled={disabled ?? false}
           maxLength={maxLength}
           minLength={minLength}
           className={className}
