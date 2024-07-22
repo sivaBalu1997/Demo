@@ -10,10 +10,7 @@
           "merchantportal-staging"
         ],
         "dev": [
-          "merchantportal-staging"
-        ],
-        "beta": [
-          "merchantportal-staging"
+          "merchantportal-dev"
         ]
       }
     }
