@@ -656,14 +656,14 @@ const AddEmployee = () => {
                         <CustomDropdown
                           options={Array.from(
                             outlets,
-                            (outlet) => outlet?.locationName   
+                            (outlet) => outlet?.locationName.split(",")[1]   
                           )}
                           placeholder={"Assign Outlet*"}
                           onSelect={(outletSelected) => {
                             const outletObject = outlets?.find((outlet) =>
                               outlet?.locationName?.includes(outletSelected?.value)
                             );
-                            onChange(outletObject?.locationName)
+                            onChange(outletObject?.locationName.split(",")[1])
                           }}
                           value={editEmployee ? editEmployee?.outlet : ''}
                           name={name}
