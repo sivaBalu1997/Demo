@@ -132,6 +132,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.addEmployeeFailure = false;
         break;
       case ADD_EMPLOYEE_FAILURE:
+        console.log("Failure Reducer:", action.payload)
         draft.employeeAdded = false;
         draft.addEmployeeLoading = false;
         draft.addEmployeeMessage = action.payload.message;

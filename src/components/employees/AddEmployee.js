@@ -98,7 +98,7 @@ const AddEmployee = () => {
     (state) => state.employee.updateEmployeePINFailed
   )
   const addEmployeeMessage = useSelector(
-    (state) => state.employee.addEmployeeMessage.updateEmployeePINMessage
+    (state) => state.employee.addEmployeeMessage
   )
   const addEmployeeLoading = useSelector(
     (state) => state.employee.addEmployeeLoading
@@ -107,6 +107,8 @@ const AddEmployee = () => {
   const employeeUpdateLoading = useSelector((state) => state.employee.employeeUpdateLoading)
   const employeeUpdated = useSelector((state) => state.employee.employeeUpdated);
   const employeeActionCompleted = useSelector((state) => state.employee.employeeActionCompleted);
+  const addEmployeeFailure = useSelector((state) => state.employee.addEmployeeFailure)
+  const updateEmployeeFailure = useSelector((state) => state.employee.updateEmployeeFailure)
 
   useEffect(() => {
     dispatch(getEmployeeRoles())
@@ -429,9 +431,14 @@ const AddEmployee = () => {
     if (editEmployee) {
       dispatch(updateEmployeeRequest(formValues))
     } else {
-      console.log("Emp Add")
-      console.log(editEmployee)
+      console.log("Outside alert function", addEmployeeMessage)
+      if(addEmployeeFailure){
+        console.log("In alert function", addEmployeeMessage)
+        alert(addEmployeeMessage)
+      }
+      else{
       dispatch(addEmployee(formValues));
+      }
     }
   }
 
@@ -488,12 +495,8 @@ const AddEmployee = () => {
     }
   }, [editEmployeeData]);
 
-  const addEmployeeFailure = useSelector((state) => state.employee.addEmployeeFailure)
-  const updateEmployeeFailure = useSelector((state) => state.employee.updateEmployeeFailure)
-
   useEffect(() => {
     if (employeeActionCompleted && (addEmployeeFailure || !employeeUpdated)) {
-      console.log("Emp Action Complete")
       history.replace('/management/employees');
       dispatch(resetEmployeeActionCompleted());
     }
