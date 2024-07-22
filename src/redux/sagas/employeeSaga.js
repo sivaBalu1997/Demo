@@ -68,14 +68,20 @@ function* addEmployeeSaga(action) {
     const response = yield call(createEmployee, action.payload);
     if (response.status === 200) {
       yield put(successAddEmployee(response.data));
-    } else {
-      const errorMessage = response.data?.message || "Internal Server Error";
-      console.error("Add Employee Error:", errorMessage);
+    } else if(response.status === 409) {
+      const errorMessage = response.data?.message;
+      alert("Add Employee Error:", errorMessage);
       yield put(failedAddEmployee(errorMessage));
     }
   } catch (err) {
-    console.error("Saga Error:", err);
-    yield put(failedAddEmployee(err.message));
+    if (err.response && err.response.status === 409) {
+      const errorMessage = err.response.data?.message;
+      alert(errorMessage);
+      yield put(failedAddEmployee(errorMessage));
+    } else {
+      alert("Error: " + err.message);
+      yield put(failedAddEmployee(err.message));
+    }
   }
 }
 
