@@ -33,7 +33,7 @@ const EmployeeList = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const credentials = useSelector((state) => state.auth.credentials)
-  const [employeeListData, setEmployeeListdata] = useState(props.EmployeeList)
+  const [employeeListData, setEmployeeListdata] = useState(props.employeeList)
   const [searchInput, setSearchInput] = useState('')
 
   const logoutUser = () => {
@@ -80,25 +80,39 @@ const EmployeeList = (props) => {
     }
   }, [manageAccessSuccess])
 
+  useEffect(() => {
+    setEmployeeListdata(props.employeeList);
+  }, [props.employeeList]);
+
+  useEffect(() => {
+    if (searchInput === '') {
+      setEmployeeListdata(props.employeeList);
+    } else {
+      const filteredData = props.employeeList.filter(item => (
+        item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
+        item.role.toLowerCase().includes(searchInput.toLowerCase())
+      ));
+      setEmployeeListdata(filteredData);
+    }
+  }, [searchInput, props.employeeList]);
+
   const handleSearch = () => {
-    const filteredData = props.employeeList.filter(item => (
-      item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
-      item.role.toLowerCase().includes(searchInput.toLowerCase())
-    ))
-    setEmployeeListdata(filteredData)
-  }
+    if (searchInput !== '') {
+      const filteredData = props.employeeList.filter(item => (
+        item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
+        item.role.toLowerCase().includes(searchInput.toLowerCase())
+      ));
+      setEmployeeListdata(filteredData);
+    } else {
+      setEmployeeListdata(props.employeeList);
+    }
+  };
 
   const handleKeyPress = (event) => {
-    if(event.key === 'Enter'){
-      handleSearch()
+    if (event.key === 'Enter') {
+      handleSearch();
     }
-  }
-
-  useEffect(()=>{
-    if(searchInput === ''){
-      setEmployeeListdata(props.employeeList)
-    }
-  },[searchInput])
+  };
 
   return (
     <>
@@ -112,6 +126,7 @@ const EmployeeList = (props) => {
               alignItems: "center",
               whiteSpace: "nowrap",
               cursor: "pointer",
+              marginTop:"-30px",
             }}
           >
             <img src={logout} alt="Logout" height="20" />
@@ -150,7 +165,7 @@ const EmployeeList = (props) => {
               history.push("/management/employees/add")
             }}/>
         </div>
-        { employeeListData ? (
+        {employeeListData ? (
           <div
             className="menu-list"
             style={{
@@ -167,7 +182,7 @@ const EmployeeList = (props) => {
                 </tr>
               </thead>
               <tbody className="tBody">
-                { employeeListData.map((row, index) => {
+                {employeeListData.map((row, index) => {
                   return (
                     <EmployeeRow
                       key={row.id}
@@ -365,8 +380,8 @@ const EmployeeRow = ({
           <img src={previewImg} className="previewActions"
             onClick={() => {
               let staffId = data.staffId
-              dispatch(getEmployeeByIdRequest(staffId));
-              history.push("/management/employees/details")
+              // dispatch(getEmployeeByIdRequest(staffId));
+              history.push("/management/employees/details/" + data.staffId)
             }}
           />
         </td>

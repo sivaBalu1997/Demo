@@ -1,22 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from "react-router";
+import { useHistory , useLocation, useParams } from "react-router";
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteEmployee, setEditEmployeeData } from '../../redux/actions/employeeActions'
+import { deleteEmployee, employeeStatusRequest, getEmployeeByIdRequest, setEditEmployeeData } from '../../redux/actions/employeeActions'
 import './employeeDetails.css'
 import menu from '../../assets/svg/menu.svg'
 import x from '../../assets/svg/x.svg'
 import edit from '../../assets/svg/edit.svg'
 import block from '../../assets/svg/blockImg.svg' 
+import unBlockImg from '../../assets/svg/unBlockImg.svg'
 import trash from '../../assets/svg/trash.svg'
 
 const EmployeeDetails = () => {
     const [showDropDown, setShowDropDown] = useState(false)
     const [date, setDate] = useState("")
     const [openDeleteModal, setDeleteOpenModal] = useState(false);
+    const [openStausModal, setOpenStausModal] = useState(false);
+    const [isBlocking, setIsBlocking] = useState(true);
+    const [employeeToUpdate, setEmployeeToUpdate] = useState(null);
+
 
     const history = useHistory()
+    const params = useParams()
+
+    useEffect(() => {
+        dispatch(getEmployeeByIdRequest(params.id));
+    },[params])
 
     const employee = useSelector((state) => state.employee.employeeByIdDetails)
+    console.log({employee})
+    const employeeByIdDetailsLoading = useSelector((state) => state.employee.employeeByIdDetailsLoading)
   
     const dispatch = useDispatch()
 
@@ -39,6 +51,35 @@ const EmployeeDetails = () => {
         const outlet =  location?.split(',')[1]
         return outlet
     }
+
+    const handleBlockClick = (employee, block) => {
+        setEmployeeToUpdate(employee);
+        setIsBlocking(block);
+        setOpenStausModal(prev => !prev);
+      };
+    
+      const handleBtnClick = () => {
+        console.log("Yes clicked");
+        dispatch(employeeStatusRequest(employeeToUpdate.staffId, isBlocking));
+        setOpenStausModal(prev => !prev);
+        setEmployeeToUpdate(null);
+        setIsBlocking(false);  
+        setShowDropDown(!showDropDown)
+    };
+    
+    const handleNoClick = () => {
+        console.log("No clicked");
+        setOpenStausModal(prev => !prev);
+        setEmployeeToUpdate(null);  
+        setIsBlocking(false);  
+        setShowDropDown(!showDropDown)
+    };
+
+      if(employeeByIdDetailsLoading){
+        return(
+            <p>Loading, Please wait...</p>
+        )
+      }
    
     return (
         <div className='employeeDetails'>
@@ -61,10 +102,30 @@ const EmployeeDetails = () => {
                         />
                         <p>Edit</p>
                     </div>
-                    <div className='actionTab'>
-                        <img src={block} style={{filter: "invert(65%) sepia(100%) saturate(1000%) hue-rotate(-23deg) brightness(102%) contrast(102%)"}} />
-                        <p>Block</p>
+
+                    <div className='actionTab'
+                        onClick={() => {handleBlockClick(employee, employee.isActive)}}
+                    >
+                        <img src={employee.isActive ? block : unBlockImg} style={{filter: "invert(65%) sepia(100%) saturate(1000%) hue-rotate(-23deg) brightness(102%) contrast(102%)"}} />
+                        <p>{employee.isActive ? 'Block' : 'Unblock'}</p>
                     </div>
+                    {openStausModal && (
+                            <div className="modal">
+                                <div className="modalContainer">
+                                    <p>{employee.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}</p>
+                                    <div className="modalBtn">
+                                    <button
+                                        className="yesBtn"
+                                        onClick={handleBtnClick}
+                                    >Yes</button>
+                                    <button
+                                        className="noBtn"
+                                        onClick={handleNoClick}
+                                    >No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     <div className='actionTab' onClick={()=>setDeleteOpenModal(!openDeleteModal)}>
                         <img src={trash} style={{filter: "invert(21%) sepia(93%) saturate(7248%) hue-rotate(354deg) brightness(103%) contrast(101%)"}} />
                         <p>Delete</p>
@@ -111,9 +172,9 @@ const EmployeeDetails = () => {
                 <div className='roles'>
                     {employee?.rolesAndFunctions?.map((role, roleIndex) => (
                         <div className='rolesHeading' key={roleIndex}> 
-                            <h4>{role.module}</h4>
-                            {role.functions.map((func, funcIndex) => (
-                                <p key={funcIndex}>{func.name}</p>
+                            <h4>{role?.module}</h4>
+                            {role.funtions.map((func, funcIndex) => (
+                                <p key={funcIndex}>{func}</p>
                             ))}
                         </div>
                     ))}

@@ -150,12 +150,15 @@ img{
 .functionsDropDown{
   position: absolute;
   border: 1px solid black;
-  z-index: 999;
-  margin-bottom: 50px;
+  z-index: 99999999;
   background-color: white;
-  margin-left: -100%;
-  width: 1000px;
+  margin-top: -80px;
+  margin-left: -110%;
+  width: 900px;
+  height: 400px;
+  overflow: auto;
 }
+
 
 .checkBoxContainer{
   display: flex;
@@ -268,6 +271,24 @@ img{
   cursor: pointer;
 }
 
+@media(max-width:1280px){
+  .main-section .menu-list table td{
+    margin-right: 100px;
+  }
+  .popupContainer{
+    margin-top: -17px;
+    width: 100px;  
+    margin-right: -90px;
+  }
+  .previewActions{
+    margin-top: 15px;
+    width: 15px;
+    margin-left: 60px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+}
+
 @media(max-width:1080px){
   .main-section .menu-list table td{
     margin-right: 50px;
@@ -301,6 +322,13 @@ img{
     margin-left: 60px;
     margin-right: 20px;
     cursor: pointer;
+  }
+}
+
+@media(max-width:800px){
+  .flexContainer{
+    display: flex;
+    flex-direction: column;
   }
 }
 

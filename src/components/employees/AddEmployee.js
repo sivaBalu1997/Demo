@@ -27,7 +27,6 @@ import { useHistory } from "react-router";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import dropArrow from '../../assets/svg/dropArrow.svg'
-import { employeeData, functionData } from "./data";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
@@ -42,11 +41,13 @@ const AddEmployee = () => {
   const [openFunction, setOpenFuction] = useState(false)
   const [pins, setPins] = useState(['', '', '', ''])
   const [showPin, setShowPin] = useState(false)
-  const [selectedDate, setSelectedDate] = useState("")
+  const [selectedDate, setSelectedDate] = useState(null)
   const inputRefs = useRef([])
   const [checkedFunctions, setCheckedFunctions] = useState([])
   const [openModal, setOpenModal] = useState(false)
   const [checkedModules, setCheckedModules] = useState([])
+
+  const isValidDate = (date) => !isNaN(date.getTime()); 
 
   const editEmployeeData = useSelector(
     (state) => state.employee.editEmployeeData
@@ -64,7 +65,8 @@ const AddEmployee = () => {
     dateOfBirth: editEmployeeData.dateOfBirth,
     userId: editEmployeeData.userId,
     outlet: editEmployeeData.locationName.split(",")[1],
-    staffId: editEmployeeData.staffId
+    staffId: editEmployeeData.staffId,
+    rolesAndFunctions: editEmployeeData.rolesAndFunctions
   }
 
   const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)
@@ -115,6 +117,41 @@ const AddEmployee = () => {
   }, [])
 
   const roles = useSelector((state) => state.employee.employeeRoleAndFunctions) 
+
+  // useEffect(() => {
+  //   // setCheckedFunctions
+  //   const tempArr = []
+  //   if(editEmployee?.rolesAndFunctions?.length > 0){
+  //     editEmployee?.rolesAndFunctions.forEach(roleFunc => {
+  //       if (roleFunc?.functions) {
+  //         roleFunc.functions.forEach(func => {
+  //           tempArr.push(func.toLowerCase()); // Add each function name to tempArr
+  //         });
+  //       }
+  //     });  
+  //     setCheckedFunctions(tempArr)
+  //   }
+  // },[])
+
+  useEffect(() => {
+    const tempArr = [];
+    
+    if (editEmployee?.rolesAndFunctions?.length > 0) {
+      for (let i = 0; i < editEmployee.rolesAndFunctions.length; i++) {
+        const roleFunc = editEmployee.rolesAndFunctions[i];
+        
+        if (roleFunc?.funtions) { // ensure this is 'funtions' as per your object
+          for (let j = 0; j < roleFunc.funtions.length; j++) {
+            tempArr.push(roleFunc.funtions[j].toLowerCase());
+          }
+        }
+      }
+      
+      setCheckedFunctions(tempArr);
+    }
+  }, [editEmployeeData]); // Add editEmployee as dependency if it's coming from props or state
+
+  // console.log("askjdask",roles)
 
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
@@ -304,57 +341,84 @@ const AddEmployee = () => {
     setShowPin(!showPin)
   }
 
+  const initializeCheckedFunctions = (rolesAndFunctions) => {
+    const functionsSet = new Set();
+    rolesAndFunctions.forEach(roleFunc => {
+      if (roleFunc.funtions) {
+        roleFunc.funtions.forEach(func => {
+          functionsSet.add(func.toLowerCase());
+        });
+      }
+    });
+    setCheckedFunctions([...functionsSet]);
+  };
+  
   const handleRoleChange = (role) => {
     setSelectedRole(role);
-    const functionsForRole = roles
-      .flatMap((module) => module.functionality)
-      .filter((func) => func.roles?.includes(role)) 
-      .flatMap((func) => func.name);
-    setCheckedFunctions(functionsForRole);
+    
+    if (editEmployee) {
+      initializeCheckedFunctions(editEmployee.rolesAndFunctions);
+    } else {
+      const functionsForRole = roles
+        .flatMap(module => module.functionality)
+        .filter(func => func.roles?.includes(role))
+        .map(func => func.name.toLowerCase());
+      
+      setCheckedFunctions(functionsForRole);
+    }
   };
-
+  
+  
   const isFunctionChecked = (functionName) => {
     return checkedFunctions.includes(functionName.toLowerCase());
   };
-
+  
   const handleCheckboxChange = (functionName) => {
-    setCheckedFunctions((prevCheckedFunctions) => {
-      if (prevCheckedFunctions.includes(functionName.toLowerCase())) {
-        return prevCheckedFunctions.filter((func) => func !== functionName.toLowerCase());
+    setCheckedFunctions(prevCheckedFunctions => {
+      const funcName = functionName.toLowerCase();
+      if (prevCheckedFunctions.includes(funcName)) {
+        return prevCheckedFunctions.filter(func => func !== funcName);
       } else {
-        return [...prevCheckedFunctions, functionName.toLowerCase()];
+        return [...prevCheckedFunctions, funcName];
       }
     });
   };
-
+  
   const isModuleChecked = (moduleName) => {
-    return roles
-      .find((module) => module.module.toLowerCase() === moduleName.toLowerCase())
-      .functionality.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
+    const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
+    if (!module) return false;
+  
+    return module.functionality.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
   };
-
+  
   const handleModuleCheckboxChange = (moduleName) => {
-    const moduleFunctions = roles
-      .find((module) => module.module.toLowerCase() === moduleName.toLowerCase())
-      .functionality.map((func) => func.name.toLowerCase());
-
+    const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
+    if (!module) return;
+  
+    const moduleFunctions = module.functionality.map((func) => func.name.toLowerCase());
+  
     setCheckedFunctions((prevCheckedFunctions) => {
       if (moduleFunctions.every((func) => prevCheckedFunctions.includes(func))) {
         return prevCheckedFunctions.filter((func) => !moduleFunctions.includes(func));
       } else {
         return [...prevCheckedFunctions, ...moduleFunctions.filter((func) => !prevCheckedFunctions.includes(func))];
       }
-    })
-  }
-
+    });
+  };
+  
   const handleReset = () => {
-    const functionsForRole = roles
-      .flatMap((module) => module.functionality)
-      .filter((func) => func.roles.includes(selectedRole))
-      .flatMap((func) => func.name.toLowerCase())
-    setCheckedFunctions(functionsForRole)
-  }
-
+    if (editEmployee) {
+      initializeCheckedFunctions(editEmployee.rolesAndFunctions);
+    } else {
+      const functionsForRole = roles
+        .flatMap((module) => module.functionality)
+        .filter((func) => func.roles.includes(selectedRole))
+        .map((func) => func.name.toLowerCase());
+  
+      setCheckedFunctions(functionsForRole);
+    }
+  };
+  
   const isDefaultActionsUpdated = (selectedFunctions, role) => {
     const defaultFunctions = roles
       .flatMap((module) => module.functionality)
@@ -363,78 +427,86 @@ const AddEmployee = () => {
   
     const selectedFunctionNames = selectedFunctions.map((func) => func.name.toLowerCase());
   
-    const isUpdated = selectedFunctionNames.some((func) => !defaultFunctions.includes(func));
-    return isUpdated;
+    return selectedFunctionNames.some((func) => !defaultFunctions.includes(func));
   };
+  
+  // const employeeUpdated = useSelector((state)=>state.employee.employeeUpdated)
 
   useEffect(() => {
     if (employeeAdded && !employeeUpdateLoading) {
       history.replace('/management/employees');
     }
+    // if(employeeUpdated && !employeeUpdateLoading){
+    //   history.replace('/management/employees');
+    // }
   }, [employeeAdded, employeeUpdateLoading, history]);
 
 
   const onSubmit = (formValues) => {
-    const rolesAndFunctions = roles.map((module) => {
+    const rolesAndFunctions = roles.map(module => {
       const moduleFunctions = module.functionality
-        .filter((func) => checkedFunctions.includes(func.name.toLowerCase()))
-        .map((func) => ({
+        .filter(func => checkedFunctions.includes(func.name.toLowerCase()))
+        .map(func => ({
           moduleType: module.module,
           moduleName: func.name,
           urls: func.urls
         }));
   
-      return moduleFunctions.length > 0
-        ? moduleFunctions
-        : null;
-    }).flat().filter((item) => item !== null);
+      return moduleFunctions.length > 0 ? moduleFunctions : null;
+    }).flat().filter(item => item !== null);
   
-    // Update formValues
-    formValues["firstName"] = formValues.firstName;
-    formValues["fullName"] = `${formValues.firstName} ${formValues.lastName}`;
-    formValues["role"] = formValues.role;
-    formValues["businessName"] = credentials.businessName;
-    formValues["userId"] = formValues.userId;
-    formValues["nickName"] = formValues.nickName;
-    formValues["email"] = formValues.email;
-    formValues["mobileNumber"] = formValues.mobileNumber;
-    formValues["address"] = `${formValues.address1} ${formValues.address2}`;
-    formValues["dateOfBirth"] = selectedDate;
-    formValues["education"] = formValues.education;
-    formValues["merchantId"] = credentials.merchantId;
-    formValues["devicePin"] = pins.join('');
-    formValues["IsTempPassword"] = false;
-    formValues["password"] = formValues.password || null;
-    formValues["isToUseNickName"] = formValues.useNickname;
-    formValues["locationId"] = outlets.find((outlet) =>
-      outlet.locationName.includes(formValues["outlet"])
-    ).id;
-    formValues["userAccessInfoList"] = rolesAndFunctions;
-    const isUpdated = isDefaultActionsUpdated(
-      rolesAndFunctions.map(module => ({ name: module.moduleName, urls: module.urls })),
-      formValues["role"]
-    );
-    formValues["isDefaultFunctionalityAccessUpdated"] = isUpdated;
-    if(editEmployeeData){
-      formValues["id"] = editEmployeeData.staffId
+    // Update formValues with additional data
+    formValues = {
+      ...formValues,
+      firstName: formValues.firstName,
+      fullName: `${formValues.firstName} ${formValues.lastName}`,
+      role: formValues.role,
+      businessName: credentials.businessName,
+      userId: formValues.userId,
+      nickName: formValues.nickName,
+      email: formValues.email,
+      mobileNumber: formValues.mobileNumber,
+      address: `${formValues.address1} ${formValues.address2}`,
+      dateOfBirth: selectedDate,
+      education: formValues.education,
+      merchantId: credentials.merchantId,
+      devicePin: pins.join(''),
+      IsTempPassword: false,
+      password: formValues.password || null,
+      isToUseNickName: formValues.useNickname,
+      locationId: outlets.find(outlet => outlet.locationName.includes(formValues["outlet"])).id,
+      userAccessInfoList: rolesAndFunctions,
+      isDefaultFunctionalityAccessUpdated: isDefaultActionsUpdated(
+        rolesAndFunctions.map(module => ({ name: module.moduleName, urls: module.urls })),
+        formValues["role"]
+      ),
+    };
+  
+    if (editEmployeeData) {
+      formValues["id"] = editEmployeeData.staffId;
     }
+  
     // Clean up formValues
     delete formValues.address1;
     delete formValues.address2;
     delete formValues["outlet"];
     delete formValues["useNickname"];
-    delete formValues["pin"]
+    delete formValues["pin"];
   
     // Submit the form
     console.log("Form Submitted");
 
+    formValues.successCB = () => {
+       history.replace('/management/employees');
+    }
+  
     if (editEmployee) {
-      dispatch(updateEmployeeRequest(formValues))
+      dispatch(updateEmployeeRequest(formValues));
     } else {
       dispatch(addEmployee(formValues));
     }
-  }
-
+  };
+  
   const splitAddress = (address) => {
     const parts = address.split(',');
     if (parts.length > 1) {
@@ -498,6 +570,24 @@ const AddEmployee = () => {
   const outletOptions = outlets 
   ? Array.from(outlets, (outlet) => outlet?.locationName?.split(",")[1]).filter(Boolean) 
   : [];
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleDateChangeRaw = (e) => {
+    const input = e.target?.value || '';
+    const cleanedInput = input.replace(/[^0-9/]/g, '');
+
+    if (cleanedInput !== input) {
+        e.target.value = cleanedInput;
+    }
+    const date = new Date(cleanedInput);
+        if (isValidDate(date)) {
+        setSelectedDate(date);
+    }
+};
+
 
   return (
     <>
@@ -624,20 +714,20 @@ const AddEmployee = () => {
                     />
                   </div>
                     <div style={{zIndex:99999}}>
-                      <DatePicker 
-                        placeholderText="DOB" 
-                        value={null} 
-                        name="dob" 
+                    <DatePicker
+                        placeholderText="DOB mm/dd/yyyy"
                         selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
-                        className={"dateInput"} 
-                        formRegister={register()}
-                        yearDropdownItemNumber={50} 
+                        onChange={handleDateChange}
+                        onChangeRaw={handleDateChangeRaw}
+                        className="dateInput"
+                        yearDropdownItemNumber={50}
                         scrollableYearDropdown
                         showYearDropdown
-                        minDate={new Date(1970, 0, 1)}  
-                        maxDate={new Date()}  
+                        minDate={new Date(1970, 0, 1)}
+                        maxDate={new Date()}
+                        isClearable={true}
                       />
+
                     </div>
                 </div>
                 <hr style={{marginRight:'40px'}}/>
@@ -766,6 +856,7 @@ const AddEmployee = () => {
                       required: "Required",
                     })}
                     className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
+                    autoComplete = {false}
                   />
                 </div>
                 
@@ -780,6 +871,7 @@ const AddEmployee = () => {
                     })}
                     className={errors.password?.type === "required" ? 'pass errorInput' :'add-employee-text-input'}
                     containerStyle={{ paddingBottom: "0px" }}
+                    autoComplete = {false}
                   />
                   {isPasswordVisible ? (
                     <ClosedEyeIcon

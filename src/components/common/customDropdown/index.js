@@ -17,7 +17,6 @@ const CustomDropdown = ({
   disabled,
 }) => {
 
-  console.log("aksbdakjs:::",options)
   return (
     <Dropdown
       options={options}
