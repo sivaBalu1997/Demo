@@ -42,7 +42,7 @@ const AddEmployee = () => {
   const [openFunction, setOpenFuction] = useState(false)
   const [pins, setPins] = useState(['', '', '', ''])
   const [showPin, setShowPin] = useState(false)
-  const [selectedDate, setSelectedDate] = useState("")
+  const [selectedDate, setSelectedDate] = useState(null)
   const inputRefs = useRef([])
   const [checkedFunctions, setCheckedFunctions] = useState([])
   const [openModal, setOpenModal] = useState(false)
@@ -499,6 +499,10 @@ const AddEmployee = () => {
   ? Array.from(outlets, (outlet) => outlet?.locationName?.split(",")[1]).filter(Boolean) 
   : [];
 
+  const handleDateChangeRaw = (e) => {
+    e.preventDefault();
+  }
+
   return (
     <>
       {list === false ? (
@@ -624,19 +628,17 @@ const AddEmployee = () => {
                     />
                   </div>
                     <div style={{zIndex:99999}}>
-                      <DatePicker 
-                        placeholderText="DOB" 
-                        value={null} 
-                        name="dob" 
+                      <DatePicker
+                        placeholderText="DOB"
                         selected={selectedDate}
                         onChange={(date) => setSelectedDate(date)}
-                        className={"dateInput"} 
-                        formRegister={register()}
-                        yearDropdownItemNumber={50} 
+                        onChangeRaw={handleDateChangeRaw}
+                        className="dateInput"
+                        yearDropdownItemNumber={50}
                         scrollableYearDropdown
                         showYearDropdown
-                        minDate={new Date(1970, 0, 1)}  
-                        maxDate={new Date()}  
+                        minDate={new Date(1970, 0, 1)}
+                        maxDate={new Date()}
                       />
                     </div>
                 </div>
