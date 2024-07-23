@@ -313,6 +313,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case EMPLOYEE_STATUS_SUCCESS:
         draft.employeeStatus = action.payload;
         draft.employeeStatusLoading = false
+        draft.employeeByIdDetails.isActive = !draft.employeeByIdDetails.isActive
         break      
       case EMPLOYEE_STATUS_FAILURE:
         draft.employeeStatus = action.payload;

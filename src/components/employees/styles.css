@@ -271,6 +271,24 @@ img{
   cursor: pointer;
 }
 
+@media(max-width:1280px){
+  .main-section .menu-list table td{
+    margin-right: 100px;
+  }
+  .popupContainer{
+    margin-top: -17px;
+    width: 100px;  
+    margin-right: -90px;
+  }
+  .previewActions{
+    margin-top: 15px;
+    width: 15px;
+    margin-left: 60px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+}
+
 @media(max-width:1080px){
   .main-section .menu-list table td{
     margin-right: 50px;
@@ -304,6 +322,13 @@ img{
     margin-left: 60px;
     margin-right: 20px;
     cursor: pointer;
+  }
+}
+
+@media(max-width:800px){
+  .flexContainer{
+    display: flex;
+    flex-direction: column;
   }
 }
 

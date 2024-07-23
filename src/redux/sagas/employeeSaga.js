@@ -87,8 +87,8 @@ function* addEmployeeSaga(action) {
 
 // Delete Employee
 function* deleteEmployeeSaga(action) {
-  const response = yield call(removeEmployee, action.payload);
   try {
+    const response = yield call(removeEmployee, action.payload);
     if (response.status === 200) {
       yield put(deleteEmployeeSuccess(response.data));
     }
@@ -99,7 +99,7 @@ function* deleteEmployeeSaga(action) {
     }
   } catch (err) {
     yield put(
-      deleteEmployeeFailure({message: response.data.metaDataInfo.responseMessage,})
+      deleteEmployeeFailure("Error deleting Employee")
     )
   }
 }
@@ -170,15 +170,18 @@ function* updateEmployeePINSaga(action) {
 
 //Update Employee
 function* updateEmployeeSaga(action) {
-  const response = yield call(editEmployee, action.payload)
   try{
+    const response = yield call(editEmployee, action.payload)
     if(response.status === 200){
       yield put(updateEmployeeSuccess(response.data))
+      if(action.payload?.successCB && typeof action.payload?.successCB === 'function'){
+        action.payload.successCB()
+      }
     }else{
       yield put(updateEmployeeFailure(response.data.metaDataInfo.responseMessage))
     }
   }catch{
-    yield put(updateEmployeeFailure(response.data.metaDataInfo.responseMessage))
+    yield put(updateEmployeeFailure("Error Updating Employee"))
   }
 }
 
@@ -199,8 +202,8 @@ function* getEmployeeRolesSaga(action){
 
 //Employee Status
 function* employeeSatusSaga(action){
-  const response = yield call(employeeStatus, action.payload)
   try{
+    const response = yield call(employeeStatus, action.payload)
     if(response.status === 200){
       yield put(employeeStatusSuccess(response.data))
     }else{

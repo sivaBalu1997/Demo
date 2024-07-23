@@ -545,7 +545,7 @@ const Menu = () => {
         />
         <Route 
           exact 
-          path="/management/employees/details"
+          path="/management/employees/details/:id"
           component={() => <EmployeeDetails />}  
         />
         <Route exact path="/management/billing" component={() => <Billing />} />
