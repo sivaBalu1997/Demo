@@ -260,7 +260,6 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.updateEmployeePINMessage = action.payload;
         break;
       case UPDATE_EMPLOYEE_PIN_FAILED:
-        console.log("Inside Failed :::", action.payload);
         draft.updateEmployeePINLoading = false;
         draft.updateEmployeePINSuccess = false;
         draft.updateEmployeePINFailed = true;

@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
 import {
   failedAddEmployee,
   failedGetOutlet,
@@ -64,15 +64,24 @@ function* getOutletsSaga(action) {
 
 //Create Employee
 function* addEmployeeSaga(action) {
-  const response = yield call(createEmployee, action.payload);
-  try{
-    if(response.status === 200){
+  try {
+    const response = yield call(createEmployee, action.payload);
+    if (response.status === 200) {
       yield put(successAddEmployee(response.data));
-    }else{
-      yield put(failedAddEmployee({message: response.data.metaDataInfo.responseMessage,}))
+    } else if(response.status === 409) {
+      const errorMessage = response.data?.message;
+      alert("Add Employee Error:", errorMessage);
+      yield put(failedAddEmployee(errorMessage));
     }
-  }catch(err){
-    yield put(failedAddEmployee({message: response.data.metaDataInfo.responseMessage}));
+  } catch (err) {
+    if (err.response && err.response.status === 409) {
+      const errorMessage = err.response.data?.message;
+      alert(errorMessage);
+      yield put(failedAddEmployee(errorMessage));
+    } else {
+      alert("Error: " + err.message);
+      yield put(failedAddEmployee(err.message));
+    }
   }
 }
 
@@ -204,7 +213,7 @@ function* employeeSatusSaga(action){
 
 export default function* employeeSaga() {
   yield takeLatest(OUTLET_REQUEST, getOutletsSaga);
-  yield takeLatest(ADD_EMPLOYEE_REQUEST, addEmployeeSaga);
+  yield takeEvery(ADD_EMPLOYEE_REQUEST, addEmployeeSaga);
   yield takeLatest(GET_EMPLOYEE_REQUEST, getEmployeesSaga);
   yield takeLatest(REMOVE_EMPLOYEE_REQUEST, deleteEmployeeSaga);
   yield takeLatest(USER_ACCESS_EMPLOYEE_REQUEST, manageUserAccessSaga);
