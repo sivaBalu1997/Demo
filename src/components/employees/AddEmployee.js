@@ -495,7 +495,9 @@ const AddEmployee = () => {
     }
   }, [employeeActionCompleted, history]);
 
-  console.log("Outlet",outlets)
+  const outletOptions = outlets 
+  ? Array.from(outlets, (outlet) => outlet?.locationName?.split(",")[1]).filter(Boolean) 
+  : [];
 
   return (
     <>
@@ -654,16 +656,17 @@ const AddEmployee = () => {
                       }}
                       render={({ onChange, onBlur, value, name }) => (
                         <CustomDropdown
-                          options={Array.from(
-                            outlets,
-                            (outlet) => outlet?.locationName?.split(",")[1]   
-                          )}
+                          options={outletOptions}
                           placeholder={"Assign Outlet*"}
                           onSelect={(outletSelected) => {
-                            const outletObject = outlets?.find((outlet) =>
-                              outlet?.locationName?.includes(outletSelected?.value)
-                            );
-                            onChange(outletObject?.locationName?.split(",")[1])
+                            if (outlets && outletSelected) {
+                              const outletObject = outlets.find((outlet) =>
+                                outlet?.locationName?.includes(outletSelected?.value)
+                              );
+                              if (outletObject) {
+                                onChange(outletObject.locationName.split(",")[1]);
+                              }
+                            }
                           }}
                           value={editEmployee ? editEmployee?.outlet : ''}
                           name={name}
