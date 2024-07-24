@@ -167,6 +167,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         break;
       case CLEAR_EDIT_EMPLOYEE_DATA:
         draft.editEmployeeData = null;
+        draft.employeeByIdDetails = null;
         break;
 
       // Delete Employee
@@ -311,6 +312,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.employeeStatusLoading = true;
         break
       case EMPLOYEE_STATUS_SUCCESS:
+        draft.employeeDetails.isActive = !draft.employeeDetails.isActive
         draft.employeeStatus = action.payload;
         draft.employeeStatusLoading = false
         draft.employeeByIdDetails.isActive = !draft.employeeByIdDetails.isActive

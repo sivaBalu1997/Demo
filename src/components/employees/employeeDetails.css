@@ -88,10 +88,13 @@
 
 .roles {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     gap: 60px;
-    padding: 20px;
+    /* padding: 20px; */
     text-align: left;
+    flex-wrap: wrap;
+    height: 300px;
+    overflow: auto;
 }
 
 .rolesHeading {

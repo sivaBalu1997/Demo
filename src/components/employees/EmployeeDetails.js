@@ -27,7 +27,6 @@ const EmployeeDetails = () => {
     },[params])
 
     const employee = useSelector((state) => state.employee.employeeByIdDetails)
-    console.log({employee})
     const employeeByIdDetailsLoading = useSelector((state) => state.employee.employeeByIdDetailsLoading)
   
     const dispatch = useDispatch()
@@ -59,7 +58,6 @@ const EmployeeDetails = () => {
       };
     
       const handleBtnClick = () => {
-        console.log("Yes clicked");
         dispatch(employeeStatusRequest(employeeToUpdate.staffId, isBlocking));
         setOpenStausModal(prev => !prev);
         setEmployeeToUpdate(null);
@@ -68,7 +66,6 @@ const EmployeeDetails = () => {
     };
     
     const handleNoClick = () => {
-        console.log("No clicked");
         setOpenStausModal(prev => !prev);
         setEmployeeToUpdate(null);  
         setIsBlocking(false);  
@@ -77,7 +74,14 @@ const EmployeeDetails = () => {
 
       if(employeeByIdDetailsLoading){
         return(
-            <p>Loading, Please wait...</p>
+            <p style={{
+                display: "flex",
+                justifyContent: "center",
+                paddingTop: "25%",
+                marginLeft:'35%'
+              }}>
+                Loading, Please wait!!
+            </p>
         )
       }
    
@@ -151,20 +155,20 @@ const EmployeeDetails = () => {
             )}
             <div className='detailContainer'>
                 <div>
-                    <div className='title'><p className='tag'>Full Name</p><p className='value'> : {employee.firstName}</p></div>
-                    <div className='title'><p className='tag'>Assigned Role</p><p className='value'> : {employee.assignedRole}</p></div>
-                    <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'> : {fomatLocation(employee.locationName)}</p></div>
-                    <div className='title'><p className='tag'>Start Date</p><p className='value'> : {employee.startDate}</p></div>
-                    <div className='title'><p className='tag'>User ID</p><p className='value'> : {employee.userId}</p></div>
-                    <div className='title'><p className='tag'>Pin</p><p className='value'> : {employee.pin}</p></div>
+                    <div className='title'><p className='tag'>Full Name</p><p className='value'> : {employee?.firstName}</p></div>
+                    <div className='title'><p className='tag'>Assigned Role</p><p className='value'> : {employee?.assignedRole}</p></div>
+                    <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'> : {fomatLocation(employee?.locationName)}</p></div>
+                    <div className='title'><p className='tag'>Start Date</p><p className='value'> : {employee?.startDate}</p></div>
+                    <div className='title'><p className='tag'>User ID</p><p className='value'> : {employee?.userId}</p></div>
+                    <div className='title'><p className='tag'>Pin</p><p className='value'> : {employee?.pin}</p></div>
                 </div>
                 <div>
-                    <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee.nickName}</p></div>
-                    <div className='title'><p className='tag'>Email</p><p className='value'> : {employee.email}</p></div>
-                    <div className='title'><p className='tag'>Phone</p><p className='value'> : {employee.phone}</p></div>
-                    <div className='title'><p className='tag'>Address</p><p className='value'> : {employee.address}</p></div>
-                    <div className='title'><p className='tag'>Date of Birth</p><p className='value'> : {formatDate(employee.dateOfBirth)}</p></div>
-                    <div className='title'><p className='tag'>Education</p><p className='value'> : {employee.education}</p></div>
+                    <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName}</p></div>
+                    <div className='title'><p className='tag'>Email</p><p className='value'> : {employee?.email}</p></div>
+                    <div className='title'><p className='tag'>Phone</p><p className='value'> : {employee?.phone}</p></div>
+                    <div className='title'><p className='tag'>Address</p><p className='value'> : {employee?.address}</p></div>
+                    <div className='title'><p className='tag'>Date of Birth</p><p className='value'> : {formatDate(employee?.dateOfBirth)}</p></div>
+                    <div className='title'><p className='tag'>Education</p><p className='value'> : {employee?.education}</p></div>
                 </div>
             </div>
             <div className='rolesContainer'>
