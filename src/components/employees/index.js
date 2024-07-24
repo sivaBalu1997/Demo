@@ -34,7 +34,7 @@ const Employees = () => {
     if (credentials) {
       dispatch(getEmployees(credentials?.merchantId));
     }
-  }, [credentials])
+  }, [credentials, employeeList.isActive])
 
   useEffect(() => {
     setLoading(employeeDetailsLoading);

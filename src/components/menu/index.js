@@ -543,6 +543,11 @@ const Menu = () => {
           path="/management/employees/add"
           component={() => <AddEmployee />}
         />
+        <Route
+          exact
+          path="/management/employees/add/:id"
+          component={() => <AddEmployee />}
+        />
         <Route 
           exact 
           path="/management/employees/details/:id"

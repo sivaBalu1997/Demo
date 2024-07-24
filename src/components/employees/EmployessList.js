@@ -34,6 +34,7 @@ const EmployeeList = (props) => {
   const dispatch = useDispatch()
   const credentials = useSelector((state) => state.auth.credentials)
   const [employeeListData, setEmployeeListdata] = useState(props.employeeList)
+  const [searchedData, setSearchedData] = useState([])
   const [searchInput, setSearchInput] = useState('')
 
   const logoutUser = () => {
@@ -80,19 +81,16 @@ const EmployeeList = (props) => {
     }
   }, [manageAccessSuccess])
 
-  useEffect(() => {
-    setEmployeeListdata(props.employeeList);
-  }, [props.employeeList]);
 
   useEffect(() => {
     if (searchInput === '') {
-      setEmployeeListdata(props.employeeList);
+      setSearchedData(props.employeeList);
     } else {
       const filteredData = props.employeeList.filter(item => (
         item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
         item.role.toLowerCase().includes(searchInput.toLowerCase())
       ));
-      setEmployeeListdata(filteredData);
+      setSearchedData(filteredData);
     }
   }, [searchInput, props.employeeList]);
 
@@ -102,9 +100,9 @@ const EmployeeList = (props) => {
         item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
         item.role.toLowerCase().includes(searchInput.toLowerCase())
       ));
-      setEmployeeListdata(filteredData);
+      setSearchedData(filteredData);
     } else {
-      setEmployeeListdata(props.employeeList);
+      setSearchedData(props.employeeList);
     }
   };
 
@@ -162,39 +160,43 @@ const EmployeeList = (props) => {
           </div>
           <input type="submit" value='Add New' className="addBtn"  
             onClick={() => {
+              dispatch(clearEditEmployeeData())
               history.push("/management/employees/add")
             }}/>
         </div>
-        {employeeListData ? (
+        {props?.employeeList ? (
           <div
             className="menu-list"
             style={{
               paddingBottom: "3%",
             }}
           >
-            <table className="employeeTable">
-              <thead className="employeeTableHead">
-                <tr className="employeeTableRow">
-                  <th className="tHeading">Name</th>
-                  <th className="tHeading">Role</th>
-                  <th className="tHeading">Status</th>
-                  <th className="tHeading">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="tBody">
-                {employeeListData.map((row, index) => {
-                  return (
-                    <EmployeeRow
-                      key={row.id}
-                      name={row.firstName}
-                      role={row.role}
-                      status = {row.isActive}
-                      data={row}
-                    />
-                  )
-                })}
-              </tbody>
-            </table>
+            <div className="tableContainer">
+              <table className="employeeTable">
+                <thead className="employeeTableHead">
+                  <tr className="employeeTableRow">
+                    <th className="tHeading">Name</th>
+                    <th className="tHeading">Role</th>
+                    <th className="tHeading">Status</th>
+                    <th className="tHeading">Actions</th>
+                    <th className=""></th>
+                  </tr>
+                </thead>
+                <tbody className="tBody">
+                  {(searchInput?.length === 0 ? props.employeeList : searchedData)?.map((row, index) => {
+                    return (
+                      <EmployeeRow
+                        key={row.id}
+                        name={row.firstName}
+                        role={row.role}
+                        status = {row.isActive}
+                        data={row}
+                      />
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         ) : null}
       </div>
@@ -242,8 +244,9 @@ const EmployeeRow = ({
   const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading);
 
   const handleEdit = (staffId) => {
-    dispatch(getEmployeeByIdRequest(staffId));
-    setEditTriggered(true);
+    // dispatch(getEmployeeByIdRequest(staffId));
+    history.push("/management/employees/add/"+staffId)
+    // setEditTriggered(true);
   }
 
   useEffect(() => {
@@ -253,14 +256,6 @@ const EmployeeRow = ({
       setEditTriggered(false);
     }
   }, [employee, editTriggered, data.staffId])
-
-  useEffect(() => {
-    if (editTriggered && employee && employee.staffId === data.staffId) {
-      dispatch(setEditEmployeeData(employee));
-      history.push("/management/employees/add");
-      setEditTriggered(false);
-    }
-  }, [employee, editTriggered, data.staffId]);
 
   const handleBlockClick = (employee, block) => {
     setEmployeeToUpdate(employee);
@@ -297,12 +292,12 @@ const EmployeeRow = ({
     setEmployeeToDelete(null);
   }
 
-  useEffect(() => {
-    if (employeeDeleteCompleted && !deleteEmployeeLoading) {
-      dispatch(getEmployees(credentials?.id))
-      setEmployeeDeleteCompleted(!employeeDeleteCompleted)
-    }
-  }, [employeeDeleted, credentials?.id])
+  // useEffect(() => {
+  //   if (employeeDeleteCompleted && !deleteEmployeeLoading) {
+  //     dispatch(getEmployees(credentials?.id))
+  //     setEmployeeDeleteCompleted(!employeeDeleteCompleted)
+  //   }
+  // }, [employeeDeleted, credentials?.id])
 
   return (
     <>
@@ -324,7 +319,7 @@ const EmployeeRow = ({
         <td >
           <div className="rolesBox" >
             <p>{role}</p>
-            {data.isDefaultActionsUpdated && <img src={thunder} />}
+            {data.defaultFunctionalityAccessUpdated && <img src={thunder} />}
           </div>
         </td>
         <td className="statusBox">
@@ -340,6 +335,7 @@ const EmployeeRow = ({
             </>
           }
         </td>
+
         <td ref={ref}>
           <ul className="popupContainer">
             <li

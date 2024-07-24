@@ -16,7 +16,7 @@
     "npm": "^7.14.0",
     "rc-time-picker": "^3.7.3",
     "react": "^16.13.1",
-    "react-datepicker": "^4.8.0",
+    "react-datepicker": "^4.20.0",
     "react-dom": "^16.13.1",
     "react-dropdown": "^1.7.0",
     "react-hook-form": "^6.8.6",
@@ -54,9 +54,10 @@
       "not dead",
       "not op_mini all"
     ],
-    "development": [ ">0.2%",
-    "not dead",
-    "not op_mini all",
+    "development": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"

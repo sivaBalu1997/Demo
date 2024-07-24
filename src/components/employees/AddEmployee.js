@@ -10,7 +10,7 @@ import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import calendar from '../../assets/svg/calendar.svg'
+import Calendar from "../../assets/images/cal.png";
 import {
   addEmployee,
   getOutlets,
@@ -21,8 +21,11 @@ import {
   getEmployeeRoles,
   updateEmployeeRequest,
   resetEmployeeActionCompleted,
+  setEditEmployeeData,
+  getEmployeeByIdRequest,
+  clearEditEmployeeData,
 } from "../../redux/actions/employeeActions";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
@@ -48,25 +51,39 @@ const AddEmployee = () => {
   const [checkedModules, setCheckedModules] = useState([])
 
   const isValidDate = (date) => !isNaN(date.getTime()); 
+  const params = useParams()
 
-  const editEmployeeData = useSelector(
-    (state) => state.employee.editEmployeeData
-  )
+  useEffect(()=> {
+    params?.id?.length && dispatch(getEmployeeByIdRequest(params.id))
+    !params?.id?.length && dispatch(clearEditEmployeeData())
+  },[params.id])
 
-  const editEmployee = editEmployeeData && {
-    firstName: editEmployeeData.firstName,
-    lastName: editEmployeeData.lastName,
-    mobileNumber: editEmployeeData.phone,
-    nickName : editEmployeeData.nickName,
-    education: editEmployeeData.education,
-    role: editEmployeeData.assignedRole,
-    email: editEmployeeData.email,
-    pin: editEmployeeData.pin,
-    dateOfBirth: editEmployeeData.dateOfBirth,
-    userId: editEmployeeData.userId,
-    outlet: editEmployeeData.locationName.split(",")[1],
-    staffId: editEmployeeData.staffId,
-    rolesAndFunctions: editEmployeeData.rolesAndFunctions
+  const employee = useSelector((state) => state.employee.employeeByIdDetails)
+
+  const employeeByIdDetailsLoading =  useSelector((state) => state.employee.employeeByIdDetailsLoading)
+
+  // useEffect(() => {
+  //   dispatch(setEditEmployeeData(employee))
+  // },[employee])
+
+  // const employee = useSelector(
+  //   (state) => state.employee.employee
+  // )
+
+  const editEmployee = employee && {
+    firstName: employee?.firstName,
+    lastName: employee?.lastName,
+    mobileNumber: employee?.phone,
+    nickName : employee?.nickName,
+    education: employee?.education,
+    role: employee?.assignedRole,
+    email: employee?.email,
+    pin: employee?.pin,
+    dateOfBirth: employee?.dateOfBirth,
+    userId: employee?.userId,
+    outlet: employee?.locationName?.split(",")[1],
+    staffId: employee?.staffId,
+    rolesAndFunctions: employee?.rolesAndFunctions
   }
 
   const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)
@@ -115,32 +132,16 @@ const AddEmployee = () => {
   useEffect(() => {
     dispatch(getEmployeeRoles())
   }, [])
-
+  
   const roles = useSelector((state) => state.employee.employeeRoleAndFunctions) 
-
-  // useEffect(() => {
-  //   // setCheckedFunctions
-  //   const tempArr = []
-  //   if(editEmployee?.rolesAndFunctions?.length > 0){
-  //     editEmployee?.rolesAndFunctions.forEach(roleFunc => {
-  //       if (roleFunc?.functions) {
-  //         roleFunc.functions.forEach(func => {
-  //           tempArr.push(func.toLowerCase()); // Add each function name to tempArr
-  //         });
-  //       }
-  //     });  
-  //     setCheckedFunctions(tempArr)
-  //   }
-  // },[])
 
   useEffect(() => {
     const tempArr = [];
-    
     if (editEmployee?.rolesAndFunctions?.length > 0) {
       for (let i = 0; i < editEmployee.rolesAndFunctions.length; i++) {
         const roleFunc = editEmployee.rolesAndFunctions[i];
         
-        if (roleFunc?.funtions) { // ensure this is 'funtions' as per your object
+        if (roleFunc?.funtions) { 
           for (let j = 0; j < roleFunc.funtions.length; j++) {
             tempArr.push(roleFunc.funtions[j].toLowerCase());
           }
@@ -149,9 +150,7 @@ const AddEmployee = () => {
       
       setCheckedFunctions(tempArr);
     }
-  }, [editEmployeeData]); // Add editEmployee as dependency if it's coming from props or state
-
-  // console.log("askjdask",roles)
+  }, [employee]); 
 
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
@@ -160,14 +159,12 @@ const AddEmployee = () => {
   const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
 
   useEffect(() => {
-    //console.log("MerchantId:", credentials?.merchantId);
     credentials && dispatch(getOutlets(credentials.merchantId));
   }, []);
 
   useEffect(() => {
     if (!updatePinLoading && updatePinFailed && updatePinMessage) {
       alert(updatePinMessage);
-      // history.goBack();
       dispatch(updateEmployeeClear());
     }
 
@@ -229,28 +226,28 @@ const AddEmployee = () => {
   }, [watchUserId]);
 
   useEffect(() => {
-    let name = getValues("firstName").replace(/[^A-Za-z ]/g, "")
-    var splitted = name.split(" ");
+    let name = getValues("firstName")?.replace(/[^A-Za-z ]/g, "")
+    var splitted = name?.split(" ");
     // console.log("Input Splitted: ", splitted);
 
     if (
-      splitted.every((name) => {
+      splitted?.every((name) => {
         return name == "";
       })
     ) {
       setValue("firstName", "")
     } else {
-      if (splitted.length > 0) {
-        for (var i = 0; i < splitted.length; i++) {
-          if (splitted[i].length === 1) {
+      if (splitted?.length > 0) {
+        for (var i = 0; i < splitted?.length; i++) {
+          if (splitted?.[i]?.length === 1) {
             //   console.log("one Len");
-            splitted[i] = splitted[i].charAt(0).toUpperCase()
+            splitted[i] = splitted?.[i]?.charAt(0).toUpperCase()
           } else {
             splitted[i] =
-              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
+              splitted?.[i]?.charAt(0).toUpperCase() + splitted?.[i]?.slice(1)
           }
         }
-        name = splitted.join(" ");
+        name = splitted?.join(" ");
         // console.log("Output: ", name)
         setValue("firstName", name)
       }
@@ -258,28 +255,28 @@ const AddEmployee = () => {
   }, [watchFirstName])
 
   useEffect(() => {
-    let name = getValues("lastName").replace(/[^A-Za-z ]/g, "")
-    var splitted = name.split(" ");
+    let name = getValues("lastName")?.replace(/[^A-Za-z ]/g, "")
+    var splitted = name?.split(" ");
     // console.log("Input Splitted: ", splitted);
 
     if (
-      splitted.every((name) => {
+      splitted?.every((name) => {
         return name == ""
       })
     ) {
       setValue("lastName", "");
     } else {
-      if (splitted.length > 0) {
-        for (var i = 0; i < splitted.length; i++) {
-          if (splitted[i].length === 1) {
+      if (splitted?.length > 0) {
+        for (var i = 0; i < splitted?.length; i++) {
+          if (splitted?.[i].length === 1) {
             //   console.log("one Len");
-            splitted[i] = splitted[i].charAt(0).toUpperCase()
+            splitted[i] = splitted?.[i].charAt(0).toUpperCase()
           } else {
             splitted[i] =
-              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
+              splitted?.[i].charAt(0).toUpperCase() + splitted?.[i].slice(1)
           }
         }
-        name = splitted.join(" ")
+        name = splitted?.join(" ")
         // console.log("Output: ", name)
         setValue("lastName", name)
       }
@@ -482,8 +479,8 @@ const AddEmployee = () => {
       ),
     };
   
-    if (editEmployeeData) {
-      formValues["id"] = editEmployeeData.staffId;
+    if (employee) {
+      formValues["id"] = employee.staffId;
     }
   
     // Clean up formValues
@@ -528,37 +525,37 @@ const AddEmployee = () => {
   };
   
   useEffect(() => {
-    if (editEmployeeData) {
-      if(editEmployeeData?.pin && editEmployeeData?.pin?.length === 4) {
-        const first = editEmployeeData?.pin?.split('')[0]
-        const second = editEmployeeData?.pin?.split('')[1]
-        const third = editEmployeeData?.pin?.split('')[2]
-        const fourth = editEmployeeData?.pin?.split('')[3]
+    if (employee) {
+      if(employee?.pin && employee?.pin?.length === 4) {
+        const first = employee?.pin?.split('')[0]
+        const second = employee?.pin?.split('')[1]
+        const third = employee?.pin?.split('')[2]
+        const fourth = employee?.pin?.split('')[3]
         setPins([first,second,third,fourth])
       }
 
-      if(editEmployeeData?.dateOfBirth && editEmployeeData?.dateOfBirth?.length > 0){
-        const date = new Date(editEmployeeData.dateOfBirth);
+      if(employee?.dateOfBirth && employee?.dateOfBirth?.length > 0){
+        const date = new Date(employee?.dateOfBirth);
         setSelectedDate(date)
       }
-      setValue('firstName',editEmployeeData.firstName || '')
-      setValue('lastName', editEmployeeData.lastName || '')
-      setValue('mobileNumber', editEmployeeData.mobileNumber || editEmployeeData.phone || '')
-      setValue('nickName', editEmployeeData.nickName || '')
-      setValue('education', editEmployeeData.education || '')
-      setValue('role', editEmployeeData.assignedRole || '')
-      setValue('email', editEmployeeData.email || '')
-      setValue('dateOfBirth', editEmployeeData.dateOfBirth || '')
-      setValue('userId', editEmployeeData.userId || '')
-      setValue('outlet', editEmployeeData.locationName.split(',')[1] || '')
+      setValue('firstName',employee?.firstName || '')
+      setValue('lastName', employee?.lastName || '')
+      setValue('mobileNumber', employee?.mobileNumber || employee?.phone || '')
+      setValue('nickName', employee?.nickName || '')
+      setValue('education', employee?.education || '')
+      setValue('role', employee?.assignedRole || '')
+      setValue('email', employee?.email || '')
+      setValue('dateOfBirth', employee?.dateOfBirth || '')
+      setValue('userId', employee?.userId || '')
+      setValue('outlet', employee?.locationName?.split(',')[1] || '')
 
-      if(editEmployeeData?.address){
-        const [address1, address2] = splitAddress(editEmployeeData.address)
+      if(employee?.address){
+        const [address1, address2] = splitAddress(employee.address)
         setValue('address1', address1)
         setValue('address2', address2)
       }
     }
-  }, [editEmployeeData]);
+  }, [employee]);
 
   useEffect(() => {
     if (employeeActionCompleted && (addEmployeeFailure || !employeeUpdated)) {
@@ -575,18 +572,32 @@ const AddEmployee = () => {
     setSelectedDate(date);
   };
 
-  const handleDateChangeRaw = (e) => {
-    const input = e.target?.value || '';
-    const cleanedInput = input.replace(/[^0-9/]/g, '');
+//   const handleDateChangeRaw = (e) => {
+//     const input = e.target?.value || '';
+//     const cleanedInput = input.replace(/[^0-9/]/g, '');
 
-    if (cleanedInput !== input) {
-        e.target.value = cleanedInput;
-    }
-    const date = new Date(cleanedInput);
-        if (isValidDate(date)) {
-        setSelectedDate(date);
-    }
-};
+//     if (cleanedInput !== input) {
+//         e.target.value = cleanedInput;
+//     }
+//     const date = new Date(cleanedInput);
+//         if (isValidDate(date)) {
+//         setSelectedDate(date);
+//     }
+// };
+
+const handleDateChangeRaw = (e) => {
+  e.preventDefault();
+}
+
+
+  if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
+    <p style={{
+      display: "flex",
+      justifyContent: "center",
+      paddingTop: "25%",
+      marginLeft:'35%'
+    }}>Loading, Please wait!!</p>
+  )
 
 
   return (
@@ -600,7 +611,7 @@ const AddEmployee = () => {
             <h2>
               {" "}
               <IoIosArrowBack />{" "}
-              {editEmployeeData ? "Edit Employee Setup" : "Add Employee Setup"}
+              {!!params?.id?.length ? "Edit Employee Setup" : "Add Employee Setup"}
             </h2>
           </div>
           <h3>Personal Info</h3>
@@ -713,22 +724,30 @@ const AddEmployee = () => {
                       className={"add-employee-text-input"}
                     />
                   </div>
-                    <div style={{zIndex:99999}}>
-                    <DatePicker
-                        placeholderText="DOB mm/dd/yyyy"
-                        selected={selectedDate}
-                        onChange={handleDateChange}
-                        onChangeRaw={handleDateChangeRaw}
-                        className="dateInput"
-                        yearDropdownItemNumber={50}
-                        scrollableYearDropdown
-                        showYearDropdown
-                        minDate={new Date(1970, 0, 1)}
-                        maxDate={new Date()}
-                        isClearable={true}
-                      />
-
+                    <div className="react-datepicker-wrapper">
+                      <label>
+                        <DatePicker
+                          placeholderText="MM/DD/YYYY"
+                          selected={selectedDate}
+                          onChange={handleDateChange}
+                          onChangeRaw={handleDateChangeRaw}
+                          className="dateInput"
+                          yearDropdownItemNumber={50}
+                          scrollableYearDropdown
+                          showYearDropdown
+                          minDate={new Date(1970, 0, 1)}
+                          maxDate={new Date()}
+                          isClearable={true}
+                        />
+                        <img
+                          className="cal_icon"
+                          alt=""
+                          src={Calendar}
+                          width="15"
+                        />
+                      </label>
                     </div>
+                    
                 </div>
                 <hr style={{marginRight:'40px'}}/>
                 
