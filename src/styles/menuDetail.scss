@@ -33,6 +33,18 @@
     display: flex;
     flex-direction: row;
   }
+
+
+  .date-picker-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .dateInput {
+    flex: 1;
+    padding-right: 30px;
+  }
   
   .inputBox{
     width: 813px;

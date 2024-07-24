@@ -724,29 +724,35 @@ const handleDateChangeRaw = (e) => {
                       className={"add-employee-text-input"}
                     />
                   </div>
-                    <div className="react-datepicker-wrapper">
-                      <label>
-                        <DatePicker
-                          placeholderText="MM/DD/YYYY"
-                          selected={selectedDate}
-                          onChange={handleDateChange}
-                          onChangeRaw={handleDateChangeRaw}
-                          className="dateInput"
-                          yearDropdownItemNumber={50}
-                          scrollableYearDropdown
-                          showYearDropdown
-                          minDate={new Date(1970, 0, 1)}
-                          maxDate={new Date()}
-                          isClearable={true}
-                        />
-                        <img
-                          className="cal_icon"
-                          alt=""
-                          src={Calendar}
-                          width="15"
-                        />
-                      </label>
-                    </div>
+                  <div 
+                    className="date-picker-container"
+                    style={{
+                      marginTop:'-18px',
+                      zIndex:'999999999'
+                    }}
+                  >
+                    <DatePicker
+                      placeholderText="MM/DD/YYYY"
+                      selected={selectedDate}
+                      onChange={handleDateChange}
+                      onChangeRaw={handleDateChangeRaw}
+                      className="dateInput"
+                      yearDropdownItemNumber={50}
+                      scrollableYearDropdown
+                      showYearDropdown
+                      minDate={new Date(1970, 0, 1)}
+                      maxDate={new Date()}
+                      // isClearable={true}
+                    />
+                    <img
+                      className="cal_icon"
+                      alt="Calendar Icon"
+                      src={Calendar}
+                      width="15"
+                      onClick={() => document.querySelector('.dateInput').focus()}
+                      style={{right:'10px', top:'38%'}}
+                    />
+                  </div>
                     
                 </div>
                 <hr style={{marginRight:'40px'}}/>
