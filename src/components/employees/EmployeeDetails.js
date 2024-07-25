@@ -9,6 +9,8 @@ import edit from '../../assets/svg/edit.svg'
 import block from '../../assets/svg/blockImg.svg' 
 import unBlockImg from '../../assets/svg/unBlockImg.svg'
 import trash from '../../assets/svg/trash.svg'
+import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
+import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 
 const EmployeeDetails = () => {
     const [showDropDown, setShowDropDown] = useState(false)
@@ -17,6 +19,7 @@ const EmployeeDetails = () => {
     const [openStausModal, setOpenStausModal] = useState(false);
     const [isBlocking, setIsBlocking] = useState(true);
     const [employeeToUpdate, setEmployeeToUpdate] = useState(null);
+    const [isPinVisible, setIsPinVisible] = useState(false)
 
 
     const history = useHistory()
@@ -160,7 +163,28 @@ const EmployeeDetails = () => {
                     <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'> : {fomatLocation(employee?.locationName)}</p></div>
                     <div className='title'><p className='tag'>Start Date</p><p className='value'> : {employee?.startDate}</p></div>
                     <div className='title'><p className='tag'>User ID</p><p className='value'> : {employee?.userId}</p></div>
-                    <div className='title'><p className='tag'>Pin</p><p className='value'> : {employee?.pin}</p></div>
+                    <div className='title'><p className='tag'>Pin</p><p className='value'> 
+                        : {isPinVisible ? employee?.pin : '****' } 
+                        {isPinVisible ? (
+                            <ClosedEyeIcon
+                            onClick={() => setIsPinVisible(false)}
+                            style={{
+                                // position: "relative",
+                                marginLeft:'20px',
+                                cursor:'pointer'
+                            }}
+                            />
+                        ) : (
+                            <OpenEyeIcon
+                            onClick={() => setIsPinVisible(true)}
+                            style={{
+                                // position: "relative",
+                                marginLeft:'20px',
+                                cursor:'pointer'
+                            }}
+                            />
+                    )}
+                    </p></div>
                 </div>
                 <div>
                     <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName}</p></div>

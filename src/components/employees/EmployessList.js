@@ -292,12 +292,12 @@ const EmployeeRow = ({
     setEmployeeToDelete(null);
   }
 
-  // useEffect(() => {
-  //   if (employeeDeleteCompleted && !deleteEmployeeLoading) {
-  //     dispatch(getEmployees(credentials?.id))
-  //     setEmployeeDeleteCompleted(!employeeDeleteCompleted)
-  //   }
-  // }, [employeeDeleted, credentials?.id])
+  useEffect(() => {
+    if (employeeDeleteCompleted && !deleteEmployeeLoading) {
+      dispatch(getEmployees(credentials?.id))
+      setEmployeeDeleteCompleted(!employeeDeleteCompleted)
+    }
+  }, [employeeDeleted, credentials?.id])
 
   return (
     <>
@@ -423,4 +423,4 @@ const EmployeeRow = ({
 }
 
 
-export default EmployeeList;
+export default React.memo(EmployeeList);  
