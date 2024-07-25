@@ -526,13 +526,13 @@ const AddEmployee = () => {
   
   useEffect(() => {
     if (employee) {
-      if(employee?.pin && employee?.pin?.length === 4) {
-        const first = employee?.pin?.split('')[0]
-        const second = employee?.pin?.split('')[1]
-        const third = employee?.pin?.split('')[2]
-        const fourth = employee?.pin?.split('')[3]
-        setPins([first,second,third,fourth])
-      }
+      // if(employee?.pin && employee?.pin?.length === 4) {
+      //   const first = employee?.pin?.split('')[0]
+      //   const second = employee?.pin?.split('')[1]
+      //   const third = employee?.pin?.split('')[2]
+      //   const fourth = employee?.pin?.split('')[3]
+      //   setPins([first,second,third,fourth])
+      // }
 
       if(employee?.dateOfBirth && employee?.dateOfBirth?.length > 0){
         const date = new Date(employee?.dateOfBirth);
@@ -683,6 +683,9 @@ const handleDateChangeRaw = (e) => {
                       min={0}
                       // disabled={editEmployee && editEmployee.phone}
                     />
+                    {errors.mobileNumber?.type === "required" &&
+                      <p style={{fontSize:'12px', color:'#FF0505', marginTop:'-15px'}}>Invalid Number</p>
+                    }
                   </div>
                   <div>
                     <TextInput
@@ -926,7 +929,7 @@ const handleDateChangeRaw = (e) => {
                   className="acess-flex"
                   style={{ marginTop: editEmployee ? 10 : 20 }}
                 >
-                  <p style={{fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
+                  <p style={errors.pin ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
                   <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                     <div style={{ display: 'flex', border: errors.pin ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                       {[0, 1, 2, 3].map((i) => (
