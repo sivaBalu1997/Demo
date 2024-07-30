@@ -156,7 +156,7 @@ const AddEmployee = () => {
   const watchFirstName = watch("firstName");
   const watchLastName = watch("lastName");
   const useNickname = watch("useNickname", false);
-  const [isPasswordVisible, SetIsPasswordVisible] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   useEffect(() => {
     credentials && dispatch(getOutlets(credentials.merchantId));
@@ -205,6 +205,7 @@ const AddEmployee = () => {
         "Waiter",
         "Host",
         "Delivery",
+        "Cashier"
       ];
     }
   };  
@@ -378,15 +379,15 @@ const AddEmployee = () => {
       } else {
         return [...prevCheckedFunctions, funcName];
       }
-    });
-  };
+    })
+  }
   
   const isModuleChecked = (moduleName) => {
     const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
     if (!module) return false;
   
     return module.functionality.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
-  };
+  }
   
   const handleModuleCheckboxChange = (moduleName) => {
     const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
@@ -400,8 +401,8 @@ const AddEmployee = () => {
       } else {
         return [...prevCheckedFunctions, ...moduleFunctions.filter((func) => !prevCheckedFunctions.includes(func))];
       }
-    });
-  };
+    })
+  }
   
   const handleReset = () => {
     if (editEmployee) {
@@ -461,13 +462,13 @@ const AddEmployee = () => {
       businessName: credentials.businessName,
       userId: formValues.userId,
       nickName: formValues.nickName,
-      email: formValues.email,
+      email: formValues.email || null,
       mobileNumber: formValues.mobileNumber,
       address: `${formValues.address1} ${formValues.address2}`,
       dateOfBirth: selectedDate,
       education: formValues.education,
       merchantId: credentials.merchantId,
-      devicePin: pins.join(''),
+      devicePin: pins.join('') || null,
       IsTempPassword: false,
       password: formValues.password || null,
       isToUseNickName: formValues.useNickname,
@@ -544,7 +545,7 @@ const AddEmployee = () => {
       setValue('nickName', employee?.nickName || '')
       setValue('education', employee?.education || '')
       setValue('role', employee?.assignedRole || '')
-      setValue('email', employee?.email || '')
+      setValue('email', employee?.email || null)
       setValue('dateOfBirth', employee?.dateOfBirth || '')
       setValue('userId', employee?.userId || '')
       setValue('outlet', employee?.locationName?.split(',')[1] || '')
@@ -572,23 +573,14 @@ const AddEmployee = () => {
     setSelectedDate(date);
   };
 
-//   const handleDateChangeRaw = (e) => {
-//     const input = e.target?.value || '';
-//     const cleanedInput = input.replace(/[^0-9/]/g, '');
-
-//     if (cleanedInput !== input) {
-//         e.target.value = cleanedInput;
-//     }
-//     const date = new Date(cleanedInput);
-//         if (isValidDate(date)) {
-//         setSelectedDate(date);
-//     }
-// };
-
 const handleDateChangeRaw = (e) => {
   e.preventDefault();
 }
 
+const validatePassword = (value) => {
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+  return passwordRegex.test(value);
+}
 
   if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
     <p style={{
@@ -672,20 +664,30 @@ const handleDateChangeRaw = (e) => {
 
                 <div className="flexContainer">
                   <div>
-                    <TextInput
-                      type="number"
-                      placeholder="Phone*"
-                      name="mobileNumber"
-                      formRegister={register({
-                        required: "Required",
-                      })}
-                      className={errors.mobileNumber?.type === "required" ? 'num errorInput' :'add-employee-text-input'}
-                      min={0}
-                      // disabled={editEmployee && editEmployee.phone}
-                    />
-                    {errors.mobileNumber?.type === "required" &&
-                      <p style={{fontSize:'12px', color:'#FF0505', marginTop:'-15px'}}>Invalid Number</p>
-                    }
+                  <TextInput
+                    type="text"
+                    placeholder="Phone*"
+                    name="mobileNumber"
+                    formRegister={register({
+                      required: "Required",
+                      validate: (value) => value.length === 10 || "Must be 10 digits",
+                    })}
+                    className={errors.mobileNumber ? 'num errorInput' : 'add-employee-text-input'}
+                    maxLength={10}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                    }}
+                    onKeyPress={(e) => {
+                      if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                  {errors.mobileNumber && (
+                    <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
+                      Invalid Number
+                    </p>
+                  )}
                   </div>
                   <div>
                     <TextInput
@@ -768,7 +770,7 @@ const handleDateChangeRaw = (e) => {
                     <Controller
                       control={control}
                       name="outlet"
-                      defaultValue={""}
+                      defaultValue={outletOptions?.length === 1 ? outletOptions[0].value : ""}
                       rules={{
                         required: "Required",
                       }}
@@ -892,35 +894,41 @@ const handleDateChangeRaw = (e) => {
                   <TextInput
                     type={isPasswordVisible ? "text" : "password"}
                     placeholder="Password*"
-                    minLength={6}
+                    // minLength={6}
                     name="password"
                     formRegister={register({
                       required: !editEmployee && "Required",
+                      validate : validatePassword
                     })}
-                    className={errors.password?.type === "required" ? 'pass errorInput' :'add-employee-text-input'}
+                    className={errors.password ? 'pass errorInput' :'add-employee-text-input'}
                     containerStyle={{ paddingBottom: "0px" }}
                     autoComplete = {false}
                   />
                   {isPasswordVisible ? (
-                    <ClosedEyeIcon
-                      onClick={() => SetIsPasswordVisible(false)}
-                      style={{
-                        position: "relative",
-                        bottom: 30,
-                        left: 370, 
-                        cursor:'pointer'
-                      }}
-                    />
-                  ) : (
                     <OpenEyeIcon
-                      onClick={() => SetIsPasswordVisible(true)}
-                      style={{
-                        position: "relative",
-                        bottom: 30,
-                        left: 370, 
-                        cursor:'pointer'
-                      }}
-                    />
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    style={{
+                      position: "relative",
+                      bottom: 30,
+                      left: 370, 
+                      cursor:'pointer'
+                    }}
+                  />
+                  ) : (
+                  <ClosedEyeIcon
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    style={{
+                      position: "relative",
+                      bottom: 30,
+                      left: 370, 
+                      cursor:'pointer'
+                    }}
+                  />
+                  )}
+                  {errors.password && (
+                    <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
+                      Enter valid password. Your password should contain 1 capital letter, 1 special character, and 1 number
+                    </p>
                   )}
                 </div>
               </div>
@@ -938,7 +946,7 @@ const handleDateChangeRaw = (e) => {
                           formRegister={register()}
                           ref={(el) => {
                             inputRefs.current[i] = el;
-                            register(el, { required: "Required" });
+                            register(el, { required: !editEmployee && "Required" });
                           }}
                           type={showPin ? 'text' : 'password'}
                           value={pins[i]}
@@ -962,16 +970,6 @@ const handleDateChangeRaw = (e) => {
                     </div>
                     <div>
                       {showPin ? (
-                        <ClosedEyeIcon
-                          onClick={toggleShowPin}
-                          style={{
-                            position: "relative",
-                            left: 20, 
-                            cursor: 'pointer'
-                          }}
-                          className={'closedEyeIcon'}
-                        />
-                      ) : (
                         <OpenEyeIcon
                           onClick={toggleShowPin}
                           style={{
@@ -980,6 +978,16 @@ const handleDateChangeRaw = (e) => {
                             cursor: 'pointer'
                           }}
                           className={'openedEyeIcon'}
+                        />
+                      ) : (
+                        <ClosedEyeIcon
+                          onClick={toggleShowPin}
+                          style={{
+                            position: "relative",
+                            left: 20, 
+                            cursor: 'pointer'
+                          }}
+                          className={'closedEyeIcon'}
                         />
                       )}
                     </div>
