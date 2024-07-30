@@ -15,12 +15,11 @@ import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg
 const EmployeeDetails = () => {
     const [showDropDown, setShowDropDown] = useState(false)
     const [date, setDate] = useState("")
-    const [openDeleteModal, setDeleteOpenModal] = useState(false);
-    const [openStausModal, setOpenStausModal] = useState(false);
-    const [isBlocking, setIsBlocking] = useState(true);
-    const [employeeToUpdate, setEmployeeToUpdate] = useState(null);
+    const [openDeleteModal, setDeleteOpenModal] = useState(false)
+    const [openStausModal, setOpenStausModal] = useState(false)
+    const [isBlocking, setIsBlocking] = useState(true)
+    const [employeeToUpdate, setEmployeeToUpdate] = useState(null)
     const [isPinVisible, setIsPinVisible] = useState(false)
-
 
     const history = useHistory()
     const params = useParams()
@@ -102,7 +101,8 @@ const EmployeeDetails = () => {
                 <div className='dropDown'>
                     <div className='actionTab' onClick={() => {
                         dispatch(setEditEmployeeData(employee))
-                        history.push("/management/employees/add")
+                        console.log(employee.staffId)
+                        history.push("/management/employees/add/"+employee.staffId)
                     }}>
                         <img src={edit} 
                             style={{filter: "brightness(0) saturate(100%) invert(45%) sepia(22%) saturate(1556%) hue-rotate(49deg) brightness(94%) contrast(93%)"}}

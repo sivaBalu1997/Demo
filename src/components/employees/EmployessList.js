@@ -33,9 +33,13 @@ const EmployeeList = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const credentials = useSelector((state) => state.auth.credentials)
-  const [employeeListData, setEmployeeListdata] = useState(props.employeeList)
   const [searchedData, setSearchedData] = useState([])
   const [searchInput, setSearchInput] = useState('')
+
+  const employeeList = useSelector((state) => state.employee.employeeDetails);
+  const [employeeListData, setEmployeeListdata] = useState(employeeList)
+
+  console.log({employeeList})
 
   const logoutUser = () => {
     dispatch(clearMenuData())
@@ -84,25 +88,25 @@ const EmployeeList = (props) => {
 
   useEffect(() => {
     if (searchInput === '') {
-      setSearchedData(props.employeeList);
+      setSearchedData(employeeList);
     } else {
-      const filteredData = props.employeeList.filter(item => (
+      const filteredData = employeeList.filter(item => (
         item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
         item.role.toLowerCase().includes(searchInput.toLowerCase())
       ));
       setSearchedData(filteredData);
     }
-  }, [searchInput, props.employeeList]);
+  }, [searchInput, employeeList]);
 
   const handleSearch = () => {
     if (searchInput !== '') {
-      const filteredData = props.employeeList.filter(item => (
+      const filteredData = employeeList.filter(item => (
         item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
         item.role.toLowerCase().includes(searchInput.toLowerCase())
       ));
       setSearchedData(filteredData);
     } else {
-      setSearchedData(props.employeeList);
+      setSearchedData(employeeList);
     }
   };
 
@@ -164,7 +168,7 @@ const EmployeeList = (props) => {
               history.push("/management/employees/add")
             }}/>
         </div>
-        {props?.employeeList ? (
+        {employeeList ? (
           <div
             className="menu-list"
             style={{
@@ -183,7 +187,7 @@ const EmployeeList = (props) => {
                   </tr>
                 </thead>
                 <tbody className="tBody">
-                  {(searchInput?.length === 0 ? props.employeeList : searchedData)?.map((row, index) => {
+                  {(searchInput?.length === 0 ? employeeList : searchedData)?.map((row, index) => {
                     return (
                       <EmployeeRow
                         key={row.id}
@@ -270,12 +274,12 @@ const EmployeeRow = ({
     setEmployeeToUpdate(null);
   };
 
-  useEffect(() => {
-    if (statusUpdateCompleted && !employeeStatusLoading) {
-      dispatch(getEmployees(credentials?.id))
-      setStatusUpdateCompleted(false)
-    }
-  }, [employeeStatusLoading, statusUpdateCompleted, credentials?.id]);
+  // useEffect(() => {
+  //   if (statusUpdateCompleted && !employeeStatusLoading) {
+  //     dispatch(getEmployees(credentials?.id))
+  //     setStatusUpdateCompleted(false)
+  //   }
+  // }, [employeeStatusLoading, statusUpdateCompleted, credentials?.id]);
 
   const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
   const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)

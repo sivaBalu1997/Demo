@@ -17,6 +17,7 @@ const TextInput = ({
   error,
   onKeyDown,
   containerStyle,
+  onKeyPress
 }) => {
 
   return (
@@ -31,6 +32,7 @@ const TextInput = ({
           name={name}
           ref={formRegister ?? null}
           // disabled={disabled ?? false}
+          onKeyPress={onKeyPress}
           maxLength={maxLength}
           minLength={minLength}
           className={className}

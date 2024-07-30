@@ -88,7 +88,7 @@ const Employees = () => {
           </div>
         </div>
       ) : (
-        <EmployeeList employeeList={employeeList} />
+        <EmployeeList />
       )}
     </>
   );

@@ -205,7 +205,7 @@ function* employeeSatusSaga(action){
   try{
     const response = yield call(employeeStatus, action.payload)
     if(response.status === 200){
-      yield put(employeeStatusSuccess(response.data))
+      yield put(employeeStatusSuccess(action.payload))
     }else{
       yield put(employeeStatusFailure({ message: "Action Failed" }))
     }
