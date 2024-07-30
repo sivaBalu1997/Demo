@@ -158,10 +158,10 @@ const EmployeeDetails = () => {
             )}
             <div className='detailContainer'>
                 <div>
-                    <div className='title'><p className='tag'>Full Name</p><p className='value'> : {employee?.firstName}</p></div>
+                    <div className='title'><p className='tag'>Full Name</p><p className='value'> : {employee?.firstName} {employee?.lastName}</p></div>
                     <div className='title'><p className='tag'>Assigned Role</p><p className='value'> : {employee?.assignedRole}</p></div>
                     <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'> : {fomatLocation(employee?.locationName)}</p></div>
-                    <div className='title'><p className='tag'>Start Date</p><p className='value'> : {employee?.startDate}</p></div>
+                    <div className='title'><p className='tag'>Start Date</p><p className='value'> : {employee?.startDate ? employee?.startDate : '-'}</p></div>
                     <div className='title'><p className='tag'>User ID</p><p className='value'> : {employee?.userId}</p></div>
                     <div className='title'><p className='tag'>Pin</p><p className='value'> 
                         : {isPinVisible ? employee?.pin : '****' } 
@@ -187,12 +187,12 @@ const EmployeeDetails = () => {
                     </p></div>
                 </div>
                 <div>
-                    <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName}</p></div>
-                    <div className='title'><p className='tag'>Email</p><p className='value'> : {employee?.email}</p></div>
+                    <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName ? employee?.nickName : '-'}</p></div>
+                    <div className='title'><p className='tag'>Email</p><p className='value'> : {employee?.email ? employee?.email : '-'}</p></div>
                     <div className='title'><p className='tag'>Phone</p><p className='value'> : {employee?.phone}</p></div>
-                    <div className='title'><p className='tag'>Address</p><p className='value'> : {employee?.address}</p></div>
-                    <div className='title'><p className='tag'>Date of Birth</p><p className='value'> : {formatDate(employee?.dateOfBirth)}</p></div>
-                    <div className='title'><p className='tag'>Education</p><p className='value'> : {employee?.education}</p></div>
+                    <div className='title'><p className='tag'>Address</p><p className='value'> : {employee?.address ? employee?.address : '-'}</p></div>
+                    <div className='title'><p className='tag'>Date of Birth</p><p className='value'> : {formatDate(employee?.dateOfBirth) ? formatDate(employee?.dateOfBirth) : '-'}</p></div>
+                    <div className='title'><p className='tag'>Education</p><p className='value'> : {employee?.education ? employee?.education : '-'}</p></div>
                 </div>
             </div>
             <div className='rolesContainer'>

@@ -579,8 +579,15 @@ const handleDateChangeRaw = (e) => {
 
 const validatePassword = (value) => {
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
-  return passwordRegex.test(value);
+  if(!editEmployee){
+    return passwordRegex.test(value);
+  }
 }
+
+// const validateNickName = (value) => {
+//   const nickNameRegex = /[^0-9!@#$%^&*]/
+//   return nickNameRegex.test(value)
+// } 
 
   if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
     <p style={{
@@ -591,6 +598,7 @@ const validatePassword = (value) => {
     }}>Loading, Please wait!!</p>
   )
 
+  const alphabeticRegex = /^[A-Za-z]*$/;
 
   return (
     <>
@@ -648,10 +656,10 @@ const validatePassword = (value) => {
                     placeholder="Nick Name"
                     name="nickName"
                     formRegister={register({
-                     required: useNickname && "Required"
+                      required: useNickname && "Required",
                     })}
                     maxLength={15}
-                    className={errors.nickName ? 'fN errorInputBox' :'inputBox'}
+                    className={errors.nickName ? 'fN errorInputBox' : 'inputBox'}
                   />
                 </div>
 
@@ -900,7 +908,7 @@ const validatePassword = (value) => {
                       required: !editEmployee && "Required",
                       validate : validatePassword
                     })}
-                    className={errors.password ? 'pass errorInput' :'add-employee-text-input'}
+                    className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
                     containerStyle={{ paddingBottom: "0px" }}
                     autoComplete = {false}
                   />
@@ -1006,13 +1014,18 @@ const validatePassword = (value) => {
                   setOpenModal(!openModal)
                 }}
               >
-                 <input className="clear-all-btn" type="button" value="Clear All" />
+                <input 
+                  className="clear-all-btn" 
+                  type="button" 
+                  value="Clear All" 
+                  disabled = {addEmployeeLoading}
+                />
               </span>
               <span>
                 <input 
                   className="save-btn" 
                   type="submit" 
-                  value="Save" 
+                  value={addEmployeeLoading ? "Saving..." : "Save"} 
                 /> 
               </span>
             </div>

@@ -17,7 +17,8 @@ const TextInput = ({
   error,
   onKeyDown,
   containerStyle,
-  onKeyPress
+  onKeyPress,
+  pattern
 }) => {
 
   return (
@@ -39,6 +40,7 @@ const TextInput = ({
           min={min}
           onChange={onChange}
           onBlur={onBlur}
+          pattern={pattern}
         />
         <span
           style={{ fontSize: "14px", color: "#FF5554", paddingLeft: "13px" }}

@@ -119,7 +119,21 @@ const EmployeeList = (props) => {
   return (
     <>
       <div className="menu-items">
-      <div className="header">
+        <div className="header-menu">
+          <div style={{
+            display:"flex",
+            justifyContent:'space-between',
+            width:'100%'
+          }}>
+            <Employees
+              className="menu-items-SVG"
+              style={{
+                marginBottom: 5,
+              }}
+            />
+            <h2>Employees Management</h2>
+
+            <div className="header">
           <p
             onClick={logoutUser}
             style={{
@@ -128,24 +142,15 @@ const EmployeeList = (props) => {
               alignItems: "center",
               whiteSpace: "nowrap",
               cursor: "pointer",
-              marginTop:"-30px",
+              // marginTop:"-30px",
             }}
           >
             <img src={logout} alt="Logout" height="20" />
             &nbsp; Log Out
           </p>
+          <br />
+          <br />
         </div>
-        <div className="header-menu">
-          <div>
-            <Employees
-              className="menu-items-SVG"
-              style={{
-                marginBottom: 5,
-              }}
-            />
-            <h2>Employees Management</h2>
-            <br />
-            <br />
           </div>
         </div>
         <div className="searchContainer">
@@ -274,12 +279,12 @@ const EmployeeRow = ({
     setEmployeeToUpdate(null);
   };
 
-  // useEffect(() => {
-  //   if (statusUpdateCompleted && !employeeStatusLoading) {
-  //     dispatch(getEmployees(credentials?.id))
-  //     setStatusUpdateCompleted(false)
-  //   }
-  // }, [employeeStatusLoading, statusUpdateCompleted, credentials?.id]);
+  useEffect(() => {
+    if (statusUpdateCompleted && !employeeStatusLoading) {
+      dispatch(getEmployees(credentials?.id))
+      setStatusUpdateCompleted(false)
+    }
+  }, [employeeStatusLoading, statusUpdateCompleted, credentials?.id]);
 
   const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
   const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
