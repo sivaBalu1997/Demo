@@ -101,7 +101,6 @@ const EmployeeDetails = () => {
                 <div className='dropDown'>
                     <div className='actionTab' onClick={() => {
                         dispatch(setEditEmployeeData(employee))
-                        console.log(employee.staffId)
                         history.push("/management/employees/add/"+employee.staffId)
                     }}>
                         <img src={edit} 

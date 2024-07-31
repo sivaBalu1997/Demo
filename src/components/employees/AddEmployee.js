@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,useState, useRef } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import Button from "../common/Button";
 import { useForm, Controller } from "react-hook-form";
@@ -30,6 +30,7 @@ import { useHistory, useParams } from "react-router";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import dropArrow from '../../assets/svg/dropArrow.svg'
+import OtpInput from "../common/OtpInput";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
@@ -187,7 +188,7 @@ const AddEmployee = () => {
     const decodedToken = credentials?.accessToken ? jwt_decode(credentials.accessToken) : null;
     const roles = decodedToken?.resource_access?.["merchant-app"]?.roles || [];
   
-    if (roles.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
+    if (roles?.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
       return [
         "Branch_Manager",
         "Regional_Manager",
@@ -209,6 +210,9 @@ const AddEmployee = () => {
       ];
     }
   };  
+
+  const [otp, setOtp] = useState('');
+
   
   useEffect(() => {
     if (!addEmployeeLoading && employeeAdded) {
@@ -308,7 +312,7 @@ const AddEmployee = () => {
   }, [editEmployee]);
 
   const handleSelectOutlet = (outlet) => {
-    setSelectedOutlet(outlet.locationName.split(",")[1])
+    setSelectedOutlet(outlet.locationName?.split(",")[1])
     setIsOutletDropdownOpen(false)
   } 
 
@@ -385,7 +389,7 @@ const AddEmployee = () => {
     const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
     if (!module) return false;
   
-    return module.functionality.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
+    return module.functionality?.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
   }
   
   const handleModuleCheckboxChange = (moduleName) => {
@@ -395,7 +399,7 @@ const AddEmployee = () => {
     const moduleFunctions = module.functionality.map((func) => func.name.toLowerCase());
   
     setCheckedFunctions((prevCheckedFunctions) => {
-      if (moduleFunctions.every((func) => prevCheckedFunctions.includes(func))) {
+      if (moduleFunctions?.every((func) => prevCheckedFunctions.includes(func))) {
         return prevCheckedFunctions.filter((func) => !moduleFunctions.includes(func));
       } else {
         return [...prevCheckedFunctions, ...moduleFunctions.filter((func) => !prevCheckedFunctions.includes(func))];
@@ -449,7 +453,7 @@ const AddEmployee = () => {
           urls: func.urls
         }));
   
-      return moduleFunctions.length > 0 ? moduleFunctions : null;
+      return moduleFunctions?.length > 0 ? moduleFunctions : null;
     }).flat().filter(item => item !== null);
   
     // Update formValues with additional data
@@ -491,7 +495,6 @@ const AddEmployee = () => {
     delete formValues["pin"];
   
     // Submit the form
-    console.log("Form Submitted");
 
     formValues.successCB = () => {
        history.replace('/management/employees');
@@ -505,15 +508,15 @@ const AddEmployee = () => {
   };
   
   const splitAddress = (address) => {
-    const parts = address.split(',');
-    if (parts.length > 1) {
+    const parts = address?.split(',');
+    if (parts?.length > 1) {
       const addressLine1 = parts.slice(0, -1).join(',').trim();
-      const addressLine2 = parts[parts.length - 1].trim();
+      const addressLine2 = parts[parts?.length - 1].trim();
       return [addressLine1, addressLine2];
     }
   
     const maxLength = 30;
-    if (address.length <= maxLength) {
+    if (address?.length <= maxLength) {
       return [address, ''];
     }
   
@@ -597,6 +600,13 @@ const validatePassword = (value) => {
     }}>Loading, Please wait!!</p>
   )
 
+  const alphabeticRegex = /^[A-Za-z]*$/;
+
+
+  const handleOtpChange = (otpValue) => {
+    setOtp(otpValue);
+  };
+
   return (
     <>
       {list === false ? (
@@ -675,12 +685,12 @@ const validatePassword = (value) => {
                     name="mobileNumber"
                     formRegister={register({
                       required: "Required",
-                      validate: (value) => value.length === 10 || "Must be 10 digits",
+                      validate: (value) => value?.length === 10 || "Must be 10 digits",
                     })}
                     className={errors.mobileNumber ? 'num errorInput' : 'add-employee-text-input'}
                     maxLength={10}
                     onInput={(e) => {
-                      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
                     }}
                     onKeyPress={(e) => {
                       if (!/[0-9]/.test(e.key)) {
@@ -782,14 +792,14 @@ const validatePassword = (value) => {
                       render={({ onChange, onBlur, value, name }) => (
                         <CustomDropdown
                           options={outletOptions}
-                          placeholder={"Assign Outlet*"}
+                          placeholder={"Outlet*"}
                           onSelect={(outletSelected) => {
                             if (outlets && outletSelected) {
                               const outletObject = outlets.find((outlet) =>
                                 outlet?.locationName?.includes(outletSelected?.value)
                               );
                               if (outletObject) {
-                                onChange(outletObject.locationName.split(",")[1]);
+                                onChange(outletObject.locationName?.split(",")[1]);
                               }
                             }
                           }}
@@ -820,7 +830,7 @@ const validatePassword = (value) => {
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={getRole()}
-                        placeholder={"Assign Role*"}
+                        placeholder={"Roles*"}
                         onSelect={(role) => {
                           onChange(role.value);
                           handleRoleChange(role.value);
@@ -946,6 +956,8 @@ const validatePassword = (value) => {
                   style={{ marginTop: editEmployee ? 10 : 20 }}
                 >
                   <p style={errors.pin ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
+                 
+                  {/* <OtpInput value={otp} name={'pin'}  length={4} onChange={handleOtpChange} borderColor={errors.pin ? '#FF0505': '#ccc'}  /> */}
                   <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                     <div style={{ display: 'flex', border: errors.pin ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                       {[0, 1, 2, 3].map((i) => (
@@ -960,7 +972,7 @@ const validatePassword = (value) => {
                           value={pins[i]}
                           onChange={(e) => handleChange(e, i)}
                           onKeyDown={(e) => handleKeyDown(e, i)}
-                          name='pin'
+                          name='pin1'
                           // maxLength="4"
                           // minLength="4"
                           style={{

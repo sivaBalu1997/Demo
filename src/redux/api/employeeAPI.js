@@ -87,7 +87,7 @@ export function manageUserAccess(details) {
 }
 
 export function updatePIN(details) {
-  console.log("Calling from API :::::");
+ // console.log("Calling from API :::::");
   const token = Store.getState().auth.credentials.accessToken;
   return API({
     method: "put",
