@@ -3,7 +3,6 @@ import React, { Fragment } from "react";
 const TextInput = ({
   type,
   placeholder,
-  label,
   value,
   name,
   formRegister,
@@ -25,7 +24,6 @@ const TextInput = ({
   return (
     <Fragment>
       <div style={containerStyle ? containerStyle : { marginBottom: "20px" }}>
-      <label htmlFor={name} style={{ display: 'block', marginBottom: '5px', opacity: "0.5" }}>{label}</label>
         <input
           style={style}
           type={type}

@@ -7,9 +7,11 @@ import { endOfDay } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 
 import { ReactComponent as CrossIcon } from "../../assets/svg/crossIcon.svg";
+import Checkbox from "../common/Checkbox";
+import Switch from "react-switch";
 
 const DisableItemPopup = (props) => {
-  console.log(props, "check props data");
+  console.log(props,"check props data")
   const getFormattedDateFromISO = useCallback((dateISOString) => {
     return dateISOString.replace("T", " ").replace("Z", "");
   }, []);
@@ -21,20 +23,18 @@ const DisableItemPopup = (props) => {
   } = props;
   const now = moment().hour(0).minute(0);
   const [pickedTime, setpickedTime] = useState("");
-  const [selectedValue, setSelectedValue] = useState(null);
   const format = "h:mm A";
-
+  // console.log(`data in popup::::`, data);
   function onChange(value) {
+    // console.log(new Date(value).toISOString(), "Value:::");
     setpickedTime(getFormattedDateFromISO(new Date(value).toISOString()));
   }
 
-  const handleRadioChange = (event) => {
-    setSelectedValue(event.target.value);
-  };
+  // console.log(`data`, data);
 
   const isItemEnabled = data.enable === true;
   const orderTypeId = useSelector((state) => state.menu.menu.orderTypeId);
-
+  // console.log(`isItemEnabled :::`, orderTypeId);
   return (
     <div className="popup">
       <div className="popup_inner">
@@ -113,7 +113,6 @@ const DisableItemPopup = (props) => {
                     className="radio"
                     name="disable-action"
                     value="EOT"
-                    onChange={handleRadioChange}
                   />
                 </div>
               )}
@@ -132,7 +131,6 @@ const DisableItemPopup = (props) => {
                   className="radio"
                   name="disable-action"
                   value="UME"
-                  onChange={handleRadioChange}
                 />
               </div>
               {isItemEnabled && (
@@ -145,6 +143,7 @@ const DisableItemPopup = (props) => {
                     format={format}
                     use12Hours
                     style={{ width: "75px" }}
+                    // clearIcon="none"
                     allowEmpty={false}
                   />
                   <input
@@ -152,7 +151,6 @@ const DisableItemPopup = (props) => {
                     className="radio"
                     name="disable-action"
                     value="TP"
-                    onChange={handleRadioChange}
                   />
                 </div>
               )}
@@ -166,20 +164,17 @@ const DisableItemPopup = (props) => {
               </div>
               <div
                 className="modal-submit-button"
-                style={{
-                  backgroundColor: selectedValue ? "#67833e" : "#b6b9b1",
-                }}
                 onClick={() => {
                   // if (props.data.display === 1) {
                   //   props.updateItemVisibility(false);
                   // } else if (props.data.display === 0) {
                   //   props.updateItemVisibility(true);
                   // }
-                  // let selectedValue;
+                  let selectedValue;
                   let value = document.getElementsByName("disable-action");
                   for (let i = 0; i < value.length; i++) {
                     if (value[i].checked) {
-                      setSelectedValue(value[i].value);
+                      selectedValue = value[i].value;
                     }
                   }
                   switch (selectedValue) {
@@ -193,6 +188,7 @@ const DisableItemPopup = (props) => {
                         let currentDate = getFormattedDateFromISO(
                           new Date().toISOString()
                         );
+                        // updateItemVisibility(true);
                         updateItemOrderTypeAvailabilityDate(false, currentDate);
                       }
                       break;
@@ -200,11 +196,16 @@ const DisableItemPopup = (props) => {
                       let date = getFormattedDateFromISO(
                         endOfDay(new Date()).toISOString()
                       );
+
+                      // console.log(`date`, date);
                       updateItemOrderTypeAvailabilityDate(false, date);
                       break;
+
                     case "TP":
+                      // console.log(`pickedTime`, pickedTime);
                       updateItemOrderTypeAvailabilityDate(false, pickedTime);
                       break;
+
                     default:
                       break;
                   }

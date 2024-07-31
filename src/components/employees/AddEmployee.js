@@ -135,10 +135,26 @@ const AddEmployee = () => {
   
   const roles = useSelector((state) => state.employee.employeeRoleAndFunctions) 
 
+  useEffect(() => {
+    const tempArr = [];
+    if (editEmployee?.rolesAndFunctions?.length > 0) {
+      for (let i = 0; i < editEmployee.rolesAndFunctions.length; i++) {
+        const roleFunc = editEmployee.rolesAndFunctions[i];
+        
+        if (roleFunc?.funtions) { 
+          for (let j = 0; j < roleFunc.funtions.length; j++) {
+            tempArr.push(roleFunc.funtions[j].toLowerCase());
+          }
+        }
+      }
+      
+      setCheckedFunctions(tempArr);
+    }
+  }, [employee]); 
+
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
   const watchLastName = watch("lastName");
-  const watchNickName = watch("nickName")
   const useNickname = watch("useNickname", false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -249,53 +265,24 @@ const AddEmployee = () => {
         return name == ""
       })
     ) {
-      setValue("nickName", "");
+      setValue("lastName", "");
     } else {
       if (splitted?.length > 0) {
         for (var i = 0; i < splitted?.length; i++) {
-          if (splitted[i]?.length === 1) {
+          if (splitted?.[i].length === 1) {
             //   console.log("one Len");
-            splitted[i] = splitted[i].charAt(0).toUpperCase()
+            splitted[i] = splitted?.[i].charAt(0).toUpperCase()
           } else {
             splitted[i] =
-              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
+              splitted?.[i].charAt(0).toUpperCase() + splitted?.[i].slice(1)
           }
         }
-        name = splitted.join(" ")
+        name = splitted?.join(" ")
         // console.log("Output: ", name)
-        setValue("nickName", name)
+        setValue("lastName", name)
       }
     }
   }, [watchLastName]);
-
-  useEffect(() => {
-    let name = getValues("nickName")?.replace(/[^A-Za-z ]/g, "")
-    var splitted = name?.split(" ");
-    // console.log("Input Splitted: ", splitted);
-
-    if (
-      splitted?.every((name) => {
-        return name == ""
-      })
-    ) {
-      setValue("nickName", "");
-    } else {
-      if (splitted?.length > 0) {
-        for (var i = 0; i < splitted?.length; i++) {
-          if (splitted[i].length === 1) {
-            //   console.log("one Len");
-            splitted[i] = splitted[i].charAt(0).toUpperCase()
-          } else {
-            splitted[i] =
-              splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
-          }
-        }
-        name = splitted.join(" ")
-        // console.log("Output: ", name)
-        setValue("nickName", name)
-      }
-    }
-  }, [watchNickName]);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -366,11 +353,17 @@ const AddEmployee = () => {
   
   const handleRoleChange = (role) => {
     setSelectedRole(role);
-    const functionsForRole = roles
-      ?.flatMap((module) => module.functionality)
-      ?.filter((func) => func.roles?.includes(role)) 
-      ?.flatMap((func) => func.name);
-    setCheckedFunctions(functionsForRole);
+    
+    if (editEmployee) {
+      initializeCheckedFunctions(editEmployee.rolesAndFunctions);
+    } else {
+      const functionsForRole = roles
+        .flatMap(module => module.functionality)
+        .filter(func => func.roles?.includes(role))
+        .map(func => func.name.toLowerCase());
+      
+      setCheckedFunctions(functionsForRole);
+    }
   };
   
   
@@ -626,9 +619,10 @@ const validatePassword = (value) => {
               <div className="primary-sec">
                 <div className="flexContainer">
                   <div>
+
                     <TextInput
                       type="text"
-                      label="First Name*"
+                      placeholder="First Name*"
                       maxLength={15}
                       name="firstName"
                       formRegister={register({
@@ -646,7 +640,7 @@ const validatePassword = (value) => {
                   <div>
                     <TextInput
                       type="text"
-                      label="Last Name"
+                      placeholder="Last Name"
                       name="lastName"
                       formRegister={register()}
                       className={"add-employee-text-input"}
@@ -658,7 +652,7 @@ const validatePassword = (value) => {
                 <div>
                   <TextInput
                     type="text"
-                    label="Nick Name"
+                    placeholder="Nick Name"
                     name="nickName"
                     formRegister={register({
                       required: useNickname && "Required",
@@ -679,7 +673,7 @@ const validatePassword = (value) => {
                   <div>
                   <TextInput
                     type="text"
-                    label="Phone*"
+                    placeholder="Phone*"
                     name="mobileNumber"
                     formRegister={register({
                       required: "Required",
@@ -705,7 +699,7 @@ const validatePassword = (value) => {
                   <div>
                     <TextInput
                       type="email"
-                      label="Email"
+                      placeholder="Email"
                       name="email"
                       formRegister={register()}
                       className={"add-employee-text-input"}
@@ -716,7 +710,7 @@ const validatePassword = (value) => {
                 <div>
                   <TextInput
                     type="text"
-                    label="Address Line 1"
+                    placeholder="Address Line 1"
                     name="address1"
                     formRegister={register()}
                     className={"inputBox"}
@@ -725,7 +719,7 @@ const validatePassword = (value) => {
                 <div>
                   <TextInput
                     type="text"
-                    label="Address Line 2"
+                    placeholder="Address Line 2"
                     name="address2"
                     formRegister={register()}
                     className={"inputBox"}
@@ -736,28 +730,42 @@ const validatePassword = (value) => {
                   <div>
                     <TextInput
                       type="text"
-                      label="Education"
+                      placeholder="Education"
                       name="education"
                       formRegister={register()}
                       className={"add-employee-text-input"}
                     />
                   </div>
-                    <div style={{zIndex:99999}}>
-                    <label htmlFor="dob" style={{ display: 'block', marginBottom: '5px', opacity: "0.5" }}>DOB</label>                      <DatePicker 
-                        placeholderText="MM/DD/YYYY" 
-                        value={null} 
-                        name="dob" 
-                        selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
-                        className={"dateInput"} 
-                        formRegister={register()}
-                        yearDropdownItemNumber={50} 
-                        scrollableYearDropdown
-                        showYearDropdown
-                        minDate={new Date(1970, 0, 1)}  
-                        maxDate={new Date()}  
-                      />
-                    </div>
+                  <div 
+                    className="date-picker-container"
+                    style={{
+                      marginTop:'-18px',
+                      zIndex:'999999999'
+                    }}
+                  >
+                    <DatePicker
+                      placeholderText="MM/DD/YYYY"
+                      selected={selectedDate}
+                      onChange={handleDateChange}
+                      onChangeRaw={handleDateChangeRaw}
+                      className="dateInput"
+                      yearDropdownItemNumber={50}
+                      scrollableYearDropdown
+                      showYearDropdown
+                      minDate={new Date(1970, 0, 1)}
+                      maxDate={new Date()}
+                      // isClearable={true}
+                    />
+                    <img
+                      className="cal_icon"
+                      alt="Calendar Icon"
+                      src={Calendar}
+                      width="15"
+                      onClick={() => document.querySelector('.dateInput').focus()}
+                      style={{right:'10px', top:'38%'}}
+                    />
+                  </div>
+                    
                 </div>
                 <hr style={{marginRight:'40px'}}/>
                 
@@ -835,7 +843,7 @@ const validatePassword = (value) => {
                   </div>}
                   {openFunction && (
                     <div className="functionsDropDown" ref={dropdownRef}>
-                      <p style={{textAlign: 'center', fontWeight: 500}}>Roles/Function</p>
+                      <p style={{textAlign: 'center', fontWeight: 600}}>Roles/Function</p>
                       <div className="checkBoxContainer">
                         {roles.map((module) => (
                           <div className="checkboxList" key={module.module}>
@@ -879,7 +887,7 @@ const validatePassword = (value) => {
                 <div>
                   <TextInput
                     type="text"
-                    label="User ID*"
+                    placeholder="User ID*"
                     name="userId"
                     formRegister={register({
                       required: "Required",
@@ -892,8 +900,8 @@ const validatePassword = (value) => {
                 <div>
                   <TextInput
                     type={isPasswordVisible ? "text" : "password"}
-                    label="Password*"
-                    minLength={8}
+                    placeholder="Password*"
+                    // minLength={6}
                     name="password"
                     formRegister={register({
                       required: !editEmployee && "Required",
@@ -903,27 +911,26 @@ const validatePassword = (value) => {
                     containerStyle={{ paddingBottom: "0px" }}
                     autoComplete = {false}
                   />
-                  {isPasswordVisible ?
-                   (
+                  {isPasswordVisible ? (
                     <OpenEyeIcon
-                      onClick={() => setIsPasswordVisible(false)}
-                      style={{
-                        position: "relative",
-                        bottom: 30,
-                        left: 370, 
-                        cursor:'pointer'
-                      }}
-                    />
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    style={{
+                      position: "relative",
+                      bottom: 30,
+                      left: 370, 
+                      cursor:'pointer'
+                    }}
+                  />
                   ) : (
-                    <ClosedEyeIcon
-                      onClick={() => setIsPasswordVisible(true)}
-                      style={{
-                        position: "relative",
-                        bottom: 30,
-                        left: 370, 
-                        cursor:'pointer'
-                      }}
-                    />
+                  <ClosedEyeIcon
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    style={{
+                      position: "relative",
+                      bottom: 30,
+                      left: 370, 
+                      cursor:'pointer'
+                    }}
+                  />
                   )}
                   {errors.password && (
                     <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
@@ -969,8 +976,7 @@ const validatePassword = (value) => {
                       ))}
                     </div>
                     <div>
-                      {showPin ? 
-                      (
+                      {showPin ? (
                         <OpenEyeIcon
                           onClick={toggleShowPin}
                           style={{
