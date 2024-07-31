@@ -119,6 +119,12 @@ const EmployeeList = (props) => {
     setSearchInput('')
   }
 
+  const handlekeydown = (event) => {
+    if(event.key === ' '){
+      event.preventDefault()
+    }
+  }
+
   return (
     <>
       <div className="menu-items employee-pad">
@@ -165,6 +171,7 @@ const EmployeeList = (props) => {
               value={searchInput}  
               onChange={(e)=>setSearchInput(e.target.value)}
               onKeyPress={handleKeyPress}
+              onKeyDown={handlekeydown}
             />
             {!searchInput ? 
               <img src={searchImg} alt="" onClick={handleSearch} style={{width:"25px", height:"25px", marginTop:"6px", marginRight:"5px"}} /> :
