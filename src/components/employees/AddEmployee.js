@@ -134,7 +134,6 @@ const AddEmployee = () => {
   }, [])
   
   const roles = useSelector((state) => state.employee.employeeRoleAndFunctions) 
-  console.log(roles,"roles 2061")
 
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
@@ -500,7 +499,6 @@ const AddEmployee = () => {
     delete formValues["pin"];
   
     // Submit the form
-    console.log("Form Submitted");
 
     formValues.successCB = () => {
        history.replace('/management/employees');
@@ -816,7 +814,7 @@ const validatePassword = (value) => {
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={getRole()}
-                        placeholder={"Role*"}
+                        placeholder={"Roles*"}
                         onSelect={(role) => {
                           onChange(role.value);
                           handleRoleChange(role.value);

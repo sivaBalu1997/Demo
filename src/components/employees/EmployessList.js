@@ -39,8 +39,6 @@ const EmployeeList = (props) => {
   const employeeList = useSelector((state) => state.employee.employeeDetails);
   const [employeeListData, setEmployeeListdata] = useState(employeeList)
 
-  console.log({employeeList})
-
   const logoutUser = () => {
     dispatch(clearMenuData())
     localStorage.clear()
