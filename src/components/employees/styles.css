@@ -186,12 +186,17 @@ img{
   width: 900px;
   height: 400px;
   overflow: auto;
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around; */
 }
 
 
-.checkBoxContainer{
+/* .checkBoxContainer{
   display: flex;
-}
+} */
 
 .checkboxList p{
   font-size: 14px;
@@ -223,6 +228,25 @@ img{
   cursor: pointer;
 }
 
+.menu-details .flexContainer .functionBtn input {
+  /* float: right; */
+  width: 150px;
+  /* display: flex; */
+  /* margin-top: 20px; */
+  /* margin-left: 20px; */
+}
+
+.functionBtn {
+  display: flex;
+  /* justify-content: space-between; */
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+}
+
 .resetbtn{
   background-color: #fff;
   color: #67833E;
@@ -232,6 +256,8 @@ img{
   font-weight: 600;
 }
 .saveBtn{
+  margin-left: 560px;
+  margin-right: 20px;
   background-color: #67833E;
   color: #fff;
   width: 80px;
@@ -239,11 +265,9 @@ img{
   font-weight: 600;
 }
 
-.menu-details .flexContainer .functionBtn input {
-  float: right;
-  width: 150px;
-  margin-top: 20px;
-  margin-left: 20px;
+.checkList {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .openedEyeIcon{

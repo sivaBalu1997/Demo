@@ -334,7 +334,6 @@ const AddEmployee = () => {
       inputRefs.current[index - 1].focus()
     }
   }
-
   const toggleShowPin = () => {
     setShowPin(!showPin)
   }
@@ -472,7 +471,7 @@ const AddEmployee = () => {
       IsTempPassword: false,
       password: formValues.password || null,
       isToUseNickName: formValues.useNickname,
-      locationId: outlets.find(outlet => outlet.locationName.includes(formValues["outlet"])).id,
+      locationId: outlets.find(outlet => outlet.locationName.includes(formValues["outlet"]))?.id,
       userAccessInfoList: rolesAndFunctions,
       isDefaultFunctionalityAccessUpdated: isDefaultActionsUpdated(
         rolesAndFunctions.map(module => ({ name: module.moduleName, urls: module.urls })),
@@ -598,8 +597,6 @@ const validatePassword = (value) => {
     }}>Loading, Please wait!!</p>
   )
 
-  const alphabeticRegex = /^[A-Za-z]*$/;
-
   return (
     <>
       {list === false ? (
@@ -663,7 +660,7 @@ const validatePassword = (value) => {
                   />
                 </div>
 
-                <div className="checkBox">
+                <div className="checkBox" style={{marginTop:"-20px"}}>
                   <label> 
                     <input type="checkbox" className="checkbox" name="useNickname" ref={register} />  
                     <p>Utilize a nickname as needed in all forthcoming activities</p>
@@ -784,16 +781,17 @@ const validatePassword = (value) => {
                       }}
                       render={({ onChange, onBlur, value, name }) => (
                         <CustomDropdown
-                          options={Array.from(
-                            outlets,
-                            (outlet) => outlet?.locationName   
-                          )}
+                          options={outletOptions}
                           placeholder={"Assign Outlet*"}
                           onSelect={(outletSelected) => {
-                            const outletObject = outlets?.find((outlet) =>
-                              outlet?.locationName?.includes(outletSelected?.value)
-                            );
-                            onChange(outletObject?.locationName)
+                            if (outlets && outletSelected) {
+                              const outletObject = outlets.find((outlet) =>
+                                outlet?.locationName?.includes(outletSelected?.value)
+                              );
+                              if (outletObject) {
+                                onChange(outletObject.locationName.split(",")[1]);
+                              }
+                            }
                           }}
                           value={editEmployee ? editEmployee?.outlet : ''}
                           name={name}
@@ -814,7 +812,7 @@ const validatePassword = (value) => {
                 <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
                   <Controller
                     control={control}
-                    name="role"
+                    name="Role"
                     defaultValue={""}
                     rules={{
                       required: "Required",
@@ -842,37 +840,39 @@ const validatePassword = (value) => {
                     <p onClick={() => setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
                   </div>}
                   {openFunction && (
-                    <div className="functionsDropDown" ref={dropdownRef}>
+                    <div className="functionsDropDown" ref={dropdownRef}>                    
+                      <div className="checkList">
                       <p style={{textAlign: 'center', fontWeight: 600}}>Roles/Function</p>
-                      <div className="checkBoxContainer">
-                        {roles.map((module) => (
-                          <div className="checkboxList" key={module.module}>
-                            <div className="checkBoxItem">
-                              <label>
-                                <input 
-                                  type="checkbox" 
-                                  className="checkbox" 
-                                  checked={isModuleChecked(module.module)} 
-                                  onChange={() => handleModuleCheckboxChange(module.module)} 
-                                />
-                                <p style={{fontWeight:600}}>{module.module}</p>
-                              </label>
-                            </div>
-                            {module.functionality.map((func) => (
-                              <div className="checkBoxItem" key={func.name}>
+                        <div className="checkBoxContainer">
+                          {roles.map((module) => (
+                            <div className="checkboxList" key={module.module}>
+                              <div className="checkBoxItem">
                                 <label>
                                   <input 
                                     type="checkbox" 
                                     className="checkbox" 
-                                    checked={isFunctionChecked(func.name)} 
-                                    onChange={() => handleCheckboxChange(func.name)} 
+                                    checked={isModuleChecked(module.module)} 
+                                    onChange={() => handleModuleCheckboxChange(module.module)} 
                                   />
-                                  <p>{func.name}</p>
+                                  <p style={{fontWeight:600}}>{module.module}</p>
                                 </label>
                               </div>
-                            ))}
-                          </div>
-                        ))}
+                              {module.functionality.map((func) => (
+                                <div className="checkBoxItem" key={func.name}>
+                                  <label>
+                                    <input 
+                                      type="checkbox" 
+                                      className="checkbox" 
+                                      checked={isFunctionChecked(func.name)} 
+                                      onChange={() => handleCheckboxChange(func.name)} 
+                                    />
+                                    <p>{func.name}</p>
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                       <div className="functionBtn">
                         <input className="saveBtn" type="button" value="Save" onClick={() => setOpenFuction(!openFunction)} />
@@ -880,6 +880,7 @@ const validatePassword = (value) => {
                       </div>
                     </div>
                   )}
+                  
                 </div>
               </div>
 
@@ -1024,7 +1025,7 @@ const validatePassword = (value) => {
                 <input 
                   className="save-btn" 
                   type="submit" 
-                  value={addEmployeeLoading ? "Saving..." : "Save"} 
+                  value={addEmployeeLoading || employeeUpdateLoading ? "Saving..." : "Save"} 
                 /> 
               </span>
             </div>
