@@ -118,7 +118,7 @@ const EmployeeList = (props) => {
 
   return (
     <>
-      <div className="menu-items">
+      <div className="menu-items employee-pad">
         <div className="header-menu">
           <div style={{
             display:"flex",

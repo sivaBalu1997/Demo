@@ -785,7 +785,7 @@ const validatePassword = (value) => {
                       render={({ onChange, onBlur, value, name }) => (
                         <CustomDropdown
                           options={outletOptions}
-                          placeholder={"Assign Outlet*"}
+                          placeholder={"Outlet*"}
                           onSelect={(outletSelected) => {
                             if (outlets && outletSelected) {
                               const outletObject = outlets.find((outlet) =>
@@ -815,7 +815,7 @@ const validatePassword = (value) => {
                 <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
                   <Controller
                     control={control}
-                    name="role"
+                    name="Roles"
                     defaultValue={""}
                     rules={{
                       required: "Required",
@@ -823,7 +823,7 @@ const validatePassword = (value) => {
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
                         options={getRole()}
-                        placeholder={"Assign Role*"}
+                        placeholder={"Role*"}
                         onSelect={(role) => {
                           onChange(role.value);
                           handleRoleChange(role.value);
