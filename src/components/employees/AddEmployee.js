@@ -808,7 +808,7 @@ const validatePassword = (value) => {
                 <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
                   <Controller
                     control={control}
-                    name="Roles"
+                    name="role"
                     defaultValue={""}
                     rules={{
                       required: "Required",
