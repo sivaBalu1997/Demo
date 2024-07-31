@@ -338,6 +338,13 @@ const AddEmployee = () => {
       inputRefs.current[index - 1].focus()
     }
   }
+
+  const handleSpace = (event) => {
+    if (event.key === ' ' && event.target.value.length === 0) {
+      event.preventDefault();
+    }
+  };
+
   const toggleShowPin = () => {
     setShowPin(!showPin)
   }
@@ -529,14 +536,6 @@ const AddEmployee = () => {
   
   useEffect(() => {
     if (employee) {
-      // if(employee?.pin && employee?.pin?.length === 4) {
-      //   const first = employee?.pin?.split('')[0]
-      //   const second = employee?.pin?.split('')[1]
-      //   const third = employee?.pin?.split('')[2]
-      //   const fourth = employee?.pin?.split('')[3]
-      //   setPins([first,second,third,fourth])
-      // }
-
       if(employee?.dateOfBirth && employee?.dateOfBirth?.length > 0){
         const date = new Date(employee?.dateOfBirth);
         setSelectedDate(date)
@@ -640,6 +639,7 @@ const validatePassword = (value) => {
                           ? "fN errorInput"
                           : "add-employee-text-input"
                       }
+                      onKeyDown={handleSpace}
                     />
                   </div>
 
@@ -665,6 +665,7 @@ const validatePassword = (value) => {
                     })}
                     maxLength={15}
                     className={errors.nickName ? 'fN errorInputBox' : 'inputBox'}
+                    onKeyDown={handleSpace}
                   />
                 </div>
 
@@ -709,6 +710,7 @@ const validatePassword = (value) => {
                       name="email"
                       formRegister={register()}
                       className={"add-employee-text-input"}
+                      onKeyDown={handleSpace}
                     />
                   </div>
                 </div>
@@ -720,6 +722,7 @@ const validatePassword = (value) => {
                     name="address1"
                     formRegister={register()}
                     className={"inputBox"}
+                    onKeyDown={handleSpace}
                   />
                 </div>
                 <div>
@@ -729,6 +732,7 @@ const validatePassword = (value) => {
                     name="address2"
                     formRegister={register()}
                     className={"inputBox"}
+                    onKeyDown={handleSpace}
                   />
                 </div>
 
@@ -740,6 +744,7 @@ const validatePassword = (value) => {
                       name="education"
                       formRegister={register()}
                       className={"add-employee-text-input"}
+                      onKeyDown={handleSpace}
                     />
                   </div>
                   <div 
@@ -820,7 +825,7 @@ const validatePassword = (value) => {
                 <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
                   <Controller
                     control={control}
-                    name="Role"
+                    name="role"
                     defaultValue={""}
                     rules={{
                       required: "Required",
@@ -903,6 +908,11 @@ const validatePassword = (value) => {
                     })}
                     className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
                     autoComplete = {false}
+                    onKeyDown={(event) => {
+                      if(event.key === ' ' || event.code === 'Space'){
+                        event.preventDefault()
+                      }
+                    }}
                   />
                 </div>
                 
@@ -919,6 +929,7 @@ const validatePassword = (value) => {
                     className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
                     containerStyle={{ paddingBottom: "0px" }}
                     autoComplete = {false}
+                    onKeyDown={handleSpace}
                   />
                   {isPasswordVisible ? (
                     <OpenEyeIcon
@@ -955,8 +966,8 @@ const validatePassword = (value) => {
                 >
                   <p style={errors.pin ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
                  
-                  {/* <OtpInput value={otp} name={'pin'}  length={4} onChange={handleOtpChange} borderColor={errors.pin ? '#FF0505': '#ccc'}  /> */}
-                  <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
+                  {/* <OtpInput value={otp} name={'pin'} length={4} onChange={handleOtpChange} borderColor={errors.pin ? '#FF0505': '#ccc'}  /> */}
+                  <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif', borderColor:errors.pin ? '#FF0505': '#ccc' }}>
                     <div style={{ display: 'flex', border: errors.pin ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                       {[0, 1, 2, 3].map((i) => (
                         <input
@@ -970,7 +981,7 @@ const validatePassword = (value) => {
                           value={pins[i]}
                           onChange={(e) => handleChange(e, i)}
                           onKeyDown={(e) => handleKeyDown(e, i)}
-                          name='pin1'
+                          name='pin'
                           // maxLength="4"
                           // minLength="4"
                           style={{
