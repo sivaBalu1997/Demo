@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,useState, useRef } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import Button from "../common/Button";
 import { useForm, Controller } from "react-hook-form";
@@ -30,6 +30,7 @@ import { useHistory, useParams } from "react-router";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import dropArrow from '../../assets/svg/dropArrow.svg'
+import OtpInput from "../common/OtpInput";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
@@ -209,6 +210,9 @@ const AddEmployee = () => {
       ];
     }
   };  
+
+  const [otp, setOtp] = useState('');
+
   
   useEffect(() => {
     if (!addEmployeeLoading && employeeAdded) {
@@ -599,6 +603,11 @@ const validatePassword = (value) => {
 
   const alphabeticRegex = /^[A-Za-z]*$/;
 
+
+  const handleOtpChange = (otpValue) => {
+    setOtp(otpValue);
+  };
+
   return (
     <>
       {list === false ? (
@@ -945,6 +954,8 @@ const validatePassword = (value) => {
                   style={{ marginTop: editEmployee ? 10 : 20 }}
                 >
                   <p style={errors.pin ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
+                 
+                  {/* <OtpInput value={otp} name={'pin'}  length={4} onChange={handleOtpChange} borderColor={errors.pin ? '#FF0505': '#ccc'}  /> */}
                   <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                     <div style={{ display: 'flex', border: errors.pin ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                       {[0, 1, 2, 3].map((i) => (
@@ -959,7 +970,7 @@ const validatePassword = (value) => {
                           value={pins[i]}
                           onChange={(e) => handleChange(e, i)}
                           onKeyDown={(e) => handleKeyDown(e, i)}
-                          name='pin'
+                          name='pin1'
                           // maxLength="4"
                           // minLength="4"
                           style={{
