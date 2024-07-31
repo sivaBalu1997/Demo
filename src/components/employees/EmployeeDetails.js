@@ -6,8 +6,8 @@ import './employeeDetails.css'
 import menu from '../../assets/svg/menu.svg'
 import x from '../../assets/svg/x.svg'
 import edit from '../../assets/svg/edit.svg'
-import block from '../../assets/svg/blockImg.svg' 
-import unBlockImg from '../../assets/svg/unBlockImg.svg'
+import block from '../../assets/svg/blockED.svg' 
+import unBlockImg from '../../assets/svg/unBlockED.svg'
 import trash from '../../assets/svg/trash.svg'
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
@@ -113,7 +113,7 @@ const EmployeeDetails = () => {
                     <div className='actionTab'
                         onClick={() => {handleBlockClick(employee, employee.isActive)}}
                     >
-                        <img src={employee.isActive ? block : unBlockImg} style={{filter: "invert(65%) sepia(100%) saturate(1000%) hue-rotate(-23deg) brightness(102%) contrast(102%)"}} />
+                        <img src={employee.isActive ? block : unBlockImg}  />
                         <p>{employee.isActive ? 'Block' : 'Unblock'}</p>
                     </div>
                     {openStausModal && (

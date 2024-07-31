@@ -79,7 +79,7 @@ function* addEmployeeSaga(action) {
       alert(errorMessage);
       yield put(failedAddEmployee(errorMessage));
     } else {
-      alert(err.message);    //userID, Pin, server, email, userName
+      alert(err.message);
       yield put(failedAddEmployee(err.message));
     }
   }
