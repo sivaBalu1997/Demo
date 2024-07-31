@@ -145,6 +145,9 @@
 .searchBar{
   border: none;
 }
+.searchImg{
+  margin-right: 15px;
+}
 
 img{
   cursor: pointer;

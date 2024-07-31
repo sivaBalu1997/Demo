@@ -116,6 +116,15 @@ const EmployeeList = (props) => {
     }
   };
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    const regex = /^[A-Za-z0-9]*$/;
+
+    if (regex.test(value)) {
+      setSearchInput(value);
+    }
+  };
+
   return (
     <>
       <div className="menu-items employee-pad">
@@ -157,14 +166,16 @@ const EmployeeList = (props) => {
           <div className="searchBox">
             <input 
               type="text"  
+              pattern="[A-Za-z0-9]*"
               className="searchBar" 
               placeholder="Search"
               value={searchInput}  
-              onChange={(e)=>setSearchInput(e.target.value)}
+              onChange={handleInputChange}
               onKeyPress={handleKeyPress}
             />
             <img src={searchImg} alt="" 
               onClick={handleSearch}
+              className="searchImg"
             />
           </div>
           <input type="submit" value='Add New' className="addBtn"  
@@ -265,6 +276,14 @@ const EmployeeRow = ({
       setEditTriggered(false);
     }
   }, [employee, editTriggered, data.staffId])
+
+  // useEffect(() => {
+  //   if (editTriggered && employee && employee.staffId === data.staffId) {
+  //     dispatch(setEditEmployeeData(employee));
+  //     history.push("/management/employees/add");
+  //     setEditTriggered(false);
+  //   }
+  // }, [employee, editTriggered, data.staffId]);
 
   const handleBlockClick = (employee, block) => {
     setEmployeeToUpdate(employee);
