@@ -25,6 +25,7 @@ import unBlockImg from '../../assets/svg/unBlockImg.svg'
 import activeIcon from '../../assets/svg/activeIcon.svg'
 import blockIcon from '../../assets/svg/yblockIcon.svg'
 import thunder from '../../assets/svg/thunder.svg'
+import close from '../../assets/images/close.png'
 import {
   selectBranch,
 } from "../../redux/actions/authActions";
@@ -114,6 +115,10 @@ const EmployeeList = (props) => {
     }
   };
 
+  const handleCloseSearch = () => {
+    setSearchInput('')
+  }
+
   return (
     <>
       <div className="menu-items employee-pad">
@@ -161,9 +166,10 @@ const EmployeeList = (props) => {
               onChange={(e)=>setSearchInput(e.target.value)}
               onKeyPress={handleKeyPress}
             />
-            <img src={searchImg} alt="" 
-              onClick={handleSearch}
-            />
+            {!searchInput ? 
+              <img src={searchImg} alt="" onClick={handleSearch} style={{width:"25px", height:"25px", marginTop:"6px", marginRight:"5px"}} /> :
+              <img src={close} alt="" onClick={handleCloseSearch} style={{width:"20px", height:"20px", marginTop:"10px", marginRight:"5px"}} />
+            } 
           </div>
           <input type="submit" value='Add New' className="addBtn"  
             onClick={() => {
@@ -191,10 +197,11 @@ const EmployeeList = (props) => {
                 </thead>
                 <tbody className="tBody">
                   {(searchInput?.length === 0 ? employeeList : searchedData)?.map((row, index) => {
+                    const lastName = row.lastName ? row.lastName : "";
                     return (
                       <EmployeeRow
                         key={row.id}
-                        name={row.firstName}
+                        name={row.firstName+" "+lastName}
                         role={row.role}
                         status = {row.isActive}
                         data={row}
@@ -333,12 +340,12 @@ const EmployeeRow = ({
           {!data.isActive ?
             <>
               <img className="statusImg" src={blockIcon} alt="" />
-              <p>Blocked</p>
+              <p style={{color:'#FFA800'}}>Blocked</p>
             </>
             :
             <>
               <img className="statusImg" src={activeIcon} alt="" />
-              <p>Active</p>
+              <p style={{color:'#67833E'}}>Active</p>
             </>
           }
         </td>
