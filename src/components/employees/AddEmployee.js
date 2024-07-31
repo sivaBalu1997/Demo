@@ -172,7 +172,7 @@ const AddEmployee = () => {
     const decodedToken = credentials?.accessToken ? jwt_decode(credentials.accessToken) : null;
     const roles = decodedToken?.resource_access?.["merchant-app"]?.roles || [];
   
-    if (roles.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
+    if (roles?.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
       return [
         "Branch_Manager",
         "Regional_Manager",
@@ -241,20 +241,20 @@ const AddEmployee = () => {
   }, [watchFirstName])
 
   useEffect(() => {
-    let name = getValues("lastName").replace(/[^A-Za-z ]/g, "")
-    var splitted = name.split(" ");
+    let name = getValues("lastName")?.replace(/[^A-Za-z ]/g, "")
+    var splitted = name?.split(" ");
     // console.log("Input Splitted: ", splitted);
 
     if (
-      splitted.every((name) => {
+      splitted?.every((name) => {
         return name == ""
       })
     ) {
       setValue("nickName", "");
     } else {
-      if (splitted.length > 0) {
-        for (var i = 0; i < splitted.length; i++) {
-          if (splitted[i].length === 1) {
+      if (splitted?.length > 0) {
+        for (var i = 0; i < splitted?.length; i++) {
+          if (splitted[i]?.length === 1) {
             //   console.log("one Len");
             splitted[i] = splitted[i].charAt(0).toUpperCase()
           } else {
@@ -270,19 +270,19 @@ const AddEmployee = () => {
   }, [watchLastName]);
 
   useEffect(() => {
-    let name = getValues("nickName").replace(/[^A-Za-z ]/g, "")
-    var splitted = name.split(" ");
+    let name = getValues("nickName")?.replace(/[^A-Za-z ]/g, "")
+    var splitted = name?.split(" ");
     // console.log("Input Splitted: ", splitted);
 
     if (
-      splitted.every((name) => {
+      splitted?.every((name) => {
         return name == ""
       })
     ) {
       setValue("nickName", "");
     } else {
-      if (splitted.length > 0) {
-        for (var i = 0; i < splitted.length; i++) {
+      if (splitted?.length > 0) {
+        for (var i = 0; i < splitted?.length; i++) {
           if (splitted[i].length === 1) {
             //   console.log("one Len");
             splitted[i] = splitted[i].charAt(0).toUpperCase()
@@ -322,7 +322,7 @@ const AddEmployee = () => {
   }, [editEmployee]);
 
   const handleSelectOutlet = (outlet) => {
-    setSelectedOutlet(outlet.locationName.split(",")[1])
+    setSelectedOutlet(outlet.locationName?.split(",")[1])
     setIsOutletDropdownOpen(false)
   } 
 
@@ -394,7 +394,7 @@ const AddEmployee = () => {
     const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
     if (!module) return false;
   
-    return module.functionality.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
+    return module.functionality?.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
   }
   
   const handleModuleCheckboxChange = (moduleName) => {
@@ -404,7 +404,7 @@ const AddEmployee = () => {
     const moduleFunctions = module.functionality.map((func) => func.name.toLowerCase());
   
     setCheckedFunctions((prevCheckedFunctions) => {
-      if (moduleFunctions.every((func) => prevCheckedFunctions.includes(func))) {
+      if (moduleFunctions?.every((func) => prevCheckedFunctions.includes(func))) {
         return prevCheckedFunctions.filter((func) => !moduleFunctions.includes(func));
       } else {
         return [...prevCheckedFunctions, ...moduleFunctions.filter((func) => !prevCheckedFunctions.includes(func))];
@@ -458,7 +458,7 @@ const AddEmployee = () => {
           urls: func.urls
         }));
   
-      return moduleFunctions.length > 0 ? moduleFunctions : null;
+      return moduleFunctions?.length > 0 ? moduleFunctions : null;
     }).flat().filter(item => item !== null);
   
     // Update formValues with additional data
@@ -514,15 +514,15 @@ const AddEmployee = () => {
   };
   
   const splitAddress = (address) => {
-    const parts = address.split(',');
-    if (parts.length > 1) {
+    const parts = address?.split(',');
+    if (parts?.length > 1) {
       const addressLine1 = parts.slice(0, -1).join(',').trim();
-      const addressLine2 = parts[parts.length - 1].trim();
+      const addressLine2 = parts[parts?.length - 1].trim();
       return [addressLine1, addressLine2];
     }
   
     const maxLength = 30;
-    if (address.length <= maxLength) {
+    if (address?.length <= maxLength) {
       return [address, ''];
     }
   
@@ -685,12 +685,12 @@ const validatePassword = (value) => {
                     name="mobileNumber"
                     formRegister={register({
                       required: "Required",
-                      validate: (value) => value.length === 10 || "Must be 10 digits",
+                      validate: (value) => value?.length === 10 || "Must be 10 digits",
                     })}
                     className={errors.mobileNumber ? 'num errorInput' : 'add-employee-text-input'}
                     maxLength={10}
                     onInput={(e) => {
-                      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                      e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
                     }}
                     onKeyPress={(e) => {
                       if (!/[0-9]/.test(e.key)) {
@@ -785,7 +785,7 @@ const validatePassword = (value) => {
                                 outlet?.locationName?.includes(outletSelected?.value)
                               );
                               if (outletObject) {
-                                onChange(outletObject.locationName.split(",")[1]);
+                                onChange(outletObject.locationName?.split(",")[1]);
                               }
                             }
                           }}
