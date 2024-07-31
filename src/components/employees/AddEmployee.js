@@ -784,17 +784,16 @@ const validatePassword = (value) => {
                       }}
                       render={({ onChange, onBlur, value, name }) => (
                         <CustomDropdown
-                          options={outletOptions}
+                          options={Array.from(
+                            outlets,
+                            (outlet) => outlet?.locationName   
+                          )}
                           placeholder={"Assign Outlet*"}
                           onSelect={(outletSelected) => {
-                            if (outlets && outletSelected) {
-                              const outletObject = outlets.find((outlet) =>
-                                outlet?.locationName?.includes(outletSelected?.value)
-                              );
-                              if (outletObject) {
-                                onChange(outletObject.locationName.split(",")[1]);
-                              }
-                            }
+                            const outletObject = outlets?.find((outlet) =>
+                              outlet?.locationName?.includes(outletSelected?.value)
+                            );
+                            onChange(outletObject?.locationName)
                           }}
                           value={editEmployee ? editEmployee?.outlet : ''}
                           name={name}

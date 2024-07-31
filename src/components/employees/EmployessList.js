@@ -119,6 +119,21 @@ const EmployeeList = (props) => {
   return (
     <>
       <div className="menu-items">
+      <div className="header">
+          <p
+            onClick={logoutUser}
+            style={{
+              marginLeft: "88%",
+              display: "flex",
+              alignItems: "center",
+              whiteSpace: "nowrap",
+              cursor: "pointer",
+            }}
+          >
+            <img src={logout} alt="Logout" height="20" />
+            &nbsp; Log Out
+          </p>
+        </div>
         <div className="header-menu">
           <div style={{
             display:"flex",
