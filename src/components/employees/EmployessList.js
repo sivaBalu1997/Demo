@@ -137,13 +137,13 @@ const EmployeeList = (props) => {
             justifyContent:'space-between',
             width:'100%'
           }}>
-            <Employees
+            {/* <Employees
               className="menu-items-SVG"
               style={{
                 marginBottom: 5,
               }}
-            />
-            <h2>Employees Management</h2>
+            /> */}
+            <h2 style={{color:"black"}}>Employees Management</h2>
 
             <div className="header">
           <p

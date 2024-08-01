@@ -599,8 +599,6 @@ const validatePassword = (value) => {
     }}>Loading, Please wait!!</p>
   )
 
-  const alphabeticRegex = /^[A-Za-z]*$/;
-
 
   const handleOtpChange = (otpValue) => {
     setOtp(otpValue);
@@ -617,7 +615,7 @@ const validatePassword = (value) => {
             <h2>
               {" "}
               <IoIosArrowBack />{" "}
-              {!!params?.id?.length ? "Edit Employee Setup" : "Add Employee Setup"}
+              {!!params?.id?.length ? "Edit Employee Setup" : "Employee Setup"}
             </h2>
           </div>
           <h3>Personal Info</h3>

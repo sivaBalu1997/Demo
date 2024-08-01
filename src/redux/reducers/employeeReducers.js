@@ -313,13 +313,13 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         break
       case EMPLOYEE_STATUS_SUCCESS:
         draft.employeeStatus = action.payload;
-        console.log("From Employee statuss:",action.payload)
-        const tempEmployeeDetails = draft.employeeDetails.map((item, index) => {
-          console.log(item.staffId === action.payload.staffId)
-          return item.staffId === action.payload.staffId ? {...item, isActive:!item.isActive} : {...item}
-        })
-        console.log({tempEmployeeDetails})
-        draft.employeeDetails = []
+        // console.log("From Employee statuss:",action.payload)
+        // const tempEmployeeDetails = draft.employeeDetails.map((item, index) => {
+        //   console.log(item.staffId === action.payload.staffId)
+        //   return item.staffId === action.payload.staffId ? {...item, isActive:!item.isActive} : {...item}
+        // })
+        // console.log({tempEmployeeDetails})
+        // draft.employeeDetails = []
         draft.employeeStatusLoading = false
         draft.employeeByIdDetails.isActive = !draft.employeeByIdDetails.isActive
         break      
