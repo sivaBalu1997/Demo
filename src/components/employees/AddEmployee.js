@@ -668,6 +668,11 @@ const validatePassword = (value) => {
                     maxLength={15}
                     className={errors.nickName ? 'fN errorInputBox' : 'inputBox'}
                     onKeyDown={handleSpace}
+                    onKeyPress={(e) => {
+                      if(!/^[A-Za-z]*$/.test(e.key)){
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </div>
 
