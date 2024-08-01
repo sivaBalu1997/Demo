@@ -113,6 +113,9 @@ const EmployeeList = (props) => {
     if (event.key === 'Enter') {
       handleSearch();
     }
+    if(!/^[A-Za-z]*$/.test(event.key)){
+      event.preventDefault();
+    }
   };
 
   const handleCloseSearch = () => {
