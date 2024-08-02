@@ -11,6 +11,7 @@ import unBlockImg from '../../assets/svg/unBlockED.svg'
 import trash from '../../assets/svg/trash.svg'
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
+import Modal from '../Modal/Modal';
 
 const EmployeeDetails = () => {
     const [showDropDown, setShowDropDown] = useState(false)
@@ -20,6 +21,8 @@ const EmployeeDetails = () => {
     const [isBlocking, setIsBlocking] = useState(true)
     const [employeeToUpdate, setEmployeeToUpdate] = useState(null)
     const [isPinVisible, setIsPinVisible] = useState(false)
+    const credentials = useSelector((state) => state.auth.credentials)
+
 
     const history = useHistory()
     const params = useParams()
@@ -60,12 +63,30 @@ const EmployeeDetails = () => {
       };
     
       const handleBtnClick = () => {
-        dispatch(employeeStatusRequest(employeeToUpdate.staffId, isBlocking));
-        setOpenStausModal(prev => !prev);
+        dispatch(employeeStatusRequest(employee?.staffId, isBlocking));
+        //setOpenStausModal(prev => !prev);
         setEmployeeToUpdate(null);
         setIsBlocking(false);  
         setShowDropDown(!showDropDown)
+        
     };
+
+    const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
+    const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
+    const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading)
+  
+  
+    useEffect(() => {
+      // console.log({modelApiLoading, actionApiSuccess});
+      if (actionApiSuccess && !modelApiLoading) {
+        setDeleteOpenModal(false);
+       
+      }
+      if(!employeeStatusLoading && actionApiSuccess && !modelApiLoading){
+        setOpenStausModal(false);
+        dispatch(getEmployeeByIdRequest(params.id));
+      }
+    }, [modelApiLoading, actionApiSuccess,employeeStatusLoading])
     
     const handleNoClick = () => {
         setOpenStausModal(prev => !prev);
@@ -97,6 +118,24 @@ const EmployeeDetails = () => {
                     (<img src={x} className='xImg' style={{width:'30px'}} onClick={() => setShowDropDown(!showDropDown)} />) 
                 }
             </div>
+            <Modal
+                isOpen={openDeleteModal}
+                message={credentials?.id == employee?.staffId ? 'You`re not allowed to perform this action' :"Do you want to delete?"}
+                onConfirm={handleDelete}
+                onCancel={() => setDeleteOpenModal(false)}
+                type={credentials?.id == employee?.staffId ? "alert" : "confirmation"}
+                isLoading={modelApiLoading}
+            />
+
+            <Modal
+                isOpen={openStausModal}
+                message={credentials?.id == employee?.staffId ? 'You`re not allowed to perform this action' :employee?.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}
+                onConfirm={handleBtnClick}
+                onCancel={() => {setOpenStausModal(false)}}
+                type={credentials?.id == employee?.staffId ? "alert" : "confirmation"}
+                isLoading={modelApiLoading}
+            />
+
             {showDropDown && (
                 <div className='dropDown'>
                     <div className='actionTab' onClick={() => {
@@ -110,12 +149,15 @@ const EmployeeDetails = () => {
                     </div>
 
                     <div className='actionTab'
-                        onClick={() => {handleBlockClick(employee, employee.isActive)}}
+                        onClick={() => {
+                            setOpenStausModal(true)
+                            //handleBlockClick(employee, employee.isActive)
+                        }}
                     >
                         <img src={employee.isActive ? block : unBlockImg}  />
                         <p>{employee.isActive ? 'Block' : 'Unblock'}</p>
                     </div>
-                    {openStausModal && (
+                    {/* {openStausModal && (
                             <div className="modal">
                                 <div className="modalContainer">
                                     <p>{employee.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}</p>
@@ -131,11 +173,12 @@ const EmployeeDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                        )}
+                        )} */}
                     <div className='actionTab' onClick={()=>setDeleteOpenModal(!openDeleteModal)}>
                         <img src={trash} style={{filter: "invert(21%) sepia(93%) saturate(7248%) hue-rotate(354deg) brightness(103%) contrast(101%)"}} />
                         <p>Delete</p>
-                        {openDeleteModal && (
+
+                        {/* {openDeleteModal && (
                         <div className="modal">
                             <div className="modalContainer">
                                 <p>Do you want to delete?</p>
@@ -151,7 +194,7 @@ const EmployeeDetails = () => {
                                 </div>
                             </div>
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
             )}

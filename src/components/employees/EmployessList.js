@@ -29,11 +29,13 @@ import close from '../../assets/images/close.png'
 import {
   selectBranch,
 } from "../../redux/actions/authActions";
+import Modal from "../Modal/Modal";
 
 const EmployeeList = (props) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const credentials = useSelector((state) => state.auth.credentials)
+  // console.log({credentials});
   const [searchedData, setSearchedData] = useState([])
   const [searchInput, setSearchInput] = useState('')
 
@@ -290,16 +292,10 @@ const EmployeeRow = ({
   const handleYesClick = () => {
     dispatch(employeeStatusRequest(employeeToUpdate.staffId, isBlocking));
     setStatusUpdateCompleted(true);
-    setEditOpenModal(false);
     setEmployeeToUpdate(null);
   };
 
-  useEffect(() => {
-    if (statusUpdateCompleted && !employeeStatusLoading) {
-      dispatch(getEmployees(credentials?.id))
-      setStatusUpdateCompleted(false)
-    }
-  }, [employeeStatusLoading, statusUpdateCompleted, credentials?.id]);
+
 
   const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
   const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
@@ -312,16 +308,22 @@ const EmployeeRow = ({
   const handleEmpDelete = () => {
     dispatch(deleteEmployee(employeeToDelete.staffId));
     setEmployeeDeleteCompleted(true);
-    setDeleteOpenModal(false);
+   
     setEmployeeToDelete(null);
   }
 
+  const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
+  const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
+
+
+
   useEffect(() => {
-    if (employeeDeleteCompleted && !deleteEmployeeLoading) {
-      dispatch(getEmployees(credentials?.id))
-      setEmployeeDeleteCompleted(!employeeDeleteCompleted)
+    // console.log({modelApiLoading, actionApiSuccess});
+    if (actionApiSuccess && !modelApiLoading) {
+      setDeleteOpenModal(false);
+      setEditOpenModal(false);
     }
-  }, [employeeDeleted, credentials?.id])
+  }, [modelApiLoading, actionApiSuccess])
 
   return (
     <>
@@ -407,7 +409,25 @@ const EmployeeRow = ({
         </td>
       </tr>
 
-      {openDeleteModal && (
+      <Modal
+        isOpen={openDeleteModal}
+        message={credentials?.id == data.staffId ? 'You`re not allowed to perform this action' :"Do you want to delete?"}
+        onConfirm={handleEmpDelete}
+        onCancel={() => setDeleteOpenModal(false)}
+        type={credentials?.id == data.staffId ? "alert" : "confirmation"}
+        isLoading={modelApiLoading}
+      />
+
+      <Modal
+        isOpen={openEditModal}
+        message={credentials?.id == data.staffId ? 'You`re not allowed to perform this action' :data.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}
+        onConfirm={handleYesClick}
+        onCancel={() => {setEditOpenModal(false)}}
+        type={credentials?.id == data.staffId ? "alert" : "confirmation"}
+        isLoading={modelApiLoading}
+      />
+
+      {/* {openDeleteModal && (
         <div className="modal">
           <div className="modalContainer">
             <p>Do you want to delete?</p>
@@ -423,9 +443,9 @@ const EmployeeRow = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
-      {openEditModal && (
+      {/* {openEditModal && (
         <div className="modal">
           <div className="modalContainer">
             <p>{data.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}</p>
@@ -441,7 +461,7 @@ const EmployeeRow = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </>
   )
 }

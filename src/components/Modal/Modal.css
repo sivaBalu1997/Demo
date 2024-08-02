@@ -1,0 +1,86 @@
+/* Modal.css */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modalContainer {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .modalBtn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .yesBtn,
+  .noBtn,
+  .okBtn {
+    margin: 5px;
+    padding: 10px 20px;
+    /* border: none; */
+    border-color: #67833e;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px;
+    width: 100px;
+  }
+  
+  .yesBtn:disabled,
+  .noBtn:disabled {
+    cursor: not-allowed;
+  }
+  
+  .yesBtn {
+    background: #67833e;
+    color: white;
+  }
+  
+  .noBtn {
+    background: red;
+    color: white;
+    /* border: none; */
+  }
+  
+  .okBtn {
+    background: #67833e;
+    color: white;
+  }
+  
+  /* Circular Progress Loader */
+  .loader {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #929496;
+    width: 20px;
+    height: 20px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    margin-left: 30px;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
