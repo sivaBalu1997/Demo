@@ -68,9 +68,9 @@ function* addEmployeeSaga(action) {
     const response = yield call(createEmployee, action.payload);
     if (response.status === 200) {
       yield put(successAddEmployee(response.data));
-    } else if(response.status === 409) {
+    } else if(response.status !== 200) {
       const errorMessage = response.data?.message;
-      alert("Add Employee Error:", errorMessage);
+      alert(errorMessage);
       yield put(failedAddEmployee(errorMessage));
     }
   } catch (err) {

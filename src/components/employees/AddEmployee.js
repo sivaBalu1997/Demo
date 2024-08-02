@@ -322,22 +322,24 @@ const AddEmployee = () => {
   } 
 
   const handleChange = (e, index) => {
-    const value = e.target.value
+    const value = e.target.value;
     if (value.length <= 1 && /^\d*$/.test(value)) {
-      const newPin = [...pins]
-      newPin[index] = value
-      setPins(newPin)
+      const newPin = [...pins];
+      newPin[index] = value;
+      setPins(newPin);
+      setValue(`pin${index}`, value); // Update react-hook-form value
+
       if (value && index < 3) {
-        inputRefs.current[index + 1].focus()
+        inputRefs.current[index + 1].focus();
       }
     }
-  }
+  };
 
   const handleKeyDown = (e, index) => {
     if (e.key === 'Backspace' && !pins[index] && index > 0) {
-      inputRefs.current[index - 1].focus()
+      inputRefs.current[index - 1].focus();
     }
-  }
+  };
 
   const handleSpace = (event) => {
     if (event.key === ' ' && event.target.value.length === 0) {
@@ -448,6 +450,8 @@ const AddEmployee = () => {
     //   history.replace('/management/employees');
     // }
   }, [employeeAdded, employeeUpdateLoading, history]);
+
+  const hasPinErrors = [0, 1, 2, 3].some(i => errors[`pin${i}`]);
 
 
   const onSubmit = (formValues) => {
@@ -598,7 +602,6 @@ const validatePassword = (value) => {
       marginLeft:'35%'
     }}>Loading, Please wait!!</p>
   )
-
 
   const handleOtpChange = (otpValue) => {
     setOtp(otpValue);
@@ -969,35 +972,31 @@ const validatePassword = (value) => {
                   className="acess-flex"
                   style={{ marginTop: editEmployee ? 10 : 20 }}
                 >
-                  <p style={errors.pin ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
+                  <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
                  
                   {/* <OtpInput value={otp} name={'pin'} length={4} onChange={handleOtpChange} borderColor={errors.pin ? '#FF0505': '#ccc'}  /> */}
-                  <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif', borderColor:errors.pin ? '#FF0505': '#ccc' }}>
-                    <div style={{ display: 'flex', border: errors.pin ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
+                    <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                       {[0, 1, 2, 3].map((i) => (
                         <input
-                          key={i}
-                          formRegister={register()}
-                          ref={(el) => {
-                            inputRefs.current[i] = el;
-                            register(el, { required: !editEmployee && "Required" });
-                          }}
+                          key={`pin-${i}`}
+                          ref={(el) => (inputRefs.current[i] = el)}
                           type={showPin ? 'text' : 'password'}
                           value={pins[i]}
                           onChange={(e) => handleChange(e, i)}
                           onKeyDown={(e) => handleKeyDown(e, i)}
-                          name='pin'
-                          // maxLength="4"
-                          // minLength="4"
+                          name={`pin${i}`}
+                          maxLength="1"
                           style={{
                             width: '40px',
                             fontSize: '16px',
                             textAlign: 'center',
                             border: 'none',
-                            borderRight: errors.pin ? '1px solid #FF0505' : '1px solid #ccc',
+                            borderRight: i < 3 ? (errors[`pin${i}`] ? '1px solid #FF0505' : '1px solid #ccc') : 'none',
                             padding: '10px',
                             outline: 'none',
                           }}
+                          {...register(`pin${i}`, { required: !editEmployee && "Required" })}
                           className={errors[`pin${i}`] ? 'errorInput' : ''}
                         />
                       ))}
