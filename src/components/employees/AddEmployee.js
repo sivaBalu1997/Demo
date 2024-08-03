@@ -311,16 +311,16 @@ const AddEmployee = () => {
     }
   };
 
-  useEffect(() => {
-    if (openFunction) {
-      document.addEventListener('mousedown', handleClickOutside)
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    };
-  }, [openFunction])
+  // useEffect(() => {
+  //   if (openFunction) {
+  //     document.addEventListener('mousedown', handleClickOutside)
+  //   } else {
+  //     document.removeEventListener('mousedown', handleClickOutside)
+  //   }
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside)
+  //   };
+  // }, [openFunction])
 
   useEffect(() => {
     if (editEmployee && editEmployee.role) {
@@ -495,7 +495,7 @@ const AddEmployee = () => {
       nickName: formValues.nickName,
       email: formValues.email || null,
       mobileNumber: formValues.mobileNumber,
-      address: `${formValues.address1} ${formValues.address2}`,
+      address: `${formValues.address1} ${formValues.address2}` || null,
       dateOfBirth: selectedDate,
       education: formValues.education,
       merchantId: credentials.merchantId,
@@ -882,9 +882,9 @@ const validatePassword = (value) => {
                     <p onClick={() => setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
                   </div>}
                   {openFunction && (
-                    <div className="functionsDropDown" ref={dropdownRef}>                    
+                    <div className="functionsDropDown" ref={dropdownRef}>     
+                      <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 600}}>Roles/Function</p>               
                       <div className="checkList">
-                      <p style={{textAlign: 'center', fontWeight: 600}}>Roles/Function</p>
                         <div className="checkBoxContainer">
                           {roles.map((module) => (
                             <div className="checkboxList" key={module.module}>
