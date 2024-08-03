@@ -197,6 +197,13 @@ img{
   justify-content: space-around; */
 }
 
+.fixedTitle{
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+  padding: 10px 0;
+}
 
 /* .checkBoxContainer{
   display: flex;
@@ -243,7 +250,7 @@ img{
 .functionBtn {
   display: flex;
   /* justify-content: space-between; */
-  padding: 10px;
+  padding: 10px 0 10px 0;
   border-top: 1px solid #ccc;
   background-color: #fff;
   position: sticky;
