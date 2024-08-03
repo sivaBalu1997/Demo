@@ -90,10 +90,11 @@ function* deleteEmployeeSaga(action) {
   try {
     const response = yield call(removeEmployee, action.payload);
     if (response.status === 200) {
-      yield put(deleteEmployeeSuccess(response.data));
+      yield put(deleteEmployeeSuccess(action.payload));
     }
     else {
       if (response.data.metaDataInfo.responseCode == "ERROR") {
+        //we have to populate api response here
         yield put(deleteEmployeeFailure("Delete Employee Failed"));
       } 
     }

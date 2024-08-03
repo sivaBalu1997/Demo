@@ -130,6 +130,23 @@ const AddEmployee = () => {
   const addEmployeeFailure = useSelector((state) => state.employee.addEmployeeFailure)
   const updateEmployeeFailure = useSelector((state) => state.employee.updateEmployeeFailure)
 
+  const restaurantDetails = useSelector((state) => state.auth.restaurantDetails)
+  // console.log({restaurantDetails});
+
+  const [countryCode,setCountryCode] = useState("");
+
+  const [restaurantBranch,setRestaurantBranch] = useState([]);
+  const [restaurantBranchDefaultValue,setRestaurantBranchDefaultValue]  = useState("");
+
+
+  useEffect(() => {
+    const countryC = restaurantDetails?.country;
+    restaurantDetails && countryC && setCountryCode( countryC == "US" ? '+1 ' : "+91 " )
+    restaurantDetails && setRestaurantBranch(restaurantDetails?.branch)
+    restaurantDetails && setRestaurantBranchDefaultValue(restaurantDetails?.branch?.length === 1 ? restaurantDetails?.branch[0].locationName : "")
+  }, [restaurantDetails])
+  
+
   useEffect(() => {
     dispatch(getEmployeeRoles())
   }, [])
@@ -686,6 +703,8 @@ const validatePassword = (value) => {
 
                 <div className="flexContainer">
                   <div>
+                <div className={errors.mobileNumber ? 'num errorInput countryCodeMo' : 'add-employee-text-input countryCodeMo'}>
+                  <div>{countryCode}</div>
                   <TextInput
                     type="text"
                     placeholder="Phone*"
@@ -694,7 +713,7 @@ const validatePassword = (value) => {
                       required: "Required",
                       validate: (value) => value?.length === 10 || "Must be 10 digits",
                     })}
-                    className={errors.mobileNumber ? 'num errorInput' : 'add-employee-text-input'}
+                    //className={errors.mobileNumber ? 'num errorInput' : 'add-employee-text-input'}
                     maxLength={10}
                     onInput={(e) => {
                       e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
@@ -705,6 +724,7 @@ const validatePassword = (value) => {
                       }
                     }}
                   />
+                  </div>
                   {errors.mobileNumber && (
                     <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
                       Invalid Number
@@ -793,10 +813,11 @@ const validatePassword = (value) => {
                 
                 <div className={errors.outlet?.type ? 'errorCustomInput' :'selectContainer'} style={{ cursor: "pointer" }}>
                   <div style={{zIndex: 0}}>
+                    {/* {console.log({outletOptions,restaurantBranch,restaurantBranchDefaultValue})} */}
                     <Controller
                       control={control}
                       name="outlet"
-                      defaultValue={outletOptions?.length === 1 ? outletOptions[0].value : ""}
+                      defaultValue={restaurantBranchDefaultValue}
                       rules={{
                         required: "Required",
                       }}
@@ -814,7 +835,7 @@ const validatePassword = (value) => {
                               }
                             }
                           }}
-                          value={editEmployee ? editEmployee?.outlet : ''}
+                          value={editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue }
                           name={name}
                           controlClassName={
                             editEmployee

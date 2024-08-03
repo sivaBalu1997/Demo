@@ -125,6 +125,9 @@ const Menu = () => {
     (state) => state.auth.credentials && state.auth.credentials.locationId
   );
 
+  // const employeeList = useSelector((state) => state.employee.employeeDetails);
+  // console.log('Hello from menu',employeeList)
+
   // locationId && console.log(`restaurantDetails`, locationId);
 
   // console.log(`restaurantDetails :::::`, data);

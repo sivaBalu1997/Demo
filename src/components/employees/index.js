@@ -23,18 +23,16 @@ const Employees = () => {
     (state) => state.employee.employeeDetailsLoading
   );
   const employeeList = useSelector((state) => state.employee.employeeDetails);
+  useEffect(() => {
+    dispatch(getEmployees(credentials?.merchantId));
+  }, []);
+
 
   // useEffect(() => {
-  //   console.log('Hello from index')
-  //   dispatch(getEmployees(credentials?.merchantId));
-  // }, []);
-
-
-  useEffect(() => {
-    if (credentials) {
-      dispatch(getEmployees(credentials?.merchantId));
-    }
-  }, [credentials, employeeList.isActive])
+  //   if (credentials) {
+  //     dispatch(getEmployees(credentials?.merchantId));
+  //   }
+  // }, [credentials, employeeList.isActive])
 
   useEffect(() => {
     setLoading(employeeDetailsLoading);

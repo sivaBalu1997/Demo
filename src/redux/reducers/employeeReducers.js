@@ -95,7 +95,10 @@ const initialEmployeeState = {
   employeeStatus:'',
   employeeStatusLoading: false,
 
-  employeeActionCompleted: false
+  employeeActionCompleted: false,
+
+  modelApiLoading:false,
+  actionApiSuccess:false,
 
 };
 
@@ -172,6 +175,8 @@ export default function employeeReducer(state = initialEmployeeState, action) {
 
       // Delete Employee
       case REMOVE_EMPLOYEE_REQUEST:
+        draft.modelApiLoading = true;
+        draft.actionApiSuccess=false;
         draft.deleteEmployeeLoading = true;
         draft.employeeDeleted = false;
         draft.deleteEmployeeFailure = false;
@@ -182,12 +187,20 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.employeeDeleted = true;
         draft.deleteEmployeeFailure = false;
         draft.deleteEmployeeMessage = action.payload;
+        const tempREmployeeDetails = draft.employeeDetails.filter((item, index) => {
+          return item.staffId !== action.payload
+        })
+        draft.employeeDetails = tempREmployeeDetails
+        draft.modelApiLoading = false;
+        draft.actionApiSuccess=true;
         break;
       case REMOVE_EMPLOYEE_FAILURE:
         draft.deleteEmployeeLoading = false;
         draft.employeeDeleted = false;
         draft.deleteEmployeeFailure = true;
         draft.deleteEmployeeMessage = action.payload;
+        draft.modelApiLoading = false;
+        draft.actionApiSuccess=true;
         break;
       case RESET_REMOVE_EMPLOYEE_DATA:
         draft.deleteEmployeeLoading = false;
@@ -195,6 +208,8 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.deleteEmployeeFailure = false;
         draft.deleteEmployeeData = null;
         draft.deleteEmployeeMessage = "";
+        draft.modelApiLoading = false;
+        draft.actionApiSuccess=false;
         break;
         
       // Manage user Access
@@ -310,22 +325,25 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case EMPLOYEE_STATUS_REQUEST:
         draft.employeeStatus = '';
         draft.employeeStatusLoading = true;
+        draft.modelApiLoading = true;
+        draft.actionApiSuccess=false;
         break
       case EMPLOYEE_STATUS_SUCCESS:
         draft.employeeStatus = action.payload;
-        // console.log("From Employee statuss:",action.payload)
-        // const tempEmployeeDetails = draft.employeeDetails.map((item, index) => {
-        //   console.log(item.staffId === action.payload.staffId)
-        //   return item.staffId === action.payload.staffId ? {...item, isActive:!item.isActive} : {...item}
-        // })
-        // console.log({tempEmployeeDetails})
-        // draft.employeeDetails = []
+        const tempEmployeeDetails = draft.employeeDetails.map((item, index) => {
+          // console.log(item.staffId === action.payload.staffId)
+          return item.staffId === action.payload.staffId ? {...item, isActive:!item.isActive} : {...item}
+        })
+        draft.employeeDetails = tempEmployeeDetails
         draft.employeeStatusLoading = false
-        draft.employeeByIdDetails.isActive = !draft.employeeByIdDetails.isActive
+        draft.modelApiLoading = false;
+        draft.actionApiSuccess=true;
         break      
       case EMPLOYEE_STATUS_FAILURE:
         draft.employeeStatus = action.payload;
         draft.employeeStatusLoading = false;
+        draft.modelApiLoading = false;
+        draft.actionApiSuccess=false;
         break
 
       default:
