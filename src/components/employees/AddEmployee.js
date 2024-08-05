@@ -24,11 +24,14 @@ import {
   setEditEmployeeData,
   getEmployeeByIdRequest,
   clearEditEmployeeData,
+  refreshPin
 } from "../../redux/actions/employeeActions";
 import { useHistory, useParams } from "react-router";
 
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
+import { ReactComponent as ResetIcon } from "../../assets/svg/refresh-cw.svg";
+
 import dropArrow from '../../assets/svg/dropArrow.svg'
 import OtpInput from "../common/OtpInput";
 
@@ -62,6 +65,10 @@ const AddEmployee = () => {
   const employee = useSelector((state) => state.employee.employeeByIdDetails)
 
   const employeeByIdDetailsLoading =  useSelector((state) => state.employee.employeeByIdDetailsLoading)
+
+  const refreshNewPin = useSelector((state) => state.employee.refreshPin)
+  const isGettingNewPin = useSelector((state) => state.employee.isGettingNewPin)
+
 
   // useEffect(() => {
   //   dispatch(setEditEmployeeData(employee))
@@ -219,6 +226,7 @@ const AddEmployee = () => {
       return [
         "Branch_Manager",
         "Regional_Manager",
+        "RegionalEmployee",
         "Operator",
         "Owner",
         "Delivery",
@@ -227,6 +235,7 @@ const AddEmployee = () => {
       return [
         "Chef",
         "RegionalManager",
+        "RegionalEmployee",
         "Manager",
         "Admin",
         "Supervisor",
@@ -479,7 +488,12 @@ const AddEmployee = () => {
     // }
   }, [employeeAdded, employeeUpdateLoading, history]);
 
-  const hasPinErrors = [0, 1, 2, 3].some(i => errors[`pin${i}`]);
+  const hasPinErrors = pins.length != 4;// [0, 1, 2, 3].some(i => errors[`pin${i}`]);
+
+  useEffect(() => {
+    refreshNewPin?.length > 0 && setPins(refreshNewPin)
+  }, [refreshNewPin])
+  
 
 
   const onSubmit = (formValues) => {
@@ -575,10 +589,10 @@ const AddEmployee = () => {
         const date = new Date(employee?.dateOfBirth);
         setSelectedDate(date)
       }
-      setValue('firstName',employee?.firstName || '')
-      setValue('lastName', employee?.lastName || '')
-      setValue('mobileNumber', employee?.mobileNumber || employee?.phone || '')
-      setValue('nickName', employee?.nickName || '')
+      setValue('firstName',employee?.firstName?.trim() || '')
+      setValue('lastName', employee?.lastName?.trim() || '')
+      setValue('mobileNumber', employee?.mobileNumber?.trim() || employee?.phone || '')
+      setValue('nickName', employee?.nickName?.trim() || '')
       setValue('education', employee?.education || '')
       setValue('role', employee?.assignedRole || '')
       setValue('email', employee?.email || null)
@@ -631,6 +645,10 @@ const validatePassword = (value) => {
     setOtp(otpValue);
   };
 
+  const refreshPinValue = ()=>{
+    dispatch(refreshPin(credentials?.merchantId))
+  }
+
   return (
     <>
       {list === false ? (
@@ -654,7 +672,7 @@ const validatePassword = (value) => {
                     <TextInput
                       type="text"
                       placeholder="First Name*"
-                      maxLength={15}
+                      //maxLength={15}
                       name="firstName"
                       formRegister={register({
                         required: "Required",
@@ -676,7 +694,7 @@ const validatePassword = (value) => {
                       name="lastName"
                       formRegister={register()}
                       className={"add-employee-text-input"}
-                      maxLength={15}
+                      //maxLength={15}
                     />
                   </div>
                 </div>
@@ -689,7 +707,7 @@ const validatePassword = (value) => {
                     formRegister={register({
                       required: useNickname && "Required",
                     })}
-                    maxLength={15}
+                    //maxLength={15}
                     className={errors.nickName ? 'fN errorInputBox' : 'inputBox'}
                     onKeyDown={handleSpace}
                     onKeyPress={(e) => {
@@ -959,6 +977,7 @@ const validatePassword = (value) => {
                     })}
                     className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
                     autoComplete = {false}
+                    disabled={!!params?.id?.length}
                     onKeyDown={(event) => {
                       if(event.key === ' ' || event.code === 'Space'){
                         event.preventDefault()
@@ -1019,7 +1038,7 @@ const validatePassword = (value) => {
                   <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
                   <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                     <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
-                      {[0, 1, 2, 3].map((i) => (
+                      {[0, 1, 2, 3].map((i) => (                        
                         <input
                           key={`pin-${i}`}
                           ref={(el) => (inputRefs.current[i] = el)}
@@ -1029,6 +1048,7 @@ const validatePassword = (value) => {
                           onKeyDown={(e) => handleKeyDown(e, i)}
                           name={`pin${i}`}
                           maxLength="1"
+                          disabled
                           style={{
                             width: '40px',
                             fontSize: '16px',
@@ -1042,6 +1062,19 @@ const validatePassword = (value) => {
                           className={errors[`pin${i}`] ? 'errorInput' : ''}
                         />
                       ))}
+                    </div>
+                    <div>
+                      <ResetIcon
+                          onClick={refreshPinValue}
+                          disabled={isGettingNewPin}
+                          style={{
+                            position: "relative",
+                            marginLeft: 20, 
+                            // marginRight:10,
+                            cursor: 'pointer'
+                          }}
+                          //className={'openedEyeIcon'}
+                        />
                     </div>
                     <div>
                       {showPin ? (

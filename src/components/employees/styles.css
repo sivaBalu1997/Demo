@@ -396,3 +396,12 @@ img{
   }
 }
 
+.unblockMessageTxt{
+  font-family: Poppins;
+  color: #67833E;
+}
+
+.unblockMessageTxtContainer{
+  margin-top: 100px;
+}
+

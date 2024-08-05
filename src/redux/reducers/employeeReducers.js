@@ -38,6 +38,9 @@ import {
   UPDATE_EMPLOYEE_SUCCESS,
   UPDATE_EMPLOYEE_FAILURE,
   RESET_EMPLOYEE_ACTION_COMPLETED,
+  REFRESH_PIN_REQUEST,
+  REFRESH_PIN_SUCCESS,
+  REFRESH_PIN_FAILURE,
 } from "../constants/employeeContants";
 
 const initialEmployeeState = {
@@ -100,6 +103,8 @@ const initialEmployeeState = {
   modelApiLoading:false,
   actionApiSuccess:false,
 
+  refreshPin:'',
+  isGettingNewPin:false
 };
 
 export default function employeeReducer(state = initialEmployeeState, action) {
@@ -171,6 +176,8 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case CLEAR_EDIT_EMPLOYEE_DATA:
         draft.editEmployeeData = null;
         draft.employeeByIdDetails = null;
+        draft.refreshPin = '';
+        draft.isGettingNewPin = false;
         break;
 
       // Delete Employee
@@ -345,6 +352,21 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.modelApiLoading = false;
         draft.actionApiSuccess=false;
         break
+
+      case REFRESH_PIN_REQUEST:
+        draft.refreshPin = '';
+        draft.isGettingNewPin = true;
+        break;
+
+      case REFRESH_PIN_SUCCESS:
+        draft.refreshPin = action.payload;
+        draft.isGettingNewPin = false;
+        break;
+
+      case REFRESH_PIN_FAILURE:
+        draft.refreshPin = '';
+        draft.isGettingNewPin = false;
+        break;
 
       default:
         break;
