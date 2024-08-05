@@ -371,15 +371,16 @@
 }
 
   /* Circular Progress Loader */
-  .loader {
+  .loaders{
     border: 4px solid #f3f3f3;
     border-radius: 50%;
     border-top: 4px solid #929496;
     width: 20px;
     height: 20px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
+    -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
-    margin-left: 30px;
+    margin-left: 55px;
+    margin-top: -35px;
   }
   
   /* Safari */

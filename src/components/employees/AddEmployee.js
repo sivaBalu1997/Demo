@@ -134,17 +134,26 @@ const AddEmployee = () => {
   // console.log({restaurantDetails});
 
   const [countryCode,setCountryCode] = useState("");
+  const [isDropdownDisabled, setIsDropdownDisabled] = useState(false);
 
   const [restaurantBranch,setRestaurantBranch] = useState([]);
   const [restaurantBranchDefaultValue,setRestaurantBranchDefaultValue]  = useState("");
-
+  const branchOptions = restaurantBranch ? restaurantBranch.map(branch => branch?.locationName) : [];
 
   useEffect(() => {
     const countryC = restaurantDetails?.country;
-    restaurantDetails && countryC && setCountryCode( countryC == "US" ? '+1 ' : "+91 " )
-    restaurantDetails && setRestaurantBranch(restaurantDetails?.branch)
-    restaurantDetails && setRestaurantBranchDefaultValue(restaurantDetails?.branch?.length === 1 ? restaurantDetails?.branch[0].locationName : "")
-  }, [restaurantDetails])
+    if (restaurantDetails) {
+      countryC && setCountryCode(countryC === "US" ? '+1 ' : "+91 ");
+      setRestaurantBranch(restaurantDetails?.branch);
+      if (restaurantDetails?.branch?.length === 1) {
+        setRestaurantBranchDefaultValue(restaurantDetails?.branch[0].locationName);
+        setIsDropdownDisabled(true);
+      } else {
+        setRestaurantBranchDefaultValue("");
+        setIsDropdownDisabled(false);
+      }
+    }
+  }, [restaurantDetails]);
   
 
   useEffect(() => {
@@ -216,14 +225,15 @@ const AddEmployee = () => {
     } else {
       return [
         "Chef",
-        "Restaurant_Owner",
-        "Restaurant_Manager",
+        "RegionalManager",
+        "Manager",
         "Admin",
         "Supervisor",
         "Waiter",
         "Host",
         "Delivery",
-        "Cashier"
+        "Cashier",
+        "OrderTaker"
       ];
     }
   };  
@@ -823,9 +833,9 @@ const validatePassword = (value) => {
                 <h3>Formal Setup*</h3>
                 <div className="flexContainer">
                 
-                <div className={errors.outlet?.type ? 'errorCustomInput' :'selectContainer'} style={{ cursor: "pointer" }}>
-                  <div style={{zIndex: 0}}>
-                    {console.log({outletOptions,restaurantBranch,restaurantBranchDefaultValue})}
+                <div className={errors.outlet?.type ? 'errorCustomInput' : 'selectContainer'} style={{ cursor: "pointer" }}>
+                  <div style={{ zIndex: 0 }}>
+                    {console.log({ branchOptions, restaurantBranch, restaurantBranchDefaultValue, isDropdownDisabled })}
                     <Controller
                       control={control}
                       name="outlet"
@@ -835,33 +845,33 @@ const validatePassword = (value) => {
                       }}
                       render={({ onChange, onBlur, value, name }) => (
                         <CustomDropdown
-                          options={outletOptions}
-                          placeholder={"Outlet*"}
+                          options={branchOptions}
+                          placeholder={"Outlets*"}
                           onSelect={(outletSelected) => {
-                            if (outlets && outletSelected) {
-                              const outletObject = outlets.find((outlet) =>
-                                outlet?.locationName?.includes(outletSelected?.value)
+                            if (restaurantBranch && outletSelected) {
+                              const selectedBranch = restaurantBranch.find(branch =>
+                                branch?.locationName?.includes(outletSelected?.value)
                               );
-                              if (outletObject) {
-                                onChange(outletObject.locationName?.split(",")[1]);
+                              if (selectedBranch) {
+                                onChange(selectedBranch.locationName);
                               }
                             }
                           }}
-                          value={editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue }
+                          value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : value)}
                           name={name}
                           controlClassName={
-                            editEmployee
+                            editEmployee || isDropdownDisabled
                               ? "disabled-dropdown add-employee-dropdown"
                               : "add-employee-dropdown"
                           }
                           arrowClassName={"add-employee-dropdown-arrow"}
                           placeholderClass={"dropDown"}
+                          disabled={isDropdownDisabled}
                         />
                       )}
                     />
                   </div>
                 </div>
-
                 
                 <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
                   <Controller
@@ -954,6 +964,7 @@ const validatePassword = (value) => {
                         event.preventDefault()
                       }
                     }}
+                    // disabled={editEmployee}
                   />
                 </div>
                 
@@ -1081,8 +1092,9 @@ const validatePassword = (value) => {
                 <input 
                   className="save-btn" 
                   type="submit" 
-                  value={addEmployeeLoading || employeeUpdateLoading ? 'Saving...' : "Save"} 
+                  value={addEmployeeLoading || employeeUpdateLoading ? '' : "Save"} 
                 /> 
+                {(addEmployeeLoading || employeeUpdateLoading) && <div className="loaders"></div>}
               </span>
             </div>
           </form>
