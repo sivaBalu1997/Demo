@@ -58,14 +58,9 @@ const EmployeeDetails = () => {
         return outlet
     }
 
-    const formatStartDate = (dateString) => {
-        const date = new Date(dateString)
-        const day = String(date.getDate()).padStart(2,'0')
-        const month = String(date.getMonth()).padStart(2,'0')
-        const year = date.getFullYear()
-
-        return `${day}/${month}/${year}`
-    }
+    const isEmptyOrSpaces = (str) => {
+        return str === null || str.match(/^ *$/) !== null;
+    };
 
     const handleBlockClick = (employee, block) => {
         setEmployeeToUpdate(employee);
@@ -235,7 +230,7 @@ const EmployeeDetails = () => {
                     <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName ? employee?.nickName : '-'}</p></div>
                     <div className='title'><p className='tag'>Email</p><p className='value'> : {employee?.email ? employee?.email : '-'}</p></div>
                     <div className='title'><p className='tag'>Phone</p><p className='value'> : {employee?.phone}</p></div>
-                    <div className='title'><p className='tag'>Address</p><p className='value'> : {employee?.address ? employee?.address : '-'}</p></div>
+                    <div className='title'><p className='tag'>Address</p><p className='value'> : {employee?.address && !isEmptyOrSpaces(employee.address) ? employee.address : '-'}</p></div>
                     <div className='title'><p className='tag'>Education</p><p className='value'> : {employee?.education ? employee?.education : '-'}</p></div>
                 </div>
             </div>
