@@ -539,7 +539,7 @@ const AddEmployee = () => {
     // Submit the form
 
     formValues.successCB = () => {
-       history.replace('/management/employees');
+       history.goBack();
     }
   
     if (editEmployee) {
@@ -568,6 +568,10 @@ const AddEmployee = () => {
       address.slice(splitIndex + 1)
     ];
   };
+
+  const isEmptyOrSpaces = (str) => {
+    return str === null || str.match(/^ *$/) !== null;
+  };
   
   useEffect(() => {
     if (employee) {
@@ -588,7 +592,7 @@ const AddEmployee = () => {
 
       if(employee?.address){
         const [address1, address2] = splitAddress(employee.address)
-        setValue('address1', address1)
+        setValue('address1', isEmptyOrSpaces(address1) ? null : address1)
         setValue('address2', address2)
       }
     }
@@ -596,7 +600,7 @@ const AddEmployee = () => {
 
   useEffect(() => {
     if (employeeActionCompleted && (addEmployeeFailure || !employeeUpdated)) {
-      history.replace('/management/employees');
+      history.goBack();
       dispatch(resetEmployeeActionCompleted());
     }
   }, [employeeActionCompleted, history]);
@@ -636,7 +640,7 @@ const validatePassword = (value) => {
       {list === false ? (
         <div className="menu-details">
           <div
-            onClick={() => history.replace("/management/employees")}
+            onClick={() => history.goBack()}
             className="title"
           >
             <h2>
