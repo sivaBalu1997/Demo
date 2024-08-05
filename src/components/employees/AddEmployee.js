@@ -752,7 +752,7 @@ const validatePassword = (value) => {
                     name="mobileNumber"
                     formRegister={register({
                       required: "Required",
-                      validate: (value) => value?.length === 10 || "Must be 10 digits",
+                      validate: (value) => value?.length === 10 || "Invalid Number",
                     })}
                     className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
                     maxLength={10}
@@ -766,9 +766,9 @@ const validatePassword = (value) => {
                     }}
                   />
                   </div>
-                    {errors.mobileNumber && (
+                    {errors.mobileNumber && errors.mobileNumber.type === 'validate' && (
                       <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '15px' }}>
-                        Invalid Number
+                        {errors.mobileNumber?.message}
                       </p>
                     )}
                   </div>
@@ -983,7 +983,7 @@ const validatePassword = (value) => {
                         event.preventDefault()
                       }
                     }}
-                    // disabled={editEmployee}
+                    disabled={editEmployee}
                   />
                 </div>
                 
@@ -1023,7 +1023,7 @@ const validatePassword = (value) => {
                     }}
                   />
                   )}
-                  {errors.password && (
+                  {errors.password && errors.password.type==='validate' && (
                     <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
                       Enter valid password. Your password should contain 1 capital letter, 1 special character, and 1 number
                     </p>
