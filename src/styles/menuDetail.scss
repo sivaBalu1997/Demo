@@ -63,6 +63,12 @@
     border-color: #FF0505;
   }
 
+  .countryCodeMo{
+    display: flex;
+    flex-direction: row;
+    height: 47px;
+  }
+
   .errorInputBox{
     width: 813px;
     height: 50px;
@@ -89,6 +95,29 @@
     p{
       font-size: 14px;
     }
+  }
+
+  .phoneContainer{
+    input{
+      width: 360px;
+      height: 50px;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  .phoneErrorInput input{
+    width: 360px;
+    height: 50px;
+    border-color: #FF0505;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .phoneErrorInput::placeholder {
+    color: #FF0505;
+  }
+
+  .emailContainer{
+    width: 400px;
   }
 
 .add-employee-dropdown {
@@ -151,6 +180,11 @@
 
   .flexContainer input{
     width: 400px;
+    // height: 50px;
+  }
+
+  .flexBox{
+    display: flex;
   }
   
   .placeholder-no-border {
@@ -335,6 +369,29 @@
   margin-bottom: 20px;
   border: none;
 }
+
+  /* Circular Progress Loader */
+  .loader {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #929496;
+    width: 20px;
+    height: 20px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    margin-left: 30px;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
 @media(max-width:1280px){
   .btn{

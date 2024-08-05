@@ -27,7 +27,7 @@
 }
 
 .tableContainer{
-  max-height: 420px;
+  max-height: 550px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -90,7 +90,7 @@
   /* justify-content: center; */
   text-align: start;
   padding-left: 15px;
-  margin-right: 150px;
+  margin-right: 100px;
 }
 
 .main-section .menu-list table td ul{
@@ -396,7 +396,3 @@ img{
   }
 }
 
-.countryCodeMo{
-  display: flex;
-  flex-direction: row;
-}

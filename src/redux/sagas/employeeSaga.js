@@ -179,9 +179,13 @@ function* updateEmployeeSaga(action) {
         action.payload.successCB()
       }
     }else{
-      yield put(updateEmployeeFailure(response.data.metaDataInfo.responseMessage))
+      const errorMessage = response.data?.message;
+      alert(errorMessage)
+      yield put(updateEmployeeFailure(errorMessage))
     }
   }catch{
+    // const errorMessage = response.data?.message;
+    // alert(errorMessage)
     yield put(updateEmployeeFailure("Error Updating Employee"))
   }
 }
