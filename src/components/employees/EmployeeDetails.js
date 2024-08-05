@@ -216,7 +216,7 @@ const EmployeeDetails = () => {
                         <p className='value' style={{display:'flex',gap:'10px'}}> : {employee?.assignedRole} {employee?.defaultFunctionalityAccessUpdated  && <img src={thunder} />}</p>
                     </div>
                     <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'> : {fomatLocation(employee?.locationName)}</p></div>
-                    <div className='title'><p className='tag'>Start Date</p><p className='value'> : {employee?.startTime ? formatStartDate(employee?.startTime) : '-'}</p></div>
+                    {/* <div className='title'><p className='tag'>Start Date</p><p className='value'> : {employee?.startTime ? formatStartDate(employee?.startTime) : '-'}</p></div> */}
                     <div className='title'><p className='tag'>User ID</p><p className='value'> : {employee?.userId}</p></div>                   
                     <div className='title'><p className='tag'>Date of Birth</p><p className='value'> : {formatDate(employee?.dateOfBirth) ? formatDate(employee?.dateOfBirth) : '-'}</p></div>
                 </div>
