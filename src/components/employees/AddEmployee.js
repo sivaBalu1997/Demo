@@ -148,12 +148,13 @@ const AddEmployee = () => {
       if (restaurantDetails?.branch?.length === 1) {
         setRestaurantBranchDefaultValue(restaurantDetails?.branch[0].locationName);
         setIsDropdownDisabled(true);
+        setValue('outlet', restaurantDetails?.branch[0].locationName);
       } else {
         setRestaurantBranchDefaultValue("");
         setIsDropdownDisabled(false);
       }
     }
-  }, [restaurantDetails]);
+  }, [restaurantDetails, setValue]);
   
 
   useEffect(() => {
@@ -185,9 +186,9 @@ const AddEmployee = () => {
   const useNickname = watch("useNickname", false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  useEffect(() => {
-    credentials && dispatch(getOutlets(credentials.merchantId));
-  }, []);
+  // useEffect(() => {
+  //   credentials && dispatch(getOutlets(credentials.merchantId));
+  // }, []);
 
   useEffect(() => {
     if (!updatePinLoading && updatePinFailed && updatePinMessage) {
@@ -501,7 +502,7 @@ const AddEmployee = () => {
       fullName: `${formValues.firstName} ${formValues.lastName}`,
       role: formValues.role,
       businessName: credentials.businessName,
-      userId: formValues.userId,
+      userId: formValues.userId ||editEmployee?.userId,
       nickName: formValues.nickName,
       email: formValues.email || null,
       mobileNumber: formValues.mobileNumber,
@@ -513,14 +514,14 @@ const AddEmployee = () => {
       IsTempPassword: false,
       password: formValues.password || null,
       isToUseNickName: formValues.useNickname,
-      locationId: outlets.find(outlet => outlet.locationName.includes(formValues["outlet"]))?.id,
+      locationId: restaurantBranch.find(outlet => outlet.locationName.includes(formValues["outlet"]))?.id,
       userAccessInfoList: rolesAndFunctions,
       isDefaultFunctionalityAccessUpdated: isDefaultActionsUpdated(
         rolesAndFunctions.map(module => ({ name: module.moduleName, urls: module.urls })),
         formValues["role"]
       ),
     };
-  
+
     if (employee) {
       formValues["id"] = employee.staffId;
     }
@@ -835,7 +836,6 @@ const validatePassword = (value) => {
                 
                 <div className={errors.outlet?.type ? 'errorCustomInput' : 'selectContainer'} style={{ cursor: "pointer" }}>
                   <div style={{ zIndex: 0 }}>
-                    {console.log({ branchOptions, restaurantBranch, restaurantBranchDefaultValue, isDropdownDisabled })}
                     <Controller
                       control={control}
                       name="outlet"
@@ -857,7 +857,7 @@ const validatePassword = (value) => {
                               }
                             }
                           }}
-                          value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : value)}
+                          value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue)}
                           name={name}
                           controlClassName={
                             editEmployee || isDropdownDisabled
