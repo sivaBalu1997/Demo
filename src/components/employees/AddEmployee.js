@@ -89,7 +89,7 @@ const AddEmployee = () => {
     pin: employee?.pin,
     dateOfBirth: employee?.dateOfBirth,
     userId: employee?.userId,
-    outlet: employee?.locationName?.split(",")[1],
+    outlet: employee?.locationName,
     staffId: employee?.staffId,
     rolesAndFunctions: employee?.rolesAndFunctions
   }
@@ -237,7 +237,7 @@ const AddEmployee = () => {
         "RegionalManager",
         "RegionalEmployee",
         "Manager",
-        "Admin",
+        "RestaurantOwner",
         "Supervisor",
         "Waiter",
         "Host",
@@ -349,7 +349,7 @@ const AddEmployee = () => {
   }, [editEmployee]);
 
   const handleSelectOutlet = (outlet) => {
-    setSelectedOutlet(outlet.locationName?.split(",")[1])
+    setSelectedOutlet(outlet.locationName)
     setIsOutletDropdownOpen(false)
   } 
 
@@ -598,7 +598,7 @@ const AddEmployee = () => {
       setValue('email', employee?.email || null)
       setValue('dateOfBirth', employee?.dateOfBirth || '')
       setValue('userId', employee?.userId || '')
-      setValue('outlet', employee?.locationName?.split(',')[1] || '')
+      setValue('outlet', employee?.locationName || '')
 
       if(employee?.address){
         const [address1, address2] = splitAddress(employee.address)

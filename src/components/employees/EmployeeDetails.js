@@ -15,7 +15,6 @@ import Modal from '../Modal/Modal';
 import thunder from '../../assets/svg/thunder.svg'
 import { IoIosArrowBack } from "react-icons/io";
 
-
 const EmployeeDetails = () => {
     const [showDropDown, setShowDropDown] = useState(false)
     const [date, setDate] = useState("")
@@ -123,7 +122,17 @@ const EmployeeDetails = () => {
     return (
         <div className='employeeDetails'>
             <div className='headLine'>
-                <h3><IoIosArrowBack onClick={() => history.replace("/management/employees")} /> Employee Details</h3>
+                <h3 style={{
+                    display:'flex',
+                    alignItems:'center',
+                    gap:'10px',
+                    cursor:'pointer'
+                }}
+                onClick={() => history.replace("/management/employees")}
+                >
+                    <IoIosArrowBack />{" "}
+                    Employee Details
+                </h3>
                 {!showDropDown ? 
                     (<img src={menu} onClick={() => setShowDropDown(!showDropDown)} />) 
                     :
@@ -232,19 +241,18 @@ const EmployeeDetails = () => {
             </div>
             <div className='rolesContainer'>
                 <h4>Roles and Functions</h4>
-                <div className='roles'>
-                    {employee?.rolesAndFunctions?.length > 0 ? employee?.rolesAndFunctions?.map((role, roleIndex) => (
+                {employee?.rolesAndFunctions?.length > 0 ? <div className='roles'>
+                    {employee?.rolesAndFunctions?.map((role, roleIndex) => (
                         <div className='rolesHeading' key={roleIndex}> 
                             <h4>{role?.module}</h4>
                             {role.funtions.map((func, funcIndex) => (
                                 <p key={funcIndex}>{func}</p>
                             ))}
                         </div>
-                    )):
-                    <div className='unblockMessageTxtContainer'>
-                        <span className='unblockMessageTxt'>unblock the user to view the permission</span>
-                     </div>   }
-                </div>
+                    ))}
+                </div> : 
+                <p style={{color:'gray'}}>Unblock to View Roles and Functions</p>
+                }
             </div>
             <button className='backBtn' onClick={() => history.push("/management/employees")}>Back</button>
         </div>
