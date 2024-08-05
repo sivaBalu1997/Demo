@@ -520,7 +520,10 @@ const AddEmployee = () => {
     delete formValues.address2;
     delete formValues["outlet"];
     delete formValues["useNickname"];
-    delete formValues["pin"];
+    delete formValues["pin0"];
+    delete formValues["pin1"];
+    delete formValues["pin2"];
+    delete formValues["pin3"];
   
     // Submit the form
 
@@ -587,9 +590,7 @@ const AddEmployee = () => {
     }
   }, [employeeActionCompleted, history]);
 
-  const outletOptions = outlets 
-  ? Array.from(outlets, (outlet) => outlet?.locationName?.split(",")[1]).filter(Boolean) 
-  : [];
+  const outletOptions = outlets ? Array.from(outlets, (outlet) => outlet?.locationName?.split(",")[1]).filter(Boolean) : [];
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -605,11 +606,6 @@ const validatePassword = (value) => {
     return passwordRegex.test(value);
   }
 }
-
-// const validateNickName = (value) => {
-//   const nickNameRegex = /[^0-9!@#$%^&*]/
-//   return nickNameRegex.test(value)
-// } 
 
   if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
     <p style={{
@@ -644,7 +640,6 @@ const validatePassword = (value) => {
               <div className="primary-sec">
                 <div className="flexContainer">
                   <div>
-
                     <TextInput
                       type="text"
                       placeholder="First Name*"
@@ -696,15 +691,32 @@ const validatePassword = (value) => {
 
                 <div className="checkBox" style={{marginTop:"-20px"}}>
                   <label> 
-                    <input type="checkbox" className="checkbox" name="useNickname" ref={register} />  
+                    <input 
+                      type="checkbox" 
+                      className="checkbox" 
+                      name="useNickname" 
+                      checked={employee?.toUseNickName}
+                      ref={register} />  
                     <p>Utilize a nickname as needed in all forthcoming activities</p>
                   </label>
                 </div>
 
-                <div className="flexContainer">
+                <div className="flexBox">
                   <div>
-                <div className={errors.mobileNumber ? 'num errorInput countryCodeMo' : 'add-employee-text-input countryCodeMo'}>
-                  <div>{countryCode}</div>
+                <div className={errors.mobileNumber ? 'num phoneErrorInput countryCodeMo' : 'phoneContainer countryCodeMo'}>
+                  <div className="countryCode" style={{
+                     display:'flex',
+                     justifyContent:'center',
+                     alignItems:'center',
+                     border: '1px solid #B4B4B4',
+                     backgroundColor: '#EFEFEF',
+                     height:'48px',
+                     width:'37px',
+                     borderRadius:'4px 0 0 4px',
+                     borderRight:'none'
+                  }}>
+                    {countryCode}
+                  </div>
                   <TextInput
                     type="text"
                     placeholder="Phone*"
@@ -713,7 +725,7 @@ const validatePassword = (value) => {
                       required: "Required",
                       validate: (value) => value?.length === 10 || "Must be 10 digits",
                     })}
-                    //className={errors.mobileNumber ? 'num errorInput' : 'add-employee-text-input'}
+                    className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
                     maxLength={10}
                     onInput={(e) => {
                       e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
@@ -725,13 +737,13 @@ const validatePassword = (value) => {
                     }}
                   />
                   </div>
-                  {errors.mobileNumber && (
-                    <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
-                      Invalid Number
-                    </p>
-                  )}
+                    {errors.mobileNumber && (
+                      <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '15px' }}>
+                        Invalid Number
+                      </p>
+                    )}
                   </div>
-                  <div>
+                  <div className="emailContainer">
                     <TextInput
                       type="email"
                       placeholder="Email"
@@ -813,7 +825,7 @@ const validatePassword = (value) => {
                 
                 <div className={errors.outlet?.type ? 'errorCustomInput' :'selectContainer'} style={{ cursor: "pointer" }}>
                   <div style={{zIndex: 0}}>
-                    {/* {console.log({outletOptions,restaurantBranch,restaurantBranchDefaultValue})} */}
+                    {console.log({outletOptions,restaurantBranch,restaurantBranchDefaultValue})}
                     <Controller
                       control={control}
                       name="outlet"
@@ -994,8 +1006,6 @@ const validatePassword = (value) => {
                   style={{ marginTop: editEmployee ? 10 : 20 }}
                 >
                   <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
-                 
-                  {/* <OtpInput value={otp} name={'pin'} length={4} onChange={handleOtpChange} borderColor={errors.pin ? '#FF0505': '#ccc'}  /> */}
                   <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                     <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                       {[0, 1, 2, 3].map((i) => (
@@ -1071,7 +1081,7 @@ const validatePassword = (value) => {
                 <input 
                   className="save-btn" 
                   type="submit" 
-                  value={addEmployeeLoading || employeeUpdateLoading ? "Saving..." : "Save"} 
+                  value={addEmployeeLoading || employeeUpdateLoading ? 'Saving...' : "Save"} 
                 /> 
               </span>
             </div>

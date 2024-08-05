@@ -67,7 +67,8 @@
 
 .value {
     margin-left: 80px;
-    width: fit-content;
+    width: 200px;
+    /* margin-right: 10px; */
 }
 
 .rolesContainer {
@@ -79,10 +80,11 @@
     flex-direction: column;
     align-items: center;
     width: fit-content;  
+    overflow: auto;
 }
 
 .rolesContainer h4 {
-    color: #67833E;
+    color: black;
     margin-bottom: 30px;
 }
 
@@ -94,7 +96,6 @@
     text-align: left;
     flex-wrap: wrap;
     height: 300px;
-    overflow: auto;
 }
 
 .rolesHeading {

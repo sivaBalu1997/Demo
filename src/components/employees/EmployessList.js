@@ -295,8 +295,6 @@ const EmployeeRow = ({
     setEmployeeToUpdate(null);
   };
 
-
-
   const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
   const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
 
@@ -314,8 +312,6 @@ const EmployeeRow = ({
 
   const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
   const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
-
-
 
   useEffect(() => {
     // console.log({modelApiLoading, actionApiSuccess});
@@ -337,7 +333,8 @@ const EmployeeRow = ({
         <td
           style={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "start",
+            width:'200px'
           }}
         >
           <div>{name}</div>
