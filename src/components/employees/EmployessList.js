@@ -26,6 +26,7 @@ import activeIcon from '../../assets/svg/activeIcon.svg'
 import blockIcon from '../../assets/svg/yblockIcon.svg'
 import thunder from '../../assets/svg/thunder.svg'
 import close from '../../assets/images/close.png'
+import noResultsfound from "../../assets/images/NoResultsFound.png"
 import {
   selectBranch,
 } from "../../redux/actions/authActions";
@@ -207,20 +208,29 @@ const EmployeeList = (props) => {
                     <th className=""></th>
                   </tr>
                 </thead>
-                <tbody className="tBody">
-                  {(searchInput?.length === 0 ? employeeList : searchedData)?.map((row, index) => {
-                    const lastName = row.lastName ? row.lastName : "";
+            <tbody className="tBody">
+             {searchInput?.length > 0 && searchedData?.length === 0 ? (
+                <td colSpan="4" >
+                  <div className="no-results">
+                    <img src={noResultsfound} alt="No results found" />
+                    <h2>No Results Found</h2>
+                  </div>
+                </td>
+                ) : (
+                (searchInput?.length === 0 ? employeeList : searchedData)?.map((row, index) => {
+                 const lastName = row.lastName ? row.lastName : "";
                     return (
                       <EmployeeRow
                         key={row.id}
-                        name={row.firstName+" "+lastName}
+                        name={row.firstName + " " + lastName}
                         role={row.role}
-                        status = {row.isActive}
+                        status={row.isActive}
                         data={row}
                       />
-                    )
-                  })}
-                </tbody>
+                  );
+                })
+              )}    
+              </tbody>
               </table>
             </div>
           </div>
