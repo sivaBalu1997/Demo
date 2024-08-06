@@ -517,7 +517,7 @@ const AddEmployee = () => {
       role: formValues.role,
       businessName: credentials.businessName,
       userId: formValues.userId ||editEmployee?.userId,
-      nickName: formValues.nickName,
+      nickName: formValues.nickName.trim(),
       email: formValues.email || null,
       mobileNumber: formValues.mobileNumber,
       address: `${formValues.address1} ${formValues.address2}` || null,
@@ -709,12 +709,12 @@ const validatePassword = (value) => {
                     })}
                     //maxLength={15}
                     className={errors.nickName ? 'fN errorInputBox' : 'inputBox'}
-                    onKeyDown={handleSpace}
-                    onKeyPress={(e) => {
-                      if(!/^[A-Za-z]*$/.test(e.key)){
-                        e.preventDefault();
-                      }
-                    }}
+                    // onKeyDown={handleSpace}
+                    // onKeyPress={(e) => {
+                    //   if(!/^[A-Za-z]*$/.test(e.key)){
+                    //     e.preventDefault();
+                    //   }
+                    // }}
                   />
                 </div>
 
@@ -922,7 +922,7 @@ const validatePassword = (value) => {
                   </div>}
                   {openFunction && (
                     <div className="functionsDropDown" ref={dropdownRef}>     
-                      <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 600}}>Roles/Function</p>               
+                      <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 500}}>Roles/Function</p>               
                       <div className="checkList">
                         <div className="checkBoxContainer">
                           {roles.map((module) => (
