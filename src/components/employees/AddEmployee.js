@@ -1073,7 +1073,7 @@ const validatePassword = (value) => {
                             // marginRight:10,
                             cursor: 'pointer'
                           }}
-                          //className={'openedEyeIcon'}
+                          className={isGettingNewPin ? 'rotating-div':''}
                         />
                     </div>
                     <div>

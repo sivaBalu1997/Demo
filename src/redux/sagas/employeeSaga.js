@@ -227,13 +227,12 @@ function* employeeSatusSaga(action){
 function* refreshPinSaga(action){
   try{
     const response = yield call(refreshPinApi, action.payload)
-    //if(response.status === 200){
-    //   console.log({response});
-    //   yield put({type: REFRESH_PIN_SUCCESS, payload: action.payload})
-    // }else{
-    //   yield put({type: REFRESH_PIN_FAILURE,payload: ''})
-    // }
-    yield put({type: REFRESH_PIN_SUCCESS, payload: '1224'})
+    if(response.status === 200){
+      yield put({type: REFRESH_PIN_SUCCESS, payload: response?.data?.devicePin})
+    }else{
+      yield put({type: REFRESH_PIN_FAILURE,payload: ''})
+    }
+   // yield put({type: REFRESH_PIN_SUCCESS, payload: '1224'})
   }catch{
      yield put({type: REFRESH_PIN_FAILURE, payload: '' })
     //yield put({type: REFRESH_PIN_SUCCESS, payload: '1224'})

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Route, Switch, BrowserRouter, useHistory } from "react-router-dom";
 import store from "./redux/store";
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 
 import "./styles/app.scss";
 import EmptyMenu from "./components/menuItems/EmtyMenu";
@@ -17,9 +17,10 @@ import Employees from "./components/employees";
 import RoleAccess from "./components/roles";
 import ResetPassword from "./components/Auth/ResetPassword";
 import { CREDENTIALS } from "./shared/constants";
-import { storeCredentials } from "./redux/actions/authActions";
+import { ClearSignIn, signOut, storeCredentials } from "./redux/actions/authActions";
 import NotFound from "./components/notFound";
 import Menu from "./components/menu";
+import { clearMenuData } from "./redux/actions/menuAction";
 
 const Loader = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const Loader = () => {
   return <span></span>;
 };
 
-function App() {
+const App = () => {
   useEffect(() => {
     document.documentElement.style.setProperty(
       "--wHeight",
@@ -46,12 +47,32 @@ function App() {
     );
     //console.log(window.innerHeight, window.innerWidth);
   }, []);
+
+  const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+
+
+  useEffect(async() => {
+    const credentails = JSON.parse(await localStorage.getItem(CREDENTIALS));
+    if (!credentails?.accessToken) {
+    //  console.log('60');
+    //     history.push("/management/employees");
+    //   }else{ 
+        dispatch(clearMenuData());
+        localStorage.clear();
+        dispatch(signOut());
+        history.replace('/')
+      }
+  }, [authState?.credentials]);
+
   return (
-    <Provider store={store}>
+   <>
       <Loader />
       <div className="app">
         <div className="main-section">
-          <BrowserRouter>
+          
             <Switch>
               <Route exact path="/" component={Auth} />
               <Route path="/reset" component={ResetPassword} />
@@ -67,10 +88,9 @@ function App() {
               <Route path="/notFound" component={NotFound} />
               <Route path="/management" component={Menu} />
             </Switch>
-          </BrowserRouter>
         </div>
       </div>
-    </Provider>
+    </>
   );
 }
 
