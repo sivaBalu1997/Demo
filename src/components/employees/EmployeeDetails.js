@@ -69,10 +69,10 @@ const EmployeeDetails = () => {
       };
     
       const handleBtnClick = () => {
-        dispatch(employeeStatusRequest(employee?.staffId, isBlocking));
+        dispatch(employeeStatusRequest(employee?.staffId, employee.isActive));
         //setOpenStausModal(prev => !prev);
         setEmployeeToUpdate(null);
-        setIsBlocking(false);  
+        // setIsBlocking(false);  
         setShowDropDown(!showDropDown)
         
     };
@@ -236,7 +236,7 @@ const EmployeeDetails = () => {
             </div>
             <div className='rolesContainer'>
                 <h4>Roles and Functions</h4>
-                {employee?.rolesAndFunctions?.length > 0 ? <div className='roles'>
+                {employee?.isActive ? <div className='roles'>
                     {employee?.rolesAndFunctions?.map((role, roleIndex) => (
                         <div className='rolesHeading' key={roleIndex}> 
                             <h4>{role?.module}</h4>
