@@ -1,6 +1,7 @@
 import axios from "axios";
 import { signOut } from "../actions/authActions";
 import Store from "../store";
+import { clearMenuData } from "../actions/menuAction";
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_ENDPOINT,
@@ -15,6 +16,8 @@ API.interceptors.response.use(
       switch (err?.response?.status) {
         case 401:
           Store.dispatch(signOut());
+          Store?.dispatch(clearMenuData());
+          localStorage.clear();
           break;
           //return err?.response;
         case 403:

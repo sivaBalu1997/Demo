@@ -37,6 +37,7 @@ import {
   UPDATE_EMPLOYEE_FAILURE,
   UPDATE_EMPLOYEE_SUCCESS,
   RESET_EMPLOYEE_ACTION_COMPLETED,
+  REFRESH_PIN_REQUEST,
 } from "../constants/employeeContants";
 
 // Get Outlet
@@ -228,4 +229,9 @@ export const employeeStatusSuccess = (details) => ({
 export const employeeStatusFailure = (details) => ({
   type: EMPLOYEE_STATUS_FAILURE,
   payload: details
+})
+
+export const refreshPin = (merchantId) => ({
+  type: REFRESH_PIN_REQUEST,
+  payload: merchantId
 })

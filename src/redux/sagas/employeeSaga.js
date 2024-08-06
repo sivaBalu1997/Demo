@@ -34,6 +34,7 @@ import {
   rolesAndFunctions,
   employeeStatus,
   editEmployee,
+  refreshPinApi,
 } from "../api/employeeAPI";
 
 import {
@@ -48,6 +49,9 @@ import {
   ROLES_REQUEST,
   EMPLOYEE_STATUS_REQUEST,
   UPDATE_EMPLOYEE_REQUEST,
+  REFRESH_PIN_REQUEST,
+  REFRESH_PIN_SUCCESS,
+  REFRESH_PIN_FAILURE,
 } from "../constants/employeeContants";
 
 function* getOutletsSaga(action) {
@@ -219,6 +223,23 @@ function* employeeSatusSaga(action){
   }
 }
 
+//refresh employee pin 
+function* refreshPinSaga(action){
+  try{
+    const response = yield call(refreshPinApi, action.payload)
+    if(response.status === 200){
+      yield put({type: REFRESH_PIN_SUCCESS, payload: response?.data?.devicePin})
+    }else{
+      yield put({type: REFRESH_PIN_FAILURE,payload: ''})
+    }
+   // yield put({type: REFRESH_PIN_SUCCESS, payload: '1224'})
+  }catch{
+     yield put({type: REFRESH_PIN_FAILURE, payload: '' })
+    //yield put({type: REFRESH_PIN_SUCCESS, payload: '1224'})
+
+  }
+}
+
 export default function* employeeSaga() {
   yield takeLatest(OUTLET_REQUEST, getOutletsSaga);
   yield takeEvery(ADD_EMPLOYEE_REQUEST, addEmployeeSaga);
@@ -230,4 +251,5 @@ export default function* employeeSaga() {
   yield takeLatest(ROLES_REQUEST, getEmployeeRolesSaga);
   yield takeLatest(EMPLOYEE_STATUS_REQUEST, employeeSatusSaga);
   yield takeLatest(UPDATE_EMPLOYEE_REQUEST, updateEmployeeSaga);
+  yield takeLatest(REFRESH_PIN_REQUEST, refreshPinSaga);
 }

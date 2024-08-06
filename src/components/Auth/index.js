@@ -3,12 +3,13 @@ import "../../styles/auth.scss";
 import SignIn from "./SignIn";
 import { useHistory } from "react-router";
 import { CREDENTIALS } from "../../shared/constants";
-import { useDispatch } from "react-redux";
-import { storeCredentials } from "../../redux/actions/authActions";
+import { useDispatch,useSelector } from "react-redux";
+import { ClearSignIn, signOut, storeCredentials } from "../../redux/actions/authActions";
 
 const Auth = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
   useEffect(() => {
     const credentails = JSON.parse(localStorage.getItem(CREDENTIALS));
     // console.log("Credentials:", credentails);
@@ -21,6 +22,8 @@ const Auth = () => {
       }
     }
   }, []);
+
+
 
   const [isLoggedin, setLogin] = useState(false);
   return <SignIn setLogin={setLogin} />;

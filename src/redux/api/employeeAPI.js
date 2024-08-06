@@ -137,3 +137,15 @@ export const editEmployee = (details) => {
     }
   })
 }
+
+//Pin Refresh
+export const refreshPinApi = (merchantId) => {
+  const token = Store.getState().auth.credentials.accessToken;
+  return API ({
+    method: 'get',
+    url:`/merchants/${merchantId}/device-pin`,
+    headers: {
+      Authorization: "bearer " + token,
+    }
+  })
+}
