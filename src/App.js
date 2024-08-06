@@ -21,6 +21,8 @@ import { ClearSignIn, signOut, storeCredentials } from "./redux/actions/authActi
 import NotFound from "./components/notFound";
 import Menu from "./components/menu";
 import { clearMenuData } from "./redux/actions/menuAction";
+import { ToastContainer } from "react-toastify";
+
 
 const Loader = () => {
   const dispatch = useDispatch();
@@ -72,7 +74,7 @@ const App = () => {
       <Loader />
       <div className="app">
         <div className="main-section">
-          
+        <ToastContainer autoClose={3000} />
             <Switch>
               <Route exact path="/" component={Auth} />
               <Route path="/reset" component={ResetPassword} />

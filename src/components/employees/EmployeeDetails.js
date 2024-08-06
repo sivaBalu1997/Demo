@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory , useLocation, useParams } from "react-router";
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteEmployee, employeeStatusRequest, getEmployeeByIdRequest, setEditEmployeeData } from '../../redux/actions/employeeActions'
+import { deleteEmployee, employeeStatusRequest, getEmployeeByIdRequest, getEmployeeRoleByIdRequest, setEditEmployeeData } from '../../redux/actions/employeeActions'
 import './employeeDetails.css'
 import menu from '../../assets/svg/menu.svg'
 import x from '../../assets/svg/x.svg'
@@ -30,11 +30,19 @@ const EmployeeDetails = () => {
     const params = useParams()
 
     useEffect(() => {
-        dispatch(getEmployeeByIdRequest(params.id));
-    },[params])
+        params?.id && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
+    },[params?.id])
+
+    const invokePermission =(employeeData)=>{
+        employeeData.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
+    }
 
     const employee = useSelector((state) => state.employee.employeeByIdDetails)
     const employeeByIdDetailsLoading = useSelector((state) => state.employee.employeeByIdDetailsLoading)
+
+    const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
+    const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
+
   
     const dispatch = useDispatch()
 
@@ -235,7 +243,7 @@ const EmployeeDetails = () => {
             <div className='rolesContainer'>
                 <h4>Roles and Functions</h4>
                 {employee?.isActive ? <div className='roles'>
-                    {employee?.rolesAndFunctions?.map((role, roleIndex) => (
+                    {rolesAndFunctions?.map((role, roleIndex) => (
                         <div className='rolesHeading' key={roleIndex}> 
                             <h4>{role?.module}</h4>
                             {role.funtions.map((func, funcIndex) => (
@@ -244,7 +252,7 @@ const EmployeeDetails = () => {
                         </div>
                     ))}
                 </div> : 
-                <p style={{color:'gray'}}>Unblock to View Roles and Functions</p>
+                <p style={{color:'gray'}}>Unblock the user to view the Roles and Functions</p>
                 }
             </div>
             <button className='backBtn' onClick={() => history.push("/management/employees")}>Back</button>

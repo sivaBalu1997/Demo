@@ -35,6 +35,7 @@ import {
   employeeStatus,
   editEmployee,
   refreshPinApi,
+  getEmployeeRoleById,
 } from "../api/employeeAPI";
 
 import {
@@ -52,13 +53,17 @@ import {
   REFRESH_PIN_REQUEST,
   REFRESH_PIN_SUCCESS,
   REFRESH_PIN_FAILURE,
+  GET_EMPLOYEE_ROLE_BY_ID_REQUEST,
+  GET_EMPLOYEE_ROLE_BY_ID_FAILURE,
+  GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,
 } from "../constants/employeeContants";
+import { decryptJson } from "../../util/react-ec-utils";
+import { showErrorToast } from "../../util/toastUtils";
 
 function* getOutletsSaga(action) {
   try {
     const response = yield call(fetchOutlets, action.payload);
     if (response.status === 200) {
-      //console.log("Outlets :" + response.data);
       yield put(successGetOutlet(response.data));
     }
   } catch (err) {
@@ -114,8 +119,10 @@ function* getEmployeesSaga(action) {
   try {
     const response = yield call(getEmployeeDetails);
     if (response.status === 200) {
-      yield put(successGetEmployees(response.data));
+      const employeeListData = decryptJson(response.data.data)
+      yield put(successGetEmployees(employeeListData));
     } else {
+      showErrorToast("please Try Again");
       yield put(failedGetEmployees({ message: "please Try Again" }));
     }
   } catch (err) {
@@ -125,16 +132,36 @@ function* getEmployeesSaga(action) {
 
 //Get Employee By Id
 function* getEmployeeByIdSaga(action) {
-  const staffId = action.payload  
+  const requestData = action.payload  
   try {
-    const response = yield call(getEmployeeById, staffId)
+    const response = yield call(getEmployeeById, requestData?.staffId)
     if(response.status === 200) {
-      yield put(getEmployeeByIdSuccess(response.data));
+      const employeeData = decryptJson(response.data.data)
+
+      yield put(getEmployeeByIdSuccess(employeeData));
+      if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
+        requestData.sagaCallBack(employeeData);
+      }
     } else {
       yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
     }
   } catch (err) {
     yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
+  }
+}
+
+function* getEmployeeRolesByIdSaga(action) {
+  const requestData = action.payload  
+  try {
+    const response = yield call(getEmployeeRoleById, requestData?.staffId)
+    if(response.status === 200) {
+      const employeeRoleFunction = decryptJson(response.data.data)
+      yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,payload: employeeRoleFunction}));
+    } else {
+      yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: ''}));
+    }
+  } catch (err) {
+    yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: ''}));
   }
 }
 
@@ -199,7 +226,9 @@ function* getEmployeeRolesSaga(action){
   try{
     const response = yield call(rolesAndFunctions);
     if(response.status === 200 ){
-      yield put(getEmployeeRolesSuccess(response.data))
+      const employeeRoles = decryptJson(response.data.data)
+
+      yield put(getEmployeeRolesSuccess(employeeRoles))
     }else {
       yield put(getEmployeeRolesFailure({ message: "please Try Again" }));
     }
@@ -248,6 +277,7 @@ export default function* employeeSaga() {
   yield takeLatest(USER_ACCESS_EMPLOYEE_REQUEST, manageUserAccessSaga);
   yield takeLatest(UPDATE_EMPLOYEE_PIN_REQUEST, updateEmployeePINSaga);
   yield takeLatest(GET_EMPLOYEE_BY_ID_REQUEST, getEmployeeByIdSaga);
+  yield takeLatest(GET_EMPLOYEE_ROLE_BY_ID_REQUEST,getEmployeeRolesByIdSaga)
   yield takeLatest(ROLES_REQUEST, getEmployeeRolesSaga);
   yield takeLatest(EMPLOYEE_STATUS_REQUEST, employeeSatusSaga);
   yield takeLatest(UPDATE_EMPLOYEE_REQUEST, updateEmployeeSaga);

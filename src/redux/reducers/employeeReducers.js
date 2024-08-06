@@ -41,6 +41,9 @@ import {
   REFRESH_PIN_REQUEST,
   REFRESH_PIN_SUCCESS,
   REFRESH_PIN_FAILURE,
+  GET_EMPLOYEE_ROLE_BY_ID_FAILURE,
+  GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,
+  GET_EMPLOYEE_ROLE_BY_ID_REQUEST,
 } from "../constants/employeeContants";
 
 const initialEmployeeState = {
@@ -104,7 +107,10 @@ const initialEmployeeState = {
   actionApiSuccess:false,
 
   refreshPin:'',
-  isGettingNewPin:false
+  isGettingNewPin:false,
+
+  rolesAndFunctions:[],
+  roleFunctionFetching:false
 };
 
 export default function employeeReducer(state = initialEmployeeState, action) {
@@ -366,6 +372,22 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case REFRESH_PIN_FAILURE:
         draft.refreshPin = '';
         draft.isGettingNewPin = false;
+        break;
+
+
+      case GET_EMPLOYEE_ROLE_BY_ID_REQUEST:
+        draft.rolesAndFunctions=[]
+        draft.roleFunctionFetching =true
+        break;
+
+      case GET_EMPLOYEE_ROLE_BY_ID_SUCCESS:
+        draft.rolesAndFunctions=action.payload;
+        draft.roleFunctionFetching =false;
+        break;
+
+      case GET_EMPLOYEE_ROLE_BY_ID_FAILURE:
+        draft.rolesAndFunctions=[];
+        draft.roleFunctionFetching =false;
         break;
 
       default:

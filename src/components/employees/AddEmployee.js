@@ -26,7 +26,8 @@ import {
   setEditEmployeeData,
   getEmployeeByIdRequest,
   clearEditEmployeeData,
-  refreshPin
+  refreshPin,
+  getEmployeeRoleByIdRequest
 } from "../../redux/actions/employeeActions";
 import { useHistory, useParams } from "react-router";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
@@ -55,10 +56,7 @@ const AddEmployee = () => {
   const isValidDate = (date) => !isNaN(date.getTime()); 
   const params = useParams()
 
-  useEffect(()=> {
-    params?.id?.length && dispatch(getEmployeeByIdRequest(params.id))
-    !params?.id?.length && dispatch(clearEditEmployeeData())
-  },[params.id])
+
 
   const employee = useSelector((state) => state.employee.employeeByIdDetails)
 
@@ -66,6 +64,18 @@ const AddEmployee = () => {
 
   const refreshNewPin = useSelector((state) => state.employee.refreshPin)
   const isGettingNewPin = useSelector((state) => state.employee.isGettingNewPin)
+
+  const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
+  const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
+
+  useEffect(()=> {
+    params?.id?.length && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
+    !params?.id?.length && dispatch(clearEditEmployeeData())
+  },[params.id])
+
+  const invokePermission =(employeeData)=>{
+    employeeData.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
+}
 
 
   // useEffect(() => {
@@ -89,7 +99,7 @@ const AddEmployee = () => {
     userId: employee?.userId,
     outlet: employee?.locationName,
     staffId: employee?.staffId,
-    rolesAndFunctions: employee?.rolesAndFunctions
+    rolesAndFunctions: rolesAndFunctions
   }
 
   const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)
@@ -754,7 +764,7 @@ const validatePassword = (value) => {
                     maskChar=""
                     {...register('mobileNumber', {
                       required: "Required",
-                      validate: (value) => value?.length === 10 || "Invalid Number",
+                      validate: (value) => value.replace(/\D/g, '').length === 10 || "Invalid Number",
                     })}
                   >
                     {(inputProps) => (
@@ -971,72 +981,7 @@ const validatePassword = (value) => {
                   )}
                   
                 </div>
-              </div>
-
-              <div className="flexContainer">
-                <div>
-                  <TextInput
-                    type="text"
-                    placeholder="User ID*"
-                    name="userId"
-                    formRegister={register({
-                      required: "Required",
-                    })}
-                    className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
-                    autoComplete = {false}
-                    disabled={!!params?.id?.length}
-                    onKeyDown={(event) => {
-                      if(event.key === ' ' || event.code === 'Space'){
-                        event.preventDefault()
-                      }
-                    }}
-                    // disabled={editEmployee}
-                  />
                 </div>
-                
-                <div>
-                  <TextInput
-                    type={isPasswordVisible ? "text" : "password"}
-                    placeholder="Password*"
-                    // minLength={6}
-                    name="password"
-                    formRegister={register({
-                      required: !editEmployee && "Required",
-                      validate : validatePassword
-                    })}
-                    className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
-                    containerStyle={{ paddingBottom: "0px" }}
-                    autoComplete = {false}
-                    onKeyDown={handleSpace}
-                  />
-                  {isPasswordVisible ? (
-                    <OpenEyeIcon
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                    style={{
-                      position: "relative",
-                      bottom: 30,
-                      left: 370, 
-                      cursor:'pointer'
-                    }}
-                  />
-                  ) : (
-                  <ClosedEyeIcon
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                    style={{
-                      position: "relative",
-                      bottom: 30,
-                      left: 370, 
-                      cursor:'pointer'
-                    }}
-                  />
-                  )}
-                  {errors.password && errors.password.type==='validate' && (
-                    <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
-                      Enter valid password. Your password should contain 1 capital letter, 1 special character, and 1 number
-                    </p>
-                  )}
-                </div>
-              </div>
 
                 <div className="flexContainer">
                   <div>
