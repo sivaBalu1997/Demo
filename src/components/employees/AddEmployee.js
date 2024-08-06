@@ -135,7 +135,8 @@ const AddEmployee = () => {
   const updateEmployeeFailure = useSelector((state) => state.employee.updateEmployeeFailure)
 
   const restaurantDetails = useSelector((state) => state.auth.restaurantDetails)
-  // console.log({restaurantDetails});
+
+  const userBranchName = useSelector((state)=>state.auth.restaurantDetails.branchName) 
 
   const [countryCode,setCountryCode] = useState("");
   const [isDropdownDisabled, setIsDropdownDisabled] = useState(false);
@@ -149,17 +150,16 @@ const AddEmployee = () => {
     if (restaurantDetails) {
       countryC && setCountryCode(countryC === "US" ? '+1 ' : "+91 ");
       setRestaurantBranch(restaurantDetails?.branch);
-      if (restaurantDetails?.branch?.length === 1) {
-        setRestaurantBranchDefaultValue(restaurantDetails?.branch[0].locationName);
+      if (restaurantDetails?.branch) {
+        setRestaurantBranchDefaultValue(userBranchName);
         setIsDropdownDisabled(true);
-        setValue('outlet', restaurantDetails?.branch[0].locationName);
+        setValue('outlet', userBranchName);
       } else {
         setRestaurantBranchDefaultValue("");
         setIsDropdownDisabled(false);
       }
     }
-  }, [restaurantDetails, setValue]);
-  
+  }, [restaurantDetails, setValue, userBranchName]);
 
   useEffect(() => {
     dispatch(getEmployeeRoles())
@@ -232,7 +232,6 @@ const AddEmployee = () => {
       return [
         "Chef",
         "RegionalManager",
-        "RegionalEmployee",
         "Manager",
         "RestaurantOwner",
         "Supervisor",
@@ -388,7 +387,12 @@ const AddEmployee = () => {
   
   const handleRoleChange = (role) => {
     setSelectedRole(role);
-    
+    if (role === "RegionalManager" || role === "RestaurantOwner") {
+      setIsDropdownDisabled(false);
+    } else {
+      setIsDropdownDisabled(true);
+      setValue('outlet', userBranchName);
+    }
     if (editEmployee) {
       initializeCheckedFunctions(editEmployee.rolesAndFunctions);
     } else {
@@ -644,8 +648,6 @@ const validatePassword = (value) => {
   const handleOtpChange = (otpValue) => {
     setOtp(otpValue);
   };
-
-  console.log({hasPinErrors})
 
   return (
     <>
