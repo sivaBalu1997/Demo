@@ -27,13 +27,9 @@ import {
   refreshPin
 } from "../../redux/actions/employeeActions";
 import { useHistory, useParams } from "react-router";
-
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import { ReactComponent as ResetIcon } from "../../assets/svg/refresh-cw.svg";
-
-import dropArrow from '../../assets/svg/dropArrow.svg'
-import OtpInput from "../common/OtpInput";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
@@ -104,6 +100,7 @@ const AddEmployee = () => {
     control,
     formState,
     watch,
+    trigger
   } = useForm()
 
   const [pin, setPin] = useState(
@@ -235,6 +232,7 @@ const AddEmployee = () => {
       return [
         "Chef",
         "RegionalManager",
+        "RegionalEmployee",
         "Manager",
         "RestaurantOwner",
         "Supervisor",
@@ -329,17 +327,6 @@ const AddEmployee = () => {
       setOpenFuction(false);
     }
   };
-
-  // useEffect(() => {
-  //   if (openFunction) {
-  //     document.addEventListener('mousedown', handleClickOutside)
-  //   } else {
-  //     document.removeEventListener('mousedown', handleClickOutside)
-  //   }
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside)
-  //   };
-  // }, [openFunction])
 
   useEffect(() => {
     if (editEmployee && editEmployee.role) {
@@ -487,13 +474,23 @@ const AddEmployee = () => {
     // }
   }, [employeeAdded, employeeUpdateLoading, history]);
 
-  const hasPinErrors = pins.length != 4;// [0, 1, 2, 3].some(i => errors[`pin${i}`]);
+  const refreshPinValue = ()=>{
+    dispatch(refreshPin(credentials?.merchantId))
+  }
+
+  const hasPinErrors = [0, 1, 2, 3].some(i => errors[`pin${i}`]); //pins.length !== 4;
 
   useEffect(() => {
-    refreshNewPin?.length > 0 && setPins(refreshNewPin)
-  }, [refreshNewPin])
-  
-
+    if (refreshNewPin) {
+      const pinString = refreshNewPin.toString();
+      const formattedPins = pinString.padEnd(4, '0').slice(0, 4).split('');
+      setPins(formattedPins);
+      formattedPins.forEach((pin, index) => {
+        setValue(`pin${index}`, pin); 
+        trigger(`pin${index}`);
+      });
+    }
+  }, [refreshNewPin]);
 
   const onSubmit = (formValues) => {
     const rolesAndFunctions = roles.map(module => {
@@ -648,9 +645,7 @@ const validatePassword = (value) => {
     setOtp(otpValue);
   };
 
-  const refreshPinValue = ()=>{
-    dispatch(refreshPin(credentials?.merchantId))
-  }
+  console.log({hasPinErrors})
 
   return (
     <>
@@ -853,8 +848,7 @@ const validatePassword = (value) => {
                 <hr style={{marginRight:'40px'}}/>
                 
                 <h3>Formal Setup*</h3>
-                <div className="flexContainer">
-                
+                <div className="flexContainer">               
                 <div className={errors.outlet?.type ? 'errorCustomInput' : 'selectContainer'} style={{ cursor: "pointer" }}>
                   <div style={{ zIndex: 0 }}>
                     <Controller
@@ -967,143 +961,143 @@ const validatePassword = (value) => {
                   )}
                   
                 </div>
-              </div>
-
-              <div className="flexContainer">
-                <div>
-                  <TextInput
-                    type="text"
-                    placeholder="User ID*"
-                    name="userId"
-                    formRegister={register({
-                      required: "Required",
-                    })}
-                    className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
-                    autoComplete = {false}
-                    disabled={!!params?.id?.length}
-                    onKeyDown={(event) => {
-                      if(event.key === ' ' || event.code === 'Space'){
-                        event.preventDefault()
-                      }
-                    }}
-                    // disabled={editEmployee}
-                  />
                 </div>
-                
-                <div>
-                  <TextInput
-                    type={isPasswordVisible ? "text" : "password"}
-                    placeholder="Password*"
-                    // minLength={6}
-                    name="password"
-                    formRegister={register({
-                      required: !editEmployee && "Required",
-                      validate : validatePassword
-                    })}
-                    className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
-                    containerStyle={{ paddingBottom: "0px" }}
-                    autoComplete = {false}
-                    onKeyDown={handleSpace}
-                  />
-                  {isPasswordVisible ? (
-                    <OpenEyeIcon
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                    style={{
-                      position: "relative",
-                      bottom: 30,
-                      left: 370, 
-                      cursor:'pointer'
-                    }}
-                  />
-                  ) : (
-                  <ClosedEyeIcon
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                    style={{
-                      position: "relative",
-                      bottom: 30,
-                      left: 370, 
-                      cursor:'pointer'
-                    }}
-                  />
-                  )}
-                  {errors.password && errors.password.type==='validate' && (
-                    <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
-                      Enter valid password. Your password should contain 1 capital letter, 1 special character, and 1 number
-                    </p>
-                  )}
-                </div>
-              </div>
 
-                <div
-                  className="acess-flex"
-                  style={{ marginTop: editEmployee ? 10 : 20 }}
-                >
-                  <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
-                  <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
-                    <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
-                      {[0, 1, 2, 3].map((i) => (                        
-                        <input
-                          key={`pin-${i}`}
-                          ref={(el) => (inputRefs.current[i] = el)}
-                          type={showPin ? 'text' : 'password'}
-                          value={pins[i]}
-                          onChange={(e) => handleChange(e, i)}
-                          onKeyDown={(e) => handleKeyDown(e, i)}
-                          name={`pin${i}`}
-                          maxLength="1"
-                          disabled
-                          style={{
-                            width: '40px',
-                            fontSize: '16px',
-                            textAlign: 'center',
-                            border: 'none',
-                            borderRight: i < 3 ? (errors[`pin${i}`] ? '1px solid #FF0505' : '1px solid #ccc') : 'none',
-                            padding: '10px',
-                            outline: 'none',
-                          }}
-                          {...register(`pin${i}`, { required: !editEmployee && "Required" })}
-                          className={errors[`pin${i}`] ? 'errorInput' : ''}
-                        />
-                      ))}
-                    </div>
-                    <div>
-                      <ResetIcon
-                          onClick={refreshPinValue}
-                          disabled={isGettingNewPin}
-                          style={{
-                            position: "relative",
-                            marginLeft: 20, 
-                            // marginRight:10,
-                            cursor: 'pointer'
-                          }}
-                          className={isGettingNewPin ? 'rotating-div':''}
-                        />
-                    </div>
-                    <div>
-                      {showPin ? (
-                        <OpenEyeIcon
-                          onClick={toggleShowPin}
-                          style={{
-                            position: "relative",
-                            left: 20, 
-                            cursor: 'pointer'
-                          }}
-                          className={'openedEyeIcon'}
-                        />
-                      ) : (
-                        <ClosedEyeIcon
-                          onClick={toggleShowPin}
-                          style={{
-                            position: "relative",
-                            left: 20, 
-                            cursor: 'pointer'
-                          }}
-                          className={'closedEyeIcon'}
-                        />
-                      )}
-                    </div>
+                <div className="flexContainer">
+                  <div>
+                    <TextInput
+                      type="text"
+                      placeholder="User ID*"
+                      name="userId"
+                      formRegister={register({
+                        required: "Required",
+                      })}
+                      className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
+                      autoComplete = {false}
+                      disabled={!!params?.id?.length}
+                      onKeyDown={(event) => {
+                        if(event.key === ' ' || event.code === 'Space'){
+                          event.preventDefault()
+                        }
+                      }}
+                      // disabled={editEmployee}
+                    />
+                  </div>
+                  
+                  <div>
+                    <TextInput
+                      type={isPasswordVisible ? "text" : "password"}
+                      placeholder="Password*"
+                      // minLength={6}
+                      name="password"
+                      formRegister={register({
+                        required: !editEmployee && "Required",
+                        validate : validatePassword
+                      })}
+                      className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
+                      containerStyle={{ paddingBottom: "0px" }}
+                      autoComplete = {false}
+                      onKeyDown={handleSpace}
+                    />
+                    {isPasswordVisible ? (
+                      <OpenEyeIcon
+                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                      style={{
+                        position: "relative",
+                        bottom: 30,
+                        left: 370, 
+                        cursor:'pointer'
+                      }}
+                    />
+                    ) : (
+                    <ClosedEyeIcon
+                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                      style={{
+                        position: "relative",
+                        bottom: 30,
+                        left: 370, 
+                        cursor:'pointer'
+                      }}
+                    />
+                    )}
+                    {errors.password && errors.password.type==='validate' && (
+                      <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
+                        Enter valid password. Your password should contain 1 capital letter, 1 special character, and 1 number
+                      </p>
+                    )}
                   </div>
                 </div>
+
+              <div
+                className="acess-flex"
+                style={{ marginTop: editEmployee ? 10 : 20 }}
+              >
+                <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
+                <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
+                  <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
+                    {[0, 1, 2, 3].map((i) => (                        
+                      <input
+                        key={`pin-${i}`}
+                        ref={(el) => (inputRefs.current[i] = el)}
+                        type={showPin ? 'text' : 'password'}
+                        value={pins[i]}
+                        onChange={(e) => handleChange(e, i)}
+                        onKeyDown={(e) => handleKeyDown(e, i)}
+                        name={`pin${i}`}
+                        maxLength="1"
+                        disabled
+                        style={{
+                          width: '40px',
+                          fontSize: '16px',
+                          textAlign: 'center',
+                          border: 'none',
+                          borderRight: i < 3 ? (errors[`pin${i}`] ? '1px solid #FF0505' : '1px solid #ccc') : 'none',
+                          padding: '10px',
+                          outline: 'none',
+                        }}
+                        {...register(`pin${i}`, { required: !editEmployee && "Required" })}
+                        className={errors[`pin${i}`] ? 'errorInput' : ''}
+                      />
+                    ))}
+                  </div>
+                  <div>
+                    <ResetIcon
+                        onClick={refreshPinValue}
+                        disabled={isGettingNewPin}
+                        style={{
+                          position: "relative",
+                          marginLeft: 20, 
+                          // marginRight:10,
+                          cursor: 'pointer'
+                        }}
+                        className={isGettingNewPin ? 'rotating-div':''}
+                      />
+                  </div>
+                  <div>
+                    {showPin ? (
+                      <OpenEyeIcon
+                        onClick={toggleShowPin}
+                        style={{
+                          position: "relative",
+                          left: 20, 
+                          cursor: 'pointer'
+                        }}
+                        className={'openedEyeIcon'}
+                      />
+                    ) : (
+                      <ClosedEyeIcon
+                        onClick={toggleShowPin}
+                        style={{
+                          position: "relative",
+                          left: 20, 
+                          cursor: 'pointer'
+                        }}
+                        className={'closedEyeIcon'}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
 
