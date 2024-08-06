@@ -24,7 +24,8 @@ import {
   setEditEmployeeData,
   getEmployeeByIdRequest,
   clearEditEmployeeData,
-  refreshPin
+  refreshPin,
+  getEmployeeRoleByIdRequest
 } from "../../redux/actions/employeeActions";
 import { useHistory, useParams } from "react-router";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
@@ -53,10 +54,7 @@ const AddEmployee = () => {
   const isValidDate = (date) => !isNaN(date.getTime()); 
   const params = useParams()
 
-  useEffect(()=> {
-    params?.id?.length && dispatch(getEmployeeByIdRequest(params.id))
-    !params?.id?.length && dispatch(clearEditEmployeeData())
-  },[params.id])
+
 
   const employee = useSelector((state) => state.employee.employeeByIdDetails)
 
@@ -64,6 +62,18 @@ const AddEmployee = () => {
 
   const refreshNewPin = useSelector((state) => state.employee.refreshPin)
   const isGettingNewPin = useSelector((state) => state.employee.isGettingNewPin)
+
+  const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
+  const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
+
+  useEffect(()=> {
+    params?.id?.length && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
+    !params?.id?.length && dispatch(clearEditEmployeeData())
+  },[params.id])
+
+  const invokePermission =(employeeData)=>{
+    employeeData.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
+}
 
 
   // useEffect(() => {
@@ -87,7 +97,7 @@ const AddEmployee = () => {
     userId: employee?.userId,
     outlet: employee?.locationName,
     staffId: employee?.staffId,
-    rolesAndFunctions: employee?.rolesAndFunctions
+    rolesAndFunctions: rolesAndFunctions
   }
 
   const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)

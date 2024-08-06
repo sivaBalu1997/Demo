@@ -4,7 +4,7 @@
   padding-top: 80px;
   margin: 0 30px;
   & .logo {
-    margin-bottom: 100px;
+    margin-bottom: 80px;
     & img {
       width: 335px;
     }
@@ -176,4 +176,28 @@
       }
     }
   }
+}
+
+
+.magilhub-logo2 {
+  font-family: Righteous;
+  font-weight: normal;
+  color: #E52333;
+  font-size: 3rem;
+  margin-left: 1rem; 
+  // padding-left: 50px;
+}
+
+.logoContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.magilhub-login-logo {	
+
+  width: '100%';
+  // align-self: center;
+  // align-items: center;
 }

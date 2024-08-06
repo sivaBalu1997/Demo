@@ -38,6 +38,7 @@ import {
   UPDATE_EMPLOYEE_SUCCESS,
   RESET_EMPLOYEE_ACTION_COMPLETED,
   REFRESH_PIN_REQUEST,
+  GET_EMPLOYEE_ROLE_BY_ID_REQUEST,
 } from "../constants/employeeContants";
 
 // Get Outlet
@@ -184,9 +185,14 @@ export const updateEmployeeClear = () => ({
 });
 
 //Get Employee By Id
-export const getEmployeeByIdRequest = (staffId) => ({
+export const getEmployeeByIdRequest = (requestData) => ({
   type: GET_EMPLOYEE_BY_ID_REQUEST,
-  payload: staffId
+  payload: requestData
+});
+
+export const getEmployeeRoleByIdRequest = (requestData) => ({
+  type: GET_EMPLOYEE_ROLE_BY_ID_REQUEST,
+  payload: requestData
 });
 
 export const getEmployeeByIdSuccess = (details) => ({

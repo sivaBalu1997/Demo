@@ -1,5 +1,6 @@
 import Store from "../store";
 import API from "./api";
+import { encryptJson } from "../../util/react-ec-utils"
 
 export function fetchOutlets(merchantId) {
   const token = Store.getState().auth.credentials.accessToken;
@@ -23,10 +24,11 @@ export function fetchOutlets(merchantId) {
 export function createEmployee(details) {
   const token = Store.getState().auth.credentials.accessToken;
   // const merchantId = Store.getState().auth.credentials.merchantId;
+  const data = encryptJson(details);
   return API({
     method: "post",
-    url: `/merchants/staffs`, 
-    data: details,
+    url: `/merchants/staffs/add`, 
+    data: {data},
     headers: {
       Authorization: "bearer " + token,
     },
@@ -37,13 +39,17 @@ export function createEmployee(details) {
 export function getEmployeeDetails() {
   const token = Store.getState().auth.credentials.accessToken;
   const merchantId = Store.getState().auth.credentials.merchantId;
+  const payload = {"merchantId":merchantId}
+  const encPayload = encryptJson(payload);
   return API({
-    method: "get",
-    url: `/merchants/${merchantId}/staffs`,
+    method: "post",
+    url: `/merchants/staffs`,
+    data:{"data":encPayload},
+    // params:{"data":encPayload},
     headers: {
       Authorization: "bearer " + token,
     },
-  })
+  },)
 }
 
 //Get Employee By ID
@@ -52,9 +58,31 @@ export function getEmployeeById(staffId) {
   const merchantId = Store.getState().auth.credentials.merchantId;
   const staff = staffId
 
+  const reqPayload = {merchantId:merchantId,staffId:staffId}
+  const data = encryptJson(reqPayload);
   return API({
-    method: 'get',
-    url: `/merchants/${merchantId}/staffs/${staff}`,
+    method: 'post',
+    url: `/merchants/staff/details`,
+    data:{data},
+    headers: {
+      Authorization: "bearer " + token,
+    },
+  })
+}
+
+//Get Employee role By ID
+export function getEmployeeRoleById(staffId) {
+  const token = Store.getState().auth.credentials.accessToken;
+  const merchantId = Store.getState().auth.credentials.merchantId;
+  const staff = staffId
+  const reqPayload = {merchantId:merchantId,staffId:staffId}
+  const data = encryptJson(reqPayload);
+
+
+  return API({
+    method: 'post',
+    url: `/merchants/staff/permissions`,
+    data:{data},
     headers: {
       Authorization: "bearer " + token,
     },
@@ -65,10 +93,13 @@ export function getEmployeeById(staffId) {
 export function removeEmployee(staffId) {
   const token = Store.getState().auth.credentials.accessToken;
   const staff = staffId
+  
+  const reqPayload = {staffId:staffId}
+  const data = encryptJson(reqPayload);
   return API({
     method: "delete",
-    url: `/merchants/staffs/${staffId}`, 
-    // data: details,
+    url: `/merchants/staffs/remove`, 
+    data: {data},
     headers: {
       Authorization: "bearer " + token,
     },
@@ -114,10 +145,13 @@ export const rolesAndFunctions = () => {
 export const employeeStatus = ({staffId, isToBlock}) => {
   const token = Store.getState().auth.credentials.accessToken;
   const staff = staffId;
+  const reqPayload = {staffId:staffId,isToBlock:isToBlock}
+  const data = encryptJson(reqPayload);
   
   return API ({
     method: 'patch',
-    url:`/merchants/staffs/${staffId}?isToBlock=${isToBlock}`,
+    url:`/merchants/staffs/status`, 
+    data:{data},
     headers: {
       Authorization: "bearer " + token,
     }
@@ -127,11 +161,12 @@ export const employeeStatus = ({staffId, isToBlock}) => {
 //Edit Employee
 export const editEmployee = (details) => {
   const token = Store.getState().auth.credentials.accessToken;
+  const data = encryptJson(details);
 
   return API ({
     method: 'put',
-    url:`/merchants/staffs`,
-    data:details,
+    url:`/merchants/staffs/update`,
+    data:{data},
     headers: {
       Authorization: "bearer " + token,
     }

@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
+import { ReactComponent as MagilHub } from "../../assets/svg/magilhubLogo.svg";
+
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
@@ -59,12 +61,13 @@ const ResetPassword = () => {
   };
 
 
-  console.log();
 
   return (
     <div className="otp_login">
-      <div className="logo">
-        <img src={logo} alt="logo" />
+       <div className="logo logoContainer">
+        {/* <img src={logo} alt="logo" /> */}
+        <MagilHub className="magilhub-login-logo" />
+        <span className="magilhub-logo2">Maghil</span>
       </div>
       <div className="sign_form">
         <h4>Reset Password</h4>
