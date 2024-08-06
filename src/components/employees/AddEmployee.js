@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "../../assets/images/cal.png";
+import ResetLogo from "../../assets/images/resetIcon.png";
+import InputMask from 'react-input-mask';
 import {
   addEmployee,
   getOutlets,
@@ -756,25 +758,24 @@ const validatePassword = (value) => {
                   }}>
                     {countryCode}
                   </div>
-                  <TextInput
-                    type="text"
-                    placeholder="Phone*"
-                    name="mobileNumber"
-                    formRegister={register({
+                <InputMask
+                style={{marginRight:'15px'}}
+                    mask="999-999-9999"
+                    maskChar=""
+                    {...register('mobileNumber', {
                       required: "Required",
-                      validate: (value) => value?.length === 10 || "Invalid Number",
+                      validate: (value) => value.replace(/\D/g, '').length === 10 || "Invalid Number",
                     })}
-                    className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
-                    maxLength={10}
-                    onInput={(e) => {
-                      e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
-                    }}
-                    onKeyPress={(e) => {
-                      if (!/[0-9]/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
-                  />
+                  >
+                    {(inputProps) => (
+                      <input
+                        {...inputProps}
+                        type="text"
+                        placeholder="Phone*"
+                        className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
+                      />
+                    )}
+                  </InputMask>
                   </div>
                     {errors.mobileNumber && errors.mobileNumber.type === 'validate' && (
                       <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '15px' }}>
@@ -966,8 +967,15 @@ const validatePassword = (value) => {
                         </div>
                       </div>
                       <div className="functionBtn">
-                        <input className="saveBtn" type="button" value="Save" onClick={() => setOpenFuction(!openFunction)} />
-                        <input className="resetbtn" type="button" value="Reset" onClick={handleReset} />
+                        <button className="resetbtn"  value="Reset" onClick={handleReset}>
+                          <span>
+                          <img src={ResetLogo}/>
+                          Reset
+                          </span>
+                        </button>
+                        <button className="saveBtn"  value="Save" onClick={() => setOpenFuction(!openFunction)} >
+                          Save
+                        </button>
                       </div>
                     </div>
                   )}
