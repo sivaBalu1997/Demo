@@ -193,7 +193,6 @@ const EmployeeDetails = () => {
                     <div className='actionTab' onClick={()=>setDeleteOpenModal(!openDeleteModal)}>
                         <img src={trash} style={{filter: "invert(21%) sepia(93%) saturate(7248%) hue-rotate(354deg) brightness(103%) contrast(101%)"}} />
                         <p>Delete</p>
-
                         {/* {openDeleteModal && (
                         <div className="modal">
                             <div className="modalContainer">
@@ -222,14 +221,13 @@ const EmployeeDetails = () => {
                         <p className='value' style={{display:'flex',gap:'10px'}}> : {employee?.assignedRole} {employee?.defaultFunctionalityAccessUpdated  && <img src={thunder} />}</p>
                     </div>
                     <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'> : {fomatLocation(employee?.locationName)}</p></div>
-                    {/* <div className='title'><p className='tag'>Start Date</p><p className='value'> : {employee?.startTime ? formatStartDate(employee?.startTime) : '-'}</p></div> */}
                     <div className='title'><p className='tag'>User ID</p><p className='value'> : {employee?.userId}</p></div>                   
                     <div className='title'><p className='tag'>Date of Birth</p><p className='value'> : {formatDate(employee?.dateOfBirth) ? formatDate(employee?.dateOfBirth) : '-'}</p></div>
                 </div>
                 <div>
-                    <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName ? employee?.nickName : '-'}</p></div>
-                    <div className='title'><p className='tag'>Email</p><p className='value'> : {employee?.email ? employee?.email : '-'}</p></div>
-                    <div className='title'><p className='tag'>Phone</p><p className='value'> : {employee?.phone}</p></div>
+                    <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName.trim() ? employee?.nickName.trim() : '-'}</p></div>
+                    <div className='title'><p className='tag'>Email</p><p className='value'> : {employee?.email.trim() ? employee?.email.trim() : '-'}</p></div>
+                    <div className='title'><p className='tag'>Phone</p><p className='value'> : {employee?.phone.trim() ? employee?.phone.trim() : '-'}</p></div>
                     <div className='title'><p className='tag'>Address</p><p className='value'> : {employee?.address && !isEmptyOrSpaces(employee.address) ? employee.address : '-'}</p></div>
                     <div className='title'><p className='tag'>Education</p><p className='value'> : {employee?.education ? employee?.education : '-'}</p></div>
                 </div>
