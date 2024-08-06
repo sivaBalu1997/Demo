@@ -234,7 +234,7 @@ const EmployeeDetails = () => {
                 </div>
                 <div>
                     <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName?.trim() ? employee?.nickName?.trim() : '-'}</p></div>
-                    <div className='title'><p className='tag'>Email</p><p className='value' style={{width:'300px'}}> : {employee?.email?.trim() ? employee?.email?.trim() : '-'}</p></div>
+                    <div className='title'><p className='tag'>Email</p><p className='value'> : {employee?.email?.trim() ? employee?.email?.trim() : '-'}</p></div>
                     <div className='title'><p className='tag'>Phone</p><p className='value'> : {employee?.phone?.trim() ? employee?.phone?.trim() : '-'}</p></div>
                     <div className='title'><p className='tag'>Address</p><p className='value'> : {employee?.address && !isEmptyOrSpaces(employee.address) ? employee.address : '-'}</p></div>
                     <div className='title'><p className='tag'>Education</p><p className='value'> : {employee?.education ? employee?.education : '-'}</p></div>
