@@ -436,7 +436,11 @@ const Menu = () => {
           </div> */}
         </ul>
         <div>
-          <MagilHub className="magilhub-bottom-logo" />
+          <div className="magilhub-bottom-logo">
+                <span className="powered-text1">Powered by</span>
+                <span className="magilhub-logo1">Maghil</span>
+            </div>
+          {/* <MagilHub className="magilhub-bottom-logo" /> */}
         </div>
       </div>
       <Switch>

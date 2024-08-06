@@ -244,7 +244,7 @@ const EmployeeDetails = () => {
                         </div>
                     ))}
                 </div> : 
-                <p style={{color:'gray'}}>Unblock to View Roles and Functions</p>
+                <p style={{color:'gray'}}>Unblock the user to view the Roles and Functions</p>
                 }
             </div>
             <button className='backBtn' onClick={() => history.push("/management/employees")}>Back</button>

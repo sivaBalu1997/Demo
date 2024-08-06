@@ -696,6 +696,42 @@ iframe {
 }
 
 .magilhub-bottom-logo {	
+  display: flex;
+  flex-direction: column;
   position: fixed;	
   bottom: 5%;	
+  width: '100%';
+  // align-self: center;
+  // align-items: center;
+}
+
+.magilhub-logo1 {
+  font-family: Righteous;
+  font-weight: normal;
+  color: #E52333;
+  font-size: 20px;
+  // margin-left: 1rem; 
+  // padding-left: 50px;
+}
+
+.powered-text1 {
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size:0.75rem;
+  line-height: 24px;
+  align-items: center;
+  color: #000000;
+  margin-right: 8px;
+}
+
+.merchant-footer-logo-container3 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  /* margin-bottom: 1%; */
+  margin-top: 1%;
+  background-color: transparent;
+  margin-right: 2%;
 }
