@@ -76,6 +76,7 @@ function* addEmployeeSaga(action) {
   try {
     const response = yield call(createEmployee, action.payload);
     if (response.status === 200) {
+      showSuccessToast(response?.data?.message);
       yield put(successAddEmployee(response.data));
     }else {
       const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
@@ -130,7 +131,6 @@ function* getEmployeeByIdSaga(action) {
     const response = yield call(getEmployeeById, requestData?.staffId)
     if(response.status === 200) {
       const employeeData = decryptJson(response.data.data)
-
       yield put(getEmployeeByIdSuccess(employeeData));
       if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
         requestData.sagaCallBack(employeeData);
