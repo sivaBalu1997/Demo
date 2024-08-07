@@ -151,11 +151,15 @@ const AddEmployee = () => {
 
   const [countryCode,setCountryCode] = useState("");
   const [isDropdownDisabled, setIsDropdownDisabled] = useState(false);
+  const [nickname, setNickname] = useState(editEmployee ? employee?.toUseNickName : false);
+  const useNicknameWatch = watch("useNickname", false);
+  const [useNickname, setUseNickname] = useState(false);
 
   const [restaurantBranch,setRestaurantBranch] = useState([]);
   const [restaurantBranchDefaultValue,setRestaurantBranchDefaultValue]  = useState("");
   const branchOptions = restaurantBranch ? restaurantBranch.map(branch => branch?.locationName) : [];
 
+  
   useEffect(() => {
     const countryC = restaurantDetails?.country;
     if (restaurantDetails) {
@@ -169,14 +173,33 @@ const AddEmployee = () => {
         setRestaurantBranchDefaultValue("");
         setIsDropdownDisabled(false);
       }
+      const isOutletHasDropDown = credentials?.role === "Restaurant_Manager" ? true : credentials?.role === "Regional_Manager" ? true : credentials?.role ? true : credentials?.role === "Restaurant_Owner" ? true : credentials?.role === "Regional_Employee" ? true : false;
+      if (isOutletHasDropDown ) {
+        setIsDropdownDisabled(false);
+      } else {
+        setIsDropdownDisabled(true);
+        setValue('outlet', userBranchName);
+      }
     }
-  }, [restaurantDetails, setValue, userBranchName]);
+  }, [restaurantDetails, credentials, setValue, userBranchName]);
 
   useEffect(() => {
     dispatch(getEmployeeRoles())
   }, [])
   
   const roles = useSelector((state) => state.employee.employeeRoleAndFunctions) 
+
+  useEffect(() => {
+    if (employee) {
+      setUseNickname(employee.toUseNickName || false);
+      setValue("useNickname", employee.toUseNickName || false);
+    }
+  }, [employee, setValue]);
+
+  const handleNickNameCheckboxChange = (event) => {
+    setUseNickname(event.target.checked);
+  };
+
 
   useEffect(() => {
     const tempArr = [];
@@ -198,7 +221,7 @@ const AddEmployee = () => {
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
   const watchLastName = watch("lastName");
-  const useNickname = watch("useNickname", false);
+  // const useNickname = watch("useNickname", false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   // useEffect(() => {
@@ -234,7 +257,7 @@ const AddEmployee = () => {
       return [
         "Branch_Manager",
         "Regional_Manager",
-        "RegionalEmployee",
+        "Regional_Employee",
         "Operator",
         "Owner",
         "Delivery",
@@ -242,15 +265,23 @@ const AddEmployee = () => {
     } else {
       return [
         "Chef",
-        "RegionalManager",
-        "Manager",
-        "RestaurantOwner",
+        "Regional_Manager",
+        "Restaurant_Manager",
+        "Restaurant_Owner",
+        "Owner",
+        "Regional_Employee",
         "Supervisor",
         "Waiter",
         "Host",
         "Delivery",
         "Cashier",
-        "OrderTaker"
+        "admin",
+        "Citizen Customer",
+        "Delivery-neighbourhood",
+        "Employee",
+        "Operator-neighbourhood",
+        "System_Admin",
+        "uma_protection"
       ];
     }
   };  
@@ -398,12 +429,7 @@ const AddEmployee = () => {
   
   const handleRoleChange = (role) => {
     setSelectedRole(role);
-    if (role === "RegionalManager" || role === "RestaurantOwner") {
-      setIsDropdownDisabled(false);
-    } else {
-      setIsDropdownDisabled(true);
-      setValue('outlet', userBranchName);
-    }
+    
     if (editEmployee) {
       initializeCheckedFunctions(editEmployee.rolesAndFunctions);
     } else {
@@ -566,13 +592,15 @@ const AddEmployee = () => {
     formValues.successCB = () => {
        history.goBack();
     }
-  
+    console.log({formValues})
     if (editEmployee) {
       dispatch(updateEmployeeRequest(formValues));
     } else {
       dispatch(addEmployee(formValues));
     }
   };
+
+
   
   const splitAddress = (address) => {
     const parts = address?.split(',');
@@ -744,8 +772,10 @@ const validatePassword = (value) => {
                       type="checkbox" 
                       className="checkbox" 
                       name="useNickname" 
-                      checked={employee?.toUseNickName}
-                      ref={register} />  
+                      checked={useNickname}
+                      onChange={handleNickNameCheckboxChange}
+                      ref={register} 
+                    />  
                     <p>Utilize a nickname as needed in all forthcoming activities</p>
                   </label>
                 </div>
@@ -976,13 +1006,18 @@ const validatePassword = (value) => {
                         </div>
                       </div>
                       <div className="functionBtn">
-                        <button className="resetbtn"  value="Reset" onClick={handleReset}>
+                        <button 
+                          className="resetbtn" 
+                          type="button" 
+                          value="Reset" 
+                          onClick={handleReset}
+                        >
                           <span>
                           <img src={ResetLogo}/>
                           Reset
                           </span>
                         </button>
-                        <button className="saveBtn"  value="Save" onClick={() => setOpenFuction(!openFunction)} >
+                        <button className="saveBtn" value="Save" onClick={() => setOpenFuction(!openFunction)} style={{border:'none'}} >
                           Save
                         </button>
                       </div>

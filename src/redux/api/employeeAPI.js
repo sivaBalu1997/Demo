@@ -146,6 +146,7 @@ export const employeeStatus = ({staffId, isToBlock}) => {
   const token = Store.getState().auth.credentials.accessToken;
   const staff = staffId;
   const reqPayload = {staffId:staffId,isToBlock:isToBlock}
+  console.log("Payload:",staffId,isToBlock)
   const data = encryptJson(reqPayload);
   
   return API ({
