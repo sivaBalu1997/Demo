@@ -123,12 +123,14 @@ const EmployeeDetails = () => {
             <div className='headLine' 
                 style={{
                  position: 'fixed',
-                 marginTop: '10px', 
+                 marginTop: '-5px', 
                  marginBottom:'40px', 
                  width: '70%', 
                  zIndex: '1000', 
                  backgroundColor: '#fff', 
                  height:'100px',
+                 fontSize: '24px',
+                lineHeight: '36px'
                 }}>
                 <h3 style={{
                     display: 'flex',
@@ -136,11 +138,12 @@ const EmployeeDetails = () => {
                     alignItems: 'center',
                     gap: '10px',
                     cursor: 'pointer',
-                    padding: '10px',
+                    // padding: '10px',
+                    fontWeight:'400',
+                    fontSize:'24px'
                 }}
-                onClick={() => history.replace("/management/employees")}
                 >
-                    <IoIosArrowBack />{" "}
+                    <IoIosArrowBack onClick={() => history.replace("/management/employees")} />{" "}
                     Employee Details
                 </h3>
                 {!showDropDown ? 
@@ -168,7 +171,13 @@ const EmployeeDetails = () => {
             />
 
             {showDropDown && (
-                <div className='dropDown' style={{zIndex: '999999', marginTop:'20px' }}>
+                <div className='dropDown' 
+                    style={{
+                        zIndex: '999999', 
+                        marginTop:'20px',
+                        position:'fixed'
+                    }}
+                >
                     <div className='actionTab' onClick={() => {
                         dispatch(setEditEmployeeData(employee))
                         history.push("/management/employees/add/"+employee.staffId)
@@ -230,21 +239,22 @@ const EmployeeDetails = () => {
             )}
             <div className='detailContainer' style={{marginTop:'100px'}}>
                 <div>
-                    <div className='title'><p className='tag'>Full Name</p><p className='value'> : {employee?.firstName} {employee?.lastName}</p></div>
+                    <div className='title'><p className='tag'>Full Name</p><p className='value'>:</p><p className=''> {employee?.firstName} {employee?.lastName}</p></div>
                     <div className='title'>
                         <p className='tag'>Assigned Role</p>
-                        <p className='value' style={{display:'flex',gap:'10px'}}> : {employee?.assignedRole} {employee?.defaultFunctionalityAccessUpdated  && <img src={thunder} />}</p>
+                        <p className='value'>:</p>
+                        <p className='' style={{display:'flex',gap:'10px'}}>  {employee?.assignedRole} {employee?.defaultFunctionalityAccessUpdated  && <img src={thunder} />}</p>
                     </div>
-                    <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'> : {fomatLocation(employee?.locationName)}</p></div>
-                    <div className='title'><p className='tag'>User ID</p><p className='value'> : {employee?.userId}</p></div>                   
-                    <div className='title'><p className='tag'>Date of Birth</p><p className='value'> : {formatDate(employee?.dateOfBirth) ? formatDate(employee?.dateOfBirth) : '-'}</p></div>
+                    <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'>:</p><p className=''>  {fomatLocation(employee?.locationName)}</p></div>
+                    <div className='title'><p className='tag'>User ID</p><p className='value'>:</p><p className=''>  {employee?.userId}</p></div>                   
+                    <div className='title'><p className='tag'>Date of Birth</p><p className='value'>:</p><p className=''>  {formatDate(employee?.dateOfBirth) ? formatDate(employee?.dateOfBirth) : '-'}</p></div>
                 </div>
                 <div>
-                    <div className='title'><p className='tag'>Nick Name</p><p className='value'> : {employee?.nickName?.trim() ? employee?.nickName?.trim() : '-'}</p></div>
-                    <div className='title'><p className='tag'>Email</p><p className='value' style={{width:'300px'}}> : {employee?.email?.trim() ? employee?.email?.trim() : '-'}</p></div>
-                    <div className='title'><p className='tag'>Phone</p><p className='value'> : {employee?.phone?.trim() ? employee?.phone?.trim() : '-'}</p></div>
-                    <div className='title'><p className='tag'>Address</p><p className='value'> : {employee?.address && !isEmptyOrSpaces(employee.address) ? employee.address : '-'}</p></div>
-                    <div className='title'><p className='tag'>Education</p><p className='value'> : {employee?.education ? employee?.education : '-'}</p></div>
+                    <div className='title'><p className='tag'>Nick Name</p><p className='value'>:</p><p className=''>  {employee?.nickName?.trim() ? employee?.nickName?.trim() : '-'}</p></div>
+                    <div className='title'><p className='tag'>Email</p><p className='value'>:</p><p className='' style={{width:'300px'}}>  {employee?.email?.trim() ? employee?.email?.trim() : '-'}</p></div>
+                    <div className='title'><p className='tag'>Phone</p><p className='value'>:</p><p className=''>  {employee?.phone?.trim() ? employee?.phone?.trim() : '-'}</p></div>
+                    <div className='title'><p className='tag'>Address</p><p className='value'>:</p><p style={{width:'250px'}}>  {employee?.address && !isEmptyOrSpaces(employee.address) ? employee.address : '-'}</p></div>
+                    <div className='title'><p className='tag'>Education</p><p className='value'>:</p><p className=''>  {employee?.education ? employee?.education : '-'}</p></div>
                 </div>
             </div>
             <div className='rolesContainer'>
@@ -263,9 +273,7 @@ const EmployeeDetails = () => {
                 }
             </div>
             <div style={{
-                marginTop:'20px',
                 display:'flex',
-                position:'sticky',
                 bottom:'0px',
             }}>
                 <button 

@@ -171,7 +171,9 @@ const AddEmployee = () => {
         setRestaurantBranchDefaultValue("");
         setIsDropdownDisabled(false);
       }
-      const isOutletHasDropDown = credentials?.role === "Restaurant_Manager" ? true : credentials?.role === "Regional_Manager" ? true : credentials?.role ? true : credentials?.role === "Restaurant_Owner" ? true : credentials?.role === "Regional_Employee" ? true : false;
+      const isOutletHasDropDown = credentials?.role ? true : credentials?.role === "Restaurant_Owner" ? true : 
+                                  credentials?.role === "Regional_Employee" ? true : 
+                                  false;
       if (isOutletHasDropDown ) {
         setIsDropdownDisabled(false);
       } else {
@@ -254,7 +256,6 @@ const AddEmployee = () => {
     if (roles?.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
       return [
         "Branch_Manager",
-        "Regional_Manager",
         "Regional_Employee",
         "Operator",
         "Owner",
@@ -263,7 +264,7 @@ const AddEmployee = () => {
     } else {
       return [
         "Chef",
-        "Restaurant_Manager",
+        // "Restaurant_Manager",
         "Restaurant_Owner",
         "Owner",
         "Regional_Employee",
@@ -687,7 +688,7 @@ const validatePassword = (value) => {
       {list === false ? (
         <div className="menu-details">
           <div
-            onClick={() => history.goBack()}
+            // onClick={() => history.goBack()}
             className="title"
           >
             <h2
@@ -701,7 +702,7 @@ const validatePassword = (value) => {
               }}
             >
               {" "}
-              <IoIosArrowBack />{" "}
+              <IoIosArrowBack onClick={() => history.goBack()} />{" "}
               {!!params?.id?.length ? "Edit Employee Setup" : "Employee Setup"}
             </h2>
           </div>
@@ -749,14 +750,12 @@ const validatePassword = (value) => {
                     formRegister={register({
                       required: useNickname && "Required",
                     })}
-                    //maxLength={15}
                     className={errors.nickName ? 'fN errorInputBox' : 'inputBox'}
-                    // onKeyDown={handleSpace}
-                    // onKeyPress={(e) => {
-                    //   if(!/^[A-Za-z]*$/.test(e.key)){
-                    //     e.preventDefault();
-                    //   }
-                    // }}
+                    onKeyPress={(e) => {
+                      if(!/^[A-Za-z\s]*$/.test(e.key)){
+                        e.preventDefault();
+                      }
+                    }}
                   />
                 </div>
 
