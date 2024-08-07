@@ -12,7 +12,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "../../assets/images/cal.png";
 import ResetLogo from "../../assets/images/resetIcon.png";
-import InputMask from 'react-input-mask';
 import {
   addEmployee,
   getOutlets,
@@ -669,13 +668,22 @@ const validatePassword = (value) => {
             onClick={() => history.goBack()}
             className="title"
           >
-            <h2>
+            <h2
+              style={{
+                display:'flex',
+                top:0,
+                backgroundColor:'white',
+                position:'fixed',
+                height:'50px',
+                width:'100%'
+              }}
+            >
               {" "}
               <IoIosArrowBack />{" "}
               {!!params?.id?.length ? "Edit Employee Setup" : "Employee Setup"}
             </h2>
           </div>
-          <h3>Personal Info</h3>
+          <h3 style={{marginTop:'50px'}}>Personal Info</h3>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             <div className="menu-details-form">
               <div className="primary-sec">
@@ -744,7 +752,7 @@ const validatePassword = (value) => {
 
                 <div className="flexBox">
                   <div>
-                <div className={errors.mobileNumber ? 'num phoneErrorInput countryCodeMo' : 'phoneContainer countryCodeMo'}>
+                  <div className={errors.mobileNumber ? 'num phoneErrorInput countryCodeMo' : 'phoneContainer countryCodeMo'}>
                   <div className="countryCode" style={{
                      display:'flex',
                      justifyContent:'center',
@@ -758,24 +766,25 @@ const validatePassword = (value) => {
                   }}>
                     {countryCode}
                   </div>
-                <InputMask
-                style={{marginRight:'15px'}}
-                    mask="999-999-9999"
-                    maskChar=""
-                    {...register('mobileNumber', {
+                  <TextInput
+                    type="text"
+                    placeholder="Phone*"
+                    name="mobileNumber"
+                    formRegister={register({
                       required: "Required",
-                      validate: (value) => value.replace(/\D/g, '').length === 10 || "Invalid Number",
+                      validate: (value) => value?.length === 10 || "Invalid Number",
                     })}
-                  >
-                    {(inputProps) => (
-                      <input
-                        {...inputProps}
-                        type="text"
-                        placeholder="Phone*"
-                        className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
-                      />
-                    )}
-                  </InputMask>
+                    className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
+                    maxLength={10}
+                    onInput={(e) => {
+                      e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
+                    }}
+                    onKeyPress={(e) => {
+                      if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   </div>
                     {errors.mobileNumber && errors.mobileNumber.type === 'validate' && (
                       <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '15px' }}>

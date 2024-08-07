@@ -34,7 +34,7 @@ const EmployeeDetails = () => {
     },[params?.id])
 
     const invokePermission =(employeeData)=>{
-        employeeData.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
+        employeeData?.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
     }
 
     const employee = useSelector((state) => state.employee.employeeByIdDetails)
@@ -77,7 +77,7 @@ const EmployeeDetails = () => {
       };
     
       const handleBtnClick = () => {
-        dispatch(employeeStatusRequest(employee?.staffId, employee.isActive));
+        dispatch(employeeStatusRequest(employee?.staffId, employee?.isActive));
         //setOpenStausModal(prev => !prev);
         setEmployeeToUpdate(null);
         // setIsBlocking(false);  
@@ -96,11 +96,11 @@ const EmployeeDetails = () => {
         setDeleteOpenModal(false);
        
       }
-      if(!employeeStatusLoading && actionApiSuccess && !modelApiLoading){
+      if(!employeeStatusLoading && actionApiSuccess && !modelApiLoading && params.id){
         setOpenStausModal(false);
         dispatch(getEmployeeByIdRequest(params.id));
       }
-    }, [modelApiLoading, actionApiSuccess,employeeStatusLoading])
+    }, [modelApiLoading, actionApiSuccess,employeeStatusLoading, params.id])
     
     const handleNoClick = () => {
         setOpenStausModal(prev => !prev);
@@ -178,8 +178,8 @@ const EmployeeDetails = () => {
                             //handleBlockClick(employee, employee.isActive)
                         }}
                     >
-                        <img src={employee.isActive ? block : unBlockImg}  />
-                        <p>{employee.isActive ? 'Block' : 'Unblock'}</p>
+                        <img src={employee?.isActive ? block : unBlockImg}  />
+                        <p>{employee?.isActive ? 'Block' : 'Unblock'}</p>
                     </div>
                     {/* {openStausModal && (
                             <div className="modal">

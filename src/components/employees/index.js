@@ -23,6 +23,7 @@ const Employees = () => {
     (state) => state.employee.employeeDetailsFailure
   );
   const employeeList = useSelector((state) => state.employee.employeeDetails);
+  
   useEffect(() => {
     credentials?.merchantId && dispatch(getEmployees(credentials?.merchantId));
   }, [credentials?.merchantId]);
