@@ -225,7 +225,7 @@ const EmployeeList = (props) => {
                   <td colSpan="4" >
                     <div className="no-results">
                       <img src={noResultsfound} alt="No results found" />
-                      <h2>{employeeDetailsFailure}</h2>
+                      <h2>No Results Found</h2>
                     </div>
                   </td>
                   ) : (
