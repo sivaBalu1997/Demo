@@ -2,6 +2,7 @@ import axios from "axios";
 import { signOut } from "../actions/authActions";
 import Store from "../store";
 import { clearMenuData } from "../actions/menuAction";
+import { showErrorToast } from "../../util/toastUtils";
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_ENDPOINT,
@@ -15,12 +16,14 @@ API.interceptors.response.use(
     if (err?.response) {
       switch (err?.response?.status) {
         case 401:
+          showErrorToast("Token expired! Please log in again.");
           Store.dispatch(signOut());
           Store?.dispatch(clearMenuData());
           localStorage.clear();
           break;
           //return err?.response;
         case 403:
+          showErrorToast("You don't have permission");
           return err?.response;
         case 409:
           return err?.response;

@@ -33,6 +33,7 @@ import {
 import Modal from "../Modal/Modal";
 
 const EmployeeList = (props) => {
+  const {loading} = props;
   const history = useHistory()
   const dispatch = useDispatch()
   const credentials = useSelector((state) => state.auth.credentials)
@@ -61,6 +62,10 @@ const EmployeeList = (props) => {
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails
   )
+
+  const employeeDetailsFailure = useSelector(
+    (state) => state.employee.employeeDetailsFailure
+  );
 
   useEffect(() => {
     dispatch(clearEditEmployeeData())
@@ -216,7 +221,14 @@ const EmployeeList = (props) => {
                     <h2>No Results Found</h2>
                   </div>
                 </td>
-                ) : (
+                ) : employeeList.length == 0 && !loading && employeeDetailsFailure !== ""?(
+                  <td colSpan="4" >
+                    <div className="no-results">
+                      <img src={noResultsfound} alt="No results found" />
+                      <h2>{employeeDetailsFailure}</h2>
+                    </div>
+                  </td>
+                  ) : (
                 (searchInput?.length === 0 ? employeeList : searchedData)?.map((row, index) => {
                  const lastName = row.lastName ? row.lastName : "";
                     return (
