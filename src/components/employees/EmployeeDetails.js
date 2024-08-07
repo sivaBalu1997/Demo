@@ -81,26 +81,24 @@ const EmployeeDetails = () => {
         //setOpenStausModal(prev => !prev);
         setEmployeeToUpdate(null);
         // setIsBlocking(false);  
-        setShowDropDown(!showDropDown)
-        
+        setShowDropDown(!showDropDown)    
     };
 
     const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
     const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
     const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading)
   
-  
     useEffect(() => {
       // console.log({modelApiLoading, actionApiSuccess});
       if (actionApiSuccess && !modelApiLoading) {
         setDeleteOpenModal(false);
-       
       }
-      if(!employeeStatusLoading && actionApiSuccess && !modelApiLoading && params.id){
+      if(!employeeStatusLoading && actionApiSuccess && !modelApiLoading){
+        console.log("called")
         setOpenStausModal(false);
-        dispatch(getEmployeeByIdRequest(params.id));
+        dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
       }
-    }, [modelApiLoading, actionApiSuccess,employeeStatusLoading, params.id])
+    }, [modelApiLoading, actionApiSuccess,employeeStatusLoading])
     
     const handleNoClick = () => {
         setOpenStausModal(prev => !prev);
@@ -121,6 +119,7 @@ const EmployeeDetails = () => {
             </p>
         )
       }
+      console.log({employee})
    
     return (
         <div className='employeeDetails'>
@@ -129,7 +128,7 @@ const EmployeeDetails = () => {
                     display:'flex',
                     alignItems:'center',
                     gap:'10px',
-                    cursor:'pointer'
+                    cursor:'pointer',
                 }}
                 onClick={() => history.replace("/management/employees")}
                 >
@@ -255,7 +254,9 @@ const EmployeeDetails = () => {
                 <p style={{color:'gray'}}>Unblock the user to view the Roles and Functions</p>
                 }
             </div>
-            <button className='backBtn' onClick={() => history.push("/management/employees")}>Back</button>
+            <button 
+                className='backBtn' 
+                onClick={() => history.push("/management/employees")}>Back</button>
         </div>
     )
 }
