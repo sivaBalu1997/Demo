@@ -23,6 +23,7 @@ const Employees = () => {
     (state) => state.employee.employeeDetailsLoading
   );
   const employeeList = useSelector((state) => state.employee.employeeDetails);
+  
   useEffect(() => {
     dispatch(getEmployees(credentials?.merchantId));
   }, []);
