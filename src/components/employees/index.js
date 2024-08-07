@@ -20,13 +20,13 @@ const Employees = () => {
     (state) => state.employee.employeeDetailsLoading
   );
   const employeeDetailsFailure = useSelector(
-    (state) => state.employee.employeeDetailsLoading
+    (state) => state.employee.employeeDetailsFailure
   );
   const employeeList = useSelector((state) => state.employee.employeeDetails);
   
   useEffect(() => {
-    dispatch(getEmployees(credentials?.merchantId));
-  }, []);
+    credentials?.merchantId && dispatch(getEmployees(credentials?.merchantId));
+  }, [credentials?.merchantId]);
 
 
   // useEffect(() => {
@@ -60,16 +60,35 @@ const Employees = () => {
         >
           Loading, Please wait!!
         </div>
-      ) : employeeList?.length === 0 && employeeDetailsFailure === "" ? (
+      ) : employeeList?.length === 0 && !loading && employeeDetailsFailure === "" ? (
         <div className="menu-items">
-          <div id="employee_header">
-            <h2>Employees</h2>
-            <p onClick={logoutUser} style={{ cursor: "pointer" }}>
-              {" "}
-              <img src={logout} alt="Logout" height="20" /> &nbsp; Logout
-            </p>
+         <div className="header-menu">
+          <div style={{
+            display:"flex",
+            justifyContent:'space-between',
+            width:'100%'
+          }}>
+            <h2 style={{color:"black"}}>Employees Management</h2>
+            <div className="header">
+          <p
+            onClick={logoutUser}
+            style={{
+              marginLeft: "88%",
+              display: "flex",
+              alignItems: "center",
+              whiteSpace: "nowrap",
+              cursor: "pointer",
+              // marginTop:"-30px",
+            }}
+          >
+            <img src={logout} alt="Logout" height="20" />
+            &nbsp; Log Out
+          </p>
+          <br />
+          <br />
+        </div>
           </div>
-
+        </div>
           <div className="header-menu">
             <div className="empty-menu">
               <img src={empIcon} alt={"emp"} />
@@ -87,7 +106,7 @@ const Employees = () => {
           </div>
         </div>
       ) : (
-        <EmployeeList />
+        <EmployeeList loading={loading}/>
       )}
     </>
   );

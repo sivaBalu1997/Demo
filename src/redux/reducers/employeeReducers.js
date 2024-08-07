@@ -166,7 +166,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         break;
       case GET_EMPLOYEE_FAILURE:
         draft.employeeDetailsLoading = false;
-        draft.employeeDetailsFailure = action.payload;
+        draft.employeeDetailsFailure = action.payload.message;
         break;
       case GET_EMPLOYEE_SUCCESS:
         draft.employeeDetailsLoading = false;

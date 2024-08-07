@@ -58,7 +58,7 @@ import {
   GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,
 } from "../constants/employeeContants";
 import { decryptJson } from "../../util/react-ec-utils";
-import { showErrorToast } from "../../util/toastUtils";
+import { showErrorToast, showSuccessToast } from "../../util/toastUtils";
 
 function* getOutletsSaga(action) {
   try {
@@ -77,18 +77,18 @@ function* addEmployeeSaga(action) {
     const response = yield call(createEmployee, action.payload);
     if (response.status === 200) {
       yield put(successAddEmployee(response.data));
-    } else if(response.status !== 200) {
+    }else if(response.status !== 200) {
       const errorMessage = response.data?.message;
-      alert(errorMessage);
+      showErrorToast(errorMessage);
       yield put(failedAddEmployee(errorMessage));
     }
   } catch (err) {
     if (err.response && err.response.status === 409) {
       const errorMessage = err.response.data?.message;
-      alert(errorMessage);
+      showErrorToast(errorMessage);
       yield put(failedAddEmployee(errorMessage));
     } else {
-      alert(err.message);
+      showErrorToast(err.message);
       yield put(failedAddEmployee(err.message));
     }
   }
@@ -99,9 +99,9 @@ function* deleteEmployeeSaga(action) {
   try {
     const response = yield call(removeEmployee, action.payload);
     if (response.status === 200) {
+      showSuccessToast(response?.data?.message);
       yield put(deleteEmployeeSuccess(action.payload));
-    }
-    else {
+    }else {
       if (response.data.metaDataInfo.responseCode == "ERROR") {
         //we have to populate api response here
         yield put(deleteEmployeeFailure("Delete Employee Failed"));
@@ -121,8 +121,8 @@ function* getEmployeesSaga(action) {
     if (response.status === 200) {
       const employeeListData = decryptJson(response.data.data)
       yield put(successGetEmployees(employeeListData));
-    } else {
-      showErrorToast("please Try Again");
+    }else {
+      response.status !== 403 && showErrorToast("please Try Again");
       yield put(failedGetEmployees({ message: "please Try Again" }));
     }
   } catch (err) {
@@ -142,7 +142,7 @@ function* getEmployeeByIdSaga(action) {
       if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
         requestData.sagaCallBack(employeeData);
       }
-    } else {
+    }else {
       yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
     }
   } catch (err) {
@@ -157,7 +157,7 @@ function* getEmployeeRolesByIdSaga(action) {
     if(response.status === 200) {
       const employeeRoleFunction = decryptJson(response.data.data)
       yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,payload: employeeRoleFunction}));
-    } else {
+    }else {
       yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: ''}));
     }
   } catch (err) {
@@ -192,7 +192,7 @@ function* updateEmployeePINSaga(action) {
     const response = yield call(updatePIN, action.payload);
     if (response.status === 200) {
       yield put(updateEmployeePINSuccess("PIN updated Successfully!"));
-    } else {
+    }else {
       yield put(updateEmployeePINFailed("Pin Already exists!"));
     }
   } catch (err) {
@@ -211,7 +211,7 @@ function* updateEmployeeSaga(action) {
       }
     }else{
       const errorMessage = response.data?.message;
-      alert(errorMessage)
+      showErrorToast(errorMessage);
       yield put(updateEmployeeFailure(errorMessage))
     }
   }catch{
@@ -243,6 +243,7 @@ function* employeeSatusSaga(action){
   try{
     const response = yield call(employeeStatus, action.payload)
     if(response.status === 200){
+      showSuccessToast(response?.data?.message);
       yield put(employeeStatusSuccess(action.payload))
     }else{
       yield put(employeeStatusFailure({ message: "Action Failed" }))

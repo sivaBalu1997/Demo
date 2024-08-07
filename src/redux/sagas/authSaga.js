@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest,takeEvery } from "redux-saga/effects";
 import {
   successSignUp,
   failedSignUp,
@@ -19,6 +19,7 @@ import {
   OTP_VERIFICATION_REQUEST,
   RESET_PASSWORD_REQUEST,
   RESTAURANT_DETAIL_REQUEST,
+  SIGNOUT,
 } from "../constants/authConstants";
 import {
   signUp,
@@ -28,6 +29,7 @@ import {
   getRestaurantDetails,
 } from "../api/authAPI";
 import { CREDENTIALS } from "../../shared/constants";
+import { persistor } from "../store";
 
 function* signUpSaga(action) {
   try {
@@ -140,10 +142,15 @@ function* getRestaurantDetailsSaga(action) {
   }
 }
 
+function* handleLogout() {
+  yield call(() => persistor.purge());
+}
+
 export default function* authSaga() {
   yield takeLatest(SIGNUP_REQUEST, signUpSaga);
   yield takeLatest(SIGNIN_REQUEST, signInSaga);
   yield takeLatest(OTP_VERIFICATION_REQUEST, verifyOTPSaga);
   yield takeLatest(RESET_PASSWORD_REQUEST, resetPasswordSaga);
   yield takeLatest(RESTAURANT_DETAIL_REQUEST, getRestaurantDetailsSaga);
+  yield takeEvery(SIGNOUT, handleLogout);
 }
