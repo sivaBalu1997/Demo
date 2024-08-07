@@ -155,8 +155,8 @@ function* getEmployeeRolesByIdSaga(action) {
   try {
     const response = yield call(getEmployeeRoleById, requestData?.staffId)
     if(response.status === 200) {
-      const employeeRoleFunction = decryptJson(response.data.data)
-      yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,payload: employeeRoleFunction}));
+     // const employeeRoleFunction = decryptJson(response.data.data)
+      yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,payload: response.data}));
     }else {
       yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: ''}));
     }
