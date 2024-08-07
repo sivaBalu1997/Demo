@@ -168,11 +168,12 @@ const AddEmployee = () => {
         setIsDropdownDisabled(true);
         setValue('outlet', userBranchName);
       } else {
-        setRestaurantBranchDefaultValue("");
+        setRestaurantBranchDefaultValue("");    
         setIsDropdownDisabled(false);
       }
       const isOutletHasDropDown = credentials?.role ? true : credentials?.role === "Restaurant_Owner" ? true : 
                                   credentials?.role === "Regional_Employee" ? true : 
+                                  credentials?.role === "Restaurant_Manager" ? true : 
                                   false;
       if (isOutletHasDropDown ) {
         setIsDropdownDisabled(false);
@@ -264,22 +265,14 @@ const AddEmployee = () => {
     } else {
       return [
         "Chef",
-        // "Restaurant_Manager",
+        "Restaurant_Manager",
         "Restaurant_Owner",
-        "Owner",
         "Regional_Employee",
         "Supervisor",
         "Waiter",
         "Host",
         "Delivery",
         "Cashier",
-        "admin",
-        "Citizen Customer",
-        "Delivery-neighbourhood",
-        "Employee",
-        "Operator-neighbourhood",
-        "System_Admin",
-        "uma_protection"
       ];
     }
   };  
