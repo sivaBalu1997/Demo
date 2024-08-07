@@ -51,11 +51,10 @@ const AddEmployee = () => {
   const [checkedFunctions, setCheckedFunctions] = useState([])
   const [openModal, setOpenModal] = useState(false)
   const [checkedModules, setCheckedModules] = useState([])
+  const credentials = useSelector((state) => state.auth.credentials);
 
   const isValidDate = (date) => !isNaN(date.getTime()); 
   const params = useParams()
-
-
 
   const employee = useSelector((state) => state.employee.employeeByIdDetails)
 
@@ -70,7 +69,8 @@ const AddEmployee = () => {
   useEffect(()=> {
     params?.id?.length && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
     !params?.id?.length && dispatch(clearEditEmployeeData())
-  },[params.id])
+    !params?.id?.length && credentials?.merchantId && dispatch(refreshPin(credentials?.merchantId))
+  },[params.id, credentials])
 
   const invokePermission =(employeeData)=>{
     employeeData.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
@@ -117,8 +117,6 @@ const AddEmployee = () => {
   const [pin, setPin] = useState(
     editEmployee ? editEmployee.devicePin : getValues("devicePin")
   )
-
-  const credentials = useSelector((state) => state.auth.credentials);
   const employeeAdded = useSelector((state) => state.employee.employeeAdded);
   const updatePinMessage = useSelector(
     (state) => state.employee.updateEmployeePINMessage
@@ -265,7 +263,6 @@ const AddEmployee = () => {
     } else {
       return [
         "Chef",
-        "Regional_Manager",
         "Restaurant_Manager",
         "Restaurant_Owner",
         "Owner",
@@ -592,15 +589,12 @@ const AddEmployee = () => {
     formValues.successCB = () => {
        history.goBack();
     }
-    console.log({formValues})
     if (editEmployee) {
       dispatch(updateEmployeeRequest(formValues));
     } else {
       dispatch(addEmployee(formValues));
     }
   };
-
-
   
   const splitAddress = (address) => {
     const parts = address?.split(',');
@@ -702,7 +696,7 @@ const validatePassword = (value) => {
                 top:0,
                 backgroundColor:'white',
                 position:'fixed',
-                height:'50px',
+                height:'100px',
                 width:'100%'
               }}
             >
@@ -711,7 +705,7 @@ const validatePassword = (value) => {
               {!!params?.id?.length ? "Edit Employee Setup" : "Employee Setup"}
             </h2>
           </div>
-          <h3 style={{marginTop:'50px'}}>Personal Info</h3>
+          <h3 style={{marginTop:'80px'}}>Personal Info</h3>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             <div className="menu-details-form">
               <div className="primary-sec">

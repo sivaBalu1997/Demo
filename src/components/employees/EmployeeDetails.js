@@ -94,7 +94,6 @@ const EmployeeDetails = () => {
         setDeleteOpenModal(false);
       }
       if(!employeeStatusLoading && actionApiSuccess && !modelApiLoading){
-        console.log("called")
         setOpenStausModal(false);
         dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
       }
@@ -118,17 +117,26 @@ const EmployeeDetails = () => {
                 Loading, Please wait!!
             </p>
         )
-      }
-      console.log({employee})
-   
+      }   
     return (
         <div className='employeeDetails'>
-            <div className='headLine'>
+            <div className='headLine' 
+                style={{
+                 position: 'fixed',
+                 marginTop: '10px', 
+                 marginBottom:'40px', 
+                 width: '70%', 
+                 zIndex: '1000', 
+                 backgroundColor: '#fff', 
+                 height:'100px',
+                }}>
                 <h3 style={{
-                    display:'flex',
-                    alignItems:'center',
-                    gap:'10px',
-                    cursor:'pointer',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '10px',
+                    cursor: 'pointer',
+                    padding: '10px',
                 }}
                 onClick={() => history.replace("/management/employees")}
                 >
@@ -160,7 +168,7 @@ const EmployeeDetails = () => {
             />
 
             {showDropDown && (
-                <div className='dropDown'>
+                <div className='dropDown' style={{zIndex: '999999', marginTop:'20px' }}>
                     <div className='actionTab' onClick={() => {
                         dispatch(setEditEmployeeData(employee))
                         history.push("/management/employees/add/"+employee.staffId)
@@ -220,7 +228,7 @@ const EmployeeDetails = () => {
                     </div>
                 </div>
             )}
-            <div className='detailContainer'>
+            <div className='detailContainer' style={{marginTop:'100px'}}>
                 <div>
                     <div className='title'><p className='tag'>Full Name</p><p className='value'> : {employee?.firstName} {employee?.lastName}</p></div>
                     <div className='title'>
@@ -254,9 +262,18 @@ const EmployeeDetails = () => {
                 <p style={{color:'gray'}}>Unblock the user to view the Roles and Functions</p>
                 }
             </div>
-            <button 
-                className='backBtn' 
-                onClick={() => history.push("/management/employees")}>Back</button>
+            <div style={{
+                marginTop:'20px',
+                display:'flex',
+                position:'sticky',
+                bottom:'0px',
+            }}>
+                <button 
+                    className='backBtn' 
+                    onClick={() => history.push("/management/employees")}>
+                        Back
+                </button>
+            </div>
         </div>
     )
 }

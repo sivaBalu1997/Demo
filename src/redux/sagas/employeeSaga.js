@@ -77,20 +77,13 @@ function* addEmployeeSaga(action) {
     const response = yield call(createEmployee, action.payload);
     if (response.status === 200) {
       yield put(successAddEmployee(response.data));
-    }else if(response.status !== 200) {
+    }else {
       const errorMessage = response.data?.message;
-      showErrorToast(errorMessage);
+      response.status !== 403 && showErrorToast(errorMessage);
       yield put(failedAddEmployee(errorMessage));
     }
   } catch (err) {
-    if (err.response && err.response.status === 409) {
-      const errorMessage = err.response.data?.message;
-      showErrorToast(errorMessage);
-      yield put(failedAddEmployee(errorMessage));
-    } else {
-      showErrorToast(err.message);
-      yield put(failedAddEmployee(err.message));
-    }
+    yield put(failedAddEmployee(err.message));
   }
 }
 
