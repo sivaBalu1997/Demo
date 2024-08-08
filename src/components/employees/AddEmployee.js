@@ -778,7 +778,7 @@ const validatePassword = (value) => {
 
                 <div className="flexBox">
                   <div>
-                  <div className={errors.mobileNumber ? 'num phoneErrorInput countryCodeMo' : 'phoneContainer countryCodeMo'}>
+                  <div className={!useNickname && errors.mobileNumber ? 'num phoneErrorInput countryCodeMo' : 'phoneContainer countryCodeMo'}>
                   <div className="countryCode" style={{
                      display:'flex',
                      justifyContent:'center',
@@ -797,10 +797,11 @@ const validatePassword = (value) => {
                     placeholder="Phone*"
                     name="mobileNumber"
                     formRegister={register({
-                      required: "Required",
-                      validate: (value) => value?.length === 10 || "Invalid Number",
+                      required: !useNickname && "Required",
+                      validate: (value) =>
+                        !useNickname && value?.length === 10 ? true : useNickname || "Invalid Number",
                     })}
-                    className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
+                    className={!useNickname && errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
                     maxLength={10}
                     onInput={(e) => {
                       e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
@@ -812,12 +813,13 @@ const validatePassword = (value) => {
                     }}
                   />
                   </div>
-                    {errors.mobileNumber && errors.mobileNumber.type === 'validate' && (
+                    {!useNickname && errors.mobileNumber && errors.mobileNumber.type === 'validate' && (
                       <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '15px' }}>
                         {errors.mobileNumber?.message}
                       </p>
                     )}
                   </div>
+
                   <div className="emailContainer">
                     <TextInput
                       type="email"
