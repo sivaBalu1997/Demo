@@ -1,0 +1,156 @@
+.employeeContainer{
+    display: flex !important;
+    flex-direction: column !important;
+    height: 95vh;
+    width: 75%;
+    overflow-y: hidden;
+  }
+
+.employeeHeaderContainer{
+    padding: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: bisque;
+    border: 2px solid black; */
+}
+
+.employeeHeading{
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 36px;
+    text-align: left;
+}
+
+.employeeHeaderButtonContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.employeeLogoutText{
+    font-family: Poppins;
+    font-size: 1.5rem;
+    color: #67833e;
+    font-weight: 500;
+}
+
+.employeeSearchContainer{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 35px;
+    padding-right: 35px;
+  }
+  
+  .employeeSearchBox{
+    width: 461px;
+    display: flex;
+    border: 1px solid #B4B4B4;
+    justify-content: space-between;
+    border-radius: 1px;
+    margin-bottom: 30px;
+  }
+  
+  .employeeSearchBar{
+    border: none;
+  }
+  
+  img{
+    cursor: pointer;
+  }
+
+  .employeeLoading{
+    width: 95%;
+    height: 75vh;
+    display: flex;
+    flex: 1 1;
+    justify-content: center;
+    align-items: center;
+    /* background: antiquewhite; */
+    margin-left: 35px;
+    /* border: 2px solid black; */
+  }
+  
+  .employeeLoadingText{
+    font-family: Poppins;
+    font-size: 18px;
+    color: #000000;
+    font-weight: 400;
+  }
+
+  .employeeListTableContainer{
+    width: 95%;
+    height: 78vh;
+    display: flex;
+    margin-left: 35px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .employeeListTable{
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .employeeListTable thead {
+    position: sticky;
+    top: 0;
+    background-color: white; 
+    z-index: 999;
+    width: 100px;
+    height: 50px;
+    text-align: left;
+   
+    font-family: Poppins;
+    font-size: 14px;
+    color: #000000;
+    background: #FFFFFF !important;
+    /* font-weight: 400; */
+  }
+
+  .employeeTHeading{
+    font-family: Poppins;
+    font-size: 16px;
+    color: #000000;
+    font-weight: 600;
+    padding-left: 10px;
+    background: #FFFFFF !important;
+  }
+
+  .employeeValueData{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width:16vw
+  }
+
+  .employeeValueData2{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width:10vw;
+  }
+
+  .employeeValueDataAction{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width:18vw;
+  }
+
+
+
+  .employeeListTableContainer table tr:nth-of-type(odd) {
+    background-color: rgba(196, 196, 196, 0.4);
+  }
+   
+  .employeeListTableContainer table tr:nth-of-type(even) {
+    background-color: white;
+  }
+

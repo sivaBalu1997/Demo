@@ -36,7 +36,6 @@ import { ReactComponent as BillingIcon } from "../../assets/svg/billing.svg";
 import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
 import Report from "../report";
-import Employees from "../employees";
 import AddEmployee from "../employees/AddEmployee";
 import EmptyMenu from "../menuItem/EmptyMenu";
 import AddItems from "../menuItem/AddItem";
@@ -55,6 +54,7 @@ import AddOffer from "../offers/AddOffer";
 import CreateOffer from "../offers/CreateOffer";
 import PreviewOffer from "../offers/PreviewOffer";
 import EmployeeDetails from "../employees/EmployeeDetails";
+import Employees from "../employees";
 
 const reportOptions = [
   {

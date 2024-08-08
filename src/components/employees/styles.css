@@ -440,3 +440,10 @@ img{
 .rotating-div {
   animation: rotate 2s linear infinite;
 }
+
+.employeeContainer1{
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh;
+  width: 70%;
+}
