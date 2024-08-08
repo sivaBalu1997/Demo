@@ -79,7 +79,7 @@ function* addEmployeeSaga(action) {
       showSuccessToast(response?.data?.message);
       yield put(successAddEmployee(response.data));
     }else {
-      const errorMessage = response.data?.message;
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
       response.status !== 403 && showErrorToast(errorMessage);
       yield put(failedAddEmployee(errorMessage));
     }
@@ -96,10 +96,9 @@ function* deleteEmployeeSaga(action) {
       showSuccessToast(response?.data?.message);
       yield put(deleteEmployeeSuccess(action.payload));
     }else {
-      if (response.data.metaDataInfo.responseCode == "ERROR") {
-        //we have to populate api response here
-        yield put(deleteEmployeeFailure("Delete Employee Failed"));
-      } 
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(deleteEmployeeFailure(errorMessage));
     }
   } catch (err) {
     yield put(
@@ -116,7 +115,9 @@ function* getEmployeesSaga(action) {
       const employeeListData = decryptJson(response.data.data)
       yield put(successGetEmployees(employeeListData));
     }else {
-      yield put(failedGetEmployees({ message: "please Try Again" }));
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(failedGetEmployees({ message: errorMessage }));
     }
   } catch (err) {
     yield put(failedGetEmployees({ message: "please Try Again" }));
@@ -135,7 +136,9 @@ function* getEmployeeByIdSaga(action) {
         requestData.sagaCallBack(employeeData);
       }
     }else {
-      yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(getEmployeeByIdFailure({ message : errorMessage }));
     }
   } catch (err) {
     yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
@@ -147,10 +150,12 @@ function* getEmployeeRolesByIdSaga(action) {
   try {
     const response = yield call(getEmployeeRoleById, requestData?.staffId)
     if(response.status === 200) {
-      const employeeRoleFunction = decryptJson(response.data.data)
-      yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,payload: employeeRoleFunction}));
+     // const employeeRoleFunction = decryptJson(response.data.data)
+      yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,payload: response.data}));
     }else {
-      yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: ''}));
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: errorMessage}));
     }
   } catch (err) {
     yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: ''}));
@@ -168,9 +173,9 @@ function* manageUserAccessSaga(action) {
         successManageUserAccess(response.data.metaDataInfo.responseMessage)
       );
     } else {
-      yield put(
-        failedManageUserAccess(response.data.metaDataInfo.responseMessage)
-      );
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(failedManageUserAccess(errorMessage));
     }
   } catch (err) {
     yield put(
@@ -185,7 +190,9 @@ function* updateEmployeePINSaga(action) {
     if (response.status === 200) {
       yield put(updateEmployeePINSuccess("PIN updated Successfully!"));
     }else {
-      yield put(updateEmployeePINFailed("Pin Already exists!"));
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(updateEmployeePINFailed(errorMessage));
     }
   } catch (err) {
     yield put(updateEmployeePINFailed("Pin Already exists!"));
@@ -203,8 +210,8 @@ function* updateEmployeeSaga(action) {
         action.payload.successCB()
       }
     }else{
-      const errorMessage = response.data?.message;
-      showErrorToast(errorMessage);
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
       yield put(updateEmployeeFailure(errorMessage))
     }
   }catch{
@@ -223,7 +230,9 @@ function* getEmployeeRolesSaga(action){
 
       yield put(getEmployeeRolesSuccess(employeeRoles))
     }else {
-      yield put(getEmployeeRolesFailure({ message: "please Try Again" }));
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(getEmployeeRolesFailure({ message: errorMessage }));
     }
   }
   catch{
@@ -239,7 +248,9 @@ function* employeeSatusSaga(action){
       showSuccessToast(response?.data?.message);
       yield put(employeeStatusSuccess(action.payload))
     }else{
-      yield put(employeeStatusFailure({ message: "Action Failed" }))
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put(employeeStatusFailure({ message: errorMessage }))
     }
   }catch{
     yield put(employeeStatusFailure({ message: "Action Failed" }))
@@ -253,13 +264,12 @@ function* refreshPinSaga(action){
     if(response.status === 200){
       yield put({type: REFRESH_PIN_SUCCESS, payload: response?.data?.devicePin})
     }else{
-      yield put({type: REFRESH_PIN_FAILURE,payload: ''})
+      const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
+      response.status !== 403 && showErrorToast(errorMessage);
+      yield put({type: REFRESH_PIN_FAILURE,payload: errorMessage})
     }
-   // yield put({type: REFRESH_PIN_SUCCESS, payload: '1224'})
   }catch{
      yield put({type: REFRESH_PIN_FAILURE, payload: '' })
-    //yield put({type: REFRESH_PIN_SUCCESS, payload: '1224'})
-
   }
 }
 

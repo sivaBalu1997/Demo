@@ -45,7 +45,7 @@ const AddEmployee = () => {
   const [role, setRole] = useState('')
   const [openFunction, setOpenFuction] = useState(false)
   const [pins, setPins] = useState(['', '', '', ''])
-  const [showPin, setShowPin] = useState(false)
+  const [showPin, setShowPin] = useState(true)
   const [selectedDate, setSelectedDate] = useState(null)
   const inputRefs = useRef([])
   const [checkedFunctions, setCheckedFunctions] = useState([])
@@ -276,6 +276,16 @@ const AddEmployee = () => {
       ];
     }
   };  
+
+
+  const replaceUnderscoresWithSpaces = (str) => {
+    return str.replace(/_/g, ' ');
+  };
+
+  const processedOptions = getRole().map(option => ({
+    value: option,
+    label: replaceUnderscoresWithSpaces(option),
+  }));
 
   const [otp, setOtp] = useState('');
 
@@ -936,9 +946,10 @@ const validatePassword = (value) => {
                     }}
                     render={({ onChange, onBlur, value, name }) => (
                       <CustomDropdown
-                        options={getRole()}
+                        options={processedOptions}
                         placeholder={"Roles*"}
                         onSelect={(role) => {
+                          // console.log({role});
                           onChange(role.value);
                           handleRoleChange(role.value);
                           if (jwt_decode(credentials?.accessToken)?.resource_access["merchant-app"]?.roles[0].includes("neighbourhood")) {
