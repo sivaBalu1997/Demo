@@ -197,6 +197,7 @@ function* updateEmployeeSaga(action) {
   try{
     const response = yield call(editEmployee, action.payload)
     if(response.status === 200){
+      showSuccessToast(response?.data?.message);
       yield put(updateEmployeeSuccess(response.data))
       if(action.payload?.successCB && typeof action.payload?.successCB === 'function'){
         action.payload.successCB()

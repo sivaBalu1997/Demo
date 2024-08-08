@@ -105,6 +105,7 @@ export function removeEmployee(staffId) {
     },
   })
 }
+
 export function manageUserAccess(details) {
   const token = Store.getState().auth.credentials.accessToken;
   return API({
