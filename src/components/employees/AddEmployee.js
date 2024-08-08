@@ -1082,8 +1082,8 @@ const validatePassword = (value) => {
                     />
                     )}
                     {errors.password && errors.password.type==='validate' && (
-                      <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px' }}>
-                        Enter valid password. Your password should contain 1 capital letter, 1 special character, and 1 number
+                      <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px', width:'500px' }}>
+                        Enter valid password. Your password should contain atleast 8 characters, 1 capital letter, 1 special character, and 1 number
                       </p>
                     )}
                   </div>
