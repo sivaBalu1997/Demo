@@ -31,6 +31,7 @@ import {
   selectBranch,
 } from "../../redux/actions/authActions";
 import Modal from "../Modal/Modal";
+import { showErrorToast, showInfoToast } from "../../util/toastUtils";
 
 const EmployeeList = (props) => {
   const {loading} = props;
@@ -385,7 +386,14 @@ const EmployeeRow = ({
           <ul className="popupContainer">
             <li
               className="containerList"
-              onClick={() => { handleEdit(data.staffId) }}
+              onClick={() => { 
+                // handleEdit(data.staffId)
+                if(data.isActive){
+                  handleEdit(data.staffId)
+                }else{
+                  showErrorToast('Unblock the employee to perform this action')
+                }
+               }}
             >
               <img src={editImg} className="actions" />
             </li>

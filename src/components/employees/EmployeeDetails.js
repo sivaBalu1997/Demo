@@ -14,6 +14,7 @@ import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg
 import Modal from '../Modal/Modal';
 import thunder from '../../assets/svg/thunder.svg'
 import { IoIosArrowBack } from "react-icons/io";
+import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toastUtils';
 
 const EmployeeDetails = () => {
     const [showDropDown, setShowDropDown] = useState(false)
@@ -179,8 +180,13 @@ const EmployeeDetails = () => {
                     }}
                 >
                     <div className='actionTab' onClick={() => {
-                        dispatch(setEditEmployeeData(employee))
-                        history.push("/management/employees/add/"+employee.staffId)
+                        if(employee.isActive){
+                            dispatch(setEditEmployeeData(employee))
+                            history.push("/management/employees/add/"+employee.staffId)
+                        }else{
+                            setShowDropDown(false)
+                            showErrorToast('Unblock the employee to perform this action')
+                        }
                     }}>
                         <img src={edit} 
                             style={{filter: "brightness(0) saturate(100%) invert(45%) sepia(22%) saturate(1556%) hue-rotate(49deg) brightness(94%) contrast(93%)"}}
@@ -258,19 +264,27 @@ const EmployeeDetails = () => {
                 </div>
             </div>
             <div className='rolesContainer'>
-                <h4>Roles and Functions</h4>
-                {employee?.isActive ? <div className='roles'>
-                    {rolesAndFunctions?.map((role, roleIndex) => (
-                        <div className='rolesHeading' key={roleIndex}> 
-                            <h4>{role?.module}</h4>
-                            {role.funtions.map((func, funcIndex) => (
-                                <p key={funcIndex}>{func}</p>
+            {!roleFunctionFetching ? (
+                <div className='insideBox'>
+                    <h4 style={{textAlign:'center'}}>Roles and Functions</h4>
+                    {employee?.isActive ? (
+                        <div className='roles'>
+                            {rolesAndFunctions?.map((role, roleIndex) => (
+                                <div className='rolesHeading' key={roleIndex}>
+                                    <h4>{role?.module}</h4>
+                                    {role.funtions.map((func, funcIndex) => (
+                                        <p key={funcIndex}>{func}</p>
+                                    ))}
+                                </div>
                             ))}
                         </div>
-                    ))}
-                </div> : 
-                <p style={{color:'gray'}}>Unblock the user to view the Roles and Functions</p>
-                }
+                    ) : (
+                        <p style={{color: 'gray', textAlign:'center', marginTop:'10%'}}>Unblock the user to view the Roles and Functions</p>
+                    )}
+                </div>
+            ) : (
+                <p className='loadingText' style={{marginTop:'15%', textAlign:'center', fontWeight:'500'}}>Loading...</p>
+            )}
             </div>
             <div style={{
                 display:'flex',
