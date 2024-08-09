@@ -83,7 +83,7 @@
 
   .employeeListTableContainer{
     width: 95%;
-    height: 78vh;
+    height: 70vh;
     display: flex;
     margin-left: 35px;
     overflow-y: auto;
@@ -93,6 +93,7 @@
   .employeeListTable{
     width: 100%;
     border-collapse: collapse;
+    height: fit-content;
   }
   
   .employeeListTable thead {
