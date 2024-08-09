@@ -235,13 +235,14 @@ img{
   padding-top: 10px;
 }
 
-/* .checkBoxContainer{
-  display: flex;
-} */
-
 .checkboxList p{
   font-size: 14px;
   width: fit-content;
+}
+
+.checkBoxContainer{
+  display: flex;
+  flex-direction: column;
 }
 
 .menu-details .flexContainer .checkBoxItem input{
@@ -250,14 +251,22 @@ img{
   cursor: pointer;
 }
 
-.checkBoxItem label{
+.checkBoxItem{
   display: flex;
-  align-items: center;
-  gap: 10px;
-  /* left: 10px; */
-  width: 190px;
-  padding: 0px 10px 0px 10px;
+  flex-direction: column !important;
+  align-items: start; 
+  gap: 10px; 
   cursor: pointer;
+  /* padding-bottom: 20px; */
+}
+
+.checkBoxItemfunction{
+  display: grid;
+  /* flex-direction: row !important; */
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center !important; 
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
 }
 
 .roleFunction{
