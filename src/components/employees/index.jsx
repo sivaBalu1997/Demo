@@ -73,19 +73,23 @@ const Employees = () => {
     if (event.key === 'Enter') {
       handleSearch();
     }
-    if(!/^[A-Za-z]*$/.test(event.key)){
+    if(!/^[A-Za-z\s]*$/.test(event.key)){
       event.preventDefault();
     }
   };
 
+  const handleInputChange = (e) => {
+    let value = e.target.value;
+  
+    if (value.startsWith(' ')) {
+      value = value.trimStart();
+    }
+  
+    setSearchInput(value);
+  };
+
   const handleCloseSearch = () => {
     setSearchInput('')
-  }
-
-  const handlekeydown = (event) => {
-    if(event.key === ' '){
-      event.preventDefault()
-    }
   }
 
   const handleSearch = () => {
@@ -112,9 +116,8 @@ const Employees = () => {
             className="employeeSearchBar" 
             placeholder="Search"
             value={searchInput}  
-            onChange={(e)=>setSearchInput(e.target.value)}
+            onChange={handleInputChange}
             onKeyPress={handleKeyPress}
-            onKeyDown={handlekeydown}
           />
           {!searchInput ? 
             <img src={searchImg} alt="" onClick={handleSearch} style={{width:"25px", height:"25px", marginTop:"6px", marginRight:"5px"}} /> :
