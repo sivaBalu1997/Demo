@@ -41,8 +41,20 @@ const EmployeeDetails = () => {
     const employee = useSelector((state) => state.employee.employeeByIdDetails)
     const employeeByIdDetailsLoading = useSelector((state) => state.employee.employeeByIdDetailsLoading)
 
+    const restaurantDetails = useSelector((state) => state.auth.restaurantDetails)
+
+
     const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
     const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
+    const [countryCode,setCountryCode] = useState("");
+
+    useEffect(() => {
+        const countryC = restaurantDetails?.country;
+        if (restaurantDetails) {
+            countryC && setCountryCode(countryC === "US" ? '+1 ' : "+91 ");
+        }     
+    }, [restaurantDetails])
+    
 
   
     const dispatch = useDispatch()
@@ -66,6 +78,16 @@ const EmployeeDetails = () => {
         const outlet =  location?.split(',')[1]
         return outlet
     }
+
+    const formatPhoneNumber=(number)=> {
+        let phoneNumber = number.toString();
+        phoneNumber = phoneNumber.replace(/\D/g, '');
+        if (phoneNumber.length !== 10) {
+            return 'Invalid phone number';
+        }
+        return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    }
+    
 
     const isEmptyOrSpaces = (str) => {
         return str === null || str.match(/^ *$/) !== null;
@@ -258,7 +280,7 @@ const EmployeeDetails = () => {
                 <div>
                     <div className='title'><p className='tag'>Nick Name</p><p className='value'>:</p><p className=''>  {employee?.nickName?.trim() ? employee?.nickName?.trim() : '-'}</p></div>
                     <div className='title'><p className='tag'>Email</p><p className='value'>:</p><p className='' style={{width:'300px'}}>  {employee?.email?.trim() ? employee?.email?.trim() : '-'}</p></div>
-                    <div className='title'><p className='tag'>Phone</p><p className='value'>:</p><p className=''>  {employee?.phone?.trim() ? employee?.phone?.trim() : '-'}</p></div>
+                    <div className='title'><p className='tag'>Phone</p><p className='value'>:</p><p className=''>  {employee?.phone?.trim() ?countryCode+" "+formatPhoneNumber(employee?.phone?.trim()) : '-'}</p></div>
                     <div className='title'><p className='tag'>Address</p><p className='value'>:</p><p style={{width:'250px'}}>  {employee?.address && !isEmptyOrSpaces(employee.address) ? employee.address : '-'}</p></div>
                     <div className='title'><p className='tag'>Education</p><p className='value'>:</p><p className=''>  {employee?.education ? employee?.education : '-'}</p></div>
                 </div>
