@@ -48,7 +48,7 @@ const Employees = () => {
     return <div className="employeeHeaderContainer">
         <h3 className={"employeeHeading"}>Employees Management</h3>
         <div className={"employeeHeaderButtonContainer"} onClick={logoutUser}>
-          <img src={logout} alt="Logout" height="20" />&nbsp;&nbsp;&nbsp;<span className="employeeLogoutText">Log Out</span>
+          <img src={logout} alt="Logout" height="20" /><span className="employeeLogoutText">&nbsp;&nbsp;&nbsp;Log Out</span>
         </div>
     </div>
   }
