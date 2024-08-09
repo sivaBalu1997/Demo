@@ -73,7 +73,7 @@ const AddEmployee = () => {
   },[params.id, credentials])
 
   const invokePermission =(employeeData)=>{
-    employeeData.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
+    employeeData && employeeData.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
 }
 
 
@@ -673,7 +673,7 @@ const validatePassword = (value) => {
   }
 }
 
-  if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
+  if(!!params?.id?.length && (employeeByIdDetailsLoading || roleFunctionFetching))  return (
     <p style={{
       display: "flex",
       justifyContent: "center",
