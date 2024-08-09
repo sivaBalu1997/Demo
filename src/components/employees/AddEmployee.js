@@ -970,8 +970,9 @@ const validatePassword = (value) => {
                     <p onClick={() => setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
                   </div>}
                   {openFunction && (
-                    <div className="functionsDropDown" ref={dropdownRef}>     
-                      <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 500}}>Roles/Function</p>               
+                    <div className="dropDownContainer"> 
+                      <div className="functionsDropDown" ref={dropdownRef}>     
+                      <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 500}}>Roles/Functions</p>               
                       <div className="checkList">
                         <div className="checkBoxContainer">
                           {roles.map((module) => (
@@ -1020,6 +1021,7 @@ const validatePassword = (value) => {
                           Save
                         </button>
                       </div>
+                    </div>
                     </div>
                   )}
                   
