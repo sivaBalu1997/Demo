@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "../../assets/images/cal.png";
 import ResetLogo from "../../assets/images/resetIcon.png";
+import InputMask from "react-input-mask"
 import {
   addEmployee,
   getOutlets,
@@ -529,6 +530,10 @@ const AddEmployee = () => {
     }
   }, [refreshNewPin]);
 
+  const removeDashes=(phoneNumber)=> {
+    return phoneNumber.replace(/-/g,'');
+  }
+
   const onSubmit = (formValues) => {
     const rolesAndFunctions = roles.map(module => {
       const moduleFunctions = module.functionality
@@ -552,7 +557,7 @@ const AddEmployee = () => {
       userId: formValues.userId ||editEmployee?.userId,
       nickName: formValues.nickName.trim(),
       email: formValues.email || null,
-      mobileNumber: formValues.mobileNumber,
+      mobileNumber: formValues?.mobileNumber && formValues?.mobileNumber?.length > 0 ? removeDashes(formValues.mobileNumber) : "" ,
       address: `${formValues.address1} ${formValues.address2}` || null,
       dateOfBirth: selectedDate,
       education: formValues.education,
@@ -594,6 +599,8 @@ const AddEmployee = () => {
       dispatch(addEmployee(formValues));
     }
   };
+
+
   
   const splitAddress = (address) => {
     const parts = address?.split(',');
@@ -787,30 +794,32 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
                   }}>
                     {countryCode}
                   </div>
-                  <TextInput
-                    type="text"
-                    placeholder="Phone"
-                    name="mobileNumber"
-                    formRegister={register({
-                      validate: (value) =>{
-                        if(value.length > 1 && value.length < 10 ){
-                          return "Invalid Number"
-                        }
-                        return true
-                      }
-                        
-                    })}
-                    className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
-                    maxLength={10}
-                    onInput={(e) => {
-                      e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
-                    }}
-                    onKeyPress={(e) => {
-                      if (!/[0-9]/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
-                  />
+                    <InputMask
+                        mask="999-999-9999"
+                        maskChar=""
+                      >
+                        {(inputProps) => (
+                          <TextInput
+                            {...inputProps}
+                            type="text"
+                            placeholder="Phone"
+                            name="mobileNumber"
+                            formRegister={register({
+                              validate: (value) => value?.length === 12 || value?.length === 0 || "Invalid Number",
+                            })}
+                            className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
+                            maxLength={12}
+                            onInput={(e) => {
+                              e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
+                            }}
+                            onKeyPress={(e) => {
+                              if (!/[0-9]/.test(e.key)) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        )}
+                    </InputMask>
                   </div>
                     {errors.mobileNumber && errors.mobileNumber.type === 'validate' && (
                       <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '15px' }}>
