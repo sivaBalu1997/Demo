@@ -161,9 +161,9 @@ const Menu = () => {
 
   useEffect(() => {
     if (locationId) {
-     !restaurantDetails && dispatch(getRestaurantRequest(locationId));
+      dispatch(getRestaurantRequest(locationId));
     }
-  }, [locationId,restaurantDetails]);
+  }, [locationId]);
   useEffect(() => {
     if (
       restaurantDetails &&

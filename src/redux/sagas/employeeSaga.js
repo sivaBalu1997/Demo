@@ -138,15 +138,9 @@ function* getEmployeeByIdSaga(action) {
     }else {
       const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
       response.status !== 403 && showErrorToast(errorMessage);
-      if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
-        requestData.sagaCallBack(null);
-      }
       yield put(getEmployeeByIdFailure({ message : errorMessage }));
     }
   } catch (err) {
-    if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
-      requestData.sagaCallBack(null);
-    }
     yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
   }
 }
