@@ -257,16 +257,23 @@ img{
   align-items: start; 
   gap: 10px; 
   cursor: pointer;
-  /* padding-bottom: 20px; */
 }
 
 .checkBoxItemfunction{
   display: grid;
-  /* flex-direction: row !important; */
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr; 
   align-items: center !important; 
   padding-bottom: 20px;
   border-bottom: 1px solid #ccc;
+}
+
+.checkBoxItemfunction label{
+  width: fit-content;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
 }
 
 .roleFunction{

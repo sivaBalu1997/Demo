@@ -43,7 +43,6 @@ const AddEmployee = () => {
   const [selectedRole, setSelectedRole] = useState("");
   const [isOutletDropdownOpen, setIsOutletDropdownOpen] = useState(false)
   const [isRoleDropDownOpen, setIsRoleDropDownOpen] = useState(false)
-  const [role, setRole] = useState('')
   const [openFunction, setOpenFuction] = useState(false)
   const [pins, setPins] = useState(['', '', '', ''])
   const [showPin, setShowPin] = useState(true)
@@ -112,7 +111,9 @@ const AddEmployee = () => {
     control,
     formState,
     watch,
-    trigger
+    trigger,
+    reset,
+    clearErrors
   } = useForm()
 
   const [pin, setPin] = useState(
@@ -282,7 +283,7 @@ const AddEmployee = () => {
   const replaceUnderscoresWithSpaces = (str) => {
     return str.replace(/_/g, ' ');
   };
-
+  
   const processedOptions = getRole().map(option => ({
     value: option,
     label: replaceUnderscoresWithSpaces(option),
@@ -431,7 +432,6 @@ const AddEmployee = () => {
   
   const handleRoleChange = (role) => {
     setSelectedRole(prevRole => {
-      // Check if editEmployee exists and previous role matches the new role
       if (editEmployee && prevRole === role) {
         initializeCheckedFunctions(editEmployee.rolesAndFunctions);
       } else {
@@ -442,9 +442,7 @@ const AddEmployee = () => {
         
         setCheckedFunctions(functionsForRole);
       }
-  
-      // Return the new role to update the state
-      return role;
+        return role;
     });
   };
 
@@ -691,6 +689,29 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
   const handleOtpChange = (otpValue) => {
     setOtp(otpValue);
   };
+
+  // const handleCleardata = () => {
+  //   if(!editEmployee){
+  //     setValue('firstName', null)
+  //     setValue('lastName',  null)
+  //     setValue('mobileNumber', null)
+  //     setValue('nickName', null)
+  //     setValue('education', null)
+  //     setValue('role', "")
+  //     setSelectedDate(null)
+  //     setValue('dateOfBirth', null)
+  //     setValue('userId',null)
+  //     setValue('outlet', null)
+  //     setValue('address1', null)
+  //     setValue('address2', null)
+  //     setValue('password', null)
+  //     setValue('email', null)
+  //     setSelectedRole("");
+  //     setUseNickname(false)
+  //     setOpenModal(false)
+  //     clearErrors()
+  //   }
+  // } 
 
   return (
     <>
@@ -1002,14 +1023,14 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
                               <div className="checkBoxItemfunction" >
                               {module.functionality.map((func) => (
                                 <div key={func.name}>
-                                  <label>
+                                  <label className="checkboxLabel">
                                     <input 
                                       type="checkbox" 
                                       className="checkbox" 
                                       checked={isFunctionChecked(func.name)} 
                                       onChange={() => handleCheckboxChange(func.name)} 
                                     />
-                                    <p>{func.name}</p>
+                                    <p className="funcName">{func.name}</p>
                                   </label>
                                 </div>
                               ))}
@@ -1215,7 +1236,8 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
                 <input type="button" 
                   className="yesBtn" 
                   value='Yes' 
-                  onClick={()=> {
+                  onClick={()=> { 
+                    // handleCleardata()
                     history.goBack();
                   }} 
                 />

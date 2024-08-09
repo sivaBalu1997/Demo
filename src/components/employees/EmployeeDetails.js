@@ -225,43 +225,9 @@ const EmployeeDetails = () => {
                         <img src={employee?.isActive ? block : unBlockImg}  />
                         <p>{employee?.isActive ? 'Block' : 'Unblock'}</p>
                     </div>
-                    {/* {openStausModal && (
-                            <div className="modal">
-                                <div className="modalContainer">
-                                    <p>{employee.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}</p>
-                                    <div className="modalBtn">
-                                    <button
-                                        className="yesBtn"
-                                        onClick={handleBtnClick}
-                                    >Yes</button>
-                                    <button
-                                        className="noBtn"
-                                        onClick={handleNoClick}
-                                    >No</button>
-                                    </div>
-                                </div>
-                            </div>
-                        )} */}
                     <div className='actionTab' onClick={()=>setDeleteOpenModal(!openDeleteModal)}>
                         <img src={trash} style={{filter: "invert(21%) sepia(93%) saturate(7248%) hue-rotate(354deg) brightness(103%) contrast(101%)"}} />
                         <p>Delete</p>
-                        {/* {openDeleteModal && (
-                        <div className="modal">
-                            <div className="modalContainer">
-                                <p>Do you want to delete?</p>
-                                <div className="modalBtn">
-                                <button
-                                    className="yesBtn"
-                                    onClick={handleDelete}
-                                >Yes</button>
-                                <button
-                                    className="noBtn"
-                                    onClick={() => setDeleteOpenModal(!openDeleteModal)}
-                                >No</button>
-                                </div>
-                            </div>
-                            </div>
-                        )} */}
                     </div>
                 </div>
             )}
