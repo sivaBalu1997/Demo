@@ -430,20 +430,24 @@ const AddEmployee = () => {
   };
   
   const handleRoleChange = (role) => {
-    setSelectedRole(role);
-
-    if (editEmployee) {
-      initializeCheckedFunctions(editEmployee.rolesAndFunctions);
-    } else {
-      const functionsForRole = roles
-        .flatMap(module => module.functionality)
-        .filter(func => func.roles?.includes(role))
-        .map(func => func.name.toLowerCase());
-      
-      setCheckedFunctions(functionsForRole);
-    }
-  };
+    setSelectedRole(prevRole => {
+      // Check if editEmployee exists and previous role matches the new role
+      if (editEmployee && prevRole === role) {
+        initializeCheckedFunctions(editEmployee.rolesAndFunctions);
+      } else {
+        const functionsForRole = roles
+          .flatMap(module => module.functionality)
+          .filter(func => func.roles?.includes(role))
+          .map(func => func.name.toLowerCase());
+        
+        setCheckedFunctions(functionsForRole);
+      }
   
+      // Return the new role to update the state
+      return role;
+    });
+  };
+
   const isFunctionChecked = (functionName) => {
     return checkedFunctions.includes(functionName.toLowerCase());
   };
@@ -1212,7 +1216,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
                   className="yesBtn" 
                   value='Yes' 
                   onClick={()=> {
-                    history.replace("/management/employees")
+                    history.goBack();
                   }} 
                 />
                 <input type="button" className="noBtn" value='No' onClick={()=>{setOpenModal(!openModal)}} />
