@@ -430,7 +430,7 @@ const AddEmployee = () => {
   
   const handleRoleChange = (role) => {
     setSelectedRole(role);
-    
+
     if (editEmployee) {
       initializeCheckedFunctions(editEmployee.rolesAndFunctions);
     } else {
@@ -442,7 +442,6 @@ const AddEmployee = () => {
       setCheckedFunctions(functionsForRole);
     }
   };
-  
   
   const isFunctionChecked = (functionName) => {
     return checkedFunctions.includes(functionName.toLowerCase());
@@ -482,16 +481,12 @@ const AddEmployee = () => {
   }
   
   const handleReset = () => {
-    if (editEmployee) {
-      initializeCheckedFunctions(editEmployee.rolesAndFunctions);
-    } else {
       const functionsForRole = roles
         .flatMap((module) => module.functionality)
         .filter((func) => func.roles.includes(selectedRole))
         .map((func) => func.name.toLowerCase());
   
       setCheckedFunctions(functionsForRole);
-    }
   };
   
   const isDefaultActionsUpdated = (selectedFunctions, role) => {
@@ -673,7 +668,7 @@ const validatePassword = (value) => {
   }
 }
 
-  if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
+if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
     <p style={{
       display: "flex",
       justifyContent: "center",
@@ -794,11 +789,16 @@ const validatePassword = (value) => {
                   </div>
                   <TextInput
                     type="text"
-                    placeholder="Phone*"
+                    placeholder="Phone"
                     name="mobileNumber"
                     formRegister={register({
-                      required: "Required",
-                      validate: (value) => value?.length === 10 || "Invalid Number",
+                      validate: (value) =>{
+                        if(value.length > 1 && value.length < 10 ){
+                          return "Invalid Number"
+                        }
+                        return true
+                      }
+                        
                     })}
                     className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
                     maxLength={10}
@@ -986,8 +986,9 @@ const validatePassword = (value) => {
                                   <p style={{fontWeight:600}}>{module.module}</p>
                                 </label>
                               </div>
+                              <div className="checkBoxItemfunction" >
                               {module.functionality.map((func) => (
-                                <div className="checkBoxItem" key={func.name}>
+                                <div key={func.name}>
                                   <label>
                                     <input 
                                       type="checkbox" 
@@ -999,6 +1000,7 @@ const validatePassword = (value) => {
                                   </label>
                                 </div>
                               ))}
+                              </div>
                             </div>
                           ))}
                         </div>
