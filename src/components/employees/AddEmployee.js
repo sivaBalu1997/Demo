@@ -78,7 +78,7 @@ const AddEmployee = () => {
   //   employeeData?.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
   // }
 
-  const invokePermission = (employeeData) => {
+  const invokePermission = (employeeData, statusCode) => {
     if(employeeData?.isActive ){
       setLocalRoleFunctionFetching(true);
       dispatch(getEmployeeRoleByIdRequest({

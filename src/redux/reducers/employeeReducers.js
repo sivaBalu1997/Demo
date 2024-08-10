@@ -321,16 +321,19 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       case ROLES_REQUEST:
         draft.employeeRoleAndFunctions = [];
         draft.employeeRoleAndFunctionsLoading = true;
+        draft.employeeByIdDetailsLoading = true;
         draft.employeeRoleAndFunctionsFailure = ""
         break;
       case ROLES_FAILURE:
         draft.employeeRoleAndFunctions = "";
         draft.employeeRoleAndFunctionsLoading = false;
+        draft.employeeByIdDetailsLoading = false;
         draft.employeeRoleAndFunctionsFailure = action.payload  
         break;
       case ROLES_SUCCESS:
         draft.employeeRoleAndFunctions = action.payload;
         draft.employeeRoleAndFunctionsLoading = false;
+        draft.employeeByIdDetailsLoading = false;
         draft.employeeRoleAndFunctionsFailure = ""
       break
 
