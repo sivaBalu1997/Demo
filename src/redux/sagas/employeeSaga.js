@@ -133,19 +133,19 @@ function* getEmployeeByIdSaga(action) {
       const employeeData = decryptJson(response.data.data)
       yield put(getEmployeeByIdSuccess(employeeData));
       if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
-        requestData.sagaCallBack(employeeData);
+        requestData.sagaCallBack(employeeData, response.status);
       }
     }else {
       const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
       response.status !== 403 && showErrorToast(errorMessage);
       if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
-        requestData.sagaCallBack(null);
+        requestData.sagaCallBack(null, response.status);
       }
       yield put(getEmployeeByIdFailure({ message : errorMessage }));
     }
   } catch (err) {
     if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
-      requestData.sagaCallBack(null);
+      requestData.sagaCallBack(null, 500);
     }
     yield put(getEmployeeByIdFailure({ message : 'please Try Again' }));
   }

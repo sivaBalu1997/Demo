@@ -25,8 +25,7 @@ const EmployeeDetails = () => {
     const credentials = useSelector((state) => state.auth.credentials)
     const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
     const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
-
-    console.log(employeeDeleted && !deleteEmployeeLoading)
+    const [permissionErrorMessage, setPermissionErrorMessage] = useState('')
 
     const history = useHistory()
     const params = useParams()
@@ -35,8 +34,10 @@ const EmployeeDetails = () => {
         params?.id && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
     },[params?.id])
 
-    const invokePermission =(employeeData)=>{
+    const invokePermission =(employeeData, statusCode)=>{
         employeeData?.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
+        statusCode == 403 && setPermissionErrorMessage(`You don't have permission`) 
+        statusCode !== 403 && !employeeData?.isActive && setPermissionErrorMessage('Unblock the user to view the Roles and Functions')
     }
 
     const employee = useSelector((state) => state.employee.employeeByIdDetails)
@@ -264,7 +265,7 @@ const EmployeeDetails = () => {
                             ))}
                         </div>
                     ) : (
-                        <p style={{color: 'gray', textAlign:'center', marginTop:'10%'}}>Unblock the user to view the Roles and Functions</p>
+                        <p style={{color: 'gray', textAlign:'center', marginTop:'10%'}}>{permissionErrorMessage}</p>
                     )}
                 </div>
             ) : (
