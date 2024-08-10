@@ -390,6 +390,16 @@ img{
   cursor: pointer;
 }
 
+.addEmployeeHeader{
+  display:flex;
+  top:0;
+  background-color:white;
+  position:fixed;
+  height:100px;
+  width:100%;
+  z-index:999999999;
+}
+
 @media(max-width:1280px){
   .main-section .menu-list table td{
     margin-right: 100px;
