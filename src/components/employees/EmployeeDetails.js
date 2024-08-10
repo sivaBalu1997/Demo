@@ -175,7 +175,7 @@ const EmployeeDetails = () => {
             </div>
             <Modal
                 isOpen={openDeleteModal}
-                message={credentials?.id == employee?.staffId ? 'You`re not allowed to perform this action' :"Do you want to delete?"}
+                message={credentials?.id == employee?.staffId ? `You're not allowed to perform this action` : `Do you want to delete?`}
                 onConfirm={handleDelete}
                 onCancel={() => setDeleteOpenModal(false)}
                 type={credentials?.id == employee?.staffId ? "alert" : "confirmation"}
@@ -184,7 +184,7 @@ const EmployeeDetails = () => {
 
             <Modal
                 isOpen={openStausModal}
-                message={credentials?.id == employee?.staffId ? 'You`re not allowed to perform this action' :employee?.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}
+                message={credentials?.id == employee?.staffId ? `You're not allowed to perform this action`:employee?.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}
                 onConfirm={handleBtnClick}
                 onCancel={() => {setOpenStausModal(false)}}
                 type={credentials?.id == employee?.staffId ? "alert" : "confirmation"}

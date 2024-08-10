@@ -223,7 +223,7 @@ const EmployeeRow = ({
 
       <Modal
         isOpen={openDeleteModal}
-        message={credentials?.id == data.staffId ? 'You`re not allowed to perform this action' :"Do you want to delete?"}
+        message={credentials?.id == data.staffId ? `You're not allowed to perform this action` : `Do you want to delete?`}
         onConfirm={handleEmpDelete}
         onCancel={() => setDeleteOpenModal(false)}
         type={credentials?.id == data.staffId ? "alert" : "confirmation"}
@@ -232,7 +232,7 @@ const EmployeeRow = ({
 
       <Modal
         isOpen={openEditModal}
-        message={credentials?.id == data.staffId ? 'You`re not allowed to perform this action' :data.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}
+        message={credentials?.id == data.staffId ? `You're not allowed to perform this action`:data.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}
         onConfirm={handleYesClick}
         onCancel={() => {setEditOpenModal(false)}}
         type={credentials?.id == data.staffId ? "alert" : "confirmation"}
