@@ -9,8 +9,6 @@ import edit from '../../assets/svg/edit.svg'
 import block from '../../assets/svg/blockED.svg' 
 import unBlockImg from '../../assets/svg/unBlockED.svg'
 import trash from '../../assets/svg/trash.svg'
-import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
-import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import Modal from '../Modal/Modal';
 import thunder from '../../assets/svg/thunder.svg'
 import { IoIosArrowBack } from "react-icons/io";
@@ -25,7 +23,10 @@ const EmployeeDetails = () => {
     const [employeeToUpdate, setEmployeeToUpdate] = useState(null)
     const [isPinVisible, setIsPinVisible] = useState(false)
     const credentials = useSelector((state) => state.auth.credentials)
+    const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
+    const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
 
+    console.log(employeeDeleted && !deleteEmployeeLoading)
 
     const history = useHistory()
     const params = useParams()
@@ -54,16 +55,12 @@ const EmployeeDetails = () => {
             countryC && setCountryCode(countryC === "US" ? '+1 ' : "+91 ");
         }     
     }, [restaurantDetails])
-    
-
   
     const dispatch = useDispatch()
 
     const handleDelete = () => {
       dispatch(deleteEmployee(employee.staffId))
-      setTimeout(()=>{
-        history.push("/management/employees")
-      },1000)
+      history.push("/management/employees")
     }
 
     const formatDate = (dateString) => {

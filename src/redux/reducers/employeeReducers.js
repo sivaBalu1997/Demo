@@ -377,17 +377,17 @@ export default function employeeReducer(state = initialEmployeeState, action) {
 
       case GET_EMPLOYEE_ROLE_BY_ID_REQUEST:
         draft.rolesAndFunctions=[]
-        draft.roleFunctionFetching =true
+        draft.roleFunctionFetching = true
         break;
 
       case GET_EMPLOYEE_ROLE_BY_ID_SUCCESS:
         draft.rolesAndFunctions=action.payload;
-        draft.roleFunctionFetching =false;
+        draft.roleFunctionFetching = false;
         break;
 
       case GET_EMPLOYEE_ROLE_BY_ID_FAILURE:
         draft.rolesAndFunctions=[];
-        draft.roleFunctionFetching =false;
+        draft.roleFunctionFetching = false;
         break;
 
       default:

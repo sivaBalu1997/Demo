@@ -87,20 +87,20 @@ const SignIn = ({ setLogin }) => {
               ref={register({ required: "Required" })}
             />
             {isPasswordVisible ? (
-              <ClosedEyeIcon
+              <OpenEyeIcon
                 onClick={() => SetIsPasswordVisible(false)}
                 style={{
                   position: "absolute",
                   paddingTop: "1%",
-                  paddingRight: "1%",
                 }}
               />
             ) : (
-              <OpenEyeIcon
+              <ClosedEyeIcon
                 onClick={() => SetIsPasswordVisible(true)}
                 style={{
                   position: "absolute",
                   paddingTop: "1%",
+                  paddingRight: "1%",
                 }}
               />
             )}

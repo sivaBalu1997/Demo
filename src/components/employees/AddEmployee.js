@@ -65,6 +65,8 @@ const AddEmployee = () => {
 
   const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
   const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
+  const [localRoleFunctionFetching, setLocalRoleFunctionFetching] = useState(false);
+
 
   useEffect(()=> {
     params?.id?.length && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
@@ -72,10 +74,19 @@ const AddEmployee = () => {
     !params?.id?.length && credentials?.merchantId && dispatch(refreshPin(credentials?.merchantId))
   },[params.id, credentials])
 
-  const invokePermission =(employeeData)=>{
-    employeeData.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
-}
+  // const invokePermission =(employeeData)=>{
+  //   employeeData?.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
+  // }
 
+  const invokePermission = (employeeData) => {
+    if(employeeData?.isActive ){
+      setLocalRoleFunctionFetching(true);
+      dispatch(getEmployeeRoleByIdRequest({
+        staffId:employeeData.staffId,
+        sagaCallBack: setLocalRoleFunctionFetching(false)
+      }))
+    }
+  }
 
   // useEffect(() => {
   //   dispatch(setEditEmployeeData(employee))
@@ -485,18 +496,18 @@ const AddEmployee = () => {
   
   const handleReset = () => {
       const functionsForRole = roles
-        .flatMap((module) => module.functionality)
-        .filter((func) => func.roles.includes(selectedRole))
-        .map((func) => func.name.toLowerCase());
+        .flatMap((module) => module?.functionality)
+        .filter((func) => func?.roles?.includes(selectedRole))
+        .map((func) => func?.name?.toLowerCase());
   
       setCheckedFunctions(functionsForRole);
   };
   
   const isDefaultActionsUpdated = (selectedFunctions, role) => {
     const defaultFunctions = roles
-      .flatMap((module) => module.functionality)
-      .filter((func) => func.roles.includes(role))
-      .map((func) => func.name.toLowerCase());
+      .flatMap((module) => module?.functionality)
+      .filter((func) => func?.roles?.includes(role))
+      .map((func) => func?.name?.toLowerCase());
   
     const selectedFunctionNames = selectedFunctions.map((func) => func.name.toLowerCase());
   
@@ -677,41 +688,44 @@ const validatePassword = (value) => {
   }
 }
 
-if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
+const handleOtpChange = (otpValue) => {
+  setOtp(otpValue);
+};
+
+const handleCleardata = () => {
+  if (!editEmployee) {
+    setValue('firstName', null);
+    setValue('lastName', null);
+    setValue('mobileNumber', null);
+    setValue('nickName', null);
+    setValue('education', null);
+    setValue('role', null);  
+    setSelectedDate(null);
+    setValue('dateOfBirth', null);
+    setValue('userId', null);
+    setValue('outlet', null);
+    setValue('address1', null);
+    setValue('address2', null);
+    setValue('password', null);
+    setValue('email', null);
+    setSelectedRole("");  
+    setUseNickname(false);
+    setOpenModal(false);
+    clearErrors();
+  } else {
+    history.goBack();
+  }
+}
+
+if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetching)  {
+  return (
     <p style={{
       display: "flex",
       justifyContent: "center",
       paddingTop: "25%",
       marginLeft:'35%'
     }}>Loading, Please wait!!</p>
-  )
-
-  const handleOtpChange = (otpValue) => {
-    setOtp(otpValue);
-  };
-
-  // const handleCleardata = () => {
-  //   if(!editEmployee){
-  //     setValue('firstName', null)
-  //     setValue('lastName',  null)
-  //     setValue('mobileNumber', null)
-  //     setValue('nickName', null)
-  //     setValue('education', null)
-  //     setValue('role', "")
-  //     setSelectedDate(null)
-  //     setValue('dateOfBirth', null)
-  //     setValue('userId',null)
-  //     setValue('outlet', null)
-  //     setValue('address1', null)
-  //     setValue('address2', null)
-  //     setValue('password', null)
-  //     setValue('email', null)
-  //     setSelectedRole("");
-  //     setUseNickname(false)
-  //     setOpenModal(false)
-  //     clearErrors()
-  //   }
-  // } 
+  )}
 
   return (
     <>
@@ -721,16 +735,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
             // onClick={() => history.goBack()}
             className="title"
           >
-            <h2
-              style={{
-                display:'flex',
-                top:0,
-                backgroundColor:'white',
-                position:'fixed',
-                height:'100px',
-                width:'100%'
-              }}
-            >
+            <h2 className="addEmployeeHeader">
               {" "}
               <IoIosArrowBack onClick={() => history.goBack()} />{" "}
               {!!params?.id?.length ? "Edit Employee Setup" : "Employee Setup"}
@@ -900,7 +905,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
                     className="date-picker-container"
                     style={{
                       marginTop:'-18px',
-                      zIndex:'999999999'
+                      zIndex:'9999999'
                     }}
                   >
                     <DatePicker
@@ -990,7 +995,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
                             onChange(role.value + "-neighbourhood");
                           }
                         }}
-                        value={editEmployee ? editEmployee.role : ''}
+                        value={editEmployee ? editEmployee.role : value}
                         name={name}
                         placeholderClass={"dropDown"}
                         controlClassName={"add-employee-dropdown"}
@@ -1237,8 +1242,8 @@ if(!!params?.id?.length && employeeByIdDetailsLoading)  return (
                   className="yesBtn" 
                   value='Yes' 
                   onClick={()=> { 
-                    // handleCleardata()
-                    history.goBack();
+                    handleCleardata()
+                    // history.goBack();
                   }} 
                 />
                 <input type="button" className="noBtn" value='No' onClick={()=>{setOpenModal(!openModal)}} />
