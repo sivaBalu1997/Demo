@@ -79,9 +79,9 @@ export const resetAddEmployee = () => ({
 });
 
 // Get Employee
-export const getEmployees = (merchantId) => ({
+export const getEmployees = (locationId) => ({
   type: GET_EMPLOYEE_REQUEST,
-  payload: merchantId,
+  payload: locationId,
 });
 
 export const failedGetEmployees = (details) => ({

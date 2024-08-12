@@ -50,6 +50,16 @@ const App = () => {
     //console.log(window.innerHeight, window.innerWidth);
   }, []);
 
+    useEffect(() => {
+      const handleContextMenu = (event) => {
+        event.preventDefault();
+      };
+      document.addEventListener('contextmenu', handleContextMenu);
+        return () => {
+        document.removeEventListener('contextmenu', handleContextMenu);
+      };
+    }, []);
+
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();

@@ -36,10 +36,10 @@ export function createEmployee(details) {
 }
 
 //Get Employee
-export function getEmployeeDetails() {
+export function getEmployeeDetails(locationId) {
   const token = Store.getState().auth.credentials.accessToken;
   const merchantId = Store.getState().auth.credentials.merchantId;
-  const payload = {"merchantId":merchantId}
+  const payload = {"locationId":locationId}
   const encPayload = encryptJson(payload);
   return API({
     method: "post",

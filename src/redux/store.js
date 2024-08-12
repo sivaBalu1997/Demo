@@ -8,8 +8,8 @@ import storage from 'redux-persist/lib/storage';
 const persistConfig = {
     key: 'MP_ROOT',
     storage,
-    whitelist: ['auth'], 
-    blacklist: ['menu','employee', 'subscription', 'payment', 'productCatalog', 'offer'], 
+    whitelist: ['auth', 'menu'], 
+    blacklist: ['employee', 'subscription', 'payment', 'productCatalog', 'offer'], 
   };
   
   const persistedReducer = persistReducer(persistConfig, rootReducer);

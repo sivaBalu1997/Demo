@@ -110,7 +110,7 @@ function* deleteEmployeeSaga(action) {
 //Get Employee
 function* getEmployeesSaga(action) {
   try {
-    const response = yield call(getEmployeeDetails);
+    const response = yield call(getEmployeeDetails,action.payload);
     if (response.status === 200) {
       const employeeListData = decryptJson(response.data.data)
       yield put(successGetEmployees(employeeListData));

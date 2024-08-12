@@ -94,9 +94,9 @@ export default function authReducer(state = initialAuthState, action) {
         break;
       case SIGNOUT:
         draft.signedIn = false;
-        draft.credentials= null;
-        draft.restaurantDetails= null;
-        draft.selectedBranch= null;
+        draft.credentials = null;
+        draft.restaurantDetails = null;
+        draft.selectedBranch = null;
         break;
       // OTP Verify Reducers
       case OTP_VERIFICATION_REQUEST:

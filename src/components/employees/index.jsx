@@ -21,6 +21,8 @@ const Employees = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const credentials = useSelector((state) => state.auth.credentials);
+  const selectedBranch = useSelector((state) => state.auth.selectedBranch);
+
   const employeeDetailsLoading = useSelector(
     (state) => state.employee.employeeDetailsLoading
   );
@@ -30,8 +32,8 @@ const Employees = () => {
   const employeeList = useSelector((state) => state.employee.employeeDetails);
   
   useEffect(() => {
-    credentials?.merchantId && dispatch(getEmployees(credentials?.merchantId));
-  }, [credentials?.merchantId]);
+    selectedBranch?.id && dispatch(getEmployees(selectedBranch?.id));
+  }, [selectedBranch?.id]);
 
   useEffect(() => {
     setLoading(employeeDetailsLoading);
@@ -48,7 +50,7 @@ const Employees = () => {
     return <div className="employeeHeaderContainer">
         <h3 className={"employeeHeading"}>Employees Management</h3>
         <div className={"employeeHeaderButtonContainer"} onClick={logoutUser}>
-          <img src={logout} alt="Logout" height="20" />&nbsp;&nbsp;&nbsp;<span className="employeeLogoutText">Log Out</span>
+          <img src={logout} alt="Logout" height="20" /><span className="employeeLogoutText">&nbsp;&nbsp;&nbsp;Log Out</span>
         </div>
     </div>
   }
@@ -73,19 +75,23 @@ const Employees = () => {
     if (event.key === 'Enter') {
       handleSearch();
     }
-    if(!/^[A-Za-z]*$/.test(event.key)){
+    if(!/^[A-Za-z\s]*$/.test(event.key)){
       event.preventDefault();
     }
   };
 
+  const handleInputChange = (e) => {
+    let value = e.target.value;
+  
+    if (value.startsWith(' ')) {
+      value = value.trimStart();
+    }
+  
+    setSearchInput(value);
+  };
+
   const handleCloseSearch = () => {
     setSearchInput('')
-  }
-
-  const handlekeydown = (event) => {
-    if(event.key === ' '){
-      event.preventDefault()
-    }
   }
 
   const handleSearch = () => {
@@ -112,9 +118,8 @@ const Employees = () => {
             className="employeeSearchBar" 
             placeholder="Search"
             value={searchInput}  
-            onChange={(e)=>setSearchInput(e.target.value)}
+            onChange={handleInputChange}
             onKeyPress={handleKeyPress}
-            onKeyDown={handlekeydown}
           />
           {!searchInput ? 
             <img src={searchImg} alt="" onClick={handleSearch} style={{width:"25px", height:"25px", marginTop:"6px", marginRight:"5px"}} /> :
