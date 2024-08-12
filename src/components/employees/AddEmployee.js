@@ -828,37 +828,48 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
                   }}>
                     {countryCode}
                   </div>
-                    <InputMask
-                        key={key}
+                  <Controller
+                    name="mobileNumber"
+                    control={control}
+                    rules={{
+                      validate: {
+                        // Check if the value is either empty or exactly 10 digits long
+                        validLength: (value) => !value || value.replace(/\D/g, '').length === 10 || "Phone number must be 10 digits",
+                      }
+                    }}
+                    render={({ onChange, onBlur, value, name }) => (
+                      
+                      <InputMask
+                        // {...field}
                         mask="999-999-9999"
                         maskChar=""
-                        name="mobileNumber"
+                        onChange={(e) => onChange(e.target.value)}
+                        value={value}
+                        name={name}
                       >
                         {(inputProps) => (
-                          <TextInput
+                          <input
                             {...inputProps}
                             type="text"
                             placeholder="Phone"
-                            name="mobileNumber"
-                            id='mobileNumber'
-                            formRegister={register({
-                              validate: (value) => value?.length === 12 || value?.length === 0 || "Invalid Number",
-                            })}
+                            id="mobileNumber"
                             className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
                             maxLength={12}
-                            onInput={(e) => {
-                              e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 10);
-                            }}
-                            onKeyPress={(e) => {
-                              if (!/[0-9]/.test(e.key)) {
-                                e.preventDefault();
-                              }
-                            }}
+                            // onInput={(e) => {
+                            //   e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 12);
+                            // }}
+                            // onKeyPress={(e) => {
+                            //   if (!/[0-9]/.test(e.key)) {
+                            //     e.preventDefault();
+                            //   }
+                            // }}
                           />
                         )}
-                    </InputMask>
+                      </InputMask>
+                    )}
+                  />
                   </div>
-                    {!useNickname && errors.mobileNumber && errors.mobileNumber.type === 'validate' && (
+                    {(errors.mobileNumber  || (errors.mobileNumber && errors.mobileNumber.type === 'validate')) && (
                       <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '15px' }}>
                         {errors.mobileNumber?.message}
                       </p>
