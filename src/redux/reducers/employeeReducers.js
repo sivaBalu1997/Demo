@@ -182,7 +182,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         break;
       case CLEAR_EDIT_EMPLOYEE_DATA:
         draft.editEmployeeData = null;
-        draft.employeeByIdDetails = null;
+        const empty = draft.employeeByIdDetails = {};
         draft.refreshPin = '';
         draft.isGettingNewPin = false;
         break;
@@ -305,6 +305,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
       //Get Employee By ID  
       case GET_EMPLOYEE_BY_ID_REQUEST:
         draft.employeeByIdDetails = {};
+        draft.employeeRoleAndFunctions = [];
         draft.employeeByIdDetailsLoading = true;
         draft.employeeByIdDetailsFailure = ""
         break;

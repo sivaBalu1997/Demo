@@ -214,7 +214,6 @@ const AddEmployee = () => {
     setUseNickname(event.target.checked);
   };
 
-
   useEffect(() => {
     const tempArr = [];
     if (rolesAndFunctions?.length > 0) {
@@ -227,9 +226,8 @@ const AddEmployee = () => {
           }
         }
       }
-      
-      setCheckedFunctions(tempArr);
     }
+    setCheckedFunctions(tempArr);
   }, [employee,rolesAndFunctions]); 
 
   const watchUserId = watch("userId");
@@ -606,15 +604,14 @@ const AddEmployee = () => {
     formValues.successCB = () => {
        history.goBack();
     }
-    if (editEmployee) {
+
+    if (params?.id?.length) {
       dispatch(updateEmployeeRequest(formValues));
     } else {
       dispatch(addEmployee(formValues));
     }
   };
 
-
-  
   const splitAddress = (address) => {
     const parts = address?.split(',');
     if (parts?.length > 1) {
@@ -647,7 +644,7 @@ const AddEmployee = () => {
       }
       setValue('firstName',employee?.firstName?.trim() || '')
       setValue('lastName', employee?.lastName?.trim() || '')
-      setValue('mobileNumber', employee?.mobileNumber?.trim() || employee?.phone || '')
+      setValue('mobileNumber', employee?.phone || '')
       setValue('nickName', employee?.nickName?.trim() || '')
       setValue('education', employee?.education || '')
       setValue('role', employee?.assignedRole || '')
@@ -662,7 +659,7 @@ const AddEmployee = () => {
         setValue('address2', address2)
       }
     }
-  }, [employee]);
+  }, [employee, setValue]);
 
   useEffect(() => {
     if (employeeActionCompleted && (addEmployeeFailure || !employeeUpdated)) {
@@ -730,7 +727,6 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
       marginLeft:'35%'
     }}>Loading, Please wait!!</p>
   )}
-
   return (
     <>
       {list === false ? (
@@ -741,7 +737,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
           >
             <h2 className="addEmployeeHeader">
               {" "}
-              <IoIosArrowBack onClick={() => history.goBack()} />{" "}
+              <IoIosArrowBack onClick={() => {history.goBack()}} />{" "}
               {!!params?.id?.length ? "Edit Employee Setup" : "Employee Setup"}
             </h2>
           </div>
