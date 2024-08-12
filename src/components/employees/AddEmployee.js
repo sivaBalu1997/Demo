@@ -217,9 +217,9 @@ const AddEmployee = () => {
 
   useEffect(() => {
     const tempArr = [];
-    if (editEmployee?.rolesAndFunctions?.length > 0) {
-      for (let i = 0; i < editEmployee.rolesAndFunctions.length; i++) {
-        const roleFunc = editEmployee.rolesAndFunctions[i];
+    if (rolesAndFunctions?.length > 0) {
+      for (let i = 0; i < rolesAndFunctions?.length; i++) {
+        const roleFunc = rolesAndFunctions[i];
         
         if (roleFunc?.funtions) { 
           for (let j = 0; j < roleFunc.funtions.length; j++) {
@@ -230,7 +230,7 @@ const AddEmployee = () => {
       
       setCheckedFunctions(tempArr);
     }
-  }, [employee]); 
+  }, [employee,rolesAndFunctions]); 
 
   const watchUserId = watch("userId");
   const watchFirstName = watch("firstName");
@@ -827,6 +827,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
                     <InputMask
                         mask="999-999-9999"
                         maskChar=""
+                        name="mobileNumber"
                       >
                         {(inputProps) => (
                           <TextInput
@@ -1213,13 +1214,17 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
               <span
                 style={{marginLeft:'550px'}}
                 onClick={() => {
-                  setOpenModal(!openModal)
+                  if(!editEmployee){
+                    setOpenModal(!openModal)
+                  }else{
+                    history.goBack();
+                  }
                 }}
               >
                 <input 
                   className="clear-all-btn" 
                   type="button" 
-                  value="Clear All" 
+                  value={ editEmployee ? "Back" :" Clear All"}
                   disabled = {addEmployeeLoading}
                 />
               </span>

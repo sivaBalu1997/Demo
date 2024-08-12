@@ -23,6 +23,10 @@ const Employees = () => {
   const credentials = useSelector((state) => state.auth.credentials);
   const selectedBranch = useSelector((state) => state.auth.selectedBranch);
 
+  const getRestaurantLoading= useSelector(
+    (state) => state.employee.getRestaurantLoading
+  );
+
   const employeeDetailsLoading = useSelector(
     (state) => state.employee.employeeDetailsLoading
   );
@@ -36,8 +40,9 @@ const Employees = () => {
   }, [selectedBranch?.id]);
 
   useEffect(() => {
-    setLoading(employeeDetailsLoading);
-  }, [employeeDetailsLoading, employeeList]);
+    const tempLoading = employeeDetailsLoading || getRestaurantLoading;
+    setLoading(tempLoading);
+  }, [employeeDetailsLoading, getRestaurantLoading]);
 
   const logoutUser = () => {
     dispatch(clearMenuData());

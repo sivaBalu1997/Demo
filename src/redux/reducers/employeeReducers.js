@@ -45,6 +45,7 @@ import {
   GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,
   GET_EMPLOYEE_ROLE_BY_ID_REQUEST,
 } from "../constants/employeeContants";
+import { SIGNOUT } from "../constants/authConstants";
 
 const initialEmployeeState = {
   // Outlets
@@ -336,6 +337,10 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.employeeByIdDetailsLoading = false;
         draft.employeeRoleAndFunctionsFailure = ""
       break
+      
+      case SIGNOUT:
+        draft.employeeDetails = [];
+      break;
 
       //Block/Unblock Employee
       case EMPLOYEE_STATUS_REQUEST:
