@@ -21,6 +21,8 @@ const Employees = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const credentials = useSelector((state) => state.auth.credentials);
+  const selectedBranch = useSelector((state) => state.auth.selectedBranch);
+
   const employeeDetailsLoading = useSelector(
     (state) => state.employee.employeeDetailsLoading
   );
@@ -30,8 +32,8 @@ const Employees = () => {
   const employeeList = useSelector((state) => state.employee.employeeDetails);
   
   useEffect(() => {
-    credentials?.merchantId && dispatch(getEmployees(credentials?.merchantId));
-  }, [credentials?.merchantId]);
+    selectedBranch?.id && dispatch(getEmployees(selectedBranch?.id));
+  }, [selectedBranch?.id]);
 
   useEffect(() => {
     setLoading(employeeDetailsLoading);
