@@ -1,0 +1,440 @@
+.employeeFormHeader{
+    display: flex;
+    flex-direction: row;
+    display:flex;
+    align-items: center;
+    top:0;
+    background-color:white;
+    position:fixed;
+    height:100px;
+    width:100%;
+    gap: 15px;
+    z-index: 9999;
+}
+
+.employeeFormHeader h3{
+    font-family: 'Poppins';
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+}
+
+
+/*FormBody*/
+.employeeFormContainer {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 95vh;
+    width: 75%;
+    overflow-y: hidden;
+    padding: 20px;
+}
+
+.backArrow{
+    font-weight: 500;
+    width: 30px;
+    height: 30px;
+    color: black;
+    cursor: pointer;
+}
+
+.employeeFormBody{
+    height: 80vh;
+    overflow-y: auto;
+    /* display: flex; */
+}
+
+.employeeFormTitle{
+  margin-top: 80px;
+  margin-bottom: 20px;   /*check margin*/
+}
+
+.flexContainer{
+  display: flex;
+  font-display: row;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.flexbox{
+  display: flex;
+  gap: 20px;
+}
+
+.nameInput, 
+.emailInput, 
+.educationInput,
+.userIdInput{
+  width: 26.5vw;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.passwordInput{
+  width: 26.5vw;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.dateInput{
+  width: 26vw;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.nickNameInput{
+  width: 54.5vw;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.employeeAddressForm{
+  width: 54vw;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.employeeCheckBox{
+  display: flex;
+  margin-top: -15px;
+  margin-bottom: 20px;
+}
+
+.checkBoxLabel{
+  padding: 0;
+}
+
+.employeeCheckBox input{
+  width: 18px;
+  margin-right: 8px;
+}
+
+.employeeCheckBox p{
+  font-size: 15px;
+}
+
+.checkbox {
+  display: none;
+}
+
+.checkBoxContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: calc(100% - 60px); 
+  overflow-y: auto;
+}
+
+.checkbox + p::before {
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+  margin-right: 5px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.checkbox:checked + p::before {
+  background-color: #67833E;
+  border-color: #67833E;
+  content: '✔';
+  color: white;
+  font-size: 10px;
+  text-align: center;
+  line-height: 15px;
+}
+
+.phoneContainer{
+  display: flex;
+}
+
+.phoneContainer input{
+  width: 25vw;
+  border-radius: 0 4px 4px 0;
+}
+
+.emailContainer input{
+  width: 25vw;
+}
+
+.countryCode{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #B4B4B4;
+  background-color: #EFEFEF;
+  height: 48px;
+  width: 37px;
+  border-radius: 4px 0 0 4px;
+  border-right: none
+}
+
+.date-picker-container{
+  display: flex;
+  position: relative;
+  z-index: 999;
+}
+
+.cal_icon{
+  position: absolute;
+  right: 10px;
+  top: 25%;
+}
+
+.employeeFormSeperater{
+  width: 99%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.selectContainer{
+  width: 26.3vw;
+  height: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 99;
+}
+
+.selectContainer img{
+  width: 20px;
+  cursor: pointer;
+}
+
+.add-employee-dropdown {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: none;
+}
+
+.Dropdown-placeholder{
+  display: flex;
+  font-size: 14px;
+  top: 20%;
+  left: -1%;
+  width: fit-content;
+  border: none;
+}
+
+.Dropdown-control {
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #333;
+  cursor: default;
+  outline: none;
+  padding: 8px 52px 8px 10px;
+  transition: all 200ms ease;
+}
+
+.errorInput{
+  height: 50px;
+  border-color: #FF0505;
+  width: 26.3vw;
+}
+
+.errorInput::placeholder{
+  color: #FF0505;
+}
+
+.errorCustomInput{
+  position: relative;
+  width: 26.3vw;
+  height: 50px;
+  border-radius: 4px;
+  border: 1px solid #FF0505;
+  border-color: #FF0505;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+
+.errorCustomInput img{
+  width: 20px;
+  cursor: pointer;
+}
+
+.errorCustomInput .selectOutlet{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  color: rgba(51, 51, 51, 0.8);
+  font-size: 14px;
+  border: 1px solid #FF0505;
+  border-color: #FF0505;
+
+}
+
+.errorCustomInput .outletDropDown{
+  color: rgba(51, 51, 51, 0.8);
+  width: 390px;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #FF0505;
+  border-color: #FF0505;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: -2px;
+}
+
+.errorCustomInput .Dropdown-placeholder{
+  display: flex;
+  font-size: 14px;
+  top: 20%;
+  left: -1%;
+  width: fit-content;
+  border: none;
+  color: #FF0505;
+}
+
+.employeeFormRoleFunction{
+  width: 14vw;
+  margin-left: 28vw;
+  margin-top: -55px;
+  color: #67833E ;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.employeeFormEyeIcon{
+  position: relative;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.acess-flex{
+  width: 30vw;
+}
+
+.input-wrapper {
+  display: flex;
+}
+
+.pin-input {
+  width: 40px;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  outline: none;
+  border-radius: 8px; 
+}
+
+.pin-input:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.pin-input:nth-child(2),
+.pin-input:nth-child(3) {
+  border-radius: 0; 
+}
+
+.pin-input:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.errorInput {
+  border-color: #FF0505;
+}
+
+.errorPassInput {
+  border-color: #FF0505;
+  width: 26.5vw;
+  height: 50px;
+}
+
+.errorPassInput::placeholder{
+  color: #FF0505;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.rotating-div {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.eyeIcon {
+  cursor: pointer;
+}
+
+.resetIcon{
+  position: relative;
+  top: -40px;
+  left: 180px;
+  cursor: pointer;
+}
+
+.eyeIcon {
+  position: relative;
+  cursor: pointer;
+}
+
+.eyeIcon.show {
+  top: -40px;
+  left: 200px;
+}
+
+.eyeIcon.hide {
+  top: -40px;
+  left: 200px;
+}
+
+.rotating-div {
+  position: relative;
+  top: -40px;
+  left: 180px;
+  animation: rotate 2s linear infinite;
+}
+
+.errorPassText{
+  font-size: 12px;
+  color: #FF0505; 
+  margin-top: 5px; 
+  width:500px; 
+}
+
+/*Footer*/
+.employeeFormFooter{
+  position: sticky;
+  bottom: 10px;
+  margin-top: 150px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  gap: 10px;
+} 
+
+.employeeForm-clearAll{
+  background-color: #fff;
+  color: #67833E;
+  width: 130px;
+  border-color: #67833E;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.employeeForm-save{
+  background-color: #67833E;
+  color: #fff;
+  width: 130px;
+  cursor: pointer;
+  font-weight: 600;
+}

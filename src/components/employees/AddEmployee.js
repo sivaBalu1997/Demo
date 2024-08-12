@@ -692,11 +692,14 @@ const handleOtpChange = (otpValue) => {
   setOtp(otpValue);
 };
 
+const [key, setKey] = useState(Math.random());
+
+
 const handleCleardata = () => {
   if (!editEmployee) {
     setValue('firstName', null);
     setValue('lastName', null);
-    setValue('mobileNumber', null);
+    setValue('mobileNumber', '')
     setValue('nickName', null);
     setValue('education', null);
     setValue('role', null);  
@@ -712,6 +715,7 @@ const handleCleardata = () => {
     setUseNickname(false);
     setOpenModal(false);
     clearErrors();
+    setKey(Math.random());
   } else {
     history.goBack();
   }
@@ -825,6 +829,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
                     {countryCode}
                   </div>
                     <InputMask
+                        key={key}
                         mask="999-999-9999"
                         maskChar=""
                         name="mobileNumber"
@@ -835,6 +840,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
                             type="text"
                             placeholder="Phone"
                             name="mobileNumber"
+                            id='mobileNumber'
                             formRegister={register({
                               validate: (value) => value?.length === 12 || value?.length === 0 || "Invalid Number",
                             })}

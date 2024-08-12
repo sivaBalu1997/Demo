@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { clearEditEmployeeData, getEmployees } from "../../redux/actions/employeeActions";
@@ -9,11 +8,8 @@ import { signOut } from "../../redux/actions/authActions";
 import { clearMenuData } from "../../redux/actions/menuAction";
 import "./employee.css";
 import "./styles.css";
-
 import close from '../../assets/images/close.png'
 import searchImg from '../../assets/svg/searchImg.svg'
-
-
 
 
 const Employees = () => {
