@@ -24,7 +24,7 @@ const Employees = () => {
   const selectedBranch = useSelector((state) => state.auth.selectedBranch);
 
   const getRestaurantLoading= useSelector(
-    (state) => state.employee.getRestaurantLoading
+    (state) => state.auth.getRestaurantLoading
   );
 
   const employeeDetailsLoading = useSelector(

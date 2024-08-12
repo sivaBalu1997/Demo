@@ -81,16 +81,19 @@ export default function authReducer(state = initialAuthState, action) {
       case SIGNIN_REQUEST:
         draft.signedIn = false;
         draft.signInLoading = true;
+        draft.getRestaurantLoading = true
         break;
       case SIGNIN_SUCCESS:
         draft.signedIn = true;
         draft.signInLoading = false;
         draft.credentials = action.payload;
+        draft.getRestaurantLoading = true
         break;
       case SIGNIN_FAILURE:
         draft.signedIn = false;
         draft.signInLoading = false;
         draft.signInMessage = action.payload.message;
+        draft.getRestaurantLoading = false
         break;
       case SIGNOUT:
         draft.signedIn = false;
