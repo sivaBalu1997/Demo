@@ -67,6 +67,9 @@ const AddEmployee = () => {
   const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
   const [localRoleFunctionFetching, setLocalRoleFunctionFetching] = useState(false);
 
+  const [dataFetching, setDataFetching] = useState(true);
+
+
 
   useEffect(()=> {
     params?.id?.length && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
@@ -83,9 +86,10 @@ const AddEmployee = () => {
       setLocalRoleFunctionFetching(true);
       dispatch(getEmployeeRoleByIdRequest({
         staffId:employeeData.staffId,
-        sagaCallBack: setLocalRoleFunctionFetching(false)
+        sagaCallBack: ()=>{setDataFetching(false)}
       }))
     }
+    !employeeData && !employeeData?.isActive && setDataFetching(false)
   }
 
   // useEffect(() => {
@@ -96,7 +100,11 @@ const AddEmployee = () => {
   //   (state) => state.employee.employee
   // )
 
-  const editEmployee = employee && {
+  const [editEmployee,setEditEmployee] = useState('')
+
+useEffect(() => {
+if(employee && !dataFetching) { 
+  setEditEmployee({
     firstName: employee?.firstName,
     lastName: employee?.lastName,
     mobileNumber: employee?.phone,
@@ -110,7 +118,9 @@ const AddEmployee = () => {
     outlet: employee?.locationName,
     staffId: employee?.staffId,
     rolesAndFunctions: rolesAndFunctions
-  }
+  })}
+}, [employee,employeeByIdDetailsLoading , localRoleFunctionFetching,dataFetching])
+
 
   const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)
   const {
@@ -637,7 +647,7 @@ const AddEmployee = () => {
   };
   
   useEffect(() => {
-    if (employee) {
+    if (employee && !dataFetching) {
       if(employee?.dateOfBirth && employee?.dateOfBirth?.length > 0){
         const date = new Date(employee?.dateOfBirth);
         setSelectedDate(date)
@@ -659,7 +669,7 @@ const AddEmployee = () => {
         setValue('address2', address2)
       }
     }
-  }, [employee, setValue]);
+  }, [employee, setValue,employeeByIdDetailsLoading , localRoleFunctionFetching,dataFetching]);
 
   useEffect(() => {
     if (employeeActionCompleted && (addEmployeeFailure || !employeeUpdated)) {
@@ -718,7 +728,8 @@ const handleCleardata = () => {
   }
 }
 
-if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetching)  {
+
+if(!!params?.id?.length && dataFetching)  {
   return (
     <p style={{
       display: "flex",
@@ -729,7 +740,6 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
   )}
   return (
     <>
-      {list === false ? (
         <div className="menu-details">
           <div
             // onClick={() => history.goBack()}
@@ -1270,9 +1280,7 @@ if(!!params?.id?.length && employeeByIdDetailsLoading && !localRoleFunctionFetch
             </div>
           </div>}
         </div>
-      ) : (
-        <EmployeeList setList={() => setList(false)} />
-      )}
+      
     </>
   )
 }

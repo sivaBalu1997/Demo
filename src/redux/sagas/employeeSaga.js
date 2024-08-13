@@ -157,13 +157,20 @@ function* getEmployeeRolesByIdSaga(action) {
     const response = yield call(getEmployeeRoleById, requestData?.staffId)
     if(response.status === 200) {
      // const employeeRoleFunction = decryptJson(response.data.data)
+     
       yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_SUCCESS,payload: response.data}));
     }else {
       const errorMessage = response.data?.message != "" ? response.data?.message : 'Please Try Again Later';
       response.status !== 403 && showErrorToast(errorMessage);
       yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: errorMessage}));
     }
+    if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
+      requestData.sagaCallBack();
+    }
   } catch (err) {
+    if ( requestData?.sagaCallBack != null &&typeof requestData?.sagaCallBack === 'function') {
+      requestData.sagaCallBack();
+    }
     yield put(yield put({type: GET_EMPLOYEE_ROLE_BY_ID_FAILURE,payload: ''}));
   }
 }
@@ -209,6 +216,7 @@ function* updateEmployeePINSaga(action) {
 function* updateEmployeeSaga(action) {
   try{
     const response = yield call(editEmployee, action.payload)
+    console.log(response?.data);
     if(response.status === 200){
       showSuccessToast(response?.data?.message);  
       yield put(updateEmployeeSuccess(response.data))
@@ -220,8 +228,9 @@ function* updateEmployeeSaga(action) {
       response.status !== 403 && showErrorToast(errorMessage);
       yield put(updateEmployeeFailure(errorMessage))
     }
-  }catch{
-    // const errorMessage = response.data?.message;
+  }catch(err){
+     const errorMessage = err.response.data?.message;
+     console.log(errorMessage);
     // alert(errorMessage)
     yield put(updateEmployeeFailure("Error Updating Employee"))
   }
