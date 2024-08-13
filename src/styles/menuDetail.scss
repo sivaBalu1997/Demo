@@ -317,6 +317,13 @@
       cursor: pointer;
       font-weight: 600;
     }
+
+    .clear-all-btn:disabled{
+      cursor: not-allowed;
+    }
+    .save-btn:disabled{
+      cursor: not-allowed;
+    }
   } 
 
   .modal{

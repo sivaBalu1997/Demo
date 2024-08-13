@@ -92,6 +92,7 @@ const initialEmployeeState = {
   employeeByIdDetails: {},
   employeeByIdDetailsLoading: false,
   employeeByIdDetailsFailure: "",
+  saveButtonDisabled: false, 
 
   //Roles and Function
   employeeRoleAndFunctions:[],
@@ -307,16 +308,19 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.employeeByIdDetails = {};
         draft.employeeRoleAndFunctions = [];
         draft.employeeByIdDetailsLoading = true;
-        draft.employeeByIdDetailsFailure = ""
+        draft.employeeByIdDetailsFailure = "";
+        draft.saveButtonDisabled = false;
         break;
       case GET_EMPLOYEE_BY_ID_FAILURE:
         draft.employeeByIdDetailsFailure = action.payload.message;
         draft.employeeByIdDetailsLoading = false;
+        draft.saveButtonDisabled = true;
         break;
       case GET_EMPLOYEE_BY_ID_SUCCESS:
         draft.employeeByIdDetails = action.payload;
         draft.employeeByIdDetailsLoading = false;
         draft.employeeByIdDetailsFailure = "";
+        draft.saveButtonDisabled = false;
         break;
         
       //RolesAndFunctions

@@ -179,6 +179,7 @@ if(employee && !dataFetching) {
   const [restaurantBranch,setRestaurantBranch] = useState([]);
   const [restaurantBranchDefaultValue,setRestaurantBranchDefaultValue]  = useState("");
   const branchOptions = restaurantBranch ? restaurantBranch.map(branch => branch?.locationName) : [];
+  const saveButtonDisabled = useSelector((state) => state.employee.saveButtonDisabled)
 
   
   useEffect(() => {
@@ -1248,7 +1249,7 @@ if(!!params?.id?.length && dataFetching)  {
                   className="clear-all-btn" 
                   type="button" 
                   value={ editEmployee ? "Back" :" Clear All"}
-                  disabled = {addEmployeeLoading}
+                  disabled = {addEmployeeLoading || employeeUpdateLoading}
                 />
               </span>
               <span>
@@ -1256,6 +1257,7 @@ if(!!params?.id?.length && dataFetching)  {
                   className="save-btn" 
                   type="submit" 
                   value={addEmployeeLoading || employeeUpdateLoading ? '' : "Save"} 
+                  disabled={saveButtonDisabled}
                 /> 
                 {(addEmployeeLoading || employeeUpdateLoading) && <div className="loaders"></div>}
               </span>

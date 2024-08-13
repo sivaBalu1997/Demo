@@ -245,3 +245,4 @@ const EmployeeRow = ({
 
 
 export default React.memo(EmployeeList);  
+

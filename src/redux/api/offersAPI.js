@@ -6,7 +6,7 @@ export function getOfferList(offerListParams) {
   const token = Store.getState().auth.credentials.accessToken;
   return API({
     method: "GET",
-    url: `/coupon/offer/${offerListParams.locationId}/?status=${offerListParams.status}`,
+    url: `/coupon/offer/${offerListParams.locationId}?status=${offerListParams.status}`,
     headers: {
       Authorization: "bearer " + token,
     },
