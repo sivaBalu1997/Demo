@@ -68,8 +68,7 @@ const AddEmployee = () => {
   const [localRoleFunctionFetching, setLocalRoleFunctionFetching] = useState(false);
 
   const [dataFetching, setDataFetching] = useState(true);
-
-
+  const [saveBtndisable, setSaveBtnDisable] = useState(false);
 
   useEffect(()=> {
     params?.id?.length && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
@@ -82,6 +81,7 @@ const AddEmployee = () => {
   // }
 
   const invokePermission = (employeeData, statusCode) => {
+    setSaveBtnDisable(statusCode === 403 ? true : false)
     if(employeeData?.isActive ){
       setLocalRoleFunctionFetching(true);
       dispatch(getEmployeeRoleByIdRequest({
@@ -1257,7 +1257,7 @@ if(!!params?.id?.length && dataFetching)  {
                   className="save-btn" 
                   type="submit" 
                   value={addEmployeeLoading || employeeUpdateLoading ? '' : "Save"} 
-                  disabled={saveButtonDisabled}
+                  disabled={saveBtndisable}
                 /> 
                 {(addEmployeeLoading || employeeUpdateLoading) && <div className="loaders"></div>}
               </span>
