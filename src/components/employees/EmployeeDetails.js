@@ -26,6 +26,8 @@ const EmployeeDetails = () => {
     const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
     const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
     const [permissionErrorMessage, setPermissionErrorMessage] = useState('')
+    const [menuDisable, setmenuDisable] = useState(false)
+    const [permissionStatusCode, setPermissionStatusCode] = useState('')
 
     const history = useHistory()
     const params = useParams()
@@ -35,8 +37,11 @@ const EmployeeDetails = () => {
     },[params?.id])
 
     const invokePermission =(employeeData, statusCode)=>{
+        setPermissionStatusCode(statusCode)
         employeeData?.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
-        statusCode == 403 && setPermissionErrorMessage(`You don't have permission`) 
+        if(statusCode == 403){
+            setPermissionErrorMessage(`You don't have permission`) 
+        }
         statusCode !== 403 && !employeeData?.isActive && setPermissionErrorMessage('Unblock the user to view the Roles and Functions')
     }
 
@@ -58,9 +63,8 @@ const EmployeeDetails = () => {
     }, [restaurantDetails])
   
     const dispatch = useDispatch()
-
     const handleDelete = () => {
-      dispatch(deleteEmployee(employee.staffId))
+        dispatch(deleteEmployee(employee.staffId))
     }
 
     const formatDate = (dateString) => {
@@ -109,16 +113,20 @@ const EmployeeDetails = () => {
     const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading)
   
     useEffect(() => {
-      // console.log({modelApiLoading, actionApiSuccess});
       if (actionApiSuccess && !modelApiLoading) {
         setDeleteOpenModal(false);
-        history.push("/management/employees")
       }
       if(!employeeStatusLoading && actionApiSuccess && !modelApiLoading){
         setOpenStausModal(false);
         dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
       }
     }, [modelApiLoading, actionApiSuccess,employeeStatusLoading])
+
+    useEffect(()=>{
+        if (actionApiSuccess && !modelApiLoading) {
+            history.push("/management/employees")
+        }
+    }, [modelApiLoading, actionApiSuccess])
     
     const handleNoClick = () => {
         setOpenStausModal(prev => !prev);
@@ -139,6 +147,8 @@ const EmployeeDetails = () => {
             </p>
         )
       }   
+
+
     return (
         <div className='employeeDetails'>
             <div className='headLine' 
@@ -192,7 +202,7 @@ const EmployeeDetails = () => {
             />
 
             {showDropDown && (
-                <div className='dropDown' 
+                <div className={'dropDown'} 
                     style={{
                         zIndex: '999999', 
                         marginTop:'20px',
@@ -216,14 +226,25 @@ const EmployeeDetails = () => {
 
                     <div className='actionTab'
                         onClick={() => {
-                            setOpenStausModal(true)
-                            //handleBlockClick(employee, employee.isActive)
+                            if(permissionStatusCode === 403){
+                                showErrorToast(permissionErrorMessage)
+                                setShowDropDown(false)
+                            }else{
+                                setOpenStausModal(true)
+                            }
                         }}
                     >
                         <img src={employee?.isActive ? block : unBlockImg}  />
                         <p>{employee?.isActive ? 'Block' : 'Unblock'}</p>
                     </div>
-                    <div className='actionTab' onClick={()=>setDeleteOpenModal(!openDeleteModal)}>
+                    <div className='actionTab' onClick={()=>{
+                        if(permissionStatusCode === 403){
+                            showErrorToast(permissionErrorMessage)
+                            setShowDropDown(false)
+                        }else{
+                            setDeleteOpenModal(!openDeleteModal)
+                        }
+                        }}>
                         <img src={trash} style={{filter: "invert(21%) sepia(93%) saturate(7248%) hue-rotate(354deg) brightness(103%) contrast(101%)"}} />
                         <p>Delete</p>
                     </div>
