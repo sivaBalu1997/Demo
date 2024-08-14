@@ -756,3 +756,14 @@ iframe {
   //  lineHeight: '36px'
   //  }}
 }
+
+.branch-dropdown:disabled {
+  appearance: none; /* Hide the default dropdown arrow */
+  -moz-appearance: none; /* For Firefox */
+  -webkit-appearance: none; /* For Safari and Chrome */
+  // background-color: #e0e0e0; /* Optional: Gray out the background for disabled look */
+}
+
+.branch-dropdown:disabled::-ms-expand {
+  display: none; /* Hide the arrow for Internet Explorer */
+}
