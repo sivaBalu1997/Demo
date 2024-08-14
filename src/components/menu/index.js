@@ -197,6 +197,7 @@ const Menu = () => {
             <div>
               <select
                 className="branch-dropdown"
+                disabled={location.pathname?.includes('/management/employees/add') || restaurantDetails?.branch?.length == 1}
                 onChange={(e) => {
                   dispatch(selectBranch(JSON.parse(e.target.value)));
                   localStorage.setItem(

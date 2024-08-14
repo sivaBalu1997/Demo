@@ -8,7 +8,7 @@
     background-color: #fff;
     width: 20%;
     min-width: 150px;
-    padding: 4.5% 2.5vw 11%;
+    padding: 2.5% 1.5%;
     border-right: 1px solid #c4c4c4;
     height: 100vh;
     box-sizing: border-box;
@@ -635,7 +635,7 @@ iframe {
   font-weight: 500;
   font-size: 14px;
   display: inline-block;
-  text-align: center;
+  text-align: start;
 
   @media (max-width: 575px) {
     text-align: left;
@@ -666,7 +666,7 @@ iframe {
 
   &>div{
     @media (max-width: 1224px) {
-      text-align: center;
+      text-align: start;
       margin-top: 8px;
     }
   }
