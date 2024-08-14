@@ -178,7 +178,13 @@ const EmployeeDetails = () => {
                     Employee Details
                 </h3>
                 {!showDropDown ? 
-                    (<img src={menu} onClick={() => setShowDropDown(!showDropDown)} />) 
+                    (<img src={menu} onClick={() => {
+                        if(permissionStatusCode === 403){
+                            showErrorToast(permissionErrorMessage)
+                        }else{
+                            setShowDropDown(!showDropDown)
+                        }
+                    }} />) 
                     :
                     (<img src={x} className='xImg' style={{width:'30px'}} onClick={() => setShowDropDown(!showDropDown)} />) 
                 }
@@ -226,24 +232,13 @@ const EmployeeDetails = () => {
 
                     <div className='actionTab'
                         onClick={() => {
-                            if(permissionStatusCode === 403){
-                                showErrorToast(permissionErrorMessage)
-                                setShowDropDown(false)
-                            }else{
-                                setOpenStausModal(true)
-                            }
-                        }}
+                                setOpenStausModal(true)}}
                     >
                         <img src={employee?.isActive ? block : unBlockImg}  />
                         <p>{employee?.isActive ? 'Block' : 'Unblock'}</p>
                     </div>
                     <div className='actionTab' onClick={()=>{
-                        if(permissionStatusCode === 403){
-                            showErrorToast(permissionErrorMessage)
-                            setShowDropDown(false)
-                        }else{
                             setDeleteOpenModal(!openDeleteModal)
-                        }
                         }}>
                         <img src={trash} style={{filter: "invert(21%) sepia(93%) saturate(7248%) hue-rotate(354deg) brightness(103%) contrast(101%)"}} />
                         <p>Delete</p>

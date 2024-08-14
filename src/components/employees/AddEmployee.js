@@ -604,7 +604,7 @@ if(employee && !dataFetching) {
         setValue('address2', address2)
       }
     }
-  }, [employee, setValue,employeeByIdDetailsLoading , localRoleFunctionFetching,dataFetching]);
+  }, [employee,employeeByIdDetailsLoading , localRoleFunctionFetching,dataFetching]);
 
   useEffect(() => {
     if (employeeActionCompleted && (addEmployeeFailure || !employeeUpdated)) {
