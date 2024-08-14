@@ -64,14 +64,20 @@ const Employees = () => {
     if (searchInput === '') {
       setSearchedData(employeeList);
     } else {
-      const filteredData = employeeList.filter(item => (
-        item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
-        item.role.toLowerCase().includes(searchInput.toLowerCase())
-      ));
+      const cleanedSearchInput = searchInput.toLowerCase().trim().replace(/\s+/g, '');
+ 
+      const filteredData = employeeList.filter(item => {
+      const fullName = item.firstName?.concat(item.lastName).toLowerCase().trim();
+      const role = item.role.toLowerCase().trim();
+      return (
+      fullName.includes(cleanedSearchInput) ||
+      role.includes(cleanedSearchInput)
+    );
+  });
       setSearchedData(filteredData);
     }
   }, [searchInput, employeeList]);
-
+  
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       handleSearch();

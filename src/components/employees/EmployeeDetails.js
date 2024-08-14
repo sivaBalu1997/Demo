@@ -61,7 +61,6 @@ const EmployeeDetails = () => {
 
     const handleDelete = () => {
       dispatch(deleteEmployee(employee.staffId))
-      history.push("/management/employees")
     }
 
     const formatDate = (dateString) => {
@@ -77,13 +76,13 @@ const EmployeeDetails = () => {
         return outlet
     }
 
-    const formatPhoneNumber=(number)=> {
+    const formatPhoneNumber=(number, countryCode)=> {
         let phoneNumber = number.toString();
         phoneNumber = phoneNumber.replace(/\D/g, '');
         if (phoneNumber.length !== 10) {
-            return 'Invalid phone number';
+            return '-';
         }
-        return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+        return countryCode+' '+phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     }
     
 
@@ -113,6 +112,7 @@ const EmployeeDetails = () => {
       // console.log({modelApiLoading, actionApiSuccess});
       if (actionApiSuccess && !modelApiLoading) {
         setDeleteOpenModal(false);
+        history.push("/management/employees")
       }
       if(!employeeStatusLoading && actionApiSuccess && !modelApiLoading){
         setOpenStausModal(false);
@@ -244,7 +244,7 @@ const EmployeeDetails = () => {
                 <div>
                     <div className='title'><p className='tag'>Nick Name</p><p className='value'>:</p><p className=''>  {employee?.nickName?.trim() ? employee?.nickName?.trim() : '-'}</p></div>
                     <div className='title'><p className='tag'>Email</p><p className='value'>:</p><p className='' style={{width:'300px'}}>  {employee?.email?.trim() ? employee?.email?.trim() : '-'}</p></div>
-                    <div className='title'><p className='tag'>Phone</p><p className='value'>:</p><p className=''>  {employee?.phone?.trim() ?countryCode+" "+formatPhoneNumber(employee?.phone?.trim()) : '-'}</p></div>
+                    <div className='title'><p className='tag'>Phone</p><p className='value'>:</p><p className=''>  {employee?.phone?.trim() ? formatPhoneNumber(employee?.phone?.trim(),countryCode) : '-'}</p></div>
                     <div className='title'><p className='tag'>Address</p><p className='value'>:</p><p style={{width:'250px'}}>  {employee?.address && !isEmptyOrSpaces(employee.address) ? employee.address : '-'}</p></div>
                     <div className='title'><p className='tag'>Education</p><p className='value'>:</p><p className=''>  {employee?.education ? employee?.education : '-'}</p></div>
                 </div>

@@ -118,7 +118,14 @@
 
   .emailContainer{
     width: 400px;
+
+    input{
+      width: 395px;
+      height: 50px;
+    }
   }
+
+
 
 .add-employee-dropdown {
   display: flex;
@@ -184,6 +191,7 @@
 
   .flexBox{
     display: flex;
+    gap: 20px;
   }
   
   .placeholder-no-border {
@@ -192,6 +200,11 @@
 
   .acess-flex{
     width: 813px;
+  }
+
+  .rfLoading{
+    display: flex;
+    justify-content: center;
   }
   
   .selectContainer{

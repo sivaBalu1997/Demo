@@ -180,6 +180,7 @@ if(employee && !dataFetching) {
   const [restaurantBranchDefaultValue,setRestaurantBranchDefaultValue]  = useState("");
   const branchOptions = restaurantBranch ? restaurantBranch.map(branch => branch?.locationName) : [];
   const saveButtonDisabled = useSelector((state) => state.employee.saveButtonDisabled)
+  const employeeRoleAndFunctionsLoading = useSelector((state) => state.employee.employeeRoleAndFunctionsLoading)
 
   
   useEffect(() => {
@@ -318,73 +319,6 @@ if(employee && !dataFetching) {
       history.replace("/management/employees")
     }
   }, [addEmployeeLoading, employeeAdded])
-
-  useEffect(() => {
-    if (getValues("userId") === " ") {
-      setValue("userId", "");
-    }
-    if (addEmployeeMessage !== "") {
-      dispatch(resetAddEmployee());
-    }
-  }, [watchUserId]);
-
-  useEffect(() => {
-    let name = getValues("firstName")?.replace(/[^A-Za-z ]/g, "")
-    var splitted = name?.split(" ");
-    // console.log("Input Splitted: ", splitted);
-
-    if (
-      splitted?.every((name) => {
-        return name == "";
-      })
-    ) {
-      setValue("firstName", "")
-    } else {
-      if (splitted?.length > 0) {
-        for (var i = 0; i < splitted?.length; i++) {
-          if (splitted?.[i]?.length === 1) {
-            //   console.log("one Len");
-            splitted[i] = splitted?.[i]?.charAt(0).toUpperCase()
-          } else {
-            splitted[i] =
-              splitted?.[i]?.charAt(0).toUpperCase() + splitted?.[i]?.slice(1)
-          }
-        }
-        name = splitted?.join(" ");
-        // console.log("Output: ", name)
-        setValue("firstName", name)
-      }
-    }
-  }, [watchFirstName])
-
-  useEffect(() => {
-    let name = getValues("lastName")?.replace(/[^A-Za-z ]/g, "")
-    var splitted = name?.split(" ");
-    // console.log("Input Splitted: ", splitted);
-
-    if (
-      splitted?.every((name) => {
-        return name == ""
-      })
-    ) {
-      setValue("lastName", "");
-    } else {
-      if (splitted?.length > 0) {
-        for (var i = 0; i < splitted?.length; i++) {
-          if (splitted?.[i].length === 1) {
-            //   console.log("one Len");
-            splitted[i] = splitted?.[i].charAt(0).toUpperCase()
-          } else {
-            splitted[i] =
-              splitted?.[i].charAt(0).toUpperCase() + splitted?.[i].slice(1)
-          }
-        }
-        name = splitted?.join(" ")
-        // console.log("Output: ", name)
-        setValue("lastName", name)
-      }
-    }
-  }, [watchLastName]);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -772,7 +706,11 @@ if(!!params?.id?.length && dataFetching)  {
                           ? "fN errorInput"
                           : "add-employee-text-input"
                       }
-                      onKeyDown={handleSpace}
+                      onKeyPress={(e) => {
+                        if (!/^[A-Za-z\s]$/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </div>
 
@@ -783,7 +721,11 @@ if(!!params?.id?.length && dataFetching)  {
                       name="lastName"
                       formRegister={register()}
                       className={"add-employee-text-input"}
-                      //maxLength={15}
+                      onKeyPress={(e) => {
+                        if (!/^[A-Za-z\s]$/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </div>
                 </div>
@@ -798,8 +740,8 @@ if(!!params?.id?.length && dataFetching)  {
                     })}
                     className={errors.nickName ? 'fN errorInputBox' : 'inputBox'}
                     onKeyPress={(e) => {
-                      if(!/^[A-Za-z\s]*$/.test(e.key)){
-                        e.preventDefault();
+                      if (e.key === ' ' && e.target.value.length < 1) {
+                        e.preventDefault(); 
                       }
                     }}
                   />
@@ -889,7 +831,7 @@ if(!!params?.id?.length && dataFetching)  {
                       placeholder="Email"
                       name="email"
                       formRegister={register()}
-                      className={"add-employee-text-input"}
+                      className={"emailInput"}
                       onKeyDown={handleSpace}
                     />
                   </div>
@@ -1021,6 +963,7 @@ if(!!params?.id?.length && dataFetching)  {
                             onChange(role.value + "-neighbourhood");
                           }
                         }}
+                        disabled={employeeRoleAndFunctionsLoading}
                         value={editEmployee ? editEmployee.role : value}
                         name={name}
                         placeholderClass={"dropDown"}
@@ -1036,7 +979,7 @@ if(!!params?.id?.length && dataFetching)  {
                     <div className="dropDownContainer"> 
                       <div className="functionsDropDown" ref={dropdownRef}>     
                       <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 500}}>Roles/Functions</p>               
-                      <div className="checkList">
+                      { employeeRoleAndFunctionsLoading ? <p className="rfLoading">Loading, Please wait!!</p> : <div className="checkList">
                         <div className="checkBoxContainer">
                           {roles.map((module) => (
                             <div className="checkboxList" key={module.module}>
@@ -1069,7 +1012,7 @@ if(!!params?.id?.length && dataFetching)  {
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </div>}
                       <div className="functionBtn">
                         <button 
                           className="resetbtn" 
