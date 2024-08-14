@@ -737,3 +737,22 @@ iframe {
   background-color: transparent;
   margin-right: 2%;
 }
+
+.headLine2{
+  display: flex;
+  position: fixed;
+  width: 100%;
+  background-color: #FFFFFF;
+  margin-top: -30px;
+  padding-top: 20px;
+  // style={{
+  //   position: 'fixed',
+  //   marginBottom:'40px', 
+  //   width: '100%', 
+  //   zIndex: '1000', 
+  //   backgroundColor: '#fff', 
+  //   height:'100px',
+  //   fontSize: '24px',
+  //  lineHeight: '36px'
+  //  }}
+}

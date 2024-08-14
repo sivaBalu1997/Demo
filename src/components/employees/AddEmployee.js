@@ -676,7 +676,25 @@ if(!!params?.id?.length && dataFetching)  {
   return (
     <>
         <div className="menu-details">
-          <div
+        <div className='headLine2' 
+             >
+                <h3 style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '10px',
+                    cursor: 'pointer',
+                    // padding: '10px',
+                    fontWeight:'400',
+                    fontSize:'24px'
+                }}
+                >
+                    <IoIosArrowBack onClick={() => history.goBack()} />{" "}
+                    {!!params?.id?.length ? "Edit Employee Setup" : "Employee Setup"}
+                </h3>
+          
+            </div>
+          {/* <div
             // onClick={() => history.goBack()}
             className="title"
           >
@@ -685,7 +703,7 @@ if(!!params?.id?.length && dataFetching)  {
               <IoIosArrowBack onClick={() => {history.goBack()}} />{" "}
               {!!params?.id?.length ? "Edit Employee Setup" : "Employee Setup"}
             </h2>
-          </div>
+          </div> */}
           <h3 style={{marginTop:'80px'}}>Personal Info</h3>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
             <div className="menu-details-form">
