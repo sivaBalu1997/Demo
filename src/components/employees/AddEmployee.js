@@ -1123,7 +1123,7 @@ if(!!params?.id?.length && dataFetching)  {
                 className="acess-flex"
                 style={{ marginTop: editEmployee ? 10 : 20 }}
               >
-                <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#ccc'}}>Create Pin*</p>
+                <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px",}}>Create Pin*</p>
                 <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                     {[0, 1, 2, 3].map((i) => (                        
