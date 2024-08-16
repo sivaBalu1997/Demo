@@ -52,7 +52,9 @@ const EmployeeList = (props) => {
                     <th className="employeeTHeading">Name</th>
                     <th className="employeeTHeading">Role</th>
                     <th className="employeeTHeading">Status</th>
-                    <th className="employeeTHeading">Actions</th>
+                    <th className="employeeTHeading">Edit</th>
+                    <th className="employeeTHeading">Un/Block</th>
+                    <th className="employeeTHeading">Delete</th>
                   </tr>
                 </thead>
             <tbody className="tBody">
@@ -189,13 +191,14 @@ const EmployeeRow = ({
         <td>
           <div className="employeeValueData2" style={{color: !data.isActive ?"#FFA800" :"#67833E"}}>
             <img className="statusImg" src={ !data.isActive ? blockIcon :activeIcon} alt="" />
-            {!data.isActive ? "Blocked":"Active"}</div>
+             <div>{!data.isActive ? "Blocked":"Active"}</div>
+             </div> 
         </td>
 
         <td ref={ref} >
-          <div className="employeeValueDataAction">
+          {/* <div className="employeeValueDataAction"> */}
 
-            <div onClick={() => { 
+            <div className="img-align" onClick={() => { 
                 if(data.isActive){
                   handleEdit(data.staffId)
                 }else{
@@ -204,20 +207,26 @@ const EmployeeRow = ({
                }}>
               <img src={editImg} className="actions" />
             </div>
+            </td>
 
-            <div onClick={() => {handleBlockClick(data, data.isActive)}}>
+            <td>
+            <div className="img-align" onClick={() => {handleBlockClick(data, data.isActive)}}>
               <img src={!data.isActive ? unBlockImg : blockImg} className="actions" />
             </div>
+            </td>
 
-            <div onClick={() => {handleDeleteClick(data); }}>
+          <td>
+            <div className="img-align" onClick={() => {handleDeleteClick(data); }}>
               <img src={trashImg} className="actions" />
             </div>
+            </td>
 
-            <div onClick={() => {history.push("/management/employees/details/" + data.staffId)}}>
+          <td>
+            <div className="img-align" onClick={() => {history.push("/management/employees/details/" + data.staffId)}} >
               <img src={previewImg} className="actions" />
             </div>
          
-          </div>
+          {/* </div> */}
         </td>
       </tr>
 
