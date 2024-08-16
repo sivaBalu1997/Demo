@@ -1469,7 +1469,7 @@ const AddItem = (props) => {
                 ) {
                   values.modifiers = updateMenuItemSuccess;
                 }
-                // selectedImage && formData.append("itemImage", selectedImage);
+                // formData.append("itemImage",null);
                 formData.append("item", JSON.stringify(values));
                 setTimeout(() => {
                   values.itemId != null

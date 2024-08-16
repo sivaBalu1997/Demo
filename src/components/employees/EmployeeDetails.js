@@ -208,7 +208,7 @@ const EmployeeDetails = () => {
             />
 
             {showDropDown && (
-                <div className={'dropDown'} 
+                <div className='hamburgerMenu' 
                     style={{
                         zIndex: '999999', 
                         marginTop:'20px',

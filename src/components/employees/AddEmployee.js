@@ -453,10 +453,10 @@ if(employee && !dataFetching) {
       .flatMap((module) => module?.functionality)
       .filter((func) => func?.roles?.includes(role))
       .map((func) => func?.name?.toLowerCase());
-  
     const selectedFunctionNames = selectedFunctions.map((func) => func.name.toLowerCase());
-  
-    return selectedFunctionNames.some((func) => !defaultFunctions.includes(func));
+    const hasExtraFunctions = selectedFunctionNames.some((func) => !defaultFunctions.includes(func));
+    const hasMissingFunctions = selectedFunctionNames.length !== defaultFunctions.length;
+    return hasExtraFunctions || hasMissingFunctions;
   };
   
   // const employeeUpdated = useSelector((state)=>state.employee.employeeUpdated)
@@ -802,14 +802,12 @@ if(!!params?.id?.length && dataFetching)  {
                     control={control}
                     rules={{
                       validate: {
-                        // Check if the value is either empty or exactly 10 digits long
                         validLength: (value) => !value || value.replace(/\D/g, '').length === 10 || "Phone number must be 10 digits",
                       }
                     }}
                     render={({ onChange, onBlur, value, name }) => (
                       
                       <InputMask
-                        // {...field}
                         mask="999-999-9999"
                         maskChar=""
                         onChange={(e) => onChange(e.target.value)}
@@ -824,14 +822,6 @@ if(!!params?.id?.length && dataFetching)  {
                             id="mobileNumber"
                             className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
                             maxLength={12}
-                            // onInput={(e) => {
-                            //   e.target.value = e?.target?.value?.replace(/\D/g, '').slice(0, 12);
-                            // }}
-                            // onKeyPress={(e) => {
-                            //   if (!/[0-9]/.test(e.key)) {
-                            //     e.preventDefault();
-                            //   }
-                            // }}
                           />
                         )}
                       </InputMask>
@@ -847,7 +837,7 @@ if(!!params?.id?.length && dataFetching)  {
 
                   <div className="emailContainer">
                     <TextInput
-                      type="email"
+                      type="text"
                       placeholder="Email"
                       name="email"
                       formRegister={register()}
@@ -1113,12 +1103,18 @@ if(!!params?.id?.length && dataFetching)  {
                       }}
                     />
                     )}
-                    {errors.password && errors.password.type==='validate' && (
-                      <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '-15px', width:'500px' }}>
-                        Enter valid password. Your password should contain atleast 8 characters, 1 capital letter, 1 special character, and 1 number
+                  </div>
+                  {errors.password && errors.password.type==='validate' && (
+                      <p className="passwordErrorText">
+                        <p>Invalid Password</p>
+                        Your password should be atleast 8 characters.
+                        <ul>
+                          <li>Atleast one uppercase</li>
+                          <li>Atleast one Specialcharacter</li>
+                          <li>Atleast one Numeric</li>
+                        </ul>
                       </p>
                     )}
-                  </div>
                 </div>
 
               <div

@@ -27,15 +27,17 @@
     cursor: not-allowed;
 }
 
-.dropDown {
+.hamburgerMenu{
     border: 1px solid black;
     width: fit-content;
     padding: 5px 20px;
     position: absolute;
-    right: 50px;
+    right: 30px;
     top: 55px;
     z-index: 999;
     background-color: white;
+    box-shadow: 1px 1px 1px 1px #40413e;
+    border-radius: 4px;
 }
 
 .actionTab {
@@ -74,6 +76,18 @@
     margin-right: 20px;
     /* width: 200px; */
     /* margin-right: 10px; */
+}
+
+
+.dropDown {
+    border: 1px solid black;
+    width: fit-content;
+    padding: 5px 20px;
+    position: absolute;
+    right: 50px;
+    top: 55px;
+    z-index: 999;
+    background-color: white;
 }
 
 .rolesContainer {
