@@ -120,6 +120,8 @@ const Menu = () => {
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails
   );
+  
+  const UserRole = useSelector((state) => state.auth.credentials.role);
 
   const locationId = useSelector(
     (state) => state.auth.credentials && state.auth.credentials.locationId
@@ -197,7 +199,7 @@ const Menu = () => {
             <div>
               <select
                 className="branch-dropdown"
-                disabled={location.pathname?.includes('/management/employees/add') || restaurantDetails?.branch?.length == 1}
+                disabled={location.pathname?.includes('/management/employees/add') || restaurantDetails?.branch?.length == 1 ||   (UserRole !== "Restaurant_Owner" && UserRole !== "Regional_Employee")}
                 onChange={(e) => {
                   dispatch(selectBranch(JSON.parse(e.target.value)));
                   localStorage.setItem(
