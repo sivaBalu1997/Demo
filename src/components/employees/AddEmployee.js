@@ -182,6 +182,7 @@ if(employee && !dataFetching) {
   const saveButtonDisabled = useSelector((state) => state.employee.saveButtonDisabled)
   const employeeRoleAndFunctionsLoading = useSelector((state) => state.employee.employeeRoleAndFunctionsLoading)
 
+
   
   useEffect(() => {
     const countryC = restaurantDetails?.country;
@@ -190,13 +191,12 @@ if(employee && !dataFetching) {
       setRestaurantBranch(restaurantDetails?.branch);
       if (restaurantDetails?.branch) {
         setRestaurantBranchDefaultValue(userBranchName);
-        setIsDropdownDisabled(true);
         setValue('outlet', userBranchName);
       } else {
         setRestaurantBranchDefaultValue("");    
         setIsDropdownDisabled(false);
       }
-      const isOutletHasDropDown = credentials?.role ? true : credentials?.role === "Restaurant_Owner" ? true : 
+      const isOutletHasDropDown = credentials?.role && credentials?.role === "Restaurant_Owner" ? true : 
                                   credentials?.role === "Regional_Employee" ? true : 
                                   credentials?.role === "Restaurant_Manager" ? true : 
                                   false;
@@ -209,6 +209,8 @@ if(employee && !dataFetching) {
     }
   }, [restaurantDetails, credentials, setValue, userBranchName]);
 
+
+  
   useEffect(() => {
     dispatch(getEmployeeRoles())
   }, [])
