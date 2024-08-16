@@ -725,7 +725,7 @@ if(!!params?.id?.length && dataFetching)  {
                           : "add-employee-text-input"
                       }
                       onKeyPress={(e) => {
-                        if (!/^[A-Za-z\s]$/.test(e.key)) {
+                        if (e.key === ' ' && e.target.value.length < 1 || !/^[A-Za-z\s]$/.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
@@ -740,7 +740,7 @@ if(!!params?.id?.length && dataFetching)  {
                       formRegister={register()}
                       className={"add-employee-text-input"}
                       onKeyPress={(e) => {
-                        if (!/^[A-Za-z\s]$/.test(e.key)) {
+                        if (e.key === ' ' && e.target.value.length < 1 || !/^[A-Za-z\s]$/.test(e.key)) {
                           e.preventDefault();
                         }
                       }}

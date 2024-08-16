@@ -53,6 +53,9 @@ const EmployeeDetails = () => {
 
     const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
     const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
+    const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
+    const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
+    const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading)
     const [countryCode,setCountryCode] = useState("");
 
     useEffect(() => {
@@ -66,6 +69,13 @@ const EmployeeDetails = () => {
     const handleDelete = () => {
         dispatch(deleteEmployee(employee.staffId))
     }
+
+    useEffect(()=>{
+        if(!modelApiLoading && actionApiSuccess && employeeDeleted){
+            dispatch({ type: 'RESET_REMOVE_EMPLOYEE_DATA' });
+            history.push("/management/employees")
+        }
+    },[employeeDeleted])
 
     const formatDate = (dateString) => {
         if (dateString) {
@@ -107,10 +117,6 @@ const EmployeeDetails = () => {
         // setIsBlocking(false);  
         setShowDropDown(!showDropDown)    
     };
-
-    const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
-    const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
-    const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading)
   
     useEffect(() => {
       if (actionApiSuccess && !modelApiLoading) {
@@ -121,12 +127,6 @@ const EmployeeDetails = () => {
         dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
       }
     }, [modelApiLoading, actionApiSuccess,employeeStatusLoading])
-
-    useEffect(()=>{
-        if (actionApiSuccess && !modelApiLoading) {
-            history.push("/management/employees")
-        }
-    }, [modelApiLoading, actionApiSuccess])
     
     const handleNoClick = () => {
         setOpenStausModal(prev => !prev);
