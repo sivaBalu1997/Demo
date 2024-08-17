@@ -1172,7 +1172,7 @@ if(!!params?.id?.length && dataFetching)  {
                 className="acess-flex"
                 style={{ marginTop: editEmployee ? 10 : 20 }}
               >
-                <div className="tooltipContainer" style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#B4B4B4'}}>Create Pin* 
+                <div className="tooltipContainer" style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#646262'}}>Create Pin* 
                   <img src={info} alt="info" className="infoToolTip"/>
                   <span className="hoverImage">The four digit pin will be used for validating the user</span>
                 </div>
