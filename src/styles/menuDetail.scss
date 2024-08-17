@@ -28,6 +28,16 @@
     font-weight: 400;
   }
 
+  .inputLabel{
+    color: #646262;
+    font-size: 16px;
+  }
+
+  .errorLabel{
+    color: #FF0505;
+    font-size: 16px;
+  }
+
   .flexContainer{
     width: 100%;
     display: flex;
@@ -49,6 +59,15 @@
   .inputBox{
     width: 813px;
     height: 50px;
+  }
+
+  .nickNameBox{
+    width: 400px;
+    height: 50px;
+  }
+
+  .addressField{
+    margin-top: 20px;
   }
 
   .dateInput {
@@ -80,6 +99,16 @@
   }
 
   .errorInput::placeholder {
+    color: #FF0505;
+  }
+
+  .errorNickNameBox{
+    width: 400px;
+    height: 50px;
+    border-color: #FF0505;
+  }
+
+  .errorNickNameBox::placeholder{
     color: #FF0505;
   }
 
@@ -116,7 +145,7 @@
     color: #FF0505;
   }
 
-  .emailContainer{
+  .addEmployeeEmail{
     width: 400px;
 
     input{
@@ -125,6 +154,14 @@
     }
   }
 
+  .addEmployeeEmailError{
+    width: 400px;
+    input{
+      width: 395px;
+      height: 50px;
+      border-color: #FF0505;
+    }
+  }
 
 
 .add-employee-dropdown {
@@ -213,7 +250,7 @@
     height: 50px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    margin-top: 20px;
+    // margin-top: 20px;
     margin-bottom: 20px;
     margin-right: 10px;
 
@@ -252,7 +289,6 @@
     border-radius: 4px;
     border: 1px solid #FF0505;
     border-color: #FF0505;
-    margin-top: 20px;
     margin-bottom: 20px;
     margin-right: 10px;
     // z-index: 0;

@@ -41,7 +41,7 @@ export function addMenuItem(data) {
     method: "post",
     url: `/merchants/productCatalog`,
     headers: {
-      "content-type": "multipart/form-data",
+      "Content-Type": "multipart/form-data",
     },
     data: data,
   });

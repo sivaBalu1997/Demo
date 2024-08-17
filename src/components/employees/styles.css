@@ -401,13 +401,20 @@ img{
 }
 
 .passwordErrorText{
-  position: absolute;
   font-size: 12px;
+  min-height: 20px;
   color: #FF0505;
+  margin-top: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   margin-top: -20px;
-  width: 500px;
-  left: 700px;
-  bottom: 180px;
+  margin-bottom: -120px;
+}
+
+.emailErrorText{
+  color: #FF0505;
+  font-size: 12px;
 }
 
 @media(max-width:1280px){

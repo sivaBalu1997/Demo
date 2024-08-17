@@ -13,6 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "../../assets/images/cal.png";
 import ResetLogo from "../../assets/images/resetIcon.png";
 import InputMask from "react-input-mask"
+import alert from '../../assets/svg/alert-triangle.svg'
 import {
   addEmployee,
   getOutlets,
@@ -33,6 +34,7 @@ import { useHistory, useParams } from "react-router";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import { ReactComponent as ResetIcon } from "../../assets/svg/refresh-cw.svg";
+import Modal from "../Modal/Modal";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
@@ -712,9 +714,10 @@ if(!!params?.id?.length && dataFetching)  {
               <div className="primary-sec">
                 <div className="flexContainer">
                   <div>
+                    <label className={errors.firstName ?"errorLabel" : "inputLabel"}>First Name*</label>
                     <TextInput
                       type="text"
-                      placeholder="First Name*"
+                      // placeholder="First Name*"
                       //maxLength={15}
                       name="firstName"
                       formRegister={register({
@@ -735,9 +738,10 @@ if(!!params?.id?.length && dataFetching)  {
                   </div>
 
                   <div>
+                  <label className="inputLabel">Last Name</label>
                     <TextInput
                       type="text"
-                      placeholder="Last Name"
+                      // placeholder="Last Name"
                       name="lastName"
                       formRegister={register()}
                       className={"add-employee-text-input"}
@@ -751,14 +755,15 @@ if(!!params?.id?.length && dataFetching)  {
                 </div>
 
                 <div>
+                  <label className={errors.nickName ? "errorLabel" : "inputLabel"}>Nick Name*</label>
                   <TextInput
                     type="text"
-                    placeholder="Nick Name"
+                    // placeholder="Nick Name"
                     name="nickName"
                     formRegister={register({
                       required: useNickname && "Required",
                     })}
-                    className={errors.nickName ? 'fN errorInputBox' : 'inputBox'}
+                    className={errors.nickName ? 'fN errorNickNameBox' : 'nickNameBox'}
                     onKeyPress={(e) => {
                       if (e.key === ' ' && e.target.value.length < 1) {
                         e.preventDefault(); 
@@ -783,7 +788,8 @@ if(!!params?.id?.length && dataFetching)  {
 
                 <div className="flexBox">
                   <div>
-                  <div className={!useNickname && errors.mobileNumber ? 'num phoneErrorInput countryCodeMo' : 'phoneContainer countryCodeMo'}>
+                  <label className={errors.mobileNumber ? "errorLabel" : "inputLabel"}>Phone</label>
+                  <div className={errors.mobileNumber ? 'num phoneErrorInput countryCodeMo' : 'phoneContainer countryCodeMo'}>
                   <div className="countryCode" style={{
                      display:'flex',
                      justifyContent:'center',
@@ -818,7 +824,7 @@ if(!!params?.id?.length && dataFetching)  {
                           <input
                             {...inputProps}
                             type="text"
-                            placeholder="Phone"
+                            // placeholder="Phone"
                             id="mobileNumber"
                             className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
                             maxLength={12}
@@ -829,28 +835,51 @@ if(!!params?.id?.length && dataFetching)  {
                   />
                   </div>
                     {(errors.mobileNumber  || (errors.mobileNumber && errors.mobileNumber.type === 'validate')) && (
-                      <p style={{ fontSize: '12px', color: '#FF0505', marginTop: '15px' }}>
+                      <p style={{ fontSize: '12px', color: '#FF0505', marginTop:8,marginBottom:5 }}>
                         {errors.mobileNumber?.message}
                       </p>
                     )}
                   </div>
 
-                  <div className="emailContainer">
-                    <TextInput
-                      type="text"
-                      placeholder="Email"
-                      name="email"
-                      formRegister={register()}
-                      className={"emailInput"}
-                      onKeyDown={handleSpace}
-                    />
+                  <div className={errors.email ? 'addEmployeeEmailError' : 'addEmployeeEmail'}>
+                    <label className={errors.email ? "errorLabel" : "inputLabel"}>Email</label>
+                    <div>
+                      <Controller
+                        name="email"
+                        control={control}
+                        rules={{
+                          validate: {
+                            validEmail: (value) => {
+                              if (value && value.length > 0) {
+                                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "Invalid email address";
+                              }
+                              return true;
+                            }
+                          }
+                        }}
+                        render={({ onChange, value, name }) => (
+                          <input
+                            type="text"
+                            name={name}
+                            value={value}
+                            onChange={onChange}
+                            className={errors.email ? 'emailErrorInput' : 'emailInput'}
+                          />
+                        )}
+                      />
+                    </div>
+                    {(errors.email  || (errors.email && errors.email.type === 'validate')) && (
+                        <p style={{ fontSize: '12px', color: '#FF0505',marginTop:5,marginBottom:5 }}>
+                          {errors.email?.message}
+                        </p>
+                      )}
                   </div>
                 </div>
 
-                <div>
+                <div className="addressField">
+                  <label className="inputLabel">Address Line 1</label>
                   <TextInput
                     type="text"
-                    placeholder="Address Line 1"
                     name="address1"
                     formRegister={register()}
                     className={"inputBox"}
@@ -858,9 +887,9 @@ if(!!params?.id?.length && dataFetching)  {
                   />
                 </div>
                 <div>
+                  <label className="inputLabel">Address Line 2</label>
                   <TextInput
                     type="text"
-                    placeholder="Address Line 2"
                     name="address2"
                     formRegister={register()}
                     className={"inputBox"}
@@ -870,242 +899,261 @@ if(!!params?.id?.length && dataFetching)  {
 
                 <div className="flexContainer">
                   <div>
+                  <label className="inputLabel">Education</label>
                     <TextInput
                       type="text"
-                      placeholder="Education"
+                      // placeholder="Education"
                       name="education"
                       formRegister={register()}
                       className={"add-employee-text-input"}
                       onKeyDown={handleSpace}
                     />
                   </div>
-                  <div 
-                    className="date-picker-container"
-                    style={{
-                      marginTop:'-18px',
-                      zIndex:'9999999'
-                    }}
-                  >
-                    <DatePicker
-                      placeholderText="MM/DD/YYYY"
-                      selected={selectedDate}
-                      onChange={handleDateChange}
-                      onChangeRaw={handleDateChangeRaw}
-                      className="dateInput"
-                      yearDropdownItemNumber={50}
-                      scrollableYearDropdown
-                      showYearDropdown
-                      minDate={new Date(1970, 0, 1)}
-                      maxDate={new Date()}
-                      // isClearable={true}
-                    />
-                    <img
-                      className="cal_icon"
-                      alt="Calendar Icon"
-                      src={Calendar}
-                      width="15"
-                      onClick={() => document.querySelector('.dateInput').focus()}
-                      style={{right:'10px', top:'38%'}}
-                    />
+
+                  <div>
+                    <label className="inputLabel">Date</label>
+                    <div 
+                      className="date-picker-container"
+                      style={{
+                        zIndex:'9999999'
+                      }}
+                    >
+                      
+                      <DatePicker
+                        placeholderText="MM/DD/YYYY"
+                        selected={selectedDate}
+                        onChange={handleDateChange}
+                        onChangeRaw={handleDateChangeRaw}
+                        className="dateInput"
+                        yearDropdownItemNumber={50}
+                        scrollableYearDropdown
+                        showYearDropdown
+                        minDate={new Date(1970, 0, 1)}
+                        maxDate={new Date()}
+                        // isClearable={true}
+                      />
+                      <img
+                        className="cal_icon"
+                        alt="Calendar Icon"
+                        src={Calendar}
+                        width="15"
+                        onClick={() => document.querySelector('.dateInput').focus()}
+                        style={{right:'10px', top:'38%'}}
+                      />
+                    </div>
                   </div>
                     
                 </div>
                 <hr style={{marginRight:'40px'}}/>
                 
-                <h3>Formal Setup*</h3>
-                <div className="flexContainer">               
-                <div className={errors.outlet?.type ? 'errorCustomInput' : 'selectContainer'} style={{ cursor: "pointer" }}>
-                  <div style={{ zIndex: 0 }}>
+                <h3>Formal Setup*</h3>  
+                <div className="flexContainer">  
+                        
+                <div>
+                  <label className={errors.outlet ? "errorLabel" : "inputLabel"}>Outlet*</label>     
+                  <div className={errors.outlet?.type ? 'errorCustomInput' : 'selectContainer'} style={{ cursor: "pointer" }}>
+                    
+                    <div style={{ zIndex: 0 }}>
+                      <Controller
+                        control={control}
+                        name="outlet"
+                        defaultValue={restaurantBranchDefaultValue}
+                        rules={{
+                          required: "Required",
+                        }}
+                        render={({ onChange, onBlur, value, name }) => (
+                          <CustomDropdown
+                            options={branchOptions}
+                            // placeholder={"Outlets*"}
+                            onSelect={(outletSelected) => {
+                              if (restaurantBranch && outletSelected) {
+                                const selectedBranch = restaurantBranch.find(branch =>
+                                  branch?.locationName?.includes(outletSelected?.value)
+                                );
+                                if (selectedBranch) {
+                                  onChange(selectedBranch.locationName);
+                                }
+                              }
+                            }}
+                            value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue)}
+                            name={name}
+                            controlClassName={
+                              editEmployee || isDropdownDisabled
+                                ? "disabled-dropdown add-employee-dropdown"
+                                : "add-employee-dropdown"
+                            }
+                            arrowClassName={"add-employee-dropdown-arrow"}
+                            placeholderClass={"dropDown"}
+                            disabled={isDropdownDisabled}
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <label className={errors.role ? "errorLabel" : "inputLabel"}>Roles*</label>
+                  <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
                     <Controller
                       control={control}
-                      name="outlet"
-                      defaultValue={restaurantBranchDefaultValue}
+                      name="role"
+                      defaultValue={""}
                       rules={{
                         required: "Required",
                       }}
                       render={({ onChange, onBlur, value, name }) => (
                         <CustomDropdown
-                          options={branchOptions}
-                          placeholder={"Outlets*"}
-                          onSelect={(outletSelected) => {
-                            if (restaurantBranch && outletSelected) {
-                              const selectedBranch = restaurantBranch.find(branch =>
-                                branch?.locationName?.includes(outletSelected?.value)
-                              );
-                              if (selectedBranch) {
-                                onChange(selectedBranch.locationName);
-                              }
+                          options={processedOptions}
+                          placeholder={""}
+                          onSelect={(role) => {
+                            // console.log({role});
+                            onChange(role.value);
+                            handleRoleChange(role.value);
+                            if (jwt_decode(credentials?.accessToken)?.resource_access["merchant-app"]?.roles[0].includes("neighbourhood")) {
+                              onChange(role.value + "-neighbourhood");
                             }
                           }}
-                          value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue)}
+                          disabled={employeeRoleAndFunctionsLoading}
+                          value={editEmployee ? editEmployee.role : value}
                           name={name}
-                          controlClassName={
-                            editEmployee || isDropdownDisabled
-                              ? "disabled-dropdown add-employee-dropdown"
-                              : "add-employee-dropdown"
-                          }
-                          arrowClassName={"add-employee-dropdown-arrow"}
                           placeholderClass={"dropDown"}
-                          disabled={isDropdownDisabled}
+                          controlClassName={"add-employee-dropdown"}
+                          arrowClassName={"add-employee-dropdown-arrow"}
                         />
                       )}
                     />
-                  </div>
-                </div>
-                
-                <div className={errors.role?.type ? "errorCustomInput" : "selectContainer"} style={{ cursor: "pointer" }}>
-                  <Controller
-                    control={control}
-                    name="role"
-                    defaultValue={""}
-                    rules={{
-                      required: "Required",
-                    }}
-                    render={({ onChange, onBlur, value, name }) => (
-                      <CustomDropdown
-                        options={processedOptions}
-                        placeholder={"Roles*"}
-                        onSelect={(role) => {
-                          // console.log({role});
-                          onChange(role.value);
-                          handleRoleChange(role.value);
-                          if (jwt_decode(credentials?.accessToken)?.resource_access["merchant-app"]?.roles[0].includes("neighbourhood")) {
-                            onChange(role.value + "-neighbourhood");
-                          }
-                        }}
-                        disabled={employeeRoleAndFunctionsLoading}
-                        value={editEmployee ? editEmployee.role : value}
-                        name={name}
-                        placeholderClass={"dropDown"}
-                        controlClassName={"add-employee-dropdown"}
-                        arrowClassName={"add-employee-dropdown-arrow"}
-                      />
-                    )}
-                  />
-                  {selectedRole && <div className="roleFunction">
-                    <p onClick={() => setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
-                  </div>}
-                  {openFunction && (
-                    <div className="dropDownContainer"> 
-                      <div className="functionsDropDown" ref={dropdownRef}>     
-                      <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 500}}>Roles/Functions</p>               
-                      { employeeRoleAndFunctionsLoading ? <p className="rfLoading">Loading, Please wait!!</p> : <div className="checkList">
-                        <div className="checkBoxContainer">
-                          {roles.map((module) => (
-                            <div className="checkboxList" key={module.module}>
-                              <div className="checkBoxItem">
-                                <label>
-                                  <input 
-                                    type="checkbox" 
-                                    className="checkbox" 
-                                    checked={isModuleChecked(module.module)} 
-                                    onChange={() => handleModuleCheckboxChange(module.module)} 
-                                  />
-                                  <p style={{fontWeight:600}}>{module.module}</p>
-                                </label>
-                              </div>
-                              <div className="checkBoxItemfunction" >
-                              {module.functionality.map((func) => (
-                                <div key={func.name}>
-                                  <label className="checkboxLabel">
+                    {selectedRole && <div className="roleFunction">
+                      <p onClick={() => setOpenFuction(!openFunction)}>Edit Roles/Functions</p>
+                    </div>}
+                    {openFunction && (
+                      <div className="dropDownContainer"> 
+                        <div className="functionsDropDown" ref={dropdownRef}>     
+                        <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 500}}>Roles/Functions</p>               
+                        { employeeRoleAndFunctionsLoading ? <p className="rfLoading">Loading, Please wait!!</p> : <div className="checkList">
+                          <div className="checkBoxContainer">
+                            {roles.map((module) => (
+                              <div className="checkboxList" key={module.module}>
+                                <div className="checkBoxItem">
+                                  <label>
                                     <input 
                                       type="checkbox" 
                                       className="checkbox" 
-                                      checked={isFunctionChecked(func.name)} 
-                                      onChange={() => handleCheckboxChange(func.name)} 
+                                      checked={isModuleChecked(module.module)} 
+                                      onChange={() => handleModuleCheckboxChange(module.module)} 
                                     />
-                                    <p className="funcName">{func.name}</p>
+                                    <p style={{fontWeight:600}}>{module.module}</p>
                                   </label>
                                 </div>
-                              ))}
+                                <div className="checkBoxItemfunction" >
+                                {module.functionality.map((func) => (
+                                  <div key={func.name}>
+                                    <label className="checkboxLabel">
+                                      <input 
+                                        type="checkbox" 
+                                        className="checkbox" 
+                                        checked={isFunctionChecked(func.name)} 
+                                        onChange={() => handleCheckboxChange(func.name)} 
+                                      />
+                                      <p className="funcName">{func.name}</p>
+                                    </label>
+                                  </div>
+                                ))}
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
+                        </div>}
+                        <div className="functionBtn">
+                          <button 
+                            className="resetbtn" 
+                            type="button" 
+                            value="Reset" 
+                            onClick={handleReset}
+                          >
+                            <span>
+                            <img src={ResetLogo}/>
+                            Reset
+                            </span>
+                          </button>
+                          <button className="saveBtn" value="Save" onClick={() => setOpenFuction(!openFunction)} style={{border:'none'}} >
+                            Save
+                          </button>
                         </div>
-                      </div>}
-                      <div className="functionBtn">
-                        <button 
-                          className="resetbtn" 
-                          type="button" 
-                          value="Reset" 
-                          onClick={handleReset}
-                        >
-                          <span>
-                          <img src={ResetLogo}/>
-                          Reset
-                          </span>
-                        </button>
-                        <button className="saveBtn" value="Save" onClick={() => setOpenFuction(!openFunction)} style={{border:'none'}} >
-                          Save
-                        </button>
                       </div>
-                    </div>
-                    </div>
-                  )}
-                  
+                      </div>
+                    )}
+                    
+                  </div>
                 </div>
                 </div>
 
                 <div className="flexContainer">
+                 <div>
+                  <label className={errors.userId ? "errorLabel" : "inputLabel"}>User Id*</label>
                   <div>
-                    <TextInput
-                      type="text"
-                      placeholder="User ID*"
-                      name="userId"
-                      formRegister={register({
-                        required: "Required",
-                      })}
-                      className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
-                      autoComplete = {false}
-                      disabled={!!params?.id?.length}
-                      onKeyDown={(event) => {
-                        if(event.key === ' ' || event.code === 'Space'){
-                          event.preventDefault()
-                        }
-                      }}
-                      // disabled={editEmployee}
-                    />
-                  </div>
+                      <TextInput
+                        type="text"
+                        // placeholder="User ID*"
+                        name="userId"
+                        formRegister={register({
+                          required: "Required",
+                        })}
+                        className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
+                        autoComplete = {false}
+                        disabled={!!params?.id?.length}
+                        onKeyDown={(event) => {
+                          if(event.key === ' ' || event.code === 'Space'){
+                            event.preventDefault()
+                          }
+                        }}
+                        // disabled={editEmployee}
+                      />
+                    </div>
+                 </div>
                   
+                 <div>
+                  <label className={errors.password ? "errorLabel" : "inputLabel"}>Password*</label>
                   <div>
-                    <TextInput
-                      type={isPasswordVisible ? "text" : "password"}
-                      placeholder="Password*"
-                      // minLength={6}
-                      name="password"
-                      formRegister={register({
-                        required: !editEmployee && "Required",
-                        validate : validatePassword
-                      })}
-                      className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
-                      containerStyle={{ paddingBottom: "0px" }}
-                      autoComplete = {false}
-                      onKeyDown={handleSpace}
-                    />
-                    {isPasswordVisible ? (
-                      <OpenEyeIcon
-                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                      style={{
-                        position: "relative",
-                        bottom: 30,
-                        left: 370, 
-                        cursor:'pointer'
-                      }}
-                    />
-                    ) : (
-                    <ClosedEyeIcon
-                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                      style={{
-                        position: "relative",
-                        bottom: 30,
-                        left: 370, 
-                        cursor:'pointer'
-                      }}
-                    />
-                    )}
-                  </div>
+                      <TextInput
+                        type={isPasswordVisible ? "text" : "password"}
+                        // placeholder="Password*"
+                        // minLength={6}
+                        name="password"
+                        formRegister={register({
+                          required: !editEmployee && "Required",
+                          validate : validatePassword
+                        })}
+                        className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
+                        containerStyle={{ paddingBottom: "0px" }}
+                        autoComplete = {false}
+                        onKeyDown={handleSpace}
+                      />
+                      {isPasswordVisible ? (
+                        <OpenEyeIcon
+                        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                        style={{
+                          position: "relative",
+                          bottom: 30,
+                          left: 370, 
+                          cursor:'pointer'
+                        }}
+                      />
+                      ) : (
+                      <ClosedEyeIcon
+                        onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                        style={{
+                          position: "relative",
+                          bottom: 30,
+                          left: 370, 
+                          cursor:'pointer'
+                        }}
+                      />
+                      )}
+                    </div>
+                    <div className="passwordErrorText">
                   {errors.password && errors.password.type==='validate' && (
-                      <p className="passwordErrorText">
+                      <p className="">
                         <p>Invalid Password</p>
                         Your password should be atleast 8 characters.
                         <ul>
@@ -1115,13 +1163,14 @@ if(!!params?.id?.length && dataFetching)  {
                         </ul>
                       </p>
                     )}
+                  </div>
+                 </div>  
                 </div>
-
               <div
                 className="acess-flex"
                 style={{ marginTop: editEmployee ? 10 : 20 }}
               >
-                <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px",}}>Create Pin*</p>
+                <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#646262'}}>Create Pin*</p>
                 <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                     {[0, 1, 2, 3].map((i) => (                        
@@ -1223,23 +1272,25 @@ if(!!params?.id?.length && dataFetching)  {
             </div>
           </form>
 
-         {openModal && <div className="modal">
-            <div className="modalContainer">
-              <p>Are you sure?</p>
-              <p>All unsaved changes will be lost.</p>
-              <div className="modalBtn">
-                <input type="button" 
-                  className="yesBtn" 
-                  value='Yes' 
-                  onClick={()=> { 
-                    handleCleardata()
-                    // history.goBack();
-                  }} 
-                />
-                <input type="button" className="noBtn" value='No' onClick={()=>{setOpenModal(!openModal)}} />
-              </div>
-            </div>
-          </div>}
+          {openModal && (
+            <Modal
+              isOpen={openModal}
+              message={
+                <div>
+                  <p>Are you sure you want to clear all input fields?</p>
+                  <p>Any unsaved changes will be lost.</p>
+                </div>
+              }
+              onConfirm={() => {
+                handleCleardata();
+                setOpenModal(false);
+              }}
+              onCancel={() => setOpenModal(false)}
+              type="confirmation"
+              logo={alert}
+              propType="clear"
+            />
+          )}
         </div>
       
     </>

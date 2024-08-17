@@ -349,6 +349,8 @@ const AddItem = (props) => {
     );
   };
 
+  // console.log({formData})
+
   return (
     <>
       {/* <div style={{ width: "78%" }}> */}
@@ -1469,8 +1471,9 @@ const AddItem = (props) => {
                 ) {
                   values.modifiers = updateMenuItemSuccess;
                 }
-                // formData.append("itemImage",null);
+                formData.append("itemImage", selectedImage ? selectedImage : null);
                 formData.append("item", JSON.stringify(values));
+                {console.log(formData)}
                 setTimeout(() => {
                   values.itemId != null
                     ? dispatch(updateMenuItemRequest(values))

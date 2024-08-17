@@ -20,6 +20,8 @@ import noResultsfound from "../../assets/images/NoResultsFound.png"
 import {selectBranch,} from "../../redux/actions/authActions";
 import Modal from "../Modal/Modal";
 import { showErrorToast, showInfoToast } from "../../util/toastUtils";
+import deleteIcon from '../../assets/svg/trash2.svg'
+import bUIcon from '../../assets/svg/x-octagon.svg'
 
 const EmployeeList = (props) => {
   const {loading,employeeListData} = props;
@@ -234,22 +236,36 @@ const EmployeeRow = ({
 
       <Modal
         isOpen={openDeleteModal}
-        message={credentials?.id == data.staffId ? `You're not allowed to perform this action` : `Do you want to delete?`}
+        message={credentials?.id == data.staffId ? `You're not allowed to perform this action` : 
+          <div>
+            <p>Are you sure you want to delete this employee?</p>
+            <p>This action is irreversible, and all data will be permanently removed.</p>
+        </div>
+        }
         onConfirm={handleEmpDelete}
         onCancel={() => setDeleteOpenModal(false)}
         type={credentials?.id == data.staffId ? "alert" : "confirmation"}
         isLoading={modelApiLoading}
+        logo={deleteIcon}
+        propType={'deleteEmp'}
       />
 
       <Modal
         isOpen={openEditModal}
-        message={credentials?.id == data.staffId ? `You're not allowed to perform this action`:data.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}
+        message={credentials?.id == data.staffId ? `You're not allowed to perform this action`:data.isActive ?  
+          <div>
+            <p>Are you sure you want to block this employee?</p>
+            <p>This action will restrict their access until unblocked.</p>
+          </div> : 
+          'Are you sure you want to unblock this employee??'
+        }
         onConfirm={handleYesClick}
         onCancel={() => {setEditOpenModal(false)}}
         type={credentials?.id == data.staffId ? "alert" : "confirmation"}
         isLoading={modelApiLoading}
+        logo={data.isActive ? bUIcon : activeIcon}
+        propType={data.isActive ? "Block"  :'Unblock'}
       />
-
     </>
   )
 }

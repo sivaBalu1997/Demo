@@ -13,6 +13,10 @@ import Modal from '../Modal/Modal';
 import thunder from '../../assets/svg/thunder.svg'
 import { IoIosArrowBack } from "react-icons/io";
 import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toastUtils';
+import deleteIcon from '../../assets/svg/trash2.svg'
+import blockIcon from '../../assets/svg/x-octagon.svg'
+import activeIcon from '../../assets/svg/activeIcon.svg'
+
 
 const EmployeeDetails = () => {
     const [showDropDown, setShowDropDown] = useState(false)
@@ -191,20 +195,35 @@ const EmployeeDetails = () => {
             </div>
             <Modal
                 isOpen={openDeleteModal}
-                message={credentials?.id == employee?.staffId ? `You're not allowed to perform this action` : `Do you want to delete?`}
+                message={credentials?.id == employee?.staffId ? 
+                    `You're not allowed to perform this action` : 
+                    <div>
+                        <p>Are you sure you want to delete this employee?</p>
+                        <p>This action is irreversible, and all data will be permanently removed.</p>
+                    </div>
+                }
                 onConfirm={handleDelete}
                 onCancel={() => setDeleteOpenModal(false)}
                 type={credentials?.id == employee?.staffId ? "alert" : "confirmation"}
                 isLoading={modelApiLoading}
+                logo={deleteIcon}
+                propType={'deleteEmp'}
             />
 
             <Modal
                 isOpen={openStausModal}
-                message={credentials?.id == employee?.staffId ? `You're not allowed to perform this action`:employee?.isActive ? 'Do you want to block?' : 'Do you want to unblock?'}
+                message={credentials?.id == employee?.staffId ? `You're not allowed to perform this action`:employee?.isActive ?
+                     <div>
+                        <p>Are you sure you want to block this employee?</p>
+                        <p>This action will restrict their access until unblocked.</p>
+                     </div> : 
+                     'Are you sure you want to unblock this employee??'}
                 onConfirm={handleBtnClick}
                 onCancel={() => {setOpenStausModal(false)}}
                 type={credentials?.id == employee?.staffId ? "alert" : "confirmation"}
                 isLoading={modelApiLoading}
+                logo={employee.isActive ? blockIcon : activeIcon}
+                propType={employee.isActive ? "Block"  :'Unblock'}
             />
 
             {showDropDown && (
