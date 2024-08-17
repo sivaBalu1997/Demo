@@ -55,6 +55,7 @@ const EmployeeList = (props) => {
                     <th className="employeeTHeading">Edit</th>
                     <th className="employeeTHeading">Un/Block</th>
                     <th className="employeeTHeading">Delete</th>
+                    <th className="employeeTHeading"></th>
                   </tr>
                 </thead>
             <tbody className="tBody">
@@ -179,7 +180,7 @@ const EmployeeRow = ({
 
   return (
     <>
-      <tr>
+      <tr onClick={() => {history.push("/management/employees/details/" + data.staffId)}} >
         <td>
           <div  className="employeeValueData">{name}</div>
         </td>
@@ -198,7 +199,8 @@ const EmployeeRow = ({
         <td ref={ref} >
           {/* <div className="employeeValueDataAction"> */}
 
-            <div className="img-align" onClick={() => { 
+            <div className="img-align" onClick={(e) => { 
+               e.stopPropagation(); 
                 if(data.isActive){
                   handleEdit(data.staffId)
                 }else{
@@ -210,19 +212,19 @@ const EmployeeRow = ({
             </td>
 
             <td>
-            <div className="img-align" onClick={() => {handleBlockClick(data, data.isActive)}}>
+            <div className="img-align" onClick={(e) => { e.stopPropagation(); handleBlockClick(data, data.isActive)}}>
               <img src={!data.isActive ? unBlockImg : blockImg} className="actions" />
             </div>
             </td>
 
           <td>
-            <div className="img-align" onClick={() => {handleDeleteClick(data); }}>
+            <div className="img-align" onClick={(e) => { e.stopPropagation(); handleDeleteClick(data); }}>
               <img src={trashImg} className="actions" />
             </div>
             </td>
 
           <td>
-            <div className="img-align" onClick={() => {history.push("/management/employees/details/" + data.staffId)}} >
+            <div className="img-align" onClick={(e) => { e.stopPropagation(); history.push("/management/employees/details/" + data.staffId)}} >
               <img src={previewImg} className="actions" />
             </div>
          
