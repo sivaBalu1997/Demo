@@ -14,6 +14,8 @@ import Calendar from "../../assets/images/cal.png";
 import ResetLogo from "../../assets/images/resetIcon.png";
 import InputMask from "react-input-mask"
 import alert from '../../assets/svg/alert-triangle.svg'
+import info from '../../assets/svg/info.svg'
+import toolTip from '../../assets/svg/ToolTip.svg'
 import {
   addEmployee,
   getOutlets,
@@ -217,7 +219,7 @@ if(employee && !dataFetching) {
     dispatch(getEmployeeRoles())
   }, [])
   
-  const roles = useSelector((state) => state.employee.employeeRoleAndFunctions) 
+  const roles = useSelector((state) => state?.employee?.employeeRoleAndFunctions) 
 
   useEffect(() => {
     if (employee) {
@@ -1015,7 +1017,7 @@ if(!!params?.id?.length && dataFetching)  {
                             }
                           }}
                           disabled={employeeRoleAndFunctionsLoading}
-                          value={editEmployee ? editEmployee.role : value}
+                          value={editEmployee ? editEmployee?.role : value}
                           name={name}
                           placeholderClass={"dropDown"}
                           controlClassName={"add-employee-dropdown"}
@@ -1170,7 +1172,10 @@ if(!!params?.id?.length && dataFetching)  {
                 className="acess-flex"
                 style={{ marginTop: editEmployee ? 10 : 20 }}
               >
-                <p style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#646262'}}>Create Pin*</p>
+                <div className="tooltipContainer" style={hasPinErrors ? {fontSize: "15px", color:' #FF0505'} : {fontSize: "15px", color:'#B4B4B4'}}>Create Pin* 
+                  <img src={info} alt="info" className="infoToolTip"/>
+                  <span className="hoverImage">The four digit pin will be used for validating the user</span>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                     {[0, 1, 2, 3].map((i) => (                        
