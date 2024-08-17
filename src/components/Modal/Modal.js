@@ -7,7 +7,7 @@ const Modal = ({ isOpen, message, onConfirm, onCancel, type, isLoading, logo, pr
 
   return (
     <div className="modal">
-      <div className="modalContainer">
+      <div className="modalContainerAz">
         <img src={logo} alt='icon' />
         <p>{message}</p>
         <div className="modalBtn">

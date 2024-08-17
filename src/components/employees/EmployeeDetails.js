@@ -181,7 +181,7 @@ const EmployeeDetails = () => {
                     <IoIosArrowBack onClick={() => history.replace("/management/employees")} />{" "}
                     Employee Details
                 </h3>
-                {!showDropDown ? 
+                {/* {!showDropDown ? 
                     (<img src={menu} onClick={() => {
                         if(permissionStatusCode === 403){
                             showErrorToast(permissionErrorMessage)
@@ -191,7 +191,54 @@ const EmployeeDetails = () => {
                     }} />) 
                     :
                     (<img src={x} className='xImg' style={{width:'30px'}} onClick={() => setShowDropDown(!showDropDown)} />) 
-                }
+                } */}
+
+                <div className="menu-icon" onClick={()=>{
+                    if(permissionStatusCode === 403){
+                            showErrorToast(permissionErrorMessage)
+                        }else{
+                            setShowDropDown(!showDropDown)
+                        }}}
+                >
+                <img src={showDropDown ? x :menu}  />
+                        {/* <MenuIcon /> */}
+                    </div>
+                    {showDropDown && (
+                        <div className="popover-menu">
+                        <ul className="menu-list-a">
+
+                            <li className="menu-item"
+                                onClick={() => {
+                                    if(employee.isActive){
+                                        dispatch(setEditEmployeeData(employee))
+                                        history.push("/management/employees/add/"+employee.staffId)
+                                    }else{
+                                        setShowDropDown(false)
+                                        showErrorToast('Unblock the employee to perform this action')
+                                    }
+                                }}><img 
+                                    src={edit} 
+                                    style={{filter: "brightness(0) saturate(100%) invert(45%) sepia(22%) saturate(1556%) hue-rotate(49deg) brightness(94%) contrast(93%)"}}
+                                    className='menuIcon'/>Edit</li>
+
+                            <li className="menu-item" 
+                                onClick={() => {
+                                    setOpenStausModal(true)}
+                                }><img
+                                    src={employee?.isActive ? block : unBlockImg} 
+                                    className='menuIcon'/>{employee?.isActive ? 'Block' : 'Unblock'}</li>
+                            
+                            <li className="menu-item" 
+                                onClick={()=>{
+                                    setDeleteOpenModal(!openDeleteModal)}
+                                }><img 
+                                    src={trash}
+                                    style={{filter: "invert(21%) sepia(93%) saturate(7248%) hue-rotate(354deg) brightness(103%) contrast(101%)"}}
+                                    className='menuIcon'/>Delete</li>
+
+                        </ul>
+                        </div>
+                    )}
             </div>
             <Modal
                 isOpen={openDeleteModal}
@@ -226,44 +273,17 @@ const EmployeeDetails = () => {
                 propType={employee.isActive ? "Block"  :'Unblock'}
             />
 
-            {showDropDown && (
+            {/* {showDropDown && (
                 <div className='hamburgerMenu' 
-                    style={{
-                        zIndex: '999999', 
-                        marginTop:'20px',
-                        position:'fixed'
-                    }}
+                        style={{
+                            zIndex: '999999', 
+                            marginTop:'20px',
+                            position:'fixed'
+                        }}
                 >
-                    <div className='actionTab' onClick={() => {
-                        if(employee.isActive){
-                            dispatch(setEditEmployeeData(employee))
-                            history.push("/management/employees/add/"+employee.staffId)
-                        }else{
-                            setShowDropDown(false)
-                            showErrorToast('Unblock the employee to perform this action')
-                        }
-                    }}>
-                        <img src={edit} 
-                            style={{filter: "brightness(0) saturate(100%) invert(45%) sepia(22%) saturate(1556%) hue-rotate(49deg) brightness(94%) contrast(93%)"}}
-                        />
-                        <p>Edit</p>
-                    </div>
-
-                    <div className='actionTab'
-                        onClick={() => {
-                                setOpenStausModal(true)}}
-                    >
-                        <img src={employee?.isActive ? block : unBlockImg}  />
-                        <p>{employee?.isActive ? 'Block' : 'Unblock'}</p>
-                    </div>
-                    <div className='actionTab' onClick={()=>{
-                            setDeleteOpenModal(!openDeleteModal)
-                        }}>
-                        <img src={trash} style={{filter: "invert(21%) sepia(93%) saturate(7248%) hue-rotate(354deg) brightness(103%) contrast(101%)"}} />
-                        <p>Delete</p>
-                    </div>
+                    
                 </div>
-            )}
+            )} */}
             <div className='detailContainer' style={{marginTop:'100px'}}>
                 <div>
                     <div className='title'><p className='tag'>Full Name</p><p className='value'>:</p><p className=''> {employee?.firstName} {employee?.lastName}</p></div>

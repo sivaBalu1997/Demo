@@ -11,7 +11,7 @@
     align-items: center;
   }
   
-  .modalContainer {
+  .modalContainerAz {
     width: 440px;
     background: white;
     padding: 20px;
@@ -19,13 +19,13 @@
     text-align: center;
   }
 
-  .modalContainer p{
+  .modalContainerAz p{
     width: 100%;
     text-align: center;
     font-size: 14px;
   }
 
-  .modalContainer img{
+  .modalContainerAz img{
     width: 50px;
   }
   
