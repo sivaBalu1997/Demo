@@ -755,7 +755,7 @@ if(!!params?.id?.length && dataFetching)  {
                 </div>
 
                 <div>
-                  <label className={errors.nickName ? "errorLabel" : "inputLabel"}>Nick Name*</label>
+                  <label className={errors.nickName ? "errorLabel" : "inputLabel"}>Nick Name</label>
                   <TextInput
                     type="text"
                     // placeholder="Nick Name"
@@ -1153,10 +1153,10 @@ if(!!params?.id?.length && dataFetching)  {
                     </div>
                     <div className="passwordErrorText">
                   {errors.password && errors.password.type==='validate' && (
-                      <p className="">
-                        <p>Invalid Password</p>
-                        Your password should be atleast 8 characters.
-                        <ul>
+                      <p className="passwordAlertHint">
+                        <p className="passwordAlertHint">Invalid Password <br/>
+                        Your password should be atleast 8 characters.</p>
+                        <ul className="passwordAlertHintUL">
                           <li>Atleast one uppercase</li>
                           <li>Atleast one Specialcharacter</li>
                           <li>Atleast one Numeric</li>
@@ -1272,7 +1272,26 @@ if(!!params?.id?.length && dataFetching)  {
             </div>
           </form>
 
-          {openModal && (
+          <Modal
+            isOpen={openModal}
+            message={
+              <div>
+                <p>Are you sure you want to clear all input fields?</p>
+                <p>Any unsaved changes will be lost.</p>
+              </div>
+            }
+            onConfirm={()=>{
+              handleCleardata();
+              setOpenModal(false);
+            }}
+            onCancel={() => {setOpenModal(false)}}
+            type={'confirmation'}
+            isLoading={false}
+            logo={alert}
+            propType="clear"
+          />
+
+          {/* {openModal && (
             <Modal
               isOpen={openModal}
               message={
@@ -1290,7 +1309,7 @@ if(!!params?.id?.length && dataFetching)  {
               logo={alert}
               propType="clear"
             />
-          )}
+          )} */}
         </div>
       
     </>
