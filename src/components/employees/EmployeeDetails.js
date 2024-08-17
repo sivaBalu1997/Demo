@@ -309,15 +309,38 @@ const EmployeeDetails = () => {
                 <div className='insideBox'>
                     <h4 style={{textAlign:'center'}}>Roles and Functions</h4>
                     {employee?.isActive && rolesAndFunctions?.length > 0 ? (
-                        <div className='roles'>
+                        <div >
+                              {rolesAndFunctions.map((module) => (
+                              <div className="checkboxList" key={module.module}>
+                                <div className="checkBoxItem">
+                                  <label>
+                                    <p style={{fontWeight:600}}>{module.module}</p>
+                                  </label>
+                                </div>
+                                <div className="checkBoxItemfunction" >
+                                {module.funtions.map((func) => (
+                                  <div key={func.name}>
+                                    <label className="checkboxLabel">                                
+                                      <p className="funcName">{func}</p>
+                                    </label>
+                                  </div>
+                                ))}
+                                </div>
+                              </div>
+                            ))}      
+
+
+
+
+{/* 
                             {rolesAndFunctions?.map((role, roleIndex) => (
-                                <div className='rolesHeading' key={roleIndex}>
+                                <div className="checkboxList"  key={roleIndex}>
                                     <h4>{role?.module}</h4>
                                     {role.funtions.map((func, funcIndex) => (
-                                        <p key={funcIndex}>{func}</p>
+                                        <p className="checkBoxItem" key={funcIndex}>{func}</p>
                                     ))}
                                 </div>
-                            ))}
+                            ))} */}
                         </div>
                     ) :!employee?.isActive ?  (
                         <p style={{color: 'gray', textAlign:'center', marginTop:'10%'}}>{permissionErrorMessage}</p>
