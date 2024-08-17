@@ -269,7 +269,7 @@ const EmployeeDetails = () => {
             {!roleFunctionFetching ? (
                 <div className='insideBox'>
                     <h4 style={{textAlign:'center'}}>Roles and Functions</h4>
-                    {employee?.isActive ? (
+                    {employee?.isActive && rolesAndFunctions?.length > 0 ? (
                         <div className='roles'>
                             {rolesAndFunctions?.map((role, roleIndex) => (
                                 <div className='rolesHeading' key={roleIndex}>
@@ -280,8 +280,10 @@ const EmployeeDetails = () => {
                                 </div>
                             ))}
                         </div>
-                    ) : (
+                    ) :!employee?.isActive ?  (
                         <p style={{color: 'gray', textAlign:'center', marginTop:'10%'}}>{permissionErrorMessage}</p>
+                    ):(
+                        <p style={{color: 'gray', textAlign:'center', marginTop:'10%'}}>No data found</p>
                     )}
                 </div>
             ) : (
