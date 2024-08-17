@@ -310,16 +310,16 @@ const EmployeeDetails = () => {
                     <h4 style={{textAlign:'center'}}>Roles and Functions</h4>
                     {employee?.isActive && rolesAndFunctions?.length > 0 ? (
                         <div >
-                              {rolesAndFunctions.map((module) => (
-                              <div className="checkboxList" key={module.module}>
+                              {rolesAndFunctions?.map((module) => (
+                              <div className="checkboxList" key={module?.module}>
                                 <div className="checkBoxItem">
                                   <label>
-                                    <p style={{fontWeight:600}}>{module.module}</p>
+                                    <p style={{fontWeight:600}}>{module?.module}</p>
                                   </label>
                                 </div>
                                 <div className="checkBoxItemfunction" >
-                                {module.funtions.map((func) => (
-                                  <div key={func.name}>
+                                {module?.funtions?.map((func) => (
+                                  <div key={func}>
                                     <label className="checkboxLabel">                                
                                       <p className="funcName">{func}</p>
                                     </label>
