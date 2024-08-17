@@ -122,6 +122,15 @@
     background: #FFFFFF !important;
   }
 
+  .eTWTxt{
+    width:20%;
+  }
+
+  .eTWBtn{
+    width:10%;
+    text-align: center;
+  }
+
   .employeeValueData{
     display: flex;
     flex-direction: row;

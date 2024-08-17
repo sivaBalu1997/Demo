@@ -49,19 +49,19 @@ const EmployeeList = (props) => {
               <table className="employeeListTable">
                 <thead className="employeeTableHead">
                   <tr className="employeeTableRow">
-                    <th className="employeeTHeading">Name</th>
-                    <th className="employeeTHeading">Role</th>
-                    <th className="employeeTHeading">Status</th>
-                    <th className="employeeTHeading">Edit</th>
-                    <th className="employeeTHeading">Un/Block</th>
-                    <th className="employeeTHeading">Delete</th>
-                    <th className="employeeTHeading"></th>
+                    <th className="employeeTHeading eTWTxt">Name</th>
+                    <th className="employeeTHeading eTWTxt">Role</th>
+                    <th className="employeeTHeading eTWTxt">Status</th>
+                    <th className="employeeTHeading eTWBtn">Edit</th>
+                    <th className="employeeTHeading eTWBtn">Un/Block</th>
+                    <th className="employeeTHeading eTWBtn">Delete</th>
+                    <th className="employeeTHeading eTWBtn"></th>
                   </tr>
                 </thead>
             <tbody className="tBody">
              {employeeList.length == 0 && !loading ?
               (
-                  <td colSpan="4" >
+                  <td colSpan="8" >
                     <div className="no-results">
                       <img src={noResultsfound} alt="No results found" />
                       <h2>No Results Found</h2>
