@@ -1124,7 +1124,9 @@ if(!!params?.id?.length && dataFetching)  {
                         name="password"
                         formRegister={register({
                           required: !editEmployee && "Required",
-                          validate : validatePassword
+                          validate : validatePassword,
+                          validLength: (value) => !value || value.replace(/\D/g, '').length === 10 || "Invalid Password ",
+
                         })}
                         className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
                         containerStyle={{ paddingBottom: "0px" }}
