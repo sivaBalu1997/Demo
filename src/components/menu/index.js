@@ -207,7 +207,7 @@ const Menu = () => {
                 disabled={
                   location.pathname?.includes('/management/employees/add') || 
                   restaurantDetails?.branch?.length == 1 ||   
-                  (UserRole !== "Restaurant_Owner" && UserRole !== "Regional_Employee" && UserRole !== "Restaurant_Manager" && UserRole !== "Magil_Admin")
+                  (UserRole !== "Restaurant_Owner" && UserRole !== "Regional_Employee" && UserRole !== "Magil_Admin")
                 }
                 onChange={(e) => {
                   dispatch(selectBranch(JSON.parse(e.target.value)));

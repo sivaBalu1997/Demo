@@ -202,7 +202,6 @@ if(employee && !dataFetching) {
       }
       const isOutletHasDropDown = credentials?.role && credentials?.role === "Restaurant_Owner" ? true : 
                                   credentials?.role === "Regional_Employee" ? true : 
-                                  credentials?.role === "Restaurant_Manager" ? true : 
                                   credentials?.role === "Magil_Admin" ? true :
                                   false;
       if (isOutletHasDropDown ) {
