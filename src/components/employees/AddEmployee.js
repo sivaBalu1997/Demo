@@ -630,12 +630,14 @@ const handleDateChangeRaw = (e) => {
   e.preventDefault();
 }
 
+
 const validatePassword = (value) => {
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
-  if(!editEmployee){
-    return passwordRegex.test(value);
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+    if(value.length > 0){
+     return passwordRegex.test(value);
+    }
+  
   }
-}
 
 const handleOtpChange = (otpValue) => {
   setOtp(otpValue);
