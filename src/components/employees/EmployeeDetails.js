@@ -32,6 +32,7 @@ const EmployeeDetails = () => {
     const [permissionErrorMessage, setPermissionErrorMessage] = useState('')
     const [menuDisable, setmenuDisable] = useState(false)
     const [permissionStatusCode, setPermissionStatusCode] = useState('')
+    const [redirectOnClick, setRedirectOnClick] = useState(false)
 
     const history = useHistory()
     const params = useParams()
@@ -51,15 +52,13 @@ const EmployeeDetails = () => {
 
     const employee = useSelector((state) => state.employee.employeeByIdDetails)
     const employeeByIdDetailsLoading = useSelector((state) => state.employee.employeeByIdDetailsLoading)
-
     const restaurantDetails = useSelector((state) => state.auth.restaurantDetails)
-
-
     const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
     const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
     const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
     const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
     const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading)
+    const employeeStatusUpdate = useSelector((state) => state.employee.employeeStatusUpdate)
     const [countryCode,setCountryCode] = useState("");
 
     useEffect(() => {
@@ -79,7 +78,13 @@ const EmployeeDetails = () => {
             dispatch({ type: 'RESET_REMOVE_EMPLOYEE_DATA' });
             history.push("/management/employees")
         }
-    },[employeeDeleted])
+        if(actionApiSuccess && !modelApiLoading && redirectOnClick ){
+            dispatch({ type: 'RESET_REMOVE_EMPLOYEE_DATA' });
+            setRedirectOnClick(false)
+            history.push("/management/employees")
+        } 
+    },[employeeDeleted, redirectOnClick, actionApiSuccess, modelApiLoading])
+
 
     const formatDate = (dateString) => {
         if (dateString) {
@@ -116,10 +121,9 @@ const EmployeeDetails = () => {
     
       const handleBtnClick = () => {
         dispatch(employeeStatusRequest(employee?.staffId, employee?.isActive));
-        //setOpenStausModal(prev => !prev);
         setEmployeeToUpdate(null);
-        // setIsBlocking(false);  
-        setShowDropDown(!showDropDown)    
+        setShowDropDown(!showDropDown) 
+        setRedirectOnClick(true)
     };
   
     useEffect(() => {
@@ -328,19 +332,6 @@ const EmployeeDetails = () => {
                                 </div>
                               </div>
                             ))}      
-
-
-
-
-{/* 
-                            {rolesAndFunctions?.map((role, roleIndex) => (
-                                <div className="checkboxList"  key={roleIndex}>
-                                    <h4>{role?.module}</h4>
-                                    {role.funtions.map((func, funcIndex) => (
-                                        <p className="checkBoxItem" key={funcIndex}>{func}</p>
-                                    ))}
-                                </div>
-                            ))} */}
                         </div>
                     ) :!employee?.isActive ?  (
                         <p style={{color: 'gray', textAlign:'center', marginTop:'10%'}}>{permissionErrorMessage}</p>

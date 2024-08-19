@@ -122,6 +122,7 @@ const Menu = () => {
   );
   
   const UserRole = useSelector((state) => state.auth.credentials.role);
+  const userBranchName = useSelector((state)=>state.auth.restaurantDetails?.branchName); 
 
   const locationId = useSelector(
     (state) => state.auth.credentials && state.auth.credentials.locationId
@@ -166,6 +167,7 @@ const Menu = () => {
       dispatch(getRestaurantRequest(locationId));
     }
   }, [locationId]);
+
   useEffect(() => {
     if (
       restaurantDetails &&
@@ -183,6 +185,7 @@ const Menu = () => {
       }
     }
   }, [restaurantDetails]);
+
   return (
     <>
       <div className="menu is-sticky">
@@ -199,7 +202,11 @@ const Menu = () => {
             <div>
               <select
                 className="branch-dropdown"
-                disabled={location.pathname?.includes('/management/employees/add') || restaurantDetails?.branch?.length == 1 ||   (UserRole !== "Restaurant_Owner" && UserRole !== "Regional_Employee")}
+                disabled={
+                  location.pathname?.includes('/management/employees/add') || 
+                  restaurantDetails?.branch?.length == 1 ||   
+                  (UserRole !== "Restaurant_Owner" && UserRole !== "Regional_Employee" && UserRole !== "Restaurant_Manager" && UserRole !== "Magil_Admin")
+                }
                 onChange={(e) => {
                   dispatch(selectBranch(JSON.parse(e.target.value)));
                   localStorage.setItem(
@@ -214,12 +221,7 @@ const Menu = () => {
                     return (
                       <option
                         value={`${JSON.stringify(u)}`}
-                        selected={
-                          branch &&
-                          branch.locationName &&
-                          branch.locationName.split(",")[1] ===
-                            u.locationName.split(",")[1]
-                        }
+                        selected={userBranchName}
                       >
                         {u.locationName.split(",")[1]}
                       </option>

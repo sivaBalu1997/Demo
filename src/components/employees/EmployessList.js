@@ -165,7 +165,6 @@ const EmployeeRow = ({
   const handleEmpDelete = () => {
     dispatch(deleteEmployee(employeeToDelete.staffId));
     setEmployeeDeleteCompleted(true);
-   
     setEmployeeToDelete(null);
   }
 

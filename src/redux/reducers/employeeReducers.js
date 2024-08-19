@@ -102,6 +102,7 @@ const initialEmployeeState = {
   //Block/Unblock Employee
   employeeStatus:'',
   employeeStatusLoading: false,
+  employeeStatusUpdate: false,
 
   employeeActionCompleted: false,
 
@@ -225,6 +226,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.deleteEmployeeMessage = "";
         draft.modelApiLoading = false;
         draft.actionApiSuccess=false;
+        draft.employeeStatusUpdate=false;
         break;
         
       // Manage user Access
@@ -353,6 +355,7 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.employeeStatusLoading = true;
         draft.modelApiLoading = true;
         draft.actionApiSuccess=false;
+        draft.employeeStatusUpdate=false;
         break
       case EMPLOYEE_STATUS_SUCCESS:
         draft.employeeStatus = action.payload;
@@ -364,12 +367,14 @@ export default function employeeReducer(state = initialEmployeeState, action) {
         draft.employeeStatusLoading = false
         draft.modelApiLoading = false;
         draft.actionApiSuccess=true;
+        draft.employeeStatusUpdate=true;
         break      
       case EMPLOYEE_STATUS_FAILURE:
         draft.employeeStatus = action.payload;
         draft.employeeStatusLoading = false;
         draft.modelApiLoading = false;
         draft.actionApiSuccess=false;
+        draft.employeeStatusUpdate=false;
         break
 
       case REFRESH_PIN_REQUEST:

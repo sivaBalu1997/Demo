@@ -1128,7 +1128,7 @@ if(!!params?.id?.length && dataFetching)  {
                           validLength: (value) => !value || value.replace(/\D/g, '').length === 10 || "Invalid Password ",
 
                         })}
-                        className={!editEmployee && errors.password ? 'pass errorInput' :'add-employee-text-input'}
+                        className={errors.password ? 'pass errorInput' :'add-employee-text-input'}
                         containerStyle={{ paddingBottom: "0px" }}
                         autoComplete = {false}
                         onKeyDown={handleSpace}
