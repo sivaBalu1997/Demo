@@ -661,7 +661,7 @@ const handleCleardata = () => {
     setValue('address1', null);
     setValue('address2', null);
     setValue('password', null);
-    setValue('email', null);
+    setValue('email', '');
     setSelectedRole("");  
     setUseNickname(false);
     setOpenModal(false);
@@ -872,6 +872,11 @@ if(!!params?.id?.length && dataFetching)  {
                             onChange={onChange}
                             className={errors.email ? 'emailErrorInput' : 'emailInput'}
                             autoComplete="off"
+                            onKeyDown={(e) => {
+                              if(e.key === ' '){
+                                e.preventDefault()
+                              }
+                            }}
                           />
                         )}
                       />
