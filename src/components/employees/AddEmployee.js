@@ -784,6 +784,7 @@ if(!!params?.id?.length && dataFetching)  {
                       checked={useNickname}
                       onChange={handleNickNameCheckboxChange}
                       ref={register} 
+                      autoComplete="off"
                     />  
                     <p>Utilize a nickname as needed in all forthcoming activities</p>
                   </label>
@@ -831,6 +832,7 @@ if(!!params?.id?.length && dataFetching)  {
                             id="mobileNumber"
                             className={errors.mobileNumber ? 'num phoneErrorInput' : 'phoneContainer'}
                             maxLength={12}
+                            autoComplete="off"
                           />
                         )}
                       </InputMask>
@@ -867,6 +869,7 @@ if(!!params?.id?.length && dataFetching)  {
                             value={value}
                             onChange={onChange}
                             className={errors.email ? 'emailErrorInput' : 'emailInput'}
+                            autoComplete="off"
                           />
                         )}
                       />
@@ -1103,7 +1106,7 @@ if(!!params?.id?.length && dataFetching)  {
                           required: "Required",
                         })}
                         className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
-                        autoComplete = {false}
+                        autoComplete="off"
                         disabled={!!params?.id?.length}
                         onKeyDown={(event) => {
                           if(event.key === ' ' || event.code === 'Space'){
@@ -1131,7 +1134,7 @@ if(!!params?.id?.length && dataFetching)  {
                         })}
                         className={errors.password ? 'pass errorInput' :'add-employee-text-input'}
                         containerStyle={{ paddingBottom: "0px" }}
-                        autoComplete = {false}
+                        autoComplete="off"
                         onKeyDown={handleSpace}
                       />
                       {isPasswordVisible ? (
