@@ -238,7 +238,7 @@ const EmployeeRow = ({
         isOpen={openDeleteModal}
         message={credentials?.id == data.staffId ? `You're not allowed to perform this action` : 
           <div>
-            <p>Are you sure you want to delete this employee?</p>
+            <p>Are you sure you want to delete this user?</p>
             <p>This action is irreversible, and all data will be permanently removed.</p>
         </div>
         }
@@ -254,10 +254,10 @@ const EmployeeRow = ({
         isOpen={openEditModal}
         message={credentials?.id == data.staffId ? `You're not allowed to perform this action`:data.isActive ?  
           <div>
-            <p>Are you sure you want to block this employee?</p>
+            <p>Are you sure you want to block this user?</p>
             <p>This action will restrict their access until unblocked.</p>
           </div> : 
-          'Are you sure you want to unblock this employee??'
+          'Are you sure you want to unblock this user?'
         }
         onConfirm={handleYesClick}
         onCancel={() => {setEditOpenModal(false)}}

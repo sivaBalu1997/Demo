@@ -245,7 +245,7 @@ const EmployeeDetails = () => {
                 message={credentials?.id == employee?.staffId ? 
                     `You're not allowed to perform this action` : 
                     <div>
-                        <p>Are you sure you want to delete this employee?</p>
+                        <p>Are you sure you want to delete this user?</p>
                         <p>This action is irreversible, and all data will be permanently removed.</p>
                     </div>
                 }
@@ -261,10 +261,10 @@ const EmployeeDetails = () => {
                 isOpen={openStausModal}
                 message={credentials?.id == employee?.staffId ? `You're not allowed to perform this action`:employee?.isActive ?
                      <div>
-                        <p>Are you sure you want to block this employee?</p>
+                        <p>Are you sure you want to block this user?</p>
                         <p>This action will restrict their access until unblocked.</p>
                      </div> : 
-                     'Are you sure you want to unblock this employee??'}
+                     'Are you sure you want to unblock this user?'}
                 onConfirm={handleBtnClick}
                 onCancel={() => {setOpenStausModal(false)}}
                 type={credentials?.id == employee?.staffId ? "alert" : "confirmation"}
