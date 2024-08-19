@@ -174,12 +174,14 @@ const Menu = () => {
       restaurantDetails.branch &&
       restaurantDetails.branch.length > 0
     ) {
-      if (!selectedBranch) {
-        dispatch(selectBranch(restaurantDetails.branch[0]));
-        localStorage.setItem(
-          SELECTED_BRANCH_DATA,
-          JSON.stringify(restaurantDetails.branch[0])
-        );
+      
+
+     if (!selectedBranch && restaurantDetails) {
+        const resBranch = restaurantDetails?.branch;
+        const defaultBranch =  resBranch?.filter(branch => branch?.id === locationId);
+
+        dispatch(selectBranch(defaultBranch[0]));
+        localStorage.setItem(SELECTED_BRANCH_DATA,JSON.stringify(defaultBranch[0]));
       } else {
         dispatch(selectBranch(branch));
       }
@@ -214,6 +216,7 @@ const Menu = () => {
                     JSON.stringify(JSON.parse(e.target.value))
                   );
                 }}
+                value={selectedBranch}
               >
                 {restaurantDetails &&
                   restaurantDetails.branch &&
@@ -221,7 +224,7 @@ const Menu = () => {
                     return (
                       <option
                         value={`${JSON.stringify(u)}`}
-                        selected={userBranchName}
+                        //selected={userBranchName}
                       >
                         {u.locationName.split(",")[1]}
                       </option>
