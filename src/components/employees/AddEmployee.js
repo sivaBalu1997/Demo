@@ -713,7 +713,7 @@ if(!!params?.id?.length && dataFetching)  {
             </h2>
           </div> */}
           <h3 style={{marginTop:'80px'}}>Personal Info</h3>
-          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+          <form onSubmit={handleSubmit(onSubmit)} autoComplete="new-password">
             <div className="menu-details-form">
               <div className="primary-sec">
                 <div className="flexContainer">
@@ -870,7 +870,7 @@ if(!!params?.id?.length && dataFetching)  {
                             value={value}
                             onChange={onChange}
                             className={errors.email ? 'emailErrorInput' : 'emailInput'}
-                            autoComplete="off"
+                            autoComplete="new-password"
                             onKeyDown={(e) => {
                               if(e.key === ' '){
                                 e.preventDefault()
@@ -1112,7 +1112,7 @@ if(!!params?.id?.length && dataFetching)  {
                           required: "Required",
                         })}
                         className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
-                        autoComplete="off"
+                        autoComplete="new-password"
                         disabled={!!params?.id?.length}
                         onKeyDown={(event) => {
                           if(event.key === ' ' || event.code === 'Space'){
@@ -1140,7 +1140,7 @@ if(!!params?.id?.length && dataFetching)  {
                         })}
                         className={errors.password ? 'pass errorInput' :'add-employee-text-input'}
                         containerStyle={{ paddingBottom: "0px" }}
-                        autoComplete="off"
+                        autoComplete="new-password"
                         onKeyDown={handleSpace}
                       />
                       {isPasswordVisible ? (

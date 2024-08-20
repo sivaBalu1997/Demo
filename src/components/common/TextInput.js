@@ -41,7 +41,10 @@ const TextInput = ({
           onChange={onChange}
           onBlur={onBlur}
           pattern={pattern}
-          autoComplete="off"
+          // autoComplete="off"
+          autoComplete="new-password" // or "off"
+          readOnly
+  onFocus={(e) => e.target.removeAttribute('readOnly')}
         />
         <span
           style={{ fontSize: "14px", color: "#FF5554", paddingLeft: "13px" }}
