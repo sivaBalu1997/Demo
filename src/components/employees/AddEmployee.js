@@ -172,7 +172,7 @@ if(employee && !dataFetching) {
 
   const restaurantDetails = useSelector((state) => state.auth.restaurantDetails)
 
-  const userBranchName = useSelector((state)=>state.auth.restaurantDetails.branchName) 
+  const userBranchName = useSelector((state)=>state.auth?.restaurantDetails?.branchName) 
 
   const [countryCode,setCountryCode] = useState("");
   const [isDropdownDisabled, setIsDropdownDisabled] = useState(false);

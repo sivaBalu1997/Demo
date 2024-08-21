@@ -83,7 +83,7 @@ const Menu = () => {
   // const menuOptions = ["Items", "Categories"];
   const credentials = useSelector((state) => state.auth.credentials);
   const selectedBranch = localStorage.getItem(SELECTED_BRANCH_DATA);
-  const branch = JSON.parse(selectedBranch);
+  const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
   const menuOptions = ["Items"];
   const offerMenuOptions = ["Offers"];
   // const getRole = () => {
