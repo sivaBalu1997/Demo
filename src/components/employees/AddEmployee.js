@@ -927,7 +927,7 @@ if(!!params?.id?.length && dataFetching)  {
                     <div 
                       className="date-picker-container"
                       style={{
-                        zIndex:'9999999'
+                        zIndex:'99'
                       }}
                     >
                       
