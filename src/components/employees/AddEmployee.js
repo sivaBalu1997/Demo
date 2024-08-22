@@ -186,8 +186,6 @@ if(employee && !dataFetching) {
   const saveButtonDisabled = useSelector((state) => state.employee.saveButtonDisabled)
   const employeeRoleAndFunctionsLoading = useSelector((state) => state.employee.employeeRoleAndFunctionsLoading)
 
-
-  
   useEffect(() => {
     const countryC = restaurantDetails?.country;
     if (restaurantDetails) {
@@ -398,7 +396,7 @@ if(employee && !dataFetching) {
         const functionsForRole = roles
           .flatMap(module => module.functionality)
           .filter(func => func.roles?.includes(role))
-          .map(func => func.name.toLowerCase());
+          .map(func => func.displayName.toLowerCase());
         
         setCheckedFunctions(functionsForRole);
       }
@@ -425,14 +423,14 @@ if(employee && !dataFetching) {
     const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
     if (!module) return false;
   
-    return module.functionality?.every((func) => checkedFunctions.includes(func.name.toLowerCase()));
+    return module.functionality?.every((func) => checkedFunctions.includes(func.displayName.toLowerCase()));
   }
   
   const handleModuleCheckboxChange = (moduleName) => {
     const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
     if (!module) return;
   
-    const moduleFunctions = module.functionality.map((func) => func.name.toLowerCase());
+    const moduleFunctions = module.functionality.map((func) => func.displayName.toLowerCase());
   
     setCheckedFunctions((prevCheckedFunctions) => {
       if (moduleFunctions?.every((func) => prevCheckedFunctions.includes(func))) {
@@ -447,7 +445,7 @@ if(employee && !dataFetching) {
       const functionsForRole = roles
         .flatMap((module) => module?.functionality)
         .filter((func) => func?.roles?.includes(selectedRole))
-        .map((func) => func?.name?.toLowerCase());
+        .map((func) => func?.displayName?.toLowerCase());
   
       setCheckedFunctions(functionsForRole);
   };
@@ -457,7 +455,7 @@ if(employee && !dataFetching) {
       .flatMap((module) => module?.functionality)
       .filter((func) => func?.roles?.includes(role))
       .map((func) => func?.name?.toLowerCase());
-    const selectedFunctionNames = selectedFunctions.map((func) => func.name.toLowerCase());
+    const selectedFunctionNames = selectedFunctions.map((func) => func.name?.toLowerCase());
     const hasExtraFunctions = selectedFunctionNames.some((func) => !defaultFunctions.includes(func));
     const hasMissingFunctions = selectedFunctionNames.length !== defaultFunctions.length;
     return hasExtraFunctions || hasMissingFunctions;
@@ -499,7 +497,7 @@ if(employee && !dataFetching) {
   const onSubmit = (formValues) => {
     const rolesAndFunctions = roles.map(module => {
       const moduleFunctions = module.functionality
-        .filter(func => checkedFunctions.includes(func.name.toLowerCase()))
+        .filter(func => checkedFunctions.includes(func.displayName.toLowerCase()))
         .map(func => ({
           moduleType: module.module,
           moduleName: func.name,
@@ -531,7 +529,7 @@ if(employee && !dataFetching) {
       locationId: restaurantBranch.find(outlet => outlet.locationName.includes(formValues["outlet"]))?.id,
       userAccessInfoList: rolesAndFunctions,
       isDefaultFunctionalityAccessUpdated: isDefaultActionsUpdated(
-        rolesAndFunctions.map(module => ({ name: module.moduleName, urls: module.urls })),
+        rolesAndFunctions.map(module => ({ name: module.moduleName, displayName: module.displayName, urls: module.urls })),
         formValues["role"]
       ),
     };
@@ -1019,7 +1017,6 @@ if(!!params?.id?.length && dataFetching)  {
                           options={processedOptions}
                           placeholder={""}
                           onSelect={(role) => {
-                            // console.log({role});
                             onChange(role.value);
                             handleRoleChange(role.value);
                             if (jwt_decode(credentials?.accessToken)?.resource_access["merchant-app"]?.roles[0].includes("neighbourhood")) {
@@ -1059,15 +1056,15 @@ if(!!params?.id?.length && dataFetching)  {
                                 </div>
                                 <div className="checkBoxItemfunction" >
                                 {module.functionality.map((func) => (
-                                  <div key={func.name}>
+                                  <div key={func.displayName}>
                                     <label className="checkboxLabel">
                                       <input 
                                         type="checkbox" 
                                         className="checkbox" 
-                                        checked={isFunctionChecked(func.name)} 
-                                        onChange={() => handleCheckboxChange(func.name)} 
+                                        checked={isFunctionChecked(func.displayName)} 
+                                        onChange={() => handleCheckboxChange(func.displayName)} 
                                       />
-                                      <p className="funcName">{func.name}</p>
+                                      <p className="funcName">{func.displayName}</p>
                                     </label>
                                   </div>
                                 ))}
