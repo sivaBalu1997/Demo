@@ -924,9 +924,9 @@ if(!!params?.id?.length && dataFetching)  {
                     <label className="inputLabel">Date</label>
                     <div 
                       className="date-picker-container"
-                      style={{
-                        zIndex:'99'
-                      }}
+                      // style={{
+                      //   zIndex:'9999999'
+                      // }}
                     >
                       
                       <DatePicker
