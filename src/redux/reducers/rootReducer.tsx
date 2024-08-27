@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import authReducer from "../reducers/authReducer";
+import authReducer from "./authReducer";
 import employeeReducer from "./employeeReducers";
 import menuReducer from "./menuReducer";
 import subscriptionReducer from "./subscriptionReducer";
@@ -8,7 +8,8 @@ import paymentReducer from "./paymentReducer";
 import productCatalogReducer from "./productCatalogReducers";
 import offerReducer from "./offerReducer";
 
-const reducers = {
+// Combine the individual reducers into a root reducer
+const rootReducer = combineReducers({
   auth: authReducer,
   employee: employeeReducer,
   menu: menuReducer,
@@ -16,6 +17,10 @@ const reducers = {
   payment: paymentReducer,
   productCatalog: productCatalogReducer,
   offer: offerReducer,
-};
+});
 
-export const rootReducer = combineReducers(reducers);
+// Export the rootReducer
+export { rootReducer };
+
+// Define and export the RootState type
+export type RootState = ReturnType<typeof rootReducer>;

@@ -1,0 +1,227 @@
+:root {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+  --screen-bg: #404d66;
+}
+
+.dark-theme {
+  --navbar-bg: #222b3c;
+  --navbar-text: #6e7d7d;
+  --table-bg: #222b3c;
+  --table-text: #ffffff;
+  --chart-bg: #222b3c;
+  --screen-bg: #2e3a4f;
+}
+
+.light-theme {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+  --screen-bg: #ffffff;
+}
+.sales-container {
+  background-color: var(--screen-bg);
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  gap: 0.5rem;
+  .sales-head {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    .name-board {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--table-text);
+    }
+    .dates {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+      height: 6rem;
+      // background-color: red;
+      .label-time-period {
+        // background-color: greenyellow;
+        font-weight: 600;
+        color: var(--table-text);
+      }
+      .filter-toggle-btn-container {
+        position: relative; // Relative to contain the absolute dropdown
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+
+        .filter-toggle-btn {
+          text-align: center;
+          padding: 0.5rem;
+          width: 10rem;
+          height: 2rem;
+          color: #000;
+          background-color: #ccc;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #000;
+          border-radius: 0.8rem;
+          cursor: pointer;
+        }
+
+        .filter-drop-down-options {
+          position: absolute; // Absolute to overlay other elements
+          top: 110%; // Positions dropdown just below the button
+          left: 50%;
+          transform: translateX(-50%);
+          width: 12rem; // Adjusted for better fit
+          padding: 0.5rem;
+          background-color: var(--navbar-bg);
+          color: var(--navbar-text);
+          border: 1px solid #ccc;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          z-index: 999;
+          border-radius: 1rem;
+
+          p {
+            margin: 0;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 0.6rem;
+            &:hover {
+              background-color: var(--navbar-text);
+              color: var(--navbar-bg);
+            }
+          }
+        }
+      }
+      .date-range-style {
+        display: flex;
+        gap: 4rem;
+        .start-date {
+          height: 2rem;
+          width: 7rem;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          border-style: thin;
+        }
+        .end-date {
+          height: 2rem;
+          width: 7rem;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          border-style: thin;
+        }
+      }
+    }
+  }
+  .canva-pie-chart-outer-cont {
+    display: flex;
+    width: 71%;
+    gap: 0.5rem;
+    .canva-pie-chart-cont {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // gap: 1rem;
+      background-color: var(--chart-bg);
+      // background-color: red;
+      // border-radius: 0.7rem;
+      width: 71%;
+      border: 1px solid var(--table-text);
+      // margin-bottom: 0.8rem;
+      border-radius: 1rem; // Adjust this value as needed
+      overflow: hidden; // Ensures that the chart respects the border radius
+    }
+  }
+  .employee-details-container {
+    // background-color: red;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .overall-summary {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    // background-color: red;
+    // margin-bottom: 1rem;
+    .box {
+      height: 8rem;
+      width: 13rem;
+      border-radius: 1rem;
+      background-color: var(--table-bg);
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      color: var(--table-text);
+      border: 1px solid;
+      h2 {
+        margin-bottom: 0.4rem;
+        margin-top: 0.4rem;
+      }
+      h3 {
+        margin-bottom: 0rem;
+        margin-top: 0rem;
+        // width: 9.375rem; /* Set a specific width */
+        // white-space: nowrap; /* Prevents wrapping */
+        // overflow: hidden; /* Hides overflow text */
+        // text-overflow: ellipsis; /* Adds "..." at the end */
+      }
+    }
+  }
+  .name-board-two {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--table-text);
+  }
+  .tab-cont {
+    display: flex;
+    // flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 83%;
+    margin: auto;
+    // background-color: burlywood;
+    gap: 0.5rem;
+    .table-container-one-s {
+      width: 86%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // background-color: brown;
+      gap: 0.5rem;
+    }
+    .table-container-two-s {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      justify-content: center;
+      width: 86%;
+      // background-color: red;
+      gap: 0.5rem;
+    }
+  }
+  .day-of-the-week {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    .day-of-the-week-inner {
+      width: 70%;
+    }
+  }
+}

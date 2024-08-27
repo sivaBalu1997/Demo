@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Switch, BrowserRouter, useHistory } from "react-router-dom";
+import { Route, Switch, BrowserRouter, useHistory, Router } from "react-router-dom";
 import store from "./redux/store";
 import { Provider, useDispatch, useSelector } from "react-redux";
 
@@ -22,13 +22,51 @@ import NotFound from "./components/notFound";
 import Menu from "./components/menu";
 import { clearMenuData } from "./redux/actions/menuAction";
 import { ToastContainer } from "react-toastify";
+import { RootState } from "redux/reducers/rootReducer";
+import Routers from './Routers'
+import CustomerInsights from "components/reports-sprint99/screens/CustomerInsights";
 
+interface Credentials {
+  accessToken: string
+  address: string
+  attributes: string
+  authUserId: string 
+  blockUser: boolean
+  businessName: string
+  dateOfBirth: string
+  defaultDeviceId: string
+  defaultFunctionalityAccessUpdated: boolean
+  deviceIdentifier: string
+  devicePin: number
+  deviceType: string
+  education: string 
+  email: string
+  favoriteTables: string[]
+  firstName: string
+  fullName: string
+  id: string
+  isSuperAdminAccess: boolean
+  isTempPassword: boolean
+  lastName: string
+  locationId: string
+  merchantId: string
+  mobileNumber: string
+  myTableViewSectionExists: boolean
+  nickName: string
+  outlet: string
+  password: string
+  refreshToken: string
+  role: string
+  toUseNickName: boolean
+  topicToSubscribe: string
+  userAccessInfoList: string
+  userId: string
+}
 
 const Loader = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const credentails = JSON.parse(localStorage.getItem(CREDENTIALS));
-    //console.log("Credentials:", credentails);
+    const credentails: Credentials | null = JSON.parse(localStorage.getItem('CREDENTIALS') || 'null');
     if (credentails) {
       dispatch(storeCredentials(credentails));
     }
@@ -51,7 +89,7 @@ const App = () => {
   }, []);
 
     useEffect(() => {
-      const handleContextMenu = (event) => {
+      const handleContextMenu = (event: MouseEvent) => {
         event.preventDefault();
       };
       document.addEventListener('contextmenu', handleContextMenu);
@@ -60,14 +98,13 @@ const App = () => {
       };
     }, []);
 
-  const authState = useSelector((state) => state.auth);
+  const authState = useSelector((state:RootState) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
 
-
-
-  useEffect(async() => {
-    const credentails = JSON.parse(await localStorage.getItem(CREDENTIALS));
+  useEffect(()=>{
+    const fetchData = async(): Promise<void> => {
+      const credentails: Credentials | null = JSON.parse(localStorage.getItem('CREDENTIALS') || 'null');
     if (!credentails?.accessToken) {
     //  console.log('60');
     //     history.push("/management/employees");
@@ -77,7 +114,9 @@ const App = () => {
         dispatch(signOut());
         history.replace('/')
       }
-  }, [authState?.credentials]);
+    }
+    fetchData()
+  }, [authState?.credentials])
 
   return (
    <>
@@ -100,6 +139,7 @@ const App = () => {
               <Route path="/notFound" component={NotFound} />
               <Route path="/management" component={Menu} />
             </Switch>
+            <Routers />
         </div>
       </div>
     </>

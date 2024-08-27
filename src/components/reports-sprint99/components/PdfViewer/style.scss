@@ -1,0 +1,32 @@
+:root {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+}
+
+.dark-theme {
+  --navbar-bg: #222b3c;
+  --navbar-text: #6e7d7d;
+  --table-bg: #222b3c;
+  --table-text: #ffffff;
+  --chart-bg: #222b3c;
+}
+
+.light-theme {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+}
+.pdf-viewer-container {
+  height: 100vh; // Adjust height as needed
+  width: 80vw;
+  //   width: 100%; // Adjust width as needed
+  //   border: 1px solid #ddd; // Example border
+  border-radius: 1rem; // Example border-radius
+  // background-color: #283347; // Example background color
+  padding: 1rem; // Example padding
+}

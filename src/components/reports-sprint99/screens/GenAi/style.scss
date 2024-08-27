@@ -1,0 +1,202 @@
+:root {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+  --screen-bg: #404d66;
+}
+
+.dark-theme {
+  --navbar-bg: #222b3c;
+  --navbar-text: #6e7d7d;
+  --table-bg: #222b3c;
+  --table-text: #ffffff;
+  --chart-bg: #222b3c;
+  --screen-bg: #2e3a4f;
+}
+
+.light-theme {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+  --screen-bg: #ffffff;
+}
+.genai-report {
+  background-color: var(--screen-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  .genai-head {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    .genai-name-board {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--table-text);
+    }
+    .dates {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+      height: 6rem;
+      width: 30%;
+      // background-color: red;
+      .label-time-period {
+        // background-color: greenyellow;
+        font-weight: 600;
+        color: var(--table-text);
+      }
+      .filter-toggle-btn-container {
+        position: relative; // Relative to contain the absolute dropdown
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+
+        .filter-toggle-btn {
+          text-align: center;
+          padding: 0.5rem;
+          width: 10rem;
+          height: 2rem;
+          color: #000;
+          background-color: #ccc;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #000;
+          border-radius: 0.8rem;
+          cursor: pointer;
+        }
+
+        .filter-drop-down-options {
+          position: absolute; // Absolute to overlay other elements
+          top: 110%; // Positions dropdown just below the button
+          left: 50%;
+          transform: translateX(-50%);
+          width: 12rem; // Adjusted for better fit
+          padding: 0.5rem;
+          background-color: var(--navbar-bg);
+          color: var(--navbar-text);
+          border: 1px solid #ccc;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          z-index: 999;
+          border-radius: 1rem;
+
+          p {
+            margin: 0;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 0.6rem;
+            &:hover {
+              background-color: var(--navbar-text);
+              color: var(--navbar-bg);
+            }
+          }
+        }
+      }
+      .start-date {
+        height: 2rem;
+        width: 7rem;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        border-style: thin;
+      }
+      .end-date {
+        height: 2rem;
+        width: 7rem;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        border-style: thin;
+      }
+    }
+  }
+  .genai-name-board-two {
+    text-align: center;
+    color: var(--table-text);
+  }
+  .genai-report-pdf {
+    // background-color: red;
+    .genai-title-head-outer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // background-color: orange;
+      .genai-title-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // background-color: red;
+        padding: 0rem 0.9rem;
+        width: 82%;
+        h1 {
+          color: var(--table-text);
+          text-align: center;
+          background-color: var(--table-bg);
+          border-radius: 0.8rem;
+          margin-left: 1rem;
+          margin-right: 1rem;
+        }
+        .genai-drop-down {
+          border-radius: 0.8rem;
+          height: 3rem;
+          width: 13rem;
+          border: 1px solid var(--table-text);
+          background-color: var(--table-bg);
+          color: var(--table-text);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: smaller;
+          cursor: pointer;
+          text-align: center;
+          font-weight: 500;
+        }
+      }
+    }
+    .genai-report-pdf-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // background-color: burlywood;
+    }
+  }
+  .genai-support-pdf {
+    .genai-support-pdf-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // background-color: orange;
+      .genai-support-pdf-title-inner {
+        // background-color: greenyellow;
+        width: 82%;
+        h1 {
+          display: flex;
+          justify-content: flex-start;
+          // align-items: center;
+          width: fit-content;
+          margin-left: 0.8rem;
+          color: var(--table-text);
+          background-color: var(--table-bg);
+          // background-color: red;
+          // width: fit-content;
+          border-radius: 1rem;
+          font-size: 2rem;
+          // padding-left: 1rem;
+        }
+      }
+    }
+    .genai-support-pdf-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // background-color: burlywood;
+    }
+  }
+}

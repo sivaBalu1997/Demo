@@ -1,0 +1,383 @@
+:root {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+  --screen-bg: #ccc;
+}
+
+.dark-theme {
+  --navbar-bg: #222b3c;
+  --navbar-text: #6e7d7d;
+  --table-bg: #222b3c;
+  --table-text: #ffffff;
+  --chart-bg: #222b3c;
+  --screen-bg: #404d66;
+}
+
+.light-theme {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+  --screen-bg: #ccc;
+}
+
+.pagination {
+  width: 69%;
+  border: 1px solid var(--table-text);
+  background-color: var(--table-bg);
+  color: var(--table-text);
+  padding: 0.7rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .table-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      padding-left: 1rem;
+      position: -webkit-sticky; /* For Safari */
+      position: sticky;
+      top: 0;
+      background-color: inherit;
+      z-index: 1;
+    }
+
+    .export-container {
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s, border-color 0.3s;
+      background-color: var(--table-bg);
+      border-radius: 0.8rem;
+
+      img {
+        background-color: var(--table-bg);
+        color: var(--table-text);
+        height: 1.8rem;
+        width: 1.8rem;
+        border-radius: 1rem;
+        transition: background-color 0.3s, border-color 0.3s;
+
+        &:hover {
+          background-color: var(--navbar-bg);
+          border-color: var(--navbar-bg);
+        }
+      }
+
+      .export-drop-down {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        border: 0.1rem solid #ddd;
+        border-radius: 0.4rem;
+        box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(1rem);
+        transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+
+        p {
+          text-align: center;
+          padding: 0.5rem 1rem;
+          margin: 0;
+          cursor: pointer;
+          font-size: 0.9rem;
+          color: black;
+          transition: background-color 0.3s, color 0.3s, padding 0.3s;
+
+          &:not(:last-child) {
+            border-bottom: 0.1rem solid #ddd;
+          }
+
+          &:hover {
+            background-color: #f4f4f4;
+            color: #283347;
+            padding: 0.5rem 1.5rem;
+            transform: translateX(0.5rem);
+          }
+        }
+      }
+
+      &:hover .export-drop-down {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--table-bg);
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--navbar-text);
+      border-radius: 10px;
+      border: 2px solid var(--table-bg);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: var(--navbar-text);
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--navbar-text) var(--table-bg);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+
+    .expand-icon {
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .nestedTable {
+      width: 100%;
+      background-color: #f9f9f9; // Example background for nested rows
+      border: 1px solid #ddd;
+
+      .nestedHeader {
+        background-color: #f0f0f0;
+      }
+      td {
+        padding: 5px;
+      }
+    }
+
+    tr {
+      .tableHeader,
+      .tableRow {
+        display: flex;
+      }
+
+      .tableHeader {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        font-size: 2rem;
+        font-weight: 600;
+        width: 12.5rem;
+      }
+
+      .header,
+      .tableCell {
+        padding: 0.5rem;
+        text-align: left;
+        font-size: 0.76rem;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header {
+        font-weight: bold;
+        font-size: small;
+        width: fit-content;
+        background-color: var(--screen-bg);
+
+        &.align-right {
+          text-align: right;
+        }
+
+        &.align-center {
+          text-align: center;
+        }
+
+        .sort-icon {
+          margin-left: 0.5rem;
+          cursor: pointer;
+        }
+      }
+
+      .tableCell.align-right {
+        text-align: right;
+      }
+
+      .tableCell.align-center {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.paginationCursor {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 1rem;
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  bottom: 0;
+  background-color: inherit;
+}
+
+.pagenationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border: none;
+
+  li {
+    list-style: none;
+
+    img {
+      cursor: pointer;
+      filter: invert(100%);
+    }
+
+    .leftArrow {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.table-container-one {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.half-width {
+  width: 47% !important;
+  height: 20rem;
+
+  @media (max-width: 480px) {
+    width: 80% !important;
+    margin-left: 0.8rem !important;
+  }
+
+  @media (max-width: 500px) {
+    width: 80% !important;
+  }
+}
+
+// @media (max-width: 600px) {
+//   .pagination {
+//     width: fit-content;
+//     margin-left: -3.75rem;
+
+//     .table {
+//       display: flex;
+//       flex-wrap: wrap;
+//       border-collapse: collapse;
+//       margin-bottom: 3.125rem;
+
+//       tr {
+//         .tableHeader,
+//         .tableRow {
+//           font-size: 0.625rem;
+//         }
+
+//         .header,
+//         .tableCell {
+//           flex: 1;
+//           padding: 0.5rem;
+//           font-size: 0.625rem;
+//           white-space: nowrap;
+//           overflow: hidden;
+//           text-overflow: ellipsis;
+//         }
+
+//         .header {
+//           font-weight: bold;
+//         }
+//       }
+//     }
+//   }
+// }
+
+// @media (max-width: 480px) {
+//   .pagination {
+//     width: 23.75rem;
+//     overflow: auto;
+//     margin-left: 0.8rem;
+
+//     .table {
+//       display: flex;
+//       flex-wrap: wrap;
+//       border-collapse: collapse;
+//       margin-bottom: 3.125rem;
+
+//       .tableHeader,
+//       .tableRow {
+//         font-size: 0.325rem;
+//       }
+
+//       .header,
+//       .tableCell {
+//         flex: 1;
+//         padding: 0.1875rem;
+//         text-align: left;
+//         font-size: 0.01rem;
+//         white-space: nowrap;
+//         overflow: hidden;
+//         text-overflow: ellipsis;
+//       }
+
+//       .header {
+//         font-weight: bold;
+//       }
+//     }
+//   }
+// }
+
+// @media (max-width: 500px) {
+//   .pagination {
+//     width: 23.75rem;
+//     overflow: auto;
+//     margin-left: 0.8rem;
+
+//     .table {
+//       display: flex;
+//       flex-wrap: wrap;
+//       border-collapse: collapse;
+//       margin-bottom: 3.125rem;
+
+//       .tableHeader,
+//       .tableRow {
+//         font-size: 0.625rem;
+//       }
+
+//       .header,
+//       .tableCell {
+//         flex: 1;
+//         padding: 0.1875rem;
+//         text-align: left;
+//         font-size: 0.625rem;
+//         white-space: nowrap;
+//         overflow: hidden;
+//         text-overflow: ellipsis;
+//       }
+
+//       .header {
+//         font-weight: bold;
+//       }
+//     }
+//   }
+// }

@@ -1,0 +1,155 @@
+:root {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+  --screen-bg: #404d66;
+}
+
+.dark-theme {
+  --navbar-bg: #222b3c;
+  --navbar-text: #6e7d7d;
+  --table-bg: #222b3c;
+  --table-text: #ffffff;
+  --chart-bg: #222b3c;
+  --screen-bg: #2e3a4f;
+}
+
+.light-theme {
+  --navbar-bg: #e0e0e0;
+  --navbar-text: #333333;
+  --table-bg: #ffffff;
+  --table-text: #333333;
+  --chart-bg: #ffffff;
+  --screen-bg: #ffffff;
+}
+.employee-container {
+  background-color: var(--screen-bg);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  // justify-content: center;
+  // align-items: center;
+  gap: 0.5rem;
+  .employee-head {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    .name-board {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--table-text);
+    }
+    .dates {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+      height: 6rem;
+      // width: 30%;
+      // background-color: red;
+      .label-time-period {
+        // background-color: greenyellow;
+        font-weight: 600;
+        color: var(--table-text);
+      }
+      .filter-toggle-btn-container {
+        position: relative; // Relative to contain the absolute dropdown
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+
+        .filter-toggle-btn {
+          text-align: center;
+          padding: 0.5rem;
+          width: 10rem;
+          height: 2rem;
+          color: #000;
+          background-color: #ccc;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border: 1px solid #000;
+          border-radius: 0.8rem;
+          cursor: pointer;
+        }
+
+        .filter-drop-down-options {
+          position: absolute; // Absolute to overlay other elements
+          top: 110%; // Positions dropdown just below the button
+          left: 50%;
+          transform: translateX(-50%);
+          width: 12rem; // Adjusted for better fit
+          padding: 0.5rem;
+          background-color: var(--navbar-bg);
+          color: var(--navbar-text);
+          border: 1px solid #ccc;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          z-index: 999;
+          border-radius: 1rem;
+
+          p {
+            margin: 0;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 0.6rem;
+            &:hover {
+              background-color: var(--navbar-text);
+              color: var(--navbar-bg);
+            }
+          }
+        }
+      }
+      .date-range-style {
+        display: flex;
+        gap: 2rem;
+        .start-date {
+          height: 2rem;
+          width: 7rem;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          border-style: thin;
+        }
+        .end-date {
+          height: 2rem;
+          width: 7rem;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          border-style: thin;
+        }
+      }
+    }
+  }
+  .employee-details-container {
+    // background-color: red;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .name-board-two {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--table-text);
+  }
+  .employee-vs-sales {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    // background-color: red;
+    // margin-left: 18rem;
+    // border-radius: 1rem;
+    // width: 100%;
+    // height: 22rem;
+    .employee-vs-sales-inner {
+      // background-color: orange;
+      width: 70%;
+    }
+  }
+}

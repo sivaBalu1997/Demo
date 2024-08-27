@@ -80,30 +80,12 @@ const reportOptions = [
 ];
 
 const Menu = () => {
-  // const menuOptions = ["Items", "Categories"];
   const credentials = useSelector((state) => state.auth.credentials);
   const selectedBranch = localStorage.getItem(SELECTED_BRANCH_DATA);
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
   const menuOptions = ["Items"];
   const offerMenuOptions = ["Offers"];
-  // const getRole = () => {
-  //   let neighbourhoodDeliveryRole = [
-  //     "Operator-neighbourhood",
-  //     "Branch Manager-neighbourhood",
-  //     "Regional Manager-neighbourhood",
-  //     "Owner-neighbourhood",
-  //     "Delivery-neighbourhood",
-  //   ];
-  //   if (
-  //     credentials &&
-  //     credentials?.accessToken &&
-  //     neighbourhoodDeliveryRole.includes(
-  //       jwt_decode(credentials?.accessToken).resource_access["merchant-app"]
-  //         .roles[0]
-  //     )
-  //   )
-  //     return true;
-  // };
+
   const history = useHistory();
 
   useEffect(() => {
@@ -235,11 +217,6 @@ const Menu = () => {
           </div>
         </div>
         <ul>
-          {/* <NavLink to="/business" activeClassName="active">
-          <li />
-          <Dollar className="menu-items-SVG" />
-            Business{" "}
-        </NavLink> */}
           <div
             className={
               showOptions === "employees" &&
@@ -257,11 +234,6 @@ const Menu = () => {
             <EmployeesIcon className="menu-items-SVG" />
             <span className="menu-items-name">Employees</span>
           </div>
-          {/* <NavLink to="/roles" activeClassName="active">
-          <li />
-          <Key className="menu-items-SVG" />
-            Roles & Access
-        </NavLink> */}
           <div
             className={
               showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
@@ -296,7 +268,6 @@ const Menu = () => {
               </Fragment>
             )}
           </div>
-          {/* <ul className="menu-items-list"> */}
           {showOptions === "MenuOptions"
             ? menuOptions.map((option) => (
                 <NavLink
@@ -312,9 +283,6 @@ const Menu = () => {
                 </NavLink>
               ))
             : null}
-          {/* </ul> */}
-          {/* <li style={{ marginBottom: "30px" }}>Drafts</li> */}
-
           <div
             className={
               showOfferOptions === "MenuOptions"
@@ -364,9 +332,6 @@ const Menu = () => {
               : null}
           </ul>
           <div
-            // className={
-            //   showOptions === "reportOptions" ? "active drop-down" : "drop-down"
-            // }
             className={
               showOptions === "reportOptions" &&
               location.pathname.includes("report")
@@ -376,7 +341,7 @@ const Menu = () => {
             onClick={() => {
               setShowOptions("reportOptions");
 
-              history.push(`/management/report/32`);
+              history.push(`/management/live-reports`);
             }}
             style={{ cursor: "pointer" }}
           >
@@ -387,11 +352,6 @@ const Menu = () => {
                 <span className="menu-items-name">Reports & Insights</span>
               </div>
             )}
-            {/* {showOptions === "reportOptions" ? (
-              <Uparrow className="dropdown-arrow" />
-            ) : (
-              <Downarrow className="dropdown-arrow" />
-            )} */}
           </div>
 
           <div
@@ -402,8 +362,6 @@ const Menu = () => {
                 : "drop-down"
             }
             onClick={() => {
-              // setShowOptions("reportOptions");
-              // history.push(`/management/payment`);
               if (restaurantDetails.paymentProvider === null) {
                 setShowOptions("reportOptions");
                 history.push(`/management/payment`);
@@ -420,196 +378,14 @@ const Menu = () => {
               </div>
             )}
           </div>
-
-          {/* <div
-            className={
-              showOptions === "billing" && location.pathname.includes("billing")
-                ? "active drop-down"
-                : "drop-down"
-            }
-            onClick={() => {
-              setShowOptions("billing");
-
-              history.push(`/management/billing`);
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            {!getRole() && (
-              <div>
-                <li style={{ marginBottom: 0 }} />
-                <BillingIcon className="menu-items-SVG" />
-                <span className="menu-items-name">Billings</span>
-              </div>
-            )}
-          </div> */}
         </ul>
         <div>
           <div className="magilhub-bottom-logo">
                 <span className="powered-text1">Powered by</span>
                 <span className="magilhub-logo1">Maghil</span>
             </div>
-          {/* <MagilHub className="magilhub-bottom-logo" /> */}
         </div>
       </div>
-      <Switch>
-        <Route exact path="/review" component={ReviewMenu} />
-        <Route exact path="/management/employees" component={Employees} />
-        <Route exact path="/management/Offers" component={Offerdetails} />
-        <Route
-          exact
-          path="/management/Offers/TemplateOffer"
-          component={TemplateOffer}
-        />
-        <Route exact path="/management/Offers/AddOffer" component={AddOffer} />
-        <Route
-          exact
-          path="/management/Offers/CreateOffer"
-          component={CreateOffer}
-        />
-        <Route
-          exact
-          path="/management/Offers/EditOffer"
-          component={CreateOffer}
-        />
-        <Route
-          exact
-          path="/management/Offers/PreviewOffer"
-          component={PreviewOffer}
-        />
-        <Route
-          exact
-          path="/management/report/32"
-          component={() => (
-            <Report id={"32"} title={"Sales Report"} />
-          )}
-        />
-          <Route
-          exact
-          path="/management/report/51"
-          component={() => (
-            <Report id={"51"} title={"Customer Insights"} />
-          )}
-        />
-          <Route
-          exact
-          path="/management/report/63"
-          component={() => (
-            <Report id={"63"} title={"Consolidated Report"} />
-          )}
-        />
-          <Route
-          exact
-          path="/management/report/67"
-          component={() => (
-            <Report id={"63"} title={"Course management"} />
-          )}
-        />
-          <Route
-          exact
-          path="/management/report/82"
-          component={() => (
-            <Report id={"82"} title={"Category report"} />
-          )}
-        />
-         <Route
-          exact
-          path="/management/report/57"
-          component={() => (
-            <Report id={"57"} title={"Product Insights"} />
-          )}
-        />
-        <Route
-          exact
-          path="/management/report/32"
-          component={() => <Report id={"32"} title={"Sales report"} />}
-        />
-        <Route
-          exact
-          path="/management/report/2"
-          component={() => <Report id={"2"} title={"Checkin - Daily report"} />}
-        />
-        <Route
-          exact
-          path="/management/report/4"
-          component={() => <Report id={"4"} title={"Order insights"} />}
-        />
-        <Route
-          exact
-          path="/management/report/5"
-          component={() => (
-            <Report id={"5"} title={"Sales - Transaction report"} />
-          )}
-        />
-        Product insights
-        <Route
-          exact
-          path="/management/report/12"
-          component={() => <Report id={"12"} title={"Sales insights"} />}
-
-          // /> <Route
-          // exact
-          // path="/management/report/8"
-          // component={() => (
-          //   <Report id={"8"} title={"Product insights"} />
-          // )}
-        />
-        <Route
-          exact
-          path="/management/employees/add"
-          component={() => <AddEmployee />}
-        />
-        <Route
-          exact
-          path="/management/employees/add/:id"
-          component={() => <AddEmployee />}
-        />
-        <Route 
-          exact 
-          path="/management/employees/details/:id"
-          component={() => <EmployeeDetails />}  
-        />
-        <Route exact path="/management/billing" component={() => <Billing />} />
-        <Route
-          exact
-          path="/management/billing/changeplan"
-          component={() => <ChangePlan />}
-        />
-        <Route
-          exact
-          path="/management/billing/cancelsubscription"
-          component={() => <CancelSubscription />}
-        />
-        <Route
-          exact
-          path="/management/billing/stickWithUs"
-          component={() => <StickWithUs />}
-        />
-        <Route
-          exact
-          path="/management/billing/history"
-          component={() => <BillingHistory />}
-        />
-        <Route
-          exact
-          path="/management/menu/Items"
-          component={() => <EmptyMenu />}
-        />
-        <Route
-          exact
-          path="/management/menu/Items/Add"
-          component={() => <AddItems />}
-        />
-        <Route
-          exact
-          path="/management/menu/Items/update/:itemId"
-          component={() => <AddItems />}
-        />
-        <Route
-          exact
-          path="/management/payment"
-          component={() => <Payments title={"Payment"} />}
-        />
-      </Switch>
     </>
   );
 };
