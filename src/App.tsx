@@ -2,29 +2,28 @@ import React, { useEffect } from "react";
 import { Route, Switch, BrowserRouter, useHistory, Router } from "react-router-dom";
 import store from "./redux/store";
 import { Provider, useDispatch, useSelector } from "react-redux";
-
 import "./styles/app.scss";
-import EmptyMenu from "./components/menuItems/EmtyMenu";
-import MenuItems from "./components/menuItems";
-import MenuDetials from "./components/menuDetails";
-import MenuCustomization from "./components/menuCustomization";
-import AddCustomizationInput from "./components/menuCustomization/AddCustomizationInput";
-import ReviewMenu from "./components/reviewMenu";
-import Auth from "./components/Auth";
-import BasicDetails from "./components/Auth/BasicDetails";
-import Business from "./components/business";
-import Employees from "./components/employees";
-import RoleAccess from "./components/roles";
-import ResetPassword from "./components/Auth/ResetPassword";
+import EmptyMenu from "./pages/menuItem/EmptyMenu";
+import MenuItems from "./pages/menuItems";
+import MenuDetials from "./pages/menuDetails";
+import MenuCustomization from "./pages/menuCustomization";
+import AddCustomizationInput from "./pages/menuCustomization/AddCustomizationInput";
+import ReviewMenu from "./pages/reviewMenu";
+import Auth from "./pages/auth";
+import BasicDetails from "./pages/auth/BasicDetails";
+import Business from "./pages/business";
+import Employees from "./pages/employee";
+import RoleAccess from "./pages/roles";
+import ResetPassword from "./pages/auth/ResetPassword";
 import { CREDENTIALS } from "./shared/constants";
-import { ClearSignIn, signOut, storeCredentials } from "./redux/actions/authActions";
-import NotFound from "./components/notFound";
-import Menu from "./components/menu";
-import { clearMenuData } from "./redux/actions/menuAction";
+import { ClearSignIn, signOut, storeCredentials } from "./redux/auth/authActions";
+import NotFound from "./pages/notFound";
+import Menu from "./pages/menu";
+import { clearMenuData } from "./redux/menu/menuAction";
 import { ToastContainer } from "react-toastify";
-import { RootState } from "redux/reducers/rootReducer";
+import { RootState } from "./redux/rootReducer";
 import Routers from './Routers'
-import CustomerInsights from "components/reports-sprint99/screens/CustomerInsights";
+import CustomerInsights from "pages/reports/CustomerInsights";
 
 interface Credentials {
   accessToken: string

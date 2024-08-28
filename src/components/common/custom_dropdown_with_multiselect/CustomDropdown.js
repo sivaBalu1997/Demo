@@ -4,7 +4,7 @@ import downArrow from "../../../assets/images/down-arrow.png";
 import { animated } from "react-spring";
 
 import edit from "../../../assets/images/edit.png";
-import ScaleLevelPopup from "../../offers/ScaleLevelPopup";
+import ScaleLevelPopup from "../../../pages/offers/ScaleLevelPopup";
 
 const CustomDropDown = (props) => {
   const myRef = useRef(null);
