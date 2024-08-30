@@ -1,4 +1,5 @@
 import { produce } from "immer";
+import {AuthAction, AuthType, SelectedBranch, Credentials} from '../../interface/authInterface'
 import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
@@ -20,9 +21,9 @@ import {
   RESTAURANT_DETAIL_SUCCESS,
   SELECTED_BRANCH,
   CLEAR_SIGNIN
-} from "../auth/authConstants";
+} from "./authConstants";
 
-const initialAuthState = {
+const initialAuthState : AuthType = {
   // Auth Credential
   credentials: null,
 
@@ -56,7 +57,7 @@ const initialAuthState = {
   selectedBranch: null,
 };
 
-export default function authReducer(state = initialAuthState, action) {
+export default function authReducer(state = initialAuthState, action:AuthAction) {
   return produce(state, (draft) => {
     switch (action.type) {
       // Credential Reducer

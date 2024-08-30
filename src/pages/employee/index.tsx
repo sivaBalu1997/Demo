@@ -1,37 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearEditEmployeeData, getEmployees } from "../../redux/employee/employeeActions";
 import EmployeeList from "./employessList";
 import logout from "../../assets/images/logout.png";
 import { signOut } from "../../redux/auth/authActions";
 import { clearMenuData } from "../../redux/menu/menuAction";
-import "./employee.css";
-import "./styles.css";
+import "./style/employee.css";
+import "./style/styles.css";
 import close from '../../assets/images/close.png'
 import searchImg from '../../assets/svg/searchImg.svg'
-
+import { SelectedBranch } from "../../interface/authInterface";
+import { RootState } from "redux/rootReducer";
+import { EmployeeType } from "../../interface/employeeInterface";
+import SidePanel from "pages/SidePanel";
 
 const Employees = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const history = useHistory();
-  const credentials = useSelector((state) => state.auth.credentials);
-  const selectedBranch = useSelector((state) => state.auth.selectedBranch);
+  const cred = useSelector((state:RootState)=>state.auth)
+  const selectedBranch : SelectedBranch | null = useSelector(
+    (state:RootState) => state.auth.selectedBranch || null
+  );
 
   const getRestaurantLoading= useSelector(
-    (state) => state.auth.getRestaurantLoading
+    (state:RootState) => state.auth.getRestaurantLoading
   );
 
   const employeeDetailsLoading = useSelector(
-    (state) => state.employee.employeeDetailsLoading
+    (state:RootState) => state.employee.employeeDetailsLoading
   );
-  const employeeDetailsFailure = useSelector(
-    (state) => state.employee.employeeDetailsFailure
-  );
-  const employeeList = useSelector((state) => state.employee.employeeDetails);
+
+  const employeeList : EmployeeType[] = useSelector((state:RootState) => state.employee.employeeDetails);
   
-  useEffect(() => {
+  console.log({employeeList})
+
+  useEffect(()=>{
     selectedBranch?.id && dispatch(getEmployees(selectedBranch?.id));
   }, [selectedBranch?.id]);
 
@@ -57,7 +62,7 @@ const Employees = () => {
   }
 
   const [searchInput, setSearchInput] = useState('')
-  const [searchedData, setSearchedData] = useState([])
+  const [searchedData, setSearchedData] = useState<EmployeeType[]>([])
 
 
   useEffect(() => {
@@ -66,7 +71,7 @@ const Employees = () => {
     } else {
       const cleanedSearchInput = searchInput.toLowerCase().trim().replace(/\s+/g, '');
  
-      const filteredData = employeeList.filter(item => {
+      const filteredData = employeeList.filter((item : EmployeeType) => {
       const fullName = item.firstName?.concat(item.lastName).toLowerCase().trim();
       const role = item.role.toLowerCase().trim();
       return (
@@ -78,7 +83,7 @@ const Employees = () => {
     }
   }, [searchInput, employeeList]);
   
-  const handleKeyPress = (event) => {
+  const handleKeyPress = (event : React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleSearch();
     }
@@ -87,7 +92,7 @@ const Employees = () => {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
   
     if (value.startsWith(' ')) {
@@ -103,7 +108,7 @@ const Employees = () => {
 
   const handleSearch = () => {
     if (searchInput !== '') {
-      const filteredData = employeeList.filter(item => (
+      const filteredData = employeeList.filter((item:EmployeeType) => (
         item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
         item.role.toLowerCase().includes(searchInput.toLowerCase())
       ));
@@ -116,31 +121,34 @@ const Employees = () => {
 
   return (
     <>
-    <div className="employeeContainer">
-      <Header/>
-      <div className="employeeSearchContainer">
-        <div className="employeeSearchBox">
-          <input 
-            type="text"  
-            className="employeeSearchBar" 
-            placeholder="Search"
-            value={searchInput}  
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-          />
-          {!searchInput ? 
-            <img src={searchImg} alt="" onClick={handleSearch} style={{width:"25px", height:"25px", marginTop:"6px", marginRight:"5px"}} /> :
-            <img src={close} alt="" onClick={handleCloseSearch} style={{width:"20px", height:"20px", marginTop:"10px", marginRight:"5px"}} />
-          } 
+      <div className="employeeIndex">
+        <SidePanel />
+        <div className="employeeContainer">
+          <Header/>
+          <div className="employeeSearchContainer">
+            <div className="employeeSearchBox">
+              <input 
+                type="text"  
+                className="employeeSearchBar" 
+                placeholder="Search"
+                value={searchInput}  
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+              />
+              {!searchInput ? 
+                <img src={searchImg} alt="" onClick={handleSearch} style={{width:"25px", height:"25px", marginTop:"6px", marginRight:"5px"}} /> :
+                <img src={close} alt="" onClick={handleCloseSearch} style={{width:"20px", height:"20px", marginTop:"10px", marginRight:"5px"}} />
+              } 
+            </div>
+            <input type="submit" value='Add New' className="addBtn"  
+              onClick={() => {
+                dispatch(clearEditEmployeeData())
+                history.push("/employees/add")
+              }}/>
+          </div>
+          <EmployeeList loading={loading} employeeListData={searchInput !== '' ? searchedData: employeeList}/>
         </div>
-        <input type="submit" value='Add New' className="addBtn"  
-          onClick={() => {
-            dispatch(clearEditEmployeeData())
-            history.push("/management/employees/add")
-          }}/>
       </div>
-      <EmployeeList loading={loading} employeeListData={searchInput !== '' ? searchedData: employeeList}/>
-    </div>
     </>
   );
 };

@@ -7,7 +7,6 @@ import paymentReducer from "./payment/paymentReducer";
 import productCatalogReducer from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
 
-// Combine the individual reducers into a root reducer
 const rootReducer = combineReducers({
   auth: authReducer,
   employee: employeeReducer,
@@ -18,8 +17,6 @@ const rootReducer = combineReducers({
   offer: offerReducer,
 });
 
-// Export the rootReducer
 export { rootReducer };
 
-// Define and export the RootState type
 export type RootState = ReturnType<typeof rootReducer>;

@@ -20,8 +20,6 @@ import {
   employeeStatusFailure,
   updateEmployeeFailure,
   updateEmployeeSuccess,
-  updateEmployeeRequest,
-  getEmployees,
 } from "./employeeActions";
 import {
   fetchOutlets,
@@ -36,7 +34,7 @@ import {
   editEmployee,
   refreshPinApi,
   getEmployeeRoleById,
-} from "../employee/employeeAPI";
+} from "./employeeAPI";
 
 import {
   OUTLET_REQUEST,
@@ -44,7 +42,6 @@ import {
   ADD_EMPLOYEE_REQUEST,
   REMOVE_EMPLOYEE_REQUEST,
   USER_ACCESS_EMPLOYEE_REQUEST,
-  EDIT_EMPLOYEE_DATA,
   UPDATE_EMPLOYEE_PIN_REQUEST,
   GET_EMPLOYEE_BY_ID_REQUEST,
   ROLES_REQUEST,
@@ -59,10 +56,11 @@ import {
 } from "./employeeContants";
 import { decryptJson } from "../../util/react-ec-utils";
 import { showErrorToast, showSuccessToast } from "../../util/toastUtils";
+import { EmployeeAction } from "interface/employeeInterface";
 
-function* getOutletsSaga(action) {
+function* getOutletsSaga(action:EmployeeAction): Generator<any, void, any> {
   try {
-    const response = yield call(fetchOutlets, action.payload);
+    const response:any = yield call(fetchOutlets, action.payload);
     if (response.status === 200) {
       yield put(successGetOutlet(response.data));
     }
@@ -72,7 +70,7 @@ function* getOutletsSaga(action) {
 }
 
 //Create Employee
-function* addEmployeeSaga(action) {
+function* addEmployeeSaga(action:EmployeeAction): Generator<any, void, any> {
   try {
     const response = yield call(createEmployee, action.payload);
     if (response.status === 200) {
@@ -84,12 +82,14 @@ function* addEmployeeSaga(action) {
       yield put(failedAddEmployee(errorMessage));
     }
   } catch (err) {
-    yield put(failedAddEmployee(err.message));
+    if (err instanceof Error) {
+      yield put(failedAddEmployee(err.message));
+    }
   }
 }
 
 // Delete Employee
-function* deleteEmployeeSaga(action) {
+function* deleteEmployeeSaga(action:EmployeeAction): Generator<any, void, any> {
   try {
     const response = yield call(removeEmployee, action.payload);
     if (response.status === 200) {
@@ -108,7 +108,7 @@ function* deleteEmployeeSaga(action) {
 }
 
 //Get Employee
-function* getEmployeesSaga(action) {
+function* getEmployeesSaga(action:EmployeeAction): Generator<any, void, any> {
   try {
     const response = yield call(getEmployeeDetails,action.payload);
     if (response.status === 200) {
@@ -125,7 +125,7 @@ function* getEmployeesSaga(action) {
 }
 
 //Get Employee By Id
-function* getEmployeeByIdSaga(action) {
+function* getEmployeeByIdSaga(action:EmployeeAction): Generator<any, void, any> {
   const requestData = action.payload  
   try {
     const response = yield call(getEmployeeById, requestData?.staffId)
@@ -151,7 +151,7 @@ function* getEmployeeByIdSaga(action) {
   }
 }
 
-function* getEmployeeRolesByIdSaga(action) {
+function* getEmployeeRolesByIdSaga(action:EmployeeAction): Generator<any, void, any> {
   const requestData = action.payload  
   try {
     const response = yield call(getEmployeeRoleById, requestData?.staffId)
@@ -175,7 +175,7 @@ function* getEmployeeRolesByIdSaga(action) {
   }
 }
 
-function* manageUserAccessSaga(action) {
+function* manageUserAccessSaga(action:EmployeeAction): Generator<any, void, any> {
   try {
     const response = yield call(manageUserAccess, action.payload);
     if (
@@ -197,7 +197,7 @@ function* manageUserAccessSaga(action) {
   }
 }
 
-function* updateEmployeePINSaga(action) {
+function* updateEmployeePINSaga(action:EmployeeAction): Generator<any, void, any> {
   try {
     const response = yield call(updatePIN, action.payload);
     if (response.status === 200) {
@@ -213,7 +213,7 @@ function* updateEmployeePINSaga(action) {
 }
 
 //Update Employee
-function* updateEmployeeSaga(action) {
+function* updateEmployeeSaga(action:EmployeeAction): Generator<any, void, any> {
   try{
     const response = yield call(editEmployee, action.payload)
     console.log(response?.data);
@@ -229,15 +229,13 @@ function* updateEmployeeSaga(action) {
       yield put(updateEmployeeFailure(errorMessage))
     }
   }catch(err){
-     const errorMessage = err.response.data?.message;
-     console.log(errorMessage);
-    // alert(errorMessage)
-    yield put(updateEmployeeFailure("Error Updating Employee"))
+     const errorMessage = (err as any).response.data?.message;
+     yield put(updateEmployeeFailure("Error Updating Employee"))
   }
 }
 
 //Employees Roles
-function* getEmployeeRolesSaga(action){
+function* getEmployeeRolesSaga(action:EmployeeAction): Generator<any, void, any> {
   try{
     const response = yield call(rolesAndFunctions);
     if(response.status === 200 ){
@@ -256,7 +254,7 @@ function* getEmployeeRolesSaga(action){
 }
 
 //Employee Status
-function* employeeSatusSaga(action){
+function* employeeSatusSaga(action:EmployeeAction): Generator<any, void, any>{
   try{
     const response = yield call(employeeStatus, action.payload)
     if(response.status === 200){
@@ -273,7 +271,7 @@ function* employeeSatusSaga(action){
 }
 
 //refresh employee pin 
-function* refreshPinSaga(action){
+function* refreshPinSaga(action:EmployeeAction): Generator<any, void, any> {
   try{
     const response = yield call(refreshPinApi, action.payload)
     if(response.status === 200){

@@ -1,13 +1,9 @@
-import "./styles.css";
-import "./employee.css";
-
+import "./style/styles.css";
+import "./style/employee.css";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { SELECTED_BRANCH_DATA } from "../../shared/constants";
-import { signOut } from "../../redux/auth/authActions";
-import { clearManageUserAccess,  setEditEmployeeData, clearEditEmployeeData,  deleteEmployee, employeeStatusRequest, } from "../../redux/employee/employeeActions";
-import { clearMenuData } from "../../redux/menu/menuAction";
+import { useHistory } from "react-router-dom";
+import { setEditEmployeeData, clearEditEmployeeData, deleteEmployee, employeeStatusRequest, } from "../../redux/employee/employeeActions";
 import editImg from '../../assets/svg/edit.svg'
 import trashImg from '../../assets/svg/trash.svg'
 import blockImg from '../../assets/svg/blockImg.svg'
@@ -19,21 +15,28 @@ import thunder from '../../assets/svg/thunder.svg'
 import noResultsfound from "../../assets/images/NoResultsFound.png"
 import {selectBranch,} from "../../redux/auth/authActions";
 import Modal from "../../components/Modal/Modal";
-import { showErrorToast, showInfoToast } from "../../util/toastUtils";
+import { showErrorToast } from "../../util/toastUtils";
 import deleteIcon from '../../assets/svg/trash2.svg'
 import bUIcon from '../../assets/svg/x-octagon.svg'
+import { EmployeeType } from "interface/employeeInterface";
+import { RootState } from "redux/rootReducer";
 
-const EmployeeList = (props) => {
+interface PropsType {
+  loading : boolean
+  employeeListData: EmployeeType[]
+}
+
+interface RowType {
+  name: string
+  role: string
+  data: EmployeeType
+}
+
+const EmployeeList = (props:PropsType) => {
   const {loading,employeeListData} = props;
   const dispatch = useDispatch()
 
-  const [searchedData, setSearchedData] = useState([])
-
-  const employeeList = employeeListData;// useSelector((state) => state.employee.employeeDetails);
-
-  const restaurantDetails = useSelector(
-    (state) => state.auth.restaurantDetails
-  )
+  const employeeList = employeeListData;
 
   useEffect(() => {
     dispatch(clearEditEmployeeData())
@@ -63,7 +66,7 @@ const EmployeeList = (props) => {
             <tbody className="tBody">
              {employeeList.length == 0 && !loading ?
               (
-                  <td colSpan="8" >
+                  <td colSpan={8} >
                     <div className="no-results">
                       <img src={noResultsfound} alt="No results found" />
                       <h2>No Results Found</h2>
@@ -74,10 +77,9 @@ const EmployeeList = (props) => {
                  const lastName = row.lastName ? row.lastName : "";
                     return (
                       <EmployeeRow
-                        key={row.id}
+                        key={row.staffId}
                         name={row.firstName + " " + lastName}
                         role={row.role}
-                        status={row.isActive}
                         data={row}
                       />
                   );
@@ -92,30 +94,28 @@ const EmployeeList = (props) => {
   )
 }
 
-const EmployeeRow = ({
-  key,
+const EmployeeRow: React.FC<RowType> = ({
   name,
   role,
   data,
-  status
 }) => {
   const dispatch = useDispatch()
-  const ref = useRef()
-  const credentials = useSelector((state) => state.auth.credentials)
+  const ref = useRef<HTMLTableDataCellElement>(null)
+  const credentials = useSelector((state:RootState) => state.auth.credentials)
   const history = useHistory()
   const [show, setShow] = useState(false)
   const [editTriggered, setEditTriggered] = useState(false);
   const [openEditModal, setEditOpenModal] = useState(false);
   const [openDeleteModal, setDeleteOpenModal] = useState(false);
-  const [employeeToUpdate, setEmployeeToUpdate] = useState(null);
+  const [employeeToUpdate, setEmployeeToUpdate] = useState<EmployeeType | null>(null);
   const [isBlocking, setIsBlocking] = useState(true);
   const [statusUpdateCompleted, setStatusUpdateCompleted] = useState(false);
   const [employeeDeleteCompleted, setEmployeeDeleteCompleted] = useState(false);
-  const [employeeToDelete, setEmployeeToDelete] = useState(null);
+  const [employeeToDelete, setEmployeeToDelete] = useState<EmployeeType | null>(null);
 
   useEffect(() => {
-    const checkIfClickedOutside = (e) => {
-      if (show && ref.current && !ref.current.contains(e.target)) {
+    const checkIfClickedOutside = (e:MouseEvent) => {
+      if (show && ref.current && !ref.current?.contains(e.target as Node)) {
         setShow(false)
       }
     }
@@ -125,54 +125,50 @@ const EmployeeRow = ({
     }
   }, [show])
 
-  const employee = useSelector((state) => state.employee.employeeByIdDetails)
-  const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading);
+  const employee = useSelector((state: RootState) => state.employee.employeeByIdDetails as EmployeeType);
 
-  const handleEdit = (staffId) => {
+  const handleEdit = (staffId:string) => {
     // dispatch(getEmployeeByIdRequest(staffId));
-    history.push("/management/employees/add/"+staffId)
-    // setEditTriggered(true);
+    history.push("/employees/add/"+staffId)
+    setEditTriggered(true);
   }
 
   useEffect(() => {
     if (editTriggered && employee && employee.staffId === data.staffId) {
       dispatch(setEditEmployeeData(employee))
-      history.push("/management/employees/add")
+      history.push("/employees/add")
       setEditTriggered(false);
     }
   }, [employee, editTriggered, data.staffId])
 
-  const handleBlockClick = (employee, block) => {
+  const handleBlockClick = (employee:EmployeeType, block:boolean) => {
     setEmployeeToUpdate(employee);
     setIsBlocking(block);
     setEditOpenModal(true);
   };
 
   const handleYesClick = () => {
-    dispatch(employeeStatusRequest(employeeToUpdate.staffId, isBlocking));
+    dispatch(employeeStatusRequest(employeeToUpdate?.staffId, isBlocking));
     setStatusUpdateCompleted(true);
     setEmployeeToUpdate(null);
   };
 
-  const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
-  const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
 
-  const handleDeleteClick = (employee) => {
+  const handleDeleteClick = (employee:EmployeeType) => {
     setEmployeeToDelete(employee);
     setDeleteOpenModal(true);
   }
 
   const handleEmpDelete = () => {
-    dispatch(deleteEmployee(employeeToDelete.staffId));
+    dispatch(deleteEmployee(employeeToDelete?.staffId));
     setEmployeeDeleteCompleted(true);
     setEmployeeToDelete(null);
   }
 
-  const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
-  const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
+  const modelApiLoading  = useSelector((state:RootState) => state.employee.modelApiLoading)
+  const actionApiSuccess  = useSelector((state:RootState) => state.employee.actionApiSuccess)
 
   useEffect(() => {
-    // console.log({modelApiLoading, actionApiSuccess});
     if (actionApiSuccess && !modelApiLoading) {
       setDeleteOpenModal(false);
       setEditOpenModal(false);
@@ -181,7 +177,7 @@ const EmployeeRow = ({
 
   return (
     <>
-      <tr onClick={() => {history.push("/management/employees/details/" + data.staffId)}} >
+      <tr onClick={() => {history.push("/employees/details/" + data.staffId)}} >
         <td>
           <div  className="employeeValueData">{name}</div>
         </td>
@@ -225,7 +221,7 @@ const EmployeeRow = ({
             </td>
 
           <td>
-            <div className="img-align" onClick={(e) => { e.stopPropagation(); history.push("/management/employees/details/" + data.staffId)}} >
+            <div className="img-align" onClick={(e) => { e.stopPropagation(); history.push("/employees/details/" + data.staffId)}} >
               <img src={previewImg} className="actions" />
             </div>
          

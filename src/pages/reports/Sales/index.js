@@ -8,6 +8,7 @@ import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import "./style.scss";
 import moment from "moment";
+import SidePanel from "pages/SidePanel";
 
 const Sales = () => {
   const {isDarkTheme}= useContext(ThemeContext);
@@ -134,7 +135,9 @@ const Sales = () => {
   );
 
   return (
-    <div
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <div
       className={`sales-container ${
         isDarkTheme ? "dark-theme" : "light-theme"
       }`}
@@ -354,6 +357,7 @@ const Sales = () => {
           />
         </div>
       </div>
+    </div>
     </div>
   );
 };

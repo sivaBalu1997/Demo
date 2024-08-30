@@ -11,9 +11,11 @@ import {
   EditOffer,
 } from "../../redux/offer/offerActions";
 import { ReactComponent as Loader } from "../../assets/svg/loaderWhite.svg";
+import SidePanel from "pages/SidePanel";
+
+
 const PreviewOffer = (props) => {
   let offerData = props && props.state ? props.state : "";
-  //.log(offerData, "preview offer");
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -248,7 +250,9 @@ const PreviewOffer = (props) => {
 
   return (
     // <>{createOfferLoading ? (
-    <>
+   <div style={{display:'flex', flexDirection:'row'}}>
+    <SidePanel />
+     <>
       <div className="menu-list offer_list">
         <div className="mainpage_boxshade">
           {false ? (
@@ -494,6 +498,7 @@ const PreviewOffer = (props) => {
         </div>
       </div>
     </>
+   </div>
   );
 };
 

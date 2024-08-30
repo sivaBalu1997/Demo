@@ -5,12 +5,15 @@ import { LD } from "../../../assets/mockData/originalAPIData/OliveReportData";
 import Table from '../../../components/reportComponents/Table';
 import "./style.scss";
 import Topnavbar from "../../../components/reportComponents/TopNavbar";
+import SidePanel from "pages/SidePanel";
 
 const CustomerInsights = () => {
   const {isDarkTheme} = useContext(ThemeContext);
 
   return (
-    <div
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <div
       className={`live-reports ${isDarkTheme ? "dark-theme" : "light-theme"}`}
     >
       <Topnavbar />
@@ -44,6 +47,7 @@ const CustomerInsights = () => {
           recordsPerPage={5}
         />
       </div>
+    </div>
     </div>
   );
 };

@@ -2,8 +2,8 @@ import Store from "../store";
 import API from "../api";
 import { encryptJson } from "../../util/react-ec-utils"
 
-export function fetchOutlets(merchantId) {
-  const token = Store.getState().auth.credentials.accessToken;
+export function fetchOutlets(merchantId:any) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "post",
     url: "/merchants/deviceRegister",
@@ -21,8 +21,8 @@ export function fetchOutlets(merchantId) {
 
 
 //Create Employee
-export function createEmployee(details) {
-  const token = Store.getState().auth.credentials.accessToken;
+export function createEmployee(details:any) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   // const merchantId = Store.getState().auth.credentials.merchantId;
   const data = encryptJson(details);
   return API({
@@ -36,9 +36,9 @@ export function createEmployee(details) {
 }
 
 //Get Employee
-export function getEmployeeDetails(locationId) {
-  const token = Store.getState().auth.credentials.accessToken;
-  const merchantId = Store.getState().auth.credentials.merchantId;
+export function getEmployeeDetails(locationId:any) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+  const merchantId = Store.getState()?.auth?.credentials?.merchantId;
   const payload = {"locationId":locationId}
   const encPayload = encryptJson(payload);
   return API({
@@ -53,9 +53,9 @@ export function getEmployeeDetails(locationId) {
 }
 
 //Get Employee By ID
-export function getEmployeeById(staffId) {
-  const token = Store.getState().auth.credentials.accessToken;
-  const merchantId = Store.getState().auth.credentials.merchantId;
+export function getEmployeeById(staffId:any) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+  const merchantId = Store.getState()?.auth?.credentials?.merchantId;
   const staff = staffId
 
   const reqPayload = {merchantId:merchantId,staffId:staffId}
@@ -71,9 +71,9 @@ export function getEmployeeById(staffId) {
 }
 
 //Get Employee role By ID
-export function getEmployeeRoleById(staffId) {
-  const token = Store.getState().auth.credentials.accessToken;
-  const merchantId = Store.getState().auth.credentials.merchantId;
+export function getEmployeeRoleById(staffId:any) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+  const merchantId = Store.getState()?.auth?.credentials?.merchantId;
   const staff = staffId
   const reqPayload = {merchantId:merchantId,staffId:staffId}
   const data = encryptJson(reqPayload);
@@ -90,8 +90,8 @@ export function getEmployeeRoleById(staffId) {
 }
 
 //Remove Employee
-export function removeEmployee(staffId) {
-  const token = Store.getState().auth.credentials.accessToken;
+export function removeEmployee(staffId:any) {
+  const token = Store.getState().auth?.credentials?.accessToken;
   const staff = staffId
   
   const reqPayload = {staffId:staffId}
@@ -106,8 +106,8 @@ export function removeEmployee(staffId) {
   })
 }
 
-export function manageUserAccess(details) {
-  const token = Store.getState().auth.credentials.accessToken;
+export function manageUserAccess(details:any) {
+  const token = Store.getState().auth?.credentials?.accessToken;
   return API({
     method: "put",
     url: "/merchants/manage/userAccess",
@@ -118,9 +118,9 @@ export function manageUserAccess(details) {
   })
 }
 
-export function updatePIN(details) {
+export function updatePIN(details:any) {
  // console.log("Calling from API :::::");
-  const token = Store.getState().auth.credentials.accessToken;
+  const token = Store.getState().auth?.credentials?.accessToken;
   return API({
     method: "put",
     url: `/staff?id=${details.id}&devicePin=${details.pin}`,
@@ -132,7 +132,7 @@ export function updatePIN(details) {
 
 //Roles and Functions
 export const rolesAndFunctions = () => {
-  const token = Store.getState().auth.credentials.accessToken;
+  const token = Store.getState().auth?.credentials?.accessToken;
   return API ({
     method: 'get',
     url: `/api-info`,
@@ -143,8 +143,8 @@ export const rolesAndFunctions = () => {
 }
 
 //Block or Unblock employee
-export const employeeStatus = ({staffId, isToBlock}) => {
-  const token = Store.getState().auth.credentials.accessToken;
+export const employeeStatus = ({staffId, isToBlock}:any) => {
+  const token = Store.getState().auth?.credentials?.accessToken;
   const staff = staffId;
   const reqPayload = {staffId:staffId,isToBlock:isToBlock}
   const data = encryptJson(reqPayload);
@@ -160,8 +160,8 @@ export const employeeStatus = ({staffId, isToBlock}) => {
 }
 
 //Edit Employee
-export const editEmployee = (details) => {
-  const token = Store.getState().auth.credentials.accessToken;
+export const editEmployee = (details:any) => {
+  const token = Store.getState().auth?.credentials?.accessToken;
   const data = encryptJson(details);
 
   return API ({
@@ -175,8 +175,8 @@ export const editEmployee = (details) => {
 }
 
 //Pin Refresh
-export const refreshPinApi = (merchantId) => {
-  const token = Store.getState().auth.credentials.accessToken;
+export const refreshPinApi = (merchantId:any) => {
+  const token = Store.getState().auth?.credentials?.accessToken;
   return API ({
     method: 'get',
     url:`/merchants/${merchantId}/device-pin`,

@@ -1,10 +1,29 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import Plus from "../../assets/images/add.png";
 import Back from "../../assets/images/back.png";
 import { Link } from "react-router-dom";
+import { OfferType } from "interface/offerInterface";
 
-const AddOffer = (props) => {
-  let componentState = {
+interface Offer {
+  value: string;
+  id: string;
+  offerType: any;
+  discountType: "R" | "F" | "D";
+  offerRate: number | null;
+  minOrderAmount: number | null;
+  maxDiscount: number | null;
+  itemQuantity: number | null;
+}
+
+interface OfferCategory {
+  value: string;
+  id: string;
+  offer: Offer[];
+}
+
+
+const AddOffer = (props:any) => {
+  let componentState: OfferType = {
     id: null,
     locationId: null,
     offerName: "",
@@ -39,11 +58,12 @@ const AddOffer = (props) => {
       },
     },
   };
+
   const [offerData, setOfferState] = useState(componentState);
 
   const [offerstatus, setofferstatus] = useState(false);
 
-  const [offerDetails, setOfferDetails] = useState([
+  const [offerDetails, setOfferDetails] = useState<OfferCategory[]>([
     {
       value: "Offers with rate% discount",
       id: "1",
@@ -134,10 +154,8 @@ const AddOffer = (props) => {
     },
   ]);
 
-  const handleOfferChange = (event, data) => {
-  
-
-    if (event.target.checked) {
+  const handleOfferChange = (event:ChangeEvent, data:Offer) => {
+    if ((event.target as HTMLInputElement).checked) {
       componentState.offerType = data.offerType;
       componentState.offerAttributes.itemDetails.discountType =
         data.discountType;

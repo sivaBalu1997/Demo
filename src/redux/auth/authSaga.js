@@ -27,7 +27,7 @@ import {
   verifyOTP,
   resetPassword,
   getRestaurantDetails,
-} from "../auth/authAPI";
+} from "./authAPI";
 import { CREDENTIALS } from "../../shared/constants";
 import { persistor } from "../store";
 

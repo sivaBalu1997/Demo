@@ -9,6 +9,7 @@ import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import moment from "moment";
 import "./style.scss";
+import SidePanel from "pages/SidePanel";
 
 const CheckIn = () => {
   const [startDate, setStartDate] = useState("2023-08-06");
@@ -152,7 +153,9 @@ const CheckIn = () => {
   };
 
   return (
-    <div
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <div
       className={`checkin-container ${
         isDarkTheme ? "dark-theme" : "light-theme"
       }`}
@@ -302,6 +305,7 @@ const CheckIn = () => {
           Heading="Daily CheckIn Details"
         />
       </div>
+    </div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Table from "../../../components/reportComponents/Table";
 import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeData";
 import moment from "moment";
 import "./style.scss";
+import SidePanel from "pages/SidePanel";
 
 const EmployeeInsights = () => {
   const {isDarkTheme}= useContext(ThemeContext);
@@ -53,7 +54,9 @@ const EmployeeInsights = () => {
 
   console.log(EmployeeD["Sales By Employee"]);
   return (
-    <div
+   <div style={{display:'flex', flexDirection:'row'}}>
+    <SidePanel />
+     <div
       className={`employee-container ${
         isDarkTheme ? "dark-theme" : "light-theme"
       }`}
@@ -138,6 +141,7 @@ const EmployeeInsights = () => {
         />
       </div>
     </div>
+   </div>
   );
 };
 

@@ -17,6 +17,7 @@ import { ReactComponent as CrossIcon } from "../../assets/svg/crossIcon.svg";
 
 import MenuItem from "./MenuItem";
 import { resetDeleteData } from "../../redux/productCatalog/productCatalogActions";
+import SidePanel from "pages/SidePanel";
 
 const EmptyMenu = () => {
   const dispatch = useDispatch();
@@ -90,7 +91,9 @@ const EmptyMenu = () => {
 
   return (
     <>
-      <Fragment>
+     <div className="emptyMenuContainer" style={{display:'flex', flexDirection:'row'}} >
+      <SidePanel />
+     <Fragment>
         <div className="container">
           <div>
             <div className="header">
@@ -251,7 +254,7 @@ const EmptyMenu = () => {
           )}
         </div>
       </Fragment>
-      {/* )} */}
+     </div>
     </>
   );
 };

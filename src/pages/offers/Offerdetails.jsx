@@ -6,9 +6,6 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import Plus from "../../assets/images/add.png";
 import Gift from "../../assets/images/gift.png";
-import { signOut } from "../../redux/auth/authActions";
-
-import Tick from "../../assets/images/tick.png";
 import Delete from "../../assets/images/delete.png";
 import Edit from "../../assets/images/edit.png";
 import {
@@ -22,6 +19,8 @@ import {
 import Enable from "../../assets/svg/enable.svg";
 import Disable from "../../assets/svg/Disable.svg";
 import Duplicate from "../../assets/svg/Duplicate.svg";
+import SidePanel from "pages/SidePanel";
+
 const Offerdetails = (props) => {
   const [loading, setLoading] = useState(true);
   const [offerListNoData, setOfferListNoData] = useState(false);
@@ -35,8 +34,6 @@ const Offerdetails = (props) => {
     (state) => state.auth
   );
 
-//   const checkstate = useSelector((state)=>state);
-// console.log(checkstate,"Chckstateee")
   const offerListLoading = useSelector((state) => state.offer.offerListLoading);
 
   const offerListFailure = useSelector((state) => state.offer.offerListFailure);
@@ -45,9 +42,6 @@ const Offerdetails = (props) => {
 
   const offerList = useSelector((state) => state.offer.offerList);
 
-  // const isSelectedOfferDeleted = useSelector((state) => state.offer.isSelectedOfferDeleted);
-
-  // const isSelectedOfferDisabled = useSelector((state) => state.offer.isSelectedOfferDisabled);
   const deleteOffersSuccess = useSelector(
     (state) => state.offer.deleteOfferSuccess
   );
@@ -188,7 +182,9 @@ const Offerdetails = (props) => {
   };
 
   return (
-    <>
+    <div style={{display:'flex', flexDirection:'row', width:'82%'}}>
+      <SidePanel/>
+      <>
       {loading ? (
         <div className="menu-items load_div">Loading, Please wait!!</div>
       ) : offerList?.length === 0 && offerListFailure === "" ? (
@@ -196,16 +192,9 @@ const Offerdetails = (props) => {
           <img src={Gift} alt="" className="gift-img" />
 
           <div className="text-center m-t-30">
-            {/* <button type={"button"} className="offer-btn">
-              <img src={Plus} alt="" className="offer_img" />
-              <Link to={"/management/Offers/AddOffer"}>Add New Offers</Link>
-            </button>
-            <p>Add new offers by using offer template</p>
-
-            <p>Or</p> */}
             <button type={"button"} className="offer-btn">
               <img src={Plus} alt="" className="offer_img" />{" "}
-              <Link to={"/management/Offers/CreateOffer"}>
+              <Link to={"/Offers/CreateOffer"}>
                 Create New Offers
               </Link>
             </button>
@@ -221,7 +210,7 @@ const Offerdetails = (props) => {
 
             <button type={"button"} className="offer-btn top_btn float-right">
               <img src={Plus} alt="" className="plus_img" />
-              <Link to={"/management/Offers/CreateOffer"}> Add New Offers</Link>
+              <Link to={"/Offers/CreateOffer"}> Add New Offers</Link>
             </button>
             <input
               className="srch_inpt"
@@ -361,6 +350,7 @@ const Offerdetails = (props) => {
         </div>
       )}
     </>
+    </div>
   );
 };
 
@@ -417,7 +407,7 @@ const OffersRow = ({
       await dispatch(disableOfferRequest({ id: id, status: 1 }));
       setReRender(!reRender);
     } else if (operation === "Edit") {
-      history.push("/management/Offers/CreateOffer", offerData);
+      history.push("/Offers/CreateOffer", offerData);
       return;
     } else if (operation === "Duplicate") {
       let data = Object.assign({}, JSON.parse(JSON.stringify(offerData)));
@@ -430,7 +420,7 @@ const OffersRow = ({
         data.validityFrom = null;
         data.validityUntil = null;
       }
-      history.push("/management/Offers/CreateOffer", data);
+      history.push("/Offers/CreateOffer", data);
       return;
     }
     setShow(!show);

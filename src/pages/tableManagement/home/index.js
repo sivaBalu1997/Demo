@@ -1,17 +1,17 @@
 import React from "react";
 import Header from "../../common/header";
-import Menu from "../menu";
 import bookTable from "../../../assets/images/book_table.png";
 import assignTable from "../../../assets/images/assign_table.png";
 import "../../../styles/table-mangagement/home.scss";
 import TableMenu from "../tableMenu";
+import SidePanel from "pages/SidePanel";
 
 const Home = () => {
   return (
     <div>
       <Header />
       <div className="home-section">
-        <Menu />
+        <SidePanel />
         <div className="main-section">
           <div className="table-section">
             <div>

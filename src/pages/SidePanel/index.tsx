@@ -26,10 +26,11 @@ import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
+import { RootState } from "redux/rootReducer";
 
-const Menu = () => {
-  const credentials = useSelector((state) => state.auth.credentials);
-  const selectedBranch = localStorage.getItem(SELECTED_BRANCH_DATA);
+const SidePanel = () => {
+  const credentials = useSelector((state:RootState) => state.auth.credentials);
+  const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || ''  
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
   const menuOptions = ["Items"];
   const offerMenuOptions = ["Offers"];
@@ -48,13 +49,13 @@ const Menu = () => {
   const [showOfferOptions, setShowOfferOptions] = useState("");
   const [routeTo, setRouteTo] = useState({});
   const restaurantDetails = useSelector(
-    (state) => state.auth.restaurantDetails
+    (state:RootState) => state.auth.restaurantDetails
   );
   
-  const UserRole = useSelector((state) => state.auth.credentials.role);
+  const UserRole = useSelector((state:RootState) => state.auth.credentials?.role);
 
   const locationId = useSelector(
-    (state) => state.auth.credentials && state.auth.credentials.locationId
+    (state:RootState) => state.auth.credentials && state.auth.credentials.locationId
   );
 
   const getImageURL = useCallback(
@@ -166,19 +167,20 @@ const Menu = () => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setShowOptions("employees");
-              history.push("/management/employees");
+              history.push("/employees");
             }}
           >
             <li style={{ marginBottom: 0 }} />
             <EmployeesIcon className="menu-items-SVG" />
             <span className="menu-items-name">Employees</span>
           </div>
+          
           <div
             className={
               showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
             }
             onClick={() => {
-              history.push("/management/menu/Items");
+              history.push("/menu/Items");
               if (showOptions === "MenuOptions") {
                 setShowOptions("");
               } else {
@@ -207,10 +209,11 @@ const Menu = () => {
               </Fragment>
             )}
           </div>
+          
           {showOptions === "MenuOptions"
             ? menuOptions.map((option) => (
                 <NavLink
-                  to={`/management/menu/${option}`}
+                  to={`/menu/${option}`}
                   activeClassName="active"
                   key={option}
                 >
@@ -222,6 +225,7 @@ const Menu = () => {
                 </NavLink>
               ))
             : null}
+
           <div
             className={
               showOfferOptions === "MenuOptions"
@@ -250,11 +254,12 @@ const Menu = () => {
               />
             )}
           </div>
+
           <ul className="menu-items-list">
             {showOfferOptions === "MenuOptions"
               ? offerMenuOptions.map((option) => (
                   <NavLink
-                    to={`/management/${option}`}
+                    to={`/${option}`}
                     activeClassName="active"
                     key={option}
                   >
@@ -269,6 +274,7 @@ const Menu = () => {
                   </NavLink>
                 ))
               : null}
+
           </ul>
           <div
             className={
@@ -280,7 +286,7 @@ const Menu = () => {
             onClick={() => {
               setShowOptions("reportOptions");
 
-              history.push(`/management/live-reports`);
+              history.push(`/live-reports`);
             }}
             style={{ cursor: "pointer" }}
           >
@@ -301,7 +307,7 @@ const Menu = () => {
                 : "drop-down"
             }
             onClick={() => {
-              if (restaurantDetails.paymentProvider === null) {
+              if (restaurantDetails?.paymentProvider === null) {
                 setShowOptions("reportOptions");
                 history.push(`/management/payment`);
               } else {
@@ -329,4 +335,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default SidePanel;

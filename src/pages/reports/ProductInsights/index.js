@@ -11,6 +11,7 @@ import "./style.scss";
 import moment from "moment";
 // import { gradientColors } from "../../utils/color";
 import { generateGradient } from "../../../util/color";
+import SidePanel from "pages/SidePanel";
 
 const ProductInsights = () => {
   const {isDarkTheme} = useContext(ThemeContext);
@@ -121,10 +122,11 @@ const ProductInsights = () => {
     "#42d7f5",
     20
   );
-  console.log({ twentyMostPopulatItemsColors });
 
   return (
-    <div
+    <div style={{display:'flex',flexDirection:'row'}}>
+      <SidePanel />
+      <div
       className={`product-insights-container ${
         isDarkTheme ? "dark-theme" : "light-theme"
       }`}
@@ -346,6 +348,7 @@ const ProductInsights = () => {
         viewType="full"
         recordsPerPage={24}
       />
+    </div>
     </div>
   );
 };

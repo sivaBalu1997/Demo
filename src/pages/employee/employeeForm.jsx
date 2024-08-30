@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './employeeForm.css'
+import './style/employeeForm.css'
 import { IoIosArrowBack } from "react-icons/io";
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from "react-hook-form";
@@ -18,10 +18,8 @@ import jwt_decode from "jwt-decode";
 
 
 import {
-  addEmployee,
-    refreshPin,
-    updateEmployeeRequest,
-  } from "../../redux/employee/employeeActions";
+  refreshPin,
+} from "../../redux/employee/employeeActions";
 
 
 const EmployeeForm = () => {

@@ -2,10 +2,13 @@ import React from "react";
 import menuIcon from "../../assets/images/emptyMenu.png";
 import { IoIosAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
+import SidePanel from "pages/SidePanel";
 
-const EmptyMenu = () => {
+const Menu = () => {
   return (
-    <div className="menu-items">
+    <div className="EmptyMenuContainer" style={{display:'flex', flexDirection:'row', width:'85%'}}>
+      <SidePanel />
+      <div className="menu-items">
       <h2>Menu Items</h2>
       <div className="header-menu">
         <div className="empty-menu">
@@ -21,7 +24,8 @@ const EmptyMenu = () => {
         </div>
       </div>
     </div>
+    </div>
   );
 };
 
-export default EmptyMenu;
+export default Menu;

@@ -21,6 +21,7 @@ import {
   createOffer,
   EditOffer,
 } from "../../redux/offer/offerActions";
+import SidePanel from "pages/SidePanel";
 const CreateOffer = (props) => {
   const dispatch = useDispatch();
 
@@ -243,7 +244,7 @@ const CreateOffer = (props) => {
   }, [selectedBranch]);
 
   useEffect(() => {
-    if (sampleorderTypes !== undefined || sampleorderTypes !== {}) {
+    if (sampleorderTypes) {
       let someArray2 = sampleorderTypes?.orderTypes;
       someArray2 = someArray2?.filter((el) => {
         let typename = el?.typeName.toLowerCase("Instore");
@@ -323,7 +324,7 @@ const CreateOffer = (props) => {
   }, [selectedBranch]);
 
   useEffect(() => {
-    if (sampleorderTypes !== undefined || sampleorderTypes !== {}) {
+    if (sampleorderTypes) {
       let someArray2 = sampleorderTypes?.orderTypes;
       someArray2 = someArray2?.filter((el) => {
         let typename = el?.typeName.toLowerCase("Instore");
@@ -1465,7 +1466,9 @@ const CreateOffer = (props) => {
   return previewData ? (
     <PreviewOffer state={previewData} onBack={() => setPreviewState("")} />
   ) : (
-    <>
+   <div style={{display:'flex', flexDirection:'row'}}>
+    <SidePanel />
+     <>
       {scalePopupData && (
         <ScaleLevelPopup
           setScalePopupData={setScalePopupData}
@@ -2013,8 +2016,7 @@ const CreateOffer = (props) => {
                     </label>
                   </div>
                   <div className="col-md-6 position-relative customer_dropdown">
-                    {(offerData.offerAttributes.visibleTo == ["C"] &&
-                      offerData.offerAttributes.visibleTo !== ["S"]) ||
+                    {(offerData.offerAttributes.visibleTo == ["C"]) ||
                     offerData.offerAttributes.visibleTo == "C" ? (
                       <CustomDropDown
                         selected_id={usageFrequencePerCustomer}
@@ -2116,8 +2118,7 @@ const CreateOffer = (props) => {
                     offerData.offerAttributes.visibleTo == ["C"]) ||
                   (offerData.offerAttributes.usageFrequencePerCustomer !==
                     null &&
-                    offerData.offerAttributes.visibleTo === "S" &&
-                    offerData.offerAttributes.visibleTo === ["S"]) ? (
+                    offerData.offerAttributes.visibleTo === "S") ? (
                     <div className="col-md-6">
                       <CustomDropDown
                         selected_id={usagePerCustomerPerDay}
@@ -2151,7 +2152,7 @@ const CreateOffer = (props) => {
         </div>
         {/* <div className="footer"> */}
         <div className="float-right buttons_Section">
-          <Link to={"/management/Offers"} className="offer-btn cancel-btn">
+          <Link to={"/Offers"} className="offer-btn cancel-btn">
             Cancel
           </Link>
           <button type={"button"} onClick={submitHandler} className="offer-btn">
@@ -2160,6 +2161,7 @@ const CreateOffer = (props) => {
         </div>
       </div>
     </>
+   </div>
   );
 };
 

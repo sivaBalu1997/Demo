@@ -1,29 +1,12 @@
 import React, { useEffect } from "react";
-import { Route, Switch, BrowserRouter, useHistory, Router } from "react-router-dom";
-import store from "./redux/store";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "./styles/app.scss";
-import EmptyMenu from "./pages/menuItem/EmptyMenu";
-import MenuItems from "./pages/menuItems";
-import MenuDetials from "./pages/menuDetails";
-import MenuCustomization from "./pages/menuCustomization";
-import AddCustomizationInput from "./pages/menuCustomization/AddCustomizationInput";
-import ReviewMenu from "./pages/reviewMenu";
-import Auth from "./pages/auth";
-import BasicDetails from "./pages/auth/BasicDetails";
-import Business from "./pages/business";
-import Employees from "./pages/employee";
-import RoleAccess from "./pages/roles";
-import ResetPassword from "./pages/auth/ResetPassword";
-import { CREDENTIALS } from "./shared/constants";
-import { ClearSignIn, signOut, storeCredentials } from "./redux/auth/authActions";
-import NotFound from "./pages/notFound";
-import Menu from "./pages/menu";
+import { signOut, storeCredentials } from "./redux/auth/authActions";
 import { clearMenuData } from "./redux/menu/menuAction";
 import { ToastContainer } from "react-toastify";
 import { RootState } from "./redux/rootReducer";
 import Routers from './Routers'
-import CustomerInsights from "pages/reports/CustomerInsights";
 
 interface Credentials {
   accessToken: string
@@ -84,7 +67,6 @@ const App = () => {
       "--wWidth",
       window.innerWidth + "px"
     );
-    //console.log(window.innerHeight, window.innerWidth);
   }, []);
 
     useEffect(() => {
@@ -105,9 +87,6 @@ const App = () => {
     const fetchData = async(): Promise<void> => {
       const credentails: Credentials | null = JSON.parse(localStorage.getItem('CREDENTIALS') || 'null');
     if (!credentails?.accessToken) {
-    //  console.log('60');
-    //     history.push("/management/employees");
-    //   }else{ 
         dispatch(clearMenuData());
         localStorage.clear();
         dispatch(signOut());
@@ -122,23 +101,8 @@ const App = () => {
       <Loader />
       <div className="app">
         <div className="main-section">
-        <ToastContainer autoClose={3000} />
-            <Switch>
-              <Route exact path="/" component={Auth} />
-              <Route path="/reset" component={ResetPassword} />
-              <Route path="/basic-details" component={BasicDetails} />
-              <Route path="/business" component={Business} />
-              <Route path="/roles" component={RoleAccess} />
-              <Route path="/menu" component={EmptyMenu} />
-              <Route path="/menulist" component={MenuItems} />
-              <Route path="/menudetails" component={MenuDetials} />
-              <Route path="/menuCustomization" component={MenuCustomization} />
-              <Route path="/menuInput" component={AddCustomizationInput} />
-              <Route path="/review" component={ReviewMenu} />
-              <Route path="/notFound" component={NotFound} />
-              <Route path="/management" component={Menu} />
-            </Switch>
-            <Routers />
+          <ToastContainer autoClose={3000} />
+          <Routers />
         </div>
       </div>
     </>

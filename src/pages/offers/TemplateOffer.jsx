@@ -12,14 +12,14 @@ const TemplateOffer = () => {
         <div className="text-center m-t-30">
           <button type={"button"} className="offer-btn">
             <img src={Plus} alt="" className="offer_img" />
-            <Link to={"/management/Offers/AddOffer"}>Add New Offers</Link>
+            <Link to={"/Offers/AddOffer"}>Add New Offers</Link>
           </button>
           <p>Add new offers by using offer template</p>
 
           <p>Or</p>
           <button type={"button"} className="offer-btn">
             <img src={Plus} alt="" className="offer_img" />{" "}
-            <Link to={"/management/Offers/CreateOffer"}>Create New Offers</Link>
+            <Link to={"/Offers/CreateOffer"}>Create New Offers</Link>
             {/* Create New Offers */}
           </button>
           <p>Create new offers by using offer form</p>

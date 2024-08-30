@@ -37,7 +37,7 @@ const DropdownAddItem1 = (props) => {
           placeholder="New Term"
           onChange={handleChange}
           value={value}
-          minLength="2"
+          minLength={2}
         />
         <button onClick={() => addDropdownItem(value)} className="addbtnset">
           Add

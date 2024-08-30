@@ -4,6 +4,7 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
 import { custIn } from "../../../assets/mockData/originalAPIData/OcustomerInsights";
+import SidePanel from "pages/SidePanel";
 
 const CustIns = () => {
   const {isDarkTheme} = useContext(ThemeContext);
@@ -39,7 +40,9 @@ const CustIns = () => {
     setOpenFilter(false);
   };
   return (
-    <div
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <div
       className={`employee-container ${
         isDarkTheme ? "dark-theme" : "light-theme"
       }`}
@@ -135,6 +138,7 @@ const CustIns = () => {
           recordsPerPage={6}
         />
       </div>
+    </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Menu from "../menu";
+import Menu from "../SidePanel";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "../../components/common/Search";
 import Dropdown from "../../components/common/Dropdown";
@@ -19,8 +19,6 @@ const axios = require("axios");
 
 const reportCategory = [
   { id: 32, option: "Sales" },
-  // { id: 3, option: "Delivery" },
-  // { id: 4, option: "Pick Up" },
 ];
 
 const Report = (props) => {

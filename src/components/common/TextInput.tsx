@@ -1,6 +1,29 @@
 import React, { Fragment } from "react";
+import { FieldValues } from "react-hook-form";
 
-const TextInput = ({
+interface TextInputType {
+  type: string;
+  placeholder?: string;
+  value?: string | number;
+  name: string;
+  formRegister?: any; // Accept any object, not just ref function
+  disabled?: boolean;
+  maxLength?: number;
+  minLength?: number;
+  style?: React.CSSProperties;
+  className: string;
+  min?: number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  error?: string | null;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  containerStyle?: React.CSSProperties;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  pattern?: string;
+  autoComplete?: string;
+}
+
+const TextInput: React.FC<TextInputType> = ({
   type,
   placeholder,
   value,
@@ -18,20 +41,19 @@ const TextInput = ({
   onKeyDown,
   containerStyle,
   onKeyPress,
-  pattern
+  pattern,
 }) => {
-
   return (
     <Fragment>
       <div style={containerStyle ? containerStyle : { marginBottom: "20px" }}>
         <input
+          {...formRegister} // Spread formRegister to apply all its properties including ref
           style={style}
           type={type}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
-          value={value || null}
+          value={value ?? ""}
           name={name}
-          ref={formRegister ?? null}
           disabled={disabled ?? false}
           onKeyPress={onKeyPress}
           maxLength={maxLength}
@@ -41,10 +63,9 @@ const TextInput = ({
           onChange={onChange}
           onBlur={onBlur}
           pattern={pattern}
-          // autoComplete="off"
-          autoComplete="new-password" // or "off"
+          autoComplete="new-password"
           readOnly
-  onFocus={(e) => e.target.removeAttribute('readOnly')}
+          onFocus={(e) => e.target.removeAttribute("readOnly")}
         />
         <span
           style={{ fontSize: "14px", color: "#FF5554", paddingLeft: "13px" }}

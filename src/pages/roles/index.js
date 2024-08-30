@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "../../styles/role.scss";
 import Search from "../../components/common/Search";
-import Menu from "../menu";
 import Checkbox from "../../components/common/Checkbox";
 import Switchbox from "../../components/common/Switchbox";
+import SidePanel from "../SidePanel";
 
 const roleList = [
   {
@@ -36,7 +36,7 @@ const roleList = [
 const RoleAccess = () => {
   return (
     <>
-      <Menu />
+      <SidePanel />
       <div className="menu-items">
         <div className="header-menu">
           <h2>Roles & Access</h2>

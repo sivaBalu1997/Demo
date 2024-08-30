@@ -8,13 +8,13 @@ const Topnavbar = () => {
   const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
 
   const navItems = [
-    { name: "Live Reports", path: "/management/live-reports" },
-    { name: "Sales Report", path: "/management/sales" },
-    { name: "Product Insights", path: "/management/product-insights" },
-    { name: "Employee Insights", path: "/management/employee-insights" },
-    { name:"Customer Insights", path: "/management/customer-insights"},
-    { name: "Check-In Report", path: "/management/check-in" },
-    { name: "GenAI Report", path: "/management/gen-ai-reports" },
+    { name: "Live Reports", path: "/live-reports" },
+    { name: "Sales Report", path: "/sales" },
+    { name: "Product Insights", path: "/product-insights" },
+    { name: "Employee Insights", path: "/employee-insights" },
+    { name:"Customer Insights", path: "/customer-insights"},
+    { name: "Check-In Report", path: "/check-in" },
+    { name: "GenAI Report", path: "/gen-ai-reports" },
   ];
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect,useState, useRef } from "react";
+import React, { useEffect,useState, useRef, ChangeEvent, KeyboardEvent } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useForm, Controller } from "react-hook-form";
 import TextInput from "../../components/common/TextInput";
@@ -10,29 +10,29 @@ import "react-datepicker/dist/react-datepicker.css";
 import Calendar from "../../assets/images/cal.png";
 import ResetLogo from "../../assets/images/resetIcon.png";
 import InputMask from "react-input-mask"
-import alert from '../../assets/svg/alert-triangle.svg'
+import alertImg from '../../assets/svg/alert-triangle.svg'
 import info from '../../assets/svg/info.svg'
 import {
   addEmployee,
-  getOutlets,
   resetAddEmployee,
-  setEmployeeDetailsLoading,
-  updateEmployeePIN,
   updateEmployeeClear,
   getEmployeeRoles,
   updateEmployeeRequest,
   resetEmployeeActionCompleted,
-  setEditEmployeeData,
   getEmployeeByIdRequest,
   clearEditEmployeeData,
   refreshPin,
   getEmployeeRoleByIdRequest
 } from "../../redux/employee/employeeActions";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router-dom";
 import { ReactComponent as OpenEyeIcon } from "../../assets/svg/opened_eye.svg";
 import { ReactComponent as ClosedEyeIcon } from "../../assets/svg/closed_eye.svg";
 import { ReactComponent as ResetIcon } from "../../assets/svg/refresh-cw.svg";
 import Modal from "../../components/Modal/Modal";
+import { RootState } from "redux/rootReducer";
+import { EditEmployeeType, EmployeeIdByDetails, RoleType, RolesAndFunctions } from "interface/employeeInterface";
+import { RestaurantDetails } from "interface/authInterface";
+import SidePanel from "pages/SidePanel";
 
 const AddEmployee = () => {
   const dispatch = useDispatch();
@@ -44,30 +44,42 @@ const AddEmployee = () => {
   const [isOutletDropdownOpen, setIsOutletDropdownOpen] = useState(false)
   const [isRoleDropDownOpen, setIsRoleDropDownOpen] = useState(false)
   const [openFunction, setOpenFuction] = useState(false)
-  const [pins, setPins] = useState(['', '', '', ''])
+  const [pins, setPins] = React.useState(['', '', '', ''])
   const [showPin, setShowPin] = useState(true)
-  const [selectedDate, setSelectedDate] = useState(null)
-  const inputRefs = useRef([])
-  const [checkedFunctions, setCheckedFunctions] = useState([])
+  const [selectedDate, setSelectedDate] = useState<Date|null>(null)
+  const inputRefs = useRef<(HTMLInputElement|null)[]>([])
+  const [checkedFunctions, setCheckedFunctions] = useState<string[]>([])
   const [openModal, setOpenModal] = useState(false)
   const [checkedModules, setCheckedModules] = useState([])
-  const credentials = useSelector((state) => state.auth.credentials);
 
-  const isValidDate = (date) => !isNaN(date.getTime()); 
-  const params = useParams()
+  const credentials = useSelector((state:RootState) => state.auth.credentials);
 
-  const employee = useSelector((state) => state.employee.employeeByIdDetails)
+  interface RouteParams {
+    id?: string; 
+  }
 
-  const employeeByIdDetailsLoading =  useSelector((state) => state.employee.employeeByIdDetailsLoading)
+  interface DecodedToken {
+    resource_access?: {
+      "merchant-app"?: {
+        roles?: string[];
+      };
+    };
+  }
 
-  const refreshNewPin = useSelector((state) => state.employee.refreshPin)
-  const isGettingNewPin = useSelector((state) => state.employee.isGettingNewPin)
+  const params = useParams<RouteParams>()
 
-  const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
-  const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
+  const employee : EmployeeIdByDetails | null = useSelector((state:RootState) => state.employee.employeeByIdDetails || 'null')
+
+  const employeeByIdDetailsLoading =  useSelector((state:RootState) => state.employee.employeeByIdDetailsLoading)
+
+  const refreshNewPin = useSelector((state:RootState) => state.employee.refreshPin)
+  const isGettingNewPin = useSelector((state:RootState) => state.employee.isGettingNewPin)
+
+  const roleFunctionFetching = useSelector((state:RootState) => state.employee.roleFunctionFetching)
+  const rolesAndFunctions : RolesAndFunctions[] = useSelector((state:RootState) => state.employee.rolesAndFunctions)
   const [localRoleFunctionFetching, setLocalRoleFunctionFetching] = useState(false);
 
-  const [dataFetching, setDataFetching] = useState(true);
+  const [dataFetching, setDataFetching] = useState<boolean>(true);
   const [saveBtndisable, setSaveBtnDisable] = useState(false);
 
   useEffect(()=> {
@@ -80,7 +92,7 @@ const AddEmployee = () => {
   //   employeeData?.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
   // }
 
-  const invokePermission = (employeeData, statusCode) => {
+  const invokePermission = (employeeData:any, statusCode:number) => {
     setSaveBtnDisable(statusCode === 403 ? true : false)
     if(employeeData?.isActive ){
       setLocalRoleFunctionFetching(true);
@@ -100,26 +112,26 @@ const AddEmployee = () => {
   //   (state) => state.employee.employee
   // )
 
-  const [editEmployee,setEditEmployee] = useState('')
+  const [editEmployee, setEditEmployee] = React.useState<EditEmployeeType>();
 
-useEffect(() => {
-if(employee && !dataFetching) { 
-  setEditEmployee({
-    firstName: employee?.firstName,
-    lastName: employee?.lastName,
-    mobileNumber: employee?.phone,
-    nickName : employee?.nickName,
-    education: employee?.education,
-    role: employee?.assignedRole,
-    email: employee?.email,
-    pin: employee?.pin,
-    dateOfBirth: employee?.dateOfBirth,
-    userId: employee?.userId,
-    outlet: employee?.locationName,
-    staffId: employee?.staffId,
-    rolesAndFunctions: rolesAndFunctions
-  })}
-}, [employee,employeeByIdDetailsLoading , localRoleFunctionFetching,dataFetching])
+  useEffect(() => {
+  if(employee && !dataFetching) { 
+    setEditEmployee({
+      firstName: employee?.firstName  || '',
+      lastName: employee?.lastName || '',
+      mobileNumber: employee?.phone || '',
+      nickName : employee?.nickName || '',
+      education: employee?.education || '',
+      role: employee?.assignedRole || '',
+      email: employee?.email || '',
+      pin: employee?.pin || '',
+      dateOfBirth: employee?.dateOfBirth || '',
+      userId: employee?.userId || '',
+      outlet: employee?.locationName || '',
+      staffId: employee?.staffId || '',
+      rolesAndFunctions: rolesAndFunctions
+    })}
+  }, [employee,employeeByIdDetailsLoading , localRoleFunctionFetching, dataFetching])
 
 
   const [pinEnabled, setPinEnabled] = useState(editEmployee ? true : false)
@@ -137,38 +149,35 @@ if(employee && !dataFetching) {
     clearErrors
   } = useForm()
 
-  const [pin, setPin] = useState(
-    editEmployee ? editEmployee.devicePin : getValues("devicePin")
-  )
-  const employeeAdded = useSelector((state) => state.employee.employeeAdded);
+  const employeeAdded = useSelector((state:RootState) => state.employee.employeeAdded);
   const updatePinMessage = useSelector(
-    (state) => state.employee.updateEmployeePINMessage
+    (state:RootState) => state.employee.updateEmployeePINMessage
   )
   const updatePinLoading = useSelector(
-    (state) => state.employee.updateEmployeePINLoading
+    (state:RootState) => state.employee.updateEmployeePINLoading
   )
   const updatePinSuccess = useSelector(
-    (state) => state.employee.updateEmployeePINSuccess
+    (state:RootState) => state.employee.updateEmployeePINSuccess
   )
   const updatePinFailed = useSelector(
-    (state) => state.employee.updateEmployeePINFailed
+    (state:RootState) => state.employee.updateEmployeePINFailed
   )
   const addEmployeeMessage = useSelector(
-    (state) => state.employee.addEmployeeMessage
+    (state:RootState) => state.employee.addEmployeeMessage
   )
   const addEmployeeLoading = useSelector(
-    (state) => state.employee.addEmployeeLoading
+    (state:RootState) => state.employee.addEmployeeLoading
   )
-  const outlets = useSelector((state) => state.employee.outlets);
-  const employeeUpdateLoading = useSelector((state) => state.employee.employeeUpdateLoading)
-  const employeeUpdated = useSelector((state) => state.employee.employeeUpdated);
-  const employeeActionCompleted = useSelector((state) => state.employee.employeeActionCompleted);
-  const addEmployeeFailure = useSelector((state) => state.employee.addEmployeeFailure)
-  const updateEmployeeFailure = useSelector((state) => state.employee.updateEmployeeFailure)
+  const outlets = useSelector((state:RootState) => state.employee.outlets);
+  const employeeUpdateLoading = useSelector((state:RootState) => state.employee.employeeUpdateLoading)
+  const employeeUpdated = useSelector((state:RootState) => state.employee.employeeUpdated);
+  const employeeActionCompleted = useSelector((state:RootState) => state.employee.employeeActionCompleted);
+  const addEmployeeFailure = useSelector((state:RootState) => state.employee.addEmployeeFailure)
+  const updateEmployeeFailure = useSelector((state:RootState) => state.employee.updateEmployeeFailure)
 
-  const restaurantDetails = useSelector((state) => state.auth.restaurantDetails)
+  const restaurantDetails = useSelector((state:RootState) => state.auth.restaurantDetails)
 
-  const userBranchName = useSelector((state)=>state.auth?.restaurantDetails?.branchName) 
+  const userBranchName = useSelector((state:RootState)=>state.auth?.restaurantDetails?.branchName || null) 
 
   const [countryCode,setCountryCode] = useState("");
   const [isDropdownDisabled, setIsDropdownDisabled] = useState(false);
@@ -176,11 +185,14 @@ if(employee && !dataFetching) {
   const useNicknameWatch = watch("useNickname", false);
   const [useNickname, setUseNickname] = useState(false);
 
-  const [restaurantBranch,setRestaurantBranch] = useState([]);
-  const [restaurantBranchDefaultValue,setRestaurantBranchDefaultValue]  = useState("");
-  const branchOptions = restaurantBranch ? restaurantBranch.map(branch => branch?.locationName) : [];
-  const saveButtonDisabled = useSelector((state) => state.employee.saveButtonDisabled)
-  const employeeRoleAndFunctionsLoading = useSelector((state) => state.employee.employeeRoleAndFunctionsLoading)
+  const [restaurantBranch,setRestaurantBranch] = useState<RestaurantDetails["branch"]>([]);
+  const [restaurantBranchDefaultValue,setRestaurantBranchDefaultValue]  = useState<string|null>("");
+  const branchOptions = restaurantBranch 
+  ? restaurantBranch.map((branch) => ({
+      value: branch?.locationName || "",
+      label: branch?.locationName || ""
+    })) 
+  : [];  const employeeRoleAndFunctionsLoading = useSelector((state:RootState) => state.employee.employeeRoleAndFunctionsLoading)
 
   useEffect(() => {
     const countryC = restaurantDetails?.country;
@@ -213,7 +225,7 @@ if(employee && !dataFetching) {
     dispatch(getEmployeeRoles())
   }, [])
   
-  const roles = useSelector((state) => state?.employee?.employeeRoleAndFunctions) 
+  const roles = useSelector((state:RootState) => state?.employee?.employeeRoleAndFunctions) 
 
   useEffect(() => {
     if (employee) {
@@ -222,29 +234,29 @@ if(employee && !dataFetching) {
     }
   }, [employee, setValue]);
 
-  const handleNickNameCheckboxChange = (event) => {
+  const handleNickNameCheckboxChange = (event:ChangeEvent<HTMLInputElement>) => {
     setUseNickname(event.target.checked);
   };
 
   useEffect(() => {
-    const tempArr = [];
+    const tempArr: string[] = []; 
     if (rolesAndFunctions?.length > 0) {
-      for (let i = 0; i < rolesAndFunctions?.length; i++) {
+      for (let i = 0; i < rolesAndFunctions.length; i++) {
         const roleFunc = rolesAndFunctions[i];
         
         if (roleFunc?.funtions) { 
           for (let j = 0; j < roleFunc.funtions.length; j++) {
-            tempArr.push(roleFunc.funtions[j].toLowerCase());
+            const functionName = roleFunc.funtions[j].name; 
+            if (functionName) {
+              tempArr.push(functionName.toLowerCase()); 
+            }
           }
         }
       }
     }
     setCheckedFunctions(tempArr);
-  }, [employee,rolesAndFunctions]); 
+  }, [employee, rolesAndFunctions]);
 
-  const watchUserId = watch("userId");
-  const watchFirstName = watch("firstName");
-  const watchLastName = watch("lastName");
   // const useNickname = watch("useNickname", false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -265,7 +277,7 @@ if(employee && !dataFetching) {
     }
   }, [updatePinLoading, updatePinFailed, updatePinMessage, updatePinSuccess]);
 
-  const getRole = (credentials) => {
+  const getRole = () => {
     const neighbourhoodDeliveryRole = [
       "Operator-neighbourhood",
       "Branch manager-neighbourhood",
@@ -274,7 +286,8 @@ if(employee && !dataFetching) {
       "Delivery-neighbourhood",
     ];
   
-    const decodedToken = credentials?.accessToken ? jwt_decode(credentials.accessToken) : null;
+    const decodedToken : any = credentials?.accessToken ? jwt_decode(credentials.accessToken) : null;
+    console.log({decodedToken})
     const roles = decodedToken?.resource_access?.["merchant-app"]?.roles || [];
   
     if (roles?.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
@@ -301,7 +314,7 @@ if(employee && !dataFetching) {
   };  
 
 
-  const replaceUnderscoresWithSpaces = (str) => {
+  const replaceUnderscoresWithSpaces = (str:string) => {
     return str.replace(/_/g, ' ');
   };
   
@@ -316,15 +329,10 @@ if(employee && !dataFetching) {
   useEffect(() => {
     if (!addEmployeeLoading && employeeAdded) {
       dispatch(resetAddEmployee());
-      history.replace("/management/employees")
+      history.replace("/employees")
     }
   }, [addEmployeeLoading, employeeAdded])
 
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setOpenFuction(false);
-    }
-  };
 
   useEffect(() => {
     if (editEmployee && editEmployee.role) {
@@ -332,38 +340,28 @@ if(employee && !dataFetching) {
     }
   }, [editEmployee]);
 
-  const handleSelectOutlet = (outlet) => {
-    setSelectedOutlet(outlet.locationName)
-    setIsOutletDropdownOpen(false)
-  } 
-
-  const handleSelectRole = (role) => {
-    setSelectedRole(role)
-    setIsRoleDropDownOpen(false)
-  } 
-
-  const handleChange = (e, index) => {
+  const handleChange = (e : ChangeEvent<HTMLInputElement>, index:number) => {
     const value = e.target.value;
     if (value.length <= 1 && /^\d*$/.test(value)) {
       const newPin = [...pins];
       newPin[index] = value;
       setPins(newPin);
-      setValue(`pin${index}`, value); // Update react-hook-form value
+      setValue(`pin${index}`, value);
 
       if (value && index < 3) {
-        inputRefs.current[index + 1].focus();
+        inputRefs.current[index + 1]?.focus();
       }
     }
   };
 
-  const handleKeyDown = (e, index) => {
+  const handleKeyDown = (e : KeyboardEvent<HTMLInputElement>, index:number) => {
     if (e.key === 'Backspace' && !pins[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
+      inputRefs?.current[index - 1]?.focus();
     }
   };
 
-  const handleSpace = (event) => {
-    if (event.key === ' ' && event.target.value.length === 0) {
+  const handleSpace = (event:KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === ' ' && (event.target as HTMLInputElement).value.length === 0) {
       event.preventDefault();
     }
   };
@@ -372,27 +370,27 @@ if(employee && !dataFetching) {
     setShowPin(!showPin)
   }
 
-  const initializeCheckedFunctions = (rolesAndFunctions) => {
-    const functionsSet = new Set();
+  const initializeCheckedFunctions = (rolesAndFunctions:RolesAndFunctions[]) => {
+    const functionsSet = new Set<string>();
     rolesAndFunctions.forEach(roleFunc => {
       if (roleFunc.funtions) {
         roleFunc.funtions.forEach(func => {
-          functionsSet.add(func.toLowerCase());
+          functionsSet.add(func.name.toLowerCase());
         });
       }
     });
     setCheckedFunctions([...functionsSet]);
   };
   
-  const handleRoleChange = (role) => {
+  const handleRoleChange = (role:string) => {
     setSelectedRole(prevRole => {
       if (editEmployee && prevRole === role) {
         initializeCheckedFunctions(editEmployee.rolesAndFunctions);
       } else {
-        const functionsForRole = roles
-          .flatMap(module => module.functionality)
-          .filter(func => func.roles?.includes(role))
-          .map(func => func.displayName.toLowerCase());
+        const functionsForRole = (roles as RolesAndFunctions[])
+          .flatMap(module => module?.functionality ?? '')
+          .filter(func => func.roles?.includes(role) ?? '')
+          .map(func => func?.displayName?.toLowerCase() ?? '');
         
         setCheckedFunctions(functionsForRole);
       }
@@ -400,11 +398,11 @@ if(employee && !dataFetching) {
     });
   };
 
-  const isFunctionChecked = (functionName) => {
+  const isFunctionChecked = (functionName:string) => {
     return checkedFunctions.includes(functionName.toLowerCase());
   };
   
-  const handleCheckboxChange = (functionName) => {
+  const handleCheckboxChange = (functionName:string) => {
     setCheckedFunctions(prevCheckedFunctions => {
       const funcName = functionName.toLowerCase();
       if (prevCheckedFunctions.includes(funcName)) {
@@ -415,45 +413,50 @@ if(employee && !dataFetching) {
     })
   }
   
-  const isModuleChecked = (moduleName) => {
-    const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
+  const isModuleChecked = (moduleName:string) => {
+    const module = (roles as RolesAndFunctions[]).find((module) => module?.module.toLowerCase() === moduleName.toLowerCase());
     if (!module) return false;
   
-    return module.functionality?.every((func) => checkedFunctions.includes(func.displayName.toLowerCase()));
+    return module.functionality?.every((func) => func?.displayName && checkedFunctions.includes(func?.displayName?.toLowerCase()));
   }
   
-  const handleModuleCheckboxChange = (moduleName) => {
-    const module = roles.find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
+  const handleModuleCheckboxChange = (moduleName: string) => {
+    const module = (roles as RolesAndFunctions[]).find((module) => module.module.toLowerCase() === moduleName.toLowerCase());
     if (!module) return;
-  
-    const moduleFunctions = module.functionality.map((func) => func.displayName.toLowerCase());
+      const moduleFunctions = module.functionality
+      .map((func) => func?.displayName?.toLowerCase())
+      .filter((funcName): funcName is string => funcName !== undefined); 
   
     setCheckedFunctions((prevCheckedFunctions) => {
-      if (moduleFunctions?.every((func) => prevCheckedFunctions.includes(func))) {
+      if (moduleFunctions.every((func) => prevCheckedFunctions.includes(func))) {
         return prevCheckedFunctions.filter((func) => !moduleFunctions.includes(func));
       } else {
         return [...prevCheckedFunctions, ...moduleFunctions.filter((func) => !prevCheckedFunctions.includes(func))];
       }
-    })
-  }
+    });
+  };
+  
   
   const handleReset = () => {
-      const functionsForRole = roles
-        .flatMap((module) => module?.functionality)
-        .filter((func) => func?.roles?.includes(selectedRole))
-        .map((func) => func?.displayName?.toLowerCase());
+      const functionsForRole = (roles as RolesAndFunctions[])
+        .flatMap((module) => module?.functionality ?? '')
+        .filter((func) => func?.roles?.includes(selectedRole) ?? '')
+        .map((func) => func?.displayName?.toLowerCase() ?? '');
   
       setCheckedFunctions(functionsForRole);
   };
   
-  const isDefaultActionsUpdated = (selectedFunctions, role) => {
-    const defaultFunctions = roles
+  const isDefaultActionsUpdated = (selectedFunctions:string[], role:string) => {
+
+    const defaultFunctions = (roles as RolesAndFunctions[])
       .flatMap((module) => module?.functionality)
       .filter((func) => func?.roles?.includes(role))
-      .map((func) => func?.name?.toLowerCase());
-    const selectedFunctionNames = selectedFunctions.map((func) => func.name?.toLowerCase());
+      .map((func) => func?.displayName?.toLowerCase());
+
+    const selectedFunctionNames = selectedFunctions.map((func) => func?.toLowerCase() ?? '');
     const hasExtraFunctions = selectedFunctionNames.some((func) => !defaultFunctions.includes(func));
     const hasMissingFunctions = selectedFunctionNames.length !== defaultFunctions.length;
+
     return hasExtraFunctions || hasMissingFunctions;
   };
   
@@ -461,7 +464,7 @@ if(employee && !dataFetching) {
 
   useEffect(() => {
     if (employeeAdded && !employeeUpdateLoading) {
-      history.replace('/management/employees');
+      history.replace('/employees');
     }
     // if(employeeUpdated && !employeeUpdateLoading){
     //   history.replace('/management/employees');
@@ -486,14 +489,23 @@ if(employee && !dataFetching) {
     }
   }, [refreshNewPin]);
 
-  const removeDashes=(phoneNumber)=> {
+  const removeDashes=(phoneNumber:string)=> {
     return phoneNumber.replace(/-/g,'');
   }
 
-  const onSubmit = (formValues) => {
-    const rolesAndFunctions = roles.map(module => {
-      const moduleFunctions = module.functionality
-        .filter(func => checkedFunctions.includes(func.displayName.toLowerCase()))
+  const onSubmit = (formValues:any) => {
+
+    interface PayloadRolesType{
+      moduleType: string
+      moduleName: string
+      urls: string[]
+      displayName?:string
+    }
+
+    const rolesAndFunctions = (roles as RolesAndFunctions[]).map(module => {
+
+      const moduleFunctions = module?.functionality
+        .filter(func => func?.displayName && checkedFunctions?.includes(func?.displayName?.toLowerCase()))
         .map(func => ({
           moduleType: module.module,
           moduleName: func.name,
@@ -503,13 +515,17 @@ if(employee && !dataFetching) {
       return moduleFunctions?.length > 0 ? moduleFunctions : null;
     }).flat().filter(item => item !== null);
   
+    const transformedRolesAndFunctions: string[] = (rolesAndFunctions as PayloadRolesType[])
+    .map(module => module.displayName?.toLowerCase() ?? ''); 
+  
+
     // Update formValues with additional data
     formValues = {
       ...formValues,
       firstName: formValues.firstName,
       fullName: `${formValues.firstName} ${formValues.lastName}`,
       role: formValues.role,
-      businessName: credentials.businessName,
+      businessName: credentials?.businessName,
       userId: formValues.userId ||editEmployee?.userId,
       nickName: formValues.nickName.trim(),
       email: formValues.email || null,
@@ -517,7 +533,7 @@ if(employee && !dataFetching) {
       address: `${formValues.address1} ${formValues.address2}` || null,
       dateOfBirth: selectedDate,
       education: formValues.education,
-      merchantId: credentials.merchantId,
+      merchantId: credentials?.merchantId,
       devicePin: pins.join('') || null,
       IsTempPassword: false,
       password: formValues.password || null,
@@ -525,7 +541,7 @@ if(employee && !dataFetching) {
       locationId: restaurantBranch.find(outlet => outlet.locationName.includes(formValues["outlet"]))?.id,
       userAccessInfoList: rolesAndFunctions,
       isDefaultFunctionalityAccessUpdated: isDefaultActionsUpdated(
-        rolesAndFunctions.map(module => ({ name: module.moduleName, displayName: module.displayName, urls: module.urls })),
+        transformedRolesAndFunctions,        
         formValues["role"]
       ),
     };
@@ -557,7 +573,7 @@ if(employee && !dataFetching) {
     }
   };
 
-  const splitAddress = (address) => {
+  const splitAddress = (address:string) => {
     const parts = address?.split(',');
     if (parts?.length > 1) {
       const addressLine1 = parts.slice(0, -1).join(',').trim();
@@ -577,7 +593,7 @@ if(employee && !dataFetching) {
     ];
   };
 
-  const isEmptyOrSpaces = (str) => {
+  const isEmptyOrSpaces = (str:string) => {
     return str === null || str.match(/^ *$/) !== null;
   };
   
@@ -613,28 +629,22 @@ if(employee && !dataFetching) {
     }
   }, [employeeActionCompleted, history]);
 
-  const outletOptions = outlets ? Array.from(outlets, (outlet) => outlet?.locationName?.split(",")[1]).filter(Boolean) : [];
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date:Date) => {
     setSelectedDate(date);
   };
 
-const handleDateChangeRaw = (e) => {
+const handleDateChangeRaw = (e: ChangeEvent) => {
   e.preventDefault();
 }
 
-
-const validatePassword = (value) => {
+const validatePassword = (value:string) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
     if(value.length > 0){
      return passwordRegex.test(value);
     }
   
   }
-
-const handleOtpChange = (otpValue) => {
-  setOtp(otpValue);
-};
 
 const [key, setKey] = useState(Math.random());
 
@@ -676,7 +686,9 @@ if(!!params?.id?.length && dataFetching)  {
     }}>Loading, Please wait!!</p>
   )}
   return (
-    <>
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <>
         <div className="menu-details">
         <div className='headLine2' 
              >
@@ -714,25 +726,40 @@ if(!!params?.id?.length && dataFetching)  {
                   <div>
                     <label className={errors.firstName ?"errorLabel" : "inputLabel"}>First Name*</label>
                     <TextInput
-                      type="text"
-                      // placeholder="First Name*"
-                      //maxLength={15}
-                      name="firstName"
-                      formRegister={register({
-                        required: "Required",
-                      })}
-                      error={null}
-                      className={
-                        errors.firstName?.type === "required"
-                          ? "fN errorInput"
-                          : "add-employee-text-input"
-                      }
-                      onKeyPress={(e) => {
-                        if (e.key === ' ' && e.target.value.length < 1 || !/^[A-Za-z\s]$/.test(e.key)) {
-                          e.preventDefault();
+                        type="text"
+                        name="firstName"
+                        formRegister={register("firstName", { required: "Required" })} 
+                        error={errors.firstName?.message || null}
+                        className={
+                          errors.firstName ? "fN errorInput" : "add-employee-text-input"
                         }
-                      }}
-                    />
+                        onKeyPress={(e:KeyboardEvent<HTMLInputElement>) => {
+                          if (e.key === " " && (e.target as HTMLInputElement).value.length < 1 || !/^[A-Za-z\s]$/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                        placeholder="First Name*"
+                      />
+                  <TextInput
+                    type="text"
+                    // placeholder="First Name*"
+                    //maxLength={15}
+                    name="firstName"
+                    formRegister={register({
+                      required: "Required",
+                    })}
+                    error={null}
+                    className={
+                      errors.firstName?.type === "required"
+                        ? "fN errorInput"
+                        : "add-employee-text-input"
+                    }
+                    onKeyPress={(e : KeyboardEvent<HTMLInputElement>) => {
+                      if (e.key === ' ' && (e.target as HTMLInputElement).value.length < 1 || !/^[A-Za-z\s]$/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
                   </div>
 
                   <div>
@@ -743,8 +770,8 @@ if(!!params?.id?.length && dataFetching)  {
                       name="lastName"
                       formRegister={register()}
                       className={"add-employee-text-input"}
-                      onKeyPress={(e) => {
-                        if (e.key === ' ' && e.target.value.length < 1 || !/^[A-Za-z\s]$/.test(e.key)) {
+                      onKeyPress={(e : KeyboardEvent<HTMLInputElement>) => {
+                        if (e.key === ' ' && (e.target as HTMLInputElement).value.length < 1 || !/^[A-Za-z\s]$/.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
@@ -762,8 +789,8 @@ if(!!params?.id?.length && dataFetching)  {
                       required: useNickname && "Required",
                     })}
                     className={errors.nickName ? 'fN errorNickNameBox' : 'nickNameBox'}
-                    onKeyPress={(e) => {
-                      if (e.key === ' ' && e.target.value.length < 1) {
+                    onKeyPress={(e:KeyboardEvent<HTMLInputElement>) => {
+                      if (e.key === ' ' && (e.target as HTMLInputElement).value.length < 1) {
                         e.preventDefault(); 
                       }
                     }}
@@ -815,11 +842,11 @@ if(!!params?.id?.length && dataFetching)  {
                       <InputMask
                         mask="999-999-9999"
                         maskChar=""
-                        onChange={(e) => onChange(e.target.value)}
+                        onChange={(e:ChangeEvent) => onChange((e.target as HTMLInputElement).value)}
                         value={value}
                         name={name}
                       >
-                        {(inputProps) => (
+                        {(inputProps:any) => (
                           <input
                             {...inputProps}
                             type="text"
@@ -943,7 +970,10 @@ if(!!params?.id?.length && dataFetching)  {
                         alt="Calendar Icon"
                         src={Calendar}
                         width="15"
-                        onClick={() => document.querySelector('.dateInput').focus()}
+                        onClick={() => {
+                          const dateInput = document.querySelector('.dateInput') as HTMLInputElement;
+                          dateInput?.focus();
+                        }}
                         style={{right:'10px', top:'38%'}}
                       />
                     </div>
@@ -971,7 +1001,7 @@ if(!!params?.id?.length && dataFetching)  {
                           <CustomDropdown
                             options={branchOptions}
                             // placeholder={"Outlets*"}
-                            onSelect={(outletSelected) => {
+                            onSelect={(outletSelected: { value: string; label: string }) => {
                               if (restaurantBranch && outletSelected) {
                                 const selectedBranch = restaurantBranch.find(branch =>
                                   branch?.locationName?.includes(outletSelected?.value)
@@ -981,7 +1011,7 @@ if(!!params?.id?.length && dataFetching)  {
                                 }
                               }
                             }}
-                            value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue)}
+                            value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue)|| ''}
                             name={name}
                             controlClassName={
                               editEmployee || isDropdownDisabled
@@ -1012,10 +1042,12 @@ if(!!params?.id?.length && dataFetching)  {
                         <CustomDropdown
                           options={processedOptions}
                           placeholder={""}
-                          onSelect={(role) => {
+                          onSelect={(role: { value: string; label: string }) => {
                             onChange(role.value);
                             handleRoleChange(role.value);
-                            if (jwt_decode(credentials?.accessToken)?.resource_access["merchant-app"]?.roles[0].includes("neighbourhood")) {
+                            const token = credentials?.accessToken ?? '';
+                            const decodedToken = jwt_decode<DecodedToken>(token);
+                            if (decodedToken.resource_access?.["merchant-app"]?.roles?.includes("neighbourhood")) {
                               onChange(role.value + "-neighbourhood");
                             }
                           }}
@@ -1037,7 +1069,7 @@ if(!!params?.id?.length && dataFetching)  {
                         <p className="dropDownTitle fixedTitle" style={{textAlign: 'center', fontWeight: 500}}>Roles/Functions</p>               
                         { employeeRoleAndFunctionsLoading ? <p className="rfLoading">Loading, Please wait!!</p> : <div className="checkList">
                           <div className="checkBoxContainer">
-                            {roles.map((module) => (
+                            {(roles as RolesAndFunctions[]).map((module) => (
                               <div className="checkboxList" key={module.module}>
                                 <div className="checkBoxItem">
                                   <label>
@@ -1057,8 +1089,8 @@ if(!!params?.id?.length && dataFetching)  {
                                       <input 
                                         type="checkbox" 
                                         className="checkbox" 
-                                        checked={isFunctionChecked(func.displayName)} 
-                                        onChange={() => handleCheckboxChange(func.displayName)} 
+                                        checked={isFunctionChecked(func?.displayName ?? '' )} 
+                                        onChange={() => handleCheckboxChange(func.displayName ?? '')} 
                                       />
                                       <p className="funcName">{func.displayName}</p>
                                     </label>
@@ -1107,7 +1139,7 @@ if(!!params?.id?.length && dataFetching)  {
                         className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
                         autoComplete="new-password"
                         disabled={!!params?.id?.length}
-                        onKeyDown={(event) => {
+                        onKeyDown={(event:any) => {
                           if(event.key === ' ' || event.code === 'Space'){
                             event.preventDefault()
                           }
@@ -1126,10 +1158,14 @@ if(!!params?.id?.length && dataFetching)  {
                         // minLength={6}
                         name="password"
                         formRegister={register({
-                          required: !editEmployee && "Required",
-                          validate : validatePassword,
-                          validLength: (value) => !value || value.replace(/\D/g, '').length === 10 || "Invalid Password ",
-
+                          required: !editEmployee ? "Required" : false,
+                          validate: {
+                            validatePassword,
+                            validLength: (value) => 
+                              !value || value.replace(/\D/g, '').length === 10 
+                                ? true 
+                                : "Invalid Password"
+                          }
                         })}
                         className={errors.password ? 'pass errorInput' :'add-employee-text-input'}
                         containerStyle={{ paddingBottom: "0px" }}
@@ -1181,6 +1217,7 @@ if(!!params?.id?.length && dataFetching)  {
                   <img src={info} alt="info" className="infoToolTip"/>
                   <span className="hoverImage">The four digit pin will be used for validating the user</span>
                 </div>
+
                 <div style={{ display: 'flex', alignItems: 'center', fontFamily: 'Arial, sans-serif' }}>
                   <div style={{ display: 'flex', border: hasPinErrors ? '1px solid #FF0505' : '1px solid #ccc', borderRadius: '7px' }}>
                     {[0, 1, 2, 3].map((i) => (                        
@@ -1192,7 +1229,7 @@ if(!!params?.id?.length && dataFetching)  {
                         onChange={(e) => handleChange(e, i)}
                         onKeyDown={(e) => handleKeyDown(e, i)}
                         name={`pin${i}`}
-                        maxLength="1"
+                        maxLength={1}
                         disabled
                         style={{
                           width: '40px',
@@ -1203,15 +1240,14 @@ if(!!params?.id?.length && dataFetching)  {
                           padding: '10px',
                           outline: 'none',
                         }}
-                        {...register(`pin${i}`, { required: !editEmployee && "Required" })}
+                        {...(register(`pin${i}`, { required: !editEmployee && "Required" }) as unknown as React.InputHTMLAttributes<HTMLInputElement>)}
                         className={errors[`pin${i}`] ? 'errorInput' : ''}
                       />
                     ))}
                   </div>
                   <div>
                     <ResetIcon
-                        onClick={refreshPinValue}
-                        disabled={isGettingNewPin}
+                        onClick={isGettingNewPin ? undefined : refreshPinValue}
                         style={{
                           position: "relative",
                           marginLeft: 20, 
@@ -1297,32 +1333,12 @@ if(!!params?.id?.length && dataFetching)  {
             onCancel={() => {setOpenModal(false)}}
             type={'confirmation'}
             isLoading={false}
-            logo={alert}
+            logo={alertImg}
             propType="clear"
           />
-
-          {/* {openModal && (
-            <Modal
-              isOpen={openModal}
-              message={
-                <div>
-                  <p>Are you sure you want to clear all input fields?</p>
-                  <p>Any unsaved changes will be lost.</p>
-                </div>
-              }
-              onConfirm={() => {
-                handleCleardata();
-                setOpenModal(false);
-              }}
-              onCancel={() => setOpenModal(false)}
-              type="confirmation"
-              logo={alert}
-              propType="clear"
-            />
-          )} */}
         </div>
-      
     </>
+    </div>
   )
 }
 

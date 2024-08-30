@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // Import default styles
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import "./style.scss";
+import SidePanel from "pages/SidePanel";
 
 const GenAiReports = () => {
   const [startDate, setStartDate] = useState("2023-08-06");
@@ -34,7 +35,9 @@ const GenAiReports = () => {
     setOpenFilter(false); // Close the dropdown after selecting an option
   };
   return (
-    <div
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <div
       className={`genai-report ${isDarkTheme ? "dark-theme" : "light-theme"}`}
     >
       <div className="genai-head">
@@ -135,6 +138,7 @@ const GenAiReports = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

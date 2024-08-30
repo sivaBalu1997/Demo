@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory , useLocation, useParams } from "react-router";
+import { useHistory , useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteEmployee, employeeStatusRequest, getEmployeeByIdRequest, getEmployeeRoleByIdRequest, setEditEmployeeData } from '../../redux/employee/employeeActions'
-import './employeeDetails.css'
+import './style/employeeDetails.css'
 import menu from '../../assets/svg/menu.svg'
 import x from '../../assets/svg/x.svg'
 import edit from '../../assets/svg/edit.svg'
@@ -16,6 +16,9 @@ import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toas
 import deleteIcon from '../../assets/svg/trash2.svg'
 import blockIcon from '../../assets/svg/x-octagon.svg'
 import activeIcon from '../../assets/svg/activeIcon.svg'
+import { RootState } from 'redux/rootReducer';
+import { EmployeeIdByDetails, RolesAndFunctions } from 'interface/employeeInterface';
+import SidePanel from 'pages/SidePanel';
 
 
 const EmployeeDetails = () => {
@@ -26,22 +29,26 @@ const EmployeeDetails = () => {
     const [isBlocking, setIsBlocking] = useState(true)
     const [employeeToUpdate, setEmployeeToUpdate] = useState(null)
     const [isPinVisible, setIsPinVisible] = useState(false)
-    const credentials = useSelector((state) => state.auth.credentials)
-    const employeeDeleted = useSelector((state) => state.employee.employeeDeleted)
-    const deleteEmployeeLoading = useSelector((state) => state.employee.deleteEmployeeLoading)
+    const credentials = useSelector((state:RootState) => state.auth.credentials)
+    const employeeDeleted = useSelector((state:RootState) => state.employee.employeeDeleted)
+    const deleteEmployeeLoading = useSelector((state:RootState) => state.employee.deleteEmployeeLoading)
     const [permissionErrorMessage, setPermissionErrorMessage] = useState('')
     const [menuDisable, setmenuDisable] = useState(false)
-    const [permissionStatusCode, setPermissionStatusCode] = useState('')
+    const [permissionStatusCode, setPermissionStatusCode] = useState<number|''>('')
     const [redirectOnClick, setRedirectOnClick] = useState(false)
 
+    interface RouteParams {
+        id?: string; 
+    }
+
     const history = useHistory()
-    const params = useParams()
+    const params = useParams<RouteParams>()
 
     useEffect(() => {
         params?.id && dispatch(getEmployeeByIdRequest({staffId:params.id,sagaCallBack:invokePermission}));
     },[params?.id])
 
-    const invokePermission =(employeeData, statusCode)=>{
+    const invokePermission =(employeeData:any, statusCode:number)=>{
         setPermissionStatusCode(statusCode)
         employeeData?.isActive &&  dispatch(getEmployeeRoleByIdRequest({staffId:employeeData.staffId}));
         if(statusCode == 403){
@@ -50,15 +57,14 @@ const EmployeeDetails = () => {
         statusCode !== 403 && !employeeData?.isActive && setPermissionErrorMessage('Unblock the user to view the Roles and Functions')
     }
 
-    const employee = useSelector((state) => state.employee.employeeByIdDetails)
-    const employeeByIdDetailsLoading = useSelector((state) => state.employee.employeeByIdDetailsLoading)
-    const restaurantDetails = useSelector((state) => state.auth.restaurantDetails)
-    const roleFunctionFetching = useSelector((state) => state.employee.roleFunctionFetching)
-    const rolesAndFunctions = useSelector((state) => state.employee.rolesAndFunctions)
-    const modelApiLoading  = useSelector((state) => state.employee.modelApiLoading)
-    const actionApiSuccess  = useSelector((state) => state.employee.actionApiSuccess)
-    const employeeStatusLoading = useSelector((state) => state.employee.employeeStatusLoading)
-    const employeeStatusUpdate = useSelector((state) => state.employee.employeeStatusUpdate)
+    const employee:EmployeeIdByDetails = useSelector((state:RootState) => state.employee.employeeByIdDetails)
+    const employeeByIdDetailsLoading = useSelector((state:RootState) => state.employee.employeeByIdDetailsLoading)
+    const restaurantDetails = useSelector((state:RootState) => state.auth.restaurantDetails)
+    const roleFunctionFetching = useSelector((state:RootState) => state.employee.roleFunctionFetching)
+    const rolesAndFunctions = useSelector((state:RootState) => state.employee.rolesAndFunctions)
+    const modelApiLoading  = useSelector((state:RootState) => state.employee.modelApiLoading)
+    const actionApiSuccess  = useSelector((state:RootState) => state.employee.actionApiSuccess)
+    const employeeStatusLoading = useSelector((state:RootState) => state.employee.employeeStatusLoading)
     const [countryCode,setCountryCode] = useState("");
 
     useEffect(() => {
@@ -70,23 +76,23 @@ const EmployeeDetails = () => {
   
     const dispatch = useDispatch()
     const handleDelete = () => {
-        dispatch(deleteEmployee(employee.staffId))
+        dispatch(deleteEmployee(employee?.staffId))
     }
 
     useEffect(()=>{
         if(!modelApiLoading && actionApiSuccess && employeeDeleted){
             dispatch({ type: 'RESET_REMOVE_EMPLOYEE_DATA' });
-            history.push("/management/employees")
+            history.push("/employees")
         }
         if(actionApiSuccess && !modelApiLoading && redirectOnClick ){
             dispatch({ type: 'RESET_REMOVE_EMPLOYEE_DATA' });
             setRedirectOnClick(false)
-            history.push("/management/employees")
+            history.push("/employees")
         } 
     },[employeeDeleted, redirectOnClick, actionApiSuccess, modelApiLoading])
 
 
-    const formatDate = (dateString) => {
+    const formatDate = (dateString:Date) => {
         if (dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString();
@@ -94,12 +100,12 @@ const EmployeeDetails = () => {
         return '';
     }
 
-    const fomatLocation = (location) => {
+    const fomatLocation = (location:string) => {
         const outlet =  location?.split(',')[1]
         return outlet
     }
 
-    const formatPhoneNumber=(number, countryCode)=> {
+    const formatPhoneNumber=(number:string, countryCode:string)=> {
         let phoneNumber = number.toString();
         phoneNumber = phoneNumber.replace(/\D/g, '');
         if (phoneNumber.length !== 10) {
@@ -109,17 +115,11 @@ const EmployeeDetails = () => {
     }
     
 
-    const isEmptyOrSpaces = (str) => {
+    const isEmptyOrSpaces = (str:string) => {
         return str === null || str.match(/^ *$/) !== null;
     };
-
-    const handleBlockClick = (employee, block) => {
-        setEmployeeToUpdate(employee);
-        setIsBlocking(block);
-        setOpenStausModal(prev => !prev);
-      };
     
-      const handleBtnClick = () => {
+    const handleBtnClick = () => {
         dispatch(employeeStatusRequest(employee?.staffId, employee?.isActive));
         setEmployeeToUpdate(null);
         setShowDropDown(!showDropDown) 
@@ -143,22 +143,27 @@ const EmployeeDetails = () => {
         setShowDropDown(!showDropDown)
     };
 
-      if(employeeByIdDetailsLoading){
-        return(
-            <p style={{
-                display: "flex",
-                justifyContent: "center",
-                paddingTop: "25%",
-                marginLeft:'35%'
-              }}>
-                Loading, Please wait!!
-            </p>
-        )
-      }   
+    const parseDate = (dateString?: string): Date | undefined => {
+        return dateString ? new Date(dateString) : undefined;
+      };
 
+    if(employeeByIdDetailsLoading){
+    return(
+        <p style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "25%",
+            marginLeft:'35%'
+            }}>
+            Loading, Please wait!!
+        </p>
+    )
+    }   
 
     return (
-        <div className='employeeDetails'>
+        <div style={{display:'flex', flexDirection:'row'}}>
+            <SidePanel />
+            <div className='employeeDetails'>
             <div className='headLine' 
                 style={{
                  position: 'fixed',
@@ -177,26 +182,13 @@ const EmployeeDetails = () => {
                     alignItems: 'center',
                     gap: '10px',
                     cursor: 'pointer',
-                    // padding: '10px',
                     fontWeight:'400',
                     fontSize:'24px'
                 }}
                 >
-                    <IoIosArrowBack onClick={() => history.replace("/management/employees")} />{" "}
+                    <IoIosArrowBack onClick={() => history.replace("/employees")} />{" "}
                     Employee Details
                 </h3>
-                {/* {!showDropDown ? 
-                    (<img src={menu} onClick={() => {
-                        if(permissionStatusCode === 403){
-                            showErrorToast(permissionErrorMessage)
-                        }else{
-                            setShowDropDown(!showDropDown)
-                        }
-                    }} />) 
-                    :
-                    (<img src={x} className='xImg' style={{width:'30px'}} onClick={() => setShowDropDown(!showDropDown)} />) 
-                } */}
-
                 <div className="menu-icon" onClick={()=>{
                     if(permissionStatusCode === 403){
                             showErrorToast(permissionErrorMessage)
@@ -215,7 +207,7 @@ const EmployeeDetails = () => {
                                 onClick={() => {
                                     if(employee.isActive){
                                         dispatch(setEditEmployeeData(employee))
-                                        history.push("/management/employees/add/"+employee.staffId)
+                                        history.push("/employees/add/"+employee.staffId)
                                     }else{
                                         setShowDropDown(false)
                                         showErrorToast('Unblock the employee to perform this action')
@@ -296,9 +288,9 @@ const EmployeeDetails = () => {
                         <p className='value'>:</p>
                         <p className='' style={{display:'flex',gap:'10px'}}>  {employee?.assignedRole} {employee?.defaultFunctionalityAccessUpdated  && <img src={thunder} />}</p>
                     </div>
-                    <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'>:</p><p className=''>  {fomatLocation(employee?.locationName)}</p></div>
+                    <div className='title'><p className='tag'>Assigned Outlet</p><p className='value'>:</p><p className=''>  {fomatLocation(employee?.locationName ?? '')}</p></div>
                     <div className='title'><p className='tag'>User ID</p><p className='value'>:</p><p className=''>  {employee?.userId}</p></div>                   
-                    <div className='title'><p className='tag'>Date of Birth</p><p className='value'>:</p><p className=''>  {formatDate(employee?.dateOfBirth) ? formatDate(employee?.dateOfBirth) : '-'}</p></div>
+                    <div className='title'><p className='tag'>Date of Birth</p><p className='value'>:</p><p className=''>  {employee?.dateOfBirth ? formatDate(parseDate(employee.dateOfBirth) || new Date()) : '-'}</p></div>
                 </div>
                 <div>
                     <div className='title'><p className='tag'>Nick Name</p><p className='value'>:</p><p className=''>  {employee?.nickName?.trim() ? employee?.nickName?.trim() : '-'}</p></div>
@@ -314,7 +306,7 @@ const EmployeeDetails = () => {
                     <h4 style={{textAlign:'center'}}>Roles and Functions</h4>
                     {employee?.isActive && rolesAndFunctions?.length > 0 ? (
                         <div >
-                              {rolesAndFunctions?.map((module) => (
+                              {(rolesAndFunctions as RolesAndFunctions[])?.map((module) => (
                               <div className="checkboxList" key={module?.module}>
                                 <div className="checkBoxItem">
                                   <label>
@@ -322,8 +314,8 @@ const EmployeeDetails = () => {
                                   </label>
                                 </div>
                                 <div className="checkBoxItemfunction" >
-                                {module?.funtions?.map((func) => (
-                                  <div key={func}>
+                                {module?.funtions?.map((func,index) => (
+                                  <div key={index}>
                                     <label className="checkboxLabel">                                
                                       <p className="funcName">{func}</p>
                                     </label>
@@ -349,10 +341,11 @@ const EmployeeDetails = () => {
             }}>
                 <button 
                     className='backBtn' 
-                    onClick={() => history.push("/management/employees")}>
+                    onClick={() => history.push("/employees")}>
                         Back
                 </button>
             </div>
+        </div>
         </div>
     )
 }

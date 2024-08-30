@@ -2,7 +2,27 @@ import React from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 
-const CustomDropdown = ({
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface CustomDropdownProps {
+  value?: Option | string;
+  options: Array<{ value: string; label: string }>;
+  onSelect: any;
+  arrowClosed?: React.ReactNode;
+  arrowOpen?: React.ReactNode;
+  placeholder?: string;
+  name?: string;
+  arrowClassName?: string;
+  controlClassName?: string;
+  style?: React.CSSProperties;
+  placeholderClass?: string;
+  disabled?: boolean;
+}
+
+const CustomDropdown: React.FC<CustomDropdownProps> = ({
   value,
   options,
   onSelect,
@@ -16,16 +36,14 @@ const CustomDropdown = ({
   placeholderClass,
   disabled,
 }) => {
-
   return (
     <Dropdown
       options={options}
       onChange={onSelect}
-      value={value}
+      value={typeof value === 'string' ? undefined : value}
       placeholder={placeholder}
       arrowClosed={arrowClosed}
       arrowOpen={arrowOpen}
-      name={name}
       controlClassName={`${controlClassName} add-employee-dropdown`}
       arrowClassName={arrowClassName}
       menuClassName="MenuClass"

@@ -6,11 +6,11 @@ import { MdAdd } from "react-icons/md";
 import TextInput from "../../components/common/TextInput";
 import CustomDropdown from "../../components/common/customDropdown";
 import Button from "../../components/common/Button";
-import Menu from "../menu";
 import { clearMenuData } from "../../redux/menu/menuAction";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { signOut } from "../../redux/auth/authActions";
+import SidePanel from "../SidePanel";
 
 const options = ["City", "City", "City"];
 const optionsTwo = ["State", "State", "State"];
@@ -41,7 +41,7 @@ const Business = () => {
 
   return (
     <>
-      <Menu />
+      <SidePanel />
       <div className="business_sec">
         <div id="business_header">
           <h3>Business Details</h3>
