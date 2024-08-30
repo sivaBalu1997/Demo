@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import { ReactComponent as PencilIcon } from "../../assets/svg/pencilIcon.svg";
+import SidePanel from "pages/SidePanel";
 
 const ReviewMenu = (props) => {
   const dispatch = useDispatch();
@@ -54,7 +55,9 @@ const ReviewMenu = (props) => {
   };
 
   return (
-    <div className="customization-sec">
+   <div style={{display:'flex', flexDirection:'row'}}>
+    <SidePanel />
+     <div className="customization-sec">
       <div
         onClick={() => {
           // history.push("/management/menu/Items/Add");
@@ -203,6 +206,7 @@ const ReviewMenu = (props) => {
         />
       </div> */}
     </div>
+   </div>
   );
 };
 

@@ -4,6 +4,7 @@ import { IoIosAdd, IoIosArrowBack } from "react-icons/io";
 import "../../styles/customization.scss";
 import { Link } from "react-router-dom";
 import Button from "../../components/common/Button";
+import SidePanel from "pages/SidePanel";
 
 const AddCustomizationInput = () => {
   const [groupField, setGroupField] = useState([]);
@@ -14,7 +15,9 @@ const AddCustomizationInput = () => {
   };
 
   return (
-    <div className="customization-sec">
+   <div style={{display:'flex', flexDirection:'row'}}>
+    <SidePanel />
+     <div className="customization-sec">
       <div className="title">
         <Link to="/menuCustomization">
           <IoIosArrowBack />
@@ -55,6 +58,7 @@ const AddCustomizationInput = () => {
         </div>
       </form>
     </div>
+   </div>
   );
 };
 

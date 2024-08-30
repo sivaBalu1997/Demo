@@ -2,10 +2,13 @@ import React from "react";
 import customization from "../../assets/images/customization.png";
 import { Link } from "react-router-dom";
 import Button from "../../components/common/Button";
+import SidePanel from "pages/SidePanel";
 
 const MenuCustomization = () => {
   return (
-    <div className="menu-sec">
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <div className="menu-sec">
       <div className="menu-items">
         <h2>Add Customization</h2>
         <div className="header-menu">
@@ -41,6 +44,7 @@ const MenuCustomization = () => {
           />
         </Link>
       </div>
+    </div>
     </div>
   );
 };

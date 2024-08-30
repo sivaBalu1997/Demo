@@ -5,6 +5,7 @@ import "../../styles/menuDetail.scss";
 import { IoIosAdd, IoIosInformationCircleOutline } from "react-icons/io";
 import Button from "../../components/common/Button";
 import { Link } from "react-router-dom";
+import SidePanel from "pages/SidePanel";
 
 const menuCategory = [
   { id: 1, option: "South Indian Lunch" },
@@ -37,7 +38,9 @@ const MenuDetials = () => {
     setSelectValue(event.target.value);
   };
   return (
-    <div className="menu-details">
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <div className="menu-details">
       <h2>Menu Details</h2>
       <form>
         <div className="menu-details-form">
@@ -176,7 +179,7 @@ const MenuDetials = () => {
           </div>
         </div>
         <div className="form-cta">
-          <Link to="/">
+          <Link to="/menu/Items">
             <Button
               value={"Cancel"}
               backgroundColor={"#fff"}
@@ -193,6 +196,7 @@ const MenuDetials = () => {
           </Link>
         </div>
       </form>
+    </div>
     </div>
   );
 };
