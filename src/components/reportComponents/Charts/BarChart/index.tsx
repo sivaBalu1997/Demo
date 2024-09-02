@@ -56,7 +56,6 @@ const BarChart: React.FC<BarchartProps> = ({
 }: BarchartProps) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null); // Ref to hold the canvas element
   const isDarkTheme = useContext(ThemeContext);
-  console.log("vanakkam", { isDarkTheme });
 
   useEffect(() => {
     // Register necessary components from Chart.js
@@ -150,8 +149,6 @@ const BarChart: React.FC<BarchartProps> = ({
         },
       });
 
-      console.log("inside effect", { isDarkTheme });
-
       return () => {
         chartInstance.destroy(); // Cleanup on unmount
       };
@@ -182,17 +179,12 @@ const BarChart: React.FC<BarchartProps> = ({
         isDarkTheme ? "chart-dark-js" : "chart-light-js"
       }`}
     >
-      <canvas
-        // className={`${isDarkTheme ? "cdark-theme" : "clight-theme"}`}
-        ref={chartRef}
-      ></canvas>
+       <canvas ref={chartRef}></canvas>
     </div>
   );
 };
 
 export default BarChart;
-
-//========================================================================================
 
 // import React, { useContext } from "react";
 // import { Bar } from "react-chartjs-2";

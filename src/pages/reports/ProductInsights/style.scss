@@ -39,7 +39,7 @@
   gap: 0.5rem;
   align-items: center;
   height: 100%;
-  width: 85%;
+  width: 80vw;
 
   .p-prod-insights-head {
     padding-left: 1.5rem;
@@ -53,6 +53,11 @@
       justify-content: center;
       align-items: center;
       color: var(--table-text);
+
+      h1{
+        font-size: 21px;
+        font-weight: 500;
+      }
     }
 
     .p-dates {
@@ -143,6 +148,9 @@
     h1 {
       color: var(--table-text);
       text-align: center;
+      font-size: 21px;
+      font-weight: 600;
+      margin-bottom: 30px;
     }
   }
 

@@ -30,13 +30,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 85%;
+  width: 80vw;
+  .liveHeader{
+    font-size: 21px;
+    font-weight: 500;
+  }
   .cust-insights-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     display: flex;
     justify-content: space-between;
     width: 95%;
+    margin-top: 30px;
     @media (max-width: 480px) {
       width: 90%;
       height: 6rem;
@@ -171,6 +176,9 @@
     h1 {
       color: var(--table-text);
       text-align: center;
+      font-size: 21px;
+      font-weight: 600;
+      margin-top: 30px;
     }
   }
   .canva-pie-chart-cont {

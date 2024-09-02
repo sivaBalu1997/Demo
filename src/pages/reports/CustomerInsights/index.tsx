@@ -19,7 +19,7 @@ const CustomerInsights = () => {
       <Topnavbar />
       <div className="cust-insights-head">
         <div className="name-board">
-          <h1>Reports Dashboard</h1>
+          <h1 className="liveHeader">Reports Dashboard</h1>
         </div>
       </div>
       <div className="location-name">

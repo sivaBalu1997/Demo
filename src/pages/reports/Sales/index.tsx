@@ -210,7 +210,7 @@ const Sales: React.FC = () => {
       <SidePanel />
       <div
       className={`s-sales-container ${
-        isDarkTheme ? "dark-theme" : "light-theme"
+        isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
       }`}
     >
       <Topnavbar />
@@ -252,6 +252,7 @@ const Sales: React.FC = () => {
           </div>
           {state.openCustomDateRange && (
             <div className="s-date-range-style">
+              <label className="dateLabel" >From</label>
               <DatePicker
                 placeholderText="Start Date"
                 selected={state.startDate}
@@ -261,7 +262,7 @@ const Sales: React.FC = () => {
                 }
                 dateFormat="dd MMM yyyy"
                 className="s-start-date"
-                open={state.openStartDatePicker}
+                // open={state.openStartDatePicker}
                 onSelect={() =>
                   setState((prevState) => ({
                     ...prevState,
@@ -272,10 +273,11 @@ const Sales: React.FC = () => {
                   setState((prevState) => ({
                     ...prevState,
                     openStartDatePicker: true,
-                    openEndDatePicker: true,
+                    // openEndDatePicker: true,
                   }));
                 }}
               />
+              <label className="dateLabel" >To</label>
               <DatePicker
                 placeholderText="End Date"
                 selected={state.endDate}
@@ -285,7 +287,7 @@ const Sales: React.FC = () => {
                 }
                 dateFormat="dd MMM yyyy"
                 className="s-end-date"
-                open={state.openEndDatePicker}
+                // open={state.openEndDatePicker}
                 onSelect={() =>
                   setState((prevState) => ({
                     ...prevState,
@@ -295,7 +297,7 @@ const Sales: React.FC = () => {
                 onFocus={() => {
                   setState((prevState) => ({
                     ...prevState,
-                    openStartDatePicker: true,
+                    // openStartDatePicker: true,
                     openEndDatePicker: true,
                   }));
                 }}

@@ -33,7 +33,7 @@
   // justify-content: center;
   // align-items: center;
   gap: 0.5rem;
-  width: 85%;
+  width: 80vw;
   .checkin-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -44,6 +44,11 @@
       justify-content: center;
       align-items: center;
       color: var(--table-text);
+
+      h1{
+        font-size: 21px;
+        font-weight: 500;
+      }
       @media (max-width: 500px) {
         // background-color: red;
         font-size: xx-small;
@@ -137,6 +142,12 @@
   .checkin-name-board-two {
     text-align: center;
     color: var(--table-text);
+
+    h1{
+      font-size: 21px;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
     @media (max-width: 500px) {
       font-size: x-small;
     }

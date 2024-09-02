@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 85%;
+  width: 80vw;
   .genai-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -40,6 +40,11 @@
       justify-content: center;
       align-items: center;
       color: var(--table-text);
+
+      h1{
+        font-size: 21px;
+        font-weight: 500;
+      }
     }
     .dates {
       display: flex;
@@ -121,21 +126,30 @@
   .genai-name-board-two {
     text-align: center;
     color: var(--table-text);
+
+    h1{
+      font-size: 21px;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
   }
   .genai-report-pdf {
     // background-color: red;
     .genai-title-head-outer {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      // background-color: orange;
+      // align-items: center;
+      justify-content: space-between;
+      h1{
+        font-size: 21px;
+        font-weight: 500;
+      }
       .genai-title-head {
         display: flex;
         justify-content: space-between;
         align-items: center;
         // background-color: red;
         padding: 0rem 0.9rem;
-        width: 82%;
+        width: 80vw;
         h1 {
           color: var(--table-text);
           text-align: center;
