@@ -337,6 +337,9 @@ const CheckIn: React.FC = () => {
               ttBodyColor="#fff"
               yAxisLabel="Average Sales in Dollars "
               xAxisLabel="Days"
+              xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+              yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+              TitleColor={isDarkTheme ? "#fff" : "#000"}
             />
           </div>
         </div>

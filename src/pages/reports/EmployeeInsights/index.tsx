@@ -14,17 +14,11 @@ const EmployeeInsights: React.FC = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [openFilter, setOpenFilter] = useState(false);
-  // const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  // const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
   };
   const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
-
-  // const displayCustomDateRange = () => {
-  //   setOpenCustomDateRange((op) => !op);
-  // };
 
   const XemployeeNameBar = EmployeeD["Sales By Employee"].map(
     (item) => item["Employee Name"]
@@ -38,112 +32,106 @@ const EmployeeInsights: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Today");
 
   const handleOptionClickForDate = (option: string) => {
-    setSelectedPeriod(option); // Update the selected period
+    setSelectedPeriod(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      // setOpenStartDatePicker(true);
-      // setOpenEndDatePicker(true);
-      // setStartDate(moment().format("MM-DD-YYYY"));
-      // setEndDate(moment().format("MM-DD-YYYY"));
     } else {
       setOpenCustomDateRange(false);
-      // setOpenStartDatePicker(false);
-      // setOpenEndDatePicker(false);
     }
     setOpenFilter(false);
   };
 
   console.log(EmployeeD["Sales By Employee"]);
   return (
-   <div style={{display:'flex', flexDirection:'row'}}>
-    <SidePanel />
-     <div
-      className={`employee-container ${
-        isDarkTheme ? "dark-theme" : "light-theme"
-      }`}
-    >
-      <Topnavbar />
-      <div className="employee-head">
-        <div className="name-board">
-          <h1>Reports Dashboard</h1>
-        </div>
-        <div className="dates">
-          <div className="label-time-period">
-            <p>Select Time Period</p>
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <SidePanel />
+      <div
+        className={`employee-container ${
+          isDarkTheme ? "dark-theme" : "light-theme"
+        }`}
+      >
+        <Topnavbar />
+        <div className="employee-head">
+          <div className="name-board">
+            <h1>Reports Dashboard</h1>
           </div>
-          <div className="filter-toggle-btn-container">
-            <div className="filter-toggle-btn" onClick={openFilterDropDown}>
-              {selectedPeriod} {/* Display the selected option */}
+          <div className="dates">
+            <div className="label-time-period">
+              <p>Select Time Period</p>
             </div>
-            {openFilter && (
-              <div className="filter-drop-down-options">
-                <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
-                <p onClick={() => handleOptionClickForDate("This Week")}>
-                  This Week
-                </p>
-                <p onClick={() => handleOptionClickForDate("Last 7 days")}>
-                  Last 7 days
-                </p>
-                <p onClick={() => handleOptionClickForDate("This Month")}>
-                  This Month
-                </p>
-                <p onClick={() => handleOptionClickForDate("Last Month")}>
-                  Last Month
-                </p>
-                <p onClick={() => handleOptionClickForDate("Last 30 days")}>
-                  Last 30 days
-                </p>
-                <p
-                  onClick={() =>
-                    handleOptionClickForDate("Select Custom Date Range")
-                  }
-                >
-                  Select Custom Date Range
-                </p>
+            <div className="filter-toggle-btn-container">
+              <div className="filter-toggle-btn" onClick={openFilterDropDown}>
+                {selectedPeriod} {/* Display the selected option */}
+              </div>
+              {openFilter && (
+                <div className="filter-drop-down-options">
+                  <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
+                  <p onClick={() => handleOptionClickForDate("This Week")}>
+                    This Week
+                  </p>
+                  <p onClick={() => handleOptionClickForDate("Last 7 days")}>
+                    Last 7 days
+                  </p>
+                  <p onClick={() => handleOptionClickForDate("This Month")}>
+                    This Month
+                  </p>
+                  <p onClick={() => handleOptionClickForDate("Last Month")}>
+                    Last Month
+                  </p>
+                  <p onClick={() => handleOptionClickForDate("Last 30 days")}>
+                    Last 30 days
+                  </p>
+                  <p
+                    onClick={() =>
+                      handleOptionClickForDate("Select Custom Date Range")
+                    }
+                  >
+                    Select Custom Date Range
+                  </p>
+                </div>
+              )}
+            </div>
+            {openCustomDateRange && (
+              <div className="date-range-style">
+                <DatePicker
+                  placeholderText="Start Date"
+                  selected={startDate}
+                  onChange={(date: Date) => setStartDate(date)}
+                  dateFormat="dd MMM yyyy"
+                  className="start-date"
+                />
+                <DatePicker
+                  placeholderText="End Date"
+                  selected={endDate}
+                  onChange={(date: Date) => setEndDate(date)}
+                  dateFormat="dd MMM yyyy"
+                  className="end-date"
+                />
               </div>
             )}
           </div>
-          {openCustomDateRange && (
-            <div className="date-range-style">
-              <DatePicker
-                placeholderText="Start Date"
-                selected={startDate}
-                onChange={(date: Date) => setStartDate(date)}
-                dateFormat="dd MMM yyyy"
-                className="start-date"
-              />
-              <DatePicker
-                placeholderText="End Date"
-                selected={endDate}
-                onChange={(date: Date) => setEndDate(date)}
-                dateFormat="dd MMM yyyy"
-                className="end-date"
-              />
-            </div>
-          )}
+        </div>
+        <div className="name-board-two">
+          <h1>Maghil Restaurant, Parsippany</h1>
+        </div>
+        <div className="employee-details-container">
+          <Table
+            Heading="Employee Tips & Fee Summary"
+            tableData={EmployeeD["Table one"]}
+            viewType="full"
+            recordsPerPage={6}
+          />
+        </div>
+        <div className="employee-details-container">
+          <Table
+            Heading="Sales By Employee - Details"
+            tableData={EmployeeD["Sales By Employee"]}
+            viewType="full"
+            recordsPerPage={6}
+          />
         </div>
       </div>
-      <div className="name-board-two">
-        <h1>Maghil Restaurant, Parsippany</h1>
-      </div>
-      <div className="employee-details-container">
-        <Table
-          Heading="Employee Tips & Fee Summary"
-          tableData={EmployeeD["Table one"]}
-          viewType="full"
-          recordsPerPage={6}
-        />
-      </div>
-      <div className="employee-details-container">
-        <Table
-          Heading="Sales By Employee - Details"
-          tableData={EmployeeD["Sales By Employee"]}
-          viewType="full"
-          recordsPerPage={6}
-        />
-      </div>
     </div>
-   </div>
   );
 };
 

@@ -2,27 +2,28 @@ import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import "./style.scss";
+import ShrinkedReportMenu from "../ShrinkedReportMenu";
 
 interface NavItemType {
-  name : string
-  path : string
+  name: string;
+  path: string;
 }
 
 const Topnavbar = () => {
   const [active, setActive] = useState("live-reports");
   const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
 
-  const navItems:NavItemType[] = [
+  const navItems: NavItemType[] = [
     { name: "Live Reports", path: "/live-reports" },
     { name: "Sales Report", path: "/sales" },
     { name: "Product Insights", path: "/product-insights" },
     { name: "Employee Insights", path: "/employee-insights" },
-    { name:"Customer Insights", path: "/customer-insights"},
+    { name: "Customer Insights", path: "/customer-insights" },
     { name: "Check-In Report", path: "/check-in" },
     { name: "GenAI Report", path: "/gen-ai-reports" },
   ];
 
-  const location = useLocation()
+  const location = useLocation();
 
   useEffect(() => {
     setActive(location.pathname);
@@ -32,6 +33,7 @@ const Topnavbar = () => {
     <nav
       className={`t-navbar ${isDarkTheme ? "t-dark-theme" : "t-light-theme"}`}
     >
+      <ShrinkedReportMenu />
       {navItems.map((item) => (
         <NavLink
           key={item.name}
@@ -40,7 +42,7 @@ const Topnavbar = () => {
           // onClick={() => handleActiveLink(item) }
         >
           {item.name}
-          {active === item.path  ? <hr className="topNavbarLine" /> : ''}
+          {active === item.path ? <hr className="topNavbarLine" /> : ""}
         </NavLink>
       ))}
       <div className="t-theme-toggle">

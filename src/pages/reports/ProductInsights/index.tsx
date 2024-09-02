@@ -301,7 +301,9 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
             ttTitleColor="#fff"
             ttBodyColor="#fff"
             yAxisLabel="Quantity"
+            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
             xAxisLabel="Product Name"
+            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
           />
         </div>
         <div className="p-top-cancelled-items">
@@ -333,7 +335,9 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
             ttTitleColor="#fff"
             ttBodyColor="#fff"
             yAxisLabel="Count"
+            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
             xAxisLabel="Cancel Reasons"
+            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
           />
         </div>
         <div className="p-product-summary-dropdown-cont">

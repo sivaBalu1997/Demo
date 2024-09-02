@@ -96,8 +96,8 @@
           border-radius: 0.8rem;
           cursor: pointer;
           @media (max-width: 800px) {
-            width: 7rem;
-            height: 2rem;
+            width: 5rem;
+            height: 1rem;
             font-size: smaller;
             // background-color: red;
           }
@@ -117,7 +117,7 @@
           z-index: 999;
           border-radius: 1rem;
           @media (max-width: 800px) {
-            width: 7.4rem;
+            width: 5rem;
           }
 
           p {
@@ -149,7 +149,7 @@
         justify-content: center;
         align-items: center;
 
-        .dateLabel{
+        .dateLabel {
           align-items: flex-start;
           margin-right: 0.5rem;
           color: var(--table-text);
@@ -219,7 +219,21 @@
     gap: 0.5rem;
     // background-color: red;
     // margin-bottom: 1rem;
+    @media (max-width: 500px) {
+      display: flex;
+      // flex-direction: column;
+      flex-wrap: wrap;
+      // background-color: red;
+    }
+
     @media (max-width: 800px) {
+      display: flex;
+      // flex-direction: column;
+      flex-wrap: wrap;
+      // background-color: red;
+    }
+
+    @media (max-width: 1080px) {
       display: flex;
       // flex-direction: column;
       flex-wrap: wrap;
@@ -228,7 +242,7 @@
 
     .s-box {
       height: 8rem;
-      width: 11rem;
+      width: 10.5rem;
       border-radius: 1rem;
       background-color: var(--table-bg);
       display: flex;
@@ -243,9 +257,19 @@
         width: 8.6rem;
       }
 
-      @media (max-width: 800px) {
-        width: 72%;
+      @media (max-width: 1080px) {
+        width: 35%;
+        // background-color: red;
       }
+
+      @media (max-width: 800px) {
+        width: 35%;
+      }
+
+      @media (max-width: 500px) {
+        width: 35%;
+      }
+
       h2 {
         margin-bottom: 0.4rem;
         margin-top: 0.4rem;

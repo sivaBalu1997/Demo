@@ -41,7 +41,7 @@
       align-items: center;
       color: var(--table-text);
 
-      h1{
+      h1 {
         font-size: 21px;
         font-weight: 500;
       }
@@ -58,6 +58,9 @@
         // background-color: greenyellow;
         font-weight: 600;
         color: var(--table-text);
+        @media (max-width: 800px) {
+          display: none;
+        }
       }
       .filter-toggle-btn-container {
         position: relative; // Relative to contain the absolute dropdown
@@ -79,6 +82,11 @@
           border: 1px solid #000;
           border-radius: 0.8rem;
           cursor: pointer;
+          @media (max-width: 800px) {
+            font-size: x-small;
+            width: 5rem;
+            height: 1rem;
+          }
         }
 
         .filter-drop-down-options {
@@ -94,16 +102,25 @@
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
           z-index: 999;
           border-radius: 1rem;
+          @media (max-width: 800px) {
+            font-size: x-small;
+            width: 5rem;
+          }
 
           p {
             margin: 0;
             padding: 0.5rem;
             cursor: pointer;
             border-radius: 0.6rem;
+            text-align: center;
             &:hover {
               background-color: var(--navbar-text);
               color: var(--navbar-bg);
             }
+            // @media (max-width: 800px) {
+            //   font-size: x-small;
+            //   width: 5rem;
+            // }
           }
         }
       }
@@ -127,7 +144,7 @@
     text-align: center;
     color: var(--table-text);
 
-    h1{
+    h1 {
       font-size: 21px;
       font-weight: 600;
       margin-bottom: 30px;
@@ -139,7 +156,7 @@
       display: flex;
       // align-items: center;
       justify-content: space-between;
-      h1{
+      h1 {
         font-size: 21px;
         font-weight: 500;
       }
@@ -172,6 +189,11 @@
           cursor: pointer;
           text-align: center;
           font-weight: 500;
+          @media (max-width: 800px) {
+            font-size: x-small;
+            width: 10rem;
+            height: 2rem;
+          }
         }
       }
     }
@@ -204,6 +226,10 @@
           border-radius: 1rem;
           font-size: 2rem;
           // padding-left: 1rem;
+          @media (max-width: 800px) {
+            font-weight: 600;
+            font-size: larger;
+          }
         }
       }
     }
