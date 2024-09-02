@@ -50,9 +50,12 @@
       align-items: center;
       color: var(--table-text);
 
-      h1{
+      h1 {
         font-weight: 500;
         font-size: 21px;
+        @media (max-width: 800px) {
+          font-size: 17px;
+        }
       }
     }
 
@@ -67,6 +70,9 @@
       .s-label-time-period {
         font-weight: 600;
         color: var(--table-text);
+        @media (max-width: 800px) {
+          font-size: smaller;
+        }
       }
 
       .s-filter-toggle-btn-container {
@@ -89,6 +95,12 @@
           border: 1px solid #000;
           border-radius: 0.8rem;
           cursor: pointer;
+          @media (max-width: 800px) {
+            width: 7rem;
+            height: 2rem;
+            font-size: smaller;
+            // background-color: red;
+          }
         }
 
         .s-filter-drop-down-options {
@@ -104,16 +116,24 @@
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
           z-index: 999;
           border-radius: 1rem;
+          @media (max-width: 800px) {
+            width: 7.4rem;
+          }
 
           p {
             margin: 0;
             padding: 0.5rem;
             cursor: pointer;
             border-radius: 0.6rem;
+            text-align: center;
 
             &:hover {
               background-color: var(--navbar-text);
               color: var(--navbar-bg);
+            }
+
+            @media (max-width: 800px) {
+              font-size: x-small;
             }
           }
         }
@@ -129,8 +149,7 @@
         justify-content: center;
         align-items: center;
 
-
-        .dateLabel{
+        .dateLabel {
           margin-right: 0.5rem;
         }
 
@@ -158,6 +177,13 @@
     display: flex;
     width: 71%;
     gap: 0.5rem;
+    @media (max-width: 800px) {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
 
     .s-canva-pie-chart-cont {
       display: flex;
@@ -191,6 +217,12 @@
     gap: 0.5rem;
     // background-color: red;
     // margin-bottom: 1rem;
+    @media (max-width: 800px) {
+      display: flex;
+      // flex-direction: column;
+      flex-wrap: wrap;
+      // background-color: red;
+    }
 
     .s-box {
       height: 8rem;
@@ -205,7 +237,13 @@
       align-items: center;
       color: var(--table-text);
       border: 1px solid;
+      @media (max-width: 1280px) {
+        width: 8.6rem;
+      }
 
+      @media (max-width: 800px) {
+        width: 72%;
+      }
       h2 {
         margin-bottom: 0.4rem;
         margin-top: 0.4rem;
@@ -227,7 +265,7 @@
     justify-content: center;
     align-items: center;
     color: var(--table-text);
-    h1{
+    h1 {
       font-size: 21px;
       font-weight: 600;
       margin-bottom: 30px;
@@ -251,6 +289,14 @@
       justify-content: center;
       // background-color: brown;
       gap: 0.5rem;
+      @media (max-width: 800px) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        // background-color: red;
+      }
     }
 
     .s-table-container-two-s {
@@ -261,6 +307,14 @@
       width: 86%;
       // background-color: red;
       gap: 0.5rem;
+      @media (max-width: 800px) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        // background-color: red;
+      }
     }
   }
 

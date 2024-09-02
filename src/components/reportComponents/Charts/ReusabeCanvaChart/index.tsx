@@ -5,8 +5,14 @@ import { ThemeContext } from "../../../../helpers/context/ThemeContext";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const ReusableCanvaChart = ({ options }) => {
-  const {isDarkTheme}= useContext(ThemeContext);
+interface ReusableCanvaChartProps {
+  options: any;
+}
+
+const ReusableCanvaChart: React.FC<ReusableCanvaChartProps> = ({
+  options,
+}: ReusableCanvaChartProps) => {
+  const { isDarkTheme } = useContext(ThemeContext);
   return (
     <div
       className={`chart-container ${

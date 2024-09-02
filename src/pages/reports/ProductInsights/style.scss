@@ -54,7 +54,7 @@
       align-items: center;
       color: var(--table-text);
 
-      h1{
+      h1 {
         font-size: 21px;
         font-weight: 500;
       }
@@ -70,6 +70,9 @@
       .p-label-time-period {
         font-weight: 600;
         color: var(--table-text);
+        @media (max-width: 800px) {
+          display: none;
+        }
       }
 
       .p-filter-toggle-btn-container {
@@ -92,6 +95,11 @@
           border: 1px solid #000;
           border-radius: 0.8rem;
           cursor: pointer;
+          @media (max-width: 800px) {
+            width: 6rem;
+            height: 1rem;
+            font-size: smaller;
+          }
         }
 
         .p-filter-drop-down-options {
@@ -107,12 +115,17 @@
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
           z-index: 999;
           border-radius: 1rem;
+          @media (max-width: 800px) {
+            width: 6rem;
+            font-size: x-small;
+          }
 
           p {
             margin: 0;
             padding: 0.5rem;
             cursor: pointer;
             border-radius: 0.6rem;
+            text-align: center;
             &:hover {
               background-color: var(--navbar-text);
               color: var(--navbar-bg);
@@ -157,36 +170,48 @@
   .p-top-twenty-popular-items {
     border-radius: 1rem;
     width: 69%;
-    height: 33rem;
+    // height: 33rem;
+    // background-color: blueviolet;
   }
 
   .p-least-twenty-popular-items {
     border-radius: 1rem;
     width: 69%;
-    height: 33rem;
+    // height: 33rem;
+    // background-color: red;
   }
 
   .p-top-ten-voided-items {
     border-radius: 1rem;
     width: 69%;
-    height: 33rem;
+    // height: 33rem;
+    // background-color: greenyellow;
   }
 
   .p-top-cancelled-items {
     border-radius: 1rem;
     width: 69%;
-    height: 33rem;
+    // height: 33rem;
+    // background-color: yellow;
   }
 
   .p-product-summary-dropdown-cont {
-    width: 70vw;
+    width: 60vw;
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     gap: 0.5rem;
+    @media (max-width: 800px) {
+      // background-color: red;
+      width: 58vw;
+    }
 
     p {
       font-weight: 600;
       color: var(--table-text);
+      @media (max-width: 800px) {
+        font-size: small;
+      }
     }
 
     .p-filter-toggle-btn-container {
@@ -199,7 +224,6 @@
       .p-filter-toggle-btn {
         text-align: center;
         padding: 0.5rem;
-        width: 10rem;
         color: #000;
         background-color: #ccc;
         display: flex;
@@ -208,7 +232,14 @@
         border: 1px solid #000;
         border-radius: 0.8rem;
         cursor: pointer;
+        width: 10rem;
         height: 2rem;
+        @media (max-width: 800px) {
+          width: 5rem;
+          height: 1rem;
+          font-size: xx-small;
+          // background-color: greenyellow;
+        }
       }
 
       .p-filter-drop-down-options {
@@ -224,15 +255,22 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         z-index: 999;
         border-radius: 1rem;
+        @media (max-width: 800px) {
+          width: 5rem;
+        }
 
         p {
           margin: 0;
           padding: 0.5rem;
           cursor: pointer;
           border-radius: 0.6rem;
+          text-align: center;
           &:hover {
             background-color: var(--navbar-text);
             color: var(--navbar-bg);
+          }
+          @media (max-width: 800px) {
+            font-size: xx-small;
           }
         }
       }

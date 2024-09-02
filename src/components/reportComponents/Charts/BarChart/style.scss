@@ -16,8 +16,9 @@
 .c-bar-chart-container {
   position: relative;
   width: 100%;
-  height: 100%;
-  
+  height: fit-content;
+  // background-color: red;
+
   @media (max-width: 500px) {
     width: 100%;
     height: 100%;
