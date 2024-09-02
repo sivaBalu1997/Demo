@@ -7,7 +7,7 @@
   --screen-bg: #ccc;
 }
 
-.dark-theme {
+.t-dark-theme {
   --navbar-bg: #222b3c;
   --navbar-text: #6e7d7d;
   --table-bg: #222b3c;
@@ -16,7 +16,7 @@
   --screen-bg: #404d66;
 }
 
-.light-theme {
+.t-light-theme {
   --navbar-bg: #e0e0e0;
   --navbar-text: #333333;
   --table-bg: #ffffff;
@@ -25,7 +25,7 @@
   --screen-bg: #ccc;
 }
 
-.pagination {
+.t-report-pagination {
   width: 69%;
   border: 1px solid var(--table-text);
   background-color: var(--table-bg);
@@ -36,7 +36,7 @@
   flex-direction: column;
   position: relative;
 
-  .table-head {
+  .t-table-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,7 +50,7 @@
       z-index: 1;
     }
 
-    .export-container {
+    .t-export-container {
       position: relative;
       cursor: pointer;
       display: inline-block;
@@ -72,7 +72,7 @@
         }
       }
 
-      .export-drop-down {
+      .t-export-drop-down {
         position: absolute;
         top: 100%;
         right: 0;
@@ -109,7 +109,7 @@
         }
       }
 
-      &:hover .export-drop-down {
+      &:hover .t-export-drop-down {
         opacity: 1;
         visibility: visible;
         transform: translateY(0);
@@ -117,7 +117,7 @@
     }
   }
 
-  .table-wrapper {
+  .t-table-wrapper {
     overflow-x: auto;
 
     &::-webkit-scrollbar {
@@ -143,22 +143,22 @@
     scrollbar-color: var(--navbar-text) var(--table-bg);
   }
 
-  .table {
+  .t-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.8125rem;
 
-    .expand-icon {
+    .t-expand-icon {
       cursor: pointer;
       text-align: center;
     }
 
-    .nestedTable {
+    .t-nestedTable {
       width: 100%;
-      background-color: #f9f9f9; // Example background for nested rows
+      background-color: #f9f9f9; /* Example background for nested rows */
       border: 1px solid #ddd;
 
-      .nestedHeader {
+      .t-nestedHeader {
         background-color: #f0f0f0;
       }
       td {
@@ -167,12 +167,13 @@
     }
 
     tr {
-      .tableHeader,
-      .tableRow {
+      /* display: flex; */
+      .t-tableHeader,
+      .t-tableRow {
         display: flex;
       }
 
-      .tableHeader {
+      .t-tableHeader {
         border-top: 1px solid black;
         border-bottom: 1px solid black;
         font-size: 2rem;
@@ -180,8 +181,8 @@
         width: 12.5rem;
       }
 
-      .header,
-      .tableCell {
+      .t-header,
+      .t-tableCell {
         padding: 0.5rem;
         text-align: left;
         font-size: 0.76rem;
@@ -189,40 +190,41 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: var(--table-text);
       }
 
-      .header {
+      .t-header {
         font-weight: bold;
         font-size: small;
         width: fit-content;
         background-color: var(--screen-bg);
 
-        &.align-right {
+        &.t-align-right {
           text-align: right;
         }
 
-        &.align-center {
+        &.t-align-center {
           text-align: center;
         }
 
-        .sort-icon {
+        .t-sort-icon {
           margin-left: 0.5rem;
           cursor: pointer;
         }
       }
 
-      .tableCell.align-right {
+      .t-tableCell.t-align-right {
         text-align: right;
       }
 
-      .tableCell.align-center {
+      .t-tableCell.t-align-center {
         text-align: center;
       }
     }
   }
 }
 
-.paginationCursor {
+.t-paginationCursor {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -233,7 +235,7 @@
   background-color: inherit;
 }
 
-.pagenationContainer {
+.t-pagenationContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -248,13 +250,13 @@
       filter: invert(100%);
     }
 
-    .leftArrow {
+    .t-leftArrow {
       transform: rotate(180deg);
     }
   }
 }
 
-.table-container-one {
+.t-table-container-one {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -263,17 +265,17 @@
   justify-content: center;
 }
 
-.half-width {
+.t-half-width {
   width: 47% !important;
   height: 20rem;
 
   @media (max-width: 480px) {
-    width: 80% !important;
+    width: 100% !important;
     margin-left: 0.8rem !important;
   }
 
   @media (max-width: 500px) {
-    width: 80% !important;
+    width: 100% !important;
   }
 }
 

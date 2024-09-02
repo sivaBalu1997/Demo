@@ -7,10 +7,11 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "./style.scss"; // Import your custom SCSS file
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 
-const PdfViewer = ({ fileUrl }) => {
+const PdfViewer = ({ fileUrl }: any) => {
+  console.log({ fileUrl });
   // Accept `fileUrl` as a prop
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
-  const {isDarkTheme} = useContext(ThemeContext);
+  const { isDarkTheme } = useContext(ThemeContext);
 
   return (
     <div
@@ -19,7 +20,7 @@ const PdfViewer = ({ fileUrl }) => {
       }`}
     >
       <Worker
-        workerUrl={`https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js`}
+        workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
       >
         <Viewer fileUrl={fileUrl} plugins={[defaultLayoutPluginInstance]} />
       </Worker>

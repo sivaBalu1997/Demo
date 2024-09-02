@@ -8,23 +8,39 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // Import default styles
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import "./style.scss";
-import moment from "moment";
-// import { gradientColors } from "../../utils/color";
+// import moment from "moment";
 import { generateGradient } from "../../../util/color";
 import SidePanel from "pages/SidePanel";
+import Topnavbar from "components/reportComponents/TopNavbar";
 
-const ProductInsights = () => {
-  const {isDarkTheme} = useContext(ThemeContext);
-  const [startDate, setStartDate] = useState("2023-08-06");
-  const [endDate, setEndDate] = useState("2024-08-06");
-  const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
+interface TopVoidedItem {
+  name: string;
+  void_items: number;
+}
 
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+interface ProductInsightsData {
+  "Top Voided Items": TopVoidedItem[];
+}
 
-  const displayCustomDateRange = () => {
-    setOpenCustomDateRange((op) => !op);
-  };
+interface ProductInsightsProps {
+  data: ProductInsightsData;
+}
+
+const ProductInsights: React.FC<ProductInsightsProps> = () => {
+  const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
+  console.log({ isDarkTheme });
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [openCustomDateRange, setOpenCustomDateRange] =
+    useState<boolean>(false);
+
+  // const [openStartDatePicker, setOpenStartDatePicker] =
+  //   useState<boolean>(false);
+  // const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
+
+  // const displayCustomDateRange = () => {
+  //   setOpenCustomDateRange((op) => !op);
+  // };
 
   const ProdTopTwenty = ProdI["Top 20 Popular Items"];
   const TopTwentyXaxisData = ProdTopTwenty.map((item) => item["Product name"]);
@@ -40,7 +56,7 @@ const ProductInsights = () => {
   const LeastTwentyItemX = topTwentyLeast.map((item) => item["Product name"]);
   const LeastTwentyItemY = topTwentyLeast.map((item) => item.Quantity);
 
-  const [openFilter, setOpenFilter] = useState(false);
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -48,9 +64,9 @@ const ProductInsights = () => {
 
   //==========================================================================//
 
-  const getTop10Items = (data) => {
+  const getTop10Items = (data: ProductInsightsData): TopVoidedItem[] => {
     return data["Top Voided Items"]
-      .sort((a, b) => b.void_items - a.void_items)
+      .sort((a: TopVoidedItem, b: TopVoidedItem) => b.void_items - a.void_items)
       .slice(0, 10);
   };
 
@@ -61,46 +77,51 @@ const ProductInsights = () => {
 
   const categoryArray = S["Category - US"].map((item) => item.Category);
 
-  const [openCategoryDropDown, setOpenCategoryDropDown] = useState(false);
+  const [openCategoryDropDown, setOpenCategoryDropDown] =
+    useState<boolean>(false);
   const [
     selectedCategoryFilterProductSummary,
     setCategoryFilterProductSummary,
-  ] = useState("All Categories");
+  ] = useState<string>("All Categories");
 
   const toggleCategoryDropDown = () => {
     setOpenCategoryDropDown((op) => !op);
   };
 
-  const [selectedPeriod, setSelectedPeriod] = useState("Today");
+  const [selectedPeriod, setSelectedPeriod] = useState<string>("Today");
 
-  const handleOptionClickForDate = (option) => {
+  const handleOptionClickForDate = (option: string) => {
     setSelectedPeriod(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      setOpenStartDatePicker(true);
-      setOpenEndDatePicker(true);
-      setStartDate(moment().format("MM-DD-YYYY"));
-      setEndDate(moment().format("MM-DD-YYYY"));
+      // setOpenStartDatePicker(true);
+      // setOpenEndDatePicker(true);
+      // setStartDate(moment().format("MM-DD-YYYY"));
+      // setEndDate(moment().format("MM-DD-YYYY"));
+      setStartDate(new Date());
+      setEndDate(new Date());
     } else {
       setOpenCustomDateRange(false);
-      setOpenStartDatePicker(false);
-      setOpenEndDatePicker(false);
+      // setOpenStartDatePicker(false);
+      // setOpenEndDatePicker(false);
     }
     setOpenFilter(false);
   };
 
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option: string) => {
     setCategoryFilterProductSummary(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      setOpenStartDatePicker(true);
-      setOpenEndDatePicker(true);
-      setStartDate(moment().format("MM-DD-YYYY"));
-      setEndDate(moment().format("MM-DD-YYYY"));
+      // setOpenStartDatePicker(true);
+      // setOpenEndDatePicker(true);
+      // setStartDate(moment().format("MM-DD-YYYY"));
+      // setEndDate(moment().format("MM-DD-YYYY"));
+      setStartDate(new Date());
+      setEndDate(new Date());
     } else {
       setOpenCustomDateRange(false);
-      setOpenStartDatePicker(false);
-      setOpenEndDatePicker(false);
+      // setOpenStartDatePicker(false);
+      // setOpenEndDatePicker(false);
     }
     setOpenCategoryDropDown(false);
   };
@@ -112,7 +133,7 @@ const ProductInsights = () => {
 
   const [selectedItems, setSelectedItems] = useState(DDDD?.Items[0]);
 
-  const handleOptionClickForItems = (option) => {
+  const handleOptionClickForItems = (option: string) => {
     setSelectedItems(option);
     setOpenItems(false);
   };
@@ -127,24 +148,25 @@ const ProductInsights = () => {
     <div style={{display:'flex',flexDirection:'row'}}>
       <SidePanel />
       <div
-      className={`product-insights-container ${
-        isDarkTheme ? "dark-theme" : "light-theme"
+      className={`p-product-insights-container ${
+        isDarkTheme ? "p-dark-theme" : "p-light-theme"
       }`}
     >
-      <div className="prod-insights-head">
-        <div className="name-board">
+      <Topnavbar />
+      <div className="p-prod-insights-head">
+        <div className="p-name-board">
           <h1>Reports Dashboard</h1>
         </div>
-        <div className="dates">
-          <div className="label-time-period">
+        <div className="p-dates">
+          <div className="p-label-time-period">
             <p>Select Time Period</p>
           </div>
-          <div className="filter-toggle-btn-container">
-            <div className="filter-toggle-btn" onClick={openFilterDropDown}>
-              {selectedPeriod} {/* Display the selected option */}
+          <div className="p-filter-toggle-btn-container">
+            <div className="p-filter-toggle-btn" onClick={openFilterDropDown}>
+              {selectedPeriod}
             </div>
             {openFilter && (
-              <div className="filter-drop-down-options">
+              <div className="p-filter-drop-down-options">
                 <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
                 <p onClick={() => handleOptionClickForDate("This Week")}>
                   This Week
@@ -172,38 +194,41 @@ const ProductInsights = () => {
             )}
           </div>
           {openCustomDateRange && (
-            <div className="date-range-style">
+            <div className="p-date-range-style">
               <DatePicker
                 placeholderText="Start Date"
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date: Date) => setStartDate(date)}
                 dateFormat="dd MMM yyyy"
-                className="start-date"
+                className="p-start-date"
               />
               <DatePicker
                 placeholderText="End Date"
                 selected={endDate}
-                onChange={(date) => setEndDate(date)}
+                onChange={(date: Date) => setEndDate(date)}
                 dateFormat="dd MMM yyyy"
-                className="end-date"
+                className="p-end-date"
               />
             </div>
           )}
         </div>
       </div>
-      <div className="location-name">
+      <div className="p-location-name">
         <h1>Maghil Restaurant, Parsippany</h1>
       </div>
-      <div className="top-twenty-popular-items">
+      <div className="p-top-twenty-popular-items">
         <BarChart
           BatChartTitle="20 Most Popular Items"
+          TitleColor={isDarkTheme ? "#fff" : "#000"}
           xAxisData={TopTwentyXaxisData}
           yAxisData={TopTwentyYaxisData}
           label="items"
           backgroundColor={twentyMostPopulatItemsColors}
           borderColor={twentyMostPopulatItemsColors}
           xAxisGridColor={"transparent"}
+          xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
           yAxisGridColor={"transparent"}
+          yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
           xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
           yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
           pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
@@ -213,9 +238,10 @@ const ProductInsights = () => {
           xAxisLabel="Product Name"
         />
       </div>
-      <div className="least-twenty-popular-items">
+      <div className="p-least-twenty-popular-items">
         <BarChart
           BatChartTitle="20 Least Popular Items"
+          TitleColor={isDarkTheme ? "#fff" : "#000"}
           xAxisData={LeastTwentyItemX}
           yAxisData={LeastTwentyItemY}
           label="items"
@@ -233,10 +259,10 @@ const ProductInsights = () => {
             "rgb(75, 192, 192)",
             "rgb(54, 162, 235)",
           ]}
-          // xAxisGridColor={isDarkTheme ? "#283347" : "#ccc"}
-          // yAxisGridColor={isDarkTheme ? "#283347" : "#ccc"}
           xAxisGridColor={"transparent"}
           yAxisGridColor={"transparent"}
+          xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+          yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
           xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
           yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
           pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
@@ -246,9 +272,10 @@ const ProductInsights = () => {
           xAxisLabel="Product Name"
         />
       </div>
-      <div className="top-ten-voided-items">
+      <div className="p-top-ten-voided-items">
         <BarChart
           BatChartTitle="Top 10 Cancelled Items"
+          TitleColor={isDarkTheme ? "#fff" : "#000"}
           xAxisData={XtopTenItemName}
           yAxisData={YvoidTenItems}
           label="items"
@@ -277,9 +304,10 @@ const ProductInsights = () => {
           xAxisLabel="Product Name"
         />
       </div>
-      <div className="top-cancelled-items">
+      <div className="p-top-cancelled-items">
         <BarChart
           BatChartTitle="Top Cancellation Reasons"
+          TitleColor={isDarkTheme ? "#fff" : "#000"}
           xAxisData={XCancelReasonLabels}
           yAxisData={Yvoid_items}
           label="count"
@@ -308,14 +336,14 @@ const ProductInsights = () => {
           xAxisLabel="Cancel Reasons"
         />
       </div>
-      <div className="product-summary-dropdown-cont">
+      <div className="p-product-summary-dropdown-cont">
         <p>Filter By Category/Item</p>
-        <div className="filter-toggle-btn-container">
-          <div className="filter-toggle-btn" onClick={toggleCategoryDropDown}>
+        <div className="p-filter-toggle-btn-container">
+          <div className="p-filter-toggle-btn" onClick={toggleCategoryDropDown}>
             {selectedCategoryFilterProductSummary}
           </div>
           {openCategoryDropDown && (
-            <div className="filter-drop-down-options">
+            <div className="p-filter-drop-down-options">
               {categoryArray.map((category) => (
                 <p key={category} onClick={() => handleOptionClick(category)}>
                   {category}
@@ -324,12 +352,12 @@ const ProductInsights = () => {
             </div>
           )}
         </div>
-        <div className="filter-toggle-btn-container">
-          <div className="filter-toggle-btn" onClick={toggleItemsDropDown}>
+        <div className="p-filter-toggle-btn-container">
+          <div className="p-filter-toggle-btn" onClick={toggleItemsDropDown}>
             {selectedItems}
           </div>
           {openItems && (
-            <div className="filter-drop-down-options">
+            <div className="p-filter-drop-down-options">
               {DDDD.Items.map((category) => (
                 <p
                   key={category}

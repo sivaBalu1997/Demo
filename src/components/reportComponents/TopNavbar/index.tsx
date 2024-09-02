@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
-import "./style.scss";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import "./style.scss";
 
 const Topnavbar = () => {
   const [active, setActive] = useState("live-reports");
@@ -18,21 +18,23 @@ const Topnavbar = () => {
   ];
 
   return (
-    <nav className={`navbar ${isDarkTheme ? "dark-theme" : "light-theme"}`}>
+    <nav
+      className={`t-navbar ${isDarkTheme ? "t-dark-theme" : "t-light-theme"}`}
+    >
       {navItems.map((item) => (
         <NavLink
           key={item.name}
           to={item.path}
-          className={`nav-item ${active === item.name ? "active" : ""}`}
+          className={`t-nav-item ${active === item.name ? "t-active" : ""}`}
           onClick={() => setActive(item.name)}
         >
           {item.name}
         </NavLink>
       ))}
-      <div className="theme-toggle">
-        <label className="switch">
+      <div className="t-theme-toggle">
+        <label className="t-switch">
           <input type="checkbox" checked={isDarkTheme} onChange={toggleTheme} />
-          <span className="slider round"></span>
+          <span className="t-slider t-round"></span>
         </label>
       </div>
     </nav>

@@ -6,25 +6,53 @@ import downloadVector from "../../../assets/svg/download-svg-2.svg";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import "./style.scss";
 
-const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
-  const [expandedRows, setExpandedRows] = useState([]); // Track expanded rows
-  const {isDarkTheme}  = useContext(ThemeContext);
+interface TableProps {
+  tableData: Array<Record<string, any>>;
+  Heading: string;
+  viewType: string;
+  recordsPerPage: number;
+}
+
+interface SortConfig {
+  key: string | null;
+  direction: "ascending" | "descending" | null;
+}
+
+interface Row {
+  [key: string]: any;
+}
+
+interface NestedRow {
+  [key: string]: any;
+}
+
+const Table = ({
+  tableData,
+  viewType,
+  recordsPerPage = 10,
+  Heading,
+}: TableProps) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: null,
+    direction: null,
+  });
+  const [expandedRows, setExpandedRows] = useState<number[]>([]);
+  const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
 
-  const handleSort = (key) => {
-    let direction = "ascending";
-    if (sortConfig?.key === key && sortConfig?.direction === "ascending") {
+  const handleSort = (key: string) => {
+    let direction: "ascending" | "descending" = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
       direction = "descending";
     }
     setSortConfig({ key, direction });
   };
 
   const sortedData = Array.isArray(tableData)
-    ? [...tableData]?.sort((a, b) => {
-        if (sortConfig?.key) {
+    ? [...tableData].sort((a: Row, b: Row) => {
+        if (sortConfig.key) {
           const aValue = a[sortConfig.key];
           const bValue = b[sortConfig.key];
 
@@ -44,8 +72,8 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
       })
     : [];
 
-  const records = sortedData?.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(sortedData?.length / recordsPerPage);
+  const records = sortedData.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(sortedData.length / recordsPerPage);
 
   const prePage = () => {
     if (currentPage > 1) {
@@ -60,17 +88,19 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
   };
 
   const tableHeader =
-    tableData && tableData?.length > 0
-      ? Object.keys(tableData[0])?.filter((header) => header !== "drop down")
+    tableData.length > 0
+      ? Object.keys(tableData[0]).filter((header) => header !== "drop down")
       : [];
 
-  const formatItemDetails = (details) => {
+  const formatItemDetails = (
+    details: Array<{ itemName: string; quantity: number }>
+  ) => {
     return details
-      ?.map((item) => `${item?.itemName} x${item?.quantity}`)
+      .map((item) => `${item.itemName} x${item.quantity}`)
       .join(", ");
   };
 
-  const toggleRowExpansion = (index) => {
+  const toggleRowExpansion = (index: number) => {
     if (expandedRows.includes(index)) {
       setExpandedRows(expandedRows.filter((row) => row !== index));
     } else {
@@ -78,25 +108,26 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
     }
   };
 
-  const csvDownloadFn = (data) => {
+  const csvDownloadFn = (data: Array<Record<string, any>>) => {
     const fileName = Heading;
     const exportType = exportFromJSON.types.csv;
     exportFromJSON({ data, fileName, exportType });
   };
 
-  const jsonDownloadFn = (data) => {
+  const jsonDownloadFn = (data: Array<Record<string, any>>) => {
     const fileName = Heading;
     const exportType = exportFromJSON.types.json;
     exportFromJSON({ data, fileName, exportType });
   };
 
-  const xlsxDownloadFn = (data) => {
+  const xlsxDownloadFn = (data: Array<Record<string, any>>) => {
     const fileName = Heading;
     const exportType = exportFromJSON.types.xls;
     exportFromJSON({ data, fileName, exportType });
   };
 
-  const [openDownloadDropDown, setOpenDownloadDropDown] = useState(false);
+  const [openDownloadDropDown, setOpenDownloadDropDown] =
+    useState<boolean>(false);
 
   const toggleExportDropDown = () => {
     setOpenDownloadDropDown((op) => !op);
@@ -105,20 +136,20 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
   return (
     <>
       <div
-        className={`pagination ${viewType === "half" ? "half-width" : ""} ${
-          isDarkTheme ? "dark-theme" : "light-theme"
-        }`}
+        className={`t-report-pagination ${
+          viewType === "half" ? "t-half-width" : ""
+        } ${isDarkTheme ? "t-dark-theme" : "t-light-theme"}`}
       >
-        <div className="table-head">
+        <div className="t-table-head">
           <h3>{Heading}</h3>
-          <div className="export-container">
+          <div className="t-export-container">
             <img
               src={downloadVector}
               alt="download-file-svg"
               onClick={toggleExportDropDown}
             />
             {openDownloadDropDown && (
-              <div className="export-drop-down">
+              <div className="t-export-drop-down">
                 <p onClick={() => jsonDownloadFn(tableData)}>JSON</p>
                 <p onClick={() => csvDownloadFn(tableData)}>CSV</p>
                 <p onClick={() => xlsxDownloadFn(tableData)}>XLSX</p>
@@ -126,22 +157,22 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
             )}
           </div>
         </div>
-        <div className="table-wrapper">
-          <table className="table">
-            <thead className="tableHeader">
-              <tr>
-                {tableHeader?.map((header, index) => {
+        <div className="t-table-wrapper">
+          <table className="t-table">
+            <thead className="t-tableHeader">
+              <tr className="t-tableRowHead">
+                {tableHeader.map((header, index) => {
                   const isNumeric = typeof tableData[0][header] === "number";
                   return (
                     <th
-                      className={`header ${
-                        isNumeric ? "align-right" : "align-left"
+                      className={`t-header ${
+                        isNumeric ? "t-align-right" : "t-align-left"
                       }`}
                       key={index}
                       onClick={() => handleSort(header)}
                     >
                       {header}
-                      <span className="sort-icon">
+                      <span className="t-sort-icon">
                         {sortConfig.key === header &&
                         sortConfig.direction === "ascending"
                           ? "🔽"
@@ -152,17 +183,17 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
                 })}
               </tr>
             </thead>
-            <tbody className="tableBody">
-              {records?.map((row, rowIndex) => (
+            <tbody className="t-tableBody">
+              {records.map((row: Row, rowIndex: number) => (
                 <React.Fragment key={rowIndex}>
                   <tr
-                    className="mainRow"
+                    className="t-mainRow"
                     onClick={() => toggleRowExpansion(rowIndex)}
                   >
                     {tableHeader.map((header, cellIndex) => (
                       <td
-                        className={`tableCell ${
-                          typeof row[header] === "number" ? "align-right" : ""
+                        className={`t-tableCell ${
+                          typeof row[header] === "number" ? "t-align-right" : ""
                         }`}
                         key={cellIndex}
                       >
@@ -173,16 +204,16 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
                     ))}
                   </tr>
                   {expandedRows.includes(rowIndex) && row["drop down"] && (
-                    <tr className="expandedRow">
+                    <tr className="t-expandedRow">
                       <td colSpan={tableHeader.length}>
-                        <table className="nestedTable">
+                        <table className="t-nestedTable">
                           <thead>
                             <tr>
                               {Object.keys(row["drop down"][0]).map(
                                 (nestedHeader, nestedIndex) => (
                                   <th
                                     key={nestedIndex}
-                                    className="nestedHeader"
+                                    className="t-nestedHeader"
                                   >
                                     {nestedHeader}
                                   </th>
@@ -192,7 +223,10 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
                           </thead>
                           <tbody>
                             {row["drop down"].map(
-                              (nestedRow, nestedRowIndex) => (
+                              (
+                                nestedRow: NestedRow,
+                                nestedRowIndex: number
+                              ) => (
                                 <tr key={nestedRowIndex}>
                                   {Object.values(nestedRow).map(
                                     (nestedValue, nestedValueIndex) => (
@@ -214,20 +248,20 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
             </tbody>
           </table>
         </div>
-        <div className="paginationCursor">
-          <ul className="pagenationContainer">
+        <div className="t-paginationCursor">
+          <ul className="t-pagenationContainer">
             {currentPage > 1 && (
-              <li className="page-item">
+              <li className="t-page-item">
                 {isDarkTheme ? (
                   <img
-                    className="leftArrow"
+                    className="t-leftArrow"
                     src={blackarrow}
                     alt="previous"
                     onClick={prePage}
                   />
                 ) : (
                   <img
-                    className="leftArrow"
+                    className="t-leftArrow"
                     src={arrow}
                     alt="previous"
                     onClick={prePage}
@@ -239,11 +273,21 @@ const Table = ({ tableData, viewType, recordsPerPage = 10, Heading }) => {
               Page {currentPage} of {nPage}
             </li>
             {currentPage < nPage && (
-              <li className="page-item">
+              <li className="t-page-item">
                 {isDarkTheme ? (
-                  <img src={blackarrow} alt="next" onClick={nextPage} />
+                  <img
+                    className="t-leftArrow"
+                    src={blackarrow}
+                    alt="next"
+                    onClick={nextPage}
+                  />
                 ) : (
-                  <img src={arrow} alt="next" onClick={nextPage} />
+                  <img
+                    className="t-leftArrow"
+                    src={arrow}
+                    alt="next"
+                    onClick={nextPage}
+                  />
                 )}
               </li>
             )}

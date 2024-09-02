@@ -5,26 +5,33 @@
   --table-text: #333333;
   --chart-bg: #ffffff;
   --screen-bg: #404d66;
+  --cchart-bg: #ffffff; /* Default light theme color */
+  --cchart-border: #000000;
 }
 
-.dark-theme {
+.p-dark-theme {
   --navbar-bg: #222b3c;
   --navbar-text: #6e7d7d;
   --table-bg: #222b3c;
   --table-text: #ffffff;
   --chart-bg: #222b3c;
   --screen-bg: #2e3a4f;
+  --cchart-bg: #222b3c;
+  --cchart-border: #ffffff;
 }
 
-.light-theme {
+.p-light-theme {
   --navbar-bg: #e0e0e0;
   --navbar-text: #333333;
   --table-bg: #ffffff;
   --table-text: #333333;
   --chart-bg: #ffffff;
   --screen-bg: #ffffff;
+  --cchart-bg: #ffffff;
+  --cchart-border: #000000;
 }
-.product-insights-container {
+
+.p-product-insights-container {
   background-color: var(--screen-bg);
   display: flex;
   flex-direction: column;
@@ -32,40 +39,42 @@
   gap: 0.5rem;
   align-items: center;
   height: 100%;
-  .prod-insights-head {
+  width: 85%;
+
+  .p-prod-insights-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     display: flex;
     justify-content: space-between;
-    // background-color: aqua;
     width: 95%;
-    .name-board {
+
+    .p-name-board {
       display: flex;
       justify-content: center;
       align-items: center;
       color: var(--table-text);
     }
-    .dates {
+
+    .p-dates {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 0.8rem;
       height: 6rem;
-      // width: 30%;
-      // background-color: red;
-      .label-time-period {
-        // background-color: greenyellow;
+
+      .p-label-time-period {
         font-weight: 600;
         color: var(--table-text);
       }
-      .filter-toggle-btn-container {
+
+      .p-filter-toggle-btn-container {
         position: relative; // Relative to contain the absolute dropdown
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.6rem;
 
-        .filter-toggle-btn {
+        .p-filter-toggle-btn {
           text-align: center;
           padding: 0.5rem;
           width: 10rem;
@@ -80,7 +89,7 @@
           cursor: pointer;
         }
 
-        .filter-drop-down-options {
+        .p-filter-drop-down-options {
           position: absolute; // Absolute to overlay other elements
           top: 110%; // Positions dropdown just below the button
           left: 50%;
@@ -106,17 +115,20 @@
           }
         }
       }
-      .date-range-style {
+
+      .p-date-range-style {
         display: flex;
         gap: 2rem;
-        .start-date {
+
+        .p-start-date {
           height: 2rem;
           width: 7rem;
           padding: 0.5rem;
           border-radius: 1rem;
           border-style: thin;
         }
-        .end-date {
+
+        .p-end-date {
           height: 2rem;
           width: 7rem;
           padding: 0.5rem;
@@ -126,93 +138,57 @@
       }
     }
   }
-  .location-name {
+
+  .p-location-name {
     h1 {
       color: var(--table-text);
       text-align: center;
     }
   }
-  .top-twenty-popular-items {
+
+  .p-top-twenty-popular-items {
     border-radius: 1rem;
     width: 69%;
     height: 33rem;
   }
-  .least-twenty-popular-items {
+
+  .p-least-twenty-popular-items {
     border-radius: 1rem;
     width: 69%;
     height: 33rem;
   }
-  .top-ten-voided-items {
+
+  .p-top-ten-voided-items {
     border-radius: 1rem;
     width: 69%;
     height: 33rem;
   }
-  .top-cancelled-items {
+
+  .p-top-cancelled-items {
     border-radius: 1rem;
     width: 69%;
     height: 33rem;
   }
-  // .product-summary-container {
-  //   width: 68vw;
-  //   display: flex;
-  //   flex-direction: column;
-  //   // background-color: orange;
-  //   .product-summary-filters {
-  //     display: flex;
-  //     justify-content: flex-end;
-  //     // background-color: red;
-  //     position: absolute; // Absolute to overlay other elements
-  //     // top: 110%; // Positions dropdown just below the button
-  //     // left: 50%;
-  //     transform: translateX(-50%);
-  //     width: 12rem; // Adjusted for better fit
-  //     padding: 0.5rem;
-  //     background-color: var(--navbar-bg);
-  //     color: var(--navbar-text);
-  //     border: 1px solid #ccc;
-  //     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  //     z-index: 999;
-  //     border-radius: 1rem;
-  //     p {
-  //       display: flex;
-  //       justify-content: center;
-  //       align-items: center;
-  //       text-align: center;
-  //       height: 2rem;
-  //       width: fit-content;
-  //       border-radius: 1rem;
-  //       background-color: var(--table-bg);
-  //       color: var(--table-text);
-  //       // padding: 0.5rem;
-  //       border: 1px solid var(--table-text);
-  //       padding: 0.5rem;
-  //       cursor: pointer;
-  //       border-radius: 0.6rem;
-  //       &:hover {
-  //         background-color: var(--navbar-text);
-  //         color: var(--navbar-bg);
-  //       }
-  //     }
-  //   }
-  // }
-  .product-summary-dropdown-cont {
+
+  .p-product-summary-dropdown-cont {
     width: 70vw;
-    // background-color: red;
     display: flex;
     justify-content: flex-start;
     gap: 0.5rem;
+
     p {
       font-weight: 600;
       color: var(--table-text);
     }
-    .filter-toggle-btn-container {
+
+    .p-filter-toggle-btn-container {
       position: relative; // Relative to contain the absolute dropdown
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.6rem;
 
-      .filter-toggle-btn {
+      .p-filter-toggle-btn {
         text-align: center;
         padding: 0.5rem;
         width: 10rem;
@@ -227,7 +203,7 @@
         height: 2rem;
       }
 
-      .filter-drop-down-options {
+      .p-filter-drop-down-options {
         position: absolute; // Absolute to overlay other elements
         top: 110%; // Positions dropdown just below the button
         left: 50%;

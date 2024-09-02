@@ -7,28 +7,41 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
-import moment from "moment";
+// import moment from "moment";
 import "./style.scss";
 import SidePanel from "pages/SidePanel";
+import Topnavbar from "components/reportComponents/TopNavbar";
 
-const CheckIn = () => {
-  const [startDate, setStartDate] = useState("2023-08-06");
-  const [endDate, setEndDate] = useState("2024-08-06");
-  const {isDarkTheme}= useContext(ThemeContext);
+declare namespace CanvasJS {
+  interface ChartEventArgs {
+    chart: any;
+    dataPoint: any;
+    dataSeries: any;
+    index: number;
+  }
+}
+
+const CheckIn: React.FC = () => {
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [openFilter, setOpenFilter] = useState(false);
   const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+  // const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  // const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
-  const displayCustomDateRange = () => {
-    setOpenCustomDateRange((op) => !op);
-  };
+  // const displayCustomDateRange = () => {
+  //   setOpenCustomDateRange((op) => !op);
+  // };
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
   };
 
-  const transformDataByChannelForStackBar = (data, channelName) => {
+  const transformDataByChannelForStackBar = (
+    data: { channel_name: string; reservation_time: string; count: number }[],
+    channelName: string
+  ) => {
     return data
       .filter((point) => point.channel_name === channelName)
       .map((point) => ({
@@ -48,6 +61,7 @@ const CheckIn = () => {
 
   const MockchartOptions = {
     animationEnabled: true,
+    exportEnabled: true,
     theme: isDarkTheme ? "dark1" : "light2",
     title: {
       text: "Daily Hourly CheckIn",
@@ -63,7 +77,7 @@ const CheckIn = () => {
     },
     legend: {
       cursor: "pointer", // Makes the legend items clickable
-      itemclick: (e) => {
+      itemclick: (e: CanvasJS.ChartEventArgs) => {
         if (
           typeof e.dataSeries.visible === "undefined" ||
           e.dataSeries.visible
@@ -110,7 +124,7 @@ const CheckIn = () => {
     }
   });
 
-  const formatNumberIndian = (number) => {
+  const formatNumberIndian = (number: number[]) => {
     let numStr = number.toString();
     let [integerPart, decimalPart] = numStr.split(".");
 
@@ -136,18 +150,18 @@ const CheckIn = () => {
 
   const [selectedPeriod, setSelectedPeriod] = useState("Today");
 
-  const handleOptionClickForDate = (option) => {
+  const handleOptionClickForDate = (option: string) => {
     setSelectedPeriod(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      setOpenStartDatePicker(true);
-      setOpenEndDatePicker(true);
-      setStartDate(moment().format("MM-DD-YYYY"));
-      setEndDate(moment().format("MM-DD-YYYY"));
+      // setOpenStartDatePicker(true);
+      // setOpenEndDatePicker(true);
+      // setStartDate(moment().format("MM-DD-YYYY"));
+      // setEndDate(moment().format("MM-DD-YYYY"));
     } else {
       setOpenCustomDateRange(false);
-      setOpenStartDatePicker(false);
-      setOpenEndDatePicker(false);
+      // setOpenStartDatePicker(false);
+      // setOpenEndDatePicker(false);
     }
     setOpenFilter(false);
   };
@@ -160,6 +174,7 @@ const CheckIn = () => {
         isDarkTheme ? "dark-theme" : "light-theme"
       }`}
     >
+      <Topnavbar />
       <div className="checkin-head">
         <div className="checkin-name-board">
           <h1>Reports Dashboard</h1>
@@ -205,14 +220,14 @@ const CheckIn = () => {
               <DatePicker
                 placeholderText="Start Date"
                 selected={startDate}
-                onChange={(date) => setStartDate(date)}
+                onChange={(date: Date) => setStartDate(date)}
                 dateFormat="dd MMM yyyy"
                 className="start-date"
               />
               <DatePicker
                 placeholderText="End Date"
                 selected={endDate}
-                onChange={(date) => setEndDate(date)}
+                onChange={(date: Date) => setEndDate(date)}
                 dateFormat="dd MMM yyyy"
                 className="end-date"
               />

@@ -1,15 +1,6 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  Fragment,
-} from "react";
+import React, { useState, useCallback, useEffect, Fragment } from "react";
 import "../../styles/menu.scss";
-import {
-  NavLink,
-  useHistory,
-  useLocation,
-} from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { SELECTED_BRANCH_DATA } from "../../shared/constants";
 // import MenuItems from "../menuItems";
 import {
@@ -59,7 +50,7 @@ const SidePanel = () => {
   );
 
   const getImageURL = useCallback(
-    (type) => {
+    (type:any) => {
       if (
         restaurantDetails &&
         restaurantDetails.media &&
@@ -96,14 +87,17 @@ const SidePanel = () => {
       restaurantDetails.branch &&
       restaurantDetails.branch.length > 0
     ) {
-      
-
-     if (!selectedBranch && restaurantDetails) {
+      if (!selectedBranch && restaurantDetails) {
         const resBranch = restaurantDetails?.branch;
-        const defaultBranch =  resBranch?.filter(branch => branch?.id === locationId);
+        const defaultBranch = resBranch?.filter(
+          (branch) => branch?.id === locationId
+        );
 
         dispatch(selectBranch(defaultBranch[0]));
-        localStorage.setItem(SELECTED_BRANCH_DATA,JSON.stringify(defaultBranch[0]));
+        localStorage.setItem(
+          SELECTED_BRANCH_DATA,
+          JSON.stringify(defaultBranch[0])
+        );
       } else {
         dispatch(selectBranch(branch));
       }
@@ -127,9 +121,11 @@ const SidePanel = () => {
               <select
                 className="branch-dropdown"
                 disabled={
-                  location.pathname?.includes('/management/employees/add') || 
-                  restaurantDetails?.branch?.length == 1 ||   
-                  (UserRole !== "Restaurant_Owner" && UserRole !== "Regional_Employee" && UserRole !== "Magil_Admin")
+                  location.pathname?.includes("/management/employees/add") ||
+                  restaurantDetails?.branch?.length == 1 ||
+                  (UserRole !== "Restaurant_Owner" &&
+                    UserRole !== "Regional_Employee" &&
+                    UserRole !== "Magil_Admin")
                 }
                 onChange={(e) => {
                   dispatch(selectBranch(JSON.parse(e.target.value)));
@@ -188,7 +184,7 @@ const SidePanel = () => {
               }
             }}
           >
-            { (
+            {
               <div>
                 {showOptions === "MenuOptions" &&
                 !location.pathname.includes("menu") ? (
@@ -197,9 +193,9 @@ const SidePanel = () => {
                 <Tableware className="menu-items-SVG" />
                 <span className="menu-items-name">Menu</span>
               </div>
-            )}
+            }
 
-            { (
+            {
               <Fragment>
                 {showOptions === "MenuOptions" ? (
                   <Uparrow className="dropdown-arrow" />
@@ -207,7 +203,7 @@ const SidePanel = () => {
                   <Downarrow className="dropdown-arrow" />
                 )}{" "}
               </Fragment>
-            )}
+            }
           </div>
           
           {showOptions === "MenuOptions"
@@ -290,13 +286,13 @@ const SidePanel = () => {
             }}
             style={{ cursor: "pointer" }}
           >
-            { (
+            {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Stats className="menu-items-SVG" />
                 <span className="menu-items-name">Reports & Insights</span>
               </div>
-            )}
+            }
           </div>
 
           <div
@@ -315,20 +311,20 @@ const SidePanel = () => {
               }
             }}
           >
-            { (
+            {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Payment className="menu-items-SVG" />
                 <span className="menu-items-name">Payments</span>
               </div>
-            )}
+            }
           </div>
         </ul>
         <div>
           <div className="magilhub-bottom-logo">
-                <span className="powered-text1">Powered by</span>
-                <span className="magilhub-logo1">Maghil</span>
-            </div>
+            <span className="powered-text1">Powered by</span>
+            <span className="magilhub-logo1">Maghil</span>
+          </div>
         </div>
       </div>
     </>

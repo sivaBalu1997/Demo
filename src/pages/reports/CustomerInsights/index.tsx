@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import { LD } from "../../../assets/mockData/originalAPIData/OliveReportData";
-import Table from '../../../components/reportComponents/Table';
+import Table from "../../../components/reportComponents/Table";
 import "./style.scss";
 import Topnavbar from "../../../components/reportComponents/TopNavbar";
 import SidePanel from "pages/SidePanel";
 
 const CustomerInsights = () => {
-  const {isDarkTheme} = useContext(ThemeContext);
+  const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
 
   return (
     <div style={{display:'flex', flexDirection:'row'}}>

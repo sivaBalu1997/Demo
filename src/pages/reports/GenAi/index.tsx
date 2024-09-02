@@ -2,23 +2,15 @@ import React, { useContext, useState } from "react";
 import PdfViewer from "../../../components/reportComponents/PdfViewer";
 import GenAIPdfJustification from "../../../assets/mockData/originalAPIData/GenAIPDF/A2B justification_report_Parsippany_July.pdf";
 import NewDemopdf from "../../../assets/mockData/originalAPIData/GenAIPDF/new sid.pdf";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Import default styles
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import "./style.scss";
 import SidePanel from "pages/SidePanel";
+import Topnavbar from "components/reportComponents/TopNavbar";
 
-const GenAiReports = () => {
-  const [startDate, setStartDate] = useState("2023-08-06");
-  const [endDate, setEndDate] = useState("2024-08-06");
+const GenAiReports: React.FC = () => {
   const [openJustificationReport, setOpenJustificationReport] = useState(false);
-  const {isDarkTheme}= useContext(ThemeContext);
+  const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
 
-  const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
-
-  const displayCustomDateRange = () => {
-    setOpenCustomDateRange((op) => !op);
-  };
   const openReport = () => {
     setOpenJustificationReport((open) => !open);
   };
@@ -28,11 +20,11 @@ const GenAiReports = () => {
     setOpenFilter((op) => !op);
   };
 
-  const [selectedPeriod, setSelectedPeriod] = useState("July 2024"); // Initial state
+  const [selectedPeriod, setSelectedPeriod] = useState("July 2024");
 
-  const handleOptionClick = (option) => {
-    setSelectedPeriod(option); // Update the selected period
-    setOpenFilter(false); // Close the dropdown after selecting an option
+  const handleOptionClick = (option: string) => {
+    setSelectedPeriod(option);
+    setOpenFilter(false);
   };
   return (
     <div style={{display:'flex', flexDirection:'row'}}>
@@ -40,29 +32,18 @@ const GenAiReports = () => {
       <div
       className={`genai-report ${isDarkTheme ? "dark-theme" : "light-theme"}`}
     >
+      <Topnavbar />
       <div className="genai-head">
         <div className="genai-name-board">
           <h1>Reports Dashboard</h1>
         </div>
         <div className="dates">
-          {/* <input
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            type="date"
-            className="start-date"
-          />
-          <input
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            type="date"
-            className="end-date"
-          /> */}
           <div className="label-time-period">
             <p>Select Time Period</p>
           </div>
           <div className="filter-toggle-btn-container">
             <div className="filter-toggle-btn" onClick={openFilterDropDown}>
-              {selectedPeriod} {/* Display the selected option */}
+              {selectedPeriod}
             </div>
             {openFilter && (
               <div className="filter-drop-down-options">
@@ -75,40 +56,7 @@ const GenAiReports = () => {
               </div>
             )}
           </div>
-          {openCustomDateRange && (
-            <>
-              <DatePicker
-                placeholderText="Start Date"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                dateFormat="dd MMM yyyy"
-                className="start-date"
-              />
-              <DatePicker
-                placeholderText="End Date"
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-                dateFormat="dd MMM yyyy"
-                className="end-date"
-              />
-            </>
-          )}
         </div>
-        {/* <div className="dates">
-          <div className="filter-toggle-btn-container">
-            <div className="filter-toggle-btn" onClick={openFilterDropDown}>
-              Select Time Period
-            </div>
-            {openFilter && (
-              <div className="filter-drop-down-options">
-                <p>July 2024</p>
-                <p>June 2024</p>
-                <p>May 2024</p>
-                <p>April 2024</p>
-              </div>
-            )}
-          </div>
-        </div> */}
       </div>
       <div className="genai-name-board-two">
         <h1>Maghil Restaurant, Parsippany</h1>
