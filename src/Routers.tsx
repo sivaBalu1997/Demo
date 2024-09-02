@@ -37,7 +37,7 @@ import AddCustomizationInput from 'pages/menuCustomization/AddCustomizationInput
 import NotFound from 'pages/notFound'
 import SidePanel from 'pages/SidePanel'
 
-function Routers() {
+const Routers = ()  =>  {
   return (
     <Switch>
         <Route exact path="/review" component={ReviewMenu} />
