@@ -252,7 +252,7 @@ const Sales: React.FC = () => {
           </div>
           {state.openCustomDateRange && (
             <div className="s-date-range-style">
-              <label className="dateLabel" >From</label>
+              <label className="dateLabel" htmlFor="s-start-date">From</label>
               <DatePicker
                 placeholderText="Start Date"
                 selected={state.startDate}
@@ -277,7 +277,7 @@ const Sales: React.FC = () => {
                   }));
                 }}
               />
-              <label className="dateLabel" >To</label>
+              <label className="dateLabel" htmlFor="s-end-date">To</label>
               <DatePicker
                 placeholderText="End Date"
                 selected={state.endDate}
