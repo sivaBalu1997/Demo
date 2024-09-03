@@ -42,7 +42,7 @@ const ResetPassword = () => {
       if (window.innerWidth <= 575) {
         history.push("/management/report/32");
       } else {
-        history.push("/management/employees");
+        history.push("/employees");
       }
     }
   }, [resetPasswordLoading, resetPasswordSuccess]);
@@ -153,7 +153,7 @@ const ResetPassword = () => {
             if (window.innerWidth <= 575) {
               history.push("/management/report/32");
             } else {
-              history.push("/management/employees");
+              history.push("/employees");
             }
           }}
         >

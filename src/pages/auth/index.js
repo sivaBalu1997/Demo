@@ -18,7 +18,7 @@ const Auth = () => {
       if (window.innerWidth <= 575) {
         history.push("/management/report/32");
       } else {
-        history.replace("/management/employees");
+        history.replace("/employees");
       }
     }
   }, []);
