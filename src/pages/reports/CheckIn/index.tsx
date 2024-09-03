@@ -8,9 +8,9 @@ import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 // import moment from "moment";
-import "./style.scss";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import "./style.scss";
 
 declare namespace CanvasJS {
   interface ChartEventArgs {
@@ -27,8 +27,8 @@ const CheckIn: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [openFilter, setOpenFilter] = useState(false);
   const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
-  // const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  // const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
   // const displayCustomDateRange = () => {
   //   setOpenCustomDateRange((op) => !op);
@@ -249,26 +249,40 @@ const CheckIn: React.FC = () => {
                 </div>
               )}
             </div>
-            {openCustomDateRange && (
-              <div className="date-range-style">
-                <DatePicker
-                  placeholderText="Start Date"
-                  selected={startDate}
-                  onChange={(date: Date) => setStartDate(date)}
-                  dateFormat="dd MMM yyyy"
-                  className="start-date"
-                />
-                <DatePicker
-                  placeholderText="End Date"
-                  selected={endDate}
-                  onChange={(date: Date) => setEndDate(date)}
-                  dateFormat="dd MMM yyyy"
-                  className="end-date"
-                />
-              </div>
-            )}
           </div>
         </div>
+        {openCustomDateRange && (
+          <div className="ch-date-range-style">
+            <label className="ch-dateLabel" htmlFor="ch-start-date">
+              From
+            </label>
+            <DatePicker
+              placeholderText="Start Date"
+              selected={startDate}
+              onChange={(date: Date) => setStartDate(date)}
+              dateFormat="dd MMM yyyy"
+              className="ch-start-date"
+              onSelect={() => setOpenStartDatePicker(false)}
+              onFocus={() => {
+                setOpenStartDatePicker(true);
+              }}
+            />
+            <label className="ch-dateLabel" htmlFor="ch-start-date">
+              To
+            </label>
+            <DatePicker
+              placeholderText="End Date"
+              selected={endDate}
+              onChange={(date: Date) => setEndDate(date)}
+              dateFormat="dd MMM yyyy"
+              className="ch-end-date"
+              onSelect={() => setOpenEndDatePicker(false)}
+              onFocus={() => {
+                setOpenEndDatePicker(true);
+              }}
+            />
+          </div>
+        )}
         <div className="checkin-name-board-two">
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>

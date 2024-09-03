@@ -37,6 +37,9 @@
   // align-items: center;
   gap: 0.5rem;
   width: 80vw;
+  @media (max-width: 500px) {
+    width: 100vw;
+  }
 
   .s-sales-head {
     padding-left: 1.5rem;
@@ -72,6 +75,9 @@
         color: var(--table-text);
         @media (max-width: 800px) {
           font-size: smaller;
+        }
+        @media (max-width: 500px) {
+          display: none;
         }
       }
 
@@ -138,43 +144,8 @@
           }
         }
       }
-
-      .s-date-range-style {
-        position: absolute;
-        top: 150px;
-        display: flex;
-        // gap: 1rem;
-        height: 60px;
-        right: 1rem;
-        justify-content: center;
-        align-items: center;
-
-        .dateLabel {
-          align-items: flex-start;
-          margin-right: 0.5rem;
-          color: var(--table-text);
-        }
-
-        .s-start-date {
-          height: 2rem;
-          width: 9rem;
-          padding: 0.5rem;
-          border-radius: 0.6rem;
-          border-style: thin;
-          margin-right: 1rem;
-        }
-
-        .s-end-date {
-          height: 2rem;
-          width: 9rem;
-          padding: 0.5rem;
-          border-radius: 0.6rem;
-          border-style: thin;
-        }
-      }
     }
   }
-
   .s-canva-pie-chart-outer-cont {
     display: flex;
     width: 71%;
@@ -283,6 +254,42 @@
         // overflow: hidden; /* Hides overflow text */
         // text-overflow: ellipsis; /* Adds "..." at the end */
       }
+    }
+  }
+
+  .s-date-range-style {
+    // position: absolute;
+    // top: 150px;
+    display: flex;
+    // gap: 1rem;
+    height: 60px;
+    right: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+    // background-color: red;
+    padding-right: 1rem;
+
+    .dateLabel {
+      align-items: flex-start;
+      margin-right: 0.5rem;
+      color: var(--table-text);
+    }
+
+    .s-start-date {
+      height: 2rem;
+      width: 9rem;
+      padding: 0.5rem;
+      border-radius: 0.6rem;
+      border-style: thin;
+      margin-right: 1rem;
+    }
+
+    .s-end-date {
+      height: 2rem;
+      width: 9rem;
+      padding: 0.5rem;
+      border-radius: 0.6rem;
+      border-style: thin;
     }
   }
 

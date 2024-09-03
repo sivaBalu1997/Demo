@@ -5,15 +5,19 @@ import "react-datepicker/dist/react-datepicker.css";
 import Table from "../../../components/reportComponents/Table";
 import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeData";
 // import moment from "moment";
-import "./style.scss";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import "./style.scss";
 
 const EmployeeInsights: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [openFilter, setOpenFilter] = useState(false);
+
+  const [openStartDatePicker, setOpenStartDatePicker] =
+    useState<boolean>(false);
+  const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -91,26 +95,40 @@ const EmployeeInsights: React.FC = () => {
                 </div>
               )}
             </div>
-            {openCustomDateRange && (
-              <div className="date-range-style">
-                <DatePicker
-                  placeholderText="Start Date"
-                  selected={startDate}
-                  onChange={(date: Date) => setStartDate(date)}
-                  dateFormat="dd MMM yyyy"
-                  className="start-date"
-                />
-                <DatePicker
-                  placeholderText="End Date"
-                  selected={endDate}
-                  onChange={(date: Date) => setEndDate(date)}
-                  dateFormat="dd MMM yyyy"
-                  className="end-date"
-                />
-              </div>
-            )}
           </div>
         </div>
+        {openCustomDateRange && (
+          <div className="e-date-range-style">
+            <label className="e-dateLabel" htmlFor="e-start-date">
+              From
+            </label>
+            <DatePicker
+              placeholderText="Start Date"
+              selected={startDate}
+              onChange={(date: Date) => setStartDate(date)}
+              dateFormat="dd MMM yyyy"
+              className="e-start-date"
+              onSelect={() => setOpenStartDatePicker(false)}
+              onFocus={() => {
+                setOpenStartDatePicker(true);
+              }}
+            />
+            <label className="e-dateLabel" htmlFor="e-end-date">
+              To
+            </label>
+            <DatePicker
+              placeholderText="End Date"
+              selected={endDate}
+              onChange={(date: Date) => setEndDate(date)}
+              dateFormat="dd MMM yyyy"
+              className="e-end-date"
+              onSelect={() => setOpenEndDatePicker(false)}
+              onFocus={() => {
+                setOpenEndDatePicker(true);
+              }}
+            />
+          </div>
+        )}
         <div className="name-board-two">
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>

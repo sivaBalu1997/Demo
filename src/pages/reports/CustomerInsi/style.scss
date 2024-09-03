@@ -43,7 +43,7 @@
       align-items: center;
       color: var(--table-text);
 
-      h1{
+      h1 {
         font-size: 21px;
         font-weight: 500;
       }
@@ -109,24 +109,6 @@
           }
         }
       }
-      .date-range-style {
-        display: flex;
-        gap: 2rem;
-        .start-date {
-          height: 2rem;
-          width: 7rem;
-          padding: 0.5rem;
-          border-radius: 1rem;
-          border-style: thin;
-        }
-        .end-date {
-          height: 2rem;
-          width: 7rem;
-          padding: 0.5rem;
-          border-radius: 1rem;
-          border-style: thin;
-        }
-      }
     }
   }
   .employee-details-container {
@@ -136,13 +118,52 @@
     justify-content: center;
     align-items: center;
   }
+  .ci-date-range-style {
+    // position: absolute;
+    // top: 150px;
+    display: flex;
+    // gap: 1rem;
+    height: 60px;
+    // right: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+    // background-color: red;
+    padding-right: 1rem;
+    width: 100%;
+
+    .ci-dateLabel {
+      align-items: flex-start;
+      margin-right: 0.5rem;
+      color: var(--table-text);
+    }
+
+    .ci-start-date {
+      height: 2rem;
+      width: 9rem;
+      padding: 0.5rem;
+      border-radius: 0.6rem;
+      border-style: thin;
+      margin-right: 1rem;
+    }
+
+    .ci-end-date {
+      height: 2rem;
+      width: 9rem;
+      padding: 0.5rem;
+      border-radius: 0.6rem;
+      border-style: thin;
+    }
+    @media (max-width: 500px) {
+      justify-content: center;
+    }
+  }
   .name-board-two {
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--table-text);
 
-    h1{
+    h1 {
       font-size: 21px;
       font-weight: 600;
       margin-bottom: 30px;

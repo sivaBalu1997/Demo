@@ -247,66 +247,66 @@ const Sales: React.FC = () => {
                 </div>
               )}
             </div>
-            {state.openCustomDateRange && (
-              <div className="s-date-range-style">
-                <label className="dateLabel" htmlFor="s-start-date">
-                  From
-                </label>
-                <DatePicker
-                  placeholderText="Start Date"
-                  selected={state.startDate}
-                  onChange={(date: Date | null) =>
-                    date &&
-                    setState((prevState) => ({ ...prevState, startDate: date }))
-                  }
-                  dateFormat="dd MMM yyyy"
-                  className="s-start-date"
-                  // open={state.openStartDatePicker}
-                  onSelect={() =>
-                    setState((prevState) => ({
-                      ...prevState,
-                      openStartDatePicker: false,
-                    }))
-                  }
-                  onFocus={() => {
-                    setState((prevState) => ({
-                      ...prevState,
-                      openStartDatePicker: true,
-                      // openEndDatePicker: true,
-                    }));
-                  }}
-                />
-                <label className="dateLabel" htmlFor="s-end-date">
-                  To
-                </label>
-                <DatePicker
-                  placeholderText="End Date"
-                  selected={state.endDate}
-                  onChange={(date: Date | null) =>
-                    date &&
-                    setState((prevState) => ({ ...prevState, endDate: date }))
-                  }
-                  dateFormat="dd MMM yyyy"
-                  className="s-end-date"
-                  // open={state.openEndDatePicker}
-                  onSelect={() =>
-                    setState((prevState) => ({
-                      ...prevState,
-                      openEndDatePicker: false,
-                    }))
-                  }
-                  onFocus={() => {
-                    setState((prevState) => ({
-                      ...prevState,
-                      // openStartDatePicker: true,
-                      openEndDatePicker: true,
-                    }));
-                  }}
-                />
-              </div>
-            )}
           </div>
         </div>
+        {state.openCustomDateRange && (
+          <div className="s-date-range-style">
+            <label className="dateLabel" htmlFor="s-start-date">
+              From
+            </label>
+            <DatePicker
+              placeholderText="Start Date"
+              selected={state.startDate}
+              onChange={(date: Date | null) =>
+                date &&
+                setState((prevState) => ({ ...prevState, startDate: date }))
+              }
+              dateFormat="dd MMM yyyy"
+              className="s-start-date"
+              // open={state.openStartDatePicker}
+              onSelect={() =>
+                setState((prevState) => ({
+                  ...prevState,
+                  openStartDatePicker: false,
+                }))
+              }
+              onFocus={() => {
+                setState((prevState) => ({
+                  ...prevState,
+                  openStartDatePicker: true,
+                  // openEndDatePicker: true,
+                }));
+              }}
+            />
+            <label className="dateLabel" htmlFor="s-end-date">
+              To
+            </label>
+            <DatePicker
+              placeholderText="End Date"
+              selected={state.endDate}
+              onChange={(date: Date | null) =>
+                date &&
+                setState((prevState) => ({ ...prevState, endDate: date }))
+              }
+              dateFormat="dd MMM yyyy"
+              className="s-end-date"
+              // open={state.openEndDatePicker}
+              onSelect={() =>
+                setState((prevState) => ({
+                  ...prevState,
+                  openEndDatePicker: false,
+                }))
+              }
+              onFocus={() => {
+                setState((prevState) => ({
+                  ...prevState,
+                  // openStartDatePicker: true,
+                  openEndDatePicker: true,
+                }));
+              }}
+            />
+          </div>
+        )}
         <div className="s-name-board-two">
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>

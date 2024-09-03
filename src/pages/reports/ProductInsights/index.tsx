@@ -34,9 +34,9 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const [openCustomDateRange, setOpenCustomDateRange] =
     useState<boolean>(false);
 
-  // const [openStartDatePicker, setOpenStartDatePicker] =
-  //   useState<boolean>(false);
-  // const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
+  const [openStartDatePicker, setOpenStartDatePicker] =
+    useState<boolean>(false);
+  const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
 
   // const displayCustomDateRange = () => {
   //   setOpenCustomDateRange((op) => !op);
@@ -193,26 +193,40 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
                 </div>
               )}
             </div>
-            {openCustomDateRange && (
-              <div className="p-date-range-style">
-                <DatePicker
-                  placeholderText="Start Date"
-                  selected={startDate}
-                  onChange={(date: Date) => setStartDate(date)}
-                  dateFormat="dd MMM yyyy"
-                  className="p-start-date"
-                />
-                <DatePicker
-                  placeholderText="End Date"
-                  selected={endDate}
-                  onChange={(date: Date) => setEndDate(date)}
-                  dateFormat="dd MMM yyyy"
-                  className="p-end-date"
-                />
-              </div>
-            )}
           </div>
         </div>
+        {openCustomDateRange && (
+          <div className="p-date-range-style">
+            <label className="p-dateLabel" htmlFor="p-start-date">
+              From
+            </label>
+            <DatePicker
+              placeholderText="Start Date"
+              selected={startDate}
+              onChange={(date: Date) => setStartDate(date)}
+              dateFormat="dd MMM yyyy"
+              className="p-start-date"
+              onSelect={() => setOpenStartDatePicker(false)}
+              onFocus={() => {
+                setOpenStartDatePicker(true);
+              }}
+            />
+            <label className="p-dateLabel" htmlFor="p-end-date">
+              To
+            </label>
+            <DatePicker
+              placeholderText="End Date"
+              selected={endDate}
+              onChange={(date: Date) => setEndDate(date)}
+              dateFormat="dd MMM yyyy"
+              className="p-end-date"
+              onSelect={() => setOpenEndDatePicker(false)}
+              onFocus={() => {
+                setOpenEndDatePicker(true);
+              }}
+            />
+          </div>
+        )}
         <div className="p-location-name">
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>

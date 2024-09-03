@@ -30,6 +30,9 @@
   flex-direction: column;
   gap: 0.5rem;
   width: 80vw;
+  @media (max-width: 500px) {
+    width: 100vw;
+  }
   .genai-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;

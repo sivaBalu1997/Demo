@@ -32,6 +32,9 @@
   // justify-content: center;
   // align-items: center;
   gap: 0.5rem;
+  @media (max-width: 500px) {
+    width: 100vw !important;
+  }
   .employee-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -103,6 +106,7 @@
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
           z-index: 999;
           border-radius: 1rem;
+          text-align: center;
           @media (max-width: 800px) {
             width: 5rem;
             font-size: x-small;
@@ -120,24 +124,6 @@
           }
         }
       }
-      .date-range-style {
-        display: flex;
-        gap: 2rem;
-        .start-date {
-          height: 2rem;
-          width: 7rem;
-          padding: 0.5rem;
-          border-radius: 1rem;
-          border-style: thin;
-        }
-        .end-date {
-          height: 2rem;
-          width: 7rem;
-          padding: 0.5rem;
-          border-radius: 1rem;
-          border-style: thin;
-        }
-      }
     }
   }
   .employee-details-container {
@@ -146,6 +132,45 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .e-date-range-style {
+    // position: absolute;
+    // top: 150px;
+    display: flex;
+    // gap: 1rem;
+    height: 60px;
+    right: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+    // background-color: red;
+    padding-right: 1rem;
+    width: 100%;
+
+    .e-dateLabel {
+      align-items: flex-start;
+      margin-right: 0.5rem;
+      color: var(--table-text);
+    }
+
+    .e-start-date {
+      height: 2rem;
+      width: 9rem;
+      padding: 0.5rem;
+      border-radius: 0.6rem;
+      border-style: thin;
+      margin-right: 1rem;
+    }
+
+    .e-end-date {
+      height: 2rem;
+      width: 9rem;
+      padding: 0.5rem;
+      border-radius: 0.6rem;
+      border-style: thin;
+    }
+    @media (max-width: 500px) {
+      justify-content: center;
+    }
   }
   .name-board-two {
     display: flex;
