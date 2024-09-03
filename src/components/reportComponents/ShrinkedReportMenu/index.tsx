@@ -2,6 +2,7 @@
 // import "./style.scss";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import "./style.scss";
 
 type NavItemType = {
@@ -23,34 +24,33 @@ const ShrinkedReportMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const history = useHistory();
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
-  const handleNavItemClick = (path: string) => {
+  const handleNavClick = (path: string) => {
     history.push(path);
-    setIsOpen(false); // Close the menu after navigation
+    setIsOpen(false); // Close menu after navigation
   };
 
   return (
-    <div className="hamburger-menu">
-      <button className="hamburger-menu__button" onClick={toggleMenu}>
-        <span className="hamburger-menu__icon"></span>
-        <span className="hamburger-menu__icon"></span>
-        <span className="hamburger-menu__icon"></span>
-      </button>
-      <div className={`hamburger-menu__overlay ${isOpen ? "open" : ""}`}>
-        <ul className="hamburger-menu__list">
-          {navItems.map((item) => (
-            <li key={item.path} className="hamburger-menu__item">
-              <button
-                onClick={() => handleNavItemClick(item.path)}
-                className="hamburger-menu__link"
-              >
-                {item.name}
-              </button>
-            </li>
-          ))}
-        </ul>
+    <div className="r-hamburger-menu">
+      <div className="r-hamburger-icon" onClick={toggleMenu}>
+        &#9776; {/* Hamburger icon */}
       </div>
+      {isOpen && (
+        <div className="r-menu">
+          {navItems.map((item, index) => (
+            <div
+              key={index}
+              className="r-menu-item"
+              onClick={() => handleNavClick(item.path)}
+            >
+              {item.name}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

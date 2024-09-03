@@ -33,6 +33,12 @@
   z-index: 2;
   width: 80vw;
   align-items: center;
+  @media (max-width: 800px) {
+    justify-content: space-between;
+    width: 80vw;
+    // padding-left: 1rem;
+    // padding-right: 1rem;
+  }
 
   .t-nav-item {
     font-size: 16px;
@@ -47,12 +53,18 @@
     &:hover {
       color: var(--t-table-text);
     }
-    hr{
+    hr {
       height: 2px;
-      color:  var(--t-table-text);
+      color: var(--t-table-text);
       border-radius: 5px;
       background-color: var(--t-table-text);
       margin: 0px;
+    }
+    @media (max-width: 800px) {
+      display: none;
+    }
+    @media (max-width: 500px) {
+      display: none;
     }
   }
 
@@ -153,4 +165,3 @@
     }
   }
 }
-
