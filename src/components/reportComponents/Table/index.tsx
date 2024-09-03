@@ -276,14 +276,14 @@ const Table = ({
               <li className="t-page-item">
                 {isDarkTheme ? (
                   <img
-                    className="t-leftArrow"
+                    className="t-rightArrow"
                     src={blackarrow}
                     alt="next"
                     onClick={nextPage}
                   />
                 ) : (
                   <img
-                    className="t-leftArrow"
+                    className="t-rightArrow"
                     src={arrow}
                     alt="next"
                     onClick={nextPage}
