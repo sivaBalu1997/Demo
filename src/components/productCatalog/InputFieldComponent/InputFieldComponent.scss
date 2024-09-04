@@ -1,0 +1,48 @@
+.input-and-spantext
+{
+    width: 20rem;
+    height: 2.8rem;
+    // border: 1px solid red;
+   position: relative;
+   text-align: center;
+}
+.Input-Filed
+{
+    width: 18.9rem;
+    height: 2.5rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.875rem;
+    padding-left: 0.625rem;
+    border-radius: 0.313rem;
+    color: #979797;
+    font-weight: 400;
+    // border: 0.063rem solid #000000;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    position: relative;
+    &:focus
+    {
+        outline: none;
+    }
+    
+
+
+}
+.Input-Field-Error-message{
+    font-family: "Poppins", sans-serif;
+font-size: 14px;
+font-weight: 400;
+line-height: 21px;
+text-align: left;
+color: #E52333;
+
+}
+.placeholder
+    {
+       position: absolute;
+       right: 4%;
+       color: #979797;
+       font-weight: 400;
+       top: 20%;
+       font-size: 0.875rem;
+      
+    }

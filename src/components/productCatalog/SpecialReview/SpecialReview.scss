@@ -1,0 +1,367 @@
+
+
+/* {-----------------Heading-----------------------------------------------------} */
+
+.Special-Review-Container{
+    position: absolute;
+    top: 420px;
+    left: 0px;
+    
+    // border: 2px solid red;
+    width: 600px;
+    height: auto;
+}
+
+.Available-Service-Streams-container{
+    width: 600px;
+    // border: 2px solid green;
+    margin-bottom: 5px;
+    height: auto;
+
+}
+
+.Available-Service-Streams-heading{
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* {--------------From to container----------------------------------------------------------------} */
+
+.from-to-container-Special{
+    width: 300px;
+    display: flex;
+    justify-content: space-evenly;
+    // border: 2px solid grey; 
+    gap: 50px;
+    margin-left: -30px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.from-to-container-Special-column{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+   
+}
+
+.Available-Service-Streams-label-heading{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #979797;
+   
+}
+
+.Available-Service-Streams-date-heading{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+
+    position: relative;
+    top: -20px;
+}
+
+
+.Available-Days-Heading-Container{
+    width:400px ;
+    display: flex;
+  margin-left: -17px;
+    flex-direction: column;
+    margin-top: -70px;
+    
+
+}
+
+.Available-days-heading{
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    margin-left: 25px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+
+
+}
+
+// {/* ----------------------------{/Dine In/}------------------------------------ */}
+
+
+.dinein-review-container{
+    width: 400px;
+    height: auto;
+    // border: 2px solid yellow;
+    margin-bottom: 40px;
+    margin-top: 30px;
+    margin-left: -22px;
+}
+
+.Dine-in-Heading{
+
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.dine-in-items-container{
+    width: 400px;
+    display: flex;
+    justify-content: space-around;
+    margin-left: 11px;
+    
+
+}
+
+.dine-in-items-container-heading{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 21px;
+    margin-top: -1px;
+    margin-left: 27px;
+    
+    
+
+}
+
+.dine-in-items-container-column{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dine-in-items-label{
+    transform: translateX(4px);
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    margin-top: -10px;
+    margin-left: 23px;
+}
+
+
+//   {/* ----------------------------Online------------------------------------ */}
+
+.Online-review-container{
+
+    width: 400px;
+    height: auto;
+    // border: 2px solid orange;
+    margin-top: -10px;
+    margin-left: -22px;
+
+}
+
+
+.online-heading-special{
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    margin-left: 30px;
+    
+}
+
+
+// {----------------------------------Pickup-----------------------------------------------------}
+
+.Pickup-Heading{
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    margin-left: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pickup-items-container{
+    width: 400px;
+    display: flex;
+    margin-top: -10px;
+    justify-content: space-around;
+    gap: 20px;
+    margin-left: 15px;
+    // border: 1px solid red;
+
+  
+    
+
+
+
+}
+.pick-up-container-column
+{
+    display: flex;
+    flex-direction: column;
+      gap: 20px;
+      margin-left: 25px;
+
+
+
+}
+
+.pick-up-container-heading{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 21px;
+    margin-top: -1px;
+    margin-left: -1px;
+    // width: 200px;
+    // border: 1px solid red;
+    
+
+}
+.pickupselling
+{
+    width: 200px;
+   
+}
+.pickupservicetime
+{
+position: relative;
+left: 8px;
+}
+
+.pick-up-items-label{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    margin-top: -10px;  
+
+
+}
+
+
+
+    //   {/* {----------------------------------Delivery--------------------------------------------} */}
+
+    .Special-Heading{
+        font-family: Poppins;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    margin-left: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+
+    }
+    .Special-Heading1{
+        font-family: Poppins;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 21px;
+        margin-left: 45px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+    }
+
+    .special-container{
+        width: 400px;
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;  
+    margin-left: 20px;
+    // border: 1px solid red;
+    
+   
+
+
+    }
+
+
+    .special-container-column{
+        display: flex;
+        flex-direction: column;
+        margin-top: -10px;
+        gap: 20px;
+        margin-left: 25px;
+
+    }
+.Special-container-heading{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 21px;
+    margin-top: -1px;
+    margin-left: -1px;
+ 
+    // border: 1px solid red;
+
+
+}
+.deliveryselling
+{
+    width: 200px;
+}
+
+.special-items-label{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    margin-top: -10px;  
+
+}
+.special-container-thirdparty
+{
+    width: 400px;
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;  
+    margin-top: -10px;
+    margin-left: 25px;
+    // border: 1px solid red;
+}
+
+
+
+ .special-container-column-thirdparty{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-left: 20px;
+
+    }
+.Special-container-heading-thirdparty{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 21px;
+    margin-top: -1px;
+    margin-left: -1px;
+    // border: 1px solid red;
+
+
+}
+.thirdpartyselling
+{
+    width: 200px;
+}
+
+
+.special-items-label-thirdparty{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    margin-top: -10px;  
+
+}

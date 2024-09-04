@@ -1,0 +1,644 @@
+.reviewpage {
+    position: relative;
+    top: 65px;
+    margin-left: -20px;
+  
+    width: 133%;
+    height: 620px;
+    overflow-y: auto;
+    // border: 1px solid red;
+    .buttoncomponent
+    {
+      position: relative;
+      // left: 20px;
+      
+    }
+  }
+  .reviewpagebody
+  {
+    
+  }
+  
+  .reviewheading {
+    width: 133%;
+    height: 50px;
+    position: relative;
+    top: 65px;
+  
+  
+    border-bottom: 1px solid #c4c4c4;
+  
+    p {
+      font-family: Poppins;
+      font-size: 24px;
+      font-weight: 500;
+      color: #67833e;
+    }
+  }
+  .primaryreview{
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid #c4c4c4;
+      width: 100%;
+      margin-left: 20px;
+      // width: 800px;
+    // height: 600px;
+    // border: 1px solid red;
+    // overflow-y: auto;
+      // height: 650px;
+  }
+  
+  .primaryreviewdetailspart1 {
+    display: flex;
+    flex-direction: column;
+    width: 550px;
+    height: 600px;
+    // border: 1px solid black;
+    position: relative;
+  
+    .primaryreviews
+    {
+      display: flex;
+      flex-direction: row;
+    }
+  
+    .primaryreviewheading {
+      width: 199px;
+      height: 27px;
+      position: relative;
+      top: 24px;
+  
+      p {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+  
+  
+    .primaryreviewdetails
+    {
+      display: flex;
+      flex-direction: row;
+      width: 500px;
+      height: 500px;
+      // border: 1px solid black;
+      position: relative;
+      top: 50px;
+   
+  
+      .primaryreviewdetails1
+      {
+          width: 200px;
+          height: 580px;
+          // border: 1px solid black;
+          div{
+              // margin-top: 30px;
+              p{
+  //                 font-family: "Poppins",sans-serif;
+  // font-size: 12px;
+  // font-weight: 400;
+  // color: #6E6E6E;
+  
+              }
+  
+              span{
+  //                 font-family: "Poppins",sans-serif;
+  // font-size: 14px;
+  // font-weight: 400;
+  // color: #000000;
+  // position: relative;
+  // top: 5px;
+  
+              }
+          }
+  
+         
+  
+      }
+      .primaryreviewdetails2{
+          width: 200px;
+          height: 580px;
+          // border: 1px solid black;
+          position: relative;
+          left: 70px;
+          top: -2px;
+  
+          div{
+              // margin-top: 30px;
+  //             p{
+  //                 font-family: "Poppins",sans-serif;
+  // font-size: 12px;
+  // font-weight: 400;
+  // color: #6E6E6E;
+  
+  //             }
+  
+  //             span{
+  //                 font-family: "Poppins",sans-serif;
+  // font-size: 14px;
+  // font-weight: 400;
+  // color: #000000;
+  // position: relative;
+  // top: 5px;
+  
+  //             }
+          }
+  
+      }
+  
+  
+    }
+  
+  
+  }
+  .primaryreviewdetailspart2{
+      width: 500px;
+      height: 580px;
+      // border: 1px solid black;
+      position: relative;
+      
+      left: 30px;
+      .primarypageedit{
+          position: relative;
+          top:24px;
+          width: 50px;
+          height: 40px;
+          // border: 1px solid red;
+          display: flex;
+          flex-direction: row;
+          cursor: pointer;
+          text-decoration: none;
+        
+        margin-left: 450px;
+        .link
+        {
+          list-style: none;
+          text-decoration: none;
+          color: #67833E;
+          cursor: pointer;
+        }
+        img{
+          width: 16px;
+          height: 16px;
+          cursor: pointer;
+        }
+  
+          p{
+          //    margin-right: 10px;
+          position: relative;
+          font-family: "Poppins",sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #67833E;
+  top: -5px;
+  left: 5px;
+  
+        
+  
+              
+          }
+  
+      }
+  
+  
+      .primaryimages{
+          width: 500px;
+          height: 215px;
+          // border: 1px solid green;
+          position: relative;
+          top: 30px;
+          bottom: 10px;
+          p{
+              font-family: "Poppins",sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #6E6E6E;
+  margin-bottom: 5px;
+  margin-top: 0.5rem;
+  
+          }
+  
+         .images{
+          width: 500px;
+      min-height: 190px;
+          // border: 1px solid black;
+          position: relative;
+          margin-left: 20px;
+          margin-top: 10px;
+          img{
+              width: 65px;
+                      height: 65px;
+                  border-radius: 50px;
+                  margin-left: -10px;
+  
+          }
+          .selectediagelist{
+              display: flex;
+              flex-direction: row;
+              // border: 1px solid red;
+              margin-top: 10px;
+             
+              li{
+                  padding-right: 30px;
+                  img{
+                      margin-left: -10px;
+                      width: 65px;
+                      height: 65px;
+                      border-radius: 50px;
+                  }
+              }
+              
+          }
+  
+          
+         
+  
+         }
+      }
+      .primarydescription{
+          width: 500px;
+          height: 75px;
+          // border: 1px solid red;
+      
+       position: relative;
+       top: 35px;
+    
+        
+         p{
+          font-family: "Poppins",sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  color: #6E6E6E;
+  
+  
+         }
+         .description{
+          width: 500px;
+          height:70 ;
+          flex-wrap: wrap;
+          overflow-y: auto;
+        
+          p{
+              font-family: "Poppins",sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  
+  
+  
+          }
+         }
+  
+  
+  
+      }
+      .primarybestpairedfood{
+          width: 500px;
+          height: 75px;
+          // border: 1px solid yellowgreen;
+       position: relative;
+         top: 35px;
+        
+         P{
+          font-family: "Poppins",sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #6E6E6E;
+  margin-bottom: 5px;
+  
+         }
+  
+         .bestpairfoods{
+          p{
+              font-family: "Poppins",sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  
+          }
+         }
+  
+  
+  
+  
+      }
+      .allergensandingredients{
+          display: flex;
+          flex-direction: row;
+        
+          width: 500px;
+          height: 105px;
+          // border: 1px solid black;
+          position: relative;
+          top: 35px;
+          margin-bottom: 5px;
+      
+         
+          
+  
+  
+          .ingredients
+          {
+            font-family: Poppins;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+            text-align: left;
+            color: #6E6E6E;
+            
+          }
+          .allergen
+          {
+            font-family: Poppins;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 18px;
+            text-align: left;
+            color: #6E6E6E;
+            position: relative;
+            left: 5%;
+  
+          }
+  
+  
+  
+      }
+  
+  
+  
+    }
+    .pricinganditemcustomize{
+      width: 75%;
+      height: 500px;
+      // border: 1px solid red;
+    }
+    .imagesallergens{
+      display: flex;
+     flex-wrap: wrap;
+     overflow-y: auto;
+     height: 100px;
+  
+     &::-webkit-scrollbar{
+      display:none;
+     }
+     
+  
+      .selectedallergensimage{
+  
+        width: auto;
+        height: 35px;
+        // border: 1px solid red;
+        display: flex;
+        text-align: center;
+        margin-right: 30px;
+        margin-top: 20px;
+     
+  
+        img{
+          position: relative;
+         width: 24px;
+         height: 24px;
+         
+       
+        }
+        span{
+        
+  font-size: 12px;
+  font-weight: 400;
+  position: relative;
+  left: 5px;
+  
+        }
+  
+      }
+    }
+  
+    .imagesingredients{
+      display: flex;
+      // flex-direction: row;
+      flex-wrap: wrap;
+      overflow-y: auto;
+      height: 100px;
+  
+      &::-webkit-scrollbar{
+        display: none;
+      }
+  
+     
+  
+      .selectedingredientsimage{
+  
+        width: auto;
+        height: 35px;
+        // border: 1px solid red;
+        display: flex;
+        text-align: center;
+        // position: relative;
+       margin-right: 30px;
+  
+       margin-top: 20px;
+     
+  
+        img{
+          position: relative;
+         width: 24px;
+         height: 24px;
+         
+       
+        }
+        span{
+        
+  font-size: 12px;
+  font-weight: 400;
+  position: relative;
+  left: 5px;
+  
+        }
+  
+      }
+    }
+  
+  
+    .pricingdetails {
+      display: flex;
+      flex-direction: column;
+      width: 550px;
+      height: 600px;
+      // border: 1px solid black;
+      position: relative;
+    
+      .pricingreviews
+      {
+        display: flex;
+        flex-direction: row;
+      }
+    
+      .pricingdetailsheading {
+        width: 399px;
+        height: 27px;
+        position: relative;
+        top: 24px;
+    
+        p {
+          font-size: 18px;
+          font-weight: 500;
+        }
+      }
+    
+    
+      .pricingreviewdetails
+      {
+        display: flex;
+        flex-direction: row;
+        width: 500px;
+        height: 580px;
+        // border: 1px solid black;
+        position: relative;
+        top: 20px;
+     
+    
+        .pricingdetailsdetails1
+        {
+            width: 200px;
+            height: 580px;
+            // border: 1px solid black;
+            div{
+                margin-top: 30px;
+                p{
+                    font-family: "Poppins",sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #6E6E6E;
+    
+                }
+    
+                span{
+                    font-family: "Poppins",sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+    position: relative;
+    top: 5px;
+    
+                }
+            }
+    
+           
+    
+        }
+       
+    
+    
+      }
+    
+    
+    }
+  
+    .verticalLine{
+       width: 1px; 
+       height: 201%;
+       background-color: #C4C4C4; 
+       position:relative; 
+       top:160%; 
+       left:-479px ;
+    }
+  
+  
+    .Edit-heading{
+      margin-left: 5px;
+    }
+    .saveandnextreview
+  {
+      width: 100%;
+  height: auto;
+  
+  display: flex;
+  flex-direction: row;
+  
+  // margin-left: 20px;
+  // border: 1px solid red;
+  position: relative;
+  top: 96px;
+  // border: 1px solid red;
+  padding-top: 35px;
+  padding-bottom: 35px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 3px 0px 10px 0px #00000040;
+  
+  
+  .clearall
+  {
+  
+    width:200px;
+  height: 44px;
+  padding: 10px 14px 10px 14px;
+  gap: 10px;
+  border-radius: 4px;
+  opacity: 0px;
+  background: white;
+  color: #67833E;
+  border: 1px solid #67833E;
+  
+  font-size: 16px;
+  font-weight: 500;
+  margin-left:35%;
+  
+  
+  
+  
+  
+  }
+  .clearall1
+  {
+  
+    width:200px;
+  height: 44px;
+  padding: 10px 14px 10px 14px;
+  gap: 10px;
+  border-radius: 4px;
+  opacity: 0px;
+  background: white;
+  color: #67833E;
+  border: 1px solid #67833E;
+  
+  font-size: 16px;
+  font-weight: 500;
+  margin-left:50%;
+  
+  
+  
+  
+  
+  }
+  .saveall
+  {
+      border: none;
+      width:200px;
+     margin-left: 10px;
+      height: 44px;
+      padding: 10px 14px 10px 14px;
+      gap: 10px;
+      border-radius: 4px ;
+      opacity: 0px;
+      background: #67833E;
+      color: white;
+  
+     
+  font-size: 16px;
+  font-weight: 500;
+  
+  
+      
+  
+  }
+  }
+  .buttoncomponentreview{
+    width: 100%;
+    margin-top: 85%;
+  
+    
+  
+  }

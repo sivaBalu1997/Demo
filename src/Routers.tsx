@@ -16,7 +16,7 @@ import Payment from 'pages/payment'
 import ReviewMenu from 'pages/reviewMenu'
 import StickWithUs from './pages/billing/stickWithUs'
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import CustomerInsights from 'pages/reports/CustomerInsights'
 import Sales from 'pages/reports/Sales'
 import ProductInsights from 'pages/reports/ProductInsights'
@@ -36,6 +36,14 @@ import MenuCustomization from 'pages/menuCustomization'
 import AddCustomizationInput from 'pages/menuCustomization/AddCustomizationInput'
 import NotFound from 'pages/notFound'
 import SidePanel from 'pages/SidePanel'
+import { Menulisting } from 'pages/productCatalog/Menulisting/Menulisting'
+import PrimaryDetailsReviewpage from 'pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage'
+import Navigationpage from 'components/productCatalog/Navigation/NavigationPage'
+import PrimaryPage from 'pages/productCatalog/PrimaryPage/PrimaryPage'
+import PricingDetails from 'pages/productCatalog/PricingDetalis/PricingDetails'
+import ItemCustomizations from 'pages/productCatalog/itemCustomization/ItemCustomizations'
+import MainPage from 'pages/productCatalog/MainPage/MainPage'
+import { Contextpage } from 'pages/productCatalog/contextpage'
 
 const Routers = ()  =>  {
   return (
@@ -78,6 +86,8 @@ const Routers = ()  =>  {
         <Route exact path="/menu/Items/Add" component={AddItem} />
         <Route exact path="/menu/Items/update/:itemId" component={AddItem} />
 
+        <Route path="/productCatalog" component={MainPage} />
+
         <ThemeProvider>
           <Route exact path="/live-reports" component={CustomerInsights} />
           <Route exact path="/sales" component={Sales} />
@@ -87,6 +97,8 @@ const Routers = ()  =>  {
           <Route exact path="/gen-ai-reports" component={GenAiReports} />
           <Route exact path="/customer-insights" component={CustIns}/>
         </ThemeProvider>
+
+
       </Switch>
   )
 }

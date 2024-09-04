@@ -7,6 +7,8 @@ import { clearMenuData } from "./redux/menu/menuAction";
 import { ToastContainer } from "react-toastify";
 import { RootState } from "./redux/rootReducer";
 import Routers from './Routers'
+import { Contextpage } from "pages/productCatalog/contextpage";
+import MainPage from "pages/productCatalog/MainPage/MainPage";
 
 interface Credentials {
   accessToken: string

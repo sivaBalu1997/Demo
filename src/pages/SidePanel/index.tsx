@@ -28,11 +28,11 @@ const SidePanel = () => {
 
   const history = useHistory();
 
-  useEffect(() => {
-    if (window.innerWidth <= 575) {
-      history.push(`/management/report/32`);
-    }
-  }, [history]);
+  // useEffect(() => {
+  //   if (window.innerWidth <= 575) {
+  //     history.push(`/management/report/32`);
+  //   }
+  // }, [history]);
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -121,7 +121,7 @@ const SidePanel = () => {
               <select
                 className="branch-dropdown"
                 disabled={
-                  location.pathname?.includes("/management/employees/add") ||
+                  location.pathname?.includes("/employees/add") ||
                   restaurantDetails?.branch?.length == 1 ||
                   (UserRole !== "Restaurant_Owner" &&
                     UserRole !== "Regional_Employee" &&
@@ -176,7 +176,7 @@ const SidePanel = () => {
               showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
             }
             onClick={() => {
-              history.push("/menu/Items");
+              history.push("/productCatalog");
               if (showOptions === "MenuOptions") {
                 setShowOptions("");
               } else {
@@ -191,7 +191,7 @@ const SidePanel = () => {
                   <li style={{ marginBottom: 0 }} />
                 ) : null}
                 <Tableware className="menu-items-SVG" />
-                <span className="menu-items-name">Menu</span>
+                <span className="menu-items-name">Product Catalog</span>
               </div>
             }
 

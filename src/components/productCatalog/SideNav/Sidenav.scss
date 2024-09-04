@@ -1,0 +1,201 @@
+*{
+  margin: 0;
+  padding: 0;
+  // width: 100%;
+}
+.container-sidenav{
+    display: flex;
+    justify-content: start;
+    // position: fixed;
+   
+    // border: 1px solid red;
+    
+   
+}
+.sidebar {
+  
+  width: 50px;
+  height: 670px;
+  padding: 20px;
+  // border: 1px solid red;
+  transition: width 0.6s ease;
+  overflow: hidden; /* Ensure content doesn't overflow during transition */
+  }
+
+  .sidebar.expanded {
+    width: 250px; /* Expanded width */
+  }
+
+.flexSidenav{
+    display: flex;
+    justify-content: start;
+    
+}
+
+
+.flexcol{
+    margin-bottom: 50px;
+    margin-left: 10px;
+    z-index: 100;
+
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0px;
+    cursor: pointer;
+  }
+.imgNavbar{
+    width: 24px;
+    height: 22px;
+    position: relative;
+}
+
+.sidebar:nth-child(0) {
+    width: 20px ;
+  }
+  
+ .logo{
+    width:76px;
+    height: 76px;
+    position: relative;
+    top: -2px;
+    left: -15px;
+    margin-bottom: 40px;
+    margin-top: 10px;
+
+
+ }
+
+ .logo1{
+  height: 76px;
+  position: relative;
+  top: -2px;
+  left: -5px;
+  margin-bottom: 40px;
+  margin-top: 10px;
+
+
+}
+
+ .vertical-line-navbar{
+   width: 0.1px;
+    height: 740px;
+    border: 0.5px solid #D9D9D9;
+    position: relative;
+   
+ }
+
+ .btn-nav{
+  width: 13px;
+  height: 15px;
+  color: black;
+  text-decoration: none;
+  font-size: 10px;
+  background-color: #67833E;
+  border-radius: 50%;
+  padding: 5px;
+  color: #D9D9D9;
+  position: relative;
+  top: 101px;
+  left: -12px;
+  cursor: pointer;
+  
+
+
+ }
+
+ .btn-nav1{
+  width: 13px;
+  height: 15px;
+  color: black;
+  text-decoration: none;
+  font-size: 10px;
+  background-color: #67833E;
+  border-radius: 50%;
+  padding: 5px;
+
+  color: #D9D9D9;
+  position: relative;
+  top: 101px;
+  left: -12px;
+  cursor: pointer;
+  transform: rotate(180deg);
+
+
+
+}
+
+ .NavName{
+    font-size: 16px;
+    font-family: Poppins;
+    font-weight: 400;
+    transform: translateX(-20px,-5px);
+    margin-left: -20px;
+ }
+
+
+ .headingContainer{
+  width: 250px;
+  display: flex;
+  justify-content: flex-start;
+ 
+}
+
+.flexcolhheading{
+  display: flex;
+  flex-direction: column;
+  
+  gap: 40px;
+}
+
+.heading-Thalapakatti{
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  white-space: nowrap;
+  transform: translateY(30px);
+}
+
+.dropdown-nav{
+  border: none;
+
+
+
+}
+
+.imgNavbarHover {
+  visibility: hidden;
+  width: 60px;
+  height: 18px;
+  background-color: #67833E;
+  border-radius: 4px;
+  color: white;
+  text-align: center;
+  transform: translateX(-15px);
+  
+
+  transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
+ 
+  font-weight: 400;
+  font-size: 12px;
+  padding: 2px 2px 2px 2px ;
+}
+.ArrowHover{
+  visibility: hidden;
+  position: relative;
+  top: 7px;
+  left: -17px;
+
+
+}
+
+.flexcol:hover .ArrowHover  {
+  visibility: visible;
+  opacity: 1;
+}
+
+.flexcol:hover .imgNavbarHover  {
+  visibility: visible;
+  opacity: 1;
+}

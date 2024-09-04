@@ -1,0 +1,302 @@
+*{
+   font-family: "Poppins",sans-serif;
+}
+.PricingSlider-Container{
+    width:395px;
+    height: 390px;
+    margin-top: 20px;
+    
+    margin-left: 20px;
+}
+.PricingSlider-Heading{
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 500;
+}
+.Onprem-Ofprem{
+    margin-top: 20px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction:column ;
+}
+.Onprem-Heading{
+    margin-left: -4px;
+    font-size: 16px;
+    font-weight:400;
+}
+.SectionA{
+    width: 800px;
+    height: 35px;
+    margin-left: 27px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.SectionA-Heading{
+    font-size: 16px;
+    font-weight: 400;
+    color:#5F5F5F
+}
+.SectionA-Input{
+    margin-left: 25px;
+    border:1px solid #000000;
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.SectionA-Image{
+    margin-left: 10px;
+}
+
+.weig-hover-flexdirection{
+    display: flex;
+    justify-content: center;
+
+
+}
+
+.weign-hover-container{
+    visibility: hidden;
+    opacity: 0;
+    font-family: Poppins;
+    font-weight: 300;
+    font-size: 16px;
+    width: 260px;
+    transform: translate(-190px,-80px);
+    height: 67px;
+   background-color: #67833E;
+   padding: 10px 2px 2px 10px;
+   border-radius: 9px;
+   text-align: center;
+   color: #FFFFFF;
+   line-height: 24px;
+   transition: opacity  0.2s ease-in ,visibility 0.2s ease-in;
+   
+}
+
+
+.WeighImages{
+    margin-left: 10px;
+    width:30px;
+    height: 23px;
+    border-color:#D9D9D9;
+    cursor: pointer;
+
+}
+
+.BigArrowImg{
+    opacity: 0;
+    visibility: hidden;
+    width: 24px;
+    height: 16px;
+    position: relative;
+    top: -18px;
+    left: -30px;
+    transition: opacity  0.2s ease-in ,visibility 0.1s ease-in;
+
+}
+.WeighImages:hover ~ .BigArrowImg,
+.WeighImages:hover ~ .weign-hover-container {
+  visibility: visible;
+  opacity: 1;
+}
+
+.SectionB{
+    margin-left: 27px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.SectionB-Heading{
+    font-size: 16px;
+    font-weight: 400;
+    color:#5F5F5F
+}
+.SectionB-Input{
+    margin-left: 25px;
+    border:1px solid #000000;
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.SectionB-Image{
+    margin-left: 10px;
+}
+.Ofprem-Heading{
+    margin-left: -4px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight:400;
+}
+.OfPickup{
+    margin-left: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.OfPickup-Heading{
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 10px;
+    color:#5F5F5F
+}
+.OfPickup-Input{
+    margin-left: 34.2px;
+    border:1px solid #000000;
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.OfDelivery{
+    margin-left: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.OfDelivery-Heading{
+    font-size: 16px;
+    font-weight: 400;
+     margin-left: 10px;
+     color:#5F5F5F
+}
+.OfDelivery-Input{
+    margin-left: 23px;
+    background-color: white;
+    border:1px solid #000000;
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.OfZomato{
+    margin-left: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.OfZomato-Heading{
+    font-size: 16px;
+    font-weight: 400;
+     margin-left: 10px;
+     color:#5F5F5F
+}
+.OfZomato-Input{
+    margin-left: 23px;
+    border:1px solid #000000;
+
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.OfSwiggy{
+    margin-left: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.OfSwiggy-Heading{
+    font-size: 16px;
+    font-weight: 400;
+     margin-left: 10px;
+     color:#5F5F5F
+}
+.OfSwiggy-Input{
+    margin-left: 28px;
+    border:1px solid #000000;
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.OfUberEats{
+    margin-left: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.OfUberEats-Heading{
+    font-size: 16px;
+    font-weight: 400;
+     margin-left: 10px;
+     color:#5F5F5F
+}
+.OfUberEats-Input{
+    margin-left: 15px;
+    border:1px solid #000000;
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+   
+}
+
+.OfOther1{
+    margin-left: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.OfOther1-Heading{
+    font-size: 16px;
+    font-weight: 400;
+     margin-left: 12px;
+     color:#5F5F5F
+}
+.OfOther1-Input{
+    margin-left: 30px;
+    border:1px solid #000000;
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.OfOther2{
+    margin-left: 30px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.OfOther2-Heading{
+    font-size: 16px;
+    font-weight: 400;
+     margin-left: 12px;
+     color:#5F5F5F
+}
+.OfOther2-Input{
+    margin-left: 26px;
+    border:1px solid #000000;
+    width:83px;
+    height: 28px;
+    border-radius: 3.18px;
+    padding-left: 8.07px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
