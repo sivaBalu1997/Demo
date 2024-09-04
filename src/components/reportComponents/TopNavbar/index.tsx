@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import "./style.scss";
 
 interface NavItemType {

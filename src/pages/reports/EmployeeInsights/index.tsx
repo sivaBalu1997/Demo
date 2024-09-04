@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Table from "../../../components/reportComponents/Table";

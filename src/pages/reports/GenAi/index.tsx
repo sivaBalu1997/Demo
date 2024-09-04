@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import PdfViewer from "../../../components/reportComponents/PdfViewer";
 import GenAIPdfJustification from "../../../assets/mockData/originalAPIData/GenAIPDF/A2B justification_report_Parsippany_July.pdf";
 import NewDemopdf from "../../../assets/mockData/originalAPIData/GenAIPDF/new sid.pdf";
-import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import "./style.scss";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
