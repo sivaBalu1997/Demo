@@ -6,7 +6,7 @@ import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
 import productCatalogReducer from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
-import { Apidatas, PricingDetailReducer, itemCustomizationsReducer, primarypagereducer } from "./productCatalogSprint-99/reducer";
+import { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer } from "./productCatalog/productCatalogReducers";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -19,7 +19,6 @@ const rootReducer = combineReducers({
   primarypage:primarypagereducer,
   itemCustomizationsReducer1:itemCustomizationsReducer,
   PricingDetailReducer:PricingDetailReducer,
-  Apireducer:Apidatas
 });
 
 export { rootReducer };

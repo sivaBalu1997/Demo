@@ -6,7 +6,7 @@ import Specialavail from '../../../components/productCatalog/SpecialAvail/Specia
 import Normalavail from '../../../components/productCatalog/Normalavail/Normalavail';
 import { useDispatch } from 'react-redux';
 import Tooltip from '../../../components/productCatalog/Tooltip/Tooltip';
-import { PricingDetailRequest } from '../../../redux/productCatalogSprint-99/Actions';
+import { PricingDetailRequest } from '../../../redux/productCatalog/productCatalogActions';
 import Dropdown from '../../../components/productCatalog/DropDown/Dropdown';
 import { useHistory } from 'react-router-dom';
 import { Contextpagejs } from '../contextpage';

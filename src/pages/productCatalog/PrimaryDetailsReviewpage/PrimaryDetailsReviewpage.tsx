@@ -19,13 +19,13 @@ import axios from "axios";
 import edit from "../../../assets/images/edit.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ApiPost } from "../../../redux/productCatalogSprint-99/Actions";
 import Step2 from "../../../components/productCatalog/Step2/Step2";
 import { Contextpagejs } from "../contextpage";
 import ReviewValues from "../../../components/productCatalog/ReviewValues/ReviewValues";
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
 import Step3Review from "../../../components/productCatalog/Step3Review/Step3Review";
 import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImageSelected/PrimaryImageSelected";
+import { addMenuItemRequest } from "redux/productCatalog/productCatalogActions";
 
 interface Image {
   id: string;
@@ -411,7 +411,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
               </button>
               <button
                 className="saveall"
-                onClick={() => dispatch(ApiPost(data))}
+                onClick={() => dispatch(addMenuItemRequest(data))}
               >
                 Submit for review
               </button>

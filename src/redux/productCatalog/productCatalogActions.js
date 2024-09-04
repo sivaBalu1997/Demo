@@ -31,6 +31,15 @@ import {
   UPDATE_MENU_ATTRIBUTE_FAILED,
   CLEAR_MENU_ITEM_SUCCESS,
   RESET_DELETE_DATA,
+  Primary_Post_Data_Send,
+  Primary_Post_Data_Success,
+  Primary_Post_Data_Failure,
+  Item_Customizations_Data_Failure,
+  Item_Customizations_Data_Success,
+  Item_Customizations_Data_Request,
+  Pricing_Detail_Data_Request,
+  Pricing_Detail_Data_Success,
+  Pricing_Detail_Data_Failure,
 } from "./productCatalogConstants";
 
 // Get Menu Category
@@ -201,4 +210,54 @@ export const deleteMenuItemFailed = (data) => ({
 
 export const resetDeleteData = () => ({
   type: RESET_DELETE_DATA,
+});
+
+// {******************Primary Page Redux Actions*****************************************************}
+
+export const primarypost = (data) => ({
+  type: Primary_Post_Data_Send,
+  payload: data,
+});
+
+export const primarysuccess = (response) => ({
+  type: Primary_Post_Data_Success,
+  payload: response,
+});
+
+export const primaryfailure = (error) => ({
+  type: Primary_Post_Data_Failure,
+  payload: error,
+});
+
+// {******************Item Customization  Redux Actions*****************************************************}
+
+export const itemCustomizationPost = (data) => ({
+  type: Item_Customizations_Data_Request,
+  payload: data,
+});
+
+export const itemCustomizationSuccess = (response) => ({
+  type: Item_Customizations_Data_Success,
+  payload: response,
+});
+
+export const itemCustomizationFaaliure = (error) => ({
+  type: Item_Customizations_Data_Failure,
+  payload: error,
+});
+
+// {******************Pricing Detail  Redux Actions*****************************************************}
+
+
+export const PricingDetailRequest = (data) => ({
+  type: Pricing_Detail_Data_Request,
+  payload: data,
+});
+export const PricingDetailSuccess = (response) => ({
+  type: Pricing_Detail_Data_Success,
+  payload: response,
+});
+export const PricingDetailFailure = (error) => ({
+  type: Pricing_Detail_Data_Failure,
+  payload: error,
 });

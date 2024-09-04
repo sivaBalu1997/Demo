@@ -33,6 +33,9 @@ import {
   CLEAR_MENU_ITEM_SUCCESS,
   CLEAR_MENU_ITEM_MSG,
   RESET_DELETE_DATA,
+  Primary_Post_Data_Send,
+  Item_Customizations_Data_Request,
+  Pricing_Detail_Data_Request,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -278,3 +281,53 @@ export default function employeeReducer(
     }
   });
 }
+
+// {*************Primary Page Redux ************************************************}
+const primarypagedata = {
+  data: [],
+  loading: false,
+  error: null,
+};
+export const primarypagereducer = (state = primarypagedata, action) => {
+  switch (action.type) {
+    case Primary_Post_Data_Send:
+      return {  ...state,data:action.payload }; 
+    default:
+      return state;
+  }
+  };
+
+  const initialState = {
+
+    itemData: [],
+    isLoading: false,
+    error: null,
+   
+  };
+
+  export const itemCustomizationsReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case Item_Customizations_Data_Request:
+        return {  ...state,itemData:action.payload }; 
+      default:
+        return state;
+    }
+  };
+
+// {*******************Prizing Detail Page Redux Reducer***************}
+
+
+  const PricingDetailPage = {
+    prizingData: [],
+  };
+  
+  export const PricingDetailReducer=(state=PricingDetailPage,action)=>{
+    switch(action.type)
+    {
+      case Pricing_Detail_Data_Request:
+      return{...state,prizingData:action?.payload};
+      
+      default:
+        return state;
+    }
+  }
