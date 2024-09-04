@@ -17,13 +17,14 @@ import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
+import btnnav from '../../assets/svg/btnnav.svg'
 import { RootState } from "redux/rootReducer";
 
 const SidePanel = () => {
   const credentials = useSelector((state:RootState) => state.auth.credentials);
   const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || ''  
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
-  const menuOptions = ["Items"];
+  const menuOptions = ["Items", "Product Catalog"];
   const offerMenuOptions = ["Offers"];
 
   const history = useHistory();
@@ -39,6 +40,8 @@ const SidePanel = () => {
   const [showOptions, setShowOptions] = useState("employees");
   const [showOfferOptions, setShowOfferOptions] = useState("");
   const [routeTo, setRouteTo] = useState({});
+  const [isExpand, setIsExpand] = useState(true)
+  
   const restaurantDetails = useSelector(
     (state:RootState) => state.auth.restaurantDetails
   );
@@ -104,20 +107,24 @@ const SidePanel = () => {
     }
   }, [restaurantDetails]);
 
+  const toggleExpand = () => {
+    setIsExpand(!isExpand)
+  }
+
   return (
     <>
-      <div className="menu is-sticky">
+      <div className={`menu is-sticky ${isExpand ? 'expanded' : ''}`}>
         <div className="logo-container">
           <div>
             <img src={getImageURL("LOGO")} className="restaurant-logo" />
           </div>
           <div className="restaurant-name-container">
-            <span className="restaurant-name">
+            {isExpand && <span className="restaurant-name">
               {restaurantDetails &&
                 restaurantDetails.branchName &&
                 restaurantDetails.branchName.split(",")[0]}
-            </span>
-            <div>
+            </span>}
+            {isExpand && <div>
               <select
                 className="branch-dropdown"
                 disabled={
@@ -149,7 +156,7 @@ const SidePanel = () => {
                     );
                   })}
               </select>
-            </div>
+            </div>}
           </div>
         </div>
         <ul>
@@ -168,59 +175,60 @@ const SidePanel = () => {
           >
             <li style={{ marginBottom: 0 }} />
             <EmployeesIcon className="menu-items-SVG" />
-            <span className="menu-items-name">Employees</span>
+            {isExpand && <span className="menu-items-name">Employees</span>}
           </div>
           
           <div
-            className={
-              showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
-            }
-            onClick={() => {
-              history.push("/productCatalog");
-              if (showOptions === "MenuOptions") {
-                setShowOptions("");
-              } else {
-                setShowOptions("MenuOptions");
-              }
-            }}
-          >
-            {
-              <div>
-                {showOptions === "MenuOptions" &&
-                !location.pathname.includes("menu") ? (
-                  <li style={{ marginBottom: 0 }} />
-                ) : null}
-                <Tableware className="menu-items-SVG" />
-                <span className="menu-items-name">Product Catalog</span>
-              </div>
-            }
+  className={
+    showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
+  }
+  onClick={() => {
+    if (showOptions === "MenuOptions") {
+      setShowOptions("");
+    } else {
+      setShowOptions("MenuOptions");
+    }
+  }}
+>
+  <div>
+    {showOptions === "MenuOptions" &&
+    !location.pathname.includes("menu") ? (
+      <li style={{ marginBottom: 0 }} />
+    ) : null}
+    <Tableware className="menu-items-SVG" />
+    {isExpand && <span className="menu-items-name">Menu</span>}
+  </div>
 
-            {
-              <Fragment>
-                {showOptions === "MenuOptions" ? (
-                  <Uparrow className="dropdown-arrow" />
-                ) : (
-                  <Downarrow className="dropdown-arrow" />
-                )}{" "}
-              </Fragment>
-            }
-          </div>
-          
-          {showOptions === "MenuOptions"
-            ? menuOptions.map((option) => (
-                <NavLink
-                  to={`/menu/${option}`}
-                  activeClassName="active"
-                  key={option}
-                >
-                  <li style={{ marginTop: "10px" }}>
-                    <span style={{ marginLeft: "40px", marginTop: "10px" }}>
-                      {option}
-                    </span>
-                  </li>
-                </NavLink>
-              ))
-            : null}
+  <Fragment>
+    {showOptions === "MenuOptions" ? (
+      <Uparrow className="dropdown-arrow" />
+    ) : (
+      <Downarrow className="dropdown-arrow" />
+    )}{" "}
+  </Fragment>
+</div>
+
+{showOptions === "MenuOptions" && (
+  <ul>
+    {menuOptions.map((option) => (
+      <li
+        key={option}
+        style={{ marginTop: "10px" }}
+        onClick={() => {
+          if (option === "Items") {
+            history.push(`/menu/${option}`);
+          } else if (option === "Product Catalog") {
+            history.push("/menuListing");
+          }
+        }}
+      >
+        <span style={{ marginLeft: "40px", marginTop: "10px" }}>
+          {option}
+        </span>
+      </li>
+    ))}
+  </ul>
+)}
 
           <div
             className={
@@ -234,9 +242,9 @@ const SidePanel = () => {
                 : setShowOfferOptions("")
             }
           >
-            <div style={{ cursor: "pointer" }}>
+            <div style={{ cursor: "pointer"}}>
               <Offer className="menu-items-SVG" />
-              <span className="menu-items-name">Offer Management</span>
+              {isExpand && <span className="menu-items-name">Offer Management</span>}
             </div>
             {showOfferOptions === "MenuOptions" ? (
               <Uparrow
@@ -290,7 +298,7 @@ const SidePanel = () => {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Stats className="menu-items-SVG" />
-                <span className="menu-items-name">Reports & Insights</span>
+                {isExpand && <span className="menu-items-name">Reports & Insights</span>}
               </div>
             }
           </div>
@@ -315,17 +323,20 @@ const SidePanel = () => {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Payment className="menu-items-SVG" />
-                <span className="menu-items-name">Payments</span>
+                {isExpand && <span className="menu-items-name">Payments</span>}
               </div>
             }
           </div>
         </ul>
         <div>
-          <div className="magilhub-bottom-logo">
+          {isExpand && <div className="magilhub-bottom-logo">
             <span className="powered-text1">Powered by</span>
             <span className="magilhub-logo1">Maghil</span>
-          </div>
+          </div>}
         </div>
+      </div>
+      <div>
+        <img onClick={toggleExpand} className={isExpand ? "btn-nav":"btn-nav1"} src={btnnav} alt="" style={{zIndex:9}} />
       </div>
     </>
   );

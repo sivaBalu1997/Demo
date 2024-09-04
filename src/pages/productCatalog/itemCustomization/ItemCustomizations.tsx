@@ -9,6 +9,7 @@ import { itemCustomizationPost } from "../../../redux/productCatalogSprint-99/Ac
 import Serachicon from '../../../assets/images/searchicon.png';
 import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownItem";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
+import SidePanel from "pages/SidePanel";
 
 
 // Define types
@@ -261,7 +262,9 @@ newModifications[index][property] = value as Modification[typeof property];
   console.log(modifications)
 
   return (
-    <div>
+    <div style={{display:'flex'}}>
+      <SidePanel />
+      <div>
       <Navigationpage />
       <div className="mainItemCustomizations">
     <div className="itemcustomizationpage">
@@ -595,6 +598,7 @@ formclear={clerall}
 
   </div>
 
+    </div>
     </div>
     </div>
   );

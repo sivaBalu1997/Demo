@@ -24,6 +24,7 @@ import {
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
+import SidePanel from "pages/SidePanel";
 
 interface Ingredients {
   id: string;
@@ -253,7 +254,9 @@ const PrimaryPage = () => {
   };
 
   return (
-    <div style={{marginBottom:'40px'}}>
+    <div style={{display:'flex'}}>
+      <SidePanel />
+      <div style={{marginBottom:'40px'}}>
       <Navigationpage />
       <div className="Primary-page">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -655,6 +658,7 @@ const PrimaryPage = () => {
 
       
       </form>
+    </div>
     </div>
     </div>
   );
