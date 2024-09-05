@@ -336,7 +336,7 @@ const SidePanel = () => {
         </div>
       </div>
       <div>
-        <img onClick={toggleExpand} className={isExpand ? "btn-nav":"btn-nav1"} src={btnnav} alt="" style={{zIndex:9}} />
+        <img onClick={toggleExpand} className={isExpand ? "btn-nav1":"btn-nav"} src={btnnav} alt="" style={{zIndex:9}} />
       </div>
     </>
   );

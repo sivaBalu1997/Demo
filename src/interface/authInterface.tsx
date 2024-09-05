@@ -52,20 +52,15 @@ interface Cuisine {
   tagName: string;
 }
 
-export interface RestaurantDetails {
+interface media {
   id: string;
-  branchName: string;
-  aboutUs: string | null;
-  address: string;
-  addressline2: string | null;
-  state: string | null;
-  pincode: string | null;
-  locationSlug: string;
-  open: number;
-  city: string;
-  country: string;
-  branch: Array<{
-      id: string;
+  entityType: string;
+  mimeType: string;
+  entityId: string | null;
+}
+
+interface branch {
+  id: string;
       locationName: string;
       locationSlug: string;
       rating: number;
@@ -83,19 +78,37 @@ export interface RestaurantDetails {
           whatsappSms: number;
           checkInWhatsapp: number;
       };
-      media: Array<{
-          id: string;
-          entityType: string;
-          mimeType: string;
-          entityId: string | null;
-      }>;
-  }>;
-  media: Array<{
-      id: string;
-      entityType: string;
-      mimeType: string;
-      entityId: string | null;
-  }>;
+      media: media[]
+}
+
+interface tableSection {
+  id: string;
+  sectionName: string;
+}
+
+interface workingHours {
+  locationId: string;
+  weekday: string;
+  openingTime: string;
+  closingTime: string;
+  onlineCutoff: string | null;
+  pickupCutoff: string | null;
+}
+
+export interface RestaurantDetails {
+  id: string;
+  branchName: string;
+  aboutUs: string | null;
+  address: string;
+  addressline2: string | null;
+  state: string | null;
+  pincode: string | null;
+  locationSlug: string;
+  open: number;
+  city: string;
+  country: string;
+  branch: branch[]
+  media: media[]
   rating: number;
   cost: string | null;
   phoneNumber: string;
@@ -146,19 +159,9 @@ export interface RestaurantDetails {
   parking: any; 
   cards: string[];
   pref: string[];
-  tableSection: Array<{
-      id: string;
-      sectionName: string;
-  }>;
+  tableSection: tableSection[]
   safetyMeasures: any; 
-  workingHours: Array<{
-      locationId: string;
-      weekday: string;
-      openingTime: string;
-      closingTime: string;
-      onlineCutoff: string | null;
-      pickupCutoff: string | null;
-  }>;
+  workingHours: workingHours[]
   facilities: any; 
   orderTypes: OrderType[];
 }
@@ -190,6 +193,17 @@ export interface AuthCred {
   isTempPassword: boolean;
 }
 
+export interface orderTypes {
+  codLimit: string | null;
+  id: string;
+  isEnabled: boolean;
+  locationId: string;
+  minOrderAmount: number;
+  orderTax: string | null;
+  typeGroup: string;
+  typeName: string;
+}
+
 export interface SelectedBranch {
   cost:string
   cusine:string[]
@@ -199,22 +213,8 @@ export interface SelectedBranch {
   locationName:string
   locationSlug:string
   longitude:number
-  media: Array<{
-    entityId: string;
-    entityType: string;
-    id: string;
-    mimeType: string;
-  }>;
-  orderTypes: Array<{
-    codLimit: string | null;
-    id: string;
-    isEnabled: boolean;
-    locationId: string;
-    minOrderAmount: number;
-    orderTax: string | null;
-    typeGroup: string;
-    typeName: string;
-  }>;
+  media: media []
+  orderTypes: orderTypes[]
   rating:number 
   serviceDisable:{
     checkInWhatsapp:number
