@@ -32,54 +32,41 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   return (
     <>
       {itemobject.name.map((item, index) => (
-        <tr
-          key={index}
-          className={`tabletwobodyrows ${
-            itemobject.id === 1 &&
-            indexvalue === 0 &&
-            index === 0 &&
-            ''
-          } ${draggingOverIndex === index ? 'selected' : ''} ${
-            itemobject.id === 2 &&
-            indexvalue === 0 &&
-            index === 0 &&
-            ''
-          } ${
-            itemobject.id === 1 && index === 1
-              ? 'firstpartborder'
-              : 'firstpartborder1'
-          }`}
-        >
-          <td className="eachobject-rowwise">
+        <tr key={index}  className={`tabletwobodyrows `}>
+          <td   className={`eachobject-rowwise `} >
+
             {Object.entries(item.pricingdetails || {}).map(
-              ([key, cellData], cellIndex) => {
+              ([key, cellData], cellIndex) =>     
+              {
                 const className = classNamesinner[cellIndex];
                 const items = listingobject[className];
+
                 if (items && Array.isArray(cellData)) {
                   return (
                     <td className={className} key={cellIndex}>
                       {cellData.map((item, itemIndex) => (
                         <td key={`${cellIndex}-${itemIndex}`}>
                           {item === 'Enabled' || item === 'Disabled' ? (
-                            <td onClick={() => showsidebar(key)}>
+                            <td onClick={() => showsidebar(key)} >
                               <Toggle
                                 toggle={item === 'Enabled'}
                                
                               />
                             </td>
                           ) : (
-                            <span
-                              className="price"
+                            <td
+                              className={`${className}${itemIndex}`}
                               onClick={() => showsidebar(key)}
                             >
                               {item}
-                            </span>
+                            </td>
                           )}
                         </td>
                       ))}
                     </td>
                   );
                 }
+
                 return null;
               }
             )}
