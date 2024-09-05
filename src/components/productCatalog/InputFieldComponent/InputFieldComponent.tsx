@@ -30,8 +30,9 @@ const InputFieldComponent:React.FC<Inputfieldinterface> = ({name,type='text',reg
           name={name} 
           onBlur={handleBlur}   
           className='Input-Filed'
+          placeholder={placeholder}
         />
-         <span className='placeholder'>{placeholder}</span></div>
+         </div>
         {error && <p className='Input-Field-Error-message'>{error.message}</p>}
     </div>
   )
