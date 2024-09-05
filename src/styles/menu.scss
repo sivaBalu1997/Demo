@@ -7,7 +7,7 @@
     z-index: 9;
     background-color: #fff;
     // min-width: 150px;
-    width: 150px;
+    width: 10vw;
     padding: 2.5% 1.5%;
     border-right: 1px solid #c4c4c4;
     height: 100vh;
@@ -24,6 +24,13 @@
       width: 23%;
       transition: width 0.6s ease;
       overflow: hidden;
+
+      // .down{ 
+      //   margin-left: -10px;
+      // }
+      .menuList{
+        margin-left: 10px;
+      }
 
       li{
         margin-top: 20px;
@@ -139,7 +146,7 @@
        }
       .menu-items-name {
         @media (max-width: 768px) {
-          font-size: 10px;
+          font-size: 9px;
         }
       }
     }
@@ -824,9 +831,9 @@ iframe {
   border-radius: 50%;
   padding: 5px;
   color: #D9D9D9;
-  position: relative;
+  position: sticky;
   top: 101px;
-  left: -12px;
+  margin-left: -12px;  
   cursor: pointer;
  }
 
@@ -839,11 +846,65 @@ iframe {
   background-color: #67833E;
   border-radius: 50%;
   padding: 5px;
-
   color: #D9D9D9;
-  position: relative;
+  position: sticky;
   top: 101px;
-  left: -12px;
+  margin-left: -12px;
   cursor: pointer;
   transform: rotate(180deg);
+}
+
+.menuList{
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+@media(max-width:1080px){
+  .menu-items-name{
+    font-size: 13px;
+  }
+
+  .main-section .menu.expanded{
+    width: 26%;
+  }
+
+  .main-section{ 
+    .down{ 
+      margin-left: 10px;
+    }
+    .menuList{
+      font-size: 12px;
+      margin-left: 10px;
+    }
+  }
+
+  .main-section .expanded .drop-down {
+    margin-left: -10px;
+  }
+  .expanded .active{
+    margin-left: -10px;
+  }
+}
+
+@media(max-width:900px){
+  .menu-items-name {
+    display: none;
+  }
+  .main-section .menu.expanded .menu-items-SVG {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 20px;
+  }
+  .magilhub-bottom-logo{
+    display: none;
+  }
+}
+
+@media(max-width:575px){
+  .btn-nav{
+    display: none;
+  }
+  .btn-nav1{
+    display: none;
+  }
 }

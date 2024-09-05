@@ -42,7 +42,7 @@ const Step3Review:React.FC = () => {
         <div  >
           {/* <img src={Edit} className="step3-Review-Container-heading-EditImage" alt="Edit" />
           <h3 className="Edit-heading" >Edit</h3> */}
-          <Link to="/Navigationpage" className="step3-Review-img-edit-Container" onClick={()=>setActiveCategory("Step 3: Item customizations")}>
+          <Link to="/productCatalog/Itemcustomizations" className="step3-Review-img-edit-Container" onClick={()=>setActiveCategory("Step 3: Item customizations")}>
               <img src={Edit} alt=""  className="step3-Review-Container-heading-EditImage" width={15} height={15}/>
               <h3 className="Edit-heading" >Edit</h3>
               </Link>{" "}

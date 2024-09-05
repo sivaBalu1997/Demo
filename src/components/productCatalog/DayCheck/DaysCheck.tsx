@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import "./DaysCheck.scss";
 import axios from 'axios';
+import { getAvailabilityRequest } from 'redux/productCatalog/productCatalogActions';
 
 // Define the types for the component's props
 interface DaysCheckProps {
@@ -17,8 +20,22 @@ interface DataItem {
   name: string;
 }
 
+interface State {
+  auth: {
+    credentials:{
+      locationId:string
+
+    }
+    
+  };
+}
+
+
 const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, index, id, setId }) => {
+  const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
+
   const [data, setData] = useState<DataItem[]>([]);
+  const dispatch=useDispatch();
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -40,16 +57,10 @@ const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, in
   }, []);
 
   const getApi = async () => {
-    try {
-      const response = await axios.get<DataItem[]>(
-        "https://api.magilhub.com/magilhub-data-services/merchants/itemAttributes?locationId=9c485244-afd4-11eb-b6c7-42010a010026&id=&option=Availability"
-      );
-      console.log(response.data);
-      setData(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
+    dispatch(getAvailabilityRequest(locationid))
+  }
+
 
   console.log(checkedItems);
 

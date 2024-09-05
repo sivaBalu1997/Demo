@@ -1,14 +1,14 @@
 import React, { useState, useCallback, useEffect, Fragment } from "react";
 import "../../styles/menu.scss";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { SELECTED_BRANCH_DATA } from "../../shared/constants";
+import { SELECTED_BRANCH_DATA, STORAGE_BUCKET_URL } from "../../shared/constants";
 // import MenuItems from "../menuItems";
 import {
   getRestaurantRequest,
   selectBranch,
 } from "../../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
-import { STORAGE_BUCKET_URL } from "../../shared/constants";
+// import { STORAGE_BUCKET_URL } from "";
 //SVG
 import { ReactComponent as EmployeesIcon } from "../../assets/svg/employees.svg";
 import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
@@ -165,7 +165,7 @@ const SidePanel = () => {
               showOptions === "employees" &&
               location.pathname.includes("employees")
                 ? "active"
-                : ""
+                : "down"
             }
             style={{ cursor: "pointer" }}
             onClick={() => {
@@ -179,56 +179,56 @@ const SidePanel = () => {
           </div>
           
           <div
-  className={
-    showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
-  }
-  onClick={() => {
-    if (showOptions === "MenuOptions") {
-      setShowOptions("");
-    } else {
-      setShowOptions("MenuOptions");
-    }
-  }}
->
-  <div>
-    {showOptions === "MenuOptions" &&
-    !location.pathname.includes("menu") ? (
-      <li style={{ marginBottom: 0 }} />
-    ) : null}
-    <Tableware className="menu-items-SVG" />
-    {isExpand && <span className="menu-items-name">Menu</span>}
-  </div>
+            className={
+              showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
+            }
+            onClick={() => {
+              if (showOptions === "MenuOptions") {
+                setShowOptions("");
+              } else {
+                setShowOptions("MenuOptions");
+              }
+            }}
+          >
+            <div>
+              {showOptions === "MenuOptions" &&
+              !location.pathname.includes("menu") ? (
+                <li style={{ marginBottom: 0 }} />
+              ) : null}
+              <Tableware className="menu-items-SVG" />
+              {isExpand && <span className="menu-items-name">Menu</span>}
+            </div>
 
-  <Fragment>
-    {showOptions === "MenuOptions" ? (
-      <Uparrow className="dropdown-arrow" />
-    ) : (
-      <Downarrow className="dropdown-arrow" />
-    )}{" "}
-  </Fragment>
-</div>
+            <Fragment>
+              {showOptions === "MenuOptions" ? (
+                <Uparrow className="dropdown-arrow" />
+              ) : (
+                <Downarrow className="dropdown-arrow" />
+              )}{" "}
+            </Fragment>
+          </div>
 
-{showOptions === "MenuOptions" && (
-  <ul>
-    {menuOptions.map((option) => (
-      <li
-        key={option}
-        style={{ marginTop: "10px" }}
-        onClick={() => {
-          if (option === "Items") {
-            history.push(`/menu/${option}`);
-          } else if (option === "Product Catalog") {
-            history.push("/menuListing");
-          }
-        }}
-      >
-        <span style={{ marginLeft: "40px", marginTop: "10px" }}>
-          {option}
-        </span>
-      </li>
-    ))}
-  </ul>
-)}
+          {showOptions === "MenuOptions" && (
+            <ul>
+              {menuOptions.map((option) => (
+                <li
+                  key={option}
+                  style={{ marginTop: "10px" }}
+                  onClick={() => {
+                    if (option === "Items") {
+                      history.push(`/menu/${option}`);
+                    } else if (option === "Product Catalog") {
+                      history.push("/menuListing");
+                    }
+                  }}
+                >
+                  <span className="menuList">
+                    {option}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
 
           <div
             className={
@@ -269,8 +269,7 @@ const SidePanel = () => {
                   >
                     <li>
                       <span
-                        className="d-inline-block m-t-20"
-                        style={{ marginLeft: "40px" }}
+                        className="menuList"
                       >
                         {option}
                       </span>
@@ -336,7 +335,7 @@ const SidePanel = () => {
         </div>
       </div>
       <div>
-        <img onClick={toggleExpand} className={isExpand ? "btn-nav":"btn-nav1"} src={btnnav} alt="" style={{zIndex:9}} />
+        <img onClick={toggleExpand} className={isExpand ? "btn-nav1":"btn-nav"} src={btnnav} alt="" style={{zIndex:9}} />
       </div>
     </>
   );
