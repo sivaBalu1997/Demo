@@ -19,10 +19,10 @@ const Topnavbar = () => {
   const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
 
   const navItems: NavItemType[] = [
-    { name: "Live Reports", path: "/live-reports" },
     { name: "Sales Report", path: "/sales" },
-    { name: "Product Insights", path: "/product-insights" },
+    { name: "Live Reports", path: "/live-reports" },
     { name: "Employee Insights", path: "/employee-insights" },
+    { name: "Product Insights", path: "/product-insights" },
     { name: "Customer Insights", path: "/customer-insights" },
     { name: "Check-In Report", path: "/check-in" },
     { name: "GenAI Report", path: "/gen-ai-reports" },

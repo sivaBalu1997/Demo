@@ -294,7 +294,6 @@ const Sales: React.FC = () => {
               onFocus={() => {
                 setState((prevState) => ({
                   ...prevState,
-                  // openStartDatePicker: true,
                   openEndDatePicker: true,
                 }));
               }}
@@ -344,22 +343,6 @@ const Sales: React.FC = () => {
             <h3>Tax</h3>
           </div>
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div className="s-canva-pie-chart-outer-cont">
-            <div className="s-canva-pie-chart-cont">
-              <CanvaPieChart options={options} />
-            </div>
-            <div className="s-canva-pie-chart-cont">
-              <CanvaPieChart options={optionsDolla} />
-            </div>
-          </div>
-        </div>
         <div className="s-day-of-the-week">
           <div className="s-day-of-the-week-inner">
             <BarChart
@@ -394,6 +377,22 @@ const Sales: React.FC = () => {
               xAxisLabel="Hours"
               yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
             />
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className="s-canva-pie-chart-outer-cont">
+            <div className="s-canva-pie-chart-cont">
+              <CanvaPieChart options={options} />
+            </div>
+            <div className="s-canva-pie-chart-cont">
+              <CanvaPieChart options={optionsDolla} />
+            </div>
           </div>
         </div>
         <div className="s-day-of-the-week">

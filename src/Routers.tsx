@@ -184,8 +184,8 @@ const Routers = () => {
               )}
             </div>
 
-            <Route exact path="/live-reports" component={CustomerInsights} />
             <Route exact path="/sales" component={Sales} />
+            <Route exact path="/live-reports" component={CustomerInsights} />
             <Route
               exact
               path="/employee-insights"
