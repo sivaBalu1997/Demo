@@ -9,6 +9,10 @@
     height: 40px;
   }
 
+  .react-datepicker-popper{
+    z-index: 9;
+  }
+
   .calenderComponent {
     display: flex;
   }
