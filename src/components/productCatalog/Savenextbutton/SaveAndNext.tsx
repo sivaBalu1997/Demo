@@ -138,7 +138,7 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset}
     
        
       </div>
-        <ToastContainer
+        {/* <ToastContainer
           position="top-center"
           autoClose={3000}
           hideProgressBar={false}
@@ -148,8 +148,8 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset}
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          // theme="light"
-        />
+          theme="light"
+        /> */}
     </div>
   );
 };
