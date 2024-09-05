@@ -25,6 +25,13 @@
       transition: width 0.6s ease;
       overflow: hidden;
 
+      // .down{ 
+      //   margin-left: -10px;
+      // }
+      .menuList{
+        margin-left: 10px;
+      }
+
       li{
         margin-top: 20px;
       }
@@ -848,7 +855,8 @@ iframe {
 }
 
 .menuList{
-  margin-left: 40px;
+  font-size: 14px;
+  margin-left: 10px;
 }
 
 @media(max-width:1080px){
@@ -862,7 +870,7 @@ iframe {
 
   .main-section{ 
     .down{ 
-      margin-left: -10px;
+      margin-left: 10px;
     }
     .menuList{
       font-size: 12px;
