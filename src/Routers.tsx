@@ -35,7 +35,6 @@ import MenuDetials from 'pages/menuDetails'
 import MenuCustomization from 'pages/menuCustomization'
 import AddCustomizationInput from 'pages/menuCustomization/AddCustomizationInput'
 import NotFound from 'pages/notFound'
-import SidePanel from 'pages/SidePanel'
 import { Menulisting } from 'pages/productCatalog/Menulisting/Menulisting'
 import PrimaryDetailsReviewpage from 'pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage'
 import Navigationpage from 'components/productCatalog/Navigation/NavigationPage'
@@ -43,7 +42,8 @@ import PrimaryPage from 'pages/productCatalog/PrimaryPage/PrimaryPage'
 import PricingDetails from 'pages/productCatalog/PricingDetalis/PricingDetails'
 import ItemCustomizations from 'pages/productCatalog/itemCustomization/ItemCustomizations'
 import { Contextpage } from 'pages/productCatalog/contextpage'
-import './pages/productCatalog/MainPage/MainPage.scss'
+import SidePanel from 'pages/SidePanel'
+
 
 const Routers = ()  =>  {
 
