@@ -1,0 +1,66 @@
+.EyeModal-Container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the modal vertically */
+    z-index: 1000; /* Ensure it appears above other content */
+    width:416px;
+    height: 848px;
+    
+}
+
+.EyeModal-Window {
+    margin-top: -140px;
+    background-color: white;
+    width: 377px;
+    height: 184px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the content inside the modal */
+    border-radius: 8px; /* Optional: add rounded corners */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+}
+
+.EyeModal-Form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    text-align: center; /* Center the text */
+}
+
+.EyeImage {
+    margin-top: 5px;
+    margin-bottom: 1px; /* Add space between the image and text */
+}
+
+.Eye-Heading {
+    font-size: 16px;
+    font-weight: 400;
+}
+.Eye-Button{
+    margin-top: 7px;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 30px;
+}
+.EyeButton1{
+    width: 138.83px;
+    height: 46.28px;
+    border-radius: 3.47px;
+    background-color: white;
+    color: rgba(95, 95, 95, 1);
+    border: 1px solid rgba(95, 95, 95, 1);
+}
+.EyeButton2{
+    width: 138.83px;
+    height: 46.28px;
+    border-radius: 3.47px;
+    background-color:rgba(103, 131, 62, 1);
+    color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(103, 131, 62, 1);
+}

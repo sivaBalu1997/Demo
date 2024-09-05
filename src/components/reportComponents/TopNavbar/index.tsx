@@ -9,6 +9,11 @@ interface NavItemType {
   path: string;
 }
 
+interface NavItemType {
+  name: string;
+  path: string;
+}
+
 const Topnavbar = () => {
   const [active, setActive] = useState("live-reports");
   const { isDarkTheme, toggleTheme } = useContext(ThemeContext);

@@ -1,0 +1,107 @@
+.InventorySlider-Container{
+    display: flex;
+    justify-content: flex-start;
+    width:395px;
+    height: 390px;
+    margin-left: 40px;
+    
+}
+.InventorySlider-Form{
+    display: flex;
+    flex-direction: column;
+}
+.InventorySlider{
+    margin-left: -23px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+}
+.InventorySlider-Heading{
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.InventForm{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: -23px;
+}
+.InventSection{
+    margin-top: 20px;
+    
+}
+.Invent-Heading{
+   
+    color:rgba(151, 151, 151, 1);
+    font-size: 16px;
+    font-weight: 400;
+}
+.InventInputSlider{
+    width: 244px;
+    height: 44px;
+    border-radius: 5px;
+    border:1px solid rgba(151, 151, 151, 1);
+    padding-left: 12px;
+    color:rgba(151, 151, 151, 1);
+    font-size: 16px;
+}
+.ThresholdSliderSection{
+    margin-top: 20px;
+}
+.ThresholdSlider-Heading{
+    color:rgba(151, 151, 151, 1);
+    font-size: 16px;
+    font-weight: 400;   
+}
+.ThresholdInputSlider{
+    width: 244px;
+    height: 44px;
+    border-radius: 5px;
+    border:1px solid rgba(151, 151, 151, 1);
+    padding-left: 12px;
+    color:rgba(151, 151, 151, 1);
+    font-size: 16px;
+}
+.InventFlex{
+    display: flex;
+    flex-direction: column;
+}
+.CheckboxSlider{
+    margin-top: 20px;
+    width:350px
+}
+.CheckboxSlider-Section1{
+    display: flex;
+    justify-content: flex-start;
+    
+}
+.CheckboxSlider-heading{
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(151, 151, 151, 1);
+    margin-left: 10px;
+}
+.CheckboxSlider-heading2{
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(151, 151, 151, 1);
+    margin-left:10px;
+}
+.CheckboxSlider-Input{
+    width:20px;
+    height: 20px;
+    transform: translateY(4px);
+    accent-color: rgba(119, 151, 73, 1);
+}
+.CheckboxSlider-Input2{
+    width:25px;
+    height: 20px;
+    transform: translateY(12px);
+    accent-color: rgba(119, 151, 73, 1);
+}
+.CheckboxSlider-Section2{
+    display: flex;
+    justify-content: flex-start;
+}

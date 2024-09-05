@@ -467,7 +467,6 @@ const AddEmployee = () => {
       history.replace('/employees');
     }
     // if(employeeUpdated && !employeeUpdateLoading){
-    //   history.replace('/management/employees');
     // }
   }, [employeeAdded, employeeUpdateLoading, history]);
 

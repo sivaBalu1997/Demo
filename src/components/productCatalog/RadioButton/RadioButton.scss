@@ -1,0 +1,34 @@
+.radio-button-group
+{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+
+.radio-button
+{
+    
+   
+    .radio-button-input-and-label{
+        font-size: 0.875rem;
+        color: #979797;
+        font-weight: 400;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+
+    }
+   
+    .radio-button-input
+    {
+        width: 20px;
+        height: 20px;      
+        accent-color:  #67833E;
+        border: 1px solid #67833E;
+        opacity: 100%;
+    }
+}
+
+

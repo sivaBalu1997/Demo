@@ -1,0 +1,127 @@
+*{
+  font-family: "Poppins",sans-serif;
+}
+.dropdown-containerPricing {
+  position: relative;
+  width: 300px;
+ height: 44px;
+ margin-left: 30px;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+.dropdownPricing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  width:300px;
+  height:24px;
+  
+  width: 281px;
+  height: 19px;
+  border-radius: 5px;
+}
+.dropdownPricingred{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid red;
+  cursor: pointer;
+  width:300px;
+  height:25px;
+  border-radius: 5px;
+
+}
+
+
+.optionsPricing {
+  
+position: absolute;
+  top: 68px;
+  left: 0;
+  width: 318px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+height: 156px; /* Adjust this height as needed */
+  overflow-y: auto;
+}
+
+.optionsPricing label {
+  margin-top: -5px;
+  display: block;
+  padding: 10px;
+  color: #979797;
+  font-size: 14px;
+}
+
+.optionsPricing input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.addbtnPricing {
+  padding: 10px;
+}
+
+.inputntnoptionsPricing {
+  width: calc(100% - 60px);
+  padding: 5px;
+}
+
+.add-item-btn, .btn-add-item {
+  padding: 5px 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+.placePricing{
+  color: #979797;
+  margin-left: 10px;
+}
+.imgplacePricing{
+  display: flex;
+  justify-content: start;
+}
+.add-item-btn:hover, .btn-add-item:hover {
+  background-color: #0056b3;
+}
+.checkboxPricing{
+  width: 20px;
+  height: 20px;
+  transform: translateY(5px);
+  accent-color:#779749;
+  margin-left: 10px;
+}
+.valuePricing{
+  font-size: 14px;
+  font-weight: 400;
+  color: #979797;
+}
+.arrowdropPricing{
+  width: 16px;
+  height: 8.67px;
+  opacity: 30%;
+
+}
+.arrowrotatePricing{
+  width: 16px;
+  height: 8.67px;
+  transform: rotate(180deg);
+  opacity: 30%;
+}
+.droplabelPricing{
+  color: #666666;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 0px;
+}

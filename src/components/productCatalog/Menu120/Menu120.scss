@@ -1,0 +1,58 @@
+.Header-Heading {
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 36px;
+    color: #67833e;
+    cursor: pointer;
+    z-index: 100;
+  }
+
+  .Menu120-Tooltip-container{
+    visibility: hidden;
+
+    width: 152px;
+    height: 275px;
+    background-color: #ffffff;
+    box-shadow: 0px 10px 15px -6px #00000040;
+    transform: translate(-15px,-8px);
+    z-index: -100;
+    padding-left: 10px;
+    padding-top: 20px;
+    opacity: 0;
+    transition: visibility 0.2s ease-in, opacity 0.2s ease-in, z-index 0.2s ease-in;
+
+
+    
+
+  
+  }
+
+
+.Header-Heading:hover .Menu120-Tooltip-container {
+    visibility: visible;
+    opacity: 1;
+    z-index: 100;
+}
+.Menu120-Tooltip-container-heading{
+    
+    width: 152px;
+    height: auto;
+    display: flex;
+    flex-direction: column  ;
+}
+
+.Menu120-Heading{
+    font-size: 16px;
+    font-family: Poppins;
+    font-weight: 500;
+    color:  #67833e;
+}
+.Menu120-sub-Heading{
+    font-size: 14px;
+    color: #000000;
+    line-height: 31.12px;
+    padding-left: 15px;
+    font-weight: 400;
+}
+  

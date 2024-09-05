@@ -111,7 +111,7 @@ const Payment = () => {
     ) {
       alert(paymentDataSuccessMessage);
       dispatch(getRestaurantRequest(locationId));
-      history.push("/management/employees");
+      history.push("/employees");
     }
   }, [paymentDataLoading, paymentDataSuccess, paymentDataSuccessMessage]);
 
