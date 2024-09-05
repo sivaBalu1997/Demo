@@ -94,11 +94,12 @@ const PricingDetails= () => {
 
   });
 
-  const validateDropdown = (value: string[], field: string | number) => {
+  const validateDropdown = (value: string[] | undefined, field: string | number) => {
     let isValid = true;
     let errorMessage = '';
   
-    if (value.length === 0) {
+    // Ensure value is an array before checking its length
+    if (!Array.isArray(value) || value.length === 0) {
       isValid = false;
       errorMessage = 'This field is required';
     }
@@ -112,6 +113,7 @@ const PricingDetails= () => {
       console.error('Field type is not a string, cannot update validation state');
     }
   };
+  
 
   const validateForm = (): boolean => {
     validateDropdown(selectedValues, 'kitchen');
@@ -180,6 +182,9 @@ const PricingDetails= () => {
   const onSubmit: SubmitHandler<any> = (data:any) => {
     dispatchEvent();
   };
+  const handleBlur = (fieldValue: string[], fieldName: string) => {
+    validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
+  };
   
   console.log({mainForm})
 
@@ -201,28 +206,34 @@ const PricingDetails= () => {
         <div className='KitchenRelated'>
           <div className='D1kitchen'>
           <Controller
-            name="kitchen"
-            control={control}
-            defaultValue={[]}
-            rules={{ required: 'Please select at least one option' }}
-            render={({ field }:any) => (
-              <Dropdown 
-                selectedValues={field?.value || []}
-                onSelect={(values) => {
-                  setSelectedValues(values); // Update local state
-                  field.onChange(values); // Update react-hook-form state
-                  validateDropdown(values, 'kitchen'); // Validate the dropdown
-                }}
-                options={['Option 1', 'Option 2', 'Option 3']} // Example options
-                label="Kitchen Station1*"
-                onBlur={() => {
-                  field.onBlur();
-                  validateDropdown(field?.value, 'kitchen');
-                }}
-                validation={validationState.kitchen}
-              />
-            )}
-          />
+  name="kitchen"
+  control={control}
+  defaultValue={[]}
+  rules={{ required: 'Please select at least one option' }}
+  render={({ field }: any) => (
+    <Dropdown
+      selectedValues={selectedValues}
+      onSelect={(values) => {
+        setSelectedValues(values); // Update local state
+        if (field?.onChange) {
+          field.onChange(values); // Update react-hook-form state
+        }
+        validateDropdown(values, 'kitchen'); // Validate the dropdown
+      }}
+      options={['Option 1', 'Option 2', 'Option 3']} // Example options
+      label="Kitchen Station1*"
+      onBlur={() => {
+        if (field?.onBlur) {
+          field.onBlur(); // Call react-hook-form's onBlur if it exists
+          handleBlur(field?.value, 'kitchen'); // Call the custom blur handler
+        }
+        
+      }}
+      validation={validationState.kitchen}
+    />
+  )}
+/>
+
         </div>
 
         <div className='D1kitchen'>
@@ -233,10 +244,12 @@ const PricingDetails= () => {
             rules={{ required: 'Please select at least one option' }}
             render={({ field }:any) => (
               <Dropdown 
-                selectedValues={field?.value}
+                selectedValues={selectedValue1}
                 onSelect={(values) => {
                   setSelectedValue1(values)
-                field.onChange(values);
+                  if (field?.onChange) {
+                    field.onChange(values); // Update react-hook-form state
+                  }
                 validateDropdown(values, 'preparationTime');
                   
                 }}
@@ -244,8 +257,10 @@ const PricingDetails= () => {
                 
                 label="Preparation*"
                 onBlur={() => {
-                  field.onBlur();
-                  validateDropdown(field?.value, 'kitchen');
+                  if (field?.onBlur) {
+                    handleBlur(field?.value, 'preparationTime');
+ 
+                  }
                 }}
                 validation={validationState.preparationTime}
               />
@@ -271,7 +286,7 @@ const PricingDetails= () => {
             <div>
               <div className='InventoryHeading'>
                 <p>Max No. of servings per day*</p>
-                <p className='threshold'>Threshold*</p>
+                <p className='PricingthresholdHeading'>Threshold*</p>
               </div>
               <div className='InventoryInput'>
       <Controller
@@ -285,7 +300,9 @@ const PricingDetails= () => {
             {...field}
             onChange={(e) => {
               const value = e.target.value;
-              field.onChange(value); // To update Controller's value
+              if (field?.onChange) {
+                field.onChange(value); // Update react-hook-form state
+              } // To update Controller's value
       
               // Update the form state
               setForm((prevState) => ({
@@ -315,7 +332,9 @@ const PricingDetails= () => {
             {...field}
             onChange={(e) => {
               const value = e.target.value;
-              field.onChange(value); // To update Controller's value
+              if (field?.onChange) {
+                field.onChange(value); // Update react-hook-form state
+              }  // To update Controller's value
       
               // Update the form state
               setForm((prevState) => ({
