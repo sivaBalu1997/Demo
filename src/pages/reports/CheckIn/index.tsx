@@ -7,7 +7,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
-// import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "./style.scss";
@@ -29,10 +28,6 @@ const CheckIn: React.FC = () => {
   const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
-
-  // const displayCustomDateRange = () => {
-  //   setOpenCustomDateRange((op) => !op);
-  // };
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -110,7 +105,7 @@ const CheckIn: React.FC = () => {
       gridColor: isDarkTheme ? "#445678" : "#cccccc",
     },
     legend: {
-      cursor: "pointer", // Makes the legend items clickable
+      cursor: "pointer",
       itemclick: (e: CanvasJS.ChartEventArgs) => {
         if (
           typeof e.dataSeries.visible === "undefined" ||
@@ -188,14 +183,8 @@ const CheckIn: React.FC = () => {
     setSelectedPeriod(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      // setOpenStartDatePicker(true);
-      // setOpenEndDatePicker(true);
-      // setStartDate(moment().format("MM-DD-YYYY"));
-      // setEndDate(moment().format("MM-DD-YYYY"));
     } else {
       setOpenCustomDateRange(false);
-      // setOpenStartDatePicker(false);
-      // setOpenEndDatePicker(false);
     }
     setOpenFilter(false);
   };

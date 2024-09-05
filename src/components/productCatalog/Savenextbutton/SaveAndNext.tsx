@@ -1,66 +1,70 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./Savenextbutton.scss";
 import { useDispatch } from "react-redux";
 
-import { useHistory ,Link} from "react-router-dom";
-import { itemCustomizationPost, primarypost } from "../../../redux/productCatalogSprint-99/Actions";
+import { useHistory, Link } from "react-router-dom";
+import {
+  itemCustomizationPost,
+  primarypost,
+} from "../../../redux/productCatalogSprint-99/Actions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { PricingDetailRequest } from "../../../redux/productCatalogSprint-99/Actions";
 import { ApiPost } from "../../../redux/productCatalogSprint-99/Actions";
 
-interface Ingredients
-{
-  id:string,
-  name:string
+interface Ingredients {
+  id: string;
+  name: string;
 }
 
-interface Allergens
-{
-  id:string,
-  name:string
+interface Allergens {
+  id: string;
+  name: string;
 }
 
-  interface Base64Image {
-    mimeType: string;
-    base64String: string;
-  }
-  
-  interface FormData {
-    itemName: string;
-    dietaryType: string;
-    cuisine: string;
-    mealType: string;
-    bestPair: string;
-    description: string;
-    imageUrls:Base64Image[]
-    alcohol: string;
-    itemCode: string;
-    barCode: string;
-    category: string;
-    categoryId:string;
-    subCategory: string;
-    Ingredients:Ingredients[];
-    allergens:Allergens[],
-    coloriePoint: string;
-    selectedcolorie: string;
-    portionSize: string;
-    selectedPortion: string;
-    tax: string;
-    masterCode: string;
-  }
+interface Base64Image {
+  mimeType: string;
+  base64String: string;
+}
 
-  interface SubmitButtonProps {
-    getFormData: () => FormData;
-    seletedpage:string
-    reset: () => void;
-  }
-  
+interface FormData {
+  itemName: string;
+  dietaryType: string;
+  cuisine: string;
+  mealType: string;
+  bestPair: string;
+  description: string;
+  imageUrls: Base64Image[];
+  alcohol: string;
+  itemCode: string;
+  barCode: string;
+  category: string;
+  categoryId: string;
+  subCategory: string;
+  Ingredients: Ingredients[];
+  allergens: Allergens[];
+  coloriePoint: string;
+  selectedcolorie: string;
+  portionSize: string;
+  selectedPortion: string;
+  tax: string;
+  masterCode: string;
+}
 
-const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset}) => {
-  let history = useHistory()
-  const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
+interface SubmitButtonProps {
+  getFormData: () => FormData;
+  seletedpage: string;
+  reset: () => void;
+}
+
+const SaveAndNext: React.FC<SubmitButtonProps> = ({
+  getFormData,
+  seletedpage,
+  reset,
+}) => {
+  let history = useHistory();
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const extractFields = (formData: FormData) => {
     return {
       locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -72,7 +76,7 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset}
       ingredients: formData.Ingredients,
       modifiers: [],
       availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
-      subCategory:formData?.subCategory && formData?.subCategory ||"",
+      subCategory: (formData?.subCategory && formData?.subCategory) || "",
       itemId: null,
       itemName: formData.itemName,
       category: formData.category,
@@ -91,8 +95,6 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset}
       selectedPortion: "Portion(count)",
       tax: "",
       masterCode: "",
-
-
     };
   };
 
@@ -103,58 +105,52 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset}
       behavior: "smooth",
     });
   };
- 
+
   const handleclick = () => {
     const formData = getFormData();
-    console.log("submitform",formData);
-   
-   
-    if (seletedpage === "Primary" ) {
+    console.log("submitform", formData);
+
+    if (seletedpage === "Primary") {
       history.push(`/productCatalog/Pricingandkitchendetails`, {
         state: { pagename: "Pricing and kitchen details" },
       });
-     
+
       dispatch(primarypost(formData));
-      console.log("uploading",formData)
-    }  
-    else if (seletedpage === "ItemCustomization") {
-      history.push('/Reviewpage');
-    }    
+      console.log("uploading", formData);
+    } else if (seletedpage === "ItemCustomization") {
+      history.push("/Reviewpage");
+    }
     scrollToTop();
   };
 
   const handleclear = () => {
-    reset();  
+    reset();
   };
 
   return (
     <div>
-      <div className= {isExpanded?"saveandnext":"saveandnext1"}   >
+      <div className={isExpanded ? "saveandnext" : "saveandnext1"}>
         <button className="clearall" onClick={handleclear}>
           Clear All
         </button>
-        <button className="link saveall" onClick={handleclick}> Save & next</button>
-        
-    
-       
+        <button className="link saveall" onClick={handleclick}>
+          {" "}
+          Save & next
+        </button>
       </div>
-        <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
 
 export default SaveAndNext;
-
-
-

@@ -1,5 +1,5 @@
 :root {
-  --cchart-bg: #ffffff; /* Default light theme color */
+  --cchart-bg: #ffffff;
   --cchart-border: #000000;
 }
 
@@ -17,7 +17,6 @@
   position: relative;
   width: 100%;
   height: fit-content;
-  // background-color: red;
 
   @media (max-width: 500px) {
     width: 100%;
@@ -27,15 +26,8 @@
     width: 100%;
     height: 100%;
     background-color: var(--cchart-bg);
-    // background-color: white;
     border-radius: 1rem;
     border: 1px solid var(--cchart-border);
-    // border: 1px solid black;
-    // .chart-title {
-    //   color: var(--cchart-border); // You can set a title color here
-    //   font-size: 100px;
-    //   font-weight: bold;
-    // }
   }
   .canvasjs-chart-credit {
     display: none !important;

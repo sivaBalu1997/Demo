@@ -27,22 +27,16 @@
   --table-text: #333333;
   --chart-bg: #ffffff;
   --screen-bg: #ffffff;
-  --cchart-bg: #ffffff; /* Default light theme color */
+  --cchart-bg: #ffffff;
   --cchart-border: #000000;
 }
 .checkin-container {
-  // background-color: #283347;
   background-color: var(--screen-bg);
   color: var(--screen-bg);
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
   gap: 0.5rem;
   width: 80vw;
-  // @media (max-width: 800px) {
-  //   width: 100vw;
-  // }
   @media (max-width: 500px) {
     width: 100vw;
   }
@@ -62,11 +56,9 @@
         font-weight: 500;
       }
       @media (max-width: 500px) {
-        // background-color: red;
         font-size: xx-small;
       }
       @media (max-width: 412px) {
-        // background-color: red;
         font-size: xx-small;
       }
     }
@@ -76,10 +68,7 @@
       align-items: center;
       gap: 0.8rem;
       height: 6rem;
-      // width: 30%;
-      // background-color: red;
       .label-time-period {
-        // background-color: greenyellow;
         font-weight: 600;
         color: var(--table-text);
         @media (max-width: 800px) {
@@ -87,7 +76,7 @@
         }
       }
       .filter-toggle-btn-container {
-        position: relative; // Relative to contain the absolute dropdown
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -114,11 +103,11 @@
         }
 
         .filter-drop-down-options {
-          position: absolute; // Absolute to overlay other elements
-          top: 110%; // Positions dropdown just below the button
+          position: absolute;
+          top: 110%;
           left: 50%;
           transform: translateX(-50%);
-          width: 12rem; // Adjusted for better fit
+          width: 12rem;
           padding: 0.8rem;
           background-color: var(--navbar-bg);
           color: var(--navbar-text);
@@ -155,15 +144,10 @@
     }
   }
   .ch-date-range-style {
-    // position: absolute;
-    // top: 150px;
     display: flex;
-    // gap: 1rem;
     height: 60px;
-    // right: 1rem;
     justify-content: flex-end;
     align-items: center;
-    // background-color: red;
     padding-right: 1rem;
     width: 100%;
 
@@ -212,19 +196,13 @@
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    // background-color: red;
-    // margin-bottom: 1rem;
     @media (max-width: 800px) {
       display: flex;
-      // flex-direction: column;
       flex-wrap: wrap;
-      // background-color: red;
     }
     @media (max-width: 500px) {
       display: flex;
-      // flex-direction: column;
       flex-wrap: wrap;
-      // background-color: red;
     }
     .box {
       height: 9rem;
@@ -261,10 +239,6 @@
       h3 {
         margin-bottom: 0rem;
         margin-top: 0rem;
-        // width: 9.375rem; /* Set a specific width */
-        // white-space: nowrap; /* Prevents wrapping */
-        // overflow: hidden; /* Hides overflow text */
-        // text-overflow: ellipsis; /* Adds "..." at the end */
       }
     }
   }
@@ -287,7 +261,6 @@
       color: var(--table-text);
       font-weight: 600;
       font-size: larger;
-      // background-color: #222b3c;
       background-color: var(--table-bg);
       .upper-value {
         margin-bottom: 0;
@@ -332,7 +305,6 @@
       color: var(--table-text);
       font-weight: 600;
       font-size: larger;
-      // background-color: #222b3c;
       background-color: var(--table-bg);
       .upper-value {
         margin-bottom: 0;
@@ -343,14 +315,9 @@
     }
   }
   .dinein-time-chart-container {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
     width: 69%;
-    // height: 33rem;
     border-radius: 1rem;
     margin-left: 14.9%;
-    // background-color: red;
   }
   .day-of-the-week {
     display: flex;
@@ -387,28 +354,6 @@
           color: #e9ecef;
         }
       }
-
-      // &__navigation {
-      //   top: 15px;
-      //   line-height: 1.5;
-      //   border: 0.5rem solid transparent;
-
-      //   &--previous {
-      //     border-right-color: #fff;
-
-      //     &:hover {
-      //       border-right-color: #0056b3;
-      //     }
-      //   }
-
-      //   &--next {
-      //     border-left-color: #fff;
-
-      //     &:hover {
-      //       border-left-color: #0056b3;
-      //     }
-      //   }
-      // }
 
       &__day {
         color: #007bff;

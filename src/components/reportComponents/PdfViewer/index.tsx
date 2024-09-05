@@ -4,12 +4,10 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
-import "./style.scss"; // Import your custom SCSS file
+import "./style.scss";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 
 const PdfViewer = ({ fileUrl }: any) => {
-  console.log({ fileUrl });
-  // Accept `fileUrl` as a prop
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const { isDarkTheme } = useContext(ThemeContext);
 

@@ -44,7 +44,6 @@ const Topnavbar = () => {
           key={item.name}
           to={item.path}
           className={`t-nav-item ${active === item.path ? "t-active" : ""}`}
-          // onClick={() => handleActiveLink(item) }
         >
           {item.name}
           {active === item.path ? <hr className="topNavbarLine" /> : ""}

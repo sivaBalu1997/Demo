@@ -31,7 +31,6 @@
   position: sticky;
   top: 0;
   z-index: 2;
-  // height: 5rem;
   width: 80vw;
   align-items: center;
   @media (max-width: 500px) {
@@ -70,7 +69,6 @@
   }
 
   .t-theme-toggle {
-    // background-color: red;
     @media (max-width: 800px) {
       padding-right: 1rem;
     }
@@ -80,8 +78,8 @@
     .t-switch {
       position: relative;
       display: inline-block;
-      width: 3.75rem; /* 60px */
-      height: 2.125rem; /* 34px */
+      width: 3.75rem;
+      height: 2.125rem;
       input {
         opacity: 0;
         width: 0;
@@ -96,7 +94,7 @@
         bottom: 0;
         background-color: #5d6e8f;
         transition: 0.4s;
-        border-radius: 2.125rem; /* 34px */
+        border-radius: 2.125rem;
 
         &:before {
           position: absolute;
@@ -126,8 +124,7 @@
   }
 
   .t-filter-toggle-btn-container {
-    position: relative; // Relative to contain the absolute dropdown
-    display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     gap: 0.6rem;
@@ -147,11 +144,11 @@
     }
 
     .t-filter-drop-down-options {
-      position: absolute; // Absolute to overlay other elements
-      top: 110%; // Positions dropdown just below the button
+      position: absolute;
+      top: 110%;
       left: 50%;
       transform: translateX(-50%);
-      width: 12rem; // Adjusted for better fit
+      width: 12rem;
       padding: 0.5rem;
       background-color: var(--t-navbar-bg);
       color: var(--t-navbar-text);

@@ -10,19 +10,12 @@ import Topnavbar from "components/reportComponents/TopNavbar";
 const GenAiReports: React.FC = () => {
   const [openJustificationReport, setOpenJustificationReport] = useState(false);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  const supportDocumentRef = useRef<HTMLDivElement>(null); // Create a ref for the target element
+  const supportDocumentRef = useRef<HTMLDivElement>(null);
   const [openFilter, setOpenFilter] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("July 2024");
 
   const openReport = () => {
     setOpenJustificationReport(true);
-
-    // Scroll to the support document if it's opened
-    // if (supportDocumentRef.current) {
-    //   setTimeout(() => {
-    //     supportDocumentRef.current?.scrollIntoView({ behavior: "smooth" });
-    //   }, 100); // Adjust the delay if necessary
-    // }
 
     setTimeout(() => {
       if (supportDocumentRef?.current) {

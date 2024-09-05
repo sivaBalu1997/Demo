@@ -4,7 +4,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Table from "../../../components/reportComponents/Table";
 import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeData";
-// import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "./style.scss";

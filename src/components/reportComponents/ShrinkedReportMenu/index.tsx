@@ -1,8 +1,5 @@
-// import React from "react";
-// import "./style.scss";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 import "./style.scss";
 
 type NavItemType = {
@@ -30,13 +27,13 @@ const ShrinkedReportMenu: React.FC = () => {
 
   const handleNavClick = (path: string) => {
     history.push(path);
-    setIsOpen(false); // Close menu after navigation
+    setIsOpen(false);
   };
 
   return (
     <div className="r-hamburger-menu">
       <div className="r-hamburger-icon" onClick={toggleMenu}>
-        &#9776; {/* Hamburger icon */}
+        &#9776;
       </div>
       {isOpen && (
         <div className="r-menu">

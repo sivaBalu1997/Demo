@@ -40,11 +40,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // background-color: red;
 
     h3 {
       padding-left: 1rem;
-      position: -webkit-sticky; /* For Safari */
+      position: -webkit-sticky;
       position: sticky;
       top: 0;
       background-color: inherit;
@@ -53,8 +52,6 @@
 
     .t-side-attribs {
       display: flex;
-      // background-color: red;
-      // justify-content: space-between;
       .t-expand-all {
         cursor: pointer;
         background-color: var(--navbar-bg);
@@ -174,7 +171,7 @@
 
     .t-nestedTable {
       width: 100%;
-      background-color: #f9f9f9; /* Example background for nested rows */
+      background-color: #f9f9f9;
       border: 1px solid #ddd;
 
       .t-nestedHeader {
@@ -186,7 +183,6 @@
     }
 
     tr {
-      /* display: flex; */
       .t-tableHeader,
       .t-tableRow {
         display: flex;
@@ -248,7 +244,7 @@
   justify-content: flex-end;
   align-items: center;
   padding-right: 1rem;
-  position: -webkit-sticky; /* For Safari */
+  position: -webkit-sticky;
   position: sticky;
   bottom: 0;
   background-color: inherit;

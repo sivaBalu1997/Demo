@@ -11,7 +11,6 @@ import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 
-// Define types for data used in the component
 interface PaymentModeData {
   "Payment Mode": string;
   "#Total Orders": number;
@@ -28,7 +27,6 @@ interface HourOfTheDayData {
   "Average Sales per Hour": number;
 }
 
-// Define types for state
 interface SalesState {
   startDate: Date;
   endDate: Date;
@@ -39,7 +37,6 @@ interface SalesState {
   selectedPeriod: string;
 }
 
-// Define options type for the charts
 interface ChartOptions {
   animationEnabled: boolean;
   exportEnabled: boolean;
@@ -263,7 +260,6 @@ const Sales: React.FC = () => {
               }
               dateFormat="dd MMM yyyy"
               className="s-start-date"
-              // open={state.openStartDatePicker}
               onSelect={() =>
                 setState((prevState) => ({
                   ...prevState,
@@ -274,7 +270,6 @@ const Sales: React.FC = () => {
                 setState((prevState) => ({
                   ...prevState,
                   openStartDatePicker: true,
-                  // openEndDatePicker: true,
                 }));
               }}
             />
@@ -290,7 +285,6 @@ const Sales: React.FC = () => {
               }
               dateFormat="dd MMM yyyy"
               className="s-end-date"
-              // open={state.openEndDatePicker}
               onSelect={() =>
                 setState((prevState) => ({
                   ...prevState,

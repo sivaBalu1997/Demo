@@ -5,10 +5,9 @@ import { DDDD } from "../../../assets/mockData/mock D/nested";
 import Table from "../../../components/reportComponents/Table";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Import default styles
+import "react-datepicker/dist/react-datepicker.css";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import "./style.scss";
-// import moment from "moment";
 import { generateGradient } from "../../../util/color";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
@@ -38,10 +37,6 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
     useState<boolean>(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
 
-  // const displayCustomDateRange = () => {
-  //   setOpenCustomDateRange((op) => !op);
-  // };
-
   const ProdTopTwenty = ProdI["Top 20 Popular Items"];
   const TopTwentyXaxisData = ProdTopTwenty.map((item) => item["Product name"]);
   const TopTwentyYaxisData = ProdTopTwenty.map((item) => item.Quantity);
@@ -61,8 +56,6 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
   };
-
-  //==========================================================================//
 
   const getTop10Items = (data: ProductInsightsData): TopVoidedItem[] => {
     return data["Top Voided Items"]
@@ -94,16 +87,10 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
     setSelectedPeriod(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      // setOpenStartDatePicker(true);
-      // setOpenEndDatePicker(true);
-      // setStartDate(moment().format("MM-DD-YYYY"));
-      // setEndDate(moment().format("MM-DD-YYYY"));
       setStartDate(new Date());
       setEndDate(new Date());
     } else {
       setOpenCustomDateRange(false);
-      // setOpenStartDatePicker(false);
-      // setOpenEndDatePicker(false);
     }
     setOpenFilter(false);
   };
@@ -112,16 +99,10 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
     setCategoryFilterProductSummary(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      // setOpenStartDatePicker(true);
-      // setOpenEndDatePicker(true);
-      // setStartDate(moment().format("MM-DD-YYYY"));
-      // setEndDate(moment().format("MM-DD-YYYY"));
       setStartDate(new Date());
       setEndDate(new Date());
     } else {
       setOpenCustomDateRange(false);
-      // setOpenStartDatePicker(false);
-      // setOpenEndDatePicker(false);
     }
     setOpenCategoryDropDown(false);
   };

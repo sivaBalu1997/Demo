@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
-// import moment from "moment";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
 import { custIn } from "../../../assets/mockData/originalAPIData/OcustomerInsights";
@@ -20,24 +19,14 @@ const CustIns: React.FC = () => {
     setOpenFilter((op) => !op);
   };
   const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
-
-  // const displayCustomDateRange = () => {
-  //   setOpenCustomDateRange((op) => !op);
-  // };
   const [selectedPeriod, setSelectedPeriod] = useState("Today");
 
   const handleOptionClickForDate = (option: string) => {
-    setSelectedPeriod(option); // Update the selected period
+    setSelectedPeriod(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      // setOpenStartDatePicker(true);
-      // setOpenEndDatePicker(true);
-      // setStartDate(moment().format("MM-DD-YYYY"));
-      // setEndDate(moment().format("MM-DD-YYYY"));
     } else {
       setOpenCustomDateRange(false);
-      // setOpenStartDatePicker(false);
-      // setOpenEndDatePicker(false);
     }
     setOpenFilter(false);
   };

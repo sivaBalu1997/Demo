@@ -37,7 +37,6 @@ const CustomerInsights = () => {
         <div className="tables-container-two">
           <Table
             Heading="Pick-Up & Delivery"
-            // tableData={LD["PickUp/Delivery"]}
             tableData={DDDD["PickUp/Delivery"]}
             viewType="full"
             recordsPerPage={5}
