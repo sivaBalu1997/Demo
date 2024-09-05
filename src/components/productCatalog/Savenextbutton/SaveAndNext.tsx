@@ -9,9 +9,6 @@ import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { primarypost } from "redux/productCatalog/productCatalogActions";
 // import { useNavigate } from "react-router-dom";
 
-
-
-
 interface Ingredients
 {
   id:string,

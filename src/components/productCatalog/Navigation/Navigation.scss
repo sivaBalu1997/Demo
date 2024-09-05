@@ -3,7 +3,7 @@
   font-family: "Poppins",sans-serif;
 }
 .navigation{
-  width: 18.813rem;
+  width: 100%;
   position: relative;
   height: 2.25rem;
   top: 0.363rem;
@@ -17,7 +17,7 @@
   // margin-left: 3.2rem;
   color: #67833E;
   line-height: 36px;
-  margin-left: 12px;
+  margin-left: 50px;
   margin-top: 30px;
   margin-bottom: 40px;
 }
@@ -61,7 +61,7 @@
 
 .navbarExpanded{
   color: black;
-  width: 23vw;
+  width: 20vw;
   height: 4px;
   padding-bottom: 0.313rem;
   list-style: none;
@@ -87,7 +87,7 @@
 }
 
 .list-text {
-  font-size: 18px;
+  font-size: 16px;
   font-weight:500;
   font-family: "Poppins",sans-serif;
   color:#979797;
