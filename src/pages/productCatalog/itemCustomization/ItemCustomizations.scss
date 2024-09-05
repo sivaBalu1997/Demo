@@ -572,6 +572,7 @@ cursor: pointer;
 .dropDown-item{
   position: relative;
   z-index: 1300;
+  transform: translate(20px,17px);
 }
 
 @media (max-width: 1400px) {

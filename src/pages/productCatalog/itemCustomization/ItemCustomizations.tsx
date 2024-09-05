@@ -5,10 +5,11 @@ import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Polygon1 from "../../../assets/images/Polygon 1.png";
 import Polygon2 from "../../../assets/images/Polygon 2.png";
 import { useDispatch, useSelector } from "react-redux";
-import { itemCustomizationPost } from "../../../redux/productCatalogSprint-99/Actions";
+import { itemCustomizationPost } from "../../../redux/productCatalog/productCatalogActions";
 import Serachicon from '../../../assets/images/searchicon.png';
 import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownItem";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
+import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import SidePanel from "pages/SidePanel";
 
 
@@ -132,7 +133,13 @@ const ItemCustomizations: React.FC = () => {
       },
     ]);
   };
-
+  const getFormData = (): FormData => {
+    const formData = new FormData();
+    modifications.forEach((modification, index) => {
+        formData.append(`modification_${index}`, JSON.stringify(modification));
+    });
+    return formData;
+};
   const handleModifierChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const newModifications = [...modifications];
@@ -543,12 +550,12 @@ newModifications[index][property] = value as Modification[typeof property];
 <div className="dropdown-container">
 
 <div className="footer-save-next">
-{/* <Savenextbutton
-selectedpage="ItemCustomization"
-formData={modifications}
-validation={validationforitemcustom}
-formclear={clerall}
-/> */}
+ <SaveAndNext
+    seletedpage="ItemCustomization"
+    getFormData={getFormData}  // Pass the function instead of the array
+    reset={clerall}
+    modifications={modifications} // Pass the modifications array here}
+/> 
 </div>
 </div>
   </div>

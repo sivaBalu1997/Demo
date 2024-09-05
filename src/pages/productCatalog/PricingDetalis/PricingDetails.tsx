@@ -6,7 +6,7 @@ import Specialavail from '../../../components/productCatalog/SpecialAvail/Specia
 import Normalavail from '../../../components/productCatalog/Normalavail/Normalavail';
 import { useDispatch } from 'react-redux';
 import Tooltip from '../../../components/productCatalog/Tooltip/Tooltip';
-import { PricingDetailRequest } from '../../../redux/productCatalogSprint-99/Actions';
+import { getTagClassRequest, PricingDetailRequest } from '../../../redux/productCatalog/productCatalogActions';
 import Dropdown from '../../../components/productCatalog/DropDown/Dropdown';
 import { useHistory } from 'react-router-dom';
 import { Contextpagejs } from '../contextpage';
@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import Navigationpage from 'components/productCatalog/Navigation/NavigationPage';
+import { da } from 'date-fns/locale';
 import SidePanel from 'pages/SidePanel';
 
 interface ValidationState {
@@ -33,6 +34,7 @@ interface DropdownValidationState {
   Deliveryspecial: ValidationState;
   Deliveryspecial1: ValidationState;
   Deliveryspecial2: ValidationState;
+  tagName:never
 }
 interface FormState {
   Inventory1: string;
@@ -51,14 +53,40 @@ interface MainForm {
 interface PricingDetailsFormData {
   kitchen: string[];
 }
+interface option {
+  name: string;
+
+}
+
+interface State {
+  auth: {
+    credentials:{
+      locationId:string
+
+    }
+    
+  };
+}
+interface StateData {
+ 
+  productCatalog:{
+    availability:[]
+
+    }
+    
+  
+}
 
 
 const PricingDetails= () => {
   const { control, handleSubmit, formState: { errors } } = useForm<PricingDetailsFormData>();
+  const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
+  const data=useSelector((state:StateData)=>state.productCatalog.availability)
+
 
   const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
   const prizingDetail = useSelector((state: any) => state.PricingDetailReducer.prizingData?.mainForm || {});
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState(['Preparation Time', 'Option 2', 'Option 3', 'Option 5', 'Option 4']);
   const history = useHistory();
   const { activeCategory, setActiveCategory } = useContext(Contextpagejs);
@@ -165,24 +193,18 @@ const PricingDetails= () => {
   };
 
   useEffect(()=>{
+    setOptions(data)
     getApi();
-  },[])
+  },[data])
 
   const getApi=async()=>{
-    try{
-      const response= await axios.get("https://api.magilhub.com/magilhub-data-services/merchants/itemAttributes?locationId=9c485244-afd4-11eb-b6c7-42010a010026&id=&option=Tag")
-      setOptions(response.data)
-      console.log({setOptions})
-     }catch(error){
-       console.log(error)
-     }
+    dispatch(getTagClassRequest(locationid))
+  
   }
 
   const onSubmit: SubmitHandler<any> = (data:any) => {
     dispatchEvent();
   };
-  
-  console.log({mainForm})
 
   return (
    <div style={{display:'flex'}}>
@@ -216,7 +238,7 @@ const PricingDetails= () => {
                   field.onChange(values); // Update react-hook-form state
                   validateDropdown(values, 'kitchen'); // Validate the dropdown
                 }}
-                options={['Option 1', 'Option 2', 'Option 3']} // Example options
+                options={options.map((elem)=>elem.name)} // Example options
                 label="Kitchen Station1*"
                 onBlur={() => {
                   field.onBlur();
