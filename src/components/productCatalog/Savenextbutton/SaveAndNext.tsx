@@ -148,7 +148,7 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset}
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="light"
+          // theme="light"
         />
     </div>
   );

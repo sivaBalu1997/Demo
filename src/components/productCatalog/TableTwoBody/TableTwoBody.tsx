@@ -34,39 +34,39 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
       {itemobject.name.map((item, index) => (
         <tr
           key={index}
-          className={`tabletwobodyrow ${
+          className={`tabletwobodyrows ${
             itemobject.id === 1 &&
             indexvalue === 0 &&
             index === 0 &&
-            'borderforrow1'
+            ''
           } ${draggingOverIndex === index ? 'selected' : ''} ${
             itemobject.id === 2 &&
             indexvalue === 0 &&
             index === 0 &&
-            'secondpartborder'
+            ''
           } ${
             itemobject.id === 1 && index === 1
               ? 'firstpartborder'
               : 'firstpartborder1'
           }`}
         >
-          <td className="eachobject">
+          <td className="eachobject-rowwise">
             {Object.entries(item.pricingdetails || {}).map(
               ([key, cellData], cellIndex) => {
                 const className = classNamesinner[cellIndex];
                 const items = listingobject[className];
                 if (items && Array.isArray(cellData)) {
                   return (
-                    <div className={className} key={cellIndex}>
+                    <td className={className} key={cellIndex}>
                       {cellData.map((item, itemIndex) => (
                         <td key={`${cellIndex}-${itemIndex}`}>
                           {item === 'Enabled' || item === 'Disabled' ? (
-                            <div onClick={() => showsidebar(key)}>
+                            <td onClick={() => showsidebar(key)}>
                               <Toggle
                                 toggle={item === 'Enabled'}
                                
                               />
-                            </div>
+                            </td>
                           ) : (
                             <span
                               className="price"
@@ -77,7 +77,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                           )}
                         </td>
                       ))}
-                    </div>
+                    </td>
                   );
                 }
                 return null;

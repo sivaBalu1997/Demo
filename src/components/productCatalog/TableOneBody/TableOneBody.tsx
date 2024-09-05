@@ -35,7 +35,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   return (
     <>
       {object.name.map((item, index) => (
-        <div key={index}>
+        <tr key={index}>
           {draggingOverIndex === index && <tr className="placeholderplace"></tr>}
           <tr
             draggable
@@ -48,7 +48,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               handleDragScroll(e, tableBodyRef1, tableBodyRef2);
             }}
             onDragEnd={handleRowDragEnd}
-            className={`itemdetails ${
+            className={`itemdetails-row ${
               draggedRowIndex?.index === index ? 'selected' : ''
             }`}
           >
@@ -61,7 +61,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
             </td>
             <td className="itemcode2">{item.code}</td>
           </tr>
-        </div>
+        </tr>
       ))}
     </>
   );

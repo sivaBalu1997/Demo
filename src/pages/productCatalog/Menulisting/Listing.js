@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import "./Menulisting.scss";
+import "./Listing.scss";
 import dots from "../../../assets/svg/dots.svg";
 import dollar from "../../../assets/svg/dollar.svg";
 import removeicon from "../../../assets/svg/removeicon.svg";
@@ -10,7 +10,7 @@ import dollaricon from "../../../assets/svg/dollaricon.svg";
 import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
-import { itemsdata,itemsfooddata } from "../../../assets/mockData/Moca_data";
+import { itemsdata, itemsfooddata } from "../../../assets/mockData/Moca_data";
 import InsertColumnList from "../../../components/productCatalog/InsertColumnList/InsertColumnList";
 import TableFirstHeader from "../../../components/productCatalog/TableFirstHeader/TableFirstHeader";
 import TableSecondHeader from "../../../components/productCatalog/TableSecondHeader/TableSecondHeader";
@@ -19,7 +19,7 @@ import TableOneBody from "../../../components/productCatalog/TableOneBody/TableO
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
 
-export const Menulisting = () => {
+export const Listing = () => {
   const { setActive } = useContext(Contextpagejs);
   const [itemsState, setItemsState] = useState(itemsdata);
   const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
@@ -38,7 +38,7 @@ export const Menulisting = () => {
   const [columndraggingindex, setcolumndraggingindex] = useState(null);
   const [modal, setmodal] = useState(false);
 
-  console.log("Hi")
+  console.log("Hi");
 
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [classNames, setclassNames] = useState([
@@ -112,9 +112,6 @@ export const Menulisting = () => {
     ["Total", "Threshold"],
     [""],
   ]);
-
- 
-
 
   const [nooftypes, setnooftypes] = useState([
     {
@@ -315,25 +312,25 @@ export const Menulisting = () => {
   const tableBodyRef1 = useRef(null);
   const tableBodyRef2 = useRef(null);
 
-  // useEffect(() => {
-  //   const syncScroll = (sourceTable, targetTable) => {
-  //     targetTable.scrollTop = sourceTable.scrollTop;
-  //   };
+//   useEffect(() => {
+//     const syncScroll = (sourceTable, targetTable) => {
+//       targetTable.scrollTop = sourceTable.scrollTop;
+//     };
 
-  //   const table1 = tableBodyRef1.current;
-  //   const table2 = tableBodyRef2.current;
+//     const table1 = tableBodyRef1.current;
+//     const table2 = tableBodyRef2.current;
 
-  //   const handleTable1Scroll = () => syncScroll(table1, table2);
-  //   const handleTable2Scroll = () => syncScroll(table2, table1);
+//     const handleTable1Scroll = () => syncScroll(table1, table2);
+//     const handleTable2Scroll = () => syncScroll(table2, table1);
 
-  //   table1.addEventListener("scroll", handleTable1Scroll);
-  //   table2.addEventListener("scroll", handleTable2Scroll);
+//     table1.addEventListener("scroll", handleTable1Scroll);
+//     table2.addEventListener("scroll", handleTable2Scroll);
 
-  //   return () => {
-  //     table1.removeEventListener("scroll", handleTable1Scroll);
-  //     table2.removeEventListener("scroll", handleTable2Scroll);
-  //   };
-  // }, []);
+//     return () => {
+//       table1.removeEventListener("scroll", handleTable1Scroll);
+//       table2.removeEventListener("scroll", handleTable2Scroll);
+//     };
+//   }, []);
 
   const handleDragScroll = (e, tableRef1, tableRef2) => {
     const table1 = tableRef1.current;
@@ -365,7 +362,7 @@ export const Menulisting = () => {
   }, [showheadinglist]);
 
   return (
-    <div style={{ display: "flex" ,overflowX:'hidden'}}>
+    <div style={{ display: "flex" }}>
       <SidePanel />
       <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
         <div className="headercomponent">
@@ -448,16 +445,14 @@ export const Menulisting = () => {
             </table>
 
             </div>
-            <div className="table-two-alignment">
+            <div>
                 
-                  <table className='Menu-Listing-TableTwo' >
+                  <table className='Menu-Listing-TableTwo2' >
                 <thead className='Menu-Listing-TableTwoHead'>
                 <tr>
                
-               
-                    <th >
-                      <tr className="headingonesection">
-                      {firstRowTable.map((header, index) => (
+                  <td className="headingonesection">
+                    {firstRowTable.map((header, index) => (
                       <TableFirstHeader
                         key={index}
                         header={header}
@@ -474,12 +469,9 @@ export const Menulisting = () => {
                         removeicon={removeicon}
                       />
                     ))}
-
-
-
-                      </tr>
-                      <tr className="headingtwosection">
-                   {secondRowTable.map((subheaders, index) => (
+                  </td>
+                  <td className="headingtwosection">
+                    {secondRowTable.map((subheaders, index) => (
                       <TableSecondHeader
                         key={index}
                         subheaders={subheaders}
@@ -489,14 +481,7 @@ export const Menulisting = () => {
                         classNames={classNames}
                       />
                     ))}
-                   </tr>
-                    
-                    </th>
-                    
-                 
-                  <tr >
-                   
-                  </tr>
+                  </td>
                   </tr>
               
               
@@ -507,9 +492,9 @@ export const Menulisting = () => {
               
                   {nooftypes.map((itemobject, indexvalue) => {
                     return (
-                     <tr className="tabletwoparttwodata">
+                     <td className="tabletwoparttwodata">
                         {indexvalue === 1 && (
-                          <tr className="itemheading2row"></tr>
+                          <div className="itemheading2row"></div>
                         )}
 
                         <TableTwoBody
@@ -521,7 +506,7 @@ export const Menulisting = () => {
                           settogglebtn={settogglebtn}
                           showsidebar={showsidebar}
                         />
-                      </tr>
+                      </td>
                     );
                   })}
              
