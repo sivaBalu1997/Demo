@@ -55,28 +55,20 @@ interface PricingDetailsFormData {
 }
 interface option {
   name: string;
-
 }
 
 interface State {
   auth: {
     credentials:{
       locationId:string
-
     }
-    
   };
 }
 interface StateData {
- 
   productCatalog:{
     availability:[]
-
     }
-    
-  
 }
-
 
 const PricingDetails= () => {
   const { control, handleSubmit, formState: { errors } } = useForm<PricingDetailsFormData>();
@@ -287,8 +279,10 @@ const PricingDetails= () => {
         </div>
 
         <div className='InventoryToggle'>
-          <div><p className='IHeading'>Inventory</p></div>
-          <div className='toggleI'><Toggle toggle={inventory} setToggle={setInventory} /></div>
+          <p className='IHeading'>Inventory</p>
+          <div className='toggleI'>
+            <Toggle toggle={inventory} setToggle={setInventory} />
+          </div>
         </div>
 
         <div className='InventorySection'>
@@ -299,129 +293,129 @@ const PricingDetails= () => {
                 <p className='threshold'>Threshold*</p>
               </div>
               <div className='InventoryInput'>
-      <Controller
-        name='Inventory1'
-        control={control}
-        defaultValue={form.Inventory1 || ''}
-        render={({ field }:any) => (
-          <input
-            className="I1"
-            type="text"
-            {...field}
-            onChange={(e) => {
-              const value = e.target.value;
-              field.onChange(value); // To update Controller's value
-      
-              // Update the form state
-              setForm((prevState) => ({
-                ...prevState,
-                Inventory1: value, // Update Inventory1 in form state
-              }));
-            }}
-            
-            style={{
-              borderColor: formerrors.Inventory1 ? 'red' : 'rgba(0, 0, 0, 0.3)'
-            }}
-          />
-        )}
-        rules={{ required: 'This field is required' }} // Validation rule
-      />
+                <Controller
+                  name='Inventory1'
+                  control={control}
+                  defaultValue={form.Inventory1 || ''}
+                  render={({ field }:any) => (
+                  <input
+                    className="I1"
+                    type="text"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      field.onChange(value); // To update Controller's value
+              
+                      // Update the form state
+                      setForm((prevState) => ({
+                        ...prevState,
+                        Inventory1: value, // Update Inventory1 in form state
+                      }));
+                    }}
+                    
+                    style={{
+                      borderColor: formerrors.Inventory1 ? 'red' : 'rgba(0, 0, 0, 0.3)'
+                    }}
+                  />
+                )}
+                rules={{ required: 'This field is required' }} // Validation rule
+              />
     
-                
-      
-      <Controller
-        name='Inventory2'
-        control={control}
-        defaultValue={form.Inventory2 || ''}
-        render={({ field }:any) => (
-          <input
-            className="I1"
-            type="text"
-            {...field}
-            onChange={(e) => {
-              const value = e.target.value;
-              field.onChange(value); // To update Controller's value
-      
-              // Update the form state
-              setForm((prevState) => ({
-                ...prevState,
-                Inventory2: value, // Update Inventory2 in form state
-              }));
-            }}
-            
-            style={{
-              borderColor: formerrors.Inventory2 ? 'red' : 'rgba(0, 0, 0, 0.3)'
-            }}
-          />
-        )}
-        
-      />
-   
-                {/* <Tooltip message="Threshold">
-                  <div className="ToolInventory1">
-                    <img src={info} alt="" width={20} height={20} />
-                  </div>
-                </Tooltip> */}
-              </div>
-              {formerrors.Inventory1 && <p className='ErrorsForm' >{formerrors.Inventory1}</p>}
+              <Controller
+                name='Inventory2'
+                control={control}
+                defaultValue={form.Inventory2 || ''}
+                render={({ field }:any) => (
+                  <input
+                    className="I1"
+                    type="text"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      field.onChange(value); // To update Controller's value
+              
+                      // Update the form state
+                      setForm((prevState) => ({
+                        ...prevState,
+                        Inventory2: value, // Update Inventory2 in form state
+                      }));
+                    }}
+                    
+                    style={{
+                      borderColor: formerrors.Inventory2 ? 'red' : 'rgba(0, 0, 0, 0.3)'
+                    }}
+                  />
+                )}
+              />
+          </div>
+          {formerrors.Inventory1 && <p className='ErrorsForm' >{formerrors.Inventory1}</p>}
               {formerrors.Inventory2 && <p className='ErrorsFormi2' >{formerrors.Inventory2}</p>}
-              <div className='Inventcheckbox'>
-                <div className='checkboxI'>
-                  <input type="checkbox" className='checkbox1-color' />
-                  <label className='InventoryHeadingII'>Reset inventory everyday</label>
-                </div>
+                <div className='Inventcheckbox'>
+                  <div className='checkboxI'>
+                    <input type="checkbox" className='checkbox1-color' />
+                    <label className='InventoryHeadingII'>Reset inventory everyday</label>
+                  </div>
 
-                <div className='checkbox2'>
-                  <input type="checkbox" className='checkbox1-color' />
-                  <label className='InventoryHeadingII'>Show next available time when maximum count is reached</label>
+                  <div className='checkbox2'>
+                    <input type="checkbox" className='checkbox1-color' />
+                    <label className='InventoryHeadingII'>Show next available time when maximum count is reached</label>
+                  </div>
                 </div>
               </div>
+            )}
+          </div>
+
+          <div className='NormalSpecial'>
+            <div className='Normal'>
+              <input
+                type="radio"
+                value="true"
+                checked={isOptionTrue === true}
+                onChange={() => setIsOptionTrue(true)}
+                className='N1radio'
+              />
+              <label className='N1'>Normal Availability</label>
             </div>
-          )}
-        </div>
-
-        <div className='NormalSpecial'>
-          <div className='Normal'>
-            <input
-              type="radio"
-              value="true"
-              checked={isOptionTrue === true}
-              onChange={() => setIsOptionTrue(true)}
-              className='N1radio'
-            />
-            <label className='N1'>Normal Availability</label>
+            <div className='Special'>
+              <input
+                type="radio"
+                value="false"
+                checked={isOptionTrue === false}
+                onChange={() => setIsOptionTrue(false)}
+                className='S1radio'
+              />
+              <label className='S1'>Special Availability</label>
+            </div>
           </div>
-          <div className='Special'>
-            <input
-              type="radio"
-              value="false"
-              checked={isOptionTrue === false}
-              onChange={() => setIsOptionTrue(false)}
-              className='S1radio'
+
+          {isOptionTrue ? 
+            <Normalavail   
+              getNormalForm={getNormalForm}
+              validateDropdown={validateDropdown} 
+              dinein={dinein} setDineIn={setDineIn} 
+              validationState={validationState}   
+            /> : 
+            <Specialavail   
+              getSpecialForm={getSpecialForm} 
+              validateDropdown={validateDropdown}  
+              validationState={validationState}   
             />
-            <label className='S1'>Special Availability</label>
-          </div>
+          }
+
         </div>
-
-        {isOptionTrue ? <Normalavail   getNormalForm={getNormalForm} validateDropdown={validateDropdown} dinein={dinein} setDineIn={setDineIn} validationState={validationState}   /> : <Specialavail   getSpecialForm={getSpecialForm} validateDropdown={validateDropdown}  validationState={validationState}   />}
-
         
-      </div>
-      <div className= {isExpanded? "buttoncomponentpricing": "buttoncomponentpricing1"}  >
-          <div className= {isExpanded? "saveandnextPricing": "saveandnextPricing1"}>
-            <div className={isExpanded? "Button-SaveExtended": "Button-Save"}>
+        <div className= {isExpanded? "saveandnextPricing": "saveandnextPricing1"}>
+          <div className={isExpanded? "Button-SaveExtended": "Button-Save"}>
             <button className="clearallPricing">
               Clear All
             </button>
             <button className="link saveall" onClick={dispatchEvent}>
               Save & next
             </button>
-            </div>
           </div>
-
-     
         </div>
-        </form>
+
+      </form>
     </div>
    </div>
    </div>
