@@ -23,7 +23,14 @@ const InputFieldComponent:React.FC<Inputfieldinterface> = ({name,type='text',reg
   return (
     <div>
       <div className='input-and-spantext'>
-        <input {...register(name,validation)} type={type} autoComplete='off' name={name} onBlur={handleBlur}   className='Input-Filed'/>
+        <input 
+          {...register(name,validation)} 
+          type={type} 
+          autoComplete='off' 
+          name={name} 
+          onBlur={handleBlur}   
+          className='Input-Filed'
+        />
          <span className='placeholder'>{placeholder}</span></div>
         {error && <p className='Input-Field-Error-message'>{error.message}</p>}
     </div>

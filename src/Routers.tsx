@@ -107,7 +107,7 @@ const Routers = ()  =>  {
             <Route exact path="/menu/Items/Add" component={AddItem} />
             <Route exact path="/menu/Items/update/:itemId" component={AddItem} />
 
-            <div style={{ width: "100%", display: "flex" }} className="landingpage">
+            <div style={{ width: "100%", display: "flex" }} >
               {belowMinWidth ? (
                 <div className="warning-message">
                   Your screen width is below the minimum width of {MIN_WIDTH}px. Please

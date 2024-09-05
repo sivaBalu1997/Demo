@@ -146,7 +146,7 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
-      <div>
+      <div className='dropDownBox'>
         <input
           type={type}
           {...register(name,validation)}
@@ -166,7 +166,6 @@ const DropDownList: React.FC<DropdownProps> = ({
           <img src={dropdown} alt="" className="dropdownimage" />
         </span>
         {error  && <p className='Dropdown-Error-message'>{error.message}</p>}
-
       </div>
      
 
