@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, ChangeEvent, MouseEvent, FocusEvent } from 'react';
+import React, { useState, useRef, useEffect, ChangeEvent, FocusEvent } from 'react';
 import './Dropdown.scss';
 import UpArrow from "../../../assets/images/dropdown.png";
 
@@ -7,7 +7,6 @@ interface DropdownProps {
   selectedValues?: string[];
   onSelect: (values: string[]) => void;
   options?: string[];
-  
   label: string;
   validation?: {
     isValid: boolean;
@@ -20,29 +19,36 @@ const Dropdown: React.FC<DropdownProps> = ({
   selectedValues = [],
   onSelect,
   options = [],
-
   label,
   validation,
   onBlur
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>('');
   const [rotateImg, setRotateImg] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
+  // Handle clicking outside the dropdown to close it
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent<Document>) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-        setRotateImg(false);
+    const handleClickOutside = (event: Event) => {
+      // Type guard to ensure event is a MouseEvent
+      if (event instanceof MouseEvent) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+          setIsOpen(false);
+          setRotateImg(false);
+          
+        }
       }
     };
-
-    // document.addEventListener('mousedown', handleClickOutside);
-    // return () => {
-    //   document.removeEventListener('mousedown', handleClickOutside);
-    // };
+  
+    // Add event listener when component mounts
+    document.addEventListener('mousedown', handleClickOutside);
+  
+    // Cleanup the event listener when component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
+  
 
   const handleDropdownClick = () => {
     setIsOpen(!isOpen);
@@ -52,21 +58,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const newSelectedValues = selectedValues.includes(value)
-      ? selectedValues.filter((item) => item !== value)
-      : [...selectedValues, value];
-    onSelect(newSelectedValues);
-  };
+      ? selectedValues.filter((item) => item !== value) // Unselect if already selected
+      : [...selectedValues, value]; // Add to selected values
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
-  
-
-  const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
-    if (onBlur) {
-      onBlur();
-    }
+    onSelect(newSelectedValues); // Update parent state
   };
 
   return (
@@ -75,7 +70,6 @@ const Dropdown: React.FC<DropdownProps> = ({
       <div 
         className={!validation?.isValid ? "dropdownPricingred" : "dropdownPricing"} 
         onClick={handleDropdownClick} 
-        onBlur={handleBlur} 
         tabIndex={0}
       >
         {selectedValues.length > 0 ? (
@@ -101,8 +95,8 @@ const Dropdown: React.FC<DropdownProps> = ({
                   name={option}
                   className="checkboxPricing"
                   value={option}
-                  checked={selectedValues.includes(option)}
-                  onChange={handleOptionClick}
+                  checked={selectedValues.includes(option)} // Ensure correct checked state
+                  onChange={handleOptionClick} // Handle selecting the option
                 />
                 {option}
               </label>

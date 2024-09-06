@@ -35,7 +35,6 @@ import MenuDetials from 'pages/menuDetails'
 import MenuCustomization from 'pages/menuCustomization'
 import AddCustomizationInput from 'pages/menuCustomization/AddCustomizationInput'
 import NotFound from 'pages/notFound'
-import SidePanel from 'pages/SidePanel'
 import { Menulisting } from 'pages/productCatalog/Menulisting/Menulisting'
 import PrimaryDetailsReviewpage from 'pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage'
 import Navigationpage from 'components/productCatalog/Navigation/NavigationPage'
@@ -43,7 +42,8 @@ import PrimaryPage from 'pages/productCatalog/PrimaryPage/PrimaryPage'
 import PricingDetails from 'pages/productCatalog/PricingDetalis/PricingDetails'
 import ItemCustomizations from 'pages/productCatalog/itemCustomization/ItemCustomizations'
 import { Contextpage } from 'pages/productCatalog/contextpage'
-import './pages/productCatalog/MainPage/MainPage.scss'
+import SidePanel from 'pages/SidePanel'
+
 
 const Routers = ()  =>  {
 
@@ -107,7 +107,7 @@ const Routers = ()  =>  {
             <Route exact path="/menu/Items/Add" component={AddItem} />
             <Route exact path="/menu/Items/update/:itemId" component={AddItem} />
 
-            <div style={{ width: "100%", display: "flex" }} className="landingpage">
+            <div>
               {belowMinWidth ? (
                 <div className="warning-message">
                   Your screen width is below the minimum width of {MIN_WIDTH}px. Please
@@ -131,13 +131,15 @@ const Routers = ()  =>  {
               )}
             </div>
 
-            <Route exact path="/live-reports" component={CustomerInsights} />
-            <Route exact path="/sales" component={Sales} />
-            <Route exact path="/employee-insights" component={EmployeeInsights} />
-            <Route exact path="/product-insights" component={ProductInsights} />
-            <Route exact path="/check-in" component={CheckIn} />
-            <Route exact path="/gen-ai-reports" component={GenAiReports} />
-            <Route exact path="/customer-insights" component={CustIns}/>
+            <div>
+              <Route exact path="/live-reports" component={CustomerInsights} />
+              <Route exact path="/sales" component={Sales} />
+              <Route exact path="/employee-insights" component={EmployeeInsights} />
+              <Route exact path="/product-insights" component={ProductInsights} />
+              <Route exact path="/check-in" component={CheckIn} />
+              <Route exact path="/gen-ai-reports" component={GenAiReports} />
+              <Route exact path="/customer-insights" component={CustIns}/>
+            </div>
           </ThemeProvider>
         </Contextpage>
     </Switch>
