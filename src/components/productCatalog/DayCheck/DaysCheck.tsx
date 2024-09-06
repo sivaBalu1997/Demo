@@ -29,21 +29,10 @@ interface State {
     
   };
 }
-interface StateDataTag {
- 
-  productCatalog:{
-    availability:[]
-
-    }
-    
-  
-}
-
 
 
 const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, index, id, setId }) => {
   const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
-  const tagData=useSelector((state:StateDataTag)=>state.productCatalog.availability)
 
   const [data, setData] = useState<DataItem[]>([]);
   const dispatch=useDispatch();
@@ -65,7 +54,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, in
 
   useEffect(() => {
     getApi();
-    setData(tagData)
   }, []);
 
   const getApi = async () => {
