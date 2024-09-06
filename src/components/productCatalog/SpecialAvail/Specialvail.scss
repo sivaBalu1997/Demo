@@ -1,3 +1,30 @@
+.Date_container{
+display: flex;
+justify-content: flex-start;
+width:350px;
+margin-top: 5px;
+gap:20px;
+}
+
+.dayschecking
+{
+    margin-top: 20px;
+}
+.DeleteSpecial{
+    margin-left: 27px;
+    transform: translateY(13px);
+    color:red;
+    font-weight: 400;
+    font-size: 14px;
+}
+.calender{
+    width:21px;
+    height:18px;
+    position: relative;
+    top:7px;
+    left:-48px;
+    cursor: pointer;
+
 .Date_container {
   display: flex;
   justify-content: flex-start;
@@ -32,12 +59,69 @@
     width: 21px;
     height: 18px;
     position: relative;
+    top:7px;
+
     top:10px;
     // left:206px;
     left: -27px;
     z-index: 1;
     cursor: pointer;
 }
+  .react-datepicker-wrapper {
+    display: block;
+    z-index: 90000;
+  }  
+  .react-datepicker__input-container input {
+    width: 132px;
+    height: 34px;
+    padding: 8px;
+    font-size: 14px;
+    font-family: 400;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+   
+  }
+  .react-datepicker__month-container {
+  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    width: 250px;
+    height: 250px;
+  }
+  .react-datepicker__day-name, .react-datepicker__day {
+    width: 30px;
+    line-height: 30px;
+    margin: 2px;
+    text-align: center;
+  }
+  
+  .react-datepicker__day--selected {
+    background-color: green;
+    color: white;
+  }
+  .react-datepicker__day--keyboard-selected {
+    background-color: green;
+    color: white;
+  }
+  
+.DineInRelatedHeading{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: -6px;
+}
+.DineInRelatedSpecial{
+    display: flex;
+   position: relative;
+   top: -60px;
+    justify-content:flex start;
+    gap:1.25rem
+    
+}
+.InventorySection{
+    display: flex;
+    flex-direction: column;
+
 .calender1 {
   width: 21px;
   height: 18px;
@@ -79,6 +163,7 @@
 .react-datepicker__day--keyboard-selected {
   background-color: green;
   color: white;
+
 }
 
 .DineInRelatedHeading {
