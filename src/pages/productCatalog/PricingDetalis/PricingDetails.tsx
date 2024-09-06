@@ -56,27 +56,25 @@ interface PricingDetailsFormData {
 interface option {
   tagName: string;
 
+=======
+  name: string;
 }
 
 interface State {
   auth: {
     credentials:{
       locationId:string
-
     }
-    
   };
 }
 interface StateData {
- 
   productCatalog:{
     tagClass:[]
 
+=======
+    availability:[]
     }
-    
-  
 }
-
 
 const PricingDetails= () => {
   const { control, handleSubmit, formState: { errors } } = useForm<PricingDetailsFormData>();
@@ -123,11 +121,12 @@ const PricingDetails= () => {
 
   });
 
-  const validateDropdown = (value: string[], field: string | number) => {
+  const validateDropdown = (value: string[] | undefined, field: string | number) => {
     let isValid = true;
     let errorMessage = '';
   
-    if (value.length === 0) {
+    // Ensure value is an array before checking its length
+    if (!Array.isArray(value) || value.length === 0) {
       isValid = false;
       errorMessage = 'This field is required';
     }
@@ -141,6 +140,7 @@ const PricingDetails= () => {
       console.error('Field type is not a string, cannot update validation state');
     }
   };
+  
 
   const validateForm = (): boolean => {
     validateDropdown(selectedValues, 'kitchen');
@@ -212,6 +212,11 @@ const PricingDetails= () => {
     dispatchEvent();
   };
   console.log(options)
+  const handleBlur = (fieldValue: string[], fieldName: string) => {
+    validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
+  };
+  
+  console.log({mainForm})
 
   return (
    <div style={{display:'flex'}}>
@@ -233,6 +238,35 @@ const PricingDetails= () => {
         <div className='KitchenRelated'>
           <div className='D1kitchen'>
           <Controller
+
+  name="kitchen"
+  control={control}
+  defaultValue={[]}
+  rules={{ required: 'Please select at least one option' }}
+  render={({ field }: any) => (
+    <Dropdown
+      selectedValues={selectedValues}
+      onSelect={(values) => {
+        setSelectedValues(values); // Update local state
+        if (field?.onChange) {
+          field.onChange(values); // Update react-hook-form state
+        }
+        validateDropdown(values, 'kitchen'); // Validate the dropdown
+      }}
+      options={['Option 1', 'Option 2', 'Option 3']} // Example options
+      label="Kitchen Station1*"
+      onBlur={() => {
+        if (field?.onBlur) {
+          field.onBlur(); // Call react-hook-form's onBlur if it exists
+          handleBlur(field?.value, 'kitchen'); // Call the custom blur handler
+        }
+        
+      }}
+      validation={validationState.kitchen}
+    />
+  )}
+/>
+
             name="kitchen"
             control={control}
             defaultValue={[]}
@@ -266,10 +300,12 @@ const PricingDetails= () => {
             rules={{ required: 'Please select at least one option' }}
             render={({ field }:any) => (
               <Dropdown 
-                selectedValues={field?.value}
+                selectedValues={selectedValue1}
                 onSelect={(values) => {
                   setSelectedValue1(values)
-                field.onChange(values);
+                  if (field?.onChange) {
+                    field.onChange(values); // Update react-hook-form state
+                  }
                 validateDropdown(values, 'preparationTime');
                   
                 }}
@@ -277,8 +313,10 @@ const PricingDetails= () => {
                 
                 label="Preparation*"
                 onBlur={() => {
-                  field.onBlur();
-                  validateDropdown(field?.value, 'kitchen');
+                  if (field?.onBlur) {
+                    handleBlur(field?.value, 'preparationTime');
+ 
+                  }
                 }}
                 validation={validationState.preparationTime}
               />
@@ -295,8 +333,10 @@ const PricingDetails= () => {
         </div>
 
         <div className='InventoryToggle'>
-          <div><p className='IHeading'>Inventory</p></div>
-          <div className='toggleI'><Toggle toggle={inventory} setToggle={setInventory} /></div>
+          <p className='IHeading'>Inventory</p>
+          <div className='toggleI'>
+            <Toggle toggle={inventory} setToggle={setInventory} />
+          </div>
         </div>
 
         <div className='InventorySection'>
@@ -304,7 +344,7 @@ const PricingDetails= () => {
             <div>
               <div className='InventoryHeading'>
                 <p>Max No. of servings per day*</p>
-                <p className='threshold'>Threshold*</p>
+                <p className='PricingthresholdHeading'>Threshold*</p>
               </div>
               <div className='InventoryInput'>
       <Controller
@@ -318,7 +358,9 @@ const PricingDetails= () => {
             {...field}
             onChange={(e) => {
               const value = e.target.value;
-              field.onChange(value); // To update Controller's value
+              if (field?.onChange) {
+                field.onChange(value); // Update react-hook-form state
+              } // To update Controller's value
       
               // Update the form state
               setForm((prevState) => ({
@@ -348,7 +390,9 @@ const PricingDetails= () => {
             {...field}
             onChange={(e) => {
               const value = e.target.value;
-              field.onChange(value); // To update Controller's value
+              if (field?.onChange) {
+                field.onChange(value); // Update react-hook-form state
+              }  // To update Controller's value
       
               // Update the form state
               setForm((prevState) => ({
@@ -372,64 +416,129 @@ const PricingDetails= () => {
                 </Tooltip> */}
               </div>
               {formerrors.Inventory1 && <p className='ErrorsForm' >{formerrors.Inventory1}</p>}
+                <Controller
+                  name='Inventory1'
+                  control={control}
+                  defaultValue={form.Inventory1 || ''}
+                  render={({ field }:any) => (
+                  <input
+                    className="I1"
+                    type="text"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      field.onChange(value); // To update Controller's value
+              
+                      // Update the form state
+                      setForm((prevState) => ({
+                        ...prevState,
+                        Inventory1: value, // Update Inventory1 in form state
+                      }));
+                    }}
+                    
+                    style={{
+                      borderColor: formerrors.Inventory1 ? 'red' : 'rgba(0, 0, 0, 0.3)'
+                    }}
+                  />
+                )}
+                rules={{ required: 'This field is required' }} // Validation rule
+              />
+    
+              <Controller
+                name='Inventory2'
+                control={control}
+                defaultValue={form.Inventory2 || ''}
+                render={({ field }:any) => (
+                  <input
+                    className="I1"
+                    type="text"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      field.onChange(value); // To update Controller's value
+              
+                      // Update the form state
+                      setForm((prevState) => ({
+                        ...prevState,
+                        Inventory2: value, // Update Inventory2 in form state
+                      }));
+                    }}
+                    
+                    style={{
+                      borderColor: formerrors.Inventory2 ? 'red' : 'rgba(0, 0, 0, 0.3)'
+                    }}
+                  />
+                )}
+              />
+          </div>
+          {formerrors.Inventory1 && <p className='ErrorsForm' >{formerrors.Inventory1}</p>}
               {formerrors.Inventory2 && <p className='ErrorsFormi2' >{formerrors.Inventory2}</p>}
-              <div className='Inventcheckbox'>
-                <div className='checkboxI'>
-                  <input type="checkbox" className='checkbox1-color' />
-                  <label className='InventoryHeadingII'>Reset inventory everyday</label>
-                </div>
+                <div className='Inventcheckbox'>
+                  <div className='checkboxI'>
+                    <input type="checkbox" className='checkbox1-color' />
+                    <label className='InventoryHeadingII'>Reset inventory everyday</label>
+                  </div>
 
-                <div className='checkbox2'>
-                  <input type="checkbox" className='checkbox1-color' />
-                  <label className='InventoryHeadingII'>Show next available time when maximum count is reached</label>
+                  <div className='checkbox2'>
+                    <input type="checkbox" className='checkbox1-color' />
+                    <label className='InventoryHeadingII'>Show next available time when maximum count is reached</label>
+                  </div>
                 </div>
               </div>
+            )}
+          </div>
+
+          <div className='NormalSpecial'>
+            <div className='Normal'>
+              <input
+                type="radio"
+                value="true"
+                checked={isOptionTrue === true}
+                onChange={() => setIsOptionTrue(true)}
+                className='N1radio'
+              />
+              <label className='N1'>Normal Availability</label>
             </div>
-          )}
-        </div>
-
-        <div className='NormalSpecial'>
-          <div className='Normal'>
-            <input
-              type="radio"
-              value="true"
-              checked={isOptionTrue === true}
-              onChange={() => setIsOptionTrue(true)}
-              className='N1radio'
-            />
-            <label className='N1'>Normal Availability</label>
+            <div className='Special'>
+              <input
+                type="radio"
+                value="false"
+                checked={isOptionTrue === false}
+                onChange={() => setIsOptionTrue(false)}
+                className='S1radio'
+              />
+              <label className='S1'>Special Availability</label>
+            </div>
           </div>
-          <div className='Special'>
-            <input
-              type="radio"
-              value="false"
-              checked={isOptionTrue === false}
-              onChange={() => setIsOptionTrue(false)}
-              className='S1radio'
+
+          {isOptionTrue ? 
+            <Normalavail   
+              getNormalForm={getNormalForm}
+              validateDropdown={validateDropdown} 
+              dinein={dinein} setDineIn={setDineIn} 
+              validationState={validationState}   
+            /> : 
+            <Specialavail   
+              getSpecialForm={getSpecialForm} 
+              validateDropdown={validateDropdown}  
+              validationState={validationState}   
             />
-            <label className='S1'>Special Availability</label>
-          </div>
+          }
+
         </div>
-
-        {isOptionTrue ? <Normalavail   getNormalForm={getNormalForm} validateDropdown={validateDropdown} dinein={dinein} setDineIn={setDineIn} validationState={validationState}   /> : <Specialavail   getSpecialForm={getSpecialForm} validateDropdown={validateDropdown}  validationState={validationState}   />}
-
         
-      </div>
-      <div className= {isExpanded? "buttoncomponentpricing": "buttoncomponentpricing1"}  >
-          <div className= {isExpanded? "saveandnextPricing": "saveandnextPricing1"}>
-            <div className={isExpanded? "Button-SaveExtended": "Button-Save"}>
+        <div className= {isExpanded? "saveandnextPricing": "saveandnextPricing1"}>
+          <div className={isExpanded? "Button-SaveExtended": "Button-Save"}>
             <button className="clearallPricing">
               Clear All
             </button>
             <button className="link saveall" onClick={dispatchEvent}>
               Save & next
             </button>
-            </div>
           </div>
-
-     
         </div>
-        </form>
+
+      </form>
     </div>
    </div>
    </div>

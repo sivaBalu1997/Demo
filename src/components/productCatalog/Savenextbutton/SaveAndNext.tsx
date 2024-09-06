@@ -1,7 +1,6 @@
 import React, { useState,useContext } from "react";
 import "./Savenextbutton.scss";
 import { useDispatch } from "react-redux";
-
 import { useHistory ,Link,} from "react-router-dom";
 import { itemCustomizationPost } from "../../../redux/productCatalog/productCatalogActions";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,9 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { primarypost } from "redux/productCatalog/productCatalogActions";
 // import { useNavigate } from "react-router-dom";
-
-
-
 
 interface Ingredients
 {
@@ -129,8 +125,6 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,
       selectedPortion: "Portion(count)",
       tax: "",
       masterCode: "",
-
-
     };
   };
 
@@ -191,41 +185,40 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,
 
   return (
     <div>
-      <div className= {isExpanded?"saveandnext":"saveandnext1"}   >
+      <div className= {isExpanded?"saveandnext":"saveandnext1"} >
         <button className="clearall" onClick={handleclear}>
           Clear All
         </button>
-        <button className="link saveall" onClick={handleclick}> Save & next</button>
-        
-    
-       
+        <button 
+          className="link saveall" 
+          onClick={handleclick}> 
+            Save & next
+        </button>
       </div>
       <ToastContainer
-position="top-center"
-autoClose={3000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-// theme="light"
-
-/>
-=======
-        <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          // theme="light"
-        />
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        // theme="light"
+      />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        // theme="light"
+      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, ChangeEvent, FormEvent, MouseEvent } from 'react';
+import React, { useState, useRef, useEffect, ChangeEvent, FormEvent } from 'react';
 import './DropDown3.scss';
 import UpArrow from "../../../assets/images/dropdown.png";
  
@@ -35,20 +35,27 @@ const DropDown3: React.FC<DropDown3Props> = ({
   const [rotateImg, setRotateImg] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
  
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-  //       setIsOpen(false);
-  //       setRotateImg(false);
-  //     }
-  //   };
- 
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
- 
+  useEffect(() => {
+    const handleClickOutside = (event: Event) => {
+      // Type guard to ensure event is a MouseEvent
+      if (event instanceof MouseEvent) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+          setIsOpen(false);
+          setRotateImg(false);
+          
+        }
+      }
+    };
+  
+    // Add event listener when component mounts
+    document.addEventListener('mousedown', handleClickOutside);
+  
+    // Cleanup the event listener when component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  
   const handleDropdownClick = () => {
     setIsOpen(!isOpen);
     setRotateImg(!rotateImg);
