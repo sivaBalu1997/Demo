@@ -4,7 +4,7 @@ import Table from "../../../components/reportComponents/Table";
 import ReusableCanvaChart from "../../../components/reportComponents/Charts/ReusabeCanvaChart";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 // import moment from "moment";

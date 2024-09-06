@@ -5,7 +5,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
 import "./style.scss"; // Import your custom SCSS file
-import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 const PdfViewer = ({ fileUrl }: any) => {
   console.log({ fileUrl });
