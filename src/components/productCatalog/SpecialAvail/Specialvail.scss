@@ -1,6 +1,7 @@
 .Date_container{
 display: flex;
 justify-content: flex-start;
+
 width:350px;
 margin-top: 5px;
 gap:20px;
@@ -21,73 +22,37 @@ gap:20px;
     width:21px;
     height:18px;
     position: relative;
-    top:7px;
+    top:12px;
     left:-48px;
     cursor: pointer;
 
-.Date_container {
-  display: flex;
-  justify-content: flex-start;
-  width: 350px;
-  margin-top: 5px;
-  gap: 20px;
-
-  .datePicker {
-    height: 40px;
-  }
-
-  .react-datepicker-popper{
-    z-index: 9;
-  }
-
-  .calenderComponent {
-    display: flex;
-  }
 }
-
-.dayschecking {
-  margin-top: 20px;
-}
-.DeleteSpecial {
-  margin-left: 27px;
-  transform: translateY(13px);
-  color: red;
-  font-weight: 400;
-  font-size: 14px;
-}
-.calender {
-    width: 21px;
-    height: 18px;
+.calender1{
+    width:21px;
+    height:18px;
     position: relative;
-    top:7px;
-
-    top:10px;
+    top:12px;
     // left:206px;
-    left: -27px;
+    left: -47px;
     z-index: 1;
     cursor: pointer;
 }
   .react-datepicker-wrapper {
     display: block;
-    z-index: 90000;
   }  
   .react-datepicker__input-container input {
     width: 132px;
-    height: 34px;
+    height: 24px;
     padding: 8px;
     font-size: 14px;
     font-family: 400;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 4px;
-   
   }
   .react-datepicker__month-container {
-  
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 4px;
-    width: 250px;
-    height: 250px;
   }
   .react-datepicker__day-name, .react-datepicker__day {
     width: 30px;
@@ -95,7 +60,6 @@ gap:20px;
     margin: 2px;
     text-align: center;
   }
-  
   .react-datepicker__day--selected {
     background-color: green;
     color: white;
@@ -121,299 +85,251 @@ gap:20px;
 .InventorySection{
     display: flex;
     flex-direction: column;
+}
+.DineInInput11Special{
+    transform: translateY(-50px);
+    display: flex;
+    justify-content:flex-start;
+    gap:0.625rem;
+    margin-top: 28px;
+    margin-bottom: 45px;
+    margin-left: -50px;
+    position: relative;
+    
 
-.calender1 {
-  width: 21px;
-  height: 18px;
-  position: relative;
-  top:10px;
-  // left:206px;
-  left: -27px;
-  z-index: 1;
-  cursor: pointer;
-}
-.react-datepicker-wrapper {
-  display: block;
-}
-.react-datepicker__input-container input {
-  width: 132px;
-  height: 24px;
-  padding: 8px;
-  font-size: 14px;
-  font-family: 400;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-}
-.react-datepicker__month-container {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-}
-.react-datepicker__day-name,
-.react-datepicker__day {
-  width: 30px;
-  line-height: 30px;
-  margin: 2px;
-  text-align: center;
-}
-.react-datepicker__day--selected {
-  background-color: green;
-  color: white;
-}
-.react-datepicker__day--keyboard-selected {
-  background-color: green;
-  color: white;
+    select{
+        margin-left: 20px;
+    }
 
-}
-
-.DineInRelatedHeading {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: -6px;
-}
-.DineInRelatedSpecial {
-  display: flex;
-  position: relative;
-  top: -60px;
-  justify-content: flex start;
-  gap: 1.25rem;
-}
-.InventorySection {
-  display: flex;
-  flex-direction: column;
-}
-.DineInInput11Special {
-  transform: translateY(-50px);
-  display: flex;
-  justify-content: flex-start;
-  gap: 0.625rem;
-  margin-top: 28px;
-  margin-bottom: 45px;
-  margin-left: -50px;
-  position: relative;
-
-  select {
-    margin-left: 20px;
-  }
 }
 .DineInInput11Special:nth-child(1) {
-  z-index: 1;
-}
+    z-index: 1;
+  }
+  
+  .DineInInput11Special:nth-child(2) {
+    z-index: 2;
+  }
 
-.DineInInput11Special:nth-child(2) {
-  z-index: 2;
-}
 
-.DineInInput2 {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 0.313rem;
-  width: 18.75rem;
-  height: 2.75rem;
-  border-radius: 0.313rem;
-  font-size: 0.75rem;
-  color: #979797;
-  font-weight: 400;
+.DineInInput2{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius:0.313rem; 
+    width:18.75rem;
+    height:2.75rem;
+    border-radius: 0.313rem;
+    font-size:0.75rem;
+    color:#979797;
+    font-weight: 400;
+    
 }
 .DineInInput1 {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 0.313rem;
-  width: 150px;
-  height: 2.75rem;
-  border-radius: 5px;
-  font-size: 14px;
-  color: #979797;
-  font-weight: 400;
-  padding-left: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 0.313rem;
+    width: 150px;
+    height:2.75rem;
+    border-radius: 5px;
+    font-size: 14px;
+    color:#979797;
+    font-weight: 400;
+    padding-left: 14px;
 }
-.toggleDinein {
-  margin-top: -8px;
+.toggleDinein{
+    margin-top: -8px;
 }
-.DropD4 {
-  margin-left: 20px;
-  margin-top: -1px;
+.DropD4{
+    margin-left: 20px;
+    margin-top: -1px;
 }
-.SpecialDropDown {
-  margin-left: 21px;
-  margin-top: -1px;
+.SpecialDropDown{
+    margin-left: 21px;
+    margin-top: -1px;
 }
 
 .DineInInput1::placeholder {
-  font-size: 0.875rem;
-  color: #979797;
-  font-weight: 400;
-  padding-left: 13px;
+    font-size: 0.875rem;
+    color: #979797;
+    font-weight: 400;
+    padding-left: 13px;
+
 }
-.DineInInputService {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 0.313rem;
-  width: 12.5rem;
-  height: 2.75rem;
-  font-size: 0.875rem;
-  color: #979797;
-  font-weight: 400;
+.DineInInputService{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 0.313rem;
+    width: 12.5rem;
+    height: 2.75rem;
+    font-size: 0.875rem;
+    color: #979797;
+    font-weight: 400;
 }
 
-.AddentrySpecial {
-  font-size: 0.875rem;
-  font-weight: 400;
-  margin-top: -80px;
-  color: #0085ff;
-  cursor: pointer;
+.AddentrySpecial{
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-top: -80px;
+    color:#0085FF;
+    cursor:pointer;
 }
-.OnlineRelated {
-  display: flex;
-  justify-content: flex start;
-  gap: 1.625rem;
-  margin-top: 15px;
+.OnlineRelated{
+    display: flex;
+    justify-content:flex start;
+    gap:1.625rem;
+    margin-top: 15px;
 }
-.OnlineRelatedHeading {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
+.OnlineRelatedHeading{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem
 }
-.OnlineSection {
-  display: flex;
-  flex-direction: column;
-  margin-left: 1.875rem;
+.OnlineSection{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1.875rem;   
 }
-.PickupRelated {
-  display: flex;
-  justify-content: flex start;
-  gap: 1.563rem;
+.PickupRelated{
+    display: flex;
+    justify-content:flex start;
+    gap:1.563rem
 }
-.PickupRelatedHeading {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
+.PickupRelatedHeading{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
 }
-.PickupSection {
-  display: flex;
-  flex-direction: column;
+.PickupSection{
+    display: flex;
+    flex-direction: column;
 }
-.PickupEleRelated {
-  display: flex;
-  justify-content: flex start;
+.PickupEleRelated{
+    display: flex;
+    justify-content:flex start;
 }
-.PickupEleRelatedHeading {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
+.PickupEleRelatedHeading{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
 }
-.PickupInput11 {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 23px;
-  margin-bottom: 10px;
+.PickupInput11{
+    display: flex;
+    justify-content:flex-start;
+    margin-top: 23px;
+    margin-bottom: 10px;
+   
+    
+    gap:0.625rem;
 
-  gap: 0.625rem;
+    select{
+        margin-left: 20px;
+    }
+}
+.PickDrop5{
+    margin-left: 17px;
+    margin-top: -1px;
+    z-index: 10;
+}
+.LabelPriceSpecial{
+    transform: translateY(18px);
+    margin-left: 7px;
+    color: #666666;
+    font-size: 14px;
+    font-weight: 400;
+}
+.DeliveryRelated{
+    display: flex;
+    justify-content:flex start;
+    gap:1.563rem;
+    position: relative;
+    top: -5px;
+}
+.DeliveryRelatedHeading{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+.DeliverySection{
+    display: flex;
+    flex-direction: column;
+}
+.Delivery11{
+    display: flex;
+    justify-content:flex-start;
+   
+    
+    gap:10px;
+}
+.DelLabelPrice{
+    color: #666666;
+    font-size: 14px;
+    margin-left: 6px;
+    transform: translateY(12px);
 
-  select {
-    margin-left: 20px;
-  }
 }
-.PickDrop5 {
-  margin-left: 17px;
-  margin-top: -1px;
-  z-index: 10;
+.DelDrop{
+    margin-top: 1px;
+    margin-left: 17px;
+    z-index: 3;
 }
-.LabelPriceSpecial {
-  transform: translateY(18px);
-  margin-left: 7px;
-  color: #666666;
-  font-size: 14px;
-  font-weight: 400;
+.ThirdDeliveryRelatedHeading{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 3px;
 }
-.DeliveryRelated {
-  display: flex;
-  justify-content: flex start;
-  gap: 1.563rem;
-  position: relative;
-  top: -5px;
+.DeliveryInput2{
+    
+    border-radius:0.313rem; 
+    width:18.75rem;
+    height:2.75rem;
+    margin-bottom: 0.625rem;
+    border: 1px solid rgba(0, 0, 0, 0.3);   
 }
-.DeliveryRelatedHeading {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
-}
-.DeliverySection {
-  display: flex;
-  flex-direction: column;
-}
-.Delivery11 {
-  display: flex;
-  justify-content: flex-start;
-
-  gap: 10px;
-}
-.DelLabelPrice {
-  color: #666666;
-  font-size: 14px;
-  margin-left: 6px;
-  transform: translateY(12px);
-}
-.DelDrop {
-  margin-top: 1px;
-  margin-left: 17px;
-  z-index: 3;
-}
-.ThirdDeliveryRelatedHeading {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 3px;
-}
-.DeliveryInput2 {
-  border-radius: 0.313rem;
-  width: 18.75rem;
-  height: 2.75rem;
-  margin-bottom: 0.625rem;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-}
-.DeliveryInput2::placeholder {
-  padding-left: 10px;
-}
-
-.LabelPriceSwiggy {
-  margin-top: -5px;
-  color: #666666;
-  font-size: 14px;
-  margin-left: 5px;
+.DeliveryInput2::placeholder{
+    padding-left: 10px;
+     
 }
 
-.thirdparty {
+.LabelPriceSwiggy{
+    margin-top: -5px;
+    color: #666666;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.thirdparty
+{
   position: relative;
   top: -10px;
 }
-.Delivery11 {
-  border-radius: 0.313rem;
-  margin-bottom: 0.625rem;
-  margin-top: 1rem;
-  input {
-    margin-top: 3px;
-  }
+.Delivery11{
+    border-radius:0.313rem; 
+    margin-bottom: 0.625rem;
+    margin-top: 1rem;
+    input{
+        margin-top: 3px;
+    }
 
-  select {
-    margin-left: 20px;
-  }
+    select{
+        margin-left: 20px;
+    }
 }
-.AvailableDaysHeading {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+.AvailableDaysHeading{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
-.LabelSpecialPrice {
-  color: #666666;
-  font-size: 14px;
-  margin-top: -22px;
-  transform: translateX(58px);
+.LabelSpecialPrice{
+    color: #666666;
+    font-size: 14px;
+    margin-top: -22px;
+    transform: translateX(58px);
+
 }
-.Third1Special {
-  margin-top: 1px;
-  margin-left: 13px;
-  z-index: 6;
+.Third1Special{
+    margin-top: 1px;
+    margin-left: 13px;
+    z-index: 6;
 }
-.Third2Special {
-  margin-top: 1px;
-  margin-left: 13px;
-  z-index: 2;
+.Third2Special{
+    margin-top: 1px;
+    margin-left: 13px;
+    z-index: 2;
 }

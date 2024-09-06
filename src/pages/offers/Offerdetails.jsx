@@ -182,7 +182,7 @@ const Offerdetails = (props) => {
   };
 
   return (
-    <div style={{display:'flex', flexDirection:'row'}}>
+    <div style={{display:'flex', flexDirection:'row', width:'82%'}}>
       <SidePanel/>
       <>
       {loading ? (

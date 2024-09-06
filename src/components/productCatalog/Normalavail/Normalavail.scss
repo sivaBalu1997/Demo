@@ -1,344 +1,383 @@
-.KitchenRelatedHeadingNormal {
-  margin-top: 0.5rem;
-  font-size: 14px;
-  font-weight: 400;
-  margin-bottom: 0.063rem;
-  margin-top: 10px;
+.KitchenRelatedHeadingNormal{
+    margin-top: 0.5rem;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 0.063rem;
+    margin-top: 10px;
+    
 }
-.AvailableServiceHeading {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 0.063rem;
-  margin-top: 20px;
-  color: rgba(0, 0, 0, 1);
-}
-
-.dayschecking {
-  margin-top: 15px;
-  // width: 900px;
-  height: 50px;
-  // border: 1px solid red;
-  // margin-left: -10px;
-}
-.ServiceDropDown {
-  transform: translateY(60px);
-  z-index: 1;
-}
-.PickupDrop {
-  transform: translateY(60px);
-}
-.DeliveryDrop {
-  height: 0px;
-  width: 0px;
-  margin-top: 60px;
-  margin-left: -10px;
-  border: 2px solid red;
-}
-.ThirdDeliveryDrop1 {
-  transform: translateY(60px);
-}
-.ThirdDeliveryDrop {
-  transform: translateY(60px);
-  z-index: 100000;
+.AvailableServiceHeading{
+    
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 0.063rem;
+    margin-top: 20px;
+color: rgba(0, 0, 0, 1);
 }
 
-.DineInRelatedHeadingNormalAvail {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
+.dayschecking{
+    margin-top: 15px;
+    // width: 900px;
+    height: 50px;
+    // border: 1px solid red;
+    // margin-left: -10px;
 }
-.DineInRelated {
-  display: flex;
-  justify-content: flex start;
-  gap: 1.25rem;
-  margin-top: 7px;
+.ServiceDropDown{
+    transform: translateY(60px);
+    z-index: 1;
+    
 }
-.delivery {
-  margin-top: 1rem;
+.PickupDrop{
+    transform: translateY(60px);
+
 }
-.DeleteButtonDine {
-  margin-top: 12px;
-  margin-left: 15px;
-  color: red;
-  font-size: 14px;
+.DeliveryDrop{
+    height: 0px;
+    width: 0px;
+    margin-top: 60px;
+    margin-left: -10px;
+    border:2px solid red
+
+}
+.ThirdDeliveryDrop1{
+    transform: translateY(60px);
+
+    
+}
+.ThirdDeliveryDrop{
+    transform: translateY(60px);
+    z-index: 100000;
 }
 
-.dayspickup {
-  margin-top: 15px;
+.DineInRelatedHeadingNormalAvail{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+.DineInRelated{
+    display: flex;
+    justify-content:flex start;
+    gap:1.25rem;
+    margin-top: 7px;
+
+}
+.delivery{
+    margin-top: 1rem;
+    
+}
+.DeleteButtonDine{
+    margin-top: 12px;
+    margin-left: 15px;
+    color: red;
+    font-size: 14px;
 }
 
-.DineInInput11Normal {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 7px;
-  gap: 1.8rem;
-  position: relative;
+.dayspickup{
+    margin-top: 15px;
+}
 
-  // margin-top: 0.3rem;
+.DineInInput11Normal{
+    display: flex;
+    justify-content:flex-start;
+    margin-top: 7px;
+    gap:1.8rem;
+    position: relative;
+    
+    // margin-top: 0.3rem;
+  
+
 }
 .DineInInput11Normal:nth-child(1) {
-  z-index: 1;
+    z-index: 1;
+  }
+  
+  .DineInInput11Normal:nth-child(2) {
+    z-index: 2;
+  }
+.LabelPrice{
+    transform: translateY(4px);
+    margin-left: 7px;
+    color:#666666;
+    font-size: 14px;
+    font-weight: 400;
+}
+.Service{
+    z-index: 10;
 }
 
-.DineInInput11Normal:nth-child(2) {
-  z-index: 2;
+.DineInInput2Normal{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius:0.313rem; 
+    width:18.75rem;
+    height:2.75rem;
+    border-radius: 0.313rem;
+    font-size:0.875rem;
+    color:#979797;
+    padding-left: 5px;
+    font-weight: 400;
 }
-.LabelPrice {
-  transform: translateY(4px);
-  margin-left: 7px;
-  color: #666666;
-  font-size: 14px;
-  font-weight: 400;
-}
-.Service {
-  z-index: 10;
+.DineInInput2Normalpickup{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius:0.313rem; 
+    width:18.75rem;
+    height:2.75rem;
+   
+    font-size:0.875rem;
+    color:#979797;
+    padding-left: 5px;
+    font-weight: 400;
+    margin-left: 20px;
+    
 }
 
-.DineInInput2Normal {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 0.313rem;
-  width: 18.75rem;
-  height: 2.75rem;
-  border-radius: 0.313rem;
-  font-size: 0.875rem;
-  color: #979797;
-  padding-left: 5px;
-  font-weight: 400;
-}
-.DineInInput2Normalpickup {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 0.313rem;
-  width: 18.75rem;
-  height: 2.75rem;
 
-  font-size: 0.875rem;
-  color: #979797;
-  padding-left: 5px;
-  font-weight: 400;
-  margin-left: 20px;
-}
 
 .DineInInput1Normal {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 0.313rem;
-  width: 9.75rem;
-  height: 2.75rem;
-  border-radius: 5px;
-  font-size: 14px;
-  color: #979797;
-  padding-left: 10px;
+ border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 0.313rem;
+    width: 9.75rem;
+    height:2.75rem;
+    border-radius: 5px;
+    font-size: 14px;
+    color:#979797;
+    padding-left: 10px;
 }
+
 
 .DineInInput1Normal::placeholder {
-  font-size: 0.875rem;
-  color: #979797;
-  font-weight: 400;
-  // padding-left: 0.813rem;
+    font-size: 0.875rem;
+    color: #979797;
+    font-weight: 400;
+    // padding-left: 0.813rem;
+
 }
-.DineInInputServiceNormal {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 0.313rem;
-  width: 12.5rem;
-  height: 2.75rem;
-  font-size: 0.875rem;
-  color: #979797;
-  font-weight: 400;
+.DineInInputServiceNormal{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 0.313rem;
+    width: 12.5rem;
+    height: 2.75rem;
+    font-size: 0.875rem;
+    color: #979797;
+    font-weight: 400;
 }
 
-.dineInChooseDayContainer {
-  display: flex;
-  justify-content: start;
-  gap: 0.313rem;
-  margin-top: 0.775rem;
-  margin-bottom: 10px;
+
+.dineInChooseDayContainer{
+    display: flex;
+    justify-content: start;
+    gap: 0.313rem;
+    margin-top: 0.775rem;
+    margin-bottom: 10px;
+   
+    
+
+    
 }
-.Mealz {
-  z-index: 1;
+.Mealz{
+    z-index: 1;
 }
 
-.dineInChooseDayContainerHeading {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 1.313rem;
+.dineInChooseDayContainerHeading{
+    font-family: "Poppins",sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.313rem;
+   
+}
+   
+
+.dineInChooseDayContainer-chooseheading{
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.313rem;
+    color: #67833E;
+    margin-top: 0px;
+    cursor: pointer;
+   
+
 }
 
-.dineInChooseDayContainer-chooseheading {
-  font-family: Poppins;
-  font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 1.313rem;
-  color: #67833e;
-  margin-top: 0px;
-  cursor: pointer;
-}
+.AddentryNormal{
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-top: 12px;
+    color:#0085FF;
+    cursor:pointer;
+    font-family: "Poppins",sans-serif;
 
-.AddentryNormal {
-  font-size: 0.875rem;
-  font-weight: 400;
-  margin-top: 12px;
-  color: #0085ff;
-  cursor: pointer;
-  font-family: "Poppins", sans-serif;
-}
-.OnlineRelatedNormal {
-  display: flex;
-  justify-content: flex start;
-  gap: 1.625rem;
-  margin-top: 8px;
-}
-.OnlineRelatedHeadingNormal {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
-}
-.OnlineSectionNormal {
-  display: flex;
-  flex-direction: column;
-  margin-left: 1.875rem;
-}
-.PickupRelatedNormal {
-  display: flex;
-  justify-content: flex start;
-  gap: 1.563rem;
-}
-.PickupRelatedHeadingNormal {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
-}
-.PickupSectionNormal {
-  display: flex;
-  flex-direction: column;
-  margin-top: -7px;
-}
-.PrizeD {
-  margin-left: 20px;
-  z-index: 10;
-}
-.LabelPricePickup {
-  transform: translateY(18px);
-  margin-left: 7px;
-  color: #666666;
-  font-size: 14px;
-  font-weight: 400;
-}
-.DeliveryD {
-  z-index: 1;
-}
-.LabelPrice1 {
-  transform: translateY(13px);
-  color: #666666;
-  font-size: 14px;
-  font-weight: 400;
-  margin-left: 5px;
-}
-.LabelPrice2 {
-  transform: translateY(-4px);
-  color: #666666;
-  font-size: 14px;
-  font-weight: 400;
-  margin-left: 5px;
-}
 
-.PickupInput11Normal {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 1.25rem;
-
-  gap: 0.625rem;
 }
-.DeliveryRelatedNormal {
-  display: flex;
-  justify-content: flex start;
-  gap: 1.563rem;
+.OnlineRelatedNormal{
+    display: flex;
+    justify-content:flex start;
+    gap:1.625rem;
+    margin-top: 8px;
 }
-.DeliveryRelatedHeadingNormal {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
+.OnlineRelatedHeadingNormal{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem
 }
-.DeliverySectionNormal {
-  display: flex;
-  flex-direction: column;
+.OnlineSectionNormal{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1.875rem;   
 }
-
-.ThirdDeliveryRelatedHeadingNormal {
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-top: 1rem;
+.PickupRelatedNormal{
+    display: flex;
+    justify-content:flex start;
+    gap:1.563rem
 }
-.DeliveryInput2Normal {
-  border-radius: 0.313rem;
-  width: 18.75rem;
-  height: 2.75rem;
-  margin-bottom: 0.625rem;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  color: #979797;
-  font-size: 14px;
+.PickupRelatedHeadingNormal{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
 }
-.DeliveryInput2::placeholder {
-  // padding-left: 0.625rem;
+.PickupSectionNormal{
+    display: flex;
+    flex-direction: column;
+    margin-top: -7px;
 }
-.Delivery12 {
-  border-radius: 0.313rem;
-  margin-bottom: 0.825rem;
-  margin-top: -5px;
-  display: flex;
-  z-index: 100;
-  justify-content: flex-start;
-
-  gap: 0.625rem;
-  input {
-    // padding-left: 10px;
-  }
-
-  .DineInInput2Normal {
+.PrizeD{
     margin-left: 20px;
-  }
+    z-index: 10;
 }
-.Delivery13 {
-  border-radius: 0.313rem;
-  margin-bottom: 0.625rem;
-  z-index: -1;
+.LabelPricePickup{
+    transform: translateY(18px);
+    margin-left: 7px;
+    color:#666666;
+    font-size: 14px;
+    font-weight: 400;
+}
+.DeliveryD{
+    z-index: 1;
+}
+.LabelPrice1{
+    transform: translateY(13px);
+    color:#666666;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 5px;
+}
+.LabelPrice2{
+    transform: translateY(-4px);
+    color:#666666;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 5px;}
 
-  display: flex;
-  justify-content: flex-start;
-  .DineInInput2Normal {
-    margin-left: 20px;
-  }
 
-  gap: 0.625rem;
-  input {
-    // padding-left: 10px;
-  }
+.PickupInput11Normal{
+    display: flex;
+    justify-content:flex-start;
+    margin-top: 1.25rem;
+   
+    
+    gap:0.625rem
 }
-.Delivery11 {
-  border-radius: 0.313rem;
-  // margin-bottom: 0.625rem;
-  margin-top: 0.7rem;
-  input {
-    padding-left: 15px;
-  }
+.DeliveryRelatedNormal{
+    display: flex;
+    justify-content:flex start;
+    gap:1.563rem;
 }
-.AvailableDaysHeadingNormal {
-  font-size: 14px;
-  font-weight: 400;
-  margin-top: 22px;
-  margin-bottom: 0.1rem;
+.DeliveryRelatedHeadingNormal{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
 }
-.AvailDaycheck {
-  margin-top: 40px;
+.DeliverySectionNormal{
+    display: flex;
+    flex-direction: column;
 }
 
-.onlineselected {
-  margin-left: -10px;
+.ThirdDeliveryRelatedHeadingNormal{
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
 }
-.Third1 {
-  margin-left: 15px;
-  z-index: 2;
+.DeliveryInput2Normal{
+    
+    border-radius:0.313rem; 
+    width:18.75rem;
+    height:2.75rem;
+    margin-bottom: 0.625rem;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    color: #979797;
+    font-size: 14px;
 }
-.Third2 {
-  margin-left: 15px;
-  z-index: 1;
+.DeliveryInput2::placeholder{
+    // padding-left: 0.625rem;
+     
+}
+.Delivery12{
+    border-radius:0.313rem; 
+    margin-bottom: 0.825rem;
+    margin-top: -5px;
+    display: flex;
+    z-index: 100;
+    justify-content:flex-start;
+   
+   
+    
+    gap:0.625rem;
+    input{
+        // padding-left: 10px;
+    }
+
+    .DineInInput2Normal
+    {
+ margin-left: 20px;
+    }
+    
+}
+.Delivery13{
+   
+    border-radius:0.313rem; 
+    margin-bottom: 0.625rem;
+    z-index: -1;
+
+    display: flex;
+    justify-content:flex-start;
+    .DineInInput2Normal
+    {
+ margin-left: 20px;
+    }
+    
+   
+    
+    gap:0.625rem;
+    input{
+        // padding-left: 10px;
+    }
+}
+.Delivery11{
+    border-radius:0.313rem; 
+    // margin-bottom: 0.625rem;
+    margin-top: 0.7rem;
+    input{
+        padding-left: 15px;
+    }
+}
+.AvailableDaysHeadingNormal    {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 22px;
+    margin-bottom: 0.1rem;
+}
+.AvailDaycheck{
+    margin-top: 40px;
+}
+
+.onlineselected
+{
+    margin-left: -10px;
+}
+.Third1{
+    margin-left: 15px;
+    z-index: 2;
+}
+.Third2{
+    margin-left: 15px;
+    z-index: 1;
 }

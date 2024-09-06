@@ -2,13 +2,6 @@
 {
     margin: 0;
     padding: 0;
-
-    .dropDownBox{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
     .dropdownimage
     {
         rotate: 180deg;
@@ -32,7 +25,7 @@
 }
 .dropdown-search
 {
-    width: 20vw;
+    width: 18.9rem;
     height: 2.5rem;
     font-family: "Poppins", sans-serif;
     font-size: 0.875rem;
@@ -54,9 +47,9 @@
 .dropdown-body
 {
     position: absolute;
-    width: 19.8vw;
+    width: 19.5rem;
     height: 9rem;
-    z-index: 1;
+     z-index: 1;
     background: #ffffff;
     box-shadow: 1px 1px 10px 0px #00000040;
  
@@ -119,7 +112,6 @@
         height: 3rem;
         // border: 1px solid blue;
         position: relative;
-        right: 20px;
         .dropdown-addnew
         {
             height: 3rem;

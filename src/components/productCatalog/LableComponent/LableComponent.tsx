@@ -7,9 +7,7 @@ interface LableInterface {
 
 const LableComponent:React.FC<LableInterface> = ({lable}) => {
   return (
-    <div className='lable'>
-      <span className='lable-style'>{lable}</span>
-    </div>
+    <div className='lable'><span className='lable-style'>{lable}</span></div>
   )
 }
 

@@ -262,7 +262,6 @@ const PrimaryPage = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="Primary-page-container-one">
           <div className="Primary-page-container-pairone">
-
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="ItemName *" />
@@ -274,12 +273,12 @@ const PrimaryPage = () => {
                     {...field}
                     register={register}
                     trigger={trigger}
+                    // validation={{ required: "Item name is required" }}
                     error={errors.itemName}
                   />
                 )}
               />
             </div>
-
             <div className="Primary-page-InputFields">
               <LableComponent lable="DietaryType *" />
               <Controller
@@ -302,7 +301,6 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
-
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="Cuisine *" />
@@ -326,7 +324,6 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
-
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="MealType *" />
@@ -350,7 +347,6 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
-
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="Best paired with food items *" />
@@ -372,7 +368,6 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
-
             <div className="Primary-Page-description-field">
               <LableComponent lable="Description" />
               <div>
@@ -406,7 +401,6 @@ const PrimaryPage = () => {
                 />{" "}
               </div>
             </div>
-
             <div className="Primary-Page-Foodimages">
               <h3>Food image</h3>
               <p>Image size should be under 2MB, in PNG or JPEG format.</p>
@@ -444,7 +438,6 @@ const PrimaryPage = () => {
                 />
               </div>
             </div>
-
             <div className="Primary-page-InputFields alcoholradiobutton">
               <h3>Contains Alcohol ?</h3>
               <RadioButtonGroup
@@ -456,9 +449,8 @@ const PrimaryPage = () => {
                 defaultvalue="no"
               />
             </div>
-            
+            <div></div>
           </div>
-
           <div className="Primary-page-container-pairtwo">
             <div className="Primary-page-InputFields">
               {" "}
@@ -476,7 +468,6 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
-
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="Upc / Barcode number" />
@@ -499,7 +490,7 @@ const PrimaryPage = () => {
             </div>
 
             <div className="Primary-Page-categories-field">
-              <div className="Primary-page-InputFields" >
+              <div className="Primary-page-InputFields">
                 <LableComponent lable="Category*" />
                 <Controller
                   name="category"
@@ -521,7 +512,6 @@ const PrimaryPage = () => {
                   )}
                 />
               </div>
-
               <div className="Primary-page-InputFields">
                 <LableComponent lable="SubCategory" />
                 <Controller
@@ -543,7 +533,6 @@ const PrimaryPage = () => {
                 />
               </div>
             </div>
-
             <div className="Primary-page-Allergens-selection">
               <Imagepillsselection
                 heading="Allergens*"
@@ -552,7 +541,6 @@ const PrimaryPage = () => {
                 name="Allergens"
               />
             </div>
-
           </div>
         </div>
         <div className="Primary-page-container-two">
@@ -564,7 +552,6 @@ const PrimaryPage = () => {
               name="Ingredients"
             />
           </div>
-
           <div className="Primary-Page-Other-Details">
             <h3 className="Primary-Page-Other-Details-heading">
               Other Details
@@ -613,7 +600,6 @@ const PrimaryPage = () => {
                   )}
                 />
               </div>
-
               <div>
                 <RadioButtonGroup
                   options={dataPortionSizeRadio}
@@ -669,6 +655,8 @@ const PrimaryPage = () => {
           seletedpage="Primary"
           reset={reset}
         />
+
+      
       </form>
     </div>
     </div>
