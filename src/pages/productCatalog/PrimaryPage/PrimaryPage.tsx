@@ -24,11 +24,9 @@ import {
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
-<<<<<<< HEAD
+
 import { getIngredientsRequest } from "redux/productCatalog/productCatalogActions";
-=======
 import SidePanel from "pages/SidePanel";
->>>>>>> 2c9960e605b3f233937a9bb114839bdf6dee2078
 
 interface Ingredients {
   id: string;
@@ -687,6 +685,7 @@ const PrimaryPage = () => {
 
       
       </form>
+    </div>
     </div>
     </div>
     </div>
