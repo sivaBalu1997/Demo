@@ -1,12 +1,19 @@
 *{
   margin: 0;
   padding: 0;
+  // width: 100%;
 }
 .container-sidenav{
     display: flex;
     justify-content: start;
+    // position: fixed;
+   
+    // border: 1px solid red;
+    
+   
 }
 .sidebar {
+  
   width: 50px;
   height: 670px;
   padding: 20px;
@@ -24,6 +31,7 @@
     justify-content: start;
     
 }
+
 
 .flexcol{
     margin-bottom: 50px;
@@ -91,6 +99,9 @@
   top: 101px;
   left: -12px;
   cursor: pointer;
+  
+
+
  }
 
  .btn-nav1{
@@ -109,6 +120,9 @@
   left: -12px;
   cursor: pointer;
   transform: rotate(180deg);
+
+
+
 }
 
  .NavName{
@@ -124,11 +138,13 @@
   width: 250px;
   display: flex;
   justify-content: flex-start;
+ 
 }
 
 .flexcolhheading{
   display: flex;
   flex-direction: column;
+  
   gap: 40px;
 }
 
@@ -143,6 +159,9 @@
 
 .dropdown-nav{
   border: none;
+
+
+
 }
 
 .imgNavbarHover {
@@ -153,8 +172,11 @@
   border-radius: 4px;
   color: white;
   text-align: center;
-  transform: translateX(-15px); 
+  transform: translateX(-15px);
+  
+
   transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
+ 
   font-weight: 400;
   font-size: 12px;
   padding: 2px 2px 2px 2px ;
@@ -164,6 +186,8 @@
   position: relative;
   top: 7px;
   left: -17px;
+
+
 }
 
 .flexcol:hover .ArrowHover  {

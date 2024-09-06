@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect ,useContext} from 'react';
 import './NavSlider.scss'; // Import a CSS file for styling
 import PricingSlider from '../PricingSlider/PricingSlider';
 import AvailabilitySlider from '../AvailibilitySlider/AvailabilitySlider';
@@ -6,36 +6,32 @@ import Inventory from '../Inventory/Inventory';
 import CustomizeSlider from '../CustomizeSlider/CustomizeSlider';
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 
-interface NavMenuProps {
-  pen?: true; // Since you're using `pen` as `true`, you may want to use `boolean` instead of hardcoding `true`
-  sidebartext: string | null;
-  eye?:boolean
-  trash?:boolean
-}
+const NavMenu = ({pen,sidebartext}) => {
+  // const [active, setActive] = useState('Pricing');
 
-const NavMenu: React.FC<NavMenuProps> = ({ pen, sidebartext }) => {
-  const { menuItems, active, setActive } = useContext(Contextpagejs);
+  const{menuItems,active, setActive}=useContext(Contextpagejs)
+  
 
   // Create refs for each section
-  const pricingRef = useRef<HTMLDivElement | null>(null);
-  const availabilityRef = useRef<HTMLDivElement | null>(null);
-  const inventoryRef = useRef<HTMLDivElement | null>(null);
-  const customizeRef = useRef<HTMLDivElement | null>(null);
-
-  const handleItemClick = (item: string) => {
+  const pricingRef = useRef(null);
+  const availabilityRef = useRef(null);
+  const inventoryRef = useRef(null);
+  const customizeRef = useRef(null);
+  const handleItemClick = (item) => { 
     setActive(item);
+    
     scrollToComponent(item);
   };
-
-  useEffect(() => {
-    if (sidebartext) {
+  useEffect(()=>{
+    if(sidebartext!=null){
       setActive(sidebartext);
-      scrollToComponent(sidebartext);
+    
+    scrollToComponent(sidebartext);
     }
-  }, [sidebartext, setActive]);
+  },[])
 
-  // Function to scroll to the respective section based on the item clicked
-  const scrollToComponent = (item: string) => {
+  // Function to scroll to respective section based on the item clicked
+  const scrollToComponent = (item) => {
     switch (item) {
       case 'Pricing':
         pricingRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -43,10 +39,10 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen, sidebartext }) => {
       case 'Availability':
         availabilityRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
-      case 'Inventory':
+        case 'Inventory':
         inventoryRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
-      case 'Customize':
+        case 'Customize':
         customizeRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
       default:
@@ -54,11 +50,13 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen, sidebartext }) => {
     }
   };
 
+  // const menuItems = ['Pricing', 'Availability','Inventory','Customize'];
+
   // IntersectionObserver callback function
-  const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+  const handleIntersection = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        setActive(entry.target.getAttribute('data-section') || '');
+        setActive(entry.target.getAttribute('data-section'));
       }
     });
   };
@@ -79,7 +77,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen, sidebartext }) => {
       if (pricingRef.current) observer.unobserve(pricingRef.current);
       if (availabilityRef.current) observer.unobserve(availabilityRef.current);
       if (inventoryRef.current) observer.unobserve(inventoryRef.current);
-      if (customizeRef.current) observer.unobserve(customizeRef.current);
+    if (customizeRef.current) observer.unobserve(customizeRef.current);
     };
   }, []);
 
@@ -87,7 +85,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen, sidebartext }) => {
     <>
       <nav className={`nav-menu`}>
         <ul className="nav-list">
-          {menuItems.map((item: string, index: number) => (
+          {menuItems.map((item, index) => (
             <li
               key={index}
               className={`nav-item ${active === item ? 'active' : ''}`}
@@ -102,16 +100,17 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen, sidebartext }) => {
       <div className='navmenu-container'>
         {/* Each component has its own reference */}
         <div ref={pricingRef} className="section" data-section="Pricing">
-          <PricingSlider  />
+          
+          <PricingSlider pen={pen}/>
         </div>
         <div ref={availabilityRef} className="section" data-section="Availability">
-          <AvailabilitySlider />
+          <AvailabilitySlider pen={pen} />
         </div>
         <div ref={inventoryRef} className="section" data-section="Inventory">
-          <Inventory  />
+          <Inventory pen={pen} />
         </div>
         <div ref={customizeRef} className="section" data-section="Customize">
-          <CustomizeSlider  />
+          <CustomizeSlider pen={pen} />
         </div>
       </div>
     </>

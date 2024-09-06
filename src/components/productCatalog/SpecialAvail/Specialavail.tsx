@@ -288,10 +288,10 @@ const Specialavail: React.FC<SpecialAvailProps> = ({ getSpecialForm, validateDro
         }));
         setDineInFields(updated);
   
-        const initialSelectedValues = prizingDetail?.specialForm?.dineinfields.updated.map((item:DineInField) => item.DineInMealType);
+        const initialSelectedValues = updated.map((item:DineInField) => item.DineInMealType);
         setSelectedValuesMealType(initialSelectedValues);
   
-        const initialSelectedValues2 = prizingDetail?.specialForm?.dineinfields.updated.map((item: DineInField) => item.DineInServiceArea);
+        const initialSelectedValues2 = updated.map((item: DineInField) => item.DineInServiceArea);
         setSelectedValues1(initialSelectedValues2);
         setDineIn(true);
       }

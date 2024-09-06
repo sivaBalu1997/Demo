@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import "./AvailabilitySlider.scss"
 
 import ToggleSliderAvail from "../ToggleSliderAvail/ToggleSliderAvail"
-interface AvailSliderProps{
-pen?:true
-}
 
-const PricingSlider:React.FC<AvailSliderProps> = ({pen}) => {
+
+const PricingSlider = ({pen}) => {
     const[onPrem,setOnPrem]=useState(false)
     const[sectionA,setSectionA]=useState(false)
     const[sectionB,setSectionB]=useState(false)

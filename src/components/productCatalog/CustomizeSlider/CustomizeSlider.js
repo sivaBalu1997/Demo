@@ -30,7 +30,7 @@ const CustomizeSlider = () => {
   );
   const [pen, setPen] = useState(true);
 
-  const handleParentToggle = (index:any) => {
+  const handleParentToggle = (index) => {
     const newToggleStates = [...toggleStates];
     const newParentToggle = !newToggleStates[index].parentToggle;
 
@@ -42,7 +42,7 @@ const CustomizeSlider = () => {
     setToggleStates(newToggleStates);
   };
 
-  const handleChildToggle = (parentIndex:any, childIndex:any) => {
+  const handleChildToggle = (parentIndex, childIndex) => {
     const newToggleStates = [...toggleStates];
     newToggleStates[parentIndex].childToggles[childIndex] = !newToggleStates[parentIndex].childToggles[childIndex];
     if (newToggleStates[parentIndex].childToggles.every((toggle) => toggle === false)) {

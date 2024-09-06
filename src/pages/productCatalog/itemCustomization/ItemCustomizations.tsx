@@ -10,7 +10,6 @@ import Serachicon from '../../../assets/images/searchicon.png';
 import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownItem";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
-import SidePanel from "pages/SidePanel";
 
 
 // Define types
@@ -269,9 +268,7 @@ newModifications[index][property] = value as Modification[typeof property];
   console.log(modifications)
 
   return (
-    <div style={{display:'flex'}}>
-      <SidePanel />
-      <div>
+    <div>
       <Navigationpage />
       <div className="mainItemCustomizations">
     <div className="itemcustomizationpage">
@@ -605,7 +602,6 @@ newModifications[index][property] = value as Modification[typeof property];
 
   </div>
 
-    </div>
     </div>
     </div>
   );
