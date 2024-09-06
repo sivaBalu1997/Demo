@@ -17,6 +17,7 @@ import TableSecondHeader from "../../../components/productCatalog/TableSecondHea
 import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableTwoBody";
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
+import SidePanel from "pages/SidePanel";
 
 export const Menulisting = () => {
   const { setActive } = useContext(Contextpagejs);
@@ -364,7 +365,9 @@ export const Menulisting = () => {
   }, [showheadinglist]);
 
   return (
-    <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
+    <div style={{display:'flex'}}>
+      <SidePanel />
+      <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
       <div className="headercomponent">
         <Header />
       </div>
@@ -510,6 +513,7 @@ export const Menulisting = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 };

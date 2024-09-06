@@ -16,6 +16,7 @@ import { SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import Navigationpage from 'components/productCatalog/Navigation/NavigationPage';
 import { da } from 'date-fns/locale';
+import SidePanel from 'pages/SidePanel';
 
 interface ValidationState {
   isValid: boolean;
@@ -209,7 +210,9 @@ const PricingDetails= () => {
   console.log({mainForm})
 
   return (
-   <div>
+   <div style={{display:'flex'}}>
+    <SidePanel />
+    <div>
     <Navigationpage />
      <div className={isExpanded?"pricingdetails-container":"pricingdetails-containerExpanded"}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -423,6 +426,7 @@ const PricingDetails= () => {
         </div>
         </form>
     </div>
+   </div>
    </div>
   );
 };
