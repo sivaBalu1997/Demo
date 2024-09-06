@@ -315,25 +315,25 @@ export const Menulisting = () => {
   const tableBodyRef1 = useRef(null);
   const tableBodyRef2 = useRef(null);
 
-  // useEffect(() => {
-  //   const syncScroll = (sourceTable, targetTable) => {
-  //     targetTable.scrollTop = sourceTable.scrollTop;
-  //   };
+  useEffect(() => {
+    const syncScroll = (sourceTable, targetTable) => {
+      targetTable.scrollTop = sourceTable.scrollTop;
+    };
 
-  //   const table1 = tableBodyRef1.current;
-  //   const table2 = tableBodyRef2.current;
+    const table1 = tableBodyRef1.current;
+    const table2 = tableBodyRef2.current;
 
-  //   const handleTable1Scroll = () => syncScroll(table1, table2);
-  //   const handleTable2Scroll = () => syncScroll(table2, table1);
+    const handleTable1Scroll = () => syncScroll(table1, table2);
+    const handleTable2Scroll = () => syncScroll(table2, table1);
 
-  //   table1.addEventListener("scroll", handleTable1Scroll);
-  //   table2.addEventListener("scroll", handleTable2Scroll);
+    table1.addEventListener("scroll", handleTable1Scroll);
+    table2.addEventListener("scroll", handleTable2Scroll);
 
-  //   return () => {
-  //     table1.removeEventListener("scroll", handleTable1Scroll);
-  //     table2.removeEventListener("scroll", handleTable2Scroll);
-  //   };
-  // }, []);
+    return () => {
+      table1.removeEventListener("scroll", handleTable1Scroll);
+      table2.removeEventListener("scroll", handleTable2Scroll);
+    };
+  }, []);
 
   const handleDragScroll = (e, tableRef1, tableRef2) => {
     const table1 = tableRef1.current;

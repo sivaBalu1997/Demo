@@ -32,7 +32,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   return (
     <>
       {itemobject.name.map((item, index) => (
-        <tr key={index}  className={`tabletwobodyrows `}>
+        <tr key={index}  className={`tabletwobodyrows ${indexvalue===1 && index===0 && 'secondrow'}`} >
           <td   className={`eachobject-rowwise `} >
 
             {Object.entries(item.pricingdetails || {}).map(
