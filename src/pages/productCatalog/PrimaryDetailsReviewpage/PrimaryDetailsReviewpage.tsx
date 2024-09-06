@@ -26,6 +26,7 @@ import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSel
 import Step3Review from "../../../components/productCatalog/Step3Review/Step3Review";
 import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImageSelected/PrimaryImageSelected";
 import { addMenuItemRequest } from "redux/productCatalog/productCatalogActions";
+import SidePanel from "pages/SidePanel";
 
 interface Image {
   id: string;
@@ -166,7 +167,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       : ingredientsValue;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{display:'flex'}}>
+      <SidePanel />
+      <div style={{ display: "flex", flexDirection: "column" }}>
       <div className="reviewheading">
         <p>Review menu item - Idli</p>
       </div>
@@ -419,6 +422,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           </div>
         </div>
       </div>{" "}
+    </div>
     </div>
   );
 };
