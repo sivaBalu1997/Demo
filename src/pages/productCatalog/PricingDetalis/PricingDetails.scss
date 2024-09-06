@@ -1,36 +1,49 @@
-* {
-  font-family: "Poppins", sans-serif;
+
+*{
+  font-family: "Poppins",sans-serif;
 }
-.pricingdetails-container {
+.pricingdetails-container{
+ 
   position: absolute;
   top: 150px;
-  margin-left: -10px;
+  margin-left:-10px ;
   overflow-x: hidden;
   height: 570px;
-  width: 100%;
+  width: 1200px;
+ 
   overflow-y: auto;
+  
+ 
+
+ 
 }
-.pricingdetails-containerExpanded {
+.pricingdetails-containerExpanded{
+ 
   position: absolute;
   top: 150px;
-  margin-left: -20px;
+  margin-left:-20px ;
   overflow-x: hidden;
   height: 570px;
-  width: 77%;
+  width: 93.3%;
   // border: 1px solid red;
   // border: 1px solid red;
   overflow-y: auto;
+  
+ 
+
+ 
 }
-.pricing-form {
+.pricing-form{
   display: flex;
   flex-direction: column;
   width: 1120px;
   margin-left: 55px;
 
   // border: 1px solid red;
+ 
 }
 
-.KitchenRelated {
+.KitchenRelated{
   width: 40.813rem;
   height: 30px;
   display: flex;
@@ -40,203 +53,225 @@
   margin-left: 20px;
   gap: 30px;
   margin-bottom: -40px;
+ 
 }
 .KitchenRelated > div {
   flex: 1; /* This will make the divs take equal space */
+ 
+
 }
-.D1kitchen {
-  margin-top: -80px;
+.D1kitchen{
+   margin-top: -80px;
   margin-left: -50px;
 }
-.D2kitchen {
-  margin-top: -80px;
+.D2kitchen{
+   margin-top: -80px;
   margin-left: -65px;
 }
 
-.KitchenRelatedHeading {
+
+.KitchenRelatedHeading{
   margin-top: 20px;
   font-size: 1rem;
   font-weight: 500;
   margin-bottom: 90px;
+       
 }
-.ErrorsForm {
+.ErrorsForm{
   font-size: 0.75rem;
   color: red;
   font-weight: 500;
 }
-.KitchenInput {
+.KitchenInput{
+ 
   -webkit-appearance: none;
   width: 18.75rem;
-  height: 44px;
+  height:44px;
   border-radius: 0.313rem;
   font-size: 0.875rem;
-  color: #979797;
+  color:#979797;
   font-weight: 400;
-  padding-left: 15px;
+ padding-left: 15px;
   background-size: 1.5rem;
+
 }
-.Tool {
+.Tool{
+ 
   display: flex;
   justify-content: flex-start;
 }
-.ToolKitchen {
-  transform: translateY(22px);
-  opacity: 40%;
+.ToolKitchen{
+ 
+ transform: translateY(22px);
+ opacity: 40%;
 }
-.Imgarrow {
+.Imgarrow{
   position: relative;
-  top: 15px;
-  left: -380px;
-  height: 8px;
-  width: 16px;
+  top:15px;
+  left:-380px;
+  height:8px;
+  width:16px;
   z-index: 1;
 }
-.Imgarrow2 {
+.Imgarrow2{
   position: relative;
-  left: -80px;
-  top: 20px;
-  height: 8px;
-  width: 16px;
+  left:-80px;
+  top:20px;
+  height:8px;
+  width:16px;
 }
-.checkbox1-Kitchen {
-  accent-color: #779749;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-top: 0px;
+.checkbox1-Kitchen{
+  accent-color:#779749;
+width: 1.25rem;
+height: 1.25rem;
+margin-top: 0px;
 
-  transform: translateY(5px);
+transform: translateY(5px);
+
 }
-.Kitchen-checkbox {
-  width: 300px;
+.Kitchen-checkbox{
+  width:300px;
   height: 30px;
-  display: flex;
-  font-display: row;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  
+  margin-bottom: 275px;
+  position: relative;
+ top: 20px;
 }
 
-.InventoryToggle {
+.InventoryToggle{
+  margin-top: -240px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 25px;
+  justify-content: flex-start;
+  gap:25px;
 }
-.IHeading {
+.IHeading{
   font-size: 1rem;
   font-weight: 500;
 }
-.toggleI {
-  margin-top: -5px;
+.toggleI{
   transform: translateY(1.5px);
 }
-.toggleII {
+.toggleII{
   transform: translateY(16px);
 }
-.toggleIII {
+.toggleIII{
   transform: translateY(16px);
   margin-left: -3px;
 }
-.toggleIV {
+.toggleIV{
   transform: translateY(16px);
 }
-.toggleV {
+.toggleV{
   transform: translateY(16px);
 }
-.InventorySection {
+.InventorySection{
   display: flex;
   flex-direction: column;
 }
-.InventoryHeading {
+.InventoryHeading{
   margin-top: 10px;
   display: flex;
-  gap: 3.75rem;
+  gap:3.75rem;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #979797;
+  color:#979797;
   margin-left: 15px;
+ 
 }
-.InventoryInput {
+.InventoryInput{
+
   display: flex;
 
-  gap: 1rem;
-  input {
-    border: 1px solid rgba(0, 0, 0, 0.3);
+ 
+ 
+  gap:1rem;
+  input{
+      border: 1px solid rgba(0, 0, 0, 0.3);
+
   }
+ 
 }
-.ErrorsFormi2 {
+.ErrorsFormi2{
   font-size: 0.75rem;
   color: red;
   font-weight: 500;
-  margin-left: 305px;
+  margin-left:305px;
   margin-top: -19px;
+
 }
-.Inventorycheck {
+.Inventorycheck{
   margin-left: 5px;
   color: #979797;
   font-size: 14px;
   font-weight: 400;
 }
-.ToolInventory {
+.ToolInventory{
+ 
   transform: translateY(22px);
   margin-left: -30px;
   opacity: 40%;
-
-  width: 20px;
+ 
+  width:20px;
   height: 20px;
 }
-.ToolInventory1 {
+.ToolInventory1{
+ 
   transform: translateY(23px);
   // margin-left: -30px;
   opacity: 40%;
   margin-left: -29.5px;
-
-  width: 20px;
+ 
+  width:20px;
   height: 20px;
 }
-.I1 {
+.I1{
   width: 244px;
   font-size: 14px;
   color: #979797;
-  height: 41px;
+  height:41px;
   border-radius: 0.313rem;
-  border: 1px solid #979797;
+  border:1px solid #979797;
   padding-left: 15px;
+
 }
-.I1red {
+.I1red{
   width: 244px;
   font-size: 14px;
   color: #979797;
-  height: 44px;
+  height:44px;
   border-radius: 0.313rem;
-  border: 1px solid red;
+  border:1px solid red;
   padding-left: 15px;
 }
 
-.bg-grey2 {
+.bg-grey2{
+ 
   position: relative;
-  top: -44px;
-  left: 494px;
+  top:-44px;
+  left:494px;
   // top:-44px;
   // left:409px;
   left: -61px;
   top: 1px;
 
-  background-color: #d9d9d9;
-  width: 44px;
+  background-color:#D9D9D9;
+  width:44px;
   height: 42.5px;
   // border-radius:5px;
   margin-bottom: 60px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+ 
+
 }
-.threshold {
+.threshold{
   margin-left: 6rem;
 }
 
-.uparrowdownarrow2 {
-  position: absolute;
-  width: 1.25rem;
-  height: 1.25rem;
+.uparrowdownarrow2{
+     position: absolute;
+  width:1.25rem;
+  height:1.25rem;
   // top:-77px;
   // left:522px;
   top: 10px;
@@ -245,252 +280,225 @@
   flex-direction: column;
   gap: 0.563rem;
 }
-.Inventorycheck{
-    margin-left: 5px;
-    color: #979797;
-    font-size: 14px;
-    font-weight: 400;
-}
-.ToolInventory{
-   
-    transform: translateY(22px);
-    margin-left: -30px;
-    opacity: 40%;
-   
-    width:20px;
-    height: 20px;
- }
- .ToolInventory1{
-   
-    transform: translateY(23px);
-    // margin-left: -30px;
-    opacity: 40%;
-    margin-left: -29.5px;
-   
-    width:20px;
-    height: 20px;
- }
-.I1{
-    width: 244px;
-    font-size: 14px;
-    color: #979797;
-    height:41px;
-    border-radius: 0.313rem;
-    border:1px solid #979797;
-    padding-left: 15px;
- 
-}
-.I1red{
-    width: 244px;
-    font-size: 14px;
-    color: #979797;
-    height:44px;
-    border-radius: 0.313rem;
-    border:1px solid red;
-    padding-left: 15px;
-}
- 
-.bg-grey2{
-   
-    position: relative;
-    top:-44px;
-    left:494px;
-    // top:-44px;
-    // left:409px;
-    left: -61px;
-    top: 1px;
- 
-    background-color:#D9D9D9;
-    width:44px;
-    height: 42.5px;
-    // border-radius:5px;
-    margin-bottom: 60px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-   
- 
-}
-.PricingthresholdHeading{
-    margin-left: 30px;
-}
- 
-.uparrowdownarrow2{
-       position: absolute;
-    width:1.25rem;
-    height:1.25rem;
-    // top:-77px;
-    // left:522px;
-    top: 10px;
-    left: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.563rem;
-}
 .arrow{
- 
-    width:0.875rem;
-    height:0.5rem;
+
+  width:0.875rem;
+  height:0.5rem;
 }
- 
+
 .Inventcheckbox{
-    margin-top:60px;
-    .checkboxI{
-   
-        margin-top:-55px;
-    }
-    .checkbox2{
-        margin-top: 5px;
+  margin-top:60px;
+  .checkboxI{
  
+      margin-top:-55px;
+  }
+  .checkbox2{
+      margin-top: 5px;
+
+
  
-   
+
+  }
  
-    }
-   
-.arrow {
-  width: 0.875rem;
-  height: 0.5rem;
 }
 
-.Inventcheckbox {
-  margin-top: 60px;
-  .checkboxI {
-    margin-top: -55px;
-  }
-  .checkbox2 {
-    margin-top: 5px;
-  }
-}
 
-.InventoryHeadingII {
-  margin-left: 10px;
+.InventoryHeadingII{
+ 
+ margin-left: 10px;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #979797;
+  color:#979797;
+ 
 }
 .checkbox1-color {
-  accent-color: #779749;
-  width: 1.25rem;
-  height: 1.25rem;
-  transform: translateY(5px);
+accent-color:#779749;
+width: 1.25rem;
+height: 1.25rem;
+transform: translateY(5px);
+
+
+
 }
-.NormalSpecial {
+.NormalSpecial{
   display: flex;
   justify-content: flex-start;
-  gap: 60px;
-  margin-top: 30px;
-  accent-color: #779749;
+  gap:60px;
+  margin-top: 40px;
+  accent-color:#779749;
+
 }
 
-.N1 {
+.N1{
   margin-left: 5px;
   font-size: 16px;
   font-weight: 500;
 }
-.S1 {
+.S1{
   margin-left: 5px;
   font-size: 16px;
   font-weight: 500;
 }
-.S1radio {
+.S1radio{
   width: 20px;
   height: 20px;
   transform: translateY(5px);
 }
-.N1radio {
+.N1radio{
   width: 20px;
   height: 20px;
   transform: translateY(5px);
 }
 
-.saveandnextPricing {
-  // position: sticky;
-  bottom: 0px;
-  right: 0px;
-  margin-top: 150px;
+
+
+
+.buttoncomponentpricing{
+  // margin-bottom: 10px;
+  position: relative;
+  top: 100px;
+  left: -75px;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  width: 1290px;
+  border: 1px solid white;
+  
+ 
+
+}
+.buttoncomponentpricing1{
+  // margin-bottom: 10px;
+  position: relative;
+  top: 100px;
+  left: -55px;
+  display: flex;
+  width: 1500px;
+  border: 1px solid white;
+ 
+
+}
+
+.saveandnextPricing
+{
+ 
+height: auto;
+width: 1290px;
+// top: 1706px;
+
+display: flex;
+flex-direction: row;
+
+//  margin-left: -20px;
+padding: 32px 32px 32px 817px;
+box-shadow: 3px 0px 10px 0px #00000040;
+
+
+.clearallPricing
+{
+width:135px;
+height: 44px;
+padding: 10px 14px 10px 14px;
+gap: 10px;
+border-radius: 4px;
+opacity: 0px;
+background: white;
+color: #67833E;
+border: 1px solid #67833E;
+
+font-size: 16px;
+font-weight: 500;
+
+
+
+
+
+}
+.saveall
+{
+  border: none;
+  width:135px;
+ margin-left: 10px;
+  height: 44px;
+  padding: 10px 14px 10px 14px;
   gap: 10px;
-  width: 100%;
-  z-index: 99;
+  border-radius: 4px ;
+  opacity: 0px;
+  background: #67833E;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
 
-  .clearallPricing {
-    width: 135px;
-    height: 44px;
-    padding: 10px 14px 10px 14px;
-    gap: 10px;
-    border-radius: 4px;
-    opacity: 0px;
-    background: white;
-    color: #67833e;
-    border: 1px solid #67833e;
-    font-size: 16px;
-    font-weight: 500;
-  }
-  .saveall {
-    border: none;
-    width: 135px;
-    margin-left: 10px;
-    height: 44px;
-    padding: 10px 14px 10px 14px;
-    gap: 10px;
-    border-radius: 4px;
-    opacity: 0px;
-    background: #67833e;
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-  }
-}
-.saveandnextPricing1 {
-    // position: sticky;
-    bottom: 0px;
-    margin-top: 150px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    gap: 10px;
-    width: 100%;
-    z-index: 99;
 
-  .clearallPricing {
-    width: 135px;
-    height: 44px;
-    padding: 10px 14px 10px 14px;
-    gap: 10px;
-    border-radius: 4px;
-    opacity: 0px;
-    background: white;
-    color: #67833e;
-    border: 1px solid #67833e;
-    font-size: 16px;
-    font-weight: 500;
-  }
-  .saveall {
-    border: none;
-    width: 135px;
-    margin-left: 10px;
-    height: 44px;
-    padding: 10px 14px 10px 14px;
-    gap: 10px;
-    border-radius: 4px;
-    opacity: 0px;
-    background: #67833e;
-    color: white;
-    font-size: 16px;
-    font-weight: 500;
-  }
+ 
+
 }
 
-.link {
+}
+.saveandnextPricing1
+{
+ 
+height: auto;
+width: 1700px;
+// top: 1706px;
+
+display: flex;
+flex-direction: row;
+
+margin-left: -20px;
+padding: 32px 32px 32px 817px;
+box-shadow: 3px 0px 10px 0px #00000040;
+
+
+.clearallPricing
+{
+width:135px;
+height: 44px;
+padding: 10px 14px 10px 14px;
+gap: 10px;
+border-radius: 4px;
+opacity: 0px;
+background: white;
+color: #67833E;
+border: 1px solid #67833E;
+
+font-size: 16px;
+font-weight: 500;
+
+
+
+
+
+}
+.saveall
+{
+  border: none;
+  width:135px;
+ margin-left: 10px;
+  height: 44px;
+  padding: 10px 14px 10px 14px;
+  gap: 10px;
+  border-radius: 4px ;
+  opacity: 0px;
+  background: #67833E;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+
+
+ 
+
+}
+
+}
+.link{
   text-decoration: none;
 }
-.Button-Save {
-
-  top: 10px;
-}
-.Button-SaveExtended {
+.Button-Save{
+  margin-left: 380px;
   position: relative;
   top: 10px;
+}
+.Button-SaveExtended{
+position: relative;
+top: 10px;
   margin-left: 100px;
 }

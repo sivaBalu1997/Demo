@@ -54,9 +54,6 @@ interface PricingDetailsFormData {
   kitchen: string[];
 }
 interface option {
-  tagName: string;
-
-=======
   name: string;
 }
 
@@ -69,9 +66,6 @@ interface State {
 }
 interface StateData {
   productCatalog:{
-    tagClass:[]
-
-=======
     availability:[]
     }
 }
@@ -79,7 +73,7 @@ interface StateData {
 const PricingDetails= () => {
   const { control, handleSubmit, formState: { errors } } = useForm<PricingDetailsFormData>();
   const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
-  const data=useSelector((state:StateData)=>state.productCatalog.tagClass)
+  const data=useSelector((state:StateData)=>state.productCatalog.availability)
 
 
   const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
@@ -121,12 +115,11 @@ const PricingDetails= () => {
 
   });
 
-  const validateDropdown = (value: string[] | undefined, field: string | number) => {
+  const validateDropdown = (value: string[], field: string | number) => {
     let isValid = true;
     let errorMessage = '';
   
-    // Ensure value is an array before checking its length
-    if (!Array.isArray(value) || value.length === 0) {
+    if (value.length === 0) {
       isValid = false;
       errorMessage = 'This field is required';
     }
@@ -140,7 +133,6 @@ const PricingDetails= () => {
       console.error('Field type is not a string, cannot update validation state');
     }
   };
-  
 
   const validateForm = (): boolean => {
     validateDropdown(selectedValues, 'kitchen');
@@ -193,30 +185,18 @@ const PricingDetails= () => {
   };
 
   useEffect(()=>{
-
- 
+    setOptions(data)
     getApi();
-    if (data && data.length > 0) {
-      setOptions(data);
-    }
-    
-  },[])
+  },[data])
 
   const getApi=async()=>{
     dispatch(getTagClassRequest(locationid))
-    
   
   }
 
   const onSubmit: SubmitHandler<any> = (data:any) => {
     dispatchEvent();
   };
-  console.log(options)
-  const handleBlur = (fieldValue: string[], fieldName: string) => {
-    validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
-  };
-  
-  console.log({mainForm})
 
   return (
    <div style={{display:'flex'}}>
@@ -238,35 +218,6 @@ const PricingDetails= () => {
         <div className='KitchenRelated'>
           <div className='D1kitchen'>
           <Controller
-
-  name="kitchen"
-  control={control}
-  defaultValue={[]}
-  rules={{ required: 'Please select at least one option' }}
-  render={({ field }: any) => (
-    <Dropdown
-      selectedValues={selectedValues}
-      onSelect={(values) => {
-        setSelectedValues(values); // Update local state
-        if (field?.onChange) {
-          field.onChange(values); // Update react-hook-form state
-        }
-        validateDropdown(values, 'kitchen'); // Validate the dropdown
-      }}
-      options={['Option 1', 'Option 2', 'Option 3']} // Example options
-      label="Kitchen Station1*"
-      onBlur={() => {
-        if (field?.onBlur) {
-          field.onBlur(); // Call react-hook-form's onBlur if it exists
-          handleBlur(field?.value, 'kitchen'); // Call the custom blur handler
-        }
-        
-      }}
-      validation={validationState.kitchen}
-    />
-  )}
-/>
-
             name="kitchen"
             control={control}
             defaultValue={[]}
@@ -279,8 +230,7 @@ const PricingDetails= () => {
                   field.onChange(values); // Update react-hook-form state
                   validateDropdown(values, 'kitchen'); // Validate the dropdown
                 }}
-                options={options.map((elem)=>elem.tagName)}
-
+                options={options.map((elem)=>elem.name)} // Example options
                 label="Kitchen Station1*"
                 onBlur={() => {
                   field.onBlur();
@@ -300,12 +250,10 @@ const PricingDetails= () => {
             rules={{ required: 'Please select at least one option' }}
             render={({ field }:any) => (
               <Dropdown 
-                selectedValues={selectedValue1}
+                selectedValues={field?.value}
                 onSelect={(values) => {
                   setSelectedValue1(values)
-                  if (field?.onChange) {
-                    field.onChange(values); // Update react-hook-form state
-                  }
+                field.onChange(values);
                 validateDropdown(values, 'preparationTime');
                   
                 }}
@@ -313,10 +261,8 @@ const PricingDetails= () => {
                 
                 label="Preparation*"
                 onBlur={() => {
-                  if (field?.onBlur) {
-                    handleBlur(field?.value, 'preparationTime');
- 
-                  }
+                  field.onBlur();
+                  validateDropdown(field?.value, 'kitchen');
                 }}
                 validation={validationState.preparationTime}
               />
@@ -344,78 +290,9 @@ const PricingDetails= () => {
             <div>
               <div className='InventoryHeading'>
                 <p>Max No. of servings per day*</p>
-                <p className='PricingthresholdHeading'>Threshold*</p>
+                <p className='threshold'>Threshold*</p>
               </div>
               <div className='InventoryInput'>
-      <Controller
-        name='Inventory1'
-        control={control}
-        defaultValue={form.Inventory1 || ''}
-        render={({ field }:any) => (
-          <input
-            className="I1"
-            type="text"
-            {...field}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (field?.onChange) {
-                field.onChange(value); // Update react-hook-form state
-              } // To update Controller's value
-      
-              // Update the form state
-              setForm((prevState) => ({
-                ...prevState,
-                Inventory1: value, // Update Inventory1 in form state
-              }));
-            }}
-            
-            style={{
-              borderColor: formerrors.Inventory1 ? 'red' : 'rgba(0, 0, 0, 0.3)'
-            }}
-          />
-        )}
-        rules={{ required: 'This field is required' }} // Validation rule
-      />
-    
-                
-      
-      <Controller
-        name='Inventory2'
-        control={control}
-        defaultValue={form.Inventory2 || ''}
-        render={({ field }:any) => (
-          <input
-            className="I1"
-            type="text"
-            {...field}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (field?.onChange) {
-                field.onChange(value); // Update react-hook-form state
-              }  // To update Controller's value
-      
-              // Update the form state
-              setForm((prevState) => ({
-                ...prevState,
-                Inventory2: value, // Update Inventory2 in form state
-              }));
-            }}
-            
-            style={{
-              borderColor: formerrors.Inventory2 ? 'red' : 'rgba(0, 0, 0, 0.3)'
-            }}
-          />
-        )}
-        
-      />
-   
-                {/* <Tooltip message="Threshold">
-                  <div className="ToolInventory1">
-                    <img src={info} alt="" width={20} height={20} />
-                  </div>
-                </Tooltip> */}
-              </div>
-              {formerrors.Inventory1 && <p className='ErrorsForm' >{formerrors.Inventory1}</p>}
                 <Controller
                   name='Inventory1'
                   control={control}
@@ -546,4 +423,3 @@ const PricingDetails= () => {
 };
 
 export default PricingDetails;
-
