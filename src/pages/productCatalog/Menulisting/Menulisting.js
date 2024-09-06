@@ -296,6 +296,7 @@ export const Menulisting = () => {
     setmodal(true);
   };
   const [sidebartext, setSideBarText] = useState(null);
+
   const showsidebar = (key) => {
     if (key === "Dinein1" || key === "Pickup1" || key === "Delivery1") {
       handlemodal();
@@ -372,7 +373,7 @@ export const Menulisting = () => {
           <Header />
         </div>
 
-        <div className="Menu-Listing-Page-main">
+        <div className="Menu-Listing-Page-main"  >
             <div>
             <table className='Menu-Listing-TableOne'>
        <div>
@@ -450,7 +451,7 @@ export const Menulisting = () => {
             </div>
             <div className="table-two-alignment">
                 
-                  <table className='Menu-Listing-TableTwo' >
+                  <table  className={`${isExpanded ? "Menu-Listing-TableTwo1" : "Menu-Listing-TableTwo"}`}>
                 <thead className='Menu-Listing-TableTwoHead'>
                 <tr>
                
@@ -502,7 +503,7 @@ export const Menulisting = () => {
               
 
                 </thead>
-                <tbody className='Menu-Listing-TableTwoBody' ref={tableBodyRef2}>
+                <tbody className={`${isExpanded ? "Menu-Listing-TableTwoBody1" : "Menu-Listing-TableTwoBody"}`} ref={tableBodyRef2}>
                 <tr className="tabletwobody">
               
                   {nooftypes.map((itemobject, indexvalue) => {
@@ -532,6 +533,9 @@ export const Menulisting = () => {
             </table>
 
             </div>
+            {
+              modal && <Slider onclose={()=>setmodal(false)}/>
+            }
          
 
          

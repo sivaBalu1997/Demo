@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, Fragment } from "react";
+import React, { useState, useCallback, useEffect, Fragment ,useContext} from "react";
 import "../../styles/menu.scss";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { SELECTED_BRANCH_DATA, STORAGE_BUCKET_URL } from "../../shared/constants";
@@ -19,6 +19,7 @@ import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
 import btnnav from '../../assets/svg/btnnav.svg'
 import { RootState } from "redux/rootReducer";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const SidePanel = () => {
   const credentials = useSelector((state:RootState) => state.auth.credentials);
@@ -40,7 +41,9 @@ const SidePanel = () => {
   const [showOptions, setShowOptions] = useState("employees");
   const [showOfferOptions, setShowOfferOptions] = useState("");
   const [routeTo, setRouteTo] = useState({});
+  const {isExpanded,setIsExpanded}=useContext(Contextpagejs);
   const [isExpand, setIsExpand] = useState(true)
+  
   
   const restaurantDetails = useSelector(
     (state:RootState) => state.auth.restaurantDetails
@@ -109,6 +112,7 @@ const SidePanel = () => {
 
   const toggleExpand = () => {
     setIsExpand(!isExpand)
+    setIsExpanded(!isExpanded)
   }
 
   return (

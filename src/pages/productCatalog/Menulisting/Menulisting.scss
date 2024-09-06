@@ -13,6 +13,21 @@
   margin-top: 1%;
 
 }
+.mainpagemenu1
+{
+  height: 100vh;
+
+  
+  background:none;
+  // border: 1px solid red !important;
+ 
+  border-spacing: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1%;
+  margin-left: 1%;
+}
 .Menu-Listing-Page-main {
   table, tr, th, td {
     border: none !important; 
@@ -213,8 +228,20 @@ table,thead,tbody,td,th
         overflow-x: auto;
         display: block;
         overflow-y: hidden;
+          //  border: 1px solid blue;
           
-           
+    }    
+    .Menu-Listing-TableTwo1
+    {
+       
+
+        width: 65rem;
+        overflow-x: auto;
+        display: block;
+        overflow-y: hidden;
+        // border: 1px solid blue !important;
+          
+    } 
             // &::-webkit-scrollbar
             // {
             //     display: none;
@@ -511,7 +538,16 @@ table,thead,tbody,td,th
               overflow-y: auto;
               overflow-x: hidden;
               width: 200%;
-         
+            }
+            .Menu-Listing-TableTwoBody1
+            {
+              display: block;
+              height: 34rem;
+              overflow-y: auto;
+              overflow-x: hidden;
+              width: 160%;
+              // border: 1px solid red;
+            }
               .tabletwobody
               {
                  display: flex;
@@ -661,11 +697,9 @@ table,thead,tbody,td,th
              
 
             }
-    }
+    
 
    
-}
-
 
 
 .headingstextlist {
