@@ -103,10 +103,10 @@ export const Menulisting = () => {
   ]);
 
   const [secondRowTable, setSecondRowTable] = useState([
-    ["Ac", "Nonac"],
+    ["Ac", "Non Ac"],
     ["Inhouse", "Swiggy", "Zomato"],
     ["Inhouse", "Swiggy", "Zomato"],
-    ["Ac", "Nonac"],
+    ["Ac", "Non Ac"],
     ["Inhouse", "Swiggy", "Zomato"],
     ["Inhouse", "Swiggy", "Zomato"],
     ["Total", "Threshold"],

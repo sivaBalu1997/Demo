@@ -87,12 +87,16 @@ const PrimaryPage = () => {
     const length = value.length;
     if (length <= maxLength) {
       setCharCount(length);
+
     }
   };
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const handleDropdownToggle = (name: string) => {
+
+
+    
     setOpenDropdown((prev) => (prev === name ? null : name));
   };
 
@@ -290,13 +294,14 @@ const PrimaryPage = () => {
                     options={dataDietaryType}
                     placeholder="search for option"
                     register={register}
+                     name="dietaryType"
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
                     // validation={{ required: "dietaryType is required" }}
                     error={errors.dietaryType}
-                    {...field}
-                    isOpen={openDropdown === "dietaryType"}
+                   
+                    dropdownopen={openDropdown === "dietaryType"}
                     onToggle={() => handleDropdownToggle("dietaryType")}
                   />
                 )}
@@ -316,11 +321,13 @@ const PrimaryPage = () => {
                     register={register}
                     trigger={trigger}
                     setValue={setValue}
+                      name="cuisine"
+
                     // validation={{ required: "cuisine is required" }}
                     error={errors.cuisine}
                     {...field}
                     getValues={getValues}
-                    isOpen={openDropdown === "cuisine"}
+                    dropdownopen={openDropdown === "cuisine"}
                     onToggle={() => handleDropdownToggle("cuisine")}
                   />
                 )}
@@ -339,12 +346,13 @@ const PrimaryPage = () => {
                     placeholder="search for option"
                     {...field}
                     register={register}
+                     name="mealType"
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
                     // validation={{ required: "Mealtype is required" }}
                     error={errors.mealType}
-                    isOpen={openDropdown === "mealType"}
+                    dropdownopen={openDropdown === "mealType"}
                     onToggle={() => handleDropdownToggle("mealType")}
                   />
                 )}
@@ -361,12 +369,12 @@ const PrimaryPage = () => {
                   <Dropdown
                     options={dataBestPair}
                     placeholder="search for option"
-                    {...field}
+                   name="bestPair"
                     register={register}
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
-                    isOpen={openDropdown === "bestPair"}
+                    dropdownopen={openDropdown === "bestPair"}
                     onToggle={() => handleDropdownToggle("bestPair")}
                   />
                 )}
@@ -383,11 +391,12 @@ const PrimaryPage = () => {
                     <>
                       <textarea
                         className="description"
+                         name="description"
                         autoComplete="off"
                         value={field?.value || ""}
                         onChange={(e) => {
                           handledescriptioninputchange(e.target.value);
-                          field.onChange(e);
+                          field?.onChange && field.onChange(e); 
                         }}
                         maxLength={maxLength}
                         style={{
@@ -508,14 +517,14 @@ const PrimaryPage = () => {
                     <Dropdown
                       options={categories}
                       placeholder="search for option"
-                      {...field}
+                        name="category"
                       register={register}
                       setValue={setValue}
                       trigger={trigger}
                       getValues={getValues}
                       // validation={{ required: "category is required" }}
                       error={errors.category}
-                      isOpen={openDropdown === "category"}
+                      dropdownopen={openDropdown === "category"}
                       onToggle={() => handleDropdownToggle("category")}
                     />
                   )}
@@ -531,12 +540,12 @@ const PrimaryPage = () => {
                     <Dropdown
                       options={dataSubcategory}
                       placeholder="search for option"
-                      {...field}
+                      name="subCategory"
                       register={register}
                       trigger={trigger}
                       setValue={setValue}
                       getValues={getValues}
-                      isOpen={openDropdown === "subCategory"}
+                      dropdownopen={openDropdown === "subCategory"}
                       onToggle={() => handleDropdownToggle("subCategory")}
                     />
                   )}
@@ -652,6 +661,7 @@ const PrimaryPage = () => {
                     <DigitInput
                       {...field}
                       setValue={setValue}
+                       name="masterCode"
                       register={register}
                       inputCount={4}
                       error={errors.masterCode}
