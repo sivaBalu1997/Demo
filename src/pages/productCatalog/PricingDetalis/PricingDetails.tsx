@@ -54,6 +54,9 @@ interface PricingDetailsFormData {
   kitchen: string[];
 }
 interface option {
+  tagName: string;
+
+=======
   name: string;
 }
 
@@ -66,6 +69,9 @@ interface State {
 }
 interface StateData {
   productCatalog:{
+    tagClass:[]
+
+=======
     availability:[]
     }
 }
@@ -73,7 +79,7 @@ interface StateData {
 const PricingDetails= () => {
   const { control, handleSubmit, formState: { errors } } = useForm<PricingDetailsFormData>();
   const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
-  const data=useSelector((state:StateData)=>state.productCatalog.availability)
+  const data=useSelector((state:StateData)=>state.productCatalog.tagClass)
 
 
   const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
@@ -187,18 +193,25 @@ const PricingDetails= () => {
   };
 
   useEffect(()=>{
-    setOptions(data)
+
+ 
     getApi();
-  },[data])
+    if (data && data.length > 0) {
+      setOptions(data);
+    }
+    
+  },[])
 
   const getApi=async()=>{
     dispatch(getTagClassRequest(locationid))
+    
   
   }
 
   const onSubmit: SubmitHandler<any> = (data:any) => {
     dispatchEvent();
   };
+  console.log(options)
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
@@ -266,7 +279,8 @@ const PricingDetails= () => {
                   field.onChange(values); // Update react-hook-form state
                   validateDropdown(values, 'kitchen'); // Validate the dropdown
                 }}
-                options={options.map((elem)=>elem.name)} // Example options
+                options={options.map((elem)=>elem.tagName)}
+
                 label="Kitchen Station1*"
                 onBlur={() => {
                   field.onBlur();

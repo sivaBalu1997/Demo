@@ -9,7 +9,7 @@ import { ImCross } from "react-icons/im";
 import ImgaeUploading from "../../../assets/images/addimage.png";
 import axios from "axios";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Imagepillsselection from "../../../components/productCatalog/ImagePillsSelection/ImagePillsSelection";
 import SaveAndNext from "../../../components/productCatalog/Savenextbutton/SaveAndNext";
 import {
@@ -24,6 +24,8 @@ import {
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
+
+import { getIngredientsRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 
 interface Ingredients {
@@ -66,6 +68,36 @@ interface Base64Image {
   mimeType: string;
   base64String: string;
 }
+interface State {
+  auth: {
+    credentials:{
+      locationId:string
+
+    }
+    
+  };
+}
+
+interface StateDataTag {
+ 
+  productCatalog:{
+    ingredients:[]
+
+    }
+    
+  
+}
+
+interface option {
+  name: string[];
+}
+interface ImageOptions {
+  name: string;
+  id: string;
+  imageId?:string
+  imageType?:string
+}
+
 
 const PrimaryPage = () => {
   const [dataImages, setDataImages] = useState(imageslist);
@@ -79,8 +111,12 @@ const PrimaryPage = () => {
     useState(calorieponitradio);
   const [dataPortionSizeRadio, setDataPortionSizeRadio] =
     useState(portionsizeradio);
+    const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
+    const ingredients=useSelector((state:StateDataTag)=>state.productCatalog.ingredients)
 
-  const [imagefromapi, setimagefromapi] = useState([]);
+
+
+  const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>([]);
   const [charCount, setCharCount] = useState(0);
   const maxLength = 100;
   const handledescriptioninputchange = (value: string) => {
@@ -98,30 +134,18 @@ const PrimaryPage = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const categorylist = await axios.get(
-          "https://api.magilhub.com/magilhub-data-services/merchants/itemAttributes?locationId=9c485244-afd4-11eb-b6c7-42010a010026&id=&option=Category"
-        );
+  useEffect(()=>{
+    getApi()
+    setIngredientsFromAPi(ingredients)
 
-        const imagesapi = await axios.get(
-          "https://api.magilhub.com/magilhub-data-services/merchants/itemAttributes?locationId=9c485244-afd4-11eb-b6c7-42010a010026&id=&option=INGR"
-        );
-        setimagefromapi(imagesapi.data && imagesapi.data);
 
-        setCategories(categorylist.data);
-        console.log("category", categories);
 
-        console.log("imagefromapi", imagesapi);
-      } catch (error) {
-        return error;
-      }
-    };
 
-    fetchData();
-  }, []);
+  },[])
 
+  const getApi=()=>{
+    dispatch(getIngredientsRequest(locationid))
+  }
   
   const [masterCode, setMasterCode] = useState<string>("");
   const [selectedValues, setSelectedValues] = useState({
@@ -254,6 +278,9 @@ const PrimaryPage = () => {
   };
 
   return (
+    <div style={{display:'flex'}}>
+      <SidePanel />
+      <div style={{marginBottom:'40px'}}>
     <div style={{display:'flex'}}>
       <SidePanel />
       <div style={{marginBottom:'40px'}}>
@@ -557,12 +584,12 @@ const PrimaryPage = () => {
         </div>
         <div className="Primary-page-container-two">
           <div className="Primary-page-ingredients-selection">
-            <Imagepillsselection
+            {/* <Imagepillsselection
               heading="Ingredients*"
-              options={imagefromapi}
+              options={ingredientsFromAPi.map((elem)=>elem.name)}
               setValue={setValue}
               name="Ingredients"
-            />
+            /> */}
           </div>
 
           <div className="Primary-Page-Other-Details">
@@ -670,6 +697,8 @@ const PrimaryPage = () => {
           reset={reset}
         />
       </form>
+    </div>
+    </div>
     </div>
     </div>
     </div>
