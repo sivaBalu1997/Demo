@@ -19,13 +19,13 @@ const TableSecondHeader: React.FC<TableRowProps> = ({
   return (
     <>
       {listingobject[classNames[index].replace(/-class/g, '')] && (
-        <tr key={index} className={className}>
+        <th key={index} className={`${className}   fontstyle`}>
           {subheaders.map((subheader, subIndex) => (
-            <td key={subIndex} className={subheader}>
+            <span key={subIndex} className={subheader}>
               <StringDisplay text={subheader} />
-            </td>
+            </span>
           ))}
-        </tr>
+        </th>
       )}
     </>
   );

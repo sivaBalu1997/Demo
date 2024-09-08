@@ -43,27 +43,27 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
 
                 if (items && Array.isArray(cellData)) {
                   return (
-                    <td className={className} key={cellIndex}>
+                    <div className={className} key={cellIndex}>
                       {cellData.map((item, itemIndex) => (
-                        <td key={`${cellIndex}-${itemIndex}`}>
+                        <React.Fragment key={`${cellIndex}-${itemIndex}`}>
                           {item === 'Enabled' || item === 'Disabled' ? (
-                            <td onClick={() => showsidebar(key)} >
+                            <div onClick={() => showsidebar(key)} >
                               <Toggle
                                 toggle={item === 'Enabled'}
                                
                               />
-                            </td>
+                            </div>
                           ) : (
-                            <td
-                              className={`${className}${itemIndex}`}
+                            <div
+                              // className={`${className}${itemIndex}`}
                               onClick={() => showsidebar(key)}
                             >
                               {item}
-                            </td>
+                            </div>
                           )}
-                        </td>
+                        </React.Fragment>
                       ))}
-                    </td>
+                    </div>
                   );
                 }
 

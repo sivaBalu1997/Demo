@@ -38,7 +38,7 @@ export const Menulisting = () => {
   const [columndraggingindex, setcolumndraggingindex] = useState(null);
   const [modal, setmodal] = useState(false);
 
-  console.log("Hi")
+
 
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [classNames, setclassNames] = useState([
@@ -375,8 +375,6 @@ export const Menulisting = () => {
 
         <div className="Menu-Listing-Page-main"  >
             <div>
-            <table className='Menu-Listing-TableOne'>
-       <div>
             <InsertColumnList
               listingobject={listingobject}
               setlistingobject={setlistingobject}
@@ -389,30 +387,31 @@ export const Menulisting = () => {
               togglebtns={togglebtns}
               Outsideref={Outsideref}
             />
-          </div>
+            <table className='Menu-Listing-TableOne'>
+      
+           
+       
                 <thead className='Menu-Listing-TableOneHead' >
                 <tr className="headerrow">
                   <th className="itemimage">Image</th>
                   <th className="itemname">Item name</th>
                   <th className="itemcode">
-                    <tr>
+                    
                       Code
-                      <button
-                        onClick={() => setshowheadinglist(true)}
-                        className="addbtn"
-                      >
-                        <span> +</span>
-                      </button>
-                    </tr>
+                      
+                        <span  onClick={() => setshowheadinglist(true)}
+                        className="addbtn"> +</span>
+                    
+                    
                   </th>
                 </tr>
                 </thead>
-                <tbody className='Menu-Listing-TableOneBody'  ref={tableBodyRef1}>
+                <tbody className='Menu-Listing-TableOneBody Menu-listing-Body'  ref={tableBodyRef1}>
               
-                <tr className="Menu-listing-Body">
+               
                   {nooftypes.map((object, index) => (
-                    <td key={index} className="firsttablebody">
-                      <tr>
+                   
+                     <React.Fragment key={index}>
                       <RowHeading
                           objectId={object.id}
                           index={index}
@@ -420,8 +419,8 @@ export const Menulisting = () => {
                           onDragOver={handledragvegnonvegdropover}
                           onDrop={handledragvegnonvegdropend}
                         />
-                      </tr>
-                      <tr>
+                      
+                   
                       <TableOneBody
                           object={object}
                           draggingOverIndex={draggingOverIndex}
@@ -435,15 +434,15 @@ export const Menulisting = () => {
                           tableBodyRef2={tableBodyRef2}
                         />
 
-                      </tr>
-                    
+                    </React.Fragment>
+                     
                     
 
                        
                      
-                    </td>
+                  
                   ))}
-                </tr>
+             
                 </tbody>
 
             </table>
@@ -453,12 +452,10 @@ export const Menulisting = () => {
                 
                   <table  className={`${isExpanded ? "Menu-Listing-TableTwo1" : "Menu-Listing-TableTwo"}`}>
                 <thead className='Menu-Listing-TableTwoHead'>
-                <tr>
-               
-               
-                    <th >
-                      <tr className="headingonesection">
-                      {firstRowTable.map((header, index) => (
+                <tr className="headingonesection">
+                {firstRowTable.map((header, index) => (
+
+                  <React.Fragment key={index}>
                       <TableFirstHeader
                         key={index}
                         header={header}
@@ -474,44 +471,52 @@ export const Menulisting = () => {
                         togglebtns={togglebtns}
                         removeicon={removeicon}
                       />
+                      </React.Fragment>
                     ))}
 
-
-
-                      </tr>
-                      <tr className="headingtwosection">
-                   {secondRowTable.map((subheaders, index) => (
-                      <TableSecondHeader
+                </tr>
+                <tr className="headingtwosection">
+                {secondRowTable.map((subheaders, index) => (
+                    <React.Fragment key={index}>
+                     <TableSecondHeader
                         key={index}
                         subheaders={subheaders}
                         index={index}
                         className={classNames[index]}
                         listingobject={listingobject}
                         classNames={classNames}
-                      />
+                      /></React.Fragment>
+                     
                     ))}
-                   </tr>
+
+
+                </tr>
+                
+               
+
                     
-                    </th>
+
+
+
+                    
                     
                  
-                  <tr >
-                   
-                  </tr>
-                  </tr>
               
               
 
                 </thead>
-                <tbody className={`${isExpanded ? "Menu-Listing-TableTwoBody1" : "Menu-Listing-TableTwoBody"}`} ref={tableBodyRef2}>
-                <tr className="tabletwobody">
+                <tbody className={`${isExpanded ? "Menu-Listing-TableTwoBody1" : "Menu-Listing-TableTwoBody"} tabletwobody`} ref={tableBodyRef2}>
+           
               
                   {nooftypes.map((itemobject, indexvalue) => {
                     return (
-                     <tr className="tabletwoparttwodata">
-                        {indexvalue === 1 && (
+                     <React.Fragment  key={indexvalue}>
+                      <tr>
+                      {indexvalue === 1 && (
                           <tr className="itemheading2row"></tr>
                         )}
+                      </tr>
+                        
 
                         <TableTwoBody
                           itemobject={itemobject}
@@ -522,11 +527,11 @@ export const Menulisting = () => {
                           settogglebtn={settogglebtn}
                           showsidebar={showsidebar}
                         />
-                      </tr>
+                      </React.Fragment>
                     );
                   })}
              
-              </tr>
+         
 
                 </tbody>
 

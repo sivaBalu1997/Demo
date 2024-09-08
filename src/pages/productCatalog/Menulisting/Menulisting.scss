@@ -1,26 +1,21 @@
-.mainpagemenu
-{
+.mainpagemenu {
   height: 100vh;
 
-  
-  background:none;
+  background: none;
   // border: 1px solid red;
- 
+
   border-spacing: 0;
   width: 77%;
   display: flex;
   flex-direction: column;
   margin-top: 1%;
-
 }
-.mainpagemenu1
-{
+.mainpagemenu1 {
   height: 100vh;
 
-  
-  background:none;
+  background: none;
   // border: 1px solid red !important;
- 
+
   border-spacing: 0;
   width: 100%;
   display: flex;
@@ -29,678 +24,582 @@
   margin-left: 1%;
 }
 .Menu-Listing-Page-main {
-  table, tr, th, td {
-    border: none !important; 
+  table,
+  tr,
+  th,
+  td {
+    border: none !important;
     padding: 0;
     margin: 0;
     border-spacing: 0;
   }
 }
 
-.headercomponent
-{
+.headercomponent {
   // height: 170px;
   // width: 1000px;
- 
 }
 
-*
-{
+* {
   margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    border: none;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
 }
-table,thead,tbody,td,th
-{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    border: none;
-   
-
+table,
+thead,
+tbody,
+td,
+th {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
 }
 
-.Menu-Listing-Page-main
-{
-    width: 100%;
-    height: 38.4rem;
-    // border: 1px solid red;
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin-top: 0.4%;
-  
-    display: flex;
-    flex-direction: row;
-    table,td,tr{
-      border-collapse: collapse;
-    }
-    .Menu-Listing-TableOne
-    {
-        width: 20rem;
-        height: 20rem;
-        // border: 1px solid blue;
-        
-        .headerrow
-        {
-          display: flex;
-          width: 100%;
-          height: 2rem;
-          gap: 30px;
+.Menu-Listing-Page-main {
+  width: 100%;
+  height: 38.4rem;
+  // border: 1px solid red;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 0.4%;
+
+  display: flex;
+  flex-direction: row;
+  table,
+  td,
+  tr {
+    border-collapse: collapse;
+  }
+  .Menu-Listing-TableOne {
+    width: 20rem;
+    height: 20rem;
+    // border: 1px solid blue;
+
+    .headerrow {
+      display: flex;
+      width: 100%;
+      height: 2rem;
+      gap: 30px;
+      position: relative;
+      left: 5%;
+      .itemcode {
+        width: 80px;
+        height: 20px;
+        //  border: 1px solid red !important;
+
+        .addbtn {
           position: relative;
-          left: 5%;
-          .itemcode
-          {
-           width: 80px;
-           height: 20px;
-          //  border: 1px solid red !important;
-           
-           .addbtn
-           {
-             position: relative;
-             left: 2rem;
-             top: 0.2rem;
-             width: 23px;
-             height: 23px;
-             border: 1px solid #5F5F5F;
-             border-radius: 4px;
-           }
-          }
-          
+          left: 2rem;
+          top: 0.2rem;
+          width: 23px;
+          height: 23px;
+          border: 1px solid #5f5f5f;
+          border-radius: 4px;
         }
-        .Menu-Listing-TableOneBody{
-          height: 36rem;
-          display: block;
-          overflow-y: auto;
-        }
-      
-        .Menu-listing-Body
-        {
-            display: flex;
-            flex-direction: column;
-            // border: 1px solid blue;
-            width: 20rem;
-           
-            .itemheading
-          {
-            font-size: 20px;
-            font-weight: 500;
-            color: black;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            height: 2rem;
-            // border: 1px solid blue;
-            
-          }
-          .itemheadingtwo
-          {
-            font-size: 20px;
-            width: 20rem;
-            gap: 10px;
-            font-weight: 500;
-            color: black;
-            align-items: center;
-            display: flex;
-            height: 2rem;
-            border-right: 1px solid #D9D9D9 !important;
-
-          
-
-          }
-
-          .itemdetails-row {
-            width: 20rem;
-          
-            height: 60px;
-            border: 1px solid #D9D9D9 !important; 
-            border-collapse: collapse;
-           display: flex;
-           align-items: center;
-           
-          //  border-bottom: none;
-           border-top: none !important;
-           border-left: none !important;
-
-           .itemimage2
-           {
-            width: 4rem;
-            display: flex;
-            justify-content: left;
-            align-items: center;
-            gap: 5px;
-            .foodimage
-            {
-              width: 45px;
-              height: 45px;
-            }
-           }
-           .itemname2
-           {
-            width: 10rem;
-            position: relative;
-            left: 3%;
-           }
-
-          
-
-          
-
-          }
-        }
-        .headingdrag
-        {
-          width: 11.25px;
-          height: 15.94px;
-          top: 4.03px;
-          left: 6.38px;
-          gap: 0px;
-          opacity: 0px;
-          
-        }
-        .placeholderplace {
-          width: 100px;
-          height: 5px; /* Adjust height as needed */
-          border: 1px solid red;
-          margin: 10px 0; /* Adjust margin as needed */
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-          margin-top: -50px;
-         
-         
-        }
-        .itemdetails-row.selected {
-          opacity: 1;
-          transform: scale(1.08);
-          height: 60px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       }
     }
-    .table-two-alignment
-    {
-      // width: 5rem;
-
+    .Menu-Listing-TableOneBody {
+      height: 36rem;
+      display: block;
+      overflow-y: auto;
+      // border: 1px solid red;
     }
-    .Menu-Listing-TableTwo
-    {
-       
 
-        width: 55rem;
-        overflow-x: auto;
-        display: block;
-        overflow-y: hidden;
-          //  border: 1px solid blue;
-          
-    }    
-    .Menu-Listing-TableTwo1
-    {
-       
+    .Menu-listing-Body {
+      display: flex;
+      flex-direction: column;
+      // border: 1px solid blue;
+      width: 20rem;
+      // position: relative;
+      // top: 2.2%;
+      margin-top: 2.5%;
 
-        width: 65rem;
-        overflow-x: auto;
-        display: block;
-        overflow-y: hidden;
-        // border: 1px solid blue !important;
-          
-    } 
-            // &::-webkit-scrollbar
-            // {
-            //     display: none;
-            // }
+      .itemheading {
+        font-size: 20px;
+        font-weight: 500;
+        color: black;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 2rem;
+        // border: 1px solid blue;
+      }
+      .itemheadingtwo {
+        font-size: 20px;
+        width: 20rem;
+        gap: 10px;
+        font-weight: 500;
+        color: black;
+        align-items: center;
+        display: flex;
+        height: 2rem;
+        border-right: 1px solid #d9d9d9 !important;
+      }
 
-            .Menu-Listing-TableTwoHead
-            {
-               
-                height: 3.95rem;
-                border-bottom: 1px solid #d9d9d9;
-                position: relative;
-                left:- 0.2%;
-              
-                .headingonesection {
-                display: flex;
-                  // border: 1px solid blue;
-                  flex-direction: row;
-                  gap: 20px;
-                  position: relative;
-                  height: 1rem;
-                  padding-left: 1rem;
+      .itemdetails-row {
+        width: 20rem;
 
-                 
-                  // margin-top: -0.5%;
-              
-              
-              
-              
-                  .dots {
-                    padding-right: 10px;
-                    position: relative;
-                    top: 1px;
-                    cursor: grab;
-                    &:active {
-                      cursor: grabbing;
-                    }
-                  }
-                  .dollar {
-                    padding-right: 10px;
-                    position: relative;
-                    top: 1px;
-                  }
-                  .spanheadertext {
-                    position: relative;
-                    top: -1px;
-                    font-size: 16px;
-                    font-weight: 500;
-                  }
-                  .Dinein {
-                    width: 154px;
-                    height: 30px;
-                    border-radius: 4px;
-                    border: 0.5px solid #d9d9d9 !important;
-                    display: flex;
-                    justify-content: left;
-                    align-items: center;
-                    padding-left: 10px;
-                    padding-right: 10px;
-                    cursor: grab;
-                    &:active {
-                      cursor: grabbing;
-                    } 
-                    .removeicon {
-                      position: relative;
-                      top: 0px;
-                      right: -5px;
-                      img {
-                        width: 10px;
-                        height: 10px;
-                      }
-                    }
-                  }
-                  .Pickup {
-                    width: 226px;
-                    height: 30px;
-                    border: 0.5px solid #d9d9d9 !important;
-                    border-radius: 4px;
-                    display: flex;
-                    justify-content: left;
-                    align-items: center;
-                    padding-left: 10px;
-                    padding-right: 10px;
-                    cursor: grab;
-                    &:active {
-                      cursor: grabbing;
-                    }
-                    .removeicon {
-                      position: relative;
-                      // top: -5px;
-                      right: -75px;
-                      img {
-                        width: 10px;
-                        height: 10px;
-                      }
-                    }
-                  }
-                  .Delivery {
-                    width: 226px;
-                    height: 30px;
-                    border: 0.5px solid #d9d9d9 !important;
-                    border-radius: 4px;
-                    display: flex;
-                    justify-content: left;
-                    align-items: center;
-                    padding-left: 10px;
-                    padding-right: 10px;
-                    cursor: grab;
-                    &:active {
-                      cursor: grabbing;
-                    }
-                    .removeicon {
-                      position: relative;
-                      // top: -5px;
-                      right: -65px;
-                      img {
-                        width: 10px;
-                        height: 10px;
-                      }
-                    }
-                  }
-                  .Inventory {
-                    width: 154px;
-                    height: 30px;
-                    border: 0.5px solid #d9d9d9 !important;
-                    border-radius: 4px;
-                    display: flex;
-                    justify-content: left;
-                    align-items: center;
-                    padding-left: 10px;
-                    padding-right: 10px;
-                    cursor: grab;
-                    &:active {
-                      cursor: grabbing;
-                    }
-                    .removeicon {
-                      position: relative;
-                      // top: -5px;
-                      right: -5px;
-                      img {
-                        width: 10px;
-                        height: 10px;
-                      }
-                    }
-                  }
-                  .Customize {
-                    width: 154px;
-                    height: 30px;
-                    border: 0.5px solid #d9d9d9 !important;
-                    border-radius: 4px;
-                    display: flex;
-                    justify-content: left;
-                    align-items: center;
-                    padding-left: 10px;
-                    padding-right: 10px;
-                    cursor: grab;
-                    &:active {
-                      cursor: grabbing;
-                    }
-                    .removeicon {
-                      position: relative;
-                      // top: -5px;
-                      right: 0px;
-                      img {
-                        width: 10px;
-                        height: 10px;
-                      }
-                    }
-                  }
-                }
-                .headingtwosection {
-                  display: flex;
-                  flex-direction: row;
-                  margin-top: 1%;
-                  gap: 20px;
-                  padding-left: 1rem;
-                //  border: 1px solid red !important;
-                
-                 
-                  
-              
-              
-              
-              
-                
-                  .Dinein1-class {
-                    width: 154px;
-                    height: 24px;
-                    display: flex;
-                    gap: 75px;
-                    justify-content: left;
-                 
-                    // border: 1px solid red !important;
-                   
-                   
-                  }
-                  .Dinein2-class {
-                    width: 154px;
-                    // border: 1px solid red;
-                    height: 24px;
-                    display: flex;
-                    justify-content: left;
-                    gap: 70px;
-                    position: relative;
-                   
-                  }
-                
-                  .Pickup1-class {
-                    width: 226px;
-                    // border: 1px solid red;
-                    height: 24px;
-                    display: flex;
-                    justify-content: center;
-                    gap: 23px;
-                    position: relative;
-                
-                 
-                  }
-                
-                  .Delivery1-class {
-                    width: 226px;
-                    // border: 1px solid red;
-                    height: 24px;
-                    gap: 23px;
-                    display: flex;
-                   
-                  }
-                  .Pickup2-class {
-                    width: 226px;
-                    // border: 1px solid red;
-                    height: 24px;
-                    display: flex;
-                    gap: 23px;
-                  }
-                
-                  .Delivery2-class {
-                    width: 226px;
-                    // border: 1px solid red;
-                    height: 24px;
-                    gap: 23px;
-                    display: flex;
-                    
-                  }
-                
-                  .Inventory1-class {
-                    width: 154px;
-                    // border: 1px solid red;
-                    height: 24px;
-                    gap: 50px;
-                    display: flex;
-                    justify-content: center;
-                   
-              
-                  }
-                
-                  .Customize1-class {
-                    width: 154px;
-                    // border: 1px solid red;
-                    height: 24px;
-                    gap: 22px;
-                    opacity: 0px;
-                  }
-                  .Ac {
-                   
-                   
-                  }
-                  .Nonac {
-                    
-                  
-                  }
-                  .Inhouse {
-                   
-                  }
-                  .Swiggy {
-                   
-                  }
-                  .Zomato {
-                    
-                  }
-                  .Total {
-                   
-                  }
-                  .Threshold {
-                   
-                  }
-                
-                  
-              }
-            }
-          
-            .Menu-Listing-TableTwoBody
-            {
-              display: block;
-              height: 34rem;
-              overflow-y: auto;
-              overflow-x: hidden;
-              width: 200%;
-            }
-            .Menu-Listing-TableTwoBody1
-            {
-              display: block;
-              height: 34rem;
-              overflow-y: auto;
-              overflow-x: hidden;
-              width: 160%;
-              // border: 1px solid red;
-            }
-              .tabletwobody
-              {
-                 display: flex;
-                flex-direction: column;
-              
-                .itemheading2row
-                {
-                  height: 32px;
-                 
+        height: 60px;
+        border: 1px solid #d9d9d9 !important;
+        border-collapse: collapse;
+        display: flex;
+        align-items: center;
 
+        //  border-bottom: none;
+        border-top: none !important;
+        border-left: none !important;
 
-                }
-               
+        .itemimage2 {
+          width: 4rem;
+          display: flex;
+          justify-content: left;
+          align-items: center;
+          gap: 5px;
+          .foodimage {
+            width: 45px;
+            height: 45px;
+          }
+        }
+        .itemname2 {
+          width: 10rem;
+          position: relative;
+          left: 3%;
+        }
+      }
+    }
+    .headingdrag {
+      width: 11.25px;
+      height: 15.94px;
+      top: 4.03px;
+      left: 6.38px;
+      gap: 0px;
+      opacity: 0px;
+    }
+    .placeholderplace {
+      width: 100px;
+      height: 5px; /* Adjust height as needed */
+      border: 1px solid red;
+      margin: 10px 0; /* Adjust margin as needed */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin-top: -50px;
+    }
+    .itemdetails-row.selected {
+      opacity: 1;
+      transform: scale(1.08);
+      height: 60px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+  }
+  .table-two-alignment {
+    // width: 5rem;
+  }
+  .Menu-Listing-TableTwo {
+    width: 55rem;
+    overflow-x: auto;
+    display: block;
+    overflow-y: hidden;
+    //  border: 1px solid blue;
+  }
+  .Menu-Listing-TableTwo1 {
+    width: 65rem;
+    overflow-x: auto;
+    display: block;
+    overflow-y: hidden;
+    // border: 1px solid blue !important;
+  }
+  // &::-webkit-scrollbar
+  // {
+  //     display: none;
+  // }
 
-              }
+  .Menu-Listing-TableTwoHead {
+    height: 3.95rem;
+    border-bottom: 1px solid #d9d9d9;
+    position: relative;
+    left: -0.2%;
 
-           
-             
-              .eachobject-rowwise
-              {
-                height: 60px;
-               
-                width: 100%;
-                display: flex;
-                align-items: center;
-                border: 1px solid #D9D9D9 !important; 
-             
-              
-                border-top: none !important;
-                padding-left: 0.7rem;
-                
-                border-left: none !important;
-                gap: 20px;
-                justify-content: left;
+    .headingonesection {
+      display: flex;
+      // border: 1px solid blue;
+      flex-direction: row;
+      gap: 20px;
+      position: relative;
+      height: 1rem;
+      padding-left: 1rem;
 
+      // margin-top: -0.5%;
 
+      .dots {
+        padding-right: 10px;
+        position: relative;
+        top: 1px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+      }
+      .dollar {
+        padding-right: 10px;
+        position: relative;
+        top: 1px;
+      }
+      .spanheadertext {
+        position: relative;
+        top: -1px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .Dinein {
+        width: 154px;
+        height: 30px;
+        border-radius: 4px;
+        border: 0.5px solid #d9d9d9 !important;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          top: 0px;
+          right: -5px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+      .Pickup {
+        width: 226px;
+        height: 30px;
+        border: 0.5px solid #d9d9d9 !important;
+        border-radius: 4px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          // top: -5px;
+          right: -75px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+      .Delivery {
+        width: 226px;
+        height: 30px;
+        border: 0.5px solid #d9d9d9 !important;
+        border-radius: 4px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          // top: -5px;
+          right: -65px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+      .Inventory {
+        width: 154px;
+        height: 30px;
+        border: 0.5px solid #d9d9d9 !important;
+        border-radius: 4px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          // top: -5px;
+          right: -5px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+      .Customize {
+        width: 154px;
+        height: 30px;
+        border: 0.5px solid #d9d9d9 !important;
+        border-radius: 4px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          // top: -5px;
+          right: 0px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+    }
+    .headingtwosection {
+      display: flex;
+      flex-direction: row;
+      margin-top: 1%;
+      gap: 20px;
+      padding-left: 1rem;
+      //  border: 1px solid red !important;
 
-                .Dinein1 {
-                  width: 154px;
-                 gap: 20px;
-                 display: flex;
-                 justify-content:space-between;
-                //  border: 1px solid red !important;
+      .fontstyle {
+        font-size: 16px;
+        font-weight: 400;
+        color: #000000;
+      }
 
-                
+      .Dinein1-class {
+        width: 154px;
+        height: 24px;
+        display: flex;
+        gap: 75px;
+        justify-content: left;
 
-                  td {
-                    display: flex;
-                    justify-content: center;
-                  
-                    }
-                    
-                   
+        // border: 1px solid red !important;
+      }
+      .Dinein2-class {
+        width: 154px;
+        // border: 1px solid red;
+        height: 24px;
+        display: flex;
+        justify-content: left;
+        gap: 70px;
+        position: relative;
+      }
 
-                   
-                  }
-                
-                .Pickup1 {
-                  width: 226px;
-                  display: flex;
-                  justify-content: space-between;
-                  // border: 1px solid red !important;
-                 gap: 10px;
-                 
-                  td {
-                    display: flex;
-                    justify-content: center;
-                   
-                  }
-                }
-                .Delivery1 {
-                  width: 226px;
-                  display: flex;
-                  justify-content: space-between;
-                  // border: 1px solid red !important;
-                  gap: 10px;
-                 
-                  td {
-                    display: flex;
-                    justify-content: center;
-                   
-                  }
-                }
-                .Dinein2 {
-                  width: 154px;
-                  display: flex;
-                  justify-content: center;
-                  gap: 75px;
-                  // border: 1px solid red !important;
-                 
-                  td {
-                    
-                  }
-                }
-                .Pickup2 {
-                  width: 226px;
-                  display: flex;
-                  justify-content: center;
-                  gap: 55px;
-                  // border: 1px solid red !important;
-                 
-                  td {
-                   
-                  }
-                }
-                .Delivery2 {
-                  width: 226px;
-                  display: flex;
-                  justify-content: center;
-                  gap: 55px;
-                  // border: 1px solid red !important;
-                  
-                  td {
-                  
-                  }
-                }
-                .Inventory1 {
-                  width: 154px;
-                  display: flex;
-                  gap: 50px;
-                  justify-content: left;
-                  // border: 1px solid red !important;
+      .Pickup1-class {
+        width: 226px;
+        // border: 1px solid red;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        gap: 23px;
+        position: relative;
+      }
 
-                 
-                  td {
-                    display: flex;
-                    margin-left: 2%;
+      .Delivery1-class {
+        width: 226px;
+        // border: 1px solid red;
+        height: 24px;
+        gap: 23px;
+        display: flex;
+      }
+      .Pickup2-class {
+        width: 226px;
+        // border: 1px solid red;
+        height: 24px;
+        display: flex;
+        gap: 23px;
+      }
 
-                  
-                   
-                  }
-                }
-                .Customize1 {
-                  width: 154px;
-                  display: flex;
-                  justify-content: center;
-                  // border: 1px solid red !important;
-                 
-                  td {
-                   
-                  }
-                }
-           
-               
-              }
+      .Delivery2-class {
+        width: 226px;
+        // border: 1px solid red;
+        height: 24px;
+        gap: 23px;
+        display: flex;
+      }
 
-             
+      .Inventory1-class {
+        width: 154px;
+        // border: 1px solid red;
+        height: 24px;
+        gap: 50px;
+        display: flex;
+        justify-content: center;
+      }
 
-            }
-    
+      .Customize1-class {
+        width: 154px;
+        // border: 1px solid red;
+        height: 24px;
+        gap: 22px;
+        opacity: 0px;
+      }
+      .Ac {
+      }
+      .Nonac {
+      }
+      .Inhouse {
+      }
+      .Swiggy {
+      }
+      .Zomato {
+      }
+      .Total {
+      }
+      .Threshold {
+      }
+    }
+  }
 
-   
+  .Menu-Listing-TableTwoBody {
+    display: block;
+    height: 35rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 200%;
+  }
+  .Menu-Listing-TableTwoBody1 {
+    display: block;
+    height: 34.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 160%;
+    // border: 1px solid red;
+  }
+  .tabletwobody {
+    display: flex;
+    flex-direction: column;
+  }
 
+  .itemheading2row {
+    height: 32px;
+  }
+
+  .eachobject-rowwise {
+    height: 60px;
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid #d9d9d9 !important;
+
+    border-top: none !important;
+    padding-left: 0.7rem;
+
+    border-left: none !important;
+    gap: 20px;
+    justify-content: left;
+
+    .Dinein1 {
+      width: 154px;
+      gap: 20px;
+      display: flex;
+      justify-content: space-between;
+      //  border: 1px solid red !important;
+
+      td {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    .Pickup1 {
+      width: 226px;
+      display: flex;
+      justify-content: space-between;
+      // border: 1px solid red !important;
+      gap: 10px;
+
+      td {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .Delivery1 {
+      width: 226px;
+      display: flex;
+      justify-content: space-between;
+      // border: 1px solid red !important;
+      gap: 10px;
+
+      td {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .Dinein2 {
+      width: 154px;
+      display: flex;
+      justify-content: center;
+      gap: 75px;
+      // border: 1px solid red !important;
+
+      td {
+      }
+    }
+    .Pickup2 {
+      width: 226px;
+      display: flex;
+      justify-content: center;
+      gap: 55px;
+      // border: 1px solid red !important;
+
+      td {
+      }
+    }
+    .Delivery2 {
+      width: 226px;
+      display: flex;
+      justify-content: center;
+      gap: 55px;
+      // border: 1px solid red !important;
+
+      td {
+      }
+    }
+    .Inventory1 {
+      width: 154px;
+      display: flex;
+      gap: 50px;
+      justify-content: left;
+      // border: 1px solid red !important;
+
+      td {
+        display: flex;
+        margin-left: 2%;
+      }
+    }
+    .Customize1 {
+      width: 154px;
+      display: flex;
+      justify-content: center;
+      // border: 1px solid red !important;
+
+      td {
+      }
+    }
+  }
+}
 
 .headingstextlist {
   position: absolute;
@@ -736,7 +635,7 @@ table,thead,tbody,td,th
       }
     }
   }
- 
+
   .inserbody {
     margin-top: 10px;
     margin-left: 37px;
@@ -750,7 +649,7 @@ table,thead,tbody,td,th
         display: flex;
         padding-left: 10px;
       }
- 
+
       .dollaricon {
         width: 27px;
         height: 27px;
@@ -798,4 +697,3 @@ table,thead,tbody,td,th
     }
   }
 }
-

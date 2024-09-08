@@ -19,6 +19,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   if (objectId === 1) {
     return (
       <tr className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+        <td>
         <img
           src={dots}
           alt=""
@@ -27,14 +28,17 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
           onDragOver={onDragOver}
           onDrop={(e) => onDrop(e, index)}
           className="headingdrag"
-        />
-        Steamed-Veg(6)
+        /> Steamed-Veg(6)
+        </td>
+      
+       
       </tr>
     );
   } else if (objectId === 2) {
     return (
       <tr className={`${index === 1 ? "itemheadingtwo" : "itemheading"}`}>
-        <img
+       <td>
+       <img
           src={dots}
           alt=""
           draggable
@@ -44,6 +48,10 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
           className="headingdrag"
         />
         Steamed-NonVeg(6)
+     
+       </td>
+      
+      
       </tr>
     );
   } else {

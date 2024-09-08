@@ -36,8 +36,8 @@ const TableOneBody: React.FC<ItemRowProps> = ({
     <>
       {object.name.map((item, index) => (
         <tr key={index}>
-          {draggingOverIndex === index && <tr className="placeholderplace"></tr>}
-          <tr
+          {draggingOverIndex === index && <td className="placeholderplace"></td>}
+          <td
             draggable
             onDragStart={(e) => {
               handleRowDragStart(object.id, index);
@@ -52,15 +52,15 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               draggedRowIndex?.index === index ? 'selected' : ''
             }`}
           >
-            <td className="itemimage2">
+            <span className="itemimage2">
               <img src={dots} alt="" className="draggableimg" />
               <img src={apple} alt="" className="foodimage" />
-            </td>
-            <td className="itemname2" onClick={handlemodal}>
+            </span>
+            <span className="itemname2" onClick={handlemodal}>
               {item.name}
-            </td>
-            <td className="itemcode2">{item.code}</td>
-          </tr>
+            </span>
+            <span className="itemcode2">{item.code}</span>
+          </td>
         </tr>
       ))}
     </>

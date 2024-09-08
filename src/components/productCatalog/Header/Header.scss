@@ -28,7 +28,7 @@
     // border: 2px solid red;
   padding: 10px;
   z-index: 600;
-  top: 25px;
+  top:0px;
   display: flex;
   justify-content: space-between;
   transition: left 0.4s ease-in;
@@ -56,6 +56,15 @@
     left: -30px;
     top: 2px;
     cursor: pointer;
+
+}
+.FilterIcon-Header1{
+  width: 34px;
+  height: 34px;
+  position: relative;
+  left: -10px;
+  top: 2px;
+  cursor: pointer;
 
 }
 
@@ -110,6 +119,11 @@ visibility: hidden;
   top: -2px;
   cursor: pointer;
 }
+.Excel1
+{
+  position: relative;
+  left: 20%;
+}
 
 .Excel-flex-col{
   display: flex;
@@ -151,7 +165,20 @@ visibility: hidden;
   top: -18px;
   cursor: pointer;
 }
+.Excel-Header-Download.Exceldownloadicon
+{
+position: relative !important;
+left:-10% !important; 
 
+
+}
+.Exceldownloadicon1
+{
+  position: relative !important;
+  left:60% !important; 
+  
+ 
+}
 
 .Excel-Header-Download1{
   width: 24px;
@@ -161,6 +188,7 @@ visibility: hidden;
   top: -16px;
   cursor: pointer;
 }
+
 .ArrowHoverHeaderExcel{
   visibility: hidden;
   position: relative;
