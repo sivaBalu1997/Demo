@@ -423,4 +423,3 @@ const PricingDetails= () => {
 };
 
 export default PricingDetails;
-
