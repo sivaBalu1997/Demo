@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ImagePillsSelection.scss';
-import deleteIcon from  "../../../assets/images/delete.png";
+import deleteIcon from  "../../../assets/images/delete copy.png";
 import Searchicon from '../../../assets/images/searchicon.png'
 
 interface ImageOptions {  
@@ -124,7 +124,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({ heading, options,name,s
                         <li
                             key={option.id}
                             onClick={() => handleSelectedImage(option)} 
-                            className={`Item-Selection-option ${selectedImages.some(selected => selected.id === option.id) ? 'selected' : ''}`}
+                            className={`Item-Selection-option ${selectedImages.some(selected => selected.id === option.id) ? '' : ''}`}
 
                         >
                             <img  src={`/assets/${option.imageId}.${option.imageType && option.imageType.split('/')[1]}`}   alt="img" />

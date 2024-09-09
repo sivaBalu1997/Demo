@@ -32,54 +32,41 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   return (
     <>
       {itemobject.name.map((item, index) => (
-        <tr
-          key={index}
-          className={`tabletwobodyrow ${
-            itemobject.id === 1 &&
-            indexvalue === 0 &&
-            index === 0 &&
-            'borderforrow1'
-          } ${draggingOverIndex === index ? 'selected' : ''} ${
-            itemobject.id === 2 &&
-            indexvalue === 0 &&
-            index === 0 &&
-            'secondpartborder'
-          } ${
-            itemobject.id === 1 && index === 1
-              ? 'firstpartborder'
-              : 'firstpartborder1'
-          }`}
-        >
-          <td className="eachobject">
+        <tr key={index}  className={`tabletwobodyrows ${indexvalue===1 && index===0 && 'secondrow'}`} >
+          <td   className={`eachobject-rowwise `} >
+
             {Object.entries(item.pricingdetails || {}).map(
-              ([key, cellData], cellIndex) => {
+              ([key, cellData], cellIndex) =>     
+              {
                 const className = classNamesinner[cellIndex];
                 const items = listingobject[className];
+
                 if (items && Array.isArray(cellData)) {
                   return (
                     <div className={className} key={cellIndex}>
                       {cellData.map((item, itemIndex) => (
-                        <td key={`${cellIndex}-${itemIndex}`}>
+                        <React.Fragment key={`${cellIndex}-${itemIndex}`}>
                           {item === 'Enabled' || item === 'Disabled' ? (
-                            <div onClick={() => showsidebar(key)}>
+                            <div onClick={() => showsidebar(key)} >
                               <Toggle
                                 toggle={item === 'Enabled'}
                                
                               />
                             </div>
                           ) : (
-                            <span
-                              className="price"
+                            <div
+                              // className={`${className}${itemIndex}`}
                               onClick={() => showsidebar(key)}
                             >
                               {item}
-                            </span>
+                            </div>
                           )}
-                        </td>
+                        </React.Fragment>
                       ))}
                     </div>
                   );
                 }
+
                 return null;
               }
             )}

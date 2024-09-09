@@ -38,7 +38,7 @@ export const Menulisting = () => {
   const [columndraggingindex, setcolumndraggingindex] = useState(null);
   const [modal, setmodal] = useState(false);
 
-  console.log("Hi")
+
 
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [classNames, setclassNames] = useState([
@@ -103,10 +103,10 @@ export const Menulisting = () => {
   ]);
 
   const [secondRowTable, setSecondRowTable] = useState([
-    ["Ac", "Nonac"],
+    ["Ac", "Non Ac"],
     ["Inhouse", "Swiggy", "Zomato"],
     ["Inhouse", "Swiggy", "Zomato"],
-    ["Ac", "Nonac"],
+    ["Ac", "Non Ac"],
     ["Inhouse", "Swiggy", "Zomato"],
     ["Inhouse", "Swiggy", "Zomato"],
     ["Total", "Threshold"],
@@ -296,6 +296,7 @@ export const Menulisting = () => {
     setmodal(true);
   };
   const [sidebartext, setSideBarText] = useState(null);
+
   const showsidebar = (key) => {
     if (key === "Dinein1" || key === "Pickup1" || key === "Delivery1") {
       handlemodal();
@@ -365,49 +366,62 @@ export const Menulisting = () => {
   }, [showheadinglist]);
 
   return (
-    <div style={{display:'flex'}}>
+    <div style={{ display: "flex" ,overflowX:'hidden'}}>
       <SidePanel />
       <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
-      <div className="headercomponent">
-        <Header />
-      </div>
-      <div className="mainlistpage">
-        <div className="firsttable">
-          <table>
-            <thead>
-              <div className="firsttableheading">
+        <div className="headercomponent">
+          <Header />
+        </div>
+
+        <div className="Menu-Listing-Page-main"  >
+            <div>
+            <InsertColumnList
+              listingobject={listingobject}
+              setlistingobject={setlistingobject}
+              insertlists={insertlists}
+              showheadinglist={showheadinglist}
+              setshowheadinglist={setshowheadinglist}
+              closeicon={closeicon}
+              dollaricon={dollaricon}
+              toggleround={toggleround}
+              togglebtns={togglebtns}
+              Outsideref={Outsideref}
+            />
+            <table className='Menu-Listing-TableOne'>
+      
+           
+       
+                <thead className='Menu-Listing-TableOneHead' >
                 <tr className="headerrow">
                   <th className="itemimage">Image</th>
                   <th className="itemname">Item name</th>
                   <th className="itemcode">
-                    <p>
+                    
                       Code
-                      <button
-                        onClick={() => setshowheadinglist(true)}
-                        className="span"
-                      >
-                        <span> +</span>
-                      </button>
-                    </p>
+                      
+                        <span  onClick={() => setshowheadinglist(true)}
+                        className="addbtn"> +</span>
+                    
+                    
                   </th>
                 </tr>
-              </div>
-            </thead>
-            <tbody>
-              <div ref={tableBodyRef1} className="table-body">
-                <tr>
+                </thead>
+                <tbody className='Menu-Listing-TableOneBody Menu-listing-Body'  ref={tableBodyRef1}>
+              
+               
                   {nooftypes.map((object, index) => (
-                    <div key={index}>
-                      <div className="firsttablebody">
-                        <RowHeading
+                   
+                     <React.Fragment key={index}>
+                      <RowHeading
                           objectId={object.id}
                           index={index}
                           onDragStart={handledragvegnonvegdragstart}
                           onDragOver={handledragvegnonvegdropover}
                           onDrop={handledragvegnonvegdropend}
                         />
-
-                        <TableOneBody
+                      
+                   
+                      <TableOneBody
                           object={object}
                           draggingOverIndex={draggingOverIndex}
                           draggedRowIndex={draggedRowIndex}
@@ -419,35 +433,197 @@ export const Menulisting = () => {
                           tableBodyRef1={tableBodyRef1}
                           tableBodyRef2={tableBodyRef2}
                         />
-                      </div>
-                    </div>
+
+                    </React.Fragment>
+                     
+                    
+
+                       
+                     
+                  
+                  ))}
+             
+                </tbody>
+
+            </table>
+
+            </div>
+            <div className="table-two-alignment">
+                
+                  <table  className={`${isExpanded ? "Menu-Listing-TableTwo1" : "Menu-Listing-TableTwo"}`}>
+                <thead className='Menu-Listing-TableTwoHead'>
+                <tr className="headingonesection">
+                {firstRowTable.map((header, index) => (
+
+                  <React.Fragment key={index}>
+                      <TableFirstHeader
+                        key={index}
+                        header={header}
+                        index={index}
+                        secondRowLength={secondRowTable[index].length}
+                        listingobject={listingobject}
+                        setlistingobject={setlistingobject}
+                        handleColumnwiseDragStart={handleColumnwiseDragStart}
+                        handleColumnwiseDragOver={handleColumnwiseDragOver}
+                        handleColumnwiseDragEnd={handleColumnwiseDragEnd}
+                        dots={dots}
+                        dollar={dollar}
+                        togglebtns={togglebtns}
+                        removeicon={removeicon}
+                      />
+                      </React.Fragment>
+                    ))}
+
+                </tr>
+                <tr className="headingtwosection">
+                {secondRowTable.map((subheaders, index) => (
+                    <React.Fragment key={index}>
+                     <TableSecondHeader
+                        key={index}
+                        subheaders={subheaders}
+                        index={index}
+                        className={classNames[index]}
+                        listingobject={listingobject}
+                        classNames={classNames}
+                      /></React.Fragment>
+                     
+                    ))}
+
+
+                </tr>
+                
+               
+
+                    
+
+
+
+                    
+                    
+                 
+              
+              
+
+                </thead>
+                <tbody className={`${isExpanded ? "Menu-Listing-TableTwoBody1" : "Menu-Listing-TableTwoBody"} tabletwobody`} ref={tableBodyRef2}>
+           
+              
+                  {nooftypes.map((itemobject, indexvalue) => {
+                    return (
+                     <React.Fragment  key={indexvalue}>
+                      <tr>
+                      {indexvalue === 1 && (
+                          <tr className="itemheading2row"></tr>
+                        )}
+                      </tr>
+                        
+
+                        <TableTwoBody
+                          itemobject={itemobject}
+                          indexvalue={indexvalue}
+                          classNamesinner={classNamesinner}
+                          draggingOverIndex={draggingOverIndex}
+                          listingobject={listingobject}
+                          settogglebtn={settogglebtn}
+                          showsidebar={showsidebar}
+                        />
+                      </React.Fragment>
+                    );
+                  })}
+             
+         
+
+                </tbody>
+
+            </table>
+
+            </div>
+            {
+              modal && <Slider onclose={()=>setmodal(false)}/>
+            }
+         
+
+         
+        </div>
+      </div>
+      {/* <table className='Menu-Listing-TableOne'>
+       <div>
+            <InsertColumnList
+              listingobject={listingobject}
+              setlistingobject={setlistingobject}
+              insertlists={insertlists}
+              showheadinglist={showheadinglist}
+              setshowheadinglist={setshowheadinglist}
+              closeicon={closeicon}
+              dollaricon={dollaricon}
+              toggleround={toggleround}
+              togglebtns={togglebtns}
+              Outsideref={Outsideref}
+            />
+          </div>
+                <thead className='Menu-Listing-TableOneHead' >
+                <tr className="headerrow">
+                  <th className="itemimage">Image</th>
+                  <th className="itemname">Item name</th>
+                  <th className="itemcode">
+                    <tr>
+                      Code
+                      <button
+                        onClick={() => setshowheadinglist(true)}
+                        className="addbtn"
+                      >
+                        <span> +</span>
+                      </button>
+                    </tr>
+                  </th>
+                </tr>
+                </thead>
+                <tbody className='Menu-Listing-TableOneBody'  ref={tableBodyRef1}>
+              
+                <tr className="Menu-listing-Body">
+                  {nooftypes.map((object, index) => (
+                    <td key={index} className="firsttablebody">
+                      <tr>
+                      <RowHeading
+                          objectId={object.id}
+                          index={index}
+                          onDragStart={handledragvegnonvegdragstart}
+                          onDragOver={handledragvegnonvegdropover}
+                          onDrop={handledragvegnonvegdropend}
+                        />
+                      </tr>
+                      <tr>
+                      <TableOneBody
+                          object={object}
+                          draggingOverIndex={draggingOverIndex}
+                          draggedRowIndex={draggedRowIndex}
+                          handleRowDragStart={handleRowDragStart}
+                          handleRowDragOver={handleRowDragOver}
+                          handleRowDragEnd={handleRowDragEnd}
+                          handleDragScroll={handleDragScroll}
+                          handlemodal={handlemodal}
+                          tableBodyRef1={tableBodyRef1}
+                          tableBodyRef2={tableBodyRef2}
+                        />
+
+                      </tr>
+                    
+                    
+
+                       
+                     
+                    </td>
                   ))}
                 </tr>
-              
-              </div>
-            </tbody>
-          </table>
-        </div>
+                </tbody>
 
-        <div className={`${isExpanded ? "secondtable1" : "secondtable"}`}>
-          <table>
-            <thead>
-              <div className="headaadbtnclass" ref={Outsideref}>
-                <InsertColumnList
-                  listingobject={listingobject}
-                  setlistingobject={setlistingobject}
-                  insertlists={insertlists}
-                  showheadinglist={showheadinglist}
-                  setshowheadinglist={setshowheadinglist}
-                  closeicon={closeicon}
-                  dollaricon={dollaricon}
-                  toggleround={toggleround}
-                  togglebtns={togglebtns}
-                  Outsideref={Outsideref}
-                />
+            </table> */}
 
-                <div style={{ marginLeft: "20px" }}>
-                  <tr className="headingonesection">
+      {/* <table className='Menu-Listing-TableTwo' >
+                <thead className='Menu-Listing-TableTwoHead'>
+                <tr>
+               
+                  <td className="headingonesection">
                     {firstRowTable.map((header, index) => (
                       <TableFirstHeader
                         key={index}
@@ -465,8 +641,8 @@ export const Menulisting = () => {
                         removeicon={removeicon}
                       />
                     ))}
-                  </tr>
-                  <tr className="headingtwosection">
+                  </td>
+                  <td className="headingtwosection">
                     {secondRowTable.map((subheaders, index) => (
                       <TableSecondHeader
                         key={index}
@@ -477,18 +653,20 @@ export const Menulisting = () => {
                         classNames={classNames}
                       />
                     ))}
+                  </td>
                   </tr>
-                </div>
-              </div>
-            </thead>
-            <tbody ref={tableBodyRef2} className="table-body">
-              <tr>
-                <div className="tabletwobody">
+              
+              
+
+                </thead>
+                <tbody className='Menu-Listing-TableTwoBody' ref={tableBodyRef2}>
+                <tr className="tabletwobody">
+              
                   {nooftypes.map((itemobject, indexvalue) => {
                     return (
-                      <div key={indexvalue}>
+                     <td className="tabletwoparttwodata">
                         {indexvalue === 1 && (
-                          <div className="itemheading2"></div>
+                          <div className="itemheading2row"></div>
                         )}
 
                         <TableTwoBody
@@ -500,20 +678,15 @@ export const Menulisting = () => {
                           settogglebtn={settogglebtn}
                           showsidebar={showsidebar}
                         />
-                      </div>
+                      </td>
                     );
                   })}
-                </div>
+             
               </tr>
-            </tbody>
-          </table>
 
-          {modal && (
-            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} />
-          )}
-        </div>
-      </div>
-    </div>
+                </tbody>
+
+            </table> */}
     </div>
   );
 };

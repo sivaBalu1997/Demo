@@ -1,4 +1,4 @@
-import React, { useRef, useState ,useEffect} from 'react';
+import React, { useRef, useState ,useEffect, useCallback} from 'react';
 import './DropDownList.scss';
 import edit from '../../../assets/svg/edit.svg'
 import dropdown from '../../../assets/images/dropdown.png';
@@ -22,7 +22,7 @@ interface DropdownProps {
   error?: FieldError; 
   trigger:any;
   getValues:any;
-  isOpen: boolean;
+  dropdownopen: boolean;
   onToggle: () => void; 
 
  
@@ -37,7 +37,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   error,
   validation,
   trigger,
-  isOpen,
+  dropdownopen,
   onToggle,
   getValues,
   required = false,
@@ -48,14 +48,16 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [options, setOptions] = useState<Option[]>([]);
   const [addNew, setAddNew] = useState<boolean>(false);
   const NewItemref = useRef<HTMLInputElement>(null);
+
   const [editList,setEditList]=useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     setOptions(initialOptions);
   }, [initialOptions]);
+  
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onToggle();
+    // onToggle();
     setSearchTerm(e.target.value);
     if (selectedOption && e.target.value !== selectedOption.name) {
       setSelectedOption(null);
@@ -63,7 +65,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
   const closeDropdown = () => {
-    if (isOpen) {
+    if (dropdownopen) {
       onToggle(); 
     }
   };
@@ -78,7 +80,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isOpen]);
+  }, [onToggle]);
 
   const [Disablesubcategory,setDisablesubcategory]=useState<boolean>(false);
 
@@ -93,16 +95,21 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handleSelect = (option: Option) => {
     setSelectedOption(option);
-    onToggle();
-    setValue(name, option.name);
+
     if(name==="category")
     {
       setValue('categoryId',option.id);
       console.log(option.id);
     }
+ 
+      setValue(name, option.name);
+
+    
 
 
     setAddNew(false); 
+    closeDropdown()
+   
 
   };
 
@@ -126,11 +133,18 @@ const DropDownList: React.FC<DropdownProps> = ({
     option.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleNewItemAddition = () => {
-    setAddNew(!addNew);
-  };
+  const handleNewItemAddition = useCallback(() => {
+    setAddNew((prevAddNew) => !prevAddNew);
+  }, [addNew]);
   const handleedit=()=>{
-    setEditList(!editList);
+
+    if(editList)
+    {
+      setEditList(false);
+    }
+  else{
+    setEditList(true);
+  }
 
   }
   const handledeletion=(value:string)=>{
@@ -169,15 +183,15 @@ const DropDownList: React.FC<DropdownProps> = ({
       </div>
      
 
-      {isOpen && (
+      {dropdownopen && (
         <div className="dropdown-body"  >
           <ul className="dropdown-options" >
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option,index) => (
-                <div className='dropdown-option-list'>
+                <div className='dropdown-option-list'  onClick={() => handleSelect(option)}>
                 <li
                   key={index}
-                  onClick={() => handleSelect(option)}
+                 
                   className="dropdown-option"
                 >
                   <input
@@ -185,7 +199,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                     checked={selectedOption?.id === option?.id}
                     className="dropdon-option-inputfield"
                   />
-                  <span className="dropdon-option-label">{option.name}</span>
+                  <span className="dropdon-option-label" onClick={() => handleSelect(option)}>{option.name}</span>
                  
                   
                 </li>
@@ -224,19 +238,30 @@ const DropDownList: React.FC<DropdownProps> = ({
               <div className='Addnew-edit-fields'>
                 <div className='dropdown-edit-button'>
                 {
-                   editList ? <p onClick={handleedit}>Done</p>:<img src={edit} alt="" onClick={handleedit}/>
+                   editList ? <p  onClick={(e) => {
+                    e.stopPropagation(); 
+                    handleedit();
+                  }}>Done</p>:<img src={edit} alt="" onClick={(e) => {
+                    e.stopPropagation(); 
+                    handleedit();
+                  }}/>
                 } 
                 </div>
                 
                 
                 <button
-                onClick={handleNewItemAddition}
+              
                 className='dropdown-addbutton'
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent dropdown from closing
+                  handleNewItemAddition();
+                }}
               >
                 Add new
               </button>
               </div>
              
+            
             )}
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import { LD } from "../../../assets/mockData/originalAPIData/OliveReportData";
 import Table from "../../../components/reportComponents/Table";
 import "./style.scss";

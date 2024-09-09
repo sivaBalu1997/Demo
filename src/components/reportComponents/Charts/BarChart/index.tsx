@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import "./style.scss"; // Import your SCSS for styling
-import { ThemeContext } from "../../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 interface BarchartProps {
   xAxisData: string[]; // Assuming xAxisData is an array of strings (labels)

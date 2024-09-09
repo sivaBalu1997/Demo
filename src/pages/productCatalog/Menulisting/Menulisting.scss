@@ -1,954 +1,610 @@
-.mainpagemenu
-{
+.mainpagemenu {
   height: 100vh;
 
-  
-  background:none;
+  background: none;
   // border: 1px solid red;
 
+  border-spacing: 0;
+  width: 77%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1%;
+}
+.mainpagemenu1 {
+  height: 100vh;
+
+  background: none;
+  // border: 1px solid red !important;
+
+  border-spacing: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 2%;
-
+  margin-top: 1%;
+  margin-left: 1%;
+}
+.Menu-Listing-Page-main {
+  table,
+  tr,
+  th,
+  td {
+    border: none !important;
+    padding: 0;
+    margin: 0;
+    border-spacing: 0;
+  }
 }
 
-
-.headercomponent
-{
+.headercomponent {
   // height: 170px;
   // width: 1000px;
- 
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+}
+table,
+thead,
+tbody,
+td,
+th {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+}
 
-.mainlistpage
-{
-  width: 93%;
-  height: 550px;
+.Menu-Listing-Page-main {
+  width: 100%;
+  height: 38.4rem;
   // border: 1px solid red;
-//  margin-top:120px ;
-position: relative;
-// left: -15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 0.4%;
+
   display: flex;
   flex-direction: row;
-  margin-left: -25px;
-  margin-top: 10px;
-}
-.mainlistpage1
-{
-  width: 80%;
-  height: 700px;
-  // border: 1px solid red;
-//  margin-top:120px ;
-position: relative;
-// left: -15px;
-  display: flex;
-  flex-direction: row;
-  margin-left: -25px;
-  margin-top: 20px;
-}
- 
-  .firsttable
-  {
-    width: 360px;
-    // overflow-x: auto;
-    // border: 1px solid black;
-    .table-body
-    {
-      height: 500px;
-      display: block;
-      overflow-x: hidden;
-      overflow-y: auto;
-      
-       margin-top: -0.5px;
-    }
-
-    .firsttableheading
-    {
-      width: 100%;
-      height: 40px;
-      margin-top: -5px;
-      // border:1px solid black;
-     
-    
-    }
-   
-
-    .headerrow
-    {
-      display: flex;
-      position: relative;
-      gap: 55px;
-      width: 100%;
-      height: 100%;
-    margin-left: 20px;
-    .itemcode
-    {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      // border: 1px solid red;
-      margin-top: -20px;
-    }
-    .span{
-      width: 23px;
-      height: 25px;
-
-    }
-    button {
-      // margin-top: 5px;
-      // margin-left: 10px;
-      position: relative;
-      top: 10px;
-      left: 10px;
-     
-      border-radius: 4px;
-      padding: 8px;
-      // display: flex;
-      // justify-content: center;
-      // align-items: center;
-      background: none;
-      border: 0.5px solid #5f5f5f;
-      cursor: pointer;
-      background-color: white;
-
-      span{
-        position: relative;
-        top: -5px;
-        left: -2px;
-     
-      }
-    }
-    }
-    .firsttablebody
-    {
-      // width: 353px;
-      // height: 100%;
-      // display: block;
-      // // margin-top: -0.2px;
-      // overflow-y: auto;
-     
-      // flex-direction: column;
-      margin-top: 0.5px;
-    
-      .itemheading{
-     
-        border: 1px solid #D9D9D9;
-       width: 98.2%;
-        margin-left: 6px;
-        margin-top: -2.5px;
-        height: 30px;
-        font-family: Poppins;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 30px;
-  text-align: left;
-  border-top: none;
-  border-left: none;
-  border-bottom:none ;
-  border-right: none;
-  img{
-   
-    padding-right: 20px;
+  table,
+  td,
+  tr {
+    border-collapse: collapse;
   }
-    
-  
-  
-      }
-      .itemheadingtwo{
-        border: 1px solid #D9D9D9;
-  
-       width: 352px;
-        margin-left: 6px;
-     
-        height: 31.5px;
-        font-family: Poppins;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 30px;
-  text-align: left;
-  border-top: none;
-  border-left: none;
-  border-bottom:none ;
-  img{
-   
-    padding-right: 20px;
-  }
-    
-  
-  
-      }
-    
-      .itemdetails
-      {
-        height: 60px;
-        width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        gap: 25px;
-        padding-left: 20px;
-        border: 1px solid #D9D9D9;
-        border-top: none;
-        border-left: none;
-        // border-right: none;
-        cursor: grab;
-        // padding-left: 15px;
-        &:active{
-          cursor: grabbing;
+  .Menu-Listing-TableOne {
+    width: 20rem;
+    height: 20rem;
+    // border: 1px solid blue;
+
+    .headerrow {
+      display: flex;
+      width: 100%;
+      height: 2rem;
+      gap: 30px;
+      position: relative;
+      left: 5%;
+      .itemcode {
+        width: 80px;
+        height: 20px;
+        //  border: 1px solid red !important;
+
+        .addbtn {
+          position: relative;
+          left: 2rem;
+          top: 0.2rem;
+          width: 23px;
+          height: 23px;
+          border: 1px solid #5f5f5f;
+          border-radius: 4px;
         }
+      }
+    }
+    .Menu-Listing-TableOneBody {
+      height: 36rem;
+      display: block;
+      overflow-y: auto;
+      // border: 1px solid red;
+    }
 
-        .itemimage2
-        {
+    .Menu-listing-Body {
+      display: flex;
+      flex-direction: column;
+      // border: 1px solid blue;
+      width: 20rem;
+      // position: relative;
+      // top: 2.2%;
+      margin-top: 2.5%;
+
+      .itemheading {
+        font-size: 20px;
+        font-weight: 500;
+        color: black;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 2rem;
+        // border: 1px solid blue;
+      }
+      .itemheadingtwo {
+        font-size: 20px;
+        width: 20rem;
+        gap: 10px;
+        font-weight: 500;
+        color: black;
+        align-items: center;
+        display: flex;
+        height: 2rem;
+        border-right: 1px solid #d9d9d9 !important;
+      }
+
+      .itemdetails-row {
+        width: 20rem;
+
+        height: 60px;
+        border: 1px solid #d9d9d9 !important;
+        border-collapse: collapse;
+        display: flex;
+        align-items: center;
+
+        //  border-bottom: none;
+        border-top: none !important;
+        border-left: none !important;
+
+        .itemimage2 {
+          width: 4rem;
           display: flex;
-          flex-direction: row;
-          justify-content: center;
+          justify-content: left;
           align-items: center;
           gap: 5px;
-
-          .foodimage{
+          .foodimage {
             width: 45px;
             height: 45px;
           }
         }
-        .itemname2
-        {
-          width: 140px;
-          cursor: pointer;
+        .itemname2 {
+          width: 10rem;
+          position: relative;
+          left: 3%;
         }
       }
     }
-  }
-  .secondtable
-  {
-
-    width: 58%;
-    height: 102%;
-    overflow-x: auto;
-    // overflow-y: hidden;
-    // border:1px solid blue;
-    margin-left: -5px;
-     margin-top: 0.1%;
-  }
-  .secondtable1
-  {
-
-    width: 800px;
-    height: 102%;
-    overflow-x: auto;
-    // overflow-y: hidden;
-    // border:1px solid blue;
-    margin-left: -5px;
-     margin-top: 0.1%;
-  }
-     .itemheading2{
-     
-      // margin-left: -5px;
-      margin-top: -2.5px;
-      height: 34.5px;
-      font-family: Poppins;
-font-size: 20px;
-font-weight: 600;
-line-height: 30px;
-text-align: left;
- border-right:1px solid #D9D9D9;
-
-
-img{
- 
-  padding-right: 20px;
-}
-
-      // border:1px solid black;
-     
-
-
-    }
-    
-
-    .table-body
-    {
-      width: 100%;
-      position: relative;
-      height:472.5px;
-      display: block;
-      overflow-x: hidden;
-      overflow-y: auto;
-     
-      // border: 1px solid #D9D9D9;
-      border-left: none;
-      border-right: none;
-      // margin-left: -1.5px;
-  
-      margin-top: 5px;
-      border-top: none;
-
-    }
-    .headaadbtnclass
-    {
-      width: 100%;
-      height: 55px;
-      display: flex;
-      flex-direction: row;
-     
-      // border-bottom:1px solid #D9D9D9;
-    }
-
-
-
-
-  .headingonesection {
-    display: flex;
-    height: 30px;
-    // border: 1px solid blue;
-    flex-direction: row;
-    gap: 20px;
-    position: relative;
-    margin-left: -15px;
-
-
-
-
-    .dots {
-      padding-right: 10px;
-      position: relative;
-      top: 1px;
-      cursor: grab;
-      &:active {
-        cursor: grabbing;
-      }
-    }
-    .dollar {
-      padding-right: 10px;
-      position: relative;
-      top: 1px;
-    }
-    .spanheadertext {
-      position: relative;
-      top: -1px;
-      font-size: 16px;
-      font-weight: 500;
-    }
-    .Dinein {
-      width: 134px;
-      height: 30px;
-      border-radius: 4px;
-      border: 0.5px solid #d9d9d9;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      padding-left: 10px;
-      padding-right: 10px;
-      cursor: grab;
-      &:active {
-        cursor: grabbing;
-      }
-      .removeicon {
-        position: relative;
-        top: 0px;
-        right: -5px;
-        img {
-          width: 10px;
-          height: 10px;
-        }
-      }
-    }
-    .Pickup {
-      width: 206px;
-      height: 30px;
-      border: 0.5px solid #d9d9d9;
-      border-radius: 4px;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      padding-left: 10px;
-      padding-right: 10px;
-      cursor: grab;
-      &:active {
-        cursor: grabbing;
-      }
-      .removeicon {
-        position: relative;
-        // top: -5px;
-        right: -75px;
-        img {
-          width: 10px;
-          height: 10px;
-        }
-      }
-    }
-    .Delivery {
-      width: 206px;
-      height: 30px;
-      border: 0.5px solid #d9d9d9;
-      border-radius: 4px;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      padding-left: 10px;
-      padding-right: 10px;
-      cursor: grab;
-      &:active {
-        cursor: grabbing;
-      }
-      .removeicon {
-        position: relative;
-        // top: -5px;
-        right: -65px;
-        img {
-          width: 10px;
-          height: 10px;
-        }
-      }
-    }
-    .Inventory {
-      width: 134px;
-      height: 30px;
-      border: 0.5px solid #d9d9d9;
-      border-radius: 4px;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      padding-left: 10px;
-      padding-right: 10px;
-      cursor: grab;
-      &:active {
-        cursor: grabbing;
-      }
-      .removeicon {
-        position: relative;
-        // top: -5px;
-        right: -5px;
-        img {
-          width: 10px;
-          height: 10px;
-        }
-      }
-    }
-    .Customize {
-      width: 134px;
-      height: 30px;
-      border: 0.5px solid #d9d9d9;
-      border-radius: 4px;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      padding-left: 10px;
-      padding-right: 10px;
-      cursor: grab;
-      &:active {
-        cursor: grabbing;
-      }
-      .removeicon {
-        position: relative;
-        // top: -5px;
-        right: 0px;
-        img {
-          width: 10px;
-          height: 10px;
-        }
-      }
-    }
-  }
-  .headingtwosection {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    gap: 20px;
-    // border:1px solid red ;
-    justify-content: center;
-    align-items: center;
-   
-    
-
-
-
-
-  
-    .Dinein1-class {
-      width: 134px;
-      height: 24px;
-      gap: 15px;
-      position: relative;
-      left: -85px;
-     
-    }
-    .Dinein2-class {
-      width: 134px;
-      height: 24px;
-      gap: 12px;
-      position: relative;
-      left: -20px;
-    }
-  
-    .Pickup1-class {
-      width: 206px;
-      height: 24px;
-      display: flex;
-      gap: 27px;
-      position: relative;
-      left: -65px;
-   
-    }
-  
-    .Delivery1-class {
-      width: 206px;
-      height: 24px;
-      gap: 27px;
-      display: flex;
-      position: relative;
-      left: -45px;
-    }
-    .Pickup2-class {
-      width: 206px;
-      height: 24px;
-      display: flex;
-      gap: 27px;
-    }
-  
-    .Delivery2-class {
-      width: 206px;
-      height: 24px;
-      gap: 27px;
-      display: flex;
-      position: relative;
-      left: 20px;
-    }
-  
-    .Inventory1-class {
-      width: 134px;
-      height: 24px;
-      gap: 30px;
-      display: flex;
-      position: relative;
-      left: 45px;
-
-    }
-  
-    .Customize1-class {
-      width: 134px;
-      height: 24px;
-      gap: 22px;
+    .headingdrag {
+      width: 11.25px;
+      height: 15.94px;
+      top: 4.03px;
+      left: 6.38px;
+      gap: 0px;
       opacity: 0px;
     }
-    .Ac {
-      width: 52px;
-      height: 20px;
-      // border: 1px solid red;
-      position: relative;
-     
+    .placeholderplace {
+      width: 100px;
+      height: 5px; /* Adjust height as needed */
+      border: 1px solid red;
+      margin: 10px 0; /* Adjust margin as needed */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin-top: -50px;
     }
-    .Nonac {
-      width: 52px;
-      height: 20px;
-      // border: 1px solid red;
-      position: relative;
-      left: 30%;
-    
-    }
-    .Inhouse {
-      width: 52px;
-      height: 20px;
-      // border: 1px solid red;
-      position: relative;
-      // left: 2%;
-      display: flex;
-    }
-    .Swiggy {
-      width: 52px;
-      height: 20px;
-      // border: 1px solid red;
-      position: relative;
-      // left: 4%;
-      display: flex;
-    }
-    .Zomato {
-      width: 52px;
-      height: 20px;
-      // border: 1px solid red;
-      position: relative;
-      // left: 6%;
-      display: flex;
-    }
-    .Total {
-      width: 52px;
-      height: 20px;
-      // border: 1px solid red;
-      position: relative;
-      // left: 2%;
-      display: flex;
-    }
-    .Threshold {
-      width: 52px;
-      height: 20px;
-      // border: 1px solid red;
-      position: relative;
-      // left: 2%;
-      display: flex;
-    }
-  
-    .dinein1div {
-      width: 135px;
-      height: 30px;
-      // border: 1px solid black;
-      .dinein1ac {
-        position: relative;
-        left: 5px;
-      }
-  
-      .dinein1nonac {
-        position: relative;
-        left: 25px;
-      }
-    }
-    .pickup1div {
-      width: 215px;
-      height: 30px;
-  
-      // border: 1px solid black;
-  
-      .pickup1swiggy {
-        position: relative;
-        left: 22px;
-      }
-      .pickup1zomato {
-        position: relative;
-        left: 45px;
-      }
-    }
-    .delivery1div {
-      width: 215px;
-      height: 30px;
-      // border: 1px solid black;
-      .delivery1swiggy {
-        position: relative;
-        left: 22px;
-      }
-      .delivery1zomato {
-        position: relative;
-        left: 45px;
-      }
-    }
-  
-    .dinein2div {
-      width: 135px;
-      height: 30px;
-  
-      // border: 1px solid black;
-      .dinein2nonac {
-        position: relative;
-        left: 25px;
-      }
-    }
-    .pickup2div {
-      width: 215px;
-      height: 30px;
-      // border: 1px solid black;
-      .pickup2swiggy {
-        position: relative;
-        left: 22px;
-      }
-      .pickup2zomato {
-        position: relative;
-        left: 45px;
-      }
-    }
-    .delivery2div {
-      width: 215px;
-      height: 30px;
-      // border: 1px solid black;
-      .delivery2swiggy {
-        position: relative;
-        left: 22px;
-      }
-      .delivery2zomato {
-        position: relative;
-        left: 45px;
-      }
-    }
-    .inventorydiv {
-      width: 165px;
-      height: 30px;
-      // border: 1px solid black;
-      margin-left: 0px;
-      .inventorythreshold {
-        position: relative;
-        left: 25px;
-      }
-    }
-
-  }
-  .tabletwobody
-  {
-    width: 102.7%;
-    position: relative;
-    left: 0.2%;
-    height: 500px;
-    
-   
-    // margin-top: -0.06%;
-    // margin-top: -1px;
-  }
-   
-    
-    .tabletwobodyrow
-    {
-      border: 1px solid #D9D9D9;
-      // border-left: none;
-      border-top: none;
-      // border-bottom: none;
-    
-      width: 100%;
+    .itemdetails-row.selected {
+      opacity: 1;
+      transform: scale(1.08);
       height: 60px;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-     
-
-
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
-   .borderforrow1
-   {
-     border: 1px solid #D9D9D9;
-     width: 100%;
-     height: 60px;
-    //  border-bottom: none;
-    // border-left: none;
-    // border-top: none;
+  }
+  .table-two-alignment {
+    // width: 5rem;
+  }
+  .Menu-Listing-TableTwo {
+    width: 55rem;
+    overflow-x: auto;
+    display: block;
+    overflow-y: hidden;
+    //  border: 1px solid blue;
+  }
+  .Menu-Listing-TableTwo1 {
+    width: 65rem;
+    overflow-x: auto;
+    display: block;
+    overflow-y: hidden;
+    // border: 1px solid blue !important;
+  }
+  // &::-webkit-scrollbar
+  // {
+  //     display: none;
+  // }
 
-   }
-   .borderforrow2
-   {
-    // border: 1px solid #D9D9D9;
-     width: 100%;
-     height: 60px;
-   border-top: none;
-   border-bottom: none;
- 
-    
-   }
-   .borderforsecondrow1
-   {
-    border: 1px solid #D9D9D9;
+  .Menu-Listing-TableTwoHead {
+    height: 3.95rem;
+    border-bottom: 1px solid #d9d9d9;
+    position: relative;
+    left: -0.2%;
 
-   }
-.secondpartborder{
-  // border-top: none;
-  border-top: 1px solid #D9D9D9;
-}
+    .headingonesection {
+      display: flex;
+      // border: 1px solid blue;
+      flex-direction: row;
+      gap: 20px;
+      position: relative;
+      height: 1rem;
+      padding-left: 1rem;
 
-.secondpartborder1{
-  // border-top: none;
+      // margin-top: -0.5%;
 
-}
-.firstpartborder
-{
-  border-top: none;
-}
-      
-
-
-     
-      .eachobject
-      {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-       
-        .price{
-          cursor: pointer;
-          font-size: 14px;
-          font-weight: 400;
-          display: flex;
-          justify-items: left;
-          align-items: center;
-          // border: 1px solid red;
+      .dots {
+        padding-right: 10px;
+        position: relative;
+        top: 1px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
         }
       }
-
-
-       .Dinein1 {
-        width: 134px;
-        height: 60px;
-        // border: 1px solid black;
-        // margin-left: 20px;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        gap: 27px;
-        padding-left: 20px;
-        td {
-          width: 50px;
-          display: flex;
-          flex-wrap: wrap;
-          height: 60px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          // border: 1px solid red;
-        }
+      .dollar {
+        padding-right: 10px;
+        position: relative;
+        top: 1px;
       }
-      .Pickup1 {
-        width: 206px;
-        height: 60px;
-        // border: 1px solid black;
-        // margin-left: 20px;
+      .spanheadertext {
+        position: relative;
+        top: -1px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .Dinein {
+        width: 154px;
+        height: 30px;
+        border-radius: 4px;
+        border: 0.5px solid #d9d9d9 !important;
         display: flex;
         justify-content: left;
         align-items: center;
-        gap: 20px;
-        padding-left: 18px;
-        td {
-          width: 70px;
-          display: flex;
-          flex-wrap: wrap;
-          height: 60px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          // border: 1px solid red;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          top: 0px;
+          right: -5px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
         }
       }
-      .Delivery1 {
-        width: 206px;
-        height: 60px;
-        // border: 1px solid black;
-        // margin-left: 20px;
+      .Pickup {
+        width: 226px;
+        height: 30px;
+        border: 0.5px solid #d9d9d9 !important;
+        border-radius: 4px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          // top: -5px;
+          right: -75px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+      .Delivery {
+        width: 226px;
+        height: 30px;
+        border: 0.5px solid #d9d9d9 !important;
+        border-radius: 4px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          // top: -5px;
+          right: -65px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+      .Inventory {
+        width: 154px;
+        height: 30px;
+        border: 0.5px solid #d9d9d9 !important;
+        border-radius: 4px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          // top: -5px;
+          right: -5px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+      .Customize {
+        width: 154px;
+        height: 30px;
+        border: 0.5px solid #d9d9d9 !important;
+        border-radius: 4px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: grab;
+        &:active {
+          cursor: grabbing;
+        }
+        .removeicon {
+          position: relative;
+          // top: -5px;
+          right: 0px;
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+    }
+    .headingtwosection {
+      display: flex;
+      flex-direction: row;
+      margin-top: 1%;
+      gap: 20px;
+      padding-left: 1rem;
+      //  border: 1px solid red !important;
+
+      .fontstyle {
+        font-size: 16px;
+        font-weight: 400;
+        color: #000000;
+      }
+
+      .Dinein1-class {
+        width: 154px;
+        height: 24px;
+        display: flex;
+        gap: 75px;
+        justify-content: left;
+
+        // border: 1px solid red !important;
+      }
+      .Dinein2-class {
+        width: 154px;
+        // border: 1px solid red;
+        height: 24px;
+        display: flex;
+        justify-content: left;
+        gap: 70px;
+        position: relative;
+      }
+
+      .Pickup1-class {
+        width: 226px;
+        // border: 1px solid red;
+        height: 24px;
         display: flex;
         justify-content: center;
-        align-items: center;
-  
-        gap: 19px;
-        padding-left: 35px;
-        td {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 70px;
-          display: flex;
-          flex-wrap: wrap;
-          height: 60px;
-          // border: 1px solid red;
-        }
+        gap: 23px;
+        position: relative;
       }
-      .Dinein2 {
-        width: 134px;
-        height: 60px;
-        gap: 40px;
-        // border: 1px solid black;
- padding-left: 30px;
+
+      .Delivery1-class {
+        width: 226px;
+        // border: 1px solid red;
+        height: 24px;
+        gap: 23px;
+        display: flex;
+      }
+      .Pickup2-class {
+        width: 226px;
+        // border: 1px solid red;
+        height: 24px;
+        display: flex;
+        gap: 23px;
+      }
+
+      .Delivery2-class {
+        width: 226px;
+        // border: 1px solid red;
+        height: 24px;
+        gap: 23px;
+        display: flex;
+      }
+
+      .Inventory1-class {
+        width: 154px;
+        // border: 1px solid red;
+        height: 24px;
+        gap: 50px;
         display: flex;
         justify-content: center;
-        align-items: center;
-        td {
-          width: 50px;
-          display: flex;
-          flex-wrap: wrap;
-          height: 60px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-left: 15px;
-          // border: 1px solid red;
-        }
       }
-      .Pickup2 {
-        width: 206px;
-        height: 60px;
-        // border: 1px solid black;
-        // margin-left: 20px;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        gap: 15px;
-        td {
-          width: 70px;
-          display: flex;
-          flex-wrap: wrap;
-          height: 60px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-left: 35px;
-          // border: 1px solid red;
-        }
+
+      .Customize1-class {
+        width: 154px;
+        // border: 1px solid red;
+        height: 24px;
+        gap: 22px;
+        opacity: 0px;
       }
-      .Delivery2 {
-        width: 206px;
-        height: 60px;
-        // border: 1px solid black;
-        // margin-left: 20px;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        gap: 15px;
-        td {
-          width: 70px;
-          display: flex;
-          flex-wrap: wrap;
-          height: 60px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-left: 35px;
-          // border: 1px solid red;
-        }
+      .Ac {
       }
-      .Inventory1 {
-        width: 134px;
-        height: 60px;
-        gap: 20px;
-        // border: 1px solid black;
-        padding-left: 20px;
-  
-        display: flex;
-        justify-content: left;
-        align-items: center;
-        td {
-          width: 50px;
-          display: flex;
-          flex-wrap: wrap;
-          height: 60px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          // border: 1px solid red;
-        }
+      .Nonac {
       }
-      .Customize1 {
-        width: 134px;
-        height: 60px;
-        // border: 1px solid black;
-  
+      .Inhouse {
+      }
+      .Swiggy {
+      }
+      .Zomato {
+      }
+      .Total {
+      }
+      .Threshold {
+      }
+    }
+  }
+
+  .Menu-Listing-TableTwoBody {
+    display: block;
+    height: 35rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 200%;
+  }
+  .Menu-Listing-TableTwoBody1 {
+    display: block;
+    height: 34.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 160%;
+    // border: 1px solid red;
+  }
+  .tabletwobody {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .itemheading2row {
+    height: 32px;
+  }
+
+  .eachobject-rowwise {
+    height: 60px;
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid #d9d9d9 !important;
+
+    border-top: none !important;
+    padding-left: 0.7rem;
+
+    border-left: none !important;
+    gap: 20px;
+    justify-content: left;
+
+    .Dinein1 {
+      width: 154px;
+      gap: 20px;
+      display: flex;
+      justify-content: space-between;
+      //  border: 1px solid red !important;
+
+      td {
         display: flex;
         justify-content: center;
-        align-items: center;
-        td {
-          width: 50px;
-          display: flex;
-          flex-wrap: wrap;
-          height: 60px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          // border: 1px solid red;
-        }
       }
-  
-     
-     
-    
-  
+    }
 
+    .Pickup1 {
+      width: 226px;
+      display: flex;
+      justify-content: space-between;
+      // border: 1px solid red !important;
+      gap: 10px;
 
+      td {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .Delivery1 {
+      width: 226px;
+      display: flex;
+      justify-content: space-between;
+      // border: 1px solid red !important;
+      gap: 10px;
 
+      td {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .Dinein2 {
+      width: 154px;
+      display: flex;
+      justify-content: center;
+      gap: 75px;
+      // border: 1px solid red !important;
+
+      td {
+      }
+    }
+    .Pickup2 {
+      width: 226px;
+      display: flex;
+      justify-content: center;
+      gap: 55px;
+      // border: 1px solid red !important;
+
+      td {
+      }
+    }
+    .Delivery2 {
+      width: 226px;
+      display: flex;
+      justify-content: center;
+      gap: 55px;
+      // border: 1px solid red !important;
+
+      td {
+      }
+    }
+    .Inventory1 {
+      width: 154px;
+      display: flex;
+      gap: 50px;
+      justify-content: left;
+      // border: 1px solid red !important;
+
+      td {
+        display: flex;
+        margin-left: 2%;
+      }
+    }
+    .Customize1 {
+      width: 154px;
+      display: flex;
+      justify-content: center;
+      // border: 1px solid red !important;
+
+      td {
+      }
+    }
+  }
+}
 
 .headingstextlist {
   position: absolute;
-  top: 0px;
-  left: 150px;
+  top: 14.5%;
+  left: 16vw;
   z-index: 1;
   width: 217px;
   height: 357px;
@@ -1040,67 +696,4 @@ img{
       }
     }
   }
-}
-
-.table-body .itemdetails,
-.table-body .tabletwobodyrow {
-  transition: transform 0.1s ease, margin 0.1s ease;
-
-}
-
-/* Add space for dragging */
- .placeholderplace {
-  width: 100px;
-  height: 5px; /* Adjust height as needed */
-  border: 1px solid red;
-  margin: 10px 0; /* Adjust margin as needed */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-top: -50px;
-
-
-}
-.itemdetails.selected {
-    opacity: 1;
-    transform: scale(1.08);
-    height: 60px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-.tabletwobodyrow.selected {
-
-}
-.draggableimg
-{
-  cursor: grab;
-   &:active
-   {
-    cursor: grabbing;
-   }
-
-}
-
-.headingdrag
-{
-  cursor: grab;
-  &:active{
-    cursor:grabbing
-
-  }
-}
-
-.rowdata
-{
-  display: flex;
-  flex-direction: row
-  ;
-  justify-content: center;
-  align-items: center;
-}
-.bodydata1
-{
-  display: flex;
-  flex-direction: row
-}
-.menulist
-{
-  width: 20rem;
 }

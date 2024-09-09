@@ -33,10 +33,18 @@ text-align: left;
 color: #E52333;
 
 }
+.input-and-spantext
+{
+    width: 100%px;
+
+    // border: 1px solid red;
+    position: relative;
+
+}
 .placeholder
     {
        position: absolute;
-       right: 4%;
+       right: 6%;
        color: #979797;
        font-weight: 400;
        top: 20%;

@@ -1,5 +1,5 @@
 import React from 'react';
-import dots from '../../../assets/images/dots.png'
+import dots from '../../../assets/images/dots.png';
 
 interface ItemHeadingProps {
   objectId: number;
@@ -18,7 +18,8 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
 }) => {
   if (objectId === 1) {
     return (
-      <div className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+      <tr className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+        <td>
         <img
           src={dots}
           alt=""
@@ -27,14 +28,17 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
           onDragOver={onDragOver}
           onDrop={(e) => onDrop(e, index)}
           className="headingdrag"
-        />
-        Steamed-Veg(6)
-      </div>
+        /> Steamed-Veg(6)
+        </td>
+      
+       
+      </tr>
     );
   } else if (objectId === 2) {
     return (
-      <div className={`${index === 1 ? "itemheadingtwo" : "itemheading"}`}>
-        <img
+      <tr className={`${index === 1 ? "itemheadingtwo" : "itemheading"}`}>
+       <td>
+       <img
           src={dots}
           alt=""
           draggable
@@ -44,7 +48,11 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
           className="headingdrag"
         />
         Steamed-NonVeg(6)
-      </div>
+     
+       </td>
+      
+      
+      </tr>
     );
   } else {
     return null;
