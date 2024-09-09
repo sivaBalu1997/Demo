@@ -6,12 +6,14 @@ import { custIn } from "../../../assets/mockData/originalAPIData/OcustomerInsigh
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "./style.scss";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const CustIns: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [openFilter, setOpenFilter] = useState(false);
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
@@ -34,9 +36,9 @@ const CustIns: React.FC = () => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`employee-container ${
+        className={`ci-employee-container ${
           isDarkTheme ? "dark-theme" : "light-theme"
-        }`}
+        } ${!isExpanded && "ci-on-close-side"}`}
       >
         <Topnavbar />
         <div className="employee-head">

@@ -25,13 +25,18 @@
   --screen-bg: #ffffff;
 }
 
-.employee-container {
+.ci-on-close-side {
+  width: 90vw !important;
+  background-color: red;
+}
+
+.ci-employee-container {
   background-color: var(--screen-bg);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 80vw;
-  // margin-left: 1.5rem;
+  width: 82vw;
+  margin-left: -1.5rem;
   .employee-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
