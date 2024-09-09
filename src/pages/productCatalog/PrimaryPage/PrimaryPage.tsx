@@ -283,7 +283,7 @@ const PrimaryPage = () => {
 
   return (
     <div style={{display:'flex'}}>
-      <SidePanel />
+      {/* <SidePanel /> */}
       <div style={{marginBottom:'40px'}}>
     <div style={{display:'flex'}}>
       <SidePanel />
@@ -593,12 +593,12 @@ const PrimaryPage = () => {
         </div>
         <div className="Primary-page-container-two">
           <div className="Primary-page-ingredients-selection">
-            {/* <Imagepillsselection
+            <Imagepillsselection
               heading="Ingredients*"
-              options={ingredientsFromAPi.map((elem)=>elem.name)}
+              options={ingredientsFromAPi}
               setValue={setValue}
               name="Ingredients"
-            /> */}
+            />
           </div>
 
           <div className="Primary-Page-Other-Details">
