@@ -10,6 +10,7 @@ import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "./style.scss";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 declare namespace CanvasJS {
   interface ChartEventArgs {
@@ -28,6 +29,7 @@ const CheckIn: React.FC = () => {
   const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -189,6 +191,8 @@ const CheckIn: React.FC = () => {
     setOpenFilter(false);
   };
 
+  console.log("kaam", isExpanded);
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
@@ -276,7 +280,7 @@ const CheckIn: React.FC = () => {
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>
         <div className="overall-summary">
-          <div className="box">
+          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
             <h2>
               {formatNumberIndian(
                 checkInD["Daily Checkin"].map((item) => item.count)
@@ -284,7 +288,7 @@ const CheckIn: React.FC = () => {
             </h2>
             <h3>Total CheckIns</h3>
           </div>
-          <div className="box">
+          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
             <h2>
               {formatNumberIndian(
                 checkInD.Cancellations.map((item) => item.count)
@@ -292,7 +296,7 @@ const CheckIn: React.FC = () => {
             </h2>
             <h3>Cancellations</h3>
           </div>
-          <div className="box">
+          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
             <h2>
               {formatNumberIndian(
                 checkInD["Repeat Customers Count"].map(
@@ -302,7 +306,7 @@ const CheckIn: React.FC = () => {
             </h2>
             <h3>Repeat Customers</h3>
           </div>
-          <div className="box">
+          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
             <h2>2,400</h2>
             <h3>New Customers</h3>
           </div>

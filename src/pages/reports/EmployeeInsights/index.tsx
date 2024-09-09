@@ -7,12 +7,14 @@ import { EmployeeD } from "../../../assets/mockData/originalAPIData/OemployeeDat
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "./style.scss";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const EmployeeInsights: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [openFilter, setOpenFilter] = useState(false);
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const [openStartDatePicker, setOpenStartDatePicker] =
     useState<boolean>(false);
@@ -44,14 +46,15 @@ const EmployeeInsights: React.FC = () => {
     setOpenFilter(false);
   };
 
-  console.log(EmployeeD["Sales By Employee"]);
+  // console.log(EmployeeD["Sales By Employee"]);
+  // console.log("is", isExpanded);
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
         className={`employee-container ${
           isDarkTheme ? "dark-theme" : "light-theme"
-        }`}
+        } ${isExpanded ? "e-expanded-width-sales" : ""}`}
       >
         <Topnavbar />
         <div className="employee-head">

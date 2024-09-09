@@ -10,6 +10,7 @@ import "./style.scss";
 import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface PaymentModeData {
   "Payment Mode": string;
@@ -63,6 +64,7 @@ interface ChartOptions {
 }
 
 const Sales: React.FC = () => {
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [state, setState] = useState<SalesState>({
     startDate: moment().toDate(),
@@ -195,13 +197,16 @@ const Sales: React.FC = () => {
     (item: HourOfTheDayData) => item["Average Sales per Hour"]
   );
 
+  // console.log({ isExpanded });
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
+      {/* <div className={`${isExpanded ? "alignment-fix-class" : ""}`}> */}
       <div
         className={`s-sales-container ${
           isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
-        }`}
+        } ${isExpanded ? "s-expanded-width-sales" : ""}`}
       >
         <Topnavbar />
         <div className="s-sales-head">
@@ -304,7 +309,7 @@ const Sales: React.FC = () => {
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>
         <div className="s-overall-summary">
-          <div className="s-box">
+          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
             <h2>
               {formatNumberIndian(
                 Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
@@ -312,7 +317,7 @@ const Sales: React.FC = () => {
             </h2>
             <h3>Total Orders</h3>
           </div>
-          <div className="s-box">
+          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
             <h2>
               $
               {formatNumberIndian(
@@ -321,7 +326,7 @@ const Sales: React.FC = () => {
             </h2>
             <h3>Total Sales</h3>
           </div>
-          <div className="s-box">
+          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
             <h2>
               $
               {formatNumberIndian(
@@ -330,13 +335,13 @@ const Sales: React.FC = () => {
             </h2>
             <h3>Net Sales</h3>
           </div>
-          <div className="s-box">
+          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
             <h2>
               ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
             </h2>
             <h3>Tips</h3>
           </div>
-          <div className="s-box">
+          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
             <h2>
               ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))}
             </h2>
@@ -464,6 +469,7 @@ const Sales: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* </div> */}
     </div>
   );
 };

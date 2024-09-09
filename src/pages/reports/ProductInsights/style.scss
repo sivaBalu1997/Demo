@@ -31,6 +31,11 @@
   --cchart-border: #000000;
 }
 
+.p-expanded-width-sales {
+  width: 83% !important;
+  // margin-left: -1.5rem;
+}
+
 .p-product-insights-container {
   background-color: var(--screen-bg);
   display: flex;
@@ -39,7 +44,8 @@
   gap: 0.5rem;
   align-items: center;
   height: 100%;
-  width: 80vw;
+  width: 91vw !important;
+  margin-left: -1.5rem;
   @media (max-width: 500px) {
     width: 100vw;
   }

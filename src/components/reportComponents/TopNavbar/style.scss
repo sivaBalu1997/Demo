@@ -22,6 +22,10 @@
   --t-chart-bg: #ffffff;
 }
 
+.t-expanded-topnavbar {
+  width: 83vw !important;
+}
+
 .t-navbar {
   display: flex;
   justify-content: space-around;
@@ -31,8 +35,8 @@
   position: sticky;
   top: 0;
   z-index: 2;
-  width: 80vw;
   align-items: center;
+  width: 92vw;
   @media (max-width: 500px) {
     width: 100vw;
   }

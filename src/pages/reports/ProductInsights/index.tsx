@@ -7,10 +7,10 @@ import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
-import "./style.scss";
 import { generateGradient } from "../../../util/color";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import "./style.scss";
 
 interface TopVoidedItem {
   name: string;

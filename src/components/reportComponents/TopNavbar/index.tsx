@@ -3,6 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../../helpers/context/ThemeContext";
 import "./style.scss";
 import ShrinkedReportMenu from "../ShrinkedReportMenu";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface NavItemType {
   name: string;
@@ -17,6 +18,7 @@ interface NavItemType {
 const Topnavbar = () => {
   const [active, setActive] = useState("live-reports");
   const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const navItems: NavItemType[] = [
     { name: "Sales Report", path: "/sales" },
@@ -34,9 +36,13 @@ const Topnavbar = () => {
     setActive(location.pathname);
   }, [location.pathname]);
 
+  console.log("tp", isExpanded);
+
   return (
     <nav
-      className={`t-navbar ${isDarkTheme ? "t-dark-theme" : "t-light-theme"}`}
+      className={`t-navbar ${isDarkTheme ? "t-dark-theme" : "t-light-theme"} ${
+        isExpanded ? "t-expanded-topnavbar" : ""
+      }`}
     >
       <ShrinkedReportMenu />
       {navItems.map((item) => (

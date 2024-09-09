@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useEffect, Fragment } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  Fragment,
+  useContext,
+} from "react";
 import "../../styles/menu.scss";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { SELECTED_BRANCH_DATA } from "../../shared/constants";
@@ -17,13 +23,18 @@ import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
-import btnnav from '../../assets/svg/btnnav.svg'
+import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const SidePanel = () => {
-  const credentials = useSelector((state:RootState) => state.auth.credentials);
-  const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || ''  
-  const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
+  const credentials = useSelector((state: RootState) => state.auth.credentials);
+  const selectedBranch: string =
+    localStorage.getItem(SELECTED_BRANCH_DATA) || "";
+  const branch =
+    selectedBranch && selectedBranch !== "undefined"
+      ? JSON.parse(selectedBranch)
+      : null;
   const menuOptions = ["Items", "Product Catalog"];
   const offerMenuOptions = ["Offers"];
 
@@ -40,20 +51,24 @@ const SidePanel = () => {
   const [showOptions, setShowOptions] = useState("employees");
   const [showOfferOptions, setShowOfferOptions] = useState("");
   const [routeTo, setRouteTo] = useState({});
-  const [isExpand, setIsExpand] = useState(true)
-  
+  // const [isExpand, setIsExpand] = useState(true)
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+
   const restaurantDetails = useSelector(
-    (state:RootState) => state.auth.restaurantDetails
+    (state: RootState) => state.auth.restaurantDetails
   );
-  
-  const UserRole = useSelector((state:RootState) => state.auth.credentials?.role);
+
+  const UserRole = useSelector(
+    (state: RootState) => state.auth.credentials?.role
+  );
 
   const locationId = useSelector(
-    (state:RootState) => state.auth.credentials && state.auth.credentials.locationId
+    (state: RootState) =>
+      state.auth.credentials && state.auth.credentials.locationId
   );
 
   const getImageURL = useCallback(
-    (type:any) => {
+    (type: any) => {
       if (
         restaurantDetails &&
         restaurantDetails.media &&
@@ -108,55 +123,59 @@ const SidePanel = () => {
   }, [restaurantDetails]);
 
   const toggleExpand = () => {
-    setIsExpand(!isExpand)
-  }
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <>
-      <div className={`menu is-sticky ${isExpand ? 'expanded' : ''}`}>
+      <div className={`menu is-sticky ${isExpanded ? "expanded" : ""}`}>
         <div className="logo-container">
           <div>
             <img src={getImageURL("LOGO")} className="restaurant-logo" />
           </div>
           <div className="restaurant-name-container">
-            {isExpand && <span className="restaurant-name">
-              {restaurantDetails &&
-                restaurantDetails.branchName &&
-                restaurantDetails.branchName.split(",")[0]}
-            </span>}
-            {isExpand && <div>
-              <select
-                className="branch-dropdown"
-                disabled={
-                  location.pathname?.includes("/employees/add") ||
-                  restaurantDetails?.branch?.length == 1 ||
-                  (UserRole !== "Restaurant_Owner" &&
-                    UserRole !== "Regional_Employee" &&
-                    UserRole !== "Magil_Admin")
-                }
-                onChange={(e) => {
-                  dispatch(selectBranch(JSON.parse(e.target.value)));
-                  localStorage.setItem(
-                    SELECTED_BRANCH_DATA,
-                    JSON.stringify(JSON.parse(e.target.value))
-                  );
-                }}
-                value={selectedBranch}
-              >
+            {isExpanded && (
+              <span className="restaurant-name">
                 {restaurantDetails &&
-                  restaurantDetails.branch &&
-                  restaurantDetails.branch.map((u, i) => {
-                    return (
-                      <option
-                        value={`${JSON.stringify(u)}`}
-                        //selected={userBranchName}
-                      >
-                        {u.locationName.split(",")[1]}
-                      </option>
+                  restaurantDetails.branchName &&
+                  restaurantDetails.branchName.split(",")[0]}
+              </span>
+            )}
+            {isExpanded && (
+              <div>
+                <select
+                  className="branch-dropdown"
+                  disabled={
+                    location.pathname?.includes("/employees/add") ||
+                    restaurantDetails?.branch?.length == 1 ||
+                    (UserRole !== "Restaurant_Owner" &&
+                      UserRole !== "Regional_Employee" &&
+                      UserRole !== "Magil_Admin")
+                  }
+                  onChange={(e) => {
+                    dispatch(selectBranch(JSON.parse(e.target.value)));
+                    localStorage.setItem(
+                      SELECTED_BRANCH_DATA,
+                      JSON.stringify(JSON.parse(e.target.value))
                     );
-                  })}
-              </select>
-            </div>}
+                  }}
+                  value={selectedBranch}
+                >
+                  {restaurantDetails &&
+                    restaurantDetails.branch &&
+                    restaurantDetails.branch.map((u, i) => {
+                      return (
+                        <option
+                          value={`${JSON.stringify(u)}`}
+                          //selected={userBranchName}
+                        >
+                          {u.locationName.split(",")[1]}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+            )}
           </div>
         </div>
         <ul>
@@ -175,60 +194,60 @@ const SidePanel = () => {
           >
             <li style={{ marginBottom: 0 }} />
             <EmployeesIcon className="menu-items-SVG" />
-            {isExpand && <span className="menu-items-name">Employees</span>}
+            {isExpanded && <span className="menu-items-name">Employees</span>}
           </div>
-          
+
           <div
-  className={
-    showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
-  }
-  onClick={() => {
-    if (showOptions === "MenuOptions") {
-      setShowOptions("");
-    } else {
-      setShowOptions("MenuOptions");
-    }
-  }}
->
-  <div>
-    {showOptions === "MenuOptions" &&
-    !location.pathname.includes("menu") ? (
-      <li style={{ marginBottom: 0 }} />
-    ) : null}
-    <Tableware className="menu-items-SVG" />
-    {isExpand && <span className="menu-items-name">Menu</span>}
-  </div>
+            className={
+              showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
+            }
+            onClick={() => {
+              if (showOptions === "MenuOptions") {
+                setShowOptions("");
+              } else {
+                setShowOptions("MenuOptions");
+              }
+            }}
+          >
+            <div>
+              {showOptions === "MenuOptions" &&
+              !location.pathname.includes("menu") ? (
+                <li style={{ marginBottom: 0 }} />
+              ) : null}
+              <Tableware className="menu-items-SVG" />
+              {isExpanded && <span className="menu-items-name">Menu</span>}
+            </div>
 
-  <Fragment>
-    {showOptions === "MenuOptions" ? (
-      <Uparrow className="dropdown-arrow" />
-    ) : (
-      <Downarrow className="dropdown-arrow" />
-    )}{" "}
-  </Fragment>
-</div>
+            <Fragment>
+              {showOptions === "MenuOptions" ? (
+                <Uparrow className="dropdown-arrow" />
+              ) : (
+                <Downarrow className="dropdown-arrow" />
+              )}{" "}
+            </Fragment>
+          </div>
 
-{showOptions === "MenuOptions" && (
-  <ul>
-    {menuOptions.map((option) => (
-      <li
-        key={option}
-        style={{ marginTop: "10px" }}
-        onClick={() => {
-          if (option === "Items") {
-            history.push(`/menu/${option}`);
-          } else if (option === "Product Catalog") {
-            history.push("/menuListing");
-          }
-        }}
-      >
-        <span style={{ marginLeft: "40px", marginTop: "10px" }}>
-          {option}
-        </span>
-      </li>
-    ))}
-  </ul>
-)}
+          {showOptions === "MenuOptions" && (
+            <ul>
+              {menuOptions.map((option) => (
+                <li
+                  key={option}
+                  style={{ marginTop: "10px" }}
+                  onClick={() => {
+                    if (option === "Items") {
+                      history.push(`/menu/${option}`);
+                    } else if (option === "Product Catalog") {
+                      history.push("/menuListing");
+                    }
+                  }}
+                >
+                  <span style={{ marginLeft: "40px", marginTop: "10px" }}>
+                    {option}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
 
           <div
             className={
@@ -242,9 +261,11 @@ const SidePanel = () => {
                 : setShowOfferOptions("")
             }
           >
-            <div style={{ cursor: "pointer"}}>
+            <div style={{ cursor: "pointer" }}>
               <Offer className="menu-items-SVG" />
-              {isExpand && <span className="menu-items-name">Offer Management</span>}
+              {isExpanded && (
+                <span className="menu-items-name">Offer Management</span>
+              )}
             </div>
             {showOfferOptions === "MenuOptions" ? (
               <Uparrow
@@ -278,7 +299,6 @@ const SidePanel = () => {
                   </NavLink>
                 ))
               : null}
-
           </ul>
           <div
             className={
@@ -298,7 +318,9 @@ const SidePanel = () => {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Stats className="menu-items-SVG" />
-                {isExpand && <span className="menu-items-name">Reports & Insights</span>}
+                {isExpanded && (
+                  <span className="menu-items-name">Reports & Insights</span>
+                )}
               </div>
             }
           </div>
@@ -323,20 +345,30 @@ const SidePanel = () => {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Payment className="menu-items-SVG" />
-                {isExpand && <span className="menu-items-name">Payments</span>}
+                {isExpanded && (
+                  <span className="menu-items-name">Payments</span>
+                )}
               </div>
             }
           </div>
         </ul>
         <div>
-          {isExpand && <div className="magilhub-bottom-logo">
-            <span className="powered-text1">Powered by</span>
-            <span className="magilhub-logo1">Maghil</span>
-          </div>}
+          {isExpanded && (
+            <div className="magilhub-bottom-logo">
+              <span className="powered-text1">Powered by</span>
+              <span className="magilhub-logo1">Maghil</span>
+            </div>
+          )}
         </div>
       </div>
       <div>
-        <img onClick={toggleExpand} className={isExpand ? "btn-nav":"btn-nav1"} src={btnnav} alt="" style={{zIndex:9}} />
+        <img
+          onClick={toggleExpand}
+          className={isExpanded ? "btn-nav" : "btn-nav1"}
+          src={btnnav}
+          alt=""
+          style={{ zIndex: 9 }}
+        />
       </div>
     </>
   );

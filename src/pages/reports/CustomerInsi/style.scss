@@ -24,12 +24,14 @@
   --chart-bg: #ffffff;
   --screen-bg: #ffffff;
 }
+
 .employee-container {
   background-color: var(--screen-bg);
   display: flex;
   flex-direction: column;
-  width: 80vw;
   gap: 0.5rem;
+  width: 80vw;
+  // margin-left: 1.5rem;
   .employee-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;

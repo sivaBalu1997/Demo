@@ -30,13 +30,25 @@
   --cchart-bg: #ffffff;
   --cchart-border: #000000;
 }
+
+.ch-expanded-boxes {
+  width: 13.5rem !important;
+  @media (max-width: 1280px) {
+    width: 11.2rem !important;
+  }
+  @media (max-width: 1080px) {
+    width: 9.5rem !important;
+  }
+}
+
 .checkin-container {
   background-color: var(--screen-bg);
   color: var(--screen-bg);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 80vw;
+  width: 91vw;
+  margin-left: -1.5rem;
   @media (max-width: 500px) {
     width: 100vw;
   }
@@ -206,7 +218,7 @@
     }
     .box {
       height: 9rem;
-      width: 13rem;
+      width: 14.8rem;
       border-radius: 1rem;
       background-color: var(--table-bg);
       display: flex;
@@ -217,11 +229,11 @@
       color: var(--table-text);
       border: 1px solid;
       @media (max-width: 1280px) {
-        width: 10.7rem;
+        width: 12.3rem;
         font-size: smaller;
       }
       @media (max-width: 1080px) {
-        width: 8.8rem;
+        width: 10.4rem;
         font-size: smaller;
       }
       @media (max-width: 800px) {

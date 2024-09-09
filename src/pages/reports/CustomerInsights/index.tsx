@@ -7,15 +7,19 @@ import Table from "../../../components/reportComponents/Table";
 import "./style.scss";
 import Topnavbar from "../../../components/reportComponents/TopNavbar";
 import SidePanel from "pages/SidePanel";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const CustomerInsights = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`live-reports ${isDarkTheme ? "dark-theme" : "light-theme"}`}
+        className={`live-reports ${
+          isDarkTheme ? "dark-theme" : "light-theme"
+        } ${isExpanded ? "l-expanded-width-sales" : ""}`}
       >
         <Topnavbar />
         <div className="cust-insights-head">

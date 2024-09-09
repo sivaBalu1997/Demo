@@ -24,13 +24,20 @@
   --chart-bg: #ffffff;
   --screen-bg: #ffffff;
 }
+
+.l-expanded-width-sales {
+  width: 83% !important;
+  // margin-left: -1.5rem;
+}
+
 .live-reports {
   background-color: var(--screen-bg);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80vw;
+  width: 91vw;
+  margin-left: -1.5rem;
   @media (max-width: 500px) {
     width: 100vw;
   }
