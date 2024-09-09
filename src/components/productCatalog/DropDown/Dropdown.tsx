@@ -68,7 +68,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     <div className="dropdown-containerPricing" ref={dropdownRef}>
       <label className='droplabelPricing'>{label}</label>
       <div 
-        className={!validation?.isValid ? "dropdownPricingred" : "dropdownPricing"} 
+        className={!validation?.isValid ? "dropdownPricingred" : "dropdownPricingList"} 
         onClick={handleDropdownClick} 
         tabIndex={0}
       >
