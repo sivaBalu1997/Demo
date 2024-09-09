@@ -18,8 +18,8 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
 }) => {
   if (objectId === 1) {
     return (
-      <tr className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
-        <td>
+      <tr >
+        <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
         <img
           src={dots}
           alt=""
@@ -36,8 +36,8 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
     );
   } else if (objectId === 2) {
     return (
-      <tr className={`${index === 1 ? "itemheadingtwo" : "itemheading"}`}>
-       <td>
+      <tr >
+       <td className={`${index === 1 ? "itemheadingtwo" : "itemheading"}`}>
        <img
           src={dots}
           alt=""

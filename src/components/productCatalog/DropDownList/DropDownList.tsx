@@ -136,6 +136,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleNewItemAddition = useCallback(() => {
     setAddNew((prevAddNew) => !prevAddNew);
   }, [addNew]);
+
   const handleedit=()=>{
 
     if(editList)
@@ -150,7 +151,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handledeletion=(value:string)=>{
 
     const updatedList=options.filter((item)=> item.id !==value)
-    setOptions(updatedList);
+    setOptions(updatedList  );
 
   }
   const handleBlur=()=>{
@@ -161,7 +162,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className='dropDownBox'>
-        <input
+        <div><input
           type={type}
           {...register(name,validation)}
           value={selectedOption?.name || searchTerm}
@@ -178,8 +179,11 @@ const DropDownList: React.FC<DropdownProps> = ({
          
         >
           <img src={dropdown} alt="" className="dropdownimage" />
-        </span>
-        {error  && <p className='Dropdown-Error-message'>{error.message}</p>}
+        </span></div>
+        
+        <div >{error  && <p className='Dropdown-Error-message'>{error.message}</p>}</div>
+        
+        
       </div>
      
 

@@ -303,9 +303,11 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <InputFieldComponent
                     {...field}
+                     name="itemName"
                     register={register}
                     trigger={trigger}
                     error={errors.itemName}
+                    validation={{ required: "ItemName is required" }}
                   />
                 )}
               />
@@ -325,9 +327,8 @@ const PrimaryPage = () => {
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
-                    // validation={{ required: "dietaryType is required" }}
-                    error={errors.dietaryType}
-                   
+                    validation={{ required: "dietaryType is required" }}
+                    error={errors.dietaryType}    
                     dropdownopen={openDropdown === "dietaryType"}
                     onToggle={() => handleDropdownToggle("dietaryType")}
                   />
@@ -350,7 +351,7 @@ const PrimaryPage = () => {
                     setValue={setValue}
                       name="cuisine"
 
-                    // validation={{ required: "cuisine is required" }}
+                    validation={{ required: "cuisine is required" }}
                     error={errors.cuisine}
                     {...field}
                     getValues={getValues}
@@ -377,7 +378,7 @@ const PrimaryPage = () => {
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
-                    // validation={{ required: "Mealtype is required" }}
+                    validation={{ required: "Mealtype is required" }}
                     error={errors.mealType}
                     dropdownopen={openDropdown === "mealType"}
                     onToggle={() => handleDropdownToggle("mealType")}
@@ -524,6 +525,7 @@ const PrimaryPage = () => {
                     {...field}
                     register={register}
                     trigger={trigger}
+                    
                   />
                 )}
               />
@@ -549,7 +551,7 @@ const PrimaryPage = () => {
                       setValue={setValue}
                       trigger={trigger}
                       getValues={getValues}
-                      // validation={{ required: "category is required" }}
+                      validation={{ required: "category is required" }}
                       error={errors.category}
                       dropdownopen={openDropdown === "category"}
                       onToggle={() => handleDropdownToggle("category")}
@@ -615,7 +617,7 @@ const PrimaryPage = () => {
                       {...field}
                       trigger={trigger}
                       register={register}
-                      placeholder="Cal"
+                      subtext="Cal"
                     />
                   )}
                 />
@@ -644,7 +646,8 @@ const PrimaryPage = () => {
                       {...field}
                       trigger={trigger}
                       register={register}
-                      placeholder={getValues("selectedPortion")}
+                      subtext={getValues("selectedPortion")}
+                      
                     />
                   )}
                 />
@@ -675,6 +678,7 @@ const PrimaryPage = () => {
                       {...field}
                       trigger={trigger}
                       register={register}
+                       placeholder="Tax Class Association"
                     />
                   )}
                 />
@@ -705,6 +709,7 @@ const PrimaryPage = () => {
           getFormData={getValues}
           seletedpage="Primary"
           reset={reset}
+          triggerValidation={() => trigger()}
         />
       </form>
     </div>

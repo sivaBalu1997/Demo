@@ -20,6 +20,7 @@ interface Imageselection {
 const ImagePillsSelection: React.FC<Imageselection> = ({ heading, options,name,setValue }) => {
     const [searchImage, setSearchImage] = useState<string>('');
     const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
+    
     const handleSearchingImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchImage(e.target.value);
     };

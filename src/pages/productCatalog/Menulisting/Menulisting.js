@@ -23,11 +23,9 @@ export const Menulisting = () => {
   const { setActive } = useContext(Contextpagejs);
   const [itemsState, setItemsState] = useState(itemsdata);
   const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
-
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [toggleState, settogglebtn] = useState(false);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
-
   const firstTableBodyRef = useRef(null);
   const secondTableBodyRef = useRef(null);
   const [draggedRowIndex, setDraggedRowIndex] = useState({
@@ -37,10 +35,9 @@ export const Menulisting = () => {
   const [draggingOverIndex, setDraggingOverIndex] = useState(null);
   const [columndraggingindex, setcolumndraggingindex] = useState(null);
   const [modal, setmodal] = useState(false);
-
-
-
   const [showheadinglist, setshowheadinglist] = useState(false);
+  const [sidebartext, setSideBarText] = useState(null);
+  
   const [classNames, setclassNames] = useState([
     "Dinein1-class",
     "Pickup1-class",
@@ -153,28 +150,28 @@ export const Menulisting = () => {
     setIsDragging(false);
   };
 
-  useEffect(() => {
-    if (isDragging) {
-      window.addEventListener("mousemove", handleScrollWhileDragging);
-    } else {
-      window.removeEventListener("mousemove", handleScrollWhileDragging);
-    }
+  // useEffect(() => {
+  //   if (isDragging) {
+  //     window.addEventListener("mousemove", handleScrollWhileDragging);
+  //   } else {
+  //     window.removeEventListener("mousemove", handleScrollWhileDragging);
+  //   }
 
-    return () => {
-      window.removeEventListener("mousemove", handleScrollWhileDragging);
-    };
-  }, [isDragging]);
+  //   return () => {
+  //     window.removeEventListener("mousemove", handleScrollWhileDragging);
+  //   };
+  // }, [isDragging]);
 
-  const handleScroll = (source) => {
-    const firstTableBody = firstTableBodyRef.current;
-    const secondTableBody = secondTableBodyRef.current;
+  // const handleScroll = (source) => {
+  //   const firstTableBody = firstTableBodyRef.current;
+  //   const secondTableBody = secondTableBodyRef.current;
 
-    if (source === "first") {
-      secondTableBody.scrollTop = firstTableBody.scrollTop;
-    } else if (source === "second") {
-      firstTableBody.scrollTop = secondTableBody.scrollTop;
-    }
-  };
+  //   if (source === "first") {
+  //     secondTableBody.scrollTop = firstTableBody.scrollTop;
+  //   } else if (source === "second") {
+  //     firstTableBody.scrollTop = secondTableBody.scrollTop;
+  //   }
+  // };
 
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
@@ -295,7 +292,7 @@ export const Menulisting = () => {
   const handlemodal = () => {
     setmodal(true);
   };
-  const [sidebartext, setSideBarText] = useState(null);
+
 
   const showsidebar = (key) => {
     if (key === "Dinein1" || key === "Pickup1" || key === "Delivery1") {
@@ -393,17 +390,10 @@ export const Menulisting = () => {
        
                 <thead className='Menu-Listing-TableOneHead' >
                 <tr className="headerrow">
-                  <th className="itemimage">Image</th>
+                  <th className="itemimage ">Image</th>
                   <th className="itemname">Item name</th>
-                  <th className="itemcode">
-                    
-                      Code
-                      
-                        <span  onClick={() => setshowheadinglist(true)}
-                        className="addbtn"> +</span>
-                    
-                    
-                  </th>
+                  <th className="itemcode  "> Code  </th>
+                  <th  className="addbtn" onClick={() => setshowheadinglist(true)}>+</th>
                 </tr>
                 </thead>
                 <tbody className='Menu-Listing-TableOneBody Menu-listing-Body'  ref={tableBodyRef1}>
@@ -539,7 +529,7 @@ export const Menulisting = () => {
 
             </div>
             {
-              modal && <Slider onclose={()=>setmodal(false)}/>
+              modal && <Slider onclose={()=>setmodal(false)} sidebartext={sidebartext}/>
             }
          
 

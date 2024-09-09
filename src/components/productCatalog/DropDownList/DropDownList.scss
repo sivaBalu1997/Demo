@@ -5,9 +5,9 @@
 
     .dropDownBox{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
-        align-items: center;
+        // align-items: center;
     }
     .dropdownimage
     {
@@ -22,6 +22,7 @@
         line-height: 21px;
         text-align: left;
         color: #E52333;
+        
     }
 }
 .dropdown-arrow
