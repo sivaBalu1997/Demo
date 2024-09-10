@@ -6,7 +6,7 @@
   top: 160px;
   margin-left: -10px;
   overflow-x: hidden;
-  height: 570px;
+  height: 500px;
   width: 80%;
   overflow-y: auto;
 }
@@ -16,7 +16,7 @@
   top: 160px;
   margin-left: -20px;
   overflow-x: hidden;
-  height: 570px;
+  height: 500px;
   width: 93.3%;
   overflow-y: auto;
 }
@@ -371,6 +371,7 @@
   padding: 16px 32px;
   right: 2px;
   gap: 10px;
+  z-index: 2;
 
   .clearallPricing {
     width: 135px;
