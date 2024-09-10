@@ -92,42 +92,12 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   modifications,
   triggerValidation,
 }) => {
+  
   const history = useHistory();
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
-  // const extractFields = (formData: FormData) => {
-  //   return {
-  //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
-  //     altName: "alt name",
-  //     price: "12",
-  //     subCategoryId: "",
-  //     kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
-  //     taxFeeId: "",
-  //     ingredients: formData.Ingredients,
-  //     modifiers: [],
-  //     availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
-  //     subCategory:formData?.subCategory && formData?.subCategory ||"",
-  //     itemId: null,
-  //     itemName: formData.itemName,
-  //     category: formData.category,
-  //     itemCode: formData.itemCode,
-  //     categoryId: formData?.categoryId,
-  //     description: formData?.description,
-  //     dietaryType: "",
-  //     cuisine: "",
-  //     mealType: "",
-  //     bestPair: "",
-  //     alcohol: "",
-  //     barCode: "",
-  //     coloriePoint: "",
-  //     selectedcolorie: "per100grams",
-  //     portionSize: "",
-  //     selectedPortion: "Portion(count)",
-  //     tax: "",
-  //     masterCode: "",
-  //   };
-  // };
-
+  
   const dispatch = useDispatch();
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -142,8 +112,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       const isFormValid = await triggerValidation(formData);
 
       if (!isFormValid) {
-        // toast.error("Please correct the errors before proceeding.");
-
         window.scrollTo({
           top: 0,
           behavior: "smooth",
@@ -166,8 +134,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
     }
-
-    // scrollToTop();
   };
 
   const handleclear = () => {
@@ -184,18 +150,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           Save & next
         </button>
       </div>
-      {/* <ToastContainer
-          position="top-center"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        /> */}
     </div>
   );
 };

@@ -20,7 +20,7 @@ const Navigationpage = () => {
   const history = useHistory();
   const location = useLocation<LocationState | undefined>(); 
 
-  const [currentPage, setCurrentPage] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<string>("Primary Details");
 
   useEffect(() => {
     if (location.state?.pagename) {
