@@ -34,7 +34,9 @@ export const Menulisting = () => {
    
     dispatch(storeMockDataRequest(combinedItemsData))
   }, []);
-  const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
+  const Mockdata = useSelector((state) => state?.storeMockDataReducer?.data);
+  const MockFiltereddata= useSelector((state) => state?.storeMockDataFilteredReducer?.data);
+
   // console.log(Mockdata);
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,

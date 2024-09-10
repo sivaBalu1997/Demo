@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
   primarypage:primarypagereducer,
   itemCustomizationsReducer1:itemCustomizationsReducer,
   PricingDetailReducer:PricingDetailReducer,
-  storeMockDataReducer:storeMockDataReducer
+  storeMockDataReducer:storeMockDataReducer,
+  storeMockDataFilteredReducer:storeMockDataFilteredReducer
 });
 
 export { rootReducer };
