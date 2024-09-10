@@ -61,7 +61,7 @@ const ItemCustomizations: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
-  const {isExpanded,setIsExpanded}=useContext(Contextpagejs);
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -302,9 +302,15 @@ const ItemCustomizations: React.FC = () => {
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
-      <div style={{width:'80%'}}>
+      <div style={{ width: "80%" }}>
         <Navigationpage />
-        <div className={isExpanded ? "mainItemCustomizations-Expanded" : "mainItemCustomizations"}>
+        <div
+          className={
+            isExpanded
+              ? "mainItemCustomizations-Expanded"
+              : "mainItemCustomizations"
+          }
+        >
           <div className="itemcustomizationpage">
             <div className="AddModifiersSection">
               <div>
@@ -654,53 +660,11 @@ const ItemCustomizations: React.FC = () => {
                     seletedpage="ItemCustomization"
                     getFormData={getFormData}
                     reset={clerall}
-                    modifications={modifications} 
+                    modifications={modifications}
                   />
                 </div>
               </div>
             </div>
-            {/* <div
-    className={
-      showModifiers
-        ? "Custom-Item-availability-container"
-        : "Custom-Item-availability-container2"
-    }
-  >
-    <h3 className="Custom-Item-availability-container-heading">
-      Custom Item availability
-    </h3>
-    <Toggle
-      toggle={customItemavailability}
-      setToggle={setCustomItemavailability}
-    />
-  </div> */}
-            {/* {customItemavailability && (
-    <div>
-      <div className="Set-as-special-item-container">
-        <div className="checkbox-container">
-        <input type="checkbox" className="Set-as-special-item" />
-        <label className="">Set as special item</label>
-
-        </div>
-
-        <h3 className="Available-between">Available between</h3>
-      </div>
-      <div className="calander-Custom-Item-availability-container-heading">
-        <input
-          className="date-Custom-item"
-          type="date"
-          name="startDate"
-          onChange={(e) => handleModifierChange(0, e)}
-        />
-        <input
-          className="date-Custom-item"
-          type="date"
-          name="endDate"
-          onChange={(e) => handleModifierChange(0, e)}
-        />
-      </div>
-    </div>
-  )} */}
           </div>
         </div>
       </div>

@@ -151,7 +151,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         return;
       }
     }
-    console.log("submitform", formData);
 
     if (seletedpage === "Primary") {
       history.push({
@@ -163,7 +162,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       console.log("uploading", formData);
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
-      console.log("ddddddddd", modificationArray);
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");

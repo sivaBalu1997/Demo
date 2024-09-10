@@ -7,17 +7,19 @@
   display: flex;
   flex-direction: column;
   margin-top: 2%;
+  margin-left: 20px;
 }
 .mainpagemenu1 {
   height: 100vh;
   background: none;
   border-spacing: 0;
-  width: 85%;
+  width: 77%;
   display: flex;
   flex-direction: column;
   margin-top: 1%;
-  margin-left: 1%;
+  margin-left: 5%;
 }
+
 .Menu-Listing-Page-main {
   table,
   tr,
@@ -31,8 +33,7 @@
 }
 
 .headercomponent {
-  // height: 170px;
-  // width: 1000px;
+  margin-bottom: 30px;
 }
 
 * {
@@ -70,6 +71,7 @@ th {
   .Menu-Listing-TableOne {
     width: 20rem;
     height: 20rem;
+
 
     .headerrow {
       display: flex;
