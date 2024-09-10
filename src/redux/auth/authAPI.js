@@ -1,4 +1,4 @@
-import API from "../api";
+import { API } from "redux/api";
 import Store from "../store";
 
 // SignUp

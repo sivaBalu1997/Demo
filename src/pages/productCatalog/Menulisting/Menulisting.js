@@ -18,6 +18,8 @@ import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableT
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
+import { useSelector,useDispatch } from "react-redux";
+
 
 export const Menulisting = () => {
   const [itemsState, setItemsState] = useState(itemsdata);
@@ -35,6 +37,7 @@ export const Menulisting = () => {
   const tableBodyRef1 = useRef(null);
   const tableBodyRef2 = useRef(null);
   const Outsideref = useRef(null);
+ 
   const [classNames, setclassNames] = useState([
     "Dinein1-class",
     "Pickup1-class",

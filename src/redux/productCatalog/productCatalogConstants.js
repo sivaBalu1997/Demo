@@ -70,3 +70,7 @@ export const Pricing_Detail_Data_Request="Pricing_Detail_Data_Request"
 export const Pricing_Detail_Data_Success="Pricing_Detail_Data_Success"
 export const Pricing_Detail_Data_Failure="Pricing_Detail_Data_Failure"
 
+
+export const  Get_ItemImage="Get_Image"
+export const  Get_ItemImage_Success="Get_Image"
+export const  Get_ItemImage_Failure="Get_Image"

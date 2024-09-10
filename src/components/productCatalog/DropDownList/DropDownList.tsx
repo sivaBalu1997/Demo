@@ -41,7 +41,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   dropdownopen,
   onToggle,
   getValues,
-  required = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
@@ -94,7 +93,11 @@ const DropDownList: React.FC<DropdownProps> = ({
     //   console.log(option.id);
     // }
     setValue(name, option.name);
-    // setValue(id,option.id)
+    if(option.id)
+    {
+      setValue(id,option.id)
+    }
+    
     setAddNewButton(false);
     closeDropdown();
   };
