@@ -33,7 +33,7 @@ const Header = () => {
         <SearchBox/>
         <div className='Filter-Div'  >
           <div className='Filter-FlexCol'>
-            <img className="FilterIcon-Header"  onClick={handleFilter}  src={filterIcon} alt="" />
+            <img   className={isExpanded?'FilterIcon-Header1':"FilterIcon-Header"} onClick={handleFilter}  src={filterIcon} alt="" />
             <img className='ArrowHoverHeader' src={ArrowHover} alt="" />
             <div className='FilterHover'>Filter</div>
           </div>
@@ -42,8 +42,8 @@ const Header = () => {
         {filterSelected && <Filter/>}
         </div>
         <div className='Excel-flex-col'>
-        <img className={filterSelected?"Excel-Header1":"Excel-Header"}src={Excel} alt="" />
-        <img className={filterSelected?"Excel-Header-Download1":"Excel-Header-Download"} src={DownloadExcel} alt="" />
+        <img className={`${filterSelected?"Excel-Header1":"Excel-Header"}  ${isExpanded?"Excel1":"Excel"}`} src={Excel} alt="" />
+        <img className={`${filterSelected?"Excel-Header-Download1":"Excel-Header-Download"}  ${isExpanded?"Exceldownloadicon1":"Exceldownloadicon"}`} src={DownloadExcel} alt="" />
         {filterSelected===false && <img className='ArrowHoverHeaderExcel' src={ArrowHover} alt="" />}
          {filterSelected===false &&  <div className='ExcelHover'>Import</div>}
         </div>  

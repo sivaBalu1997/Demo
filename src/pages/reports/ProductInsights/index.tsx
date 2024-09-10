@@ -6,7 +6,7 @@ import Table from "../../../components/reportComponents/Table";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // Import default styles
-import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import "./style.scss";
 // import moment from "moment";
 import { generateGradient } from "../../../util/color";

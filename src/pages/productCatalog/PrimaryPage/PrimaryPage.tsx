@@ -25,7 +25,7 @@ import {
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 
-import { getIngredientsRequest } from "redux/productCatalog/productCatalogActions";
+import { getIngredientsRequest, getMenuCategoryRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 
 interface Ingredients {
@@ -87,6 +87,15 @@ interface StateDataTag {
     
   
 }
+interface StateDataTag2 {
+ 
+  productCatalog:{
+    categoryData:[]
+
+    }
+    
+  
+}
 
 interface option {
   name: string[];
@@ -113,22 +122,36 @@ const PrimaryPage = () => {
     useState(portionsizeradio);
     const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
     const ingredients=useSelector((state:StateDataTag)=>state.productCatalog.ingredients)
+    const categoriesdata=useSelector((state:StateDataTag2)=>state.productCatalog.categoryData)
+
+
 
 
 
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>([]);
-  const [charCount, setCharCount] = useState(0);
+  const [description, setDescription] = useState('');  // State for the textarea value
+  const [charCount, setCharCount] = useState(0);       // State for character count
   const maxLength = 100;
-  const handledescriptioninputchange = (value: string) => {
+
+  // Handle input change for description and character count
+  const handleDescriptionInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+
+   const {name,value}=e.target;
     const length = value.length;
     if (length <= maxLength) {
+      setDescription(value);        
       setCharCount(length);
+      setValue(name,description);         
     }
   };
+  
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const handleDropdownToggle = (name: string) => {
+
+
+    
     setOpenDropdown((prev) => (prev === name ? null : name));
   };
 
@@ -137,6 +160,9 @@ const PrimaryPage = () => {
   useEffect(()=>{
     getApi()
     setIngredientsFromAPi(ingredients)
+    Category()
+    setCategories(categoriesdata)
+   
 
 
 
@@ -147,6 +173,9 @@ const PrimaryPage = () => {
     dispatch(getIngredientsRequest(locationid))
   }
   
+  const Category=()=>{
+    dispatch(getMenuCategoryRequest(locationid))
+  }
   const [masterCode, setMasterCode] = useState<string>("");
   const [selectedValues, setSelectedValues] = useState({
     alcohol: "",
@@ -279,11 +308,13 @@ const PrimaryPage = () => {
 
   return (
     <div style={{display:'flex'}}>
-    <div style={{marginBottom:'40px'}}>
-    <div style={{display:'flex'}}>
       <SidePanel />
       <div style={{marginBottom:'40px'}}>
+    <div style={{display:'flex'}} className="Main-Primary-Page" >
+      {/* <SidePanel /> */}
+      <div style={{marginBottom:'40px'}}>
       <Navigationpage />
+      </div>
       <div className="Primary-page">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="Primary-page-container-one">
@@ -298,9 +329,11 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <InputFieldComponent
                     {...field}
+                     name="itemName"
                     register={register}
                     trigger={trigger}
                     error={errors.itemName}
+                    // validation={{ required: "ItemName is required" }}
                   />
                 )}
               />
@@ -314,15 +347,17 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <Dropdown
                     options={dataDietaryType}
+                    setOptions={setDataDietaryType}
                     placeholder="search for option"
                     register={register}
+                     name="dietaryType"
+                    
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
-                    // validation={{ required: "dietaryType is required" }}
-                    error={errors.dietaryType}
-                    {...field}
-                    isOpen={openDropdown === "dietaryType"}
+                    validation={{ required: "dietaryType is required" }}
+                    error={errors.dietaryType}    
+                    dropdownopen={openDropdown === "dietaryType"}
                     onToggle={() => handleDropdownToggle("dietaryType")}
                   />
                 )}
@@ -338,15 +373,18 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <Dropdown
                     options={dataCuisine}
+                    setOptions={setDataCuisine}
                     placeholder="search for option"
                     register={register}
                     trigger={trigger}
                     setValue={setValue}
-                    // validation={{ required: "cuisine is required" }}
+                      name="cuisine"
+                     
+                    validation={{ required: "cuisine is required" }}
                     error={errors.cuisine}
                     {...field}
                     getValues={getValues}
-                    isOpen={openDropdown === "cuisine"}
+                    dropdownopen={openDropdown === "cuisine"}
                     onToggle={() => handleDropdownToggle("cuisine")}
                   />
                 )}
@@ -362,15 +400,17 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <Dropdown
                     options={dataMealType}
+                    setOptions={setDataMealType}
                     placeholder="search for option"
                     {...field}
                     register={register}
+                     name="mealType"
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
-                    // validation={{ required: "Mealtype is required" }}
+                    validation={{ required: "Mealtype is required" }}
                     error={errors.mealType}
-                    isOpen={openDropdown === "mealType"}
+                    dropdownopen={openDropdown === "mealType"}
                     onToggle={() => handleDropdownToggle("mealType")}
                   />
                 )}
@@ -386,13 +426,15 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <Dropdown
                     options={dataBestPair}
+                    setOptions={setDataBestPair}
                     placeholder="search for option"
-                    {...field}
+                   
+                   name="bestPair"
                     register={register}
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
-                    isOpen={openDropdown === "bestPair"}
+                    dropdownopen={openDropdown === "bestPair"}
                     onToggle={() => handleDropdownToggle("bestPair")}
                   />
                 )}
@@ -407,27 +449,26 @@ const PrimaryPage = () => {
                   control={control}
                   render={({ field }:any) => (
                     <>
-                      <textarea
-                        className="description"
-                        autoComplete="off"
-                        value={field?.value || ""}
-                        onChange={(e) => {
-                          handledescriptioninputchange(e.target.value);
-                          field.onChange(e);
-                        }}
-                        maxLength={maxLength}
-                        style={{
-                          borderColor:
-                            charCount === maxLength ? "red" : "#979797",
-                        }}
-                      />
-                      <p
-                        style={{
-                          color: charCount === maxLength ? "red" : "#979797",
-                        }}
-                        className="Primary-page-description-charcount"
-                      >{`${charCount}/100`}</p>
-                    </>
+                    <textarea
+                      className="description"
+                      name="description"
+                      autoComplete="off"
+                      value={description} // Controlled input with useState
+                      onChange={(e) => handleDescriptionInputChange(e)}
+                      maxLength={maxLength}
+                      style={{
+                        borderColor: charCount === maxLength ? "red" : "#979797",
+                      }}
+                    />
+                    <p
+                      style={{
+                        color: charCount === maxLength ? "red" : "#979797",
+                      }}
+                      className="Primary-page-description-charcount"
+                    >
+                      {`${charCount}/${maxLength}`} {/* Display character count */}
+                    </p>
+                  </>
                   )}
                 />{" "}
               </div>
@@ -479,7 +520,7 @@ const PrimaryPage = () => {
                 selectedValue={selectedValues.alcohol}
                 onChange={(value) => handleRadioChange("alcohol", value)}
                 register={register}
-                defaultvalue="no"
+                defaultvalue={dataAlcoholRadio[1].value}
               />
             </div>
             
@@ -514,6 +555,7 @@ const PrimaryPage = () => {
                     {...field}
                     register={register}
                     trigger={trigger}
+                    
                   />
                 )}
               />
@@ -533,15 +575,17 @@ const PrimaryPage = () => {
                   render={({ field }:any) => (
                     <Dropdown
                       options={categories}
+                      setOptions={setCategories}
                       placeholder="search for option"
-                      {...field}
+                        name="category"
+                         id="categoryId"
                       register={register}
                       setValue={setValue}
                       trigger={trigger}
                       getValues={getValues}
                       // validation={{ required: "category is required" }}
                       error={errors.category}
-                      isOpen={openDropdown === "category"}
+                      dropdownopen={openDropdown === "category"}
                       onToggle={() => handleDropdownToggle("category")}
                     />
                   )}
@@ -556,13 +600,14 @@ const PrimaryPage = () => {
                   render={({ field }:any) => (
                     <Dropdown
                       options={dataSubcategory}
+                      setOptions={setDataSubcategory}
                       placeholder="search for option"
-                      {...field}
+                      name="subCategory"
                       register={register}
                       trigger={trigger}
                       setValue={setValue}
                       getValues={getValues}
-                      isOpen={openDropdown === "subCategory"}
+                      dropdownopen={openDropdown === "subCategory"}
                       onToggle={() => handleDropdownToggle("subCategory")}
                     />
                   )}
@@ -575,7 +620,7 @@ const PrimaryPage = () => {
                 heading="Allergens*"
                 options={validImages}
                 setValue={setValue}
-                name="Allergens"
+                name="allergens"
               />
             </div>
 
@@ -583,12 +628,12 @@ const PrimaryPage = () => {
         </div>
         <div className="Primary-page-container-two">
           <div className="Primary-page-ingredients-selection">
-            {/* <Imagepillsselection
+            <Imagepillsselection
               heading="Ingredients*"
-              options={ingredientsFromAPi.map((elem)=>elem.name)}
+              options={ingredientsFromAPi}
               setValue={setValue}
               name="Ingredients"
-            /> */}
+            />
           </div>
 
           <div className="Primary-Page-Other-Details">
@@ -605,7 +650,7 @@ const PrimaryPage = () => {
                       {...field}
                       trigger={trigger}
                       register={register}
-                      placeholder="Cal"
+                      subtext="Cal"
                     />
                   )}
                 />
@@ -619,7 +664,7 @@ const PrimaryPage = () => {
                     handleRadioChange("selectedcolorie", value)
                   }
                   register={register}
-                  defaultvalue="per100grams"
+                  defaultvalue={dataCaloriePointRadio[0].value}
                 />
               </div>
             </div>
@@ -634,7 +679,8 @@ const PrimaryPage = () => {
                       {...field}
                       trigger={trigger}
                       register={register}
-                      placeholder={getValues("selectedPortion")}
+                      subtext={getValues("selectedPortion")}
+                      
                     />
                   )}
                 />
@@ -649,7 +695,7 @@ const PrimaryPage = () => {
                     handleRadioChange("selectedPortion", value)
                   }
                   register={register}
-                  defaultvalue="Portion(count)"
+                  defaultvalue={dataPortionSizeRadio[0].value}
                 />
               </div>
             </div>
@@ -665,6 +711,7 @@ const PrimaryPage = () => {
                       {...field}
                       trigger={trigger}
                       register={register}
+                       placeholder="Tax Class Association"
                     />
                   )}
                 />
@@ -678,6 +725,7 @@ const PrimaryPage = () => {
                     <DigitInput
                       {...field}
                       setValue={setValue}
+                       name="masterCode"
                       register={register}
                       inputCount={4}
                       error={errors.masterCode}
@@ -694,13 +742,14 @@ const PrimaryPage = () => {
           getFormData={getValues}
           seletedpage="Primary"
           reset={reset}
+          triggerValidation={() => trigger()}
         />
       </form>
     </div>
     </div>
     </div>
     </div>
-    </div>
+    
   );
 };
 

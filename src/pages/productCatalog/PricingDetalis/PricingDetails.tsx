@@ -206,15 +206,12 @@ const PricingDetails= () => {
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
-  
-  console.log({mainForm})
-
   return (
    <div style={{display:'flex'}}>
     <SidePanel />
     <div>
     <Navigationpage />
-     <div className={isExpanded?"pricingdetails-container":"pricingdetails-containerExpanded"}>
+     <div className={isExpanded?"pricingdetails-containerExpanded":"pricingdetails-container"}>
       <form onSubmit={handleSubmit(onSubmit)}>
       <div className='pricing-form'>
         <div className='Tool'>
@@ -235,19 +232,26 @@ const PricingDetails= () => {
             rules={{ required: 'Please select at least one option' }}
             render={({ field }:any) => (
               <Dropdown 
-                selectedValues={field?.value || []}
+                selectedValues={selectedValues}
                 onSelect={(values) => {
-                  setSelectedValues(values); // Update local state
-                  field.onChange(values); // Update react-hook-form state
-                  validateDropdown(values, 'kitchen'); // Validate the dropdown
+                  setSelectedValues(values); 
+                  if (field?.onChange) {
+                    field.onChange(values); 
+                  }
+                  validateDropdown(values, 'kitchen'); 
                 }}
-                options={options.map((elem)=>elem.name)} // Example options
+                options={options.map((elem)=>elem.name)} 
                 label="Kitchen Station1*"
                 onBlur={() => {
-                  field.onBlur();
+                  
+                  if (field?.onBlur) {
+                    handleBlur(field?.value, 'kitchen');
+ 
+                  }
                   validateDropdown(field?.value, 'kitchen');
                 }}
                 validation={validationState.kitchen}
+                width="Drop1"
               />
             )}
           />
@@ -264,18 +268,25 @@ const PricingDetails= () => {
                 selectedValues={field?.value}
                 onSelect={(values) => {
                   setSelectedValue1(values)
-                field.onChange(values);
+                  if (field?.onChange) {
+                    field.onChange(values); 
+                  }
                 validateDropdown(values, 'preparationTime');
+
                   
                 }}
-                options={['Option 1', 'Option 2', 'Option 3']} // Example options, adjust as needed
+                options={['Option 1', 'Option 2', 'Option 3']} 
                 
                 label="Preparation*"
                 onBlur={() => {
-                  field.onBlur();
-                  validateDropdown(field?.value, 'kitchen');
+                  if (field?.onBlur) {
+                    field.onBlur();
+                    handleBlur(field?.value, 'preparationTime'); 
+                  }
+                 
                 }}
                 validation={validationState.preparationTime}
+                width="Drop1"
               />
             )}
           />
@@ -301,71 +312,66 @@ const PricingDetails= () => {
                 <p className='threshold'>Threshold*</p>
               </div>
               <div className='InventoryInput'>
-      <Controller
-        name='Inventory1'
-        control={control}
-        defaultValue={form.Inventory1 || ''}
-        render={({ field }:any) => (
-          <input
-            className="I1"
-            type="text"
-            {...field}
-            onChange={(e) => {
-              const value = e.target.value;
-              field.onChange(value); // To update Controller's value
-      
-              // Update the form state
-              setForm((prevState) => ({
-                ...prevState,
-                Inventory1: value, // Update Inventory1 in form state
-              }));
-            }}
-            
-            style={{
-              borderColor: formerrors.Inventory1 ? 'red' : 'rgba(0, 0, 0, 0.3)'
-            }}
-          />
-        )}
-        rules={{ required: 'This field is required' }} // Validation rule
-      />
+                <Controller
+                  name='Inventory1'
+                  control={control}
+                  defaultValue={form.Inventory1 || ''}
+                  render={({ field }:any) => (
+                  <input
+                    className="I1"
+                    type="text"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+
+                      if (field?.onChange) {
+                        field.onChange(value); 
+                      }              
+                      // Update the form state
+                      setForm((prevState) => ({
+                        ...prevState,
+                        Inventory1: value, 
+                      }));
+                    }}
+                    
+                    style={{
+                      borderColor: formerrors.Inventory1 ? 'red' : 'rgba(0, 0, 0, 0.3)'
+                    }}
+                  />
+                )}
+                rules={{ required: 'This field is required' }} 
+              />
     
-                
-      
-      <Controller
-        name='Inventory2'
-        control={control}
-        defaultValue={form.Inventory2 || ''}
-        render={({ field }:any) => (
-          <input
-            className="I1"
-            type="text"
-            {...field}
-            onChange={(e) => {
-              const value = e.target.value;
-              field.onChange(value); // To update Controller's value
-      
-              // Update the form state
-              setForm((prevState) => ({
-                ...prevState,
-                Inventory2: value, // Update Inventory2 in form state
-              }));
-            }}
-            
-            style={{
-              borderColor: formerrors.Inventory2 ? 'red' : 'rgba(0, 0, 0, 0.3)'
-            }}
-          />
-        )}
-        
-      />
-   
-                {/* <Tooltip message="Threshold">
-                  <div className="ToolInventory1">
-                    <img src={info} alt="" width={20} height={20} />
-                  </div>
-                </Tooltip> */}
-              </div>
-              {formerrors.Inventory1 && <p className='ErrorsForm' >{formerrors.Inventory1}</p>}
+              <Controller
+                name='Inventory2'
+                control={control}
+                defaultValue={form.Inventory2 || ''}
+                render={({ field }:any) => (
+                  <input
+                    className="I1"
+                    type="text"
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (field?.onChange) {
+                        field.onChange(value); 
+                      }
+              
+                      // Update the form state
+                      setForm((prevState) => ({
+                        ...prevState,
+                        Inventory2: value, 
+                      }));
+                    }}
+                    
+                    style={{
+                      borderColor: formerrors.Inventory2 ? 'red' : 'rgba(0, 0, 0, 0.3)'
+                    }}
+                  />
+                )}
+              />
+          </div>
+          {formerrors.Inventory1 && <p className='ErrorsForm' >{formerrors.Inventory1}</p>}
               {formerrors.Inventory2 && <p className='ErrorsFormi2' >{formerrors.Inventory2}</p>}
               <div className='Inventcheckbox'>
                 <div className='checkboxI'>
@@ -408,10 +414,8 @@ const PricingDetails= () => {
         {isOptionTrue ? <Normalavail   getNormalForm={getNormalForm} validateDropdown={validateDropdown} dinein={dinein} setDineIn={setDineIn} validationState={validationState}   /> : <Specialavail   getSpecialForm={getSpecialForm} validateDropdown={validateDropdown}  validationState={validationState}   />}
 
         
-      </div>
-      <div className= {isExpanded? "buttoncomponentpricing": "buttoncomponentpricing1"}  >
-          <div className= {isExpanded? "saveandnextPricing": "saveandnextPricing1"}>
-            <div className={isExpanded? "Button-SaveExtended": "Button-Save"}>
+        <div className= {isExpanded? "saveandnextPricingExpanded": "saveandnextPricing"}>
+          <div className={isExpanded? "Button-SaveExtended": "Button-Save"}>
             <button className="clearallPricing">
               Clear All
             </button>
@@ -431,4 +435,3 @@ const PricingDetails= () => {
 };
 
 export default PricingDetails;
-

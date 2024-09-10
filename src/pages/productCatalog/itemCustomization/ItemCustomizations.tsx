@@ -653,9 +653,9 @@ const ItemCustomizations: React.FC = () => {
                 <div className="footer-save-next">
                   <SaveAndNext
                     seletedpage="ItemCustomization"
-                    getFormData={getFormData} // Pass the function instead of the array
+                    getFormData={getFormData}
                     reset={clerall}
-                    modifications={modifications} // Pass the modifications array here}
+                    modifications={modifications} 
                   />
                 </div>
               </div>

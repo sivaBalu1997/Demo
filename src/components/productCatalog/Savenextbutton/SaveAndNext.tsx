@@ -77,7 +77,7 @@ interface FormData {
     selectionType?: string;
     field1?: number;
     field2?: number;
-    [key: string]: any; // Define specific types if known, e.g., number | string
+    [key: string]: any; 
   }
 
   
@@ -86,47 +86,48 @@ interface SubmitButtonProps {
     getFormData: () => FormData| Modification;
     seletedpage:string
     reset: () => void;
-    modifications?: Modification[]; // Add this line to include modifications array
+    modifications?: Modification[]; 
+    triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
 
 
   }
   
 
-const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,modifications }) => {
+const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,modifications,triggerValidation }) => {
   const history = useHistory();
   const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
-  const extractFields = (formData: FormData) => {
-    return {
-      locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
-      altName: "alt name",
-      price: "12",
-      subCategoryId: "",
-      kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
-      taxFeeId: "",
-      ingredients: formData.Ingredients,
-      modifiers: [],
-      availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
-      subCategory:formData?.subCategory && formData?.subCategory ||"",
-      itemId: null,
-      itemName: formData.itemName,
-      category: formData.category,
-      itemCode: formData.itemCode,
-      categoryId: formData?.categoryId,
-      description: formData?.description,
-      dietaryType: "",
-      cuisine: "",
-      mealType: "",
-      bestPair: "",
-      alcohol: "",
-      barCode: "",
-      coloriePoint: "",
-      selectedcolorie: "per100grams",
-      portionSize: "",
-      selectedPortion: "Portion(count)",
-      tax: "",
-      masterCode: "",
-    };
-  };
+  // const extractFields = (formData: FormData) => {
+  //   return {
+  //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
+  //     altName: "alt name",
+  //     price: "12",
+  //     subCategoryId: "",
+  //     kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
+  //     taxFeeId: "",
+  //     ingredients: formData.Ingredients,
+  //     modifiers: [],
+  //     availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
+  //     subCategory:formData?.subCategory && formData?.subCategory ||"",
+  //     itemId: null,
+  //     itemName: formData.itemName,
+  //     category: formData.category,
+  //     itemCode: formData.itemCode,
+  //     categoryId: formData?.categoryId,
+  //     description: formData?.description,
+  //     dietaryType: "",
+  //     cuisine: "",
+  //     mealType: "",
+  //     bestPair: "",
+  //     alcohol: "",
+  //     barCode: "",
+  //     coloriePoint: "",
+  //     selectedcolorie: "per100grams",
+  //     portionSize: "",
+  //     selectedPortion: "Portion(count)",
+  //     tax: "",
+  //     masterCode: "",
+  //   };
+  // };
 
   const dispatch = useDispatch();
   const scrollToTop = () => {
@@ -138,8 +139,23 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,
 
 
  
-  const handleclick = () => {
+  const handleclick =  async() => {
     const formData = getFormData();
+
+   
+    if (seletedpage === "Primary" && triggerValidation) {
+      const isFormValid = await triggerValidation(formData); 
+
+      if (!isFormValid) {
+        // toast.error("Please correct the errors before proceeding.");
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return ;
+      }
+    }
     console.log("submitform",formData);
    
    
@@ -155,21 +171,16 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,
 
     }  
     else if (seletedpage === "ItemCustomization") {
-      // Access modifications here
      const modificationArray = modifications; 
      console.log("ddddddddd",modificationArray)
       const formData = getFormData();
-      
-      // Dispatch your action with formData
       dispatch(itemCustomizationPost(modificationArray));
-      
-      // Navigate to the next page
       history.push('/productCatalog/Reviewpage');
 
   }
     
    
-    scrollToTop();
+    // scrollToTop();
    
 
   };
@@ -185,7 +196,7 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,
 
   return (
     <div>
-      <div className= {isExpanded?"saveandnext":"saveandnext1"} >
+      <div className= {isExpanded?" saveandnextExpanded":"saveandnext"} >
         <button className="clearall" onClick={handleclear}>
           Clear All
         </button>
@@ -195,30 +206,18 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,
             Save & next
         </button>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        // theme="light"
-      />
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        // theme="light"
-      />
+        {/* <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        /> */}
     </div>
   );
 };
