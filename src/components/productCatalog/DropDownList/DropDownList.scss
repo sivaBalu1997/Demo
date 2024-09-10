@@ -5,9 +5,9 @@
 
     .dropDownBox{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
-        align-items: center;
+        // align-items: center;
     }
     .dropdownimage
     {
@@ -22,6 +22,7 @@
         line-height: 21px;
         text-align: left;
         color: #E52333;
+        
     }
 }
 .dropdown-arrow
@@ -125,6 +126,8 @@
             height: 3rem;
             display: flex;   
             align-items: center;
+            position: relative;
+            left: 6.5%;
             // border: 1px solid red;
             // padding: 0.5rem;
             .dropdown-addnew-input-and-button
@@ -178,6 +181,11 @@
             .dropdown-edit-button
             {
                width: 3rem;
+               .editiconimage
+               {
+                width: 20px;
+                height: 20px;
+               }
             }
             .dropdown-addbutton
             {

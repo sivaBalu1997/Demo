@@ -23,7 +23,7 @@ import ProductInsights from "pages/reports/ProductInsights";
 import GenAiReports from "pages/reports/GenAi";
 import CheckIn from "pages/reports/CheckIn";
 import EmployeeInsights from "pages/reports/EmployeeInsights";
-import { ThemeProvider } from "helpers/context/ThemeContext";
+import { ThemeProvider } from "context/ThemeContext";
 import CustIns from "pages/reports/CustomerInsi";
 import Auth from "pages/auth";
 import ResetPassword from "pages/auth/ResetPassword";
@@ -41,6 +41,8 @@ import Navigationpage from "components/productCatalog/Navigation/NavigationPage"
 import PrimaryPage from "pages/productCatalog/PrimaryPage/PrimaryPage";
 import PricingDetails from "pages/productCatalog/PricingDetalis/PricingDetails";
 import ItemCustomizations from "pages/productCatalog/itemCustomization/ItemCustomizations";
+import MainPage from "pages/productCatalog/MainPage/MainPage";
+
 import { Contextpage } from "pages/productCatalog/contextpage";
 import SidePanel from "pages/SidePanel";
 

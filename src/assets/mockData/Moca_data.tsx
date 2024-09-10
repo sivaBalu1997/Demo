@@ -35,7 +35,7 @@ interface PricingDetails {
         Dinein2: ["Disabled", "Enabled"],
         Pickup2: ["Enabled", "Disabled", "Disabled"],
         Delivery2: ["Enabled", "Enabled", "Disabled"],
-        Inventory1: ["$100", "$10"],
+        Inventory1: ["$1000", "$10"],
         Customize1: ["5"],
       },
     },
@@ -299,6 +299,7 @@ interface PricingDetails {
         },
       },
   ];
+  
   export const imageslist = [
     { name: "gluten", id: "1234" },
     { name: "Coconut", id: "2762" },

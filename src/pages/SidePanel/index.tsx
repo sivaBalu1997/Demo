@@ -7,7 +7,10 @@ import React, {
 } from "react";
 import "../../styles/menu.scss";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { SELECTED_BRANCH_DATA, STORAGE_BUCKET_URL } from "../../shared/constants";
+import {
+  SELECTED_BRANCH_DATA,
+  STORAGE_BUCKET_URL,
+} from "../../shared/constants";
 // import MenuItems from "../menuItems";
 import {
   getRestaurantRequest,
@@ -289,11 +292,7 @@ const SidePanel = () => {
                     key={option}
                   >
                     <li>
-                      <span
-                        className="menuList"
-                      >
-                        {option}
-                      </span>
+                      <span className="menuList">{option}</span>
                     </li>
                   </NavLink>
                 ))

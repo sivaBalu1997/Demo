@@ -3,7 +3,7 @@ import arrow from "../../../assets/images/san.svg";
 import blackarrow from "../../../assets/svg/blacksan.svg";
 import exportFromJSON from "export-from-json";
 import downloadVector from "../../../assets/svg/download-svg-2.svg";
-import { ThemeContext } from "../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import "./style.scss";
 
 interface TableProps {

@@ -5,8 +5,8 @@
 
   // width: 100%;
   width: 98%;
-  height: 500px;
-
+  height: 600px;
+  overflow-y: auto;
   // border: 1px solid red;
 
   &::-webkit-scrollbar {
@@ -449,10 +449,11 @@ input[type="number"] {
   // top: 100px;
 
   // border: 1px solid red;
-  bottom: -2.5rem;
+  // bottom: -3.5rem;
   // margin-left: -7.7rem;
   width: 1260px;
   position: relative;
+  margin-bottom: 2rem;
   margin-left: -15px;
   // border: 1px solid red;
   top: 70px;
@@ -491,6 +492,10 @@ input[type="number"] {
 .dropdown-container {
   // margin-left: 30px;
   // margin-top: 40px;
+  // margin-bottom: 2rem;
+
+  // position: relative;
+  // bottom: 2rem;
 }
 
 .searchbox {

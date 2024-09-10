@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ImagePillsSelection.scss';
-import deleteIcon from  "../../../assets/images/delete.png";
+import deleteIcon from  "../../../assets/images/delete copy.png";
 import Searchicon from '../../../assets/images/searchicon.png'
 
 interface ImageOptions {  
@@ -20,6 +20,7 @@ interface Imageselection {
 const ImagePillsSelection: React.FC<Imageselection> = ({ heading, options,name,setValue }) => {
     const [searchImage, setSearchImage] = useState<string>('');
     const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
+    
     const handleSearchingImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchImage(e.target.value);
     };
@@ -36,52 +37,22 @@ const ImagePillsSelection: React.FC<Imageselection> = ({ heading, options,name,s
         const newSelectedImages = [...selectedImages, image];
           setSelectedImages(newSelectedImages);   
           
-          if(name==="Ingredients")
-          {
-            const selectedIds = newSelectedImages.map(img => ({
-                id: img.id,
-                name: img.name,
-              }));
-            setValue("Ingredients",selectedIds);
-          }
-          if(name==="Allergens")
-          {
-            const selectedIds = newSelectedImages.map(img => ({
-                id: img.id,
-                name: img.name,
-              }));
-            setValue("allergens",selectedIds);
-           
-          }
-          
+        
+          const selectedIds = newSelectedImages.map(img => ({
+            id: img.id,
+            name: img.name,
+          }));
+        setValue(name,selectedIds);
       }
   };
   const handleDeletingImage=(image:ImageOptions)=>{
     const updataedImagelist=selectedImages.filter((imageItem)=>imageItem.id !==image.id)
     setSelectedImages(updataedImagelist);
-    if(name==="Ingredients" && setValue)
-        {
-           
-               
-                const selectedIds = updataedImagelist.map(img => ({
-                    id: img.id,
-                    name: img.name,
-                  }));
-                setValue("Ingredients", selectedIds);
-  
-        }
-        if(name==="Allergens" && setValue)
-            {
-               
-                   
-                    const selectedIds = updataedImagelist.map(img => ({
-                        id: img.id,
-                        name: img.name,
-                      }));
-                    setValue("allergens", selectedIds);
-      
-            }
-        
+    const selectedIds = updataedImagelist.map(img => ({
+        id: img.id,
+        name: img.name,
+      }));
+    setValue(name, selectedIds);
 
   }
 
@@ -124,7 +95,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({ heading, options,name,s
                         <li
                             key={option.id}
                             onClick={() => handleSelectedImage(option)} 
-                            className={`Item-Selection-option ${selectedImages.some(selected => selected.id === option.id) ? 'selected' : ''}`}
+                            className={`Item-Selection-option ${selectedImages.some(selected => selected.id === option.id) ? '' : ''}`}
 
                         >
                             <img  src={`/assets/${option.imageId}.${option.imageType && option.imageType.split('/')[1]}`}   alt="img" />

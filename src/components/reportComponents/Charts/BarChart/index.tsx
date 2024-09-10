@@ -9,8 +9,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import "./style.scss";
-import { ThemeContext } from "../../../../helpers/context/ThemeContext";
+import "./style.scss"; // Import your SCSS for styling
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 interface BarchartProps {
   xAxisData: string[];

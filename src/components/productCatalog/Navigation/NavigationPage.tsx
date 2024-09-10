@@ -9,11 +9,11 @@ import {
   Route,
   useRouteMatch,
 } from "react-router-dom";
-import PrimaryPage from "pages/productCatalog/PrimaryPage/PrimaryPage";
-import PricingDetails from "pages/productCatalog/PricingDetalis/PricingDetails";
-import ItemCustomizations from "pages/productCatalog/itemCustomization/ItemCustomizations";
-import PrimaryDetailsReviewpage from "pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage";
-import { Menulisting } from "pages/productCatalog/Menulisting/Menulisting";
+// import PrimaryPage from "pages/productCatalog/PrimaryPage/PrimaryPage";
+// import PricingDetails from "pages/productCatalog/PricingDetalis/PricingDetails";
+// import ItemCustomizations from "pages/productCatalog/itemCustomization/ItemCustomizations";
+// import PrimaryDetailsReviewpage from "pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage";
+// import { Menulisting } from "pages/productCatalog/Menulisting/Menulisting";
 
 const Navigationpage = () => {
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
@@ -47,7 +47,7 @@ const Navigationpage = () => {
       <div className="navigation">
         <h1 className="Mainheading">Creating new menu item</h1>
         <nav className="nav">
-          <ul className={!isExpanded ? "listofnavigationExpanded" : "listofnavigation"}>
+          <ul className={!isExpanded ? "listofnavigation" : "listofnavigationExpanded"}>
             {categories.map((category, index) => (
               <li
                 key={category}

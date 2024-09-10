@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import "./style.scss";
-import { ThemeContext } from "../../../../helpers/context/ThemeContext";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
