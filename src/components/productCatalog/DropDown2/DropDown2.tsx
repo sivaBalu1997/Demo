@@ -11,7 +11,7 @@ type OnSelectFunction = (selectedValues: string[]) => void;
 // Define the props type for Dropdown component
 interface DropdownProps {
   selectedValues?: string[];
-  onSelect: OnSelectFunction;
+  onSelect: (values: string[]) => void;
   options?: string[];
   label: string;
   index?:number;

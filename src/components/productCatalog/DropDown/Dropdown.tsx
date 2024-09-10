@@ -13,6 +13,7 @@ interface DropdownProps {
     errorMessage?: string;
   };
   onBlur?: () => void;
+  width:string
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -21,6 +22,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   options = [],
   label,
   validation,
+  width,
   onBlur
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -69,6 +71,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       <label className='droplabelPricing'>{label}</label>
       <div 
         className={!validation?.isValid ? "dropdownPricingred" : "dropdownPricingList"} 
+        style={{width:"Drop1"?"300px":"200px"}}
         onClick={handleDropdownClick} 
         tabIndex={0}
       >
