@@ -37,52 +37,22 @@ const ImagePillsSelection: React.FC<Imageselection> = ({ heading, options,name,s
         const newSelectedImages = [...selectedImages, image];
           setSelectedImages(newSelectedImages);   
           
-          if(name==="Ingredients")
-          {
-            const selectedIds = newSelectedImages.map(img => ({
-                id: img.id,
-                name: img.name,
-              }));
-            setValue("Ingredients",selectedIds);
-          }
-          if(name==="Allergens")
-          {
-            const selectedIds = newSelectedImages.map(img => ({
-                id: img.id,
-                name: img.name,
-              }));
-            setValue("allergens",selectedIds);
-           
-          }
-          
+        
+          const selectedIds = newSelectedImages.map(img => ({
+            id: img.id,
+            name: img.name,
+          }));
+        setValue(name,selectedIds);
       }
   };
   const handleDeletingImage=(image:ImageOptions)=>{
     const updataedImagelist=selectedImages.filter((imageItem)=>imageItem.id !==image.id)
     setSelectedImages(updataedImagelist);
-    if(name==="Ingredients" && setValue)
-        {
-           
-               
-                const selectedIds = updataedImagelist.map(img => ({
-                    id: img.id,
-                    name: img.name,
-                  }));
-                setValue("Ingredients", selectedIds);
-  
-        }
-        if(name==="Allergens" && setValue)
-            {
-               
-                   
-                    const selectedIds = updataedImagelist.map(img => ({
-                        id: img.id,
-                        name: img.name,
-                      }));
-                    setValue("allergens", selectedIds);
-      
-            }
-        
+    const selectedIds = updataedImagelist.map(img => ({
+        id: img.id,
+        name: img.name,
+      }));
+    setValue(name, selectedIds);
 
   }
 

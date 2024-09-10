@@ -126,29 +126,29 @@ export const Menulisting = () => {
 
   const [isDragging, setIsDragging] = useState(false);
   const tableBodyRef = useRef(null);
-  const handleScrollWhileDragging = (e) => {
-    if (!isDragging) return;
+  // const handleScrollWhileDragging = (e) => {
+  //   if (!isDragging) return;
 
-    const container = tableBodyRef.current;
-    const containerRect = container.getBoundingClientRect();
+  //   const container = tableBodyRef.current;
+  //   const containerRect = container.getBoundingClientRect();
 
-    const mouseY = e.clientY;
-    const scrollSpeed = 10;
+  //   const mouseY = e.clientY;
+  //   const scrollSpeed = 10;
 
-    if (mouseY < containerRect.top + 50) {
-      container.scrollTop -= scrollSpeed;
-    } else if (mouseY > containerRect.bottom - 50) {
-      container.scrollTop += scrollSpeed;
-    }
-  };
+  //   if (mouseY < containerRect.top + 50) {
+  //     container.scrollTop -= scrollSpeed;
+  //   } else if (mouseY > containerRect.bottom - 50) {
+  //     container.scrollTop += scrollSpeed;
+  //   }
+  // };
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-  };
+  // const handleDragStart = () => {
+  //   setIsDragging(true);
+  // };
 
-  const handleDragEnd = () => {
-    setIsDragging(false);
-  };
+  // const handleDragEnd = () => {
+  //   setIsDragging(false);
+  // };
 
   // useEffect(() => {
   //   if (isDragging) {
@@ -350,6 +350,7 @@ export const Menulisting = () => {
     }
   };
   const Outsideref = useRef(null);
+  
   const Outsideclicking = (event) => {
     if (Outsideref.current && !Outsideref.current.contains(event.target)) {
       setshowheadinglist(false);

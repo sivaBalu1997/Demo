@@ -27,15 +27,16 @@
 .listofnavigation{
   display: flex;
   flex-direction: row;
-  width:1100px;
-  margin-left: 20px;
+  width:1000px;
+
+  gap: 4rem;
 }
 .listofnavigationExpanded{   
   display: flex;
   flex-direction: row;
   width:1100px;
-  gap:70px;
-  margin-left: 10px
+  gap:4rem;
+ 
 }
 // .navbar
 // {
@@ -58,11 +59,13 @@
   border-radius: 0.625rem;
   background-color: #979797;
   cursor: pointer;
+  // margin-left: 20px;
+ 
 }
 
 .navbarExpanded{
   color: black;
-  width: 20vw;
+  width: 24vw;
   height: 4px;
   padding-bottom: 0.313rem;
   list-style: none;
@@ -101,3 +104,4 @@
       font-weight:500;
   }
 }
+

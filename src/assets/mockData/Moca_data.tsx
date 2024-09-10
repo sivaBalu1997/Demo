@@ -299,6 +299,7 @@ interface PricingDetails {
         },
       },
   ];
+  
   export const imageslist = [
     { name: "gluten", id: "1234" },
     { name: "Coconut", id: "2762" },

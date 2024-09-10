@@ -25,7 +25,7 @@ import {
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 
-import { getIngredientsRequest } from "redux/productCatalog/productCatalogActions";
+import { getIngredientsRequest, getMenuCategoryRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 
 interface Ingredients {
@@ -87,6 +87,15 @@ interface StateDataTag {
     
   
 }
+interface StateDataTag2 {
+ 
+  productCatalog:{
+    categoryData:[]
+
+    }
+    
+  
+}
 
 interface option {
   name: string[];
@@ -113,19 +122,29 @@ const PrimaryPage = () => {
     useState(portionsizeradio);
     const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
     const ingredients=useSelector((state:StateDataTag)=>state.productCatalog.ingredients)
+    const categoriesdata=useSelector((state:StateDataTag2)=>state.productCatalog.categoryData)
+
+
 
 
 
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>([]);
-  const [charCount, setCharCount] = useState(0);
+  const [description, setDescription] = useState('');  // State for the textarea value
+  const [charCount, setCharCount] = useState(0);       // State for character count
   const maxLength = 100;
-  const handledescriptioninputchange = (value: string) => {
+
+  // Handle input change for description and character count
+  const handleDescriptionInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+
+   const {name,value}=e.target;
     const length = value.length;
     if (length <= maxLength) {
+      setDescription(value);        
       setCharCount(length);
-
+      setValue(name,description);         
     }
   };
+  
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
@@ -141,6 +160,9 @@ const PrimaryPage = () => {
   useEffect(()=>{
     getApi()
     setIngredientsFromAPi(ingredients)
+    Category()
+    setCategories(categoriesdata)
+   
 
 
 
@@ -151,6 +173,9 @@ const PrimaryPage = () => {
     dispatch(getIngredientsRequest(locationid))
   }
   
+  const Category=()=>{
+    dispatch(getMenuCategoryRequest(locationid))
+  }
   const [masterCode, setMasterCode] = useState<string>("");
   const [selectedValues, setSelectedValues] = useState({
     alcohol: "",
@@ -282,9 +307,7 @@ const PrimaryPage = () => {
   };
 
   return (
-    <div style={{display:'flex'}}>
-      {/* <SidePanel /> */}
-      <div style={{marginBottom:'40px'}}>
+ 
     <div style={{display:'flex'}}>
       <SidePanel />
       <div style={{marginBottom:'40px'}}>
@@ -307,7 +330,7 @@ const PrimaryPage = () => {
                     register={register}
                     trigger={trigger}
                     error={errors.itemName}
-                    validation={{ required: "ItemName is required" }}
+                    // validation={{ required: "ItemName is required" }}
                   />
                 )}
               />
@@ -321,9 +344,11 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <Dropdown
                     options={dataDietaryType}
+                    setOptions={setDataDietaryType}
                     placeholder="search for option"
                     register={register}
                      name="dietaryType"
+                    
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
@@ -345,12 +370,13 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <Dropdown
                     options={dataCuisine}
+                    setOptions={setDataCuisine}
                     placeholder="search for option"
                     register={register}
                     trigger={trigger}
                     setValue={setValue}
                       name="cuisine"
-
+                     
                     validation={{ required: "cuisine is required" }}
                     error={errors.cuisine}
                     {...field}
@@ -371,6 +397,7 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <Dropdown
                     options={dataMealType}
+                    setOptions={setDataMealType}
                     placeholder="search for option"
                     {...field}
                     register={register}
@@ -396,7 +423,9 @@ const PrimaryPage = () => {
                 render={({ field }:any) => (
                   <Dropdown
                     options={dataBestPair}
+                    setOptions={setDataBestPair}
                     placeholder="search for option"
+                   
                    name="bestPair"
                     register={register}
                     trigger={trigger}
@@ -417,28 +446,26 @@ const PrimaryPage = () => {
                   control={control}
                   render={({ field }:any) => (
                     <>
-                      <textarea
-                        className="description"
-                         name="description"
-                        autoComplete="off"
-                        value={field?.value || ""}
-                        onChange={(e) => {
-                          handledescriptioninputchange(e.target.value);
-                          field?.onChange && field.onChange(e); 
-                        }}
-                        maxLength={maxLength}
-                        style={{
-                          borderColor:
-                            charCount === maxLength ? "red" : "#979797",
-                        }}
-                      />
-                      <p
-                        style={{
-                          color: charCount === maxLength ? "red" : "#979797",
-                        }}
-                        className="Primary-page-description-charcount"
-                      >{`${charCount}/100`}</p>
-                    </>
+                    <textarea
+                      className="description"
+                      name="description"
+                      autoComplete="off"
+                      value={description} // Controlled input with useState
+                      onChange={(e) => handleDescriptionInputChange(e)}
+                      maxLength={maxLength}
+                      style={{
+                        borderColor: charCount === maxLength ? "red" : "#979797",
+                      }}
+                    />
+                    <p
+                      style={{
+                        color: charCount === maxLength ? "red" : "#979797",
+                      }}
+                      className="Primary-page-description-charcount"
+                    >
+                      {`${charCount}/${maxLength}`} {/* Display character count */}
+                    </p>
+                  </>
                   )}
                 />{" "}
               </div>
@@ -490,7 +517,7 @@ const PrimaryPage = () => {
                 selectedValue={selectedValues.alcohol}
                 onChange={(value) => handleRadioChange("alcohol", value)}
                 register={register}
-                defaultvalue="no"
+                defaultvalue={dataAlcoholRadio[1].value}
               />
             </div>
             
@@ -545,13 +572,15 @@ const PrimaryPage = () => {
                   render={({ field }:any) => (
                     <Dropdown
                       options={categories}
+                      setOptions={setCategories}
                       placeholder="search for option"
                         name="category"
+                         id="categoryId"
                       register={register}
                       setValue={setValue}
                       trigger={trigger}
                       getValues={getValues}
-                      validation={{ required: "category is required" }}
+                      // validation={{ required: "category is required" }}
                       error={errors.category}
                       dropdownopen={openDropdown === "category"}
                       onToggle={() => handleDropdownToggle("category")}
@@ -568,6 +597,7 @@ const PrimaryPage = () => {
                   render={({ field }:any) => (
                     <Dropdown
                       options={dataSubcategory}
+                      setOptions={setDataSubcategory}
                       placeholder="search for option"
                       name="subCategory"
                       register={register}
@@ -587,7 +617,7 @@ const PrimaryPage = () => {
                 heading="Allergens*"
                 options={validImages}
                 setValue={setValue}
-                name="Allergens"
+                name="allergens"
               />
             </div>
 
@@ -631,7 +661,7 @@ const PrimaryPage = () => {
                     handleRadioChange("selectedcolorie", value)
                   }
                   register={register}
-                  defaultvalue="per100grams"
+                  defaultvalue={dataCaloriePointRadio[0].value}
                 />
               </div>
             </div>
@@ -662,7 +692,7 @@ const PrimaryPage = () => {
                     handleRadioChange("selectedPortion", value)
                   }
                   register={register}
-                  defaultvalue="Portion(count)"
+                  defaultvalue={dataPortionSizeRadio[0].value}
                 />
               </div>
             </div>
@@ -715,8 +745,7 @@ const PrimaryPage = () => {
     </div>
     </div>
     </div>
-    </div>
-    </div>
+  
   );
 };
 

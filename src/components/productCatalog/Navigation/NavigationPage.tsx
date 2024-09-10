@@ -47,7 +47,7 @@ const Navigationpage = () => {
       <div className="navigation">
         <h1 className="Mainheading">Creating new menu item</h1>
         <nav className="nav">
-          <ul className={!isExpanded ? "listofnavigationExpanded" : "listofnavigation"}>
+          <ul className={!isExpanded ? "listofnavigation" : "listofnavigationExpanded"}>
             {categories.map((category, index) => (
               <li
                 key={category}

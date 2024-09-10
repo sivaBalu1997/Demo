@@ -1,12 +1,12 @@
-.saveandnext{   
+.saveandnextExpanded{   
     margin-top: 107px;
     width: 76.5rem;
     height: auto;
     display: flex;
     flex-direction: row;
     padding: 32px 32px 32px 890px;
-    border: 1px solid red;
-    box-shadow: 3px 0px 10px 0px #00000040;
+    // border: 1px solid red;
+    // box-shadow: 3px 0px 10px 0px #00000040;
 
     .clearall{
         width:135px;
@@ -38,14 +38,15 @@
     }
 }
 
-    .saveandnext1{
+    .saveandnext{
         position: sticky;
-        bottom: 10px;
-        margin-top: 150px;
+        // bottom: 10px;
+        margin-top: 100px;
         display: flex;
         justify-content: flex-end;
         margin-bottom: 10px;
         gap: 10px;
+        padding: 32px 32px 32px 890px;
         
         .clearall{
             width:135px;

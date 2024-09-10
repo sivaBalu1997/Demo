@@ -196,7 +196,7 @@ const SaveAndNext:React.FC<SubmitButtonProps> = ({getFormData,seletedpage,reset,
 
   return (
     <div>
-      <div className= {isExpanded?"saveandnext":"saveandnext1"} >
+      <div className= {isExpanded?" saveandnextExpanded":"saveandnext"} >
         <button className="clearall" onClick={handleclear}>
           Clear All
         </button>

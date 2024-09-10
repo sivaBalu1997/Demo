@@ -205,7 +205,7 @@ const PricingDetails= () => {
     <SidePanel />
     <div>
     <Navigationpage />
-     <div className={isExpanded?"pricingdetails-container":"pricingdetails-containerExpanded"}>
+     <div className={isExpanded?"pricingdetails-containerExpanded":"pricingdetails-container"}>
       <form onSubmit={handleSubmit(onSubmit)}>
       <div className='pricing-form'>
         <div className='Tool'>
@@ -228,13 +228,13 @@ const PricingDetails= () => {
               <Dropdown 
                 selectedValues={selectedValues}
                 onSelect={(values) => {
-                  setSelectedValues(values); // Update local state
+                  setSelectedValues(values); 
                   if (field?.onChange) {
-                    field.onChange(values); // Update react-hook-form state
+                    field.onChange(values); 
                   }
-                  validateDropdown(values, 'kitchen'); // Validate the dropdown
+                  validateDropdown(values, 'kitchen'); 
                 }}
-                options={options.map((elem)=>elem.name)} // Example options
+                options={options.map((elem)=>elem.name)} 
                 label="Kitchen Station1*"
                 onBlur={() => {
                   
@@ -262,18 +262,18 @@ const PricingDetails= () => {
                 onSelect={(values) => {
                   setSelectedValue1(values)
                   if (field?.onChange) {
-                    field.onChange(values); // Update react-hook-form state
+                    field.onChange(values); 
                   }
                 validateDropdown(values, 'preparationTime');
                   
                 }}
-                options={['Option 1', 'Option 2', 'Option 3']} // Example options, adjust as needed
+                options={['Option 1', 'Option 2', 'Option 3']} 
                 
                 label="Preparation*"
                 onBlur={() => {
                   if (field?.onBlur) {
-                    field.onBlur(); // Call react-hook-form's onBlur if it exists
-                    handleBlur(field?.value, 'preparationTime'); // Call the custom blur handler
+                    field.onBlur();
+                    handleBlur(field?.value, 'preparationTime'); 
                   }
                  
                 }}
@@ -319,12 +319,12 @@ const PricingDetails= () => {
                       const value = e.target.value;
 
                       if (field?.onChange) {
-                        field.onChange(value); // Update react-hook-form state
+                        field.onChange(value); 
                       }              
                       // Update the form state
                       setForm((prevState) => ({
                         ...prevState,
-                        Inventory1: value, // Update Inventory1 in form state
+                        Inventory1: value, 
                       }));
                     }}
                     
@@ -333,7 +333,7 @@ const PricingDetails= () => {
                     }}
                   />
                 )}
-                rules={{ required: 'This field is required' }} // Validation rule
+                rules={{ required: 'This field is required' }} 
               />
     
               <Controller
@@ -348,13 +348,13 @@ const PricingDetails= () => {
                     onChange={(e) => {
                       const value = e.target.value;
                       if (field?.onChange) {
-                        field.onChange(value); // Update react-hook-form state
+                        field.onChange(value); 
                       }
               
                       // Update the form state
                       setForm((prevState) => ({
                         ...prevState,
-                        Inventory2: value, // Update Inventory2 in form state
+                        Inventory2: value, 
                       }));
                     }}
                     
@@ -421,7 +421,7 @@ const PricingDetails= () => {
 
         </div>
         
-        <div className= {isExpanded? "saveandnextPricing": "saveandnextPricing1"}>
+        <div className= {isExpanded? "saveandnextPricingExpanded": "saveandnextPricing"}>
           <div className={isExpanded? "Button-SaveExtended": "Button-Save"}>
             <button className="clearallPricing">
               Clear All
