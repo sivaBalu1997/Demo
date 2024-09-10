@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import LableComponent from "../../../components/productCatalog/LableComponent/LableComponent";
 import InputFieldComponent from "../../../components/productCatalog/InputFieldComponent/InputFieldComponent";
 import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
@@ -30,6 +30,7 @@ import {
   getMenuCategoryRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
+import { Contextpagejs } from "../contextpage";
 
 interface Ingredients {
   id: string;
