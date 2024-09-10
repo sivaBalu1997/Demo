@@ -37,6 +37,7 @@ import {
   Item_Customizations_Data_Request,
   Pricing_Detail_Data_Request,
   STORE_MOCK_DATA_REQUEST,
+  STORE_MOCK_DATA_FILTERED_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -344,6 +345,24 @@ export const primarypagereducer = (state = primarypagedata, action) => {
   export   const storeMockDataReducer = (state = mockData, action) => {
     switch (action.type) {
       case STORE_MOCK_DATA_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
+  
+    
+  
+      default:
+        return state;
+    }
+  };
+
+  const mockDataFiltered = {
+    data: []
+  };
+
+  export  const storeMockDataFilteredReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case STORE_MOCK_DATA_FILTERED_REQUEST:
         return {
           ...state,data:action?.payload
         };

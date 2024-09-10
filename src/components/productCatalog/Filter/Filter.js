@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Filter.scss";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -6,9 +6,12 @@ import Reset from '../../../assets/svg/Reset.svg'
 import { combinedItemsData } from "assets/mockData/Moca_data";
 import { useDispatch } from "react-redux";
 import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 
 const Filter = () => {
+  const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
+
   const dispatch=useDispatch()
 
   useEffect(() => {
@@ -71,7 +74,7 @@ const Filter = () => {
   };
 
   return (
-    <div className="Filter-Container " data-aos="fade-left">
+    <div className={isExpanded?"Filter-Container":"Filter-Container1"} data-aos="fade-left">
       <div className="Filter-Heading-container">
         <h3 className="Filter-Heading-org">Filter</h3>
       </div>
