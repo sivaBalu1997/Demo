@@ -1,17 +1,13 @@
 import React, { useState, useContext } from "react";
 import "./Savenextbutton.scss";
 import { useDispatch } from "react-redux";
-
 import { useHistory, Link } from "react-router-dom";
-import {
-  itemCustomizationPost,
-  primarypost,
-} from "../../../redux/productCatalogSprint-99/Actions";
+import { itemCustomizationPost } from "../../../redux/productCatalog/productCatalogActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
-import { PricingDetailRequest } from "../../../redux/productCatalogSprint-99/Actions";
-import { ApiPost } from "../../../redux/productCatalogSprint-99/Actions";
+import { primarypost } from "redux/productCatalog/productCatalogActions";
+// import { useNavigate } from "react-router-dom";
 
 interface Ingredients {
   id: string;
@@ -27,43 +23,74 @@ interface Base64Image {
   mimeType: string;
   base64String: string;
 }
-
 interface FormData {
-  itemName: string;
-  dietaryType: string;
-  cuisine: string;
-  mealType: string;
-  bestPair: string;
-  description: string;
-  imageUrls: Base64Image[];
-  alcohol: string;
-  itemCode: string;
-  barCode: string;
-  category: string;
-  categoryId: string;
-  subCategory: string;
-  Ingredients: Ingredients[];
-  allergens: Allergens[];
-  coloriePoint: string;
-  selectedcolorie: string;
-  portionSize: string;
-  selectedPortion: string;
-  tax: string;
-  masterCode: string;
+  itemName?: string;
+  dietaryType?: string;
+  cuisine?: string;
+  mealType?: string;
+  bestPair?: string;
+  description?: string;
+  imageUrls?: Base64Image[];
+  alcohol?: string;
+  itemCode?: string;
+  barCode?: string;
+  category?: string;
+  categoryId?: string;
+  subCategory?: string;
+  Ingredients?: Ingredients[];
+  allergens?: Allergens[];
+  coloriePoint?: string;
+  selectedcolorie?: string;
+  portionSize?: string;
+  selectedPortion?: string;
+  tax?: string;
+  masterCode?: string;
+  modifierName?: string;
+  options?: Option[];
+  minSelection?: number;
+  maxSelection?: number;
+  freeCustomization?: number;
+  selectedValue?: string[];
+  endDate?: string;
+  startDate?: string;
+  selectionType?: string;
+  field1?: number;
+  field2?: number;
+  [key: string]: any; // Define specific types if known, e.g., number | string
+}
+interface Option {
+  item: string;
+  price: string;
+}
+interface Modification {
+  modifierName: string;
+  options: Option[];
+  minSelection: number;
+  maxSelection: number;
+  freeCustomization: number;
+  selectedValue: string[];
+  endDate?: string;
+  startDate?: string;
+  selectionType?: string;
+  field1?: number;
+  field2?: number;
+  [key: string]: any; // Define specific types if known, e.g., number | string
 }
 
 interface SubmitButtonProps {
-  getFormData: () => FormData;
+  getFormData: () => FormData | Modification;
   seletedpage: string;
   reset: () => void;
+  modifications?: Modification[]; // Add this line to include modifications array
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
   seletedpage,
   reset,
+  modifications,
 }) => {
-  let history = useHistory();
+  const history = useHistory();
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const extractFields = (formData: FormData) => {
     return {
@@ -111,15 +138,26 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     console.log("submitform", formData);
 
     if (seletedpage === "Primary") {
-      history.push(`/productCatalog/Pricingandkitchendetails`, {
+      history.push({
+        pathname: `/productCatalog/Pricingandkitchendetails`,
         state: { pagename: "Pricing and kitchen details" },
       });
 
       dispatch(primarypost(formData));
       console.log("uploading", formData);
     } else if (seletedpage === "ItemCustomization") {
-      history.push("/Reviewpage");
+      // Access modifications here
+      const modificationArray = modifications;
+      console.log("ddddddddd", modificationArray);
+      const formData = getFormData();
+
+      // Dispatch your action with formData
+      dispatch(itemCustomizationPost(modificationArray));
+
+      // Navigate to the next page
+      history.push("/productCatalog/Reviewpage");
     }
+
     scrollToTop();
   };
 
@@ -134,7 +172,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           Clear All
         </button>
         <button className="link saveall" onClick={handleclick}>
-          {" "}
           Save & next
         </button>
       </div>
@@ -148,6 +185,19 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        // theme="light"
+      />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        // theme="light"
       />
     </div>
   );

@@ -7,14 +7,14 @@ import React, {
 } from "react";
 import "../../styles/menu.scss";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { SELECTED_BRANCH_DATA } from "../../shared/constants";
+import { SELECTED_BRANCH_DATA, STORAGE_BUCKET_URL } from "../../shared/constants";
 // import MenuItems from "../menuItems";
 import {
   getRestaurantRequest,
   selectBranch,
 } from "../../redux/auth/authActions";
 import { useDispatch, useSelector } from "react-redux";
-import { STORAGE_BUCKET_URL } from "../../shared/constants";
+// import { STORAGE_BUCKET_URL } from "";
 //SVG
 import { ReactComponent as EmployeesIcon } from "../../assets/svg/employees.svg";
 import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
@@ -184,7 +184,7 @@ const SidePanel = () => {
               showOptions === "employees" &&
               location.pathname.includes("employees")
                 ? "active"
-                : ""
+                : "down"
             }
             style={{ cursor: "pointer" }}
             onClick={() => {
@@ -290,8 +290,7 @@ const SidePanel = () => {
                   >
                     <li>
                       <span
-                        className="d-inline-block m-t-20"
-                        style={{ marginLeft: "40px" }}
+                        className="menuList"
                       >
                         {option}
                       </span>

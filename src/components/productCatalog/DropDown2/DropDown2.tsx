@@ -36,10 +36,14 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   // Handle clicks outside the dropdown to close it
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-        setRotateImg(false);
+    const handleClickOutside = (event: Event) => {
+      // Type guard to ensure event is a MouseEvent
+      if (event instanceof MouseEvent) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+          setIsOpen(false);
+          setRotateImg(false);
+          
+        }
       }
     };
 

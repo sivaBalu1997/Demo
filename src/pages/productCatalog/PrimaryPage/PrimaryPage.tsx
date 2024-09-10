@@ -9,7 +9,7 @@ import { ImCross } from "react-icons/im";
 import ImgaeUploading from "../../../assets/images/addimage.png";
 import axios from "axios";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Imagepillsselection from "../../../components/productCatalog/ImagePillsSelection/ImagePillsSelection";
 import SaveAndNext from "../../../components/productCatalog/Savenextbutton/SaveAndNext";
 import {
@@ -24,6 +24,8 @@ import {
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
+
+import { getIngredientsRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 
 interface Ingredients {
@@ -66,6 +68,36 @@ interface Base64Image {
   mimeType: string;
   base64String: string;
 }
+interface State {
+  auth: {
+    credentials:{
+      locationId:string
+
+    }
+    
+  };
+}
+
+interface StateDataTag {
+ 
+  productCatalog:{
+    ingredients:[]
+
+    }
+    
+  
+}
+
+interface option {
+  name: string[];
+}
+interface ImageOptions {
+  name: string;
+  id: string;
+  imageId?:string
+  imageType?:string
+}
+
 
 const PrimaryPage = () => {
   const [dataImages, setDataImages] = useState(imageslist);
@@ -79,8 +111,12 @@ const PrimaryPage = () => {
     useState(calorieponitradio);
   const [dataPortionSizeRadio, setDataPortionSizeRadio] =
     useState(portionsizeradio);
+    const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
+    const ingredients=useSelector((state:StateDataTag)=>state.productCatalog.ingredients)
 
-  const [imagefromapi, setimagefromapi] = useState([]);
+
+
+  const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>([]);
   const [charCount, setCharCount] = useState(0);
   const maxLength = 100;
   const handledescriptioninputchange = (value: string) => {
@@ -98,30 +134,18 @@ const PrimaryPage = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const categorylist = await axios.get(
-          "https://api.magilhub.com/magilhub-data-services/merchants/itemAttributes?locationId=9c485244-afd4-11eb-b6c7-42010a010026&id=&option=Category"
-        );
+  useEffect(()=>{
+    getApi()
+    setIngredientsFromAPi(ingredients)
 
-        const imagesapi = await axios.get(
-          "https://api.magilhub.com/magilhub-data-services/merchants/itemAttributes?locationId=9c485244-afd4-11eb-b6c7-42010a010026&id=&option=INGR"
-        );
-        setimagefromapi(imagesapi.data && imagesapi.data);
 
-        setCategories(categorylist.data);
-        console.log("category", categories);
 
-        console.log("imagefromapi", imagesapi);
-      } catch (error) {
-        return error;
-      }
-    };
 
-    fetchData();
-  }, []);
+  },[])
 
+  const getApi=()=>{
+    dispatch(getIngredientsRequest(locationid))
+  }
   
   const [masterCode, setMasterCode] = useState<string>("");
   const [selectedValues, setSelectedValues] = useState({
@@ -257,11 +281,15 @@ const PrimaryPage = () => {
     <div style={{display:'flex'}}>
       <SidePanel />
       <div style={{marginBottom:'40px'}}>
+    <div style={{display:'flex'}}>
+      <SidePanel />
+      <div style={{marginBottom:'40px'}}>
       <Navigationpage />
       <div className="Primary-page">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="Primary-page-container-one">
           <div className="Primary-page-container-pairone">
+
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="ItemName *" />
@@ -273,12 +301,12 @@ const PrimaryPage = () => {
                     {...field}
                     register={register}
                     trigger={trigger}
-                    // validation={{ required: "Item name is required" }}
                     error={errors.itemName}
                   />
                 )}
               />
             </div>
+
             <div className="Primary-page-InputFields">
               <LableComponent lable="DietaryType *" />
               <Controller
@@ -301,6 +329,7 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
+
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="Cuisine *" />
@@ -324,6 +353,7 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
+
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="MealType *" />
@@ -347,6 +377,7 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
+
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="Best paired with food items *" />
@@ -368,6 +399,7 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
+
             <div className="Primary-Page-description-field">
               <LableComponent lable="Description" />
               <div>
@@ -401,6 +433,7 @@ const PrimaryPage = () => {
                 />{" "}
               </div>
             </div>
+
             <div className="Primary-Page-Foodimages">
               <h3>Food image</h3>
               <p>Image size should be under 2MB, in PNG or JPEG format.</p>
@@ -438,6 +471,7 @@ const PrimaryPage = () => {
                 />
               </div>
             </div>
+
             <div className="Primary-page-InputFields alcoholradiobutton">
               <h3>Contains Alcohol ?</h3>
               <RadioButtonGroup
@@ -449,8 +483,9 @@ const PrimaryPage = () => {
                 defaultvalue="no"
               />
             </div>
-            <div></div>
+            
           </div>
+
           <div className="Primary-page-container-pairtwo">
             <div className="Primary-page-InputFields">
               {" "}
@@ -468,6 +503,7 @@ const PrimaryPage = () => {
                 )}
               />
             </div>
+
             <div className="Primary-page-InputFields">
               {" "}
               <LableComponent lable="Upc / Barcode number" />
@@ -490,7 +526,7 @@ const PrimaryPage = () => {
             </div>
 
             <div className="Primary-Page-categories-field">
-              <div className="Primary-page-InputFields">
+              <div className="Primary-page-InputFields" >
                 <LableComponent lable="Category*" />
                 <Controller
                   name="category"
@@ -512,6 +548,7 @@ const PrimaryPage = () => {
                   )}
                 />
               </div>
+
               <div className="Primary-page-InputFields">
                 <LableComponent lable="SubCategory" />
                 <Controller
@@ -533,6 +570,7 @@ const PrimaryPage = () => {
                 />
               </div>
             </div>
+
             <div className="Primary-page-Allergens-selection">
               <Imagepillsselection
                 heading="Allergens*"
@@ -541,17 +579,19 @@ const PrimaryPage = () => {
                 name="Allergens"
               />
             </div>
+
           </div>
         </div>
         <div className="Primary-page-container-two">
           <div className="Primary-page-ingredients-selection">
-            <Imagepillsselection
+            {/* <Imagepillsselection
               heading="Ingredients*"
-              options={imagefromapi}
+              options={ingredientsFromAPi.map((elem)=>elem.name)}
               setValue={setValue}
               name="Ingredients"
-            />
+            /> */}
           </div>
+
           <div className="Primary-Page-Other-Details">
             <h3 className="Primary-Page-Other-Details-heading">
               Other Details
@@ -600,6 +640,7 @@ const PrimaryPage = () => {
                   )}
                 />
               </div>
+
               <div>
                 <RadioButtonGroup
                   options={dataPortionSizeRadio}
@@ -655,9 +696,9 @@ const PrimaryPage = () => {
           seletedpage="Primary"
           reset={reset}
         />
-
-      
       </form>
+    </div>
+    </div>
     </div>
     </div>
     </div>
