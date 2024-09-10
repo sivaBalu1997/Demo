@@ -35,6 +35,10 @@ export const Menulisting = () => {
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
 
+ useEffect(()=>{
+  console.log({Mockdata})
+ },[Mockdata])
+
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
     index: null,
@@ -138,7 +142,7 @@ export const Menulisting = () => {
     const tempArray2 = [];
 
     Mockdata.map((item) => {
-      if (item.type == "steamedVeg") {
+      if (item.type === "steamedVeg") {
         tempArray1.push(item);
       } else {
         tempArray2.push(item);
@@ -147,7 +151,7 @@ export const Menulisting = () => {
 
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-    console.log("temp1array", SteamedVeg);
+    console.log({SteamedVeg});
   }, []);
 
   useEffect(() => {
@@ -156,6 +160,9 @@ export const Menulisting = () => {
       { id: 2, name: SteamedNonVeg },
     ]);
   }, [SteamedVeg, SteamedNonVeg]);
+
+  console.log({steamType})
+
 
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
@@ -238,7 +245,6 @@ export const Menulisting = () => {
     updatedRows.splice(draggedRowIndex, 1);
     updatedRows.splice(index, 0, draggedRow);
     setsteamType(updatedRows);
-    console.log("steamType", steamType);
     setDraggedRowIndex(null);
   };
 
