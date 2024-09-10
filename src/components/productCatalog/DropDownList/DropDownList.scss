@@ -9,9 +9,13 @@
         justify-content: center;
         // align-items: center;
     }
-    .dropdownimage
+    .dropdownimageclosed
     {
         rotate: 180deg;
+        cursor: pointer;
+    }
+    .dropdownimageopen
+    {
         cursor: pointer;
     }
     .Dropdown-Error-message

@@ -41,7 +41,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   dropdownopen,
   onToggle,
   getValues,
-  required = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
@@ -51,15 +50,16 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      closeDropdown();
+    }
+  };
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        closeDropdown();
-      }
-    };
+    
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -88,15 +88,12 @@ const DropDownList: React.FC<DropdownProps> = ({
 
 
   const handleSelect = (option: Option) => {
-    setSelectedOption(option);
-    // if (name === "category") {
-    //   setValue("categoryId", option.id);
-    //   console.log(option.id);
-    // }
+    
+    setSelectedOption(option); 
     setValue(name, option.name);
-    // setValue(id,option.id)
     setAddNewButton(false);
-    closeDropdown();
+    closeDropdown()
+   
   };
 
 
@@ -128,7 +125,15 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
+    if(value==selectedOption?.name)
+      {
+        setSelectedOption(null);
+      }
+
+
     setOptions((item) => item.filter((opt) => opt.id !== value));
+
+    
   };
 
   const handleBlur = () => {
@@ -136,6 +141,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const closeDropdown = () => {
+    console.log("dropdownopen",dropdownopen)
     if (dropdownopen) {
       onToggle();
     }
@@ -161,7 +167,8 @@ const DropDownList: React.FC<DropdownProps> = ({
             disabled={Disablesubcategory && name === "subCategory"}
           />
           <span className="dropdown-arrow" onClick={onToggle}>
-            <img src={dropdown} alt="" className= "dropdownimage" />
+            
+            <img src={dropdown} alt="" className={`${dropdownopen?"dropdownimageopen":"dropdownimageclosed" }`} />
           </span>
         </div>
 
@@ -177,7 +184,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               filteredOptions.map((option, index) => (
                 <div
                   className="dropdown-option-list"
-                  onClick={() => handleSelect(option)}
+                  
                 >
                   <li key={index} className="dropdown-option">
                     <input

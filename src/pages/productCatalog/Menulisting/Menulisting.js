@@ -18,12 +18,24 @@ import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableT
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
+import { useSelector,useDispatch } from "react-redux";
+import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { combinedItemsData } from "assets/mockData/Moca_data";
+
 
 export const Menulisting = () => {
+  const dispatch=useDispatch()
   const [itemsState, setItemsState] = useState(itemsdata);
   const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
+
+  useEffect(() => {
+   
+    dispatch(storeMockDataRequest(combinedItemsData))
+  }, []);
+  const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
+  // console.log(Mockdata);
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
     index: null,
@@ -35,6 +47,11 @@ export const Menulisting = () => {
   const tableBodyRef1 = useRef(null);
   const tableBodyRef2 = useRef(null);
   const Outsideref = useRef(null);
+  const [SteamedVeg, setSteamedVeg] = useState([]);
+  const [SteamedNonVeg, setSteamedNonVeg] = useState([]);
+
+
+ 
   const [classNames, setclassNames] = useState([
     "Dinein1-class",
     "Pickup1-class",
@@ -107,17 +124,54 @@ export const Menulisting = () => {
     [""],
   ]);
 
+ 
   const [steamType, setsteamType] = useState([
     {
       id: 1,
-      name: itemsState,
+      name: [],
     },
     {
       id: 2,
-      name: itemsFoodState,
+      name: [],
     },
   ]);
 
+  useEffect(() => {
+   
+    const tempArray1 = [];
+    const tempArray2 = [];
+
+    Mockdata.map(item => {
+      if (item.type=='steamedVeg') {
+
+        tempArray1.push(item);
+      } else {
+  
+        tempArray2.push(item);
+      }
+    });
+
+    
+    setSteamedVeg(tempArray1);
+    setSteamedNonVeg(tempArray2);
+    console.log("temp1array",SteamedVeg);
+
+
+
+
+
+  }, []);
+ 
+ 
+
+  useEffect(()=>{
+
+    setsteamType([
+      { id: 1, name: SteamedVeg },
+      { id: 2, name: SteamedNonVeg },
+    ]);
+
+  },[SteamedVeg, SteamedNonVeg])
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };

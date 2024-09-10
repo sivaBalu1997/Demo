@@ -144,6 +144,20 @@ const PrimaryPage = () => {
   };
   
 
+
+  const [DropdownOpen,setDropdownOpen]=useState({
+
+    dietaryType:false,
+    cuisine:false,
+    mealType:false,
+    bestPair:false,
+    category:false,
+    subCategory:false
+
+
+
+
+  })
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const handleDropdownToggle = (name: string) => {
@@ -343,33 +357,38 @@ const PrimaryPage = () => {
                   <Controller
                     name="dietaryType"
                     control={control}
-                    render={({ field }:any) => (
+                    render={({ field }: any) => (
                       <Dropdown
                         options={dataDietaryType}
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
                         name="dietaryType"
-                        
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
                         validation={{ required: "dietaryType is required" }}
-                        error={errors.dietaryType}    
-                        dropdownopen={openDropdown === "dietaryType"}
-                        onToggle={() => handleDropdownToggle("dietaryType")}
+                        error={errors.dietaryType}
+                        dropdownopen={DropdownOpen.dietaryType}
+                        onToggle={() =>
+                          setDropdownOpen({
+                            ...DropdownOpen,
+                            dietaryType: !DropdownOpen.dietaryType,
+                          })
+                        }
                       />
                     )}
                   />
                 </div>
 
+                
+
                 <div className="Primary-page-InputFields">
-                  {" "}
                   <LableComponent lable="Cuisine *" />
                   <Controller
                     name="cuisine"
                     control={control}
-                    render={({ field }:any) => (
+                    render={({ field }: any) => (
                       <Dropdown
                         options={dataCuisine}
                         setOptions={setDataCuisine}
@@ -377,68 +396,82 @@ const PrimaryPage = () => {
                         register={register}
                         trigger={trigger}
                         setValue={setValue}
-                          name="cuisine"
-                        
+                        name="cuisine"
                         validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
-                        dropdownopen={openDropdown === "cuisine"}
-                        onToggle={() => handleDropdownToggle("cuisine")}
+                        dropdownopen={DropdownOpen.cuisine}
+                        onToggle={() =>
+                          setDropdownOpen({
+                            ...DropdownOpen,
+                            cuisine: !DropdownOpen.cuisine,
+                          })
+                        }
                       />
                     )}
                   />
                 </div>
 
-                <div className="Primary-page-InputFields">
-                  {" "}
-                  <LableComponent lable="MealType *" />
-                  <Controller
-                    name="mealType"
-                    control={control}
-                    render={({ field }:any) => (
-                      <Dropdown
-                        options={dataMealType}
-                        setOptions={setDataMealType}
-                        placeholder="search for option"
-                        {...field}
-                        register={register}
-                        name="mealType"
-                        trigger={trigger}
-                        setValue={setValue}
-                        getValues={getValues}
-                        validation={{ required: "Mealtype is required" }}
-                        error={errors.mealType}
-                        dropdownopen={openDropdown === "mealType"}
-                        onToggle={() => handleDropdownToggle("mealType")}
-                      />
-                    )}
-                  />
-                </div>
 
                 <div className="Primary-page-InputFields">
-                  {" "}
-                  <LableComponent lable="Best paired with food items *" />
-                  <Controller
-                    name="bestPair"
-                    control={control}
-                    render={({ field }:any) => (
-                      <Dropdown
-                        options={dataBestPair}
-                        setOptions={setDataBestPair}
-                        placeholder="search for option"
-                      
-                      name="bestPair"
-                        register={register}
-                        trigger={trigger}
-                        setValue={setValue}
-                        getValues={getValues}
-                        dropdownopen={openDropdown === "bestPair"}
-                        onToggle={() => handleDropdownToggle("bestPair")}
-                      />
-                    )}
-                  />
-                </div>
+  <LableComponent lable="MealType *" />
+  <Controller
+    name="mealType"
+    control={control}
+    render={({ field }: any) => (
+      <Dropdown
+        options={dataMealType}
+        setOptions={setDataMealType}
+        placeholder="search for option"
+        {...field}
+        register={register}
+        name="mealType"
+        trigger={trigger}
+        setValue={setValue}
+        getValues={getValues}
+        validation={{ required: "Mealtype is required" }}
+        error={errors.mealType}
+        dropdownopen={DropdownOpen.mealType}
+        onToggle={() =>
+          setDropdownOpen({
+            ...DropdownOpen,
+            mealType: !DropdownOpen.mealType,
+          })
+        }
+      />
+    )}
+  />
+</div>
+
+
+<div className="Primary-page-InputFields">
+  <LableComponent lable="Best paired with food items *" />
+  <Controller
+    name="bestPair"
+    control={control}
+    render={({ field }: any) => (
+      <Dropdown
+        options={dataBestPair}
+        setOptions={setDataBestPair}
+        placeholder="search for option"
+        name="bestPair"
+        register={register}
+        trigger={trigger}
+        setValue={setValue}
+        getValues={getValues}
+        dropdownopen={DropdownOpen.bestPair}
+        onToggle={() =>
+          setDropdownOpen({
+            ...DropdownOpen,
+            bestPair: !DropdownOpen.bestPair,
+          })
+        }
+      />
+    )}
+  />
+</div>
+
 
                 <div className="Primary-Page-description-field">
                   <LableComponent lable="Description" />
@@ -566,53 +599,37 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-Page-categories-field">
-                  <div className="Primary-page-InputFields" >
-                    <LableComponent lable="Category*" />
-                    <Controller
-                      name="category"
-                      control={control}
-                      render={({ field }:any) => (
-                        <Dropdown
-                          options={categories}
-                          setOptions={setCategories}
-                          placeholder="search for option"
-                            name="category"
-                            id="categoryId"
-                          register={register}
-                          setValue={setValue}
-                          trigger={trigger}
-                          getValues={getValues}
-                          // validation={{ required: "category is required" }}
-                          error={errors.category}
-                          dropdownopen={openDropdown === "category"}
-                          onToggle={() => handleDropdownToggle("category")}
-                        />
-                      )}
-                    />
-                  </div>
+  <div className="Primary-page-InputFields">
+    <LableComponent lable="Category*" />
+    <Controller
+      name="category"
+      control={control}
+      render={({ field }: any) => (
+        <Dropdown
+          options={categories}
+          setOptions={setCategories}
+          placeholder="search for option"
+          name="category"
+          id="categoryId"
+          register={register}
+          setValue={setValue}
+          trigger={trigger}
+          getValues={getValues}
+          // validation={{ required: "category is required" }}
+          error={errors.category}
+          dropdownopen={DropdownOpen.category}
+          onToggle={() =>
+            setDropdownOpen({
+              ...DropdownOpen,
+              category: !DropdownOpen.category,
+            })
+          }
+        />
+      )}
+    />
+  </div>
+</div>
 
-                  <div className="Primary-page-InputFields">
-                    <LableComponent lable="SubCategory" />
-                    <Controller
-                      name="subCategory"
-                      control={control}
-                      render={({ field }:any) => (
-                        <Dropdown
-                          options={dataSubcategory}
-                          setOptions={setDataSubcategory}
-                          placeholder="search for option"
-                          name="subCategory"
-                          register={register}
-                          trigger={trigger}
-                          setValue={setValue}
-                          getValues={getValues}
-                          dropdownopen={openDropdown === "subCategory"}
-                          onToggle={() => handleDropdownToggle("subCategory")}
-                        />
-                      )}
-                    />
-                  </div>
-                </div>
 
                 <div className="Primary-page-Allergens-selection">
                   <Imagepillsselection

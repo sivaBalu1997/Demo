@@ -17,5 +17,6 @@ export default function* rootSaga() {
     fork(paymentSaga),
     fork(productCatalogSaga),
     fork(offerSaga),
+    
   ]);
 }

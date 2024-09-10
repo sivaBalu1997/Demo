@@ -21,6 +21,8 @@ import {
   getAvailabilityFailed,
   updateMenuAttributeSuccess,
   updateMenuAttributeFailed,
+  Get_Image,
+  Get_Image_Failed
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -33,6 +35,7 @@ import {
   getModifier,
   getAvailability,
   updateMenuItemAttribute,
+  getImage
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -46,6 +49,7 @@ import {
   GET_TAG_CLASS_REQUEST,
   UPDATE_MENU_ATTRIBUTE_REQUEST,
   UPDATE_MENU_ITEM_REQUEST,
+  Get_ItemImage
 } from "./productCatalogConstants";
 
 function* getCategorySaga(action) {
@@ -178,6 +182,20 @@ function* deleteMenuItemSaga(action) {
   }
 }
 
+
+function* GetImageSaga(action) {
+  try {
+    const response = yield call(getImage);
+    if (response.status === 200) {
+      yield put((response.data));
+    } else {
+      yield put(Get_Image_Failed({ message: "please Try Again" }));
+    }
+  } catch (err) {
+    yield put(Get_Image_Failed({ message: "please Try Again" }));
+  }
+}
+
 export default function* productCatalog() {
   yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
@@ -189,4 +207,7 @@ export default function* productCatalog() {
   yield takeLatest(GET_MODIFIER_REQUEST, getModifierSaga);
   yield takeLatest(GET_AVAILABILITY_REQUEST, getAvailabilitySaga);
   yield takeLatest(UPDATE_MENU_ATTRIBUTE_REQUEST, updateMenuAttributeSaga);
+  yield takeLatest(Get_ItemImage, GetImageSaga);
 }
+
+

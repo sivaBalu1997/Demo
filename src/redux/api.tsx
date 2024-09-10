@@ -9,6 +9,12 @@ const API = axios.create({
   timeout: 60000,
 });
 
+const Image_API = axios.create({
+  baseURL: process.env.REACT_APP_IMAGE_DOMAIN,
+  timeout: 60000,
+});
+
+
 API.interceptors.response.use(
   (res) => res,
   (err) => {
@@ -41,7 +47,7 @@ API.interceptors.response.use(
   },
 );
 
-export default API;
+export { API, Image_API };
 
 // const API = axios.create({
 //   baseURL: process.env.REACT_APP_API_ENDPOINT,
