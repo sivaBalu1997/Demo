@@ -107,7 +107,7 @@ const Filter = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div>  
       </table>
 
       {/* Button Footer */}
