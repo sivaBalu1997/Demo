@@ -29,13 +29,26 @@ export const Menulisting = () => {
   const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
+  const [listedfooditemsdata,setlistedfooditemsdata]=useState([]);
 
   useEffect(() => {
    
     dispatch(storeMockDataRequest(combinedItemsData))
   }, []);
   const Mockdata = useSelector((state) => state?.storeMockDataReducer?.data);
-  const MockFiltereddata= useSelector((state) => state?.storeMockDataFilteredReducer?.data);
+  const MockdataFiltered= useSelector((state) => state?.storeMockDataFilteredReducer?.data);
+
+
+  useEffect(()=>{
+    if(MockdataFiltered.length===0)
+    {
+      setlistedfooditemsdata(Mockdata);
+    }
+    else{
+      setlistedfooditemsdata(MockdataFiltered);
+    }
+
+  },[Mockdata,MockdataFiltered])
 
   // console.log(Mockdata);
   const [draggedRowIndex, setDraggedRowIndex] = useState({
@@ -143,7 +156,7 @@ export const Menulisting = () => {
     const tempArray1 = [];
     const tempArray2 = [];
 
-    Mockdata.map(item => {
+    listedfooditemsdata.map(item => {
       if (item.type=='steamedVeg') {
 
         tempArray1.push(item);
@@ -152,28 +165,23 @@ export const Menulisting = () => {
         tempArray2.push(item);
       }
     });
-
-    
-    setSteamedVeg(tempArray1);
-    setSteamedNonVeg(tempArray2);
-    console.log("temp1array",SteamedVeg);
-
-
-
-
-
-  }, []);
- 
- 
-
-  useEffect(()=>{
-
     setsteamType([
-      { id: 1, name: SteamedVeg },
-      { id: 2, name: SteamedNonVeg },
+      { id: 1, name: tempArray1 },
+      { id: 2, name: tempArray2 },
     ]);
+    
+    // setSteamedVeg(tempArray1);
+    // setSteamedNonVeg(tempArray2);
+    console.log("temp1array",tempArray1);
+  }, [SteamedVeg, SteamedNonVeg]);
+ 
+ 
 
-  },[SteamedVeg, SteamedNonVeg])
+  // useEffect(()=>{
+
+  
+
+  // },[SteamedVeg, SteamedNonVeg])
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
