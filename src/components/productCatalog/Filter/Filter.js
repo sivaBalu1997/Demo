@@ -3,11 +3,17 @@ import "./Filter.scss";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Reset from '../../../assets/svg/Reset.svg'
+import { combinedItemsData } from "assets/mockData/Moca_data";
+import { useDispatch } from "react-redux";
+import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 
 
 const Filter = () => {
+  const dispatch=useDispatch()
+
   useEffect(() => {
     AOS.init();
+    dispatch(storeMockDataRequest(combinedItemsData))
   }, []);
 
   const data1 = [

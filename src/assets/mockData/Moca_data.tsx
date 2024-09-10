@@ -1,6 +1,8 @@
 // src/mockData.ts
 
-// Define the shape of the item
+// Define the shape of the item'
+import { useDispatch } from "react-redux";
+
 interface PricingDetails {
     Dinein1: string[];
     Pickup1: string[];
@@ -16,6 +18,7 @@ interface PricingDetails {
     id: number;
     name: string;
     code: string;
+    type:string;
     pricingdetails: PricingDetails;
   }
   
@@ -28,6 +31,7 @@ interface PricingDetails {
       id: 1,
       name: "dosa",
       code: "12345",
+      type:"steamedVeg",
       pricingdetails: {
         Dinein1: ["$100.00", "$100.00"],
         Pickup1: ["$200.00", "$200.00", "$200.00"],
@@ -43,6 +47,7 @@ interface PricingDetails {
         id: 3,
         name: truncateString(" Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$400.00", "$600.00"],
           Pickup1: ["$700.00", "$700.00", "$200.00"],
@@ -58,6 +63,7 @@ interface PricingDetails {
         id: 4,
         name: truncateString("Creamy", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$400..00", "$600.00"],
           Pickup1: ["$700.00", "$700.00", "$200.00"],
@@ -73,6 +79,7 @@ interface PricingDetails {
         id: 5,
         name: truncateString("idly Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$400.00", "$600.00"],
           Pickup1: ["$700.00", "$700.00", "$200.00"],
@@ -88,6 +95,7 @@ interface PricingDetails {
         id: 2,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$1500.00", "$900.00"],
           Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -103,6 +111,7 @@ interface PricingDetails {
         id: 2,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$1500.00", "$900.00"],
           Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -118,6 +127,7 @@ interface PricingDetails {
         id: 2,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$1500.00", "$900.00"],
           Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -133,6 +143,7 @@ interface PricingDetails {
         id: 2,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$1500.00", "$900.00"],
           Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -148,6 +159,7 @@ interface PricingDetails {
         id: 2,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$1500.00", "$900.00"],
           Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -163,6 +175,7 @@ interface PricingDetails {
         id: 2,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$1500.00", "$900.00"],
           Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -178,6 +191,7 @@ interface PricingDetails {
         id: 2,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$1500.00", "$900.00"],
           Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -193,6 +207,7 @@ interface PricingDetails {
         id: 2,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+        type:"steamedVeg",
         pricingdetails: {
           Dinein1: ["$1500.00", "$900.00"],
           Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -212,6 +227,7 @@ interface PricingDetails {
       id: 11,
       name: "Chicken",
       code: "12345",
+      type:"steamedNonVeg",
       pricingdetails: {
         Dinein1: ["$900", "$100"],
         Pickup1: ["$200", "$200", "$200"],
@@ -227,6 +243,7 @@ interface PricingDetails {
         id: 31,
         name: truncateString("Fish", 14),
         code: "12345",
+        type:"steamedNonVeg",
         pricingdetails: {
           Dinein1: ["$400", "$600"],
           Pickup1: ["$700", "$700", "$200"],
@@ -242,6 +259,7 @@ interface PricingDetails {
         id: 41,
         name: truncateString("Mutton", 14),
         code: "12345",
+        type:"steamedNonVeg",
         pricingdetails: {
           Dinein1: ["$400", "$600"],
           Pickup1: ["$700", "$700", "$200"],
@@ -257,6 +275,7 @@ interface PricingDetails {
         id: 51,
         name: truncateString("Chicken 65", 14),
         code: "12345",
+        type:"steamedNonVeg",
         pricingdetails: {
           Dinein1: ["$400", "$600"],
           Pickup1: ["$700", "$700", "$200"],
@@ -272,6 +291,7 @@ interface PricingDetails {
         id: 21,
         name: truncateString("Chicken roll", 14),
         code: "12345",
+        type:"steamedNonVeg",
         pricingdetails: {
           Dinein1: ["$1500", "$900"],
           Pickup1: ["$200", "$400", "$200"],
@@ -287,6 +307,7 @@ interface PricingDetails {
         id: 21,
         name: truncateString("Creamy Mushroo", 14),
         code: "12345",
+         type:"steamedNonVeg",
         pricingdetails: {
           Dinein1: ["$1500", "$900"],
           Pickup1: ["$200", "$400", "$200"],
@@ -366,3 +387,5 @@ interface PricingDetails {
     { value: "Portion(count)", label: "Portion(count)" },
     { value: "grams/ml", label: "grams/ml" },
   ];
+
+  export const combinedItemsData: Item[] = [...itemsdata, ...itemsfooddata];
