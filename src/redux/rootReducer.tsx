@@ -4,7 +4,7 @@ import employeeReducer from "./employee/employeeReducers";
 import menuReducer from "./menu/menuReducer";
 import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
-import productCatalogReducer from "./productCatalog/productCatalogReducers";
+import productCatalogReducer, { storeMockDataReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
 import { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer } from "./productCatalog/productCatalogReducers";
 
@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
   primarypage:primarypagereducer,
   itemCustomizationsReducer1:itemCustomizationsReducer,
   PricingDetailReducer:PricingDetailReducer,
+  storeMockDataReducer:storeMockDataReducer
 });
 
 export { rootReducer };

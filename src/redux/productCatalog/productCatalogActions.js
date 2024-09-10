@@ -40,6 +40,9 @@ import {
   Pricing_Detail_Data_Request,
   Pricing_Detail_Data_Success,
   Pricing_Detail_Data_Failure,
+  STORE_MOCK_DATA_REQUEST,
+  STORE_MOCK_DATA_SUCCESS,
+  STORE_MOCK_DATA_FAILURE,
 } from "./productCatalogConstants";
 
 // Get Menu Category
@@ -261,3 +264,20 @@ export const PricingDetailFailure = (error) => ({
   type: Pricing_Detail_Data_Failure,
   payload: error,
 });
+
+
+
+export const storeMockDataRequest = (data) => ({
+  type: STORE_MOCK_DATA_REQUEST,
+  payload:data
+});
+
+export const storeMockDataSuccess = (response) => ({
+  type: STORE_MOCK_DATA_SUCCESS,
+  payload: response, 
+});
+
+export const storeMockDataFailure = (error) => ({
+  type: STORE_MOCK_DATA_FAILURE,
+  payload: error, 
+})

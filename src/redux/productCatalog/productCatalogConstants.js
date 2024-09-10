@@ -70,3 +70,10 @@ export const Pricing_Detail_Data_Request="Pricing_Detail_Data_Request"
 export const Pricing_Detail_Data_Success="Pricing_Detail_Data_Success"
 export const Pricing_Detail_Data_Failure="Pricing_Detail_Data_Failure"
 
+
+
+
+// Action Types
+export const STORE_MOCK_DATA_REQUEST = 'STORE_MOCK_DATA_REQUEST';
+export const STORE_MOCK_DATA_SUCCESS = 'STORE_MOCK_DATA_SUCCESS';
+export const STORE_MOCK_DATA_FAILURE = 'STORE_MOCK_DATA_FAILURE';
