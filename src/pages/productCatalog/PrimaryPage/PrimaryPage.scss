@@ -1,13 +1,19 @@
 *{
     font-family: "Poppins", sans-serif;
   }
-  
+  .Main-Primary-Page
+  {
+    width: 77%;
+    display: flex;
+    flex-direction: column;
+  }
 .Primary-page{
     position: relative;
-    top:15vh;
-    width: 100%;
-    height: 34rem; 
+    top:7vh;
+    width: 130%;
+    height: 35rem; 
     overflow-y: auto;
+    // border: 1px solid red;
 
     &::-webkit-scrollbar {
       display: none;

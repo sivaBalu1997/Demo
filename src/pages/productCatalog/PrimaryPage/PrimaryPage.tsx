@@ -307,11 +307,14 @@ const PrimaryPage = () => {
   };
 
   return (
- 
     <div style={{display:'flex'}}>
       <SidePanel />
       <div style={{marginBottom:'40px'}}>
+    <div style={{display:'flex'}} className="Main-Primary-Page" >
+      {/* <SidePanel /> */}
+      <div style={{marginBottom:'40px'}}>
       <Navigationpage />
+      </div>
       <div className="Primary-page">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="Primary-page-container-one">
@@ -745,7 +748,8 @@ const PrimaryPage = () => {
     </div>
     </div>
     </div>
-  
+    </div>
+    
   );
 };
 

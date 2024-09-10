@@ -245,6 +245,7 @@ const PricingDetails= () => {
                   validateDropdown(field?.value, 'kitchen');
                 }}
                 validation={validationState.kitchen}
+                width="Drop1"
               />
             )}
           />
@@ -265,6 +266,7 @@ const PricingDetails= () => {
                     field.onChange(values); 
                   }
                 validateDropdown(values, 'preparationTime');
+
                   
                 }}
                 options={['Option 1', 'Option 2', 'Option 3']} 
@@ -278,6 +280,7 @@ const PricingDetails= () => {
                  
                 }}
                 validation={validationState.preparationTime}
+                width="Drop1"
               />
             )}
           />
