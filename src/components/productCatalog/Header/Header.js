@@ -50,7 +50,10 @@ const Header = () => {
         </div>
 
 
-      <div  onClick={()=>history.push("/productCatalog/PrimaryDetails")} className={isExpanded?"Add-Item-Container1":"Add-Item-Container"}>
+      <div 
+        onClick={()=>history.push("/productCatalog/PrimaryDetails")} 
+        className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"
+      }>
         <h3 className='Add-Item-Heading-Plus'>+</h3>
         <h3 className='Add-Item-Heading' >Add Item</h3>
       </div>

@@ -32,7 +32,6 @@ const InputFieldComponent:React.FC<Inputfieldinterface> = ({name,type='text',reg
     <div>
       <div className='input-and-spantext'>
         <input 
-             
           type={type} 
           autoComplete='off' 
           name={name}
@@ -40,7 +39,6 @@ const InputFieldComponent:React.FC<Inputfieldinterface> = ({name,type='text',reg
           onBlur={handleBlur}
           placeholder={placeholder}
           className='Input-Filed'
-        
         />
         <span className='placeholder'>{subtext}</span>
          </div>

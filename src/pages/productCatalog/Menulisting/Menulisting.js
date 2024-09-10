@@ -18,13 +18,12 @@ import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableT
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
 
-
 export const Menulisting = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [itemsState, setItemsState] = useState(itemsdata);
   const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
   const { isExpanded } = useContext(Contextpagejs);
@@ -33,8 +32,7 @@ export const Menulisting = () => {
   const [ListingType,setListingType]=useState('');
 
   useEffect(() => {
-   
-    dispatch(storeMockDataRequest(combinedItemsData))
+    dispatch(storeMockDataRequest(combinedItemsData));
   }, []);
   const Mockdata = useSelector((state) => state?.storeMockDataReducer?.data);
   const MockdataFiltered= useSelector((state) => state?.storeMockDataFilteredReducer?.data);
@@ -60,6 +58,7 @@ console.log(MockdataFiltered.map((item)=>item.type));
     objectId: null,
     index: null,
   });
+  
   const [draggingOverIndex, setDraggingOverIndex] = useState(null);
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
@@ -70,8 +69,6 @@ console.log(MockdataFiltered.map((item)=>item.type));
   const [SteamedVeg, setSteamedVeg] = useState([]);
   const [SteamedNonVeg, setSteamedNonVeg] = useState([]);
 
-
- 
   const [classNames, setclassNames] = useState([
     "Dinein1-class",
     "Pickup1-class",
@@ -144,7 +141,6 @@ console.log(MockdataFiltered.map((item)=>item.type));
     [""],
   ]);
 
- 
   const [steamType, setsteamType] = useState([
     {
       id: 1,
@@ -157,39 +153,33 @@ console.log(MockdataFiltered.map((item)=>item.type));
   ]);
 
   useEffect(() => {
-   
     const tempArray1 = [];
     const tempArray2 = [];
 
-    listedfooditemsdata.map(item => {
-      if (item.type=='steamedVeg') {
-
-        tempArray1.push(item);
+    Mockdata.forEach(item => {
+      console.log("Item type:", item.type); 
+      if (item.type === "steamedVeg") {
+        tempArray1.push(item);  
       } else {
-  
-        tempArray2.push(item);
+        tempArray2.push(item); 
       }
     });
+    setSteamedVeg(tempArray1);
+    setSteamedNonVeg(tempArray2);
+  }, [Mockdata]);
+
+  useEffect(() => {
     setsteamType([
       { id: 1, name: tempArray1 },
       { id: 2, name: tempArray2 },
     ]);
-    
-    // setSteamedVeg(tempArray1);
-    // setSteamedNonVeg(tempArray2);
-    console.log("temp1array",tempArray1);
   }, [SteamedVeg, SteamedNonVeg]);
- 
- 
 
-  // useEffect(()=>{
 
-  
-
-  // },[SteamedVeg, SteamedNonVeg])
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
+
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
       const updatedFirstRowTable = [...firstRowTable];
@@ -234,6 +224,7 @@ console.log(MockdataFiltered.map((item)=>item.type));
           return { ...item };
         });
       };
+
       const updatedsteamType = updatePricingDetails(item1, index);
       const updatedsteamType1 = updatePricingDetails(item2, index);
       setFirstRowTable(updatedFirstRowTable);
@@ -247,6 +238,7 @@ console.log(MockdataFiltered.map((item)=>item.type));
       setDraggedIndexsample(index);
     }
   };
+
   const handleColumnwiseDragEnd = () => {
     setDraggedIndexsample(null);
   };
@@ -265,7 +257,6 @@ console.log(MockdataFiltered.map((item)=>item.type));
     updatedRows.splice(draggedRowIndex, 1);
     updatedRows.splice(index, 0, draggedRow);
     setsteamType(updatedRows);
-    console.log("steamType", steamType);
     setDraggedRowIndex(null);
   };
 
@@ -277,6 +268,7 @@ console.log(MockdataFiltered.map((item)=>item.type));
     if (draggedRowIndex.objectId === null || draggedRowIndex.index === null) {
       return;
     }
+
     const draggedObjectId = draggedRowIndex.objectId;
     const draggedIndex = draggedRowIndex.index;
     if (draggedObjectId === objectId && draggedIndex !== index) {
@@ -289,13 +281,13 @@ console.log(MockdataFiltered.map((item)=>item.type));
         const draggingitme = updatedsteamType[draggedIndex];
         updatedsteamType.splice(draggedIndex, 1);
         updatedsteamType.splice(index, 0, draggingitme);
-        console.log("indexofvalue", updatedsteamType);
         updatedTypes[indexofvalue].name = updatedsteamType;
         setsteamType(updatedTypes);
         setDraggedRowIndex({ objectId, index });
       }
     }
   };
+
   const handleRowDragEnd = () => {
     setDraggedRowIndex({ objectId: null, index: null });
     setDraggingOverIndex(null);
@@ -363,6 +355,7 @@ console.log(MockdataFiltered.map((item)=>item.type));
       setshowheadinglist(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", Outsideclicking, true);
     return () => {
