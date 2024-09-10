@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
+import { useDispatch } from 'react-redux';
+import { Get_Image } from 'redux/productCatalog/productCatalogActions';
 
 interface Item {
   name: string;
@@ -32,6 +34,14 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   tableBodyRef1,
   tableBodyRef2,
 }) => {
+
+  const dispatch=useDispatch()
+
+  // useEffect(()=>{
+  //   dispatch(Get_Image())
+  // }
+  // ,[])
+
   return (
     <>
       {object.name.map((item, index) => (

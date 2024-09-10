@@ -6,7 +6,7 @@ import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
 import productCatalogReducer, { storeMockDataFilteredReducer, storeMockDataReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
-import { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer } from "./productCatalog/productCatalogReducers";
+import { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer } from "./productCatalog/productCatalogReducers";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -19,8 +19,7 @@ const rootReducer = combineReducers({
   primarypage:primarypagereducer,
   itemCustomizationsReducer1:itemCustomizationsReducer,
   PricingDetailReducer:PricingDetailReducer,
-  storeMockDataReducer:storeMockDataReducer,
-  storeMockDataFilteredReducer:storeMockDataFilteredReducer
+  storeMockDataReducer:storeMockDataReducer
 });
 
 export { rootReducer };

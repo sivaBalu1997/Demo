@@ -36,6 +36,7 @@ import {
   Primary_Post_Data_Send,
   Item_Customizations_Data_Request,
   Pricing_Detail_Data_Request,
+  Get_ItemImage,
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
 } from "../productCatalog/productCatalogConstants";
@@ -333,6 +334,23 @@ export const primarypagereducer = (state = primarypagedata, action) => {
         return state;
     }
   }
+
+  // {*******************Get_ImageName***************}
+
+  const ItemImage={
+    InitialImageData:''
+  }
+  export const imageReducer = (state = ItemImage, action) => {
+    switch (action.type) {
+      case Get_ItemImage:
+        return {
+          ...state,
+          InitialImageData: action.payload,
+        };
+      default:
+        return state;
+    }
+  };
 
   
 

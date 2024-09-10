@@ -1,5 +1,5 @@
 import Store from "../store";
-import API from "../api";
+import { API } from "redux/api";
 import { encryptJson } from "../../util/react-ec-utils"
 
 export function fetchOutlets(merchantId:any) {
@@ -25,6 +25,7 @@ export function createEmployee(details:any) {
   const token = Store.getState()?.auth?.credentials?.accessToken;
   // const merchantId = Store.getState().auth.credentials.merchantId;
   const data = encryptJson(details);
+  console.log("From emp",API)
   return API({
     method: "post",
     url: `/merchants/staffs/add`, 
