@@ -146,6 +146,20 @@ const PrimaryPage = () => {
   };
   
 
+
+  const [DropdownOpen,setDropdownOpen]=useState({
+
+    dietaryType:false,
+    cuisine:false,
+    mealType:false,
+    bestPair:false,
+    category:false,
+    subCategory:false
+
+
+
+
+  })
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const handleDropdownToggle = (name: string) => {
@@ -357,8 +371,8 @@ const PrimaryPage = () => {
                     getValues={getValues}
                     validation={{ required: "dietaryType is required" }}
                     error={errors.dietaryType}    
-                    dropdownopen={openDropdown === "dietaryType"}
-                    onToggle={() => handleDropdownToggle("dietaryType")}
+                    dropdownopen={DropdownOpen.dietaryType}
+                    onToggle={() => setDropdownOpen({...DropdownOpen,dietaryType:!DropdownOpen.dietaryType})}
                   />
                 )}
               />
@@ -384,8 +398,8 @@ const PrimaryPage = () => {
                     error={errors.cuisine}
                     {...field}
                     getValues={getValues}
-                    dropdownopen={openDropdown === "cuisine"}
-                    onToggle={() => handleDropdownToggle("cuisine")}
+                    dropdownopen={DropdownOpen.cuisine}
+                    onToggle={() => setDropdownOpen({...DropdownOpen,cuisine:!DropdownOpen.cuisine})}
                   />
                 )}
               />
@@ -410,8 +424,8 @@ const PrimaryPage = () => {
                     getValues={getValues}
                     validation={{ required: "Mealtype is required" }}
                     error={errors.mealType}
-                    dropdownopen={openDropdown === "mealType"}
-                    onToggle={() => handleDropdownToggle("mealType")}
+                    dropdownopen={DropdownOpen.mealType}
+                    onToggle={() => setDropdownOpen({...DropdownOpen,mealType:!DropdownOpen.mealType})}
                   />
                 )}
               />
@@ -434,8 +448,8 @@ const PrimaryPage = () => {
                     trigger={trigger}
                     setValue={setValue}
                     getValues={getValues}
-                    dropdownopen={openDropdown === "bestPair"}
-                    onToggle={() => handleDropdownToggle("bestPair")}
+                    dropdownopen={DropdownOpen.bestPair}
+                    onToggle={() => setDropdownOpen({...DropdownOpen,bestPair:!DropdownOpen.bestPair})}
                   />
                 )}
               />
@@ -585,8 +599,8 @@ const PrimaryPage = () => {
                       getValues={getValues}
                       // validation={{ required: "category is required" }}
                       error={errors.category}
-                      dropdownopen={openDropdown === "category"}
-                      onToggle={() => handleDropdownToggle("category")}
+                      dropdownopen={DropdownOpen.category}
+                      onToggle={() => setDropdownOpen({...DropdownOpen,category:!DropdownOpen.category})}
                     />
                   )}
                 />
@@ -607,8 +621,8 @@ const PrimaryPage = () => {
                       trigger={trigger}
                       setValue={setValue}
                       getValues={getValues}
-                      dropdownopen={openDropdown === "subCategory"}
-                      onToggle={() => handleDropdownToggle("subCategory")}
+                      dropdownopen={DropdownOpen.subCategory}
+                      onToggle={() => setDropdownOpen({...DropdownOpen,subCategory:!DropdownOpen.subCategory})}
                     />
                   )}
                 />
