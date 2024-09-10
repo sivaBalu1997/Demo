@@ -279,8 +279,7 @@ const PrimaryPage = () => {
 
   return (
     <div style={{display:'flex'}}>
-      <SidePanel />
-      <div style={{marginBottom:'40px'}}>
+    <div style={{marginBottom:'40px'}}>
     <div style={{display:'flex'}}>
       <SidePanel />
       <div style={{marginBottom:'40px'}}>
