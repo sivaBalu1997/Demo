@@ -35,9 +35,9 @@ export const Menulisting = () => {
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
 
- useEffect(()=>{
-  console.log({Mockdata})
- },[Mockdata])
+  useEffect(()=>{
+    console.log({Mockdata})
+  },[Mockdata])
 
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
@@ -141,18 +141,17 @@ export const Menulisting = () => {
     const tempArray1 = [];
     const tempArray2 = [];
 
-    Mockdata.map((item) => {
+    Mockdata.forEach(item => {
+      console.log("Item type:", item.type); 
       if (item.type === "steamedVeg") {
-        tempArray1.push(item);
+        tempArray1.push(item);  
       } else {
-        tempArray2.push(item);
+        tempArray2.push(item); 
       }
     });
-
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-    console.log({SteamedVeg});
-  }, []);
+  }, [Mockdata]);
 
   useEffect(() => {
     setsteamType([
@@ -160,8 +159,6 @@ export const Menulisting = () => {
       { id: 2, name: SteamedNonVeg },
     ]);
   }, [SteamedVeg, SteamedNonVeg]);
-
-  console.log({steamType})
 
 
   const handleColumnwiseDragStart = (index) => {
@@ -269,7 +266,6 @@ export const Menulisting = () => {
         const draggingitme = updatedsteamType[draggedIndex];
         updatedsteamType.splice(draggedIndex, 1);
         updatedsteamType.splice(index, 0, draggingitme);
-        console.log("indexofvalue", updatedsteamType);
         updatedTypes[indexofvalue].name = updatedsteamType;
         setsteamType(updatedTypes);
         setDraggedRowIndex({ objectId, index });
