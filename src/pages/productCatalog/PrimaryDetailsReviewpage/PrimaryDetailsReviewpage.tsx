@@ -106,25 +106,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
   const fetchedprimarydata = primarydata;
-  //   console.log("fetchedprimarydata", fetchedprimarydata);
-  const {} = useContext(Contextpagejs);
 
-  const [imagenamesfromapi, setimagenamesfromapi] = useState<Image[]>([]);
-  const [allergenimage, setallergenimage] = useState<AllergenImage[]>();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const imagesapi = await axios.get(
-          "https://api.magilhub.com/magilhub-data-services/merchants/itemAttributes?locationId=9c485244-afd4-11eb-b6c7-42010a010026&id=&option=INGR"
-        );
-        setimagenamesfromapi(imagesapi.data && imagesapi.data);
-      } catch (error) {
-        return error;
-      }
-    };
-
-    fetchData();
-  }, []);
+ 
 
   const primarypagedetails = useSelector((state: RootState) => state);
   console.log("primary",  primarypagedetails.primarypage.data.itemCode);
@@ -152,19 +135,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   
 
-  const handleedit = (navlink: string) => {
-   
+  // const ingredientsValue =fetchedprimarydata.ingredients ;
 
-    if ("Primary" === navlink) {
-      setActiveCategory("Step 1: Primary Details");
-    }
-  };
-  const ingredientsValue =fetchedprimarydata.ingredients ;
-
-  const selectedImages =
-    typeof ingredientsValue === "string"
-      ? JSON.parse(ingredientsValue)
-      : ingredientsValue;
+  // const selectedImages =
+  //   typeof ingredientsValue === "string"
+  //     ? JSON.parse(ingredientsValue)
+  //     : ingredientsValue;
 
   return (
     <div style={{display:'flex'}}>

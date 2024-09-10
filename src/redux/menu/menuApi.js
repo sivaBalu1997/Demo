@@ -1,5 +1,5 @@
 import Store from "../store";
-import API from "../api";
+import { API } from "redux/api";
 
 export function getMenu(data) {
   const token = Store.getState().auth.credentials.accessToken;

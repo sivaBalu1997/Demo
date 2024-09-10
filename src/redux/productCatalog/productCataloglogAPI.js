@@ -1,5 +1,6 @@
-import API from "../api";
+import { API,Image_API } from "redux/api";
 import Store from "../store";
+import Axios from "axios";
 
 export function getCategory(locationId) {
   return API({
@@ -75,4 +76,8 @@ export function getAvailability(locationId) {
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Availability`,
   });
+}
+
+export function getImage() {
+  return Axios.get('https://i.graphicmama.com/blog/wp-content/uploads/2016/12/20132839/french-fries-vector-image.jpg')
 }
