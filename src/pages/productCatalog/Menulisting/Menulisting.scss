@@ -150,7 +150,7 @@ th {
       width: 20rem;
       // position: relative;
       // top: 2.2%;
-      margin-top: 0.3%;
+      margin-top: 0%;
 
      
       .itemdetails-row {
@@ -212,11 +212,11 @@ th {
     // width: 5rem;
   }
   .Menu-Listing-TableTwo {
-    width: 55rem;
+    width: 65rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-    //  border: 1px solid blue;
+    //  border: 1px solid blue !important;
   }
   .Menu-Listing-TableTwo1 {
     width: 65rem;
@@ -492,7 +492,7 @@ th {
     height: 34rem;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 200%;
+    width: 180%;
   }
   .Menu-Listing-TableTwoBody1 {
     display: block;
@@ -525,6 +525,7 @@ th {
     border-left: none !important;
     gap: 20px;
     justify-content: left;
+  }
 
     .Dinein1 {
       width: 154px;
@@ -619,7 +620,7 @@ th {
       }
     }
   }
-}
+
 
 .headingstextlist {
   position: absolute;

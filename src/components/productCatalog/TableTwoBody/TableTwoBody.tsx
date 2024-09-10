@@ -14,9 +14,9 @@ interface TableRowsProps {
   itemobject: ItemObject;
   indexvalue: number;
   classNamesinner: string[];
-  draggingOverIndex: number;
+
   listingobject: any;
-  settogglebtn: (value: boolean) => void;
+
   showsidebar: (key: string) => void;
 }
 
@@ -24,9 +24,9 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   itemobject,
   indexvalue,
   classNamesinner,
-  draggingOverIndex,
+ 
   listingobject,
-  settogglebtn,
+
   showsidebar,
 }) => {
   return (
