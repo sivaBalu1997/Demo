@@ -167,7 +167,8 @@ const DropDownList: React.FC<DropdownProps> = ({
             disabled={Disablesubcategory && name === "subCategory"}
           />
           <span className="dropdown-arrow" onClick={onToggle}>
-            <img src={dropdown} alt="" className= "dropdownimage" />
+            
+            <img src={dropdown} alt="" className={`${dropdownopen?"dropdownimageopen":"dropdownimageclosed" }`} />
           </span>
         </div>
 

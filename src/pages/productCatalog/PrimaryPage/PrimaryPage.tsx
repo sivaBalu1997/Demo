@@ -342,7 +342,7 @@ const PrimaryPage = () => {
                 control={control}
                 render={({ field }:any) => (
                   <InputFieldComponent
-                    {...field}
+                   
                      name="itemName"
                     register={register}
                     trigger={trigger}
