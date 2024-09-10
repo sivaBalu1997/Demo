@@ -3,44 +3,28 @@
   font-family: "Poppins",sans-serif;
 }
 .pricingdetails-containerExpanded{
- 
   position: absolute;
   top: 160px;
   margin-left:-10px ;
   overflow-x: hidden;
   height: 570px;
-  width: 1200px;
- 
+  width: 80%;
   overflow-y: auto;
-  
- 
-
- 
 }
 .pricingdetails-container  {
- 
   position: absolute;
   top: 160px;
   margin-left:-20px ;
   overflow-x: hidden;
   height: 570px;
   width: 93.3%;
-  // border: 1px solid red;
-  // border: 1px solid red;
   overflow-y: auto;
-  
- 
-
- 
 }
 .pricing-form{
   display: flex;
   flex-direction: column;
   width: 1120px;
   margin-left: 55px;
-
-  // border: 1px solid red;
- 
 }
 
 .KitchenRelated{
@@ -462,20 +446,14 @@ opacity: 0px;
 background: white;
 color: #67833E;
 border: 1px solid #67833E;
-
 font-size: 16px;
 font-weight: 500;
-
-
-
-
-
 }
 .saveall
 {
   border: none;
   width:135px;
- margin-left: 10px;
+  margin-left: 10px;
   height: 44px;
   padding: 10px 14px 10px 14px;
   gap: 10px;
@@ -485,10 +463,6 @@ font-weight: 500;
   color: white;
   font-size: 16px;
   font-weight: 500;
-
-
- 
-
 }
 
 }

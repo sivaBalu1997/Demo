@@ -32,14 +32,13 @@ const InputFieldComponent:React.FC<Inputfieldinterface> = ({name,type='text',reg
     <div>
       <div className='input-and-spantext'>
         <input 
-             {...register(name,validation)}
+          {...register(name,validation)}
           type={type} 
           autoComplete='off' 
           name={name} 
           onBlur={handleBlur}
           placeholder={placeholder}
           className='Input-Filed'
-        
         />
         <span className='placeholder'>{subtext}</span>
          </div>

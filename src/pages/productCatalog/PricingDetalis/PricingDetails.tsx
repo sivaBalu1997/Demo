@@ -209,7 +209,7 @@ const PricingDetails= () => {
   return (
    <div style={{display:'flex'}}>
     <SidePanel />
-    <div>
+    <div style={{width:'98%'}}>
     <Navigationpage />
      <div className={isExpanded?"pricingdetails-containerExpanded":"pricingdetails-container"}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -272,8 +272,6 @@ const PricingDetails= () => {
                     field.onChange(values); 
                   }
                 validateDropdown(values, 'preparationTime');
-
-                  
                 }}
                 options={['Option 1', 'Option 2', 'Option 3']} 
                 
@@ -283,7 +281,6 @@ const PricingDetails= () => {
                     field.onBlur();
                     handleBlur(field?.value, 'preparationTime'); 
                   }
-                 
                 }}
                 validation={validationState.preparationTime}
                 width="Drop1"
@@ -371,6 +368,7 @@ const PricingDetails= () => {
                 )}
               />
           </div>
+
           {formerrors.Inventory1 && <p className='ErrorsForm' >{formerrors.Inventory1}</p>}
               {formerrors.Inventory2 && <p className='ErrorsFormi2' >{formerrors.Inventory2}</p>}
               <div className='Inventcheckbox'>

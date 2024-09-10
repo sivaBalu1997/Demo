@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, useContext } from "react";
 import "./ItemCustomizations.scss";
 import dotted from "../../../assets/images/dotted.png";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
@@ -11,6 +11,7 @@ import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownI
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import SidePanel from "pages/SidePanel";
+import { Contextpagejs } from "../contextpage";
 
 // Define types
 interface Option {
@@ -60,7 +61,7 @@ const ItemCustomizations: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
-  console.log(itemCustomizationData);
+  const {isExpanded,setIsExpanded}=useContext(Contextpagejs);
 
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -297,15 +298,13 @@ const ItemCustomizations: React.FC = () => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
-  console.log(selectedValue);
-  console.log(modifications);
 
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
-      <div>
+      <div style={{width:'80%'}}>
         <Navigationpage />
-        <div className="mainItemCustomizations">
+        <div className={isExpanded ? "mainItemCustomizations-Expanded" : "mainItemCustomizations"}>
           <div className="itemcustomizationpage">
             <div className="AddModifiersSection">
               <div>
