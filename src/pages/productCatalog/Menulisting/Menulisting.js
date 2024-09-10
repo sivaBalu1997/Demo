@@ -30,6 +30,7 @@ export const Menulisting = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [listedfooditemsdata,setlistedfooditemsdata]=useState([]);
+  const [ListingType,setListingType]=useState('');
 
   useEffect(() => {
    
@@ -39,6 +40,8 @@ export const Menulisting = () => {
   const MockdataFiltered= useSelector((state) => state?.storeMockDataFilteredReducer?.data);
 
 
+
+console.log(MockdataFiltered.map((item)=>item.type));
   useEffect(()=>{
     if(MockdataFiltered.length===0)
     {
@@ -46,6 +49,8 @@ export const Menulisting = () => {
     }
     else{
       setlistedfooditemsdata(MockdataFiltered);
+
+      setListingType((MockdataFiltered.map((item)=>item.type)).toString())
     }
 
   },[Mockdata,MockdataFiltered])
@@ -409,6 +414,7 @@ export const Menulisting = () => {
                   <React.Fragment key={index}>
                     <RowHeading
                       objectId={object.id}
+                      Typename={ListingType}
                       index={index}
                       onDragStart={handledragvegnonvegdragstart}
                       onDragOver={handledragvegnonvegdropover}

@@ -41,6 +41,8 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   //   dispatch(Get_Image())
   // }
   // ,[])
+  const baseImageUrl=process.env.REACT_APP_IMAGE_DOMAIN;
+  console.log(baseImageUrl)
 
   return (
     <>
@@ -64,7 +66,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
           >
             <span className="itemimage2">
               <img src={dots} alt="" className="draggableimg" />
-              <img src={apple} alt="" className="foodimage" />
+              <img src={baseImageUrl+"/photo/2023/07/12/20/40/ai-generated-8123328_640.png"} alt="" className="foodimage" />
             </span>
             <span className="itemname2" onClick={handlemodal}>
               {item.name}
