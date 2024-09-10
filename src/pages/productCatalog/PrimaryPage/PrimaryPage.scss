@@ -3,14 +3,19 @@
   }
   .Main-Primary-Page
   {
-    width: 77%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .Main-Primary-Page-Expanded{
+    width: 100%;
     display: flex;
     flex-direction: column;
   }
 .Primary-page{
     position: relative;
     top:7vh;
-    width: 130%;
+    width: 100%;
     height: 35rem; 
     overflow-y: auto;
     // border: 1px solid red;

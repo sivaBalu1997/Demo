@@ -1,14 +1,14 @@
-*
+* 
 {
   font-family: "Poppins",sans-serif;
 }
+
 .navigation{
-  width: 100%;
   position: relative;
   height: 2.25rem;
   top: 0.363rem;
-  // left: -20px;
   left: 20px;
+  width: 100%;
 }
 
 .Mainheading{
@@ -27,40 +27,38 @@
 .listofnavigation{
   display: flex;
   flex-direction: row;
-  width:1000px;
-
+  width:100%;
   gap: 4rem;
 }
+
 .listofnavigationExpanded{   
   display: flex;
   flex-direction: row;
-  width:1100px;
+  width:80%;
   gap:4rem;
  
 }
-// .navbar
-// {
-//   width:200px ;
-//   height: 10px;
-//   background-color:  #67833e;
-// }
+
 .lists{
-  width: 21.875rem;
+  width: 19.875rem;
+  list-style: none;
+}
+
+.listsExpanded{
+  width: 18.875rem;
   list-style: none;
 }
 
 .navbar{
   color: black;
-  width: 23vw;
+  width: 20vw;
   height: 4px;
   padding-bottom: 0.313rem;
   list-style: none;
   transition: border-color 0.3s;
   border-radius: 0.625rem;
   background-color: #979797;
-  cursor: pointer;
-  // margin-left: 20px;
- 
+  cursor: pointer; 
 }
 
 .navbarExpanded{

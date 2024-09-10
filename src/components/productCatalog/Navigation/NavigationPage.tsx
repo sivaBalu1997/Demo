@@ -23,8 +23,9 @@ const Navigationpage = () => {
     "Pricing and kitchen details",
     "Item customizations",
   ];
+
   const history = useHistory();
-  const location:any = useLocation();              //need to change the type annotation
+  const location:any = useLocation();    //need to change the type annotation
 
   const { pagename } = location.state || {};
   const { path } = useRouteMatch();
@@ -44,14 +45,14 @@ const Navigationpage = () => {
 
   return (
     <>
-      <div className="navigation">
+      <div className={"navigation"}>
         <h1 className="Mainheading">Creating new menu item</h1>
         <nav className="nav">
-          <ul className={!isExpanded ? "listofnavigation" : "listofnavigationExpanded"}>
+          <ul className={isExpanded ? "listofnavigationExpanded" : "listofnavigation"}>
             {categories.map((category, index) => (
               <li
                 key={category}
-                className="lists"
+                className={isExpanded ? "listsExpanded" : "lists"}
                 onClick={() => handleCategoryClick(category)}
               >
                 <h1
