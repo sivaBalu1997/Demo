@@ -347,7 +347,15 @@ if (prizingDetail?.normalForm) {
       const addDayThirdfalse=()=>{
         setShowDayThird(false)
       }
-      getNormalForm(mainForm)
+      const handleGetNormalForm = (normalForm: any) => {
+        const updatedForm = { ...mainForm, normalForm };
+        getNormalForm(updatedForm);
+      };
+      useEffect(() => {
+        handleGetNormalForm(mainForm);
+      }, [mainForm]); // Add any dependencies if needed
+    
+      
       const handleSelect2 = (values: any, index: number): void => {
         // Update selected values state
         setSelectedValues((prevState: SelectedValuesState) => ({
