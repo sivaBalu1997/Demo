@@ -121,6 +121,7 @@ const PrimaryPage = () => {
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
@@ -305,8 +306,12 @@ const PrimaryPage = () => {
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
-      <div style={{ marginBottom: "40px" }}>
-        <div style={{ display: "flex" }} className="Main-Primary-Page">
+      <div
+        className={
+          isExpanded ? "Main-Primary-Page-Expanded" : "Main-Primary-Page"
+        }
+      >
+        <div>
           {/* <SidePanel /> */}
           <div style={{ marginBottom: "40px" }}>
             <Navigationpage />
@@ -323,6 +328,7 @@ const PrimaryPage = () => {
                       control={control}
                       render={({ field }: any) => (
                         <InputFieldComponent
+                          {...field}
                           name="itemName"
                           register={register}
                           trigger={trigger}
@@ -363,7 +369,6 @@ const PrimaryPage = () => {
                   </div>
 
                   <div className="Primary-page-InputFields">
-                    {" "}
                     <LableComponent lable="Cuisine *" />
                     <Controller
                       name="cuisine"
@@ -394,7 +399,6 @@ const PrimaryPage = () => {
                   </div>
 
                   <div className="Primary-page-InputFields">
-                    {" "}
                     <LableComponent lable="MealType *" />
                     <Controller
                       name="mealType"
@@ -425,7 +429,6 @@ const PrimaryPage = () => {
                   </div>
 
                   <div className="Primary-page-InputFields">
-                    {" "}
                     <LableComponent lable="Best paired with food items *" />
                     <Controller
                       name="bestPair"
@@ -612,33 +615,6 @@ const PrimaryPage = () => {
                         )}
                       />
                     </div>
-
-                    <div className="Primary-page-InputFields">
-                      <LableComponent lable="SubCategory" />
-                      <Controller
-                        name="subCategory"
-                        control={control}
-                        render={({ field }: any) => (
-                          <Dropdown
-                            options={dataSubcategory}
-                            setOptions={setDataSubcategory}
-                            placeholder="search for option"
-                            name="subCategory"
-                            register={register}
-                            trigger={trigger}
-                            setValue={setValue}
-                            getValues={getValues}
-                            dropdownopen={DropdownOpen.subCategory}
-                            onToggle={() =>
-                              setDropdownOpen({
-                                ...DropdownOpen,
-                                subCategory: !DropdownOpen.subCategory,
-                              })
-                            }
-                          />
-                        )}
-                      />
-                    </div>
                   </div>
 
                   <div className="Primary-page-Allergens-selection">
@@ -675,7 +651,7 @@ const PrimaryPage = () => {
                             {...field}
                             trigger={trigger}
                             register={register}
-                            subtext="Cal"
+                            placeholder="Cal"
                           />
                         )}
                       />
@@ -704,7 +680,7 @@ const PrimaryPage = () => {
                             {...field}
                             trigger={trigger}
                             register={register}
-                            subtext={getValues("selectedPortion")}
+                            placeholder={getValues("selectedPortion")}
                           />
                         )}
                       />

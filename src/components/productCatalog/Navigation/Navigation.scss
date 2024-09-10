@@ -1,9 +1,8 @@
-* 
-{
-  font-family: "Poppins",sans-serif;
+* {
+  font-family: "Poppins", sans-serif;
 }
 
-.navigation{
+.navigation {
   position: relative;
   height: 2.25rem;
   top: 0.363rem;
@@ -11,11 +10,10 @@
   width: 100%;
 }
 
-.Mainheading{
+.Mainheading {
   width: 400px;
-  font-size:1.5rem;
-  font-weight:500;
-  // margin-left: 3.2rem;
+  font-size: 1.5rem;
+  font-weight: 500;
   color: #67833E;
   line-height: 36px;
   margin-left: 10px;
@@ -23,83 +21,64 @@
   margin-bottom: 40px;
 }
 
-
-.listofnavigation{
+.listofnavigation {
   display: flex;
   flex-direction: row;
-  width:100%;
+  width: 100%;
   gap: 4rem;
 }
 
-.listofnavigationExpanded{   
+.listofnavigationExpanded {
   display: flex;
   flex-direction: row;
-  width:80%;
-  gap:4rem;
- 
+  width: 80%;
+  gap: 4rem;
 }
 
-.lists{
+.lists, .listsExpanded {
+  list-style: none;
+}
+
+.lists {
   width: 19.875rem;
-  list-style: none;
 }
 
-.listsExpanded{
+.listsExpanded {
   width: 18.875rem;
-  list-style: none;
 }
 
-.navbar{
-  color: black;
+/* Navbar styling */
+.navbar, .navbarExpanded {
+  height: 4px;
+  padding-bottom: 0.313rem;
+  transition: background-color 0.3s;
+  border-radius: 0.625rem;
+  background-color: #979797;
+  cursor: pointer;
+}
+
+.navbar {
   width: 20vw;
-  height: 4px;
-  padding-bottom: 0.313rem;
-  list-style: none;
-  transition: border-color 0.3s;
-  border-radius: 0.625rem;
-  background-color: #979797;
-  cursor: pointer; 
 }
 
-.navbarExpanded{
-  color: black;
+.navbarExpanded {
   width: 24vw;
-  height: 4px;
-  padding-bottom: 0.313rem;
-  list-style: none;
-  transition: border-color 0.3s;
-  border-radius: 0.625rem;
-  background-color: #979797;
-  cursor: pointer;
-  transition: border-color 0.3s;
-  border-radius: 0.625rem;
-  background-color: #979797;
-  cursor: pointer;
 }
 
-.navbarExpanded.active{
+.navbar.active, .navbarExpanded.active {
   background-color: #67833E;
-  cursor: pointer;
-}
-
-
-.navbar.active {
-  background-color: #67833E;
-  cursor: pointer;
 }
 
 .list-text {
   font-size: 16px;
-  font-weight:500;
-  font-family: "Poppins",sans-serif;
-  color:#979797;
+  font-weight: 500;
+  color: #979797;
   position: relative;
   margin-bottom: 6px;
   cursor: pointer;
-  &.activetext {
-      color: black; // Change color to black when active
-      cursor: pointer;
-      font-weight:500;
-  }
 }
 
+.list-text.activetext {
+  color: black;
+  font-weight: 500;
+}

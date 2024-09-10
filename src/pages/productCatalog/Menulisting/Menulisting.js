@@ -18,28 +18,28 @@ import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableT
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
 
-
 export const Menulisting = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [itemsState, setItemsState] = useState(itemsdata);
   const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 
   useEffect(() => {
-   
-    dispatch(storeMockDataRequest(combinedItemsData))
+    dispatch(storeMockDataRequest(combinedItemsData));
   }, []);
+
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
-  // console.log(Mockdata);
+
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
     index: null,
   });
+  
   const [draggingOverIndex, setDraggingOverIndex] = useState(null);
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
@@ -50,8 +50,6 @@ export const Menulisting = () => {
   const [SteamedVeg, setSteamedVeg] = useState([]);
   const [SteamedNonVeg, setSteamedNonVeg] = useState([]);
 
-
- 
   const [classNames, setclassNames] = useState([
     "Dinein1-class",
     "Pickup1-class",
@@ -124,7 +122,6 @@ export const Menulisting = () => {
     [""],
   ]);
 
- 
   const [steamType, setsteamType] = useState([
     {
       id: 1,
@@ -137,44 +134,33 @@ export const Menulisting = () => {
   ]);
 
   useEffect(() => {
-   
     const tempArray1 = [];
     const tempArray2 = [];
 
-    Mockdata.map(item => {
-      if (item.type=='steamedVeg') {
-
+    Mockdata.map((item) => {
+      if (item.type == "steamedVeg") {
         tempArray1.push(item);
       } else {
-  
         tempArray2.push(item);
       }
     });
 
-    
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-    console.log("temp1array",SteamedVeg);
-
-
-
-
-
+    console.log("temp1array", SteamedVeg);
   }, []);
- 
- 
 
-  useEffect(()=>{
-
+  useEffect(() => {
     setsteamType([
       { id: 1, name: SteamedVeg },
       { id: 2, name: SteamedNonVeg },
     ]);
+  }, [SteamedVeg, SteamedNonVeg]);
 
-  },[SteamedVeg, SteamedNonVeg])
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
+
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
       const updatedFirstRowTable = [...firstRowTable];
@@ -219,6 +205,7 @@ export const Menulisting = () => {
           return { ...item };
         });
       };
+
       const updatedsteamType = updatePricingDetails(item1, index);
       const updatedsteamType1 = updatePricingDetails(item2, index);
       setFirstRowTable(updatedFirstRowTable);
@@ -232,6 +219,7 @@ export const Menulisting = () => {
       setDraggedIndexsample(index);
     }
   };
+
   const handleColumnwiseDragEnd = () => {
     setDraggedIndexsample(null);
   };
@@ -262,6 +250,7 @@ export const Menulisting = () => {
     if (draggedRowIndex.objectId === null || draggedRowIndex.index === null) {
       return;
     }
+
     const draggedObjectId = draggedRowIndex.objectId;
     const draggedIndex = draggedRowIndex.index;
     if (draggedObjectId === objectId && draggedIndex !== index) {
@@ -281,6 +270,7 @@ export const Menulisting = () => {
       }
     }
   };
+
   const handleRowDragEnd = () => {
     setDraggedRowIndex({ objectId: null, index: null });
     setDraggingOverIndex(null);
@@ -348,6 +338,7 @@ export const Menulisting = () => {
       setshowheadinglist(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", Outsideclicking, true);
     return () => {
