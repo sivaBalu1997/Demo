@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
 import { useDispatch } from 'react-redux';
-import { Get_Image } from 'redux/productCatalog/productCatalogActions';
+import StringDisplay from '../StringDisplay/StringDisplay';
 
 interface Item {
   name: string;
@@ -115,7 +115,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               <img src={baseImageUrl+"https://cdn.pixabay.com//photo/2023/07/12/20/40/ai-generated-8123328_640.png"} alt="" className="foodimage" />
             </span>
             <span className="itemname2" onClick={()=>handleItemnameClick(item.id)}>
-              {item.name}
+            <StringDisplay text={item.name} length={14}/>
             </span>
             <span className="itemcode2">{item.code}</span>
           </td>
