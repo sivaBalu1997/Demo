@@ -14,9 +14,10 @@ interface TableRowsProps {
   itemobject: ItemObject;
   indexvalue: number;
   classNamesinner: string[];
-
+  handlemodal: (value: number) => void;
   listingobject: any;
-
+  setSideBar:()=>void
+  SideBarData:[]
   showsidebar: (key: string) => void;
 }
 
@@ -24,11 +25,17 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   itemobject,
   indexvalue,
   classNamesinner,
- 
+  handlemodal,
   listingobject,
 
   showsidebar,
 }) => {
+
+  const handlesidbarhandling=(key:string,value:number)=>{
+    showsidebar(key)
+    handlemodal(value);
+
+  }
   return (
     <>
       {itemobject.name.map((item, index) => (
@@ -47,7 +54,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                       {cellData.map((item, itemIndex) => (
                         <React.Fragment key={`${cellIndex}-${itemIndex}`}>
                           {item === 'Enabled' || item === 'Disabled' ? (
-                            <div onClick={() => showsidebar(key)} >
+                            <div  onClick={() => handlesidbarhandling(key,item.id)} >
                               <Toggle
                                 toggle={item === 'Enabled'}
                                
@@ -56,7 +63,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                           ) : (
                             <div
                               // className={`${className}${itemIndex}`}
-                              onClick={() => showsidebar(key)}
+                              onClick={() => handlesidbarhandling(key,item.id)}
                             >
                               {item}
                             </div>

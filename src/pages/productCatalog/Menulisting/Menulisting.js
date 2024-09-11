@@ -311,6 +311,7 @@ export const Menulisting = () => {
   const showsidebar = (key) => {
     if (key === "Dinein1" || key === "Pickup1" || key === "Delivery1") {
       handlemodal();
+
       setSideBarText("Pricing");
     } else if (key === "Dinein2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();
@@ -493,6 +494,8 @@ export const Menulisting = () => {
                         className={classNames[index]}
                         listingobject={listingobject}
                         classNames={classNames}
+                        
+
                       />
                     </React.Fragment>
                   ))}
@@ -521,6 +524,9 @@ export const Menulisting = () => {
                         classNamesinner={classNamesinner}
                         listingobject={listingobject}
                         showsidebar={showsidebar}
+                        SideBarData={SideBarData}
+                        setSideBar={setSideBar}
+                        handlemodal={handlemodal}
                       />
                     </React.Fragment>
                   );
