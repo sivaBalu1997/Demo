@@ -272,9 +272,9 @@ interface PricingDetails {
       dietary:"Vegan",
       cusine:"SouthIndian",
       pricingdetails: {
-        Dinein1: ["$900", "$100"],
-        Pickup1: ["$200", "$200", "$200"],
-        Delivery1: ["$300", "$300", "$300"],
+        Dinein1: ["$900.00", "$100.00"],
+        Pickup1: ["$200.00", "$200.00", "$200"],
+        Delivery1: ["$300.00", "$300", "$300"],
         Dinein2: ["Enabled", "Enabled"],
         Pickup2: ["Enabled", "Enabled", "Enabled"],
         Delivery2: ["Enabled", "Enabled", "Enabled"],

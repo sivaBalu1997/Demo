@@ -36,7 +36,8 @@ const SearchBox = () => {
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    filterOptions(value);
+
+   
     setOptionSelected(false);
   }
   const filterOptions = (input) => {
@@ -49,8 +50,9 @@ const SearchBox = () => {
 
   const handleOptionClick = (option) => {
     setSearchTerm(option.name);
-    setFilteredOptions([]);
+    filterOptions(option.name);
     setOptionSelected(true);
+    setFilteredOptions([]);
   };
 
   const handleKeyDown = (e) => {

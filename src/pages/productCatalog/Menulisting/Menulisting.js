@@ -34,6 +34,7 @@ export const Menulisting = () => {
   }, []);
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
+  const FilteredData= useSelector((state) => state.storeMockDataFilteredReducer.data);
 
   useEffect(()=>{
     console.log({Mockdata})
@@ -142,17 +143,32 @@ export const Menulisting = () => {
     const tempArray1 = [];
     const tempArray2 = [];
 
-    Mockdata.forEach(item => {
-      console.log("Item type:", item.type); 
-      if (item.type === "steamedVeg") {
-        tempArray1.push(item);  
-      } else {
-        tempArray2.push(item); 
-      }
-    });
+    if(FilteredData.length===0)
+    {
+      Mockdata.forEach(item => {
+        console.log("Item type:", item.type); 
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);  
+        } else {
+          tempArray2.push(item); 
+        }
+      });
+    }
+    else{
+      FilteredData.forEach(item => {
+        console.log("Item type:", item.type); 
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);  
+        } else {
+          tempArray2.push(item); 
+        }
+      });
+    }
+
+    console.log(FilteredData)
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-  }, [Mockdata]);
+  }, [Mockdata,FilteredData]);
 
   useEffect(() => {
     setsteamType([
@@ -398,14 +414,23 @@ export const Menulisting = () => {
               >
                 {steamType.map((object, index) => (
                   <React.Fragment key={index}>
+                    
+                      
                     <RowHeading
-                      objectId={object.id}
-                      index={index}
-                      onDragStart={handledragvegnonvegdragstart}
-                      onDragOver={handledragvegnonvegdropover}
-                      onDrop={handledragvegnonvegdropend}
-                    />
+                    objectId={object.id}
+                    index={index}
+                    onDragStart={handledragvegnonvegdragstart}
+                    onDragOver={handledragvegnonvegdropover}
+                    onDrop={handledragvegnonvegdropend}
+                    headingstringone={FilteredData.length&& FilteredData.type==="steamedVeg" ? FilteredData.type: "SteamedVeg" }
+                    headingstringtwo={FilteredData.length && FilteredData.type==="steamedNonVeg" ?FilteredData.type:"" }
 
+                   
+
+                  />
+
+                    
+                    
                     <TableOneBody
                       object={object}
                       draggingOverIndex={draggingOverIndex}
