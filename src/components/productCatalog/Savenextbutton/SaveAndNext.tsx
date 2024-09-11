@@ -132,6 +132,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
+      
+      // Dispatch your action with formData
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
     }

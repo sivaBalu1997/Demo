@@ -1,110 +1,139 @@
-import React, { useEffect, useState } from 'react'
-import "./AvailabilitySlider.scss"
+import React, { useState } from 'react';
+import './AvailabilitySlider.scss';
+import ToggleSliderAvail from '../ToggleSliderAvail/ToggleSliderAvail';
 
-import ToggleSliderAvail from "../ToggleSliderAvail/ToggleSliderAvail"
-interface AvailSliderProps{
-pen?:true
+interface AvailSliderProps {
+  pen?: true;
 }
 
-const PricingSlider:React.FC<AvailSliderProps> = ({pen}) => {
-    const[onPrem,setOnPrem]=useState(false)
-    const[sectionA,setSectionA]=useState(false)
-    const[sectionB,setSectionB]=useState(false)
-    const[pickup,setPickup]=useState(false)
-    const[delivery,setDelivery]=useState(false)
-    const[ofPrem,setOfPrem]=useState(false)
-    const[zomato,setZomato]=useState(false)
-    const[swiggy,setSwiggy]=useState(false)
-    const[ubereats,setUberEats]=useState(false)
-    const[other1,setOther1]=useState(false)
-    const[other2,setOther2]=useState(false)
-    useEffect(() => {
-      if (!onPrem) {
-          setSectionA(false);
-          setSectionB(false);
-      } else {
-          setSectionA(true);
-          setSectionB(true);
+const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
+  const data = [
+    {
+      mainHeading: 'Off-prem',
+      types: ['Section A:', 'Section B:'],
+    },
+    {
+      mainHeading: 'On-prem',
+      subcategories: [
+        {
+          subHeading: 'Pick up',
+          types: ['In house:', 'Swiggy:', 'Zomato:'],
+        },
+        {
+          subHeading: 'Delivery',
+          types: ['In house:', 'Swiggy:', 'Zomato:'],
+        },
+      ],
+    },
+  ];
+
+  const [toggleStates, setToggleStates] = useState(
+    data.map((item) => {
+      if (item.subcategories) {
+        return {
+          parentToggle: false,
+          subcategoryToggles: item.subcategories.map(() => ({
+            subParentToggle: false,
+            childToggles: Array(3).fill(false), // Assuming 3 child toggles per subcategory
+          })),
+        };
       }
-  }, [onPrem]);
-  useEffect(() => {
-    if (!ofPrem) {
-        setPickup(false);
-        setDelivery(false);
-        setZomato(false)
-        setSwiggy(false);
-        setUberEats(false);
-        setOther1(false);
-        setOther2(false);
+      return {
+        parentToggle: false,
+        childToggles: Array(item.types.length).fill(false),
+      };
+    })
+  );
+  
+
+  const handleParentToggle = (index: number) => {
+    const newToggleStates = [...toggleStates];
+    const newParentToggle = !newToggleStates[index].parentToggle;
+
+    if (data[index].subcategories) {
+      newToggleStates[index] = {
+        parentToggle: newParentToggle,
+        subcategoryToggles: (newToggleStates[index]?.subcategoryToggles ?? []).map((subcategory) => ({
+          subParentToggle: newParentToggle,
+          childToggles: Array(subcategory.childToggles?.length || 0).fill(newParentToggle),
+        })),
+      };
     } else {
-      setPickup(true);
-      setDelivery(true);
-      setZomato(true)
-      setSwiggy(true);
-      setUberEats(true);
-      setOther1(true);
-      setOther2(true);
+      newToggleStates[index] = {
+        parentToggle: newParentToggle,
+        childToggles: Array(data[index].types?.length || 0).fill(newParentToggle),
+      };
     }
-}, [ofPrem]);
+
+    setToggleStates(newToggleStates);
+  };
+
+  const handleChildToggle = (parentIndex: number, childIndex: number) => {
+    const newToggleStates = [...toggleStates];
+    const childToggles = newToggleStates[parentIndex].childToggles;
+
+    if (childToggles) {
+      childToggles[childIndex] = !childToggles[childIndex];
+    }
+
+    setToggleStates(newToggleStates);
+  };
+
   return (
     <div className='AvailSlider-Container'>
-     <h1 className='AvailSlider-Heading'>Availability</h1>
-     <div className='AvailOnprem-Ofprem'>
-    <div className='AvailOnToggle'>
-     <h1 className='AvailOnprem-Heading'>On-prem</h1>
-     <div className='OnpremToggle'><ToggleSliderAvail toggle={onPrem} setToggle={setOnPrem} pen={pen}/></div>
-     </div>
-     <div className='AvailSectionA'>
-      <h1 className='AvailSectionA-Heading'>Section A: </h1>
-      <div className="SectionAToggle"><ToggleSliderAvail toggle={sectionA} setToggle={setSectionA} pen={pen} /></div>
-      
-     </div>
-     <div className='AvailSectionB'>
-      <h1 className='AvailSectionB-Heading'>Section B: </h1>
-      <div className='SectionBToggle'><ToggleSliderAvail toggle={sectionB} setToggle={setSectionB} pen={pen}/></div>
-      
-     </div>
-     <div className='AvailOfToggle'>
-     <h1 className='AvailOfprem-Heading'>Of-prem</h1>
-     <div className='OfpremToggle'><ToggleSliderAvail toggle={ofPrem} setToggle={setOfPrem} pen={pen}/></div>
-     </div>
-     <div className='AvailOfPickup'>
-      <h1 className='AvailOfPickup-Heading'>Pickup: </h1>
-      <div className='PickupToggle'><ToggleSliderAvail toggle={pickup} setToggle={setPickup} pen={pen}/></div>
-     </div>
-     <div className='AvailOfDelivery'>
-      <h1 className='AvailOfDelivery-Heading'>Delivery: </h1>
-      <div className='DeliveryToggle'><ToggleSliderAvail toggle={delivery} setToggle={setDelivery} pen={pen}/></div>
-      
-     </div>
-     <div className='AvailOfZomato'>
-      <h1 className='AvailOfZomato-Heading'>Zomato: </h1>
-      <div className='ZomatoToggle'><ToggleSliderAvail toggle={zomato} setToggle={setZomato} pen={pen}/></div>
-      
-     </div>
-     <div className='AvailOfSwiggy'>
-      <h1 className='AvailOfSwiggy-Heading'>Swiggy: </h1>
-      <div className='SwiggyToggle'><ToggleSliderAvail toggle={swiggy} setToggle={setSwiggy} pen={pen}/></div>
-      
-     </div>
-     <div className='AvailOfUberEats'>
-      <h1 className='AvailOfUberEats-Heading'>UberEats: </h1>
-      <div className='UberToggle'><ToggleSliderAvail toggle={ubereats} setToggle={setUberEats} pen={pen}/></div>
-      
-     </div>
-     <div className='AvailOfOther1'>
-      <h1 className='AvailOfOther1-Heading'>Other 1: </h1>
-      <div className='Other1Toggle'><ToggleSliderAvail toggle={other1} setToggle={setOther1} pen={pen}/></div>
-      
-     </div>
-     <div className='AvailOfOther2'>
-      <h1 className='AvailOfOther2-Heading'>Other 2: </h1>
-      <div className='Other2Toggle'><ToggleSliderAvail toggle={other2} setToggle={setOther2} pen={pen}/></div>
-      
-     </div>
-     </div>
-     </div>
-  )
-}
+      <h3 className='AvailSlider-Heading'>Availability</h3>
+      <div className='AvailOnprem-Ofprem'>
+        {data.map((elem, index) => (
+          <div key={index} className='Avail-SectionAB'>
+            <div className='AvailHeading-Section'>
+              {elem.mainHeading}
+              <ToggleSliderAvail
+                toggle={toggleStates[index]?.parentToggle}
+                setToggle={() => handleParentToggle(index)}
+                pen={pen}
+              />
+            </div>
+            <div className='SectionASectionBSection'>
+              {elem.types?.map((type, typeIndex) => (
+                <div key={typeIndex} className='TypeHeading'>
+                  <h3 className='SectionASectionBSectionHeading'>{type}</h3> 
+                  <ToggleSliderAvail
+                    toggle={toggleStates[index]?.childToggles?.[typeIndex] || false}
+                    setToggle={() => handleChildToggle(index, typeIndex)}
+                    pen={pen}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className='PickupDeliveryAvail'>
+              {elem.subcategories?.map((subcategory, subindex) => (
+                <div key={subindex} className='subcategorySection' >
+                  <h3 className='SectionASectionBSectionHeadingBlack'>{subcategory.subHeading}</h3>
+                  <ToggleSliderAvail
+                        toggle={""}
+                        setToggle={() => handleChildToggle(index, subindex)}
+                        pen={pen}
+                      />                  <div className='TypesSection'>
+                  {subcategory.types.map((type, typeIndex) => (
+                    <div key={typeIndex} className='TypeHeading'>
+                      <h4 className='SectionASectionBSectionHeading'>{type}</h4>
+                      <ToggleSliderAvail
+                        toggle={""}
+                        setToggle={() => handleChildToggle(index, typeIndex)}
+                        pen={pen}
+                      />
+                    </div>
+                  ))}
+                  </div>
+                </div>
+                
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default PricingSlider
+export default PricingSlider;
