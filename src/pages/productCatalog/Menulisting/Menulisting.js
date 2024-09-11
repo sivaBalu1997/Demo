@@ -131,10 +131,12 @@ export const Menulisting = () => {
     {
       id: 1,
       name: [],
+      type:"SteamedVeg"
     },
     {
       id: 2,
       name: [],
+       type:"SteameNondVeg"
     },
   ]);
   const [SideBarData,setSideBar]=useState([]);
@@ -416,23 +418,24 @@ export const Menulisting = () => {
                   <React.Fragment key={index}>
                     
                       
-                    <RowHeading
+                    {/* <RowHeading
                     objectId={object.id}
                     index={index}
                     onDragStart={handledragvegnonvegdragstart}
                     onDragOver={handledragvegnonvegdropover}
                     onDrop={handledragvegnonvegdropend}
-                    headingstringone={FilteredData.length&& FilteredData.type==="steamedVeg" ? FilteredData.type: "SteamedVeg" }
-                    headingstringtwo={FilteredData.length && FilteredData.type==="steamedNonVeg" ?FilteredData.type:"" }
+                    headingstringone={steamType[0].length&& steamType[0].type==="steamedVeg" ? steamType[0].type: "SteamedVeg"}
+                    headingstringtwo={steamType[1].length && steamType[1].type==="steamedNonVeg" ?steamType[1].type:"SteamedNonVeg"}
 
                    
 
-                  />
+                  /> */}
 
                     
                     
                     <TableOneBody
                       object={object}
+                      index={index}
                       draggingOverIndex={draggingOverIndex}
                       draggedRowIndex={draggedRowIndex}
                       handleRowDragStart={handleRowDragStart}
@@ -442,6 +445,10 @@ export const Menulisting = () => {
                       handlemodal={handlemodal}
                       tableBodyRef1={tableBodyRef1}
                       tableBodyRef2={tableBodyRef2}
+                     
+                      handlevegrowstart={handledragvegnonvegdragstart}
+                      handlevegrowover={handledragvegnonvegdropover}
+                      handlevegrowend={handledragvegnonvegdropend}
                     />
                   </React.Fragment>
                 ))}
