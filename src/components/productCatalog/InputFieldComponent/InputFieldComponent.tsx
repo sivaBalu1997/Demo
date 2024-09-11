@@ -1,38 +1,35 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./InputFieldComponent.scss";
 import { FieldError } from "react-hook-form";
 
-interface Inputfieldinterface {
+interface InputFieldInterface {
   name: string;
   type?: string;
-  register: any;
-  required?: boolean;
-  validation?: any;
-  error?: FieldError;
+  value?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;  
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   trigger: any;
+  error?: any;
   placeholder?: string;
   subtext?: string;
 }
 
-const InputFieldComponent: React.FC<Inputfieldinterface> = ({
+const InputFieldComponent: React.FC<InputFieldInterface> = ({
   name,
-  type = "text",
-  register,
-  required = false,
-  validation,
-  error,
+  type,
+  value,
+  onChange,
   trigger,
+  onBlur,
+  error,
   placeholder,
   subtext,
 }) => {
-  // useEffect(()=>{
-  //   trigger(name);
-
-  // },[name])
-
+  
   const handleBlur = () => {
-    trigger(name);
+    trigger(name); 
   };
+
   return (
     <div>
       <div className="input-and-spantext">
@@ -40,7 +37,8 @@ const InputFieldComponent: React.FC<Inputfieldinterface> = ({
           type={type}
           autoComplete="off"
           name={name}
-          {...register(name)}
+          value={value}  
+          onChange={onChange} 
           onBlur={handleBlur}
           placeholder={placeholder}
           className="Input-Filed"

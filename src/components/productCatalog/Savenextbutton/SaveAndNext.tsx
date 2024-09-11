@@ -125,7 +125,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         pathname: `/productCatalog/Pricingandkitchendetails`,
         state: { pagename: "Pricing and kitchen details" },
       });
-
       dispatch(primarypost(formData));
       console.log("uploading", formData);
     } else if (seletedpage === "ItemCustomization") {

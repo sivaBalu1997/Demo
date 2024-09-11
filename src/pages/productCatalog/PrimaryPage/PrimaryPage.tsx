@@ -296,13 +296,15 @@ const PrimaryPage = () => {
       masterCode: "",
     },
   });
+
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("formData", data);
-    // const dataToDispatch = extractFields(data);
-    // dispatch(ApiPost(dataToDispatch));
+    console.log('Form Data:', data); 
+    const itemName = getValues('itemName');
+    console.log('Item Name:', itemName);
   };
+  
 
   return (
     <div style={{ display: "flex" }}>
@@ -327,11 +329,13 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemName"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
                           name="itemName"
-                          register={register}
+                          // register={register}
                           trigger={trigger}
                           error={errors.itemName}
                           // validation={{ required: "ItemName is required" }}
@@ -554,10 +558,13 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
-                          register={register}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                          name="itemCode"
+                          // register={register}
                           trigger={trigger}
                           type="number"
                         />
@@ -571,10 +578,13 @@ const PrimaryPage = () => {
                     <Controller
                       name="barCode"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
-                          register={register}
+                          onChange={onChange}
+                          name="barCode"
+                          onBlur={onBlur}
+                          value={value}
+                          // register={register}
                           trigger={trigger}
                         />
                       )}
