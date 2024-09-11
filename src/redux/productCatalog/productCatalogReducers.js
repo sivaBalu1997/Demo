@@ -53,6 +53,7 @@ const initialProductCatalogState = {
   ingredients: [],
   getIngredientsLoading: false,
   getIngredientsSuccess: false,
+  requestCompleted: false,
   modifier: [],
   getModifierLoading: false,
   getModifierSuccess: false,
@@ -139,16 +140,19 @@ export default function employeeReducer(
         draft.ingredients = [];
         draft.getSubCategoryLoading = true;
         draft.getIngredientsSuccess = false;
+        draft.requestCompleted = false
         break;
       case GET_INGR_SUCCESS:
         draft.ingredients = action.payload;
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = true;
+        draft.requestCompleted = true
         break;
       case GET_INGR_FAILED:
         draft.ingredients = [];
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = false;
+        draft.requestCompleted = false
         break;
       // Get Modifier
       case GET_MODIFIER_REQUEST:

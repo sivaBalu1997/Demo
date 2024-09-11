@@ -31,6 +31,8 @@ import {
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
+import { RootState } from "redux/rootReducer";
+import { stat } from "fs";
 
 interface Ingredients {
   id: string;
@@ -116,6 +118,8 @@ const PrimaryPage = () => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
+
+  const requestCompleted = useSelector((state:RootState) => state.productCatalog.requestCompleted)
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
   );
@@ -127,8 +131,8 @@ const PrimaryPage = () => {
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
   );
-  const [description, setDescription] = useState(""); // State for the textarea value
-  const [charCount, setCharCount] = useState(0); // State for character count
+  const [description, setDescription] = useState(""); 
+  const [charCount, setCharCount] = useState(0); 
   const maxLength = 100;
 
   // Handle input change for description and character count
@@ -162,10 +166,13 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     getApi();
-    setIngredientsFromAPi(ingredients);
     Category();
-    setCategories(categoriesdata);
   }, []);
+
+  useEffect(()=>{
+    setIngredientsFromAPi(ingredients);
+    setCategories(categoriesdata);
+  },[requestCompleted])
 
   const getApi = () => {
     dispatch(getIngredientsRequest(locationid));
@@ -305,7 +312,6 @@ const PrimaryPage = () => {
     console.log('Item Name:', itemName);
   };
   
-
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
