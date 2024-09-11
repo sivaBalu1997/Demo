@@ -9,19 +9,26 @@ import Trash from '../Trash/Trash';
 import NavSlider from '../NavSlider/NavSlider';
 import ArrowHover from '../../../assets/svg/ArrowHover.svg';
 import BasicChanges from '../BasicChanges/BasicChanges';
+import { useSelector } from 'react-redux'
+
 
 interface SliderProps {
   onclose: () => void;
   sidebartext: string;
 }
-
+interface StoreMockDataReducer {
+  data: any; 
+}
+interface RootState {
+  storeMockDataReducer: StoreMockDataReducer;
+}
 const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
   const [eye, setEye] = useState(false);
   const [trash, setTrash] = useState(false);
   const [active, setActive] = useState("Pricing");
   const modelref = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null); // Create a ref for the scrollable container
-
+  const data = useSelector((state: RootState) => state.storeMockDataReducer.data);
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if (modelref.current === e.target) 
       onclose();
@@ -53,7 +60,7 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
       <div className="Slider-Window">
         <div className='Slider-Mainform'>
           <div className='Slider-First-Row'>
-            <h1 className='Slider-Heading1'>Veg Burger Pizza - 12345</h1>
+            <h1 className='Slider-Heading1'>{data[0].name}</h1>
 
             <div className='Slider-icons'>
               <div className='PenImage-Section'>
