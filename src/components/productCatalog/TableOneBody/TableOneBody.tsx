@@ -69,27 +69,8 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 
   return (
     <>
-     <tr >
-          {
-           
-            <td className={`${object.type === "SteamedVeg" ? "itemheadingtwo" : "itemheading"}`}>
-            <img
-               src={dots}
-               alt=""
-               draggable
-               onDragStart={(e) => handlevegrowstart(e, index)}
-               onDragOver={handlevegrowover}
-               onDrop={(e) => handlevegrowend(e, index)}
-               className="headingdrag"
-             />
-              <span>{object.type}</span>
-          
-            </td>
-          }
+     
         
-        
-        
-        </tr>
       {object.name.map((item, index) => (
         <tr key={index}>
           {draggingOverIndex === index && <td className="placeholderplace"></td>}

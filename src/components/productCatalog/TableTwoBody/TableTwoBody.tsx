@@ -6,7 +6,7 @@ interface PricingDetails {
 }
 
 interface ItemObject {
-  name: { pricingdetails: PricingDetails }[];
+  name: { pricingdetails: PricingDetails,id: number}[];
   id: number;
 }
 
@@ -38,11 +38,11 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   }
   return (
     <>
-      {itemobject.name.map((item, index) => (
+      {itemobject.name.map((itemdata, index) => (
         <tr key={index}  className={`tabletwobodyrows ${indexvalue===1 && index===0 && 'secondrow'}`} >
           <td   className={`eachobject-rowwise `} >
 
-            {Object.entries(item.pricingdetails || {}).map(
+            {Object.entries(itemdata.pricingdetails || {}).map(
               ([key, cellData], cellIndex) =>     
               {
                 const className = classNamesinner[cellIndex];
@@ -54,7 +54,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                       {cellData.map((item, itemIndex) => (
                         <React.Fragment key={`${cellIndex}-${itemIndex}`}>
                           {item === 'Enabled' || item === 'Disabled' ? (
-                            <div  onClick={() => handlesidbarhandling(key,item.id)} >
+                            <div  onClick={() => handlesidbarhandling(key,itemdata.id)} >
                               <Toggle
                                 toggle={item === 'Enabled'}
                                
@@ -63,7 +63,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                           ) : (
                             <div
                               // className={`${className}${itemIndex}`}
-                              onClick={() => handlesidbarhandling(key,item.id)}
+                              onClick={() => handlesidbarhandling(key,itemdata.id)}
                             >
                               {item}
                             </div>

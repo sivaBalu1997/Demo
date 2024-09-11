@@ -419,7 +419,7 @@ export const Menulisting = () => {
                   <React.Fragment key={index}>
                     
                       
-                    {/* <RowHeading
+                     <RowHeading
                     objectId={object.id}
                     index={index}
                     onDragStart={handledragvegnonvegdragstart}
@@ -430,7 +430,7 @@ export const Menulisting = () => {
 
                    
 
-                  /> */}
+                  /> 
 
                     
                     
