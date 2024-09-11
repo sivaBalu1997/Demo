@@ -166,8 +166,7 @@ const DropDownList: React.FC<DropdownProps> = ({
             disabled={Disablesubcategory && name === "subCategory"}
           />
           <span className="dropdown-arrow" onClick={onToggle}>
-            
-            <img src={dropdown} alt="" className={`${dropdownopen?"dropdownimageopen":"dropdownimageclosed" }`} />
+            <img src={dropdown} alt="" className={`${dropdownopen?"dropdownimageclosed":"dropdownimageopen" }`} />
           </span>
         </div>
 
@@ -183,7 +182,6 @@ const DropDownList: React.FC<DropdownProps> = ({
               filteredOptions.map((option, index) => (
                 <div
                   className="dropdown-option-list"
-                  
                 >
                   <li key={index} className="dropdown-option">
                     <input
