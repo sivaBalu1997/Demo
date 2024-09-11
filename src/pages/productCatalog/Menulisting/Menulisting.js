@@ -28,32 +28,17 @@ export const Menulisting = () => {
   const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
-  const [listedfooditemsdata,setlistedfooditemsdata]=useState([]);
-  const [ListingType,setListingType]=useState('');
 
   useEffect(() => {
     dispatch(storeMockDataRequest(combinedItemsData));
   }, []);
-  const Mockdata = useSelector((state) => state?.storeMockDataReducer?.data);
-  const MockdataFiltered= useSelector((state) => state?.storeMockDataFilteredReducer?.data);
 
+  const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
 
-
-console.log(MockdataFiltered.map((item)=>item.type));
   useEffect(()=>{
-    if(MockdataFiltered.length===0)
-    {
-      setlistedfooditemsdata(Mockdata);
-    }
-    else{
-      setlistedfooditemsdata(MockdataFiltered);
+    console.log({Mockdata})
+  },[Mockdata])
 
-      setListingType((MockdataFiltered.map((item)=>item.type)).toString())
-    }
-
-  },[Mockdata,MockdataFiltered])
-
-  // console.log(Mockdata);
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
     index: null,
@@ -166,15 +151,14 @@ console.log(MockdataFiltered.map((item)=>item.type));
     });
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-    setsteamType([
-      { id: 1, name: tempArray1 },
-      { id: 2, name: tempArray2 },
-    ]);
-  }, [Mockdata,SteamedVeg, SteamedNonVeg]);
+  }, [Mockdata]);
 
-  // useEffect(() => {
- 
-  // }, []);
+  useEffect(() => {
+    setsteamType([
+      { id: 1, name: SteamedVeg },
+      { id: 2, name: SteamedNonVeg },
+    ]);
+  }, [SteamedVeg, SteamedNonVeg]);
 
 
   const handleColumnwiseDragStart = (index) => {
@@ -408,7 +392,6 @@ console.log(MockdataFiltered.map((item)=>item.type));
                   <React.Fragment key={index}>
                     <RowHeading
                       objectId={object.id}
-                      Typename={ListingType}
                       index={index}
                       onDragStart={handledragvegnonvegdragstart}
                       onDragOver={handledragvegnonvegdropover}

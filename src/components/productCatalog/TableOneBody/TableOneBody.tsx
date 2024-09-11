@@ -7,17 +7,19 @@ import { Get_Image } from 'redux/productCatalog/productCatalogActions';
 interface Item {
   name: string;
   code: string;
+  id:number;
 }
 
 interface ItemRowProps {
-  object: { name: Item[]; id: number };
+  object:
+   { name: Item[]; id: number };
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
   handleRowDragStart: (id: number, index: number) => void;
   handleRowDragOver: (id: number, index: number) => void;
   handleRowDragEnd: () => void;
   handleDragScroll: (e: React.DragEvent, ref1: React.RefObject<HTMLDivElement>, ref2: React.RefObject<HTMLDivElement>) => void;
-  handlemodal: () => void;
+  handlemodal: (value: number) => void;
   tableBodyRef1: React.RefObject<HTMLDivElement>;
   tableBodyRef2: React.RefObject<HTMLDivElement>;
 }
@@ -42,7 +44,13 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   // }
   // ,[])
   const baseImageUrl=process.env.REACT_APP_IMAGE_DOMAIN;
-  console.log(baseImageUrl)
+  // console.log(baseImageUrl)
+
+  const handleItemnameClick=(value:number)=>{
+    // console.log(value);
+    handlemodal(value);
+
+  }
 
   return (
     <>
@@ -68,7 +76,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               <img src={dots} alt="" className="draggableimg" />
               <img src={baseImageUrl+"https://cdn.pixabay.com//photo/2023/07/12/20/40/ai-generated-8123328_640.png"} alt="" className="foodimage" />
             </span>
-            <span className="itemname2" onClick={handlemodal}>
+            <span className="itemname2" onClick={()=>handleItemnameClick(item.id)}>
               {item.name}
             </span>
             <span className="itemcode2">{item.code}</span>

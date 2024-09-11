@@ -54,7 +54,7 @@ const CustomizeSlider = () => {
       }
     setToggleStates(newToggleStates);
   };
-console.log(toggleStates)
+// console.log(toggleStates)
   return (
     <div className='customize-container'>
       <h3 className='customize-heading'>Customize</h3>

@@ -286,6 +286,7 @@ const PrimaryPage = () => {
     formState: { errors },
     trigger,
     reset,
+    watch
   } = useForm<FormData>({
     defaultValues: {
       itemNameData: "",
@@ -295,7 +296,7 @@ const PrimaryPage = () => {
       bestPair: "",
       description: "",
       imageUrls: [],
-      alcohol: "",
+      alcohol: "no",
       itemCode: "",
       barCode: "",
       category: "",
@@ -311,6 +312,11 @@ const PrimaryPage = () => {
       masterCode: "",
     },
   });
+  const selectedradiowatch = watch();
+
+   // Watch to get the current value
+
+
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -369,7 +375,7 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
-                          // validation={{ required: "dietaryType is required" }}
+                          validation={{ required: "dietaryType is required" }}
                           error={errors.dietaryType}
                           dropdownopen={DropdownOpen.dietaryType}
                           onToggle={() => handleDropdownToggle("dietaryType")}
@@ -535,13 +541,12 @@ const PrimaryPage = () => {
                   <div className="Primary-page-InputFields alcoholradiobutton">
                     <h3>Contains Alcohol ?</h3>
                     <RadioButtonGroup
-                      options={dataAlcoholRadio}
-                      name="alcohol"
-                      selectedValue={selectedValues.alcohol}
-                      onChange={(value) => handleRadioChange("alcohol", value)}
-                      register={register}
-                      defaultvalue={dataAlcoholRadio[1].value}
-                    />
+        options={dataAlcoholRadio}
+        name="alcohol"
+        selectedValue={selectedradiowatch.alcohol}
+        onChange={(value) => handleRadioChange("alcohol", value)}
+        register={register}
+      /> 
                   </div>
                 </div>
 
@@ -610,7 +615,30 @@ const PrimaryPage = () => {
                         )}
                       />
                     </div>
+                    <div className="Primary-page-InputFields">
+                <LableComponent lable="SubCategory" />
+                <Controller
+                  name="subCategory"
+                  control={control}
+                  render={({ field }:any) => (
+                    <Dropdown
+                      options={dataSubcategory}
+                      setOptions={setDataSubcategory}
+                      placeholder="search for option"
+                      name="subCategory"
+                      register={register}
+                      trigger={trigger}
+                      setValue={setValue}
+                      getValues={getValues}
+                      dropdownopen={DropdownOpen.subCategory}
+                      setDropdownOpen={setDropdownOpen}
+                      onToggle={() => handleDropdownToggle("subCategory")}
+                    />
+                  )}
+                />
+              </div>
                   </div>
+                  
 
                   <div className="Primary-page-Allergens-selection">
                     <Imagepillsselection
@@ -652,16 +680,13 @@ const PrimaryPage = () => {
                       />
                     </div>
                     <div>
-                      <RadioButtonGroup
-                        options={dataCaloriePointRadio}
-                        name="selectedcolorie"
-                        selectedValue={selectedValues.selectedcolorie}
-                        onChange={(value) =>
-                          handleRadioChange("selectedcolorie", value)
-                        }
-                        register={register}
-                        defaultvalue={dataCaloriePointRadio[0].value}
-                      />
+                    <RadioButtonGroup
+        options={dataCaloriePointRadio}
+        name="selectedcolorie"
+        selectedValue={selectedradiowatch.selectedcolorie}
+        onChange={(value) => handleRadioChange("selectedcolorie", value)}
+        register={register}
+      />
                     </div>
                   </div>
 
@@ -682,16 +707,13 @@ const PrimaryPage = () => {
                     </div>
 
                     <div>
-                      <RadioButtonGroup
-                        options={dataPortionSizeRadio}
-                        name="selectedPortion"
-                        selectedValue={selectedValues.selectedPortion}
-                        onChange={(value) =>
-                          handleRadioChange("selectedPortion", value)
-                        }
-                        register={register}
-                        defaultvalue={dataPortionSizeRadio[0].value}
-                      />
+                    <RadioButtonGroup
+        options={dataPortionSizeRadio}
+        name="selectedPortion"
+        selectedValue={selectedradiowatch.selectedPortion}
+        onChange={(value) => handleRadioChange("selectedPortion", value)}
+        register={register}
+      />
                     </div>
                   </div>
 

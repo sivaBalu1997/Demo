@@ -1,5 +1,11 @@
-import React, { useState, useRef, useEffect, ChangeEvent, FocusEvent } from 'react';
-import './Dropdown.scss';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  ChangeEvent,
+  FocusEvent,
+} from "react";
+import "./Dropdown.scss";
 import UpArrow from "../../../assets/images/dropdown.png";
 
 // Define types for props
@@ -13,7 +19,7 @@ interface DropdownProps {
     errorMessage?: string;
   };
   onBlur?: () => void;
-  width:string
+  width: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -23,34 +29,31 @@ const Dropdown: React.FC<DropdownProps> = ({
   label,
   validation,
   width,
-  onBlur
+  onBlur,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // Handle clicking outside the dropdown to close it
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
-      // Type guard to ensure event is a MouseEvent
       if (event instanceof MouseEvent) {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target as Node)
+        ) {
           setIsOpen(false);
           setRotateImg(false);
-          
         }
       }
     };
-  
-    // Add event listener when component mounts
-    document.addEventListener('mousedown', handleClickOutside);
-  
-    // Cleanup the event listener when component unmounts
+
+    document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
 
   const handleDropdownClick = () => {
     setIsOpen(!isOpen);
@@ -60,32 +63,38 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const newSelectedValues = selectedValues.includes(value)
-      ? selectedValues.filter((item) => item !== value) // Unselect if already selected
-      : [...selectedValues, value]; // Add to selected values
+      ? selectedValues.filter((item) => item !== value)
+      : [...selectedValues, value];
 
-    onSelect(newSelectedValues); // Update parent state
+    onSelect(newSelectedValues);
   };
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef}>
-      <label className='droplabelPricing'>{label}</label>
-      <div 
-        className={!validation?.isValid ? "dropdownPricingred" : "dropdownPricingList"} 
-        style={{width:"Drop1"?"300px":"200px"}}
-        onClick={handleDropdownClick} 
+      <label className="droplabelPricing">{label}</label>
+      <div
+        className={
+          !validation?.isValid ? "dropdownPricingred" : "dropdownPricingList"
+        }
+        style={{ width: "Drop1" ? "300px" : "200px" }}
+        onClick={handleDropdownClick}
         tabIndex={0}
       >
         {selectedValues.length > 0 ? (
-          <div className='valuePricing'>
-            {selectedValues.slice(0, 3).join(', ')}
+          <div className="valuePricing">
+            {selectedValues.slice(0, 3).join(", ")}
           </div>
         ) : (
-          <div className='valuePlaceholder'>
+          <div className="valuePlaceholder">
             {/* Placeholder or empty state can be handled here */}
           </div>
         )}
         <div>
-          <img src={UpArrow} className={rotateImg ? 'arrowrotatePricing' : 'arrowdropPricing'} alt="arrow" />
+          <img
+            src={UpArrow}
+            className={rotateImg ? "arrowrotatePricing" : "arrowdropPricing"}
+            alt="arrow"
+          />
         </div>
       </div>
       {isOpen && (
@@ -110,7 +119,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         </div>
       )}
       {!validation?.isValid && (
-        <p style={{ color: 'red', fontSize: "0.75rem", fontWeight: "500" }}>
+        <p style={{ color: "red", fontSize: "0.75rem", fontWeight: "500" }}>
           {validation?.errorMessage}
         </p>
       )}

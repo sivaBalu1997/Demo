@@ -18,7 +18,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   onDrop,
   Typename
 }) => {
-  console.log("list tye",Typename)
+  // console.log("list tye",Typename)
   
   if (objectId === 1) {
     return (

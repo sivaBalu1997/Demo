@@ -68,26 +68,26 @@ const DropDownList: React.FC<DropdownProps> = ({
   //     document.removeEventListener("click", handleClickOutside);
   //   };
   // }, [dropdownopen]);
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        // If the click is outside the dropdown, close all dropdowns
-        setDropdownOpen({
-          dietaryType: false,
-          cuisine: false,
-          mealType: false,
-          bestPair: false,
-          category: false,
-          subCategory: false,
-        });
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+     
+  //       setDropdownOpen({
+  //         dietaryType: false,
+  //         cuisine: false,
+  //         mealType: false,
+  //         bestPair: false,
+  //         category: false,
+  //         subCategory: false,
+  //       });
+  //     }
+  //   };
 
-    document.addEventListener('mousedown', handleClickOutside); // Listen for clicks outside
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside); // Clean up on component unmount
-    };
-  }, []);
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside); 
+  //   };
+  // }, []);
 
   useEffect(() => {
     const categoryValue = getValues("category");
@@ -114,7 +114,15 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSelectedOption(option); 
     setValue(name, option.name);
     setAddNewButton(false);
-    closeDropdown()
+          setDropdownOpen({
+          dietaryType: false,
+          cuisine: false,
+          mealType: false,
+          bestPair: false,
+          category: false,
+          subCategory: false,
+        });
+    trigger(name);
    
   };
 

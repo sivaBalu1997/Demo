@@ -84,7 +84,7 @@ const SearchBox = () => {
       filterOptions(newValue);
     }
   };
-  console.log(filteredOptionsDispatch)
+  // console.log(filteredOptionsDispatch)
   return (
     <div className="Search-Container">
       <div>
