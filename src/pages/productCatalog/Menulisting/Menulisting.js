@@ -136,6 +136,7 @@ export const Menulisting = () => {
       name: [],
     },
   ]);
+  const [SideBar,setSideBar]=useState([]);
 
   useEffect(() => {
     const tempArray1 = [];
@@ -278,8 +279,15 @@ export const Menulisting = () => {
     setDraggingOverIndex(null);
   };
 
-  const handlemodal = () => {
+  const handlemodal = (value) => {
     setmodal(true);
+    console.log(value);
+
+    console.log(Mockdata.filter(item=>item.id===value))
+    setSideBar(Mockdata.filter(item=>item.id===value))
+
+
+
   };
 
   const showsidebar = (key) => {
