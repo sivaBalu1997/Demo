@@ -136,7 +136,7 @@ export const Menulisting = () => {
       name: [],
     },
   ]);
-  const [SideBar,setSideBar]=useState([]);
+  const [SideBarData,setSideBar]=useState([]);
 
   useEffect(() => {
     const tempArray1 = [];
@@ -497,7 +497,7 @@ export const Menulisting = () => {
             </table>
           </div>
           {modal && (
-            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} />
+            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} SideBarData={SideBarData}  />
           )}
         </div>
       </div>

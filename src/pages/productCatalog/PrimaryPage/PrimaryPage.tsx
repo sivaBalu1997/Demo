@@ -176,10 +176,17 @@ const PrimaryPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
+
+    
     getApi();
-    setIngredientsFromAPi(ingredients);
+    setTimeout(()=>{
+      setIngredientsFromAPi(ingredients);
+
+    },1000)
+   
     Category();
     setCategories(categoriesdata);
+    console.log("ingredients",ingredients)
   }, []);
 
   const getApi = () => {
