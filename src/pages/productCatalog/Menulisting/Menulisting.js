@@ -34,6 +34,7 @@ export const Menulisting = () => {
   }, []);
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
+  const FilteredData= useSelector((state) => state.storeMockDataFilteredReducer.data);
 
   useEffect(()=>{
     console.log({Mockdata})
@@ -130,29 +131,46 @@ export const Menulisting = () => {
     {
       id: 1,
       name: [],
+      type:"SteamedVeg"
     },
     {
       id: 2,
       name: [],
+       type:"SteameNondVeg"
     },
   ]);
-  const [SideBar,setSideBar]=useState([]);
+  const [SideBarData,setSideBar]=useState([]);
 
   useEffect(() => {
     const tempArray1 = [];
     const tempArray2 = [];
 
-    Mockdata.forEach(item => {
-      console.log("Item type:", item.type); 
-      if (item.type === "steamedVeg") {
-        tempArray1.push(item);  
-      } else {
-        tempArray2.push(item); 
-      }
-    });
+    if(FilteredData.length===0)
+    {
+      Mockdata.forEach(item => {
+        console.log("Item type:", item.type); 
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);  
+        } else {
+          tempArray2.push(item); 
+        }
+      });
+    }
+    else{
+      FilteredData.forEach(item => {
+        console.log("Item type:", item.type); 
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);  
+        } else {
+          tempArray2.push(item); 
+        }
+      });
+    }
+
+    console.log(FilteredData)
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-  }, [Mockdata]);
+  }, [Mockdata,FilteredData]);
 
   useEffect(() => {
     setsteamType([
@@ -398,16 +416,26 @@ export const Menulisting = () => {
               >
                 {steamType.map((object, index) => (
                   <React.Fragment key={index}>
-                    <RowHeading
-                      objectId={object.id}
-                      index={index}
-                      onDragStart={handledragvegnonvegdragstart}
-                      onDragOver={handledragvegnonvegdropover}
-                      onDrop={handledragvegnonvegdropend}
-                    />
+                    
+                      
+                    {/* <RowHeading
+                    objectId={object.id}
+                    index={index}
+                    onDragStart={handledragvegnonvegdragstart}
+                    onDragOver={handledragvegnonvegdropover}
+                    onDrop={handledragvegnonvegdropend}
+                    headingstringone={steamType[0].length&& steamType[0].type==="steamedVeg" ? steamType[0].type: "SteamedVeg"}
+                    headingstringtwo={steamType[1].length && steamType[1].type==="steamedNonVeg" ?steamType[1].type:"SteamedNonVeg"}
 
+                   
+
+                  /> */}
+
+                    
+                    
                     <TableOneBody
                       object={object}
+                      index={index}
                       draggingOverIndex={draggingOverIndex}
                       draggedRowIndex={draggedRowIndex}
                       handleRowDragStart={handleRowDragStart}
@@ -417,6 +445,10 @@ export const Menulisting = () => {
                       handlemodal={handlemodal}
                       tableBodyRef1={tableBodyRef1}
                       tableBodyRef2={tableBodyRef2}
+                     
+                      handlevegrowstart={handledragvegnonvegdragstart}
+                      handlevegrowover={handledragvegnonvegdropover}
+                      handlevegrowend={handledragvegnonvegdropend}
                     />
                   </React.Fragment>
                 ))}
@@ -497,7 +529,7 @@ export const Menulisting = () => {
             </table>
           </div>
           {modal && (
-            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} />
+            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} SideBarData={SideBarData}  />
           )}
         </div>
       </div>
