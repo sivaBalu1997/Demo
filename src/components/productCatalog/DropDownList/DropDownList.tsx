@@ -171,7 +171,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const closeDropdown = () => {
-    console.log("dropdownopen",dropdownopen)
     if (dropdownopen) {
       onToggle();
     }
