@@ -44,7 +44,9 @@ const Header = () => {
           {filterSelected===false && <img className='ArrowHoverHeaderExcel' src={ArrowHover} alt="" />}
           {filterSelected===false &&  <div className='ExcelHover'>Import</div>}
         </div>  
-      </div>
+        </div>
+
+
       <div 
         onClick={()=>history.push("/productCatalog/PrimaryDetails")} 
         className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"
