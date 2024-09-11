@@ -23,6 +23,9 @@ interface Item {
   dietary:string;
   cusine:string;
   pricingdetails: PricingDetails;
+  mealType:string;
+  dietary:string;
+  cusine:string;
 }
 
 // Define your mock data
