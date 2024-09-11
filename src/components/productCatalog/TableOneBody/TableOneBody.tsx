@@ -66,7 +66,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
           >
             <span className="itemimage2">
               <img src={dots} alt="" className="draggableimg" />
-              <img src={baseImageUrl+"/photo/2023/07/12/20/40/ai-generated-8123328_640.png"} alt="" className="foodimage" />
+              <img src={baseImageUrl+"https://cdn.pixabay.com//photo/2023/07/12/20/40/ai-generated-8123328_640.png"} alt="" className="foodimage" />
             </span>
             <span className="itemname2" onClick={handlemodal}>
               {item.name}
@@ -80,3 +80,4 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 };
 
 export default TableOneBody;
+//https://cdn.pixabay.com/photo/2023/07/12/20/40/ai-generated-8123328_640.png

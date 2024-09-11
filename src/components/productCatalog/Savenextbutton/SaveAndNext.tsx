@@ -56,7 +56,7 @@ interface FormData {
   selectionType?: string;
   field1?: number;
   field2?: number;
-  [key: string]: any; // Define specific types if known, e.g., number | string
+  [key: string]: any; 
 }
 interface Option {
   item: string;
@@ -104,10 +104,11 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       behavior: "smooth",
     });
   };
+  const formData = getFormData();
+    console.log("uploading", formData);
 
   const handleclick = async () => {
-    const formData = getFormData();
-
+    
     if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
 
@@ -127,7 +128,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       });
 
       dispatch(primarypost(formData));
-      console.log("uploading", formData);
+  
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();

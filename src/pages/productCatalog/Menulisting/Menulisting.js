@@ -166,14 +166,15 @@ console.log(MockdataFiltered.map((item)=>item.type));
     });
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-  }, [Mockdata]);
-
-  useEffect(() => {
     setsteamType([
       { id: 1, name: tempArray1 },
       { id: 2, name: tempArray2 },
     ]);
-  }, [SteamedVeg, SteamedNonVeg]);
+  }, [Mockdata,SteamedVeg, SteamedNonVeg]);
+
+  // useEffect(() => {
+ 
+  // }, []);
 
 
   const handleColumnwiseDragStart = (index) => {
