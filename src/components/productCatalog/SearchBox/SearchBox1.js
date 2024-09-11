@@ -5,6 +5,8 @@ import searchIcon from '../../../assets/images/searchicon.png'
 import NotFound from '../../../assets/svg/NotFound copy.svg'
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { storeMockDataFilteredRequest } from 'redux/productCatalog/productCatalogActions'
 
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,16 +15,23 @@ const SearchBox = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const data = useSelector((state) => state.storeMockDataReducer.data);
 
-  const [items, setItems] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
+  const dispatch=useDispatch();
+
+  
 
   useEffect(() => {
-    // Only update items if data is not undefined
     if (data && data.length) {
-      setItems(data.map((elem) => elem.name));
-    }
-  }, [data]); // Add data as a dependency
+      setFilteredOptions(data.map((elem) => elem.name)); 
 
-  const [filteredOptions, setFilteredOptions] = useState([]);
+    }
+  }, [data]);
+
+  useEffect(()=>{
+    dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch))
+    
+  },[filteredOptionsDispatch])
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -30,16 +39,16 @@ const SearchBox = () => {
     filterOptions(value);
     setOptionSelected(false);
   }
-
   const filterOptions = (input) => {
-    const filtered = items.filter(option =>
-      option.toLowerCase().includes(input.toLowerCase())
+    const filtered = data.filter((item) =>
+      item.name.toLowerCase().includes(input.toLowerCase())
     );
     setFilteredOptions(filtered);
+    setFilteredOptionsDispatch(filtered)
   };
 
   const handleOptionClick = (option) => {
-    setSearchTerm(option);
+    setSearchTerm(option.name);
     setFilteredOptions([]);
     setOptionSelected(true);
   };
@@ -75,7 +84,7 @@ const SearchBox = () => {
       filterOptions(newValue);
     }
   };
-
+  // console.log(filteredOptionsDispatch)
   return (
     <div className="Search-Container">
       <div>
@@ -105,7 +114,7 @@ const SearchBox = () => {
                   className={index === highlightedIndex ? 'highlighted' : ''}
                 >
                   <div className={isExpanded ? 'Search-Container-options1-items' : "Search-Container-options-items"}>
-                    {option}
+                  {option.name}
                   </div>
                 </li>
               ))

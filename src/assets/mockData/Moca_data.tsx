@@ -1,6 +1,3 @@
-// src/mockData.ts
-
-// Define the shape of the item'
 import { useDispatch } from "react-redux";
 
 interface PricingDetails {
@@ -19,6 +16,9 @@ interface Item {
   name: string;
   code: string;
   type: string;
+  mealType: string;
+  dietary: string;
+  cusine: string;
   pricingdetails: PricingDetails;
 }
 
@@ -33,6 +33,9 @@ export const itemsdata: Item[] = [
     name: "dosa",
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$100.00", "$100.00"],
       Pickup1: ["$200.00", "$200.00", "$200.00"],
@@ -49,6 +52,9 @@ export const itemsdata: Item[] = [
     name: truncateString(" Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Lunch",
+    dietary: "Nonveg",
+    cusine: "NorthIndian",
     pricingdetails: {
       Dinein1: ["$400.00", "$600.00"],
       Pickup1: ["$700.00", "$700.00", "$200.00"],
@@ -65,6 +71,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$400..00", "$600.00"],
       Pickup1: ["$700.00", "$700.00", "$200.00"],
@@ -81,6 +90,9 @@ export const itemsdata: Item[] = [
     name: truncateString("idly Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Dinner",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$400.00", "$600.00"],
       Pickup1: ["$700.00", "$700.00", "$200.00"],
@@ -97,6 +109,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500.00", "$900.00"],
       Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -113,6 +128,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500.00", "$900.00"],
       Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -129,6 +147,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500.00", "$900.00"],
       Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -145,6 +166,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500.00", "$900.00"],
       Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -161,6 +185,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500.00", "$900.00"],
       Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -177,6 +204,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500.00", "$900.00"],
       Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -193,6 +223,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500.00", "$900.00"],
       Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -209,6 +242,9 @@ export const itemsdata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500.00", "$900.00"],
       Pickup1: ["$200.00", "$400.00", "$200.00"],
@@ -228,6 +264,9 @@ export const itemsfooddata: Item[] = [
     name: "Chicken",
     code: "12345",
     type: "steamedNonVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$900", "$100"],
       Pickup1: ["$200", "$200", "$200"],
@@ -244,6 +283,9 @@ export const itemsfooddata: Item[] = [
     name: truncateString("Fish", 14),
     code: "12345",
     type: "steamedNonVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$400", "$600"],
       Pickup1: ["$700", "$700", "$200"],
@@ -260,6 +302,9 @@ export const itemsfooddata: Item[] = [
     name: truncateString("Mutton", 14),
     code: "12345",
     type: "steamedNonVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$400", "$600"],
       Pickup1: ["$700", "$700", "$200"],
@@ -276,6 +321,9 @@ export const itemsfooddata: Item[] = [
     name: truncateString("Chicken 65", 14),
     code: "12345",
     type: "steamedNonVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$400", "$600"],
       Pickup1: ["$700", "$700", "$200"],
@@ -292,6 +340,9 @@ export const itemsfooddata: Item[] = [
     name: truncateString("Chicken roll", 14),
     code: "12345",
     type: "steamedNonVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500", "$900"],
       Pickup1: ["$200", "$400", "$200"],
@@ -308,6 +359,9 @@ export const itemsfooddata: Item[] = [
     name: truncateString("Creamy Mushroo", 14),
     code: "12345",
     type: "steamedNonVeg",
+    mealType: "Breakfast",
+    dietary: "Vegan",
+    cusine: "SouthIndian",
     pricingdetails: {
       Dinein1: ["$1500", "$900"],
       Pickup1: ["$200", "$400", "$200"],
