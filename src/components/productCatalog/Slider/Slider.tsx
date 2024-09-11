@@ -11,10 +11,32 @@ import ArrowHover from '../../../assets/svg/ArrowHover.svg';
 import BasicChanges from '../BasicChanges/BasicChanges';
 import { useSelector } from 'react-redux'
 
+interface PricingDetails {
+  Dinein1: string[];
+  Pickup1: string[];
+  Delivery1: string[];
+  Dinein2: string[];
+  Pickup2: string[];
+  Delivery2: string[];
+  Inventory1: string[];
+  Customize1: string[];
+}
+
+interface SideBarData {
+  id: number;
+  name: string;
+  code: string;
+  type:string;
+  mealType:string;
+  dietary:string;
+  cusine:string
+  pricingdetails: PricingDetails;
+}
 
 interface SliderProps {
   onclose: () => void;
   sidebartext: string;
+  SideBarData: SideBarData[]
 }
 interface StoreMockDataReducer {
   data: any; 
@@ -22,7 +44,7 @@ interface StoreMockDataReducer {
 interface RootState {
   storeMockDataReducer: StoreMockDataReducer;
 }
-const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
+const Slider: React.FC<SliderProps> = ({ onclose, sidebartext,SideBarData }) => {
   const [eye, setEye] = useState(false);
   const [trash, setTrash] = useState(false);
   const [active, setActive] = useState("Pricing");
@@ -54,13 +76,14 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
       }
     }
   };
+  console.log(SideBarData)
 
   return (
     <div ref={modelref} className='Slider-Container' onClick={closeModal}>
       <div className="Slider-Window">
         <div className='Slider-Mainform'>
           <div className='Slider-First-Row'>
-            <h1 className='Slider-Heading1'>{data[0].name}</h1>
+            <h1 className='Slider-Heading1'>{SideBarData?.[0]?.name}</h1>
 
             <div className='Slider-icons'>
               <div className='PenImage-Section'>
@@ -86,7 +109,7 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
         </div>
 
         <div className='NavSlider-Component'>
-          <NavSlider eye={eye} trash={trash} sidebartext={sidebartext} />
+          <NavSlider eye={eye} trash={trash} sidebartext={sidebartext} SideBarData={SideBarData} />
         </div>
         <div className='Basic-Component'>
           <BasicChanges />
