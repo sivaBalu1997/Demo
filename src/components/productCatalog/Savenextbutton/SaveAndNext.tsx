@@ -92,10 +92,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   modifications,
   triggerValidation,
 }) => {
-  
   const history = useHistory();
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
-  
+
   const dispatch = useDispatch();
 
   const scrollToTop = () => {
