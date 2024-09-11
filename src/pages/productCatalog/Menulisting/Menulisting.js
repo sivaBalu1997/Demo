@@ -136,7 +136,7 @@ export const Menulisting = () => {
     {
       id: 2,
       name: [],
-       type:"SteameNondVeg"
+      type:"SteameNondVeg"
     },
   ]);
   const [SideBarData,setSideBar]=useState([]);
@@ -174,8 +174,8 @@ export const Menulisting = () => {
 
   useEffect(() => {
     setsteamType([
-      { id: 1, name: SteamedVeg },
-      { id: 2, name: SteamedNonVeg },
+      { id: 1, name: SteamedVeg, type:"SteamedVeg" },
+      { id: 2, name: SteamedNonVeg ,type:"SteameNondVeg"},
     ]);
   }, [SteamedVeg, SteamedNonVeg]);
 
@@ -419,8 +419,9 @@ export const Menulisting = () => {
                   <React.Fragment key={index}>
                     
                       
-                     <RowHeading
+                     {/* <RowHeading
                     objectId={object.id}
+                    object={object.length}
                     index={index}
                     onDragStart={handledragvegnonvegdragstart}
                     onDragOver={handledragvegnonvegdropover}
@@ -430,13 +431,15 @@ export const Menulisting = () => {
 
                    
 
-                  /> 
+                  />  */}
 
                     
                     
                     <TableOneBody
                       object={object}
+                      typevalue={object.type}
                       index={index}
+                      objectLength={FilteredData.length}
                       draggingOverIndex={draggingOverIndex}
                       draggedRowIndex={draggedRowIndex}
                       handleRowDragStart={handleRowDragStart}

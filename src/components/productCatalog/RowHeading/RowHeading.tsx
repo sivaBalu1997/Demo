@@ -1,9 +1,16 @@
 import React from 'react';
 import dots from '../../../assets/images/dots.png';
 
-
+interface Item {
+  name: string;
+  code: string;
+  id:number;
+  
+ 
+}
 interface ItemHeadingProps {
   objectId: number;
+  object:number;
   headingstringone:string,
   headingstringtwo:string,
   index: number;
@@ -21,6 +28,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   onDragStart,
   onDragOver,
   onDrop,
+  object,
   Typename
 }) => {
   
@@ -37,7 +45,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
             onDragOver={onDragOver}
             onDrop={(e) => onDrop(e, index)}
             className="headingdrag"
-          /> {   <span> {headingstringone}</span>
+          /> {   <span> { headingstringone}</span>
           } 
           </td>
         
@@ -60,7 +68,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
                className="headingdrag"
              />
               <span>{<span> </span>
-          }{headingstringtwo}</span>
+          }{ headingstringtwo}</span>
           
             </td>
           }
