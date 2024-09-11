@@ -41,7 +41,7 @@ const truncateString = (str: string, length: number) => {
       dietary:"Vegan",
       cusine:"SouthIndian",
       pricingdetails: {
-        Dinein1: ["$100.00", "$100.00"],
+        Dinein1: [ "$100.00", "$100.00"],
         Pickup1: ["$200.00", "$200.00", "$200.00"],
         Delivery1: ["$300.00", "$300.00", "$300.00"],
         Dinein2: ["Disabled", "Enabled"],

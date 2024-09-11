@@ -115,11 +115,14 @@ const PrimaryPage = () => {
     useState(calorieponitradio);
   const [dataPortionSizeRadio, setDataPortionSizeRadio] =
     useState(portionsizeradio);
+
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
 
-  const requestCompleted = useSelector((state:RootState) => state.productCatalog.requestCompleted)
+  const requestCompleted = useSelector(
+    (state: RootState) => state.productCatalog.requestCompleted
+  );
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
   );
@@ -131,8 +134,9 @@ const PrimaryPage = () => {
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
   );
-  const [description, setDescription] = useState(""); 
-  const [charCount, setCharCount] = useState(0); 
+
+  const [description, setDescription] = useState("");
+  const [charCount, setCharCount] = useState(0);
   const maxLength = 100;
 
   // Handle input change for description and character count
@@ -167,11 +171,11 @@ const PrimaryPage = () => {
         bestPair: false,
         category: false,
         subCategory: false,
-        [dropdownName]: !prevState[dropdownName] // Toggle the clicked dropdown
+        [dropdownName]: !prevState[dropdownName], // Toggle the clicked dropdown
       };
     });
   };
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  // const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   // const handleDropdownToggle = (name: string) => {
   //   setOpenDropdown((prev) => (prev === name ? null : name));
@@ -179,17 +183,16 @@ const PrimaryPage = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
 
+  //dispatch
   useEffect(() => {
-
-    
     getApi();
     Category();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setIngredientsFromAPi(ingredients);
     setCategories(categoriesdata);
-  },[requestCompleted])
+  }, [requestCompleted]);
 
   const getApi = () => {
     dispatch(getIngredientsRequest(locationid));
@@ -198,28 +201,19 @@ const PrimaryPage = () => {
   const Category = () => {
     dispatch(getMenuCategoryRequest(locationid));
   };
-  const [masterCode, setMasterCode] = useState<string>("");
-  const [selectedValues, setSelectedValues] = useState({
-    alcohol: "",
-    selectedcolorie: "",
-    selectedPortion: "",
-  });
-  const [selectedOption, setSelectedOption] = useState<string>("apple");
+
+  //
 
   const validImages = dataImages.filter(
     (img): img is { name: string; id: string } => img !== undefined
   );
 
   const handleRadioChange = (radioname: keyof FormData, value: string) => {
-    setSelectedValues((prevState) => ({
-      ...prevState,
-      [radioname]: value,
-    }));
     setValue(radioname, value);
   };
-  const handleimageselection = (option: { id: string; name: string }) => {
-    console.log("Selected option:", option);
-  };
+  // const handleimageselection = (option: { id: string; name: string }) => {
+  //   console.log("Selected option:", option);
+  // };
   const [images, setImages] = useState<Base64Image[]>([]);
   const maxImages = 7;
 
@@ -229,6 +223,7 @@ const PrimaryPage = () => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
+
     const validFiles = files.filter((file) => {
       const validTypes = ["image/jpeg", "image/png"];
       const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
@@ -268,7 +263,6 @@ const PrimaryPage = () => {
       .then((base64Images) => {
         console.log("basestr", base64Images);
         setImages([...images, ...base64Images]);
-
         setValue("imageUrls", base64Images);
         const imagess = getValues("imageUrls");
         console.log("selecd Images from browser", imagess);
@@ -282,10 +276,7 @@ const PrimaryPage = () => {
     const updatedImages = images.filter((_, i) => i !== index);
     setImages(updatedImages);
   };
-  const handleOnblur = (value: string) => {
-    return value;
-  };
-
+ 
   const {
     register,
     handleSubmit,
@@ -295,7 +286,7 @@ const PrimaryPage = () => {
     formState: { errors },
     trigger,
     reset,
-    watch
+    watch,
   } = useForm<FormData>({
     defaultValues: {
       itemNameData: "",
@@ -323,9 +314,8 @@ const PrimaryPage = () => {
   });
   const selectedradiowatch = watch();
 
-   // Watch to get the current value
-
-
+  // Watch to get the current value
+// console.log(getValues("imageUrls"));
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -333,7 +323,7 @@ const PrimaryPage = () => {
     // const dataToDispatch = extractFields(data);
     // dispatch(ApiPost(dataToDispatch));
   };
-  
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -354,8 +344,7 @@ const PrimaryPage = () => {
                   <div className="Primary-page-InputFields">
                     {" "}
                     <LableComponent lable="ItemName *" />
-              
-<Controller
+                    <Controller
                       name="itemNameData"
                       control={control}
                       render={({ field }: any) => (
@@ -363,7 +352,6 @@ const PrimaryPage = () => {
                           {...field}
                           register={register}
                           trigger={trigger}
-                          
                         />
                       )}
                     />
@@ -408,7 +396,7 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           name="cuisine"
-                          // validation={{ required: "cuisine is required" }}
+                          validation={{ required: "cuisine is required" }}
                           error={errors.cuisine}
                           {...field}
                           getValues={getValues}
@@ -550,12 +538,12 @@ const PrimaryPage = () => {
                   <div className="Primary-page-InputFields alcoholradiobutton">
                     <h3>Contains Alcohol ?</h3>
                     <RadioButtonGroup
-        options={dataAlcoholRadio}
-        name="alcohol"
-        selectedValue={selectedradiowatch.alcohol}
-        onChange={(value) => handleRadioChange("alcohol", value)}
-        register={register}
-      /> 
+                      options={dataAlcoholRadio}
+                      name="alcohol"
+                      selectedValue={selectedradiowatch.alcohol}
+                      onChange={(value) => handleRadioChange("alcohol", value)}
+                      register={register}
+                    />
                   </div>
                 </div>
 
@@ -625,29 +613,28 @@ const PrimaryPage = () => {
                       />
                     </div>
                     <div className="Primary-page-InputFields">
-                <LableComponent lable="SubCategory" />
-                <Controller
-                  name="subCategory"
-                  control={control}
-                  render={({ field }:any) => (
-                    <Dropdown
-                      options={dataSubcategory}
-                      setOptions={setDataSubcategory}
-                      placeholder="search for option"
-                      name="subCategory"
-                      register={register}
-                      trigger={trigger}
-                      setValue={setValue}
-                      getValues={getValues}
-                      dropdownopen={DropdownOpen.subCategory}
-                      setDropdownOpen={setDropdownOpen}
-                      onToggle={() => handleDropdownToggle("subCategory")}
-                    />
-                  )}
-                />
-              </div>
+                      <LableComponent lable="SubCategory" />
+                      <Controller
+                        name="subCategory"
+                        control={control}
+                        render={({ field }: any) => (
+                          <Dropdown
+                            options={dataSubcategory}
+                            setOptions={setDataSubcategory}
+                            placeholder="search for option"
+                            name="subCategory"
+                            register={register}
+                            trigger={trigger}
+                            setValue={setValue}
+                            getValues={getValues}
+                            dropdownopen={DropdownOpen.subCategory}
+                            setDropdownOpen={setDropdownOpen}
+                            onToggle={() => handleDropdownToggle("subCategory")}
+                          />
+                        )}
+                      />
+                    </div>
                   </div>
-                  
 
                   <div className="Primary-page-Allergens-selection">
                     <Imagepillsselection
@@ -689,16 +676,18 @@ const PrimaryPage = () => {
                       />
                     </div>
                     <div>
-                    <RadioButtonGroup
-        options={dataCaloriePointRadio}
-        name="selectedcolorie"
-        selectedValue={selectedradiowatch.selectedcolorie}
-        onChange={(value) => handleRadioChange("selectedcolorie", value)}
-        register={register}
-      />
+                      <RadioButtonGroup
+                        options={dataCaloriePointRadio}
+                        name="selectedcolorie"
+                        selectedValue={selectedradiowatch.selectedcolorie}
+                        onChange={(value) =>
+                          handleRadioChange("selectedcolorie", value)
+                        }
+                        register={register}
+                      />
                     </div>
                   </div>
-
+                  {/* <button type="submit" className="Primary-Page-Formsubmitbutton">Submit</button> */}
                   <div className="Primary-Page-Other-Detail">
                     <div>
                       <Controller
@@ -716,13 +705,15 @@ const PrimaryPage = () => {
                     </div>
 
                     <div>
-                    <RadioButtonGroup
-        options={dataPortionSizeRadio}
-        name="selectedPortion"
-        selectedValue={selectedradiowatch.selectedPortion}
-        onChange={(value) => handleRadioChange("selectedPortion", value)}
-        register={register}
-      />
+                      <RadioButtonGroup
+                        options={dataPortionSizeRadio}
+                        name="selectedPortion"
+                        selectedValue={selectedradiowatch.selectedPortion}
+                        onChange={(value) =>
+                          handleRadioChange("selectedPortion", value)
+                        }
+                        register={register}
+                      />
                     </div>
                   </div>
 
@@ -763,7 +754,7 @@ const PrimaryPage = () => {
                   </div>
                 </div>
               </div>
-              {/* <button type="submit" className="Primary-Page-Formsubmitbutton">Submit</button> */}
+             
               <SaveAndNext
                 getFormData={getValues}
                 seletedpage="Primary"

@@ -21,11 +21,11 @@ import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
 import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
+import StringDisplay from "components/productCatalog/StringDisplay/StringDisplay";
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
-  const [itemsState, setItemsState] = useState(itemsdata);
-  const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
+
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 
@@ -35,10 +35,12 @@ export const Menulisting = () => {
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
   const FilteredData= useSelector((state) => state.storeMockDataFilteredReducer.data);
+  const [FilteredObject,setFilteredObject]=useState([])
 
   useEffect(()=>{
-    console.log({Mockdata})
-  },[Mockdata])
+    setFilteredObject(FilteredData)
+
+  },[FilteredData])
 
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
@@ -375,6 +377,11 @@ export const Menulisting = () => {
     };
   }, [showheadinglist]);
 
+
+  
+  // console.log("FilteredData",FilteredData[0])
+
+ const selectedItems=FilteredObject && FilteredObject.length > 0 && FilteredObject[0] && Array.isArray(FilteredObject[0]) &&  FilteredObject[0].map((item)=>item);
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>
       <SidePanel />
@@ -415,30 +422,28 @@ export const Menulisting = () => {
                 className="Menu-Listing-TableOneBody Menu-listing-Body"
                 ref={tableBodyRef1}
               >
+                
+
+                
                 {steamType.map((object, index) => (
                   <React.Fragment key={index}>
+                  
                     
                       
-                     {/* <RowHeading
+                    
+                  <RowHeading
                     objectId={object.id}
                     object={object.length}
                     index={index}
                     onDragStart={handledragvegnonvegdragstart}
                     onDragOver={handledragvegnonvegdropover}
-                    onDrop={handledragvegnonvegdropend}
-                    headingstringone={steamType[0].length&& steamType[0].type==="steamedVeg" ? steamType[0].type: "SteamedVeg"}
-                    headingstringtwo={steamType[1].length && steamType[1].type==="steamedNonVeg" ?steamType[1].type:"SteamedNonVeg"}
-
-                   
-
-                  />  */}
-
-                    
+                    onDrop={handledragvegnonvegdropend} /> 
                     
                     <TableOneBody
                       object={object}
                       typevalue={object.type}
                       index={index}
+                      FilteredData={FilteredData}
                       objectLength={FilteredData.length}
                       draggingOverIndex={draggingOverIndex}
                       draggedRowIndex={draggedRowIndex}
@@ -456,6 +461,10 @@ export const Menulisting = () => {
                     />
                   </React.Fragment>
                 ))}
+                
+
+
+               
               </tbody>
             </table>
           </div>
