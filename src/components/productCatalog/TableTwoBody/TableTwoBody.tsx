@@ -6,7 +6,7 @@ interface PricingDetails {
 }
 
 interface ItemObject {
-  name: { pricingdetails: PricingDetails }[];
+  name: { pricingdetails: PricingDetails,id: number}[];
   id: number;
 }
 
@@ -14,9 +14,10 @@ interface TableRowsProps {
   itemobject: ItemObject;
   indexvalue: number;
   classNamesinner: string[];
-
+  handlemodal: (value: number) => void;
   listingobject: any;
-
+  setSideBar:()=>void
+  SideBarData:[]
   showsidebar: (key: string) => void;
 }
 
@@ -24,18 +25,24 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   itemobject,
   indexvalue,
   classNamesinner,
- 
+  handlemodal,
   listingobject,
 
   showsidebar,
 }) => {
+
+  const handlesidbarhandling=(key:string,value:number)=>{
+    showsidebar(key)
+    handlemodal(value);
+
+  }
   return (
     <>
-      {itemobject.name.map((item, index) => (
+      {itemobject.name.map((itemdata, index) => (
         <tr key={index}  className={`tabletwobodyrows ${indexvalue===1 && index===0 && 'secondrow'}`} >
           <td   className={`eachobject-rowwise `} >
 
-            {Object.entries(item.pricingdetails || {}).map(
+            {Object.entries(itemdata.pricingdetails || {}).map(
               ([key, cellData], cellIndex) =>     
               {
                 const className = classNamesinner[cellIndex];
@@ -47,7 +54,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                       {cellData.map((item, itemIndex) => (
                         <React.Fragment key={`${cellIndex}-${itemIndex}`}>
                           {item === 'Enabled' || item === 'Disabled' ? (
-                            <div onClick={() => showsidebar(key)} >
+                            <div  onClick={() => handlesidbarhandling(key,itemdata.id)} >
                               <Toggle
                                 toggle={item === 'Enabled'}
                                
@@ -56,7 +63,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                           ) : (
                             <div
                               // className={`${className}${itemIndex}`}
-                              onClick={() => showsidebar(key)}
+                              onClick={() => handlesidbarhandling(key,itemdata.id)}
                             >
                               {item}
                             </div>

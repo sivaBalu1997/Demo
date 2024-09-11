@@ -162,7 +162,16 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     Availabilityid: availabilityid1,
   };
   console.log(payLoad);
-  getSpecialForm(payLoad);
+  
+  useEffect(() => {
+    // Trigger getSpecialForm with the initial payload when the component mounts
+    getSpecialForm(payLoad);
+
+    // You can also trigger validateDropdown here if needed
+    
+    
+    // Add any dependencies if you want this to re-run on change
+  }, [getSpecialForm]);
 
   const handleImageClick = () => {
     if (datePickerRef.current) {

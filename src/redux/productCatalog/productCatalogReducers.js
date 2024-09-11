@@ -38,6 +38,7 @@ import {
   Pricing_Detail_Data_Request,
   Get_ItemImage,
   STORE_MOCK_DATA_REQUEST,
+  STORE_MOCK_DATA_FILTERED_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -362,8 +363,30 @@ export const storeMockDataReducer = (state = mockData, action) => {
         ...state,
         data: action?.payload,
       };
-
-    default:
+      default:
       return state;
-  }
-};
+    }}
+
+ 
+
+ 
+
+  const mockDataFiltered = {
+    data: []
+  };
+
+  export  const storeMockDataFilteredReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case STORE_MOCK_DATA_FILTERED_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
+  
+    
+  
+      default:
+        return state;
+    }
+  };
+ 
+

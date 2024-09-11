@@ -7,32 +7,50 @@ import { Get_Image } from 'redux/productCatalog/productCatalogActions';
 interface Item {
   name: string;
   code: string;
+  id:number;
+  
+ 
 }
 
 interface ItemRowProps {
-  object: { name: Item[]; id: number };
+  object:
+   { name: Item[]; id: number, type:string };
+   typevalue:string;
+   index: number;
+   objectLength:number,
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
   handleRowDragStart: (id: number, index: number) => void;
   handleRowDragOver: (id: number, index: number) => void;
   handleRowDragEnd: () => void;
   handleDragScroll: (e: React.DragEvent, ref1: React.RefObject<HTMLDivElement>, ref2: React.RefObject<HTMLDivElement>) => void;
-  handlemodal: () => void;
+  handlemodal: (value: number) => void;
   tableBodyRef1: React.RefObject<HTMLDivElement>;
   tableBodyRef2: React.RefObject<HTMLDivElement>;
+  handlevegrowstart:(e: React.DragEvent<HTMLImageElement>, index: number) => void;
+  handlevegrowover:(e: React.DragEvent<HTMLDivElement>) => void;
+  handlevegrowend: (e: React.DragEvent<HTMLDivElement>, index: number) => void;
 }
 
 const TableOneBody: React.FC<ItemRowProps> = ({
   object,
+  index,typevalue,
   draggingOverIndex,
   draggedRowIndex,
   handleRowDragStart,
   handleRowDragOver,
   handleRowDragEnd,
+  handlevegrowstart,
+  handlevegrowover,
+  handlevegrowend,
+  objectLength,
+
+
   handleDragScroll,
   handlemodal,
   tableBodyRef1,
   tableBodyRef2,
+ 
 }) => {
 
   const dispatch=useDispatch()
@@ -41,9 +59,39 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   //   dispatch(Get_Image())
   // }
   // ,[])
+  const baseImageUrl=process.env.REACT_APP_IMAGE_DOMAIN;
+  // console.log(baseImageUrl)
+
+  const handleItemnameClick=(value:number)=>{
+    // console.log(value);
+    handlemodal(value);
+
+  }
+  useEffect(() => {
+    console.log(objectLength); // Check if this is logged correctly
+  }, [objectLength]);
 
   return (
     <>
+     {
+       <tr >
+       <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+       <img
+         src={dots}
+         alt=""
+         draggable
+         onDragStart={(e) => handlevegrowstart(e, index)}
+         onDragOver={handlevegrowover}
+         onDrop={(e) => handlevegrowend(e, index)}
+         className="headingdrag"
+       /> { typevalue}
+       </td>
+     
+      
+     </tr>
+     }
+    
+        
       {object.name.map((item, index) => (
         <tr key={index}>
           {draggingOverIndex === index && <td className="placeholderplace"></td>}
@@ -64,9 +112,9 @@ const TableOneBody: React.FC<ItemRowProps> = ({
           >
             <span className="itemimage2">
               <img src={dots} alt="" className="draggableimg" />
-              <img src={apple} alt="" className="foodimage" />
+              <img src={baseImageUrl+"https://cdn.pixabay.com//photo/2023/07/12/20/40/ai-generated-8123328_640.png"} alt="" className="foodimage" />
             </span>
-            <span className="itemname2" onClick={handlemodal}>
+            <span className="itemname2" onClick={()=>handleItemnameClick(item.id)}>
               {item.name}
             </span>
             <span className="itemcode2">{item.code}</span>
@@ -78,3 +126,4 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 };
 
 export default TableOneBody;
+//https://cdn.pixabay.com/photo/2023/07/12/20/40/ai-generated-8123328_640.png

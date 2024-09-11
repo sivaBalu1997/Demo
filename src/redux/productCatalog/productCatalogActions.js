@@ -46,6 +46,9 @@ import {
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_SUCCESS,
   STORE_MOCK_DATA_FAILURE,
+  STORE_MOCK_DATA_FILTERED_REQUEST,
+  STORE_MOCK_DATA_FILTERED_SUCCESS,
+  STORE_MOCK_DATA_FILTERED_FAILURE,
 } from "./productCatalogConstants";
 
 // Get Menu Category
@@ -298,5 +301,20 @@ export const storeMockDataSuccess = (response) => ({
 
 export const storeMockDataFailure = (error) => ({
   type: STORE_MOCK_DATA_FAILURE,
+  payload: error, 
+})
+
+export const storeMockDataFilteredRequest = (data) => ({
+  type: STORE_MOCK_DATA_FILTERED_REQUEST,
+  payload:data
+});
+
+export const storeMockDataFilteredSuccess = (response) => ({
+  type: STORE_MOCK_DATA_FILTERED_SUCCESS,
+  payload: response, 
+});
+
+export const storeMockDataFilteredFailure = (error) => ({
+  type: STORE_MOCK_DATA_FILTERED_FAILURE,
   payload: error, 
 })

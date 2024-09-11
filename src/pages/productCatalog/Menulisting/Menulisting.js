@@ -34,6 +34,7 @@ export const Menulisting = () => {
   }, []);
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
+  const FilteredData= useSelector((state) => state.storeMockDataFilteredReducer.data);
 
   useEffect(()=>{
     console.log({Mockdata})
@@ -130,33 +131,51 @@ export const Menulisting = () => {
     {
       id: 1,
       name: [],
+      type:"SteamedVeg"
     },
     {
       id: 2,
       name: [],
+      type:"SteameNondVeg"
     },
   ]);
+  const [SideBarData,setSideBar]=useState([]);
 
   useEffect(() => {
     const tempArray1 = [];
     const tempArray2 = [];
 
-    Mockdata.forEach(item => {
-      console.log("Item type:", item.type); 
-      if (item.type === "steamedVeg") {
-        tempArray1.push(item);  
-      } else {
-        tempArray2.push(item); 
-      }
-    });
+    if(FilteredData.length===0)
+    {
+      Mockdata.forEach(item => {
+        console.log("Item type:", item.type); 
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);  
+        } else {
+          tempArray2.push(item); 
+        }
+      });
+    }
+    else{
+      FilteredData.forEach(item => {
+        console.log("Item type:", item.type); 
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);  
+        } else {
+          tempArray2.push(item); 
+        }
+      });
+    }
+
+    console.log(FilteredData)
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-  }, [Mockdata]);
+  }, [Mockdata,FilteredData]);
 
   useEffect(() => {
     setsteamType([
-      { id: 1, name: SteamedVeg },
-      { id: 2, name: SteamedNonVeg },
+      { id: 1, name: SteamedVeg, type:"SteamedVeg" },
+      { id: 2, name: SteamedNonVeg ,type:"SteameNondVeg"},
     ]);
   }, [SteamedVeg, SteamedNonVeg]);
 
@@ -278,13 +297,21 @@ export const Menulisting = () => {
     setDraggingOverIndex(null);
   };
 
-  const handlemodal = () => {
+  const handlemodal = (value) => {
     setmodal(true);
+    console.log(value);
+
+    console.log(Mockdata.filter(item=>item.id===value))
+    setSideBar(Mockdata.filter(item=>item.id===value))
+
+
+
   };
 
   const showsidebar = (key) => {
     if (key === "Dinein1" || key === "Pickup1" || key === "Delivery1") {
       handlemodal();
+
       setSideBarText("Pricing");
     } else if (key === "Dinein2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();
@@ -390,16 +417,29 @@ export const Menulisting = () => {
               >
                 {steamType.map((object, index) => (
                   <React.Fragment key={index}>
-                    <RowHeading
-                      objectId={object.id}
-                      index={index}
-                      onDragStart={handledragvegnonvegdragstart}
-                      onDragOver={handledragvegnonvegdropover}
-                      onDrop={handledragvegnonvegdropend}
-                    />
+                    
+                      
+                     {/* <RowHeading
+                    objectId={object.id}
+                    object={object.length}
+                    index={index}
+                    onDragStart={handledragvegnonvegdragstart}
+                    onDragOver={handledragvegnonvegdropover}
+                    onDrop={handledragvegnonvegdropend}
+                    headingstringone={steamType[0].length&& steamType[0].type==="steamedVeg" ? steamType[0].type: "SteamedVeg"}
+                    headingstringtwo={steamType[1].length && steamType[1].type==="steamedNonVeg" ?steamType[1].type:"SteamedNonVeg"}
 
+                   
+
+                  />  */}
+
+                    
+                    
                     <TableOneBody
                       object={object}
+                      typevalue={object.type}
+                      index={index}
+                      objectLength={FilteredData.length}
                       draggingOverIndex={draggingOverIndex}
                       draggedRowIndex={draggedRowIndex}
                       handleRowDragStart={handleRowDragStart}
@@ -409,6 +449,10 @@ export const Menulisting = () => {
                       handlemodal={handlemodal}
                       tableBodyRef1={tableBodyRef1}
                       tableBodyRef2={tableBodyRef2}
+                     
+                      handlevegrowstart={handledragvegnonvegdragstart}
+                      handlevegrowover={handledragvegnonvegdropover}
+                      handlevegrowend={handledragvegnonvegdropend}
                     />
                   </React.Fragment>
                 ))}
@@ -453,6 +497,8 @@ export const Menulisting = () => {
                         className={classNames[index]}
                         listingobject={listingobject}
                         classNames={classNames}
+                        
+
                       />
                     </React.Fragment>
                   ))}
@@ -481,6 +527,9 @@ export const Menulisting = () => {
                         classNamesinner={classNamesinner}
                         listingobject={listingobject}
                         showsidebar={showsidebar}
+                        SideBarData={SideBarData}
+                        setSideBar={setSideBar}
+                        handlemodal={handlemodal}
                       />
                     </React.Fragment>
                   );
@@ -489,7 +538,7 @@ export const Menulisting = () => {
             </table>
           </div>
           {modal && (
-            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} />
+            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} SideBarData={SideBarData}  />
           )}
         </div>
       </div>
