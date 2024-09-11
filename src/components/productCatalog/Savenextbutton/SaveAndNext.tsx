@@ -56,7 +56,7 @@ interface FormData {
   selectionType?: string;
   field1?: number;
   field2?: number;
-  [key: string]: any; // Define specific types if known, e.g., number | string
+  [key: string]: any; 
 }
 interface Option {
   item: string;
@@ -92,6 +92,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   modifications,
   triggerValidation,
 }) => {
+  
   const history = useHistory();
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   // const extractFields = (formData: FormData) => {
@@ -128,22 +129,22 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   // };
 
   const dispatch = useDispatch();
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+  const formData = getFormData();
+    console.log("uploading", formData);
 
   const handleclick = async () => {
-    const formData = getFormData();
-
+    
     if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
 
       if (!isFormValid) {
-        // toast.error("Please correct the errors before proceeding.");
-
         window.scrollTo({
           top: 0,
           behavior: "smooth",
@@ -159,7 +160,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       });
 
       dispatch(primarypost(formData));
-      console.log("uploading", formData);
+  
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
@@ -168,8 +169,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
     }
-
-    // scrollToTop();
   };
 
   const handleclear = () => {

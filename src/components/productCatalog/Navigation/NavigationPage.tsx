@@ -2,46 +2,38 @@ import { useState, useEffect, useContext } from "react";
 import React from "react";
 import "./Navigation.scss";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
-import {
-  useLocation,
-  useHistory,
-  Switch,
-  Route,
-  useRouteMatch,
-} from "react-router-dom";
-// import PrimaryPage from "pages/productCatalog/PrimaryPage/PrimaryPage";
-// import PricingDetails from "pages/productCatalog/PricingDetalis/PricingDetails";
-// import ItemCustomizations from "pages/productCatalog/itemCustomization/ItemCustomizations";
-// import PrimaryDetailsReviewpage from "pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage";
-// import { Menulisting } from "pages/productCatalog/Menulisting/Menulisting";
+import { useLocation, useHistory } from "react-router-dom";
+
+interface LocationState {
+  pagename: string;
+}
 
 const Navigationpage = () => {
-  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const { isExpanded } = useContext(Contextpagejs);
 
   const categories = [
     "Primary Details",
     "Pricing and kitchen details",
-    "Item customizations",
+    "Itemcustomizations",
   ];
 
   const history = useHistory();
-  const location:any = useLocation();    //need to change the type annotation
+  const location = useLocation<LocationState | undefined>(); 
 
-  const { pagename } = location.state || {};
-  const { path } = useRouteMatch();
+  const [currentPage, setCurrentPage] = useState<string>("Primary Details");
 
-  const handleCategoryClick = (category:string) => {
+  useEffect(() => {
+    if (location.state?.pagename) {
+      setCurrentPage(location.state.pagename);
+    }
+  }, [location.state?.pagename]);
+
+  const handleCategoryClick = (category: string) => {
+    setCurrentPage(category);
     const path = category.replace(/\s+/g, "");
-    history.push(`/productCatalog/${path}`, { state: { pagename: category } });
-  };
+    history.push(`/productCatalog/${path}`, { pagename: category });
+  }
 
-  // useEffect(() => {
-  //   if (!pagename) {
-  //     history.push(`/productCatalog/PrimaryDetails`, {
-  //       state: { pagename: "Primary Details" },
-  //     });
-  //   }
-  // }, [pagename, history]);
 
   return (
     <>
@@ -56,25 +48,20 @@ const Navigationpage = () => {
                 onClick={() => handleCategoryClick(category)}
               >
                 <h1
-                  className={`list-text ${category === pagename ? "activetext" : ""}`}
+                  className={`list-text ${category === currentPage ? "activetext" : ""}`}
                 >
                   {`Step ${index + 1}: ${category}`}
                 </h1>
                 <div
-                  className={`${isExpanded ? "navbar" : "navbarExpanded"} ${category === pagename ? "active" : ""}`}
+                  className={`${isExpanded ? "navbarExpanded" : "navbar"} ${
+                    category === currentPage ? "active" : ""
+                  }`}
                 ></div>
               </li>
             ))}
           </ul>
         </nav>
       </div>
-      {/* <Switch>
-        <Route path="/productCatalog/PrimaryDetails" component={PrimaryPage} />
-        <Route path="/productCatalog/Pricingandkitchendetails" component={PricingDetails} />
-        <Route path="/productCatalog/Itemcustomizations" component={ItemCustomizations} />
-        <Route path="/productCatalog/Reviewpage" component={PrimaryDetailsReviewpage} />
-        <Route path="/productCatalog" component={Menulisting} exact />
-      </Switch> */}
     </>
   );
 };

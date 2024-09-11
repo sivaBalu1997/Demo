@@ -3,7 +3,7 @@
   background: none;
   // border: 1px solid red; 
   border-spacing: 0;
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 2%;
@@ -13,11 +13,12 @@
   height: 100vh;
   background: none;
   border-spacing: 0;
-  width: 77%;
+  width: 89%;
   display: flex;
   flex-direction: column;
   margin-top: 1%;
-  margin-left: 5%;
+  // border: 1px solid blue; 
+  // margin-left: 5%;
 }
 
 .Menu-Listing-Page-main {
@@ -146,7 +147,7 @@ th {
       width: 20rem;
       // position: relative;
       // top: 2.2%;
-      margin-top: 0.3%;
+      margin-top: 0.2%;
 
      
       .itemdetails-row {
@@ -488,7 +489,7 @@ th {
     height: 34rem;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 180%;
+    width: 160.85%;
   }
   .Menu-Listing-TableTwoBody1 {
     display: block;

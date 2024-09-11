@@ -25,6 +25,7 @@ interface DropdownProps {
   getValues: any;
   dropdownopen: boolean;
   onToggle: () => void;
+  setDropdownOpen: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -41,6 +42,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   dropdownopen,
   onToggle,
   getValues,
+  setDropdownOpen
+
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
@@ -50,22 +53,41 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      closeDropdown();
-    }
-  };
-  useEffect(() => {
-    
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [onToggle]);
+  
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (
+  //       dropdownRef.current &&
+  //       !dropdownRef.current.contains(event.target as Node)
+  //     ) {
+  //       closeDropdown();
+  //     }
+  //   };
+  //   document.addEventListener("click", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //   };
+  // }, [dropdownopen]);
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+     
+  //       setDropdownOpen({
+  //         dietaryType: false,
+  //         cuisine: false,
+  //         mealType: false,
+  //         bestPair: false,
+  //         category: false,
+  //         subCategory: false,
+  //       });
+  //     }
+  //   };
 
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside); 
+  //   };
+  // }, []);
 
   useEffect(() => {
     const categoryValue = getValues("category");
@@ -92,7 +114,15 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSelectedOption(option); 
     setValue(name, option.name);
     setAddNewButton(false);
-    closeDropdown()
+          setDropdownOpen({
+          dietaryType: false,
+          cuisine: false,
+          mealType: false,
+          bestPair: false,
+          category: false,
+          subCategory: false,
+        });
+    trigger(name);
    
   };
 
@@ -166,9 +196,9 @@ const DropDownList: React.FC<DropdownProps> = ({
             }`}
             disabled={Disablesubcategory && name === "subCategory"}
           />
-          <span className="dropdown-arrow" onClick={onToggle}>
+          <span className="dropdown-arrow" >
             
-            <img src={dropdown} alt="" className={`${dropdownopen?"dropdownimageopen":"dropdownimageclosed" }`} />
+            <img src={dropdown} onClick={onToggle} alt="" className={`${dropdownopen?"dropdownimageopen":"dropdownimageclosed" }`} />
           </span>
         </div>
 

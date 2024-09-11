@@ -294,85 +294,78 @@ const primarypagedata = {
 export const primarypagereducer = (state = primarypagedata, action) => {
   switch (action.type) {
     case Primary_Post_Data_Send:
-      return {  ...state,data:action.payload }; 
+      return { ...state, data: action.payload };
     default:
       return state;
   }
-  };
+};
 
-  const initialState = {
+const initialState = {
+  itemData: [],
+  isLoading: false,
+  error: null,
+};
 
-    itemData: [],
-    isLoading: false,
-    error: null,
-   
-  };
-
-  export const itemCustomizationsReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case Item_Customizations_Data_Request:
-        return {  ...state,itemData:action.payload }; 
-      default:
-        return state;
-    }
-  };
+export const itemCustomizationsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case Item_Customizations_Data_Request:
+      return { ...state, itemData: action.payload };
+    default:
+      return state;
+  }
+};
 
 // {*******************Prizing Detail Page Redux Reducer***************}
 
+const PricingDetailPage = {
+  prizingData: [],
+};
 
-  const PricingDetailPage = {
-    prizingData: [],
-  };
-  
-  export const PricingDetailReducer=(state=PricingDetailPage,action)=>{
-    switch(action.type)
-    {
-      case Pricing_Detail_Data_Request:
-      return{...state,prizingData:action?.payload};
-      
-      default:
-        return state;
-    }
+export const PricingDetailReducer = (state = PricingDetailPage, action) => {
+  switch (action.type) {
+    case Pricing_Detail_Data_Request:
+      return { ...state, prizingData: action?.payload };
+
+    default:
+      return state;
   }
+};
 
-  // {*******************Get_ImageName***************}
+// {*******************Get_ImageName***************}
 
-  const ItemImage={
-    InitialImageData:''
+const ItemImage = {
+  InitialImageData: "",
+};
+export const imageReducer = (state = ItemImage, action) => {
+  switch (action.type) {
+    case Get_ItemImage:
+      return {
+        ...state,
+        InitialImageData: action.payload,
+      };
+    default:
+      return state;
   }
-  export const imageReducer = (state = ItemImage, action) => {
-    switch (action.type) {
-      case Get_ItemImage:
-        return {
-          ...state,
-          InitialImageData: action.payload,
-        };
+};
+
+const mockData = {
+  data: [],
+};
+
+export const storeMockDataReducer = (state = mockData, action) => {
+  switch (action.type) {
+    case STORE_MOCK_DATA_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
       default:
-        return state;
-    }
-  };
+      return state;
+    }}
 
-  
+ 
 
-
-  const mockData = {
-    data: []
-  };
-
-
-  export   const storeMockDataReducer = (state = mockData, action) => {
-    switch (action.type) {
-      case STORE_MOCK_DATA_REQUEST:
-        return {
-          ...state,data:action?.payload
-        };
-  
-    
-  
-      default:
-        return state;
-    }
-  };
+ 
 
   const mockDataFiltered = {
     data: []
@@ -391,3 +384,5 @@ export const primarypagereducer = (state = primarypagedata, action) => {
         return state;
     }
   };
+ 
+

@@ -7,6 +7,7 @@ interface ItemHeadingProps {
   onDragStart: (e: React.DragEvent<HTMLImageElement>, index: number) => void;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   onDrop: (e: React.DragEvent<HTMLDivElement>, index: number) => void;
+  Typename?:string
 }
 
 const RowHeading: React.FC<ItemHeadingProps> = ({
@@ -15,7 +16,10 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   onDragStart,
   onDragOver,
   onDrop,
+  Typename
 }) => {
+  // console.log("list tye",Typename)
+  
   if (objectId === 1) {
     return (
       <tr >
@@ -28,7 +32,8 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
           onDragOver={onDragOver}
           onDrop={(e) => onDrop(e, index)}
           className="headingdrag"
-        /> Steamed-Veg(6)
+        /> {Typename?.length? <span>{Typename}</span>: <span> Steamed-Veg(6)</span>
+        } 
         </td>
       
        
@@ -37,19 +42,23 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   } else if (objectId === 2) {
     return (
       <tr >
-       <td className={`${index === 1 ? "itemheadingtwo" : "itemheading"}`}>
-       <img
-          src={dots}
-          alt=""
-          draggable
-          onDragStart={(e) => onDragStart(e, index)}
-          onDragOver={onDragOver}
-          onDrop={(e) => onDrop(e, index)}
-          className="headingdrag"
-        />
-        Steamed-NonVeg(6)
-     
-       </td>
+        {
+          !Typename?.length &&
+          <td className={`${index === 1 ? "itemheadingtwo" : "itemheading"}`}>
+          <img
+             src={dots}
+             alt=""
+             draggable
+             onDragStart={(e) => onDragStart(e, index)}
+             onDragOver={onDragOver}
+             onDrop={(e) => onDrop(e, index)}
+             className="headingdrag"
+           />
+            <span> Steamed-NonVeg(6)</span>
+        
+          </td>
+        }
+      
       
       
       </tr>
