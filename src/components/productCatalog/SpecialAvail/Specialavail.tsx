@@ -353,7 +353,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               selected={selectedDate}
               onChange={handleDateChange} // Date format for display
               ref={datePickerRef}
-              className='datePicker'
+              className="datePicker"
             />
           </div>
           <img src={calender} className="calender" onClick={handleImageClick} />
@@ -368,7 +368,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               dateFormat="yyyy-MM-dd" // specify the format you want
               showPopperArrow
               ref={datePickerRef1}
-              className='datePicker'
+              className="datePicker"
             />
           </div>
           <img
@@ -452,7 +452,14 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               </div>
             ))}
 
-          <h1 className=" AddentrySpecial" onClick={AddDineInEntry}>
+          <h1
+            className={`${
+              dineinfields.length
+                ? "AddentrySpecial"
+                : "AddentrySpecialOnToggle"
+            }`}
+            onClick={AddDineInEntry}
+          >
             {" "}
             + Add entry
           </h1>

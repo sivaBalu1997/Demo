@@ -6,16 +6,17 @@
   top: 160px;
   margin-left: -10px;
   overflow-x: hidden;
-  height: 570px;
+  height: 500px;
   width: 80%;
   overflow-y: auto;
 }
+
 .pricingdetails-container {
   position: absolute;
   top: 160px;
   margin-left: -20px;
   overflow-x: hidden;
-  height: 570px;
+  height: 500px;
   width: 93.3%;
   overflow-y: auto;
 }
@@ -24,6 +25,7 @@
   flex-direction: column;
   width: 1120px;
   margin-left: 55px;
+  overflow-y: auto;
 }
 
 .KitchenRelated {
@@ -148,7 +150,7 @@
   font-size: 0.875rem;
   font-weight: 400;
   color: #979797;
-  margin-left: 15px;
+  margin-left: 1.8px;
 }
 .InventoryInput {
   display: flex;
@@ -225,7 +227,7 @@
   border-bottom-right-radius: 5px;
 }
 .threshold {
-  margin-left: 4rem;
+  margin-left: 0.1rem;
 }
 
 .uparrowdownarrow2 {
@@ -318,14 +320,14 @@
 }
 
 .saveandnextPricingExpanded {
-  position: fixed; 
-  bottom: 0; 
-  width: 100%; 
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
-  background-color: white; 
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
-  padding: 16px 32px; 
+  background-color: white;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 16px 32px;
   right: 2px;
   gap: 10px;
 
@@ -359,16 +361,17 @@
   }
 }
 .saveandnextPricing {
-  position: fixed; 
-  bottom: 0; 
-  width: 100%; 
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
-  background-color: white; 
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
-  padding: 16px 32px; 
+  background-color: white;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 16px 32px;
   right: 2px;
   gap: 10px;
+  z-index: 2;
 
   .clearallPricing {
     width: 135px;
