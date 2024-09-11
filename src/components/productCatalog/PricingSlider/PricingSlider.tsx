@@ -27,7 +27,7 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ pen }) => {
 
     {
       heading: "On-Prem",
-      Sections: ["SectionA", "SectionB", "SectionC"]
+      Sections: ["SectionA", "SectionB"]
     },
     {
       heading: "Of-Prem",
@@ -42,18 +42,18 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ pen }) => {
       <h3 className='PricingSlider-Heading'>Pricing</h3>
 
       {
-        PrizingSliderData.map((elem) => {
+        PrizingSliderData.map((elem,index) => {
           return (
             <div className='Onprem-Ofprem'>
               <div className='Onprem-Heading'>
                 {elem.heading}
                 <div className='SectionA'>
-                  {elem.Sections?.map((section) => (
+                  {elem.Sections?.map((section,seInd) => (
                     <>
                       <div className='SectionA'>
                         <div className='SectionInput'>
                           <h3 className='SectionA-Heading' key={section}>{section}</h3>
-                          <input type="text" className='SectionA-Input'  />
+                          <input type="text" className='SectionA-Input' value={seInd === 1 ? data[6].pricingdetails?.Dinein1?.[1] :data[6].pricingdetails?.Dinein1?.[0]}  />
                           <img src={Weigh} className='SectionA-Image' />
                         </div>
                       </div>
