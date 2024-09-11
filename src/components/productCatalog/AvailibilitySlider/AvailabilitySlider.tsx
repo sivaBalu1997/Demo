@@ -44,33 +44,46 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       };
     })
   );
-  
 
   const handleParentToggle = (index: number) => {
     const newToggleStates = [...toggleStates];
     const newParentToggle = !newToggleStates[index].parentToggle;
-
+  
     if (data[index].subcategories) {
       newToggleStates[index] = {
         parentToggle: newParentToggle,
-        subcategoryToggles: (newToggleStates[index]?.subcategoryToggles ?? []).map((subcategory) => ({
+        subcategoryToggles: newToggleStates[index].subcategoryToggles?.map((subcategory) => ({
           subParentToggle: newParentToggle,
-          childToggles: Array(subcategory.childToggles?.length || 0).fill(newParentToggle),
-        })),
+          childToggles: Array(subcategory?.childToggles?.length || 0).fill(newParentToggle),
+        })) ?? [],
       };
-    } else {
+    } else if (data[index].types) { // Check if 'types' exists before accessing its length
       newToggleStates[index] = {
         parentToggle: newParentToggle,
-        childToggles: Array(data[index].types?.length || 0).fill(newParentToggle),
+        childToggles: Array(data[index].types?.length || 0).fill(newParentToggle), // Safely access 'length'
       };
+    }
+  
+    setToggleStates(newToggleStates);
+  };
+  
+  
+  const handleSubcategoryToggle = (parentIndex: number, subcategoryIndex: number) => {
+    const newToggleStates = [...toggleStates];
+    const subcategoryToggle = newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex];
+
+    if (subcategoryToggle) {
+      const newSubParentToggle = !subcategoryToggle.subParentToggle;
+      subcategoryToggle.subParentToggle = newSubParentToggle;
+      subcategoryToggle.childToggles = subcategoryToggle.childToggles.map(() => newSubParentToggle);
     }
 
     setToggleStates(newToggleStates);
   };
 
-  const handleChildToggle = (parentIndex: number, childIndex: number) => {
+  const handleChildToggle = (parentIndex: number, subcategoryIndex: number, childIndex: number) => {
     const newToggleStates = [...toggleStates];
-    const childToggles = newToggleStates[parentIndex].childToggles;
+    const childToggles = newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex]?.childToggles;
 
     if (childToggles) {
       childToggles[childIndex] = !childToggles[childIndex];
@@ -93,42 +106,46 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                 pen={pen}
               />
             </div>
-            <div className='SectionASectionBSection'>
-              {elem.types?.map((type, typeIndex) => (
-                <div key={typeIndex} className='TypeHeading'>
-                  <h3 className='SectionASectionBSectionHeading'>{type}</h3> 
-                  <ToggleSliderAvail
-                    toggle={toggleStates[index]?.childToggles?.[typeIndex] || false}
-                    setToggle={() => handleChildToggle(index, typeIndex)}
-                    pen={pen}
-                  />
-                </div>
-              ))}
-            </div>
-            <div className='PickupDeliveryAvail'>
-              {elem.subcategories?.map((subcategory, subindex) => (
-                <div key={subindex} className='subcategorySection' >
-                  <h3 className='SectionASectionBSectionHeadingBlack'>{subcategory.subHeading}</h3>
-                  <ToggleSliderAvail
-                        toggle={""}
-                        setToggle={() => handleChildToggle(index, subindex)}
-                        pen={pen}
-                      />                  <div className='TypesSection'>
-                  {subcategory.types.map((type, typeIndex) => (
-                    <div key={typeIndex} className='TypeHeading'>
-                      <h4 className='SectionASectionBSectionHeading'>{type}</h4>
-                      <ToggleSliderAvail
-                        toggle={""}
-                        setToggle={() => handleChildToggle(index, typeIndex)}
-                        pen={pen}
-                      />
-                    </div>
-                  ))}
+            {elem.types && (
+              <div className='SectionASectionBSection'>
+                {elem.types.map((type, typeIndex) => (
+                  <div key={typeIndex} className='TypeHeading'>
+                    <h3 className='SectionASectionBSectionHeading'>{type}</h3>
+                    <ToggleSliderAvail
+                      toggle={toggleStates[index]?.childToggles?.[typeIndex] || false}
+                      setToggle={() => handleChildToggle(index, 0, typeIndex)} // Assuming no subcategories for Off-prem
+                      pen={pen}
+                    />
                   </div>
-                </div>
-                
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
+            {elem.subcategories && (
+              <div className='PickupDeliveryAvail'>
+                {elem.subcategories.map((subcategory, subIndex) => (
+                  <div key={subIndex} className='subcategorySection'>
+                    <h3 className='SectionASectionBSectionHeadingBlack'>{subcategory.subHeading}</h3>
+                    <ToggleSliderAvail
+                      toggle={toggleStates[index]?.subcategoryToggles?.[subIndex]?.subParentToggle || false}
+                      setToggle={() => handleSubcategoryToggle(index, subIndex)}
+                      pen={pen}
+                    />
+                    <div className='TypesSection'>
+                      {subcategory.types.map((type, typeIndex) => (
+                        <div key={typeIndex} className='TypeHeading'>
+                          <h4 className='SectionASectionBSectionHeading'>{type}</h4>
+                          <ToggleSliderAvail
+                            toggle={toggleStates[index]?.subcategoryToggles?.[subIndex]?.childToggles?.[typeIndex] || false}
+                            setToggle={() => handleChildToggle(index, subIndex, typeIndex)}
+                            pen={pen}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
