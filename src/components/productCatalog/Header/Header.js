@@ -10,12 +10,10 @@ import Menu120 from '../Menu120/Menu120'
 import Filter from '../Filter/Filter'
 import ArrowHover from '../../../assets/svg/ArrowHover.svg'
 
-
-
 const Header = () => {
-  const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
-
+  const{isExpanded}=useContext(Contextpagejs)
   const [filterSelected,setFilterSelected]=useState(false)
+
   const history=useHistory()
 
   const handleFilter=()=>{
@@ -23,10 +21,7 @@ const Header = () => {
   }
 
   return (
-    <div className={isExpanded?'Header-Container1':"Header-Container"}>
-
-      {/* {**********************HeaderSection*****************************************************************} */}
-
+    <div className={isExpanded ? 'Header-Container1' : "Header-Container"}>
       <div className='Header-Heading-Search-Filter-Container'>
         <Menu120/>
         <SearchBox/>
@@ -45,8 +40,6 @@ const Header = () => {
           {filterSelected===false &&  <div className='ExcelHover'>Import</div>}
         </div>  
         </div>
-
-
       <div 
         onClick={()=>history.push("/productCatalog/PrimaryDetails")} 
         className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"

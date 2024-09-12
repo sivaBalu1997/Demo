@@ -11,7 +11,7 @@ interface Option {
 
 interface DropdownProps {
   name: string;
-  id?:string;
+  id?: string;
   type?: string;
   register: any;
   setValue: any;
@@ -25,7 +25,9 @@ interface DropdownProps {
   getValues: any;
   dropdownopen: boolean;
   onToggle: () => void;
-  setDropdownOpen: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+  setDropdownOpen: React.Dispatch<
+    React.SetStateAction<Record<string, boolean>>
+  >;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -42,8 +44,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   dropdownopen,
   onToggle,
   getValues,
-  setDropdownOpen
-
+  setDropdownOpen,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
@@ -53,41 +54,31 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+ 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen({
+          dietaryType: false,
+          cuisine: false,
+          mealType: false,
+          bestPair: false,
+          category: false,
+          subCategory: false,
+        });
+      }
+    };
   
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       dropdownRef.current &&
-  //       !dropdownRef.current.contains(event.target as Node)
-  //     ) {
-  //       closeDropdown();
-  //     }
-  //   };
-  //   document.addEventListener("click", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, [dropdownopen]);
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-     
-  //       setDropdownOpen({
-  //         dietaryType: false,
-  //         cuisine: false,
-  //         mealType: false,
-  //         bestPair: false,
-  //         category: false,
-  //         subCategory: false,
-  //       });
-  //     }
-  //   };
-
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside); 
-  //   };
-  // }, []);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  
+  const handleOptionMouseDown = (event: React.MouseEvent) => {
+    event.stopPropagation(); 
+  };
+  
 
   useEffect(() => {
     const categoryValue = getValues("category");
@@ -98,8 +89,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [getValues("category")]);
 
-
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     if (selectedOption && e.target.value !== selectedOption.name) {
@@ -108,24 +97,20 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-
   const handleSelect = (option: Option) => {
-    
-    setSelectedOption(option); 
+    setSelectedOption(option);
     setValue(name, option.name);
     setAddNewButton(false);
-          setDropdownOpen({
-          dietaryType: false,
-          cuisine: false,
-          mealType: false,
-          bestPair: false,
-          category: false,
-          subCategory: false,
-        });
+    setDropdownOpen({
+      dietaryType: false,
+      cuisine: false,
+      mealType: false,
+      bestPair: false,
+      category: false,
+      subCategory: false,
+    });
     trigger(name);
-   
   };
-
 
   const handleNewItemAdd = () => {
     const newItemLabel = NewItemref.current?.value.trim();
@@ -141,7 +126,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-
   const filteredOptions = initialOptions.filter((option) =>
     option.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -155,26 +139,22 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    if(value==selectedOption?.name)
-      {
-        setSelectedOption(null);
-      }
-
+    if (value == selectedOption?.name) {
+      setSelectedOption(null);
+    }
 
     setOptions((item) => item.filter((opt) => opt.id !== value));
-
-    
   };
 
   const handleBlur = () => {
     trigger(name);
   };
 
-  const closeDropdown = () => {
-    if (dropdownopen) {
-      onToggle();
-    }
-  };
+  // const closeDropdown = () => {
+  //   if (dropdownopen) {
+  //     onToggle();
+  //   }
+  // };
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -195,9 +175,14 @@ const DropDownList: React.FC<DropdownProps> = ({
             }`}
             disabled={Disablesubcategory && name === "subCategory"}
           />
-          <span className="dropdown-arrow" >
-            
-            <img src={dropdown} onClick={onToggle} alt="" className={`${dropdownopen?"dropdownimageopen":"dropdownimageclosed" }`} />
+          <span className="dropdown-arrow" onClick={onToggle}>
+            <img
+              src={dropdown}
+              alt=""
+              className={`${
+                dropdownopen ? "dropdownimageclosed" : "dropdownimageopen"
+              }`}
+            />
           </span>
         </div>
 
@@ -211,11 +196,8 @@ const DropDownList: React.FC<DropdownProps> = ({
           <ul className="dropdown-options">
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (
-                <div
-                  className="dropdown-option-list"
-                  
-                >
-                  <li key={index} className="dropdown-option">
+                <div className="dropdown-option-list"key={index}  onMouseDown={handleOptionMouseDown} >
+                  <li  className="dropdown-option">
                     <input
                       type="radio"
                       checked={selectedOption?.id === option?.id}
@@ -244,7 +226,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               <li className="dropdown-no-options">No options found</li>
             )}
           </ul>
-          <div className="dropdown-Addbutton">
+          <div className="dropdown-Addbutton" onMouseDown={handleOptionMouseDown}>
             {addNewButton ? (
               <div className="dropdown-addnew">
                 <div className="dropdown-addnew-input-and-button">

@@ -1,8 +1,35 @@
 import React, { useState } from 'react';
 import './CustomizeSlider.scss';
 import ToggleSliderAvail from '../ToggleSliderAvail/ToggleSliderAvail';
+import { useSelector } from 'react-redux';
+
+interface Option {
+  item: string;
+  price: number;
+}
+
+interface ItemCustomization {
+  modifierName: string;
+  selectionType: string;
+  minSelection?: number;
+  maxSelection?: number;
+  options?: Option[];
+  freeCustomization?: string;
+  selectedValue?: string[];
+  serviceStreams?: string[];
+}
+interface RootState {
+  itemCustomizationsReducer1: {
+    itemData: ItemCustomization[];
+  };
+}
+
+
 
 const CustomizeSlider = () => {
+  const itemCustomizationData = useSelector((state:RootState) => state.itemCustomizationsReducer1.itemData);
+  console.log(itemCustomizationData)
+
   const data = [
     {
       mainHeading: 'Topping',
@@ -16,10 +43,7 @@ const CustomizeSlider = () => {
       mainHeading: 'Crust',
       types: ['Thin:', 'Medium:', 'Crispy:'],
     },
-    {
-        mainHeading: 'Crust',
-        types: ['Thin:', 'Medium:', 'Crispy:'],
-      },
+    
   ];
 
   const [toggleStates, setToggleStates] = useState(
