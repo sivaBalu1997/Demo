@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import "./DaysCheck.scss";
-import axios from 'axios';
-import { getAvailabilityRequest } from 'redux/productCatalog/productCatalogActions';
+import axios from "axios";
+import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActions";
 
 // Define the types for the component's props
 interface DaysCheckProps {
@@ -22,31 +22,33 @@ interface DataItem {
 
 interface State {
   auth: {
-    credentials:{
-      locationId:string
-
-    }
-    
+    credentials: {
+      locationId: string;
+    };
   };
 }
 interface StateDataTag {
- 
-  productCatalog:{
-    availability:[]
-
-    }
-    
-  
+  productCatalog: {
+    availability: [];
+  };
 }
 
-
-
-const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, index, id, setId }) => {
-  const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
-  const tagData=useSelector((state:StateDataTag)=>state.productCatalog.availability)
+const DaysCheck: React.FC<DaysCheckProps> = ({
+  checkedItems,
+  setCheckedItems,
+  index,
+  id,
+  setId,
+}) => {
+  const locationid = useSelector(
+    (state: State) => state.auth.credentials.locationId
+  );
+  const tagData = useSelector(
+    (state: StateDataTag) => state.productCatalog.availability
+  );
 
   const [data, setData] = useState<DataItem[]>([]);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -54,27 +56,27 @@ const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, in
 
     if (checked) {
       // Add the checkbox value to the state if it is checked
-      setCheckedItems(prevState => [...prevState, numericName]);
-      setId(prevState => [...prevState, data[numericName].id]);      
+      setCheckedItems((prevState) => [...prevState, numericName]);
+      setId((prevState) => [...prevState, data[numericName].id]);
     } else {
       // Remove the checkbox value from the state if it is unchecked
-      setCheckedItems(prevState => prevState.filter(item => item !== numericName));
-      setId(prevState => prevState.filter(itemId => itemId !== data[numericName].id));
+      setCheckedItems((prevState) =>
+        prevState.filter((item) => item !== numericName)
+      );
+      setId((prevState) =>
+        prevState.filter((itemId) => itemId !== data[numericName].id)
+      );
     }
   };
 
   useEffect(() => {
     getApi();
-    setData(tagData)
+    setData(tagData);
   }, []);
 
   const getApi = async () => {
-  
-    dispatch(getAvailabilityRequest(locationid))
-  }
-
-
-  console.log(checkedItems);
+    dispatch(getAvailabilityRequest(locationid));
+  };
 
   return (
     <div>

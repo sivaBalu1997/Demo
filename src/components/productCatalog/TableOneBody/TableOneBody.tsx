@@ -8,11 +8,16 @@ interface Item {
   name: string;
   code: string;
   id:number;
+  
+ 
 }
 
 interface ItemRowProps {
   object:
-   { name: Item[]; id: number };
+   { name: Item[]; id: number, type:string };
+   typevalue:string;
+   index: number;
+   objectLength:number,
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
   handleRowDragStart: (id: number, index: number) => void;
@@ -22,19 +27,30 @@ interface ItemRowProps {
   handlemodal: (value: number) => void;
   tableBodyRef1: React.RefObject<HTMLDivElement>;
   tableBodyRef2: React.RefObject<HTMLDivElement>;
+  handlevegrowstart:(e: React.DragEvent<HTMLImageElement>, index: number) => void;
+  handlevegrowover:(e: React.DragEvent<HTMLDivElement>) => void;
+  handlevegrowend: (e: React.DragEvent<HTMLDivElement>, index: number) => void;
 }
 
 const TableOneBody: React.FC<ItemRowProps> = ({
   object,
+  index,typevalue,
   draggingOverIndex,
   draggedRowIndex,
   handleRowDragStart,
   handleRowDragOver,
   handleRowDragEnd,
+  handlevegrowstart,
+  handlevegrowover,
+  handlevegrowend,
+  objectLength,
+
+
   handleDragScroll,
   handlemodal,
   tableBodyRef1,
   tableBodyRef2,
+ 
 }) => {
 
   const dispatch=useDispatch()
@@ -51,9 +67,31 @@ const TableOneBody: React.FC<ItemRowProps> = ({
     handlemodal(value);
 
   }
+  useEffect(() => {
+    console.log(objectLength); // Check if this is logged correctly
+  }, [objectLength]);
 
   return (
     <>
+     {
+       <tr >
+       <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+       <img
+         src={dots}
+         alt=""
+         draggable
+         onDragStart={(e) => handlevegrowstart(e, index)}
+         onDragOver={handlevegrowover}
+         onDrop={(e) => handlevegrowend(e, index)}
+         className="headingdrag"
+       /> { typevalue}
+       </td>
+     
+      
+     </tr>
+     }
+    
+        
       {object.name.map((item, index) => (
         <tr key={index}>
           {draggingOverIndex === index && <td className="placeholderplace"></td>}

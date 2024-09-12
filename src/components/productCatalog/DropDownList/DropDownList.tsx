@@ -160,7 +160,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const closeDropdown = () => {
-    console.log("dropdownopen", dropdownopen);
     if (dropdownopen) {
       onToggle();
     }
@@ -185,13 +184,12 @@ const DropDownList: React.FC<DropdownProps> = ({
             }`}
             disabled={Disablesubcategory && name === "subCategory"}
           />
-          <span className="dropdown-arrow">
+          <span className="dropdown-arrow" onClick={onToggle}>
             <img
               src={dropdown}
-              onClick={onToggle}
               alt=""
               className={`${
-                dropdownopen ? "dropdownimageopen" : "dropdownimageclosed"
+                dropdownopen ? "dropdownimageclosed" : "dropdownimageopen"
               }`}
             />
           </span>

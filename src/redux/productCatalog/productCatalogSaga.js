@@ -109,6 +109,9 @@ function* getIngredientsSaga(action) {
     const response = yield call(getIngredients, action.payload);
     if (response.status === 200) {
       yield put(getIngredientsSuccess(response.data));
+      if(action.payload?.sagaCallBack != null && typeof action.payload?.sagaCallBack === 'function'){
+        action.payload.sagaCallBack(response.data);
+      }
     } else {
       yield put(getIngredientsFailed({ message: "please Try Again" }));
     }
