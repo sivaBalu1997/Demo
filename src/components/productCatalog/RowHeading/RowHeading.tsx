@@ -5,35 +5,34 @@ interface Item {
   name: string;
   code: string;
   id:number;
+  type:string;
   
  
 }
 interface ItemHeadingProps {
   objectId: number;
-  object:number;
-  headingstringone:string,
-  headingstringtwo:string,
+  object: { name: Item[]; id: number; type: string };
+
   index: number;
   onDragStart: (e: React.DragEvent<HTMLImageElement>, index: number) => void;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   onDrop: (e: React.DragEvent<HTMLDivElement>, index: number) => void;
-  Typename?:string
+ 
 }
 
 const RowHeading: React.FC<ItemHeadingProps> = ({
   objectId,
   index,
-  headingstringone,
-  headingstringtwo,
   onDragStart,
   onDragOver,
   onDrop,
-  object,
-  Typename
+  object
+
 }) => {
   
 
-    if (objectId === 1 ) {
+console.log("object",object.name.length)
+    if (objectId === 1 && object.name.length>=1 && object.name.some(item => item.type === 'steamedVeg')) {
       return (
         <tr >
           <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
@@ -52,7 +51,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
          
         </tr>
       );
-    } else if (objectId === 2) {
+    } else if (objectId === 2 && object.name.length>=1 && object.name.some(item => item.type === 'steamedNonVeg')) {
       return (
         <tr >
           {
