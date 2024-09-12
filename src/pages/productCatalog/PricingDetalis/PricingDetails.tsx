@@ -20,6 +20,71 @@ import axios from "axios";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import { da } from "date-fns/locale";
 import SidePanel from "pages/SidePanel";
+interface SelectedValuesState {
+  [key: number]: any; // Replace `any` with the actual type of `values`
+
+  
+}
+  type MainFormType = {
+    availabilityid: string[];
+    formNormal: {
+      PickuppriceNormal: string;
+      PickupmealtypeNormal: string;
+      DeliverypriceNormal: string;
+      DeliverymealtypeNormal: string;
+      SwiggyorzomatoNormal: string;
+      SwiggyNormal: string;
+      SwiggymealtypeNormal: string;
+      ZomatoNormal: string; 
+      ZomatomealtypeNormal: string;
+    };
+    dineinfields: any;
+    Normaldays: number[];
+    DeliveryMealType: string[];
+    PicupMealType: string[];
+    Pickup: number[];
+    DineInServiceArea:SelectedValuesState[]
+    Delivery: number[];
+    thirdParty: number[];
+    WeekDays: number[][];
+    DineIn: number[][];
+    Swiggy: string[];
+    Zomato: string[];
+  };;
+
+  type DineInField = {
+    DineInPrice: string | string[];
+    DineInMealType: string | string[];
+    DineInServiceArea: string | string[];
+  };
+
+  interface FormState {
+    Pickupprice?: string;
+    Pickupmealtype?: string;
+    Deliveryprice?: string;
+    Deliverymealtype?: string;
+    Swiggyorzomato?: string;
+    Swiggy?: string;
+    Swiggymealtype?: string;
+    Zomato?: string;
+    Zomatomealtype?: string;
+    Inventory1: string;
+    Inventory2: string;
+    
+  }
+
+  type MainFormSpecial ={
+    form: FormState;
+    dineinfields: DineInField[];
+    specialcheck: number[] // Single number, not an array
+    fromDate: string|Date | undefined; // Allow undefined if needed; // Should be Date, not string
+    toDate: string|Date | undefined; // Allow undefined if needed; // Should be Date, not string
+    selectedValuespickup: string[];
+    selectedValuesdelivery: string[];
+    Swiggy: string[];
+    Zomato: string[];
+    Availabilityid: string[];
+  }
 
 interface ValidationState {
   isValid: boolean;
@@ -101,7 +166,57 @@ const PricingDetails = () => {
   ]);
   const history = useHistory();
   const { activeCategory, setActiveCategory } = useContext(Contextpagejs);
-
+  const [mainFormState, setMainFormState] = useState<MainFormType>({
+    availabilityid: [],
+    formNormal: {
+      PickuppriceNormal: '',
+      PickupmealtypeNormal: '',
+      DeliverypriceNormal: '',
+      DeliverymealtypeNormal: '',
+      SwiggyorzomatoNormal: '',
+      SwiggyNormal: '',
+      SwiggymealtypeNormal: '',
+      ZomatoNormal: '',
+      ZomatomealtypeNormal: '',
+    },
+    dineinfields: [],
+    Normaldays: [],
+    DeliveryMealType: [],
+    PicupMealType: [],
+    Pickup: [],
+    DineInServiceArea: [],
+    Delivery: [],
+    thirdParty: [],
+    WeekDays: [],
+    DineIn: [],
+    Swiggy: [],
+    Zomato: [],
+  });
+  
+  const [mainFormSpecial, setMainFormSpecial] = useState<MainFormSpecial>({
+    form: {
+      Pickupprice: "",
+      Pickupmealtype: "",
+      Deliveryprice: "",
+      Deliverymealtype: "",
+      Swiggyorzomato: "",
+      Swiggy: "",
+      Swiggymealtype: "",
+      Zomato: "",
+      Zomatomealtype: "",
+      Inventory1: "", // Add default value
+      Inventory2: ""  // Add default value
+    },
+    dineinfields: [],
+    specialcheck: [],
+    fromDate: new Date(),
+    toDate: new Date(),
+    selectedValuespickup: [],
+    selectedValuesdelivery: [],
+    Swiggy: [],
+    Zomato: [],
+    Availabilityid: []
+  });
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const [selectedValue1, setSelectedValue1] = useState<string[]>([]);
@@ -176,6 +291,9 @@ const PricingDetails = () => {
     kitchenstation: selectedValues,
     Preparationtime: selectedValue1,
     KitchenStationId: id,
+    normalForm: isOptionTrue ? mainFormState :undefined , // Conditionally set normalForm
+
+    specialForm:mainFormSpecial
   };
 
   useEffect(() => {
@@ -218,6 +336,11 @@ const PricingDetails = () => {
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
+
+  // console.log(mainFormState)
+
+  console.log(mainFormSpecial)
+  
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -446,12 +569,16 @@ const PricingDetails = () => {
                   dinein={dinein}
                   setDineIn={setDineIn}
                   validationState={validationState}
+                  setMainFormState={setMainFormState} 
+                  mainFormState={mainFormState}
                 />
               ) : (
                 <Specialavail
                   getSpecialForm={getSpecialForm}
                   validateDropdown={validateDropdown}
                   validationState={validationState}
+                  setMainFormSpecial={setMainFormSpecial}
+                  mainFormSpecial={mainFormSpecial}
                 />
               )}
 
