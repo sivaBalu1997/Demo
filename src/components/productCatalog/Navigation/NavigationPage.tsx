@@ -53,7 +53,7 @@ const Navigationpage = () => {
                   {`Step ${index + 1}: ${category}`}
                 </h1>
                 <div
-                  className={`${isExpanded ? "navbarExpanded" : "navbar"} ${
+                  className={`${isExpanded ? "navbar" : "navbarExpanded"} ${
                     category === currentPage ? "active" : ""
                   }`}
                 ></div>

@@ -15,7 +15,7 @@ import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 
 const Sidenav = () => {
 
-  const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
+  const{isExpanded, setIsExpanded}=useContext(Contextpagejs)
 
     const sidebarData = [
         { id: 1, name: "Business", img:I },
@@ -32,6 +32,7 @@ const Sidenav = () => {
       const toggleExpanded=()=>{
         setIsExpanded(!isExpanded);
       }
+      
       const handleChange = (event) => {
         setSelectedOption(event.target.value);
       };

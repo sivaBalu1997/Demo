@@ -27,6 +27,7 @@ export const Menulisting = () => {
   const dispatch = useDispatch();
 
   const { isExpanded } = useContext(Contextpagejs);
+  console.log({isExpanded})
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 
   useEffect(() => {

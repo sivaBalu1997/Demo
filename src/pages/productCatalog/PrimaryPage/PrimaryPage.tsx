@@ -7,7 +7,6 @@ import RadioButtonGroup from "../../../components/productCatalog/RadioButton/Rad
 import "./PrimaryPage.scss";
 import { ImCross } from "react-icons/im";
 import ImgaeUploading from "../../../assets/images/addimage.png";
-import axios from "axios";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Imagepillsselection from "../../../components/productCatalog/ImagePillsSelection/ImagePillsSelection";
@@ -32,7 +31,6 @@ import {
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
-import { stat } from "fs";
 
 interface Ingredients {
   id: string;
@@ -129,15 +127,16 @@ const PrimaryPage = () => {
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
-  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const { isExpanded } = useContext(Contextpagejs);
 
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
   );
-
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
   const maxLength = 100;
+
+  console.log(isExpanded)
 
   // Handle input change for description and character count
   const handleDescriptionInputChange = (
@@ -347,10 +346,12 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemNameData"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
-                          register={register}
+                          name="ItemNameData"
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
                           trigger={trigger}
                         />
                       )}
@@ -554,12 +555,14 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
-                          register={register}
-                          trigger={trigger}
+                          name="itemCode"
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
                           type="number"
+                          trigger={trigger}
                         />
                       )}
                     />
@@ -571,10 +574,12 @@ const PrimaryPage = () => {
                     <Controller
                       name="barCode"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
-                          register={register}
+                          name="barCode"
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
                           trigger={trigger}
                         />
                       )}
@@ -665,11 +670,13 @@ const PrimaryPage = () => {
                       <Controller
                         name="coloriePoint"
                         control={control}
-                        render={({ field }: any) => (
+                        render={({ onChange, onBlur, value }: any) => (
                           <InputFieldComponent
-                            {...field}
+                            name="coloriePoint"
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
                             trigger={trigger}
-                            register={register}
                             placeholder="Cal"
                           />
                         )}
@@ -693,11 +700,13 @@ const PrimaryPage = () => {
                       <Controller
                         name="portionSize"
                         control={control}
-                        render={({ field }: any) => (
+                        render={({ onChange, onBlur, value }: any) => (
                           <InputFieldComponent
-                            {...field}
+                            name="portionSize"
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
                             trigger={trigger}
-                            register={register}
                             placeholder={getValues("selectedPortion")}
                           />
                         )}
@@ -723,11 +732,13 @@ const PrimaryPage = () => {
                       <Controller
                         name="tax"
                         control={control}
-                        render={({ field }: any) => (
+                        render={({ onChange, onBlur, value }: any) => (
                           <InputFieldComponent
-                            {...field}
+                            name="tax"
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
                             trigger={trigger}
-                            register={register}
                             placeholder="Tax Class Association"
                           />
                         )}
