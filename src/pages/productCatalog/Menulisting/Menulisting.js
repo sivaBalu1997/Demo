@@ -528,7 +528,7 @@ export const Menulisting = () => {
                   return (
                     <React.Fragment key={indexvalue}>
                       <tr>
-                        {indexvalue === 1||FilteredData.length ===0   &&(
+                        {indexvalue === 1   &&(
                           <tr className="itemheading2row"></tr>
                         )}
                       </tr>
