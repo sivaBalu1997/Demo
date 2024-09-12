@@ -433,7 +433,8 @@ export const Menulisting = () => {
                     
                   <RowHeading
                     objectId={object.id}
-                    object={object.length}
+                    object={object}
+                   
                     index={index}
                     onDragStart={handledragvegnonvegdragstart}
                     onDragOver={handledragvegnonvegdropover}
@@ -442,6 +443,7 @@ export const Menulisting = () => {
                     <TableOneBody
                       object={object}
                       typevalue={object.type}
+
                       index={index}
                       FilteredData={FilteredData}
                       objectLength={FilteredData.length}
@@ -525,11 +527,11 @@ export const Menulisting = () => {
                   return (
                     <React.Fragment key={indexvalue}>
                       <tr>
-                        {indexvalue === 1 && (
+                        {indexvalue === 1||FilteredData.length ===0   &&(
                           <tr className="itemheading2row"></tr>
                         )}
                       </tr>
-
+{/* //  */}
                       <TableTwoBody
                         itemobject={itemobject}
                         indexvalue={indexvalue}
