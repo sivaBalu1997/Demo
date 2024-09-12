@@ -354,10 +354,12 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemNameData"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
-                          register={register}
+                          name="ItemNameData"
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
                           trigger={trigger}
                         />
                       )}
@@ -561,12 +563,14 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
-                          register={register}
-                          trigger={trigger}
+                          name="itemCode"
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
                           type="number"
+                          trigger={trigger}
                         />
                       )}
                     />
@@ -578,10 +582,12 @@ const PrimaryPage = () => {
                     <Controller
                       name="barCode"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          {...field}
-                          register={register}
+                          name="barCode"
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
                           trigger={trigger}
                         />
                       )}
@@ -672,11 +678,13 @@ const PrimaryPage = () => {
                       <Controller
                         name="coloriePoint"
                         control={control}
-                        render={({ field }: any) => (
+                        render={({ onChange, onBlur, value }: any) => (
                           <InputFieldComponent
-                            {...field}
+                            name="coloriePoint"
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
                             trigger={trigger}
-                            register={register}
                             placeholder="Cal"
                           />
                         )}
@@ -700,11 +708,13 @@ const PrimaryPage = () => {
                       <Controller
                         name="portionSize"
                         control={control}
-                        render={({ field }: any) => (
+                        render={({ onChange, onBlur, value }: any) => (
                           <InputFieldComponent
-                            {...field}
+                            name="portionSize"
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
                             trigger={trigger}
-                            register={register}
                             placeholder={getValues("selectedPortion")}
                           />
                         )}
@@ -730,11 +740,13 @@ const PrimaryPage = () => {
                       <Controller
                         name="tax"
                         control={control}
-                        render={({ field }: any) => (
+                        render={({ onChange, onBlur, value }: any) => (
                           <InputFieldComponent
-                            {...field}
+                            name="tax"
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            value={value}
                             trigger={trigger}
-                            register={register}
                             placeholder="Tax Class Association"
                           />
                         )}
