@@ -27,6 +27,7 @@ export const Menulisting = () => {
   const [itemsState, setItemsState] = useState(itemsdata);
   const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
   const { isExpanded } = useContext(Contextpagejs);
+  console.log({isExpanded})
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 
   useEffect(() => {
@@ -36,9 +37,6 @@ export const Menulisting = () => {
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
   const FilteredData= useSelector((state) => state.storeMockDataFilteredReducer.data);
 
-  useEffect(()=>{
-    console.log({Mockdata})
-  },[Mockdata])
 
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,

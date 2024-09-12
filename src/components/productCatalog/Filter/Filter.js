@@ -10,7 +10,7 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 
 const Filter = () => {
-  const{isExpanded,setIsExpanded}=useContext(Contextpagejs)
+  const{isExpanded}=useContext(Contextpagejs)
 
   const dispatch=useDispatch()
 

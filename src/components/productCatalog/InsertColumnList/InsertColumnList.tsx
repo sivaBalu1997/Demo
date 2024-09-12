@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
+import React, { useCallback, useContext, useEffect } from 'react';
 
 interface InsertColumnListProps {
   listingobject: {
@@ -56,8 +57,11 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
         return updatedState;
       });
     },
-    [setlistingobject]
-  );
+    [setlistingobject]);
+
+    const{isExpanded}=useContext(Contextpagejs)
+
+
   useEffect(() => {
     if (
       !listingobject.Dinein1 &&
@@ -96,7 +100,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   return (
     <div className="headaadbtnclass" ref={Outsideref}>
       {showheadinglist && (
-        <div className="headingstextlist">
+        <div className={isExpanded ? "headingstextlist1" : "headingstextlist"}>
           <div className="insertheading">
             <h3>
               <span>Insert Column</span>

@@ -7,7 +7,6 @@ import RadioButtonGroup from "../../../components/productCatalog/RadioButton/Rad
 import "./PrimaryPage.scss";
 import { ImCross } from "react-icons/im";
 import ImgaeUploading from "../../../assets/images/addimage.png";
-import axios from "axios";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Imagepillsselection from "../../../components/productCatalog/ImagePillsSelection/ImagePillsSelection";
@@ -32,7 +31,6 @@ import {
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
-import { stat } from "fs";
 
 interface Ingredients {
   id: string;
@@ -119,21 +117,25 @@ const PrimaryPage = () => {
     (state: State) => state.auth.credentials.locationId
   );
 
-  const requestCompleted = useSelector((state:RootState) => state.productCatalog.requestCompleted)
+  const requestCompleted = useSelector(
+    (state: RootState) => state.productCatalog.requestCompleted
+  );
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
   );
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
-  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const { isExpanded } = useContext(Contextpagejs);
 
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
   );
-  const [description, setDescription] = useState(""); 
-  const [charCount, setCharCount] = useState(0); 
+  const [description, setDescription] = useState("");
+  const [charCount, setCharCount] = useState(0);
   const maxLength = 100;
+
+  console.log(isExpanded)
 
   // Handle input change for description and character count
   const handleDescriptionInputChange = (
@@ -167,7 +169,7 @@ const PrimaryPage = () => {
         bestPair: false,
         category: false,
         subCategory: false,
-        [dropdownName]: !prevState[dropdownName] // Toggle the clicked dropdown
+        [dropdownName]: !prevState[dropdownName], // Toggle the clicked dropdown
       };
     });
   };
@@ -180,16 +182,14 @@ const PrimaryPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-
-    
     getApi();
     Category();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setIngredientsFromAPi(ingredients);
     setCategories(categoriesdata);
-  },[requestCompleted])
+  }, [requestCompleted]);
 
   const getApi = () => {
     dispatch(getIngredientsRequest(locationid));
@@ -295,7 +295,7 @@ const PrimaryPage = () => {
     formState: { errors },
     trigger,
     reset,
-    watch
+    watch,
   } = useForm<FormData>({
     defaultValues: {
       itemNameData: "",
@@ -323,9 +323,6 @@ const PrimaryPage = () => {
   });
   const selectedradiowatch = watch();
 
-   // Watch to get the current value
-
-
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -333,7 +330,7 @@ const PrimaryPage = () => {
     // const dataToDispatch = extractFields(data);
     // dispatch(ApiPost(dataToDispatch));
   };
-  
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -354,8 +351,7 @@ const PrimaryPage = () => {
                   <div className="Primary-page-InputFields">
                     {" "}
                     <LableComponent lable="ItemName *" />
-              
-<Controller
+                    <Controller
                       name="itemNameData"
                       control={control}
                       render={({ field }: any) => (
@@ -363,7 +359,6 @@ const PrimaryPage = () => {
                           {...field}
                           register={register}
                           trigger={trigger}
-                          
                         />
                       )}
                     />
@@ -550,12 +545,12 @@ const PrimaryPage = () => {
                   <div className="Primary-page-InputFields alcoholradiobutton">
                     <h3>Contains Alcohol ?</h3>
                     <RadioButtonGroup
-        options={dataAlcoholRadio}
-        name="alcohol"
-        selectedValue={selectedradiowatch.alcohol}
-        onChange={(value) => handleRadioChange("alcohol", value)}
-        register={register}
-      /> 
+                      options={dataAlcoholRadio}
+                      name="alcohol"
+                      selectedValue={selectedradiowatch.alcohol}
+                      onChange={(value) => handleRadioChange("alcohol", value)}
+                      register={register}
+                    />
                   </div>
                 </div>
 
@@ -625,29 +620,28 @@ const PrimaryPage = () => {
                       />
                     </div>
                     <div className="Primary-page-InputFields">
-                <LableComponent lable="SubCategory" />
-                <Controller
-                  name="subCategory"
-                  control={control}
-                  render={({ field }:any) => (
-                    <Dropdown
-                      options={dataSubcategory}
-                      setOptions={setDataSubcategory}
-                      placeholder="search for option"
-                      name="subCategory"
-                      register={register}
-                      trigger={trigger}
-                      setValue={setValue}
-                      getValues={getValues}
-                      dropdownopen={DropdownOpen.subCategory}
-                      setDropdownOpen={setDropdownOpen}
-                      onToggle={() => handleDropdownToggle("subCategory")}
-                    />
-                  )}
-                />
-              </div>
+                      <LableComponent lable="SubCategory" />
+                      <Controller
+                        name="subCategory"
+                        control={control}
+                        render={({ field }: any) => (
+                          <Dropdown
+                            options={dataSubcategory}
+                            setOptions={setDataSubcategory}
+                            placeholder="search for option"
+                            name="subCategory"
+                            register={register}
+                            trigger={trigger}
+                            setValue={setValue}
+                            getValues={getValues}
+                            dropdownopen={DropdownOpen.subCategory}
+                            setDropdownOpen={setDropdownOpen}
+                            onToggle={() => handleDropdownToggle("subCategory")}
+                          />
+                        )}
+                      />
+                    </div>
                   </div>
-                  
 
                   <div className="Primary-page-Allergens-selection">
                     <Imagepillsselection
@@ -689,13 +683,15 @@ const PrimaryPage = () => {
                       />
                     </div>
                     <div>
-                    <RadioButtonGroup
-        options={dataCaloriePointRadio}
-        name="selectedcolorie"
-        selectedValue={selectedradiowatch.selectedcolorie}
-        onChange={(value) => handleRadioChange("selectedcolorie", value)}
-        register={register}
-      />
+                      <RadioButtonGroup
+                        options={dataCaloriePointRadio}
+                        name="selectedcolorie"
+                        selectedValue={selectedradiowatch.selectedcolorie}
+                        onChange={(value) =>
+                          handleRadioChange("selectedcolorie", value)
+                        }
+                        register={register}
+                      />
                     </div>
                   </div>
 
@@ -716,13 +712,15 @@ const PrimaryPage = () => {
                     </div>
 
                     <div>
-                    <RadioButtonGroup
-        options={dataPortionSizeRadio}
-        name="selectedPortion"
-        selectedValue={selectedradiowatch.selectedPortion}
-        onChange={(value) => handleRadioChange("selectedPortion", value)}
-        register={register}
-      />
+                      <RadioButtonGroup
+                        options={dataPortionSizeRadio}
+                        name="selectedPortion"
+                        selectedValue={selectedradiowatch.selectedPortion}
+                        onChange={(value) =>
+                          handleRadioChange("selectedPortion", value)
+                        }
+                        register={register}
+                      />
                     </div>
                   </div>
 

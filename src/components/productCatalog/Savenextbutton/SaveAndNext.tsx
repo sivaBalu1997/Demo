@@ -94,7 +94,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 }) => {
   
   const history = useHistory();
-  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const { isExpanded } = useContext(Contextpagejs);
   // const extractFields = (formData: FormData) => {
   //   return {
   //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
