@@ -37,7 +37,7 @@ const SearchBox = () => {
     const value = e.target.value;
     setSearchTerm(value);
 
-    filterOptions(value);
+   
     setOptionSelected(false);
   }
   const filterOptions = (input) => {

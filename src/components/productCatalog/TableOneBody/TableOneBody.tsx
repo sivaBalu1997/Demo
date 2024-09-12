@@ -105,7 +105,8 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               <img src={dots} alt="" className="draggableimg" />
               <img
                 src={
-                  baseImageUrl +"photo/2023/07/12/20/40/ai-generated-8123328_640.png"
+                  baseImageUrl +
+                  "https://cdn.pixabay.com/photo/2023/07/12/20/40/ai-generated-8123328_640.png"
                 }
                 alt=""
                 className="foodimage"
