@@ -1,12 +1,37 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux'; // Access Redux
 import './AvailabilitySlider.scss';
 import ToggleSliderAvail from '../ToggleSliderAvail/ToggleSliderAvail';
 
-interface AvailSliderProps {
-  pen?: true;
+// Define interfaces
+interface SideBarData {
+  id: number;
+  name: string;
+  code: string;
+  type: string;
+  mealType: string;
+  dietary: string;
+  cusine: string;
+  pricingdetails: {
+    Dinein1: string[];
+    Pickup1: string[];
+    Delivery1: string[];
+    Dinein2: string[];
+    Pickup2: string[];
+    Delivery2: string[];
+    Inventory1: string[];
+    Customize1: string[];
+  };
 }
 
-const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
+interface AvailSliderProps {
+  pen?: true;
+  SideBarData: SideBarData[];
+}
+
+const PricingSlider: React.FC<AvailSliderProps> = ({ pen, SideBarData }) => {
+  // Accessing SideBarData from Redux store
+  
   const data = [
     {
       mainHeading: 'Off-prem',
@@ -45,10 +70,26 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     })
   );
 
+  // Function to map Pickup2 values from Redux to toggle states
+  const mapPickup2ToToggles = (childIndex: number) => {
+    const pickup2Data = SideBarData[0]?.pricingdetails?.Pickup2?.[childIndex];
+    return pickup2Data === 'Enabled';
+  };
+
+  const mapDelivery2ToToggles = (childIndex: number) => {
+    const delivery2Data = SideBarData[0]?.pricingdetails?.Delivery2?.[childIndex];
+    return delivery2Data === 'Enabled';
+  };
+
+  const mapSection2ToToggles = (childIndex: number) => {
+    const section2Data = SideBarData[0]?.pricingdetails?.Dinein2?.[childIndex];
+    return section2Data === 'Enabled';
+  };
+
   const handleParentToggle = (index: number) => {
     const newToggleStates = [...toggleStates];
     const newParentToggle = !newToggleStates[index].parentToggle;
-  
+
     if (data[index].subcategories) {
       newToggleStates[index] = {
         parentToggle: newParentToggle,
@@ -57,17 +98,16 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
           childToggles: Array(subcategory?.childToggles?.length || 0).fill(newParentToggle),
         })) ?? [],
       };
-    } else if (data[index].types) { // Check if 'types' exists before accessing its length
+    } else if (data[index].types) {
       newToggleStates[index] = {
         parentToggle: newParentToggle,
-        childToggles: Array(data[index].types?.length || 0).fill(newParentToggle), // Safely access 'length'
+        childToggles: Array(data[index].types?.length || 0).fill(newParentToggle),
       };
     }
-  
+
     setToggleStates(newToggleStates);
   };
-  
-  
+
   const handleSubcategoryToggle = (parentIndex: number, subcategoryIndex: number) => {
     const newToggleStates = [...toggleStates];
     const subcategoryToggle = newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex];
@@ -112,7 +152,11 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                   <div key={typeIndex} className='TypeHeading'>
                     <h3 className='SectionASectionBSectionHeading'>{type}</h3>
                     <ToggleSliderAvail
-                      toggle={toggleStates[index]?.childToggles?.[typeIndex] || false}
+                      toggle={
+                        type.includes('Section A') || type.includes('Section B')
+                          ? mapSection2ToToggles(typeIndex) // Map Section2 data here from Redux
+                          : toggleStates[index]?.childToggles?.[typeIndex] || false
+                      }
                       setToggle={() => handleChildToggle(index, 0, typeIndex)} // Assuming no subcategories for Off-prem
                       pen={pen}
                     />
@@ -135,7 +179,13 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                         <div key={typeIndex} className='TypeHeading'>
                           <h4 className='SectionASectionBSectionHeading'>{type}</h4>
                           <ToggleSliderAvail
-                            toggle={toggleStates[index]?.subcategoryToggles?.[subIndex]?.childToggles?.[typeIndex] || false}
+                            toggle={
+                              subcategory.subHeading === 'Pick up'
+                                ? mapPickup2ToToggles(typeIndex) // Map Pickup2 data here from Redux
+                                : subcategory.subHeading === 'Delivery'
+                                  ? mapDelivery2ToToggles(typeIndex) // Map Delivery2 data here from Redux
+                                  : toggleStates[index]?.subcategoryToggles?.[subIndex]?.childToggles?.[typeIndex] || false
+                            }
                             setToggle={() => handleChildToggle(index, subIndex, typeIndex)}
                             pen={pen}
                           />
