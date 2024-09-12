@@ -207,14 +207,14 @@ th {
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-     border: 1px solid blue !important;
+    //  border: 1px solid blue !important;
   }
   .Menu-Listing-TableTwo1 {
     width: 65rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-    border: 1px solid blue !important;
+    // border: 1px solid blue !important;
   }
   // &::-webkit-scrollbar
   // {
@@ -484,6 +484,7 @@ th {
     overflow-y: auto;
     overflow-x: hidden;
     width: 160.85%;
+    // border: 1px solid red !important;
   }
   .Menu-Listing-TableTwoBody1 {
     display: block;
@@ -491,7 +492,7 @@ th {
     overflow-y: auto;
     overflow-x: hidden;
     width: 160.85%;
-    // border: 1px solid red;
+    // border: 1px solid red !important;
   }
   .tabletwobody {
     display: flex;

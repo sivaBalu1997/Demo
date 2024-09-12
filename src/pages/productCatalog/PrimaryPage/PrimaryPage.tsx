@@ -194,14 +194,14 @@ const PrimaryPage = () => {
   }, [requestCompleted]);
 
   const getApi = () => {
-    dispatch(getIngredientsRequest(locationid));
+    // dispatch(getIngredientsRequest(locationid));
   };
 
   const Category = () => {
     dispatch(getMenuCategoryRequest(locationid));
   };
 
-  //
+  
 
   const validImages = dataImages.filter(
     (img): img is { name: string; id: string } => img !== undefined
@@ -318,9 +318,8 @@ const PrimaryPage = () => {
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("formData", data);
-    // const dataToDispatch = extractFields(data);
-    // dispatch(ApiPost(dataToDispatch));
+   
+    // dispatch(ApiPost(data)); // Send data to API via Redux
   };
 
   return (
@@ -694,7 +693,7 @@ const PrimaryPage = () => {
                       />
                     </div>
                   </div>
-                  {/* <button type="submit" className="Primary-Page-Formsubmitbutton">Submit</button> */}
+               
                   <div className="Primary-Page-Other-Detail">
                     <div>
                       <Controller
@@ -764,14 +763,15 @@ const PrimaryPage = () => {
                     </div>
                   </div>
                 </div>
+                   
               </div>
-             
-              <SaveAndNext
+              <button type="submit" className="Primary-Page-Formsubmitbutton">Submit</button>
+              {/* <SaveAndNext
                 getFormData={getValues}
                 seletedpage="Primary"
                 reset={reset}
                 triggerValidation={() => trigger()}
-              />
+              /> */}
             </form>
           </div>
         </div>
