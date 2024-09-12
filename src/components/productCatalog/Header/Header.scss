@@ -5,6 +5,8 @@
   left: -20px;
   padding: 10px;
   top: 25px;
+  z-index: 600;
+
   display: flex;
   justify-content: space-between;
   transition: left 0.4s ease-in;
@@ -49,7 +51,7 @@
   position: relative;
   left: 0px;
   top: 2px;
-  cursor: pointer;
+  cursor: pointer;  
 }
 
 .Filter-FlexCol {

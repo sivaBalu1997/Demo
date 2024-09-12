@@ -45,7 +45,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
             onDragOver={onDragOver}
             onDrop={(e) => onDrop(e, index)}
             className="headingdrag"
-          /> {   <span> { headingstringone}</span>
+          /> {   <span> SteamedVeg</span>
           } 
           </td>
         
@@ -68,7 +68,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
                className="headingdrag"
              />
               <span>{<span> </span>
-          }{ headingstringtwo}</span>
+          }SteamedNonVeg</span>
           
             </td>
           }

@@ -23,6 +23,7 @@ interface Item {
   dietary:string;
   cusine:string;
   pricingdetails: PricingDetails;
+
 }
 
 // Define your mock data
@@ -40,7 +41,7 @@ const truncateString = (str: string, length: number) => {
       dietary:"Vegan",
       cusine:"SouthIndian",
       pricingdetails: {
-        Dinein1: ["$100.00", "$100.00"],
+        Dinein1: [ "$100.00", "$100.00"],
         Pickup1: ["$200.00", "$200.00", "$200.00"],
         Delivery1: ["$300.00", "$300.00", "$300.00"],
         Dinein2: ["Disabled", "Enabled"],
@@ -52,7 +53,7 @@ const truncateString = (str: string, length: number) => {
     },
     {
         id: 3,
-        name: truncateString(" Mushroo", 14),
+        name: "Musroom Gravy",
         code: "12345",
         type:"steamedVeg",
         mealType:"Lunch",
@@ -71,14 +72,14 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 4,
-        name: truncateString("Creamy", 14),
+        name: "Creamy Pasta",
         code: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
         cusine:"SouthIndian",
         pricingdetails: {
-          Dinein1: ["$400..00", "$600.00"],
+          Dinein1: ["$400.00", "$600.00"],
           Pickup1: ["$700.00", "$700.00", "$200.00"],
           Delivery1: ["$300.00", "$300.00", "$300.00"],
           Dinein2: ["Enabled", "Enabled"],
@@ -90,7 +91,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 5,
-        name: truncateString("idly Mushroo", 14),
+        name: "Masala idly",
         code: "12345",
         type:"steamedVeg",
         mealType:"Dinner",
@@ -109,7 +110,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 2,
-        name: truncateString("Creamy Mushroo", 14),
+        name: "Podi Idly",
         code: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -128,7 +129,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 2,
-        name: truncateString("Creamy Mushroo", 14),
+        name: "Utthappam",
         code: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -147,7 +148,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 2,
-        name: truncateString("Creamy Mushroo", 14),
+        name: "Creamy Mushroom",
         code: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './StringDisplay.scss'; 
 
-const StringDisplay = ({ text }) => {
+const StringDisplay = ({ text,length }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -18,7 +18,7 @@ const StringDisplay = ({ text }) => {
       onMouseLeave={handleMouseLeave}
       className= {`${isHovered  && text.length > 5&& "string-display"}`}  
     >
-      {text.length > 5 && !isHovered ? `${text.slice(0, 5)}...` : text}
+      {text.length > length && !isHovered ? `${text.slice(0, length)}...` : text}
     </span>
   );
 };

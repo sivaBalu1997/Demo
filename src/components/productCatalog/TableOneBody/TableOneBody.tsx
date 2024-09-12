@@ -1,40 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
-import { useDispatch } from 'react-redux';
-import { Get_Image } from 'redux/productCatalog/productCatalogActions';
+import { useDispatch } from "react-redux";
+import StringDisplay from "../StringDisplay/StringDisplay";
 
 interface Item {
   name: string;
   code: string;
-  id:number;
-  
- 
+  id: number;
 }
 
 interface ItemRowProps {
-  object:
-   { name: Item[]; id: number, type:string };
-   typevalue:string;
-   index: number;
-   objectLength:number,
+  object: { name: Item[]; id: number; type: string };
+ 
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
   handleRowDragStart: (id: number, index: number) => void;
   handleRowDragOver: (id: number, index: number) => void;
   handleRowDragEnd: () => void;
-  handleDragScroll: (e: React.DragEvent, ref1: React.RefObject<HTMLDivElement>, ref2: React.RefObject<HTMLDivElement>) => void;
+  handleDragScroll: (
+    e: React.DragEvent,
+    ref1: React.RefObject<HTMLDivElement>,
+    ref2: React.RefObject<HTMLDivElement>
+  ) => void;
   handlemodal: (value: number) => void;
   tableBodyRef1: React.RefObject<HTMLDivElement>;
   tableBodyRef2: React.RefObject<HTMLDivElement>;
-  handlevegrowstart:(e: React.DragEvent<HTMLImageElement>, index: number) => void;
-  handlevegrowover:(e: React.DragEvent<HTMLDivElement>) => void;
+  handlevegrowstart: (
+    e: React.DragEvent<HTMLImageElement>,
+    index: number
+  ) => void;
+  handlevegrowover: (e: React.DragEvent<HTMLDivElement>) => void;
   handlevegrowend: (e: React.DragEvent<HTMLDivElement>, index: number) => void;
 }
 
 const TableOneBody: React.FC<ItemRowProps> = ({
   object,
-  index,typevalue,
+
+  // typevalue,
   draggingOverIndex,
   draggedRowIndex,
   handleRowDragStart,
@@ -43,58 +46,46 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   handlevegrowstart,
   handlevegrowover,
   handlevegrowend,
-  objectLength,
-
 
   handleDragScroll,
   handlemodal,
   tableBodyRef1,
   tableBodyRef2,
- 
 }) => {
+  const dispatch = useDispatch();
 
-  const dispatch=useDispatch()
-
-  // useEffect(()=>{
-  //   dispatch(Get_Image())
-  // }
-  // ,[])
-  const baseImageUrl=process.env.REACT_APP_IMAGE_DOMAIN;
+  const baseImageUrl = process.env.REACT_APP_IMAGE_DOMAIN;
   // console.log(baseImageUrl)
 
-  const handleItemnameClick=(value:number)=>{
+  const handleItemnameClick = (value: number) => {
     // console.log(value);
     handlemodal(value);
-
-  }
-  useEffect(() => {
-    console.log(objectLength); // Check if this is logged correctly
-  }, [objectLength]);
-
+  };
+ 
   return (
     <>
-     {
-       <tr >
-       <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
-       <img
-         src={dots}
-         alt=""
-         draggable
-         onDragStart={(e) => handlevegrowstart(e, index)}
-         onDragOver={handlevegrowover}
-         onDrop={(e) => handlevegrowend(e, index)}
-         className="headingdrag"
-       /> { typevalue}
-       </td>
-     
-      
-     </tr>
-     }
-    
-        
+      {/* {
+        <tr>
+          <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+            <img
+              src={dots}
+              alt=""
+              draggable
+              onDragStart={(e) => handlevegrowstart(e, index)}
+              onDragOver={handlevegrowover}
+              onDrop={(e) => handlevegrowend(e, index)}
+              className="headingdrag"
+            />{" "}
+            {"Steamed veg"}
+          </td>
+        </tr>
+      } */}
+
       {object.name.map((item, index) => (
         <tr key={index}>
-          {draggingOverIndex === index && <td className="placeholderplace"></td>}
+          {draggingOverIndex === index && (
+            <td className="placeholderplace"></td>
+          )}
           <td
             draggable
             onDragStart={(e) => {
@@ -107,15 +98,25 @@ const TableOneBody: React.FC<ItemRowProps> = ({
             }}
             onDragEnd={handleRowDragEnd}
             className={`itemdetails-row ${
-              draggedRowIndex?.index === index ? 'selected' : ''
+              draggedRowIndex?.index === index ? "selected" : ""
             }`}
           >
             <span className="itemimage2">
               <img src={dots} alt="" className="draggableimg" />
-              <img src={baseImageUrl+"https://cdn.pixabay.com//photo/2023/07/12/20/40/ai-generated-8123328_640.png"} alt="" className="foodimage" />
+              <img
+                src={
+                  baseImageUrl +
+                  "https://cdn.pixabay.com/photo/2023/07/12/20/40/ai-generated-8123328_640.png"
+                }
+                alt=""
+                className="foodimage"
+              />
             </span>
-            <span className="itemname2" onClick={()=>handleItemnameClick(item.id)}>
-              {item.name}
+            <span
+              className="itemname2"
+              onClick={() => handleItemnameClick(item.id)}
+            >
+              <StringDisplay text={item.name} length={14} />
             </span>
             <span className="itemcode2">{item.code}</span>
           </td>
