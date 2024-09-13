@@ -1,30 +1,36 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import "./PricingDetails.scss";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Specialavail from "../../../components/productCatalog/SpecialAvail/Specialavail";
 import Normalavail from "../../../components/productCatalog/Normalavail/Normalavail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Tooltip from "../../../components/productCatalog/Tooltip/Tooltip";
-import {
-  getTagClassRequest,
-  PricingDetailRequest,
-} from "../../../redux/productCatalog/productCatalogActions";
-import Dropdown from "../../../components/productCatalog/DropDown/Dropdown";
+import { getTagClassRequest, PricingDetailRequest } from "../../../redux/productCatalog/productCatalogActions";
+import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "../contextpage";
 import info from "../../assets/png/info.png";
-import { useSelector } from "react-redux";
-import { SubmitHandler } from "react-hook-form";
-import axios from "axios";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
-import { da } from "date-fns/locale";
 import SidePanel from "pages/SidePanel";
+import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
+import {
+  imageslist,
+  dietarytype,
+  cuisine,
+  mealType,
+  bestPair,
+  subcategory,
+  alcoholradio,
+  calorieponitradio,
+  portionsizeradio,
+} from "../../../assets/mockData/Moca_data";
+
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
-
-  
 }
+  
+
   type MainFormType = {
     availabilityid: string[];
     formNormal: {
@@ -108,6 +114,11 @@ interface FormState {
   Inventory1: string;
   Inventory2: string;
 }
+interface Option {
+  name: string;
+  id: string;
+}
+
 
 interface MainForm {
   form: FormState;
@@ -142,8 +153,28 @@ const PricingDetails = () => {
   const {
     control,
     handleSubmit,
+    register,
+    getValues,
+    setValue,
+    trigger,
+    watch,
+    reset,
     formState: { errors },
-  } = useForm<PricingDetailsFormData>();
+  } = useForm<MainForm>(
+  
+    {
+      defaultValues:{
+        form:{
+          Inventory1:"",
+          Inventory2:"",
+        },
+        kitchenstation:[],
+        Preparationtime:[],
+        normalForm:[],
+        specialForm:[],
+      }
+    }
+  );
   
 
   const locationid = useSelector(
@@ -159,13 +190,11 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData?.mainForm || {}
   );
   const [options, setOptions] = useState<option[]>([]);
-  const [options1, setOptions1] = useState([
-    "Preparation Time",
-    "Option 2",
-    "Option 3",
-    "Option 5",
-    "Option 4",
-  ]);
+  const [options1, setOptions1] = useState<Option[]>(cuisine);
+  const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
+    Kitchen: false,
+    
+  });
   const history = useHistory();
   const { activeCategory, setActiveCategory } = useContext(Contextpagejs);
   const [mainFormState, setMainFormState] = useState<MainFormType>({
@@ -280,7 +309,14 @@ const PricingDetails = () => {
   };
 
 
-
+  const handleDropdownToggle = (dropdownName: string) => {
+    setDropdownOpen((prevState) => {
+      return {
+        kitchen:false,
+        [dropdownName]: !prevState[dropdownName],
+      };
+    });
+  };
 
 
   let mainForm: MainForm = {
@@ -292,6 +328,9 @@ const PricingDetails = () => {
 
     specialForm:mainFormSpecial
   };
+  // const formData={
+  // getValues();
+  // }
 
   useEffect(() => {
     if (prizingDetail?.form) {
@@ -363,38 +402,29 @@ const PricingDetails = () => {
 
               <div className="KitchenRelated">
                 <div className="D1kitchen">
-                  <Controller
-                    name="kitchen"
-                    control={control}
-                    defaultValue={[]}
-                    rules={{ required: "Please select at least one option" }}
-                    render={({ field }: any) => (
-                      <Dropdown
-                        selectedValues={selectedValues}
-                        onSelect={(values) => {
-                          setSelectedValues(values);
-                          if (field?.onChange) {
-                            field.onChange(values);
-                          }
-                          validateDropdown(values, "kitchen");
-                        }}
-                        options={options.map((elem) => elem.name)}
-                        label="Kitchen Station1*"
-                        onBlur={() => {
-                          if (field?.onBlur) {
-                            handleBlur(field?.value, "kitchen");
-                          }
-                          validateDropdown(field?.value, "kitchen");
-                        }}
-                        validation={validationState.kitchen}
-                        width="Drop1"
-                      />
-                    )}
-                  />
+                <Dropdown
+  name="KitchenStation"
+  options={options1}
+  type="checkbox"
+  setOptions={setOptions1}
+  placeholder="Search for option"
+  register={register}
+  setValue={setValue}
+  trigger={trigger}
+  getValues={getValues}
+  validation={{ required: "dietaryType is required" }}
+  addNew={true}
+  editValues={true}
+  setDropdownOpen={setDropdownOpen}
+  dropdownopen={DropdownOpen.Kitchen}
+  onToggle={() => handleDropdownToggle("Kitchen")}
+  
+/>
+
                 </div>
 
                 <div className="D1kitchen">
-                  <Controller
+                  {/* <Controller
                     name="Preparation"
                     control={control}
                     defaultValue={[]}
@@ -421,7 +451,7 @@ const PricingDetails = () => {
                         width="Drop1"
                       />
                     )}
-                  />
+                  /> */}
                 </div>
               </div>
 
@@ -577,7 +607,7 @@ const PricingDetails = () => {
                 />
               )}
 
-              <div
+              {/* <div
                 className={
                   isExpanded
                     ? "saveandnextPricingExpanded"
@@ -588,7 +618,13 @@ const PricingDetails = () => {
                 <button className="link saveall" onClick={dispatchEvent}>
                   Save & next
                 </button>
-              </div>
+              </div> */}
+               <SaveAndNext
+                getFormData={getValues}
+                seletedpage="Pricing"
+                reset={reset}
+                triggerValidation={() => trigger()}
+              />
             </div>
           </form>
         </div>

@@ -2,11 +2,12 @@ import React, { useState, useContext } from "react";
 import "./Savenextbutton.scss";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { itemCustomizationPost } from "../../../redux/productCatalog/productCatalogActions";
+import { itemCustomizationPost, PricingDetailRequest } from "../../../redux/productCatalog/productCatalogActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { primarypost } from "redux/productCatalog/productCatalogActions";
+
 // import { useNavigate } from "react-router-dom";
 
 interface Ingredients {
@@ -17,6 +18,18 @@ interface Ingredients {
 interface Allergens {
   id: string;
   name: string;
+}
+interface FormState {
+  Inventory1: string;
+  Inventory2: string;
+}
+interface PricingAndKitchen{
+  form: FormState;
+  kitchenstation: string[];
+  Preparationtime: string[];
+  KitchenStationId: string[];
+  normalForm?: any;
+  specialForm?: any
 }
 
 interface Base64Image {
@@ -82,6 +95,7 @@ interface SubmitButtonProps {
   seletedpage: string;
   reset: () => void;
   modifications?: Modification[];
+  PricingAndKitchen?:PricingAndKitchen
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
 }
 
@@ -90,6 +104,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   seletedpage,
   reset,
   modifications,
+  PricingAndKitchen,
   triggerValidation,
 }) => {
   
@@ -160,9 +175,18 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       });
       dispatch(primarypost(formData));
   
-    } else if (seletedpage === "ItemCustomization") {
+    } 
+    else if (seletedpage === "Pricing") {
+      const PricingDetails = PricingAndKitchen;
+      console.log(PricingDetails)
+      
+      // Dispatch your action with formData
+      dispatch(PricingDetailRequest(PricingDetails));
+      history.push("/productCatalog/Itemcustomizations");
+    }else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
+    
       
       // Dispatch your action with formData
       dispatch(itemCustomizationPost(modificationArray));
