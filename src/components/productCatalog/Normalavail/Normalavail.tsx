@@ -57,7 +57,6 @@
   };
 
   interface NormalavailProps {
-    getNormalForm: (form: any) => void;
     validateDropdown: (
       value: string[],
       key: keyof DropdownValidationState
@@ -84,7 +83,6 @@
 
 
   const Normalavail: React.FC<NormalavailProps> = ({
-    getNormalForm,
     validateDropdown,
     validationState,
     dinein,
@@ -387,7 +385,6 @@
     };
     const handleGetNormalForm = (normalForm: any) => {
       const updatedForm = { ...mainForm, normalForm };
-      getNormalForm(updatedForm);
     };
     
     useEffect(() => {

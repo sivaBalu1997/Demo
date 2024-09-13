@@ -7,6 +7,7 @@ import edit from '../../../assets/images/edit.png'
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useSelector } from 'react-redux';
 import SpecialReview from '../SpecialReview/SpecialReview'
+import { useHistory } from 'react-router-dom';
 
 const Step2 = () => {
   const prizingDetail=useSelector((state)=>state?.PricingDetailReducer?.prizingData?.mainForm )
@@ -27,7 +28,7 @@ const Step2 = () => {
               <Link to="/Navigationpage" className='editbuttonpricing' onClick={()=>setActiveCategory("Step 2: Pricing and kitchen details")}>
               <img src={edit} alt="" width={15}
                 height={15}/>
-              <span style={{marginLeft:'2px'}}> Edit</span> 
+              <span style={{marginLeft:'2px'}} > Edit</span> 
               </Link>{" "}
 </div>
               </div>

@@ -42,7 +42,6 @@ interface FormState {
 type MealType = string[];
 type SelectedValuesMealTypeState = MealType[];
 interface SpecialAvailProps {
-  getSpecialForm: (form: any) => void;
   validateDropdown: (value: string[], key: string | number) => void; // Expecting only string[] for value
   validationState: Record<
     string | number,
@@ -61,7 +60,6 @@ interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
 }
 const Specialavail: React.FC<SpecialAvailProps> = ({
-  getSpecialForm,
   validateDropdown,
   validationState,
   setMainFormSpecial,

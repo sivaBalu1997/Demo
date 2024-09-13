@@ -277,14 +277,9 @@ const PricingDetails = () => {
     );
   };
 
-  const getNormalForm = (normalForm: any) => {
-    mainForm = { ...mainForm, normalForm };
-  };
 
-  const getSpecialForm = (specialForm: any) => {
-    mainForm = { ...mainForm, specialForm };
-    console.log(mainForm);
-  };
+
+
 
   let mainForm: MainForm = {
     form,
@@ -564,7 +559,6 @@ const PricingDetails = () => {
 
               {isOptionTrue ? (
                 <Normalavail
-                  getNormalForm={getNormalForm}
                   validateDropdown={validateDropdown}
                   dinein={dinein}
                   setDineIn={setDineIn}
@@ -574,7 +568,6 @@ const PricingDetails = () => {
                 />
               ) : (
                 <Specialavail
-                  getSpecialForm={getSpecialForm}
                   validateDropdown={validateDropdown}
                   validationState={validationState}
                   setMainFormSpecial={setMainFormSpecial}
