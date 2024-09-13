@@ -100,6 +100,25 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSearchTerm(e.target.value);
   };
 
+  useEffect(() => {
+    const initialSelectedValue = getValues(name);
+    if (initialSelectedValue) {
+      const selectedOptionIds = initialSelectedValue.split(", ").map((value: string) => {
+        return initialOptions.find((opt) => opt.name === value);
+      });
+      const validOptions = selectedOptionIds.filter(Boolean) as Option[];
+      setSelectedOptions(validOptions);
+
+  
+      setValue(
+        name,
+        validOptions.map((opt) => opt.name).join(", ")
+      );
+    }
+  }, [getValues(name), setValue, initialOptions]);
+
+
+
   const handleSelect = (option: Option) => {
     if (type === "checkbox") {
       const isAlreadySelected = selectedOptions.some(

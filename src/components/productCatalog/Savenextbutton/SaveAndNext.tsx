@@ -137,7 +137,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     });
   };
   const formData = getFormData();
-    console.log("uploading", formData);
+    // console.log("uploading", formData);
 
   const handleclick = async () => {
     

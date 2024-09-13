@@ -90,6 +90,16 @@ interface StateDataTag2 {
   };
 }
 
+interface primarypage{
+
+    primarypage:{
+      data: FormData
+
+    }
+   
+  
+}
+
 interface option {
   name: string[];
 }
@@ -144,6 +154,9 @@ const PrimaryPage = () => {
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
   );
+
+  const ItemsPrimaryDeatils=useSelector((state:primarypage)=>state.primarypage.data)
+  // console.log("ItemsPrimaryDeatils",ItemsPrimaryDeatils)
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
   );
@@ -276,8 +289,8 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
-    dispatch(getIngredientsRequest(locationid));
-    dispatch(getMenuCategoryRequest(locationid));
+    // dispatch(getIngredientsRequest(locationid));
+    // dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
   useEffect(() => {
@@ -288,6 +301,32 @@ const PrimaryPage = () => {
   useEffect(() => {
     register("imageUrls");
   }, [register]);
+
+  useEffect(() => {
+    if (ItemsPrimaryDeatils) {
+      setValue("itemNameData", ItemsPrimaryDeatils.itemNameData || "");
+      setValue("dietaryType", ItemsPrimaryDeatils.dietaryType || "");
+      setValue("cuisine", ItemsPrimaryDeatils.cuisine || "");
+      setValue("mealType", ItemsPrimaryDeatils.mealType || "");
+      setValue("bestPair", ItemsPrimaryDeatils.bestPair || "");
+      setValue("description", ItemsPrimaryDeatils.description || "");
+      setValue("imageUrls", ItemsPrimaryDeatils.imageUrls || []);
+      setValue("alcohol", ItemsPrimaryDeatils.alcohol || "no");
+      setValue("itemCode", ItemsPrimaryDeatils.itemCode || "");
+      setValue("barCode", ItemsPrimaryDeatils.barCode || "");
+      setValue("category", ItemsPrimaryDeatils.category || "");
+      setValue("categoryId", ItemsPrimaryDeatils.categoryId || "");
+      setValue("subCategory", ItemsPrimaryDeatils.subCategory || "");
+      setValue("Ingredients", ItemsPrimaryDeatils.Ingredients || []);
+      setValue("allergens", ItemsPrimaryDeatils.allergens || []);
+      setValue("coloriePoint", ItemsPrimaryDeatils.coloriePoint || "");
+      setValue("selectedcolorie", ItemsPrimaryDeatils.selectedcolorie || "per100grams");
+      setValue("portionSize", ItemsPrimaryDeatils.portionSize || "");
+      setValue("selectedPortion", ItemsPrimaryDeatils.selectedPortion || "Portion(count)");
+      setValue("tax", ItemsPrimaryDeatils.tax || "");
+      setValue("masterCode", ItemsPrimaryDeatils.masterCode || "");
+    }
+  }, [ItemsPrimaryDeatils, setValue]);
 
   return (
     <div style={{ display: "flex" }}>
