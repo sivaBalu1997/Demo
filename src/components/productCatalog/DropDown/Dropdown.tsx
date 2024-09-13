@@ -20,6 +20,8 @@ interface DropdownProps {
   };
   onBlur?: () => void;
   width: string;
+  index?:number
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -76,7 +78,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={
           !validation?.isValid ? "dropdownPricingred" : "dropdownPricingList"
         }
-        style={{ width: "Drop1" ? "300px" : "200px" }}
+        style={{ width: "Drop1" ? "300px" : "100px" }}
         onClick={handleDropdownClick}
         tabIndex={0}
       >

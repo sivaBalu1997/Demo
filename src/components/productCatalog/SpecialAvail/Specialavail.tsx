@@ -9,6 +9,7 @@ import DropDown3 from "../DropDown3/DropDown3";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import React from "react";
+import Dropdown from "../DropDown/Dropdown";
 
 import DropDown2 from "../DropDown2/DropDown2";
 
@@ -429,12 +430,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                   onChange={(e) => handleChange(index, e)}
                 />
                 <div className="DropD4">
-                  <DropDown3
+                  <Dropdown
                     key={index}
                     selectedValues={selectedValuesMealType[index] || []}
                     onSelect={(value) => handleSelect3(value, index)}
                     options={options3}
-                    addOption={addOption3}
                     label="Meal Type*"
                     onBlur={() =>
                       validateDropdown(
@@ -442,22 +442,29 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                         index
                       )
                     }
+                    width="Drop1"
                     validation={
                       validationState[index] || {
                         isValid: true,
                         errorMessage: "",
                       }
                     }
-                    placeholder="MealType"
                   />
                 </div>
                 <div className="SpecialDropDown">
-                  <DropDown2
+                  <Dropdown
                     key={index}
                     selectedValues={selectedValues1[index] || ""}
                     onSelect={(value) => handleSelectMealtype(value, index)}
                     options={options3}
                     label="Service Area*"
+                    width="Drop2"
+                    validation={
+                      validationState[index] || {
+                        isValid: true,
+                        errorMessage: "",
+                      }
+                    }
                   />
                 </div>
                 <h1
@@ -515,13 +522,12 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                       }
                     ></input>
                     <div className="PickDrop5">
-                      <DropDown3
+                      <Dropdown
                         selectedValues={selectedValuespickup}
                         onSelect={handleSelectpick}
                         options={optionspick}
-                        addOption={addOptionpickup}
                         label="Meal Type*"
-                        placeholder="vsvsvs"
+                        width="Drop1"
                         onBlur={() =>
                           validateDropdown(
                             selectedValuespickup,
@@ -558,11 +564,10 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                       }
                     ></input>
                     <div className="DelDrop">
-                      <DropDown3
+                      <Dropdown
                         selectedValues={selectedValuesdelivery}
                         onSelect={handleSelectdelivery}
                         options={optionsdelivery}
-                        addOption={addOptiondelivery}
                         label="Meal Type*"
                         onBlur={() =>
                           validateDropdown(
@@ -571,7 +576,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                           )
                         }
                         validation={validationState.Deliveryspecial}
-                        placeholder="dddd"
+                        width="Drop1"
                       />
                     </div>
                   </div>
@@ -604,17 +609,16 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                   onChange={(e) => setForm({ ...form1, Swiggy: e.target.value })}
                 ></input>
                 <div className="Third1Special">
-                  <DropDown3
+                  <Dropdown
                     selectedValues={selectedValuesthird1}
                     onSelect={handleSelectThird1}
                     options={optionsthird1}
-                    addOption={addOptionThird1}
-                    placeholder="Meal Type*"
+                    width="Drop1"
                     onBlur={() =>
                       validateDropdown(selectedValuesthird1, "Deliveryspecial1")
                     }
                     validation={validationState.Deliveryspecial1}
-                    label="Ddd"
+                    label="Meal Type*"
                   />
                 </div>
               </div>
@@ -627,12 +631,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                   onChange={(e) => setForm({ ...form1, Zomato: e.target.value })}
                 ></input>
                 <div className="Third2">
-                  <DropDown3
+                  <Dropdown
                     selectedValues={selectedValuesthird2}
                     onSelect={handleSelectThird2}
                     options={optionsthird2}
-                    addOption={addOptionThird2}
-                    placeholder="Meal Type*"
+                    width="Drop1"
                     onBlur={() =>
                       validateDropdown(selectedValuesthird2, "Deliveryspecial2")
                     }

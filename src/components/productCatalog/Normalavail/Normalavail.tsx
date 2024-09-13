@@ -4,6 +4,7 @@
   import DaysCheck from "../DayCheck/DaysCheck";
   import Dropdown2 from "../DropDown2/DropDown2";
   import DropDown3 from "../DropDown3/DropDown3";
+  import DropDown from "../DropDown/Dropdown";
   import DaysCheckDin from "../DayCheckDinein/DaysCheckDinein";
   import { useSelector } from "react-redux";
   import LableComponent from "../LableComponent/LableComponent";
@@ -532,14 +533,13 @@
                       onChange={(e) => handleChange(index, e)}
                     />
                     <div className="Mealz">
-                      <DropDown3
+                      <DropDown
                         selectedValues={selectedValuesmealtype[index] || ""}
                         onSelect={(values) => handleSelectMealtype(values, index)}
                         options={optionsmealtype}
-                        addOption={addOptionMealType}
-                        placeholder="Meal Type*"
                         index={index}
                         label="Meal Type*"
+                        width="Drop1"
                         onBlur={() =>
                           validateDropdown(
                             selectedValuesmealtype[index] || [],
@@ -556,7 +556,7 @@
                     </div>
 
                     <div className="Service">
-                      <Dropdown2
+                      <DropDown
                         selectedValues={selectedValues[index] || ""}
                         onSelect={(values) => handleSelect2(values, index)}
                         options={options2}
@@ -565,6 +565,8 @@
                         onChange={(e) =>
                           handleServiceSelect2(index, e.target.value)
                         }
+                        validation={validationState.Pickup}
+                        width=""
                       />
                     </div>
                     <h1
@@ -645,17 +647,17 @@
                         }
                       ></input>
                       <div className="PrizeD">
-                        <DropDown3
+                        <DropDown
                           selectedValues={selectedValues2}
                           onSelect={handleSelect3}
                           options={options3}
-                          addOption={addOption3}
+                          
                           onBlur={() =>
                             validateDropdown(selectedValues2, "Pickup")
                           }
                           validation={validationState.Pickup}
                           label="Meal Type*"
-                          placeholder="MealType"
+                          width="Drop1"
                         />
                       </div>
                     </div>
@@ -733,17 +735,16 @@
                         }
                       ></input>
                       <div className="DeliveryD">
-                        <DropDown3
+                        <DropDown
                           selectedValues={selectedValues3}
                           onSelect={handleSelect4}
                           options={options4}
-                          addOption={addOption4}
                           label="Meal Type*"
                           onBlur={() =>
                             validateDropdown(selectedValues3, "Delivery")
                           }
                           validation={validationState.Delivery}
-                          placeholder="Height"
+                          width="Drop1"
                         />
                       </div>
                     </div>
@@ -826,12 +827,12 @@
                     }
                   ></input>
                   <div className="Third1">
-                    <DropDown3
+                    <DropDown
                       selectedValues={selectedValues4}
                       onSelect={handleSelect5}
                       options={options5}
-                      addOption={addOption5}
-                      placeholder="Meal Type*"
+                      
+                      width="Drop1"
                       label="Meal Type*"
                       onBlur={() =>
                         validateDropdown(selectedValues4, "ThirdDelivery1")
@@ -854,12 +855,11 @@
                     }
                   ></input>
                   <div className="Third2">
-                    <DropDown3
+                    <DropDown
                       selectedValues={selectedValues5}
                       onSelect={handleSelect6}
                       options={options6}
-                      addOption={addOption6}
-                      placeholder="Meal Type*"
+                      width="Drop1"
                       label="Meal Type*"
                       onBlur={() =>
                         validateDropdown(selectedValues5, "ThirdDelivery2")
