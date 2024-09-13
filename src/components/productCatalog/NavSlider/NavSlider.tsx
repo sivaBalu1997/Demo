@@ -126,7 +126,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen,eye, sidebartext,SideBarData=[]})
           <PricingSlider SideBarData={SideBarData}  />
         </div>
         <div ref={availabilityRef} className="section" data-section="Availability">
-          <AvailabilitySlider   />
+          <AvailabilitySlider SideBarData={SideBarData}   />
         </div>
         <div ref={inventoryRef} className="section" data-section="Inventory">
           <Inventory  SideBarData={SideBarData} />

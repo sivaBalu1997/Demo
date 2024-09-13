@@ -25,9 +25,9 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   placeholder,
   subtext,
 }) => {
-  const handleBlur = () => {
-    trigger(name);
-  };
+  // const handleBlur = () => {
+  //   trigger(name);
+  // };
 
   return (
     <div>
@@ -39,7 +39,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           name={name}
           value={value}
           onChange={onChange}
-          onBlur={handleBlur}
+          // onBlur={handleBlur}
           placeholder={placeholder}
           className="Input-Filed"
         />

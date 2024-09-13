@@ -1,18 +1,16 @@
 .mainItemCustomizations {
   position: relative;
-  // margin-left: -325px;
   top: 100px;
   width: 95%;
   height: 600px;
   overflow-y: auto;
-  // border: 1px solid red;
 
   &::-webkit-scrollbar {
     display: none;
   }
 }
 
-.mainItemCustomizations-Expanded{
+.mainItemCustomizations-Expanded {
   position: relative;
   top: 100px;
   width: 100%;
@@ -27,9 +25,8 @@
 .itemcustomizationpage {
   position: relative;
   margin-left: 0px;
-  width: 100%;
+  width: 90%;
   height: 565px;
-  // border: 1px solid blue;
 }
 .AddModifiersSection {
   width: 65rem;
@@ -39,11 +36,9 @@
   margin-left: 55px;
   gap: 1.4rem;
   margin-bottom: 0.5rem;
-  // border: 1px solid black;
 }
 
 .headingItemCustomizations {
-  // font-family: Poppins;
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.5rem;
@@ -457,16 +452,10 @@ input[type="number"] {
 
 .footer-save-next {
   position: relative;
-  // top: 100px;
-
-  // border: 1px solid red;
-  // bottom: -3.5rem;
-  // margin-left: -7.7rem;
   width: 1260px;
   position: relative;
   margin-bottom: 2rem;
   margin-left: -15px;
-  // border: 1px solid red;
   top: 70px;
 }
 
@@ -498,15 +487,6 @@ input[type="number"] {
   font-family: poppins;
   margin-top: 5px;
   margin-left: 20px;
-}
-
-.dropdown-container {
-  // margin-left: 30px;
-  // margin-top: 40px;
-  // margin-bottom: 2rem;
-
-  // position: relative;
-  // bottom: 2rem;
 }
 
 .searchbox {

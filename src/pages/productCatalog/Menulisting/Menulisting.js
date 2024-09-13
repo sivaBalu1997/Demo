@@ -27,7 +27,7 @@ export const Menulisting = () => {
   const dispatch = useDispatch();
 
   const { isExpanded } = useContext(Contextpagejs);
-  console.log({isExpanded})
+  console.log({ isExpanded });
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 
   useEffect(() => {
@@ -35,19 +35,20 @@ export const Menulisting = () => {
   }, []);
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
-  const FilteredData= useSelector((state) => state.storeMockDataFilteredReducer.data);
-  const [FilteredObject,setFilteredObject]=useState([])
+  const FilteredData = useSelector(
+    (state) => state.storeMockDataFilteredReducer.data
+  );
+  const [FilteredObject, setFilteredObject] = useState([]);
 
-  useEffect(()=>{
-    setFilteredObject(FilteredData)
-
-  },[FilteredData])
+  useEffect(() => {
+    setFilteredObject(FilteredData);
+  }, [FilteredData]);
 
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
     index: null,
   });
-  
+
   const [draggingOverIndex, setDraggingOverIndex] = useState(null);
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
@@ -134,54 +135,49 @@ export const Menulisting = () => {
     {
       id: 1,
       name: [],
-      type:"SteamedVeg"
+      type: "SteamedVeg",
     },
     {
       id: 2,
       name: [],
-      type:"SteameNondVeg"
+      type: "SteameNondVeg",
     },
   ]);
-  const [SideBarData,setSideBar]=useState([]);
+  const [SideBarData, setSideBar] = useState([]);
 
   useEffect(() => {
     const tempArray1 = [];
     const tempArray2 = [];
 
-    if(FilteredData.length===0)
-    {
-      Mockdata.forEach(item => {
-        console.log("Item type:", item.type); 
+    if (FilteredData.length === 0) {
+      Mockdata.forEach((item) => {
+        console.log("Item type:", item.type);
         if (item.type === "steamedVeg") {
-          tempArray1.push(item);  
+          tempArray1.push(item);
         } else {
-          tempArray2.push(item); 
+          tempArray2.push(item);
+        }
+      });
+    } else {
+      FilteredData.forEach((item) => {
+        console.log("Item type:", item.type);
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);
+        } else {
+          tempArray2.push(item);
         }
       });
     }
-    else{
-      FilteredData.forEach(item => {
-        console.log("Item type:", item.type); 
-        if (item.type === "steamedVeg") {
-          tempArray1.push(item);  
-        } else {
-          tempArray2.push(item); 
-        }
-      });
-    }
-
-    console.log(FilteredData)
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-  }, [Mockdata,FilteredData]);
+  }, [Mockdata, FilteredData]);
 
   useEffect(() => {
     setsteamType([
-      { id: 1, name: SteamedVeg, type:"SteamedVeg" },
-      { id: 2, name: SteamedNonVeg ,type:"SteameNondVeg"},
+      { id: 1, name: SteamedVeg, type: "SteamedVeg" },
+      { id: 2, name: SteamedNonVeg, type: "SteameNondVeg" },
     ]);
   }, [SteamedVeg, SteamedNonVeg]);
-
 
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
@@ -304,11 +300,8 @@ export const Menulisting = () => {
     setmodal(true);
     console.log(value);
 
-    console.log(Mockdata.filter(item=>item.id===value))
-    setSideBar(Mockdata.filter(item=>item.id===value))
-
-
-
+    console.log(Mockdata.filter((item) => item.id === value));
+    setSideBar(Mockdata.filter((item) => item.id === value));
   };
 
   const showsidebar = (key) => {
@@ -378,11 +371,14 @@ export const Menulisting = () => {
     };
   }, [showheadinglist]);
 
-
-  
   // console.log("FilteredData",FilteredData[0])
 
- const selectedItems=FilteredObject && FilteredObject.length > 0 && FilteredObject[0] && Array.isArray(FilteredObject[0]) &&  FilteredObject[0].map((item)=>item);
+  const selectedItems =
+    FilteredObject &&
+    FilteredObject.length > 0 &&
+    FilteredObject[0] &&
+    Array.isArray(FilteredObject[0]) &&
+    FilteredObject[0].map((item) => item);
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>
       <SidePanel />
@@ -423,28 +419,20 @@ export const Menulisting = () => {
                 className="Menu-Listing-TableOneBody Menu-listing-Body"
                 ref={tableBodyRef1}
               >
-                
-
-                
                 {steamType.map((object, index) => (
                   <React.Fragment key={index}>
-                  
-                    
-                      
-                    
-                  <RowHeading
-                    objectId={object.id}
-                    object={object}
-                   
-                    index={index}
-                    onDragStart={handledragvegnonvegdragstart}
-                    onDragOver={handledragvegnonvegdropover}
-                    onDrop={handledragvegnonvegdropend} /> 
-                    
+                    <RowHeading
+                      objectId={object.id}
+                      object={object}
+                      index={index}
+                      onDragStart={handledragvegnonvegdragstart}
+                      onDragOver={handledragvegnonvegdropover}
+                      onDrop={handledragvegnonvegdropend}
+                    />
+
                     <TableOneBody
                       object={object}
                       typevalue={object.type}
-
                       index={index}
                       FilteredData={FilteredData}
                       objectLength={FilteredData.length}
@@ -457,17 +445,12 @@ export const Menulisting = () => {
                       handlemodal={handlemodal}
                       tableBodyRef1={tableBodyRef1}
                       tableBodyRef2={tableBodyRef2}
-                     
                       handlevegrowstart={handledragvegnonvegdragstart}
                       handlevegrowover={handledragvegnonvegdropover}
                       handlevegrowend={handledragvegnonvegdropend}
                     />
                   </React.Fragment>
                 ))}
-                
-
-
-               
               </tbody>
             </table>
           </div>
@@ -509,8 +492,6 @@ export const Menulisting = () => {
                         className={classNames[index]}
                         listingobject={listingobject}
                         classNames={classNames}
-                        
-
                       />
                     </React.Fragment>
                   ))}
@@ -528,11 +509,11 @@ export const Menulisting = () => {
                   return (
                     <React.Fragment key={indexvalue}>
                       <tr>
-                        {indexvalue === 1   &&(
+                        {indexvalue === 1 && (
                           <tr className="itemheading2row"></tr>
                         )}
                       </tr>
-{/* //  */}
+                      {/* //  */}
                       <TableTwoBody
                         itemobject={itemobject}
                         indexvalue={indexvalue}
@@ -550,7 +531,11 @@ export const Menulisting = () => {
             </table>
           </div>
           {modal && (
-            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} SideBarData={SideBarData}  />
+            <Slider
+              onclose={() => setmodal(false)}
+              sidebartext={sidebartext}
+              SideBarData={SideBarData}
+            />
           )}
         </div>
       </div>

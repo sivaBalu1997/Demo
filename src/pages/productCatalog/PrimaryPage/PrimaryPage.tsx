@@ -23,7 +23,6 @@ import {
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
-
 import {
   getIngredientsRequest,
   getMenuCategoryRequest,
@@ -102,180 +101,7 @@ interface ImageOptions {
 }
 
 const PrimaryPage = () => {
-  const [dataImages, setDataImages] = useState(imageslist);
-  const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
-  const [dataCuisine, setDataCuisine] = useState(cuisine);
-  const [dataMealType, setDataMealType] = useState(mealType);
-  const [dataBestPair, setDataBestPair] = useState(bestPair);
-  const [dataSubcategory, setDataSubcategory] = useState(subcategory);
-  const [dataAlcoholRadio, setDataAlcoholRadio] = useState(alcoholradio);
-  const [dataCaloriePointRadio, setDataCaloriePointRadio] =
-    useState(calorieponitradio);
-  const [dataPortionSizeRadio, setDataPortionSizeRadio] =
-    useState(portionsizeradio);
-
-  const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
-  );
-
-  const requestCompleted = useSelector(
-    (state: RootState) => state.productCatalog.requestCompleted
-  );
-  const ingredients = useSelector(
-    (state: StateDataTag) => state.productCatalog.ingredients
-  );
-  const categoriesdata = useSelector(
-    (state: StateDataTag2) => state.productCatalog.categoryData
-  );
-  const { isExpanded } = useContext(Contextpagejs);
-
-  const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
-    []
-  );
-  const [description, setDescription] = useState("");
-  const [charCount, setCharCount] = useState(0);
-  const maxLength = 100;
-
-  console.log(isExpanded);
-
-  // Handle input change for description and character count
-  const handleDescriptionInputChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    const length = value.length;
-    if (length <= maxLength) {
-      setDescription(value);
-      setCharCount(length);
-      setValue(name, description);
-    }
-  };
-
-  const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
-    dietaryType: false,
-    cuisine: false,
-    mealType: false,
-    bestPair: false,
-    category: false,
-    subCategory: false,
-  });
-
-  const handleDropdownToggle = (dropdownName: string) => {
-    setDropdownOpen((prevState) => {
-      // Close all other dropdowns and open only the clicked one
-      return {
-        dietaryType: false,
-        cuisine: false,
-        mealType: false,
-        bestPair: false,
-        category: false,
-        subCategory: false,
-        [dropdownName]: !prevState[dropdownName], // Toggle the clicked dropdown
-      };
-    });
-  };
-  // const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
-  // const handleDropdownToggle = (name: string) => {
-  //   setOpenDropdown((prev) => (prev === name ? null : name));
-  // };
-
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  //dispatch
-  useEffect(() => {
-    getApi();
-    Category();
-  }, []);
-
-  useEffect(() => {
-    setIngredientsFromAPi(ingredients);
-    setCategories(categoriesdata);
-  }, [requestCompleted]);
-
-  const getApi = () => {
-    dispatch(getIngredientsRequest(locationid));
-  };
-
-  const Category = () => {
-    dispatch(getMenuCategoryRequest(locationid));
-  };
-
-  //
-
-  const validImages = dataImages.filter(
-    (img): img is { name: string; id: string } => img !== undefined
-  );
-
-  const handleRadioChange = (radioname: keyof FormData, value: string) => {
-    setValue(radioname, value);
-  };
-  // const handleimageselection = (option: { id: string; name: string }) => {
-  //   console.log("Selected option:", option);
-  // };
-  const [images, setImages] = useState<Base64Image[]>([]);
-  const maxImages = 7;
-
-  const handleAddImage = () => {
-    document.getElementById("imgadd")?.click();
-  };
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
-
-    const validFiles = files.filter((file) => {
-      const validTypes = ["image/jpeg", "image/png"];
-      const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
-      if (!validTypes.includes(file.type)) {
-        alert(`Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
-        return false;
-      }
-
-      if (file.size > maxSizeInBytes) {
-        alert(`File too large: ${file.name}. Maximum size is 2MB.`);
-        return false;
-      }
-
-      return true;
-    });
-
-    if (validFiles.length + images.length > maxImages) {
-      alert(`You can only upload up to ${maxImages} images.`);
-      return;
-    }
-
-    const readFileAsDataURL = (file: File): Promise<Base64Image> => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const dataURL = reader.result as string;
-          const mimeType = dataURL.split(";")[0].split(":")[1];
-          const base64String = dataURL.split(",")[1];
-          resolve({ mimeType, base64String });
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    };
-
-    Promise.all(validFiles.map(readFileAsDataURL))
-      .then((base64Images) => {
-        console.log("basestr", base64Images);
-        setImages([...images, ...base64Images]);
-        setValue("imageUrls", base64Images);
-        const imagess = getValues("imageUrls");
-        console.log("selecd Images from browser", imagess);
-      })
-      .catch((error) => {
-        console.error("Error converting files to Base64", error);
-      });
-  };
-
-  const handleImageDeletion = (index: number) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
-  };
- 
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -311,17 +137,155 @@ const PrimaryPage = () => {
       masterCode: "",
     },
   });
+  const locationid = useSelector(
+    (state: State) => state.auth.credentials.locationId
+  );
+
+  const requestCompleted = useSelector(
+    (state: RootState) => state.productCatalog.requestCompleted
+  );
+  const ingredients = useSelector(
+    (state: StateDataTag) => state.productCatalog.ingredients
+  );
+  const categoriesdata = useSelector(
+    (state: StateDataTag2) => state.productCatalog.categoryData
+  );
+  const { isExpanded } = useContext(Contextpagejs);
+  const [dataImages, setDataImages] = useState(imageslist);
+  const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
+  const [dataCuisine, setDataCuisine] = useState(cuisine);
+  const [dataMealType, setDataMealType] = useState(mealType);
+  const [dataBestPair, setDataBestPair] = useState(bestPair);
+  const [dataSubcategory, setDataSubcategory] = useState(subcategory);
+  const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
+    []
+  );
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [images, setImages] = useState<Base64Image[]>([]);
+  const [description, setDescription] = useState("");
+  const [charCount, setCharCount] = useState(0);
+  const maxDescriptonLength = 100;
+  const maxImages = 7;
+  const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
+    dietaryType: false,
+    cuisine: false,
+    mealType: false,
+    bestPair: false,
+    category: false,
+    subCategory: false,
+  });
+
+  const handleDescriptionInputChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    const length = value.length;
+    if (length <= maxDescriptonLength) {
+      setDescription(value);
+      setCharCount(length);
+      setValue(name, description);
+    }
+  };
+
+  const handleDropdownToggle = (dropdownName: string) => {
+    setDropdownOpen((prevState) => {
+      return {
+        dietaryType: false,
+        cuisine: false,
+        mealType: false,
+        bestPair: false,
+        category: false,
+        subCategory: false,
+        [dropdownName]: !prevState[dropdownName],
+      };
+    });
+  };
+
+  const validImages = dataImages.filter(
+    (img): img is { name: string; id: string } => img !== undefined
+  );
+
+  const handleRadioChange = (radioname: keyof FormData, value: string) => {
+    setValue(radioname, value);
+  };
+
+  const handleImageDeletion = (index: number) => {
+    setImages(images.filter((_, i) => i !== index));
+  };
+
   const selectedradiowatch = watch();
 
-  // Watch to get the current value
-// console.log(getValues("imageUrls"));
-  const dispatch = useDispatch();
-
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("formData", data);
-    // const dataToDispatch = extractFields(data);
-    // dispatch(ApiPost(dataToDispatch));
+  const handleAddImage = () => {
+    document.getElementById("imgadd")?.click();
   };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const validFiles = files.filter((file) => {
+      const validTypes = ["image/jpeg", "image/png"];
+      const maxSizeInBytes = 2 * 1024 * 1024;
+      if (!validTypes.includes(file.type)) {
+        alert(`Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
+        return false;
+      }
+
+      if (file.size > maxSizeInBytes) {
+        alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+        return false;
+      }
+
+      return true;
+    });
+
+    if (validFiles.length + images.length > maxImages) {
+      alert(`You can only upload up to ${maxImages} images.`);
+      return;
+    }
+
+    const readFileAsDataURL = (file: File): Promise<Base64Image> => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const dataURL = reader.result as string;
+          const mimeType = dataURL.split(";")[0].split(":")[1];
+          const base64String = dataURL.split(",")[1];
+          resolve({ mimeType, base64String });
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    };
+
+    Promise.all(validFiles.map(readFileAsDataURL))
+      .then((base64Images) => {
+        setImages((prevImages) => {
+          const updatedImages = [...prevImages, ...base64Images];
+          console.log("testing", setValue, typeof setValue);
+          return updatedImages;
+        });
+
+        setValue("imageUrls", base64Images);
+      })
+      .catch((error) => {
+        console.error("Error converting files to Base64", error);
+      });
+  };
+
+  // const newarray = getValues("imageUrls");
+  // console.log("newarray", newarray);
+
+  useEffect(() => {
+    dispatch(getMenuCategoryRequest(locationid));
+  }, []);
+
+  useEffect(() => {
+    setIngredientsFromAPi(ingredients);
+    setCategories(categoriesdata);
+  }, [requestCompleted]);
+
+  useEffect(() => {
+    register("imageUrls");
+  }, [register]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -337,7 +301,7 @@ const PrimaryPage = () => {
             <Navigationpage />
           </div>
           <div className="Primary-page">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form>
               <div className="Primary-page-container-one">
                 <div className="Primary-page-container-pairone">
                   <div className="Primary-page-InputFields">
@@ -346,13 +310,15 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemNameData"
                       control={control}
+                      rules={{ required: "ItemName is required" }}
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          name="ItemNameData"
+                          name="itemNameData"
                           onChange={onChange}
-                          onBlur={onBlur}
+                          // onBlur={onBlur}
                           value={value}
                           trigger={trigger}
+                          error={errors.itemNameData}
                         />
                       )}
                     />
@@ -366,6 +332,7 @@ const PrimaryPage = () => {
                       render={({ field }: any) => (
                         <Dropdown
                           options={dataDietaryType}
+                          type="checkbox"
                           setOptions={setDataDietaryType}
                           placeholder="search for option"
                           register={register}
@@ -378,6 +345,8 @@ const PrimaryPage = () => {
                           dropdownopen={DropdownOpen.dietaryType}
                           onToggle={() => handleDropdownToggle("dietaryType")}
                           setDropdownOpen={setDropdownOpen}
+                          addNew={true}
+                          editValues={true}
                         />
                       )}
                     />
@@ -391,6 +360,7 @@ const PrimaryPage = () => {
                       render={({ field }: any) => (
                         <Dropdown
                           options={dataCuisine}
+                          type="radio"
                           setOptions={setDataCuisine}
                           placeholder="search for option"
                           register={register}
@@ -404,6 +374,8 @@ const PrimaryPage = () => {
                           dropdownopen={DropdownOpen.cuisine}
                           onToggle={() => handleDropdownToggle("cuisine")}
                           setDropdownOpen={setDropdownOpen}
+                          addNew={false}
+                          editValues={true}
                         />
                       )}
                     />
@@ -430,6 +402,8 @@ const PrimaryPage = () => {
                           dropdownopen={DropdownOpen.mealType}
                           onToggle={() => handleDropdownToggle("mealType")}
                           setDropdownOpen={setDropdownOpen}
+                          addNew={true}
+                          editValues={true}
                         />
                       )}
                     />
@@ -453,6 +427,8 @@ const PrimaryPage = () => {
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
+                          addNew={true}
+                          editValues={true}
                         />
                       )}
                     />
@@ -472,20 +448,24 @@ const PrimaryPage = () => {
                               autoComplete="off"
                               value={description} // Controlled input with useState
                               onChange={(e) => handleDescriptionInputChange(e)}
-                              maxLength={maxLength}
+                              maxLength={maxDescriptonLength}
                               style={{
                                 borderColor:
-                                  charCount === maxLength ? "red" : "#979797",
+                                  charCount === maxDescriptonLength
+                                    ? "red"
+                                    : "#979797",
                               }}
                             />
                             <p
                               style={{
                                 color:
-                                  charCount === maxLength ? "red" : "#979797",
+                                  charCount === maxDescriptonLength
+                                    ? "red"
+                                    : "#979797",
                               }}
                               className="Primary-page-description-charcount"
                             >
-                              {`${charCount}/${maxLength}`}{" "}
+                              {`${charCount}/${maxDescriptonLength}`}{" "}
                               {/* Display character count */}
                             </p>
                           </>
@@ -502,11 +482,13 @@ const PrimaryPage = () => {
                     <div className="imagealignment">
                       <input
                         type="file"
+                        name="imageUrls"
                         className="imgfile"
                         id="imgadd"
                         accept="image/png, image/jpeg"
                         multiple
                         onChange={handleImageUpload}
+                        // name="imageUrls"
                       />
 
                       {images.map((image, index) => (
@@ -539,7 +521,7 @@ const PrimaryPage = () => {
                   <div className="Primary-page-InputFields alcoholradiobutton">
                     <h3>Contains Alcohol ?</h3>
                     <RadioButtonGroup
-                      options={dataAlcoholRadio}
+                      options={alcoholradio}
                       name="alcohol"
                       selectedValue={selectedradiowatch.alcohol}
                       onChange={(value) => handleRadioChange("alcohol", value)}
@@ -613,6 +595,8 @@ const PrimaryPage = () => {
                             dropdownopen={DropdownOpen.category}
                             setDropdownOpen={setDropdownOpen}
                             onToggle={() => handleDropdownToggle("category")}
+                            addNew={true}
+                            editValues={true}
                           />
                         )}
                       />
@@ -632,6 +616,8 @@ const PrimaryPage = () => {
                             trigger={trigger}
                             setValue={setValue}
                             getValues={getValues}
+                            addNew={true}
+                            editValues={true}
                             dropdownopen={DropdownOpen.subCategory}
                             setDropdownOpen={setDropdownOpen}
                             onToggle={() => handleDropdownToggle("subCategory")}
@@ -684,7 +670,7 @@ const PrimaryPage = () => {
                     </div>
                     <div>
                       <RadioButtonGroup
-                        options={dataCaloriePointRadio}
+                        options={calorieponitradio}
                         name="selectedcolorie"
                         selectedValue={selectedradiowatch.selectedcolorie}
                         onChange={(value) =>
@@ -694,7 +680,7 @@ const PrimaryPage = () => {
                       />
                     </div>
                   </div>
-                  {/* <button type="submit" className="Primary-Page-Formsubmitbutton">Submit</button> */}
+
                   <div className="Primary-Page-Other-Detail">
                     <div>
                       <Controller
@@ -715,7 +701,7 @@ const PrimaryPage = () => {
 
                     <div>
                       <RadioButtonGroup
-                        options={dataPortionSizeRadio}
+                        options={portionsizeradio}
                         name="selectedPortion"
                         selectedValue={selectedradiowatch.selectedPortion}
                         onChange={(value) =>
@@ -765,7 +751,7 @@ const PrimaryPage = () => {
                   </div>
                 </div>
               </div>
-             
+
               <SaveAndNext
                 getFormData={getValues}
                 seletedpage="Primary"

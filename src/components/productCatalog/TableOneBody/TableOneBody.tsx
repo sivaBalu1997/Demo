@@ -12,7 +12,7 @@ interface Item {
 
 interface ItemRowProps {
   object: { name: Item[]; id: number; type: string };
- 
+
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
   handleRowDragStart: (id: number, index: number) => void;
@@ -61,7 +61,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
     // console.log(value);
     handlemodal(value);
   };
- 
+
   return (
     <>
       {/* {
@@ -105,7 +105,8 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               <img src={dots} alt="" className="draggableimg" />
               <img
                 src={
-                  baseImageUrl +"photo/2023/07/12/20/40/ai-generated-8123328_640.png"
+                  baseImageUrl +
+                  "photo/2023/07/12/20/40/ai-generated-8123328_640.png"
                 }
                 alt=""
                 className="foodimage"
