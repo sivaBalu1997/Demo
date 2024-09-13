@@ -12,6 +12,7 @@ import Navigationpage from "components/productCatalog/Navigation/NavigationPage"
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
+import Dropdown from "components/productCatalog/DropDown/Dropdown";
 
 // Define types
 interface Option {
@@ -28,6 +29,7 @@ interface ModificationError {
   options?: Option[];
   modifierName?: number;
 }
+
 const index = 0;
 
 const modificationError: ModificationError[] = [];
@@ -62,6 +64,10 @@ const ItemCustomizations: React.FC = () => {
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+
+  const [validationState, setValidationState] = useState({
+    items: { isValid: true, errorMessage: "" },
+  });
 
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -635,14 +641,16 @@ const ItemCustomizations: React.FC = () => {
                               </div>
                             </div>
                             <div className="dropDown-item">
-                              <DropDown3
-                                selectedValues={selectedValue}
+                              <Dropdown
+                                selectedValues={
+                                  modifications[modIndex]?.selectedValue || []
+                                }
                                 onSelect={(value) =>
                                   handleSelect3(value, modIndex)
                                 }
                                 options={options}
-                                addOption={addOption1}
-                                placeholder="Available Service Stream* "
+                                width="Drop1"
+                                validation={validationState.items}
                                 label="Meal Type*"
                               />
                             </div>
