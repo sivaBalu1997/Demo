@@ -146,9 +146,9 @@ const DropDownList: React.FC<DropdownProps> = ({
     setOptions((item) => item.filter((opt) => opt.id !== value));
   };
 
-  const handleBlur = () => {
-    trigger(name);
-  };
+  // const handleBlur = () => {
+  //   trigger(name);
+  // };
 
   // const closeDropdown = () => {
   //   if (dropdownopen) {
@@ -166,7 +166,7 @@ const DropDownList: React.FC<DropdownProps> = ({
             value={selectedOption?.name || searchTerm}
             onChange={handleSearch}
             name={name}
-            onBlur={handleBlur}
+            // onBlur={handleBlur}
             autoComplete="off"
             className={`dropdown-search ${
               Disablesubcategory && name === "subCategory"

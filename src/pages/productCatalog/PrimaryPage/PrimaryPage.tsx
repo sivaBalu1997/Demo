@@ -114,6 +114,42 @@ const PrimaryPage = () => {
   const [dataPortionSizeRadio, setDataPortionSizeRadio] =
     useState(portionsizeradio);
 
+    const {
+      register,
+      handleSubmit,
+      setValue,
+      getValues,
+      control,
+      formState: { errors },
+      trigger,
+      reset,
+      watch,
+    } = useForm<FormData>({
+      defaultValues: {
+        itemNameData: "",
+        dietaryType: "",
+        cuisine: "",
+        mealType: "",
+        bestPair: "",
+        description: "",
+        imageUrls: [],
+        alcohol: "no",
+        itemCode: "",
+        barCode: "",
+        category: "",
+        categoryId: "",
+        subCategory: "",
+        Ingredients: [],
+        allergens: [],
+        coloriePoint: "",
+        selectedcolorie: "per100grams",
+        portionSize: "",
+        selectedPortion: "Portion(count)",
+        tax: "",
+        masterCode: "",
+      },
+    });
+
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
@@ -135,8 +171,6 @@ const PrimaryPage = () => {
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
   const maxLength = 100;
-
-  console.log(isExpanded)
 
   // Handle input change for description and character count
   const handleDescriptionInputChange = (
@@ -174,15 +208,9 @@ const PrimaryPage = () => {
       };
     });
   };
-  // const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
-  // const handleDropdownToggle = (name: string) => {
-  //   setOpenDropdown((prev) => (prev === name ? null : name));
-  // };
 
   const [categories, setCategories] = useState<Category[]>([]);
 
-  //dispatch
   useEffect(() => {
     getApi();
     Category();
@@ -201,8 +229,6 @@ const PrimaryPage = () => {
     dispatch(getMenuCategoryRequest(locationid));
   };
 
-  //
-
   const validImages = dataImages.filter(
     (img): img is { name: string; id: string } => img !== undefined
   );
@@ -210,10 +236,9 @@ const PrimaryPage = () => {
   const handleRadioChange = (radioname: keyof FormData, value: string) => {
     setValue(radioname, value);
   };
-  // const handleimageselection = (option: { id: string; name: string }) => {
-  //   console.log("Selected option:", option);
-  // };
+  
   const [images, setImages] = useState<Base64Image[]>([]);
+
   const maxImages = 7;
 
   const handleAddImage = () => {
@@ -226,6 +251,7 @@ const PrimaryPage = () => {
     const validFiles = files.filter((file) => {
       const validTypes = ["image/jpeg", "image/png"];
       const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+
       if (!validTypes.includes(file.type)) {
         alert(`Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
         return false;
@@ -260,11 +286,11 @@ const PrimaryPage = () => {
 
     Promise.all(validFiles.map(readFileAsDataURL))
       .then((base64Images) => {
-        console.log("basestr", base64Images);
         setImages([...images, ...base64Images]);
+        // console.log({images})
         setValue("imageUrls", base64Images);
         const imagess = getValues("imageUrls");
-        console.log("selecd Images from browser", imagess);
+        console.log({imagess})
       })
       .catch((error) => {
         console.error("Error converting files to Base64", error);
@@ -275,46 +301,12 @@ const PrimaryPage = () => {
     const updatedImages = images.filter((_, i) => i !== index);
     setImages(updatedImages);
   };
- 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    control,
-    formState: { errors },
-    trigger,
-    reset,
-    watch,
-  } = useForm<FormData>({
-    defaultValues: {
-      itemNameData: "",
-      dietaryType: "",
-      cuisine: "",
-      mealType: "",
-      bestPair: "",
-      description: "",
-      imageUrls: [],
-      alcohol: "no",
-      itemCode: "",
-      barCode: "",
-      category: "",
-      categoryId: "",
-      subCategory: "",
-      Ingredients: [],
-      allergens: [],
-      coloriePoint: "",
-      selectedcolorie: "per100grams",
-      portionSize: "",
-      selectedPortion: "Portion(count)",
-      tax: "",
-      masterCode: "",
-    },
-  });
+
+
   const selectedradiowatch = watch();
 
   // Watch to get the current value
-// console.log(getValues("imageUrls"));
+  // console.log(getValues("imageUrls"));
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -346,13 +338,15 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemNameData"
                       control={control}
+                      rules={{ required: 'ItemName is required' }}
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
-                          name="ItemNameData"
+                          name="itemNameData"
                           onChange={onChange}
-                          onBlur={onBlur}
+                          // onBlur={onBlur}
                           value={value}
                           trigger={trigger}
+                          error={errors.itemNameData}
                         />
                       )}
                     />
@@ -507,6 +501,7 @@ const PrimaryPage = () => {
                         accept="image/png, image/jpeg"
                         multiple
                         onChange={handleImageUpload}
+                        name="imageUrls"
                       />
 
                       {images.map((image, index) => (
@@ -765,7 +760,7 @@ const PrimaryPage = () => {
                   </div>
                 </div>
               </div>
-             
+
               <SaveAndNext
                 getFormData={getValues}
                 seletedpage="Primary"
