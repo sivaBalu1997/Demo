@@ -142,15 +142,15 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   const handleclick = async () => {
     
     if (seletedpage === "Primary" && triggerValidation) {
-      const isFormValid = await triggerValidation(formData);
+      // const isFormValid = await triggerValidation(formData);
 
-      if (!isFormValid) {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        return;
-      }
+      // if (!isFormValid) {
+      //   window.scrollTo({
+      //     top: 0,
+      //     behavior: "smooth",
+      //   });
+      //   return;
+      // }
     }
 
     if (seletedpage === "Primary") {

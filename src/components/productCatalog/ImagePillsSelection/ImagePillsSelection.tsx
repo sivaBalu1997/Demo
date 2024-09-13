@@ -15,6 +15,7 @@ interface Imageselection {
   options: ImageOptions[];
   setValue: any;
   name?: string;
+  register:any;
 }
 
 const ImagePillsSelection: React.FC<Imageselection> = ({
@@ -22,6 +23,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   options,
   name,
   setValue,
+  register
 }) => {
   const [searchImage, setSearchImage] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
@@ -71,6 +73,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
         <input
           type="text"
           value={searchImage}
+          {...register(name)}
           onChange={handleSearchingImage}
           className="Item-selction-input-Field"
         />{" "}

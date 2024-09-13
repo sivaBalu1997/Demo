@@ -276,6 +276,7 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
+    dispatch(getIngredientsRequest(locationid));
     dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
@@ -634,6 +635,8 @@ const PrimaryPage = () => {
                       options={validImages}
                       setValue={setValue}
                       name="allergens"
+                      register={register}
+
                     />
                   </div>
                 </div>
@@ -645,6 +648,7 @@ const PrimaryPage = () => {
                     options={ingredientsFromAPi}
                     setValue={setValue}
                     name="Ingredients"
+                    register={register}
                   />
                 </div>
 
