@@ -406,6 +406,7 @@ const truncateString = (str: string, length: number) => {
     { id: "5", name: "American" },
   ];
   
+  
   export const cuisine = [
     { id: "1", name: "French" },
     { id: "2", name: "Mexican" },
