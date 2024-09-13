@@ -41,9 +41,11 @@
     height: 2.5rem;
     font-family: "Poppins", sans-serif;
     font-size: 0.875rem;
+    padding-right: 2rem;
     padding-left: 0.625rem;
+    
     border-radius: 0.313rem;
-    color: #979797;
+    color: #000000;
     font-weight: 400;
     border: 1px solid rgba(0, 0, 0, 0.3);
     &:focus
@@ -60,23 +62,35 @@
 {
     position: absolute;
     width: 19.8vw;
-    height: 9rem;
+    height: 10rem;
     z-index: 1;
     background: #ffffff;
     box-shadow: 1px 1px 10px 0px #00000040;
- 
+//    border: 1px solid red;
     display: flex;
     flex-direction: column;
 
-  
+  .Dropdown-lists-and-edit
+  {
+    display: flex;
+     
+    .editiconimage
+    {
+   
+     margin-top: 0.5rem;
+     font-size: 16px;
+     font-weight: 400;
+     color: #67833E;
+     text-decoration: underline;
+    }
+  }
 
     .dropdown-options
     {
       
-        height: 6.5rem;
+        height: 7.5rem;
         overflow-y: auto;
         overflow-x: hidden;
-        // border: 1px solid red;
         margin: 0;
         padding: 0;
         cursor: pointer;
@@ -88,6 +102,19 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+        }
+        .dropdown-option-delete
+        {
+            position: relative;
+            color: #E52333;
+            font-size: 12px;
+            width: 400;
+            .disabled-delete {
+                opacity: 0.5; 
+                cursor: not-allowed;
+                pointer-events: none;
+              }
+           
         }
         .dropdown-option
         {
@@ -111,11 +138,7 @@
             
 
             }
-            .dropdon-option-delete
-            {
-                position: relative;
-               
-            }
+           
         }
        
     }
@@ -175,21 +198,33 @@
         }
         .Addnew-edit-fields{
             position: absolute;
-            left: 8.5rem;
-            top: 0.5rem;
+            left: 7.5rem;
+            top: 0.17rem;
             display: flex;
             flex-direction: row;
-            gap: 0.5rem;
+            gap: 1.5rem;
             align-items: center;
 
             .dropdown-edit-button
             {
                width: 3rem;
-               .editiconimage
+               position: relative;
+               .dropdown-edit-done
                {
-                width: 20px;
-                height: 20px;
+                color: #67833E;
+                font-size: 16px;
+                font-weight: 400;
+                border: 1px solid #67833E;
+                text-align: center;
+                border-radius: 4px;
+                width: 65px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
                }
+              
             }
             .dropdown-addbutton
             {

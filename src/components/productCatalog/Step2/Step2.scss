@@ -1,50 +1,43 @@
-*{
-    font-family:  "Poppins" ,sans-serif;
+* {
+  font-family: "Poppins", sans-serif;
 }
 
-.container-step2{
+.container-step2 {
+  position: absolute;
+  top: 650px;
+  left: 10px;
 
-    position: absolute;
-    top: 650px;
-    left: 10px;
+  left: 20px;
+}
+.Step2-container {
+  position: relative;
+  top: 300px;
 
-    left: 20px;
-   
+  border: 2px solid red;
+  display: flex;
+  width: 600px;
+  height: 500px;
+  justify-content: flex-start;
 }
-.Step2-container{
-    position: relative;
-    top: 300px;
-   
-    border:2px solid red;
-    display: flex;
-    width:600px;
-    height: 500px;
-    justify-content: flex-start;
-    
-    
-}
-.Step2-form{
-    // border:2px solid red;
+.Step2-form {
+  // border:2px solid red;
 
-    display: flex;
-    width:600px;
+  display: flex;
+  width: 500px;
 
-    flex-direction: column;
-    
+  flex-direction: column;
 }
-.Step2-heading{
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 25px;
+.Step2-heading {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 25px;
 }
-.Rupees-heading{
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 25px;
+.Rupees-heading {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 25px;
 }
-.editbuttonpricing
-{
-  
+.editbuttonpricing {
     margin-top: 0px;
     margin-left: 150px;
     background: none;
@@ -53,150 +46,128 @@
     font-family: Poppins;
     position: relative;
     left: 3px;
-font-size: 16px;
-font-weight: 400;
-color: #67833E;
-
-    button{
-       
-
-
-    }
-}
-
-.Res-heading{
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-.CostPrice-heading{
-    font-size: 12px;
-    font-weight: 400;
-    color: #6E6E6E;
-    margin-bottom: 10px;
-}
-
-.Step2Kitchen-relatedheading{
-font-size: 16px;
-font-weight: 500;
-margin-bottom: 20px;
-
-}
-.Step2KitchenRelated{
-
-    display: flex;
-    justify-content: flex-start;
-    margin-top: -10px;
-    
-    width: 600px;
-    gap: 60px;
-    
-}
-.Step2KitchenStation{
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-}
-.Step2KitchenStationheading{
-    font-size: 12px;
-    font-weight: 400;
-    color: #6E6E6E;
-   
-
-    
-}
-.Step2KitchenStationvalue{
-    margin-top: 5px;
-    font-size: 14px;
-    font-weight: 500;
-    margin-top: 7px;
-}
-.Step2Preparation{
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-   
-}
-.Step2Preparationheading{
-    font-size: 12px;
-    font-weight: 400;
-    color: #6E6E6E;
-    
- 
-
-    
-}
-.Step2Preparationvalue{
-    margin-top: 5px;
-    font-size: 14px;
-    font-weight: 500;
-    margin-top: 7px;
-}
-.Step2Inventory-relatedheading{
     font-size: 16px;
-font-weight: 500;
-margin-top: 15px;
-margin-bottom: 20px;
-
-}
-.Step2InventoryRelated{
-
-    display: flex;
-    justify-content: flex-start;
-    width: 600px;
-    gap: 60px;
-    margin-top: -5px;
-    margin-bottom: 10px;
-}
-.Step2InventoryServings{
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-}
-.Step2Servingsheading{
-    font-size: 12px;
     font-weight: 400;
-    color: #6E6E6E;
-    margin-bottom: 5px;
-
-}
-.Step2Servingsvalue{
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    
-
-    
-}
-.Step2Threshold{
-    width: 250px;
     display: flex;
-    flex-direction: column;
-}
-.Step2Thresholdheading{
-    font-size: 12px;
-    font-weight: 400;
-    color: #6E6E6E;
-    margin-bottom: 5px;
+    color: #67833E;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 
-
-    
+  button {
+  }
 }
-.Step2Thresholdvalue{
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 10px;
 
-    
+.Res-heading {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
-.Step2InventoryMaxCount{
-    width: 250px;
-    display: flex;
-    flex-direction: column;
+.CostPrice-heading {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6e6e6e;
+  margin-bottom: 10px;
+}
 
+.Step2Kitchen-relatedheading {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 20px;
 }
-.Step2ResetInventory{
-    width: 250px;
-    display: flex;
-    flex-direction: column;
+.Step2KitchenRelated {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: -10px;
+
+  width: 600px;
+  gap: 60px;
+}
+.Step2KitchenStation {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.Step2KitchenStationheading {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6e6e6e;
+}
+.Step2KitchenStationvalue {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 7px;
+}
+.Step2Preparation {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.Step2Preparationheading {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6e6e6e;
+}
+.Step2Preparationvalue {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 7px;
+}
+.Step2Inventory-relatedheading {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+.Step2InventoryRelated {
+  display: flex;
+  justify-content: flex-start;
+  width: 600px;
+  gap: 60px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+.Step2InventoryServings {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.Step2Servingsheading {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6e6e6e;
+  margin-bottom: 5px;
+}
+.Step2Servingsvalue {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.Step2Threshold {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.Step2Thresholdheading {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6e6e6e;
+  margin-bottom: 5px;
+}
+.Step2Thresholdvalue {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.Step2InventoryMaxCount {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.Step2ResetInventory {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
 }

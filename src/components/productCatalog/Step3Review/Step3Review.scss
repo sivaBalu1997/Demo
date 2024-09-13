@@ -1,228 +1,187 @@
-
 // {--------------------------Step 3 Item Customizations Heading and Edit Button ----------------------}
-.step3-Review-Container{
-    position: absolute;
-    top:670px;
-    left: 650px;
-    width: 600px;
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    margin-top: -20px;
-    
-   
-
-
+.step3-Review-Container {
+  position: absolute;
+  top: 670px;
+  left: 650px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  margin-top: -20px;
 }
 
-.step3-Review-Container-heading-and-button-container{
-    width:600px ;
-    height: auto;
-    // border: 2px solid green;
-    display: flex;
-    justify-content: flex-start;
-    gap: 160px;
-
-    
-   
+.step3-Review-Container-heading-and-button-container {
+  width: 600px;
+  height: auto;
+  // border: 2px solid green;
+  display: flex;
+  justify-content: flex-start;
+  gap: 160px;
 }
 
-.step3-Review-Container-heading{
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 18px;
-
-
+.step3-Review-Container-heading {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 18px;
 }
-.step3-Review-img-edit-Container{
-    display: flex;
-    justify-content: flex-start;
-    gap: 0px;
-   text-decoration: none;
+.step3-Review-img-edit-Container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  text-decoration: none;
 }
 
-.step3-Review-Container-heading-EditImage{
-    position: relative;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    margin-top:5px ;
-
+.step3-Review-Container-heading-EditImage {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-top: 5px;
 }
-.Edit-heading{
-    font-family: Poppins;
-    font-weight: 400;
-    font-size: 16px;
-    color: #67833E;
-    text-decoration: none;
-    cursor: pointer;
+.Edit-heading {
+  font-family: Poppins;
+  font-weight: 400;
+  font-size: 16px;
+  color: #67833e;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 // {--------------------------Step 3 Modifier Section Name   ----------------------}
 
-
-
-.step3-Review-modifier-section{
-    width:600px ;
-    height: auto;
-    margin-top: 50px;
-
-
-
+.step3-Review-modifier-section {
+  width: 600px;
+  height: auto;
+  margin-top: 50px;
 }
 
-.item-customization:nth-child(n+3)  {
-    margin-top: -160px; // Apply specific style to the second element
-  }
-
-.step3-Review-modifier-section-heading{
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    color: #000000;
-    margin-bottom: 5px;
-    margin-left: 4px;
+.item-customization:nth-child(n + 3) {
+  margin-top: -160px; // Apply specific style to the second element
 }
 
-.step3-Review-modifier-name-container{
-    width: 588px;
-    // border: 2px solid yellow;
-    height: auto; 
-    display: flex;
-    justify-content: flex-start;
-    gap: 3px;
-    margin-left: 10px;
-    margin-top: 20px; margin-bottom: 20px;
-
+.step3-Review-modifier-section-heading {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  margin-bottom: 5px;
+  margin-left: 4px;
 }
 
-.step3-Review-modifier-name-heading{
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 21px;
+.step3-Review-modifier-name-container {
+  width: 588px;
+  // border: 2px solid yellow;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  gap: 3px;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.step3-Review-modifier-name-heading {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
 }
 
 // {--------------------------Step 3 Modifier Section Menu   ----------------------}
 
-.Step-3-Modifier-Section-Menu-container{
-    width: 600px;
-    // border: 2px solid blue;
-    height: 200px;
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-    margin-top: 0px;
-    margin-left: -10px;
-
-
+.Step-3-Modifier-Section-Menu-container {
+  width: 500px;
+  height: 200px;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  margin-top: 0px;
+  margin-left: -10px;
 }
 
-.Step-3-Modifier-Section-Each-Menu-container{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
- 
+.Step-3-Modifier-Section-Each-Menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.Step-3-Modifier-Section-Menu-heading{
-    font-family: Poppins;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 18px;
-    color: #6E6E6E;
- 
+.Step-3-Modifier-Section-Menu-heading {
+  font-family: Poppins;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: #6e6e6e;
 }
 
-.Step-3-Modifier-Section-Menu-details{
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 21px;
-    position: relative;
- 
-   
-    margin-left: 5px;
-  
-}
-.Step-3-Modifier-Section-Menu-details-items{
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 21px;
-    position: relative;
- 
-    margin-left: -12px;
-    margin-top: -2px;
-    
+.Step-3-Modifier-Section-Menu-details {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  position: relative;
 
+  margin-left: 5px;
+}
+.Step-3-Modifier-Section-Menu-details-items {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  position: relative;
+
+  margin-left: -12px;
+  margin-top: -2px;
 }
 
-.Step-3-Modifier-Section-Menu-details-price{
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 21px;
-    position: relative;
- 
-    margin-left: -2px;
+.Step-3-Modifier-Section-Menu-details-price {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  position: relative;
 
+  margin-left: -2px;
 }
 
+/* {-----------------------------Free Modification Section---------------------------------- } */
 
-  /* {-----------------------------Free Modification Section---------------------------------- } */
+.Free-Modification-Section {
+  width: 200px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: -142px;
+  left: 32px;
+}
 
-  .Free-Modification-Section{
-    width: 200px;
-    height: 60px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    top: -142px;
-    left:32px;
+.Step-3-free-details {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  position: relative;
+  margin-left: 4px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+}
 
-  }
+/* {-----------------------------Stream  Modification Section---------------------------------- } */
 
-  .Step-3-free-details{
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 21px;
-    position: relative;
-    margin-left: 4px;
-    margin-top: 10px;
-    display: flex;
-    justify-content: start;
-    gap: 20px;
-   
+.Step-3-Review-Stream-Modification-heading {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  position: relative;
+  margin-top: 10px;
+}
 
-
-  }
-     
-
-   /* {-----------------------------Stream  Modification Section---------------------------------- } */
-
-
-   .Step-3-Review-Stream-Modification-heading{
-
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 21px;
-    position: relative;
-    margin-top: 10px;
-   
-
- 
-    
-    
-
-
-   }
-
-   .Step-3-Review-Stream-Modification-container{
-    display: flex;
-    justify-content: start;
-    gap: 10px;
-   }
+.Step-3-Review-Stream-Modification-container {
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+}

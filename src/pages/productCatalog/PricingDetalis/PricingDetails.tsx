@@ -144,6 +144,8 @@ const PricingDetails = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<PricingDetailsFormData>();
+  
+
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
@@ -399,7 +401,7 @@ const PricingDetails = () => {
                     rules={{ required: "Please select at least one option" }}
                     render={({ field }: any) => (
                       <Dropdown
-                        selectedValues={field?.value}
+                        selectedValues={selectedValue1}
                         onSelect={(values) => {
                           setSelectedValue1(values);
                           if (field?.onChange) {
