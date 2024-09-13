@@ -9,18 +9,36 @@ import DropDown3 from "../DropDown3/DropDown3";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import React from "react";
+import Dropdown from "../DropDown/Dropdown";
 
 import DropDown2 from "../DropDown2/DropDown2";
+
+type MainFormSpecial ={
+  form1: FormState;
+  dineinfields: DineInField[];
+  specialcheck: number[] // Single number, not an array
+  fromDate: string|Date | undefined; // Allow undefined if needed; // Should be Date, not string
+  toDate: string|Date | undefined; // Allow undefined if needed; // Should be Date, not string
+  selectedValuespickup: string[];
+  selectedValuesdelivery: string[];
+  Swiggy: string[];
+  Zomato: string[];
+  Availabilityid: string[];
+}
+
 interface FormState {
-  Pickupprice: string;
-  Pickupmealtype: string;
-  Deliveryprice: string;
-  Deliverymealtype: string;
+  Pickupprice?: string;
+  Pickupmealtype?: string;
+  Deliveryprice?: string;
+  Deliverymealtype?: string;
   Swiggyorzomato: string;
-  Swiggy: string;
-  Swiggymealtype: string;
-  Zomato: string;
-  Zomatomealtype: string;
+  Swiggy?: string;
+  Swiggymealtype?: string;
+  Zomato?: string;
+  Zomatomealtype?: string;
+  Inventory1?: string;
+  Inventory2?: string;
+  
 }
 type MealType = string[];
 type SelectedValuesMealTypeState = MealType[];
@@ -31,6 +49,8 @@ interface SpecialAvailProps {
     string | number,
     { isValid: boolean; errorMessage: string }
   >;
+  setMainFormSpecial: React.Dispatch<React.SetStateAction<MainFormSpecial>>|any;
+    mainFormSpecial:any
 }
 
 type DineInField = {
@@ -45,6 +65,8 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   getSpecialForm,
   validateDropdown,
   validationState,
+  setMainFormSpecial,
+  mainFormSpecial
 }) => {
   const [dinein, setDineIn] = useState(true);
   const [online, setOnline] = useState(false);
@@ -108,7 +130,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   );
   const [availabilityid1, setAvailabilityid1] = useState<string[]>([]);
 
-  const [form, setForm] = useState<FormState>({
+  const [form1, setForm] = useState<FormState>({
     Pickupprice: "",
     Pickupmealtype: "",
     Deliveryprice: "",
@@ -150,7 +172,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   };
 
   const payLoad = {
-    form,
+    form1,
     dineinfields,
     specialcheck: specialcheck,
     fromDate,
@@ -164,14 +186,10 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   console.log(payLoad);
   
   useEffect(() => {
-    // Trigger getSpecialForm with the initial payload when the component mounts
-    getSpecialForm(payLoad);
-
-    // You can also trigger validateDropdown here if needed
-    
-    
-    // Add any dependencies if you want this to re-run on change
-  }, [getSpecialForm]);
+    if (JSON.stringify(mainFormSpecial) !== JSON.stringify(payLoad)) {
+      setMainFormSpecial(payLoad);
+    }
+  }, [payLoad]); 
 
   const handleImageClick = () => {
     if (datePickerRef.current) {
@@ -412,12 +430,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                   onChange={(e) => handleChange(index, e)}
                 />
                 <div className="DropD4">
-                  <DropDown3
+                  <Dropdown
                     key={index}
                     selectedValues={selectedValuesMealType[index] || []}
                     onSelect={(value) => handleSelect3(value, index)}
                     options={options3}
-                    addOption={addOption3}
                     label="Meal Type*"
                     onBlur={() =>
                       validateDropdown(
@@ -425,22 +442,29 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                         index
                       )
                     }
+                    width="Drop1"
                     validation={
                       validationState[index] || {
                         isValid: true,
                         errorMessage: "",
                       }
                     }
-                    placeholder="MealType"
                   />
                 </div>
                 <div className="SpecialDropDown">
-                  <DropDown2
+                  <Dropdown
                     key={index}
                     selectedValues={selectedValues1[index] || ""}
                     onSelect={(value) => handleSelectMealtype(value, index)}
                     options={options3}
                     label="Service Area*"
+                    width="Drop2"
+                    validation={
+                      validationState[index] || {
+                        isValid: true,
+                        errorMessage: "",
+                      }
+                    }
                   />
                 </div>
                 <h1
@@ -492,19 +516,18 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                     <input
                       type="text"
                       className="DineInInput1"
-                      value={form.Pickupprice}
+                      value={form1.Pickupprice}
                       onChange={(e) =>
-                        setForm({ ...form, Pickupprice: e.target.value })
+                        setForm({ ...form1, Pickupprice: e.target.value })
                       }
                     ></input>
                     <div className="PickDrop5">
-                      <DropDown3
+                      <Dropdown
                         selectedValues={selectedValuespickup}
                         onSelect={handleSelectpick}
                         options={optionspick}
-                        addOption={addOptionpickup}
                         label="Meal Type*"
-                        placeholder="vsvsvs"
+                        width="Drop1"
                         onBlur={() =>
                           validateDropdown(
                             selectedValuespickup,
@@ -535,17 +558,16 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                     <input
                       type="text"
                       className="DineInInput1"
-                      value={form.Deliveryprice}
+                      value={form1.Deliveryprice}
                       onChange={(e) =>
-                        setForm({ ...form, Deliveryprice: e.target.value })
+                        setForm({ ...form1, Deliveryprice: e.target.value })
                       }
                     ></input>
                     <div className="DelDrop">
-                      <DropDown3
+                      <Dropdown
                         selectedValues={selectedValuesdelivery}
                         onSelect={handleSelectdelivery}
                         options={optionsdelivery}
-                        addOption={addOptiondelivery}
                         label="Meal Type*"
                         onBlur={() =>
                           validateDropdown(
@@ -554,7 +576,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                           )
                         }
                         validation={validationState.Deliveryspecial}
-                        placeholder="dddd"
+                        width="Drop1"
                       />
                     </div>
                   </div>
@@ -572,9 +594,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                 <input
                   type="text"
                   className="DeliveryInput2"
-                  value={form.Swiggyorzomato}
+                  value={form1.Swiggyorzomato}
                   onChange={(e) =>
-                    setForm({ ...form, Swiggyorzomato: e.target.value })
+                    setForm({ ...form1, Swiggyorzomato: e.target.value })
                   }
                 ></input>
               </div>
@@ -583,21 +605,20 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                 <input
                   type="text"
                   className="DineInInput1"
-                  value={form.Swiggy}
-                  onChange={(e) => setForm({ ...form, Swiggy: e.target.value })}
+                  value={form1.Swiggy}
+                  onChange={(e) => setForm({ ...form1, Swiggy: e.target.value })}
                 ></input>
                 <div className="Third1Special">
-                  <DropDown3
+                  <Dropdown
                     selectedValues={selectedValuesthird1}
                     onSelect={handleSelectThird1}
                     options={optionsthird1}
-                    addOption={addOptionThird1}
-                    placeholder="Meal Type*"
+                    width="Drop1"
                     onBlur={() =>
                       validateDropdown(selectedValuesthird1, "Deliveryspecial1")
                     }
                     validation={validationState.Deliveryspecial1}
-                    label="Ddd"
+                    label="Meal Type*"
                   />
                 </div>
               </div>
@@ -606,16 +627,15 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                 <input
                   type="text"
                   className="DineInInput1"
-                  value={form.Zomato}
-                  onChange={(e) => setForm({ ...form, Zomato: e.target.value })}
+                  value={form1.Zomato}
+                  onChange={(e) => setForm({ ...form1, Zomato: e.target.value })}
                 ></input>
                 <div className="Third2">
-                  <DropDown3
+                  <Dropdown
                     selectedValues={selectedValuesthird2}
                     onSelect={handleSelectThird2}
                     options={optionsthird2}
-                    addOption={addOptionThird2}
-                    placeholder="Meal Type*"
+                    width="Drop1"
                     onBlur={() =>
                       validateDropdown(selectedValuesthird2, "Deliveryspecial2")
                     }

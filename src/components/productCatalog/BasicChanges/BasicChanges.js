@@ -5,9 +5,9 @@ import Basic from '../../../assets/images/Basic.png';
 import { useSelector } from 'react-redux';
 
 const BasicChanges = () => {
-  const outlets = useSelector((state) => state.auth.restaurantDetails.branch);
+  const outlets = useSelector((state) => state.auth.restaurantDetails?.branch);
   const [outletToggles, setOutletToggles] = useState(
-    outlets.map(() => false) // Initialize toggle state for each outlet
+    outlets?.map(() => false) // Initialize toggle state for each outlet
   );
 
   // Function to handle toggle change for each outlet
@@ -24,7 +24,7 @@ const handleInputChange=(e)=>{
 
   if(isChecked===false){
     
-  const updatedToggles = outlets.map(() => false); 
+  const updatedToggles = outlets?.map(() => false); 
   setOutletToggles(updatedToggles);
 
   }
@@ -45,7 +45,7 @@ const handleInputChange=(e)=>{
           <h1 className="BasicChangescheckbox-Heading">Change across all outlets</h1>
         </div>
         <div className="ToggleBasicChanges">
-          {outlets.map((elem, index) => (
+          {outlets?.map((elem, index) => (
             <div className="Toggle1BasicChange" key={index}>
               <ToggleSlider
                 toggle={outletToggles[index]}
@@ -65,3 +65,4 @@ const handleInputChange=(e)=>{
 };
 
 export default BasicChanges;
+ 
