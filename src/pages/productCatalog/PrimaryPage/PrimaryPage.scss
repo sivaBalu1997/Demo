@@ -23,6 +23,11 @@
     &::-webkit-scrollbar {
       display: none;
     }
+    .Primary-Page-inputfiled-and-tooltip
+    {
+     display: flex;
+     flex-direction: row;
+    }
   
     .Primary-page-container-one{
       display: flex;
@@ -216,6 +221,11 @@
             height: 3rem;
             align-items: center;
             gap: 30px;
+            .Caloriepointradio
+            {
+              position: relative;
+              left: 1.7%;
+            }
           .Primary-page-Other-Detail-mastercode{
             display: flex;
             flex-direction: row;
@@ -223,6 +233,12 @@
             align-items: center;
             position: relative;
             left: 0.2%;
+          }
+          .portionsizeTooltip
+          {
+            position: relative;
+            left: 3%;
+            margin-top: -1rem;
           }
         }
       }
