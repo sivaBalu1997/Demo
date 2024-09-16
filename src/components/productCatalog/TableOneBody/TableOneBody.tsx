@@ -6,7 +6,7 @@ import StringDisplay from "../StringDisplay/StringDisplay";
 
 interface Item {
   name: string;
-  code: string;
+  itemCode: string;
   id: number;
 }
 
@@ -116,9 +116,9 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               className="itemname2"
               onClick={() => handleItemnameClick(item.id)}
             >
-              <StringDisplay text={item.name} length={14} />
+              <StringDisplay text={item.name}  />
             </span>
-            <span className="itemcode2">{item.code}</span>
+            <span className="itemcode2">{item.itemCode}</span>
           </td>
         </tr>
       ))}

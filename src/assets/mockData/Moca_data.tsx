@@ -17,7 +17,7 @@ interface PricingDetails {
 interface Item {
   id: number;
   name: string;
-  code: string;
+  itemCode: string;
   type: string;
   mealType:string;
   dietary:string;
@@ -35,7 +35,7 @@ const truncateString = (str: string, length: number) => {
     {
       id: 1,
       name: "dosa",
-      code: "12345",
+      itemCode: "12345",
       type:"steamedVeg",
       mealType:"Breakfast",
       dietary:"Vegan",
@@ -52,9 +52,9 @@ const truncateString = (str: string, length: number) => {
       },
     },
     {
-        id: 3,
+        id: 2,
         name: "Musroom Gravy",
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Lunch",
         dietary:"Nonveg",
@@ -71,9 +71,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 4,
+        id: 3,
         name: "Creamy Pasta",
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -90,9 +90,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 5,
+        id: 4,
         name: "Masala idly",
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Dinner",
         dietary:"Vegan",
@@ -109,9 +109,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 2,
+        id: 5,
         name: "Podi Idly",
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -128,9 +128,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 2,
+        id: 6,
         name: "Utthappam",
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -147,9 +147,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 2,
+        id: 7,
         name: "Creamy Mushroom",
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -166,9 +166,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 2,
+        id: 8,
         name: truncateString("Creamy Mushroo", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -185,9 +185,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 2,
+        id: 9,
         name: truncateString("Creamy Mushroo", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -204,9 +204,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 2,
+        id: 10,
         name: truncateString("Creamy Mushroo", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -223,9 +223,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 2,
+        id:11,
         name: truncateString("Creamy Mushroo", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -242,9 +242,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 2,
+        id: 12,
         name: truncateString("Creamy Mushroo", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -265,9 +265,9 @@ const truncateString = (str: string, length: number) => {
   
   export const itemsfooddata: Item[] = [
     {
-      id: 11,
+      id: 13,
       name: "Chicken",
-      code: "12345",
+      itemCode: "12345",
       type:"steamedNonVeg",
       mealType:"Breakfast",
       dietary:"Vegan",
@@ -284,9 +284,9 @@ const truncateString = (str: string, length: number) => {
       },
     },
     {
-        id: 31,
+        id: 14,
         name: truncateString("Fish", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -303,9 +303,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 41,
+        id: 15,
         name: truncateString("Mutton", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -322,9 +322,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 51,
+        id: 16,
         name: truncateString("Chicken 65", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -341,9 +341,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 21,
+        id: 17,
         name: truncateString("Chicken roll", 14),
-        code: "12345",
+        itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
         dietary:"Vegan",
@@ -360,9 +360,9 @@ const truncateString = (str: string, length: number) => {
         },
       },
       {
-        id: 21,
+        id: 18,
         name: truncateString("Creamy Mushroo", 14),
-        code: "12345",
+        itemCode: "12345",
          type:"steamedNonVeg",
          mealType:"Breakfast",
          dietary:"Vegan",

@@ -21,7 +21,6 @@ import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
 import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
-import StringDisplay from "components/productCatalog/StringDisplay/StringDisplay";
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
@@ -33,6 +32,8 @@ export const Menulisting = () => {
   useEffect(() => {
     dispatch(storeMockDataRequest(combinedItemsData));
   }, []);
+
+  const addedData=useSelector((state)=> state.addMockDataReducer.data)
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
   const FilteredData = useSelector(
@@ -144,13 +145,18 @@ export const Menulisting = () => {
     },
   ]);
   const [SideBarData, setSideBar] = useState([]);
+  const mergedMockData =  [ ...Mockdata,...addedData] 
+
+  console.log(mergedMockData)
+  console.log(addedData)
 
   useEffect(() => {
     const tempArray1 = [];
     const tempArray2 = [];
 
+
     if (FilteredData.length === 0) {
-      Mockdata.forEach((item) => {
+      mergedMockData.forEach((item) => {
         console.log("Item type:", item.type);
         if (item.type === "steamedVeg") {
           tempArray1.push(item);
@@ -182,6 +188,7 @@ export const Menulisting = () => {
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
+
 
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
@@ -371,7 +378,6 @@ export const Menulisting = () => {
     };
   }, [showheadinglist]);
 
-  // console.log("FilteredData",FilteredData[0])
 
   const selectedItems =
     FilteredObject &&
