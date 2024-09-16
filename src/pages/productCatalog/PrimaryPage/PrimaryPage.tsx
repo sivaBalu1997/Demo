@@ -851,7 +851,7 @@ const PrimaryPage = () => {
                 getFormData={getValues}
                 seletedpage="Primary"
                 reset={reset}
-                triggerValidation={() => trigger()}
+                trigger={trigger}
               />
             </form>
           </div>

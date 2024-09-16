@@ -82,7 +82,8 @@ interface SubmitButtonProps {
   seletedpage: string;
   reset: () => void;
   modifications?: Modification[];
-  triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
+  trigger?: any;
+  // triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
@@ -90,7 +91,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   seletedpage,
   reset,
   modifications,
-  triggerValidation,
+  // triggerValidation,
+  trigger
 }) => {
   
   const history = useHistory();
@@ -109,8 +111,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 
   const handleclick = async () => {
     
-    if (seletedpage === "Primary" && triggerValidation) {
+    if (seletedpage === "Primary") {
       // const isFormValid = await triggerValidation(formData);
+    
 
       // if (!isFormValid) {
       //   window.scrollTo({
@@ -121,20 +124,16 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       // }
     }
 
-    if (seletedpage === "Primary") {
+    if (seletedpage === "Primary" ) {
+      trigger()
       history.push({
         pathname: `/productCatalog/Pricingandkitchendetails`,
         state: { pagename: "Pricing and kitchen details" },
       });
       dispatch(primarypost(formData));
-
-
-  
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
-      
-      // Dispatch your action with formData
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
     }
