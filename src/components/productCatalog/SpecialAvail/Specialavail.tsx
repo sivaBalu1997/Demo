@@ -183,7 +183,6 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     Zomato: selectedValuesthird2,
     Availabilityid: availabilityid1,
   };
-  console.log(payLoad);
   
   useEffect(() => {
     if (JSON.stringify(mainFormSpecial) !== JSON.stringify(payLoad)) {
