@@ -51,16 +51,16 @@
   
   interface RootState {
     PricingDetailReducer: {
-      prizingData: {
-        mainForm: NormalFormData;
-      };
+      prizingData: 
+         NormalFormData;
+      
     };
   }
 
 
 
   const NormalStep2 = () => {
-    const prizingDetail=useSelector((state:RootState)=>state?.PricingDetailReducer?.prizingData?.mainForm || {})
+    const prizingDetail=useSelector((state:RootState)=>state?.PricingDetailReducer?.prizingData || {})
     const thirdParty= prizingDetail && prizingDetail.normalForm &&prizingDetail?.normalForm.thirdParty;
     const [thirdParty1, setThirdParty1] = useState<number[]>(thirdParty);
 
@@ -78,7 +78,7 @@
     
     console.log(thirdParty)
 
-    console.log(Dinein1.map((elem)=>elem))
+    console.log(Dinein1?.map((elem)=>elem))
 
 
     return (

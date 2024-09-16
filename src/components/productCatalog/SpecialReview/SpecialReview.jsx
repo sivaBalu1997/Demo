@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const SpecialReview = () => {
 
-  const prizingDetail=useSelector((state)=> state?.PricingDetailReducer?.prizingData?.mainForm )
+  const prizingDetail=useSelector((state)=> state?.PricingDetailReducer?.prizingData )
 
   const specialcheck= prizingDetail && prizingDetail.specialForm && prizingDetail.specialForm.specialcheck ;
   const [specialcheck1, setspecialcheck1] = useState(specialcheck);

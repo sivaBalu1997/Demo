@@ -10,7 +10,7 @@ import SpecialReview from '../SpecialReview/SpecialReview'
 import { useHistory } from 'react-router-dom';
 
 const Step2 = () => {
-  const prizingDetail=useSelector((state)=>state?.PricingDetailReducer?.prizingData?.mainForm )
+  const prizingDetail=useSelector((state)=>state?.PricingDetailReducer?.prizingData )
   
  
 

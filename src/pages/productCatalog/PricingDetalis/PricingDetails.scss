@@ -29,8 +29,7 @@
 }
 
 .KitchenRelated {
-  width: 40.813rem;
-  height: 30px;
+
   display: flex;
   justify-content: flex-start;
   position: relative;
@@ -43,8 +42,9 @@
   flex: 1; /* This will make the divs take equal space */
 }
 .D1kitchen {
+  border: 2px solid red;
   margin-top: -80px;
-  margin-left: -50px;
+  margin-left: 0px;
 }
 .D2kitchen {
   margin-top: -80px;
