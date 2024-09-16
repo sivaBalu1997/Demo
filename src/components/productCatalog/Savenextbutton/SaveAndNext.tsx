@@ -23,13 +23,14 @@ interface FormState {
   Inventory1: string;
   Inventory2: string;
 }
-interface PricingAndKitchen{
-  form: FormState;
-  kitchenstation: string[];
-  Preparationtime: string[];
-  KitchenStationId: string[];
+interface PricingAndKitchen {
+  maxServingAllowed:string,
+  threshold:string;
+  kitchenstation: string;
+  Preparationtime: string;
+  KitchenStationId: string;
   normalForm?: any;
-  specialForm?: any
+  specialForm?: any;
 }
 
 interface Base64Image {
@@ -89,12 +90,22 @@ interface Modification {
   field2?: number;
   [key: string]: any;
 }
+interface MainForm {
+  maxServingAllowed:string,
+  threshold:string;
+  kitchenstation: string;
+  Preparationtime: string;
+  KitchenStationId: string;
+  normalForm?: any;
+  specialForm?: any;
+}
 
 interface SubmitButtonProps {
-  getFormData: () => FormData | Modification;
+  getFormData: () => FormData | Modification|MainForm;
   seletedpage: string;
   reset: () => void;
   modifications?: Modification[];
+  mainForm?:MainForm
   PricingAndKitchen?:PricingAndKitchen
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
 }
@@ -106,6 +117,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   modifications,
   PricingAndKitchen,
   triggerValidation,
+  mainForm
 }) => {
   
   const history = useHistory();
@@ -177,11 +189,27 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   
     } 
     else if (seletedpage === "Pricing") {
-      const PricingDetails = PricingAndKitchen;
-      console.log(PricingDetails)
+      // Ensure PricingDetails is initialized properly, either using mainForm or fallback to an empty object
+      let PricingDetails = { ...mainForm };  // Spread the existing mainForm object to keep its values intact
       
-      // Dispatch your action with formData
+      // Fetch the form data
+      const formData = getFormData();
+      console.log(formData);  // Make sure formData contains valid data
+      
+      // Append or update the kitchenstation in PricingDetails
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,             // Spread the existing values in PricingDetails
+          kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
+      }
+      
+      // Dispatch your action with the properly formed PricingDetails
       dispatch(PricingDetailRequest(PricingDetails));
+      
+      // Navigate to the next page
       history.push("/productCatalog/Itemcustomizations");
     }else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;

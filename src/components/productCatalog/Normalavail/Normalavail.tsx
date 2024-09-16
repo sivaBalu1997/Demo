@@ -8,6 +8,7 @@
   import DaysCheckDin from "../DayCheckDinein/DaysCheckDinein";
   import { useSelector } from "react-redux";
   import LableComponent from "../LableComponent/LableComponent";
+  
   type MainFormType = {
     availabilityid: string[];
     formNormal: {
@@ -91,7 +92,10 @@
     dinein,
     setDineIn,
     setMainFormState,
-    mainFormState 
+    mainFormState ,
+    
+    
+
   }) => {
     const [online, setOnline] = useState(false);
     const [pickup, setPickup] = useState(false);
