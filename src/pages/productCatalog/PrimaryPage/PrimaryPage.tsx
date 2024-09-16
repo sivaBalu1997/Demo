@@ -190,7 +190,6 @@ const PrimaryPage = () => {
     subCategory: false,
   });
 
-  
   const handleDescriptionInputChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -304,31 +303,7 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  useEffect(() => {
-    if (ItemsPrimaryDeatils) {
-      setValue("itemNameData", ItemsPrimaryDeatils.itemNameData || "");
-      setValue("dietaryType", ItemsPrimaryDeatils.dietaryType || "");
-      setValue("cuisine", ItemsPrimaryDeatils.cuisine || "");
-      setValue("mealType", ItemsPrimaryDeatils.mealType || "");
-      setValue("bestPair", ItemsPrimaryDeatils.bestPair || "");
-      setValue("description", ItemsPrimaryDeatils.description || "");
-      setValue("imageUrls", ItemsPrimaryDeatils.imageUrls || []);
-      setValue("alcohol", ItemsPrimaryDeatils.alcohol || "no");
-      setValue("itemCode", ItemsPrimaryDeatils.itemCode || "");
-      setValue("barCode", ItemsPrimaryDeatils.barCode || "");
-      setValue("category", ItemsPrimaryDeatils.category || "");
-      setValue("categoryId", ItemsPrimaryDeatils.categoryId || "");
-      setValue("subCategory", ItemsPrimaryDeatils.subCategory || "");
-      setValue("Ingredients", ItemsPrimaryDeatils.Ingredients || []);
-      setValue("allergens", ItemsPrimaryDeatils.allergens || []);
-      setValue("coloriePoint", ItemsPrimaryDeatils.coloriePoint || "");
-      setValue("selectedcolorie", ItemsPrimaryDeatils.selectedcolorie || "per100grams");
-      setValue("portionSize", ItemsPrimaryDeatils.portionSize || "");
-      setValue("selectedPortion", ItemsPrimaryDeatils.selectedPortion || "Portion(count)");
-      setValue("tax", ItemsPrimaryDeatils.tax || "");
-      setValue("masterCode", ItemsPrimaryDeatils.masterCode || "");
-    }
-  }, [ItemsPrimaryDeatils, setValue]);
+  console.log("HI")
 
   return (
     <div style={{ display: "flex" }}>
@@ -344,7 +319,7 @@ const PrimaryPage = () => {
             <Navigationpage />
           </div>
           <div className="Primary-page">
-            <form>
+            {/* <form> */}
               <div className="Primary-page-container-one">
                 <div className="Primary-page-container-pairone">
                   <div className="Primary-page-InputFields">
@@ -353,7 +328,7 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemNameData"
                       control={control}
-                      rules={{ required: 'ItemName is required' }}
+                      rules={{ required: "ItemName is required" }}
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="itemNameData"
@@ -441,7 +416,7 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
-                          // validation={{ required: "Mealtype is required" }}
+                          validation={{ required: "Mealtype is required" }}
                           error={errors.mealType}
                           dropdownopen={DropdownOpen.mealType}
                           onToggle={() => handleDropdownToggle("mealType")}
@@ -470,6 +445,8 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
+                          error={errors.bestPair}
+                          validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -650,7 +627,7 @@ const PrimaryPage = () => {
                             setValue={setValue}
                             trigger={trigger}
                             getValues={getValues}
-                            // validation={{ required: "category is required" }}
+                            validation={{ required: "category is required" }}
                             error={errors.category}
                             dropdownopen={DropdownOpen.category}
                             setDropdownOpen={setDropdownOpen}
@@ -661,6 +638,7 @@ const PrimaryPage = () => {
                         )}
                       />
                     </div>
+                    
                     <div className="Primary-page-InputFields">
                       <LableComponent lable="SubCategory" />
                       <Controller
@@ -853,7 +831,7 @@ const PrimaryPage = () => {
                 reset={reset}
                 trigger={trigger}
               />
-            </form>
+            {/* </form> */}
           </div>
         </div>
       </div>
