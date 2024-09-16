@@ -94,39 +94,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
-  // const extractFields = (formData: FormData) => {
-  //   return {
-  //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
-  //     altName: "alt name",
-  //     price: "12",
-  //     subCategoryId: "",
-  //     kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
-  //     taxFeeId: "",
-  //     ingredients: formData.Ingredients,
-  //     modifiers: [],
-  //     availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
-  //     subCategory:formData?.subCategory && formData?.subCategory ||"",
-  //     itemId: null,
-  //     itemName: formData.itemName,
-  //     category: formData.category,
-  //     itemCode: formData.itemCode,
-  //     categoryId: formData?.categoryId,
-  //     description: formData?.description,
-  //     dietaryType: "",
-  //     cuisine: "",
-  //     mealType: "",
-  //     bestPair: "",
-  //     alcohol: "",
-  //     barCode: "",
-  //     coloriePoint: "",
-  //     selectedcolorie: "per100grams",
-  //     portionSize: "",
-  //     selectedPortion: "Portion(count)",
-  //     tax: "",
-  //     masterCode: "",
-  //   };
-  // };
-
+  
   const dispatch = useDispatch();
 
   const scrollToTop = () => {
@@ -136,19 +104,19 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     });
   };
   const formData = getFormData();
-  console.log("uploading", formData);
+    // console.log("uploading", formData);
 
   const handleclick = async () => {
     if (seletedpage === "Primary" && triggerValidation) {
-      const isFormValid = await triggerValidation(formData);
+      // const isFormValid = await triggerValidation(formData);
 
-      if (!isFormValid) {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        return;
-      }
+      // if (!isFormValid) {
+      //   window.scrollTo({
+      //     top: 0,
+      //     behavior: "smooth",
+      //   });
+      //   return;
+      // }
     }
 
     if (seletedpage === "Primary") {
@@ -157,6 +125,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         state: { pagename: "Pricing and kitchen details" },
       });
       dispatch(primarypost(formData));
+
+
+  
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();

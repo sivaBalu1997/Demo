@@ -6,6 +6,7 @@ import DigitInput from "../../../components/productCatalog/DigitInput/DigitInput
 import RadioButtonGroup from "../../../components/productCatalog/RadioButton/RadioButton";
 import "./PrimaryPage.scss";
 import { ImCross } from "react-icons/im";
+import info from '../../../assets/svg/info.svg'
 import ImgaeUploading from "../../../assets/images/addimage.png";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,6 +31,7 @@ import {
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
+import Tooltip from "components/productCatalog/Tooltip/Tooltip";
 
 interface Ingredients {
   id: string;
@@ -90,6 +92,16 @@ interface StateDataTag2 {
   };
 }
 
+interface primarypage{
+
+    primarypage:{
+      data: FormData
+
+    }
+   
+  
+}
+
 interface option {
   name: string[];
 }
@@ -144,6 +156,9 @@ const PrimaryPage = () => {
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
   );
+
+  const ItemsPrimaryDeatils=useSelector((state:primarypage)=>state.primarypage.data)
+  // console.log("ItemsPrimaryDeatils",ItemsPrimaryDeatils)
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
   );
@@ -275,6 +290,7 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
+    dispatch(getIngredientsRequest(locationid));
     dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
@@ -286,6 +302,32 @@ const PrimaryPage = () => {
   useEffect(() => {
     register("imageUrls");
   }, [register]);
+
+  useEffect(() => {
+    if (ItemsPrimaryDeatils) {
+      setValue("itemNameData", ItemsPrimaryDeatils.itemNameData || "");
+      setValue("dietaryType", ItemsPrimaryDeatils.dietaryType || "");
+      setValue("cuisine", ItemsPrimaryDeatils.cuisine || "");
+      setValue("mealType", ItemsPrimaryDeatils.mealType || "");
+      setValue("bestPair", ItemsPrimaryDeatils.bestPair || "");
+      setValue("description", ItemsPrimaryDeatils.description || "");
+      setValue("imageUrls", ItemsPrimaryDeatils.imageUrls || []);
+      setValue("alcohol", ItemsPrimaryDeatils.alcohol || "no");
+      setValue("itemCode", ItemsPrimaryDeatils.itemCode || "");
+      setValue("barCode", ItemsPrimaryDeatils.barCode || "");
+      setValue("category", ItemsPrimaryDeatils.category || "");
+      setValue("categoryId", ItemsPrimaryDeatils.categoryId || "");
+      setValue("subCategory", ItemsPrimaryDeatils.subCategory || "");
+      setValue("Ingredients", ItemsPrimaryDeatils.Ingredients || []);
+      setValue("allergens", ItemsPrimaryDeatils.allergens || []);
+      setValue("coloriePoint", ItemsPrimaryDeatils.coloriePoint || "");
+      setValue("selectedcolorie", ItemsPrimaryDeatils.selectedcolorie || "per100grams");
+      setValue("portionSize", ItemsPrimaryDeatils.portionSize || "");
+      setValue("selectedPortion", ItemsPrimaryDeatils.selectedPortion || "Portion(count)");
+      setValue("tax", ItemsPrimaryDeatils.tax || "");
+      setValue("masterCode", ItemsPrimaryDeatils.masterCode || "");
+    }
+  }, [ItemsPrimaryDeatils, setValue]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -391,6 +433,7 @@ const PrimaryPage = () => {
                           options={dataMealType}
                           setOptions={setDataMealType}
                           placeholder="search for option"
+                           type="checkbox"
                           {...field}
                           register={register}
                           name="mealType"
@@ -411,6 +454,7 @@ const PrimaryPage = () => {
 
                   <div className="Primary-page-InputFields">
                     <LableComponent lable="Best paired with food items *" />
+                    <div className="Primary-Page-inputfiled-and-tooltip">
                     <Controller
                       name="bestPair"
                       control={control}
@@ -419,6 +463,7 @@ const PrimaryPage = () => {
                           options={dataBestPair}
                           setOptions={setDataBestPair}
                           placeholder="search for option"
+                           type="checkbox"
                           name="bestPair"
                           register={register}
                           trigger={trigger}
@@ -432,6 +477,13 @@ const PrimaryPage = () => {
                         />
                       )}
                     />
+                    <Tooltip message="Kitchen Related">
+            <div className="ToolKitchen">
+              <img src={info} alt="" width={25} height={25} />
+            </div>
+          </Tooltip>
+                    </div>
+                    
                   </div>
 
                   <div className="Primary-Page-description-field">
@@ -534,6 +586,7 @@ const PrimaryPage = () => {
                   <div className="Primary-page-InputFields">
                     {" "}
                     <LableComponent lable="ItemCode" />
+                    <div className="Primary-Page-inputfiled-and-tooltip" >
                     <Controller
                       name="itemCode"
                       control={control}
@@ -547,7 +600,12 @@ const PrimaryPage = () => {
                           trigger={trigger}
                         />
                       )}
-                    />
+                    /> <Tooltip message="Kitchen Related">
+            <div className="ToolKitchen">
+              <img src={info} alt="" width={25} height={25} />
+            </div>
+          </Tooltip> </div>
+                   
                   </div>
 
                   <div className="Primary-page-InputFields">
@@ -584,6 +642,7 @@ const PrimaryPage = () => {
                             options={categories}
                             setOptions={setCategories}
                             placeholder="search for option"
+                             type="radio"
                             name="category"
                             id="categoryId"
                             register={register}
@@ -611,6 +670,7 @@ const PrimaryPage = () => {
                             options={dataSubcategory}
                             setOptions={setDataSubcategory}
                             placeholder="search for option"
+                            type="radio"
                             name="subCategory"
                             register={register}
                             trigger={trigger}
@@ -633,6 +693,8 @@ const PrimaryPage = () => {
                       options={validImages}
                       setValue={setValue}
                       name="allergens"
+                      register={register}
+
                     />
                   </div>
                 </div>
@@ -644,6 +706,7 @@ const PrimaryPage = () => {
                     options={ingredientsFromAPi}
                     setValue={setValue}
                     name="Ingredients"
+                    register={register}
                   />
                 </div>
 
@@ -651,7 +714,7 @@ const PrimaryPage = () => {
                   <h3 className="Primary-Page-Other-Details-heading">
                     Other Details
                   </h3>
-                  <div className="Primary-Page-Other-Detail">
+                  <div className="Primary-Page-Other-Detail ">
                     <div>
                       <Controller
                         name="coloriePoint"
@@ -668,7 +731,7 @@ const PrimaryPage = () => {
                         )}
                       />
                     </div>
-                    <div>
+                    <div className="Caloriepointradio">
                       <RadioButtonGroup
                         options={calorieponitradio}
                         name="selectedcolorie"
@@ -682,8 +745,9 @@ const PrimaryPage = () => {
                   </div>
 
                   <div className="Primary-Page-Other-Detail">
-                    <div>
-                      <Controller
+                    <div className="Primary-Page-inputfiled-and-tooltip">
+                 
+                     <Controller
                         name="portionSize"
                         control={control}
                         render={({ onChange, onBlur, value }: any) => (
@@ -697,9 +761,15 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
-                    </div>
+                      <Tooltip message="Kitchen Related">
+            <div className="ToolKitchen">
+              <img src={info} alt="" width={25} height={25} />
+            </div>
+          </Tooltip>
+                     </div>
+                    
 
-                    <div>
+                    <div className="Primary-Page-inputfiled-and-tooltip">
                       <RadioButtonGroup
                         options={portionsizeradio}
                         name="selectedPortion"
@@ -709,13 +779,22 @@ const PrimaryPage = () => {
                         }
                         register={register}
                       />
+                      <div className="portionsizeTooltip">
+                      <Tooltip message="Kitchen Related">
+            <div className="ToolKitchen">
+              <img src={info} alt="" width={25} height={25} />
+            </div>
+          </Tooltip>
+                      </div>
+                      
+
                     </div>
                   </div>
 
                   <div className="Primary-Page-Other-Detail">
                     <div>
                       {" "}
-                      <Controller
+                      <div className="Primary-Page-inputfiled-and-tooltip"><Controller
                         name="tax"
                         control={control}
                         render={({ onChange, onBlur, value }: any) => (
@@ -729,9 +808,18 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
+                      <div ><Tooltip message="Kitchen Related">
+            <div className="ToolKitchen">
+              <img src={info} alt="" width={25} height={25} />
+            </div>
+          </Tooltip></div>
+                      
+                      </div>
                     </div>
                     <div className="Primary-page-Other-Detail-mastercode">
                       <LableComponent lable="Master Item Code" />
+
+                      <div className="Primary-Page-inputfiled-and-tooltip">
                       <Controller
                         name="masterCode"
                         control={control}
@@ -747,6 +835,12 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
+                      <Tooltip message="Kitchen Related">
+            <div className="ToolKitchen">
+              <img src={info} alt="" width={25} height={25} />
+            </div>
+          </Tooltip>
+                      </div>
                     </div>
                   </div>
                 </div>

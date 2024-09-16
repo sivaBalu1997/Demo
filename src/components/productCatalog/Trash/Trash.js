@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import "./Trash.scss"
 import Trash  from "../../../assets/images/trash-2.png"
 
-const EyeModal = ({onTrashclose}) => {
+const EyeModal = ({onTrashclose,handleDeleteItem,handleOnClose}) => {
     const trashmodalRef=useRef()
     const TrashClose=(e)=>{
         if(trashmodalRef.current===e.target){
@@ -12,6 +12,13 @@ const EyeModal = ({onTrashclose}) => {
     const closeModal=()=>{
         onTrashclose();
     }
+    const handleChange=()=>{
+      handleDeleteItem();
+      onTrashclose();
+      handleOnClose()
+
+  }
+
   return (
     <div ref={trashmodalRef} onClick={TrashClose} className='TrashModal-Container'>
       <div className='TrashModal-Window'>
@@ -26,7 +33,7 @@ const EyeModal = ({onTrashclose}) => {
          </div>
          <div className='Trash-Button'>
           <button className='TrashButton1' onClick={closeModal} >Cancel</button>
-          <button className='TrashButton2'>Change</button>
+          <button className='TrashButton2' onClick={handleChange}>Change</button>
          </div>
         </div>
         </div>

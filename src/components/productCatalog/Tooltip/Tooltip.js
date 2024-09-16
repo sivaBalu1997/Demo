@@ -1,15 +1,15 @@
 import React from 'react';
 import './Tooltip.scss';
-import tooltiparrow from '../../assets/svg/ArrowHover.svg'
+import tooltiparrow from '../../../assets/svg/ArrowHover.svg'
 
-const Tooltip = ({ message, children ,style,tooltipstyle}) => {
+const Tooltip = ({ message, children }) => {
     return (
         <div className="tooltip-container">
             {children}
            
-            <div className="tooltip-message" style={style}>
+            <div className="tooltip-message">
            
-            <img src={tooltiparrow} alt="" style={tooltipstyle}/>
+            <img src={tooltiparrow} alt=""/>
                 {message}
             </div>
         </div>

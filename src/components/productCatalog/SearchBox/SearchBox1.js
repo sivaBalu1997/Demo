@@ -86,7 +86,7 @@ const SearchBox = () => {
       filterOptions(newValue);
     }
   };
-  // console.log(filteredOptionsDispatch)
+ 
   return (
     <div className="Search-Container">
       <div>
@@ -105,7 +105,7 @@ const SearchBox = () => {
         />
       </div>
 
-      <div className={isExpanded ? "Search-Container-options1" : 'Search-Container-options'}>
+      <div className={isExpanded ? "Search-Container-options1" : 'Search-Container-options'} >
         {searchTerm && (
           <ul>
             {filteredOptions.length > 0 ? (

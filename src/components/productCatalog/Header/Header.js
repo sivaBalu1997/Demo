@@ -3,6 +3,7 @@ import '../Header/Header.scss'
 import SearchBox from '../SearchBox/SearchBox1'
 import filterIcon from '../../../assets/svg/filter.svg'
 import Excel from '../../../assets/svg/Excel.svg'
+import publish from '../../../assets/svg/publish.svg'
 import DownloadExcel from '../../../assets/images/ExcelDownload.png'
 import { Contextpagejs } from '../../../pages/productCatalog/contextpage'
 import { useHistory } from 'react-router-dom'
@@ -34,10 +35,10 @@ const Header = () => {
         {filterSelected && <Filter/>}
         </div>
         <div className='Excel-flex-col'>
-          <img className={`${filterSelected?"Excel-Header1":"Excel-Header"}  ${isExpanded?"Excel1":"Excel"}`} src={Excel} alt="" />
-          <img className={`${filterSelected?"Excel-Header-Download1":"Excel-Header-Download"}  ${isExpanded?"Exceldownloadicon1":"Exceldownloadicon"}`} src={DownloadExcel} alt="" />
-          {filterSelected===false && <img className='ArrowHoverHeaderExcel' src={ArrowHover} alt="" />}
-          {filterSelected===false &&  <div className='ExcelHover'>Import</div>}
+          <img className={`${filterSelected?"Excel-Header1":"Excel-Header"}  ${isExpanded?"Excel1":"Excel"}`} src={publish} alt="" />
+          {/* <img className={`${filterSelected?"Excel-Header-Download1":"Excel-Header-Download"}  ${isExpanded?"Exceldownloadicon1":"Exceldownloadicon"}`} src={DownloadExcel} alt="" /> */}
+          {/* {filterSelected===false && <img className='ArrowHoverHeaderExcel' src={ArrowHover} alt="" />}
+          {filterSelected===false &&  <div className='ExcelHover'>Import</div>} */}
         </div>  
         </div>
       <div 
