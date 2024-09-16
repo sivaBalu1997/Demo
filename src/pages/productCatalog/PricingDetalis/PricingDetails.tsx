@@ -317,6 +317,12 @@ const PricingDetails = () => {
   }, []);
 
   const dispatchEvent = () => {
+    const isFormValid = validateForm();
+
+  if (!isFormValid) {
+    console.log("Form validation failed. Please check the errors.");
+    return; 
+  }
     dispatch(PricingDetailRequest({ mainForm }));
     history.push(`/productCatalog/Itemcustomizations`, {
       state: { pagename: "Item customizations" },
@@ -360,10 +366,10 @@ const PricingDetails = () => {
               <div className="Tool">
                 <p className="KitchenRelatedHeading">Kitchen Related</p>
                 {/* <Tooltip message="Kitchen Related">
-            <div className="ToolKitchen">
-              <img src={info} alt="" width={20} height={20} />
-            </div>
-          </Tooltip> */}
+                      <div className="ToolKitchen">
+                        <img src={info} alt="" width={20} height={20} />
+                      </div>
+                    </Tooltip> */}
               </div>
 
               <div className="KitchenRelated">
@@ -396,7 +402,7 @@ const PricingDetails = () => {
                       />
                     )}
                   />
-                </div>
+                </div>  
 
                 <div className="D1kitchen">
                   <Controller
