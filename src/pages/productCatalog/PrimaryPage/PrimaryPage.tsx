@@ -303,31 +303,7 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  useEffect(() => {
-    if (ItemsPrimaryDeatils) {
-      setValue("itemNameData", ItemsPrimaryDeatils.itemNameData || "");
-      setValue("dietaryType", ItemsPrimaryDeatils.dietaryType || "");
-      setValue("cuisine", ItemsPrimaryDeatils.cuisine || "");
-      setValue("mealType", ItemsPrimaryDeatils.mealType || "");
-      setValue("bestPair", ItemsPrimaryDeatils.bestPair || "");
-      setValue("description", ItemsPrimaryDeatils.description || "");
-      setValue("imageUrls", ItemsPrimaryDeatils.imageUrls || []);
-      setValue("alcohol", ItemsPrimaryDeatils.alcohol || "no");
-      setValue("itemCode", ItemsPrimaryDeatils.itemCode || "");
-      setValue("barCode", ItemsPrimaryDeatils.barCode || "");
-      setValue("category", ItemsPrimaryDeatils.category || "");
-      setValue("categoryId", ItemsPrimaryDeatils.categoryId || "");
-      setValue("subCategory", ItemsPrimaryDeatils.subCategory || "");
-      setValue("Ingredients", ItemsPrimaryDeatils.Ingredients || []);
-      setValue("allergens", ItemsPrimaryDeatils.allergens || []);
-      setValue("coloriePoint", ItemsPrimaryDeatils.coloriePoint || "");
-      setValue("selectedcolorie", ItemsPrimaryDeatils.selectedcolorie || "per100grams");
-      setValue("portionSize", ItemsPrimaryDeatils.portionSize || "");
-      setValue("selectedPortion", ItemsPrimaryDeatils.selectedPortion || "Portion(count)");
-      setValue("tax", ItemsPrimaryDeatils.tax || "");
-      setValue("masterCode", ItemsPrimaryDeatils.masterCode || "");
-    }
-  }, [ItemsPrimaryDeatils, setValue]);
+  console.log("HI")
 
   return (
     <div style={{ display: "flex" }}>
