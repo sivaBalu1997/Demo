@@ -25,7 +25,7 @@ const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
     <div className="images">
       <div className="images">
         <ol>
-          {fetchedprimarydata && fetchedprimarydata?.imageUrls?.length > 0 && (
+          {fetchedprimarydata &&  fetchedprimarydata?.imageUrls &&fetchedprimarydata?.imageUrls?.length > 0 && (
             <li>
               <img
                 src={`data:${
@@ -40,8 +40,8 @@ const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
             </li>
           )}
 
-          {fetchedprimarydata?.imageUrls &&
-            fetchedprimarydata?.imageUrls.length === 0 &&
+          {fetchedprimarydata &&fetchedprimarydata?.imageUrls &&
+            fetchedprimarydata?.imageUrls?.length === 0 &&
             [0].map((_, index) => (
               <li key={index + 1}>
                 <img src={emptyfoodimg} alt={`sample ${index}`} />
@@ -59,7 +59,7 @@ const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
                 </li>
               ))}
 
-            {Array.from({ length: emptySlots  })
+            {Array.from({ length: emptySlots-1  })
               .slice(1)
               .map((_, index) => (
                 <li key={selectedImages.length + index + 1}>

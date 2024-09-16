@@ -221,9 +221,10 @@ th {
 
   .Menu-Listing-TableTwoHead {
     height: 3.95rem;
-    border-bottom: 1px solid #d9d9d9;
+    // border-bottom: 1px solid #d9d9d9;
     position: relative;
-    left: -0.2%;
+    // left: -0.3%;
+    // border: 1px solid red;
 
     .headingonesection {
       display: flex;
@@ -395,7 +396,7 @@ th {
         width: 154px;
         height: 24px;
         display: flex;
-        gap: 75px;
+        gap: 70px;
         justify-content: left;
 
         // border: 1px solid red !important;
@@ -495,6 +496,7 @@ th {
   .tabletwobody {
     display: flex;
     flex-direction: column;
+    margin-top: 0.1%;
   }
 
   .itemheading2row {
@@ -531,7 +533,7 @@ th {
   .Pickup1 {
     width: 226px;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     // border: 1px solid red !important;
     gap:25px;
 
@@ -543,7 +545,7 @@ th {
   .Delivery1 {
     width: 226px;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     // border: 1px solid red !important;
     gap:25px;
     td {
@@ -589,7 +591,8 @@ th {
     gap: 50px;
     justify-content: left;
     position: relative;
-    left: 0.5%;
+    left: 0.8%;
+   
 
     // border: 1px solid red !important;
 
@@ -802,4 +805,7 @@ th {
       }
     }
   }
+}
+.eachobject-rowwise.border-important {
+  border-top: 1px solid #d9d9d9 !important;
 }

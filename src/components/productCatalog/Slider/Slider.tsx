@@ -9,7 +9,8 @@ import Trash from '../Trash/Trash';
 import NavSlider from '../NavSlider/NavSlider';
 import ArrowHover from '../../../assets/svg/ArrowHover.svg';
 import BasicChanges from '../BasicChanges/BasicChanges';
-import { useSelector } from 'react-redux'
+import { useSelector ,useDispatch} from 'react-redux'
+import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
 
 interface PricingDetails {
   Dinein1: string[];
@@ -45,12 +46,17 @@ interface RootState {
   storeMockDataReducer: StoreMockDataReducer;
 }
 const Slider: React.FC<SliderProps> = ({ onclose, sidebartext,SideBarData }) => {
+  const dispatch=useDispatch();
   const [eye, setEye] = useState(false);
   const [trash, setTrash] = useState(false);
   const [active, setActive] = useState("Pricing");
   const modelref = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null); // Create a ref for the scrollable container
+  const scrollRef = useRef<HTMLDivElement>(null);
   const data = useSelector((state: RootState) => state.storeMockDataReducer.data);
+  console.log("data",data)
+  
+console.log(SideBarData[0].id)
+
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if (modelref.current === e.target) 
       onclose();
@@ -65,8 +71,18 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext,SideBarData }) => 
   };
 
   const handleBinClick = () => {
-    setTrash(true);
+   
+    const UpdatedeleteItem= data.filter((item:SideBarData)=>item.id!==SideBarData[0].id)
+    console.log("UpdatedeleteItem",UpdatedeleteItem)
+    dispatch(storeMockDataRequest(UpdatedeleteItem))
+    
+
+
   };
+  const handleOnclose=()=>{
+    onclose();
+
+  }
 
   const scrollToComponent = (componentName: string) => {
     if (scrollRef.current) {
@@ -96,7 +112,7 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext,SideBarData }) => 
 
               <img src={Eye} alt='View' className='PenImage' onClick={handleEyeClick} />
               <div className='BinImageSection'>
-                <img src={Bin} alt='Delete' onClick={handleBinClick} className='BinImage' />
+                <img src={Bin} alt='Delete' onClick={()=> setTrash(true)} className='BinImage' />
                 <div className='DelTool'>
                   <img src={ArrowHover} className='ArrowHoverDel' alt="Delete Tool" />
                   <div className='DelTool-box'>Delete</div>
@@ -104,8 +120,8 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext,SideBarData }) => 
               </div>
             </div>
           </div>
-          {eye && <EyeModal onEyeclose={() => setEye(false)} />}
-          {trash && <Trash onTrashclose={() => setTrash(false)} />}
+          {eye && <EyeModal onEyeclose={() => setEye(false)}  />}
+          {trash && <Trash onTrashclose={() => setTrash(false)} handleDeleteItem={handleBinClick} handleOnClose={handleOnclose}/>}
         </div>
 
         <div className='NavSlider-Component'>

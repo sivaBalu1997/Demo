@@ -91,12 +91,15 @@
 
 .Search-Container-options ul{
     list-style: none;
-    cursor: pointer;
+    // cursor: pointer;
+     cursor: url("../../../assets/svg/cursor.svg"), auto
+
     
     }
     .Search-Container-options1 ul{
       list-style: none;
-      cursor: pointer;
+      cursor: url("../../../assets/svg/cursor.svg"), auto
+      // cursor: pointer;
       
       }
 

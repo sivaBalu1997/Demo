@@ -99,7 +99,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
             onDragEnd={handleRowDragEnd}
             className={`itemdetails-row ${
               draggedRowIndex?.index === index ? "selected" : ""
-            }`}
+            } ${index===0 ?"removebottomrowline":""}`}
           >
             <span className="itemimage2">
               <img src={dots} alt="" className="draggableimg" />

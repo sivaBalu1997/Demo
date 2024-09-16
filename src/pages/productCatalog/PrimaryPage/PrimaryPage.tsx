@@ -291,8 +291,8 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
-    // dispatch(getIngredientsRequest(locationid));
-    // dispatch(getMenuCategoryRequest(locationid));
+    dispatch(getIngredientsRequest(locationid));
+    dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
   useEffect(() => {
@@ -434,6 +434,7 @@ const PrimaryPage = () => {
                           options={dataMealType}
                           setOptions={setDataMealType}
                           placeholder="search for option"
+                           type="checkbox"
                           {...field}
                           register={register}
                           name="mealType"
@@ -463,6 +464,7 @@ const PrimaryPage = () => {
                           options={dataBestPair}
                           setOptions={setDataBestPair}
                           placeholder="search for option"
+                           type="checkbox"
                           name="bestPair"
                           register={register}
                           trigger={trigger}
@@ -641,6 +643,7 @@ const PrimaryPage = () => {
                             options={categories}
                             setOptions={setCategories}
                             placeholder="search for option"
+                             type="radio"
                             name="category"
                             id="categoryId"
                             register={register}
@@ -668,6 +671,7 @@ const PrimaryPage = () => {
                             options={dataSubcategory}
                             setOptions={setDataSubcategory}
                             placeholder="search for option"
+                            type="radio"
                             name="subCategory"
                             register={register}
                             trigger={trigger}

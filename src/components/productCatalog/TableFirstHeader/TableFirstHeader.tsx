@@ -11,7 +11,7 @@ interface TableHeaderProps {
   handleColumnwiseDragEnd: () => void;
   dots: string;
   dollar: string;
-  togglebtns: string;
+  calendericon: string;
   removeicon: string;
 }
 
@@ -26,7 +26,7 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
   handleColumnwiseDragEnd,
   dots,
   dollar,
-  togglebtns,
+  calendericon,
   removeicon,
 }) => {
   return (
@@ -47,7 +47,7 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
           {header.label !== 'Inventory1' && header.label !== 'Customize1' && (
             <span className="dollar">
               {header.label.charAt(header.label.length - 1) === '2' ? (
-                <img src={togglebtns} alt="" />
+                <img src={calendericon} alt="" />
               ) : (
                 <img src={dollar} alt="" />
               )}
