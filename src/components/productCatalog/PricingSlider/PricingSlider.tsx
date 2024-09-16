@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from "react";
 import "./PricingSlider.scss";
-import Weigh from '../../../assets/images/weigh.png';
-import { useSelector } from 'react-redux';
+import Weigh from "../../../assets/images/weigh.png";
+import { useSelector } from "react-redux";
 
 interface SideBarData {
   id: number;
@@ -36,18 +36,46 @@ interface RootState {
   storeMockDataReducer: StoreMockDataReducer;
 }
 
+// Define a union of valid keys
+type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
+
 const PricingSlider: React.FC<PricingSliderProps> = ({ pen, SideBarData }) => {
-  const data = useSelector((state: RootState) => state.storeMockDataReducer.data);
+  const data = useSelector(
+    (state: RootState) => state.storeMockDataReducer.data
+  );
+
+  const [inputs, setInputs] = useState({
+    Dinein1: SideBarData?.[0]?.pricingdetails?.Dinein1 || [],
+    Pickup1: SideBarData?.[0]?.pricingdetails?.Pickup1 || [],
+    Delivery1: SideBarData?.[0]?.pricingdetails?.Delivery1 || [],
+  });
+
+  const handleInputChange = (
+    section: PricingKey,
+    index: number,
+    value: string
+  ) => {
+    setInputs((prev) => ({
+      ...prev,
+      [section]: prev[section].map((item, idx) =>
+        idx === index ? value : item
+      ),
+    }));
+  };
+
+  console.log(inputs)
 
   const PrizingSliderData = [
     {
       heading: "On-Prem",
       Sections: ["SectionA", "SectionB"],
+      inputTypes: ["text", "number"],
     },
     {
       heading: "Of-Prem",
       labels: ["Pickup", "Delivery"],
       InputLabels: ["In-House", "Zomato", "Swiggy"],
+      inputTypes: ["text", "email"],
     },
   ];
 
@@ -59,19 +87,17 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ pen, SideBarData }) => {
         <div key={index} className="Onprem-Ofprem">
           <div className="Onprem-Heading">
             {elem.heading}
-            <div className="SectionA">
+            <div className="Onprem-Sections">
               {elem.Sections?.map((section, seInd) => (
                 <div key={seInd} className="SectionA">
                   <div className="SectionInput">
                     <h3 className="SectionA-Heading">{section}</h3>
                     <input
-                      type="text"
+                      type={elem.inputTypes[seInd] || "text"}
                       className="SectionA-Input"
-                      // Corrected optional chaining and null checks
-                      value={
-                        seInd === 1
-                          ? SideBarData?.[0]?.pricingdetails?.Dinein1?.[1] || ''
-                          : SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || ''
+                      value={inputs.Dinein1[seInd] || ""}
+                      onChange={(e) =>
+                        handleInputChange("Dinein1", seInd, e.target.value)
                       }
                     />
                     <img src={Weigh} className="SectionA-Image" alt="Weigh" />
@@ -84,15 +110,27 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ pen, SideBarData }) => {
                     <h3 className="OnSectionLabelInput-Heading">{label}</h3>
                     <div className="OnPremZomatoInhouseSwiggy">
                       {elem.InputLabels?.map((inputlabels, idx) => (
-                        <div key={inputlabels} className="OnPremZomatoInhouseSwiggyInput">
-                          <h3 className="OnPremZomatoInhouseSwiggyInput-Heading">{inputlabels}</h3>
+                        <div
+                          key={inputlabels}
+                          className="OnPremZomatoInhouseSwiggyInput"
+                        >
+                          <h3 className="OnPremZomatoInhouseSwiggyInput-Heading">
+                            {inputlabels}
+                          </h3>
                           <input
-                            type="text"
+                            type={elem.inputTypes[idx] || "text"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
                             value={
-                              sub < 1
-                                ? SideBarData?.[0]?.pricingdetails?.Pickup1?.[idx] || ''
-                                : SideBarData?.[0]?.pricingdetails?.Delivery1?.[1] || ''
+                              sub === 0
+                                ? inputs.Pickup1[idx] || ""
+                                : inputs.Delivery1[idx] || ""
+                            }
+                            onChange={(e) =>
+                              handleInputChange(
+                                sub === 0 ? "Pickup1" : "Delivery1",
+                                idx,
+                                e.target.value
+                              )
                             }
                           />
                         </div>
