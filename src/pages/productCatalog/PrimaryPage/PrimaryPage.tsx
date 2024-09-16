@@ -288,6 +288,8 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
+  console.log("HI")
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -302,7 +304,7 @@ const PrimaryPage = () => {
             <Navigationpage />
           </div>
           <div className="Primary-page">
-            <form>
+            {/* <form> */}
               <div className="Primary-page-container-one">
                 <div className="Primary-page-container-pairone">
                   <div className="Primary-page-InputFields">
@@ -398,7 +400,7 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
-                          // validation={{ required: "Mealtype is required" }}
+                          validation={{ required: "Mealtype is required" }}
                           error={errors.mealType}
                           dropdownopen={DropdownOpen.mealType}
                           onToggle={() => handleDropdownToggle("mealType")}
@@ -425,6 +427,8 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
+                          error={errors.bestPair}
+                          validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -591,7 +595,7 @@ const PrimaryPage = () => {
                             setValue={setValue}
                             trigger={trigger}
                             getValues={getValues}
-                            // validation={{ required: "category is required" }}
+                            validation={{ required: "category is required" }}
                             error={errors.category}
                             dropdownopen={DropdownOpen.category}
                             setDropdownOpen={setDropdownOpen}
@@ -602,6 +606,7 @@ const PrimaryPage = () => {
                         )}
                       />
                     </div>
+                    
                     <div className="Primary-page-InputFields">
                       <LableComponent lable="SubCategory" />
                       <Controller
@@ -759,7 +764,7 @@ const PrimaryPage = () => {
                 reset={reset}
                 triggerValidation={() => trigger()}
               />
-            </form>
+            {/* </form> */}
           </div>
         </div>
       </div>
