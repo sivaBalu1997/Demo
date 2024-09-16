@@ -288,6 +288,8 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
+  console.log("HI")
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
