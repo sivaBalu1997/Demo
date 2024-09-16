@@ -382,7 +382,7 @@ const PricingDetails = () => {
     }
   }, []);
 
-<<<<<<< Updated upstream
+
   const dispatchEvent = () => {
     const isFormValid = validateForm();
 
@@ -395,14 +395,12 @@ const PricingDetails = () => {
       state: { pagename: "Item customizations" },
     });
   };
-=======
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
   //   history.push(`/productCatalog/Itemcustomizations`, {
   //     state: { pagename: "Item customizations" },
   //   });
   // };
->>>>>>> Stashed changes
 
   useEffect(() => {
     setOptions(data);
@@ -449,37 +447,7 @@ const PricingDetails = () => {
 
               <div className="KitchenRelated">
                 <div className="D1kitchen">
-<<<<<<< Updated upstream
-                  <Controller
-                    name="kitchen"
-                    control={control}
-                    defaultValue={[]}
-                    rules={{ required: "Please select at least one option" }}
-                    render={({ field }: any) => (
-                      <Dropdown
-                        selectedValues={selectedValues}
-                        onSelect={(values) => {
-                          setSelectedValues(values);
-                          if (field?.onChange) {
-                            field.onChange(values);
-                          }
-                          validateDropdown(values, "kitchen");
-                        }}
-                        options={options.map((elem) => elem.name)}
-                        label="Kitchen Station1*"
-                        onBlur={() => {
-                          if (field?.onBlur) {
-                            handleBlur(field?.value, "kitchen");
-                          }
-                          validateDropdown(field?.value, "kitchen");
-                        }}
-                        validation={validationState.kitchen}
-                        width="Drop1"
-                      />
-                    )}
-                  />
-                </div>  
-=======
+
                 <Dropdown
   name="kitchenstation"
   options={options1}
@@ -498,9 +466,8 @@ const PricingDetails = () => {
   onToggle={() => handleDropdownToggle("Kitchen")}
   
 />
+</div>
 
-                </div>
->>>>>>> Stashed changes
 
                 <div className="D1kitchen">
                   {/* <Controller
