@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from 'react';
 import "./PricingSlider.scss";
 import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
@@ -78,6 +78,30 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ pen, SideBarData }) => {
       inputTypes: ["text", "email"],
     },
   ];
+const[count,setCount]=useState<number>(0)
+const [sectionAValue, setSectionAValue] = useState<string>('');
+const[showCompare,setShowCompare]=useState(false)
+const handleSectionAChange = (e: React.ChangeEvent<HTMLInputElement>, seInd: number) => {
+  const inputValue = Number(e.target.value);
+  if (!isNaN(inputValue)) {
+    setCount(inputValue); // Update count with the input value
+  }
+};
+useEffect(() => {
+  // Assuming we want to monitor the first value of "Section A" for changes
+  const updatedValue = SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || '';
+  setSectionAValue(updatedValue);
+
+  // Convert the value to a number and update the count state if valid
+  const numericValue = Number(updatedValue);
+  if (isNaN(numericValue)) {
+    setCount(numericValue);
+  }
+}, [SideBarData]);
+
+const handleComparision=()=>{
+setShowCompare(!showCompare)
+}
 
   return (
     <div className="PricingSlider-Container">
@@ -95,12 +119,18 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ pen, SideBarData }) => {
                     <input
                       type={elem.inputTypes[seInd] || "text"}
                       className="SectionA-Input"
-                      value={inputs.Dinein1[seInd] || ""}
-                      onChange={(e) =>
-                        handleInputChange("Dinein1", seInd, e.target.value)
+                      // Corrected optional chaining and null checks
+                      value={
+                        seInd === 1
+                          ? SideBarData?.[0]?.pricingdetails?.Dinein1?.[1] || ''
+                          : SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || ''
+                        
                       }
+                      onChange={(e) => handleSectionAChange(e, seInd)} // Handle input change
                     />
-                    <img src={Weigh} className="SectionA-Image" alt="Weigh" />
+                    
+                    
+                    <img src={Weigh} className="SectionA-Image" alt="Weigh" onClick={handleComparision} />
                   </div>
                 </div>
               ))}
@@ -133,6 +163,7 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ pen, SideBarData }) => {
                               )
                             }
                           />
+                          {showCompare&&<p className='Compare'>{sectionAValue}</p>}
                         </div>
                       ))}
                     </div>
