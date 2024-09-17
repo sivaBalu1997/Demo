@@ -103,7 +103,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSearchTerm(e.target.value);
   
     if (!dropdownopen && e.target.value !== "") {
-      onToggle();
+      // onToggle();
     }
     setShowselectedOption(false);
   };
@@ -219,7 +219,8 @@ const DropDownList: React.FC<DropdownProps> = ({
             {dropdownopen ? (
               <img
                 src={dropdown}
-                onClick={()=>{onToggle()
+                onClick={()=>{
+                  // onToggle()
                   setShowselectedOption(true);
 
                 }}
@@ -229,7 +230,8 @@ const DropDownList: React.FC<DropdownProps> = ({
             ) : (
               <img
                 src={dropdown}
-                onClick={()=>{onToggle()
+                onClick={()=>{
+                  // onToggle()
                   setShowselectedOption(false);
 
                 }}
