@@ -668,8 +668,8 @@ const PricingDetails = () => {
                 getFormData={getValues}
                 seletedpage="Pricing"
                 reset={reset}
-                triggerValidation={() => trigger()}
-                mainForm={mainForm}
+                // triggerValidation={() => trigger()}
+                // mainForm={mainForm}
                 
               />
             </div>

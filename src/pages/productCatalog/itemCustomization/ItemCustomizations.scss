@@ -509,6 +509,7 @@ input[type="number"] {
   padding-left: 10px;
 }
 
+
 .searchIcon {
   width: 21px;
   height: 21px;
@@ -574,4 +575,27 @@ input[type="number"] {
   .Add-Modification-btn-ItemCustomizations {
     margin-left: 20.75rem;
   }
+}
+
+.deleteModiferContainer{
+  position: relative;
+  left: 640px;
+  top: -3px;
+ 
+  cursor: pointer;
+}
+
+.Delete-text{
+  width: 200px;
+  color: red;
+  display: flex;
+  height: 20px;
+  font-size: 14px;
+  font-family: Poppins;
+}
+
+.SpanDelete{
+  font-size: 25px;
+  transform: translate(-5px,-8px);
+
 }

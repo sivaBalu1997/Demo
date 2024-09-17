@@ -4,12 +4,12 @@ import edit from "../../../assets/images/edit copy.png";
 import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
-
+ 
 interface Option {
   name: string;
   id: string;
 }
-
+ 
 interface DropdownProps {
   name: string;
   id?: string;
@@ -32,7 +32,7 @@ interface DropdownProps {
     React.SetStateAction<Record<string, boolean>>
   >;
 }
-
+ 
 const DropDownList: React.FC<DropdownProps> = ({
   name,
   options: initialOptions,
@@ -59,7 +59,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption,setShowselectedOption]=useState<boolean>(false);
-
+ 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -73,7 +73,6 @@ const DropDownList: React.FC<DropdownProps> = ({
           bestPair: false,
           category: false,
           subCategory: false,
-          Kitchen:false
         });
         setAddNewButton(false);
         setEditList(false);
@@ -85,11 +84,11 @@ const DropDownList: React.FC<DropdownProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setDropdownOpen]);
-
+ 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
-
+ 
   useEffect(() => {
     const categoryValue = getValues("category");
     if (!categoryValue) {
@@ -98,16 +97,16 @@ const DropDownList: React.FC<DropdownProps> = ({
       setDisablesubcategory(false);
     }
   }, [getValues]);
-
+ 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-  
+ 
     if (!dropdownopen && e.target.value !== "") {
-      onToggle();
+      // onToggle();
     }
     setShowselectedOption(false);
   };
-
+ 
   useEffect(() => {
     const initialSelectedValue = getValues(name);
     if (initialSelectedValue) {
@@ -116,17 +115,17 @@ const DropDownList: React.FC<DropdownProps> = ({
       });
       const validOptions = selectedOptionIds.filter(Boolean) as Option[];
       setSelectedOptions(validOptions);
-
-  
+ 
+ 
       setValue(
         name,
         validOptions.map((opt) => opt.name).join(", ")
       );
     }
   }, [getValues(name), setValue, initialOptions]);
-
-
-
+ 
+ 
+ 
   const handleSelect = (option: Option) => {
     if (type === "checkbox") {
       const isAlreadySelected = selectedOptions.some(
@@ -152,10 +151,10 @@ const DropDownList: React.FC<DropdownProps> = ({
     // if (dropdownopen) {
     //   onToggle();
     // }
-
-
+ 
+ 
   };
-
+ 
   const handleNewItemAdd = () => {
     const newItemLabel = NewItemref.current?.value.trim();
     if (newItemLabel) {
@@ -169,31 +168,31 @@ const DropDownList: React.FC<DropdownProps> = ({
       setAddNewButton(false);
     }
   };
-
+ 
   const filteredOptions = initialOptions.filter((option) =>
     option.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+ 
   const handleNewItemAddition = () => {
     setAddNewButton((prevAddNew) => !prevAddNew);
   };
-
+ 
   const handleedit = () => {
     setEditList((prevEditList) => !prevEditList);
   };
-
+ 
   const handledeletion = (value: string) => {
     setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
     setOptions((item) => item.filter((opt) => opt.id !== value));
   };
-
+ 
   // const handleBlur = () => {
   //   trigger(name);
   // };
-  // value={type === "checkbox" 
+  // value={type === "checkbox"
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
-
+ 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
@@ -201,7 +200,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           <input
             type="text"
             {...register(name, validation)}
-            value={searchTerm==="" && showselectedOption? type === "checkbox" 
+            value={searchTerm==="" && showselectedOption? type === "checkbox"
               ? selectedOptions.map((opt) => opt.name).join(", ")
               : selectedOptions[0]?.name || "" :searchTerm }
             onChange={handleSearch}
@@ -222,7 +221,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 onClick={()=>{
                   onToggle()
                   setShowselectedOption(true);
-
+ 
                 }}
                 alt="dropdown"
                 className="dropdownimageclosed"
@@ -233,7 +232,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 onClick={()=>{
                   onToggle()
                   setShowselectedOption(false);
-
+ 
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"
@@ -241,12 +240,12 @@ const DropDownList: React.FC<DropdownProps> = ({
             )}
           </span>
         </div>
-
+ 
         <div>
           {error && <p className="Dropdown-Error-message">{error.message}</p>}
         </div>
       </div>
-
+ 
       {dropdownopen && (
         <div className="dropdown-body">
           <div className="Dropdown-lists-and-edit">
@@ -259,7 +258,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                   const isOptionSelected = selectedOptions.some(
                     (opt) => opt.id === option.id
                   );
-
+ 
                   return (
                     <div className="dropdown-option-list" key={index}>
                       <li className="dropdown-option">
@@ -316,7 +315,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               )}
             </div>
           </div>
-
+ 
           {
             <div
               className="dropdown-Addbutton"
@@ -340,7 +339,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                   </div>
                 </div>
               )}
-
+ 
               <div className="Addnew-edit-fields">
                 <div className="dropdown-edit-button">
                   {editList && editValues && (
@@ -374,5 +373,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     </div>
   );
 };
-
+ 
 export default DropDownList;
+ 
