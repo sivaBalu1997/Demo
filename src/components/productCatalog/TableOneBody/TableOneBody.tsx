@@ -127,4 +127,3 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 };
 
 export default TableOneBody;
-//https://cdn.pixabay.com/photo/2023/07/12/20/40/ai-generated-8123328_640.png

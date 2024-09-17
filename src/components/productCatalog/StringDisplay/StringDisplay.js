@@ -19,6 +19,7 @@ const StringDisplay = ({ text }) => {
       className= {`${isHovered  && text.length > 5&& "string-display"}`}  
     >
       {/* {text.length > length && !isHovered ? `${text.slice(0, length)}...` : text} */}
+      {text}
     </span>
   );
 };
