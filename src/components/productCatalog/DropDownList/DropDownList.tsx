@@ -27,7 +27,7 @@ interface DropdownProps {
   trigger: any;
   getValues: any;
   dropdownopen?: boolean;
-  onToggle?: () => void;
+  onToggle: () => void;
   setDropdownOpen: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
@@ -103,7 +103,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSearchTerm(e.target.value);
   
     if (!dropdownopen && e.target.value !== "") {
-      // onToggle();
+      onToggle();
     }
     setShowselectedOption(false);
   };
@@ -220,7 +220,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={()=>{
-                  // onToggle()
+                  onToggle()
                   setShowselectedOption(true);
 
                 }}
@@ -231,7 +231,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={()=>{
-                  // onToggle()
+                  onToggle()
                   setShowselectedOption(false);
 
                 }}
