@@ -91,8 +91,7 @@ interface Modification {
   [key: string]: any;
 }
 interface MainForm {
-  maxServingAllowed:string,
-  threshold:string;
+  form:FormState
   kitchenstation: string;
   Preparationtime: string;
   KitchenStationId: string;
@@ -205,6 +204,19 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       } else {
         console.error("formData.kitchenstation is undefined");
       }
+      if (formData?.form?.Inventory1) {
+        PricingDetails = {
+          ...PricingDetails,
+          form: {
+            ...(PricingDetails || {}),  // Ensure that form exists
+            Inventory1: formData.form.Inventory1,
+            Inventory2: formData.form.Inventory2 || "",  // Ensure it's always a string
+          }
+        };
+      } else {
+        console.error("formData.form.Inventory1 is undefined");
+      }
+      
       
       // Dispatch your action with the properly formed PricingDetails
       dispatch(PricingDetailRequest(PricingDetails));
