@@ -8,7 +8,7 @@ interface DaysOfWeekProps {
 }
 
 const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays }) => {
-    const daysOfWeek = ["S", "M", "T", "W", "Th", "F", "S"];
+    const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
     const toggleHighlight = (index: number) => {
         if (days.includes(index)) {
