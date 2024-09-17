@@ -57,11 +57,14 @@
   .navmenu-container{
     overflow-x: hidden;
     height:320px;
-    overflow-y: auto;
+    overflow-y: scroll;
     z-index: 0;
     // border: 1px solid red;
   
-  
+    &::-webkit-scrollbar {
+      width: 32px;
+      height: 22px;
+}
     
    
   }

@@ -117,6 +117,7 @@
     const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
     const [options5, setOptions5] = useState(["Breakfast", "Lunch", "Dinner"]);
     const [options6, setOptions6] = useState(["Breakfast", "Lunch", "Dinner"]);
+    const [optionsselectthird, setOptionsSelectThird] = useState(["Swiggy", "Zomato"]);
     const [availabilityid, setAvailabilityid] = useState<string[]>([]);
     const [selectedValues, setSelectedValues] =
       React.useState<SelectedValuesState>({});
@@ -125,7 +126,7 @@
     const [selectedValues3, setSelectedValues3] = useState<string[]>([]);
     const [selectedValues4, setSelectedValues4] = useState<string[]>([]);
     const [selectedValues5, setSelectedValues5] = useState<string[]>([]);
-
+    const[selectedthirdvalues,setSelectedThirdValues]=useState<string[]>([]);
     const [selectedValuesmealtype, setSelectedValuesMealType] =
       React.useState<SelectedValuesMealTypeState>([]);
     const [optionsmealtype, setOptionsMealType] = useState([
@@ -482,6 +483,7 @@
         console.error("Index out of bounds");
         return;
       }
+      
 
       // Update selected values state
 
@@ -489,6 +491,10 @@
       const newDineInFields = [...dineinfields];
       newDineInFields[index].DineInMealType = value;
       setDineInFields(newDineInFields);
+    };
+    const handleSelectThird = (value: string[]): void => {
+      setSelectedThirdValues(value);
+      validateDropdown(value, "ThirdDeliverySwiggyZomato");
     };
 
     return (
@@ -800,74 +806,69 @@
                 Third Party delivery
               </h1>
               <div>
-                <p className="LabelPrice1"> Swiggy,Zomato*</p>
+               
                 <div className="Delivery11">
-                  <input
-                    type="text"
-                    className="DeliveryInput2Normal"
-                    onChange={(e) =>
-                      setformNormal({
-                        ...formNormal,
-                        SwiggyorzomatoNormal: e.target.value,
-                      })
-                    }
-                  ></input>
+                 <DropDown
+                  selectedValues={selectedthirdvalues}
+                  onSelect={handleSelectThird}
+                  options={optionsselectthird}
+                  label="SwiggyZomato"
+                  onBlur={() =>
+                    validateDropdown(selectedValues3, "Delivery")
+                  }
+                  validation={validationState.Delivery}
+                  width="Drop1"/>
                 </div>
-                <p className="LabelPrice2"> Swiggy Price*</p>
-                <div className="Delivery12">
-                  <input
-                    type="text"
-                    className="DineInInput1Normal"
-                    value={formNormal.SwiggyNormal}
-                    onChange={(e) =>
-                      setformNormal({
-                        ...formNormal,
-                        SwiggyNormal: e.target.value,
-                      })
-                    }
-                  ></input>
-                  <div className="Third1">
-                    <DropDown
-                      selectedValues={selectedValues4}
-                      onSelect={handleSelect5}
-                      options={options5}
-                      
-                      width="Drop1"
-                      label="Meal Type*"
-                      onBlur={() =>
-                        validateDropdown(selectedValues4, "ThirdDelivery1")
-                      }
-                      validation={validationState.ThirdDelivery1}
-                    />
-                  </div>
-                </div>
-                <p className="LabelPrice2"> Zomato Price*</p>
-                <div className="Delivery13">
-                  <input
-                    type="text"
-                    className="DineInInput1Normal"
-                    value={formNormal.ZomatoNormal}
-                    onChange={(e) =>
-                      setformNormal({
-                        ...formNormal,
-                        ZomatoNormal: e.target.value,
-                      })
-                    }
-                  ></input>
-                  <div className="Third2">
-                    <DropDown
-                      selectedValues={selectedValues5}
-                      onSelect={handleSelect6}
-                      options={options6}
-                      width="Drop1"
-                      label="Meal Type*"
-                      onBlur={() =>
-                        validateDropdown(selectedValues5, "ThirdDelivery2")
-                      }
-                      validation={validationState.ThirdDelivery2}
-                    />
-                  </div>
-                </div>
+                {selectedthirdvalues.includes("Swiggy") && (
+        <div className="LabelSwiggyInputDropDown">          
+        <div className="LabelSwiggyInput">
+          <label className="swiggyZomatoHeading"></label>
+          <input className="swiggyZomato-input" type="text" placeholder="Enter Swiggy details" onChange={(e) =>
+                          setformNormal({
+                            ...formNormal,
+                            SwiggyNormal: e.target.value,
+                          })
+                        } />
+        </div>
+        <div className="Third1">
+          <DropDown 
+            selectedValues={selectedValues4}
+            onSelect={handleSelect5}
+            options={options4}
+            label="Meal Type*"
+            onBlur={() =>
+              validateDropdown(selectedValues3, "ThirdDelivery1")
+            }
+            validation={validationState.ThirdDelivery1}
+            width="Drop1" />
+        </div>
+        </div>
+      )}
+      {selectedthirdvalues.includes("Zomato") && (
+        <div className="LabelSwiggyInputDropDown">          
+        <div className="LabelSwiggyInput">
+          <label className="swiggyZomatoHeading"></label>
+          <input className="swiggyZomato-input" type="text" placeholder="Enter Zomato details" onChange={(e) =>
+                          setformNormal({
+                            ...formNormal,
+                            ZomatoNormal: e.target.value,
+                          })
+                        } />
+        </div>
+        <div className="Third2">
+          <DropDown 
+            selectedValues={selectedValues5}
+            onSelect={handleSelect6}
+            options={options4}
+            label="Meal Type*"
+            onBlur={() =>
+              validateDropdown(selectedValues5, "ThirdDelivery2")
+            }
+            validation={validationState.ThirdDelivery2}
+            width="Drop1" />
+        </div>
+        </div>
+      )}
               </div>
               <div className="dineInChooseDayContainer">
                 {showDayThird ? (

@@ -26,6 +26,7 @@ import {
   calorieponitradio,
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
+import Inventory from "components/productCatalog/Inventory/Inventory";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -111,7 +112,7 @@ interface DropdownValidationState {
   Deliveryspecial2: ValidationState;
   tagName: never;
 }
-interface FormState {
+interface FormState1 {
   Inventory1: string;
   Inventory2: string;
 }
@@ -122,8 +123,7 @@ interface Option {
 
 
 interface MainForm {
-  maxServingAllowed:string,
-  threshold:string;
+ form:FormState1,
   kitchenstation: string;
   Preparationtime: string;
   KitchenStationId: string;
@@ -194,8 +194,10 @@ const PricingDetails = () => {
   
     {
       defaultValues:{
-       maxServingAllowed:"",
-       threshold:"",
+      form:{
+        Inventory1:"",
+        Inventory2:""
+      },
         kitchenstation:"",
         Preparationtime:"",
         normalForm:mainFormState,
@@ -350,8 +352,10 @@ const PricingDetails = () => {
   };
 
   let mainForm: MainForm = {
-    maxServingAllowed:"",
-    threshold:"",
+    form:{
+      Inventory1:"",
+      Inventory2:""
+    },
     kitchenstation: "",
     Preparationtime: "",
     KitchenStationId: "",
@@ -478,8 +482,8 @@ const PricingDetails = () => {
                     render={({ field }: any) => (
                       <Dropdown
                         selectedValues={selectedValue1}
-                        onSelect={(values) => {
-                          setSelectedValue1(values);
+                        onSelect={(value) => {
+                          setSelectedValue1(value);
                           if (field?.onChange) {
                             field.onChange(values);
                           }
@@ -526,9 +530,9 @@ const PricingDetails = () => {
                     </div>
                     <div className="InventoryInput">
                       <Controller
-                        name="Inventory1"
+                       name="form.Inventory1"
                         control={control}
-                        defaultValue={form.Inventory1 || ""}
+                        defaultValue="" 
                         render={({ field }: any) => (
                           <input
                             className="I1"
@@ -536,15 +540,12 @@ const PricingDetails = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-
-                              if (field?.onChange) {
-                                field.onChange(value);
-                              }
-                              // Update the form state
-                              setForm((prevState) => ({
-                                ...prevState,
-                                Inventory1: value,
-                              }));
+                      
+                              // Update the field value in react-hook-form
+                              setValue("form.Inventory1", value); // Update form.Inventory1 in the useForm state
+                      
+                              // Optionally trigger validation if needed
+                              trigger("form.Inventory1");
                             }}
                             style={{
                               borderColor: formerrors.Inventory1
@@ -557,9 +558,9 @@ const PricingDetails = () => {
                       />
 
                       <Controller
-                        name="Inventory2"
+                        name="form.Inventory2"
                         control={control}
-                        defaultValue={form.Inventory2 || ""}
+                        defaultValue=""
                         render={({ field }: any) => (
                           <input
                             className="I1"
@@ -567,15 +568,12 @@ const PricingDetails = () => {
                             {...field}
                             onChange={(e) => {
                               const value = e.target.value;
-                              if (field?.onChange) {
-                                field.onChange(value);
-                              }
-
-                              // Update the form state
-                              setForm((prevState) => ({
-                                ...prevState,
-                                Inventory2: value,
-                              }));
+                      
+                              // Update the field value in react-hook-form
+                              setValue("form.Inventory2", value); // Update form.Inventory1 in the useForm state
+                      
+                              // Optionally trigger validation if needed
+                              trigger("form.Inventory2");
                             }}
                             style={{
                               borderColor: formerrors.Inventory2
