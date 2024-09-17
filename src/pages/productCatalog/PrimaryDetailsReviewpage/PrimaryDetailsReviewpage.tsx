@@ -244,7 +244,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
                       <div>
                         <ReviewValues
-                          label="SubCategory"
+                          label="Sub-category"
                           textvalue={
                             fetchedprimarydata.subCategory
                               ? fetchedprimarydata.subCategory
