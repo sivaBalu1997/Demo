@@ -669,7 +669,7 @@ const PricingDetails = () => {
                 seletedpage="Pricing"
                 reset={reset}
                 // triggerValidation={() => trigger()}
-                mainform={mainForm}
+                // mainForm={mainForm}
                 
               />
             </div>

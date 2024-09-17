@@ -192,30 +192,17 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       console.log(formData);  // Make sure formData contains valid data
       
       // Append or update the kitchenstation in PricingDetails
-      if (formData.kitchenstation) {
-        PricingDetails = {
-          ...PricingDetails,             // Spread the existing values in PricingDetails
-          kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
-        };
-      } else {
-        console.error("formData.kitchenstation is undefined");
-      }
-      if (formData?.form?.Inventory1) {
-        PricingDetails = {
-          ...PricingDetails,
-          form: {
-            ...(PricingDetails || {}),  // Ensure that form exists
-            Inventory1: formData.form.Inventory1,
-            Inventory2: formData.form.Inventory2 || "",  // Ensure it's always a string
-          }
-        };
-      } else {
-        console.error("formData.form.Inventory1 is undefined");
-      }
-      
+      // if (formData.kitchenstation) {
+      //   PricingDetails = {
+      //     ...PricingDetails,             // Spread the existing values in PricingDetails
+      //     kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
+      //   };
+      // } else {
+      //   console.error("formData.kitchenstation is undefined");
+      // }
       
       // Dispatch your action with the properly formed PricingDetails
-      dispatch(PricingDetailRequest(PricingDetails));
+      // dispatch(PricingDetailRequest(PricingDetails));
       
       // Navigate to the next page
       history.push("/productCatalog/Itemcustomizations");

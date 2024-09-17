@@ -305,6 +305,13 @@ const ItemCustomizations: React.FC = () => {
     setSearchQuery(e.target.value);
   };
 
+  const handleDeleteModifier=(index:number)=>{
+    const newmodification=[...modifications]
+    newmodification.splice(index,1)
+    setModifications(newmodification)
+
+  }
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -390,6 +397,10 @@ const ItemCustomizations: React.FC = () => {
                               }
                               onBlur={(e) => handleBlur(e, modIndex)}
                             />
+                            <div className="deleteModiferContainer" onClick={()=>handleDeleteModifier(modIndex)}>
+                              <a className="Delete-text"><span className="SpanDelete">-</span>Delete</a>
+                              
+                            </div>
                           </div>
 
                           <div className="flexofradio">

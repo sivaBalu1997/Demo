@@ -50,8 +50,9 @@ const Step3Review:React.FC = () => {
       </div>
 
       {/* Render itemCustomizationData if it's an array */}
-      {Array.isArray(itemCustomizationData) && itemCustomizationData.length > 0 ? (
-        itemCustomizationData.map((elem, index) => (
+      {Array.isArray(itemCustomizationData) && itemCustomizationData.length > 0  ? (
+        itemCustomizationData
+        .filter(elem => elem.modifierName!="").map((elem, index) => (
           <div key={index} className="item-customization">
             {/* Example of how to display properties of each item */}
             <div className="step3-Review-modifier-section">
