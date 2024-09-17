@@ -105,6 +105,7 @@ interface SubmitButtonProps {
   reset: () => void;
   modifications?: Modification[];
   trigger?: any;
+  mainform?:MainForm
   // triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
 }
 
@@ -114,7 +115,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   reset,
   modifications,
   // triggerValidation,
-  trigger
+  trigger,
+  mainform
 }) => {
   
   const history = useHistory();
@@ -183,7 +185,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     } 
     else if (seletedpage === "Pricing") {
       // Ensure PricingDetails is initialized properly, either using mainForm or fallback to an empty object
-      let PricingDetails = { ...mainForm };  // Spread the existing mainForm object to keep its values intact
+       let PricingDetails ={ ...mainform };  // Spread the existing mainForm object to keep its values intact
       
       // Fetch the form data
       const formData = getFormData();
