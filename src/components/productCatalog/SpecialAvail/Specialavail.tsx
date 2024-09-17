@@ -43,7 +43,6 @@ interface FormState {
 type MealType = string[];
 type SelectedValuesMealTypeState = MealType[];
 interface SpecialAvailProps {
-  getSpecialForm: (form: any) => void;
   validateDropdown: (value: string[], key: string | number) => void; // Expecting only string[] for value
   validationState: Record<
     string | number,
@@ -62,7 +61,6 @@ interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
 }
 const Specialavail: React.FC<SpecialAvailProps> = ({
-  getSpecialForm,
   validateDropdown,
   validationState,
   setMainFormSpecial,
@@ -94,10 +92,17 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   const [selectedValuesdelivery, setSelectedValuesDelivery] = useState<
     string[]
   >([]);
+  const [selectedswiggyzomato, setSelectedSwiggyZomato] = useState<
+    string[]
+  >([]);
   const [optionsdelivery, setOptionsDelivery] = useState<string[]>([
     "Breakfast",
     "Lunch",
     "Dinner",
+  ]);
+  const [swiggyZomato, setSwiggyZomato] = useState<string[]>([
+    "Swiggy",
+    "Zomato"
   ]);
   const [selectedValuesthird1, setSelectedValuesThird1] = useState<string[]>(
     []
@@ -307,7 +312,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
       { DineInPrice: "", DineInMealType: [], DineInServiceArea: [] },
     ]);
   };
-
+  const handleSelectZomatoSwiggy = (value: string[]) => {
+    setSelectedSwiggyZomato(value);
+  };
   useEffect(() => {
     if (prizingDetail) {
       setSelectedDate(prizingDetail?.specialForm?.fromDate || "");
@@ -588,61 +595,73 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               Third Party delivery
             </h1>
             <div>
-              <p className="LabelPrice1"> Swiggy,Zomato*</p>
-              <div className="Delivery11">
-                <input
-                  type="text"
-                  className="DeliveryInput2"
-                  value={form1.Swiggyorzomato}
-                  onChange={(e) =>
-                    setForm({ ...form1, Swiggyorzomato: e.target.value })
-                  }
-                ></input>
+              <p className="LabelZoamtoSwiggy1"> Swiggy,Zomato*</p>
+              <div className="Delivery11Zomato">
+               <Dropdown
+                selectedValues={selectedswiggyzomato}
+                onSelect={handleSelectZomatoSwiggy}
+                options={swiggyZomato}
+                label=""
+                onBlur={() =>
+                  validateDropdown(
+                    selectedValuespickup,
+                    "Deliveryspecial"
+                  )
+                }
+                validation={validationState.Deliveryspecial}
+                width="Drop1"
+               />
+
               </div>
-              <p className="LabelPriceSwiggy"> Swiggy*</p>
-              <div className="Delivery11  thirdparty ">
-                <input
-                  type="text"
-                  className="DineInInput1"
-                  value={form1.Swiggy}
-                  onChange={(e) => setForm({ ...form1, Swiggy: e.target.value })}
-                ></input>
-                <div className="Third1Special">
-                  <Dropdown
-                    selectedValues={selectedValuesthird1}
-                    onSelect={handleSelectThird1}
-                    options={optionsthird1}
-                    width="Drop1"
-                    onBlur={() =>
-                      validateDropdown(selectedValuesthird1, "Deliveryspecial1")
-                    }
-                    validation={validationState.Deliveryspecial1}
-                    label="Meal Type*"
-                  />
-                </div>
-              </div>
-              <p className="LabelPriceSwiggy"> Zomato*</p>
-              <div className="Delivery11 thirdparty">
-                <input
-                  type="text"
-                  className="DineInInput1"
-                  value={form1.Zomato}
-                  onChange={(e) => setForm({ ...form1, Zomato: e.target.value })}
-                ></input>
-                <div className="Third2">
-                  <Dropdown
-                    selectedValues={selectedValuesthird2}
-                    onSelect={handleSelectThird2}
-                    options={optionsthird2}
-                    width="Drop1"
-                    onBlur={() =>
-                      validateDropdown(selectedValuesthird2, "Deliveryspecial2")
-                    }
-                    validation={validationState.Deliveryspecial2}
-                    label="MealType"
-                  />
-                </div>
-              </div>
+              {selectedswiggyzomato.includes("Swiggy") && (
+        <div className="LabelSwiggyInputDropDown">          
+        <div className="LabelSwiggyInput">
+          <label className="swiggyZomatoHeading"></label>
+          <input className="swiggyZomato-input" type="text" placeholder="Enter Swiggy details" onChange={(e) =>
+                        setForm({ ...form1, Swiggy: e.target.value })
+                      } />
+        </div>
+        <div className="Third1">
+          <Dropdown 
+            selectedValues={selectedValuesthird1}
+            onSelect={handleSelectThird1}
+            options={optionsthird1}
+            label="Meal Type*"
+            onBlur={() =>
+              validateDropdown(selectedValuesthird1, "ThirdDelivery1")
+            }
+            validation={validationState.ThirdDelivery1}
+            width="Drop1" />
+        </div>
+        </div>
+      )}
+      {selectedswiggyzomato.includes("Zomato") && (
+        <div className="LabelSwiggyInputDropDown">          
+        <div className="LabelSwiggyInput">
+          <label className="swiggyZomatoHeading"></label>
+          <input className="swiggyZomato-input" type="text" placeholder="Enter Zomato details" onChange={(e) =>
+                          setForm({
+                            ...form1,
+                            Zomato: e.target.value,
+                          })
+                        } />
+        </div>
+        <div className="Third2">
+          <Dropdown 
+            selectedValues={selectedValuesthird2}
+            onSelect={handleSelectThird2}
+            options={optionsthird2}
+            label="Meal Type*"
+            onBlur={() =>
+              validateDropdown(selectedValuesthird2, "ThirdDelivery2")
+            }
+            validation={validationState.ThirdDelivery2}
+            width="Drop1" />
+        </div>
+        </div>
+      )}
+      
+              
             </div>
           </div>
         ) : (

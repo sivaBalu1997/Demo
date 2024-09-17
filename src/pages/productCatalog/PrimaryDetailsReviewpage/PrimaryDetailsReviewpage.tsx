@@ -10,8 +10,9 @@ import ReviewValues from "../../../components/productCatalog/ReviewValues/Review
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
 import Step3Review from "../../../components/productCatalog/Step3Review/Step3Review";
 import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImageSelected/PrimaryImageSelected";
-import { addMenuItemRequest } from "redux/productCatalog/productCatalogActions";
+import { addMenuItemRequest, addMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
+import { useHistory } from "react-router-dom";
 
 interface Image {
   id: string;
@@ -87,6 +88,7 @@ interface RootState {
 }
 
 const PrimaryDetailsReviewpage: React.FC = () => {
+  const history=useHistory()
   const dispatch = useDispatch();
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
@@ -94,7 +96,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const primarypagedetails = useSelector((state: RootState) => state);
 
-  const data = {
+  const data = [{
+    
     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
     itemCode: primarypagedetails.primarypage.data.itemCode,
     altName: "alt name",
@@ -111,7 +114,17 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     category: primarypagedetails.primarypage.data.category,
     subCategory: primarypagedetails.primarypage.data.subCategory,
     itemId: null,
-  };
+
+  }]
+
+  const handleDispatch=()=>{
+
+    dispatch(addMenuItemRequest(data))
+    dispatch(addMockDataRequest(data))
+    history.push("/menuListing")
+    
+    
+  }
 
   return (
     <div style={{ display: "flex", width: "93%" }}>
@@ -367,7 +380,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           </button>
           <button
             className="saveall"
-            onClick={() => dispatch(addMenuItemRequest(data))}
+            onClick={handleDispatch}
           >
             Submit for review
           </button>

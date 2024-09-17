@@ -168,7 +168,7 @@ border: 1px solid rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: start;
   gap: 0.313rem;
-  margin-top: 0.775rem;
+  margin-top: 30px;
   margin-bottom: 10px;
  
   
@@ -268,7 +268,7 @@ border: 1px solid rgba(0, 0, 0, 0.3);
   margin-left: 5px;
 }
 .LabelPrice2{
-  transform: translateY(-4px);
+  transform: translateY(27px);
   color:#666666;
   font-size: 14px;
   font-weight: 400;
@@ -320,7 +320,7 @@ border: 1px solid rgba(0, 0, 0, 0.3);
 .Delivery12{
   border-radius:0.313rem; 
   margin-bottom: 0.825rem;
-  margin-top: -5px;
+  margin-top: 30px;
   display: flex;
   z-index: 100;
   justify-content:flex-start;
@@ -359,6 +359,7 @@ margin-left: 20px;
   }
 }
 .Delivery11{
+  margin-left: -29px;
   border-radius:0.313rem; 
   // margin-bottom: 0.625rem;
   margin-top: 0.7rem;
@@ -381,12 +382,32 @@ margin-left: 20px;
   margin-left: -10px;
 }
 .Third1{
-  margin-top: -25px;
+  margin-top: 15px;
   margin-left: -2px;
   z-index: 2;
 }
 .Third2{
-  margin-top: -25px;
+  margin-top: 10px;
   margin-left: -2px;
   z-index: 1;
+}
+.LabelSwiggyInputDropDown{
+  display: flex;
+  justify-content: flex-start;
+}
+.swiggyZomato-input{
+  margin-top: 40px;
+  width:200px;
+  height: 44px;
+}
+.swiggyZomatoHeading{
+  transform: translateY(24px);
+  color:#666666;
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: 5px;
+}
+.LabelSwiggyInput{
+  display: flex;
+  flex-direction: column;
 }

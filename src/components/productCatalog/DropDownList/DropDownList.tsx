@@ -26,8 +26,8 @@ interface DropdownProps {
   error?: FieldError;
   trigger: any;
   getValues: any;
-  dropdownopen: boolean;
-  onToggle: () => void;
+  dropdownopen?: boolean;
+  onToggle?: () => void;
   setDropdownOpen: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
@@ -73,6 +73,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           bestPair: false,
           category: false,
           subCategory: false,
+          Kitchen:false
         });
         setAddNewButton(false);
         setEditList(false);

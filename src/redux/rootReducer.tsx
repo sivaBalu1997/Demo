@@ -4,7 +4,7 @@ import employeeReducer from "./employee/employeeReducers";
 import menuReducer from "./menu/menuReducer";
 import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
-import productCatalogReducer, { storeMockDataFilteredReducer, storeMockDataReducer } from "./productCatalog/productCatalogReducers";
+import productCatalogReducer, { addMockDataReducer, storeMockDataFilteredReducer, storeMockDataReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
 import { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer } from "./productCatalog/productCatalogReducers";
 
@@ -20,7 +20,8 @@ const rootReducer = combineReducers({
   itemCustomizationsReducer1:itemCustomizationsReducer,
   PricingDetailReducer:PricingDetailReducer,
   storeMockDataReducer:storeMockDataReducer,
-  storeMockDataFilteredReducer:storeMockDataFilteredReducer
+  storeMockDataFilteredReducer:storeMockDataFilteredReducer,
+  addMockDataReducer:addMockDataReducer
 });
 
 export { rootReducer };

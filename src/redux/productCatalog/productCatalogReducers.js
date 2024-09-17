@@ -39,6 +39,7 @@ import {
   Get_ItemImage,
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
+  ADD_MOCK_DATA_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -389,4 +390,24 @@ export const storeMockDataReducer = (state = mockData, action) => {
     }
   };
  
+
+  // {**************************AddMockData***********************************************}
+
+  const addMockData = {
+    data: []
+  }
+
+  export  const addMockDataReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case ADD_MOCK_DATA_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
+  
+    
+  
+      default:
+        return state;
+    }
+  };
 

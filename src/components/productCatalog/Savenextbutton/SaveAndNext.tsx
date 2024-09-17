@@ -2,11 +2,12 @@ import React, { useState, useContext } from "react";
 import "./Savenextbutton.scss";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { itemCustomizationPost } from "../../../redux/productCatalog/productCatalogActions";
+import { itemCustomizationPost, PricingDetailRequest } from "../../../redux/productCatalog/productCatalogActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { primarypost } from "redux/productCatalog/productCatalogActions";
+
 // import { useNavigate } from "react-router-dom";
 
 interface Ingredients {
@@ -17,6 +18,19 @@ interface Ingredients {
 interface Allergens {
   id: string;
   name: string;
+}
+interface FormState {
+  Inventory1: string;
+  Inventory2: string;
+}
+interface PricingAndKitchen {
+  maxServingAllowed:string,
+  threshold:string;
+  kitchenstation: string;
+  Preparationtime: string;
+  KitchenStationId: string;
+  normalForm?: any;
+  specialForm?: any;
 }
 
 interface Base64Image {
@@ -76,9 +90,17 @@ interface Modification {
   field2?: number;
   [key: string]: any;
 }
+interface MainForm {
+  form:FormState
+  kitchenstation: string;
+  Preparationtime: string;
+  KitchenStationId: string;
+  normalForm?: any;
+  specialForm?: any;
+}
 
 interface SubmitButtonProps {
-  getFormData: () => FormData | Modification;
+  getFormData: () => FormData | Modification|MainForm;
   seletedpage: string;
   reset: () => void;
   modifications?: Modification[];
@@ -160,7 +182,44 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       });
       dispatch(primarypost(formData));
   
-    } else if (seletedpage === "ItemCustomization") {
+    } 
+    else if (seletedpage === "Pricing") {
+      // Ensure PricingDetails is initialized properly, either using mainForm or fallback to an empty object
+      let PricingDetails = { ...mainForm };  // Spread the existing mainForm object to keep its values intact
+      
+      // Fetch the form data
+      const formData = getFormData();
+      console.log(formData);  // Make sure formData contains valid data
+      
+      // Append or update the kitchenstation in PricingDetails
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,             // Spread the existing values in PricingDetails
+          kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
+      }
+      if (formData?.form?.Inventory1) {
+        PricingDetails = {
+          ...PricingDetails,
+          form: {
+            ...(PricingDetails || {}),  // Ensure that form exists
+            Inventory1: formData.form.Inventory1,
+            Inventory2: formData.form.Inventory2 || "",  // Ensure it's always a string
+          }
+        };
+      } else {
+        console.error("formData.form.Inventory1 is undefined");
+      }
+      
+      
+      // Dispatch your action with the properly formed PricingDetails
+      dispatch(PricingDetailRequest(PricingDetails));
+      
+      // Navigate to the next page
+      history.push("/productCatalog/Itemcustomizations");
+    }else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
       
