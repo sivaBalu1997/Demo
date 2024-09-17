@@ -19,11 +19,10 @@ interface Item {
   name: string;
   itemCode: string;
   type: string;
-  mealType:string;
-  dietary:string;
-  cusine:string;
+  mealType: string;
+  dietary: string;
+  cusine: string;
   pricingdetails: PricingDetails;
-
 }
 
 // Define your mock data

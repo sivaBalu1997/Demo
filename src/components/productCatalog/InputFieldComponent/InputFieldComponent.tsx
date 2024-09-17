@@ -6,7 +6,7 @@ interface InputFieldInterface {
   name: string;
   type?: string;
   value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;  
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   trigger: any;
   error?: any;
@@ -25,20 +25,20 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   placeholder,
   subtext,
 }) => {
-  
   // const handleBlur = () => {
-  //   trigger(name); 
+  //   trigger(name);
   // };
 
   return (
     <div>
       <div className="input-and-spantext">
         <input
+          // {...register(name, validation)}
           type={type}
           autoComplete="off"
           name={name}
-          value={value}  
-          onChange={onChange} 
+          value={value}
+          onChange={onChange}
           // onBlur={handleBlur}
           placeholder={placeholder}
           className="Input-Filed"

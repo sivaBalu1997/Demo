@@ -58,6 +58,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [Disablesubcategory, setDisablesubcategory] = useState<boolean>(false);
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [showselectedOption,setShowselectedOption]=useState<boolean>(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,6 +77,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         });
         setAddNewButton(false);
         setEditList(false);
+        setShowselectedOption(true);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -99,7 +101,31 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  
+    if (!dropdownopen && e.target.value !== "") {
+      onToggle();
+    }
+    setShowselectedOption(false);
   };
+
+  useEffect(() => {
+    const initialSelectedValue = getValues(name);
+    if (initialSelectedValue) {
+      const selectedOptionIds = initialSelectedValue.split(", ").map((value: string) => {
+        return initialOptions.find((opt) => opt.name === value);
+      });
+      const validOptions = selectedOptionIds.filter(Boolean) as Option[];
+      setSelectedOptions(validOptions);
+
+  
+      setValue(
+        name,
+        validOptions.map((opt) => opt.name).join(", ")
+      );
+    }
+  }, [getValues(name), setValue, initialOptions]);
+
+
 
   const handleSelect = (option: Option) => {
     if (type === "checkbox") {
@@ -122,6 +148,12 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
     }
     trigger(name);
+    setSearchTerm("");
+    // if (dropdownopen) {
+    //   onToggle();
+    // }
+
+
   };
 
   const handleNewItemAdd = () => {
@@ -158,6 +190,9 @@ const DropDownList: React.FC<DropdownProps> = ({
   // const handleBlur = () => {
   //   trigger(name);
   // };
+  // value={type === "checkbox" 
+  //   ? selectedOptions.map((opt) => opt.name).join(", ")
+  //   : selectedOptions[0]?.name || ""}
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -166,11 +201,9 @@ const DropDownList: React.FC<DropdownProps> = ({
           <input
             type="text"
             {...register(name, validation)}
-            value={
-              type === "checkbox"
-                ? selectedOptions.map((opt) => opt.name).join(", ")
-                : selectedOptions[0]?.name || ""
-            }
+            value={searchTerm==="" && showselectedOption? type === "checkbox" 
+              ? selectedOptions.map((opt) => opt.name).join(", ")
+              : selectedOptions[0]?.name || "" :searchTerm }
             onChange={handleSearch}
             name={name}
             // onBlur={handleBlur}
@@ -186,14 +219,20 @@ const DropDownList: React.FC<DropdownProps> = ({
             {dropdownopen ? (
               <img
                 src={dropdown}
-                onClick={onToggle}
+                onClick={()=>{onToggle()
+                  setShowselectedOption(true);
+
+                }}
                 alt="dropdown"
                 className="dropdownimageclosed"
               />
             ) : (
               <img
                 src={dropdown}
-                onClick={onToggle}
+                onClick={()=>{onToggle()
+                  setShowselectedOption(false);
+
+                }}
                 alt="dropdown"
                 className="dropdownimageopen"
               />

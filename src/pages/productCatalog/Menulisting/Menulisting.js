@@ -6,6 +6,7 @@ import removeicon from "../../../assets/svg/removeicon.svg";
 import Header from "../../../components/productCatalog/Header/Header";
 import closeicon from "../../../assets/svg/closeicon.svg";
 import toggleround from "../../../assets/svg/toggleround.svg";
+import calendericon from '../../../assets/svg/calendericon.svg'
 import dollaricon from "../../../assets/svg/dollaricon.svg";
 import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
@@ -482,7 +483,7 @@ export const Menulisting = () => {
                         handleColumnwiseDragEnd={handleColumnwiseDragEnd}
                         dots={dots}
                         dollar={dollar}
-                        togglebtns={togglebtns}
+                        calendericon={calendericon}
                         removeicon={removeicon}
                       />
                     </React.Fragment>
@@ -515,7 +516,7 @@ export const Menulisting = () => {
                   return (
                     <React.Fragment key={indexvalue}>
                       <tr>
-                        {indexvalue === 1 && (
+                        {indexvalue === 1 &&  !(steamType[0].name.length<=0 ||steamType[1].name.length<=0 ) &&(
                           <tr className="itemheading2row"></tr>
                         )}
                       </tr>
