@@ -10,7 +10,10 @@ import ReviewValues from "../../../components/productCatalog/ReviewValues/Review
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
 import Step3Review from "../../../components/productCatalog/Step3Review/Step3Review";
 import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImageSelected/PrimaryImageSelected";
-import { addMenuItemRequest, addMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import {
+  addMenuItemRequest,
+  addMockDataRequest,
+} from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
 import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
@@ -95,36 +98,35 @@ interface RootState {
 }
 
 const PrimaryDetailsReviewpage: React.FC = () => {
-  const history=useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
   const fetchedprimarydata = primarydata;
-  console.log(fetchedprimarydata.ingredients)
+  console.log(fetchedprimarydata.ingredients);
 
   const primarypagedetails = useSelector((state: RootState) => state);
 
-  const data = [{
-    
-    locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
-    itemCode: primarypagedetails.primarypage.data.itemCode,
-    altName: "alt name",
-    itemName: primarypagedetails.primarypage.data.itemName,
-    description: primarypagedetails.primarypage.data.description,
-    price: "12",
-    categoryId: primarypagedetails.primarypage.data.categoryId,
-    subCategoryId: "",
-    kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
-    taxFeeId: "",
-    ingredients: ["03348389-4b2a-4fca-affa-6ad4291b0241"],
-    modifiers: [],
-    availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
-    category: primarypagedetails.primarypage.data.category,
-    subCategory: primarypagedetails.primarypage.data.subCategory,
-    itemId: null,
-
-  }]
-
+  const data = [
+    {
+      locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
+      itemCode: primarypagedetails.primarypage.data.itemCode,
+      altName: "alt name",
+      itemName: primarypagedetails.primarypage.data.itemName,
+      description: primarypagedetails.primarypage.data.description,
+      price: "12",
+      categoryId: primarypagedetails.primarypage.data.categoryId,
+      subCategoryId: "",
+      kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
+      taxFeeId: "",
+      ingredients: ["03348389-4b2a-4fca-affa-6ad4291b0241"],
+      modifiers: [],
+      availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
+      category: primarypagedetails.primarypage.data.category,
+      subCategory: primarypagedetails.primarypage.data.subCategory,
+      itemId: null,
+    },
+  ];
 
   const [uploading, setUploading] = useState(false);
 
@@ -136,22 +138,23 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         } else {
           resolve();
         }
-      }, 1000); 
+      }, 1000);
     });
   };
   const selectedImages = fetchedprimarydata?.imageUrls || [];
 
-console.log("selectedImages",selectedImages)
-  const [uploadedimage,setUploadedimage]=useState<ImageFile[]>(fetchedprimarydata.imageUrls)
+  const [uploadedimage, setUploadedimage] = useState<ImageFile[]>(
+    fetchedprimarydata.imageUrls
+  );
 
   const uploadImages = async () => {
     setUploading(true);
     for (let i = 0; i < uploadedimage.length; i++) {
       if (uploadedimage[i].uploaded || uploadedimage[i].failed) continue;
-  
+
       try {
-        await Simulationofimageupload(i); 
-  
+        await Simulationofimageupload(i);
+
         setUploadedimage((prevImages) =>
           prevImages.map((img, index) =>
             index === i ? { ...img, uploaded: true } : img
@@ -169,20 +172,17 @@ console.log("selectedImages",selectedImages)
     }
     setUploading(false);
   };
-  
-  const handleDispatch=()=>{
-    uploadImages()
 
-    dispatch(addMenuItemRequest(data))
-    dispatch(addMockDataRequest(data))
+  const handleDispatch = () => {
+    uploadImages();
+
+    dispatch(addMenuItemRequest(data));
+    dispatch(addMockDataRequest(data));
     // if(!uploading)
     // {
     // history.push("/menuListing")
     // }
-   
-    
-    
-  }
+  };
 
   return (
     <div style={{ display: "flex", width: "93%" }}>
@@ -352,7 +352,7 @@ console.log("selectedImages",selectedImages)
               <div className="primaryreviewdetailspart2">
                 <div>
                   <Link
-                    to="/Navigationpage"
+                    to="/productCatalog/PrimaryDetails"
                     className="primarypageedit"
                     onClick={() => setActiveCategory("Step 1: Primary Details")}
                   >
@@ -370,10 +370,7 @@ console.log("selectedImages",selectedImages)
                   <div className="primaryimages">
                     <p>Primary Image</p>
 
-                    <PrimaryImageSelected
-                      fetchedprimarydata={uploadedimage}
-
-                    />
+                    <PrimaryImageSelected fetchedprimarydata={uploadedimage} />
                   </div>
                 }
 
@@ -400,26 +397,29 @@ console.log("selectedImages",selectedImages)
 
                 <div className="allergensandingredients">
                   <div>
-                    {
-                      fetchedprimarydata?.ingredients?.length>0 && <> <p className="ingredients">Ingredients</p>
-                      <ImagePillsSelected
-                        imageselected={fetchedprimarydata}
-                        name="Ingredients"
-                      /></>
-                    }
-                   
+                    {fetchedprimarydata?.ingredients?.length > 0 && (
+                      <>
+                        {" "}
+                        <p className="ingredients">Ingredients</p>
+                        <ImagePillsSelected
+                          imageselected={fetchedprimarydata}
+                          name="Ingredients"
+                        />
+                      </>
+                    )}
                   </div>
 
                   <div>
-                    {
-                       fetchedprimarydata?.allergens?.length>0 &&
-                       <> <p className="allergen">Allergens</p>{" "}
-                       <ImagePillsSelected
-                         imageselected={fetchedprimarydata}
-                         name="allergens"
-                       /></>
-                    }
-                   
+                    {fetchedprimarydata?.allergens?.length > 0 && (
+                      <>
+                        {" "}
+                        <p className="allergen">Allergens</p>{" "}
+                        <ImagePillsSelected
+                          imageselected={fetchedprimarydata}
+                          name="allergens"
+                        />
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
