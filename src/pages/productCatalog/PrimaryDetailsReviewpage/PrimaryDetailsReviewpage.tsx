@@ -430,11 +430,6 @@ console.log("selectedImages",selectedImages)
                 <Step3Review />
               </div>
             </div>
-            {/* <div className="part-two">
-                <Step2 />
-                <div className="verticalLine" />
-                <Step3Review />
-              </div> */}
           </div>
         </div>{" "}
         <div
