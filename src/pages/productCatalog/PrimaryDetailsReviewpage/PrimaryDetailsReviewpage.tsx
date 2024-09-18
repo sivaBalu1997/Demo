@@ -416,18 +416,17 @@ console.log("selectedImages",selectedImages)
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginLeft: "20px",
-                }}
-              >
+              <div className="part-two">
                 <Step2 />
                 <div className="verticalLine" />
                 <Step3Review />
               </div>
             </div>
+            {/* <div className="part-two">
+                <Step2 />
+                <div className="verticalLine" />
+                <Step3Review />
+              </div> */}
           </div>
         </div>{" "}
         <div
