@@ -43,7 +43,7 @@ interface Allergens {
 }
 
 interface FormData {
-  itemNameData: string;
+  itemName: string;
   dietaryType: string;
   cuisine: string;
   mealType: string;
@@ -128,7 +128,7 @@ const PrimaryPage = () => {
     watch,
   } = useForm<FormData>({
     defaultValues: {
-      itemNameData: "",
+      itemName: "",
       dietaryType: "",
       cuisine: "",
       mealType: "",
@@ -220,7 +220,7 @@ const PrimaryPage = () => {
     });
   };
 
-  const validImages = dataImages.filter(
+  const validImages = imageslist.filter(
     (img): img is { name: string; id: string } => img !== undefined
   );
 
@@ -290,34 +290,46 @@ const PrimaryPage = () => {
   //       console.error("Error converting files to Base64", error);
   //     });
   // };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      const fileArray = Array.from(files).map((file) => ({
-        file,
-        uploaded: false,
-        failed: false,
-        preview: URL.createObjectURL(file), 
-      }));
-      
-    
+      const validImageTypes = ["image/jpeg", "image/png"];
+      const maxSizeInBytes = 2 * 1024 * 1024;
+      const fileArray = Array.from(files)
+        .map((file) => {
+          if (!validImageTypes.includes(file.type)) {
+            alert(
+              `Invalid file type: ${file.name}. Only PNG and JPG are allowed.`
+            );
+            return null;
+          }
+          if (file.size > maxSizeInBytes) {
+            alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+            return null;
+          }
+          return {
+            file,
+            uploaded: false,
+            failed: false,
+            preview: URL.createObjectURL(file),
+          };
+        })
+        .filter((file): file is ImageFile => file !== null);
       if (fileArray.length + images.length > 7) {
         alert("You can upload a maximum of 7 images.");
         return;
       }
-      
-  
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
-  
+
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
-          console.log(updatedImageUrls,"updatedImageUrls");
+        console.log(updatedImageUrls, "updatedImageUrls");
         return updatedImages;
       });
     }
   };
-  
 
   const newarray = getValues("imageUrls");
   console.log("newarray", newarray);
@@ -359,17 +371,17 @@ const PrimaryPage = () => {
                   {" "}
                   <LableComponent lable="ItemName *" />
                   <Controller
-                    name="itemNameData"
+                    name="itemName"
                     control={control}
                     rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
-                        name="itemNameData"
+                        name="itemName"
                         onChange={onChange}
                         // onBlur={onBlur}
                         value={value}
                         trigger={trigger}
-                        error={errors.itemNameData}
+                        error={errors.itemName}
                       />
                     )}
                   />
@@ -570,11 +582,18 @@ const PrimaryPage = () => {
                       ))} */}
                     {images.map((img, index) => (
                       <div key={index} className="image-container">
+                        <button
+                          onClick={() => handleImageDeletion(index)}
+                          className="imcrossstyres"
+                        >
+                          <ImCross
+                            style={{ fontSize: "7px", color: "white" }}
+                          />
+                        </button>
                         <img
                           className="uploaded-image"
                           src={img.preview}
                           alt={`Preview of ${img.file.name}`}
-                   
                         />
                         {/* <div>
                           {img.file.name} -{" "}
@@ -753,7 +772,8 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          placeholder="Cal"
+                          subtext="Cal"
+                         
                         />
                       )}
                     />
@@ -783,7 +803,8 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          placeholder={getValues("selectedPortion")}
+                          subtext={getValues("selectedPortion")}
+                          // placeholder={getValues("selectedPortion")}
                         />
                       )}
                     />
@@ -856,7 +877,7 @@ const PrimaryPage = () => {
                             register={register}
                             inputCount={4}
                             error={errors.masterCode}
-                            // validation={{ required: "Master code is required" }}
+                            validation={{ required: "Master code is required" }}
                           />
                         )}
                       />

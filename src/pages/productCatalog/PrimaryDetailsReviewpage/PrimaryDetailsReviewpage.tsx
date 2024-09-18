@@ -109,6 +109,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
     itemCode: primarypagedetails.primarypage.data.itemCode,
     altName: "alt name",
+    type:"steamedVeg",
     itemName: primarypagedetails.primarypage.data.itemName,
     description: primarypagedetails.primarypage.data.description,
     price: "12",
@@ -124,6 +125,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     itemId: null,
 
   }]
+
+
 
 
   const [uploading, setUploading] = useState(false);
@@ -170,19 +173,29 @@ console.log("selectedImages",selectedImages)
     setUploading(false);
   };
   
-  const handleDispatch=()=>{
-    uploadImages()
-
-    dispatch(addMenuItemRequest(data))
-    dispatch(addMockDataRequest(data))
-    // if(!uploading)
-    // {
-    // history.push("/menuListing")
-    // }
-   
+  const handleDispatch = async () => {
+    try {
+     
+      await uploadImages();
+  
     
-    
-  }
+      const allUploaded = uploadedimage.every(img => img.uploaded);
+      
+      if (allUploaded) {
+      
+        dispatch(addMenuItemRequest(data));
+        dispatch(addMockDataRequest(data));
+  
+       
+        history.push("/menuListing");
+      } else {
+        alert('Some images failed to upload. Please check and try again.');
+      }
+    } catch (error) {
+      console.error("Error during image upload or dispatching:", error);
+    }
+  };
+  
 
   return (
     <div style={{ display: "flex", width: "93%" }}>
@@ -441,7 +454,7 @@ console.log("selectedImages",selectedImages)
           <button
             className="saveall"
             onClick={handleDispatch}
-            disabled={uploading || selectedImages.length === 0}
+            // disabled={uploading || selectedImages.length === 0}
           >
             Submit for review
           </button>
