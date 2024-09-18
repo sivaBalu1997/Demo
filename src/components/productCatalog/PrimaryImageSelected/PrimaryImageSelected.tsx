@@ -1,47 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
 
 interface ImageUrl {
   mimeType: string;
   base64String: string;
 }
-
+interface ImageFile {
+  file: File;
+  uploaded: boolean;
+  failed: boolean;
+  preview: string;
+}
 interface FetchedPrimaryData {
-  imageUrls: ImageUrl[];
+  imageUrls: ImageFile[];
 }
 
 interface ImageGalleryProps {
-  fetchedprimarydata: FetchedPrimaryData | null;
+  fetchedprimarydata: ImageFile[] | [];
 }
-const MAX_IMAGES = 7;
+const MAX_IMAGES = 6;
 
 const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
   fetchedprimarydata,
 }) => {
-  const selectedImages = fetchedprimarydata?.imageUrls || [];
-  const emptySlots = MAX_IMAGES - selectedImages.length;
+  const selectedImages = fetchedprimarydata || [];
+  const emptySlots =
+    selectedImages.length === 0
+      ? MAX_IMAGES - selectedImages.length - 1
+      : MAX_IMAGES - selectedImages.length;
+  const [uploading, setUploading] = useState(false);
+  console.log("selectedImages", selectedImages);
 
   return (
     <div className="images">
       <div className="images">
         <ol>
-          {fetchedprimarydata &&  fetchedprimarydata?.imageUrls &&fetchedprimarydata?.imageUrls?.length > 0 && (
+          {selectedImages && selectedImages[0] && (
             <li>
               <img
-                src={`data:${
-                  fetchedprimarydata?.imageUrls[0]?.mimeType &&
-                  fetchedprimarydata.imageUrls[0].mimeType
-                };base64,${
-                  fetchedprimarydata?.imageUrls[0]?.base64String &&
-                  fetchedprimarydata.imageUrls[0].base64String
-                }`}
-                alt=""
+                className="uploaded-image"
+                src={selectedImages[0].preview}
+                alt={`Preview of ${selectedImages[0].file.name}`}
               />
             </li>
           )}
 
-          {fetchedprimarydata &&fetchedprimarydata?.imageUrls &&
-            fetchedprimarydata?.imageUrls?.length === 0 &&
+          {selectedImages?.length === 0 &&
             [0].map((_, index) => (
               <li key={index + 1}>
                 <img src={emptyfoodimg} alt={`sample ${index}`} />
@@ -49,18 +53,19 @@ const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
             ))}
 
           <div className="selectediagelist">
-            {fetchedprimarydata?.imageUrls &&
-              fetchedprimarydata?.imageUrls.slice(1).map((image, index) => (
+            {selectedImages &&
+              selectedImages?.slice(1).map((image, index) => (
                 <li key={index + 1}>
                   <img
-                    src={`data:${image.mimeType};base64,${image.base64String}`}
-                    alt={`uploaded ${index}`}
+                    className="uploaded-image"
+                    src={image.preview}
+                    alt={`Preview of ${image.file.name}`}
                   />
                 </li>
               ))}
 
-            {Array.from({ length: emptySlots-1  })
-              .slice(1)
+            {Array.from({ length: emptySlots })
+              .slice(0)
               .map((_, index) => (
                 <li key={selectedImages.length + index + 1}>
                   <img src={emptyfoodimg} alt={`empty ${index}`} />
@@ -68,8 +73,30 @@ const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
               ))}
           </div>
         </ol>
-
-
+        <ol>
+          {/* {selectedImages.map((img, index) => (
+                      <div key={index} className="image-container">
+                        <img
+                          className="uploaded-image"
+                          src={img.preview}
+                          alt={`Preview of ${img.file.name}`}
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover",
+                          }} // Display a small thumbnail
+                        />
+                        <div>
+                          {img.file.name} -{" "}
+                          {img.uploaded
+                            ? "Uploaded"
+                            : img.failed
+                            ? "Failed"
+                            : "Pending Upload"}
+                        </div>
+                      </div>
+                    ))} */}
+        </ol>
       </div>
     </div>
   );

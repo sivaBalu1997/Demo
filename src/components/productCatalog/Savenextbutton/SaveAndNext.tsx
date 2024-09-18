@@ -2,7 +2,10 @@ import React, { useState, useContext } from "react";
 import "./Savenextbutton.scss";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { itemCustomizationPost, PricingDetailRequest } from "../../../redux/productCatalog/productCatalogActions";
+import {
+  itemCustomizationPost,
+  PricingDetailRequest,
+} from "../../../redux/productCatalog/productCatalogActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
@@ -24,8 +27,8 @@ interface FormState {
   Inventory2: string;
 }
 interface PricingAndKitchen {
-  maxServingAllowed:string,
-  threshold:string;
+  maxServingAllowed: string;
+  threshold: string;
   kitchenstation: string;
   Preparationtime: string;
   KitchenStationId: string;
@@ -37,6 +40,12 @@ interface Base64Image {
   mimeType: string;
   base64String: string;
 }
+interface ImageFile {
+  file: File;
+  uploaded: boolean;
+  failed: boolean;
+  preview: string; // To store the image preview URL
+}
 interface FormData {
   itemName?: string;
   dietaryType?: string;
@@ -44,7 +53,7 @@ interface FormData {
   mealType?: string;
   bestPair?: string;
   description?: string;
-  imageUrls?: Base64Image[];
+  imageUrls?: ImageFile[];
   alcohol?: string;
   itemCode?: string;
   barCode?: string;
@@ -70,7 +79,7 @@ interface FormData {
   selectionType?: string;
   field1?: number;
   field2?: number;
-  [key: string]: any; 
+  [key: string]: any;
 }
 interface Option {
   item: string;
@@ -91,7 +100,7 @@ interface Modification {
   [key: string]: any;
 }
 interface MainForm {
-  form:FormState
+  form: FormState;
   kitchenstation: string;
   Preparationtime: string;
   KitchenStationId: string;
@@ -100,13 +109,11 @@ interface MainForm {
 }
 
 interface SubmitButtonProps {
-  getFormData: () => FormData | Modification|MainForm;
+  getFormData: () => FormData | Modification | MainForm;
   seletedpage: string;
   reset: () => void;
   modifications?: Modification[];
-  trigger?: any;
-  mainform?:MainForm
-  // triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
+  triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
@@ -114,11 +121,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   seletedpage,
   reset,
   modifications,
-  // triggerValidation,
-  trigger,
-  mainform
+  triggerValidation,
 }) => {
-  
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
   // const extractFields = (formData: FormData) => {
@@ -163,52 +167,69 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     });
   };
   const formData = getFormData();
-    console.log("uploading", formData);
+  // console.log("uploading", formData);
 
   const handleclick = async () => {
-    
-    if (seletedpage === "Primary") {
-      // const isFormValid = await triggerValidation(formData);
-    
+    // if (seletedpage === "Primary" && triggerValidation) {
+    //   const isFormValid = await triggerValidation(formData);
 
+    //   if (!isFormValid) {
+    //     window.scrollTo({
+    //       top: 0,
+    //       behavior: "smooth",
+    //     });
+    //     return;
+    //   }
+    // }
+
+    if (seletedpage === "Primary"&& triggerValidation) {
+      const isFormValid = await triggerValidation(formData);
+      if (!isFormValid) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      }
+      else{
+        history.push({
+          pathname: `/productCatalog/Pricingandkitchendetails`,
+          state: { pagename: "Pricing and kitchen details" },
+        });
+        dispatch(primarypost(formData));
+
+      }
+
+      
+    } else if (seletedpage === "Pricing"&& triggerValidation) {
      
-    }
 
-    if (seletedpage === "Primary" ) {
-      trigger()
-      history.push({
-        pathname: `/productCatalog/Pricingandkitchendetails`,
-        state: { pagename: "Pricing and kitchen details" },
-      });
-      dispatch(primarypost(formData));
-  
-    } 
-    else if (seletedpage === "Pricing") {
-      // Ensure PricingDetails is initialized properly, either using mainForm or fallback to an empty object
-       let PricingDetails ={ ...mainform };  // Spread the existing mainForm object to keep its values intact
-      
-      // Fetch the form data
       const formData = getFormData();
-      console.log(formData);  // Make sure formData contains valid data
-      
-      // Append or update the kitchenstation in PricingDetails
-      // if (formData.kitchenstation) {
-      //   PricingDetails = {
-      //     ...PricingDetails,             // Spread the existing values in PricingDetails
-      //     kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
-      //   };
-      // } else {
-      //   console.error("formData.kitchenstation is undefined");
-      // }
-      
-      // Dispatch your action with the properly formed PricingDetails
-      // dispatch(PricingDetailRequest(PricingDetails));
-      
-      // Navigate to the next page
-      history.push("/productCatalog/Itemcustomizations");
-    }else if (seletedpage === "ItemCustomization") {
+      console.log(formData);
+      const isFormValid = await triggerValidation(formData);
+      if (!isFormValid) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      }
+      else{
+        history.push({
+          pathname: `/productCatalog/Itemcustomizations`,
+          state: { pagename: "Itemcustomizations" },
+        });
+        // history.push("/productCatalog/Itemcustomizations");
+        // dispatch(primarypost(formData));
+
+      }
+
+
+    
+    } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
+
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
     }

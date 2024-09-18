@@ -26,7 +26,7 @@ interface DropdownProps {
   error?: FieldError;
   trigger: any;
   getValues: any;
-  dropdownopen: boolean;
+  dropdownopen?: boolean;
   onToggle: () => void;
   setDropdownOpen: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
@@ -219,6 +219,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={()=>{
+                  onToggle()
                   setShowselectedOption(true);
  
                 }}
@@ -229,6 +230,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={()=>{
+                  onToggle()
                   setShowselectedOption(false);
  
                 }}

@@ -5,7 +5,7 @@
 
 .reviewpage {
   position: relative;
-  top: 110px;
+  top: 78px;
   margin-left: -20px;
   width: 133%;
   height: 620px;
@@ -98,7 +98,7 @@
     }
     .primaryreviewdetails2 {
       width: 200px;
-      height: 580px;
+      height: 480px;
       // border: 1px solid black;
       position: relative;
       left: 70px;
@@ -132,8 +132,10 @@
   height: 580px;
   // border: 1px solid black;
   position: relative;
+  // background-color: orange;
 
   left: 30px;
+  // background-color: red;
   .primarypageedit {
     position: relative;
     top: 24px;
@@ -201,9 +203,11 @@
       }
       .selectediagelist {
         display: flex;
+        // flex-wrap: wrap;
         flex-direction: row;
         // border: 1px solid red;
         margin-top: 10px;
+        width: 420px;
 
         li {
           padding-right: 30px;
@@ -435,14 +439,19 @@
     }
   }
 }
+.part-two{
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
 
-.verticalLine {
-  width: 1px;
-  height: 201%;
-  background-color: #c4c4c4;
-  position: relative;
-  top: 160%;
-  left: -479px;
+  .verticalLine {
+    width: 1px;
+    height: 201%;
+    background-color: #c4c4c4;
+    position: relative;
+    top: 160%;
+    left: -479px;
+  }
 }
 
 .Edit-heading {

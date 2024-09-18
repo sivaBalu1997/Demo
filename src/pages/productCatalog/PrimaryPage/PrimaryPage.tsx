@@ -6,7 +6,7 @@ import DigitInput from "../../../components/productCatalog/DigitInput/DigitInput
 import RadioButtonGroup from "../../../components/productCatalog/RadioButton/RadioButton";
 import "./PrimaryPage.scss";
 import { ImCross } from "react-icons/im";
-import info from '../../../assets/svg/info.svg'
+import info from "../../../assets/svg/info.svg";
 import ImgaeUploading from "../../../assets/images/addimage.png";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,7 +49,7 @@ interface FormData {
   mealType: string;
   bestPair: string;
   description: string;
-  imageUrls: Base64Image[];
+  imageUrls: ImageFile[];
   alcohol: string;
   itemCode: string;
   barCode: string;
@@ -92,14 +92,10 @@ interface StateDataTag2 {
   };
 }
 
-interface primarypage{
-
-    primarypage:{
-      data: FormData
-
-    }
-   
-  
+interface primarypage {
+  primarypage: {
+    data: FormData;
+  };
 }
 
 interface option {
@@ -112,6 +108,12 @@ interface ImageOptions {
   imageType?: string;
 }
 
+interface ImageFile {
+  file: File;
+  uploaded: boolean;
+  failed: boolean;
+  preview: string; // To store the image preview URL
+}
 const PrimaryPage = () => {
   const dispatch = useDispatch();
   const {
@@ -157,7 +159,9 @@ const PrimaryPage = () => {
     (state: RootState) => state.productCatalog.requestCompleted
   );
 
-  const ItemsPrimaryDeatils=useSelector((state:primarypage)=>state.primarypage.data)
+  const ItemsPrimaryDeatils = useSelector(
+    (state: primarypage) => state.primarypage.data
+  );
   // console.log("ItemsPrimaryDeatils",ItemsPrimaryDeatils)
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
@@ -176,7 +180,7 @@ const PrimaryPage = () => {
     []
   );
   const [categories, setCategories] = useState<Category[]>([]);
-  const [images, setImages] = useState<Base64Image[]>([]);
+  const [images, setImages] = useState<ImageFile[]>([]);
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
   const maxDescriptonLength = 100;
@@ -233,65 +237,94 @@ const PrimaryPage = () => {
   const handleAddImage = () => {
     document.getElementById("imgadd")?.click();
   };
+  const [uploading, setUploading] = useState(false);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
-    const validFiles = files.filter((file) => {
-      const validTypes = ["image/jpeg", "image/png"];
-      const maxSizeInBytes = 2 * 1024 * 1024;
-      if (!validTypes.includes(file.type)) {
-        alert(`Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
-        return false;
+  // const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = Array.from(event.target.files || []);
+  //   const validFiles = files.filter((file) => {
+  //     const validTypes = ["image/jpeg", "image/png"];
+  //     const maxSizeInBytes = 2 * 1024 * 1024;
+  //     if (!validTypes.includes(file.type)) {
+  //       alert(`Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
+  //       return false;
+  //     }
+
+  //     if (file.size > maxSizeInBytes) {
+  //       alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+  //       return false;
+  //     }
+
+  //     return true;
+  //   });
+
+  //   if (validFiles.length + images.length > maxImages) {
+  //     alert(`You can only upload up to ${maxImages} images.`);
+  //     return;
+  //   }
+
+  //   const readFileAsDataURL = (file: File): Promise<Base64Image> => {
+  //     return new Promise((resolve, reject) => {
+  //       const reader = new FileReader();
+  //       reader.onloadend = () => {
+  //         const dataURL = reader.result as string;
+  //         const mimeType = dataURL.split(";")[0].split(":")[1];
+  //         const base64String = dataURL.split(",")[1];
+  //         resolve({ mimeType, base64String });
+  //       };
+  //       reader.onerror = reject;
+  //       reader.readAsDataURL(file);
+  //     });
+  //   };
+
+  //   Promise.all(validFiles.map(readFileAsDataURL))
+  //     .then((base64Images) => {
+  //       setImages((prevImages) => {
+  //         const updatedImages = [...prevImages, ...base64Images];
+  //         console.log("testing", setValue, typeof setValue);
+  //         return updatedImages;
+  //       });
+
+  //       setValue("imageUrls", base64Images);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error converting files to Base64", error);
+  //     });
+  // };
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const fileArray = Array.from(files).map((file) => ({
+        file,
+        uploaded: false,
+        failed: false,
+        preview: URL.createObjectURL(file), 
+      }));
+      
+    
+      if (fileArray.length + images.length > 7) {
+        alert("You can upload a maximum of 7 images.");
+        return;
       }
-
-      if (file.size > maxSizeInBytes) {
-        alert(`File too large: ${file.name}. Maximum size is 2MB.`);
-        return false;
-      }
-
-      return true;
-    });
-
-    if (validFiles.length + images.length > maxImages) {
-      alert(`You can only upload up to ${maxImages} images.`);
-      return;
+      
+  
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages, ...fileArray];
+  
+        const updatedImageUrls = updatedImages.map((image) => image);
+        setValue("imageUrls", updatedImageUrls);
+          console.log(updatedImageUrls,"updatedImageUrls");
+        return updatedImages;
+      });
     }
-
-    const readFileAsDataURL = (file: File): Promise<Base64Image> => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const dataURL = reader.result as string;
-          const mimeType = dataURL.split(";")[0].split(":")[1];
-          const base64String = dataURL.split(",")[1];
-          resolve({ mimeType, base64String });
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    };
-
-    Promise.all(validFiles.map(readFileAsDataURL))
-      .then((base64Images) => {
-        setImages((prevImages) => {
-          const updatedImages = [...prevImages, ...base64Images];
-          console.log("testing", setValue, typeof setValue);
-          return updatedImages;
-        });
-
-        setValue("imageUrls", base64Images);
-      })
-      .catch((error) => {
-        console.error("Error converting files to Base64", error);
-      });
   };
+  
 
-  // const newarray = getValues("imageUrls");
-  // console.log("newarray", newarray);
+  const newarray = getValues("imageUrls");
+  console.log("newarray", newarray);
 
   useEffect(() => {
-    dispatch(getIngredientsRequest(locationid));
-    dispatch(getMenuCategoryRequest(locationid));
+    // dispatch(getIngredientsRequest(locationid));
+    // dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
   useEffect(() => {
@@ -303,7 +336,7 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  console.log("HI")
+  // console.log("HI");
 
   return (
     <div style={{ display: "flex" }}>
@@ -320,117 +353,117 @@ const PrimaryPage = () => {
           </div>
           <div className="Primary-page">
             {/* <form> */}
-              <div className="Primary-page-container-one">
-                <div className="Primary-page-container-pairone">
-                  <div className="Primary-page-InputFields">
-                    {" "}
-                    <LableComponent lable="ItemName *" />
-                    <Controller
-                      name="itemNameData"
-                      control={control}
-                      rules={{ required: "ItemName is required" }}
-                      render={({ onChange, onBlur, value }: any) => (
-                        <InputFieldComponent
-                          name="itemNameData"
-                          onChange={onChange}
-                          // onBlur={onBlur}
-                          value={value}
-                          trigger={trigger}
-                          error={errors.itemNameData}
-                        />
-                      )}
-                    />
-                  </div>
+            <div className="Primary-page-container-one">
+              <div className="Primary-page-container-pairone">
+                <div className="Primary-page-InputFields">
+                  {" "}
+                  <LableComponent lable="ItemName *" />
+                  <Controller
+                    name="itemNameData"
+                    control={control}
+                    rules={{ required: "ItemName is required" }}
+                    render={({ onChange, onBlur, value }: any) => (
+                      <InputFieldComponent
+                        name="itemNameData"
+                        onChange={onChange}
+                        // onBlur={onBlur}
+                        value={value}
+                        trigger={trigger}
+                        error={errors.itemNameData}
+                      />
+                    )}
+                  />
+                </div>
 
-                  <div className="Primary-page-InputFields">
-                    <LableComponent lable="DietaryType *" />
-                    <Controller
-                      name="dietaryType"
-                      control={control}
-                      render={({ field }: any) => (
-                        <Dropdown
-                          options={dataDietaryType}
-                          type="checkbox"
-                          setOptions={setDataDietaryType}
-                          placeholder="search for option"
-                          register={register}
-                          name="dietaryType"
-                          trigger={trigger}
-                          setValue={setValue}
-                          getValues={getValues}
-                          validation={{ required: "dietaryType is required" }}
-                          error={errors.dietaryType}
-                          dropdownopen={DropdownOpen.dietaryType}
-                          onToggle={() => handleDropdownToggle("dietaryType")}
-                          setDropdownOpen={setDropdownOpen}
-                          addNew={true}
-                          editValues={true}
-                        />
-                      )}
-                    />
-                  </div>
+                <div className="Primary-page-InputFields">
+                  <LableComponent lable="DietaryType *" />
+                  <Controller
+                    name="dietaryType"
+                    control={control}
+                    render={({ field }: any) => (
+                      <Dropdown
+                        options={dataDietaryType}
+                        type="checkbox"
+                        setOptions={setDataDietaryType}
+                        placeholder="search for option"
+                        register={register}
+                        name="dietaryType"
+                        trigger={trigger}
+                        setValue={setValue}
+                        getValues={getValues}
+                        // validation={{ required: "dietaryType is required" }}
+                        error={errors.dietaryType}
+                        dropdownopen={DropdownOpen.dietaryType}
+                        onToggle={() => handleDropdownToggle("dietaryType")}
+                        setDropdownOpen={setDropdownOpen}
+                        addNew={true}
+                        editValues={true}
+                      />
+                    )}
+                  />
+                </div>
 
-                  <div className="Primary-page-InputFields">
-                    <LableComponent lable="Cuisine *" />
-                    <Controller
-                      name="cuisine"
-                      control={control}
-                      render={({ field }: any) => (
-                        <Dropdown
-                          options={dataCuisine}
-                          type="radio"
-                          setOptions={setDataCuisine}
-                          placeholder="search for option"
-                          register={register}
-                          trigger={trigger}
-                          setValue={setValue}
-                          name="cuisine"
-                          validation={{ required: "cuisine is required" }}
-                          error={errors.cuisine}
-                          {...field}
-                          getValues={getValues}
-                          dropdownopen={DropdownOpen.cuisine}
-                          onToggle={() => handleDropdownToggle("cuisine")}
-                          setDropdownOpen={setDropdownOpen}
-                          addNew={false}
-                          editValues={true}
-                        />
-                      )}
-                    />
-                  </div>
+                <div className="Primary-page-InputFields">
+                  <LableComponent lable="Cuisine *" />
+                  <Controller
+                    name="cuisine"
+                    control={control}
+                    render={({ field }: any) => (
+                      <Dropdown
+                        options={dataCuisine}
+                        type="radio"
+                        setOptions={setDataCuisine}
+                        placeholder="search for option"
+                        register={register}
+                        trigger={trigger}
+                        setValue={setValue}
+                        name="cuisine"
+                        // validation={{ required: "cuisine is required" }}
+                        error={errors.cuisine}
+                        {...field}
+                        getValues={getValues}
+                        dropdownopen={DropdownOpen.cuisine}
+                        onToggle={() => handleDropdownToggle("cuisine")}
+                        setDropdownOpen={setDropdownOpen}
+                        addNew={false}
+                        editValues={true}
+                      />
+                    )}
+                  />
+                </div>
 
-                  <div className="Primary-page-InputFields">
-                    <LableComponent lable="MealType *" />
-                    <Controller
-                      name="mealType"
-                      control={control}
-                      render={({ field }: any) => (
-                        <Dropdown
-                          options={dataMealType}
-                          setOptions={setDataMealType}
-                          placeholder="search for option"
-                           type="checkbox"
-                          {...field}
-                          register={register}
-                          name="mealType"
-                          trigger={trigger}
-                          setValue={setValue}
-                          getValues={getValues}
-                          validation={{ required: "Mealtype is required" }}
-                          error={errors.mealType}
-                          dropdownopen={DropdownOpen.mealType}
-                          onToggle={() => handleDropdownToggle("mealType")}
-                          setDropdownOpen={setDropdownOpen}
-                          addNew={true}
-                          editValues={true}
-                        />
-                      )}
-                    />
-                  </div>
+                <div className="Primary-page-InputFields">
+                  <LableComponent lable="MealType *" />
+                  <Controller
+                    name="mealType"
+                    control={control}
+                    render={({ field }: any) => (
+                      <Dropdown
+                        options={dataMealType}
+                        setOptions={setDataMealType}
+                        placeholder="search for option"
+                        type="checkbox"
+                        {...field}
+                        register={register}
+                        name="mealType"
+                        trigger={trigger}
+                        setValue={setValue}
+                        getValues={getValues}
+                        // validation={{ required: "Mealtype is required" }}
+                        error={errors.mealType}
+                        dropdownopen={DropdownOpen.mealType}
+                        onToggle={() => handleDropdownToggle("mealType")}
+                        setDropdownOpen={setDropdownOpen}
+                        addNew={true}
+                        editValues={true}
+                      />
+                    )}
+                  />
+                </div>
 
-                  <div className="Primary-page-InputFields">
-                    <LableComponent lable="Best paired with food items *" />
-                    <div className="Primary-Page-inputfiled-and-tooltip">
+                <div className="Primary-page-InputFields">
+                  <LableComponent lable="Best paired with food items *" />
+                  <div className="Primary-Page-inputfiled-and-tooltip">
                     <Controller
                       name="bestPair"
                       control={control}
@@ -439,14 +472,14 @@ const PrimaryPage = () => {
                           options={dataBestPair}
                           setOptions={setDataBestPair}
                           placeholder="search for option"
-                           type="checkbox"
+                          type="checkbox"
                           name="bestPair"
                           register={register}
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          validation={{ required: "This field is required" }}
+                          // validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -456,72 +489,69 @@ const PrimaryPage = () => {
                       )}
                     />
                     <Tooltip message="Kitchen Related">
-            <div className="ToolKitchen">
-              <img src={info} alt="" width={25} height={25} />
-            </div>
-          </Tooltip>
-                    </div>
-                    
+                      <div className="ToolKitchen">
+                        <img src={info} alt="" width={25} height={25} />
+                      </div>
+                    </Tooltip>
                   </div>
+                </div>
 
-                  <div className="Primary-Page-description-field">
-                    <LableComponent lable="Description" />
-                    <div>
-                      <Controller
-                        name="description"
-                        control={control}
-                        render={({ field }: any) => (
-                          <>
-                            <textarea
-                              className="description"
-                              name="description"
-                              autoComplete="off"
-                              value={description} // Controlled input with useState
-                              onChange={(e) => handleDescriptionInputChange(e)}
-                              maxLength={maxDescriptonLength}
-                              style={{
-                                borderColor:
-                                  charCount === maxDescriptonLength
-                                    ? "red"
-                                    : "#979797",
-                              }}
-                            />
-                            <p
-                              style={{
-                                color:
-                                  charCount === maxDescriptonLength
-                                    ? "red"
-                                    : "#979797",
-                              }}
-                              className="Primary-page-description-charcount"
-                            >
-                              {`${charCount}/${maxDescriptonLength}`}{" "}
-                              {/* Display character count */}
-                            </p>
-                          </>
-                        )}
-                      />{" "}
-                    </div>
+                <div className="Primary-Page-description-field">
+                  <LableComponent lable="Description" />
+                  <div>
+                    <Controller
+                      name="description"
+                      control={control}
+                      render={({ field }: any) => (
+                        <>
+                          <textarea
+                            className="description"
+                            name="description"
+                            autoComplete="off"
+                            value={description} // Controlled input with useState
+                            onChange={(e) => handleDescriptionInputChange(e)}
+                            maxLength={maxDescriptonLength}
+                            style={{
+                              borderColor:
+                                charCount === maxDescriptonLength
+                                  ? "red"
+                                  : "#979797",
+                            }}
+                          />
+                          <p
+                            style={{
+                              color:
+                                charCount === maxDescriptonLength
+                                  ? "red"
+                                  : "#979797",
+                            }}
+                            className="Primary-page-description-charcount"
+                          >
+                            {`${charCount}/${maxDescriptonLength}`}{" "}
+                            {/* Display character count */}
+                          </p>
+                        </>
+                      )}
+                    />{" "}
                   </div>
+                </div>
 
-                  <div className="Primary-Page-Foodimages">
-                    <h3>Food image</h3>
-                    <p>
-                      Image size should be under 2MB, in PNG or JPEG format.
-                    </p>
-                    <div className="imagealignment">
-                      <input
-                        type="file"
-                        name="imageUrls"
-                        className="imgfile"
-                        id="imgadd"
-                        accept="image/png, image/jpeg"
-                        multiple
-                        onChange={handleImageUpload}
-                        // name="imageUrls"
-                      />
+                <div className="Primary-Page-Foodimages">
+                  <h3>Food image</h3>
+                  <p>Image size should be under 2MB, in PNG or JPEG format.</p>
+                  <div className="imagealignment">
+                    <input
+                      type="file"
+                      name="imageUrls"
+                      className="imgfile"
+                      id="imgadd"
+                      accept="image/png, image/jpeg"
+                      multiple
+                      onChange={handleImageChange}
+                      // name="imageUrls"
+                    />
 
-                      {images.map((image, index) => (
+                    {/* {images.map((image, index) => (
                         <div key={index} className="image-container">
                           <button
                             onClick={() => handleImageDeletion(index)}
@@ -537,34 +567,52 @@ const PrimaryPage = () => {
                             className="uploaded-image"
                           />
                         </div>
-                      ))}
+                      ))} */}
+                    {images.map((img, index) => (
+                      <div key={index} className="image-container">
+                        <img
+                          className="uploaded-image"
+                          src={img.preview}
+                          alt={`Preview of ${img.file.name}`}
+                   
+                        />
+                        {/* <div>
+                          {img.file.name} -{" "}
+                          {img.uploaded
+                            ? "Uploaded"
+                            : img.failed
+                            ? "Failed"
+                            : "Pending Upload"}
+                        </div> */}
+                      </div>
+                    ))}
 
-                      <img
-                        src={ImgaeUploading}
-                        alt="Add"
-                        className="addingimg"
-                        onClick={handleAddImage}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="Primary-page-InputFields alcoholradiobutton">
-                    <h3>Contains Alcohol ?</h3>
-                    <RadioButtonGroup
-                      options={alcoholradio}
-                      name="alcohol"
-                      selectedValue={selectedradiowatch.alcohol}
-                      onChange={(value) => handleRadioChange("alcohol", value)}
-                      register={register}
+                    <img
+                      src={ImgaeUploading}
+                      alt="Add"
+                      className="addingimg"
+                      onClick={handleAddImage}
                     />
                   </div>
                 </div>
 
-                <div className="Primary-page-container-pairtwo">
-                  <div className="Primary-page-InputFields">
-                    {" "}
-                    <LableComponent lable="ItemCode" />
-                    <div className="Primary-Page-inputfiled-and-tooltip" >
+                <div className="Primary-page-InputFields alcoholradiobutton">
+                  <h3>Contains Alcohol ?</h3>
+                  <RadioButtonGroup
+                    options={alcoholradio}
+                    name="alcohol"
+                    selectedValue={selectedradiowatch.alcohol}
+                    onChange={(value) => handleRadioChange("alcohol", value)}
+                    register={register}
+                  />
+                </div>
+              </div>
+
+              <div className="Primary-page-container-pairtwo">
+                <div className="Primary-page-InputFields">
+                  {" "}
+                  <LableComponent lable="ItemCode" />
+                  <div className="Primary-Page-inputfiled-and-tooltip">
                     <Controller
                       name="itemCode"
                       control={control}
@@ -578,202 +626,199 @@ const PrimaryPage = () => {
                           trigger={trigger}
                         />
                       )}
-                    /> <Tooltip message="Kitchen Related">
-            <div className="ToolKitchen">
-              <img src={info} alt="" width={25} height={25} />
-            </div>
-          </Tooltip> </div>
-                   
+                    />{" "}
+                    <Tooltip message="Kitchen Related">
+                      <div className="ToolKitchen">
+                        <img src={info} alt="" width={25} height={25} />
+                      </div>
+                    </Tooltip>{" "}
                   </div>
+                </div>
 
+                <div className="Primary-page-InputFields">
+                  {" "}
+                  <LableComponent lable="Upc / Barcode number" />
+                  <Controller
+                    name="barCode"
+                    control={control}
+                    render={({ onChange, onBlur, value }: any) => (
+                      <InputFieldComponent
+                        name="barCode"
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        value={value}
+                        trigger={trigger}
+                      />
+                    )}
+                  />
+                </div>
+
+                <div className="Primary-page-InputFields PopularItem">
+                  <input type="checkbox" />
+                  <span>Popular item ( 3/10 )</span>
+                </div>
+
+                <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
-                    {" "}
-                    <LableComponent lable="Upc / Barcode number" />
+                    <LableComponent lable="Category*" />
                     <Controller
-                      name="barCode"
+                      name="category"
                       control={control}
-                      render={({ onChange, onBlur, value }: any) => (
-                        <InputFieldComponent
-                          name="barCode"
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          value={value}
+                      render={({ field }: any) => (
+                        <Dropdown
+                          options={categories}
+                          setOptions={setCategories}
+                          placeholder="search for option"
+                          type="radio"
+                          name="category"
+                          id="categoryId"
+                          register={register}
+                          setValue={setValue}
                           trigger={trigger}
+                          getValues={getValues}
+                          // validation={{ required: "category is required" }}
+                          error={errors.category}
+                          dropdownopen={DropdownOpen.category}
+                          setDropdownOpen={setDropdownOpen}
+                          onToggle={() => handleDropdownToggle("category")}
+                          addNew={true}
+                          editValues={true}
                         />
                       )}
                     />
                   </div>
 
-                  <div className="Primary-page-InputFields PopularItem">
-                    <input type="checkbox" />
-                    <span>Popular item ( 3/10 )</span>
-                  </div>
-
-                  <div className="Primary-Page-categories-field">
-                    <div className="Primary-page-InputFields">
-                      <LableComponent lable="Category*" />
-                      <Controller
-                        name="category"
-                        control={control}
-                        render={({ field }: any) => (
-                          <Dropdown
-                            options={categories}
-                            setOptions={setCategories}
-                            placeholder="search for option"
-                             type="radio"
-                            name="category"
-                            id="categoryId"
-                            register={register}
-                            setValue={setValue}
-                            trigger={trigger}
-                            getValues={getValues}
-                            validation={{ required: "category is required" }}
-                            error={errors.category}
-                            dropdownopen={DropdownOpen.category}
-                            setDropdownOpen={setDropdownOpen}
-                            onToggle={() => handleDropdownToggle("category")}
-                            addNew={true}
-                            editValues={true}
-                          />
-                        )}
-                      />
-                    </div>
-                    
-                    <div className="Primary-page-InputFields">
-                      <LableComponent lable="SubCategory" />
-                      <Controller
-                        name="subCategory"
-                        control={control}
-                        render={({ field }: any) => (
-                          <Dropdown
-                            options={dataSubcategory}
-                            setOptions={setDataSubcategory}
-                            placeholder="search for option"
-                            type="radio"
-                            name="subCategory"
-                            register={register}
-                            trigger={trigger}
-                            setValue={setValue}
-                            getValues={getValues}
-                            addNew={true}
-                            editValues={true}
-                            dropdownopen={DropdownOpen.subCategory}
-                            setDropdownOpen={setDropdownOpen}
-                            onToggle={() => handleDropdownToggle("subCategory")}
-                          />
-                        )}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="Primary-page-Allergens-selection">
-                    <Imagepillsselection
-                      heading="Allergens*"
-                      options={validImages}
-                      setValue={setValue}
-                      name="allergens"
-                      register={register}
-
+                  <div className="Primary-page-InputFields">
+                    <LableComponent lable="SubCategory" />
+                    <Controller
+                      name="subCategory"
+                      control={control}
+                      render={({ field }: any) => (
+                        <Dropdown
+                          options={dataSubcategory}
+                          setOptions={setDataSubcategory}
+                          placeholder="search for option"
+                          type="radio"
+                          name="subCategory"
+                          register={register}
+                          trigger={trigger}
+                          setValue={setValue}
+                          getValues={getValues}
+                          addNew={true}
+                          editValues={true}
+                          dropdownopen={DropdownOpen.subCategory}
+                          setDropdownOpen={setDropdownOpen}
+                          onToggle={() => handleDropdownToggle("subCategory")}
+                        />
+                      )}
                     />
                   </div>
                 </div>
-              </div>
-              <div className="Primary-page-container-two">
-                <div className="Primary-page-ingredients-selection">
+
+                <div className="Primary-page-Allergens-selection">
                   <Imagepillsselection
-                    heading="Ingredients*"
-                    options={ingredientsFromAPi}
+                    heading="Allergens*"
+                    options={validImages}
                     setValue={setValue}
-                    name="Ingredients"
+                    name="allergens"
                     register={register}
                   />
                 </div>
+              </div>
+            </div>
+            <div className="Primary-page-container-two">
+              <div className="Primary-page-ingredients-selection">
+                <Imagepillsselection
+                  heading="Ingredients*"
+                  options={ingredientsFromAPi}
+                  setValue={setValue}
+                  name="Ingredients"
+                  register={register}
+                />
+              </div>
 
-                <div className="Primary-Page-Other-Details">
-                  <h3 className="Primary-Page-Other-Details-heading">
-                    Other Details
-                  </h3>
-                  <div className="Primary-Page-Other-Detail ">
-                    <div>
-                      <Controller
-                        name="coloriePoint"
-                        control={control}
-                        render={({ onChange, onBlur, value }: any) => (
-                          <InputFieldComponent
-                            name="coloriePoint"
-                            onChange={onChange}
-                            onBlur={onBlur}
-                            value={value}
-                            trigger={trigger}
-                            placeholder="Cal"
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="Caloriepointradio">
-                      <RadioButtonGroup
-                        options={calorieponitradio}
-                        name="selectedcolorie"
-                        selectedValue={selectedradiowatch.selectedcolorie}
-                        onChange={(value) =>
-                          handleRadioChange("selectedcolorie", value)
-                        }
-                        register={register}
-                      />
-                    </div>
+              <div className="Primary-Page-Other-Details">
+                <h3 className="Primary-Page-Other-Details-heading">
+                  Other Details
+                </h3>
+                <div className="Primary-Page-Other-Detail ">
+                  <div>
+                    <Controller
+                      name="coloriePoint"
+                      control={control}
+                      render={({ onChange, onBlur, value }: any) => (
+                        <InputFieldComponent
+                          name="coloriePoint"
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                          trigger={trigger}
+                          placeholder="Cal"
+                        />
+                      )}
+                    />
                   </div>
+                  <div className="Caloriepointradio">
+                    <RadioButtonGroup
+                      options={calorieponitradio}
+                      name="selectedcolorie"
+                      selectedValue={selectedradiowatch.selectedcolorie}
+                      onChange={(value) =>
+                        handleRadioChange("selectedcolorie", value)
+                      }
+                      register={register}
+                    />
+                  </div>
+                </div>
 
-                  <div className="Primary-Page-Other-Detail">
-                    <div className="Primary-Page-inputfiled-and-tooltip">
-                 
-                     <Controller
-                        name="portionSize"
-                        control={control}
-                        render={({ onChange, onBlur, value }: any) => (
-                          <InputFieldComponent
-                            name="portionSize"
-                            onChange={onChange}
-                            onBlur={onBlur}
-                            value={value}
-                            trigger={trigger}
-                            placeholder={getValues("selectedPortion")}
-                          />
-                        )}
-                      />
-                      <Tooltip message="Kitchen Related">
-            <div className="ToolKitchen">
-              <img src={info} alt="" width={25} height={25} />
-            </div>
-          </Tooltip>
-                     </div>
-                    
-
-                    <div className="Primary-Page-inputfiled-and-tooltip">
-                      <RadioButtonGroup
-                        options={portionsizeradio}
-                        name="selectedPortion"
-                        selectedValue={selectedradiowatch.selectedPortion}
-                        onChange={(value) =>
-                          handleRadioChange("selectedPortion", value)
-                        }
-                        register={register}
-                      />
-                      <div className="portionsizeTooltip">
-                      <Tooltip message="Kitchen Related">
-            <div className="ToolKitchen">
-              <img src={info} alt="" width={25} height={25} />
-            </div>
-          </Tooltip>
+                <div className="Primary-Page-Other-Detail">
+                  <div className="Primary-Page-inputfiled-and-tooltip">
+                    <Controller
+                      name="portionSize"
+                      control={control}
+                      render={({ onChange, onBlur, value }: any) => (
+                        <InputFieldComponent
+                          name="portionSize"
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          value={value}
+                          trigger={trigger}
+                          placeholder={getValues("selectedPortion")}
+                        />
+                      )}
+                    />
+                    <Tooltip message="Kitchen Related">
+                      <div className="ToolKitchen">
+                        <img src={info} alt="" width={25} height={25} />
                       </div>
-                      
-
-                    </div>
+                    </Tooltip>
                   </div>
 
-                  <div className="Primary-Page-Other-Detail">
-                    <div>
-                      {" "}
-                      <div className="Primary-Page-inputfiled-and-tooltip"><Controller
+                  <div className="Primary-Page-inputfiled-and-tooltip">
+                    <RadioButtonGroup
+                      options={portionsizeradio}
+                      name="selectedPortion"
+                      selectedValue={selectedradiowatch.selectedPortion}
+                      onChange={(value) =>
+                        handleRadioChange("selectedPortion", value)
+                      }
+                      register={register}
+                    />
+                    <div className="portionsizeTooltip">
+                      <Tooltip message="Kitchen Related">
+                        <div className="ToolKitchen">
+                          <img src={info} alt="" width={25} height={25} />
+                        </div>
+                      </Tooltip>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="Primary-Page-Other-Detail">
+                  <div>
+                    {" "}
+                    <div className="Primary-Page-inputfiled-and-tooltip">
+                      <Controller
                         name="tax"
                         control={control}
                         render={({ onChange, onBlur, value }: any) => (
@@ -787,18 +832,19 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
-                      <div ><Tooltip message="Kitchen Related">
-            <div className="ToolKitchen">
-              <img src={info} alt="" width={25} height={25} />
-            </div>
-          </Tooltip></div>
-                      
+                      <div>
+                        <Tooltip message="Kitchen Related">
+                          <div className="ToolKitchen">
+                            <img src={info} alt="" width={25} height={25} />
+                          </div>
+                        </Tooltip>
                       </div>
                     </div>
-                    <div className="Primary-page-Other-Detail-mastercode">
-                      <LableComponent lable="Master Item Code" />
+                  </div>
+                  <div className="Primary-page-Other-Detail-mastercode">
+                    <LableComponent lable="Master Item Code" />
 
-                      <div className="Primary-Page-inputfiled-and-tooltip">
+                    <div className="Primary-Page-inputfiled-and-tooltip">
                       <Controller
                         name="masterCode"
                         control={control}
@@ -815,22 +861,22 @@ const PrimaryPage = () => {
                         )}
                       />
                       <Tooltip message="Kitchen Related">
-            <div className="ToolKitchen">
-              <img src={info} alt="" width={25} height={25} />
-            </div>
-          </Tooltip>
-                      </div>
+                        <div className="ToolKitchen">
+                          <img src={info} alt="" width={25} height={25} />
+                        </div>
+                      </Tooltip>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <SaveAndNext
-                getFormData={getValues}
-                seletedpage="Primary"
-                reset={reset}
-                trigger={trigger}
-              />
+            <SaveAndNext
+              getFormData={getValues}
+              seletedpage="Primary"
+              reset={reset}
+              triggerValidation={() => trigger()}
+            />
             {/* </form> */}
           </div>
         </div>

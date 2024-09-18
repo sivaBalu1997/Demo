@@ -8,6 +8,8 @@
   left: 10px;
 
   left: 20px;
+  // background-color: greenyellow;
+  width: 510px;
 }
 .Step2-container {
   position: relative;
@@ -100,20 +102,25 @@
   margin-top: 7px;
 }
 .Step2Preparation {
-  width: 250px;
+  width: 200px;
   display: flex;
   flex-direction: column;
+  // background-color: red;
 }
 .Step2Preparationheading {
   font-size: 12px;
   font-weight: 400;
   color: #6e6e6e;
+  width: fit-content;
+  // background-color: red;
 }
 .Step2Preparationvalue {
   margin-top: 5px;
   font-size: 14px;
   font-weight: 500;
   margin-top: 7px;
+  width: fit-content;
+  // background-color: red;
 }
 .Step2Inventory-relatedheading {
   font-size: 16px;
@@ -146,20 +153,25 @@
   margin-bottom: 10px;
 }
 .Step2Threshold {
-  width: 250px;
+  width: 200px;
   display: flex;
   flex-direction: column;
+  // background-color: red;
 }
 .Step2Thresholdheading {
   font-size: 12px;
   font-weight: 400;
   color: #6e6e6e;
   margin-bottom: 5px;
+  width: fit-content;
+  // background-color: red;
 }
 .Step2Thresholdvalue {
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 10px;
+  width: fit-content;
+  // background-color: red;
 }
 .Step2InventoryMaxCount {
   width: 250px;
@@ -167,7 +179,8 @@
   flex-direction: column;
 }
 .Step2ResetInventory {
-  width: 250px;
+  width: 200px;
   display: flex;
   flex-direction: column;
+  // background-color: red;
 }
