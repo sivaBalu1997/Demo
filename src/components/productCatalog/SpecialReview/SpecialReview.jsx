@@ -10,7 +10,7 @@ const SpecialReview = () => {
 
   const specialcheck= prizingDetail && prizingDetail.specialForm && prizingDetail.specialForm.specialcheck ;
   const [specialcheck1, setspecialcheck1] = useState(specialcheck);
-  console.log(specialcheck)
+  // console.log(specialcheck)
 
 
   return (
