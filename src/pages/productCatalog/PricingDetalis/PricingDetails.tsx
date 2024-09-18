@@ -307,27 +307,25 @@ const PricingDetails = () => {
     Deliveryspecial: { isValid: true, errorMessage: "" },
     Deliveryspecial1: { isValid: true, errorMessage: "" },
     Deliveryspecial2: { isValid: true, errorMessage: "" },
+    NormalMealtype: { isValid: true, errorMessage: "" },
+    NormalServiceArea: { isValid: true, errorMessage: "" },
+    PickupSwiggy:{ isValid: true, errorMessage: "" },
   });
 
   const validateDropdown = (value: string[], field: string | number) => {
     let isValid = true;
     let errorMessage = "";
-
+  
     if (value.length === 0) {
       isValid = false;
       errorMessage = "This field is required";
     }
-
-    if (typeof field === "string") {
-      setValidationState((prevState) => ({
-        ...prevState,
-        [field]: { isValid, errorMessage },
-      }));
-    } else {
-      console.error(
-        "Field type is not a string, cannot update validation state"
-      );
-    }
+  
+    // Handle both string and index (number) based fields
+    setValidationState((prevState) => ({
+      ...prevState,
+      [field]: { isValid, errorMessage },
+    }));
   };
 
   const validateForm = (): boolean => {
@@ -641,7 +639,7 @@ const PricingDetails = () => {
               seletedpage="Pricing"
               reset={reset}
               triggerValidation={() => trigger()}
-              // mainForm={mainForm}
+              mainForm={mainForm}
             />
           </div>
         </div>

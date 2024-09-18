@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import StringDisplay from "../StringDisplay/StringDisplay";
 
 interface Item {
-  name: string;
+  itemName: string;
   itemCode: string;
   id: number;
 }
@@ -116,7 +116,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               className="itemname2"
               onClick={() => handleItemnameClick(item.id)}
             >
-              <StringDisplay text={item.name}  />
+              <StringDisplay text={item.itemName} length={14} />
             </span>
             <span className="itemcode2">{item.itemCode}</span>
           </td>

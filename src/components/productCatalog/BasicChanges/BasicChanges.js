@@ -4,11 +4,9 @@ import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import Basic from '../../../assets/images/Basic.png';
 import { useSelector } from 'react-redux';
 
-const BasicChanges = () => {
+const BasicChanges = ({ onclose }) => {
   const outlets = useSelector((state) => state.auth.restaurantDetails?.branch);
-  const [outletToggles, setOutletToggles] = useState(
-    outlets?.map(() => false) // Initialize toggle state for each outlet
-  );
+  const [outletToggles, setOutletToggles] = useState(outlets?.map(() => false) || []);
 
   // Function to handle toggle change for each outlet
   const handleToggleChange = (index) => {
@@ -16,32 +14,35 @@ const BasicChanges = () => {
     updatedToggles[index] = !updatedToggles[index]; // Toggle the specific outlet
     setOutletToggles(updatedToggles);
   };
-const handleInputChange=(e)=>{
-  const isChecked = e.target.checked;
 
-  const updatedToggles = outlets.map(() => isChecked); 
-  setOutletToggles(updatedToggles);
+  // Handle input change for the "Change across all outlets" checkbox
+  const handleInputChange = (e) => {
+    const isChecked = e.target.checked;
+    const updatedToggles = outlets?.map(() => isChecked) || [];
+    setOutletToggles(updatedToggles);
+  };
 
-  if(isChecked===false){
-    
-  const updatedToggles = outlets?.map(() => false); 
-  setOutletToggles(updatedToggles);
+  // Function to handle the "Change" button click
+  const handleChangeButton = () => {
+    onclose();
+  };
 
-  }
-
-}
   return (
     <>
       <div className="BasicChangesContainer">
         <div className="BasicChanges">
           <img src={Basic} className="BasicChangesImage" alt="Basic" />
           <p className="BasicChangesText">
-            Make basic changes here. Click the edit icon for all options
+            Make basic changes here. Click the edit icon for all options.
           </p>
         </div>
         <div className="BasicChangesDiv"></div>
         <div className="BasicChangescheckbox">
-          <input type="checkbox" className="BasicCheckboxInput" onChange={handleInputChange}/>
+          <input
+            type="checkbox"
+            className="BasicCheckboxInput"
+            onChange={handleInputChange}
+          />
           <h1 className="BasicChangescheckbox-Heading">Change across all outlets</h1>
         </div>
         <div className="ToggleBasicChanges">
@@ -56,8 +57,8 @@ const handleInputChange=(e)=>{
           ))}
         </div>
         <div className="CancelChange">
-          <button className="CancelBtn">Cancel</button>
-          <button className="ChangeBtn">Change</button>
+          <button className="CancelBtn" onClick={handleChangeButton}>Cancel</button>
+          <button className="ChangeBtn" onClick={handleChangeButton} >Change </button>
         </div>
       </div>
     </>
@@ -65,4 +66,3 @@ const handleInputChange=(e)=>{
 };
 
 export default BasicChanges;
- 

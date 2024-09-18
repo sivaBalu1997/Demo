@@ -16,23 +16,19 @@ const Step2 = () => {
 
   const { setActiveCategory } = useContext(Contextpagejs);
   return (
-    <div className="container-step2">
-      <div className="Step2-Container">
-        <div className="Step2-form">
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <h1 className="Step2-heading">
-              Step 2 Pricing and Kitchen Details
-            </h1>
-            <div>
-              <Link
-                to="/productCatalog/Pricingandkitchendetails"
-                className="editbuttonpricing"
-                onClick={() =>
-                  setActiveCategory("Step 2: Pricing and kitchen details")
-                }
-              >
-                <img src={edit} alt="" width={15} height={15} />
-                <span style={{ marginLeft: "2px" }}> Edit</span>
+    <div className='container-step2'>
+  
+        <div className='Step2-Container'>
+            <div className='Step2-form'>
+              <div style={{display:'flex',flexDirection:'row'}}>
+              <h1 className='Step2-heading'>Step 2: Pricing and Kitchen Details</h1>
+              <div  >
+             
+
+              <Link to="/Navigationpage" className='editbuttonpricing' onClick={()=>setActiveCategory("Step 2: Pricing and kitchen details")}>
+              <img src={edit} alt="" width={15}
+                height={15}/>
+              <span style={{marginLeft:'2px'}} > Edit</span> 
               </Link>{" "}
             </div>
           </div>

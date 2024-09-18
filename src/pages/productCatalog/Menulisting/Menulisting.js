@@ -177,7 +177,7 @@ export const Menulisting = () => {
     }
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
-  }, [Mockdata, FilteredData]);
+  }, [Mockdata, FilteredData,mergedMockData]);
 
   useEffect(() => {
     setsteamType([
@@ -539,9 +539,9 @@ export const Menulisting = () => {
           </div>
           {modal && (
             <Slider
-              onclose={() => setmodal(false)}
               sidebartext={sidebartext}
               SideBarData={SideBarData}
+              onclose={()=>setmodal(false)}
             />
           )}
         </div>
