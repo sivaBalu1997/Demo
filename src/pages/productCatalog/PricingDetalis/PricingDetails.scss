@@ -3,22 +3,24 @@
 }
 .pricingdetails-containerExpanded {
   position: absolute;
-  top: 151px;
+  top: 150px;
   margin-left: -10px;
   overflow-x: hidden;
-  height: 480px;
+  height: 470px;
   width: 80%;
   overflow-y: auto;
+  // background-color: red;
 }
 
 .pricingdetails-container {
   position: absolute;
-  top: 160px;
+  top: 150px;
   margin-left: -20px;
   overflow-x: hidden;
-  height: 550px;
+  height: 470px;
   width: 93.3%;
   overflow-y: auto;
+  // background-color: orange;
 }
 .pricing-form {
   display: flex;
