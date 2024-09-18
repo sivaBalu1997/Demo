@@ -21,7 +21,7 @@ const Step2 = () => {
         <div className='Step2-Container'>
             <div className='Step2-form'>
               <div style={{display:'flex',flexDirection:'row'}}>
-              <h1 className='Step2-heading'>Step 2 Pricing and Kitchen Details</h1>
+              <h1 className='Step2-heading'>Step 2: Pricing and Kitchen Details</h1>
               <div  >
              
 
