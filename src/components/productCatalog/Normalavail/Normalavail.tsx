@@ -1,4 +1,4 @@
-  import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
   import Toggle from "../Toggle/Toggle";
   import "./Normalavail.scss";
   import DaysCheck from "../DayCheck/DaysCheck";

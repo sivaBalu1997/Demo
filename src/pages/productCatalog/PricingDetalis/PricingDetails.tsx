@@ -634,19 +634,6 @@ const PricingDetails = () => {
                 mainFormSpecial={mainFormSpecial}
               />
             )}
-
-            {/* <div
-                className={
-                  isExpanded
-                    ? "saveandnextPricingExpanded"
-                    : "saveandnextPricing"
-                }
-              >
-                <button className="clearallPricing">Clear All</button>
-                <button className="link saveall" onClick={dispatchEvent}>
-                  Save & next
-                </button>
-              </div> */}
             <SaveAndNext
               getFormData={getValues}
               seletedpage="Pricing"
