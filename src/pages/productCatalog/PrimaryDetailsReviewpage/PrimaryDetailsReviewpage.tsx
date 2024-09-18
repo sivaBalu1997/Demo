@@ -13,6 +13,7 @@ import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImag
 import { addMenuItemRequest, addMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
+import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
 
 interface Image {
   id: string;
@@ -28,6 +29,12 @@ interface AllergenImage {
 interface Base64Image {
   mimeType: string;
   base64String: string;
+}
+interface ImageFile {
+  file: File;
+  uploaded: boolean;
+  failed: boolean;
+  preview: string; // To store the image preview URL
 }
 
 interface PrimaryData {
@@ -59,7 +66,7 @@ interface PrimaryData {
   selectedPortion: string;
   tax: string;
   masterCode: string;
-  imageUrls: Base64Image[];
+  imageUrls: ImageFile[];
   allergens: AllergenImage[];
 }
 interface RootState {
@@ -117,11 +124,61 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   }]
 
+
+  const [uploading, setUploading] = useState(false);
+
+  const Simulationofimageupload = async (index: number) => {
+    return new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        if (index % 2 === 0) {
+          reject(`Image ${index + 1} failed`);
+        } else {
+          resolve();
+        }
+      }, 1000); 
+    });
+  };
+  const selectedImages = fetchedprimarydata?.imageUrls || [];
+
+console.log("selectedImages",selectedImages)
+  const [uploadedimage,setUploadedimage]=useState<ImageFile[]>(fetchedprimarydata.imageUrls)
+
+  const uploadImages = async () => {
+    setUploading(true);
+    for (let i = 0; i < uploadedimage.length; i++) {
+      if (uploadedimage[i].uploaded || uploadedimage[i].failed) continue;
+  
+      try {
+        await Simulationofimageupload(i); 
+  
+        setUploadedimage((prevImages) =>
+          prevImages.map((img, index) =>
+            index === i ? { ...img, uploaded: true } : img
+          )
+        );
+        console.log("Uploaded:", uploadedimage[i].file.name);
+      } catch (error) {
+        setUploadedimage((prevImages) =>
+          prevImages.map((img, index) =>
+            index === i ? { ...img, failed: true, preview: emptyfoodimg } : img
+          )
+        );
+        alert(`Failed to upload image: ${uploadedimage[i].file.name}`);
+      }
+    }
+    setUploading(false);
+  };
+  
   const handleDispatch=()=>{
+    uploadImages()
 
     dispatch(addMenuItemRequest(data))
     dispatch(addMockDataRequest(data))
-    history.push("/menuListing")
+    // if(!uploading)
+    // {
+    // history.push("/menuListing")
+    // }
+   
     
     
   }
@@ -313,7 +370,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                     <p>Primary Image</p>
 
                     <PrimaryImageSelected
-                      fetchedprimarydata={fetchedprimarydata}
+                      fetchedprimarydata={uploadedimage}
+
                     />
                   </div>
                 }
@@ -381,6 +439,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             onClick={handleDispatch}
+            disabled={uploading || selectedImages.length === 0}
           >
             Submit for review
           </button>

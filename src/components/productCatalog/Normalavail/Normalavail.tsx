@@ -337,16 +337,12 @@
       index: number,
       e: React.ChangeEvent<HTMLInputElement>
     ): void => {
-      // Create a copy of the current state
-      const newEntries = [...dineinfields];
 
-      // Update the specific field in the copied state
+      const newEntries = [...dineinfields];
       newEntries[index] = {
         ...newEntries[index],
         [e.target.name as keyof DineInField]: e.target.value,
       };
-
-      // Set the updated state
       setDineInFields(newEntries);
     };
 
@@ -357,12 +353,12 @@
 
       if (Text[index] === "Set up for Specific Day") {
         newText[index] = "Set up for All Days";
-        tempArray[index] = []; // Clears the dates for the specific index
+        tempArray[index] = [];
         newDineInFields[index].showDay = false;
       } else {
         newText[index] = "Set up for Specific Day";
         newDineInFields[index].showDay = true;
-        // tempArray[index] remains unchanged, so it keeps the current dates
+    
       }
 
       setText(newText);
@@ -399,13 +395,12 @@
     }, [mainForm]); 
 
     const handleSelect2 = (values: any, index: number): void => {
-      // Update selected values state
+
       setSelectedValues((prevState: SelectedValuesState) => ({
         ...prevState,
         [index]: values,
       }));
 
-      // Update dineinfields state
       const newDineInFields = [...dineinfields];
       newDineInFields[index] = {
         ...newDineInFields[index],
@@ -447,17 +442,15 @@
     };
 
     const handleSelectMealtype = (value: MealType, index: number): void => {
-      // Update selected values state
+
       const newSelectedValues = [...selectedValuesmealtype];
       newSelectedValues[index] = value;
       setSelectedValuesMealType(newSelectedValues);
 
-      // Update dineinfields state
       const newDineInFields = [...dineinfields];
       newDineInFields[index].DineInMealType = value;
       setDineInFields(newDineInFields);
 
-      // Validate dropdown if 'dinein' is truthy
       if (dinein) {
         validateDropdown(value, index);
       }
@@ -469,25 +462,21 @@
       index: number,
       value: ServiceValueType
     ): void => {
-      // Update selected values state
+ 
       setSelectedValues(value);
 
-      // Update dineinfields state
+
       const newDineInFields = [...dineinfields];
       newDineInFields[index].DineInService = value;
       setDineInFields(newDineInFields);
     };
     const handleMealSelect2 = (index: number, value: MealType): void => {
-      // Ensure index is within the bounds of the array
+ 
       if (index < 0 || index >= dineinfields.length) {
         console.error("Index out of bounds");
         return;
       }
-      
-
-      // Update selected values state
-
-      // Update dineinfields state
+ 
       const newDineInFields = [...dineinfields];
       newDineInFields[index].DineInMealType = value;
       setDineInFields(newDineInFields);
@@ -538,6 +527,7 @@
                       className="DineInInput1Normal"
                       onChange={(e) => handleChange(index, e)}
                     />
+                    
                     <div className="Mealz">
                       <DropDown
                         selectedValues={selectedValuesmealtype[index] || ""}

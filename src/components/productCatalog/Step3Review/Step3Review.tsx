@@ -32,7 +32,7 @@ const Step3Review:React.FC = () => {
 
 
   // Log the data to inspect its structure
-  console.log(itemCustomizationData);
+  // console.log(itemCustomizationData);
 
   return (
     <div className="step3-Review-Container">
