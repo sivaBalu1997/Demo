@@ -1,11 +1,11 @@
-*{
-  font-family: "Poppins",sans-serif;
+* {
+  font-family: "Poppins", sans-serif;
 }
 .dropdown-containerPricing {
   position: relative;
   width: 300px;
- height: 44px;
- margin-left: 30px;
+  height: 44px;
+  margin-left: 30px;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -18,13 +18,11 @@
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  
   height: 44px;
-  
   height: 44px;
   border-radius: 5px;
 }
-.dropdownPricingred{
+.dropdownPricingred {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -32,14 +30,11 @@
   border: 1px solid red;
   cursor: pointer;
   width: 200px;
-  height:44px;
+  height: 44px;
   border-radius: 5px;
-
 }
 
-
 .optionsPricing {
-  
   position: absolute;
   top: 64px;
   left: -1px;
@@ -48,8 +43,8 @@
   border-radius: 4px;
   background: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  height: 125px; /* Adjust this height as needed */
+  // z-index: 1000;
+  height: 125px;
   overflow-y: auto;
 }
 
@@ -74,7 +69,8 @@
   padding: 5px;
 }
 
-.add-item-btn, .btn-add-item {
+.add-item-btn,
+.btn-add-item {
   padding: 5px 10px;
   margin-top: 5px;
   border: none;
@@ -83,42 +79,42 @@
   color: #fff;
   cursor: pointer;
 }
-.placePricing{
+.placePricing {
   color: #979797;
   margin-left: 10px;
 }
-.imgplacePricing{
+.imgplacePricing {
   display: flex;
   justify-content: start;
 }
-.add-item-btn:hover, .btn-add-item:hover {
+.add-item-btn:hover,
+.btn-add-item:hover {
   background-color: #0056b3;
 }
-.checkboxPricing{
+.checkboxPricing {
   width: 20px;
   height: 20px;
   transform: translateY(5px);
-  accent-color:#779749;
+  accent-color: #779749;
   margin-left: 10px;
 }
-.valuePricing{
+.valuePricing {
   font-size: 14px;
   font-weight: 400;
   color: #979797;
 }
-.arrowdropPricing{
+.arrowdropPricing {
   width: 16px;
   height: 8.67px;
   opacity: 30%;
-
 }
-.arrowrotatePricing{
+.arrowrotatePricing {
   width: 16px;
   height: 8.67px;
   transform: rotate(180deg);
   opacity: 30%;
 }
-.droplabelPricing{
+.droplabelPricing {
   color: #666666;
   font-size: 14px;
   font-weight: 400;
