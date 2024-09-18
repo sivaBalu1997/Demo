@@ -72,6 +72,8 @@
     setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
     setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>; 
     mainFormState:any
+    dineinfields?:any
+    setDineInFields:(form:any)=>void
   }
 
   type MealType1 = string;
@@ -93,6 +95,8 @@
     setDineIn,
     setMainFormState,
     mainFormState ,
+    dineinfields,
+    setDineInFields,
     
     
 
@@ -100,15 +104,7 @@
     const [online, setOnline] = useState(false);
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
-    const [dineinfields, setDineInFields] = useState<DineInField[]>([
-      {
-        DineInPrice: "",
-        DineInMealType: [],
-        DineInService: "",
-        showDay: false,
-        dayButtonText: "Add Day",
-      },
-    ]);
+   
     const [dineinentry, setDineInEntry] = useState<string[]>([]);
     const [Normaldays, setNormalDays] = useState<number[]>([]);
     const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -301,7 +297,7 @@
     }, []);
     const handleDelete = (index: number): void => {
       // Filter out the entry at the given index
-      const newEntries = dineinfields.filter((_, i) => i !== index);
+      const newEntries = dineinfields.filter((_:any, i:any) => i !== index);
       setDineInFields(newEntries);
 
       // Handle selected values
@@ -509,7 +505,7 @@
         </div>
         {dinein ? (
           <>
-            {dineinfields.map((entry, index) => {
+            {dineinfields.map((entry:any, index:any) => {
               return (
                 <>
                   <div className="LabelPrice">
