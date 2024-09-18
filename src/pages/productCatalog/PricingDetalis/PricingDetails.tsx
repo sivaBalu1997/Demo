@@ -117,9 +117,16 @@ interface FormState1 {
   Inventory1: string;
   Inventory2: string;
 }
+interface media{
+  imageId:string
+  imageType:string
+ }
 interface Option {
-  name: string;
+ 
   id: string;
+  name: string;
+  canDelete:string;
+  media:media
 }
 
 interface MainForm {
