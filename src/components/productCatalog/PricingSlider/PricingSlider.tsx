@@ -117,7 +117,7 @@ setShowCompare(!showCompare)
                   <div className="SectionInput">
                     <h3 className="SectionA-Heading">{section}</h3>
                     <input
-                      type={elem.inputTypes[seInd] || "text"}
+                      type={elem.inputTypes[seInd] || "number"}
                       className="SectionA-Input"
                       // Corrected optional chaining and null checks
                       value={
@@ -148,7 +148,7 @@ setShowCompare(!showCompare)
                             {inputlabels}
                           </h3>
                           <input
-                            type={elem.inputTypes[idx] || "text"}
+                            type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
                             value={
                               sub === 0

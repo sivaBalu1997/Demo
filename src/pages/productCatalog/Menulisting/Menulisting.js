@@ -539,9 +539,9 @@ export const Menulisting = () => {
           </div>
           {modal && (
             <Slider
-              onclose={() => setmodal(false)}
               sidebartext={sidebartext}
               SideBarData={SideBarData}
+              onclose={()=>setmodal(false)}
             />
           )}
         </div>
