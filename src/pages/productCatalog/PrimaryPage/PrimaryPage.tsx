@@ -627,7 +627,7 @@ const PrimaryPage = () => {
                         />
                       )}
                     />{" "}
-                    <Tooltip message="Kitchen Related">
+                    <Tooltip message="KitchenRelated">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
