@@ -9,7 +9,7 @@ import Trash from '../Trash/Trash';
 import NavSlider from '../NavSlider/NavSlider';
 import ArrowHover from '../../../assets/svg/ArrowHover.svg';
 import BasicChanges from '../BasicChanges/BasicChanges';
-import { useSelector ,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
 
 interface PricingDetails {
@@ -27,39 +27,40 @@ interface SideBarData {
   id: number;
   name: string;
   code: string;
-  type:string;
-  mealType:string;
-  dietary:string;
-  cusine:string
+  type: string;
+  mealType: string;
+  dietary: string;
+  cusine: string;
   pricingdetails: PricingDetails;
 }
 
 interface SliderProps {
-  onclose: () => void;
   sidebartext: string;
-  SideBarData: SideBarData[]
+  SideBarData: SideBarData[];
+  onclose:any
 }
+
 interface StoreMockDataReducer {
-  data: any; 
+  data: any;
 }
+
 interface RootState {
   storeMockDataReducer: StoreMockDataReducer;
 }
-const Slider: React.FC<SliderProps> = ({ onclose, sidebartext,SideBarData }) => {
-  const dispatch=useDispatch();
+
+const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => {
+  const dispatch = useDispatch();
   const [eye, setEye] = useState(false);
   const [trash, setTrash] = useState(false);
   const [active, setActive] = useState("Pricing");
   const modelref = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const data = useSelector((state: RootState) => state.storeMockDataReducer.data);
-  console.log("data",data)
   
-console.log(SideBarData[0].id)
-
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (modelref.current === e.target) 
-      onclose();
+
+    
+    // Your modal close logic here
   };
 
   const handleItemClick = (item: string) => {
@@ -71,18 +72,13 @@ console.log(SideBarData[0].id)
   };
 
   const handleBinClick = () => {
-   
-    const UpdatedeleteItem= data.filter((item:SideBarData)=>item.id!==SideBarData[0].id)
-    console.log("UpdatedeleteItem",UpdatedeleteItem)
-    dispatch(storeMockDataRequest(UpdatedeleteItem))
-    
-
-
+    const UpdatedeleteItem = data.filter((item: SideBarData) => item.id !== SideBarData[0].id);
+    dispatch(storeMockDataRequest(UpdatedeleteItem));
   };
-  const handleOnclose=()=>{
-    onclose();
 
-  }
+  const handleOnclose = () => {
+    // Logic for on close
+  };
 
   const scrollToComponent = (componentName: string) => {
     if (scrollRef.current) {
@@ -92,10 +88,11 @@ console.log(SideBarData[0].id)
       }
     }
   };
-  console.log(SideBarData)
+  
 
   return (
-    <div ref={modelref} className='Slider-Container' onClick={closeModal}>
+    
+    <div  ref={modelref} className='Slider-Container' onClick={closeModal}>
       <div className="Slider-Window">
         <div className='Slider-Mainform'>
           <div className='Slider-First-Row'>
@@ -112,7 +109,7 @@ console.log(SideBarData[0].id)
 
               <img src={Eye} alt='View' className='PenImage' onClick={handleEyeClick} />
               <div className='BinImageSection'>
-                <img src={Bin} alt='Delete' onClick={()=> setTrash(true)} className='BinImage' />
+                <img src={Bin} alt='Delete' onClick={() => setTrash(true)} className='BinImage' />
                 <div className='DelTool'>
                   <img src={ArrowHover} className='ArrowHoverDel' alt="Delete Tool" />
                   <div className='DelTool-box'>Delete</div>
@@ -120,18 +117,20 @@ console.log(SideBarData[0].id)
               </div>
             </div>
           </div>
-          {eye && <EyeModal onEyeclose={() => setEye(false)}  />}
-          {trash && <Trash onTrashclose={() => setTrash(false)} handleDeleteItem={handleBinClick} handleOnClose={handleOnclose}/>}
+          {eye && <EyeModal onEyeclose={() => setEye(false)} />}
+          {trash && <Trash onTrashclose={() => setTrash(false)} handleDeleteItem={handleBinClick} handleOnClose={handleOnclose} />}
         </div>
 
         <div className='NavSlider-Component'>
           <NavSlider eye={eye} trash={trash} sidebartext={sidebartext} SideBarData={SideBarData} />
         </div>
         <div className='Basic-Component'>
-          <BasicChanges />
+          <BasicChanges onclose={onclose}  />
         </div>
       </div>
+
     </div>
+    
   );
 };
 

@@ -543,10 +543,7 @@
                           )
                         }
                         validation={
-                          validationState[index] || {
-                            isValid: true,
-                            errorMessage: "",
-                          }
+                         validationState.NormalMealtype
                         }
                       />
                     </div>
@@ -561,7 +558,7 @@
                         onChange={(e) =>
                           handleServiceSelect2(index, e.target.value)
                         }
-                        validation={validationState.Pickup}
+                        validation={validationState.NormalServiceArea}
                         width=""
                       />
                     </div>
@@ -804,9 +801,9 @@
                   options={optionsselectthird}
                   label="SwiggyZomato"
                   onBlur={() =>
-                    validateDropdown(selectedValues3, "Delivery")
+                    validateDropdown(selectedthirdvalues, "SwiggyZomato")
                   }
-                  validation={validationState.Delivery}
+                  validation={validationState.PickupSwiggy}
                   width="Drop1"/>
                 </div>
                 {selectedthirdvalues.includes("Swiggy") && (

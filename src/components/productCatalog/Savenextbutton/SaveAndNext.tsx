@@ -10,14 +10,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { primarypost } from "redux/productCatalog/productCatalogActions";
-
 // import { useNavigate } from "react-router-dom";
-
 interface Ingredients {
   id: string;
   name: string;
 }
-
 interface Allergens {
   id: string;
   name: string;
@@ -35,7 +32,6 @@ interface PricingAndKitchen {
   normalForm?: any;
   specialForm?: any;
 }
-
 interface Base64Image {
   mimeType: string;
   base64String: string;
@@ -107,21 +103,21 @@ interface MainForm {
   normalForm?: any;
   specialForm?: any;
 }
-
 interface SubmitButtonProps {
   getFormData: () => FormData | Modification | MainForm;
   seletedpage: string;
   reset: () => void;
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
+  mainForm?:MainForm
 }
-
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
   seletedpage,
   reset,
   modifications,
   triggerValidation,
+  mainForm
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
@@ -157,9 +153,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   //     masterCode: "",
   //   };
   // };
-
   const dispatch = useDispatch();
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -168,11 +162,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   };
   const formData = getFormData();
   // console.log("uploading", formData);
-
   const handleclick = async () => {
     // if (seletedpage === "Primary" && triggerValidation) {
     //   const isFormValid = await triggerValidation(formData);
-
     //   if (!isFormValid) {
     //     window.scrollTo({
     //       top: 0,
@@ -181,7 +173,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
-
     if (seletedpage === "Primary"&& triggerValidation) {
       const isFormValid = await triggerValidation(formData);
       if (!isFormValid) {
@@ -197,16 +188,23 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           state: { pagename: "Pricing and kitchen details" },
         });
         dispatch(primarypost(formData));
-
       }
 
+    } else if (seletedpage === "Pricing" && triggerValidation) {
+      let PricingDetails = { ...mainForm }; 
       
-    } else if (seletedpage === "Pricing"&& triggerValidation) {
-     
-
       const formData = getFormData();
       console.log(formData);
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,             // Spread the existing values in PricingDetails
+          kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
+      }
       const isFormValid = await triggerValidation(formData);
+      dispatch(PricingDetailRequest(PricingDetails))
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
@@ -219,26 +217,20 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           pathname: `/productCatalog/Itemcustomizations`,
           state: { pagename: "Itemcustomizations" },
         });
-        // history.push("/productCatalog/Itemcustomizations");
-        // dispatch(primarypost(formData));
-
+        history.push("/productCatalog/Itemcustomizations");
+        dispatch(primarypost(formData));
       }
 
-
-    
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
-
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
     }
   };
-
   const handleclear = () => {
     reset();
   };
-
   return (
     <div>
       <div className={isExpanded ? " saveandnextExpanded" : "saveandnext"}>
@@ -264,5 +256,5 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     </div>
   );
 };
-
 export default SaveAndNext;
+ 
