@@ -8,7 +8,6 @@ import React, {
 import "./Dropdown.scss";
 import UpArrow from "../../../assets/images/dropdown.png";
 
-// Define types for props
 interface DropdownProps {
   selectedValues?: string[];
   onSelect: (values: string[]) => void;
@@ -21,8 +20,9 @@ interface DropdownProps {
   onBlur?: () => void;
   width: string;
   index?:number
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void; // New onChange prop
 }
+
 
 const Dropdown: React.FC<DropdownProps> = ({
   selectedValues = [],
@@ -36,28 +36,32 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [touched, setTouched] = useState<boolean>(false);
 
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
-      if (event instanceof MouseEvent) {
-        if (
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target as Node)
-        ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        if (isOpen) {
           setIsOpen(false);
           setRotateImg(false);
+          // If the dropdown closes and no option is selected, run validation
+          if (selectedValues.length === 0) {
+            validateDropdown(selectedValues);
+          }
         }
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isOpen, selectedValues]);
 
   const handleDropdownClick = () => {
     setIsOpen(!isOpen);
     setRotateImg(!rotateImg);
+    setTouched(true);
   };
 
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
@@ -67,6 +71,12 @@ const Dropdown: React.FC<DropdownProps> = ({
       : [...selectedValues, value];
 
     onSelect(newSelectedValues);
+  };
+
+  const validateDropdown = (values: string[]) => {
+    if (values.length === 0 && touched) {
+      onBlur && onBlur(); // Trigger validation when dropdown closes
+    }
   };
 
   return (
@@ -85,9 +95,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             {selectedValues.slice(0, 3).join(", ")}
           </div>
         ) : (
-          <div className="valuePlaceholder">
-            {/* Placeholder or empty state can be handled here */}
-          </div>
+          <div className="valuePlaceholder"></div>
         )}
         <div>
           <img
@@ -107,8 +115,8 @@ const Dropdown: React.FC<DropdownProps> = ({
                   name={option}
                   className="checkboxPricing"
                   value={option}
-                  checked={selectedValues.includes(option)} // Ensure correct checked state
-                  onChange={handleOptionClick} // Handle selecting the option
+                  checked={selectedValues.includes(option)}
+                  onChange={handleOptionClick}
                 />
                 {option}
               </label>
