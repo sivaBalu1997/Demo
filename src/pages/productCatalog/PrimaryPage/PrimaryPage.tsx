@@ -297,22 +297,21 @@ const PrimaryPage = () => {
         file,
         uploaded: false,
         failed: false,
-        preview: URL.createObjectURL(file), // Create a preview URL for the image
+        preview: URL.createObjectURL(file), 
       }));
       
-      // Check if the total images exceed the limit of 7
+    
       if (fileArray.length + images.length > 7) {
         alert("You can upload a maximum of 7 images.");
         return;
       }
       
-      // Add new files to the images state
+  
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
   
-        // After the state is updated, set the new imageUrls in react-hook-form
         const updatedImageUrls = updatedImages.map((image) => image);
-        setValue("imageUrls", updatedImageUrls); // Ensure this runs after updating the images state
+        setValue("imageUrls", updatedImageUrls);
           console.log(updatedImageUrls,"updatedImageUrls");
         return updatedImages;
       });
@@ -575,20 +574,16 @@ const PrimaryPage = () => {
                           className="uploaded-image"
                           src={img.preview}
                           alt={`Preview of ${img.file.name}`}
-                          style={{
-                            width: "100px",
-                            height: "100px",
-                            objectFit: "cover",
-                          }} // Display a small thumbnail
+                   
                         />
-                        <div>
+                        {/* <div>
                           {img.file.name} -{" "}
                           {img.uploaded
                             ? "Uploaded"
                             : img.failed
                             ? "Failed"
                             : "Pending Upload"}
-                        </div>
+                        </div> */}
                       </div>
                     ))}
 
