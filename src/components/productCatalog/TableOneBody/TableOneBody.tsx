@@ -116,7 +116,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               className="itemname2"
               onClick={() => handleItemnameClick(item.id)}
             >
-              <StringDisplay text={item.itemName} lengthvale={14} />
+              <StringDisplay text={item.itemName}  />
             </span>
             <span className="itemcode2">{item.itemCode}</span>
           </td>

@@ -470,7 +470,7 @@ const PricingDetails = () => {
         >
           <div className="pricing-form">
             <div className="Tool">
-              <button onClick={submiterror} style={{backgroundColor:'red'}}>clcik</button>
+              {/* <button onClick={submiterror} style={{backgroundColor:'red'}}>clcik</button> */}
               <p className="KitchenRelatedHeading">Kitchen Related</p>
               {/* <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
