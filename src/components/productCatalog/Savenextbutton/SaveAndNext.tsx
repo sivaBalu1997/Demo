@@ -190,12 +190,21 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
 
-    } else if (seletedpage === "Pricing"&& triggerValidation) {
-
+    } else if (seletedpage === "Pricing" && triggerValidation) {
+      let PricingDetails = { ...mainForm }; 
+      
       const formData = getFormData();
       console.log(formData);
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,             // Spread the existing values in PricingDetails
+          kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
+      }
       const isFormValid = await triggerValidation(formData);
-      dispatch(PricingDetailRequest(mainForm))
+      dispatch(PricingDetailRequest(PricingDetails))
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
