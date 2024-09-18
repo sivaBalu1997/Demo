@@ -654,7 +654,7 @@ const PricingDetails = () => {
               seletedpage="Pricing"
               reset={reset}
               triggerValidation={() => trigger()}
-              // mainForm={mainForm}
+              mainForm={mainForm}
             />
           </div>
         </div>

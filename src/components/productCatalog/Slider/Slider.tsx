@@ -88,9 +88,11 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
       }
     }
   };
+  
 
   return (
-    <div ref={modelref} className='Slider-Container' onClick={closeModal}>
+    
+    <div  ref={modelref} className='Slider-Container' onClick={closeModal}>
       <div className="Slider-Window">
         <div className='Slider-Mainform'>
           <div className='Slider-First-Row'>
@@ -126,7 +128,9 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
           <BasicChanges onclose={onclose}  />
         </div>
       </div>
+
     </div>
+    
   );
 };
 

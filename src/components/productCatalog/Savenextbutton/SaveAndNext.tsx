@@ -114,6 +114,7 @@ interface SubmitButtonProps {
   reset: () => void;
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
+  mainForm?:MainForm
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
@@ -122,6 +123,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   reset,
   modifications,
   triggerValidation,
+  mainForm
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
@@ -207,11 +209,13 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       const formData = getFormData();
       console.log(formData);
       const isFormValid = await triggerValidation(formData);
+      dispatch(PricingDetailRequest(mainForm))
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
           behavior: "smooth",
         });
+    
         return;
       }
       else{
@@ -219,8 +223,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           pathname: `/productCatalog/Itemcustomizations`,
           state: { pagename: "Itemcustomizations" },
         });
-        // history.push("/productCatalog/Itemcustomizations");
-        // dispatch(primarypost(formData));
+        history.push("/productCatalog/Itemcustomizations");
+        dispatch(primarypost(formData));
 
       }
 
