@@ -100,6 +100,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
   const fetchedprimarydata = primarydata;
+  console.log(fetchedprimarydata.ingredients)
 
   const primarypagedetails = useSelector((state: RootState) => state);
 
@@ -399,19 +400,26 @@ console.log("selectedImages",selectedImages)
 
                 <div className="allergensandingredients">
                   <div>
-                    <p className="ingredients">Ingredients</p>
-                    <ImagePillsSelected
-                      imageselected={fetchedprimarydata}
-                      name="Ingredients"
-                    />
+                    {
+                      fetchedprimarydata?.ingredients?.length>0 && <> <p className="ingredients">Ingredients</p>
+                      <ImagePillsSelected
+                        imageselected={fetchedprimarydata}
+                        name="Ingredients"
+                      /></>
+                    }
+                   
                   </div>
 
                   <div>
-                    <p className="allergen">Allergens</p>{" "}
-                    <ImagePillsSelected
-                      imageselected={fetchedprimarydata}
-                      name="allergens"
-                    />
+                    {
+                       fetchedprimarydata?.allergens?.length>0 &&
+                       <> <p className="allergen">Allergens</p>{" "}
+                       <ImagePillsSelected
+                         imageselected={fetchedprimarydata}
+                         name="allergens"
+                       /></>
+                    }
+                   
                   </div>
                 </div>
               </div>

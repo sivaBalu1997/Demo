@@ -300,7 +300,9 @@ const DropDownList: React.FC<DropdownProps> = ({
                   );
                 })
               ) : (
-                <li className="dropdown-no-options">No options found</li>
+                <div className="no-optionsContainer" style={{display:'flex', justifyContent:'space-between', gap:'x'}}>
+                  <li className="dropdown-no-options">No options found</li>
+                </div>
               )}
             </ul>
             <div>
