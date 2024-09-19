@@ -146,32 +146,26 @@ const DropDownList: React.FC<DropdownProps> = ({
  
   const handleSelect = (option: Option) => {
     if (type === "checkbox") {
-      const isAlreadySelected = selectedOptions.some(
-        (opt) => opt.id === option.id
-      );
+      const isAlreadySelected = selectedOptions.some((opt) => opt.id === option.id);
+  
       if (isAlreadySelected) {
-        const updatedOptions = selectedOptions.filter(
-          (opt) => opt.id !== option.id
-        );
+        const updatedOptions = selectedOptions.filter((opt) => opt.id !== option.id);
         setSelectedOptions(updatedOptions);
         setValue(name, updatedOptions.map((opt) => opt.name).join(", "));
       } else {
         const updatedOptions = [...selectedOptions, option];
         setSelectedOptions(updatedOptions);
         setValue(name, updatedOptions.map((opt) => opt.name).join(", "));
+        trigger(name);
       }
     } else if (type === "radio") {
       setSelectedOptions([option]);
       setValue(name, option.name);
+      trigger(name);
     }
-    trigger(name);
     setSearchTerm("");
-    // if (dropdownopen) {
-    //   onToggle();
-    // }
- 
- 
   };
+  
  
   const handleNewItemAdd = () => {
     const newItemLabel = NewItemref.current?.value.trim();

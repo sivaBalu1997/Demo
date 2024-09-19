@@ -203,6 +203,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       } else {
         console.error("formData.kitchenstation is undefined");
       }
+
       const isFormValid = await triggerValidation(formData);
       dispatch(PricingDetailRequest(PricingDetails))
       if (!isFormValid) {
@@ -228,9 +229,11 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       history.push("/productCatalog/Reviewpage");
     }
   };
+
   const handleclear = () => {
     reset();
   };
+  
   return (
     <div>
       <div className={isExpanded ? " saveandnextExpanded" : "saveandnext"}>
