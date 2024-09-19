@@ -6,24 +6,24 @@
   padding: 10px;
   top: 25px;
   z-index: 600;
-
   display: flex;
   justify-content: space-between;
   transition: left 0.4s ease-in;
   margin-left: 30px;
+  // background-color: orange;
 }
 
 .Header-Container1 {
   width: 100%;
   position: relative;
-  height: 80px;
-  // left: -20px;
   padding: 10px;
-    z-index: 600;
+  z-index: 600;
   top: 0px;
   display: flex;
   justify-content: space-between;
   transition: left 0.4s ease-in;
+  // background-color: orange;
+  height: fit-content;
 }
 
 .Header-Heading-Search-Filter-Container {
@@ -35,29 +35,38 @@
   gap: 20px;
 }
 
-// {******************************Filter**************************************************************************}
+/* Filter Section */
+.Filter-Div {
+  display: flex;
+  flex-direction: column;
+}
 
 .FilterIcon-Header {
   width: 40px;
   height: 40px;
   position: relative;
- left: -0.5rem;
-  top:0.1rem;
+  left: -0.5rem;
+  top: 0.1rem;
   cursor: pointer;
 }
+
 .FilterIcon-Header1 {
   width: 40px;
   height: 40px;
   position: relative;
   left: 0px;
   top: 2px;
-  cursor: pointer;  
+  cursor: pointer;
 }
 
 .Filter-FlexCol {
   display: flex;
   flex-direction: column;
+  // background-color: blueviolet;
+  width: fit-content;
+  height: fit-content;
 }
+
 .FilterHover {
   visibility: hidden;
   width: 60px;
@@ -66,14 +75,13 @@
   border-radius: 4px;
   color: white;
   text-align: center;
-
   opacity: 0;
   transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
   transform: translateX(-12px);
   font-family: Poppins;
   font-weight: 400;
   font-size: 12px;
-  padding: 2px 2px 2px 2px;
+  padding: 2px;
 }
 
 .Filter-FlexCol:hover .FilterHover {
@@ -81,39 +89,50 @@
   opacity: 1;
 }
 
-// {***********Excel********************************************************************}
+.Filter-FlexCol:hover .ArrowHoverHeader {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Excel Section */
+.Excel-flex-col {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  height: fit-content;
+  // background-color: pink;
+}
 
 .Excel-Header {
   width: 65.53px;
   height: 44px;
   position: absolute;
-  left: 700px;
-  top: 4%;
+  left: 70rem;
+  top: 14%;
   cursor: pointer;
+  // background-color: yellow;
 }
+
 .Excel-Header1 {
   width: 65.53px;
   height: 44px;
   position: absolute;
-  left: 900px;
-  top: 4%;
+  left: 64vw;
+  top: 14%;
   cursor: pointer;
-}
-.Excel1 {
-  position: relative;
-  left: 4rem;
-  top: 0%;
+  // background-color: greenyellow;
 }
 
 .Excel {
   position: relative;
-  left:  10.5rem;
+  left: 10.5rem;
   top: 5%;
 }
 
-.Excel-flex-col {
-  display: flex;
-  flex-direction: column;
+.Excel1 {
+  position: relative;
+  left: 4rem;
+  top: 0%;
 }
 
 .ExcelHover {
@@ -124,21 +143,16 @@
   border-radius: 4px;
   color: white;
   text-align: center;
-
   opacity: 0;
   transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
   transform: translate(-5px, -17px);
   font-family: Poppins;
   font-weight: 400;
   font-size: 12px;
-  padding: 2px 2px 2px 2px;
+  padding: 2px;
 }
 
 .Excel-flex-col:hover .ExcelHover {
-  visibility: visible;
-  opacity: 1;
-}
-.Excel-flex-col:hover .FilterHover {
   visibility: visible;
   opacity: 1;
 }
@@ -151,15 +165,6 @@
   top: -18px;
   cursor: pointer;
 }
-.Excel-Header-Download.Exceldownloadicon {
-  position: relative !important;
-  left: 43px;
-  // top: 10px;
-}
-.Exceldownloadicon1 {
-  position: relative !important;
-  left: 65% !important;
-}
 
 .Excel-Header-Download1 {
   width: 24px;
@@ -170,13 +175,14 @@
   cursor: pointer;
 }
 
-.ArrowHoverHeaderExcel {
-  visibility: hidden;
-  position: relative;
-  width: 10px;
-  height: 10px;
-  top: -17px;
-  left: 15px;
+.Excel-Header-Download.Exceldownloadicon {
+  position: relative !important;
+  left: 43px;
+}
+
+.Exceldownloadicon1 {
+  position: relative !important;
+  left: 65% !important;
 }
 
 .ArrowHoverHeader {
@@ -188,17 +194,12 @@
   left: 10px;
 }
 
-.Filter-FlexCol:hover .ArrowHoverHeader {
-  visibility: visible;
-  opacity: 1;
-}
 .Excel-flex-col:hover .ArrowHoverHeaderExcel {
   visibility: visible;
   opacity: 1;
 }
 
-/* {**********************Header Button*****************************************************************} */
-
+/* Add Item Section */
 .Add-Item-Container {
   width: 101px;
   height: 2.5rem;
@@ -234,20 +235,20 @@
   justify-content: center;
   align-items: center;
 }
-.Add-Item-Heading-Plus {
+
+.Add-Item-Heading-Plus, .Add-Item-Heading {
   font-family: Poppins;
   font-weight: 500;
   font-size: 14px;
-  // line-height: 30px;
   color: #ffffff;
 }
 
+.Add-Item-Heading-Plus {
+  // line-height: 30px;
+}
+
 .Add-Item-Heading {
-  font-family: Poppins;
-  font-weight: 500;
-  font-size: 14px;
   line-height: 24px;
-  color: #ffffff;
   text-align: center;
 }
 
