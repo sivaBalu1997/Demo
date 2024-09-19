@@ -311,6 +311,7 @@ const ItemCustomizations: React.FC = () => {
     setModifications(newmodification)
 
   }
+  console.log(filteredModifications)
 
   return (
     <div style={{ display: "flex" }}>
@@ -550,23 +551,30 @@ const ItemCustomizations: React.FC = () => {
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
+                                disabled={filteredModifications[modIndex].selectionType === "Mandatory"}
+                              
                               />
                               <div className="polydiv-ItemCustomizations">
+                              
                                 <img
                                   className="polyimg-ItemCustomizations"
                                   src={Polygon1}
                                   alt=""
-                                  onClick={() =>
-                                    incrementSpinner(modIndex, "minSelection")
-                                  }
+                                  onClick={() => {
+                                    if (filteredModifications[modIndex].selectionType !== "Mandatory") {
+                                      incrementSpinner(modIndex, "minSelection");
+                                    }
+                                  }}
                                 />
                                 <img
                                   className="polyimg-ItemCustomizations"
                                   src={Polygon2}
                                   alt=""
-                                  onClick={() =>
-                                    decrementSpinner(modIndex, "minSelection")
-                                  }
+                                  onClick={() => {
+                                    if (filteredModifications[modIndex].selectionType !== "Mandatory") {
+                                      decrementSpinner(modIndex, "minSelection");
+                                    }
+                                  }}
                                 />
                               </div>
                             </div>

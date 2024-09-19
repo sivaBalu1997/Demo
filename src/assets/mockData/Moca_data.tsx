@@ -411,7 +411,7 @@ const truncateString = (str: string, length: number) => {
   export const dietarytype=[
     {
       id: "123",
-      name: "Starters",
+      name: "newitem",
       canDelete: "false",
       media: {
         imageId: "",

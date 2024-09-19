@@ -88,7 +88,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       <label className="droplabelPricing">{label}</label>
       <div
         className={
-          !validation?.isValid ? "dropdownPricingred" : "dropdownPricingList"
+        "dropdownPricingList"
         }
         style={{ width: "Drop1" ? "300px" : "100px" }}
         onClick={handleDropdownClick}

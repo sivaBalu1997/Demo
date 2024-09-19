@@ -1,10 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import "./PricingSlider.scss";
 import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
 interface SideBarData {
   id: number;
-  name: string;
+  itemName: string;
   code: string;
   type: string;
   mealType: string;
@@ -22,74 +23,55 @@ interface SideBarData {
   };
 }
 interface PricingSliderProps {
-  pen?: boolean;
-  SideBarData?: SideBarData[];
+  SideBarData?: any[];
 }
-interface StoreMockDataReducer {
-  data: any;
-}
-interface RootState {
-  storeMockDataReducer: StoreMockDataReducer;
-}
-// Define a union of valid keys
+
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
-const PricingSlider: React.FC<PricingSliderProps> = ({ pen, SideBarData }) => {
-  const data = useSelector(
-    (state: RootState) => state.storeMockDataReducer.data
-  );
+
+const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
+  const { pen } = useContext(Contextpagejs);
+
   const [inputs, setInputs] = useState({
     Dinein1: SideBarData?.[0]?.pricingdetails?.Dinein1 || [],
     Pickup1: SideBarData?.[0]?.pricingdetails?.Pickup1 || [],
     Delivery1: SideBarData?.[0]?.pricingdetails?.Delivery1 || [],
   });
-  const handleInputChange = (
-    section: PricingKey,
-    index: number,
-    value: string
-  ) => {
-    setInputs((prev) => ({
-      ...prev,
-      [section]: prev[section].map((item, idx) =>
-        idx === index ? value : item
-      ),
-    }));
-  };
-  console.log(inputs)
+
+  const [sectionAValue, setSectionAValue] = useState<string>('');
+  const [showCompare, setShowCompare] = useState(false);
+
   const PrizingSliderData = [
     {
       heading: "On-Prem",
       Sections: ["SectionA", "SectionB"],
-      inputTypes: ["text", "number"],
+      inputTypes: ["text", "text"],
     },
     {
       heading: "Of-Prem",
       labels: ["Pickup", "Delivery"],
       InputLabels: ["In-House", "Zomato", "Swiggy"],
-      inputTypes: ["text", "email"],
+      inputTypes: ["text", "text", "text"],
     },
   ];
-const[count,setCount]=useState<number>(0)
-const [sectionAValue, setSectionAValue] = useState<string>('');
-const[showCompare,setShowCompare]=useState(false)
-const handleSectionAChange = (e: React.ChangeEvent<HTMLInputElement>, seInd: number) => {
-  const inputValue = Number(e.target.value);
-  if (!isNaN(inputValue)) {
-    setCount(inputValue); // Update count with the input value
-  }
-};
-useEffect(() => {
-  // Assuming we want to monitor the first value of "Section A" for changes
-  const updatedValue = SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || '';
-  setSectionAValue(updatedValue);
-  // Convert the value to a number and update the count state if valid
-  const numericValue = Number(updatedValue);
-  if (isNaN(numericValue)) {
-    setCount(numericValue);
-  }
-}, [SideBarData]);
-const handleComparision=()=>{
-setShowCompare(!showCompare)
-}
+
+  useEffect(() => {
+    const updatedValue = SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || '';
+    setSectionAValue(updatedValue);
+  }, [SideBarData]);
+
+  const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>, section: PricingKey, index: number) => {
+    const value = e.target.value;
+
+    setInputs((prev) => ({
+      ...prev,
+      [section]: prev[section].map((item:number, idx:any) => (idx === index ? value : item)),
+    }));
+  };
+
+  const handleComparision = () => {
+    setShowCompare(!showCompare);
+  };
+
   return (
     <div className="PricingSlider-Container">
       <h3 className="PricingSlider-Heading">Pricing</h3>
@@ -105,17 +87,10 @@ setShowCompare(!showCompare)
                     <input
                       type={elem.inputTypes[seInd] || "number"}
                       className="SectionA-Input"
-                      // Corrected optional chaining and null checks
-                      value={
-                        seInd === 1
-                          ? SideBarData?.[0]?.pricingdetails?.Dinein1?.[1] || ''
-                          : SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || ''
-                        
-                      }
-                      onChange={(e) => handleSectionAChange(e, seInd)} // Handle input change
+                      onChange={(e) => handleInputChange1(e, "Dinein1", seInd)}
+                      value={inputs.Dinein1[seInd] || ''}
+                      disabled={!pen}
                     />
-                    
-                    
                     <img src={Weigh} className="SectionA-Image" alt="Weigh" onClick={handleComparision} />
                   </div>
                 </div>
@@ -136,20 +111,13 @@ setShowCompare(!showCompare)
                           <input
                             type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
-                            value={
-                              sub === 0
-                                ? inputs.Pickup1[idx] || ""
-                                : inputs.Delivery1[idx] || ""
-                            }
+                            value={sub === 0 ? inputs.Pickup1[idx] || "" : inputs.Delivery1[idx] || ""}
                             onChange={(e) =>
-                              handleInputChange(
-                                sub === 0 ? "Pickup1" : "Delivery1",
-                                idx,
-                                e.target.value
-                              )
+                              handleInputChange1(e, sub === 0 ? "Pickup1" : "Delivery1", idx)
                             }
+                            disabled={!pen}
                           />
-                          {showCompare&&<p className='Compare'>{sectionAValue}</p>}
+                          {showCompare && <p className='Compare'>{sectionAValue}</p>}
                         </div>
                       ))}
                     </div>
@@ -163,5 +131,5 @@ setShowCompare(!showCompare)
     </div>
   );
 };
+
 export default PricingSlider;
- 

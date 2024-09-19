@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import "./Slider.scss";
 
 import Pen from "../../../assets/images/edit 1.png";
@@ -11,6 +11,7 @@ import ArrowHover from '../../../assets/svg/ArrowHover.svg';
 import BasicChanges from '../BasicChanges/BasicChanges';
 import { useSelector, useDispatch } from 'react-redux';
 import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 interface PricingDetails {
   Dinein1: string[];
@@ -25,7 +26,7 @@ interface PricingDetails {
 
 interface SideBarData {
   id: number;
-  name: string;
+  itemName: string;
   code: string;
   type: string;
   mealType: string;
@@ -49,6 +50,8 @@ interface RootState {
 }
 
 const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => {
+  const { pen, setPen } = useContext(Contextpagejs);
+
   const dispatch = useDispatch();
   const [eye, setEye] = useState(false);
   const [trash, setTrash] = useState(false);
@@ -67,6 +70,7 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
     setActive(item);
   };
 
+  
   const handleEyeClick = () => {
     setEye(true);
   };
@@ -79,6 +83,12 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
   const handleOnclose = () => {
     // Logic for on close
   };
+  const handlePen=()=>{
+    setPen(!pen)
+    console.log("ww",pen)
+
+
+  }
 
   const scrollToComponent = (componentName: string) => {
     if (scrollRef.current) {
@@ -88,6 +98,7 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
       }
     }
   };
+
   
 
   return (
@@ -96,11 +107,11 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
       <div className="Slider-Window">
         <div className='Slider-Mainform'>
           <div className='Slider-First-Row'>
-            <h1 className='Slider-Heading1'>{SideBarData?.[0]?.name}</h1>
+            <h1 className='Slider-Heading1'>{SideBarData?.[0]?.itemName}</h1>
 
             <div className='Slider-icons'>
               <div className='PenImage-Section'>
-                <img src={Pen} className="PenImage" alt="Edit" />
+                <img src={Pen} className="PenImage" onClick={handlePen} alt="Edit" />
                 <div className='PenTool'>
                   <img src={ArrowHover} className='ArrowHoverPen' alt="Edit Tool" />
                   <div className='PenTool-box'>Edit</div>
