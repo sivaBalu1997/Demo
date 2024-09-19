@@ -4,9 +4,10 @@ import employeeReducer from "./employee/employeeReducers";
 import menuReducer from "./menu/menuReducer";
 import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
-import productCatalogReducer, { addMockDataReducer, storeMockDataFilteredReducer, storeMockDataReducer } from "./productCatalog/productCatalogReducers";
+import productCatalogReducer, { addMockDataHiddenReducer, addMockDataReducer, storeMockDataFilteredReducer, storeMockDataReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
 import { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer } from "./productCatalog/productCatalogReducers";
+import { addMockDataHiddenRequest } from "./productCatalog/productCatalogActions";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   PricingDetailReducer:PricingDetailReducer,
   storeMockDataReducer:storeMockDataReducer,
   storeMockDataFilteredReducer:storeMockDataFilteredReducer,
-  addMockDataReducer:addMockDataReducer
+  addMockDataReducer:addMockDataReducer,
+  addMockDataHiddenReducer:addMockDataHiddenReducer
 });
 
 export { rootReducer };

@@ -10,7 +10,7 @@ import NavSlider from '../NavSlider/NavSlider';
 import ArrowHover from '../../../assets/svg/ArrowHover.svg';
 import BasicChanges from '../BasicChanges/BasicChanges';
 import { useSelector, useDispatch } from 'react-redux';
-import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
+import { addMockDataHiddenRequest, storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 interface PricingDetails {
@@ -72,6 +72,10 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
 
   const handleEyeClick = () => {
     setEye(true);
+    const UpdatedeleteItem = data.filter((item: SideBarData) => item.id !== SideBarData[0].id);
+    dispatch(storeMockDataRequest(UpdatedeleteItem));
+    dispatch(addMockDataHiddenRequest(SideBarData))
+    
   };
 
   const handleBinClick = () => {
@@ -97,6 +101,7 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
       }
     }
   };
+  console.log(SideBarData)
 
   
 

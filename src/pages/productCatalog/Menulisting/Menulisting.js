@@ -37,6 +37,7 @@ export const Menulisting = () => {
   const addedData=useSelector((state)=> state.addMockDataReducer.data)
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
+  const MockHiddendata = useSelector((state) => state.addMockDataHiddenReducer.data);
   const FilteredData = useSelector(
     (state) => state.storeMockDataFilteredReducer.data
   );
@@ -146,7 +147,7 @@ export const Menulisting = () => {
     },
   ]);
   const [SideBarData, setSideBar] = useState([]);
-  const mergedMockData =  [ ...Mockdata,...addedData] 
+  const mergedMockData =  [ ...Mockdata,...addedData,...MockHiddendata] 
 
   console.log(mergedMockData)
   console.log(addedData)
@@ -309,7 +310,7 @@ export const Menulisting = () => {
     console.log(value);
 
     console.log(Mockdata.filter((item) => item.id === value));
-    setSideBar(Mockdata.filter((item) => item.id === value));
+    setSideBar(mergedMockData.filter((item) => item.id === value));
   };
 
   const showsidebar = (key) => {
@@ -378,6 +379,8 @@ export const Menulisting = () => {
       document.removeEventListener("click", Outsideclicking, true);
     };
   }, [showheadinglist]);
+
+  console.log(mergedMockData)
 
 
   const selectedItems =

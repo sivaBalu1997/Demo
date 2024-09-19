@@ -52,6 +52,10 @@ import {
   ADD_MOCK_DATA_REQUEST,
   ADD_MOCK_DATA_SUCCESS,
   ADD_MOCK_DATA_FALIURE,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
+  ADD_MOCK_DATA_HIDDEN_SUCCESS,
+  ADDMOCK_DATA_HIDDEN_FALIURE,
+  ADD_MOCK_DATA_HIDDEN_FALIURE,
 } from "./productCatalogConstants";
 
 // Get Menu Category
@@ -337,5 +341,24 @@ export const addMockDataSuccess = (response) => ({
 
 export const addMockDataFailure = (error) => ({
   type: ADD_MOCK_DATA_FALIURE,
+  payload: error, 
+})
+
+
+
+// {*****add MockData Visiblty****************************}
+
+export const addMockDataHiddenRequest = (data) => ({
+  type: ADD_MOCK_DATA_HIDDEN_REQUEST,
+  payload:data
+}); 
+
+export const addMockDataHiddenSuccess = (response) => ({
+  type: ADD_MOCK_DATA_HIDDEN_SUCCESS ,
+  payload: response, 
+});
+
+export const addMockDataHiddenFailure = (error) => ({
+  type: ADD_MOCK_DATA_HIDDEN_FALIURE ,
   payload: error, 
 })

@@ -40,6 +40,7 @@ import {
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
   ADD_MOCK_DATA_REQUEST,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -411,3 +412,21 @@ export const storeMockDataReducer = (state = mockData, action) => {
     }
   };
 
+
+  const addMockHiddenData = {
+    data: []
+  }
+
+  export  const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
+    switch (action.type) {
+      case ADD_MOCK_DATA_HIDDEN_REQUEST:
+        return {
+          ...state,
+          data: action?.payload,
+        };
+    
+  
+      default:
+        return state;
+    }
+  };
