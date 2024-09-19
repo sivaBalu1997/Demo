@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import './StringDisplay.scss'; 
 
-// Define the props type
+
 interface StringDisplayProps {
   text: string;
   lengthvale: number;
 }
 
 const StringDisplay: React.FC<StringDisplayProps> = ({ text, lengthvale }) => {
-  // Define the type of state using TypeScript
+
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  // Mouse event handlers
+  
   const handleMouseEnter = (): void => {
     setIsHovered(true);
   };

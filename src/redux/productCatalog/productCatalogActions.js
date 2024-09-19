@@ -52,6 +52,10 @@ import {
   ADD_MOCK_DATA_REQUEST,
   ADD_MOCK_DATA_SUCCESS,
   ADD_MOCK_DATA_FALIURE,
+  DIET_DROPDOWN_LIST_REQUEST,
+  DIET_DROPDOWN_LIST_SUCCESS,
+  DIET_DROPDOWN_LIST_FAILURE
+
 } from "./productCatalogConstants";
 
 // Get Menu Category
@@ -337,5 +341,22 @@ export const addMockDataSuccess = (response) => ({
 
 export const addMockDataFailure = (error) => ({
   type: ADD_MOCK_DATA_FALIURE,
+  payload: error, 
+})
+
+
+export const dietdatarequest=(data)=>({
+  type: DIET_DROPDOWN_LIST_REQUEST,
+  payload: data, 
+
+})
+
+export const dietdatasuccess = (response) => ({
+  type:DIET_DROPDOWN_LIST_SUCCESS,
+  payload: response, 
+});
+
+export const dietdatafailure = (error) => ({
+  type: DIET_DROPDOWN_LIST_FAILURE,
   payload: error, 
 })
