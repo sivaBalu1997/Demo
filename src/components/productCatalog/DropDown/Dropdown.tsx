@@ -20,7 +20,8 @@ interface DropdownProps {
   onBlur?: () => void;
   width: string;
   index?:number
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void; // New onChange prop
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void; 
+  handleValidate?:()=>void;
 }
 
 
@@ -32,6 +33,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   validation,
   width,
   onBlur,
+  handleValidate
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -71,6 +73,8 @@ const Dropdown: React.FC<DropdownProps> = ({
       : [...selectedValues, value];
 
     onSelect(newSelectedValues);
+
+    handleValidate && handleValidate()
   };
 
   const validateDropdown = (values: string[]) => {
