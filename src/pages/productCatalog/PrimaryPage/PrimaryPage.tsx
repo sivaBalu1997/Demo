@@ -521,11 +521,14 @@ const PrimaryPage = () => {
                         />
                       )}
                     />
+                    <div>
                     <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
                     </Tooltip>
+                    </div>
+                    
                   </div>
                 </div>
 
