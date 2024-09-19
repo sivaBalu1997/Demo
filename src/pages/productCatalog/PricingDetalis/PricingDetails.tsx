@@ -62,11 +62,13 @@ type MainFormType = {
   Zomato: string[];
 };
 
-type DineInField = {
-  DineInPrice: string | string[];
-  DineInMealType: string | string[];
-  DineInServiceArea: string | string[];
-};
+interface DineInField {
+  DineInPrice: string;
+  DineInMealType: string[];
+  DineInService: string;
+  showDay: boolean;
+  dayButtonText: string;
+}
 
 interface FormState {
   Pickupprice?: string;
@@ -117,9 +119,16 @@ interface FormState1 {
   Inventory1: string;
   Inventory2: string;
 }
+interface media{
+  imageId:string
+  imageType:string
+ }
 interface Option {
-  name: string;
+ 
   id: string;
+  name: string;
+  canDelete:string;
+  media:media
 }
 
 interface MainForm {
@@ -380,18 +389,6 @@ const PricingDetails = () => {
     }
   }, []);
 
-  const dispatchEvent = () => {
-    const isFormValid = validateForm();
-
-    if (!isFormValid) {
-      console.log("Form validation failed. Please check the errors.");
-      return;
-    }
-    dispatch(PricingDetailRequest({ mainForm }));
-    history.push(`/productCatalog/Itemcustomizations`, {
-      state: { pagename: "Item customizations" },
-    });
-  };
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
   //   history.push(`/productCatalog/Itemcustomizations`, {
@@ -414,9 +411,51 @@ const PricingDetails = () => {
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
-
+  const [dineinfields, setDineInFields] = useState<DineInField[]>([
+    {
+      DineInPrice: "",
+      DineInMealType: [],
+      DineInService: "",
+      showDay: false,
+      dayButtonText: "Add Day",
+    },
+  ]);
+// console.log(dineinfields)
   // console.log(mainForm);
+  const validateDineInFields = (dineinfields: any[]) => {
+    const errors = dineinfields.map((field, index) => {
+      let error = {
+        DineInMealType: "",
+        DineInPrice: "",
+      };
+  
+      // Check for DineInMealType validation
+      if (!field.DineInMealType || !Array.isArray(field.DineInMealType) || field.DineInMealType.length === 0) {
+        error.DineInMealType = "Meal type should not be empty.";
+      }
+  
+      // Check for DineInPrice validation
+      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
+        error.DineInPrice = "Price should be a valid number.";
+      }
+  
+      return error;
+    });
+  
+    return errors;
+  };
+  // console.log("Hello",validateDineInFields(dineinfields))
+  let erros=validateDineInFields(dineinfields)
+ 
 
+  const submiterror=()=>{
+   
+    
+    console.log(erros)
+
+
+  }
+  
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -431,6 +470,7 @@ const PricingDetails = () => {
         >
           <div className="pricing-form">
             <div className="Tool">
+              {/* <button onClick={submiterror} style={{backgroundColor:'red'}}>clcik</button> */}
               <p className="KitchenRelatedHeading">Kitchen Related</p>
               {/* <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
@@ -625,6 +665,8 @@ const PricingDetails = () => {
                 validationState={validationState}
                 setMainFormState={setMainFormState}
                 mainFormState={mainFormState}
+                dineinfields={dineinfields}
+                setDineInFields={setDineInFields}
               />
             ) : (
               <Specialavail

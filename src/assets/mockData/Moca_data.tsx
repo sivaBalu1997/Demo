@@ -398,40 +398,239 @@ const truncateString = (str: string, length: number) => {
     { name: "gluten", id: "9163" },
   ];
   
-  export const dietarytype = [
-    { id: "1", name: "Vegan" },
-    { id: "2", name: "vegetarian" },
-    { id: "3", name: "Indian" },
-    { id: "4", name: "Chinese" },
-    { id: "5", name: "American" },
-  ];
+ 
+  // export const dietarytype = [
+  //   { id: "1", name: "Vegan" },
+  //   { id: "2", name: "vegetarian" },
+  //   { id: "3", name: "Indian" },
+  //   { id: "4", name: "Chinese" },
+  //   { id: "5", name: "American" },
+  // ];
+
+
+  export const dietarytype=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
   
   
-  export const cuisine = [
-    { id: "1", name: "French" },
-    { id: "2", name: "Mexican" },
-    { id: "3", name: "Indian" },
-    { id: "4", name: "Chinese" },
-    { id: "5", name: "American" },
-  ];
+  export const cuisine=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
   
-  export const mealType = [
-    { id: "1", name: "Breakfast" },
-    { id: "2", name: "Lunch" },
-    { id: "3", name: "Dinner" },
-  ];
   
-  export const bestPair = [
-    { id: "1", name: "Chilly chutney" },
-    { id: "2", name: "Idli Podi" },
-    { id: "3", name: "Chicken gravy" },
-  ];
+  // export const cuisine = [
+  //   { id: "1", name: "French" },
+  //   { id: "2", name: "Mexican" },
+  //   { id: "3", name: "Indian" },
+  //   { id: "4", name: "Chinese" },
+  //   { id: "5", name: "American" },
+  // ];
+
+  export const mealType=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
+  export const bestPair=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
+  export const subcategory=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
   
-  export const subcategory = [
-    { id: "1", name: "Soup" },
-    { id: "2", name: "Salad" },
-    { id: "3", name: "Sandwich" },
-  ];
+
+
+
+  // export const mealType = [
+  //   { id: "1", name: "Breakfast" },
+  //   { id: "2", name: "Lunch" },
+  //   { id: "3", name: "Dinner" },
+  // ];
+  
+  // export const bestPair = [
+  //   { id: "1", name: "Chilly chutney" },
+  //   { id: "2", name: "Idli Podi" },
+  //   { id: "3", name: "Chicken gravy" },
+  // ];
+  
+  // export const subcategory = [
+  //   { id: "1", name: "Soup" },
+  //   { id: "2", name: "Salad" },
+  //   { id: "3", name: "Sandwich" },
+  // ];
   
   export const alcoholradio = [
     { value: "yes", label: "yes" },

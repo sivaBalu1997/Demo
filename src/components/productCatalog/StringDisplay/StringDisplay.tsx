@@ -4,10 +4,10 @@ import './StringDisplay.scss';
 // Define the props type
 interface StringDisplayProps {
   text: string;
-  length: number;
+  lengthvale?: number;
 }
 
-const StringDisplay: React.FC<StringDisplayProps> = ({ text, length }) => {
+const StringDisplay: React.FC<StringDisplayProps> = ({ text, lengthvale }) => {
   // Define the type of state using TypeScript
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
@@ -26,7 +26,7 @@ const StringDisplay: React.FC<StringDisplayProps> = ({ text, length }) => {
       onMouseLeave={handleMouseLeave}
       className={`${isHovered && text.length > 5 && "string-display"}`}
     >
-      {text.length > length && !isHovered ? `${text.slice(0, length)}...` : text}
+      {text.length > 10 && !isHovered ? `${text.slice(0, lengthvale)}...` : text}
     </span>
   );
 };
