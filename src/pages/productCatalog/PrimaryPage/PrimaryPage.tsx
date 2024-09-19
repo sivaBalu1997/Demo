@@ -25,6 +25,7 @@ import {
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import {
+  dietdatarequest,
   getIngredientsRequest,
   getMenuCategoryRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -89,6 +90,11 @@ interface StateDataTag {
 interface StateDataTag2 {
   productCatalog: {
     categoryData: [];
+  };
+}
+interface StateDataTag3 {
+  productCatalog: {
+    dietaryData: [];
   };
 }
 
@@ -331,8 +337,8 @@ const PrimaryPage = () => {
     }
   };
 
-  const newarray = getValues("imageUrls");
-  console.log("newarray", newarray);
+  // const newarray = getValues("imageUrls");
+  // console.log("newarray", newarray);
 
   useEffect(() => {
     // dispatch(getIngredientsRequest(locationid));
@@ -348,7 +354,16 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  // console.log("HI");
+  const dietaryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.dietaryData
+  );
+  useEffect(() => {
+    console.log("data from component", dietaryData);
+  }, [dietaryData]);
+
+  const getdatafrosaga = () => {
+    dispatch(dietdatarequest("diet"));
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -365,6 +380,7 @@ const PrimaryPage = () => {
           </div>
           <div className="Primary-page">
             {/* <form> */}
+            <button onClick={getdatafrosaga}>get data from redux</button>
             <div className="Primary-page-container-one">
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
@@ -772,8 +788,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          placeholder="Cal"
-                         
+                          subtext="Cal"
                         />
                       )}
                     />
@@ -803,7 +818,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          placeholder={getValues("selectedPortion")}
+                          subtext={getValues("selectedPortion")}
                           // placeholder={getValues("selectedPortion")}
                         />
                       )}

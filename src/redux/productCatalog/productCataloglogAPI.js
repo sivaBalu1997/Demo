@@ -9,6 +9,11 @@ export function getCategory(locationId) {
   });
 }
 
+export function getDietarydata(){
+  // console.log("dietary",dietarytype)
+  return dietarytype;
+}
+
 export function getSubCategory({ locationId, id }) {
   return API({
     method: "get",
