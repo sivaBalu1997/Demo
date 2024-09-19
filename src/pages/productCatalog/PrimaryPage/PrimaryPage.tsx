@@ -354,20 +354,16 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  const dietaryData = useSelector((state:StateDataTag3)=>state.productCatalog.dietaryData)
-  useEffect(()=>{
-    console.log("data from component",dietaryData);
-  },[dietaryData])
+  const dietaryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.dietaryData
+  );
+  useEffect(() => {
+    console.log("data from component", dietaryData);
+  }, [dietaryData]);
 
-
-
-  const getdatafrosaga=()=>{
-    dispatch(dietdatarequest("diet"))
-
-   
-    
-  
-  }
+  const getdatafrosaga = () => {
+    dispatch(dietdatarequest("diet"));
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -793,7 +789,6 @@ const PrimaryPage = () => {
                           value={value}
                           trigger={trigger}
                           placeholder="Cal"
-                         
                         />
                       )}
                     />
