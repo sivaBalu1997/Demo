@@ -31,7 +31,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
 }) => {
   
 
-console.log("object",object.name.length)
+// console.log("object",object.name.length)
     if (objectId === 1 && object.name.length>=1 && object.name.some(item => item.type === 'steamedVeg')) {
       return (
         <tr >

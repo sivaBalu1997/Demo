@@ -4,7 +4,7 @@ import './StringDisplay.scss';
 // Define the props type
 interface StringDisplayProps {
   text: string;
-  lengthvale?: number;
+  lengthvale: number;
 }
 
 const StringDisplay: React.FC<StringDisplayProps> = ({ text, lengthvale }) => {
@@ -26,7 +26,7 @@ const StringDisplay: React.FC<StringDisplayProps> = ({ text, lengthvale }) => {
       onMouseLeave={handleMouseLeave}
       className={`${isHovered && text.length > 5 && "string-display"}`}
     >
-      {text.length > 10 && !isHovered ? `${text.slice(0, lengthvale)}...` : text}
+      {text.length > lengthvale && !isHovered ? `${text.slice(0, lengthvale)}...` : text}
     </span>
   );
 };

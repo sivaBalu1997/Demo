@@ -43,9 +43,6 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   handleRowDragStart,
   handleRowDragOver,
   handleRowDragEnd,
-  handlevegrowstart,
-  handlevegrowover,
-  handlevegrowend,
 
   handleDragScroll,
   handlemodal,
@@ -116,7 +113,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               className="itemname2"
               onClick={() => handleItemnameClick(item.id)}
             >
-              <StringDisplay text={item.itemName}  />
+              <StringDisplay text={item.itemName} lengthvale={14} />
             </span>
             <span className="itemcode2">{item.itemCode}</span>
           </td>

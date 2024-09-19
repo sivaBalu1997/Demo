@@ -110,6 +110,7 @@ interface SubmitButtonProps {
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
   mainForm?:MainForm
+  validation?:()=>void
 }
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
@@ -117,10 +118,14 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   reset,
   modifications,
   triggerValidation,
+  validation,
   mainForm
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
+ // Safely invoking validation
+
+ 
   // const extractFields = (formData: FormData) => {
   //   return {
   //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -190,7 +195,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
 
-    } else if (seletedpage === "Pricing" && triggerValidation) {
+    } else if (seletedpage === "Pricing" && triggerValidation && validation) {
+      console.log("validation", validation());
       let PricingDetails = { ...mainForm }; 
       
       const formData = getFormData();

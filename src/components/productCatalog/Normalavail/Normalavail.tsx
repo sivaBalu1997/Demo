@@ -58,23 +58,28 @@ type DropdownValidationState = {
   [key: string]: { isValid: boolean; errorMessage: string }; // Adjust this as necessary
 };
 
-interface NormalavailProps {
-  getNormalForm?: (form: any) => void;
-  validateDropdown: (
-    value: string[],
-    key: keyof DropdownValidationState
-  ) => void;
-
-  validationState: {
-    [key: string]: { isValid: boolean; errorMessage: string };
-  };
-  dinein: boolean;
-  setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
-  setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>;
-  mainFormState: any;
-  dineinfields?: any;
-  setDineInFields: (form: any) => void;
-}
+  interface NormalavailProps {
+    getNormalForm?: (form: any) => void;
+    validateDropdown: (
+      value: string[],
+      key: keyof DropdownValidationState
+    ) => void;
+  
+    validationState: {
+      [key: string]: { isValid: boolean; errorMessage: string };
+    };
+    
+    // Corrected type for setValidationStateerr
+    setValidationStateerr: React.Dispatch<React.SetStateAction<DropdownValidationState>>;
+    
+    dinein: boolean;
+    setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
+    setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>; 
+    handleValidate:()=>void;
+    mainFormState: any;
+    dineinfields?: any;
+    setDineInFields: (form: any) => void;
+  }
 
 type MealType1 = string;
 type MealType = string[];
@@ -86,24 +91,28 @@ interface SelectedValuesState {
 }
 type OptionType = string;
 
-const Normalavail: React.FC<NormalavailProps> = ({
-  getNormalForm,
-  validateDropdown,
-  validationState,
-  dinein,
-  setDineIn,
-  setMainFormState,
-  mainFormState,
-  dineinfields,
-  setDineInFields,
-}) => {
-  const [online, setOnline] = useState(false);
-  const [pickup, setPickup] = useState(false);
-  const [delivery, setDelivery] = useState(false);
+  const Normalavail: React.FC<NormalavailProps> = ({
+    getNormalForm,
+    validateDropdown,
+    validationState,
+    dinein,
+    setDineIn,
+    setMainFormState,
+    mainFormState ,
+    dineinfields,
+    setDineInFields,
+    setValidationStateerr,
+    handleValidate
+    
 
-  const [dineinentry, setDineInEntry] = useState<string[]>([]);
-  const [Normaldays, setNormalDays] = useState<number[]>([]);
-  const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
+  }) => {
+    const [online, setOnline] = useState(false);
+    const [pickup, setPickup] = useState(false);
+    const [delivery, setDelivery] = useState(false);
+   
+    const [dineinentry, setDineInEntry] = useState<string[]>([]);
+    const [Normaldays, setNormalDays] = useState<number[]>([]);
+    const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
 
   const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -377,210 +386,275 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setShowDayThird(true);
   };
 
-  const addDayThirdfalse = () => {
-    setShowDayThird(false);
-  };
-
-  useEffect(() => {
-    if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
-      setMainFormState(mainForm);
-    }
-  }, [mainForm]);
-
-  const handleSelect2 = (values: any, index: number): void => {
-    setSelectedValues((prevState: SelectedValuesState) => ({
-      ...prevState,
-      [index]: values,
-    }));
-
-    const newDineInFields = [...dineinfields];
-    newDineInFields[index] = {
-      ...newDineInFields[index],
-      DineInService: values,
+    const addDayThirdfalse = () => {
+      setShowDayThird(false);
     };
-    setDineInFields(newDineInFields);
-  };
-
-  const addOption2 = (newOption: OptionType): void => {
-    setOptions2((prevOptions) => [...prevOptions, newOption]);
-  };
-  const handleSelect3 = (values: string[]): void => {
-    setSelectedValues2(values);
-    validateDropdown(values, "Pickup");
-  };
-  const addOption3 = (newOption: OptionType): void => {
-    setOptions3((prevOptions) => [...prevOptions, newOption]);
-  };
-  const handleSelect4 = (values: string[]): void => {
-    setSelectedValues3(values);
-    validateDropdown(values, "Pickup");
-  };
-  const addOption4 = (newOption: OptionType): void => {
-    setOptions4([...options4, newOption]);
-  };
-  const handleSelect5 = (value: string[]): void => {
-    setSelectedValues4(value);
-    validateDropdown(value, "ThirdDelivery1");
-  };
-  const addOption5 = (newOption: OptionType): void => {
-    setOptions5([...options5, newOption]);
-  };
-  const handleSelect6 = (value: string[]): void => {
-    setSelectedValues5(value);
-    validateDropdown(value, "ThirdDelivery2");
-  };
-  const addOption6 = (newOption: OptionType): void => {
-    setOptions6([...options6, newOption]);
-  };
+    
+    useEffect(() => {
+      if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
+        setMainFormState(mainForm);
+      }
+    }, [mainForm]); 
+    const handleSelect2 = (values: any, index: number): void => {
+      // Update selected values state
+      setSelectedValues((prevState: SelectedValuesState) => ({
+        ...prevState,
+        [index]: values,
+      }));
+    
+      // Update the dineinfields state with the new selected values
+      const newDineInFields = [...dineinfields];
+      newDineInFields[index] = {
+        ...newDineInFields[index],
+        DineInService: values,
+      };
+      setDineInFields(newDineInFields);
+    
+      // Clear validation error for the specified field
+      
+    };
+    
+    const addOption2 = (newOption: OptionType): void => {
+      setOptions2((prevOptions) => [...prevOptions, newOption]);
+    };
+    const handleSelect3 = (values: string[]): void => {
+      setSelectedValues2(values);
+      validateDropdown(values, "Pickup");
+    };
+    const addOption3 = (newOption: OptionType): void => {
+      setOptions3((prevOptions) => [...prevOptions, newOption]);
+    };
+    const handleSelect4 = (values: string[]): void => {
+      setSelectedValues3(values);
+      validateDropdown(values, "Pickup");
+    };
+    const addOption4 = (newOption: OptionType): void => {
+      setOptions4([...options4, newOption]);
+    };
+    const handleSelect5 = (value: string[]): void => {
+      setSelectedValues4(value);
+      validateDropdown(value, "ThirdDelivery1");
+    };
+    const addOption5 = (newOption: OptionType): void => {
+      setOptions5([...options5, newOption]);
+    };
+    const handleSelect6 = (value: string[]): void => {
+      setSelectedValues5(value);
+      validateDropdown(value, "ThirdDelivery2");
+    };
+    const addOption6 = (newOption: OptionType): void => {
+      setOptions6([...options6, newOption]);
+    };
 
   const handleSelectMealtype = (value: MealType, index: number): void => {
     const newSelectedValues = [...selectedValuesmealtype];
     newSelectedValues[index] = value;
     setSelectedValuesMealType(newSelectedValues);
 
-    const newDineInFields = [...dineinfields];
-    newDineInFields[index].DineInMealType = value;
-    setDineInFields(newDineInFields);
+      const newDineInFields = [...dineinfields];
+      newDineInFields[index].DineInMealType = value;
+      setDineInFields(newDineInFields);
+      
 
-    if (dinein) {
-      validateDropdown(value, index);
-    }
-  };
-  const addOptionMealType = (newOption: OptionType): void => {
-    setOptionsMealType([...optionsmealtype, newOption]);
-  };
-  const handleServiceSelect2 = (
-    index: number,
-    value: ServiceValueType
-  ): void => {
-    setSelectedValues(value);
 
-    const newDineInFields = [...dineinfields];
-    newDineInFields[index].DineInService = value;
-    setDineInFields(newDineInFields);
-  };
-  const handleMealSelect2 = (index: number, value: MealType): void => {
-    if (index < 0 || index >= dineinfields.length) {
-      console.error("Index out of bounds");
-      return;
-    }
+      if (dinein) {
+        validateDropdown(value, index);
+      }
+    };
+    const addOptionMealType = (newOption: OptionType): void => {
+      setOptionsMealType([...optionsmealtype, newOption]);
+    };
+    const handleServiceSelect2 = (
+      index: number,
+      value: ServiceValueType,
+      validfield: string
+    ): void => {
+ 
+      setSelectedValues(value);
 
-    const newDineInFields = [...dineinfields];
-    newDineInFields[index].DineInMealType = value;
-    setDineInFields(newDineInFields);
-  };
-  const handleSelectThird = (value: string[]): void => {
-    setSelectedThirdValues(value);
-    validateDropdown(value, "ThirdDeliverySwiggyZomato");
-  };
 
-  return (
-    <div>
-      <div className="AvailDaycheck">
-        <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-        <div className="dayschecking">
-          <DaysCheck
-            checkedItems={Normaldays}
-            setCheckedItems={setNormalDays}
-            id={availabilityid}
-            setId={setAvailabilityid}
-          ></DaysCheck>
+      const newDineInFields = [...dineinfields];
+      newDineInFields[index].DineInService = value;
+      setDineInFields(newDineInFields);
+      setValidationStateerr((prevState) => ({
+        ...prevState,
+        [validfield]: {
+          ...prevState[validfield],
+          isValid: false,          
+          errorMessage: "",       
+        },
+      }));
+
+
+    };
+    const handleMealSelect2 = (index: number, value: MealType,  validfield: string): void => {
+ 
+      if (index < 0 || index >= dineinfields.length) {
+        console.error("Index out of bounds");
+        return;
+      }
+ 
+      const newDineInFields = [...dineinfields];
+      newDineInFields[index].DineInMealType = value;
+      setDineInFields(newDineInFields);
+          setValidationStateerr((prevState) => ({
+        ...prevState,
+        [validfield]: {
+          ...prevState[validfield],
+          isValid: false,          
+          errorMessage: "",       
+        },
+      }));
+    };
+    const handleSelectThird = (value: string[]): void => {
+      setSelectedThirdValues(value);
+      validateDropdown(value, "ThirdDeliverySwiggyZomato");
+    };
+
+    return (
+      <div>
+        <div className="AvailDaycheck">
+          <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+          <div className="dayschecking">
+            <DaysCheck
+              checkedItems={Normaldays}
+              setCheckedItems={setNormalDays}
+              id={availabilityid}
+              setId={setAvailabilityid}
+            ></DaysCheck>
+          </div>
         </div>
-      </div>
-      <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1>
-      {/* DineIn Related */}
-      <div className="DineInRelated">
-        <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
-        <div className="toggleII">
-          <Toggle toggle={dinein} setToggle={setDineIn} />
+        <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1>
+        {/* DineIn Related */}
+        <div className="DineInRelated">
+          <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
+          <div className="toggleII">
+            <Toggle toggle={dinein} setToggle={setDineIn} />
+          </div>
         </div>
-      </div>
-      {dinein ? (
-        <>
-          {dineinfields.map((entry: any, index: any) => {
-            return (
-              <>
-                <div className="LabelPrice">
-                  <LableComponent lable="Price*" />
-                </div>
-                <div
-                  className="DineInInput11Normal"
-                  key={index}
-                  style={{ zIndex: dineinfields.length - index }}
-                >
-                  <input
-                    type="text"
-                    name="DineInPrice"
-                    value={entry.DineInPrice}
-                    className="DineInInput1Normal"
-                    onChange={(e) => handleChange(index, e)}
-                  />
-
-                  <div className="Mealz">
-                    <DropDown
-                      selectedValues={selectedValuesmealtype[index] || ""}
-                      onSelect={(values) => handleSelectMealtype(values, index)}
-                      options={optionsmealtype}
-                      index={index}
-                      label="Meal Type*"
-                      width="Drop1"
-                      onBlur={() =>
-                        validateDropdown(
-                          selectedValuesmealtype[index] || [],
-                          index
-                        )
-                      }
-                      validation={validationState.NormalMealtype}
-                    />
+        {dinein ? (
+          <>
+            {dineinfields.map((entry:any, index:any) => {
+               const mealTypeKey = `DineInMealType_${index}`;
+               const priceKey = `DineInPrice_${index}`;
+               const DineInService=`DineInService_${index}`
+              return (
+                <>
+                  <div className="LabelPrice">
+                    <LableComponent lable="Price*" />
                   </div>
+                  <div
+                    className="DineInInput11Normal"
+                    key={index}
+                    style={{ zIndex: dineinfields.length - index }}
+                  >
+                    <div className="Dine-In-Price">
+                    <input
+                      type="text"
+                      name="DineInPrice"
+                      value={entry.DineInPrice}
+                      className="DineInInput1Normal"
+                      onChange={(e) => {handleChange(index, e)
+                        handleValidate()
 
-                  <div className="Service">
-                    <DropDown
-                      selectedValues={selectedValues[index] || ""}
-                      onSelect={(values) => handleSelect2(values, index)}
-                      options={options2}
-                      label="Service Area*"
-                      index={index}
-                      onChange={(e) =>
-                        handleServiceSelect2(index, e.target.value)
-                      }
-                      validation={validationState.NormalServiceArea}
-                      width=""
+                      }}
                     />
+                     {!validationState[priceKey]?.isValid && (
+                <span  className="Errormsg">
+                  {validationState[priceKey]?.errorMessage}
+                </span>
+              )}
+                    </div>
+                    
+                    <div className="Mealz">
+                      <div>
+                      <DropDown
+                        selectedValues={selectedValuesmealtype[index] || ""}
+                        onSelect={(values) => handleSelectMealtype(values, index)}
+                        options={optionsmealtype}
+                        index={index}
+                        label="Meal Type*"
+                        width="Drop1"
+                        handleValidate={handleValidate}
+                        onBlur={() =>{
+                          // validateDropdown(selectedValuesmealtype[index] || [], index)
+                          handleValidate()
+
+                        }
+                      
+                        }
+                        // validation={
+                        //  validationState.NormalMealtype
+                        // }
+                      />
+                      </div>
+                      <div> {!validationState[mealTypeKey]?.isValid && (
+                <span className="Errormsg">
+                  {validationState[mealTypeKey]?.errorMessage}
+                </span>
+              )}</div>
+                      
+                    </div>
+                   
+
+                    <div className="Service">
+                      <DropDown
+                        selectedValues={selectedValues[index] || ""}
+                        onSelect={(values) => handleSelect2(values, index)}
+                        options={options2}
+                        label="Service Area*"
+                        index={index}
+                        handleValidate={handleValidate}
+                        onChange={(e) =>
+                          handleServiceSelect2(index, e.target.value,"DineInService")
+                        }
+                        // validation={validationState.NormalServiceArea}
+                        width=""
+                      />
+                       {!validationState[DineInService]?.isValid && (
+                <span  className="Errormsg">
+                  {validationState[DineInService]?.errorMessage}
+                </span>
+              )}
+                    </div>
+                    
+                    <h1
+                      onClick={() => handleDelete(index)}
+                      className="DeleteButtonDine"
+                    >
+                      - Delete
+                    </h1>
                   </div>
-                  <h1
-                    onClick={() => handleDelete(index)}
-                    className="DeleteButtonDine"
-                  >
-                    - Delete
-                  </h1>
-                </div>
-                <div className="dineInChooseDayContainer">
-                  <h3 className="dineInChooseDayContainerHeading">
-                    Choose for Specific day
-                  </h3>
-                  <h3
-                    className="dineInChooseDayContainer-chooseheading"
-                    onClick={() => addDay(index)}
-                  >
-                    {entry.dayButtonText}
-                  </h3>
-                </div>
-                <div className="dayspickup">
-                  {entry.showDay && (
-                    <DaysCheckDin
-                      checkedItems={dineInDates1}
-                      setCheckedItems={setDineInDates1}
-                      index={index}
-                      {...(availabilityid
-                        ? { id: availabilityid, setId: setAvailabilityid }
-                        : {})}
-                    />
-                  )}
-                </div>
-              </>
-            );
-          })}
+                  <div className="dineInChooseDayContainer">
+                    <h3 className="dineInChooseDayContainerHeading">
+                      Choose for Specific day
+                    </h3>
+                    <h3
+                      className="dineInChooseDayContainer-chooseheading"
+                      onClick={() => addDay(index)}
+                    >
+                      {entry.dayButtonText}
+                    </h3>
+                  </div>
+                  <div className="dayspickup">
+                    {entry.showDay && (
+                      <DaysCheckDin
+                        checkedItems={dineInDates1}
+                        setCheckedItems={setDineInDates1}
+                        index={index}
+                        {...(availabilityid
+                          ? { id: availabilityid, setId: setAvailabilityid }
+                          : {})}
+                      />
+                    )}
+                  </div>
+                </>
+              );
+            })}
+
+
+
+
 
           <h1 className="AddentryNormal" onClick={AddDineInEntry}>
             {" "}
