@@ -178,6 +178,7 @@ export const Menulisting = () => {
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
   }, [Mockdata, FilteredData]);
+  
 
   useEffect(() => {
     setsteamType([

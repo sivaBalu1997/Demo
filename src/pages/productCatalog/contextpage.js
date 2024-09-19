@@ -12,6 +12,8 @@ export const Contextpage = ({ children }) => {
     const [isExpanded, setIsExpanded]=useState()
     const [saveandnext, setsaveandnext]=useState(false);
     const [active, setActive] = useState('');
+    const [pen, setPen] = useState(false);
+
 
   return (
     <Contextpagejs.Provider value={{ 
@@ -24,7 +26,9 @@ export const Contextpage = ({ children }) => {
       setsaveandnext,
       menuItems,
       active,
-      setActive
+      setActive,
+      pen,
+      setPen
     }}>
       {children}
     </Contextpagejs.Provider>

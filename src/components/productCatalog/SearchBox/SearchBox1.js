@@ -23,11 +23,11 @@ const SearchBox = () => {
 
   useEffect(() => {
     if (data && data.length) {
-      setFilteredOptions(data.map((elem) => elem.name)); 
+      setFilteredOptions(data.map((elem) => elem.itemName)); 
 
     }
   }, [data]);
-
+console.log(filteredOptions,"filteredOptions")
   useEffect(()=>{
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch))
     
@@ -42,15 +42,15 @@ const SearchBox = () => {
   }
   const filterOptions = (input) => {
     const filtered = data.filter((item) =>
-      item.name.toLowerCase().includes(input.toLowerCase())
+      item.itemName.toLowerCase().includes(input.toLowerCase())
     );
     setFilteredOptions(filtered);
     setFilteredOptionsDispatch(filtered)
   };
 
   const handleOptionClick = (option) => {
-    setSearchTerm(option.name);
-    filterOptions(option.name);
+    setSearchTerm(option.itemName);
+    filterOptions(option.itemName);
     setOptionSelected(true);
     setFilteredOptions([]);
   };
@@ -116,7 +116,7 @@ const SearchBox = () => {
                   className={index === highlightedIndex ? 'highlighted' : ''}
                 >
                   <div className={isExpanded ? 'Search-Container-options1-items' : "Search-Container-options-items"}>
-                  {option.name}
+                  {option.itemName}
                   </div>
                 </li>
               ))
