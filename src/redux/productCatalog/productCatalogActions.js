@@ -339,21 +339,3 @@ export const addMockDataFailure = (error) => ({
   type: ADD_MOCK_DATA_FALIURE,
   payload: error, 
 })
-
-
-export const dietdatarequest=(data)=>({
-  type: DIET_DROPDOWN_LIST_REQUEST,
-  payload: data, 
-})
-
-export const dietdatasuccess = (response) => {
-  console.log({response})
-  return ({
-  type:DIET_DROPDOWN_LIST_SUCCESS,
-  payload: response, 
-})};
-
-export const dietdatafailure = (error) => ({
-  type: DIET_DROPDOWN_LIST_FAILURE,
-  payload: error, 
-})

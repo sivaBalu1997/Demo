@@ -40,16 +40,9 @@ import {
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
   ADD_MOCK_DATA_REQUEST,
-  DIET_DROPDOWN_LIST_REQUEST,
-  DIET_DROPDOWN_LIST_SUCCESS,
-  DIET_DROPDOWN_LIST_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
-  dietaryData: [],
-  getDietaryloading: false,
-  getDietarySuccess: false,
-
   categoryData: [],
   getCategoryLoading: false,
   getCategorySuccess: false,
@@ -96,26 +89,7 @@ export default function employeeReducer(
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
-      //dietary data
-      case DIET_DROPDOWN_LIST_REQUEST:
-        draft.dietaryData = [];
-        draft.getDietaryloading = true;
-        draft.getDietarySuccess = false;
-        break;
-      case DIET_DROPDOWN_LIST_SUCCESS:
-        console.log("From reducer", action.payload);
-        draft.dietaryData = action.payload;
-        draft.getDietaryloading = false;
-        draft.getDietarySuccess = true;
-        break;
-      case DIET_DROPDOWN_LIST_FAILURE:
-        draft.dietaryData = [];
-        draft.getDietaryloading = false;
-        draft.getDietarySuccess = false;
-        break;
-
       // Get Menu Category
-
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
         draft.getCategoryLoading = true;
@@ -168,19 +142,19 @@ export default function employeeReducer(
         draft.ingredients = [];
         draft.getSubCategoryLoading = true;
         draft.getIngredientsSuccess = false;
-        draft.requestCompleted = false;
+        draft.requestCompleted = false
         break;
       case GET_INGR_SUCCESS:
         draft.ingredients = action.payload;
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = true;
-        draft.requestCompleted = true;
+        draft.requestCompleted = true
         break;
       case GET_INGR_FAILED:
         draft.ingredients = [];
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = false;
-        draft.requestCompleted = false;
+        draft.requestCompleted = false
         break;
       // Get Modifier
       case GET_MODIFIER_REQUEST:
@@ -390,46 +364,50 @@ export const storeMockDataReducer = (state = mockData, action) => {
         ...state,
         data: action?.payload,
       };
-    default:
+      default:
       return state;
+    }}
+
+ 
+
+ 
+
+  const mockDataFiltered = {
+    data: []
+  };
+
+  export  const storeMockDataFilteredReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case STORE_MOCK_DATA_FILTERED_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
+  
+    
+  
+      default:
+        return state;
+    }
+  };
+ 
+
+  // {**************************AddMockData***********************************************}
+
+  const addMockData = {
+    data: []
   }
-};
 
-const mockDataFiltered = {
-  data: [],
-};
+  export  const addMockDataReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case ADD_MOCK_DATA_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
+  
+    
+  
+      default:
+        return state;
+    }
+  };
 
-export const storeMockDataFilteredReducer = (
-  state = mockDataFiltered,
-  action
-) => {
-  switch (action.type) {
-    case STORE_MOCK_DATA_FILTERED_REQUEST:
-      return {
-        ...state,
-        data: action?.payload,
-      };
-
-    default:
-      return state;
-  }
-};
-
-// {**************************AddMockData***********************************************}
-
-const addMockData = {
-  data: [],
-};
-
-export const addMockDataReducer = (state = mockDataFiltered, action) => {
-  switch (action.type) {
-    case ADD_MOCK_DATA_REQUEST:
-      return {
-        ...state,
-        data: action?.payload,
-      };
-
-    default:
-      return state;
-  }
-};
