@@ -41,7 +41,7 @@ const Navigationpage = () => {
     history.push(`/productCatalog/${path}`, { pagename: category });
   }
 
-  console.log("Use Paras",location.state?.pagename)
+  // console.log("Use Paras",location.state?.pagename)
 
 
   return (

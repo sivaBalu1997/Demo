@@ -6,7 +6,7 @@ import ToggleSliderAvail from '../ToggleSliderAvail/ToggleSliderAvail';
 // Define interfaces
 interface SideBarData {
   id: number;
-  name: string;
+  itemName: string;
   code: string;
   type: string;
   mealType: string;
