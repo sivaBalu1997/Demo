@@ -26,6 +26,31 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
+    // background-color: pink;
+    .tool-tip-best-pair{
+      position: relative;
+      // background-color: orange;
+      left: -1%;
+      width: 1px;
+    }
+    .tool-tip-item-code{
+      position: relative;
+      // background-color: orange;
+      left: 5%;
+      width: 1px;
+    }
+    .tool-tip-portion-size{
+      position: relative;
+      // background-color: orange;
+      left: 5%;
+      width: 1px;
+    }
+    .tool-tip-tax-class{
+      position: relative;
+      // background-color: orange;
+      left: 5%;
+      width: 1px;
+    }
   }
 
   .Primary-page-container-one {
@@ -220,6 +245,7 @@
         height: 3rem;
         align-items: center;
         gap: 30px;
+        // background-color: red;
         .Caloriepointradio {
           position: relative;
           left: 1.7%;
@@ -231,11 +257,14 @@
           align-items: center;
           position: relative;
           left: 0.2%;
+          // background-color: cadetblue;
         }
         .portionsizeTooltip {
           position: relative;
           left: 3%;
-          margin-top: -1rem;
+          margin-top: -0.7rem;
+          // background-color: yellow;
+          width: 5px;
         }
       }
     }
