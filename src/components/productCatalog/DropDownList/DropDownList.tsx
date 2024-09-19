@@ -368,7 +368,7 @@ const DropDownList: React.FC<DropdownProps> = ({
  
               <div className="Addnew-edit-fields">
                 <div className="dropdown-edit-button">
-                  {editList && editValues && (
+                  {editList && editValues &&!addNewButton&& (
                     <p
                       onClick={(e) => {
                         e.stopPropagation();

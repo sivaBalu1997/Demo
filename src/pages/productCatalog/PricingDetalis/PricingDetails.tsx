@@ -496,19 +496,23 @@ const handleValidate = () => {
           }
         >
           <div className="pricing-form">
-            <div className="Tool">
-              {/* <button onClick={submiterror} style={{backgroundColor:'red'}}>clcik</button> */}
-              <p className="KitchenRelatedHeading">Kitchen Related</p>
+            {/* <button onClick={submiterror} style={{backgroundColor:'red'}}>clcik</button> */}
+              {/* <p className="KitchenRelatedHeading">Kitchen Related</p> */}
               {/* <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={20} height={20} />
                       </div>
                     </Tooltip> */}
-            </div>
+            {/* <div className="Tool">
+              
+            </div> */}
 
             <div className="KitchenRelated">
+             
               <div className="D1kitchen">
-                <Dropdown
+              <p>Kitchen Related</p>
+              <div className="kitche-stations-dropdown">
+              <Dropdown
                   name="kitchenstation"
                   options={options1}
                   type="checkbox"
@@ -526,9 +530,25 @@ const handleValidate = () => {
                   dropdownopen={DropdownOpen.Kitchen}
                   onToggle={() => handleDropdownToggle("Kitchen")}
                 />
+
+              </div>
+               
               </div>
 
-              <div className="D1kitchen">
+              <div className="D2kitchen">
+
+                <div className="Prepartiontime">
+                  <label htmlFor="">Preparation time</label>
+                  <div className="Prepartiontime-input-fileds">
+                    <input type="text" className="Prepartiontime-input-hours"/>
+                    <span>Hours</span>
+                    <span>:</span>
+                    <input type="text" className="Prepartiontime-input-mins" />
+                    <span>Minutes</span>
+                  </div>
+                </div>
+
+
                 {/* <Controller
                     name="Preparation"
                     control={control}

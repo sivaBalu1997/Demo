@@ -32,30 +32,64 @@
 
 .KitchenRelated {
   display: flex;
+  flex-direction: row;
   justify-content: flex-start;
   position: relative;
-  top: 2px;
-  margin-left: 20px;
+  top: 15px;
+  
   gap: 30px;
-  margin-bottom: -40px;
+  margin-bottom: 10px;
 }
-.KitchenRelated > div {
-  flex: 1; /* This will make the divs take equal space */
-}
+// .KitchenRelated > div {
+//   flex: 1; /* This will make the divs take equal space */
+// }
 .D1kitchen {
-  margin-top: -80px;
-  margin-left: -20px;
+  // margin-top: -80px;
+  // margin-left: -20px;
+  .kitche-stations-dropdown
+  {
+    margin-top: 1rem;
+  }
 }
 .D2kitchen {
-  margin-top: -80px;
-  margin-left: -65px;
+  // margin-top: -80px;
+  // margin-left: -65px;
+  .Prepartiontime-input-fileds
+  {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 1rem;
+    .Prepartiontime-input-hours
+    {
+      width: 52.93px;
+height: 43.1px;
+
+border-radius: 5.41px ;
+border: 1px solid #9F9F9F;
+
+
+    }
+    .Prepartiontime-input-mins
+    {
+      width: 52.93px;
+height: 43.1px;
+
+border-radius: 5.41px ;
+border: 1px solid #9F9F9F;
+
+
+    }
+  }
 }
 
 .KitchenRelatedHeading {
-  margin-top: 20px;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 90px;
+  // margin-top: 20px;
+  // font-size: 1rem;
+  // font-weight: 500;
+  // margin-bottom: 90px;
 }
 .ErrorsForm {
   font-size: 0.75rem;
