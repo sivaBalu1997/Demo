@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ToggleSliderInventory from "../ToggleSliderInventory/ToggleSliderInventory"
 import "./Inventory.scss"
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 interface SideBarData {
   id: number;
@@ -27,8 +28,10 @@ interface InventoryProp {
 }
 
 const Inventory: React.FC<InventoryProp> = ({ SideBarData }) => {
+  const { pen, setPen } = useContext(Contextpagejs);
+
   const [invent, setInvent] = useState(true);
-  const [pen, setPen] = useState(true);
+ 
 
   // State for the input fields
   const [inventoryData, setInventoryData] = useState({
@@ -66,6 +69,7 @@ const Inventory: React.FC<InventoryProp> = ({ SideBarData }) => {
                   className='InventInputSlider'
                   value={inventoryData.maxServingsPerDay}
                   onChange={handleInputChange} // Handle input change
+                  disabled={!pen}
                 />
               </div>
               <div className='ThresholdSliderSection'>
@@ -76,6 +80,8 @@ const Inventory: React.FC<InventoryProp> = ({ SideBarData }) => {
                   className='ThresholdInputSlider'
                   value={inventoryData.threshold}
                   onChange={handleInputChange} // Handle input change
+                  disabled={!pen}
+
                 />
               </div>
               <div className='CheckboxSlider'>
