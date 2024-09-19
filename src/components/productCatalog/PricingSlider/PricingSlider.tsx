@@ -4,7 +4,7 @@ import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 interface SideBarData {
   id: number;
-  name: string;
+  itemName: string;
   code: string;
   type: string;
   mealType: string;

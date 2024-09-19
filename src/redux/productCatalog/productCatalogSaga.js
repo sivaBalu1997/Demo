@@ -64,11 +64,11 @@ import {
 function* getdietarySaga(action) {
   try {
     const response = yield call(getDietarydata, action.payload);
-    yield put(dietdatasuccess(response));
-    console.log("response",response)
-    if (response.status === 200) {
-      // yield put(dietdatasuccess(response.data));
-    } else {
+    if (response) {
+      console.log("response from sagas", response);
+      yield put(dietdatasuccess(response));
+    } 
+    else {
       yield put(dietdatafailure({ message: "please Try Again" }));
     }
   } catch (err) {

@@ -414,7 +414,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dataDietaryType}
+                        options={dietaryData}
                         type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"

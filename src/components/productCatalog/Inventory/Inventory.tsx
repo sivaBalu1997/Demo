@@ -4,7 +4,7 @@ import "./Inventory.scss"
 
 interface SideBarData {
   id: number;
-  name: string;
+  itemName: string;
   code: string;
   type: string;
   mealType: string;

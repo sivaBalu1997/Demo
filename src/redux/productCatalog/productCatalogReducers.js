@@ -105,14 +105,12 @@ export default function productCatalogReducer(
         draft.getDietarySuccess = false;
         break;
       case  DIET_DROPDOWN_LIST_SUCCESS:
-      
-        
-        return { ...state, dietaryData:action.payload};
-       
-        
-        // draft.getDietaryloading = false;
-        // draft.getDietarySuccess = true;
-        // break;
+        draft.dietaryData = action.payload;
+        console.log("action.payload",action.payload)
+
+        draft.getDietaryloading = false;
+        draft.getDietarySuccess = true;
+        break;
       case DIET_DROPDOWN_LIST_FAILURE:
         draft.dietaryData = [];
         draft.getDietaryloading = false;
