@@ -103,34 +103,29 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
   const fetchedprimarydata = primarydata;
-  console.log(fetchedprimarydata.ingredients);
-
   const primarypagedetails = useSelector((state: RootState) => state);
 
-  const data = [{
-    
-    locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
-    itemCode: primarypagedetails.primarypage.data.itemCode,
-    altName: "alt name",
-    type:"steamedVeg",
-    itemName: primarypagedetails.primarypage.data.itemName,
-    description: primarypagedetails.primarypage.data.description,
-    price: "12",
-    categoryId: primarypagedetails.primarypage.data.categoryId,
-    subCategoryId: "",
-    kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
-    taxFeeId: "",
-    ingredients: ["03348389-4b2a-4fca-affa-6ad4291b0241"],
-    modifiers: [],
-    availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
-    category: primarypagedetails.primarypage.data.category,
-    subCategory: primarypagedetails.primarypage.data.subCategory,
-    itemId: null,
-
-  }]
-
-
-
+  const data = [
+    {
+      locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
+      itemCode: primarypagedetails.primarypage.data.itemCode,
+      altName: "alt name",
+      type: "steamedVeg",
+      itemName: primarypagedetails.primarypage.data.itemName,
+      description: primarypagedetails.primarypage.data.description,
+      price: "12",
+      categoryId: primarypagedetails.primarypage.data.categoryId,
+      subCategoryId: "",
+      kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
+      taxFeeId: "",
+      ingredients: ["03348389-4b2a-4fca-affa-6ad4291b0241"],
+      modifiers: [],
+      availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
+      category: primarypagedetails.primarypage.data.category,
+      subCategory: primarypagedetails.primarypage.data.subCategory,
+      itemId: null,
+    },
+  ];
 
   const [uploading, setUploading] = useState(false);
 
@@ -176,30 +171,24 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     }
     setUploading(false);
   };
-  
+
   const handleDispatch = async () => {
     try {
-     
       await uploadImages();
-  
-    
-      const allUploaded = uploadedimage.every(img => img.uploaded);
-      
+
+      const allUploaded = uploadedimage.every((img) => img.uploaded);
+
       if (allUploaded) {
-      
         dispatch(addMenuItemRequest(data));
         dispatch(addMockDataRequest(data));
-  
-       
         history.push("/menuListing");
       } else {
-        alert('Some images failed to upload. Please check and try again.');
+        alert("Some images failed to upload. Please check and try again.");
       }
     } catch (error) {
       console.error("Error during image upload or dispatching:", error);
     }
   };
-  
 
   return (
     <div style={{ display: "flex", width: "93%" }}>

@@ -341,7 +341,7 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
-    // dispatch(getIngredientsRequest(locationid));
+    dispatch(getIngredientsRequest(locationid));
     // dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
