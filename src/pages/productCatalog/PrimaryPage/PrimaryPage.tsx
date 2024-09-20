@@ -521,14 +521,13 @@ const PrimaryPage = () => {
                         />
                       )}
                     />
-                    <div>
+                    <div className="tool-tip-best-pair">
                     <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
                     </Tooltip>
                     </div>
-                    
                   </div>
                 </div>
 
@@ -670,11 +669,13 @@ const PrimaryPage = () => {
                         />
                       )}
                     />{" "}
+                    <div className="tool-tip-item-code">
                     <Tooltip message="KitchenRelated">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
                     </Tooltip>{" "}
+                    </div>
                   </div>
                 </div>
 
@@ -804,11 +805,13 @@ const PrimaryPage = () => {
                         />
                       )}
                     />
+                    <div className="tool-tip-portion-size">
                     <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
                     </Tooltip>
+                    </div>
                   </div>
 
                   <div className="Primary-Page-inputfiled-and-tooltip">
@@ -849,7 +852,7 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
-                      <div>
+                      <div className="tool-tip-tax-class">
                         <Tooltip message="Kitchen Related">
                           <div className="ToolKitchen">
                             <img src={info} alt="" width={25} height={25} />
