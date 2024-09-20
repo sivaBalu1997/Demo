@@ -35,8 +35,16 @@
   z-index: 1;
   cursor: pointer;
 }
+.date-picker-container {
+  position: relative; 
+}
+
 .react-datepicker-wrapper {
-  display: block;
+  display: block; 
+}
+.react-datepicker-popper {
+  z-index: 9999 !important; 
+  position: absolute !important; 
 }
 .react-datepicker__input-container input {
   width: 142px;
@@ -336,5 +344,5 @@ margin-left: -30px;
   font-size: 14px;
   margin-top: 22px;
   transform: translateX(40px);
-  
+  margin-left: -36px;
 }

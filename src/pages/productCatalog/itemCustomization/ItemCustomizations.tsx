@@ -333,12 +333,12 @@ const ItemCustomizations: React.FC = () => {
               <div>
                 <Toggle toggle={showModifiers} setToggle={setShowModifiers} />
               </div>
-              <a
+              {showModifiers && <a
                 className="Add-Modification-btn-ItemCustomizations"
                 onClick={addModifier}
               >
                 + Add Modification
-              </a>
+              </a>}
             </div>
 
             <div className="searchbox">
