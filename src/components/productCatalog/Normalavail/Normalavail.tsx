@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect } from "react";
   import Toggle from "../Toggle/Toggle";
   import "./Normalavail.scss";
   import DaysCheck from "../DayCheck/DaysCheck";
@@ -64,21 +64,14 @@ import React, { useState, useEffect } from "react";
       value: string[],
       key: keyof DropdownValidationState
     ) => void;
-  
+
     validationState: {
       [key: string]: { isValid: boolean; errorMessage: string };
     };
-    
-    // Corrected type for setValidationStateerr
-    setValidationStateerr: React.Dispatch<React.SetStateAction<DropdownValidationState>>;
-    
     dinein: boolean;
     setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
     setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>; 
-    handleValidate:()=>void;
-    mainFormState: any;
-    dineinfields?: any;
-    setDineInFields: (form: any) => void;
+    mainFormState:any
   }
 
   type MealType1 = string;
@@ -100,17 +93,22 @@ import React, { useState, useEffect } from "react";
     setDineIn,
     setMainFormState,
     mainFormState ,
-    dineinfields,
-    setDineInFields,
-    setValidationStateerr,
-    handleValidate
+    
     
 
   }) => {
     const [online, setOnline] = useState(false);
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
-   
+    const [dineinfields, setDineInFields] = useState<DineInField[]>([
+      {
+        DineInPrice: "",
+        DineInMealType: [],
+        DineInService: "",
+        showDay: false,
+        dayButtonText: "Add Day",
+      },
+    ]);
     const [dineinentry, setDineInEntry] = useState<string[]>([]);
     const [Normaldays, setNormalDays] = useState<number[]>([]);
     const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -303,7 +301,7 @@ import React, { useState, useEffect } from "react";
     }, []);
     const handleDelete = (index: number): void => {
       // Filter out the entry at the given index
-      const newEntries = dineinfields.filter((_:any, i:any) => i !== index);
+      const newEntries = dineinfields.filter((_, i) => i !== index);
       setDineInFields(newEntries);
 
       // Handle selected values
@@ -395,25 +393,22 @@ import React, { useState, useEffect } from "react";
         setMainFormState(mainForm);
       }
     }, [mainForm]); 
+
     const handleSelect2 = (values: any, index: number): void => {
-      // Update selected values state
+
       setSelectedValues((prevState: SelectedValuesState) => ({
         ...prevState,
         [index]: values,
       }));
-    
-      // Update the dineinfields state with the new selected values
+
       const newDineInFields = [...dineinfields];
       newDineInFields[index] = {
         ...newDineInFields[index],
         DineInService: values,
       };
       setDineInFields(newDineInFields);
-    
-      // Clear validation error for the specified field
-      
     };
-    
+
     const addOption2 = (newOption: OptionType): void => {
       setOptions2((prevOptions) => [...prevOptions, newOption]);
     };
@@ -455,8 +450,6 @@ import React, { useState, useEffect } from "react";
       const newDineInFields = [...dineinfields];
       newDineInFields[index].DineInMealType = value;
       setDineInFields(newDineInFields);
-      
-
 
       if (dinein) {
         validateDropdown(value, index);
@@ -467,8 +460,7 @@ import React, { useState, useEffect } from "react";
     };
     const handleServiceSelect2 = (
       index: number,
-      value: ServiceValueType,
-      validfield: string
+      value: ServiceValueType
     ): void => {
  
       setSelectedValues(value);
@@ -477,18 +469,8 @@ import React, { useState, useEffect } from "react";
       const newDineInFields = [...dineinfields];
       newDineInFields[index].DineInService = value;
       setDineInFields(newDineInFields);
-      setValidationStateerr((prevState) => ({
-        ...prevState,
-        [validfield]: {
-          ...prevState[validfield],
-          isValid: false,          
-          errorMessage: "",       
-        },
-      }));
-
-
     };
-    const handleMealSelect2 = (index: number, value: MealType,  validfield: string): void => {
+    const handleMealSelect2 = (index: number, value: MealType): void => {
  
       if (index < 0 || index >= dineinfields.length) {
         console.error("Index out of bounds");
@@ -498,14 +480,6 @@ import React, { useState, useEffect } from "react";
       const newDineInFields = [...dineinfields];
       newDineInFields[index].DineInMealType = value;
       setDineInFields(newDineInFields);
-          setValidationStateerr((prevState) => ({
-        ...prevState,
-        [validfield]: {
-          ...prevState[validfield],
-          isValid: false,          
-          errorMessage: "",       
-        },
-      }));
     };
     const handleSelectThird = (value: string[]): void => {
       setSelectedThirdValues(value);
@@ -535,10 +509,7 @@ import React, { useState, useEffect } from "react";
         </div>
         {dinein ? (
           <>
-            {dineinfields.map((entry:any, index:any) => {
-               const mealTypeKey = `DineInMealType_${index}`;
-               const priceKey = `DineInPrice_${index}`;
-               const DineInService=`DineInService_${index}`
+            {dineinfields.map((entry, index) => {
               return (
                 <>
                   <div className="LabelPrice">
@@ -549,26 +520,15 @@ import React, { useState, useEffect } from "react";
                     key={index}
                     style={{ zIndex: dineinfields.length - index }}
                   >
-                    <div className="Dine-In-Price">
                     <input
                       type="text"
                       name="DineInPrice"
                       value={entry.DineInPrice}
                       className="DineInInput1Normal"
-                      onChange={(e) => {handleChange(index, e)
-                        handleValidate()
-
-                      }}
+                      onChange={(e) => handleChange(index, e)}
                     />
-                     {!validationState[priceKey]?.isValid && (
-                <span  className="Errormsg">
-                  {validationState[priceKey]?.errorMessage}
-                </span>
-              )}
-                    </div>
                     
                     <div className="Mealz">
-                      <div>
                       <DropDown
                         selectedValues={selectedValuesmealtype[index] || ""}
                         onSelect={(values) => handleSelectMealtype(values, index)}
@@ -576,27 +536,17 @@ import React, { useState, useEffect } from "react";
                         index={index}
                         label="Meal Type*"
                         width="Drop1"
-                        handleValidate={handleValidate}
-                        onBlur={() =>{
-                          // validateDropdown(selectedValuesmealtype[index] || [], index)
-                          handleValidate()
-
+                        onBlur={() =>
+                          validateDropdown(
+                            selectedValuesmealtype[index] || [],
+                            index
+                          )
                         }
-                      
+                        validation={
+                         validationState.NormalMealtype
                         }
-                        // validation={
-                        //  validationState.NormalMealtype
-                        // }
                       />
-                      </div>
-                      <div> {!validationState[mealTypeKey]?.isValid && (
-                <span className="Errormsg">
-                  {validationState[mealTypeKey]?.errorMessage}
-                </span>
-              )}</div>
-                      
                     </div>
-                   
 
                     <div className="Service">
                       <DropDown
@@ -605,20 +555,13 @@ import React, { useState, useEffect } from "react";
                         options={options2}
                         label="Service Area*"
                         index={index}
-                        handleValidate={handleValidate}
                         onChange={(e) =>
-                          handleServiceSelect2(index, e.target.value,"DineInService")
+                          handleServiceSelect2(index, e.target.value)
                         }
-                        // validation={validationState.NormalServiceArea}
+                        validation={validationState.NormalServiceArea}
                         width=""
                       />
-                       {!validationState[DineInService]?.isValid && (
-                <span  className="Errormsg">
-                  {validationState[DineInService]?.errorMessage}
-                </span>
-              )}
                     </div>
-                    
                     <h1
                       onClick={() => handleDelete(index)}
                       className="DeleteButtonDine"
@@ -652,10 +595,6 @@ import React, { useState, useEffect } from "react";
                 </>
               );
             })}
-
-
-
-
 
             <h1 className="AddentryNormal" onClick={AddDineInEntry}>
               {" "}

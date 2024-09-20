@@ -1,18 +1,12 @@
 import { API,Image_API } from "redux/api";
 import Store from "../store";
 import Axios from "axios";
-import { dietarytype } from "assets/mockData/Moca_data";
 
 export function getCategory(locationId) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Category`,
   });
-}
-
-export function getDietarydata(){
-  console.log("dietary",dietarytype)
-  return dietarytype;
 }
 
 export function getSubCategory({ locationId, id }) {

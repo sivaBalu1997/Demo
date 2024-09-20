@@ -3,25 +3,7 @@ import "./PricingSlider.scss";
 import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
-interface SideBarData {
-  id: number;
-  itemName: string;
-  code: string;
-  type: string;
-  mealType: string;
-  dietary: string;
-  cusine: string;
-  pricingdetails: {
-    Dinein1: string[];
-    Pickup1: string[];
-    Delivery1: string[];
-    Dinein2: string[];
-    Pickup2: string[];
-    Delivery2: string[];
-    Inventory1: string[];
-    Customize1: string[];
-  };
-}
+
 interface PricingSliderProps {
   SideBarData?: any[];
 }
@@ -29,7 +11,7 @@ interface PricingSliderProps {
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
 const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
-  const { pen } = useContext(Contextpagejs);
+  const { pen, setPen } = useContext(Contextpagejs);
 
   const [inputs, setInputs] = useState({
     Dinein1: SideBarData?.[0]?.pricingdetails?.Dinein1 || [],

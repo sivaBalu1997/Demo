@@ -40,17 +40,10 @@ import {
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
   ADD_MOCK_DATA_REQUEST,
-  DIET_DROPDOWN_LIST_REQUEST,
-  DIET_DROPDOWN_LIST_SUCCESS,
-  DIET_DROPDOWN_LIST_FAILURE
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
-
-  dietaryData:[],
-  getDietaryloading:false,
-  getDietarySuccess:false,
-
   categoryData: [],
   getCategoryLoading: false,
   getCategorySuccess: false,
@@ -67,7 +60,6 @@ const initialProductCatalogState = {
   modifier: [],
   getModifierLoading: false,
   getModifierSuccess: false,
-
 
   addMenuLoading: false,
   addMenuSuccess: false,
@@ -92,37 +84,13 @@ const initialProductCatalogState = {
   updateMenuAttributeFailed: false,
 };
 
-export default function productCatalogReducer(
+export default function employeeReducer(
   state = initialProductCatalogState,
   action
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
-   //dietary data
-      case  DIET_DROPDOWN_LIST_REQUEST:
-        draft.dietaryData = [];
-        draft.getDietaryloading = true;
-        draft.getDietarySuccess = false;
-        break;
-      case  DIET_DROPDOWN_LIST_SUCCESS:
-        draft.dietaryData = action.payload;
-        console.log("action.payload",action.payload)
-
-        draft.getDietaryloading = false;
-        draft.getDietarySuccess = true;
-        break;
-      case DIET_DROPDOWN_LIST_FAILURE:
-        draft.dietaryData = [];
-        draft.getDietaryloading = false;
-        draft.getDietarySuccess = false;
-        break;
-
-
       // Get Menu Category
-
-      
-
-
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
         draft.getCategoryLoading = true;

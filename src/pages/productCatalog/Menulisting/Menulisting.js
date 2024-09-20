@@ -27,7 +27,7 @@ export const Menulisting = () => {
   const dispatch = useDispatch();
 
   const { isExpanded } = useContext(Contextpagejs);
-  // console.log({ isExpanded });
+  console.log({ isExpanded });
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 
   useEffect(() => {
@@ -149,8 +149,8 @@ export const Menulisting = () => {
   const [SideBarData, setSideBar] = useState([]);
   const mergedMockData =  [ ...Mockdata,...addedData,...MockHiddendata] 
 
-  // console.log(mergedMockData)
-  // console.log(addedData)
+  console.log(mergedMockData)
+  console.log(addedData)
 
   useEffect(() => {
     const tempArray1 = [];
@@ -179,7 +179,6 @@ export const Menulisting = () => {
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
   }, [Mockdata, FilteredData]);
-  
 
   useEffect(() => {
     setsteamType([

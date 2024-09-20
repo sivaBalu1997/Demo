@@ -1,248 +1,254 @@
-* {
-  font-family: "Poppins", sans-serif;
-}
-.Main-Primary-Page {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.Main-Primary-Page-Expanded {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.Primary-page {
-  position: relative;
-  top: 7vh;
-  width: 100%;
-  height: 30rem;
-  overflow-y: auto;
-  // border: 1px solid red;
-
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
-  .Primary-Page-inputfiled-and-tooltip {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+*{
+    font-family: "Poppins", sans-serif;
   }
-
-  .Primary-page-container-one {
+  .Main-Primary-Page
+  {
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    height: 137vh;
-    margin-left: 2vw;
+    flex-direction: column;
+  }
+  .Main-Primary-Page-Expanded{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+.Primary-page{
+    position: relative;
+    top:7vh;
+    width: 100%;
+    height: 30rem; 
+    overflow-y: auto;
+    // border: 1px solid red;
 
-    .Primary-page-container-pairone {
-      width: 28vw;
-      height: 100vh;
+    &::-webkit-scrollbar {
+      display: none;
     }
-
-    .Primary-page-InputFields {
-      height: 6rem;
-      width: fit-content;
-
-      .KitchenRelated{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .Primary-Page-inputfiled-and-tooltip
+    {
+     display: flex;
+     flex-direction: row;
     }
-    }
-    .alcoholradiobutton {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      top: -2%;
-      gap: 0.5rem;
-      h3 {
-        font-family: "Poppins", sans-serif;
-        font-size: 0.875rem;
-        font-weight: 400;
-        color: #000000;
-      }
-    }
-
-    .Primary-Page-description-field {
-      position: relative;
-      .description {
-        width: 20vw;
-        height: 8rem;
-        resize: none;
-        border: 1px solid rgba(0, 0, 0, 0.3);
-        border-radius: 0.313rem;
-        padding: 0.5rem;
-        color: #979797;
-
-        &:focus {
-          outline: none;
-        }
-      }
-      .Primary-page-description-charcount {
-        position: absolute;
-        right: 31.5%;
-        margin-top: -7%;
-        font-size: 14px;
-        font-weight: 400;
-        display: flex;
-        justify-content: right;
-      }
-    }
-    .Primary-Page-Foodimages {
-      margin-top: 5rem;
-      height: 11rem;
-      width: 50vw;
-      // border: 1px solid red;
-
-      .image-container {
-        position: relative;
-        width: 100px;
-        height: 100px;
-
-        .imcrossstyres {
-          position: absolute;
-          top: 12px;
-          left: 60px;
-          width: 20px;
-          height: 20px;
-          border-radius: 50px;
-          border: none;
-          background-color: #f23d3d;
-          z-index: 1;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        .uploaded-image {
-          position: relative;
-          top: 0.063rem;
-          width: 5.5rem;
-          height: 5.5rem;
-          border-radius: 3.125rem;
-          padding: 0.313rem;
-          position: relative;
-          top: 1rem;
-        }
-      }
-      .addingimg {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 3.125rem;
-        padding: 0.313rem;
-        position: relative;
-        top: 1rem;
-        // border: 1px solid red;
-      }
-
-      .imagealignment {
-        display: flex;
-        flex-direction: row;
-      }
-
-      h3 {
-        font-family: "Poppins", sans-serif;
-        font-size: 0.875rem;
-        font-weight: 400;
-
-        color: #000000;
-      }
-      p {
-        font-size: 0.75rem;
-        font-weight: 300;
-        color: #979797;
-        position: relative;
-        top: 0.0623rem;
-      }
-
-      .imgfile {
-        display: none;
-      }
-    }
-
-    .PopularItem {
+  
+    .Primary-page-container-one{
       display: flex;
       flex-direction: row;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-      input {
-        width: 15px;
-        height: 15px;
-      }
-      span {
-        font-size: 16px;
-      }
-    }
+      height: 130vh;
+      margin-left: 2vw;
 
-    .Primary-Page-categories-field {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .Primary-page-Allergens-selection {
-      width: 43vw;
-      height: 40vh;
-      border-radius: 0.313rem;
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      margin-top: 3%;
-    }
-
-    .Primary-page-container-pairtwo {
-      width: 45vw;
-      height: 90vh;
-    }
-  }
-  .Primary-page-container-two {
-    margin-left: 2vw;
-    height: 70vh;
-
-    .Primary-page-ingredients-selection {
-      width: 45vw;
-      height: 40vh;
-      border-radius: 0.313rem;
-      border: 1px solid rgba(0, 0, 0, 0.3);
-    }
-    .Primary-Page-Other-Details {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      position: relative;
-      top: 3%;
-      .Primary-Page-Other-Details-heading {
-        font-family: "Poppins", sans-serif;
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #000000;
+      .Primary-page-container-pairone{
+        width: 28vw;
+        height: 100vh;
       }
-      .Primary-Page-Other-Detail {
+
+      .Primary-page-InputFields{
+        height: 6rem;      
+        width: fit-content;
+      }
+      .alcoholradiobutton{
         display: flex;
-        flex-direction: row;
-        height: 3rem;
-        align-items: center;
-        gap: 30px;
-        .Caloriepointradio {
-          position: relative;
-          left: 1.7%;
+        flex-direction: column;
+        position: relative;
+        top: -2%;
+        gap: 0.5rem;
+          h3{
+            font-family: "Poppins", sans-serif;
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: #000000;
+          }
         }
-        .Primary-page-Other-Detail-mastercode {
+
+        .Primary-Page-description-field{
+          position: relative;
+            .description{
+              width: 20vw;
+              height: 8rem;
+              resize: none;
+              border: 1px solid rgba(0, 0, 0, 0.3);
+              border-radius: 0.313rem;
+              padding: 0.5rem;
+              color: #979797;
+            
+              &:focus{
+                outline: none;
+              }
+            }
+            .Primary-page-description-charcount{
+              position: absolute;
+              right: 31.5%;
+              margin-top: -7%;
+              font-size: 14px;
+              font-weight: 400;
+              display: flex;
+              justify-content: right;
+            }
+          }
+        .Primary-Page-Foodimages {
+          margin-top: 5rem;
+          height: 11rem;
+          width: 50vw;
+          // border: 1px solid red;
+      
+          .image-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+          
+      
+            .imcrossstyres{
+              position: absolute;
+              top: 12px;
+              left: 60px;
+              width: 20px;
+              height: 20px;
+              border-radius: 50px;
+              border: none;
+              background-color: 
+              #F23D3D;
+              z-index: 1;
+              display: flex;
+              justify-content: center;
+              align-items: center;   
+            }
+            .uploaded-image {
+              position: relative;
+              top: 0.063rem;
+              width: 5.5rem;
+              height: 5.5rem;
+              border-radius: 3.125rem;
+              padding: 0.313rem;
+              position: relative;
+              top: 1rem;
+            }
+            }
+            .addingimg {
+              width: 5rem;
+              height: 5rem;
+              border-radius: 3.125rem;
+              padding: 0.313rem;
+              position: relative;
+              top: 1rem;
+              // border: 1px solid red;
+            }
+        
+            .imagealignment {
+              display: flex;
+              flex-direction: row;
+            }
+        
+            h3 {
+              font-family: "Poppins", sans-serif;
+              font-size: 0.875rem;
+              font-weight: 400;
+        
+              color: #000000;
+            }
+            p {
+              font-size: 0.75rem;
+              font-weight: 300;
+              color: #979797;
+              position: relative;
+              top: 0.0623rem;
+            }
+        
+            .imgfile {
+              display: none;
+            }
+          }
+
+        .PopularItem{
           display: flex;
           flex-direction: row;
-          justify-content: center;
+          gap: 10px;
           align-items: center;
-          position: relative;
-          left: 0.2%;
+          justify-content: center;
+          input{
+            width: 15px;
+            height: 15px;
+          }
+          span{
+            font-size: 16px;
+          }
         }
-        .portionsizeTooltip {
+
+        .Primary-Page-categories-field{
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+        .Primary-page-Allergens-selection{
+          width: 43vw;
+          height: 40vh;
+          border-radius: 0.313rem;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+          margin-top: 3%;
+      }
+
+      .Primary-page-container-pairtwo{
+        width: 45vw;
+        height: 90vh;
+      }
+    }
+    .Primary-page-container-two{
+      margin-left: 2vw;
+      // left: 2vw;
+      height: 70vh;
+      
+
+      .Primary-page-ingredients-selection
+      {
+          width: 45vw;
+          height: 40vh;
+          border-radius: 0.313rem;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+          
+      }
+      .Primary-Page-Other-Details{
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
           position: relative;
-          left: 3%;
-          margin-top: -1rem;
+          top: 3%;
+          .Primary-Page-Other-Details-heading{
+            font-family: "Poppins", sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #000000;
+          }
+          .Primary-Page-Other-Detail{
+            display: flex;
+            flex-direction: row;
+            height: 3rem;
+            align-items: center;
+            gap: 30px;
+            .Caloriepointradio
+            {
+              position: relative;
+              left: 1.7%;
+            }
+          .Primary-page-Other-Detail-mastercode{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            left: 0.2%;
+          }
+          .portionsizeTooltip
+          {
+            position: relative;
+            left: 3%;
+            margin-top: -1rem;
+          }
         }
       }
     }
-  }
 
-  .Primary-Page-Formsubmitbutton {
-    margin-top: 2%;
-  }
+    .Primary-Page-Formsubmitbutton{
+      margin-top: 2%;
+    }
+  
+
 }
+
 

@@ -22,7 +22,7 @@ const TableSecondHeader: React.FC<TableRowProps> = ({
         <th key={index} className={`${className}   fontstyle`}>
           {subheaders.map((subheader, subIndex) => (
             <span key={subIndex} className={subheader}>
-             <StringDisplay text={subheader} lengthvale={5}/>
+              <StringDisplay text={subheader} />
             </span>
           ))}
         </th>

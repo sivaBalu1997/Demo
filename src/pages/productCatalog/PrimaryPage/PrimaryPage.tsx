@@ -25,7 +25,6 @@ import {
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import {
-  dietdatarequest,
   getIngredientsRequest,
   getMenuCategoryRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -44,7 +43,7 @@ interface Allergens {
 }
 
 interface FormData {
-  itemName: string;
+  itemNameData: string;
   dietaryType: string;
   cuisine: string;
   mealType: string;
@@ -92,11 +91,6 @@ interface StateDataTag2 {
     categoryData: [];
   };
 }
-interface StateDataTag3 {
-  productCatalog: {
-    dietaryData: [];
-  };
-}
 
 interface primarypage {
   primarypage: {
@@ -134,7 +128,7 @@ const PrimaryPage = () => {
     watch,
   } = useForm<FormData>({
     defaultValues: {
-      itemName: "",
+      itemNameData: "",
       dietaryType: "",
       cuisine: "",
       mealType: "",
@@ -226,7 +220,7 @@ const PrimaryPage = () => {
     });
   };
 
-  const validImages = imageslist.filter(
+  const validImages = dataImages.filter(
     (img): img is { name: string; id: string } => img !== undefined
   );
 
@@ -296,49 +290,37 @@ const PrimaryPage = () => {
   //       console.error("Error converting files to Base64", error);
   //     });
   // };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      const validImageTypes = ["image/jpeg", "image/png"];
-      const maxSizeInBytes = 2 * 1024 * 1024;
-      const fileArray = Array.from(files)
-        .map((file) => {
-          if (!validImageTypes.includes(file.type)) {
-            alert(
-              `Invalid file type: ${file.name}. Only PNG and JPG are allowed.`
-            );
-            return null;
-          }
-          if (file.size > maxSizeInBytes) {
-            alert(`File too large: ${file.name}. Maximum size is 2MB.`);
-            return null;
-          }
-          return {
-            file,
-            uploaded: false,
-            failed: false,
-            preview: URL.createObjectURL(file),
-          };
-        })
-        .filter((file): file is ImageFile => file !== null);
+      const fileArray = Array.from(files).map((file) => ({
+        file,
+        uploaded: false,
+        failed: false,
+        preview: URL.createObjectURL(file), 
+      }));
+      
+    
       if (fileArray.length + images.length > 7) {
         alert("You can upload a maximum of 7 images.");
         return;
       }
+      
+  
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
-
+  
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
-        console.log(updatedImageUrls, "updatedImageUrls");
+          console.log(updatedImageUrls,"updatedImageUrls");
         return updatedImages;
       });
     }
   };
+  
 
-  // const newarray = getValues("imageUrls");
-  // console.log("newarray", newarray);
+  const newarray = getValues("imageUrls");
+  console.log("newarray", newarray);
 
   useEffect(() => {
     // dispatch(getIngredientsRequest(locationid));
@@ -354,20 +336,7 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  const dietaryData = useSelector((state:StateDataTag3)=>state.productCatalog.dietaryData)
-  useEffect(()=>{
-    console.log("data from component",dietaryData);
-  },[dietaryData])
-
-
-
-  const getdatafrosaga=()=>{
-    dispatch(dietdatarequest("diet"))
-
-   
-    
-  
-  }
+  // console.log("HI");
 
   return (
     <div style={{ display: "flex" }}>
@@ -384,24 +353,23 @@ const PrimaryPage = () => {
           </div>
           <div className="Primary-page">
             {/* <form> */}
-            <button onClick={getdatafrosaga}>get data from redux</button>
             <div className="Primary-page-container-one">
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
                   {" "}
                   <LableComponent lable="ItemName *" />
                   <Controller
-                    name="itemName"
+                    name="itemNameData"
                     control={control}
                     rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
-                        name="itemName"
+                        name="itemNameData"
                         onChange={onChange}
                         // onBlur={onBlur}
                         value={value}
                         trigger={trigger}
-                        error={errors.itemName}
+                        error={errors.itemNameData}
                       />
                     )}
                   />
@@ -414,7 +382,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dietaryData}
+                        options={dataDietaryType}
                         type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
@@ -423,7 +391,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "dietaryType is required" }}
+                        // validation={{ required: "dietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -450,7 +418,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        validation={{ required: "cuisine is required" }}
+                        // validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -481,7 +449,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "Mealtype is required" }}
+                        // validation={{ required: "Mealtype is required" }}
                         error={errors.mealType}
                         dropdownopen={DropdownOpen.mealType}
                         onToggle={() => handleDropdownToggle("mealType")}
@@ -511,7 +479,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          validation={{ required: "This field is required" }}
+                          // validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -602,18 +570,11 @@ const PrimaryPage = () => {
                       ))} */}
                     {images.map((img, index) => (
                       <div key={index} className="image-container">
-                        <button
-                          onClick={() => handleImageDeletion(index)}
-                          className="imcrossstyres"
-                        >
-                          <ImCross
-                            style={{ fontSize: "7px", color: "white" }}
-                          />
-                        </button>
                         <img
                           className="uploaded-image"
                           src={img.preview}
                           alt={`Preview of ${img.file.name}`}
+                   
                         />
                         {/* <div>
                           {img.file.name} -{" "}
@@ -666,7 +627,7 @@ const PrimaryPage = () => {
                         />
                       )}
                     />{" "}
-                    <Tooltip message="KitchenRelated">
+                    <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
@@ -705,8 +666,8 @@ const PrimaryPage = () => {
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={dataSubcategory}
-                          setOptions={setDataSubcategory}
+                          options={categories}
+                          setOptions={setCategories}
                           placeholder="search for option"
                           type="radio"
                           name="category"
@@ -715,7 +676,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           trigger={trigger}
                           getValues={getValues}
-                          validation={{ required: "category is required" }}
+                          // validation={{ required: "category is required" }}
                           error={errors.category}
                           dropdownopen={DropdownOpen.category}
                           setDropdownOpen={setDropdownOpen}
@@ -792,8 +753,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext="Cal"
-                         
+                          placeholder="Cal"
                         />
                       )}
                     />
@@ -823,8 +783,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext={getValues("selectedPortion")}
-                          // placeholder={getValues("selectedPortion")}
+                          placeholder={getValues("selectedPortion")}
                         />
                       )}
                     />
@@ -897,7 +856,7 @@ const PrimaryPage = () => {
                             register={register}
                             inputCount={4}
                             error={errors.masterCode}
-                            validation={{ required: "Master code is required" }}
+                            // validation={{ required: "Master code is required" }}
                           />
                         )}
                       />

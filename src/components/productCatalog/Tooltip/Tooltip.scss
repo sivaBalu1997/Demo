@@ -1,57 +1,70 @@
 .tooltip-container {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  margin-left: 0;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 0;
+   
 }
 
 .tooltip-message {
-  visibility: hidden;
-  background-color: white; /* Tooltip background color */
-  color: #67833e;
-  text-align: center;
-  border-radius: 5px;
-  font-size: 13px;
-  font-weight: 400;
-  border: 1px solid #67833e;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  top: -10px;
-  left: 280%;
-  margin-left: -60px; /* Center the tooltip */
-  opacity: 0;
-  transition: opacity 0.3s;
-  white-space: nowrap;
+    visibility: hidden;
+    // width: 120px;
+    background-color: white; /* Tooltip background color */
+    color:  #67833e;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+    border: 1px solid  #67833e;
+   
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -100%;
+    left: 330%;
+    margin-left: -60px; /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
 }
 
 .tooltip-container:hover .tooltip-message {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
 
 .icon-background {
-  // background-color: white;
-  border-radius: 50%;
-  padding: 5px;
-  display: inline-flex;
-  position: relative;
-  top: 10px;
-  left: -15px;
+    // background-color: white; 
+    border-radius: 50%; 
+    padding: 5px; 
+    display: inline-flex;
+    position: relative;
+    top: 10px;
+   left: -15px;
 
-  // border: 1px solid black;
 
-  img {
-    opacity: 70%;
-  }
+    // border: 1px solid black; 
+
+
+    img{
+        opacity: 70%;
+
+        
+    }
 }
 
-.icon-backgrounddel {
-  // background-color: white;
-  border-radius: 50%;
-  padding: 5px;
-  display: inline-flex;
-  position: relative;
-  top: 1px;
-  left: -15px;
+.icon-backgrounddel
+{
+    // background-color: white; 
+    border-radius: 50%; 
+    padding: 5px; 
+    display: inline-flex;
+    position: relative;
+    top: 1px;
+   left: -15px;
+  
+}
+.tooltiparraow
+{
+    
 }
