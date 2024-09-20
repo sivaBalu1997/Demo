@@ -1,53 +1,39 @@
-.input-and-spantext
-{
-    width: 20rem;
-    height: 2.8rem;
+.input-and-spantext {
+  width: 19rem;
+  height: 2.8rem;
 }
-.Input-Filed
-{
-    width: 20vw;
-    height: 2.5rem;
-    font-family: "Poppins", sans-serif;
-    font-size: 0.875rem;
-    padding-left: 0.625rem;
-    border-radius: 0.313rem;
-    color: #979797;
-    font-weight: 400;
-    // border: 0.063rem solid #000000;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    position: relative;
-    &:focus
-    {
-        outline: none;
-    }
-    
-
-
+.Input-Filed {
+  width: 20vw;
+  height: 2.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  padding-left: 0.625rem;
+  border-radius: 0.313rem;
+  color: #979797;
+  font-weight: 400;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  position: relative;
+  &:focus {
+    outline: none;
+  }
 }
-.Input-Field-Error-message{
-    font-family: "Poppins", sans-serif;
-font-size: 14px;
-font-weight: 400;
-line-height: 21px;
-text-align: left;
-color: #E52333;
-
+.Input-Field-Error-message {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
 }
-.input-and-spantext
-{
-    width: 100%px;
-
-    // border: 1px solid red;
-    position: relative;
-
+.input-and-spantext {
+  width: 310px;
+  position: relative;
 }
-.placeholder
-    {
-       position: absolute;
-       right: 6%;
-       color: #979797;
-       font-weight: 400;
-       top: 20%;
-       font-size: 0.875rem;
-      
-    }
+.placeholder {
+  position: absolute;
+  right: 6%;
+  color: #979797;
+  font-weight: 400;
+  top: 20%;
+  font-size: 0.875rem;
+}

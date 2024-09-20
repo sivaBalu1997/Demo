@@ -3,25 +3,19 @@ import "./PricingSlider.scss";
 import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
-
 interface PricingSliderProps {
   SideBarData?: any[];
 }
-
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
-
 const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
   const { pen, setPen } = useContext(Contextpagejs);
-
   const [inputs, setInputs] = useState({
     Dinein1: SideBarData?.[0]?.pricingdetails?.Dinein1 || [],
     Pickup1: SideBarData?.[0]?.pricingdetails?.Pickup1 || [],
     Delivery1: SideBarData?.[0]?.pricingdetails?.Delivery1 || [],
   });
-
   const [sectionAValue, setSectionAValue] = useState<string>('');
   const [showCompare, setShowCompare] = useState(false);
-
   const PrizingSliderData = [
     {
       heading: "On-Prem",
@@ -35,25 +29,20 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
       inputTypes: ["text", "text", "text"],
     },
   ];
-
   useEffect(() => {
     const updatedValue = SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || '';
     setSectionAValue(updatedValue);
   }, [SideBarData]);
-
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>, section: PricingKey, index: number) => {
     const value = e.target.value;
-
     setInputs((prev) => ({
       ...prev,
       [section]: prev[section].map((item:number, idx:any) => (idx === index ? value : item)),
     }));
   };
-
   const handleComparision = () => {
     setShowCompare(!showCompare);
   };
-
   return (
     <div className="PricingSlider-Container">
       <h3 className="PricingSlider-Heading">Pricing</h3>
@@ -113,5 +102,5 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
     </div>
   );
 };
-
 export default PricingSlider;
+ 

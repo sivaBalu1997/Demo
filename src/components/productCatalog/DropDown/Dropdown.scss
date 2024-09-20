@@ -41,15 +41,15 @@
 .optionsPricing {
   
   position: absolute;
-  top: 64px;
-  left: -1px;
+  top: 67px;
+  left: 0px;
   width: 300px;
   border: 1px solid #ccc;
   border-radius: 4px;
   background: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  height: 125px; /* Adjust this height as needed */
+  z-index: 2;
+  height: 125px;
   overflow-y: auto;
 }
 
