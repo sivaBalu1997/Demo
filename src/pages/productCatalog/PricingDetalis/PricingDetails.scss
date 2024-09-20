@@ -3,33 +3,34 @@
 }
 .pricingdetails-containerExpanded {
   position: absolute;
-  top: 160px;
+  top: 150px;
   margin-left: -10px;
   overflow-x: hidden;
-  height: 480px;
+  height: 470px;
   width: 80%;
   overflow-y: auto;
+  // background-color: red;
 }
 
 .pricingdetails-container {
   position: absolute;
-  top: 160px;
+  top: 150px;
   margin-left: -20px;
   overflow-x: hidden;
-  height: 600px;
+  height: 470px;
   width: 93.3%;
   overflow-y: auto;
+  // background-color: orange;
 }
 .pricing-form {
   display: flex;
   flex-direction: column;
   width: 1120px;
   margin-left: 55px;
-  overflow-y: auto;
+  // overflow-y: auto;
 }
 
 .KitchenRelated {
-
   display: flex;
   justify-content: flex-start;
   position: relative;
@@ -77,9 +78,13 @@
   justify-content: flex-start;
 }
 .ToolKitchen {
+  position: relative;
   transform: translateY(22px);
   opacity: 40%;
+  top: -13px;
+  left: -20px;
 }
+
 .Imgarrow {
   position: relative;
   top: 15px;

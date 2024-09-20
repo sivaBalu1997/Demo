@@ -25,10 +25,14 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   placeholder,
   subtext,
 }) => {
-  // const handleBlur = () => {
-  //   trigger(name);
-  // };
+  const handleBlur = () => {
+    trigger(name);
+  };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e);  // Call onChange with the event
+    trigger(name);  // Trigger validation after change
+  };
   return (
     <div>
       <div className="input-and-spantext">
@@ -38,8 +42,8 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           autoComplete="off"
           name={name}
           value={value}
-          onChange={onChange}
-          // onBlur={handleBlur}
+          onChange={handleChange}
+          onBlur={handleBlur}
           placeholder={placeholder}
           className="Input-Filed"
         />

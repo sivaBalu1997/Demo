@@ -3,7 +3,7 @@
   top: 100px;
   width: 95%;
   height: 600px;
-  overflow-y: auto;
+  // overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
@@ -15,7 +15,7 @@
   top: 100px;
   width: 100%;
   height: 600px;
-  overflow-y: auto;
+  // overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
@@ -405,9 +405,8 @@ input[type="number"] {
 }
 .modifiersitem {
   height: 470px;
-  overflow-y: auto;
-  // // margin-left: 55px;
-  // border: 1px solid red;
+  overflow: auto;
+  width: 100vw;
   .modifiers {
     margin-left: 55px;
   }

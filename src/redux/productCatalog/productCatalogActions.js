@@ -52,10 +52,10 @@ import {
   ADD_MOCK_DATA_REQUEST,
   ADD_MOCK_DATA_SUCCESS,
   ADD_MOCK_DATA_FALIURE,
-  ADD_MOCK_DATA_HIDDEN_REQUEST,
-  ADD_MOCK_DATA_HIDDEN_SUCCESS,
-  ADDMOCK_DATA_HIDDEN_FALIURE,
-  ADD_MOCK_DATA_HIDDEN_FALIURE,
+  DIET_DROPDOWN_LIST_REQUEST,
+  DIET_DROPDOWN_LIST_SUCCESS,
+  DIET_DROPDOWN_LIST_FAILURE
+
 } from "./productCatalogConstants";
 
 // Get Menu Category
@@ -345,20 +345,18 @@ export const addMockDataFailure = (error) => ({
 })
 
 
+export const dietdatarequest=(data)=>({
+  type: DIET_DROPDOWN_LIST_REQUEST,
+  payload: data, 
 
-// {*****add MockData Visiblty****************************}
+})
 
-export const addMockDataHiddenRequest = (data) => ({
-  type: ADD_MOCK_DATA_HIDDEN_REQUEST,
-  payload:data
-}); 
-
-export const addMockDataHiddenSuccess = (response) => ({
-  type: ADD_MOCK_DATA_HIDDEN_SUCCESS ,
+export const dietdatasuccess = (response) => ({
+  type:DIET_DROPDOWN_LIST_SUCCESS,
   payload: response, 
 });
 
-export const addMockDataHiddenFailure = (error) => ({
-  type: ADD_MOCK_DATA_HIDDEN_FALIURE ,
+export const dietdatafailure = (error) => ({
+  type: DIET_DROPDOWN_LIST_FAILURE,
   payload: error, 
 })

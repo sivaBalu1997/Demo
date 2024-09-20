@@ -62,11 +62,13 @@ type MainFormType = {
   Zomato: string[];
 };
 
-type DineInField = {
-  DineInPrice: string | string[];
-  DineInMealType: string | string[];
-  DineInServiceArea: string | string[];
-};
+interface DineInField {
+  DineInPrice: string;
+  DineInMealType: string[];
+  DineInService: string;
+  showDay: boolean;
+  dayButtonText: string;
+}
 
 interface FormState {
   Pickupprice?: string;
@@ -117,9 +119,15 @@ interface FormState1 {
   Inventory1: string;
   Inventory2: string;
 }
+interface media {
+  imageId: string;
+  imageType: string;
+}
 interface Option {
-  name: string;
   id: string;
+  name: string;
+  canDelete: string;
+  media: media;
 }
 
 interface MainForm {
@@ -309,18 +317,18 @@ const PricingDetails = () => {
     Deliveryspecial2: { isValid: true, errorMessage: "" },
     NormalMealtype: { isValid: true, errorMessage: "" },
     NormalServiceArea: { isValid: true, errorMessage: "" },
-    PickupSwiggy:{ isValid: true, errorMessage: "" },
+    PickupSwiggy: { isValid: true, errorMessage: "" },
   });
 
   const validateDropdown = (value: string[], field: string | number) => {
     let isValid = true;
     let errorMessage = "";
-  
+
     if (value.length === 0) {
       isValid = false;
       errorMessage = "This field is required";
     }
-  
+
     // Handle both string and index (number) based fields
     setValidationState((prevState) => ({
       ...prevState,
@@ -380,18 +388,6 @@ const PricingDetails = () => {
     }
   }, []);
 
-  const dispatchEvent = () => {
-    const isFormValid = validateForm();
-
-    if (!isFormValid) {
-      console.log("Form validation failed. Please check the errors.");
-      return;
-    }
-    dispatch(PricingDetailRequest({ mainForm }));
-    history.push(`/productCatalog/Itemcustomizations`, {
-      state: { pagename: "Item customizations" },
-    });
-  };
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
   //   history.push(`/productCatalog/Itemcustomizations`, {
@@ -414,8 +410,78 @@ const PricingDetails = () => {
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
-
+  const [dineinfields, setDineInFields] = useState<DineInField[]>([
+    {
+      DineInPrice: "",
+      DineInMealType: [],
+      DineInService: "",
+      showDay: false,
+      dayButtonText: "Add Day",
+    },
+  ]);
+  console.log(dineinfields)
   // console.log(mainForm);
+  type DropdownValidationState = {
+    [key: string]: { isValid: boolean; errorMessage: string };
+  };
+  const validateDineInFields = (dineinfields: DineInField[]) => {
+    const errors: DropdownValidationState = {};
+  
+    dineinfields.forEach((field, index) => {
+      const mealTypeKey = `DineInMealType_${index}`;
+      const priceKey = `DineInPrice_${index}`;
+      const DineInService=`DineInService_${index}`
+  
+      // Validate DineInMealType
+      if (!field.DineInMealType || field.DineInMealType.length === 0) {
+        errors[mealTypeKey] = {
+          isValid: false,
+          errorMessage: "Meal type should not be empty.",
+        };
+      } else {
+        errors[mealTypeKey] = { isValid: true, errorMessage: "" };
+      }
+
+      if(!field.DineInService||field.DineInService.length === 0)
+      {
+        errors[DineInService] = {
+          isValid: false,
+          errorMessage: "Service area should not be empty.",
+        };
+      }
+      else {
+        errors[DineInService] = { isValid: true, errorMessage: "" };
+      }
+  
+     
+      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
+        errors[priceKey] = {
+          isValid: false,
+          errorMessage: "Price should be a valid number.",
+        };
+      } else {
+        errors[priceKey] = { isValid: true, errorMessage: "" };
+      }
+    });
+  
+    return errors;
+  };
+  
+  const [validationStateerr, setValidationStateerr] = useState<DropdownValidationState>({});
+
+const handleValidate = () => {
+  const errors = validateDineInFields(dineinfields);
+  setValidationStateerr(errors);
+};
+
+
+ 
+  // console.log("Hello",validateDineInFields(dineinfields))
+  // let erros = validateDineInFields(dineinfields);
+
+  // const submiterror = () => {
+  //   console.log(erros);
+  // };
 
   return (
     <div style={{ display: "flex" }}>
@@ -431,6 +497,7 @@ const PricingDetails = () => {
         >
           <div className="pricing-form">
             <div className="Tool">
+              {/* <button onClick={submiterror} style={{backgroundColor:'red'}}>clcik</button> */}
               <p className="KitchenRelatedHeading">Kitchen Related</p>
               {/* <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
@@ -553,10 +620,8 @@ const PricingDetails = () => {
                           onChange={(e) => {
                             const value = e.target.value;
 
-                          
-                            setValue("form.Inventory2", value); 
+                            setValue("form.Inventory2", value);
 
-                        
                             trigger("form.Inventory2");
                           }}
                           style={{
@@ -616,15 +681,20 @@ const PricingDetails = () => {
                 <label className="S1">Special Availability</label>
               </div>
             </div>
-
+           
             {isOptionTrue ? (
               <Normalavail
                 validateDropdown={validateDropdown}
                 dinein={dinein}
                 setDineIn={setDineIn}
-                validationState={validationState}
+                validationState={validationStateerr}
+                setValidationStateerr={setValidationStateerr}
                 setMainFormState={setMainFormState}
                 mainFormState={mainFormState}
+                dineinfields={dineinfields}
+                setDineInFields={setDineInFields}
+                 handleValidate={handleValidate}
+
               />
             ) : (
               <Specialavail
@@ -634,25 +704,13 @@ const PricingDetails = () => {
                 mainFormSpecial={mainFormSpecial}
               />
             )}
-
-            {/* <div
-                className={
-                  isExpanded
-                    ? "saveandnextPricingExpanded"
-                    : "saveandnextPricing"
-                }
-              >
-                <button className="clearallPricing">Clear All</button>
-                <button className="link saveall" onClick={dispatchEvent}>
-                  Save & next
-                </button>
-              </div> */}
             <SaveAndNext
               getFormData={getValues}
               seletedpage="Pricing"
               reset={reset}
               triggerValidation={() => trigger()}
               mainForm={mainForm}
+              validation={()=>handleValidate()}
             />
           </div>
         </div>

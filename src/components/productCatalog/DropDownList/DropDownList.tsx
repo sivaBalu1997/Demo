@@ -4,11 +4,29 @@ import edit from "../../../assets/images/edit copy.png";
 import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
- 
+ interface media{
+  imageId:string
+  imageType:string
+ }
 interface Option {
-  name: string;
+ 
   id: string;
+  name: string;
+  canDelete:string;
+  media:media
 }
+
+
+
+// {
+//   "id":"123",
+//   "name":"Starters",
+//   "canDelete":"false",
+//   "media":{
+//       "imageId":"",
+//       "imageType":""
+//   }
+// }
  
 interface DropdownProps {
   name: string;
@@ -161,6 +179,11 @@ const DropDownList: React.FC<DropdownProps> = ({
       const newItem: Option = {
         id: (initialOptions.length + 1).toString(),
         name: newItemLabel,
+        canDelete: "false",
+        media: {
+          imageId: "", 
+          imageType: "", 
+        },
       };
       setOptions([...initialOptions, newItem]);
       handleSelect(newItem);
@@ -168,6 +191,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setAddNewButton(false);
     }
   };
+  
  
   const filteredOptions = initialOptions.filter((option) =>
     option.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -300,7 +324,9 @@ const DropDownList: React.FC<DropdownProps> = ({
                   );
                 })
               ) : (
-                <li className="dropdown-no-options">No options found</li>
+                <div className="no-optionsContainer" style={{display:'flex', justifyContent:'space-between', gap:'x'}}>
+                  <li className="dropdown-no-options">No options found</li>
+                </div>
               )}
             </ul>
             <div>

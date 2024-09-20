@@ -20,7 +20,14 @@ const Navigationpage = () => {
   const history = useHistory();
   const location = useLocation<LocationState | undefined>(); 
 
-  const [currentPage, setCurrentPage] = useState<string>("Primary Details");
+    const getPath = (pathName: string) => {
+    const matchedPath = categories.find((category) =>
+      pathName.includes(category.replace(/\s+/g, ""))
+    );
+    return matchedPath || categories[0]; 
+  };
+
+  const [currentPage, setCurrentPage] = useState<string>(getPath(location.pathname));
 
   useEffect(() => {
     if (location.state?.pagename) {
@@ -33,6 +40,8 @@ const Navigationpage = () => {
     const path = category.replace(/\s+/g, "");
     history.push(`/productCatalog/${path}`, { pagename: category });
   }
+
+  // console.log("Use Paras",location.state?.pagename)
 
 
   return (

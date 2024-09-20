@@ -10,7 +10,10 @@ import ReviewValues from "../../../components/productCatalog/ReviewValues/Review
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
 import Step3Review from "../../../components/productCatalog/Step3Review/Step3Review";
 import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImageSelected/PrimaryImageSelected";
-import { addMenuItemRequest, addMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import {
+  addMenuItemRequest,
+  addMockDataRequest,
+} from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
 import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
@@ -95,12 +98,12 @@ interface RootState {
 }
 
 const PrimaryDetailsReviewpage: React.FC = () => {
-  const history=useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
   const fetchedprimarydata = primarydata;
-  console.log(fetchedprimarydata.ingredients)
+  console.log(fetchedprimarydata.ingredients);
 
   const primarypagedetails = useSelector((state: RootState) => state);
 
@@ -109,6 +112,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
     itemCode: primarypagedetails.primarypage.data.itemCode,
     altName: "alt name",
+    type:"steamedVeg",
     itemName: primarypagedetails.primarypage.data.itemName,
     description: primarypagedetails.primarypage.data.description,
     price: "12",
@@ -126,6 +130,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }]
 
 
+
+
   const [uploading, setUploading] = useState(false);
 
   const Simulationofimageupload = async (index: number) => {
@@ -136,22 +142,23 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         } else {
           resolve();
         }
-      }, 1000); 
+      }, 1000);
     });
   };
   const selectedImages = fetchedprimarydata?.imageUrls || [];
 
-console.log("selectedImages",selectedImages)
-  const [uploadedimage,setUploadedimage]=useState<ImageFile[]>(fetchedprimarydata.imageUrls)
+  const [uploadedimage, setUploadedimage] = useState<ImageFile[]>(
+    fetchedprimarydata.imageUrls
+  );
 
   const uploadImages = async () => {
     setUploading(true);
     for (let i = 0; i < uploadedimage.length; i++) {
       if (uploadedimage[i].uploaded || uploadedimage[i].failed) continue;
-  
+
       try {
-        await Simulationofimageupload(i); 
-  
+        await Simulationofimageupload(i);
+
         setUploadedimage((prevImages) =>
           prevImages.map((img, index) =>
             index === i ? { ...img, uploaded: true } : img
@@ -170,19 +177,29 @@ console.log("selectedImages",selectedImages)
     setUploading(false);
   };
   
-  const handleDispatch=()=>{
-    uploadImages()
-
-    dispatch(addMenuItemRequest(data))
-    dispatch(addMockDataRequest(data))
-    // if(!uploading)
-    // {
-    // history.push("/menuListing")
-    // }
-   
+  const handleDispatch = async () => {
+    try {
+     
+      await uploadImages();
+  
     
-    
-  }
+      const allUploaded = uploadedimage.every(img => img.uploaded);
+      
+      if (allUploaded) {
+      
+        dispatch(addMenuItemRequest(data));
+        dispatch(addMockDataRequest(data));
+  
+       
+        history.push("/menuListing");
+      } else {
+        alert('Some images failed to upload. Please check and try again.');
+      }
+    } catch (error) {
+      console.error("Error during image upload or dispatching:", error);
+    }
+  };
+  
 
   return (
     <div style={{ display: "flex", width: "93%" }}>
@@ -352,7 +369,7 @@ console.log("selectedImages",selectedImages)
               <div className="primaryreviewdetailspart2">
                 <div>
                   <Link
-                    to="/Navigationpage"
+                    to="/productCatalog/PrimaryDetails"
                     className="primarypageedit"
                     onClick={() => setActiveCategory("Step 1: Primary Details")}
                   >
@@ -370,10 +387,7 @@ console.log("selectedImages",selectedImages)
                   <div className="primaryimages">
                     <p>Primary Image</p>
 
-                    <PrimaryImageSelected
-                      fetchedprimarydata={uploadedimage}
-
-                    />
+                    <PrimaryImageSelected fetchedprimarydata={uploadedimage} />
                   </div>
                 }
 
@@ -400,26 +414,29 @@ console.log("selectedImages",selectedImages)
 
                 <div className="allergensandingredients">
                   <div>
-                    {
-                      fetchedprimarydata?.ingredients?.length>0 && <> <p className="ingredients">Ingredients</p>
-                      <ImagePillsSelected
-                        imageselected={fetchedprimarydata}
-                        name="Ingredients"
-                      /></>
-                    }
-                   
+                    {fetchedprimarydata?.ingredients?.length > 0 && (
+                      <>
+                        {" "}
+                        <p className="ingredients">Ingredients</p>
+                        <ImagePillsSelected
+                          imageselected={fetchedprimarydata}
+                          name="Ingredients"
+                        />
+                      </>
+                    )}
                   </div>
 
                   <div>
-                    {
-                       fetchedprimarydata?.allergens?.length>0 &&
-                       <> <p className="allergen">Allergens</p>{" "}
-                       <ImagePillsSelected
-                         imageselected={fetchedprimarydata}
-                         name="allergens"
-                       /></>
-                    }
-                   
+                    {fetchedprimarydata?.allergens?.length > 0 && (
+                      <>
+                        {" "}
+                        <p className="allergen">Allergens</p>{" "}
+                        <ImagePillsSelected
+                          imageselected={fetchedprimarydata}
+                          name="allergens"
+                        />
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -430,11 +447,6 @@ console.log("selectedImages",selectedImages)
                 <Step3Review />
               </div>
             </div>
-            {/* <div className="part-two">
-                <Step2 />
-                <div className="verticalLine" />
-                <Step3Review />
-              </div> */}
           </div>
         </div>{" "}
         <div
@@ -446,7 +458,7 @@ console.log("selectedImages",selectedImages)
           <button
             className="saveall"
             onClick={handleDispatch}
-            disabled={uploading || selectedImages.length === 0}
+            // disabled={uploading || selectedImages.length === 0}
           >
             Submit for review
           </button>

@@ -16,7 +16,7 @@ interface PricingDetails {
 
 interface Item {
   id: number;
-  name: string;
+  itemName: string;
   itemCode: string;
   type: string;
   mealType: string;
@@ -24,6 +24,7 @@ interface Item {
   cusine: string;
   pricingdetails: PricingDetails;
 }
+
 
 // Define your mock data
 const truncateString = (str: string, length: number) => {
@@ -33,7 +34,7 @@ const truncateString = (str: string, length: number) => {
   export const itemsdata: Item[] = [
     {
       id: 1,
-      name: "dosa",
+      itemName: "dosa",
       itemCode: "12345",
       type:"steamedVeg",
       mealType:"Breakfast",
@@ -52,7 +53,7 @@ const truncateString = (str: string, length: number) => {
     },
     {
         id: 2,
-        name: "Musroom Gravy",
+        itemName: "Musroom Gravy",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Lunch",
@@ -71,7 +72,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 3,
-        name: "Creamy Pasta",
+        itemName: "Creamy Pasta",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -90,7 +91,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 4,
-        name: "Masala idly",
+        itemName: "Masala idly",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Dinner",
@@ -109,7 +110,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 5,
-        name: "Podi Idly",
+        itemName: "Podi Idly",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -128,7 +129,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 6,
-        name: "Utthappam",
+        itemName: "Utthappam",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -147,7 +148,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 7,
-        name: "Creamy Mushroom",
+        itemName: "Creamy Mushroom",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -166,7 +167,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 8,
-        name: truncateString("Creamy Mushroo", 14),
+        itemName: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -185,7 +186,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 9,
-        name: truncateString("Creamy Mushroo", 14),
+        itemName: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -204,7 +205,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 10,
-        name: truncateString("Creamy Mushroo", 14),
+        itemName: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -223,7 +224,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id:11,
-        name: truncateString("Creamy Mushroo", 14),
+        itemName: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -242,7 +243,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 12,
-        name: truncateString("Creamy Mushroo", 14),
+        itemName: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -265,7 +266,7 @@ const truncateString = (str: string, length: number) => {
   export const itemsfooddata: Item[] = [
     {
       id: 13,
-      name: "Chicken",
+      itemName: "Chicken",
       itemCode: "12345",
       type:"steamedNonVeg",
       mealType:"Breakfast",
@@ -284,7 +285,7 @@ const truncateString = (str: string, length: number) => {
     },
     {
         id: 14,
-        name: truncateString("Fish", 14),
+        itemName: truncateString("Fish", 14),
         itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
@@ -303,7 +304,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 15,
-        name: truncateString("Mutton", 14),
+        itemName: truncateString("Mutton", 14),
         itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
@@ -322,7 +323,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 16,
-        name: truncateString("Chicken 65", 14),
+        itemName: truncateString("Chicken 65", 14),
         itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
@@ -341,7 +342,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 17,
-        name: truncateString("Chicken roll", 14),
+        itemName: truncateString("Chicken roll", 14),
         itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
@@ -360,7 +361,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 18,
-        name: truncateString("Creamy Mushroo", 14),
+        itemName: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
          type:"steamedNonVeg",
          mealType:"Breakfast",
@@ -397,40 +398,239 @@ const truncateString = (str: string, length: number) => {
     { name: "gluten", id: "9163" },
   ];
   
-  export const dietarytype = [
-    { id: "1", name: "Vegan" },
-    { id: "2", name: "vegetarian" },
-    { id: "3", name: "Indian" },
-    { id: "4", name: "Chinese" },
-    { id: "5", name: "American" },
-  ];
+ 
+  // export const dietarytype = [
+  //   { id: "1", name: "Vegan" },
+  //   { id: "2", name: "vegetarian" },
+  //   { id: "3", name: "Indian" },
+  //   { id: "4", name: "Chinese" },
+  //   { id: "5", name: "American" },
+  // ];
+
+
+  export const dietarytype=[
+    {
+      id: "123",
+      name: "newitem",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
   
   
-  export const cuisine = [
-    { id: "1", name: "French" },
-    { id: "2", name: "Mexican" },
-    { id: "3", name: "Indian" },
-    { id: "4", name: "Chinese" },
-    { id: "5", name: "American" },
-  ];
+  export const cuisine=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
   
-  export const mealType = [
-    { id: "1", name: "Breakfast" },
-    { id: "2", name: "Lunch" },
-    { id: "3", name: "Dinner" },
-  ];
   
-  export const bestPair = [
-    { id: "1", name: "Chilly chutney" },
-    { id: "2", name: "Idli Podi" },
-    { id: "3", name: "Chicken gravy" },
-  ];
+  // export const cuisine = [
+  //   { id: "1", name: "French" },
+  //   { id: "2", name: "Mexican" },
+  //   { id: "3", name: "Indian" },
+  //   { id: "4", name: "Chinese" },
+  //   { id: "5", name: "American" },
+  // ];
+
+  export const mealType=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
+  export const bestPair=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
+  export const subcategory=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
   
-  export const subcategory = [
-    { id: "1", name: "Soup" },
-    { id: "2", name: "Salad" },
-    { id: "3", name: "Sandwich" },
-  ];
+
+
+
+  // export const mealType = [
+  //   { id: "1", name: "Breakfast" },
+  //   { id: "2", name: "Lunch" },
+  //   { id: "3", name: "Dinner" },
+  // ];
+  
+  // export const bestPair = [
+  //   { id: "1", name: "Chilly chutney" },
+  //   { id: "2", name: "Idli Podi" },
+  //   { id: "3", name: "Chicken gravy" },
+  // ];
+  
+  // export const subcategory = [
+  //   { id: "1", name: "Soup" },
+  //   { id: "2", name: "Salad" },
+  //   { id: "3", name: "Sandwich" },
+  // ];
   
   export const alcoholradio = [
     { value: "yes", label: "yes" },

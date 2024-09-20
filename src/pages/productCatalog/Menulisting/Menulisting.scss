@@ -1,5 +1,5 @@
 .mainpagemenu {
-  height: 100vh;
+  height: 101vh;
   background: none;
   border-spacing: 0;
   width: 88%;
@@ -11,7 +11,7 @@
   transition: width 0.6s ease;
 }
 .mainpagemenu1 {
-  height: 100vh;
+  height: 101vh;
   background: none;
   border-spacing: 0;
   width: 82%;
@@ -61,6 +61,9 @@ th {
   overflow-y: auto;
   overflow-x: auto;
   margin-top: 0%;
+  &::-webkit-scrollbar{
+    display: none;
+  }
 
   display: flex;
   flex-direction: row;
@@ -109,9 +112,12 @@ th {
       }
     }
     .Menu-Listing-TableOneBody {
-      height: 36rem;
+      height: 33rem;
       display: block;
       overflow-y: auto;
+      &::-webkit-scrollbar{
+        display: none;
+      }
       // border: 1px solid red;
     }
 
@@ -203,16 +209,37 @@ th {
     // width: 5rem;
   }
   .Menu-Listing-TableTwo {
-    width: 61rem;
+    width: 64rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
+    // &::-webkit-scrollbar{
+    //   display: none;
+    // }
+
+    
+    &::-webkit-scrollbar-track {
+      background-color:#B3B3B3;
+     
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: #5F5F5F;
+     
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
   }
   .Menu-Listing-TableTwo1 {
     width: 65rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
+    // &::-webkit-scrollbar{
+    //   display: none;
+    // }
   }
   // &::-webkit-scrollbar
   // {
@@ -479,10 +506,13 @@ th {
 
   .Menu-Listing-TableTwoBody {
     display: block;
-    height: 34rem;
+    height: 31rem;
     overflow-y: auto;
     overflow-x: hidden;
     width: 171.4%;
+    &::-webkit-scrollbar{
+      display: none;
+    }
     // border: 1px solid red !important;
   }
   .Menu-Listing-TableTwoBody1 {
@@ -491,6 +521,9 @@ th {
     overflow-y: auto;
     overflow-x: hidden;
     width: 160.85%;
+    &::-webkit-scrollbar{
+      display: none;
+    }
     // border: 1px solid red !important;
   }
   .tabletwobody {

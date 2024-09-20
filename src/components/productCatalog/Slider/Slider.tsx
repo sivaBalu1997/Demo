@@ -26,7 +26,7 @@ interface PricingDetails {
 
 interface SideBarData {
   id: number;
-  name: string;
+  itemName: string;
   code: string;
   type: string;
   mealType: string;
@@ -70,6 +70,7 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
     setActive(item);
   };
 
+  
   const handleEyeClick = () => {
     setEye(true);
     const UpdatedeleteItem = data.filter((item: SideBarData) => item.id !== SideBarData[0].id);
@@ -111,7 +112,7 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
       <div className="Slider-Window">
         <div className='Slider-Mainform'>
           <div className='Slider-First-Row'>
-            <h1 className='Slider-Heading1'>{SideBarData?.[0]?.name}</h1>
+            <h1 className='Slider-Heading1'>{SideBarData?.[0]?.itemName}</h1>
 
             <div className='Slider-icons'>
               <div className='PenImage-Section'>
