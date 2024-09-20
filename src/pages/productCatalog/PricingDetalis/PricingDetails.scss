@@ -65,7 +65,7 @@
     .Prepartiontime-input-hours
     {
       width: 52.93px;
-height: 43.1px;
+height: 42px;
 
 border-radius: 5.41px ;
 border: 1px solid #9F9F9F;
@@ -75,7 +75,7 @@ border: 1px solid #9F9F9F;
     .Prepartiontime-input-mins
     {
       width: 52.93px;
-height: 43.1px;
+height: 42px;
 
 border-radius: 5.41px ;
 border: 1px solid #9F9F9F;
@@ -150,9 +150,19 @@ border: 1px solid #9F9F9F;
   position: relative;
   top: 25px;
 }
+.services-Heading
+{
+  margin-top: 35px;
+  font-family: Poppins;
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+
+}
 
 .InventoryToggle {
-  margin-top: -240px;
+  margin-top: -210px;
   display: flex;
   justify-content: flex-start;
   gap: 25px;
@@ -310,7 +320,7 @@ border: 1px solid #9F9F9F;
   display: flex;
   justify-content: flex-start;
   gap: 60px;
-  margin-top: 40px;
+  margin-top: 30px;
   accent-color: #779749;
 }
 
