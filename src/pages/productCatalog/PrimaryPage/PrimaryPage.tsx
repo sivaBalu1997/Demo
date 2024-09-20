@@ -453,7 +453,7 @@ const PrimaryPage = () => {
                         dropdownopen={DropdownOpen.cuisine}
                         onToggle={() => handleDropdownToggle("cuisine")}
                         setDropdownOpen={setDropdownOpen}
-                        addNew={false}
+                        addNew={true}
                         editValues={true}
                       />
                     )}
@@ -461,33 +461,34 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields">
-                  <LableComponent lable="MealType *" />
-                  <Controller
-                    name="mealType"
-                    control={control}
-                    render={({ field }: any) => (
-                      <Dropdown
-                        options={dataMealType}
-                        setOptions={setDataMealType}
-                        placeholder="search for option"
-                        type="checkbox"
-                        {...field}
-                        register={register}
-                        name="mealType"
-                        trigger={trigger}
-                        setValue={setValue}
-                        getValues={getValues}
-                        validation={{ required: "Mealtype is required" }}
-                        error={errors.mealType}
-                        dropdownopen={DropdownOpen.mealType}
-                        onToggle={() => handleDropdownToggle("mealType")}
-                        setDropdownOpen={setDropdownOpen}
-                        addNew={true}
-                        editValues={true}
-                      />
-                    )}
-                  />
-                </div>
+                    <LableComponent lable="Category*" />
+                    <Controller
+                      name="category"
+                      control={control}
+                      render={({ field }: any) => (
+                        <Dropdown
+                          options={dataSubcategory}
+                          setOptions={setDataSubcategory}
+                          placeholder="search for option"
+                          type="radio"
+                          name="category"
+                          id="categoryId"
+                          register={register}
+                          setValue={setValue}
+                          trigger={trigger}
+                          getValues={getValues}
+                          validation={{ required: "category is required" }}
+                          error={errors.category}
+                          dropdownopen={DropdownOpen.category}
+                          setDropdownOpen={setDropdownOpen}
+                          onToggle={() => handleDropdownToggle("category")}
+                          addNew={true}
+                          editValues={true}
+                        />
+                      )}
+                    />
+                  </div>
+
 
                 <div className="Primary-page-InputFields">
                   <LableComponent lable="Best paired with food items *" />
@@ -511,16 +512,18 @@ const PrimaryPage = () => {
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
-                          addNew={true}
-                          editValues={true}
+                          addNew={false}
+                          editValues={false}
                         />
                       )}
                     />
+                    <div className="tool-tip-best-pair">
                     <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
                     </Tooltip>
+                    </div>
                   </div>
                 </div>
 
@@ -662,11 +665,13 @@ const PrimaryPage = () => {
                         />
                       )}
                     />{" "}
+                    <div className="tool-tip-item-code">
                     <Tooltip message="KitchenRelated">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
                     </Tooltip>{" "}
+                    </div>
                   </div>
                 </div>
 
@@ -694,35 +699,7 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-Page-categories-field">
-                  <div className="Primary-page-InputFields">
-                    <LableComponent lable="Category*" />
-                    <Controller
-                      name="category"
-                      control={control}
-                      render={({ field }: any) => (
-                        <Dropdown
-                          options={dataSubcategory}
-                          setOptions={setDataSubcategory}
-                          placeholder="search for option"
-                          type="radio"
-                          name="category"
-                          id="categoryId"
-                          register={register}
-                          setValue={setValue}
-                          trigger={trigger}
-                          getValues={getValues}
-                          validation={{ required: "category is required" }}
-                          error={errors.category}
-                          dropdownopen={DropdownOpen.category}
-                          setDropdownOpen={setDropdownOpen}
-                          onToggle={() => handleDropdownToggle("category")}
-                          addNew={true}
-                          editValues={true}
-                        />
-                      )}
-                    />
-                  </div>
-
+                  
                   <div className="Primary-page-InputFields">
                     <LableComponent lable="SubCategory" />
                     <Controller
@@ -823,11 +800,13 @@ const PrimaryPage = () => {
                         />
                       )}
                     />
+                    <div className="tool-tip-portion-size">
                     <Tooltip message="Kitchen Related">
                       <div className="ToolKitchen">
                         <img src={info} alt="" width={25} height={25} />
                       </div>
                     </Tooltip>
+                    </div>
                   </div>
 
                   <div className="Primary-Page-inputfiled-and-tooltip">
@@ -868,7 +847,7 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
-                      <div>
+                      <div className="tool-tip-tax-class">
                         <Tooltip message="Kitchen Related">
                           <div className="ToolKitchen">
                             <img src={info} alt="" width={25} height={25} />

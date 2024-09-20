@@ -32,13 +32,10 @@ const Header = () => {
             <img className='ArrowHoverHeader' src={ArrowHover} alt="" />
             <div className='FilterHover'>Filter</div>
           </div>    
-        {filterSelected && <Filter/>}
+          {filterSelected && <Filter/>}
         </div>
         <div className='Excel-flex-col'>
-          <img className={`${filterSelected?"Excel-Header1":"Excel-Header"}  ${isExpanded?"Excel1":"Excel"}`} src={publish} alt="" />
-          {/* <img className={`${filterSelected?"Excel-Header-Download1":"Excel-Header-Download"}  ${isExpanded?"Exceldownloadicon1":"Exceldownloadicon"}`} src={DownloadExcel} alt="" /> */}
-          {/* {filterSelected===false && <img className='ArrowHoverHeaderExcel' src={ArrowHover} alt="" />}
-          {filterSelected===false &&  <div className='ExcelHover'>Import</div>} */}
+          <img className={`${isExpanded?"Excel-Header1":"Excel-Header"}`} src={publish} alt="" />
         </div>  
         </div>
       <div 

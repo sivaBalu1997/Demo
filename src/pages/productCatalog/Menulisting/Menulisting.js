@@ -8,7 +8,7 @@ import closeicon from "../../../assets/svg/closeicon.svg";
 import toggleround from "../../../assets/svg/toggleround.svg";
 import calendericon from '../../../assets/svg/calendericon.svg'
 import dollaricon from "../../../assets/svg/dollaricon.svg";
-import togglebtns from "../../../assets/svg/togglebtn.svg";
+// import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { itemsdata, itemsfooddata } from "../../../assets/mockData/Moca_data";
@@ -406,7 +406,7 @@ export const Menulisting = () => {
               closeicon={closeicon}
               dollaricon={dollaricon}
               toggleround={toggleround}
-              togglebtns={togglebtns}
+              togglebtns={calendericon}
               Outsideref={Outsideref}
             />
             <table className="Menu-Listing-TableOne">

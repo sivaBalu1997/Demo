@@ -3,6 +3,7 @@ import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
 import { useDispatch } from "react-redux";
 import StringDisplay from "../StringDisplay/StringDisplay";
+import HoverText from "../HoverText/HoverText";
 
 interface Item {
   itemName: string;
@@ -113,7 +114,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               className="itemname2"
               onClick={() => handleItemnameClick(item.id)}
             >
-              <StringDisplay text={item.itemName} lengthvale={14} />
+              <HoverText text={item.itemName} lengthvale={14} />
             </span>
             <span className="itemcode2">{item.itemCode}</span>
           </td>

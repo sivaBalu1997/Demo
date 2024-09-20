@@ -1,23 +1,29 @@
 .Filter-Container{
     width: 556px;
-    height:665px;
+    height:fit-content;
     padding: 9px, 21px, 9px, 21px;
     background-color: #ffffff;
+    // background-color: blue;
 
     box-shadow: 0px 10px 15px -6px hsla(0, 0%, 0%, 0.251);
     padding-top: 20px;
     padding-bottom: 20px;
     position: relative;
-    top: -25px;
-    left: -24px;
-    z-index: 000;
+    top: 5px;
+    left: -104px;
+    z-index: 2000;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    // overflow-y: auto;
    
 
 }
 
 .Filter-Container1{
     width: 556px;
-    height:665px;
+    height:fit-content;
     padding: 9px, 21px, 9px, 21px;
     background-color: #ffffff;
 
@@ -25,9 +31,12 @@
     padding-top: 20px;
     padding-bottom: 20px;
     position: relative;
-    top: -25px;
-    left: -285px;
+    top: 5px;
+    left: -45px;
     z-index: 2000;
+    // background-color: red;
+
+    // overflow-y: auto;
    
 
 }

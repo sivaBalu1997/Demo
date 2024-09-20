@@ -112,7 +112,7 @@ th {
       }
     }
     .Menu-Listing-TableOneBody {
-      height: 33rem;
+      height: 34rem;
       display: block;
       overflow-y: auto;
       &::-webkit-scrollbar{
@@ -140,7 +140,7 @@ th {
       align-items: center;
       display: flex;
       height: 2rem;
-      border-right: 1px solid #d9d9d9 !important;
+      border-right: 1px solid #B3B3B3 !important;
     }
 
     .Menu-listing-Body {
@@ -155,7 +155,7 @@ th {
       .itemdetails-row {
         width: 20rem;
         height: 60px;
-        border: 1px solid #d9d9d9 !important;
+        border: 1px solid #B3B3B3 !important;
         border-collapse: collapse;
         display: flex;
         align-items: center;
@@ -209,7 +209,7 @@ th {
     // width: 5rem;
   }
   .Menu-Listing-TableTwo {
-    width: 64rem;
+    width: 65rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
@@ -217,7 +217,6 @@ th {
     //   display: none;
     // }
 
-    
     &::-webkit-scrollbar-track {
       background-color:#B3B3B3;
      
@@ -231,20 +230,32 @@ th {
     &::-webkit-scrollbar-thumb:hover {
       background-color: #555;
     }
+    
   }
   .Menu-Listing-TableTwo1 {
-    width: 65rem;
+    width: 55rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
+    &::-webkit-scrollbar-track {
+      background-color:#B3B3B3;
+     
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: #5F5F5F;
+     
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+    
     // &::-webkit-scrollbar{
     //   display: none;
     // }
   }
-  // &::-webkit-scrollbar
-  // {
-  //     display: none;
-  // }
+  
 
   .Menu-Listing-TableTwoHead {
     height: 3.95rem;
@@ -506,7 +517,7 @@ th {
 
   .Menu-Listing-TableTwoBody {
     display: block;
-    height: 31rem;
+    height: 32rem;
     overflow-y: auto;
     overflow-x: hidden;
     width: 171.4%;
@@ -517,10 +528,10 @@ th {
   }
   .Menu-Listing-TableTwoBody1 {
     display: block;
-    height: 34rem;
+    height: 31rem;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 160.85%;
+    width: 190.85%;
     &::-webkit-scrollbar{
       display: none;
     }
@@ -541,9 +552,10 @@ th {
     width: fit-content;
     display: flex;
     align-items: center;
-    border: 1px solid #d9d9d9 !important;
+    border: 1px solid #B3B3B3 !important;
     border-top: none !important;
     padding-left: 0.7rem;
+    // margin-left: 0.7rem;
     border-left: none !important;
     gap: 20px;
     justify-content: left;
@@ -839,5 +851,5 @@ th {
   }
 }
 .eachobject-rowwise.border-important {
-  border-top: 1px solid #d9d9d9 !important;
+  border-top: 1px solid #B3B3B3 !important;
 }

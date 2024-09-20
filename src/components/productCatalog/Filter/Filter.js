@@ -28,17 +28,27 @@ const Filter = () => {
   const data2 = [
     { mainHeading: "Cuisine", items: ["South Indian", "North Indian", "Chinese", "Italian", "Japanese"] },
     { mainHeading: "Dietary", items: ["Vegan Food", "Jain Food", "Halal Food", "Veg Food"] },
-    { mainHeading: "Unavailable items", items: ["Popular items", "Special available", "Hidden"] },
+    // { mainHeading: "Unavailable items", items: ["Popular items", "Special available", "Hidden"] },
   ];
   
-  const data3 = [
-    { mainHeading: "Cuisine", items: ["South Indian", "North Indian", "Chinese", "Italian"] },
-  ];
+  // const data3 = [
+    // { mainHeading: "Cuisine", items: ["South Indian", "North Indian", "Chinese", "Italian"] },
+    // { mainHeading: "Unavailable items",items: []},
+    // { mainHeading: "Popular items",items: []},
+    // {mainHeading: "Special available",items: []},
+    // {mainHeading:"Hidden",items: []}
+  // ];
 
-  const allData = [data1, data2, data3];
+  const data4 = [{ mainHeading: "Unavailable items",items: []},]
+  const data5 = [{ mainHeading: "Popular items",items: []},]
+  const data6 = [{mainHeading: "Special available",items: []},]
+  const data7 = [{mainHeading:"Hidden",items: []}]
+
+
+  const allData = [data1, data2, data4, data5, data6, data7];
   
   const initializeCheckedState = () => {
-    return allData.map(group =>
+    return allData?.map(group =>
       group.map(item => ({
         mainHeading: item.mainHeading,
         checked: false,
