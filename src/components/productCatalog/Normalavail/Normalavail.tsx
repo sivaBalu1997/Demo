@@ -53,10 +53,41 @@ interface DineInField {
   showDay: boolean;
   dayButtonText: string;
 }
+interface RootState {
+  PricingDetailReducer: {
+    prizingData: 
+       NormalFormData;
+    
+  };
+}
+
 
 type DropdownValidationState = {
   [key: string]: { isValid: boolean; errorMessage: string }; // Adjust this as necessary
 };
+ interface NormalFormData {
+    normalForm: {
+      dineinfields: DineInField[];
+      DineIn: number[];
+      Pickup: number[];
+      Delivery: number[];
+      thirdParty:number[]
+      DeliveryMealType: string[];
+      PicupMealType:string[];
+
+      formNormal: {
+        PickuppriceNormal: string;
+        PicupMealType: string;
+        DeliverypriceNormal: string;
+        SwiggyNormal: string;
+        ZomatoNormal: string;
+      };
+      thirdPartyOrder: {
+        SwiggyNormal: string;
+        ZomatoNormal: string;
+      };
+    };
+  }
 
   interface NormalavailProps {
     getNormalForm?: (form: any) => void;
@@ -149,9 +180,7 @@ type OptionType = string;
 
   const [showDayDelivery, setShowDayDelivery] = useState(false);
   const [showDayThird, setShowDayThird] = useState(false);
-  const prizingDetail = useSelector(
-    (state: any) => state.PricingDetailReducer.prizingData.mainForm
-  );
+  const prizingDetail=useSelector((state:any)=>state?.PricingDetailReducer?.prizingData || {})
 
   const [formNormal, setformNormal] = useState({
     PickuppriceNormal: "",
@@ -300,6 +329,9 @@ type OptionType = string;
     if (prizingDetail?.normalForm) {
       setNormalDays(prizingDetail.normalForm.Normaldays || []);
     }
+    const newData = prizingDetail.normalForm.DineIn.map((elem: any) => elem); // Copying the array
+    setDineInDates1(newData); // No need for another map here
+    console.log(newData); // Log the copied data
   }, []);
   const handleDelete = (index: number): void => {
     // Filter out the entry at the given index

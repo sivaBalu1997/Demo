@@ -25,7 +25,7 @@ const Step2 = () => {
               <div  >
              
 
-              <Link to="/Navigationpage" className='editbuttonpricing' onClick={()=>setActiveCategory("Step 2: Pricing and kitchen details")}>
+              <Link to="/productCatalog/Pricingandkitchendetails" className='editbuttonpricing' onClick={()=>setActiveCategory("Step 2: Pricing and kitchen details")}>
               <img src={edit} alt="" width={15}
                 height={15}/>
               <span style={{marginLeft:'2px'}} > Edit</span> 

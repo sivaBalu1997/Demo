@@ -10,9 +10,9 @@ import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import React from "react";
 import Dropdown from "../DropDown/Dropdown";
-
+ 
 import DropDown2 from "../DropDown2/DropDown2";
-
+ 
 type MainFormSpecial = {
   form1: FormState;
   dineinfields: DineInField[];
@@ -25,7 +25,7 @@ type MainFormSpecial = {
   Zomato: string[];
   Availabilityid: string[];
 };
-
+ 
 interface FormState {
   Pickupprice?: string;
   Pickupmealtype?: string;
@@ -52,7 +52,7 @@ interface SpecialAvailProps {
     | any;
   mainFormSpecial: any;
 }
-
+ 
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
@@ -82,9 +82,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     "Lunch",
     "Dinner",
   ]);
-  const [selectedValuespickup, setSelectedValuesPickup] = useState<string[]>(
-    []
-  );
+  const [selectedValuespickup, setSelectedValuesPickup] = useState<string[]>([]);
   const [optionspick, setOptionsPick3] = useState<string[]>([
     "Breakfast",
     "Lunch",
@@ -128,14 +126,14 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     "Lunch",
     "Dinner",
   ]);
-
+ 
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
   const prizingDetail = useSelector(
-    (state: any) => state?.PricingDetailReducer?.prizingData?.mainForm
+    (state: any) => state?.PricingDetailReducer?.prizingData
   );
   const [availabilityid1, setAvailabilityid1] = useState<string[]>([]);
-
+ 
   const [form1, setForm] = useState<FormState>({
     Pickupprice: "",
     Pickupmealtype: "",
@@ -149,10 +147,10 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   });
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
-
+ 
   const fromDate = selectedDate?.toString();
   const toDate = selectedDate1?.toString();
-
+ 
   const [dineinfields, setDineInFields] = useState<DineInField[]>([
     {
       DineInPrice: "",
@@ -168,15 +166,15 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     newEntries[index][e.target.name as keyof DineInField] = e.target.value;
     setDineInFields(newEntries);
   };
-
+ 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date); // Keep date as Date object
   };
-
+ 
   const handleDateChange1 = (date: Date | null) => {
     setSelectedDate1(date); // Keep date as Date object
   };
-
+ 
   const payLoad = {
     form1,
     dineinfields,
@@ -189,25 +187,25 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     Zomato: selectedValuesthird2,
     Availabilityid: availabilityid1,
   };
-
+ 
   useEffect(() => {
     if (JSON.stringify(mainFormSpecial) !== JSON.stringify(payLoad)) {
       setMainFormSpecial(payLoad);
     }
   }, [payLoad]);
-
+ 
   const handleImageClick = () => {
     if (datePickerRef.current) {
       datePickerRef.current.setOpen(true);
     }
   };
-
+ 
   const handleImageClick2 = () => {
     if (datePickerRef1.current) {
       datePickerRef1.current.setOpen(true);
     }
   };
-
+ 
   const handleSelect3 = (value: MealType, index: number) => {
     // Ensure new selected values are an array of MealType arrays
     const newSelectedValues: SelectedValuesMealTypeState = [
@@ -215,7 +213,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     ];
     newSelectedValues[index] = value;
     setSelectedValuesMealType(newSelectedValues);
-
+ 
     // Update the dine-in fields with the selected value
     const newDineInFields = [...dineinfields];
     newDineInFields[index] = {
@@ -223,95 +221,97 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
       DineInServiceArea: value,
     };
     setDineInFields(newDineInFields);
-
+ 
     // Validate the dropdown immediately after selection
     validateDropdown(newSelectedValues[index], index);
   };
-
+ 
   const addOption3 = (newOption: string) => {
     setOptions3([...options3, newOption]);
   };
-
+ 
   const handleSelectpick = (value: string[]) => {
     setSelectedValuesPickup(value);
     validateDropdown(selectedValuespickup, "Pickupspecial");
   };
-
+ 
   const addOptionpickup = (newOption: string) => {
     setOptionsPick3([...optionspick, newOption]);
   };
-
+ 
   const handleSelectdelivery = (value: string[]) => {
     setSelectedValuesDelivery(value);
     validateDropdown(selectedValuesdelivery, "Deliveryspecial");
   };
-
+ 
   const addOptiondelivery = (newOption: string) => {
     setOptionsDelivery([...optionsdelivery, newOption]);
   };
-
+ 
   const handleSelectThird1 = (value: string[]) => {
     setSelectedValuesThird1(value);
     validateDropdown(selectedValuesthird1, "Deliveryspecial1");
   };
-
+ 
   const addOptionThird1 = (newOption: string) => {
     setOptionsThird1([...optionsthird1, newOption]);
   };
-
+ 
   const handleSelectThird2 = (value: string[]) => {
     setSelectedValuesThird2(value);
     validateDropdown(selectedValuesthird2, "Deliveryspecial2");
   };
-
+ 
   const addOptionThird2 = (newOption: string) => {
     setOptionsThird2([...optionsthird2, newOption]);
   };
-
+ 
   const handleSelectMealtype = (value: MealType, index: number) => {
     const newSelectedValues = [...selectedValues1];
     newSelectedValues[index] = value;
     setSelectedValues1(newSelectedValues);
-
+ 
     const newArray = [...dineinfields];
     newArray[index].DineInMealType = value; // Assign a single string value
     setDineInFields(newArray);
   };
-
+ 
   const handleSelectService = (index: number, value: MealType) => {
     const newSelectedValues = [...selectedValues1];
     newSelectedValues[index] = value;
     setSelectedValues1(newSelectedValues);
-
+ 
     const newarrary = [...dineinfields];
     newarrary[index].DineInServiceArea = value;
     setDineInFields(newarrary);
   };
-
+ 
   // const addOptionMealType = (newOption) => {
   //   setOptionsMealType([...optionsmealtype, newOption]);
   // };
-
+ 
   const handleDelete = (index: number) => {
     const newEntries = dineinfields.filter((_, i) => i !== index);
     setDineInFields(newEntries);
-
+ 
     const newSelectedValues1 = [...selectedValues1];
     newSelectedValues1.splice(index, 1);
     setSelectedValues1(newSelectedValues1);
-
+ 
     const newSelectedValuesMealtype = [...selectedValuesMealType];
     newSelectedValuesMealtype.splice(index, 1);
     setSelectedValuesMealType(newSelectedValuesMealtype);
   };
-
+ 
   // Add a new empty value for the new field
   const AddDineInEntry = () => {
     setDineInEntry([...dineinentry, ""]); // Add an empty string or another appropriate string value
-    setDineInFields([
-      ...dineinfields,
-      { DineInPrice: "", DineInMealType: [], DineInServiceArea: [] },
-    ]);
+    
+    // Ensure dineinfields is an array before spreading
+    setDineInFields(prevFields => Array.isArray(prevFields) 
+      ? [...prevFields, { DineInPrice: "", DineInMealType: [], DineInServiceArea: [] }]
+      : [{ DineInPrice: "", DineInMealType: [], DineInServiceArea: [] }]
+    );
   };
   const handleSelectZomatoSwiggy = (value: string[]) => {
     setSelectedSwiggyZomato(value);
@@ -322,25 +322,25 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
       setSelectedDate1(prizingDetail?.specialForm?.toDate || "");
       setSpecialcheck(prizingDetail?.specialForm?.specialcheck || "");
       setForm({
-        Pickupprice: prizingDetail?.specialForm?.form?.Pickupprice || "",
+        Pickupprice: prizingDetail?.specialForm?.form1?.Pickupprice || "",
         Pickupmealtype: "",
-        Deliveryprice: prizingDetail?.specialForm?.form?.Deliveryprice || "",
+        Deliveryprice: prizingDetail?.specialForm?.form1?.Deliveryprice || "",
         Deliverymealtype: "",
-        Swiggyorzomato: prizingDetail?.specialForm?.form?.Swiggyorzomato || "",
-        Swiggy: prizingDetail?.specialForm?.form?.Swiggy || "",
+        Swiggyorzomato: prizingDetail?.specialForm?.form1?.Swiggyorzomato || "",
+        Swiggy: prizingDetail?.specialForm?.form1?.Swiggy || "",
         Swiggymealtype: "",
-        Zomato: prizingDetail?.specialForm?.form?.Zomato || "",
+        Zomato: prizingDetail?.specialForm?.form1?.Zomato || "",
         Zomatomealtype: "",
       });
-
-      setSelectedValuesPickup(prizingDetail?.specialForm?.selectedValuespickup);
+ 
+      setSelectedValuesPickup(prizingDetail?.specialForm?.selectedValuespickup||[]);
       setSelectedValuesDelivery(
-        prizingDetail?.specialForm?.selectedValuesdelivery
+        prizingDetail?.specialForm?.selectedValuesdelivery ||[]
       );
-      setSelectedValuesThird1(prizingDetail?.specialForm?.Swiggy);
-      setSelectedValuesThird2(prizingDetail?.specialForm?.Zomato);
-
-      const updated = prizingDetail?.specialForm?.dineinfields.map(
+      setSelectedValuesThird1(prizingDetail?.specialForm?.Swiggy ||[]);
+      setSelectedValuesThird2(prizingDetail?.specialForm?.Zomato ||[]);
+ 
+      const updated = prizingDetail?.specialForm?.dineinfields?.map(
         (item: DineInField) => ({
           DineInPrice: item?.DineInPrice || "",
           DineInMealType: item?.DineInMealType || [],
@@ -348,22 +348,41 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
         })
       );
       setDineInFields(updated);
-
+ 
       const initialSelectedValues =
-        prizingDetail?.specialForm?.dineinfields.updated.map(
+        updated?.map(
           (item: DineInField) => item.DineInMealType
         );
-      setSelectedValuesMealType(initialSelectedValues);
-
+      setSelectedValuesMealType(initialSelectedValues||[]);
+      console.log(initialSelectedValues)
+ 
       const initialSelectedValues2 =
-        prizingDetail?.specialForm?.dineinfields.updated.map(
+      updated?.map(
           (item: DineInField) => item.DineInServiceArea
         );
-      setSelectedValues1(initialSelectedValues2);
+      setSelectedValues1(initialSelectedValues2||[]);
       setDineIn(true);
     }
+
+  
   }, []);
 
+
+  const handleSpecialDineinMealType = (index: number, value: any) => {
+    
+    setSelectedValuesMealType((prev) => {
+      // Ensure we are working with an array
+      const newMealTypes = Array.isArray(prev) ? [...prev, value] : [value];
+      return newMealTypes;
+    });
+  
+    // Clone the dineinfields array and update the specific index
+    const newDineInFields = [...dineinfields];
+    newDineInFields[index].DineInMealType = value; // Update DineInService with the new value
+    
+    // Update the state with the modified array
+    setDineInFields(newDineInFields);
+  };
   return (
     <div>
       <h1 className="AvailableDaysHeading" style={{ marginTop: "40px" }}>
@@ -383,7 +402,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           </div>
           <img src={calender} className="calender" onClick={handleImageClick} />
         </div>
-
+ 
         <div className="calenderComponent">
           <div className="date-picker-container">
             <DatePicker
@@ -411,7 +430,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           setId={setAvailabilityid1}
         />
       </div>
-
+ 
       <h1 className="KitchenRelatedHeading">Avaliable Service Streams</h1>
       {/* DineIn Related */}
       <div className="DineInRelatedSpecial">
@@ -439,7 +458,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                 <div className="DropD4">
                   <Dropdown
                     key={index}
-                    selectedValues={selectedValuesMealType[index] || []}
+                    selectedValues={selectedValuesMealType?.[index] || []}
                     onSelect={(value) => handleSelect3(value, index)}
                     options={options3}
                     label="Meal Type*"
@@ -448,6 +467,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                         selectedValuesMealType[index] || [],
                         index
                       )
+                    }
+                    onChange={(e) =>
+                      handleSpecialDineinMealType(index, e.target.value)
                     }
                     width="Drop1"
                     validation={
@@ -461,7 +483,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                 <div className="SpecialDropDown">
                   <Dropdown
                     key={index}
-                    selectedValues={selectedValues1[index] || ""}
+                    selectedValues={selectedValues1?.[index] || ""}
                     onSelect={(value) => handleSelectMealtype(value, index)}
                     options={options3}
                     label="Service Area*"
@@ -482,10 +504,10 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                 </h1>
               </div>
             ))}
-
+ 
           <h1
             className={`${
-              dineinfields.length
+              dineinfields?.length
                 ? "AddentrySpecial"
                 : "AddentrySpecialOnToggle"
             }`}
@@ -540,7 +562,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                             selectedValuespickup,
                             "Pickupspecial"
                           )
+                          
                         }
+                      
                         validation={validationState.Pickupspecial}
                       />
                     </div>
@@ -655,17 +679,17 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                     />
                   </div>
                   <div className="Third2">
-                    <Dropdown
-                      selectedValues={selectedValuesthird2}
-                      onSelect={handleSelectThird2}
-                      options={optionsthird2}
-                      label="Meal Type*"
-                      // onBlur={() =>
-                      //   validateDropdown(selectedValuesthird2, "ThirdDelivery2")
-                      // }
-                      validation={validationState.ThirdDelivery2}
-                      width="Drop1"
-                    />
+                      <Dropdown
+                        selectedValues={selectedValuesthird2}
+                        onSelect={handleSelectThird2}
+                        options={optionsthird2}
+                        label="Meal Type*"
+                        onBlur={() =>
+                          validateDropdown(selectedValuesthird2, "ThirdDelivery2")
+                        }
+                        validation={validationState.ThirdDelivery2}
+                        width="Drop1"
+                      />
                   </div>
                 </div>
               )}
@@ -678,5 +702,6 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     </div>
   );
 };
-
+ 
 export default Specialavail;
+ 

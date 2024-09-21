@@ -8,10 +8,10 @@ import EyeModal from '../EyeModal/EyeModal';
 import Trash from '../Trash/Trash';
 import NavSlider from '../NavSlider/NavSlider';
 import ArrowHover from '../../../assets/svg/ArrowHover.svg';
-import BasicChanges from '../BasicChanges/BasicChanges';
 import { useSelector, useDispatch } from 'react-redux';
 import { addMockDataHiddenRequest, storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
+import BasicChanges from '../BasicChanges/BasicChanges';
 
 interface PricingDetails {
   Dinein1: string[];
