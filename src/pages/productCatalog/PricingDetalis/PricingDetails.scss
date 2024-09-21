@@ -6,7 +6,7 @@
   top: 150px;
   margin-left: -10px;
   overflow-x: hidden;
-  height: 470px;
+  height: 580px;
   width: 80%;
   overflow-y: auto;
   // background-color: red;
@@ -17,7 +17,7 @@
   top: 150px;
   margin-left: -20px;
   overflow-x: hidden;
-  height: 470px;
+  height: 580px;
   width: 93.3%;
   overflow-y: auto;
   // background-color: orange;
@@ -36,8 +36,7 @@
   justify-content: flex-start;
   position: relative;
   top: 15px;
-  
-  gap: 30px;
+  gap: 58px;
   margin-bottom: 10px;
 }
 // .KitchenRelated > div {
@@ -46,41 +45,33 @@
 .D1kitchen {
   // margin-top: -80px;
   // margin-left: -20px;
-  .kitche-stations-dropdown
-  {
+  .kitche-stations-dropdown {
     margin-top: 1rem;
   }
 }
 .D2kitchen {
   // margin-top: -80px;
   // margin-left: -65px;
-  .Prepartiontime-input-fileds
-  {
+  .Prepartiontime-input-fileds {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 20px;
     margin-top: 1rem;
-    .Prepartiontime-input-hours
-    {
-      width: 52.93px;
-height: 42px;
+    .Prepartiontime-input-hours {
+      width: 46px;
+      height: 42px;
 
-border-radius: 5.41px ;
-border: 1px solid #9F9F9F;
-
-
+      border-radius: 5.41px;
+      border: 1px solid #9f9f9f;
     }
-    .Prepartiontime-input-mins
-    {
-      width: 52.93px;
-height: 42px;
+    .Prepartiontime-input-mins {
+      width: 46px;
+      height: 42px;
 
-border-radius: 5.41px ;
-border: 1px solid #9F9F9F;
-
-
+      border-radius: 5.41px;
+      border: 1px solid #9f9f9f;
     }
   }
 }
@@ -150,15 +141,13 @@ border: 1px solid #9F9F9F;
   position: relative;
   top: 25px;
 }
-.services-Heading
-{
+.services-Heading {
   margin-top: 35px;
   font-family: Poppins;
-font-size: 16px;
-font-weight: 500;
-line-height: 24px;
-text-align: left;
-
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
 }
 
 .InventoryToggle {

@@ -1,7 +1,7 @@
 import { API,Image_API } from "redux/api";
 import Store from "../store";
 import Axios from "axios";
-import { dietarytype } from "assets/mockData/Moca_data";
+import { bestPairType, categoryType, cuisine, dietarytype, subcategory, subcategoryType } from "assets/mockData/Moca_data";
 
 export function getCategory(locationId) {
   return API({
@@ -11,8 +11,23 @@ export function getCategory(locationId) {
 }
 
 export function getDietarydata(){
-  console.log("dietary",dietarytype)
   return dietarytype;
+}
+
+export function getCuisineData(){
+  return cuisine;
+}
+
+export function getCategorydata(){
+  return categoryType;
+}
+
+export const getSubCategoryData = () => {
+  return subcategory;
+}
+
+export const getBestPairData = () => {
+  return bestPairType;
 }
 
 export function getSubCategory({ locationId, id }) {

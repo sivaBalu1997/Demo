@@ -17,7 +17,6 @@ import {
   dietarytype,
   cuisine,
   mealType,
-  bestPair,
   subcategory,
   alcoholradio,
   calorieponitradio,
@@ -25,14 +24,19 @@ import {
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import {
+  bestPairDataRequest,
+  catogoryDataRequest,
+  cuisineDataRequest,
   dietdatarequest,
   getIngredientsRequest,
   getMenuCategoryRequest,
+  subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
 import Tooltip from "components/productCatalog/Tooltip/Tooltip";
+import { stat } from "fs";
 
 interface Ingredients {
   id: string;
@@ -95,6 +99,10 @@ interface StateDataTag2 {
 interface StateDataTag3 {
   productCatalog: {
     dietaryData: [];
+    cuisineData: [];
+    categoryData: [];
+    subCategoryData: [];
+    bestPairData: [];
   };
 }
 
@@ -180,7 +188,7 @@ const PrimaryPage = () => {
   const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
   const [dataCuisine, setDataCuisine] = useState(cuisine);
   const [dataMealType, setDataMealType] = useState(mealType);
-  const [dataBestPair, setDataBestPair] = useState(bestPair);
+  const [dataBestPair, setDataBestPair] = useState();
   const [dataSubcategory, setDataSubcategory] = useState(subcategory);
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
@@ -354,16 +362,11 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  const dietaryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.dietaryData
-  );
-  useEffect(() => {
-    console.log("data from component", dietaryData);
-  }, [dietaryData]);
-
-  const getdatafrosaga = () => {
-    dispatch(dietdatarequest("diet"));
-  };
+  const dietaryData = useSelector((state: StateDataTag3) => state.productCatalog.dietaryData);
+  const cuisineData = useSelector((state:StateDataTag3) => state.productCatalog.cuisineData);
+  const subCategoryData = useSelector((state:StateDataTag3) => state.productCatalog.subCategoryData);
+  const categoryData = useSelector((state:StateDataTag3) => state.productCatalog.categoryData);
+  const bestPairData = useSelector((state:StateDataTag3) => state.productCatalog.bestPairData)
 
   return (
     <div style={{ display: "flex" }}>
@@ -380,7 +383,6 @@ const PrimaryPage = () => {
           </div>
           <div className="Primary-page">
             {/* <form> */}
-            <button onClick={getdatafrosaga}>get data from redux</button>
             <div className="Primary-page-container-one">
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
@@ -426,6 +428,8 @@ const PrimaryPage = () => {
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
+                        dropDownType = 'diet'
+                        actionToDispatch = {dietdatarequest}
                       />
                     )}
                   />
@@ -438,7 +442,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dataCuisine}
+                        options={cuisineData}
                         type="radio"
                         setOptions={setDataCuisine}
                         placeholder="search for option"
@@ -455,6 +459,8 @@ const PrimaryPage = () => {
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
+                        dropDownType = 'cuisine'
+                        actionToDispatch = {cuisineDataRequest}
                       />
                     )}
                   />
@@ -467,7 +473,7 @@ const PrimaryPage = () => {
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={dataSubcategory}
+                          options={categoryData}
                           setOptions={setDataSubcategory}
                           placeholder="search for option"
                           type="radio"
@@ -484,6 +490,8 @@ const PrimaryPage = () => {
                           onToggle={() => handleDropdownToggle("category")}
                           addNew={true}
                           editValues={true}
+                          dropDownType = 'category'
+                          actionToDispatch = {catogoryDataRequest}
                         />
                       )}
                     />
@@ -498,7 +506,7 @@ const PrimaryPage = () => {
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={dataBestPair}
+                          options={bestPairData}
                           setOptions={setDataBestPair}
                           placeholder="search for option"
                           type="checkbox"
@@ -514,6 +522,8 @@ const PrimaryPage = () => {
                           setDropdownOpen={setDropdownOpen}
                           addNew={false}
                           editValues={false}
+                          dropDownType = 'bestPair'
+                          actionToDispatch={bestPairDataRequest}
                         />
                       )}
                     />
@@ -707,7 +717,7 @@ const PrimaryPage = () => {
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={dataSubcategory}
+                          options={subCategoryData}
                           setOptions={setDataSubcategory}
                           placeholder="search for option"
                           type="radio"
@@ -721,6 +731,8 @@ const PrimaryPage = () => {
                           dropdownopen={DropdownOpen.subCategory}
                           setDropdownOpen={setDropdownOpen}
                           onToggle={() => handleDropdownToggle("subCategory")}
+                          dropDownType="subCategory"
+                          actionToDispatch={subCategoryDataRequest}
                         />
                       )}
                     />

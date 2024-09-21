@@ -42,28 +42,52 @@ import {
   ADD_MOCK_DATA_REQUEST,
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
-  DIET_DROPDOWN_LIST_FAILURE
+  DIET_DROPDOWN_LIST_FAILURE,
+  CUISINE_DATA_REQUEST,
+  CUISINE_DATA_SUCCESS,
+  CUISINE_DATA_FAILURE,
+  CATEGORY_DATA_REQUEST,
+  CATEGORY_DATA_SUCCESS,
+  SUBCATEGORY_DATA_REQUEST,
+  SUBCATEGORY_DATA_SUCCESS,
+  SUBCATEGORY_DATA_FAILURE,
+  CATEGORY_DATA_FAILURE,
+  BESTPAIR_DATA_FAILURE,
+  BESTPAIR_DATA_REQUEST,
+  BESTPAIR_DATA_SUCCESS
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
-
   dietaryData:[],
   getDietaryloading:false,
   getDietarySuccess:false,
 
+  cuisineData:[],
+  getCuisineDataLoading: false,
+  getCuisineSuccess: false,
+  geitCuisineFailure: false,
+
   categoryData: [],
   getCategoryLoading: false,
   getCategorySuccess: false,
+
   subCategoryData: [],
   getSubCategoryLoading: false,
   getSubCategorySuccess: false,
+
+  bestPairData: [],
+  getBestPairDataLoading: false,
+  getBestPairSuccess: false,
+
   taxClass: [],
   getTaxClassLoading: false,
   getTaxClassSuccess: false,
+
   ingredients: [],
   getIngredientsLoading: false,
   getIngredientsSuccess: false,
   requestCompleted: false,
+
   modifier: [],
   getModifierLoading: false,
   getModifierSuccess: false,
@@ -98,7 +122,7 @@ export default function productCatalogReducer(
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
-   //dietary data
+      //dietary data
       case  DIET_DROPDOWN_LIST_REQUEST:
         draft.dietaryData = [];
         draft.getDietaryloading = true;
@@ -106,8 +130,6 @@ export default function productCatalogReducer(
         break;
       case  DIET_DROPDOWN_LIST_SUCCESS:
         draft.dietaryData = action.payload;
-        console.log("action.payload",action.payload)
-
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
         break;
@@ -116,13 +138,72 @@ export default function productCatalogReducer(
         draft.getDietaryloading = false;
         draft.getDietarySuccess = false;
         break;
+      
+      //cuisine data
+      case CUISINE_DATA_REQUEST:
+        draft.cuisineData = [];
+        draft.getCuisineDataLoading = false;
+        break;
+      case CUISINE_DATA_SUCCESS:
+        draft.cuisineData = action.payload;
+        draft.getCuisineSuccess = true;
+        draft.getCuisineDataLoading = false;
+        break;
+      case CUISINE_DATA_FAILURE:
+        draft.cuisineData = [];
+        draft.getCuisineSuccess = false;
+        draft.getCuisineDataLoading = false;
+        break;
 
+      //category
+      case CATEGORY_DATA_REQUEST:
+        draft.categoryData = [];
+        draft.getCategoryLoading = true;
+        break;
+      case CATEGORY_DATA_SUCCESS:
+        draft.categoryData = action.payload;
+        draft.getCategorySuccess = true
+        draft.getCategoryLoading = false;
+      break;
+      case CATEGORY_DATA_FAILURE:
+        draft.categoryData = [];
+        draft.getCategorySuccess = false
+        draft.getCategoryLoading = false;
+      break;
+
+      //subCategory
+      case SUBCATEGORY_DATA_REQUEST:
+        draft.subCategoryData = []
+        draft.getSubCategoryLoading = true
+      break;
+      case SUBCATEGORY_DATA_SUCCESS:
+        draft.subCategoryData = action.payload
+        draft.getSubCategoryLoading = false
+        draft.getCategorySuccess = true
+      break;
+      case SUBCATEGORY_DATA_FAILURE:
+        draft.subCategoryData = []
+        draft.getSubCategoryLoading = false
+        draft.getCategorySuccess = false
+      break;
+
+      //bestPair
+      case BESTPAIR_DATA_REQUEST:
+        draft.bestPairData = []
+        draft.getBestPairDataLoading = true
+      break;
+      case BESTPAIR_DATA_SUCCESS:
+        draft.bestPairData = action.payload
+        draft.getBestPairDataLoading = false;
+        draft.getBestPairSuccess = false;
+      break;
+      case BESTPAIR_DATA_FAILURE:
+        draft.bestPairData = []
+        draft.getBestPairDataLoading = false;
+        draft.getBestPairSuccess = false;
+      break;
 
       // Get Menu Category
-
-      
-
-
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
         draft.getCategoryLoading = true;

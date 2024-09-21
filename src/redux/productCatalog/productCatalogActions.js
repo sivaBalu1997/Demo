@@ -54,7 +54,19 @@ import {
   ADD_MOCK_DATA_FALIURE,
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
-  DIET_DROPDOWN_LIST_FAILURE
+  DIET_DROPDOWN_LIST_FAILURE,
+  CUISINE_DATA_REQUEST,
+  CUISINE_DATA_SUCCESS,
+  CUISINE_DATA_FAILURE,
+  CATEGORY_DATA_REQUEST,
+  CATEGORY_DATA_SUCCESS,
+  CATEGORY_DATA_FAILURE,
+  BESTPAIR_DATA_REQUEST,
+  BESTPAIR_DATA_SUCCESS,
+  BESTPAIR_DATA_FAILURE,
+  SUBCATEGORY_DATA_REQUEST,
+  SUBCATEGORY_DATA_SUCCESS,
+  SUBCATEGORY_DATA_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -345,6 +357,7 @@ export const addMockDataFailure = (error) => ({
 })
 
 
+//dietary
 export const dietdatarequest=(data)=>({
   type: DIET_DROPDOWN_LIST_REQUEST,
   payload: data, 
@@ -358,5 +371,71 @@ export const dietdatasuccess = (response) => ({
 
 export const dietdatafailure = (error) => ({
   type: DIET_DROPDOWN_LIST_FAILURE,
+  payload: error, 
+})
+
+//cuisine
+export const cuisineDataRequest=(data)=>({
+  type: CUISINE_DATA_REQUEST,
+  payload: data, 
+})
+
+export const cuisineDataSuccess = (response) => ({
+  type: CUISINE_DATA_SUCCESS,
+  payload: response, 
+});
+
+export const cuisineDataFailure= (error) => ({
+  type: CUISINE_DATA_FAILURE,
+  payload: error, 
+})
+
+//category
+export const catogoryDataRequest=(data)=>({
+  type: CATEGORY_DATA_REQUEST,
+  payload: data, 
+
+})
+
+export const catogoryDataSuccess = (response) => ({
+  type: CATEGORY_DATA_SUCCESS,
+  payload: response, 
+});
+
+export const catogoryDataFailure= (error) => ({
+  type: CATEGORY_DATA_FAILURE,
+  payload: error, 
+})
+
+//bestPair
+export const bestPairDataRequest = (data) => ({
+  type: BESTPAIR_DATA_REQUEST,
+  payload: data, 
+})
+
+export const bestPairDataSuccess = (response) => ({
+  type: BESTPAIR_DATA_SUCCESS,
+  payload: response, 
+});
+
+export const bestPairDataFailure= (error) => ({
+  type: BESTPAIR_DATA_FAILURE,
+  payload: error, 
+})
+
+//subCategory
+export const subCategoryDataRequest=(data)=>({
+  type: SUBCATEGORY_DATA_REQUEST,
+  payload: data, 
+
+})
+
+export const subCategoryDataSuccess = (response) => ({
+  type: SUBCATEGORY_DATA_SUCCESS,
+  payload: response, 
+});
+
+export const subCategoryDataFailure= (error) => ({
+  type: SUBCATEGORY_DATA_FAILURE,
   payload: error, 
 })

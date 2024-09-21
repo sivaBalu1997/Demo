@@ -17,18 +17,6 @@ import info from "../../assets/png/info.png";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
-
-import {
-  imageslist,
-  dietarytype,
-  cuisine,
-  mealType,
-  bestPair,
-  subcategory,
-  alcoholradio,
-  calorieponitradio,
-  portionsizeradio,
-} from "../../../assets/mockData/Moca_data";
 import Inventory from "components/productCatalog/Inventory/Inventory";
 
 interface SelectedValuesState {
@@ -223,7 +211,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData?.mainForm || {}
   );
   const [options, setOptions] = useState<option[]>([]);
-  const [options1, setOptions1] = useState<Option[]>(cuisine);
+  const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });

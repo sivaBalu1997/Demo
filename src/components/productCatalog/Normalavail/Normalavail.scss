@@ -410,6 +410,9 @@ text-align: left;
 
 .onlineselected {
   margin-left: -10px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 .Third1{
   margin-top: 20px;
@@ -426,7 +429,7 @@ text-align: left;
   justify-content: flex-start;
 }
 .swiggyZomato-input {
-  margin-top: 40px;
+  margin-top: 25px;
   width: 200px;
   height: 44px;
   // border: 1px solid red;

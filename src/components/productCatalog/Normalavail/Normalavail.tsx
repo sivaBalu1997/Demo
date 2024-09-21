@@ -915,7 +915,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
               {selectedthirdvalues.includes("Zomato") && (
                 <div className="LabelSwiggyInputDropDown">
                   <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading">Zomato</label>
+                    <label className="swiggyZomatoHeading">Zomato Price</label>
                     <input
                       className="swiggyZomato-input"
                       type="text"
