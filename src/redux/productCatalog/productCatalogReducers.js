@@ -54,7 +54,19 @@ import {
   CATEGORY_DATA_FAILURE,
   BESTPAIR_DATA_FAILURE,
   BESTPAIR_DATA_REQUEST,
-  BESTPAIR_DATA_SUCCESS
+  BESTPAIR_DATA_SUCCESS,
+  DELETEDIETARY_REQUEST,
+  DELETEDIETARY_SUCCESS,
+  DELETEDIETARY_FAILURE,
+  DELETECUISINE_REQUEST,
+  DELETECUISINE_SUCCESS,
+  DELETECUISINE_FAILURE,
+  DELETECATEGORY_REQUEST,
+  DELETECATEGORY_SUCCESS,
+  DELETECATEGORY_FAILURE,
+  DELETESUBCATEGORY_REQUEST,
+  DELETESUBCATEGORY_SUCCESS,
+  DELETESUBCATEGORY_FAILURE
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -91,7 +103,23 @@ const initialProductCatalogState = {
   modifier: [],
   getModifierLoading: false,
   getModifierSuccess: false,
+  
+  //delete dropdown
+  deleteDietarySuccess: false,
+  deleteDietaryFailure: false,
+  deleteDietaryLoading: false,
 
+  deleteCuisineSuccess: false,
+  deleteCuisineFailure: false,
+  deleteCuisineLoading: false,
+
+  deleteCategorySuccess: false,
+  deleteCategoryFailure: false,
+  deleteCategoryLoading: false,
+
+  deleteSubCategorySuccess: false,
+  deleteSubCategoryFailure: false,
+  deleteSubCategoryLoading: false,
 
   addMenuLoading: false,
   addMenuSuccess: false,
@@ -398,6 +426,71 @@ export default function productCatalogReducer(
       case CLEAR_MENU_ITEM_MSG:
         draft.updateMenuAttributeSuccess = "";
         break;
+
+      case DELETEDIETARY_REQUEST:
+        draft.deleteDietarySuccess = false;
+        draft.deleteDietaryFailure = false;
+        draft.deleteDietaryLoading = true;
+        break;
+      case DELETEDIETARY_SUCCESS:
+        draft.deleteDietarySuccess = true;
+        draft.deleteDietaryFailure = false;
+        draft.deleteDietaryLoading = false;
+        break;
+      case DELETEDIETARY_FAILURE:
+        draft.deleteCuisineSuccess = false;
+        draft.deleteCuisineFailure = true;
+        draft.deleteCuisineLoading = false;
+        break;
+
+      case DELETECUISINE_REQUEST:
+        draft.deleteCuisineSuccess = false;
+        draft.deleteCuisineFailure = false;
+        draft.deleteCuisineLoading = true;
+        break;
+      case DELETECUISINE_SUCCESS:
+        draft.deleteCuisineSuccess = true;
+        draft.deleteCuisineFailure = false;
+        draft.deleteCuisineLoading = false;
+        break;
+      case DELETECUISINE_FAILURE:
+        draft.deleteCuisineSuccess = false;
+        draft.deleteCuisineFailure = true;
+        draft.deleteCuisineLoading = false;
+        break;
+
+      case DELETECATEGORY_REQUEST:
+        draft.deleteCategorySuccess = false;
+        draft.deleteCategoryFailure = false;
+        draft.deleteCategoryLoading = true;
+        break;
+      case DELETECATEGORY_SUCCESS:
+        draft.deleteCategorySuccess = true;
+        draft.deleteCategoryFailure = false;
+        draft.deleteCategoryLoading = false;
+        break;
+      case DELETECATEGORY_FAILURE:
+        draft.deleteCategorySuccess = false;
+        draft.deleteCategoryFailure = true;
+        draft.deleteCategoryLoading = false;
+        break;
+
+      case DELETESUBCATEGORY_REQUEST:
+        draft.deleteSubCategorySuccess = false;
+        draft.deleteSubCategoryFailure = false;
+        draft.deleteSubCategoryLoading = true;
+        break;
+      case DELETESUBCATEGORY_SUCCESS:
+        draft.deleteSubCategorySuccess = true;
+        draft.deleteSubCategoryFailure = false;
+        draft.deleteSubCategoryLoading = false;
+        break;
+      case DELETESUBCATEGORY_FAILURE:
+        draft.deleteSubCategorySuccess = false;
+        draft.deleteSubCategoryFailure = true;
+        draft.deleteSubCategoryLoading = false;
+        break;
+        
       default:
         break;
     }

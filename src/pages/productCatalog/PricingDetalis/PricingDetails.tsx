@@ -18,6 +18,7 @@ import Navigationpage from "components/productCatalog/Navigation/NavigationPage"
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import Inventory from "components/productCatalog/Inventory/Inventory";
+import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -203,6 +204,9 @@ const PricingDetails = () => {
   );
   const data = useSelector(
     (state: StateData) => state.productCatalog.availability
+  );
+  const dietaryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.dietaryData
   );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
@@ -513,7 +517,7 @@ const PricingDetails = () => {
                 <div className="kitche-stations-dropdown">
                   <Dropdown
                     name="kitchenstation"
-                    options={options1}
+                    options={dietaryData}
                     type="checkbox"
                     setOptions={setOptions1}
                     placeholder="Search for option"

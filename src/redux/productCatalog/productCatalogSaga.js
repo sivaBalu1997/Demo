@@ -34,7 +34,10 @@ import {
   subCategoryDataFailure,
   bestPairDataSuccess,
   bestPairDataFailure,
-  bestPairDataRequest
+  bestPairDataRequest,
+  deleteDietarySuccess,
+  deleteDietaryFailure,
+  fetchDropDownFailure
 
 
 } from "./productCatalogActions";
@@ -54,7 +57,8 @@ import {
   getCuisineData,
   getCategorydata,
   getSubCategoryData,
-  getBestPairData
+  getBestPairData,
+  getSubSectionData
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -73,80 +77,55 @@ import {
   CUISINE_DATA_REQUEST,
   CATEGORY_DATA_REQUEST,
   SUBCATEGORY_DATA_REQUEST,
-  BESTPAIR_DATA_REQUEST
+  BESTPAIR_DATA_REQUEST,
+  FETCHDROPDOWN_REQUEST,
+  DELETEDROPDOWN_REQUEST
  
 } from "./productCatalogConstants";
 
-
-//Dietary
-function* getdietarySaga(action) {
+function* fetchDropdownDataSaga(action) {
+  // const { dropDownType } = action.payload;
   try {
-    const response = yield call(getDietarydata, action.payload);
+    const response = yield call(getSubSectionData, action.payload);
     if (response) {
-      yield put(dietdatasuccess(response));
-    } 
-    else {
-      yield put(dietdatafailure({ message: "please Try Again" }));
+      switch (action.payload) {
+        case 'dietary':
+          yield put(dietdatasuccess(response));
+          break;
+        case 'cuisine':
+          yield put(cuisineDataSuccess(response));
+          break;
+        case 'category':
+          yield put(catogoryDataSuccess(response));
+          break;
+        case 'subCategory':
+          yield put(subCategoryDataSuccess(response));
+          break;
+        case 'bestPair':
+          yield put(bestPairDataSuccess(response));
+          break;
+        default:
+          throw new Error('Invalid type');
+      }
+    } else {
+      yield put(fetchDropDownFailure({ message: 'Please try again' }));
     }
   } catch (err) {
-    yield put(dietdatafailure({ message: "please Try Again" }));
+    yield put(fetchDropDownFailure({ message: 'Please try again' }));
   }
 }
 
-//cuisine 
-function* getCuisineSaga(action) {
+//Delete subSection
+function* deleteSubSectionSaga(action) {
   try{
-    const response = yield call(getCuisineData, action.payload)
+    const response = yield call(deleteSubSectionSaga, action.payload)
     if(response){
-      yield put(cuisineDataSuccess(response))
-    }
-    else {
-      yield put(cuisineDataFailure({message: 'please Try Again'}))
-    }
-  } catch(err){
-    yield put(cuisineDataFailure({message: 'please Try Again'}))
-  }
-} 
-
-//category
-function* getCategorySaga(action) {
-  try {
-    const response = yield call(getCategorydata, action.payload)
-    if(response){
-      yield put(catogoryDataSuccess(response))
+      yield put(deleteDietarySuccess(response))
     }else{
-      yield put(catogoryDataFailure({message: 'please Try Again'}))
-    }
-  }catch (err){
-    yield put(catogoryDataFailure({message: 'please Try Again'}))
-  }
-}
-
-//subCategory
-function* getSubCategorySaga(action){
-  try{
-    const response = yield call(getSubCategoryData, action.payload)
-    if(response){
-      yield put(subCategoryDataSuccess(response))
-    }else{
-      yield put(subCategoryDataFailure({message: 'please Try Again'}))
+      yield put(deleteDietaryFailure({message:'please Try Again'}))
     }
   }catch(err){
-    yield put(subCategoryDataFailure({message: 'please Try Again'}))
-  }
-}
-
-//bestPair
-function* getBestPairDataSaga(action){
-  try{
-    const response = yield call(getBestPairData, action.payload)
-    if(response){
-      yield put(bestPairDataSuccess(response))
-    }else{
-      yield put(bestPairDataFailure({message: 'please Try Again'}))
-    }
-  }catch(err){
-    yield put(bestPairDataFailure({message: 'please Try Again'}))
+    yield put(deleteDietaryFailure({message:'please Try Again'}))
   }
 }
 
@@ -274,13 +253,10 @@ function* GetImageSaga(action) {
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
 
-  yield takeLatest(DIET_DROPDOWN_LIST_REQUEST, getdietarySaga);
-  yield takeLatest(CUISINE_DATA_REQUEST, getCuisineSaga);
-  yield takeLatest(CATEGORY_DATA_REQUEST, getCategorySaga);
-  yield takeLatest(SUBCATEGORY_DATA_REQUEST, getSubCategorySaga);
-  yield takeLatest(BESTPAIR_DATA_REQUEST, getBestPairDataSaga)
+  yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
+  yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga)
 
-  yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
+  // yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);
   yield takeLatest(GET_INGR_REQUEST, getIngredientsSaga);
   yield takeLatest(ADD_MENU_ITEM_REQUEST, addMenuItemSaga);

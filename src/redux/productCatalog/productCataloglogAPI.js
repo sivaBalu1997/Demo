@@ -10,24 +10,19 @@ export function getCategory(locationId) {
   });
 }
 
-export function getDietarydata(){
+
+//get dropDown
+export function getSubSectionData(){
   return dietarytype;
 }
 
-export function getCuisineData(){
-  return cuisine;
-}
-
-export function getCategorydata(){
-  return categoryType;
-}
-
-export const getSubCategoryData = () => {
-  return subcategory;
-}
-
-export const getBestPairData = () => {
-  return bestPairType;
+//Delete subsection
+export const deleteSubSection = ({data}) => {
+  return API ({
+    method: 'delete',
+    url: `/api/v1/menu-items/sub-section`,
+    data: {data}
+  })
 }
 
 export function getSubCategory({ locationId, id }) {

@@ -8,7 +8,9 @@ import { useDispatch } from "react-redux";
 import {
   bestPairDataRequest,
   cuisineDataRequest,
+  deleteDropDowRequest,
   dietdatarequest,
+  fetchDropDownRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 interface media {
@@ -88,7 +90,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   const dispatch = useDispatch();
 
   const getdatafrosaga = () => {
-    dispatch(actionToDispatch(dropDownType));
+    console.log({dropDownType})
+    dispatch(fetchDropDownRequest(dropDownType));
   };
 
   useEffect(() => {
@@ -118,7 +121,9 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
-    getdatafrosaga();
+    if(dropDownType){
+      getdatafrosaga();
+    }
   };
 
   useEffect(() => {
@@ -212,8 +217,9 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
-    setOptions((item: any) => item.filter((opt: any) => opt.id !== value)); // Need to change the type annotation
+    // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
+    // setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
+    dispatch(deleteDropDowRequest(dropDownType))
   };
 
   // const handleBlur = () => {

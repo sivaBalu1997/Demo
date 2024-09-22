@@ -66,7 +66,25 @@ import {
   BESTPAIR_DATA_FAILURE,
   SUBCATEGORY_DATA_REQUEST,
   SUBCATEGORY_DATA_SUCCESS,
-  SUBCATEGORY_DATA_FAILURE
+  SUBCATEGORY_DATA_FAILURE,
+  DELETEDIETARY_REQUEST,
+  DELETEDIETARY_SUCCESS,
+  DELETEDIETARY_FAILURE,
+  DELETECUISINE_REQUEST,
+  DELETECUISINE_SUCCESS,
+  DELETECUISINE_FAILURE,
+  DELETECATEGORY_REQUEST,
+  DELETECATEGORY_SUCCESS,
+  DELETECATEGORY_FAILURE,
+  DELETESUBCATEGORY_REQUEST,
+  DELETESUBCATEGORY_SUCCESS,
+  DELETESUBCATEGORY_FAILURE,
+  FETCHDROPDOWN_FAILURE,
+  FETCHDROPDOWN_REQUEST,
+  FETCHDROPDOWN_SUCCESS,
+  DELETEDROPDOWN_REQUEST,
+  DELETEDROPDOWN_SUCCESS,
+  DELETEDROPDOWN_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -438,4 +456,99 @@ export const subCategoryDataSuccess = (response) => ({
 export const subCategoryDataFailure= (error) => ({
   type: SUBCATEGORY_DATA_FAILURE,
   payload: error, 
+})
+
+export const fetchDropDownRequest=(data)=>({
+  type: FETCHDROPDOWN_REQUEST,
+  payload: data, 
+
+})
+
+export const fetchDropDownSuccess = (response) => ({
+  type: FETCHDROPDOWN_SUCCESS,
+  payload: response, 
+});
+
+export const fetchDropDownFailure = (error) => ({
+  type: FETCHDROPDOWN_FAILURE,
+  payload: error
+})
+
+//delete Dietary
+export const deleteDietaryRequest = (data) => ({
+  type: DELETEDIETARY_REQUEST,
+  payload: data
+})
+
+export const deleteDietarySuccess = (response) => ({
+  type: DELETEDIETARY_SUCCESS,
+  payload: response
+})
+
+export const deleteDietaryFailure = (error) => ({
+  type: DELETEDIETARY_FAILURE,
+  payload: error
+})
+
+//delete Cuisine
+export const deleteCuisineRequest = (data) => ({
+  type: DELETECUISINE_REQUEST,
+  payload: data
+})
+
+export const deleteCuisineSuccess = (response) => ({
+  type: DELETECUISINE_SUCCESS,
+  payload: response
+})
+
+export const deleteCuisineFailure = (error) => ({
+  type: DELETECUISINE_FAILURE,
+  payload: error
+})
+
+//delete category
+export const deleteCategoryRequest = (data) => ({
+  type: DELETECATEGORY_REQUEST,
+  payload: data
+})
+
+export const deleteCategorySuccess = (response) => ({
+  type: DELETECATEGORY_SUCCESS,
+  payload: response
+})
+
+export const deleteCategoryFailure = (error) => ({
+  type: DELETECATEGORY_FAILURE,
+  payload: error
+})
+
+//delete sub-category
+export const deleteSubCategoryRequest = (data) => ({
+  type: DELETESUBCATEGORY_REQUEST,
+  payload: data
+})
+
+export const deleteSubCategorySuccess = (response) => ({
+  type: DELETESUBCATEGORY_SUCCESS,
+  payload: response
+})
+
+export const deleteSubCategoryFailure = (error) => ({
+  type: DELETESUBCATEGORY_FAILURE,
+  payload: error
+})
+
+export const deleteDropDowRequest = (data) => ({
+  type: DELETEDROPDOWN_REQUEST,
+  payload: data
+})
+
+export const deleteDropDownSuccess = (response) => ({
+  type: DELETEDROPDOWN_SUCCESS,
+  payload: response
+})
+
+export const deleteDropDownFailure = (error) => ({
+  type: DELETEDROPDOWN_FAILURE,
+  payload: error
 })

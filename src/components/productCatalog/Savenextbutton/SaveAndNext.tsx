@@ -158,6 +158,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   //     masterCode: "",
   //   };
   // };
+
   const dispatch = useDispatch();
   const scrollToTop = () => {
     window.scrollTo({
@@ -165,8 +166,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       behavior: "smooth",
     });
   };
+
   const formData = getFormData();
-  // console.log("uploading", formData);
   const handleclick = async () => {
     // if (seletedpage === "Primary" && triggerValidation) {
     //   const isFormValid = await triggerValidation(formData);
@@ -178,7 +179,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
-    if (seletedpage === "Primary"&& triggerValidation) {
+    if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
       if (!isFormValid) {
         window.scrollTo({
