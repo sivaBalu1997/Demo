@@ -6,6 +6,7 @@ import removeicon from "../../../assets/svg/removeicon.svg";
 import Header from "../../../components/productCatalog/Header/Header";
 import closeicon from "../../../assets/svg/closeicon.svg";
 import toggleround from "../../../assets/svg/toggleround.svg";
+import calendericon from '../../../assets/svg/calendericon.svg'
 import dollaricon from "../../../assets/svg/dollaricon.svg";
 import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
@@ -18,16 +19,38 @@ import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableT
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
+import { useSelector, useDispatch } from "react-redux";
+import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { combinedItemsData } from "assets/mockData/Moca_data";
 
 export const Menulisting = () => {
-  const [itemsState, setItemsState] = useState(itemsdata);
-  const [itemsFoodState, setItemsFoodState] = useState(itemsfooddata);
+  const dispatch = useDispatch();
+
   const { isExpanded } = useContext(Contextpagejs);
+  // console.log({ isExpanded });
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
+
+  useEffect(() => {
+    dispatch(storeMockDataRequest(combinedItemsData));
+  }, []);
+
+  const addedData=useSelector((state)=> state.addMockDataReducer.data)
+
+  const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
+  const FilteredData = useSelector(
+    (state) => state.storeMockDataFilteredReducer.data
+  );
+  const [FilteredObject, setFilteredObject] = useState([]);
+
+  useEffect(() => {
+    setFilteredObject(FilteredData);
+  }, [FilteredData]);
+
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
     index: null,
   });
+
   const [draggingOverIndex, setDraggingOverIndex] = useState(null);
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
@@ -35,6 +58,9 @@ export const Menulisting = () => {
   const tableBodyRef1 = useRef(null);
   const tableBodyRef2 = useRef(null);
   const Outsideref = useRef(null);
+  const [SteamedVeg, setSteamedVeg] = useState([]);
+  const [SteamedNonVeg, setSteamedNonVeg] = useState([]);
+
   const [classNames, setclassNames] = useState([
     "Dinein1-class",
     "Pickup1-class",
@@ -110,17 +136,62 @@ export const Menulisting = () => {
   const [steamType, setsteamType] = useState([
     {
       id: 1,
-      name: itemsState,
+      name: [],
+      type: "SteamedVeg",
     },
     {
       id: 2,
-      name: itemsFoodState,
+      name: [],
+      type: "SteameNondVeg",
     },
   ]);
+  const [SideBarData, setSideBar] = useState([]);
+  const mergedMockData =  [ ...Mockdata,...addedData] 
+
+  // console.log(mergedMockData)
+  // console.log(addedData)
+
+  useEffect(() => {
+    const tempArray1 = [];
+    const tempArray2 = [];
+
+
+    if (FilteredData.length === 0) {
+      mergedMockData.forEach((item) => {
+        console.log("Item type:", item.type);
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);
+        } else {
+          tempArray2.push(item);
+        }
+      });
+    } else {
+      FilteredData.forEach((item) => {
+        console.log("Item type:", item.type);
+        if (item.type === "steamedVeg") {
+          tempArray1.push(item);
+        } else {
+          tempArray2.push(item);
+        }
+      });
+    }
+    setSteamedVeg(tempArray1);
+    setSteamedNonVeg(tempArray2);
+  }, [Mockdata, FilteredData]);
+  
+
+  useEffect(() => {
+    setsteamType([
+      { id: 1, name: SteamedVeg, type: "SteamedVeg" },
+      { id: 2, name: SteamedNonVeg, type: "SteameNondVeg" },
+    ]);
+  }, [SteamedVeg, SteamedNonVeg]);
 
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
+
+
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
       const updatedFirstRowTable = [...firstRowTable];
@@ -165,6 +236,7 @@ export const Menulisting = () => {
           return { ...item };
         });
       };
+
       const updatedsteamType = updatePricingDetails(item1, index);
       const updatedsteamType1 = updatePricingDetails(item2, index);
       setFirstRowTable(updatedFirstRowTable);
@@ -178,6 +250,7 @@ export const Menulisting = () => {
       setDraggedIndexsample(index);
     }
   };
+
   const handleColumnwiseDragEnd = () => {
     setDraggedIndexsample(null);
   };
@@ -196,7 +269,6 @@ export const Menulisting = () => {
     updatedRows.splice(draggedRowIndex, 1);
     updatedRows.splice(index, 0, draggedRow);
     setsteamType(updatedRows);
-    console.log("steamType", steamType);
     setDraggedRowIndex(null);
   };
 
@@ -208,6 +280,7 @@ export const Menulisting = () => {
     if (draggedRowIndex.objectId === null || draggedRowIndex.index === null) {
       return;
     }
+
     const draggedObjectId = draggedRowIndex.objectId;
     const draggedIndex = draggedRowIndex.index;
     if (draggedObjectId === objectId && draggedIndex !== index) {
@@ -220,25 +293,30 @@ export const Menulisting = () => {
         const draggingitme = updatedsteamType[draggedIndex];
         updatedsteamType.splice(draggedIndex, 1);
         updatedsteamType.splice(index, 0, draggingitme);
-        console.log("indexofvalue", updatedsteamType);
         updatedTypes[indexofvalue].name = updatedsteamType;
         setsteamType(updatedTypes);
         setDraggedRowIndex({ objectId, index });
       }
     }
   };
+
   const handleRowDragEnd = () => {
     setDraggedRowIndex({ objectId: null, index: null });
     setDraggingOverIndex(null);
   };
 
-  const handlemodal = () => {
+  const handlemodal = (value) => {
     setmodal(true);
+    console.log(value);
+
+    console.log(Mockdata.filter((item) => item.id === value));
+    setSideBar(Mockdata.filter((item) => item.id === value));
   };
 
   const showsidebar = (key) => {
     if (key === "Dinein1" || key === "Pickup1" || key === "Delivery1") {
       handlemodal();
+
       setSideBarText("Pricing");
     } else if (key === "Dinein2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();
@@ -294,6 +372,7 @@ export const Menulisting = () => {
       setshowheadinglist(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", Outsideclicking, true);
     return () => {
@@ -301,6 +380,13 @@ export const Menulisting = () => {
     };
   }, [showheadinglist]);
 
+
+  const selectedItems =
+    FilteredObject &&
+    FilteredObject.length > 0 &&
+    FilteredObject[0] &&
+    Array.isArray(FilteredObject[0]) &&
+    FilteredObject[0].map((item) => item);
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>
       <SidePanel />
@@ -345,6 +431,7 @@ export const Menulisting = () => {
                   <React.Fragment key={index}>
                     <RowHeading
                       objectId={object.id}
+                      object={object}
                       index={index}
                       onDragStart={handledragvegnonvegdragstart}
                       onDragOver={handledragvegnonvegdropover}
@@ -353,6 +440,10 @@ export const Menulisting = () => {
 
                     <TableOneBody
                       object={object}
+                      typevalue={object.type}
+                      index={index}
+                      FilteredData={FilteredData}
+                      objectLength={FilteredData.length}
                       draggingOverIndex={draggingOverIndex}
                       draggedRowIndex={draggedRowIndex}
                       handleRowDragStart={handleRowDragStart}
@@ -362,6 +453,9 @@ export const Menulisting = () => {
                       handlemodal={handlemodal}
                       tableBodyRef1={tableBodyRef1}
                       tableBodyRef2={tableBodyRef2}
+                      handlevegrowstart={handledragvegnonvegdragstart}
+                      handlevegrowover={handledragvegnonvegdropover}
+                      handlevegrowend={handledragvegnonvegdropend}
                     />
                   </React.Fragment>
                 ))}
@@ -390,7 +484,7 @@ export const Menulisting = () => {
                         handleColumnwiseDragEnd={handleColumnwiseDragEnd}
                         dots={dots}
                         dollar={dollar}
-                        togglebtns={togglebtns}
+                        calendericon={calendericon}
                         removeicon={removeicon}
                       />
                     </React.Fragment>
@@ -423,17 +517,20 @@ export const Menulisting = () => {
                   return (
                     <React.Fragment key={indexvalue}>
                       <tr>
-                        {indexvalue === 1 && (
+                        {indexvalue === 1 &&  !(steamType[0].name.length<=0 ||steamType[1].name.length<=0 ) &&(
                           <tr className="itemheading2row"></tr>
                         )}
                       </tr>
-
+                      {/* //  */}
                       <TableTwoBody
                         itemobject={itemobject}
                         indexvalue={indexvalue}
                         classNamesinner={classNamesinner}
                         listingobject={listingobject}
                         showsidebar={showsidebar}
+                        SideBarData={SideBarData}
+                        setSideBar={setSideBar}
+                        handlemodal={handlemodal}
                       />
                     </React.Fragment>
                   );
@@ -442,7 +539,11 @@ export const Menulisting = () => {
             </table>
           </div>
           {modal && (
-            <Slider onclose={() => setmodal(false)} sidebartext={sidebartext} />
+            <Slider
+              sidebartext={sidebartext}
+              SideBarData={SideBarData}
+              onclose={()=>setmodal(false)}
+            />
           )}
         </div>
       </div>

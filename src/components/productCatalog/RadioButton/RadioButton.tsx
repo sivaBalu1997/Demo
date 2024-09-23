@@ -1,5 +1,5 @@
 import React from 'react';
-import './RadioButton.scss'
+import './RadioButton.scss';
 
 interface RadioButtonOption {
   value: string;
@@ -12,26 +12,21 @@ interface RadioButtonGroupProps {
   name: string;
   onChange: (value: string) => void;
   register: any;
-  defaultvalue:string
 }
 
-const RadioButton: React.FC<RadioButtonGroupProps> = ({ options, selectedValue, name, onChange, register,defaultvalue }) => {
+const RadioButton: React.FC<RadioButtonGroupProps> = ({ options, selectedValue, name, onChange, register }) => {
   return (
     <div className="radio-button-group">
       {options.map((option) => (
         <label key={option.value} className="radio-button">
-          <div className='radio-button-input-and-label'>
+          <div className="radio-button-input-and-label">
             <input
               type="radio"
               {...register(name)}
               value={option.value}
-              checked={selectedValue === option.value }
-              onChange={() => onChange(option.value)}
-              className='radio-button-input'
-              
-              
-
-
+              checked={selectedValue === option.value}
+              onChange={() => onChange(option.value)} // Trigger change handler
+              className="radio-button-input"
             />
             {option.label}
           </div>

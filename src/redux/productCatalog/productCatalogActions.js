@@ -40,6 +40,22 @@ import {
   Pricing_Detail_Data_Request,
   Pricing_Detail_Data_Success,
   Pricing_Detail_Data_Failure,
+  Get_ItemImage,
+  Get_ItemImage_Success,
+  Get_ItemImage_Failure,
+  STORE_MOCK_DATA_REQUEST,
+  STORE_MOCK_DATA_SUCCESS,
+  STORE_MOCK_DATA_FAILURE,
+  STORE_MOCK_DATA_FILTERED_REQUEST,
+  STORE_MOCK_DATA_FILTERED_SUCCESS,
+  STORE_MOCK_DATA_FILTERED_FAILURE,
+  ADD_MOCK_DATA_REQUEST,
+  ADD_MOCK_DATA_SUCCESS,
+  ADD_MOCK_DATA_FALIURE,
+  DIET_DROPDOWN_LIST_REQUEST,
+  DIET_DROPDOWN_LIST_SUCCESS,
+  DIET_DROPDOWN_LIST_FAILURE
+
 } from "./productCatalogConstants";
 
 // Get Menu Category
@@ -261,3 +277,86 @@ export const PricingDetailFailure = (error) => ({
   type: Pricing_Detail_Data_Failure,
   payload: error,
 });
+
+//{******************Item_Image_From_Internet*****************************************************}
+
+export const Get_Image = () => ({
+  type: Get_ItemImage,
+});
+
+
+export const Get_Image_Success = (data) => ({
+  type: Get_ItemImage_Success,
+  payload: data,
+});
+
+export const Get_Image_Failed = (data) => ({
+  type: Get_ItemImage_Failure,
+  payload: data,
+});
+
+
+export const storeMockDataRequest = (data) => ({
+  type: STORE_MOCK_DATA_REQUEST,
+  payload:data
+});
+
+export const storeMockDataSuccess = (response) => ({
+  type: STORE_MOCK_DATA_SUCCESS,
+  payload: response, 
+});
+
+export const storeMockDataFailure = (error) => ({
+  type: STORE_MOCK_DATA_FAILURE,
+  payload: error, 
+})
+
+export const storeMockDataFilteredRequest = (data) => ({
+  type: STORE_MOCK_DATA_FILTERED_REQUEST,
+  payload:data
+});
+
+export const storeMockDataFilteredSuccess = (response) => ({
+  type: STORE_MOCK_DATA_FILTERED_SUCCESS,
+  payload: response, 
+});
+
+export const storeMockDataFilteredFailure = (error) => ({
+  type: STORE_MOCK_DATA_FILTERED_FAILURE,
+  payload: error, 
+})
+
+
+// {************AddMockDataRedux***********************************}
+
+export const addMockDataRequest = (data) => ({
+  type: ADD_MOCK_DATA_REQUEST,
+  payload:data
+});
+
+export const addMockDataSuccess = (response) => ({
+  type: ADD_MOCK_DATA_SUCCESS ,
+  payload: response, 
+});
+
+export const addMockDataFailure = (error) => ({
+  type: ADD_MOCK_DATA_FALIURE,
+  payload: error, 
+})
+
+
+export const dietdatarequest=(data)=>({
+  type: DIET_DROPDOWN_LIST_REQUEST,
+  payload: data, 
+
+})
+
+export const dietdatasuccess = (response) => ({
+  type:DIET_DROPDOWN_LIST_SUCCESS,
+  payload: response, 
+});
+
+export const dietdatafailure = (error) => ({
+  type: DIET_DROPDOWN_LIST_FAILURE,
+  payload: error, 
+})

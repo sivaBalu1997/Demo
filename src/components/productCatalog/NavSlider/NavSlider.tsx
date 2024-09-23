@@ -6,14 +6,35 @@ import Inventory from '../Inventory/Inventory';
 import CustomizeSlider from '../CustomizeSlider/CustomizeSlider';
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 
+
 interface NavMenuProps {
   pen?: true; // Since you're using `pen` as `true`, you may want to use `boolean` instead of hardcoding `true`
   sidebartext: string | null;
   eye?:boolean
   trash?:boolean
+  SideBarData?:SideBarData[];
+}
+interface SideBarData {
+  id: number;
+  itemName: string;
+  code: string;
+  type: string;
+  mealType: string;
+  dietary: string;
+  cusine: string;
+  pricingdetails: {
+    Dinein1: string[];
+    Pickup1: string[];
+    Delivery1: string[];
+    Dinein2: string[];
+    Pickup2: string[];
+    Delivery2: string[];
+    Inventory1: string[];
+    Customize1: string[];
+  };
 }
 
-const NavMenu: React.FC<NavMenuProps> = ({ pen, sidebartext }) => {
+const NavMenu: React.FC<NavMenuProps> = ({ pen,eye, sidebartext,SideBarData=[]}) => {
   const { menuItems, active, setActive } = useContext(Contextpagejs);
 
   // Create refs for each section
@@ -102,13 +123,13 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen, sidebartext }) => {
       <div className='navmenu-container'>
         {/* Each component has its own reference */}
         <div ref={pricingRef} className="section" data-section="Pricing">
-          <PricingSlider  />
+          <PricingSlider SideBarData={SideBarData}  />
         </div>
         <div ref={availabilityRef} className="section" data-section="Availability">
-          <AvailabilitySlider />
+          <AvailabilitySlider SideBarData={SideBarData}   />
         </div>
         <div ref={inventoryRef} className="section" data-section="Inventory">
-          <Inventory  />
+          <Inventory  SideBarData={SideBarData} />
         </div>
         <div ref={customizeRef} className="section" data-section="Customize">
           <CustomizeSlider  />

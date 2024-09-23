@@ -1,29 +1,25 @@
-// {/* {**********************HeaderSection*****************************************************************} */}
 .Header-Container {
   width: 100%;
   position: sticky;
   height: 80px;
-
   left: -20px;
-  // border: 2px solid red;
   padding: 10px;
-  z-index: 600;
   top: 25px;
+  z-index: 600;
+
   display: flex;
   justify-content: space-between;
   transition: left 0.4s ease-in;
-  // background-color: #FFFFFF;
+  margin-left: 30px;
 }
 
 .Header-Container1 {
   width: 100%;
   position: relative;
   height: 80px;
-
-  left: -20px;
-  // border: 2px solid red;
+  // left: -20px;
   padding: 10px;
-  z-index: 600;
+    z-index: 600;
   top: 0px;
   display: flex;
   justify-content: space-between;
@@ -34,7 +30,6 @@
   display: flex;
   width: 962.45px;
   height: 44px;
-  //   border: 2px solid powderblue;
   justify-content: start;
   padding-left: -10px;
   gap: 20px;
@@ -43,20 +38,20 @@
 // {******************************Filter**************************************************************************}
 
 .FilterIcon-Header {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   position: relative;
-  left: 9px;
-  top: 2px;
+ left: -0.5rem;
+  top:0.1rem;
   cursor: pointer;
 }
 .FilterIcon-Header1 {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   position: relative;
-  left: -10px;
+  left: 0px;
   top: 2px;
-  cursor: pointer;
+  cursor: pointer;  
 }
 
 .Filter-FlexCol {
@@ -92,7 +87,7 @@
   width: 65.53px;
   height: 44px;
   position: absolute;
-  left: 900px;
+  left: 700px;
   top: 4%;
   cursor: pointer;
 }
@@ -106,7 +101,14 @@
 }
 .Excel1 {
   position: relative;
-  left: 20%;
+  left: 4rem;
+  top: 0%;
+}
+
+.Excel {
+  position: relative;
+  left:  10.5rem;
+  top: 5%;
 }
 
 .Excel-flex-col {
@@ -150,11 +152,12 @@
 }
 .Excel-Header-Download.Exceldownloadicon {
   position: relative !important;
-  left: -10% !important;
+  left: 43px;
+  // top: 10px;
 }
 .Exceldownloadicon1 {
   position: relative !important;
-  left: 60% !important;
+  left: 65% !important;
 }
 
 .Excel-Header-Download1 {
@@ -196,8 +199,8 @@
 /* {**********************Header Button*****************************************************************} */
 
 .Add-Item-Container {
-  width: 115px;
-  height: 3rem;
+  width: 101px;
+  height: 2.5rem;
   display: flex;
   justify-content: flex-start;
   background-color: #67833e;
@@ -207,14 +210,15 @@
   cursor: pointer;
   transform: translateX(80px);
   position: relative;
-  left: -150px;
+  left: -100px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .Add-Item-Container1 {
-  width: 115px;
-  height: 3rem;
+  width: 100px;
+  height: 2.5rem;
   display: flex;
   justify-content: flex-start;
   background-color: #67833e;
@@ -224,24 +228,23 @@
   cursor: pointer;
   transform: translateX(80px);
   position: relative;
-  left: -150px;
+  right: 160px;
   display: flex;
   justify-content: center;
   align-items: center;
-  // transition: left 0.2s ease-in-out;
 }
 .Add-Item-Heading-Plus {
   font-family: Poppins;
-  font-weight: 200;
-  font-size: 28px;
-  line-height: 24px;
+  font-weight: 500;
+  font-size: 14px;
+  // line-height: 30px;
   color: #ffffff;
 }
 
 .Add-Item-Heading {
   font-family: Poppins;
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
   line-height: 24px;
   color: #ffffff;
   text-align: center;

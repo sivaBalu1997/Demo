@@ -4,16 +4,17 @@
 
 .Special-Review-Container{
     position: absolute;
-    top: 420px;
+    top: 435px;
     left: 0px;
     
     // border: 2px solid red;
-    width: 600px;
+    width: 500px;
     height: auto;
+    // background-color: yellow;
 }
 
 .Available-Service-Streams-container{
-    width: 600px;
+    width: 510px;
     // border: 2px solid green;
     margin-bottom: 5px;
     height: auto;
@@ -28,6 +29,8 @@
     color: #000000;
     margin-top: 20px;
     margin-bottom: 20px;
+    // background-color: red;
+    width: fit-content;
 }
 
 /* {--------------From to container----------------------------------------------------------------} */

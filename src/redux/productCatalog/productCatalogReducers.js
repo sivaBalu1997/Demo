@@ -36,9 +36,21 @@ import {
   Primary_Post_Data_Send,
   Item_Customizations_Data_Request,
   Pricing_Detail_Data_Request,
+  Get_ItemImage,
+  STORE_MOCK_DATA_REQUEST,
+  STORE_MOCK_DATA_FILTERED_REQUEST,
+  ADD_MOCK_DATA_REQUEST,
+  DIET_DROPDOWN_LIST_REQUEST,
+  DIET_DROPDOWN_LIST_SUCCESS,
+  DIET_DROPDOWN_LIST_FAILURE
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
+
+  dietaryData:[],
+  getDietaryloading:false,
+  getDietarySuccess:false,
+
   categoryData: [],
   getCategoryLoading: false,
   getCategorySuccess: false,
@@ -51,9 +63,11 @@ const initialProductCatalogState = {
   ingredients: [],
   getIngredientsLoading: false,
   getIngredientsSuccess: false,
+  requestCompleted: false,
   modifier: [],
   getModifierLoading: false,
   getModifierSuccess: false,
+
 
   addMenuLoading: false,
   addMenuSuccess: false,
@@ -78,13 +92,37 @@ const initialProductCatalogState = {
   updateMenuAttributeFailed: false,
 };
 
-export default function employeeReducer(
+export default function productCatalogReducer(
   state = initialProductCatalogState,
   action
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
+   //dietary data
+      case  DIET_DROPDOWN_LIST_REQUEST:
+        draft.dietaryData = [];
+        draft.getDietaryloading = true;
+        draft.getDietarySuccess = false;
+        break;
+      case  DIET_DROPDOWN_LIST_SUCCESS:
+        draft.dietaryData = action.payload;
+        console.log("action.payload",action.payload)
+
+        draft.getDietaryloading = false;
+        draft.getDietarySuccess = true;
+        break;
+      case DIET_DROPDOWN_LIST_FAILURE:
+        draft.dietaryData = [];
+        draft.getDietaryloading = false;
+        draft.getDietarySuccess = false;
+        break;
+
+
       // Get Menu Category
+
+      
+
+
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
         draft.getCategoryLoading = true;
@@ -137,16 +175,19 @@ export default function employeeReducer(
         draft.ingredients = [];
         draft.getSubCategoryLoading = true;
         draft.getIngredientsSuccess = false;
+        draft.requestCompleted = false
         break;
       case GET_INGR_SUCCESS:
         draft.ingredients = action.payload;
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = true;
+        draft.requestCompleted = true
         break;
       case GET_INGR_FAILED:
         draft.ingredients = [];
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = false;
+        draft.requestCompleted = false
         break;
       // Get Modifier
       case GET_MODIFIER_REQUEST:
@@ -291,43 +332,115 @@ const primarypagedata = {
 export const primarypagereducer = (state = primarypagedata, action) => {
   switch (action.type) {
     case Primary_Post_Data_Send:
-      return {  ...state,data:action.payload }; 
+      return { ...state, data: action.payload };
     default:
       return state;
   }
-  };
+};
 
-  const initialState = {
+const initialState = {
+  itemData: [],
+  isLoading: false,
+  error: null,
+};
 
-    itemData: [],
-    isLoading: false,
-    error: null,
-   
-  };
-
-  export const itemCustomizationsReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case Item_Customizations_Data_Request:
-        return {  ...state,itemData:action.payload }; 
-      default:
-        return state;
-    }
-  };
+export const itemCustomizationsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case Item_Customizations_Data_Request:
+      return { ...state, itemData: action.payload };
+    default:
+      return state;
+  }
+};
 
 // {*******************Prizing Detail Page Redux Reducer***************}
 
+const PricingDetailPage = {
+  prizingData: [],
+};
 
-  const PricingDetailPage = {
-    prizingData: [],
+export const PricingDetailReducer = (state = PricingDetailPage, action) => {
+  switch (action.type) {
+    case Pricing_Detail_Data_Request:
+      return { ...state, prizingData: action?.payload };
+
+    default:
+      return state;
+  }
+};
+
+// {*******************Get_ImageName***************}
+
+const ItemImage = {
+  InitialImageData: "",
+};
+export const imageReducer = (state = ItemImage, action) => {
+  switch (action.type) {
+    case Get_ItemImage:
+      return {
+        ...state,
+        InitialImageData: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+const mockData = {
+  data: [],
+};
+
+export const storeMockDataReducer = (state = mockData, action) => {
+  switch (action.type) {
+    case STORE_MOCK_DATA_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
+      default:
+      return state;
+    }}
+
+ 
+
+ 
+
+  const mockDataFiltered = {
+    data: []
   };
+
+  export  const storeMockDataFilteredReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case STORE_MOCK_DATA_FILTERED_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
   
-  export const PricingDetailReducer=(state=PricingDetailPage,action)=>{
-    switch(action.type)
-    {
-      case Pricing_Detail_Data_Request:
-      return{...state,prizingData:action?.payload};
-      
+    
+  
       default:
         return state;
     }
+  };
+ 
+
+  // {**************************AddMockData***********************************************}
+
+  const addMockData = {
+    data: []
   }
+
+  export  const addMockDataReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case ADD_MOCK_DATA_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
+  
+    
+  
+      default:
+        return state;
+    }
+  };
+

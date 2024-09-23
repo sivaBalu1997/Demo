@@ -1,11 +1,18 @@
-import API from "../api";
+import { API,Image_API } from "redux/api";
 import Store from "../store";
+import Axios from "axios";
+import { dietarytype } from "assets/mockData/Moca_data";
 
 export function getCategory(locationId) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Category`,
   });
+}
+
+export function getDietarydata(){
+  console.log("dietary",dietarytype)
+  return dietarytype;
 }
 
 export function getSubCategory({ locationId, id }) {
@@ -75,4 +82,8 @@ export function getAvailability(locationId) {
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Availability`,
   });
+}
+
+export function getImage() {
+  return Axios.get('https://i.graphicmama.com/blog/wp-content/uploads/2016/12/20132839/french-fries-vector-image.jpg')
 }

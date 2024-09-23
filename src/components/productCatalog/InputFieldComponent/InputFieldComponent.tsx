@@ -1,51 +1,57 @@
-import React, { useEffect } from 'react'
-import './InputFieldComponent.scss'
-import { FieldError} from 'react-hook-form';
+import React from "react";
+import "./InputFieldComponent.scss";
+import { FieldError } from "react-hook-form";
 
-
-interface Inputfieldinterface
-{
-    name:string;
-    type?: string;
-    register: any;
-    required?: boolean;
-    validation?: any; 
-    error?: FieldError; 
-    trigger:any;
-    placeholder?:string
-    subtext?:string
+interface InputFieldInterface {
+  name: string;
+  type?: string;
+  value?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  trigger: any;
+  error?: any;
+  placeholder?: string;
+  subtext?: string;
 }
 
-const InputFieldComponent:React.FC<Inputfieldinterface> = ({name,type='text',register,required = false,validation,
-  error,trigger,placeholder,subtext}) => {
+const InputFieldComponent: React.FC<InputFieldInterface> = ({
+  name,
+  type,
+  value,
+  onChange,
+  trigger,
+  onBlur,
+  error,
+  placeholder,
+  subtext,
+}) => {
+  const handleBlur = () => {
+    trigger(name);
+  };
 
-    // useEffect(()=>{
-    //   trigger(name);
-
-    // },[name])
-     
-    const handleBlur=()=>{
-      trigger(name);
-  
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e);  // Call onChange with the event
+    trigger(name);  // Trigger validation after change
+  };
   return (
     <div>
-      <div className='input-and-spantext'>
-        <input 
-             {...register(name,validation)}
-          type={type} 
-          autoComplete='off' 
-          name={name} 
+      <div className="input-and-spantext">
+        <input
+          // {...register(name, validation)}
+          type={type}
+          autoComplete="off"
+          name={name}
+          value={value}
+          onChange={handleChange}
           onBlur={handleBlur}
           placeholder={placeholder}
-          className='Input-Filed'
-        
+          className="Input-Filed"
         />
-        <span className='placeholder'>{subtext}</span>
-         </div>
-        {error && <p className='Input-Field-Error-message'>{error.message}</p>}
+        <span className="placeholder">{subtext}</span>
+      </div>
+      {error && <p className="Input-Field-Error-message">{error.message}</p>}
     </div>
-  )
-}
+  );
+};
 
-export default InputFieldComponent
+export default InputFieldComponent;

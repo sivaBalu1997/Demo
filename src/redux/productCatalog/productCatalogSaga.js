@@ -21,6 +21,13 @@ import {
   getAvailabilityFailed,
   updateMenuAttributeSuccess,
   updateMenuAttributeFailed,
+  Get_Image,
+  Get_Image_Failed,
+  dietdatarequest,
+  dietdatasuccess,
+  dietdatafailure
+
+
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -33,6 +40,8 @@ import {
   getModifier,
   getAvailability,
   updateMenuItemAttribute,
+  getImage,
+  getDietarydata
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -46,7 +55,28 @@ import {
   GET_TAG_CLASS_REQUEST,
   UPDATE_MENU_ATTRIBUTE_REQUEST,
   UPDATE_MENU_ITEM_REQUEST,
+  Get_ItemImage,
+  DIET_DROPDOWN_LIST_REQUEST
+ 
 } from "./productCatalogConstants";
+
+
+function* getdietarySaga(action) {
+  try {
+    const response = yield call(getDietarydata, action.payload);
+    if (response) {
+      console.log("response from sagas", response);
+      yield put(dietdatasuccess(response));
+    } 
+    else {
+      yield put(dietdatafailure({ message: "please Try Again" }));
+    }
+  } catch (err) {
+    yield put(dietdatafailure({ message: "please Try Again" }));
+  }
+}
+
+
 
 function* getCategorySaga(action) {
   try {
@@ -60,6 +90,8 @@ function* getCategorySaga(action) {
     yield put(getMenuCategoryFailed({ message: "please Try Again" }));
   }
 }
+
+
 
 function* getSubCategorySaga(action) {
   try {
@@ -105,6 +137,9 @@ function* getIngredientsSaga(action) {
     const response = yield call(getIngredients, action.payload);
     if (response.status === 200) {
       yield put(getIngredientsSuccess(response.data));
+      if(action.payload?.sagaCallBack != null && typeof action.payload?.sagaCallBack === 'function'){
+        action.payload.sagaCallBack(response.data);
+      }
     } else {
       yield put(getIngredientsFailed({ message: "please Try Again" }));
     }
@@ -178,8 +213,25 @@ function* deleteMenuItemSaga(action) {
   }
 }
 
+
+function* GetImageSaga(action) {
+  try {
+    const response = yield call(getImage);
+    if (response.status === 200) {
+      yield put((response.data));
+    } else {
+      yield put(Get_Image_Failed({ message: "please Try Again" }));
+    }
+  } catch (err) {
+    yield put(Get_Image_Failed({ message: "please Try Again" }));
+  }
+}
+
 export default function* productCatalog() {
   yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
+ 
+  yield takeLatest( DIET_DROPDOWN_LIST_REQUEST, getdietarySaga);
+
   yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);
   yield takeLatest(GET_INGR_REQUEST, getIngredientsSaga);
@@ -189,4 +241,7 @@ export default function* productCatalog() {
   yield takeLatest(GET_MODIFIER_REQUEST, getModifierSaga);
   yield takeLatest(GET_AVAILABILITY_REQUEST, getAvailabilitySaga);
   yield takeLatest(UPDATE_MENU_ATTRIBUTE_REQUEST, updateMenuAttributeSaga);
+  yield takeLatest(Get_ItemImage, GetImageSaga);
 }
+
+

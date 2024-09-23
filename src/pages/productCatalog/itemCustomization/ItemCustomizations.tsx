@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, useContext } from "react";
 import "./ItemCustomizations.scss";
 import dotted from "../../../assets/images/dotted.png";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
@@ -11,6 +11,8 @@ import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownI
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import SidePanel from "pages/SidePanel";
+import { Contextpagejs } from "../contextpage";
+import Dropdown from "components/productCatalog/DropDown/Dropdown";
 
 // Define types
 interface Option {
@@ -27,6 +29,7 @@ interface ModificationError {
   options?: Option[];
   modifierName?: number;
 }
+
 const index = 0;
 
 const modificationError: ModificationError[] = [];
@@ -60,7 +63,11 @@ const ItemCustomizations: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
-  console.log(itemCustomizationData);
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+
+  const [validationState, setValidationState] = useState({
+    items: { isValid: true, errorMessage: "" },
+  });
 
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -297,15 +304,27 @@ const ItemCustomizations: React.FC = () => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
-  console.log(selectedValue);
-  console.log(modifications);
+
+  const handleDeleteModifier=(index:number)=>{
+    const newmodification=[...modifications]
+    newmodification.splice(index,1)
+    setModifications(newmodification)
+
+  }
+  console.log(filteredModifications)
 
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
-      <div>
+      <div style={{ width: "80%" }}>
         <Navigationpage />
-        <div className="mainItemCustomizations">
+        <div
+          className={
+            isExpanded
+              ? "mainItemCustomizations-Expanded"
+              : "mainItemCustomizations"
+          }
+        >
           <div className="itemcustomizationpage">
             <div className="AddModifiersSection">
               <div>
@@ -379,6 +398,10 @@ const ItemCustomizations: React.FC = () => {
                               }
                               onBlur={(e) => handleBlur(e, modIndex)}
                             />
+                            <div className="deleteModiferContainer" onClick={()=>handleDeleteModifier(modIndex)}>
+                              <a className="Delete-text"><span className="SpanDelete">-</span>Delete</a>
+                              
+                            </div>
                           </div>
 
                           <div className="flexofradio">
@@ -528,23 +551,30 @@ const ItemCustomizations: React.FC = () => {
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
+                                disabled={filteredModifications[modIndex].selectionType === "Mandatory"}
+                              
                               />
                               <div className="polydiv-ItemCustomizations">
+                              
                                 <img
                                   className="polyimg-ItemCustomizations"
                                   src={Polygon1}
                                   alt=""
-                                  onClick={() =>
-                                    incrementSpinner(modIndex, "minSelection")
-                                  }
+                                  onClick={() => {
+                                    if (filteredModifications[modIndex].selectionType !== "Mandatory") {
+                                      incrementSpinner(modIndex, "minSelection");
+                                    }
+                                  }}
                                 />
                                 <img
                                   className="polyimg-ItemCustomizations"
                                   src={Polygon2}
                                   alt=""
-                                  onClick={() =>
-                                    decrementSpinner(modIndex, "minSelection")
-                                  }
+                                  onClick={() => {
+                                    if (filteredModifications[modIndex].selectionType !== "Mandatory") {
+                                      decrementSpinner(modIndex, "minSelection");
+                                    }
+                                  }}
                                 />
                               </div>
                             </div>
@@ -630,14 +660,16 @@ const ItemCustomizations: React.FC = () => {
                               </div>
                             </div>
                             <div className="dropDown-item">
-                              <DropDown3
-                                selectedValues={selectedValue}
+                              <Dropdown
+                                selectedValues={
+                                  modifications[modIndex]?.selectedValue || []
+                                }
                                 onSelect={(value) =>
                                   handleSelect3(value, modIndex)
                                 }
                                 options={options}
-                                addOption={addOption1}
-                                placeholder="Available Service Stream* "
+                                width="Drop1"
+                                validation={validationState.items}
                                 label="Meal Type*"
                               />
                             </div>
@@ -655,53 +687,11 @@ const ItemCustomizations: React.FC = () => {
                     seletedpage="ItemCustomization"
                     getFormData={getFormData}
                     reset={clerall}
-                    modifications={modifications} 
+                    modifications={modifications}
                   />
                 </div>
               </div>
             </div>
-            {/* <div
-    className={
-      showModifiers
-        ? "Custom-Item-availability-container"
-        : "Custom-Item-availability-container2"
-    }
-  >
-    <h3 className="Custom-Item-availability-container-heading">
-      Custom Item availability
-    </h3>
-    <Toggle
-      toggle={customItemavailability}
-      setToggle={setCustomItemavailability}
-    />
-  </div> */}
-            {/* {customItemavailability && (
-    <div>
-      <div className="Set-as-special-item-container">
-        <div className="checkbox-container">
-        <input type="checkbox" className="Set-as-special-item" />
-        <label className="">Set as special item</label>
-
-        </div>
-
-        <h3 className="Available-between">Available between</h3>
-      </div>
-      <div className="calander-Custom-Item-availability-container-heading">
-        <input
-          className="date-Custom-item"
-          type="date"
-          name="startDate"
-          onChange={(e) => handleModifierChange(0, e)}
-        />
-        <input
-          className="date-Custom-item"
-          type="date"
-          name="endDate"
-          onChange={(e) => handleModifierChange(0, e)}
-        />
-      </div>
-    </div>
-  )} */}
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ import StringDisplay from "../StringDisplay/StringDisplay";
 export const Menulistingtabletwo = () => {
   const { setActive } = useContext(Contextpagejs);
 
-  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const { isExpanded } = useContext(Contextpagejs);
   const [togglebtn, settogglebtn] = useState(false);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 

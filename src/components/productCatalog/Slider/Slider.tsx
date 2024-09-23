@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import "./Slider.scss";
 
 import Pen from "../../../assets/images/edit 1.png";
@@ -9,35 +9,86 @@ import Trash from '../Trash/Trash';
 import NavSlider from '../NavSlider/NavSlider';
 import ArrowHover from '../../../assets/svg/ArrowHover.svg';
 import BasicChanges from '../BasicChanges/BasicChanges';
+import { useSelector, useDispatch } from 'react-redux';
+import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
-interface SliderProps {
-  onclose: () => void;
-  sidebartext: string;
+interface PricingDetails {
+  Dinein1: string[];
+  Pickup1: string[];
+  Delivery1: string[];
+  Dinein2: string[];
+  Pickup2: string[];
+  Delivery2: string[];
+  Inventory1: string[];
+  Customize1: string[];
 }
 
-const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
+interface SideBarData {
+  id: number;
+  itemName: string;
+  code: string;
+  type: string;
+  mealType: string;
+  dietary: string;
+  cusine: string;
+  pricingdetails: PricingDetails;
+}
+
+interface SliderProps {
+  sidebartext: string;
+  SideBarData: SideBarData[];
+  onclose:any
+}
+
+interface StoreMockDataReducer {
+  data: any;
+}
+
+interface RootState {
+  storeMockDataReducer: StoreMockDataReducer;
+}
+
+const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => {
+  const { pen, setPen } = useContext(Contextpagejs);
+
+  const dispatch = useDispatch();
   const [eye, setEye] = useState(false);
   const [trash, setTrash] = useState(false);
   const [active, setActive] = useState("Pricing");
   const modelref = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null); // Create a ref for the scrollable container
-
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const data = useSelector((state: RootState) => state.storeMockDataReducer.data);
+  
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (modelref.current === e.target) 
-      onclose();
+
+    
+    // Your modal close logic here
   };
 
   const handleItemClick = (item: string) => {
     setActive(item);
   };
 
+  
   const handleEyeClick = () => {
     setEye(true);
   };
 
   const handleBinClick = () => {
-    setTrash(true);
+    const UpdatedeleteItem = data.filter((item: SideBarData) => item.id !== SideBarData[0].id);
+    dispatch(storeMockDataRequest(UpdatedeleteItem));
   };
+
+  const handleOnclose = () => {
+    // Logic for on close
+  };
+  const handlePen=()=>{
+    setPen(!pen)
+    console.log("ww",pen)
+
+
+  }
 
   const scrollToComponent = (componentName: string) => {
     if (scrollRef.current) {
@@ -48,16 +99,19 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
     }
   };
 
+  
+
   return (
-    <div ref={modelref} className='Slider-Container' onClick={closeModal}>
+    
+    <div  ref={modelref} className='Slider-Container' onClick={closeModal}>
       <div className="Slider-Window">
         <div className='Slider-Mainform'>
           <div className='Slider-First-Row'>
-            <h1 className='Slider-Heading1'>Veg Burger Pizza - 12345</h1>
+            <h1 className='Slider-Heading1'>{SideBarData?.[0]?.itemName}</h1>
 
             <div className='Slider-icons'>
               <div className='PenImage-Section'>
-                <img src={Pen} className="PenImage" alt="Edit" />
+                <img src={Pen} className="PenImage" onClick={handlePen} alt="Edit" />
                 <div className='PenTool'>
                   <img src={ArrowHover} className='ArrowHoverPen' alt="Edit Tool" />
                   <div className='PenTool-box'>Edit</div>
@@ -66,7 +120,7 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
 
               <img src={Eye} alt='View' className='PenImage' onClick={handleEyeClick} />
               <div className='BinImageSection'>
-                <img src={Bin} alt='Delete' onClick={handleBinClick} className='BinImage' />
+                <img src={Bin} alt='Delete' onClick={() => setTrash(true)} className='BinImage' />
                 <div className='DelTool'>
                   <img src={ArrowHover} className='ArrowHoverDel' alt="Delete Tool" />
                   <div className='DelTool-box'>Delete</div>
@@ -75,17 +129,19 @@ const Slider: React.FC<SliderProps> = ({ onclose, sidebartext }) => {
             </div>
           </div>
           {eye && <EyeModal onEyeclose={() => setEye(false)} />}
-          {trash && <Trash onTrashclose={() => setTrash(false)} />}
+          {trash && <Trash onTrashclose={() => setTrash(false)} handleDeleteItem={handleBinClick} handleOnClose={handleOnclose} />}
         </div>
 
         <div className='NavSlider-Component'>
-          <NavSlider eye={eye} trash={trash} sidebartext={sidebartext} />
+          <NavSlider eye={eye} trash={trash} sidebartext={sidebartext} SideBarData={SideBarData} />
         </div>
         <div className='Basic-Component'>
-          <BasicChanges />
+          <BasicChanges onclose={onclose}  />
         </div>
       </div>
+
     </div>
+    
   );
 };
 

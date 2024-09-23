@@ -1,5 +1,5 @@
 import Store from "../store";
-import API from "../api";
+import { API } from "redux/api";
 
 // For Get All the Subscription plans
 export function getSubscriptionPlan(data) {

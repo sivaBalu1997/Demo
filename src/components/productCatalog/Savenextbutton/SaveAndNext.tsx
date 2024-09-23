@@ -2,26 +2,41 @@ import React, { useState, useContext } from "react";
 import "./Savenextbutton.scss";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { itemCustomizationPost } from "../../../redux/productCatalog/productCatalogActions";
+import {
+  itemCustomizationPost,
+  PricingDetailRequest,
+} from "../../../redux/productCatalog/productCatalogActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { primarypost } from "redux/productCatalog/productCatalogActions";
 // import { useNavigate } from "react-router-dom";
-
-interface Ingredients {
-  id: string;
-  name: string;
-}
-
 interface Allergens {
   id: string;
   name: string;
 }
-
+interface FormState {
+  Inventory1: string;
+  Inventory2: string;
+}
+interface PricingAndKitchen {
+  maxServingAllowed: string;
+  threshold: string;
+  kitchenstation: string;
+  Preparationtime: string;
+  KitchenStationId: string;
+  normalForm?: any;
+  specialForm?: any;
+}
 interface Base64Image {
   mimeType: string;
   base64String: string;
+}
+interface ImageFile {
+  file: File;
+  uploaded: boolean;
+  failed: boolean;
+  preview: string; // To store the image preview URL
 }
 interface FormData {
   itemName?: string;
@@ -30,7 +45,7 @@ interface FormData {
   mealType?: string;
   bestPair?: string;
   description?: string;
-  imageUrls?: Base64Image[];
+  imageUrls?: ImageFile[];
   alcohol?: string;
   itemCode?: string;
   barCode?: string;
@@ -56,7 +71,7 @@ interface FormData {
   selectionType?: string;
   field1?: number;
   field2?: number;
-  [key: string]: any; // Define specific types if known, e.g., number | string
+  [key: string]: any;
 }
 interface Option {
   item: string;
@@ -76,24 +91,37 @@ interface Modification {
   field2?: number;
   [key: string]: any;
 }
-
+interface MainForm {
+  form: FormState;
+  kitchenstation: string;
+  Preparationtime: string;
+  KitchenStationId: string;
+  normalForm?: any;
+  specialForm?: any;
+}
 interface SubmitButtonProps {
-  getFormData: () => FormData | Modification;
+  getFormData: () => FormData | Modification | MainForm;
   seletedpage: string;
   reset: () => void;
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
+  mainForm?:MainForm
+  validation?:()=>void
 }
-
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
   seletedpage,
   reset,
   modifications,
   triggerValidation,
+  validation,
+  mainForm
 }) => {
   const history = useHistory();
-  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const { isExpanded } = useContext(Contextpagejs);
+ // Safely invoking validation
+
+ 
   // const extractFields = (formData: FormData) => {
   //   return {
   //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -126,7 +154,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   //     masterCode: "",
   //   };
   // };
-
   const dispatch = useDispatch();
   const scrollToTop = () => {
     window.scrollTo({
@@ -134,45 +161,78 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       behavior: "smooth",
     });
   };
-
+  const formData = getFormData();
+  // console.log("uploading", formData);
   const handleclick = async () => {
-    const formData = getFormData();
-
-    if (seletedpage === "Primary" && triggerValidation) {
+    // if (seletedpage === "Primary" && triggerValidation) {
+    //   const isFormValid = await triggerValidation(formData);
+    //   if (!isFormValid) {
+    //     window.scrollTo({
+    //       top: 0,
+    //       behavior: "smooth",
+    //     });
+    //     return;
+    //   }
+    // }
+    if (seletedpage === "Primary"&& triggerValidation) {
       const isFormValid = await triggerValidation(formData);
-
       if (!isFormValid) {
-        // toast.error("Please correct the errors before proceeding.");
-
         window.scrollTo({
           top: 0,
           behavior: "smooth",
         });
         return;
       }
-    }
-    console.log("submitform", formData);
+      else{
+        history.push({
+          pathname: `/productCatalog/Pricingandkitchendetails`,
+          state: { pagename: "Pricing and kitchen details" },
+        });
+        dispatch(primarypost(formData));
+      }
 
-    if (seletedpage === "Primary") {
-      history.push({
-        pathname: `/productCatalog/Pricingandkitchendetails`,
-        state: { pagename: "Pricing and kitchen details" },
-      });
+    } else if (seletedpage === "Pricing" && triggerValidation && validation) {
+      console.log("validation", validation());
+      let PricingDetails = { ...mainForm }; 
+      
+      const formData = getFormData();
+      console.log(formData);
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,             // Spread the existing values in PricingDetails
+          kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
+      }
+      const isFormValid = await triggerValidation(formData);
+      dispatch(PricingDetailRequest(PricingDetails))
+      if (!isFormValid) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      }
+      else{
+        history.push({
+          pathname: `/productCatalog/Itemcustomizations`,
+          state: { pagename: "Itemcustomizations" },
+        });
+        history.push("/productCatalog/Itemcustomizations");
+        dispatch(primarypost(formData));
+      }
+
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
-      console.log("ddddddddd", modificationArray);
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
     }
-
-    // scrollToTop();
   };
-
   const handleclear = () => {
     reset();
   };
-
   return (
     <div>
       <div className={isExpanded ? " saveandnextExpanded" : "saveandnext"}>
@@ -198,5 +258,5 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     </div>
   );
 };
-
 export default SaveAndNext;
+ 

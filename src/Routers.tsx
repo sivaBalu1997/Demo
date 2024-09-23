@@ -1,47 +1,48 @@
-import Billing from "./pages/billing";
-import BillingHistory from "pages/billing/billingHistory";
-import CancelSubscription from "pages/billing/cancelSubscription";
-import ChangePlan from "pages/billing/changePlan";
-import Employees from "pages/employee";
-import AddEmployee from "pages/employee/addEmployee";
-import EmployeeDetails from "pages/employee/employeeDetails";
-import AddItem from "pages/menuItem/AddItem";
-import EmptyMenu from "pages/menuItems/EmtyMenu";
-import AddOffer from "pages/offers/AddOffer";
-import CreateOffer from "pages/offers/CreateOffer";
-import Offerdetails from "pages/offers/Offerdetails";
-import PreviewOffer from "pages/offers/PreviewOffer";
-import TemplateOffer from "pages/offers/TemplateOffer";
-import Payment from "pages/payment";
-import ReviewMenu from "pages/reviewMenu";
-import StickWithUs from "./pages/billing/stickWithUs";
-import React, { useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
-import CustomerInsights from "pages/reports/CustomerInsights";
-import Sales from "pages/reports/Sales";
-import ProductInsights from "pages/reports/ProductInsights";
-import GenAiReports from "pages/reports/GenAi";
-import CheckIn from "pages/reports/CheckIn";
-import EmployeeInsights from "pages/reports/EmployeeInsights";
-import { ThemeProvider } from "context/ThemeContext";
-import CustIns from "pages/reports/CustomerInsi";
-import Auth from "pages/auth";
-import ResetPassword from "pages/auth/ResetPassword";
-import BasicDetails from "pages/auth/BasicDetails";
-import Business from "pages/business";
-import RoleAccess from "pages/roles";
-import MenuItems from "pages/menuItems";
-import MenuDetials from "pages/menuDetails";
-import MenuCustomization from "pages/menuCustomization";
-import AddCustomizationInput from "pages/menuCustomization/AddCustomizationInput";
-import NotFound from "pages/notFound";
-import { Menulisting } from "pages/productCatalog/Menulisting/Menulisting";
-import PrimaryDetailsReviewpage from "pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage";
-import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
-import PrimaryPage from "pages/productCatalog/PrimaryPage/PrimaryPage";
-import PricingDetails from "pages/productCatalog/PricingDetalis/PricingDetails";
-import ItemCustomizations from "pages/productCatalog/itemCustomization/ItemCustomizations";
-import MainPage from "pages/productCatalog/MainPage/MainPage";
+import Billing from './pages/billing'
+import BillingHistory from 'pages/billing/billingHistory'
+import CancelSubscription from 'pages/billing/cancelSubscription'
+import ChangePlan from 'pages/billing/changePlan'
+import Employees from 'pages/employee'
+import AddEmployee from 'pages/employee/addEmployee'
+import EmployeeDetails from 'pages/employee/employeeDetails'
+import AddItem from 'pages/menuItem/AddItem'
+import EmptyMenu from 'pages/menuItems/EmtyMenu'
+import AddOffer from 'pages/offers/AddOffer'
+import CreateOffer from 'pages/offers/CreateOffer'
+import Offerdetails from 'pages/offers/Offerdetails'
+import PreviewOffer from 'pages/offers/PreviewOffer'
+import TemplateOffer from 'pages/offers/TemplateOffer'
+import Payment from 'pages/payment'
+import ReviewMenu from 'pages/reviewMenu'
+import StickWithUs from './pages/billing/stickWithUs'
+import React, { useEffect, useState } from 'react'
+import { Route, Switch } from 'react-router-dom'
+import CustomerInsights from 'pages/reports/CustomerInsights'
+import Sales from 'pages/reports/Sales'
+import ProductInsights from 'pages/reports/ProductInsights'
+import GenAiReports from 'pages/reports/GenAi'
+import CheckIn from 'pages/reports/CheckIn'
+import EmployeeInsights from 'pages/reports/EmployeeInsights'
+import { ThemeProvider } from 'context/ThemeContext'
+import CustIns from 'pages/reports/CustomerInsi'
+import Auth from 'pages/auth'
+import ResetPassword from 'pages/auth/ResetPassword'
+import BasicDetails from 'pages/auth/BasicDetails'
+import Business from 'pages/business'
+import RoleAccess from 'pages/roles'
+import MenuItems from 'pages/menuItems'
+import MenuDetials from 'pages/menuDetails'
+import MenuCustomization from 'pages/menuCustomization'
+import AddCustomizationInput from 'pages/menuCustomization/AddCustomizationInput'
+import NotFound from 'pages/notFound'
+import { Menulisting } from 'pages/productCatalog/Menulisting/Menulisting'
+import Publish from 'pages/productCatalog/Publish/Publish'
+import PrimaryDetailsReviewpage from 'pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage'
+import Navigationpage from 'components/productCatalog/Navigation/NavigationPage'
+import PrimaryPage from 'pages/productCatalog/PrimaryPage/PrimaryPage'
+import PricingDetails from 'pages/productCatalog/PricingDetalis/PricingDetails'
+import ItemCustomizations from 'pages/productCatalog/itemCustomization/ItemCustomizations'
+import MainPage from 'pages/productCatalog/MainPage/MainPage'
 
 import { Contextpage } from "pages/productCatalog/contextpage";
 import SidePanel from "pages/SidePanel";
