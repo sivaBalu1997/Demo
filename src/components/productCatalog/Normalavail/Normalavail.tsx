@@ -329,7 +329,7 @@ type OptionType = string;
     if (prizingDetail?.normalForm) {
       setNormalDays(prizingDetail.normalForm.Normaldays || []);
     }
-    const newData = prizingDetail.normalForm?.DineIn?.map((elem: any) => elem); // Copying the array
+    const newData = prizingDetail.normalForm.DineIn.map((elem: any) => elem); // Copying the array
     setDineInDates1(newData); // No need for another map here
     console.log(newData); // Log the copied data
   }, []);
