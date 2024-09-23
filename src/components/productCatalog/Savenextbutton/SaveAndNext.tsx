@@ -11,6 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { primarypost } from "redux/productCatalog/productCatalogActions";
 // import { useNavigate } from "react-router-dom";
+interface Ingredients {
+  id: string;
+  name: string;
+}
 interface Allergens {
   id: string;
   name: string;
