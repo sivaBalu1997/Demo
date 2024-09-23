@@ -37,7 +37,7 @@ export const Menulisting = () => {
   const addedData=useSelector((state)=> state.addMockDataReducer.data)
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
-  const MockHiddendata = useSelector((state) => state.addMockDataHiddenReducer.data);
+  // const MockHiddendata = useSelector((state) => state.addMockDataHiddenReducer.data);
   const FilteredData = useSelector(
     (state) => state.storeMockDataFilteredReducer?.data
   );
@@ -147,7 +147,7 @@ export const Menulisting = () => {
     },
   ]);
   const [SideBarData, setSideBar] = useState([]);
-  const mergedMockData =  [ ...Mockdata,...addedData,...MockHiddendata] 
+  const mergedMockData =  [ ...Mockdata,...addedData,] 
 
   console.log(mergedMockData)
   console.log(addedData)
