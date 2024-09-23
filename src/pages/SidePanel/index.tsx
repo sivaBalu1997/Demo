@@ -216,7 +216,7 @@ const SidePanel = () => {
               {menuOptions.map((option) => (
                 <li
                   key={option}
-                  style={{ marginTop: "10px"}}
+                  style={{ marginTop: "10px" }}
                   onClick={() => {
                     if (option === "Items") {
                       history.push(`/menu/${option}`);

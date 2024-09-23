@@ -1,5 +1,5 @@
 .mainpagemenu {
-  height: 101vh;
+  height: 100vh;
   background: none;
   border-spacing: 0;
   width: 88%;
@@ -11,7 +11,7 @@
   transition: width 0.6s ease;
 }
 .mainpagemenu1 {
-  height: 101vh;
+  height: 100vh;
   background: none;
   border-spacing: 0;
   width: 82%;
@@ -61,9 +61,6 @@ th {
   overflow-y: auto;
   overflow-x: auto;
   margin-top: 0%;
-  &::-webkit-scrollbar{
-    display: none;
-  }
 
   display: flex;
   flex-direction: row;
@@ -112,12 +109,13 @@ th {
       }
     }
     .Menu-Listing-TableOneBody {
+<<<<<<< HEAD
       height: 34rem;
+=======
+      height: 36rem;
+>>>>>>> productCatalog/sprint-99v3
       display: block;
       overflow-y: auto;
-      &::-webkit-scrollbar{
-        display: none;
-      }
       // border: 1px solid red;
     }
 
@@ -209,6 +207,7 @@ th {
     // width: 5rem;
   }
   .Menu-Listing-TableTwo {
+<<<<<<< HEAD
     width: 65rem;
     overflow-x: auto;
     display: block;
@@ -231,12 +230,19 @@ th {
       background-color: #555;
     }
     
+=======
+    width: 61rem;
+    overflow-x: auto;
+    display: block;
+    overflow-y: hidden;
+>>>>>>> productCatalog/sprint-99v3
   }
   .Menu-Listing-TableTwo1 {
     width: 55rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
+<<<<<<< HEAD
     &::-webkit-scrollbar-track {
       background-color:#B3B3B3;
      
@@ -254,6 +260,8 @@ th {
     // &::-webkit-scrollbar{
     //   display: none;
     // }
+=======
+>>>>>>> productCatalog/sprint-99v3
   }
   
 
@@ -517,13 +525,14 @@ th {
 
   .Menu-Listing-TableTwoBody {
     display: block;
+<<<<<<< HEAD
     height: 32rem;
+=======
+    height: 34rem;
+>>>>>>> productCatalog/sprint-99v3
     overflow-y: auto;
     overflow-x: hidden;
     width: 171.4%;
-    &::-webkit-scrollbar{
-      display: none;
-    }
     // border: 1px solid red !important;
   }
   .Menu-Listing-TableTwoBody1 {
@@ -531,10 +540,14 @@ th {
     height: 31rem;
     overflow-y: auto;
     overflow-x: hidden;
+<<<<<<< HEAD
     width: 190.85%;
     &::-webkit-scrollbar{
       display: none;
     }
+=======
+    width: 160.85%;
+>>>>>>> productCatalog/sprint-99v3
     // border: 1px solid red !important;
   }
   .tabletwobody {

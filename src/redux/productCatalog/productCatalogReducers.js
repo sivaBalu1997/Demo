@@ -103,7 +103,7 @@ const initialProductCatalogState = {
   updateMenuAttributeFailed: false,
 };
 
-export default function productCatalogReducer(
+export default function employeeReducer(
   state = initialProductCatalogState,
   action
 ) {

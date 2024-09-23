@@ -8,10 +8,10 @@ import EyeModal from '../EyeModal/EyeModal';
 import Trash from '../Trash/Trash';
 import NavSlider from '../NavSlider/NavSlider';
 import ArrowHover from '../../../assets/svg/ArrowHover.svg';
-import BasicChanges from '../BasicChanges/BasicChanges';
 import { useSelector, useDispatch } from 'react-redux';
-import { storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
+import { addMockDataHiddenRequest, storeMockDataRequest } from 'redux/productCatalog/productCatalogActions';
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
+import BasicChanges from '../BasicChanges/BasicChanges';
 
 interface PricingDetails {
   Dinein1: string[];
@@ -26,7 +26,7 @@ interface PricingDetails {
 
 interface SideBarData {
   id: number;
-  itemName: string;
+  name: string;
   code: string;
   type: string;
   mealType: string;
@@ -70,9 +70,12 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
     setActive(item);
   };
 
-  
   const handleEyeClick = () => {
     setEye(true);
+    const UpdatedeleteItem = data.filter((item: SideBarData) => item.id !== SideBarData[0].id);
+    dispatch(storeMockDataRequest(UpdatedeleteItem));
+    dispatch(addMockDataHiddenRequest(SideBarData))
+    
   };
 
   const handleBinClick = () => {
@@ -98,6 +101,7 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
       }
     }
   };
+  console.log(SideBarData)
 
   
 
@@ -107,7 +111,7 @@ const Slider: React.FC<SliderProps> = ({ onclose,sidebartext, SideBarData }) => 
       <div className="Slider-Window">
         <div className='Slider-Mainform'>
           <div className='Slider-First-Row'>
-            <h1 className='Slider-Heading1'>{SideBarData?.[0]?.itemName}</h1>
+            <h1 className='Slider-Heading1'>{SideBarData?.[0]?.name}</h1>
 
             <div className='Slider-icons'>
               <div className='PenImage-Section'>

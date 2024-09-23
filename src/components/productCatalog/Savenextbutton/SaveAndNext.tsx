@@ -110,7 +110,10 @@ interface SubmitButtonProps {
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
   mainForm?:MainForm
+<<<<<<< HEAD
   validation?:()=>boolean
+=======
+>>>>>>> productCatalog/sprint-99v3
 }
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
@@ -118,14 +121,10 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   reset,
   modifications,
   triggerValidation,
-  validation,
   mainForm
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
- // Safely invoking validation
-
- 
   // const extractFields = (formData: FormData) => {
   //   return {
   //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -195,6 +194,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
 
+<<<<<<< HEAD
     } else if (seletedpage === "Pricing" && triggerValidation && validation) {
       const formData = getFormData();
       console.log(formData);
@@ -223,6 +223,14 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 
       // const isFormValid = await triggerValidation(formData);
       dispatch(PricingDetailRequest(PricingDetails))
+=======
+    } else if (seletedpage === "Pricing"&& triggerValidation) {
+
+      const formData = getFormData();
+      console.log(formData);
+      const isFormValid = await triggerValidation(formData);
+      dispatch(PricingDetailRequest(mainForm))
+>>>>>>> productCatalog/sprint-99v3
       if (!isFormValid) {
         window.scrollTo({
           top: 0,

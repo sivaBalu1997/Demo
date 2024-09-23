@@ -23,7 +23,11 @@ const TableSecondHeader: React.FC<TableRowProps> = ({
         <th key={index} className={`${className}   fontstyle`}>
           {subheaders.map((subheader, subIndex) => (
             <span key={subIndex} className={subheader}>
+<<<<<<< HEAD
             <HoverText text={subheader} lengthvale={5} />
+=======
+              <StringDisplay text={subheader} />
+>>>>>>> productCatalog/sprint-99v3
             </span>
           ))}
         </th>

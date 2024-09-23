@@ -349,19 +349,21 @@ export const addMockDataFailure = (error) => ({
 })
 
 
-export const dietdatarequest=(data)=>({
-  type: DIET_DROPDOWN_LIST_REQUEST,
-  payload: data, 
 
-})
+// {*****add MockData Visiblty****************************}
 
-export const dietdatasuccess = (response) => ({
-  type:DIET_DROPDOWN_LIST_SUCCESS,
+export const addMockDataHiddenRequest = (data) => ({
+  type: ADD_MOCK_DATA_HIDDEN_REQUEST,
+  payload:data
+}); 
+
+export const addMockDataHiddenSuccess = (response) => ({
+  type: ADD_MOCK_DATA_HIDDEN_SUCCESS ,
   payload: response, 
 });
 
-export const dietdatafailure = (error) => ({
-  type: DIET_DROPDOWN_LIST_FAILURE,
+export const addMockDataHiddenFailure = (error) => ({
+  type: ADD_MOCK_DATA_HIDDEN_FALIURE ,
   payload: error, 
 })
 
