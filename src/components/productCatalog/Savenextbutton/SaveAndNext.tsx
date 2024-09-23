@@ -220,26 +220,37 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       } else {
         console.error("formData.kitchenstation is undefined");
       }
-    
-      // Dispatch PricingDetails request
-      dispatch(PricingDetailRequest(PricingDetails));
-    
-      // Navigate to the next page only if the form is valid
-      history.push({
-        pathname: `/productCatalog/Itemcustomizations`,
-        state: { pagename: "Itemcustomizations" },
-      });
-    }
-    else if (seletedpage === "ItemCustomization") {
+
+      // const isFormValid = await triggerValidation(formData);
+      dispatch(PricingDetailRequest(PricingDetails))
+      if (!isFormValid) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      }
+      else{
+        history.push({
+          pathname: `/productCatalog/Itemcustomizations`,
+          state: { pagename: "Itemcustomizations" },
+        });
+        history.push("/productCatalog/Itemcustomizations");
+        dispatch(primarypost(formData));
+      }
+
+    } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
     }
   };
+
   const handleclear = () => {
     reset();
   };
+  
   return (
     <div>
       <div className={isExpanded ? " saveandnextExpanded" : "saveandnext"}>

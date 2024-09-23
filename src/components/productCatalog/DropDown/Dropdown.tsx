@@ -47,9 +47,9 @@ const Dropdown: React.FC<DropdownProps> = ({
           setIsOpen(false);
           setRotateImg(false);
           // If the dropdown closes and no option is selected, run validation
-          if (selectedValues.length === 0) {
-            validateDropdown(selectedValues);
-          }
+          // if (selectedValues.length === 0) {
+          //   validateDropdown(selectedValues);
+          // }
         }
       }
     };
@@ -77,11 +77,11 @@ const Dropdown: React.FC<DropdownProps> = ({
     handleValidate && handleValidate()
   };
 
-  const validateDropdown = (values: string[]) => {
-    if (values.length === 0 && touched) {
-      onBlur && onBlur(); // Trigger validation when dropdown closes
-    }
-  };
+  // const validateDropdown = (values: string[]) => {
+  //   if (values.length === 0 && touched) {
+  //     onBlur && onBlur(); // Trigger validation when dropdown closes
+  //   }
+  // };
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef}>

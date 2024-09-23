@@ -19,7 +19,7 @@ const Step2 = () => {
     <div className="container-step2">
       <div className="Step2-Container">
         <div className="Step2-form">
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div className="Step2-header">
             <h1 className="Step2-heading">
               Step 2 Pricing and Kitchen Details
             </h1>

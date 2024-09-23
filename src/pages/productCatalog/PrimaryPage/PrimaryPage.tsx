@@ -339,7 +339,7 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
-    // dispatch(getIngredientsRequest(locationid));
+    dispatch(getIngredientsRequest(locationid));
     // dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
@@ -357,15 +357,9 @@ const PrimaryPage = () => {
     // console.log("data from component",dietaryData);
   },[dietaryData])
 
-
-
-  const getdatafrosaga=()=>{
-    dispatch(dietdatarequest("diet"))
-
-   
-    
-  
-  }
+  const getdatafrosaga = () => {
+    dispatch(dietdatarequest("diet"));
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -768,8 +762,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext="Cal"
-                         
+                          placeholder="Cal"
                         />
                       )}
                     />
@@ -799,7 +792,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext={getValues("selectedPortion")}
+                          placeholder={getValues("selectedPortion")}
                           // placeholder={getValues("selectedPortion")}
                         />
                       )}

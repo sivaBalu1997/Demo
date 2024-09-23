@@ -4,7 +4,7 @@
     
     .images1,
     .images2 {
-        height: 9.5rem;
+        height: 7.5rem;
         overflow-y: auto;
         border-right: 1px solid #979797;
         display: flex;
@@ -13,6 +13,7 @@
         padding: 0.5rem;
         /* Add a min-height to ensure the container is scrollable */
         min-height: 100px; 
+        font-size: 12px;
 
         .selectedingredientsimage,
         .selectedallergenimage {

@@ -12,11 +12,10 @@
 }
 
 .step3-Review-Container-heading-and-button-container {
-  width: 600px;
+  width: 33vw;
   height: auto;
-  // border: 2px solid green;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 160px;
 }
 
@@ -141,7 +140,6 @@
   font-size: 14px;
   line-height: 21px;
   position: relative;
-
   margin-left: -2px;
 }
 
@@ -154,7 +152,7 @@
   flex-direction: column;
   position: relative;
   top: -142px;
-  left: 32px;
+  left: 18px;
 }
 
 .Step-3-free-details {

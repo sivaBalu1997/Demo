@@ -320,7 +320,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     else{
      
         dispatch(uploadImage(indextoreplace?.image, indextoreplace?.id, indextoreplace?.index));
-        
+
 
       
     }
