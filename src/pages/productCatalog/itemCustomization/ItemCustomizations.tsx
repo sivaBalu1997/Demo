@@ -311,7 +311,7 @@ const ItemCustomizations: React.FC = () => {
     setModifications(newmodification)
 
   }
-  console.log(filteredModifications)
+  // console.log(filteredModifications)
 
   return (
     <div style={{ display: "flex" }}>

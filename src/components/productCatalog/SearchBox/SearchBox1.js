@@ -27,7 +27,7 @@ const SearchBox = () => {
 
     }
   }, [data]);
-console.log(filteredOptions,"filteredOptions")
+// console.log(filteredOptions,"filteredOptions")
   useEffect(()=>{
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch))
     

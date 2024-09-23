@@ -585,3 +585,27 @@
 //   margin-top: 90%;
 //   height: 30px;
 // }
+
+
+.imagewitherror
+{
+  .errromsg
+  {
+    position: relative;
+    top: -3rem;
+    left: 0.4rem;
+    font-size: 14px;
+    display: flex;
+    width: 20px;
+    height: 30px;
+    flex-wrap: wrap;
+  }
+  .eerroremptyimage
+  {
+
+  }
+  .imgfile {
+    display: none;
+  }
+
+}

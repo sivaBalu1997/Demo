@@ -116,8 +116,8 @@ interface ImageOptions {
 
 interface ImageFile {
   file: File;
-  uploaded: boolean;
-  failed: boolean;
+  // uploaded: boolean;
+  // failed: boolean;
   preview: string; // To store the image preview URL
 }
 const PrimaryPage = () => {
@@ -306,7 +306,7 @@ const PrimaryPage = () => {
         .map((file) => {
           if (!validImageTypes.includes(file.type)) {
             alert(
-              `Invalid file type: ${file.name}. Only PNG and JPG are allowed.`
+              `Invalid file type:  Only PNG and JPG are allowed.`
             );
             return null;
           }
@@ -316,8 +316,6 @@ const PrimaryPage = () => {
           }
           return {
             file,
-            uploaded: false,
-            failed: false,
             preview: URL.createObjectURL(file),
           };
         })
@@ -331,7 +329,7 @@ const PrimaryPage = () => {
 
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
-        console.log(updatedImageUrls, "updatedImageUrls");
+        // console.log(updatedImageUrls, "updatedImageUrls");
         return updatedImages;
       });
     }
@@ -356,7 +354,7 @@ const PrimaryPage = () => {
 
   const dietaryData = useSelector((state:StateDataTag3)=>state.productCatalog.dietaryData)
   useEffect(()=>{
-    console.log("data from component",dietaryData);
+    // console.log("data from component",dietaryData);
   },[dietaryData])
 
 
@@ -393,7 +391,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
-                    rules={{ required: "ItemName is required" }}
+                    // rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
@@ -423,7 +421,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "dietaryType is required" }}
+                        // validation={{ required: "dietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -450,7 +448,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        validation={{ required: "cuisine is required" }}
+                        // validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -481,7 +479,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           trigger={trigger}
                           getValues={getValues}
-                          validation={{ required: "category is required" }}
+                          // validation={{ required: "category is required" }}
                           error={errors.category}
                           dropdownopen={DropdownOpen.category}
                           setDropdownOpen={setDropdownOpen}
@@ -512,7 +510,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          validation={{ required: "This field is required" }}
+                          // validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -616,7 +614,8 @@ const PrimaryPage = () => {
                         <img
                           className="uploaded-image"
                           src={img.preview}
-                          alt={`Preview of ${img.file.name}`}
+                          alt={`Preview of 
+                          `}
                         />
                         {/* <div>
                           {img.file.name} -{" "}
@@ -876,7 +875,7 @@ const PrimaryPage = () => {
                             register={register}
                             inputCount={4}
                             error={errors.masterCode}
-                            validation={{ required: "Master code is required" }}
+                            // validation={{ required: "Master code is required" }}
                           />
                         )}
                       />

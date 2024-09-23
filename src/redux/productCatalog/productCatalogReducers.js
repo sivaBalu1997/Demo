@@ -42,38 +42,49 @@ import {
   ADD_MOCK_DATA_REQUEST,
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
-  DIET_DROPDOWN_LIST_FAILURE
+  DIET_DROPDOWN_LIST_FAILURE,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAILURE,
+  UPLOAD_IMAGE_IN_PROGRESS,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
-
-  dietaryData:[],
-  getDietaryloading:false,
-  getDietarySuccess:false,
+  dietaryData: [],
+  getDietaryloading: false,
+  getDietarySuccess: false,
 
   categoryData: [],
   getCategoryLoading: false,
   getCategorySuccess: false,
+
   subCategoryData: [],
   getSubCategoryLoading: false,
   getSubCategorySuccess: false,
+
   taxClass: [],
   getTaxClassLoading: false,
   getTaxClassSuccess: false,
+
   ingredients: [],
   getIngredientsLoading: false,
   getIngredientsSuccess: false,
+
   requestCompleted: false,
+
   modifier: [],
   getModifierLoading: false,
   getModifierSuccess: false,
 
-
   addMenuLoading: false,
   addMenuSuccess: false,
   addMenuFailed: false,
+  addMenuItemdata:[],
   addMenuSuccessMessage: "",
   addMenuFailedMessage: "",
+
+  imageuploadStatus: {},
+  imageerrorMessage: "",
+
   updateMenuItemLoading: false,
   updateMenuItemSuccess: false,
   updateMenuItemFailed: false,
@@ -98,15 +109,15 @@ export default function productCatalogReducer(
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
-   //dietary data
-      case  DIET_DROPDOWN_LIST_REQUEST:
+      //dietary data
+      case DIET_DROPDOWN_LIST_REQUEST:
         draft.dietaryData = [];
         draft.getDietaryloading = true;
         draft.getDietarySuccess = false;
         break;
-      case  DIET_DROPDOWN_LIST_SUCCESS:
+      case DIET_DROPDOWN_LIST_SUCCESS:
         draft.dietaryData = action.payload;
-        console.log("action.payload",action.payload)
+        console.log("action.payload", action.payload);
 
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
@@ -117,11 +128,7 @@ export default function productCatalogReducer(
         draft.getDietarySuccess = false;
         break;
 
-
       // Get Menu Category
-
-      
-
 
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
@@ -175,19 +182,19 @@ export default function productCatalogReducer(
         draft.ingredients = [];
         draft.getSubCategoryLoading = true;
         draft.getIngredientsSuccess = false;
-        draft.requestCompleted = false
+        draft.requestCompleted = false;
         break;
       case GET_INGR_SUCCESS:
         draft.ingredients = action.payload;
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = true;
-        draft.requestCompleted = true
+        draft.requestCompleted = true;
         break;
       case GET_INGR_FAILED:
         draft.ingredients = [];
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = false;
-        draft.requestCompleted = false
+        draft.requestCompleted = false;
         break;
       // Get Modifier
       case GET_MODIFIER_REQUEST:
@@ -223,6 +230,8 @@ export default function productCatalogReducer(
         break;
       // Add Menu Item
       case ADD_MENU_ITEM_REQUEST:
+        draft.addMenuItemdata=action.payload;
+        console.log("reducer data",action.payload)
         draft.addMenuLoading = true;
         draft.addMenuFailed = false;
         draft.addMenuSuccess = false;
@@ -243,6 +252,16 @@ export default function productCatalogReducer(
         draft.addMenuSuccessMessage = "";
         draft.addMenuFailedMessage = action.payload;
         break;
+
+      //   UPLOAD_IMAGE_SUCCESS:
+      case UPLOAD_IMAGE_SUCCESS:
+        draft.imageuploadStatus = action.payload;
+        break;
+      case UPLOAD_IMAGE_FAILURE:
+        draft.imageuploadStatus = action.payload;
+        draft.imageerrorMessage = action.payload;
+        break;
+
       // Update Menu Item
       case UPDATE_MENU_ITEM_REQUEST:
         draft.updateMenuItemLoading = true;
@@ -323,6 +342,61 @@ export default function productCatalogReducer(
   });
 }
 
+//{.....................Image Upload.........................}
+
+const imageuploadinitialstate = {
+  images: [], // Array of images to be uploaded
+  uploadStatus: {}, // Store image upload status: { imageId: 'pending' | 'success' | 'failed' }
+  errorMessages: {}, // Store error messages for failed uploads: { imageId: errorMessage }
+};
+
+export const imageUploadReducer = (state = imageuploadinitialstate, action) => {
+  switch (action.type) {
+    case UPLOAD_IMAGE_IN_PROGRESS:
+      return {
+        ...state,
+       
+      };
+    case UPLOAD_IMAGE_SUCCESS:
+      return {
+        ...state,
+        uploadStatus: {
+          ...state.uploadStatus,
+          id:action.payload.id,
+          image:action.payload.image,
+          index:action.payload.index,
+          status: 'success',
+        },
+      };
+    case UPLOAD_IMAGE_FAILURE:
+      return {
+        ...state,
+        uploadStatus: {
+          ...state.uploadStatus,
+          id:action.payload.id,
+          index:action.payload.index,
+          image:action.payload.image,
+         status: 'failed',
+        },
+        errorMessages: {
+          ...state.errorMessages,
+          id:action.payload.id,
+          image:action.payload.image,
+          index:action.payload.index,
+          errormessgae: action.payload.error,
+        },
+      };
+    default:
+      return state;
+  }
+};
+
+
+
+
+
+
+
 // {*************Primary Page Redux ************************************************}
 const primarypagedata = {
   data: [],
@@ -397,50 +471,46 @@ export const storeMockDataReducer = (state = mockData, action) => {
         ...state,
         data: action?.payload,
       };
-      default:
+    default:
       return state;
-    }}
-
- 
-
- 
-
-  const mockDataFiltered = {
-    data: []
-  };
-
-  export  const storeMockDataFilteredReducer = (state = mockDataFiltered, action) => {
-    switch (action.type) {
-      case STORE_MOCK_DATA_FILTERED_REQUEST:
-        return {
-          ...state,data:action?.payload
-        };
-  
-    
-  
-      default:
-        return state;
-    }
-  };
- 
-
-  // {**************************AddMockData***********************************************}
-
-  const addMockData = {
-    data: []
   }
+};
 
-  export  const addMockDataReducer = (state = mockDataFiltered, action) => {
-    switch (action.type) {
-      case ADD_MOCK_DATA_REQUEST:
-        return {
-          ...state,data:action?.payload
-        };
-  
-    
-  
-      default:
-        return state;
-    }
-  };
+const mockDataFiltered = {
+  data: [],
+};
 
+export const storeMockDataFilteredReducer = (
+  state = mockDataFiltered,
+  action
+) => {
+  switch (action.type) {
+    case STORE_MOCK_DATA_FILTERED_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
+// {**************************AddMockData***********************************************}
+
+const addMockData = {
+  data: [],
+};
+
+export const addMockDataReducer = (state = mockDataFiltered, action) => {
+  switch (action.type) {
+    case ADD_MOCK_DATA_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
+
+    default:
+      return state;
+  }
+};

@@ -54,7 +54,11 @@ import {
   ADD_MOCK_DATA_FALIURE,
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
-  DIET_DROPDOWN_LIST_FAILURE
+  DIET_DROPDOWN_LIST_FAILURE,
+  UPLOAD_IMAGE,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAILURE,
+  UPLOAD_IMAGE_IN_PROGRESS
 
 } from "./productCatalogConstants";
 
@@ -360,3 +364,20 @@ export const dietdatafailure = (error) => ({
   type: DIET_DROPDOWN_LIST_FAILURE,
   payload: error, 
 })
+
+
+// {*****************Image upload*****************}
+export const uploadImage = (image, id,index) => ({
+  type: UPLOAD_IMAGE_IN_PROGRESS,
+  payload: { image, id ,index},
+});
+
+export const uploadImageSuccess = (image,id,index) => ({
+  type: UPLOAD_IMAGE_SUCCESS,
+  payload: {image,id,index},
+});
+
+export const uploadImageFailure = (image,id, index,error) => ({
+  type: UPLOAD_IMAGE_FAILURE,
+  payload: { image, id,index,error },
+});
