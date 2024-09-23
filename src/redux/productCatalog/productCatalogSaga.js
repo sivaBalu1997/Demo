@@ -204,10 +204,10 @@ function* uploadImageSaga(action) {
     
     console.log(`Uploading image at index ${index}:`, image.name);
     
-    // Call API to upload each image separately
+
     const response = yield call(store, formData);
     
-    // Log response for each image
+  
    
     console.log(`Response for image at index ${index}:`, response);
     
