@@ -41,7 +41,7 @@ import {
   getAvailability,
   updateMenuItemAttribute,
   getImage,
-  getDietarydata,
+  // getDietarydata,
   getId,
   store,
 } from "../productCatalog/productCataloglogAPI";
@@ -65,19 +65,19 @@ import {
   ADD_MENU_ITEM_SUCCESS,
 } from "./productCatalogConstants";
 
-function* getdietarySaga(action) {
-  try {
-    const response = yield call(getDietarydata, action.payload);
-    if (response) {
-      console.log("response from sagas", response);
-      yield put(dietdatasuccess(response));
-    } else {
-      yield put(dietdatafailure({ message: "please Try Again" }));
-    }
-  } catch (err) {
-    yield put(dietdatafailure({ message: "please Try Again" }));
-  }
-}
+// function* getdietarySaga(action) {
+//   try {
+//     const response = yield call(getDietarydata, action.payload);
+//     if (response) {
+//       console.log("response from sagas", response);
+//       yield put(dietdatasuccess(response));
+//     } else {
+//       yield put(dietdatafailure({ message: "please Try Again" }));
+//     }
+//   } catch (err) {
+//     yield put(dietdatafailure({ message: "please Try Again" }));
+//   }
+// }
 
 function* getCategorySaga(action) {
   try {
@@ -282,7 +282,7 @@ function* GetImageSaga(action) {
 export default function* productCatalog() {
   yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
 
-  yield takeLatest(DIET_DROPDOWN_LIST_REQUEST, getdietarySaga);
+  // yield takeLatest(DIET_DROPDOWN_LIST_REQUEST, getdietarySaga);
 
   yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);

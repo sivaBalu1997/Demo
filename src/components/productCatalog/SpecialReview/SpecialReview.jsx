@@ -40,15 +40,6 @@ const SpecialReview = () => {
 
         <div className="from-to-container-Special-column">
           <h3 className="Available-Service-Streams-label-heading">To</h3>
-<<<<<<< HEAD
-          <h3 className="Available-Service-Streams-date-heading">
-            {(prizingDetail &&
-              prizingDetail.specialForm &&
-              prizingDetail.specialForm.toDate) ||
-              "-"}
-          </h3>
-=======
->>>>>>> productCatalog/sprint-99v3
         </div>
       </div>
 
@@ -69,17 +60,6 @@ const SpecialReview = () => {
           <div className="dine-in-items-container-column">
             <h3 className="dine-in-items-container-heading">Price</h3>
 
-<<<<<<< HEAD
-            {prizingDetail &&
-              prizingDetail.specialForm &&
-              prizingDetail.specialForm.dineinfields.map((elem, index) => {
-                return (
-                  <>
-                    <h3 className="dine-in-items-label">{elem.DineInPrice}</h3>
-                  </>
-                );
-              })}
-=======
             { prizingDetail && prizingDetail.specialForm && prizingDetail.specialForm.dineinfields?.map((elem,index)=>{
               return(
 
@@ -91,24 +71,10 @@ const SpecialReview = () => {
             })}
 
            
->>>>>>> productCatalog/sprint-99v3
           </div>
 
           <div className="dine-in-items-container-column">
             <h3 className="dine-in-items-container-heading">Service Time</h3>
-<<<<<<< HEAD
-            {prizingDetail &&
-              prizingDetail.specialForm &&
-              prizingDetail.specialForm.dineinfields.map((elem, index) => {
-                return (
-                  <>
-                    <h3 className="dine-in-items-label">
-                      {elem.DineInMealType}
-                    </h3>
-                  </>
-                );
-              })}
-=======
             { prizingDetail && prizingDetail.specialForm && prizingDetail.specialForm.dineinfields?.map((elem,index)=>{
               return(
 
@@ -118,24 +84,10 @@ const SpecialReview = () => {
                 </>
               )
             })}
->>>>>>> productCatalog/sprint-99v3
           </div>
 
           <div className="dine-in-items-container-column">
             <h3 className="dine-in-items-container-heading">Service Area</h3>
-<<<<<<< HEAD
-            {prizingDetail &&
-              prizingDetail.specialForm &&
-              prizingDetail.specialForm.dineinfields.map((elem, index) => {
-                return (
-                  <>
-                    <h3 className="dine-in-items-label">
-                      {elem.DineInServiceArea}
-                    </h3>
-                  </>
-                );
-              })}
-=======
             {prizingDetail && prizingDetail.specialForm && prizingDetail?.specialForm?.dineinfields?.map((elem,index)=>{
               return(
 
@@ -145,7 +97,6 @@ const SpecialReview = () => {
                 </>
               )
             })}
->>>>>>> productCatalog/sprint-99v3
           </div>
         </div>
       </div>
@@ -162,17 +113,7 @@ const SpecialReview = () => {
               Selling Price For Pick up
             </h3>
 
-<<<<<<< HEAD
-            <h3 className="pick-up-items-label">
-              {(prizingDetail &&
-                prizingDetail.specialForm &&
-                prizingDetail.specialForm.form &&
-                prizingDetail.specialForm.form.Pickupprice) ||
-                "-"}
-            </h3>
-=======
             <h3 className="pick-up-items-label">{ prizingDetail && prizingDetail.specialForm && prizingDetail.specialForm.form1 && prizingDetail.specialForm.form1.Pickupprice || "-"}</h3>
->>>>>>> productCatalog/sprint-99v3
           </div>
 
           <div className="pick-up-container-column">
@@ -200,17 +141,7 @@ const SpecialReview = () => {
                 Selling Price For Delivery
               </h3>
 
-<<<<<<< HEAD
-              <h3 className="special-items-label">
-                {(prizingDetail &&
-                  prizingDetail.specialForm &&
-                  prizingDetail.specialForm.form &&
-                  prizingDetail.specialForm.form.Deliveryprice) ||
-                  "-"}
-              </h3>
-=======
               <h3 className="special-items-label">{prizingDetail && prizingDetail.specialForm && prizingDetail.specialForm.form1 && prizingDetail.specialForm.form1.Deliveryprice || "-"}</h3>
->>>>>>> productCatalog/sprint-99v3
             </div>
 
             <div className="special-container-column">
@@ -238,36 +169,12 @@ const SpecialReview = () => {
                 Selling Price For Third Party
               </h3>
 
-<<<<<<< HEAD
-              <h3 className="special-items-label">
-                {(prizingDetail &&
-                  prizingDetail.specialForm &&
-                  prizingDetail.specialForm.form &&
-                  prizingDetail.specialForm.form.Swiggy) ||
-                  "-"}
-              </h3>
-            </div>
-
-            <div className="special-container-column-thirdparty">
-              <h3 className="Special-container-heading-thirdparty thirdpartyprice">
-                Zomato Price{" "}
-              </h3>
-              <h3 className="special-items-label-thirdparty">
-                {" "}
-                {(prizingDetail &&
-                  prizingDetail.specialForm &&
-                  prizingDetail.specialForm.form &&
-                  prizingDetail.specialForm.form.Zomato) ||
-                  "-"}{" "}
-              </h3>
-=======
               <h3 className="special-items-label">{ prizingDetail && prizingDetail.specialForm && prizingDetail.specialForm.form1 && prizingDetail.specialForm.form1.Swiggy || "-"}</h3>
             </div>
 
             <div className="special-container-column-thirdparty">
               <h3 className="Special-container-heading-thirdparty thirdpartyprice">Zomato Price </h3>
               <h3 className="special-items-label-thirdparty"> {prizingDetail && prizingDetail.specialForm && prizingDetail.specialForm.form1 && prizingDetail.specialForm.form1.Zomato || "-"} </h3>
->>>>>>> productCatalog/sprint-99v3
             </div>
           </div>
         </div>

@@ -74,22 +74,7 @@
   margin-top: 7px;
   gap: 1.8rem;
   position: relative;
-<<<<<<< HEAD
-  .Dine-In-Price {
-    display: flex;
-    flex-direction: column;
-    .Errormsg {
-      font-family: "Poppins", sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 21px;
-      text-align: left;
-      color: #e52333;
-    }
-  }
-=======
   
->>>>>>> productCatalog/sprint-99v3
   // margin-top: 0.3rem;
 }
 .DineInInput11Normal:nth-child(1) {
@@ -110,20 +95,6 @@
   margin-top: -25px;
   margin-left: -10px;
   z-index: 10;
-<<<<<<< HEAD
-  .Errormsg {
-    position: relative;
-    top: 1.3rem;
-    left: 2rem;
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 21px;
-    text-align: left;
-    color: #e52333;
-  }
-=======
->>>>>>> productCatalog/sprint-99v3
 }
 
 .DineInInput2Normal {
@@ -188,21 +159,6 @@
   margin-top: -25px;
   margin-left: -10px;
   z-index: 1;
-<<<<<<< HEAD
-
-  .Errormsg {
-    position: relative;
-    top: 1.3rem;
-    left: 2rem;
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 21px;
-    text-align: left;
-    color: #e52333;
-  }
-=======
->>>>>>> productCatalog/sprint-99v3
 }
 
 .dineInChooseDayContainerHeading {
@@ -363,32 +319,13 @@
     margin-left: 20px;
   }
 }
-<<<<<<< HEAD
-.Delivery13 {
-  border-radius: 0.313rem;
-=======
 .Delivery13{
  
   border-radius:0.313rem; 
->>>>>>> productCatalog/sprint-99v3
   margin-bottom: 0.625rem;
   z-index: -1;
 
   display: flex;
-<<<<<<< HEAD
-  justify-content: flex-start;
-  .DineInInput2Normal {
-    margin-left: 20px;
-  }
-  gap: 0.625rem;
-}
-
-.Delivery11 {
-  position: relative;
-  left: -60px;
-  border-radius: 0.313rem;
-  z-index: 9;
-=======
   justify-content:flex-start;
   .DineInInput2Normal
   {
@@ -406,19 +343,13 @@ margin-left: 20px;
   margin-left: -29px;
   border-radius:0.313rem; 
   // margin-bottom: 0.625rem;
->>>>>>> productCatalog/sprint-99v3
   margin-top: 0.7rem;
   margin-bottom: 10px;
   input {
     padding-left: 15px;
   }
 }
-<<<<<<< HEAD
-
-.AvailableDaysHeadingNormal {
-=======
 .AvailableDaysHeadingNormal    {
->>>>>>> productCatalog/sprint-99v3
   font-size: 14px;
   font-weight: 400;
   margin-top: 22px;

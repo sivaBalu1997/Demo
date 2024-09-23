@@ -110,10 +110,6 @@ interface SubmitButtonProps {
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
   mainForm?:MainForm
-<<<<<<< HEAD
-  validation?:()=>boolean
-=======
->>>>>>> productCatalog/sprint-99v3
 }
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
@@ -194,43 +190,12 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
 
-<<<<<<< HEAD
-    } else if (seletedpage === "Pricing" && triggerValidation && validation) {
-      const formData = getFormData();
-      console.log(formData);
-    
-      // Run the validation
-      const isFormValid = await triggerValidation(formData);
-      console.log("isFormValid", isFormValid);
-      console.log("validation", validation());
-    
-      // Stop execution if the form is invalid
-      if (!isFormValid || !validation()) {
-        console.error("Form validation failed");
-        return; // Return early to prevent further execution and navigation
-      }
-    
-      // If formData.kitchenstation exists, update PricingDetails
-      let PricingDetails = { ...mainForm };
-      if (formData.kitchenstation) {
-        PricingDetails = {
-          ...PricingDetails,
-          kitchenstation: formData.kitchenstation,
-        };
-      } else {
-        console.error("formData.kitchenstation is undefined");
-      }
-
-      // const isFormValid = await triggerValidation(formData);
-      dispatch(PricingDetailRequest(PricingDetails))
-=======
     } else if (seletedpage === "Pricing"&& triggerValidation) {
 
       const formData = getFormData();
       console.log(formData);
       const isFormValid = await triggerValidation(formData);
       dispatch(PricingDetailRequest(mainForm))
->>>>>>> productCatalog/sprint-99v3
       if (!isFormValid) {
         window.scrollTo({
           top: 0,

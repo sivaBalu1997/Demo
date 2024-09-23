@@ -27,11 +27,6 @@ const SearchBox = () => {
 
     }
   }, [data]);
-<<<<<<< HEAD
-// console.log(filteredOptions,"filteredOptions")
-=======
-
->>>>>>> productCatalog/sprint-99v3
   useEffect(()=>{
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch))
     
