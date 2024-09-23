@@ -320,7 +320,7 @@ const PrimaryPage = () => {
           };
         })
         .filter((file): file is ImageFile => file !== null);
-      if (fileArray.length + images.length > 7) {
+      if (fileArray.length + images.length >7) {
         alert("You can upload a maximum of 7 images.");
         return;
       }
