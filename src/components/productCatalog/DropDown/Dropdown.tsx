@@ -92,7 +92,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         onClick={handleDropdownClick}
         tabIndex={0}
       >
-        {selectedValues.length > 0 ? (
+        {/* {selectedValues.length > 0 ? (
           <div className="valuePricing">
             {/* Display up to 3 selected values and join them with commas */}
             {selectedValues.slice(0, 3).join(", ")}
@@ -100,7 +100,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           </div>
         ) : (
           <div className="valuePlaceholder"></div>
-        )}
+        )} */}
         <div>
           <img
             src={UpArrow}

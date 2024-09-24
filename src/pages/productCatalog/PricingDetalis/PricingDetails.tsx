@@ -17,18 +17,6 @@ import info from "../../assets/png/info.png";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
-
-import {
-  imageslist,
-  dietarytype,
-  cuisine,
-  mealType,
-  bestPair,
-  subcategory,
-  alcoholradio,
-  calorieponitradio,
-  portionsizeradio,
-} from "../../../assets/mockData/Moca_data";
 import Inventory from "components/productCatalog/Inventory/Inventory";
 
 interface SelectedValuesState {
@@ -217,7 +205,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData?.mainForm || {}
   );
   const [options, setOptions] = useState<option[]>([]);
-  const [options1, setOptions1] = useState<Option[]>(cuisine);
+  const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });
@@ -429,7 +417,7 @@ const PricingDetails = () => {
       dayButtonText: "Add Day",
     },
   ]);
-  console.log(dineinfields)
+  console.log(dineinfields);
   // console.log(mainForm);
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
@@ -588,35 +576,17 @@ const PricingDetails = () => {
                 />
               </div>
 
-              <div className="D1kitchen">
-                {/* <Controller
-                    name="Preparation"
-                    control={control}
-                    defaultValue={[]}
-                    rules={{ required: "Please select at least one option" }}
-                    render={({ field }: any) => (
-                      <Dropdown
-                        selectedValues={selectedValue1}
-                        onSelect={(value) => {
-                          setSelectedValue1(value);
-                          if (field?.onChange) {
-                            field.onChange(values);
-                          }
-                          validateDropdown(values, "preparationTime");
-                        }}
-                        options={["Option 1", "Option 2", "Option 3"]}
-                        label="Preparation*"
-                        onBlur={() => {
-                          if (field?.onBlur) {
-                            field.onBlur();
-                            handleBlur(field?.value, "preparationTime");
-                          }
-                        }}
-                        validation={validationState.preparationTime}
-                        width="Drop1"
-                      />
-                    )}
-                  /> */}
+              <div className="D2kitchen">
+                <div className="Prepartiontime">
+                  <label htmlFor="">Preparation time</label>
+                  <div className="Prepartiontime-input-fileds">
+                    <input type="text" className="Prepartiontime-input-hours" />
+                    <span>Hours</span>
+                    <span>:</span>
+                    <input type="text" className="Prepartiontime-input-mins" />
+                    <span>Minutes</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -720,6 +690,7 @@ const PricingDetails = () => {
                 </div>
               )}
             </div>
+            <div className="services-Heading"><p> Service availability </p></div>
 
             <div className="NormalSpecial">
               <div className="Normal">
@@ -743,6 +714,7 @@ const PricingDetails = () => {
                 <label className="S1">Special Availability</label>
               </div>
             </div>
+
 
             {isOptionTrue ? (
               <Normalavail

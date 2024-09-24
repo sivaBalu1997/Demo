@@ -430,8 +430,8 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           setId={setAvailabilityid1}
         />
       </div>
- 
-      <h1 className="KitchenRelatedHeading">Avaliable Service Streams</h1>
+
+      {/* <h1 className="KitchenRelatedHeading">Avaliable Service Streams</h1> */}
       {/* DineIn Related */}
       <div className="DineInRelatedSpecial">
         <h1 className="DineInRelatedHeading">Dine In</h1>
@@ -575,7 +575,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               )}
             </div>
             {/* DeliveryRelated    */}
-            <div className="DeliveryRelated">
+            <div className= {online?"DeliveryRelated":"DeliveryRelatedclosed"}  >
               <h1 className="DeliveryRelatedHeading">Delivery</h1>
               <div className="toggleV">
                 <Toggle toggle={delivery} setToggle={setDelivery} />

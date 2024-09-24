@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from "redux-saga/effects";
+import { put, call, takeLatest, take } from "redux-saga/effects";
 import {
   getMenuCategoryRequest,
   getMenuCategorySuccess,
@@ -22,7 +22,24 @@ import {
   updateMenuAttributeSuccess,
   updateMenuAttributeFailed,
   Get_Image,
-  Get_Image_Failed
+  Get_Image_Failed,
+  dietdatarequest,
+  dietdatasuccess,
+  dietdatafailure,
+  cuisineDataSuccess,
+  cuisineDataFailure,
+  catogoryDataSuccess,
+  catogoryDataFailure,
+  subCategoryDataSuccess,
+  subCategoryDataFailure,
+  bestPairDataSuccess,
+  bestPairDataFailure,
+  bestPairDataRequest,
+  deleteDietarySuccess,
+  deleteDietaryFailure,
+  fetchDropDownFailure
+
+
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -35,7 +52,13 @@ import {
   getModifier,
   getAvailability,
   updateMenuItemAttribute,
-  getImage
+  getImage,
+  getDietarydata,
+  getCuisineData,
+  getCategorydata,
+  getSubCategoryData,
+  getBestPairData,
+  getSubSectionData
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -49,32 +72,60 @@ import {
   GET_TAG_CLASS_REQUEST,
   UPDATE_MENU_ATTRIBUTE_REQUEST,
   UPDATE_MENU_ITEM_REQUEST,
-  Get_ItemImage
+  Get_ItemImage,
+  DIET_DROPDOWN_LIST_REQUEST,
+  CUISINE_DATA_REQUEST,
+  CATEGORY_DATA_REQUEST,
+  SUBCATEGORY_DATA_REQUEST,
+  BESTPAIR_DATA_REQUEST,
+  FETCHDROPDOWN_REQUEST,
+  DELETEDROPDOWN_REQUEST
+ 
 } from "./productCatalogConstants";
 
-function* getCategorySaga(action) {
+function* fetchDropdownDataSaga(action) {
+  // const { dropDownType } = action.payload;
   try {
-    const response = yield call(getCategory, action.payload);
-    if (response.status === 200) {
-      yield put(getMenuCategorySuccess(response.data));
+    const response = yield call(getSubSectionData, action.payload);
+    if (response) {
+      switch (action.payload) {
+        case 'dietary':
+          yield put(dietdatasuccess(response));
+          break;
+        case 'cuisine':
+          yield put(cuisineDataSuccess(response));
+          break;
+        case 'category':
+          yield put(catogoryDataSuccess(response));
+          break;
+        case 'subCategory':
+          yield put(subCategoryDataSuccess(response));
+          break;
+        case 'bestPair':
+          yield put(bestPairDataSuccess(response));
+          break;
+        default:
+          throw new Error('Invalid type');
+      }
     } else {
-      yield put(getMenuCategoryFailed({ message: "please Try Again" }));
+      yield put(fetchDropDownFailure({ message: 'Please try again' }));
     }
   } catch (err) {
-    yield put(getMenuCategoryFailed({ message: "please Try Again" }));
+    yield put(fetchDropDownFailure({ message: 'Please try again' }));
   }
 }
 
-function* getSubCategorySaga(action) {
-  try {
-    const response = yield call(getSubCategory, action.payload);
-    if (response.status === 200) {
-      yield put(getMenuSubCategorySuccess(response.data));
-    } else {
-      yield put(getMenuSubCategoryFailed({ message: "please Try Again" }));
+//Delete subSection
+function* deleteSubSectionSaga(action) {
+  try{
+    const response = yield call(deleteSubSectionSaga, action.payload)
+    if(response){
+      yield put(deleteDietarySuccess(response)) // add switch case
+    }else{
+      yield put(deleteDietaryFailure({message:'please Try Again'}))
     }
-  } catch (err) {
-    yield put(getMenuSubCategoryFailed({ message: "please Try Again" }));
+  }catch(err){
+    yield put(deleteDietaryFailure({message:'please Try Again'}))
   }
 }
 
@@ -200,8 +251,12 @@ function* GetImageSaga(action) {
 }
 
 export default function* productCatalog() {
-  yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
-  yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
+  // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
+
+  yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
+  yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga)
+
+  // yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);
   yield takeLatest(GET_INGR_REQUEST, getIngredientsSaga);
   yield takeLatest(ADD_MENU_ITEM_REQUEST, addMenuItemSaga);

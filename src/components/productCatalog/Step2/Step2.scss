@@ -29,6 +29,12 @@
 
   flex-direction: column;
 }
+.Step2-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 40vw;
+}
 .Step2-heading {
   font-size: 18px;
   font-weight: 500;
@@ -40,21 +46,23 @@
   margin-bottom: 25px;
 }
 .editbuttonpricing {
-    margin-top: 0px;
-    margin-left: 150px;
-    background: none;
-    text-decoration: none;
-    border: none;
-    font-family: Poppins;
-    position: relative;
-    left: 3px;
-    font-size: 16px;
-    font-weight: 400;
-    display: flex;
-    color: #67833E;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  margin-top: 0px;
+  right: 10;
+  // margin-left: 150px;
+  background: none;
+  text-decoration: none;
+  border: none;
+  font-family: Poppins;
+  position: relative;
+  left: 3px;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  color: #67833E;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 
   button {
   }

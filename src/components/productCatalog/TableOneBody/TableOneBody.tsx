@@ -3,9 +3,10 @@ import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
 import { useDispatch } from "react-redux";
 import StringDisplay from "../StringDisplay/StringDisplay";
+import HoverText from "../HoverText/HoverText";
 
 interface Item {
-  name: string;
+  itemName: string;
   itemCode: string;
   id: number;
 }
@@ -99,7 +100,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
             onDragEnd={handleRowDragEnd}
             className={`itemdetails-row ${
               draggedRowIndex?.index === index ? "selected" : ""
-            } ${index===0 ?"removebottomrowline":""}`}
+            } ${index === 0 ? "removebottomrowline" : ""}`}
           >
             <span className="itemimage2">
               <img src={dots} alt="" className="draggableimg" />
@@ -116,7 +117,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               className="itemname2"
               onClick={() => handleItemnameClick(item.id)}
             >
-              <StringDisplay text={item.name}  />
+              <HoverText text={item.itemName} lengthvale={14} />
             </span>
             <span className="itemcode2">{item.itemCode}</span>
           </td>

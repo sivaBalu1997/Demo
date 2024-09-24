@@ -8,7 +8,9 @@ import DropDown from "../DropDown/Dropdown";
 import DaysCheckDin from "../DayCheckDinein/DaysCheckDinein";
 import { useSelector } from "react-redux";
 import LableComponent from "../LableComponent/LableComponent";
- 
+import Tooltip from "../Tooltip/Tooltip";
+import info from "../../../assets/svg/info.svg";
+
 type MainFormType = {
   availabilityid: string[];
   formNormal: {
@@ -454,105 +456,109 @@ type OptionType = string;
     const newSelectedValues = [...selectedValuesmealtype];
     newSelectedValues[index] = value;
     setSelectedValuesMealType(newSelectedValues);
- 
-      const newDineInFields = [...dineinfields];
-      newDineInFields[index].DineInMealType = value;
-      setDineInFields(newDineInFields);
-     
- 
- 
-      if (dinein) {
-        validateDropdown(value, index);
-      }
-    };
-    const addOptionMealType = (newOption: OptionType): void => {
-      setOptionsMealType([...optionsmealtype, newOption]);
-    };
-    const handleServiceSelect2 = (
-      index: number,
-      value: ServiceValueType,
-      validfield: string
-    ): void => {
- 
-      setSelectedValues(value);
- 
- 
-      const newDineInFields = [...dineinfields];
-      newDineInFields[index].DineInService = value;
-      setDineInFields(newDineInFields);
-      setValidationStateerr((prevState) => ({
-        ...prevState,
-        [validfield]: {
-          ...prevState[validfield],
-          isValid: false,          
-          errorMessage: "",      
-        },
-      }));
- 
- 
-    };
-    const handleMealSelect2 = (index: number, value: MealType,  validfield: string): void => {
- 
-      if (index < 0 || index >= dineinfields.length) {
-        console.error("Index out of bounds");
-        return;
-      }
- 
-      const newDineInFields = [...dineinfields];
-      newDineInFields[index].DineInMealType = value;
-      setDineInFields(newDineInFields);
-          setValidationStateerr((prevState) => ({
-        ...prevState,
-        [validfield]: {
-          ...prevState[validfield],
-          isValid: false,          
-          errorMessage: "",      
-        },
-      }));
-    };
-    const handleSelectThird = (value: string[]): void => {
-      setSelectedThirdValues(value);
-      validateDropdown(value, "ThirdDeliverySwiggyZomato");
-    };
- 
-    return (
-      <div>
-        <div className="AvailDaycheck">
-          <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-          <div className="dayschecking">
-            <DaysCheck
-              checkedItems={Normaldays}
-              setCheckedItems={setNormalDays}
-              id={availabilityid}
-              setId={setAvailabilityid}
-            ></DaysCheck>
-          </div>
+
+    const newDineInFields = [...dineinfields];
+    newDineInFields[index].DineInMealType = value;
+    setDineInFields(newDineInFields);
+
+    if (dinein) {
+      validateDropdown(value, index);
+    }
+  };
+  const addOptionMealType = (newOption: OptionType): void => {
+    setOptionsMealType([...optionsmealtype, newOption]);
+  };
+  const handleServiceSelect2 = (
+    index: number,
+    value: ServiceValueType,
+    validfield: string
+  ): void => {
+    setSelectedValues(value);
+
+    const newDineInFields = [...dineinfields];
+    newDineInFields[index].DineInService = value;
+    setDineInFields(newDineInFields);
+    setValidationStateerr((prevState) => ({
+      ...prevState,
+      [validfield]: {
+        ...prevState[validfield],
+        isValid: false,
+        errorMessage: "",
+      },
+    }));
+  };
+  const handleMealSelect2 = (
+    index: number,
+    value: MealType,
+    validfield: string
+  ): void => {
+    if (index < 0 || index >= dineinfields.length) {
+      console.error("Index out of bounds");
+      return;
+    }
+
+    const newDineInFields = [...dineinfields];
+    newDineInFields[index].DineInMealType = value;
+    setDineInFields(newDineInFields);
+    setValidationStateerr((prevState) => ({
+      ...prevState,
+      [validfield]: {
+        ...prevState[validfield],
+        isValid: false,
+        errorMessage: "",
+      },
+    }));
+  };
+  const handleSelectThird = (value: string[]): void => {
+    setSelectedThirdValues(value);
+    validateDropdown(value, "ThirdDeliverySwiggyZomato");
+  };
+
+  return (
+    <div>
+      <div className="AvailDaycheck">
+        <div className="AvailDaycheck-Heading">
+           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+        <div className="tooltip"> <Tooltip message="Kitchen Related">
+                      <div className="ToolKitchen">
+                        <img src={info} alt="" width={25} height={25} />
+                      </div>
+                    </Tooltip></div></div>
+       
+        <div className="dayschecking">
+          <DaysCheck
+            checkedItems={Normaldays}
+            setCheckedItems={setNormalDays}
+            id={availabilityid}
+            setId={setAvailabilityid}
+          ></DaysCheck>
         </div>
-        <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1>
-        {/* DineIn Related */}
-        <div className="DineInRelated">
-          <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
-          <div className="toggleII">
-            <Toggle toggle={dinein} setToggle={setDineIn} />
-          </div>
+      </div>
+      {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
+      {/* DineIn Related */}
+      <div className="DineInRelated">
+        <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
+        <div className="toggleII">
+          <Toggle toggle={dinein} setToggle={setDineIn} />
         </div>
-        {dinein ? (
-          <>
-            {dineinfields.map((entry:any, index:any) => {
-               const mealTypeKey = `DineInMealType_${index}`;
-               const priceKey = `DineInPrice_${index}`;
-               const DineInService=`DineInService_${index}`
-              return (
-                <>
-                  <div className="LabelPrice">
-                    <LableComponent lable="Price*" />
-                  </div>
-                  <div
-                    className="DineInInput11Normal"
-                    key={index}
-                    style={{ zIndex: dineinfields.length - index }}
-                  >
-                    <div className="Dine-In-Price">
+      </div>
+      {dinein ? (
+        <>
+          {dineinfields.map((entry: any, index: any) => {
+            const mealTypeKey = `DineInMealType_${index}`;
+            const priceKey = `DineInPrice_${index}`;
+            const DineInService = `DineInService_${index}`;
+            return (
+              <>
+                <div className="LabelPrice">
+                  <LableComponent lable="Price*" />
+                </div>
+                <div
+                  className="DineInInput11Normal"
+                  key={index}
+                  style={{ zIndex: dineinfields.length - index }}
+                >
+                  <div className="Dine-In-Price">
                     <input
                       type="text"
                       name="DineInPrice"
@@ -573,7 +579,9 @@ type OptionType = string;
                       <div>
                       <DropDown
                         selectedValues={selectedValuesmealtype[index] || ""}
-                        onSelect={(values) => handleSelectMealtype(values, index)}
+                        onSelect={(values) =>
+                          handleSelectMealtype(values, index)
+                        }
                         options={optionsmealtype}
                         index={index}
                         label="Meal Type*"
@@ -780,7 +788,7 @@ type OptionType = string;
                 <Toggle toggle={delivery} setToggle={setDelivery} />
               </div>
             </div>
-            <div className="DeliverySectionNormal">
+            <div className= {online?"DeliverySectionNormal":"DeliverySectionNormalclose"} >
               {delivery ? (
                 <div>
                   <p className="LabelPrice"> Price*</p>
@@ -889,11 +897,11 @@ type OptionType = string;
               {selectedthirdvalues.includes("Swiggy") && (
                 <div className="LabelSwiggyInputDropDown">
                   <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading"></label>
+                    <label className="swiggyZomatoHeading">Swiggy Price</label>
                     <input
                       className="swiggyZomato-input"
                       type="text"
-                      placeholder="Enter Swiggy details"
+                      // placeholder="Enter Swiggy details"
                       onChange={(e) =>
                         setformNormal({
                           ...formNormal,
@@ -920,11 +928,11 @@ type OptionType = string;
               {selectedthirdvalues.includes("Zomato") && (
                 <div className="LabelSwiggyInputDropDown">
                   <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading"></label>
+                    <label className="swiggyZomatoHeading">Zomato Price</label>
                     <input
                       className="swiggyZomato-input"
                       type="text"
-                      placeholder="Enter Zomato details"
+                      // placeholder="Enter Zomato details"
                       onChange={(e) =>
                         setformNormal({
                           ...formNormal,
