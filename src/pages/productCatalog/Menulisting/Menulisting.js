@@ -145,6 +145,7 @@ export const Menulisting = () => {
       type: "SteameNondVeg",
     },
   ]);
+
   const [SideBarData, setSideBar] = useState([]);
   const mergedMockData =  [ ...Mockdata,...addedData] 
 
@@ -307,9 +308,6 @@ export const Menulisting = () => {
 
   const handlemodal = (value) => {
     setmodal(true);
-    console.log(value);
-
-    console.log(Mockdata.filter((item) => item.id === value));
     setSideBar(Mockdata.filter((item) => item.id === value));
   };
 
@@ -387,6 +385,7 @@ export const Menulisting = () => {
     FilteredObject[0] &&
     Array.isArray(FilteredObject[0]) &&
     FilteredObject[0].map((item) => item);
+
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>
       <SidePanel />
@@ -414,7 +413,7 @@ export const Menulisting = () => {
                 <tr className="headerrow">
                   <th className="itemimage ">Image</th>
                   <th className="itemname">Item name</th>
-                  <th className="itemcode  "> Code </th>
+                  <th className="itemcode">Code</th>
                   <th
                     className="addbtn"
                     onClick={() => setshowheadinglist(true)}

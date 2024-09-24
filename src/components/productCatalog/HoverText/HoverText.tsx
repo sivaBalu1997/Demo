@@ -1,8 +1,5 @@
-
-
-
-import React, { useState } from 'react';
-import './HoverText.scss'; 
+import React, { useState } from "react";
+import "./HoverText.scss";
 
 // Define the props type
 interface StringDisplayProps {
@@ -29,7 +26,9 @@ const HoverText: React.FC<StringDisplayProps> = ({ text, lengthvale }) => {
       onMouseLeave={handleMouseLeave}
       className={`${isHovered && text.length > 5 && "string-display"}`}
     >
-      {text.length > lengthvale && !isHovered ? `${text.slice(0, lengthvale)}...` : text}
+      {text.length > lengthvale && !isHovered
+        ? `${text.slice(0, lengthvale)}...`
+        : text}
     </span>
   );
 };

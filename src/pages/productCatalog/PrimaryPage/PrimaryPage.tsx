@@ -128,6 +128,7 @@ interface ImageFile {
   failed: boolean;
   preview: string; // To store the image preview URL
 }
+
 const PrimaryPage = () => {
   const dispatch = useDispatch();
   const {
@@ -165,6 +166,7 @@ const PrimaryPage = () => {
       masterCode: "",
     },
   });
+
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
@@ -176,13 +178,15 @@ const PrimaryPage = () => {
   const ItemsPrimaryDeatils = useSelector(
     (state: primarypage) => state.primarypage.data
   );
-  // console.log("ItemsPrimaryDeatils",ItemsPrimaryDeatils)
+
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
   );
+
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
+
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
@@ -193,6 +197,7 @@ const PrimaryPage = () => {
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
   );
+  
   const [categories, setCategories] = useState<Category[]>([]);
   const [images, setImages] = useState<ImageFile[]>([]);
   const [description, setDescription] = useState("");

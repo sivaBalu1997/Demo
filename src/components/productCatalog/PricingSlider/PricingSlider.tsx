@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import "./PricingSlider.scss";
 import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
-import { Contextpagejs } from 'pages/productCatalog/contextpage';
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+
 interface PricingSliderProps {
   SideBarData?: any[];
 }
+
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
+
 const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
   const { pen, setPen } = useContext(Contextpagejs);
   const [inputs, setInputs] = useState({
@@ -14,8 +17,9 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
     Pickup1: SideBarData?.[0]?.pricingdetails?.Pickup1 || [],
     Delivery1: SideBarData?.[0]?.pricingdetails?.Delivery1 || [],
   });
-  const [sectionAValue, setSectionAValue] = useState<string>('');
+  const [sectionAValue, setSectionAValue] = useState<string>("");
   const [showCompare, setShowCompare] = useState(false);
+
   const PrizingSliderData = [
     {
       heading: "On-Prem",
@@ -29,20 +33,30 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
       inputTypes: ["text", "text", "text"],
     },
   ];
+  
   useEffect(() => {
-    const updatedValue = SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || '';
+    const updatedValue = SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || "";
     setSectionAValue(updatedValue);
   }, [SideBarData]);
-  const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>, section: PricingKey, index: number) => {
+
+  const handleInputChange1 = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    section: PricingKey,
+    index: number
+  ) => {
     const value = e.target.value;
     setInputs((prev) => ({
       ...prev,
-      [section]: prev[section].map((item:number, idx:any) => (idx === index ? value : item)),
+      [section]: prev[section].map((item: number, idx: any) =>
+        idx === index ? value : item
+      ),
     }));
   };
+
   const handleComparision = () => {
     setShowCompare(!showCompare);
   };
+
   return (
     <div className="PricingSlider-Container">
       <h3 className="PricingSlider-Heading">Pricing</h3>
@@ -59,10 +73,15 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
                       type={elem.inputTypes[seInd] || "number"}
                       className="SectionA-Input"
                       onChange={(e) => handleInputChange1(e, "Dinein1", seInd)}
-                      value={inputs.Dinein1[seInd] || ''}
+                      value={inputs.Dinein1[seInd] || ""}
                       disabled={!pen}
                     />
-                    <img src={Weigh} className="SectionA-Image" alt="Weigh" onClick={handleComparision} />
+                    <img
+                      src={Weigh}
+                      className="SectionA-Image"
+                      alt="Weigh"
+                      onClick={handleComparision}
+                    />
                   </div>
                 </div>
               ))}
@@ -82,13 +101,23 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
                           <input
                             type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
-                            value={sub === 0 ? inputs.Pickup1[idx] || "" : inputs.Delivery1[idx] || ""}
+                            value={
+                              sub === 0
+                                ? inputs.Pickup1[idx] || ""
+                                : inputs.Delivery1[idx] || ""
+                            }
                             onChange={(e) =>
-                              handleInputChange1(e, sub === 0 ? "Pickup1" : "Delivery1", idx)
+                              handleInputChange1(
+                                e,
+                                sub === 0 ? "Pickup1" : "Delivery1",
+                                idx
+                              )
                             }
                             disabled={!pen}
                           />
-                          {showCompare && <p className='Compare'>{sectionAValue}</p>}
+                          {showCompare && (
+                            <p className="Compare">{sectionAValue}</p>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -103,4 +132,3 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
   );
 };
 export default PricingSlider;
- 

@@ -120,7 +120,7 @@ function* deleteSubSectionSaga(action) {
   try{
     const response = yield call(deleteSubSectionSaga, action.payload)
     if(response){
-      yield put(deleteDietarySuccess(response))
+      yield put(deleteDietarySuccess(response)) // add switch case
     }else{
       yield put(deleteDietaryFailure({message:'please Try Again'}))
     }

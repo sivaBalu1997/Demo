@@ -1,18 +1,17 @@
-import React, { useRef, useEffect, useContext } from 'react';
-import './NavSlider.scss'; // Import a CSS file for styling
-import PricingSlider from '../PricingSlider/PricingSlider';
-import AvailabilitySlider from '../AvailibilitySlider/AvailabilitySlider';
-import Inventory from '../Inventory/Inventory';
-import CustomizeSlider from '../CustomizeSlider/CustomizeSlider';
+import React, { useRef, useEffect, useContext } from "react";
+import "./NavSlider.scss"; // Import a CSS file for styling
+import PricingSlider from "../PricingSlider/PricingSlider";
+import AvailabilitySlider from "../AvailibilitySlider/AvailabilitySlider";
+import Inventory from "../Inventory/Inventory";
+import CustomizeSlider from "../CustomizeSlider/CustomizeSlider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 
-
 interface NavMenuProps {
-  pen?: true; // Since you're using `pen` as `true`, you may want to use `boolean` instead of hardcoding `true`
+  pen?: true; 
   sidebartext: string | null;
-  eye?:boolean
-  trash?:boolean
-  SideBarData?:SideBarData[];
+  eye?: boolean;
+  trash?: boolean;
+  SideBarData?: SideBarData[];
 }
 interface SideBarData {
   id: number;
@@ -34,7 +33,12 @@ interface SideBarData {
   };
 }
 
-const NavMenu: React.FC<NavMenuProps> = ({ pen,eye, sidebartext,SideBarData=[]}) => {
+const NavMenu: React.FC<NavMenuProps> = ({
+  pen,
+  eye,
+  sidebartext,
+  SideBarData = [],
+}) => {
   const { menuItems, active, setActive } = useContext(Contextpagejs);
 
   // Create refs for each section
@@ -55,31 +59,29 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen,eye, sidebartext,SideBarData=[]})
     }
   }, [sidebartext, setActive]);
 
-  // Function to scroll to the respective section based on the item clicked
   const scrollToComponent = (item: string) => {
     switch (item) {
-      case 'Pricing':
-        pricingRef.current?.scrollIntoView({ behavior: 'smooth' });
+      case "Pricing":
+        pricingRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
-      case 'Availability':
-        availabilityRef.current?.scrollIntoView({ behavior: 'smooth' });
+      case "Availability":
+        availabilityRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
-      case 'Inventory':
-        inventoryRef.current?.scrollIntoView({ behavior: 'smooth' });
+      case "Inventory":
+        inventoryRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
-      case 'Customize':
-        customizeRef.current?.scrollIntoView({ behavior: 'smooth' });
+      case "Customize":
+        customizeRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
       default:
         break;
     }
   };
 
-  // IntersectionObserver callback function
   const handleIntersection = (entries: IntersectionObserverEntry[]) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        setActive(entry.target.getAttribute('data-section') || '');
+        setActive(entry.target.getAttribute("data-section") || "");
       }
     });
   };
@@ -87,8 +89,8 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen,eye, sidebartext,SideBarData=[]})
   useEffect(() => {
     const observer = new IntersectionObserver(handleIntersection, {
       root: null,
-      rootMargin: '0px',
-      threshold: 0.5, // Adjust this value based on when you want the active state to change
+      rootMargin: "0px",
+      threshold: 0.5, 
     });
 
     if (pricingRef.current) observer.observe(pricingRef.current);
@@ -111,7 +113,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen,eye, sidebartext,SideBarData=[]})
           {menuItems.map((item: string, index: number) => (
             <li
               key={index}
-              className={`nav-item ${active === item ? 'active' : ''}`}
+              className={`nav-item ${active === item ? "active" : ""}`}
               onClick={() => handleItemClick(item)}
             >
               {item}
@@ -119,20 +121,23 @@ const NavMenu: React.FC<NavMenuProps> = ({ pen,eye, sidebartext,SideBarData=[]})
           ))}
         </ul>
       </nav>
-      <div className='type-div'></div>
-      <div className='navmenu-container'>
-        {/* Each component has its own reference */}
+      <div className="type-div"></div>
+      <div className="navmenu-container">
         <div ref={pricingRef} className="section" data-section="Pricing">
-          <PricingSlider SideBarData={SideBarData}  />
+          <PricingSlider SideBarData={SideBarData} />
         </div>
-        <div ref={availabilityRef} className="section" data-section="Availability">
-          <AvailabilitySlider SideBarData={SideBarData}   />
+        <div
+          ref={availabilityRef}
+          className="section"
+          data-section="Availability"
+        >
+          <AvailabilitySlider SideBarData={SideBarData} />
         </div>
         <div ref={inventoryRef} className="section" data-section="Inventory">
-          <Inventory  SideBarData={SideBarData} />
+          <Inventory SideBarData={SideBarData} />
         </div>
         <div ref={customizeRef} className="section" data-section="Customize">
-          <CustomizeSlider  />
+          <CustomizeSlider />
         </div>
       </div>
     </>
