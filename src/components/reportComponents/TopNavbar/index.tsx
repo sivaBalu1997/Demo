@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
 import "./style.scss";
-import ShrinkedReportMenu from "../ShrinkedReportMenu";
+import ShrinkedReportMenu from "../ShrinkedReportMenu/index";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface NavItemType {

@@ -357,7 +357,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       <SidePanel />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="reviewheading">
-          <p>Review menu item - Idli</p>
+          <p>Review menu item - {primarypagedetails.primarypage.data.itemName}</p>
         </div>
         <div className="reviewpage">
           <div className="reviewpagebody">
