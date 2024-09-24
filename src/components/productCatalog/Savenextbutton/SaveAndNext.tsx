@@ -118,7 +118,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   reset,
   modifications,
   triggerValidation,
-  mainForm
+  mainForm,
+  validation
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);

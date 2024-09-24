@@ -54,7 +54,10 @@ type MainFormType = {
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
-  DineInServiceArea: string | string[];
+  DineInServiceArea?: string | string[];
+  DineInService:string
+  showDay: boolean
+  dayButtonText: string
 };
 
 interface FormState {
@@ -530,7 +533,7 @@ const PricingDetails = () => {
                     error={errors.kitchenstation}
                     trigger={trigger}
                     getValues={getValues}
-                    validation={{ required: "dietaryType is required" }}
+                    // validation={{ required: "dietaryType is required" }}
                     addNew={true}
                     editValues={true}
                     setDropdownOpen={setDropdownOpen}
@@ -691,6 +694,7 @@ const PricingDetails = () => {
                 setDineInFields={setDineInFields}
                 handleValidate={handleValidate}
                 onToggelChange={handleValuesFromChild}
+                setValidationStateerr={setValidationStateerr}
               />
             ) : (
               <Specialavail

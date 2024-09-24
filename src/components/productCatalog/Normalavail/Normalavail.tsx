@@ -342,7 +342,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     if (prizingDetail?.normalForm) {
       setNormalDays(prizingDetail.normalForm.Normaldays || []);
     }
-    const newData = prizingDetail.normalForm.DineIn.map((elem: any) => elem); // Copying the array
+    const newData = prizingDetail?.normalForm?.DineIn?.map((elem: any) => elem); // Copying the array
     setDineInDates1(newData); // No need for another map here
     console.log(newData); // Log the copied data
   }, []);
@@ -623,7 +623,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         index={index}
                         label="Meal Type*"
                         width="Drop1"
-                        handleValidate={handleValidate}
+                        // handleValidate={handleValidate}
                         onBlur={() => {
                           // validateDropdown(selectedValuesmealtype[index] || [], index)
                           handleValidate();
@@ -650,7 +650,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       options={options2}
                       label="Service Area*"
                       index={index}
-                      handleValidate={handleValidate}
+                      // handleValidate={handleValidate}
                       onChange={(e) =>
                         handleServiceSelect2(
                           index,

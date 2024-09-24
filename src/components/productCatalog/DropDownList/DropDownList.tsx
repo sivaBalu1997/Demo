@@ -9,7 +9,7 @@ import {
   bestPairDataRequest,
   cuisineDataRequest,
   deleteDropDowRequest,
-  dietdatarequest,
+  // dietdatarequest,
   fetchDropDownRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";

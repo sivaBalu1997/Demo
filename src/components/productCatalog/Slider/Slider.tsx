@@ -10,7 +10,7 @@ import NavSlider from "../NavSlider/NavSlider";
 import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
-import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { addMockDataHiddenRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface PricingDetails {
@@ -26,7 +26,7 @@ interface PricingDetails {
 
 interface SideBarData {
   id: number;
-  name: string;
+  itemName: string;
   code: string;
   type: string;
   mealType: string;
@@ -174,7 +174,7 @@ const Slider: React.FC<SliderProps> = ({
             eye={eye}
             trash={trash}
             sidebartext={sidebartext}
-            SideBarData={SideBarData}
+            // SideBarData={SideBarData}
           />
         </div>
         <div className="Basic-Component">

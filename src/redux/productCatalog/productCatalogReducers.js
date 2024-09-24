@@ -67,7 +67,16 @@ import {
   DELETECATEGORY_FAILURE,
   DELETESUBCATEGORY_REQUEST,
   DELETESUBCATEGORY_SUCCESS,
-  DELETESUBCATEGORY_FAILURE
+  DELETESUBCATEGORY_FAILURE,
+  GET_ITEM_CODE_REQUEST,
+  GET_ITEM_CODE_FAILURE,
+  GET_ITEM_CODE_SUCCESS,
+  POST_POPULAR_ITEM_REQUEST,
+  POST_POPULAR_ITEM_SUCCESS,
+  POST_POPULAR_ITEM_FAILURE,
+  GET_POPULAR_ITEM_REQUEST,
+  GET_POPULAR_ITEM_SUCCESS,
+  GET_POPULAR_ITEM_FAILURE
 } from "../productCatalog/productCatalogConstants";
 
 
@@ -635,6 +644,73 @@ export const storeMockDataReducer = (state = mockData, action) => {
         };
     
   
+      default:
+        return state;
+    }
+  };
+
+  const checkItemCode = {
+    loading: false,
+    data: null,
+    error: null,
+  };
+
+
+  export const checkItemCodeReducer = (state = checkItemCode, action) => {
+    switch (action.type) {
+      case GET_ITEM_CODE_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+  
+      case GET_ITEM_CODE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          data: action.payload,
+        };
+  
+      case GET_ITEM_CODE_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+  
+      default:
+        return state;
+    }
+  };
+  const postPopularItem = {
+    loading: false,
+    popularItemData: null,
+    error: null,
+  };
+
+  export const getPopularItemReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case GET_POPULAR_ITEM_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+      case GET_POPULAR_ITEM_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          popularItemData: action.payload,
+          error: null,
+        };
+      case GET_POPULAR_ITEM_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          popularItemData: null,
+          error: action.payload,
+        };
       default:
         return state;
     }

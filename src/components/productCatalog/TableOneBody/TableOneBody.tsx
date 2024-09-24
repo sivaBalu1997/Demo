@@ -6,7 +6,7 @@ import StringDisplay from "../StringDisplay/StringDisplay";
 import HoverText from "../HoverText/HoverText";
 
 interface Item {
-  name: string;
+  itemName: string;
   itemCode: string;
   id: number;
 }

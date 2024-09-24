@@ -29,6 +29,8 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   //   trigger(name);
   // };
 
+
+
   return (
     <div>
       <div className="input-and-spantext">
@@ -39,6 +41,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           name={name}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
           // onBlur={handleBlur}
           placeholder={placeholder}
           className="Input-Filed"

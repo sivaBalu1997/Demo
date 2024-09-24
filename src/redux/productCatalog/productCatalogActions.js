@@ -88,7 +88,16 @@ import {
   FETCHDROPDOWN_SUCCESS,
   DELETEDROPDOWN_REQUEST,
   DELETEDROPDOWN_SUCCESS,
-  DELETEDROPDOWN_FAILURE
+  DELETEDROPDOWN_FAILURE,
+  GET_ITEM_CODE_REQUEST,
+  GET_ITEM_CODE_SUCCESS,
+  GET_ITEM_CODE_FAILURE,
+  POST_POPULAR_ITEM_REQUEST,
+  POST_POPULAR_ITEM_SUCCESS,
+  POST_POPULAR_ITEM_FAILURE,
+  GET_POPULAR_ITEM_REQUEST,
+  GET_POPULAR_ITEM_SUCCESS,
+  GET_POPULAR_ITEM_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -103,7 +112,7 @@ export const getMenuCategorySuccess = (details) => ({
   payload: details,
 });
 export const getMenuCategoryFailed = (details) => ({
-  type: GET_MENU_CATEGORY_FAILED,
+  type: GET_MENU_CATEGORY_FAILED  ,
   payload: details,
 });
 
@@ -567,3 +576,39 @@ export const deleteDropDownFailure = (error) => ({
   type: DELETEDROPDOWN_FAILURE,
   payload: error
 })
+
+
+
+
+export const getItemCodeRequest = (locationId, itemCode) => ({
+  type: GET_ITEM_CODE_REQUEST,
+  payload: { locationId, itemCode },
+});
+
+export const getItemCodeSuccess = (data) => ({
+  type: GET_ITEM_CODE_SUCCESS,
+  payload: data,
+});
+
+export const getItemCodeFailure = (error) => ({
+  type: GET_ITEM_CODE_FAILURE,
+  payload: error,
+});
+
+
+
+
+export const getPopularItemRequest = (itemData) => ({
+  type: GET_POPULAR_ITEM_REQUEST,
+  payload: itemData,
+});
+
+export const getPopularItemSuccess = (response) => ({
+  type: GET_POPULAR_ITEM_SUCCESS,
+  payload: response,
+});
+
+export const getPopularItemFailure = (error) => ({
+  type: GET_POPULAR_ITEM_FAILURE,
+  payload: error,
+});
