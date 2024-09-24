@@ -55,10 +55,36 @@ import {
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
   DIET_DROPDOWN_LIST_FAILURE,
-  UPLOAD_IMAGE,
-  UPLOAD_IMAGE_SUCCESS,
-  UPLOAD_IMAGE_FAILURE,
-  UPLOAD_IMAGE_IN_PROGRESS
+  CUISINE_DATA_REQUEST,
+  CUISINE_DATA_SUCCESS,
+  CUISINE_DATA_FAILURE,
+  CATEGORY_DATA_REQUEST,
+  CATEGORY_DATA_SUCCESS,
+  CATEGORY_DATA_FAILURE,
+  BESTPAIR_DATA_REQUEST,
+  BESTPAIR_DATA_SUCCESS,
+  BESTPAIR_DATA_FAILURE,
+  SUBCATEGORY_DATA_REQUEST,
+  SUBCATEGORY_DATA_SUCCESS,
+  SUBCATEGORY_DATA_FAILURE,
+  DELETEDIETARY_REQUEST,
+  DELETEDIETARY_SUCCESS,
+  DELETEDIETARY_FAILURE,
+  DELETECUISINE_REQUEST,
+  DELETECUISINE_SUCCESS,
+  DELETECUISINE_FAILURE,
+  DELETECATEGORY_REQUEST,
+  DELETECATEGORY_SUCCESS,
+  DELETECATEGORY_FAILURE,
+  DELETESUBCATEGORY_REQUEST,
+  DELETESUBCATEGORY_SUCCESS,
+  DELETESUBCATEGORY_FAILURE,
+  FETCHDROPDOWN_FAILURE,
+  FETCHDROPDOWN_REQUEST,
+  FETCHDROPDOWN_SUCCESS,
+  DELETEDROPDOWN_REQUEST,
+  DELETEDROPDOWN_SUCCESS,
+  DELETEDROPDOWN_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -302,32 +328,32 @@ export const Get_Image_Failed = (data) => ({
 
 export const storeMockDataRequest = (data) => ({
   type: STORE_MOCK_DATA_REQUEST,
-  payload:data
+  payload: data
 });
 
 export const storeMockDataSuccess = (response) => ({
   type: STORE_MOCK_DATA_SUCCESS,
-  payload: response, 
+  payload: response,
 });
 
 export const storeMockDataFailure = (error) => ({
   type: STORE_MOCK_DATA_FAILURE,
-  payload: error, 
+  payload: error,
 })
 
 export const storeMockDataFilteredRequest = (data) => ({
   type: STORE_MOCK_DATA_FILTERED_REQUEST,
-  payload:data
+  payload: data
 });
 
 export const storeMockDataFilteredSuccess = (response) => ({
   type: STORE_MOCK_DATA_FILTERED_SUCCESS,
-  payload: response, 
+  payload: response,
 });
 
 export const storeMockDataFilteredFailure = (error) => ({
   type: STORE_MOCK_DATA_FILTERED_FAILURE,
-  payload: error, 
+  payload: error,
 })
 
 
@@ -335,49 +361,194 @@ export const storeMockDataFilteredFailure = (error) => ({
 
 export const addMockDataRequest = (data) => ({
   type: ADD_MOCK_DATA_REQUEST,
-  payload:data
+  payload: data
 });
 
 export const addMockDataSuccess = (response) => ({
-  type: ADD_MOCK_DATA_SUCCESS ,
-  payload: response, 
+  type: ADD_MOCK_DATA_SUCCESS,
+  payload: response,
 });
 
 export const addMockDataFailure = (error) => ({
   type: ADD_MOCK_DATA_FALIURE,
-  payload: error, 
+  payload: error,
 })
 
 
-export const dietdatarequest=(data)=>({
+//dietary
+export const dietdatarequest = (data) => ({
   type: DIET_DROPDOWN_LIST_REQUEST,
-  payload: data, 
+  payload: data,
 
 })
 
 export const dietdatasuccess = (response) => ({
-  type:DIET_DROPDOWN_LIST_SUCCESS,
-  payload: response, 
+  type: DIET_DROPDOWN_LIST_SUCCESS,
+  payload: response,
 });
 
 export const dietdatafailure = (error) => ({
   type: DIET_DROPDOWN_LIST_FAILURE,
-  payload: error, 
+  payload: error,
 })
 
+//cuisine
+export const cuisineDataRequest = (data) => ({
+  type: CUISINE_DATA_REQUEST,
+  payload: data,
+})
 
-// {*****************Image upload*****************}
-export const uploadImage = (image, id,index) => ({
-  type: UPLOAD_IMAGE_IN_PROGRESS,
-  payload: { image, id ,index},
+export const cuisineDataSuccess = (response) => ({
+  type: CUISINE_DATA_SUCCESS,
+  payload: response,
 });
 
-export const uploadImageSuccess = (image,id,index) => ({
-  type: UPLOAD_IMAGE_SUCCESS,
-  payload: {image,id,index},
+export const cuisineDataFailure = (error) => ({
+  type: CUISINE_DATA_FAILURE,
+  payload: error,
+})
+
+//category
+export const catogoryDataRequest = (data) => ({
+  type: CATEGORY_DATA_REQUEST,
+  payload: data,
+
+})
+
+export const catogoryDataSuccess = (response) => ({
+  type: CATEGORY_DATA_SUCCESS,
+  payload: response,
 });
 
-export const uploadImageFailure = (image,id, index,error) => ({
-  type: UPLOAD_IMAGE_FAILURE,
-  payload: { image, id,index,error },
+export const catogoryDataFailure = (error) => ({
+  type: CATEGORY_DATA_FAILURE,
+  payload: error,
+})
+
+//bestPair
+export const bestPairDataRequest = (data) => ({
+  type: BESTPAIR_DATA_REQUEST,
+  payload: data,
+})
+
+export const bestPairDataSuccess = (response) => ({
+  type: BESTPAIR_DATA_SUCCESS,
+  payload: response,
 });
+
+export const bestPairDataFailure = (error) => ({
+  type: BESTPAIR_DATA_FAILURE,
+  payload: error,
+})
+
+//subCategory
+export const subCategoryDataRequest = (data) => ({
+  type: SUBCATEGORY_DATA_REQUEST,
+  payload: data,
+
+})
+
+export const subCategoryDataSuccess = (response) => ({
+  type: SUBCATEGORY_DATA_SUCCESS,
+  payload: response,
+});
+
+export const subCategoryDataFailure = (error) => ({
+  type: SUBCATEGORY_DATA_FAILURE,
+  payload: error,
+})
+
+export const fetchDropDownRequest = (data) => ({
+  type: FETCHDROPDOWN_REQUEST,
+  payload: data,
+
+})
+
+export const fetchDropDownSuccess = (response) => ({
+  type: FETCHDROPDOWN_SUCCESS,
+  payload: response,
+});
+
+export const fetchDropDownFailure = (error) => ({
+  type: FETCHDROPDOWN_FAILURE,
+  payload: error
+})
+
+//delete Dietary
+export const deleteDietaryRequest = (data) => ({
+  type: DELETEDIETARY_REQUEST,
+  payload: data
+})
+
+export const deleteDietarySuccess = (response) => ({
+  type: DELETEDIETARY_SUCCESS,
+  payload: response
+})
+
+export const deleteDietaryFailure = (error) => ({
+  type: DELETEDIETARY_FAILURE,
+  payload: error
+})
+
+//delete Cuisine
+export const deleteCuisineRequest = (data) => ({
+  type: DELETECUISINE_REQUEST,
+  payload: data
+})
+
+export const deleteCuisineSuccess = (response) => ({
+  type: DELETECUISINE_SUCCESS,
+  payload: response
+})
+
+export const deleteCuisineFailure = (error) => ({
+  type: DELETECUISINE_FAILURE,
+  payload: error
+})
+
+//delete category
+export const deleteCategoryRequest = (data) => ({
+  type: DELETECATEGORY_REQUEST,
+  payload: data
+})
+
+export const deleteCategorySuccess = (response) => ({
+  type: DELETECATEGORY_SUCCESS,
+  payload: response
+})
+
+export const deleteCategoryFailure = (error) => ({
+  type: DELETECATEGORY_FAILURE,
+  payload: error
+})
+
+//delete sub-category
+export const deleteSubCategoryRequest = (data) => ({
+  type: DELETESUBCATEGORY_REQUEST,
+  payload: data
+})
+
+export const deleteSubCategorySuccess = (response) => ({
+  type: DELETESUBCATEGORY_SUCCESS,
+  payload: response
+})
+
+export const deleteSubCategoryFailure = (error) => ({
+  type: DELETESUBCATEGORY_FAILURE,
+  payload: error
+})
+
+export const deleteDropDowRequest = (data) => ({
+  type: DELETEDROPDOWN_REQUEST,
+  payload: data
+})
+
+export const deleteDropDownSuccess = (response) => ({
+  type: DELETEDROPDOWN_SUCCESS,
+  payload: response
+})
+
+export const deleteDropDownFailure = (error) => ({
+  type: DELETEDROPDOWN_FAILURE,
+  payload: error
+})

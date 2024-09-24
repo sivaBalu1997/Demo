@@ -8,6 +8,8 @@ import DropDown from "../DropDown/Dropdown";
 import DaysCheckDin from "../DayCheckDinein/DaysCheckDinein";
 import { useSelector } from "react-redux";
 import LableComponent from "../LableComponent/LableComponent";
+import Tooltip from "../Tooltip/Tooltip";
+import info from "../../../assets/svg/info.svg";
 
 type MainFormType = {
   availabilityid: string[];
@@ -81,6 +83,7 @@ interface NormalavailProps {
   mainFormState: any;
   dineinfields?: any;
   setDineInFields: (form: any) => void;
+  onToggelChange:(dineIn: boolean, online: boolean, pickup: boolean,delivery:boolean) => void;
 }
 
 type MealType1 = string;
@@ -105,6 +108,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
   setDineInFields,
   setValidationStateerr,
   handleValidate,
+  onToggelChange
+
 }) => {
   const [online, setOnline] = useState(false);
   const [pickup, setPickup] = useState(false);
@@ -154,6 +159,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData.mainForm
   );
+  useEffect(()=>{
+    onToggelChange(dinein,online,pickup,delivery)
+
+  },[dinein,online,pickup,delivery])
 
   const [formNormal, setformNormal] = useState({
     PickuppriceNormal: "",
@@ -510,7 +519,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
   return (
     <div>
       <div className="AvailDaycheck">
-        <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+        <div className="AvailDaycheck-Heading">
+           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+        <div className="tooltip"> <Tooltip message="Kitchen Related">
+                      <div className="ToolKitchen">
+                        <img src={info} alt="" width={25} height={25} />
+                      </div>
+                    </Tooltip></div></div>
+       
         <div className="dayschecking">
           <DaysCheck
             checkedItems={Normaldays}
@@ -520,7 +536,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           ></DaysCheck>
         </div>
       </div>
-      <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1>
+      {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
       {/* DineIn Related */}
       <div className="DineInRelated">
         <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
@@ -608,6 +624,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
                           "DineInService"
                         )
                       }
+                      onBlur={() => {
+                        // validateDropdown(selectedValuesmealtype[index] || [], index)
+                        handleValidate();
+                      }}
                       // validation={validationState.NormalServiceArea}
                       width=""
                     />
@@ -627,7 +647,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 </div>
                 <div className="dineInChooseDayContainer">
                   <h3 className="dineInChooseDayContainerHeading">
-                    Choose for Specific day
+                  Setup for specific days?
                   </h3>
                   <h3
                     className="dineInChooseDayContainer-chooseheading"
@@ -766,7 +786,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <Toggle toggle={delivery} setToggle={setDelivery} />
               </div>
             </div>
-            <div className="DeliverySectionNormal">
+            <div className= {online?"DeliverySectionNormal":"DeliverySectionNormalclose"} >
               {delivery ? (
                 <div>
                   <p className="LabelPrice"> Price*</p>
@@ -853,7 +873,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   selectedValues={selectedthirdvalues}
                   onSelect={handleSelectThird}
                   options={optionsselectthird}
-                  label=""
+                  label="SwiggyZomato"
                   onBlur={() =>
                     validateDropdown(selectedthirdvalues, "SwiggyZomato")
                   }
@@ -864,11 +884,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
               {selectedthirdvalues.includes("Swiggy") && (
                 <div className="LabelSwiggyInputDropDown">
                   <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading"></label>
+                    <label className="swiggyZomatoHeading">Swiggy Price</label>
                     <input
                       className="swiggyZomato-input"
                       type="text"
-                      placeholder="Enter Swiggy details"
+                      // placeholder="Enter Swiggy details"
                       onChange={(e) =>
                         setformNormal({
                           ...formNormal,
@@ -895,11 +915,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
               {selectedthirdvalues.includes("Zomato") && (
                 <div className="LabelSwiggyInputDropDown">
                   <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading"></label>
+                    <label className="swiggyZomatoHeading">Zomato Price</label>
                     <input
                       className="swiggyZomato-input"
                       type="text"
-                      placeholder="Enter Zomato details"
+                      // placeholder="Enter Zomato details"
                       onChange={(e) =>
                         setformNormal({
                           ...formNormal,

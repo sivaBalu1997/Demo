@@ -17,7 +17,6 @@ import {
   dietarytype,
   cuisine,
   mealType,
-  bestPair,
   subcategory,
   alcoholradio,
   calorieponitradio,
@@ -25,14 +24,19 @@ import {
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import {
+  bestPairDataRequest,
+  catogoryDataRequest,
+  cuisineDataRequest,
   dietdatarequest,
   getIngredientsRequest,
   getMenuCategoryRequest,
+  subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
 import Tooltip from "components/productCatalog/Tooltip/Tooltip";
+import { stat } from "fs";
 
 interface Ingredients {
   id: string;
@@ -92,9 +96,13 @@ interface StateDataTag2 {
     categoryData: [];
   };
 }
-interface StateDataTag3 {
+export interface StateDataTag3 {
   productCatalog: {
     dietaryData: [];
+    cuisineData: [];
+    categoryData: [];
+    subCategoryData: [];
+    bestPairData: [];
   };
 }
 
@@ -120,6 +128,7 @@ interface ImageFile {
   // failed: boolean;
   preview: string; // To store the image preview URL
 }
+
 const PrimaryPage = () => {
   const dispatch = useDispatch();
   const {
@@ -157,6 +166,7 @@ const PrimaryPage = () => {
       masterCode: "",
     },
   });
+
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
@@ -168,23 +178,26 @@ const PrimaryPage = () => {
   const ItemsPrimaryDeatils = useSelector(
     (state: primarypage) => state.primarypage.data
   );
-  // console.log("ItemsPrimaryDeatils",ItemsPrimaryDeatils)
+
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
   );
+
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
+
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
   const [dataCuisine, setDataCuisine] = useState(cuisine);
   const [dataMealType, setDataMealType] = useState(mealType);
-  const [dataBestPair, setDataBestPair] = useState(bestPair);
+  const [dataBestPair, setDataBestPair] = useState();
   const [dataSubcategory, setDataSubcategory] = useState(subcategory);
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
   );
+  
   const [categories, setCategories] = useState<Category[]>([]);
   const [images, setImages] = useState<ImageFile[]>([]);
   const [description, setDescription] = useState("");
@@ -352,14 +365,21 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  const dietaryData = useSelector((state:StateDataTag3)=>state.productCatalog.dietaryData)
-  useEffect(()=>{
-    // console.log("data from component",dietaryData);
-  },[dietaryData])
-
-  const getdatafrosaga = () => {
-    dispatch(dietdatarequest("diet"));
-  };
+  const dietaryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.dietaryData
+  );
+  const cuisineData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.cuisineData
+  );
+  const subCategoryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.subCategoryData
+  );
+  const categoryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.categoryData
+  );
+  const bestPairData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.bestPairData
+  );
 
   return (
     <div style={{ display: "flex" }}>
@@ -376,7 +396,6 @@ const PrimaryPage = () => {
           </div>
           <div className="Primary-page">
             {/* <form> */}
-            <button onClick={getdatafrosaga}>get data from redux</button>
             <div className="Primary-page-container-one">
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
@@ -422,6 +441,7 @@ const PrimaryPage = () => {
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
+                        dropDownType="dietary"
                       />
                     )}
                   />
@@ -434,7 +454,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dataCuisine}
+                        options={cuisineData}
                         type="radio"
                         setOptions={setDataCuisine}
                         placeholder="search for option"
@@ -451,40 +471,41 @@ const PrimaryPage = () => {
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
+                        dropDownType="cuisine"
                       />
                     )}
                   />
                 </div>
 
                 <div className="Primary-page-InputFields">
-                    <LableComponent lable="Category*" />
-                    <Controller
-                      name="category"
-                      control={control}
-                      render={({ field }: any) => (
-                        <Dropdown
-                          options={dataSubcategory}
-                          setOptions={setDataSubcategory}
-                          placeholder="search for option"
-                          type="radio"
-                          name="category"
-                          id="categoryId"
-                          register={register}
-                          setValue={setValue}
-                          trigger={trigger}
-                          getValues={getValues}
-                          // validation={{ required: "category is required" }}
-                          error={errors.category}
-                          dropdownopen={DropdownOpen.category}
-                          setDropdownOpen={setDropdownOpen}
-                          onToggle={() => handleDropdownToggle("category")}
-                          addNew={true}
-                          editValues={true}
-                        />
-                      )}
-                    />
-                  </div>
-
+                  <LableComponent lable="Category*" />
+                  <Controller
+                    name="category"
+                    control={control}
+                    render={({ field }: any) => (
+                      <Dropdown
+                        options={categoryData}
+                        setOptions={setDataSubcategory}
+                        placeholder="search for option"
+                        type="radio"
+                        name="category"
+                        id="categoryId"
+                        register={register}
+                        setValue={setValue}
+                        trigger={trigger}
+                        getValues={getValues}
+                        validation={{ required: "category is required" }}
+                        error={errors.category}
+                        dropdownopen={DropdownOpen.category}
+                        setDropdownOpen={setDropdownOpen}
+                        onToggle={() => handleDropdownToggle("category")}
+                        addNew={true}
+                        editValues={true}
+                        dropDownType="category"
+                      />
+                    )}
+                  />
+                </div>
 
                 <div className="Primary-page-InputFields">
                   <LableComponent lable="Best paired with food items *" />
@@ -494,7 +515,7 @@ const PrimaryPage = () => {
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={dataBestPair}
+                          options={bestPairData}
                           setOptions={setDataBestPair}
                           placeholder="search for option"
                           type="checkbox"
@@ -510,15 +531,16 @@ const PrimaryPage = () => {
                           setDropdownOpen={setDropdownOpen}
                           addNew={false}
                           editValues={false}
+                          dropDownType="bestPair"
                         />
                       )}
                     />
                     <div className="tool-tip-best-pair">
-                    <Tooltip message="Kitchen Related">
-                      <div className="ToolKitchen">
-                        <img src={info} alt="" width={25} height={25} />
-                      </div>
-                    </Tooltip>
+                      <Tooltip message="Kitchen Related">
+                        <div className="ToolKitchen">
+                          <img src={info} alt="" width={25} height={25} />
+                        </div>
+                      </Tooltip>
                     </div>
                   </div>
                 </div>
@@ -595,6 +617,7 @@ const PrimaryPage = () => {
                           />
                         </div>
                       ))} */}
+
                     {images.map((img, index) => (
                       <div key={index} className="image-container">
                         <button
@@ -663,11 +686,11 @@ const PrimaryPage = () => {
                       )}
                     />{" "}
                     <div className="tool-tip-item-code">
-                    <Tooltip message="KitchenRelated">
-                      <div className="ToolKitchen">
-                        <img src={info} alt="" width={25} height={25} />
-                      </div>
-                    </Tooltip>{" "}
+                      <Tooltip message="KitchenRelated">
+                        <div className="ToolKitchen">
+                          <img src={info} alt="" width={25} height={25} />
+                        </div>
+                      </Tooltip>{" "}
                     </div>
                   </div>
                 </div>
@@ -696,7 +719,6 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-Page-categories-field">
-                  
                   <div className="Primary-page-InputFields">
                     <LableComponent lable="SubCategory" />
                     <Controller
@@ -704,7 +726,7 @@ const PrimaryPage = () => {
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={dataSubcategory}
+                          options={subCategoryData}
                           setOptions={setDataSubcategory}
                           placeholder="search for option"
                           type="radio"
@@ -718,6 +740,7 @@ const PrimaryPage = () => {
                           dropdownopen={DropdownOpen.subCategory}
                           setDropdownOpen={setDropdownOpen}
                           onToggle={() => handleDropdownToggle("subCategory")}
+                          dropDownType="subCategory"
                         />
                       )}
                     />
@@ -798,11 +821,11 @@ const PrimaryPage = () => {
                       )}
                     />
                     <div className="tool-tip-portion-size">
-                    <Tooltip message="Kitchen Related">
-                      <div className="ToolKitchen">
-                        <img src={info} alt="" width={25} height={25} />
-                      </div>
-                    </Tooltip>
+                      <Tooltip message="Kitchen Related">
+                        <div className="ToolKitchen">
+                          <img src={info} alt="" width={25} height={25} />
+                        </div>
+                      </Tooltip>
                     </div>
                   </div>
 

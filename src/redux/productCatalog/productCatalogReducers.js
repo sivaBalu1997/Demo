@@ -43,15 +43,41 @@ import {
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
   DIET_DROPDOWN_LIST_FAILURE,
-  UPLOAD_IMAGE_SUCCESS,
-  UPLOAD_IMAGE_FAILURE,
-  UPLOAD_IMAGE_IN_PROGRESS,
+  CUISINE_DATA_REQUEST,
+  CUISINE_DATA_SUCCESS,
+  CUISINE_DATA_FAILURE,
+  CATEGORY_DATA_REQUEST,
+  CATEGORY_DATA_SUCCESS,
+  SUBCATEGORY_DATA_REQUEST,
+  SUBCATEGORY_DATA_SUCCESS,
+  SUBCATEGORY_DATA_FAILURE,
+  CATEGORY_DATA_FAILURE,
+  BESTPAIR_DATA_FAILURE,
+  BESTPAIR_DATA_REQUEST,
+  BESTPAIR_DATA_SUCCESS,
+  DELETEDIETARY_REQUEST,
+  DELETEDIETARY_SUCCESS,
+  DELETEDIETARY_FAILURE,
+  DELETECUISINE_REQUEST,
+  DELETECUISINE_SUCCESS,
+  DELETECUISINE_FAILURE,
+  DELETECATEGORY_REQUEST,
+  DELETECATEGORY_SUCCESS,
+  DELETECATEGORY_FAILURE,
+  DELETESUBCATEGORY_REQUEST,
+  DELETESUBCATEGORY_SUCCESS,
+  DELETESUBCATEGORY_FAILURE
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
   dietaryData: [],
   getDietaryloading: false,
   getDietarySuccess: false,
+
+  cuisineData: [],
+  getCuisineDataLoading: false,
+  getCuisineSuccess: false,
+  geitCuisineFailure: false,
 
   categoryData: [],
   getCategoryLoading: false,
@@ -60,6 +86,10 @@ const initialProductCatalogState = {
   subCategoryData: [],
   getSubCategoryLoading: false,
   getSubCategorySuccess: false,
+
+  bestPairData: [],
+  getBestPairDataLoading: false,
+  getBestPairSuccess: false,
 
   taxClass: [],
   getTaxClassLoading: false,
@@ -75,10 +105,27 @@ const initialProductCatalogState = {
   getModifierLoading: false,
   getModifierSuccess: false,
 
+  //delete dropdown
+  deleteDietarySuccess: false,
+  deleteDietaryFailure: false,
+  deleteDietaryLoading: false,
+
+  deleteCuisineSuccess: false,
+  deleteCuisineFailure: false,
+  deleteCuisineLoading: false,
+
+  deleteCategorySuccess: false,
+  deleteCategoryFailure: false,
+  deleteCategoryLoading: false,
+
+  deleteSubCategorySuccess: false,
+  deleteSubCategoryFailure: false,
+  deleteSubCategoryLoading: false,
+
   addMenuLoading: false,
   addMenuSuccess: false,
   addMenuFailed: false,
-  addMenuItemdata:[],
+  addMenuItemdata: [],
   addMenuSuccessMessage: "",
   addMenuFailedMessage: "",
 
@@ -117,8 +164,6 @@ export default function productCatalogReducer(
         break;
       case DIET_DROPDOWN_LIST_SUCCESS:
         draft.dietaryData = action.payload;
-        console.log("action.payload", action.payload);
-
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
         break;
@@ -128,8 +173,71 @@ export default function productCatalogReducer(
         draft.getDietarySuccess = false;
         break;
 
-      // Get Menu Category
+      //cuisine data
+      case CUISINE_DATA_REQUEST:
+        draft.cuisineData = [];
+        draft.getCuisineDataLoading = false;
+        break;
+      case CUISINE_DATA_SUCCESS:
+        draft.cuisineData = action.payload;
+        draft.getCuisineSuccess = true;
+        draft.getCuisineDataLoading = false;
+        break;
+      case CUISINE_DATA_FAILURE:
+        draft.cuisineData = [];
+        draft.getCuisineSuccess = false;
+        draft.getCuisineDataLoading = false;
+        break;
 
+      //category
+      case CATEGORY_DATA_REQUEST:
+        draft.categoryData = [];
+        draft.getCategoryLoading = true;
+        break;
+      case CATEGORY_DATA_SUCCESS:
+        draft.categoryData = action.payload;
+        draft.getCategorySuccess = true
+        draft.getCategoryLoading = false;
+        break;
+      case CATEGORY_DATA_FAILURE:
+        draft.categoryData = [];
+        draft.getCategorySuccess = false
+        draft.getCategoryLoading = false;
+        break;
+
+      //subCategory
+      case SUBCATEGORY_DATA_REQUEST:
+        draft.subCategoryData = []
+        draft.getSubCategoryLoading = true
+        break;
+      case SUBCATEGORY_DATA_SUCCESS:
+        draft.subCategoryData = action.payload
+        draft.getSubCategoryLoading = false
+        draft.getCategorySuccess = true
+        break;
+      case SUBCATEGORY_DATA_FAILURE:
+        draft.subCategoryData = []
+        draft.getSubCategoryLoading = false
+        draft.getCategorySuccess = false
+        break;
+
+      //bestPair
+      case BESTPAIR_DATA_REQUEST:
+        draft.bestPairData = []
+        draft.getBestPairDataLoading = true
+        break;
+      case BESTPAIR_DATA_SUCCESS:
+        draft.bestPairData = action.payload
+        draft.getBestPairDataLoading = false;
+        draft.getBestPairSuccess = false;
+        break;
+      case BESTPAIR_DATA_FAILURE:
+        draft.bestPairData = []
+        draft.getBestPairDataLoading = false;
+        draft.getBestPairSuccess = false;
+        break;
+
+      // Get Menu Category
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
         draft.getCategoryLoading = true;
@@ -230,8 +338,8 @@ export default function productCatalogReducer(
         break;
       // Add Menu Item
       case ADD_MENU_ITEM_REQUEST:
-        draft.addMenuItemdata=action.payload;
-        console.log("reducer data",action.payload)
+        draft.addMenuItemdata = action.payload;
+        console.log("reducer data", action.payload)
         draft.addMenuLoading = true;
         draft.addMenuFailed = false;
         draft.addMenuSuccess = false;
@@ -336,6 +444,71 @@ export default function productCatalogReducer(
       case CLEAR_MENU_ITEM_MSG:
         draft.updateMenuAttributeSuccess = "";
         break;
+
+      case DELETEDIETARY_REQUEST:
+        draft.deleteDietarySuccess = false;
+        draft.deleteDietaryFailure = false;
+        draft.deleteDietaryLoading = true;
+        break;
+      case DELETEDIETARY_SUCCESS:
+        draft.deleteDietarySuccess = true;
+        draft.deleteDietaryFailure = false;
+        draft.deleteDietaryLoading = false;
+        break;
+      case DELETEDIETARY_FAILURE:
+        draft.deleteCuisineSuccess = false;
+        draft.deleteCuisineFailure = true;
+        draft.deleteCuisineLoading = false;
+        break;
+
+      case DELETECUISINE_REQUEST:
+        draft.deleteCuisineSuccess = false;
+        draft.deleteCuisineFailure = false;
+        draft.deleteCuisineLoading = true;
+        break;
+      case DELETECUISINE_SUCCESS:
+        draft.deleteCuisineSuccess = true;
+        draft.deleteCuisineFailure = false;
+        draft.deleteCuisineLoading = false;
+        break;
+      case DELETECUISINE_FAILURE:
+        draft.deleteCuisineSuccess = false;
+        draft.deleteCuisineFailure = true;
+        draft.deleteCuisineLoading = false;
+        break;
+
+      case DELETECATEGORY_REQUEST:
+        draft.deleteCategorySuccess = false;
+        draft.deleteCategoryFailure = false;
+        draft.deleteCategoryLoading = true;
+        break;
+      case DELETECATEGORY_SUCCESS:
+        draft.deleteCategorySuccess = true;
+        draft.deleteCategoryFailure = false;
+        draft.deleteCategoryLoading = false;
+        break;
+      case DELETECATEGORY_FAILURE:
+        draft.deleteCategorySuccess = false;
+        draft.deleteCategoryFailure = true;
+        draft.deleteCategoryLoading = false;
+        break;
+
+      case DELETESUBCATEGORY_REQUEST:
+        draft.deleteSubCategorySuccess = false;
+        draft.deleteSubCategoryFailure = false;
+        draft.deleteSubCategoryLoading = true;
+        break;
+      case DELETESUBCATEGORY_SUCCESS:
+        draft.deleteSubCategorySuccess = true;
+        draft.deleteSubCategoryFailure = false;
+        draft.deleteSubCategoryLoading = false;
+        break;
+      case DELETESUBCATEGORY_FAILURE:
+        draft.deleteSubCategorySuccess = false;
+        draft.deleteSubCategoryFailure = true;
+        draft.deleteSubCategoryLoading = false;
+        break;
+
       default:
         break;
     }
@@ -355,16 +528,16 @@ export const imageUploadReducer = (state = imageuploadinitialstate, action) => {
     case UPLOAD_IMAGE_IN_PROGRESS:
       return {
         ...state,
-       
+
       };
     case UPLOAD_IMAGE_SUCCESS:
       return {
         ...state,
         uploadStatus: {
           ...state.uploadStatus,
-          id:action.payload.id,
-          image:action.payload.image,
-          index:action.payload.index,
+          id: action.payload.id,
+          image: action.payload.image,
+          index: action.payload.index,
           status: 'success',
         },
       };
@@ -373,16 +546,16 @@ export const imageUploadReducer = (state = imageuploadinitialstate, action) => {
         ...state,
         uploadStatus: {
           ...state.uploadStatus,
-          id:action.payload.id,
-          index:action.payload.index,
-          image:action.payload.image,
-         status: 'failed',
+          id: action.payload.id,
+          index: action.payload.index,
+          image: action.payload.image,
+          status: 'failed',
         },
         errorMessages: {
           ...state.errorMessages,
-          id:action.payload.id,
-          image:action.payload.image,
-          index:action.payload.index,
+          id: action.payload.id,
+          image: action.payload.image,
+          index: action.payload.index,
           errormessgae: action.payload.error,
         },
       };

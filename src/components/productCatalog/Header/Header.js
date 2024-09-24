@@ -26,9 +26,14 @@ const Header = () => {
       <div className='Header-Heading-Search-Filter-Container'>
         <Menu120/>
         <SearchBox/>
-        <div className='Filter-Div'  >
+        <div className='Filter-Div'>
           <div className='Filter-FlexCol'>
-            <img   className={isExpanded?'FilterIcon-Header1':"FilterIcon-Header"} onClick={handleFilter}  src={filterIcon} alt="" />
+            <img 
+              className={isExpanded ? 'FilterIcon-Header1' : "FilterIcon-Header"} 
+              onClick={handleFilter}  
+              src={filterIcon} 
+              alt=""
+            />
             <img className='ArrowHoverHeader' src={ArrowHover} alt="" />
             <div className='FilterHover'>Filter</div>
           </div>    

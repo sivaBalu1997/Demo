@@ -17,19 +17,8 @@ import info from "../../assets/png/info.png";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
-
-import {
-  imageslist,
-  dietarytype,
-  cuisine,
-  mealType,
-  bestPair,
-  subcategory,
-  alcoholradio,
-  calorieponitradio,
-  portionsizeradio,
-} from "../../../assets/mockData/Moca_data";
 import Inventory from "components/productCatalog/Inventory/Inventory";
+import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -216,6 +205,9 @@ const PricingDetails = () => {
   const data = useSelector(
     (state: StateData) => state.productCatalog.availability
   );
+  const dietaryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.dietaryData
+  );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
@@ -223,7 +215,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData?.mainForm || {}
   );
   const [options, setOptions] = useState<option[]>([]);
-  const [options1, setOptions1] = useState<Option[]>(cuisine);
+  const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });
@@ -525,7 +517,7 @@ const PricingDetails = () => {
                 <div className="kitche-stations-dropdown">
                   <Dropdown
                     name="kitchenstation"
-                    options={options1}
+                    options={dietaryData}
                     type="checkbox"
                     setOptions={setOptions1}
                     placeholder="Search for option"

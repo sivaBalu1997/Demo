@@ -158,6 +158,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   //     masterCode: "",
   //   };
   // };
+
   const dispatch = useDispatch();
   const scrollToTop = () => {
     window.scrollTo({
@@ -165,8 +166,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       behavior: "smooth",
     });
   };
+
   const formData = getFormData();
-  // console.log("uploading", formData);
   const handleclick = async () => {
     // if (seletedpage === "Primary" && triggerValidation) {
     //   const isFormValid = await triggerValidation(formData);
@@ -178,7 +179,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
-    if (seletedpage === "Primary"&& triggerValidation) {
+    if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
       if (!isFormValid) {
         window.scrollTo({
@@ -220,26 +221,17 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       } else {
         console.error("formData.kitchenstation is undefined");
       }
-
-      // const isFormValid = await triggerValidation(formData);
-      dispatch(PricingDetailRequest(PricingDetails))
-      if (!isFormValid) {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        return;
-      }
-      else{
-        history.push({
-          pathname: `/productCatalog/Itemcustomizations`,
-          state: { pagename: "Itemcustomizations" },
-        });
-        history.push("/productCatalog/Itemcustomizations");
-        dispatch(primarypost(formData));
-      }
-
-    } else if (seletedpage === "ItemCustomization") {
+    
+      // Dispatch PricingDetails request
+      dispatch(PricingDetailRequest(PricingDetails));
+    
+      // Navigate to the next page only if the form is valid
+      history.push({
+        pathname: `/productCatalog/Itemcustomizations`,
+        state: { pagename: "Itemcustomizations" },
+      });
+    }
+    else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));

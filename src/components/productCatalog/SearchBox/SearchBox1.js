@@ -12,34 +12,30 @@ const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [optionSelected, setOptionSelected] = useState(false);
-  const { isExpanded } = useContext(Contextpagejs);
-  const data = useSelector((state) => state.storeMockDataReducer.data);
-
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
-  const dispatch=useDispatch();
 
-  
+  const data = useSelector((state) => state.storeMockDataReducer.data);
+
+  const dispatch = useDispatch();
+  const { isExpanded } = useContext(Contextpagejs);
 
   useEffect(() => {
     if (data && data.length) {
-      setFilteredOptions(data.map((elem) => elem.itemName)); 
-
+      setFilteredOptions(data.map((elem) => elem.itemName));
     }
   }, [data]);
-// console.log(filteredOptions,"filteredOptions")
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch))
-    
-  },[filteredOptionsDispatch])
+  }, [filteredOptionsDispatch])
 
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-
     filterOptions(value);
     setOptionSelected(false);
   }
+
   const filterOptions = (input) => {
     const filtered = data.filter((item) =>
       item.itemName.toLowerCase().includes(input.toLowerCase())
@@ -86,7 +82,7 @@ const SearchBox = () => {
       filterOptions(newValue);
     }
   };
- 
+
   return (
     <div className="Search-Container">
       <div>
@@ -116,7 +112,7 @@ const SearchBox = () => {
                   className={index === highlightedIndex ? 'highlighted' : ''}
                 >
                   <div className={isExpanded ? 'Search-Container-options1-items' : "Search-Container-options-items"}>
-                  {option.itemName}
+                    {option.itemName}
                   </div>
                 </li>
               ))

@@ -2,57 +2,70 @@ import React, { useState, useEffect, useContext } from "react";
 import "./Filter.scss";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Reset from '../../../assets/svg/Reset.svg'
+import Reset from "../../../assets/svg/Reset.svg";
 import { combinedItemsData } from "assets/mockData/Moca_data";
 import { useDispatch } from "react-redux";
 import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 
-
 const Filter = () => {
-  const{isExpanded}=useContext(Contextpagejs)
+  const { isExpanded } = useContext(Contextpagejs);
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     AOS.init();
-    dispatch(storeMockDataRequest(combinedItemsData))
+    dispatch(storeMockDataRequest(combinedItemsData));
   }, []);
 
   const data1 = [
-    { mainHeading: "Meal Type", items: ["Breakfast", "Lunch", "Dinner", "Happy Hours"] },
-    { mainHeading: "Kitchen Station", items: ["Main Kitchen", "Chinese Kitchen", "Juice Kitchen"] },
-    { mainHeading: "Allergens content", items: ["Contain Allergens", "Allergens free", "Prepared allerge"] },
+    {
+      mainHeading: "Meal Type",
+      items: ["Breakfast", "Lunch", "Dinner", "Happy Hours"],
+    },
+    {
+      mainHeading: "Kitchen Station",
+      items: ["Main Kitchen", "Chinese Kitchen", "Juice Kitchen"],
+    },
+    {
+      mainHeading: "Allergens content",
+      items: ["Contain Allergens", "Allergens free", "Prepared allerge"],
+    },
   ];
-  
+
   const data2 = [
-    { mainHeading: "Cuisine", items: ["South Indian", "North Indian", "Chinese", "Italian", "Japanese"] },
-    { mainHeading: "Dietary", items: ["Vegan Food", "Jain Food", "Halal Food", "Veg Food"] },
+    {
+      mainHeading: "Cuisine",
+      items: ["South Indian", "North Indian", "Chinese", "Italian", "Japanese"],
+    },
+    {
+      mainHeading: "Dietary",
+      items: ["Vegan Food", "Jain Food", "Halal Food", "Veg Food"],
+    },
     // { mainHeading: "Unavailable items", items: ["Popular items", "Special available", "Hidden"] },
   ];
-  
+
   // const data3 = [
-    // { mainHeading: "Cuisine", items: ["South Indian", "North Indian", "Chinese", "Italian"] },
-    // { mainHeading: "Unavailable items",items: []},
-    // { mainHeading: "Popular items",items: []},
-    // {mainHeading: "Special available",items: []},
-    // {mainHeading:"Hidden",items: []}
+  // { mainHeading: "Cuisine", items: ["South Indian", "North Indian", "Chinese", "Italian"] },
+  // { mainHeading: "Unavailable items",items: []},
+  // { mainHeading: "Popular items",items: []},
+  // {mainHeading: "Special available",items: []},
+  // {mainHeading:"Hidden",items: []}
   // ];
 
-  const data4 = [{ mainHeading: "Unavailable items",items: []},]
-  const data5 = [{ mainHeading: "Popular items",items: []},]
-  const data6 = [{mainHeading: "Special available",items: []},]
-  const data7 = [{mainHeading:"Hidden",items: []}]
-
+  const data4 = [{ mainHeading: "Unavailable items", items: [] }];
+  const data5 = [{ mainHeading: "Popular items", items: [] }];
+  const data6 = [{ mainHeading: "Special available", items: [] }];
+  const data7 = [{ mainHeading: "Hidden", items: [] }];
 
   const allData = [data1, data2, data4, data5, data6, data7];
-  
+
   const initializeCheckedState = () => {
-    return allData?.map(group =>
-      group.map(item => ({
+    return allData?.map((group) =>
+      group.map((item) => ({
         mainHeading: item.mainHeading,
         checked: false,
-        items: item.items.map(() => false)
+        items: item.items.map(() => false),
       }))
     );
   };
@@ -64,16 +77,21 @@ const Filter = () => {
     const isChecked = !newCheckedState[groupIndex][itemIndex].checked;
 
     newCheckedState[groupIndex][itemIndex].checked = isChecked;
-    newCheckedState[groupIndex][itemIndex].items = newCheckedState[groupIndex][itemIndex].items.map(() => isChecked);
+    newCheckedState[groupIndex][itemIndex].items = newCheckedState[groupIndex][
+      itemIndex
+    ].items.map(() => isChecked);
 
     setCheckedState(newCheckedState);
   };
 
   const handleSubItemChange = (groupIndex, itemIndex, subItemIndex) => {
     const newCheckedState = [...checkedState];
-    newCheckedState[groupIndex][itemIndex].items[subItemIndex] = !newCheckedState[groupIndex][itemIndex].items[subItemIndex];
+    newCheckedState[groupIndex][itemIndex].items[subItemIndex] =
+      !newCheckedState[groupIndex][itemIndex].items[subItemIndex];
 
-    const allChecked = newCheckedState[groupIndex][itemIndex].items.every(item => item);
+    const allChecked = newCheckedState[groupIndex][itemIndex].items.every(
+      (item) => item
+    );
     newCheckedState[groupIndex][itemIndex].checked = allChecked;
 
     setCheckedState(newCheckedState);
@@ -84,7 +102,10 @@ const Filter = () => {
   };
 
   return (
-    <div className={isExpanded?"Filter-Container":"Filter-Container1"} data-aos="fade-left">
+    <div
+      className={isExpanded ? "Filter-Container" : "Filter-Container1"}
+      data-aos="fade-left"
+    >
       <div className="Filter-Heading-container">
         <h3 className="Filter-Heading-org">Filter</h3>
       </div>
@@ -101,7 +122,9 @@ const Filter = () => {
                           className="check-items"
                           type="checkbox"
                           checked={checkedState[groupIndex][itemIndex].checked}
-                          onChange={() => handleMainHeadingChange(groupIndex, itemIndex)}
+                          onChange={() =>
+                            handleMainHeadingChange(groupIndex, itemIndex)
+                          }
                         />
                       </td>
                       <td>
@@ -114,8 +137,18 @@ const Filter = () => {
                           <input
                             className="input-subitems"
                             type="checkbox"
-                            checked={checkedState[groupIndex][itemIndex].items[subItemIndex]}
-                            onChange={() => handleSubItemChange(groupIndex, itemIndex, subItemIndex)}
+                            checked={
+                              checkedState[groupIndex][itemIndex].items[
+                                subItemIndex
+                              ]
+                            }
+                            onChange={() =>
+                              handleSubItemChange(
+                                groupIndex,
+                                itemIndex,
+                                subItemIndex
+                              )
+                            }
                           />
                           <a className="heading-subitems">{item}</a>
                         </div>
@@ -126,7 +159,7 @@ const Filter = () => {
               </div>
             </div>
           ))}
-        </div>  
+        </div>
       </table>
 
       {/* Button Footer */}
