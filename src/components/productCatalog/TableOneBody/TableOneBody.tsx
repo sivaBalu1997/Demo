@@ -114,7 +114,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               className="itemname2"
               onClick={() => handleItemnameClick(item.id)}
             >
-              <HoverText text={item.itemName} lengthvale={14} />
+              <HoverText text={item.itemName}  lengthvale={14}/>
             </span>
             <span className="itemcode2">{item.itemCode}</span>
           </td>
