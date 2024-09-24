@@ -8,7 +8,7 @@ import closeicon from "../../../assets/svg/closeicon.svg";
 import toggleround from "../../../assets/svg/toggleround.svg";
 import calendericon from '../../../assets/svg/calendericon.svg'
 import dollaricon from "../../../assets/svg/dollaricon.svg";
-import togglebtns from "../../../assets/svg/togglebtn.svg";
+// import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { itemsdata, itemsfooddata } from "../../../assets/mockData/Moca_data";
@@ -146,6 +146,7 @@ export const Menulisting = () => {
       type: "SteameNondVeg",
     },
   ]);
+
   const [SideBarData, setSideBar] = useState([]);
   const mergedMockData =  [ ...Mockdata,...addedData,...MockHiddendata] 
 
@@ -307,10 +308,7 @@ export const Menulisting = () => {
 
   const handlemodal = (value) => {
     setmodal(true);
-    console.log(value);
-
-    console.log(Mockdata.filter((item) => item.id === value));
-    setSideBar(mergedMockData.filter((item) => item.id === value));
+    setSideBar(Mockdata.filter((item) => item.id === value));
   };
 
   const showsidebar = (key) => {
@@ -389,6 +387,7 @@ export const Menulisting = () => {
     FilteredObject[0] &&
     Array.isArray(FilteredObject[0]) &&
     FilteredObject[0].map((item) => item);
+
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>
       <SidePanel />
@@ -408,7 +407,7 @@ export const Menulisting = () => {
               closeicon={closeicon}
               dollaricon={dollaricon}
               toggleround={toggleround}
-              togglebtns={togglebtns}
+              togglebtns={calendericon}
               Outsideref={Outsideref}
             />
             <table className="Menu-Listing-TableOne">
@@ -416,7 +415,7 @@ export const Menulisting = () => {
                 <tr className="headerrow">
                   <th className="itemimage ">Image</th>
                   <th className="itemname">Item name</th>
-                  <th className="itemcode  "> Code </th>
+                  <th className="itemcode">Code</th>
                   <th
                     className="addbtn"
                     onClick={() => setshowheadinglist(true)}

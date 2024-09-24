@@ -95,7 +95,6 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
       setlistingobject({ ...listingobject, showavail: true });
     }
   }, [listingobject.Dinein2, listingobject.Pickup2, listingobject.Delivery2]);
-
   
   return (
     <div className="headaadbtnclass" ref={Outsideref}>

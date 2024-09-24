@@ -96,13 +96,13 @@ const Dropdown: React.FC<DropdownProps> = ({
         onClick={handleDropdownClick}
         tabIndex={0}
       >
-        {selectedValues.length > 0 ? (
+        {/* {selectedValues.length > 0 ? (
           <div className="valuePricing">
             {selectedValues.slice(0, 3).join(", ")}
           </div>
         ) : (
           <div className="valuePlaceholder"></div>
-        )}
+        )} */}
         <div>
           <img
             src={UpArrow}

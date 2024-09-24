@@ -1,12 +1,28 @@
 import { API,Image_API } from "redux/api";
 import Store from "../store";
 import Axios from "axios";
+import { bestPairType, categoryType, cuisine, dietarytype, subcategory, subcategoryType } from "assets/mockData/Moca_data";
 
 export function getCategory(locationId) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Category`,
   });
+}
+
+
+//get dropDown
+export function getSubSectionData(){
+  return dietarytype;
+}
+
+//Delete subsection
+export const deleteSubSection = ({data}) => {
+  return API ({
+    method: 'delete',
+    url: `/api/v1/menu-items/sub-section`,
+    data: {data}
+  })
 }
 
 export function getSubCategory({ locationId, id }) {

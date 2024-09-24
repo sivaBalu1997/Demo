@@ -17,19 +17,8 @@ import info from "../../assets/png/info.png";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
-
-import {
-  imageslist,
-  dietarytype,
-  cuisine,
-  mealType,
-  bestPair,
-  subcategory,
-  alcoholradio,
-  calorieponitradio,
-  portionsizeradio,
-} from "../../../assets/mockData/Moca_data";
 import Inventory from "components/productCatalog/Inventory/Inventory";
+import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -208,6 +197,9 @@ const PricingDetails = () => {
   const data = useSelector(
     (state: StateData) => state.productCatalog.availability
   );
+  const dietaryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.dietaryData
+  );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
@@ -215,7 +207,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData?.mainForm || {}
   );
   const [options, setOptions] = useState<option[]>([]);
-  const [options1, setOptions1] = useState<Option[]>(cuisine);
+  const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });
@@ -414,8 +406,101 @@ const PricingDetails = () => {
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
-
+  const [dineinfields, setDineInFields] = useState<DineInField[]>([
+    {
+      DineInPrice: "",
+      DineInMealType: [],
+      DineInService: "",
+      showDay: false,
+      dayButtonText: "Add Day",
+    },
+  ]);
+  console.log(dineinfields);
   // console.log(mainForm);
+  type DropdownValidationState = {
+    [key: string]: { isValid: boolean; errorMessage: string };
+  };
+
+  const [validationStateerr, setValidationStateerr] =
+    useState<DropdownValidationState>({});
+  const [ToogleEnables, setToogleEnables] = useState({
+    dineIn: false,
+    online: false,
+    pickup: false,
+    delivery: false,
+  });
+  const validateDineInFields = (dineinfields: DineInField[]) => {
+    const errors: DropdownValidationState = {};
+
+    dineinfields.forEach((field, index) => {
+      const mealTypeKey = `DineInMealType_${index}`;
+      const priceKey = `DineInPrice_${index}`;
+      const DineInService = `DineInService_${index}`;
+
+      // Validate DineInMealType
+
+      if (ToogleEnables.dineIn) {
+        if (!field.DineInMealType || field.DineInMealType.length === 0) {
+          errors[mealTypeKey] = {
+            isValid: false,
+            errorMessage: "Meal type should not be empty.",
+          };
+        } else {
+          errors[mealTypeKey] = { isValid: true, errorMessage: "" };
+        }
+
+        if (!field.DineInService || field.DineInService.length === 0) {
+          errors[DineInService] = {
+            isValid: false,
+            errorMessage: "Service area should not be empty.",
+          };
+        } else {
+          errors[DineInService] = { isValid: true, errorMessage: "" };
+        }
+
+        if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
+          errors[priceKey] = {
+            isValid: false,
+            errorMessage: "Price should be a valid number.",
+          };
+        } else {
+          errors[priceKey] = { isValid: true, errorMessage: "" };
+        }
+      }
+    });
+
+    return errors;
+  };
+
+  // Function to handle values passed from the child
+  const handleValuesFromChild = (
+    dineIn: boolean,
+    online: boolean,
+    pickup: boolean,
+    delivery: boolean
+  ) => {
+    setToogleEnables({ dineIn, online, pickup, delivery });
+    console.log("Values from child:", dineIn, online, pickup, delivery);
+  };
+
+  const handleValidate = () => {
+    const errors = validateDineInFields(dineinfields);
+    setValidationStateerr(errors);
+    console.log("errors", errors);
+
+    const hasInvalidField = Object.values(errors).some(
+      (error) => error.isValid === false
+    );
+
+    return !hasInvalidField;
+  };
+
+  // console.log("Hello",validateDineInFields(dineinfields))
+  // let erros = validateDineInFields(dineinfields);
+
+  // const submiterror = () => {
+  //   console.log(erros);
+  // };
 
   return (
     <div style={{ display: "flex" }}>
@@ -430,66 +515,42 @@ const PricingDetails = () => {
           }
         >
           <div className="pricing-form">
-            <div className="Tool">
-              <p className="KitchenRelatedHeading">Kitchen Related</p>
-              {/* <Tooltip message="Kitchen Related">
-                      <div className="ToolKitchen">
-                        <img src={info} alt="" width={20} height={20} />
-                      </div>
-                    </Tooltip> */}
-            </div>
-
             <div className="KitchenRelated">
               <div className="D1kitchen">
-                <Dropdown
-                  name="kitchenstation"
-                  options={options1}
-                  type="checkbox"
-                  setOptions={setOptions1}
-                  placeholder="Search for option"
-                  register={register}
-                  setValue={setValue}
-                  error={errors.kitchenstation}
-                  trigger={trigger}
-                  getValues={getValues}
-                  validation={{ required: "dietaryType is required" }}
-                  addNew={true}
-                  editValues={true}
-                  setDropdownOpen={setDropdownOpen}
-                  dropdownopen={DropdownOpen.Kitchen}
-                  onToggle={() => handleDropdownToggle("Kitchen")}
-                />
+                <p>Kitchen Related</p>
+                <div className="kitche-stations-dropdown">
+                  <Dropdown
+                    name="kitchenstation"
+                    options={dietaryData}
+                    type="checkbox"
+                    setOptions={setOptions1}
+                    placeholder="Search for option"
+                    register={register}
+                    setValue={setValue}
+                    error={errors.kitchenstation}
+                    trigger={trigger}
+                    getValues={getValues}
+                    validation={{ required: "dietaryType is required" }}
+                    addNew={true}
+                    editValues={true}
+                    setDropdownOpen={setDropdownOpen}
+                    dropdownopen={DropdownOpen.Kitchen}
+                    onToggle={() => handleDropdownToggle("Kitchen")}
+                  />
+                </div>
               </div>
 
-              <div className="D1kitchen">
-                {/* <Controller
-                    name="Preparation"
-                    control={control}
-                    defaultValue={[]}
-                    rules={{ required: "Please select at least one option" }}
-                    render={({ field }: any) => (
-                      <Dropdown
-                        selectedValues={selectedValue1}
-                        onSelect={(value) => {
-                          setSelectedValue1(value);
-                          if (field?.onChange) {
-                            field.onChange(values);
-                          }
-                          validateDropdown(values, "preparationTime");
-                        }}
-                        options={["Option 1", "Option 2", "Option 3"]}
-                        label="Preparation*"
-                        onBlur={() => {
-                          if (field?.onBlur) {
-                            field.onBlur();
-                            handleBlur(field?.value, "preparationTime");
-                          }
-                        }}
-                        validation={validationState.preparationTime}
-                        width="Drop1"
-                      />
-                    )}
-                  /> */}
+              <div className="D2kitchen">
+                <div className="Prepartiontime">
+                  <label htmlFor="">Preparation time</label>
+                  <div className="Prepartiontime-input-fileds">
+                    <input type="text" className="Prepartiontime-input-hours" />
+                    <span>Hours</span>
+                    <span>:</span>
+                    <input type="text" className="Prepartiontime-input-mins" />
+                    <span>Minutes</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -593,6 +654,7 @@ const PricingDetails = () => {
                 </div>
               )}
             </div>
+            <div className="services-Heading"><p> Service availability </p></div>
 
             <div className="NormalSpecial">
               <div className="Normal">
@@ -625,6 +687,10 @@ const PricingDetails = () => {
                 validationState={validationState}
                 setMainFormState={setMainFormState}
                 mainFormState={mainFormState}
+                dineinfields={dineinfields}
+                setDineInFields={setDineInFields}
+                handleValidate={handleValidate}
+                onToggelChange={handleValuesFromChild}
               />
             ) : (
               <Specialavail
@@ -653,6 +719,7 @@ const PricingDetails = () => {
               reset={reset}
               triggerValidation={() => trigger()}
               mainForm={mainForm}
+              validation={() => handleValidate()}
             />
           </div>
         </div>
