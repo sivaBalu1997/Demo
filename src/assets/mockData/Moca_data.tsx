@@ -397,14 +397,53 @@ const truncateString = (str: string, length: number) => {
     { name: "gluten", id: "9163" },
   ];
   
-  export const dietarytype = [
-    { id: "1", name: "Vegan" },
-    { id: "2", name: "vegetarian" },
-    { id: "3", name: "Indian" },
-    { id: "4", name: "Chinese" },
-    { id: "5", name: "American" },
-  ];
+  // export const dietarytype = [
+  //   { id: "1", name: "Vegan" },
+  //   { id: "2", name: "vegetarian" },
+  //   { id: "3", name: "Indian" },
+  //   { id: "4", name: "Chinese" },
+  //   { id: "5", name: "American" },
+  // ];
   
+  
+  export const dietarytype=[
+    {
+      id: "123",
+      name: "Starters",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Vegan",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "vegetarian",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+    {
+      id: "123",
+      name: "Halal",
+      canDelete: "false",
+      media: {
+        imageId: "",
+        imageType: "",
+      },
+    },
+  ]
   
   export const cuisine = [
     { id: "1", name: "French" },
