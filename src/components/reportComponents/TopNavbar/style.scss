@@ -22,6 +22,10 @@
   --t-chart-bg: #ffffff;
 }
 
+.t-expanded-topnavbar {
+  width: 83vw !important;
+}
+
 .t-navbar {
   display: flex;
   justify-content: space-around;
@@ -31,8 +35,14 @@
   position: sticky;
   top: 0;
   z-index: 2;
-  width: 80vw;
   align-items: center;
+  width: 92vw;
+  @media (max-width: 500px) {
+    width: 100vw;
+  }
+  @media (max-width: 800px) {
+    justify-content: space-between;
+  }
 
   .t-nav-item {
     font-size: 16px;
@@ -47,21 +57,33 @@
     &:hover {
       color: var(--t-table-text);
     }
-    hr{
+    hr {
       height: 2px;
-      color:  var(--t-table-text);
+      color: var(--t-table-text);
       border-radius: 5px;
       background-color: var(--t-table-text);
       margin: 0px;
     }
+    @media (max-width: 800px) {
+      display: none;
+    }
+    @media (max-width: 500px) {
+      display: none;
+    }
   }
 
   .t-theme-toggle {
+    @media (max-width: 800px) {
+      padding-right: 1rem;
+    }
+    @media (max-width: 500px) {
+      padding-right: 1rem;
+    }
     .t-switch {
       position: relative;
       display: inline-block;
-      width: 3.75rem; /* 60px */
-      height: 2.125rem; /* 34px */
+      width: 3.75rem;
+      height: 2.125rem;
       input {
         opacity: 0;
         width: 0;
@@ -76,7 +98,7 @@
         bottom: 0;
         background-color: #5d6e8f;
         transition: 0.4s;
-        border-radius: 2.125rem; /* 34px */
+        border-radius: 2.125rem;
 
         &:before {
           position: absolute;
@@ -106,8 +128,7 @@
   }
 
   .t-filter-toggle-btn-container {
-    position: relative; // Relative to contain the absolute dropdown
-    display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     gap: 0.6rem;
@@ -127,11 +148,11 @@
     }
 
     .t-filter-drop-down-options {
-      position: absolute; // Absolute to overlay other elements
-      top: 110%; // Positions dropdown just below the button
+      position: absolute;
+      top: 110%;
       left: 50%;
       transform: translateX(-50%);
-      width: 12rem; // Adjusted for better fit
+      width: 12rem;
       padding: 0.5rem;
       background-color: var(--t-navbar-bg);
       color: var(--t-navbar-text);
@@ -153,4 +174,3 @@
     }
   }
 }
-

@@ -1,12 +1,12 @@
-import React from 'react';
-import Toggle from '../Toggle/Toggle';
+import React from "react";
+import Toggle from "../Toggle/Toggle";
 
 interface PricingDetails {
   [key: string]: any[];
 }
 
 interface ItemObject {
-  name: { pricingdetails: PricingDetails,id: number}[];
+  name: { pricingdetails: PricingDetails; id: number }[];
   id: number;
 }
 
@@ -16,8 +16,8 @@ interface TableRowsProps {
   classNamesinner: string[];
   handlemodal: (value: number) => void;
   listingobject: any;
-  setSideBar:()=>void
-  SideBarData:[]
+  setSideBar: () => void;
+  SideBarData: [];
   showsidebar: (key: string) => void;
 }
 
@@ -30,21 +30,27 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
 
   showsidebar,
 }) => {
-
-  const handlesidbarhandling=(key:string,value:number)=>{
-    showsidebar(key)
+  const handlesidbarhandling = (key: string, value: number) => {
+    showsidebar(key);
     handlemodal(value);
+  };
 
-  }
   return (
     <>
       {itemobject.name.map((itemdata, index) => (
-        <tr key={index}  className={`tabletwobodyrows ${indexvalue===1 && index===0 && 'secondrow'}`}  >
-          <td   className={`eachobject-rowwise  ${index === 0 &&indexvalue==0? 'border-important' : ''}`}  >
-
+        <tr
+          key={index}
+          className={`tabletwobodyrows ${
+            indexvalue === 1 && index === 0 && "secondrow"
+          }`}
+        >
+          <td
+            className={`eachobject-rowwise  ${
+              index === 0 && indexvalue == 0 ? "border-important" : ""
+            }`}
+          >
             {Object.entries(itemdata.pricingdetails || {}).map(
-              ([key, cellData], cellIndex) =>     
-              {
+              ([key, cellData], cellIndex) => {
                 const className = classNamesinner[cellIndex];
                 const items = listingobject[className];
 
@@ -53,17 +59,20 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                     <div className={className} key={cellIndex}>
                       {cellData.map((item, itemIndex) => (
                         <React.Fragment key={`${cellIndex}-${itemIndex}`}>
-                          {item === 'Enabled' || item === 'Disabled' ? (
-                            <div  onClick={() => handlesidbarhandling(key,itemdata.id)} >
-                              <Toggle
-                                toggle={item === 'Enabled'}
-                               
-                              />
+                          {item === "Enabled" || item === "Disabled" ? (
+                            <div
+                              onClick={() =>
+                                handlesidbarhandling(key, itemdata.id)
+                              }
+                            >
+                              <Toggle toggle={item === "Enabled"} />
                             </div>
                           ) : (
                             <div
                               // className={`${className}${itemIndex}`}
-                              onClick={() => handlesidbarhandling(key,itemdata.id)}
+                              onClick={() =>
+                                handlesidbarhandling(key, itemdata.id)
+                              }
                             >
                               {item}
                             </div>
@@ -73,7 +82,6 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                     </div>
                   );
                 }
-
                 return null;
               }
             )}

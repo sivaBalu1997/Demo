@@ -43,7 +43,6 @@ const Navigationpage = () => {
 
   // console.log("Use Paras",location.state?.pagename)
 
-
   return (
     <>
       <div className={"navigation"}>

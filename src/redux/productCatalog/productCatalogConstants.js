@@ -55,27 +55,27 @@ export const UPDATE_MENU_ATTRIBUTE_FAILED = "UPDATE_MENU_ATTRIBUTE_FAILED";
 
 // Primary Page Reducer Attributes 
 
-export const Primary_Post_Data_Send="Primary_Post_Data_Send";
-export const Primary_Post_Data_Success="Primary_Post_Data_Success";
-export const Primary_Post_Data_Failure="Primary_Post_Data_Failure";
+export const Primary_Post_Data_Send = "Primary_Post_Data_Send";
+export const Primary_Post_Data_Success = "Primary_Post_Data_Success";
+export const Primary_Post_Data_Failure = "Primary_Post_Data_Failure";
 
 // Item Customization  Reducer Attributes 
 
-export const Item_Customizations_Data_Request="Item_Customizations_Data_Request";
-export const Item_Customizations_Data_Success="Item_Customizations_Data_Success";
-export const Item_Customizations_Data_Failure="Item_Customizations_Data_Failure";
+export const Item_Customizations_Data_Request = "Item_Customizations_Data_Request";
+export const Item_Customizations_Data_Success = "Item_Customizations_Data_Success";
+export const Item_Customizations_Data_Failure = "Item_Customizations_Data_Failure";
 
 // Prizing Detail   Reducer Attributes 
 
 
-export const Pricing_Detail_Data_Request="Pricing_Detail_Data_Request"
-export const Pricing_Detail_Data_Success="Pricing_Detail_Data_Success"
-export const Pricing_Detail_Data_Failure="Pricing_Detail_Data_Failure"
+export const Pricing_Detail_Data_Request = "Pricing_Detail_Data_Request"
+export const Pricing_Detail_Data_Success = "Pricing_Detail_Data_Success"
+export const Pricing_Detail_Data_Failure = "Pricing_Detail_Data_Failure"
 
 
-export const  Get_ItemImage="Get_Image"
-export const  Get_ItemImage_Success="Get_Image"
-export const  Get_ItemImage_Failure="Get_Image"
+export const Get_ItemImage = "Get_Image"
+export const Get_ItemImage_Success = "Get_Image"
+export const Get_ItemImage_Failure = "Get_Image"
 
 
 // Action Types
@@ -83,33 +83,57 @@ export const STORE_MOCK_DATA_REQUEST = 'STORE_MOCK_DATA_REQUEST';
 export const STORE_MOCK_DATA_SUCCESS = 'STORE_MOCK_DATA_SUCCESS';
 export const STORE_MOCK_DATA_FAILURE = 'STORE_MOCK_DATA_FAILURE';
 
-
 export const STORE_MOCK_DATA_FILTERED_REQUEST = ' STORE_MOCK_DATA_FILTERED_REQUEST';
 export const STORE_MOCK_DATA_FILTERED_SUCCESS = 'STORE_MOCK_DATA_FILTERED_SUCCESS';
 export const STORE_MOCK_DATA_FILTERED_FAILURE = 'STORE_MOCK_DATA_FILTERED_FAILURE';
-
-
 
 export const ADD_MOCK_DATA_REQUEST = ' ADD_MOCK_DATA_REQUEST';
 export const ADD_MOCK_DATA_SUCCESS = 'ADD_MOCK_DATA_SUCCESS';
 export const ADD_MOCK_DATA_FALIURE = ' ADD_MOCK_DATA_FALIURE';
 
+export const DIET_DROPDOWN_LIST_REQUEST = 'DIET_DROPDOWN_LIST_REQUEST'
+export const DIET_DROPDOWN_LIST_SUCCESS = 'DIET_DROPDOWN_LIST_SUCCESS'
+export const DIET_DROPDOWN_LIST_FAILURE = 'DIET_DROPDOWN_LIST_FAILURE'
 
-export const DIET_DROPDOWN_LIST_REQUEST='DIET_DROPDOWN_LIST_REQUEST'
-export const DIET_DROPDOWN_LIST_SUCCESS='DIET_DROPDOWN_LIST_SUCCESS'
-export const DIET_DROPDOWN_LIST_FAILURE='DIET_DROPDOWN_LIST_FAILURE'
+export const CUISINE_DATA_REQUEST = 'CUISINE_DATA_REQUEST'
+export const CUISINE_DATA_SUCCESS = 'CUISINE_DATA_SUCCESS'
+export const CUISINE_DATA_FAILURE = 'CUISINE_DATA_FAILURE'
+
+export const CATEGORY_DATA_REQUEST = 'CATEGORY_DATA_REQUEST'
+export const CATEGORY_DATA_SUCCESS = 'CATEGORY_DATA_SUCCESS'
+export const CATEGORY_DATA_FAILURE = 'CATEGORY_DATA_FAILURE'
+
+export const BESTPAIR_DATA_REQUEST = 'BESTPAIR_DATA_REQUEST'
+export const BESTPAIR_DATA_SUCCESS = 'BESTPAIR_DATA_SUCCESS'
+export const BESTPAIR_DATA_FAILURE = 'BESTPAIR_DATA_FAILURE'
+
+export const SUBCATEGORY_DATA_REQUEST = 'SUBCATEGORY_DATA_REQUEST'
+export const SUBCATEGORY_DATA_SUCCESS = 'SUBCATEGORY_DATA_SUCCESS'
+export const SUBCATEGORY_DATA_FAILURE = 'SUBCATEGORY_DATA_FAILURE'
+
+export const FETCHDROPDOWN_REQUEST = 'FETCHDROPDOWN_REQUEST'
+export const FETCHDROPDOWN_SUCCESS = 'FETCHDROPDOWN_SUCCESS'
+export const FETCHDROPDOWN_FAILURE = "FETCHDROPDOWN_FAILURE"
+
+//Delete 
+export const DELETEDIETARY_REQUEST = "DELETEDIETARY_REQUEST"
+export const DELETEDIETARY_SUCCESS = "DELETEDIETARY_SUCCESS"
+export const DELETEDIETARY_FAILURE = "DELETEDIETARY_FAILURE"
+
+export const DELETECUISINE_REQUEST = "DELETECUISINE_REQUEST"
+export const DELETECUISINE_SUCCESS = "DELETECUISINE_SUCCESS"
+export const DELETECUISINE_FAILURE = "DELETECUISINE_FAILURE"
+
+export const DELETECATEGORY_REQUEST = "DELETECATEGORY_REQUEST"
+export const DELETECATEGORY_SUCCESS = "DELETECATEGORY_SUCCESS"
+export const DELETECATEGORY_FAILURE = "DELETECATEGORY_FAILURE"
+
+export const DELETESUBCATEGORY_REQUEST = "DELETESUBCATEGORY_REQUEST"
+export const DELETESUBCATEGORY_SUCCESS = "DELETESUBCATEGORY_SUCCESS"
+export const DELETESUBCATEGORY_FAILURE = "DELETESUBCATEGORY_FAILURE"
+
+export const DELETEDROPDOWN_REQUEST = "DELETEDROPDOWN_REQUEST"
+export const DELETEDROPDOWN_SUCCESS = "DELETEDROPDOWN_SUCCESS"
+export const DELETEDROPDOWN_FAILURE = "DELETEDROPDOWN_FAILURE"
 
 
-
-export const UPLOAD_IMAGE_IN_PROGRESS = 'UPLOAD_IMAGE_IN_PROGRESS';
-export const UPLOAD_IMAGE_SUCCESS = 'UPLOAD_IMAGE_SUCCESS';
-export const UPLOAD_IMAGE_FAILURE = 'UPLOAD_IMAGE_FAILURE';
-
-// export const DIET_DROPDOWN_LIST_REQUEST='DIET_DROPDOWN_LIST_REQUEST'
-// export const DIET_DROPDOWN_LIST_SUCCESS='DIET_DROPDOWN_LIST_SUCCESS'
-// export const DIET_DROPDOWN_LIST_FAILURE='DIET_DROPDOWN_LIST_FAILURE'
-
-
-// export const DIET_DROPDOWN_LIST_REQUEST='DIET_DROPDOWN_LIST_REQUEST'
-// export const DIET_DROPDOWN_LIST_SUCCESS='DIET_DROPDOWN_LIST_SUCCESS'
-// export const DIET_DROPDOWN_LIST_FAILURE='DIET_DROPDOWN_LIST_FAILURE'
