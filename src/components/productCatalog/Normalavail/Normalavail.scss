@@ -411,3 +411,28 @@ margin-left: 20px;
   display: flex;
   flex-direction: column;
 }
+.ErrormsgPickup{
+  position: relative;
+  top:30px;
+  left:30px;
+  color:red
+}
+.Errormsg{
+  position: relative;
+  top:30px;
+  left:30px;
+  color:red
+
+}
+.ErrormsgPrice{
+  position: relative;
+  top:40px;
+  left:-130px;
+  color:red
+}
+.ErrormsgPickupPrice{
+  position: relative;
+  top: 50px;
+  right: 130px;
+  color: red;
+}

@@ -110,6 +110,7 @@ interface SubmitButtonProps {
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
   mainForm?:MainForm
+  handleValidate?:any
 }
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
@@ -117,7 +118,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   reset,
   modifications,
   triggerValidation,
-  mainForm
+  mainForm,
+  handleValidate
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
@@ -190,28 +192,45 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
 
-    } else if (seletedpage === "Pricing"&& triggerValidation) {
-
+    } else if (seletedpage === "Pricing" && triggerValidation  ) {
+    const isValid=handleValidate();
+      let PricingDetails = { ...mainForm }; 
+      console.log("hello", mainForm);
+    
       const formData = getFormData();
       console.log(formData);
-      const isFormValid = await triggerValidation(formData);
-      dispatch(PricingDetailRequest(mainForm))
-      if (!isFormValid) {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        return;
+    
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,             // Spread the existing values in PricingDetails
+          kitchenstation: formData.kitchenstation,  // Add or update kitchenstation
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
       }
-      else{
-        history.push({
-          pathname: `/productCatalog/Itemcustomizations`,
-          state: { pagename: "Itemcustomizations" },
-        });
-        history.push("/productCatalog/Itemcustomizations");
-        dispatch(primarypost(formData));
+    
+      if (formData.form && formData.form?.Inventory1) {
+        PricingDetails = {
+          ...PricingDetails,
+          form: {
+            ...mainForm?.form, // Ensure form exists by spreading PricingDetails.form or defaulting to an empty object
+            Inventory1: formData.form.Inventory1 || "", // Update or set Inventory1
+            Inventory2: formData.form.Inventory2 || "", // Update or set Inventory2
+          }
+        };
+      } else {
+        console.error("formData.form.Inventory1 is undefined or formData.form is missing");
       }
+     
+        
+      
+      // Add further logic to proceed after validation passes
+      if(isValid)
+      {
+        
+        history.push("/productCatalog/Reviewpage");
 
+      }
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
