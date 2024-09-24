@@ -76,7 +76,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [Disablesubcategory, setDisablesubcategory] = useState<boolean>(false);
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [showselectedOption,setShowselectedOption]=useState<boolean>(false);
+  const [showselectedOption,setShowselectedOption]=useState<boolean>(true);
  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -120,6 +120,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSearchTerm(e.target.value);
  
     if (!dropdownopen && e.target.value !== "") {
+      // setDropdownOpen()
       // onToggle();
     }
     setShowselectedOption(false);

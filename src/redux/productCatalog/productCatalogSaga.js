@@ -1,4 +1,4 @@
-import { put, call, takeLatest ,take} from "redux-saga/effects";
+import { put, call, takeLatest, take } from "redux-saga/effects";
 import {
   getMenuCategoryRequest,
   getMenuCategorySuccess,
@@ -163,7 +163,6 @@ function* getAvailabilitySaga(action) {
   }
 }
 
-
 function* addMenuItemSaga(action) {
   try {
     const addApi = yield call(getId);
@@ -175,14 +174,12 @@ function* addMenuItemSaga(action) {
       const images = action.payload[0].imageUrls.map((image) => image.file);
       console.log("Images to upload:", images);
 
-
       for (const [index, image] of images.entries()) {
         yield put({
           type: UPLOAD_IMAGE_IN_PROGRESS,
-          payload: { image, addApiresponse, index }, 
+          payload: { image, addApiresponse, index },
         });
 
-     
         yield take([UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE]);
       }
     } else {
@@ -193,37 +190,22 @@ function* addMenuItemSaga(action) {
   }
 }
 
-
 function* uploadImageSaga(action) {
   const { image, addApiresponse, index } = action.payload;
-  
   try {
     const formData = new FormData();
-    formData.append("id", addApiresponse); 
-    formData.append("formData", image); 
-    
-    console.log(`Uploading image at index ${index}:`, image.name);
-    
-
+    formData.append("id", addApiresponse);
+    formData.append("formData", image);
     const response = yield call(store, formData);
     
-  
-   
-    console.log(`Response for image at index ${index}:`, response);
-    
-    if (response.data.httpStatus=== 200) {
-      yield put(uploadImageSuccess(image,response.data.message, index));
-      console.log(`Image upload succeeded for index ${index}`);
+    if (response.data.httpStatus === 200) {
+      yield put(uploadImageSuccess(image, addApiresponse, index));
     } else {
-      // Failure case: Dispatch failure action for the specific image
       const error = "Image upload failed";
-      yield put(uploadImageFailure(image, response.data.message, index, error));
-      console.log(`Image upload failed for index ${index}`);
+      yield put(uploadImageFailure(image, addApiresponse, index, error));
     }
   } catch (error) {
-    // Error handling: Dispatch failure action with error message for the specific image
-    yield put(uploadImageFailure(image, "failure", index, error.message));
-    console.log(`Image upload error for index ${index}:`, error.message);
+    yield put(uploadImageFailure(image, addApiresponse, index, error.message));
   }
 }
 

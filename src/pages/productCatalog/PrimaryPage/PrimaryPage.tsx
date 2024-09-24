@@ -157,24 +157,6 @@ const PrimaryPage = () => {
       masterCode: "",
     },
   });
-  const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
-  );
-
-  const requestCompleted = useSelector(
-    (state: RootState) => state.productCatalog.requestCompleted
-  );
-
-  const ItemsPrimaryDeatils = useSelector(
-    (state: primarypage) => state.primarypage.data
-  );
-  // console.log("ItemsPrimaryDeatils",ItemsPrimaryDeatils)
-  const ingredients = useSelector(
-    (state: StateDataTag) => state.productCatalog.ingredients
-  );
-  const categoriesdata = useSelector(
-    (state: StateDataTag2) => state.productCatalog.categoryData
-  );
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
@@ -190,6 +172,55 @@ const PrimaryPage = () => {
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
   const maxDescriptonLength = 100;
+  
+  const locationid = useSelector(
+    (state: State) => state.auth.credentials.locationId
+  );
+
+  const requestCompleted = useSelector(
+    (state: RootState) => state.productCatalog.requestCompleted
+  );
+
+
+  const ItemsPrimaryDetails = useSelector(
+    (state: primarypage) => state.primarypage.data
+  );
+  useEffect(() => {
+    if (ItemsPrimaryDetails) {
+      // Assuming ItemsPrimaryDetails has matching keys as FormData
+      setValue("itemName", ItemsPrimaryDetails.itemName);
+      setValue("dietaryType", ItemsPrimaryDetails.dietaryType);
+      setValue("cuisine", ItemsPrimaryDetails.cuisine);
+      setValue("mealType", ItemsPrimaryDetails.mealType);
+      setValue("bestPair", ItemsPrimaryDetails.bestPair);
+      setValue("description", ItemsPrimaryDetails.description);
+      setValue("imageUrls", ItemsPrimaryDetails.imageUrls);
+      setValue("alcohol", ItemsPrimaryDetails.alcohol);
+      setValue("itemCode", ItemsPrimaryDetails.itemCode);
+      setValue("barCode", ItemsPrimaryDetails.barCode);
+      setValue("category", ItemsPrimaryDetails.category);
+      setValue("categoryId", ItemsPrimaryDetails.categoryId);
+      setValue("subCategory", ItemsPrimaryDetails.subCategory);
+      setValue("Ingredients", ItemsPrimaryDetails.Ingredients);
+      setValue("allergens", ItemsPrimaryDetails.allergens);
+      setValue("coloriePoint", ItemsPrimaryDetails.coloriePoint);
+      setValue("selectedcolorie", ItemsPrimaryDetails.selectedcolorie);
+      setValue("portionSize", ItemsPrimaryDetails.portionSize);
+      setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
+      setValue("tax", ItemsPrimaryDetails.tax);
+      setValue("masterCode", ItemsPrimaryDetails.masterCode);
+      setDescription(ItemsPrimaryDetails?.description)
+    }
+  }, [ItemsPrimaryDetails, setValue]);
+  console.log("ItemsPrimaryDeatils",ItemsPrimaryDetails)
+  const ingredients = useSelector(
+    (state: StateDataTag) => state.productCatalog.ingredients
+  );
+  const categoriesdata = useSelector(
+    (state: StateDataTag2) => state.productCatalog.categoryData
+  );
+
+ 
   const maxImages = 7;
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     dietaryType: false,
@@ -235,7 +266,13 @@ const PrimaryPage = () => {
   };
 
   const handleImageDeletion = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
+    const updatedDeletionImage=images.filter((_, i) => i !== index);
+    setImages(() => {
+      const updatedImages = updatedDeletionImage;
+      const updatedImageUrls = updatedImages.map((image) => image);
+      setValue("imageUrls", updatedImageUrls);
+      return updatedImages;
+    });
   };
 
   const selectedradiowatch = watch();
@@ -320,8 +357,8 @@ const PrimaryPage = () => {
           };
         })
         .filter((file): file is ImageFile => file !== null);
-      if (fileArray.length + images.length >7) {
-        alert("You can upload a maximum of 7 images.");
+      if (fileArray.length + images.length > 6) {
+        alert("You can upload a maximum of 6 images.");
         return;
       }
       setImages((prevImages) => {

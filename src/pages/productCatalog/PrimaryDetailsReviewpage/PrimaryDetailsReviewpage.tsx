@@ -13,6 +13,7 @@ import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImag
 import {
   addMenuItemRequest,
   addMockDataRequest,
+  cleanMenuItemSuccessMsg,
   uploadImage,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -109,7 +110,7 @@ interface ImageFile {
 
 interface ImageId {
   productCatalog: {
-    addMenuSuccessMessage:string;
+    addMenuSuccessMessage: string;
   };
 }
 
@@ -124,6 +125,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const uploadStatus = useSelector(
     (state: { imageUpload: ImageUpload }) => state.imageUpload.uploadStatus
   );
+  // console.log("id",uploadStatus.id)
   const errorMessages = useSelector(
     (state: { imageUpload: ImageUpload }) => state.imageUpload.errorMessages
   );
@@ -132,7 +134,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const ImageId = useSelector(
     (state: ImageId) => state.productCatalog.addMenuSuccessMessage
   );
-  console.log("ImageId", ImageId)
+  const [imageIdtosend, setimageIdtosend] = useState<string>("");
+  // console.log("ImageId", ImageId);
 
   useEffect(() => {
     if (uploadStatus && uploadStatus.index !== undefined) {
@@ -234,8 +237,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     }
   };
 
-  
-  const [indextoreplace,setindextoreplace]=useState<Status>();
+  const [indextoreplace, setindextoreplace] = useState<Status[]>([]);
 
   useEffect(() => {
     checkAllImagesForErrors();
@@ -270,20 +272,20 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
         return updatedImages;
       });
-      const ReplaceImage={
-        id:uploadStatus.id,
-        image:file,
-        status: uploadStatus.status,
-        index:indexToReplace
 
-      }
+      const ReplaceImage = {
+        id: uploadStatus.id,
+        image: file,
+        status: uploadStatus.status,
+        index: indexToReplace,
+      };
 
       // setTimeout(() => {
       //   dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
       // }, 5000);
-      setindextoreplace(ReplaceImage)
-      
-     
+      // setindextoreplace(ReplaceImage);
+
+      setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
       // setErro((prevErro) =>
       //   prevErro.map((entry, idx) => {
@@ -304,28 +306,41 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       (img) => img && !hasImageError(img.file)
     );
 
-    if (uploadStatus.id&& error && error.length > 0) {
+    if (uploadStatus.id && error && error.length > 0) {
       const allSuccess = error.every((data) => data.status === "success");
       if (allUploaded && allSuccess) {
-        history.push("/menuListing");
+        // dispatch(cleanMenuItemSuccessMsg())
+      console.log("it is warning")
+        setTimeout(() => {
+          history.push("/menuListing");
+          
+        }, 2000);
+
+       
       } else {
         console.log("Not all images are uploaded successfully.");
       }
     }
-    if(ImageId==="" || ImageId===undefined ){
+    
+    // for(let [index,image] of indextoreplace.entries()){
+    //   console.log("image",image,"index",index)
+
+    // }
+    if (ImageId === "" || ImageId === undefined) {
       dispatch(addMenuItemRequest(data));
       dispatch(addMockDataRequest(data));
-
+    } else {
+      setindextoreplace((prev) => {
+        const updatedIndexToReplace = [...prev];
+        
+        // Dispatch after state is updated
+        updatedIndexToReplace.forEach((item) => {
+          dispatch(uploadImage(item.image, item.id, item.index));
+        });
+    
+        return updatedIndexToReplace; // Ensure the state is updated with the new value
+      });
     }
-    else{
-     
-        dispatch(uploadImage(indextoreplace?.image, indextoreplace?.id, indextoreplace?.index));
-
-
-      
-    }
-
-   
 
     // If needed, redirect or perform other actions here
     // if (allUploaded) {
