@@ -27,12 +27,13 @@ const SidePanel = () => {
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
   const menuOptions = ["Items", "Product Catalog"];
   const offerMenuOptions = ["Offers"];
+  const reportInsightsOptions = ['Old','New'];
 
   const history = useHistory();
 
   // useEffect(() => {
   //   if (window.innerWidth <= 575) {
-  //     history.push(`/management/report/32`);
+  //     history.push(`/report/32`);
   //   }
   // }, [history]);
 
@@ -180,7 +181,7 @@ const SidePanel = () => {
             <EmployeesIcon className="menu-items-SVG" />
             {isExpanded && <span className="menu-items-name">Employees</span>}
           </div>
-          
+          {/* MENU ==========================================================*/}
           <div
             className={
               showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
@@ -210,7 +211,7 @@ const SidePanel = () => {
               )}{" "}
             </Fragment>
           </div>
-
+          
           {showOptions === "MenuOptions" && (
             <ul>
               {menuOptions.map((option) => (
@@ -232,7 +233,7 @@ const SidePanel = () => {
               ))}
             </ul>
           )}
-
+          {/*Menu ===========================================*/}
           <div
             className={
               showOfferOptions === "MenuOptions"
@@ -282,7 +283,8 @@ const SidePanel = () => {
               : null}
 
           </ul>
-          <div
+          {/* Report ==================================================================== */}
+          {/* <div
             className={
               showOptions === "reportOptions" &&
               location.pathname.includes("report")
@@ -303,7 +305,60 @@ const SidePanel = () => {
                 {isExpanded && <span className="menu-items-name">Reports & Insights</span>}
               </div>
             }
+          </div> */}
+          {/* Report ==================================================================== */}
+
+          <div
+            className={
+              showOptions === "reportOptions" ? "active drop-down" : "drop-down"
+            }
+            onClick={() => {
+              if (showOptions === "reportOptions") {
+                setShowOptions("");
+              } else {
+                setShowOptions("reportOptions");
+              }
+            }}
+          >
+            <div>
+              {showOptions === "reportOptions" &&
+              !location.pathname.includes("report") ? (
+                <li style={{ marginBottom: 0 }} />
+              ) : null}
+              <Stats className="menu-items-SVG" />
+              {isExpanded && <span className="menu-items-name">Reports & Insights</span>}
+            </div>
+
+            <Fragment>
+              {showOptions === "reportOptions" ? (
+                <Uparrow className="dropdown-arrow" />
+              ) : (
+                <Downarrow className="dropdown-arrow" />
+              )}{" "}
+            </Fragment>
           </div>
+          
+          {showOptions === "reportOptions" && (
+            <ul>
+              {reportInsightsOptions.map((option) => (
+                <li
+                  key={option}
+                  style={{ marginTop: "10px"}}
+                  onClick={() => {
+                    if (option === "Old") {
+                      history.push(`/old-reports`);
+                    } else if (option === "New") {
+                      history.push("/live-reports");
+                    }
+                  }}
+                >
+                  <span className="menuList">
+                    {option}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
 
           <div
             className={

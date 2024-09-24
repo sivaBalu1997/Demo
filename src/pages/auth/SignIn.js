@@ -35,7 +35,7 @@ const SignIn = ({ setLogin }) => {
         history.push("/reset");
       } else {
         if (window.innerWidth <= 575) {
-          history.push("/management/report/32");
+          history.push("/report/32");
         } else {
           history.push("/employees");
         }

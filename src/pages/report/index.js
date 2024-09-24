@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Search from "../../components/common/Search";
 import Dropdown from "../../components/common/Dropdown";
 import CustomDropdown from "../../components/common/customDropdown";
-import API from "../../redux/api";
+import { API } from "../../redux/api";
 import { getOutlets } from "../../redux/employee/employeeActions";
 import { clearMenuData } from "../../redux/menu/menuAction";
 import MerchantLogo from "../../assets/images/thalappakatti.png";
@@ -60,9 +60,9 @@ const Report = (props) => {
   const handleSelect = (event) => {
     setSelectValue(event.target.value);
     if (event.target.value === 1) {
-      history.push("/management/report/32", "Check In");
+      history.push("/report/32", "Check In");
     } else if (event.target.value === 32) {
-      history.push("/management/report/32", "Sales");
+      history.push("/report/32", "Sales");
     }
   };
 
@@ -151,22 +151,22 @@ const Report = (props) => {
     const token = credentials?.accessToken;
     let reportId =
       restaurantDetails.country == "US" &&
-      location.pathname === "/management/report/32"
+        location.pathname === "report/32"
         ? 41
         : restaurantDetails.country == "IN" &&
-          location.pathname === "/management/report/32"
-        ? 32
-        : location.pathname === "/management/report/51"
-        ? 51
-        : location.pathname === "/management/report/57"
-        ? 57
-        : location.pathname === "/management/report/63"
-        ? 63
-        : location.pathname === "/management/report/67"
-        ? 67
-        : location.pathname === "/management/report/82"
-        ? 82
-        : 2;
+          location.pathname === "report/32"
+          ? 32
+          : location.pathname === "/report/51"
+            ? 51
+            : location.pathname === "/report/57"
+              ? 57
+              : location.pathname === "/report/63"
+                ? 63
+                : location.pathname === "/report/67"
+                  ? 67
+                  : location.pathname === "/report/82"
+                    ? 82
+                    : 2;
     API({
       method: "get",
       url:
@@ -314,24 +314,22 @@ const Report = (props) => {
         <div>
           {selectValue === "Sales" && (
             <div
-              className={`${
-                location.pathname === "/management/report/32"
-                  ? "selected"
-                  : "unselected"
-              }`}
-              onClick={() => history.push("/management/report/32", "Sales")}
+              className={`${location.pathname === "/report/32"
+                ? "selected"
+                : "unselected"
+                }`}
+              onClick={() => history.push("/report/32", "Sales")}
             >
               Sales Report
             </div>
           )}
-           {selectValue === "Sales" && (
+          {selectValue === "Sales" && (
             <div
-              className={`tab ${
-                location.pathname === "/management/report/82"
-                  ? "selected"
-                  : "unselected"
-              }`}
-              onClick={() => history.push("/management/report/82", "Sales")}
+              className={`tab ${location.pathname === "/report/82"
+                ? "selected"
+                : "unselected"
+                }`}
+              onClick={() => history.push("/report/82", "Sales")}
             >
               Category Report
             </div>
@@ -339,40 +337,38 @@ const Report = (props) => {
           {/* {
             <div
               className={` ${
-                location.pathname === "/management/report/32"
+                location.pathname === "/report/32"
                   ? "selected"
                   : "unselected"
               }`}
-              onClick={() => history.push("/management/report/32", "Check In")}
+              onClick={() => history.push("/report/32", "Check In")}
             >
               Checkin Report
             </div>
           } */}
 
-              {
-              restaurantDetails.vertical== IS_SPORT_DOMAIN  
-              && (
-                <div
-                  className={`tab ${
-                    location.pathname === "/management/report/67"
-                      ? "selected"
-                      : "unselected"
-                  }`}
-                  onClick={() => history.push("/management/report/67", "Sales")}
-                >
-                Enrolment tracker
-                </div>
-              )
-
-          } 
-          {selectValue === "Sales" && (
-            <div
-              className={` ${
-                location.pathname === "/management/report/57"
+          {
+            restaurantDetails.vertical == IS_SPORT_DOMAIN
+            && (
+              <div
+                className={`tab ${location.pathname === "/management/report/67"
                   ? "selected"
                   : "unselected"
-              }`}
-              onClick={() => history.push("/management/report/57", "Sales")}
+                  }`}
+                onClick={() => history.push("/management/report/67", "Sales")}
+              >
+                Enrolment tracker
+              </div>
+            )
+
+          }
+          {selectValue === "Sales" && (
+            <div
+              className={` ${location.pathname === "/report/57"
+                ? "selected"
+                : "unselected"
+                }`}
+              onClick={() => history.push("/report/57", "Sales")}
             >
               Product Insights
             </div>
@@ -380,12 +376,11 @@ const Report = (props) => {
 
           {
             <div
-              className={`tab ${
-                location.pathname === "/management/report/2"
-                  ? "selected"
-                  : "unselected"
-              }`}
-              onClick={() => history.push("/management/report/2", "Sales")}
+              className={`tab ${location.pathname === "/report/2"
+                ? "selected"
+                : "unselected"
+                }`}
+              onClick={() => history.push("/report/2", "Sales")}
             >
               Check-In Report
             </div>
@@ -393,29 +388,27 @@ const Report = (props) => {
 
           {selectValue === "Sales" && (
             <div
-              className={` ${
-                location.pathname === "/management/report/51"
-                  ? "selected"
-                  : "unselected"
-              }`}
-              onClick={() => history.push("/management/report/51", "Sales")}
+              className={` ${location.pathname === "/report/51"
+                ? "selected"
+                : "unselected"
+                }`}
+              onClick={() => history.push("/report/51", "Sales")}
             >
               Customer Insights
             </div>
           )}
-           {branchDetails.cusine!=null && branchDetails.cusine[0]!=null &&
-            branchDetails.cusine[0]== IS_SPORT_VERTICAL && selectValue === "Sales"  && (
-            <div
-              className={` ${
-                location.pathname === "/management/report/63"
+          {branchDetails.cusine != null && branchDetails.cusine[0] != null &&
+            branchDetails.cusine[0] == IS_SPORT_VERTICAL && selectValue === "Sales" && (
+              <div
+                className={` ${location.pathname === "/management/report/63"
                   ? "selected"
                   : "unselected"
-              }`}
-              onClick={() => history.push("/management/report/63", "Sales")}
-            >
-            Consolidated Report
-            </div>
-          )}
+                  }`}
+                onClick={() => history.push("/management/report/63", "Sales")}
+              >
+                Consolidated Report
+              </div>
+            )}
           {/* {selectValue === "Sales" && (
             <div
               className={`tab ${

@@ -46,6 +46,7 @@ import MainPage from 'pages/productCatalog/MainPage/MainPage'
 
 import { Contextpage } from "pages/productCatalog/contextpage";
 import SidePanel from "pages/SidePanel";
+import Report from 'pages/report'
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -187,6 +188,87 @@ const Routers = () => {
               )}
             </div>
 
+            <div>
+            <Route exact path="/old-reports" component={Report} />
+            <Route
+          exact
+          path="report/32"
+          component={() => (
+            <Report id={"32"} title={"Sales Report"} />
+          )}
+        />
+          <Route
+          exact
+          path="/report/51"
+          component={() => (
+            <Report id={"51"} title={"Customer Insights"} />
+          )}
+        />
+          <Route
+          exact
+          path="/report/63"
+          component={() => (
+            <Report id={"63"} title={"Consolidated Report"} />
+          )}
+        />
+          <Route
+          exact
+          path="/report/67"
+          component={() => (
+            <Report id={"63"} title={"Course management"} />
+          )}
+        />
+          <Route
+          exact
+          path="/report/82"
+          component={() => (
+            <Report id={"82"} title={"Category report"} />
+          )}
+        />
+         <Route
+          exact
+          path="/report/57"
+          component={() => (
+            <Report id={"57"} title={"Product Insights"} />
+          )}
+        />
+        <Route
+          exact
+          path="report/32"
+          component={() => <Report id={"32"} title={"Sales report"} />}
+        />
+        <Route
+          exact
+          path="/report/2"
+          component={() => <Report id={"2"} title={"Checkin - Daily report"} />}
+        />
+        <Route
+          exact
+          path="/report/4"
+          component={() => <Report id={"4"} title={"Order insights"} />}
+        />
+        <Route
+          exact
+          path="/report/5"
+          component={() => (
+            <Report id={"5"} title={"Sales - Transaction report"} />
+          )}
+        />
+
+        <Route
+          exact
+          path="/report/12"
+          component={() => <Report id={"12"} title={"Sales insights"} />}
+
+          // /> <Route
+          // exact
+          // path="/report/8"
+          // component={() => (
+          //   <Report id={"8"} title={"Product insights"} />
+          // )}
+        />
+            </div>
+            
             <div>
               <Route exact path="/live-reports" component={CustomerInsights} />
               <Route exact path="/sales" component={Sales} />
