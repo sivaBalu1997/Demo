@@ -37,7 +37,9 @@ import {
   bestPairDataRequest,
   deleteDietarySuccess,
   deleteDietaryFailure,
-  fetchDropDownFailure
+  fetchDropDownFailure,
+  uploadImageSuccess,
+  uploadImageFailure,
 
 
 } from "./productCatalogActions";
@@ -58,7 +60,9 @@ import {
   getCategorydata,
   getSubCategoryData,
   getBestPairData,
-  getSubSectionData
+  getSubSectionData,
+  getId,
+  store,
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -79,7 +83,11 @@ import {
   SUBCATEGORY_DATA_REQUEST,
   BESTPAIR_DATA_REQUEST,
   FETCHDROPDOWN_REQUEST,
-  DELETEDROPDOWN_REQUEST
+  DELETEDROPDOWN_REQUEST,
+  UPLOAD_IMAGE_IN_PROGRESS,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAILURE,
+  ADD_MENU_ITEM_SUCCESS,
 
 } from "./productCatalogConstants";
 

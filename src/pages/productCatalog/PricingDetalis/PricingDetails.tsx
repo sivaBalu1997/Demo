@@ -685,7 +685,7 @@ const PricingDetails = () => {
                 dineinfields={dineinfields}
                 setDineInFields={setDineInFields}
                 handleValidate={handleValidate}
-                // onToggelChange={handleValuesFromChild}
+                onToggelChange={handleValuesFromChild}
               />
             ) : (
               <Specialavail
