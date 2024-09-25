@@ -8,7 +8,7 @@ import DropDown from "../DropDown/Dropdown";
 import DaysCheckDin from "../DayCheckDinein/DaysCheckDinein";
 import { useSelector } from "react-redux";
 import LableComponent from "../LableComponent/LableComponent";
-// import TooltipMsg from "../Tooltip/TooltipMsg";
+import TooltipMsg from "../Tooltip/TooltipMsg";
 import info from "../../../assets/svg/info.svg";
 
 type MainFormType = {
@@ -55,41 +55,10 @@ interface DineInField {
   showDay: boolean;
   dayButtonText: string;
 }
-interface RootState {
-  PricingDetailReducer: {
-    prizingData: 
-       NormalFormData;
-    
-  };
-}
-
 
 type DropdownValidationState = {
   [key: string]: { isValid: boolean; errorMessage: string }; // Adjust this as necessary
 };
- interface NormalFormData {
-    normalForm: {
-      dineinfields: DineInField[];
-      DineIn: number[];
-      Pickup: number[];
-      Delivery: number[];
-      thirdParty:number[]
-      DeliveryMealType: string[];
-      PicupMealType:string[];
-
-      formNormal: {
-        PickuppriceNormal: string;
-        PicupMealType: string;
-        DeliverypriceNormal: string;
-        SwiggyNormal: string;
-        ZomatoNormal: string;
-      };
-      thirdPartyOrder: {
-        SwiggyNormal: string;
-        ZomatoNormal: string;
-      };
-    };
-  }
 
 interface NormalavailProps {
   getNormalForm?: (form: any) => void;
@@ -339,9 +308,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     if (prizingDetail?.normalForm) {
       setNormalDays(prizingDetail.normalForm.Normaldays || []);
     }
-    const newData = prizingDetail?.normalForm?.DineIn?.map((elem: any) => elem); // Copying the array
-    setDineInDates1(newData); // No need for another map here
-    console.log(newData); // Log the copied data
   }, []);
   const handleDelete = (index: number): void => {
     // Filter out the entry at the given index
@@ -552,7 +518,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
         <div className="AvailDaycheck-Heading">
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
           <div className="tooltip">
-          {/* <TooltipMsg
+          <TooltipMsg
                         message="Enter a unique code for this food item, used for identification."
                         styles={{marginLeft:'2rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
                         Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.6rem'}}
@@ -565,7 +531,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                             height={20}
                           />
                         </div>
-                      </TooltipMsg> */}
+                      </TooltipMsg>
           </div>
         </div>
 

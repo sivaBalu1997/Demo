@@ -56,34 +56,31 @@ const Dropdown: React.FC<DropdownProps> = ({
     setTouched(true);
   };
 
-    const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
+  const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const newSelectedValues = selectedValues.includes(value)
+      ? selectedValues.filter((item) => item !== value) // Deselect
+      : [...selectedValues, value]; // Select
     
-      // Ensure selectedValues is an array
-      const newSelectedValues = Array.isArray(selectedValues)
-        ? selectedValues.includes(value)
-          ? selectedValues.filter((item) => item !== value)
-          : [...selectedValues, value]
-        : [value]; // Initialize with the first selected value if not an array
-    
-      onSelect(newSelectedValues);
-    };
-    const validateDropdown = (value: string[] | undefined, fieldName: string) => {
-      if (Array.isArray(value) && value.length > 0) {
-        // Proceed with your validation logic
-      } else {
-        // Handle the case where the array is undefined or empty
-        console.log(`${fieldName} is either empty or not an array`);
-      }
-    };
+    // Trigger the parent component's onSelect and validation
+    onSelect(newSelectedValues);
+  
+    // Check if there are selected values and validate
+  };
+  
+
+  const validateDropdown = (values: string[]) => {
+    // If no options are selected and touched, validate on blur
+    if (values.length === 0 && touched) {
+      onBlur && onBlur();
+    }
+  };
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef}>
       <label className="droplabelPricing">{label}</label>
       <div
-        className={
-          !validation?.isValid ? "dropdownPricingred" : "dropdownPricingList"
-        }
+        className="dropdownPricingList"
         style={{ width: "Drop1" ? "300px" : "100px" }}
         onClick={handleDropdownClick}
         tabIndex={0}

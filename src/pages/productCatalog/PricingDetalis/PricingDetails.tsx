@@ -52,10 +52,9 @@ type MainFormType = {
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
-  DineInServiceArea?: string | string[];
-  DineInService:string
-  showDay: boolean
-  dayButtonText: string
+  DineInService: string | string[];
+  showDay:any
+  dayButtonText:any
 };
 
 interface FormState {

@@ -37,9 +37,9 @@ interface Base64Image {
   base64String: string;
 }
 interface ImageFile {
-  file: File;
-  uploaded: boolean;
-  failed: boolean;
+  // file: File;
+  // uploaded: boolean;
+  // failed: boolean;
   preview: string; // To store the image preview URL
 }
 interface FormData {
@@ -126,6 +126,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
+ // Safely invoking validation
+
+ 
   // const extractFields = (formData: FormData) => {
   //   return {
   //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",

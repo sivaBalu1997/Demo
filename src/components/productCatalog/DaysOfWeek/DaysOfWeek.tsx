@@ -17,7 +17,7 @@ const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays }) => {
             setDays(prevState => [...prevState, index]);
         }
     };
-console.log(days)
+
     return (
         <ul className='DaysOfWeek'>
             {daysOfWeek.map((day, index) => (

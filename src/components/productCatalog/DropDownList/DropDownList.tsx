@@ -4,36 +4,21 @@ import edit from "../../../assets/images/edit copy.png";
 import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
-import { useDispatch } from "react-redux";
-import {
-  bestPairDataRequest,
-  cuisineDataRequest,
-  deleteDropDowRequest,
-  // dietdatarequest,
-  fetchDropDownRequest,
-  subCategoryDataRequest,
-} from "redux/productCatalog/productCatalogActions";
-interface media {
-  imageId: string;
-  imageType: string;
-}
+import { useSelector,useDispatch } from "react-redux";
+import { deleteDropDowRequest, fetchDropDownRequest } from "redux/productCatalog/productCatalogActions";
+interface media{
+  imageId:string
+  imageType:string
+ }
 interface Option {
+ 
   id: string;
   name: string;
-  canDelete: string;
-  media: media;
+  // canDelete:string;
+  // media:media
 }
 
-// {
-//   "id":"123",
-//   "name":"Starters",
-//   "canDelete":"false",
-//   "media":{
-//       "imageId":"",
-//       "imageType":""
-//   }
-// }
-
+ 
 interface DropdownProps {
   name: string;
   id?: string;
@@ -86,7 +71,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [Disablesubcategory, setDisablesubcategory] = useState<boolean>(false);
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [showselectedOption, setShowselectedOption] = useState<boolean>(false);
+  const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
   const dispatch = useDispatch();
 
   const getdatafrosaga = () => {
@@ -119,6 +104,10 @@ const DropDownList: React.FC<DropdownProps> = ({
     };
   }, [setDropdownOpen]);
 
+useEffect(()=>{
+  dispatch(fetchDropDownRequest(dropDownType));
+},[initialOptions])
+
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if(dropDownType){
@@ -137,12 +126,22 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-
-    if (!dropdownopen && e.target.value !== "") {
-      // onToggle();
+  
+    // If there is text in the search term, ensure the dropdown is open
+    if (e.target.value !== "") {
+      if (!dropdownopen) {
+        onToggle(); // Open the dropdown
+      }
+      setShowselectedOption(false);
+    } else {
+      setShowselectedOption(true);
+      // Optionally close the dropdown if the search term is empty
+      if (dropdownopen) {
+        onToggle(); // Close the dropdown
+      }
     }
-    setShowselectedOption(false);
   };
+  
 
   useEffect(() => {
     const initialSelectedValue = getValues(name);
@@ -191,20 +190,16 @@ const DropDownList: React.FC<DropdownProps> = ({
       const newItem: Option = {
         id: (initialOptions.length + 1).toString(),
         name: newItemLabel,
-        canDelete: "false",
-        media: {
-          imageId: "",
-          imageType: "",
-        },
       };
       setOptions([...initialOptions, newItem]);
+     
       handleSelect(newItem);
       setSearchTerm("");
       setAddNewButton(false);
     }
   };
-
-  const filteredOptions = initialOptions?.filter((option) =>
+ 
+  const filteredOptions = initialOptions.filter((option) =>
     option.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -311,6 +306,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                         <span
                           className="dropdon-option-label"
                           onClick={() => handleSelect(option)}
+                         
                         >
                           {option.name}
                         </span>
@@ -338,24 +334,16 @@ const DropDownList: React.FC<DropdownProps> = ({
                   );
                 })
               ) : (
-                <div
-                  className="no-optionsContainer"
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: "x",
-                  }}
-                >
-                  <li className="dropdown-no-options">No options found</li>
-                </div>
+                <li className="dropdown-no-options">No options found</li>
               )}
             </ul>
-            <div>
+            <div className="edititem">
               {!editList && editValues && (
                 <p
                   className="editiconimage"
                   onMouseDown={handleOptionMouseDown}
                   onClick={() => handleedit()}
+                  // style={{position:'relative',left:'-2rem'}}
                 >
                   Edit
                 </p>

@@ -7,10 +7,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ThemeContext } from "../../../context/ThemeContext";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
-// import moment from "moment";
-import "./style.scss";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import "./style.scss";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 declare namespace CanvasJS {
   interface ChartEventArgs {
@@ -27,12 +27,9 @@ const CheckIn: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [openFilter, setOpenFilter] = useState(false);
   const [openCustomDateRange, setOpenCustomDateRange] = useState(false);
-  // const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  // const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
-
-  // const displayCustomDateRange = () => {
-  //   setOpenCustomDateRange((op) => !op);
-  // };
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -59,7 +56,41 @@ const CheckIn: React.FC = () => {
     "MERCHANT"
   );
 
-  const MockchartOptions = {
+  const MockchartOptions: {
+    animationEnabled: boolean;
+    exportEnabled: boolean;
+    theme: string;
+    title: {
+      text: string;
+      fontSize: string;
+    };
+    axisY: {
+      title: string;
+      gridColor: string;
+    };
+    axisX: {
+      title: string;
+      gridColor: string;
+    };
+    legend: {
+      cursor: string;
+      itemclick: (e: CanvasJS.ChartEventArgs) => void;
+      horizontalAlign: string;
+      verticalAlign: string;
+      reversed: boolean;
+    };
+    toolTip: {
+      shared: boolean;
+      reversed: boolean;
+    };
+    data: {
+      type: string;
+      name: string;
+      showInLegend: boolean;
+      dataPoints: any[];
+    }[];
+    backgroundColor: string;
+  } = {
     animationEnabled: true,
     exportEnabled: true,
     theme: isDarkTheme ? "dark1" : "light2",
@@ -76,7 +107,7 @@ const CheckIn: React.FC = () => {
       gridColor: isDarkTheme ? "#445678" : "#cccccc",
     },
     legend: {
-      cursor: "pointer", // Makes the legend items clickable
+      cursor: "pointer",
       itemclick: (e: CanvasJS.ChartEventArgs) => {
         if (
           typeof e.dataSeries.visible === "undefined" ||
@@ -154,173 +185,188 @@ const CheckIn: React.FC = () => {
     setSelectedPeriod(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
-      // setOpenStartDatePicker(true);
-      // setOpenEndDatePicker(true);
-      // setStartDate(moment().format("MM-DD-YYYY"));
-      // setEndDate(moment().format("MM-DD-YYYY"));
     } else {
       setOpenCustomDateRange(false);
-      // setOpenStartDatePicker(false);
-      // setOpenEndDatePicker(false);
     }
     setOpenFilter(false);
   };
 
+  console.log("kaam", isExpanded);
+
   return (
-    <div style={{display:'flex', flexDirection:'row'}}>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-      className={`checkin-container ${
-        isDarkTheme ? "dark-theme" : "light-theme"
-      }`}
-    >
-      <Topnavbar />
-      <div className="checkin-head">
-        <div className="checkin-name-board">
-          <h1>Reports Dashboard</h1>
-        </div>
-        <div className="dates">
-          <div className="label-time-period">
-            <p>Select Time Period</p>
+        className={`checkin-container ${
+          isDarkTheme ? "dark-theme" : "light-theme"
+        }`}
+      >
+        <Topnavbar />
+        <div className="checkin-head">
+          <div className="checkin-name-board">
+            <h1>Reports Dashboard</h1>
           </div>
-          <div className="filter-toggle-btn-container">
-            <div className="filter-toggle-btn" onClick={openFilterDropDown}>
-              {selectedPeriod}
+          <div className="dates">
+            <div className="label-time-period">
+              <p>Select Time Period</p>
             </div>
-            {openFilter && (
-              <div className="filter-drop-down-options">
-                <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
-                <p onClick={() => handleOptionClickForDate("This Week")}>
-                  This Week
-                </p>
-                <p onClick={() => handleOptionClickForDate("Last 7 days")}>
-                  Last 7 days
-                </p>
-                <p onClick={() => handleOptionClickForDate("This Month")}>
-                  This Month
-                </p>
-                <p onClick={() => handleOptionClickForDate("Last Month")}>
-                  Last Month
-                </p>
-                <p onClick={() => handleOptionClickForDate("Last 30 days")}>
-                  Last 30 days
-                </p>
-                <p
-                  onClick={() =>
-                    handleOptionClickForDate("Select Custom Date Range")
-                  }
-                >
-                  Select Custom Date Range
-                </p>
+            <div className="filter-toggle-btn-container">
+              <div className="filter-toggle-btn" onClick={openFilterDropDown}>
+                {selectedPeriod}
               </div>
-            )}
-          </div>
-          {openCustomDateRange && (
-            <div className="date-range-style">
-              <DatePicker
-                placeholderText="Start Date"
-                selected={startDate}
-                onChange={(date: Date) => setStartDate(date)}
-                dateFormat="dd MMM yyyy"
-                className="start-date"
-              />
-              <DatePicker
-                placeholderText="End Date"
-                selected={endDate}
-                onChange={(date: Date) => setEndDate(date)}
-                dateFormat="dd MMM yyyy"
-                className="end-date"
-              />
+              {openFilter && (
+                <div className="filter-drop-down-options">
+                  <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
+                  <p onClick={() => handleOptionClickForDate("This Week")}>
+                    This Week
+                  </p>
+                  <p onClick={() => handleOptionClickForDate("Last 7 days")}>
+                    Last 7 days
+                  </p>
+                  <p onClick={() => handleOptionClickForDate("This Month")}>
+                    This Month
+                  </p>
+                  <p onClick={() => handleOptionClickForDate("Last Month")}>
+                    Last Month
+                  </p>
+                  <p onClick={() => handleOptionClickForDate("Last 30 days")}>
+                    Last 30 days
+                  </p>
+                  <p
+                    onClick={() =>
+                      handleOptionClickForDate("Select Custom Date Range")
+                    }
+                  >
+                    Select Custom Date Range
+                  </p>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
-      </div>
-      <div className="checkin-name-board-two">
-        <h1>Maghil Restaurant, Parsippany</h1>
-      </div>
-      <div className="overall-summary">
-        <div className="box">
-          <h2>
-            {formatNumberIndian(
-              checkInD["Daily Checkin"].map((item) => item.count)
-            )}
-          </h2>
-          <h3>Total CheckIns</h3>
+        {openCustomDateRange && (
+          <div className="ch-date-range-style">
+            <label className="ch-dateLabel" htmlFor="ch-start-date">
+              From
+            </label>
+            <DatePicker
+              placeholderText="Start Date"
+              selected={startDate}
+              onChange={(date: Date) => setStartDate(date)}
+              dateFormat="dd MMM yyyy"
+              className="ch-start-date"
+              onSelect={() => setOpenStartDatePicker(false)}
+              onFocus={() => {
+                setOpenStartDatePicker(true);
+              }}
+            />
+            <label className="ch-dateLabel" htmlFor="ch-start-date">
+              To
+            </label>
+            <DatePicker
+              placeholderText="End Date"
+              selected={endDate}
+              onChange={(date: Date) => setEndDate(date)}
+              dateFormat="dd MMM yyyy"
+              className="ch-end-date"
+              onSelect={() => setOpenEndDatePicker(false)}
+              onFocus={() => {
+                setOpenEndDatePicker(true);
+              }}
+            />
+          </div>
+        )}
+        <div className="checkin-name-board-two">
+          <h1>Maghil Restaurant, Parsippany</h1>
         </div>
-        <div className="box">
-          <h2>
-            {formatNumberIndian(
-              checkInD.Cancellations.map((item) => item.count)
-            )}
-          </h2>
-          <h3>Cancellations</h3>
+        <div className="overall-summary">
+          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
+            <h2>
+              {formatNumberIndian(
+                checkInD["Daily Checkin"].map((item) => item.count)
+              )}
+            </h2>
+            <h3>Total CheckIns</h3>
+          </div>
+          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
+            <h2>
+              {formatNumberIndian(
+                checkInD.Cancellations.map((item) => item.count)
+              )}
+            </h2>
+            <h3>Cancellations</h3>
+          </div>
+          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
+            <h2>
+              {formatNumberIndian(
+                checkInD["Repeat Customers Count"].map(
+                  (item) => item["count(*)"]
+                )
+              )}
+            </h2>
+            <h3>Repeat Customers</h3>
+          </div>
+          <div className={`box ${isExpanded ? "ch-expanded-boxes" : ""}`}>
+            <h2>2,400</h2>
+            <h3>New Customers</h3>
+          </div>
         </div>
-        <div className="box">
-          <h2>
-            {formatNumberIndian(
-              checkInD["Repeat Customers Count"].map((item) => item["count(*)"])
-            )}
-          </h2>
-          <h3>Repeat Customers</h3>
+        <div className="canva-stacked-bar-container">
+          <ReusableCanvaChart options={MockchartOptions} />
         </div>
-        <div className="box">
-          <h2>2,400</h2>
-          <h3>New Customers</h3>
+        <div className="day-of-the-week">
+          <div className="day-of-the-week-inner">
+            <BarChart
+              BatChartTitle="Check-In Weekly Trend"
+              xAxisData={YdayofTheWeekDA}
+              yAxisData={XAvgSalesinDolla}
+              label="items"
+              backgroundColor={[
+                "rgba(255, 99, 132, 0.2)",
+                "rgba(255, 159, 64, 0.2)",
+                "rgba(255, 205, 86, 0.2)",
+                "rgba(75, 192, 192, 0.2)",
+                "rgba(54, 162, 235, 0.2)",
+              ]}
+              borderColor={[
+                "rgb(255, 99, 132)",
+                "rgb(255, 159, 64)",
+                "rgb(255, 205, 86)",
+                "rgb(75, 192, 192)",
+                "rgb(54, 162, 235)",
+              ]}
+              xAxisGridColor={"transparent"}
+              yAxisGridColor={"transparent"}
+              xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+              yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+              pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+              ttTitleColor="#fff"
+              ttBodyColor="#fff"
+              yAxisLabel="Average Sales in Dollars "
+              xAxisLabel="Days"
+              xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+              yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+              TitleColor={isDarkTheme ? "#fff" : "#000"}
+            />
+          </div>
         </div>
-      </div>
-      <div className="canva-stacked-bar-container">
-        <ReusableCanvaChart options={MockchartOptions} />
-      </div>
-      <div className="day-of-the-week">
-        <div className="day-of-the-week-inner">
-          <BarChart
-            BatChartTitle="Check-In Weekly Trend"
-            xAxisData={YdayofTheWeekDA}
-            yAxisData={XAvgSalesinDolla}
-            label="items"
-            backgroundColor={[
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-            ]}
-            borderColor={[
-              "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(54, 162, 235)",
-            ]}
-            xAxisGridColor={"transparent"}
-            yAxisGridColor={"transparent"}
-            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
-            ttTitleColor="#fff"
-            ttBodyColor="#fff"
-            yAxisLabel="Average Sales in Dollars "
-            xAxisLabel="Days"
+        <div className="repeat-customers-table-container">
+          <Table
+            tableData={checkInD["Repeat Customers"]}
+            viewType="full"
+            recordsPerPage={9}
+            Heading="Repeat Customers"
+          />
+        </div>
+        <div className="daily-checkin-table-container">
+          <Table
+            tableData={checkInD["Daily CheckIn Details"]}
+            viewType="full"
+            recordsPerPage={11}
+            Heading="Daily CheckIn Details"
           />
         </div>
       </div>
-      <div className="repeat-customers-table-container">
-        <Table
-          tableData={checkInD["Repeat Customers"]}
-          viewType="full"
-          recordsPerPage={9}
-          Heading="Repeat Customers"
-        />
-      </div>
-      <div className="daily-checkin-table-container">
-        <Table
-          tableData={checkInD["Daily CheckIn Details"]}
-          viewType="full"
-          recordsPerPage={11}
-          Heading="Daily CheckIn Details"
-        />
-      </div>
-    </div>
     </div>
   );
 };

@@ -27,7 +27,7 @@ import {
   bestPairDataRequest,
   catogoryDataRequest,
   cuisineDataRequest,
-
+  dietdatarequest,
   getIngredientsRequest,
   getMenuCategoryRequest,
   subCategoryDataRequest,
@@ -37,7 +37,7 @@ import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
 
 import { stat } from "fs";
-
+import TooltipMsg from "components/productCatalog/Tooltip/TooltipMsg";
 import { useLocation } from "react-router-dom";
 
 interface Ingredients {
@@ -50,7 +50,7 @@ interface Allergens {
 }
 
 interface FormData {
-  itemNameData: string;
+  itemName: string;
   dietaryType: string;
   cuisine: string;
   mealType: string;
@@ -179,7 +179,7 @@ const PrimaryPage = () => {
     watch,
   } = useForm<FormData>({
     defaultValues: {
-      itemNameData: "",
+      itemName: "",
       dietaryType: "",
       cuisine: "",
       mealType: "",
@@ -246,7 +246,7 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
-      // setValue("itemName", ItemsPrimaryDetails.itemName);
+      setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("dietaryType", ItemsPrimaryDetails.dietaryType);
       setValue("cuisine", ItemsPrimaryDetails.cuisine);
       setValue("mealType", ItemsPrimaryDetails.mealType);
@@ -333,7 +333,7 @@ const PrimaryPage = () => {
     });
   };
 
-  const validImages = dataImages.filter(
+  const validImages = imageslist.filter(
     (img): img is { name: string; id: string } => img !== undefined
   );
 
@@ -403,6 +403,7 @@ const PrimaryPage = () => {
   //       console.error("Error converting files to Base64", error);
   //     });
   // };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -432,11 +433,9 @@ const PrimaryPage = () => {
         alert("You can upload a maximum of 7 images.");
         return;
       }
-      
-  
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
-  
+
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
         console.log(updatedImageUrls, "updatedImageUrls");
@@ -444,10 +443,9 @@ const PrimaryPage = () => {
       });
     }
   };
-  
 
-  const newarray = getValues("imageUrls");
-  console.log("newarray", newarray);
+  // const newarray = getValues("imageUrls");
+  // console.log("newarray", newarray);
 
   useEffect(() => {
     dispatch(getIngredientsRequest(locationid));
@@ -503,17 +501,17 @@ const PrimaryPage = () => {
                   {" "}
                   <LableComponent lable="ItemName *" />
                   <Controller
-                    name="itemNameData"
+                    name="itemName"
                     control={control}
                     // rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
-                        name="itemNameData"
+                        name="itemName"
                         onChange={onChange}
                         // onBlur={onBlur}
                         value={value}
                         trigger={trigger}
-                        error={errors.itemNameData}
+                        error={errors.itemName}
                       />
                     )}
                   />
@@ -526,7 +524,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={[]}
+                        options={dietaryData}
                         type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
@@ -637,7 +635,7 @@ const PrimaryPage = () => {
                       )}
                     />
                     <div className="tool-tip-best-pair">
-                    {/* <TooltipMsg
+                    <TooltipMsg
                         message="Select up to 5 food items that pair best with this dish."
                         styles={{marginTop:"1rem",marginLeft:"-2rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
                         Arrowstyle={{position:'relative',top:'-1rem',marginLeft:'-2rem'}}
@@ -650,7 +648,7 @@ const PrimaryPage = () => {
                             height={20}
                           />
                         </div>
-                      </TooltipMsg> */}
+                      </TooltipMsg>
                     </div>
                   </div>
                 </div>
@@ -667,7 +665,7 @@ const PrimaryPage = () => {
                             className="description"
                             name="description"
                             autoComplete="off"
-                            value={description} // Controlled input with useState
+                            value={description} 
                             onChange={(e) => handleDescriptionInputChange(e)}
                             maxLength={maxDescriptonLength}
                             
@@ -725,6 +723,14 @@ const PrimaryPage = () => {
 
                     {images.map((img, index) => (
                       <div key={index} className="image-container">
+                        <button
+                          onClick={() => handleImageDeletion(index)}
+                          className="imcrossstyres"
+                        >
+                          <ImCross
+                            style={{ fontSize: "7px", color: "white" }}
+                          />
+                        </button>
                         <img
                           className="uploaded-image"
                           src={img.preview}
@@ -783,7 +789,7 @@ const PrimaryPage = () => {
                     />{" "}
                     <div className="tool-tip-item-code">
 
-                      {/* <TooltipMsg
+                      <TooltipMsg
                         message="Enter a unique code for this food item, used for identification."
                         styles={{width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
                         Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
@@ -796,7 +802,7 @@ const PrimaryPage = () => {
                             height={20}
                           />
                         </div>
-                      </TooltipMsg> */}
+                      </TooltipMsg>
                     </div>
                   </div>
                 </div>
@@ -865,7 +871,7 @@ const PrimaryPage = () => {
                   
                 </div>
                 <div className="tool-tip-Allergen">
-                    {/* <TooltipMsg
+                    <TooltipMsg
                         message="Provide information about any allergens present in this food item"
                         styles={{marginTop:"1rem",marginLeft:"-20rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
                         Arrowstyle={{position:'relative',top:'-1rem',left:'19rem'}}
@@ -878,7 +884,7 @@ const PrimaryPage = () => {
                             height={20}
                           />
                         </div>
-                      </TooltipMsg> */}
+                      </TooltipMsg>
                     </div>
               </div>
             </div>
@@ -960,7 +966,7 @@ const PrimaryPage = () => {
                       register={register}
                     />
                     <div className="portionsizeTooltip">
-                     {/* <TooltipMsg
+                     <TooltipMsg
                         message="Specify the portion size for this item, either by count or weight."
                         styles={{marginTop:"-2rem",marginLeft:"2rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
                         Arrowstyle={{rotate:'-90deg',position:'relative',left:'-1.5rem'}}
@@ -973,7 +979,7 @@ const PrimaryPage = () => {
                             height={20}
                           />
                         </div>
-                      </TooltipMsg> */}
+                      </TooltipMsg>
                     </div>
                   </div>
                 </div>
@@ -997,7 +1003,7 @@ const PrimaryPage = () => {
                         )}
                       />
                       <div className="tool-tip-tax-class">
-                      {/* <TooltipMsg
+                      <TooltipMsg
                         message="Create or select a tax amount to associate with this item"
                         styles={{position:'relative',top:"-3rem",left:"1rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
                         Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-2.35rem'}}
@@ -1010,7 +1016,7 @@ const PrimaryPage = () => {
                             height={20}
                           />
                         </div>
-                      </TooltipMsg> */}
+                      </TooltipMsg>
                       </div>
                     </div>
                   </div>
@@ -1033,7 +1039,7 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
-                      {/* <TooltipMsg
+                      <TooltipMsg
                         message="Enter a unique code for this food item, used for identification."
                         styles={{ position:'relative',top:'-2rem',left:'1rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
                         Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
@@ -1046,7 +1052,7 @@ const PrimaryPage = () => {
                             height={20}
                           />
                         </div>
-                      </TooltipMsg> */}
+                      </TooltipMsg>
                     </div>
                   </div>
                 </div>
