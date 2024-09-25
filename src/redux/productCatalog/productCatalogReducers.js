@@ -509,7 +509,6 @@ export default function employeeReducer(
   });
 }
 
-<<<<<<< HEAD
 //{.....................Image Upload.........................}
 
 
@@ -521,8 +520,6 @@ export default function employeeReducer(
 
 
 
-=======
->>>>>>> ProductCatalogueVersion2/Sprint99
 // {*************Primary Page Redux ************************************************}
 const primarypagedata = {
   data: [],
