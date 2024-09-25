@@ -369,47 +369,53 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
       <h1 className="AvailableDaysHeading" style={{ marginTop: "40px" }}>
         Available days
       </h1>
-      <div className="Date_container">
-        <div className="calenderComponent">
-          <div className="date-picker-container">
-            <DatePicker
-              placeholderText="7/1/2034" // Placeholder text for the date picker
-              dateFormat="MM/dd/yyyy"
-              selected={selectedDate}
-              onChange={handleDateChange} // Date format for display
-              ref={datePickerRef}
-              className="datePicker"
+      <div className="Days-check">
+        <div className="Date_container">
+          <div className="calenderComponent">
+            <div className="date-picker-container">
+              <DatePicker
+                placeholderText="7/1/2034"
+                dateFormat="MM/dd/yyyy"
+                selected={selectedDate}
+                onChange={handleDateChange}
+                ref={datePickerRef}
+                className="datePicker"
+              />
+            </div>
+            <img
+              src={calender}
+              className="calender"
+              onClick={handleImageClick}
             />
           </div>
-          <img src={calender} className="calender" onClick={handleImageClick} />
-        </div>
 
-        <div className="calenderComponent">
-          <div className="date-picker-container">
-            <DatePicker
-              selected={selectedDate1}
-              onChange={handleDateChange1}
-              placeholderText="7/1/2034" // Placeholder text for the date picker
-              dateFormat="yyyy-MM-dd" // specify the format you want
-              showPopperArrow
-              ref={datePickerRef1}
-              className="datePicker"
-            />
+          <div className="calenderComponent">
+            <div className="date-picker-container">
+              <DatePicker
+                selected={selectedDate1}
+                onChange={handleDateChange1}
+                placeholderText="7/1/2034" // Placeholder text for the date picker
+                dateFormat="yyyy-MM-dd" // specify the format you want
+                showPopperArrow
+                ref={datePickerRef1}
+                className="datePicker"
+              />
+            </div>
+            <img
+              src={calender}
+              className="calender1"
+              onClick={handleImageClick2}
+            ></img>
           </div>
-          <img
-            src={calender}
-            className="calender1"
-            onClick={handleImageClick2}
-          ></img>
         </div>
-      </div>
-      <div className="dayschecking">
-        <DaysCheck
-          checkedItems={specialcheck}
-          setCheckedItems={setSpecialcheck}
-          id={availabilityid1}
-          setId={setAvailabilityid1}
-        />
+        <div className="dayschecking">
+          <DaysCheck
+            checkedItems={specialcheck}
+            setCheckedItems={setSpecialcheck}
+            id={availabilityid1}
+            setId={setAvailabilityid1}
+          />
+        </div>
       </div>
 
       {/* <h1 className="KitchenRelatedHeading">Avaliable Service Streams</h1> */}
@@ -428,14 +434,17 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                 className="DineInInput11Special"
                 style={{ zIndex: dineinfields.length - index }}
               >
-                <p className="LabelSpecialPrice">Price*</p>
-                <input
-                  type="text"
-                  name="DineInPrice"
-                  value={item.DineInPrice}
-                  className="DineInInput1"
-                  onChange={(e) => handleChange(index, e)}
-                />
+                <div className="price-input-price">
+                  <p className="LabelSpecialPrice">Price*</p>
+                  <input
+                    type="text"
+                    name="DineInPrice"
+                    value={item.DineInPrice}
+                    className="DineInInput1"
+                    onChange={(e) => handleChange(index, e)}
+                  />
+                </div>
+
                 <div className="DropD4">
                   <Dropdown
                     key={index}
@@ -474,26 +483,25 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                     }
                   />
                 </div>
-                <h1
-                  onClick={() => handleDelete(index)}
-                  className="DeleteSpecial"
-                >
-                  - Delete
-                </h1>
+                <div>
+                  <h1
+                    onClick={() => handleDelete(index)}
+                    className="DeleteSpecial"
+                  >
+                    - Delete
+                  </h1>
+                </div>
               </div>
             ))}
 
-          <h1
-            className={`${
-              dineinfields.length
-                ? "AddentrySpecial"
-                : "AddentrySpecialOnToggle"
-            }`}
-            onClick={AddDineInEntry}
-          >
-            {" "}
+          <div className={` Add-entry ${
+                dineinfields.length
+                  ? "AddentrySpecial"
+                  : "AddentrySpecialOnToggle"
+              }`}
+              onClick={AddDineInEntry}>
             + Add entry
-          </h1>
+          </div>
         </>
       ) : (
         ""
@@ -519,6 +527,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               {pickup ? (
                 <div>
                   <p className="LabelPriceSpecial"> Price*</p>
+
                   <div className="PickupInput11">
                     <input
                       type="text"
@@ -541,7 +550,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                             "Pickupspecial"
                           )
                         }
-                        validation={validationState.Pickupspecial}
+                        // validation={validationState.Pickupspecial}
                       />
                     </div>
                   </div>
@@ -551,7 +560,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               )}
             </div>
             {/* DeliveryRelated    */}
-            <div className= {online?"DeliveryRelated":"DeliveryRelatedclosed"}  >
+            <div
+              className={online ? "DeliveryRelated" : "DeliveryRelatedclosed"}
+            >
               <h1 className="DeliveryRelatedHeading">Delivery</h1>
               <div className="toggleV">
                 <Toggle toggle={delivery} setToggle={setDelivery} />
@@ -561,10 +572,10 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               {delivery ? (
                 <div>
                   <p className="DelLabelPrice"> Price*</p>
-                  <div className="Delivery11">
+                  <div className="Deliverypricefield">
                     <input
                       type="text"
-                      className="DineInInput1"
+                      className="deliveryinput"
                       value={form1.Deliveryprice}
                       onChange={(e) =>
                         setForm({ ...form1, Deliveryprice: e.target.value })
@@ -582,7 +593,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                             "Deliveryspecial"
                           )
                         }
-                        validation={validationState.Deliveryspecial}
+                        // validation={validationState.Deliveryspecial}
                         width="Drop1"
                       />
                     </div>
@@ -595,9 +606,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
             <h1 className="ThirdDeliveryRelatedHeading">
               Third Party delivery
             </h1>
-            <div>
+            <div className="third-party">
               <p className="LabelZoamtoSwiggy1"> Swiggy,Zomato*</p>
-              <div className="Delivery11Zomato">
+              <div className="Thridparty-delivery">
                 <Dropdown
                   selectedValues={selectedswiggyzomato}
                   onSelect={handleSelectZomatoSwiggy}
@@ -606,14 +617,14 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                   onBlur={() =>
                     validateDropdown(selectedValuespickup, "Deliveryspecial")
                   }
-                  validation={validationState.Deliveryspecial}
+                  // validation={validationState.Deliveryspecial}
                   width="Drop1"
                 />
               </div>
               {selectedswiggyzomato.includes("Swiggy") && (
                 <div className="LabelSwiggyInputDropDown">
                   <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading"></label>
+                    <label className="swiggyZomatoHeading">Swiggy price</label>
                     <input
                       className="swiggyZomato-input"
                       type="text"
@@ -623,16 +634,16 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                       }
                     />
                   </div>
-                  <div className="Third1">
+                  <div className="ThirdpartySpecial">
                     <Dropdown
                       selectedValues={selectedValuesthird1}
                       onSelect={handleSelectThird1}
                       options={optionsthird1}
                       label="Meal Type*"
-                      // onBlur={() =>
-                      //   validateDropdown(selectedValuesthird1, "ThirdDelivery1")
-                      // }
-                      validation={validationState.ThirdDelivery1}
+                      onBlur={() =>
+                        validateDropdown(selectedValuesthird1, "ThirdDelivery1")
+                      }
+                      // validation={validationState.ThirdDelivery1}
                       width="Drop1"
                     />
                   </div>
@@ -641,7 +652,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               {selectedswiggyzomato.includes("Zomato") && (
                 <div className="LabelSwiggyInputDropDown">
                   <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading"></label>
+                    <label className="swiggyZomatoHeading">Zomato price</label>
                     <input
                       className="swiggyZomato-input"
                       type="text"
@@ -660,10 +671,10 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                       onSelect={handleSelectThird2}
                       options={optionsthird2}
                       label="Meal Type*"
-                      // onBlur={() =>
-                      //   validateDropdown(selectedValuesthird2, "ThirdDelivery2")
-                      // }
-                      validation={validationState.ThirdDelivery2}
+                      onBlur={() =>
+                        validateDropdown(selectedValuesthird2, "ThirdDelivery2")
+                      }
+                      // validation={validationState.ThirdDelivery2}
                       width="Drop1"
                     />
                   </div>

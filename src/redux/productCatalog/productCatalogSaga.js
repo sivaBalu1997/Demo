@@ -127,15 +127,15 @@ function* fetchDropdownDataSaga(action) {
 
 //Delete subSection
 function* deleteSubSectionSaga(action) {
-  try{
+  try {
     const response = yield call(deleteSubSectionSaga, action.payload)
-    if(response){
+    if (response) {
       yield put(deleteDietarySuccess(response)) // add switch case
-    }else{
-      yield put(deleteDietaryFailure({message:'please Try Again'}))
+    } else {
+      yield put(deleteDietaryFailure({ message: 'please Try Again' }))
     }
-  }catch(err){
-    yield put(deleteDietaryFailure({message:'please Try Again'}))
+  } catch (err) {
+    yield put(deleteDietaryFailure({ message: 'please Try Again' }))
   }
 }
 
@@ -170,7 +170,10 @@ function* getIngredientsSaga(action) {
     const response = yield call(getIngredients, action.payload);
     if (response.status === 200) {
       yield put(getIngredientsSuccess(response.data));
-      if(action.payload?.sagaCallBack != null && typeof action.payload?.sagaCallBack === 'function'){
+      if (
+        action.payload?.sagaCallBack != null &&
+        typeof action.payload?.sagaCallBack === "function"
+      ) {
         action.payload.sagaCallBack(response.data);
       }
     } else {
@@ -288,12 +291,11 @@ function* deleteMenuItemSaga(action) {
   }
 }
 
-
 function* GetImageSaga(action) {
   try {
     const response = yield call(getImage);
     if (response.status === 200) {
-      yield put((response.data));
+      yield put(response.data);
     } else {
       yield put(Get_Image_Failed({ message: "please Try Again" }));
     }
@@ -320,5 +322,3 @@ export default function* productCatalog() {
   yield takeLatest(UPDATE_MENU_ATTRIBUTE_REQUEST, updateMenuAttributeSaga);
   yield takeLatest(Get_ItemImage, GetImageSaga);
 }
-
-

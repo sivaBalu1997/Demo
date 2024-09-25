@@ -2,6 +2,7 @@
   justify-content: flex-start;
   position: relative;
   align-items: flex-start;
+  // background-color: greenyellow;
 
   & .menu {
     z-index: 9;
@@ -20,19 +21,12 @@
       width: 5vw;
     }
 
-    &.expanded{
+    &.expanded {
       width: 23%;
       transition: width 0.6s ease;
       overflow: hidden;
 
-      // .down{ 
-      //   margin-left: -10px;
-      // }
-      .menuList{
-        margin-left: 10px;
-      }
-
-      li{
+      li {
         margin-top: 20px;
       }
       .drop-down {
@@ -129,21 +123,21 @@
         justify-content: space-between;
         margin-top: 30%;
       }
-      .btn-nav{
+      .btn-nav {
         width: 13px;
         height: 15px;
         color: black;
         text-decoration: none;
         font-size: 10px;
-        background-color: #67833E;
+        background-color: #67833e;
         border-radius: 50%;
         padding: 5px;
-        color: #D9D9D9;
+        color: #d9d9d9;
         position: relative;
         top: 101px;
         left: -12px;
         cursor: pointer;
-       }
+      }
       .menu-items-name {
         @media (max-width: 768px) {
           font-size: 9px;
@@ -266,7 +260,7 @@
       align-items: center;
       margin-bottom: 20px;
       margin-top: 25px;
-      
+
       & .menu-items-SVG path {
         fill: #67833e !important;
       }
@@ -291,7 +285,7 @@
         flex-direction: column;
       }
 
-      &>div {
+      & > div {
         @media (max-width: 768px) {
           width: 100%;
           justify-content: space-evenly;
@@ -304,12 +298,12 @@
           &.Dropdown-root {
             justify-content: center;
             width: 100%;
-          }          
+          }
         }
       }
 
       @media (max-width: 575px) {
-        display: none;         
+        display: none;
       }
     }
     & .drop-list {
@@ -543,14 +537,14 @@
     img {
       @media (max-width: 768px) {
         height: 15px;
-      }  
+      }
     }
     @media (max-width: 768px) {
       font-size: 16px;
     }
   }
 
-  .menu.is-sticky{
+  .menu.is-sticky {
     @media (max-width: 575px) {
       display: none;
     }
@@ -716,7 +710,7 @@ iframe {
     padding-left: 0;
   }
 
-  &>div{
+  & > div {
     @media (max-width: 1224px) {
       text-align: start;
       margin-top: 8px;
@@ -724,7 +718,7 @@ iframe {
   }
 }
 
-.report-checkin-dropDown{
+.report-checkin-dropDown {
   @media (max-width: 575px) {
     display: none;
   }
@@ -747,12 +741,12 @@ iframe {
   }
 }
 
-.magilhub-bottom-logo {	
+.magilhub-bottom-logo {
   display: flex;
   flex-direction: row;
-  position: fixed;	
-  bottom: 5%;	
-  width: '100%';
+  position: fixed;
+  bottom: 5%;
+  width: "100%";
   align-items: flex-end;
   justify-content: center;
   // align-self: center;
@@ -762,16 +756,16 @@ iframe {
 .magilhub-logo1 {
   font-family: Righteous;
   font-weight: normal;
-  color: #E52333;
+  color: #e52333;
   font-size: 20px;
-  // margin-left: 1rem; 
+  // margin-left: 1rem;
   // padding-left: 50px;
 }
 
 .powered-text1 {
   font-family: "Poppins";
   font-weight: 500;
-  font-size:16px;
+  font-size: 16px;
   line-height: 24px;
   align-items: center;
   color: #000000;
@@ -790,20 +784,20 @@ iframe {
   margin-right: 2%;
 }
 
-.headLine2{
+.headLine2 {
   display: flex;
   position: fixed;
   width: 100%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   margin-top: -30px;
   padding-top: 20px;
   z-index: 999;
   // style={{
   //   position: 'fixed',
-  //   marginBottom:'40px', 
-  //   width: '100%', 
-  //   zIndex: '1000', 
-  //   backgroundColor: '#fff', 
+  //   marginBottom:'40px',
+  //   width: '100%',
+  //   zIndex: '1000',
+  //   backgroundColor: '#fff',
   //   height:'100px',
   //   fontSize: '24px',
   //  lineHeight: '36px'
@@ -827,15 +821,15 @@ iframe {
   color: black;
   text-decoration: none;
   font-size: 10px;
-  background-color: #67833E;
+  background-color: #67833e;
   border-radius: 50%;
   padding: 5px;
-  color: #D9D9D9;
-  position: sticky;
+  color: #d9d9d9;
+  position: relative;
   top: 101px;
-  margin-left: -12px;  
+  margin-left: -12px;
   cursor: pointer;
- }
+}
 
 .btn-nav1{
   width: 20px;
@@ -843,10 +837,10 @@ iframe {
   color: black;
   text-decoration: none;
   font-size: 10px;
-  background-color: #67833E;
+  background-color: #67833e;
   border-radius: 50%;
   padding: 5px;
-  color: #D9D9D9;
+  color: #d9d9d9;
   position: sticky;
   top: 101px;
   margin-left: -12px;
@@ -854,25 +848,25 @@ iframe {
   transform: rotate(180deg);
 }
 
-.menuList{
+.menuList {
   font-size: 14px;
   margin-left: 10px;
 }
 
-@media(max-width:1080px){
-  .menu-items-name{
+@media (max-width: 1080px) {
+  .menu-items-name {
     font-size: 13px;
   }
 
-  .main-section .menu.expanded{
+  .main-section .menu.expanded {
     width: 26%;
   }
 
-  .main-section{ 
-    .down{ 
+  .main-section {
+    .down {
       margin-left: 10px;
     }
-    .menuList{
+    .menuList {
       font-size: 12px;
       margin-left: 10px;
     }
@@ -881,12 +875,12 @@ iframe {
   .main-section .expanded .drop-down {
     margin-left: -10px;
   }
-  .expanded .active{
+  .expanded .active {
     margin-left: -10px;
   }
 }
 
-@media(max-width:900px){
+@media (max-width: 900px) {
   .menu-items-name {
     display: none;
   }
@@ -895,16 +889,16 @@ iframe {
     height: 30px;
     margin-bottom: 20px;
   }
-  .magilhub-bottom-logo{
+  .magilhub-bottom-logo {
     display: none;
   }
 }
 
-@media(max-width:575px){
-  .btn-nav{
+@media (max-width: 575px) {
+  .btn-nav {
     display: none;
   }
-  .btn-nav1{
+  .btn-nav1 {
     display: none;
   }
 }
