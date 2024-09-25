@@ -477,18 +477,7 @@ const PrimaryPage = () => {
     (state: StateDataTag3) => state.productCatalog.bestPairData
   );
 
-  const Tooltip = {
-    itemcodeText: {
-      width: "325px",
-      height: "35px",
-      marginLeft:"30px"
-    },
-    itemArrow:{
-
-   
-
-    }
-  };
+  
 
 
   return (
