@@ -193,14 +193,16 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
 
-    } else if (seletedpage === "Pricing" && triggerValidation  ) {
+    } else if (seletedpage === "Pricing" && triggerValidation ) {
     const isValid=handleValidate();
+    
       let PricingDetails = { ...mainForm }; 
       console.log("hello", mainForm);
     
       const formData = getFormData();
-      console.log(formData);
-    
+      const isinValid=await triggerValidation(formData)
+      console.log("h1",formData);
+      
       if (formData.kitchenstation) {
         PricingDetails = {
           ...PricingDetails,
@@ -219,17 +221,18 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
             Inventory2: formData.form.Inventory2 || "", // Update or set Inventory2
           }
         };
-      } else {
-        console.error("formData.form.Inventory1 is undefined or formData.form is missing");
-      }
+      } 
      
         
       
       // Add further logic to proceed after validation passes
       if(isValid)
       {
-        
-        history.push("/productCatalog/Reviewpage");
+        dispatch(PricingDetailRequest(PricingDetails))
+        history.push({
+          pathname: `/productCatalog/Itemcustomizations`,
+          state: { pagename: "Itemcustomizations" },
+        });
 
       }
     } else if (seletedpage === "ItemCustomization") {

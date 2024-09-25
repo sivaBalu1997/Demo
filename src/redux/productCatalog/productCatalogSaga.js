@@ -37,7 +37,9 @@ import {
   bestPairDataRequest,
   deleteDietarySuccess,
   deleteDietaryFailure,
-  fetchDropDownFailure
+  fetchDropDownFailure,
+  getItemCodeSuccess,
+  getItemCodeFailure
 
 
 } from "./productCatalogActions";
@@ -58,7 +60,8 @@ import {
   getCategorydata,
   getSubCategoryData,
   getBestPairData,
-  getSubSectionData
+  getSubSectionData,
+  getItemCode
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -73,15 +76,28 @@ import {
   UPDATE_MENU_ATTRIBUTE_REQUEST,
   UPDATE_MENU_ITEM_REQUEST,
   Get_ItemImage,
-  DIET_DROPDOWN_LIST_REQUEST,
+    DIET_DROPDOWN_LIST_REQUEST,
   CUISINE_DATA_REQUEST,
   CATEGORY_DATA_REQUEST,
   SUBCATEGORY_DATA_REQUEST,
   BESTPAIR_DATA_REQUEST,
   FETCHDROPDOWN_REQUEST,
-  DELETEDROPDOWN_REQUEST
+  DELETEDROPDOWN_REQUEST,
+  GET_ITEM_CODE_REQUEST
  
 } from "./productCatalogConstants";
+
+function* getCategorySaga(action) {
+  try {
+    const response = yield call(getCategory, action.payload);
+    if (response.status === 200) {
+      yield put(getMenuCategorySuccess(response.data));
+    }
+  }
+  catch(error){
+
+  }
+}
 
 function* fetchDropdownDataSaga(action) {
   // const { dropDownType } = action.payload;
@@ -90,7 +106,7 @@ function* fetchDropdownDataSaga(action) {
     if (response) {
       switch (action.payload) {
         case 'dietary':
-          yield put(dietdatasuccess(response));
+          // yield put(dietdatasuccess(response));
           break;
         case 'cuisine':
           yield put(cuisineDataSuccess(response));
@@ -114,6 +130,18 @@ function* fetchDropdownDataSaga(action) {
     yield put(fetchDropDownFailure({ message: 'Please try again' }));
   }
 }
+
+function* getSubCategorySaga(action) {
+  try {
+    const response = yield call(getSubCategory, action.payload);
+    if (response.status === 200) {
+      yield put(getMenuSubCategorySuccess(response.data));
+    } else {
+      yield put(getMenuSubCategoryFailed({ message: "please Try Again" }));
+    }}catch(error){
+
+    }
+  }
 
 //Delete subSection
 function* deleteSubSectionSaga(action) {
@@ -250,6 +278,17 @@ function* GetImageSaga(action) {
   }
 }
 
+
+function* getItemCodeSaga(action) {
+  const { locationId, itemCode } = action.payload;
+  try {
+    const response = yield call(getItemCode, locationId, itemCode);
+    yield put(getItemCodeSuccess(response.data));
+  } catch (error) {
+    yield put(getItemCodeFailure(error.message));
+  }
+}
+
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
 
@@ -266,6 +305,5 @@ export default function* productCatalog() {
   yield takeLatest(GET_AVAILABILITY_REQUEST, getAvailabilitySaga);
   yield takeLatest(UPDATE_MENU_ATTRIBUTE_REQUEST, updateMenuAttributeSaga);
   yield takeLatest(Get_ItemImage, GetImageSaga);
+  yield takeLatest(GET_ITEM_CODE_REQUEST, getItemCodeSaga);
 }
-
-

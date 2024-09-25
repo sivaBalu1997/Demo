@@ -27,7 +27,7 @@ import {
   bestPairDataRequest,
   catogoryDataRequest,
   cuisineDataRequest,
-  dietdatarequest,
+
   getIngredientsRequest,
   getMenuCategoryRequest,
   subCategoryDataRequest,
@@ -415,7 +415,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dataDietaryType}
+                        options={[]}
                         type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"

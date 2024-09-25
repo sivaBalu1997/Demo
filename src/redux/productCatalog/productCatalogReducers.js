@@ -40,6 +40,7 @@ import {
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
   ADD_MOCK_DATA_REQUEST,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
   DIET_DROPDOWN_LIST_FAILURE,
@@ -66,8 +67,13 @@ import {
   DELETECATEGORY_FAILURE,
   DELETESUBCATEGORY_REQUEST,
   DELETESUBCATEGORY_SUCCESS,
-  DELETESUBCATEGORY_FAILURE
+  DELETESUBCATEGORY_FAILURE,
+  GET_ITEM_CODE_REQUEST,
+  GET_ITEM_CODE_FAILURE,
+  GET_ITEM_CODE_SUCCESS
 } from "../productCatalog/productCatalogConstants";
+
+
 
 const initialProductCatalogState = {
   dietaryData:[],
@@ -631,6 +637,41 @@ export const storeMockDataReducer = (state = mockData, action) => {
           data: action?.payload,
         };
     
+  
+      default:
+        return state;
+    }
+  };
+
+  const checkItemCode = {
+    loading: false,
+    data: null,
+    error: null,
+  };
+
+
+  export const checkItemCodeReducer = (state = checkItemCode, action) => {
+    switch (action.type) {
+      case GET_ITEM_CODE_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+  
+      case GET_ITEM_CODE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          data: action.payload,
+        };
+  
+      case GET_ITEM_CODE_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
   
       default:
         return state;

@@ -52,6 +52,10 @@ import {
   ADD_MOCK_DATA_REQUEST,
   ADD_MOCK_DATA_SUCCESS,
   ADD_MOCK_DATA_FALIURE,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
+  ADD_MOCK_DATA_HIDDEN_SUCCESS,
+  ADDMOCK_DATA_HIDDEN_FALIURE,
+  ADD_MOCK_DATA_HIDDEN_FALIURE,
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
   DIET_DROPDOWN_LIST_FAILURE,
@@ -84,7 +88,10 @@ import {
   FETCHDROPDOWN_SUCCESS,
   DELETEDROPDOWN_REQUEST,
   DELETEDROPDOWN_SUCCESS,
-  DELETEDROPDOWN_FAILURE
+  DELETEDROPDOWN_FAILURE,
+  GET_ITEM_CODE_REQUEST,
+  GET_ITEM_CODE_SUCCESS,
+  GET_ITEM_CODE_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -376,21 +383,36 @@ export const addMockDataFailure = (error) => ({
 
 
 //dietary
-export const dietdatarequest=(data)=>({
-  type: DIET_DROPDOWN_LIST_REQUEST,
-  payload: data, 
 
+// {*****add MockData Visiblty****************************}
+
+// {*****add MockData Visiblty****************************}
+
+
+export const addMockDataHiddenRequest = (data) => ({
+  type: ADD_MOCK_DATA_HIDDEN_REQUEST,
+  payload:data
+}); 
+
+export const addMockDataHiddenSuccess = (response) => ({
+  type: ADD_MOCK_DATA_HIDDEN_SUCCESS ,
+  payload: response, 
+});
+export const addMockDataHiddenFailure = (error) => ({
+  type: ADD_MOCK_DATA_HIDDEN_FALIURE ,
+  payload: error, 
 })
 
-export const dietdatasuccess = (response) => ({
-  type:DIET_DROPDOWN_LIST_SUCCESS,
+
+
+
+
+export const fetchDropDownSuccess = (response) => ({
+  type: FETCHDROPDOWN_SUCCESS,
   payload: response, 
 });
 
-export const dietdatafailure = (error) => ({
-  type: DIET_DROPDOWN_LIST_FAILURE,
-  payload: error, 
-})
+
 
 //cuisine
 export const cuisineDataRequest=(data)=>({
@@ -464,10 +486,6 @@ export const fetchDropDownRequest=(data)=>({
 
 })
 
-export const fetchDropDownSuccess = (response) => ({
-  type: FETCHDROPDOWN_SUCCESS,
-  payload: response, 
-});
 
 export const fetchDropDownFailure = (error) => ({
   type: FETCHDROPDOWN_FAILURE,
@@ -552,3 +570,21 @@ export const deleteDropDownFailure = (error) => ({
   type: DELETEDROPDOWN_FAILURE,
   payload: error
 })
+
+
+
+
+export const getItemCodeRequest = (locationId, itemCode) => ({
+  type: GET_ITEM_CODE_REQUEST,
+  payload: { locationId, itemCode },
+});
+
+export const getItemCodeSuccess = (data) => ({
+  type: GET_ITEM_CODE_SUCCESS,
+  payload: data,
+});
+
+export const getItemCodeFailure = (error) => ({
+  type: GET_ITEM_CODE_FAILURE,
+  payload: error,
+});

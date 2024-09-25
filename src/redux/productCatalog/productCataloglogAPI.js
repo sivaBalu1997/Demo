@@ -97,3 +97,10 @@ export function getAvailability(locationId) {
 export function getImage() {
   return Axios.get('https://i.graphicmama.com/blog/wp-content/uploads/2016/12/20132839/french-fries-vector-image.jpg')
 }
+
+export function getItemCode(locationId,itemCode) {
+  return API({
+    method: "get",
+    url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
+  });
+}

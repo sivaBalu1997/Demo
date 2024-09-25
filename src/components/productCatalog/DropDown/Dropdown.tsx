@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  ChangeEvent,
-} from "react";
+import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import "./Dropdown.scss";
 import UpArrow from "../../../assets/images/dropdown.png";
 
@@ -45,7 +40,6 @@ const Dropdown: React.FC<DropdownProps> = ({
           setIsOpen(false);
           setRotateImg(false);
           // If the dropdown closes and no option is selected, run validation
-          validateDropdown(selectedValues);
         }
       }
     };
@@ -72,7 +66,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     onSelect(newSelectedValues);
   
     // Check if there are selected values and validate
-    handleValidate && handleValidate();
   };
   
 
@@ -92,15 +85,15 @@ const Dropdown: React.FC<DropdownProps> = ({
         onClick={handleDropdownClick}
         tabIndex={0}
       >
-        {/* {selectedValues.length > 0 ? (
+        {selectedValues.length > 0 ? (
           <div className="valuePricing">
             {/* Display up to 3 selected values and join them with commas */}
             {selectedValues.slice(0, 3).join(", ")}
-            {selectedValues.length > 3 && ` +${selectedValues.length - 3} more`}
+         
           </div>
         ) : (
           <div className="valuePlaceholder"></div>
-        )} */}
+        )}
         <div>
           <img
             src={UpArrow}
@@ -138,4 +131,4 @@ const Dropdown: React.FC<DropdownProps> = ({
     </div>
   );
 };
-export default Dropdown
+export default Dropdown;

@@ -212,38 +212,6 @@ const PricingDetails = () => {
   const history = useHistory();
   const [selectedValues2, setSelectedValues2] = useState<string[]>([]);
 
-  const {
-    register: register1,
-    getValues: getValues1,
-    control: control1,
-  } = useForm<MainFormType>({
-    defaultValues: {
-      availabilityid: [],
-      formNormal: {
-        PickuppriceNormal: "",
-        PickupmealtypeNormal: "",
-        DeliverypriceNormal: "",
-        DeliverymealtypeNormal: "",
-        SwiggyorzomatoNormal: "",
-        SwiggyNormal: "",
-        SwiggymealtypeNormal: "",
-        ZomatoNormal: "",
-        ZomatomealtypeNormal: "",
-      },
-      dineinfields: [],
-      Normaldays: [],
-      DeliveryMealType: [],
-      PicupMealType: [],
-      Pickup: [],
-      DineInServiceArea: [],
-      Delivery: [],
-      thirdParty: [],
-      WeekDays: [],
-      DineIn: [],
-      Swiggy: [],
-      Zomato: [],
-    },
-  });
 
   const [mainFormSpecial, setMainFormSpecial] = useState<MainFormSpecial>({
     form: {
@@ -371,18 +339,7 @@ const PricingDetails = () => {
     }
   }, []);
 
-  const dispatchEvent = () => {
-    const isFormValid = validateForm();
-
-    if (!isFormValid) {
-      console.log("Form validation failed. Please check the errors.");
-      return;
-    }
-    dispatch(PricingDetailRequest({ mainForm }));
-    history.push(`/productCatalog/Itemcustomizations`, {
-      state: { pagename: "Item customizations" },
-    });
-  };
+  
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
   //   history.push(`/productCatalog/Itemcustomizations`, {
@@ -407,7 +364,6 @@ const PricingDetails = () => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
 
-  // console.log(mainForm);
   const [dineinfields, setDineInFields] = useState<DineInField[]>([
     {
       DineInPrice: "",
@@ -417,8 +373,6 @@ const PricingDetails = () => {
       dayButtonText: "Add Day",
     },
   ]);
-  console.log(dineinfields);
-  // console.log(mainForm);
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
   };
@@ -502,7 +456,7 @@ const PricingDetails = () => {
   
   const [validationStateerr, setValidationStateerr] = useState<DropdownValidationState>({}); 
   const handleValidate = (): boolean => {
-    console.log("Validating selected values:", selectedValues2); // Log selectedValues2
+    
   
     // Get the dropdown validation errors
     const dropdownErrors = handleValidateDropdown();
@@ -517,6 +471,7 @@ const PricingDetails = () => {
     };
   
     console.log("Combined validation errors:", combinedErrors); // Log errors
+    console.log(getValues())
   
     // Set the validation state for displaying errors in the UI
     setValidationStateerr(combinedErrors);
@@ -527,10 +482,7 @@ const PricingDetails = () => {
     // Return true if all fields are valid, otherwise false
     return isValid;
   };
-  const handleSelect3 = (values: string[]): void => {
-    setSelectedValues2(values);
-    console.log(selectedValues2.length)
-  };
+  console.log("hello",mainForm.form.Inventory1)
  console.log(mainFormState)
   return (
     <div style={{ display: "flex" }}>
@@ -558,7 +510,7 @@ const PricingDetails = () => {
               <div className="D1kitchen">
                 <Dropdown
                   name="kitchenstation"
-                  options={options1}
+                  options={[]}
                   type="checkbox"
                   setOptions={setOptions1}
                   placeholder="Search for option"
@@ -618,7 +570,7 @@ const PricingDetails = () => {
                       name="form.Inventory1"
                       control={control}
                       defaultValue=""
-                      render={({ field }: any) => (
+                      render={({ field,trigger }: any) => (
                         <input
                           className="I1"
                           type="text"
@@ -626,8 +578,7 @@ const PricingDetails = () => {
                           onChange={(e) => {
                             const value = e.target.value;
                             setValue("form.Inventory1", value);
-                            trigger("form.Inventory1");
-                          }}
+                            trigger(trigger);                          }}
                           style={{
                             borderColor: formerrors.Inventory1
                               ? "red"
@@ -654,7 +605,7 @@ const PricingDetails = () => {
                             setValue("form.Inventory2", value); 
 
                         
-                            trigger("form.Inventory2");
+                            trigger(form.Inventory2);
                           }}
                           style={{
                             borderColor: formerrors.Inventory2

@@ -425,7 +425,6 @@ type OptionType = string;
     };
     const handleSelect3 = (newSelectedValues: string[]) => {
       setSelectedValues2(newSelectedValues); // Updates the state when a new value is selected
-      handleValidate(); // Run validation immediately after updating the state
     };
     const addOption3 = (newOption: OptionType): void => {
       setOptions3((prevOptions) => [...prevOptions, newOption]);
