@@ -1,15 +1,17 @@
 * {
   font-family: "Poppins", sans-serif;
 }
+
 .dropdown-containerPricing {
   position: relative;
   width: 300px;
   height: 44px;
   margin-left: 30px;
 }
-// ::-webkit-scrollbar {
-//   display: none;
-// }
+
+::-webkit-scrollbar {
+  display: none;
+}
 
 .dropdownPricingList {
   display: flex;
@@ -19,9 +21,13 @@
   border: 1px solid rgba(0, 0, 0, 0.3);
   cursor: pointer;
   height: 44px;
-  height: 44px;
   border-radius: 5px;
+  position: relative; /* Added to enable absolute positioning of the arrow */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .dropdownPricingred {
   display: flex;
   justify-content: space-between;
@@ -44,7 +50,7 @@
   background: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 2;
-  height: 125px;
+  max-height: 125px;
   overflow-y: auto;
 }
 
@@ -64,11 +70,6 @@
   padding: 10px;
 }
 
-.inputntnoptionsPricing {
-  width: calc(100% - 60px);
-  padding: 5px;
-}
-
 .add-item-btn,
 .btn-add-item {
   padding: 5px 10px;
@@ -79,18 +80,12 @@
   color: #fff;
   cursor: pointer;
 }
-.placePricing {
-  color: #979797;
-  margin-left: 10px;
-}
-.imgplacePricing {
-  display: flex;
-  justify-content: start;
-}
+
 .add-item-btn:hover,
 .btn-add-item:hover {
   background-color: #0056b3;
 }
+
 .checkboxPricing {
   width: 20px;
   height: 20px;
@@ -98,24 +93,33 @@
   accent-color: #779749;
   margin-left: 10px;
 }
+
 .valuePricing {
   font-size: 14px;
   font-weight: 400;
   color: #979797;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .arrowdropPricing {
   width: 16px;
   height: 8.67px;
   opacity: 30%;
-  margin-left: 16rem;
+  position: absolute; /* Fixes the arrow position */
+  right: 10px; /* Always positions the arrow on the right */
 }
+
 .arrowrotatePricing {
   width: 16px;
   height: 8.67px;
-  margin-left: 16rem;
   transform: rotate(180deg);
   opacity: 30%;
+  position: absolute; /* Fixes the arrow position */
+  right: 10px; /* Always positions the arrow on the right */
 }
+
 .droplabelPricing {
   color: #666666;
   font-size: 14px;

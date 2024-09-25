@@ -35,7 +35,7 @@ import {
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
-import Tooltip from "components/productCatalog/Tooltip/Tooltip";
+
 import { stat } from "fs";
 import TooltipMsg from "components/productCatalog/Tooltip/TooltipMsg";
 import { useLocation } from "react-router-dom";

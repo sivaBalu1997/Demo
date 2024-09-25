@@ -111,6 +111,8 @@ interface SubmitButtonProps {
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
   mainForm?:MainForm
   validation?:()=>boolean
+  handleValidate?:any
+
 }
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
@@ -119,7 +121,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   modifications,
   triggerValidation,
   validation,
-  mainForm
+  mainForm,
+  handleValidate
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
@@ -196,41 +199,49 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
 
-    } else if (seletedpage === "Pricing" && triggerValidation && validation) {
-      const formData = getFormData();
-      console.log(formData);
-    
-      // Run the validation
-      const isFormValid = await triggerValidation(formData);
-      console.log("isFormValid", isFormValid);
-      console.log("validation", validation());
-    
-      // Stop execution if the form is invalid
-      if (!isFormValid || !validation()) {
-        console.error("Form validation failed");
-        return; // Return early to prevent further execution and navigation
+    }else if (seletedpage === "Pricing" && triggerValidation ) {
+      const isValid=handleValidate();
+     
+        let PricingDetails = { ...mainForm };
+        console.log("hello", mainForm);
+     
+        const formData = getFormData();
+        const isinValid=await triggerValidation(formData)
+        console.log("h1",formData);
+       
+        if (formData.kitchenstation) {
+          PricingDetails = {
+            ...PricingDetails,
+            kitchenstation: formData.kitchenstation,
+          };
+        } else {
+          console.error("formData.kitchenstation is undefined");
+        }
+     
+        if (formData.form && formData.form?.Inventory1) {
+          PricingDetails = {
+            ...PricingDetails,
+            form: {
+              ...mainForm?.form, // Ensure form exists by spreading PricingDetails.form or defaulting to an empty object
+              Inventory1: formData.form.Inventory1 || "", // Update or set Inventory1
+              Inventory2: formData.form.Inventory2 || "", // Update or set Inventory2
+            }
+          };
+        }
+       
+         
+       
+        // Add further logic to proceed after validation passes
+        if(isValid)
+        {
+          dispatch(PricingDetailRequest(PricingDetails))
+          history.push({
+            pathname: `/productCatalog/Itemcustomizations`,
+            state: { pagename: "Itemcustomizations" },
+          });
+   
+        }
       }
-    
-      // If formData.kitchenstation exists, update PricingDetails
-      let PricingDetails = { ...mainForm };
-      if (formData.kitchenstation) {
-        PricingDetails = {
-          ...PricingDetails,
-          kitchenstation: formData.kitchenstation,
-        };
-      } else {
-        console.error("formData.kitchenstation is undefined");
-      }
-    
-      // Dispatch PricingDetails request
-      dispatch(PricingDetailRequest(PricingDetails));
-    
-      // Navigate to the next page only if the form is valid
-      history.push({
-        pathname: `/productCatalog/Itemcustomizations`,
-        state: { pagename: "Itemcustomizations" },
-      });
-    }
     else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
