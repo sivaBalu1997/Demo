@@ -70,6 +70,7 @@ import {
   UPLOAD_IMAGE_SUCCESS,
   UPLOAD_IMAGE_FAILURE,
   UPLOAD_IMAGE_IN_PROGRESS,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -694,4 +695,25 @@ export const addMockDataReducer = (state = mockDataFiltered, action) => {
     default:
       return state;
   }
+
 };
+<<<<<<< HEAD
+=======
+const addMockHiddenData = {
+  data: [],
+};
+
+export  const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
+  switch (action.type) {
+    case ADD_MOCK_DATA_HIDDEN_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
+ 
+
+    default:
+      return state;
+  }
+};
+>>>>>>> productCatalog/sprint-99v3

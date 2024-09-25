@@ -14,7 +14,7 @@ import {
   addMenuItemRequest,
   addMockDataRequest,
   cleanMenuItemSuccessMsg,
-  uploadImage,
+  
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
@@ -297,7 +297,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
       dispatch(cleanMenuItemSuccessMsg())
 
       setTimeout(() => {
-        dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
+        // dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
       }, 5000);
       // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 

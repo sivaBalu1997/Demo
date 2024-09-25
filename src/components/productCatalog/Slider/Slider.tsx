@@ -10,7 +10,7 @@ import NavSlider from "../NavSlider/NavSlider";
 import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
-import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { addMockDataHiddenRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useHistory } from "react-router-dom";
 
@@ -83,7 +83,7 @@ const Slider: React.FC<SliderProps> = ({
     const UpdatedeleteItem = data.filter(
       (item: SideBarData) => item.id !== SideBarData[0].id
     );
-    dispatch(storeMockDataRequest(UpdatedeleteItem));
+    // dispatch(storeMockDataRequest(UpdatedeleteItem));
     onclose()
   };
 

@@ -389,6 +389,7 @@
 {
   display: flex;
   gap: 30px;
+  margin-top: 30px;
   .DineInRelatedHeading
   {
     font-family: Poppins;
@@ -642,4 +643,12 @@ margin-top: 0.2rem;
 .third-party {
   position: relative; 
   z-index: 0; 
+}
+.ErrormsgPickupPriceSpecial{
+  position: relative;
+  top: 24px;
+  left: 20px;
+  color:red;
+  font-size: 14px;
+  font-weight: 400
 }

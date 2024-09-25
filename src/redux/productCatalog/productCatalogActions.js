@@ -88,7 +88,10 @@ import {
   UPLOAD_IMAGE,
   UPLOAD_IMAGE_SUCCESS,
   UPLOAD_IMAGE_FAILURE,
-  UPLOAD_IMAGE_IN_PROGRESS
+  UPLOAD_IMAGE_IN_PROGRESS,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
+  ADD_MOCK_DATA_HIDDEN_SUCCESS,
+  ADD_MOCK_DATA_HIDDEN_FALIURE
 
 } from "./productCatalogConstants";
 
@@ -571,3 +574,16 @@ export const uploadImageFailure = (image,id, index,error) => ({
   type: UPLOAD_IMAGE_FAILURE,
   payload: { image, id,index,error },
 });
+export const addMockDataHiddenRequest = (data) => ({
+  type: ADD_MOCK_DATA_HIDDEN_REQUEST,
+  payload:data
+});
+ 
+export const addMockDataHiddenSuccess = (response) => ({
+  type: ADD_MOCK_DATA_HIDDEN_SUCCESS ,
+  payload: response,
+});
+export const addMockDataHiddenFailure = (error) => ({
+  type: ADD_MOCK_DATA_HIDDEN_FALIURE ,
+  payload: error,
+})
