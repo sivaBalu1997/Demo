@@ -68,7 +68,7 @@ const SpecialReview = () => {
 
             {prizingDetail &&
               prizingDetail.specialForm &&
-              prizingDetail.specialForm.dineinfields.map((elem, index) => {
+              prizingDetail.specialForm?.dineinfields?.map((elem, index) => {
                 return (
                   <>
                     <h3 className="dine-in-items-label">{elem.DineInPrice}</h3>
@@ -81,7 +81,7 @@ const SpecialReview = () => {
             <h3 className="dine-in-items-container-heading">Service Time</h3>
             {prizingDetail &&
               prizingDetail.specialForm &&
-              prizingDetail.specialForm.dineinfields.map((elem, index) => {
+              prizingDetail.specialForm?.dineinfields?.map((elem, index) => {
                 return (
                   <>
                     <h3 className="dine-in-items-label">
@@ -96,7 +96,7 @@ const SpecialReview = () => {
             <h3 className="dine-in-items-container-heading">Service Area</h3>
             {prizingDetail &&
               prizingDetail.specialForm &&
-              prizingDetail.specialForm.dineinfields.map((elem, index) => {
+              prizingDetail.specialForm?.dineinfields?.map((elem, index) => {
                 return (
                   <>
                     <h3 className="dine-in-items-label">

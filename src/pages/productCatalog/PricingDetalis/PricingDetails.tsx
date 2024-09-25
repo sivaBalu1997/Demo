@@ -56,6 +56,11 @@ type DineInField = {
   showDay:any
   dayButtonText:any
 };
+type DineinFieldSpecial={
+  DineInPrice:string|string[],
+      DineInMealType:string|string[] ,
+      DineInService: string|string[],
+}
 
 interface FormState {
   Pickupprice?: string;
@@ -73,7 +78,7 @@ interface FormState {
 
 type MainFormSpecial = {
   form: FormState;
-  dineinfields: DineInField[];
+  dineinfields: DineinFieldSpecial[];
   specialcheck: number[]; // Single number, not an array
   fromDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
   toDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
@@ -367,9 +372,17 @@ const PricingDetails = () => {
     {
       DineInPrice: "",
       DineInMealType: [],
-      DineInService: "", // Change this from DineInService to DineInServiceArea
+      DineInService: "", // Change this from DinInService to DineInServiceArea
       showDay: false,
       dayButtonText: "Add Day",
+    },
+    
+  ]);
+  const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
+    {
+      DineInPrice:"",
+      DineInMealType: "",
+      DineInService: "",
     },
   ]);
   type DropdownValidationState = {
@@ -382,6 +395,7 @@ const PricingDetails = () => {
       const mealTypeKey = `DineInMealType_${index}`;
       const priceKey = `DineInPrice_${index}`;
       const DineInService=`DineInService_${index}`
+    
  
       // Validate DineInMealType
       if (!field.DineInMealType || field.DineInMealType.length === 0) {
@@ -417,6 +431,53 @@ const PricingDetails = () => {
  
     return errors;
   };
+  const validateDineInFields1 = (dineinfield1: DineinFieldSpecial[]) => {
+    const errors: DropdownValidationState = {};
+ 
+    dineinfield1.forEach((field, index) => {
+      const mealTypeKey = `DineInMealType_${index}`;
+      const priceKey = `DineInPrice_${index}`;
+      const DineInService=`DineInService_${index}`
+    
+ 
+      // Validate DineInMealType
+      if (!field.DineInMealType || field.DineInMealType.length === 0) {
+        errors[mealTypeKey] = {
+          isValid: false,
+          errorMessage: "Meal type should not be empty.",
+        };
+      } else {
+        errors[mealTypeKey] = { isValid: true, errorMessage: "" };
+      }
+ 
+      if(!field.DineInService||field.DineInService.length === 0)
+      {
+        errors[DineInService] = {
+          isValid: false,
+          errorMessage: "Service area should not be empty.",
+        };
+      }
+      else {
+        errors[DineInService] = { isValid: true, errorMessage: "" };
+      }
+ 
+     
+      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
+        errors[priceKey] = {
+          isValid: false,
+          errorMessage: "Price",
+        };
+      } else {
+        errors[priceKey] = { isValid: true, errorMessage: "" };
+      }
+    });
+ 
+    return errors;
+  };
+  
+ 
+  
+ 
   const handleValidateDropdown = ( ) => {
    
     const dropErrors: DropdownValidationState = {};
@@ -443,6 +504,7 @@ const PricingDetails = () => {
           dropErrors.DeliveryPrice={isValid:false,errorMessage:"Price"}
         }  
       
+      
     }
     else{
       dropErrors.Delivery={isValid:true,errorMessage:""}
@@ -452,16 +514,28 @@ const PricingDetails = () => {
     }
     return dropErrors;
   };
+  const handleValidateSpecial=()=>{
+    const dropErrors1: DropdownValidationState = {};
+    if(mainFormSpecial.selectedValuespickup.length===0)
+    {
+      dropErrors1.PickupSpecial={isValid:false,errorMessage:"Please Fill this Field"}
+    }
+    else{
+      dropErrors1.PickupSpecial={ isValid: true, errorMessage: "" };
+    }
+    return dropErrors1
+
+  }
   
   const [validationStateerr, setValidationStateerr] = useState<DropdownValidationState>({}); 
   const handleValidate = (): boolean => {
     
   
     // Get the dropdown validation errors
-    const dropdownErrors = handleValidateDropdown();
+    const dropdownErrors = isOptionTrue?handleValidateDropdown():handleValidateSpecial();
   
     // Get the dine-in fields validation errors
-    const dineInErrors = validateDineInFields(dineinfields);
+    const dineInErrors = isOptionTrue?validateDineInFields(dineinfields):validateDineInFields1(dineinfields1);
   
     // Combine both error objects
     const combinedErrors = {
@@ -470,7 +544,6 @@ const PricingDetails = () => {
     };
   
     console.log("Combined validation errors:", combinedErrors); // Log errors
-    console.log(getValues())
   
     // Set the validation state for displaying errors in the UI
     setValidationStateerr(combinedErrors);
@@ -482,7 +555,7 @@ const PricingDetails = () => {
     return isValid;
   };
   console.log("hello",mainForm.form.Inventory1)
- console.log(mainFormState)
+ console.log(mainFormSpecial)
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -518,7 +591,7 @@ const PricingDetails = () => {
                   error={errors.kitchenstation}
                   trigger={trigger}
                   getValues={getValues}
-                  validation={{ required: "dietaryType is required" }}
+                  // validation={{ required: "dietaryType is required" }}
                   addNew={true}
                   editValues={true}
                   setDropdownOpen={setDropdownOpen}
@@ -690,6 +763,12 @@ const PricingDetails = () => {
                 validationState={validationState}
                 setMainFormSpecial={setMainFormSpecial}
                 mainFormSpecial={mainFormSpecial}
+                dineinfield1={dineinfields1}
+                setDineInFields1={setDineInFields1}
+                setValidationStateerr={setValidationStateerr}
+                ValidationStateerr={validationStateerr}
+
+                
               />
             )}
 

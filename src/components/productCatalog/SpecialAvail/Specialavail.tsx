@@ -51,12 +51,17 @@ interface SpecialAvailProps {
     | React.Dispatch<React.SetStateAction<MainFormSpecial>>
     | any;
   mainFormSpecial: any;
+  dineinfield1?:any
+  setDineInFields1?:any
+  setValidationStateerr?:any
+                ValidationStateerr?:any
+
 }
  
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
-  DineInServiceArea: string | string[];
+  DineInService: string | string[];
 };
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -66,6 +71,12 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   validationState,
   setMainFormSpecial,
   mainFormSpecial,
+  dineinfield1,
+  setDineInFields1,
+  setValidationStateerr,
+              ValidationStateerr
+
+  
 }) => {
   const [dinein, setDineIn] = useState(true);
   const [online, setOnline] = useState(false);
@@ -151,20 +162,14 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   const fromDate = selectedDate?.toString();
   const toDate = selectedDate1?.toString();
  
-  const [dineinfields, setDineInFields] = useState<DineInField[]>([
-    {
-      DineInPrice: "",
-      DineInMealType: "",
-      DineInServiceArea: "",
-    },
-  ]);
+  
   const handleChange = (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const newEntries = [...dineinfields];
+    const newEntries = [...dineinfield1];
     newEntries[index][e.target.name as keyof DineInField] = e.target.value;
-    setDineInFields(newEntries);
+    setDineInFields1(newEntries);
   };
  
   const handleDateChange = (date: Date | null) => {
@@ -177,7 +182,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
  
   const payLoad = {
     form1,
-    dineinfields,
+    dineinfield1,
     specialcheck: specialcheck,
     fromDate,
     toDate,
@@ -215,12 +220,12 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     setSelectedValuesMealType(newSelectedValues);
  
     // Update the dine-in fields with the selected value
-    const newDineInFields = [...dineinfields];
+    const newDineInFields = [...dineinfield1];
     newDineInFields[index] = {
       ...newDineInFields[index],
-      DineInServiceArea: value,
+      DineInService: value,
     };
-    setDineInFields(newDineInFields);
+    setDineInFields1(newDineInFields);
  
     // Validate the dropdown immediately after selection
     validateDropdown(newSelectedValues[index], index);
@@ -271,9 +276,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     newSelectedValues[index] = value;
     setSelectedValues1(newSelectedValues);
  
-    const newArray = [...dineinfields];
+    const newArray = [...dineinfield1];
     newArray[index].DineInMealType = value; // Assign a single string value
-    setDineInFields(newArray);
+    setDineInFields1(newArray);
   };
  
   const handleSelectService = (index: number, value: MealType) => {
@@ -281,9 +286,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     newSelectedValues[index] = value;
     setSelectedValues1(newSelectedValues);
  
-    const newarrary = [...dineinfields];
-    newarrary[index].DineInServiceArea = value;
-    setDineInFields(newarrary);
+    const newarrary = [...dineinfield1];
+    newarrary[index].DineInService = value;
+    setDineInFields1(newarrary);
   };
  
   // const addOptionMealType = (newOption) => {
@@ -291,8 +296,8 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   // };
  
   const handleDelete = (index: number) => {
-    const newEntries = dineinfields.filter((_, i) => i !== index);
-    setDineInFields(newEntries);
+    const newEntries = dineinfield1.filter((_:any, i:any) => i !== index);
+    setDineInFields1(newEntries);
  
     const newSelectedValues1 = [...selectedValues1];
     newSelectedValues1.splice(index, 1);
@@ -305,67 +310,72 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
  
   // Add a new empty value for the new field
   const AddDineInEntry = () => {
-    setDineInEntry([...dineinentry, ""]); // Add an empty string or another appropriate string value
-    
-    // Ensure dineinfields is an array before spreading
-    setDineInFields(prevFields => Array.isArray(prevFields) 
-      ? [...prevFields, { DineInPrice: "", DineInMealType: [], DineInServiceArea: [] }]
-      : [{ DineInPrice: "", DineInMealType: [], DineInServiceArea: [] }]
+    // Add an empty string to dineinentry
+    setDineInEntry([...dineinentry, ""]);
+  
+    // Add a new object to dineinfields with empty initial values
+    setDineInFields1((prevFields: DineInField[]) =>
+      Array.isArray(prevFields)
+        ? [
+            ...prevFields,
+            { DineInPrice: "", DineInMealType: [], DineInService: [] }
+          ]
+        : [{ DineInPrice: "", DineInMealType: [], DineInService: [] }]
     );
   };
   const handleSelectZomatoSwiggy = (value: string[]) => {
     setSelectedSwiggyZomato(value);
   };
-  useEffect(() => {
-    if (prizingDetail) {
-      setSelectedDate(prizingDetail?.specialForm?.fromDate || "");
-      setSelectedDate1(prizingDetail?.specialForm?.toDate || "");
-      setSpecialcheck(prizingDetail?.specialForm?.specialcheck || "");
-      setForm({
-        Pickupprice: prizingDetail?.specialForm?.form1?.Pickupprice || "",
-        Pickupmealtype: "",
-        Deliveryprice: prizingDetail?.specialForm?.form1?.Deliveryprice || "",
-        Deliverymealtype: "",
-        Swiggyorzomato: prizingDetail?.specialForm?.form1?.Swiggyorzomato || "",
-        Swiggy: prizingDetail?.specialForm?.form1?.Swiggy || "",
-        Swiggymealtype: "",
-        Zomato: prizingDetail?.specialForm?.form1?.Zomato || "",
-        Zomatomealtype: "",
-      });
+  // useEffect(() => {
+  //   if (prizingDetail) {
+  //     setSelectedDate(prizingDetail?.specialForm?.fromDate || "");
+  //     setSelectedDate1(prizingDetail?.specialForm?.toDate || "");
+  //     setSpecialcheck(prizingDetail?.specialForm?.specialcheck || "");
+  //     setForm({
+  //       Pickupprice: prizingDetail?.specialForm?.form1?.Pickupprice || "",
+  //       Pickupmealtype: "",
+  //       Deliveryprice: prizingDetail?.specialForm?.form1?.Deliveryprice || "",
+  //       Deliverymealtype: "",
+  //       Swiggyorzomato: prizingDetail?.specialForm?.form1?.Swiggyorzomato || "",
+  //       Swiggy: prizingDetail?.specialForm?.form1?.Swiggy || "",
+  //       Swiggymealtype: "",
+  //       Zomato: prizingDetail?.specialForm?.form1?.Zomato || "",
+  //       Zomatomealtype: "",
+  //     });
  
-      setSelectedValuesPickup(prizingDetail?.specialForm?.selectedValuespickup||[]);
-      setSelectedValuesDelivery(
-        prizingDetail?.specialForm?.selectedValuesdelivery ||[]
-      );
-      setSelectedValuesThird1(prizingDetail?.specialForm?.Swiggy ||[]);
-      setSelectedValuesThird2(prizingDetail?.specialForm?.Zomato ||[]);
+  //     setSelectedValuesPickup(prizingDetail?.specialForm?.selectedValuespickup||[]);
+  //     setSelectedValuesDelivery(
+  //       prizingDetail?.specialForm?.selectedValuesdelivery ||[]
+  //     );
+  //     setSelectedValuesThird1(prizingDetail?.specialForm?.Swiggy ||[]);
+  //     setSelectedValuesThird2(prizingDetail?.specialForm?.Zomato ||[]);
  
-      const updated = prizingDetail?.specialForm?.dineinfields?.map(
-        (item: DineInField) => ({
-          DineInPrice: item?.DineInPrice || "",
-          DineInMealType: item?.DineInMealType || [],
-          DineInServiceArea: item?.DineInServiceArea || [],
-        })
-      );
-      setDineInFields(updated);
+  //     const updated = prizingDetail?.specialForm?.dineinfields?.map(
+  //       (item: DineInField) => ({
+  //         DineInPrice: item?.DineInPrice || "",
+  //         DineInMealType: item?.DineInMealType || [],
+  //         DineInServiceArea: item?.DineInServiceArea || [],
+  //       })
+  //     );
+  //     setDineInFields(updated);
  
-      const initialSelectedValues =
-        updated?.map(
-          (item: DineInField) => item.DineInMealType
-        );
-      setSelectedValuesMealType(initialSelectedValues||[]);
-      console.log(initialSelectedValues)
+  //     const initialSelectedValues =
+  //       updated?.map(
+  //         (item: DineInField) => item.DineInMealType
+  //       );
+  //     setSelectedValuesMealType(initialSelectedValues||[]);
+  //     console.log(initialSelectedValues)
  
-      const initialSelectedValues2 =
-      updated?.map(
-          (item: DineInField) => item.DineInServiceArea
-        );
-      setSelectedValues1(initialSelectedValues2||[]);
-      setDineIn(true);
-    }
+  //     const initialSelectedValues2 =
+  //     updated?.map(
+  //         (item: DineInField) => item.DineInServiceArea
+  //       );
+  //     setSelectedValues1(initialSelectedValues2||[]);
+  //     setDineIn(true);
+  //   }
 
   
-  }, []);
+  // }, []);
 
 
   const handleSpecialDineinMealType = (index: number, value: any) => {
@@ -377,11 +387,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     });
   
     // Clone the dineinfields array and update the specific index
-    const newDineInFields = [...dineinfields];
+    const newDineInFields = [...dineinfield1];
     newDineInFields[index].DineInMealType = value; // Update DineInService with the new value
     
     // Update the state with the modified array
-    setDineInFields(newDineInFields);
+    setDineInFields1(newDineInFields);
   };
   return (
     <div>
@@ -447,87 +457,73 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
       </div>
       {dinein ? (
         <>
-          {dineinfields &&
-            dineinfields.map((item, index) => (
-              <div
-                className="DineInInput11Special"
-                style={{ zIndex: dineinfields.length - index }}
-              >
-                <div className="price-input-price">
-                  <p className="LabelSpecialPrice">Price*</p>
-                  <input
-                    type="text"
-                    name="DineInPrice"
-                    value={item.DineInPrice}
-                    className="DineInInput1"
-                    onChange={(e) => handleChange(index, e)}
-                  />
-                </div>
+          { 
+  dineinfield1 && dineinfield1.map((item:any, index:any) => (
+  
+   
+    <div
+      className="DineInInput11Special"
+      style={{ zIndex: dineinfield1.length - index }}
+      key={index} // Adding key here
+    >
+      <div className="price-input-price">
+        <p className="LabelSpecialPrice">Price*</p>
+        <input
+          type="text"
+          name="DineInPrice"
+          value={item.DineInPrice}
+          className="DineInInput1"
+          onChange={(e) => handleChange(index, e)}
+        />
+       
+      </div>
 
-                <div className="DropD4">
-                  <Dropdown
-                    key={index}
-                    selectedValues={selectedValuesMealType?.[index] || []}
-                    onSelect={(value) => handleSelect3(value, index)}
-                    options={options3}
-                    label="Meal Type*"
-                    onBlur={() =>
-                      validateDropdown(
-                        selectedValuesMealType[index] || [],
-                        index
-                      )
-                    }
-                    onChange={(e) =>
-                      handleSpecialDineinMealType(index, e.target.value)
-                    }
-                    width="Drop1"
-                    validation={
-                      validationState[index] || {
-                        isValid: true,
-                        errorMessage: "",
-                      }
-                    }
-                  />
-                </div>
-                <div className="SpecialDropDown">
-                  <Dropdown
-                    key={index}
-                    selectedValues={selectedValues1?.[index] || ""}
-                    onSelect={(value) => handleSelectMealtype(value, index)}
-                    options={options3}
-                    label="Service Area*"
-                    width="Drop2"
-                    validation={
-                      validationState[index] || {
-                        isValid: true,
-                        errorMessage: "",
-                      }
-                    }
-                  />
-                </div>
-                <div>
-                  <h1
-                    onClick={() => handleDelete(index)}
-                    className="DeleteSpecial"
-                  >
-                    - Delete
-                  </h1>
-                </div>
-              </div>
-            ))}
+      <div className="DropD4">
+        <Dropdown
+          
+          selectedValues={selectedValuesMealType?.[index] || []}
+          onSelect={(value) => handleSelect3(value, index)}
+          options={options3}
+          label="Meal Type*"
+          onBlur={() =>
+            validateDropdown(selectedValuesMealType[index] || [], index)
+          }
+          onChange={(e) => handleSpecialDineinMealType(index, e.target.value)}
+          width="Drop1"
+          validation={
+            validationState[index] || { isValid: true, errorMessage: "" }
+          }
+        />
+      </div>
 
-          <div className={` Add-entry ${
-                dineinfields?.length
-                  ? "AddentrySpecial"
-                  : "AddentrySpecialOnToggle"
-              }`}
+      <div className="SpecialDropDown">
+        <Dropdown
+          selectedValues={selectedValues1?.[index] || ""}
+          onSelect={(value) => handleSelectMealtype(value, index)}
+          options={options3}
+          label="Service Area*"
+          width="Drop2"
+          validation={
+            validationState[index] || { isValid: true, errorMessage: "" }
+          }
+        />
+      </div>
+
+      <div>
+        <h1 onClick={() => handleDelete(index)} className="DeleteSpecial">
+          - Delete
+        </h1>
+      </div>
+    </div>
+  ))
+}
+          <div className={"dineinentry"}
               onClick={AddDineInEntry}>
             + Add entry
           </div>
         </>
       ) : (
-        ""
-      )}
+        ""      )}
       {/* OnlineRelated */}
       <div className="OnlineRelated">
         <h1 className="OnlineRelatedHeading">Online</h1>
@@ -566,15 +562,14 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                         options={optionspick}
                         label="Meal Type*"
                         width="Drop1"
-                        onBlur={() =>
-                          validateDropdown(
-                            selectedValuespickup,
-                            "Pickupspecial"
-                          )
-                          
-                        }
+                       
                         // validation={validationState.Pickupspecial}
                       />
+                      {!ValidationStateerr.PickupSpecial?.isValid && (
+                      <span className="ErrormsgPickupPriceSpecial">
+                        {ValidationStateerr?.PickupSpecial?.errorMessage || ""}
+                      </span>
+                    )}
                     </div>
                   </div>
                 </div>
