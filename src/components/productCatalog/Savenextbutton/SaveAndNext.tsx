@@ -110,7 +110,6 @@ interface SubmitButtonProps {
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
   mainForm?:MainForm
-  validation?:()=>boolean
 }
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
@@ -193,42 +192,29 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
 
-    } else if (seletedpage === "Pricing" && triggerValidation && validation) {
+    } else if (seletedpage === "Pricing"&& triggerValidation) {
+
       const formData = getFormData();
       console.log(formData);
-    
-      // Run the validation
       const isFormValid = await triggerValidation(formData);
-      console.log("isFormValid", isFormValid);
-      console.log("validation", validation());
-    
-      // Stop execution if the form is invalid
-      if (!isFormValid || !validation()) {
-        console.error("Form validation failed");
-        return; // Return early to prevent further execution and navigation
+      dispatch(PricingDetailRequest(mainForm))
+      if (!isFormValid) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
       }
-    
-      // If formData.kitchenstation exists, update PricingDetails
-      let PricingDetails = { ...mainForm };
-      if (formData.kitchenstation) {
-        PricingDetails = {
-          ...PricingDetails,
-          kitchenstation: formData.kitchenstation,
-        };
-      } else {
-        console.error("formData.kitchenstation is undefined");
+      else{
+        history.push({
+          pathname: `/productCatalog/Itemcustomizations`,
+          state: { pagename: "Itemcustomizations" },
+        });
+        history.push("/productCatalog/Itemcustomizations");
+        dispatch(primarypost(formData));
       }
-    
-      // Dispatch PricingDetails request
-      dispatch(PricingDetailRequest(PricingDetails));
-    
-      // Navigate to the next page only if the form is valid
-      history.push({
-        pathname: `/productCatalog/Itemcustomizations`,
-        state: { pagename: "Itemcustomizations" },
-      });
-    }
-    else if (seletedpage === "ItemCustomization") {
+
+    } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));

@@ -392,28 +392,32 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
         <div className="calenderComponent">
           <div className="date-picker-container">
             <DatePicker
-              placeholderText="7/1/2034" // Placeholder text for the date picker
+              placeholderText="7/1/2034" 
               dateFormat="MM/dd/yyyy"
               selected={selectedDate}
-              onChange={handleDateChange} // Date format for display
+              onChange={handleDateChange} 
               ref={datePickerRef}
               className="datePicker"
             />
           </div>
-          <img src={calender} className="calender" onClick={handleImageClick} />
-        </div>
- 
-        <div className="calenderComponent">
-          <div className="date-picker-container">
-            <DatePicker
-              selected={selectedDate1}
-              onChange={handleDateChange1}
-              placeholderText="7/1/2034" // Placeholder text for the date picker
-              dateFormat="yyyy-MM-dd" // specify the format you want
-              showPopperArrow
-              ref={datePickerRef1}
-              className="datePicker"
-            />
+
+          <div className="calenderComponent">
+            <div className="date-picker-container">
+              <DatePicker
+                selected={selectedDate1}
+                onChange={handleDateChange1}
+                placeholderText="7/1/2034" // Placeholder text for the date picker
+                dateFormat="yyyy-MM-dd" // specify the format you want
+                showPopperArrow
+                ref={datePickerRef1}
+                className="datePicker"
+              />
+            </div>
+            <img
+              src={calender}
+              className="calender1"
+              onClick={handleImageClick2}
+            ></img>
           </div>
           <img
             src={calender}
@@ -421,14 +425,6 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
             onClick={handleImageClick2}
           ></img>
         </div>
-      </div>
-      <div className="dayschecking">
-        <DaysCheck
-          checkedItems={specialcheck}
-          setCheckedItems={setSpecialcheck}
-          id={availabilityid1}
-          setId={setAvailabilityid1}
-        />
       </div>
 
       {/* <h1 className="KitchenRelatedHeading">Avaliable Service Streams</h1> */}
@@ -504,16 +500,13 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                 </h1>
               </div>
             ))}
- 
-          <h1
-            className={`${
-              dineinfields?.length
-                ? "AddentrySpecial"
-                : "AddentrySpecialOnToggle"
-            }`}
-            onClick={AddDineInEntry}
-          >
-            {" "}
+
+          <div className={` Add-entry ${
+                dineinfields.length
+                  ? "AddentrySpecial"
+                  : "AddentrySpecialOnToggle"
+              }`}
+              onClick={AddDineInEntry}>
             + Add entry
           </h1>
         </>
@@ -564,8 +557,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                           )
                           
                         }
-                      
-                        validation={validationState.Pickupspecial}
+                        // validation={validationState.Pickupspecial}
                       />
                     </div>
                   </div>
@@ -679,17 +671,17 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                     />
                   </div>
                   <div className="Third2">
-                      <Dropdown
-                        selectedValues={selectedValuesthird2}
-                        onSelect={handleSelectThird2}
-                        options={optionsthird2}
-                        label="Meal Type*"
-                        onBlur={() =>
-                          validateDropdown(selectedValuesthird2, "ThirdDelivery2")
-                        }
-                        validation={validationState.ThirdDelivery2}
-                        width="Drop1"
-                      />
+                    <Dropdown
+                      selectedValues={selectedValuesthird2}
+                      onSelect={handleSelectThird2}
+                      options={optionsthird2}
+                      label="Meal Type*"
+                      onBlur={() =>
+                        validateDropdown(selectedValuesthird2, "ThirdDelivery2")
+                      }
+                      // validation={validationState.ThirdDelivery2}
+                      width="Drop1"
+                    />
                   </div>
                 </div>
               )}

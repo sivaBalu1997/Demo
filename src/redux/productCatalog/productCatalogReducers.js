@@ -41,6 +41,7 @@ import {
   STORE_MOCK_DATA_FILTERED_REQUEST,
   ADD_MOCK_DATA_REQUEST,
   ADD_MOCK_DATA_HIDDEN_REQUEST,
+  
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
   DIET_DROPDOWN_LIST_FAILURE,
@@ -244,6 +245,7 @@ export default function employeeReducer(
       break;
 
       // Get Menu Category
+
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
         draft.getCategoryLoading = true;
@@ -606,12 +608,7 @@ export const storeMockDataReducer = (state = mockData, action) => {
     data: []
   };
 
-  export  const storeMockDataFilteredReducer = (state = mockDataFiltered, action) => {
-    switch (action.type) {
-      case STORE_MOCK_DATA_FILTERED_REQUEST:
-        return {
-          ...state,data:action?.payload
-        };
+  
   
     
   
@@ -659,6 +656,16 @@ export const storeMockDataReducer = (state = mockData, action) => {
         return state;
     }
   };
+export const storeMockDataFilteredReducer = (
+  state = mockDataFiltered,
+  action
+) => {
+  switch (action.type) {
+    case STORE_MOCK_DATA_FILTERED_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
 
   const checkItemCode = {
     loading: false,
@@ -726,3 +733,15 @@ export const storeMockDataReducer = (state = mockData, action) => {
         return state;
     }
   };
+export const addMockDataReducer = (state = mockDataFiltered, action) => {
+  switch (action.type) {
+    case ADD_MOCK_DATA_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
+
+    default:
+      return state;
+  }
+};

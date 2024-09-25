@@ -26,6 +26,8 @@ import {
   dietdatarequest,
   dietdatasuccess,
   dietdatafailure,
+  uploadImageSuccess,
+  uploadImageFailure,
   cuisineDataSuccess,
   cuisineDataFailure,
   catogoryDataSuccess,
@@ -43,9 +45,11 @@ import {
   postPopularItemSuccess,
   postPopularItemFailure,
   getPopularItemSuccess,
-  getPopularItemFailure
+  getPopularItemFailure,
 
 
+  uploadImageSuccess,
+  uploadImageFailure,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -59,6 +63,8 @@ import {
   getAvailability,
   updateMenuItemAttribute,
   getImage,
+  getId,
+  store,
   getDietarydata,
   getCuisineData,
   getCategorydata,
@@ -66,7 +72,10 @@ import {
   getBestPairData,
   getSubSectionData,
   getItemCode,
-  GetPopularItem
+  GetPopularItem,
+  // getDietarydata,
+  getId,
+  store,
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -93,6 +102,20 @@ import {
   GET_POPULAR_ITEM_REQUEST
  
 } from "./productCatalogConstants";
+
+// function* getdietarySaga(action) {
+//   try {
+//     const response = yield call(getDietarydata, action.payload);
+//     if (response) {
+//       console.log("response from sagas", response);
+//       yield put(dietdatasuccess(response));
+//     } else {
+//       yield put(dietdatafailure({ message: "please Try Again" }));
+//     }
+//   } catch (err) {
+//     yield put(dietdatafailure({ message: "please Try Again" }));
+//   }
+// }
 
 function* getCategorySaga(action) {
   try {
@@ -309,11 +332,17 @@ function* getPopularItemSaga(action) {
 
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
-
   yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
   yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga)
 
   // yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
+  yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
+
+  // yield takeLatest(DIET_DROPDOWN_LIST_REQUEST, getdietarySaga);
+  yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
+  yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga)
+
+  yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);
   yield takeLatest(GET_INGR_REQUEST, getIngredientsSaga);
   yield takeLatest(ADD_MENU_ITEM_REQUEST, addMenuItemSaga);
