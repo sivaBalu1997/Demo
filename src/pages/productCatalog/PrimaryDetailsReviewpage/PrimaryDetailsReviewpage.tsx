@@ -122,8 +122,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const fetchedprimarydata = primarydata;
   // console.log(fetchedprimarydata.ingredients);
 
-  const uploadStatus = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload.uploadStatus);
-  const errorMessages = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload.errorMessages);
+  const uploadStatus = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.uploadStatus);
+  const errorMessages = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages);
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
