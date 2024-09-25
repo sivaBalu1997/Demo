@@ -13,6 +13,7 @@ interface TableHeaderProps {
   dollar: string;
   calendericon: string;
   removeicon: string;
+  dragtablefirstHeaderindex:number
 }
 
 const TableFirstHeader: React.FC<TableHeaderProps> = ({
@@ -28,10 +29,12 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
   dollar,
   calendericon,
   removeicon,
+  dragtablefirstHeaderindex
 }) => {
   return (
     <>
       {listingobject[header.label] && (
+        <>
         <th
           key={index}
           colSpan={secondRowLength}
@@ -69,6 +72,12 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
             />
           </span>
         </th>
+        {dragtablefirstHeaderindex === index && (
+          <th className="placeholderplacecolumn"></th>
+        )}
+        
+        </>
+        
       )}
     </>
   );

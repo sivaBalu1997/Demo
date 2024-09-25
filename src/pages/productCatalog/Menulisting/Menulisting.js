@@ -53,6 +53,7 @@ export const Menulisting = () => {
   });
 
   const [draggingOverIndex, setDraggingOverIndex] = useState(null);
+  const [dragtablefirstHeaderindex,setdragtablefirstHeaderindex]=useState(null)
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [sidebartext, setSideBarText] = useState(null);
@@ -195,6 +196,7 @@ export const Menulisting = () => {
 
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
+      setdragtablefirstHeaderindex(index)
       const updatedFirstRowTable = [...firstRowTable];
       const updatedSecondRowTable = [...secondRowTable];
       const updatedclassnames = [...classNames];
@@ -254,6 +256,7 @@ export const Menulisting = () => {
 
   const handleColumnwiseDragEnd = () => {
     setDraggedIndexsample(null);
+    setdragtablefirstHeaderindex(null)
   };
 
   const handledragvegnonvegdragstart = (e, index) => {
@@ -377,9 +380,7 @@ export const Menulisting = () => {
       document.removeEventListener("click", Outsideclicking, true);
     };
   }, [showheadinglist]);
-
-  console.log(mergedMockData)
-
+  const allFalse = Object.values(listingobject).every(value => value === false);
 
   const selectedItems =
     FilteredObject &&
@@ -473,10 +474,12 @@ export const Menulisting = () => {
                 <tr className="headingonesection">
                   {firstRowTable.map((header, index) => (
                     <React.Fragment key={index}>
+                      
                       <TableFirstHeader
                         key={index}
                         header={header}
                         index={index}
+                        dragtablefirstHeaderindex={dragtablefirstHeaderindex}
                         secondRowLength={secondRowTable[index].length}
                         listingobject={listingobject}
                         setlistingobject={setlistingobject}
@@ -488,6 +491,7 @@ export const Menulisting = () => {
                         calendericon={calendericon}
                         removeicon={removeicon}
                       />
+                        
                     </React.Fragment>
                   ))}
                 </tr>
@@ -514,28 +518,32 @@ export const Menulisting = () => {
                 } tabletwobody`}
                 ref={tableBodyRef2}
               >
-                {steamType.map((itemobject, indexvalue) => {
-                  return (
-                    <React.Fragment key={indexvalue}>
-                      <tr>
-                        {indexvalue === 1 &&  !(steamType[0].name.length<=0 ||steamType[1].name.length<=0 ) &&(
-                          <tr className="itemheading2row"></tr>
-                        )}
-                      </tr>
-                      {/* //  */}
-                      <TableTwoBody
-                        itemobject={itemobject}
-                        indexvalue={indexvalue}
-                        classNamesinner={classNamesinner}
-                        listingobject={listingobject}
-                        showsidebar={showsidebar}
-                        SideBarData={SideBarData}
-                        setSideBar={setSideBar}
-                        handlemodal={handlemodal}
-                      />
-                    </React.Fragment>
-                  );
-                })}
+                {
+                  allFalse ?<><h1 className="columnselected">No Column Selected</h1></>:<>{steamType.map((itemobject, indexvalue) => {
+                    return (
+                      <React.Fragment key={indexvalue}>
+                        <tr>
+                          {indexvalue === 1 &&  !(steamType[0].name.length<=0 ||steamType[1].name.length<=0 ) &&(
+                            <tr className="itemheading2row"></tr>
+                          )}
+                        </tr>
+                        {/* //  */}
+                        <TableTwoBody
+                          itemobject={itemobject}
+                          indexvalue={indexvalue}
+                          classNamesinner={classNamesinner}
+                          listingobject={listingobject}
+                          showsidebar={showsidebar}
+                          SideBarData={SideBarData}
+                          setSideBar={setSideBar}
+                          handlemodal={handlemodal}
+                          listingheaders={allFalse}
+                        />
+                      </React.Fragment>
+                    );
+                  })}</>
+                }
+                
               </tbody>
             </table>
           </div>

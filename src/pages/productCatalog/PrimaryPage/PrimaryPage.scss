@@ -1,62 +1,92 @@
-*{
-    font-family: "Poppins", sans-serif;
+* {
+  font-family: "Poppins", sans-serif;
+}
+.Main-Primary-Page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.Main-Primary-Page-Expanded {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.Primary-page {
+  position: relative;
+  top: 7vh;
+  width: 100%;
+  height: 30rem;
+  overflow-y: auto;
+  // border: 1px solid red;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
-  .Main-Primary-Page
-  {
-    width: 100%;
+  .Primary-Page-inputfiled-and-tooltip {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 10px;
+    // background-color: pink;
+    .tool-tip-best-pair{
+      position: relative;
+      // background-color: orange;
+      left: -1%;
+      width: 1px;
+    }
+    .tool-tip-item-code{
+      position: relative;
+      // background-color: orange;
+      left: 5%;
+      width: 1px;
+    }
+    .tool-tip-portion-size{
+      position: relative;
+      // background-color: orange;
+      left: 10%;
+      width: 1px;
+    }
+    .tool-tip-tax-class{
+     
+      // background-color: orange;
+     margin-left: 5%;
+      width: 1px;
+    }
   }
-  .Main-Primary-Page-Expanded{
-    width: 100%;
+
+  .Primary-page-container-one {
     display: flex;
-    flex-direction: column;
-  }
-.Primary-page{
-    position: relative;
-    top:7vh;
-    width: 100%;
-    height: 30rem; 
-    overflow-y: auto;
-    // border: 1px solid red;
+    flex-direction: row;
+    height: 137vh;
+    margin-left: 2vw;
 
-    &::-webkit-scrollbar {
-      display: none;
+    .Primary-page-container-pairone {
+      width: 28vw;
+      height: 100vh;
     }
-    .Primary-Page-inputfiled-and-tooltip
-    {
-     display: flex;
-     flex-direction: row;
-    }
-  
-    .Primary-page-container-one{
-      display: flex;
-      flex-direction: row;
-      height: 130vh;
-      margin-left: 2vw;
 
-      .Primary-page-container-pairone{
-        width: 28vw;
-        height: 100vh;
-      }
+    .Primary-page-InputFields {
+      height: 6rem;
+      width: fit-content;
 
-      .Primary-page-InputFields{
-        height: 6rem;      
-        width: fit-content;
-      }
-      .alcoholradiobutton{
+      .KitchenRelated{
         display: flex;
-        flex-direction: column;
-        position: relative;
-        top: -2%;
-        gap: 0.5rem;
-          h3{
-            font-family: "Poppins", sans-serif;
-            font-size: 0.875rem;
-            font-weight: 400;
-            color: #000000;
-          }
-        }
+        justify-content: center;
+        align-items: center;
+    }
+    }
+    .alcoholradiobutton {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      top: -2%;
+      gap: 0.5rem;
+      h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: #000000;
+      }
+    }
 
         .Primary-Page-description-field{
           position: relative;
@@ -156,33 +186,40 @@
             }
           }
 
-        .PopularItem{
-          display: flex;
-          flex-direction: row;
-          gap: 10px;
-          align-items: center;
-          justify-content: center;
-          input{
-            width: 15px;
-            height: 15px;
-          }
-          span{
-            font-size: 16px;
-          }
-        }
-
-        .Primary-Page-categories-field{
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-        }
-        .Primary-page-Allergens-selection{
-          width: 43vw;
-          height: 40vh;
-          border-radius: 0.313rem;
-          border: 1px solid rgba(0, 0, 0, 0.3);
-          margin-top: 3%;
+    .PopularItem {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+     position: relative;
+     top: -1.2%;
+      input {
+        width: 15px;
+        height: 15px;
       }
+      span {
+        font-size: 16px;
+      }
+    }
+
+    .Primary-Page-categories-field {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .Primary-page-Allergens-selection {
+      width: 43vw;
+      height: 40vh;
+      border-radius: 0.313rem;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      margin-top: 3%;
+    }
+    .tool-tip-Allergen
+    {
+      margin-left: 100%;
+      margin-top: -5%;
+    }
 
       .Primary-page-container-pairtwo{
         width: 45vw;
@@ -240,14 +277,72 @@
             left: 3%;
             margin-top: -1rem;
           }
+    .Primary-page-container-pairtwo {
+      width: 45vw;
+      height: 90vh;
+      margin-left: 2rem;
+    }
+  }
+  .Primary-page-container-two {
+    margin-left: 2vw;
+    height: 70vh;
+
+    .Primary-page-ingredients-selection {
+      width: 45vw;
+      height: 40vh;
+      border-radius: 0.313rem;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    .Primary-Page-Other-Details {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      top: 3%;
+      .Primary-Page-Other-Details-heading {
+        font-family: "Poppins", sans-serif;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #000000;
+      }
+      .Primary-Page-Other-Detail {
+        display: flex;
+        flex-direction: row;
+        height: 3rem;
+        align-items: center;
+        gap: 30px;
+        // background-color: red;
+        .Caloriepointradio {
+          position: relative;
+          left: 1%;
+        }
+        .Primary-page-Other-Detail-mastercode {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          left: 0.5%;
+          // background-color: cadetblue;
+        }
+        .portionsizeTooltip {
+          position: relative;
+          left: 3%;
+          margin-top: -0.7rem;
+          // background-color: yellow;
+          width: 5px;
         }
       }
     }
+  }
 
-    .Primary-Page-Formsubmitbutton{
-      margin-top: 2%;
-    }
-  
-
+  .Primary-Page-Formsubmitbutton {
+    margin-top: 2%;
+  }
 }
 
+.portionSize-Radio
+{
+  position: relative;
+  left: 0.8rem;
+}

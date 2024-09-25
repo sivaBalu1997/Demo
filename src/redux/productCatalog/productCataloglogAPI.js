@@ -64,6 +64,15 @@ export function addMenuItem(data) {
   });
 }
 
+// export function getId() {
+//   return API({
+//     method: "get",
+//     url: 'http://192.168.1.29:8080/api/giveId',
+  
+//   });
+// }
+
+
 export function updateMenuItem(data) {
   return API({
     method: "put",
@@ -107,7 +116,29 @@ export function getItemCode(locationId,itemCode) {
 
 export function GetPopularItem(locationId) {
   return API({
-    method: "post",
-    url: `/merchants/api/v1/popular-items`,
+    method: "get",
+    url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
+  });
+}
+
+
+export function store(formData) {
+
+  return Axios.post('http://192.168.1.29:8080/api/storeImage', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+export function getId() {
+  return Axios.get('http://192.168.1.29:8080/api/giveId')
+}
+
+export function store(formData) {
+
+  return Axios.post('http://192.168.1.29:8080/api/storeImage', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 }
