@@ -90,7 +90,6 @@ const SidePanel = () => {
   useEffect(() => {
     if (locationId) {
       dispatch(getRestaurantRequest(locationId));
-      console.log(11)
     }
   }, []);
 
@@ -118,7 +117,6 @@ const SidePanel = () => {
         }
       }
     }
-    console.log(22)
   }, [restaurantDetails]);
 
   const toggleExpand = () => {

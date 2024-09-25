@@ -214,6 +214,7 @@ const PricingDetails = () => {
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData?.mainForm || {}
   );
+
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
@@ -278,6 +279,7 @@ const PricingDetails = () => {
     Zomato: [],
     Availabilityid: [],
   });
+  
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const [selectedValue1, setSelectedValue1] = useState<string[]>([]);
@@ -288,13 +290,16 @@ const PricingDetails = () => {
     Inventory1: "",
     Inventory2: "",
   });
+
   const [formerrors, setFormErrors] = useState({
     Inventory1: "",
     Inventory2: "",
   });
+
   const [dinein, setDineIn] = useState(false);
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
+
   const [validationState, setValidationState] = useState({
     kitchen: { isValid: true, errorMessage: "" },
     preparationTime: { isValid: true, errorMessage: "" },
@@ -388,20 +393,18 @@ const PricingDetails = () => {
   // };
 
   useEffect(() => {
-    setOptions(data);
-    getApi();
+    // setOptions(data);
+    dispatch(getTagClassRequest(locationid))
   }, [data]);
-
-  const getApi = async () => {
-    dispatch(getTagClassRequest(locationid));
-  };
 
   // const onSubmit: SubmitHandler<any> = (data: any) => {
   //   dispatchEvent();
   // };
+
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
+
   const [dineinfields, setDineInFields] = useState<DineInField[]>([
     {
       DineInPrice: "",
@@ -425,6 +428,7 @@ const PricingDetails = () => {
     pickup: false,
     delivery: false,
   });
+
   const validateDineInFields = (dineinfields: DineInField[]) => {
     const errors: DropdownValidationState = {};
 
@@ -482,12 +486,9 @@ const PricingDetails = () => {
   const handleValidate = () => {
     const errors = validateDineInFields(dineinfields);
     setValidationStateerr(errors);
-    // console.log("errors", errors);
-
     const hasInvalidField = Object.values(errors).some(
       (error) => error.isValid === false
     );
-
     return !hasInvalidField;
   };
 
@@ -630,6 +631,7 @@ const PricingDetails = () => {
                   {formerrors.Inventory2 && (
                     <p className="ErrorsFormi2">{formerrors.Inventory2}</p>
                   )}
+
                   <div className="Inventcheckbox">
                     <div className="checkboxI">
                       <input type="checkbox" className="checkbox1-color" />

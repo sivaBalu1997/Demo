@@ -83,7 +83,12 @@ interface NormalavailProps {
   mainFormState: any;
   dineinfields?: any;
   setDineInFields: (form: any) => void;
-  onToggelChange:(dineIn: boolean, online: boolean, pickup: boolean,delivery:boolean) => void;
+  onToggelChange: (
+    dineIn: boolean,
+    online: boolean,
+    pickup: boolean,
+    delivery: boolean
+  ) => void;
 }
 
 type MealType1 = string;
@@ -108,8 +113,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   setDineInFields,
   setValidationStateerr,
   handleValidate,
-  onToggelChange
-
+  onToggelChange,
 }) => {
   const [online, setOnline] = useState(false);
   const [pickup, setPickup] = useState(false);
@@ -117,8 +121,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   const [dineinentry, setDineInEntry] = useState<string[]>([]);
   const [Normaldays, setNormalDays] = useState<number[]>([]);
-  const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
-
+  const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]); //Need to feed data to the dropdown through redux
   const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options5, setOptions5] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -138,11 +141,13 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>([]);
   const [selectedValuesmealtype, setSelectedValuesMealType] =
     React.useState<SelectedValuesMealTypeState>([]);
+
   const [optionsmealtype, setOptionsMealType] = useState([
     "Breakfast",
     "Lunch",
     "Dinner",
   ]);
+
   //   {_-------------------Array for Day Check---------------------------------}
   const [dineInDates, setDineInDates] = useState([]);
   const [DayPickup, setDayPickup] = useState<number[]>([]);
@@ -156,13 +161,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   const [showDayDelivery, setShowDayDelivery] = useState(false);
   const [showDayThird, setShowDayThird] = useState(false);
+
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData.mainForm
   );
-  useEffect(()=>{
-    onToggelChange(dinein,online,pickup,delivery)
 
-  },[dinein,online,pickup,delivery])
+  useEffect(() => {
+    onToggelChange(dinein, online, pickup, delivery);
+  }, [dinein, online, pickup, delivery]);
 
   const [formNormal, setformNormal] = useState({
     PickuppriceNormal: "",
@@ -225,7 +231,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const updatedFields = prizingDetail?.normalForm?.dineinfields.map(
         (item: any) => ({
           DineInPrice: item?.DineInPrice || "",
-          DineInMealType: item.DineInMealType || [], // Ensure it's an array for dropdowns
+          DineInMealType: item.DineInMealType || [],
           DineInService: item?.DineInService || "",
           showDay: false,
           dayButtonText: "Choose Day",
@@ -249,24 +255,24 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const WeekDays = prizingDetail?.normalForm?.WeekDays;
     }
 
-    const mainForm = {
-      availabilityid,
-      formNormal,
-      dineinfields,
-      Normaldays: Normaldays,
-      DeliveryMealType: selectedValues3,
-      PicupMealType:
-        prizingDetail?.normalForm?.PicupMealType || selectedValues2,
-      Pickup: DayPickup,
+    // const mainForm = {
+    //   availabilityid,
+    //   formNormal,
+    //   dineinfields,
+    //   Normaldays: Normaldays,
+    //   DeliveryMealType: selectedValues3,
+    //   PicupMealType:
+    //     prizingDetail?.normalForm?.PicupMealType || selectedValues2,
+    //   Pickup: DayPickup,
 
-      DineInServiceArea: [selectedValues],
-      Delivery: DayDelivery,
+    //   DineInServiceArea: [selectedValues],
+    //   Delivery: DayDelivery,
 
-      thirdParty: DayThird,
-      WeekDays: dineInDates1,
+    //   thirdParty: DayThird,
+    //   WeekDays: dineInDates1,
 
-      DineIn: dineInDates1,
-    };
+    //   DineIn: dineInDates1,
+    // };
 
     if (prizingDetail?.normalForm) {
       setSelectedValues2(
@@ -312,6 +318,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setNormalDays(prizingDetail.normalForm.Normaldays || []);
     }
   }, []);
+
   const handleDelete = (index: number): void => {
     // Filter out the entry at the given index
     const newEntries = dineinfields.filter((_: any, i: any) => i !== index);
@@ -346,6 +353,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     ]);
   };
+
   const handleChange = (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
@@ -376,6 +384,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setDineInDates1(tempArray);
     setDineInFields(newDineInFields);
   };
+
   const addDayPickup = () => {
     setShowDayPickup(true);
   };
@@ -404,7 +413,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setMainFormState(mainForm);
     }
   }, [mainForm]);
+
   const handleSelect2 = (values: any, index: number): void => {
+    //FeedBack : Can handle a single dynamic function for all handleSelect function by using index here
     // Update selected values state
     setSelectedValues((prevState: SelectedValuesState) => ({
       ...prevState,
@@ -425,31 +436,39 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const addOption2 = (newOption: OptionType): void => {
     setOptions2((prevOptions) => [...prevOptions, newOption]);
   };
+
   const handleSelect3 = (values: string[]): void => {
     setSelectedValues2(values);
     validateDropdown(values, "Pickup");
   };
+
   const addOption3 = (newOption: OptionType): void => {
     setOptions3((prevOptions) => [...prevOptions, newOption]);
   };
+
   const handleSelect4 = (values: string[]): void => {
     setSelectedValues3(values);
     validateDropdown(values, "Pickup");
   };
+
   const addOption4 = (newOption: OptionType): void => {
     setOptions4([...options4, newOption]);
   };
+
   const handleSelect5 = (value: string[]): void => {
     setSelectedValues4(value);
     validateDropdown(value, "ThirdDelivery1");
   };
+
   const addOption5 = (newOption: OptionType): void => {
     setOptions5([...options5, newOption]);
   };
+
   const handleSelect6 = (value: string[]): void => {
     setSelectedValues5(value);
     validateDropdown(value, "ThirdDelivery2");
   };
+
   const addOption6 = (newOption: OptionType): void => {
     setOptions6([...options6, newOption]);
   };
@@ -467,9 +486,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
       validateDropdown(value, index);
     }
   };
+
   const addOptionMealType = (newOption: OptionType): void => {
     setOptionsMealType([...optionsmealtype, newOption]);
   };
+
   const handleServiceSelect2 = (
     index: number,
     value: ServiceValueType,
@@ -489,6 +510,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
+
   const handleMealSelect2 = (
     index: number,
     value: MealType,
@@ -498,7 +520,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       console.error("Index out of bounds");
       return;
     }
-
     const newDineInFields = [...dineinfields];
     newDineInFields[index].DineInMealType = value;
     setDineInFields(newDineInFields);
@@ -511,6 +532,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
+
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
@@ -520,13 +542,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
     <div>
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
-           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-        <div className="tooltip"> <Tooltip message="Kitchen Related">
-                      <div className="ToolKitchen">
-                        <img src={info} alt="" width={25} height={25} />
-                      </div>
-                    </Tooltip></div></div>
-       
+          <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+          <div className="tooltip">
+            {" "}
+            <Tooltip message="Kitchen Related">
+              <div className="ToolKitchen">
+                <img src={info} alt="" width={25} height={25} />
+              </div>
+            </Tooltip>
+          </div>
+        </div>
+
         <div className="dayschecking">
           <DaysCheck
             checkedItems={Normaldays}
@@ -647,7 +673,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 </div>
                 <div className="dineInChooseDayContainer">
                   <h3 className="dineInChooseDayContainerHeading">
-                  Setup for specific days?
+                    Setup for specific days?
                   </h3>
                   <h3
                     className="dineInChooseDayContainer-chooseheading"
@@ -786,7 +812,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <Toggle toggle={delivery} setToggle={setDelivery} />
               </div>
             </div>
-            <div className= {online?"DeliverySectionNormal":"DeliverySectionNormalclose"} >
+            <div
+              className={
+                online ? "DeliverySectionNormal" : "DeliverySectionNormalclose"
+              }
+            >
               {delivery ? (
                 <div>
                   <p className="LabelPrice"> Price*</p>

@@ -138,8 +138,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   useEffect(() => {
     if (uploadStatus && uploadStatus.index !== undefined) {
-      console.log("index", uploadStatus.index);
-
       setError((prevErro) => {
         const existingErrorIndex = prevErro.findIndex(
           (entry) => entry.index === uploadStatus.index
@@ -180,7 +178,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   // }, [uploadStatus, errorMessages]);
 
   const primarypagedetails = useSelector((state: RootState) => state);
-
   const MAX_IMAGES = 6;
 
   const data = [
@@ -284,7 +281,16 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
       }, 5000);
       // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
-      
+      setindextoreplace((prev) => [...prev, ReplaceImage]);
+
+      // setErro((prevErro) =>
+      //   prevErro.map((entry, idx) => {
+      //     if (idx === indexToReplace) {
+      //       return { ...entry, status: "retrying" }; // Set retrying status for that specific image
+      //     }
+      //     return entry;
+      //   })
+      // );
 
       setTimeout(() => checkAllImagesForErrors(), 0);
     }
@@ -303,18 +309,30 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
 
         setTimeout(() => {
           history.push("/menuListing");
-          
         }, 2000);
-
-       
       } else {
         console.log("Not all images are uploaded successfully.");
       }
     }
-    
-    for(let [index,image] of indextoreplace.entries()){
-      console.log("image",image,"index",index)
 
+    // for(let [index,image] of indextoreplace.entries()){
+    //   console.log("image",image,"index",index)
+
+    // }
+    if (ImageId === "" || ImageId === undefined) {
+      dispatch(addMenuItemRequest(data));
+      dispatch(addMockDataRequest(data));
+    } else {
+      setindextoreplace((prev) => {
+        const updatedIndexToReplace = [...prev];
+
+        // Dispatch after state is updated
+        updatedIndexToReplace.forEach((item) => {
+          dispatch(uploadImage(item.image, item.id, item.index));
+        });
+
+        return updatedIndexToReplace; // Ensure the state is updated with the new value
+      });
     }
     dispatch(addMenuItemRequest(data));
       dispatch(addMockDataRequest(data));
@@ -334,7 +352,9 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
       <SidePanel />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="reviewheading">
-          <p>Review menu item - {primarypagedetails.primarypage.data.itemName}</p>
+          <p>
+            Review menu item - {primarypagedetails.primarypage.data?.itemName}
+          </p>
         </div>
         <div className="reviewpage">
           <div className="reviewpagebody">
@@ -367,7 +387,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                           }
                         />
                       </div>
-
+                      {/* 
                       <div>
                         <ReviewValues
                           label="Meal type"
@@ -377,7 +397,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                               : "-"
                           }
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -544,15 +564,15 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                                         type="file"
                                         name="imageUrls"
                                         className="imgfile"
-                                        id={`imgadd-${0}`} // Unique ID for each input
+                                        id={`imgadd-${0}`}
                                         accept="image/png, image/jpeg"
                                         onChange={(e) => handleRetry(e, 0)}
-                                        style={{ display: "none" }} // Hide the file input, trigger it with a button
+                                        style={{ display: "none" }} 
                                       />
 
                                       <span
                                         className="errromsg"
-                                        onClick={() => handleAddImage(0)} // Pass the correct index to handleAddImage
+                                        onClick={() => handleAddImage(0)} 
                                       >
                                         Retry
                                       </span>
