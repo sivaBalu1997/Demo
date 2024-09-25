@@ -418,7 +418,7 @@ const PricingDetails = () => {
       dayButtonText: "Add Day",
     },
   ]);
-  // console.log(dineinfields);
+  console.log(dineinfields);
   // console.log(mainForm);
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
@@ -483,13 +483,13 @@ const PricingDetails = () => {
     delivery: boolean
   ) => {
     setToogleEnables({ dineIn, online, pickup, delivery });
-    // console.log("Values from child:", dineIn, online, pickup, delivery);
+    console.log("Values from child:", dineIn, online, pickup, delivery);
   };
 
   const handleValidate = () => {
     const errors = validateDineInFields(dineinfields);
     setValidationStateerr(errors);
-    // console.log("errors", errors);
+    console.log("errors", errors);
 
     const hasInvalidField = Object.values(errors).some(
       (error) => error.isValid === false

@@ -89,10 +89,6 @@ import {
   DELETEDROPDOWN_REQUEST,
   DELETEDROPDOWN_SUCCESS,
   DELETEDROPDOWN_FAILURE,
-  UPLOAD_IMAGE,
-  UPLOAD_IMAGE_SUCCESS,
-  UPLOAD_IMAGE_FAILURE,
-  UPLOAD_IMAGE_IN_PROGRESS,
   GET_ITEM_CODE_REQUEST,
   GET_ITEM_CODE_SUCCESS,
   GET_ITEM_CODE_FAILURE,
@@ -345,32 +341,32 @@ export const Get_Image_Failed = (data) => ({
 
 export const storeMockDataRequest = (data) => ({
   type: STORE_MOCK_DATA_REQUEST,
-  payload: data
+  payload:data
 });
 
 export const storeMockDataSuccess = (response) => ({
   type: STORE_MOCK_DATA_SUCCESS,
-  payload: response,
+  payload: response, 
 });
 
 export const storeMockDataFailure = (error) => ({
   type: STORE_MOCK_DATA_FAILURE,
-  payload: error,
+  payload: error, 
 })
 
 export const storeMockDataFilteredRequest = (data) => ({
   type: STORE_MOCK_DATA_FILTERED_REQUEST,
-  payload: data
+  payload:data
 });
 
 export const storeMockDataFilteredSuccess = (response) => ({
   type: STORE_MOCK_DATA_FILTERED_SUCCESS,
-  payload: response,
+  payload: response, 
 });
 
 export const storeMockDataFilteredFailure = (error) => ({
   type: STORE_MOCK_DATA_FILTERED_FAILURE,
-  payload: error,
+  payload: error, 
 })
 
 
@@ -378,34 +374,39 @@ export const storeMockDataFilteredFailure = (error) => ({
 
 export const addMockDataRequest = (data) => ({
   type: ADD_MOCK_DATA_REQUEST,
-  payload: data
+  payload:data
 });
 
 export const addMockDataSuccess = (response) => ({
-  type: ADD_MOCK_DATA_SUCCESS,
-  payload: response,
+  type: ADD_MOCK_DATA_SUCCESS ,
+  payload: response, 
 });
 
 export const addMockDataFailure = (error) => ({
   type: ADD_MOCK_DATA_FALIURE,
-  payload: error,
+  payload: error, 
 })
 
 
 //dietary
-export const dietdatarequest = (data) => ({
-  type: DIET_DROPDOWN_LIST_REQUEST,
-  payload: data,
 
-})
+// {*****add MockData Visiblty****************************}
+
+// {*****add MockData Visiblty****************************}
+
+
+export const addMockDataHiddenRequest = (data) => ({
+  type: ADD_MOCK_DATA_HIDDEN_REQUEST,
+  payload:data
+}); 
 
 export const addMockDataHiddenSuccess = (response) => ({
-  type:  ADD_MOCK_DATA_HIDDEN_SUCCESS ,
-  payload: response,
+  type: ADD_MOCK_DATA_HIDDEN_SUCCESS ,
+  payload: response, 
 });
 export const addMockDataHiddenFailure = (error) => ({
   type: ADD_MOCK_DATA_HIDDEN_FALIURE ,
-  payload: error,
+  payload: error, 
 })
 
 
@@ -420,81 +421,77 @@ export const fetchDropDownSuccess = (response) => ({
 
 
 //cuisine
-export const cuisineDataRequest = (data) => ({
+export const cuisineDataRequest=(data)=>({
   type: CUISINE_DATA_REQUEST,
-  payload: data,
+  payload: data, 
 })
 
 export const cuisineDataSuccess = (response) => ({
   type: CUISINE_DATA_SUCCESS,
-  payload: response,
+  payload: response, 
 });
 
-export const cuisineDataFailure = (error) => ({
+export const cuisineDataFailure= (error) => ({
   type: CUISINE_DATA_FAILURE,
-  payload: error,
+  payload: error, 
 })
 
 //category
-export const catogoryDataRequest = (data) => ({
+export const catogoryDataRequest=(data)=>({
   type: CATEGORY_DATA_REQUEST,
-  payload: data,
+  payload: data, 
 
 })
 
 export const catogoryDataSuccess = (response) => ({
   type: CATEGORY_DATA_SUCCESS,
-  payload: response,
+  payload: response, 
 });
 
-export const catogoryDataFailure = (error) => ({
+export const catogoryDataFailure= (error) => ({
   type: CATEGORY_DATA_FAILURE,
-  payload: error,
+  payload: error, 
 })
 
 //bestPair
 export const bestPairDataRequest = (data) => ({
   type: BESTPAIR_DATA_REQUEST,
-  payload: data,
+  payload: data, 
 })
 
 export const bestPairDataSuccess = (response) => ({
   type: BESTPAIR_DATA_SUCCESS,
-  payload: response,
+  payload: response, 
 });
 
-export const bestPairDataFailure = (error) => ({
+export const bestPairDataFailure= (error) => ({
   type: BESTPAIR_DATA_FAILURE,
-  payload: error,
+  payload: error, 
 })
 
 //subCategory
-export const subCategoryDataRequest = (data) => ({
+export const subCategoryDataRequest=(data)=>({
   type: SUBCATEGORY_DATA_REQUEST,
-  payload: data,
+  payload: data, 
 
 })
 
 export const subCategoryDataSuccess = (response) => ({
   type: SUBCATEGORY_DATA_SUCCESS,
-  payload: response,
+  payload: response, 
 });
 
-export const subCategoryDataFailure = (error) => ({
+export const subCategoryDataFailure= (error) => ({
   type: SUBCATEGORY_DATA_FAILURE,
-  payload: error,
+  payload: error, 
 })
 
-export const fetchDropDownRequest = (data) => ({
+export const fetchDropDownRequest=(data)=>({
   type: FETCHDROPDOWN_REQUEST,
-  payload: data,
+  payload: data, 
 
 })
 
-export const fetchDropDownSuccess = (response) => ({
-  type: FETCHDROPDOWN_SUCCESS,
-  payload: response,
-});
 
 export const fetchDropDownFailure = (error) => ({
   type: FETCHDROPDOWN_FAILURE,
@@ -579,21 +576,6 @@ export const deleteDropDownFailure = (error) => ({
   type: DELETEDROPDOWN_FAILURE,
   payload: error
 })
-
-export const uploadImage = (image, id,index) => ({
-  type: UPLOAD_IMAGE_IN_PROGRESS,
-payload: { image, id ,index},
-});
-
-export const uploadImageSuccess = (image,id,index) => ({
-  type: UPLOAD_IMAGE_SUCCESS,
-  payload: {image,id,index},
-});
-
-export const uploadImageFailure = (image,id, index,error) => ({
-  type: UPLOAD_IMAGE_FAILURE,
-  payload: { image, id,index,error },
-});
 
 
 

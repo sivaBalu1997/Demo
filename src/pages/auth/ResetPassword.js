@@ -40,7 +40,7 @@ const ResetPassword = () => {
   useEffect(() => {
     if (!resetPasswordLoading && resetPasswordSuccess) {
       if (window.innerWidth <= 575) {
-        history.push("/report/32");
+        history.push("/management/report/32");
       } else {
         history.push("/employees");
       }
@@ -64,7 +64,7 @@ const ResetPassword = () => {
 
   return (
     <div className="otp_login">
-      <div className="logo logoContainer">
+       <div className="logo logoContainer">
         {/* <img src={logo} alt="logo" /> */}
         <MagilHub className="magilhub-login-logo" />
         <span className="magilhub-logo2">Maghil</span>
@@ -139,9 +139,9 @@ const ResetPassword = () => {
           </div>
           <button
             type="submit"
-          // onClick={() => {
-          //   console.log(errors);
-          // }}
+            // onClick={() => {
+            //   console.log(errors);
+            // }}
           >
             Reset Password
           </button>
@@ -151,7 +151,7 @@ const ResetPassword = () => {
           style={{ cursor: "pointer" }}
           onClick={() => {
             if (window.innerWidth <= 575) {
-              history.push("/report/32");
+              history.push("/management/report/32");
             } else {
               history.push("/employees");
             }

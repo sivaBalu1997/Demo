@@ -24,18 +24,14 @@
   --chart-bg: #ffffff;
   --screen-bg: #ffffff;
 }
-
-.ci-on-close-side {
-  width: 90vw !important;
-}
-
-.ci-employee-container {
+.employee-container {
   background-color: var(--screen-bg);
   display: flex;
   flex-direction: column;
+  width: 80vw;
+  // justify-content: center;
+  // align-items: center;
   gap: 0.5rem;
-  width: 82vw;
-  margin-left: -1.5rem;
   .employee-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -47,7 +43,7 @@
       align-items: center;
       color: var(--table-text);
 
-      h1 {
+      h1{
         font-size: 21px;
         font-weight: 500;
       }
@@ -58,12 +54,15 @@
       align-items: center;
       gap: 0.8rem;
       height: 6rem;
+      // width: 30%;
+      // background-color: red;
       .label-time-period {
+        // background-color: greenyellow;
         font-weight: 600;
         color: var(--table-text);
       }
       .filter-toggle-btn-container {
-        position: relative;
+        position: relative; // Relative to contain the absolute dropdown
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -85,11 +84,11 @@
         }
 
         .filter-drop-down-options {
-          position: absolute;
-          top: 110%;
+          position: absolute; // Absolute to overlay other elements
+          top: 110%; // Positions dropdown just below the button
           left: 50%;
           transform: translateX(-50%);
-          width: 12rem;
+          width: 12rem; // Adjusted for better fit
           padding: 0.5rem;
           background-color: var(--navbar-bg);
           color: var(--navbar-text);
@@ -110,47 +109,32 @@
           }
         }
       }
+      .date-range-style {
+        display: flex;
+        gap: 2rem;
+        .start-date {
+          height: 2rem;
+          width: 7rem;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          border-style: thin;
+        }
+        .end-date {
+          height: 2rem;
+          width: 7rem;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          border-style: thin;
+        }
+      }
     }
   }
   .employee-details-container {
+    // background-color: red;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .ci-date-range-style {
-    display: flex;
-    height: 60px;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 1rem;
-    width: 100%;
-
-    .ci-dateLabel {
-      align-items: flex-start;
-      margin-right: 0.5rem;
-      color: var(--table-text);
-    }
-
-    .ci-start-date {
-      height: 2rem;
-      width: 9rem;
-      padding: 0.5rem;
-      border-radius: 0.6rem;
-      border-style: thin;
-      margin-right: 1rem;
-    }
-
-    .ci-end-date {
-      height: 2rem;
-      width: 9rem;
-      padding: 0.5rem;
-      border-radius: 0.6rem;
-      border-style: thin;
-    }
-    @media (max-width: 500px) {
-      justify-content: center;
-    }
   }
   .name-board-two {
     display: flex;
@@ -158,7 +142,7 @@
     align-items: center;
     color: var(--table-text);
 
-    h1 {
+    h1{
       font-size: 21px;
       font-weight: 600;
       margin-bottom: 30px;
@@ -169,8 +153,13 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-
+    // background-color: red;
+    // margin-left: 18rem;
+    // border-radius: 1rem;
+    // width: 100%;
+    // height: 22rem;
     .employee-vs-sales-inner {
+      // background-color: orange;
       width: 70%;
     }
   }

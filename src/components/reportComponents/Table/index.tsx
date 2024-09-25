@@ -133,17 +133,6 @@ const Table = ({
     setOpenDownloadDropDown((op) => !op);
   };
 
-  const toggleAllRows = () => {
-    if (expandedRows?.length === records?.length) {
-      setExpandedRows([]);
-    } else {
-      const allRowIndexes = records?.map((_, index) => index);
-      setExpandedRows(allRowIndexes);
-    }
-  };
-
-  const hasDropDown = tableData?.some((row) => "drop down" in row);
-
   return (
     <>
       <div
@@ -153,28 +142,19 @@ const Table = ({
       >
         <div className="t-table-head">
           <h3>{Heading}</h3>
-          <div className="t-side-attribs">
-            {hasDropDown && (
-              <div className="t-expand-all" onClick={toggleAllRows}>
-                <span>
-                  {expandedRows?.length === records?.length ? "-" : "+"}
-                </span>
+          <div className="t-export-container">
+            <img
+              src={downloadVector}
+              alt="download-file-svg"
+              onClick={toggleExportDropDown}
+            />
+            {openDownloadDropDown && (
+              <div className="t-export-drop-down">
+                <p onClick={() => jsonDownloadFn(tableData)}>JSON</p>
+                <p onClick={() => csvDownloadFn(tableData)}>CSV</p>
+                <p onClick={() => xlsxDownloadFn(tableData)}>XLSX</p>
               </div>
             )}
-            <div className="t-export-container">
-              <img
-                src={downloadVector}
-                alt="download-file-svg"
-                onClick={toggleExportDropDown}
-              />
-              {openDownloadDropDown && (
-                <div className="t-export-drop-down">
-                  <p onClick={() => jsonDownloadFn(tableData)}>JSON</p>
-                  <p onClick={() => csvDownloadFn(tableData)}>CSV</p>
-                  <p onClick={() => xlsxDownloadFn(tableData)}>XLSX</p>
-                </div>
-              )}
-            </div>
           </div>
         </div>
         <div className="t-table-wrapper">
@@ -296,14 +276,14 @@ const Table = ({
               <li className="t-page-item">
                 {isDarkTheme ? (
                   <img
-                    className="t-rightArrow"
+                    className="t-leftArrow"
                     src={blackarrow}
                     alt="next"
                     onClick={nextPage}
                   />
                 ) : (
                   <img
-                    className="t-rightArrow"
+                    className="t-leftArrow"
                     src={arrow}
                     alt="next"
                     onClick={nextPage}

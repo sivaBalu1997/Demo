@@ -1,0 +1,56 @@
+.category-report {
+  margin-top: 0rem;
+  background-color: #283347;
+  height: 100%;
+  .cate-insights-head {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    // background-color: aqua;
+    width: 95%;
+    .name-board {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    .dates {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.8rem;
+      height: 6rem;
+      width: 22%;
+      @media (max-width: 1280px) {
+        width: 30%;
+      }
+      .search-category-name {
+        height: 2rem;
+        width: 7rem;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        border-style: thin;
+      }
+      .start-date {
+        height: 2rem;
+        width: 7rem;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        border-style: thin;
+      }
+      .end-date {
+        height: 2rem;
+        width: 7rem;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        border-style: thin;
+      }
+    }
+  }
+  .category-table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

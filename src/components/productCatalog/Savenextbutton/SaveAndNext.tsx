@@ -37,9 +37,9 @@ interface Base64Image {
   base64String: string;
 }
 interface ImageFile {
-  // file: File;
-  // uploaded: boolean;
-  // failed: boolean;
+  file: File;
+  uploaded: boolean;
+  failed: boolean;
   preview: string; // To store the image preview URL
 }
 interface FormData {

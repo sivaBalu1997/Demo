@@ -27,13 +27,12 @@ const SidePanel = () => {
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
   const menuOptions = ["Items", "Product Catalog"];
   const offerMenuOptions = ["Offers"];
-  const reportInsightsOptions = ['Old','New'];
 
   const history = useHistory();
 
   // useEffect(() => {
   //   if (window.innerWidth <= 575) {
-  //     history.push(`/report/32`);
+  //     history.push(`/management/report/32`);
   //   }
   // }, [history]);
 
@@ -55,11 +54,6 @@ const SidePanel = () => {
   const locationId = useSelector(
     (state:RootState) => state.auth.credentials && state.auth.credentials.locationId
   );
-
-  const branchDetails = useSelector((state:RootState) => state.auth.selectedBranch);
-
-
-  console.log({locationId})
 
   const getImageURL = useCallback(
     (type:any) => {
@@ -90,9 +84,8 @@ const SidePanel = () => {
   useEffect(() => {
     if (locationId) {
       dispatch(getRestaurantRequest(locationId));
-      console.log(11)
     }
-  }, []);
+  }, [locationId]);
 
   useEffect(() => {
     if (
@@ -105,20 +98,16 @@ const SidePanel = () => {
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
         );
-        if(branchDetails?.id !== defaultBranch[0]?.id){
-          dispatch(selectBranch(defaultBranch[0]));
-        }
+
+        dispatch(selectBranch(defaultBranch[0]));
         localStorage.setItem(
           SELECTED_BRANCH_DATA,
           JSON.stringify(defaultBranch[0])
         );
       } else {
-        if(branchDetails?.id !== branch?.id){
-          dispatch(selectBranch(branch));
-        }
+        dispatch(selectBranch(branch));
       }
     }
-    console.log(22)
   }, [restaurantDetails]);
 
   const toggleExpand = () => {
@@ -191,7 +180,7 @@ const SidePanel = () => {
             <EmployeesIcon className="menu-items-SVG" />
             {isExpanded && <span className="menu-items-name">Employees</span>}
           </div>
-          {/* MENU ==========================================================*/}
+          
           <div
             className={
               showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
@@ -221,7 +210,7 @@ const SidePanel = () => {
               )}{" "}
             </Fragment>
           </div>
-          
+
           {showOptions === "MenuOptions" && (
             <ul>
               {menuOptions.map((option) => (
@@ -243,7 +232,7 @@ const SidePanel = () => {
               ))}
             </ul>
           )}
-          {/*Menu ===========================================*/}
+
           <div
             className={
               showOfferOptions === "MenuOptions"
@@ -293,8 +282,7 @@ const SidePanel = () => {
               : null}
 
           </ul>
-          {/* Report ==================================================================== */}
-          {/* <div
+          <div
             className={
               showOptions === "reportOptions" &&
               location.pathname.includes("report")
@@ -315,60 +303,7 @@ const SidePanel = () => {
                 {isExpanded && <span className="menu-items-name">Reports & Insights</span>}
               </div>
             }
-          </div> */}
-          {/* Report ==================================================================== */}
-
-          <div
-            className={
-              showOptions === "reportOptions" ? "active drop-down" : "drop-down"
-            }
-            onClick={() => {
-              if (showOptions === "reportOptions") {
-                setShowOptions("");
-              } else {
-                setShowOptions("reportOptions");
-              }
-            }}
-          >
-            <div>
-              {showOptions === "reportOptions" &&
-              !location.pathname.includes("report") ? (
-                <li style={{ marginBottom: 0 }} />
-              ) : null}
-              <Stats className="menu-items-SVG" />
-              {isExpanded && <span className="menu-items-name">Reports & Insights</span>}
-            </div>
-
-            <Fragment>
-              {showOptions === "reportOptions" ? (
-                <Uparrow className="dropdown-arrow" />
-              ) : (
-                <Downarrow className="dropdown-arrow" />
-              )}{" "}
-            </Fragment>
           </div>
-          
-          {showOptions === "reportOptions" && (
-            <ul>
-              {reportInsightsOptions.map((option) => (
-                <li
-                  key={option}
-                  style={{ marginTop: "10px"}}
-                  onClick={() => {
-                    if (option === "Old") {
-                      history.push(`/old-reports`);
-                    } else if (option === "New") {
-                      history.push("/live-reports");
-                    }
-                  }}
-                >
-                  <span className="menuList">
-                    {option}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
 
           <div
             className={
@@ -409,4 +344,4 @@ const SidePanel = () => {
   );
 };
 
-export default React.memo(SidePanel);
+export default SidePanel;
