@@ -17,7 +17,7 @@ import info from "../../assets/png/info.png";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
-import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
+// import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
 import {
   imageslist,
   dietarytype,
@@ -210,9 +210,9 @@ const PricingDetails = () => {
   const data = useSelector(
     (state: StateData) => state.productCatalog.availability
   );
-  const dietaryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.dietaryData
-  );
+  // const dietaryData = useSelector(
+  //   (state: StateDataTag3) => state.productCatalog.dietaryData
+  // );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
  
@@ -426,6 +426,7 @@ const PricingDetails = () => {
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
+
   const [dineinfields, setDineInFields] = useState<DineInField[]>([
     {
       DineInPrice: "",
