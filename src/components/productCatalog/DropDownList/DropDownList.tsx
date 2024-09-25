@@ -4,36 +4,21 @@ import edit from "../../../assets/images/edit copy.png";
 import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
-import { useDispatch } from "react-redux";
-import {
-  bestPairDataRequest,
-  cuisineDataRequest,
-  deleteDropDowRequest,
-  
-  fetchDropDownRequest,
-  subCategoryDataRequest,
-} from "redux/productCatalog/productCatalogActions";
-interface media {
-  imageId: string;
-  imageType: string;
-}
+import { useSelector,useDispatch } from "react-redux";
+import { deleteDropDowRequest, fetchDropDownRequest } from "redux/productCatalog/productCatalogActions";
+interface media{
+  imageId:string
+  imageType:string
+ }
 interface Option {
+ 
   id: string;
   name: string;
-  canDelete: string;
-  media: media;
+  // canDelete:string;
+  // media:media
 }
 
-// {
-//   "id":"123",
-//   "name":"Starters",
-//   "canDelete":"false",
-//   "media":{
-//       "imageId":"",
-//       "imageType":""
-//   }
-// }
-
+ 
 interface DropdownProps {
   name: string;
   id?: string;
@@ -139,6 +124,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSearchTerm(e.target.value);
 
     if (!dropdownopen && e.target.value !== "") {
+      // setDropdownOpen()
       // onToggle();
     }
     setShowselectedOption(false);
@@ -191,11 +177,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       const newItem: Option = {
         id: (initialOptions.length + 1).toString(),
         name: newItemLabel,
-        canDelete: "false",
-        media: {
-          imageId: "",
-          imageType: "",
-        },
       };
       setOptions([...initialOptions, newItem]);
       handleSelect(newItem);
@@ -203,8 +184,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       setAddNewButton(false);
     }
   };
-
-  const filteredOptions = initialOptions?.filter((option) =>
+ 
+  const filteredOptions = initialOptions.filter((option) =>
     option.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -338,16 +319,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                   );
                 })
               ) : (
-                <div
-                  className="no-optionsContainer"
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: "x",
-                  }}
-                >
-                  <li className="dropdown-no-options">No options found</li>
-                </div>
+                <li className="dropdown-no-options">No options found</li>
               )}
             </ul>
             <div>

@@ -6,51 +6,53 @@ import { signOut, storeCredentials } from "./redux/auth/authActions";
 import { clearMenuData } from "./redux/menu/menuAction";
 import { ToastContainer } from "react-toastify";
 import { RootState } from "./redux/rootReducer";
-import Routers from './Routers'
+import Routers from "../src/Routers";
 import { Contextpage } from "pages/productCatalog/contextpage";
 import MainPage from "pages/productCatalog/MainPage/MainPage";
 
 interface Credentials {
-  accessToken: string
-  address: string
-  attributes: string
-  authUserId: string 
-  blockUser: boolean
-  businessName: string
-  dateOfBirth: string
-  defaultDeviceId: string
-  defaultFunctionalityAccessUpdated: boolean
-  deviceIdentifier: string
-  devicePin: number
-  deviceType: string
-  education: string 
-  email: string
-  favoriteTables: string[]
-  firstName: string
-  fullName: string
-  id: string
-  isSuperAdminAccess: boolean
-  isTempPassword: boolean
-  lastName: string
-  locationId: string
-  merchantId: string
-  mobileNumber: string
-  myTableViewSectionExists: boolean
-  nickName: string
-  outlet: string
-  password: string
-  refreshToken: string
-  role: string
-  toUseNickName: boolean
-  topicToSubscribe: string
-  userAccessInfoList: string
-  userId: string
+  accessToken: string;
+  address: string;
+  attributes: string;
+  authUserId: string;
+  blockUser: boolean;
+  businessName: string;
+  dateOfBirth: string;
+  defaultDeviceId: string;
+  defaultFunctionalityAccessUpdated: boolean;
+  deviceIdentifier: string;
+  devicePin: number;
+  deviceType: string;
+  education: string;
+  email: string;
+  favoriteTables: string[];
+  firstName: string;
+  fullName: string;
+  id: string;
+  isSuperAdminAccess: boolean;
+  isTempPassword: boolean;
+  lastName: string;
+  locationId: string;
+  merchantId: string;
+  mobileNumber: string;
+  myTableViewSectionExists: boolean;
+  nickName: string;
+  outlet: string;
+  password: string;
+  refreshToken: string;
+  role: string;
+  toUseNickName: boolean;
+  topicToSubscribe: string;
+  userAccessInfoList: string;
+  userId: string;
 }
 
 const Loader = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const credentails: Credentials | null = JSON.parse(localStorage.getItem('CREDENTIALS') || 'null');
+    const credentails: Credentials | null = JSON.parse(
+      localStorage.getItem("CREDENTIALS") || "null"
+    );
     if (credentails) {
       dispatch(storeCredentials(credentails));
     }
@@ -71,35 +73,37 @@ const App = () => {
     );
   }, []);
 
-    useEffect(() => {
-      const handleContextMenu = (event: MouseEvent) => {
-        event.preventDefault();
-      };
-      document.addEventListener('contextmenu', handleContextMenu);
-        return () => {
-        document.removeEventListener('contextmenu', handleContextMenu);
-      };
-    }, []);
+  useEffect(() => {
+    const handleContextMenu = (event: MouseEvent) => {
+      event.preventDefault();
+    };
+    document.addEventListener("contextmenu", handleContextMenu);
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
 
-  const authState = useSelector((state:RootState) => state.auth);
+  const authState = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(()=>{
-    const fetchData = async(): Promise<void> => {
-      const credentails: Credentials | null = JSON.parse(localStorage.getItem('CREDENTIALS') || 'null');
-    if (!credentails?.accessToken) {
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      const credentails: Credentials | null = JSON.parse(
+        localStorage.getItem("CREDENTIALS") || "null"
+      );
+      if (!credentails?.accessToken) {
         dispatch(clearMenuData());
         localStorage.clear();
         dispatch(signOut());
-        history.replace('/')
+        history.replace("/");
       }
-    }
-    fetchData()
-  }, [authState?.credentials])
+    };
+    fetchData();
+  }, [authState?.credentials]);
 
   return (
-   <>
+    <>
       <Loader />
       <div className="app">
         <div className="main-section">
@@ -109,7 +113,7 @@ const App = () => {
       </div>
     </>
   );
-}
+};
 
 export default App;
 

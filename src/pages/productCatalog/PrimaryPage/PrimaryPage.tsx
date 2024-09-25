@@ -124,8 +124,8 @@ interface ImageOptions {
 
 interface ImageFile {
   file: File;
-  uploaded: boolean;
-  failed: boolean;
+  // uploaded: boolean;
+  // failed: boolean;
   preview: string; // To store the image preview URL
 }
 
@@ -166,27 +166,6 @@ const PrimaryPage = () => {
       masterCode: "",
     },
   });
-
-  const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
-  );
-
-  const requestCompleted = useSelector(
-    (state: RootState) => state.productCatalog.requestCompleted
-  );
-
-  const ItemsPrimaryDeatils = useSelector(
-    (state: primarypage) => state.primarypage.data
-  );
-
-  const ingredients = useSelector(
-    (state: StateDataTag) => state.productCatalog.ingredients
-  );
-
-  const categoriesdata = useSelector(
-    (state: StateDataTag2) => state.productCatalog.categoryData
-  );
-
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
@@ -203,6 +182,55 @@ const PrimaryPage = () => {
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
   const maxDescriptonLength = 100;
+  
+  const locationid = useSelector(
+    (state: State) => state.auth.credentials.locationId
+  );
+
+  const requestCompleted = useSelector(
+    (state: RootState) => state.productCatalog.requestCompleted
+  );
+
+
+  const ItemsPrimaryDetails = useSelector(
+    (state: primarypage) => state.primarypage.data
+  );
+  useEffect(() => {
+    if (ItemsPrimaryDetails) {
+      // Assuming ItemsPrimaryDetails has matching keys as FormData
+      setValue("itemName", ItemsPrimaryDetails.itemName);
+      setValue("dietaryType", ItemsPrimaryDetails.dietaryType);
+      setValue("cuisine", ItemsPrimaryDetails.cuisine);
+      setValue("mealType", ItemsPrimaryDetails.mealType);
+      setValue("bestPair", ItemsPrimaryDetails.bestPair);
+      setValue("description", ItemsPrimaryDetails.description);
+      setValue("imageUrls", ItemsPrimaryDetails.imageUrls);
+      setValue("alcohol", ItemsPrimaryDetails.alcohol);
+      setValue("itemCode", ItemsPrimaryDetails.itemCode);
+      setValue("barCode", ItemsPrimaryDetails.barCode);
+      setValue("category", ItemsPrimaryDetails.category);
+      setValue("categoryId", ItemsPrimaryDetails.categoryId);
+      setValue("subCategory", ItemsPrimaryDetails.subCategory);
+      setValue("Ingredients", ItemsPrimaryDetails.Ingredients);
+      setValue("allergens", ItemsPrimaryDetails.allergens);
+      setValue("coloriePoint", ItemsPrimaryDetails.coloriePoint);
+      setValue("selectedcolorie", ItemsPrimaryDetails.selectedcolorie);
+      setValue("portionSize", ItemsPrimaryDetails.portionSize);
+      setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
+      setValue("tax", ItemsPrimaryDetails.tax);
+      setValue("masterCode", ItemsPrimaryDetails.masterCode);
+      setDescription(ItemsPrimaryDetails?.description)
+    }
+  }, [ItemsPrimaryDetails, setValue]);
+  console.log("ItemsPrimaryDeatils",ItemsPrimaryDetails)
+  const ingredients = useSelector(
+    (state: StateDataTag) => state.productCatalog.ingredients
+  );
+  const categoriesdata = useSelector(
+    (state: StateDataTag2) => state.productCatalog.categoryData
+  );
+
+ 
   const maxImages = 7;
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     dietaryType: false,
@@ -248,7 +276,13 @@ const PrimaryPage = () => {
   };
 
   const handleImageDeletion = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
+    const updatedDeletionImage=images.filter((_, i) => i !== index);
+    setImages(() => {
+      const updatedImages = updatedDeletionImage;
+      const updatedImageUrls = updatedImages.map((image) => image);
+      setValue("imageUrls", updatedImageUrls);
+      return updatedImages;
+    });
   };
 
   const selectedradiowatch = watch();
@@ -312,16 +346,28 @@ const PrimaryPage = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      const fileArray = Array.from(files).map((file) => ({
-        file,
-        uploaded: false,
-        failed: false,
-        preview: URL.createObjectURL(file), 
-      }));
-      
-    
-      if (fileArray.length + images.length > 7) {
-        alert("You can upload a maximum of 7 images.");
+      const validImageTypes = ["image/jpeg", "image/png"];
+      const maxSizeInBytes = 2 * 1024 * 1024;
+      const fileArray = Array.from(files)
+        .map((file) => {
+          if (!validImageTypes.includes(file.type)) {
+            alert(
+              `Invalid file type:  Only PNG and JPG are allowed.`
+            );
+            return null;
+          }
+          if (file.size > maxSizeInBytes) {
+            alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+            return null;
+          }
+          return {
+            file,
+            preview: URL.createObjectURL(file),
+          };
+        })
+        .filter((file): file is ImageFile => file !== null);
+      if (fileArray.length + images.length > 6) {
+        alert("You can upload a maximum of 6 images.");
         return;
       }
       
@@ -331,7 +377,7 @@ const PrimaryPage = () => {
   
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
-          console.log(updatedImageUrls,"updatedImageUrls");
+        // console.log(updatedImageUrls, "updatedImageUrls");
         return updatedImages;
       });
     }
@@ -394,7 +440,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemNameData"
                     control={control}
-                    rules={{ required: "ItemName is required" }}
+                    // rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemNameData"
@@ -613,8 +659,8 @@ const PrimaryPage = () => {
                         <img
                           className="uploaded-image"
                           src={img.preview}
-                          alt={`Preview of ${img.file.name}`}
-                   
+                          alt={`Preview of 
+                          `}
                         />
                         {/* <div>
                           {img.file.name} -{" "}
