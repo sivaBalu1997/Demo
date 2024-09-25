@@ -24,9 +24,9 @@ const HoverText: React.FC<StringDisplayProps> = ({ text, lengthvale }) => {
     <span
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`${isHovered && text.length > 5 && "string-display"}`}
+      className={`${isHovered  && text?.length > lengthvale && "string-display"}`}
     >
-      {text.length > lengthvale && !isHovered
+      {text && text.length > lengthvale && !isHovered
         ? `${text.slice(0, lengthvale)}...`
         : text}
     </span>

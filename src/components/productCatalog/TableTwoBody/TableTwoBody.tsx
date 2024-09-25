@@ -19,6 +19,7 @@ interface TableRowsProps {
   setSideBar: () => void;
   SideBarData: [];
   showsidebar: (key: string) => void;
+  listingheaders:boolean
 }
 
 const TableTwoBody: React.FC<TableRowsProps> = ({
@@ -27,6 +28,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   classNamesinner,
   handlemodal,
   listingobject,
+  listingheaders,
 
   showsidebar,
 }) => {
@@ -34,10 +36,15 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     showsidebar(key);
     handlemodal(value);
   };
+  console.log("listingobject",listingobject)
+  // const allFalse = Object.values(listingobject).every(value => value === false);
 
   return (
     <>
-      {itemobject.name.map((itemdata, index) => (
+    {
+    
+     
+      <>{itemobject.name.map((itemdata, index) => (
         <tr
           key={index}
           className={`tabletwobodyrows ${
@@ -45,7 +52,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
           }`}
         >
           <td
-            className={`eachobject-rowwise  ${
+            className={`eachobject-rowwise  ${listingheaders?"nopadding":"givepadding"} ${
               index === 0 && indexvalue == 0 ? "border-important" : ""
             }`}
           >
@@ -87,7 +94,10 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
             )}
           </td>
         </tr>
-      ))}
+      ))}</>
+
+    }
+      
     </>
   );
 };

@@ -3,7 +3,7 @@
   top: 100px;
   width: 95%;
   height: 600px;
-  overflow-y: auto;
+  // overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
@@ -15,7 +15,7 @@
   top: 100px;
   width: 100%;
   height: 600px;
-  overflow-y: auto;
+  // overflow-y: auto;
 
   &::-webkit-scrollbar {
     display: none;
@@ -290,6 +290,7 @@
 .modifier-div-margin {
   margin-bottom: 10.5rem;
   height: 15.625rem;
+  // border: 1px solid red;
 }
 
 .option-margin {
@@ -305,7 +306,7 @@
   display: flex;
   justify-content: center;
   gap: 1.625rem;
-
+// border: 1px solid red;
   margin-left: 9.625rem;
 }
 
@@ -405,9 +406,9 @@ input[type="number"] {
 }
 .modifiersitem {
   height: 470px;
-  overflow-y: auto;
-  // // margin-left: 55px;
   // border: 1px solid red;
+  overflow: auto;
+  width: 100vw;
   .modifiers {
     margin-left: 55px;
   }

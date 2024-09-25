@@ -5,7 +5,7 @@ import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 interface SideBarData {
   id: number;
-  name: string;
+  itemName: string;
   code: string;
   type: string;
   mealType: string;
