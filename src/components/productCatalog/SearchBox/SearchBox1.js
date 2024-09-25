@@ -25,6 +25,7 @@ const SearchBox = () => {
       setFilteredOptions(data.map((elem) => elem.itemName)); 
     }
   }, [data]);
+
   useEffect(()=>{
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch))
   },[filteredOptionsDispatch])

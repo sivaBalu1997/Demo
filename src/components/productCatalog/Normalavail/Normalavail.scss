@@ -74,7 +74,18 @@
   margin-top: 7px;
   gap: 1.8rem;
   position: relative;
-  
+  .Dine-In-Price {
+    display: flex;
+    flex-direction: column;
+    .Errormsg {
+      font-family: "Poppins", sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21px;
+      text-align: left;
+      color: #e52333;
+    }
+  }
   // margin-top: 0.3rem;
 }
 .DineInInput11Normal:nth-child(1) {
@@ -95,6 +106,17 @@
   margin-top: -25px;
   margin-left: -10px;
   z-index: 10;
+  .Errormsg {
+    position: relative;
+    top: 1.3rem;
+    left: 2rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+    color: #e52333;
+  }
 }
 
 .DineInInput2Normal {
@@ -159,6 +181,18 @@
   margin-top: -25px;
   margin-left: -10px;
   z-index: 1;
+
+  .Errormsg {
+    position: relative;
+    top: 1.3rem;
+    left: 2rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+    color: #e52333;
+  }
 }
 
 .dineInChooseDayContainerHeading {
@@ -319,37 +353,32 @@
     margin-left: 20px;
   }
 }
-.Delivery13{
- 
-  border-radius:0.313rem; 
+.Delivery13 {
+  border-radius: 0.313rem;
   margin-bottom: 0.625rem;
   z-index: -1;
 
   display: flex;
-  justify-content:flex-start;
-  .DineInInput2Normal
-  {
-margin-left: 20px;
+  justify-content: flex-start;
+  .DineInInput2Normal {
+    margin-left: 20px;
   }
-  
- 
-  
-  gap:0.625rem;
-  input{
-      // padding-left: 10px;
-  }
+  gap: 0.625rem;
 }
-.Delivery11{
-  margin-left: -29px;
-  border-radius:0.313rem; 
-  // margin-bottom: 0.625rem;
+
+.Delivery11 {
+  position: relative;
+  left: -60px;
+  border-radius: 0.313rem;
+  z-index: 9;
   margin-top: 0.7rem;
   margin-bottom: 10px;
   input {
     padding-left: 15px;
   }
 }
-.AvailableDaysHeadingNormal    {
+
+.AvailableDaysHeadingNormal {
   font-size: 14px;
   font-weight: 400;
   margin-top: 22px;
