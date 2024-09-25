@@ -50,7 +50,7 @@ interface Allergens {
 }
 
 interface FormData {
-  itemName: string;
+  itemNameData: string;
   dietaryType: string;
   cuisine: string;
   mealType: string;
@@ -179,7 +179,7 @@ const PrimaryPage = () => {
     watch,
   } = useForm<FormData>({
     defaultValues: {
-      itemName: "",
+      itemNameData: "",
       dietaryType: "",
       cuisine: "",
       mealType: "",
@@ -246,7 +246,7 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
-      setValue("itemName", ItemsPrimaryDetails.itemName);
+      setValue("itemName", ItemsPrimaryDetails.itemNameData);
       setValue("dietaryType", ItemsPrimaryDetails.dietaryType);
       setValue("cuisine", ItemsPrimaryDetails.cuisine);
       setValue("mealType", ItemsPrimaryDetails.mealType);
@@ -333,7 +333,7 @@ const PrimaryPage = () => {
     });
   };
 
-  const validImages = imageslist.filter(
+  const validImages = dataImages.filter(
     (img): img is { name: string; id: string } => img !== undefined
   );
 
@@ -403,7 +403,6 @@ const PrimaryPage = () => {
   //       console.error("Error converting files to Base64", error);
   //     });
   // };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -433,9 +432,11 @@ const PrimaryPage = () => {
         alert("You can upload a maximum of 7 images.");
         return;
       }
+      
+  
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
-
+  
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
         console.log(updatedImageUrls, "updatedImageUrls");
@@ -443,9 +444,10 @@ const PrimaryPage = () => {
       });
     }
   };
+  
 
-  // const newarray = getValues("imageUrls");
-  // console.log("newarray", newarray);
+  const newarray = getValues("imageUrls");
+  console.log("newarray", newarray);
 
   useEffect(() => {
     dispatch(getIngredientsRequest(locationid));
@@ -479,6 +481,9 @@ const PrimaryPage = () => {
 
   
 
+  // const getdatafrosaga = () => {
+  //   dispatch(dietdatarequest("diet"));
+  // };
 
   return (
     <div style={{ display: "flex" }}>
@@ -501,17 +506,17 @@ const PrimaryPage = () => {
                   {" "}
                   <LableComponent lable="ItemName *" />
                   <Controller
-                    name="itemName"
+                    name="itemNameData"
                     control={control}
                     rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
-                        name="itemName"
+                        name="itemNameData"
                         onChange={onChange}
                         // onBlur={onBlur}
                         value={value}
                         trigger={trigger}
-                        error={errors.itemName}
+                        error={errors.itemNameData}
                       />
                     )}
                   />
@@ -524,7 +529,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dietaryData}
+                        options={dataDietaryType}
                         type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
@@ -723,14 +728,6 @@ const PrimaryPage = () => {
 
                     {images.map((img, index) => (
                       <div key={index} className="image-container">
-                        <button
-                          onClick={() => handleImageDeletion(index)}
-                          className="imcrossstyres"
-                        >
-                          <ImCross
-                            style={{ fontSize: "7px", color: "white" }}
-                          />
-                        </button>
                         <img
                           className="uploaded-image"
                           src={img.preview}
@@ -945,8 +942,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext={getValues("selectedPortion")}
-                          // placeholder={getValues("selectedPortion")}
+                          placeholder={getValues("selectedPortion")}
                         />
                       )}
                     />
