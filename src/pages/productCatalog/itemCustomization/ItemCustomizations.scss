@@ -290,6 +290,7 @@
 .modifier-div-margin {
   margin-bottom: 10.5rem;
   height: 15.625rem;
+  // border: 1px solid red;
 }
 
 .option-margin {
@@ -305,7 +306,7 @@
   display: flex;
   justify-content: center;
   gap: 1.625rem;
-
+// border: 1px solid red;
   margin-left: 9.625rem;
 }
 
@@ -405,6 +406,7 @@ input[type="number"] {
 }
 .modifiersitem {
   height: 470px;
+  // border: 1px solid red;
   overflow: auto;
   width: 100vw;
   .modifiers {

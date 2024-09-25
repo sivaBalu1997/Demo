@@ -13,13 +13,16 @@ import { ReactComponent as Stats } from "../../assets/svg/statistics.svg";
 import logout from "../../assets/images/logout.png";
 import { signOut } from "../../redux/auth/authActions";
 import { useHistory, useLocation } from "react-router";
-import { IS_SPORT_VERTICAL, STORAGE_BUCKET_URL, IS_SPORT_DOMAIN } from "../../shared/constants";
+import {
+  IS_SPORT_VERTICAL,
+  STORAGE_BUCKET_URL,
+  IS_SPORT_DOMAIN,
+} from "../../shared/constants";
 import { selectBranch } from "../../redux/auth/authActions";
+import SidePanel from "../SidePanel";
 const axios = require("axios");
 
-const reportCategory = [
-  { id: 32, option: "Sales" },
-];
+const reportCategory = [{ id: 32, option: "Sales" }];
 
 const Report = (props) => {
   const credentials = useSelector((state) => state.auth.credentials);
@@ -46,76 +49,34 @@ const Report = (props) => {
     restaurantDetails?.branch?.length > 0 && restaurantDetails?.branch[0].id
   );
   const branchDetails = useSelector((state) => state.auth.selectedBranch);
-  useEffect(() => {
-    getReportData(branchDetails.id);
-  }, [branchDetails]);
 
   useEffect(() => {
-    if (credentials) {
-      dispatch(getOutlets(credentials?.merchantId));
-    }
-    //console.log(props.id, 'id');
+    getReportData(branchDetails?.id);
+    console.log(4)
   }, []);
-
-  const handleSelect = (event) => {
-    setSelectValue(event.target.value);
-    if (event.target.value === 1) {
-      history.push("/report/32", "Check In");
-    } else if (event.target.value === 32) {
-      history.push("/report/32", "Sales");
-    }
-  };
 
   useEffect(() => {
     if (outlets.length == 0 && credentials) {
       setBranchId(credentials?.locationId);
+      console.log(2)
     }
   }, [outlets]);
 
   useEffect(() => {
     if (credentials) {
       dispatch(getOutlets(credentials?.merchantId));
+      console.log(1)
     }
   }, [credentials]);
-
-  const [headerDetails, setHeaderDetails] = useState({
-    merchantName: "Thalapakatti Biriyani",
-    merchantAddress: "Aarapalayam",
-    merchantLogo: MerchantLogo,
-    UserProfileImage: user,
-  });
-  // console.log(`props`, props);
-  async function fetchData() {
-    const token = credentials?.accessToken;
-    API({
-      method: "get",
-      url: "/merchants/" + branchId + "/reports/" + reportId + "/",
-      headers: {
-        Authorization: "bearer " + token,
-      },
-    })
-      .then((res) => {
-        //console.log(res);
-        if (res.status === 200) {
-          //console.log(res.data.url);
-          setiFrameSource(res.data.url);
-        } else {
-          setError("please try again later");
-        }
-      })
-      .catch((err) => {
-        //console.log(err);
-        setError("please try again later");
-      });
-  }
 
   useEffect(() => {
     if (reportId !== "") {
       fetchData();
     }
+    console.log(3)
   }, [reportId, branchId]);
 
-  async function fetchData() {
+  const fetchData = async() =>  {
     setLoading(true);
     const token = credentials?.accessToken;
     API({
@@ -150,23 +111,21 @@ const Report = (props) => {
   const getReportData = async (locationId) => {
     const token = credentials?.accessToken;
     let reportId =
-      restaurantDetails.country == "US" &&
-        location.pathname === "report/32"
+      restaurantDetails.country == "US" && location.pathname === "report/32"
         ? 41
-        : restaurantDetails.country == "IN" &&
-          location.pathname === "report/32"
-          ? 32
-          : location.pathname === "/report/51"
-            ? 51
-            : location.pathname === "/report/57"
-              ? 57
-              : location.pathname === "/report/63"
-                ? 63
-                : location.pathname === "/report/67"
-                  ? 67
-                  : location.pathname === "/report/82"
-                    ? 82
-                    : 2;
+        : restaurantDetails.country == "IN" && location.pathname === "report/32"
+        ? 32
+        : location.pathname === "/report/51"
+        ? 51
+        : location.pathname === "/report/57"
+        ? 57
+        : location.pathname === "/report/63"
+        ? 63
+        : location.pathname === "/report/67"
+        ? 67
+        : location.pathname === "/report/82"
+        ? 82
+        : 2;
     API({
       method: "get",
       url:
@@ -200,77 +159,11 @@ const Report = (props) => {
     history.replace("/");
   };
 
-  const getImageURL = useCallback(
-    (type) => {
-      if (
-        restaurantDetails &&
-        restaurantDetails.media &&
-        restaurantDetails.media.length > 0
-      ) {
-        const logoMedia = restaurantDetails.media.filter(
-          (media) => media.entityType == type
-        )[0];
-
-        return (
-          STORAGE_BUCKET_URL +
-          logoMedia.mimeType.split("/")[0] +
-          "/" +
-          logoMedia.id +
-          "." +
-          logoMedia.mimeType.split("/")[1]
-        );
-      } else {
-        return "";
-      }
-    },
-    [restaurantDetails]
-  );
-
   return (
-    <div className="menu-items">
+    <div style={{display:'flex', flexDirection:'row'}}>
+      <SidePanel />
+      <div className="menu-items">
       <div className="header">
-        <div className="logo-container">
-          <div>
-            <img src={getImageURL("LOGO")} className="restaurant-logo" />
-          </div>
-          <div className="restaurant-name-container">
-            <span className="restaurant-name">
-              {restaurantDetails &&
-                restaurantDetails.branchName &&
-                restaurantDetails.branchName.split(",")[0]}
-            </span>
-            <div>
-              <select
-                className="branch-dropdown"
-                onChange={(e) => {
-                  setSingleBranchId(JSON.parse(e.target.value)?.id);
-                  dispatch(selectBranch(JSON.parse(e.target.value)));
-                }}
-              >
-                {restaurantDetails &&
-                  restaurantDetails.branch &&
-                  restaurantDetails.branch.map((u, i) => {
-                    return (
-                      <option value={`${JSON.stringify(u)}`}>
-                        {u.locationName.split(",")[1]}
-                      </option>
-                    );
-                  })}
-                {/* <option value="Madurai">Madurai </option>
-                <option value="K. K. Nagar">K. K. Nagar</option> */}
-              </select>
-            </div>
-          </div>
-        </div>
-        {/* <img src={headerDetails.merchantLogo} />
-          <div>
-            <p>{headerDetails.merchantName}</p>
-            <p>{headerDetails.merchantAddress}</p>
-          </div>
-          <img
-            src={headerDetails.UserProfileImage}
-            className="user-profile"
-            alt="loading" /> */}
         <p
           className="logout-user"
           onClick={logoutUser}
@@ -314,10 +207,9 @@ const Report = (props) => {
         <div>
           {selectValue === "Sales" && (
             <div
-              className={`${location.pathname === "/report/32"
-                ? "selected"
-                : "unselected"
-                }`}
+              className={`${
+                location.pathname === "/report/32" ? "selected" : "unselected"
+              }`}
               onClick={() => history.push("/report/32", "Sales")}
             >
               Sales Report
@@ -325,10 +217,9 @@ const Report = (props) => {
           )}
           {selectValue === "Sales" && (
             <div
-              className={`tab ${location.pathname === "/report/82"
-                ? "selected"
-                : "unselected"
-                }`}
+              className={`tab ${
+                location.pathname === "/report/82" ? "selected" : "unselected"
+              }`}
               onClick={() => history.push("/report/82", "Sales")}
             >
               Category Report
@@ -347,27 +238,23 @@ const Report = (props) => {
             </div>
           } */}
 
-          {
-            restaurantDetails.vertical == IS_SPORT_DOMAIN
-            && (
-              <div
-                className={`tab ${location.pathname === "/management/report/67"
+          {restaurantDetails.vertical == IS_SPORT_DOMAIN && (
+            <div
+              className={`tab ${
+                location.pathname === "/management/report/67"
                   ? "selected"
                   : "unselected"
-                  }`}
-                onClick={() => history.push("/management/report/67", "Sales")}
-              >
-                Enrolment tracker
-              </div>
-            )
-
-          }
+              }`}
+              onClick={() => history.push("/management/report/67", "Sales")}
+            >
+              Enrolment tracker
+            </div>
+          )}
           {selectValue === "Sales" && (
             <div
-              className={` ${location.pathname === "/report/57"
-                ? "selected"
-                : "unselected"
-                }`}
+              className={` ${
+                location.pathname === "/report/57" ? "selected" : "unselected"
+              }`}
               onClick={() => history.push("/report/57", "Sales")}
             >
               Product Insights
@@ -376,10 +263,9 @@ const Report = (props) => {
 
           {
             <div
-              className={`tab ${location.pathname === "/report/2"
-                ? "selected"
-                : "unselected"
-                }`}
+              className={`tab ${
+                location.pathname === "/report/2" ? "selected" : "unselected"
+              }`}
               onClick={() => history.push("/report/2", "Sales")}
             >
               Check-In Report
@@ -388,22 +274,24 @@ const Report = (props) => {
 
           {selectValue === "Sales" && (
             <div
-              className={` ${location.pathname === "/report/51"
-                ? "selected"
-                : "unselected"
-                }`}
+              className={` ${
+                location.pathname === "/report/51" ? "selected" : "unselected"
+              }`}
               onClick={() => history.push("/report/51", "Sales")}
             >
               Customer Insights
             </div>
           )}
-          {branchDetails.cusine != null && branchDetails.cusine[0] != null &&
-            branchDetails.cusine[0] == IS_SPORT_VERTICAL && selectValue === "Sales" && (
+          {branchDetails.cusine != null &&
+            branchDetails.cusine[0] != null &&
+            branchDetails.cusine[0] == IS_SPORT_VERTICAL &&
+            selectValue === "Sales" && (
               <div
-                className={` ${location.pathname === "/management/report/63"
-                  ? "selected"
-                  : "unselected"
-                  }`}
+                className={` ${
+                  location.pathname === "/management/report/63"
+                    ? "selected"
+                    : "unselected"
+                }`}
                 onClick={() => history.push("/management/report/63", "Sales")}
               >
                 Consolidated Report
@@ -540,6 +428,7 @@ const Report = (props) => {
           {error}
         </p>
       ) : null}
+    </div>
     </div>
   );
 };

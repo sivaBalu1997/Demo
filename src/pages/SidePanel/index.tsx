@@ -56,6 +56,11 @@ const SidePanel = () => {
     (state:RootState) => state.auth.credentials && state.auth.credentials.locationId
   );
 
+  const branchDetails = useSelector((state:RootState) => state.auth.selectedBranch);
+
+
+  console.log({locationId})
+
   const getImageURL = useCallback(
     (type:any) => {
       if (
@@ -85,8 +90,9 @@ const SidePanel = () => {
   useEffect(() => {
     if (locationId) {
       dispatch(getRestaurantRequest(locationId));
+      console.log(11)
     }
-  }, [locationId]);
+  }, []);
 
   useEffect(() => {
     if (
@@ -99,16 +105,20 @@ const SidePanel = () => {
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
         );
-
-        dispatch(selectBranch(defaultBranch[0]));
+        if(branchDetails?.id !== defaultBranch[0]?.id){
+          dispatch(selectBranch(defaultBranch[0]));
+        }
         localStorage.setItem(
           SELECTED_BRANCH_DATA,
           JSON.stringify(defaultBranch[0])
         );
       } else {
-        dispatch(selectBranch(branch));
+        if(branchDetails?.id !== branch?.id){
+          dispatch(selectBranch(branch));
+        }
       }
     }
+    console.log(22)
   }, [restaurantDetails]);
 
   const toggleExpand = () => {
@@ -399,4 +409,4 @@ const SidePanel = () => {
   );
 };
 
-export default SidePanel;
+export default React.memo(SidePanel);

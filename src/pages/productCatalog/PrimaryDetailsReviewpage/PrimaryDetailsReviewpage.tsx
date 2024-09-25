@@ -125,7 +125,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const uploadStatus = useSelector(
     (state: { imageUpload: ImageUpload }) => state.imageUpload.uploadStatus
   );
-  // console.log("id",uploadStatus.id)
   const errorMessages = useSelector(
     (state: { imageUpload: ImageUpload }) => state.imageUpload.errorMessages
   );
@@ -135,7 +134,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: ImageId) => state.productCatalog.addMenuSuccessMessage
   );
   const [imageIdtosend, setimageIdtosend] = useState<string>("");
-  // console.log("ImageId", ImageId);
+  console.log("ImageId", ImageId);
 
   useEffect(() => {
     if (uploadStatus && uploadStatus.index !== undefined) {
@@ -236,7 +235,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setDisableSubmit(true);
     }
   };
-
+const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
   const [indextoreplace, setindextoreplace] = useState<Status[]>([]);
 
   useEffect(() => {
@@ -280,21 +279,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         index: indexToReplace,
       };
 
-      // setTimeout(() => {
-      //   dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
-      // }, 5000);
-      // setindextoreplace(ReplaceImage);
+      setTimeout(() => {
+        dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
+      }, 5000);
+      // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
-      setindextoreplace((prev)=>[...prev,ReplaceImage]);
-
-      // setErro((prevErro) =>
-      //   prevErro.map((entry, idx) => {
-      //     if (idx === indexToReplace) {
-      //       return { ...entry, status: "retrying" }; // Set retrying status for that specific image
-      //     }
-      //     return entry;
-      //   })
-      // );
+      
 
       setTimeout(() => checkAllImagesForErrors(), 0);
     }
@@ -309,8 +299,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     if (uploadStatus.id && error && error.length > 0) {
       const allSuccess = error.every((data) => data.status === "success");
       if (allUploaded && allSuccess) {
-        // dispatch(cleanMenuItemSuccessMsg())
-      console.log("it is warning")
+        dispatch(cleanMenuItemSuccessMsg())
+
         setTimeout(() => {
           history.push("/menuListing");
           
@@ -322,25 +312,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       }
     }
     
-    // for(let [index,image] of indextoreplace.entries()){
-    //   console.log("image",image,"index",index)
+    for(let [index,image] of indextoreplace.entries()){
+      console.log("image",image,"index",index)
 
-    // }
-    if (ImageId === "" || ImageId === undefined) {
-      dispatch(addMenuItemRequest(data));
-      dispatch(addMockDataRequest(data));
-    } else {
-      setindextoreplace((prev) => {
-        const updatedIndexToReplace = [...prev];
-        
-        // Dispatch after state is updated
-        updatedIndexToReplace.forEach((item) => {
-          dispatch(uploadImage(item.image, item.id, item.index));
-        });
-    
-        return updatedIndexToReplace; // Ensure the state is updated with the new value
-      });
     }
+    dispatch(addMenuItemRequest(data));
+      dispatch(addMockDataRequest(data));
 
     // If needed, redirect or perform other actions here
     // if (allUploaded) {

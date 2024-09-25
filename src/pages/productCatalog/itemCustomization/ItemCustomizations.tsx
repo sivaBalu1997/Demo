@@ -426,7 +426,7 @@ const ItemCustomizations: React.FC = () => {
                                 className="radioItemCustomizations"
                                 name={`selectionType-${modIndex}`}
                                 value="Optional"
-                                checked={modifier.selectionType === "Optional"} // Bind the checked property to the state
+                                checked={modifier.selectionType === "Optional"} 
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
