@@ -38,15 +38,15 @@ const SearchBox = () => {
 
   const filterOptions = (input) => {
     const filtered = data.filter((item) =>
-      item.itemName.toLowerCase().includes(input.toLowerCase())
+      item.name.toLowerCase().includes(input.toLowerCase())
     );
     setFilteredOptions(filtered);
     setFilteredOptionsDispatch(filtered)
   };
 
   const handleOptionClick = (option) => {
-    setSearchTerm(option.itemName);
-    filterOptions(option.itemName);
+    setSearchTerm(option.name);
+    filterOptions(option.name);
     setOptionSelected(true);
     setFilteredOptions([]);
   };
@@ -112,7 +112,7 @@ const SearchBox = () => {
                   className={index === highlightedIndex ? 'highlighted' : ''}
                 >
                   <div className={isExpanded ? 'Search-Container-options1-items' : "Search-Container-options-items"}>
-                    {option.itemName}
+                  {option.name}
                   </div>
                 </li>
               ))

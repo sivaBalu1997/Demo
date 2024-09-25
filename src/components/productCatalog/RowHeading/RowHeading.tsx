@@ -25,14 +25,13 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   onDrop,
   object,
 }) => {
-  if (
-    objectId === 1 &&
-    object.name.length >= 1 &&
-    object.name.some((item) => item.type === "steamedVeg")
-  ) {
-    return (
-      <tr>
-        <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+  
+
+console.log("object",object.name.length)
+    if (objectId === 1 && object.name.length>=1 && object.name.some(item => item.type === 'steamedVeg')) {
+      return (
+        <tr >
+          <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
           <img
             src={dots}
             alt=""

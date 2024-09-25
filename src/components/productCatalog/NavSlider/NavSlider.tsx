@@ -15,7 +15,7 @@ interface NavMenuProps {
 }
 interface SideBarData {
   id: number;
-  itemName: string;
+  name: string;
   code: string;
   type: string;
   mealType: string;

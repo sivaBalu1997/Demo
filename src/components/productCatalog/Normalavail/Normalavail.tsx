@@ -83,12 +83,8 @@ interface NormalavailProps {
   mainFormState: any;
   dineinfields?: any;
   setDineInFields: (form: any) => void;
-  onToggelChange: (
-    dineIn: boolean,
-    online: boolean,
-    pickup: boolean,
-    delivery: boolean
-  ) => void;
+  selectedValues2: any;
+  setSelectedValues2: (form: any) => void;
 }
 
 type MealType1 = string;
@@ -113,7 +109,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
   setDineInFields,
   setValidationStateerr,
   handleValidate,
-  onToggelChange,
 }) => {
   const [online, setOnline] = useState(false);
   const [pickup, setPickup] = useState(false);
@@ -121,7 +116,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   const [dineinentry, setDineInEntry] = useState<string[]>([]);
   const [Normaldays, setNormalDays] = useState<number[]>([]);
-  const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]); //Need to feed data to the dropdown through redux
+  const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
+
   const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options5, setOptions5] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -165,10 +161,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData.mainForm
   );
-
-  useEffect(() => {
-    onToggelChange(dinein, online, pickup, delivery);
-  }, [dinein, online, pickup, delivery]);
 
   const [formNormal, setformNormal] = useState({
     PickuppriceNormal: "",
@@ -413,9 +405,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setMainFormState(mainForm);
     }
   }, [mainForm]);
-
   const handleSelect2 = (values: any, index: number): void => {
-    //FeedBack : Can handle a single dynamic function for all handleSelect function by using index here
     // Update selected values state
     setSelectedValues((prevState: SelectedValuesState) => ({
       ...prevState,
@@ -436,39 +426,31 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const addOption2 = (newOption: OptionType): void => {
     setOptions2((prevOptions) => [...prevOptions, newOption]);
   };
-
   const handleSelect3 = (values: string[]): void => {
     setSelectedValues2(values);
     validateDropdown(values, "Pickup");
   };
-
   const addOption3 = (newOption: OptionType): void => {
     setOptions3((prevOptions) => [...prevOptions, newOption]);
   };
-
   const handleSelect4 = (values: string[]): void => {
     setSelectedValues3(values);
     validateDropdown(values, "Pickup");
   };
-
   const addOption4 = (newOption: OptionType): void => {
     setOptions4([...options4, newOption]);
   };
-
   const handleSelect5 = (value: string[]): void => {
     setSelectedValues4(value);
     validateDropdown(value, "ThirdDelivery1");
   };
-
   const addOption5 = (newOption: OptionType): void => {
     setOptions5([...options5, newOption]);
   };
-
   const handleSelect6 = (value: string[]): void => {
     setSelectedValues5(value);
     validateDropdown(value, "ThirdDelivery2");
   };
-
   const addOption6 = (newOption: OptionType): void => {
     setOptions6([...options6, newOption]);
   };
@@ -486,11 +468,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
       validateDropdown(value, index);
     }
   };
-
   const addOptionMealType = (newOption: OptionType): void => {
     setOptionsMealType([...optionsmealtype, newOption]);
   };
-
   const handleServiceSelect2 = (
     index: number,
     value: ServiceValueType,
@@ -510,7 +490,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
-
   const handleMealSelect2 = (
     index: number,
     value: MealType,
@@ -520,6 +499,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       console.error("Index out of bounds");
       return;
     }
+
     const newDineInFields = [...dineinfields];
     newDineInFields[index].DineInMealType = value;
     setDineInFields(newDineInFields);
@@ -532,27 +512,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
-
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
   };
+  console.log(!validationState.Pickup.isValid);
+  console.log(validationState.Pickup?.errorMessage);
 
   return (
     <div>
       <div className="AvailDaycheck">
-        <div className="AvailDaycheck-Heading">
-          <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-          <div className="tooltip">
-            {" "}
-            <Tooltip message="Kitchen Related">
-              <div className="ToolKitchen">
-                <img src={info} alt="" width={25} height={25} />
-              </div>
-            </Tooltip>
-          </div>
-        </div>
-
+        <h1 className="AvailableDaysHeadingNormal">Available days</h1>
         <div className="dayschecking">
           <DaysCheck
             checkedItems={Normaldays}
@@ -562,7 +532,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           ></DaysCheck>
         </div>
       </div>
-      {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
+      <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1>
       {/* DineIn Related */}
       <div className="DineInRelated">
         <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
@@ -594,7 +564,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       className="DineInInput1Normal"
                       onChange={(e) => {
                         handleChange(index, e);
-                        handleValidate();
                       }}
                     />
                     {!validationState[priceKey]?.isValid && (
@@ -615,10 +584,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         index={index}
                         label="Meal Type*"
                         width="Drop1"
-                        handleValidate={handleValidate}
                         onBlur={() => {
                           // validateDropdown(selectedValuesmealtype[index] || [], index)
-                          handleValidate();
                         }}
                         // validation={
                         //  validationState.NormalMealtype
@@ -642,7 +609,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       options={options2}
                       label="Service Area*"
                       index={index}
-                      handleValidate={handleValidate}
                       onChange={(e) =>
                         handleServiceSelect2(
                           index,
@@ -650,10 +616,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
                           "DineInService"
                         )
                       }
-                      onBlur={() => {
-                        // validateDropdown(selectedValuesmealtype[index] || [], index)
-                        handleValidate();
-                      }}
                       // validation={validationState.NormalServiceArea}
                       width=""
                     />
@@ -673,7 +635,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 </div>
                 <div className="dineInChooseDayContainer">
                   <h3 className="dineInChooseDayContainerHeading">
-                    Setup for specific days?
+                    Choose for Specific day
                   </h3>
                   <h3
                     className="dineInChooseDayContainer-chooseheading"
@@ -746,13 +708,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         selectedValues={selectedValues2}
                         onSelect={handleSelect3}
                         options={options3}
-                        onBlur={() =>
-                          validateDropdown(selectedValues2, "Pickup")
-                        }
-                        validation={validationState.Pickup}
+                        // handleValidate={handleValidate}
+                        // validation={validationState.Pickup}
                         label="Meal Type*"
                         width="Drop1"
                       />
+
+                      {!validationState.Pickup.isValid && (
+                        <span className="ErrormsgPickup">
+                          <p>hello</p>
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div>

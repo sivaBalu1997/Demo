@@ -16,7 +16,7 @@ interface PricingDetails {
 
 interface Item {
   id: number;
-  itemName: string;
+  name: string;
   itemCode: string;
   type: string;
   mealType: string;
@@ -33,7 +33,7 @@ const truncateString = (str: string, length: number) => {
   export const itemsdata: Item[] = [
     {
       id: 1,
-      itemName: "dosa",
+      name: "dosa",
       itemCode: "12345",
       type:"steamedVeg",
       mealType:"Breakfast",
@@ -52,7 +52,7 @@ const truncateString = (str: string, length: number) => {
     },
     {
         id: 2,
-        itemName: "Musroom Gravy",
+        name: "Musroom Gravy",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Lunch",
@@ -71,7 +71,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 3,
-        itemName: "Creamy Pasta",
+        name: "Creamy Pasta",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -90,7 +90,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 4,
-        itemName: "Masala idly",
+        name: "Masala idly",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Dinner",
@@ -109,7 +109,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 5,
-        itemName: "Podi Idly",
+        name: "Podi Idly",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -128,7 +128,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 6,
-        itemName: "Utthappam",
+        name: "Utthappam",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -147,7 +147,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 7,
-        itemName: "Creamy Mushroom",
+        name: "Creamy Mushroom",
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -166,7 +166,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 8,
-        itemName: truncateString("Creamy Mushroo", 14),
+        name: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -185,7 +185,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 9,
-        itemName: truncateString("Creamy Mushroo", 14),
+        name: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -204,7 +204,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 10,
-        itemName: truncateString("Creamy Mushroo", 14),
+        name: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -223,7 +223,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id:11,
-        itemName: truncateString("Creamy Mushroo", 14),
+        name: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -242,7 +242,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 12,
-        itemName: truncateString("Creamy Mushroo", 14),
+        name: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
         type:"steamedVeg",
         mealType:"Breakfast",
@@ -265,7 +265,7 @@ const truncateString = (str: string, length: number) => {
   export const itemsfooddata: Item[] = [
     {
       id: 13,
-      itemName: "Chicken",
+      name: "Chicken",
       itemCode: "12345",
       type:"steamedNonVeg",
       mealType:"Breakfast",
@@ -284,7 +284,7 @@ const truncateString = (str: string, length: number) => {
     },
     {
         id: 14,
-        itemName: truncateString("Fish", 14),
+        name: truncateString("Fish", 14),
         itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
@@ -303,7 +303,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 15,
-        itemName: truncateString("Mutton", 14),
+        name: truncateString("Mutton", 14),
         itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
@@ -322,7 +322,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 16,
-        itemName: truncateString("Chicken 65", 14),
+        name: truncateString("Chicken 65", 14),
         itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
@@ -341,7 +341,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 17,
-        itemName: truncateString("Chicken roll", 14),
+        name: truncateString("Chicken roll", 14),
         itemCode: "12345",
         type:"steamedNonVeg",
         mealType:"Breakfast",
@@ -360,7 +360,7 @@ const truncateString = (str: string, length: number) => {
       },
       {
         id: 18,
-        itemName: truncateString("Creamy Mushroo", 14),
+        name: truncateString("Creamy Mushroo", 14),
         itemCode: "12345",
          type:"steamedNonVeg",
          mealType:"Breakfast",

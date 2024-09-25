@@ -11,13 +11,9 @@ interface media{
   imageType:string
  }
 interface Option {
- 
-  id: string;
   name: string;
-  // canDelete:string;
-  // media:media
+  id: string;
 }
-
  
 interface DropdownProps {
   name: string;

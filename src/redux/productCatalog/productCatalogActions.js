@@ -88,7 +88,10 @@ import {
   UPLOAD_IMAGE,
   UPLOAD_IMAGE_SUCCESS,
   UPLOAD_IMAGE_FAILURE,
-  UPLOAD_IMAGE_IN_PROGRESS
+  UPLOAD_IMAGE_IN_PROGRESS,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
+  ADD_MOCK_DATA_HIDDEN_SUCCESS,
+  ADD_MOCK_DATA_HIDDEN_FALIURE
 
 } from "./productCatalogConstants";
 
@@ -379,21 +382,22 @@ export const addMockDataFailure = (error) => ({
 })
 
 
-//dietary
-export const dietdatarequest = (data) => ({
-  type: DIET_DROPDOWN_LIST_REQUEST,
-  payload: data,
 
-})
+// {*****add MockData Visiblty****************************}
 
-export const dietdatasuccess = (response) => ({
-  type: DIET_DROPDOWN_LIST_SUCCESS,
-  payload: response,
+export const addMockDataHiddenRequest = (data) => ({
+  type: ADD_MOCK_DATA_HIDDEN_REQUEST,
+  payload:data
+}); 
+
+export const addMockDataHiddenSuccess = (response) => ({
+  type: ADD_MOCK_DATA_HIDDEN_SUCCESS ,
+  payload: response, 
 });
 
-export const dietdatafailure = (error) => ({
-  type: DIET_DROPDOWN_LIST_FAILURE,
-  payload: error,
+export const addMockDataHiddenFailure = (error) => ({
+  type: ADD_MOCK_DATA_HIDDEN_FALIURE ,
+  payload: error, 
 })
 
 //cuisine

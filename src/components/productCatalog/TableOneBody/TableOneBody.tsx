@@ -6,7 +6,7 @@ import StringDisplay from "../StringDisplay/StringDisplay";
 import HoverText from "../HoverText/HoverText";
 
 interface Item {
-  itemName: string;
+  name: string;
   itemCode: string;
   id: number;
 }
@@ -44,6 +44,9 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   handleRowDragStart,
   handleRowDragOver,
   handleRowDragEnd,
+  handlevegrowstart,
+  handlevegrowover,
+  handlevegrowend,
 
   handleDragScroll,
   handlemodal,
@@ -114,7 +117,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               className="itemname2"
               onClick={() => handleItemnameClick(item.id)}
             >
-              <HoverText text={item.itemName}  lengthvale={14}/>
+              <StringDisplay text={item.name}  />
             </span>
             <span className="itemcode2">{item.itemCode}</span>
           </td>

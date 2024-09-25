@@ -27,7 +27,7 @@ import {
   bestPairDataRequest,
   catogoryDataRequest,
   cuisineDataRequest,
-  dietdatarequest,
+  // dietdatarequest,
   getIngredientsRequest,
   getMenuCategoryRequest,
   subCategoryDataRequest,
@@ -98,7 +98,14 @@ interface StateDataTag2 {
     categoryData: [];
   };
 }
-export interface StateDataTag3 {
+
+interface StateDataTag2 {
+  productCatalog: {
+    categoryData: [];
+  };
+}
+
+interface StateDataTag3 {
   productCatalog: {
     dietaryData: [];
     cuisineData: [];
@@ -478,8 +485,6 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: StateDataTag3) => state.productCatalog.bestPairData
   );
-
-  
 
   // const getdatafrosaga = () => {
   //   dispatch(dietdatarequest("diet"));

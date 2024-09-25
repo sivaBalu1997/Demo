@@ -40,6 +40,7 @@ import {
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
   ADD_MOCK_DATA_REQUEST,
+  
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
   DIET_DROPDOWN_LIST_FAILURE,
@@ -153,7 +154,7 @@ const initialProductCatalogState = {
   updateMenuAttributeFailed: false,
 };
 
-export default function productCatalogReducer(
+export default function employeeReducer(
   state = initialProductCatalogState,
   action
 ) {

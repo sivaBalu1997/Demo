@@ -74,6 +74,7 @@
 
     const Dinein=prizingDetail && prizingDetail.normalForm && prizingDetail?.normalForm.DineIn;
     const [Dinein1, setDinein] = useState<number[]>(Dinein);
+    console.log(Dinein1)
     
     
     console.log(thirdParty)
@@ -142,14 +143,14 @@
           
           </div>
           <h1 className='AvailDaysheading'>Available Days</h1>
-          {prizingDetail && prizingDetail?.normalForm && prizingDetail?.normalForm.DineIn.map((elem,index)=>{
+          {prizingDetail && prizingDetail?.normalForm && prizingDetail?.normalForm?.DineIn?.map((elem,index)=>{
             return(
 
               <>
               <div className='dayacheckedavail'>
 
             
-            <DaysOfWeek days={[elem]} setDays={setDinein}/>
+              <DaysOfWeek days={Array.isArray(elem) ? elem : [elem]} setDays={setDinein} />
           </div>
               
               

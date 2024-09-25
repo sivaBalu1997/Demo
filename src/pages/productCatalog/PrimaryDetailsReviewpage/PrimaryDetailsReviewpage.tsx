@@ -4,7 +4,7 @@ import axios from "axios";
 import edit from "../../../assets/images/edit.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Step2 from "../../../components/productCatalog/Step2/Step2";
+import Step2 from "components/productCatalog/Step2/Step2";
 import { Contextpagejs } from "../contextpage";
 import ReviewValues from "../../../components/productCatalog/ReviewValues/ReviewValues";
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
@@ -115,19 +115,15 @@ interface ImageId {
 }
 
 const PrimaryDetailsReviewpage: React.FC = () => {
-  const history = useHistory();
+  const history=useHistory()
   const dispatch = useDispatch();
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
   const fetchedprimarydata = primarydata;
   // console.log(fetchedprimarydata.ingredients);
 
-  const uploadStatus = useSelector(
-    (state: { imageUpload: ImageUpload }) => state.imageUpload.uploadStatus
-  );
-  const errorMessages = useSelector(
-    (state: { imageUpload: ImageUpload }) => state.imageUpload.errorMessages
-  );
+  const uploadStatus = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload.uploadStatus);
+  const errorMessages = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload.errorMessages);
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
@@ -517,7 +513,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
               <div className="primaryreviewdetailspart2">
                 <div>
                   <Link
-                    to="/productCatalog/PrimaryDetails"
+                    to="/Navigationpage"
                     className="primarypageedit"
                     onClick={() => setActiveCategory("Step 1: Primary Details")}
                   >
@@ -708,29 +704,26 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
 
                 <div className="allergensandingredients">
                   <div>
-                    {fetchedprimarydata?.ingredients?.length > 0 && (
-                      <>
-                        {" "}
-                        <p className="ingredients">Ingredients</p>
-                        <ImagePillsSelected
-                          imageselected={fetchedprimarydata}
-                          name="Ingredients"
-                        />
-                      </>
-                    )}
+                    {
+                      fetchedprimarydata?.ingredients?.length>0 && <> <p className="ingredients">Ingredients</p>
+                      <ImagePillsSelected
+                        imageselected={fetchedprimarydata}
+                        name="Ingredients"
+                      /></>
+                    }
+                   
                   </div>
 
                   <div>
-                    {fetchedprimarydata?.allergens?.length > 0 && (
-                      <>
-                        {" "}
-                        <p className="allergen">Allergens</p>{" "}
-                        <ImagePillsSelected
-                          imageselected={fetchedprimarydata}
-                          name="allergens"
-                        />
-                      </>
-                    )}
+                    {
+                       fetchedprimarydata?.allergens?.length>0 &&
+                       <> <p className="allergen">Allergens</p>{" "}
+                       <ImagePillsSelected
+                         imageselected={fetchedprimarydata}
+                         name="allergens"
+                       /></>
+                    }
+                   
                   </div>
                 </div>
               </div>
@@ -741,6 +734,11 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                 <Step3Review />
               </div>
             </div>
+            {/* <div className="part-two">
+                <Step2 />
+                <div className="verticalLine" />
+                <Step3Review />
+              </div> */}
           </div>
         </div>{" "}
         <div
