@@ -8,7 +8,7 @@ import DropDown from "../DropDown/Dropdown";
 import DaysCheckDin from "../DayCheckDinein/DaysCheckDinein";
 import { useSelector } from "react-redux";
 import LableComponent from "../LableComponent/LableComponent";
-import Tooltip from "../Tooltip/Tooltip";
+import TooltipMsg from "../Tooltip/TooltipMsg";
 import info from "../../../assets/svg/info.svg";
 
 type MainFormType = {
@@ -86,6 +86,35 @@ type DropdownValidationState = {
     setSelectedValues2:(form: any) => void;
   }
  
+
+interface NormalavailProps {
+  getNormalForm?: (form: any) => void;
+  validateDropdown: (
+    value: string[],
+    key: keyof DropdownValidationState
+  ) => void;
+
+  validationState: {
+    [key: string]: { isValid: boolean; errorMessage: string };
+  };
+
+  // Corrected type for setValidationStateerr
+  setValidationStateerr: React.Dispatch<
+    React.SetStateAction<DropdownValidationState>
+  >;
+  ValidationStateerr?: any;
+
+  dinein: boolean;
+  setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>;
+  handleValidate: () => void;
+  mainFormState: any;
+  dineinfields?: any;
+  setDineInFields: (form: any) => void;
+  selectedValues2: any;
+  setSelectedValues2: (form: any) => void;
+}
+
 type MealType1 = string;
 type MealType = string[];
 type SelectedValueType = string;
@@ -120,6 +149,29 @@ type OptionType = string;
     const [Normaldays, setNormalDays] = useState<number[]>([]);
     const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
  
+
+const Normalavail: React.FC<NormalavailProps> = ({
+  getNormalForm,
+  validateDropdown,
+  validationState,
+  dinein,
+  setDineIn,
+  setMainFormState,
+  mainFormState,
+  dineinfields,
+  setDineInFields,
+  setValidationStateerr,
+  handleValidate,
+  ValidationStateerr,
+}) => {
+  const [online, setOnline] = useState(false);
+  const [pickup, setPickup] = useState(false);
+  const [delivery, setDelivery] = useState(false);
+
+  const [dineinentry, setDineInEntry] = useState<string[]>([]);
+  const [Normaldays, setNormalDays] = useState<number[]>([]);
+  const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
+
   const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options5, setOptions5] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -161,6 +213,7 @@ type OptionType = string;
     (state: any) => state.PricingDetailReducer.prizingData.mainForm
   );
  
+
   const [formNormal, setformNormal] = useState({
     PickuppriceNormal: "",
     PickupmealtypeNormal: "",
@@ -451,6 +504,65 @@ type OptionType = string;
       setOptions6([...options6, newOption]);
     };
  
+
+  const addDayThirdfalse = () => {
+    setShowDayThird(false);
+  };
+
+  useEffect(() => {
+    if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
+      setMainFormState(mainForm);
+    }
+  }, [mainForm]);
+  const handleSelect2 = (values: any, index: number): void => {
+    // Update selected values state
+    setSelectedValues((prevState: SelectedValuesState) => ({
+      ...prevState,
+      [index]: values,
+    }));
+
+    // Update the dineinfields state with the new selected values
+    const newDineInFields = [...dineinfields];
+    newDineInFields[index] = {
+      ...newDineInFields[index],
+      DineInService: values,
+    };
+    setDineInFields(newDineInFields);
+
+    // Clear validation error for the specified field
+  };
+
+  const addOption2 = (newOption: OptionType): void => {
+    setOptions2((prevOptions) => [...prevOptions, newOption]);
+  };
+  const handleSelect3 = (newSelectedValues: string[]) => {
+    setSelectedValues2(newSelectedValues); // Updates the state when a new value is selected
+  };
+  const addOption3 = (newOption: OptionType): void => {
+    setOptions3((prevOptions) => [...prevOptions, newOption]);
+  };
+  const handleSelect4 = (values: string[]): void => {
+    setSelectedValues3(values);
+    validateDropdown(values, "Pickup");
+  };
+  const addOption4 = (newOption: OptionType): void => {
+    setOptions4([...options4, newOption]);
+  };
+  const handleSelect5 = (value: string[]): void => {
+    setSelectedValues4(value);
+    validateDropdown(value, "ThirdDelivery1");
+  };
+  const addOption5 = (newOption: OptionType): void => {
+    setOptions5([...options5, newOption]);
+  };
+  const handleSelect6 = (value: string[]): void => {
+    setSelectedValues5(value);
+    validateDropdown(value, "ThirdDelivery2");
+  };
+  const addOption6 = (newOption: OptionType): void => {
+    setOptions6([...options6, newOption]);
+  };
+
   const handleSelectMealtype = (value: MealType, index: number): void => {
     const newSelectedValues = [...selectedValuesmealtype];
     newSelectedValues[index] = value;
@@ -517,13 +629,25 @@ type OptionType = string;
     <div>
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
-           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-        <div className="tooltip"> <Tooltip message="Kitchen Related">
-                      <div className="ToolKitchen">
-                        <img src={info} alt="" width={25} height={25} />
-                      </div>
-                    </Tooltip></div></div>
-       
+          <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+          <div className="tooltip">
+          <TooltipMsg
+                        message="Enter a unique code for this food item, used for identification."
+                        styles={{marginLeft:'2rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
+                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.6rem'}}
+                      >
+                        <div className="ToolKitchen">
+                          <img
+                            src={info}
+                            alt="info icon"
+                            width={20}
+                            height={20}
+                          />
+                        </div>
+                      </TooltipMsg>
+          </div>
+        </div>
+
         <div className="dayschecking">
           <DaysCheck
             checkedItems={Normaldays}
@@ -537,9 +661,9 @@ type OptionType = string;
       {/* DineIn Related */}
       <div className="DineInRelated">
         <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
-        <div className="toggleII">
-          <Toggle toggle={dinein} setToggle={setDineIn} />
-        </div>
+        <Toggle toggle={dinein} setToggle={setDineIn} />
+
+      
       </div>
       {dinein ? (
         <>
@@ -565,6 +689,8 @@ type OptionType = string;
                       className="DineInInput1Normal"
                       onChange={(e) => {handleChange(index, e)
  
+                      onChange={(e) => {
+                        handleChange(index, e);
                       }}
                     />
                      {!ValidationStateerr[priceKey]?.isValid && (
@@ -576,6 +702,15 @@ type OptionType = string;
                    
                     <div className="Mealz">
                       <div>
+                    {!ValidationStateerr[priceKey]?.isValid && (
+                      <span className="ErrormsgPrice">
+                        {ValidationStateerr[priceKey]?.errorMessage}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="Mealz">
+                    <div>
                       <DropDown
                         selectedValues={selectedValuesmealtype[index] || ""}
                         onSelect={(values) =>
@@ -586,83 +721,86 @@ type OptionType = string;
                         label="Meal Type*"
                         width="Drop1"
                         onBlur={() =>{
+                        onBlur={() => {
                           // validateDropdown(selectedValuesmealtype[index] || [], index)
  
                         }
                      
                         }
+                        }}
                         // validation={
                         //  validationState.NormalMealtype
                         // }
                       />
-                      </div>
-                      <div> {!ValidationStateerr[mealTypeKey]?.isValid && (
-                <span className="Errormsg">
-                  {ValidationStateerr[mealTypeKey]?.errorMessage}
-                </span>
-              )}</div>
-                     
                     </div>
-                   
- 
-                    <div className="Service">
-                      <DropDown
-                        selectedValues={selectedValues[index] || ""}
-                        onSelect={(values) => handleSelect2(values, index)}
-                        options={options2}
-                        label="Service Area*"
-                        index={index}
-                        onChange={(e) =>
-                          handleServiceSelect2(index, e.target.value,"DineInService")
-                        }
-                        // validation={validationState.NormalServiceArea}
-                        width=""
-                      />
-                       {!ValidationStateerr[DineInService]?.isValid && (
-                <span  className="Errormsg">
-                  {ValidationStateerr[DineInService]?.errorMessage}
-                </span>
-              )}
+                    <div>
+                      {" "}
+                      {!ValidationStateerr[mealTypeKey]?.isValid && (
+                        <span className="Errormsg">
+                          {ValidationStateerr[mealTypeKey]?.errorMessage}
+                        </span>
+                      )}
                     </div>
-                   
-                    <h1
-                      onClick={() => handleDelete(index)}
-                      className="DeleteButtonDine"
-                    >
-                      - Delete
-                    </h1>
                   </div>
-                  <div className="dineInChooseDayContainer">
-                    <h3 className="dineInChooseDayContainerHeading">
-                      Choose for Specific day
-                    </h3>
-                    <h3
-                      className="dineInChooseDayContainer-chooseheading"
-                      onClick={() => addDay(index)}
-                    >
-                      {entry.dayButtonText}
-                    </h3>
-                  </div>
-                  <div className="dayspickup">
-                    {entry.showDay && (
-                      <DaysCheckDin
-                        checkedItems={dineInDates1}
-                        setCheckedItems={setDineInDates1}
-                        index={index}
-                        {...(availabilityid
-                          ? { id: availabilityid, setId: setAvailabilityid }
-                          : {})}
-                      />
+
+                  <div className="Service">
+                    <DropDown
+                      selectedValues={selectedValues[index] || ""}
+                      onSelect={(values) => handleSelect2(values, index)}
+                      options={options2}
+                      label="Service Area*"
+                      index={index}
+                      onChange={(e) =>
+                        handleServiceSelect2(
+                          index,
+                          e.target.value,
+                          "DineInService"
+                        )
+                      }
+                      // validation={validationState.NormalServiceArea}
+                      width=""
+                    />
+                    {!ValidationStateerr[DineInService]?.isValid && (
+                      <span className="Errormsg">
+                        {ValidationStateerr[DineInService]?.errorMessage}
+                      </span>
                     )}
                   </div>
-                </>
-              );
-            })}
- 
- 
- 
- 
- 
+
+                  <h1
+                    onClick={() => handleDelete(index)}
+                    className="DeleteButtonDine"
+                  >
+                    - Delete
+                  </h1>
+                </div>
+                <div className="dineInChooseDayContainer">
+                  <h3 className="dineInChooseDayContainerHeading">
+                    Choose for Specific day
+                  </h3>
+                  <h3
+                    className="dineInChooseDayContainer-chooseheading"
+                    onClick={() => addDay(index)}
+                  >
+                    {entry.dayButtonText}
+                  </h3>
+                </div>
+                <div className="dayspickup">
+                  {entry.showDay && (
+                    <DaysCheckDin
+                      checkedItems={dineInDates1}
+                      setCheckedItems={setDineInDates1}
+                      index={index}
+                      {...(availabilityid
+                        ? { id: availabilityid, setId: setAvailabilityid }
+                        : {})}
+                    />
+                  )}
+                </div>
+              </>
+            );
+          })}
+
           <h1 className="AddentryNormal" onClick={AddDineInEntry}>
             {" "}
             + Add entry
@@ -706,11 +844,11 @@ type OptionType = string;
                         })
                       }
                     ></input>
-                      {!ValidationStateerr.PickupPrice?.isValid && (
-  <span className="ErrormsgPickupPrice">
-    {ValidationStateerr?.PickupPrice?.errorMessage || ""}
-  </span>
-)}
+                    {!ValidationStateerr.PickupPrice?.isValid && (
+                      <span className="ErrormsgPickupPrice">
+                        {ValidationStateerr?.PickupPrice?.errorMessage || ""}
+                      </span>
+                    )}
                     <div className="PrizeD">
                     <DropDown
                         selectedValues={selectedValues2}
@@ -721,13 +859,13 @@ type OptionType = string;
                         width="Drop1"
                        
                       />
-                      
-                       {/* Check if validationStateerr.Pickup exists before accessing its properties */}
-                       {!ValidationStateerr.Pickup?.isValid && (
-  <span className="ErrormsgPickup">
-    {ValidationStateerr?.Pickup?.errorMessage || ""}
-  </span>
-)}
+
+                      {/* Check if validationStateerr.Pickup exists before accessing its properties */}
+                      {!ValidationStateerr.Pickup?.isValid && (
+                        <span className="ErrormsgPickup">
+                          {ValidationStateerr?.Pickup?.errorMessage || ""}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div>
@@ -787,11 +925,15 @@ type OptionType = string;
                 <Toggle toggle={delivery} setToggle={setDelivery} />
               </div>
             </div>
-            <div className= {online?"DeliverySectionNormal":"DeliverySectionNormalclose"} >
+            <div
+              className={
+                online ? "DeliverySectionNormal" : "DeliverySectionNormalclose"
+              }
+            >
               {delivery ? (
                 <div>
                   <p className="LabelPrice"> Price*</p>
-                  <div className="DineInInput11Normal delivery">
+                  <div className="Online-delivery">
                     <input
                       type="text"
                       className="DineInInput1Normal"
@@ -804,10 +946,10 @@ type OptionType = string;
                       }
                     ></input>
                     {!ValidationStateerr.DeliveryPrice?.isValid && (
-  <span className="ErrormsgPickupPrice">
-    {ValidationStateerr?.DeliveryPrice?.errorMessage || ""}
-  </span>
-)}
+                      <span className="ErrormsgPickupPrice">
+                        {ValidationStateerr?.DeliveryPrice?.errorMessage || ""}
+                      </span>
+                    )}
                     <div className="DeliveryD">
                       <DropDown
                         selectedValues={selectedValues3}
@@ -820,11 +962,11 @@ type OptionType = string;
                         validation={validationState.Delivery}
                         width="Drop1"
                       />
-                          {!ValidationStateerr.Delivery?.isValid && (
-  <span className="ErrormsgPickup">
-    {ValidationStateerr?.Delivery?.errorMessage || ""}
-  </span>
-)}
+                      {!ValidationStateerr.Delivery?.isValid && (
+                        <span className="ErrormsgPickup">
+                          {ValidationStateerr?.Delivery?.errorMessage || ""}
+                        </span>
+                      )}
                     </div>
 
                   </div>

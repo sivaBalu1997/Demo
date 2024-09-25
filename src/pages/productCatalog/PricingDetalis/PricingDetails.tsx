@@ -5,7 +5,6 @@ import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Specialavail from "../../../components/productCatalog/SpecialAvail/Specialavail";
 import Normalavail from "../../../components/productCatalog/Normalavail/Normalavail";
 import { useDispatch, useSelector } from "react-redux";
-import Tooltip from "../../../components/productCatalog/Tooltip/Tooltip";
 import {
   getTagClassRequest,
   PricingDetailRequest,
@@ -530,7 +529,7 @@ const PricingDetails = () => {
 
               <div className="D2kitchen">
                 <div className="Prepartiontime">
-                  <label htmlFor="">Preparation time</label>
+                  <label htmlFor="" className="heading">Preparation time</label>
                   <div className="Prepartiontime-input-fileds">
                     <input type="text" className="Prepartiontime-input-hours" />
                     <span>Hours</span>

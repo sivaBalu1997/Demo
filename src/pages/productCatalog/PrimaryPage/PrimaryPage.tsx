@@ -35,8 +35,10 @@ import {
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import { RootState } from "redux/rootReducer";
-import Tooltip from "components/productCatalog/Tooltip/Tooltip";
+
 import { stat } from "fs";
+import TooltipMsg from "components/productCatalog/Tooltip/TooltipMsg";
+import { useLocation } from "react-router-dom";
 
 interface Ingredients {
   id: string;
@@ -105,6 +107,16 @@ export interface StateDataTag3 {
     bestPairData: [];
   };
 }
+interface ListingData{
+  addMockDataReducer:
+  {
+    data:Item[];
+  }
+  storeMockDataReducer:{
+    data:Item[];
+  }
+
+}
 
 interface primarypage {
   primarypage: {
@@ -124,9 +136,33 @@ interface ImageOptions {
 
 interface ImageFile {
   file: File;
-  // uploaded: boolean;
-  // failed: boolean;
+  uploaded: boolean;
+  failed: boolean;
   preview: string; // To store the image preview URL
+}
+interface LocationState {
+  id: number;
+}
+interface PricingDetails {
+  Dinein1: string[];
+  Pickup1: string[];
+  Delivery1: string[];
+  Dinein2: string[];
+  Pickup2: string[];
+  Delivery2: string[];
+  Inventory1: string[];
+  Customize1: string[];
+}
+
+interface Item {
+  id: number;
+  itemName: string;
+  itemCode: string;
+  type: string;
+  mealType: string;
+  dietary: string;
+  cusine: string;
+  pricingdetails: PricingDetails;
 }
 
 const PrimaryPage = () => {
@@ -166,38 +202,50 @@ const PrimaryPage = () => {
       masterCode: "",
     },
   });
-  const { isExpanded } = useContext(Contextpagejs);
-  const [dataImages, setDataImages] = useState(imageslist);
-  const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
-  const [dataCuisine, setDataCuisine] = useState(cuisine);
-  const [dataMealType, setDataMealType] = useState(mealType);
-  const [dataBestPair, setDataBestPair] = useState();
-  const [dataSubcategory, setDataSubcategory] = useState(subcategory);
-  const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
-    []
-  );
-  
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [images, setImages] = useState<ImageFile[]>([]);
-  const [description, setDescription] = useState("");
-  const [charCount, setCharCount] = useState(0);
-  const maxDescriptonLength = 100;
-  
+
+  const location = useLocation<LocationState | undefined>(); 
+  console.log("Edit id ",location.state?.id)
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
+  const addedData=useSelector((state:ListingData)=> state.addMockDataReducer.data)
+
+  const Mockdata = useSelector((state:ListingData) => state.storeMockDataReducer.data);
+  const mergedMockData =  [ ...Mockdata,...addedData] 
+   const [SelectedFooditemtoedit,setSelectedFooditemtoedit]=useState<Item[]>();
+
+  console.log("mergedMockData",mergedMockData)
+  useEffect(() => {
+    const SelectedFooditemtoedit = mergedMockData.filter(
+      (item) => item.id === location.state?.id
+    );
+    
+    console.log("SelectedFooditemtoedit", SelectedFooditemtoedit);
+    
+    if (SelectedFooditemtoedit && SelectedFooditemtoedit[0]) {
+      const selectedItem = SelectedFooditemtoedit[0];
+  
+      setValue("itemName", selectedItem?.itemName);
+      setValue("dietaryType", selectedItem?.dietary); 
+      setValue("cuisine", selectedItem?.cusine);       
+      setValue("mealType", selectedItem?.mealType);
+      setValue("itemCode", selectedItem?.itemCode);
+    
+    }
+  }, [mergedMockData, location.state?.id, setValue]);
+
+  
 
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
   );
 
-
   const ItemsPrimaryDetails = useSelector(
     (state: primarypage) => state.primarypage.data
   );
+
   useEffect(() => {
     if (ItemsPrimaryDetails) {
-      // Assuming ItemsPrimaryDetails has matching keys as FormData
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("dietaryType", ItemsPrimaryDetails.dietaryType);
       setValue("cuisine", ItemsPrimaryDetails.cuisine);
@@ -219,18 +267,36 @@ const PrimaryPage = () => {
       setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
       setValue("tax", ItemsPrimaryDetails.tax);
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
-      setDescription(ItemsPrimaryDetails?.description)
     }
   }, [ItemsPrimaryDetails, setValue]);
-  console.log("ItemsPrimaryDeatils",ItemsPrimaryDetails)
+  
+  console.log("ItemsPrimaryDeatils",ItemsPrimaryDetails);
+  
+
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
   );
+
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
 
- 
+  const { isExpanded } = useContext(Contextpagejs);
+  const [dataImages, setDataImages] = useState(imageslist);
+  const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
+  const [dataCuisine, setDataCuisine] = useState(cuisine);
+  const [dataMealType, setDataMealType] = useState(mealType);
+  const [dataBestPair, setDataBestPair] = useState();
+  const [dataSubcategory, setDataSubcategory] = useState(subcategory);
+  const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
+    []
+  );
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [images, setImages] = useState<ImageFile[]>([]);
+  const [description, setDescription] = useState("");
+  const [charCount, setCharCount] = useState(0);
+  const maxDescriptonLength = 100;
   const maxImages = 7;
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     dietaryType: false,
@@ -276,13 +342,7 @@ const PrimaryPage = () => {
   };
 
   const handleImageDeletion = (index: number) => {
-    const updatedDeletionImage=images.filter((_, i) => i !== index);
-    setImages(() => {
-      const updatedImages = updatedDeletionImage;
-      const updatedImageUrls = updatedImages.map((image) => image);
-      setValue("imageUrls", updatedImageUrls);
-      return updatedImages;
-    });
+    setImages(images.filter((_, i) => i !== index));
   };
 
   const selectedradiowatch = watch();
@@ -352,7 +412,7 @@ const PrimaryPage = () => {
         .map((file) => {
           if (!validImageTypes.includes(file.type)) {
             alert(
-              `Invalid file type:  Only PNG and JPG are allowed.`
+              `Invalid file type: ${file.name}. Only PNG and JPG are allowed.`
             );
             return null;
           }
@@ -362,12 +422,14 @@ const PrimaryPage = () => {
           }
           return {
             file,
+            uploaded: false,
+            failed: false,
             preview: URL.createObjectURL(file),
           };
         })
         .filter((file): file is ImageFile => file !== null);
-      if (fileArray.length + images.length > 6) {
-        alert("You can upload a maximum of 6 images.");
+      if (fileArray.length + images.length > 7) {
+        alert("You can upload a maximum of 7 images.");
         return;
       }
       
@@ -377,7 +439,7 @@ const PrimaryPage = () => {
   
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
-        // console.log(updatedImageUrls, "updatedImageUrls");
+        console.log(updatedImageUrls, "updatedImageUrls");
         return updatedImages;
       });
     }
@@ -417,6 +479,9 @@ const PrimaryPage = () => {
     (state: StateDataTag3) => state.productCatalog.bestPairData
   );
 
+  
+
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -440,7 +505,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemNameData"
                     control={control}
-                    // rules={{ required: "ItemName is required" }}
+                    rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemNameData"
@@ -470,7 +535,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        // validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "dietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -498,7 +563,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        // validation={{ required: "cuisine is required" }}
+                        validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -561,7 +626,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          // validation={{ required: "This field is required" }}
+                          validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -572,11 +637,20 @@ const PrimaryPage = () => {
                       )}
                     />
                     <div className="tool-tip-best-pair">
-                      <Tooltip message="Kitchen Related">
+                    <TooltipMsg
+                        message="Select up to 5 food items that pair best with this dish."
+                        styles={{marginTop:"1rem",marginLeft:"-2rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
+                        Arrowstyle={{position:'relative',top:'-1rem',marginLeft:'-2rem'}}
+                      >
                         <div className="ToolKitchen">
-                          <img src={info} alt="" width={25} height={25} />
+                          <img
+                            src={info}
+                            alt="info icon"
+                            width={20}
+                            height={20}
+                          />
                         </div>
-                      </Tooltip>
+                      </TooltipMsg>
                     </div>
                   </div>
                 </div>
@@ -596,12 +670,7 @@ const PrimaryPage = () => {
                             value={description} // Controlled input with useState
                             onChange={(e) => handleDescriptionInputChange(e)}
                             maxLength={maxDescriptonLength}
-                            style={{
-                              borderColor:
-                                charCount === maxDescriptonLength
-                                  ? "red"
-                                  : "#979797",
-                            }}
+                            
                           />
                           <p
                             style={{
@@ -659,8 +728,7 @@ const PrimaryPage = () => {
                         <img
                           className="uploaded-image"
                           src={img.preview}
-                          alt={`Preview of 
-                          `}
+                          alt={`Preview of ${img.file.name}`}
                         />
                         {/* <div>
                           {img.file.name} -{" "}
@@ -714,11 +782,21 @@ const PrimaryPage = () => {
                       )}
                     />{" "}
                     <div className="tool-tip-item-code">
-                      <Tooltip message="KitchenRelated">
+
+                      <TooltipMsg
+                        message="Enter a unique code for this food item, used for identification."
+                        styles={{width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
+                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
+                      >
                         <div className="ToolKitchen">
-                          <img src={info} alt="" width={25} height={25} />
+                          <img
+                            src={info}
+                            alt="info icon"
+                            width={20}
+                            height={20}
+                          />
                         </div>
-                      </Tooltip>{" "}
+                      </TooltipMsg>
                     </div>
                   </div>
                 </div>
@@ -776,14 +854,32 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-Allergens-selection">
-                  <Imagepillsselection
+                  <div> <Imagepillsselection
                     heading="Allergens*"
                     options={validImages}
                     setValue={setValue}
                     name="allergens"
                     register={register}
-                  />
+                  /></div>
+                 
+                  
                 </div>
+                <div className="tool-tip-Allergen">
+                    <TooltipMsg
+                        message="Provide information about any allergens present in this food item"
+                        styles={{marginTop:"1rem",marginLeft:"-20rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
+                        Arrowstyle={{position:'relative',top:'-1rem',left:'19rem'}}
+                      >
+                        <div className="ToolKitchen">
+                          <img
+                            src={info}
+                            alt="info icon"
+                            width={20}
+                            height={20}
+                          />
+                        </div>
+                      </TooltipMsg>
+                    </div>
               </div>
             </div>
             <div className="Primary-page-container-two">
@@ -813,7 +909,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          placeholder="Cal"
+                          subtext="cal"
                         />
                       )}
                     />
@@ -843,20 +939,17 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          placeholder={getValues("selectedPortion")}
+                          subtext={getValues("selectedPortion")}
+                          // placeholder={getValues("selectedPortion")}
                         />
                       )}
                     />
-                    <div className="tool-tip-portion-size">
-                      <Tooltip message="Kitchen Related">
-                        <div className="ToolKitchen">
-                          <img src={info} alt="" width={25} height={25} />
-                        </div>
-                      </Tooltip>
-                    </div>
+                    {/* <div className="tool-tip-portion-size">
+                    
+                    </div> */}
                   </div>
 
-                  <div className="Primary-Page-inputfiled-and-tooltip">
+                  <div className="Primary-Page-inputfiled-and-tooltip portionSize-Radio">
                     <RadioButtonGroup
                       options={portionsizeradio}
                       name="selectedPortion"
@@ -867,11 +960,20 @@ const PrimaryPage = () => {
                       register={register}
                     />
                     <div className="portionsizeTooltip">
-                      <Tooltip message="Kitchen Related">
+                     <TooltipMsg
+                        message="Specify the portion size for this item, either by count or weight."
+                        styles={{marginTop:"-2rem",marginLeft:"2rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
+                        Arrowstyle={{rotate:'-90deg',position:'relative',left:'-1.5rem'}}
+                      >
                         <div className="ToolKitchen">
-                          <img src={info} alt="" width={25} height={25} />
+                          <img
+                            src={info}
+                            alt="info icon"
+                            width={20}
+                            height={20}
+                          />
                         </div>
-                      </Tooltip>
+                      </TooltipMsg>
                     </div>
                   </div>
                 </div>
@@ -895,11 +997,20 @@ const PrimaryPage = () => {
                         )}
                       />
                       <div className="tool-tip-tax-class">
-                        <Tooltip message="Kitchen Related">
-                          <div className="ToolKitchen">
-                            <img src={info} alt="" width={25} height={25} />
-                          </div>
-                        </Tooltip>
+                      <TooltipMsg
+                        message="Create or select a tax amount to associate with this item"
+                        styles={{position:'relative',top:"-3rem",left:"1rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
+                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-2.35rem'}}
+                      >
+                        <div className="ToolKitchen">
+                          <img
+                            src={info}
+                            alt="info icon"
+                            width={20}
+                            height={20}
+                          />
+                        </div>
+                      </TooltipMsg>
                       </div>
                     </div>
                   </div>
@@ -918,15 +1029,24 @@ const PrimaryPage = () => {
                             register={register}
                             inputCount={4}
                             error={errors.masterCode}
-                            // validation={{ required: "Master code is required" }}
+                            validation={{ required: "Master code is required" }}
                           />
                         )}
                       />
-                      <Tooltip message="Kitchen Related">
+                      <TooltipMsg
+                        message="Enter a unique code for this food item, used for identification."
+                        styles={{ position:'relative',top:'-2rem',left:'1rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
+                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
+                      >
                         <div className="ToolKitchen">
-                          <img src={info} alt="" width={25} height={25} />
+                          <img
+                            src={info}
+                            alt="info icon"
+                            width={20}
+                            height={20}
+                          />
                         </div>
-                      </Tooltip>
+                      </TooltipMsg>
                     </div>
                   </div>
                 </div>

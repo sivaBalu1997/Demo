@@ -66,8 +66,7 @@ import {
   getSubSectionData,
   getId,
   store,
-  getSubSectionData,
-  getItemCode
+  
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -94,8 +93,6 @@ import {
   UPLOAD_IMAGE_FAILURE,
   ADD_MENU_ITEM_SUCCESS,
 
-  DELETEDROPDOWN_REQUEST,
-  GET_ITEM_CODE_REQUEST
  
 } from "./productCatalogConstants";
 
