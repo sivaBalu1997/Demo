@@ -78,8 +78,8 @@ const Slider: React.FC<SliderProps> = ({
   const handleEyeClick = () => {
     setEye(true);
     const UpdatedeleteItem = data.filter((item: SideBarData) => item.id !== SideBarData[0].id);
-    dispatch(storeMockDataRequest(UpdatedeleteItem));
-    dispatch(addMockDataHiddenRequest(SideBarData))
+    // dispatch(storeMockDataRequest(UpdatedeleteItem));
+    // dispatch(addMockDataHiddenRequest(SideBarData))
     
   };
 
@@ -87,7 +87,7 @@ const Slider: React.FC<SliderProps> = ({
     const UpdatedeleteItem = data.filter(
       (item: SideBarData) => item.id !== SideBarData[0].id
     );
-    dispatch(storeMockDataRequest(UpdatedeleteItem));
+    // dispatch(storeMockDataRequest(UpdatedeleteItem));
     onclose()
   };
 

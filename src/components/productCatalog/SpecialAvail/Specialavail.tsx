@@ -517,7 +517,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
             ))}
 
           <div className={` Add-entry ${
-                dineinfields.length
+                dineinfields?.length
                   ? "AddentrySpecial"
                   : "AddentrySpecialOnToggle"
               }`}

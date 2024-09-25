@@ -14,7 +14,7 @@ import {
   addMenuItemRequest,
   addMockDataRequest,
   cleanMenuItemSuccessMsg,
-  uploadImage,
+  
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
@@ -115,7 +115,7 @@ interface ImageId {
 }
 
 const PrimaryDetailsReviewpage: React.FC = () => {
-  const history=useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
@@ -278,9 +278,10 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
         status: uploadStatus.status,
         index: indexToReplace,
       };
+      dispatch(cleanMenuItemSuccessMsg())
 
       setTimeout(() => {
-        dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
+        // dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
       }, 5000);
       // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
@@ -292,7 +293,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
 
   const handleDispatch = async () => {
     checkAllImagesForErrors();
-    const allUploaded = uploadedimage.every(
+    const allUploaded =  uploadedimage.every(
       (img) => img && !hasImageError(img.file)
     );
 
@@ -302,12 +303,20 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
         dispatch(cleanMenuItemSuccessMsg())
 
         setTimeout(() => {
-          history.push("/menuListing");
           
-        }, 2000);
+          setTimeout(() => checkAllImagesForErrors(), 0);
+ 
+          if(allUploaded && allSuccess){
+            history.push("/menuListing");
+
+          }
+          
+          
+        }, 5000);
 
        
       } else {
+        setdisablesubmitbtn(true)
         console.log("Not all images are uploaded successfully.");
       }
     }
@@ -497,7 +506,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
               <div className="primaryreviewdetailspart2">
                 <div>
                   <Link
-                    to="/Navigationpage"
+                    to="/productCatalog/PrimaryDetails"
                     className="primarypageedit"
                     onClick={() => setActiveCategory("Step 1: Primary Details")}
                   >
@@ -688,26 +697,29 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
 
                 <div className="allergensandingredients">
                   <div>
-                    {
-                      fetchedprimarydata?.ingredients?.length>0 && <> <p className="ingredients">Ingredients</p>
-                      <ImagePillsSelected
-                        imageselected={fetchedprimarydata}
-                        name="Ingredients"
-                      /></>
-                    }
-                   
+                    {fetchedprimarydata?.ingredients?.length > 0 && (
+                      <>
+                        {" "}
+                        <p className="ingredients">Ingredients</p>
+                        <ImagePillsSelected
+                          imageselected={fetchedprimarydata}
+                          name="Ingredients"
+                        />
+                      </>
+                    )}
                   </div>
 
                   <div>
-                    {
-                       fetchedprimarydata?.allergens?.length>0 &&
-                       <> <p className="allergen">Allergens</p>{" "}
-                       <ImagePillsSelected
-                         imageselected={fetchedprimarydata}
-                         name="allergens"
-                       /></>
-                    }
-                   
+                    {fetchedprimarydata?.allergens?.length > 0 && (
+                      <>
+                        {" "}
+                        <p className="allergen">Allergens</p>{" "}
+                        <ImagePillsSelected
+                          imageselected={fetchedprimarydata}
+                          name="allergens"
+                        />
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -718,11 +730,6 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                 <Step3Review />
               </div>
             </div>
-            {/* <div className="part-two">
-                <Step2 />
-                <div className="verticalLine" />
-                <Step3Review />
-              </div> */}
           </div>
         </div>{" "}
         <div

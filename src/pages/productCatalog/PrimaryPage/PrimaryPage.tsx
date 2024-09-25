@@ -246,7 +246,7 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
-      setValue("itemName", ItemsPrimaryDetails.itemName);
+      // setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("dietaryType", ItemsPrimaryDetails.dietaryType);
       setValue("cuisine", ItemsPrimaryDetails.cuisine);
       setValue("mealType", ItemsPrimaryDetails.mealType);

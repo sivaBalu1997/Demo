@@ -40,11 +40,8 @@ import {
   fetchDropDownFailure,
   uploadImageSuccess,
   uploadImageFailure,
-  fetchDropDownFailure,
-  getItemCodeSuccess,
-  getItemCodeFailure
-
-
+ 
+ 
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -66,9 +63,9 @@ import {
   getSubSectionData,
   getId,
   store,
-  
+ 
 } from "../productCatalog/productCataloglogAPI";
-
+ 
 import {
   ADD_MENU_ITEM_REQUEST,
   DELETE_MENU_ITEM_REQUEST,
@@ -81,7 +78,7 @@ import {
   UPDATE_MENU_ATTRIBUTE_REQUEST,
   UPDATE_MENU_ITEM_REQUEST,
   Get_ItemImage,
-    DIET_DROPDOWN_LIST_REQUEST,
+  DIET_DROPDOWN_LIST_REQUEST,
   CUISINE_DATA_REQUEST,
   CATEGORY_DATA_REQUEST,
   SUBCATEGORY_DATA_REQUEST,
@@ -92,22 +89,10 @@ import {
   UPLOAD_IMAGE_SUCCESS,
   UPLOAD_IMAGE_FAILURE,
   ADD_MENU_ITEM_SUCCESS,
-
+ 
  
 } from "./productCatalogConstants";
-
-function* getCategorySaga(action) {
-  try {
-    const response = yield call(getCategory, action.payload);
-    if (response.status === 200) {
-      yield put(getMenuCategorySuccess(response.data));
-    }
-  }
-  catch(error){
-
-  }
-}
-
+ 
 function* fetchDropdownDataSaga(action) {
   // const { dropDownType } = action.payload;
   try {
@@ -115,7 +100,7 @@ function* fetchDropdownDataSaga(action) {
     if (response) {
       switch (action.payload) {
         case 'dietary':
-          // yield put(dietdatasuccess(response));
+          yield put(dietdatasuccess(response));
           break;
         case 'cuisine':
           yield put(cuisineDataSuccess(response));
@@ -139,19 +124,7 @@ function* fetchDropdownDataSaga(action) {
     yield put(fetchDropDownFailure({ message: 'Please try again' }));
   }
 }
-
-function* getSubCategorySaga(action) {
-  try {
-    const response = yield call(getSubCategory, action.payload);
-    if (response.status === 200) {
-      yield put(getMenuSubCategorySuccess(response.data));
-    } else {
-      yield put(getMenuSubCategoryFailed({ message: "please Try Again" }));
-    }}catch(error){
-
-    }
-  }
-
+ 
 //Delete subSection
 function* deleteSubSectionSaga(action) {
   try {
@@ -165,7 +138,7 @@ function* deleteSubSectionSaga(action) {
     yield put(deleteDietaryFailure({ message: 'please Try Again' }))
   }
 }
-
+ 
 function* getTagClassSaga(action) {
   try {
     const response = yield call(getTagClass, action.payload);
@@ -178,7 +151,7 @@ function* getTagClassSaga(action) {
     yield put(getTagClassFailed({ message: "please Try Again" }));
   }
 }
-
+ 
 function* getModifierSaga(action) {
   try {
     const response = yield call(getModifier, action.payload);
@@ -191,7 +164,7 @@ function* getModifierSaga(action) {
     yield put(getModifierFailed());
   }
 }
-
+ 
 function* getIngredientsSaga(action) {
   try {
     const response = yield call(getIngredients, action.payload);
@@ -210,7 +183,7 @@ function* getIngredientsSaga(action) {
     yield put(getIngredientsFailed({ message: "please Try Again" }));
   }
 }
-
+ 
 function* getAvailabilitySaga(action) {
   try {
     const response = yield call(getAvailability, action.payload);
@@ -223,24 +196,24 @@ function* getAvailabilitySaga(action) {
     yield put(getAvailabilityFailed({ message: "please Try Again" }));
   }
 }
-
+ 
 function* addMenuItemSaga(action) {
   try {
     const addApi = yield call(getId);
     const addApiresponse = addApi.data;
-
+ 
     if (addApi.status === 200) {
       yield put(addMenuItemSuccess(addApiresponse));
-
+ 
       const images = action.payload[0].imageUrls.map((image) => image.file);
       console.log("Images to upload:", images);
-
+ 
       for (const [index, image] of images.entries()) {
         yield put({
           type: UPLOAD_IMAGE_IN_PROGRESS,
           payload: { image, addApiresponse, index },
         });
-
+ 
         yield take([UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE]);
       }
     } else {
@@ -250,23 +223,23 @@ function* addMenuItemSaga(action) {
     yield put(addMenuItemFailed({ message: "Please Try Again" }));
   }
 }
-
+ 
 function* uploadImageSaga(action) {
   const { image, addApiresponse, index } = action.payload;
   try {
     const formData = new FormData();
     formData.append("id", addApiresponse);
     formData.append("formData", image);
-
+ 
     console.log(`Uploading image at index ${index}:`, image.name);
-
-
+ 
+ 
     const response = yield call(store, formData);
-
-
-
+ 
+ 
+ 
     console.log(`Response for image at index ${index}:`, response);
-
+ 
     if (response.data.httpStatus === 200) {
       yield put(uploadImageSuccess(image, response.data.message, index));
       console.log(`Image upload succeeded for index ${index}`);
@@ -278,7 +251,7 @@ function* uploadImageSaga(action) {
     yield put(uploadImageFailure(image, addApiresponse, index, error.message));
   }
 }
-
+ 
 function* updateMenuItemSaga(action) {
   try {
     const response = yield call(updateMenuItem, action.payload);
@@ -291,7 +264,7 @@ function* updateMenuItemSaga(action) {
     yield put(updateMenuItemFailed({ message: "please Try Again" }));
   }
 }
-
+ 
 function* updateMenuAttributeSaga(action) {
   try {
     const response = yield call(updateMenuItemAttribute, action.payload);
@@ -304,7 +277,7 @@ function* updateMenuAttributeSaga(action) {
     yield put(updateMenuAttributeFailed({ message: "please Try Again" }));
   }
 }
-
+ 
 function* deleteMenuItemSaga(action) {
   try {
     const response = yield call(deleteMenuItem, action.payload);
@@ -317,7 +290,7 @@ function* deleteMenuItemSaga(action) {
     yield put(deleteMenuItemFailed({ message: "please Try Again" }));
   }
 }
-
+ 
 function* GetImageSaga(action) {
   try {
     const response = yield call(getImage);
@@ -330,24 +303,13 @@ function* GetImageSaga(action) {
     yield put(Get_Image_Failed({ message: "please Try Again" }));
   }
 }
-
-
-function* getItemCodeSaga(action) {
-  const { locationId, itemCode } = action.payload;
-  try {
-    const response = yield call(getItemCode, locationId, itemCode);
-    yield put(getItemCodeSuccess(response.data));
-  } catch (error) {
-    yield put(getItemCodeFailure(error.message));
-  }
-}
-
+ 
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
-
+ 
   yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
   yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga)
-
+ 
   // yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);
   yield takeLatest(GET_INGR_REQUEST, getIngredientsSaga);
@@ -359,5 +321,5 @@ export default function* productCatalog() {
   yield takeLatest(GET_AVAILABILITY_REQUEST, getAvailabilitySaga);
   yield takeLatest(UPDATE_MENU_ATTRIBUTE_REQUEST, updateMenuAttributeSaga);
   yield takeLatest(Get_ItemImage, GetImageSaga);
-  yield takeLatest(GET_ITEM_CODE_REQUEST, getItemCodeSaga);
 }
+ 

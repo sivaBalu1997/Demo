@@ -119,10 +119,3 @@ export function store(formData) {
     },
   });
 }
-
-export function getItemCode(locationId,itemCode) {
-  return API({
-    method: "get",
-    url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
-  });
-}

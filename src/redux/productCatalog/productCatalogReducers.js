@@ -40,7 +40,6 @@ import {
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
   ADD_MOCK_DATA_REQUEST,
-  ADD_MOCK_DATA_HIDDEN_REQUEST,
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
   DIET_DROPDOWN_LIST_FAILURE,
@@ -68,12 +67,11 @@ import {
   DELETESUBCATEGORY_REQUEST,
   DELETESUBCATEGORY_SUCCESS,
   DELETESUBCATEGORY_FAILURE,
-  GET_ITEM_CODE_REQUEST,
-  GET_ITEM_CODE_FAILURE,
-  GET_ITEM_CODE_SUCCESS
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAILURE,
+  UPLOAD_IMAGE_IN_PROGRESS,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
 } from "../productCatalog/productCatalogConstants";
-
-
 
 const initialProductCatalogState = {
   dietaryData: [],
@@ -156,7 +154,7 @@ const initialProductCatalogState = {
   updateMenuAttributeFailed: false,
 };
 
-export default function employeeReducer(
+export default function productCatalogReducer(
   state = initialProductCatalogState,
   action
 ) {
@@ -657,101 +655,62 @@ export const storeMockDataReducer = (state = mockData, action) => {
       };
     default:
       return state;
-    }}
+  }
+};
 
- 
+const mockDataFiltered = {
+  data: [],
+};
 
- 
+export const storeMockDataFilteredReducer = (
+  state = mockDataFiltered,
+  action
+) => {
+  switch (action.type) {
+    case STORE_MOCK_DATA_FILTERED_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
 
-  const mockDataFiltered = {
-    data: []
-  };
+    default:
+      return state;
+  }
+};
 
-  export  const storeMockDataFilteredReducer = (state = mockDataFiltered, action) => {
-    switch (action.type) {
-      case STORE_MOCK_DATA_FILTERED_REQUEST:
-        return {
-          ...state,data:action?.payload
-        };
-  
-    
-  
-      default:
-        return state;
-    }
-  };
- 
+// {**************************AddMockData***********************************************}
 
-  // {**************************AddMockData***********************************************}
+const addMockData = {
+  data: [],
+};
 
-  const addMockData = {
-    data: []
+export const addMockDataReducer = (state = mockDataFiltered, action) => {
+  switch (action.type) {
+    case ADD_MOCK_DATA_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
+
+    default:
+      return state;
   }
 
-  export  const addMockDataReducer = (state = mockDataFiltered, action) => {
-    switch (action.type) {
-      case ADD_MOCK_DATA_REQUEST:
-        return {
-          ...state,data:action?.payload
-        };
-  
-    
-  
-      default:
-        return state;
-    }
-  };
+};
+const addMockHiddenData = {
+  data: [],
+};
 
+export  const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
+  switch (action.type) {
+    case ADD_MOCK_DATA_HIDDEN_REQUEST:
+      return {
+        ...state,
+        data: action?.payload,
+      };
+ 
 
-  const addMockHiddenData = {
-    data: []
+    default:
+      return state;
   }
-
-  export  const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
-    switch (action.type) {
-      case ADD_MOCK_DATA_HIDDEN_REQUEST:
-        return {
-          ...state,
-          data: action?.payload,
-        };
-    
-  
-      default:
-        return state;
-    }
-  };
-
-  const checkItemCode = {
-    loading: false,
-    data: null,
-    error: null,
-  };
-
-
-  export const checkItemCodeReducer = (state = checkItemCode, action) => {
-    switch (action.type) {
-      case GET_ITEM_CODE_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
-  
-      case GET_ITEM_CODE_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          data: action.payload,
-        };
-  
-      case GET_ITEM_CODE_FAILURE:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-  
-      default:
-        return state;
-    }
-  };
+};
