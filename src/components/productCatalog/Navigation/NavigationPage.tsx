@@ -20,14 +20,7 @@ const Navigationpage = () => {
   const history = useHistory();
   const location = useLocation<LocationState | undefined>(); 
 
-    const getPath = (pathName: string) => {
-    const matchedPath = categories.find((category) =>
-      pathName.includes(category.replace(/\s+/g, ""))
-    );
-    return matchedPath || categories[0]; 
-  };
-
-  const [currentPage, setCurrentPage] = useState<string>(getPath(location.pathname));
+  const [currentPage, setCurrentPage] = useState<string>("Primary Details");
 
   useEffect(() => {
     if (location.state?.pagename) {

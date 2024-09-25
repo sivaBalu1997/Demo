@@ -31,11 +31,6 @@
   --cchart-border: #000000;
 }
 
-.p-expanded-width-sales {
-  width: 83% !important;
-  // margin-left: -1.5rem;
-}
-
 .p-product-insights-container {
   background-color: var(--screen-bg);
   display: flex;
@@ -44,11 +39,7 @@
   gap: 0.5rem;
   align-items: center;
   height: 100%;
-  width: 91vw !important;
-  margin-left: -1.5rem;
-  @media (max-width: 500px) {
-    width: 100vw;
-  }
+  width: 80vw;
 
   .p-prod-insights-head {
     padding-left: 1.5rem;
@@ -63,7 +54,7 @@
       align-items: center;
       color: var(--table-text);
 
-      h1 {
+      h1{
         font-size: 21px;
         font-weight: 500;
       }
@@ -79,13 +70,10 @@
       .p-label-time-period {
         font-weight: 600;
         color: var(--table-text);
-        @media (max-width: 800px) {
-          display: none;
-        }
       }
 
       .p-filter-toggle-btn-container {
-        position: relative;
+        position: relative; // Relative to contain the absolute dropdown
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -104,19 +92,14 @@
           border: 1px solid #000;
           border-radius: 0.8rem;
           cursor: pointer;
-          @media (max-width: 800px) {
-            width: 6rem;
-            height: 1rem;
-            font-size: smaller;
-          }
         }
 
         .p-filter-drop-down-options {
-          position: absolute;
-          top: 110%;
+          position: absolute; // Absolute to overlay other elements
+          top: 110%; // Positions dropdown just below the button
           left: 50%;
           transform: translateX(-50%);
-          width: 12rem;
+          width: 12rem; // Adjusted for better fit
           padding: 0.5rem;
           background-color: var(--navbar-bg);
           color: var(--navbar-text);
@@ -124,17 +107,12 @@
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
           z-index: 999;
           border-radius: 1rem;
-          @media (max-width: 800px) {
-            width: 6rem;
-            font-size: x-small;
-          }
 
           p {
             margin: 0;
             padding: 0.5rem;
             cursor: pointer;
             border-radius: 0.6rem;
-            text-align: center;
             &:hover {
               background-color: var(--navbar-text);
               color: var(--navbar-bg);
@@ -142,42 +120,27 @@
           }
         }
       }
-    }
-  }
 
-  .p-date-range-style {
-    display: flex;
-    height: 60px;
-    right: 1rem;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 1rem;
-    width: 100%;
+      .p-date-range-style {
+        display: flex;
+        gap: 2rem;
 
-    .p-dateLabel {
-      align-items: flex-start;
-      margin-right: 0.5rem;
-      color: var(--table-text);
-    }
+        .p-start-date {
+          height: 2rem;
+          width: 7rem;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          border-style: thin;
+        }
 
-    .p-start-date {
-      height: 2rem;
-      width: 9rem;
-      padding: 0.5rem;
-      border-radius: 0.6rem;
-      border-style: thin;
-      margin-right: 1rem;
-    }
-
-    .p-end-date {
-      height: 2rem;
-      width: 9rem;
-      padding: 0.5rem;
-      border-radius: 0.6rem;
-      border-style: thin;
-    }
-    @media (max-width: 500px) {
-      justify-content: center;
+        .p-end-date {
+          height: 2rem;
+          width: 7rem;
+          padding: 0.5rem;
+          border-radius: 1rem;
+          border-style: thin;
+        }
+      }
     }
   }
 
@@ -194,46 +157,40 @@
   .p-top-twenty-popular-items {
     border-radius: 1rem;
     width: 69%;
+    height: 33rem;
   }
 
   .p-least-twenty-popular-items {
     border-radius: 1rem;
     width: 69%;
+    height: 33rem;
   }
 
   .p-top-ten-voided-items {
     border-radius: 1rem;
     width: 69%;
+    height: 33rem;
   }
 
   .p-top-cancelled-items {
     border-radius: 1rem;
     width: 69%;
+    height: 33rem;
   }
 
   .p-product-summary-dropdown-cont {
-    width: 60vw;
+    width: 70vw;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
     gap: 0.5rem;
-    @media (max-width: 800px) {
-      width: 58vw;
-    }
-    @media (max-width: 412px) {
-      width: 74vw;
-    }
 
     p {
       font-weight: 600;
       color: var(--table-text);
-      @media (max-width: 800px) {
-        font-size: small;
-      }
     }
 
     .p-filter-toggle-btn-container {
-      position: relative;
+      position: relative; // Relative to contain the absolute dropdown
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -242,6 +199,7 @@
       .p-filter-toggle-btn {
         text-align: center;
         padding: 0.5rem;
+        width: 10rem;
         color: #000;
         background-color: #ccc;
         display: flex;
@@ -250,21 +208,15 @@
         border: 1px solid #000;
         border-radius: 0.8rem;
         cursor: pointer;
-        width: 10rem;
         height: 2rem;
-        @media (max-width: 800px) {
-          width: 5rem;
-          height: 1rem;
-          font-size: xx-small;
-        }
       }
 
       .p-filter-drop-down-options {
-        position: absolute;
-        top: 110%;
+        position: absolute; // Absolute to overlay other elements
+        top: 110%; // Positions dropdown just below the button
         left: 50%;
         transform: translateX(-50%);
-        width: 12rem;
+        width: 12rem; // Adjusted for better fit
         padding: 0.5rem;
         background-color: var(--navbar-bg);
         color: var(--navbar-text);
@@ -272,22 +224,15 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         z-index: 999;
         border-radius: 1rem;
-        @media (max-width: 800px) {
-          width: 5rem;
-        }
 
         p {
           margin: 0;
           padding: 0.5rem;
           cursor: pointer;
           border-radius: 0.6rem;
-          text-align: center;
           &:hover {
             background-color: var(--navbar-text);
             color: var(--navbar-bg);
-          }
-          @media (max-width: 800px) {
-            font-size: xx-small;
           }
         }
       }

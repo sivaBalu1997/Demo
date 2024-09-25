@@ -4,9 +4,10 @@ import employeeReducer from "./employee/employeeReducers";
 import menuReducer from "./menu/menuReducer";
 import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
-// import offerReducer from "./offer/offerReducer";
-import productCatalogReducer, { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer,imageUploadReducer } from "./productCatalog/productCatalogReducers";
+import productCatalogReducer, { addMockDataHiddenReducer, addMockDataReducer, storeMockDataFilteredReducer, storeMockDataReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
+import { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer } from "./productCatalog/productCatalogReducers";
+import { addMockDataHiddenRequest } from "./productCatalog/productCatalogActions";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -22,9 +23,7 @@ const rootReducer = combineReducers({
   storeMockDataReducer:storeMockDataReducer,
   storeMockDataFilteredReducer:storeMockDataFilteredReducer,
   addMockDataReducer:addMockDataReducer,
-  imageUpload:imageUploadReducer
-
-
+  addMockDataHiddenReducer:addMockDataHiddenReducer
 });
 
 export { rootReducer };

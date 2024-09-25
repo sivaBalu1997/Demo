@@ -44,11 +44,12 @@ import PricingDetails from 'pages/productCatalog/PricingDetalis/PricingDetails'
 import ItemCustomizations from 'pages/productCatalog/itemCustomization/ItemCustomizations'
 import MainPage from 'pages/productCatalog/MainPage/MainPage'
 
-import { Contextpage } from "pages/productCatalog/contextpage";
-import SidePanel from "pages/SidePanel";
-import Report from 'pages/report'
+import { Contextpage } from 'pages/productCatalog/contextpage'
+import SidePanel from 'pages/SidePanel'
 
-const Routers = () => {
+
+const Routers = ()  =>  {
+
   const MIN_WIDTH = 800;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [belowMinWidth, setBelowMinWidth] = useState(
@@ -73,54 +74,22 @@ const Routers = () => {
           <ThemeProvider>
             <Route exact path="/review" component={ReviewMenu} />
             <Route exact path="/Offers" component={Offerdetails} />
-            <Route
-              exact
-              path="/management/Offers/TemplateOffer"
-              component={TemplateOffer}
-            />
-            <Route
-              exact
-              path="/management/Offers/AddOffer"
-              component={AddOffer}
-            />
+            <Route exact path="/management/Offers/TemplateOffer" component={TemplateOffer} />
+            <Route exact path="/management/Offers/AddOffer" component={AddOffer} />
             <Route exact path="/Offers/CreateOffer" component={CreateOffer} />
             <Route exact path="/Offers/EditOffer" component={CreateOffer} />
-            <Route
-              exact
-              path="/management/Offers/PreviewOffer"
-              component={PreviewOffer}
-            />
+            <Route exact path="/management/Offers/PreviewOffer" component={PreviewOffer}/>
 
             <Route exact path="/employees/add" component={AddEmployee} />
             <Route exact path="/employees/add/:id" component={AddEmployee} />
-            <Route
-              exact
-              path="/employees/details/:id"
-              component={EmployeeDetails}
-            />
+            <Route exact path="/employees/details/:id" component={EmployeeDetails}  />
 
             <Route exact path="/management/billing" component={Billing} />
-            <Route
-              exact
-              path="/management/billing/changeplan"
-              component={ChangePlan}
-            />
-            <Route
-              exact
-              path="/management/billing/cancelsubscription"
-              component={CancelSubscription}
-            />
-            <Route
-              exact
-              path="/management/billing/stickWithUs"
-              component={StickWithUs}
-            />
-            <Route
-              exact
-              path="/management/billing/history"
-              component={BillingHistory}
-            />
-            <Route exact path="/management/payment" component={Payment} />
+            <Route exact path="/management/billing/changeplan" component={ChangePlan} />
+            <Route exact path="/management/billing/cancelsubscription" component={CancelSubscription}/>
+            <Route exact path="/management/billing/stickWithUs" component={StickWithUs}/>
+            <Route exact path="/management/billing/history" component={BillingHistory}/>
+            <Route exact path="/management/payment"component={Payment}/>
 
             <Route exact path="/" component={Auth} />
             <Route path="/reset" component={ResetPassword} />
@@ -139,49 +108,26 @@ const Routers = () => {
             <Route exact path="/employees" component={Employees} />
             <Route exact path="/menu/Items" component={EmptyMenu} />
             <Route exact path="/menu/Items/Add" component={AddItem} />
-            <Route
-              exact
-              path="/menu/Items/update/:itemId"
-              component={AddItem}
-            />
+            <Route exact path="/menu/Items/update/:itemId" component={AddItem} />
 
-            <div
-              style={{ width: "100%", display: "flex" }}
-              className="landingpage"
-            >
+            <div>
               {belowMinWidth ? (
                 <div className="warning-message">
-                  Your screen width is below the minimum width of {MIN_WIDTH}
-                  px. Please resize your window.
+                  Your screen width is below the minimum width of {MIN_WIDTH}px. Please
+                  resize your window.
                 </div>
               ) : (
                 <>
                   <div>
                     <Switch>
-                      <Route
-                        exact
-                        path="/menuListing"
-                        component={Menulisting}
-                      />
-                      <Route
-                        path="/productCatalog/Reviewpage"
-                        component={PrimaryDetailsReviewpage}
-                      />
+                      <Route exact path="/menuListing" component={Menulisting} />
+                      <Route path="/productCatalog/Reviewpage" component={PrimaryDetailsReviewpage} />
                       <Route path="/productCatalog/Navigationpage">
                         <Navigationpage />
                       </Route>
-                      <Route
-                        path="/productCatalog/PrimaryDetails"
-                        component={PrimaryPage}
-                      />
-                      <Route
-                        path="/productCatalog/Pricingandkitchendetails"
-                        component={PricingDetails}
-                      />
-                      <Route
-                        path="/productCatalog/Itemcustomizations"
-                        component={ItemCustomizations}
-                      />
+                      <Route path="/productCatalog/PrimaryDetails" component={PrimaryPage} />
+                      <Route path="/productCatalog/Pricingandkitchendetails" component={PricingDetails} />
+                      <Route path="/productCatalog/Itemcustomizations" component={ItemCustomizations} />
                     </Switch>
                   </div>
                 </>
@@ -189,108 +135,19 @@ const Routers = () => {
             </div>
 
             <div>
-            <Route exact path="/old-reports" component={Report} />
-            <Route
-          exact
-          path="report/32"
-          component={() => (
-            <Report id={"32"} title={"Sales Report"} />
-          )}
-        />
-          <Route
-          exact
-          path="/report/51"
-          component={() => (
-            <Report id={"51"} title={"Customer Insights"} />
-          )}
-        />
-          <Route
-          exact
-          path="/report/63"
-          component={() => (
-            <Report id={"63"} title={"Consolidated Report"} />
-          )}
-        />
-          <Route
-          exact
-          path="/report/67"
-          component={() => (
-            <Report id={"63"} title={"Course management"} />
-          )}
-        />
-          <Route
-          exact
-          path="/report/82"
-          component={() => (
-            <Report id={"82"} title={"Category report"} />
-          )}
-        />
-         <Route
-          exact
-          path="/report/57"
-          component={() => (
-            <Report id={"57"} title={"Product Insights"} />
-          )}
-        />
-        <Route
-          exact
-          path="report/32"
-          component={() => <Report id={"32"} title={"Sales report"} />}
-        />
-        <Route
-          exact
-          path="/report/2"
-          component={() => <Report id={"2"} title={"Checkin - Daily report"} />}
-        />
-        <Route
-          exact
-          path="/report/4"
-          component={() => <Report id={"4"} title={"Order insights"} />}
-        />
-        <Route
-          exact
-          path="/report/5"
-          component={() => (
-            <Report id={"5"} title={"Sales - Transaction report"} />
-          )}
-        />
-
-        <Route
-          exact
-          path="/report/12"
-          component={() => <Report id={"12"} title={"Sales insights"} />}
-
-          // /> <Route
-          // exact
-          // path="/report/8"
-          // component={() => (
-          //   <Report id={"8"} title={"Product insights"} />
-          // )}
-        />
-            </div>
-            
-            <div>
               <Route exact path="/live-reports" component={CustomerInsights} />
               <Route exact path="/sales" component={Sales} />
-              <Route
-                exact
-                path="/employee-insights"
-                component={EmployeeInsights}
-              />
-              <Route
-                exact
-                path="/product-insights"
-                component={ProductInsights}
-              />
+              <Route exact path="/employee-insights" component={EmployeeInsights} />
+              <Route exact path="/product-insights" component={ProductInsights} />
               <Route exact path="/check-in" component={CheckIn} />
               <Route exact path="/gen-ai-reports" component={GenAiReports} />
-              <Route exact path="/customer-insights" component={CustIns} />
+              <Route exact path="/customer-insights" component={CustIns}/>
             </div>
           </ThemeProvider>
         </Contextpage>
-      </Switch>
+    </Switch>
     </div>
-  );
-};
+  )
+}
 
-export default Routers;
+export default Routers

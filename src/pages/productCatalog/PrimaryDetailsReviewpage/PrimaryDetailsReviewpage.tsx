@@ -14,7 +14,7 @@ import {
   addMenuItemRequest,
   addMockDataRequest,
   cleanMenuItemSuccessMsg,
-  uploadImage,
+  
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
@@ -135,15 +135,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
   const [imageIdtosend, setimageIdtosend] = useState<string>("");
   console.log("ImageId", ImageId);
-  useEffect(()=>{
-    setError([]);
-
-  },[])
 
   useEffect(() => {
     if (uploadStatus && uploadStatus.index !== undefined) {
       console.log("index", uploadStatus.index);
-      
 
       setError((prevErro) => {
         const existingErrorIndex = prevErro.findIndex(
@@ -242,17 +237,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   };
 const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
   const [indextoreplace, setindextoreplace] = useState<Status[]>([]);
-  const allUploaded =  uploadedimage.every(
-    (img) => img && !hasImageError(img.file)
-  );
-  useEffect(()=>{
-    if(allUploaded)
-    {
-      setdisablesubmitbtn(false)
-    }
-
-  },[allUploaded])
-
 
   useEffect(() => {
     checkAllImagesForErrors();
@@ -297,18 +281,11 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
       dispatch(cleanMenuItemSuccessMsg())
 
       setTimeout(() => {
-        dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
+        // dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
       }, 5000);
       // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
-      const allUploaded =  uploadedimage.every(
-        (img) => img && !hasImageError(img.file)
-      );
-      const allSuccess = error.every((data) => data.status === "success");
-      if(allUploaded && allSuccess)
-      {
-        setdisablesubmitbtn(false)
-      }
+      
 
       setTimeout(() => checkAllImagesForErrors(), 0);
     }
@@ -330,8 +307,6 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
           setTimeout(() => checkAllImagesForErrors(), 0);
  
           if(allUploaded && allSuccess){
-
-
             history.push("/menuListing");
 
           }
@@ -341,7 +316,6 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
 
        
       } else {
-        alert("you can't go")
         setdisablesubmitbtn(true)
         console.log("Not all images are uploaded successfully.");
       }
@@ -766,9 +740,8 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
           </button>
           <button
             className="saveall"
-            // style={{disablesubmitbtn}}
             onClick={handleDispatch}
-            disabled={disablesubmitbtn}
+            // disabled={disableSubmit}
           >
             Submit for review
           </button>

@@ -16,18 +16,19 @@ const SearchBox = () => {
   const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
 
   const data = useSelector((state) => state.storeMockDataReducer.data);
-
-  const dispatch = useDispatch();
+  
+  const dispatch=useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
 
   useEffect(() => {
     if (data && data.length) {
-      setFilteredOptions(data.map((elem) => elem.itemName));
+      setFilteredOptions(data.map((elem) => elem.itemName)); 
     }
   }, [data]);
-  useEffect(() => {
+
+  useEffect(()=>{
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch))
-  }, [filteredOptionsDispatch])
+  },[filteredOptionsDispatch])
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -38,15 +39,15 @@ const SearchBox = () => {
 
   const filterOptions = (input) => {
     const filtered = data.filter((item) =>
-      item.itemName.toLowerCase().includes(input.toLowerCase())
+      item.name.toLowerCase().includes(input.toLowerCase())
     );
     setFilteredOptions(filtered);
     setFilteredOptionsDispatch(filtered)
   };
 
   const handleOptionClick = (option) => {
-    setSearchTerm(option.itemName);
-    filterOptions(option.itemName);
+    setSearchTerm(option.name);
+    filterOptions(option.name);
     setOptionSelected(true);
     setFilteredOptions([]);
   };
@@ -82,7 +83,7 @@ const SearchBox = () => {
       filterOptions(newValue);
     }
   };
-
+ 
   return (
     <div className="Search-Container">
       <div>

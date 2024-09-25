@@ -42,8 +42,7 @@ const DigitInput: React.FC<DigitInputProps> = ({name,setValue,error,register, va
  
 
   return (
-    <div className='masterCodeInputContainer'>
-      <div className="mastecodeinputs">
+    <div className="mastecodeinputs">
       {Array.from({ length: inputCount }).map((_, index) => (
         <input
           key={index}
@@ -63,7 +62,6 @@ const DigitInput: React.FC<DigitInputProps> = ({name,setValue,error,register, va
         />
       ))}
       {error && <p className='Input-Field-Error-message'>{error.message}</p>}
-    </div>
     </div>
   );
 };
