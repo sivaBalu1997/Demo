@@ -14,7 +14,7 @@
 .Primary-page {
   position: relative;
   top: 7vh;
-  width: 100%;
+  width: 110%;
   height: 30rem;
   overflow-y: auto;
   // border: 1px solid red;
@@ -28,9 +28,11 @@
     gap: 10px;
     // background-color: pink;
     .tool-tip-best-pair{
+      
       position: relative;
       // background-color: orange;
-      left: -2%;
+      left:-1rem;
+    
       width: 1px;
     }
     .tool-tip-item-code{
@@ -223,6 +225,7 @@
       width: 45vw;
       height: 90vh;
       margin-left: 2rem;
+      // border: 1px solid red;
     }
   }
   .Primary-page-container-two {
