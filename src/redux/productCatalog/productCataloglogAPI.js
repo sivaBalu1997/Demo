@@ -64,15 +64,6 @@ export function addMenuItem(data) {
   });
 }
 
-// export function getId() {
-//   return API({
-//     method: "get",
-//     url: 'http://192.168.1.29:8080/api/giveId',
-  
-//   });
-// }
-
-
 export function updateMenuItem(data) {
   return API({
     method: "put",
@@ -106,16 +97,17 @@ export function getAvailability(locationId) {
 export function getImage() {
   return Axios.get('https://i.graphicmama.com/blog/wp-content/uploads/2016/12/20132839/french-fries-vector-image.jpg')
 }
-export function getId() {
-  return Axios.get('http://192.168.1.29:8080/api/giveId')
+
+export function getItemCode(locationId,itemCode) {
+  return API({
+    method: "get",
+    url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
+  });
 }
 
-
-export function store(formData) {
-
-  return Axios.post('http://192.168.1.29:8080/api/storeImage', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+export function GetPopularItem(locationId) {
+  return API({
+    method: "post",
+    url: `/merchants/api/v1/popular-items`,
   });
 }

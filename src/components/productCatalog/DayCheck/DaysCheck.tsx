@@ -49,7 +49,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   const [data, setData] = useState<DataItem[]>([]);
   const dispatch = useDispatch();
-  const Days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
@@ -58,7 +57,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     if (checked) {
       // Add the checkbox value to the state if it is checked
       setCheckedItems((prevState) => [...prevState, numericName]);
-      // setId((prevState) => [...prevState, ]);
+      setId((prevState) => [...prevState, data[numericName].id]);
     } else {
       // Remove the checkbox value from the state if it is unchecked
       setCheckedItems((prevState) =>
@@ -72,7 +71,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   useEffect(() => {
     getApi();
-    // setData(tagData);
+    setData(tagData);
   }, []);
 
   const getApi = async () => {
@@ -82,18 +81,18 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   return (
     <div>
       <div className="DaysCheckContainer1">
-        {Days.map((elem, index) => {
-          const isChecked = checkedItems.includes(index); 
+        {data.map((elem, index) => {
+          const isChecked = checkedItems.includes(index); // Check if index is included in checkedItems
           return (
-            <div key={index}>
+            <div key={elem.id}>
               <input
                 type="checkbox"
-                name={index.toString()} 
+                name={index.toString()} // Convert index to string for name
                 onChange={handleCheckboxChange}
                 checked={isChecked}
                 className="aa"
               />
-              <label>{elem}</label>
+              <label>{elem.name}</label>
             </div>
           );
         })}

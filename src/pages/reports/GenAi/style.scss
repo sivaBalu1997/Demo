@@ -29,11 +29,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 91vw;
-  margin-left: -1.5rem;
-  @media (max-width: 500px) {
-    width: 100vw;
-  }
+  width: 80vw;
   .genai-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -45,7 +41,7 @@
       align-items: center;
       color: var(--table-text);
 
-      h1 {
+      h1{
         font-size: 21px;
         font-weight: 500;
       }
@@ -57,15 +53,14 @@
       gap: 0.8rem;
       height: 6rem;
       width: 30%;
+      // background-color: red;
       .label-time-period {
+        // background-color: greenyellow;
         font-weight: 600;
         color: var(--table-text);
-        @media (max-width: 800px) {
-          display: none;
-        }
       }
       .filter-toggle-btn-container {
-        position: relative;
+        position: relative; // Relative to contain the absolute dropdown
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -84,19 +79,14 @@
           border: 1px solid #000;
           border-radius: 0.8rem;
           cursor: pointer;
-          @media (max-width: 800px) {
-            font-size: x-small;
-            width: 5rem;
-            height: 1rem;
-          }
         }
 
         .filter-drop-down-options {
-          position: absolute;
-          top: 110%;
+          position: absolute; // Absolute to overlay other elements
+          top: 110%; // Positions dropdown just below the button
           left: 50%;
           transform: translateX(-50%);
-          width: 12rem;
+          width: 12rem; // Adjusted for better fit
           padding: 0.5rem;
           background-color: var(--navbar-bg);
           color: var(--navbar-text);
@@ -104,17 +94,12 @@
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
           z-index: 999;
           border-radius: 1rem;
-          @media (max-width: 800px) {
-            font-size: x-small;
-            width: 5rem;
-          }
 
           p {
             margin: 0;
             padding: 0.5rem;
             cursor: pointer;
             border-radius: 0.6rem;
-            text-align: center;
             &:hover {
               background-color: var(--navbar-text);
               color: var(--navbar-bg);
@@ -142,17 +127,19 @@
     text-align: center;
     color: var(--table-text);
 
-    h1 {
+    h1{
       font-size: 21px;
       font-weight: 600;
       margin-bottom: 30px;
     }
   }
   .genai-report-pdf {
+    // background-color: red;
     .genai-title-head-outer {
       display: flex;
+      // align-items: center;
       justify-content: space-between;
-      h1 {
+      h1{
         font-size: 21px;
         font-weight: 500;
       }
@@ -160,6 +147,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        // background-color: red;
         padding: 0rem 0.9rem;
         width: 80vw;
         h1 {
@@ -184,11 +172,6 @@
           cursor: pointer;
           text-align: center;
           font-weight: 500;
-          @media (max-width: 800px) {
-            font-size: x-small;
-            width: 10rem;
-            height: 2rem;
-          }
         }
       }
     }
@@ -196,6 +179,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      // background-color: burlywood;
     }
   }
   .genai-support-pdf {
@@ -203,21 +187,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      // background-color: orange;
       .genai-support-pdf-title-inner {
+        // background-color: greenyellow;
         width: 82%;
         h1 {
           display: flex;
           justify-content: flex-start;
+          // align-items: center;
           width: fit-content;
           margin-left: 0.8rem;
           color: var(--table-text);
           background-color: var(--table-bg);
+          // background-color: red;
+          // width: fit-content;
           border-radius: 1rem;
           font-size: 2rem;
-          @media (max-width: 800px) {
-            font-weight: 600;
-            font-size: larger;
-          }
+          // padding-left: 1rem;
         }
       }
     }
@@ -225,6 +211,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      // background-color: burlywood;
     }
   }
 }

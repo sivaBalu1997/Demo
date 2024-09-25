@@ -3,7 +3,7 @@ import "../../styles/auth.scss";
 import SignIn from "./SignIn";
 import { useHistory } from "react-router";
 import { CREDENTIALS } from "../../shared/constants";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { ClearSignIn, signOut, storeCredentials } from "../../redux/auth/authActions";
 
 const Auth = () => {
@@ -16,7 +16,7 @@ const Auth = () => {
     if (credentails) {
       dispatch(storeCredentials(credentails));
       if (window.innerWidth <= 575) {
-        history.push("/report/32");
+        history.push("/management/report/32");
       } else {
         history.replace("/employees");
       }

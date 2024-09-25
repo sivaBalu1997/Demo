@@ -40,6 +40,7 @@ import {
   STORE_MOCK_DATA_REQUEST,
   STORE_MOCK_DATA_FILTERED_REQUEST,
   ADD_MOCK_DATA_REQUEST,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
   DIET_DROPDOWN_LIST_REQUEST,
   DIET_DROPDOWN_LIST_SUCCESS,
   DIET_DROPDOWN_LIST_FAILURE,
@@ -67,17 +68,25 @@ import {
   DELETESUBCATEGORY_REQUEST,
   DELETESUBCATEGORY_SUCCESS,
   DELETESUBCATEGORY_FAILURE,
-  UPLOAD_IMAGE_SUCCESS,
-  UPLOAD_IMAGE_FAILURE,
-  UPLOAD_IMAGE_IN_PROGRESS,
+  GET_ITEM_CODE_REQUEST,
+  GET_ITEM_CODE_FAILURE,
+  GET_ITEM_CODE_SUCCESS,
+  POST_POPULAR_ITEM_REQUEST,
+  POST_POPULAR_ITEM_SUCCESS,
+  POST_POPULAR_ITEM_FAILURE,
+  GET_POPULAR_ITEM_REQUEST,
+  GET_POPULAR_ITEM_SUCCESS,
+  GET_POPULAR_ITEM_FAILURE
 } from "../productCatalog/productCatalogConstants";
 
-const initialProductCatalogState = {
-  dietaryData: [],
-  getDietaryloading: false,
-  getDietarySuccess: false,
 
-  cuisineData: [],
+
+const initialProductCatalogState = {
+  dietaryData:[],
+  getDietaryloading:false,
+  getDietarySuccess:false,
+
+  cuisineData:[],
   getCuisineDataLoading: false,
   getCuisineSuccess: false,
   geitCuisineFailure: false,
@@ -101,13 +110,12 @@ const initialProductCatalogState = {
   ingredients: [],
   getIngredientsLoading: false,
   getIngredientsSuccess: false,
-
   requestCompleted: false,
 
   modifier: [],
   getModifierLoading: false,
   getModifierSuccess: false,
-
+  
   //delete dropdown
   deleteDietarySuccess: false,
   deleteDietaryFailure: false,
@@ -128,13 +136,8 @@ const initialProductCatalogState = {
   addMenuLoading: false,
   addMenuSuccess: false,
   addMenuFailed: false,
-  addMenuItemdata: [],
   addMenuSuccessMessage: "",
   addMenuFailedMessage: "",
-
-  imageuploadStatus: {},
-  imageerrorMessage: "",
-
   updateMenuItemLoading: false,
   updateMenuItemSuccess: false,
   updateMenuItemFailed: false,
@@ -153,19 +156,19 @@ const initialProductCatalogState = {
   updateMenuAttributeFailed: false,
 };
 
-export default function productCatalogReducer(
+export default function employeeReducer(
   state = initialProductCatalogState,
   action
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
       //dietary data
-      case DIET_DROPDOWN_LIST_REQUEST:
+      case  DIET_DROPDOWN_LIST_REQUEST:
         draft.dietaryData = [];
         draft.getDietaryloading = true;
         draft.getDietarySuccess = false;
         break;
-      case DIET_DROPDOWN_LIST_SUCCESS:
+      case  DIET_DROPDOWN_LIST_SUCCESS:
         draft.dietaryData = action.payload;
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
@@ -175,7 +178,7 @@ export default function productCatalogReducer(
         draft.getDietaryloading = false;
         draft.getDietarySuccess = false;
         break;
-
+      
       //cuisine data
       case CUISINE_DATA_REQUEST:
         draft.cuisineData = [];
@@ -201,44 +204,44 @@ export default function productCatalogReducer(
         draft.categoryData = action.payload;
         draft.getCategorySuccess = true
         draft.getCategoryLoading = false;
-        break;
+      break;
       case CATEGORY_DATA_FAILURE:
         draft.categoryData = [];
         draft.getCategorySuccess = false
         draft.getCategoryLoading = false;
-        break;
+      break;
 
       //subCategory
       case SUBCATEGORY_DATA_REQUEST:
         draft.subCategoryData = []
         draft.getSubCategoryLoading = true
-        break;
+      break;
       case SUBCATEGORY_DATA_SUCCESS:
         draft.subCategoryData = action.payload
         draft.getSubCategoryLoading = false
         draft.getCategorySuccess = true
-        break;
+      break;
       case SUBCATEGORY_DATA_FAILURE:
         draft.subCategoryData = []
         draft.getSubCategoryLoading = false
         draft.getCategorySuccess = false
-        break;
+      break;
 
       //bestPair
       case BESTPAIR_DATA_REQUEST:
         draft.bestPairData = []
         draft.getBestPairDataLoading = true
-        break;
+      break;
       case BESTPAIR_DATA_SUCCESS:
         draft.bestPairData = action.payload
         draft.getBestPairDataLoading = false;
         draft.getBestPairSuccess = false;
-        break;
+      break;
       case BESTPAIR_DATA_FAILURE:
         draft.bestPairData = []
         draft.getBestPairDataLoading = false;
         draft.getBestPairSuccess = false;
-        break;
+      break;
 
       // Get Menu Category
       case GET_MENU_CATEGORY_REQUEST:
@@ -293,19 +296,19 @@ export default function productCatalogReducer(
         draft.ingredients = [];
         draft.getSubCategoryLoading = true;
         draft.getIngredientsSuccess = false;
-        draft.requestCompleted = false;
+        draft.requestCompleted = false
         break;
       case GET_INGR_SUCCESS:
         draft.ingredients = action.payload;
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = true;
-        draft.requestCompleted = true;
+        draft.requestCompleted = true
         break;
       case GET_INGR_FAILED:
         draft.ingredients = [];
         draft.getSubCategoryLoading = false;
         draft.getIngredientsSuccess = false;
-        draft.requestCompleted = false;
+        draft.requestCompleted = false
         break;
       // Get Modifier
       case GET_MODIFIER_REQUEST:
@@ -341,8 +344,6 @@ export default function productCatalogReducer(
         break;
       // Add Menu Item
       case ADD_MENU_ITEM_REQUEST:
-        draft.addMenuItemdata = action.payload;
-        console.log("reducer data", action.payload)
         draft.addMenuLoading = true;
         draft.addMenuFailed = false;
         draft.addMenuSuccess = false;
@@ -363,16 +364,6 @@ export default function productCatalogReducer(
         draft.addMenuSuccessMessage = "";
         draft.addMenuFailedMessage = action.payload;
         break;
-
-      //   UPLOAD_IMAGE_SUCCESS:
-      case UPLOAD_IMAGE_SUCCESS:
-        draft.imageuploadStatus = action.payload;
-        break;
-      case UPLOAD_IMAGE_FAILURE:
-        draft.imageuploadStatus = action.payload;
-        draft.imageerrorMessage = action.payload;
-        break;
-
       // Update Menu Item
       case UPDATE_MENU_ITEM_REQUEST:
         draft.updateMenuItemLoading = true;
@@ -511,7 +502,7 @@ export default function productCatalogReducer(
         draft.deleteSubCategoryFailure = true;
         draft.deleteSubCategoryLoading = false;
         break;
-
+        
       default:
         break;
     }
@@ -591,55 +582,6 @@ export const imageReducer = (state = ItemImage, action) => {
       return state;
   }
 };
-const imageuploadinitialstate = {
-  images: [], // Array of images to be uploaded
-  uploadStatus: {}, // Store image upload status: { imageId: 'pending' | 'success' | 'failed' }
-  errorMessages: {}, // Store error messages for failed uploads: { imageId: errorMessage }
-};
-
-export const imageUploadReducer = (state = imageuploadinitialstate, action) => {
-  switch (action.type) {
-    case UPLOAD_IMAGE_IN_PROGRESS:
-      return {
-        ...state,
-
-      };
-    case UPLOAD_IMAGE_SUCCESS:
-      return {
-        ...state,
-        uploadStatus: {
-          ...state.uploadStatus,
-          id: action.payload.id,
-          image: action.payload.image,
-          index: action.payload.index,
-          status: 'success',
-        },
-      };
-    case UPLOAD_IMAGE_FAILURE:
-      return {
-        ...state,
-        uploadStatus: {
-          ...state.uploadStatus,
-          id: action.payload.id,
-          index: action.payload.index,
-          image: action.payload.image,
-          status: 'failed',
-        },
-        errorMessages: {
-          ...state.errorMessages,
-          id: action.payload.id,
-          image: action.payload.image,
-          index: action.payload.index,
-          errormessgae: action.payload.error,
-        },
-      };
-    default:
-      return state;
-  }
-};
-
-
-
 
 const mockData = {
   data: [],
@@ -652,46 +594,135 @@ export const storeMockDataReducer = (state = mockData, action) => {
         ...state,
         data: action?.payload,
       };
-    default:
+      default:
       return state;
+    }}
+
+ 
+
+ 
+
+  const mockDataFiltered = {
+    data: []
+  };
+
+  export  const storeMockDataFilteredReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case STORE_MOCK_DATA_FILTERED_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
+  
+    
+  
+      default:
+        return state;
+    }
+  };
+ 
+
+  // {**************************AddMockData***********************************************}
+
+  const addMockData = {
+    data: []
   }
-};
 
-const mockDataFiltered = {
-  data: [],
-};
+  export  const addMockDataReducer = (state = mockDataFiltered, action) => {
+    switch (action.type) {
+      case ADD_MOCK_DATA_REQUEST:
+        return {
+          ...state,data:action?.payload
+        };
+  
+    
+  
+      default:
+        return state;
+    }
+  };
 
-export const storeMockDataFilteredReducer = (
-  state = mockDataFiltered,
-  action
-) => {
-  switch (action.type) {
-    case STORE_MOCK_DATA_FILTERED_REQUEST:
-      return {
-        ...state,
-        data: action?.payload,
-      };
 
-    default:
-      return state;
+  const addMockHiddenData = {
+    data: []
   }
-};
 
-// {**************************AddMockData***********************************************}
+  export  const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
+    switch (action.type) {
+      case ADD_MOCK_DATA_HIDDEN_REQUEST:
+        return {
+          ...state,
+          data: action?.payload,
+        };
+    
+  
+      default:
+        return state;
+    }
+  };
 
-const addMockData = {
-  data: [],
-};
+  const checkItemCode = {
+    loading: false,
+    data: null,
+    error: null,
+  };
 
-export const addMockDataReducer = (state = mockDataFiltered, action) => {
-  switch (action.type) {
-    case ADD_MOCK_DATA_REQUEST:
-      return {
-        ...state,
-        data: action?.payload,
-      };
 
-    default:
-      return state;
-  }
-};
+  export const checkItemCodeReducer = (state = checkItemCode, action) => {
+    switch (action.type) {
+      case GET_ITEM_CODE_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+  
+      case GET_ITEM_CODE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          data: action.payload,
+        };
+  
+      case GET_ITEM_CODE_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+  
+      default:
+        return state;
+    }
+  };
+  const postPopularItem = {
+    loading: false,
+    popularItemData: null,
+    error: null,
+  };
+
+  export const getPopularItemReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case GET_POPULAR_ITEM_REQUEST:
+        return {
+          ...state,
+          loading: true,
+          error: null,
+        };
+      case GET_POPULAR_ITEM_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          popularItemData: action.payload,
+          error: null,
+        };
+      case GET_POPULAR_ITEM_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          popularItemData: null,
+          error: action.payload,
+        };
+      default:
+        return state;
+    }
+  };

@@ -12,7 +12,6 @@ import "./style.scss";
 import { generateGradient } from "../../../util/color";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
-import "./style.scss";
 
 interface TopVoidedItem {
   name: string;
@@ -35,9 +34,13 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const [openCustomDateRange, setOpenCustomDateRange] =
     useState<boolean>(false);
 
-  const [openStartDatePicker, setOpenStartDatePicker] =
-    useState<boolean>(false);
-  const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
+  // const [openStartDatePicker, setOpenStartDatePicker] =
+  //   useState<boolean>(false);
+  // const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
+
+  // const displayCustomDateRange = () => {
+  //   setOpenCustomDateRange((op) => !op);
+  // };
 
   const ProdTopTwenty = ProdI["Top 20 Popular Items"];
   const TopTwentyXaxisData = ProdTopTwenty.map((item) => item["Product name"]);
@@ -58,6 +61,8 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
   };
+
+  //==========================================================================//
 
   const getTop10Items = (data: ProductInsightsData): TopVoidedItem[] => {
     return data["Top Voided Items"]
@@ -89,10 +94,16 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
     setSelectedPeriod(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
+      // setOpenStartDatePicker(true);
+      // setOpenEndDatePicker(true);
+      // setStartDate(moment().format("MM-DD-YYYY"));
+      // setEndDate(moment().format("MM-DD-YYYY"));
       setStartDate(new Date());
       setEndDate(new Date());
     } else {
       setOpenCustomDateRange(false);
+      // setOpenStartDatePicker(false);
+      // setOpenEndDatePicker(false);
     }
     setOpenFilter(false);
   };
@@ -101,10 +112,16 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
     setCategoryFilterProductSummary(option);
     if (option === "Select Custom Date Range") {
       setOpenCustomDateRange(true);
+      // setOpenStartDatePicker(true);
+      // setOpenEndDatePicker(true);
+      // setStartDate(moment().format("MM-DD-YYYY"));
+      // setEndDate(moment().format("MM-DD-YYYY"));
       setStartDate(new Date());
       setEndDate(new Date());
     } else {
       setOpenCustomDateRange(false);
+      // setOpenStartDatePicker(false);
+      // setOpenEndDatePicker(false);
     }
     setOpenCategoryDropDown(false);
   };
@@ -128,259 +145,238 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{display:'flex',flexDirection:'row'}}>
       <SidePanel />
       <div
-        className={`p-product-insights-container ${
-          isDarkTheme ? "p-dark-theme" : "p-light-theme"
-        }`}
-      >
-        <Topnavbar />
-        <div className="p-prod-insights-head">
-          <div className="p-name-board">
-            <h1>Reports Dashboard</h1>
+      className={`p-product-insights-container ${
+        isDarkTheme ? "p-dark-theme" : "p-light-theme"
+      }`}
+    >
+      <Topnavbar />
+      <div className="p-prod-insights-head">
+        <div className="p-name-board">
+          <h1>Reports Dashboard</h1>
+        </div>
+        <div className="p-dates">
+          <div className="p-label-time-period">
+            <p>Select Time Period</p>
           </div>
-          <div className="p-dates">
-            <div className="p-label-time-period">
-              <p>Select Time Period</p>
-            </div>
-            <div className="p-filter-toggle-btn-container">
-              <div className="p-filter-toggle-btn" onClick={openFilterDropDown}>
-                {selectedPeriod}
-              </div>
-              {openFilter && (
-                <div className="p-filter-drop-down-options">
-                  <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
-                  <p onClick={() => handleOptionClickForDate("This Week")}>
-                    This Week
-                  </p>
-                  <p onClick={() => handleOptionClickForDate("Last 7 days")}>
-                    Last 7 days
-                  </p>
-                  <p onClick={() => handleOptionClickForDate("This Month")}>
-                    This Month
-                  </p>
-                  <p onClick={() => handleOptionClickForDate("Last Month")}>
-                    Last Month
-                  </p>
-                  <p onClick={() => handleOptionClickForDate("Last 30 days")}>
-                    Last 30 days
-                  </p>
-                  <p
-                    onClick={() =>
-                      handleOptionClickForDate("Select Custom Date Range")
-                    }
-                  >
-                    Select Custom Date Range
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        {openCustomDateRange && (
-          <div className="p-date-range-style">
-            <label className="p-dateLabel" htmlFor="p-start-date">
-              From
-            </label>
-            <DatePicker
-              placeholderText="Start Date"
-              selected={startDate}
-              onChange={(date: Date) => setStartDate(date)}
-              dateFormat="dd MMM yyyy"
-              className="p-start-date"
-              onSelect={() => setOpenStartDatePicker(false)}
-              onFocus={() => {
-                setOpenStartDatePicker(true);
-              }}
-            />
-            <label className="p-dateLabel" htmlFor="p-end-date">
-              To
-            </label>
-            <DatePicker
-              placeholderText="End Date"
-              selected={endDate}
-              onChange={(date: Date) => setEndDate(date)}
-              dateFormat="dd MMM yyyy"
-              className="p-end-date"
-              onSelect={() => setOpenEndDatePicker(false)}
-              onFocus={() => {
-                setOpenEndDatePicker(true);
-              }}
-            />
-          </div>
-        )}
-        <div className="p-location-name">
-          <h1>Maghil Restaurant, Parsippany</h1>
-        </div>
-        <div className="p-top-twenty-popular-items">
-          <BarChart
-            BatChartTitle="20 Most Popular Items"
-            TitleColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisData={TopTwentyXaxisData}
-            yAxisData={TopTwentyYaxisData}
-            label="items"
-            backgroundColor={twentyMostPopulatItemsColors}
-            borderColor={twentyMostPopulatItemsColors}
-            xAxisGridColor={"transparent"}
-            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            yAxisGridColor={"transparent"}
-            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
-            ttTitleColor="#fff"
-            ttBodyColor="#fff"
-            yAxisLabel="Quantity"
-            xAxisLabel="Product Name"
-          />
-        </div>
-        <div className="p-least-twenty-popular-items">
-          <BarChart
-            BatChartTitle="20 Least Popular Items"
-            TitleColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisData={LeastTwentyItemX}
-            yAxisData={LeastTwentyItemY}
-            label="items"
-            backgroundColor={[
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-            ]}
-            borderColor={[
-              "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(54, 162, 235)",
-            ]}
-            xAxisGridColor={"transparent"}
-            yAxisGridColor={"transparent"}
-            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
-            ttTitleColor="#fff"
-            ttBodyColor="#fff"
-            yAxisLabel="Quantity"
-            xAxisLabel="Product Name"
-          />
-        </div>
-        <div className="p-top-ten-voided-items">
-          <BarChart
-            BatChartTitle="Top 10 Cancelled Items"
-            TitleColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisData={XtopTenItemName}
-            yAxisData={YvoidTenItems}
-            label="items"
-            backgroundColor={[
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-            ]}
-            borderColor={[
-              "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(54, 162, 235)",
-            ]}
-            xAxisGridColor={"transparent"}
-            yAxisGridColor={"transparent"}
-            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
-            ttTitleColor="#fff"
-            ttBodyColor="#fff"
-            yAxisLabel="Quantity"
-            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisLabel="Product Name"
-            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-          />
-        </div>
-        <div className="p-top-cancelled-items">
-          <BarChart
-            BatChartTitle="Top Cancellation Reasons"
-            TitleColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisData={XCancelReasonLabels}
-            yAxisData={Yvoid_items}
-            label="count"
-            backgroundColor={[
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(255, 205, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-            ]}
-            borderColor={[
-              "rgb(255, 99, 132)",
-              "rgb(255, 159, 64)",
-              "rgb(255, 205, 86)",
-              "rgb(75, 192, 192)",
-              "rgb(54, 162, 235)",
-            ]}
-            xAxisGridColor={"transparent"}
-            yAxisGridColor={"transparent"}
-            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
-            ttTitleColor="#fff"
-            ttBodyColor="#fff"
-            yAxisLabel="Count"
-            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            xAxisLabel="Cancel Reasons"
-            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-          />
-        </div>
-        <div className="p-product-summary-dropdown-cont">
-          <p>Filter By Category/Item</p>
           <div className="p-filter-toggle-btn-container">
-            <div
-              className="p-filter-toggle-btn"
-              onClick={toggleCategoryDropDown}
-            >
-              {selectedCategoryFilterProductSummary}
+            <div className="p-filter-toggle-btn" onClick={openFilterDropDown}>
+              {selectedPeriod}
             </div>
-            {openCategoryDropDown && (
+            {openFilter && (
               <div className="p-filter-drop-down-options">
-                {categoryArray.map((category) => (
-                  <p key={category} onClick={() => handleOptionClick(category)}>
-                    {category}
-                  </p>
-                ))}
+                <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
+                <p onClick={() => handleOptionClickForDate("This Week")}>
+                  This Week
+                </p>
+                <p onClick={() => handleOptionClickForDate("Last 7 days")}>
+                  Last 7 days
+                </p>
+                <p onClick={() => handleOptionClickForDate("This Month")}>
+                  This Month
+                </p>
+                <p onClick={() => handleOptionClickForDate("Last Month")}>
+                  Last Month
+                </p>
+                <p onClick={() => handleOptionClickForDate("Last 30 days")}>
+                  Last 30 days
+                </p>
+                <p
+                  onClick={() =>
+                    handleOptionClickForDate("Select Custom Date Range")
+                  }
+                >
+                  Select Custom Date Range
+                </p>
               </div>
             )}
           </div>
-          <div className="p-filter-toggle-btn-container">
-            <div className="p-filter-toggle-btn" onClick={toggleItemsDropDown}>
-              {selectedItems}
+          {openCustomDateRange && (
+            <div className="p-date-range-style">
+              <DatePicker
+                placeholderText="Start Date"
+                selected={startDate}
+                onChange={(date: Date) => setStartDate(date)}
+                dateFormat="dd MMM yyyy"
+                className="p-start-date"
+              />
+              <DatePicker
+                placeholderText="End Date"
+                selected={endDate}
+                onChange={(date: Date) => setEndDate(date)}
+                dateFormat="dd MMM yyyy"
+                className="p-end-date"
+              />
             </div>
-            {openItems && (
-              <div className="p-filter-drop-down-options">
-                {DDDD.Items.map((category) => (
-                  <p
-                    key={category}
-                    onClick={() => handleOptionClickForItems(category)}
-                  >
-                    {category}
-                  </p>
-                ))}
-              </div>
-            )}
-          </div>
+          )}
         </div>
-        <Table
-          Heading="Product Summary"
-          tableData={ProdI["Product Summary US"]}
-          viewType="full"
-          recordsPerPage={24}
+      </div>
+      <div className="p-location-name">
+        <h1>Maghil Restaurant, Parsippany</h1>
+      </div>
+      <div className="p-top-twenty-popular-items">
+        <BarChart
+          BatChartTitle="20 Most Popular Items"
+          TitleColor={isDarkTheme ? "#fff" : "#000"}
+          xAxisData={TopTwentyXaxisData}
+          yAxisData={TopTwentyYaxisData}
+          label="items"
+          backgroundColor={twentyMostPopulatItemsColors}
+          borderColor={twentyMostPopulatItemsColors}
+          xAxisGridColor={"transparent"}
+          xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+          yAxisGridColor={"transparent"}
+          yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+          xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+          yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+          pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+          ttTitleColor="#fff"
+          ttBodyColor="#fff"
+          yAxisLabel="Quantity"
+          xAxisLabel="Product Name"
         />
       </div>
+      <div className="p-least-twenty-popular-items">
+        <BarChart
+          BatChartTitle="20 Least Popular Items"
+          TitleColor={isDarkTheme ? "#fff" : "#000"}
+          xAxisData={LeastTwentyItemX}
+          yAxisData={LeastTwentyItemY}
+          label="items"
+          backgroundColor={[
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+          ]}
+          borderColor={[
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+          ]}
+          xAxisGridColor={"transparent"}
+          yAxisGridColor={"transparent"}
+          xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+          yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+          xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+          yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+          pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+          ttTitleColor="#fff"
+          ttBodyColor="#fff"
+          yAxisLabel="Quantity"
+          xAxisLabel="Product Name"
+        />
+      </div>
+      <div className="p-top-ten-voided-items">
+        <BarChart
+          BatChartTitle="Top 10 Cancelled Items"
+          TitleColor={isDarkTheme ? "#fff" : "#000"}
+          xAxisData={XtopTenItemName}
+          yAxisData={YvoidTenItems}
+          label="items"
+          backgroundColor={[
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+          ]}
+          borderColor={[
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+          ]}
+          xAxisGridColor={"transparent"}
+          yAxisGridColor={"transparent"}
+          xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+          yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+          pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+          ttTitleColor="#fff"
+          ttBodyColor="#fff"
+          yAxisLabel="Quantity"
+          xAxisLabel="Product Name"
+        />
+      </div>
+      <div className="p-top-cancelled-items">
+        <BarChart
+          BatChartTitle="Top Cancellation Reasons"
+          TitleColor={isDarkTheme ? "#fff" : "#000"}
+          xAxisData={XCancelReasonLabels}
+          yAxisData={Yvoid_items}
+          label="count"
+          backgroundColor={[
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+            "rgba(255, 205, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+          ]}
+          borderColor={[
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+          ]}
+          xAxisGridColor={"transparent"}
+          yAxisGridColor={"transparent"}
+          xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+          yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+          pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+          ttTitleColor="#fff"
+          ttBodyColor="#fff"
+          yAxisLabel="Count"
+          xAxisLabel="Cancel Reasons"
+        />
+      </div>
+      <div className="p-product-summary-dropdown-cont">
+        <p>Filter By Category/Item</p>
+        <div className="p-filter-toggle-btn-container">
+          <div className="p-filter-toggle-btn" onClick={toggleCategoryDropDown}>
+            {selectedCategoryFilterProductSummary}
+          </div>
+          {openCategoryDropDown && (
+            <div className="p-filter-drop-down-options">
+              {categoryArray.map((category) => (
+                <p key={category} onClick={() => handleOptionClick(category)}>
+                  {category}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="p-filter-toggle-btn-container">
+          <div className="p-filter-toggle-btn" onClick={toggleItemsDropDown}>
+            {selectedItems}
+          </div>
+          {openItems && (
+            <div className="p-filter-drop-down-options">
+              {DDDD.Items.map((category) => (
+                <p
+                  key={category}
+                  onClick={() => handleOptionClickForItems(category)}
+                >
+                  {category}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      <Table
+        Heading="Product Summary"
+        tableData={ProdI["Product Summary US"]}
+        viewType="full"
+        recordsPerPage={24}
+      />
+    </div>
     </div>
   );
 };

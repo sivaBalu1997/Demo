@@ -25,14 +25,14 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  gap: 7rem;
+  gap: 4rem;
 }
 
 .listofnavigationExpanded {
   display: flex;
   flex-direction: row;
   width: 80%;
-  gap: 7rem;
+  gap: 4rem;
 }
 
 .lists, .listsExpanded {
@@ -58,11 +58,11 @@
 }
 
 .navbar {
-  width: 23rem;
+  width: 20vw;
 }
 
 .navbarExpanded {
-  width: 25rem;
+  width: 20vw;
 }
 
 .navbar.active, .navbarExpanded.active {

@@ -10,8 +10,8 @@ import "./style.scss";
 import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
-import { Contextpagejs } from "pages/productCatalog/contextpage";
 
+// Define types for data used in the component
 interface PaymentModeData {
   "Payment Mode": string;
   "#Total Orders": number;
@@ -28,6 +28,7 @@ interface HourOfTheDayData {
   "Average Sales per Hour": number;
 }
 
+// Define types for state
 interface SalesState {
   startDate: Date;
   endDate: Date;
@@ -38,6 +39,7 @@ interface SalesState {
   selectedPeriod: string;
 }
 
+// Define options type for the charts
 interface ChartOptions {
   animationEnabled: boolean;
   exportEnabled: boolean;
@@ -64,7 +66,6 @@ interface ChartOptions {
 }
 
 const Sales: React.FC = () => {
-  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [state, setState] = useState<SalesState>({
     startDate: moment().toDate(),
@@ -75,6 +76,13 @@ const Sales: React.FC = () => {
     openFilter: false,
     selectedPeriod: "Today",
   });
+
+  // const displayCustomDateRange = () => {
+  //   setState((prevState) => ({
+  //     ...prevState,
+  //     openCustomDateRange: !prevState.openCustomDateRange,
+  //   }));
+  // };
 
   const formatNumberIndian = (number: number): string => {
     let numStr = number.toString();
@@ -197,279 +205,271 @@ const Sales: React.FC = () => {
     (item: HourOfTheDayData) => item["Average Sales per Hour"]
   );
 
-  // console.log({ isExpanded });
-
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{display:'flex', flexDirection:'row'}}>
       <SidePanel />
-      {/* <div className={`${isExpanded ? "alignment-fix-class" : ""}`}> */}
       <div
-        className={`s-sales-container ${
-          isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
-        } ${isExpanded ? "s-expanded-width-sales" : ""}`}
-      >
-        <Topnavbar />
-        <div className="s-sales-head">
-          <div className="s-name-board">
-            <h1>Reports Dashboard</h1>
+      className={`s-sales-container ${
+        isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
+      }`}
+    >
+      <Topnavbar />
+      <div className="s-sales-head">
+        <div className="s-name-board">
+          <h1>Reports Dashboard</h1>
+        </div>
+        <div className="s-dates">
+          <div className="s-label-time-period">
+            <p>Select Time Period</p>
           </div>
-          <div className="s-dates">
-            <div className="s-label-time-period">
-              <p>Select Time Period</p>
+          <div className="s-filter-toggle-btn-container">
+            <div className="s-filter-toggle-btn" onClick={openFilterDropDown}>
+              {state.selectedPeriod}
             </div>
-            <div className="s-filter-toggle-btn-container">
-              <div className="s-filter-toggle-btn" onClick={openFilterDropDown}>
-                {state.selectedPeriod}
+            {state.openFilter && (
+              <div className="s-filter-drop-down-options">
+                <p onClick={() => handleOptionClick("Today")}>Today</p>
+                <p onClick={() => handleOptionClick("This Week")}>This Week</p>
+                <p onClick={() => handleOptionClick("Last 7 days")}>
+                  Last 7 days
+                </p>
+                <p onClick={() => handleOptionClick("This Month")}>
+                  This Month
+                </p>
+                <p onClick={() => handleOptionClick("Last Month")}>
+                  Last Month
+                </p>
+                <p onClick={() => handleOptionClick("Last 30 days")}>
+                  Last 30 days
+                </p>
+                <p
+                  onClick={() => handleOptionClick("Select Custom Date Range")}
+                >
+                  Select Custom Date Range
+                </p>
               </div>
-              {state.openFilter && (
-                <div className="s-filter-drop-down-options">
-                  <p onClick={() => handleOptionClick("Today")}>Today</p>
-                  <p onClick={() => handleOptionClick("This Week")}>
-                    This Week
-                  </p>
-                  <p onClick={() => handleOptionClick("Last 7 days")}>
-                    Last 7 days
-                  </p>
-                  <p onClick={() => handleOptionClick("This Month")}>
-                    This Month
-                  </p>
-                  <p onClick={() => handleOptionClick("Last Month")}>
-                    Last Month
-                  </p>
-                  <p onClick={() => handleOptionClick("Last 30 days")}>
-                    Last 30 days
-                  </p>
-                  <p
-                    onClick={() =>
-                      handleOptionClick("Select Custom Date Range")
-                    }
-                  >
-                    Select Custom Date Range
-                  </p>
-                </div>
-              )}
+            )}
+          </div>
+          {state.openCustomDateRange && (
+            <div className="s-date-range-style">
+              <label className="dateLabel" htmlFor="s-start-date">From</label>
+              <DatePicker
+                placeholderText="Start Date"
+                selected={state.startDate}
+                onChange={(date: Date | null) =>
+                  date &&
+                  setState((prevState) => ({ ...prevState, startDate: date }))
+                }
+                dateFormat="dd MMM yyyy"
+                className="s-start-date"
+                // open={state.openStartDatePicker}
+                onSelect={() =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    openStartDatePicker: false,
+                  }))
+                }
+                onFocus={() => {
+                  setState((prevState) => ({
+                    ...prevState,
+                    openStartDatePicker: true,
+                    // openEndDatePicker: true,
+                  }));
+                }}
+              />
+              <label className="dateLabel" htmlFor="s-end-date">To</label>
+              <DatePicker
+                placeholderText="End Date"
+                selected={state.endDate}
+                onChange={(date: Date | null) =>
+                  date &&
+                  setState((prevState) => ({ ...prevState, endDate: date }))
+                }
+                dateFormat="dd MMM yyyy"
+                className="s-end-date"
+                // open={state.openEndDatePicker}
+                onSelect={() =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    openEndDatePicker: false,
+                  }))
+                }
+                onFocus={() => {
+                  setState((prevState) => ({
+                    ...prevState,
+                    // openStartDatePicker: true,
+                    openEndDatePicker: true,
+                  }));
+                }}
+              />
             </div>
-          </div>
+          )}
         </div>
-        {state.openCustomDateRange && (
-          <div className="s-date-range-style">
-            <label className="dateLabel" htmlFor="s-start-date">
-              From
-            </label>
-            <DatePicker
-              placeholderText="Start Date"
-              selected={state.startDate}
-              onChange={(date: Date | null) =>
-                date &&
-                setState((prevState) => ({ ...prevState, startDate: date }))
-              }
-              dateFormat="dd MMM yyyy"
-              className="s-start-date"
-              onSelect={() =>
-                setState((prevState) => ({
-                  ...prevState,
-                  openStartDatePicker: false,
-                }))
-              }
-              onFocus={() => {
-                setState((prevState) => ({
-                  ...prevState,
-                  openStartDatePicker: true,
-                }));
-              }}
-            />
-            <label className="dateLabel" htmlFor="s-end-date">
-              To
-            </label>
-            <DatePicker
-              placeholderText="End Date"
-              selected={state.endDate}
-              onChange={(date: Date | null) =>
-                date &&
-                setState((prevState) => ({ ...prevState, endDate: date }))
-              }
-              dateFormat="dd MMM yyyy"
-              className="s-end-date"
-              onSelect={() =>
-                setState((prevState) => ({
-                  ...prevState,
-                  openEndDatePicker: false,
-                }))
-              }
-              onFocus={() => {
-                setState((prevState) => ({
-                  ...prevState,
-                  openEndDatePicker: true,
-                }));
-              }}
-            />
-          </div>
-        )}
-        <div className="s-name-board-two">
-          <h1>Maghil Restaurant, Parsippany</h1>
+      </div>
+      <div className="s-name-board-two">
+        <h1>Maghil Restaurant, Parsippany</h1>
+      </div>
+      <div className="s-overall-summary">
+        <div className="s-box">
+          <h2>
+            {formatNumberIndian(
+              Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
+            )}
+          </h2>
+          <h3>Total Orders</h3>
         </div>
-        <div className="s-overall-summary">
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              {formatNumberIndian(
-                Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
-              )}
-            </h2>
-            <h3>Total Orders</h3>
-          </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              $
-              {formatNumberIndian(
-                Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
-              )}
-            </h2>
-            <h3>Total Sales</h3>
-          </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              $
-              {formatNumberIndian(
-                Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
-              )}
-            </h2>
-            <h3>Net Sales</h3>
-          </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
-            </h2>
-            <h3>Tips</h3>
-          </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))}
-            </h2>
-            <h3>Tax</h3>
-          </div>
+        <div className="s-box">
+          <h2>
+            $
+            {formatNumberIndian(
+              Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
+            )}
+          </h2>
+          <h3>Total Sales</h3>
         </div>
-        <div className="s-day-of-the-week">
-          <div className="s-day-of-the-week-inner">
-            <BarChart
-              BatChartTitle="Sales By Hour of the Day"
-              TitleColor={isDarkTheme ? "#fff" : "#000"}
-              xAxisData={XHour}
-              yAxisData={YAverageSalesperHour}
-              label="Dollars"
-              backgroundColor={[
-                "rgba(255, 99, 132, 0.2)",
-                "rgba(255, 159, 64, 0.2)",
-                "rgba(255, 205, 86, 0.2)",
-                "rgba(75, 192, 192, 0.2)",
-                "rgba(54, 162, 235, 0.2)",
-              ]}
-              borderColor={[
-                "rgb(255, 99, 132)",
-                "rgb(255, 159, 64)",
-                "rgb(255, 205, 86)",
-                "rgb(75, 192, 192)",
-                "rgb(54, 162, 235)",
-              ]}
-              xAxisGridColor={"transparent"}
-              yAxisGridColor={"transparent"}
-              xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-              yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-              pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
-              ttTitleColor="#fff"
-              ttBodyColor="#fff"
-              yAxisLabel="Average Sales per Hour"
-              xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-              xAxisLabel="Hours"
-              yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            />
-          </div>
+        <div className="s-box">
+          <h2>
+            $
+            {formatNumberIndian(
+              Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
+            )}
+          </h2>
+          <h3>Net Sales</h3>
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div className="s-canva-pie-chart-outer-cont">
-            <div className="s-canva-pie-chart-cont">
-              <CanvaPieChart options={options} />
-            </div>
-            <div className="s-canva-pie-chart-cont">
-              <CanvaPieChart options={optionsDolla} />
-            </div>
-          </div>
+        <div className="s-box">
+          <h2>
+            ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
+          </h2>
+          <h3>Tips</h3>
         </div>
-        <div className="s-day-of-the-week">
-          <div className="s-day-of-the-week-inner">
-            <BarChart
-              BatChartTitle="Sales By Day of the Week"
-              TitleColor={isDarkTheme ? "#fff" : "#000"}
-              xAxisData={YdayofTheWeekDA}
-              yAxisData={XAvgSalesinDolla}
-              label="Dollars"
-              backgroundColor={[
-                "rgba(255, 99, 132, 0.2)",
-                "rgba(255, 159, 64, 0.2)",
-                "rgba(255, 205, 86, 0.2)",
-                "rgba(75, 192, 192, 0.2)",
-                "rgba(54, 162, 235, 0.2)",
-              ]}
-              borderColor={[
-                "rgb(255, 99, 132)",
-                "rgb(255, 159, 64)",
-                "rgb(255, 205, 86)",
-                "rgb(75, 192, 192)",
-                "rgb(54, 162, 235)",
-              ]}
-              xAxisGridColor={"transparent"}
-              yAxisGridColor={"transparent"}
-              xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-              yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
-              pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
-              ttTitleColor="#fff"
-              ttBodyColor="#fff"
-              yAxisLabel="Average Sales in Dollars"
-              yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-              xAxisLabel="Days"
-              xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
-            />
-          </div>
+        <div className="s-box">
+          <h2>
+            ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))}
+          </h2>
+          <h3>Tax</h3>
         </div>
-        <div className="s-tab-cont">
-          <div className="s-table-container-one-s">
-            <Table
-              Heading="Sales By Item Category"
-              tableData={S["Category - US"]}
-              viewType="half"
-              recordsPerPage={6}
-            />
-            <Table
-              Heading="Sales By Revenue Class"
-              tableData={S["Revenue Class"]}
-              viewType="half"
-              recordsPerPage={5}
-            />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div className="s-canva-pie-chart-outer-cont">
+          <div className="s-canva-pie-chart-cont">
+            <CanvaPieChart options={options} />
           </div>
-        </div>
-        <div className="s-tab-cont">
-          <div className="s-table-container-two-s">
-            <Table
-              Heading="Discount Summary"
-              tableData={S["Discount Summary"]}
-              viewType="half"
-              recordsPerPage={5}
-            />
-            <Table
-              Heading="Cancellation Summary"
-              tableData={S["Cancel Item Tracker"]}
-              viewType="half"
-              recordsPerPage={5}
-            />
+          <div className="s-canva-pie-chart-cont">
+            <CanvaPieChart options={optionsDolla} />
           </div>
         </div>
       </div>
-      {/* </div> */}
+      <div className="s-day-of-the-week">
+        <div className="s-day-of-the-week-inner">
+          <BarChart
+            BatChartTitle="Sales By Hour of the Day"
+            TitleColor={isDarkTheme ? "#fff" : "#000"}
+            xAxisData={XHour}
+            yAxisData={YAverageSalesperHour}
+            label="Dollars"
+            backgroundColor={[
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+            ]}
+            borderColor={[
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+            ]}
+            xAxisGridColor={"transparent"}
+            yAxisGridColor={"transparent"}
+            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+            ttTitleColor="#fff"
+            ttBodyColor="#fff"
+            yAxisLabel="Average Sales per Hour"
+            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+            xAxisLabel="Hours"
+            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+          />
+        </div>
+      </div>
+      <div className="s-day-of-the-week">
+        <div className="s-day-of-the-week-inner">
+          <BarChart
+            BatChartTitle="Sales By Day of the Week"
+            TitleColor={isDarkTheme ? "#fff" : "#000"}
+            xAxisData={YdayofTheWeekDA}
+            yAxisData={XAvgSalesinDolla}
+            label="Dollars"
+            backgroundColor={[
+              "rgba(255, 99, 132, 0.2)",
+              "rgba(255, 159, 64, 0.2)",
+              "rgba(255, 205, 86, 0.2)",
+              "rgba(75, 192, 192, 0.2)",
+              "rgba(54, 162, 235, 0.2)",
+            ]}
+            borderColor={[
+              "rgb(255, 99, 132)",
+              "rgb(255, 159, 64)",
+              "rgb(255, 205, 86)",
+              "rgb(75, 192, 192)",
+              "rgb(54, 162, 235)",
+            ]}
+            xAxisGridColor={"transparent"}
+            yAxisGridColor={"transparent"}
+            xAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+            yAxisTicksColor={isDarkTheme ? "#fff" : "#000"}
+            pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
+            ttTitleColor="#fff"
+            ttBodyColor="#fff"
+            yAxisLabel="Average Sales in Dollars"
+            yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+            xAxisLabel="Days"
+            xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
+          />
+        </div>
+      </div>
+      <div className="s-tab-cont">
+        <div className="s-table-container-one-s">
+          <Table
+            Heading="Sales By Item Category"
+            tableData={S["Category - US"]}
+            viewType="half"
+            recordsPerPage={6}
+          />
+          <Table
+            Heading="Sales By Revenue Class"
+            tableData={S["Revenue Class"]}
+            viewType="half"
+            recordsPerPage={5}
+          />
+        </div>
+      </div>
+      <div className="s-tab-cont">
+        <div className="s-table-container-two-s">
+          <Table
+            Heading="Discount Summary"
+            tableData={S["Discount Summary"]}
+            viewType="half"
+            recordsPerPage={5}
+          />
+          <Table
+            Heading="Cancellation Summary"
+            tableData={S["Cancel Item Tracker"]}
+            viewType="half"
+            recordsPerPage={5}
+          />
+        </div>
+      </div>
+    </div>
     </div>
   );
 };

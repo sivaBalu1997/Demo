@@ -8,6 +8,8 @@ import "./style.scss"; // Import your custom SCSS file
 import { ThemeContext } from "../../../context/ThemeContext";
 
 const PdfViewer = ({ fileUrl }: any) => {
+  console.log({ fileUrl });
+  // Accept `fileUrl` as a prop
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const { isDarkTheme } = useContext(ThemeContext);
 

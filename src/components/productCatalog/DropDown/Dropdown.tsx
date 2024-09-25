@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, ChangeEvent } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  ChangeEvent,
+  FocusEvent,
+} from "react";
 import "./Dropdown.scss";
 import UpArrow from "../../../assets/images/dropdown.png";
 
@@ -13,10 +19,10 @@ interface DropdownProps {
   };
   onBlur?: () => void;
   width: string;
-  index?: number;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleValidate?: () => void;
+  index?:number
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void; // New onChange prop
 }
+
 
 const Dropdown: React.FC<DropdownProps> = ({
   selectedValues = [],
@@ -26,7 +32,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   validation,
   width,
   onBlur,
-  handleValidate,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -40,6 +45,9 @@ const Dropdown: React.FC<DropdownProps> = ({
           setIsOpen(false);
           setRotateImg(false);
           // If the dropdown closes and no option is selected, run validation
+          // if (selectedValues.length === 0) {
+          //   validateDropdown(selectedValues);
+          // }
         }
       }
     };
@@ -56,44 +64,45 @@ const Dropdown: React.FC<DropdownProps> = ({
     setTouched(true);
   };
 
-  const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const newSelectedValues = selectedValues.includes(value)
-      ? selectedValues.filter((item) => item !== value) // Deselect
-      : [...selectedValues, value]; // Select
+    const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
     
-    // Trigger the parent component's onSelect and validation
-    onSelect(newSelectedValues);
-  
-    // Check if there are selected values and validate
-  };
-  
-
-  const validateDropdown = (values: string[]) => {
-    // If no options are selected and touched, validate on blur
-    if (values.length === 0 && touched) {
-      onBlur && onBlur();
-    }
-  };
+      // Ensure selectedValues is an array
+      const newSelectedValues = Array.isArray(selectedValues)
+        ? selectedValues.includes(value)
+          ? selectedValues.filter((item) => item !== value)
+          : [...selectedValues, value]
+        : [value]; // Initialize with the first selected value if not an array
+    
+      onSelect(newSelectedValues);
+    };
+    const validateDropdown = (value: string[] | undefined, fieldName: string) => {
+      if (Array.isArray(value) && value.length > 0) {
+        // Proceed with your validation logic
+      } else {
+        // Handle the case where the array is undefined or empty
+        console.log(`${fieldName} is either empty or not an array`);
+      }
+    };
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef}>
       <label className="droplabelPricing">{label}</label>
       <div
-        className="dropdownPricingList"
+        className={
+          !validation?.isValid ? "dropdownPricingred" : "dropdownPricingList"
+        }
         style={{ width: "Drop1" ? "300px" : "100px" }}
         onClick={handleDropdownClick}
         tabIndex={0}
       >
-        {selectedValues.length > 0 ? (
+        {/* {selectedValues.length > 0 ? (
           <div className="valuePricing">
-            {/* Display up to 3 selected values and join them with commas */}
             {selectedValues.slice(0, 3).join(", ")}
-         
           </div>
         ) : (
           <div className="valuePlaceholder"></div>
-        )}
+        )} */}
         <div>
           <img
             src={UpArrow}
@@ -131,4 +140,5 @@ const Dropdown: React.FC<DropdownProps> = ({
     </div>
   );
 };
+
 export default Dropdown;

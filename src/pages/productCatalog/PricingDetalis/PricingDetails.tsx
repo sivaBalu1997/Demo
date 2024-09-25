@@ -5,6 +5,7 @@ import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Specialavail from "../../../components/productCatalog/SpecialAvail/Specialavail";
 import Normalavail from "../../../components/productCatalog/Normalavail/Normalavail";
 import { useDispatch, useSelector } from "react-redux";
+import Tooltip from "../../../components/productCatalog/Tooltip/Tooltip";
 import {
   getTagClassRequest,
   PricingDetailRequest,
@@ -17,6 +18,7 @@ import Navigationpage from "components/productCatalog/Navigation/NavigationPage"
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import Inventory from "components/productCatalog/Inventory/Inventory";
+import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -52,9 +54,10 @@ type MainFormType = {
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
-  DineInService: string | string[];
-  showDay:any
-  dayButtonText:any
+  DineInServiceArea?: string | string[];
+  DineInService:string
+  showDay: boolean
+  dayButtonText: string
 };
 
 interface FormState {
@@ -197,6 +200,9 @@ const PricingDetails = () => {
   const data = useSelector(
     (state: StateData) => state.productCatalog.availability
   );
+  const dietaryData = useSelector(
+    (state: StateDataTag3) => state.productCatalog.dietaryData
+  );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
@@ -209,8 +215,39 @@ const PricingDetails = () => {
     Kitchen: false,
   });
   const history = useHistory();
-  const [selectedValues2, setSelectedValues2] = useState<string[]>([]);
 
+  const {
+    register: register1,
+    getValues: getValues1,
+    control: control1,
+  } = useForm<MainFormType>({
+    defaultValues: {
+      availabilityid: [],
+      formNormal: {
+        PickuppriceNormal: "",
+        PickupmealtypeNormal: "",
+        DeliverypriceNormal: "",
+        DeliverymealtypeNormal: "",
+        SwiggyorzomatoNormal: "",
+        SwiggyNormal: "",
+        SwiggymealtypeNormal: "",
+        ZomatoNormal: "",
+        ZomatomealtypeNormal: "",
+      },
+      dineinfields: [],
+      Normaldays: [],
+      DeliveryMealType: [],
+      PicupMealType: [],
+      Pickup: [],
+      DineInServiceArea: [],
+      Delivery: [],
+      thirdParty: [],
+      WeekDays: [],
+      DineIn: [],
+      Swiggy: [],
+      Zomato: [],
+    },
+  });
 
   const [mainFormSpecial, setMainFormSpecial] = useState<MainFormSpecial>({
     form: {
@@ -338,7 +375,18 @@ const PricingDetails = () => {
     }
   }, []);
 
-  
+  const dispatchEvent = () => {
+    const isFormValid = validateForm();
+
+    if (!isFormValid) {
+      console.log("Form validation failed. Please check the errors.");
+      return;
+    }
+    dispatch(PricingDetailRequest({ mainForm }));
+    history.push(`/productCatalog/Itemcustomizations`, {
+      state: { pagename: "Item customizations" },
+    });
+  };
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
   //   history.push(`/productCatalog/Itemcustomizations`, {
@@ -354,7 +402,6 @@ const PricingDetails = () => {
   const getApi = async () => {
     dispatch(getTagClassRequest(locationid));
   };
-  
 
   // const onSubmit: SubmitHandler<any> = (data: any) => {
   //   dispatchEvent();
@@ -362,127 +409,102 @@ const PricingDetails = () => {
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
-
   const [dineinfields, setDineInFields] = useState<DineInField[]>([
     {
       DineInPrice: "",
       DineInMealType: [],
-      DineInService: "", // Change this from DineInService to DineInServiceArea
+      DineInService: "",
       showDay: false,
       dayButtonText: "Add Day",
     },
   ]);
+  console.log(dineinfields);
+  // console.log(mainForm);
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
   };
+
+  const [validationStateerr, setValidationStateerr] =
+    useState<DropdownValidationState>({});
+  const [ToogleEnables, setToogleEnables] = useState({
+    dineIn: false,
+    online: false,
+    pickup: false,
+    delivery: false,
+  });
   const validateDineInFields = (dineinfields: DineInField[]) => {
     const errors: DropdownValidationState = {};
- 
+
     dineinfields.forEach((field, index) => {
       const mealTypeKey = `DineInMealType_${index}`;
       const priceKey = `DineInPrice_${index}`;
-      const DineInService=`DineInService_${index}`
- 
+      const DineInService = `DineInService_${index}`;
+
       // Validate DineInMealType
-      if (!field.DineInMealType || field.DineInMealType.length === 0) {
-        errors[mealTypeKey] = {
-          isValid: false,
-          errorMessage: "Meal type should not be empty.",
-        };
-      } else {
-        errors[mealTypeKey] = { isValid: true, errorMessage: "" };
-      }
- 
-      if(!field.DineInService||field.DineInService.length === 0)
-      {
-        errors[DineInService] = {
-          isValid: false,
-          errorMessage: "Service area should not be empty.",
-        };
-      }
-      else {
-        errors[DineInService] = { isValid: true, errorMessage: "" };
-      }
- 
-     
-      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
-        errors[priceKey] = {
-          isValid: false,
-          errorMessage: "Price",
-        };
-      } else {
-        errors[priceKey] = { isValid: true, errorMessage: "" };
+
+      if (ToogleEnables.dineIn) {
+        if (!field.DineInMealType || field.DineInMealType.length === 0) {
+          errors[mealTypeKey] = {
+            isValid: false,
+            errorMessage: "Meal type should not be empty.",
+          };
+        } else {
+          errors[mealTypeKey] = { isValid: true, errorMessage: "" };
+        }
+
+        if (!field.DineInService || field.DineInService.length === 0) {
+          errors[DineInService] = {
+            isValid: false,
+            errorMessage: "Service area should not be empty.",
+          };
+        } else {
+          errors[DineInService] = { isValid: true, errorMessage: "" };
+        }
+
+        if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
+          errors[priceKey] = {
+            isValid: false,
+            errorMessage: "Price should be a valid number.",
+          };
+        } else {
+          errors[priceKey] = { isValid: true, errorMessage: "" };
+        }
       }
     });
- 
+
     return errors;
   };
-  const handleValidateDropdown = ( ) => {
-   
-    const dropErrors: DropdownValidationState = {};
-   
-  
-    if (mainFormState.PicupMealType.length === 0) {
-      dropErrors.Pickup = {
-        isValid: false,
-        errorMessage: "Please fill this field",
-      };
-    }
-    if(!mainFormState.formNormal.PickuppriceNormal)
-    {
-      dropErrors.PickupPrice={isValid:false,errorMessage:"Price"}
-    }
-    if(mainFormState.DeliveryMealType.length==0)
-    {
-      dropErrors.Delivery={
-        isValid:false,
-        errorMessage:"Please Fill this field"
-      }
-      if(!mainFormState.formNormal.DeliverypriceNormal)
-        {
-          dropErrors.DeliveryPrice={isValid:false,errorMessage:"Price"}
-        }  
-      
-    }
-    else{
-      dropErrors.Delivery={isValid:true,errorMessage:""}
-      dropErrors.Pickup = { isValid: true, errorMessage: "" };
-      dropErrors.PickupPrice={ isValid: true, errorMessage: "" };
-      dropErrors.DeliveryPrice={ isValid: true, errorMessage: "" };
-    }
-    return dropErrors;
+
+  // Function to handle values passed from the child
+  const handleValuesFromChild = (
+    dineIn: boolean,
+    online: boolean,
+    pickup: boolean,
+    delivery: boolean
+  ) => {
+    setToogleEnables({ dineIn, online, pickup, delivery });
+    console.log("Values from child:", dineIn, online, pickup, delivery);
   };
-  
-  const [validationStateerr, setValidationStateerr] = useState<DropdownValidationState>({}); 
-  const handleValidate = (): boolean => {
-    
-  
-    // Get the dropdown validation errors
-    const dropdownErrors = handleValidateDropdown();
-  
-    // Get the dine-in fields validation errors
-    const dineInErrors = validateDineInFields(dineinfields);
-  
-    // Combine both error objects
-    const combinedErrors = {
-      ...dropdownErrors,
-      ...dineInErrors,
-    };
-  
-    console.log("Combined validation errors:", combinedErrors); // Log errors
-    console.log(getValues())
-  
-    // Set the validation state for displaying errors in the UI
-    setValidationStateerr(combinedErrors);
-  
-    // Check if any of the fields are invalid
-    const isValid = Object.values(combinedErrors).every((error) => error.isValid === true);
-  
-    // Return true if all fields are valid, otherwise false
-    return isValid;
+
+  const handleValidate = () => {
+    const errors = validateDineInFields(dineinfields);
+    setValidationStateerr(errors);
+    console.log("errors", errors);
+
+    const hasInvalidField = Object.values(errors).some(
+      (error) => error.isValid === false
+    );
+
+    return !hasInvalidField;
   };
-  console.log("hello",mainForm.form.Inventory1)
- console.log(mainFormState)
+
+  // console.log("Hello",validateDineInFields(dineinfields))
+  // let erros = validateDineInFields(dineinfields);
+
+  // const submiterror = () => {
+  //   console.log(erros);
+  // };
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -496,40 +518,34 @@ const PricingDetails = () => {
           }
         >
           <div className="pricing-form">
-            <div className="Tool">
-              <p className="KitchenRelatedHeading">Kitchen Related</p>
-              {/* <Tooltip message="Kitchen Related">
-                      <div className="ToolKitchen">
-                        <img src={info} alt="" width={20} height={20} />
-                      </div>
-                    </Tooltip> */}
-            </div>
-
             <div className="KitchenRelated">
               <div className="D1kitchen">
-                <Dropdown
-                  name="kitchenstation"
-                  options={[]}
-                  type="checkbox"
-                  setOptions={setOptions1}
-                  placeholder="Search for option"
-                  register={register}
-                  setValue={setValue}
-                  error={errors.kitchenstation}
-                  trigger={trigger}
-                  getValues={getValues}
-                  validation={{ required: "dietaryType is required" }}
-                  addNew={true}
-                  editValues={true}
-                  setDropdownOpen={setDropdownOpen}
-                  dropdownopen={DropdownOpen.Kitchen}
-                  onToggle={() => handleDropdownToggle("Kitchen")}
-                />
+                <p>Kitchen Related</p>
+                <div className="kitche-stations-dropdown">
+                  <Dropdown
+                    name="kitchenstation"
+                    options={dietaryData}
+                    type="checkbox"
+                    setOptions={setOptions1}
+                    placeholder="Search for option"
+                    register={register}
+                    setValue={setValue}
+                    error={errors.kitchenstation}
+                    trigger={trigger}
+                    getValues={getValues}
+                    // validation={{ required: "dietaryType is required" }}
+                    addNew={true}
+                    editValues={true}
+                    setDropdownOpen={setDropdownOpen}
+                    dropdownopen={DropdownOpen.Kitchen}
+                    onToggle={() => handleDropdownToggle("Kitchen")}
+                  />
+                </div>
               </div>
 
               <div className="D2kitchen">
                 <div className="Prepartiontime">
-                  <label htmlFor="" className="heading">Preparation time</label>
+                  <label htmlFor="">Preparation time</label>
                   <div className="Prepartiontime-input-fileds">
                     <input type="text" className="Prepartiontime-input-hours" />
                     <span>Hours</span>
@@ -569,7 +585,7 @@ const PricingDetails = () => {
                       name="form.Inventory1"
                       control={control}
                       defaultValue=""
-                      render={({ field,trigger }: any) => (
+                      render={({ field }: any) => (
                         <input
                           className="I1"
                           type="text"
@@ -577,7 +593,8 @@ const PricingDetails = () => {
                           onChange={(e) => {
                             const value = e.target.value;
                             setValue("form.Inventory1", value);
-                            trigger(trigger);                          }}
+                            trigger("form.Inventory1");
+                          }}
                           style={{
                             borderColor: formerrors.Inventory1
                               ? "red"
@@ -604,7 +621,7 @@ const PricingDetails = () => {
                             setValue("form.Inventory2", value); 
 
                         
-                            trigger(form.Inventory2);
+                            trigger("form.Inventory2");
                           }}
                           style={{
                             borderColor: formerrors.Inventory2
@@ -665,7 +682,6 @@ const PricingDetails = () => {
               </div>
             </div>
 
-
             {isOptionTrue ? (
               <Normalavail
                 validateDropdown={validateDropdown}
@@ -674,15 +690,11 @@ const PricingDetails = () => {
                 validationState={validationState}
                 setMainFormState={setMainFormState}
                 mainFormState={mainFormState}
-                selectedValues2={selectedValues2}
-                setSelectedValues2={setSelectedValues2}
                 dineinfields={dineinfields}
-                handleValidate={handleValidate}
                 setDineInFields={setDineInFields}
+                handleValidate={handleValidate}
+                onToggelChange={handleValuesFromChild}
                 setValidationStateerr={setValidationStateerr}
-                ValidationStateerr={validationStateerr}
-                
-                
               />
             ) : (
               <Specialavail
@@ -711,7 +723,7 @@ const PricingDetails = () => {
               reset={reset}
               triggerValidation={() => trigger()}
               mainForm={mainForm}
-              handleValidate={handleValidate}
+              validation={() => handleValidate()}
             />
           </div>
         </div>
