@@ -12,6 +12,7 @@ import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
 import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { useHistory } from "react-router-dom";
 
 interface PricingDetails {
   Dinein1: string[];
@@ -54,6 +55,7 @@ const Slider: React.FC<SliderProps> = ({
   sidebartext,
   SideBarData,
 }) => {
+  const history = useHistory();
   const { pen, setPen } = useContext(Contextpagejs);
   const dispatch = useDispatch();
   const [eye, setEye] = useState(false);
@@ -90,6 +92,9 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const handlePen = () => {
+    history.push("/productCatalog/PrimaryDetails",{id:SideBarData[0].id});
+
+
     setPen(!pen);
   };
 

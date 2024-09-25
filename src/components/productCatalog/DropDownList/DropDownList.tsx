@@ -86,7 +86,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [Disablesubcategory, setDisablesubcategory] = useState<boolean>(false);
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [showselectedOption, setShowselectedOption] = useState<boolean>(false);
+  const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
   const dispatch = useDispatch();
 
   const getdatafrosaga = () => {
@@ -119,6 +119,10 @@ const DropDownList: React.FC<DropdownProps> = ({
     };
   }, [setDropdownOpen]);
 
+useEffect(()=>{
+  dispatch(fetchDropDownRequest(dropDownType));
+},[initialOptions])
+
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if(dropDownType){
@@ -137,12 +141,22 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-
-    if (!dropdownopen && e.target.value !== "") {
-      // onToggle();
+  
+    // If there is text in the search term, ensure the dropdown is open
+    if (e.target.value !== "") {
+      if (!dropdownopen) {
+        onToggle(); // Open the dropdown
+      }
+      setShowselectedOption(false);
+    } else {
+      setShowselectedOption(true);
+      // Optionally close the dropdown if the search term is empty
+      if (dropdownopen) {
+        onToggle(); // Close the dropdown
+      }
     }
-    setShowselectedOption(false);
   };
+  
 
   useEffect(() => {
     const initialSelectedValue = getValues(name);
@@ -198,6 +212,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         },
       };
       setOptions([...initialOptions, newItem]);
+     
       handleSelect(newItem);
       setSearchTerm("");
       setAddNewButton(false);
@@ -311,6 +326,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                         <span
                           className="dropdon-option-label"
                           onClick={() => handleSelect(option)}
+                         
                         >
                           {option.name}
                         </span>
@@ -350,12 +366,13 @@ const DropDownList: React.FC<DropdownProps> = ({
                 </div>
               )}
             </ul>
-            <div>
+            <div className="edititem">
               {!editList && editValues && (
                 <p
                   className="editiconimage"
                   onMouseDown={handleOptionMouseDown}
                   onClick={() => handleedit()}
+                  // style={{position:'relative',left:'-2rem'}}
                 >
                   Edit
                 </p>

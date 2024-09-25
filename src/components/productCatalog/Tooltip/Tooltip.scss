@@ -3,6 +3,7 @@
   display: inline-block;
   cursor: pointer;
   margin-left: 0;
+  z-index: 2;
   // width: 5px;
   // background-color: yellow;
 }
@@ -18,7 +19,7 @@
   border: 1px solid #67833e;
   padding: 5px;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   top: -10px;
   left: 280%;
   margin-left: -60px; /* Center the tooltip */
@@ -30,6 +31,15 @@
 .tooltip-container:hover .tooltip-message {
   visibility: visible;
   opacity: 1;
+}
+.Text
+{
+    font-family: Poppins;
+font-size: 10px;
+font-weight: 400;
+line-height: 15px;
+text-align: left;
+
 }
 
 .icon-background {

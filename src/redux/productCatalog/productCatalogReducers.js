@@ -66,7 +66,10 @@ import {
   DELETECATEGORY_FAILURE,
   DELETESUBCATEGORY_REQUEST,
   DELETESUBCATEGORY_SUCCESS,
-  DELETESUBCATEGORY_FAILURE
+  DELETESUBCATEGORY_FAILURE,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAILURE,
+  UPLOAD_IMAGE_IN_PROGRESS,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -559,6 +562,55 @@ export const imageReducer = (state = ItemImage, action) => {
       return state;
   }
 };
+const imageuploadinitialstate = {
+  images: [], // Array of images to be uploaded
+  uploadStatus: {}, // Store image upload status: { imageId: 'pending' | 'success' | 'failed' }
+  errorMessages: {}, // Store error messages for failed uploads: { imageId: errorMessage }
+};
+
+export const imageUploadReducer = (state = imageuploadinitialstate, action) => {
+  switch (action.type) {
+    case UPLOAD_IMAGE_IN_PROGRESS:
+      return {
+        ...state,
+
+      };
+    case UPLOAD_IMAGE_SUCCESS:
+      return {
+        ...state,
+        uploadStatus: {
+          ...state.uploadStatus,
+          id: action.payload.id,
+          image: action.payload.image,
+          index: action.payload.index,
+          status: 'success',
+        },
+      };
+    case UPLOAD_IMAGE_FAILURE:
+      return {
+        ...state,
+        uploadStatus: {
+          ...state.uploadStatus,
+          id: action.payload.id,
+          index: action.payload.index,
+          image: action.payload.image,
+          status: 'failed',
+        },
+        errorMessages: {
+          ...state.errorMessages,
+          id: action.payload.id,
+          image: action.payload.image,
+          index: action.payload.index,
+          errormessgae: action.payload.error,
+        },
+      };
+    default:
+      return state;
+  }
+};
+
+
+
 
 const mockData = {
   data: [],

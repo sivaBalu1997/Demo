@@ -84,7 +84,11 @@ import {
   FETCHDROPDOWN_SUCCESS,
   DELETEDROPDOWN_REQUEST,
   DELETEDROPDOWN_SUCCESS,
-  DELETEDROPDOWN_FAILURE
+  DELETEDROPDOWN_FAILURE,
+  UPLOAD_IMAGE,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_FAILURE,
+  UPLOAD_IMAGE_IN_PROGRESS
 
 } from "./productCatalogConstants";
 
@@ -552,3 +556,18 @@ export const deleteDropDownFailure = (error) => ({
   type: DELETEDROPDOWN_FAILURE,
   payload: error
 })
+
+export const uploadImage = (image, id,index) => ({
+  type: UPLOAD_IMAGE_IN_PROGRESS,
+payload: { image, id ,index},
+});
+
+export const uploadImageSuccess = (image,id,index) => ({
+  type: UPLOAD_IMAGE_SUCCESS,
+  payload: {image,id,index},
+});
+
+export const uploadImageFailure = (image,id, index,error) => ({
+  type: UPLOAD_IMAGE_FAILURE,
+  payload: { image, id,index,error },
+});

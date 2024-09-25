@@ -13,6 +13,8 @@ import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImag
 import {
   addMenuItemRequest,
   addMockDataRequest,
+  cleanMenuItemSuccessMsg,
+  uploadImage,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
@@ -32,12 +34,6 @@ interface AllergenImage {
 interface Base64Image {
   mimeType: string;
   base64String: string;
-}
-interface ImageFile {
-  file: File;
-  uploaded: boolean;
-  failed: boolean;
-  preview: string; // To store the image preview URL
 }
 
 interface PrimaryData {
@@ -96,6 +92,27 @@ interface RootState {
     };
   };
 }
+interface Status {
+  id: number;
+  image: File;
+  status: string;
+  index: number;
+}
+
+interface ImageUpload {
+  uploadStatus: Status;
+  errorMessages: Status;
+}
+interface ImageFile {
+  file: File;
+  preview: string;
+}
+
+interface ImageId {
+  productCatalog: {
+    addMenuSuccessMessage: string;
+  };
+}
 
 const PrimaryDetailsReviewpage: React.FC = () => {
   const history = useHistory();
@@ -103,7 +120,68 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
   const fetchedprimarydata = primarydata;
+  // console.log(fetchedprimarydata.ingredients);
+
+  const uploadStatus = useSelector(
+    (state: { imageUpload: ImageUpload }) => state.imageUpload.uploadStatus
+  );
+  const errorMessages = useSelector(
+    (state: { imageUpload: ImageUpload }) => state.imageUpload.errorMessages
+  );
+  const [error, setError] = useState<Status[]>([]);
+
+  const ImageId = useSelector(
+    (state: ImageId) => state.productCatalog.addMenuSuccessMessage
+  );
+  const [imageIdtosend, setimageIdtosend] = useState<string>("");
+  console.log("ImageId", ImageId);
+
+  useEffect(() => {
+    if (uploadStatus && uploadStatus.index !== undefined) {
+      console.log("index", uploadStatus.index);
+
+      setError((prevErro) => {
+        const existingErrorIndex = prevErro.findIndex(
+          (entry) => entry.index === uploadStatus.index
+        );
+
+        if (existingErrorIndex !== -1) {
+          const updatedErro = [...prevErro];
+          updatedErro[existingErrorIndex] = {
+            ...updatedErro[existingErrorIndex],
+            status: uploadStatus.status,
+            image: uploadStatus.image,
+            id: uploadStatus.id,
+          };
+          return updatedErro;
+        } else {
+          return [
+            ...prevErro,
+            {
+              index: uploadStatus.index,
+              status: uploadStatus.status,
+              image: uploadStatus.image,
+              id: uploadStatus.id,
+            },
+          ];
+        }
+      });
+    }
+  }, [uploadStatus, errorMessages]);
+
+  // useEffect(() => {
+  //   if (uploadStatus.id && Object.keys(uploadStatus).length > 0){
+  //     setError((prev)=>[...prev,uploadStatus]);
+  //     console.log(error,"errosrs")
+  //   } else {
+  //     // If uploadStatus is not an array, you can handle it here
+  //     console.error("uploadStatus is not an array:", uploadStatus);
+  //   }
+  // }, [uploadStatus, errorMessages]);
+
   const primarypagedetails = useSelector((state: RootState) => state);
+
+  const MAX_IMAGES = 6;
 
   const data = [
     {
@@ -112,6 +190,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       altName: "alt name",
       type: "steamedVeg",
       itemName: primarypagedetails.primarypage.data.itemName,
+      imageUrls: primarypagedetails.primarypage.data.imageUrls,
       description: primarypagedetails.primarypage.data.description,
       price: "12",
       categoryId: primarypagedetails.primarypage.data.categoryId,
@@ -127,67 +206,127 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     },
   ];
 
-  const [uploading, setUploading] = useState(false);
-
-  const Simulationofimageupload = async (index: number) => {
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        if (index % 2 === 0) {
-          reject(`Image ${index + 1} failed`);
-        } else {
-          resolve();
-        }
-      }, 1000);
-    });
-  };
-  const selectedImages = fetchedprimarydata?.imageUrls || [];
-
+  // const selectedImages = fetchedprimarydata?.imageUrls || [];
+  const [diableSubmit, setdiableSubmit] = useState<boolean>(false);
   const [uploadedimage, setUploadedimage] = useState<ImageFile[]>(
     fetchedprimarydata.imageUrls
   );
 
-  const uploadImages = async () => {
-    setUploading(true);
-    for (let i = 0; i < uploadedimage.length; i++) {
-      if (uploadedimage[i].uploaded || uploadedimage[i].failed) continue;
+  const selectedImages = uploadedimage || [];
+  // console.log("selectedImages", uploadedimage);
+  const emptySlots =
+    selectedImages.length === 0
+      ? MAX_IMAGES - selectedImages.length - 1
+      : MAX_IMAGES - selectedImages.length;
 
-      try {
-        await Simulationofimageupload(i);
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(true); // Initialize submit as disabled
 
-        setUploadedimage((prevImages) =>
-          prevImages.map((img, index) =>
-            index === i ? { ...img, uploaded: true } : img
-          )
-        );
-        console.log("Uploaded:", uploadedimage[i].file.name);
-      } catch (error) {
-        setUploadedimage((prevImages) =>
-          prevImages.map((img, index) =>
-            index === i ? { ...img, failed: true, preview: emptyfoodimg } : img
-          )
-        );
-        alert(`Failed to upload image: ${uploadedimage[i].file.name}`);
-      }
+  const hasImageError = (image: File): boolean => {
+    return error.some(
+      (entry) => entry.image === image && entry.status !== "success"
+    );
+  };
+
+  const checkAllImagesForErrors = () => {
+    if (Array.isArray(uploadedimage)) {
+      const hasErrors = uploadedimage.some((img) => hasImageError(img.file));
+      setDisableSubmit(hasErrors);
+    } else {
+      setDisableSubmit(true);
     }
-    setUploading(false);
+  };
+const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
+  const [indextoreplace, setindextoreplace] = useState<Status[]>([]);
+
+  useEffect(() => {
+    checkAllImagesForErrors();
+  }, [uploadedimage, error]);
+
+  const handleRetry = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    indexToReplace: number
+  ) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const validImageTypes = ["image/jpeg", "image/png"];
+      const maxSizeInBytes = 2 * 1024 * 1024;
+
+      if (!validImageTypes.includes(file.type)) {
+        alert(`Invalid file type: Only PNG and JPG are allowed.`);
+        return;
+      }
+      if (file.size > maxSizeInBytes) {
+        alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+        return;
+      }
+
+      const newImage = {
+        file,
+        preview: URL.createObjectURL(file),
+      };
+
+      setUploadedimage((prevImages) => {
+        const updatedImages = [...prevImages];
+        updatedImages[indexToReplace] = newImage;
+
+        return updatedImages;
+      });
+
+      const ReplaceImage = {
+        id: uploadStatus.id,
+        image: file,
+        status: uploadStatus.status,
+        index: indexToReplace,
+      };
+
+      setTimeout(() => {
+        dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
+      }, 5000);
+      // setindextoreplace((prev)=>[...prev,ReplaceImage]);
+
+      
+
+      setTimeout(() => checkAllImagesForErrors(), 0);
+    }
   };
 
   const handleDispatch = async () => {
-    try {
-      await uploadImages();
+    checkAllImagesForErrors();
+    const allUploaded = uploadedimage.every(
+      (img) => img && !hasImageError(img.file)
+    );
 
-      const allUploaded = uploadedimage.every((img) => img.uploaded);
+    if (uploadStatus.id && error && error.length > 0) {
+      const allSuccess = error.every((data) => data.status === "success");
+      if (allUploaded && allSuccess) {
+        dispatch(cleanMenuItemSuccessMsg())
 
-      if (allUploaded) {
-        dispatch(addMenuItemRequest(data));
-        dispatch(addMockDataRequest(data));
-        history.push("/menuListing");
+        setTimeout(() => {
+          history.push("/menuListing");
+          
+        }, 2000);
+
+       
       } else {
-        alert("Some images failed to upload. Please check and try again.");
+        console.log("Not all images are uploaded successfully.");
       }
-    } catch (error) {
-      console.error("Error during image upload or dispatching:", error);
     }
+    
+    for(let [index,image] of indextoreplace.entries()){
+      console.log("image",image,"index",index)
+
+    }
+    dispatch(addMenuItemRequest(data));
+      dispatch(addMockDataRequest(data));
+
+    // If needed, redirect or perform other actions here
+    // if (allUploaded) {
+    //   history.push("/menuListing");
+    // }
+  };
+
+  const handleAddImage = (index: number) => {
+    document.getElementById(`imgadd-${index}`)?.click();
   };
 
   return (
@@ -375,8 +514,154 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                 {
                   <div className="primaryimages">
                     <p>Primary Image</p>
+                    <div style={{ display: "flex" }}>
+                      {error.map((item) => (
+                        <p style={{ width: "100px" }}>{item.status} </p>
+                      ))}
+                    </div>
 
-                    <PrimaryImageSelected fetchedprimarydata={uploadedimage} />
+                    <div className="images">
+                      <div className="images">
+                        <ol>
+                          {selectedImages && selectedImages[0] && (
+                            <li>
+                              {/* <img
+                                className="uploaded-image"
+                                src={selectedImages[0].preview}
+                                alt={`Preview of `}
+                              /> */}
+                              <div style={{ fontSize: "30px" }}>
+                                {hasImageError(selectedImages[0].file) ? (
+                                  <>
+                                    <div className="imagewitherror">
+                                      <img
+                                        src={emptyfoodimg}
+                                        alt={``}
+                                        className="eerroremptyimage"
+                                      />
+
+                                      <input
+                                        type="file"
+                                        name="imageUrls"
+                                        className="imgfile"
+                                        id={`imgadd-${0}`} // Unique ID for each input
+                                        accept="image/png, image/jpeg"
+                                        onChange={(e) => handleRetry(e, 0)}
+                                        style={{ display: "none" }} // Hide the file input, trigger it with a button
+                                      />
+
+                                      <span
+                                        className="errromsg"
+                                        onClick={() => handleAddImage(0)} // Pass the correct index to handleAddImage
+                                      >
+                                        Retry
+                                      </span>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <img
+                                    className="uploaded-image"
+                                    src={selectedImages[0].preview}
+                                    alt={`Preview of `}
+                                  />
+                                )}
+                              </div>
+                            </li>
+                          )}
+
+                          {selectedImages?.length === 0 &&
+                            [0].map((_, index) => (
+                              <li key={index + 1}>
+                                <img
+                                  src={emptyfoodimg}
+                                  alt={`sample ${index}`}
+                                />
+                              </li>
+                            ))}
+
+                          <div className="selectediagelist">
+                            {selectedImages &&
+                              selectedImages.slice(1).map((image, index) => (
+                                <li key={index + 1}>
+                                  {hasImageError(image.file) ? (
+                                    <div className="imagewitherror">
+                                      <img
+                                        src={emptyfoodimg}
+                                        alt={``}
+                                        className="eerroremptyimage"
+                                      />
+
+                                      <input
+                                        type="file"
+                                        name="imageUrls"
+                                        className="imgfile"
+                                        id={`imgadd-${index + 1}`} // Unique ID for each input
+                                        accept="image/png, image/jpeg"
+                                        onChange={(e) =>
+                                          handleRetry(e, index + 1)
+                                        }
+                                        style={{ display: "none" }} // Hide the file input, trigger it with a button
+                                      />
+
+                                      <span
+                                        className="errromsg"
+                                        onClick={() =>
+                                          handleAddImage(index + 1)
+                                        } // Pass the correct index to handleAddImage
+                                      >
+                                        Retry
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <img
+                                      className="uploaded-image"
+                                      src={image.preview}
+                                      alt={`Preview of `}
+                                    />
+                                  )}
+                                </li>
+                              ))}
+
+                            {Array.from({ length: emptySlots })
+                              .slice(0)
+                              .map((_, index) => (
+                                <li key={selectedImages.length + index + 1}>
+                                  <img
+                                    src={emptyfoodimg}
+                                    alt={`empty ${index}`}
+                                  />
+                                </li>
+                              ))}
+                          </div>
+                        </ol>
+                        <ol>
+                          {/* {selectedImages.map((img, index) => (
+                      <div key={index} className="image-container">
+                        <img
+                          className="uploaded-image"
+                          src={img.preview}
+                          alt={`Preview of ${img.file.name}`}
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover",
+                          }} // Display a small thumbnail
+                        />
+                        <div>
+                          {img.file.name} -{" "}
+                          {img.uploaded
+                            ? "Uploaded"
+                            : img.failed
+                            ? "Failed"
+                            : "Pending Upload"}
+                        </div>
+                      </div>
+                    ))} */}
+                        </ol>
+                      </div>
+                    </div>
+
+                    {/* <PrimaryImageSelected fetchedprimarydata={uploadedimage}  /> */}
                   </div>
                 }
 
@@ -447,7 +732,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             onClick={handleDispatch}
-            // disabled={uploading || selectedImages.length === 0}
+            // disabled={disableSubmit}
           >
             Submit for review
           </button>

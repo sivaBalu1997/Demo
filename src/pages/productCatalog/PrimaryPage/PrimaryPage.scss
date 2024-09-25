@@ -42,13 +42,13 @@
     .tool-tip-portion-size{
       position: relative;
       // background-color: orange;
-      left: 5%;
+      left: 10%;
       width: 1px;
     }
     .tool-tip-tax-class{
-      position: relative;
+     
       // background-color: orange;
-      left: 5%;
+     margin-left: 5%;
       width: 1px;
     }
   }
@@ -190,6 +190,8 @@
       gap: 10px;
       align-items: center;
       justify-content: center;
+     position: relative;
+     top: -1.2%;
       input {
         width: 15px;
         height: 15px;
@@ -211,10 +213,16 @@
       border: 1px solid rgba(0, 0, 0, 0.3);
       margin-top: 3%;
     }
+    .tool-tip-Allergen
+    {
+      margin-left: 100%;
+      margin-top: -5%;
+    }
 
     .Primary-page-container-pairtwo {
       width: 45vw;
       height: 90vh;
+      margin-left: 2rem;
     }
   }
   .Primary-page-container-two {
@@ -248,7 +256,7 @@
         // background-color: red;
         .Caloriepointradio {
           position: relative;
-          left: 1.7%;
+          left: 1%;
         }
         .Primary-page-Other-Detail-mastercode {
           display: flex;
@@ -256,7 +264,7 @@
           justify-content: center;
           align-items: center;
           position: relative;
-          left: 0.2%;
+          left: 0.5%;
           // background-color: cadetblue;
         }
         .portionsizeTooltip {
@@ -275,3 +283,8 @@
   }
 }
 
+.portionSize-Radio
+{
+  position: relative;
+  left: 0.8rem;
+}
