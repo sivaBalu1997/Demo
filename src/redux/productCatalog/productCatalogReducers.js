@@ -509,6 +509,17 @@ export default function employeeReducer(
   });
 }
 
+//{.....................Image Upload.........................}
+
+
+
+
+
+
+
+
+
+
 // {*************Primary Page Redux ************************************************}
 const primarypagedata = {
   data: [],
