@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
 import { useDispatch } from "react-redux";
-import StringDisplay from "../StringDisplay/StringDisplay";
+// import StringDisplay from "../StringDisplay/StringDisplay";
 import HoverText from "../HoverText/HoverText";
 
 interface Item {
