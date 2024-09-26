@@ -565,7 +565,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
         </div>
       </div>
-      <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1>
+      {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
       {/* DineIn Related */}
       <div className="DineInRelated">
         <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>

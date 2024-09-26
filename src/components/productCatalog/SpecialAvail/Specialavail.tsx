@@ -54,7 +54,7 @@ interface SpecialAvailProps {
   dineinfield1?:any
   setDineInFields1?:any
   setValidationStateerr?:any
-                ValidationStateerr?:any
+ValidationStateerr?:any
 
 }
 
@@ -395,6 +395,8 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     // Update the state with the modified array
     setDineInFields1(newDineInFields);
   };
+
+  console.log("validationStateerr",ValidationStateerr)
   return (
     <div>
       <h1 className="AvailableDaysHeading" style={{ marginTop: "40px" }}>
@@ -461,7 +463,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
       {dinein ? (
         <>
           { 
-  dineinfield1 && dineinfield1.map((item:any, index:any) => (
+  dineinfield1 && dineinfield1.map((item:any, index:any) => {
+    const mealTypeKey = `DineInMealType_${index}`;
+            const priceKey = `DineInPrice_${index}`;
+            const DineInService = `DineInService_${index}`;
+    
   
    
     <div
@@ -478,6 +484,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           className="DineInInput1"
           onChange={(e) => handleChange(index, e)}
         />
+         {!ValidationStateerr[priceKey]?.isValid && (
+                      <span className="ErrormsgPrice">
+                        {ValidationStateerr[priceKey]?.errorMessage}
+                      </span>
+                    )}
        
       </div>
 
@@ -518,7 +529,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
         </h1>
       </div>
     </div>
-  ))
+})
 }
           <div className="dineinentry"
               onClick={AddDineInEntry}>
