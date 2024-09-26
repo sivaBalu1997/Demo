@@ -64,6 +64,7 @@ th {
   overflow-y: auto;
   overflow-x: auto;
   margin-top: 0%;
+  border: 1px solid red;
   // &::-webkit-scrollbar{
   //   display: none;
   // }
@@ -76,8 +77,9 @@ th {
     border-collapse: collapse;
   }
   .Menu-Listing-TableOne {
-    width: 20rem;
-    height: 20rem;
+    // width: 20rem;
+    // height: 20rem;
+    // border: 1px solid black !important;
 
     .headerrow {
       display: flex;
@@ -227,18 +229,20 @@ th {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
   }
-  .table-two-alignment {
-    // width: 5rem;
-  }
+
+
+
+
+
+
+
+
   .Menu-Listing-TableTwo {
     width: 65rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-    // &::-webkit-scrollbar{
-    //   display: none;
-    // }
-
+   
     &::-webkit-scrollbar-track {
       background-color:#B3B3B3;
      
@@ -559,6 +563,7 @@ th {
     }
     // border: 1px solid red !important;
   }
+
   .tabletwobody {
     display: flex;
     flex-direction: column;
@@ -928,6 +933,63 @@ color: #5F5F5F;
 
 
 @media (max-width: 1440px) {
+  .Menu-Listing-Page-main
+  {
+    height: 45rem;
+    .Menu-Listing-TableOne
+    {
+     
+   
+      border: 1px solid red !important;
+      .Menu-Listing-TableOneBody {
+        height: 35rem;
+        display: block;
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+          display: none;
+        }
+        // border: 1px solid red;
+      }
+      .Menu-Listing-TableOneBodyExpanded
+      {
+        height: 34.5rem;
+        display: block;
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+          display: none;
+        }
+      }
+    }
+  }
+  .table-two-alignment
+  {
+    .Menu-Listing-TableTwoBody {
+      display: block;
+      height: 33rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 171.4%;
+      &::-webkit-scrollbar{
+        display: none;
+      }
+      // border: 1px solid red !important;
+    }
+    .Menu-Listing-TableTwoBody1 {
+      display: block;
+      height: 32.5rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 190.85%;
+      &::-webkit-scrollbar{
+        display: none;
+      }
+      // border: 1px solid red !important;
+    }
+  }
+ 
+  
+
+
   .mainpagemenu {
     height: 97vh;
     background: none;
@@ -954,6 +1016,8 @@ color: #5F5F5F;
     transition: width 0.6s ease;
    
   }
+  
+  
 
 
 
