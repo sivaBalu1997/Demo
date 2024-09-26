@@ -463,10 +463,8 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
       {dinein ? (
         <>
           { 
-  dineinfield1 && dineinfield1.map((item:any, index:any) => {
-    const mealTypeKey = `DineInMealType_${index}`;
-            const priceKey = `DineInPrice_${index}`;
-            const DineInService = `DineInService_${index}`;
+  dineinfield1 && dineinfield1.map((item:any, index:any) => (
+   
     
   
    
@@ -484,9 +482,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           className="DineInInput1"
           onChange={(e) => handleChange(index, e)}
         />
-         {!ValidationStateerr[priceKey]?.isValid && (
+          {!ValidationStateerr[`DineInMealType_${index}`]?.isValid && (
                       <span className="ErrormsgPrice">
-                        {ValidationStateerr[priceKey]?.errorMessage}
+                        {ValidationStateerr[`DineInMealType_${index}`]?.errorMessage}
                       </span>
                     )}
        
@@ -529,7 +527,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
         </h1>
       </div>
     </div>
-})
+  ))
 }
           <div className="dineinentry"
               onClick={AddDineInEntry}>
