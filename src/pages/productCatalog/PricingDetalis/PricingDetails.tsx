@@ -119,10 +119,14 @@ interface Option {
 interface MainForm {
   form: FormState1;
   kitchenstation: string;
-  Preparationtime: string;
+  Preparationtime: {
+    hours:string
+    minutes:string
+  };
   KitchenStationId: string;
   normalForm?: any;
   specialForm?: any;
+  
 }
 
 interface PricingDetailsFormData {
@@ -190,7 +194,10 @@ const PricingDetails = () => {
         Inventory2: "",
       },
       kitchenstation: "",
-      Preparationtime: "",
+      Preparationtime:{
+        hours:"",
+        minutes:"",
+      },
       normalForm: mainFormState,
       specialForm: [],
     },
@@ -204,9 +211,13 @@ const PricingDetails = () => {
   );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+  const[Preparationtime,setpreparationTime]=useState({
+    hours:"",
+    minutes:""
+  })
 
   const prizingDetail = useSelector(
-    (state: any) => state.PricingDetailReducer.prizingData?.mainForm || {}
+    (state: any) => state.PricingDetailReducer.prizingData || {}
   );
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
@@ -306,6 +317,7 @@ const PricingDetails = () => {
       };
     });
   };
+  
 
   let mainForm: MainForm = {
     form: {
@@ -313,7 +325,10 @@ const PricingDetails = () => {
       Inventory2: "",
     },
     kitchenstation: "",
-    Preparationtime: "",
+    Preparationtime: {
+       hours:"",
+       minutes:""
+    },
     KitchenStationId: "",
     normalForm: isOptionTrue ? mainFormState : undefined, // Conditionally set normalForm
 
@@ -325,22 +340,22 @@ const PricingDetails = () => {
   // }
 
   useEffect(() => {
-    if (prizingDetail?.form) {
-      setSelectedValues(prizingDetail?.kitchenstation || []);
-    }
-
-    if (prizingDetail?.normalForm) {
-      setSelectedValue1(prizingDetail?.Preparationtime || []);
-    }
-
-    if (prizingDetail?.form) {
-      setForm({
-        Inventory1: prizingDetail?.form.Inventory1 || "",
-        Inventory2: prizingDetail?.form.Inventory2 || "",
+    if (prizingDetail) {
+      console.log("Ankit ",prizingDetail)
+      reset({
+        form: {
+          Inventory1: prizingDetail.form?.Inventory1 || "", // Adjust based on your prizingDetail structure
+          Inventory2: prizingDetail.form?.Inventory2 || "",
+        },
+        kitchenstation: prizingDetail?.kitchenstation || "",
+        Preparationtime: {
+          hours: prizingDetail.Preparationtime?.hours || "", // Ensure nested properties are accessed safely
+          minutes: prizingDetail.Preparationtime?.minutes || "",
+        },
+      
       });
-      setInventory(true);
     }
-  }, []);
+  }, [prizingDetail, reset]); 
 
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
@@ -426,7 +441,7 @@ const PricingDetails = () => {
   const validateDineInFields1 = (dineinfield1: DineinFieldSpecial[]) => {
     const errors: DropdownValidationState = {};
 
-    dineinfield1.forEach((field, index) => {
+    dineinfield1?.forEach((field, index) => {
       const mealTypeKey = `DineInMealType_${index}`;
       const priceKey = `DineInPrice_${index}`;
       const DineInService = `DineInService_${index}`;
@@ -557,7 +572,6 @@ const PricingDetails = () => {
       ...dineInErrors,
     };
 
-    console.log("Combined validation errors:", combinedErrors);
 
     setValidationStateerr(combinedErrors);
 
@@ -567,8 +581,7 @@ const PricingDetails = () => {
 
     return isValid;
   };
-  console.log("hello", mainForm.form.Inventory1);
-  console.log(mainFormSpecial);
+  console.log(mainForm);
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -619,10 +632,46 @@ const PricingDetails = () => {
                     Preparation time
                   </label>
                   <div className="Prepartiontime-input-fileds">
-                    <input type="text" className="Prepartiontime-input-hours" />
+                  <Controller
+                      name="Preparationtime.hours"
+                      control={control}
+                      defaultValue=""
+                      render={({ field, trigger,value }: any) => (
+                        <input type="text" 
+                        name="hours" 
+                        value={value}
+
+                        className="Prepartiontime-input-hours" 
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setValue("Preparationtime.hours", value);
+                          // trigger(trigger);
+                        }} 
+                        />
+                      )}
+                      rules={{ required: "This field is required" }}
+                    />
+                    
                     <span>Hours</span>
                     <span>:</span>
-                    <input type="text" className="Prepartiontime-input-mins" />
+                    <Controller
+                      name="Preparationtime.minutes"
+                      control={control}
+                      defaultValue=""
+                      render={({ field, trigger,value }: any) => (
+                        <input type="text" 
+                        name="minutes"
+                        value={value}
+                        className="Prepartiontime-input-mins" 
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setValue("Preparationtime.minutes", value);
+                          // trigger(trigger);
+                        }} />
+                      )}
+                      rules={{ required: "This field is required" }}
+                    />
+                    
                     <span>Minutes</span>
                   </div>
                 </div>
@@ -657,15 +706,16 @@ const PricingDetails = () => {
                       name="form.Inventory1"
                       control={control}
                       defaultValue=""
-                      render={({ field, trigger }: any) => (
+                      render={({ field, trigger,value }: any) => (
                         <input
                           className="I1"
                           type="text"
+                          value={value}
                           {...field}
                           onChange={(e) => {
                             const value = e.target.value;
                             setValue("form.Inventory1", value);
-                            trigger(trigger);
+                            // trigger(trigger);
                           }}
                           style={{
                             borderColor: formerrors.Inventory1
@@ -681,17 +731,18 @@ const PricingDetails = () => {
                       name="form.Inventory2"
                       control={control}
                       defaultValue=""
-                      render={({ field }: any) => (
+                      render={({ field,value }: any) => (
                         <input
                           className="I1"
                           type="text"
+                          value={value}
                           {...field}
                           onChange={(e) => {
                             const value = e.target.value;
 
                             setValue("form.Inventory2", value);
 
-                            trigger(form.Inventory2);
+                            // trigger(form.Inventory2);
                           }}
                           style={{
                             borderColor: formerrors.Inventory2

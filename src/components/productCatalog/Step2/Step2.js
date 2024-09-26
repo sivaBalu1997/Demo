@@ -56,7 +56,7 @@ const Step2 = () => {
             <div className="Step2Preparation">
               <h1 className="Step2Preparationheading">Preparation</h1>
               <h1 className="Step2Preparationvalue">
-                {prizingDetail?.Preparationtime || "-"}{" "}
+                {prizingDetail?.Preparationtime.hours+" hours" || "-"}{" "}{prizingDetail?.Preparationtime.minutes+" minutes" || "-"}
               </h1>
             </div>
           </div>

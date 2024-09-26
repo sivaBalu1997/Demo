@@ -98,7 +98,10 @@ interface Modification {
 interface MainForm {
   form: FormState;
   kitchenstation: string;
-  Preparationtime: string;
+  Preparationtime: {
+    hours:string,
+    minutes:string,
+  };
   KitchenStationId: string;
   normalForm?: any;
   specialForm?: any;
@@ -203,11 +206,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     const isValid=handleValidate();
     
       let PricingDetails = { ...mainForm }; 
-      console.log("hello", mainForm);
     
       const formData = getFormData();
       const isinValid=await triggerValidation(formData)
-      console.log("h1",formData);
       
       if (formData.kitchenstation) {
         PricingDetails = {
@@ -228,12 +229,24 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           }
         };
       } 
-     
-        
+      console.log("hi",formData.Preparationtime.hours)
+      if (formData.Preparationtime?.hours || formData.Preparationtime?.minutes) {
+        PricingDetails = {
+          ...PricingDetails,
+          Preparationtime: {
+             // No need to fallback, because it's defined
+            hours: formData.Preparationtime.hours, // Update hours
+            minutes: formData.Preparationtime.minutes, // Update minutes
+          },
+        };
+      } else {
+        console.error("formData.Preparationtime is undefined");
+      }
       
       // Add further logic to proceed after validation passes
       if(isValid)
       {
+        
         dispatch(PricingDetailRequest(PricingDetails))
         history.push({
           pathname: `/productCatalog/Itemcustomizations`,
