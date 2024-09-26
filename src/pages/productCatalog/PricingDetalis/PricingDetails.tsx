@@ -77,7 +77,7 @@ interface FormState {
 }
 
 type MainFormSpecial = {
-  form: FormState;
+  form1: FormState;
   dineinfields: DineinFieldSpecial[];
   specialcheck: number[]; // Single number, not an array
   fromDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
@@ -217,7 +217,7 @@ const PricingDetails = () => {
   const [selectedValues2, setSelectedValues2] = useState<string[]>([]);
 
   const [mainFormSpecial, setMainFormSpecial] = useState<MainFormSpecial>({
-    form: {
+    form1: {
       Pickupprice: "",
       Pickupmealtype: "",
       Deliveryprice: "",
@@ -435,7 +435,7 @@ const PricingDetails = () => {
       if (!field.DineInMealType || field.DineInMealType.length === 0) {
         errors[mealTypeKey] = {
           isValid: false,
-          errorMessage: "Meal type should not be empty.",
+          errorMessage: "Service should not be empty.",
         };
       } else {
         errors[mealTypeKey] = { isValid: true, errorMessage: "" };
@@ -444,7 +444,7 @@ const PricingDetails = () => {
       if (!field.DineInService || field.DineInService.length === 0) {
         errors[DineInService] = {
           isValid: false,
-          errorMessage: "Service area should not be empty.",
+          errorMessage: " MealType should not be empty.",
         };
       } else {
         errors[DineInService] = { isValid: true, errorMessage: "" };
@@ -501,6 +501,42 @@ const PricingDetails = () => {
     } else {
       dropErrors1.PickupSpecial = { isValid: true, errorMessage: "" };
     }
+    if (mainFormSpecial.selectedValuesdelivery.length === 0) {
+      dropErrors1.DeliverySpecial = {
+        isValid: false,
+        errorMessage: "Please Fill this Field",
+      };
+    } else {
+      dropErrors1.DeliverySpecial = { isValid: true, errorMessage: "" };
+    }
+    if(!mainFormSpecial.form1.Pickupprice)
+    {
+      dropErrors1.PickupPrizeSpecial = {
+        isValid: false,
+        errorMessage: "Price",
+      };
+      
+    }
+    else{
+      dropErrors1.PickupPrizeSpecial = {
+        isValid: true,
+        errorMessage: "",
+      };
+    }
+    if(!mainFormSpecial.form1.Deliveryprice)
+      {
+        dropErrors1.DeliveryPrizeSpecial = {
+          isValid: false,
+          errorMessage: "Price",
+        };
+        
+      }
+      else{
+        dropErrors1.DeliveryPrizeSpecial = {
+          isValid: true,
+          errorMessage: "",
+        };
+      }
     return dropErrors1;
   };
 

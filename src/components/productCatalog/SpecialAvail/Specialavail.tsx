@@ -14,7 +14,7 @@ import Dropdown from "../DropDown/Dropdown";
 import DropDown2 from "../DropDown2/DropDown2";
 
 type MainFormSpecial = {
-  form1: FormState;
+  form1:FormState;
   dineinfields: DineInField[];
   specialcheck: number[]; // Single number, not an array
   fromDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
@@ -482,7 +482,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           className="DineInInput1"
           onChange={(e) => handleChange(index, e)}
         />
-         
+       
        
       </div>
       {!ValidationStateerr[`DineInPrice_${index}`]?.isValid && (
@@ -523,6 +523,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           //   validationState[index] || { isValid: true, errorMessage: "" }
           // }
         />
+        {!ValidationStateerr[`DineInMealType_${index}`]?.isValid && (
+                      <span className="ErrormsgMealTypeSpecial">
+                        {ValidationStateerr[`DineInMealType_${index}`]?.errorMessage}
+                      </span>
+                    )}
       </div>
 
       <div>
@@ -571,6 +576,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                         setForm({ ...form1, Pickupprice: e.target.value })
                       }
                     ></input>
+                     {!ValidationStateerr.PickupPrizeSpecial?.isValid && (
+                      <span className="ErrormsgInputPickupPriceSpecial">
+                        {ValidationStateerr?.PickupPrizeSpecial?.errorMessage || ""}
+                      </span>
+                    )}
                     <div className="PickDrop5">
                       <Dropdown
                         selectedValues={selectedValuespickup}
@@ -615,6 +625,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                         setForm({ ...form1, Deliveryprice: e.target.value })
                       }
                     ></input>
+                     {!ValidationStateerr.DeliveryPrizeSpecial?.isValid && (
+                      <span className="ErrormsgDeliveryInputPriceSpecial">
+                        {ValidationStateerr?.DeliveryPrizeSpecial?.errorMessage || ""}
+                      </span>
+                    )}
                     <div className="DelDrop">
                       <Dropdown
                         selectedValues={selectedValuesdelivery}
@@ -630,6 +645,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                         // validation={validationState.Deliveryspecial}
                         width="Drop1"
                       />
+                      {!ValidationStateerr.DeliverySpecial?.isValid && (
+                      <span className="ErrormsgPickupPriceSpecial">
+                        {ValidationStateerr?.DeliverySpecial?.errorMessage || ""}
+                      </span>
+                    )}
                     </div>
                   </div>
                 </div>
