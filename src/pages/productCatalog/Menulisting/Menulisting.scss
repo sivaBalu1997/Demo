@@ -1,5 +1,5 @@
 .mainpagemenu {
-  height: 96vh;
+  height: 97vh;
   background: none;
   border-spacing: 0;
   width: 88%;
@@ -9,9 +9,11 @@
   // margin-left: 10px;
   z-index: 0;
   transition: width 0.6s ease;
+  border: 1px solid red;
+ 
 }
 .mainpagemenu1 {
-  height: 96vh;
+  height: 97vh;
   background: none;
   border-spacing: 0;
   width: 82%;
@@ -20,6 +22,7 @@
   margin-top: 1%;
   z-index: 0;
   transition: width 0.6s ease;
+ 
 }
 
 .Menu-Listing-Page-main {
@@ -112,13 +115,22 @@ th {
       }
     }
     .Menu-Listing-TableOneBody {
-      height: 32.5rem;
+      height: 33.2rem;
       display: block;
       overflow-y: auto;
       &::-webkit-scrollbar{
         display: none;
       }
       // border: 1px solid red;
+    }
+    .Menu-Listing-TableOneBodyExpanded
+    {
+      height: 34.5rem;
+      display: block;
+      overflow-y: auto;
+      &::-webkit-scrollbar{
+        display: none;
+      }
     }
 
     .itemheading {
@@ -527,7 +539,7 @@ th {
 
   .Menu-Listing-TableTwoBody {
     display: block;
-    height: 30.5rem;
+    height: 31.2rem;
     overflow-y: auto;
     overflow-x: hidden;
     width: 171.4%;
@@ -538,7 +550,7 @@ th {
   }
   .Menu-Listing-TableTwoBody1 {
     display: block;
-    height: 31rem;
+    height: 32.5rem;
     overflow-y: auto;
     overflow-x: hidden;
     width: 190.85%;
@@ -880,3 +892,70 @@ color: #5F5F5F;
 .eachobject-rowwise.border-important {
   border-top: 1px solid #B3B3B3 !important;
 }
+
+
+@media (max-width: 1500px) {
+  .mainpagemenu {
+    height: 97vh;
+    background: none;
+    border-spacing: 0;
+    width: 88%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    // margin-left: 10px;
+    z-index: 0;
+    transition: width 0.6s ease;
+    border: 1px solid blue;
+   
+  }
+  .mainpagemenu1 {
+    height: 97vh;
+    background: none;
+    border-spacing: 0;
+    width: 84%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    z-index: 0;
+    transition: width 0.6s ease;
+   
+  }
+
+
+
+}
+
+
+@media (max-width: 1440px) {
+  .mainpagemenu {
+    height: 97vh;
+    background: none;
+    border-spacing: 0;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    // margin-left: 10px;
+    z-index: 0;
+    transition: width 0.6s ease;
+    border: 1px solid green;
+   
+  }
+  .mainpagemenu1 {
+    height: 97vh;
+    background: none;
+    border-spacing: 0;
+    width: 84%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    z-index: 0;
+    transition: width 0.6s ease;
+   
+  }
+
+
+
+}
+

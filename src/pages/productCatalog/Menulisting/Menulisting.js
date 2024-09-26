@@ -426,7 +426,9 @@ export const Menulisting = () => {
                 </tr>
               </thead>
               <tbody
-                className="Menu-Listing-TableOneBody Menu-listing-Body"
+                className= { `Menu-listing-Body ${
+                  isExpanded ? "Menu-Listing-TableOneBodyExpanded" : "Menu-Listing-TableOneBody"
+                }` }
                 ref={tableBodyRef1}
               >
                 {steamType.map((object, index) => (
