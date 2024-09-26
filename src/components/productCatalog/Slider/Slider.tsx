@@ -72,18 +72,34 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const handleItemClick = (item: string) => {
-    setActive(item);
-  };
-
-  const handleEyeClick = () => {
-    setEye(true);
-  };
-
-  const handleBinClick = () => {
     const UpdatedeleteItem = data.filter(
       (item: SideBarData) => item.id !== SideBarData[0].id
     );
-    // dispatch(storeMockDataRequest(UpdatedeleteItem));
+    setActive(item);
+    dispatch(storeMockDataRequest(UpdatedeleteItem));
+
+  };
+
+  const handleEyeClick = () => {
+    const UpdatedeleteItem = data.filter(
+      (item: SideBarData) => item.id !== SideBarData[0].id
+    );
+    const removedItem = data.find(
+      (item: SideBarData) => item.id === SideBarData[0].id
+    );
+  
+    setEye(true);
+    dispatch(storeMockDataRequest(UpdatedeleteItem))
+    dispatch(addMockDataHiddenRequest(removedItem))
+
+  };
+
+  const handleBinClick = () => {
+   
+    const UpdatedeleteItem = data.filter(
+      (item: SideBarData) => item.id !== SideBarData[0].id
+    );
+    dispatch(storeMockDataRequest(UpdatedeleteItem));
     onclose()
   };
 

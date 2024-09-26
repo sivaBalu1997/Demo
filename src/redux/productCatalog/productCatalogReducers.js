@@ -72,6 +72,12 @@ import {
   UPLOAD_IMAGE_FAILURE,
   UPLOAD_IMAGE_IN_PROGRESS,
   ADD_MOCK_DATA_HIDDEN_REQUEST,
+  GET_ITEM_CODE_REQUEST,
+  GET_ITEM_CODE_SUCCESS,
+  GET_ITEM_CODE_FAILURE,
+  GET_POPULAR_ITEM_REQUEST,
+  GET_POPULAR_ITEM_SUCCESS,
+  GET_POPULAR_ITEM_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -715,3 +721,70 @@ export  const addMockDataHiddenReducer = (state = addMockHiddenData, action) => 
       return state;
   }
 };
+
+
+
+const itemCode = {
+  itemCode: null,
+  loading: false,
+  error: null,
+};
+
+export const getItemCodeReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case GET_ITEM_CODE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case GET_ITEM_CODE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        itemCode: action.payload,
+      };
+    case GET_ITEM_CODE_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+
+const popularItem = {
+  popularItems: [],
+  loading: false,
+  error: null,
+};
+
+export const getPopularItemReducer = (state = popularItem, action) => {
+  switch (action.type) {
+    case GET_POPULAR_ITEM_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case GET_POPULAR_ITEM_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        popularItems: action.payload, // Update the state with the response
+      };
+    case GET_POPULAR_ITEM_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+

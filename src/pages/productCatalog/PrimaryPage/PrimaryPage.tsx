@@ -29,6 +29,7 @@ import {
   cuisineDataRequest,
   dietdatarequest,
   getIngredientsRequest,
+  getItemCodeRequest,
   getMenuCategoryRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -773,20 +774,33 @@ const PrimaryPage = () => {
                   {" "}
                   <LableComponent lable="ItemCode" />
                   <div className="Primary-Page-inputfiled-and-tooltip">
-                    <Controller
-                      name="itemCode"
-                      control={control}
-                      render={({ onChange, onBlur, value }: any) => (
-                        <InputFieldComponent
-                          name="itemCode"
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          value={value}
-                          type="number"
-                          trigger={trigger}
-                        />
-                      )}
-                    />{" "}
+                  <Controller
+  name="itemCode"
+  control={control}
+  rules={{
+    required: "Item code is required",
+    validate: (value) =>
+      (value.toString().length >= 4 && value.toString().length <= 5) ||
+      "Item code must be between 4 and 5 characters",
+  }}
+  render={({ onChange, onBlur, value }) => (
+    <InputFieldComponent
+      name="itemCode"
+      onChange={(newValue) => {
+        onChange(newValue); // Update form state
+      }}
+      value={value} // Ensure value is defined
+      onBlur={() => {
+        if (value) {
+          dispatch(getItemCodeRequest(locationid, value)); 
+        }
+      }}
+      type="number"
+      trigger={trigger}
+      error={errors.itemCode} 
+    />
+  )}
+/>{" "}
                     <div className="tool-tip-item-code">
 
                       <TooltipMsg

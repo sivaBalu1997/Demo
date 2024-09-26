@@ -119,3 +119,21 @@ export function store(formData) {
     },
   });
 }
+
+
+export function getItemCodeRequestApi(locationId,itemCode) {
+  return API({
+    method: "get",
+    url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
+  });
+}
+
+
+export function getPopularItemRequestApi() {
+  return API({
+    method: "get",
+    url: `/merchants/api/v1/popular-items`,
+  });
+}
+
+

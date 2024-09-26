@@ -5,7 +5,7 @@ import menuReducer from "./menu/menuReducer";
 import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
 // import offerReducer from "./offer/offerReducer";
-import productCatalogReducer, { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer,imageUploadReducer } from "./productCatalog/productCatalogReducers";
+import productCatalogReducer, { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer,imageUploadReducer, addMockDataHiddenReducer, getItemCodeReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
 
 const rootReducer = combineReducers({
@@ -22,7 +22,9 @@ const rootReducer = combineReducers({
   storeMockDataReducer:storeMockDataReducer,
   storeMockDataFilteredReducer:storeMockDataFilteredReducer,
   addMockDataReducer:addMockDataReducer,
-  imageUpload:imageUploadReducer
+  imageUpload:imageUploadReducer,
+  addMockDataHiddenReducer:addMockDataHiddenReducer,
+  getItemCodeReducer:getItemCodeReducer
 
 
 });

@@ -95,7 +95,13 @@ import {
  
   DIET_DATA_SUCCESS,
   DIET_DATA_REQUEST,
-  DIET_DATA_FAILURE
+  DIET_DATA_FAILURE,
+  GET_ITEM_CODE_REQUEST,
+  GET_ITEM_CODE_SUCCESS,
+  GET_ITEM_CODE_FAILURE,
+  GET_POPULAR_ITEM_SUCCESS,
+  GET_POPULAR_ITEM_FAILURE,
+  GET_POPULAR_ITEM_REQUEST
 
 } from "./productCatalogConstants";
 
@@ -592,3 +598,42 @@ export const addMockDataHiddenFailure = (error) => ({
   type: ADD_MOCK_DATA_HIDDEN_FALIURE ,
   payload: error,
 })
+
+
+
+
+
+
+
+
+
+export const getItemCodeRequest = (params1,params2) => ({
+  type: GET_ITEM_CODE_REQUEST,
+  payload: { params1, params2 },
+});
+
+export const getItemCodeSuccess = (response) => ({
+  type: GET_ITEM_CODE_SUCCESS,
+  payload: response,
+});
+
+export const getItemCodeFailure = (error) => ({
+  type: GET_ITEM_CODE_FAILURE,
+  payload: error,
+});
+
+
+export const getPopularItemRequest = (locationId) => ({
+  type: GET_POPULAR_ITEM_REQUEST,
+  payload: locationId, // Assuming only locationId is needed
+});
+
+export const getPopularItemSuccess = (response) => ({
+  type: GET_POPULAR_ITEM_SUCCESS,
+  payload: response,
+});
+
+export const getPopularItemFailure = (error) => ({
+  type: GET_POPULAR_ITEM_FAILURE,
+  payload: error,
+});
