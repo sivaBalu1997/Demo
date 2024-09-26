@@ -242,7 +242,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   };
 const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
   const [indextoreplace, setindextoreplace] = useState<Status[]>([]);
-  const allUploaded =  uploadedimage.every(
+  const allUploaded =  uploadedimage &&uploadedimage.every(
     (img) => img && !hasImageError(img.file)
   );
   useEffect(()=>{

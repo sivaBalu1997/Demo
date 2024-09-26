@@ -40,13 +40,8 @@ import {
   fetchDropDownFailure,
   uploadImageSuccess,
   uploadImageFailure,
-<<<<<<< HEAD
 
 
-=======
- 
- 
->>>>>>> productCatalog/sprint-99v3
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -68,11 +63,7 @@ import {
   getSubSectionData,
   getId,
   store,
-<<<<<<< HEAD
   
-=======
- 
->>>>>>> productCatalog/sprint-99v3
 } from "../productCatalog/productCataloglogAPI";
  
 import {

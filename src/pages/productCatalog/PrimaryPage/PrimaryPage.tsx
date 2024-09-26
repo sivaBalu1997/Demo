@@ -637,7 +637,7 @@ const PrimaryPage = () => {
                     <div className="tool-tip-best-pair">
                     <TooltipMsg
                         message="Select up to 5 food items that pair best with this dish."
-                        styles={{marginTop:"1rem",marginLeft:"-2rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
+                        styles={{marginTop:"1.3rem",marginLeft:"-1rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
                         Arrowstyle={{position:'relative',top:'-1rem',marginLeft:'-2rem'}}
                       >
                         <div className="ToolKitchen">
@@ -791,7 +791,7 @@ const PrimaryPage = () => {
 
                       <TooltipMsg
                         message="Enter a unique code for this food item, used for identification."
-                        styles={{width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
+                        styles={{marginTop:"-1rem",marginLeft:'2rem', width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
                         Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
                       >
                         <div className="ToolKitchen">
@@ -873,7 +873,7 @@ const PrimaryPage = () => {
                 <div className="tool-tip-Allergen">
                     <TooltipMsg
                         message="Provide information about any allergens present in this food item"
-                        styles={{marginTop:"1rem",marginLeft:"-20rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
+                        styles={{marginTop:"1.5rem",marginLeft:"-19rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
                         Arrowstyle={{position:'relative',top:'-1rem',left:'19rem'}}
                       >
                         <div className="ToolKitchen">
@@ -1005,8 +1005,8 @@ const PrimaryPage = () => {
                       <div className="tool-tip-tax-class">
                       <TooltipMsg
                         message="Create or select a tax amount to associate with this item"
-                        styles={{position:'relative',top:"-3rem",left:"1rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-2.35rem'}}
+                        styles={{position:'relative',top:"-2.5rem",left:"1.5rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
+                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-2.25rem'}}
                       >
                         <div className="ToolKitchen">
                           <img
@@ -1039,9 +1039,10 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
+                      <div className="Mastedcode-Tooltip">
                       <TooltipMsg
                         message="Enter a unique code for this food item, used for identification."
-                        styles={{ position:'relative',top:'-2rem',left:'1rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
+                        styles={{ position:'relative',top:'-2rem',left:'1.5rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
                         Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
                       >
                         <div className="ToolKitchen">
@@ -1053,6 +1054,8 @@ const PrimaryPage = () => {
                           />
                         </div>
                       </TooltipMsg>
+                      </div>
+                   
                     </div>
                   </div>
                 </div>

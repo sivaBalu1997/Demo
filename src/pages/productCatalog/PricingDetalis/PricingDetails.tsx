@@ -591,7 +591,7 @@ const PricingDetails = () => {
                   error={errors.kitchenstation}
                   trigger={trigger}
                   getValues={getValues}
-                  // validation={{ required: "dietaryType is required" }}
+                  validation={{ required: "dietaryType is required" }}
                   addNew={true}
                   editValues={true}
                   setDropdownOpen={setDropdownOpen}

@@ -379,17 +379,28 @@
   cursor: pointer;
 }
 }
-.dayschecking
+.dayschecking-special
 {
  position: relative;
- top: -1.2rem;
+ top: 0rem;
+ .Note
+ {
+  font-family: Poppins;
+font-size: 14px;
+font-style: italic;
+font-weight: 300;
+line-height: 21px;
+text-align: left;
+color: #5F5F5F;
+
+ }
 }
 
 .DineInRelatedSpecial
 {
   display: flex;
   gap: 30px;
-  margin-top: 30px;
+  margin-top: 50px;
   .DineInRelatedHeading
   {
     font-family: Poppins;
@@ -399,8 +410,22 @@ line-height: 21px;
 text-align: left;
 
   }
-}
 
+}
+.LabelSpecialPrice {
+  color: #666666;
+  font-size: 14px;
+ 
+}
+.dineinentry
+{
+  font-family: Poppins;
+font-size: 14px;
+font-weight: 400;
+line-height: 21px;
+text-align: left;
+color: #0085FF;
+}
 .DineInInput11Special
 {
   display: flex;
@@ -478,7 +503,7 @@ text-align: left;
   display: flex;
   justify-content: flex start;
   gap: 2.3rem;
-  // margin-top: 15px;
+  margin-top: 1.5rem;
 }
 .OnlineRelatedHeading {
   font-size: 0.875rem;
@@ -518,7 +543,8 @@ text-align: left;
 .PickupSection {
   display: flex;
   flex-direction: row;
-  margin-top: 1%;
+  margin-top: 0.5%;
+  margin-bottom: 1%;
 
   .Pickup-price-mealtype
   {
@@ -548,6 +574,8 @@ text-align: left;
 {
   display: flex;
   gap: 30px;
+  margin-bottom: 0.5%;
+
   .Deliverypricefield
   {
     display: flex;
@@ -571,6 +599,12 @@ text-align: left;
   font-weight: 500;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  font-family: Poppins;
+font-size: 14px;
+font-weight: 400;
+line-height: 21px;
+text-align: left;
+
 }
 
 .ThirdDeliveryRelatedHeading {
@@ -616,7 +650,7 @@ margin-top: 0.2rem;
   margin-top: 1.4rem;
  
 }
-.third-party
+.third-party-special
 {
   margin-bottom: 1rem;
   // z-index: 0;
@@ -640,9 +674,10 @@ margin-top: 0.2rem;
   // z-index: 1; 
 }
 
-.third-party {
+.third-party-special {
   position: relative; 
   z-index: 0; 
+  top: 0.5rem;
 }
 .ErrormsgPickupPriceSpecial{
   position: relative;

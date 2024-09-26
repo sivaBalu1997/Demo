@@ -697,8 +697,6 @@ export const addMockDataReducer = (state = mockDataFiltered, action) => {
   }
 
 };
-<<<<<<< HEAD
-=======
 const addMockHiddenData = {
   data: [],
 };
@@ -716,4 +714,3 @@ export  const addMockDataHiddenReducer = (state = addMockHiddenData, action) => 
       return state;
   }
 };
->>>>>>> productCatalog/sprint-99v3

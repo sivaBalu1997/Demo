@@ -542,6 +542,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
             id={availabilityid}
             setId={setAvailabilityid}
           ></DaysCheck>
+                    <p className="Note">Note : Changes here will apply to all service types unless specific day options are enabled</p>
+
         </div>
       </div>
       {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}

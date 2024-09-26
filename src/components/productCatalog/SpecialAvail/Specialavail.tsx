@@ -439,13 +439,14 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
             ></img>
           </div>
         </div>
-        <div className="dayschecking">
+        <div className="dayschecking-special">
           <DaysCheck
             checkedItems={specialcheck}
             setCheckedItems={setSpecialcheck}
             id={availabilityid1}
             setId={setAvailabilityid1}
           />
+          <p className="Note">Note : Changes here will apply to all service types unless specific day options are enabled</p>
         </div>
       </div>
 
@@ -519,7 +520,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     </div>
   ))
 }
-          <div className={"dineinentry"}
+          <div className="dineinentry"
               onClick={AddDineInEntry}>
             + Add entry
           </div>
@@ -626,7 +627,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
             <h1 className="ThirdDeliveryRelatedHeading">
               Third Party delivery
             </h1>
-            <div className="third-party">
+            <div className="third-party-special">
               <p className="LabelZoamtoSwiggy1"> Swiggy,Zomato*</p>
               <div className="Thridparty-delivery">
                 <Dropdown
