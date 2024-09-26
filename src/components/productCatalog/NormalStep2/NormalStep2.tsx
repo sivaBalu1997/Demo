@@ -80,6 +80,16 @@
 
     console.log(Dinein1?.map((elem)=>elem))
 
+    useEffect(()=>{
+      setDinein(
+        prizingDetail?.normalForm?.DineIn.map((elem, index) => {
+          return elem; // or apply any transformation to elem if needed
+        })
+      );
+  
+
+    },[])
+   
 
     return (
       <div>
@@ -149,7 +159,8 @@
               <div className='dayacheckedavail'>
 
             
-            <DaysOfWeek days={[elem]} setDays={setDinein}/>
+              <DaysOfWeek days={elem} setDays={setDinein} />
+
           </div>
               
               

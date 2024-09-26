@@ -36,12 +36,14 @@ interface StateDataTag {
 }
 
 const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, index }) => {
+  const data=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+
   const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
   const tagData=useSelector((state:StateDataTag)=>state.productCatalog.availability)
 
 
   const dispatch=useDispatch()
-  const [data, setData] = useState<DataItem[]>([]);
+  // const [data, setData] = useState<DataItem[]>([]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = event.target;
@@ -59,16 +61,16 @@ const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, in
 
   const checkedItemsForIndex = Array.isArray(checkedItems[index]) ? checkedItems[index] : [];
 
-  useEffect(() => {
-    getApi();
-    setData(tagData)
+  // useEffect(() => {
+  //   getApi();
+  //   setData(tagData)
 
-  }, []);
+  // }, []);
 
-  const getApi = async (): Promise<void> => {
-    dispatch(getAvailabilityRequest(locationid))
+  // const getApi = async (): Promise<void> => {
+  //   dispatch(getAvailabilityRequest(locationid))
 
-  };
+  // };
 
   return (
     <div className='container-daycheck'>
@@ -83,7 +85,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, in
               className='aa'
               checked={isChecked}
             />
-            <label>{elem.name}</label>
+            <label>{elem}</label>
           </div>
         );
       })}
