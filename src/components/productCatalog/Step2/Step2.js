@@ -32,7 +32,7 @@ const Step2 = () => {
                 }
               >
                 <img src={edit} alt="" width={15} height={15} />
-                <span style={{ marginLeft: "2px" }}> Edit</span>
+                <span >Edit</span>
               </Link>{" "}
             </div>
           </div>
