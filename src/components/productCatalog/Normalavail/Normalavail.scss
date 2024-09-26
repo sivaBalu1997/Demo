@@ -4,6 +4,7 @@
   font-weight: 400;
   margin-bottom: 0.063rem;
   margin-top: 10px;
+  
 }
 .AvailableServiceHeading {
   font-size: 16px;
@@ -14,7 +15,7 @@
 }
 
 .dayschecking {
-  margin-top: 15px;
+  margin-top: 2.5rem;
   // width: 900px;
   height: 50px;
   // border: 1px solid red;
@@ -45,17 +46,47 @@
 .DineInRelatedHeadingNormalAvail {
   font-size: 0.875rem;
   font-weight: 500;
-  margin-top: 1rem;
+  // margin-top: 1rem;
 }
 .DineInRelated {
   display: flex;
-  justify-content:flex start;
+  justify-content:left;
   gap:1.25rem;
+  align-items: center;
+  width: fit-content;
+  height: 30px;
+  // border: 1px solid red;
  
 
 }
-.delivery {
+.Online-delivery {
   margin-top: 1rem;
+  height: 4rem;
+  // border: 1px solid red;
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.625rem;
+  position: relative;
+  .Dine-In-Price {
+    display: flex;
+    flex-direction: column;
+    .Errormsg {
+      font-family: "Poppins", sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21px;
+      text-align: left;
+      color: #e52333;
+    }
+  }
+}
+
+.Online-delivery:nth-child(1) {
+  z-index: 1;
+}
+
+.Online-delivery:nth-child(2) {
+  z-index: 2;
 }
 .DeleteButtonDine {
   margin-top: 12px;
@@ -174,7 +205,7 @@
   display: flex;
   justify-content: start;
   gap: 0.313rem;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 10px;
 }
 .Mealz {
@@ -257,6 +288,7 @@
   display: flex;
   flex-direction: column;
   margin-top: -14px;
+  // margin-bottom: 1rem;
 }
 .PrizeD {
   margin-top: -25px;
@@ -294,7 +326,8 @@
   display: flex;
   justify-content: flex-start;
   margin-top: 1.25rem;
-
+  height: 4rem;
+  // border: 1px solid red;
   gap: 0.625rem;
 }
 .DeliveryRelatedNormal {
@@ -368,10 +401,10 @@
 
 .Delivery11 {
   position: relative;
-  left: -60px;
+left: -2rem;
   border-radius: 0.313rem;
   z-index: 9;
-  margin-top: 0.7rem;
+  margin-top: 0.4rem;
   margin-bottom: 10px;
   input {
     padding-left: 15px;
@@ -388,8 +421,8 @@
   margin-top: 20px;
   .AvailDaycheck-Heading
   {
-    // width: 200px;
-    // height: 40px;
+    width: 200px;
+    height: 40px;
     // border:1px solid red;
     display: flex;
     flex-direction: row;
@@ -403,8 +436,13 @@ text-align: left;
 
     .tooltip
     {
-      margin-left: 1.5rem;
-      margin-top: 0.5rem;
+      width: 50px;
+      height: 50px;
+      // border:1px solid red;
+   position: relative;
+   left: 0.5rem;
+  top: 0.2rem;
+
     }
   }
 }
@@ -445,4 +483,37 @@ text-align: left;
 .LabelSwiggyInput {
   display: flex;
   flex-direction: column;
+}
+.ErrormsgPickup{
+  position: relative;
+  top:20px;
+  left:30px;
+  color:red;
+  font-size: 14px;
+  font-weight: 400;
+}
+.Errormsg{
+  position: relative;
+  top:20px;
+  left:10px;
+  color:red;
+  font-size: 14px;
+  font-weight: 400;
+
+}
+.ErrormsgPrice{
+  position: relative;
+  top:44px;
+  left:-130px;
+  color:red;
+  font-size: 14px;
+  font-weight: 400;
+}
+.ErrormsgPickupPrice{
+  position: relative;
+  top: 44px;
+  right: 10rem;
+  color:red;
+  font-size: 14px;
+  font-weight: 400;
 }

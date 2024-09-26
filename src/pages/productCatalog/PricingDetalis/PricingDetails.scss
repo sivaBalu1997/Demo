@@ -16,9 +16,10 @@
   top: 160px;
   margin-left: -20px;
   overflow-x: hidden;
-  height: 580px;
+  height: 500px;
   width: 93.3%;
   overflow-y: auto;
+  // border: 1px solid red;
 }
 .pricing-form {
   display: flex;
@@ -33,10 +34,14 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
   position: relative;
-  top: 15px;
-  gap: 58px;
-  margin-bottom: 10px;
+  top: -1rem;
+  // top: 15px;
+  // gap: 20px;
+
+  border: 1px solid red;
+  height: 5.5rem;
 }
 // .KitchenRelated > div {
 //   flex: 1; /* This will make the divs take equal space */
@@ -44,23 +49,53 @@
 .D1kitchen {
   // margin-top: -80px;
   // margin-left: -20px;
+  height: 6rem;
+  width: fit-content;
+  // border: 1px solid red;
+ 
+  display: flex;
+  align-items: center;
   .kitche-stations-dropdown {
-    margin-top: 1rem;
+   position: relative;
+
   }
 }
 .D2kitchen {
-  // margin-top: -80px;
-  // margin-left: -65px;
+  margin-top: -20px;
+  .Prepartiontime
+  {
+    .heading
+    {
+     position: relative;
+    //  top: -0.5rem;
+     color: #424242;
+     font-family: Poppins;
+font-size: 14.38px;
+font-weight: 400;
+line-height: 21.56px;
+letter-spacing: 0.004em;
+text-align: left;
+
+    }
+  }
+ 
   .Prepartiontime-input-fileds {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    margin-top: 1rem;
+    gap: 10px;
+   
     .Prepartiontime-input-hours {
       width: 46px;
       height: 42px;
+      font-family: Poppins;
+font-size: 19.17px;
+font-weight: 400;
+line-height: 28.75px;
+letter-spacing: 0.0015em;
+text-align: center;
+
 
       border-radius: 5.41px;
       border: 1px solid #9f9f9f;
@@ -76,10 +111,8 @@
 }
 
 .KitchenRelatedHeading {
-  // margin-top: 20px;
-  // font-size: 1rem;
-  // font-weight: 500;
-  // margin-bottom: 90px;
+  margin-top: 20px;
+ 
 }
 .ErrorsForm {
   font-size: 0.75rem;
@@ -131,10 +164,10 @@
 .Kitchen-checkbox {
   width: 300px;
   height: 30px;
-
+ top: -1rem;
   margin-bottom: 275px;
   position: relative;
-  top: 25px;
+
 }
 .services-Heading {
   margin-top: 35px;
@@ -146,7 +179,7 @@
 }
 
 .InventoryToggle {
-  margin-top: -210px;
+  margin-top: -17rem;
   display: flex;
   justify-content: flex-start;
   gap: 25px;

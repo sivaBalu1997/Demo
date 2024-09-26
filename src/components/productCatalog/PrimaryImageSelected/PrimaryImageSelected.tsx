@@ -7,8 +7,8 @@ interface ImageUrl {
 }
 interface ImageFile {
   file: File;
-  uploaded: boolean;
-  failed: boolean;
+  // uploaded: boolean;
+  // failed: boolean;
   preview: string;
 }
 interface FetchedPrimaryData {
@@ -29,7 +29,7 @@ const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
       ? MAX_IMAGES - selectedImages.length - 1
       : MAX_IMAGES - selectedImages.length;
   const [uploading, setUploading] = useState(false);
-  console.log("selectedImages", selectedImages);
+  // console.log("selectedImages", selectedImages);
 
   return (
     <div className="images">
@@ -40,7 +40,7 @@ const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
               <img
                 className="uploaded-image"
                 src={selectedImages[0].preview}
-                alt={`Preview of ${selectedImages[0].file.name}`}
+                alt={`Preview of `}
               />
             </li>
           )}
@@ -59,7 +59,7 @@ const PrimaryImageSelected: React.FC<ImageGalleryProps> = ({
                   <img
                     className="uploaded-image"
                     src={image.preview}
-                    alt={`Preview of ${image.file.name}`}
+                    alt={`Preview of `}
                   />
                 </li>
               ))}
