@@ -47,22 +47,21 @@
 }
 .editbuttonpricing {
   display: flex;
-  margin-top: 0px;
-  right: 10;
+  
   // margin-left: 150px;
   background: none;
   text-decoration: none;
   border: none;
   font-family: Poppins;
   position: relative;
-  left: 3px;
+  left: -5rem;
   font-size: 16px;
   font-weight: 400;
   display: flex;
   color: #67833E;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 
   button {
   }

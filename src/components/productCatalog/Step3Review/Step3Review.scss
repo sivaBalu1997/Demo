@@ -2,7 +2,7 @@
 .step3-Review-Container {
   position: absolute;
   top: 670px;
-  left: 650px;
+  left: 610px;
   width: 600px;
   display: flex;
   flex-direction: column;
@@ -29,6 +29,8 @@
   justify-content: flex-start;
   gap: 10px;
   text-decoration: none;
+  position: relative;
+  left: 7rem;
 }
 
 .step3-Review-Container-heading-EditImage {
@@ -183,4 +185,11 @@
   display: flex;
   justify-content: start;
   gap: 10px;
+}
+
+
+.Nodata
+{
+  margin-top: 5%;
+ 
 }

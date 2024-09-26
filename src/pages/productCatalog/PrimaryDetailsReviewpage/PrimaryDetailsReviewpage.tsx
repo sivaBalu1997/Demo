@@ -543,7 +543,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                 </div>
               </div>
               <div className="primaryreviewdetailspart2">
-                <div>
+                <div className="EditData">
                   <Link
                     to="/productCatalog/PrimaryDetails"
                     className="primarypageedit"
@@ -766,6 +766,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
               <div className="part-two">
                 <Step2 />
                 <div className="verticalLine" />
+                
                 <Step3Review />
               </div>
             </div>
