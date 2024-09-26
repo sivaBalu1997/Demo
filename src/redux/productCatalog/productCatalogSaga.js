@@ -40,6 +40,10 @@ import {
   fetchDropDownFailure,
   uploadImageSuccess,
   uploadImageFailure,
+  getItemCodeSuccess,
+  getItemCodeFailure,
+  getPopularItemSuccess,
+  getPopularItemFailure,
 
 
 } from "./productCatalogActions";
@@ -63,6 +67,8 @@ import {
   getSubSectionData,
   getId,
   store,
+  getItemCodeRequestApi,
+  getPopularItemRequestApi,
   
 } from "../productCatalog/productCataloglogAPI";
  
@@ -89,6 +95,8 @@ import {
   UPLOAD_IMAGE_SUCCESS,
   UPLOAD_IMAGE_FAILURE,
   ADD_MENU_ITEM_SUCCESS,
+  GET_ITEM_CODE_REQUEST,
+  GET_POPULAR_ITEM_REQUEST,
  
  
 } from "./productCatalogConstants";
@@ -303,6 +311,33 @@ function* GetImageSaga(action) {
     yield put(Get_Image_Failed({ message: "please Try Again" }));
   }
 }
+
+
+
+function* getItemCodeSaga(action) {
+  try {
+    const { params1, params2 } = action.payload; // Destructure the payload
+    const response = yield call(getItemCodeRequestApi, params1,params2); 
+    yield put(getItemCodeSuccess(response));
+  } catch (error) {
+    yield put(getItemCodeFailure(error.message));
+  }
+}
+
+
+
+function* getPopularItemSaga(action) {
+  try {
+    const locationId = action.payload; 
+    const response = yield call(getPopularItemRequestApi); 
+    yield put(getPopularItemSuccess(response)); 
+  } catch (error) {
+    yield put(getPopularItemFailure(error.message)); 
+  }
+}
+
+
+
  
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
@@ -321,5 +356,9 @@ export default function* productCatalog() {
   yield takeLatest(GET_AVAILABILITY_REQUEST, getAvailabilitySaga);
   yield takeLatest(UPDATE_MENU_ATTRIBUTE_REQUEST, updateMenuAttributeSaga);
   yield takeLatest(Get_ItemImage, GetImageSaga);
+  yield takeLatest(GET_ITEM_CODE_REQUEST, getItemCodeSaga);
+
+    yield takeLatest(GET_POPULAR_ITEM_REQUEST, getPopularItemSaga);
+  
 }
  
