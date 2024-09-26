@@ -143,7 +143,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
   const prizingDetail = useSelector(
-    (state: any) => state?.PricingDetailReducer?.prizingData?.mainForm
+    (state: any) => state?.PricingDetailReducer?.prizingData
   );
   const [availabilityid1, setAvailabilityid1] = useState<string[]>([]);
 
@@ -179,7 +179,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   };
 
   const handleDateChange1 = (date: Date | null) => {
-    setSelectedDate1(date); // Keep date as Date object
+    setSelectedDate1(date); 
   };
 
   const payLoad = {
@@ -328,56 +328,64 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   const handleSelectZomatoSwiggy = (value: string[]) => {
     setSelectedSwiggyZomato(value);
   };
-  // useEffect(() => {
-  //   if (prizingDetail) {
-  //     setSelectedDate(prizingDetail?.specialForm?.fromDate || "");
-  //     setSelectedDate1(prizingDetail?.specialForm?.toDate || "");
-  //     setSpecialcheck(prizingDetail?.specialForm?.specialcheck || "");
-  //     setForm({
-  //       Pickupprice: prizingDetail?.specialForm?.form1?.Pickupprice || "",
-  //       Pickupmealtype: "",
-  //       Deliveryprice: prizingDetail?.specialForm?.form1?.Deliveryprice || "",
-  //       Deliverymealtype: "",
-  //       Swiggyorzomato: prizingDetail?.specialForm?.form1?.Swiggyorzomato || "",
-  //       Swiggy: prizingDetail?.specialForm?.form1?.Swiggy || "",
-  //       Swiggymealtype: "",
-  //       Zomato: prizingDetail?.specialForm?.form1?.Zomato || "",
-  //       Zomatomealtype: "",
-  //     });
+  useEffect(() => {
+    if (prizingDetail) {
+      const fromDate = prizingDetail?.specialForm?.fromDate
+      ? new Date(prizingDetail?.specialForm?.fromDate)
+      : null;
+
+    const toDate = prizingDetail?.specialForm?.toDate
+      ? new Date(prizingDetail?.specialForm?.toDate)
+      : null;
+
+    setSelectedDate(fromDate);
+    setSelectedDate1(toDate);
+      setSpecialcheck(prizingDetail?.specialForm?.specialcheck || "");
+      setForm({
+        Pickupprice: prizingDetail?.specialForm?.form1?.Pickupprice || "",
+        Pickupmealtype: "",
+        Deliveryprice: prizingDetail?.specialForm?.form1?.Deliveryprice || "",
+        Deliverymealtype: "",
+        Swiggyorzomato: prizingDetail?.specialForm?.form1?.Swiggyorzomato || "",
+        Swiggy: prizingDetail?.specialForm?.form1?.Swiggy || "",
+        Swiggymealtype: "",
+        Zomato: prizingDetail?.specialForm?.form1?.Zomato || "",
+        Zomatomealtype: "",
+      });
  
-  //     setSelectedValuesPickup(prizingDetail?.specialForm?.selectedValuespickup||[]);
-  //     setSelectedValuesDelivery(
-  //       prizingDetail?.specialForm?.selectedValuesdelivery ||[]
-  //     );
-  //     setSelectedValuesThird1(prizingDetail?.specialForm?.Swiggy ||[]);
-  //     setSelectedValuesThird2(prizingDetail?.specialForm?.Zomato ||[]);
+      setSelectedValuesPickup(prizingDetail?.specialForm?.selectedValuespickup||[]);
+      setSelectedValuesDelivery(
+        prizingDetail?.specialForm?.selectedValuesdelivery ||[]
+      );
+      setSelectedValuesThird1(prizingDetail?.specialForm?.Swiggy ||[]);
+      setSelectedValuesThird2(prizingDetail?.specialForm?.Zomato ||[]);
  
-  //     const updated = prizingDetail?.specialForm?.dineinfields?.map(
-  //       (item: DineInField) => ({
-  //         DineInPrice: item?.DineInPrice || "",
-  //         DineInMealType: item?.DineInMealType || [],
-  //         DineInServiceArea: item?.DineInServiceArea || [],
-  //       })
-  //     );
-  //     setDineInFields(updated);
+      const updated = prizingDetail?.specialForm?.dineinfield1?.map(
+        (item: DineInField) => ({
+          DineInPrice: item?.DineInPrice || "",
+          DineInMealType: item?.DineInMealType || [],
+          DineInService: item?.DineInService || [],
+        })
+      );
+      setDineInFields1(updated);
  
-  //     const initialSelectedValues =
-  //       updated?.map(
-  //         (item: DineInField) => item.DineInMealType
-  //       );
-  //     setSelectedValuesMealType(initialSelectedValues||[]);
-  //     console.log(initialSelectedValues)
+      const initialSelectedValues =
+        updated?.map(
+          (item: DineInField) => item.DineInMealType
+        );
+      setSelectedValuesMealType(initialSelectedValues||[]);
+      console.log(initialSelectedValues)
  
-  //     const initialSelectedValues2 =
-  //     updated?.map(
-  //         (item: DineInField) => item.DineInServiceArea
-  //       );
-  //     setSelectedValues1(initialSelectedValues2||[]);
-  //     setDineIn(true);
-  //   }
+      const initialSelectedValues2 =
+      updated?.map(
+          (item: DineInField) => item.DineInService
+        );
+      setSelectedValues1(initialSelectedValues2||[]);
+      setDineIn(true);
+    }
 
   
-  // }, []);
+  }, [prizingDetail]);
 
 
   const handleSpecialDineinMealType = (index: number, value: any) => {
@@ -406,14 +414,14 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
         <div className="Date_container">
           <div className="calenderComponent">
             <div className="date-picker-container">
-              <DatePicker
-                placeholderText="7/1/2034"
-                dateFormat="MM/dd/yyyy"
-                selected={selectedDate}
-                onChange={handleDateChange}
-                ref={datePickerRef}
-                className="datePicker"
-              />
+            <DatePicker
+  placeholderText="07/01/2034" // Matches the MM/dd/yyyy format
+  dateFormat="MM/dd/yyyy"
+  selected={selectedDate}
+  onChange={handleDateChange}
+  ref={datePickerRef}
+  className="datePicker"
+/>
             </div>
             <img
               src={calender}
@@ -427,8 +435,8 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
               <DatePicker
                 selected={selectedDate1}
                 onChange={handleDateChange1}
-                placeholderText="7/1/2034" // Placeholder text for the date picker
-                dateFormat="yyyy-MM-dd" // specify the format you want
+                placeholderText="07/01/2034" // Matches the MM/dd/yyyy format
+                dateFormat="MM/dd/yyyy" // specify the format you want
                 showPopperArrow
                 ref={datePickerRef1}
                 className="datePicker"
@@ -682,6 +690,8 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                     <input
                       className="swiggyZomato-input"
                       type="text"
+                      value={form1.Swiggy}
+
                       placeholder="Enter Swiggy details"
                       onChange={(e) =>
                         setForm({ ...form1, Swiggy: e.target.value })
@@ -710,6 +720,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
                     <input
                       className="swiggyZomato-input"
                       type="text"
+                      value={form1.Zomato}
                       placeholder="Enter Zomato details"
                       onChange={(e) =>
                         setForm({
