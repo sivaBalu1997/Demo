@@ -936,13 +936,13 @@ color: #5F5F5F;
   .Menu-Listing-Page-main
   {
     height: 45rem;
+    width: 100%;
     .Menu-Listing-TableOne
     {
-     
    
-      border: 1px solid red !important;
+     
       .Menu-Listing-TableOneBody {
-        height: 35rem;
+        height: 38rem;
         display: block;
         overflow-y: auto;
         &::-webkit-scrollbar{
@@ -965,10 +965,10 @@ color: #5F5F5F;
   {
     .Menu-Listing-TableTwoBody {
       display: block;
-      height: 33rem;
+      height: 36rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 171.4%;
+      width: 161.4%;
       &::-webkit-scrollbar{
         display: none;
       }
