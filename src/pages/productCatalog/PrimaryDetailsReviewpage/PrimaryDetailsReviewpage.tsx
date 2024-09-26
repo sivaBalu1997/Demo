@@ -4,7 +4,7 @@ import axios from "axios";
 import edit from "../../../assets/images/edit.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Step2 from "../../../components/productCatalog/Step2/Step2";
+import Step2 from "components/productCatalog/Step2/Step2";
 import { Contextpagejs } from "../contextpage";
 import ReviewValues from "../../../components/productCatalog/ReviewValues/ReviewValues";
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
@@ -14,6 +14,7 @@ import {
   addMenuItemRequest,
   addMockDataRequest,
   cleanMenuItemSuccessMsg,
+  uploadImage
   
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -122,12 +123,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const fetchedprimarydata = primarydata;
   // console.log(fetchedprimarydata.ingredients);
 
-  const uploadStatus = useSelector(
-    (state: { imageUpload: ImageUpload }) => state.imageUpload.uploadStatus
-  );
-  const errorMessages = useSelector(
-    (state: { imageUpload: ImageUpload }) => state.imageUpload.errorMessages
-  );
+  const uploadStatus = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.uploadStatus);
+  const errorMessages = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages);
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
@@ -185,7 +182,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   // }, [uploadStatus, errorMessages]);
 
   const primarypagedetails = useSelector((state: RootState) => state);
-
   const MAX_IMAGES = 6;
 
   const data = [
@@ -346,10 +342,25 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
         console.log("Not all images are uploaded successfully.");
       }
     }
-    
-    for(let [index,image] of indextoreplace.entries()){
-      console.log("image",image,"index",index)
 
+    // for(let [index,image] of indextoreplace.entries()){
+    //   console.log("image",image,"index",index)
+
+    // }
+    if (ImageId === "" || ImageId === undefined) {
+      dispatch(addMenuItemRequest(data));
+      dispatch(addMockDataRequest(data));
+    } else {
+      setindextoreplace((prev) => {
+        const updatedIndexToReplace = [...prev];
+
+        // Dispatch after state is updated
+        updatedIndexToReplace.forEach((item) => {
+          dispatch(uploadImage(item.image, item.id, item.index));
+        });
+
+        return updatedIndexToReplace; // Ensure the state is updated with the new value
+      });
     }
     dispatch(addMenuItemRequest(data));
       dispatch(addMockDataRequest(data));
@@ -369,7 +380,9 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
       <SidePanel />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="reviewheading">
-          <p>Review menu item - {primarypagedetails.primarypage.data.itemName}</p>
+          <p>
+            Review menu item - {primarypagedetails.primarypage.data?.itemName}
+          </p>
         </div>
         <div className="reviewpage">
           <div className="reviewpagebody">
@@ -402,7 +415,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                           }
                         />
                       </div>
-
+                      {/* 
                       <div>
                         <ReviewValues
                           label="Meal type"
@@ -412,7 +425,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                               : "-"
                           }
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -579,15 +592,15 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
                                         type="file"
                                         name="imageUrls"
                                         className="imgfile"
-                                        id={`imgadd-${0}`} // Unique ID for each input
+                                        id={`imgadd-${0}`}
                                         accept="image/png, image/jpeg"
                                         onChange={(e) => handleRetry(e, 0)}
-                                        style={{ display: "none" }} // Hide the file input, trigger it with a button
+                                        style={{ display: "none" }} 
                                       />
 
                                       <span
                                         className="errromsg"
-                                        onClick={() => handleAddImage(0)} // Pass the correct index to handleAddImage
+                                        onClick={() => handleAddImage(0)} 
                                       >
                                         Retry
                                       </span>

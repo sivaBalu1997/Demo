@@ -16,12 +16,23 @@ import info from "../../assets/png/info.png";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
+// import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
+import {
+  imageslist,
+  dietarytype,
+  cuisine,
+  mealType,
+  bestPair,
+  subcategory,
+  alcoholradio,
+  calorieponitradio,
+  portionsizeradio,
+} from "../../../assets/mockData/Moca_data";
 import Inventory from "components/productCatalog/Inventory/Inventory";
-
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
 }
-
+ 
 type MainFormType = {
   availabilityid: string[];
   formNormal: {
@@ -48,7 +59,7 @@ type MainFormType = {
   Swiggy: string[];
   Zomato: string[];
 };
-
+ 
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
@@ -75,7 +86,7 @@ interface FormState {
   Inventory1: string;
   Inventory2: string;
 }
-
+ 
 type MainFormSpecial = {
   form: FormState;
   dineinfields: DineinFieldSpecial[];
@@ -88,7 +99,7 @@ type MainFormSpecial = {
   Zomato: string[];
   Availabilityid: string[];
 };
-
+ 
 interface ValidationState {
   isValid: boolean;
   errorMessage: string;
@@ -115,7 +126,7 @@ interface Option {
   name: string;
   id: string;
 }
-
+ 
 interface MainForm {
   form: FormState1;
   kitchenstation: string;
@@ -124,14 +135,14 @@ interface MainForm {
   normalForm?: any;
   specialForm?: any;
 }
-
+ 
 interface PricingDetailsFormData {
   kitchen: string[];
 }
 interface option {
   name: string;
 }
-
+ 
 interface State {
   auth: {
     credentials: {
@@ -144,7 +155,7 @@ interface StateData {
     availability: [];
   };
 }
-
+ 
 const PricingDetails = () => {
   const [mainFormState, setMainFormState] = useState<MainFormType>({
     availabilityid: [],
@@ -172,7 +183,7 @@ const PricingDetails = () => {
     Swiggy: [],
     Zomato: [],
   });
-
+ 
   const {
     control,
     handleSubmit,
@@ -195,7 +206,7 @@ const PricingDetails = () => {
       specialForm: [],
     },
   });
-
+ 
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
@@ -204,10 +215,11 @@ const PricingDetails = () => {
   );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
-
+ 
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData?.mainForm || {}
   );
+
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
@@ -241,23 +253,27 @@ const PricingDetails = () => {
     Zomato: [],
     Availabilityid: [],
   });
+  
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-
+ 
   const [selectedValue1, setSelectedValue1] = useState<string[]>([]);
   const [id, setId] = useState([]);
-
+ 
   const dispatch = useDispatch();
   const [form, setForm] = useState({
     Inventory1: "",
     Inventory2: "",
   });
+
   const [formerrors, setFormErrors] = useState({
     Inventory1: "",
     Inventory2: "",
   });
+
   const [dinein, setDineIn] = useState(false);
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
+
   const [validationState, setValidationState] = useState({
     kitchen: { isValid: true, errorMessage: "" },
     preparationTime: { isValid: true, errorMessage: "" },
@@ -274,23 +290,23 @@ const PricingDetails = () => {
     NormalServiceArea: { isValid: true, errorMessage: "" },
     PickupSwiggy:{ isValid: true, errorMessage: "" },
   });
-
+ 
   const validateDropdown = (value: string[], field: string | number) => {
     let isValid = true;
     let errorMessage = "";
-  
+ 
     if (value.length === 0) {
       isValid = false;
       errorMessage = "This field is required";
     }
-  
+ 
     // Handle both string and index (number) based fields
     setValidationState((prevState) => ({
       ...prevState,
       [field]: { isValid, errorMessage },
     }));
   };
-
+ 
   const validateForm = (): boolean => {
     validateDropdown(selectedValues, "kitchen");
     validateDropdown(selectedValue1, "preparationTime");
@@ -298,7 +314,7 @@ const PricingDetails = () => {
       validationState.kitchen.isValid && validationState.preparationTime.isValid
     );
   };
-
+ 
   const handleDropdownToggle = (dropdownName: string) => {
     setDropdownOpen((prevState) => {
       return {
@@ -307,7 +323,7 @@ const PricingDetails = () => {
       };
     });
   };
-
+ 
   let mainForm: MainForm = {
     form: {
       Inventory1: "",
@@ -317,23 +333,23 @@ const PricingDetails = () => {
     Preparationtime: "",
     KitchenStationId: "",
     normalForm: isOptionTrue ? mainFormState : undefined, // Conditionally set normalForm
-
+ 
     specialForm: isOptionTrue ? undefined : mainFormSpecial,
   };
-
+ 
   // const formData={
   // getValues();
   // }
-
+ 
   useEffect(() => {
     if (prizingDetail?.form) {
       setSelectedValues(prizingDetail?.kitchenstation || []);
     }
-
+ 
     if (prizingDetail?.normalForm) {
       setSelectedValue1(prizingDetail?.Preparationtime || []);
     }
-
+ 
     if (prizingDetail?.form) {
       setForm({
         Inventory1: prizingDetail?.form.Inventory1 || "",
@@ -350,12 +366,12 @@ const PricingDetails = () => {
   //     state: { pagename: "Item customizations" },
   //   });
   // };
-
+ 
   useEffect(() => {
-    setOptions(data);
-    getApi();
+    // setOptions(data);
+    dispatch(getTagClassRequest(locationid))
   }, [data]);
-
+ 
   const getApi = async () => {
     dispatch(getTagClassRequest(locationid));
   };
@@ -364,6 +380,7 @@ const PricingDetails = () => {
   // const onSubmit: SubmitHandler<any> = (data: any) => {
   //   dispatchEvent();
   // };
+
   const handleBlur = (fieldValue: string[], fieldName: string) => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
@@ -577,7 +594,6 @@ const PricingDetails = () => {
                       </div>
                     </Tooltip> */}
             </div>
-
             <div className="KitchenRelated">
               <div className="D1kitchen">
                 <Dropdown
@@ -613,14 +629,14 @@ const PricingDetails = () => {
                 </div>
               </div>
             </div>
-
+ 
             <div className="Kitchen-checkbox">
               <input type="checkbox" className="checkbox1-Kitchen" />
               <label className="Inventorycheck">
                 Don't print the item in Master KOT
               </label>
             </div>
-
+ 
             <div className="InventoryToggle">
               <div>
                 <p className="IHeading">Inventory</p>
@@ -629,7 +645,7 @@ const PricingDetails = () => {
                 <Toggle toggle={inventory} setToggle={setInventory} />
               </div>
             </div>
-
+ 
             <div className="InventorySection">
               {inventory && (
                 <div>
@@ -660,7 +676,7 @@ const PricingDetails = () => {
                       )}
                       rules={{ required: "This field is required" }}
                     />
-
+ 
                     <Controller
                       name="form.Inventory2"
                       control={control}
@@ -688,13 +704,14 @@ const PricingDetails = () => {
                       )}
                     />
                   </div>
-
+ 
                   {formerrors.Inventory1 && (
                     <p className="ErrorsForm">{formerrors.Inventory1}</p>
                   )}
                   {formerrors.Inventory2 && (
                     <p className="ErrorsFormi2">{formerrors.Inventory2}</p>
                   )}
+
                   <div className="Inventcheckbox">
                     <div className="checkboxI">
                       <input type="checkbox" className="checkbox1-color" />
@@ -702,7 +719,7 @@ const PricingDetails = () => {
                         Reset inventory everyday
                       </label>
                     </div>
-
+ 
                     <div className="checkbox2">
                       <input type="checkbox" className="checkbox1-color" />
                       <label className="InventoryHeadingII">
@@ -713,8 +730,7 @@ const PricingDetails = () => {
                 </div>
               )}
             </div>
-            <div className="services-Heading"><p> Service availability </p></div>
-
+ 
             <div className="NormalSpecial">
               <div className="Normal">
                 <input
@@ -771,7 +787,7 @@ const PricingDetails = () => {
                 
               />
             )}
-
+ 
             {/* <div
                 className={
                   isExpanded

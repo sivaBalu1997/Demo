@@ -78,9 +78,7 @@ const ItemCustomizations: React.FC = () => {
     "Option 3",
   ]);
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
-
-  const [customItemavailability, setCustomItemavailability] =
-    useState<boolean>(false);
+  // const [customItemavailability, setCustomItemavailability] = useState<boolean>(false);
   const [isvalid, setIsValid] = useState<boolean>(false);
 
   const [modifications, setModifications] = useState<Modification[]>([
@@ -99,9 +97,7 @@ const ItemCustomizations: React.FC = () => {
     },
   ]);
 
-  const [filteredModifications, setFilteredModifications] = useState<
-    Modification[]
-  >([]);
+  const [filteredModifications, setFilteredModifications] = useState<Modification[]>([]);
 
   useEffect(() => {
     if (showModifiers === false) {
@@ -147,6 +143,7 @@ const ItemCustomizations: React.FC = () => {
       },
     ]);
   };
+
   const getFormData = (): FormData => {
     const formData = new FormData();
     modifications.forEach((modification, index) => {
@@ -154,6 +151,7 @@ const ItemCustomizations: React.FC = () => {
     });
     return formData;
   };
+
   const handleModifierChange = (
     index: number,
     e: ChangeEvent<HTMLInputElement>
@@ -193,25 +191,6 @@ const ItemCustomizations: React.FC = () => {
     } else {
       setIsValid(true);
     }
-
-    // setModificationError((prevErrors) => {
-    //   const newErrors = { ...prevErrors };
-
-    //   if (!newErrors[modIndex]) {
-    //     newErrors[modIndex] = { options: {} };
-    //   }
-
-    //   if (optIndex !== undefined) {
-    //     // if (!newErrors[modIndex].options[optIndex]) {
-    //     //   newErrors[modIndex].options[optIndex] = {};
-    //     // }
-    //     (newErrors[modIndex].options as Record<string, any>)[optIndex][name] = error;
-    //   } else {
-    //     newErrors[modIndex][name] = error;
-    //   }
-
-    //   return newErrors;
-    // });
   };
 
   const addOptionChange = (
@@ -280,6 +259,7 @@ const ItemCustomizations: React.FC = () => {
   const clerall = () => {
     console.log("item cleared");
   };
+
   const handleSelect3 = (values: string[], index: number): void => {
     // Update selectedValue state
     setSelectedValue(values);
@@ -294,6 +274,7 @@ const ItemCustomizations: React.FC = () => {
       return newModifications;
     });
   };
+
   useEffect(() => {
     const filtered = modifications.filter((modifier) =>
       modifier.modifierName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -305,13 +286,11 @@ const ItemCustomizations: React.FC = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleDeleteModifier=(index:number)=>{
-    const newmodification=[...modifications]
-    newmodification.splice(index,1)
-    setModifications(newmodification)
-
-  }
-  // console.log(filteredModifications)
+  const handleDeleteModifier = (index: number) => {
+    const newmodification = [...modifications];
+    newmodification.splice(index, 1);
+    setModifications(newmodification);
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -333,12 +312,14 @@ const ItemCustomizations: React.FC = () => {
               <div>
                 <Toggle toggle={showModifiers} setToggle={setShowModifiers} />
               </div>
-              {showModifiers && <a
-                className="Add-Modification-btn-ItemCustomizations"
-                onClick={addModifier}
-              >
-                + Add Modification
-              </a>}
+              {showModifiers && (
+                <a
+                  className="Add-Modification-btn-ItemCustomizations"
+                  onClick={addModifier}
+                >
+                  + Add Modification
+                </a>
+              )}
             </div>
 
             <div className="searchbox">
@@ -398,9 +379,13 @@ const ItemCustomizations: React.FC = () => {
                               }
                               onBlur={(e) => handleBlur(e, modIndex)}
                             />
-                            <div className="deleteModiferContainer" onClick={()=>handleDeleteModifier(modIndex)}>
-                              <a className="Delete-text"><span className="SpanDelete">-</span>Delete</a>
-                              
+                            <div
+                              className="deleteModiferContainer"
+                              onClick={() => handleDeleteModifier(modIndex)}
+                            >
+                              <a className="Delete-text">
+                                <span className="SpanDelete">-</span>Delete
+                              </a>
                             </div>
                           </div>
 
@@ -436,6 +421,7 @@ const ItemCustomizations: React.FC = () => {
                               </label>
                             </div>
                           </div>
+                          
                           <div className="option-input-ItemCustomizations">
                             {modifier.options &&
                               modifier.options.map((option, optIndex) => (
@@ -533,6 +519,7 @@ const ItemCustomizations: React.FC = () => {
                                 </div>
                               ))}
                           </div>
+
                           <div className="Spinner-input-ItemCustomizations">
                             <div className="Spinner-inputlabel-ItemCustomizations">
                               <label
@@ -551,18 +538,25 @@ const ItemCustomizations: React.FC = () => {
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
-                                disabled={filteredModifications[modIndex].selectionType === "Mandatory"}
-                              
+                                disabled={
+                                  filteredModifications[modIndex]
+                                    .selectionType === "Mandatory"
+                                }
                               />
                               <div className="polydiv-ItemCustomizations">
-                              
                                 <img
                                   className="polyimg-ItemCustomizations"
                                   src={Polygon1}
                                   alt=""
                                   onClick={() => {
-                                    if (filteredModifications[modIndex].selectionType !== "Mandatory") {
-                                      incrementSpinner(modIndex, "minSelection");
+                                    if (
+                                      filteredModifications[modIndex]
+                                        .selectionType !== "Mandatory"
+                                    ) {
+                                      incrementSpinner(
+                                        modIndex,
+                                        "minSelection"
+                                      );
                                     }
                                   }}
                                 />
@@ -571,13 +565,20 @@ const ItemCustomizations: React.FC = () => {
                                   src={Polygon2}
                                   alt=""
                                   onClick={() => {
-                                    if (filteredModifications[modIndex].selectionType !== "Mandatory") {
-                                      decrementSpinner(modIndex, "minSelection");
+                                    if (
+                                      filteredModifications[modIndex]
+                                        .selectionType !== "Mandatory"
+                                    ) {
+                                      decrementSpinner(
+                                        modIndex,
+                                        "minSelection"
+                                      );
                                     }
                                   }}
                                 />
                               </div>
                             </div>
+
                             <div className="Spinner-inputlabel-ItemCustomizations">
                               <label
                                 className="labelItemCustomizations"
@@ -691,6 +692,7 @@ const ItemCustomizations: React.FC = () => {
                   />
                 </div>
               </div>
+
             </div>
           </div>
         </div>

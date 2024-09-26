@@ -91,7 +91,11 @@ import {
   UPLOAD_IMAGE_IN_PROGRESS,
   ADD_MOCK_DATA_HIDDEN_REQUEST,
   ADD_MOCK_DATA_HIDDEN_SUCCESS,
-  ADD_MOCK_DATA_HIDDEN_FALIURE
+  ADD_MOCK_DATA_HIDDEN_FALIURE,
+ 
+  DIET_DATA_SUCCESS,
+  DIET_DATA_REQUEST,
+  DIET_DATA_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -397,6 +401,7 @@ export const dietdatasuccess = (response) => ({
 export const dietdatafailure = (error) => ({
   type: DIET_DROPDOWN_LIST_FAILURE,
   payload: error,
+
 })
 
 //cuisine

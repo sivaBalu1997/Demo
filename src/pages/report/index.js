@@ -52,20 +52,17 @@ const Report = (props) => {
 
   useEffect(() => {
     getReportData(branchDetails?.id);
-    console.log(4)
   }, []);
 
   useEffect(() => {
     if (outlets.length == 0 && credentials) {
       setBranchId(credentials?.locationId);
-      console.log(2)
     }
   }, [outlets]);
 
   useEffect(() => {
     if (credentials) {
       dispatch(getOutlets(credentials?.merchantId));
-      console.log(1)
     }
   }, [credentials]);
 
@@ -73,7 +70,6 @@ const Report = (props) => {
     if (reportId !== "") {
       fetchData();
     }
-    console.log(3)
   }, [reportId, branchId]);
 
   const fetchData = async() =>  {
