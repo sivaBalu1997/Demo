@@ -482,13 +482,14 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           className="DineInInput1"
           onChange={(e) => handleChange(index, e)}
         />
-          {!ValidationStateerr[`DineInMealType_${index}`]?.isValid && (
-                      <span className="ErrormsgPrice">
-                        {ValidationStateerr[`DineInMealType_${index}`]?.errorMessage}
-                      </span>
-                    )}
+         
        
       </div>
+      {!ValidationStateerr[`DineInPrice_${index}`]?.isValid && (
+                      <span className="ErrormsgPriceSpecial">
+                        {ValidationStateerr[`DineInPrice_${index}`]?.errorMessage}
+                      </span>
+                    )}
 
       <div className="DropD4">
         <Dropdown
@@ -497,15 +498,18 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           onSelect={(value) => handleSelect3(value, index)}
           options={options3}
           label="Meal Type*"
-          onBlur={() =>
-            validateDropdown(selectedValuesMealType[index] || [], index)
-          }
+          
           onChange={(e) => handleSpecialDineinMealType(index, e.target.value)}
           width="Drop1"
-          validation={
-            validationState[index] || { isValid: true, errorMessage: "" }
-          }
+          // validation={
+          //   validationState[index] || { isValid: true, errorMessage: "" }
+          // }
         />
+        {!ValidationStateerr[`DineInService_${index}`]?.isValid && (
+                      <span className="ErrormsgMealTypeSpecial">
+                        {ValidationStateerr[`DineInService_${index}`]?.errorMessage}
+                      </span>
+                    )}
       </div>
 
       <div className="SpecialDropDown">
@@ -515,9 +519,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
           options={options3}
           label="Service Area*"
           width="Drop2"
-          validation={
-            validationState[index] || { isValid: true, errorMessage: "" }
-          }
+          // validation={
+          //   validationState[index] || { isValid: true, errorMessage: "" }
+          // }
         />
       </div>
 
