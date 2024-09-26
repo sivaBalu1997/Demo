@@ -6,11 +6,12 @@
 .reviewpage {
   position: relative;
   top: 78px;
-  margin-left: -20px;
-  width: 133%;
-  height: 620px;
+  // margin-left: -20px;
+  width: 120%;
+  height: 540px;
   overflow-y: auto;
-  left: 20px;
+  left: 60px;
+  // border: 1px solid red;
   .buttoncomponent {
     position: relative;
     // left: 20px;
@@ -18,8 +19,9 @@
 }
 
 .reviewheading {
-  width: 133%;
+  width: 120%;
   height: 50px;
+  left: 60px;
   position: relative;
   top: 65px;
   border-bottom: 1px solid #c4c4c4;
@@ -35,8 +37,8 @@
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #c4c4c4;
-  width: 88%;
-  margin-left: 20px;
+  width: 120%;
+  
 
 }
 
@@ -142,7 +144,7 @@
     top: 24px;
     width: 50px;
     height: 40px;
-    gap: 10px;
+   
     display: flex;
     flex-direction: row;
     cursor: pointer;
@@ -169,7 +171,7 @@
       font-weight: 400;
       color: #67833e;
       top: -5px;
-      left: 5px;
+     
     }
   }
 
@@ -523,7 +525,7 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  width: 125%;
+  width: 142%;
   background-color: white;
   bottom: -60px;
   // left: 470px;
