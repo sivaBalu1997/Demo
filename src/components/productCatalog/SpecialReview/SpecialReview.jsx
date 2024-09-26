@@ -68,7 +68,7 @@ const SpecialReview = () => {
 
             {prizingDetail &&
               prizingDetail.specialForm &&
-              prizingDetail.specialForm?.dineinfields?.map((elem, index) => {
+              prizingDetail.specialForm?.dineinfield1?.map((elem, index) => {
                 return (
                   <>
                     <h3 className="dine-in-items-label">{elem.DineInPrice}</h3>
@@ -81,7 +81,7 @@ const SpecialReview = () => {
             <h3 className="dine-in-items-container-heading">Service Time</h3>
             {prizingDetail &&
               prizingDetail.specialForm &&
-              prizingDetail.specialForm?.dineinfields?.map((elem, index) => {
+              prizingDetail.specialForm?.dineinfield1?.map((elem, index) => {
                 return (
                   <>
                     <h3 className="dine-in-items-label">
@@ -96,11 +96,11 @@ const SpecialReview = () => {
             <h3 className="dine-in-items-container-heading">Service Area</h3>
             {prizingDetail &&
               prizingDetail.specialForm &&
-              prizingDetail.specialForm?.dineinfields?.map((elem, index) => {
+              prizingDetail.specialForm?.dineinfield1?.map((elem, index) => {
                 return (
                   <>
                     <h3 className="dine-in-items-label">
-                      {elem.DineInServiceArea}
+                      {elem.DineInService}
                     </h3>
                   </>
                 );
@@ -124,8 +124,8 @@ const SpecialReview = () => {
             <h3 className="pick-up-items-label">
               {(prizingDetail &&
                 prizingDetail.specialForm &&
-                prizingDetail.specialForm.form &&
-                prizingDetail.specialForm.form.Pickupprice) ||
+                prizingDetail.specialForm.form1 &&
+                prizingDetail.specialForm.form1.Pickupprice) ||
                 "-"}
             </h3>
           </div>
@@ -158,8 +158,8 @@ const SpecialReview = () => {
               <h3 className="special-items-label">
                 {(prizingDetail &&
                   prizingDetail.specialForm &&
-                  prizingDetail.specialForm.form &&
-                  prizingDetail.specialForm.form.Deliveryprice) ||
+                  prizingDetail.specialForm.form1 &&
+                  prizingDetail.specialForm.form1.Deliveryprice) ||
                   "-"}
               </h3>
             </div>
@@ -192,8 +192,8 @@ const SpecialReview = () => {
               <h3 className="special-items-label">
                 {(prizingDetail &&
                   prizingDetail.specialForm &&
-                  prizingDetail.specialForm.form &&
-                  prizingDetail.specialForm.form.Swiggy) ||
+                  prizingDetail.specialForm.form1 &&
+                  prizingDetail.specialForm.form1.Swiggy) ||
                   "-"}
               </h3>
             </div>
@@ -206,8 +206,8 @@ const SpecialReview = () => {
                 {" "}
                 {(prizingDetail &&
                   prizingDetail.specialForm &&
-                  prizingDetail.specialForm.form &&
-                  prizingDetail.specialForm.form.Zomato) ||
+                  prizingDetail.specialForm.form1 &&
+                  prizingDetail.specialForm.form1.Zomato) ||
                   "-"}{" "}
               </h3>
             </div>
