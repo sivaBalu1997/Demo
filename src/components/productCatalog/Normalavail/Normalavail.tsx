@@ -160,7 +160,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [showDayDelivery, setShowDayDelivery] = useState(false);
   const [showDayThird, setShowDayThird] = useState(false);
   const prizingDetail = useSelector(
-    (state: any) => state.PricingDetailReducer.prizingData.mainForm
+    (state: any) => state.PricingDetailReducer.prizingData
   );
 
   const [formNormal, setformNormal] = useState({
@@ -204,21 +204,21 @@ const Normalavail: React.FC<NormalavailProps> = ({
     if (prizingDetail?.normalForm?.formNormal) {
       setformNormal({
         PickuppriceNormal:
-          prizingDetail.normalForm.formNormal.PickuppriceNormal || "",
+          prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
         PickupmealtypeNormal:
-          prizingDetail.normalForm.formNormal.PickupmealtypeNormal || "",
+          prizingDetail?.normalForm?.formNormal?.PickupmealtypeNormal || "",
         DeliverypriceNormal:
-          prizingDetail.normalForm.formNormal.DeliverypriceNormal || "",
+          prizingDetail?.normalForm?.formNormal?.DeliverypriceNormal || "",
         DeliverymealtypeNormal:
-          prizingDetail.normalForm.formNormal.DeliverymealtypeNormal || "",
+          prizingDetail?.normalForm?.formNormal?.DeliverymealtypeNormal || "",
         SwiggyorzomatoNormal:
-          prizingDetail.normalForm.formNormal.SwiggyorzomatoNormal || "",
-        SwiggyNormal: prizingDetail.normalForm.formNormal.SwiggyNormal || "",
+          prizingDetail?.normalForm?.formNormal?.SwiggyorzomatoNormal || "",
+        SwiggyNormal: prizingDetail?.normalForm?.formNormal?.SwiggyNormal || "",
         SwiggymealtypeNormal:
-          prizingDetail.normalForm.formNormal.SwiggymealtypeNormal || "",
-        ZomatoNormal: prizingDetail.normalForm.formNormal.ZomatoNormal || "",
+          prizingDetail.normalForm?.formNormal?.SwiggymealtypeNormal || "",
+        ZomatoNormal: prizingDetail?.normalForm?.formNormal?.ZomatoNormal || "",
         ZomatomealtypeNormal:
-          prizingDetail.normalForm.formNormal.ZomatomealtypeNormal || "",
+          prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
       });
 
       const updatedFields = prizingDetail?.normalForm?.dineinfields.map(
@@ -270,6 +270,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
     if (prizingDetail?.normalForm) {
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
+      );
+      // Other state initializations...
+    }
+    if (prizingDetail?.normalForm) {
+      setDineInDates1(
+        prizingDetail.normalForm.Dinein || selectedValues2
       );
       // Other state initializations...
     }
@@ -530,6 +536,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
   };
   console.log(!validationState.Pickup.isValid);
   console.log(validationState.Pickup?.errorMessage);
+  console.log(dineInDates1)
+  
 
   return (
     <div>
@@ -680,7 +688,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <div className="dayspickup">
                   {entry.showDay && (
                     <DaysCheckDin
-                      checkedItems={dineInDates1}
+                    checkedItems={dineInDates1.map((elem) => elem)}
+
                       setCheckedItems={setDineInDates1}
                       index={index}
                       {...(availabilityid
@@ -933,6 +942,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       className="swiggyZomato-input"
                       type="text"
                       // placeholder="Enter Swiggy details"
+                      value={formNormal.SwiggyNormal}
+
                       onChange={(e) =>
                         setformNormal({
                           ...formNormal,
@@ -963,6 +974,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     <input
                       className="swiggyZomato-input"
                       type="text"
+                      value={formNormal.ZomatoNormal}
                       // placeholder="Enter Zomato details"
                       onChange={(e) =>
                         setformNormal({
