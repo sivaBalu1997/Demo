@@ -415,6 +415,7 @@ text-align: left;
 .LabelSpecialPrice {
   color: #666666;
   font-size: 14px;
+  margin-top: 10px;
  
 }
 .dineinentry
@@ -425,26 +426,25 @@ font-weight: 400;
 line-height: 21px;
 text-align: left;
 color: #0085FF;
+margin-top: 15px;
 }
 .DineInInput11Special
 {
   display: flex;
-  flex-direction: row;
-  justify-content: left;
-  align-items: center;
-  margin-top: 0.5rem;
+justify-content:flex-start;
+  margin-top:0.5rem;
   .DropD4 {
   margin-left: -10px;
-  margin-top: -20px;
+  margin-top: 8px;
 }
 .SpecialDropDown {
   margin-left: -10px;
-  margin-top: -25px;
+  margin-top: 5px;
 }
 
   .DeleteSpecial {
     margin-left: 27px;
-    transform: translateY(13px);
+    transform: translateY(28px);
     color: red;
     font-weight: 400;
     font-size: 14px;
@@ -686,4 +686,24 @@ margin-top: 0.2rem;
   color:red;
   font-size: 14px;
   font-weight: 400
+}
+.ErrormsgPriceSpecial{
+  position: relative;
+  top: 72px;
+  left: -140px;
+  color:red;
+  font-size: 14px;
+  font-weight: 400;
+  height: 10px;
+
+}
+.ErrormsgMealTypeSpecial{
+  position: relative;
+  top: 22px;
+  left:30px;
+  color:red;
+  font-size: 14px;
+  font-weight: 400;
+  height: 10px;
+
 }

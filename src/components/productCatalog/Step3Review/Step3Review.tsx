@@ -167,7 +167,7 @@ const Step3Review: React.FC = () => {
             </div>
           ))
       ) : (
-        <p>No item data available</p>
+        <p className="Nodata">No item data available</p>
       )}
     </div>
   );
