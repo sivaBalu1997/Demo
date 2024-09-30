@@ -1,0 +1,114 @@
+.templateContainer {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+
+  .template {
+    text-align: center;
+
+    .templateContext {
+      width: 50vw;
+      padding: 30px;
+
+      .templateHeader{
+        position: relative;
+        left: 230px;
+        margin-bottom: 20px;
+
+        .templateSubHead{
+          font-size: 12px;
+        }
+      }
+
+      .heading{
+        font-weight: 400;
+        font-size: 22px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .templateBody{
+        display: flex;
+        justify-content: space-between;
+        width: 85vw;
+      }
+
+      .videoContainer {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+
+        .videoBox {
+          position: relative;
+          width: 22vw;
+          height: 65vh;
+          max-width: 600px;
+          background-color: #d9d9d9;
+        }
+
+        .play-pause-btn {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: white;
+          color: #67833e;
+          border: none;
+          border-radius: 50%;
+          width: 37px;
+          height: 37px;
+          cursor: pointer;
+          opacity: 0.8;
+          transition: opacity 0.3s ease;
+
+          .pButton1 {
+            margin-left: 0px;
+            margin-top: 2px;
+            font-size: 23px;
+          }
+
+          .pButton2 {
+            margin-left: 5px;
+            margin-top: 2px;
+            font-size: 23px;
+          }
+        }
+
+        .play-pause-btn:hover {
+          opacity: 1;
+        }
+      }
+      .editBtn {
+        position: relative;
+        top: 20px;
+        left: 10px;
+
+        button {
+          width: 150px;
+          height: 35px;
+          border-radius: 10px;
+          background-color: #67833e;
+          color: white;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+video::-webkit-media-controls-enclosure {
+  overflow: hidden; /* Hide unnecessary controls */
+}
+
+video::-webkit-media-controls-mute-button {
+  display: none; /* Hide the mute button */
+}
+
+video::-webkit-media-controls-volume-slider {
+  display: none; /* Hide the volume slider */
+}
+
+video::-webkit-media-controls-fullscreen-button {
+  display: none; /* Hide the fullscreen button */
+}

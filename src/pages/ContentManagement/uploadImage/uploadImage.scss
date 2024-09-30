@@ -1,0 +1,103 @@
+.uploadImg{
+    display: block;
+}
+.uploadImgContainer{
+    width: 35vw;
+    height: 20vh;
+    border: 2px dotted gray;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;   
+    text-align: center;
+    margin-bottom: 30px;
+ 
+    img{
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+        // padding: 15px;
+        display: flex;
+        position: relative;
+        top: 25px;
+    }
+    p{
+        color: gray;
+    }
+}
+.uploadLink{
+    font-weight: 600;
+    color: black;
+    margin-left: 3px;
+    text-decoration: underline;
+}
+.uploadheadings{
+    p{
+        display: flex;
+        justify-content: center;
+    }
+}
+.imageBox{
+    display: flex;
+    justify-content: center;
+}
+.uploadedImages{
+    display: flex;
+    gap: 10px;
+}
+.uploadedImage{
+    gap: 10px;
+    display: flex;
+
+    img{
+        cursor: grab; 
+    }
+    img:active {
+        cursor: grabbing; 
+        opacity: 0.5;
+    }
+}
+.removeImgBtn{
+    position: relative;
+    top: 15px;
+    right: 20px;
+    border: 1px solid rgb(237, 83, 83);
+    height: 15px;
+    width: 15px;
+    border-radius: 10px;
+    background-color: rgb(237, 83, 83);
+    font-size: 8px;
+    font-weight: 800;
+    cursor: pointer;
+
+    &:hover{
+        box-shadow: 2px 2px 4px 1px #3a344f;
+    }
+}
+
+@media(max-width:1280px){
+    .uploadImg{
+        img{
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            padding: 15px;
+        }
+    }
+    .uploadheadings{
+        p{
+            font-size: 13px;
+        }
+    }
+    .removeImgBtn{
+        margin-top: 7px;
+        margin-left: -30px;    
+        border: 1px solid rgb(237, 83, 83);
+        height: 12px;
+        width: 12px;
+        border-radius: 10px;
+        background-color: rgb(237, 83, 83);
+        font-size: 9px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+}

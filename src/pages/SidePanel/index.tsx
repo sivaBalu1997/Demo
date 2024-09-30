@@ -20,6 +20,7 @@ import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
 import btnnav from '../../assets/svg/btnnav.svg'
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { ReactComponent as CMS } from "../../assets/svg/CMS.svg"
 
 const SidePanel = () => {
   const credentials = useSelector((state:RootState) => state.auth.credentials);
@@ -189,6 +190,31 @@ const SidePanel = () => {
             <EmployeesIcon className="menu-items-SVG" />
             {isExpanded && <span className="menu-items-name">Employees</span>}
           </div>
+
+          {/* CMS ==================*/}
+          <div
+            className={
+              // showOptions === "/management/cms/" &&
+              location.pathname.startsWith("/cms/") 
+                ? "active"
+                : ""
+            }
+            style={{ 
+              cursor: "pointer", 
+              marginLeft:'-6px',
+              marginTop:'20px',
+              marginBottom:'-1px' 
+            }}
+            onClick={() => {
+              setShowOptions("/cms/welcome");
+              history.push("/cms/welcome");
+            }}
+          >
+            <li/>
+            <CMS className="menu-items-SVG" />
+            {isExpanded && <span className="menu-items-name" style={{fontSize:"15px"}}>Content Management</span>}
+          </div>
+
           {/* MENU ==========================================================*/}
           <div
             className={

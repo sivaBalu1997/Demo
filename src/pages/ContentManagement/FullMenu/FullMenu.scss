@@ -1,0 +1,97 @@
+
+.fullNameContainer{
+  display: flex;
+  font-display: row;
+  width: 80%;
+}
+.restaurantVideo{
+    margin-top: 30px;
+    margin-left: 50px;
+    
+    .videoTitle{
+        margin-left: -1%;
+        margin-top: 20px;
+    }
+}
+
+.previewContainers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;  
+    top: 15%;            
+    right: 1%;         
+    .pImage {
+      width: 400px;
+      height: 400px;    
+    }
+    &.show-preview img {
+      display: block;   
+    }
+  } 
+  .image{
+    width: 50%;
+  }
+
+  .head{
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    img{
+      margin-left: 24px;
+      margin-top: 22px;
+      cursor: pointer;
+    }
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltiptexts {
+      visibility: hidden;
+      width: 500px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      right: 50%;
+      margin-left: 45px; 
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .tooltip:hover .tooltiptexts {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+@media(max-width:1280px){
+    .restaurantVideo{
+        
+        .videoTitle{
+            margin-top: 20px;
+            font-size: 13px;
+        }
+    }
+    .previewContainers {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;  
+      top: 15%;            
+      right: 1%;         
+      .pImage {
+        width: 300px;
+        height: 300px;    
+      }
+      &.show-preview img {
+        display: block;   
+      }
+    } 
+}
