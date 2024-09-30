@@ -3,21 +3,21 @@ import './BasicChanges.scss';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import Basic from '../../../assets/images/Basic.png';
 import { useSelector } from 'react-redux';
+import AvailCalender from '../AvailCalender/AvailCalender';
 
-interface BasiChangesProps{
-  onclose:any
+interface BasiChangesProps {
+  onclose: any;
 }
-const BasicChanges:React.FC<BasiChangesProps> = ({ onclose }) => {
-  
- 
 
- 
+const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
+  const [showAvailCalender, setShowAvailCalender] = useState(false);
 
-  // Handle input change for the "Change across all outlets" checkbox
-
-  // Function to handle the "Change" button click
   const handleChangeButton = () => {
     onclose();
+  };
+
+  const handleAvailCalender = () => {
+    setShowAvailCalender(true);
   };
 
   return (
@@ -29,11 +29,16 @@ const BasicChanges:React.FC<BasiChangesProps> = ({ onclose }) => {
             Make basic changes here. Click the edit icon for all options.
           </p>
         </div>
-          <div className="CancelChange">
-          <button className="CancelBtn" onClick={handleChangeButton}>Cancel</button>
-          <button className="ChangeBtn" onClick={handleChangeButton} >Change </button>
+        <div className="CancelChange">
+          <button className="CancelBtn" onClick={handleChangeButton}>
+            Cancel
+          </button>
+          <button className="ChangeBtn" onClick={handleAvailCalender}>
+            Change
+          </button>
         </div>
       </div>
+      {showAvailCalender && <AvailCalender />}
     </>
   );
 };
