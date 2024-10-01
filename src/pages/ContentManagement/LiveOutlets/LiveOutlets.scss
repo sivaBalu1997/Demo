@@ -8,6 +8,13 @@
       width: 100vw;
     }
 
+    .ContainerJustifyFlex{
+        display: flex;
+        justify-content: center;
+        width: 1100px;
+      
+    }
+
 
 .Livemain{
         width: 332px;
@@ -51,10 +58,11 @@
     
         display: flex;
         justify-content: start;
-        gap: 120px;
+        gap: 60px;
             margin-bottom: 9px;
     }
     .liveHeading{
+        width: 300px;
         font-family: Poppins;
         font-weight: 500;
         font-size: 24px;
@@ -67,6 +75,11 @@
     
     }
     
+
+    .ThreeDotsLivecontainer{
+       
+
+    }
     .Livecontent2{
     
         display: flex;

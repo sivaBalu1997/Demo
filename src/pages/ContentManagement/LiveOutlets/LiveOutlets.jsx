@@ -3,6 +3,8 @@ import './LiveOutlets.scss'
 import imagerest from './imagerest.svg'
 import SidePanel from 'pages/SidePanel'
 import DashBoardTopNav from 'components/contentManagement/dashBoardTopNav/dashBoardTopNav'
+import ThreeDots from '../PendingOutlet/ThreeDots'
+import AddOutlet from 'components/contentManagement/AddOutlet/AddOutlet'
 
 const LiveOutlets = () => {
   return (
@@ -14,6 +16,8 @@ const LiveOutlets = () => {
       <div className='dashBoardContainer'>
         <DashBoardTopNav /> 
 
+<div className='ContainerJustifyFlex'>
+
 
     <div className="Livemain">
     <div >
@@ -23,6 +27,10 @@ const LiveOutlets = () => {
       <div className="livecontent1">
         <div className="liveHeading">
           <h1 className="liveHeading">Diwali Special 2.0 </h1>
+          
+        </div>
+        <div className='ThreeDotsLivecontainer'>
+          <ThreeDots/>
         </div>
         <div className="pendingbtndot">
           {/* <ThreeDots /> */}
@@ -52,7 +60,15 @@ const LiveOutlets = () => {
         
       </div>
     </div>
+    
   </div>
+  <div>
+  <AddOutlet/>
+  </div>
+
+
+  </div>
+
   </div>
   </div>
 
