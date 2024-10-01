@@ -1,0 +1,38 @@
+
+.ThreeDots-container {
+    display: flex;
+    flex-direction: column;
+    
+    width: 20px;     
+    height: auto; 
+    gap: 15px;
+    
+    position: absolute; 
+    top:5px;
+   left:290px;
+        padding: 10px; 
+    border-radius: 5px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.dots {
+    
+    border: none; 
+    cursor: pointer;
+    margin-left: -70px; 
+background-color: white;
+margin-top: 15px;}
+
+.dots img {
+    width: 20px; 
+    height: 20px;
+
+}
+
+.copy {
+    color: white;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  
+}

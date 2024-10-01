@@ -54,6 +54,8 @@ import FullMenu from "pages/ContentManagement/FullMenu/FullMenu";
 import template from "pages/ContentManagement/template/template";
 import DashBoard from "pages/ContentManagement/DashBoard/DashBoard";
 import Template from "pages/ContentManagement/template/template";
+import PendingComponent from "pages/ContentManagement/PendingOutlet/PendingOutlet";
+
 import LiveOutlets from "pages/ContentManagement/LiveOutlets/LiveOutlets";
 
 const Routers = () => {
@@ -114,6 +116,8 @@ const Routers = () => {
               <Route path="/cms/fullMenu" component={() => <FullMenu />} />
               <Route exact path="/cms/template" component={Template} />
               <Route exact path="/cms/dashboard" component={DashBoard} />
+              <Route exact path="/cms/PendingOutlet" component={PendingComponent} />
+
               <Route exact path="/cms/liveOutlets" component={LiveOutlets} />
 
 
