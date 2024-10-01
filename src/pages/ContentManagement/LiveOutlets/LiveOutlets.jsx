@@ -62,7 +62,7 @@ const LiveOutlets = () => {
     </div>
     
   </div>
-  <div>
+  <div className='AddOutletContainer'>
   <AddOutlet/>
   </div>
 
