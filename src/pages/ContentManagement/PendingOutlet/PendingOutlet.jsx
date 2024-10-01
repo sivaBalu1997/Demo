@@ -5,6 +5,7 @@ import ThreeDots from './ThreeDots'
 import SidePanel from 'pages/SidePanel'
 import DashBoardTopNav from 'components/contentManagement/dashBoardTopNav/dashBoardTopNav'
 import Christmas from "../../../assets/images/christmas.webp"
+import AddOutlet from 'components/contentManagement/AddOutlet/AddOutlet'
 
 const PendingComponent = () => {
   const pendingdata = [
@@ -57,6 +58,9 @@ const PendingComponent = () => {
               )
             })
           }
+          <div className='AddOutletPending'>
+            <AddOutlet/>
+          </div>
           </div>
         </div>
       </div>
