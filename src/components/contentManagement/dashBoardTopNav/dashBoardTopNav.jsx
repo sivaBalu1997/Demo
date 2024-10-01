@@ -34,7 +34,7 @@ const DashBoardTopNav = () => {
             
                 <li className={activeLink === '/cms/PendingOutlet' ? 'active' : ''}>
                     <Link to="/cms/PendingOutlet">Pending Outlet</Link>
-                    {activeLink === '/cms/dashboard' && <hr />}
+                    {activeLink === '/cms/PendingOutlet' && <hr />}
                 </li>
             </ul>
         </div>
