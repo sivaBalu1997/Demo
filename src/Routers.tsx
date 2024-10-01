@@ -54,6 +54,7 @@ import FullMenu from "pages/ContentManagement/FullMenu/FullMenu";
 import template from "pages/ContentManagement/template/template";
 import DashBoard from "pages/ContentManagement/DashBoard/DashBoard";
 import Template from "pages/ContentManagement/template/template";
+import LiveOutlets from "pages/ContentManagement/LiveOutlets/LiveOutlets";
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -113,6 +114,9 @@ const Routers = () => {
               <Route path="/cms/fullMenu" component={() => <FullMenu />} />
               <Route exact path="/cms/template" component={Template} />
               <Route exact path="/cms/dashboard" component={DashBoard} />
+              <Route exact path="/cms/liveOutlets" component={LiveOutlets} />
+
+
             </div>
 
             <Route exact path="/management/billing" component={Billing} />
