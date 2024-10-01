@@ -4,6 +4,7 @@ import imagerest from './imagerest.svg'
 import SidePanel from 'pages/SidePanel'
 import DashBoardTopNav from 'components/contentManagement/dashBoardTopNav/dashBoardTopNav'
 import ThreeDots from '../PendingOutlet/ThreeDots'
+import AddOutlet from 'components/contentManagement/AddOutlet/AddOutlet'
 
 const LiveOutlets = () => {
   return (
@@ -14,6 +15,8 @@ const LiveOutlets = () => {
       <SidePanel />
       <div className='dashBoardContainer'>
         <DashBoardTopNav /> 
+
+<div className='ContainerJustifyFlex'>
 
 
     <div className="Livemain">
@@ -57,7 +60,15 @@ const LiveOutlets = () => {
         
       </div>
     </div>
+    
   </div>
+  <div>
+  <AddOutlet/>
+  </div>
+
+
+  </div>
+
   </div>
   </div>
 
