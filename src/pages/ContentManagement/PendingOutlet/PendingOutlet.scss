@@ -7,9 +7,13 @@
     position: relative;
     top:80px;
     left:20px;
+ margin-top: 20px;
  
-   
- 
+}
+.pendingmain-Container{
+    display: flex;
+    justify-content: flex-start;
+    gap:20px
 }
  
 .pendingimg{
@@ -35,6 +39,8 @@
         margin-bottom: 9px;
 }
 .pendingheading{
+
+    width: 180px;
     font-family: Poppins;
     font-weight: 500;
     font-size: 24px;
