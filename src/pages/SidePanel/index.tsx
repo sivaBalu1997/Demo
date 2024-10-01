@@ -206,8 +206,8 @@ const SidePanel = () => {
               marginBottom:'-1px' 
             }}
             onClick={() => {
-              setShowOptions("/cms/welcome");
-              history.push("/cms/welcome");
+              setShowOptions("/cms/template");
+              history.push("/cms/template");
             }}
           >
             <li/>

@@ -33,6 +33,12 @@
         width: 85vw;
       }
 
+      .templateBodyExpanded{
+        display: flex;
+        justify-content: space-between;
+        width: 75vw;
+      }
+
       .videoContainer {
         position: relative;
         width: 100%;
@@ -40,7 +46,7 @@
 
         .videoBox {
           position: relative;
-          width: 22vw;
+          width: 21vw;
           height: 65vh;
           max-width: 600px;
           background-color: #d9d9d9;

@@ -24,7 +24,7 @@ const Template = () => {
   const { isExpanded } = useContext(Contextpagejs);
 
   return (
-    <div className={isExpanded ? 'templateContainer' : 'templateContainerExpanded'}>
+    <div className='templateContainer'>
         <SidePanel />
         <div className='template'>
             <DashBoardTopNav />
@@ -36,7 +36,7 @@ const Template = () => {
                     </p>
                     <p className='templateSubHead'>important and cherished indian festivals.</p>
                 </div>
-                <div className='templateBody'>
+                <div className={isExpanded ? 'templateBodyExpanded' : 'templateBody'}>
                     <div className='templateVideoContent'>
                         <div className='videoContainer'>
                                 <div className='videoBox'>
