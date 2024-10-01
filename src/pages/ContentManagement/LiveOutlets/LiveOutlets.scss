@@ -51,10 +51,11 @@
     
         display: flex;
         justify-content: start;
-        gap: 120px;
+        gap: 60px;
             margin-bottom: 9px;
     }
     .liveHeading{
+        width: 300px;
         font-family: Poppins;
         font-weight: 500;
         font-size: 24px;
@@ -67,6 +68,11 @@
     
     }
     
+
+    .ThreeDotsLivecontainer{
+       
+
+    }
     .Livecontent2{
     
         display: flex;
