@@ -1,0 +1,118 @@
+.uploadVideo {
+    display: block;
+}
+.uploadVideoContainer{
+    width: 35vw;
+    height: 20vh;
+    border: 2px dotted gray;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 30px;
+    
+    video{
+        width: 80px;
+        height: 80px;
+        border-radius: 5px;
+        padding: 15px;
+    }
+    video::-webkit-media-controls {
+        background-color: rgba(82, 80, 80, 0.454);
+        border-radius: 8px;
+    }
+    img{
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+        display: flex;
+        position: relative;
+        top: 25px;
+    }
+    p{
+        color: gray;
+    }
+}
+.uploadLink{
+    font-weight: 600;
+    color: black;
+    margin-left: 3px;
+    text-decoration: underline;
+}
+.uploadheadings{
+    p{
+        display: flex;
+        justify-content: center;
+    }
+}
+.videoBox{
+    display: flex;
+    justify-content: center;
+}
+.uploadedVideos{
+    display: flex;
+    gap: 10px;
+}
+.uploadedVideo{
+    gap: 10px;
+    display: flex;
+}
+
+.uploadedVideo video {
+    cursor: grab;
+}
+
+.uploadedVideo video:active {
+    cursor: grabbing;
+    opacity: 0.5; 
+}
+
+.removeVideoBtn{
+    margin-top: 7px;
+    margin-left: -35px;    
+    border: 1px solid rgb(237, 83, 83);
+    height: 15px;
+    width: 15px;
+    border-radius: 10px;
+    background-color: rgb(237, 83, 83);
+    font-size: 11px;
+    cursor: pointer;
+    z-index: 999;
+
+    &:hover{
+        box-shadow: 2px 2px 4px 1px #3a344f;
+    }
+}
+
+
+@media(max-width:1280px){
+    .uploadVideoContainer{
+        video{
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            padding: 15px;
+        }
+
+        img{
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            padding: 15px;
+        }
+    }
+    .uploadheadings{
+        p{
+            font-size: 13px;
+        }
+    }
+    .removeVideoBtn{
+        margin-top: 7px;
+        margin-left: -35px;    
+        border: 1px solid rgb(237, 83, 83);
+        height: 12px;
+        width: 12px;
+        border-radius: 10px;
+        font-size: 8px;
+    }
+}

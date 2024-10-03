@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
 import { useDispatch } from "react-redux";
-
 import HoverText from "../HoverText/HoverText";
 
 interface Item {
