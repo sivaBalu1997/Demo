@@ -1,0 +1,104 @@
+.AvailCalenderContainer{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the modal vertically */
+    z-index: 1000; /* Ensure it appears above other content */
+    width:416px;
+    height: 868px;
+}
+.AvailCalenderWindow{
+    margin-top: -140px;
+    background-color: white;
+    width: 322px;
+    height: 407px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the content inside the modal */
+    border-radius: 8px; /* Optional: add rounded corners */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+}
+.AvailCalenderForm{
+    margin-top: -10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Center items vertically */
+}
+.AvailCalenderHeading{
+    text-align: center;
+    
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 500;
+}
+.react-datepicker {
+    width: 320px;  // Set your desired width
+  }
+  
+  .react-datepicker__month-container {
+    width: 100%; // Ensure the content fits the new width
+  }
+  .AvailCalenderInputContainer{
+    display: flex;
+    justify-content: flex-start;
+    gap:20px;
+    margin-left: 30px;
+    margin-top: 10px;
+  }
+  .AvailCalenderInput1{
+    width:44.08px;
+    height:32.02px;
+  }
+  .AvailCalenderAm{
+    border:1px solid rgba(103, 131, 62, 1);
+    color: white;
+    width:32.08px;
+    height:36.02px;
+    padding: 2px;
+    color: black;
+    border-top-left-radius:5.16px ;
+    border-top-right-radius: 5.16px;
+  }
+  .AvailCalenderPm{
+    width:32.08px;
+    height:36.02px;
+    padding: 2px;
+ cursor: pointer;
+    border-top-left-radius:5.16px ;
+    border-top-right-radius: 5.16px;
+    margin-left: -20px;
+    border: 1px solid rgba(103, 131, 62, 1);
+  }
+  .Calselected{
+    cursor: pointer;
+  background-color: rgba(103, 131, 62, 1);
+  color: white;
+  }
+  .AvailCalenderButton{
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap:40px;
+    margin-left: 30px;
+  }
+  .AvailCancel{
+    width: 120px;
+    height: 40px;
+    border:1px solid rgba(103, 131, 62, 1);
+    font-size: 14px;
+    background-color: white;
+    color:rgba(103, 131, 62, 1)
+
+  }
+  .AvailChange{
+    width: 120px;
+    height: 40px;
+    border:1px solid rgba(103, 131, 62, 1);
+    font-size: 14px;
+    background-color: rgba(103, 131, 62, 1);
+    color:white
+  }
