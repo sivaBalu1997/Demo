@@ -45,8 +45,11 @@
 }
 
 .AddModifiersMainInputSection {
-  width: 15.625rem;
-  height: 4.563rem;
+  width: 65.625rem;
+  height: 18.563rem;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  
 }
 
 .AddModifiersInputSection {
@@ -288,9 +291,8 @@
 }
 
 .modifier-div-margin {
-  margin-bottom: 10.5rem;
+  margin-bottom: -3rem;
   height: 15.625rem;
-  // border: 1px solid red;
 }
 
 .option-margin {
@@ -416,9 +418,26 @@ input[type="number"] {
 
 .modifier-div-margin2 {
   height: 15.625rem;
+margin-top: 50px;
+  margin-bottom: 50px;
 
-  transform: translateY(30px);
-  margin-bottom: 30px;
+}
+
+
+.modifier-div-margin3 {
+  height: 15.625rem;
+  transform: translateY(50px);
+
+
+  margin-bottom: 180px;
+}
+
+.modifier-div-margin4 {
+  height: 15.625rem;
+  transform: translateY(50px);
+
+
+  margin-bottom: 240px;
 }
 
 .radiobtnMargin {
