@@ -1,0 +1,150 @@
+.dashboard {
+    display: flex;
+    flex-direction: row;
+}
+  
+    .dashBoardContainer {
+      position: relative;
+      width: 100vw;
+    }
+
+    .ContainerJustifyFlex{
+        display: flex;
+        justify-content: center;
+        width: 1100px;
+    
+        margin-top: 35px;
+
+      
+    }
+
+    .AddOutletContainer{
+        position: relative;
+        top: -30px;
+    }
+
+
+.Livemain{
+        width: 332px;
+        height: 199px;
+        position: absolute;
+        top: 105px;
+        left: 60px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.0);
+        cursor: pointer;
+        border: 0.5px solid rgba(151, 151, 151, 0.7); /* The last value (0.7) is the opacity */
+
+    
+    
+    
+    
+    }
+    
+    .Liveimg {
+        width: 100%;
+        height:120px; /* Automatically adjusts the height based on the image's width */
+        object-fit: cover; /* Ensures the image covers the entire width */
+        border-radius: 8px; /* Apply consistent rounding if needed */
+        object-position: top /* Keeps the top part of the image visible */
+
+
+    }
+    
+    .Livecontent{
+        width: 348px;
+        height: 299px;
+    
+        display: flex;
+        flex-direction: column;
+        margin-left: 5px;
+        margin-top: 0px;
+        z-index: 1000;
+    
+    }
+    .livecontent1{
+    
+        display: flex;
+        justify-content: start;
+        gap: 60px;
+            margin-bottom: 9px;
+    }
+    .liveHeading{
+        width: 230px;
+        font-family: Poppins;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 36px;
+        margin-bottom: 4px;
+    
+    
+    
+    
+    
+    }
+    
+
+    .ThreeDotsLivecontainer{
+       
+       
+
+    }
+    .Livecontent2{
+    
+        display: flex;
+        justify-content: start;
+        gap: 0px;
+        margin-top: 10px;
+    }
+    
+    .btnLive{
+        width: 106px;
+        height:  44px;
+        border-radius: 4px;
+        padding: 10px, 14px, 10px, 14px;
+        gap: 10px;
+        background-color: #67833E;
+        font-family: poppins;
+        color: white;
+        right: 20px;
+        font-size: 16px;
+        line-height: 24px;
+        border: none;
+        position: relative;
+        top: 7px;
+        cursor: pointer;
+    }
+    
+    .Livetoggle{
+        width:  332px;
+        height:  49px;
+        margin-top: -25px;
+        margin-left: 0px;
+        display: flex;
+        justify-content: start;
+        gap: 10px;
+    }
+    
+    .DineinToggle{
+        display: flex;
+        flex-direction:column ;
+    }
+    
+    .labelLive{
+        font-family: Poppins;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 21px;
+        color: #666666;
+    }
+    
+    .completed-percentage{
+        color: #00B71D;
+        position: relative;
+        top: -1px;
+        left: 4px;
+        font-family: Poppins;
+        font-weight:500 ;
+        font-size: 10px;
+        line-height: 21px;
+    }

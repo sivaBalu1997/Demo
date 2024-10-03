@@ -1,0 +1,163 @@
+.welcomPageContainer{
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+}
+.welcomPage{
+  .info{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    justify-content: flex-start;
+    left: -130px;
+  }
+}
+.restaurantImage {
+    margin-left: 25%;
+  
+    .imageTitle {
+      width: 250px;
+      text-align: left;
+      margin-top: 20px;  
+    }
+  }
+  .previewContainers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;  
+    top: 20%;            
+    right: 2%;         
+    .pImages {
+      width: 400px;
+      height: 400px;    
+    }
+    &.show-preview img {
+      display: block;   
+    }
+  } 
+  .image{
+    width: 50%;
+  }
+
+  .header1{
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    img{
+      margin-left: 5px;
+      margin-top: 22px;
+      cursor: pointer;
+    }
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltiptexts {
+      visibility: hidden;
+      width: 500px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      right: 50%;
+      margin-left: 30px; 
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .tooltip:hover .tooltiptexts {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .header2{
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    img{
+      margin-left: -100px;
+      margin-top: 22px;
+      cursor: pointer;
+    }
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltiptexts {
+      visibility: hidden;
+      width: 500px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      right: 50%;
+      margin-left: -50px; 
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .tooltip:hover .tooltiptexts {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+    
+  @media (max-width: 1280px) {
+    .restaurantImage {
+      .imageTitle {
+        margin-top: 20px;
+        font-size: 13px;
+      }
+    }
+
+    .previewContainers {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;  
+      top: 20%;            
+      right: 1%;         
+      .pImages {
+        width: 330px;
+        height: 330px;    
+      }
+      &.show-preview img {
+        display: block;   
+      }
+    } 
+    .image{
+      width: 50%;
+    }
+    .header1{
+      img{
+        margin-left: -30px;
+        margin-top: 22px;
+        cursor: pointer;
+      }
+    }
+
+    .header2{
+      img{
+        margin-left: -115px;
+        margin-top: 22px;
+        cursor: pointer;
+      }
+    }
+
+  }
+  
