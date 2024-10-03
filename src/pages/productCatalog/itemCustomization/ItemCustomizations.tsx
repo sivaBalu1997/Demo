@@ -73,7 +73,7 @@ const ItemCustomizations: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [options, setOptions] = useState<string[]>([
-    "Option3",
+    "Option2",
     "Option2",
     "Option 3",
   ]);
