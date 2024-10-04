@@ -562,7 +562,6 @@ export const Menulisting = () => {
           {modal && (
             <Slider
               sidebartext={sidebartext}
-              SideBarData={SideBarData}
               onclose={()=>setmodal(false)}
             />
           )}

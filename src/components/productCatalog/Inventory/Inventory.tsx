@@ -25,10 +25,10 @@ interface SideBarData {
 }
 
 interface InventoryProp {
-  SideBarData: SideBarData[];
+  SideBarData?: SideBarData[];
 }
 
-const Inventory: React.FC<InventoryProp> = ({ SideBarData }) => {
+const Inventory: React.FC<InventoryProp> = ({  }) => {
   const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
 
   const { pen, setPen } = useContext(Contextpagejs);

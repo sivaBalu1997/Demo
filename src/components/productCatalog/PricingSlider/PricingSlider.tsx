@@ -4,13 +4,9 @@ import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 
-interface PricingSliderProps {
-  SideBarData?: any[];
-}
-
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
-const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
+const PricingSlider: any = ({  }) => {
   const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
   console.log("Data from Redux ",data)
   const { pen, setPen } = useContext(Contextpagejs);
@@ -46,9 +42,9 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
   }, [data]);
   
   useEffect(() => {
-    const updatedValue = SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || "";
+    const updatedValue = data?.[0]?.pricingdetails?.Dinein1?.[0] || "";
     setSectionAValue(updatedValue);
-  }, [SideBarData]);
+  }, [data]);
 
   const handleInputChange1 = (
     e: React.ChangeEvent<HTMLInputElement>,

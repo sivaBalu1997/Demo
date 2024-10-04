@@ -26,10 +26,10 @@ interface SideBarData {
 
 interface AvailSliderProps {
   pen?: true;
-  SideBarData: SideBarData[];
+  SideBarData?: SideBarData[];
 }
 
-const PricingSlider: React.FC<AvailSliderProps> = ({ pen, SideBarData }) => {
+const PricingSlider: React.FC<AvailSliderProps> = ({ pen  }) => {
   // Accessing SideBarData from Redux store
 
   const dataFromRedux=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
