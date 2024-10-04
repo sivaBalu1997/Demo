@@ -69,9 +69,9 @@ const CustomizeSlider = () => {
   const handleChildToggle = (parentIndex:any, childIndex:any) => {
     const newToggleStates = [...toggleStates];
     newToggleStates[parentIndex].childToggles[childIndex] = !newToggleStates[parentIndex].childToggles[childIndex];
-    if (newToggleStates[parentIndex].childToggles.every((toggle) => toggle === false)) {
-        newToggleStates[parentIndex].parentToggle = false;
-      }
+    if (newToggleStates[parentIndex].childToggles.some((toggle) => toggle === false)) {
+      newToggleStates[parentIndex].parentToggle = false;
+    }
 
        if (newToggleStates[parentIndex].childToggles.every((toggle) => toggle === true)) {
         newToggleStates[parentIndex].parentToggle = true;
