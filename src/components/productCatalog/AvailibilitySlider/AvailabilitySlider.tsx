@@ -31,6 +31,9 @@ interface AvailSliderProps {
 
 const PricingSlider: React.FC<AvailSliderProps> = ({ pen, SideBarData }) => {
   // Accessing SideBarData from Redux store
+
+  const dataFromRedux=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+
   
   const data = [
     {
@@ -72,17 +75,17 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen, SideBarData }) => {
 
   // Function to map Pickup2 values from Redux to toggle states
   const mapPickup2ToToggles = (childIndex: number) => {
-    const pickup2Data = SideBarData[0]?.pricingdetails?.Pickup2?.[childIndex];
+    const pickup2Data = dataFromRedux[0]?.pricingdetails?.Pickup2?.[childIndex];
     return pickup2Data === 'Enabled';
   };
 
   const mapDelivery2ToToggles = (childIndex: number) => {
-    const delivery2Data = SideBarData[0]?.pricingdetails?.Delivery2?.[childIndex];
+    const delivery2Data = dataFromRedux[0]?.pricingdetails?.Delivery2?.[childIndex];
     return delivery2Data === 'Enabled';
   };
 
   const mapSection2ToToggles = (childIndex: number) => {
-    const section2Data = SideBarData[0]?.pricingdetails?.Dinein2?.[childIndex];
+    const section2Data = dataFromRedux[0]?.pricingdetails?.Dinein2?.[childIndex];
     return section2Data === 'Enabled';
   };
 

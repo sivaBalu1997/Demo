@@ -11,11 +11,13 @@ interface PricingSliderProps {
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
 const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
+  const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+  console.log("Data from Redux ",data)
   const { pen, setPen } = useContext(Contextpagejs);
   const [inputs, setInputs] = useState({
-    Dinein1: SideBarData?.[0]?.pricingdetails?.Dinein1 || [],
-    Pickup1: SideBarData?.[0]?.pricingdetails?.Pickup1 || [],
-    Delivery1: SideBarData?.[0]?.pricingdetails?.Delivery1 || [],
+    Dinein1: data?.[0]?.pricingdetails?.Dinein1 || [],
+    Pickup1: data?.[0]?.pricingdetails?.Pickup1 || [],
+    Delivery1: data?.[0]?.pricingdetails?.Delivery1 || [],
   });
   const [sectionAValue, setSectionAValue] = useState<string>("");
   const [showCompare, setShowCompare] = useState(false);
@@ -33,6 +35,15 @@ const PricingSlider: React.FC<PricingSliderProps> = ({ SideBarData }) => {
       inputTypes: ["text", "text", "text"],
     },
   ];
+  useEffect(() => {
+    if (data && data[0]?.pricingdetails) {
+      setInputs({
+        Dinein1: data[0].pricingdetails.Dinein1 || [],
+        Pickup1: data[0].pricingdetails.Pickup1 || [],
+        Delivery1: data[0].pricingdetails.Delivery1 || [],
+      });
+    }
+  }, [data]);
   
   useEffect(() => {
     const updatedValue = SideBarData?.[0]?.pricingdetails?.Dinein1?.[0] || "";
