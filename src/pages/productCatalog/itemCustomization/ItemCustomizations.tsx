@@ -1,3 +1,9 @@
+
+
+
+
+
+
 import React, { useState, useEffect, ChangeEvent, useContext } from "react";
 import "./ItemCustomizations.scss";
 import dotted from "../../../assets/images/dotted.png";
@@ -73,7 +79,7 @@ const ItemCustomizations: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const [options, setOptions] = useState<string[]>([
-    "Option3",
+    "Option2",
     "Option2",
     "Option 3",
   ]);

@@ -10,6 +10,7 @@
   justify-content: space-between;
   transition: left 0.4s ease-in;
   margin-left: 30px;
+
   // background-color: orange;
 }
 
@@ -254,4 +255,9 @@
 
 .Add-Item-Container:hover {
   background-color: #335400f0;
+}
+@media (max-width:1700px){
+  .Header-Container{
+    width: 90%;
+  }
 }

@@ -10,11 +10,12 @@
     padding-bottom: 20px;
     position: relative;
     top: 5px;
-    left: -104px;
+    left: -134px;
     z-index: 2000;
 
     display: flex;
     flex-wrap: wrap;
+
 
     // overflow-y: auto;
    
@@ -135,6 +136,7 @@ margin-left: 12px;
     height: 15px;
     color: #000000;
     accent-color: green;
+    transform: translateY(3px);
 
 }
 
@@ -156,6 +158,7 @@ margin-left: 12px;
     height: 15px;
     color: #000000;
     accent-color: green;
+    transform: translateY(3px);
 
 }
 
