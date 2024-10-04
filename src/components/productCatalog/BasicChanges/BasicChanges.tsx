@@ -19,7 +19,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   };
 
   const handleAvailCalender = () => {
-    setShowAvailCalender(true);
+    
     setShowModalAvailable(true)
 
   };
@@ -42,7 +42,6 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
           </button>
         </div>
       </div>
-      {showAvailCalender && <AvailCalender />}
       {showModalAvailable && <AvailabilityChangesUntil onclose={onclose} setShowModalAvailable={setShowModalAvailable}/>}
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Slider.scss";
 
 import Pen from "../../../assets/images/edit 1.png";
@@ -10,7 +10,7 @@ import NavSlider from "../NavSlider/NavSlider";
 import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
-import { addMockDataHiddenRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { addMockDataHiddenRequest, selectedMockDataRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useHistory } from "react-router-dom";
 
@@ -104,6 +104,7 @@ const Slider: React.FC<SliderProps> = ({
     dispatch(storeMockDataRequest(UpdatedeleteItem));
     onclose()
   };
+  
 
   const handleOnclose = () => {
     // Logic for on close
@@ -124,6 +125,7 @@ const Slider: React.FC<SliderProps> = ({
       }
     }
   };
+
 
   return (
     <div ref={modelref} className="Slider-Container" onClick={closeModal}>

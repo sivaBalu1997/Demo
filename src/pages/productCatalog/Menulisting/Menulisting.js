@@ -20,7 +20,7 @@ import TableOneBody from "../../../components/productCatalog/TableOneBody/TableO
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
-import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { selectedMockDataRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
 
 export const Menulisting = () => {
@@ -33,6 +33,12 @@ export const Menulisting = () => {
   useEffect(() => {
     dispatch(storeMockDataRequest(combinedItemsData));
   }, []);
+
+  
+  useEffect(() => {
+    // Dispatch action when ParentComponent mounts and the Slider is rendered
+    dispatch(selectedMockDataRequest(SideBarData));
+  }, [dispatch]);
 
   const addedData=useSelector((state)=> state.addMockDataReducer.data)
 
