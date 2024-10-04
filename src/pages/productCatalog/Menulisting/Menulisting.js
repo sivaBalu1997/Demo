@@ -20,7 +20,7 @@ import TableOneBody from "../../../components/productCatalog/TableOneBody/TableO
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
-import { storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { selectedMockDataRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
 
 export const Menulisting = () => {
@@ -354,6 +354,7 @@ export const Menulisting = () => {
       table1.removeEventListener("scroll", handleTable1Scroll);
       table2.removeEventListener("scroll", handleTable2Scroll);
     };
+
   }, []);
 
   const handleDragScroll = (e, tableRef1, tableRef2) => {
@@ -393,6 +394,10 @@ export const Menulisting = () => {
     FilteredObject[0] &&
     Array.isArray(FilteredObject[0]) &&
     FilteredObject[0].map((item) => item);
+
+    useEffect(() => {
+      dispatch(selectedMockDataRequest(SideBarData));
+    }, [SideBarData]); 
 
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>
@@ -557,7 +562,6 @@ export const Menulisting = () => {
           {modal && (
             <Slider
               sidebartext={sidebartext}
-              SideBarData={SideBarData}
               onclose={()=>setmodal(false)}
             />
           )}

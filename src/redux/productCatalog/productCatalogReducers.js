@@ -78,6 +78,7 @@ import {
   GET_POPULAR_ITEM_REQUEST,
   GET_POPULAR_ITEM_SUCCESS,
   GET_POPULAR_ITEM_FAILURE,
+  SELECTED_MOCKDATA_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -787,4 +788,22 @@ export const getPopularItemReducer = (state = popularItem, action) => {
   }
 };
 
+
+// ****************SelectedMockData******************************
+
+const selectedMockData = {
+  data: []
+};
+
+export const selectedMockDataReducer = (state = selectedMockData, action) => {
+  switch (action.type) {
+      case SELECTED_MOCKDATA_REQUEST:
+        return {
+          ...state,
+          data: action?.payload,
+        };
+      default:
+          return state;
+  }
+};
 

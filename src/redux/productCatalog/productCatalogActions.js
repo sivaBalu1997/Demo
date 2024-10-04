@@ -101,7 +101,10 @@ import {
   GET_ITEM_CODE_FAILURE,
   GET_POPULAR_ITEM_SUCCESS,
   GET_POPULAR_ITEM_FAILURE,
-  GET_POPULAR_ITEM_REQUEST
+  GET_POPULAR_ITEM_REQUEST,
+  SELECTED_MOCKDATA_REQUEST,
+  SELECTED_MOCKDATA_SUCCESS,
+  SELECTED_MOCKDATA_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -635,5 +638,23 @@ export const getPopularItemSuccess = (response) => ({
 
 export const getPopularItemFailure = (error) => ({
   type: GET_POPULAR_ITEM_FAILURE,
+  payload: error,
+});
+
+
+
+// *****************SelectedMockData************************************************
+
+export const selectedMockDataRequest = (payload) => ({
+  type: SELECTED_MOCKDATA_REQUEST,
+  payload,
+});
+export const selectedMockDataSuccess = (data) => ({
+  type: SELECTED_MOCKDATA_SUCCESS,
+  payload: data,
+});
+
+export const selectedMockDataFailure = (error) => ({
+  type: SELECTED_MOCKDATA_FAILURE,
   payload: error,
 });
