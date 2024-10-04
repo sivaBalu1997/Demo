@@ -1,0 +1,118 @@
+.dashboard {
+  display: flex;
+  flex-direction: row;
+
+  .dashBoardContainer {
+    position: relative;
+    width: 100vw;
+  }
+
+  .dashBoardBody {
+    display: flex;
+    justify-content: space-between;
+
+    .dashBoardBanner {
+      margin-top: 90px;
+      margin-right: 35px;
+    }
+  }
+
+  .tabContainer {
+    position: absolute;
+    top: 170px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    left: 5vw;
+    text-align: center;
+  }
+
+  .dashBoardTab {
+    border: 1px solid #6a8c3a;
+    padding: 15px 190px 15px 190px;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+
+  .dashBoardHeadings {
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 32vw;
+
+    .dashBoardHeader {
+      display: flex;
+      gap: 30px;
+    }
+
+    .templateText {
+      font-size: 18px;
+    }
+
+    .changeText {
+      color: #4200ff;
+      font-size: 14px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .dashBoardHeadingsExpanded {
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 20vw;
+
+    .dashBoardHeader {
+      display: flex;
+      gap: 30px;
+    }
+
+    .templateText {
+      font-size: 18px;
+    }
+
+    .changeText {
+      color: #4200ff;
+      font-size: 14px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+  }
+  .completionText {
+    position: absolute;
+    bottom: 220px;
+    left: 110px;
+    font-size: 14px;
+  }
+
+  .dashBoardBtn {
+    display: flex;
+    gap: 30px;
+    position: relative;
+    left: 130px;
+
+    .dashBoardbackBtn,
+    .dashBoardsavebtn {
+      width: 150px;
+      cursor: pointer;
+      height: 40px;
+      border-radius: 7px;
+      font-weight: 500;
+      font-size: 15px;
+    }
+    .dashBoardbackBtn {
+      color: #6a8c3a;
+      background-color: white;
+      border: 1px solid #6a8c3a;
+    }
+    .dashBoardsavebtn {
+      background-color: #6a8c3a;
+      color: white;
+    }
+  }
+}

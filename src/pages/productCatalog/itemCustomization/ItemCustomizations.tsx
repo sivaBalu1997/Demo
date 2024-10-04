@@ -94,6 +94,8 @@ const ItemCustomizations: React.FC = () => {
       maxSelection: 1,
       freeCustomization: 1,
       selectedValue: selectedValue,
+      selectionType:"Optional",
+
     },
   ]);
 
@@ -140,6 +142,8 @@ const ItemCustomizations: React.FC = () => {
         maxSelection: 1,
         freeCustomization: 1,
         selectedValue: selectedValue,
+              selectionType:"Optional",
+
       },
     ]);
   };
@@ -214,6 +218,20 @@ const ItemCustomizations: React.FC = () => {
         ) || 0) + 1;
     }
     setModifications(newModifier);
+  };
+
+  const getModifierClassName = (length:any) => {
+    if (length ==1) {
+      return "modifier-div-margin";
+    } else if (length == 2) {
+      return "modifier-div-margin2";
+    } else if(length==3) {
+      return "modifier-div-margin3";
+    }
+    else if(length==4) {
+      return "modifier-div-margin4";
+    }
+    
   };
 
   const decrementSpinner = (index: number, field: keyof Modification) => {
@@ -340,11 +358,8 @@ const ItemCustomizations: React.FC = () => {
                 ) : (
                   filteredModifications.map((modifier, modIndex) => (
                     <div
-                      className={
-                        modifier.options.length > 1
-                          ? "modifier-div-margin"
-                          : "modifier-div-margin2"
-                      }
+                    className={getModifierClassName(modifier.options.length)}
+
                       key={modIndex}
                       draggable
                       onDragStart={(e) => onDragStart(e, modIndex)}
