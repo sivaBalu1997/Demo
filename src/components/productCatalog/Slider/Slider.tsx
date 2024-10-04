@@ -126,6 +126,10 @@ const Slider: React.FC<SliderProps> = ({
     }
   };
 
+  useEffect(() => {
+    // Dispatch action when ParentComponent mounts and the Slider is rendered
+    dispatch(selectedMockDataRequest(SideBarData));
+  }, [dispatch]);
 
   return (
     <div ref={modelref} className="Slider-Container" onClick={closeModal}>
