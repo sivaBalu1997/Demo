@@ -288,12 +288,10 @@ const PricingDetails = () => {
   const validateDropdown = (value: string[], field: string | number) => {
     let isValid = true;
     let errorMessage = "";
-
     if (value.length === 0) {
       isValid = false;
       errorMessage = "This field is required";
     }
-
     // Handle both string and index (number) based fields
     setValidationState((prevState) => ({
       ...prevState,

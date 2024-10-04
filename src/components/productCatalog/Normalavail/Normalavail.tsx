@@ -248,34 +248,28 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const WeekDays = prizingDetail?.normalForm?.WeekDays;
     }
 
-    // const mainForm = {
-    //   availabilityid,
-    //   formNormal,
-    //   dineinfields,
-    //   Normaldays: Normaldays,
-    //   DeliveryMealType: selectedValues3,
-    //   PicupMealType:
-    //     prizingDetail?.normalForm?.PicupMealType || selectedValues2,
-    //   Pickup: DayPickup,
+    const mainForm = {
+      availabilityid,
+      formNormal,
+      dineinfields,
+      Normaldays: Normaldays,
+      DeliveryMealType: selectedValues3,
+      PicupMealType:
+        prizingDetail?.normalForm?.PicupMealType || selectedValues2,
+      Pickup: DayPickup,
 
-    //   DineInServiceArea: [selectedValues],
-    //   Delivery: DayDelivery,
+      DineInServiceArea: [selectedValues],
+      Delivery: DayDelivery,
 
-    //   thirdParty: DayThird,
-    //   WeekDays: dineInDates1,
+      thirdParty: DayThird,
+      WeekDays: dineInDates1,
 
-    //   DineIn: dineInDates1,
-    // };
+      DineIn: dineInDates1,
+    };
 
     if (prizingDetail?.normalForm) {
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
-      );
-      // Other state initializations...
-    }
-    if (prizingDetail?.normalForm) {
-      setDineInDates1(
-        prizingDetail.normalForm.Dinein || selectedValues2
       );
       // Other state initializations...
     }
@@ -688,8 +682,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <div className="dayspickup">
                   {entry.showDay && (
                     <DaysCheckDin
-                    checkedItems={dineInDates1.map((elem) => elem)}
-
+                      checkedItems={dineInDates1}
                       setCheckedItems={setDineInDates1}
                       index={index}
                       {...(availabilityid

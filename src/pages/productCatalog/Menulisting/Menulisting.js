@@ -38,7 +38,7 @@ export const Menulisting = () => {
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
   const FilteredData = useSelector(
-    (state) => state.storeMockDataFilteredReducer?.data
+    (state) => state.storeMockDataFilteredReducer.data
   );
   const hiddenData= useSelector(
     (state) => state.addMockDataHiddenReducer?.data ||[]
