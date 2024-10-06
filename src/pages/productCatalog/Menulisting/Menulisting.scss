@@ -10,7 +10,6 @@
   z-index: 0;
   transition: width 0.6s ease;
   // border: 1px solid red;
- 
 }
 .mainpagemenu1 {
   height: 97vh;
@@ -22,7 +21,6 @@
   margin-top: 1%;
   z-index: 0;
   transition: width 0.6s ease;
- 
 }
 
 .Menu-Listing-Page-main {
@@ -120,17 +118,16 @@ th {
       height: 33.2rem;
       display: block;
       overflow-y: auto;
-      &::-webkit-scrollbar{
+      &::-webkit-scrollbar {
         display: none;
       }
       // border: 1px solid red;
     }
-    .Menu-Listing-TableOneBodyExpanded
-    {
+    .Menu-Listing-TableOneBodyExpanded {
       height: 34.5rem;
       display: block;
       overflow-y: auto;
-      &::-webkit-scrollbar{
+      &::-webkit-scrollbar {
         display: none;
       }
     }
@@ -154,7 +151,7 @@ th {
       align-items: center;
       display: flex;
       height: 2rem;
-      border-right: 1px solid #B3B3B3 !important;
+      border-right: 1px solid #b3b3b3 !important;
     }
 
     .Menu-listing-Body {
@@ -169,7 +166,7 @@ th {
       .itemdetails-row {
         width: 20rem;
         height: 60px;
-        border: 1px solid #B3B3B3 !important;
+        border: 1px solid #b3b3b3 !important;
         border-collapse: collapse;
         display: flex;
         align-items: center;
@@ -212,15 +209,12 @@ th {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       margin-top: -50px;
     }
-    .placeholderplacecolumn
-    {
+    .placeholderplacecolumn {
       width: 100px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       height: 40px;
       border: 1px solid black !important;
     }
-
-
 
     .itemdetails-row.selected {
       opacity: 1;
@@ -230,33 +224,23 @@ th {
     }
   }
 
-
-
-
-
-
-
-
   .Menu-Listing-TableTwo {
     width: 63rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-   
+
     &::-webkit-scrollbar-track {
-      background-color:#B3B3B3;
-     
+      background-color: #b3b3b3;
     }
-    
+
     &::-webkit-scrollbar-thumb {
-      background-color: #5F5F5F;
-     
+      background-color: #5f5f5f;
     }
-    
+
     &::-webkit-scrollbar-thumb:hover {
       background-color: #555;
     }
-    
   }
   .Menu-Listing-TableTwo1 {
     width: 55rem;
@@ -265,24 +249,25 @@ th {
     display: block;
     overflow-y: hidden;
     &::-webkit-scrollbar-track {
-      background-color:#B3B3B3;
-     
+      background-color: #b3b3b3;
     }
-    
+
     &::-webkit-scrollbar-thumb {
-      background-color: #5F5F5F;
-     
+      background-color: #5f5f5f;
     }
-    
+
     &::-webkit-scrollbar-thumb:hover {
       background-color: #555;
     }
-    
+
     // &::-webkit-scrollbar{
     //   display: none;
     // }
   }
   
+  
+
+
 
   .Menu-Listing-TableTwoHead {
     height: 3.95rem;
@@ -304,23 +289,27 @@ th {
       .dots {
         padding-right: 10px;
         position: relative;
-        top: 1px;
+        top: -4px;
+        left: -2px;
         cursor: grab;
         &:active {
           cursor: grabbing;
         }
       }
+
       .dollar {
         padding-right: 10px;
         position: relative;
-        top: 1px;
+        top: 3px;
       }
+
       .spanheadertext {
         position: relative;
         top: -1px;
         font-size: 16px;
         font-weight: 500;
       }
+
       .Dinein {
         width: 154px;
         height: 30px;
@@ -332,13 +321,16 @@ th {
         padding-left: 10px;
         padding-right: 10px;
         cursor: grab;
+
         &:active {
           cursor: grabbing;
         }
+
         .removeicon {
           position: relative;
           top: 0px;
-          right: -25px;
+          left: 20px;
+
           img {
             width: 10px;
             height: 10px;
@@ -361,8 +353,8 @@ th {
         }
         .removeicon {
           position: relative;
-          // top: -5px;
-          right: -95px;
+          left: 87px;
+
           img {
             width: 10px;
             height: 10px;
@@ -386,8 +378,8 @@ th {
         }
         .removeicon {
           position: relative;
-          // top: -5px;
-          right: -85px;
+          left: 75px;
+
           img {
             width: 10px;
             height: 10px;
@@ -410,8 +402,7 @@ th {
         }
         .removeicon {
           position: relative;
-          // top: -5px;
-          right: -30px;
+          left: 24px;
           img {
             width: 10px;
             height: 10px;
@@ -548,7 +539,7 @@ th {
     overflow-y: auto;
     overflow-x: hidden;
     width: 171.4%;
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       display: none;
     }
     // border: 1px solid red !important;
@@ -559,7 +550,7 @@ th {
     overflow-y: auto;
     overflow-x: hidden;
     width: 190.85%;
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       display: none;
     }
     // border: 1px solid red !important;
@@ -570,19 +561,18 @@ th {
     flex-direction: column;
     margin-top: 0.1%;
   }
-.columnselected
-{
-  width: 247px;
-height: 36px;
-top: 150px;
-left: 359px;
-position: relative;
-font-size: 24px;
-font-weight: 500;
-line-height: 36px;
-text-align: center;
-color: #5F5F5F;
-}
+  .columnselected {
+    width: 247px;
+    height: 36px;
+    top: 150px;
+    left: 359px;
+    position: relative;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 36px;
+    text-align: center;
+    color: #5f5f5f;
+  }
   .itemheading2row {
     height: 32px;
   }
@@ -592,19 +582,17 @@ color: #5F5F5F;
     width: fit-content;
     display: flex;
     align-items: center;
-    border: 1px solid #B3B3B3 !important;
+    border: 1px solid #b3b3b3 !important;
     border-top: none !important;
-  
+
     // margin-left: 0.7rem;
     border-left: none !important;
     gap: 20px;
     justify-content: left;
     font-size: 14px;
   }
-  .givepadding
-  {
+  .givepadding {
     padding-left: 0.7rem;
-
   }
 
   .Dinein1 {
@@ -896,9 +884,8 @@ color: #5F5F5F;
   }
 }
 .eachobject-rowwise.border-important {
-  border-top: 1px solid #B3B3B3 !important;
+  border-top: 1px solid #b3b3b3 !important;
 }
-
 
 @media (max-width: 1500px) {
   .mainpagemenu {
@@ -913,7 +900,6 @@ color: #5F5F5F;
     z-index: 0;
     transition: width 0.6s ease;
     // border: 1px solid blue;
-   
   }
   .mainpagemenu1 {
     height: 97vh;
@@ -925,52 +911,41 @@ color: #5F5F5F;
     margin-top: 1%;
     z-index: 0;
     transition: width 0.6s ease;
-   
   }
-
-
-
 }
 
-
 @media (max-width: 1440px) {
-  .Menu-Listing-Page-main
-  {
+  .Menu-Listing-Page-main {
     height: 45rem;
     width: 100%;
-    .Menu-Listing-TableOne
-    {
-   
-     
+    .Menu-Listing-TableOne {
       .Menu-Listing-TableOneBody {
         height: 38rem;
         display: block;
         overflow-y: auto;
-        &::-webkit-scrollbar{
+        &::-webkit-scrollbar {
           display: none;
         }
         // border: 1px solid red;
       }
-      .Menu-Listing-TableOneBodyExpanded
-      {
+      .Menu-Listing-TableOneBodyExpanded {
         height: 34.5rem;
         display: block;
         overflow-y: auto;
-        &::-webkit-scrollbar{
+        &::-webkit-scrollbar {
           display: none;
         }
       }
     }
   }
-  .table-two-alignment
-  {
+  .table-two-alignment {
     .Menu-Listing-TableTwoBody {
       display: block;
       height: 36rem;
       overflow-y: auto;
       overflow-x: hidden;
       width: 170.4%;
-      &::-webkit-scrollbar{
+      &::-webkit-scrollbar {
         display: none;
       }
       // border: 1px solid red !important;
@@ -981,15 +956,12 @@ color: #5F5F5F;
       overflow-y: auto;
       overflow-x: hidden;
       width: 190.85%;
-      &::-webkit-scrollbar{
+      &::-webkit-scrollbar {
         display: none;
       }
       // border: 1px solid red !important;
     }
   }
- 
-  
-
 
   .mainpagemenu {
     height: 97vh;
@@ -1003,7 +975,6 @@ color: #5F5F5F;
     z-index: 0;
     transition: width 0.6s ease;
     // border: 1px solid green;
-   
   }
   .mainpagemenu1 {
     height: 97vh;
@@ -1015,55 +986,42 @@ color: #5F5F5F;
     margin-top: 1%;
     z-index: 0;
     transition: width 0.6s ease;
-   
   }
-  
-  
-
-
-
 }
 
-
 @media (max-width: 1833px) {
-  .Menu-Listing-Page-main
-  {
+  .Menu-Listing-Page-main {
     height: 45rem;
     width: 120%;
 
-    .Menu-Listing-TableOne
-    {
-   
-     
+    .Menu-Listing-TableOne {
       .Menu-Listing-TableOneBody {
         height: 42rem;
         display: block;
         overflow-y: auto;
-        &::-webkit-scrollbar{
+        &::-webkit-scrollbar {
           display: none;
         }
         // border: 1px solid red;
       }
-      .Menu-Listing-TableOneBodyExpanded
-      {
+      .Menu-Listing-TableOneBodyExpanded {
         height: 34.5rem;
         display: block;
         overflow-y: auto;
-        &::-webkit-scrollbar{
+        &::-webkit-scrollbar {
           display: none;
         }
       }
     }
   }
-  .table-two-alignment
-  {
+  .table-two-alignment {
     .Menu-Listing-TableTwoBody {
       display: block;
       height: 40rem;
       overflow-y: auto;
       overflow-x: hidden;
       width: 163.4%;
-      &::-webkit-scrollbar{
+      &::-webkit-scrollbar {
         display: none;
       }
       // border: 1px solid red !important;
@@ -1074,15 +1032,12 @@ color: #5F5F5F;
       overflow-y: auto;
       overflow-x: hidden;
       width: 190.85%;
-      &::-webkit-scrollbar{
+      &::-webkit-scrollbar {
         display: none;
       }
       // border: 1px solid red !important;
     }
   }
- 
-  
-
 
   .mainpagemenu {
     height: 97vh;
@@ -1096,7 +1051,6 @@ color: #5F5F5F;
     z-index: 0;
     transition: width 0.6s ease;
     // border: 1px solid black;
-   
   }
   .mainpagemenu1 {
     height: 97vh;
@@ -1108,61 +1062,42 @@ color: #5F5F5F;
     margin-top: 1%;
     z-index: 0;
     transition: width 0.6s ease;
-   
   }
-  
-  
-
-
-
 }
 
-
-
-
-
-
 @media (max-width: 1540px) {
-  .Menu-Listing-Page-main
-  {
- 
-    .Menu-Listing-TableOne
-    {
-   
-     
+  .Menu-Listing-Page-main {
+    .Menu-Listing-TableOne {
       .Menu-Listing-TableOneBody {
         height: 33.2rem;
-      display: block;
-      overflow-y: auto;
-      &::-webkit-scrollbar{
-        display: none;
-      }
+        display: block;
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+          display: none;
+        }
         // border: 1px solid red;
       }
-      .Menu-Listing-TableOneBodyExpanded
-      {
+      .Menu-Listing-TableOneBodyExpanded {
         height: 34.5rem;
-      display: block;
-      overflow-y: auto;
-      &::-webkit-scrollbar{
-        display: none;
-      }
+        display: block;
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+          display: none;
+        }
       }
     }
   }
-  .table-two-alignment
-  {
-
+  .table-two-alignment {
     .Menu-Listing-TableTwoBody {
       display: block;
-    height: 31.2rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 170.4%;
-    // border: 1px solid green;
-    &::-webkit-scrollbar{
-      display: none;
-    }
+      height: 31.2rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 170.4%;
+      // border: 1px solid green;
+      &::-webkit-scrollbar {
+        display: none;
+      }
       // border: 1px solid red !important;
     }
     .Menu-Listing-TableTwoBody1 {
@@ -1170,47 +1105,37 @@ color: #5F5F5F;
       height: 32.5rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 190.85%;
-      &::-webkit-scrollbar{
+      width: 197%;
+      &::-webkit-scrollbar {
         display: none;
       }
       // border: 1px solid red !important;
     }
   }
- 
-  
-
 
   .mainpagemenu {
     height: 97vh;
-  background: none;
-  border-spacing: 0;
-  width: 88%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 1%;
-  // margin-left: 10px;
-  z-index: 0;
-  transition: width 0.6s ease;
-  // border: 1px solid red;
+    background: none;
+    border-spacing: 0;
+    width: 88%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    // margin-left: 10px;
+    z-index: 0;
+    transition: width 0.6s ease;
+    // border: 1px solid red;
   }
   .mainpagemenu1 {
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 100%;
+    width: 81%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
     z-index: 0;
     transition: width 0.6s ease;
     // border: 1px solid blue;
-   
   }
-  
-  
-
-
-
 }
-

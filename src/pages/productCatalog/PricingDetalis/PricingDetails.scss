@@ -1,13 +1,24 @@
 * {
   font-family: "Poppins", sans-serif;
 }
+
+.pricingDetails{
+  display: flex;
+  width: 105.3%;
+}
+
+.pricingDetailsExpanded{
+  display: flex;
+  width: 102%;
+}
+
 .pricingdetails-containerExpanded {
   position: absolute;
   top: 160px;
   margin-left: -35px;
   overflow-x: hidden;
   height: 580px;
-  width: 80%;
+  width: 100%;
   overflow-y: auto;
 }
 

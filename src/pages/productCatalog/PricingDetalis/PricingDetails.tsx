@@ -591,9 +591,9 @@ const PricingDetails = () => {
     return isValid;
   };
   return (
-    <div style={{ display: "flex" }}>
+    <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
-      <div style={{ width: "98%" }}>
+      <div>
         <Navigationpage />
         <div
           className={

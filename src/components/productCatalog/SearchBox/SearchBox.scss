@@ -59,6 +59,7 @@
   z-index: 2; 
   top: 53px;
   left: 177px;
+  padding-bottom: 10px;
 }
 
 .Search-Container-options1 {
@@ -73,17 +74,18 @@
   z-index: 2; 
   top: 53px;
   left: 183px;
+  padding-bottom: 10px;
 }
 
 
 .Search-Container-options ul {
   list-style: none;
   // cursor: pointer;
-  cursor: url("../../../assets/svg/cursor.svg"), auto;
+  cursor: pointer;
 }
 .Search-Container-options1 ul {
   list-style: none;
-  cursor: url("../../../assets/svg/cursor.svg"), auto;
+  cursor: pointer;
   // cursor: pointer;
 }
 

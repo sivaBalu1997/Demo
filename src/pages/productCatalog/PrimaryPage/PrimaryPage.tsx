@@ -478,9 +478,6 @@ const PrimaryPage = () => {
     (state: StateDataTag3) => state.productCatalog.bestPairData
   );
 
-  
-
-
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />

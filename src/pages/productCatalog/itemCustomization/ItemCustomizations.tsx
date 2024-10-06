@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import React, { useState, useEffect, ChangeEvent, useContext } from "react";
 import "./ItemCustomizations.scss";
 import dotted from "../../../assets/images/dotted.png";
@@ -319,7 +313,7 @@ const ItemCustomizations: React.FC = () => {
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
-      <div style={{ width: "80%" }}>
+      <div style={{ width: "84%" }}>
         <Navigationpage />
         <div
           className={
