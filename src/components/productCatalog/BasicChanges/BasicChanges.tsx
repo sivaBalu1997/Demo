@@ -4,6 +4,7 @@ import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import Basic from '../../../assets/images/Basic.png';
 import { useSelector } from 'react-redux';
 import AvailCalender from '../AvailCalender/AvailCalender';
+import AvailabilityChangesUntil from './AvailableChangesUntil';
 
 interface BasiChangesProps {
   onclose: any;
@@ -11,13 +12,16 @@ interface BasiChangesProps {
 
 const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   const [showAvailCalender, setShowAvailCalender] = useState(false);
+  const[showModalAvailable,setShowModalAvailable]=useState(false)
 
   const handleChangeButton = () => {
     onclose();
   };
 
   const handleAvailCalender = () => {
-    setShowAvailCalender(true);
+    
+    setShowModalAvailable(true)
+
   };
 
   return (
@@ -38,7 +42,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
           </button>
         </div>
       </div>
-      {showAvailCalender && <AvailCalender />}
+      {showModalAvailable && <AvailabilityChangesUntil onclose={onclose} setShowModalAvailable={setShowModalAvailable}/>}
     </>
   );
 };

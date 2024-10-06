@@ -17,6 +17,16 @@ import Navigationpage from "components/productCatalog/Navigation/NavigationPage"
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import Inventory from "components/productCatalog/Inventory/Inventory";
+import {
+  imageslist,
+  dietarytype,
+  cuisine,
+  mealType,
+  subcategory,
+  alcoholradio,
+  calorieponitradio,
+  portionsizeradio,
+} from "../../../assets/mockData/Moca_data";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -220,7 +230,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
   const [options, setOptions] = useState<option[]>([]);
-  const [options1, setOptions1] = useState<Option[]>([]);
+  const [options1, setOptions1] = useState<Option[]>(cuisine);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });
@@ -606,7 +616,7 @@ const PricingDetails = () => {
               <div className="D1kitchen">
                 <Dropdown
                   name="kitchenstation"
-                  options={[]}
+                  options={options1}
                   type="checkbox"
                   setOptions={setOptions1}
                   placeholder="Search for option"

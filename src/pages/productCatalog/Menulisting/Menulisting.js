@@ -34,14 +34,17 @@ export const Menulisting = () => {
     dispatch(storeMockDataRequest(combinedItemsData));
   }, []);
 
+  
+  useEffect(() => {
+    // Dispatch action when ParentComponent mounts and the Slider is rendered
+    dispatch(selectedMockDataRequest(SideBarData));
+  }, [dispatch]);
+
   const addedData=useSelector((state)=> state.addMockDataReducer.data)
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
   const FilteredData = useSelector(
-    (state) => state.storeMockDataFilteredReducer?.data
-  );
-  const hiddenData= useSelector(
-    (state) => state.addMockDataHiddenReducer?.data ||[]
+    (state) => state.storeMockDataFilteredReducer.data
   );
   const [FilteredObject, setFilteredObject] = useState([]);
 
@@ -150,10 +153,8 @@ export const Menulisting = () => {
     },
   ]);
 
-  const hiddenData1 = Array.isArray(hiddenData) ? hiddenData : [];
-
   const [SideBarData, setSideBar] = useState([]);
-  const mergedMockData =  [ ...Mockdata,...addedData,...hiddenData1] 
+  const mergedMockData =  [ ...Mockdata,...addedData] 
 
   // console.log(mergedMockData)
   // console.log(addedData)
@@ -354,7 +355,6 @@ export const Menulisting = () => {
       table1.removeEventListener("scroll", handleTable1Scroll);
       table2.removeEventListener("scroll", handleTable2Scroll);
     };
-
   }, []);
 
   const handleDragScroll = (e, tableRef1, tableRef2) => {
@@ -395,10 +395,6 @@ export const Menulisting = () => {
     Array.isArray(FilteredObject[0]) &&
     FilteredObject[0].map((item) => item);
 
-    useEffect(() => {
-      dispatch(selectedMockDataRequest(SideBarData));
-    }, [SideBarData]); 
-
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>
       <SidePanel />
@@ -436,9 +432,7 @@ export const Menulisting = () => {
                 </tr>
               </thead>
               <tbody
-                className= { `Menu-listing-Body ${
-                  isExpanded ? "Menu-Listing-TableOneBodyExpanded" : "Menu-Listing-TableOneBody"
-                }` }
+                className="Menu-Listing-TableOneBody Menu-listing-Body"
                 ref={tableBodyRef1}
               >
                 {steamType.map((object, index) => (
@@ -562,6 +556,7 @@ export const Menulisting = () => {
           {modal && (
             <Slider
               sidebartext={sidebartext}
+              SideBarData={SideBarData}
               onclose={()=>setmodal(false)}
             />
           )}
