@@ -129,10 +129,10 @@ export function getItemCodeRequestApi(locationId,itemCode) {
 }
 
 
-export function getPopularItemRequestApi() {
+export function getPopularItemRequestApi(locationId) {
   return API({
     method: "get",
-    url: `/merchants/api/v1/popular-items`,
+    url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`,
   });
 }
 
