@@ -231,6 +231,32 @@ const ItemCustomizations: React.FC = () => {
     else if(length==4) {
       return "modifier-div-margin4";
     }
+    else if(length==5){
+      return "modifier-div-margin5";
+      
+    }
+    else if(length==6){
+      return "modifier-div-margin6";
+      
+    }
+    else if(length==7){
+      return "modifier-div-margin7";
+      
+    }
+
+    else if(length==8){
+      return "modifier-div-margin8";
+      
+    }
+
+    else if(length==9){
+      return "modifier-div-margin9";
+      
+    }
+    else if(length==10){
+      return "modifier-div-margin10";
+      
+    }
     
   };
 
