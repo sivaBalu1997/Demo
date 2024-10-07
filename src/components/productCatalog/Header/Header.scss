@@ -43,11 +43,16 @@
 }
 
 .FilterIcon-Header {
+  // width: 40px;
+  // height: 40px;
+  // position: relative;
+  // left: -0.5rem;
+  // top: 0.1rem;
+  // cursor: pointer;
   width: 40px;
   height: 40px;
   position: relative;
-  left: -0.5rem;
-  top: 0.1rem;
+  top: 2px;
   cursor: pointer;
 }
 
@@ -231,7 +236,7 @@
   cursor: pointer;
   transform: translateX(80px);
   position: relative;
-  right: 109px;
+  right: 73px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -57,7 +57,7 @@ interface PrimaryData {
   cuisine?: string;
   mealType?: string;
   bestPair?: string;
-  ingredients: AllergenImage[];
+  Ingredients: AllergenImage[];
   alcohol: string;
   barCode: string;
   caloriePoint?: string;
@@ -131,16 +131,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: ImageId) => state.productCatalog.addMenuSuccessMessage
   );
   const [imageIdtosend, setimageIdtosend] = useState<string>("");
-  console.log("ImageId", ImageId);
   useEffect(()=>{
     setError([]);
 
   },[])
 
   useEffect(() => {
-    if (uploadStatus && uploadStatus.index !== undefined) {
-      console.log("index", uploadStatus.index);
-      
+    if (uploadStatus && uploadStatus.index !== undefined) {      
 
       setError((prevErro) => {
         const existingErrorIndex = prevErro.findIndex(
@@ -339,7 +336,6 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
       } else {
         alert("you can't go")
         setdisablesubmitbtn(true)
-        console.log("Not all images are uploaded successfully.");
       }
     }
 
@@ -736,7 +732,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
 
                 <div className="allergensandingredients">
                   <div>
-                    {fetchedprimarydata?.ingredients?.length > 0 && (
+                    {fetchedprimarydata?.Ingredients?.length > 0 && (
                       <>
                         {" "}
                         <p className="ingredients">Ingredients</p>

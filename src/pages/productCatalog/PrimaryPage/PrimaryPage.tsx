@@ -202,6 +202,7 @@ const PrimaryPage = () => {
     },
   });
 
+
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
