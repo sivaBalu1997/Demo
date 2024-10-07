@@ -108,15 +108,13 @@ export interface StateDataTag3 {
     bestPairData: [];
   };
 }
-interface ListingData{
-  addMockDataReducer:
-  {
-    data:Item[];
-  }
-  storeMockDataReducer:{
-    data:Item[];
-  }
-
+interface ListingData {
+  addMockDataReducer: {
+    data: Item[];
+  };
+  storeMockDataReducer: {
+    data: Item[];
+  };
 }
 
 interface primarypage {
@@ -204,38 +202,36 @@ const PrimaryPage = () => {
     },
   });
 
-  const location = useLocation<LocationState | undefined>(); 
-  console.log("Edit id ",location.state?.id)
+  const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
-  const addedData=useSelector((state:ListingData)=> state.addMockDataReducer.data)
+  const addedData = useSelector(
+    (state: ListingData) => state.addMockDataReducer.data
+  );
 
-  const Mockdata = useSelector((state:ListingData) => state.storeMockDataReducer.data);
-  const mergedMockData =  [ ...Mockdata,...addedData] 
-   const [SelectedFooditemtoedit,setSelectedFooditemtoedit]=useState<Item[]>();
+  const Mockdata = useSelector(
+    (state: ListingData) => state.storeMockDataReducer.data
+  );
+  const mergedMockData = [...Mockdata, ...addedData];
+  const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
+    useState<Item[]>();
 
-  console.log("mergedMockData",mergedMockData)
   useEffect(() => {
     const SelectedFooditemtoedit = mergedMockData.filter(
       (item) => item.id === location.state?.id
     );
-    
-    console.log("SelectedFooditemtoedit", SelectedFooditemtoedit);
-    
+
     if (SelectedFooditemtoedit && SelectedFooditemtoedit[0]) {
       const selectedItem = SelectedFooditemtoedit[0];
-  
+
       setValue("itemName", selectedItem?.itemName);
-      setValue("dietaryType", selectedItem?.dietary); 
-      setValue("cuisine", selectedItem?.cusine);       
+      setValue("dietaryType", selectedItem?.dietary);
+      setValue("cuisine", selectedItem?.cusine);
       setValue("mealType", selectedItem?.mealType);
       setValue("itemCode", selectedItem?.itemCode);
-    
     }
   }, [mergedMockData, location.state?.id, setValue]);
-
-  
 
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
@@ -270,9 +266,6 @@ const PrimaryPage = () => {
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
     }
   }, [ItemsPrimaryDetails, setValue]);
-  
-  console.log("ItemsPrimaryDeatils",ItemsPrimaryDetails);
-  
 
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
@@ -439,7 +432,6 @@ const PrimaryPage = () => {
 
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
-        console.log(updatedImageUrls, "updatedImageUrls");
         return updatedImages;
       });
     }
@@ -633,10 +625,24 @@ const PrimaryPage = () => {
                       )}
                     />
                     <div className="tool-tip-best-pair">
-                    <TooltipMsg
+                      <TooltipMsg
                         message="Select up to 5 food items that pair best with this dish."
-                        styles={{marginTop:"1.3rem",marginLeft:"-1rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
-                        Arrowstyle={{position:'relative',top:'-1rem',marginLeft:'-2rem'}}
+                        styles={{
+                          marginTop: "1.3rem",
+                          marginLeft: "-1rem",
+                          backgroundColor: "#67833E",
+                          width: "350px",
+                          height: "35px",
+                          color: "white",
+                          textAlign: "center",
+                          borderRadius: "5px",
+                          zIndex: "1",
+                        }}
+                        Arrowstyle={{
+                          position: "relative",
+                          top: "-1rem",
+                          marginLeft: "-2rem",
+                        }}
                       >
                         <div className="ToolKitchen">
                           <img
@@ -663,10 +669,9 @@ const PrimaryPage = () => {
                             className="description"
                             name="description"
                             autoComplete="off"
-                            value={description} 
+                            value={description}
                             onChange={(e) => handleDescriptionInputChange(e)}
                             maxLength={maxDescriptonLength}
-                            
                           />
                           <p
                             style={{
@@ -771,39 +776,56 @@ const PrimaryPage = () => {
                   {" "}
                   <LableComponent lable="ItemCode" />
                   <div className="Primary-Page-inputfiled-and-tooltip">
-                  <Controller
-  name="itemCode"
-  control={control}
-  rules={{
-    required: "Item code is required",
-    validate: (value) =>
-      (value.toString().length >= 4 && value.toString().length <= 5) ||
-      "Item code must be between 4 and 5 characters",
-  }}
-  render={({ onChange, onBlur, value }) => (
-    <InputFieldComponent
-      name="itemCode"
-      onChange={(newValue) => {
-        onChange(newValue); // Update form state
-      }}
-      value={value} // Ensure value is defined
-      onBlur={() => {
-        if (value) {
-          dispatch(getItemCodeRequest(locationid, value)); 
-        }
-      }}
-      type="number"
-      trigger={trigger}
-      error={errors.itemCode} 
-    />
-  )}
-/>{" "}
+                    <Controller
+                      name="itemCode"
+                      control={control}
+                      rules={{
+                        required: "Item code is required",
+                        validate: (value) =>
+                          (value.toString().length >= 4 &&
+                            value.toString().length <= 5) ||
+                          "Item code must be between 4 and 5 characters",
+                      }}
+                      render={({ onChange, onBlur, value }) => (
+                        <InputFieldComponent
+                          name="itemCode"
+                          onChange={(newValue) => {
+                            onChange(newValue); // Update form state
+                          }}
+                          value={value} // Ensure value is defined
+                          onBlur={() => {
+                            if (value) {
+                              dispatch(getItemCodeRequest(locationid, value));
+                            }
+                          }}
+                          type="number"
+                          trigger={trigger}
+                          error={errors.itemCode}
+                        />
+                      )}
+                    />{" "}
                     <div className="tool-tip-item-code">
-
                       <TooltipMsg
                         message="Enter a unique code for this food item, used for identification."
-                        styles={{marginTop:"-1rem",marginLeft:'2rem', width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
+                        styles={{
+                          marginTop: "-1rem",
+                          marginLeft: "2rem",
+                          width: "350px",
+                          height: "35px",
+                          backgroundColor: "#67833E",
+                          color: "white",
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRadius: "5px",
+                        }}
+                        Arrowstyle={{
+                          marginTop: "0rem",
+                          rotate: "-90deg",
+                          position: "relative",
+                          left: "-1.7rem",
+                        }}
                       >
                         <div className="ToolKitchen">
                           <img
@@ -871,32 +893,42 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-Allergens-selection">
-                  <div> <Imagepillsselection
-                    heading="Allergens*"
-                    options={validImages}
-                    setValue={setValue}
-                    name="allergens"
-                    register={register}
-                  /></div>
-                 
-                  
+                  <div>
+                    {" "}
+                    <Imagepillsselection
+                      heading="Allergens*"
+                      options={validImages}
+                      setValue={setValue}
+                      name="allergens"
+                      register={register}
+                    />
+                  </div>
                 </div>
                 <div className="tool-tip-Allergen">
-                    <TooltipMsg
-                        message="Provide information about any allergens present in this food item"
-                        styles={{marginTop:"1.5rem",marginLeft:"-19rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
-                        Arrowstyle={{position:'relative',top:'-1rem',left:'19rem'}}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </TooltipMsg>
+                  <TooltipMsg
+                    message="Provide information about any allergens present in this food item"
+                    styles={{
+                      marginTop: "1.5rem",
+                      marginLeft: "-19rem",
+                      backgroundColor: "#67833E",
+                      width: "350px",
+                      height: "35px",
+                      color: "white",
+                      textAlign: "center",
+                      borderRadius: "5px",
+                      zIndex: "1",
+                    }}
+                    Arrowstyle={{
+                      position: "relative",
+                      top: "-1rem",
+                      left: "19rem",
+                    }}
+                  >
+                    <div className="ToolKitchen">
+                      <img src={info} alt="info icon" width={20} height={20} />
                     </div>
+                  </TooltipMsg>
+                </div>
               </div>
             </div>
             <div className="Primary-page-container-two">
@@ -977,10 +1009,26 @@ const PrimaryPage = () => {
                       register={register}
                     />
                     <div className="portionsizeTooltip">
-                     <TooltipMsg
+                      <TooltipMsg
                         message="Specify the portion size for this item, either by count or weight."
-                        styles={{marginTop:"-2rem",marginLeft:"2rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{rotate:'-90deg',position:'relative',left:'-1.5rem'}}
+                        styles={{
+                          marginTop: "-2rem",
+                          marginLeft: "2rem",
+                          width: "350px",
+                          height: "35px",
+                          backgroundColor: "#67833E",
+                          color: "white",
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRadius: "5px",
+                        }}
+                        Arrowstyle={{
+                          rotate: "-90deg",
+                          position: "relative",
+                          left: "-1.5rem",
+                        }}
                       >
                         <div className="ToolKitchen">
                           <img
@@ -1014,20 +1062,38 @@ const PrimaryPage = () => {
                         )}
                       />
                       <div className="tool-tip-tax-class">
-                      <TooltipMsg
-                        message="Create or select a tax amount to associate with this item"
-                        styles={{position:'relative',top:"-2.5rem",left:"1.5rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-2.25rem'}}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </TooltipMsg>
+                        <TooltipMsg
+                          message="Create or select a tax amount to associate with this item"
+                          styles={{
+                            position: "relative",
+                            top: "-2.5rem",
+                            left: "1.5rem",
+                            width: "350px",
+                            height: "35px",
+                            backgroundColor: "#67833E",
+                            color: "white",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "5px",
+                          }}
+                          Arrowstyle={{
+                            marginTop: "0rem",
+                            rotate: "-90deg",
+                            position: "relative",
+                            left: "-2.25rem",
+                          }}
+                        >
+                          <div className="ToolKitchen">
+                            <img
+                              src={info}
+                              alt="info icon"
+                              width={20}
+                              height={20}
+                            />
+                          </div>
+                        </TooltipMsg>
                       </div>
                     </div>
                   </div>
@@ -1051,22 +1117,39 @@ const PrimaryPage = () => {
                         )}
                       />
                       <div className="Mastedcode-Tooltip">
-                      <TooltipMsg
-                        message="Enter a unique code for this food item, used for identification."
-                        styles={{ position:'relative',top:'-2rem',left:'1.5rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </TooltipMsg>
+                        <TooltipMsg
+                          message="Enter a unique code for this food item, used for identification."
+                          styles={{
+                            position: "relative",
+                            top: "-2rem",
+                            left: "1.5rem",
+                            width: "350px",
+                            height: "35px",
+                            backgroundColor: "#67833E",
+                            color: "white",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "5px",
+                          }}
+                          Arrowstyle={{
+                            marginTop: "0rem",
+                            rotate: "-90deg",
+                            position: "relative",
+                            left: "-1.7rem",
+                          }}
+                        >
+                          <div className="ToolKitchen">
+                            <img
+                              src={info}
+                              alt="info icon"
+                              width={20}
+                              height={20}
+                            />
+                          </div>
+                        </TooltipMsg>
                       </div>
-                   
                     </div>
                   </div>
                 </div>

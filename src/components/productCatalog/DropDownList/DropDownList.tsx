@@ -75,7 +75,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const dispatch = useDispatch();
 
   const getdatafrosaga = () => {
-    console.log({dropDownType})
     dispatch(fetchDropDownRequest(dropDownType));
   };
 

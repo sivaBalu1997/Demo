@@ -59,9 +59,6 @@ const SidePanel = () => {
 
   const branchDetails = useSelector((state:RootState) => state.auth.selectedBranch);
 
-
-  console.log({locationId})
-
   const getImageURL = useCallback(
     (type:any) => {
       if (

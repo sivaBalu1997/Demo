@@ -166,7 +166,6 @@ export const Menulisting = () => {
 
     if (FilteredData.length === 0) {
       mergedMockData.forEach((item) => {
-        console.log("Item type:", item.type);
         if (item.type === "steamedVeg") {
           tempArray1.push(item);
         } else {
@@ -175,7 +174,6 @@ export const Menulisting = () => {
       });
     } else {
       FilteredData.forEach((item) => {
-        console.log("Item type:", item.type);
         if (item.type === "steamedVeg") {
           tempArray1.push(item);
         } else {
