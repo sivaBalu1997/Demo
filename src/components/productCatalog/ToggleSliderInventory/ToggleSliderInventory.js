@@ -12,7 +12,7 @@ const Toggle = ({toggle,setToggle,pen}) => {
         className={`toggleBtnInventory${toggle ? " ToggledInventory" : ""}`}
         onClick={() => setToggle(!toggle)}
         >
-        <div className={` ${!pen ? 'thumbInventoryDark' : 'thumbInventory'}`}></div>
+        <div className={`thumbInventory`}></div>
       </button>
     </div>
   );
