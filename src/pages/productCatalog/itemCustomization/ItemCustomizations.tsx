@@ -301,7 +301,22 @@ const ItemCustomizations: React.FC = () => {
   };
 
   const clerall = () => {
-    console.log("item cleared");
+    setModifications([ // Wrap in an array to match Modification[]
+      {
+        modifierName: "",
+        options: [
+          {
+            item: "",
+            price: "",
+          },
+        ],
+        minSelection: 1,
+        maxSelection: 1,
+        freeCustomization: 1,
+        selectedValue: [], // Matches selectedValue: string[]
+        selectionType: "Optional", // Optional but provided for now
+      }
+    ]);
   };
 
   const handleSelect3 = (values: string[], index: number): void => {
