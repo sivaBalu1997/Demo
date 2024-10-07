@@ -348,7 +348,34 @@ const PricingDetails = () => {
   // const formData={
   // getValues();
   // }
-
+  const handleReset = () => {
+    setMainFormState({
+      availabilityid: [],
+      formNormal: {
+        PickuppriceNormal: "",
+        PickupmealtypeNormal: "",
+        DeliverypriceNormal: "",
+        DeliverymealtypeNormal: "",
+        SwiggyorzomatoNormal: "",
+        SwiggyNormal: "",
+        SwiggymealtypeNormal: "",
+        ZomatoNormal: "",
+        ZomatomealtypeNormal: "",
+      },
+      dineinfields: [],
+      Normaldays: [],
+      DeliveryMealType: [],
+      PicupMealType: [],
+      Pickup: [],
+      DineInServiceArea: [],
+      Delivery: [],
+      thirdParty: [],
+      WeekDays: [],
+      DineIn: [],
+      Swiggy: [],
+      Zomato: [],
+    });
+  };
   useEffect(() => {
     if (prizingDetail) {
       reset({
@@ -625,7 +652,7 @@ const PricingDetails = () => {
                   error={errors.kitchenstation}
                   trigger={trigger}
                   getValues={getValues}
-                  // validation={{ required: "dietaryType is required" }}
+                  validation={{ required: "Kitchen Station is required" }}
                   addNew={true}
                   editValues={true}
                   setDropdownOpen={setDropdownOpen}
@@ -885,7 +912,7 @@ const PricingDetails = () => {
             <SaveAndNext
               getFormData={getValues}
               seletedpage="Pricing"
-              reset={reset}
+              reset={handleReset}
               triggerValidation={() => trigger()}
               mainForm={mainForm}
               handleValidate={handleValidate}
