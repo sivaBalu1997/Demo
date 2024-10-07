@@ -642,7 +642,6 @@ const validatePassword = (value:string) => {
     if(value.length > 0){
      return passwordRegex.test(value);
     }
-  
   }
 
 const [key, setKey] = useState(Math.random());
@@ -723,7 +722,7 @@ if(!!params?.id?.length && dataFetching)  {
               <div className="primary-sec">
                 <div className="flexContainer">
                   <div>
-                    <label className={errors.firstName ?"errorLabel" : "inputLabel"}>First Name*</label>
+                    <label className={errors.firstName ? "errorLabel" : "inputLabel"}>First Name*</label>
                     <TextInput
                         type="text"
                         name="firstName"

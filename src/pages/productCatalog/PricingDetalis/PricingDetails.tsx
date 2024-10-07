@@ -636,9 +636,11 @@ const PricingDetails = () => {
 
               <div className="D2kitchen">
                 <div className="Prepartiontime">
+
                   <label htmlFor="" className="heading">
                     Preparation time
                   </label>
+
                   <div className="Prepartiontime-input-fileds">
                   <Controller
                       name="Preparationtime.hours"
@@ -652,32 +654,58 @@ const PricingDetails = () => {
                         className="Prepartiontime-input-hours" 
                         onChange={(e) => {
                           const value = e.target.value;
-                          setValue("Preparationtime.hours", value);
-                          // trigger(trigger);
+                          if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
+                            setValue("Preparationtime.hours", value);
+                           
+                          }
                         }} 
                         />
                       )}
-                      rules={{ required: "This field is required" }}
+                      rules={{ 
+                        required: "This field is required", 
+                        validate: value => 
+                          (value === "" || /^[1-9]$|^1[0-2]$/.test(value)) || "Please enter valid time"
+                      }}
                     />
-                    
+
                     <span>Hours</span>
                     <span>:</span>
+
                     <Controller
                       name="Preparationtime.minutes"
                       control={control}
                       defaultValue=""
-                      render={({ field, trigger,value }: any) => (
-                        <input type="text" 
-                        name="minutes"
-                        value={value}
-                        className="Prepartiontime-input-mins" 
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setValue("Preparationtime.minutes", value);
-                          // trigger(trigger);
-                        }} />
+                      render={({ field, trigger, value }: any) => (
+                        <input
+                          type="text"
+                          name="minutes"
+                          value={value}
+                          className="Prepartiontime-input-mins"
+                          onChange={(e) => {
+                            const inputValue = e.target.value;
+
+                            // Allow only numeric input or empty
+                            if (/^[0-9]*$/.test(inputValue)) {
+                              // Set value only if it's in the range of 0-60 or empty
+                              if (
+                                inputValue === "" ||
+                                /^(59|[0-5]?[0-9])$/.test(inputValue)
+                              ) {
+                                setValue("Preparationtime.minutes", inputValue);
+                              }
+                            }
+                            // Optionally, trigger validation
+                            // trigger(trigger);
+                          }}
+                        />
                       )}
-                      rules={{ required: "This field is required" }}
+                      rules={{
+                        required: "This field is required",
+                        validate: (value) =>
+                          value === "" ||
+                          /^(60|[0-5]?[0-9])$/.test(value) ||
+                          "Please enter a valid time",
+                      }}
                     />
                     
                     <span>Minutes</span>
