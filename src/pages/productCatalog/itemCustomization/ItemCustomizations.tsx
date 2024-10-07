@@ -231,6 +231,32 @@ const ItemCustomizations: React.FC = () => {
     else if(length==4) {
       return "modifier-div-margin4";
     }
+    else if(length==5){
+      return "modifier-div-margin5";
+      
+    }
+    else if(length==6){
+      return "modifier-div-margin6";
+      
+    }
+    else if(length==7){
+      return "modifier-div-margin7";
+      
+    }
+
+    else if(length==8){
+      return "modifier-div-margin8";
+      
+    }
+
+    else if(length==9){
+      return "modifier-div-margin9";
+      
+    }
+    else if(length==10){
+      return "modifier-div-margin10";
+      
+    }
     
   };
 
@@ -275,7 +301,22 @@ const ItemCustomizations: React.FC = () => {
   };
 
   const clerall = () => {
-    console.log("item cleared");
+    setModifications([ // Wrap in an array to match Modification[]
+      {
+        modifierName: "",
+        options: [
+          {
+            item: "",
+            price: "",
+          },
+        ],
+        minSelection: 1,
+        maxSelection: 1,
+        freeCustomization: 1,
+        selectedValue: [], // Matches selectedValue: string[]
+        selectionType: "Optional", // Optional but provided for now
+      }
+    ]);
   };
 
   const handleSelect3 = (values: string[], index: number): void => {
