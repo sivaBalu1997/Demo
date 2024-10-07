@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import LableComponent from "../../../components/productCatalog/LableComponent/LableComponent";
 import InputFieldComponent from "../../../components/productCatalog/InputFieldComponent/InputFieldComponent";
 import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
@@ -166,6 +166,16 @@ interface Item {
 
 const PrimaryPage = () => {
   const dispatch = useDispatch();
+  const resetSelectionRef = useRef<(() => void) | null>(null);
+  const cuisineRef  = useRef<(() => void) | null>(null);
+  const categoryref = useRef<(() => void) | null>(null);
+  const BestpairedRef = useRef<(() => void) | null>(null);
+  const descriptionRef = useRef<(() => void) | null>(null);
+
+
+
+
+
   const {
     register,
     handleSubmit,
@@ -471,6 +481,50 @@ const PrimaryPage = () => {
     (state: StateDataTag3) => state.productCatalog.bestPairData
   );
 
+  const handleReset=()=>{
+    setValue("itemName", "");
+    setValue("dietaryType", "");
+    setValue("cuisine", "");
+    setValue("mealType", "");
+    setValue("bestPair", "");
+    setValue("description", "");
+    setValue("imageUrls", []); // Assuming this should be an empty array
+    setValue("alcohol", "no"); // If you want to keep a default value
+    setValue("itemCode", "");
+    setValue("barCode", "");
+    setValue("category", "");
+    setValue("categoryId", "");
+    setValue("subCategory", "");
+    setValue("Ingredients", []); // Assuming this should be an empty array
+    setValue("allergens", []); // Assuming this should be an empty array
+    setValue("coloriePoint", "");
+    setValue("selectedcolorie", "per100grams"); // If you want to keep a default value
+    setValue("portionSize", "");
+    setValue("selectedPortion", "Portion(count)"); // If you want to keep a default value
+    setValue("tax", "");
+    setValue("masterCode", "");
+      if (resetSelectionRef.current) {
+      resetSelectionRef.current(); 
+    }
+    if (BestpairedRef.current) {
+      BestpairedRef.current(); 
+    }
+    if (cuisineRef.current) {
+      cuisineRef.current(); 
+    }
+    if (categoryref.current) {
+      categoryref.current(); 
+    }
+    if (descriptionRef.current) {
+      descriptionRef.current(); 
+    }
+  
+  
+    
+  }
+
+  console.log(getValues())
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -532,6 +586,7 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="dietary"
+                        resetSelection={resetSelectionRef} 
                       />
                     )}
                   />
@@ -562,6 +617,7 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="cuisine"
+                        resetSelection={cuisineRef} 
                       />
                     )}
                   />
@@ -592,6 +648,8 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="category"
+                        resetSelection={categoryref} 
+
                       />
                     )}
                   />
@@ -622,6 +680,7 @@ const PrimaryPage = () => {
                           addNew={false}
                           editValues={false}
                           dropDownType="bestPair"
+                          resetSelection={BestpairedRef} 
                         />
                       )}
                     />
@@ -1160,7 +1219,7 @@ const PrimaryPage = () => {
             <SaveAndNext
               getFormData={getValues}
               seletedpage="Primary"
-              reset={reset}
+              reset={handleReset}
               triggerValidation={() => trigger()}
             />
             {/* </form> */}
