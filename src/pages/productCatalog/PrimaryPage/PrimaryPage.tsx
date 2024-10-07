@@ -926,7 +926,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext="cal"
+                          placeholder="cal"
                         />
                       )}
                     />
@@ -956,7 +956,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext={getValues("selectedPortion")}
+                          placeholder={getValues("selectedPortion")}
                           // placeholder={getValues("selectedPortion")}
                         />
                       )}

@@ -775,7 +775,10 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
         <div
           className={isExpanded ? "saveandnextreview" : "saveandnextreview1"}
         >
-          <button className={`${isExpanded ? "clearall1" : "clearall"}`}>
+          <button 
+            className={`${isExpanded ? "clearall1" : "clearall"}`}
+            onClick={()=>history.push('/menuListing')}
+            >
             Cancel
           </button>
           <button
