@@ -65,7 +65,7 @@ const Inventory: React.FC<InventoryProp> = ({  }) => {
   }, [data]);
 
   return (
-    <div className='InventorySlider-Container'>
+    <div className={invent?"InventorySlider-Container":"InventorySlider-Container1"}>
       <div className='InventorySlider-Form'>
         <div className='InventorySlider'>
           <h1 className='InventorySlider-Heading'>Inventory</h1>
