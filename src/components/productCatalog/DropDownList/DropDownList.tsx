@@ -83,13 +83,13 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSelectedOptions([]); // Clear local selection
   };
 
-  useEffect(() => {
-    if (resetSelection ) {
-      resetSelection.current = clearSelection; // Assign the function to the ref
-    }
+    useEffect(() => {
+      if (resetSelection ) {
+        resetSelection.current = clearSelection; // Assign the function to the ref
+      }
 
-   
-  }, [resetSelection]);
+    
+    }, [resetSelection]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

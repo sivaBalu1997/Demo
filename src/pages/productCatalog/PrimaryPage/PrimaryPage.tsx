@@ -171,6 +171,16 @@ const PrimaryPage = () => {
   const categoryref = useRef<(() => void) | null>(null);
   const BestpairedRef = useRef<(() => void) | null>(null);
   const descriptionRef = useRef<(() => void) | null>(null);
+  const allergensRef = useRef<(() => void) | null>(null);
+  const ingredientsRef = useRef<(() => void) | null>(null);
+  const imageClearRef = useRef<(() => void) | null>(null);
+  const digitClearRef = useRef<(() => void) | null>(null);
+  const subCatagoryRef = useRef<(() => void) | null>(null);
+
+
+
+
+  
 
 
 
@@ -518,6 +528,25 @@ const PrimaryPage = () => {
     if (descriptionRef.current) {
       descriptionRef.current(); 
     }
+    if (allergensRef.current) {
+      allergensRef.current(); 
+    }
+    if (ingredientsRef.current) {
+      ingredientsRef.current(); 
+    }
+    if (imageClearRef.current) {
+      imageClearRef.current(); 
+    }
+    if (digitClearRef.current) {
+      digitClearRef.current(); 
+    }
+    if (subCatagoryRef.current) {
+      subCatagoryRef.current(); 
+    }
+
+    setDescription(" ")
+    setCharCount(0);
+    setImages([])
   
   
     
@@ -946,6 +975,7 @@ const PrimaryPage = () => {
                           setDropdownOpen={setDropdownOpen}
                           onToggle={() => handleDropdownToggle("subCategory")}
                           dropDownType="subCategory"
+                          resetSelection={subCatagoryRef} 
                         />
                       )}
                     />
@@ -961,6 +991,7 @@ const PrimaryPage = () => {
                       setValue={setValue}
                       name="allergens"
                       register={register}
+                      resetSelection={allergensRef} 
                     />
                   </div>
                 </div>
@@ -999,6 +1030,7 @@ const PrimaryPage = () => {
                   setValue={setValue}
                   name="Ingredients"
                   register={register}
+                  resetSelection={ingredientsRef} 
                 />
               </div>
 
@@ -1173,6 +1205,7 @@ const PrimaryPage = () => {
                             inputCount={4}
                             error={errors.masterCode}
                             validation={{ required: "Master code is required" }}
+                             resetSelection={digitClearRef} 
                           />
                         )}
                       />
