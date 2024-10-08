@@ -100,8 +100,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   };
 
   // Function to handle toggling at parent level
-  // Function to handle toggling at parent level
-  // Function to handle toggling at parent level
+  // Function to handle toggling at parent level, including nested subcategories
 const handleParentToggle = (parentIndex: number) => {
   const newToggleStates = [...toggleStates];
   const currentParentToggle = newToggleStates[parentIndex].parentToggle;
@@ -110,20 +109,22 @@ const handleParentToggle = (parentIndex: number) => {
   newToggleStates[parentIndex].parentToggle = !currentParentToggle;
 
   // Update child toggles based on parent toggle state
-  if (newToggleStates[parentIndex].subcategoryToggles) {
-      newToggleStates[parentIndex].subcategoryToggles.forEach((subcategory: any) => {
-          // Enable/Disable all child toggles based on parent toggle
-          subcategory.subParentToggle = !currentParentToggle; // Set the subcategory toggle state
+  if (newToggleStates[parentIndex].childToggles) {
+    // For Section A or Section B (Off-prem)
+    newToggleStates[parentIndex].childToggles.forEach((_: any, childIndex: number) => {
+      newToggleStates[parentIndex].childToggles[childIndex] = !currentParentToggle;
+    });
+  } else if (newToggleStates[parentIndex].subcategoryToggles) {
+    // For Pick up / Delivery (On-prem)
+    newToggleStates[parentIndex].subcategoryToggles.forEach((subcategory: any, subIndex: number) => {
+      // Toggle the subcategory parent
+      subcategory.subParentToggle = !currentParentToggle;
 
-          subcategory.childToggles.forEach((_:any, childIndex: number) => {
-              // Enable all child toggles if the parent is enabled
-              subcategory.childToggles[childIndex] = !currentParentToggle; // true if parent is true
-          });
+      // Toggle all child toggles within the subcategory
+      subcategory.childToggles.forEach((_: any, childIndex: number) => {
+        subcategory.childToggles[childIndex] = !currentParentToggle;
       });
-  } else if (newToggleStates[parentIndex].childToggles) {
-      newToggleStates[parentIndex].childToggles.forEach((_:any, childIndex: number) => {
-          newToggleStates[parentIndex].childToggles[childIndex] = !currentParentToggle; // true if parent is true
-      });
+    });
   }
 
   setToggleStates(newToggleStates);
@@ -133,23 +134,115 @@ const handleParentToggle = (parentIndex: number) => {
   // Function to handle subcategory toggling
   const handleSubcategoryToggle = (parentIndex: number, subcategoryIndex: number) => {
     const newToggleStates = [...toggleStates];
-    newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle =
-      !newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle;
+    const subcategoryToggle = newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle;
+  
+    // Toggle the subcategory parent toggle
+    newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle = !subcategoryToggle;
+  
+    // If toggling to true, enable all child toggles (In house, Swiggy, Zomato)
+    if (!subcategoryToggle) {
+      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles.forEach((_:any, childIndex: number) => {
+        newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles[childIndex] = true;
+      });
+    } else {
+      // If toggling to false, retain the current logic (do not change child toggles automatically)
+      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles.forEach((_:any, childIndex: number) => {
+        newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles[childIndex] = false;
+      });
+    }
+  
     setToggleStates(newToggleStates);
   };
+  
 
-  // Function to handle child toggle
+  // Function to handle child toggle for Section A and Section B or for Pickup/Delivery
   const handleChildToggle = (parentIndex: number, subcategoryIndex: number, childIndex: number) => {
     const newToggleStates = [...toggleStates];
-    const childToggles = newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex]?.childToggles;
 
-    if (childToggles) {
-      childToggles[childIndex] = !childToggles[childIndex];
+    if (newToggleStates[parentIndex]?.subcategoryToggles) {
+      const childToggles = newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex]?.childToggles;
+
+      if (childToggles) {
+        // Toggle the specific child
+        childToggles[childIndex] = !childToggles[childIndex];
+
+        // Check if all child toggles are disabled
+        const areAllChildrenDisabled = childToggles.every((toggle: boolean) => !toggle);
+
+        // If all children are disabled, disable the parent toggle
+        newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle = !areAllChildrenDisabled;
+      }
+    } else {
+      // Handle Section A/B
+      const childToggles = newToggleStates[parentIndex]?.childToggles;
+
+      if (childToggles) {
+        // Toggle the specific child
+        childToggles[childIndex] = !childToggles[childIndex];
+
+        // Check if all child toggles are disabled
+        const areAllChildrenDisabled = childToggles.every((toggle: boolean) => !toggle);
+
+        // If all children are disabled, disable the parent toggle
+        newToggleStates[parentIndex].parentToggle = !areAllChildrenDisabled;
+      }
     }
 
     setToggleStates(newToggleStates);
   };
+  useEffect(() => {
+    if (toggleStates.length > 0) {
+      const newToggleStates = [...toggleStates];
+  
+      // Existing conditions: Check "Pick up" and "Delivery"
+      const isPickupFalse = !newToggleStates[1]?.subcategoryToggles?.[0]?.subParentToggle;
+      const isDeliveryFalse = !newToggleStates[1]?.subcategoryToggles?.[1]?.subParentToggle;
+      const isPickupTrue = newToggleStates[1]?.subcategoryToggles?.[0]?.subParentToggle;
+      const isDeliveryTrue = newToggleStates[1]?.subcategoryToggles?.[1]?.subParentToggle;
+  
+      // Check child toggles for Pick up (In-house, Swiggy, Zomato)
+      const inhousePickup = newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[0] || false;
+      const swiggyPickup = newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[1] || false;
+      const zomatoPickup = newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[2] || false;
+  
+      // If any child toggle (In-house, Swiggy, Zomato) is true, set Pickup to true
+      if (inhousePickup || swiggyPickup || zomatoPickup) {
+        newToggleStates[1].subcategoryToggles[0].subParentToggle = true; // Set Pickup to true
+        newToggleStates[1].subcategoryToggles[1].subParentToggle = true;
+      }
+  
+      // If both "Pick up" and "Delivery" are false, turn "On-prem" off
+      if (isPickupFalse && isDeliveryFalse) {
+        newToggleStates[1].parentToggle = false;
+      } else {
+        // If either "Pick up" or "Delivery" is true, turn "On-prem" on
+        if (isPickupTrue || isDeliveryTrue || inhousePickup || swiggyPickup || zomatoPickup) {
+          newToggleStates[1].parentToggle = true;
+        }
+      }
+  
+      // New functionality: If both section A and section B are true, turn "Of-prem" onn
+      // Check if both Section A and Section B are true
+      const isOffPremActive = newToggleStates[0]?.parentToggle || 
+                        newToggleStates[0]?.childToggles?.every((toggle:any) => toggle) || 
+                        (newToggleStates[0]?.childToggles[0] && newToggleStates[0]?.childToggles[1]);
 
+const isSectionATrue = newToggleStates[0]?.parentToggle; // Check Section A toggle state
+const isSectionBTrue = newToggleStates[1]?.parentToggle; // Check Section B toggle state
+
+// If both Section A and Section B are true, turn on "Off-prem"
+if (isSectionATrue && isSectionBTrue) {
+  newToggleStates[0].parentToggle = true; // Enable Off-prem toggle
+} else {
+  // Maintain original state for Off-prem based on other conditions if needed
+  newToggleStates[0].parentToggle = isOffPremActive;
+}
+
+setToggleStates(newToggleStates);
+    }
+  }, [toggleStates]);
+  
+  
   return (
     <div className='AvailSlider-Container'>
       <h3 className='AvailSlider-Heading'>Availability</h3>
@@ -171,7 +264,7 @@ const handleParentToggle = (parentIndex: number) => {
                     <h3 className='SectionASectionBSectionHeading'>{type}</h3>
                     <ToggleSliderAvail
                       toggle={toggleStates[index]?.childToggles?.[typeIndex] || false}
-                      setToggle={() => handleChildToggle(index, 0, typeIndex)}
+                      setToggle={() => handleChildToggle(index, 0, typeIndex)} // For Section A and B
                       pen={pen}
                     />
                   </div>
