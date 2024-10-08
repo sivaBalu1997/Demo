@@ -12,9 +12,15 @@ export function getCategory(locationId) {
 
 
 //get dropDown
-export function getSubSectionData(){
-  return dietarytype;
+export function getSubSectionData(locationId){
+    return API({
+    method: "get",
+    url: `/api/v1/menu-items/view/sub-section`,
+  });
 }
+
+  
+
 
 //Delete subsection
 export const deleteSubSection = ({data}) => {
