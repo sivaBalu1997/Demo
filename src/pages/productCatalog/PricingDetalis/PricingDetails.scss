@@ -2,12 +2,12 @@
   font-family: "Poppins", sans-serif;
 }
 
-.pricingDetails{
+.pricingDetails {
   display: flex;
   width: 105.3%;
 }
 
-.pricingDetailsExpanded{
+.pricingDetailsExpanded {
   display: flex;
   width: 102%;
 }
@@ -32,6 +32,7 @@
   overflow-y: auto;
   // border: 1px solid red;
 }
+
 .pricing-form {
   display: flex;
   flex-direction: column;
@@ -41,7 +42,6 @@
 }
 
 .KitchenRelated {
-
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -63,58 +63,52 @@
   height: 6rem;
   width: fit-content;
   // border: 1px solid red;
- 
+
   display: flex;
   align-items: center;
   .kitche-stations-dropdown {
-   position: relative;
-
+    position: relative;
   }
 }
 .D2kitchen {
   margin-top: -25px;
-  .Prepartiontime
-  {
-    .heading
-    {
-     position: relative;
-    //  top: -0.5rem;
-     color: #424242;
-     font-family: Poppins;
-font-size: 14.38px;
-font-weight: 400;
-line-height: 21.56px;
-letter-spacing: 0.004em;
-text-align: left;
-
+  .Prepartiontime {
+    .heading {
+      position: relative;
+      //  top: -0.5rem;
+      color: #424242;
+      font-family: Poppins;
+      font-size: 14.38px;
+      font-weight: 400;
+      line-height: 21.56px;
+      letter-spacing: 0.004em;
+      text-align: left;
     }
   }
- 
+
   .Prepartiontime-input-fileds {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 10px;
-   
+
     .Prepartiontime-input-hours {
       width: 40px;
       height: 40px;
       font-family: Poppins;
-font-size: 19.17px;
-font-weight: 400;
-line-height: 28.75px;
-letter-spacing: 0.0015em;
-text-align: center;
-
-
+      // font-size: 19.17px;
+      font-weight: 400;
+      line-height: 28.75px;
+      letter-spacing: 0.0015em;
+      text-align: center;
       border-radius: 5.41px;
       border: 1px solid #9f9f9f;
     }
+
     .Prepartiontime-input-mins {
       width: 40px;
       height: 40px;
-
       border-radius: 5.41px;
       border: 1px solid #9f9f9f;
     }
@@ -123,7 +117,6 @@ text-align: center;
 
 .KitchenRelatedHeading {
   margin-top: 20px;
- 
 }
 .ErrorsForm {
   font-size: 0.75rem;
@@ -175,10 +168,9 @@ text-align: center;
 .Kitchen-checkbox {
   width: 300px;
   height: 30px;
- top: -2rem;
+  top: -2rem;
   margin-bottom: 275px;
   position: relative;
-
 }
 .services-Heading {
   margin-top: 35px;
