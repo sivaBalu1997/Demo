@@ -223,6 +223,8 @@ const PrimaryPage = () => {
     },
   });
 
+  const[popularItem,setPopularItem]=useState("")
+
 
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
@@ -235,9 +237,16 @@ const PrimaryPage = () => {
   const Mockdata = useSelector(
     (state: ListingData) => state.storeMockDataReducer.data
   );
+  const PopularItemFormApi=useSelector((state:any)=>state?.getPopularItemReducer?.popularItems?.data?.popularItemCount)
   const mergedMockData = [...Mockdata, ...addedData];
   const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
     useState<Item[]>();
+    
+  useEffect(() => {
+      setPopularItem(PopularItemFormApi); // Update state
+    
+  }, [PopularItemFormApi]); 
+
 
   useEffect(() => {
     const SelectedFooditemtoedit = mergedMockData.filter(
@@ -555,7 +564,7 @@ const PrimaryPage = () => {
   
     
   }
-
+console.log("hi",popularItem)
   console.log(getValues())
 
   return (
@@ -875,8 +884,7 @@ const PrimaryPage = () => {
                       rules={{
                         required: "Item code is required",
                         validate: (value) =>
-                          (value.toString().length >= 4 &&
-                            value.toString().length <= 5) ||
+                          (value.toString().length >= 4 ) ||
                           "Item code must be between 4 and 5 characters",
                       }}
                       render={({ onChange, onBlur, value }) => (
@@ -894,6 +902,7 @@ const PrimaryPage = () => {
                           type="number"
                           trigger={trigger}
                           error={errors.itemCode}
+                          
                         />
                       )}
                     />{" "}
@@ -953,7 +962,7 @@ const PrimaryPage = () => {
 
                 <div className="Primary-page-InputFields PopularItem">
                   <input type="checkbox" onChange={handleCheckboxChange} />
-                  <span>hello</span>
+                  <span>{popularItem}</span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
