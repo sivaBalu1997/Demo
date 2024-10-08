@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import "./PricingDetails.scss";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
@@ -160,6 +160,10 @@ interface StateData {
 }
 
 const PricingDetails = () => {
+  const kitchenDetail = useRef<(() => void) | null>(null);
+  const normalFormRef = useRef<(() => void) | null>(null);
+
+
   const [mainFormState, setMainFormState] = useState<MainFormType>({
     availabilityid: [],
     formNormal: {
@@ -590,6 +594,35 @@ const PricingDetails = () => {
 
     return isValid;
   };
+
+  const handleReset = () => {
+    
+    if (kitchenDetail.current) {
+      kitchenDetail.current(); 
+    }
+    if (normalFormRef.current) {
+      normalFormRef.current(); 
+    }
+    setDineInFields([])
+   
+    reset({
+      form: {
+        Inventory1: "",
+        Inventory2: "",
+      },
+      kitchenstation: "",
+      Preparationtime: {
+        hours: "",
+        minutes: "",
+      },
+      normalForm: mainFormState, 
+      specialForm: [], 
+    });
+  };
+
+
+
+
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
@@ -631,6 +664,7 @@ const PricingDetails = () => {
                   setDropdownOpen={setDropdownOpen}
                   dropdownopen={DropdownOpen.Kitchen}
                   onToggle={() => handleDropdownToggle("Kitchen")}
+                  resetSelection={kitchenDetail} 
                 />
               </div>
 
@@ -828,6 +862,7 @@ const PricingDetails = () => {
                 setDineInFields={setDineInFields}
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
+                resetSelection={normalFormRef} 
               />
             ) : (
               <Specialavail
@@ -857,7 +892,7 @@ const PricingDetails = () => {
             <SaveAndNext
               getFormData={getValues}
               seletedpage="Pricing"
-              reset={reset}
+              reset={handleReset}
               triggerValidation={() => trigger()}
               mainForm={mainForm}
               handleValidate={handleValidate}
