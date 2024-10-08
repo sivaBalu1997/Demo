@@ -162,6 +162,8 @@ interface StateData {
 const PricingDetails = () => {
   const kitchenDetail = useRef<(() => void) | null>(null);
   const normalFormRef = useRef<(() => void) | null>(null);
+  const specialFormRef = useRef<(() => void) | null>(null);
+
 
 
   const [mainFormState, setMainFormState] = useState<MainFormType>({
@@ -393,14 +395,14 @@ const PricingDetails = () => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
 
-  const [dineinfields, setDineInFields] = useState<DineInField[]>([
-    {
-      DineInPrice: "",
-      DineInMealType: [],
-      DineInService: "", // Change this from DinInService to DineInServiceArea
-      showDay: false,
-      dayButtonText: "Add Day",
-    },
+      const [dineinfields, setDineInFields] = useState<DineInField[]>([
+        {
+          DineInPrice: "",
+          DineInMealType: [],
+          DineInService: "", // Change this from DinInService to DineInServiceArea
+          showDay: false,
+          dayButtonText: "Add Day",
+        },
   ]);
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
     {
@@ -603,7 +605,11 @@ const PricingDetails = () => {
     if (normalFormRef.current) {
       normalFormRef.current(); 
     }
-    setDineInFields([])
+    if (specialFormRef.current) {
+      specialFormRef.current(); 
+    }
+ 
+    
    
     reset({
       form: {
@@ -615,10 +621,16 @@ const PricingDetails = () => {
         hours: "",
         minutes: "",
       },
-      normalForm: mainFormState, 
-      specialForm: [], 
+
+      
+      
+      
+
     });
   };
+
+  console.log(mainFormState)
+
 
 
 
@@ -874,6 +886,7 @@ const PricingDetails = () => {
                 setDineInFields1={setDineInFields1}
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
+                resetSelection={normalFormRef} 
               />
             )}
 

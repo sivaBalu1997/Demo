@@ -300,24 +300,30 @@ const ItemCustomizations: React.FC = () => {
     return isvalid;
   };
 
-  const clerall = () => {
-    setModifications([ // Wrap in an array to match Modification[]
-      {
+  const clearAll = () => {
+    setModifications((prevModifications) =>
+      prevModifications.map((modification) => ({
+        ...modification,
         modifierName: "",
-        options: [
-          {
-            item: "",
-            price: "",
-          },
-        ],
-        minSelection: 1,
-        maxSelection: 1,
-        freeCustomization: 1,
-        selectedValue: [], // Matches selectedValue: string[]
-        selectionType: "Optional", // Optional but provided for now
-      }
-    ]);
+        options: modification.options.map((option) => ({
+          ...option,
+          item: "",
+          price: "",
+        })),
+        selectedValue: [],
+        selectionType: "Optional", // Optional field, can be omitted if not needed
+      }))
+    );
   };
+  
+  
+  
+  
+  
+  
+  
+  
+
 
   const handleSelect3 = (values: string[], index: number): void => {
     // Update selectedValue state
@@ -743,7 +749,7 @@ const ItemCustomizations: React.FC = () => {
                   <SaveAndNext
                     seletedpage="ItemCustomization"
                     getFormData={getFormData}
-                    reset={clerall}
+                    reset={clearAll}
                     modifications={modifications}
                   />
                 </div>

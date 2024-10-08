@@ -562,6 +562,13 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setSelectedValues4([])
     setSelectedValues5([])
     setSelectedValues([])
+    setDineInFields((prevDineInFields:any) =>
+      prevDineInFields.map(() => ({
+        DineInPrice: "",
+        DineInMealType: [],
+        DineInService: [],
+      }))
+    );
    
   };
 
