@@ -354,34 +354,7 @@ const PricingDetails = () => {
   // const formData={
   // getValues();
   // }
-  const handleReset = () => {
-    setMainFormState({
-      availabilityid: [],
-      formNormal: {
-        PickuppriceNormal: "",
-        PickupmealtypeNormal: "",
-        DeliverypriceNormal: "",
-        DeliverymealtypeNormal: "",
-        SwiggyorzomatoNormal: "",
-        SwiggyNormal: "",
-        SwiggymealtypeNormal: "",
-        ZomatoNormal: "",
-        ZomatomealtypeNormal: "",
-      },
-      dineinfields: [],
-      Normaldays: [],
-      DeliveryMealType: [],
-      PicupMealType: [],
-      Pickup: [],
-      DineInServiceArea: [],
-      Delivery: [],
-      thirdParty: [],
-      WeekDays: [],
-      DineIn: [],
-      Swiggy: [],
-      Zomato: [],
-    });
-  };
+  
   useEffect(() => {
     if (prizingDetail) {
       reset({
