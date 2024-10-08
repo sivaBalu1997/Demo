@@ -132,7 +132,7 @@ export function getItemCodeRequestApi(locationId,itemCode) {
 export function getPopularItemRequestApi(locationId) {
   return API({
     method: "get",
-    url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`,
+    url: `v1/menu-items/count-popular-items?locationId=${locationId}`
   });
 }
 

@@ -31,6 +31,7 @@ import {
   getIngredientsRequest,
   getItemCodeRequest,
   getMenuCategoryRequest,
+  getPopularItemRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -490,6 +491,9 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: StateDataTag3) => state.productCatalog.bestPairData
   );
+  const handleCheckboxChange=()=>{
+    dispatch(getPopularItemRequest(locationid))
+  }
 
   const handleReset=()=>{
     setValue("itemName", "");
@@ -948,8 +952,8 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields PopularItem">
-                  <input type="checkbox" />
-                  <span>Popular item ( 3/10 )</span>
+                  <input type="checkbox" onChange={handleCheckboxChange} />
+                  <span>hello</span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
