@@ -406,6 +406,8 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     setDineInFields1(newDineInFields);
   };
   const clearSelection = () => {
+    setSelectedValuesMealType([]);
+    setSelectedValues1([])
     setForm({
         Pickupprice: "",
     Pickupmealtype: "",

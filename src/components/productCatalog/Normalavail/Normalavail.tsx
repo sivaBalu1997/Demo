@@ -542,6 +542,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
   console.log(dineInDates1)
 
   const clearSelection = () => {
+    setSelectedValuesMealType([])
+
     setNormalDays([])
     setSelectedValues2([])
     setformNormal({
@@ -569,7 +571,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
         DineInService: [],
       }))
     );
-   
   };
 
     useEffect(() => {
