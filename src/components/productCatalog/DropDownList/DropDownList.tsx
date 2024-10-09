@@ -116,14 +116,14 @@ const DropDownList: React.FC<DropdownProps> = ({
     };
   }, [setDropdownOpen]);
 
-useEffect(()=>{
-  dispatch(fetchDropDownRequest(dropDownType));
-},[initialOptions])
+// useEffect(()=>{
+//   dispatch(fetchDropDownRequest(dropDownType));
+// },[initialOptions])
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if(dropDownType){
-      getdatafrosaga();
+      // getdatafrosaga();
     }
   };
 
@@ -211,9 +211,11 @@ useEffect(()=>{
     }
   };
  
-  const filteredOptions = initialOptions.filter((option) =>
-    option.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredOptions = Array.isArray(initialOptions)
+  ? initialOptions.filter((option) =>
+      option.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  : [];
 
   const handleNewItemAddition = () => {
     setAddNewButton((prevAddNew) => !prevAddNew);

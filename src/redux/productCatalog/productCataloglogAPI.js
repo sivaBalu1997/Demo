@@ -19,9 +19,6 @@ export function getSubSectionData(locationId){
   });
 }
 
-  
-
-
 //Delete subsection
 export const deleteSubSection = ({data}) => {
   return API ({
@@ -30,6 +27,16 @@ export const deleteSubSection = ({data}) => {
     data: {data}
   })
 }
+
+export const addSubsectionApi = ( data ) => {
+  console.log('Data to be sent:', data); 
+
+  return API({
+    method: 'post',
+    url: `/api/v1/menu-items/sub-section`,
+    data:  data ,
+  });
+};
 
 export function getSubCategory({ locationId, id }) {
   return API({

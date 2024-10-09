@@ -44,6 +44,10 @@ import {
   getItemCodeFailure,
   getPopularItemSuccess,
   getPopularItemFailure,
+  addDropDownSuccess,
+  addDropDownFailure,
+  deleteDropDownSuccess,
+  deleteDropDownFailure
 
 
 } from "./productCatalogActions";
@@ -69,6 +73,7 @@ import {
   store,
   getItemCodeRequestApi,
   getPopularItemRequestApi,
+  addSubsectionApi
   
 } from "../productCatalog/productCataloglogAPI";
  
@@ -97,6 +102,7 @@ import {
   ADD_MENU_ITEM_SUCCESS,
   GET_ITEM_CODE_REQUEST,
   GET_POPULAR_ITEM_REQUEST,
+  ADDDROPDOWN_REQUEST,
  
  
 } from "./productCatalogConstants";
@@ -109,6 +115,8 @@ function* fetchDropdownDataSaga(action) {
       switch (action.payload) {
         case 'dietary':
           yield put(dietdatasuccess(response));
+         console.log("tyep data",response);
+         
           break;
         case 'cuisine':
           yield put(cuisineDataSuccess(response));
@@ -132,18 +140,57 @@ function* fetchDropdownDataSaga(action) {
     yield put(fetchDropDownFailure({ message: 'Please try again' }));
   }
 }
+
+function* addSubsection(action) {
+  // const { dropDownType } = action.payload;
+  try {
+    console.log("action datapayload",action.payload.type)
+    const response = yield call(addSubsectionApi, action.payload);
+  
+    if (response.status === 200) {
+      switch (action.payload.type) {
+        case 'dietary':
+         console.log("in going");
+         
+          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
+          break;
+        case 'cuisine':
+          yield put(cuisineDataSuccess(response));
+          break;
+        case 'category':
+          yield put(catogoryDataSuccess(response));
+          break;
+        case 'subCategory':
+          yield put(subCategoryDataSuccess(response));
+          break;
+        case 'bestPair':
+          yield put(bestPairDataSuccess(response));
+          break;
+        default:
+          throw new Error('Invalid type');
+      }
+    } else {
+      yield put(addDropDownFailure({ message: 'Please try again' }));
+    }
+  } catch (err) {
+    yield put(addDropDownFailure({ message: 'Please try again' }));
+  }
+}
  
+
+
+
 //Delete subSection
 function* deleteSubSectionSaga(action) {
   try {
     const response = yield call(deleteSubSectionSaga, action.payload)
     if (response) {
-      yield put(deleteDietarySuccess(response)) // add switch case
+      yield put(deleteDropDownSuccess(response)) // add switch case
     } else {
-      yield put(deleteDietaryFailure({ message: 'please Try Again' }))
+      yield put(deleteDropDownFailure({ message: 'please Try Again' }))
     }
   } catch (err) {
-    yield put(deleteDietaryFailure({ message: 'please Try Again' }))
+    yield put(deleteDropDownFailure({ message: 'please Try Again' }))
   }
 }
  
@@ -344,6 +391,8 @@ export default function* productCatalog() {
  
   yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
   yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga)
+  yield takeLatest(ADDDROPDOWN_REQUEST, addSubsection)
+
  
   // yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);
