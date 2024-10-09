@@ -473,7 +473,7 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
-    dispatch(getIngredientsRequest(locationid));
+    // dispatch(getIngredientsRequest(locationid));
     // dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
@@ -569,9 +569,9 @@ const PrimaryPage = () => {
 const dataforadd=
   {
     name: "rotti",
-    locationId: "1234",
-    type: "dietary",
-    parentId: "23"
+    locationId: locationid,
+    type: "DIET",
+    parentId: ""
   }
 
   // console.log(getValues())
@@ -642,7 +642,7 @@ const dataforadd=
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
-                        dropDownType="dietary"
+                        dropDownType="DIET"
                         resetSelection={resetSelectionRef} 
                       />
                     )}

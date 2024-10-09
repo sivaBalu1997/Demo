@@ -5,7 +5,7 @@ import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
 import { useSelector,useDispatch } from "react-redux";
-import { deleteDropDowRequest, fetchDropDownRequest } from "redux/productCatalog/productCatalogActions";
+import { addDropDowRequest, deleteDropDowRequest, fetchDropDownRequest } from "redux/productCatalog/productCatalogActions";
 interface media{
   imageId:string
   imageType:string
@@ -164,8 +164,9 @@ useEffect(()=>{
       const selectedOptionIds = initialSelectedValue
         .split(", ")
         .map((value: string) => {
-          return initialOptions.find((opt) => opt.name === value);
-        });
+          if (Array.isArray(initialOptions)) {
+            return initialOptions.find((opt) => opt.name === value);
+          }        });
       const validOptions = selectedOptionIds.filter(Boolean) as Option[];
       setSelectedOptions(validOptions);
 
@@ -203,16 +204,30 @@ useEffect(()=>{
     const newItemLabel = NewItemref.current?.value.trim();
     if (newItemLabel) {
       const newItem: Option = {
-        id: (initialOptions.length + 1).toString(),
+        id: (Array.isArray(initialOptions) ? initialOptions.length + 1 : 1).toString(),
         name: newItemLabel,
       };
-      setOptions([...initialOptions, newItem]);
-     
+      console.log("newItem", newItem.name);
+      console.log("dropDownType",dropDownType)
+  
+      setOptions([...(Array.isArray(initialOptions) ? initialOptions : []), newItem]);
+
+  
       handleSelect(newItem);
       setSearchTerm("");
       setAddNewButton(false);
+  
+      const dataforadd = {
+        name: newItem.name,
+        locationId: locationid,
+        type: dropDownType,
+        parentId: ""
+      };
+  
+      dispatch(addDropDowRequest(dataforadd));
     }
   };
+  
 
   const payload={
  
@@ -229,6 +244,8 @@ useEffect(()=>{
 
   const handleNewItemAddition = () => {
     setAddNewButton((prevAddNew) => !prevAddNew);
+   
+
   };
 
   const handleedit = () => {
