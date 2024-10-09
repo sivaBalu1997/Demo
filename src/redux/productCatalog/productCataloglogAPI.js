@@ -12,12 +12,15 @@ export function getCategory(locationId) {
 
 
 //get dropDown
-export function getSubSectionData(locationId){
-    return API({
-    method: "get",
+export function getSubSectionData(payload) {
+  return API({
+    method: "post",
     url: `/api/v1/menu-items/view/sub-section`,
+    data: payload, // Send the full payload as the request body
   });
 }
+  
+
 
 //Delete subsection
 export const deleteSubSection = ({data}) => {
