@@ -37,7 +37,6 @@ const NavMenu: React.FC<NavMenuProps> = ({
   pen,
   eye,
   sidebartext,
-  SideBarData = [],
 }) => {
   const { menuItems, active, setActive } = useContext(Contextpagejs);
 
@@ -124,17 +123,17 @@ const NavMenu: React.FC<NavMenuProps> = ({
       <div className="type-div"></div>
       <div className="navmenu-container">
         <div ref={pricingRef} className="section" data-section="Pricing">
-          <PricingSlider SideBarData={SideBarData} />
+          <PricingSlider />
         </div>
         <div
           ref={availabilityRef}
           className="section"
           data-section="Availability"
         >
-          <AvailabilitySlider SideBarData={SideBarData} />
+          <AvailabilitySlider />
         </div>
         <div ref={inventoryRef} className="section" data-section="Inventory">
-          <Inventory SideBarData={SideBarData} />
+          <Inventory  />
         </div>
         <div ref={customizeRef} className="section" data-section="Customize">
           <CustomizeSlider />

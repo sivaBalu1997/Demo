@@ -376,7 +376,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
   };
 
   return (
-    <div style={{ display: "flex", width: "93%" }}>
+    <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="reviewheading">

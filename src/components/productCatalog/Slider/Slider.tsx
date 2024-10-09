@@ -55,6 +55,8 @@ const Slider: React.FC<SliderProps> = ({
   sidebartext,
   SideBarData,
 }) => {
+  const dataFromRedux=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+
   const history = useHistory();
   const { pen, setPen } = useContext(Contextpagejs);
   const dispatch = useDispatch();
@@ -73,7 +75,7 @@ const Slider: React.FC<SliderProps> = ({
 
   const handleItemClick = (item: string) => {
     const UpdatedeleteItem = data.filter(
-      (item: SideBarData) => item.id !== SideBarData[0].id
+      (item: SideBarData) => item.id !== dataFromRedux[0].id
     );
     setActive(item);
     dispatch(storeMockDataRequest(UpdatedeleteItem));
@@ -82,10 +84,10 @@ const Slider: React.FC<SliderProps> = ({
 
   const handleEyeClick = () => {
     const UpdatedeleteItem = data.filter(
-      (item: SideBarData) => item.id !== SideBarData[0].id
+      (item: SideBarData) => item.id !== dataFromRedux[0].id
     );
     const removedItem = data.find(
-      (item: SideBarData) => item.id === SideBarData[0].id
+      (item: SideBarData) => item.id === dataFromRedux[0].id
     );
   
     setEye(true);
@@ -97,7 +99,7 @@ const Slider: React.FC<SliderProps> = ({
   const handleBinClick = () => {
    
     const UpdatedeleteItem = data.filter(
-      (item: SideBarData) => item.id !== SideBarData[0].id
+      (item: SideBarData) => item.id !== dataFromRedux[0].id
     );
     dispatch(storeMockDataRequest(UpdatedeleteItem));
     onclose()
@@ -108,7 +110,7 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const handlePen = () => {
-    history.push("/productCatalog/PrimaryDetails",{id:SideBarData[0].id});
+    history.push("/productCatalog/PrimaryDetails",{id:dataFromRedux[0].id});
 
 
     setPen(!pen);
@@ -128,7 +130,7 @@ const Slider: React.FC<SliderProps> = ({
       <div className="Slider-Window">
         <div className="Slider-Mainform">
           <div className="Slider-First-Row">
-            <h1 className="Slider-Heading1">{SideBarData?.[0]?.itemName}</h1>
+            <h1 className="Slider-Heading1">{dataFromRedux?.[0]?.itemName}</h1>
 
             <div className="Slider-icons">
               <div className="PenImage-Section">

@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ToggleSliderInventory from "../ToggleSliderInventory/ToggleSliderInventory"
 import "./Inventory.scss"
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
+import { useSelector } from 'react-redux';
 
 interface SideBarData {
   id: number;
@@ -24,10 +25,12 @@ interface SideBarData {
 }
 
 interface InventoryProp {
-  SideBarData: SideBarData[];
+  SideBarData?: SideBarData[];
 }
 
-const Inventory: React.FC<InventoryProp> = ({ SideBarData }) => {
+const Inventory: React.FC<InventoryProp> = ({  }) => {
+  const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+
   const { pen, setPen } = useContext(Contextpagejs);
 
   const [invent, setInvent] = useState(true);
@@ -35,8 +38,8 @@ const Inventory: React.FC<InventoryProp> = ({ SideBarData }) => {
 
   // State for the input fields
   const [inventoryData, setInventoryData] = useState({
-    maxServingsPerDay: SideBarData?.[0]?.pricingdetails?.Inventory1?.[0] || "",
-    threshold: SideBarData?.[0]?.pricingdetails?.Inventory1?.[1] || "",
+    maxServingsPerDay: data?.[0]?.pricingdetails?.Inventory1?.[0] || "",
+    threshold: data?.[0]?.pricingdetails?.Inventory1?.[1] || "",
     resetInventory: false,
     showNextAvailableTime: false,
   });
@@ -49,6 +52,17 @@ const Inventory: React.FC<InventoryProp> = ({ SideBarData }) => {
       [name]: type === 'checkbox' ? checked : value,  // Handle checkbox and text input differently
     }));
   };
+
+  useEffect(() => {
+    if (data && data[0]?.pricingdetails?.Inventory1) {
+      setInventoryData({
+        maxServingsPerDay: data[0].pricingdetails.Inventory1[0] || "",
+        threshold: data[0].pricingdetails.Inventory1[1] || "",
+        resetInventory: false,
+        showNextAvailableTime: false,
+      });
+    }
+  }, [data]);
 
   return (
     <div className='InventorySlider-Container'>
