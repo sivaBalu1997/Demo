@@ -28,6 +28,7 @@ import {
   catogoryDataRequest,
   cuisineDataRequest,
   dietdatarequest,
+  fetchDropDownRequest,
   getIngredientsRequest,
   getItemCodeRequest,
   getMenuCategoryRequest,
@@ -271,6 +272,7 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: primarypage) => state.primarypage.data
   );
+ 
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
@@ -484,10 +486,11 @@ const PrimaryPage = () => {
   useEffect(() => {
     register("imageUrls");
   }, [register]);
-
   const dietaryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.dietaryData
+    (state: any) => state.productCatalog.dietaryData.data
   );
+  console.log(dietaryData)
+
   const cuisineData = useSelector(
     (state: StateDataTag3) => state.productCatalog.cuisineData
   );
@@ -611,8 +614,8 @@ console.log("hi",popularItem)
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dietaryData}
-                        type="checkbox"
+                      options={dietaryData?.map((elem:any) => elem.name)||[]}
+                      type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
@@ -627,7 +630,7 @@ console.log("hi",popularItem)
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
-                        dropDownType="dietary"
+                        dropDownType="DIET"
                         resetSelection={resetSelectionRef} 
                       />
                     )}

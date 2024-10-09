@@ -213,6 +213,7 @@ useEffect(()=>{
       setAddNewButton(false);
     }
   };
+  console.log(initialOptions)
 
   const payload={
  
@@ -223,10 +224,9 @@ useEffect(()=>{
  
   const filteredOptions = Array.isArray(initialOptions)
   ? initialOptions.filter((option) =>
-      option.name.toLowerCase().includes(searchTerm.toLowerCase())
+      option.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
     )
   : [];
-
   const handleNewItemAddition = () => {
     setAddNewButton((prevAddNew) => !prevAddNew);
   };
@@ -251,6 +251,7 @@ useEffect(()=>{
   console.log(initialOptions)
 
   return (
+    
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
         <div>
@@ -312,9 +313,9 @@ useEffect(()=>{
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {filteredOptions.length > 0 ? (
-                filteredOptions.map((option, index) => {
-                  const isOptionSelected = selectedOptions.some(
+              {initialOptions.length > 0 ? (
+                initialOptions.map((option, index) => {
+                  const isOptionSelected = initialOptions.some(
                     (opt) => opt.id === option.id
                   );
 
@@ -323,7 +324,7 @@ useEffect(()=>{
                       <li className="dropdown-option">
                         <input
                           type={type}
-                          checked={selectedOptions.some(
+                          checked={initialOptions.some(
                             (opt) => opt.id === option.id
                           )}
                           className="dropdon-option-inputfield"
@@ -334,7 +335,7 @@ useEffect(()=>{
                           onClick={() => handleSelect(option)}
                          
                         >
-                          {option.name}
+                          {option}
                         </span>
                       </li>
                       <div>
