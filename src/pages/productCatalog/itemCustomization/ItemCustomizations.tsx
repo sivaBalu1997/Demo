@@ -349,7 +349,9 @@ const ItemCustomizations: React.FC = () => {
   }, [searchQuery, modifications]);
 
   const handleSearchChange = () => {
+   if(searchQuery.length > 1){
     dispatch(getModifierRequest({name: searchQuery, locationId}))
+   }
   };
 
   const handleDeleteModifier = (index: number) => {
