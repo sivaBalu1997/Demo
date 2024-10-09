@@ -133,7 +133,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const [imageIdtosend, setimageIdtosend] = useState<string>("");
   useEffect(()=>{
     setError([]);
-
   },[])
 
   useEffect(() => {

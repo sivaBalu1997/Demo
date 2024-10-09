@@ -104,9 +104,29 @@ import {
   GET_POPULAR_ITEM_REQUEST,
   SELECTED_MOCKDATA_REQUEST,
   SELECTED_MOCKDATA_SUCCESS,
-  SELECTED_MOCKDATA_FAILURE
+  SELECTED_MOCKDATA_FAILURE,
+  STORE_MENU_REQUEST,
+  STORE_MENU_SUCCESS,
+  STORE_MENU_FAILURE
 
 } from "./productCatalogConstants";
+
+
+//Get Menu
+export const getMenuRequest = (data) => ({
+  type: STORE_MENU_REQUEST,
+  payload: data
+}) 
+
+export const getMenuSuccess = (response) => ({
+  type: STORE_MENU_SUCCESS,
+  payload: response
+})
+
+export const getMenuFailure = (error) => ({
+  type: STORE_MENU_FAILURE,
+  payload: error
+})
 
 // Get Menu Category
 export const getMenuCategoryRequest = (details) => ({
@@ -172,10 +192,11 @@ export const getIngredientsFailed = (details) => ({
 });
 
 // Get Modifier
-export const getModifierRequest = (details) => ({
+export const getModifierRequest = (details) => {
+  return{
   type: GET_MODIFIER_REQUEST,
   payload: details,
-});
+}};
 
 export const getModifierSuccess = (details) => ({
   type: GET_MODIFIER_SUCCESS,

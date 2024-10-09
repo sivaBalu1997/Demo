@@ -16,19 +16,17 @@ const rootReducer = combineReducers({
   payment: paymentReducer,
   productCatalog: productCatalogReducer,
   offer: offerReducer,
-  primarypage:primarypagereducer,
-  itemCustomizationsReducer1:itemCustomizationsReducer,
-  PricingDetailReducer:PricingDetailReducer,
-  storeMockDataReducer:storeMockDataReducer,
-  storeMockDataFilteredReducer:storeMockDataFilteredReducer,
-  addMockDataReducer:addMockDataReducer,
-  imageUpload:imageUploadReducer,
-  addMockDataHiddenReducer:addMockDataHiddenReducer,
-  getItemCodeReducer:getItemCodeReducer,
-  selectedMockDataReducer:selectedMockDataReducer,
-  getPopularItemReducer:getPopularItemReducer
-
-
+  primarypage: primarypagereducer,
+  itemCustomizationsReducer1: itemCustomizationsReducer,
+  PricingDetailReducer: PricingDetailReducer,
+  storeMockDataReducer: storeMockDataReducer,
+  storeMockDataFilteredReducer: storeMockDataFilteredReducer,
+  addMockDataReducer: addMockDataReducer,
+  imageUpload: imageUploadReducer,
+  addMockDataHiddenReducer: addMockDataHiddenReducer,
+  getItemCodeReducer: getItemCodeReducer,
+  selectedMockDataReducer: selectedMockDataReducer,
+  getPopularItemReducer: getPopularItemReducer
 });
  
 export { rootReducer };

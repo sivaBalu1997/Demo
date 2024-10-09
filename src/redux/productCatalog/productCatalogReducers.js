@@ -79,9 +79,17 @@ import {
   GET_POPULAR_ITEM_SUCCESS,
   GET_POPULAR_ITEM_FAILURE,
   SELECTED_MOCKDATA_REQUEST,
+  STORE_MENU_REQUEST,
+  STORE_MENU_SUCCESS,
+  STORE_MENU_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
+  menuData: [],
+  menuDataLoading: false,
+  menuDataSuccess: false,
+  menuDataFailed: false,
+
   dietaryData: [],
   getDietaryloading: false,
   getDietarySuccess: false,
@@ -168,6 +176,25 @@ export default function productCatalogReducer(
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
+
+      //store menu
+      case STORE_MENU_REQUEST:
+        draft.menuData = []
+        draft.addMenuLoading = true
+        break;
+      case STORE_MENU_SUCCESS:
+        draft.menuData = action.payload
+        draft.menuDataSuccess = true
+        draft.menuDataFailed = false
+        draft.menuDataLoading = false
+        break
+      case STORE_MENU_FAILURE:
+        draft.menuData = []
+        draft.menuDataLoading = false
+        draft.menuDataFailed = true
+        draft.menuDataSuccess = false
+        break
+        
       //dietary data
       case DIET_DROPDOWN_LIST_REQUEST:
         draft.dietaryData = [];
@@ -265,6 +292,7 @@ export default function productCatalogReducer(
         draft.getCategoryLoading = false;
         draft.getCategorySuccess = false;
         break;
+
       // Get menu Sub Category
       case GET_MENU_SUB_CATEGORY_REQUEST:
         draft.subCategoryData = [];
@@ -281,6 +309,7 @@ export default function productCatalogReducer(
         draft.getCategoryLoading = false;
         draft.getCategorySuccess = false;
         break;
+
       // Get Tax Class
       case GET_TAG_CLASS_REQUEST:
         draft.tagClass = [];
@@ -297,6 +326,7 @@ export default function productCatalogReducer(
         draft.getTagClassLoading = false;
         draft.getTagClassSuccess = false;
         break;
+
       // Get Ingredients
       case GET_INGR_REQUEST:
         draft.ingredients = [];
@@ -316,6 +346,7 @@ export default function productCatalogReducer(
         draft.getIngredientsSuccess = false;
         draft.requestCompleted = false;
         break;
+
       // Get Modifier
       case GET_MODIFIER_REQUEST:
         draft.getModifierLoading = true;
@@ -332,6 +363,7 @@ export default function productCatalogReducer(
         draft.getModifierSuccess = false;
         draft.modifier = [];
         break;
+
       // Get Availability
       case GET_AVAILABILITY_REQUEST:
         draft.getAvailabilityLoading = true;
@@ -348,6 +380,7 @@ export default function productCatalogReducer(
         draft.getAvailabilitySuccess = false;
         draft.availability = [];
         break;
+
       // Add Menu Item
       case ADD_MENU_ITEM_REQUEST:
         draft.addMenuItemdata = action.payload;
@@ -404,6 +437,7 @@ export default function productCatalogReducer(
         draft.updateMenuItemFailureMessage = action.payload;
         draft.updateMenuItemSuccessMessage = "";
         break;
+
       // Delete Menu Item
       case DELETE_MENU_ITEM_REQUEST:
         draft.deleteMenuItemLoading = true;
@@ -433,6 +467,7 @@ export default function productCatalogReducer(
         draft.deleteMenuItemFailureMessage = "";
         draft.deleteMenuItemSuccessMessage = "";
         break;
+
       // Update Menu Attribute
       case UPDATE_MENU_ATTRIBUTE_REQUEST:
         draft.updateMenuAttributeLoading = true;

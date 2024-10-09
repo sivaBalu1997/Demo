@@ -19,12 +19,12 @@ const SearchBox = () => {
   const dispatch = useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
 
-  useEffect(() => {
-    if (data && data.length) {
-      setOrgData(data); // Set original data when it is available
-      setFilteredOptions(data.map((elem) => elem.itemName));
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.length) {
+  //     setOrgData(data); // Set original data when it is available
+  //     setFilteredOptions(data?.map((elem) => elem?.itemName));
+  //   }
+  // }, [data]);
 
   useEffect(() => {
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch));

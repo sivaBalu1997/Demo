@@ -5,7 +5,7 @@ import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Polygon1 from "../../../assets/images/Polygon 1.png";
 import Polygon2 from "../../../assets/images/Polygon 2.png";
 import { useDispatch, useSelector } from "react-redux";
-import { itemCustomizationPost } from "../../../redux/productCatalog/productCatalogActions";
+import { getModifierRequest, itemCustomizationPost } from "../../../redux/productCatalog/productCatalogActions";
 import Serachicon from "../../../assets/images/searchicon.png";
 import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownItem";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
@@ -13,6 +13,8 @@ import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import SidePanel from "pages/SidePanel";
 import { Contextpagejs } from "../contextpage";
 import Dropdown from "components/productCatalog/DropDown/Dropdown";
+import { RootState } from "redux/rootReducer";
+import { stat } from "fs";
 
 // Define types
 interface Option {
@@ -38,6 +40,7 @@ const modIndex = 0; // Example index, ensure these are within array bounds
 const optIndex = 0;
 
 interface Modification {
+  id?:string,
   modifierName: string;
   options: Option[];
   minSelection: number;
@@ -81,8 +84,9 @@ const ItemCustomizations: React.FC = () => {
   // const [customItemavailability, setCustomItemavailability] = useState<boolean>(false);
   const [isvalid, setIsValid] = useState<boolean>(false);
 
-  const [modifications, setModifications] = useState<Modification[]>([
-    {
+  const locationId = useSelector((state : RootState) => state.auth.selectedBranch?.id)
+  const modifier = useSelector((state : RootState) => (state.productCatalog.modifier) as Modification[])
+  const initialModificationValue =  [{
       modifierName: "",
       options: [
         {
@@ -94,12 +98,35 @@ const ItemCustomizations: React.FC = () => {
       maxSelection: 1,
       freeCustomization: 1,
       selectedValue: selectedValue,
-      selectionType:"Optional",
+      selectionType: "Optional",
+    }]
+  const [modifications, setModifications] = useState<Modification[]>(initialModificationValue);
 
-    },
-  ]);
+  useEffect(()=>{
+   if(searchQuery.length > 1 && modifier && modifier.length > 0){
+    const newModifications = modifier.map((mod) => ({
+      id : mod.id,
+      modifierName: mod.modifierName,
+      minSelection: mod.minRequired,
+      maxSelection: mod.maxAllowed,
+      options: mod.modifierOptions.map((opt : any) => ({
+        item: opt.optionName,
+        price: opt.sellPrice
+      })),
+      selectedValue: [],
+      selectionType: "Optional",
+      freeCustomization: mod?.freeCustomization ?? 1,
+    }))
+    setModifications(newModifications)
+   }
+   else{
+    setModifications(initialModificationValue)
+   }
+  },[modifier])
 
-  const [filteredModifications, setFilteredModifications] = useState<Modification[]>([]);
+  const [filteredModifications, setFilteredModifications] = useState<
+    Modification[]
+  >([]);
 
   useEffect(() => {
     if (showModifiers === false) {
@@ -142,8 +169,7 @@ const ItemCustomizations: React.FC = () => {
         maxSelection: 1,
         freeCustomization: 1,
         selectedValue: selectedValue,
-              selectionType:"Optional",
-
+        selectionType: "Optional",
       },
     ]);
   };
@@ -220,44 +246,28 @@ const ItemCustomizations: React.FC = () => {
     setModifications(newModifier);
   };
 
-  const getModifierClassName = (length:any) => {
-    if (length ==1) {
+  const getModifierClassName = (length: any) => {
+    if (length == 1) {
       return "modifier-div-margin";
     } else if (length == 2) {
       return "modifier-div-margin2";
-    } else if(length==3) {
+    } else if (length == 3) {
       return "modifier-div-margin3";
-    }
-    else if(length==4) {
+    } else if (length == 4) {
       return "modifier-div-margin4";
-    }
-    else if(length==5){
+    } else if (length == 5) {
       return "modifier-div-margin5";
-      
-    }
-    else if(length==6){
+    } else if (length == 6) {
       return "modifier-div-margin6";
-      
-    }
-    else if(length==7){
+    } else if (length == 7) {
       return "modifier-div-margin7";
-      
-    }
-
-    else if(length==8){
+    } else if (length == 8) {
       return "modifier-div-margin8";
-      
-    }
-
-    else if(length==9){
+    } else if (length == 9) {
       return "modifier-div-margin9";
-      
-    }
-    else if(length==10){
+    } else if (length == 10) {
       return "modifier-div-margin10";
-      
     }
-    
   };
 
   const decrementSpinner = (index: number, field: keyof Modification) => {
@@ -315,15 +325,6 @@ const ItemCustomizations: React.FC = () => {
       }))
     );
   };
-  
-  
-  
-  
-  
-  
-  
-  
-
 
   const handleSelect3 = (values: string[], index: number): void => {
     // Update selectedValue state
@@ -347,8 +348,8 @@ const ItemCustomizations: React.FC = () => {
     setFilteredModifications(filtered);
   }, [searchQuery, modifications]);
 
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
+  const handleSearchChange = () => {
+    dispatch(getModifierRequest({name: searchQuery, locationId}))
   };
 
   const handleDeleteModifier = (index: number) => {
@@ -356,6 +357,7 @@ const ItemCustomizations: React.FC = () => {
     newmodification.splice(index, 1);
     setModifications(newmodification);
   };
+
 
   return (
     <div style={{ display: "flex" }}>
@@ -393,9 +395,23 @@ const ItemCustomizations: React.FC = () => {
                 className="searchBox-input"
                 type="text"
                 value={searchQuery}
-                onChange={handleSearchChange}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value)
+                  if(e.target.value === ""){
+                   setModifications(initialModificationValue)
+                  }
+                }}
+                onKeyDown={(e) => {        
+                  if (e.key === "Enter") {
+                    handleSearchChange()        
+                  }           
+                  }}
               ></input>
-              <img src={Serachicon} alt="" className="searchIcon" />
+              <img 
+                src={Serachicon}
+                alt="" className="searchIcon" 
+                onClick={() => handleSearchChange()}
+              />
             </div>
 
             <div className="modifiersitem">
@@ -405,8 +421,7 @@ const ItemCustomizations: React.FC = () => {
                 ) : (
                   filteredModifications.map((modifier, modIndex) => (
                     <div
-                    className={getModifierClassName(modifier.options.length)}
-
+                      className={getModifierClassName(modifier.options.length)}
                       key={modIndex}
                       draggable
                       onDragStart={(e) => onDragStart(e, modIndex)}
@@ -473,7 +488,7 @@ const ItemCustomizations: React.FC = () => {
                                 className="radioItemCustomizations"
                                 name={`selectionType-${modIndex}`}
                                 value="Optional"
-                                checked={modifier.selectionType === "Optional"} 
+                                checked={modifier.selectionType === "Optional"}
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
@@ -483,7 +498,7 @@ const ItemCustomizations: React.FC = () => {
                               </label>
                             </div>
                           </div>
-                          
+
                           <div className="option-input-ItemCustomizations">
                             {modifier.options &&
                               modifier.options.map((option, optIndex) => (
@@ -754,7 +769,6 @@ const ItemCustomizations: React.FC = () => {
                   />
                 </div>
               </div>
-
             </div>
           </div>
         </div>

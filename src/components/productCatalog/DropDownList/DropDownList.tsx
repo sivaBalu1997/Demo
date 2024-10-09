@@ -79,6 +79,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(dropDownType));
   };
+  
   const clearSelection = () => {
     setSelectedOptions([]); // Clear local selection
   };
