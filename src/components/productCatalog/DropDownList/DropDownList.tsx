@@ -232,7 +232,7 @@ useEffect(()=>{
   const payload={
  
     locationId:locationid,
-    type:"DIET",
+    type:dropDownType,
     parentId:""
   }
  
