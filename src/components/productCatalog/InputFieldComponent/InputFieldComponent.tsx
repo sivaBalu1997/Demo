@@ -1,6 +1,7 @@
 import React from "react";
 import "./InputFieldComponent.scss";
 import { FieldError } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 interface InputFieldInterface {
   name: string;
@@ -15,6 +16,7 @@ interface InputFieldInterface {
 }
 
 const InputFieldComponent: React.FC<InputFieldInterface> = ({
+
   name,
   type,
   value,
@@ -33,6 +35,8 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     onChange(e);  // Call onChange with the event
     trigger(name);  // Trigger validation after change
   };
+
+  const message=useSelector((state:any)=>state?.getItemCodeReducer?.itemCode?.data?.message)
   return (
     <div>
       <div className="input-and-spantext">
@@ -49,7 +53,11 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
         />
         <span className="placeholder">{subtext}</span>
       </div>
+      {name === "itemCode" && message && value && value.length>=4 && (
+  <p className="itemCode-Success">{message}</p>
+)}
       {error && <p className="Input-Field-Error-message">{error.message}</p>}
+
     </div>
   );
 };
