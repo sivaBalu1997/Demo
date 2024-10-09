@@ -36,7 +36,7 @@ export const Menulisting = () => {
 
   
   useEffect(() => {
-    // Dispatch action when ParentComponent mounts and the Slider is rendered
+   
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
 
