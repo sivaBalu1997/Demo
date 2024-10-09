@@ -75,9 +75,12 @@ const DropDownList: React.FC<DropdownProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
   const dispatch = useDispatch();
+  const locationid = useSelector(
+    (state: any) => state.auth.credentials.locationId
+  );
 
   const getdatafrosaga = () => {
-    dispatch(fetchDropDownRequest(dropDownType));
+    dispatch(fetchDropDownRequest(payload));
   };
   const clearSelection = () => {
     setSelectedOptions([]); // Clear local selection
@@ -117,8 +120,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [setDropdownOpen]);
 
 useEffect(()=>{
-  dispatch(fetchDropDownRequest(dropDownType));
-},[initialOptions])
+  dispatch(fetchDropDownRequest(payload));
+},[])
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -210,10 +213,19 @@ useEffect(()=>{
       setAddNewButton(false);
     }
   };
+
+  const payload={
  
-  const filteredOptions = initialOptions.filter((option) =>
-    option.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    locationId:locationid,
+    type:"DIET",
+    parentId:""
+  }
+ 
+  const filteredOptions = Array.isArray(initialOptions)
+  ? initialOptions.filter((option) =>
+      option.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  : [];
 
   const handleNewItemAddition = () => {
     setAddNewButton((prevAddNew) => !prevAddNew);
@@ -235,6 +247,8 @@ useEffect(()=>{
   // value={type === "checkbox"
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
+
+  console.log(initialOptions)
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>

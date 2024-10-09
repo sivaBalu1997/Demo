@@ -101,13 +101,17 @@ import {
  
 } from "./productCatalogConstants";
  
+
 function* fetchDropdownDataSaga(action) {
-  // const { dropDownType } = action.payload;
+  console.log(action.payload.name);
+  
   try {
+    // Pass the entire action.payload to getSubSectionData
     const response = yield call(getSubSectionData, action.payload);
+
     if (response) {
-      switch (action.payload) {
-        case 'dietary':
+      switch (action.payload.type) {
+        case 'DIET':
           yield put(dietdatasuccess(response));
           break;
         case 'cuisine':
