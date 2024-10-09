@@ -5,7 +5,7 @@ import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
 import { useSelector,useDispatch } from "react-redux";
-import { deleteDropDowRequest, fetchDropDownRequest } from "redux/productCatalog/productCatalogActions";
+import { addDropDowRequest, deleteDropDowRequest, fetchDropDownRequest } from "redux/productCatalog/productCatalogActions";
 interface media{
   imageId:string
   imageType:string
@@ -75,9 +75,12 @@ const DropDownList: React.FC<DropdownProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
   const dispatch = useDispatch();
+  const locationid = useSelector(
+    (state: any) => state.auth.credentials.locationId
+  );
 
   const getdatafrosaga = () => {
-    dispatch(fetchDropDownRequest(dropDownType));
+    dispatch(fetchDropDownRequest(payload));
   };
   
   const clearSelection = () => {
@@ -118,13 +121,13 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [setDropdownOpen]);
 
 useEffect(()=>{
-  dispatch(fetchDropDownRequest(dropDownType));
-},[initialOptions])
+  dispatch(fetchDropDownRequest(payload));
+},[])
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if(dropDownType){
-      getdatafrosaga();
+      // getdatafrosaga();
     }
   };
 
@@ -162,8 +165,9 @@ useEffect(()=>{
       const selectedOptionIds = initialSelectedValue
         .split(", ")
         .map((value: string) => {
-          return initialOptions.find((opt) => opt.name === value);
-        });
+          if (Array.isArray(initialOptions)) {
+            return initialOptions.find((opt) => opt.name === value);
+          }        });
       const validOptions = selectedOptionIds.filter(Boolean) as Option[];
       setSelectedOptions(validOptions);
 
@@ -201,23 +205,47 @@ useEffect(()=>{
     const newItemLabel = NewItemref.current?.value.trim();
     if (newItemLabel) {
       const newItem: Option = {
-        id: (initialOptions.length + 1).toString(),
+        id: (Array.isArray(initialOptions) ? initialOptions.length + 1 : 1).toString(),
         name: newItemLabel,
       };
-      setOptions([...initialOptions, newItem]);
-     
+      console.log("newItem", newItem.name);
+      console.log("dropDownType",dropDownType)
+  
+      setOptions([...(Array.isArray(initialOptions) ? initialOptions : []), newItem]);
+
+  
       handleSelect(newItem);
       setSearchTerm("");
       setAddNewButton(false);
+  
+      const dataforadd = {
+        name: newItem.name,
+        locationId: locationid,
+        type: dropDownType,
+        parentId: ""
+      };
+  
+      dispatch(addDropDowRequest(dataforadd));
     }
   };
- 
-  const filteredOptions = initialOptions.filter((option) =>
-    option.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  console.log(initialOptions)
 
+  const payload={
+ 
+    locationId:locationid,
+    type:dropDownType,
+    parentId:""
+  }
+ 
+  const filteredOptions = Array.isArray(initialOptions)
+  ? initialOptions.filter((option) =>
+      option.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
+    )
+  : [];
   const handleNewItemAddition = () => {
     setAddNewButton((prevAddNew) => !prevAddNew);
+   
+
   };
 
   const handleedit = () => {
@@ -237,7 +265,10 @@ useEffect(()=>{
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
 
+  console.log(initialOptions)
+
   return (
+    
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
         <div>
@@ -299,9 +330,9 @@ useEffect(()=>{
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {filteredOptions.length > 0 ? (
-                filteredOptions.map((option, index) => {
-                  const isOptionSelected = selectedOptions.some(
+              {initialOptions.length > 0 ? (
+                initialOptions.map((option, index) => {
+                  const isOptionSelected = initialOptions.some(
                     (opt) => opt.id === option.id
                   );
 
@@ -310,7 +341,7 @@ useEffect(()=>{
                       <li className="dropdown-option">
                         <input
                           type={type}
-                          checked={selectedOptions.some(
+                          checked={initialOptions.some(
                             (opt) => opt.id === option.id
                           )}
                           className="dropdon-option-inputfield"
@@ -321,7 +352,7 @@ useEffect(()=>{
                           onClick={() => handleSelect(option)}
                          
                         >
-                          {option.name}
+                          {option}
                         </span>
                       </li>
                       <div>

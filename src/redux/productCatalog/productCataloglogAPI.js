@@ -18,9 +18,15 @@ export function getCategory(locationId) {
 }
 
 //get dropDown
-export function getSubSectionData(){
-  return dietarytype;
+export function getSubSectionData(payload) {
+  return API({
+    method: "post",
+    url: `/api/v1/menu-items/view/sub-section`,
+    data: payload, // Send the full payload as the request body
+  });
 }
+  
+
 
 //Delete subsection
 export const deleteSubSection = ({data}) => {
@@ -30,6 +36,16 @@ export const deleteSubSection = ({data}) => {
     data: {data}
   })
 }
+
+export const addSubsectionApi = ( data ) => {
+  console.log('Data to be sent:', data); 
+
+  return API({
+    method: 'post',
+    url: `/api/v1/menu-items/sub-section`,
+    data:  data ,
+  });
+};
 
 export function getSubCategory({ locationId, id }) {
   return API({
@@ -139,7 +155,7 @@ export function getItemCodeRequestApi(locationId,itemCode) {
 export function getPopularItemRequestApi(locationId) {
   return API({
     method: "get",
-    url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`,
+    url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`
   });
 }
 

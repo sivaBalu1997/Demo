@@ -4,7 +4,7 @@ import axios from "axios";
 import edit from "../../../assets/images/edit.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Step2 from "components/productCatalog/Step2/Step2";
+import Step2 from "../../../components/productCatalog/Step2/Step2";
 import { Contextpagejs } from "../contextpage";
 import ReviewValues from "../../../components/productCatalog/ReviewValues/ReviewValues";
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";

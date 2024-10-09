@@ -24,13 +24,16 @@ import {
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import {
+  addDropDowRequest,
   bestPairDataRequest,
   catogoryDataRequest,
   cuisineDataRequest,
   dietdatarequest,
+  fetchDropDownRequest,
   getIngredientsRequest,
   getItemCodeRequest,
   getMenuCategoryRequest,
+  getPopularItemRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -222,6 +225,8 @@ const PrimaryPage = () => {
     },
   });
 
+  const[popularItem,setPopularItem]=useState("")
+
 
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
@@ -234,9 +239,16 @@ const PrimaryPage = () => {
   const Mockdata = useSelector(
     (state: ListingData) => state.storeMockDataReducer.data
   );
+  const PopularItemFormApi=useSelector((state:any)=>state?.getPopularItemReducer?.popularItems?.data?.popularItemCount)
   const mergedMockData = [...Mockdata, ...addedData];
   const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
     useState<Item[]>();
+    
+  useEffect(() => {
+      setPopularItem(PopularItemFormApi); // Update state
+    
+  }, [PopularItemFormApi]); 
+
 
   useEffect(() => {
     const SelectedFooditemtoedit = mergedMockData.filter(
@@ -261,6 +273,7 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: primarypage) => state.primarypage.data
   );
+ 
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
@@ -462,7 +475,7 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
-    dispatch(getIngredientsRequest(locationid));
+    // dispatch(getIngredientsRequest(locationid));
     // dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
@@ -474,10 +487,11 @@ const PrimaryPage = () => {
   useEffect(() => {
     register("imageUrls");
   }, [register]);
-
   const dietaryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.dietaryData
+    (state: any) => state.productCatalog.dietaryData.data
   );
+  console.log(dietaryData)
+
   const cuisineData = useSelector(
     (state: StateDataTag3) => state.productCatalog.cuisineData
   );
@@ -490,6 +504,9 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: StateDataTag3) => state.productCatalog.bestPairData
   );
+  const handleCheckboxChange=()=>{
+    dispatch(getPopularItemRequest(locationid))
+  }
 
   const handleReset=()=>{
     setValue("itemName", "");
@@ -551,8 +568,21 @@ const PrimaryPage = () => {
   
     
   }
+// console.log("hi",popularItem)
+const dataforadd=
+  {
+    name: "rotti",
+    locationId: locationid,
+    type: "DIET",
+    parentId: ""
+  }
 
-  console.log(getValues())
+  // console.log(getValues())
+  const hansleshwadd=()=>{
+    dispatch(addDropDowRequest(dataforadd))
+    
+
+  }
 
   return (
     <div style={{ display: "flex" }}>
@@ -572,6 +602,7 @@ const PrimaryPage = () => {
             <div className="Primary-page-container-one">
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
+                  <button onClick={hansleshwadd}>show add</button>
                   {" "}
                   <LableComponent lable="ItemName *" />
                   <Controller
@@ -598,8 +629,8 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dietaryData}
-                        type="checkbox"
+                      options={dietaryData?.map((elem:any) => elem.name)||[]}
+                      type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
@@ -614,7 +645,7 @@ const PrimaryPage = () => {
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
-                        dropDownType="dietary"
+                        dropDownType="DIET"
                         resetSelection={resetSelectionRef} 
                       />
                     )}
@@ -871,8 +902,7 @@ const PrimaryPage = () => {
                       rules={{
                         required: "Item code is required",
                         validate: (value) =>
-                          (value.toString().length >= 4 &&
-                            value.toString().length <= 5) ||
+                          (value.toString().length >= 4 ) ||
                           "Item code must be between 4 and 5 characters",
                       }}
                       render={({ onChange, onBlur, value }) => (
@@ -890,6 +920,7 @@ const PrimaryPage = () => {
                           type="number"
                           trigger={trigger}
                           error={errors.itemCode}
+                          
                         />
                       )}
                     />{" "}
@@ -948,8 +979,8 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields PopularItem">
-                  <input type="checkbox" />
-                  <span>Popular item ( 3/10 )</span>
+                  <input type="checkbox" onChange={handleCheckboxChange} />
+                  <span>{popularItem}</span>
                 </div>
 
                 <div className="Primary-Page-categories-field">

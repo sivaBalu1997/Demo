@@ -107,7 +107,10 @@ import {
   SELECTED_MOCKDATA_FAILURE,
   STORE_MENU_REQUEST,
   STORE_MENU_SUCCESS,
-  STORE_MENU_FAILURE
+  STORE_MENU_FAILURE,
+  ADDDROPDOWN_SUCCESS,
+  ADDDROPDOWN_REQUEST,
+  ADDDROPDOWN_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -579,7 +582,23 @@ export const deleteSubCategoryFailure = (error) => ({
   type: DELETESUBCATEGORY_FAILURE,
   payload: error
 })
+//Add dropdownList
+export const addDropDowRequest = (data) => ({
+  type: ADDDROPDOWN_REQUEST,
+  payload: data
+})
 
+export const addDropDownSuccess = (response) => ({
+  type: ADDDROPDOWN_SUCCESS,
+  payload: response
+})
+
+export const addDropDownFailure = (error) => ({
+  type:  ADDDROPDOWN_FAILURE,
+  payload: error
+})
+
+//delete dropdown list 
 export const deleteDropDowRequest = (data) => ({
   type: DELETEDROPDOWN_REQUEST,
   payload: data

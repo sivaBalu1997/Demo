@@ -40,7 +40,7 @@ export const Menulisting = () => {
   console.log({menuData})
 
   useEffect(() => {
-    // Dispatch action when ParentComponent mounts and the Slider is rendered
+   
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
 
@@ -49,6 +49,9 @@ export const Menulisting = () => {
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
   const FilteredData = useSelector(
     (state) => state.storeMockDataFilteredReducer.data
+  );
+  const hiddenData= useSelector(
+    (state) => state.addMockDataHiddenReducer?.data ||[]
   );
   const [FilteredObject, setFilteredObject] = useState([]);
 
