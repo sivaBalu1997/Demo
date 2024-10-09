@@ -24,6 +24,7 @@ import {
 } from "../../../assets/mockData/Moca_data";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import {
+  addDropDowRequest,
   bestPairDataRequest,
   catogoryDataRequest,
   cuisineDataRequest,
@@ -474,7 +475,7 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
-    dispatch(getIngredientsRequest(locationid));
+    // dispatch(getIngredientsRequest(locationid));
     // dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
@@ -567,8 +568,21 @@ const PrimaryPage = () => {
   
     
   }
-console.log("hi",popularItem)
-  console.log(getValues())
+// console.log("hi",popularItem)
+const dataforadd=
+  {
+    name: "rotti",
+    locationId: locationid,
+    type: "DIET",
+    parentId: ""
+  }
+
+  // console.log(getValues())
+  const hansleshwadd=()=>{
+    dispatch(addDropDowRequest(dataforadd))
+    
+
+  }
 
   return (
     <div style={{ display: "flex" }}>
@@ -588,6 +602,7 @@ console.log("hi",popularItem)
             <div className="Primary-page-container-one">
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
+                  <button onClick={hansleshwadd}>show add</button>
                   {" "}
                   <LableComponent lable="ItemName *" />
                   <Controller
