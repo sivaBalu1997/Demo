@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+  import { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import Toggle from "../Toggle/Toggle";
 import "./Specialvail.scss";
@@ -55,6 +55,7 @@ interface SpecialAvailProps {
   setDineInFields1?:any
   setValidationStateerr?:any
 ValidationStateerr?:any
+resetSelection?:any
 
 }
 
@@ -74,7 +75,9 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
   dineinfield1,
   setDineInFields1,
   setValidationStateerr,
-              ValidationStateerr
+  ValidationStateerr,
+  resetSelection
+
 
   
 }) => {
@@ -402,6 +405,56 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     // Update the state with the modified array
     setDineInFields1(newDineInFields);
   };
+  const clearSelection = () => {
+    setSelectedValuesMealType([]);
+    setSelectedValues1([])
+    setForm({
+        Pickupprice: "",
+    Pickupmealtype: "",
+    Deliveryprice: "",
+    Deliverymealtype: "",
+    Swiggyorzomato: "",
+    Swiggy: "",
+    Swiggymealtype: "",
+    Zomato: "",
+    Zomatomealtype: "",
+    })
+    setSelectedValuesPickup([])
+    setSelectedValuesDelivery([])
+    setSelectedValuesThird1([])
+    setSelectedValuesThird2([])
+    setSelectedDate1(null)
+    setSelectedDate(null)
+    setSpecialcheck([])
+    setDineInFields1((prevDineInFields:any) =>
+      prevDineInFields.map(() => ({
+        DineInPrice: "",
+        DineInMealType: "",
+        DineInService: "",
+      }))
+    );
+   
+
+
+
+
+    
+   
+  };
+
+
+  useEffect(() => {
+    if (resetSelection ) {
+
+     
+
+ 
+      resetSelection.current = clearSelection;
+
+    }
+
+  
+  }, [resetSelection]);
 
   console.log("validationStateerr",ValidationStateerr)
   return (

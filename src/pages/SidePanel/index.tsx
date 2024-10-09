@@ -59,9 +59,6 @@ const SidePanel = () => {
 
   const branchDetails = useSelector((state:RootState) => state.auth.selectedBranch);
 
-
-  console.log({locationId})
-
   const getImageURL = useCallback(
     (type:any) => {
       if (
@@ -192,7 +189,7 @@ const SidePanel = () => {
           </div>
 
           {/* CMS ==================*/}
-          <div
+          {/* <div
             className={
               // showOptions === "/management/cms/" &&
               location.pathname.startsWith("/cms/") 
@@ -213,7 +210,7 @@ const SidePanel = () => {
             <li/>
             <CMS className="menu-items-SVG" />
             {isExpanded && <span className="menu-items-name" style={{fontSize:"15px"}}>Content Management</span>}
-          </div>
+          </div> */}
 
           {/* MENU ==========================================================*/}
           <div

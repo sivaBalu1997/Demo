@@ -9,9 +9,10 @@ interface DigitInputProps {
   register: any;
   error?:FieldError;
   setValue: any;
+  resetSelection?:any
 }
 
-const DigitInput: React.FC<DigitInputProps> = ({name,setValue,error,register, validation,inputCount }) => {
+const DigitInput: React.FC<DigitInputProps> = ({name,setValue,error,register, validation,inputCount,resetSelection }) => {
 
   const [inputs, setInputs] = useState<string[]>(Array(inputCount).fill('')); 
   const inputRefs = useRef<HTMLInputElement[]>([]);
@@ -39,6 +40,22 @@ const DigitInput: React.FC<DigitInputProps> = ({name,setValue,error,register, va
       inputRefs.current[index - 1].focus();
     }
   };
+
+  const clearSelection = () => {
+    setInputs(Array(inputCount).fill(''));
+    setValue(name, '');
+    if (inputRefs.current[0]) {
+      inputRefs.current[0].focus();
+    }
+  };
+
+  useEffect(() => {
+    if (resetSelection ) {
+      resetSelection.current = clearSelection; // Assign the function to the ref
+    }
+
+   
+  }, [resetSelection]);
  
 
   return (

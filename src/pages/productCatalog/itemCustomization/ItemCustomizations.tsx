@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import React, { useState, useEffect, ChangeEvent, useContext } from "react";
 import "./ItemCustomizations.scss";
 import dotted from "../../../assets/images/dotted.png";
@@ -237,6 +231,32 @@ const ItemCustomizations: React.FC = () => {
     else if(length==4) {
       return "modifier-div-margin4";
     }
+    else if(length==5){
+      return "modifier-div-margin5";
+      
+    }
+    else if(length==6){
+      return "modifier-div-margin6";
+      
+    }
+    else if(length==7){
+      return "modifier-div-margin7";
+      
+    }
+
+    else if(length==8){
+      return "modifier-div-margin8";
+      
+    }
+
+    else if(length==9){
+      return "modifier-div-margin9";
+      
+    }
+    else if(length==10){
+      return "modifier-div-margin10";
+      
+    }
     
   };
 
@@ -280,9 +300,30 @@ const ItemCustomizations: React.FC = () => {
     return isvalid;
   };
 
-  const clerall = () => {
-    console.log("item cleared");
+  const clearAll = () => {
+    setModifications((prevModifications) =>
+      prevModifications.map((modification) => ({
+        ...modification,
+        modifierName: "",
+        options: modification.options.map((option) => ({
+          ...option,
+          item: "",
+          price: "",
+        })),
+        selectedValue: [],
+        selectionType: "Optional", // Optional field, can be omitted if not needed
+      }))
+    );
   };
+  
+  
+  
+  
+  
+  
+  
+  
+
 
   const handleSelect3 = (values: string[], index: number): void => {
     // Update selectedValue state
@@ -319,7 +360,7 @@ const ItemCustomizations: React.FC = () => {
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
-      <div style={{ width: "80%" }}>
+      <div style={{ width: "84%" }}>
         <Navigationpage />
         <div
           className={
@@ -708,7 +749,7 @@ const ItemCustomizations: React.FC = () => {
                   <SaveAndNext
                     seletedpage="ItemCustomization"
                     getFormData={getFormData}
-                    reset={clerall}
+                    reset={clearAll}
                     modifications={modifications}
                   />
                 </div>

@@ -329,7 +329,7 @@ function* getItemCodeSaga(action) {
 function* getPopularItemSaga(action) {
   try {
     const locationId = action.payload; 
-    const response = yield call(getPopularItemRequestApi); 
+    const response = yield call(getPopularItemRequestApi,locationId); 
     yield put(getPopularItemSuccess(response)); 
   } catch (error) {
     yield put(getPopularItemFailure(error.message)); 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux'; // Access Redux
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // Access Redux for initial data
 import './AvailabilitySlider.scss';
 import ToggleSliderAvail from '../ToggleSliderAvail/ToggleSliderAvail';
 
@@ -29,12 +29,11 @@ interface AvailSliderProps {
   SideBarData?: SideBarData[];
 }
 
-const PricingSlider: React.FC<AvailSliderProps> = ({ pen  }) => {
-  // Accessing SideBarData from Redux store
 
-  const dataFromRedux=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
+  // Access initial data from Redux for mapping
+  const dataFromRedux = useSelector((state: any) => state?.selectedMockDataReducer?.data);
 
-  
   const data = [
     {
       mainHeading: 'Off-prem',
@@ -55,86 +54,195 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen  }) => {
     },
   ];
 
-  const [toggleStates, setToggleStates] = useState(
-    data.map((item) => {
+  // UseState to track toggle states
+  const [toggleStates, setToggleStates] = useState<any[]>([]);
+
+  // Map initial Redux values to local state when component mounts
+  useEffect(() => {
+    const initialToggleStates = data.map((item, index) => {
       if (item.subcategories) {
         return {
           parentToggle: false,
-          subcategoryToggles: item.subcategories.map(() => ({
+          subcategoryToggles: item.subcategories.map((_, subIndex) => ({
             subParentToggle: false,
-            childToggles: Array(3).fill(false), // Assuming 3 child toggles per subcategory
+            childToggles: Array(3).fill(false).map((_, childIndex) => 
+              mapInitialToggleState(index, subIndex, childIndex)
+            ), // Assuming 3 child toggles per subcategory
           })),
         };
+      } else if (item.types) {
+        return {
+          parentToggle: false,
+          childToggles: item.types.map((_, typeIndex) => 
+            mapInitialToggleState(index, 0, typeIndex)
+          ),
+        };
       }
-      return {
-        parentToggle: false,
-        childToggles: Array(item.types.length).fill(false),
-      };
-    })
-  );
+      return null;
+    });
 
-  // Function to map Pickup2 values from Redux to toggle states
-  const mapPickup2ToToggles = (childIndex: number) => {
-    const pickup2Data = dataFromRedux[0]?.pricingdetails?.Pickup2?.[childIndex];
-    return pickup2Data === 'Enabled';
-  };
+    setToggleStates(initialToggleStates);
+  }, [dataFromRedux]); // Make sure to run this when Redux data changes
 
-  const mapDelivery2ToToggles = (childIndex: number) => {
-    const delivery2Data = dataFromRedux[0]?.pricingdetails?.Delivery2?.[childIndex];
-    return delivery2Data === 'Enabled';
-  };
-
-  const mapSection2ToToggles = (childIndex: number) => {
-    const section2Data = dataFromRedux[0]?.pricingdetails?.Dinein2?.[childIndex];
-    return section2Data === 'Enabled';
-  };
-
-  const handleParentToggle = (index: number) => {
-    const newToggleStates = [...toggleStates];
-    const newParentToggle = !newToggleStates[index].parentToggle;
-
-    if (data[index].subcategories) {
-      newToggleStates[index] = {
-        parentToggle: newParentToggle,
-        subcategoryToggles: newToggleStates[index].subcategoryToggles?.map((subcategory) => ({
-          subParentToggle: newParentToggle,
-          childToggles: Array(subcategory?.childToggles?.length || 0).fill(newParentToggle),
-        })) ?? [],
-      };
-    } else if (data[index].types) {
-      newToggleStates[index] = {
-        parentToggle: newParentToggle,
-        childToggles: Array(data[index].types?.length || 0).fill(newParentToggle),
-      };
+  // Function to map initial toggle state from Redux values
+  const mapInitialToggleState = (parentIndex: number, subcategoryIndex: number, childIndex: number) => {
+    if (parentIndex === 0) {
+      // Off-prem (Dinein2)
+      return dataFromRedux?.[0]?.pricingdetails?.Dinein2?.[childIndex] === 'Enabled';
+    } else if (parentIndex === 1 && subcategoryIndex === 0) {
+      // Pick up (Pickup2)
+      return dataFromRedux?.[0]?.pricingdetails?.Pickup2?.[childIndex] === 'Enabled';
+    } else if (parentIndex === 1 && subcategoryIndex === 1) {
+      // Delivery (Delivery2)
+      return dataFromRedux?.[0]?.pricingdetails?.Delivery2?.[childIndex] === 'Enabled';
     }
-
-    setToggleStates(newToggleStates);
+    return false;
   };
 
+  // Function to handle toggling at parent level
+  // Function to handle toggling at parent level, including nested subcategories
+const handleParentToggle = (parentIndex: number) => {
+  const newToggleStates = [...toggleStates];
+  const currentParentToggle = newToggleStates[parentIndex].parentToggle;
+
+  // Toggle the parent state
+  newToggleStates[parentIndex].parentToggle = !currentParentToggle;
+
+  // Update child toggles based on parent toggle state
+  if (newToggleStates[parentIndex].childToggles) {
+    // For Section A or Section B (Off-prem)
+    newToggleStates[parentIndex].childToggles.forEach((_: any, childIndex: number) => {
+      newToggleStates[parentIndex].childToggles[childIndex] = !currentParentToggle;
+    });
+  } else if (newToggleStates[parentIndex].subcategoryToggles) {
+    // For Pick up / Delivery (On-prem)
+    newToggleStates[parentIndex].subcategoryToggles.forEach((subcategory: any, subIndex: number) => {
+      // Toggle the subcategory parent
+      subcategory.subParentToggle = !currentParentToggle;
+
+      // Toggle all child toggles within the subcategory
+      subcategory.childToggles.forEach((_: any, childIndex: number) => {
+        subcategory.childToggles[childIndex] = !currentParentToggle;
+      });
+    });
+  }
+
+  setToggleStates(newToggleStates);
+};
+
+
+  // Function to handle subcategory toggling
   const handleSubcategoryToggle = (parentIndex: number, subcategoryIndex: number) => {
     const newToggleStates = [...toggleStates];
-    const subcategoryToggle = newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex];
-
-    if (subcategoryToggle) {
-      const newSubParentToggle = !subcategoryToggle.subParentToggle;
-      subcategoryToggle.subParentToggle = newSubParentToggle;
-      subcategoryToggle.childToggles = subcategoryToggle.childToggles.map(() => newSubParentToggle);
+    const subcategoryToggle = newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle;
+  
+    // Toggle the subcategory parent toggle
+    newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle = !subcategoryToggle;
+  
+    // If toggling to true, enable all child toggles (In house, Swiggy, Zomato)
+    if (!subcategoryToggle) {
+      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles.forEach((_:any, childIndex: number) => {
+        newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles[childIndex] = true;
+      });
+    } else {
+      // If toggling to false, retain the current logic (do not change child toggles automatically)
+      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles.forEach((_:any, childIndex: number) => {
+        newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles[childIndex] = false;
+      });
     }
-
+  
     setToggleStates(newToggleStates);
   };
+  
 
+  // Function to handle child toggle for Section A and Section B or for Pickup/Delivery
   const handleChildToggle = (parentIndex: number, subcategoryIndex: number, childIndex: number) => {
     const newToggleStates = [...toggleStates];
-    const childToggles = newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex]?.childToggles;
 
-    if (childToggles) {
-      childToggles[childIndex] = !childToggles[childIndex];
+    if (newToggleStates[parentIndex]?.subcategoryToggles) {
+      const childToggles = newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex]?.childToggles;
+
+      if (childToggles) {
+        // Toggle the specific child
+        childToggles[childIndex] = !childToggles[childIndex];
+
+        // Check if all child toggles are disabled
+        const areAllChildrenDisabled = childToggles.every((toggle: boolean) => !toggle);
+
+        // If all children are disabled, disable the parent toggle
+        newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle = !areAllChildrenDisabled;
+      }
+    } else {
+      // Handle Section A/B
+      const childToggles = newToggleStates[parentIndex]?.childToggles;
+
+      if (childToggles) {
+        // Toggle the specific child
+        childToggles[childIndex] = !childToggles[childIndex];
+
+        // Check if all child toggles are disabled
+        const areAllChildrenDisabled = childToggles.every((toggle: boolean) => !toggle);
+
+        // If all children are disabled, disable the parent toggle
+        newToggleStates[parentIndex].parentToggle = !areAllChildrenDisabled;
+      }
     }
 
     setToggleStates(newToggleStates);
   };
+  useEffect(() => {
+    if (toggleStates.length > 0) {
+      const newToggleStates = [...toggleStates];
+  
+      // Existing conditions: Check "Pick up" and "Delivery"
+      const isPickupFalse = !newToggleStates[1]?.subcategoryToggles?.[0]?.subParentToggle;
+      const isDeliveryFalse = !newToggleStates[1]?.subcategoryToggles?.[1]?.subParentToggle;
+      const isPickupTrue = newToggleStates[1]?.subcategoryToggles?.[0]?.subParentToggle;
+      const isDeliveryTrue = newToggleStates[1]?.subcategoryToggles?.[1]?.subParentToggle;
+  
+      // Check child toggles for Pick up (In-house, Swiggy, Zomato)
+      const inhousePickup = newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[0] || false;
+      const swiggyPickup = newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[1] || false;
+      const zomatoPickup = newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[2] || false;
+  
+      // If any child toggle (In-house, Swiggy, Zomato) is true, set Pickup to true
+      if (inhousePickup || swiggyPickup || zomatoPickup) {
+        newToggleStates[1].subcategoryToggles[0].subParentToggle = true; // Set Pickup to true
+        newToggleStates[1].subcategoryToggles[1].subParentToggle = true;
+      }
+  
+      // If both "Pick up" and "Delivery" are false, turn "On-prem" off
+      if (isPickupFalse && isDeliveryFalse) {
+        newToggleStates[1].parentToggle = false;
+      } else {
+        // If either "Pick up" or "Delivery" is true, turn "On-prem" on
+        if (isPickupTrue || isDeliveryTrue || inhousePickup || swiggyPickup || zomatoPickup) {
+          newToggleStates[1].parentToggle = true;
+        }
+      }
+  
+      // New functionality: If both section A and section B are true, turn "Of-prem" onn
+      // Check if both Section A and Section B are true
+      const isOffPremActive = newToggleStates[0]?.parentToggle || 
+                        newToggleStates[0]?.childToggles?.every((toggle:any) => toggle) || 
+                        (newToggleStates[0]?.childToggles[0] && newToggleStates[0]?.childToggles[1]);
 
+const isSectionATrue = newToggleStates[0]?.parentToggle; // Check Section A toggle state
+const isSectionBTrue = newToggleStates[1]?.parentToggle; // Check Section B toggle state
+
+// If both Section A and Section B are true, turn on "Off-prem"
+if (isSectionATrue && isSectionBTrue) {
+  newToggleStates[0].parentToggle = true; // Enable Off-prem toggle
+} else {
+  // Maintain original state for Off-prem based on other conditions if needed
+  newToggleStates[0].parentToggle = isOffPremActive;
+}
+
+setToggleStates(newToggleStates);
+    }
+  }, [toggleStates]);
+  
+  
   return (
     <div className='AvailSlider-Container'>
       <h3 className='AvailSlider-Heading'>Availability</h3>
@@ -144,7 +252,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen  }) => {
             <div className='AvailHeading-Section'>
               {elem.mainHeading}
               <ToggleSliderAvail
-                toggle={toggleStates[index]?.parentToggle}
+                toggle={toggleStates[index]?.parentToggle || false}
                 setToggle={() => handleParentToggle(index)}
                 pen={pen}
               />
@@ -155,12 +263,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen  }) => {
                   <div key={typeIndex} className='TypeHeading'>
                     <h3 className='SectionASectionBSectionHeading'>{type}</h3>
                     <ToggleSliderAvail
-                      toggle={
-                        type.includes('Section A') || type.includes('Section B')
-                          ? mapSection2ToToggles(typeIndex) // Map Section2 data here from Redux
-                          : toggleStates[index]?.childToggles?.[typeIndex] || false
-                      }
-                      setToggle={() => handleChildToggle(index, 0, typeIndex)} // Assuming no subcategories for Off-prem
+                      toggle={toggleStates[index]?.childToggles?.[typeIndex] || false}
+                      setToggle={() => handleChildToggle(index, 0, typeIndex)} // For Section A and B
                       pen={pen}
                     />
                   </div>
@@ -183,11 +287,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen  }) => {
                           <h4 className='SectionASectionBSectionHeading'>{type}</h4>
                           <ToggleSliderAvail
                             toggle={
-                              subcategory.subHeading === 'Pick up'
-                                ? mapPickup2ToToggles(typeIndex) // Map Pickup2 data here from Redux
-                                : subcategory.subHeading === 'Delivery'
-                                  ? mapDelivery2ToToggles(typeIndex) // Map Delivery2 data here from Redux
-                                  : toggleStates[index]?.subcategoryToggles?.[subIndex]?.childToggles?.[typeIndex] || false
+                              toggleStates[index]?.subcategoryToggles?.[subIndex]?.childToggles?.[typeIndex] || false
                             }
                             setToggle={() => handleChildToggle(index, subIndex, typeIndex)}
                             pen={pen}

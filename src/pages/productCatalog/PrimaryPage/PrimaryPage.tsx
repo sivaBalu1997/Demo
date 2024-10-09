@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import LableComponent from "../../../components/productCatalog/LableComponent/LableComponent";
 import InputFieldComponent from "../../../components/productCatalog/InputFieldComponent/InputFieldComponent";
 import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
@@ -31,6 +31,7 @@ import {
   getIngredientsRequest,
   getItemCodeRequest,
   getMenuCategoryRequest,
+  getPopularItemRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -108,15 +109,13 @@ export interface StateDataTag3 {
     bestPairData: [];
   };
 }
-interface ListingData{
-  addMockDataReducer:
-  {
-    data:Item[];
-  }
-  storeMockDataReducer:{
-    data:Item[];
-  }
-
+interface ListingData {
+  addMockDataReducer: {
+    data: Item[];
+  };
+  storeMockDataReducer: {
+    data: Item[];
+  };
 }
 
 interface primarypage {
@@ -168,6 +167,26 @@ interface Item {
 
 const PrimaryPage = () => {
   const dispatch = useDispatch();
+  const resetSelectionRef = useRef<(() => void) | null>(null);
+  const cuisineRef  = useRef<(() => void) | null>(null);
+  const categoryref = useRef<(() => void) | null>(null);
+  const BestpairedRef = useRef<(() => void) | null>(null);
+  const descriptionRef = useRef<(() => void) | null>(null);
+  const allergensRef = useRef<(() => void) | null>(null);
+  const ingredientsRef = useRef<(() => void) | null>(null);
+  const imageClearRef = useRef<(() => void) | null>(null);
+  const digitClearRef = useRef<(() => void) | null>(null);
+  const subCatagoryRef = useRef<(() => void) | null>(null);
+
+
+
+
+  
+
+
+
+
+
   const {
     register,
     handleSubmit,
@@ -204,38 +223,37 @@ const PrimaryPage = () => {
     },
   });
 
-  const location = useLocation<LocationState | undefined>(); 
-  console.log("Edit id ",location.state?.id)
+
+  const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
-  const addedData=useSelector((state:ListingData)=> state.addMockDataReducer.data)
+  const addedData = useSelector(
+    (state: ListingData) => state.addMockDataReducer.data
+  );
 
-  const Mockdata = useSelector((state:ListingData) => state.storeMockDataReducer.data);
-  const mergedMockData =  [ ...Mockdata,...addedData] 
-   const [SelectedFooditemtoedit,setSelectedFooditemtoedit]=useState<Item[]>();
+  const Mockdata = useSelector(
+    (state: ListingData) => state.storeMockDataReducer.data
+  );
+  const mergedMockData = [...Mockdata, ...addedData];
+  const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
+    useState<Item[]>();
 
-  console.log("mergedMockData",mergedMockData)
   useEffect(() => {
     const SelectedFooditemtoedit = mergedMockData.filter(
       (item) => item.id === location.state?.id
     );
-    
-    console.log("SelectedFooditemtoedit", SelectedFooditemtoedit);
-    
+
     if (SelectedFooditemtoedit && SelectedFooditemtoedit[0]) {
       const selectedItem = SelectedFooditemtoedit[0];
-  
+
       setValue("itemName", selectedItem?.itemName);
-      setValue("dietaryType", selectedItem?.dietary); 
-      setValue("cuisine", selectedItem?.cusine);       
+      setValue("dietaryType", selectedItem?.dietary);
+      setValue("cuisine", selectedItem?.cusine);
       setValue("mealType", selectedItem?.mealType);
       setValue("itemCode", selectedItem?.itemCode);
-    
     }
   }, [mergedMockData, location.state?.id, setValue]);
-
-  
 
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
@@ -270,9 +288,6 @@ const PrimaryPage = () => {
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
     }
   }, [ItemsPrimaryDetails, setValue]);
-  
-  console.log("ItemsPrimaryDeatils",ItemsPrimaryDetails);
-  
 
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
@@ -439,7 +454,6 @@ const PrimaryPage = () => {
 
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
-        console.log(updatedImageUrls, "updatedImageUrls");
         return updatedImages;
       });
     }
@@ -477,9 +491,72 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: StateDataTag3) => state.productCatalog.bestPairData
   );
+  const handleCheckboxChange=()=>{
+    dispatch(getPopularItemRequest(locationid))
+  }
 
+  const handleReset=()=>{
+    setValue("itemName", "");
+    setValue("dietaryType", "");
+    setValue("cuisine", "");
+    setValue("mealType", "");
+    setValue("bestPair", "");
+    setValue("description", "");
+    setValue("imageUrls", []); // Assuming this should be an empty array
+    setValue("alcohol", "no"); // If you want to keep a default value
+    setValue("itemCode", "");
+    setValue("barCode", "");
+    setValue("category", "");
+    setValue("categoryId", "");
+    setValue("subCategory", "");
+    setValue("Ingredients", []); // Assuming this should be an empty array
+    setValue("allergens", []); // Assuming this should be an empty array
+    setValue("coloriePoint", "");
+    setValue("selectedcolorie", "per100grams"); // If you want to keep a default value
+    setValue("portionSize", "");
+    setValue("selectedPortion", "Portion(count)"); // If you want to keep a default value
+    setValue("tax", "");
+    setValue("masterCode", "");
+      if (resetSelectionRef.current) {
+      resetSelectionRef.current(); 
+    }
+    if (BestpairedRef.current) {
+      BestpairedRef.current(); 
+    }
+    if (cuisineRef.current) {
+      cuisineRef.current(); 
+    }
+    if (categoryref.current) {
+      categoryref.current(); 
+    }
+    if (descriptionRef.current) {
+      descriptionRef.current(); 
+    }
+    if (allergensRef.current) {
+      allergensRef.current(); 
+    }
+    if (ingredientsRef.current) {
+      ingredientsRef.current(); 
+    }
+    if (imageClearRef.current) {
+      imageClearRef.current(); 
+    }
+    if (digitClearRef.current) {
+      digitClearRef.current(); 
+    }
+    if (subCatagoryRef.current) {
+      subCatagoryRef.current(); 
+    }
+
+    setDescription(" ")
+    setCharCount(0);
+    setImages([])
   
+  
+    
+  }
 
+  console.log(getValues())
 
   return (
     <div style={{ display: "flex" }}>
@@ -542,6 +619,7 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="dietary"
+                        resetSelection={resetSelectionRef} 
                       />
                     )}
                   />
@@ -572,6 +650,7 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="cuisine"
+                        resetSelection={cuisineRef} 
                       />
                     )}
                   />
@@ -602,6 +681,8 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="category"
+                        resetSelection={categoryref} 
+
                       />
                     )}
                   />
@@ -632,14 +713,29 @@ const PrimaryPage = () => {
                           addNew={false}
                           editValues={false}
                           dropDownType="bestPair"
+                          resetSelection={BestpairedRef} 
                         />
                       )}
                     />
                     <div className="tool-tip-best-pair">
-                    <TooltipMsg
+                      <TooltipMsg
                         message="Select up to 5 food items that pair best with this dish."
-                        styles={{marginTop:"1.3rem",marginLeft:"-1rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
-                        Arrowstyle={{position:'relative',top:'-1rem',marginLeft:'-2rem'}}
+                        styles={{
+                          marginTop: "1.3rem",
+                          marginLeft: "-1rem",
+                          backgroundColor: "#67833E",
+                          width: "350px",
+                          height: "35px",
+                          color: "white",
+                          textAlign: "center",
+                          borderRadius: "5px",
+                          zIndex: "1",
+                        }}
+                        Arrowstyle={{
+                          position: "relative",
+                          top: "-1rem",
+                          marginLeft: "-2rem",
+                        }}
                       >
                         <div className="ToolKitchen">
                           <img
@@ -666,10 +762,9 @@ const PrimaryPage = () => {
                             className="description"
                             name="description"
                             autoComplete="off"
-                            value={description} 
+                            value={description}
                             onChange={(e) => handleDescriptionInputChange(e)}
                             maxLength={maxDescriptonLength}
-                            
                           />
                           <p
                             style={{
@@ -774,39 +869,56 @@ const PrimaryPage = () => {
                   {" "}
                   <LableComponent lable="ItemCode" />
                   <div className="Primary-Page-inputfiled-and-tooltip">
-                  <Controller
-  name="itemCode"
-  control={control}
-  rules={{
-    required: "Item code is required",
-    validate: (value) =>
-      (value.toString().length >= 4 && value.toString().length <= 5) ||
-      "Item code must be between 4 and 5 characters",
-  }}
-  render={({ onChange, onBlur, value }) => (
-    <InputFieldComponent
-      name="itemCode"
-      onChange={(newValue) => {
-        onChange(newValue); // Update form state
-      }}
-      value={value} // Ensure value is defined
-      onBlur={() => {
-        if (value) {
-          dispatch(getItemCodeRequest(locationid, value)); 
-        }
-      }}
-      type="number"
-      trigger={trigger}
-      error={errors.itemCode} 
-    />
-  )}
-/>{" "}
+                    <Controller
+                      name="itemCode"
+                      control={control}
+                      rules={{
+                        required: "Item code is required",
+                        validate: (value) =>
+                          (value.toString().length >= 4 &&
+                            value.toString().length <= 5) ||
+                          "Item code must be between 4 and 5 characters",
+                      }}
+                      render={({ onChange, onBlur, value }) => (
+                        <InputFieldComponent
+                          name="itemCode"
+                          onChange={(newValue) => {
+                            onChange(newValue); // Update form state
+                          }}
+                          value={value} // Ensure value is defined
+                          onBlur={() => {
+                            if (value) {
+                              dispatch(getItemCodeRequest(locationid, value));
+                            }
+                          }}
+                          type="number"
+                          trigger={trigger}
+                          error={errors.itemCode}
+                        />
+                      )}
+                    />{" "}
                     <div className="tool-tip-item-code">
-
                       <TooltipMsg
                         message="Enter a unique code for this food item, used for identification."
-                        styles={{marginTop:"-1rem",marginLeft:'2rem', width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
+                        styles={{
+                          marginTop: "-1rem",
+                          marginLeft: "2rem",
+                          width: "350px",
+                          height: "35px",
+                          backgroundColor: "#67833E",
+                          color: "white",
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRadius: "5px",
+                        }}
+                        Arrowstyle={{
+                          marginTop: "0rem",
+                          rotate: "-90deg",
+                          position: "relative",
+                          left: "-1.7rem",
+                        }}
                       >
                         <div className="ToolKitchen">
                           <img
@@ -840,8 +952,8 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields PopularItem">
-                  <input type="checkbox" />
-                  <span>Popular item ( 3/10 )</span>
+                  <input type="checkbox" onChange={handleCheckboxChange} />
+                  <span>hello</span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
@@ -867,6 +979,7 @@ const PrimaryPage = () => {
                           setDropdownOpen={setDropdownOpen}
                           onToggle={() => handleDropdownToggle("subCategory")}
                           dropDownType="subCategory"
+                          resetSelection={subCatagoryRef} 
                         />
                       )}
                     />
@@ -874,32 +987,43 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-Allergens-selection">
-                  <div> <Imagepillsselection
-                    heading="Allergens*"
-                    options={validImages}
-                    setValue={setValue}
-                    name="allergens"
-                    register={register}
-                  /></div>
-                 
-                  
+                  <div>
+                    {" "}
+                    <Imagepillsselection
+                      heading="Allergens*"
+                      options={validImages}
+                      setValue={setValue}
+                      name="allergens"
+                      register={register}
+                      resetSelection={allergensRef} 
+                    />
+                  </div>
                 </div>
                 <div className="tool-tip-Allergen">
-                    <TooltipMsg
-                        message="Provide information about any allergens present in this food item"
-                        styles={{marginTop:"1.5rem",marginLeft:"-19rem",backgroundColor:'#67833E',width:'350px',height:'35px',color:'white',textAlign:'center',borderRadius:'5px',zIndex:"1"}}
-                        Arrowstyle={{position:'relative',top:'-1rem',left:'19rem'}}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </TooltipMsg>
+                  <TooltipMsg
+                    message="Provide information about any allergens present in this food item"
+                    styles={{
+                      marginTop: "1.5rem",
+                      marginLeft: "-19rem",
+                      backgroundColor: "#67833E",
+                      width: "350px",
+                      height: "35px",
+                      color: "white",
+                      textAlign: "center",
+                      borderRadius: "5px",
+                      zIndex: "1",
+                    }}
+                    Arrowstyle={{
+                      position: "relative",
+                      top: "-1rem",
+                      left: "19rem",
+                    }}
+                  >
+                    <div className="ToolKitchen">
+                      <img src={info} alt="info icon" width={20} height={20} />
                     </div>
+                  </TooltipMsg>
+                </div>
               </div>
             </div>
             <div className="Primary-page-container-two">
@@ -910,6 +1034,7 @@ const PrimaryPage = () => {
                   setValue={setValue}
                   name="Ingredients"
                   register={register}
+                  resetSelection={ingredientsRef} 
                 />
               </div>
 
@@ -929,7 +1054,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext="cal"
+                          placeholder="cal"
                         />
                       )}
                     />
@@ -959,7 +1084,7 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={value}
                           trigger={trigger}
-                          subtext={getValues("selectedPortion")}
+                          placeholder={getValues("selectedPortion")}
                           // placeholder={getValues("selectedPortion")}
                         />
                       )}
@@ -980,10 +1105,26 @@ const PrimaryPage = () => {
                       register={register}
                     />
                     <div className="portionsizeTooltip">
-                     <TooltipMsg
+                      <TooltipMsg
                         message="Specify the portion size for this item, either by count or weight."
-                        styles={{marginTop:"-2rem",marginLeft:"2rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{rotate:'-90deg',position:'relative',left:'-1.5rem'}}
+                        styles={{
+                          marginTop: "-2rem",
+                          marginLeft: "2rem",
+                          width: "350px",
+                          height: "35px",
+                          backgroundColor: "#67833E",
+                          color: "white",
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRadius: "5px",
+                        }}
+                        Arrowstyle={{
+                          rotate: "-90deg",
+                          position: "relative",
+                          left: "-1.5rem",
+                        }}
                       >
                         <div className="ToolKitchen">
                           <img
@@ -1017,20 +1158,38 @@ const PrimaryPage = () => {
                         )}
                       />
                       <div className="tool-tip-tax-class">
-                      <TooltipMsg
-                        message="Create or select a tax amount to associate with this item"
-                        styles={{position:'relative',top:"-2.5rem",left:"1.5rem",width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-2.25rem'}}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </TooltipMsg>
+                        <TooltipMsg
+                          message="Create or select a tax amount to associate with this item"
+                          styles={{
+                            position: "relative",
+                            top: "-2.5rem",
+                            left: "1.5rem",
+                            width: "350px",
+                            height: "35px",
+                            backgroundColor: "#67833E",
+                            color: "white",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "5px",
+                          }}
+                          Arrowstyle={{
+                            marginTop: "0rem",
+                            rotate: "-90deg",
+                            position: "relative",
+                            left: "-2.25rem",
+                          }}
+                        >
+                          <div className="ToolKitchen">
+                            <img
+                              src={info}
+                              alt="info icon"
+                              width={20}
+                              height={20}
+                            />
+                          </div>
+                        </TooltipMsg>
                       </div>
                     </div>
                   </div>
@@ -1050,26 +1209,44 @@ const PrimaryPage = () => {
                             inputCount={4}
                             error={errors.masterCode}
                             validation={{ required: "Master code is required" }}
+                             resetSelection={digitClearRef} 
                           />
                         )}
                       />
                       <div className="Mastedcode-Tooltip">
-                      <TooltipMsg
-                        message="Enter a unique code for this food item, used for identification."
-                        styles={{ position:'relative',top:'-2rem',left:'1.5rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.7rem'}}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </TooltipMsg>
+                        <TooltipMsg
+                          message="Enter a unique code for this food item, used for identification."
+                          styles={{
+                            position: "relative",
+                            top: "-2rem",
+                            left: "1.5rem",
+                            width: "350px",
+                            height: "35px",
+                            backgroundColor: "#67833E",
+                            color: "white",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "5px",
+                          }}
+                          Arrowstyle={{
+                            marginTop: "0rem",
+                            rotate: "-90deg",
+                            position: "relative",
+                            left: "-1.7rem",
+                          }}
+                        >
+                          <div className="ToolKitchen">
+                            <img
+                              src={info}
+                              alt="info icon"
+                              width={20}
+                              height={20}
+                            />
+                          </div>
+                        </TooltipMsg>
                       </div>
-                   
                     </div>
                   </div>
                 </div>
@@ -1079,7 +1256,7 @@ const PrimaryPage = () => {
             <SaveAndNext
               getFormData={getValues}
               seletedpage="Primary"
-              reset={reset}
+              reset={handleReset}
               triggerValidation={() => trigger()}
             />
             {/* </form> */}

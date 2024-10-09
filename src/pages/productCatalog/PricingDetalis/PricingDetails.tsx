@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import "./PricingDetails.scss";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
@@ -17,6 +17,16 @@ import Navigationpage from "components/productCatalog/Navigation/NavigationPage"
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import Inventory from "components/productCatalog/Inventory/Inventory";
+import {
+  imageslist,
+  dietarytype,
+  cuisine,
+  mealType,
+  subcategory,
+  alcoholradio,
+  calorieponitradio,
+  portionsizeradio,
+} from "../../../assets/mockData/Moca_data";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -150,6 +160,12 @@ interface StateData {
 }
 
 const PricingDetails = () => {
+  const kitchenDetail = useRef<(() => void) | null>(null);
+  const normalFormRef = useRef<(() => void) | null>(null);
+  const specialFormRef = useRef<(() => void) | null>(null);
+
+
+
   const [mainFormState, setMainFormState] = useState<MainFormType>({
     availabilityid: [],
     formNormal: {
@@ -220,7 +236,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
   const [options, setOptions] = useState<option[]>([]);
-  const [options1, setOptions1] = useState<Option[]>([]);
+  const [options1, setOptions1] = useState<Option[]>(cuisine);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });
@@ -336,7 +352,7 @@ const PricingDetails = () => {
   // const formData={
   // getValues();
   // }
-
+  
   useEffect(() => {
     if (prizingDetail) {
       reset({
@@ -377,14 +393,14 @@ const PricingDetails = () => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
 
-  const [dineinfields, setDineInFields] = useState<DineInField[]>([
-    {
-      DineInPrice: "",
-      DineInMealType: [],
-      DineInService: "", // Change this from DinInService to DineInServiceArea
-      showDay: false,
-      dayButtonText: "Add Day",
-    },
+      const [dineinfields, setDineInFields] = useState<DineInField[]>([
+        {
+          DineInPrice: "",
+          DineInMealType: [],
+          DineInService: "", // Change this from DinInService to DineInServiceArea
+          showDay: false,
+          dayButtonText: "Add Day",
+        },
   ]);
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
     {
@@ -578,10 +594,50 @@ const PricingDetails = () => {
 
     return isValid;
   };
+
+  const handleReset = () => {
+    
+    if (kitchenDetail.current) {
+      kitchenDetail.current(); 
+    }
+    if (normalFormRef.current) {
+      normalFormRef.current(); 
+    }
+    if (specialFormRef.current) {
+      specialFormRef.current(); 
+    }
+ 
+ 
+    
+   
+    reset({
+      form: {
+        Inventory1: "",
+        Inventory2: "",
+      },
+      kitchenstation: "",
+      Preparationtime: {
+        hours: "",
+        minutes: "",
+      },
+
+      
+      
+      
+
+    });
+  };
+
+  console.log(mainFormState)
+
+
+
+
+
   return (
-    <div style={{ display: "flex" }}>
+    <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
-      <div style={{ width: "98%" }}>
+      <div>
         <Navigationpage />
         <div
           className={
@@ -604,7 +660,7 @@ const PricingDetails = () => {
               <div className="D1kitchen">
                 <Dropdown
                   name="kitchenstation"
-                  options={[]}
+                  options={options1}
                   type="checkbox"
                   setOptions={setOptions1}
                   placeholder="Search for option"
@@ -613,20 +669,23 @@ const PricingDetails = () => {
                   error={errors.kitchenstation}
                   trigger={trigger}
                   getValues={getValues}
-                  // validation={{ required: "dietaryType is required" }}
+                  validation={{ required: "Kitchen Station is required" }}
                   addNew={true}
                   editValues={true}
                   setDropdownOpen={setDropdownOpen}
                   dropdownopen={DropdownOpen.Kitchen}
                   onToggle={() => handleDropdownToggle("Kitchen")}
+                  resetSelection={kitchenDetail} 
                 />
               </div>
 
               <div className="D2kitchen">
                 <div className="Prepartiontime">
+
                   <label htmlFor="" className="heading">
                     Preparation time
                   </label>
+
                   <div className="Prepartiontime-input-fileds">
                   <Controller
                       name="Preparationtime.hours"
@@ -640,32 +699,58 @@ const PricingDetails = () => {
                         className="Prepartiontime-input-hours" 
                         onChange={(e) => {
                           const value = e.target.value;
-                          setValue("Preparationtime.hours", value);
-                          // trigger(trigger);
+                          if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
+                            setValue("Preparationtime.hours", value);
+                           
+                          }
                         }} 
                         />
                       )}
-                      rules={{ required: "This field is required" }}
+                      rules={{ 
+                        required: "This field is required", 
+                        validate: value => 
+                          (value === "" || /^[1-9]$|^1[0-2]$/.test(value)) || "Please enter valid time"
+                      }}
                     />
-                    
+
                     <span>Hours</span>
                     <span>:</span>
+
                     <Controller
                       name="Preparationtime.minutes"
                       control={control}
                       defaultValue=""
-                      render={({ field, trigger,value }: any) => (
-                        <input type="text" 
-                        name="minutes"
-                        value={value}
-                        className="Prepartiontime-input-mins" 
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setValue("Preparationtime.minutes", value);
-                          // trigger(trigger);
-                        }} />
+                      render={({ field, trigger, value }: any) => (
+                        <input
+                          type="text"
+                          name="minutes"
+                          value={value}
+                          className="Prepartiontime-input-mins"
+                          onChange={(e) => {
+                            const inputValue = e.target.value;
+
+                            // Allow only numeric input or empty
+                            if (/^[0-9]*$/.test(inputValue)) {
+                              // Set value only if it's in the range of 0-60 or empty
+                              if (
+                                inputValue === "" ||
+                                /^(59|[0-5]?[0-9])$/.test(inputValue)
+                              ) {
+                                setValue("Preparationtime.minutes", inputValue);
+                              }
+                            }
+                            // Optionally, trigger validation
+                            // trigger(trigger);
+                          }}
+                        />
                       )}
-                      rules={{ required: "This field is required" }}
+                      rules={{
+                        required: "This field is required",
+                        validate: (value) =>
+                          value === "" ||
+                          /^(60|[0-5]?[0-9])$/.test(value) ||
+                          "Please enter a valid time",
+                      }}
                     />
                     
                     <span>Minutes</span>
@@ -816,6 +901,7 @@ const PricingDetails = () => {
                 setDineInFields={setDineInFields}
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
+                resetSelection={normalFormRef} 
               />
             ) : (
               <Specialavail
@@ -827,6 +913,7 @@ const PricingDetails = () => {
                 setDineInFields1={setDineInFields1}
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
+                resetSelection={normalFormRef} 
               />
             )}
 
@@ -845,7 +932,7 @@ const PricingDetails = () => {
             <SaveAndNext
               getFormData={getValues}
               seletedpage="Pricing"
-              reset={reset}
+              reset={handleReset}
               triggerValidation={() => trigger()}
               mainForm={mainForm}
               handleValidate={handleValidate}

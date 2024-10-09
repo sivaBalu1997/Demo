@@ -86,6 +86,7 @@ interface NormalavailProps {
   setDineInFields: (form: any) => void;
   selectedValues2: any;
   setSelectedValues2: (form: any) => void;
+  resetSelection?:any
 }
 
 type MealType1 = string;
@@ -111,6 +112,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   setValidationStateerr,
   handleValidate,
   ValidationStateerr,
+  resetSelection
 }) => {
   const [online, setOnline] = useState(false);
   const [pickup, setPickup] = useState(false);
@@ -199,6 +201,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     Swiggy: selectedValues4,
     Zomato: selectedValues5,
   };
+  
 
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
@@ -531,8 +534,52 @@ const Normalavail: React.FC<NormalavailProps> = ({
   console.log(!validationState.Pickup.isValid);
   console.log(validationState.Pickup?.errorMessage);
   console.log(dineInDates1)
-  
 
+  const clearSelection = () => {
+    setSelectedValuesMealType([])
+
+    setNormalDays([])
+    setSelectedValues2([])
+    setformNormal({
+      PickuppriceNormal: "",
+      PickupmealtypeNormal: "",
+      DeliverypriceNormal: "",
+      DeliverymealtypeNormal: "",
+      SwiggyorzomatoNormal: "",
+      SwiggyNormal: "",
+      SwiggymealtypeNormal: "",
+      ZomatoNormal: "",
+      ZomatomealtypeNormal: "",
+    })
+    setDayPickup([])
+    setSelectedValues3([])
+    setDayDelivery([])
+    setDayThird([])
+    setSelectedValues4([])
+    setSelectedValues5([])
+    setSelectedValues([])
+    setDineInFields((prevDineInFields:any) =>
+      prevDineInFields.map(() => ({
+        DineInPrice: "",
+        DineInMealType: [],
+        DineInService: [],
+      }))
+    );
+  };
+
+    useEffect(() => {
+      if (resetSelection ) {
+       
+  
+   
+        resetSelection.current = clearSelection;
+ 
+      }
+
+    
+    }, [resetSelection]);
+  
+console.log(mainFormState)
   return (
     <div>
       <div className="AvailDaycheck">

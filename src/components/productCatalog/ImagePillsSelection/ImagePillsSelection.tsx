@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ImagePillsSelection.scss";
 import deleteIcon from "../../../assets/images/delete copy.png";
 import Searchicon from "../../../assets/images/searchicon.png";
@@ -16,6 +16,7 @@ interface Imageselection {
   setValue: any;
   name?: string;
   register:any;
+  resetSelection?:any
 }
 
 const ImagePillsSelection: React.FC<Imageselection> = ({
@@ -23,7 +24,8 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   options,
   name,
   setValue,
-  register
+  register,
+  resetSelection
 }) => {
   const [searchImage, setSearchImage] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
@@ -65,6 +67,18 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
     }));
     setValue(name, selectedIds);
   };
+
+  const clearSelection = () => {
+    setSelectedImages([]); // Clear local selection
+  };
+
+  useEffect(() => {
+    if (resetSelection ) {
+      resetSelection.current = clearSelection; // Assign the function to the ref
+    }
+
+   
+  }, [resetSelection]);
 
   return (
     <div className="Item-Selection">

@@ -36,7 +36,6 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     showsidebar(key);
     handlemodal(value);
   };
-  console.log("listingobject",listingobject)
   // const allFalse = Object.values(listingobject).every(value => value === false);
 
   return (

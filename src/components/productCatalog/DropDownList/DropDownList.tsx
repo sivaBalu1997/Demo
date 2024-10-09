@@ -42,6 +42,7 @@ interface DropdownProps {
   setDropdownOpen: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
+  resetSelection?:any
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -62,7 +63,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   editValues,
   setDropdownOpen,
   dropDownType,
-  actionToDispatch
+  actionToDispatch,
+  resetSelection,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -75,9 +77,19 @@ const DropDownList: React.FC<DropdownProps> = ({
   const dispatch = useDispatch();
 
   const getdatafrosaga = () => {
-    console.log({dropDownType})
     dispatch(fetchDropDownRequest(dropDownType));
   };
+  const clearSelection = () => {
+    setSelectedOptions([]); // Clear local selection
+  };
+
+  useEffect(() => {
+    if (resetSelection ) {
+      resetSelection.current = clearSelection; // Assign the function to the ref
+    }
+
+   
+  }, [resetSelection]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
