@@ -29,6 +29,7 @@ import {
   catogoryDataRequest,
   cuisineDataRequest,
   dietdatarequest,
+  fetchDropDownRequest,
   getIngredientsRequest,
   getItemCodeRequest,
   getMenuCategoryRequest,
@@ -272,6 +273,7 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: primarypage) => state.primarypage.data
   );
+ 
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
@@ -485,12 +487,13 @@ const PrimaryPage = () => {
   useEffect(() => {
     register("imageUrls");
   }, [register]);
-
   const dietaryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.dietaryData
+    (state: any) => state.productCatalog.dietaryData.data
   );
+  console.log(dietaryData)
+
   const cuisineData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.cuisineData
+    (state: any) => state.productCatalog?.cuisineData?.data
   );
   const subCategoryData = useSelector(
     (state: StateDataTag3) => state.productCatalog.subCategoryData
@@ -566,20 +569,7 @@ const PrimaryPage = () => {
     
   }
 // console.log("hi",popularItem)
-const dataforadd=
-  {
-    name: "rotti",
-    locationId: locationid,
-    type: "DIET",
-    parentId: ""
-  }
 
-  // console.log(getValues())
-  const hansleshwadd=()=>{
-    dispatch(addDropDowRequest(dataforadd))
-    
-
-  }
 
   return (
     <div style={{ display: "flex" }}>
@@ -599,7 +589,6 @@ const dataforadd=
             <div className="Primary-page-container-one">
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
-                  <button onClick={hansleshwadd}>show add</button>
                   {" "}
                   <LableComponent lable="ItemName *" />
                   <Controller
@@ -626,8 +615,8 @@ const dataforadd=
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dietaryData}
-                        type="checkbox"
+                      options={dietaryData?.map((elem:any) => elem.name)||[]}
+                      type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
@@ -656,7 +645,7 @@ const dataforadd=
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={cuisineData}
+                        options={Array.isArray(cuisineData)?cuisineData?.map((elem:any) => elem.name):[]}
                         type="radio"
                         setOptions={setDataCuisine}
                         placeholder="search for option"
@@ -673,7 +662,7 @@ const dataforadd=
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
-                        dropDownType="cuisine"
+                        dropDownType="CUISINES"
                         resetSelection={cuisineRef} 
                       />
                     )}
