@@ -315,7 +315,7 @@ const PrimaryPage = () => {
 
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
-  const [dataDietaryType, setDataDietaryType] = useState(dietarytype);
+  const [dataDietaryType, setDataDietaryType] = useState([]);
   const [dataCuisine, setDataCuisine] = useState(cuisine);
   const [dataMealType, setDataMealType] = useState(mealType);
   const [dataBestPair, setDataBestPair] = useState();
@@ -323,6 +323,7 @@ const PrimaryPage = () => {
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
   );
+
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [images, setImages] = useState<ImageFile[]>([]);
@@ -507,7 +508,6 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
-  console.log(bestPairData)
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
 
@@ -585,6 +585,8 @@ const PrimaryPage = () => {
   }
 // console.log("hi",popularItem)
 
+
+  console.log(dataDietaryType)
 
   return (
     <div style={{ display: "flex" }}>
