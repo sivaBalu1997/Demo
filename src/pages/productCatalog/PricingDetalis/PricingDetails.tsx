@@ -660,7 +660,7 @@ const PricingDetails = () => {
               <div className="D1kitchen">
                 <Dropdown
                   name="kitchenstation"
-                  options={options1}
+                  options={[]}
                   type="checkbox"
                   setOptions={setOptions1}
                   placeholder="Search for option"

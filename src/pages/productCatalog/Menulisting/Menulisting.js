@@ -20,21 +20,25 @@ import TableOneBody from "../../../components/productCatalog/TableOneBody/TableO
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
-import { selectedMockDataRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { getMenuRequest, selectedMockDataRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
 
+  const location = useSelector((state) => state.auth.selectedBranch)
+  const menuData = useSelector((state) => state.productCatalog.menuData)
+
   const { isExpanded } = useContext(Contextpagejs);
-  // console.log({ isExpanded });
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 
   useEffect(() => {
     dispatch(storeMockDataRequest(combinedItemsData));
+    dispatch(getMenuRequest(location.id));
   }, []);
 
-  
+  console.log({menuData})
+
   useEffect(() => {
    
     dispatch(selectedMockDataRequest(SideBarData));

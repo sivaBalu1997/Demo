@@ -225,7 +225,7 @@ const PrimaryPage = () => {
     },
   });
 
-  const[popularItem,setPopularItem]=useState("")
+  const[popularItem,setPopularItem]=useState<any> ("")
 
 
   const location = useLocation<LocationState | undefined>();
@@ -248,6 +248,10 @@ const PrimaryPage = () => {
       setPopularItem(PopularItemFormApi); // Update state
     
   }, [PopularItemFormApi]); 
+  useEffect(()=>{
+    dispatch(getPopularItemRequest(locationid))
+
+  },[])
 
 
   useEffect(() => {
@@ -490,24 +494,34 @@ const PrimaryPage = () => {
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
-  console.log("dietaryData",dietaryData);
- 
 
   const cuisineData = useSelector(
-    (state: any) => state.productCatalog?.cuisineData?.data
+    (state: any) => state.productCatalog.cuisineData.data
   );
   const subCategoryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.subCategoryData
+    (state: any) => state.productCatalog.subCategoryData.data
   );
   const categoryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.categoryData
+    (state: any) => state.productCatalog.categoryData.data
   );
   const bestPairData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.bestPairData
+    (state: any) => state.productCatalog.bestPairData.data
   );
-  const handleCheckboxChange=()=>{
-    dispatch(getPopularItemRequest(locationid))
+  console.log(bestPairData)
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+
+    if(isChecked){
+      setPopularItem(popularItem+1)
+    }
+    else if(!isChecked){
+      setPopularItem(popularItem-1)
+
+
+    }
+
   }
+
 
   const handleReset=()=>{
     setValue("itemName", "");
@@ -616,7 +630,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                      options={dietaryData?.map((elem:any) => elem.name)||[]}
+                      options={dietaryData}
                       type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
@@ -694,7 +708,7 @@ const PrimaryPage = () => {
                         onToggle={() => handleDropdownToggle("category")}
                         addNew={true}
                         editValues={true}
-                        dropDownType="category"
+                        dropDownType="CATEGORY"
                         resetSelection={categoryref} 
 
                       />
@@ -726,7 +740,7 @@ const PrimaryPage = () => {
                           setDropdownOpen={setDropdownOpen}
                           addNew={false}
                           editValues={false}
-                          dropDownType="bestPair"
+                          dropDownType="BEST_PAIRED_ITEMS"
                           resetSelection={BestpairedRef} 
                         />
                       )}
@@ -967,7 +981,7 @@ const PrimaryPage = () => {
 
                 <div className="Primary-page-InputFields PopularItem">
                   <input type="checkbox" onChange={handleCheckboxChange} />
-                  <span>{popularItem}</span>
+                  <span>Popular item ( {popularItem}/10 )</span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
@@ -992,7 +1006,7 @@ const PrimaryPage = () => {
                           dropdownopen={DropdownOpen.subCategory}
                           setDropdownOpen={setDropdownOpen}
                           onToggle={() => handleDropdownToggle("subCategory")}
-                          dropDownType="subCategory"
+                          dropDownType="SUB_CATEGORY"
                           resetSelection={subCatagoryRef} 
                         />
                       )}

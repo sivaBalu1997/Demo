@@ -3,13 +3,19 @@ import Store from "../store";
 import Axios from "axios";
 import { bestPairType, categoryType, cuisine, dietarytype, subcategory, subcategoryType } from "assets/mockData/Moca_data";
 
+export const getMenuDataApi = (locationId) => {
+  return API({
+    method: 'get',
+    url: `/api/v1/menu-items?locationId=${locationId}`
+  })
+}
+
 export function getCategory(locationId) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Category`,
   });
 }
-
 
 //get dropDown
 export function getSubSectionData(payload) {
@@ -32,8 +38,6 @@ export const deleteSubSection = ({data}) => {
 }
 
 export const addSubsectionApi = ( data ) => {
-  console.log('Data to be sent:', data); 
-
   return API({
     method: 'post',
     url: `/api/v1/menu-items/sub-section`,
@@ -55,10 +59,11 @@ export function getTagClass(locationId) {
   });
 }
 
-export function getModifier(locationId) {
+export function getModifier(data) {
+  const {name, locationId} = data
   return API({
     method: "get",
-    url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Modifier`,
+    url: `/api/v1/menu-items/modifiers?name=${name}&locationId=${locationId}`,
   });
 }
 
@@ -122,10 +127,10 @@ export function getAvailability(locationId) {
 export function getImage() {
   return Axios.get('https://i.graphicmama.com/blog/wp-content/uploads/2016/12/20132839/french-fries-vector-image.jpg')
 }
+
 export function getId() {
   return Axios.get('http://192.168.1.29:8080/api/giveId')
 }
-
 
 export function store(formData) {
 
