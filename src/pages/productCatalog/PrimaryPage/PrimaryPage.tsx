@@ -225,7 +225,7 @@ const PrimaryPage = () => {
     },
   });
 
-  const[popularItem,setPopularItem]=useState<any>("")
+  const[popularItem,setPopularItem]=useState<any> ("")
 
 
   const location = useLocation<LocationState | undefined>();
@@ -496,17 +496,18 @@ const PrimaryPage = () => {
   );
 
   const cuisineData = useSelector(
-    (state: any) => state.productCatalog.cuisineData
+    (state: any) => state.productCatalog.cuisineData.data
   );
   const subCategoryData = useSelector(
-    (state: any) => state.productCatalog.subCategoryData
+    (state: any) => state.productCatalog.subCategoryData.data
   );
   const categoryData = useSelector(
-    (state: any) => state.productCatalog.categoryData
+    (state: any) => state.productCatalog.categoryData.data
   );
   const bestPairData = useSelector(
-    (state: any) => state.productCatalog.bestPairData
+    (state: any) => state.productCatalog.bestPairData.data
   );
+  console.log(bestPairData)
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
 
@@ -520,6 +521,7 @@ const PrimaryPage = () => {
     }
 
   }
+
 
   const handleReset=()=>{
     setValue("itemName", "");
@@ -642,7 +644,7 @@ const dataforadd=
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                      options={dietaryData?.map((elem:any) => elem.name)||[]}
+                      options={dietaryData}
                       type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
@@ -672,7 +674,7 @@ const dataforadd=
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={cuisineData?.data?.map((elem:any) => elem.name)||[]}
+                        options={cuisineData}
                         type="radio"
                         setOptions={setDataCuisine}
                         placeholder="search for option"
@@ -703,7 +705,7 @@ const dataforadd=
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={categoryData?.data?.map((elem:any) => elem.name)||[]}
+                        options={categoryData}
                         setOptions={setDataSubcategory}
                         placeholder="search for option"
                         type="radio"
@@ -736,7 +738,7 @@ const dataforadd=
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={bestPairData?.data?.map((elem:any) => elem.name)||[]}
+                          options={bestPairData}
                           setOptions={setDataBestPair}
                           placeholder="search for option"
                           type="checkbox"
@@ -1004,7 +1006,7 @@ const dataforadd=
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={subCategoryData.data?.map((elem:any) => elem.name)||[]}
+                          options={subCategoryData}
                           setOptions={setDataSubcategory}
                           placeholder="search for option"
                           type="radio"
