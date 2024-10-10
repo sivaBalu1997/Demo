@@ -266,8 +266,23 @@ useEffect(()=>{
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
 
-  console.log("hi",options)
-  console.log(initialOptions)
+  console.log("selected",selectedOptions)
+  
+  const handleCheckboxChange = (option: Option) => {
+    if(type=="checkbox"){
+    setSelectedOptions((prevSelected) => {
+      if (prevSelected.some((opt) => opt.id === option.id)) {
+        setValue(name, selectedOptions.map((opt) => opt.name).join(", "));
+       
+        return prevSelected.filter((opt) => opt.id !== option.id);
+      } else {
+        // If not selected, add it
+        return [...prevSelected, option];
+      }
+    });
+  }
+  };
+
 
   return (
     
@@ -343,11 +358,9 @@ useEffect(()=>{
                       <li className="dropdown-option">
                         <input
                           type={type}
-                          checked={initialOptions.some(
-                            (opt) => opt.id === option.id
-                          )}
+                          checked={selectedOptions.some((opt) => opt.id === option.id)} 
                           className="dropdon-option-inputfield"
-                          onChange={() => handleSelect(option)}
+                          onChange={() => handleCheckboxChange(option)}
                         />
                         <span
                           className="dropdon-option-label"
