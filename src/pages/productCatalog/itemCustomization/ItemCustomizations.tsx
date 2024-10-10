@@ -66,6 +66,10 @@ const ItemCustomizations: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
+  const availableService = useSelector((state : RootState) => state.auth.selectedBranch?.orderTypes)
+
+  const availableServiceNames = availableService?.map(service => service?.typeName) || [];
+  
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const [validationState, setValidationState] = useState({
@@ -700,7 +704,7 @@ const ItemCustomizations: React.FC = () => {
                                 className="label1ItemCustomizations"
                                 htmlFor=""
                               >
-                                No. Free customization
+                                No Free customization
                               </label>
                               <input
                                 placeholder=""
@@ -747,10 +751,10 @@ const ItemCustomizations: React.FC = () => {
                                 onSelect={(value) =>
                                   handleSelect3(value, modIndex)
                                 }
-                                options={options}
+                                options={availableServiceNames}
                                 width="Drop1"
                                 validation={validationState.items}
-                                label="Meal Type*"
+                                label="Available Service Stream*"
                               />
                             </div>
                           </div>
