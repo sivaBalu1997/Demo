@@ -175,6 +175,7 @@ export default function productCatalogReducer(
         draft.getDietarySuccess = false;
         break;
       case DIET_DROPDOWN_LIST_SUCCESS:
+        console.log("form reducer",action.payload)
         draft.dietaryData = action.payload;
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;

@@ -490,7 +490,8 @@ const PrimaryPage = () => {
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
-  console.log(dietaryData)
+  console.log("dietaryData",dietaryData);
+ 
 
   const cuisineData = useSelector(
     (state: any) => state.productCatalog?.cuisineData?.data

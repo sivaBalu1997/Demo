@@ -78,17 +78,18 @@ const DropDownList: React.FC<DropdownProps> = ({
   const locationid = useSelector(
     (state: any) => state.auth.credentials.locationId
   );
+  console.log("optionsData",initialOptions);
 
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
   };
   const clearSelection = () => {
-    setSelectedOptions([]); // Clear local selection
+    setSelectedOptions([]); 
   };
 
   useEffect(() => {
     if (resetSelection ) {
-      resetSelection.current = clearSelection; // Assign the function to the ref
+      resetSelection.current = clearSelection; 
     }
 
    
@@ -365,7 +366,7 @@ useEffect(()=>{
                             }}
                             style={
                               isOptionSelected
-                                ? { pointerEvents: "none", opacity: 0.5 }
+                                ? { pointerEvents: "none" }
                                 : {}
                             }
                           >
