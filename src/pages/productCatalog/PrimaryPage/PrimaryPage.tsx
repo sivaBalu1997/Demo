@@ -225,7 +225,7 @@ const PrimaryPage = () => {
     },
   });
 
-  const[popularItem,setPopularItem]=useState("")
+  const[popularItem,setPopularItem]=useState<any>("")
 
 
   const location = useLocation<LocationState | undefined>();
@@ -248,6 +248,10 @@ const PrimaryPage = () => {
       setPopularItem(PopularItemFormApi); // Update state
     
   }, [PopularItemFormApi]); 
+  useEffect(()=>{
+    dispatch(getPopularItemRequest(locationid))
+
+  },[])
 
 
   useEffect(() => {
@@ -492,19 +496,29 @@ const PrimaryPage = () => {
   );
 
   const cuisineData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.cuisineData
+    (state: any) => state.productCatalog.cuisineData
   );
   const subCategoryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.subCategoryData
+    (state: any) => state.productCatalog.subCategoryData
   );
   const categoryData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.categoryData
+    (state: any) => state.productCatalog.categoryData
   );
   const bestPairData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.bestPairData
+    (state: any) => state.productCatalog.bestPairData
   );
-  const handleCheckboxChange=()=>{
-    dispatch(getPopularItemRequest(locationid))
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+
+    if(isChecked){
+      setPopularItem(popularItem+1)
+    }
+    else if(!isChecked){
+      setPopularItem(popularItem-1)
+
+
+    }
+
   }
 
   const handleReset=()=>{
@@ -658,7 +672,7 @@ const dataforadd=
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={cuisineData}
+                        options={cuisineData?.data?.map((elem:any) => elem.name)||[]}
                         type="radio"
                         setOptions={setDataCuisine}
                         placeholder="search for option"
@@ -675,7 +689,7 @@ const dataforadd=
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
-                        dropDownType="cuisine"
+                        dropDownType="CUISINES"
                         resetSelection={cuisineRef} 
                       />
                     )}
@@ -689,7 +703,7 @@ const dataforadd=
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={categoryData}
+                        options={categoryData?.data?.map((elem:any) => elem.name)||[]}
                         setOptions={setDataSubcategory}
                         placeholder="search for option"
                         type="radio"
@@ -706,7 +720,7 @@ const dataforadd=
                         onToggle={() => handleDropdownToggle("category")}
                         addNew={true}
                         editValues={true}
-                        dropDownType="category"
+                        dropDownType="CATEGORY"
                         resetSelection={categoryref} 
 
                       />
@@ -722,7 +736,7 @@ const dataforadd=
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={bestPairData}
+                          options={bestPairData?.data?.map((elem:any) => elem.name)||[]}
                           setOptions={setDataBestPair}
                           placeholder="search for option"
                           type="checkbox"
@@ -738,7 +752,7 @@ const dataforadd=
                           setDropdownOpen={setDropdownOpen}
                           addNew={false}
                           editValues={false}
-                          dropDownType="bestPair"
+                          dropDownType="BEST_PAIRED_ITEMS"
                           resetSelection={BestpairedRef} 
                         />
                       )}
@@ -979,7 +993,7 @@ const dataforadd=
 
                 <div className="Primary-page-InputFields PopularItem">
                   <input type="checkbox" onChange={handleCheckboxChange} />
-                  <span>{popularItem}</span>
+                  <span>Popular item ( {popularItem}/10 )</span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
@@ -990,7 +1004,7 @@ const dataforadd=
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={subCategoryData}
+                          options={subCategoryData.data?.map((elem:any) => elem.name)||[]}
                           setOptions={setDataSubcategory}
                           placeholder="search for option"
                           type="radio"
@@ -1004,7 +1018,7 @@ const dataforadd=
                           dropdownopen={DropdownOpen.subCategory}
                           setDropdownOpen={setDropdownOpen}
                           onToggle={() => handleDropdownToggle("subCategory")}
-                          dropDownType="subCategory"
+                          dropDownType="SUB_CATEGORY"
                           resetSelection={subCatagoryRef} 
                         />
                       )}

@@ -127,7 +127,7 @@ useEffect(()=>{
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if(dropDownType){
-      // getdatafrosaga();
+      getdatafrosaga();
     }
   };
 

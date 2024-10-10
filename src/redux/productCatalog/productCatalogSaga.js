@@ -137,16 +137,16 @@ function* fetchDropdownDataSaga(action) {
          console.log("tyep data",response);
          
           break;
-        case "cuisine":
+        case 'CUISINES':
           yield put(cuisineDataSuccess(response));
           break;
-        case "category":
+        case 'CATEGORY':
           yield put(catogoryDataSuccess(response));
           break;
-        case "subCategory":
+        case 'SUB_CATEGORY':
           yield put(subCategoryDataSuccess(response));
           break;
-        case "bestPair":
+        case 'BEST_PAIRED_ITEMS':
           yield put(bestPairDataSuccess(response));
           break;
         default:
