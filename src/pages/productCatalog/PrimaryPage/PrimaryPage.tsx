@@ -490,7 +490,6 @@ const PrimaryPage = () => {
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
-  console.log(dietaryData)
 
   const cuisineData = useSelector(
     (state: StateDataTag3) => state.productCatalog.cuisineData

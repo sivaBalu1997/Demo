@@ -38,8 +38,6 @@ export const deleteSubSection = ({data}) => {
 }
 
 export const addSubsectionApi = ( data ) => {
-  console.log('Data to be sent:', data); 
-
   return API({
     method: 'post',
     url: `/api/v1/menu-items/sub-section`,

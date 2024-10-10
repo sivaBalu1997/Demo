@@ -207,10 +207,7 @@ useEffect(()=>{
       const newItem: Option = {
         id: (Array.isArray(initialOptions) ? initialOptions.length + 1 : 1).toString(),
         name: newItemLabel,
-      };
-      console.log("newItem", newItem.name);
-      console.log("dropDownType",dropDownType)
-  
+      };  
       setOptions([...(Array.isArray(initialOptions) ? initialOptions : []), newItem]);
 
   
@@ -228,7 +225,6 @@ useEffect(()=>{
       dispatch(addDropDowRequest(dataforadd));
     }
   };
-  console.log(initialOptions)
 
   const payload={
  
@@ -264,8 +260,6 @@ useEffect(()=>{
   // value={type === "checkbox"
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
-
-  console.log(initialOptions)
 
   return (
     
