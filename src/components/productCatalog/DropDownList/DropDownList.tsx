@@ -80,7 +80,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const locationid = useSelector(
     (state: any) => state.auth.credentials.locationId
   );
-  console.log("optionsData",initialOptions);
+ 
 
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
