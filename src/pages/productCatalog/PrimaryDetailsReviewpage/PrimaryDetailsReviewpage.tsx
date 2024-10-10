@@ -8,7 +8,7 @@ import Step2 from "../../../components/productCatalog/Step2/Step2";
 import { Contextpagejs } from "../contextpage";
 import ReviewValues from "../../../components/productCatalog/ReviewValues/ReviewValues";
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
-import Step3Review from "../../../components/productCatalog/Step3Review/Step3Review";
+import Step3Review, { RootStateIC } from "../../../components/productCatalog/Step3Review/Step3Review";
 import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImageSelected/PrimaryImageSelected";
 import {
   addMenuItemRequest,
@@ -20,6 +20,7 @@ import {
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
 import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
+import { categoryType, cuisine, dietarytype, mealType } from "assets/mockData/Moca_data";
 
 interface Image {
   id: string;
@@ -118,19 +119,26 @@ interface ImageId {
 const PrimaryDetailsReviewpage: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
-  const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  const fetchedprimarydata = primarydata;
-  // console.log(fetchedprimarydata.ingredients);
 
   const uploadStatus = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.uploadStatus);
   const errorMessages = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages);
+
+  const primarydata = useSelector((state: RootState) => state.primarypage.data);
+  const prizingDetail = useSelector((state : RootState) => state?.PricingDetailReducer?.prizingData);
+  const itemCustomizationData = useSelector((state : RootStateIC) => state.itemCustomizationsReducer1.itemData);
+
+  const fetchedprimarydata = primarydata;
+
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
     (state: ImageId) => state.productCatalog.addMenuSuccessMessage
   );
+
   const [imageIdtosend, setimageIdtosend] = useState<string>("");
+
   useEffect(()=>{
     setError([]);
   },[])
@@ -232,7 +240,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setDisableSubmit(true);
     }
   };
-const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
+
+  const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
   const [indextoreplace, setindextoreplace] = useState<Status[]>([]);
   const allUploaded =  uploadedimage &&uploadedimage.every(
     (img) => img && !hasImageError(img.file)
@@ -244,7 +253,6 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
     }
 
   },[allUploaded])
-
 
   useEffect(() => {
     checkAllImagesForErrors();
@@ -286,6 +294,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
         status: uploadStatus.status,
         index: indexToReplace,
       };
+
       dispatch(cleanMenuItemSuccessMsg())
 
       setTimeout(() => {
@@ -358,7 +367,7 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
       });
     }
     dispatch(addMenuItemRequest(data));
-      dispatch(addMockDataRequest(data));
+    dispatch(addMockDataRequest(data));
 
     // If needed, redirect or perform other actions here
     // if (allUploaded) {
@@ -369,6 +378,33 @@ const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
   };
+
+//  primarydata  prizingDetail itemCustomizationData 
+
+  const menuPayload = {
+    itemId : '1234',
+    itemName : primarydata?.itemName,
+    itemCode : primarydata?.itemCode,
+    dietarytype : primarydata?.dietaryType,
+    barCode : primarydata?.barCode,
+    cuisine : primarydata?.cuisine,
+    // isPopularItem : primarydata?.popularItem,
+    mealType : primarydata?.mealType,
+    categoryId : primarydata?.categoryId,
+    pairedItems : primarydata?.bestPair,
+    allergens : primarydata?.allergens,
+    description : primarydata?.description,
+    containsAlcohol : primarydata?.alcohol,
+    ingredients : primarydata?.Ingredients,
+    calorieInfo : primarydata?.caloriePoint,
+    partionInfo : primarydata?.portionSize,  // check the spelling
+    taxClassAssociation : primarydata?.taxFeeId,
+    masterItemCode : primarydata?.masterCode,
+
+    // preparationTime : prizingDetail?.mainForm.
+  }
+
+  // console.log({menuPayload})
 
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>

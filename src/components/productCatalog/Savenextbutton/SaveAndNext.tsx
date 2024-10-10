@@ -99,8 +99,8 @@ interface MainForm {
   form: FormState;
   kitchenstation: string;
   Preparationtime: {
-    hours:string,
-    minutes:string,
+    hours: string;
+    minutes: string;
   };
   KitchenStationId: string;
   normalForm?: any;
@@ -112,10 +112,9 @@ interface SubmitButtonProps {
   reset: () => void;
   modifications?: Modification[];
   triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
-  mainForm?:MainForm
-  validation?:()=>boolean
-  handleValidate?:any
-
+  mainForm?: MainForm;
+  validation?: () => boolean;
+  handleValidate?: any;
 }
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
@@ -125,13 +124,12 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   triggerValidation,
   validation,
   mainForm,
-  handleValidate
+  handleValidate,
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
- // Safely invoking validation
+  // Safely invoking validation
 
- 
   // const extractFields = (formData: FormData) => {
   //   return {
   //     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -193,59 +191,66 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           behavior: "smooth",
         });
         return;
-      }
-      else{
+      } else {
         history.push({
           pathname: `/productCatalog/Pricingandkitchendetails`,
           state: { pagename: "Pricing and kitchen details" },
         });
         dispatch(primarypost(formData));
       }
+    } else if (seletedpage === "Pricing" && triggerValidation) {
+      const isValid = handleValidate();
 
-    }else if (seletedpage === "Pricing" && triggerValidation ) {
-      const isValid=handleValidate();
-     
-        let PricingDetails = { ...mainForm };
-        console.log("hello", mainForm);
-     
-        const formData = getFormData();
-        const isinValid=await triggerValidation(formData)
-        console.log("h1",formData);
-       
-        if (formData.kitchenstation) {
-          PricingDetails = {
-            ...PricingDetails,
-            kitchenstation: formData.kitchenstation,
-          };
-        } else {
-          console.error("formData.kitchenstation is undefined");
-        }
-     
-        if (formData.form && formData.form?.Inventory1) {
-          PricingDetails = {
-            ...PricingDetails,
-            form: {
-              ...mainForm?.form, // Ensure form exists by spreading PricingDetails.form or defaulting to an empty object
-              Inventory1: formData.form.Inventory1 || "", // Update or set Inventory1
-              Inventory2: formData.form.Inventory2 || "", // Update or set Inventory2
-            }
-          };
-        }
-       
-         
-       
-        // Add further logic to proceed after validation passes
-        if(isValid)
-        {
-          dispatch(PricingDetailRequest(PricingDetails))
-          history.push({
-            pathname: `/productCatalog/Itemcustomizations`,
-            state: { pagename: "Itemcustomizations" },
-          });
-   
-        }
+      let PricingDetails = { ...mainForm };
+
+      const formData = getFormData();
+      const isinValid = await triggerValidation(formData);
+
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,
+          kitchenstation: formData.kitchenstation,
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
       }
-    else if (seletedpage === "ItemCustomization") {
+
+      if (formData.form && formData.form?.Inventory1) {
+        PricingDetails = {
+          ...PricingDetails,
+          form: {
+            ...mainForm?.form, // Ensure form exists by spreading PricingDetails.form or defaulting to an empty object
+            Inventory1: formData.form.Inventory1 || "", // Update or set Inventory1
+            Inventory2: formData.form.Inventory2 || "", // Update or set Inventory2
+          },
+        };
+      }
+      console.log("hi", formData.Preparationtime.hours);
+      if (
+        formData.Preparationtime?.hours ||
+        formData.Preparationtime?.minutes
+      ) {
+        PricingDetails = {
+          ...PricingDetails,
+          Preparationtime: {
+            // No need to fallback, because it's defined
+            hours: formData.Preparationtime.hours, // Update hours
+            minutes: formData.Preparationtime.minutes, // Update minutes
+          },
+        };
+      } else {
+        console.error("formData.Preparationtime is undefined");
+      }
+
+      // Add further logic to proceed after validation passes
+      if (isValid) {
+        dispatch(PricingDetailRequest(PricingDetails));
+        history.push({
+          pathname: `/productCatalog/Itemcustomizations`,
+          state: { pagename: "Itemcustomizations" },
+        });
+      }
+    } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));
@@ -256,7 +261,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   const handleclear = () => {
     reset();
   };
-  
+
   return (
     <div>
       <div className={isExpanded ? " saveandnextExpanded" : "saveandnext"}>
@@ -283,4 +288,3 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   );
 };
 export default SaveAndNext;
- 

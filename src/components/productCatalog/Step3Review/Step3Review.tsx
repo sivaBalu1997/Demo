@@ -8,7 +8,7 @@ interface Option {
   item: string;
   price: number;
 }
-interface ItemCustomization {
+export interface ItemCustomization {
   modifierName: string;
   selectionType: string;
   minSelection?: number;
@@ -18,7 +18,7 @@ interface ItemCustomization {
   selectedValue?: string[];
   serviceStreams?: string[];
 }
-interface RootState {
+export interface RootStateIC {
   itemCustomizationsReducer1: {
     itemData: ItemCustomization[];
   };
@@ -27,7 +27,7 @@ interface RootState {
 const Step3Review: React.FC = () => {
   // Access itemCustomizationsReducer1 from the Redux store
   const itemCustomizationData = useSelector(
-    (state: RootState) => state.itemCustomizationsReducer1.itemData
+    (state: RootStateIC) => state.itemCustomizationsReducer1.itemData
   );
   const { setActiveCategory } = useContext(Contextpagejs);
 
