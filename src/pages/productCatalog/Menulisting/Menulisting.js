@@ -27,32 +27,34 @@ export const Menulisting = () => {
   const dispatch = useDispatch();
 
   const location = useSelector((state) => state.auth.selectedBranch)
-  const menuData = useSelector((state) => state.productCatalog.menuData)
+  const menuData = useSelector((state) => state.productCatalog?.menuData)
 
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
 
   useEffect(() => {
-    dispatch(storeMockDataRequest(combinedItemsData));
+    // dispatch(storeMockDataRequest(combinedItemsData));
     dispatch(getMenuRequest(location.id));
   }, []);
 
   console.log({menuData})
 
   useEffect(() => {
-   
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
 
   const addedData=useSelector((state)=> state.addMockDataReducer.data)
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
+
   const FilteredData = useSelector(
     (state) => state.storeMockDataFilteredReducer.data
   );
+
   const hiddenData= useSelector(
     (state) => state.addMockDataHiddenReducer?.data ||[]
   );
+
   const [FilteredObject, setFilteredObject] = useState([]);
 
   useEffect(() => {
@@ -391,6 +393,7 @@ export const Menulisting = () => {
       document.removeEventListener("click", Outsideclicking, true);
     };
   }, [showheadinglist]);
+
   const allFalse = Object.values(listingobject).every(value => value === false);
 
   const selectedItems =
@@ -410,7 +413,7 @@ export const Menulisting = () => {
 
         <div className="Menu-Listing-Page-main">
           <div>
-            <InsertColumnList
+            <InsertColumnList                                   //static
               listingobject={listingobject}
               setlistingobject={setlistingobject}
               insertlists={insertlists}
@@ -440,10 +443,10 @@ export const Menulisting = () => {
                 className="Menu-Listing-TableOneBody Menu-listing-Body"
                 ref={tableBodyRef1}
               >
-                {steamType.map((object, index) => (
+                {menuData.map((object, index) => (
                   <React.Fragment key={index}>
                     <RowHeading
-                      objectId={object.id}
+                      objectId={object.categoryId}
                       object={object}
                       index={index}
                       onDragStart={handledragvegnonvegdragstart}
@@ -485,7 +488,6 @@ export const Menulisting = () => {
                 <tr className="headingonesection">
                   {firstRowTable.map((header, index) => (
                     <React.Fragment key={index}>
-                      
                       <TableFirstHeader
                         key={index}
                         header={header}
@@ -529,30 +531,37 @@ export const Menulisting = () => {
                 } tabletwobody`}
                 ref={tableBodyRef2}
               >
-                {
-                  allFalse ?<><h1 className="columnselected">No Column Selected</h1></>:<>{steamType.map((itemobject, indexvalue) => {
-                    return (
-                      <React.Fragment key={indexvalue}>
-                        <tr>
-                          {indexvalue === 1 &&  !(steamType[0].name.length<=0 ||steamType[1].name.length<=0 ) &&(
-                            <tr className="itemheading2row"></tr>
-                          )}
-                        </tr>
-                        {/* //  */}
-                        <TableTwoBody
-                          itemobject={itemobject}
-                          indexvalue={indexvalue}
-                          classNamesinner={classNamesinner}
-                          listingobject={listingobject}
-                          showsidebar={showsidebar}
-                          SideBarData={SideBarData}
-                          setSideBar={setSideBar}
-                          handlemodal={handlemodal}
-                          listingheaders={allFalse}
-                        />
-                      </React.Fragment>
-                    );
-                  })}</>
+                {allFalse ?
+                  <>
+                    <h1 className="columnselected">
+                      No Column Selected
+                    </h1>
+                  </> :
+                  <>
+                    {menuData.map((itemobject, indexvalue) => {
+                      return (
+                        <React.Fragment key={indexvalue}>
+                          <tr>
+                            {indexvalue === 1 && (
+                              <tr className="itemheading2row"></tr>
+                            )}
+                          </tr>
+                          {/* //  */}
+                          <TableTwoBody
+                            itemobject={itemobject}
+                            indexvalue={indexvalue}
+                            classNamesinner={classNamesinner}
+                            listingobject={listingobject}
+                            showsidebar={showsidebar}
+                            SideBarData={SideBarData}
+                            setSideBar={setSideBar}
+                            handlemodal={handlemodal}
+                            listingheaders={allFalse}
+                          />
+                        </React.Fragment>
+                      );
+                    })}
+                  </>
                 }
                 
               </tbody>

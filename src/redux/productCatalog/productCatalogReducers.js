@@ -183,6 +183,7 @@ export default function productCatalogReducer(
         draft.addMenuLoading = true
         break;
       case STORE_MENU_SUCCESS:
+        console.log(action.payload)
         draft.menuData = action.payload
         draft.menuDataSuccess = true
         draft.menuDataFailed = false
@@ -406,7 +407,7 @@ export default function productCatalogReducer(
         draft.addMenuFailedMessage = action.payload;
         break;
 
-      //   UPLOAD_IMAGE_SUCCESS:
+      //UPLOAD_IMAGE_SUCCESS:
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
         break;

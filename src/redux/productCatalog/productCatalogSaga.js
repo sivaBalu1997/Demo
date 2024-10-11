@@ -48,7 +48,8 @@ import {
   addDropDownSuccess,
   addDropDownFailure,
   deleteDropDownSuccess,
-  deleteDropDownFailure
+  deleteDropDownFailure,
+  getMenuSuccess
 
 
 } from "./productCatalogActions";
@@ -114,7 +115,7 @@ function* fetchMenuDataSaga(action) {
   try{
     const response = yield call(getMenuDataApi, action.payload)
     if(response.status === 200){
-      yield put(getMenuCategorySuccess(response))
+      yield put(getMenuSuccess(response.data))
     }else {
       yield put(getMenuFailure({message : 'Please try again'}))
     }
