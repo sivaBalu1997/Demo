@@ -63,10 +63,11 @@ type MainFormType = {
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
-  DineInService: string | string[];
-  showDay: any;
-  dayButtonText: any;
+  // DineInService: string | string[];
+  // showDay: any;
+  // dayButtonText: any;
 };
+
 type DineinFieldSpecial = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
@@ -235,7 +236,7 @@ const PricingDetails = () => {
   );
   
   const cuisineData = useSelector(
-    (state: StateDataTag3) => state.productCatalog.cuisineData
+    (state: any) => state.productCatalog.cuisineData.data
   );
 
   const [options, setOptions] = useState<option[]>([]);
@@ -270,6 +271,7 @@ const PricingDetails = () => {
     Zomato: [],
     Availabilityid: [],
   });
+  
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const [selectedValue1, setSelectedValue1] = useState<string[]>([]);
@@ -287,6 +289,7 @@ const PricingDetails = () => {
   const [dinein, setDineIn] = useState(false);
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
+
   const [validationState, setValidationState] = useState({
     kitchen: { isValid: true, errorMessage: "" },
     preparationTime: { isValid: true, errorMessage: "" },
@@ -398,9 +401,6 @@ const PricingDetails = () => {
     {
       DineInPrice: "",
       DineInMealType: [],
-      DineInService: "", // Change this from DinInService to DineInServiceArea
-      showDay: false,
-      dayButtonText: "Add Day",
     },
   ]);
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
@@ -431,14 +431,15 @@ const PricingDetails = () => {
         errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       }
 
-      if (!field.DineInService || field.DineInService.length === 0) {
-        errors[DineInService] = {
-          isValid: false,
-          errorMessage: "Service area should not be empty.",
-        };
-      } else {
-        errors[DineInService] = { isValid: true, errorMessage: "" };
-      }
+      // if (!field.DineInService || field.DineInService.length === 0) {
+      //   errors[DineInService] = {
+      //     isValid: false,
+      //     errorMessage: "Service area should not be empty.",
+      //   };
+      // } 
+      // else {
+      //   errors[DineInService] = { isValid: true, errorMessage: "" };
+      // }
 
       if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
         errors[priceKey] = {
@@ -639,7 +640,7 @@ const PricingDetails = () => {
               <div className="D1kitchen">
                 <Dropdown
                   name="kitchenstation"
-                  options={[]}
+                  options={cuisineData}
                   type="checkbox"
                   setOptions={setOptions1}
                   placeholder="Search for option"
@@ -654,6 +655,7 @@ const PricingDetails = () => {
                   setDropdownOpen={setDropdownOpen}
                   dropdownopen={DropdownOpen.Kitchen}
                   onToggle={() => handleDropdownToggle("Kitchen")}
+                  dropDownType="CUISINES"
                   resetSelection={kitchenDetail}
                 />
               </div>
