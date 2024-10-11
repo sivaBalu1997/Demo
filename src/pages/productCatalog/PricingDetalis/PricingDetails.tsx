@@ -639,7 +639,7 @@ const PricingDetails = () => {
               <div className="D1kitchen">
                 <Dropdown
                   name="kitchenstation"
-                  options={cuisineData}
+                  options={[]}
                   type="checkbox"
                   setOptions={setOptions1}
                   placeholder="Search for option"

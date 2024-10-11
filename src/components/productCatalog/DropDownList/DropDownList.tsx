@@ -14,8 +14,10 @@ interface Option {
  
   id: string;
   name: string;
-  // canDelete:string;
-  // media:media
+  locationId: string | null;
+  type: string | null;
+  parentId: string | null;
+  canDelete: boolean;
 }
 
  
@@ -47,7 +49,7 @@ interface DropdownProps {
 
 const DropDownList: React.FC<DropdownProps> = ({
   name,
-  options: initialOptions,
+  options,
   type = "checkbox",
   register,
   setValue,
@@ -95,6 +97,9 @@ const DropDownList: React.FC<DropdownProps> = ({
    
   }, [resetSelection]);
 
+const initialOptions = Array.isArray(options)? options.map((elem: any) => elem.name) : [];
+console.log(initialOptions)
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -127,7 +132,7 @@ useEffect(()=>{
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if(dropDownType){
-      // getdatafrosaga();
+      getdatafrosaga();
     }
   };
 
@@ -201,30 +206,30 @@ useEffect(()=>{
     setSearchTerm("");
   };
 
-  const handleNewItemAdd = () => {
-    const newItemLabel = NewItemref.current?.value.trim();
-    if (newItemLabel) {
-      const newItem: Option = {
-        id: (Array.isArray(initialOptions) ? initialOptions.length + 1 : 1).toString(),
-        name: newItemLabel,
-      };  
-      setOptions([...(Array.isArray(initialOptions) ? initialOptions : []), newItem]);
+  // const handleNewItemAdd = () => {
+  //   const newItemLabel = NewItemref.current?.value.trim();
+  //   if (newItemLabel) {
+  //     const newItem: Option = {
+  //       id: (Array.isArray(initialOptions) ? initialOptions.length + 1 : 1).toString(),
+  //       name: newItemLabel,
+  //     };  
+  //     setOptions([...(Array.isArray(initialOptions) ? initialOptions : []), newItem]);
 
   
-      handleSelect(newItem);
-      setSearchTerm("");
-      setAddNewButton(false);
+  //     handleSelect(newItem);
+  //     setSearchTerm("");
+  //     setAddNewButton(false);
   
-      const dataforadd = {
-        name: newItem.name,
-        locationId: locationid,
-        type: dropDownType,
-        parentId: ""
-      };
+  //     const dataforadd = {
+  //       name: newItem.name,
+  //       locationId: locationid,
+  //       type: dropDownType,
+  //       parentId: ""
+  //     };
   
-      dispatch(addDropDowRequest(dataforadd));
-    }
-  };
+  //     dispatch(addDropDowRequest(dataforadd));
+  //   }
+  // };
 
   const payload={
  
@@ -235,7 +240,7 @@ useEffect(()=>{
  
   const filteredOptions = Array.isArray(initialOptions)
   ? initialOptions.filter((option) =>
-      option.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
+      option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
     )
   : [];
   const handleNewItemAddition = () => {
@@ -260,6 +265,24 @@ useEffect(()=>{
   // value={type === "checkbox"
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
+
+  console.log("selected",selectedOptions)
+  
+  const handleCheckboxChange = (option: Option) => {
+    if(type=="checkbox"){
+    setSelectedOptions((prevSelected) => {
+      if (prevSelected.some((opt) => opt.id === option.id)) {
+        setValue(name, selectedOptions.map((opt) => opt.name).join(", "));
+       
+        return prevSelected.filter((opt) => opt.id !== option.id);
+      } else {
+        // If not selected, add it
+        return [...prevSelected, option];
+      }
+    });
+  }
+  };
+
 
   return (
     
@@ -324,10 +347,10 @@ useEffect(()=>{
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {initialOptions.length > 0 ? (
-                initialOptions.map((option, index) => {
-                  const isOptionSelected = initialOptions.some(
-                    (opt) => opt.id === option.id
+              {options?.length > 0 ? (
+                options?.map((option, index) => {
+                  const isOptionSelected = options.some(
+                    (opt) => opt?.id === option?.id
                   );
 
                   return (
@@ -335,18 +358,16 @@ useEffect(()=>{
                       <li className="dropdown-option">
                         <input
                           type={type}
-                          checked={initialOptions.some(
-                            (opt) => opt.id === option.id
-                          )}
+                          checked={selectedOptions.some((opt) => opt.id === option.id)} 
                           className="dropdon-option-inputfield"
-                          onChange={() => handleSelect(option)}
+                          onChange={() => handleCheckboxChange(option)}
                         />
                         <span
                           className="dropdon-option-label"
                           onClick={() => handleSelect(option)}
                          
                         >
-                          {option}
+                          {option.name}
                         </span>
                       </li>
                       <div>
@@ -404,7 +425,7 @@ useEffect(()=>{
                     />
                     <button
                       type="button"
-                      onClick={handleNewItemAdd}
+                      // onClick={handleNewItemAdd}
                       className="dropdown-addnew-button"
                     >
                       Add
