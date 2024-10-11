@@ -563,13 +563,9 @@ const PrimaryPage = () => {
     setDescription(" ")
     setCharCount(0);
     setImages([])
-  
-  
-    
   }
-// console.log("hi",popularItem)
-const dataforadd=
-  {
+
+  const dataforadd={
     name: "rotti",
     locationId: locationid,
     type: "DIET",
@@ -579,8 +575,6 @@ const dataforadd=
   // console.log(getValues())
   const hansleshwadd=()=>{
     dispatch(addDropDowRequest(dataforadd))
-    
-
   }
 
   return (
@@ -601,7 +595,7 @@ const dataforadd=
             <div className="Primary-page-container-one">
               <div className="Primary-page-container-pairone">
                 <div className="Primary-page-InputFields">
-                  <button onClick={hansleshwadd}>show add</button>
+                  {/* <button onClick={hansleshwadd}>show add</button> */}
                   {" "}
                   <LableComponent lable="ItemName *" />
                   <Controller
