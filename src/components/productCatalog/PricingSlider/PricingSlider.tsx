@@ -112,11 +112,7 @@ const PricingSlider: any = ({  }) => {
                           <input
                             type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
-                            value={
-                              sub === 0
-                                ? inputs.Pickup1 || ""
-                                : inputs.Delivery1[idx] || ""
-                            }
+                            value={data[0]?.orderTypes[0].price}
                             onChange={(e) =>
                               handleInputChange1(
                                 e,
