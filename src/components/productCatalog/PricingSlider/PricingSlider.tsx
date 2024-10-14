@@ -48,19 +48,19 @@ const PricingSlider: any = ({  }) => {
     setSectionAValue(updatedValue);
   }, [data]);
 
-  const handleInputChange1 = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    section: PricingKey,
-    index: number
-  ) => {
-    const value = e.target.value;
-    setInputs((prev) => ({
-      ...prev,
-      [section]: prev[section].map((item: number, idx: any) =>
-        idx === index ? value : item
-      ),
-    }));
-  };
+    const handleInputChange1 = (
+      e: React.ChangeEvent<HTMLInputElement>,
+      section: PricingKey,
+      index: number
+    ) => {
+      const value = e.target.value;
+      setInputs((prev) => ({
+        ...prev,
+        [section]: prev[section].map((item: number, idx: any) =>
+          idx === index ? value : item
+        ),
+      }));
+    };
 
   const handleComparision = () => {
     setShowCompare(!showCompare);
