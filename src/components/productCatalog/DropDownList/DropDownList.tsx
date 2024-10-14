@@ -273,6 +273,7 @@ useEffect(()=>{
     if(type=="checkbox"){
     setSelectedOptions((prevSelected) => {
       if (prevSelected.some((opt) => opt.id === option.id)) {
+        console.log("selectedOptions-data",selectedOptions)
         setValue(name, selectedOptions.map((opt) => opt.name).join(", "));
        
         return prevSelected.filter((opt) => opt.id !== option.id);
