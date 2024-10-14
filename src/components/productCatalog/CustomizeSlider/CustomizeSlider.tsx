@@ -19,37 +19,29 @@ interface ItemCustomization {
   serviceStreams?: string[];
 }
 interface RootState {
-  itemCustomizationsReducer1: {
-    itemData: ItemCustomization[];
+  selectedMockDataReducer: {
+    data: any[];
   };
 }
 
 
 
 const CustomizeSlider = () => {
-  const itemCustomizationData = useSelector((state:RootState) => state.itemCustomizationsReducer1.itemData);
-  console.log(itemCustomizationData)
+  const datafromRedux = useSelector((state:RootState) => state?.selectedMockDataReducer?.data);
 
   const data = [
     {
-      mainHeading: 'Topping',
-      types: ['Tomato:', 'Spice:'],
+      mainHeading: datafromRedux[0]?.modifiers[0]?.modifierName,
+      types: datafromRedux[0]?.modifiers[0]?.options.map((elem:any)=>elem.name)
     },
-    {
-      mainHeading: 'Sauce',
-      types: ['Veggies:', 'Cheese:'],
-    },
-    {
-      mainHeading: 'Crust',
-      types: ['Thin:', 'Medium:', 'Crispy:'],
-    },
+   
     
   ];
 
   const [toggleStates, setToggleStates] = useState(
     data.map((item) => ({
       parentToggle: false,
-      childToggles: Array(item.types.length).fill(false),
+      childToggles: Array(item.types?.length).fill(false),
     }))
   );
   const [pen, setPen] = useState(true);
@@ -90,7 +82,7 @@ const CustomizeSlider = () => {
               <div className='item-heading'>{elem.mainHeading}</div>
               <div className='toggle-container'>
                 <ToggleSliderAvail
-                  toggle={toggleStates[index]?.parentToggle}
+                  toggle={datafromRedux[0]?.modifiers[0]?.isEnabled}
                   setToggle={() => handleParentToggle(index)}
                   pen={pen}
                 />
@@ -98,17 +90,17 @@ const CustomizeSlider = () => {
             </div>
 
             <div>
-              {elem.types.map((subitem, subindex) => (
+              {elem?.types?.map((subitem:any, subindex:any) => (
                 <div className='subitems-toggle-container-flex-direction' key={subindex}>
                   <div className='subitems-toggle-container-flex'>
                     <div className='subitem-heading'>{subitem}</div>
                     <div className='subItemToggle'>
                       <ToggleSliderAvail
-                        toggle={toggleStates[index].childToggles[subindex]}
+                        toggle={datafromRedux[0]?.modifiers[0]?.options.map((elem:any)=>elem.isEnabled)}
                         setToggle={() => handleChildToggle(index, subindex)}
                         pen={pen}
                       />
-                      <input className='input-subitem' type='text' placeholder='$100' />
+                      <input className='input-subitem' type='text' value={datafromRedux[0]?.modifiers[0]?.options.map((elem:any)=>elem.price)} placeholder='$100' />
                     </div>
                   </div>
                 </div>
