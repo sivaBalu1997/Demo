@@ -82,6 +82,9 @@ import {
   STORE_MENU_REQUEST,
   STORE_MENU_SUCCESS,
   STORE_MENU_FAILURE,
+  PARTIAL_UPDATE_MENU_REQUEST,
+  PARTIAL_UPDATE_MENU_SUCCESS,
+  PARTIAL_UPDATE_MENU_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -843,3 +846,41 @@ export const selectedMockDataReducer = (state = selectedMockData, action) => {
   }
 };
 
+
+const menuData = {
+  menuData: {},   // Menu data stored in the state
+  loading: false,
+  error: null,
+};
+
+export const menuReducer = (state = menuData, action) => {
+  switch (action.type) {
+    case PARTIAL_UPDATE_MENU_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+      
+    case PARTIAL_UPDATE_MENU_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        menuData: {
+          ...state.menuData,
+          ...action.payload,  // Merge the updated data into the existing menu data
+        },
+        error: null,
+      };
+      
+    case PARTIAL_UPDATE_MENU_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,  // Set the error from the failure action
+      };
+      
+    default:
+      return state;
+  }
+};

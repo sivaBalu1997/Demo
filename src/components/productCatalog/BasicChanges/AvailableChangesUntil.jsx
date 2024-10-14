@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import './AvailabilityChangesUntil.scss';
 import AvailCalender from '../AvailCalender/AvailCalender';
+import { useDispatch, useSelector } from 'react-redux';
+import { partialUpdateMenuRequest } from 'redux/productCatalog/productCatalogActions';
 
 const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
+  const dispatch=useDispatch()
   const [selectedOption, setSelectedOption] = useState(null); // Track the selected radio button
   const [showAvailCalender, setShowAvailCalender] = useState(false);
+  const menuData = useSelector((state) => state.productCatalog?.menuData)
+
 
   const Text = [
     'End of Today',
@@ -15,6 +20,8 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
 
   const handleSaveBtn = () => {
     setShowModalAvailable();
+    dispatch(partialUpdateMenuRequest(menuData))
+
     onclose();
   };
 
@@ -24,6 +31,9 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
       setShowAvailCalender(true); // Show calendar when the third option is selected
     } else {
       setShowAvailCalender(false); // Hide calendar for other options
+
+      
+
     }
   };
 

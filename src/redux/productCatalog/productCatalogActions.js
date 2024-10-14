@@ -110,7 +110,10 @@ import {
   STORE_MENU_FAILURE,
   ADDDROPDOWN_SUCCESS,
   ADDDROPDOWN_REQUEST,
-  ADDDROPDOWN_FAILURE
+  ADDDROPDOWN_FAILURE,
+  PARTIAL_UPDATE_MENU_REQUEST,
+  PARTIAL_UPDATE_MENU_SUCCESS,
+  PARTIAL_UPDATE_MENU_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -696,4 +699,22 @@ export const selectedMockDataSuccess = (data) => ({
 export const selectedMockDataFailure = (error) => ({
   type: SELECTED_MOCKDATA_FAILURE,
   payload: error,
+});
+
+
+// *********************PartialUpdate*********************************
+
+export const partialUpdateMenuRequest = (payload) => ({
+  type: PARTIAL_UPDATE_MENU_REQUEST,
+  payload, 
+});
+
+export const partialUpdateMenuSuccess = (payload) => ({
+  type: PARTIAL_UPDATE_MENU_SUCCESS,
+  payload, 
+});
+
+export const partialUpdateMenuFailure = (payload) => ({
+  type: PARTIAL_UPDATE_MENU_FAILURE,
+  payload,  
 });

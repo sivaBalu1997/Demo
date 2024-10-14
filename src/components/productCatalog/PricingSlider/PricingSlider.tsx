@@ -11,9 +11,9 @@ const PricingSlider: any = ({  }) => {
   console.log("Data from Redux ",data)
   const { pen, setPen } = useContext(Contextpagejs);
   const [inputs, setInputs] = useState({
-    Dinein1: data?.[0]?.pricingdetails?.Dinein1 || [],
-    Pickup1: data?.[0]?.pricingdetails?.Pickup1 || [],
-    Delivery1: data?.[0]?.pricingdetails?.Delivery1 || [],
+    Dinein1: data[0]?.orderTypes[0]?.price  || [],
+    Pickup1: data[0]?.orderTypes[0]?.price  || [],
+    Delivery1:data[0]?.orderTypes[0]?.price  || [],
   });
   const [sectionAValue, setSectionAValue] = useState<string>("");
   const [showCompare, setShowCompare] = useState(false);
@@ -26,17 +26,19 @@ const PricingSlider: any = ({  }) => {
     },
     {
       heading: "Of-Prem",
-      labels: ["Pickup", "Delivery"],
-      InputLabels: ["In-House", "Zomato", "Swiggy"],
+      labels: data[0]?.orderTypes?.length > 0
+      ? [data[0]?.orderTypes[0].typeName]
+      : [],
+       InputLabels: ["In-House", "Zomato", "Swiggy"],
       inputTypes: ["text", "text", "text"],
     },
   ];
   useEffect(() => {
     if (data && data[0]?.pricingdetails) {
       setInputs({
-        Dinein1: data[0].pricingdetails.Dinein1 || [],
-        Pickup1: data[0].pricingdetails.Pickup1 || [],
-        Delivery1: data[0].pricingdetails.Delivery1 || [],
+        Dinein1:data[0]?.orderTypes[0]?.price  || [],
+        Pickup1: data[0]?.itemResponseList[0]?.orderTypes[0]?.price || [],
+        Delivery1: data[0]?.itemResponseList[0]?.orderTypes[0]?.price || [],
       });
     }
   }, [data]);
@@ -64,6 +66,9 @@ const PricingSlider: any = ({  }) => {
     setShowCompare(!showCompare);
   };
 
+  console.log(inputs.Pickup1)
+
+
   return (
     <div className="PricingSlider-Container">
       <h3 className="PricingSlider-Heading">Pricing</h3>
@@ -81,7 +86,6 @@ const PricingSlider: any = ({  }) => {
                       className="SectionA-Input"
                       onChange={(e) => handleInputChange1(e, "Dinein1", seInd)}
                       value={inputs.Dinein1[seInd] || ""}
-                      disabled={!pen}
                     />
                     <img
                       src={Weigh}
@@ -93,7 +97,7 @@ const PricingSlider: any = ({  }) => {
                 </div>
               ))}
               <div className="Section-Label">
-                {elem.labels?.map((label, sub) => (
+               {Array.isArray(elem.labels) && elem.labels.map((label: any, sub: any) => (
                   <div key={sub} className="OnSectionLabelInput">
                     <h3 className="OnSectionLabelInput-Heading">{label}</h3>
                     <div className="OnPremZomatoInhouseSwiggy">
@@ -110,7 +114,7 @@ const PricingSlider: any = ({  }) => {
                             className="OnPremZomatoInhouseSwiggyInputOrg"
                             value={
                               sub === 0
-                                ? inputs.Pickup1[idx] || ""
+                                ? inputs.Pickup1 || ""
                                 : inputs.Delivery1[idx] || ""
                             }
                             onChange={(e) =>
@@ -120,7 +124,7 @@ const PricingSlider: any = ({  }) => {
                                 idx
                               )
                             }
-                            disabled={!pen}
+                            // disabled={!pen}
                           />
                           {showCompare && (
                             <p className="Compare">{sectionAValue}</p>
