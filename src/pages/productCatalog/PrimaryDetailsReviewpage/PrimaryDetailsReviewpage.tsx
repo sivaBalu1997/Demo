@@ -72,28 +72,67 @@ interface PrimaryData {
 }
 interface RootState {
   primarypage: {
-    data: PrimaryData;
+      data: PrimaryData;
   };
   PricingDetailReducer: {
-    prizingData: {
-      mainForm: {
-        KitchenStationId?: {
-          KitchenStationId: string[];
-        };
-        normalForm?: {
-          availabilityid: {
-            availabilityid: string[];
-          };
-        };
-        specialForm?: {
-          availabilityid: {
-            availabilityid: string[];
-          };
-        };
-      };
-    };
+      prizingData: PricingData;
   };
 }
+interface PricingData {
+  mainForm: MainForm;
+}
+
+interface MainForm {
+  KitchenStationId?: string;
+  normalForm?: NormalForm;
+}
+
+interface PreparationTime {
+  hours:string;
+  minutes:string;
+}
+interface NormalForm {
+  availabilityid: string[];
+  formNormal: FormNormal;
+  dineinfields: DineInField[];
+  Normaldays: number[];
+  DeliveryMealType: string[];
+  PicupMealType: string[];
+  Pickup: number[];
+  DineInServiceArea: DineInServiceArea;
+  Delivery: number[];
+  thirdParty: number[];
+  WeekDays: number[][];
+  DineIn: number[][];
+  Swiggy: string[];
+  Zomato: string[];
+  Preparationtime: PreparationTime;
+}
+
+interface FormNormal {
+  PickuppriceNormal: string;
+  PickupmealtypeNormal: string;
+  DeliverypriceNormal: string;
+  DeliverymealtypeNormal: string;
+  SwiggyorzomatoNormal: string;
+  SwiggyNormal: string;
+  SwiggymealtypeNormal: string;
+  ZomatoNormal: string;
+  ZomatomealtypeNormal: string;
+}
+
+interface DineInField {
+  DineInPrice: string;
+  DineInMealType: string[];
+  DineInService: string[];
+  showDay: boolean;
+  dayButtonText: string;
+}
+
+interface DineInServiceArea {
+  [key: number]: string[];
+}
+
 interface Status {
   id: number;
   image: File;
@@ -379,7 +418,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     document.getElementById(`imgadd-${index}`)?.click();
   };
 
-//  primarydata  prizingDetail itemCustomizationData 
+  const modifierData = itemCustomizationData.map((item) => ({
+    modifierName : item?.modifierName,
+    maxCount : item?.maxSelection,
+    minCount : item?.minSelection,
+    noFreeCustomization :item?.freeCustomization,
+    modifierOptions : item?.options
+  }))
 
   const menuPayload = {
     itemId : '1234',
@@ -401,10 +446,15 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     taxClassAssociation : primarydata?.taxFeeId,
     masterItemCode : primarydata?.masterCode,
 
-    // preparationTime : prizingDetail?.mainForm.
-  }
+    kitchenStation : prizingDetail?.mainForm?.KitchenStationId,
+    preparationTimeInHours : prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours,
+    preparationTimeInMinutes : prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes,
+    // ignoreMasterKotPrint : 
+    availabilityDays : prizingDetail?.mainForm?.normalForm?.Normaldays,
+    // orderTypesWithRespectToAvailability : 
 
-  // console.log({menuPayload})
+    modifiers : modifierData
+  }
 
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>

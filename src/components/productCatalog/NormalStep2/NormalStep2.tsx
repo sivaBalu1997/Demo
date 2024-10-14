@@ -76,10 +76,6 @@
     const [Dinein1, setDinein] = useState<number[]>(Dinein);
     
     
-    console.log(thirdParty)
-
-    console.log(Dinein1?.map((elem)=>elem))
-
     useEffect(()=>{
       setDinein(
         prizingDetail?.normalForm?.DineIn.map((elem, index) => {

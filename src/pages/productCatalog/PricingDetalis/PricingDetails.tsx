@@ -27,6 +27,7 @@ import {
   calorieponitradio,
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
+import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -62,10 +63,11 @@ type MainFormType = {
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
-  DineInService: string | string[];
-  showDay: any;
-  dayButtonText: any;
+  // DineInService: string | string[];
+  // showDay: any;
+  // dayButtonText: any;
 };
+
 type DineinFieldSpecial = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
@@ -130,13 +132,12 @@ interface MainForm {
   form: FormState1;
   kitchenstation: string;
   Preparationtime: {
-    hours:string
-    minutes:string
+    hours: string;
+    minutes: string;
   };
   KitchenStationId: string;
   normalForm?: any;
   specialForm?: any;
-  
 }
 
 interface PricingDetailsFormData {
@@ -163,8 +164,6 @@ const PricingDetails = () => {
   const kitchenDetail = useRef<(() => void) | null>(null);
   const normalFormRef = useRef<(() => void) | null>(null);
   const specialFormRef = useRef<(() => void) | null>(null);
-
-
 
   const [mainFormState, setMainFormState] = useState<MainFormType>({
     availabilityid: [],
@@ -210,9 +209,9 @@ const PricingDetails = () => {
         Inventory2: "",
       },
       kitchenstation: "",
-      Preparationtime:{
-        hours:"",
-        minutes:"",
+      Preparationtime: {
+        hours: "",
+        minutes: "",
       },
       normalForm: mainFormState,
       specialForm: [],
@@ -227,16 +226,21 @@ const PricingDetails = () => {
   );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
-  const[Preparationtime,setpreparationTime]=useState({
-    hours:"",
-    minutes:""
-  })
+  const [Preparationtime, setpreparationTime] = useState({
+    hours: "",
+    minutes: "",
+  });
 
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
+  
+  const cuisineData = useSelector(
+    (state: any) => state.productCatalog.cuisineData.data
+  );
+
   const [options, setOptions] = useState<option[]>([]);
-  const [options1, setOptions1] = useState<Option[]>(cuisine);
+  const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });
@@ -267,6 +271,7 @@ const PricingDetails = () => {
     Zomato: [],
     Availabilityid: [],
   });
+  
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const [selectedValue1, setSelectedValue1] = useState<string[]>([]);
@@ -284,6 +289,7 @@ const PricingDetails = () => {
   const [dinein, setDineIn] = useState(false);
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
+
   const [validationState, setValidationState] = useState({
     kitchen: { isValid: true, errorMessage: "" },
     preparationTime: { isValid: true, errorMessage: "" },
@@ -331,7 +337,6 @@ const PricingDetails = () => {
       };
     });
   };
-  
 
   let mainForm: MainForm = {
     form: {
@@ -340,8 +345,8 @@ const PricingDetails = () => {
     },
     kitchenstation: "",
     Preparationtime: {
-       hours:"",
-       minutes:""
+      hours: "",
+      minutes: "",
     },
     KitchenStationId: "",
     normalForm: isOptionTrue ? mainFormState : undefined, // Conditionally set normalForm
@@ -352,7 +357,7 @@ const PricingDetails = () => {
   // const formData={
   // getValues();
   // }
-  
+
   useEffect(() => {
     if (prizingDetail) {
       reset({
@@ -365,10 +370,9 @@ const PricingDetails = () => {
           hours: prizingDetail.Preparationtime?.hours || "", // Ensure nested properties are accessed safely
           minutes: prizingDetail.Preparationtime?.minutes || "",
         },
-      
       });
     }
-  }, [prizingDetail, reset]); 
+  }, [prizingDetail, reset]);
 
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
@@ -393,14 +397,11 @@ const PricingDetails = () => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
 
-      const [dineinfields, setDineInFields] = useState<DineInField[]>([
-        {
-          DineInPrice: "",
-          DineInMealType: [],
-          DineInService: "", // Change this from DinInService to DineInServiceArea
-          showDay: false,
-          dayButtonText: "Add Day",
-        },
+  const [dineinfields, setDineInFields] = useState<DineInField[]>([
+    {
+      DineInPrice: "",
+      DineInMealType: [],
+    },
   ]);
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
     {
@@ -430,14 +431,15 @@ const PricingDetails = () => {
         errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       }
 
-      if (!field.DineInService || field.DineInService.length === 0) {
-        errors[DineInService] = {
-          isValid: false,
-          errorMessage: "Service area should not be empty.",
-        };
-      } else {
-        errors[DineInService] = { isValid: true, errorMessage: "" };
-      }
+      // if (!field.DineInService || field.DineInService.length === 0) {
+      //   errors[DineInService] = {
+      //     isValid: false,
+      //     errorMessage: "Service area should not be empty.",
+      //   };
+      // } 
+      // else {
+      //   errors[DineInService] = { isValid: true, errorMessage: "" };
+      // }
 
       if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
         errors[priceKey] = {
@@ -537,40 +539,34 @@ const PricingDetails = () => {
     } else {
       dropErrors1.DeliverySpecial = { isValid: true, errorMessage: "" };
     }
-    if(!mainFormSpecial.form1.Pickupprice)
-    {
+    if (!mainFormSpecial.form1.Pickupprice) {
       dropErrors1.PickupPrizeSpecial = {
         isValid: false,
         errorMessage: "Price",
       };
-      
-    }
-    else{
+    } else {
       dropErrors1.PickupPrizeSpecial = {
         isValid: true,
         errorMessage: "",
       };
     }
-    if(!mainFormSpecial.form1.Deliveryprice)
-      {
-        dropErrors1.DeliveryPrizeSpecial = {
-          isValid: false,
-          errorMessage: "Price",
-        };
-        
-      }
-      else{
-        dropErrors1.DeliveryPrizeSpecial = {
-          isValid: true,
-          errorMessage: "",
-        };
-      }
+    if (!mainFormSpecial.form1.Deliveryprice) {
+      dropErrors1.DeliveryPrizeSpecial = {
+        isValid: false,
+        errorMessage: "Price",
+      };
+    } else {
+      dropErrors1.DeliveryPrizeSpecial = {
+        isValid: true,
+        errorMessage: "",
+      };
+    }
     return dropErrors1;
   };
 
   const [validationStateerr, setValidationStateerr] =
     useState<DropdownValidationState>({});
-    
+
   const handleValidate = (): boolean => {
     const dropdownErrors = isOptionTrue
       ? handleValidateDropdown()
@@ -585,7 +581,6 @@ const PricingDetails = () => {
       ...dineInErrors,
     };
 
-
     setValidationStateerr(combinedErrors);
 
     const isValid = Object.values(combinedErrors).every(
@@ -596,20 +591,16 @@ const PricingDetails = () => {
   };
 
   const handleReset = () => {
-    
     if (kitchenDetail.current) {
-      kitchenDetail.current(); 
+      kitchenDetail.current();
     }
     if (normalFormRef.current) {
-      normalFormRef.current(); 
+      normalFormRef.current();
     }
     if (specialFormRef.current) {
-      specialFormRef.current(); 
+      specialFormRef.current();
     }
- 
- 
-    
-   
+
     reset({
       form: {
         Inventory1: "",
@@ -620,19 +611,8 @@ const PricingDetails = () => {
         hours: "",
         minutes: "",
       },
-
-      
-      
-      
-
     });
   };
-
-  console.log(mainFormState)
-
-
-
-
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
@@ -660,7 +640,7 @@ const PricingDetails = () => {
               <div className="D1kitchen">
                 <Dropdown
                   name="kitchenstation"
-                  options={[]}
+                  options={cuisineData}
                   type="checkbox"
                   setOptions={setOptions1}
                   placeholder="Search for option"
@@ -675,41 +655,45 @@ const PricingDetails = () => {
                   setDropdownOpen={setDropdownOpen}
                   dropdownopen={DropdownOpen.Kitchen}
                   onToggle={() => handleDropdownToggle("Kitchen")}
-                  resetSelection={kitchenDetail} 
+                  dropDownType="CUISINES"
+                  resetSelection={kitchenDetail}
                 />
               </div>
 
               <div className="D2kitchen">
                 <div className="Prepartiontime">
-
                   <label htmlFor="" className="heading">
                     Preparation time
                   </label>
 
                   <div className="Prepartiontime-input-fileds">
-                  <Controller
+                    <Controller
                       name="Preparationtime.hours"
                       control={control}
                       defaultValue=""
-                      render={({ field, trigger,value }: any) => (
-                        <input type="text" 
-                        name="hours" 
-                        value={value}
-
-                        className="Prepartiontime-input-hours" 
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
-                            setValue("Preparationtime.hours", value);
-                           
-                          }
-                        }} 
+                      render={({ field, trigger, value }: any) => (
+                        <input
+                          type="text"
+                          name="hours"
+                          value={value}
+                          className="Prepartiontime-input-hours"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (
+                              /^(1[0-2]|[1-9])$/.test(value) ||
+                              value === ""
+                            ) {
+                              setValue("Preparationtime.hours", value);
+                            }
+                          }}
                         />
                       )}
-                      rules={{ 
-                        required: "This field is required", 
-                        validate: value => 
-                          (value === "" || /^[1-9]$|^1[0-2]$/.test(value)) || "Please enter valid time"
+                      rules={{
+                        required: "This field is required",
+                        validate: (value) =>
+                          value === "" ||
+                          /^[1-9]$|^1[0-2]$/.test(value) ||
+                          "Please enter valid time",
                       }}
                     />
 
@@ -752,7 +736,7 @@ const PricingDetails = () => {
                           "Please enter a valid time",
                       }}
                     />
-                    
+
                     <span>Minutes</span>
                   </div>
                 </div>
@@ -787,7 +771,7 @@ const PricingDetails = () => {
                       name="form.Inventory1"
                       control={control}
                       defaultValue=""
-                      render={({ field, trigger,value }: any) => (
+                      render={({ field, trigger, value }: any) => (
                         <input
                           className="I1"
                           type="text"
@@ -812,7 +796,7 @@ const PricingDetails = () => {
                       name="form.Inventory2"
                       control={control}
                       defaultValue=""
-                      render={({ field,value }: any) => (
+                      render={({ field, value }: any) => (
                         <input
                           className="I1"
                           type="text"
@@ -901,7 +885,7 @@ const PricingDetails = () => {
                 setDineInFields={setDineInFields}
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
-                resetSelection={normalFormRef} 
+                resetSelection={normalFormRef}
               />
             ) : (
               <Specialavail
@@ -913,7 +897,7 @@ const PricingDetails = () => {
                 setDineInFields1={setDineInFields1}
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
-                resetSelection={normalFormRef} 
+                resetSelection={normalFormRef}
               />
             )}
 

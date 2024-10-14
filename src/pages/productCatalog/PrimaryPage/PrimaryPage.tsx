@@ -170,7 +170,7 @@ interface Item {
 const PrimaryPage = () => {
   const dispatch = useDispatch();
   const resetSelectionRef = useRef<(() => void) | null>(null);
-  const cuisineRef  = useRef<(() => void) | null>(null);
+  const cuisineRef = useRef<(() => void) | null>(null);
   const categoryref = useRef<(() => void) | null>(null);
   const BestpairedRef = useRef<(() => void) | null>(null);
   const descriptionRef = useRef<(() => void) | null>(null);
@@ -179,15 +179,6 @@ const PrimaryPage = () => {
   const imageClearRef = useRef<(() => void) | null>(null);
   const digitClearRef = useRef<(() => void) | null>(null);
   const subCatagoryRef = useRef<(() => void) | null>(null);
-
-
-
-
-  
-
-
-
-
 
   const {
     register,
@@ -225,8 +216,7 @@ const PrimaryPage = () => {
     },
   });
 
-  const[popularItem,setPopularItem]=useState<any> ("")
-
+  const [popularItem, setPopularItem] = useState<any>("");
 
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
@@ -239,20 +229,21 @@ const PrimaryPage = () => {
   const Mockdata = useSelector(
     (state: ListingData) => state.storeMockDataReducer.data
   );
-  const PopularItemFormApi=useSelector((state:any)=>state?.getPopularItemReducer?.popularItems?.data?.popularItemCount)
+  const PopularItemFormApi = useSelector(
+    (state: any) =>
+      state?.getPopularItemReducer?.popularItems?.data?.popularItemCount
+  );
   const mergedMockData = [...Mockdata, ...addedData];
   const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
     useState<Item[]>();
-    
+
   useEffect(() => {
-      setPopularItem(PopularItemFormApi); // Update state
-    
-  }, [PopularItemFormApi]); 
-  useEffect(()=>{
-    dispatch(getPopularItemRequest(locationid))
-
-  },[])
-
+    setPopularItem(PopularItemFormApi); 
+  }, [PopularItemFormApi]);
+  
+  useEffect(() => {
+    dispatch(getPopularItemRequest(locationid));
+  }, []);
 
   useEffect(() => {
     const SelectedFooditemtoedit = mergedMockData.filter(
@@ -277,7 +268,6 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: primarypage) => state.primarypage.data
   );
- 
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
@@ -323,7 +313,6 @@ const PrimaryPage = () => {
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
   );
-
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [images, setImages] = useState<ImageFile[]>([]);
@@ -511,19 +500,14 @@ const PrimaryPage = () => {
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
 
-    if(isChecked){
-      setPopularItem(popularItem+1)
+    if (isChecked) {
+      setPopularItem(popularItem + 1);
+    } else if (!isChecked) {
+      setPopularItem(popularItem - 1);
     }
-    else if(!isChecked){
-      setPopularItem(popularItem-1)
+  };
 
-
-    }
-
-  }
-
-
-  const handleReset=()=>{
+  const handleReset = () => {
     setValue("itemName", "");
     setValue("dietaryType", "");
     setValue("cuisine", "");
@@ -545,48 +529,53 @@ const PrimaryPage = () => {
     setValue("selectedPortion", "Portion(count)"); // If you want to keep a default value
     setValue("tax", "");
     setValue("masterCode", "");
-      if (resetSelectionRef.current) {
-      resetSelectionRef.current(); 
+    if (resetSelectionRef.current) {
+      resetSelectionRef.current();
     }
     if (BestpairedRef.current) {
-      BestpairedRef.current(); 
+      BestpairedRef.current();
     }
     if (cuisineRef.current) {
-      cuisineRef.current(); 
+      cuisineRef.current();
     }
     if (categoryref.current) {
-      categoryref.current(); 
+      categoryref.current();
     }
     if (descriptionRef.current) {
-      descriptionRef.current(); 
+      descriptionRef.current();
     }
     if (allergensRef.current) {
-      allergensRef.current(); 
+      allergensRef.current();
     }
     if (ingredientsRef.current) {
-      ingredientsRef.current(); 
+      ingredientsRef.current();
     }
     if (imageClearRef.current) {
-      imageClearRef.current(); 
+      imageClearRef.current();
     }
     if (digitClearRef.current) {
-      digitClearRef.current(); 
+      digitClearRef.current();
     }
     if (subCatagoryRef.current) {
-      subCatagoryRef.current(); 
+      subCatagoryRef.current();
     }
 
-    setDescription(" ")
+    setDescription(" ");
     setCharCount(0);
-    setImages([])
-  
-  
-    
-  }
-// console.log("hi",popularItem)
+    setImages([]);
+  };
 
+  const dataforadd = {
+    name: "rotti",
+    locationId: locationid,
+    type: "DIET",
+    parentId: "",
+  };
 
-  console.log(dataDietaryType)
+  // console.log(getValues())
+  const hansleshwadd = () => {
+    dispatch(addDropDowRequest(dataforadd));
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -632,8 +621,8 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                      options={dietaryData}
-                      type="checkbox"
+                        options={dietaryData}
+                        type="checkbox"
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
@@ -649,7 +638,7 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="DIET"
-                        resetSelection={resetSelectionRef} 
+                        resetSelection={resetSelectionRef}
                       />
                     )}
                   />
@@ -680,7 +669,7 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="CUISINES"
-                        resetSelection={cuisineRef} 
+                        resetSelection={cuisineRef}
                       />
                     )}
                   />
@@ -711,8 +700,7 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="CATEGORY"
-                        resetSelection={categoryref} 
-
+                        resetSelection={categoryref}
                       />
                     )}
                   />
@@ -743,7 +731,7 @@ const PrimaryPage = () => {
                           addNew={false}
                           editValues={false}
                           dropDownType="BEST_PAIRED_ITEMS"
-                          resetSelection={BestpairedRef} 
+                          resetSelection={BestpairedRef}
                         />
                       )}
                     />
@@ -905,7 +893,7 @@ const PrimaryPage = () => {
                       rules={{
                         required: "Item code is required",
                         validate: (value) =>
-                          (value.toString().length >= 4 ) ||
+                          value.toString().length >= 4 ||
                           "Item code must be between 4 and 5 characters",
                       }}
                       render={({ onChange, onBlur, value }) => (
@@ -923,7 +911,6 @@ const PrimaryPage = () => {
                           type="number"
                           trigger={trigger}
                           error={errors.itemCode}
-                          
                         />
                       )}
                     />{" "}
@@ -1009,7 +996,7 @@ const PrimaryPage = () => {
                           setDropdownOpen={setDropdownOpen}
                           onToggle={() => handleDropdownToggle("subCategory")}
                           dropDownType="SUB_CATEGORY"
-                          resetSelection={subCatagoryRef} 
+                          resetSelection={subCatagoryRef}
                         />
                       )}
                     />
@@ -1025,7 +1012,7 @@ const PrimaryPage = () => {
                       setValue={setValue}
                       name="allergens"
                       register={register}
-                      resetSelection={allergensRef} 
+                      resetSelection={allergensRef}
                     />
                   </div>
                 </div>
@@ -1064,7 +1051,7 @@ const PrimaryPage = () => {
                   setValue={setValue}
                   name="Ingredients"
                   register={register}
-                  resetSelection={ingredientsRef} 
+                  resetSelection={ingredientsRef}
                 />
               </div>
 
@@ -1239,7 +1226,7 @@ const PrimaryPage = () => {
                             inputCount={4}
                             error={errors.masterCode}
                             validation={{ required: "Master code is required" }}
-                             resetSelection={digitClearRef} 
+                            resetSelection={digitClearRef}
                           />
                         )}
                       />

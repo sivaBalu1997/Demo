@@ -114,7 +114,6 @@ import {
 
 } from "./productCatalogConstants";
 
-
 //Get Menu
 export const getMenuRequest = (data) => ({
   type: STORE_MENU_REQUEST,

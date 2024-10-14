@@ -114,8 +114,8 @@ const ItemCustomizations: React.FC = () => {
       minSelection: mod.minRequired,
       maxSelection: mod.maxAllowed,
       options: mod.modifierOptions.map((opt : any) => ({
-        item: opt.optionName,
-        price: opt.sellPrice
+        modifierOptionName: opt.optionName,
+        cost: opt.sellPrice
       })),
       selectedValue: [],
       selectionType: "Optional",

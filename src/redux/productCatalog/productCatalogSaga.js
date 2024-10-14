@@ -48,7 +48,8 @@ import {
   addDropDownSuccess,
   addDropDownFailure,
   deleteDropDownSuccess,
-  deleteDropDownFailure
+  deleteDropDownFailure,
+  getMenuSuccess
 
 
 } from "./productCatalogActions";
@@ -114,7 +115,7 @@ function* fetchMenuDataSaga(action) {
   try{
     const response = yield call(getMenuDataApi, action.payload)
     if(response.status === 200){
-      yield put(getMenuCategorySuccess(response))
+      yield put(getMenuSuccess(response.data))
     }else {
       yield put(getMenuFailure({message : 'Please try again'}))
     }
@@ -123,9 +124,7 @@ function* fetchMenuDataSaga(action) {
   }
 }
 
-function* fetchDropdownDataSaga(action) {
-  console.log(action.payload.name);
-  
+function* fetchDropdownDataSaga(action) {  
   try {
     // Pass the entire action.payload to getSubSectionData
     const response = yield call(getSubSectionData, action.payload);
@@ -133,9 +132,7 @@ function* fetchDropdownDataSaga(action) {
     if (response) {
       switch (action.payload.type) {
         case 'DIET':
-          yield put(dietdatasuccess(response));
-         console.log("tyep data",response);
-         
+          yield put(dietdatasuccess(response));         
           break;
         case 'CUISINES':
           yield put(cuisineDataSuccess(response));
@@ -163,14 +160,11 @@ function* fetchDropdownDataSaga(action) {
 function* addSubsection(action) {
   // const { dropDownType } = action.payload;
   try {
-    console.log("action datapayload",action.payload.type)
     const response = yield call(addSubsectionApi, action.payload);
   
     if (response.status === 200) {
       switch (action.payload.type) {
-        case 'dietary':
-         console.log("in going");
-         
+        case 'dietary':         
           yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
           break;
         case 'cuisine':
@@ -280,8 +274,6 @@ function* addMenuItemSaga(action) {
       yield put(addMenuItemSuccess(addApiresponse));
 
       const images = action.payload[0].imageUrls.map((image) => image.file);
-      console.log("Images to upload:", images);
-
       for (const [index, image] of images.entries()) {
         yield put({
           type: UPLOAD_IMAGE_IN_PROGRESS,
@@ -305,12 +297,7 @@ function* uploadImageSaga(action) {
     formData.append("id", addApiresponse);
     formData.append("formData", image);
 
-    console.log(`Uploading image at index ${index}:`, image.name);
-
     const response = yield call(store, formData);
-
-    console.log(`Response for image at index ${index}:`, response);
-
     if (response.data.httpStatus === 200) {
       yield put(uploadImageSuccess(image, response.data.message, index));
       console.log(`Image upload succeeded for index ${index}`);

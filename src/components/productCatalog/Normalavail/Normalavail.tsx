@@ -86,7 +86,7 @@ interface NormalavailProps {
   setDineInFields: (form: any) => void;
   selectedValues2: any;
   setSelectedValues2: (form: any) => void;
-  resetSelection?:any
+  resetSelection?: any;
 }
 
 type MealType1 = string;
@@ -112,7 +112,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   setValidationStateerr,
   handleValidate,
   ValidationStateerr,
-  resetSelection
+  resetSelection,
 }) => {
   const [online, setOnline] = useState(false);
   const [pickup, setPickup] = useState(false);
@@ -201,7 +201,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     Swiggy: selectedValues4,
     Zomato: selectedValues5,
   };
-  
 
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
@@ -531,15 +530,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
   };
-  console.log(!validationState.Pickup.isValid);
-  console.log(validationState.Pickup?.errorMessage);
-  console.log(dineInDates1)
 
   const clearSelection = () => {
-    setSelectedValuesMealType([])
+    setSelectedValuesMealType([]);
 
-    setNormalDays([])
-    setSelectedValues2([])
+    setNormalDays([]);
+    setSelectedValues2([]);
     setformNormal({
       PickuppriceNormal: "",
       PickupmealtypeNormal: "",
@@ -550,15 +546,15 @@ const Normalavail: React.FC<NormalavailProps> = ({
       SwiggymealtypeNormal: "",
       ZomatoNormal: "",
       ZomatomealtypeNormal: "",
-    })
-    setDayPickup([])
-    setSelectedValues3([])
-    setDayDelivery([])
-    setDayThird([])
-    setSelectedValues4([])
-    setSelectedValues5([])
-    setSelectedValues([])
-    setDineInFields((prevDineInFields:any) =>
+    });
+    setDayPickup([]);
+    setSelectedValues3([]);
+    setDayDelivery([]);
+    setDayThird([]);
+    setSelectedValues4([]);
+    setSelectedValues5([]);
+    setSelectedValues([]);
+    setDineInFields((prevDineInFields: any) =>
       prevDineInFields.map(() => ({
         DineInPrice: "",
         DineInMealType: [],
@@ -567,39 +563,43 @@ const Normalavail: React.FC<NormalavailProps> = ({
     );
   };
 
-    useEffect(() => {
-      if (resetSelection ) {
-       
-  
-   
-        resetSelection.current = clearSelection;
- 
-      }
+  useEffect(() => {
+    if (resetSelection) {
+      resetSelection.current = clearSelection;
+    }
+  }, [resetSelection]);
 
-    
-    }, [resetSelection]);
-  
-console.log(mainFormState)
   return (
     <div>
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
           <div className="tooltip">
-          <TooltipMsg
-                        message="Enter a unique code for this food item, used for identification."
-                        styles={{marginLeft:'2rem',width:'350px',height:'35px',backgroundColor:'#67833E',color:'white',textAlign:'center',display:'flex',justifyContent:'center',alignItems:'center',borderRadius:'5px'}}
-                        Arrowstyle={{marginTop:"0rem",rotate:'-90deg',position:'relative',left:'-1.6rem'}}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </TooltipMsg>
+            <TooltipMsg
+              message="Enter a unique code for this food item, used for identification."
+              styles={{
+                marginLeft: "2rem",
+                width: "350px",
+                height: "35px",
+                backgroundColor: "#67833E",
+                color: "white",
+                textAlign: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5px",
+              }}
+              Arrowstyle={{
+                marginTop: "0rem",
+                rotate: "-90deg",
+                position: "relative",
+                left: "-1.6rem",
+              }}
+            >
+              <div className="ToolKitchen">
+                <img src={info} alt="info icon" width={20} height={20} />
+              </div>
+            </TooltipMsg>
           </div>
         </div>
 
@@ -610,8 +610,10 @@ console.log(mainFormState)
             id={availabilityid}
             setId={setAvailabilityid}
           ></DaysCheck>
-                    <p className="Note">Note : Changes here will apply to all service types unless specific day options are enabled</p>
-
+          <p className="Note">
+            Note : Changes here will apply to all service types unless specific
+            day options are enabled
+          </p>
         </div>
       </div>
       {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
@@ -619,8 +621,6 @@ console.log(mainFormState)
       <div className="DineInRelated">
         <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
         <Toggle toggle={dinein} setToggle={setDineIn} />
-
-      
       </div>
       {dinein ? (
         <>
@@ -684,7 +684,7 @@ console.log(mainFormState)
                     </div>
                   </div>
 
-                  <div className="Service">
+                  {/* <div className="Service">
                     <DropDown
                       selectedValues={selectedValues[index] || ""}
                       onSelect={(values) => handleSelect2(values, index)}
@@ -706,7 +706,7 @@ console.log(mainFormState)
                         {ValidationStateerr[DineInService]?.errorMessage}
                       </span>
                     )}
-                  </div>
+                  </div> */}
 
                   <h1
                     onClick={() => handleDelete(index)}
@@ -966,7 +966,7 @@ console.log(mainFormState)
                   selectedValues={selectedthirdvalues}
                   onSelect={handleSelectThird}
                   options={optionsselectthird}
-                  label="SwiggyZomato"
+                  label=""
                   onBlur={() =>
                     validateDropdown(selectedthirdvalues, "SwiggyZomato")
                   }
@@ -983,7 +983,6 @@ console.log(mainFormState)
                       type="text"
                       // placeholder="Enter Swiggy details"
                       value={formNormal.SwiggyNormal}
-
                       onChange={(e) =>
                         setformNormal({
                           ...formNormal,

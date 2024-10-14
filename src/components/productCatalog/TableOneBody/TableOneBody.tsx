@@ -4,15 +4,55 @@ import dots from "../../../assets/svg/dots.svg";
 import { useDispatch } from "react-redux";
 import HoverText from "../HoverText/HoverText";
 
+interface Media {
+  id: string;
+  entityId: string;
+}
+
+interface Price {
+  orderTypeId: string;
+  name: string;
+  price: string;
+  isEnabled: string;
+}
+
+interface Option {
+  optionId: string;
+  optionName: string;
+  price: string;
+  isEnabled: number;
+}
+
+interface Modifier {
+  modifierId: string;
+  modifierName: string;
+  isEnabled: boolean;
+  noFreeCustomization: number;
+  minCount: number;
+  maxCount: number;
+  options: Option[];
+}
+
 interface Item {
+  itemId: string;
   itemName: string;
   itemCode: string;
-  id: number;
+  description: string;
+  media: Media;
+  prices: Price[];
+  modifiers: Modifier[];
+}
+
+interface Category {
+  categoryId: string;
+  categoryName: string;
+  subCategoryId: string;
+  subCategoryName: string;
+  itemResponseList: Item[];
 }
 
 interface ItemRowProps {
-  object: { name: Item[]; id: number; type: string };
-
+  object: Category; // Updated to use the Category type from the JSON
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
   handleRowDragStart: (id: number, index: number) => void;
@@ -23,7 +63,7 @@ interface ItemRowProps {
     ref1: React.RefObject<HTMLDivElement>,
     ref2: React.RefObject<HTMLDivElement>
   ) => void;
-  handlemodal: (value: number) => void;
+  handlemodal: (value: string) => void;
   tableBodyRef1: React.RefObject<HTMLDivElement>;
   tableBodyRef2: React.RefObject<HTMLDivElement>;
   handlevegrowstart: (
@@ -36,49 +76,27 @@ interface ItemRowProps {
 
 const TableOneBody: React.FC<ItemRowProps> = ({
   object,
-
   // typevalue,
   draggingOverIndex,
   draggedRowIndex,
   handleRowDragStart,
   handleRowDragOver,
   handleRowDragEnd,
-
   handleDragScroll,
   handlemodal,
   tableBodyRef1,
   tableBodyRef2,
 }) => {
+
   const dispatch = useDispatch();
-
   const baseImageUrl = process.env.REACT_APP_IMAGE_DOMAIN;
-  // console.log(baseImageUrl)
-
-  const handleItemnameClick = (value: number) => {
-    // console.log(value);
+  const handleItemnameClick = (value: string) => {
     handlemodal(value);
   };
 
   return (
     <>
-      {/* {
-        <tr>
-          <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
-            <img
-              src={dots}
-              alt=""
-              draggable
-              onDragStart={(e) => handlevegrowstart(e, index)}
-              onDragOver={handlevegrowover}
-              onDrop={(e) => handlevegrowend(e, index)}
-              className="headingdrag"
-            />{" "}
-            {"Steamed veg"}
-          </td>
-        </tr>
-      } */}
-
-      {object.name.map((item, index) => (
+      {object?.itemResponseList?.map((item, index) => (
         <tr key={index}>
           {draggingOverIndex === index && (
             <td className="placeholderplace"></td>
@@ -86,11 +104,11 @@ const TableOneBody: React.FC<ItemRowProps> = ({
           <td
             draggable
             onDragStart={(e) => {
-              handleRowDragStart(object.id, index);
+              handleRowDragStart(Number(object.categoryId), index);
               handleDragScroll(e, tableBodyRef1, tableBodyRef2);
             }}
             onDragOver={(e) => {
-              handleRowDragOver(object.id, index);
+              handleRowDragOver(Number(object.categoryId), index);
               handleDragScroll(e, tableBodyRef1, tableBodyRef2);
             }}
             onDragEnd={handleRowDragEnd}
@@ -111,7 +129,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
             </span>
             <span
               className="itemname2"
-              onClick={() => handleItemnameClick(item.id)}
+              onClick={() => handleItemnameClick(item.itemId)}
             >
               <HoverText text={item.itemName}  lengthvale={14}/>
             </span>
