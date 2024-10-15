@@ -57,7 +57,7 @@ interface DineInField {
 }
 
 type DropdownValidationState = {
-  [key: string]: { isValid: boolean; errorMessage: string }; // Adjust this as necessary
+  [key: string]: { isValid: boolean; errorMessage: string }; 
 };
 
 interface NormalavailProps {
@@ -71,7 +71,6 @@ interface NormalavailProps {
     [key: string]: { isValid: boolean; errorMessage: string };
   };
 
-  // Corrected type for setValidationStateerr
   setValidationStateerr: React.Dispatch<
     React.SetStateAction<DropdownValidationState>
   >;
@@ -95,7 +94,7 @@ type SelectedValueType = string;
 type SelectedValuesMealTypeState = MealType[];
 type ServiceValueType = string;
 interface SelectedValuesState {
-  [key: number]: any; // Replace `any` with the actual type of `values`
+  [key: number]: any;
 }
 type OptionType = string;
 
@@ -279,22 +278,18 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
       );
-      // Other state initializations...
     }
 
     if (prizingDetail?.normalForm) {
       setSelectedValues3(
         prizingDetail.normalForm.DeliveryMealType || selectedValues3
       );
-      // Other state initializations...
     }
     if (prizingDetail?.normalForm) {
       setSelectedValues4(prizingDetail.normalForm.Swiggy || selectedValues4);
-      // Other state initializations...
     }
     if (prizingDetail?.normalForm) {
       setSelectedValues5(prizingDetail.normalForm.Zomato || selectedValues5);
-      // Other state initializations...
     }
 
     if (prizingDetail?.normalForm) {
@@ -320,7 +315,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     }
       if (prizingDetail?.normalForm) {
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
-        // Clone the array or set empty array
         setSelectedThirdValues(["Swiggy","Zomato"])
         
    
@@ -328,21 +322,18 @@ const Normalavail: React.FC<NormalavailProps> = ({
     }, []);
 
   const handleDelete = (index: number): void => {
-    // Filter out the entry at the given index
     const newEntries = dineinfields.filter((_: any, i: any) => i !== index);
     setDineInFields(newEntries);
 
-    // Handle selected values
+    
     const newSelectedValues1 = { ...selectedValues };
     delete newSelectedValues1[index];
     setSelectedValues(newSelectedValues1);
 
-    // Handle selected meal type values
     const newSelectedValuesMealtype = { ...selectedValuesmealtype };
     delete newSelectedValuesMealtype[index];
     setSelectedValuesMealType(newSelectedValuesMealtype);
 
-    // Handle dine-in dates
     const newArray = [...dineInDates1];
     newArray.splice(index, 1);
     setDineInDates1(newArray);
@@ -423,14 +414,13 @@ const Normalavail: React.FC<NormalavailProps> = ({
   }, [mainForm]);
 
   const handleSelect2 = (values: any, index: number): void => {
-    //FeedBack : Can handle a single dynamic function for all handleSelect function by using index here
-    // Update selected values state
+   
     setSelectedValues((prevState: SelectedValuesState) => ({
       ...prevState,
       [index]: values,
     }));
 
-    // Update the dineinfields state with the new selected values
+ 
     const newDineInFields = [...dineinfields];
     newDineInFields[index] = {
       ...newDineInFields[index],
@@ -438,14 +428,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
     };
     setDineInFields(newDineInFields);
 
-    // Clear validation error for the specified field
+    
   };
 
   const addOption2 = (newOption: OptionType): void => {
     setOptions2((prevOptions) => [...prevOptions, newOption]);
   };
   const handleSelect3 = (newSelectedValues: string[]) => {
-    setSelectedValues2(newSelectedValues); // Updates the state when a new value is selected
+    setSelectedValues2(newSelectedValues); 
   };
 
   const addOption3 = (newOption: OptionType): void => {
@@ -813,7 +803,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         width="Drop1"
                       />
 
-                      {/* Check if validationStateerr.Pickup exists before accessing its properties */}
                       {!ValidationStateerr.Pickup?.isValid && (
                         <span className="ErrormsgPickup">
                           {ValidationStateerr?.Pickup?.errorMessage || ""}
@@ -957,7 +946,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         {
                           ...(availabilityid.length > 0
                             ? { id: availabilityid, setId: setAvailabilityid }
-                            : { id: [], setId: () => {} }) // Provide default empty values if `availabilityid` is empty
+                            : { id: [], setId: () => {} }) 
                         }
                       />
                     ) : (
@@ -1085,7 +1074,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 {
                   ...(availabilityid.length > 0
                     ? { id: availabilityid, setId: setAvailabilityid }
-                    : { id: [], setId: () => {} }) // Provide default empty values if `availabilityid` is empty
+                    : { id: [], setId: () => {} }) 
                 }
               />
             ) : (
