@@ -110,7 +110,15 @@ import {
   STORE_MENU_FAILURE,
   ADDDROPDOWN_SUCCESS,
   ADDDROPDOWN_REQUEST,
-  ADDDROPDOWN_FAILURE
+  ADDDROPDOWN_FAILURE,
+  START_IMAGE_UPLOAD,
+  IMAGE_UPLOAD_SUCCESS,
+  IMAGE_UPLOAD_FAILURE,
+  STORE_UPLOAD_FAILURE,
+  API_UPLOAD_FAILURE,
+  RETRY_IMAGE_UPLOAD,
+  RETRY_IMAGE_SUCCESS,
+  RETRY_IMAGE_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -696,4 +704,44 @@ export const selectedMockDataSuccess = (data) => ({
 export const selectedMockDataFailure = (error) => ({
   type: SELECTED_MOCKDATA_FAILURE,
   payload: error,
+});
+
+export const startImageUpload = (images) => ({
+  type: START_IMAGE_UPLOAD,
+  payload: images,
+});
+
+export const imageUploadSuccess = (itemId) => ({
+  type: IMAGE_UPLOAD_SUCCESS,
+  payload: itemId,
+});
+
+export const imageUploadFailure = (imageName, itemId) => ({
+  type: IMAGE_UPLOAD_FAILURE,
+  payload: { imageName, itemId },
+});
+
+export const storeUploadFailure = (failureArray) => ({
+  type: STORE_UPLOAD_FAILURE,
+  payload: failureArray,
+});
+export const ImageUploadApiFail = (message) => ({
+  type: API_UPLOAD_FAILURE,
+  payload: message,
+});
+
+
+export const retryImageUpload = (image) => ({
+  type: RETRY_IMAGE_UPLOAD,
+  payload: image,
+});
+
+export const retryimageUploadSuccess = (itemId) => ({
+  type: RETRY_IMAGE_SUCCESS,
+  payload: itemId,
+});
+
+export const retryimageUploadFailure = (imageName, itemId) => ({
+  type: RETRY_IMAGE_FAILURE,
+  payload: { imageName, itemId },
 });

@@ -457,8 +457,10 @@ const PrimaryPage = () => {
       }
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
-
+     
+       
         const updatedImageUrls = updatedImages.map((image) => image);
+         console.log("updatedImageUrls",updatedImageUrls);
         setValue("imageUrls", updatedImageUrls);
         return updatedImages;
       });
@@ -630,7 +632,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "dietaryType is required" }}
+                        // validation={{ required: "dietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -651,7 +653,7 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={Array.isArray(cuisineData)?cuisineData?.map((elem:any) => elem.name):[]}
+                        options={cuisineData}
                         type="radio"
                         setOptions={setDataCuisine}
                         placeholder="search for option"
@@ -659,7 +661,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        validation={{ required: "cuisine is required" }}
+                        // validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -724,7 +726,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          validation={{ required: "This field is required" }}
+                          // validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -890,12 +892,12 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
-                      rules={{
-                        required: "Item code is required",
-                        validate: (value) =>
-                          value.toString().length >= 4 ||
-                          "Item code must be between 4 and 5 characters",
-                      }}
+                      // rules={{
+                      //   required: "Item code is required",
+                      //   validate: (value) =>
+                      //     value.toString().length >= 4 ||
+                      //     "Item code must be between 4 and 5 characters",
+                      // }}
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
                           name="itemCode"
@@ -1225,7 +1227,7 @@ const PrimaryPage = () => {
                             register={register}
                             inputCount={4}
                             error={errors.masterCode}
-                            validation={{ required: "Master code is required" }}
+                            // validation={{ required: "Master code is required" }}
                             resetSelection={digitClearRef}
                           />
                         )}

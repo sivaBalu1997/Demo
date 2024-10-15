@@ -78,12 +78,17 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
+
   const dispatch = useDispatch();
+
   const locationid = useSelector(
     (state: any) => state.auth.credentials.locationId
   );
  
+   const subsectiondata=useSelector((state:any)=>state.productCatalog.cuisineData.data);
 
+  //  console.log("subsectiondata",subsectiondata);
+   
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
   };
@@ -228,9 +233,15 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
+    console.log("id",value)
+
     // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
-    // setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
-    dispatch(deleteDropDowRequest(dropDownType));
+    setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
+    const deletedItem={
+      id:value,
+      type:dropDownType
+    }
+    dispatch(deleteDropDowRequest(deletedItem));
   };
 
   // const handleBlur = () => {
@@ -254,6 +265,33 @@ const DropDownList: React.FC<DropdownProps> = ({
       });
     }
   };
+
+  const handleNewItemAdd=()=>{
+    const newValue = NewItemref?.current?.value;
+   
+
+    const newItem={
+      locationId:locationid,
+      name:newValue,
+      type:dropDownType,
+      parentId:""
+
+      
+    }
+    setOptions([...(Array.isArray(initialOptions) ? initialOptions : []), newItem]);
+
+  
+        // handleSelect(newItem);
+        setSearchTerm("");
+        setAddNewButton(false);
+
+    dispatch(addDropDowRequest(newItem));
+    console.log("option-updated",options)
+
+
+  }
+ 
+  
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -344,17 +382,19 @@ const DropDownList: React.FC<DropdownProps> = ({
                       <div>
                         {editList && (
                           <span
-                            className={`dropdown-option-delete ${
-                              isOptionSelected ? "disabled-delete" : ""
-                            }`}
-                            onClick={() => {
-                              if (!isOptionSelected) handledeletion(option.id);
-                            }}
-                            style={
-                              isOptionSelected
-                                ? { pointerEvents: "none" }
-                                : {}
+                            className={`dropdown-option-delete `}
+                            // ${
+                            //   isOptionSelected ? "disabled-delete" : ""
+                            // }
+                            onClick={() => 
+                              handledeletion(option.id)
+                             
                             }
+                            // style={
+                            //   isOptionSelected
+                            //     ? { pointerEvents: "none" }
+                            //     : {}
+                            // }
                           >
                             -Delete
                           </span>
@@ -396,7 +436,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                     />
                     <button
                       type="button"
-                      // onClick={handleNewItemAdd}
+                      onClick={ handleNewItemAdd}
                       className="dropdown-addnew-button"
                     >
                       Add
