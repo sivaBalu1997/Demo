@@ -368,6 +368,8 @@ const PrimaryPage = () => {
   };
 
   const selectedradiowatch = watch();
+  const alcoholValue = selectedradiowatch.alcohol || "no";
+  const portionsizeradiovalue=selectedradiowatch.portionSize || "Portion(count)";
 
   const handleAddImage = () => {
     document.getElementById("imgadd")?.click();
@@ -877,7 +879,7 @@ const PrimaryPage = () => {
                   <RadioButtonGroup
                     options={alcoholradio}
                     name="alcohol"
-                    selectedValue={selectedradiowatch.alcohol}
+                    selectedValue={alcoholValue}
                     onChange={(value) => handleRadioChange("alcohol", value)}
                     register={register}
                   />
@@ -1117,7 +1119,7 @@ const PrimaryPage = () => {
                     <RadioButtonGroup
                       options={portionsizeradio}
                       name="selectedPortion"
-                      selectedValue={selectedradiowatch.selectedPortion}
+                      selectedValue={portionsizeradiovalue}
                       onChange={(value) =>
                         handleRadioChange("selectedPortion", value)
                       }
