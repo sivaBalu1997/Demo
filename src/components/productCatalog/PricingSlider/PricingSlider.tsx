@@ -16,8 +16,10 @@ const PricingSlider: any = ({  }) => {
   
   const { pen, setPen } = useContext(Contextpagejs);
   const [inputs, setInputs] = useState({
-    Dinein1: data[0]?.orderTypes[0]?.price  || [],
-    Pickup1:  data[0]?.orderTypes[0]?.price || [],
+    Dinein1: data[0]?.orderTypes[0]?.price || [],
+    Pickup1: Array.isArray(data[0]?.orderTypes[1]?.price) 
+    ? data[0]?.orderTypes[1]?.price 
+    : [data[0]?.orderTypes[1]?.price], 
     Delivery1:data[0]?.orderTypes[0]?.price  || [],
   });
   const [sectionAValue, setSectionAValue] = useState<string>("");
@@ -83,7 +85,7 @@ const PricingSlider: any = ({  }) => {
        
           {
             orderTypeId: data[0]?.orderTypes[0]?.typeId ,
-            price: inputs.Pickup1 
+            price: String(inputs.Pickup1 || data[0]?.orderTypes[0]?.price) 
           },
         
         ],
@@ -136,7 +138,7 @@ const PricingSlider: any = ({  }) => {
                           <input
                             type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
-                            value={inputs.Pickup1[idx]|| data[0]?.orderTypes[0]?.price }
+                            value={inputs.Pickup1[idx] }
                             onChange={(e) =>
                               handleInputChange1(
                                 e,
