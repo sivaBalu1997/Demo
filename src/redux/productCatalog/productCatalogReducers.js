@@ -85,6 +85,10 @@ import {
   PARTIAL_UPDATE_MENU_REQUEST,
   PARTIAL_UPDATE_MENU_SUCCESS,
   PARTIAL_UPDATE_MENU_FAILURE,
+  STORE_UPLOAD_FAILURE,
+  IMAGE_UPLOAD_SUCCESS,
+  RETRY_IMAGE_SUCCESS,
+  RETRY_IMAGE_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -154,6 +158,13 @@ const initialProductCatalogState = {
 
   imageuploadStatus: {},
   imageerrorMessage: "",
+  itemId:"",
+  uploadFailures:[],
+  retrySucess:"",
+  retryFailure:{
+    imageName:"",
+    itemId:"",
+  },
 
   updateMenuItemLoading: false,
   updateMenuItemSuccess: false,
@@ -206,6 +217,7 @@ export default function productCatalogReducer(
         draft.getDietarySuccess = false;
         break;
       case DIET_DROPDOWN_LIST_SUCCESS:
+        console.log("form reducer",action.payload)
         draft.dietaryData = action.payload;
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
@@ -418,6 +430,28 @@ export default function productCatalogReducer(
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         break;
+      case IMAGE_UPLOAD_SUCCESS:
+        draft.itemId = action.payload;
+        break;
+        
+      case STORE_UPLOAD_FAILURE:
+        draft.uploadFailures = action.payload;
+
+        case RETRY_IMAGE_SUCCESS:
+          draft.retrySucess = action.payload;
+          break;
+          
+        case RETRY_IMAGE_FAILURE:
+          console.log(" action.payload", action.payload);
+          
+          draft.retryFailure.imageName = action.payload.imageName;
+          draft.retryFailure.itemId = action.payload.itemId;
+
+
+
+      
+      break;   
+
 
       // Update Menu Item
       case UPDATE_MENU_ITEM_REQUEST:

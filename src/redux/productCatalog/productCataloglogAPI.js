@@ -29,11 +29,12 @@ export function getSubSectionData(payload) {
 
 
 //Delete subsection
-export const deleteSubSection = ({data}) => {
+export const deleteSubSection = (data) => {
+  console.log("delwteitem",data);
   return API ({
     method: 'delete',
     url: `/api/v1/menu-items/sub-section`,
-    data: {data}
+    data: data
   })
 }
 
@@ -44,6 +45,24 @@ export const addSubsectionApi = ( data ) => {
     data:  data ,
   });
 };
+
+export const imageUploadingApi = ( formData ) => {
+  return API({
+    method: 'post',
+    url: `api/v1/menu-items/upload-image`,
+    data:  formData ,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    // headers: {
+    //   'accept': 'application/json',
+    //   // 'Content-Type': 'multipart/form-data' is set automatically when using FormData
+    // },
+  });
+};
+
+
+
 
 export function getSubCategory({ locationId, id }) {
   return API({
@@ -134,7 +153,7 @@ export function getId() {
 
 export function store(formData) {
 
-  return Axios.post('http://192.168.1.29:8080/api/storeImage', formData, {
+  return Axios.post('https://apiq.magilhub.com/magilhub-data-services/api/v1/menu-items/upload-image', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
