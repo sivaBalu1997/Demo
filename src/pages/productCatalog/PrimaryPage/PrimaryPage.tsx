@@ -936,7 +936,7 @@ const PrimaryPage = () => {
                           marginTop: "0rem",
                           rotate: "-90deg",
                           position: "relative",
-                          left: "-1.7rem",
+                          left: "-1.6rem",
                         }}
                       >
                         <div className="ToolKitchen">
@@ -1253,7 +1253,7 @@ const PrimaryPage = () => {
                             marginTop: "0rem",
                             rotate: "-90deg",
                             position: "relative",
-                            left: "-1.7rem",
+                            left: "-1.6rem",
                           }}
                         >
                           <div className="ToolKitchen">

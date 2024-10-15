@@ -47,6 +47,7 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
           <span className="dots">
             <img src={dots} alt="" />
           </span>
+          <span>
           {header.label !== 'Inventory1' && header.label !== 'Customize1' && (
             <span className="dollar">
               {header.label.charAt(header.label.length - 1) === '2' ? (
@@ -59,6 +60,8 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
           <span className="spanheadertext">
             {header.label.substring(0, header.label.length - 1)}
           </span>
+          </span>
+         
           <span className="removeicon">
             <img
               src={removeicon}

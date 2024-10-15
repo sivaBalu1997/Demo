@@ -279,20 +279,22 @@ th {
 
     .headingonesection {
       display: flex;
-      // border: 1px solid blue;
+      border: 1px solid blue;
       flex-direction: row;
+      
       gap: 20px;
       position: relative;
       height: 1rem;
-      padding-left: 1rem;
+      // padding-left: 1rem;
       margin-bottom: 48.3px;
 
       .dots {
-        padding-right: 10px;
+        // padding-right: 10px;
         position: relative;
-        top: -4px;
+        top: -5.9px;
         left: -2px;
         cursor: grab;
+       
         &:active {
           cursor: grabbing;
         }
@@ -317,11 +319,12 @@ th {
         border-radius: 4px;
         border: 0.5px solid #d9d9d9 !important;
         display: flex;
-        justify-content: left;
+        justify-content: center;
         align-items: center;
         padding-left: 10px;
         padding-right: 10px;
         cursor: grab;
+        gap: 0.6rem;
 
         &:active {
           cursor: grabbing;
@@ -330,7 +333,7 @@ th {
         .removeicon {
           position: relative;
           top: 0px;
-          left: 20px;
+          // left: 20px;
 
           img {
             width: 10px;
@@ -344,17 +347,18 @@ th {
         border: 0.5px solid #d9d9d9 !important;
         border-radius: 4px;
         display: flex;
-        justify-content: left;
+        justify-content: center;
         align-items: center;
-        padding-left: 10px;
-        padding-right: 10px;
+        // padding-left: 10px;
+        // padding-right: 10px;
+        gap:2.7rem;
         cursor: grab;
         &:active {
           cursor: grabbing;
         }
         .removeicon {
           position: relative;
-          left: 87px;
+         
 
           img {
             width: 10px;
@@ -368,10 +372,11 @@ th {
         border: 0.5px solid #d9d9d9 !important;
         border-radius: 4px;
         display: flex;
-        justify-content: left;
+        justify-content: center;
         align-items: center;
-        padding-left: 10px;
-        padding-right: 10px;
+        // padding-left: 10px;
+        // padding-right: 10px;
+        gap: 2.5rem;
 
         cursor: grab;
         &:active {
@@ -379,7 +384,7 @@ th {
         }
         .removeicon {
           position: relative;
-          left: 75px;
+          // left: 75px;
 
           img {
             width: 10px;
@@ -393,17 +398,18 @@ th {
         border: 0.5px solid #d9d9d9 !important;
         border-radius: 4px;
         display: flex;
-        justify-content: left;
+        justify-content: center;
         align-items: center;
-        padding-left: 10px;
-        padding-right: 10px;
+        // padding-left: 10px;
+        // padding-right: 10px;
+        gap: 1rem;
         cursor: grab;
         &:active {
           cursor: grabbing;
         }
         .removeicon {
           position: relative;
-          left: 24px;
+          // left: 24px;
           img {
             width: 10px;
             height: 10px;
@@ -416,18 +422,18 @@ th {
         border: 0.5px solid #d9d9d9 !important;
         border-radius: 4px;
         display: flex;
-        justify-content: left;
+        justify-content: center;
         align-items: center;
-        padding-left: 10px;
-        padding-right: 10px;
+        // padding-left: 10px;
+        // padding-right: 10px;
+        gap: 0.6rem;
         cursor: grab;
         &:active {
           cursor: grabbing;
         }
         .removeicon {
           position: relative;
-          // top: -5px;
-          right: -15px;
+        
           img {
             width: 10px;
             height: 10px;

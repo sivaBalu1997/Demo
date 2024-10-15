@@ -214,10 +214,12 @@ function* deleteSubSectionSaga(action) {
     if (response) {
       yield put(deleteDropDownSuccess(response)) // add switch case
     } else {
-      yield put(deleteDropDownFailure({ message: 'please Try Again' }))
+      console.log("delete failed");
+      
+      yield put(deleteDropDownFailure("failed"))
     }
   } catch (err) {
-    yield put(deleteDropDownFailure({ message: 'please Try Again' }))
+    yield put(deleteDropDownFailure("failed"))
   }
 }
 

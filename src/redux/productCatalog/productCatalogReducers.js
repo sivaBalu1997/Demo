@@ -86,6 +86,8 @@ import {
   IMAGE_UPLOAD_SUCCESS,
   RETRY_IMAGE_SUCCESS,
   RETRY_IMAGE_FAILURE,
+  DELETEDROPDOWN_FAILURE,
+  DELETEDROPDOWN_SUCCESS,
 } from "../productCatalog/productCatalogConstants";
 
 const initialProductCatalogState = {
@@ -118,6 +120,9 @@ const initialProductCatalogState = {
   taxClass: [],
   getTaxClassLoading: false,
   getTaxClassSuccess: false,
+
+  deletesubsectionfailure:"",
+  deletesubsectionsuccess:"",
 
   ingredients: [],
   getIngredientsLoading: false,
@@ -341,6 +346,17 @@ export default function productCatalogReducer(
         break;
 
       // Get Ingredients
+      //dektesubsection
+      
+      case DELETEDROPDOWN_FAILURE:
+        draft.deletesubsectionfailure="failed"
+        break;
+      case  DELETEDROPDOWN_SUCCESS:
+          draft.deletesubsectionsuccess="success"
+          break;
+
+        
+
       case GET_INGR_REQUEST:
         draft.ingredients = [];
         draft.getSubCategoryLoading = true;
