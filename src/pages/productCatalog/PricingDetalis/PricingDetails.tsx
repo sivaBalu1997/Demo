@@ -17,20 +17,10 @@ import Navigationpage from "components/productCatalog/Navigation/NavigationPage"
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import Inventory from "components/productCatalog/Inventory/Inventory";
-import {
-  imageslist,
-  dietarytype,
-  cuisine,
-  mealType,
-  subcategory,
-  alcoholradio,
-  calorieponitradio,
-  portionsizeradio,
-} from "../../../assets/mockData/Moca_data";
-import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
+
 
 interface SelectedValuesState {
-  [key: number]: any; // Replace `any` with the actual type of `values`
+  [key: number]: any;
 }
 
 type MainFormType = {
@@ -63,9 +53,7 @@ type MainFormType = {
 type DineInField = {
   DineInPrice: string | string[];
   DineInMealType: string | string[];
-  // DineInService: string | string[];
-  // showDay: any;
-  // dayButtonText: any;
+ 
 };
 
 type DineinFieldSpecial = {
@@ -91,9 +79,9 @@ interface FormState {
 type MainFormSpecial = {
   form1: FormState;
   dineinfields: DineinFieldSpecial[];
-  specialcheck: number[]; // Single number, not an array
-  fromDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
-  toDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
+  specialcheck: number[];
+  fromDate: string | Date | undefined; 
+  toDate: string | Date | undefined; 
   selectedValuespickup: string[];
   selectedValuesdelivery: string[];
   Swiggy: string[];
@@ -138,6 +126,9 @@ interface MainForm {
   KitchenStationId: string;
   normalForm?: any;
   specialForm?: any;
+  resetInventory:boolean;
+  nextAvailable:boolean;
+  printKot:boolean
 }
 
 interface PricingDetailsFormData {
@@ -271,6 +262,10 @@ const PricingDetails = () => {
     Zomato: [],
     Availabilityid: [],
   });
+
+  const[resetInventory,setResetInventory]=useState(false)
+  const[nextAvailable,setNextAvailable]=useState(false)
+  const[printKot,setPrintKot]=useState(false)
   
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
@@ -349,9 +344,12 @@ const PricingDetails = () => {
       minutes: "",
     },
     KitchenStationId: "",
-    normalForm: isOptionTrue ? mainFormState : undefined, // Conditionally set normalForm
+    normalForm: isOptionTrue ? mainFormState : undefined, 
 
     specialForm: isOptionTrue ? undefined : mainFormSpecial,
+    resetInventory:resetInventory,
+    nextAvailable:nextAvailable,
+    printKot:printKot
   };
 
   // const formData={
@@ -360,20 +358,31 @@ const PricingDetails = () => {
 
   useEffect(() => {
     if (prizingDetail) {
-      setInventory(true)
+      setInventory(true);
+      setResetInventory(prizingDetail?.resetInventory)
+      setNextAvailable(prizingDetail?.nextAvailable)
+      setPrintKot(prizingDetail?.printKot)
+
+  
+      // Prepare the kitchenstation array
+  
+      // Reset form state
       reset({
         form: {
-          Inventory1: prizingDetail.form?.Inventory1 || "", // Adjust based on your prizingDetail structure
+          Inventory1: prizingDetail.form?.Inventory1 || "",
           Inventory2: prizingDetail.form?.Inventory2 || "",
         },
-        kitchenstation: prizingDetail?.kitchenstation || "",
+        kitchenstation: prizingDetail.kitchenstation,
         Preparationtime: {
-          hours: prizingDetail.Preparationtime?.hours || "", // Ensure nested properties are accessed safely
+          hours: prizingDetail.Preparationtime?.hours || "",
           minutes: prizingDetail.Preparationtime?.minutes || "",
         },
       });
+  
+      // Set options for kitchenstation
+      setOptions1( prizingDetail.kitchenstation); 
     }
-  }, [prizingDetail, reset]);
+  }, [prizingDetail, reset, setOptions1]);
 
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
@@ -615,6 +624,25 @@ const PricingDetails = () => {
     });
   };
 
+  console.log(options1)
+
+  const handleInventoryCheck=(event:any)=>{
+    setResetInventory(event.target.checked); 
+  }
+
+  const handleNextAvailCheckbox=(event:any)=>{
+    setNextAvailable(event.target.checked); 
+
+
+
+  }
+  const handlePrintKOt=(event:any)=>{
+    setPrintKot(event.target.checked); 
+
+
+
+  }
+
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
@@ -745,7 +773,7 @@ const PricingDetails = () => {
             </div>
 
             <div className="Kitchen-checkbox">
-              <input type="checkbox" className="checkbox1-Kitchen" />
+              <input type="checkbox" className="checkbox1-Kitchen" onChange={handlePrintKOt} checked={printKot} />
               <label className="Inventorycheck">
                 Don't print the item in Master KOT
               </label>
@@ -828,14 +856,15 @@ const PricingDetails = () => {
                   )}
                   <div className="Inventcheckbox">
                     <div className="checkboxI">
-                      <input type="checkbox" className="checkbox1-color" />
+                      <input type="checkbox" className="checkbox1-color"   onChange={handleInventoryCheck}   checked={resetInventory} 
+ />
                       <label className="InventoryHeadingII">
                         Reset inventory everyday
                       </label>
                     </div>
 
                     <div className="checkbox2">
-                      <input type="checkbox" className="checkbox1-color" />
+                      <input type="checkbox" className="checkbox1-color" onChange={handleNextAvailCheckbox} checked={nextAvailable}/>
                       <label className="InventoryHeadingII">
                         Show next available time when maximum count is reached
                       </label>
