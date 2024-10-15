@@ -321,6 +321,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
       if (prizingDetail?.normalForm) {
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
         // Clone the array or set empty array
+        setSelectedThirdValues(["Swiggy","Zomato"])
+        
    
       }  
     }, []);
