@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './CustomizeSlider.scss';
 import ToggleSliderAvail from '../ToggleSliderAvail/ToggleSliderAvail';
 import { useSelector, useDispatch } from 'react-redux';
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 interface Option {
   item: string;
@@ -25,9 +26,16 @@ interface RootState {
   };
 }
 
+
 const CustomizeSlider = () => {
   const dispatch = useDispatch();
   const datafromRedux = useSelector((state: RootState) => state?.selectedMockDataReducer?.data);
+  const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+
+
+
+
+
 
   const [customData, setCustomData] = useState(
     datafromRedux.map((item: any) => ({
@@ -40,6 +48,28 @@ const CustomizeSlider = () => {
       isEnabled: item?.modifiers[0]?.isEnabled
     }))
   );
+
+  
+  useEffect(() => {
+    if (datafromRedux && customData) {
+      setPatchedData((prevState: any) => ({
+        ...prevState,  // Spread prevState first to maintain the other structure
+        itemId: datafromRedux[0]?.itemId ?? prevState.itemId,  // Safely set itemId from datafromRedux
+        modifierInfo: customData.map((item, index) => ({
+          modifierId: datafromRedux[0]?.modifiers?.[index]?.id || prevState.modifierInfo[index]?.modifierId || "", // Ensure correct mapping of modifierId
+          modifierName: item.modifierName,
+          isEnabled: item.isEnabled,
+          options: item.options.map((opt:any, optIndex:any) => ({
+            modifierOptionId: datafromRedux[0]?.modifiers?.[index]?.options?.[optIndex]?.id || prevState.modifierInfo[index]?.options[optIndex]?.modifierOptionId || "", // Map to correct option
+            modifierOptionName: opt.name,
+            price: opt.price,  // Ensure price is updated
+            isEnabled: opt.isEnabled
+          }))
+        }))
+      }));
+    }
+  }, [datafromRedux, customData, setPatchedData]);
+  
 
   const [pen, setPen] = useState(true); // Define the pen state
 

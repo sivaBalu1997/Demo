@@ -7,12 +7,17 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
 const PricingSlider: any = ({  }) => {
+  const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+
   const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
   console.log("Data from Redux ",data)
+
+
+  
   const { pen, setPen } = useContext(Contextpagejs);
   const [inputs, setInputs] = useState({
     Dinein1: data[0]?.orderTypes[0]?.price  || [],
-    Pickup1: data[0]?.orderTypes[0]?.price  || [],
+    Pickup1:  data[0]?.orderTypes[0]?.price || [],
     Delivery1:data[0]?.orderTypes[0]?.price  || [],
   });
   const [sectionAValue, setSectionAValue] = useState<string>("");
@@ -37,8 +42,8 @@ const PricingSlider: any = ({  }) => {
     if (data && data[0]?.pricingdetails) {
       setInputs({
         Dinein1:data[0]?.orderTypes[0]?.price  || [],
-        Pickup1: data[0]?.itemResponseList[0]?.orderTypes[0]?.price || [],
-        Delivery1: data[0]?.itemResponseList[0]?.orderTypes[0]?.price || [],
+        Pickup1: data[0]?.orderTypes[0]?.price || [],
+        Delivery1: data[0]?.orderTypes[0]?.price  || [],
       });
     }
   }, [data]);
@@ -48,25 +53,44 @@ const PricingSlider: any = ({  }) => {
     setSectionAValue(updatedValue);
   }, [data]);
 
-    const handleInputChange1 = (
-      e: React.ChangeEvent<HTMLInputElement>,
-      section: PricingKey,
-      index: number
-    ) => {
-      const value = e.target.value;
-      setInputs((prev) => ({
-        ...prev,
-        [section]: prev[section].map((item: number, idx: any) =>
-          idx === index ? value : item
-        ),
-      }));
-    };
+  const handleInputChange1 = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    section: PricingKey,
+    index: number
+  ) => {
+    const value = e.target.value;
+  
+    setInputs((prev) => ({
+      ...prev,
+      [section]: Array.isArray(prev[section]) // Ensure it's an array
+        ? prev[section].map((item: number, idx: number) =>
+            idx === index ? Number(value) : item // Convert value to number if needed
+          )
+        : [], // Default to an empty array if prev[section] is not an array
+    }));
+  }
 
   const handleComparision = () => {
     setShowCompare(!showCompare);
   };
 
   console.log(inputs.Pickup1)
+  useEffect(() => {
+    if (data && data[0]?.orderTypes) {
+      setPatchedData((prevState: any) => ({
+        ...prevState,
+        pricing: [
+       
+          {
+            orderTypeId: data[0]?.orderTypes[0]?.typeId ,
+            price: inputs.Pickup1 
+          },
+        
+        ],
+      }));
+    }
+  }, [data, inputs, setPatchedData]);
+
 
 
   return (
@@ -112,7 +136,7 @@ const PricingSlider: any = ({  }) => {
                           <input
                             type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
-                            value={data[0]?.orderTypes[0].price}
+                            value={inputs.Pickup1[idx]|| data[0]?.orderTypes[0]?.price }
                             onChange={(e) =>
                               handleInputChange1(
                                 e,
