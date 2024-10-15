@@ -154,6 +154,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [DayDelivery, setDayDelivery] = useState<number[]>([]);
   const [DayThird, setDayThird] = useState<number[]>([]);
   const [dineInDates1, setDineInDates1] = useState<number[][]>([[]]);
+  console.log(dineInDates1)
 
   //   {_-------------------Use State  for Showing Day checck ---------------------------------}
   const [showDay, setShowDay] = useState(false);
@@ -204,6 +205,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
+
       setformNormal({
         PickuppriceNormal:
           prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
@@ -228,10 +230,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
           DineInPrice: item?.DineInPrice || "",
           DineInMealType: item.DineInMealType || [],
           DineInService: item?.DineInService || "",
-          showDay: false,
+          showDay: true,
           dayButtonText: "Choose Day",
         })
       );
+      setOnline(true)
+      setPickup(true)
+      setDelivery(true)
+      
 
       setDineInFields(updatedFields);
 
@@ -312,7 +318,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
     if (prizingDetail?.normalForm) {
       setNormalDays(prizingDetail.normalForm.Normaldays || []);
     }
-  }, []);
+      if (prizingDetail?.normalForm) {
+        setDineInDates1(prizingDetail.normalForm.DineIn || []);
+        // Clone the array or set empty array
+   
+      }  
+    }, []);
 
   const handleDelete = (index: number): void => {
     // Filter out the entry at the given index
@@ -729,7 +740,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <div className="dayspickup">
                   {entry.showDay && (
                     <DaysCheckDin
-                      checkedItems={dineInDates1}
+                      checkedItems={dineInDates1.map((elem)=>elem)}
                       setCheckedItems={setDineInDates1}
                       index={index}
                       {...(availabilityid

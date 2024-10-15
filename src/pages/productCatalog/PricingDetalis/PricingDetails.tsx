@@ -360,6 +360,7 @@ const PricingDetails = () => {
 
   useEffect(() => {
     if (prizingDetail) {
+      setInventory(true)
       reset({
         form: {
           Inventory1: prizingDetail.form?.Inventory1 || "", // Adjust based on your prizingDetail structure

@@ -18,8 +18,8 @@ const PricingSlider: any = ({  }) => {
   const [inputs, setInputs] = useState({
     Dinein1: data[0]?.orderTypes[0]?.price || [],
     Pickup1: Array.isArray(data[0]?.orderTypes[1]?.price) 
-    ? data[0]?.orderTypes[1]?.price 
-    : [data[0]?.orderTypes[1]?.price], 
+    ? data[0]?.orderTypes[0]?.price 
+    : [data[0]?.orderTypes[0]?.price], 
     Delivery1:data[0]?.orderTypes[0]?.price  || [],
   });
   const [sectionAValue, setSectionAValue] = useState<string>("");
