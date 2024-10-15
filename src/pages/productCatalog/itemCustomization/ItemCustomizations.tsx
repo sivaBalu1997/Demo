@@ -18,6 +18,7 @@ import { Contextpagejs } from "../contextpage";
 import Dropdown from "components/productCatalog/DropDown/Dropdown";
 import { RootState } from "redux/rootReducer";
 import { stat } from "fs";
+import { tr } from "date-fns/locale";
 
 // Define types
 interface Option {
@@ -154,6 +155,7 @@ const ItemCustomizations: React.FC = () => {
   useEffect(() => {
     if (showModifiers === false) {
       setIsValid(true);
+      setShowModifiers(true)
     }
 
     if (itemCustomizationData.length > 0) {
@@ -646,15 +648,17 @@ const ItemCustomizations: React.FC = () => {
                                 placeholder=""
                                 className="input3ItemCustomizations"
                                 value={
-                                  filteredModifications[modIndex].minSelection
+                                  filteredModifications[modIndex].selectionType === "Mandatory" &&
+                                  filteredModifications[modIndex].minSelection != 1
+                                    ? 1 // Set value to 1 if conditions are met
+                                    : filteredModifications[modIndex].minSelection // Otherwise, use minSelection
                                 }
                                 name="minSelection"
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
                                 disabled={
-                                  filteredModifications[modIndex]
-                                    .selectionType === "Mandatory"
+                                  filteredModifications[modIndex].selectionType === "Mandatory" 
                                 }
                               />
                               <div className="polydiv-ItemCustomizations">

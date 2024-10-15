@@ -160,3 +160,11 @@ export function getPopularItemRequestApi(locationId) {
 }
 
 
+export function apiUpdateMenu(payload) {
+  return API({
+    method: "patch",
+    url: `/api/v1/menu-items/partial-update`,
+    data:payload
+  });
+}
+

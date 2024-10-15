@@ -50,7 +50,9 @@ import {
   deleteDropDownSuccess,
   deleteDropDownFailure,
   getMenuSuccess,
-  kitchenStationSuccess
+  kitchenStationSuccess,
+  partialUpdateMenuSuccess,
+  partialUpdateMenuFailure
 
 
 } from "./productCatalogActions";
@@ -78,7 +80,8 @@ import {
   getPopularItemRequestApi,
   getMenuData,
   getMenuDataApi,
-  addSubsectionApi
+  addSubsectionApi,
+  apiUpdateMenu
   
 } from "../productCatalog/productCataloglogAPI";
 
@@ -109,6 +112,7 @@ import {
   GET_POPULAR_ITEM_REQUEST,
   ADDDROPDOWN_REQUEST,
   STORE_MENU_REQUEST,
+  PARTIAL_UPDATE_MENU_REQUEST,
 } from "./productCatalogConstants";
  
 
@@ -376,6 +380,20 @@ function* getPopularItemSaga(action) {
   }
 }
 
+function* partialUpdateMenuSaga(action) {
+  try {
+  
+    const updatedMenu = yield call(apiUpdateMenu,action.payload);
+    yield put(partialUpdateMenuSuccess(updatedMenu));  
+  } catch (error) {
+    yield put(partialUpdateMenuFailure(error.message));  
+  }
+}
+
+
+
+
+
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(STORE_MENU_REQUEST, fetchMenuDataSaga);
@@ -399,4 +417,6 @@ export default function* productCatalog() {
   yield takeLatest(GET_ITEM_CODE_REQUEST, getItemCodeSaga);
 
   yield takeLatest(GET_POPULAR_ITEM_REQUEST, getPopularItemSaga);
+
+  yield takeLatest(PARTIAL_UPDATE_MENU_REQUEST, partialUpdateMenuSaga);
 }

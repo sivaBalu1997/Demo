@@ -325,7 +325,25 @@ export const Menulisting = () => {
 
   const handlemodal = (value) => {
     setmodal(true);
-    setSideBar(Mockdata.filter((item) => item.id === value));
+   const filteredItem = menuData.find((item) => 
+    item?.itemResponseList?.some((response) => response?.itemId === value)
+  );
+
+  if (filteredItem) {
+    // Further filter the itemResponseList to get the specific response
+    const specificResponse = filteredItem.itemResponseList.filter((response) => response?.itemId === value);
+
+    // Set the sidebar to the specific response if it exists
+    if (filteredItem) {
+      // Further filter the itemResponseList to get the specific response
+      const specificResponse = filteredItem.itemResponseList.filter((response) => response?.itemId === value);
+  
+      // Set the sidebar to the specific response if it exists
+      if (specificResponse.length > 0) {
+        setSideBar(specificResponse); // Set the first matching response
+      }
+    }}
+
   };
 
   const showsidebar = (key) => {
@@ -402,6 +420,8 @@ export const Menulisting = () => {
     FilteredObject[0] &&
     Array.isArray(FilteredObject[0]) &&
     FilteredObject[0].map((item) => item);
+
+    console.log("side",SideBarData)
 
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>

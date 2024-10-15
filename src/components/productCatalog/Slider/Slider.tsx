@@ -137,8 +137,9 @@ const Slider: React.FC<SliderProps> = ({
       <div className="Slider-Window">
         <div className="Slider-Mainform">
           <div className="Slider-First-Row">
-            <h1 className="Slider-Heading1">{dataFromRedux?.[0]?.itemName}</h1>
-
+          <h1 className="Slider-Heading1">
+          {dataFromRedux?.length > 0 ? dataFromRedux[0]?.itemName : "No Item Available"}
+          </h1>
             <div className="Slider-icons">
               <div className="PenImage-Section">
                 <img

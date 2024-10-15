@@ -43,13 +43,12 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       mainHeading: 'On-prem',
       subcategories: [
         {
-          subHeading: 'Pick up',
-          types: ['In house:', 'Swiggy:', 'Zomato:'],
+          subHeading:dataFromRedux[0]?.orderTypes?.length > 0
+          ? [dataFromRedux[0]?.orderTypes[0].typeName]
+          : [],
+          types: []
         },
-        {
-          subHeading: 'Delivery',
-          types: ['In house:', 'Swiggy:', 'Zomato:'],
-        },
+       
       ],
     },
   ];
@@ -86,19 +85,22 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
   // Function to map initial toggle state from Redux values
   const mapInitialToggleState = (parentIndex: number, subcategoryIndex: number, childIndex: number) => {
+    const orderTypes = dataFromRedux?.[0]?.orderTypes;
+    const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
+  
     if (parentIndex === 0) {
       // Off-prem (Dinein2)
-      return dataFromRedux?.[0]?.pricingdetails?.Dinein2?.[childIndex] === 'Enabled';
+      return orderTypes?.[0]?.isEnabled === 'Enabled'; // Assuming isEnabled is a string
     } else if (parentIndex === 1 && subcategoryIndex === 0) {
       // Pick up (Pickup2)
-      return dataFromRedux?.[0]?.pricingdetails?.Pickup2?.[childIndex] === 'Enabled';
+      return orderTypes?.[0]?.isEnabled === 'Enabled'; // Ensure Pickup2 exists in pricingDetails
     } else if (parentIndex === 1 && subcategoryIndex === 1) {
       // Delivery (Delivery2)
-      return dataFromRedux?.[0]?.pricingdetails?.Delivery2?.[childIndex] === 'Enabled';
+      return pricingDetails?.Delivery2?.[childIndex] === 'Enabled'; // Ensure Delivery2 exists in pricingDetails
     }
-    return false;
+    
+    return false; // Default case
   };
-
   // Function to handle toggling at parent level
   // Function to handle toggling at parent level, including nested subcategories
 const handleParentToggle = (parentIndex: number) => {
@@ -277,7 +279,7 @@ setToggleStates(newToggleStates);
                   <div key={subIndex} className='subcategorySection'>
                     <h3 className='SectionASectionBSectionHeadingBlack'>{subcategory.subHeading}</h3>
                     <ToggleSliderAvail
-                      toggle={toggleStates[index]?.subcategoryToggles?.[subIndex]?.subParentToggle || false}
+                      toggle={dataFromRedux[0]?.orderTypes.map((elem:any)=>elem.isEnabled) || false}
                       setToggle={() => handleSubcategoryToggle(index, subIndex)}
                       pen={pen}
                     />

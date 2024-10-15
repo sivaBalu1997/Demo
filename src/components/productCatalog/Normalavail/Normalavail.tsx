@@ -58,7 +58,7 @@ interface DineInField {
 }
 
 type DropdownValidationState = {
-  [key: string]: { isValid: boolean; errorMessage: string }; // Adjust this as necessary
+  [key: string]: { isValid: boolean; errorMessage: string }; 
 };
 
 interface DeliveryDetails {
@@ -79,7 +79,6 @@ interface NormalavailProps {
     [key: string]: { isValid: boolean; errorMessage: string };
   };
 
-  // Corrected type for setValidationStateerr
   setValidationStateerr: React.Dispatch<
     React.SetStateAction<DropdownValidationState>
   >;
@@ -103,7 +102,7 @@ type SelectedValueType = string;
 type SelectedValuesMealTypeState = MealType[];
 type ServiceValueType = string;
 interface SelectedValuesState {
-  [key: number]: any; // Replace `any` with the actual type of `values`
+  [key: number]: any;
 }
 type OptionType = string;
 
@@ -170,6 +169,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [DayDelivery, setDayDelivery] = useState<number[]>([]);
   const [DayThird, setDayThird] = useState<number[]>([]);
   const [dineInDates1, setDineInDates1] = useState<number[][]>([[]]);
+  console.log(dineInDates1)
 
   //   {_-------------------Use State  for Showing Day checck ---------------------------------}
   const [showDay, setShowDay] = useState(false);
@@ -341,6 +341,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
+
       setformNormal({
         PickuppriceNormal:
           prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
@@ -365,10 +366,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
           DineInPrice: item?.DineInPrice || "",
           DineInMealType: item.DineInMealType || [],
           DineInService: item?.DineInService || "",
-          showDay: false,
+          showDay: true,
           dayButtonText: "Choose Day",
         })
       );
+      setOnline(true)
+      setPickup(true)
+      setDelivery(true)
+      
 
       setDineInFields(updatedFields);
 
@@ -388,22 +393,18 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
       );
-      // Other state initializations...
     }
 
     if (prizingDetail?.normalForm) {
       setSelectedValues3(
         prizingDetail.normalForm.DeliveryMealType || selectedValues3
       );
-      // Other state initializations...
     }
     if (prizingDetail?.normalForm) {
       setSelectedValues4(prizingDetail.normalForm.Swiggy || selectedValues4);
-      // Other state initializations...
     }
     if (prizingDetail?.normalForm) {
       setSelectedValues5(prizingDetail.normalForm.Zomato || selectedValues5);
-      // Other state initializations...
     }
 
     if (prizingDetail?.normalForm) {
@@ -427,24 +428,27 @@ const Normalavail: React.FC<NormalavailProps> = ({
     if (prizingDetail?.normalForm) {
       setNormalDays(prizingDetail.normalForm.Normaldays || []);
     }
-  }, []);
+      if (prizingDetail?.normalForm) {
+        setDineInDates1(prizingDetail.normalForm.DineIn || []);
+        setSelectedThirdValues(["Swiggy","Zomato"])
+        
+   
+      }  
+    }, []);
 
   const handleDelete = (index: number): void => {
-    // Filter out the entry at the given index
     const newEntries = dineinfields.filter((_: any, i: any) => i !== index);
     setDineInFields(newEntries);
 
-    // Handle selected values
+    
     const newSelectedValues1 = { ...selectedValues };
     delete newSelectedValues1[index];
     setSelectedValues(newSelectedValues1);
 
-    // Handle selected meal type values
     const newSelectedValuesMealtype = { ...selectedValuesmealtype };
     delete newSelectedValuesMealtype[index];
     setSelectedValuesMealType(newSelectedValuesMealtype);
 
-    // Handle dine-in dates
     const newArray = [...dineInDates1];
     newArray.splice(index, 1);
     setDineInDates1(newArray);
@@ -870,7 +874,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <div className="dayspickup">
                   {entry.showDay && (
                     <DaysCheckDin
-                      checkedItems={dineInDates1}
+                      checkedItems={dineInDates1.map((elem)=>elem)}
                       setCheckedItems={setDineInDates1}
                       index={index}
                       {...(availabilityid
