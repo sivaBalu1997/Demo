@@ -49,7 +49,8 @@ import {
   addDropDownFailure,
   deleteDropDownSuccess,
   deleteDropDownFailure,
-  getMenuSuccess
+  getMenuSuccess,
+  kitchenStationSuccess
 
 
 } from "./productCatalogActions";
@@ -146,6 +147,9 @@ function* fetchDropdownDataSaga(action) {
         case 'BEST_PAIRED_ITEMS':
           yield put(bestPairDataSuccess(response));
           break;
+        case 'KITCHEN_STATION':
+          console.log('hi from sagas')
+          yield put(kitchenStationSuccess(response.data));
         default:
           throw new Error("Invalid type");
       }
@@ -267,21 +271,11 @@ function* getAvailabilitySaga(action) {
 
 function* addMenuItemSaga(action) {
   try {
-    const addApi = yield call(getId);
+    const addApi = yield call(addMenuItem, action.payload);
     const addApiresponse = addApi.data;
 
     if (addApi.status === 200) {
       yield put(addMenuItemSuccess(addApiresponse));
-
-      const images = action.payload[0].imageUrls.map((image) => image.file);
-      for (const [index, image] of images.entries()) {
-        yield put({
-          type: UPLOAD_IMAGE_IN_PROGRESS,
-          payload: { image, addApiresponse, index },
-        });
-
-        yield take([UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE]);
-      }
     } else {
       yield put(addMenuItemFailed({ message: "Please Try Again" }));
     }

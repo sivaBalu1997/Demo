@@ -27,6 +27,7 @@ export const Menulisting = () => {
   const dispatch = useDispatch();
 
   const location = useSelector((state) => state.auth.selectedBranch)
+
   const menuData = useSelector((state) => state.productCatalog?.menuData)
 
   const { isExpanded } = useContext(Contextpagejs);
@@ -43,7 +44,7 @@ export const Menulisting = () => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
 
-  const addedData=useSelector((state)=> state.addMockDataReducer.data)
+  const addedData = useSelector((state)=> state.addMockDataReducer.data)
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
 
@@ -51,7 +52,7 @@ export const Menulisting = () => {
     (state) => state.storeMockDataFilteredReducer.data
   );
 
-  const hiddenData= useSelector(
+  const hiddenData = useSelector(
     (state) => state.addMockDataHiddenReducer?.data ||[]
   );
 
@@ -330,7 +331,6 @@ export const Menulisting = () => {
   const showsidebar = (key) => {
     if (key === "Dinein1" || key === "Pickup1" || key === "Delivery1") {
       handlemodal();
-
       setSideBarText("Pricing");
     } else if (key === "Dinein2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();

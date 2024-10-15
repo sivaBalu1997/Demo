@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { Link } from "react-router-dom";
 interface Option {
-  item: string;
+  modifierOptionName: string;
   price: number;
 }
 export interface ItemCustomization {
@@ -114,7 +114,7 @@ const Step3Review: React.FC = () => {
                         key={subIndex}
                         className="Step-3-Modifier-Section-Menu-details-items"
                       >
-                        {subItem.item}
+                        {subItem.modifierOptionName}
                       </h2>
                     ))}
                 </div>

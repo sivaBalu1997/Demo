@@ -8,19 +8,25 @@ import Step2 from "../../../components/productCatalog/Step2/Step2";
 import { Contextpagejs } from "../contextpage";
 import ReviewValues from "../../../components/productCatalog/ReviewValues/ReviewValues";
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
-import Step3Review, { RootStateIC } from "../../../components/productCatalog/Step3Review/Step3Review";
+import Step3Review, {
+  RootStateIC,
+} from "../../../components/productCatalog/Step3Review/Step3Review";
 import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImageSelected/PrimaryImageSelected";
 import {
   addMenuItemRequest,
   addMockDataRequest,
   cleanMenuItemSuccessMsg,
-  uploadImage
-  
+  uploadImage,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
 import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
-import { categoryType, cuisine, dietarytype, mealType } from "assets/mockData/Moca_data";
+import {
+  categoryType,
+  cuisine,
+  dietarytype,
+  mealType,
+} from "assets/mockData/Moca_data";
 
 interface Image {
   id: string;
@@ -61,7 +67,7 @@ interface PrimaryData {
   Ingredients: AllergenImage[];
   alcohol: string;
   barCode: string;
-  caloriePoint?: string;
+  coloriePoint?: string;
   selectedcolorie: string;
   portionSize?: string;
   selectedPortion: string;
@@ -69,13 +75,14 @@ interface PrimaryData {
   masterCode: string;
   imageUrls: ImageFile[];
   allergens: AllergenImage[];
+  popularItem: boolean;
 }
 interface RootState {
   primarypage: {
-      data: PrimaryData;
+    data: PrimaryData;
   };
   PricingDetailReducer: {
-      prizingData: PricingData;
+    prizingData: PricingData;
   };
 }
 interface PricingData {
@@ -88,8 +95,8 @@ interface MainForm {
 }
 
 interface PreparationTime {
-  hours:string;
-  minutes:string;
+  hours: string;
+  minutes: string;
 }
 interface NormalForm {
   availabilityid: string[];
@@ -155,18 +162,50 @@ interface ImageId {
   };
 }
 
+interface State {
+  auth: {
+    credentials: {
+      locationId: string;
+    };
+  };
+}
+
+interface Detail {
+  typeId: string;
+  typeName: string[]; // or string[][] if nested arrays are allowed
+  price: number | string; // Allow for both numbers and strings
+}
+
+interface PrizingDetail {
+  normalForm: {
+    dineInDetails: Record<string, Detail>;
+    pickupDetails: Record<string, Detail>;
+    deliveryDetails: Record<string, Detail>;
+  };
+}
 const PrimaryDetailsReviewpage: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
 
-  const uploadStatus = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.uploadStatus);
-  const errorMessages = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages);
+  const uploadStatus = useSelector(
+    (state: { imageUpload: ImageUpload }) => state.imageUpload?.uploadStatus
+  );
+  const errorMessages = useSelector(
+    (state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages
+  );
+  const locationid = useSelector(
+    (state: State) => state.auth.credentials.locationId
+  );
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  const prizingDetail = useSelector((state : RootState) => state?.PricingDetailReducer?.prizingData);
-  const itemCustomizationData = useSelector((state : RootStateIC) => state.itemCustomizationsReducer1.itemData);
+  const prizingDetail = useSelector(
+    (state: RootState) => state?.PricingDetailReducer?.prizingData as any
+  );
+  const itemCustomizationData = useSelector(
+    (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
+  );
 
   const fetchedprimarydata = primarydata;
 
@@ -178,13 +217,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const [imageIdtosend, setimageIdtosend] = useState<string>("");
 
-  useEffect(()=>{
+  useEffect(() => {
     setError([]);
-  },[])
+  }, []);
 
   useEffect(() => {
-    if (uploadStatus && uploadStatus.index !== undefined) {      
-
+    if (uploadStatus && uploadStatus.index !== undefined) {
       setError((prevErro) => {
         const existingErrorIndex = prevErro.findIndex(
           (entry) => entry.index === uploadStatus.index
@@ -280,18 +318,16 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     }
   };
 
-  const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
+  const [disablesubmitbtn, setdisablesubmitbtn] = useState<boolean>(false);
   const [indextoreplace, setindextoreplace] = useState<Status[]>([]);
-  const allUploaded =  uploadedimage &&uploadedimage.every(
-    (img) => img && !hasImageError(img.file)
-  );
-  useEffect(()=>{
-    if(allUploaded)
-    {
-      setdisablesubmitbtn(false)
+  const allUploaded =
+    uploadedimage &&
+    uploadedimage.every((img) => img && !hasImageError(img.file));
+  useEffect(() => {
+    if (allUploaded) {
+      setdisablesubmitbtn(false);
     }
-
-  },[allUploaded])
+  }, [allUploaded]);
 
   useEffect(() => {
     checkAllImagesForErrors();
@@ -334,55 +370,163 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         index: indexToReplace,
       };
 
-      dispatch(cleanMenuItemSuccessMsg())
+      dispatch(cleanMenuItemSuccessMsg());
 
       setTimeout(() => {
         // dispatch(uploadImage(file, uploadStatus.id, indexToReplace));
       }, 5000);
       // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
-      const allUploaded =  uploadedimage.every(
+      const allUploaded = uploadedimage.every(
         (img) => img && !hasImageError(img.file)
       );
       const allSuccess = error.every((data) => data.status === "success");
-      if(allUploaded && allSuccess)
-      {
-        setdisablesubmitbtn(false)
+      if (allUploaded && allSuccess) {
+        setdisablesubmitbtn(false);
       }
 
       setTimeout(() => checkAllImagesForErrors(), 0);
     }
   };
 
+  const dietaryData = useSelector(
+    (state: any) => state.productCatalog.dietaryData.data
+  );
+
+  const cuisineData = useSelector(
+    (state: any) => state.productCatalog.cuisineData.data
+  );
+
+  const subCategoryData = useSelector(
+    (state: any) => state.productCatalog.subCategoryData.data
+  );
+
+  const categoryData = useSelector(
+    (state: any) => state.productCatalog.categoryData.data
+  );
+
+  const bestPairData = useSelector(
+    (state: any) => state.productCatalog.bestPairData.data
+  );
+
+  //////////////
+
+  const matchedDietary = dietaryData?.filter((dietary: any) =>
+    primarydata?.dietaryType?.includes(dietary.name)
+  );
+
+  const matchedCuisine = cuisineData?.find(
+    (cuisine: any) => cuisine.name === primarydata?.cuisine
+  );
+
+  const matchedCategory = categoryData?.find(
+    (category: any) => category.name === primarydata?.category
+  );
+
+  const matchedSubCategory = subCategoryData?.find(
+    (subCategory: any) => subCategory.name === primarydata?.subCategory
+  );
+
+  const matchedKitchenStation = cuisineData?.filter((cuisine: any) =>
+    prizingDetail?.kitchenstation?.includes(cuisine.name)
+  );
+
+  // const matchedBestPair = bestPairData?.find(
+  //   (bestPair : any) => bestPair.name === primarydata?.bestPair
+  // );
+
+  const matchedBestPair = bestPairData?.filter((bestPair: any) =>
+    primarydata?.bestPair?.includes(bestPair?.name)
+  );
+
+  const matchedDietaryId = matchedDietary?.map((m: any) => m?.id);
+  const matchedCuisineId = matchedCuisine?.id;
+  const matchedCategoryId = matchedCategory?.id;
+  const matchedSubCategoryId = matchedSubCategory?.id;
+  const bestPairId = matchedBestPair?.map((m: any) => m?.id);
+  const kitchenStationId = matchedKitchenStation?.map((m: any) => m?.id);
+
+  const modifierData = itemCustomizationData?.map((item) => ({
+    modifierName: item?.modifierName,
+    maxCount: item?.maxSelection,
+    minCount: item?.minSelection,
+    noFreeCustomization: item?.freeCustomization,
+    options: item?.options,
+  }));
+
+  const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
+  const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
+  const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
+  const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails
+  
+  const combinedDetails: Detail[] = [
+    dineInDetails && dineInDetails,
+    pickupDetails && pickupDetails,
+    deliveryDetails && deliveryDetails,
+    thirdPartyDetails && thirdPartyDetails
+  ].filter(Boolean);
+
+  const normalDays = prizingDetail?.normalForm?.Normaldays
+  const stringNormalDays = Array.isArray(normalDays)
+  ? normalDays.map(String) 
+  : [];
+
+  const menuPayload = {
+    locationId: locationid,
+    itemId: "",
+    itemName: primarydata?.itemName || null,
+    itemCode: primarydata?.itemCode || null,
+    dietTypes: matchedDietaryId || null,
+    pairedItems: bestPairId || null,
+    barCode: primarydata?.barCode || null,
+    cuisine: matchedCuisineId || null,
+    // mealType: primarydata?.mealType || null,
+    categoryId: matchedCategoryId || null,
+    subCategoryId: matchedSubCategoryId || null,
+    isPopularItem: primarydata?.popularItem || null,
+    allergens: primarydata?.allergens || null,
+    description: primarydata?.description || null,
+    containsAlcohol: primarydata?.alcohol === 'yes'  ? true : false,
+    ingredients: primarydata?.Ingredients || null,
+    calorieInfo: primarydata?.coloriePoint || null,
+    portionInfo: primarydata?.portionSize || null, 
+    taxClassAssociation: primarydata?.taxFeeId || null,
+    // masterItemCode: primarydata?.masterCode || null,
+
+    kitchenStation: kitchenStationId || null,
+    preparationTimeInHours: prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
+    preparationTimeInMinutes: prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
+    ignoreMasterKotPrint : false,
+    availabilityDays: stringNormalDays || null,
+    orderTypesWithRespectToAvailability : combinedDetails || null,
+
+    ...(modifierData.length > 1 && {modifiers : modifierData || null,})
+  };
+
+  console.log({modifierData})
+  console.log({ menuPayload });
+
   const handleDispatch = async () => {
     checkAllImagesForErrors();
-    const allUploaded =  uploadedimage.every(
+    const allUploaded = uploadedimage.every(
       (img) => img && !hasImageError(img.file)
     );
 
     if (uploadStatus.id && error && error.length > 0) {
       const allSuccess = error.every((data) => data.status === "success");
       if (allUploaded && allSuccess) {
-        dispatch(cleanMenuItemSuccessMsg())
+        dispatch(cleanMenuItemSuccessMsg());
 
         setTimeout(() => {
-          
           setTimeout(() => checkAllImagesForErrors(), 0);
- 
-          if(allUploaded && allSuccess){
 
-
+          if (allUploaded && allSuccess) {
             history.push("/menuListing");
-
           }
-          
-          
         }, 5000);
-
-       
       } else {
-        alert("you can't go")
-        setdisablesubmitbtn(true)
+        alert("you can't go");
+        setdisablesubmitbtn(true);
       }
     }
 
@@ -391,7 +535,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     // }
     if (ImageId === "" || ImageId === undefined) {
-      dispatch(addMenuItemRequest(data));
+      dispatch(addMenuItemRequest(menuPayload));
       dispatch(addMockDataRequest(data));
     } else {
       setindextoreplace((prev) => {
@@ -405,8 +549,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         return updatedIndexToReplace; // Ensure the state is updated with the new value
       });
     }
-    dispatch(addMenuItemRequest(data));
-    dispatch(addMockDataRequest(data));
+    dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    // dispatch(addMockDataRequest(data));
 
     // If needed, redirect or perform other actions here
     // if (allUploaded) {
@@ -417,44 +561,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
   };
-
-  const modifierData = itemCustomizationData.map((item) => ({
-    modifierName : item?.modifierName,
-    maxCount : item?.maxSelection,
-    minCount : item?.minSelection,
-    noFreeCustomization :item?.freeCustomization,
-    modifierOptions : item?.options
-  }))
-
-  const menuPayload = {
-    itemId : '1234',
-    itemName : primarydata?.itemName,
-    itemCode : primarydata?.itemCode,
-    dietarytype : primarydata?.dietaryType,
-    barCode : primarydata?.barCode,
-    cuisine : primarydata?.cuisine,
-    // isPopularItem : primarydata?.popularItem,
-    mealType : primarydata?.mealType,
-    categoryId : primarydata?.categoryId,
-    pairedItems : primarydata?.bestPair,
-    allergens : primarydata?.allergens,
-    description : primarydata?.description,
-    containsAlcohol : primarydata?.alcohol,
-    ingredients : primarydata?.Ingredients,
-    calorieInfo : primarydata?.caloriePoint,
-    partionInfo : primarydata?.portionSize,  // check the spelling
-    taxClassAssociation : primarydata?.taxFeeId,
-    masterItemCode : primarydata?.masterCode,
-
-    kitchenStation : prizingDetail?.mainForm?.KitchenStationId,
-    preparationTimeInHours : prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours,
-    preparationTimeInMinutes : prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes,
-    // ignoreMasterKotPrint : 
-    availabilityDays : prizingDetail?.mainForm?.normalForm?.Normaldays,
-    // orderTypesWithRespectToAvailability : 
-
-    modifiers : modifierData
-  }
 
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
@@ -520,26 +626,26 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       </div>
 
                       <div>
-                        <ReviewValues
+                        {/* <ReviewValues
                           label="Calorie Point"
                           textvalue={
-                            fetchedprimarydata.caloriePoint
-                              ? fetchedprimarydata.caloriePoint
+                            fetchedprimarydata.coloriePoint
+                              ? fetchedprimarydata.coloriePoint
                               : "-"
                           }
-                        />
+                        /> */}
                       </div>
-
+{/* 
                       <div>
                         <ReviewValues
                           label="Portion Size"
                           textvalue={
                             fetchedprimarydata.portionSize
-                              ? fetchedprimarydata.portionSize
+                              ? fetchedprimarydata.portionSize?.type
                               : "-"
                           }
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -598,7 +704,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         />
                       </div>
 
-                      <div>
+                      {/* <div>
                         <ReviewValues
                           label="Unit of measurement"
                           textvalue={
@@ -607,7 +713,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                               : "-"
                           }
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -676,12 +782,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         id={`imgadd-${0}`}
                                         accept="image/png, image/jpeg"
                                         onChange={(e) => handleRetry(e, 0)}
-                                        style={{ display: "none" }} 
+                                        style={{ display: "none" }}
                                       />
 
                                       <span
                                         className="errromsg"
-                                        onClick={() => handleAddImage(0)} 
+                                        onClick={() => handleAddImage(0)}
                                       >
                                         Retry
                                       </span>
@@ -847,7 +953,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
               <div className="part-two">
                 <Step2 />
                 <div className="verticalLine" />
-                
+
                 <Step3Review />
               </div>
             </div>
@@ -856,10 +962,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         <div
           className={isExpanded ? "saveandnextreview" : "saveandnextreview1"}
         >
-          <button 
+          <button
             className={`${isExpanded ? "clearall1" : "clearall"}`}
-            onClick={()=>history.push('/menuListing')}
-            >
+            onClick={() => history.push("/menuListing")}
+          >
             Cancel
           </button>
           <button

@@ -5,6 +5,8 @@ import AvailabilitySlider from "../AvailibilitySlider/AvailabilitySlider";
 import Inventory from "../Inventory/Inventory";
 import CustomizeSlider from "../CustomizeSlider/CustomizeSlider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/rootReducer";
 
 interface NavMenuProps {
   pen?: true; 

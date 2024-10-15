@@ -82,7 +82,11 @@ import {
   STORE_MENU_REQUEST,
   STORE_MENU_SUCCESS,
   STORE_MENU_FAILURE,
+  KITCHEN_DATA_REQUEST,
+  KITCHEN_DATA_SUCCESS,
+  KITCHEN_DATA_FAILURE,
 } from "../productCatalog/productCatalogConstants";
+import { kitchenStationSuccess } from "./productCatalogActions";
 
 const initialProductCatalogState = {
   menuData: [],
@@ -110,6 +114,10 @@ const initialProductCatalogState = {
   bestPairData: [],
   getBestPairDataLoading: false,
   getBestPairSuccess: false,
+
+  kitchenStation: [],
+  kitchenStationLoading: false,
+  kitchenStationSuccess: false,
 
   taxClass: [],
   getTaxClassLoading: false,
@@ -183,7 +191,6 @@ export default function productCatalogReducer(
         draft.addMenuLoading = true
         break;
       case STORE_MENU_SUCCESS:
-        console.log(action.payload)
         draft.menuData = action.payload
         draft.menuDataSuccess = true
         draft.menuDataFailed = false
@@ -277,6 +284,20 @@ export default function productCatalogReducer(
         draft.getBestPairSuccess = false;
         break;
 
+      //kitchenStation
+      case KITCHEN_DATA_REQUEST:
+        draft.kitchenStation = []
+        draft.kitchenStationLoading = true
+      case KITCHEN_DATA_SUCCESS:
+        draft.kitchenStation = action.payload
+        draft.kitchenStationLoading = false
+        draft.kitchenStationSuccess = true
+      case KITCHEN_DATA_FAILURE:
+        draft.kitchenStation = []
+        draft.kitchenStationLoading = false
+        draft.kitchenStationSuccess = false
+        break;
+        
       // Get Menu Category
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];

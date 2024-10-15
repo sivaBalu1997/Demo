@@ -156,6 +156,16 @@ interface PricingDetails {
   Customize1: string[];
 }
 
+interface CalorieInfo {
+  type: string; // or use a specific union type if you know the possible values
+  value: string;
+}
+
+interface PortionInfo {
+  type: string; // The type can be "portion(count)" or "grams/ml"
+  value: string; // The numeric value for the portion size
+}
+
 interface Item {
   id: number;
   itemName: string;
@@ -217,6 +227,17 @@ const PrimaryPage = () => {
   });
 
   const [popularItem, setPopularItem] = useState<any>("");
+  const [calorieInfo, setCalorieInfo] = useState<CalorieInfo>({
+    type: "per 100 grams",
+    value: "",
+  });
+
+  const [portionInfo, setPortionInfo] = useState<PortionInfo>({
+    type: "portion(count)",
+    value: "",
+  });
+
+  console.log({ portionInfo });
 
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
@@ -238,9 +259,9 @@ const PrimaryPage = () => {
     useState<Item[]>();
 
   useEffect(() => {
-    setPopularItem(PopularItemFormApi); 
+    setPopularItem(PopularItemFormApi);
   }, [PopularItemFormApi]);
-  
+
   useEffect(() => {
     dispatch(getPopularItemRequest(locationid));
   }, []);
@@ -294,6 +315,14 @@ const PrimaryPage = () => {
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
     }
   }, [ItemsPrimaryDetails, setValue]);
+
+  useEffect(() => {
+    setValue("coloriePoint", calorieInfo);
+  }, [calorieInfo]);
+
+  useEffect(() => {
+    setValue("portionSize", portionInfo);
+  }, [portionInfo]);
 
   const ingredients = useSelector(
     (state: StateDataTag) => state.productCatalog.ingredients
@@ -361,6 +390,30 @@ const PrimaryPage = () => {
 
   const handleRadioChange = (radioname: keyof FormData, value: string) => {
     setValue(radioname, value);
+  };
+
+  const handleCalorieRadioChange = (
+    name: keyof typeof calorieInfo,
+    value: string | boolean
+  ) => {
+    setCalorieInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCalorieInfo((prevState) => ({
+      ...prevState,
+      value: e.target.value,
+    }));
+  };
+
+  const handlePortionChange = (name: keyof PortionInfo, value: string) => {
+    setPortionInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleImageDeletion = (index: number) => {
@@ -481,6 +534,7 @@ const PrimaryPage = () => {
   useEffect(() => {
     register("imageUrls");
   }, [register]);
+
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
@@ -488,22 +542,27 @@ const PrimaryPage = () => {
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
+
   const subCategoryData = useSelector(
     (state: any) => state.productCatalog.subCategoryData.data
   );
+
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
+
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
+
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
-
     if (isChecked) {
       setPopularItem(popularItem + 1);
+      setValue("popularItem", true);
     } else if (!isChecked) {
       setPopularItem(popularItem - 1);
+      setValue("popularItem", false);
     }
   };
 
@@ -969,7 +1028,21 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields PopularItem">
-                  <input type="checkbox" onChange={handleCheckboxChange} />
+                  <Controller
+                    name="popularItem"
+                    control={control}
+                    defaultValue={false}
+                    render={({ field }: any) => (
+                      <input
+                        type="checkbox"
+                        {...field}
+                        onChange={(e) => {
+                          handleCheckboxChange(e);
+                          field?.onChange(e.target.checked); // Ensure form state updates
+                        }}
+                      />
+                    )}
+                  />
                   <span>Popular item ( {popularItem}/10 )</span>
                 </div>
 
@@ -1059,7 +1132,7 @@ const PrimaryPage = () => {
                 <h3 className="Primary-Page-Other-Details-heading">
                   Other Details
                 </h3>
-                <div className="Primary-Page-Other-Detail ">
+                <div className="Primary-Page-Other-Detail">
                   <div>
                     <Controller
                       name="coloriePoint"
@@ -1067,22 +1140,26 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
-                          onChange={onChange}
+                          onChange={(e) => {
+                            handleInputChange(e); // Update the state when input changes
+                            onChange(e); // Also trigger form control
+                          }}
                           onBlur={onBlur}
-                          value={value}
+                          value={calorieInfo.value} // Bind value to the state
                           trigger={trigger}
                           placeholder="cal"
                         />
                       )}
                     />
                   </div>
+
                   <div className="Caloriepointradio">
                     <RadioButtonGroup
                       options={calorieponitradio}
-                      name="selectedcolorie"
-                      selectedValue={selectedradiowatch.selectedcolorie}
+                      name="type"
+                      selectedValue={calorieInfo.type}
                       onChange={(value) =>
-                        handleRadioChange("selectedcolorie", value)
+                        handleCalorieRadioChange("type", value)
                       }
                       register={register}
                     />
@@ -1097,28 +1174,26 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="portionSize"
-                          onChange={onChange}
+                          onChange={(e) => {
+                            handlePortionChange("value", e.target.value); // Update the value state
+                            onChange(e); // Also trigger form control
+                          }}
                           onBlur={onBlur}
-                          value={value}
+                          value={portionInfo.value} // Ensure you're using a string value
                           trigger={trigger}
-                          placeholder={getValues("selectedPortion")}
-                          // placeholder={getValues("selectedPortion")}
+                          placeholder={portionInfo.type} // Ensure this is a string
                         />
                       )}
                     />
-                    {/* <div className="tool-tip-portion-size">
-                    
-                    </div> */}
+                    {/* Tooltip component can go here */}
                   </div>
 
                   <div className="Primary-Page-inputfiled-and-tooltip portionSize-Radio">
                     <RadioButtonGroup
                       options={portionsizeradio}
                       name="selectedPortion"
-                      selectedValue={selectedradiowatch.selectedPortion}
-                      onChange={(value) =>
-                        handleRadioChange("selectedPortion", value)
-                      }
+                      selectedValue={portionInfo.type} // Ensure this is a string
+                      onChange={(value) => handlePortionChange("type", value)} // Update type
                       register={register}
                     />
                     <div className="portionsizeTooltip">

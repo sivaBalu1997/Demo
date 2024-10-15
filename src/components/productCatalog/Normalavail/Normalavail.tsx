@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import LableComponent from "../LableComponent/LableComponent";
 import TooltipMsg from "../Tooltip/TooltipMsg";
 import info from "../../../assets/svg/info.svg";
+import { RootState } from "redux/rootReducer";
 
 type MainFormType = {
   availabilityid: string[];
@@ -60,6 +61,13 @@ type DropdownValidationState = {
   [key: string]: { isValid: boolean; errorMessage: string }; // Adjust this as necessary
 };
 
+interface DeliveryDetails {
+  typeName: string;
+  typeId: string;
+  price: number;
+  availabilities: Availability[];
+}
+
 interface NormalavailProps {
   getNormalForm?: (form: any) => void;
   validateDropdown: (
@@ -99,6 +107,18 @@ interface SelectedValuesState {
 }
 type OptionType = string;
 
+interface Availability {
+  availabilityDays: string[];
+  sessions: string[];
+}
+
+interface PriceInfo {
+  typeName: string;
+  typeId: string;
+  price: number; // Change to number to reflect the new format
+  availabilities: Availability[];
+}
+
 const Normalavail: React.FC<NormalavailProps> = ({
   getNormalForm,
   validateDropdown,
@@ -126,10 +146,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options5, setOptions5] = useState(["Breakfast", "Lunch", "Dinner"]);
   const [options6, setOptions6] = useState(["Breakfast", "Lunch", "Dinner"]);
-  const [optionsselectthird, setOptionsSelectThird] = useState([
-    "Swiggy",
-    "Zomato",
-  ]);
   const [availabilityid, setAvailabilityid] = useState<string[]>([]);
   const [selectedValues, setSelectedValues] =
     React.useState<SelectedValuesState>({});
@@ -158,7 +174,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
   //   {_-------------------Use State  for Showing Day checck ---------------------------------}
   const [showDay, setShowDay] = useState(false);
   const [showDayPickup, setShowDayPickup] = useState(false);
-
   const [showDayDelivery, setShowDayDelivery] = useState(false);
   const [showDayThird, setShowDayThird] = useState(false);
   const prizingDetail = useSelector(
@@ -182,6 +197,88 @@ const Normalavail: React.FC<NormalavailProps> = ({
     dineinfields.map(() => "Set up for Specific Day")
   );
 
+  const orderTypess = useSelector(
+    (state: any) => state.auth.selectedBranch?.orderTypes
+  );
+
+  const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
+  const pickUpId = orderTypess?.find((item: any) => item.typeGroup === "P")?.id;
+  const deliveryId = orderTypess?.find(
+    (item: any) => item.typeGroup === "S"
+  )?.id;
+
+  const thirdpartyid = orderTypess?.find(
+    (item: any) => item.typeGroup === "T"
+  )?.id;
+
+  const [pickupDetails, setPickUpDetails] = useState<DeliveryDetails>({
+    typeId: pickUpId,
+    typeName: "PickUp",
+    availabilities: [
+      {
+        availabilityDays: [],
+        sessions: [],
+      },
+    ],
+    price: 0,
+  });
+
+  const [deliveryDetails, setDeliveryDetails] = useState<DeliveryDetails>({
+    typeId: deliveryId,
+    price: 0,
+    typeName: "Delivery",
+    availabilities: [
+      {
+        availabilityDays: [],
+        sessions: [],
+      },
+    ],
+  });
+
+  const [formattedDineInData, setFormattedDineInData] =
+    useState<DeliveryDetails>({
+      typeId: DineInId,
+      typeName: "DineIn",
+      price: 0,
+      availabilities: [
+        {
+          availabilityDays: [],
+          sessions: [],
+        },
+      ],
+    });
+
+    console.log({dinein})
+
+  const [priceInfo, setPriceInfo] = useState<PriceInfo>({
+    typeId: thirdpartyid,
+    price: 0,
+    typeName: "GloriaFood",
+    availabilities: [
+      {
+        availabilityDays: [],
+        sessions: [],
+      },
+    ],
+  });
+
+  const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
+
+  const handleMealTypeChange = (
+    option: string,
+    selectedMealTypes: string[]
+  ) => {
+    setMealTypes((prev) => ({
+      ...prev,
+      [option]: selectedMealTypes,
+    }));
+
+    setPriceInfo((prev) => ({
+      ...prev,
+      session: selectedMealTypes,
+    }));
+  };
+
   const mainForm = {
     availabilityid: availabilityid,
     formNormal,
@@ -200,7 +297,47 @@ const Normalavail: React.FC<NormalavailProps> = ({
     DineIn: dineInDates1,
     Swiggy: selectedValues4,
     Zomato: selectedValues5,
+
+    ...(dinein && {
+      dineInDetails: formattedDineInData,
+    }),
+    
+    ...(pickup && {pickupDetails: pickupDetails}),
+
+   ...(delivery && { deliveryDetails: deliveryDetails}),
+
+    ...(selectedthirdvalues.length > 1 && {
+      thirdpartyDetails: {
+        typeName: priceInfo.typeName,
+        typeId: priceInfo.typeId,
+        price: priceInfo.price,
+        availabilities: priceInfo.availabilities,
+      }
+    })
   };
+
+  console.log({selectedthirdvalues})
+  console.log({ mainForm });
+
+  const orderTypes = useSelector(
+    (state: RootState) => state.auth.selectedBranch?.orderTypes
+  );
+
+  const optionsselectthird = orderTypes
+    ?.filter((item) => item.typeGroup === "T")
+    .map((item) => item.typeName);
+
+  const dineInTypes = orderTypes
+    ?.filter((item) => item.typeGroup === "D")
+    .map((item) => item.typeName);
+
+  const pickUpTypes = orderTypes
+    ?.filter((item) => item.typeGroup === "P")
+    .map((item) => item.typeName);
+
+  const deliveryTypes = orderTypes
+    ?.filter((item) => item.typeGroup === "S")
+    .map((item) => item.typeName);
 
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
@@ -246,29 +383,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       );
       setSelectedValues(initialSelectedValues2);
       setDineIn(true);
-
-      const WeekDays = prizingDetail?.normalForm?.WeekDays;
     }
-
-    const mainForm = {
-      availabilityid,
-      formNormal,
-      dineinfields,
-      Normaldays: Normaldays,
-      DeliveryMealType: selectedValues3,
-      PicupMealType:
-        prizingDetail?.normalForm?.PicupMealType || selectedValues2,
-      Pickup: DayPickup,
-
-      DineInServiceArea: [selectedValues],
-      Delivery: DayDelivery,
-
-      thirdParty: DayThird,
-      WeekDays: dineInDates1,
-
-      DineIn: dineInDates1,
-    };
-
     if (prizingDetail?.normalForm) {
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
@@ -359,6 +474,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
       [e.target.name as keyof DineInField]: e.target.value,
     };
     setDineInFields(newEntries);
+  
+    const newPrice = parseFloat(e.target.value) || 0; 
+    setFormattedDineInData((prevData: any) => ({
+      ...prevData,
+      price: newPrice, 
+    }));
   };
 
   const addDay = (index: number): void => {
@@ -409,30 +530,61 @@ const Normalavail: React.FC<NormalavailProps> = ({
     }
   }, [mainForm]);
 
+  useEffect(() => {
+    setPriceInfo((prev) => ({
+      ...prev,
+      availabilities: [
+        {
+          ...prev.availabilities[0],
+          availabilityDays: DayThird.map((day) => day.toString()),
+        },
+      ],
+    }));
+  }, [DayThird]);
+
+  useEffect(() => {
+    setDeliveryDetails((prev) => ({
+      ...prev,
+      availabilities: [
+        {
+          ...prev.availabilities[0],
+          availabilityDays: DayDelivery.map((day) => day.toString()),
+        },
+      ],
+    }));
+  }, [DayDelivery]);
+
+  useEffect(() => {
+    setPickUpDetails((prev) => ({
+      ...prev,
+      availabilities: [
+        {
+          ...prev.availabilities[0],
+          availabilityDays: DayPickup.map((day) => day.toString()),
+        },
+      ],
+    }));
+  }, [DayPickup]);
+
   const handleSelect2 = (values: any, index: number): void => {
-    //FeedBack : Can handle a single dynamic function for all handleSelect function by using index here
-    // Update selected values state
     setSelectedValues((prevState: SelectedValuesState) => ({
       ...prevState,
       [index]: values,
     }));
 
-    // Update the dineinfields state with the new selected values
     const newDineInFields = [...dineinfields];
     newDineInFields[index] = {
       ...newDineInFields[index],
       DineInService: values,
     };
     setDineInFields(newDineInFields);
-
-    // Clear validation error for the specified field
   };
 
   const addOption2 = (newOption: OptionType): void => {
     setOptions2((prevOptions) => [...prevOptions, newOption]);
   };
   const handleSelect3 = (newSelectedValues: string[]) => {
-    setSelectedValues2(newSelectedValues); // Updates the state when a new value is selected
+    setSelectedValues2(newSelectedValues);
   };
 
   const addOption3 = (newOption: OptionType): void => {
@@ -470,16 +622,32 @@ const Normalavail: React.FC<NormalavailProps> = ({
     const newSelectedValues = [...selectedValuesmealtype];
     newSelectedValues[index] = value;
     setSelectedValuesMealType(newSelectedValues);
-
+  
     const newDineInFields = [...dineinfields];
     newDineInFields[index].DineInMealType = value;
     setDineInFields(newDineInFields);
-
+  
+    // Update formattedDineInData state, ensuring you update the correct availabilities index
+    setFormattedDineInData((prevData: DeliveryDetails) => {
+      const updatedAvailabilities = [...prevData.availabilities];
+  
+      // Ensure that the sessions are updated as a flat array and not nested arrays
+      updatedAvailabilities[index] = {
+        ...updatedAvailabilities[index],
+        sessions: [...newSelectedValues.filter(Boolean).flat()], // Flatten the array
+      };
+  
+      return {
+        ...prevData,
+        availabilities: updatedAvailabilities,
+      };
+    });
+  
     if (dinein) {
       validateDropdown(value, index);
     }
   };
-
+  
   const addOptionMealType = (newOption: OptionType): void => {
     setOptionsMealType([...optionsmealtype, newOption]);
   };
@@ -618,13 +786,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
       </div>
       {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
       {/* DineIn Related */}
-      <div className="DineInRelated">
-        <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
-        <Toggle toggle={dinein} setToggle={setDineIn} />
-      </div>
+
+      {dineInTypes && (
+        <div className="DineInRelated">
+          <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
+          <Toggle toggle={dinein} setToggle={setDineIn} />
+        </div>
+      )}
+
       {dinein ? (
         <>
-          {dineinfields.map((entry: any, index: any) => {
+          {dineInTypes?.map((entry: any, index: any) => {
             const mealTypeKey = `DineInMealType_${index}`;
             const priceKey = `DineInPrice_${index}`;
             const DineInService = `DineInService_${index}`;
@@ -666,16 +838,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         index={index}
                         label="Meal Type*"
                         width="Drop1"
-                        onBlur={() => {
-                          // validateDropdown(selectedValuesmealtype[index] || [], index)
-                        }}
-                        // validation={
-                        //  validationState.NormalMealtype
-                        // }
                       />
                     </div>
                     <div>
-                      {" "}
                       {!ValidationStateerr[mealTypeKey]?.isValid && (
                         <span className="Errormsg">
                           {ValidationStateerr[mealTypeKey]?.errorMessage}
@@ -683,30 +848,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       )}
                     </div>
                   </div>
-
-                  {/* <div className="Service">
-                    <DropDown
-                      selectedValues={selectedValues[index] || ""}
-                      onSelect={(values) => handleSelect2(values, index)}
-                      options={options2}
-                      label="Service Area*"
-                      index={index}
-                      onChange={(e) =>
-                        handleServiceSelect2(
-                          index,
-                          e.target.value,
-                          "DineInService"
-                        )
-                      }
-                      // validation={validationState.NormalServiceArea}
-                      width=""
-                    />
-                    {!ValidationStateerr[DineInService]?.isValid && (
-                      <span className="Errormsg">
-                        {ValidationStateerr[DineInService]?.errorMessage}
-                      </span>
-                    )}
-                  </div> */}
 
                   <h1
                     onClick={() => handleDelete(index)}
@@ -741,7 +882,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
               </>
             );
           })}
-
+ 
           <h1 className="AddentryNormal" onClick={AddDineInEntry}>
             {" "}
             + Add entry
@@ -750,6 +891,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       ) : (
         ""
       )}
+
       {/* OnlineRelated */}
       <div className="OnlineRelatedNormal">
         <h1 className="OnlineRelatedHeadingNormal">Online</h1>
@@ -757,6 +899,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           <Toggle toggle={online} setToggle={setOnline} />
         </div>
       </div>
+
       <div className="OnlineSectionNormal">
         {online ? (
           <div className="onlineselected">
@@ -768,7 +911,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
               </div>
             </div>
             <div className="PickupSectionNormal">
-              {pickup ? (
+              {pickup && pickUpTypes ? (
                 <div>
                   <div className="LabelPricePickup">
                     <LableComponent lable="Price*" />
@@ -777,80 +920,77 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     <input
                       type="text"
                       className="DineInInput1Normal"
-                      value={formNormal.PickuppriceNormal}
+                      value={pickupDetails.price} // Use pickupDetails state
                       onChange={(e) =>
-                        setformNormal({
-                          ...formNormal,
-                          PickuppriceNormal: e.target.value,
+                        setPickUpDetails({
+                          ...pickupDetails,
+                          price: Number(e.target.value),
                         })
                       }
-                    ></input>
-                    {!ValidationStateerr.PickupPrice?.isValid && (
-                      <span className="ErrormsgPickupPrice">
-                        {ValidationStateerr?.PickupPrice?.errorMessage || ""}
-                      </span>
-                    )}
+                    />
                     <div className="PrizeD">
                       <DropDown
-                        selectedValues={selectedValues2}
-                        onSelect={handleSelect3}
+                        selectedValues={
+                          pickupDetails.availabilities[0].sessions
+                        }
+                        onSelect={(selectedMealTypes) =>
+                          setPickUpDetails((prevDetails) => ({
+                            ...prevDetails,
+                            availabilities: prevDetails.availabilities.map(
+                              (availability, index) =>
+                                index === 0
+                                  ? {
+                                      ...availability,
+                                      sessions: selectedMealTypes,
+                                    }
+                                  : availability
+                            ),
+                          }))
+                        }
                         options={options3}
-                        // validation={validationState.Pickup}
                         label="Meal Type*"
                         width="Drop1"
                       />
-
-                      {/* Check if validationStateerr.Pickup exists before accessing its properties */}
-                      {!ValidationStateerr.Pickup?.isValid && (
-                        <span className="ErrormsgPickup">
-                          {ValidationStateerr?.Pickup?.errorMessage || ""}
-                        </span>
-                      )}
                     </div>
                   </div>
-                  <div>
-                    <div className="dineInChooseDayContainer">
-                      {showDayPickup ? (
-                        <h3 className="dineInChooseDayContainerHeading">
-                          Back for default days
-                        </h3>
-                      ) : (
-                        <h3 className="dineInChooseDayContainerHeading">
-                          Setup for specific days?
-                        </h3>
-                      )}
-                      {showDayPickup ? (
-                        <h3
-                          className="dineInChooseDayContainer-chooseheading"
-                          onClick={addDayPickupfalse}
-                        >
-                          Default days
-                        </h3>
-                      ) : (
-                        <h3
-                          className="dineInChooseDayContainer-chooseheading"
-                          onClick={addDayPickup}
-                        >
-                          Choose Day
-                        </h3>
-                      )}
-                    </div>
-
-                    <div className="dayspickup">
-                      {showDayPickup ? (
-                        <DaysCheck
-                          checkedItems={DayPickup}
-                          setCheckedItems={setDayPickup}
-                          {
-                            ...(availabilityid.length > 0
-                              ? { id: availabilityid, setId: setAvailabilityid }
-                              : { id: [], setId: () => {} }) // Provide default empty values if `availabilityid` is empty
-                          }
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </div>
+                  <div className="dineInChooseDayContainer">
+                    {showDayPickup ? (
+                      <h3 className="dineInChooseDayContainerHeading">
+                        Back for default days
+                      </h3>
+                    ) : (
+                      <h3 className="dineInChooseDayContainerHeading">
+                        Setup for specific days?
+                      </h3>
+                    )}
+                    {showDayPickup ? (
+                      <h3
+                        className="dineInChooseDayContainer-chooseheading"
+                        onClick={addDayPickupfalse}
+                      >
+                        Default days
+                      </h3>
+                    ) : (
+                      <h3
+                        className="dineInChooseDayContainer-chooseheading"
+                        onClick={addDayPickup}
+                      >
+                        Choose Day
+                      </h3>
+                    )}
+                  </div>
+                  <div className="dayspickup">
+                    {showDayPickup ? (
+                      <DaysCheck
+                        checkedItems={DayPickup}
+                        setCheckedItems={setDayPickup}
+                        {...(availabilityid.length > 0
+                          ? { id: availabilityid, setId: setAvailabilityid }
+                          : { id: [], setId: () => {} })}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               ) : (
@@ -865,48 +1005,48 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <Toggle toggle={delivery} setToggle={setDelivery} />
               </div>
             </div>
+
             <div
               className={
                 online ? "DeliverySectionNormal" : "DeliverySectionNormalclose"
               }
             >
-              {delivery ? (
+              {delivery && deliveryTypes ? (
                 <div>
                   <p className="LabelPrice"> Price*</p>
                   <div className="Online-delivery">
                     <input
                       type="text"
                       className="DineInInput1Normal"
-                      value={formNormal.DeliverypriceNormal}
-                      onChange={(e) =>
-                        setformNormal({
-                          ...formNormal,
-                          DeliverypriceNormal: e.target.value,
-                        })
-                      }
-                    ></input>
-                    {!ValidationStateerr.DeliveryPrice?.isValid && (
-                      <span className="ErrormsgPickupPrice">
-                        {ValidationStateerr?.DeliveryPrice?.errorMessage || ""}
-                      </span>
-                    )}
+                      value={deliveryDetails.price}
+                      onChange={(e) => {
+                        const newPrice = e.target.value;
+                        setDeliveryDetails((prevDetails:any) => ({
+                          ...prevDetails,
+                          price: Number(newPrice),
+                        }));
+                      }}
+                    />
                     <div className="DeliveryD">
                       <DropDown
-                        selectedValues={selectedValues3}
-                        onSelect={handleSelect4}
+                        selectedValues={
+                          deliveryDetails.availabilities[0].sessions
+                        }
+                        onSelect={(selectedMealTypes) => {
+                          setDeliveryDetails((prevDetails) => ({
+                            ...prevDetails,
+                            availabilities: [
+                              {
+                                ...prevDetails.availabilities[0],
+                                sessions: selectedMealTypes,
+                              },
+                            ],
+                          }));
+                        }}
                         options={options4}
                         label="Meal Type*"
-                        onBlur={() =>
-                          validateDropdown(selectedValues3, "Delivery")
-                        }
-                        validation={validationState.Delivery}
                         width="Drop1"
                       />
-                      {!ValidationStateerr.Delivery?.isValid && (
-                        <span className="ErrormsgPickup">
-                          {ValidationStateerr?.Delivery?.errorMessage || ""}
-                        </span>
-                      )}
                     </div>
                   </div>
                   <div className="dineInChooseDayContainer">
@@ -935,26 +1075,19 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       </h3>
                     )}
                   </div>
-
                   <div className="dayspickup">
-                    {showDayDelivery ? (
+                    {showDayDelivery && (
                       <DaysCheck
                         checkedItems={DayDelivery}
                         setCheckedItems={setDayDelivery}
-                        {
-                          ...(availabilityid.length > 0
-                            ? { id: availabilityid, setId: setAvailabilityid }
-                            : { id: [], setId: () => {} }) // Provide default empty values if `availabilityid` is empty
-                        }
+                        {...(availabilityid.length > 0
+                          ? { id: availabilityid, setId: setAvailabilityid }
+                          : { id: [], setId: () => {} })} // Provide default empty values if `availabilityid` is empty
                       />
-                    ) : (
-                      ""
                     )}
                   </div>
                 </div>
-              ) : (
-                ""
-              )}
+              ) : null}
             </div>
 
             <h1 className="ThirdDeliveryRelatedHeadingNormal">
@@ -974,110 +1107,89 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   width="Drop1"
                 />
               </div>
-              {selectedthirdvalues.includes("Swiggy") && (
-                <div className="LabelSwiggyInputDropDown">
-                  <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading">Swiggy Price</label>
-                    <input
-                      className="swiggyZomato-input"
-                      type="text"
-                      // placeholder="Enter Swiggy details"
-                      value={formNormal.SwiggyNormal}
-                      onChange={(e) =>
-                        setformNormal({
-                          ...formNormal,
-                          SwiggyNormal: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="Third1">
-                    <DropDown
-                      selectedValues={selectedValues4}
-                      onSelect={handleSelect5}
-                      options={options4}
-                      label="Meal Type*"
-                      onBlur={() =>
-                        validateDropdown(selectedValues3, "ThirdDelivery1")
-                      }
-                      validation={validationState.ThirdDelivery1}
-                      width="Drop1"
-                    />
-                  </div>
-                </div>
-              )}
-              {selectedthirdvalues.includes("Zomato") && (
-                <div className="LabelSwiggyInputDropDown">
-                  <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading">Zomato Price</label>
-                    <input
-                      className="swiggyZomato-input"
-                      type="text"
-                      value={formNormal.ZomatoNormal}
-                      // placeholder="Enter Zomato details"
-                      onChange={(e) =>
-                        setformNormal({
-                          ...formNormal,
-                          ZomatoNormal: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="Third2">
-                    <DropDown
-                      selectedValues={selectedValues5}
-                      onSelect={handleSelect6}
-                      options={options4}
-                      label="Meal Type*"
-                      onBlur={() =>
-                        validateDropdown(selectedValues5, "ThirdDelivery2")
-                      }
-                      validation={validationState.ThirdDelivery2}
-                      width="Drop1"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="dineInChooseDayContainer">
-              {showDayThird ? (
-                <h3 className="dineInChooseDayContainerHeading">
-                  Back to Default days
-                </h3>
-              ) : (
-                <h3 className="dineInChooseDayContainerHeading">
-                  Setup for specific days?
-                </h3>
-              )}
-              {showDayThird ? (
-                <h3
-                  className="dineInChooseDayContainer-chooseheading"
-                  onClick={addDayThirdfalse}
-                >
-                  Default Days
-                </h3>
-              ) : (
-                <h3
-                  className="dineInChooseDayContainer-chooseheading"
-                  onClick={addDayThird}
-                >
-                  Choose Day
-                </h3>
-              )}
-            </div>
-            {showDayThird ? (
-              <DaysCheck
-                checkedItems={DayThird}
-                setCheckedItems={setDayThird}
-                {
-                  ...(availabilityid.length > 0
-                    ? { id: availabilityid, setId: setAvailabilityid }
-                    : { id: [], setId: () => {} }) // Provide default empty values if `availabilityid` is empty
+
+              {/* Dynamically render based on selected options */}
+              {optionsselectthird?.map((option) => {
+                if (selectedthirdvalues.includes(option)) {
+                  return (
+                    <div key={option} className="LabelSwiggyInputDropDown">
+                      <div className="LabelSwiggyInput">
+                        <label className="swiggyZomatoHeading">
+                          {option} Price
+                        </label>
+                        <input
+                          className="swiggyZomato-input"
+                          type="text"
+                          value={priceInfo.price || ""}
+                          onChange={(e) =>
+                            setPriceInfo((prev: any) => ({
+                              ...prev,
+                              price: Number(e.target.value),
+                            }))
+                          }
+                        />
+                      </div>
+                      <div className={`Third${option}`}>
+                        <DropDown
+                          selectedValues={mealTypes[option] || []}
+                          onSelect={(selected) =>
+                            handleMealTypeChange(option, selected)
+                          }
+                          options={options4}
+                          label="Meal Type*"
+                          onBlur={() =>
+                            validateDropdown(
+                              mealTypes[option],
+                              `ThirdDelivery${option}`
+                            )
+                          }
+                          validation={validationState[`ThirdDelivery${option}`]}
+                          width="Drop1"
+                        />
+                      </div>
+                    </div>
+                  );
                 }
-              />
-            ) : (
-              ""
-            )}
+                return null;
+              })}
+
+              <div className="dineInChooseDayContainer">
+                {showDayThird ? (
+                  <h3 className="dineInChooseDayContainerHeading">
+                    Back to Default days
+                  </h3>
+                ) : (
+                  <h3 className="dineInChooseDayContainerHeading">
+                    Setup for specific days?
+                  </h3>
+                )}
+                {showDayThird ? (
+                  <h3
+                    className="dineInChooseDayContainer-chooseheading"
+                    onClick={addDayThirdfalse}
+                  >
+                    Default Days
+                  </h3>
+                ) : (
+                  <h3
+                    className="dineInChooseDayContainer-chooseheading"
+                    onClick={addDayThird}
+                  >
+                    Choose Day
+                  </h3>
+                )}
+              </div>
+
+              {showDayThird && (
+                <DaysCheck
+                  checkedItems={DayThird}
+                  setCheckedItems={setDayThird}
+                  {...(availabilityid.length > 0
+                    ? { id: availabilityid, setId: setAvailabilityid }
+                    : { id: [], setId: () => {} })}
+                />
+              )}
+            </div>
           </div>
         ) : (
           ""

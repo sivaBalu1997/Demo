@@ -110,7 +110,10 @@ import {
   STORE_MENU_FAILURE,
   ADDDROPDOWN_SUCCESS,
   ADDDROPDOWN_REQUEST,
-  ADDDROPDOWN_FAILURE
+  ADDDROPDOWN_FAILURE,
+  KITCHEN_DATA_REQUEST,
+  KITCHEN_DATA_SUCCESS,
+  KITCHEN_DATA_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -482,6 +485,24 @@ export const bestPairDataSuccess = (response) => ({
 
 export const bestPairDataFailure = (error) => ({
   type: BESTPAIR_DATA_FAILURE,
+  payload: error,
+})
+
+//kitchenStation
+export const kitchenStationRequest = (data) => ({
+  type: KITCHEN_DATA_REQUEST,
+  payload: data,
+})
+
+export const kitchenStationSuccess = (response) => {
+  console.log({response})
+  return{
+  type: KITCHEN_DATA_SUCCESS,
+  payload: response,
+}};
+
+export const kitchenStationFailure = (error) => ({
+  type: KITCHEN_DATA_FAILURE,
   payload: error,
 })
 

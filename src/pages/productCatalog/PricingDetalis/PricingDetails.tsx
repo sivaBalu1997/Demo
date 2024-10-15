@@ -28,6 +28,8 @@ import {
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
 import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
+import { RootState } from "redux/rootReducer";
+import { type } from "os";
 
 interface SelectedValuesState {
   [key: number]: any; // Replace `any` with the actual type of `values`
@@ -61,6 +63,7 @@ type MainFormType = {
 };
 
 type DineInField = {
+  DineInId?: string,
   DineInPrice: string | string[];
   DineInMealType: string | string[];
   // DineInService: string | string[];
@@ -69,6 +72,7 @@ type DineInField = {
 };
 
 type DineinFieldSpecial = {
+  DineInId:string,
   DineInPrice: string | string[];
   DineInMealType: string | string[];
   DineInService: string | string[];
@@ -160,6 +164,7 @@ interface StateData {
   };
 }
 
+
 const PricingDetails = () => {
   const kitchenDetail = useRef<(() => void) | null>(null);
   const normalFormRef = useRef<(() => void) | null>(null);
@@ -238,6 +243,8 @@ const PricingDetails = () => {
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
+
+  const kitchenStationData = useSelector((state: any) => state.productCatalog.kitchenStation.data)
 
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
@@ -397,22 +404,42 @@ const PricingDetails = () => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
 
+  const orderTypes = useSelector((state : RootState) => state.auth.selectedBranch?.orderTypes)
+  const DineInId = orderTypes?.find(item => item.typeGroup === 'D')?.id;
+  const pickUpId = orderTypes?.find(item => item.typeGroup === 'P')?.id
+  const deliveryId = orderTypes?.find(item => item.typeGroup === 'S')?.id
+  const thirdpartyid = orderTypes?.find(item => item.typeGroup === 'T')?.id
+
+
   const [dineinfields, setDineInFields] = useState<DineInField[]>([
     {
+      DineInId:DineInId,
       DineInPrice: "",
       DineInMealType: [],
     },
   ]);
+
+  const dineInMapped = dineinfields.map((field : any) => ({
+    typeId: field.DineInId,
+    typeName: field.DineInMealType,
+    price: parseFloat(field?.DineInPrice) // Convert price to number if needed
+  }));
+
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
     {
+      DineInId:'',
       DineInPrice: "",
       DineInMealType: "",
       DineInService: "",
     },
   ]);
+
+
+
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
   };
+
   const validateDineInFields = (dineinfields: DineInField[]) => {
     const errors: DropdownValidationState = {};
 
@@ -453,6 +480,7 @@ const PricingDetails = () => {
 
     return errors;
   };
+  
   const validateDineInFields1 = (dineinfield1: DineinFieldSpecial[]) => {
     const errors: DropdownValidationState = {};
 
@@ -577,7 +605,7 @@ const PricingDetails = () => {
       : validateDineInFields1(dineinfields1);
 
     const combinedErrors = {
-      ...dropdownErrors,
+      // ...dropdownErrors,
       ...dineInErrors,
     };
 
@@ -613,6 +641,7 @@ const PricingDetails = () => {
       },
     });
   };
+
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>

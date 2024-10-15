@@ -3,18 +3,27 @@ import "./PricingSlider.scss";
 import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { RootState } from "redux/rootReducer";
 
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
 const PricingSlider: any = ({  }) => {
-  const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+
+  const data = useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+  
+  const menuData = useSelector((state:RootState) => state.productCatalog?.menuData)
+
+
   console.log("Data from Redux ",data)
+
   const { pen, setPen } = useContext(Contextpagejs);
+
   const [inputs, setInputs] = useState({
     Dinein1: data?.[0]?.pricingdetails?.Dinein1 || [],
     Pickup1: data?.[0]?.pricingdetails?.Pickup1 || [],
     Delivery1: data?.[0]?.pricingdetails?.Delivery1 || [],
   });
+
   const [sectionAValue, setSectionAValue] = useState<string>("");
   const [showCompare, setShowCompare] = useState(false);
 
@@ -31,6 +40,7 @@ const PricingSlider: any = ({  }) => {
       inputTypes: ["text", "text", "text"],
     },
   ];
+  
   useEffect(() => {
     if (data && data[0]?.pricingdetails) {
       setInputs({
