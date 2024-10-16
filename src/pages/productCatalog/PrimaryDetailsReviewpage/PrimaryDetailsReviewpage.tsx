@@ -216,6 +216,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
+  console.log("primarydata",primarydata.imageUrls);
+  
 
   const [error, setError] = useState<Status[]>([]);
 
@@ -276,10 +278,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const subsectiondata = useSelector(
     (state: any) => state.productCatalog.uploadFailures
   );
+  const subsectiondatamsg = useSelector(
+    (state: any) => state.productCatalog.imageUploadsuccessemsg
+  );
   const retrymsg = useSelector(
     (state: any) => state.productCatalog.retryFailure
   );
-  console.log("retrymsg", retrymsg);
+  console.log("subsectiondatamsg", subsectiondatamsg);
 
   const [failedImage, setfailedImage] = useState<imageType[]>();
 
@@ -288,10 +293,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }, [subsectiondata]);
 
   console.log("subsectiondata", subsectiondata);
+  const imageFailure=subsectiondata?.length > 0 &&
+  subsectiondata.map((img: any) => img?.file?.name);
+
   console.log(
-    "fileArraydata",
-    subsectiondata.length > 0 &&
-      subsectiondata.map((img: any) => img?.file?.name)
+    "fileArraydata true or false",imageFailure
+    
   );
 
   const Wholedata = {
@@ -535,7 +542,7 @@ useEffect(()=>{
 
   const menuPayload = {
     locationId: locationid,
-    itemId: editData ? editData[0]?.id : '',
+    itemId: subsectiondatamsg ? subsectiondatamsg : '',
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -627,7 +634,8 @@ useEffect(()=>{
     // }
   };
 
-  // const handleDispatch = async () => {
+
+  
   //   checkAllImagesForErrors();
   //   const allUploaded =  uploadedimage.every(
   //     (img) => img && !hasImageError(img.file)
@@ -684,12 +692,33 @@ useEffect(()=>{
   //   // }
   // };
 
+
+
+
+  useEffect(()=>{
+    if(subsectiondatamsg!=="")
+  {
+    dispatch(addMenuItemRequest({ menuPayload, locationid }));
+  }
+  },
+  [subsectiondatamsg])
+
   const handleSubmitItemDetails = () => {
     if (Wholedata.imageUrls.length === 0) {
       console.log("is  emty");
     } else {
       console.log("is not emty");
-      dispatch(startImageUpload(Wholedata.imageUrls));
+      console.log("images",primarydata.imageUrls);
+      
+      dispatch(startImageUpload(primarydata.imageUrls));
+      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      if(subsectiondatamsg==="success")
+      {
+
+             dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      }
+
+      
     }
   };
   const handleAddImage = (index: number) => {
@@ -735,8 +764,8 @@ useEffect(()=>{
                         <ReviewValues
                           label="Item Name"
                           textvalue={
-                            fetchedprimarydata.itemName
-                              ? fetchedprimarydata.itemName
+                           primarydata.itemName
+                              ? primarydata.itemName
                               : "-"
                           }
                         />
@@ -746,8 +775,8 @@ useEffect(()=>{
                         <ReviewValues
                           label="Dietary type"
                           textvalue={
-                            fetchedprimarydata.dietaryType
-                              ? fetchedprimarydata.dietaryType
+                            primarydata.dietaryType
+                              ?primarydata.dietaryType
                               : "-"
                           }
                         />
@@ -768,8 +797,8 @@ useEffect(()=>{
                         <ReviewValues
                           label="Category"
                           textvalue={
-                            fetchedprimarydata.category
-                              ? fetchedprimarydata.category
+                            primarydata.category
+                              ?  primarydata.category
                               : "-"
                           }
                         />
@@ -801,8 +830,8 @@ useEffect(()=>{
                         <ReviewValues
                           label="Tax Class Association"
                           textvalue={
-                            fetchedprimarydata.tax
-                              ? fetchedprimarydata.tax
+                            primarydata.tax
+                              ?  primarydata.tax
                               : "-"
                           }
                         />
@@ -814,8 +843,8 @@ useEffect(()=>{
                         <ReviewValues
                           label="Item code"
                           textvalue={
-                            fetchedprimarydata.itemCode
-                              ? fetchedprimarydata.itemCode
+                            primarydata.itemCode
+                              ? primarydata.itemCode
                               : "-"
                           }
                         />
@@ -825,8 +854,8 @@ useEffect(()=>{
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={
-                            fetchedprimarydata.itemCode
-                              ? fetchedprimarydata.itemCode
+                            primarydata.itemCode
+                              ? primarydata.itemCode
                               : "-"
                           }
                         />
@@ -1121,7 +1150,7 @@ useEffect(()=>{
           <button
             className="saveall"
             // style={{disablesubmitbtn}}
-            onClick={handleDispatch}
+            onClick={handleSubmitItemDetails}
             disabled={disablesubmitbtn}
           >
             Submit for review

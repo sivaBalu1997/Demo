@@ -694,7 +694,7 @@ export const Menulisting = () => {
                     </React.Fragment>
                   ))}
                 </tr>
-                <tr className="headingtwosection">
+                {/* <tr className="headingtwosection">
                   {secondRowTable.map((subheaders, index) => (
                     <React.Fragment key={index}>
                       <TableSecondHeader
@@ -707,7 +707,7 @@ export const Menulisting = () => {
                       />
                     </React.Fragment>
                   ))}
-                </tr>
+                </tr> */}
               </thead>
               <tbody
                 className={`${
@@ -997,3 +997,5 @@ export const Menulisting = () => {
   
           
 // ]
+
+

@@ -36,12 +36,13 @@ const Header = () => {
             />
             <img className='ArrowHoverHeader' src={ArrowHover} alt="" />
             <div className='FilterHover'>Filter</div>
-          </div>    
+          </div> 
+
           {filterSelected && <Filter/>}
         </div>
-        <div className='Excel-flex-col'>
+        {/* <div className='Excel-flex-col'>
           <img className={`${isExpanded?"Excel-Header1":"Excel-Header"}`} src={publish} alt="" />
-        </div>  
+        </div>   */}
         </div>
       <div 
         onClick={()=>history.push("/productCatalog/PrimaryDetails")} 

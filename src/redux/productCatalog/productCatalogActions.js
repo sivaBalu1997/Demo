@@ -127,7 +127,8 @@ import {
   RETRY_IMAGE_FAILURE,
   SEARCH_FORITEM_SUCCESS,
   SEARCH_FORITEM,
-  SEARCH_FORITEM_FAILURE
+  SEARCH_FORITEM_FAILURE,
+  STORE_UPLOAD_SUCCESS
 
 } from "./productCatalogConstants";
 
@@ -783,9 +784,14 @@ export const imageUploadFailure = (imageName, itemId) => ({
   payload: { imageName, itemId },
 });
 
-export const storeUploadFailure = (failureArray) => ({
+
+export const storeUploadFailure = (failureArray,statusmsg) => ({
   type: STORE_UPLOAD_FAILURE,
-  payload: failureArray,
+  payload: {failureArray,statusmsg},
+});
+export const storeUploadSuccess = (statusmsg) => ({
+  type: STORE_UPLOAD_SUCCESS,
+  payload: statusmsg,
 });
 export const ImageUploadApiFail = (message) => ({
   type: API_UPLOAD_FAILURE,

@@ -41,43 +41,42 @@ const SearchBox = () => {
     setDisplayTerm(value);
     filterOptions(value);
     setOptionSelected(false);
-    if (e.key === 'Backspace') {
-      if (optionSelected) {
-        // If an option was selected, reset searchTerm and displayTerm
-        setSearchTerm('');
-        setDisplayTerm('');
-        setOptionSelected(false); // Allow new input
-        setFilteredOptions([]);   // Clear suggestions
-      } else {
-        setOptionSelected(false); // Allow for changing selection
-      }
-    }
+    // if (e.key === 'Backspace') {
+    //   if (optionSelected) {
+    //     // If an option was selected, reset searchTerm and displayTerm
+    //     setSearchTerm('');
+    //     setDisplayTerm('');
+    //     setOptionSelected(false); // Allow new input
+    //     setFilteredOptions([]);   // Clear suggestions
+    //   } else {
+    //     setOptionSelected(false); // Allow for changing selection
+    //   }
+    // }
    
   };
 
   const filterOptions = (input) => {
-    const itemNames = menuData.flatMap(item => item.itemResponseList)
-      .map(item => item.itemName);
+    const itemNames = menuData?.flatMap(item => item?.itemResponseList)
+      .map(item => item?.itemName);
 
-    const filtered = itemNames.filter(item => 
+    const filtered = itemNames?.filter(item => 
       item?.toLowerCase().includes(input?.toLowerCase())
     );
 
     setFilteredOptions(filtered);
     setFilteredOptionsDispatch(filtered);
 
-    // Auto-fill with the first match if there are filtered options
     if (filtered.length > 0 && input.length > 0) {
       const firstMatch = filtered[0];
       if (firstMatch.toLowerCase().startsWith(input.toLowerCase())) {
         const suggestion = firstMatch.slice(input.length);
-        setDisplayTerm(input + suggestion); // Display the suggestion in the input box
-        setHighlightedIndex(0);  // Automatically highlight the first option
+        setDisplayTerm(input + suggestion); 
+        setHighlightedIndex(0);  
       } else {
-        setDisplayTerm(input); // No match, just show the raw input
+        setDisplayTerm(input); 
       }
     } else {
-      setDisplayTerm(input); // No suggestions, just show the raw input
+      setDisplayTerm(input); 
     }
   };
 
@@ -86,9 +85,9 @@ const SearchBox = () => {
     setDisplayTerm(option);
     setOptionSelected(true);
     let result = null;
-    menuData.forEach((category) => {
-      category.itemResponseList.forEach((item) => {
-        if (item.itemName === option) {
+    menuData?.forEach((category) => {
+      category?.itemResponseList?.forEach((item) => {
+        if (item?.itemName === option) {
           result = {
             categoryId: category.categoryId,
             categoryName: category.categoryName,
@@ -130,17 +129,17 @@ const SearchBox = () => {
       }
     }
     
-    if (e.key === 'Backspace') {
-      if (optionSelected) {
-        // If an option was selected, reset searchTerm and displayTerm
-        setSearchTerm('');
-        setDisplayTerm('');
-        setOptionSelected(false); // Allow new input
-        setFilteredOptions([]);   // Clear suggestions
-      } else {
-        setOptionSelected(false); // Allow for changing selection
-      }
-    }
+    // if (e.key === 'Backspace') {
+    //   if (optionSelected) {
+    //     // If an option was selected, reset searchTerm and displayTerm
+    //     setSearchTerm('');
+    //     setDisplayTerm('');
+    //     setOptionSelected(false); // Allow new input
+    //     setFilteredOptions([]);   // Clear suggestions
+    //   } else {
+    //     setOptionSelected(false); // Allow for changing selection
+    //   }
+    // }
   };
 
   return (
@@ -148,7 +147,7 @@ const SearchBox = () => {
       <div>
         <input
           className={`${isExpanded ? "Header-Search1" : "Header-Search"}`}
-          value={`${displayTerm}`}  
+          value={`${searchTerm}`}  
           placeholder="Search"
           onChange={handleSearch}
           onKeyDown={handleKeyDown}

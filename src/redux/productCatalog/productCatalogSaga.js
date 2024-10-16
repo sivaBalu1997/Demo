@@ -59,6 +59,9 @@ import {
   storeUploadFailure,
   retryimageUploadSuccess,
   retryimageUploadFailure,
+  storeUploadSuccess
+
+
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -327,36 +330,8 @@ function* addMenuItemSaga(action) {
 //   }
 // }
 
-function* imageUploadSaga(action) {
-  const images = action.payload;
-  let itemId = null;
-  const failureArray = [];
-  // console.log("images",images)
 
-  for (let i = 0; i < images.length; i++) {
-    const image = images[i];
-    try {
-      const response = yield call(uploadImageApi, image, itemId);
-      if (i === 0 && response.itemId) {
-        itemId = response.itemId;
-      }
-      yield put(imageUploadSuccess(itemId));
-    } catch (error) {
-      failureArray.push({
-        file: image.file,
-        itemId: itemId || "null",
-      });
-      yield put(imageUploadFailure(image.name, itemId));
-    }
-  }
-  if (failureArray.length > 0) {
-    yield put(storeUploadFailure(failureArray));
-  }
-  else{
-    
-  }
 
-}
 const convertImageToBinaryString = (imageFile) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -372,24 +347,79 @@ const convertImageToBinaryString = (imageFile) => {
     reader.readAsDataURL(imageFile);
   });
 };
-function convertToBase64(file) {
-  const reader = new FileReader();
+function* imageUploadSaga(action) {
+  const images = action.payload;
+  let itemId = ""; // Initialize itemId to an empty string
+  const failureArray = [];
 
-  // This will block until the file is read
-  reader.readAsDataURL(file);
-  let base64String = "";
+  // Upload the first image without an itemId
+  try {
+    const firstImage = images[0];
+    
+    const response = yield call(uploadImageApi, firstImage, itemId); // itemId is empty here
 
-  reader.onload = () => {
-    base64String = reader.result; // Capture the result
-  };
+    console.log("First image uploaded, item ID:", response);
 
-  // Wait for the FileReader to load (blocking)
-  while (!base64String) {
-    // Busy-waiting until the base64String is set
+    // Update itemId with the response from the first successful image upload
+    if (response.data && response.data.imageId
+      ) {
+      itemId = response.data.imageId
+      ;
+    }
+
+    // Dispatch success action with the updated itemId
+    yield put(imageUploadSuccess(itemId));
+
+  } catch (error) {
+    // Handle failure for the first image
+    failureArray.push({
+      file: images[0].file,
+      itemId: '',  // No itemId available for the first image
+    });
+    console.log("Failed to upload the first image", failureArray);
+    yield put(imageUploadFailure(images[0].name, ''));
+    return; // Stop the saga if the first image fails
   }
 
-  return base64String; // Return the Base64 string
+  // If the first image was successful, upload the remaining images with the itemId
+  for (let i = 1; i < images.length; i++) {
+    const image = images[i];
+
+    try {
+      // Call the API to upload the remaining images with the updated itemId
+      const response = yield call(uploadImageApi, image, itemId);
+
+      console.log("Image uploaded, item ID:", response);
+
+      // Dispatch success action
+      yield put(imageUploadSuccess(itemId));
+
+    } catch (error) {
+      // Handle failure for remaining images
+      failureArray.push({
+        file: image.file,
+        itemId: itemId || '',  // Use the itemId from the first image's response
+      });
+
+      console.log("Failed upload, failureArray:", failureArray);
+      yield put(imageUploadFailure(image.name, itemId));
+    }
+  }
+
+  // If there are failures, dispatch a failure action for all failed uploads
+  if (failureArray.length > 0) {
+    console.log("Error uploading some images");
+    yield put(storeUploadFailure(failureArray,"failed"));
+  }
+
+  else
+  {
+    yield put(storeUploadSuccess(itemId));
+  }
 }
+
+
+
 export const uploadImageApi = async (image, itemId) => {
   const formData = new FormData();
   const binaryString = await convertImageToBinaryString(image.file);
@@ -399,6 +429,8 @@ export const uploadImageApi = async (image, itemId) => {
   formData.append("itemId", itemId);
   return await imageUploadingApi(formData);
 };
+
+
 function* retryImage(action) {
   const image = action.payload;
   let itemId = null;
