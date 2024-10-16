@@ -541,7 +541,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     taxClassAssociation: primarydata?.taxFeeId || null,
     // masterItemCode: primarydata?.masterCode || null,
 
-    kitchenStation: kitchenStationId || null,
+    // kitchenStation: kitchenStationId || null,
     preparationTimeInHours:
       prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
     preparationTimeInMinutes:
@@ -585,7 +585,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     // }
     if (ImageId === "" || ImageId === undefined) {
-      dispatch(addMenuItemRequest(menuPayload));
+      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       // dispatch(addMockDataRequest(data));
     } else {
       setindextoreplace((prev) => {
@@ -1105,7 +1105,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             // style={{disablesubmitbtn}}
-            onClick={handleSubmitItemDetails}
+            onClick={handleDispatch}
             disabled={disablesubmitbtn}
           >
             Submit for review
