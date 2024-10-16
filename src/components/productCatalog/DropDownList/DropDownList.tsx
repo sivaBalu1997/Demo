@@ -84,26 +84,29 @@ const DropDownList: React.FC<DropdownProps> = ({
   const locationid = useSelector(
     (state: any) => state.auth.credentials.locationId
   );
- 
-   const subsectiondata=useSelector((state:any)=>state.productCatalog.cuisineData.data);
-   const deleteApicall=useSelector((state:any)=>state.productCatalog.deletesubsectionsuccess);
 
+  const subsectiondata = useSelector(
+    (state: any) => state.productCatalog.cuisineData.data
+  );
+
+  const deleteApicall = useSelector(
+    (state: any) => state.productCatalog.deletesubsectionsuccess
+  );
 
   //  console.log("subsectiondata",subsectiondata);
   // console.log("deleteApicall",deleteApicall);
-  
-   
+
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
   };
 
   const clearSelection = () => {
-    setSelectedOptions([]); 
+    setSelectedOptions([]);
   };
 
   useEffect(() => {
-    if (resetSelection ) {
-      resetSelection.current = clearSelection; 
+    if (resetSelection) {
+      resetSelection.current = clearSelection;
     }
   }, [resetSelection]);
 
@@ -202,34 +205,35 @@ const DropDownList: React.FC<DropdownProps> = ({
           (opt) => opt.id !== option.id
         );
         setSelectedOptions(updatedOptions);
-        setValue(name, updatedOptions.map((opt) => (opt.name)));
+        setValue(
+          name,
+          updatedOptions.map((opt) => opt.name)
+        );
       } else {
         const updatedOptions = [...selectedOptions, option];
         setSelectedOptions(updatedOptions);
-        setValue(name, updatedOptions.map((opt) => (opt.name)));
+        setValue(
+          name,
+          updatedOptions.map((opt) => opt.name)
+        );
         trigger(name);
       }
     } else if (type === "radio") {
       setSelectedOptions([option]);
-      setValue(name, (option.name));
-      trigger(name);  
+      setValue(name, option.name);
+      trigger(name);
     }
 
-    const viewdata={
+    const viewdata = {
       locationId: locationid,
-    type: SubcategoryId && "SUB_CATEGORY",
-    parentId: SubcategoryId &&SubcategoryId,
-    }
+      type: SubcategoryId && "SUB_CATEGORY",
+      parentId: SubcategoryId && SubcategoryId,
+    };
 
-    if(SubcategoryId )
-    {
+    if (SubcategoryId) {
       dispatch(fetchDropDownRequest(viewdata));
     }
-   
-    
 
-
-    
     setSearchTerm("");
   };
 
@@ -253,32 +257,28 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    console.log("id",value)
+    console.log("id", value);
 
     // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
     setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
-    const deletedItem={
-      id:value,
-      type:dropDownType
-    }
+    const deletedItem = {
+      id: value,
+      type: dropDownType,
+    };
 
-    const viewdata={
+    const viewdata = {
       locationId: locationid,
-    type: dropDownType,
-    parentId: SubcategoryId &&SubcategoryId,
-    }
+      type: dropDownType,
+      parentId: SubcategoryId && SubcategoryId,
+    };
 
-    if(deletedItem) {
+    if (deletedItem) {
       dispatch(deleteDropDowRequest(deletedItem));
 
-      if(deleteApicall==="success"){
+      if (deleteApicall === "success") {
         dispatch(fetchDropDownRequest(viewdata));
       }
-    
-
-
     }
-
   };
 
   // const handleBlur = () => {
@@ -287,7 +287,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   // value={type === "checkbox"
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
-  const [SubcategoryId,setSubCategoryId]=useState<string>("")
+  const [SubcategoryId, setSubCategoryId] = useState<string>("");
 
   const handleCheckboxChange = (option: Option) => {
     if (type == "checkbox") {
@@ -301,67 +301,56 @@ const DropDownList: React.FC<DropdownProps> = ({
           return [...prevSelected, option];
         }
       });
-    }
-    else if (type === "radio") {
+    } else if (type === "radio") {
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
     }
-    if(dropDownType==="CATEGORY")
-    {
+    if (dropDownType === "CATEGORY") {
       setSubCategoryId(option.id);
     }
-
   };
 
-  const handleNewItemAdd=()=>{
+  const handleNewItemAdd = () => {
     const newValue = NewItemref?.current?.value;
-   
 
-    const newItem={
-      locationId:locationid,
-      name:newValue,
-      type:dropDownType,
-      parentId: SubcategoryId &&SubcategoryId,
+    const newItem = {
+      locationId: locationid,
+      name: newValue,
+      type: dropDownType,
+      parentId: SubcategoryId && SubcategoryId,
+    };
+    setOptions([
+      ...(Array.isArray(initialOptions) ? initialOptions : []),
+      newItem,
+    ]);
 
-      
+    // handleSelect(newItem);
+    setSearchTerm("");
+    setAddNewButton(false);
+    const viewdata = {
+      locationId: locationid,
+      type: dropDownType,
+      parentId: SubcategoryId && SubcategoryId,
+    };
+    if (addNewButton && newItem) {
+      dispatch(addDropDowRequest(newItem));
+      dispatch(fetchDropDownRequest(viewdata));
     }
-    setOptions([...(Array.isArray(initialOptions) ? initialOptions : []), newItem]);
 
-  
-        // handleSelect(newItem);
-        setSearchTerm("");
-        setAddNewButton(false);
-        const viewdata={
-          locationId: locationid,
-        type: dropDownType,
-        parentId: SubcategoryId &&SubcategoryId,
-        }
-        if(addNewButton && newItem)
-        {
-          dispatch(addDropDowRequest(newItem));
-          dispatch(fetchDropDownRequest(viewdata));
-        }
+    console.log("option-updated", options);
+  };
+  const [Loading, setLoading] = useState<boolean>();
 
- 
-    console.log("option-updated",options)
-
-
-  }
-  const [Loading,setLoading]=useState<boolean>();
-
-  useEffect(()=>{
-    if(!options)
-    {
+  useEffect(() => {
+    if (!options) {
       setLoading(true);
-    }
-    else{
+    } else {
       setLoading(false);
     }
+  }, [options]);
 
-  },[options])
- 
-  
+  console.log({options})
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -420,76 +409,70 @@ const DropDownList: React.FC<DropdownProps> = ({
         </div>
       </div>
 
-      {
-         dropdownopen && (
+      {dropdownopen && (
         <div className="dropdown-body">
           <div className="Dropdown-lists-and-edit">
             <ul
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-
-              {
-                Loading ? <div  className="dropdown-no-options">Loading</div> :(
-                  <div>
-                    {!Loading && options?.length > 0 ? (
-                options?.map((option, index) => {
-                  const isOptionSelected = options.some(
-                    (opt) => opt?.id === option?.id
-                  );
-
-                  return (
-                    <div className="dropdown-option-list" key={index}>
-                      <li className="dropdown-option">
-                        <input
-                          type={type}
-                          checked={selectedOptions.some(
-                            (opt) => opt.id === option.id
-                          )}
-                          className="dropdon-option-inputfield"
-                          onChange={() => handleCheckboxChange(option)}
-                        />
-                        <span
-                          className="dropdon-option-label"
-                          onClick={() => handleSelect(option)}
-                        >
-                          {option.name}
-                        </span>
-                      </li>
-                      <div>
-                        {editList && (
-                          <span
-                            className={`dropdown-option-delete `}
-                            // ${
-                            //   isOptionSelected ? "disabled-delete" : ""
-                            // }
-                            onClick={() => 
-                              handledeletion(option.id)
-                             
-                            }
-                            // style={
-                            //   isOptionSelected
-                            //     ? { pointerEvents: "none" }
-                            //     : {}
-                            // }
-                          >
-                            -Delete
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })
+              {Loading ? (
+                <div className="dropdown-no-options">Loading</div>
               ) : (
-                <li className="dropdown-no-options">No options found</li>
+                <div>
+                  {!Loading && options?.length > 0 ? (
+                    options?.map((option, index) => {
+                      const isOptionSelected = options.some(
+                        (opt) => opt?.id === option?.id
+                      );
+
+                      return (
+                        <div className="dropdown-option-list" key={index}>
+                          <li className="dropdown-option">
+                            <input
+                              type={type}
+                              checked={selectedOptions.some(
+                                (opt) => opt.id === option.id
+                              )}
+                              className="dropdon-option-inputfield"
+                              onChange={() => handleCheckboxChange(option)}
+                            />
+                            <span
+                              className="dropdon-option-label"
+                              onClick={() => handleSelect(option)}
+                            >
+                              {option.name}
+                            </span>
+                          </li>
+                          <div>
+                            {editList && (
+                              <span
+                                className={`dropdown-option-delete `}
+                                // ${
+                                //   isOptionSelected ? "disabled-delete" : ""
+                                // }
+                                onClick={() => handledeletion(option.id)}
+                                // style={
+                                //   isOptionSelected
+                                //     ? { pointerEvents: "none" }
+                                //     : {}
+                                // }
+                              >
+                                -Delete
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <li className="dropdown-no-options">No options found</li>
+                  )}
+                </div>
               )}
-                  </div>
-                )
-              }
-              
             </ul>
             <div className="edititem">
-              {options?.length >0 &&!editList && editValues && (
+              {options?.length > 0 && !editList && editValues && (
                 <p
                   className="editiconimage"
                   onMouseDown={handleOptionMouseDown}
@@ -517,7 +500,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                     />
                     <button
                       type="button"
-                      onClick={ handleNewItemAdd}
+                      onClick={handleNewItemAdd}
                       className="dropdown-addnew-button"
                     >
                       Add
@@ -555,10 +538,7 @@ const DropDownList: React.FC<DropdownProps> = ({
             </div>
           }
         </div>
-      )
-      }
-
-    
+      )}
     </div>
   );
 };

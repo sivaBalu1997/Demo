@@ -140,7 +140,7 @@ interface ImageFile {
   file: File;
   uploaded: boolean;
   failed: boolean;
-  preview: string; // To store the image preview URL
+  preview: string; 
 }
 interface LocationState {
   id: number;
@@ -157,13 +157,13 @@ interface PricingDetails {
 }
 
 interface CalorieInfo {
-  type: string; // or use a specific union type if you know the possible values
+  type: string; 
   value: string;
 }
 
 interface PortionInfo {
-  type: string; // The type can be "portion(count)" or "grams/ml"
-  value: string; // The numeric value for the portion size
+  type: string; 
+  value: string; 
 }
 
 interface Item {
@@ -575,19 +575,19 @@ const PrimaryPage = () => {
     setValue("mealType", "");
     setValue("bestPair", "");
     setValue("description", "");
-    setValue("imageUrls", []); // Assuming this should be an empty array
-    setValue("alcohol", "no"); // If you want to keep a default value
+    setValue("imageUrls", []);
+    setValue("alcohol", "no"); 
     setValue("itemCode", "");
     setValue("barCode", "");
     setValue("category", "");
     setValue("categoryId", "");
     setValue("subCategory", "");
-    setValue("Ingredients", []); // Assuming this should be an empty array
-    setValue("allergens", []); // Assuming this should be an empty array
+    setValue("Ingredients", []);
+    setValue("allergens", []);
     setValue("coloriePoint", "");
-    setValue("selectedcolorie", "per100grams"); // If you want to keep a default value
+    setValue("selectedcolorie", "per100grams"); 
     setValue("portionSize", "");
-    setValue("selectedPortion", "Portion(count)"); // If you want to keep a default value
+    setValue("selectedPortion", "Portion(count)"); 
     setValue("tax", "");
     setValue("masterCode", "");
     if (resetSelectionRef.current) {
@@ -961,9 +961,9 @@ const PrimaryPage = () => {
                         <InputFieldComponent
                           name="itemCode"
                           onChange={(newValue) => {
-                            onChange(newValue); // Update form state
+                            onChange(newValue); 
                           }}
-                          value={value} // Ensure value is defined
+                          value={value} 
                           onBlur={() => {
                             if (value) {
                               dispatch(getItemCodeRequest(locationid, value));
@@ -1040,7 +1040,7 @@ const PrimaryPage = () => {
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);
-                          field?.onChange(e.target.checked); // Ensure form state updates
+                          field?.onChange(e.target.checked); 
                         }}
                       />
                     )}
@@ -1143,11 +1143,11 @@ const PrimaryPage = () => {
                         <InputFieldComponent
                           name="coloriePoint"
                           onChange={(e) => {
-                            handleInputChange(e); // Update the state when input changes
-                            onChange(e); // Also trigger form control
+                            handleInputChange(e); 
+                            onChange(e); 
                           }}
                           onBlur={onBlur}
-                          value={calorieInfo.value} // Bind value to the state
+                          value={calorieInfo.value} 
                           trigger={trigger}
                           placeholder="cal"
                         />

@@ -179,8 +179,8 @@ interface State {
 
 interface Detail {
   typeId: string;
-  typeName: string[]; // or string[][] if nested arrays are allowed
-  price: number | string; // Allow for both numbers and strings
+  typeName: string[]; 
+  price: number | string; 
 }
 
 interface PrizingDetail {
@@ -457,6 +457,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.bestPairData.data
   );
 
+  const menuAddedSuccess = useSelector((state:any) => state.productCatalog.menuDataSuccess)
+
+useEffect(()=>{
+  console.log({menuAddedSuccess})
+},[menuAddedSuccess])
   //////////////
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
@@ -553,7 +558,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
 
-  console.log({ modifierData });
   console.log({ menuPayload });
 
   const handleDispatch = async () => {
