@@ -50,6 +50,9 @@ import {
   deleteDropDownSuccess,
   deleteDropDownFailure,
   getMenuSuccess,
+  kitchenStationSuccess,
+  partialUpdateMenuSuccess,
+  partialUpdateMenuFailure,
   ImageUploadApiFail,
   imageUploadFailure,
   imageUploadSuccess,
@@ -84,6 +87,7 @@ import {
   getMenuData,
   getMenuDataApi,
   addSubsectionApi,
+  apiUpdateMenu,
   deleteSubSection,
   imageUploadingApi
   
@@ -116,6 +120,7 @@ import {
   GET_POPULAR_ITEM_REQUEST,
   ADDDROPDOWN_REQUEST,
   STORE_MENU_REQUEST,
+  PARTIAL_UPDATE_MENU_REQUEST,
   START_IMAGE_UPLOAD,
   RETRY_IMAGE_UPLOAD,
 } from "./productCatalogConstants";
@@ -157,6 +162,9 @@ function* fetchDropdownDataSaga(action) {
         case 'BEST_PAIRED_ITEMS':
           yield put(bestPairDataSuccess(response));
           break;
+        case 'KITCHEN_STATION':
+          console.log('hi from sagas')
+          yield put(kitchenStationSuccess(response.data));
         default:
           throw new Error("Invalid type");
       }
@@ -283,21 +291,11 @@ function* getAvailabilitySaga(action) {
 
 function* addMenuItemSaga(action) {
   try {
-    const addApi = yield call(getId);
+    const addApi = yield call(addMenuItem, action.payload);
     const addApiresponse = addApi.data;
 
     if (addApi.status === 200) {
       yield put(addMenuItemSuccess(addApiresponse));
-
-      const images = action.payload[0].imageUrls.map((image) => image.file);
-      for (const [index, image] of images.entries()) {
-        yield put({
-          type: UPLOAD_IMAGE_IN_PROGRESS,
-          payload: { image, addApiresponse, index },
-        });
-
-        yield take([UPLOAD_IMAGE_SUCCESS, UPLOAD_IMAGE_FAILURE]);
-      }
     } else {
       yield put(addMenuItemFailed({ message: "Please Try Again" }));
     }
@@ -505,6 +503,20 @@ function* getPopularItemSaga(action) {
   }
 }
 
+function* partialUpdateMenuSaga(action) {
+  try {
+  
+    const updatedMenu = yield call(apiUpdateMenu,action.payload);
+    yield put(partialUpdateMenuSuccess(updatedMenu));  
+  } catch (error) {
+    yield put(partialUpdateMenuFailure(error.message));  
+  }
+}
+
+
+
+
+
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(STORE_MENU_REQUEST, fetchMenuDataSaga);
@@ -531,4 +543,6 @@ export default function* productCatalog() {
   yield takeLatest(GET_ITEM_CODE_REQUEST, getItemCodeSaga);
 
   yield takeLatest(GET_POPULAR_ITEM_REQUEST, getPopularItemSaga);
+
+  yield takeLatest(PARTIAL_UPDATE_MENU_REQUEST, partialUpdateMenuSaga);
 }

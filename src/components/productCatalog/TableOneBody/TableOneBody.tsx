@@ -124,8 +124,11 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 }) => {
 
   const dispatch = useDispatch();
+
   const baseImageUrl = process.env.REACT_APP_IMAGE_DOMAIN;
+
   const handleItemnameClick = (value: string) => {
+    console.log({value})
     handlemodal(value);
   };
  

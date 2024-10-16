@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './AvailabilityChangesUntil.scss';
 import AvailCalender from '../AvailCalender/AvailCalender';
+import { useDispatch, useSelector } from 'react-redux';
+import { partialUpdateMenuRequest } from 'redux/productCatalog/productCatalogActions';
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
+  const dispatch=useDispatch()
   const [selectedOption, setSelectedOption] = useState(null); // Track the selected radio button
   const [showAvailCalender, setShowAvailCalender] = useState(false);
+  const menuData = useSelector((state) => state.productCatalog?.menuData)
+  const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+
+
 
   const Text = [
     'End of Today',
@@ -15,6 +23,8 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
 
   const handleSaveBtn = () => {
     setShowModalAvailable();
+    dispatch(partialUpdateMenuRequest(patchedData))
+
     onclose();
   };
 
@@ -24,6 +34,9 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
       setShowAvailCalender(true); // Show calendar when the third option is selected
     } else {
       setShowAvailCalender(false); // Hide calendar for other options
+
+      
+
     }
   };
 

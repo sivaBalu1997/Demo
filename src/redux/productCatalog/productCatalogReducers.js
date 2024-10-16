@@ -82,6 +82,12 @@ import {
   STORE_MENU_REQUEST,
   STORE_MENU_SUCCESS,
   STORE_MENU_FAILURE,
+  KITCHEN_DATA_REQUEST,
+  KITCHEN_DATA_SUCCESS,
+  KITCHEN_DATA_FAILURE,
+  PARTIAL_UPDATE_MENU_REQUEST,
+  PARTIAL_UPDATE_MENU_SUCCESS,
+  PARTIAL_UPDATE_MENU_FAILURE,
   STORE_UPLOAD_FAILURE,
   IMAGE_UPLOAD_SUCCESS,
   RETRY_IMAGE_SUCCESS,
@@ -90,6 +96,7 @@ import {
   DELETEDROPDOWN_SUCCESS,
   SEARCH_FORITEM,
 } from "../productCatalog/productCatalogConstants";
+import { kitchenStationSuccess } from "./productCatalogActions";
 
 const initialProductCatalogState = {
   menuData: [],
@@ -117,6 +124,10 @@ const initialProductCatalogState = {
   bestPairData: [],
   getBestPairDataLoading: false,
   getBestPairSuccess: false,
+
+  kitchenStation: [],
+  kitchenStationLoading: false,
+  kitchenStationSuccess: false,
 
   taxClass: [],
   getTaxClassLoading: false,
@@ -206,7 +217,6 @@ export default function productCatalogReducer(
         draft.addMenuLoading = true
         break;
       case STORE_MENU_SUCCESS:
-        console.log(action.payload)
         draft.menuData = action.payload
         draft.menuDataSuccess = true
         draft.menuDataFailed = false
@@ -301,6 +311,20 @@ export default function productCatalogReducer(
         draft.getBestPairSuccess = false;
         break;
 
+      //kitchenStation
+      case KITCHEN_DATA_REQUEST:
+        draft.kitchenStation = []
+        draft.kitchenStationLoading = true
+      case KITCHEN_DATA_SUCCESS:
+        draft.kitchenStation = action.payload
+        draft.kitchenStationLoading = false
+        draft.kitchenStationSuccess = true
+      case KITCHEN_DATA_FAILURE:
+        draft.kitchenStation = []
+        draft.kitchenStationLoading = false
+        draft.kitchenStationSuccess = false
+        break;
+        
       // Get Menu Category
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
@@ -921,3 +945,41 @@ export const selectedMockDataReducer = (state = selectedMockData, action) => {
   }
 };
 
+
+const menuData = {
+  menuData: {},   // Menu data stored in the state
+  loading: false,
+  error: null,
+};
+
+export const menuReducer = (state = menuData, action) => {
+  switch (action.type) {
+    case PARTIAL_UPDATE_MENU_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+      
+    case PARTIAL_UPDATE_MENU_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        menuData: {
+          ...state.menuData,
+          ...action.payload,  // Merge the updated data into the existing menu data
+        },
+        error: null,
+      };
+      
+    case PARTIAL_UPDATE_MENU_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,  // Set the error from the failure action
+      };
+      
+    default:
+      return state;
+  }
+};

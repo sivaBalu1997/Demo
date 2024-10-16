@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './CustomizeSlider.scss';
 import ToggleSliderAvail from '../ToggleSliderAvail/ToggleSliderAvail';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 interface Option {
   item: string;
@@ -18,97 +19,123 @@ interface ItemCustomization {
   selectedValue?: string[];
   serviceStreams?: string[];
 }
+
 interface RootState {
-  itemCustomizationsReducer1: {
-    itemData: ItemCustomization[];
+  selectedMockDataReducer: {
+    data: any[];
   };
 }
 
 
-
 const CustomizeSlider = () => {
-  const itemCustomizationData = useSelector((state:RootState) => state.itemCustomizationsReducer1.itemData);
-  console.log(itemCustomizationData)
+  const dispatch = useDispatch();
+  const datafromRedux = useSelector((state: RootState) => state?.selectedMockDataReducer?.data);
+  const {  patchedData,setPatchedData } = useContext(Contextpagejs);
 
-  const data = [
-    {
-      mainHeading: 'Topping',
-      types: ['Tomato:', 'Spice:'],
-    },
-    {
-      mainHeading: 'Sauce',
-      types: ['Veggies:', 'Cheese:'],
-    },
-    {
-      mainHeading: 'Crust',
-      types: ['Thin:', 'Medium:', 'Crispy:'],
-    },
-    
-  ];
 
-  const [toggleStates, setToggleStates] = useState(
-    data.map((item) => ({
-      parentToggle: false,
-      childToggles: Array(item.types.length).fill(false),
+
+
+
+
+  const [customData, setCustomData] = useState(
+    datafromRedux.map((item: any) => ({
+      modifierName: item?.modifiers[0]?.modifierName,
+      options: item?.modifiers[0]?.options.map((opt: any) => ({
+        name: opt.name,
+        price: opt.price,
+        isEnabled: opt.isEnabled
+      })),
+      isEnabled: item?.modifiers[0]?.isEnabled
     }))
   );
-  const [pen, setPen] = useState(true);
 
-  const handleParentToggle = (index:any) => {
-    const newToggleStates = [...toggleStates];
-    const newParentToggle = !newToggleStates[index].parentToggle;
-
-    newToggleStates[index] = {
-      parentToggle: newParentToggle,
-      childToggles: Array(newToggleStates[index].childToggles.length).fill(newParentToggle),
-    };
-    
-    setToggleStates(newToggleStates);
-  };
-
-  const handleChildToggle = (parentIndex:any, childIndex:any) => {
-    const newToggleStates = [...toggleStates];
-    newToggleStates[parentIndex].childToggles[childIndex] = !newToggleStates[parentIndex].childToggles[childIndex];
-    if (newToggleStates[parentIndex].childToggles.some((toggle) => toggle === false)) {
-      newToggleStates[parentIndex].parentToggle = false;
+  
+  useEffect(() => {
+    if (datafromRedux && customData) {
+      setPatchedData((prevState: any) => ({
+        ...prevState,  // Spread prevState first to maintain the other structure
+        itemId: datafromRedux[0]?.itemId ?? prevState.itemId,  // Safely set itemId from datafromRedux
+        modifierInfo: customData.map((item, index) => ({
+          modifierId: datafromRedux[0]?.modifiers?.[index]?.id || prevState.modifierInfo[index]?.modifierId || "", // Ensure correct mapping of modifierId
+          modifierName: item.modifierName,
+          isEnabled: item.isEnabled,
+          options: item.options.map((opt:any, optIndex:any) => ({
+            modifierOptionId: datafromRedux[0]?.modifiers?.[index]?.options?.[optIndex]?.id || prevState.modifierInfo[index]?.options[optIndex]?.modifierOptionId || "", // Map to correct option
+            modifierOptionName: opt.name,
+            price: opt.price,  // Ensure price is updated
+            isEnabled: opt.isEnabled
+          }))
+        }))
+      }));
     }
+  }, [datafromRedux, customData, setPatchedData]);
+  
 
-       if (newToggleStates[parentIndex].childToggles.every((toggle) => toggle === true)) {
-        newToggleStates[parentIndex].parentToggle = true;
-      }
-    setToggleStates(newToggleStates);
+  const [pen, setPen] = useState(true); // Define the pen state
+
+  // Toggle for parent (modifier level)
+  const handleParentToggle = (index: number) => {
+    const updatedData = [...customData];
+    updatedData[index].isEnabled = !updatedData[index].isEnabled;
+    setCustomData(updatedData);
+    // Optionally, dispatch the update to Redux
+    // dispatch({ type: 'UPDATE_MODIFIER_TOGGLE', payload: updatedData });
   };
-// console.log(toggleStates)
+
+  // Toggle for child (option level)
+  const handleChildToggle = (parentIndex: number, childIndex: number) => {
+    const updatedData = [...customData];
+    updatedData[parentIndex].options[childIndex].isEnabled = !updatedData[parentIndex].options[childIndex].isEnabled;
+    setCustomData(updatedData);
+    // Optionally, dispatch the update to Redux
+    // dispatch({ type: 'UPDATE_OPTION_TOGGLE', payload: updatedData });
+  };
+
+  // Handle input changes for price
+  const handlePriceChange = (parentIndex: number, childIndex: number, newPrice: number) => {
+    const updatedData = [...customData];
+    updatedData[parentIndex].options[childIndex].price = newPrice;
+    setCustomData(updatedData);
+    // Optionally, dispatch the update to Redux
+    // dispatch({ type: 'UPDATE_OPTION_PRICE', payload: updatedData });
+  };
+
   return (
     <div className='customize-container'>
       <h3 className='customize-heading'>Customize</h3>
 
       <div className='items-container'>
-        {data.map((elem, index) => (
+        {customData.map((elem, index) => (
           <div key={index}>
             <div className='item-toggle-container-flex'>
-              <div className='item-heading'>{elem.mainHeading}</div>
+              <div className='item-heading'>{elem.modifierName}</div>
               <div className='toggle-container'>
                 <ToggleSliderAvail
-                  toggle={toggleStates[index]?.parentToggle}
+                  toggle={elem.isEnabled}
                   setToggle={() => handleParentToggle(index)}
-                  pen={pen}
+                  pen={pen} // Passing pen as a prop
                 />
               </div>
             </div>
 
             <div>
-              {elem.types.map((subitem, subindex) => (
+              {elem.options.map((subitem:any, subindex:any) => (
                 <div className='subitems-toggle-container-flex-direction' key={subindex}>
                   <div className='subitems-toggle-container-flex'>
-                    <div className='subitem-heading'>{subitem}</div>
+                    <div className='subitem-heading'>{subitem.name}</div>
                     <div className='subItemToggle'>
                       <ToggleSliderAvail
-                        toggle={toggleStates[index].childToggles[subindex]}
+                        toggle={subitem.isEnabled}
                         setToggle={() => handleChildToggle(index, subindex)}
-                        pen={pen}
+                        pen={pen} // Passing pen as a prop
                       />
-                      <input className='input-subitem' type='text' placeholder='$100' />
+                      <input
+                        className='input-subitem'
+                        type='number'
+                        value={subitem.price}
+                        onChange={(e) => handlePriceChange(index, subindex, parseFloat(e.target.value))}
+                        placeholder='$100'
+                      />
                     </div>
                   </div>
                 </div>

@@ -27,7 +27,10 @@ const rootReducer = combineReducers({
   addMockDataHiddenReducer: addMockDataHiddenReducer,
   getItemCodeReducer: getItemCodeReducer,
   selectedMockDataReducer: selectedMockDataReducer,
-  getPopularItemReducer: getPopularItemReducer
+  getPopularItemReducer: getPopularItemReducer,
+  menuReducer:menuReducer
+
+  
 });
  
 export { rootReducer };

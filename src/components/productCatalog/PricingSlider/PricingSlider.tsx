@@ -3,18 +3,28 @@ import "./PricingSlider.scss";
 import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { RootState } from "redux/rootReducer";
 
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
 const PricingSlider: any = ({  }) => {
+  const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+
   const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
   console.log("Data from Redux ",data)
+
+
+  
   const { pen, setPen } = useContext(Contextpagejs);
+
   const [inputs, setInputs] = useState({
-    Dinein1: data?.[0]?.pricingdetails?.Dinein1 || [],
-    Pickup1: data?.[0]?.pricingdetails?.Pickup1 || [],
-    Delivery1: data?.[0]?.pricingdetails?.Delivery1 || [],
+    Dinein1: data[0]?.orderTypes[0]?.price || [],
+    Pickup1: Array.isArray(data[0]?.orderTypes[1]?.price) 
+    ? data[0]?.orderTypes[0]?.price 
+    : [data[0]?.orderTypes[0]?.price], 
+    Delivery1:data[0]?.orderTypes[0]?.price  || [],
   });
+
   const [sectionAValue, setSectionAValue] = useState<string>("");
   const [showCompare, setShowCompare] = useState(false);
 
@@ -26,17 +36,20 @@ const PricingSlider: any = ({  }) => {
     },
     {
       heading: "Of-Prem",
-      labels: ["Pickup", "Delivery"],
-      InputLabels: ["In-House", "Zomato", "Swiggy"],
+      labels: data[0]?.orderTypes?.length > 0
+      ? [data[0]?.orderTypes[0].typeName]
+      : [],
+       InputLabels: ["In-House", "Zomato", "Swiggy"],
       inputTypes: ["text", "text", "text"],
     },
   ];
+  
   useEffect(() => {
     if (data && data[0]?.pricingdetails) {
       setInputs({
-        Dinein1: data[0].pricingdetails.Dinein1 || [],
-        Pickup1: data[0].pricingdetails.Pickup1 || [],
-        Delivery1: data[0].pricingdetails.Delivery1 || [],
+        Dinein1:data[0]?.orderTypes[0]?.price  || [],
+        Pickup1: data[0]?.orderTypes[0]?.price || [],
+        Delivery1: data[0]?.orderTypes[0]?.price  || [],
       });
     }
   }, [data]);
@@ -52,17 +65,39 @@ const PricingSlider: any = ({  }) => {
     index: number
   ) => {
     const value = e.target.value;
+  
     setInputs((prev) => ({
       ...prev,
-      [section]: prev[section].map((item: number, idx: any) =>
-        idx === index ? value : item
-      ),
+      [section]: Array.isArray(prev[section]) // Ensure it's an array
+        ? prev[section].map((item: number, idx: number) =>
+            idx === index ? Number(value) : item // Convert value to number if needed
+          )
+        : [], // Default to an empty array if prev[section] is not an array
     }));
-  };
+  }
 
   const handleComparision = () => {
     setShowCompare(!showCompare);
   };
+
+  console.log(inputs.Pickup1)
+  useEffect(() => {
+    if (data && data[0]?.orderTypes) {
+      setPatchedData((prevState: any) => ({
+        ...prevState,
+        pricing: [
+       
+          {
+            orderTypeId: data[0]?.orderTypes[0]?.typeId ,
+            price: String(inputs.Pickup1 || data[0]?.orderTypes[0]?.price) 
+          },
+        
+        ],
+      }));
+    }
+  }, [data, inputs, setPatchedData]);
+
+
 
   return (
     <div className="PricingSlider-Container">
@@ -81,7 +116,6 @@ const PricingSlider: any = ({  }) => {
                       className="SectionA-Input"
                       onChange={(e) => handleInputChange1(e, "Dinein1", seInd)}
                       value={inputs.Dinein1[seInd] || ""}
-                      disabled={!pen}
                     />
                     <img
                       src={Weigh}
@@ -93,7 +127,7 @@ const PricingSlider: any = ({  }) => {
                 </div>
               ))}
               <div className="Section-Label">
-                {elem.labels?.map((label, sub) => (
+               {Array.isArray(elem.labels) && elem.labels.map((label: any, sub: any) => (
                   <div key={sub} className="OnSectionLabelInput">
                     <h3 className="OnSectionLabelInput-Heading">{label}</h3>
                     <div className="OnPremZomatoInhouseSwiggy">
@@ -108,11 +142,7 @@ const PricingSlider: any = ({  }) => {
                           <input
                             type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
-                            value={
-                              sub === 0
-                                ? inputs.Pickup1[idx] || ""
-                                : inputs.Delivery1[idx] || ""
-                            }
+                            value={inputs.Pickup1[idx] }
                             onChange={(e) =>
                               handleInputChange1(
                                 e,
@@ -120,7 +150,7 @@ const PricingSlider: any = ({  }) => {
                                 idx
                               )
                             }
-                            disabled={!pen}
+                            // disabled={!pen}
                           />
                           {showCompare && (
                             <p className="Compare">{sectionAValue}</p>

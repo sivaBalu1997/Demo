@@ -111,6 +111,12 @@ import {
   ADDDROPDOWN_SUCCESS,
   ADDDROPDOWN_REQUEST,
   ADDDROPDOWN_FAILURE,
+  KITCHEN_DATA_REQUEST,
+  KITCHEN_DATA_SUCCESS,
+  KITCHEN_DATA_FAILURE,
+  PARTIAL_UPDATE_MENU_REQUEST,
+  PARTIAL_UPDATE_MENU_SUCCESS,
+  PARTIAL_UPDATE_MENU_FAILURE,
   START_IMAGE_UPLOAD,
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_UPLOAD_FAILURE,
@@ -496,6 +502,24 @@ export const bestPairDataFailure = (error) => ({
   payload: error,
 })
 
+//kitchenStation
+export const kitchenStationRequest = (data) => ({
+  type: KITCHEN_DATA_REQUEST,
+  payload: data,
+})
+
+export const kitchenStationSuccess = (response) => {
+  console.log({response})
+  return{
+  type: KITCHEN_DATA_SUCCESS,
+  payload: response,
+}};
+
+export const kitchenStationFailure = (error) => ({
+  type: KITCHEN_DATA_FAILURE,
+  payload: error,
+})
+
 //subCategory
 export const subCategoryDataRequest = (data) => ({
   type: SUBCATEGORY_DATA_REQUEST,
@@ -725,6 +749,24 @@ export const selectedMockDataSuccess = (data) => ({
 export const selectedMockDataFailure = (error) => ({
   type: SELECTED_MOCKDATA_FAILURE,
   payload: error,
+});
+
+
+// *********************PartialUpdate*********************************
+
+export const partialUpdateMenuRequest = (payload) => ({
+  type: PARTIAL_UPDATE_MENU_REQUEST,
+  payload, 
+});
+
+export const partialUpdateMenuSuccess = (payload) => ({
+  type: PARTIAL_UPDATE_MENU_SUCCESS,
+  payload, 
+});
+
+export const partialUpdateMenuFailure = (payload) => ({
+  type: PARTIAL_UPDATE_MENU_FAILURE,
+  payload,  
 });
 
 export const startImageUpload = (images) => ({

@@ -28,9 +28,11 @@ import {
   portionsizeradio,
 } from "../../../assets/mockData/Moca_data";
 import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
+import { RootState } from "redux/rootReducer";
+import { type } from "os";
 
 interface SelectedValuesState {
-  [key: number]: any; // Replace `any` with the actual type of `values`
+  [key: number]: any;
 }
 
 type MainFormType = {
@@ -61,14 +63,14 @@ type MainFormType = {
 };
 
 type DineInField = {
+  DineInId?: string,
   DineInPrice: string | string[];
   DineInMealType: string | string[];
-  // DineInService: string | string[];
-  // showDay: any;
-  // dayButtonText: any;
+ 
 };
 
 type DineinFieldSpecial = {
+  DineInId:string,
   DineInPrice: string | string[];
   DineInMealType: string | string[];
   DineInService: string | string[];
@@ -91,9 +93,9 @@ interface FormState {
 type MainFormSpecial = {
   form1: FormState;
   dineinfields: DineinFieldSpecial[];
-  specialcheck: number[]; // Single number, not an array
-  fromDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
-  toDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
+  specialcheck: number[];
+  fromDate: string | Date | undefined; 
+  toDate: string | Date | undefined; 
   selectedValuespickup: string[];
   selectedValuesdelivery: string[];
   Swiggy: string[];
@@ -138,6 +140,9 @@ interface MainForm {
   KitchenStationId: string;
   normalForm?: any;
   specialForm?: any;
+  resetInventory:boolean;
+  nextAvailable:boolean;
+  printKot:boolean
 }
 
 interface PricingDetailsFormData {
@@ -159,6 +164,7 @@ interface StateData {
     availability: [];
   };
 }
+
 
 const PricingDetails = () => {
   const kitchenDetail = useRef<(() => void) | null>(null);
@@ -239,6 +245,8 @@ const PricingDetails = () => {
     (state: any) => state.productCatalog.cuisineData.data
   );
 
+  const kitchenStationData = useSelector((state: any) => state.productCatalog.kitchenStation.data)
+
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
@@ -271,6 +279,10 @@ const PricingDetails = () => {
     Zomato: [],
     Availabilityid: [],
   });
+
+  const[resetInventory,setResetInventory]=useState(false)
+  const[nextAvailable,setNextAvailable]=useState(false)
+  const[printKot,setPrintKot]=useState(false)
   
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
@@ -349,9 +361,12 @@ const PricingDetails = () => {
       minutes: "",
     },
     KitchenStationId: "",
-    normalForm: isOptionTrue ? mainFormState : undefined, // Conditionally set normalForm
+    normalForm: isOptionTrue ? mainFormState : undefined, 
 
     specialForm: isOptionTrue ? undefined : mainFormSpecial,
+    resetInventory:resetInventory,
+    nextAvailable:nextAvailable,
+    printKot:printKot
   };
 
   // const formData={
@@ -360,19 +375,31 @@ const PricingDetails = () => {
 
   useEffect(() => {
     if (prizingDetail) {
+      setInventory(true);
+      setResetInventory(prizingDetail?.resetInventory)
+      setNextAvailable(prizingDetail?.nextAvailable)
+      setPrintKot(prizingDetail?.printKot)
+
+  
+      // Prepare the kitchenstation array
+  
+      // Reset form state
       reset({
         form: {
-          Inventory1: prizingDetail.form?.Inventory1 || "", // Adjust based on your prizingDetail structure
+          Inventory1: prizingDetail.form?.Inventory1 || "",
           Inventory2: prizingDetail.form?.Inventory2 || "",
         },
-        kitchenstation: prizingDetail?.kitchenstation || "",
+        kitchenstation: prizingDetail.kitchenstation,
         Preparationtime: {
-          hours: prizingDetail.Preparationtime?.hours || "", // Ensure nested properties are accessed safely
+          hours: prizingDetail.Preparationtime?.hours || "",
           minutes: prizingDetail.Preparationtime?.minutes || "",
         },
       });
+  
+      // Set options for kitchenstation
+      setOptions1( prizingDetail.kitchenstation); 
     }
-  }, [prizingDetail, reset]);
+  }, [prizingDetail, reset, setOptions1]);
 
   // const dispatchEvent = () => {
   //   dispatch(PricingDetailRequest({ mainForm }));
@@ -397,22 +424,42 @@ const PricingDetails = () => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
 
+  const orderTypes = useSelector((state : RootState) => state.auth.selectedBranch?.orderTypes)
+  const DineInId = orderTypes?.find(item => item.typeGroup === 'D')?.id;
+  const pickUpId = orderTypes?.find(item => item.typeGroup === 'P')?.id
+  const deliveryId = orderTypes?.find(item => item.typeGroup === 'S')?.id
+  const thirdpartyid = orderTypes?.find(item => item.typeGroup === 'T')?.id
+
+
   const [dineinfields, setDineInFields] = useState<DineInField[]>([
     {
+      DineInId:DineInId,
       DineInPrice: "",
       DineInMealType: [],
     },
   ]);
+
+  const dineInMapped = dineinfields.map((field : any) => ({
+    typeId: field.DineInId,
+    typeName: field.DineInMealType,
+    price: parseFloat(field?.DineInPrice) // Convert price to number if needed
+  }));
+
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
     {
+      DineInId:'',
       DineInPrice: "",
       DineInMealType: "",
       DineInService: "",
     },
   ]);
+
+
+
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
   };
+
   const validateDineInFields = (dineinfields: DineInField[]) => {
     const errors: DropdownValidationState = {};
 
@@ -453,6 +500,7 @@ const PricingDetails = () => {
 
     return errors;
   };
+  
   const validateDineInFields1 = (dineinfield1: DineinFieldSpecial[]) => {
     const errors: DropdownValidationState = {};
 
@@ -577,7 +625,7 @@ const PricingDetails = () => {
       : validateDineInFields1(dineinfields1);
 
     const combinedErrors = {
-      ...dropdownErrors,
+      // ...dropdownErrors,
       ...dineInErrors,
     };
 
@@ -613,6 +661,25 @@ const PricingDetails = () => {
       },
     });
   };
+
+  console.log(options1)
+
+  const handleInventoryCheck=(event:any)=>{
+    setResetInventory(event.target.checked); 
+  }
+
+  const handleNextAvailCheckbox=(event:any)=>{
+    setNextAvailable(event.target.checked); 
+
+
+
+  }
+  const handlePrintKOt=(event:any)=>{
+    setPrintKot(event.target.checked); 
+
+
+
+  }
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
@@ -744,7 +811,7 @@ const PricingDetails = () => {
             </div>
 
             <div className="Kitchen-checkbox">
-              <input type="checkbox" className="checkbox1-Kitchen" />
+              <input type="checkbox" className="checkbox1-Kitchen" onChange={handlePrintKOt} checked={printKot} />
               <label className="Inventorycheck">
                 Don't print the item in Master KOT
               </label>
@@ -827,14 +894,15 @@ const PricingDetails = () => {
                   )}
                   <div className="Inventcheckbox">
                     <div className="checkboxI">
-                      <input type="checkbox" className="checkbox1-color" />
+                      <input type="checkbox" className="checkbox1-color"   onChange={handleInventoryCheck}   checked={resetInventory} 
+ />
                       <label className="InventoryHeadingII">
                         Reset inventory everyday
                       </label>
                     </div>
 
                     <div className="checkbox2">
-                      <input type="checkbox" className="checkbox1-color" />
+                      <input type="checkbox" className="checkbox1-color" onChange={handleNextAvailCheckbox} checked={nextAvailable}/>
                       <label className="InventoryHeadingII">
                         Show next available time when maximum count is reached
                       </label>

@@ -2,6 +2,7 @@ import { API,Image_API } from "redux/api";
 import Store from "../store";
 import Axios from "axios";
 import { bestPairType, categoryType, cuisine, dietarytype, subcategory, subcategoryType } from "assets/mockData/Moca_data";
+import { useSelector } from "react-redux";
 
 export const getMenuDataApi = (locationId) => {
   return API({
@@ -94,13 +95,14 @@ export function getIngredients(locationId) {
 }
 
 export function addMenuItem(data) {
+  const {menuPayload, locationid} = data;
   return API({
     method: "post",
-    url: `/merchants/productCatalog`,
+    url: `/api/v1/menu-items`,
+    data: menuPayload,
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'application/json',
     },
-    data: data,
   });
 }
 
@@ -176,4 +178,12 @@ export function getPopularItemRequestApi(locationId) {
   });
 }
 
+
+export function apiUpdateMenu(payload) {
+  return API({
+    method: "patch",
+    url: `/api/v1/menu-items/partial-update`,
+    data:payload
+  });
+}
 

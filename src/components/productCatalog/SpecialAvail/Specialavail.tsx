@@ -344,6 +344,7 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
         : null;
   
       setSelectedDate(fromDate);
+      
       setSelectedDate1(toDate);
       setSpecialcheck(prizingDetail.specialForm?.specialcheck || "");
       
@@ -386,6 +387,11 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
         console.error("dineinfield1 is not an array or is undefined");
       }
     }
+    setOnline(true)
+    setPickup(true)
+    setDelivery(true)
+    setSelectedSwiggyZomato(["Swiggy","Zomato"])
+
   }, [prizingDetail]);
   
 

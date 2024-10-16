@@ -202,17 +202,17 @@ const DropDownList: React.FC<DropdownProps> = ({
           (opt) => opt.id !== option.id
         );
         setSelectedOptions(updatedOptions);
-        setValue(name, updatedOptions.map((opt) => opt.name).join(", "));
+        setValue(name, updatedOptions.map((opt) => (opt.name)));
       } else {
         const updatedOptions = [...selectedOptions, option];
         setSelectedOptions(updatedOptions);
-        setValue(name, updatedOptions.map((opt) => opt.name).join(", "));
+        setValue(name, updatedOptions.map((opt) => (opt.name)));
         trigger(name);
       }
     } else if (type === "radio") {
       setSelectedOptions([option]);
-      setValue(name, option.name);
-      trigger(name);
+      setValue(name, (option.name));
+      trigger(name);  
     }
 
     const viewdata={
