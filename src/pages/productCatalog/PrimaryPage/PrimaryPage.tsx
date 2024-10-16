@@ -237,7 +237,6 @@ const PrimaryPage = () => {
     value: "",
   });
 
-  
 
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(

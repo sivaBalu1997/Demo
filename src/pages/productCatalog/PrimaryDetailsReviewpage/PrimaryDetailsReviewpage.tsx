@@ -180,8 +180,8 @@ interface State {
 
 interface Detail {
   typeId: string;
-  typeName: string[]; 
-  price: number | string; 
+  typeName: string[];
+  price: number | string;
 }
 
 interface PrizingDetail {
@@ -216,8 +216,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
-  console.log("primarydata",primarydata.imageUrls);
-  
+  console.log("primarydata", primarydata.imageUrls);
 
   const [error, setError] = useState<Status[]>([]);
 
@@ -293,13 +292,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }, [subsectiondata]);
 
   console.log("subsectiondata", subsectiondata);
-  const imageFailure=subsectiondata?.length > 0 &&
-  subsectiondata.map((img: any) => img?.file?.name);
+  const imageFailure =
+    subsectiondata?.length > 0 &&
+    subsectiondata.map((img: any) => img?.file?.name);
 
-  console.log(
-    "fileArraydata true or false",imageFailure
-    
-  );
+  console.log("fileArraydata true or false", imageFailure);
 
   const Wholedata = {
     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -465,7 +462,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.bestPairData.data
   );
 
-  const menuAddedSuccess = useSelector((state:any) => state.productCatalog.menuDataSuccess)
+  const menuAddedSuccess = useSelector(
+    (state: any) => state.productCatalog.menuDataSuccess
+  );
 
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -474,10 +473,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
-
-useEffect(()=>{
-  console.log({menuAddedSuccess})
-},[menuAddedSuccess])
   //////////////
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
@@ -496,9 +491,9 @@ useEffect(()=>{
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
 
-  const matchedKitchenStation = kitchenStationData?.find((kitchen : any) => kitchen.name === prizingDetail?.kitchenstation)
-
-  console.log({matchedKitchenStation})
+  const matchedKitchenStation = kitchenStationData?.find(
+    (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
+  );
 
   // const matchedBestPair = bestPairData?.find(
   //   (bestPair : any) => bestPair.name === primarydata?.bestPair
@@ -513,7 +508,7 @@ useEffect(()=>{
   const matchedCategoryId = matchedCategory?.id;
   const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
-  const kitchenStationId = matchedKitchenStation?.id
+  const kitchenStationId = matchedKitchenStation?.id;
 
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierName: item?.modifierName,
@@ -540,9 +535,11 @@ useEffect(()=>{
     ? normalDays.map(String)
     : [];
 
+    console.log(editData.length === 0)
+
   const menuPayload = {
     locationId: locationid,
-    itemId: subsectiondatamsg ? subsectiondatamsg : '',
+    itemId: subsectiondatamsg ? subsectiondatamsg : "",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -572,10 +569,40 @@ useEffect(()=>{
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
+  // } : {
+  //   itemId: editData[0].id,
+  //   locationId: locationid,
+  //   itemName: primarydata?.itemName || null,
+  //   itemCode: primarydata?.itemCode || null,
+  //   dietTypes: matchedDietaryId || null,
+  //   pairedItems: bestPairId || null,
+  //   barCode: primarydata?.barCode || null,
+  //   cuisine: matchedCuisineId || null,
+  //   categoryId: matchedCategoryId || null,
+  //   subCategoryId: matchedSubCategoryId || null,
+  //   isPopularItem: primarydata?.popularItem || null,
+  //   allergens: primarydata?.allergens || null,
+  //   description: primarydata?.description || null,
+  //   containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
+  //   ingredients: primarydata?.Ingredients || null,
+  //   calorieInfo: primarydata?.coloriePoint || null,
+  //   portionInfo: primarydata?.portionSize || null,
+  //   taxClassAssociation: primarydata?.taxFeeId || null,
+
+  //   kitchenStation: "kitchenStationId" || null,
+  //   preparationTimeInHours:
+  //     prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
+  //   preparationTimeInMinutes:
+  //     prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
+  //   ignoreMasterKotPrint: false,
+  //   availabilityDays: stringNormalDays || null,
+  //   orderTypesWithRespectToAvailability: combinedDetails || null,
+
+  //   ...(modifierData.length > 1 && { modifiers: modifierData || null }),
+    // isCategoryUpdated : editData.
   };
 
-  console.log("Primary",primarydata?.taxFeeId)
-
+  console.log({editData})
   console.log({ menuPayload });
 
   const handleDispatch = async () => {
@@ -621,9 +648,9 @@ useEffect(()=>{
         return updatedIndexToReplace; // Ensure the state is updated with the new value
       });
     }
-    if(editData.length > 0){
-      dispatch(updateMenuItemRequest({menuPayload, locationid}))
-    }else{
+    if (editData.length > 0) {
+      dispatch(updateMenuItemRequest({ menuPayload, locationid }));
+    } else {
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
     // dispatch(addMockDataRequest(data));
@@ -634,8 +661,6 @@ useEffect(()=>{
     // }
   };
 
-
-  
   //   checkAllImagesForErrors();
   //   const allUploaded =  uploadedimage.every(
   //     (img) => img && !hasImageError(img.file)
@@ -692,35 +717,32 @@ useEffect(()=>{
   //   // }
   // };
 
-
-
-
-  useEffect(()=>{
-    if(subsectiondatamsg!=="")
-  {
-    dispatch(addMenuItemRequest({ menuPayload, locationid }));
-  }
-  },
-  [subsectiondatamsg])
+  useEffect(() => {
+    if (subsectiondatamsg) {
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    }
+  }, [subsectiondatamsg]);
 
   const handleSubmitItemDetails = () => {
-    if (Wholedata.imageUrls.length === 0) {
+    console.log("image",Wholedata?.imageUrls)
+    if (Wholedata?.imageUrls === null) { 
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
       console.log("is  emty");
     } else {
       console.log("is not emty");
-      console.log("images",primarydata.imageUrls);
-      
-      dispatch(startImageUpload(primarydata.imageUrls));
+      console.log("images", primarydata?.imageUrls);
+
+      dispatch(startImageUpload(primarydata?.imageUrls));
       // dispatch(addMenuItemRequest({ menuPayload, locationid }));
-      if(subsectiondatamsg==="success")
-      {
-
-             dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      if (subsectiondatamsg) {
+        console.log('hi')
+        dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
-
-      
     }
   };
+
+  console.log(Wholedata?.imageUrls?.length === 0)
+
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
   };
@@ -764,9 +786,7 @@ useEffect(()=>{
                         <ReviewValues
                           label="Item Name"
                           textvalue={
-                           primarydata.itemName
-                              ? primarydata.itemName
-                              : "-"
+                            primarydata.itemName ? primarydata.itemName : "-"
                           }
                         />
                       </div>
@@ -776,7 +796,7 @@ useEffect(()=>{
                           label="Dietary type"
                           textvalue={
                             primarydata.dietaryType
-                              ?primarydata.dietaryType
+                              ? primarydata.dietaryType
                               : "-"
                           }
                         />
@@ -797,9 +817,7 @@ useEffect(()=>{
                         <ReviewValues
                           label="Category"
                           textvalue={
-                            primarydata.category
-                              ?  primarydata.category
-                              : "-"
+                            primarydata.category ? primarydata.category : "-"
                           }
                         />
                       </div>
@@ -829,11 +847,7 @@ useEffect(()=>{
                       <div>
                         <ReviewValues
                           label="Tax Class Association"
-                          textvalue={
-                            primarydata.tax
-                              ?  primarydata.tax
-                              : "-"
-                          }
+                          textvalue={primarydata.tax ? primarydata.tax : "-"}
                         />
                       </div>
                     </div>
@@ -843,9 +857,7 @@ useEffect(()=>{
                         <ReviewValues
                           label="Item code"
                           textvalue={
-                            primarydata.itemCode
-                              ? primarydata.itemCode
-                              : "-"
+                            primarydata.itemCode ? primarydata.itemCode : "-"
                           }
                         />
                       </div>
@@ -854,9 +866,7 @@ useEffect(()=>{
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={
-                            primarydata.itemCode
-                              ? primarydata.itemCode
-                              : "-"
+                            primarydata.itemCode ? primarydata.itemCode : "-"
                           }
                         />
                       </div>

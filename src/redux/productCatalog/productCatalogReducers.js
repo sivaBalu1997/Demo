@@ -468,10 +468,12 @@ export default function productCatalogReducer(
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
         break;
+
       case UPLOAD_IMAGE_FAILURE:
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         break;
+
       case IMAGE_UPLOAD_SUCCESS:
         draft.itemId = action.payload;
         break;
@@ -481,15 +483,13 @@ export default function productCatalogReducer(
         draft.imageUpload = action.payload.statusmsg;
 
       case STORE_UPLOAD_SUCCESS:
-        draft.imageUploadsuccessemsg = action.payload;
+        draft.imageUploadsuccessemsg = true;
 
       case RETRY_IMAGE_SUCCESS:
         draft.retrySucess = action.payload;
         break;
 
       case RETRY_IMAGE_FAILURE:
-        console.log(" action.payload", action.payload);
-
         draft.retryFailure.imageName = action.payload.imageName;
         draft.retryFailure.itemId = action.payload.itemId;
 
