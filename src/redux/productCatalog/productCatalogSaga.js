@@ -362,6 +362,9 @@ function* imageUploadSaga(action) {
     
     yield put(storeUploadFailure(failureArray));
   }
+  else{
+    
+  }
 
 }
 const convertImageToBinaryString = (imageFile) => {

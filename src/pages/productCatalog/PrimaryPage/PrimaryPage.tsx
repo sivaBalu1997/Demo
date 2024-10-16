@@ -364,7 +364,17 @@ const PrimaryPage = () => {
   };
 
   const handleImageDeletion = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
+    setImages((prevImages) => {
+      const deletedImage=images.filter((_, i) => i !== index);
+      const updatedImages =  deletedImage;
+   
+     
+      const updatedImageUrls = updatedImages.map((image) => image);
+       console.log("updatedImageUrls",updatedImageUrls);
+      setValue("imageUrls", updatedImageUrls);
+      return updatedImages;
+    });
+   
   };
 
   const selectedradiowatch = watch();
@@ -451,8 +461,8 @@ const PrimaryPage = () => {
           };
         })
         .filter((file): file is ImageFile => file !== null);
-      if (fileArray.length + images.length > 7) {
-        alert("You can upload a maximum of 7 images.");
+      if (fileArray.length + images.length > 6) {
+        alert("You can upload a maximum of 6 images.");
         return;
       }
       setImages((prevImages) => {

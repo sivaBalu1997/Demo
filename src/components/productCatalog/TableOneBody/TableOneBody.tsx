@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import HoverText from "../HoverText/HoverText";
+import { RootState } from "redux/rootReducer";
 
 interface Media {
   id: string;
@@ -37,11 +38,33 @@ interface Item {
   itemId: string;
   itemName: string;
   itemCode: string;
+  media: {
+    id: string;
+    entityId: string;
+  };
   description: string;
-  media: Media;
-  prices: Price[];
-  modifiers: Modifier[];
+  prices: {
+    orderTypeId: string;
+    name: string;
+    price: string;
+    isEnabled: string;
+  }[];
+  modifiers: {
+    modifierId: string;
+    modifierName: string;
+    isEnabled: boolean;
+    noFreeCustomization: number;
+    minCount: number;
+    maxCount: number;
+    options: {
+      optionId: string;
+      optionName: string;
+      price: string;
+      isEnabled: number;
+    }[];
+  }[];
 }
+
 
 interface Category {
   categoryId: string;
@@ -50,14 +73,26 @@ interface Category {
   subCategoryName: string;
   itemResponseList: Item[];
 }
+interface DraggedItem {
+  categoryId: string;
+  item: Item;
+}
+interface MenuObject {
+  categoryId: string;
+  categoryName: string;
+  subCategoryId: string;
+  subCategoryName: string;
+  itemResponseList: Item[];
+}
+
 
 interface ItemRowProps {
   object: Category; // Updated to use the Category type from the JSON
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
-  handleRowDragStart: (e:React.DragEvent<HTMLDivElement>,id: string, index: string) => void;
-  handleRowDragOver: (id: string, index: string) => void;
-  handleRowDragEnd:  (id: string, index: string) => void;
+  handleRowDragStart: (categoryId: string, item:Item) => void;
+  handleRowDragOver: (e:React.DragEvent<HTMLDivElement>) => void;
+  handleRowDragEnd:  (categoryId: string,dropIndex:number) => void;
   handleDragScroll: (
     e: React.DragEvent,
     ref1: React.RefObject<HTMLDivElement>,
@@ -93,7 +128,19 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   const handleItemnameClick = (value: string) => {
     handlemodal(value);
   };
+ 
+  const menuData = useSelector((state : RootState) => state.productCatalog?.menuData)
+  const [menudatalist,setMenudatalist]=useState(menuData);
 
+  useEffect(()=>{
+    setMenudatalist(menuData)
+
+  },[menuData])
+  const [draggedItem, setDraggedItem] = useState<DraggedItem | null>(null);
+
+  // console.log("object",object);
+  
+  
   return (
     <>
       {object?.itemResponseList?.map((item, index) => (
@@ -104,14 +151,14 @@ const TableOneBody: React.FC<ItemRowProps> = ({
           <td
             draggable
             onDragStart={(e) => {
-              handleRowDragStart(e,object.categoryId, index.toString());
+              handleRowDragStart(object.categoryId,item);
               handleDragScroll(e, tableBodyRef1, tableBodyRef2);
             }}
             onDragOver={(e) => {
-              // handleRowDragOver(object.categoryId, index.toString());
+              handleRowDragOver(e);
               handleDragScroll(e, tableBodyRef1, tableBodyRef2);
             }}
-            onDragEnd={()=>handleRowDragEnd(object.categoryId, index.toString())}
+            onDrop={()=>handleRowDragEnd(object.categoryId,index)}
             className={`itemdetails-row ${
               draggedRowIndex?.index === index ? "selected" : ""
             } ${index === 0 ? "removebottomrowline" : ""}`}
