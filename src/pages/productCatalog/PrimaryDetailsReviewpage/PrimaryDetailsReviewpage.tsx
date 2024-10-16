@@ -466,6 +466,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.menuDataSuccess
   );
 
+  const deletedModifierId = useSelector(
+    (state: any) => state.productCatalog.deletedId
+  );
+
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -535,8 +539,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ? normalDays.map(String)
     : [];
 
-    console.log(editData.length === 0)
-
   const menuPayload = {
     locationId: locationid,
     itemId: subsectiondatamsg ? subsectiondatamsg : "",
@@ -569,40 +571,46 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
-  // } : {
-  //   itemId: editData[0].id,
-  //   locationId: locationid,
-  //   itemName: primarydata?.itemName || null,
-  //   itemCode: primarydata?.itemCode || null,
-  //   dietTypes: matchedDietaryId || null,
-  //   pairedItems: bestPairId || null,
-  //   barCode: primarydata?.barCode || null,
-  //   cuisine: matchedCuisineId || null,
-  //   categoryId: matchedCategoryId || null,
-  //   subCategoryId: matchedSubCategoryId || null,
-  //   isPopularItem: primarydata?.popularItem || null,
-  //   allergens: primarydata?.allergens || null,
-  //   description: primarydata?.description || null,
-  //   containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
-  //   ingredients: primarydata?.Ingredients || null,
-  //   calorieInfo: primarydata?.coloriePoint || null,
-  //   portionInfo: primarydata?.portionSize || null,
-  //   taxClassAssociation: primarydata?.taxFeeId || null,
-
-  //   kitchenStation: "kitchenStationId" || null,
-  //   preparationTimeInHours:
-  //     prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
-  //   preparationTimeInMinutes:
-  //     prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
-  //   ignoreMasterKotPrint: false,
-  //   availabilityDays: stringNormalDays || null,
-  //   orderTypesWithRespectToAvailability: combinedDetails || null,
-
-  //   ...(modifierData.length > 1 && { modifiers: modifierData || null }),
-    // isCategoryUpdated : editData.
   };
 
-  console.log({editData})
+  const editPayload = {
+    itemId: editData[0]?.id,
+    locationId: locationid,
+    itemName: primarydata?.itemName || null,
+    itemCode: primarydata?.itemCode || null,
+    dietTypes: matchedDietaryId || null,
+    pairedItems: bestPairId || null,
+    barCode: primarydata?.barCode || null,
+    cuisine: matchedCuisineId || null,
+    categoryId: matchedCategoryId || null,
+    subCategoryId: matchedSubCategoryId || null,
+    isPopularItem: primarydata?.popularItem || null,
+    allergens: primarydata?.allergens || null,
+    description: primarydata?.description || null,
+    containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
+    ingredients: primarydata?.Ingredients || null,
+    calorieInfo: primarydata?.coloriePoint || null,
+    portionInfo: primarydata?.portionSize || null,
+    taxClassAssociation: primarydata?.taxFeeId || null,
+
+    kitchenStation: kitchenStationId || null,
+    preparationTimeInHours:
+      prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
+    preparationTimeInMinutes:
+      prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
+    ignoreMasterKotPrint: false,
+    availabilityDaysAdd: stringNormalDays || null,
+    orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
+
+    ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
+    isCategoryUpdated: false, //need to check
+    modifiersToRemove: deletedModifierId,
+    availabilityDaysRemove: editData[0]?.availabilityDays,
+    orderTypesWithRespectToAvailabilityToRemove:
+      editData[0]?.combinedDetails || null,
+  };
+
+  console.log({ editData });
   console.log({ menuPayload });
 
   const handleDispatch = async () => {
@@ -629,13 +637,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       }
     }
 
-    // for(let [index,image] of indextoreplace.entries()){
-    //   console.log("image",image,"index",index)
-
-    // }
     if (ImageId === "" || ImageId === undefined) {
-      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
-      // dispatch(addMockDataRequest(data));
     } else {
       setindextoreplace((prev) => {
         const updatedIndexToReplace = [...prev];
@@ -645,20 +647,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           dispatch(uploadImage(item.image, item.id, item.index));
         });
 
-        return updatedIndexToReplace; // Ensure the state is updated with the new value
+        return updatedIndexToReplace;
       });
     }
     if (editData.length > 0) {
-      dispatch(updateMenuItemRequest({ menuPayload, locationid }));
+      dispatch(updateMenuItemRequest({ editPayload, locationid }));
     } else {
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
-    // dispatch(addMockDataRequest(data));
-
-    // If needed, redirect or perform other actions here
-    // if (allUploaded) {
-    //   history.push("/menuListing");
-    // }
   };
 
   //   checkAllImagesForErrors();
@@ -724,24 +720,15 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }, [subsectiondatamsg]);
 
   const handleSubmitItemDetails = () => {
-    console.log("image",Wholedata?.imageUrls)
-    if (Wholedata?.imageUrls === null) { 
+    if (Wholedata?.imageUrls === null) {
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
-      console.log("is  emty");
     } else {
-      console.log("is not emty");
-      console.log("images", primarydata?.imageUrls);
-
       dispatch(startImageUpload(primarydata?.imageUrls));
-      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       if (subsectiondatamsg) {
-        console.log('hi')
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
     }
   };
-
-  console.log(Wholedata?.imageUrls?.length === 0)
 
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
@@ -751,7 +738,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     const result = subsectiondata.some(
       (image: imageType) => image?.file?.name === imagevalue?.file?.name
     );
-    // console.log(subsectiondata.map((img:imageType)=>img?.file?.name));
 
     const matchingIndex = subsectiondata.findIndex(
       (subsectionFile: imageType) =>
@@ -786,7 +772,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Item Name"
                           textvalue={
-                            primarydata.itemName ? primarydata.itemName : "-"
+                            primarydata.itemName ? primarydata?.itemName : "-"
                           }
                         />
                       </div>

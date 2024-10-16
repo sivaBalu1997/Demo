@@ -128,7 +128,10 @@ import {
   SEARCH_FORITEM_SUCCESS,
   SEARCH_FORITEM,
   SEARCH_FORITEM_FAILURE,
-  STORE_UPLOAD_SUCCESS
+  STORE_UPLOAD_SUCCESS,
+  DELETE_MODIFIER_REQUEST,
+  DELETE_MODIFIER_SUCCESS,
+  DELETE_MODIFIER_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -812,4 +815,19 @@ export const retryimageUploadSuccess = (itemId) => ({
 export const retryimageUploadFailure = (imageName, itemId) => ({
   type: RETRY_IMAGE_FAILURE,
   payload: { imageName, itemId },
+});
+
+export const deleteModifierRequest = (data) =>({
+  type: DELETE_MODIFIER_REQUEST,
+  payload: data
+});
+
+export const deleteModifierSuccess = (response) =>({
+  type: DELETE_MODIFIER_SUCCESS,
+  payload: response
+});
+
+export const deleteModifierFailure = (error) =>({
+  type: DELETE_MODIFIER_FAILURE,
+  payload: error
 });
