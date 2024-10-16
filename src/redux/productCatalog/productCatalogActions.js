@@ -127,7 +127,10 @@ import {
   RETRY_IMAGE_FAILURE,
   SEARCH_FORITEM_SUCCESS,
   SEARCH_FORITEM,
-  SEARCH_FORITEM_FAILURE
+  SEARCH_FORITEM_FAILURE,
+  STORE_DATA_WITH_CATEGORY,
+  STORE_DATA_WITH_CATEGORY_SUCCESS,
+  STORE_DATA_WITH_CATEGORY_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -807,4 +810,22 @@ export const retryimageUploadSuccess = (itemId) => ({
 export const retryimageUploadFailure = (imageName, itemId) => ({
   type: RETRY_IMAGE_FAILURE,
   payload: { imageName, itemId },
+});
+
+
+// {*****************StorewithCatagoryId***************************8}
+
+export const storeDataWithCategory = ( data) => ({
+  type: STORE_DATA_WITH_CATEGORY,
+  payload: data
+});
+
+export const storeDataWithCategorySuccess = ( data) => ({
+  type: STORE_DATA_WITH_CATEGORY_SUCCESS,
+  payload: data
+});
+
+export const storeDataWithCategoryFailure = (error) => ({
+  type: STORE_DATA_WITH_CATEGORY_FAILURE,
+  payload: { error },
 });

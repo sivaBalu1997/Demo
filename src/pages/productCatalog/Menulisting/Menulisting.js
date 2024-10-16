@@ -20,7 +20,7 @@ import TableOneBody from "../../../components/productCatalog/TableOneBody/TableO
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
-import { getMenuRequest, selectedMockDataRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import { getMenuRequest, selectedMockDataRequest, storeDataWithCategory, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
 
 export const Menulisting = () => {
@@ -530,6 +530,7 @@ export const Menulisting = () => {
    const filteredItem = menuData.find((item) => 
     item?.itemResponseList?.some((response) => response?.itemId === value)
   );
+  dispatch(storeDataWithCategory(filteredItem))
 
   if (filteredItem) {
     // Further filter the itemResponseList to get the specific response
@@ -543,6 +544,7 @@ export const Menulisting = () => {
       // Set the sidebar to the specific response if it exists
       if (specificResponse.length > 0) {
         setSideBar(specificResponse); // Set the first matching response
+
       }
     }}
 

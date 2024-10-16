@@ -88,6 +88,7 @@ import {
   apiUpdateMenu,
   deleteSubSection,
   imageUploadingApi,
+  hideMockData,
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -120,6 +121,9 @@ import {
   PARTIAL_UPDATE_MENU_REQUEST,
   START_IMAGE_UPLOAD,
   RETRY_IMAGE_UPLOAD,
+  ADD_MOCK_DATA_HIDDEN_SUCCESS,
+  ADD_MOCK_DATA_HIDDEN_REQUEST,
+  ADD_MOCK_DATA_HIDDEN_FALIURE,
 } from "./productCatalogConstants";
 // import { log } from "console";
 
@@ -508,6 +512,15 @@ function* partialUpdateMenuSaga(action) {
   }
 }
 
+function* addMockDataHiddenSaga(action) {
+  try {
+    const data = yield call(hideMockData, action.payload); 
+    yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: data });
+  } catch (error) {
+    yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload: error.message });
+  }
+}
+
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(STORE_MENU_REQUEST, fetchMenuDataSaga);
@@ -535,4 +548,5 @@ export default function* productCatalog() {
   yield takeLatest(GET_POPULAR_ITEM_REQUEST, getPopularItemSaga);
 
   yield takeLatest(PARTIAL_UPDATE_MENU_REQUEST, partialUpdateMenuSaga);
+  yield takeLatest(ADD_MOCK_DATA_HIDDEN_REQUEST, addMockDataHiddenSaga);
 }
