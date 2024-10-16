@@ -40,6 +40,13 @@ export const Menulisting = () => {
 
   console.log({menuData})
 
+  const [menudatalist,setMenudatalist]=useState(menuData);
+
+  useEffect(()=>{
+    setMenudatalist(menuData)
+
+  },[menuData])
+
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
@@ -282,47 +289,172 @@ export const Menulisting = () => {
 
   const handledragvegnonvegdropend = (e, index) => {
     e.preventDefault();
-    const updatedRows = [...steamType];
-    const draggedRow = updatedRows[draggedRowIndex];
-    updatedRows.splice(draggedRowIndex, 1);
-    updatedRows.splice(index, 0, draggedRow);
-    setsteamType(updatedRows);
+    // const updatedRows = [...steamType];
+    // const draggedRow = updatedRows[draggedRowIndex];
+    // updatedRows.splice(draggedRowIndex, 1);
+    // updatedRows.splice(index, 0, draggedRow);
+    // setsteamType(updatedRows);
+    // setDraggedRowIndex(null);
+    const updatedCategories = [...menudatalist];
+  
+    // Get the dragged category
+    const draggedCategory = updatedCategories[draggedRowIndex];
+    
+    // Remove the dragged category from its original position
+    updatedCategories.splice(draggedRowIndex, 1);
+    
+    // Insert the dragged category into its new position
+    updatedCategories.splice(index, 0, draggedCategory);
+    
+    // Update the state with the new category order
+    setMenudatalist(updatedCategories);
+    
+    // Reset draggedCategoryIndex
     setDraggedRowIndex(null);
   };
 
-  const handleRowDragStart = (objectId, index) => {
-    setDraggedRowIndex({ objectId, index });
-  };
+  // const handleRowDragStart = (objectId, index) => {
+  //   setDraggedRowIndex({ objectId, index });
+  // };
 
-  const handleRowDragOver = (objectId, index) => {
-    if (draggedRowIndex.objectId === null || draggedRowIndex.index === null) {
+  // const handleRowDragOver = (objectId, index) => {
+  //   if (draggedRowIndex.objectId === null || draggedRowIndex.index === null) {
+  //     return;
+  //   }
+
+  //   const draggedObjectId = draggedRowIndex.objectId;
+  //   const draggedIndex = draggedRowIndex.index;
+  //   if (draggedObjectId === objectId && draggedIndex !== index) {
+  //     setDraggingOverIndex(index);
+  //     const updatedTypes = [...steamType];
+  //     const currentObject = updatedTypes.find((item) => item.id === objectId);
+  //     const indexofvalue = steamType.findIndex((item) => item.id === objectId);
+  //     if (currentObject) {
+  //       const updatedsteamType = [...steamType[indexofvalue].name];
+  //       const draggingitme = updatedsteamType[draggedIndex];
+  //       updatedsteamType.splice(draggedIndex, 1);
+  //       updatedsteamType.splice(index, 0, draggingitme);
+  //       updatedTypes[indexofvalue].name = updatedsteamType;
+  //       setsteamType(updatedTypes);
+  //       setDraggedRowIndex({ objectId, index });
+  //     }
+  //   }
+  // };
+
+  // const handleRowDragEnd = () => {
+  //   setDraggedRowIndex({ objectId: null, index: null });
+  //   setDraggingOverIndex(null);
+  // };
+  const [rowindex, setrowindex] = useState({
+    categoryId: null,
+    itemIndex: null,
+  });
+
+  const handleRowDragStart = (categoryId, itemIndex) => {
+    setrowindex({ categoryId, itemIndex });
+    console.log("drag start");
+    
+  };
+  
+  const handleRowDragOver = (categoryId, targetItemIndex) => {
+    if (rowindex.categoryId === null || rowindex.itemIndex === null) {
+      console.log("empty");
       return;
     }
-
-    const draggedObjectId = draggedRowIndex.objectId;
-    const draggedIndex = draggedRowIndex.index;
-    if (draggedObjectId === objectId && draggedIndex !== index) {
-      setDraggingOverIndex(index);
-      const updatedTypes = [...steamType];
-      const currentObject = updatedTypes.find((item) => item.id === objectId);
-      const indexofvalue = steamType.findIndex((item) => item.id === objectId);
-      if (currentObject) {
-        const updatedsteamType = [...steamType[indexofvalue].name];
-        const draggingitme = updatedsteamType[draggedIndex];
-        updatedsteamType.splice(draggedIndex, 1);
-        updatedsteamType.splice(index, 0, draggingitme);
-        updatedTypes[indexofvalue].name = updatedsteamType;
-        setsteamType(updatedTypes);
-        setDraggedRowIndex({ objectId, index });
-      }
+  
+    const { categoryId: draggedCategoryId, itemIndex: draggedItemIndex } =
+      rowindex;
+    console.log("running",categoryId);
+  
+    const updatedCategories = [...menudatalist]; // shallow copy of the data array
+  
+    // Find the correct category by categoryId
+    const draggedCategoryIndex = updatedCategories.findIndex(
+      (category) => category.categoryId === draggedCategoryId
+    );
+    const draggedCategory = updatedCategories[draggedCategoryIndex];
+  
+    if (draggedCategory && draggedCategory.itemResponseList) {
+      const updatedItemList = [...draggedCategory.itemResponseList]; // shallow copy of itemResponseList
+  
+      // Get the dragged item
+      const draggedItem = updatedItemList[draggedItemIndex];
+  
+      // Remove the dragged item from its original position
+      updatedItemList.splice(draggedItemIndex, 1);
+  
+      // Insert it at the new position
+      updatedItemList.splice(targetItemIndex, 0, draggedItem);
+  
+      // Create a new category object with updated itemResponseList
+      const updatedCategory = {
+        ...draggedCategory, // copy all other properties of the category
+        itemResponseList: updatedItemList, // update the itemResponseList
+      };
+      updatedCategories[draggedCategoryIndex] = updatedCategory;
+  
+      // Set the updated categories
+      setMenudatalist(updatedCategories);
+  
+      // Update the draggedRowIndex to reflect the new item position
+      setDraggedRowIndex({ categoryId, itemIndex: targetItemIndex });
     }
+  
+      // Replace the modified category in the array
+      
+    
   };
-
-  const handleRowDragEnd = () => {
-    setDraggedRowIndex({ objectId: null, index: null });
-    setDraggingOverIndex(null);
+  
+  
+  const handleRowDragEnd = (categoryId, targetItemIndex) => {
+    if (rowindex.categoryId === null || rowindex.itemIndex === null) {
+      console.log("empty");
+      return;
+    }
+  
+    const { categoryId: draggedCategoryId, itemIndex: draggedItemIndex } =
+      rowindex;
+    console.log("running",categoryId);
+  
+    const updatedCategories = [...menudatalist]; // shallow copy of the data array
+  
+    // Find the correct category by categoryId
+    const draggedCategoryIndex = updatedCategories.findIndex(
+      (category) => category.categoryId === draggedCategoryId
+    );
+    const draggedCategory = updatedCategories[draggedCategoryIndex];
+  
+    if (draggedCategory && draggedCategory.itemResponseList) {
+      const updatedItemList = [...draggedCategory.itemResponseList]; // shallow copy of itemResponseList
+  
+      // Get the dragged item
+      const draggedItem = updatedItemList[draggedItemIndex];
+  
+      // Remove the dragged item from its original position
+      updatedItemList.splice(draggedItemIndex, 1);
+  
+      // Insert it at the new position
+      updatedItemList.splice(targetItemIndex, 0, draggedItem);
+  
+      // Create a new category object with updated itemResponseList
+      const updatedCategory = {
+        ...draggedCategory, // copy all other properties of the category
+        itemResponseList: updatedItemList, // update the itemResponseList
+      };
+  
+      // Replace the modified category in the array
+      updatedCategories[draggedCategoryIndex] = updatedCategory;
+  
+      // Set the updated categories
+      setMenudatalist(updatedCategories);
+  
+      // Update the draggedRowIndex to reflect the new item position
+      setDraggedRowIndex({ categoryId, itemIndex: targetItemIndex });
+    }
+    setrowindex({ categoryId: null, itemIndex: null });
+   
   };
-
+  
   const handlemodal = (value) => {
     setmodal(true);
    const filteredItem = menuData.find((item) => 
@@ -463,8 +595,9 @@ export const Menulisting = () => {
                 className="Menu-Listing-TableOneBody Menu-listing-Body"
                 ref={tableBodyRef1}
               >
-                {menuData.map((object, index) => (
+                {menudatalist.map((object, index) => (
                   <React.Fragment key={index}>
+                   
                     <RowHeading
                       objectId={object.categoryId}
                       object={object}
@@ -558,7 +691,7 @@ export const Menulisting = () => {
                     </h1>
                   </> :
                   <>
-                    {menuData.map((itemobject, indexvalue) => {
+                    {menudatalist.map((itemobject, indexvalue) => {
                       return (
                         <React.Fragment key={indexvalue}>
                           <tr>

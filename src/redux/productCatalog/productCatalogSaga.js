@@ -52,7 +52,13 @@ import {
   getMenuSuccess,
   kitchenStationSuccess,
   partialUpdateMenuSuccess,
-  partialUpdateMenuFailure
+  partialUpdateMenuFailure,
+  ImageUploadApiFail,
+  imageUploadFailure,
+  imageUploadSuccess,
+  storeUploadFailure,
+  retryimageUploadSuccess,
+  retryimageUploadFailure
 
 
 } from "./productCatalogActions";
@@ -81,7 +87,9 @@ import {
   getMenuData,
   getMenuDataApi,
   addSubsectionApi,
-  apiUpdateMenu
+  apiUpdateMenu,
+  deleteSubSection,
+  imageUploadingApi
   
 } from "../productCatalog/productCataloglogAPI";
 
@@ -113,7 +121,10 @@ import {
   ADDDROPDOWN_REQUEST,
   STORE_MENU_REQUEST,
   PARTIAL_UPDATE_MENU_REQUEST,
+  START_IMAGE_UPLOAD,
+  RETRY_IMAGE_UPLOAD,
 } from "./productCatalogConstants";
+// import { log } from "console";
  
 
 function* fetchMenuDataSaga(action) {
@@ -176,16 +187,16 @@ function* addSubsection(action) {
           yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
           break;
         case 'cuisine':
-          yield put(cuisineDataSuccess(response));
+          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
           break;
         case 'category':
-          yield put(catogoryDataSuccess(response));
+          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
           break;
         case 'subCategory':
-          yield put(subCategoryDataSuccess(response));
+          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
           break;
         case 'bestPair':
-          yield put(bestPairDataSuccess(response));
+          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
           break;
         default:
           throw new Error('Invalid type');
@@ -204,14 +215,19 @@ function* addSubsection(action) {
 //Delete subSection
 function* deleteSubSectionSaga(action) {
   try {
-    const response = yield call(deleteSubSectionSaga, action.payload);
+  
+    console.log("deleted data",action.payload)
+    const response = yield call(deleteSubSection, action.payload);
+  
     if (response) {
       yield put(deleteDropDownSuccess(response)) // add switch case
     } else {
-      yield put(deleteDropDownFailure({ message: 'please Try Again' }))
+      console.log("delete failed");
+      
+      yield put(deleteDropDownFailure("failed"))
     }
   } catch (err) {
-    yield put(deleteDropDownFailure({ message: 'please Try Again' }))
+    yield put(deleteDropDownFailure("failed"))
   }
 }
 
@@ -288,25 +304,129 @@ function* addMenuItemSaga(action) {
   }
 }
 
-function* uploadImageSaga(action) {
-  const { image, addApiresponse, index } = action.payload;
-  try {
-    const formData = new FormData();
-    formData.append("id", addApiresponse);
-    formData.append("formData", image);
+// function* uploadImageSaga(action) {
+//   const { image, addApiresponse, index } = action.payload;
+//   try {
+//     const formData = new FormData();
+//     formData.append("id", addApiresponse);
+//     formData.append("formData", image);
 
-    const response = yield call(store, formData);
-    if (response.data.httpStatus === 200) {
-      yield put(uploadImageSuccess(image, response.data.message, index));
-      console.log(`Image upload succeeded for index ${index}`);
-    } else {
-      const error = "Image upload failed";
-      yield put(uploadImageFailure(image, addApiresponse, index, error));
+//     const response = yield call(store, formData);
+//     if (response.data.httpStatus === 200) {
+//       yield put(uploadImageSuccess(image, response.data.message, index));
+//       console.log(`Image upload succeeded for index ${index}`);
+//     } else {
+//       const error = "Image upload failed";
+//       yield put(uploadImageFailure(image, addApiresponse, index, error));
+//     }
+//   } catch (error) {
+//     yield put(uploadImageFailure(image, addApiresponse, index, error.message));
+//   }
+// }
+
+
+function* imageUploadSaga(action) {
+  const images = action.payload;  
+  let itemId = null;  
+  const failureArray = [];
+  // console.log("images",images)
+
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    // console.log("images one by one",image)
+
+    try {
+      const response = yield call(uploadImageApi, image, itemId);
+      
+      if (i === 0 && response.itemId) {
+        itemId = response.itemId;
+      }
+
+      yield put(imageUploadSuccess(itemId));
+      
+    } catch (error) {
+      failureArray.push({
+        file: image.file,
+        itemId: itemId || 'null',  
+      });
+
+     
+      console.log("failureArray",failureArray)
+      yield put(imageUploadFailure(image.name, itemId));
     }
-  } catch (error) {
-    yield put(uploadImageFailure(image, addApiresponse, index, error.message));
   }
+  if (failureArray.length > 0) {
+    console.log("error");
+    
+    yield put(storeUploadFailure(failureArray));
+  }
+
 }
+const convertImageToBinaryString = (imageFile) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+
+    reader.onerror = () => {
+      reject(new Error("Image conversion failed"));
+    };
+
+    reader.readAsDataURL(imageFile); 
+  });
+};
+function convertToBase64(file) {
+  const reader = new FileReader();
+  
+  // This will block until the file is read
+  reader.readAsDataURL(file);
+  let base64String = '';
+
+  reader.onload = () => {
+    base64String = reader.result;  // Capture the result
+  };
+
+  // Wait for the FileReader to load (blocking)
+  while (!base64String) {
+    // Busy-waiting until the base64String is set
+  }
+
+  return base64String;  // Return the Base64 string
+}
+export const uploadImageApi = async (image, itemId) => {
+  const formData = new FormData();
+  const binaryString = await convertImageToBinaryString(image.file)
+  // console.log("blog image",binaryString);
+  
+  formData.append('image', image.file);
+  formData.append('itemId', itemId);
+  return await imageUploadingApi(formData);
+};
+function* retryImage(action) {
+  const image = action.payload;  
+  let itemId = null;  
+    try {
+      const response = yield call(uploadImageApi, image, itemId);
+      
+      if (response.itemId) {
+        itemId = response.itemId;
+      }
+
+      yield put(retryimageUploadSuccess(itemId));
+      
+    } catch (error) {
+      yield put(retryimageUploadFailure(image.file.name, itemId));
+    }
+  }
+
+
+
+
+
+
+
 
 function* updateMenuItemSaga(action) {
   try {
@@ -407,7 +527,10 @@ export default function* productCatalog() {
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);
   yield takeLatest(GET_INGR_REQUEST, getIngredientsSaga);
   yield takeLatest(ADD_MENU_ITEM_REQUEST, addMenuItemSaga);
-  yield takeLatest(UPLOAD_IMAGE_IN_PROGRESS, uploadImageSaga);
+  yield takeLatest(RETRY_IMAGE_UPLOAD, retryImage);
+
+  // yield takeLatest(UPLOAD_IMAGE_IN_PROGRESS, uploadImageSaga);
+  yield takeLatest(START_IMAGE_UPLOAD, imageUploadSaga);
   yield takeLatest(UPDATE_MENU_ITEM_REQUEST, updateMenuItemSaga);
   yield takeLatest(DELETE_MENU_ITEM_REQUEST, deleteMenuItemSaga);
   yield takeLatest(GET_MODIFIER_REQUEST, getModifierSaga);

@@ -82,7 +82,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
             >
               <td
                 className={`eachobject-rowwise  ${
-                  listingheaders ? "nopadding" : "givepadding"
+                  listingheaders ?  "givepadding":"nopadding" 
                 } ${index === 0 && indexvalue == 0 ? "border-important" : ""}`}
               >
                 {itemdata.orderTypes?.length > 0 && Object.entries(itemdata?.orderTypes)?.map(

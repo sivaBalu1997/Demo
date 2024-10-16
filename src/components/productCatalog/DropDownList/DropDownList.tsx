@@ -78,22 +78,32 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
+
   const dispatch = useDispatch();
+
   const locationid = useSelector(
     (state: any) => state.auth.credentials.locationId
   );
+ 
+   const subsectiondata=useSelector((state:any)=>state.productCatalog.cuisineData.data);
+   const deleteApicall=useSelector((state:any)=>state.productCatalog.deletesubsectionsuccess);
 
+
+  //  console.log("subsectiondata",subsectiondata);
+  // console.log("deleteApicall",deleteApicall);
+  
+   
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
   };
 
   const clearSelection = () => {
-    setSelectedOptions([]); // Clear local selection
+    setSelectedOptions([]); 
   };
 
   useEffect(() => {
-    if (resetSelection) {
-      resetSelection.current = clearSelection; // Assign the function to the ref
+    if (resetSelection ) {
+      resetSelection.current = clearSelection; 
     }
   }, [resetSelection]);
 
@@ -128,12 +138,12 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   useEffect(() => {
     dispatch(fetchDropDownRequest(payload));
-  }, []);
+  }, [dropDownType]);
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
     if (dropDownType) {
-      getdatafrosaga();
+      // getdatafrosaga();
     }
   };
 
@@ -204,6 +214,22 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, (option.name));
       trigger(name);  
     }
+
+    const viewdata={
+      locationId: locationid,
+    type: SubcategoryId && "SUB_CATEGORY",
+    parentId: SubcategoryId &&SubcategoryId,
+    }
+
+    if(SubcategoryId )
+    {
+      dispatch(fetchDropDownRequest(viewdata));
+    }
+   
+    
+
+
+    
     setSearchTerm("");
   };
 
@@ -227,9 +253,32 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
+    console.log("id",value)
+
     // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
-    // setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
-    dispatch(deleteDropDowRequest(dropDownType));
+    setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
+    const deletedItem={
+      id:value,
+      type:dropDownType
+    }
+
+    const viewdata={
+      locationId: locationid,
+    type: dropDownType,
+    parentId: SubcategoryId &&SubcategoryId,
+    }
+
+    if(deletedItem) {
+      dispatch(deleteDropDowRequest(deletedItem));
+
+      if(deleteApicall==="success"){
+        dispatch(fetchDropDownRequest(viewdata));
+      }
+    
+
+
+    }
+
   };
 
   // const handleBlur = () => {
@@ -238,6 +287,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   // value={type === "checkbox"
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
+  const [SubcategoryId,setSubCategoryId]=useState<string>("")
 
   const handleCheckboxChange = (option: Option) => {
     if (type == "checkbox") {
@@ -252,8 +302,66 @@ const DropDownList: React.FC<DropdownProps> = ({
         }
       });
     }
+    else if (type === "radio") {
+      setSelectedOptions([option]);
+      setValue(name, option.name);
+      trigger(name);
+    }
+    if(dropDownType==="CATEGORY")
+    {
+      setSubCategoryId(option.id);
+    }
+
   };
 
+  const handleNewItemAdd=()=>{
+    const newValue = NewItemref?.current?.value;
+   
+
+    const newItem={
+      locationId:locationid,
+      name:newValue,
+      type:dropDownType,
+      parentId: SubcategoryId &&SubcategoryId,
+
+      
+    }
+    setOptions([...(Array.isArray(initialOptions) ? initialOptions : []), newItem]);
+
+  
+        // handleSelect(newItem);
+        setSearchTerm("");
+        setAddNewButton(false);
+        const viewdata={
+          locationId: locationid,
+        type: dropDownType,
+        parentId: SubcategoryId &&SubcategoryId,
+        }
+        if(addNewButton && newItem)
+        {
+          dispatch(addDropDowRequest(newItem));
+          dispatch(fetchDropDownRequest(viewdata));
+        }
+
+ 
+    console.log("option-updated",options)
+
+
+  }
+  const [Loading,setLoading]=useState<boolean>();
+
+  useEffect(()=>{
+    if(!options)
+    {
+      setLoading(true);
+    }
+    else{
+      setLoading(false);
+    }
+
+  },[options])
+ 
+  
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -287,6 +395,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 onClick={() => {
                   onToggle();
                   setShowselectedOption(true);
+                  dispatch(fetchDropDownRequest(payload));
                 }}
                 alt="dropdown"
                 className="dropdownimageclosed"
@@ -297,6 +406,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 onClick={() => {
                   onToggle();
                   setShowselectedOption(false);
+                  dispatch(fetchDropDownRequest(payload));
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"
@@ -310,14 +420,19 @@ const DropDownList: React.FC<DropdownProps> = ({
         </div>
       </div>
 
-      {dropdownopen && (
+      {
+         dropdownopen && (
         <div className="dropdown-body">
           <div className="Dropdown-lists-and-edit">
             <ul
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {options?.length > 0 ? (
+
+              {
+                Loading ? <div  className="dropdown-no-options">Loading</div> :(
+                  <div>
+                    {!Loading && options?.length > 0 ? (
                 options?.map((option, index) => {
                   const isOptionSelected = options.some(
                     (opt) => opt?.id === option?.id
@@ -344,17 +459,19 @@ const DropDownList: React.FC<DropdownProps> = ({
                       <div>
                         {editList && (
                           <span
-                            className={`dropdown-option-delete ${
-                              isOptionSelected ? "disabled-delete" : ""
-                            }`}
-                            onClick={() => {
-                              if (!isOptionSelected) handledeletion(option.id);
-                            }}
-                            style={
-                              isOptionSelected
-                                ? { pointerEvents: "none", opacity: 0.5 }
-                                : {}
+                            className={`dropdown-option-delete `}
+                            // ${
+                            //   isOptionSelected ? "disabled-delete" : ""
+                            // }
+                            onClick={() => 
+                              handledeletion(option.id)
+                             
                             }
+                            // style={
+                            //   isOptionSelected
+                            //     ? { pointerEvents: "none" }
+                            //     : {}
+                            // }
                           >
                             -Delete
                           </span>
@@ -366,9 +483,13 @@ const DropDownList: React.FC<DropdownProps> = ({
               ) : (
                 <li className="dropdown-no-options">No options found</li>
               )}
+                  </div>
+                )
+              }
+              
             </ul>
             <div className="edititem">
-              {!editList && editValues && (
+              {options?.length >0 &&!editList && editValues && (
                 <p
                   className="editiconimage"
                   onMouseDown={handleOptionMouseDown}
@@ -396,7 +517,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                     />
                     <button
                       type="button"
-                      // onClick={handleNewItemAdd}
+                      onClick={ handleNewItemAdd}
                       className="dropdown-addnew-button"
                     >
                       Add
@@ -419,7 +540,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                     </p>
                   )}
                 </div>
-                {addNew && !addNewButton && (
+                {!Loading && addNew && !addNewButton && (
                   <button
                     className="dropdown-addbutton"
                     onClick={(e) => {
@@ -434,7 +555,10 @@ const DropDownList: React.FC<DropdownProps> = ({
             </div>
           }
         </div>
-      )}
+      )
+      }
+
+    
     </div>
   );
 };
