@@ -11,6 +11,7 @@ import LableComponent from "../LableComponent/LableComponent";
 import TooltipMsg from "../Tooltip/TooltipMsg";
 import info from "../../../assets/svg/info.svg";
 import { RootState } from "redux/rootReducer";
+import { State } from "sockjs-client";
 
 type MainFormType = {
   availabilityid: string[];
@@ -198,8 +199,16 @@ const Normalavail: React.FC<NormalavailProps> = ({
   );
 
   const orderTypess = useSelector(
-    (state: any) => state.auth?.restaurantDetails?.orderTypes
+    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
+
+
+  const orderTypes = useSelector(
+    (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+  );
+
+
+  console.log({orderTypes})
 
   const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
   const pickUpId = orderTypess?.find((item: any) => item.typeGroup === "P")?.id;
@@ -316,9 +325,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   console.log({ mainForm });
 
-  const orderTypes = useSelector(
-    (state: RootState) => state.auth?.restaurantDetails?.orderTypes
-  );
 
   const optionsselectthird = orderTypes
     ?.filter((item) => item.typeGroup === "T")
@@ -873,7 +879,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <div className="dayspickup">
                   {entry.showDay && (
                     <DaysCheckDin
-                      checkedItems={dineInDates1.map((elem)=>elem)}
+                      checkedItems={dineInDates1}
                       setCheckedItems={setDineInDates1}
                       index={index}
                       {...(availabilityid

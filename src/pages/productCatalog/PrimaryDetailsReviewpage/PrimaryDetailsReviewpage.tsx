@@ -464,6 +464,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
+  const kitchenStationData = useSelector(
+    (state: any) => state.productCatalog.kitchenStation
+  );
+
 useEffect(()=>{
   console.log({menuAddedSuccess})
 },[menuAddedSuccess])
@@ -485,9 +489,9 @@ useEffect(()=>{
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
 
-  const matchedKitchenStation = cuisineData?.filter((cuisine: any) =>
-    prizingDetail?.kitchenstation?.includes(cuisine.name)
-  );
+  const matchedKitchenStation = kitchenStationData?.find((kitchen : any) => kitchen.name === prizingDetail?.kitchenstation)
+
+  console.log({matchedKitchenStation})
 
   // const matchedBestPair = bestPairData?.find(
   //   (bestPair : any) => bestPair.name === primarydata?.bestPair
@@ -502,7 +506,7 @@ useEffect(()=>{
   const matchedCategoryId = matchedCategory?.id;
   const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
-  const kitchenStationId = matchedKitchenStation?.map((m: any) => m?.id);
+  const kitchenStationId = matchedKitchenStation?.id
 
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierName: item?.modifierName,
@@ -524,6 +528,8 @@ useEffect(()=>{
     thirdPartyDetails && thirdPartyDetails,
   ].filter(Boolean);
 
+  console.log({kitchenStationId})
+
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
@@ -531,7 +537,7 @@ useEffect(()=>{
 
   const menuPayload = {
     locationId: locationid,
-    itemId: editData ? editData[0].id : '',
+    itemId: editData ? editData[0]?.id : '',
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -551,7 +557,7 @@ useEffect(()=>{
     taxClassAssociation: primarydata?.taxFeeId || null,
     // masterItemCode: primarydata?.masterCode || null,
 
-    // kitchenStation: kitchenStationId || null,
+    kitchenStation: kitchenStationId || null,
     preparationTimeInHours:
       prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
     preparationTimeInMinutes:

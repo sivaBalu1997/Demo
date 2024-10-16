@@ -247,6 +247,8 @@ const PricingDetails = () => {
     (state: any) => state.productCatalog.kitchenStation
   );
 
+
+
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
