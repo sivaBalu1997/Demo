@@ -102,7 +102,6 @@ const Slider: React.FC<SliderProps> = ({
       (item: any) => item?.categoryId === dataFromRedux?.categoryId
     );
     
-    console.log("lll", removedItem);
     
     // Ensure removedItem exists and has itemResponseList
     if (removedItem && Array.isArray(removedItem?.itemResponseList)) {
@@ -127,11 +126,30 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const handleBinClick = () => {
-    const UpdatedeleteItem = data.filter(
-      (item: SideBarData) => item.id !== dataFromRedux[0].id
+    // const UpdatedeleteItem = data.filter(
+    //   (item: SideBarData) => item.id !== dataFromRedux[0].id
+    // );
+    // dispatch(storeMockDataRequest(UpdatedeleteItem));
+
+
+      const removedItem = menuData.find(
+      (item: any) => item?.categoryId === dataFromRedux?.categoryId
     );
-    dispatch(storeMockDataRequest(UpdatedeleteItem));
-    onclose();
+    
+    
+    // Ensure removedItem exists and has itemResponseList
+    if (removedItem && Array.isArray(removedItem?.itemResponseList)) {
+      // Find the final sub-item inside the itemResponseList array
+      const finalSubItem = removedItem.itemResponseList.find(
+        (subItem: any) => subItem?.itemId === data1[0].itemId
+      );
+      setApiPayload({
+        itemId:finalSubItem.itemId
+
+      })}
+    
+      setTrash(true)
+
   };
 
   const handleOnclose = () => {
@@ -196,7 +214,7 @@ const Slider: React.FC<SliderProps> = ({
                 <img
                   src={Bin}
                   alt="Delete"
-                  onClick={() => setTrash(true)}
+                  onClick={ handleBinClick}
                   className="BinImage"
                 />
                 <div className="DelTool">
@@ -216,8 +234,7 @@ const Slider: React.FC<SliderProps> = ({
           {trash && (
             <Trash
               onTrashclose={() => setTrash(false)}
-              handleDeleteItem={handleBinClick}
-              handleOnClose={handleOnclose}
+            
             />
           )}
         </div>

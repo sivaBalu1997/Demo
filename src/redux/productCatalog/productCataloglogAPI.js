@@ -131,10 +131,12 @@ export function updateMenuItemAttribute(data) {
   });
 }
 
-export function deleteMenuItem(data) {
+export function deleteMenuItem(payload) {
   return API({
     method: "delete",
-    url: `/merchants/item?id=${data}&option=ITEM`,
+    url: `/api/v1/menu-items/delete`,
+    data:payload
+
   });
 }
 
