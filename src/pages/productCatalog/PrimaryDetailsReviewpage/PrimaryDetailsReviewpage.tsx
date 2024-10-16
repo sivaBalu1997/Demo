@@ -215,6 +215,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
+  console.log("primarydata",primarydata.imageUrls);
+  
 
   const [error, setError] = useState<Status[]>([]);
 
@@ -275,10 +277,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const subsectiondata = useSelector(
     (state: any) => state.productCatalog.uploadFailures
   );
+  const subsectiondatamsg = useSelector(
+    (state: any) => state.productCatalog.imageUploadsuccessemsg
+  );
   const retrymsg = useSelector(
     (state: any) => state.productCatalog.retryFailure
   );
-  console.log("retrymsg", retrymsg);
+  console.log("subsectiondatamsg", subsectiondatamsg);
 
   const [failedImage, setfailedImage] = useState<imageType[]>();
 
@@ -287,10 +292,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }, [subsectiondata]);
 
   console.log("subsectiondata", subsectiondata);
+  const imageFailure=subsectiondata?.length > 0 &&
+  subsectiondata.map((img: any) => img?.file?.name);
+
   console.log(
-    "fileArraydata",
-    subsectiondata.length > 0 &&
-      subsectiondata.map((img: any) => img?.file?.name)
+    "fileArraydata true or false",imageFailure
+    
   );
 
   const Wholedata = {
@@ -521,7 +528,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const menuPayload = {
     locationId: locationid,
-    itemId: "",
+    itemId: subsectiondatamsg  && subsectiondatamsg,
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -608,7 +615,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // }
   };
 
-  // const handleDispatch = async () => {
+
+  
   //   checkAllImagesForErrors();
   //   const allUploaded =  uploadedimage.every(
   //     (img) => img && !hasImageError(img.file)
@@ -665,12 +673,33 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //   // }
   // };
 
+
+
+
+  useEffect(()=>{
+    if(subsectiondatamsg!=="")
+  {
+    dispatch(addMenuItemRequest({ menuPayload, locationid }));
+  }
+  },
+  [subsectiondatamsg])
+
   const handleSubmitItemDetails = () => {
     if (Wholedata.imageUrls.length === 0) {
       console.log("is  emty");
     } else {
       console.log("is not emty");
-      dispatch(startImageUpload(Wholedata.imageUrls));
+      console.log("images",primarydata.imageUrls);
+      
+      dispatch(startImageUpload(primarydata.imageUrls));
+      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      if(subsectiondatamsg==="success")
+      {
+
+             dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      }
+
+      
     }
   };
   const handleAddImage = (index: number) => {
@@ -719,8 +748,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Item Name"
                           textvalue={
-                            fetchedprimarydata.itemName
-                              ? fetchedprimarydata.itemName
+                           primarydata.itemName
+                              ? primarydata.itemName
                               : "-"
                           }
                         />
@@ -730,8 +759,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Dietary type"
                           textvalue={
-                            fetchedprimarydata.dietaryType
-                              ? fetchedprimarydata.dietaryType
+                            primarydata.dietaryType
+                              ?primarydata.dietaryType
                               : "-"
                           }
                         />
@@ -752,8 +781,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Category"
                           textvalue={
-                            fetchedprimarydata.category
-                              ? fetchedprimarydata.category
+                            primarydata.category
+                              ?  primarydata.category
                               : "-"
                           }
                         />
@@ -785,8 +814,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Tax Class Association"
                           textvalue={
-                            fetchedprimarydata.tax
-                              ? fetchedprimarydata.tax
+                            primarydata.tax
+                              ?  primarydata.tax
                               : "-"
                           }
                         />
@@ -798,8 +827,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Item code"
                           textvalue={
-                            fetchedprimarydata.itemCode
-                              ? fetchedprimarydata.itemCode
+                            primarydata.itemCode
+                              ? primarydata.itemCode
                               : "-"
                           }
                         />
@@ -809,8 +838,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={
-                            fetchedprimarydata.itemCode
-                              ? fetchedprimarydata.itemCode
+                            primarydata.itemCode
+                              ? primarydata.itemCode
                               : "-"
                           }
                         />
@@ -1105,7 +1134,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             // style={{disablesubmitbtn}}
-            onClick={handleDispatch}
+            onClick={handleSubmitItemDetails}
             disabled={disablesubmitbtn}
           >
             Submit for review

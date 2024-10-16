@@ -237,7 +237,7 @@ const PrimaryPage = () => {
     value: "",
   });
 
-  console.log({ portionInfo });
+  
 
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
