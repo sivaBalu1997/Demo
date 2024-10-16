@@ -4,7 +4,7 @@ import searchIcon from '../../../assets/images/searchicon.png';
 import NotFound from '../../../assets/svg/NotFound copy.svg';
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useSelector, useDispatch } from 'react-redux';
-import { storeMockDataFilteredRequest } from 'redux/productCatalog/productCatalogActions';
+import { searchForItem, storeMockDataFilteredRequest } from 'redux/productCatalog/productCatalogActions';
 
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState(''); // User input only
@@ -33,10 +33,26 @@ const SearchBox = () => {
   const menuData = useSelector((state) => state.productCatalog?.menuData);
 
   const handleSearch = (e) => {
+  
+   
+    dispatch(searchForItem({}));
     const value = e.target.value;
     setSearchTerm(value);
+    setDisplayTerm(value);
     filterOptions(value);
     setOptionSelected(false);
+    if (e.key === 'Backspace') {
+      if (optionSelected) {
+        // If an option was selected, reset searchTerm and displayTerm
+        setSearchTerm('');
+        setDisplayTerm('');
+        setOptionSelected(false); // Allow new input
+        setFilteredOptions([]);   // Clear suggestions
+      } else {
+        setOptionSelected(false); // Allow for changing selection
+      }
+    }
+   
   };
 
   const filterOptions = (input) => {
@@ -67,8 +83,24 @@ const SearchBox = () => {
 
   const handleOptionClick = (option) => {
     setSearchTerm(option);
-   
+    setDisplayTerm(option);
     setOptionSelected(true);
+    let result = null;
+    menuData.forEach((category) => {
+      category.itemResponseList.forEach((item) => {
+        if (item.itemName === option) {
+          result = {
+            categoryId: category.categoryId,
+            categoryName: category.categoryName,
+            itemResponseList: [item],
+          };
+        }
+      });
+    });
+
+    console.log("option",result);
+     dispatch(searchForItem(result));
+
     setFilteredOptions([]);
   };
 
@@ -98,9 +130,16 @@ const SearchBox = () => {
       }
     }
     
-    // Allow user to delete input
     if (e.key === 'Backspace') {
-      setOptionSelected(false); // Allow for changing selection
+      if (optionSelected) {
+        // If an option was selected, reset searchTerm and displayTerm
+        setSearchTerm('');
+        setDisplayTerm('');
+        setOptionSelected(false); // Allow new input
+        setFilteredOptions([]);   // Clear suggestions
+      } else {
+        setOptionSelected(false); // Allow for changing selection
+      }
     }
   };
 
@@ -109,7 +148,7 @@ const SearchBox = () => {
       <div>
         <input
           className={`${isExpanded ? "Header-Search1" : "Header-Search"}`}
-          value={searchTerm}  // Show the display term which includes the suggestion
+          value={`${displayTerm}`}  
           placeholder="Search"
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
@@ -123,7 +162,7 @@ const SearchBox = () => {
       </div>
 
       <div className={isExpanded ? "Search-Container-options1" : 'Search-Container-options'}>
-        {searchTerm && (
+        {displayTerm && (
           <ul>
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (

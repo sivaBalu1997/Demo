@@ -94,6 +94,7 @@ import {
   RETRY_IMAGE_FAILURE,
   DELETEDROPDOWN_FAILURE,
   DELETEDROPDOWN_SUCCESS,
+  SEARCH_FORITEM,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -179,6 +180,8 @@ const initialProductCatalogState = {
     itemId:"",
   },
 
+
+
   updateMenuItemLoading: false,
   updateMenuItemSuccess: false,
   updateMenuItemFailed: false,
@@ -204,6 +207,10 @@ export default function productCatalogReducer(
   return produce(state, (draft) => {
     switch (action.type) {
 
+      //search for item
+
+      // case SEARCH_FORITEM:
+      //   draft.SearcheItem=action.payload;
       //store menu
       case STORE_MENU_REQUEST:
         draft.menuData = []
@@ -758,6 +765,27 @@ export const imageUploadReducer = (state = imageuploadinitialstate, action) => {
   }
 };
 
+
+
+
+//Search for an item
+
+const initialSearchitem={
+  SearcheItem:{},
+
+}
+
+export const searchforamitemreducer = (state = initialSearchitem, action) => {
+  switch (action.type) {
+    case SEARCH_FORITEM:
+      return {
+        ...state,
+        SearcheItem: action?.payload,
+      };
+    default:
+      return state;
+  }
+};
 
 
 
