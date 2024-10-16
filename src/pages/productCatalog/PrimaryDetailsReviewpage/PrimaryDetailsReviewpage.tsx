@@ -8,7 +8,9 @@ import Step2 from "../../../components/productCatalog/Step2/Step2";
 import { Contextpagejs } from "../contextpage";
 import ReviewValues from "../../../components/productCatalog/ReviewValues/ReviewValues";
 import ImagePillsSelected from "../../../components/productCatalog/ImagePillsSelected/ImagePillsSelected";
-import Step3Review, { RootStateIC } from "../../../components/productCatalog/Step3Review/Step3Review";
+import Step3Review, {
+  RootStateIC,
+} from "../../../components/productCatalog/Step3Review/Step3Review";
 import PrimaryImageSelected from "../../../components/productCatalog/PrimaryImageSelected/PrimaryImageSelected";
 import {
   addMenuItemRequest,
@@ -16,13 +18,17 @@ import {
   cleanMenuItemSuccessMsg,
   retryImageUpload,
   startImageUpload,
-  uploadImage
-  
+  uploadImage,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
 import { useHistory } from "react-router-dom";
 import emptyfoodimg from "../../../assets/images/emptyfoodimg.png";
-import { categoryType, cuisine, dietarytype, mealType } from "assets/mockData/Moca_data";
+import {
+  categoryType,
+  cuisine,
+  dietarytype,
+  mealType,
+} from "assets/mockData/Moca_data";
 
 interface Image {
   id: string;
@@ -43,8 +49,6 @@ interface imageType {
   file: File;
   itemId: string;
 }
-
-
 
 interface PrimaryData {
   locationId: string;
@@ -69,7 +73,7 @@ interface PrimaryData {
   Ingredients: AllergenImage[];
   alcohol: string;
   barCode: string;
-  caloriePoint?: string;
+  coloriePoint?: string;
   selectedcolorie: string;
   portionSize?: string;
   selectedPortion: string;
@@ -77,13 +81,14 @@ interface PrimaryData {
   masterCode: string;
   imageUrls: ImageFile[];
   allergens: AllergenImage[];
+  popularItem: boolean;
 }
 interface RootState {
   primarypage: {
-      data: PrimaryData;
+    data: PrimaryData;
   };
   PricingDetailReducer: {
-      prizingData: PricingData;
+    prizingData: PricingData;
   };
 }
 interface PricingData {
@@ -96,8 +101,8 @@ interface MainForm {
 }
 
 interface PreparationTime {
-  hours:string;
-  minutes:string;
+  hours: string;
+  minutes: string;
 }
 interface NormalForm {
   availabilityid: string[];
@@ -164,18 +169,50 @@ interface ImageId {
   };
 }
 
+interface State {
+  auth: {
+    credentials: {
+      locationId: string;
+    };
+  };
+}
+
+interface Detail {
+  typeId: string;
+  typeName: string[]; 
+  price: number | string; 
+}
+
+interface PrizingDetail {
+  normalForm: {
+    dineInDetails: Record<string, Detail>;
+    pickupDetails: Record<string, Detail>;
+    deliveryDetails: Record<string, Detail>;
+  };
+}
 const PrimaryDetailsReviewpage: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const { isExpanded, setActiveCategory } = useContext(Contextpagejs);
 
-  // const uploadStatus = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.uploadStatus);
-  // const errorMessages = useSelector((state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages);
+  const uploadStatus = useSelector(
+    (state: { imageUpload: ImageUpload }) => state.imageUpload?.uploadStatus
+  );
+  const errorMessages = useSelector(
+    (state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages
+  );
+  const locationid = useSelector(
+    (state: State) => state.auth.credentials.locationId
+  );
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  const prizingDetail = useSelector((state : RootState) => state?.PricingDetailReducer?.prizingData);
-  const itemCustomizationData = useSelector((state : RootStateIC) => state.itemCustomizationsReducer1.itemData);
+  const prizingDetail = useSelector(
+    (state: RootState) => state?.PricingDetailReducer?.prizingData as any
+  );
+  const itemCustomizationData = useSelector(
+    (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
+  );
 
   const fetchedprimarydata = primarydata;
 
@@ -187,12 +224,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   // const [imageIdtosend, setimageIdtosend] = useState<string>("");
 
-  useEffect(()=>{
+  useEffect(() => {
     setError([]);
-  },[])
+  }, []);
 
   // useEffect(() => {
-  //   if (uploadStatus && uploadStatus.index !== undefined) {      
+  //   if (uploadStatus && uploadStatus.index !== undefined) {
 
   //     setError((prevErro) => {
   //       const existingErrorIndex = prevErro.findIndex(
@@ -235,69 +272,67 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const primarypagedetails = useSelector((state: RootState) => state);
   const MAX_IMAGES = 6;
-  const subsectiondata=useSelector((state:any)=>state.productCatalog.uploadFailures);
-  const retrymsg=useSelector((state:any)=>state.productCatalog.retryFailure);
-console.log("retrymsg",retrymsg);
+  const subsectiondata = useSelector(
+    (state: any) => state.productCatalog.uploadFailures
+  );
+  const retrymsg = useSelector(
+    (state: any) => state.productCatalog.retryFailure
+  );
+  console.log("retrymsg", retrymsg);
 
+  const [failedImage, setfailedImage] = useState<imageType[]>();
 
-  const [failedImage,setfailedImage]=useState<imageType[]>();
-
-  useEffect(()=>{
+  useEffect(() => {
     setfailedImage(subsectiondata);
-   
+  }, [subsectiondata]);
 
-  },[subsectiondata])
+  console.log("subsectiondata", subsectiondata);
+  console.log(
+    "fileArraydata",
+    subsectiondata.length > 0 &&
+      subsectiondata.map((img: any) => img?.file?.name)
+  );
 
-console.log("subsectiondata",subsectiondata)
-console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:any)=>img?.file?.name));
-
-  const Wholedata = 
-    {
-      locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
-      itemCode: primarypagedetails.primarypage.data.itemCode,
-      altName: "alt name",
-      type: "steamedVeg",
-      itemName: primarypagedetails.primarypage.data.itemName,
-      imageUrls: primarypagedetails.primarypage.data.imageUrls,
-      description: primarypagedetails.primarypage.data.description,
-      price: "12",
-      categoryId: primarypagedetails.primarypage.data.categoryId,
-      subCategoryId: "",
-      kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
-      taxFeeId: "",
-      ingredients: ["03348389-4b2a-4fca-affa-6ad4291b0241"],
-      modifiers: [],
-      availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
-      category: primarypagedetails.primarypage.data.category,
-      subCategory: primarypagedetails.primarypage.data.subCategory,
-      itemId: null,
-    }
-  ;
+  const Wholedata = {
+    locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
+    itemCode: primarypagedetails.primarypage.data.itemCode,
+    altName: "alt name",
+    type: "steamedVeg",
+    itemName: primarypagedetails.primarypage.data.itemName,
+    imageUrls: primarypagedetails.primarypage.data.imageUrls,
+    description: primarypagedetails.primarypage.data.description,
+    price: "12",
+    categoryId: primarypagedetails.primarypage.data.categoryId,
+    subCategoryId: "",
+    kitchenStations: ["3bdfa61-0e4f-48e6-b2bb-b4bd1d103950"],
+    taxFeeId: "",
+    ingredients: ["03348389-4b2a-4fca-affa-6ad4291b0241"],
+    modifiers: [],
+    availabilityId: ["b1492143-2c4c-4a4f-bc49-a3b99cbb1349"],
+    category: primarypagedetails.primarypage.data.category,
+    subCategory: primarypagedetails.primarypage.data.subCategory,
+    itemId: null,
+  };
   // console.log("the whole data",Wholedata)
 
-  
   const [uploadedimage, setUploadedimage] = useState<ImageFile[]>(
     fetchedprimarydata.imageUrls
   );
 
-
-
-
-  let [selectedImages,setselectedImages] = useState(uploadedimage || []);
+  let [selectedImages, setselectedImages] = useState(uploadedimage || []);
   // const selectedImages=uploadedimage || [];
-  
+
   // console.log("selectedImages", uploadedimage);
 
   // const imagesNotPresent = selectedImages.filter(selectedImage =>
   //   !subsectiondata.some((subsectionFile:imageType) => subsectionFile.file.name === selectedImage.file.name)
   // )
 
-// useEffect(()=>(
-  
- 
-//   setselectedImages(imagesNotPresent)
+  // useEffect(()=>(
 
-// ),[selectedImages,subsectiondata])
+  //   setselectedImages(imagesNotPresent)
+
+  // ),[selectedImages,subsectiondata])
 
   const emptySlots =
     selectedImages.length === 0
@@ -321,18 +356,16 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
     }
   };
 
-  const [disablesubmitbtn,setdisablesubmitbtn]=useState<boolean>(false)
+  const [disablesubmitbtn, setdisablesubmitbtn] = useState<boolean>(false);
   const [indextoreplace, setindextoreplace] = useState<Status[]>([]);
-  const allUploaded =  uploadedimage &&uploadedimage.every(
-    (img) => img && !hasImageError(img.file)
-  );
-  useEffect(()=>{
-    if(allUploaded)
-    {
-      setdisablesubmitbtn(false)
+  const allUploaded =
+    uploadedimage &&
+    uploadedimage.every((img) => img && !hasImageError(img.file));
+  useEffect(() => {
+    if (allUploaded) {
+      setdisablesubmitbtn(false);
     }
-
-  },[allUploaded])
+  }, [allUploaded]);
 
   useEffect(() => {
     checkAllImagesForErrors();
@@ -357,57 +390,226 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
         return;
       }
 
-     console.log("index",indexToReplace);
-   
+      console.log("index", indexToReplace);
+
       const newImage = {
-        file:filedata,
+        file: filedata,
         preview: URL.createObjectURL(filedata),
       };
       // setUploadedimage((prevImages) => {
       //   const updatedImages = [];
       //   updatedImages[indexToReplace] = newImage;
-       
+
       //   return updatedImages;
       // });
       setUploadedimage((prevImages) => {
-          const updatedImages = prevImages;
+        const updatedImages = prevImages;
         updatedImages[indexToReplace] = newImage;
-       
+
         return updatedImages;
       });
-      
-      console.log("slectdimg",selectedImages);
-      
+
+      console.log("slectdimg", selectedImages);
+
       // console.log("prevoiew",selectedImages[indexToReplace])
       // setRetriedImages([newImage])
       setRetriedImages([newImage]);
-      console.log("Retry images",retriedImages);
-      dispatch(retryImageUpload(newImage))
-    
-// setTimeout(() => {
-//   dispatch(startImageUpload(retriedImages))
-// }, 2000);
+      console.log("Retry images", retriedImages);
+      dispatch(retryImageUpload(newImage));
 
+      // setTimeout(() => {
+      //   dispatch(startImageUpload(retriedImages))
+      // }, 2000);
 
-      
+      dispatch(cleanMenuItemSuccessMsg());
 
-     
-      dispatch(cleanMenuItemSuccessMsg())
-    
-      
       // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
-      const allUploaded =  uploadedimage.every(
+      const allUploaded = uploadedimage.every(
         (img) => img && !hasImageError(img.file)
       );
       const allSuccess = error.every((data) => data.status === "success");
-      if(allUploaded && allSuccess)
-      {
-        setdisablesubmitbtn(false)
+      if (allUploaded && allSuccess) {
+        setdisablesubmitbtn(false);
       }
 
       setTimeout(() => checkAllImagesForErrors(), 0);
     }
+  };
+
+  const dietaryData = useSelector(
+    (state: any) => state.productCatalog.dietaryData.data
+  );
+
+  const cuisineData = useSelector(
+    (state: any) => state.productCatalog.cuisineData.data
+  );
+
+  const subCategoryData = useSelector(
+    (state: any) => state.productCatalog.subCategoryData.data
+  );
+
+  const categoryData = useSelector(
+    (state: any) => state.productCatalog.categoryData.data
+  );
+
+  const bestPairData = useSelector(
+    (state: any) => state.productCatalog.bestPairData.data
+  );
+
+  const menuAddedSuccess = useSelector((state:any) => state.productCatalog.menuDataSuccess)
+
+useEffect(()=>{
+  console.log({menuAddedSuccess})
+},[menuAddedSuccess])
+  //////////////
+
+  const matchedDietary = dietaryData?.filter((dietary: any) =>
+    primarydata?.dietaryType?.includes(dietary.name)
+  );
+
+  const matchedCuisine = cuisineData?.find(
+    (cuisine: any) => cuisine.name === primarydata?.cuisine
+  );
+
+  const matchedCategory = categoryData?.find(
+    (category: any) => category.name === primarydata?.category
+  );
+
+  const matchedSubCategory = subCategoryData?.find(
+    (subCategory: any) => subCategory.name === primarydata?.subCategory
+  );
+
+  const matchedKitchenStation = cuisineData?.filter((cuisine: any) =>
+    prizingDetail?.kitchenstation?.includes(cuisine.name)
+  );
+
+  // const matchedBestPair = bestPairData?.find(
+  //   (bestPair : any) => bestPair.name === primarydata?.bestPair
+  // );
+
+  const matchedBestPair = bestPairData?.filter((bestPair: any) =>
+    primarydata?.bestPair?.includes(bestPair?.name)
+  );
+
+  const matchedDietaryId = matchedDietary?.map((m: any) => m?.id);
+  const matchedCuisineId = matchedCuisine?.id;
+  const matchedCategoryId = matchedCategory?.id;
+  const matchedSubCategoryId = matchedSubCategory?.id;
+  const bestPairId = matchedBestPair?.map((m: any) => m?.id);
+  const kitchenStationId = matchedKitchenStation?.map((m: any) => m?.id);
+
+  const modifierData = itemCustomizationData?.map((item) => ({
+    modifierName: item?.modifierName,
+    maxCount: item?.maxSelection,
+    minCount: item?.minSelection,
+    noFreeCustomization: item?.freeCustomization,
+    options: item?.options,
+  }));
+
+  const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
+  const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
+  const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
+  const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+
+  const combinedDetails: Detail[] = [
+    dineInDetails && dineInDetails,
+    pickupDetails && pickupDetails,
+    deliveryDetails && deliveryDetails,
+    thirdPartyDetails && thirdPartyDetails,
+  ].filter(Boolean);
+
+  const normalDays = prizingDetail?.normalForm?.Normaldays;
+  const stringNormalDays = Array.isArray(normalDays)
+    ? normalDays.map(String)
+    : [];
+
+  const menuPayload = {
+    locationId: locationid,
+    itemId: "",
+    itemName: primarydata?.itemName || null,
+    itemCode: primarydata?.itemCode || null,
+    dietTypes: matchedDietaryId || null,
+    pairedItems: bestPairId || null,
+    barCode: primarydata?.barCode || null,
+    cuisine: matchedCuisineId || null,
+    // mealType: primarydata?.mealType || null,
+    categoryId: matchedCategoryId || null,
+    subCategoryId: matchedSubCategoryId || null,
+    isPopularItem: primarydata?.popularItem || null,
+    allergens: primarydata?.allergens || null,
+    description: primarydata?.description || null,
+    containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
+    ingredients: primarydata?.Ingredients || null,
+    calorieInfo: primarydata?.coloriePoint || null,
+    portionInfo: primarydata?.portionSize || null,
+    taxClassAssociation: primarydata?.taxFeeId || null,
+    // masterItemCode: primarydata?.masterCode || null,
+
+    // kitchenStation: kitchenStationId || null,
+    preparationTimeInHours:
+      prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
+    preparationTimeInMinutes:
+      prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
+    ignoreMasterKotPrint: false,
+    availabilityDays: stringNormalDays || null,
+    orderTypesWithRespectToAvailability: combinedDetails || null,
+
+    ...(modifierData.length > 1 && { modifiers: modifierData || null }),
+  };
+
+  console.log({ menuPayload });
+
+  const handleDispatch = async () => {
+    checkAllImagesForErrors();
+    const allUploaded = uploadedimage.every(
+      (img) => img && !hasImageError(img.file)
+    );
+
+    if (uploadStatus.id && error && error.length > 0) {
+      const allSuccess = error.every((data) => data.status === "success");
+      if (allUploaded && allSuccess) {
+        dispatch(cleanMenuItemSuccessMsg());
+
+        setTimeout(() => {
+          setTimeout(() => checkAllImagesForErrors(), 0);
+
+          if (allUploaded && allSuccess) {
+            history.push("/menuListing");
+          }
+        }, 5000);
+      } else {
+        alert("you can't go");
+        setdisablesubmitbtn(true);
+      }
+    }
+
+    // for(let [index,image] of indextoreplace.entries()){
+    //   console.log("image",image,"index",index)
+
+    // }
+    if (ImageId === "" || ImageId === undefined) {
+      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      // dispatch(addMockDataRequest(data));
+    } else {
+      setindextoreplace((prev) => {
+        const updatedIndexToReplace = [...prev];
+
+        // Dispatch after state is updated
+        updatedIndexToReplace.forEach((item) => {
+          dispatch(uploadImage(item.image, item.id, item.index));
+        });
+
+        return updatedIndexToReplace; // Ensure the state is updated with the new value
+      });
+    }
+    dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    // dispatch(addMockDataRequest(data));
+
+    // If needed, redirect or perform other actions here
+    // if (allUploaded) {
+    //   history.push("/menuListing");
+    // }
   };
 
   // const handleDispatch = async () => {
@@ -422,20 +624,17 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
   //       dispatch(cleanMenuItemSuccessMsg())
 
   //       setTimeout(() => {
-          
-  //         setTimeout(() => checkAllImagesForErrors(), 0);
- 
-  //         if(allUploaded && allSuccess){
 
+  //         setTimeout(() => checkAllImagesForErrors(), 0);
+
+  //         if(allUploaded && allSuccess){
 
   //           history.push("/menuListing");
 
   //         }
-          
-          
+
   //       }, 5000);
 
-       
   //     } else {
   //       alert("you can't go")
   //       setdisablesubmitbtn(true)
@@ -470,76 +669,36 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
   //   // }
   // };
 
-
-  const handleSubmitItemDetails=()=>{
-
-    if(Wholedata.imageUrls.length===0)
-    {
+  const handleSubmitItemDetails = () => {
+    if (Wholedata.imageUrls.length === 0) {
       console.log("is  emty");
-    }
-    else{
+    } else {
       console.log("is not emty");
-      dispatch(startImageUpload(Wholedata.imageUrls))
+      dispatch(startImageUpload(Wholedata.imageUrls));
     }
-
-
-  }
+  };
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
   };
 
-  const modifierData = itemCustomizationData.map((item) => ({
-    modifierName : item?.modifierName,
-    maxCount : item?.maxSelection,
-    minCount : item?.minSelection,
-    noFreeCustomization :item?.freeCustomization,
-    modifierOptions : item?.options
-  }))
-
-  const menuPayload = {
-    itemId : '1234',
-    itemName : primarydata?.itemName,
-    itemCode : primarydata?.itemCode,
-    dietarytype : primarydata?.dietaryType,
-    barCode : primarydata?.barCode,
-    cuisine : primarydata?.cuisine,
-    // isPopularItem : primarydata?.popularItem,
-    mealType : primarydata?.mealType,
-    categoryId : primarydata?.categoryId,
-    pairedItems : primarydata?.bestPair,
-    allergens : primarydata?.allergens,
-    description : primarydata?.description,
-    containsAlcohol : primarydata?.alcohol,
-    ingredients : primarydata?.Ingredients,
-    calorieInfo : primarydata?.caloriePoint,
-    partionInfo : primarydata?.portionSize,  // check the spelling
-    taxClassAssociation : primarydata?.taxFeeId,
-    masterItemCode : primarydata?.masterCode,
-
-    kitchenStation : prizingDetail?.mainForm?.KitchenStationId,
-    preparationTimeInHours : prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours,
-    preparationTimeInMinutes : prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes,
-    // ignoreMasterKotPrint : 
-    availabilityDays : prizingDetail?.mainForm?.normalForm?.Normaldays,
-    // orderTypesWithRespectToAvailability : 
-
-    modifiers : modifierData
-  }
-  const imagecheck=(imagevalue:ImageFile)=>{
-    const result=subsectiondata.some((image:imageType)=>image?.file?.name===imagevalue?.file?.name)
-    // console.log(subsectiondata.map((img:imageType)=>img?.file?.name));
-   
-    const matchingIndex = subsectiondata.findIndex((subsectionFile:imageType) =>
-      selectedImages.some(selectedImage => subsectionFile.file.name === selectedImage.file.name)
+  const imagecheck = (imagevalue: ImageFile) => {
+    const result = subsectiondata.some(
+      (image: imageType) => image?.file?.name === imagevalue?.file?.name
     );
-   
-    
+    // console.log(subsectiondata.map((img:imageType)=>img?.file?.name));
+
+    const matchingIndex = subsectiondata.findIndex(
+      (subsectionFile: imageType) =>
+        selectedImages.some(
+          (selectedImage) =>
+            subsectionFile.file.name === selectedImage.file.name
+        )
+    );
+
     // console.log("reult of image",imagesNotPresent);
-    
+
     return result;
-
-  }
-
+  };
 
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
@@ -605,26 +764,26 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
                       </div>
 
                       <div>
-                        <ReviewValues
+                        {/* <ReviewValues
                           label="Calorie Point"
                           textvalue={
-                            fetchedprimarydata.caloriePoint
-                              ? fetchedprimarydata.caloriePoint
+                            fetchedprimarydata.coloriePoint
+                              ? fetchedprimarydata.coloriePoint
                               : "-"
                           }
-                        />
+                        /> */}
                       </div>
-
+                      {/* 
                       <div>
                         <ReviewValues
                           label="Portion Size"
                           textvalue={
                             fetchedprimarydata.portionSize
-                              ? fetchedprimarydata.portionSize
+                              ? fetchedprimarydata.portionSize?.type
                               : "-"
                           }
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -683,7 +842,7 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
                         />
                       </div>
 
-                      <div>
+                      {/* <div>
                         <ReviewValues
                           label="Unit of measurement"
                           textvalue={
@@ -692,7 +851,7 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
                               : "-"
                           }
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -738,7 +897,6 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
                       <div className="images">
                         <ol>
                           {selectedImages && selectedImages[0] && (
-
                             <li>
                               {/* <img
                                 className="uploaded-image"
@@ -762,12 +920,12 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
                                         id={`imgadd-${0}`}
                                         accept="image/png, image/jpeg"
                                         onChange={(e) => handleRetry(e, 0)}
-                                        style={{ display: "none" }} 
+                                        style={{ display: "none" }}
                                       />
 
                                       <span
                                         className="errromsg"
-                                        onClick={() => handleAddImage(0)} 
+                                        onClick={() => handleAddImage(0)}
                                       >
                                         Retry
                                       </span>
@@ -798,7 +956,7 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
                             {selectedImages &&
                               selectedImages.slice(1).map((image, index) => (
                                 <li key={index + 1}>
-                                  {imagecheck(selectedImages[index+1]) ? (
+                                  {imagecheck(selectedImages[index + 1]) ? (
                                     <div className="imagewitherror">
                                       <img
                                         src={emptyfoodimg}
@@ -830,7 +988,7 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
                                   ) : (
                                     <img
                                       className="uploaded-image"
-                                      src={selectedImages[index+1].preview}
+                                      src={selectedImages[index + 1].preview}
                                       alt={`Preview of `}
                                     />
                                   )}
@@ -933,7 +1091,7 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
               <div className="part-two">
                 <Step2 />
                 <div className="verticalLine" />
-                
+
                 <Step3Review />
               </div>
             </div>
@@ -942,16 +1100,16 @@ console.log("fileArraydata",subsectiondata.length>0 && subsectiondata.map((img:a
         <div
           className={isExpanded ? "saveandnextreview" : "saveandnextreview1"}
         >
-          <button 
+          <button
             className={`${isExpanded ? "clearall1" : "clearall"}`}
-            onClick={()=>history.push('/menuListing')}
-            >
+            onClick={() => history.push("/menuListing")}
+          >
             Cancel
           </button>
           <button
             className="saveall"
             // style={{disablesubmitbtn}}
-            onClick={handleSubmitItemDetails}
+            onClick={handleDispatch}
             disabled={disablesubmitbtn}
           >
             Submit for review

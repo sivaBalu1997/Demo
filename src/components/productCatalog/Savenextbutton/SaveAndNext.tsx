@@ -204,6 +204,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       let PricingDetails = { ...mainForm };
 
       const formData = getFormData();
+      console.log({formData})
       const isinValid = await triggerValidation(formData);
 
       if (formData.kitchenstation) {

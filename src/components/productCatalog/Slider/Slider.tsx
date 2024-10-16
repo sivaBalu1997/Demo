@@ -10,7 +10,11 @@ import NavSlider from "../NavSlider/NavSlider";
 import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
-import { addMockDataHiddenRequest, selectedMockDataRequest, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import {
+  addMockDataHiddenRequest,
+  selectedMockDataRequest,
+  storeMockDataRequest,
+} from "redux/productCatalog/productCatalogActions";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useHistory } from "react-router-dom";
 
@@ -55,8 +59,9 @@ const Slider: React.FC<SliderProps> = ({
   sidebartext,
   SideBarData,
 }) => {
-  const dataFromRedux=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
-  console.log("data",dataFromRedux)
+  const dataFromRedux = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
 
   const history = useHistory();
   const { pen, setPen } = useContext(Contextpagejs);
@@ -80,7 +85,6 @@ const Slider: React.FC<SliderProps> = ({
     );
     setActive(item);
     dispatch(storeMockDataRequest(UpdatedeleteItem));
-
   };
 
   const handleEyeClick = () => {
@@ -90,30 +94,26 @@ const Slider: React.FC<SliderProps> = ({
     const removedItem = data.find(
       (item: SideBarData) => item.id === dataFromRedux[0].id
     );
-  
-    setEye(true);
-    dispatch(storeMockDataRequest(UpdatedeleteItem))
-    dispatch(addMockDataHiddenRequest(removedItem))
 
+    setEye(true);
+    dispatch(storeMockDataRequest(UpdatedeleteItem));
+    dispatch(addMockDataHiddenRequest(removedItem));
   };
 
   const handleBinClick = () => {
-   
     const UpdatedeleteItem = data.filter(
       (item: SideBarData) => item.id !== dataFromRedux[0].id
     );
     dispatch(storeMockDataRequest(UpdatedeleteItem));
-    onclose()
+    onclose();
   };
-  
 
   const handleOnclose = () => {
     // Logic for on close
   };
 
   const handlePen = () => {
-    history.push("/productCatalog/PrimaryDetails",{id:dataFromRedux[0].id});
-
+    history.push("/productCatalog/PrimaryDetails", { id: dataFromRedux[0].id });
 
     setPen(!pen);
   };

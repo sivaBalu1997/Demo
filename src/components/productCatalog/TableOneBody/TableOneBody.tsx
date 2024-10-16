@@ -55,9 +55,9 @@ interface ItemRowProps {
   object: Category; // Updated to use the Category type from the JSON
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
-  handleRowDragStart: (id: number, index: number) => void;
-  handleRowDragOver: (id: number, index: number) => void;
-  handleRowDragEnd: () => void;
+  handleRowDragStart: (e:React.DragEvent<HTMLDivElement>,id: string, index: string) => void;
+  handleRowDragOver: (id: string, index: string) => void;
+  handleRowDragEnd:  (id: string, index: string) => void;
   handleDragScroll: (
     e: React.DragEvent,
     ref1: React.RefObject<HTMLDivElement>,
@@ -89,9 +89,11 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 }) => {
 
   const dispatch = useDispatch();
+
   const baseImageUrl = process.env.REACT_APP_IMAGE_DOMAIN;
+
   const handleItemnameClick = (value: string) => {
-    console.log(value)
+    console.log({value})
     handlemodal(value);
   };
 
@@ -105,14 +107,14 @@ const TableOneBody: React.FC<ItemRowProps> = ({
           <td
             draggable
             onDragStart={(e) => {
-              handleRowDragStart(Number(object.categoryId), index);
+              handleRowDragStart(e,object.categoryId, index.toString());
               handleDragScroll(e, tableBodyRef1, tableBodyRef2);
             }}
             onDragOver={(e) => {
-              handleRowDragOver(Number(object.categoryId), index);
+              // handleRowDragOver(object.categoryId, index.toString());
               handleDragScroll(e, tableBodyRef1, tableBodyRef2);
             }}
-            onDragEnd={handleRowDragEnd}
+            onDragEnd={()=>handleRowDragEnd(object.categoryId, index.toString())}
             className={`itemdetails-row ${
               draggedRowIndex?.index === index ? "selected" : ""
             } ${index === 0 ? "removebottomrowline" : ""}`}

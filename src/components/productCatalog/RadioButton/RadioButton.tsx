@@ -15,6 +15,7 @@ interface RadioButtonGroupProps {
 }
 
 const RadioButton: React.FC<RadioButtonGroupProps> = ({ options, selectedValue, name, onChange, register }) => {
+  
   return (
     <div className="radio-button-group">
       {options.map((option) => (
@@ -25,7 +26,7 @@ const RadioButton: React.FC<RadioButtonGroupProps> = ({ options, selectedValue, 
               {...register(name)}
               value={option.value}
               checked={selectedValue === option.value}
-              onChange={() => onChange(option.value)} // Trigger change handler
+              onChange={() => onChange(option.value)} // Use onChange here
               className="radio-button-input"
             />
             {option.label}

@@ -82,6 +82,9 @@ import {
   STORE_MENU_REQUEST,
   STORE_MENU_SUCCESS,
   STORE_MENU_FAILURE,
+  KITCHEN_DATA_REQUEST,
+  KITCHEN_DATA_SUCCESS,
+  KITCHEN_DATA_FAILURE,
   PARTIAL_UPDATE_MENU_REQUEST,
   PARTIAL_UPDATE_MENU_SUCCESS,
   PARTIAL_UPDATE_MENU_FAILURE,
@@ -89,7 +92,10 @@ import {
   IMAGE_UPLOAD_SUCCESS,
   RETRY_IMAGE_SUCCESS,
   RETRY_IMAGE_FAILURE,
+  DELETEDROPDOWN_FAILURE,
+  DELETEDROPDOWN_SUCCESS,
 } from "../productCatalog/productCatalogConstants";
+import { kitchenStationSuccess } from "./productCatalogActions";
 
 const initialProductCatalogState = {
   menuData: [],
@@ -118,9 +124,16 @@ const initialProductCatalogState = {
   getBestPairDataLoading: false,
   getBestPairSuccess: false,
 
+  kitchenStation: [],
+  kitchenStationLoading: false,
+  kitchenStationSuccess: false,
+
   taxClass: [],
   getTaxClassLoading: false,
   getTaxClassSuccess: false,
+
+  deletesubsectionfailure:"",
+  deletesubsectionsuccess:"",
 
   ingredients: [],
   getIngredientsLoading: false,
@@ -197,7 +210,6 @@ export default function productCatalogReducer(
         draft.addMenuLoading = true
         break;
       case STORE_MENU_SUCCESS:
-        console.log(action.payload)
         draft.menuData = action.payload
         draft.menuDataSuccess = true
         draft.menuDataFailed = false
@@ -217,7 +229,6 @@ export default function productCatalogReducer(
         draft.getDietarySuccess = false;
         break;
       case DIET_DROPDOWN_LIST_SUCCESS:
-        console.log("form reducer",action.payload)
         draft.dietaryData = action.payload;
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
@@ -292,6 +303,22 @@ export default function productCatalogReducer(
         draft.getBestPairSuccess = false;
         break;
 
+      //kitchenStation
+      case KITCHEN_DATA_REQUEST:
+        draft.kitchenStation = []
+        draft.kitchenStationLoading = true
+      case KITCHEN_DATA_SUCCESS:
+        console.log('Form Reducer', action.payload)
+        draft.kitchenStation = action.payload
+        draft.kitchenStationLoading = false
+        draft.kitchenStationSuccess = true
+        break
+      case KITCHEN_DATA_FAILURE:
+        draft.kitchenStation = []
+        draft.kitchenStationLoading = false
+        draft.kitchenStationSuccess = false
+        break;
+        
       // Get Menu Category
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
@@ -344,6 +371,17 @@ export default function productCatalogReducer(
         break;
 
       // Get Ingredients
+      //dektesubsection
+      
+      case DELETEDROPDOWN_FAILURE:
+        draft.deletesubsectionfailure="failed"
+        break;
+      case  DELETEDROPDOWN_SUCCESS:
+          draft.deletesubsectionsuccess="success"
+          break;
+
+        
+
       case GET_INGR_REQUEST:
         draft.ingredients = [];
         draft.getSubCategoryLoading = true;

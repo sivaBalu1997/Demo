@@ -39,7 +39,7 @@ interface MenuObject {
   categoryName: string;
   subCategoryId: string;
   subCategoryName: string;
-  items: Item[];
+  itemResponseList: Item[];
 }
 
 interface ItemHeadingProps {
@@ -61,23 +61,31 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   object,
 }) => {
 
+
   const menuData = useSelector((state : RootState) => state.productCatalog?.menuData)
   return (
     <tr>
-      <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
-        <img
-          src={dots}
-          alt=""
-          draggable
-          onDragStart={(e) => onDragStart(e, index)}
-          onDragOver={onDragOver}
-          onDrop={(e) => onDrop(e, index)}
-          className="headingdrag"
-        />{" "}
-        {<span> {object.categoryName} </span>}
-      </td>
+
+      { object.itemResponseList.length>0 && object.categoryName!=="" &&
+            <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+            <img
+              src={dots}
+              alt=""
+              draggable
+              onDragStart={(e) => onDragStart(e, index)}
+              onDragOver={onDragOver}
+              onDrop={(e) => onDrop(e, index)}
+              className="headingdrag"
+            />{" "}
+            {<span> {object.categoryName!=="" &&object.categoryName} </span>}
+          </td>
+      }
+     
     </tr>
   );
 };
 
 export default RowHeading;
+
+
+
