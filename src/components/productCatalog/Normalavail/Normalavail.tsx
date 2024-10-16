@@ -198,7 +198,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   );
 
   const orderTypess = useSelector(
-    (state: any) => state.auth.selectedBranch?.orderTypes
+    (state: any) => state.auth?.restaurantDetails?.orderTypes
   );
 
   const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
@@ -247,8 +247,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
         },
       ],
     });
-
-    console.log({dinein})
 
   const [priceInfo, setPriceInfo] = useState<PriceInfo>({
     typeId: thirdpartyid,
@@ -316,11 +314,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
     })
   };
 
-  console.log({selectedthirdvalues})
   console.log({ mainForm });
 
   const orderTypes = useSelector(
-    (state: RootState) => state.auth.selectedBranch?.orderTypes
+    (state: RootState) => state.auth?.restaurantDetails?.orderTypes
   );
 
   const optionsselectthird = orderTypes
@@ -527,6 +524,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const addDayThirdfalse = () => {
     setShowDayThird(false);
   };
+
+  console.log({mainForm})
 
   useEffect(() => {
     if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
@@ -791,7 +790,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
       {/* DineIn Related */}
 
-      {dineInTypes && (
+      {(
         <div className="DineInRelated">
           <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
           <Toggle toggle={dinein} setToggle={setDineIn} />
@@ -800,7 +799,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
       {dinein ? (
         <>
-          {dineInTypes?.map((entry: any, index: any) => {
+          {dineinfields?.map((entry: any, index: any) => {
             const mealTypeKey = `DineInMealType_${index}`;
             const priceKey = `DineInPrice_${index}`;
             const DineInService = `DineInService_${index}`;

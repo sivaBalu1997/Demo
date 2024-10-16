@@ -308,7 +308,6 @@ export default function productCatalogReducer(
         draft.kitchenStation = []
         draft.kitchenStationLoading = true
       case KITCHEN_DATA_SUCCESS:
-        console.log('Form Reducer', action.payload)
         draft.kitchenStation = action.payload
         draft.kitchenStationLoading = false
         draft.kitchenStationSuccess = true

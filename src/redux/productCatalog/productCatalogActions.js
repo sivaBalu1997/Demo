@@ -506,7 +506,6 @@ export const kitchenStationRequest = (data) => ({
 })
 
 export const kitchenStationSuccess = (response) => {
-  console.log({response})
   return{
   type: KITCHEN_DATA_SUCCESS,
   payload: response,

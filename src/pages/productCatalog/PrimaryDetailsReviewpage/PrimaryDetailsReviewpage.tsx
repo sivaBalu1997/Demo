@@ -18,6 +18,7 @@ import {
   cleanMenuItemSuccessMsg,
   retryImageUpload,
   startImageUpload,
+  updateMenuItemRequest,
   uploadImage,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -459,6 +460,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const menuAddedSuccess = useSelector((state:any) => state.productCatalog.menuDataSuccess)
 
+  const editData = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+
 useEffect(()=>{
   console.log({menuAddedSuccess})
 },[menuAddedSuccess])
@@ -469,7 +474,7 @@ useEffect(()=>{
   );
 
   const matchedCuisine = cuisineData?.find(
-    (cuisine: any) => cuisine.name === primarydata?.cuisine
+    (cuisine: any) => cuisine?.name === primarydata?.cuisine
   );
 
   const matchedCategory = categoryData?.find(
@@ -526,7 +531,7 @@ useEffect(()=>{
 
   const menuPayload = {
     locationId: locationid,
-    itemId: "",
+    itemId: editData ? editData[0].id : '',
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -558,11 +563,13 @@ useEffect(()=>{
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
 
+  console.log({prizingDetail})
+
   console.log({ menuPayload });
 
   const handleDispatch = async () => {
     checkAllImagesForErrors();
-    const allUploaded = uploadedimage.every(
+    const allUploaded = uploadedimage?.every(
       (img) => img && !hasImageError(img.file)
     );
 
@@ -603,7 +610,13 @@ useEffect(()=>{
         return updatedIndexToReplace; // Ensure the state is updated with the new value
       });
     }
-    dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    if(editData.length > 0){
+      console.log('edit')
+      dispatch(updateMenuItemRequest({menuPayload, locationid}))
+    }else{
+      console.log('add')
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    }
     // dispatch(addMockDataRequest(data));
 
     // If needed, redirect or perform other actions here
@@ -611,6 +624,8 @@ useEffect(()=>{
     //   history.push("/menuListing");
     // }
   };
+
+  console.log({editData})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -694,9 +709,6 @@ useEffect(()=>{
             subsectionFile.file.name === selectedImage.file.name
         )
     );
-
-    // console.log("reult of image",imagesNotPresent);
-
     return result;
   };
 

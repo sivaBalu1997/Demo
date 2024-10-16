@@ -159,7 +159,6 @@ function* fetchDropdownDataSaga(action) {
           yield put(bestPairDataSuccess(response));
           break;
         case "KITCHEN_STATION":
-          console.log("hi from sagas");
           yield put(kitchenStationSuccess(response.data));
         default:
           throw new Error("Invalid type");
@@ -223,14 +222,11 @@ function* addSubsection(action) {
 //Delete subSection
 function* deleteSubSectionSaga(action) {
   try {
-    console.log("deleted data", action.payload);
     const response = yield call(deleteSubSection, action.payload);
 
     if (response) {
       yield put(deleteDropDownSuccess(response)); // add switch case
     } else {
-      console.log("delete failed");
-
       yield put(deleteDropDownFailure("failed"));
     }
   } catch (err) {
@@ -339,29 +335,21 @@ function* imageUploadSaga(action) {
 
   for (let i = 0; i < images.length; i++) {
     const image = images[i];
-    // console.log("images one by one",image)
-
     try {
       const response = yield call(uploadImageApi, image, itemId);
-
       if (i === 0 && response.itemId) {
         itemId = response.itemId;
       }
-
       yield put(imageUploadSuccess(itemId));
     } catch (error) {
       failureArray.push({
         file: image.file,
         itemId: itemId || "null",
       });
-
-      console.log("failureArray", failureArray);
       yield put(imageUploadFailure(image.name, itemId));
     }
   }
   if (failureArray.length > 0) {
-    console.log("error");
-
     yield put(storeUploadFailure(failureArray));
   }
 }

@@ -66,7 +66,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   return (
     <tr>
 
-      { object.itemResponseList.length>0 && object.categoryName!=="" &&
+      { object.itemResponseList?.length>0 && object.categoryName!=="" &&
             <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
             <img
               src={dots}

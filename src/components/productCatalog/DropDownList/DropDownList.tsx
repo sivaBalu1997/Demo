@@ -257,8 +257,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    console.log("id", value);
-
     // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
     setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
     const deletedItem = {
@@ -337,9 +335,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(addDropDowRequest(newItem));
       dispatch(fetchDropDownRequest(viewdata));
     }
-
-    console.log("option-updated", options);
   };
+
   const [Loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
@@ -349,8 +346,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       setLoading(false);
     }
   }, [options]);
-
-  console.log({options})
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>

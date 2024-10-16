@@ -20,8 +20,8 @@ const SearchBox = () => {
   const { isExpanded } = useContext(Contextpagejs);
 
   useEffect(() => {
-    const itemNames = menuData.flatMap(item => item.itemResponseList)
-      .map(item => item.itemName);
+    const itemNames = menuData?.flatMap(item => item?.itemResponseList)
+      .map(item => item?.itemName);
 
     setOrgData(itemNames); // Set original data when it is available
   }, [data]);
