@@ -528,7 +528,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const menuPayload = {
     locationId: locationid,
-    itemId: subsectiondatamsg  && subsectiondatamsg,
+    itemId: subsectiondatamsg? subsectiondatamsg:"",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -548,7 +548,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     taxClassAssociation: primarydata?.taxFeeId || null,
     // masterItemCode: primarydata?.masterCode || null,
 
-    // kitchenStation: kitchenStationId || null,
+    kitchenStation: kitchenStationId || null,
     preparationTimeInHours:
       prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
     preparationTimeInMinutes:
@@ -677,28 +677,33 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
 
   useEffect(()=>{
-    if(subsectiondatamsg!=="")
+    if( primarydata?.imageUrls?.length>0 && subsectiondatamsg!=="")
   {
     dispatch(addMenuItemRequest({ menuPayload, locationid }));
   }
+ 
+ 
   },
   [subsectiondatamsg])
 
   const handleSubmitItemDetails = () => {
-    if (Wholedata.imageUrls.length === 0) {
+    if (primarydata?.imageUrls?.length === 0) {
       console.log("is  emty");
+      console.log("images",primarydata?.imageUrls?.length);
+       dispatch(addMenuItemRequest({ menuPayload, locationid }));
     } else {
       console.log("is not emty");
-      console.log("images",primarydata.imageUrls);
-      
-      dispatch(startImageUpload(primarydata.imageUrls));
-      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
-      if(subsectiondatamsg==="success")
-      {
-
-             dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      console.log("images",primarydata?.imageUrls?.length);
+      if(primarydata?.imageUrls?.length===0){
+        dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    
       }
-
+      else{
+        dispatch(startImageUpload(primarydata?.imageUrls));
+      }
+      
+      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
+       
       
     }
   };
