@@ -37,6 +37,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   };
 
   const message=useSelector((state:any)=>state?.getItemCodeReducer?.itemCode?.data?.message)
+
   return (
     <div>
       <div className="input-and-spantext">

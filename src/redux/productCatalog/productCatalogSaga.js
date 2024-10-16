@@ -90,8 +90,7 @@ import {
   addSubsectionApi,
   apiUpdateMenu,
   deleteSubSection,
-  imageUploadingApi
-  
+  imageUploadingApi,
 } from "../productCatalog/productCataloglogAPI";
 
 import {
@@ -126,45 +125,43 @@ import {
   RETRY_IMAGE_UPLOAD,
 } from "./productCatalogConstants";
 // import { log } from "console";
- 
 
 function* fetchMenuDataSaga(action) {
-  try{
-    const response = yield call(getMenuDataApi, action.payload)
-    if(response.status === 200){
-      yield put(getMenuSuccess(response.data))
-    }else {
-      yield put(getMenuFailure({message : 'Please try again'}))
+  try {
+    const response = yield call(getMenuDataApi, action.payload);
+    if (response.status === 200) {
+      yield put(getMenuSuccess(response.data));
+    } else {
+      yield put(getMenuFailure({ message: "Please try again" }));
     }
-  } catch (err){
-    yield put(getMenuFailure({message : 'Please try again'}))
+  } catch (err) {
+    yield put(getMenuFailure({ message: "Please try again" }));
   }
 }
 
-function* fetchDropdownDataSaga(action) {  
+function* fetchDropdownDataSaga(action) {
   try {
     // Pass the entire action.payload to getSubSectionData
     const response = yield call(getSubSectionData, action.payload);
 
     if (response) {
       switch (action.payload.type) {
-        case 'DIET':
-          yield put(dietdatasuccess(response));         
+        case "DIET":
+          yield put(dietdatasuccess(response));
           break;
-        case 'CUISINES':
+        case "CUISINES":
           yield put(cuisineDataSuccess(response));
           break;
-        case 'CATEGORY':
+        case "CATEGORY":
           yield put(catogoryDataSuccess(response));
           break;
-        case 'SUB_CATEGORY':
+        case "SUB_CATEGORY":
           yield put(subCategoryDataSuccess(response));
           break;
-        case 'BEST_PAIRED_ITEMS':
+        case "BEST_PAIRED_ITEMS":
           yield put(bestPairDataSuccess(response));
           break;
-        case 'KITCHEN_STATION':
-          console.log('hi from sagas')
+        case "KITCHEN_STATION":
           yield put(kitchenStationSuccess(response.data));
         default:
           throw new Error("Invalid type");
@@ -181,54 +178,62 @@ function* addSubsection(action) {
   // const { dropDownType } = action.payload;
   try {
     const response = yield call(addSubsectionApi, action.payload);
-  
+
     if (response.status === 200) {
       switch (action.payload.type) {
-        case 'dietary':         
-          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
+        case "dietary":
+          yield put({
+            type: FETCHDROPDOWN_REQUEST,
+            payload: action.payload.type,
+          });
           break;
-        case 'cuisine':
-          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
+        case "cuisine":
+          yield put({
+            type: FETCHDROPDOWN_REQUEST,
+            payload: action.payload.type,
+          });
           break;
-        case 'category':
-          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
+        case "category":
+          yield put({
+            type: FETCHDROPDOWN_REQUEST,
+            payload: action.payload.type,
+          });
           break;
-        case 'subCategory':
-          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
+        case "subCategory":
+          yield put({
+            type: FETCHDROPDOWN_REQUEST,
+            payload: action.payload.type,
+          });
           break;
-        case 'bestPair':
-          yield put({ type: FETCHDROPDOWN_REQUEST, payload:action.payload.type });
+        case "bestPair":
+          yield put({
+            type: FETCHDROPDOWN_REQUEST,
+            payload: action.payload.type,
+          });
           break;
         default:
-          throw new Error('Invalid type');
+          throw new Error("Invalid type");
       }
     } else {
-      yield put(addDropDownFailure({ message: 'Please try again' }));
+      yield put(addDropDownFailure({ message: "Please try again" }));
     }
   } catch (err) {
-    yield put(addDropDownFailure({ message: 'Please try again' }));
+    yield put(addDropDownFailure({ message: "Please try again" }));
   }
 }
- 
-
-
 
 //Delete subSection
 function* deleteSubSectionSaga(action) {
   try {
-  
-    console.log("deleted data",action.payload)
     const response = yield call(deleteSubSection, action.payload);
-  
+
     if (response) {
-      yield put(deleteDropDownSuccess(response)) // add switch case
+      yield put(deleteDropDownSuccess(response)); // add switch case
     } else {
-      console.log("delete failed");
-      
-      yield put(deleteDropDownFailure("failed"))
+      yield put(deleteDropDownFailure("failed"));
     }
   } catch (err) {
-    yield put(deleteDropDownFailure("failed"))
+    yield put(deleteDropDownFailure("failed"));
   }
 }
 
@@ -339,7 +344,7 @@ const convertImageToBinaryString = (imageFile) => {
       reject(new Error("Image conversion failed"));
     };
 
-    reader.readAsDataURL(imageFile); 
+    reader.readAsDataURL(imageFile);
   });
 };
 function* imageUploadSaga(action) {
@@ -417,38 +422,30 @@ function* imageUploadSaga(action) {
 
 export const uploadImageApi = async (image, itemId) => {
   const formData = new FormData();
-  const binaryString = await convertImageToBinaryString(image.file)
+  const binaryString = await convertImageToBinaryString(image.file);
   // console.log("blog image",binaryString);
-  
-  formData.append('image', image.file);
-  formData.append('itemId', itemId);
+
+  formData.append("image", image.file);
+  formData.append("itemId", itemId);
   return await imageUploadingApi(formData);
 };
 
 
 function* retryImage(action) {
-  const image = action.payload;  
-  let itemId = null;  
-    try {
-      const response = yield call(uploadImageApi, image, itemId);
-      
-      if (response.itemId) {
-        itemId = response.itemId;
-      }
+  const image = action.payload;
+  let itemId = null;
+  try {
+    const response = yield call(uploadImageApi, image, itemId);
 
-      yield put(retryimageUploadSuccess(itemId));
-      
-    } catch (error) {
-      yield put(retryimageUploadFailure(image.file.name, itemId));
+    if (response.itemId) {
+      itemId = response.itemId;
     }
+
+    yield put(retryimageUploadSuccess(itemId));
+  } catch (error) {
+    yield put(retryimageUploadFailure(image.file.name, itemId));
   }
-
-
-
-
-
-
-
+}
 
 function* updateMenuItemSaga(action) {
   try {
@@ -524,27 +521,21 @@ function* getPopularItemSaga(action) {
 
 function* partialUpdateMenuSaga(action) {
   try {
-  
-    const updatedMenu = yield call(apiUpdateMenu,action.payload);
-    yield put(partialUpdateMenuSuccess(updatedMenu));  
+    const updatedMenu = yield call(apiUpdateMenu, action.payload);
+    yield put(partialUpdateMenuSuccess(updatedMenu));
   } catch (error) {
-    yield put(partialUpdateMenuFailure(error.message));  
+    yield put(partialUpdateMenuFailure(error.message));
   }
 }
-
-
-
-
 
 export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(STORE_MENU_REQUEST, fetchMenuDataSaga);
 
   yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
-  yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga)
-  yield takeLatest(ADDDROPDOWN_REQUEST, addSubsection)
+  yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga);
+  yield takeLatest(ADDDROPDOWN_REQUEST, addSubsection);
 
- 
   // yield takeLatest(GET_MENU_SUB_CATEGORY_REQUEST, getSubCategorySaga);
   yield takeLatest(GET_TAG_CLASS_REQUEST, getTagClassSaga);
   yield takeLatest(GET_INGR_REQUEST, getIngredientsSaga);

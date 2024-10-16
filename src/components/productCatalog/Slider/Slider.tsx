@@ -59,6 +59,7 @@ const Slider: React.FC<SliderProps> = ({
   sidebartext,
   SideBarData,
 }) => {
+  
   const dataFromRedux = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -114,7 +115,6 @@ const Slider: React.FC<SliderProps> = ({
 
   const handlePen = () => {
     history.push("/productCatalog/PrimaryDetails", { id: dataFromRedux[0].id });
-
     setPen(!pen);
   };
 

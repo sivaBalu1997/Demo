@@ -236,7 +236,6 @@ export default function productCatalogReducer(
         draft.getDietarySuccess = false;
         break;
       case DIET_DROPDOWN_LIST_SUCCESS:
-        console.log("form reducer", action.payload);
         draft.dietaryData = action.payload;
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
@@ -316,9 +315,10 @@ export default function productCatalogReducer(
         draft.kitchenStation = [];
         draft.kitchenStationLoading = true;
       case KITCHEN_DATA_SUCCESS:
-        draft.kitchenStation = action.payload;
-        draft.kitchenStationLoading = false;
-        draft.kitchenStationSuccess = true;
+        draft.kitchenStation = action.payload
+        draft.kitchenStationLoading = false
+        draft.kitchenStationSuccess = true
+        break
       case KITCHEN_DATA_FAILURE:
         draft.kitchenStation = [];
         draft.kitchenStationLoading = false;

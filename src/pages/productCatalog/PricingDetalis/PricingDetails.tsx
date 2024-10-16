@@ -63,14 +63,13 @@ type MainFormType = {
 };
 
 type DineInField = {
-  DineInId?: string,
+  DineInId?: string;
   DineInPrice: string | string[];
   DineInMealType: string | string[];
- 
 };
 
 type DineinFieldSpecial = {
-  DineInId:string,
+  DineInId: string;
   DineInPrice: string | string[];
   DineInMealType: string | string[];
   DineInService: string | string[];
@@ -94,8 +93,8 @@ type MainFormSpecial = {
   form1: FormState;
   dineinfields: DineinFieldSpecial[];
   specialcheck: number[];
-  fromDate: string | Date | undefined; 
-  toDate: string | Date | undefined; 
+  fromDate: string | Date | undefined;
+  toDate: string | Date | undefined;
   selectedValuespickup: string[];
   selectedValuesdelivery: string[];
   Swiggy: string[];
@@ -140,9 +139,9 @@ interface MainForm {
   KitchenStationId: string;
   normalForm?: any;
   specialForm?: any;
-  resetInventory:boolean;
-  nextAvailable:boolean;
-  printKot:boolean
+  resetInventory: boolean;
+  nextAvailable: boolean;
+  printKot: boolean;
 }
 
 interface PricingDetailsFormData {
@@ -164,7 +163,6 @@ interface StateData {
     availability: [];
   };
 }
-
 
 const PricingDetails = () => {
   const kitchenDetail = useRef<(() => void) | null>(null);
@@ -240,18 +238,23 @@ const PricingDetails = () => {
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
-  
+
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
 
-  const kitchenStationData = useSelector((state: any) => state.productCatalog.kitchenStation.data)
+  const kitchenStationData = useSelector(
+    (state: any) => state.productCatalog.kitchenStation
+  );
+
+
 
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });
+
   const history = useHistory();
   const [selectedValues2, setSelectedValues2] = useState<string[]>([]);
 
@@ -266,8 +269,8 @@ const PricingDetails = () => {
       Swiggymealtype: "",
       Zomato: "",
       Zomatomealtype: "",
-      Inventory1: "", // Add default value
-      Inventory2: "", // Add default value
+      Inventory1: "",
+      Inventory2: "",
     },
     dineinfields: [],
     specialcheck: [],
@@ -280,10 +283,10 @@ const PricingDetails = () => {
     Availabilityid: [],
   });
 
-  const[resetInventory,setResetInventory]=useState(false)
-  const[nextAvailable,setNextAvailable]=useState(false)
-  const[printKot,setPrintKot]=useState(false)
-  
+  const [resetInventory, setResetInventory] = useState(false);
+  const [nextAvailable, setNextAvailable] = useState(false);
+  const [printKot, setPrintKot] = useState(false);
+
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const [selectedValue1, setSelectedValue1] = useState<string[]>([]);
@@ -355,18 +358,21 @@ const PricingDetails = () => {
       Inventory1: "",
       Inventory2: "",
     },
+
     kitchenstation: "",
+
     Preparationtime: {
       hours: "",
       minutes: "",
     },
+
     KitchenStationId: "",
-    normalForm: isOptionTrue ? mainFormState : undefined, 
+    normalForm: isOptionTrue ? mainFormState : undefined,
 
     specialForm: isOptionTrue ? undefined : mainFormSpecial,
-    resetInventory:resetInventory,
-    nextAvailable:nextAvailable,
-    printKot:printKot
+    resetInventory: resetInventory,
+    nextAvailable: nextAvailable,
+    printKot: printKot,
   };
 
   // const formData={
@@ -376,13 +382,12 @@ const PricingDetails = () => {
   useEffect(() => {
     if (prizingDetail) {
       setInventory(true);
-      setResetInventory(prizingDetail?.resetInventory)
-      setNextAvailable(prizingDetail?.nextAvailable)
-      setPrintKot(prizingDetail?.printKot)
+      setResetInventory(prizingDetail?.resetInventory);
+      setNextAvailable(prizingDetail?.nextAvailable);
+      setPrintKot(prizingDetail?.printKot);
 
-  
       // Prepare the kitchenstation array
-  
+
       // Reset form state
       reset({
         form: {
@@ -395,9 +400,9 @@ const PricingDetails = () => {
           minutes: prizingDetail.Preparationtime?.minutes || "",
         },
       });
-  
+
       // Set options for kitchenstation
-      setOptions1( prizingDetail.kitchenstation); 
+      setOptions1(prizingDetail.kitchenstation);
     }
   }, [prizingDetail, reset, setOptions1]);
 
@@ -424,37 +429,36 @@ const PricingDetails = () => {
     validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
   };
 
-  const orderTypes = useSelector((state : RootState) => state.auth.selectedBranch?.orderTypes)
-  const DineInId = orderTypes?.find(item => item.typeGroup === 'D')?.id;
-  const pickUpId = orderTypes?.find(item => item.typeGroup === 'P')?.id
-  const deliveryId = orderTypes?.find(item => item.typeGroup === 'S')?.id
-  const thirdpartyid = orderTypes?.find(item => item.typeGroup === 'T')?.id
-
+  const orderTypes = useSelector(
+    (state: RootState) => state.auth.selectedBranch?.orderTypes
+  );
+  const DineInId = orderTypes?.find((item) => item.typeGroup === "D")?.id;
+  const pickUpId = orderTypes?.find((item) => item.typeGroup === "P")?.id;
+  const deliveryId = orderTypes?.find((item) => item.typeGroup === "S")?.id;
+  const thirdpartyid = orderTypes?.find((item) => item.typeGroup === "T")?.id;
 
   const [dineinfields, setDineInFields] = useState<DineInField[]>([
     {
-      DineInId:DineInId,
+      DineInId: DineInId,
       DineInPrice: "",
       DineInMealType: [],
     },
   ]);
 
-  const dineInMapped = dineinfields.map((field : any) => ({
+  const dineInMapped = dineinfields.map((field: any) => ({
     typeId: field.DineInId,
     typeName: field.DineInMealType,
-    price: parseFloat(field?.DineInPrice) // Convert price to number if needed
+    price: parseFloat(field?.DineInPrice), // Convert price to number if needed
   }));
 
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
     {
-      DineInId:'',
+      DineInId: "",
       DineInPrice: "",
       DineInMealType: "",
       DineInService: "",
     },
   ]);
-
-
 
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
@@ -483,7 +487,7 @@ const PricingDetails = () => {
       //     isValid: false,
       //     errorMessage: "Service area should not be empty.",
       //   };
-      // } 
+      // }
       // else {
       //   errors[DineInService] = { isValid: true, errorMessage: "" };
       // }
@@ -500,7 +504,7 @@ const PricingDetails = () => {
 
     return errors;
   };
-  
+
   const validateDineInFields1 = (dineinfield1: DineinFieldSpecial[]) => {
     const errors: DropdownValidationState = {};
 
@@ -662,24 +666,17 @@ const PricingDetails = () => {
     });
   };
 
-  console.log(options1)
+  const handleInventoryCheck = (event: any) => {
+    setResetInventory(event.target.checked);
+  };
 
-  const handleInventoryCheck=(event:any)=>{
-    setResetInventory(event.target.checked); 
-  }
+  const handleNextAvailCheckbox = (event: any) => {
+    setNextAvailable(event.target.checked);
+  };
 
-  const handleNextAvailCheckbox=(event:any)=>{
-    setNextAvailable(event.target.checked); 
-
-
-
-  }
-  const handlePrintKOt=(event:any)=>{
-    setPrintKot(event.target.checked); 
-
-
-
-  }
+  const handlePrintKOt = (event: any) => {
+    setPrintKot(event.target.checked);
+  };
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
@@ -707,8 +704,8 @@ const PricingDetails = () => {
               <div className="D1kitchen">
                 <Dropdown
                   name="kitchenstation"
-                  options={cuisineData}
-                  type="checkbox"
+                  options={kitchenStationData}
+                  type="radio"
                   setOptions={setOptions1}
                   placeholder="Search for option"
                   register={register}
@@ -722,7 +719,7 @@ const PricingDetails = () => {
                   setDropdownOpen={setDropdownOpen}
                   dropdownopen={DropdownOpen.Kitchen}
                   onToggle={() => handleDropdownToggle("Kitchen")}
-                  dropDownType="CUISINES"
+                  dropDownType="KITCHEN_STATION"
                   resetSelection={kitchenDetail}
                 />
               </div>
@@ -750,7 +747,7 @@ const PricingDetails = () => {
                               /^(1[0-2]|[1-9])$/.test(value) ||
                               value === ""
                             ) {
-                              setValue("Preparationtime.hours", value);
+                              setValue("Preparationtime.hours", Number(value));
                             }
                           }}
                         />
@@ -787,7 +784,10 @@ const PricingDetails = () => {
                                 inputValue === "" ||
                                 /^(59|[0-5]?[0-9])$/.test(inputValue)
                               ) {
-                                setValue("Preparationtime.minutes", inputValue);
+                                setValue(
+                                  "Preparationtime.minutes",
+                                  Number(inputValue)
+                                );
                               }
                             }
                             // Optionally, trigger validation
@@ -811,7 +811,12 @@ const PricingDetails = () => {
             </div>
 
             <div className="Kitchen-checkbox">
-              <input type="checkbox" className="checkbox1-Kitchen" onChange={handlePrintKOt} checked={printKot} />
+              <input
+                type="checkbox"
+                className="checkbox1-Kitchen"
+                onChange={handlePrintKOt}
+                checked={printKot}
+              />
               <label className="Inventorycheck">
                 Don't print the item in Master KOT
               </label>
@@ -894,15 +899,24 @@ const PricingDetails = () => {
                   )}
                   <div className="Inventcheckbox">
                     <div className="checkboxI">
-                      <input type="checkbox" className="checkbox1-color"   onChange={handleInventoryCheck}   checked={resetInventory} 
- />
+                      <input
+                        type="checkbox"
+                        className="checkbox1-color"
+                        onChange={handleInventoryCheck}
+                        checked={resetInventory}
+                      />
                       <label className="InventoryHeadingII">
                         Reset inventory everyday
                       </label>
                     </div>
 
                     <div className="checkbox2">
-                      <input type="checkbox" className="checkbox1-color" onChange={handleNextAvailCheckbox} checked={nextAvailable}/>
+                      <input
+                        type="checkbox"
+                        className="checkbox1-color"
+                        onChange={handleNextAvailCheckbox}
+                        checked={nextAvailable}
+                      />
                       <label className="InventoryHeadingII">
                         Show next available time when maximum count is reached
                       </label>

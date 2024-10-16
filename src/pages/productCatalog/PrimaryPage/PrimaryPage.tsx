@@ -140,7 +140,7 @@ interface ImageFile {
   file: File;
   uploaded: boolean;
   failed: boolean;
-  preview: string; // To store the image preview URL
+  preview: string; 
 }
 interface LocationState {
   id: number;
@@ -157,13 +157,13 @@ interface PricingDetails {
 }
 
 interface CalorieInfo {
-  type: string; // or use a specific union type if you know the possible values
+  type: string; 
   value: string;
 }
 
 interface PortionInfo {
-  type: string; // The type can be "portion(count)" or "grams/ml"
-  value: string; // The numeric value for the portion size
+  type: string; 
+  value: string; 
 }
 
 interface Item {
@@ -331,7 +331,6 @@ const PrimaryPage = () => {
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
-
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
@@ -519,9 +518,7 @@ const PrimaryPage = () => {
         return;
       }
       setImages((prevImages) => {
-        const updatedImages = [...prevImages, ...fileArray];
-     
-       
+        const updatedImages = [...prevImages, ...fileArray];       
         const updatedImageUrls = updatedImages.map((image) => image);
          console.log("updatedImageUrls",updatedImageUrls);
         setValue("imageUrls", updatedImageUrls);
@@ -585,19 +582,19 @@ const PrimaryPage = () => {
     setValue("mealType", "");
     setValue("bestPair", "");
     setValue("description", "");
-    setValue("imageUrls", []); // Assuming this should be an empty array
-    setValue("alcohol", "no"); // If you want to keep a default value
+    setValue("imageUrls", []);
+    setValue("alcohol", "no"); 
     setValue("itemCode", "");
     setValue("barCode", "");
     setValue("category", "");
     setValue("categoryId", "");
     setValue("subCategory", "");
-    setValue("Ingredients", []); // Assuming this should be an empty array
-    setValue("allergens", []); // Assuming this should be an empty array
+    setValue("Ingredients", []);
+    setValue("allergens", []);
     setValue("coloriePoint", "");
-    setValue("selectedcolorie", "per100grams"); // If you want to keep a default value
+    setValue("selectedcolorie", "per100grams"); 
     setValue("portionSize", "");
-    setValue("selectedPortion", "Portion(count)"); // If you want to keep a default value
+    setValue("selectedPortion", "Portion(count)"); 
     setValue("tax", "");
     setValue("masterCode", "");
     if (resetSelectionRef.current) {
@@ -647,6 +644,37 @@ const PrimaryPage = () => {
   const hansleshwadd = () => {
     dispatch(addDropDowRequest(dataforadd));
   };
+
+  const dataFromRedux = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+
+  useEffect(() => {
+    if (dataFromRedux) {
+      setValue("itemName", dataFromRedux[0]?.itemName || null);
+      setValue("dietaryType", dataFromRedux[0]?.dietaryType || null);
+      setValue("cuisine", dataFromRedux[0]?.cuisine || null);
+      setValue("mealType", dataFromRedux[0]?.mealType || null);
+      setValue("bestPair", dataFromRedux[0]?.bestPair || null);
+      setValue("description", dataFromRedux[0]?.description || null);
+      setValue("imageUrls", dataFromRedux[0]?.imageUrls || null);
+      setValue("alcohol", dataFromRedux[0]?.alcohol || null);
+      setValue("itemCode", dataFromRedux[0]?.itemCode || null);
+      setValue("barCode", dataFromRedux[0]?.barCode || null);
+      setValue("category", dataFromRedux[0]?.category || null);
+      setValue("categoryId", dataFromRedux[0]?.categoryId || null);
+      setValue("subCategory", dataFromRedux[0]?.subCategory || null);
+      setValue("Ingredients", dataFromRedux[0]?.Ingredients || null);
+      setValue("allergens", dataFromRedux[0]?.allergens || null);
+      setValue("coloriePoint", dataFromRedux[0]?.coloriePoint || null);
+      setValue("selectedcolorie", dataFromRedux[0]?.selectedcolorie || null);
+      setValue("portionSize", dataFromRedux[0]?.portionSize || null);
+      setValue("selectedPortion", dataFromRedux[0]?.selectedPortion || null);
+      setValue("tax", dataFromRedux[0]?.tax || null);
+      setValue("masterCode", dataFromRedux[0]?.masterCode || null);
+    }
+  }, [dataFromRedux]);
+
 
   return (
     <div style={{ display: "flex" }}>
@@ -971,9 +999,9 @@ const PrimaryPage = () => {
                         <InputFieldComponent
                           name="itemCode"
                           onChange={(newValue) => {
-                            onChange(newValue); // Update form state
+                            onChange(newValue); 
                           }}
-                          value={value} // Ensure value is defined
+                          value={value} 
                           onBlur={() => {
                             if (value) {
                               dispatch(getItemCodeRequest(locationid, value));
@@ -1050,7 +1078,7 @@ const PrimaryPage = () => {
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);
-                          field?.onChange(e.target.checked); // Ensure form state updates
+                          field?.onChange(e.target.checked); 
                         }}
                       />
                     )}
@@ -1153,11 +1181,11 @@ const PrimaryPage = () => {
                         <InputFieldComponent
                           name="coloriePoint"
                           onChange={(e) => {
-                            handleInputChange(e); // Update the state when input changes
-                            onChange(e); // Also trigger form control
+                            handleInputChange(e); 
+                            onChange(e); 
                           }}
                           onBlur={onBlur}
-                          value={calorieInfo.value} // Bind value to the state
+                          value={calorieInfo.value} 
                           trigger={trigger}
                           placeholder="cal"
                         />
