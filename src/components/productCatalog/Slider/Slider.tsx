@@ -64,8 +64,6 @@ const Slider: React.FC<SliderProps> = ({
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
-  console.log({dataFromRedux})
-
   const history = useHistory();
   const { pen, setPen } = useContext(Contextpagejs);
   const dispatch = useDispatch();

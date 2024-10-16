@@ -528,8 +528,6 @@ useEffect(()=>{
     thirdPartyDetails && thirdPartyDetails,
   ].filter(Boolean);
 
-  console.log({kitchenStationId})
-
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
@@ -569,7 +567,7 @@ useEffect(()=>{
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
 
-  console.log({prizingDetail})
+  console.log("Primary",primarydata?.taxFeeId)
 
   console.log({ menuPayload });
 
@@ -617,10 +615,8 @@ useEffect(()=>{
       });
     }
     if(editData.length > 0){
-      console.log('edit')
       dispatch(updateMenuItemRequest({menuPayload, locationid}))
     }else{
-      console.log('add')
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
     // dispatch(addMockDataRequest(data));
@@ -630,8 +626,6 @@ useEffect(()=>{
     //   history.push("/menuListing");
     // }
   };
-
-  console.log({editData})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();

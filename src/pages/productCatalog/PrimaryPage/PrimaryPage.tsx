@@ -329,7 +329,6 @@ const PrimaryPage = () => {
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
-
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
