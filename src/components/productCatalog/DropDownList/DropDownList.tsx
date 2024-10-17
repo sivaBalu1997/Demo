@@ -156,7 +156,11 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const [SubcategoryId, setSubCategoryId]=useState<string>("")
-
+  const filteredOptions = Array.isArray(options)
+  ? options.filter((option) =>
+      option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
+    )
+  : [];
   useEffect(() => {
     const categoryValue = getValues("category");
     if (!categoryValue) {
@@ -177,12 +181,21 @@ const DropDownList: React.FC<DropdownProps> = ({
       setShowselectedOption(false);
     } else {
       setShowselectedOption(true);
-      // Optionally close the dropdown if the search term is empty
       if (dropdownopen) {
         onToggle(); // Close the dropdown
       }
     }
+
+   
+    console.log("filteredOptions",filteredOptions);
+    
+
+    setOptions(filteredOptions);
+
+
+
   };
+ 
 
   // useEffect(() => {
   //   const initialSelectedValue = getValues(name);
@@ -268,11 +281,8 @@ const DropDownList: React.FC<DropdownProps> = ({
     parentId: "",
   };
 
-  const filteredOptions = Array.isArray(initialOptions)
-    ? initialOptions.filter((option) =>
-        option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
-      )
-    : [];
+ 
+
   const handleNewItemAddition = () => {
     setAddNewButton((prevAddNew) => !prevAddNew);
   };
@@ -287,6 +297,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     const deletedItem = {
       id: value,
       type: dropDownType,
+      locationid:locationid
     };
 
     const viewdata = {
@@ -359,7 +370,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     };
     if (addNewButton && newItem) {
       dispatch(addDropDowRequest(newItem));
-      dispatch(fetchDropDownRequest(viewdata));
+      // dispatch(fetchDropDownRequest(viewdata));
     }
   };
 
@@ -466,11 +477,9 @@ const DropDownList: React.FC<DropdownProps> = ({
                 <div className="dropdown-no-options">Loading</div>
               ) : (
                 <div>
-                  {!Loading && options?.length > 0 ? (
-                    options?.map((option, index) => {
-                      const isOptionSelected = options.some(
-                        (opt) => opt?.id === option?.id
-                      );
+                  {!Loading && filteredOptions?.length > 0 ? (
+                    filteredOptions?.map((option, index) => {
+                     
 
                       return (
                         <div className="dropdown-option-list" key={index}>
