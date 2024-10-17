@@ -6,7 +6,6 @@ import Polygon1 from "../../../assets/images/Polygon 1.png";
 import Polygon2 from "../../../assets/images/Polygon 2.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteModifierRequest,
   getModifierRequest,
   itemCustomizationPost,
 } from "../../../redux/productCatalog/productCatalogActions";
@@ -75,8 +74,6 @@ const ItemCustomizations: React.FC = () => {
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
-
-  const deleteModifier = useSelector((state : any) => state.productCatalog?.deletedId)
 
   const availableServiceNames =
     availableService?.map((service) => service?.typeName) || [];
@@ -149,17 +146,11 @@ const ItemCustomizations: React.FC = () => {
     }
   }, [modifier]);
 
-  const editData = useSelector(
-    (state: any) => state?.selectedMockDataReducer?.data
-  );
-
   const [filteredModifications, setFilteredModifications] = useState<
     Modification[]
   >([]);
 
-  useEffect(()=>{
-    setFilteredModifications(editData[0]?.modifiers)
-  },[editData])
+  console.log({modifications})
 
   useEffect(() => {
     if (showModifiers === false) {
@@ -328,7 +319,6 @@ const ItemCustomizations: React.FC = () => {
     const newModifications = [...modifications];
     newModifications[modIndex].options.splice(optIndex, 1);
     setModifications(newModifications);
-    dispatch(deleteModifierRequest(optIndex))
   };
 
   const dispatch1 = () => {
