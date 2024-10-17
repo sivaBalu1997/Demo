@@ -19,9 +19,9 @@ const PricingSlider: any = ({  }) => {
 
   const [inputs, setInputs] = useState({
     Dinein1: data[0]?.orderTypes[0]?.price || [],
-    Pickup1: Array.isArray(data[0]?.orderTypes[1]?.price) 
-    ? data[0]?.orderTypes[0]?.price 
-    : [data[0]?.orderTypes[0]?.price], 
+    Pickup1: Array.isArray(data[0]?.orderTypes) 
+    ? data[0].orderTypes.map((elem: any) => elem.price) 
+    : [],
     Delivery1:data[0]?.orderTypes[0]?.price  || [],
   });
 
@@ -39,7 +39,9 @@ const PricingSlider: any = ({  }) => {
       labels: data[0]?.orderTypes?.length > 0
       ? [data[0]?.orderTypes[0].typeName]
       : [],
-       InputLabels: ["In-House", "Zomato", "Swiggy"],
+      InputLabels: data[0]?.orderTypes?.length > 0
+      ? data[0]?.orderTypes.map((elem: any) => elem.typeName)  // Directly use map result
+      : [],
       inputTypes: ["text", "text", "text"],
     },
   ];
@@ -48,7 +50,10 @@ const PricingSlider: any = ({  }) => {
     if (data && data[0]?.pricingdetails) {
       setInputs({
         Dinein1:data[0]?.orderTypes[0]?.price  || [],
-        Pickup1: data[0]?.orderTypes[0]?.price || [],
+        Pickup1: data[0]?.orderTypes?.length > 0 
+        ? data[0].orderTypes.map((elem: any) => elem.price) 
+        : [],
+      
         Delivery1: data[0]?.orderTypes[0]?.price  || [],
       });
     }
@@ -80,22 +85,20 @@ const PricingSlider: any = ({  }) => {
     setShowCompare(!showCompare);
   };
 
-  console.log(inputs.Pickup1)
   useEffect(() => {
     if (data && data[0]?.orderTypes) {
       setPatchedData((prevState: any) => ({
         ...prevState,
-        pricing: [
-       
-          {
-            orderTypeId: data[0]?.orderTypes[0]?.typeId ,
-            price: String(inputs.Pickup1 || data[0]?.orderTypes[0]?.price) 
-          },
-        
-        ],
+        pricing: Array.isArray(data[0]?.orderTypes)
+          ? data[0].orderTypes.map((elem: any, index: number) => ({
+              orderTypeId: elem.typeId, // Assign orderTypeId
+              price: String(inputs.Pickup1?.[index] || elem.price), // Assign price, fallback to elem.price
+            }))
+          : [],
       }));
     }
   }, [data, inputs, setPatchedData]);
+  
 
 
 
@@ -131,7 +134,7 @@ const PricingSlider: any = ({  }) => {
                   <div key={sub} className="OnSectionLabelInput">
                     <h3 className="OnSectionLabelInput-Heading">{label}</h3>
                     <div className="OnPremZomatoInhouseSwiggy">
-                      {elem.InputLabels?.map((inputlabels, idx) => (
+                      {elem.InputLabels?.map((inputlabels:any, idx:any) => (
                         <div
                           key={inputlabels}
                           className="OnPremZomatoInhouseSwiggyInput"

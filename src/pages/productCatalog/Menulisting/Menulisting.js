@@ -23,6 +23,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getMenuRequest,
   selectedMockDataRequest,
+  storeDataWithCategory,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
