@@ -95,6 +95,9 @@ import {
   DELETEDROPDOWN_SUCCESS,
   SEARCH_FORITEM,
   STORE_UPLOAD_SUCCESS,
+  DELETE_MODIFIER_REQUEST,
+  DELETE_MODIFIER_SUCCESS,
+  DELETE_MODIFIER_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -145,6 +148,10 @@ const initialProductCatalogState = {
   modifier: [],
   getModifierLoading: false,
   getModifierSuccess: false,
+
+  deletedId: [],
+  deletedIdLoading: false,
+  deleteIdFailure: false,
 
   //delete dropdown
   deleteDietarySuccess: false,
@@ -468,10 +475,12 @@ export default function productCatalogReducer(
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
         break;
+
       case UPLOAD_IMAGE_FAILURE:
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         break;
+
       case IMAGE_UPLOAD_SUCCESS:
         draft.itemId = action.payload;
         break;
@@ -481,15 +490,13 @@ export default function productCatalogReducer(
         draft.imageUpload = action.payload.statusmsg;
 
       case STORE_UPLOAD_SUCCESS:
-        draft.imageUploadsuccessemsg = action.payload;
+        draft.imageUploadsuccessemsg = true;
 
       case RETRY_IMAGE_SUCCESS:
         draft.retrySucess = action.payload;
         break;
 
       case RETRY_IMAGE_FAILURE:
-        console.log(" action.payload", action.payload);
-
         draft.retryFailure.imageName = action.payload.imageName;
         draft.retryFailure.itemId = action.payload.itemId;
 
@@ -635,7 +642,21 @@ export default function productCatalogReducer(
         draft.deleteSubCategoryFailure = true;
         draft.deleteSubCategoryLoading = false;
         break;
-
+      case DELETE_MODIFIER_REQUEST:
+        draft.deletedId = [];
+        draft.deleteIdFailure = false;
+        draft.deletedIdLoading = true;
+        break;
+      case DELETE_MODIFIER_SUCCESS:
+        draft.deletedId = [...draft.deletedId, action.payload];
+        draft.deleteIdFailure = false;
+        draft.deletedIdLoading = false;
+        break;
+      case DELETE_MODIFIER_FAILURE:
+        draft.deletedId = [];
+        draft.deleteIdFailure = false;
+        draft.deletedIdLoading = false;
+        break;
       default:
         break;
     }

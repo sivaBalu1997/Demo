@@ -59,9 +59,7 @@ import {
   storeUploadFailure,
   retryimageUploadSuccess,
   retryimageUploadFailure,
-  storeUploadSuccess
-
-
+  storeUploadSuccess,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -330,8 +328,6 @@ function* addMenuItemSaga(action) {
 //   }
 // }
 
-
-
 const convertImageToBinaryString = (imageFile) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -349,36 +345,31 @@ const convertImageToBinaryString = (imageFile) => {
 };
 function* imageUploadSaga(action) {
   const images = action.payload;
-  let itemId = ""; // Initialize itemId to an empty string
+  let itemId = ""; 
   const failureArray = [];
 
-  // Upload the first image without an itemId
   try {
     const firstImage = images[0];
-    
-    const response = yield call(uploadImageApi, firstImage, itemId); // itemId is empty here
+
+    const response = yield call(uploadImageApi, firstImage, itemId); 
 
     // console.log("First image uploaded, item ID:", response);
 
-    // Update itemId with the response from the first successful image upload
-    if (response.data && response.data.itemId
-      ) {
-      itemId = response.data.itemId
-      ;
+    if (response.data && response.data.imageId) {
+      itemId = response.data.imageId;
     }
 
     // Dispatch success action with the updated itemId
     yield put(imageUploadSuccess(itemId));
-
   } catch (error) {
     // Handle failure for the first image
     failureArray.push({
-      file: images[0]?.file,
-      itemId: '',  // No itemId available for the first image
+      file: images[0].file,
+      itemId: "", // No itemId available for the first image
     });
     console.log("Failed to upload the first image", failureArray);
-    yield put(imageUploadFailure(images[0].name, ''));
-    return; // Stop the saga if the first image fails
+    yield put(imageUploadFailure(images[0].name, ""));
+    return; 
   }
 
   // If the first image was successful, upload the remaining images with the itemId
@@ -393,12 +384,11 @@ function* imageUploadSaga(action) {
 
       // Dispatch success action
       yield put(imageUploadSuccess(itemId));
-
     } catch (error) {
       // Handle failure for remaining images
       failureArray.push({
         file: image.file,
-        itemId: itemId || '',  // Use the itemId from the first image's response
+        itemId: itemId || "", // Use the itemId from the first image's response
       });
 
       // console.log("Failed upload, failureArray:", failureArray);
@@ -408,19 +398,12 @@ function* imageUploadSaga(action) {
 
   // If there are failures, dispatch a failure action for all failed uploads
   if (failureArray.length > 0) {
-    // console.log("Error uploading some images");
-    yield put(storeUploadFailure(failureArray,"failed"));
-  }
-
-  else
-  {
-    console.log("success itemId",itemId);
-    
+    console.log("Error uploading some images");
+    yield put(storeUploadFailure(failureArray, "failed"));
+  } else {
     yield put(storeUploadSuccess(itemId));
   }
 }
-
-
 
 export const uploadImageApi = async (image, itemId) => {
   const formData = new FormData();
@@ -431,7 +414,6 @@ export const uploadImageApi = async (image, itemId) => {
   formData.append("itemId", itemId);
   return await imageUploadingApi(formData);
 };
-
 
 function* retryImage(action) {
   const image = action.payload;

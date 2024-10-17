@@ -18,6 +18,7 @@ import {
   cleanMenuItemSuccessMsg,
   retryImageUpload,
   startImageUpload,
+  updateMenuItemRequest,
   uploadImage,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -179,8 +180,8 @@ interface State {
 
 interface Detail {
   typeId: string;
-  typeName: string[]; // or string[][] if nested arrays are allowed
-  price: number | string; // Allow for both numbers and strings
+  typeName: string[];
+  price: number | string;
 }
 
 interface PrizingDetail {
@@ -215,8 +216,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
-  console.log("primarydata",primarydata.imageUrls);
-  
+  console.log("primarydata", primarydata.imageUrls);
 
   const [error, setError] = useState<Status[]>([]);
 
@@ -292,13 +292,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }, [subsectiondata]);
 
   console.log("subsectiondata", subsectiondata);
-  const imageFailure=subsectiondata?.length > 0 &&
-  subsectiondata.map((img: any) => img?.file?.name);
+  const imageFailure =
+    subsectiondata?.length > 0 &&
+    subsectiondata.map((img: any) => img?.file?.name);
 
-  console.log(
-    "fileArraydata true or false",imageFailure
-    
-  );
+  console.log("fileArraydata true or false", imageFailure);
 
   const Wholedata = {
     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -464,6 +462,21 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.bestPairData.data
   );
 
+  const menuAddedSuccess = useSelector(
+    (state: any) => state.productCatalog.menuDataSuccess
+  );
+
+  const deletedModifierId = useSelector(
+    (state: any) => state.productCatalog.deletedId
+  );
+
+  const editData = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+
+  const kitchenStationData = useSelector(
+    (state: any) => state.productCatalog.kitchenStation
+  );
   //////////////
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
@@ -482,8 +495,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
 
-  const matchedKitchenStation = cuisineData?.filter((cuisine: any) =>
-    prizingDetail?.kitchenstation?.includes(cuisine.name)
+  const matchedKitchenStation = kitchenStationData?.find(
+    (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
   );
 
   // const matchedBestPair = bestPairData?.find(
@@ -499,7 +512,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedCategoryId = matchedCategory?.id;
   const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
-  const kitchenStationId = matchedKitchenStation?.map((m: any) => m?.id);
+  const kitchenStationId = matchedKitchenStation?.id;
 
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierName: item?.modifierName,
@@ -528,7 +541,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const menuPayload = {
     locationId: locationid,
-    itemId: subsectiondatamsg ? subsectiondatamsg:"",
+    itemId: subsectiondatamsg ? subsectiondatamsg : "",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -560,7 +573,44 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
 
-  console.log({ modifierData });
+  const editPayload = {
+    itemId: editData[0]?.id,
+    locationId: locationid,
+    itemName: primarydata?.itemName || null,
+    itemCode: primarydata?.itemCode || null,
+    dietTypes: matchedDietaryId || null,
+    pairedItems: bestPairId || null,
+    barCode: primarydata?.barCode || null,
+    cuisine: matchedCuisineId || null,
+    categoryId: matchedCategoryId || null,
+    subCategoryId: matchedSubCategoryId || null,
+    isPopularItem: primarydata?.popularItem || null,
+    allergens: primarydata?.allergens || null,
+    description: primarydata?.description || null,
+    containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
+    ingredients: primarydata?.Ingredients || null,
+    calorieInfo: primarydata?.coloriePoint || null,
+    portionInfo: primarydata?.portionSize || null,
+    taxClassAssociation: primarydata?.taxFeeId || null,
+
+    kitchenStation: kitchenStationId || null,
+    preparationTimeInHours:
+      prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
+    preparationTimeInMinutes:
+      prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
+    ignoreMasterKotPrint: false,
+    availabilityDaysAdd: stringNormalDays || null,
+    orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
+
+    ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
+    isCategoryUpdated: false, //need to check
+    modifiersToRemove: deletedModifierId,
+    availabilityDaysRemove: editData[0]?.availabilityDays,
+    orderTypesWithRespectToAvailabilityToRemove:
+      editData[0]?.combinedDetails || null,
+  };
+
+  console.log({ editData });
   console.log({ menuPayload });
 
   const handleDispatch = async () => {
@@ -587,13 +637,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       }
     }
 
-    // for(let [index,image] of indextoreplace.entries()){
-    //   console.log("image",image,"index",index)
-
-    // }
     if (ImageId === "" || ImageId === undefined) {
-      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
-      // dispatch(addMockDataRequest(data));
     } else {
       setindextoreplace((prev) => {
         const updatedIndexToReplace = [...prev];
@@ -603,20 +647,16 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           dispatch(uploadImage(item.image, item.id, item.index));
         });
 
-        return updatedIndexToReplace; // Ensure the state is updated with the new value
+        return updatedIndexToReplace;
       });
     }
-    dispatch(addMenuItemRequest({ menuPayload, locationid }));
-    // dispatch(addMockDataRequest(data));
-
-    // If needed, redirect or perform other actions here
-    // if (allUploaded) {
-    //   history.push("/menuListing");
-    // }
+    if (editData.length > 0) {
+      dispatch(updateMenuItemRequest({ editPayload, locationid }));
+    } else {
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    }
   };
 
-
-  
   //   checkAllImagesForErrors();
   //   const allUploaded =  uploadedimage.every(
   //     (img) => img && !hasImageError(img.file)
@@ -673,40 +713,23 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   //   // }
   // };
 
-
-
-
-  useEffect(()=>{
-    if( primarydata?.imageUrls?.length>0 && subsectiondatamsg!=="")
-  {
-    dispatch(addMenuItemRequest({ menuPayload, locationid }));
-  }
- 
- 
-  },
-  [subsectiondatamsg])
+  useEffect(() => {
+    if (subsectiondatamsg) {
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    }
+  }, [subsectiondatamsg]);
 
   const handleSubmitItemDetails = () => {
-    if (primarydata?.imageUrls?.length === 0) {
-      console.log("is  emty");
-      console.log("images",primarydata?.imageUrls?.length);
-       dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    if (Wholedata?.imageUrls === null) {
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
     } else {
-      console.log("is not emty");
-      console.log("images",primarydata?.imageUrls?.length);
-      if(primarydata?.imageUrls?.length===0){
+      dispatch(startImageUpload(primarydata?.imageUrls));
+      if (subsectiondatamsg) {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
-    
       }
-      else{
-        dispatch(startImageUpload(primarydata?.imageUrls));
-      }
-      
-      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
-       
-      
     }
   };
+
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
   };
@@ -715,7 +738,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     const result = subsectiondata.some(
       (image: imageType) => image?.file?.name === imagevalue?.file?.name
     );
-    // console.log(subsectiondata.map((img:imageType)=>img?.file?.name));
 
     const matchingIndex = subsectiondata.findIndex(
       (subsectionFile: imageType) =>
@@ -753,9 +775,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Item Name"
                           textvalue={
-                           primarydata.itemName
-                              ? primarydata.itemName
-                              : "-"
+                            primarydata.itemName ? primarydata?.itemName : "-"
                           }
                         />
                       </div>
@@ -765,7 +785,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           label="Dietary type"
                           textvalue={
                             primarydata.dietaryType
-                              ?primarydata.dietaryType
+                              ? primarydata.dietaryType
                               : "-"
                           }
                         />
@@ -786,9 +806,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Category"
                           textvalue={
-                            primarydata.category
-                              ?  primarydata.category
-                              : "-"
+                            primarydata.category ? primarydata.category : "-"
                           }
                         />
                       </div>
@@ -818,11 +836,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       <div>
                         <ReviewValues
                           label="Tax Class Association"
-                          textvalue={
-                            primarydata.tax
-                              ?  primarydata.tax
-                              : "-"
-                          }
+                          textvalue={primarydata.tax ? primarydata.tax : "-"}
                         />
                       </div>
                     </div>
@@ -832,9 +846,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Item code"
                           textvalue={
-                            primarydata.itemCode
-                              ? primarydata.itemCode
-                              : "-"
+                            primarydata.itemCode ? primarydata.itemCode : "-"
                           }
                         />
                       </div>
@@ -843,9 +855,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={
-                            primarydata.itemCode
-                              ? primarydata.itemCode
-                              : "-"
+                            primarydata.itemCode ? primarydata.itemCode : "-"
                           }
                         />
                       </div>
