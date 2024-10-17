@@ -18,6 +18,7 @@ import {
   cleanMenuItemSuccessMsg,
   retryImageUpload,
   startImageUpload,
+  updateMenuItemRequest,
   uploadImage,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -179,8 +180,8 @@ interface State {
 
 interface Detail {
   typeId: string;
-  typeName: string[]; 
-  price: number | string; 
+  typeName: string[];
+  price: number | string;
 }
 
 interface PrizingDetail {
@@ -215,6 +216,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
+  console.log("primarydata", primarydata.imageUrls);
 
   const [error, setError] = useState<Status[]>([]);
 
@@ -275,10 +277,17 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const subsectiondata = useSelector(
     (state: any) => state.productCatalog.uploadFailures
   );
+  const subsectiondatamsg = useSelector(
+    (state: any) => state.productCatalog.imageUploadsuccessemsg
+  );
+  const UploadImageImageID = useSelector(
+    (state: any) => state.productCatalog.successImageId
+  );
+  
   const retrymsg = useSelector(
     (state: any) => state.productCatalog.retryFailure
   );
-  console.log("retrymsg", retrymsg);
+  console.log("subsectiondatamsg", subsectiondatamsg);
 
   const [failedImage, setfailedImage] = useState<imageType[]>();
 
@@ -287,11 +296,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   }, [subsectiondata]);
 
   console.log("subsectiondata", subsectiondata);
-  console.log(
-    "fileArraydata",
-    subsectiondata.length > 0 &&
-      subsectiondata.map((img: any) => img?.file?.name)
-  );
+  const imageFailure =
+    subsectiondata?.length > 0 &&
+    subsectiondata.map((img: any) => img?.file?.name);
+
+  console.log("fileArraydata true or false", imageFailure);
 
   const Wholedata = {
     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -457,11 +466,21 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.bestPairData.data
   );
 
-  const menuAddedSuccess = useSelector((state:any) => state.productCatalog.menuDataSuccess)
+  const menuAddedSuccess = useSelector(
+    (state: any) => state.productCatalog.menuDataSuccess
+  );
 
-useEffect(()=>{
-  console.log({menuAddedSuccess})
-},[menuAddedSuccess])
+  const deletedModifierId = useSelector(
+    (state: any) => state.productCatalog.deletedId
+  );
+
+  const editData = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+
+  const kitchenStationData = useSelector(
+    (state: any) => state.productCatalog.kitchenStation
+  );
   //////////////
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
@@ -480,8 +499,8 @@ useEffect(()=>{
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
 
-  const matchedKitchenStation = cuisineData?.filter((cuisine: any) =>
-    prizingDetail?.kitchenstation?.includes(cuisine.name)
+  const matchedKitchenStation = kitchenStationData?.find(
+    (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
   );
 
   // const matchedBestPair = bestPairData?.find(
@@ -497,7 +516,7 @@ useEffect(()=>{
   const matchedCategoryId = matchedCategory?.id;
   const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
-  const kitchenStationId = matchedKitchenStation?.map((m: any) => m?.id);
+  const kitchenStationId = matchedKitchenStation?.id;
 
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierName: item?.modifierName,
@@ -526,7 +545,7 @@ useEffect(()=>{
 
   const menuPayload = {
     locationId: locationid,
-    itemId: "",
+    itemId: UploadImageImageID ? UploadImageImageID : "",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -546,7 +565,7 @@ useEffect(()=>{
     taxClassAssociation: primarydata?.taxFeeId || null,
     // masterItemCode: primarydata?.masterCode || null,
 
-    // kitchenStation: kitchenStationId || null,
+    kitchenStation: kitchenStationId || null,
     preparationTimeInHours:
       prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
     preparationTimeInMinutes:
@@ -558,6 +577,44 @@ useEffect(()=>{
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
 
+  const editPayload = {
+    itemId: editData[0]?.id,
+    locationId: locationid,
+    itemName: primarydata?.itemName || null,
+    itemCode: primarydata?.itemCode || null,
+    dietTypes: matchedDietaryId || null,
+    pairedItems: bestPairId || null,
+    barCode: primarydata?.barCode || null,
+    cuisine: matchedCuisineId || null,
+    categoryId: matchedCategoryId || null,
+    subCategoryId: matchedSubCategoryId || null,
+    isPopularItem: primarydata?.popularItem || null,
+    allergens: primarydata?.allergens || null,
+    description: primarydata?.description || null,
+    containsAlcohol: primarydata?.alcohol === "yes" ? true : false,
+    ingredients: primarydata?.Ingredients || null,
+    calorieInfo: primarydata?.coloriePoint || null,
+    portionInfo: primarydata?.portionSize || null,
+    taxClassAssociation: primarydata?.taxFeeId || null,
+
+    kitchenStation: kitchenStationId || null,
+    preparationTimeInHours:
+      prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
+    preparationTimeInMinutes:
+      prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
+    ignoreMasterKotPrint: false,
+    availabilityDaysAdd: stringNormalDays || null,
+    orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
+
+    ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
+    isCategoryUpdated: false, //need to check
+    modifiersToRemove: deletedModifierId,
+    availabilityDaysRemove: editData[0]?.availabilityDays,
+    orderTypesWithRespectToAvailabilityToRemove:
+      editData[0]?.combinedDetails || null,
+  };
+
+  console.log({ editData });
   console.log({ menuPayload });
 
   const handleDispatch = async () => {
@@ -584,13 +641,7 @@ useEffect(()=>{
       }
     }
 
-    // for(let [index,image] of indextoreplace.entries()){
-    //   console.log("image",image,"index",index)
-
-    // }
     if (ImageId === "" || ImageId === undefined) {
-      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
-      // dispatch(addMockDataRequest(data));
     } else {
       setindextoreplace((prev) => {
         const updatedIndexToReplace = [...prev];
@@ -600,19 +651,16 @@ useEffect(()=>{
           dispatch(uploadImage(item.image, item.id, item.index));
         });
 
-        return updatedIndexToReplace; // Ensure the state is updated with the new value
+        return updatedIndexToReplace;
       });
     }
-    dispatch(addMenuItemRequest({ menuPayload, locationid }));
-    // dispatch(addMockDataRequest(data));
-
-    // If needed, redirect or perform other actions here
-    // if (allUploaded) {
-    //   history.push("/menuListing");
-    // }
+    if (editData.length > 0) {
+      dispatch(updateMenuItemRequest({ editPayload, locationid }));
+    } else {
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    }
   };
 
-  // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
   //   const allUploaded =  uploadedimage.every(
   //     (img) => img && !hasImageError(img.file)
@@ -669,14 +717,23 @@ useEffect(()=>{
   //   // }
   // };
 
+  useEffect(() => {
+    if (subsectiondatamsg) {
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    }
+  }, [subsectiondatamsg]);
+
   const handleSubmitItemDetails = () => {
-    if (Wholedata.imageUrls.length === 0) {
-      console.log("is  emty");
+    if (Wholedata?.imageUrls === null) {
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
     } else {
-      console.log("is not emty");
-      dispatch(startImageUpload(Wholedata.imageUrls));
+      dispatch(startImageUpload(primarydata?.imageUrls));
+      if (subsectiondatamsg) {
+        dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      }
     }
   };
+
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
   };
@@ -685,7 +742,6 @@ useEffect(()=>{
     const result = subsectiondata.some(
       (image: imageType) => image?.file?.name === imagevalue?.file?.name
     );
-    // console.log(subsectiondata.map((img:imageType)=>img?.file?.name));
 
     const matchingIndex = subsectiondata.findIndex(
       (subsectionFile: imageType) =>
@@ -723,9 +779,7 @@ useEffect(()=>{
                         <ReviewValues
                           label="Item Name"
                           textvalue={
-                            fetchedprimarydata.itemName
-                              ? fetchedprimarydata.itemName
-                              : "-"
+                            primarydata.itemName ? primarydata?.itemName : "-"
                           }
                         />
                       </div>
@@ -734,8 +788,8 @@ useEffect(()=>{
                         <ReviewValues
                           label="Dietary type"
                           textvalue={
-                            fetchedprimarydata.dietaryType
-                              ? fetchedprimarydata.dietaryType
+                            primarydata.dietaryType
+                              ? primarydata.dietaryType
                               : "-"
                           }
                         />
@@ -756,9 +810,7 @@ useEffect(()=>{
                         <ReviewValues
                           label="Category"
                           textvalue={
-                            fetchedprimarydata.category
-                              ? fetchedprimarydata.category
-                              : "-"
+                            primarydata.category ? primarydata.category : "-"
                           }
                         />
                       </div>
@@ -788,11 +840,7 @@ useEffect(()=>{
                       <div>
                         <ReviewValues
                           label="Tax Class Association"
-                          textvalue={
-                            fetchedprimarydata.tax
-                              ? fetchedprimarydata.tax
-                              : "-"
-                          }
+                          textvalue={primarydata.tax ? primarydata.tax : "-"}
                         />
                       </div>
                     </div>
@@ -802,9 +850,7 @@ useEffect(()=>{
                         <ReviewValues
                           label="Item code"
                           textvalue={
-                            fetchedprimarydata.itemCode
-                              ? fetchedprimarydata.itemCode
-                              : "-"
+                            primarydata.itemCode ? primarydata.itemCode : "-"
                           }
                         />
                       </div>
@@ -813,9 +859,7 @@ useEffect(()=>{
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={
-                            fetchedprimarydata.itemCode
-                              ? fetchedprimarydata.itemCode
-                              : "-"
+                            primarydata.itemCode ? primarydata.itemCode : "-"
                           }
                         />
                       </div>
@@ -1109,7 +1153,7 @@ useEffect(()=>{
           <button
             className="saveall"
             // style={{disablesubmitbtn}}
-            onClick={handleDispatch}
+            onClick={handleSubmitItemDetails}
             disabled={disablesubmitbtn}
           >
             Submit for review

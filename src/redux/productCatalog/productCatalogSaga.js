@@ -59,6 +59,7 @@ import {
   storeUploadFailure,
   retryimageUploadSuccess,
   retryimageUploadFailure,
+  storeUploadSuccess,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -163,7 +164,6 @@ function* fetchDropdownDataSaga(action) {
           yield put(bestPairDataSuccess(response));
           break;
         case "KITCHEN_STATION":
-          console.log("hi from sagas");
           yield put(kitchenStationSuccess(response.data));
         default:
           throw new Error("Invalid type");
@@ -227,14 +227,11 @@ function* addSubsection(action) {
 //Delete subSection
 function* deleteSubSectionSaga(action) {
   try {
-    console.log("deleted data", action.payload);
     const response = yield call(deleteSubSection, action.payload);
 
     if (response) {
       yield put(deleteDropDownSuccess(response)); // add switch case
     } else {
-      console.log("delete failed");
-
       yield put(deleteDropDownFailure("failed"));
     }
   } catch (err) {
@@ -335,44 +332,6 @@ function* addMenuItemSaga(action) {
 //   }
 // }
 
-function* imageUploadSaga(action) {
-  const images = action.payload;
-  let itemId = null;
-  const failureArray = [];
-  // console.log("images",images)
-
-  for (let i = 0; i < images.length; i++) {
-    const image = images[i];
-    // console.log("images one by one",image)
-
-    try {
-      const response = yield call(uploadImageApi, image, itemId);
-
-      if (i === 0 && response.itemId) {
-        itemId = response.itemId;
-      }
-
-      yield put(imageUploadSuccess(itemId));
-    } catch (error) {
-      failureArray.push({
-        file: image.file,
-        itemId: itemId || "null",
-      });
-
-      console.log("failureArray", failureArray);
-      yield put(imageUploadFailure(image.name, itemId));
-    }
-  }
-  if (failureArray.length > 0) {
-    console.log("error");
-
-    yield put(storeUploadFailure(failureArray));
-  }
-  else{
-    
-  }
-
-}
 const convertImageToBinaryString = (imageFile) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -388,24 +347,71 @@ const convertImageToBinaryString = (imageFile) => {
     reader.readAsDataURL(imageFile);
   });
 };
-function convertToBase64(file) {
-  const reader = new FileReader();
+function* imageUploadSaga(action) {
+  const images = action.payload;
+  let itemId = ""; 
+  const failureArray = [];
 
-  // This will block until the file is read
-  reader.readAsDataURL(file);
-  let base64String = "";
+  try {
+    const firstImage = images[0];
 
-  reader.onload = () => {
-    base64String = reader.result; // Capture the result
-  };
+    const response = yield call(uploadImageApi, firstImage, itemId); 
 
-  // Wait for the FileReader to load (blocking)
-  while (!base64String) {
-    // Busy-waiting until the base64String is set
+    // console.log("First image uploaded, item ID:", response);
+console.log("response",response);
+
+    if (response.data && response.data.itemId) {
+      itemId = response.data.itemId;
+    }
+
+    // Dispatch success action with the updated itemId
+    yield put(imageUploadSuccess(itemId));
+  } catch (error) {
+    // Handle failure for the first image
+    failureArray.push({
+      file: images[0].file,
+      itemId: "", // No itemId available for the first image
+    });
+    console.log("Failed to upload the first image", failureArray);
+    yield put(imageUploadFailure(images[0].name, ""));
+    return; 
   }
 
-  return base64String; // Return the Base64 string
+  // If the first image was successful, upload the remaining images with the itemId
+  for (let i = 1; i < images.length; i++) {
+    const image = images[i];
+
+    try {
+      // Call the API to upload the remaining images with the updated itemId
+      const response = yield call(uploadImageApi, image, itemId);
+
+      // console.log("Image uploaded, item ID:", response);
+
+      // Dispatch success action
+      yield put(imageUploadSuccess(itemId));
+    } catch (error) {
+      // Handle failure for remaining images
+      failureArray.push({
+        file: image.file,
+        itemId: itemId || "", // Use the itemId from the first image's response
+      });
+
+      // console.log("Failed upload, failureArray:", failureArray);
+      yield put(imageUploadFailure(image.name, itemId));
+    }
+  }
+
+  // If there are failures, dispatch a failure action for all failed uploads
+  if (failureArray.length > 0) {
+    console.log("Error uploading some images");
+    yield put(storeUploadFailure(failureArray, "failed"));
+  } else {
+    console.log("itemId",itemId);
+    
+    yield put(storeUploadSuccess(itemId));
+  }
 }
+
 export const uploadImageApi = async (image, itemId) => {
   const formData = new FormData();
   const binaryString = await convertImageToBinaryString(image.file);
@@ -415,6 +421,7 @@ export const uploadImageApi = async (image, itemId) => {
   formData.append("itemId", itemId);
   return await imageUploadingApi(formData);
 };
+
 function* retryImage(action) {
   const image = action.payload;
   let itemId = null;

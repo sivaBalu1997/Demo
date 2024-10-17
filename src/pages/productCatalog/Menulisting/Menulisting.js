@@ -6,7 +6,7 @@ import removeicon from "../../../assets/svg/removeicon.svg";
 import Header from "../../../components/productCatalog/Header/Header";
 import closeicon from "../../../assets/svg/closeicon.svg";
 import toggleround from "../../../assets/svg/toggleround.svg";
-import calendericon from '../../../assets/svg/calendericon.svg'
+import calendericon from "../../../assets/svg/calendericon.svg";
 import dollaricon from "../../../assets/svg/dollaricon.svg";
 // import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
@@ -20,13 +20,17 @@ import TableOneBody from "../../../components/productCatalog/TableOneBody/TableO
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
-import { getMenuRequest, selectedMockDataRequest, storeDataWithCategory, storeMockDataRequest } from "redux/productCatalog/productCatalogActions";
+import {
+  getMenuRequest,
+  selectedMockDataRequest,
+  storeMockDataRequest,
+} from "redux/productCatalog/productCatalogActions";
 import { combinedItemsData } from "assets/mockData/Moca_data";
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
 
-  const location = useSelector((state) => state.auth.selectedBranch)
+  const location = useSelector((state) => state.auth.selectedBranch);
 
   const menuData = useSelector((state) => state.productCatalog?.menuData)
   const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
@@ -58,7 +62,7 @@ export const Menulisting = () => {
 
   useEffect(() => {
     // dispatch(storeMockDataRequest(combinedItemsData));
-    dispatch(getMenuRequest(location.id));
+    dispatch(getMenuRequest(location?.id));
   }, []);
 
   // console.log({menuData})
@@ -69,7 +73,7 @@ export const Menulisting = () => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
 
-  const addedData = useSelector((state)=> state.addMockDataReducer.data)
+  const addedData = useSelector((state) => state.addMockDataReducer.data);
 
   const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
 
@@ -78,7 +82,7 @@ export const Menulisting = () => {
   );
 
   const hiddenData = useSelector(
-    (state) => state.addMockDataHiddenReducer?.data ||[]
+    (state) => state.addMockDataHiddenReducer?.data || []
   );
 
   const [FilteredObject, setFilteredObject] = useState([]);
@@ -93,7 +97,8 @@ export const Menulisting = () => {
   });
 
   const [draggingOverIndex, setDraggingOverIndex] = useState(null);
-  const [dragtablefirstHeaderindex,setdragtablefirstHeaderindex]=useState(null)
+  const [dragtablefirstHeaderindex, setdragtablefirstHeaderindex] =
+    useState(null);
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [sidebartext, setSideBarText] = useState(null);
@@ -189,15 +194,11 @@ export const Menulisting = () => {
   ]);
 
   const [SideBarData, setSideBar] = useState([]);
-  const mergedMockData =  [ ...Mockdata,...addedData] 
-
-  // console.log(mergedMockData)
-  // console.log(addedData)
+  const mergedMockData = [...Mockdata, ...addedData];
 
   useEffect(() => {
     const tempArray1 = [];
     const tempArray2 = [];
-
 
     if (FilteredData.length === 0) {
       mergedMockData.forEach((item) => {
@@ -219,7 +220,6 @@ export const Menulisting = () => {
     setSteamedVeg(tempArray1);
     setSteamedNonVeg(tempArray2);
   }, [Mockdata, FilteredData]);
-  
 
   useEffect(() => {
     setsteamType([
@@ -284,10 +284,9 @@ export const Menulisting = () => {
     setDraggedIndexsample(index);
   };
 
-
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
-      setdragtablefirstHeaderindex(index)
+      setdragtablefirstHeaderindex(index);
       const updatedFirstRowTable = [...firstRowTable];
       const updatedSecondRowTable = [...secondRowTable];
       const updatedclassnames = [...classNames];
@@ -347,7 +346,7 @@ export const Menulisting = () => {
 
   const handleColumnwiseDragEnd = () => {
     setDraggedIndexsample(null);
-    setdragtablefirstHeaderindex(null)
+    setdragtablefirstHeaderindex(null);
   };
 
   const handledragvegnonvegdragstart = (e, index) => {
@@ -366,19 +365,19 @@ export const Menulisting = () => {
     // setsteamType(updatedRows);
     // setDraggedRowIndex(null);
     const updatedCategories = [...menudatalist];
-  
+
     // Get the dragged category
     const draggedCategory = updatedCategories[draggedRowIndex];
-    
+
     // Remove the dragged category from its original position
     updatedCategories.splice(draggedRowIndex, 1);
-    
+
     // Insert the dragged category into its new position
     updatedCategories.splice(index, 0, draggedCategory);
-    
+
     // Update the state with the new category order
     setMenudatalist(updatedCategories);
-    
+
     // Reset draggedCategoryIndex
     setDraggedRowIndex(null);
   };
@@ -422,109 +421,76 @@ export const Menulisting = () => {
 
   const handleRowDragStart = (categoryId, itemIndex) => {
     setrowindex({ categoryId, itemIndex });
-    console.log("drag start");
-    
   };
-  
+
   const handleRowDragOver = (categoryId, targetItemIndex) => {
     if (rowindex.categoryId === null || rowindex.itemIndex === null) {
-      console.log("empty");
       return;
     }
-  
+
     const { categoryId: draggedCategoryId, itemIndex: draggedItemIndex } =
       rowindex;
-    console.log("running",categoryId);
-  
-    const updatedCategories = [...menudatalist]; // shallow copy of the data array
-  
-    // Find the correct category by categoryId
+
+    const updatedCategories = [...menudatalist];
+
     const draggedCategoryIndex = updatedCategories.findIndex(
       (category) => category.categoryId === draggedCategoryId
     );
     const draggedCategory = updatedCategories[draggedCategoryIndex];
-  
+
     if (draggedCategory && draggedCategory.itemResponseList) {
-      const updatedItemList = [...draggedCategory.itemResponseList]; // shallow copy of itemResponseList
-  
-      // Get the dragged item
+      const updatedItemList = [...draggedCategory.itemResponseList];
+
       const draggedItem = updatedItemList[draggedItemIndex];
-  
-      // Remove the dragged item from its original position
+
       updatedItemList.splice(draggedItemIndex, 1);
-  
-      // Insert it at the new position
+
       updatedItemList.splice(targetItemIndex, 0, draggedItem);
-  
-      // Create a new category object with updated itemResponseList
+
       const updatedCategory = {
-        ...draggedCategory, // copy all other properties of the category
-        itemResponseList: updatedItemList, // update the itemResponseList
+        ...draggedCategory,
+        itemResponseList: updatedItemList,
       };
       updatedCategories[draggedCategoryIndex] = updatedCategory;
-  
-      // Set the updated categories
+
       setMenudatalist(updatedCategories);
-  
-      // Update the draggedRowIndex to reflect the new item position
+
       setDraggedRowIndex({ categoryId, itemIndex: targetItemIndex });
     }
-  
-      // Replace the modified category in the array
-      
-    
   };
-  
-  
+
   const handleRowDragEnd = (categoryId, targetItemIndex) => {
     if (rowindex.categoryId === null || rowindex.itemIndex === null) {
-      console.log("empty");
       return;
     }
-  
+
     const { categoryId: draggedCategoryId, itemIndex: draggedItemIndex } =
       rowindex;
-    console.log("running",categoryId);
-  
-    const updatedCategories = [...menudatalist]; // shallow copy of the data array
-  
-    // Find the correct category by categoryId
+
+    const updatedCategories = [...menudatalist];
     const draggedCategoryIndex = updatedCategories.findIndex(
       (category) => category.categoryId === draggedCategoryId
     );
     const draggedCategory = updatedCategories[draggedCategoryIndex];
-  
+
     if (draggedCategory && draggedCategory.itemResponseList) {
-      const updatedItemList = [...draggedCategory.itemResponseList]; // shallow copy of itemResponseList
-  
-      // Get the dragged item
+      const updatedItemList = [...draggedCategory.itemResponseList];
       const draggedItem = updatedItemList[draggedItemIndex];
-  
-      // Remove the dragged item from its original position
       updatedItemList.splice(draggedItemIndex, 1);
-  
-      // Insert it at the new position
       updatedItemList.splice(targetItemIndex, 0, draggedItem);
-  
-      // Create a new category object with updated itemResponseList
       const updatedCategory = {
-        ...draggedCategory, // copy all other properties of the category
-        itemResponseList: updatedItemList, // update the itemResponseList
+        ...draggedCategory,
+        itemResponseList: updatedItemList,
       };
-  
-      // Replace the modified category in the array
       updatedCategories[draggedCategoryIndex] = updatedCategory;
-  
-      // Set the updated categories
+
       setMenudatalist(updatedCategories);
-  
-      // Update the draggedRowIndex to reflect the new item position
+
       setDraggedRowIndex({ categoryId, itemIndex: targetItemIndex });
     }
     setrowindex({ categoryId: null, itemIndex: null });
-   
   };
-  
+
   const handlemodal = (value) => {
     setmodal(true);
    const filteredItem = menuData.find((item) => 
@@ -532,22 +498,20 @@ export const Menulisting = () => {
   );
   dispatch(storeDataWithCategory(filteredItem))
 
-  if (filteredItem) {
-    // Further filter the itemResponseList to get the specific response
-    const specificResponse = filteredItem.itemResponseList.filter((response) => response?.itemId === value);
-
-    // Set the sidebar to the specific response if it exists
     if (filteredItem) {
-      // Further filter the itemResponseList to get the specific response
-      const specificResponse = filteredItem.itemResponseList.filter((response) => response?.itemId === value);
-  
-      // Set the sidebar to the specific response if it exists
-      if (specificResponse.length > 0) {
-        setSideBar(specificResponse); // Set the first matching response
+      const specificResponse = filteredItem.itemResponseList.filter(
+        (response) => response?.itemId === value
+      );
 
+      if (filteredItem) {
+        const specificResponse = filteredItem.itemResponseList.filter(
+          (response) => response?.itemId === value
+        );
+        if (specificResponse.length > 0) {
+          setSideBar(specificResponse);
+        }
       }
-    }}
-
+    }
   };
 
   const showsidebar = (key) => {
@@ -616,7 +580,9 @@ export const Menulisting = () => {
     };
   }, [showheadinglist]);
 
-  const allFalse = Object.values(listingobject).every(value => value === false);
+  const allFalse = Object.values(listingobject).every(
+    (value) => value === false
+  );
 
   const selectedItems =
     FilteredObject &&
@@ -624,8 +590,6 @@ export const Menulisting = () => {
     FilteredObject[0] &&
     Array.isArray(FilteredObject[0]) &&
     FilteredObject[0].map((item) => item);
-
-    console.log("side",SideBarData)
 
   return (
     <div style={{ display: "flex", overflowX: "hidden" }}>
@@ -669,7 +633,6 @@ export const Menulisting = () => {
               >
                 {menudatalist.map((object, index) => (
                   <React.Fragment key={index}>
-                   
                     <RowHeading
                       objectId={object.categoryId}
                       object={object}
@@ -729,11 +692,10 @@ export const Menulisting = () => {
                         calendericon={calendericon}
                         removeicon={removeicon}
                       />
-                        
                     </React.Fragment>
                   ))}
                 </tr>
-                <tr className="headingtwosection">
+                {/* <tr className="headingtwosection">
                   {secondRowTable.map((subheaders, index) => (
                     <React.Fragment key={index}>
                       <TableSecondHeader
@@ -746,7 +708,7 @@ export const Menulisting = () => {
                       />
                     </React.Fragment>
                   ))}
-                </tr>
+                </tr> */}
               </thead>
               <tbody
                 className={`${
@@ -756,12 +718,11 @@ export const Menulisting = () => {
                 } tabletwobody`}
                 ref={tableBodyRef2}
               >
-                {allFalse ?
+                {allFalse ? (
                   <>
-                    <h1 className="columnselected">
-                      No Column Selected
-                    </h1>
-                  </> :
+                    <h1 className="columnselected">No Column Selected</h1>
+                  </>
+                ) : (
                   <>
                     {menudatalist.map((itemobject, indexvalue) => {
                       return (
@@ -787,8 +748,7 @@ export const Menulisting = () => {
                       );
                     })}
                   </>
-                }
-                
+                )}
               </tbody>
             </table>
           </div>
@@ -796,7 +756,7 @@ export const Menulisting = () => {
             <Slider
               sidebartext={sidebartext}
               SideBarData={SideBarData}
-              onclose={()=>setmodal(false)}
+              onclose={() => setmodal(false)}
             />
           )}
         </div>
@@ -1038,3 +998,5 @@ export const Menulisting = () => {
   
           
 // ]
+
+

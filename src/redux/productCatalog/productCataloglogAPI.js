@@ -1,15 +1,22 @@
-import { API,Image_API } from "redux/api";
+import { API, Image_API } from "redux/api";
 import Store from "../store";
 import Axios from "axios";
-import { bestPairType, categoryType, cuisine, dietarytype, subcategory, subcategoryType } from "assets/mockData/Moca_data";
+import {
+  bestPairType,
+  categoryType,
+  cuisine,
+  dietarytype,
+  subcategory,
+  subcategoryType,
+} from "assets/mockData/Moca_data";
 import { useSelector } from "react-redux";
 
 export const getMenuDataApi = (locationId) => {
   return API({
-    method: 'get',
-    url: `/api/v1/menu-items?locationId=${locationId}`
-  })
-}
+    method: "get",
+    url: `/api/v1/menu-items?locationId=${locationId}`,
+  });
+};
 
 export function getCategory(locationId) {
   return API({
@@ -26,34 +33,32 @@ export function getSubSectionData(payload) {
     data: payload, // Send the full payload as the request body
   });
 }
-  
-
 
 //Delete subsection
 export const deleteSubSection = (data) => {
-  console.log("delwteitem",data);
-  return API ({
-    method: 'delete',
-    url: `/api/v1/menu-items/sub-section`,
-    data: data
-  })
-}
-
-export const addSubsectionApi = ( data ) => {
+  console.log("delwteitem", data);
   return API({
-    method: 'post',
+    method: "delete",
     url: `/api/v1/menu-items/sub-section`,
-    data:  data ,
+    data: data,
   });
 };
 
-export const imageUploadingApi = ( formData ) => {
+export const addSubsectionApi = (data) => {
   return API({
-    method: 'post',
+    method: "post",
+    url: `/api/v1/menu-items/sub-section`,
+    data: data,
+  });
+};
+
+export const imageUploadingApi = (formData) => {
+  return API({
+    method: "post",
     url: `api/v1/menu-items/upload-image`,
-    data:  formData ,
+    data: formData,
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
     // headers: {
     //   'accept': 'application/json',
@@ -61,9 +66,6 @@ export const imageUploadingApi = ( formData ) => {
     // },
   });
 };
-
-
-
 
 export function getSubCategory({ locationId, id }) {
   return API({
@@ -80,7 +82,7 @@ export function getTagClass(locationId) {
 }
 
 export function getModifier(data) {
-  const {name, locationId} = data
+  const { name, locationId } = data;
   return API({
     method: "get",
     url: `/api/v1/menu-items/modifiers?name=${name}&locationId=${locationId}`,
@@ -95,13 +97,13 @@ export function getIngredients(locationId) {
 }
 
 export function addMenuItem(data) {
-  const {menuPayload, locationid} = data;
+  const { menuPayload, locationid } = data;
   return API({
     method: "post",
     url: `/api/v1/menu-items`,
     data: menuPayload,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
 }
@@ -110,15 +112,14 @@ export function addMenuItem(data) {
 //   return API({
 //     method: "get",
 //     url: 'http://192.168.1.29:8080/api/giveId',
-  
+
 //   });
 // }
-
 
 export function updateMenuItem(data) {
   return API({
     method: "put",
-    url: `/merchants/item`,
+    url: `/api/v1/menu-items/edit`,
     data: data,
   });
 }
@@ -148,44 +149,46 @@ export function getAvailability(locationId) {
 }
 
 export function getImage() {
-  return Axios.get('https://i.graphicmama.com/blog/wp-content/uploads/2016/12/20132839/french-fries-vector-image.jpg')
+  return Axios.get(
+    "https://i.graphicmama.com/blog/wp-content/uploads/2016/12/20132839/french-fries-vector-image.jpg"
+  );
 }
 
 export function getId() {
-  return Axios.get('http://192.168.1.29:8080/api/giveId')
+  return Axios.get("http://192.168.1.29:8080/api/giveId");
 }
 
 export function store(formData) {
-
-  return Axios.post('https://apiq.magilhub.com/magilhub-data-services/api/v1/menu-items/upload-image', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  return Axios.post(
+    "https://apiq.magilhub.com/magilhub-data-services/api/v1/menu-items/upload-image",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 }
 
-
-export function getItemCodeRequestApi(locationId,itemCode) {
+export function getItemCodeRequestApi(locationId, itemCode) {
   return API({
     method: "get",
     url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
   });
 }
 
-
 export function getPopularItemRequestApi(locationId) {
   return API({
     method: "get",
-    url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`
+    url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`,
   });
 }
-
 
 export function apiUpdateMenu(payload) {
   return API({
     method: "patch",
     url: `/api/v1/menu-items/partial-update`,
-    data:payload
+    data: payload,
   });
 }
 

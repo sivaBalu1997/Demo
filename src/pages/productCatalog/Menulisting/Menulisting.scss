@@ -162,7 +162,7 @@ th {
       width: 20rem;
       // position: relative;
       // top: 2.2%;
-      margin-top: 0%;
+      margin-top: 0;
 
       .itemdetails-row {
         width: 20rem;
@@ -230,6 +230,7 @@ th {
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
+   
 
     &::-webkit-scrollbar-track {
       background-color: #b3b3b3;
@@ -270,6 +271,29 @@ th {
 
 
 
+  .dineindata
+{
+  width: 154px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+.pickupdata
+{
+  width: 226px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.deliverydata
+{
+  width: 226px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
   .Menu-Listing-TableTwoHead {
     height: 3.95rem;
     // border-bottom: 1px solid #d9d9d9;
@@ -523,32 +547,20 @@ th {
         gap: 22px;
         opacity: 0px;
       }
-      .Ac {
-      }
-      .Nonac {
-      }
-      .Inhouse {
-      }
-      .Swiggy {
-      }
-      .Zomato {
-      }
-      .Total {
-      }
-      .Threshold {
-      }
+     
     }
   }
 
   .Menu-Listing-TableTwoBody {
     display: block;
-    height: 31.2rem;
+    height: 33.2rem !important;
     overflow-y: auto;
     overflow-x: hidden;
     width: 171.4%;
     &::-webkit-scrollbar {
       display: none;
     }
+
     // border: 1px solid red !important;
   }
   .Menu-Listing-TableTwoBody1 {
@@ -566,7 +578,8 @@ th {
   .tabletwobody {
     display: flex;
     flex-direction: column;
-    margin-top: 0.1%;
+    // padding-top: -5.85%;
+    margin-top: -0.7%;
   }
   .columnselected {
     width: 247px;
@@ -582,8 +595,10 @@ th {
   }
   
   .itemheading2row {
-    height: 32px;
+    // height: 32px;
   }
+
+
 
   .eachobject-rowwise {
     height: 60px;
@@ -794,6 +809,7 @@ th {
     }
   }
 }
+
 
 .headingstextlist {
   position: absolute;
@@ -1147,3 +1163,14 @@ th {
     // border: 1px solid blue;
   }
 }
+
+.categoryname{
+  font-size: 20px !important;
+  font-weight: 500;
+  color: black !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 2rem;
+}
+

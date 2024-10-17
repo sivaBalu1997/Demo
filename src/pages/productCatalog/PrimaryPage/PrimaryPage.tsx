@@ -237,7 +237,6 @@ const PrimaryPage = () => {
     value: "",
   });
 
-  console.log({ portionInfo });
 
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
@@ -331,7 +330,6 @@ const PrimaryPage = () => {
   const categoriesdata = useSelector(
     (state: StateDataTag2) => state.productCatalog.categoryData
   );
-
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
@@ -521,9 +519,7 @@ const PrimaryPage = () => {
         return;
       }
       setImages((prevImages) => {
-        const updatedImages = [...prevImages, ...fileArray];
-     
-       
+        const updatedImages = [...prevImages, ...fileArray];       
         const updatedImageUrls = updatedImages.map((image) => image);
          console.log("updatedImageUrls",updatedImageUrls);
         setValue("imageUrls", updatedImageUrls);
@@ -649,6 +645,37 @@ const PrimaryPage = () => {
   const hansleshwadd = () => {
     dispatch(addDropDowRequest(dataforadd));
   };
+
+  const dataFromRedux = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+
+  useEffect(() => {
+    if (dataFromRedux) {
+      setValue("itemName", dataFromRedux[0]?.itemName || null);
+      setValue("dietaryType", dataFromRedux[0]?.dietaryType || null);
+      setValue("cuisine", dataFromRedux[0]?.cuisine || null);
+      setValue("mealType", dataFromRedux[0]?.mealType || null);
+      setValue("bestPair", dataFromRedux[0]?.bestPair || null);
+      setValue("description", dataFromRedux[0]?.description || null);
+      setValue("imageUrls", dataFromRedux[0]?.imageUrls || null);
+      setValue("alcohol", dataFromRedux[0]?.alcohol || null);
+      setValue("itemCode", dataFromRedux[0]?.itemCode || null);
+      setValue("barCode", dataFromRedux[0]?.barCode || null);
+      setValue("category", dataFromRedux[0]?.category || null);
+      setValue("categoryId", dataFromRedux[0]?.categoryId || null);
+      setValue("subCategory", dataFromRedux[0]?.subCategory || null);
+      setValue("Ingredients", dataFromRedux[0]?.Ingredients || null);
+      setValue("allergens", dataFromRedux[0]?.allergens || null);
+      setValue("coloriePoint", dataFromRedux[0]?.coloriePoint || null);
+      setValue("selectedcolorie", dataFromRedux[0]?.selectedcolorie || null);
+      setValue("portionSize", dataFromRedux[0]?.portionSize || null);
+      setValue("selectedPortion", dataFromRedux[0]?.selectedPortion || null);
+      setValue("tax", dataFromRedux[0]?.tax || null);
+      setValue("masterCode", dataFromRedux[0]?.masterCode || null);
+    }
+  }, [dataFromRedux]);
+
 
   return (
     <div style={{ display: "flex" }}>

@@ -1,5 +1,7 @@
 import React from "react";
 import Toggle from "../Toggle/Toggle";
+import { log } from "console";
+import { tr } from "date-fns/locale";
 
 interface ModifierOption {
   optionId: string;
@@ -17,11 +19,23 @@ interface Modifier {
   noFreeCustomization: number;
   options: ModifierOption[];
 }
+interface Availability {
+  availabilityDays: string[];
+  sessions: string[];
+}
+
+interface OrderType {
+  typeName: string;
+  typeId: string;
+  price: number;
+  isEnabled: number;
+  availabilities: Availability[];
+}
 
 interface ItemResponse {
   itemId: any;
   itemName: string;
-  orderTypes: string[]; // Assuming orderTypes is an array of strings based on your new data
+  orderTypes: OrderType[];
   modifiers: Modifier[];
   dietTypes: string[];
   ingredients: string[];
@@ -50,8 +64,7 @@ interface TableRowsProps {
   SideBarData: any[]; // Specify if you have a specific structure
   showsidebar: (key: string) => void;
   listingheaders: boolean;
-}  
-
+}
 
 const TableTwoBody: React.FC<TableRowsProps> = ({
   itemobject,
@@ -68,10 +81,67 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     handlemodal(value);
   };
   // const allFalse = Object.values(listingobject).every(value => value === false);
+  console.log("itemobject", itemobject);
+  const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
 
   return (
     <>
       {
+        // itemobject.itemResponseList.map((item)=>(
+        //   <div>{item.flatMap(item => item.orderTypes)
+        //     .map(item => item.itemName)}</div>
+        // ))
+      }
+      {itemobject.categoryName !== "" &&
+        itemobject?.itemResponseList?.length > 0 && (
+          <tr className="categoryname"></tr>
+        )}
+
+      {itemobject?.itemResponseList?.map((item) => (
+        <>
+          <tr
+            key={item.itemId}
+            style={{ display: "flex" }}
+            className={`eachobject-rowwise`}
+          >
+            {orderTypesToShow.map((typeName) => {
+              const orderType = item.orderTypes?.find(
+                (ot: OrderType) => ot.typeName === typeName
+              );
+              const price = orderType ? orderType.price.toFixed(2) : "";
+              const className = typeName.toLowerCase()+"data";
+              console.log("className",className);
+              
+              return (
+                <div key={typeName} style={{ display: "flex" }} className={className}>
+                
+                  <p> {price !== "" ? price : "0"}</p>
+                </div>
+              );
+            })}
+
+
+            {orderTypesToShow.map((typeName) => {
+              const orderType = item.orderTypes?.find(
+                (ot: OrderType) => ot.typeName === typeName
+              );
+
+              const isEnabled = orderType ? orderType.isEnabled : ""; 
+              const className = typeName.toLowerCase()+"data";
+
+              return (
+                <div key={typeName} style={{ display: "flex" }} className={className}>
+                  
+{/* 
+                  <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
+                  <p>{isEnabled !== "" ?  <Toggle toggle={true } />:<Toggle toggle={false } />}</p>
+                </div>
+              );
+            })}
+          </tr>
+        </>
+      ))}
+      {/* {
         <>
           {itemobject?.itemResponseList?.map((itemdata, index) => (
             <tr
@@ -110,9 +180,14 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                                     handlesidbarhandling(key, itemdata?.itemId)
                                   }
                                 >
-                                  {item.price}
+                                  {item.price} 20
                                 </div>
                               )}
+
+
+                              {
+                                item.price
+                              }
                             </React.Fragment>
                           ))}
                         </div>
@@ -125,7 +200,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
             </tr>
           ))}
         </>
-      }
+      } */}
     </>
   );
 };

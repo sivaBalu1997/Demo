@@ -130,7 +130,11 @@ import {
   SEARCH_FORITEM_FAILURE,
   STORE_DATA_WITH_CATEGORY,
   STORE_DATA_WITH_CATEGORY_SUCCESS,
-  STORE_DATA_WITH_CATEGORY_FAILURE
+  STORE_DATA_WITH_CATEGORY_FAILURE,
+  STORE_UPLOAD_SUCCESS,
+  DELETE_MODIFIER_REQUEST,
+  DELETE_MODIFIER_SUCCESS,
+  DELETE_MODIFIER_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -512,7 +516,6 @@ export const kitchenStationRequest = (data) => ({
 })
 
 export const kitchenStationSuccess = (response) => {
-  console.log({response})
   return{
   type: KITCHEN_DATA_SUCCESS,
   payload: response,
@@ -787,9 +790,14 @@ export const imageUploadFailure = (imageName, itemId) => ({
   payload: { imageName, itemId },
 });
 
-export const storeUploadFailure = (failureArray) => ({
+
+export const storeUploadFailure = (failureArray,statusmsg) => ({
   type: STORE_UPLOAD_FAILURE,
-  payload: failureArray,
+  payload: {failureArray,statusmsg},
+});
+export const storeUploadSuccess = (statusmsg) => ({
+  type: STORE_UPLOAD_SUCCESS,
+  payload: statusmsg,
 });
 export const ImageUploadApiFail = (message) => ({
   type: API_UPLOAD_FAILURE,
@@ -828,4 +836,18 @@ export const storeDataWithCategorySuccess = ( data) => ({
 export const storeDataWithCategoryFailure = (error) => ({
   type: STORE_DATA_WITH_CATEGORY_FAILURE,
   payload: { error },
+});
+export const deleteModifierRequest = (data) =>({
+  type: DELETE_MODIFIER_REQUEST,
+  payload: data
+});
+
+export const deleteModifierSuccess = (response) =>({
+  type: DELETE_MODIFIER_SUCCESS,
+  payload: response
+});
+
+export const deleteModifierFailure = (error) =>({
+  type: DELETE_MODIFIER_FAILURE,
+  payload: error
 });

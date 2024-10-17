@@ -247,13 +247,14 @@ const PricingDetails = () => {
     (state: any) => state.productCatalog.kitchenStation
   );
 
-  console.log({kitchenStationData})
+
 
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     Kitchen: false,
   });
+
   const history = useHistory();
   const [selectedValues2, setSelectedValues2] = useState<string[]>([]);
 
@@ -268,8 +269,8 @@ const PricingDetails = () => {
       Swiggymealtype: "",
       Zomato: "",
       Zomatomealtype: "",
-      Inventory1: "", // Add default value
-      Inventory2: "", // Add default value
+      Inventory1: "",
+      Inventory2: "",
     },
     dineinfields: [],
     specialcheck: [],
@@ -357,11 +358,14 @@ const PricingDetails = () => {
       Inventory1: "",
       Inventory2: "",
     },
+
     kitchenstation: "",
+
     Preparationtime: {
       hours: "",
       minutes: "",
     },
+
     KitchenStationId: "",
     normalForm: isOptionTrue ? mainFormState : undefined,
 
@@ -662,7 +666,6 @@ const PricingDetails = () => {
     });
   };
 
-
   const handleInventoryCheck = (event: any) => {
     setResetInventory(event.target.checked);
   };
@@ -702,7 +705,7 @@ const PricingDetails = () => {
                 <Dropdown
                   name="kitchenstation"
                   options={kitchenStationData}
-                  type="checkbox"
+                  type="radio"
                   setOptions={setOptions1}
                   placeholder="Search for option"
                   register={register}
@@ -744,7 +747,7 @@ const PricingDetails = () => {
                               /^(1[0-2]|[1-9])$/.test(value) ||
                               value === ""
                             ) {
-                              setValue("Preparationtime.hours", value);
+                              setValue("Preparationtime.hours", Number(value));
                             }
                           }}
                         />
@@ -781,7 +784,10 @@ const PricingDetails = () => {
                                 inputValue === "" ||
                                 /^(59|[0-5]?[0-9])$/.test(inputValue)
                               ) {
-                                setValue("Preparationtime.minutes", inputValue);
+                                setValue(
+                                  "Preparationtime.minutes",
+                                  Number(inputValue)
+                                );
                               }
                             }
                             // Optionally, trigger validation

@@ -220,9 +220,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         PricingDetails = {
           ...PricingDetails,
           form: {
-            ...mainForm?.form, // Ensure form exists by spreading PricingDetails.form or defaulting to an empty object
-            Inventory1: formData.form.Inventory1 || "", // Update or set Inventory1
-            Inventory2: formData.form.Inventory2 || "", // Update or set Inventory2
+            ...mainForm?.form, 
+            Inventory1: formData.form.Inventory1 || "", 
+            Inventory2: formData.form.Inventory2 || "", 
           },
         };
       }
@@ -234,9 +234,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         PricingDetails = {
           ...PricingDetails,
           Preparationtime: {
-            // No need to fallback, because it's defined
-            hours: formData.Preparationtime.hours, // Update hours
-            minutes: formData.Preparationtime.minutes, // Update minutes
+            hours: formData.Preparationtime.hours, 
+            minutes: formData.Preparationtime.minutes, 
           },
         };
       } else {

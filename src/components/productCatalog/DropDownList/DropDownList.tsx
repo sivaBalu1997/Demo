@@ -140,7 +140,12 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [setDropdownOpen]);
 
   useEffect(() => {
-    dispatch(fetchDropDownRequest(payload));
+    if(dropDownType!=="SUB_CATEGORY")
+    {
+      dispatch(fetchDropDownRequest(payload));
+
+
+    }
   }, [dropDownType]);
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
@@ -149,6 +154,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       // getdatafrosaga();
     }
   };
+
+  const [SubcategoryId, setSubCategoryId]=useState<string>("")
 
   useEffect(() => {
     const categoryValue = getValues("category");
@@ -194,6 +201,13 @@ const DropDownList: React.FC<DropdownProps> = ({
   //   }
   // }, [getValues(name), setValue, initialOptions]);
 
+  let subcategorydataforApi={
+    locationId: locationid,
+    type: "SUB_CATEGORY",
+    parentId: "",
+
+  }
+
   const handleSelect = (option: Option) => {
     if (type === "checkbox") {
       const isAlreadySelected = selectedOptions.some(
@@ -224,15 +238,26 @@ const DropDownList: React.FC<DropdownProps> = ({
       trigger(name);
     }
 
-    const viewdata = {
-      locationId: locationid,
-      type: SubcategoryId && "SUB_CATEGORY",
-      parentId: SubcategoryId && SubcategoryId,
-    };
-
-    if (SubcategoryId) {
-      dispatch(fetchDropDownRequest(viewdata));
+    if(dropDownType==="CATEGORY")
+    {
+      const viewdata={
+        locationId: locationid,
+        type: "SUB_CATEGORY",
+        parentId: option.id,
+        }
+        subcategorydataforApi.parentId=option.id;
+        console.log("SubcategoryId",SubcategoryId);
+        
+    
+        if(subcategorydataforApi.parentId!=="")
+        {
+          dispatch(fetchDropDownRequest(viewdata));
+        }
+       
     }
+
+   
+    
 
     setSearchTerm("");
   };
@@ -257,8 +282,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    console.log("id", value);
-
     // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
     setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
     const deletedItem = {
@@ -287,7 +310,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   // value={type === "checkbox"
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
-  const [SubcategoryId, setSubCategoryId] = useState<string>("");
 
   const handleCheckboxChange = (option: Option) => {
     if (type == "checkbox") {
@@ -306,7 +328,9 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
     }
-    if (dropDownType === "CATEGORY") {
+    if(dropDownType==="CATEGORY")
+    {
+      
       setSubCategoryId(option.id);
     }
   };
@@ -337,9 +361,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(addDropDowRequest(newItem));
       dispatch(fetchDropDownRequest(viewdata));
     }
-
-    console.log("option-updated", options);
   };
+
   const [Loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
@@ -348,10 +371,35 @@ const DropDownList: React.FC<DropdownProps> = ({
     } else {
       setLoading(false);
     }
-  }, [options]);
 
-  console.log({options})
+  },[options])
+ 
+  const handleAboveArrowdropdown=()=>{
+    onToggle();
+    setShowselectedOption(true);
+    if(dropDownType!=="SUB_CATEGORY")
+      {
+        dispatch(fetchDropDownRequest(payload));
+      }
+     
+      if(subcategorydataforApi.parentId!=="")
+        {
+          dispatch(fetchDropDownRequest(subcategorydataforApi));
+        }
 
+  }
+ const handleBelowArrowdropdown=()=>{
+  onToggle();
+  setShowselectedOption(false);
+  if(dropDownType!=="SUB_CATEGORY")
+  {
+    dispatch(fetchDropDownRequest(payload));
+  }
+  if(subcategorydataforApi.parentId!=="")
+    {
+      dispatch(fetchDropDownRequest(subcategorydataforApi));
+    }
+}
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
@@ -382,9 +430,8 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  onToggle();
-                  setShowselectedOption(true);
-                  dispatch(fetchDropDownRequest(payload));
+                  handleAboveArrowdropdown()
+
                 }}
                 alt="dropdown"
                 className="dropdownimageclosed"
@@ -393,9 +440,8 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  onToggle();
-                  setShowselectedOption(false);
-                  dispatch(fetchDropDownRequest(payload));
+                  handleBelowArrowdropdown()
+                 
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"
