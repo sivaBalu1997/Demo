@@ -18,7 +18,6 @@ import {
   cleanMenuItemSuccessMsg,
   retryImageUpload,
   startImageUpload,
-  updateMenuItemRequest,
   uploadImage,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -180,8 +179,8 @@ interface State {
 
 interface Detail {
   typeId: string;
-  typeName: string[]; 
-  price: number | string; 
+  typeName: string[]; // or string[][] if nested arrays are allowed
+  price: number | string; // Allow for both numbers and strings
 }
 
 interface PrizingDetail {
@@ -465,19 +464,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.bestPairData.data
   );
 
-  const menuAddedSuccess = useSelector((state:any) => state.productCatalog.menuDataSuccess)
-
-  const editData = useSelector(
-    (state: any) => state?.selectedMockDataReducer?.data
-  );
-
-  const kitchenStationData = useSelector(
-    (state: any) => state.productCatalog.kitchenStation
-  );
-
-useEffect(()=>{
-  console.log({menuAddedSuccess})
-},[menuAddedSuccess])
   //////////////
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
@@ -485,7 +471,7 @@ useEffect(()=>{
   );
 
   const matchedCuisine = cuisineData?.find(
-    (cuisine: any) => cuisine?.name === primarydata?.cuisine
+    (cuisine: any) => cuisine.name === primarydata?.cuisine
   );
 
   const matchedCategory = categoryData?.find(
@@ -496,9 +482,9 @@ useEffect(()=>{
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
 
-  const matchedKitchenStation = kitchenStationData?.find((kitchen : any) => kitchen.name === prizingDetail?.kitchenstation)
-
-  console.log({matchedKitchenStation})
+  const matchedKitchenStation = cuisineData?.filter((cuisine: any) =>
+    prizingDetail?.kitchenstation?.includes(cuisine.name)
+  );
 
   // const matchedBestPair = bestPairData?.find(
   //   (bestPair : any) => bestPair.name === primarydata?.bestPair
@@ -513,7 +499,7 @@ useEffect(()=>{
   const matchedCategoryId = matchedCategory?.id;
   const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
-  const kitchenStationId = matchedKitchenStation?.id
+  const kitchenStationId = matchedKitchenStation?.map((m: any) => m?.id);
 
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierName: item?.modifierName,
@@ -542,7 +528,7 @@ useEffect(()=>{
 
   const menuPayload = {
     locationId: locationid,
-    itemId: subsectiondatamsg ? subsectiondatamsg : '',
+    itemId: subsectiondatamsg ? subsectiondatamsg:"",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -574,13 +560,12 @@ useEffect(()=>{
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
 
-  console.log("Primary",primarydata?.taxFeeId)
-
+  console.log({ modifierData });
   console.log({ menuPayload });
 
   const handleDispatch = async () => {
     checkAllImagesForErrors();
-    const allUploaded = uploadedimage?.every(
+    const allUploaded = uploadedimage.every(
       (img) => img && !hasImageError(img.file)
     );
 
@@ -621,11 +606,7 @@ useEffect(()=>{
         return updatedIndexToReplace; // Ensure the state is updated with the new value
       });
     }
-    if(editData.length > 0){
-      dispatch(updateMenuItemRequest({menuPayload, locationid}))
-    }else{
-      dispatch(addMenuItemRequest({ menuPayload, locationid }));
-    }
+    dispatch(addMenuItemRequest({ menuPayload, locationid }));
     // dispatch(addMockDataRequest(data));
 
     // If needed, redirect or perform other actions here
@@ -743,6 +724,9 @@ useEffect(()=>{
             subsectionFile.file.name === selectedImage.file.name
         )
     );
+
+    // console.log("reult of image",imagesNotPresent);
+
     return result;
   };
 

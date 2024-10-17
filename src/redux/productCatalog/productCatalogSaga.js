@@ -358,12 +358,12 @@ function* imageUploadSaga(action) {
     
     const response = yield call(uploadImageApi, firstImage, itemId); // itemId is empty here
 
-    console.log("First image uploaded, item ID:", response);
+    // console.log("First image uploaded, item ID:", response);
 
     // Update itemId with the response from the first successful image upload
-    if (response.data && response.data.imageId
+    if (response.data && response.data.itemId
       ) {
-      itemId = response.data.imageId
+      itemId = response.data.itemId
       ;
     }
 
@@ -373,7 +373,7 @@ function* imageUploadSaga(action) {
   } catch (error) {
     // Handle failure for the first image
     failureArray.push({
-      file: images[0].file,
+      file: images[0]?.file,
       itemId: '',  // No itemId available for the first image
     });
     console.log("Failed to upload the first image", failureArray);
@@ -389,7 +389,7 @@ function* imageUploadSaga(action) {
       // Call the API to upload the remaining images with the updated itemId
       const response = yield call(uploadImageApi, image, itemId);
 
-      console.log("Image uploaded, item ID:", response);
+      // console.log("Image uploaded, item ID:", response);
 
       // Dispatch success action
       yield put(imageUploadSuccess(itemId));
@@ -401,19 +401,21 @@ function* imageUploadSaga(action) {
         itemId: itemId || '',  // Use the itemId from the first image's response
       });
 
-      console.log("Failed upload, failureArray:", failureArray);
+      // console.log("Failed upload, failureArray:", failureArray);
       yield put(imageUploadFailure(image.name, itemId));
     }
   }
 
   // If there are failures, dispatch a failure action for all failed uploads
   if (failureArray.length > 0) {
-    console.log("Error uploading some images");
+    // console.log("Error uploading some images");
     yield put(storeUploadFailure(failureArray,"failed"));
   }
 
   else
   {
+    console.log("success itemId",itemId);
+    
     yield put(storeUploadSuccess(itemId));
   }
 }
