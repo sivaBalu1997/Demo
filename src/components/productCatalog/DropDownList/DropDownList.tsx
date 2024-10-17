@@ -201,6 +201,13 @@ const DropDownList: React.FC<DropdownProps> = ({
   //   }
   // }, [getValues(name), setValue, initialOptions]);
 
+  let subcategorydataforApi={
+    locationId: locationid,
+    type: "SUB_CATEGORY",
+    parentId: "",
+
+  }
+
   const handleSelect = (option: Option) => {
     if (type === "checkbox") {
       const isAlreadySelected = selectedOptions.some(
@@ -238,10 +245,11 @@ const DropDownList: React.FC<DropdownProps> = ({
         type: "SUB_CATEGORY",
         parentId: option.id,
         }
+        subcategorydataforApi.parentId=option.id;
         console.log("SubcategoryId",SubcategoryId);
         
     
-        if(SubcategoryId )
+        if(subcategorydataforApi.parentId!=="")
         {
           dispatch(fetchDropDownRequest(viewdata));
         }
@@ -373,6 +381,11 @@ const DropDownList: React.FC<DropdownProps> = ({
       {
         dispatch(fetchDropDownRequest(payload));
       }
+     
+      if(subcategorydataforApi.parentId!=="")
+        {
+          dispatch(fetchDropDownRequest(subcategorydataforApi));
+        }
 
   }
  const handleBelowArrowdropdown=()=>{
@@ -382,6 +395,10 @@ const DropDownList: React.FC<DropdownProps> = ({
   {
     dispatch(fetchDropDownRequest(payload));
   }
+  if(subcategorydataforApi.parentId!=="")
+    {
+      dispatch(fetchDropDownRequest(subcategorydataforApi));
+    }
 }
   return (
     <div className="dropdown-component" ref={dropdownRef}>

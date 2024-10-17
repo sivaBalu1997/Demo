@@ -182,7 +182,8 @@ const initialProductCatalogState = {
   itemId: "",
   uploadFailures: [],
   imageUploadfailuremsg: "",
-  imageUploadsuccessemsg: "",
+  imageUploadsuccessemsg: false,
+  successImageId:"",
 
   retrySucess: "",
   retryFailure: {
@@ -490,6 +491,7 @@ export default function productCatalogReducer(
         draft.imageUpload = action.payload.statusmsg;
 
       case STORE_UPLOAD_SUCCESS:
+        draft.successImageId=action.payload;
         draft.imageUploadsuccessemsg = true;
 
       case RETRY_IMAGE_SUCCESS:

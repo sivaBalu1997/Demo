@@ -280,6 +280,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const subsectiondatamsg = useSelector(
     (state: any) => state.productCatalog.imageUploadsuccessemsg
   );
+  const UploadImageImageID = useSelector(
+    (state: any) => state.productCatalog.successImageId
+  );
+  
   const retrymsg = useSelector(
     (state: any) => state.productCatalog.retryFailure
   );
@@ -541,7 +545,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const menuPayload = {
     locationId: locationid,
-    itemId: subsectiondatamsg ? subsectiondatamsg : "",
+    itemId: UploadImageImageID ? UploadImageImageID : "",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,

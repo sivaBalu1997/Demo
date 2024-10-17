@@ -354,9 +354,10 @@ function* imageUploadSaga(action) {
     const response = yield call(uploadImageApi, firstImage, itemId); 
 
     // console.log("First image uploaded, item ID:", response);
+console.log("response",response);
 
-    if (response.data && response.data.imageId) {
-      itemId = response.data.imageId;
+    if (response.data && response.data.itemId) {
+      itemId = response.data.itemId;
     }
 
     // Dispatch success action with the updated itemId
@@ -401,6 +402,8 @@ function* imageUploadSaga(action) {
     console.log("Error uploading some images");
     yield put(storeUploadFailure(failureArray, "failed"));
   } else {
+    console.log("itemId",itemId);
+    
     yield put(storeUploadSuccess(itemId));
   }
 }
