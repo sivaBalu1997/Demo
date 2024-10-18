@@ -119,7 +119,7 @@ const CustomizeSlider = () => {
             </div>
 
             <div>
-              {elem.options.map((subitem:any, subindex:any) => (
+              {elem?.options?.map((subitem:any, subindex:any) => (
                 <div className='subitems-toggle-container-flex-direction' key={subindex}>
                   <div className='subitems-toggle-container-flex'>
                     <div className='subitem-heading'>{subitem.name}</div>

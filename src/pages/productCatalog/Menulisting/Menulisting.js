@@ -8,13 +8,11 @@ import closeicon from "../../../assets/svg/closeicon.svg";
 import toggleround from "../../../assets/svg/toggleround.svg";
 import calendericon from "../../../assets/svg/calendericon.svg";
 import dollaricon from "../../../assets/svg/dollaricon.svg";
-// import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { itemsdata, itemsfooddata } from "../../../assets/mockData/Moca_data";
 import InsertColumnList from "../../../components/productCatalog/InsertColumnList/InsertColumnList";
 import TableFirstHeader from "../../../components/productCatalog/TableFirstHeader/TableFirstHeader";
-import TableSecondHeader from "../../../components/productCatalog/TableSecondHeader/TableSecondHeader";
 import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableTwoBody";
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
@@ -23,9 +21,9 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getMenuRequest,
   selectedMockDataRequest,
-  storeMockDataRequest,
+
 } from "redux/productCatalog/productCatalogActions";
-import { combinedItemsData } from "assets/mockData/Moca_data";
+
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
@@ -34,8 +32,23 @@ export const Menulisting = () => {
 
   const menuData = useSelector((state) => state.productCatalog?.menuData)
   const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
-  // console.log("SearchedmenuItem",SearchedmenuItem);
   
+console.log("menuData",menuData);
+const modify = menuData?.map((item) => {
+  return item?.itemResponseList?.map((responseItem) => {
+    // Check if modifiers exist and are an array
+    const result = responseItem?.modifiers && Array.isArray(responseItem.modifiers)
+      ? responseItem.modifiers.map((modifier) => {
+          const modifierLength = modifier?.modifierName ? modifier.modifierName.length : 0;
+          console.log(`Modifier length: ${modifierLength}`);
+          return modifierLength; // Return the length of each modifierName
+        })
+      : []; // Return an empty array if modifiers is undefined or not an array
+    return result; // Return the lengths of modifiers array
+  });
+});
+
+console.log("modify", modify);
 
 
   const { isExpanded } = useContext(Contextpagejs);
@@ -61,11 +74,9 @@ export const Menulisting = () => {
   
 
   useEffect(() => {
-    // dispatch(storeMockDataRequest(combinedItemsData));
     dispatch(getMenuRequest(location?.id));
   }, []);
 
-  // console.log({menuData})
 
   
 
@@ -165,7 +176,7 @@ export const Menulisting = () => {
     { label: "Dinein2" },
     { label: "Pickup2" },
     { label: "Delivery2" },
-    { label: "Inventory1" },
+  
     { label: "Customize1" },
   ]);
 

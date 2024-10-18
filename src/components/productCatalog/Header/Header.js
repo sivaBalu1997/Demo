@@ -26,7 +26,7 @@ const Header = () => {
       <div className='Header-Heading-Search-Filter-Container'>
         <Menu120/>
         <SearchBox/>
-        <div className='Filter-Div'>
+        {/* <div className='Filter-Div'>
           <div className='Filter-FlexCol'>
             <img 
               className={isExpanded ? 'FilterIcon-Header1' : "FilterIcon-Header"} 
@@ -39,7 +39,7 @@ const Header = () => {
           </div> 
 
           {filterSelected && <Filter/>}
-        </div>
+        </div> */}
         {/* <div className='Excel-flex-col'>
           <img className={`${isExpanded?"Excel-Header1":"Excel-Header"}`} src={publish} alt="" />
         </div>   */}

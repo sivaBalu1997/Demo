@@ -2,6 +2,8 @@ import React from "react";
 import Toggle from "../Toggle/Toggle";
 import { log } from "console";
 import { tr } from "date-fns/locale";
+import { RootState } from "redux/rootReducer";
+import { useSelector } from "react-redux";
 
 interface ModifierOption {
   optionId: string;
@@ -81,8 +83,12 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     handlemodal(value);
   };
   // const allFalse = Object.values(listingobject).every(value => value === false);
-  console.log("itemobject", itemobject);
+  // console.log("itemobject", itemobject);
   const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
+  const restaurantDetails = useSelector(
+    (state: RootState) => state.auth.restaurantDetails
+  );
+  // console.log("restaurantDetails",restaurantDetails?.country);
 
   return (
     <>
@@ -108,36 +114,60 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
               const orderType = item.orderTypes?.find(
                 (ot: OrderType) => ot.typeName === typeName
               );
-              const price = orderType ? orderType.price.toFixed(2) : "";
-              const className = typeName.toLowerCase()+"data";
-              console.log("className",className);
-              
+              const price = orderType
+                ? orderType.price.toFixed(2).padStart(5, "0")
+                : "";
+              const className = typeName.toLowerCase() + "data";
+
               return (
-                <div key={typeName} style={{ display: "flex" }} className={className}>
-                
-                  <p> {price !== "" ? price : "0"}</p>
+                <div
+                  key={typeName}
+                  style={{ display: "flex" }}
+                  className={className}
+                >
+                  <p>
+                    {restaurantDetails?.country === "US" ? "$" : "Rs."}{" "}
+                    {price !== "" ? price : "0"}
+                  </p>
                 </div>
               );
             })}
-
 
             {orderTypesToShow.map((typeName) => {
               const orderType = item.orderTypes?.find(
                 (ot: OrderType) => ot.typeName === typeName
               );
 
-              const isEnabled = orderType ? orderType.isEnabled : ""; 
-              const className = typeName.toLowerCase()+"data";
+              const isEnabled = orderType ? orderType.isEnabled : "";
+              const className = typeName.toLowerCase() + "data";
 
               return (
-                <div key={typeName} style={{ display: "flex" }} className={className}>
-                  
-{/* 
+                <div
+                  key={typeName}
+                  style={{ display: "flex" }}
+                  className={className}
+                >
+                  {/* 
                   <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
-                  <p>{isEnabled !== "" ?  <Toggle toggle={true } />:<Toggle toggle={false } />}</p>
+                  <p>
+                    {isEnabled !== "" ? (
+                      <Toggle toggle={true} />
+                    ) : (
+                      <Toggle toggle={false} />
+                    )}
+                  </p>
                 </div>
               );
             })}
+            {item?.modifiers && Array.isArray(item.modifiers) ? (
+              <div className="Customizedata">
+                <span>{item.modifiers.length}</span>
+              </div>
+            ) : (
+              <div className="Customizedata">
+                <span>No Modifiers Available</span>
+              </div>
+            )}
           </tr>
         </>
       ))}

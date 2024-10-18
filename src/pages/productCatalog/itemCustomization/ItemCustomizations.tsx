@@ -72,6 +72,7 @@ const ItemCustomizations: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
+
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
@@ -86,6 +87,34 @@ const ItemCustomizations: React.FC = () => {
   const [validationState, setValidationState] = useState({
     items: { isValid: true, errorMessage: "" },
   });
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
+
+
+  // const filterOptions = (input) => {
+  //   const itemNames = menuData?.flatMap(item => item?.itemResponseList)
+  //     .map(item => item?.itemName);
+
+  //   const filtered = itemNames?.filter(item => 
+  //     item?.toLowerCase().includes(input?.toLowerCase())
+  //   );
+
+  //   setFilteredOptions(filtered);
+  //   setFilteredOptionsDispatch(filtered);
+
+  //   if (filtered.length > 0 && input.length > 0) {
+  //     const firstMatch = filtered[0];
+  //     if (firstMatch.toLowerCase().startsWith(input.toLowerCase())) {
+  //       const suggestion = firstMatch.slice(input.length);
+  //       setHighlightedIndex(0);  
+  //     } else {
+     
+  //     }
+  //   } else {
+     
+  //   }
+  // };
 
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -264,13 +293,12 @@ const ItemCustomizations: React.FC = () => {
   ) => {
     const newModifier = [...modifications];
 
-    // Convert the value to a number if the name is "cost"
     if (e.target.name === "cost") {
       newModifier[modIndex].options[optIndex][e.target.name as keyof Option] =
-        parseFloat(e.target.value) || 0; // Convert to number, default to 0 if NaN
+        parseFloat(e.target.value) || 0; 
     } else {
       newModifier[modIndex].options[optIndex][e.target.name as keyof Option] =
-        e.target.value; // Keep as string for other fields
+        e.target.value;
     }
 
     setModifications(newModifier);
@@ -403,6 +431,46 @@ const ItemCustomizations: React.FC = () => {
     setModifications(newmodification);
   };
 
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowDown') {
+      setHighlightedIndex((prevIndex) => {
+        const newIndex = Math.min(filteredOptions.length - 1, prevIndex + 1);
+        setSearchQuery(filteredOptions[newIndex]);
+      
+        return newIndex;
+      });
+    }
+
+    if (e.key === 'ArrowUp') {
+      setHighlightedIndex((prevIndex) => {
+        const newIndex = Math.max(0, prevIndex - 1);
+        setSearchQuery(filteredOptions[newIndex]);
+      
+        return newIndex;
+      });
+    }
+
+    if (e.key === 'Enter') {
+      if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
+      
+        setHighlightedIndex(-1);
+      }
+    }
+    
+    // if (e.key === 'Backspace') {
+    //   if (optionSelected) {
+    //     // If an option was selected, reset searchTerm and displayTerm
+    //     setSearchTerm('');
+    //     setDisplayTerm('');
+    //     setOptionSelected(false); // Allow new input
+    //     setFilteredOptions([]);   // Clear suggestions
+    //   } else {
+    //     setOptionSelected(false); // Allow for changing selection
+    //   }
+    // }
+  };
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -439,17 +507,18 @@ const ItemCustomizations: React.FC = () => {
                 className="searchBox-input"
                 type="text"
                 value={searchQuery}
+                onKeyDown={handleKeyDown}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   if (e.target.value === "") {
                     setModifications(initialModificationValue);
                   }
                 }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearchChange();
-                  }
-                }}
+                // onKeyDown={(e) => {
+                //   if (e.key === "Enter") {
+                //     handleSearchChange();
+                //   }
+                // }}
               ></input>
               <img
                 src={Serachicon}
@@ -458,6 +527,29 @@ const ItemCustomizations: React.FC = () => {
                 onClick={() => handleSearchChange()}
               />
             </div>
+
+            <div className={isExpanded ? "Search-Container-options1" : 'Search-Container-options'}>
+        {searchQuery && (
+          <ul>
+            {filteredModifications?.length > 0 ? (
+              filteredModifications.map((item,index)=>(
+                <div>
+               {item.modifierName}
+                </div>
+
+              ))
+              
+            ) :   (
+              <div className={isExpanded ? 'Search-Container-options1-none' : 'Search-Container-options-none'}>
+                <div className='Search-Container-options-none-flex-direction'>
+                  <img className="NotFoundImage" src="" alt="No Results Found" />
+                  <h3 className='heading-none'>No Results Found</h3>
+                </div>
+              </div>
+            )}
+          </ul>
+        )}
+      </div>
 
             <div className="modifiersitem">
               <div className="modifiers">
