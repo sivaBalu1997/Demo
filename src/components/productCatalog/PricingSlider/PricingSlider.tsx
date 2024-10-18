@@ -140,7 +140,7 @@ const PricingSlider: any = ({  }) => {
                           className="OnPremZomatoInhouseSwiggyInput"
                         >
                           <h3 className="OnPremZomatoInhouseSwiggyInput-Heading">
-                            {inputlabels}
+                            {inputlabels}67
                           </h3>
                           <input
                             type={elem.inputTypes[idx] || "number"}
