@@ -5,6 +5,7 @@ import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
 import { useSelector, useDispatch } from "react-redux";
+import Loader from '../../../assets/Loader.gif.gif'
 import {
   addDropDowRequest,
   deleteDropDowRequest,
@@ -474,7 +475,9 @@ const DropDownList: React.FC<DropdownProps> = ({
               onMouseDown={handleOptionMouseDown}
             >
               {Loading ? (
-                <div className="dropdown-no-options">Loading</div>
+                <div className="dropdown-no-options">
+                  <img className="imgLoader" src={Loader}  alt="" />
+                </div>
               ) : (
                 <div>
                   {!Loading && filteredOptions?.length > 0 ? (
