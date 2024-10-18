@@ -476,7 +476,7 @@ const DropDownList: React.FC<DropdownProps> = ({
             >
               {Loading ? (
                 <div className="dropdown-no-options">
-                  <img className="imgLoader" src={Loader}  alt="" />
+                  <img className="imgLoader1" src={Loader}  alt="" />
                 </div>
               ) : (
                 <div>

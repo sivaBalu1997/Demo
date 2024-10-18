@@ -666,7 +666,7 @@ export const Menulisting = () => {
                     ))}
                   </tbody>
                 </table>
-                  <img className="imgLoader" src={Loader}></img>
+                  <img className="imgLoader2" src={Loader}></img>
               </div>
             </div>
           </div>
@@ -678,7 +678,7 @@ return (
   <> 
    {   loading ? (
       <div className="Menu-noOptions">
-        <img className="imgLoader" src={Loader} alt="Loading..." />
+        <img className="imgLoader2"  src={Loader} alt="Loading..." />
       </div>
     ) : (  
       <div style={{ display: "flex", overflowX: "hidden" }}>
