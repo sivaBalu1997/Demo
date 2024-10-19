@@ -31,10 +31,13 @@ interface AvailSliderProps {
 
 const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   // Access initial data from Redux for mapping
-  const dataFromRedux = useSelector(
-    (state: any) => state?.selectedMockDataReducer?.data
-  );
-
+  const dataFromRedux = useSelector((state: any) => state?.selectedMockDataReducer?.data);
+  const subcategories = Array.isArray(dataFromRedux[0]?.orderTypes)
+  ? dataFromRedux[0].orderTypes.map((elem: any) => ({
+      subHeading: elem.typeName, // Map each typeName into a separate subHeading
+      types: []  // Empty types array for now (can add data if needed)
+    }))
+  : [];
   const data = [
     {
       mainHeading: "Off-prem",
@@ -44,16 +47,16 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       mainHeading: "On-prem",
       subcategories: [
         {
-          subHeading:
-            dataFromRedux[0]?.orderTypes?.length > 0
-              ? [dataFromRedux[0]?.orderTypes[0].typeName]
-              : [],
-          types: [],
+          // Map through orderTypes to extract typeName values
+          subHeading:  ["Order Types "],
+  
+          types: Array.isArray(dataFromRedux[0]?.orderTypes)
+            ? dataFromRedux[0].orderTypes.map((elem: any) => elem.typeName)
+            : []
         },
       ],
     },
   ];
-
   // UseState to track toggle states
   const [toggleStates, setToggleStates] = useState<any[]>([]);
 
@@ -183,130 +186,48 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   };
 
   // Function to handle child toggle for Section A and Section B or for Pickup/Delivery
-  const handleChildToggle = (
-    parentIndex: number,
-    subcategoryIndex: number,
-    childIndex: number
-  ) => {
+  const handleChildToggle = (parentIndex: number, subcategoryIndex: number, childIndex: number) => {
+    // Create a copy of the current toggle states
     const newToggleStates = [...toggleStates];
-
+  
+    // Check if the parent has subcategory toggles
     if (newToggleStates[parentIndex]?.subcategoryToggles) {
-      const childToggles =
-        newToggleStates[parentIndex]?.subcategoryToggles?.[subcategoryIndex]
-          ?.childToggles;
-
-      if (childToggles) {
-        // Toggle the specific child
-        childToggles[childIndex] = !childToggles[childIndex];
-
-        // Check if all child toggles are disabled
-        const areAllChildrenDisabled = childToggles.every(
-          (toggle: boolean) => !toggle
-        );
-
-        // If all children are disabled, disable the parent toggle
-        newToggleStates[parentIndex].subcategoryToggles[
-          subcategoryIndex
-        ].subParentToggle = !areAllChildrenDisabled;
+      const subcategoryToggles = newToggleStates[parentIndex].subcategoryToggles;
+  
+      // Ensure the subcategory exists
+      if (subcategoryToggles[subcategoryIndex]) {
+        const childToggles = subcategoryToggles[subcategoryIndex].childToggles;
+  
+        if (childToggles) {
+          // Toggle the specific child
+          childToggles[childIndex] = !childToggles[childIndex];
+  
+          // Check if all child toggles are disabled
+          const areAllChildrenDisabled = childToggles.every((toggle: boolean) => !toggle);
+  
+          // If all children are disabled, disable the parent toggle
+          subcategoryToggles[subcategoryIndex].subParentToggle = !areAllChildrenDisabled;
+        }
       }
     } else {
       // Handle Section A/B
       const childToggles = newToggleStates[parentIndex]?.childToggles;
-
+  
       if (childToggles) {
         // Toggle the specific child
         childToggles[childIndex] = !childToggles[childIndex];
-
+  
         // Check if all child toggles are disabled
-        const areAllChildrenDisabled = childToggles.every(
-          (toggle: boolean) => !toggle
-        );
-
+        const areAllChildrenDisabled = childToggles.every((toggle: boolean) => !toggle);
+  
         // If all children are disabled, disable the parent toggle
         newToggleStates[parentIndex].parentToggle = !areAllChildrenDisabled;
       }
     }
-
+  
+    // Update the state with new toggle states
     setToggleStates(newToggleStates);
   };
-
-useEffect(() => {
-  if (toggleStates.length > 0) {
-    const newToggleStates = [...toggleStates];
-
-    // Extract conditions to avoid unnecessary state updates
-    const isPickupFalse =
-      !newToggleStates[1]?.subcategoryToggles?.[0]?.subParentToggle;
-    const isDeliveryFalse =
-      !newToggleStates[1]?.subcategoryToggles?.[1]?.subParentToggle;
-    const isPickupTrue =
-      newToggleStates[1]?.subcategoryToggles?.[0]?.subParentToggle;
-    const isDeliveryTrue =
-      newToggleStates[1]?.subcategoryToggles?.[1]?.subParentToggle;
-
-    const inhousePickup =
-      newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[0] || false;
-    const swiggyPickup =
-      newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[1] || false;
-    const zomatoPickup =
-      newToggleStates[1]?.subcategoryToggles?.[0]?.childToggles?.[2] || false;
-
-    // Check child toggles and update Pickup and Delivery based on conditions
-    if (inhousePickup || swiggyPickup || zomatoPickup) {
-      if (
-        !newToggleStates[1].subcategoryToggles[0].subParentToggle ||
-        !newToggleStates[1].subcategoryToggles[1].subParentToggle
-      ) {
-        newToggleStates[1].subcategoryToggles[0].subParentToggle = true;
-        newToggleStates[1].subcategoryToggles[1].subParentToggle = true;
-      }
-    }
-
-    if (isPickupFalse && isDeliveryFalse) {
-      if (newToggleStates[1].parentToggle !== false) {
-        newToggleStates[1].parentToggle = false;
-      }
-    } else {
-      if (
-        isPickupTrue ||
-        isDeliveryTrue ||
-        inhousePickup ||
-        swiggyPickup ||
-        zomatoPickup
-      ) {
-        if (newToggleStates[1].parentToggle !== true) {
-          newToggleStates[1].parentToggle = true;
-        }
-      }
-    }
-
-    const isOffPremActive =
-      newToggleStates[0]?.parentToggle ||
-      newToggleStates[0]?.childToggles?.every((toggle: any) => toggle) ||
-      (newToggleStates[0]?.childToggles[0] &&
-        newToggleStates[0]?.childToggles[1]);
-
-    const isSectionATrue = newToggleStates[0]?.parentToggle;
-    const isSectionBTrue = newToggleStates[1]?.parentToggle;
-
-    if (isSectionATrue && isSectionBTrue) {
-      if (newToggleStates[0].parentToggle !== true) {
-        newToggleStates[0].parentToggle = true;
-      }
-    } else {
-      if (newToggleStates[0].parentToggle !== isOffPremActive) {
-        newToggleStates[0].parentToggle = isOffPremActive;
-      }
-    }
-
-    // Only update state if the new state is different from the current one
-    if (JSON.stringify(newToggleStates) !== JSON.stringify(toggleStates)) {
-      setToggleStates(newToggleStates);
-    }
-  }
-}, [toggleStates]);
-
-
   return (
     <div className="AvailSlider-Container">
       <h3 className="AvailSlider-Heading">Availability</h3>
@@ -353,21 +274,13 @@ useEffect(() => {
                       setToggle={() => handleSubcategoryToggle(index, subIndex)}
                       pen={pen}
                     />
-                    <div className="TypesSection">
-                      {subcategory.types.map((type, typeIndex) => (
-                        <div key={typeIndex} className="TypeHeading">
-                          <h4 className="SectionASectionBSectionHeading">
-                            {type}
-                          </h4>
+                    <div className='TypesSection'>
+                      {subcategory.types.map((type:any, typeIndex:any) => (
+                        <div key={typeIndex} className='TypeHeading'>
+                          <h4 className='SectionASectionBSectionHeading'>{type}</h4>
                           <ToggleSliderAvail
-                            toggle={
-                              toggleStates[index]?.subcategoryToggles?.[
-                                subIndex
-                              ]?.childToggles?.[typeIndex] || false
-                            }
-                            setToggle={() =>
-                              handleChildToggle(index, subIndex, typeIndex)
-                            }
+                           toggle={toggleStates[index]?.childToggles?.[typeIndex] || false} // Ens
+                            setToggle={() => handleChildToggle(index, subIndex, typeIndex)}
                             pen={pen}
                           />
                         </div>

@@ -16,6 +16,9 @@ export const Contextpage = ({ children }) => {
     const [saveandnext, setsaveandnext]=useState(false);
     const [active, setActive] = useState('');
     const [pen, setPen] = useState(false);
+    const[ApiPayload,setApiPayload]=useState({
+      itemId:""
+    })
     const[patchedData,setPatchedData]=useState(
       {
         itemId: datafromRedux[0]?.itemId,
@@ -65,7 +68,9 @@ export const Contextpage = ({ children }) => {
       pen,
       setPen,
       patchedData,
-      setPatchedData
+      setPatchedData,
+      setApiPayload,
+      ApiPayload
     }}>
       {children}
     </Contextpagejs.Provider>

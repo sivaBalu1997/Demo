@@ -132,10 +132,12 @@ export function updateMenuItemAttribute(data) {
   });
 }
 
-export function deleteMenuItem(data) {
+export function deleteMenuItem(payload) {
   return API({
     method: "delete",
-    url: `/merchants/item?id=${data}&option=ITEM`,
+    url: `/api/v1/menu-items/delete`,
+    data:payload
+
   });
 }
 
@@ -190,3 +192,11 @@ export function apiUpdateMenu(payload) {
   });
 }
 
+
+export function hideMockData(payload) {
+  return API({
+    method: "put",
+    url: `/api/v1/menu-items/hide`,
+    data:payload
+  });
+}

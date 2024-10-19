@@ -141,6 +141,7 @@ th {
       align-items: center;
       gap: 10px;
       height: 2rem;
+      background-color: #E2E0E0;
       // border: 1px solid blue;
     }
     .itemheadingtwo {
@@ -152,6 +153,8 @@ th {
       align-items: center;
       display: flex;
       height: 2rem;
+      background-color: #E2E0E0;
+      z-index: 0;
       border-right: 1px solid #b3b3b3 !important;
     }
 
@@ -170,10 +173,12 @@ th {
         border: 1px solid #b3b3b3 !important;
         border-collapse: collapse;
         display: flex;
+        z-index: 1;
         align-items: center;
         border-top: none !important;
         border-left: none !important;
         font-size: 14px;
+        padding-left: 1rem;
 
         .itemimage2 {
           width: 4rem;
@@ -226,11 +231,11 @@ th {
   }
 
   .Menu-Listing-TableTwo {
-    width: 63rem;
+    width: 65.6rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-   
+  //  border: 1px solid red !important;
 
     &::-webkit-scrollbar-track {
       background-color: #b3b3b3;
@@ -245,7 +250,7 @@ th {
     }
   }
   .Menu-Listing-TableTwo1 {
-    width: 55rem;
+    width: 59rem;
     // border: 1px solid red !important;
     overflow-x: auto;
     display: block;
@@ -282,20 +287,33 @@ th {
 }
 .pickupdata
 {
-  width: 226px;
+  width: 154px;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 .deliverydata
 {
-  width: 226px;
+  width: 154px;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
+.Customizedata
+{
+  width: 154px;
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
   .Menu-Listing-TableTwoHead {
     height: 3.95rem;
+    width: 100%;
     // border-bottom: 1px solid #d9d9d9;
     position: relative;
     // left: -0.3%;
@@ -303,9 +321,9 @@ th {
 
     .headingonesection {
       display: flex;
-      border: 1px solid blue;
+      // border: 1px solid blue;
       flex-direction: row;
-      
+      width: fit-content;
       gap: 20px;
       position: relative;
       height: 1rem;
@@ -365,8 +383,8 @@ th {
           }
         }
       }
-      .Pickup {
-        width: 226px;
+      .Pickup { 
+        width: 154px;
         height: 30px;
         border: 0.5px solid #d9d9d9 !important;
         border-radius: 4px;
@@ -375,7 +393,7 @@ th {
         align-items: center;
         // padding-left: 10px;
         // padding-right: 10px;
-        gap:2.7rem;
+        gap: 0.6rem;
         cursor: grab;
         &:active {
           cursor: grabbing;
@@ -391,7 +409,7 @@ th {
         }
       }
       .Delivery {
-        width: 226px;
+        width: 154px;
         height: 30px;
         border: 0.5px solid #d9d9d9 !important;
         border-radius: 4px;
@@ -400,8 +418,7 @@ th {
         align-items: center;
         // padding-left: 10px;
         // padding-right: 10px;
-        gap: 2.5rem;
-
+        gap: 0.6rem;
         cursor: grab;
         &:active {
           cursor: grabbing;
@@ -556,7 +573,7 @@ th {
     height: 33.2rem !important;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 171.4%;
+    width: 20%;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -568,7 +585,7 @@ th {
     height: 32.5rem;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 190.85%;
+    width: 30%;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -580,6 +597,8 @@ th {
     flex-direction: column;
     // padding-top: -5.85%;
     margin-top: -0.7%;
+   
+
   }
   .columnselected {
     width: 247px;
@@ -815,7 +834,7 @@ th {
   position: absolute;
   top: 14.5%;
   left: 11vw;
-  z-index: 1;
+  z-index: 5;
   width: 217px;
   height: 357px;
   gap: 0px;
@@ -929,7 +948,7 @@ th {
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 84%;
+    width: 87%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -1004,7 +1023,7 @@ th {
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 84%;
+    width: 87%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -1117,7 +1136,7 @@ th {
       height: 31.2rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 170.4%;
+      width: 115.4%;
       // border: 1px solid green;
       &::-webkit-scrollbar {
         display: none;
@@ -1129,7 +1148,7 @@ th {
       height: 32.5rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 197%;
+      width: 128.3%;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -1154,7 +1173,7 @@ th {
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 81%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -1172,5 +1191,19 @@ th {
   align-items: center;
   gap: 10px;
   height: 2rem;
+  background-color: #E2E0E0;
+  z-index: 0;
+  width: 99.2%;
+ 
+ 
 }
 
+
+.imgLoader2{
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  
+}

@@ -56,19 +56,22 @@ const CustomizeSlider = () => {
         ...prevState,  // Spread prevState first to maintain the other structure
         itemId: datafromRedux[0]?.itemId ?? prevState.itemId,  // Safely set itemId from datafromRedux
         modifierInfo: customData.map((item, index) => ({
-          modifierId: datafromRedux[0]?.modifiers?.[index]?.id || prevState.modifierInfo[index]?.modifierId || "", // Ensure correct mapping of modifierId
+          modifierId: datafromRedux[0]?.modifiers?.[index]?.id || prevState.modifierInfo[index]?.optionId || "", // Ensure correct mapping of modifierId
           modifierName: item.modifierName,
           isEnabled: item.isEnabled,
           options: item.options.map((opt:any, optIndex:any) => ({
-            modifierOptionId: datafromRedux[0]?.modifiers?.[index]?.options?.[optIndex]?.id || prevState.modifierInfo[index]?.options[optIndex]?.modifierOptionId || "", // Map to correct option
+        modifierOptionId: datafromRedux[0]?.modifiers?.[index]?.options?.[optIndex]?.optionId || prevState.modifierInfo[index]?.options?.[optIndex]?.modifierOptionId || "", // Use correct index
+
             modifierOptionName: opt.name,
-            price: opt.price,  // Ensure price is updated
+            price: opt.price,  // Ensure price is updated,
             isEnabled: opt.isEnabled
           }))
         }))
       }));
     }
   }, [datafromRedux, customData, setPatchedData]);
+
+  console.log(datafromRedux[0]?.modifiers?.[0]?.options?.[0]?.id ,)
   
 
   const [pen, setPen] = useState(true); // Define the pen state
@@ -119,7 +122,7 @@ const CustomizeSlider = () => {
             </div>
 
             <div>
-              {elem.options?.map((subitem:any, subindex:any) => (
+              {elem?.options?.map((subitem:any, subindex:any) => (
                 <div className='subitems-toggle-container-flex-direction' key={subindex}>
                   <div className='subitems-toggle-container-flex'>
                     <div className='subitem-heading'>{subitem.name}</div>

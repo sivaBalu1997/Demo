@@ -384,7 +384,7 @@ const PricingDetails = () => {
 
   useEffect(() => {
     if (prizingDetail) {
-      setInventory(true);
+      // setInventory(true);
       setResetInventory(prizingDetail?.resetInventory);
       setNextAvailable(prizingDetail?.nextAvailable);
       setPrintKot(prizingDetail?.printKot);
@@ -656,6 +656,8 @@ const PricingDetails = () => {
     return isValid;
   };
 
+  console.log("dineinfields",dineinfields);
+  
   const handleReset = () => {
     if (kitchenDetail.current) {
       kitchenDetail.current();
@@ -843,9 +845,9 @@ const PricingDetails = () => {
               <div className="toggleI">
                 <Toggle toggle={inventory} setToggle={setInventory} />
               </div>
-            </div>
+            </div> */}
 
-            <div className="InventorySection">
+            {/* <div className="InventorySection">
               {inventory && (
                 <div>
                   <div className="InventoryHeading">
@@ -955,7 +957,7 @@ const PricingDetails = () => {
                 />
                 <label className="N1">Normal Availability</label>
               </div>
-              <div className="Special">
+              {/* <div className="Special">
                 <input
                   type="radio"
                   value="false"
@@ -964,7 +966,7 @@ const PricingDetails = () => {
                   className="S1radio"
                 />
                 <label className="S1">Special Availability</label>
-              </div>
+              </div> */}
             </div>
 
             {isOptionTrue ? (
@@ -985,17 +987,18 @@ const PricingDetails = () => {
                 resetSelection={normalFormRef}
               />
             ) : (
-              <Specialavail
-                validateDropdown={validateDropdown}
-                validationState={validationState}
-                setMainFormSpecial={setMainFormSpecial}
-                mainFormSpecial={mainFormSpecial}
-                dineinfield1={dineinfields1}
-                setDineInFields1={setDineInFields1}
-                setValidationStateerr={setValidationStateerr}
-                ValidationStateerr={validationStateerr}
-                resetSelection={normalFormRef}
-              />
+              <></>
+              // <Specialavail
+              //   validateDropdown={validateDropdown}
+              //   validationState={validationState}
+              //   setMainFormSpecial={setMainFormSpecial}
+              //   mainFormSpecial={mainFormSpecial}
+              //   dineinfield1={dineinfields1}
+              //   setDineInFields1={setDineInFields1}
+              //   setValidationStateerr={setValidationStateerr}
+              //   ValidationStateerr={validationStateerr}
+              //   resetSelection={normalFormRef}
+              // />
             )}
 
             {/* <div

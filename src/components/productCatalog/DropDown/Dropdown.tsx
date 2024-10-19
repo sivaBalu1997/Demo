@@ -75,6 +75,8 @@ const Dropdown: React.FC<DropdownProps> = ({
       onBlur && onBlur();
     }
   };
+  console.log("Option of sreams",options);
+  
 
   // console.log({selectedValues})
 
@@ -83,7 +85,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       <label className="droplabelPricing">{label}</label>
       <div
         className="dropdownPricingList"
-        style={{ width: "Drop1" ? "300px" : "100px" }}
+        style={{ width: width==="Drop1" ? "300px" : "100px" }}
         onClick={handleDropdownClick}
         tabIndex={0}
       >

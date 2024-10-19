@@ -161,7 +161,7 @@ const SearchBox = () => {
       </div>
 
       <div className={isExpanded ? "Search-Container-options1" : 'Search-Container-options'}>
-        {displayTerm && (
+        {searchTerm && (
           <ul>
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (

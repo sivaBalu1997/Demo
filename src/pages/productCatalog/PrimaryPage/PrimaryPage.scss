@@ -68,7 +68,8 @@
 
     .Primary-page-container-pairone {
       width: 28vw;
-      height: 100vh;
+      height: 121vh;
+      // border: 1px solid red;
     }
 
     .Primary-page-InputFields {
@@ -121,7 +122,7 @@
       }
     }
     .Primary-Page-Foodimages {
-      margin-top: 5rem;
+      margin-top: 1.3rem;
       height: 11rem;
       width: 50vw;
       // border: 1px solid red;
@@ -200,8 +201,10 @@
      position: relative;
      top: -1.2%;
       input {
-        width: 15px;
-        height: 15px;
+        width: 20px;
+        height: 20px;
+        accent-color: #67833E;
+        
       }
       span {
         font-size: 16px;
@@ -226,6 +229,7 @@
       margin-top: -6%;
     }
 
+
     .Primary-page-container-pairtwo {
       width: 45vw;
       height: 90vh;
@@ -233,10 +237,17 @@
       // border: 1px solid red;
     }
   }
-  .Primary-page-container-two {
-    margin-left: 2vw;
-    height: 70vh;
 
+  .Primary-page-container-two-heightdynamic {
+    margin-left: 20px;
+    height: 70vh;
+    margin-top: -8.5%;
+  }
+  .Primary-page-container-two {
+    margin-left: 20px;
+    height: 70vh;
+    margin-top: -13.5%;
+  }
     .Primary-page-ingredients-selection {
       width: 45vw;
       height: 40vh;
@@ -252,7 +263,8 @@
       .Primary-Page-Other-Details-heading {
         font-family: "Poppins", sans-serif;
         font-size: 0.875rem;
-        font-weight: 500;
+        font-weight: 400;
+
         color: #000000;
       }
       .Primary-Page-Other-Detail {
@@ -298,7 +310,7 @@
   .Primary-Page-Formsubmitbutton {
     margin-top: 2%;
   }
-}
+
 
 .portionSize-Radio
 {

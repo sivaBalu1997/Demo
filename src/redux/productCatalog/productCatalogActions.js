@@ -128,6 +128,9 @@ import {
   SEARCH_FORITEM_SUCCESS,
   SEARCH_FORITEM,
   SEARCH_FORITEM_FAILURE,
+  STORE_DATA_WITH_CATEGORY,
+  STORE_DATA_WITH_CATEGORY_SUCCESS,
+  STORE_DATA_WITH_CATEGORY_FAILURE,
   STORE_UPLOAD_SUCCESS,
   DELETE_MODIFIER_REQUEST,
   DELETE_MODIFIER_SUCCESS,
@@ -821,6 +824,23 @@ export const retryimageUploadFailure = (imageName, itemId) => ({
   payload: { imageName, itemId },
 });
 
+
+// {*****************StorewithCatagoryId***************************8}
+
+export const storeDataWithCategory = ( data) => ({
+  type: STORE_DATA_WITH_CATEGORY,
+  payload: data
+});
+
+export const storeDataWithCategorySuccess = ( data) => ({
+  type: STORE_DATA_WITH_CATEGORY_SUCCESS,
+  payload: data
+});
+
+export const storeDataWithCategoryFailure = (error) => ({
+  type: STORE_DATA_WITH_CATEGORY_FAILURE,
+  payload: { error },
+});
 export const deleteModifierRequest = (data) =>({
   type: DELETE_MODIFIER_REQUEST,
   payload: data

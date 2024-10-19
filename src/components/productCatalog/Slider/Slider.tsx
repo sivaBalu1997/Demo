@@ -61,8 +61,13 @@ const Slider: React.FC<SliderProps> = ({
 }) => {
   
   const dataFromRedux = useSelector(
-    (state: any) => state?.selectedMockDataReducer?.data
+    (state: any) => state?.storeDataReducer?.data
   );
+  const data1=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+  const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
+
+
+
 
   const history = useHistory();
   const { pen, setPen } = useContext(Contextpagejs);
@@ -75,6 +80,8 @@ const Slider: React.FC<SliderProps> = ({
   const data = useSelector(
     (state: RootState) => state.storeMockDataReducer.data
   );
+  const menuData = useSelector((state:any) => state.productCatalog?.menuData)
+
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     // Your modal close logic here
@@ -89,24 +96,61 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const handleEyeClick = () => {
-    const UpdatedeleteItem = data.filter(
-      (item: SideBarData) => item.id !== dataFromRedux[0].id
+    // const UpdatedeleteItem = menuData.filter(
+    //   (item: SideBarData) => item.ca !== dataFromRedux[0].id
+    // );
+    const removedItem = menuData.find(
+      (item: any) => item?.categoryId === dataFromRedux?.categoryId
     );
-    const removedItem = data.find(
-      (item: SideBarData) => item.id === dataFromRedux[0].id
-    );
+    
+    
+    // Ensure removedItem exists and has itemResponseList
+    if (removedItem && Array.isArray(removedItem?.itemResponseList)) {
+      // Find the final sub-item inside the itemResponseList array
+      const finalSubItem = removedItem.itemResponseList.find(
+        (subItem: any) => subItem?.itemId === data1[0].itemId
+      );
+      setApiPayload({
+        itemId:finalSubItem.itemId
+
+      })
+
+    
+      console.log("finalidtobe", finalSubItem);
+    } else {
+      console.log("No valid itemResponseList or removedItem found");
+    }
 
     setEye(true);
-    dispatch(storeMockDataRequest(UpdatedeleteItem));
-    dispatch(addMockDataHiddenRequest(removedItem));
+    // dispatch(storeMockDataRequest(UpdatedeleteItem));
+    // dispatch(addMockDataHiddenRequest(removedItem));
   };
 
   const handleBinClick = () => {
-    const UpdatedeleteItem = data.filter(
-      (item: SideBarData) => item.id !== dataFromRedux[0].id
+    // const UpdatedeleteItem = data.filter(
+    //   (item: SideBarData) => item.id !== dataFromRedux[0].id
+    // );
+    // dispatch(storeMockDataRequest(UpdatedeleteItem));
+
+
+      const removedItem = menuData.find(
+      (item: any) => item?.categoryId === dataFromRedux?.categoryId
     );
-    dispatch(storeMockDataRequest(UpdatedeleteItem));
-    onclose();
+    
+    
+    // Ensure removedItem exists and has itemResponseList
+    if (removedItem && Array.isArray(removedItem?.itemResponseList)) {
+      // Find the final sub-item inside the itemResponseList array
+      const finalSubItem = removedItem.itemResponseList.find(
+        (subItem: any) => subItem?.itemId === data1[0].itemId
+      );
+      setApiPayload({
+        itemId:finalSubItem.itemId
+
+      })}
+    
+      setTrash(true)
+
   };
 
   const handleOnclose = () => {
@@ -131,6 +175,7 @@ const Slider: React.FC<SliderProps> = ({
     // Dispatch action when ParentComponent mounts and the Slider is rendered
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
+  console.log(menuData)
 
   return (
     <div ref={modelref} className="Slider-Container" onClick={closeModal}>
@@ -169,7 +214,7 @@ const Slider: React.FC<SliderProps> = ({
                 <img
                   src={Bin}
                   alt="Delete"
-                  onClick={() => setTrash(true)}
+                  onClick={ handleBinClick}
                   className="BinImage"
                 />
                 <div className="DelTool">
@@ -189,8 +234,7 @@ const Slider: React.FC<SliderProps> = ({
           {trash && (
             <Trash
               onTrashclose={() => setTrash(false)}
-              handleDeleteItem={handleBinClick}
-              handleOnClose={handleOnclose}
+            
             />
           )}
         </div>
