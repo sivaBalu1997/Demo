@@ -753,6 +753,8 @@ console.log("Normaldays",Normaldays);
     }
   }, [resetSelection]);
 
+  const [dropdownopened, setDropdownopened] = useState<boolean>(false);
+
   return (
     <div>
       <div className="AvailDaycheck">
@@ -1120,6 +1122,7 @@ console.log("Normaldays",Normaldays);
                   onSelect={handleSelectThird}
                   options={optionsselectthird}
                   label=""
+                  isopened={setDropdownopened}
                   onBlur={() =>
                     validateDropdown(selectedthirdvalues, "SwiggyZomato")
                   }
@@ -1150,7 +1153,7 @@ console.log("Normaldays",Normaldays);
                           }
                         />
                       </div>
-                      <div className={`Third${option}  thridparties-dropdown `}>
+                      <div className={`Third${option}  thridparties-dropdown `} style={{zIndex:dropdownopened?'-1':''}}>
                         <DropDown
                           selectedValues={mealTypes[option] || []}
                           onSelect={(selected) =>
@@ -1158,6 +1161,7 @@ console.log("Normaldays",Normaldays);
                           }
                           options={options4}
                           label="Meal Type*"
+                        
                           onBlur={() =>
                             validateDropdown(
                               mealTypes[option],
