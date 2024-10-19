@@ -111,7 +111,7 @@ const NormalStep2 = () => {
                 <>
                   <div key={index}>
                     <h1 className="Step2DineInPricevalue">
-                      {elem.DineInPrice || "-"}
+                     Rs {elem.DineInPrice || "-"}
                     </h1>
                   </div>
                 </>
