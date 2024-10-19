@@ -157,6 +157,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>([]);
   const [selectedValuesmealtype, setSelectedValuesMealType] =
     React.useState<SelectedValuesMealTypeState>([]);
+console.log("Normaldays",Normaldays);
 
   const [optionsmealtype, setOptionsMealType] = useState([
     "Breakfast",
@@ -429,6 +430,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
     }
 
     if (prizingDetail?.normalForm) {
+      console.log("day-array",prizingDetail.normalForm.Normaldays);
+      
       setNormalDays(prizingDetail.normalForm.Normaldays || []);
     }
       if (prizingDetail?.normalForm) {

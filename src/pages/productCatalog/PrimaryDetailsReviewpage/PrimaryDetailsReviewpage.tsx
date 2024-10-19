@@ -51,6 +51,10 @@ interface imageType {
   itemId: string;
 }
 
+interface calorieandportionsize{
+  type:string,
+  value:string
+}
 interface PrimaryData {
   locationId: string;
   altName: string;
@@ -74,9 +78,9 @@ interface PrimaryData {
   Ingredients: AllergenImage[];
   alcohol: string;
   barCode: string;
-  coloriePoint?: string;
+  coloriePoint?: calorieandportionsize;
   selectedcolorie: string;
-  portionSize?: string;
+  portionSize?: calorieandportionsize;
   selectedPortion: string;
   tax: string;
   masterCode: string;
@@ -216,7 +220,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
-  console.log("primarydata", primarydata.imageUrls);
+  console.log("primarydata", primarydata);
 
   const [error, setError] = useState<Status[]>([]);
 
@@ -816,26 +820,26 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       </div>
 
                       <div>
-                        {/* <ReviewValues
+                        <ReviewValues
                           label="Calorie Point"
                           textvalue={
-                            fetchedprimarydata.coloriePoint
-                              ? fetchedprimarydata.coloriePoint
+                            primarydata?.coloriePoint?.value
+                              ? primarydata.coloriePoint?.value
                               : "-"
                           }
-                        /> */}
+                        />
                       </div>
-                      {/* 
+                      
                       <div>
                         <ReviewValues
                           label="Portion Size"
                           textvalue={
-                            fetchedprimarydata.portionSize
-                              ? fetchedprimarydata.portionSize?.type
+                            primarydata.portionSize?.value
+                              ? primarydata.portionSize?.value
                               : "-"
                           }
                         />
-                      </div> */}
+                      </div>
 
                       <div>
                         <ReviewValues
@@ -886,16 +890,16 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         />
                       </div>
 
-                      {/* <div>
+                      <div>
                         <ReviewValues
                           label="Unit of measurement"
                           textvalue={
-                            fetchedprimarydata.selectedPortion
-                              ? fetchedprimarydata.selectedPortion
+                            fetchedprimarydata.portionSize?.type
+                              ? fetchedprimarydata.portionSize?.type
                               : "-"
                           }
                         />
-                      </div> */}
+                      </div>
 
                       <div>
                         <ReviewValues
