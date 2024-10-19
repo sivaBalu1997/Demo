@@ -476,13 +476,7 @@ console.log("menuData",menuData);
                       ref={tableBodyRef1}
                     >
                       { loading ? (
-                            <div className="Menu-noOptions">
-                              {/* <img
-                                className="imgLoader2"
-                                src={Loader}
-                                alt="Loading..."
-                              /> */}
-                            </div>
+                           <></>
                           ) :menudatalist.map((object, index) => (
                         <React.Fragment key={index}>
                           <RowHeading
