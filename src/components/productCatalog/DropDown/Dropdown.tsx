@@ -76,6 +76,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
   };
 
+  // console.log({selectedValues})
+
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef}>
       <label className="droplabelPricing">{label}</label>
@@ -87,8 +89,9 @@ const Dropdown: React.FC<DropdownProps> = ({
       >
         {selectedValues.length > 0 ? (
           <div className="valuePricing">
+            {console.log(selectedValues)}
             {/* Display up to 3 selected values and join them with commas */}
-            {selectedValues.slice(0, 3).join(", ")}
+            {selectedValues && selectedValues?.slice(0, 3).join(", ")}
          
           </div>
         ) : (

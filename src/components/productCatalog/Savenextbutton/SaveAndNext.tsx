@@ -202,7 +202,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       const isValid = handleValidate();
 
       let PricingDetails = { ...mainForm };
-
       const formData = getFormData();
       console.log({formData})
       const isinValid = await triggerValidation(formData);
@@ -215,6 +214,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       } else {
         console.error("formData.kitchenstation is undefined");
       }
+      console.log({PricingDetails})
 
       if (formData.form && formData.form?.Inventory1) {
         PricingDetails = {

@@ -93,8 +93,9 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.productCatalog.deletesubsectionsuccess
   );
 
-  //  console.log("subsectiondata",subsectiondata);
-  // console.log("deleteApicall",deleteApicall);
+  const ItemsPrimaryDetails = useSelector(
+    (state: any) => state.primarypage.data
+  );
 
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
@@ -140,11 +141,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [setDropdownOpen]);
 
   useEffect(() => {
-    if(dropDownType!=="SUB_CATEGORY")
-    {
+    if (dropDownType !== "SUB_CATEGORY") {
       dispatch(fetchDropDownRequest(payload));
-
-
     }
   }, [dropDownType]);
 
@@ -155,12 +153,12 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  const [SubcategoryId, setSubCategoryId]=useState<string>("")
+  const [SubcategoryId, setSubCategoryId] = useState<string>("");
   const filteredOptions = Array.isArray(options)
-  ? options.filter((option) =>
-      option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
-    )
-  : [];
+    ? options.filter((option) =>
+        option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
+      )
+    : [];
   useEffect(() => {
     const categoryValue = getValues("category");
     if (!categoryValue) {
@@ -185,17 +183,8 @@ const DropDownList: React.FC<DropdownProps> = ({
         onToggle(); // Close the dropdown
       }
     }
-
-   
-    console.log("filteredOptions",filteredOptions);
-    
-
     setOptions(filteredOptions);
-
-
-
   };
- 
 
   // useEffect(() => {
   //   const initialSelectedValue = getValues(name);
@@ -214,34 +203,109 @@ const DropDownList: React.FC<DropdownProps> = ({
   //   }
   // }, [getValues(name), setValue, initialOptions]);
 
-  let subcategorydataforApi={
+  let subcategorydataforApi = {
     locationId: locationid,
     type: "SUB_CATEGORY",
     parentId: "",
+  };
 
-  }
+  const prizingDetail = useSelector(
+    (state: any) => state.PricingDetailReducer.prizingData || {}
+  );
+
+  useEffect(() => {
+    if (prizingDetail && name === "kitchenstation") {
+      const kitchenStationName = prizingDetail?.kitchenstation;
+      const dropDownName: any = options.find(
+        (item) => item.name === kitchenStationName
+      );
+      setSelectedOptions([dropDownName]);
+      setValue("kitchenstation", [dropDownName?.name]);
+    }
+  }, [prizingDetail]);
+
+  useEffect(()=>{
+    if(ItemsPrimaryDetails?.dietaryType?.length > 0 && name === 'dietaryType'){
+      const dietName = ItemsPrimaryDetails?.dietaryType
+      const dropdownName : any = options?.filter(
+        (opt) => dietName?.includes(opt?.name)
+      );
+      setSelectedOptions(dropdownName)
+      setValue(
+        'dietaryType',
+        dropdownName?.map((opt:any) => opt?.name)
+      );
+    }
+  },[ItemsPrimaryDetails])
+
+  useEffect(()=>{
+    if(ItemsPrimaryDetails?.bestPair?.length > 0 && name === 'bestPair'){
+      const bestPairName = ItemsPrimaryDetails?.bestPair
+      const dropdownName : any = options?.filter(
+        (opt) => bestPairName?.includes(opt?.name)
+      );
+      setSelectedOptions(dropdownName)
+      setValue(
+        'bestPair',
+        dropdownName?.map((opt:any) => opt?.name)
+      );
+    }
+  },[ItemsPrimaryDetails])
+
+  useEffect(()=>{
+    if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
+      const cusineName = ItemsPrimaryDetails?.cuisine;
+      const dropDownName: any = options?.find(
+        (item) => item.name === cusineName
+      );
+      setSelectedOptions([dropDownName]);
+      setValue("cuisine", [dropDownName?.name]);
+    }
+  },[ItemsPrimaryDetails])
+
+  useEffect(()=>{
+    if(ItemsPrimaryDetails?.category && name === 'category'){
+      const categoryName = ItemsPrimaryDetails?.category
+      const dropDownName: any = options?.find(
+        (item) => item?.name === categoryName
+      )
+      setSelectedOptions([dropDownName])
+      setValue('category', [dropDownName?.name])
+    }
+  },[ItemsPrimaryDetails])
+
+  useEffect(()=>{
+    if (ItemsPrimaryDetails?.subCategory && name === "subCategory") {
+      const subCategoryName = ItemsPrimaryDetails?.subCategory;
+      const dropDownName: any = options?.find(
+        (item) => item.name === subCategoryName
+      );
+      setSelectedOptions([dropDownName]);
+      setValue("subCategory", [dropDownName?.name]);
+    }
+  },[ItemsPrimaryDetails])
 
   const handleSelect = (option: Option) => {
     if (type === "checkbox") {
-      const isAlreadySelected = selectedOptions.some(
-        (opt) => opt.id === option.id
+      const isAlreadySelected = selectedOptions?.some(
+        (opt) => opt?.id === option?.id
       );
 
       if (isAlreadySelected) {
-        const updatedOptions = selectedOptions.filter(
-          (opt) => opt.id !== option.id
+        const updatedOptions = selectedOptions?.filter(
+          (opt) => opt.id !== option?.id
         );
         setSelectedOptions(updatedOptions);
         setValue(
           name,
-          updatedOptions.map((opt) => opt.name)
+          updatedOptions.map((opt) => opt?.name)
         );
       } else {
         const updatedOptions = [...selectedOptions, option];
         setSelectedOptions(updatedOptions);
         setValue(
           name,
-          updatedOptions.map((opt) => opt.name)
+          updatedOptions?.map((opt) => opt?.name)
         );
         trigger(name);
       }
@@ -251,26 +315,17 @@ const DropDownList: React.FC<DropdownProps> = ({
       trigger(name);
     }
 
-    if(dropDownType==="CATEGORY")
-    {
-      const viewdata={
+    if (dropDownType === "CATEGORY") {
+      const viewdata = {
         locationId: locationid,
         type: "SUB_CATEGORY",
         parentId: option.id,
-        }
-        subcategorydataforApi.parentId=option.id;
-        console.log("SubcategoryId",SubcategoryId);
-        
-    
-        if(subcategorydataforApi.parentId!=="")
-        {
-          dispatch(fetchDropDownRequest(viewdata));
-        }
-       
+      };
+      subcategorydataforApi.parentId = option.id;
+      if (subcategorydataforApi.parentId !== "") {
+        dispatch(fetchDropDownRequest(viewdata));
+      }
     }
-
-   
-    
 
     setSearchTerm("");
   };
@@ -280,8 +335,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     type: dropDownType,
     parentId: "",
   };
-
- 
 
   const handleNewItemAddition = () => {
     setAddNewButton((prevAddNew) => !prevAddNew);
@@ -297,7 +350,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     const deletedItem = {
       id: value,
       type: dropDownType,
-      locationid:locationid
+      locationid: locationid,
     };
 
     const viewdata = {
@@ -339,9 +392,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
     }
-    if(dropDownType==="CATEGORY")
-    {
-      
+    if (dropDownType === "CATEGORY") {
       setSubCategoryId(option.id);
     }
   };
@@ -382,35 +433,29 @@ const DropDownList: React.FC<DropdownProps> = ({
     } else {
       setLoading(false);
     }
+  }, [options]);
 
-  },[options])
- 
-  const handleAboveArrowdropdown=()=>{
+  const handleAboveArrowdropdown = () => {
     onToggle();
     setShowselectedOption(true);
-    if(dropDownType!=="SUB_CATEGORY")
-      {
-        dispatch(fetchDropDownRequest(payload));
-      }
-     
-      if(subcategorydataforApi.parentId!=="")
-        {
-          dispatch(fetchDropDownRequest(subcategorydataforApi));
-        }
+    if (dropDownType !== "SUB_CATEGORY") {
+      dispatch(fetchDropDownRequest(payload));
+    }
 
-  }
- const handleBelowArrowdropdown=()=>{
-  onToggle();
-  setShowselectedOption(false);
-  if(dropDownType!=="SUB_CATEGORY")
-  {
-    dispatch(fetchDropDownRequest(payload));
-  }
-  if(subcategorydataforApi.parentId!=="")
-    {
+    if (subcategorydataforApi.parentId !== "") {
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
-}
+  };
+  const handleBelowArrowdropdown = () => {
+    onToggle();
+    setShowselectedOption(false);
+    if (dropDownType !== "SUB_CATEGORY") {
+      dispatch(fetchDropDownRequest(payload));
+    }
+    if (subcategorydataforApi.parentId !== "") {
+      dispatch(fetchDropDownRequest(subcategorydataforApi));
+    }
+  };
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
@@ -421,7 +466,7 @@ const DropDownList: React.FC<DropdownProps> = ({
             value={
               searchTerm === "" && showselectedOption
                 ? type === "checkbox"
-                  ? selectedOptions.map((opt) => opt.name).join(", ")
+                  ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
                   : selectedOptions[0]?.name || ""
                 : searchTerm
             }
@@ -441,8 +486,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  handleAboveArrowdropdown()
-
+                  handleAboveArrowdropdown();
                 }}
                 alt="dropdown"
                 className="dropdownimageclosed"
@@ -451,8 +495,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  handleBelowArrowdropdown()
-                 
+                  handleBelowArrowdropdown();
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"
@@ -479,15 +522,13 @@ const DropDownList: React.FC<DropdownProps> = ({
                 <div>
                   {!Loading && filteredOptions?.length > 0 ? (
                     filteredOptions?.map((option, index) => {
-                     
-
                       return (
                         <div className="dropdown-option-list" key={index}>
                           <li className="dropdown-option">
                             <input
                               type={type}
                               checked={selectedOptions.some(
-                                (opt) => opt.id === option.id
+                                (opt) => opt?.id === option?.id
                               )}
                               className="dropdon-option-inputfield"
                               onChange={() => handleCheckboxChange(option)}

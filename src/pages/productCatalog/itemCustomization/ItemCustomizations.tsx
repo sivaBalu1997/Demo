@@ -25,7 +25,7 @@ import { tr } from "date-fns/locale";
 interface Option {
   modifierOptionName: string;
   cost: number;
-  item?: string;
+  // item?: string;
 }
 
 interface Modifier {
@@ -172,7 +172,7 @@ const ItemCustomizations: React.FC = () => {
         modifierName: item.modifierName || "",
         options: item.options
           ? item.options.map((option: any) => ({
-              item: option.modifierOptionName || "",
+            modifierOptionName: option.modifierOptionName || "",
               cost: option.cost,
             }))
           : [{ modifierOptionName: "", cost: 0 }],

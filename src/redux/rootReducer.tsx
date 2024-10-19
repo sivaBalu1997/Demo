@@ -29,10 +29,8 @@ const rootReducer = combineReducers({
   selectedMockDataReducer: selectedMockDataReducer,
   getPopularItemReducer: getPopularItemReducer,
   menuReducer:menuReducer
-
-  
 });
- 
+
 export { rootReducer };
  
 export type RootState = ReturnType<typeof rootReducer>;

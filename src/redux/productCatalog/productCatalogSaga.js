@@ -176,19 +176,17 @@ function* addSubsection(action) {
   // const { dropDownType } = action.payload;
   try {
     const response = yield call(addSubsectionApi, action.payload);
-    console.log("action.payload.type",action.payload.type);
+    console.log("action.payload.type", action.payload.type);
 
-  
-    const viewdata={
+    const viewdata = {
       locationId: action.payload.locationId,
       type: action.payload.type,
       parentId: action.payload.parentId,
-
-    }
+    };
     if (response.status === 200) {
       yield put({
         type: FETCHDROPDOWN_REQUEST,
-        payload: viewdata
+        payload: viewdata,
       });
       yield put(addDropDownSuccess("success"));
       // switch (action.payload.type) {
@@ -198,8 +196,6 @@ function* addSubsection(action) {
       //       payload: viewdata
       //     });
       //     yield put(addDropDownSuccess("success"));
-          
-
 
       //     break;
       //   case "CUISINES":
@@ -240,25 +236,24 @@ function* addSubsection(action) {
 //Delete subSection
 function* deleteSubSectionSaga(action) {
   try {
-    const deteleData={
-      id:action.payload.id,
-      type:action.payload.type
-    }
-    console.log("deteleData",deteleData);
-    
+    const deteleData = {
+      id: action.payload.id,
+      type: action.payload.type,
+    };
+    console.log("deteleData", deteleData);
+
     const response = yield call(deleteSubSection, deteleData);
-    console.log("delete call ",action);
-    
-    const viewdata={
-      locationId:action.payload.locationid,
+    console.log("delete call ", action);
+
+    const viewdata = {
+      locationId: action.payload.locationid,
       type: action.payload.type,
       parentId: "",
-
-    }
+    };
     if (response.status === 200) {
       yield put({
         type: FETCHDROPDOWN_REQUEST,
-        payload: viewdata
+        payload: viewdata,
       });
 
       yield put(deleteDropDownSuccess(response)); // add switch case
@@ -380,16 +375,16 @@ const convertImageToBinaryString = (imageFile) => {
 };
 function* imageUploadSaga(action) {
   const images = action.payload;
-  let itemId = ""; 
+  let itemId = "";
   const failureArray = [];
 
   try {
     const firstImage = images[0];
 
-    const response = yield call(uploadImageApi, firstImage, itemId); 
+    const response = yield call(uploadImageApi, firstImage, itemId);
 
     // console.log("First image uploaded, item ID:", response);
-console.log("response",response);
+    console.log("response", response);
 
     if (response.data && response.data.itemId) {
       itemId = response.data.itemId;
@@ -405,7 +400,7 @@ console.log("response",response);
     });
     console.log("Failed to upload the first image", failureArray);
     yield put(imageUploadFailure(images[0].name, ""));
-    return; 
+    return;
   }
 
   // If the first image was successful, upload the remaining images with the itemId
@@ -437,8 +432,8 @@ console.log("response",response);
     console.log("Error uploading some images");
     yield put(storeUploadFailure(failureArray, "failed"));
   } else {
-    console.log("itemId",itemId);
-    
+    console.log("itemId", itemId);
+
     yield put(storeUploadSuccess(itemId));
   }
 }
@@ -579,9 +574,6 @@ export default function* productCatalog() {
   yield takeLatest(PARTIAL_UPDATE_MENU_REQUEST, partialUpdateMenuSaga);
 }
 
-
-
-
 // {
 //   "id": "d99bef75-92bc-478d-9b5a-77522b0d25c0",
 //   "branchName": "A2B Veg Restaurant,chicago",
@@ -677,10 +669,7 @@ export default function* productCatalog() {
 //           ]
 //       }
 //   ],
- 
- 
 
- 
 //   "orderTypes": [
 //       {
 //           "id": "df8eb2dc-6789-4b2a-bdc9-46df7c19add9",

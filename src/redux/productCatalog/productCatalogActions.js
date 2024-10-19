@@ -131,7 +131,10 @@ import {
   STORE_UPLOAD_SUCCESS,
   DELETE_MODIFIER_REQUEST,
   DELETE_MODIFIER_SUCCESS,
-  DELETE_MODIFIER_FAILURE
+  DELETE_MODIFIER_FAILURE,
+  REMOVE_DATA_REQUEST,
+  REMOVE_DATA_SUCCESS,
+  REMOVE_DATA_FAILURE
 
 } from "./productCatalogConstants";
 
@@ -248,10 +251,11 @@ export const getAvailabilityFailed = (details) => ({
 });
 
 // Add menu Items
-export const addMenuItemRequest = (data) => ({
+export const addMenuItemRequest = (data) => {
+  return{
   type: ADD_MENU_ITEM_REQUEST,
   payload: data,
-});
+}};
 
 export const addMenuItemSuccess = (data) => ({
   type: ADD_MENU_ITEM_SUCCESS,
@@ -829,5 +833,20 @@ export const deleteModifierSuccess = (response) =>({
 
 export const deleteModifierFailure = (error) =>({
   type: DELETE_MODIFIER_FAILURE,
+  payload: error
+});
+
+export const removeDataRequest = (data) => ({
+  type: REMOVE_DATA_REQUEST,
+  payload: data
+});
+
+export const removeDataSuccess = (response) => ({
+  type: REMOVE_DATA_SUCCESS,
+  payload: response
+});
+
+export const removeDataFailure = (error) => ({
+  type: REMOVE_DATA_FAILURE,
   payload: error
 });

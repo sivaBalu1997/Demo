@@ -81,7 +81,6 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     handlemodal(value);
   };
   // const allFalse = Object.values(listingobject).every(value => value === false);
-  console.log("itemobject", itemobject);
   const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
 
   return (
@@ -104,14 +103,12 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
             style={{ display: "flex" }}
             className={`eachobject-rowwise`}
           >
-            {orderTypesToShow.map((typeName) => {
+            {orderTypesToShow?.map((typeName) => {
               const orderType = item.orderTypes?.find(
                 (ot: OrderType) => ot.typeName === typeName
               );
               const price = orderType ? orderType.price.toFixed(2) : "";
-              const className = typeName.toLowerCase()+"data";
-              console.log("className",className);
-              
+              const className = typeName.toLowerCase()+"data";              
               return (
                 <div key={typeName} style={{ display: "flex" }} className={className}>
                 
@@ -121,7 +118,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
             })}
 
 
-            {orderTypesToShow.map((typeName) => {
+            {orderTypesToShow?.map((typeName) => {
               const orderType = item.orderTypes?.find(
                 (ot: OrderType) => ot.typeName === typeName
               );
