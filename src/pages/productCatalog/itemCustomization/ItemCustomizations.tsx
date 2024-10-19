@@ -222,8 +222,8 @@ const ItemCustomizations: React.FC = () => {
         modifierName: item?.modifierName || "",
         modifierOptions: item?.options
           ? item.options.map((option: any) => ({
-            optionName: option?.modifierOptionName || "",
-              sellPrice: option.cost,
+            modifierOptionName: option.modifierOptionName || "",
+              cost: option.cost,
             }))
           : [{ modifierOptionName: "", cost: 0 }],
         minSelection: item.minSelection || 1,
