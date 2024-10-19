@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import "./Trash.scss";
 import Trash from "../../../assets/images/trash-2.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { deleteMenuItemRequest } from "redux/productCatalog/productCatalogActions";
 
@@ -9,6 +9,9 @@ const EyeModal = ({ onTrashclose }) => {
   const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
 
   const dispatch=useDispatch();
+  const locationid = useSelector(
+    (state) => state.auth.credentials.locationId
+  );
   const trashmodalRef = useRef();
   const TrashClose = (e) => {
     if (trashmodalRef.current === e.target) {
@@ -19,11 +22,21 @@ const EyeModal = ({ onTrashclose }) => {
     onTrashclose();
   };
   const handleChange = () => {
-    dispatch(deleteMenuItemRequest(ApiPayload))
+    const payload={
+      locationid:locationid,
+      itemId:ApiPayload
+
+    }
+    dispatch(deleteMenuItemRequest(payload))
+
 
    
     onTrashclose();
   };
+  
+
+
+  console.log(locationid)
 
   return (
     <div
