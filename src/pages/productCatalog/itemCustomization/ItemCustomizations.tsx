@@ -161,8 +161,8 @@ const ItemCustomizations: React.FC = () => {
       modifierName: "",
       modifierOptions: [
         {
-          optionName: "",
-          sellPrice: 0,
+          modifierOptionName: "",
+          cost: 0,
         },
       ],
       minSelection: 1,
@@ -312,17 +312,19 @@ const ItemCustomizations: React.FC = () => {
     optIndex: number,
     e: ChangeEvent<HTMLInputElement>
   ) => {
+    
     const newModifier = [...modifications];
-
     if (e.target.name === "cost") {
-      newModifier[modIndex].options[optIndex][e.target.name as keyof Option] =
+      console.log("1",e.target.value)
+      newModifier[modIndex].modifierOptions[optIndex][e.target.name as keyof Option] =
         parseFloat(e.target.value) || 0;
     } else {
-      newModifier[modIndex].options[optIndex][e.target.name as keyof Option] =
-        e.target.value;
+      console.log('2',e.target.value)
+      newModifier[modIndex].modifierOptions[optIndex][e.target.name as keyof Option] =
+        e.target?.value;
     }
-
     setModifications(newModifier);
+    console.log({newModifier})
   };
 
   const incrementSpinner = (index: number, field: keyof Modification) => {
@@ -375,7 +377,7 @@ const ItemCustomizations: React.FC = () => {
 
   const deleteOption = (modIndex: number, optIndex: number) => {
     const newModifications = [...modifications];
-    newModifications[modIndex].options.splice(optIndex, 1);
+    newModifications[modIndex].modifierOptions?.splice(optIndex, 1);
     setModifications(newModifications);
     dispatch(deleteModifierRequest(optIndex));
   };
@@ -434,7 +436,6 @@ const ItemCustomizations: React.FC = () => {
   };
 
   const ordertypesdetails=useSelector((state:any)=>state.PricingDetailReducer.prizingData)
-console.log("ordertypesdetails",ordertypesdetails);
 
   useEffect(() => {
     const filtered = modifications?.filter((modifier: any) =>
@@ -530,17 +531,14 @@ console.log("ordertypesdetails",ordertypesdetails);
     const streams: string[] = []; // Temporary array to store the values
   
     if (ordertypesdetails?.normalForm?.dineInDetails?.price) {
-      console.log("running dine-in");
       streams.push(ordertypesdetails.normalForm.dineInDetails.typeName);
     }
   
     if (ordertypesdetails?.normalForm?.pickupDetails?.price) {
-      console.log("running pickup");
       streams.push(ordertypesdetails.normalForm.pickupDetails.typeName);
     }
   
     if (ordertypesdetails?.normalForm?.thirdpartyDetails?.price) {
-      console.log("running third-party");
       streams.push(ordertypesdetails.normalForm.thirdpartyDetails.typeName);
     }
   
@@ -550,7 +548,6 @@ console.log("ordertypesdetails",ordertypesdetails);
   }, [ordertypesdetails]);
   
   // This will now correctly print the updated list after the useEffect runs
-  console.log("listOfStreams", listOfStreams);
   
 
   return (
@@ -777,7 +774,7 @@ console.log("ordertypesdetails",ordertypesdetails);
                                         handleBlur(e, modIndex, optIndex)
                                       }
                                     />
-                                    { modificationError[modIndex]
+                                    {modificationError[modIndex]
                                             ?.options?.[optIndex]
                                             ?.optionName && (
                                       <div className="error-message1">
