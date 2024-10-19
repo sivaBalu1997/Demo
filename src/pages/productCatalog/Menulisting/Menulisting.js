@@ -5,95 +5,61 @@ import dollar from "../../../assets/svg/dollar.svg";
 import removeicon from "../../../assets/svg/removeicon.svg";
 import Header from "../../../components/productCatalog/Header/Header";
 import closeicon from "../../../assets/svg/closeicon.svg";
+import Loader from "../../../assets/Loader.gif.gif";
 import toggleround from "../../../assets/svg/toggleround.svg";
 import calendericon from "../../../assets/svg/calendericon.svg";
 import dollaricon from "../../../assets/svg/dollaricon.svg";
+// import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { itemsdata, itemsfooddata } from "../../../assets/mockData/Moca_data";
 import InsertColumnList from "../../../components/productCatalog/InsertColumnList/InsertColumnList";
 import TableFirstHeader from "../../../components/productCatalog/TableFirstHeader/TableFirstHeader";
+import TableSecondHeader from "../../../components/productCatalog/TableSecondHeader/TableSecondHeader";
 import TableTwoBody from "../../../components/productCatalog/TableTwoBody/TableTwoBody";
 import TableOneBody from "../../../components/productCatalog/TableOneBody/TableOneBody";
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
-import Loader from '../../../assets/Loader.gif.gif'
-
 import SidePanel from "pages/SidePanel";
-
 import { useSelector, useDispatch } from "react-redux";
 import {
   getMenuRequest,
   selectedMockDataRequest,
-  storeDataWithCategory,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
-
+import { combinedItemsData } from "assets/mockData/Moca_data";
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
 
   const location = useSelector((state) => state.auth.selectedBranch);
 
-  const menuData = useSelector((state) => state.productCatalog?.menuData)
-  const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
-  
-console.log("menuData",menuData);
-const modify = menuData?.map((item) => {
-  return item?.itemResponseList?.map((responseItem) => {
-    // Check if modifiers exist and are an array
-    const result = responseItem?.modifiers && Array.isArray(responseItem.modifiers)
-      ? responseItem.modifiers.map((modifier) => {
-          const modifierLength = modifier?.modifierName ? modifier.modifierName.length : 0;
-          
-          return modifierLength; // Return the length of each modifierName
-        })
-      : []; // Return an empty array if modifiers is undefined or not an array
-    return result; // Return the lengths of modifiers array
-  });
-});
-
-// console.log("modify", modify);
-
+  const menuData = useSelector((state) => state.productCatalog?.menuData);
+  const SearchedmenuItem = useSelector(
+    (state) => state.searchItem?.SearcheItem
+  );
+  // console.log("SearchedmenuItem",SearchedmenuItem);
 
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
-  const [menudatalist,setMenudatalist]=useState(menuData);
-  const[loading,setLoading]=useState(true)
+  const [menudatalist, setMenudatalist] = useState(menuData);
 
-  useEffect(()=>{
+  useEffect(() => {
     const isObjectEmpty = (obj) => {
       return Object.keys(obj).length === 0;
     };
-    if(isObjectEmpty(SearchedmenuItem))
-    {
-      setMenudatalist(menuData)
-
-    }
-    else{
-      setMenudatalist([SearchedmenuItem])
-    }
-  
-  },[menuData,SearchedmenuItem])
-
-
-  useEffect(() => {
-    if (!menudatalist) {
-      setLoading(true);
+    if (isObjectEmpty(SearchedmenuItem)) {
+      setMenudatalist(menuData);
     } else {
-      setLoading(false);
+      setMenudatalist([SearchedmenuItem]);
     }
-
-  },[menuData])
-
-
-  
+  }, [menuData, SearchedmenuItem]);
 
   useEffect(() => {
+    // dispatch(storeMockDataRequest(combinedItemsData));
     dispatch(getMenuRequest(location?.id));
   }, []);
 
-
-  
+  // console.log({menuData})
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
@@ -191,7 +157,7 @@ const modify = menuData?.map((item) => {
     { label: "Dinein2" },
     { label: "Pickup2" },
     { label: "Delivery2" },
-  
+    // { label: "Inventory1" },
     { label: "Customize1" },
   ]);
 
@@ -256,8 +222,6 @@ const modify = menuData?.map((item) => {
 
   const [draggedItem, setDraggedItem] = useState(null);
 
- 
-
   // Handle the drag start
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
@@ -288,23 +252,6 @@ const modify = menuData?.map((item) => {
     setMenudatalist(updatedCategories);
     setDraggedItem(null);
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
@@ -519,10 +466,9 @@ const modify = menuData?.map((item) => {
 
   const handlemodal = (value) => {
     setmodal(true);
-   const filteredItem = menuData.find((item) => 
-    item?.itemResponseList?.some((response) => response?.itemId === value)
-  );
-  dispatch(storeDataWithCategory(filteredItem))
+    const filteredItem = menuData.find((item) =>
+      item?.itemResponseList?.some((response) => response?.itemId === value)
+    );
 
     if (filteredItem) {
       const specificResponse = filteredItem.itemResponseList.filter(
@@ -560,25 +506,21 @@ const modify = menuData?.map((item) => {
     const syncScroll = (sourceTable, targetTable) => {
       targetTable.scrollTop = sourceTable.scrollTop;
     };
-  
+
     const table1 = tableBodyRef1.current;
     const table2 = tableBodyRef2.current;
-  
-    // Check if the refs are correctly set before attaching the event listeners
-    if (table1 && table2) {
-      const handleTable1Scroll = () => syncScroll(table1, table2);
-      const handleTable2Scroll = () => syncScroll(table2, table1);
-  
-      table1.addEventListener("scroll", handleTable1Scroll);
-      table2.addEventListener("scroll", handleTable2Scroll);
-  
-      // Cleanup: remove event listeners when the component unmounts or updates
-      return () => {
-        table1.removeEventListener("scroll", handleTable1Scroll);
-        table2.removeEventListener("scroll", handleTable2Scroll);
-      };
-    }
-  }, [tableBodyRef1, tableBodyRef2]);
+
+    const handleTable1Scroll = () => syncScroll(table1, table2);
+    const handleTable2Scroll = () => syncScroll(table2, table1);
+
+    table1?.addEventListener("scroll", handleTable1Scroll);
+    table2?.addEventListener("scroll", handleTable2Scroll);
+
+    return () => {
+      table1?.removeEventListener("scroll", handleTable1Scroll);
+      table2?.removeEventListener("scroll", handleTable2Scroll);
+    };
+  }, []);
 
   const handleDragScroll = (e, tableRef1, tableRef2) => {
     const table1 = tableRef1.current;
@@ -614,29 +556,39 @@ const modify = menuData?.map((item) => {
     (value) => value === false
   );
 
-  const selectedItems =
-    FilteredObject &&
-    FilteredObject.length > 0 &&
-    FilteredObject[0] &&
-    Array.isArray(FilteredObject[0]) &&
-    FilteredObject[0].map((item) => item);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (menudatalist.length > 0) {
+      setLoading(false);
+    }
+  }, [menudatalist]);
 
-    if (!(menuData.length > 2)) {
-      return (
-        <>
-          <div style={{ display: "flex", overflowX: "hidden" }}>
-            {/* Sidebar Panel */}
-            <SidePanel />
-    
-            {/* Main Page Container */}
-            <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
-              <div className="headercomponent">
-                <Header />
-              </div>
-    
-              <div className="Menu-Listing-Page-main">
-                {/* Column List Section */}
-                <InsertColumnList                                
+  useEffect(() => {
+    dispatch(getMenuRequest(location?.id));
+  }, []);
+
+  // if(loading)
+  // {
+  //   return(
+  //     <div style={{display:'flex',justifyContent:'center',alignItems:'center'}} >
+  //    Loading
+  //   </div>
+  //   );
+  // }
+
+  return (
+    <>
+      {
+        <div style={{ display: "flex", overflowX: "hidden" }}>
+          <SidePanel />
+          <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
+            <div className="headercomponent">
+              <Header />
+            </div>
+
+            <div className="Menu-Listing-Page-main">
+              <div>
+                <InsertColumnList
                   listingobject={listingobject}
                   setlistingobject={setlistingobject}
                   insertlists={insertlists}
@@ -648,202 +600,189 @@ const modify = menuData?.map((item) => {
                   togglebtns={calendericon}
                   Outsideref={Outsideref}
                 />
-    
-                {/* First Table */}
                 <table className="Menu-Listing-TableOne">
                   <thead className="Menu-Listing-TableOneHead">
                     <tr className="headerrow">
-                      <th className="itemimage">Image</th>
+                      <th className="itemimage ">Image</th>
                       <th className="itemname">Item name</th>
                       <th className="itemcode">Code</th>
-                      <th className="addbtn" onClick={() => setshowheadinglist(true)}>+</th>
+                      <th
+                        className="addbtn"
+                        onClick={() => setshowheadinglist(true)}
+                      >
+                        +
+                      </th>
                     </tr>
                   </thead>
-                  <tbody
-                    className="Menu-Listing-TableOneBody Menu-listing-Body"
-                    ref={tableBodyRef1}
-                  >
-                    {menudatalist.map((object, index) => (
-                      <React.Fragment key={index}>
-                        <RowHeading
-                          objectId={object.categoryId}
-                          object={object}
-                          index={index}
-                          onDragStart={handledragvegnonvegdragstart}
-                          onDragOver={handledragvegnonvegdropover}
-                          onDrop={handledragvegnonvegdropend}
-                        />
-                      </React.Fragment>
-                    ))}
-                  </tbody>
+
+                  {
+                    <tbody
+                      className="Menu-Listing-TableOneBody Menu-listing-Body"
+                      ref={tableBodyRef1}
+                    >
+                      { loading ? (
+                            <div className="Menu-noOptions">
+                              {/* <img
+                                className="imgLoader2"
+                                src={Loader}
+                                alt="Loading..."
+                              /> */}
+                            </div>
+                          ) :menudatalist.map((object, index) => (
+                        <React.Fragment key={index}>
+                          <RowHeading
+                            objectId={object.categoryId}
+                            object={object}
+                            index={index}
+                            onDragStart={handledragvegnonvegdragstart}
+                            onDragOver={handledragvegnonvegdropover}
+                            onDrop={handledragvegnonvegdropend}
+                          />
+
+                          <TableOneBody
+                            object={object}
+                            typevalue={object.type}
+                            index={index}
+                            FilteredData={FilteredData}
+                            objectLength={FilteredData.length}
+                            draggingOverIndex={draggingOverIndex}
+                            draggedRowIndex={draggedRowIndex}
+                            handleRowDragStart={handleDragStart}
+                            handleRowDragOver={handleDragOver}
+                            handleRowDragEnd={handleDrop}
+                            handleDragScroll={handleDragScroll}
+                            handlemodal={handlemodal}
+                            tableBodyRef1={tableBodyRef1}
+                            tableBodyRef2={tableBodyRef2}
+                            handlevegrowstart={handledragvegnonvegdragstart}
+                            handlevegrowover={handledragvegnonvegdropover}
+                            handlevegrowend={handledragvegnonvegdropend}
+                          />
+                        </React.Fragment>
+                      ))}
+                    </tbody>
+                  }
                 </table>
-                  <img className="imgLoader2" src={Loader}></img>
               </div>
-            </div>
-          </div>
-        </>
-      );
-    }
-    
-return (
-  <> 
-   {   loading ? (
-      <div className="Menu-noOptions">
-        <img className="imgLoader2"  src={Loader} alt="Loading..." />
-      </div>
-    ) : (  
-      <div style={{ display: "flex", overflowX: "hidden" }}>
-        {/* Sidebar Panel */}
-        <SidePanel />
-
-        {/* Main Page Container */}
-        <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
-          <div className="headercomponent">
-            <Header />
-          </div>
-
-          <div className="Menu-Listing-Page-main">
-            {/* Column List Section */}
-            <InsertColumnList                                
-              listingobject={listingobject}
-              setlistingobject={setlistingobject}
-              insertlists={insertlists}
-              showheadinglist={showheadinglist}
-              setshowheadinglist={setshowheadinglist}
-              closeicon={closeicon}
-              dollaricon={dollaricon}
-              toggleround={toggleround}
-              togglebtns={calendericon}
-              Outsideref={Outsideref}
-            />
-
-            {/* First Table */}
-            <table className="Menu-Listing-TableOne">
-              <thead className="Menu-Listing-TableOneHead">
-                <tr className="headerrow">
-                  <th className="itemimage ">Image</th>
-                  <th className="itemname">Item name</th>
-                  <th className="itemcode">Code</th>
-                  <th className="addbtn" onClick={() => setshowheadinglist(true)}>+</th>
-                </tr>
-              </thead>
-              <tbody
-                className="Menu-Listing-TableOneBody Menu-listing-Body"
-                ref={tableBodyRef1}
-              >
-                {menudatalist.map((object, index) => (
-                  <React.Fragment key={index}>
-                    <RowHeading
-                      objectId={object.categoryId}
-                      object={object}
-                      index={index}
-                      onDragStart={handledragvegnonvegdragstart}
-                      onDragOver={handledragvegnonvegdropover}
-                      onDrop={handledragvegnonvegdropend}
-                    />
-                    <TableOneBody
-                      object={object}
-                      typevalue={object.type}
-                      index={index}
-                      FilteredData={FilteredData}
-                      objectLength={FilteredData.length}
-                      draggingOverIndex={draggingOverIndex}
-                      draggedRowIndex={draggedRowIndex}
-                      handleRowDragStart={handleDragStart}
-                      handleRowDragOver={handleDragOver}
-                      handleRowDragEnd={handleDrop}
-                      handleDragScroll={handleDragScroll}
-                      handlemodal={handlemodal}
-                      tableBodyRef1={tableBodyRef1}
-                      tableBodyRef2={tableBodyRef2}
-                      handlevegrowstart={handledragvegnonvegdragstart}
-                      handlevegrowover={handledragvegnonvegdropover}
-                      handlevegrowend={handledragvegnonvegdropend}
-                    />
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-
-            {/* Second Table */}
-            <div className="table-two-alignment">
-              <table
-                className={`${
-                  isExpanded ? "Menu-Listing-TableTwo1" : "Menu-Listing-TableTwo"
-                }`}
-              >
-                <thead className="Menu-Listing-TableTwoHead">
-                  <tr className="headingonesection">
-                    {firstRowTable.map((header, index) => (
-                      <React.Fragment key={index}>
-                        <TableFirstHeader
-                          key={index}
-                          header={header}
-                          index={index}
-                          dragtablefirstHeaderindex={dragtablefirstHeaderindex}
-                          secondRowLength={secondRowTable[index].length}
-                          listingobject={listingobject}
-                          setlistingobject={setlistingobject}
-                          handleColumnwiseDragStart={handleColumnwiseDragStart}
-                          handleColumnwiseDragOver={handleColumnwiseDragOver}
-                          handleColumnwiseDragEnd={handleColumnwiseDragEnd}
-                          dots={dots}
-                          dollar={dollar}
-                          calendericon={calendericon}
-                          removeicon={removeicon}
-                        />
-                      </React.Fragment>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody
+              <div className="table-two-alignment">
+                <table
                   className={`${
                     isExpanded
-                      ? "Menu-Listing-TableTwoBody1"
-                      : "Menu-Listing-TableTwoBody"
-                  } tabletwobody`}
-                  ref={tableBodyRef2}
+                      ? "Menu-Listing-TableTwo1"
+                      : "Menu-Listing-TableTwo"
+                  }`}
                 >
-                  {allFalse ? (
-                    <h1 className="columnselected">No Column Selected</h1>
-                  ) : (
-                    menudatalist.map((itemobject, indexvalue) => (
-                      <React.Fragment key={indexvalue}>
-                        {indexvalue === 1 && (
-                          <tr className="itemheading2row"></tr>
-                        )}
-                        <TableTwoBody
-                          itemobject={itemobject}
-                          indexvalue={indexvalue}
-                          classNamesinner={classNamesinner}
-                          listingobject={listingobject}
-                          showsidebar={showsidebar}
-                          SideBarData={SideBarData}
-                          setSideBar={setSideBar}
-                          handlemodal={handlemodal}
-                          listingheaders={allFalse}
-                        />
-                      </React.Fragment>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  <thead className="Menu-Listing-TableTwoHead">
+                    <tr className="headingonesection">
+                      {firstRowTable.map((header, index) => (
+                        <React.Fragment key={index}>
+                          <TableFirstHeader
+                            key={index}
+                            header={header}
+                            index={index}
+                            dragtablefirstHeaderindex={
+                              dragtablefirstHeaderindex
+                            }
+                            secondRowLength={secondRowTable[index].length}
+                            listingobject={listingobject}
+                            setlistingobject={setlistingobject}
+                            handleColumnwiseDragStart={
+                              handleColumnwiseDragStart
+                            }
+                            handleColumnwiseDragOver={handleColumnwiseDragOver}
+                            handleColumnwiseDragEnd={handleColumnwiseDragEnd}
+                            dots={dots}
+                            dollar={dollar}
+                            calendericon={calendericon}
+                            removeicon={removeicon}
+                          />
+                        </React.Fragment>
+                      ))}
+                    </tr>
+                    {/* <tr className="headingtwosection">
+                  {secondRowTable.map((subheaders, index) => (
+                    <React.Fragment key={index}>
+                      <TableSecondHeader
+                        key={index}
+                        subheaders={subheaders}
+                        index={index}
+                        className={classNames[index]}
+                        listingobject={listingobject}
+                        classNames={classNames}
+                      />
+                    </React.Fragment>
+                  ))}
+                </tr> */}
+                  </thead>
 
-            {/* Modal Slider */}
-            {modal && (
-              <Slider
-                sidebartext={sidebartext}
-                SideBarData={SideBarData}
-                onclose={() => setmodal(false)}
-              />
-            )}
+                  {
+                    <tbody
+                      className={`${
+                        isExpanded
+                          ? "Menu-Listing-TableTwoBody1"
+                          : "Menu-Listing-TableTwoBody"
+                      } tabletwobody`}
+                      ref={tableBodyRef2}
+                    >
+                      {allFalse ? (
+                        <>
+                          <h1 className="columnselected">No Column Selected</h1>
+                        </>
+                      ) : (
+                        <>
+                          {loading ? (
+                            <div className="Menu-noOptions">
+                              <img
+                                className="imgLoader2"
+                                src={Loader}
+                                alt="Loading..."
+                              />
+                            </div>
+                          ) : (
+                            menudatalist.map((itemobject, indexvalue) => {
+                              return (
+                                <React.Fragment key={indexvalue}>
+                                  <tr>
+                                    {indexvalue === 1 && (
+                                      <tr className="itemheading2row"></tr>
+                                    )}
+                                  </tr>
+                                  {/* //  */}
+                                  <TableTwoBody
+                                    itemobject={itemobject}
+                                    indexvalue={indexvalue}
+                                    classNamesinner={classNamesinner}
+                                    listingobject={listingobject}
+                                    showsidebar={showsidebar}
+                                    SideBarData={SideBarData}
+                                    setSideBar={setSideBar}
+                                    handlemodal={handlemodal}
+                                    listingheaders={allFalse}
+                                  />
+                                </React.Fragment>
+                              );
+                            })
+                          )}
+                        </>
+                      )}
+                    </tbody>
+                  }
+                </table>
+              </div>
+              {modal && (
+                <Slider
+                  sidebartext={sidebartext}
+                  SideBarData={SideBarData}
+                  onclose={() => setmodal(false)}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    )}
-  </>
-);}
+      }
+    </>
+  );
+};
 
 // [
 //   {
@@ -1074,8 +1013,4 @@ return (
 //     ]
 // },
 
-  
-          
 // ]
-
-

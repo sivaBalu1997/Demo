@@ -12,6 +12,7 @@ interface DropdownProps {
     errorMessage?: string;
   };
   onBlur?: () => void;
+  isopened?: React.Dispatch<React.SetStateAction<boolean>>;
   width: string;
   index?: number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;

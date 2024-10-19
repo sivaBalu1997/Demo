@@ -141,7 +141,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   },[menuData])
   const [draggedItem, setDraggedItem] = useState<DraggedItem | null>(null);
 
-  // console.log("object",object);
+  console.log("object",object);
   
   
   return (
