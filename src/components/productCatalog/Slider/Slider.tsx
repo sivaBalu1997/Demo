@@ -30,7 +30,7 @@ interface PricingDetails {
 }
 
 interface SideBarData {
-  id: number;
+  itemId: string;
   itemName: string;
   code: string;
   type: string;
@@ -69,6 +69,7 @@ const Slider: React.FC<SliderProps> = ({
   const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
 
 
+console.log("sidbar",SideBarData);
 
 
   const history = useHistory();
@@ -91,7 +92,7 @@ const Slider: React.FC<SliderProps> = ({
 
   const handleItemClick = (item: string) => {
     const UpdatedeleteItem = data.filter(
-      (item: SideBarData) => item.id !== dataFromRedux[0].id
+      (item: SideBarData) => item.itemId !== dataFromRedux[0].id
     );
     setActive(item);
     dispatch(storeMockDataRequest(UpdatedeleteItem));
@@ -236,6 +237,7 @@ const Slider: React.FC<SliderProps> = ({
           {trash && (
             <Trash
               onTrashclose={() => setTrash(false)}
+              ItemId={SideBarData[0].itemId}
             
             />
           )}

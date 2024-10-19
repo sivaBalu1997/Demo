@@ -136,7 +136,7 @@ export function deleteMenuItem(payload) {
   return API({
     method: "delete",
     url: `/api/v1/menu-items/delete`,
-    data:payload
+    data:{itemId:payload}
 
   });
 }

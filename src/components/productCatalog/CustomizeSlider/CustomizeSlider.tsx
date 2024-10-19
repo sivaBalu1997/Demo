@@ -59,7 +59,7 @@ const CustomizeSlider = () => {
           modifierId: datafromRedux[0]?.modifiers?.[index]?.id || prevState.modifierInfo[index]?.optionId || "", // Ensure correct mapping of modifierId
           modifierName: item.modifierName,
           isEnabled: item.isEnabled,
-          options: item.options.map((opt:any, optIndex:any) => ({
+          options: item?.options?.map((opt:any, optIndex:any) => ({
         modifierOptionId: datafromRedux[0]?.modifiers?.[index]?.options?.[optIndex]?.optionId || prevState.modifierInfo[index]?.options?.[optIndex]?.modifierOptionId || "", // Use correct index
 
             modifierOptionName: opt.name,
