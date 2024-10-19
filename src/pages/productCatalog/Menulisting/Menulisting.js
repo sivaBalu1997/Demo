@@ -34,10 +34,6 @@ export const Menulisting = () => {
   const location = useSelector((state) => state.auth.selectedBranch);
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
-  const loadingRequest = useSelector((state) => state.productCatalog?.addMenuLoading);
-  console.log("loadingRequest",loadingRequest);
-  
-
   const SearchedmenuItem = useSelector(
     (state) => state.searchItem?.SearcheItem
   );
@@ -562,23 +558,14 @@ export const Menulisting = () => {
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (menudatalist.length > 0 && menuData.length>0) {
-
+    if (menudatalist.length > 0) {
       setLoading(false);
     }
-  }, [menudatalist,menuData]);
-  useEffect(()=>{
-    if(menuData.length===0)
-    {
-      setLoading(true);
-    }
-
-  },[menuData])
+  }, [menudatalist]);
 
   useEffect(() => {
     dispatch(getMenuRequest(location?.id));
   }, []);
-console.log("menuData",menuData);
 
   // if(loading)
   // {
