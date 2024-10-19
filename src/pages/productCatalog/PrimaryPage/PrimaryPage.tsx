@@ -140,7 +140,7 @@ interface ImageFile {
   file: File;
   uploaded: boolean;
   failed: boolean;
-  preview: string; 
+  preview: string;
 }
 interface LocationState {
   id: number;
@@ -157,13 +157,13 @@ interface PricingDetails {
 }
 
 interface CalorieInfo {
-  type: string; 
+  type: string;
   value: string;
 }
 
 interface PortionInfo {
-  type: string; 
-  value: string; 
+  type: string;
+  value: string;
 }
 
 interface Item {
@@ -237,7 +237,6 @@ const PrimaryPage = () => {
     value: "",
   });
 
-
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
@@ -291,7 +290,7 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
-      setValue("itemName", ItemsPrimaryDetails.itemName);      
+      setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
       setDescription(ItemsPrimaryDetails.description);
       setValue("imageUrls", ItemsPrimaryDetails.imageUrls);
@@ -301,8 +300,8 @@ const PrimaryPage = () => {
       setValue("Ingredients", ItemsPrimaryDetails.Ingredients);
       setValue("allergens", ItemsPrimaryDetails.allergens);
       setValue("coloriePoint", ItemsPrimaryDetails.coloriePoint);
-      setCalorieInfo(ItemsPrimaryDetails.coloriePoint)
-      setPortionInfo(ItemsPrimaryDetails.portionSize)
+      setCalorieInfo(ItemsPrimaryDetails.coloriePoint);
+      setPortionInfo(ItemsPrimaryDetails.portionSize);
       setValue("selectedcolorie", ItemsPrimaryDetails.selectedcolorie);
       setValue("portionSize", ItemsPrimaryDetails.portionSize);
       setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
@@ -310,7 +309,6 @@ const PrimaryPage = () => {
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
     }
   }, [ItemsPrimaryDetails, setValue]);
-
 
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
@@ -395,21 +393,21 @@ const PrimaryPage = () => {
     name: keyof typeof calorieInfo,
     value: string | boolean
   ) => {
-    setCalorieInfo((prevState:any) => ({
+    setCalorieInfo((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCalorieInfo((prevState:any) => ({
+    setCalorieInfo((prevState: any) => ({
       ...prevState,
       value: e.target.value,
     }));
   };
 
   const handlePortionChange = (name: keyof PortionInfo, value: string) => {
-    setPortionInfo((prevState:any) => ({
+    setPortionInfo((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
@@ -417,20 +415,19 @@ const PrimaryPage = () => {
 
   const handleImageDeletion = (index: number) => {
     setImages((prevImages) => {
-      const deletedImage=images.filter((_, i) => i !== index);
-      const updatedImages =  deletedImage;
-   
-     
+      const deletedImage = images.filter((_, i) => i !== index);
+      const updatedImages = deletedImage;
+
       const updatedImageUrls = updatedImages.map((image) => image);
       setValue("imageUrls", updatedImageUrls);
       return updatedImages;
     });
-   
   };
 
   const selectedradiowatch = watch();
   const alcoholValue = selectedradiowatch.alcohol || "no";
-  const portionsizeradiovalue=selectedradiowatch.portionSize || "Portion(count)";
+  const portionsizeradiovalue =
+    selectedradiowatch.portionSize || "Portion(count)";
 
   const handleAddImage = () => {
     document.getElementById("imgadd")?.click();
@@ -519,7 +516,7 @@ const PrimaryPage = () => {
         return;
       }
       setImages((prevImages) => {
-        const updatedImages = [...prevImages, ...fileArray];       
+        const updatedImages = [...prevImages, ...fileArray];
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
         return updatedImages;
@@ -583,7 +580,7 @@ const PrimaryPage = () => {
     setValue("bestPair", "");
     setValue("description", "");
     setValue("imageUrls", []);
-    setValue("alcohol", "no"); 
+    setValue("alcohol", "no");
     setValue("itemCode", "");
     setValue("barCode", "");
     setValue("category", "");
@@ -592,9 +589,9 @@ const PrimaryPage = () => {
     setValue("Ingredients", []);
     setValue("allergens", []);
     setValue("coloriePoint", "");
-    setValue("selectedcolorie", "per100grams"); 
+    setValue("selectedcolorie", "per100grams");
     setValue("portionSize", "");
-    setValue("selectedPortion", "Portion(count)"); 
+    setValue("selectedPortion", "Portion(count)");
     setValue("tax", "");
     setValue("masterCode", "");
     if (resetSelectionRef.current) {
@@ -642,10 +639,12 @@ const PrimaryPage = () => {
 
   // console.log(getValues())
 
-  const restaurantDetails = useSelector((state:any) => state.auth.restaurantDetails)
-// console.log("restaurantDetails",restaurantDetails?.containsAlcohol);
+  const restaurantDetails = useSelector(
+    (state: any) => state.auth.restaurantDetails
+  );
+  // console.log("restaurantDetails",restaurantDetails?.containsAlcohol);
 
-const alcoholconstain=restaurantDetails?.containsAlcohol;
+  const alcoholconstain = restaurantDetails?.containsAlcohol;
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
   // useEffect(()=>{
@@ -699,7 +698,6 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
   //     setValue("masterCode", dataFromRedux[0]?.masterCode || null);
   //   }
   // }, [dataFromRedux]);
-
 
   return (
     <div style={{ display: "flex" }}>
@@ -994,21 +992,18 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                   </div>
                 </div>
 
-{
-  alcoholconstain  && <div className="Primary-page-InputFields alcoholradiobutton">
-  <h3>Contains Alcohol ?</h3>
-  <RadioButtonGroup
-    options={alcoholradio}
-    name="alcohol"
-    selectedValue={selectedradiowatch.alcohol}
-    onChange={(value) => handleRadioChange("alcohol", value)}
-    register={register}
-  />
-</div>
-}
-               
-
-                
+                {alcoholconstain && (
+                  <div className="Primary-page-InputFields alcoholradiobutton">
+                    <h3>Contains Alcohol ?</h3>
+                    <RadioButtonGroup
+                      options={alcoholradio}
+                      name="alcohol"
+                      selectedValue={selectedradiowatch.alcohol}
+                      onChange={(value) => handleRadioChange("alcohol", value)}
+                      register={register}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="Primary-page-container-pairtwo">
@@ -1029,9 +1024,9 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                         <InputFieldComponent
                           name="itemCode"
                           onChange={(newValue) => {
-                            onChange(newValue); 
+                            onChange(newValue);
                           }}
-                          value={value} 
+                          value={value}
                           onBlur={() => {
                             if (value) {
                               dispatch(getItemCodeRequest(locationid, value));
@@ -1102,7 +1097,6 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                     name="popularItem"
                     control={control}
                     defaultValue={false}
-
                     render={({ field }: any) => (
                       <input
                         type="checkbox"
@@ -1110,7 +1104,7 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);
-                          field?.onChange(e.target.checked); 
+                          field?.onChange(e.target.checked);
                         }}
                       />
                     )}
@@ -1188,8 +1182,14 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                 </div>
               </div>
             </div>
-            <div  className={alcoholconstain?"Primary-page-container-two-heightdynamic":"Primary-page-container-two"}>
-              <div className="Primary-page-ingredients-selection" >
+            <div
+              className={
+                alcoholconstain
+                  ? "Primary-page-container-two-heightdynamic"
+                  : "Primary-page-container-two"
+              }
+            >
+              <div className="Primary-page-ingredients-selection">
                 <Imagepillsselection
                   heading="Ingredients*"
                   options={ingredientsFromAPi}
@@ -1213,11 +1213,11 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                         <InputFieldComponent
                           name="coloriePoint"
                           onChange={(e) => {
-                            handleInputChange(e); 
-                            onChange(e); 
+                            handleInputChange(e);
+                            onChange(e);
                           }}
                           onBlur={onBlur}
-                          value={calorieInfo?.value} 
+                          value={calorieInfo?.value}
                           trigger={trigger}
                           placeholder="cal"
                         />
@@ -1357,7 +1357,7 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                       </div>
                     </div>
                   </div>
-                  <div className="Primary-page-Other-Detail-mastercode">
+                  {/* <div className="Primary-page-Other-Detail-mastercode">
                     <LableComponent lable="Master Item Code" />
 
                     <div className="Primary-Page-inputfiled-and-tooltip">
@@ -1412,7 +1412,7 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                         </TooltipMsg>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
