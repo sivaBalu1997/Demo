@@ -107,6 +107,10 @@ const NavMenu: React.FC<NavMenuProps> = ({
     };
   }, []);
 
+  const orderTypess = useSelector(
+    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+  );  
+
   return (
     <>
       <nav className={`nav-menu`}>

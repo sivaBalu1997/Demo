@@ -7,22 +7,21 @@ import { RootState } from "redux/rootReducer";
 
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
-const PricingSlider: any = ({  }) => {
-  const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+const PricingSlider: any = ({}) => {
+  const { patchedData, setPatchedData } = useContext(Contextpagejs);
 
-  const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
-  console.log("Data from Redux ",data)
+  const data = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
 
-
-  
   const { pen, setPen } = useContext(Contextpagejs);
 
   const [inputs, setInputs] = useState({
     Dinein1: data[0]?.orderTypes[0]?.price || [],
-    Pickup1: Array.isArray(data[0]?.orderTypes) 
-    ? data[0].orderTypes.map((elem: any) => elem.price) 
-    : [],
-    Delivery1:data[0]?.orderTypes[0]?.price  || [],
+    Pickup1: Array.isArray(data[0]?.orderTypes)
+      ? data[0].orderTypes.map((elem: any) => elem.price)
+      : [],
+    Delivery1: data[0]?.orderTypes[0]?.price || [],
   });
 
   const [sectionAValue, setSectionAValue] = useState<string>("");
@@ -36,29 +35,32 @@ const PricingSlider: any = ({  }) => {
     },
     {
       heading: "Of-Prem",
-      labels: data[0]?.orderTypes?.length > 0
-      ? [data[0]?.orderTypes[0].typeName]
-      : [],
-      InputLabels: data[0]?.orderTypes?.length > 0
-      ? data[0]?.orderTypes.map((elem: any) => elem.typeName)  // Directly use map result
-      : [],
+      labels:
+        data[0]?.orderTypes?.length > 0
+          ? [data[0]?.orderTypes[0].typeName]
+          : [],
+      InputLabels:
+        data[0]?.orderTypes?.length > 0
+          ? data[0]?.orderTypes.map((elem: any) => elem.typeName) // Directly use map result
+          : [],
       inputTypes: ["text", "text", "text"],
     },
   ];
-  
+
   useEffect(() => {
     if (data && data[0]?.pricingdetails) {
       setInputs({
-        Dinein1:data[0]?.orderTypes[0]?.price  || [],
-        Pickup1: data[0]?.orderTypes?.length > 0 
-        ? data[0].orderTypes.map((elem: any) => elem.price) 
-        : [],
-      
-        Delivery1: data[0]?.orderTypes[0]?.price  || [],
+        Dinein1: data[0]?.orderTypes[0]?.price || [],
+        Pickup1:
+          data[0]?.orderTypes?.length > 0
+            ? data[0].orderTypes.map((elem: any) => elem.price)
+            : [],
+
+        Delivery1: data[0]?.orderTypes[0]?.price || [],
       });
     }
   }, [data]);
-  
+
   useEffect(() => {
     const updatedValue = data?.[0]?.pricingdetails?.Dinein1?.[0] || "";
     setSectionAValue(updatedValue);
@@ -70,16 +72,17 @@ const PricingSlider: any = ({  }) => {
     index: number
   ) => {
     const value = e.target.value;
-  
+
     setInputs((prev) => ({
       ...prev,
       [section]: Array.isArray(prev[section]) // Ensure it's an array
-        ? prev[section].map((item: number, idx: number) =>
-            idx === index ? Number(value) : item // Convert value to number if needed
+        ? prev[section].map(
+            (item: number, idx: number) =>
+              idx === index ? Number(value) : item // Convert value to number if needed
           )
         : [], // Default to an empty array if prev[section] is not an array
     }));
-  }
+  };
 
   const handleComparision = () => {
     setShowCompare(!showCompare);
@@ -98,9 +101,6 @@ const PricingSlider: any = ({  }) => {
       }));
     }
   }, [data, inputs, setPatchedData]);
-  
-
-
 
   return (
     <div className="PricingSlider-Container">
@@ -130,39 +130,40 @@ const PricingSlider: any = ({  }) => {
                 </div>
               ))}
               <div className="Section-Label">
-               {Array.isArray(elem.labels) && elem.labels.map((label: any, sub: any) => (
-                  <div key={sub} className="OnSectionLabelInput">
-                    <h3 className="OnSectionLabelInput-Heading">{label}</h3>
-                    <div className="OnPremZomatoInhouseSwiggy">
-                      {elem.InputLabels?.map((inputlabels:any, idx:any) => (
-                        <div
-                          key={inputlabels}
-                          className="OnPremZomatoInhouseSwiggyInput"
-                        >
-                          <h3 className="OnPremZomatoInhouseSwiggyInput-Heading">
-                            {inputlabels}67
-                          </h3>
-                          <input
-                            type={elem.inputTypes[idx] || "number"}
-                            className="OnPremZomatoInhouseSwiggyInputOrg"
-                            value={inputs.Pickup1[idx] }
-                            onChange={(e) =>
-                              handleInputChange1(
-                                e,
-                                sub === 0 ? "Pickup1" : "Delivery1",
-                                idx
-                              )
-                            }
-                            // disabled={!pen}
-                          />
-                          {showCompare && (
-                            <p className="Compare">{sectionAValue}</p>
-                          )}
-                        </div>
-                      ))}
+                {Array.isArray(elem.labels) &&
+                  elem.labels.map((label: any, sub: any) => (
+                    <div key={sub} className="OnSectionLabelInput">
+                      <h3 className="OnSectionLabelInput-Heading">{label}</h3>
+                      <div className="OnPremZomatoInhouseSwiggy">
+                        {elem.InputLabels?.map((inputlabels: any, idx: any) => (
+                          <div
+                            key={inputlabels}
+                            className="OnPremZomatoInhouseSwiggyInput"
+                          >
+                            <h3 className="OnPremZomatoInhouseSwiggyInput-Heading">
+                              {inputlabels}67
+                            </h3>
+                            <input
+                              type={elem.inputTypes[idx] || "number"}
+                              className="OnPremZomatoInhouseSwiggyInputOrg"
+                              value={inputs.Pickup1[idx]}
+                              onChange={(e) =>
+                                handleInputChange1(
+                                  e,
+                                  sub === 0 ? "Pickup1" : "Delivery1",
+                                  idx
+                                )
+                              }
+                              // disabled={!pen}
+                            />
+                            {showCompare && (
+                              <p className="Compare">{sectionAValue}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
