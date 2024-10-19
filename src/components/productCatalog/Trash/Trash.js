@@ -1,8 +1,14 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import "./Trash.scss";
 import Trash from "../../../assets/images/trash-2.png";
+import { useDispatch } from "react-redux";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { deleteMenuItemRequest } from "redux/productCatalog/productCatalogActions";
 
-const EyeModal = ({ onTrashclose, handleDeleteItem, handleOnClose }) => {
+const EyeModal = ({ onTrashclose }) => {
+  const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
+
+  const dispatch=useDispatch();
   const trashmodalRef = useRef();
   const TrashClose = (e) => {
     if (trashmodalRef.current === e.target) {
@@ -13,9 +19,10 @@ const EyeModal = ({ onTrashclose, handleDeleteItem, handleOnClose }) => {
     onTrashclose();
   };
   const handleChange = () => {
-    handleDeleteItem();
+    dispatch(deleteMenuItemRequest(ApiPayload))
+
+   
     onTrashclose();
-    handleOnClose();
   };
 
   return (

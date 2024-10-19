@@ -429,6 +429,8 @@ const PrimaryPage = () => {
   };
 
   const selectedradiowatch = watch();
+  const alcoholValue = selectedradiowatch.alcohol || "no";
+  const portionsizeradiovalue=selectedradiowatch.portionSize || "Portion(count)";
 
   const handleAddImage = () => {
     document.getElementById("imgadd")?.click();

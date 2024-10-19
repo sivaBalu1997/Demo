@@ -94,6 +94,9 @@ import {
   DELETEDROPDOWN_FAILURE,
   DELETEDROPDOWN_SUCCESS,
   SEARCH_FORITEM,
+  STORE_DATA_WITH_CATEGORY,
+  ADD_MOCK_DATA_HIDDEN_FALIURE,
+  ADD_MOCK_DATA_HIDDEN_SUCCESS,
   STORE_UPLOAD_SUCCESS,
   DELETE_MODIFIER_REQUEST,
   DELETE_MODIFIER_SUCCESS,
@@ -856,9 +859,22 @@ export const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
     case ADD_MOCK_DATA_HIDDEN_REQUEST:
       return {
         ...state,
-        data: action?.payload,
+        loading: true,
+        error: null,
       };
-
+    case ADD_MOCK_DATA_HIDDEN_SUCCESS:
+      
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+      };
+    case ADD_MOCK_DATA_HIDDEN_FALIURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }
@@ -981,3 +997,25 @@ export const menuReducer = (state = menuData, action) => {
       return state;
   }
 };
+
+// {*****StoreDatawithCatagoryID***********************}
+
+const CatagoryData={
+  data:[]
+}
+
+export const storeDataReducer = (state = CatagoryData, action) => {
+  switch (action.type) {
+    case STORE_DATA_WITH_CATEGORY:
+      return {
+        ...state,
+        data: action?.payload,
+      };
+
+   
+
+    default:
+      return state;
+  }
+};
+
