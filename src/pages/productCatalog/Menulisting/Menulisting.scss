@@ -22,7 +22,7 @@
   z-index: 0;
   transition: width 0.6s ease;
 }
-
+ 
 .Menu-Listing-Page-main {
   table,
   tr,
@@ -34,11 +34,11 @@
     border-spacing: 0;
   }
 }
-
+ 
 .headercomponent {
   margin-bottom: 30px;
 }
-
+ 
 * {
   margin: 0;
   padding: 0;
@@ -55,7 +55,7 @@ th {
   box-sizing: border-box;
   border: none;
 }
-
+ 
 .Menu-Listing-Page-main {
   width: 100%;
   height: 38.5rem;
@@ -66,7 +66,7 @@ th {
   // &::-webkit-scrollbar{
   //   display: none;
   // }
-
+ 
   display: flex;
   flex-direction: row;
   table,
@@ -78,7 +78,7 @@ th {
     // width: 20rem;
     // height: 20rem;
     // border: 1px solid black !important;
-
+ 
     .headerrow {
       display: flex;
       width: 100%;
@@ -87,13 +87,13 @@ th {
       position: relative;
       left: 5%;
       margin-bottom: 26px;
-
+ 
       .itemimage,
       .itemname {
         font-size: 16px;
         font-weight: 500;
       }
-
+ 
       .itemcode {
         width: 50px;
         height: 20px;
@@ -132,7 +132,7 @@ th {
         display: none;
       }
     }
-
+ 
     .itemheading {
       font-size: 20px !important;
       font-weight: 500;
@@ -141,6 +141,7 @@ th {
       align-items: center;
       gap: 10px;
       height: 2rem;
+      background-color: #E2E0E0;
       // border: 1px solid blue;
     }
     .itemheadingtwo {
@@ -152,9 +153,10 @@ th {
       align-items: center;
       display: flex;
       height: 2rem;
+      background-color: #E2E0E0;
       border-right: 1px solid #b3b3b3 !important;
     }
-
+ 
     .Menu-listing-Body {
       display: flex;
       flex-direction: column;
@@ -163,7 +165,7 @@ th {
       // position: relative;
       // top: 2.2%;
       margin-top: 0;
-
+ 
       .itemdetails-row {
         width: 20rem;
         height: 60px;
@@ -174,14 +176,14 @@ th {
         border-top: none !important;
         border-left: none !important;
         font-size: 14px;
-
+ 
         .itemimage2 {
           width: 4rem;
           display: flex;
           justify-content: left;
           align-items: center;
           gap: 5px;
-
+ 
           .foodimage {
             width: 45px;
             height: 45px;
@@ -216,7 +218,7 @@ th {
       height: 40px;
       border: 1px solid black !important;
     }
-
+ 
     .itemdetails-row.selected {
       opacity: 1;
       transform: scale(1.08);
@@ -224,22 +226,22 @@ th {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
   }
-
+ 
   .Menu-Listing-TableTwo {
     width: 63rem;
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
    
-
+ 
     &::-webkit-scrollbar-track {
       background-color: #b3b3b3;
     }
-
+ 
     &::-webkit-scrollbar-thumb {
       background-color: #5f5f5f;
     }
-
+ 
     &::-webkit-scrollbar-thumb:hover {
       background-color: #555;
     }
@@ -253,24 +255,24 @@ th {
     &::-webkit-scrollbar-track {
       background-color: #b3b3b3;
     }
-
+ 
     &::-webkit-scrollbar-thumb {
       background-color: #5f5f5f;
     }
-
+ 
     &::-webkit-scrollbar-thumb:hover {
       background-color: #555;
     }
-
+ 
     // &::-webkit-scrollbar{
     //   display: none;
     // }
   }
-  
-  
-
-
-
+ 
+ 
+ 
+ 
+ 
   .dineindata
 {
   width: 154px;
@@ -278,40 +280,53 @@ th {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
+ 
 }
 .pickupdata
 {
-  width: 226px;
+  width: 154px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 .deliverydata
 {
-  width: 226px;
+  width: 154px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
+
+.Customizedata
+{
+  width: 154px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
+
   .Menu-Listing-TableTwoHead {
     height: 3.95rem;
     // border-bottom: 1px solid #d9d9d9;
     position: relative;
     // left: -0.3%;
     // border: 1px solid red;
-
+ 
     .headingonesection {
       display: flex;
       border: 1px solid blue;
       flex-direction: row;
-      
+     
       gap: 20px;
       position: relative;
       height: 1rem;
       // padding-left: 1rem;
       margin-bottom: 48.3px;
-
+ 
       .dots {
         // padding-right: 10px;
         position: relative;
@@ -323,20 +338,20 @@ th {
           cursor: grabbing;
         }
       }
-
+ 
       .dollar {
         padding-right: 10px;
         position: relative;
         top: 3px;
       }
-
+ 
       .spanheadertext {
         position: relative;
         top: -1px;
         font-size: 16px;
         font-weight: 500;
       }
-
+ 
       .Dinein {
         width: 154px;
         height: 30px;
@@ -349,16 +364,16 @@ th {
         padding-right: 10px;
         cursor: grab;
         gap: 0.6rem;
-
+ 
         &:active {
           cursor: grabbing;
         }
-
+ 
         .removeicon {
           position: relative;
           top: 0px;
           // left: 20px;
-
+ 
           img {
             width: 10px;
             height: 10px;
@@ -366,7 +381,7 @@ th {
         }
       }
       .Pickup {
-        width: 226px;
+        width: 154px;
         height: 30px;
         border: 0.5px solid #d9d9d9 !important;
         border-radius: 4px;
@@ -383,7 +398,7 @@ th {
         .removeicon {
           position: relative;
          
-
+ 
           img {
             width: 10px;
             height: 10px;
@@ -391,7 +406,7 @@ th {
         }
       }
       .Delivery {
-        width: 226px;
+        width: 154px;
         height: 30px;
         border: 0.5px solid #d9d9d9 !important;
         border-radius: 4px;
@@ -401,7 +416,7 @@ th {
         // padding-left: 10px;
         // padding-right: 10px;
         gap: 2.5rem;
-
+ 
         cursor: grab;
         &:active {
           cursor: grabbing;
@@ -409,7 +424,7 @@ th {
         .removeicon {
           position: relative;
           // left: 75px;
-
+ 
           img {
             width: 10px;
             height: 10px;
@@ -457,7 +472,7 @@ th {
         }
         .removeicon {
           position: relative;
-        
+       
           img {
             width: 10px;
             height: 10px;
@@ -472,20 +487,20 @@ th {
       gap: 20px;
       padding-left: 1rem;
       //  border: 1px solid red !important;
-
+ 
       .fontstyle {
         font-size: 16px;
         font-weight: 400;
         color: #000000;
       }
-
+ 
       .Dinein1-class {
         width: 154px;
         height: 24px;
         display: flex;
         gap: 70px;
         justify-content: left;
-
+ 
         // border: 1px solid red !important;
       }
       .Dinein2-class {
@@ -497,7 +512,7 @@ th {
         gap: 70px;
         position: relative;
       }
-
+ 
       .Pickup1-class {
         width: 226px;
         // border: 1px solid red;
@@ -507,7 +522,7 @@ th {
         gap: 23px;
         position: relative;
       }
-
+ 
       .Delivery1-class {
         width: 226px;
         // border: 1px solid red;
@@ -522,7 +537,7 @@ th {
         display: flex;
         gap: 23px;
       }
-
+ 
       .Delivery2-class {
         width: 226px;
         // border: 1px solid red;
@@ -530,7 +545,7 @@ th {
         gap: 23px;
         display: flex;
       }
-
+ 
       .Inventory1-class {
         width: 154px;
         // border: 1px solid red;
@@ -539,7 +554,7 @@ th {
         display: flex;
         justify-content: center;
       }
-
+ 
       .Customize1-class {
         width: 154px;
         // border: 1px solid red;
@@ -550,7 +565,7 @@ th {
      
     }
   }
-
+ 
   .Menu-Listing-TableTwoBody {
     display: block;
     height: 33.2rem !important;
@@ -560,7 +575,7 @@ th {
     &::-webkit-scrollbar {
       display: none;
     }
-
+ 
     // border: 1px solid red !important;
   }
   .Menu-Listing-TableTwoBody1 {
@@ -574,7 +589,7 @@ th {
     }
     // border: 1px solid red !important;
   }
-
+ 
   .tabletwobody {
     display: flex;
     flex-direction: column;
@@ -593,13 +608,13 @@ th {
     text-align: center;
     color: #5f5f5f;
   }
-  
+ 
   .itemheading2row {
     // height: 32px;
   }
-
-
-
+ 
+ 
+ 
   .eachobject-rowwise {
     height: 60px;
     width: fit-content;
@@ -607,7 +622,7 @@ th {
     align-items: center;
     border: 1px solid #b3b3b3 !important;
     border-top: none !important;
-
+ 
     // margin-left: 0.7rem;
     border-left: none !important;
     gap: 20px;
@@ -617,27 +632,27 @@ th {
   .givepadding {
     padding-left: 0.7rem;
   }
-
+ 
   .Dinein1 {
     width: 154px;
     gap: 40px;
     display: flex;
     justify-content: start;
     //  border: 1px solid red !important;
-
+ 
     td {
       display: flex;
       justify-content: center;
     }
   }
-
+ 
   .Pickup1 {
     width: 226px;
     display: flex;
     justify-content: center;
     // border: 1px solid red !important;
     gap: 25px;
-
+ 
     td {
       display: flex;
       justify-content: start;
@@ -660,7 +675,7 @@ th {
     justify-content: center;
     gap: 75px;
     // border: 1px solid red !important;
-
+ 
     td {
       display: flex;
       justify-content: center;
@@ -672,7 +687,7 @@ th {
     justify-content: center;
     gap: 55px;
     // border: 1px solid red !important;
-
+ 
     td {
     }
   }
@@ -682,7 +697,7 @@ th {
     justify-content: center;
     gap: 55px;
     // border: 1px solid red !important;
-
+ 
     td {
     }
   }
@@ -693,9 +708,9 @@ th {
     justify-content: left;
     position: relative;
     left: 0.8%;
-
+ 
     // border: 1px solid red !important;
-
+ 
     td {
       display: flex;
       // position: relative;
@@ -707,12 +722,12 @@ th {
     display: flex;
     justify-content: center;
     // border: 1px solid red !important;
-
+ 
     td {
     }
   }
 }
-
+ 
 .headingstextlist1 {
   position: absolute;
   top: 14.5%;
@@ -747,7 +762,7 @@ th {
       }
     }
   }
-
+ 
   .inserbody {
     margin-top: 10px;
     margin-left: 37px;
@@ -761,7 +776,7 @@ th {
         display: flex;
         padding-left: 10px;
       }
-
+ 
       .dollaricon {
         width: 27px;
         height: 27px;
@@ -809,8 +824,8 @@ th {
     }
   }
 }
-
-
+ 
+ 
 .headingstextlist {
   position: absolute;
   top: 14.5%;
@@ -845,7 +860,7 @@ th {
       }
     }
   }
-
+ 
   .inserbody {
     margin-top: 10px;
     margin-left: 37px;
@@ -859,7 +874,7 @@ th {
         display: flex;
         padding-left: 10px;
       }
-
+ 
       .dollaricon {
         width: 27px;
         height: 27px;
@@ -911,6 +926,21 @@ th {
   border-top: 1px solid #b3b3b3 !important;
 }
 
+.Menu-noOptions
+{
+  display: flex;
+  position: relative;
+  left: 12rem;
+  top: 10rem;
+  .imgLoader2
+  {
+    width: 5rem;
+    height: 5rem;
+  }
+
+
+}
+ 
 @media (max-width: 1500px) {
   .mainpagemenu {
     height: 97vh;
@@ -937,7 +967,7 @@ th {
     transition: width 0.6s ease;
   }
 }
-
+ 
 @media (max-width: 1440px) {
   .Menu-Listing-Page-main {
     height: 45rem;
@@ -968,7 +998,7 @@ th {
       height: 36rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 170.4%;
+      width: 150.4%;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -986,7 +1016,7 @@ th {
       // border: 1px solid red !important;
     }
   }
-
+ 
   .mainpagemenu {
     height: 97vh;
     background: none;
@@ -1012,12 +1042,12 @@ th {
     transition: width 0.6s ease;
   }
 }
-
+ 
 @media (max-width: 1833px) {
   .Menu-Listing-Page-main {
     height: 45rem;
     width: 120%;
-
+ 
     .Menu-Listing-TableOne {
       .Menu-Listing-TableOneBody {
         height: 42rem;
@@ -1044,7 +1074,7 @@ th {
       height: 40rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 163.4%;
+      width: 153.4%;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -1062,7 +1092,7 @@ th {
       // border: 1px solid red !important;
     }
   }
-
+ 
   .mainpagemenu {
     height: 97vh;
     background: none;
@@ -1088,7 +1118,7 @@ th {
     transition: width 0.6s ease;
   }
 }
-
+ 
 @media (max-width: 1540px) {
   .Menu-Listing-Page-main {
     .Menu-Listing-TableOne {
@@ -1117,7 +1147,7 @@ th {
       height: 31.2rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 170.4%;
+      width: 119%;
       // border: 1px solid green;
       &::-webkit-scrollbar {
         display: none;
@@ -1136,7 +1166,7 @@ th {
       // border: 1px solid red !important;
     }
   }
-
+ 
   .mainpagemenu {
     height: 97vh;
     background: none;
@@ -1163,7 +1193,7 @@ th {
     // border: 1px solid blue;
   }
 }
-
+ 
 .categoryname{
   font-size: 20px !important;
   font-weight: 500;
@@ -1172,14 +1202,6 @@ th {
   align-items: center;
   gap: 10px;
   height: 2rem;
+  background-color: #E2E0E0;
 }
-
-
-.imgLoader2{
-  height: 60px;
-  width: 60px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  
-}
+ 

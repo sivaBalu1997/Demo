@@ -12,6 +12,7 @@ import TooltipMsg from "../Tooltip/TooltipMsg";
 import info from "../../../assets/svg/info.svg";
 import { RootState } from "redux/rootReducer";
 import { State } from "sockjs-client";
+import session from "redux-persist/lib/storage/session";
 
 type MainFormType = {
   availabilityid: string[];
@@ -157,6 +158,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>([]);
   const [selectedValuesmealtype, setSelectedValuesMealType] =
     React.useState<SelectedValuesMealTypeState>([]);
+console.log("Normaldays",Normaldays);
 
   const [optionsmealtype, setOptionsMealType] = useState([
     "Breakfast",
@@ -170,13 +172,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [DayDelivery, setDayDelivery] = useState<number[]>([]);
   const [DayThird, setDayThird] = useState<number[]>([]);
   const [dineInDates1, setDineInDates1] = useState<number[][]>([[]]);
-  console.log(dineInDates1)
-
   //   {_-------------------Use State  for Showing Day checck ---------------------------------}
   const [showDay, setShowDay] = useState(false);
   const [showDayPickup, setShowDayPickup] = useState(false);
   const [showDayDelivery, setShowDayDelivery] = useState(false);
   const [showDayThird, setShowDayThird] = useState(false);
+
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData
   );
@@ -202,13 +203,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
-
   const orderTypes = useSelector(
     (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
-
-
-  console.log({orderTypes})
 
   const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
   const pickUpId = orderTypess?.find((item: any) => item.typeGroup === "P")?.id;
@@ -219,6 +216,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const thirdpartyid = orderTypess?.find(
     (item: any) => item.typeGroup === "T"
   )?.id;
+
+  const thirdPartyTypeName = orderTypes?.find((item:any) => item.typeGroup === 'T')?.typeName
 
   const [pickupDetails, setPickUpDetails] = useState<DeliveryDetails>({
     typeId: pickUpId,
@@ -257,33 +256,33 @@ const Normalavail: React.FC<NormalavailProps> = ({
       ],
     });
 
-  const [priceInfo, setPriceInfo] = useState<PriceInfo>({
-    typeId: thirdpartyid,
+  const [priceInfo, setPriceInfo] = useState<PriceInfo[]>([{
+    typeId: '',
     price: 0,
-    typeName: "GloriaFood",
+    typeName: "",
     availabilities: [
       {
         availabilityDays: [],
         sessions: [],
       },
     ],
-  });
+  }]);
 
   const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
 
   const handleMealTypeChange = (
     option: string,
-    selectedMealTypes: string[]
+    selectedMealTypes: string[],
+    index : number
   ) => {
     setMealTypes((prev) => ({
       ...prev,
       [option]: selectedMealTypes,
     }));
 
-    setPriceInfo((prev) => ({
-      ...prev,
-      session: selectedMealTypes,
-    }));
+    const data = [...priceInfo]
+    data[index].availabilities[0].sessions = selectedMealTypes
+    setPriceInfo(data)
   };
 
   const mainForm = {
@@ -313,22 +312,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
    ...(delivery && { deliveryDetails: deliveryDetails}),
 
-    ...(selectedthirdvalues.length > 1 && {
-      thirdpartyDetails: {
-        typeName: priceInfo.typeName,
-        typeId: priceInfo.typeId,
-        price: priceInfo.price,
-        availabilities: priceInfo.availabilities,
-      }
-    })
+    // ...(selectedthirdvalues?.length > 0 && {                    //need to fix 3rd Party
+    //   thirdpartyDetails: priceInfo
+    // })
+    thirdpartyDetails: priceInfo  
   };
-
-  console.log({ mainForm });
-
 
   const optionsselectthird = orderTypes
     ?.filter((item) => item.typeGroup === "T")
     .map((item) => item.typeName);
+
+  const thirdPartyData = orderTypes?.filter((item) => item.typeGroup === 'T').map((item) => item)
 
   const dineInTypes = orderTypes
     ?.filter((item) => item.typeGroup === "D")
@@ -342,102 +336,107 @@ const Normalavail: React.FC<NormalavailProps> = ({
     ?.filter((item) => item.typeGroup === "S")
     .map((item) => item.typeName);
 
-  useEffect(() => {
-    if (prizingDetail?.normalForm?.formNormal) {
+    useEffect(()=>{
+      if(selectedthirdvalues){
+        const data = [...priceInfo]
+        selectedthirdvalues.forEach((item, index) => {
+          data[index].typeName = item
+        })
+        data.forEach((item,index) => {
+          const id = thirdPartyData?.find((value) => item.typeName === value.typeName)?.id
+          data[index].typeId = String(id)
+        })
+      }
+    },[selectedthirdvalues]) 
 
-      setformNormal({
-        PickuppriceNormal:
-          prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
-        PickupmealtypeNormal:
-          prizingDetail?.normalForm?.formNormal?.PickupmealtypeNormal || "",
-        DeliverypriceNormal:
-          prizingDetail?.normalForm?.formNormal?.DeliverypriceNormal || "",
-        DeliverymealtypeNormal:
-          prizingDetail?.normalForm?.formNormal?.DeliverymealtypeNormal || "",
-        SwiggyorzomatoNormal:
-          prizingDetail?.normalForm?.formNormal?.SwiggyorzomatoNormal || "",
-        SwiggyNormal: prizingDetail?.normalForm?.formNormal?.SwiggyNormal || "",
-        SwiggymealtypeNormal:
-          prizingDetail.normalForm?.formNormal?.SwiggymealtypeNormal || "",
-        ZomatoNormal: prizingDetail?.normalForm?.formNormal?.ZomatoNormal || "",
-        ZomatomealtypeNormal:
-          prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
-      });
-
-      const updatedFields = prizingDetail?.normalForm?.dineinfields.map(
-        (item: any) => ({
+    useEffect(() => {
+      if (prizingDetail?.normalForm?.formNormal) {
+        setformNormal({
+          PickuppriceNormal: prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
+          PickupmealtypeNormal: prizingDetail?.normalForm?.formNormal?.PickupmealtypeNormal || "",
+          DeliverypriceNormal: prizingDetail?.normalForm?.formNormal?.DeliverypriceNormal || "",
+          DeliverymealtypeNormal: prizingDetail?.normalForm?.formNormal?.DeliverymealtypeNormal || "",
+          SwiggyorzomatoNormal: prizingDetail?.normalForm?.formNormal?.SwiggyorzomatoNormal || "",
+          SwiggyNormal: prizingDetail?.normalForm?.formNormal?.SwiggyNormal || "",
+          SwiggymealtypeNormal: prizingDetail.normalForm?.formNormal?.SwiggymealtypeNormal || "",
+          ZomatoNormal: prizingDetail?.normalForm?.formNormal?.ZomatoNormal || "",
+          ZomatomealtypeNormal: prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
+        });
+    
+        const updatedFields = prizingDetail?.normalForm?.dineinfields.map((item: any) => ({
           DineInPrice: item?.DineInPrice || "",
           DineInMealType: item.DineInMealType || [],
           DineInService: item?.DineInService || "",
           showDay: true,
           dayButtonText: "Choose Day",
-        })
-      );
-      setOnline(true)
-      setPickup(true)
-      setDelivery(true)
-      
+        }));
+    
+        setOnline(true);
+        setPickup(true);
+        setDelivery(true);
+        setDineInFields(updatedFields);
+    
+        // Set delivery details
+        const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
+        const pickupDetails = prizingDetail?.normalForm?.pickupDetails
+        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails        
+        const thirdPartyTypeName = prizingDetail?.normalForm?.thirdpartyDetails?.map
+        if(pickupDetails){
+          setPickUpDetails({
+            typeId: pickUpId,
+            price: pickupDetails?.price || '',
+            typeName: pickupDetails?.typeName || '',
+            availabilities: pickupDetails?.availabilities || [],
+          })
+        }
 
-      setDineInFields(updatedFields);
-
-      // Initialize selected values
-      const initialSelectedValues = updatedFields.map(
-        (item: any) => item.DineInMealType
-      );
-      setSelectedValuesMealType(initialSelectedValues);
-
-      const initialSelectedValues2 = updatedFields.map(
-        (item: any) => item.DineInService
-      );
-      setSelectedValues(initialSelectedValues2);
-      setDineIn(true);
-    }
-    if (prizingDetail?.normalForm) {
-      setSelectedValues2(
-        prizingDetail.normalForm.PicupMealType || selectedValues2
-      );
-    }
-
-    if (prizingDetail?.normalForm) {
-      setSelectedValues3(
-        prizingDetail.normalForm.DeliveryMealType || selectedValues3
-      );
-    }
-    if (prizingDetail?.normalForm) {
-      setSelectedValues4(prizingDetail.normalForm.Swiggy || selectedValues4);
-    }
-    if (prizingDetail?.normalForm) {
-      setSelectedValues5(prizingDetail.normalForm.Zomato || selectedValues5);
-    }
-
-    if (prizingDetail?.normalForm) {
-      setDayPickup(prizingDetail.normalForm.Pickup || []);
-
-      setShowDayPickup(true);
-    }
-
-    if (prizingDetail?.normalForm) {
-      setDayDelivery(prizingDetail.normalForm.Delivery || []);
-
-      setShowDayDelivery(true);
-    }
-
-    if (prizingDetail?.normalForm) {
-      setDayThird(prizingDetail.normalForm.thirdParty || []);
-
-      setShowDayThird(true);
-    }
-
-    if (prizingDetail?.normalForm) {
-      setNormalDays(prizingDetail.normalForm.Normaldays || []);
-    }
-      if (prizingDetail?.normalForm) {
-        setDineInDates1(prizingDetail.normalForm.DineIn || []);
-        setSelectedThirdValues(["Swiggy","Zomato"])
+        if (deliveryDetails) {
+          setDeliveryDetails({
+            typeId: deliveryId,
+            price: deliveryDetails?.price || "",
+            typeName: deliveryDetails?.typeName || "",
+            availabilities: deliveryDetails?.availabilities || [],
+          });
+        }
+    
+        if(thirdpartyDetails){
+          const data = thirdpartyDetails?.map((item : any) => item?.typeName)
+          setSelectedThirdValues(data)
+          setPriceInfo(thirdpartyDetails)
+          const object : any = {}
+          const item = thirdpartyDetails?.map((item : any) => item)
+          item.forEach((element : any) => {
+            object[element.typeName] = element?.availabilities[0]?.sessions
+          });
+          setMealTypes(object)
+        }
         
-   
-      }  
-    }, []);
+        // Initialize selected values
+        const initialSelectedValues = updatedFields.map((item: any) => item.DineInMealType);
+        setSelectedValuesMealType(initialSelectedValues);
+    
+        const initialSelectedValues2 = updatedFields.map((item: any) => item.DineInService);
+        setSelectedValues(initialSelectedValues2);
+        setDineIn(true);
+      }
+    
+      if (prizingDetail?.normalForm) {
+        setSelectedValues2(prizingDetail.normalForm.PicupMealType || selectedValues2);
+        setSelectedValues3(prizingDetail.normalForm.deliveryDetails?.sessions || selectedValues3);
+        setSelectedValues4(prizingDetail.normalForm.Swiggy || selectedValues4);
+        setSelectedValues5(prizingDetail.normalForm.Zomato || selectedValues5);
+        setDayPickup(prizingDetail.normalForm.Pickup || []);
+        setShowDayPickup(true);
+        setDayDelivery(prizingDetail.normalForm.Delivery || []);
+        setShowDayDelivery(true);
+        setDayThird(prizingDetail.normalForm.thirdParty || []);
+        setShowDayThird(true);
+        setNormalDays(prizingDetail.normalForm.Normaldays || []);
+        setDineInDates1(prizingDetail.normalForm.DineIn || []);
+        // setSelectedThirdValues(["Swiggy", "Zomato"]);
+      }
+    }, [prizingDetail]);
+    
 
   const handleDelete = (index: number): void => {
     const newEntries = dineinfields.filter((_: any, i: any) => i !== index);
@@ -531,7 +530,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setShowDayThird(false);
   };
 
-  console.log({mainForm})
 
   useEffect(() => {
     if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
@@ -540,15 +538,13 @@ const Normalavail: React.FC<NormalavailProps> = ({
   }, [mainForm]);
 
   useEffect(() => {
-    setPriceInfo((prev) => ({
-      ...prev,
-      availabilities: [
-        {
-          ...prev.availabilities[0],
-          availabilityDays: DayThird.map((day) => day.toString()),
-        },
-      ],
-    }));
+   if(DayThird && priceInfo[0].typeName){
+      const data = priceInfo
+      data.forEach((item) => {
+        item.availabilities[0].availabilityDays = DayThird.map((day) => day.toString())
+      })
+      setPriceInfo(data)
+   }
   }, [DayThird]);
 
   useEffect(() => {
@@ -628,7 +624,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
   };
 
   const handleSelectMealtype = (value: MealType, index: number): void => {
-    const newSelectedValues = [...selectedValuesmealtype];
+    // Ensure selectedValuesmealtype is iterable
+    const newSelectedValues = Array.isArray(selectedValuesmealtype)
+      ? [...selectedValuesmealtype]
+      : [];
     newSelectedValues[index] = value;
     setSelectedValuesMealType(newSelectedValues);
   
@@ -656,6 +655,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       validateDropdown(value, index);
     }
   };
+  
   
   const addOptionMealType = (newOption: OptionType): void => {
     setOptionsMealType([...optionsmealtype, newOption]);
@@ -687,7 +687,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     validfield: string
   ): void => {
     if (index < 0 || index >= dineinfields.length) {
-      console.error("Index out of bounds");
       return;
     }
     const newDineInFields = [...dineinfields];
@@ -745,6 +744,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
       resetSelection.current = clearSelection;
     }
   }, [resetSelection]);
+
+  const [dropdownopened, setDropdownopened] = useState<boolean>(false);
 
   return (
     <div>
@@ -811,7 +812,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
             const DineInService = `DineInService_${index}`;
             return (
               <>
-                <div className="LabelPrice">
+              <div className="DineIn-Fields">
+              <div className="LabelPrice">
                   <LableComponent lable="Price*" />
                 </div>
                 <div
@@ -873,7 +875,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     className="dineInChooseDayContainer-chooseheading"
                     onClick={() => addDay(index)}
                   >
-                    {entry.dayButtonText}
+                   Choose Day
                   </h3>
                 </div>
                 <div className="dayspickup">
@@ -888,6 +890,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     />
                   )}
                 </div>
+              </div>
+                
               </>
             );
           })}
@@ -929,7 +933,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     <input
                       type="text"
                       className="DineInInput1Normal"
-                      value={pickupDetails.price} // Use pickupDetails state
+                      value={pickupDetails?.price}
                       onChange={(e) =>
                         setPickUpDetails({
                           ...pickupDetails,
@@ -962,33 +966,33 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="dineInChooseDayContainer">
+                  <div className="PickupChooseDayContainer">
                     {showDayPickup ? (
-                      <h3 className="dineInChooseDayContainerHeading">
+                      <h3 className="pickupChooseDayContainerHeading">
                         Back for default days
                       </h3>
                     ) : (
-                      <h3 className="dineInChooseDayContainerHeading">
+                      <h3 className="pickupChooseDayContainerHeading">
                         Setup for specific days?
                       </h3>
                     )}
                     {showDayPickup ? (
                       <h3
-                        className="dineInChooseDayContainer-chooseheading"
+                        className="pickupChooseDayContainer-chooseheading"
                         onClick={addDayPickupfalse}
                       >
                         Default days
                       </h3>
                     ) : (
                       <h3
-                        className="dineInChooseDayContainer-chooseheading"
+                        className="pickupChooseDayContainer-chooseheading"
                         onClick={addDayPickup}
                       >
                         Choose Day
                       </h3>
                     )}
                   </div>
-                  <div className="dayspickup">
+                  <div className="dayspick-pickup">
                     {showDayPickup ? (
                       <DaysCheck
                         checkedItems={DayPickup}
@@ -1022,12 +1026,13 @@ const Normalavail: React.FC<NormalavailProps> = ({
             >
               {delivery && deliveryTypes ? (
                 <div>
-                  <p className="LabelPrice"> Price*</p>
+                  <div></div>
+                  <p className="LabelPrice-delivery"> Price*</p>
                   <div className="Online-delivery">
                     <input
                       type="text"
                       className="DineInInput1Normal"
-                      value={deliveryDetails.price}
+                      value={deliveryDetails?.price}
                       onChange={(e) => {
                         const newPrice = e.target.value;
                         setDeliveryDetails((prevDetails:any) => ({
@@ -1058,26 +1063,26 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="dineInChooseDayContainer">
+                  <div className="deliveryChooseDayContainer">
                     {showDayDelivery ? (
-                      <h3 className="dineInChooseDayContainerHeading">
+                      <h3 className="deliveryChooseDayContainerHeading">
                         Back for default days
                       </h3>
                     ) : (
-                      <h3 className="dineInChooseDayContainerHeading">
+                      <h3 className="deliveryChooseDayContainerHeading">
                         Setup for specific days?
                       </h3>
                     )}
                     {showDayDelivery ? (
                       <h3
-                        className="dineInChooseDayContainer-chooseheading"
+                        className="deliveryChooseDayContainer-chooseheading"
                         onClick={addDayDeliveryfalse}
                       >
                         Default days
                       </h3>
                     ) : (
                       <h3
-                        className="dineInChooseDayContainer-chooseheading"
+                        className="deliveryChooseDayContainer-chooseheading"
                         onClick={addDayDelivery}
                       >
                         Choose Day
@@ -1102,13 +1107,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
             <h1 className="ThirdDeliveryRelatedHeadingNormal">
               Third Party delivery
             </h1>
-            <div>
+            <div className="thirdpartyContainer">
               <div className="Delivery11">
                 <DropDown
                   selectedValues={selectedthirdvalues}
                   onSelect={handleSelectThird}
                   options={optionsselectthird}
                   label=""
+                  isopened={setDropdownopened}
                   onBlur={() =>
                     validateDropdown(selectedthirdvalues, "SwiggyZomato")
                   }
@@ -1118,34 +1124,34 @@ const Normalavail: React.FC<NormalavailProps> = ({
               </div>
 
               {/* Dynamically render based on selected options */}
-              {optionsselectthird?.map((option) => {
-                if (selectedthirdvalues.includes(option)) {
+              {selectedthirdvalues?.map((option, index) => {
                   return (
                     <div key={option} className="LabelSwiggyInputDropDown">
                       <div className="LabelSwiggyInput">
-                        <label className="swiggyZomatoHeading">
+                        {/* <label className="swiggyZomatoHeading">
                           {option} Price
-                        </label>
+                        </label> */}
+                        <p className="Thrid-party-price"> {option} Price</p>
                         <input
                           className="swiggyZomato-input"
                           type="text"
-                          value={priceInfo.price || ""}
-                          onChange={(e) =>
-                            setPriceInfo((prev: any) => ({
-                              ...prev,
-                              price: Number(e.target.value),
-                            }))
-                          }
+                          value={priceInfo[index]?.price || ""}
+                          onChange={(e) =>{
+                            const data = [...priceInfo]
+                            data[index].price = Number(e.target.value)
+                            setPriceInfo(data)
+                          }}
                         />
                       </div>
-                      <div className={`Third${option}`}>
+                      <div className={`Third${option}  thridparties-dropdown `} style={{zIndex:dropdownopened?'-1':''}}>
                         <DropDown
                           selectedValues={mealTypes[option] || []}
                           onSelect={(selected) =>
-                            handleMealTypeChange(option, selected)
+                            handleMealTypeChange(option, selected, index)
                           }
                           options={options4}
                           label="Meal Type*"
+                        
                           onBlur={() =>
                             validateDropdown(
                               mealTypes[option],
@@ -1158,30 +1164,30 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       </div>
                     </div>
                   );
-                }
+                
                 return null;
               })}
 
-              <div className="dineInChooseDayContainer">
+              <div className="ThirdPartyChooseDayContainer">
                 {showDayThird ? (
-                  <h3 className="dineInChooseDayContainerHeading">
+                  <h3 className="ThirdPartyChooseDayContainerHeading">
                     Back to Default days
                   </h3>
                 ) : (
-                  <h3 className="dineInChooseDayContainerHeading">
+                  <h3 className="ThirdPartyChooseDayContainerHeading">
                     Setup for specific days?
                   </h3>
                 )}
                 {showDayThird ? (
                   <h3
-                    className="dineInChooseDayContainer-chooseheading"
+                    className="ThirdPartyChooseDayContainer-chooseheading"
                     onClick={addDayThirdfalse}
                   >
                     Default Days
                   </h3>
                 ) : (
                   <h3
-                    className="dineInChooseDayContainer-chooseheading"
+                    className="ThirdPartyChooseDayContainer-chooseheading"
                     onClick={addDayThird}
                   >
                     Choose Day

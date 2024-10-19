@@ -1,8 +1,10 @@
-import React, { useState, useEffect, ChangeEvent, useContext } from "react";
+import React, { useState, useEffect, ChangeEvent, useContext, useRef } from "react";
 import "./ItemCustomizations.scss";
 import dotted from "../../../assets/images/dotted.png";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Polygon1 from "../../../assets/images/Polygon 1.png";
+import NotFound from "../../../assets/svg/NotFound copy.svg";
+
 import Polygon2 from "../../../assets/images/Polygon 2.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -23,8 +25,8 @@ import { tr } from "date-fns/locale";
 
 // Define types
 interface Option {
-  modifierOptionName: string;
-  cost: number;
+  optionName: string;
+  sellPrice: number;
   item?: string;
 }
 
@@ -48,7 +50,7 @@ const optIndex = 0;
 interface Modification {
   id?: string;
   modifierName: string;
-  options: Option[];
+  modifierOptions: Option[];
   minSelection: number;
   maxSelection: number;
   freeCustomization: number;
@@ -72,11 +74,14 @@ const ItemCustomizations: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
+
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
 
-  const deleteModifier = useSelector((state : any) => state.productCatalog?.deletedId)
+  const deleteModifier = useSelector(
+    (state: any) => state.productCatalog?.deletedId
+  );
 
   const availableServiceNames =
     availableService?.map((service) => service?.typeName) || [];
@@ -86,6 +91,33 @@ const ItemCustomizations: React.FC = () => {
   const [validationState, setValidationState] = useState({
     items: { isValid: true, errorMessage: "" },
   });
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
+
+  // const filterOptions = (input) => {
+  //   const itemNames = menuData?.flatMap(item => item?.itemResponseList)
+  //     .map(item => item?.itemName);
+
+  //   const filtered = itemNames?.filter(item =>
+  //     item?.toLowerCase().includes(input?.toLowerCase())
+  //   );
+
+  //   setFilteredOptions(filtered);
+  //   setFilteredOptionsDispatch(filtered);
+
+  //   if (filtered.length > 0 && input.length > 0) {
+  //     const firstMatch = filtered[0];
+  //     if (firstMatch.toLowerCase().startsWith(input.toLowerCase())) {
+  //       const suggestion = firstMatch.slice(input.length);
+  //       setHighlightedIndex(0);
+  //     } else {
+
+  //     }
+  //   } else {
+
+  //   }
+  // };
 
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -104,14 +136,30 @@ const ItemCustomizations: React.FC = () => {
     (state: RootState) => state.auth.selectedBranch?.id
   );
 
-  const modifier = useSelector(
+  const ListOfmodifier = useSelector(
     (state: RootState) => state.productCatalog.modifier as Modification[]
   );
+
+  const [ModifierList,setModifierList]=useState<Modification[]>([]);
+
+  useEffect(()=>{
+    const filtered = ListOfmodifier?.filter((modifier: any) =>
+      modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
+    );
+    setModifierList(filtered);
+  
+    
+
+  },[ListOfmodifier,searchQuery])
+  // console.log("ModifierList-dat",ListOfmodifier);
+
+ 
+  
 
   const initialModificationValue = [
     {
       modifierName: "",
-      options: [
+      modifierOptions: [
         {
           modifierOptionName: "",
           cost: 0,
@@ -124,30 +172,32 @@ const ItemCustomizations: React.FC = () => {
       selectionType: "Optional",
     },
   ];
+
+
   const [modifications, setModifications] = useState<any>(
     initialModificationValue
   );
 
-  useEffect(() => {
-    if (searchQuery.length > 1 && modifier && modifier.length > 0) {
-      const newModifications = modifier.map((mod) => ({
-        id: mod.id,
-        modifierName: mod.modifierName,
-        minSelection: mod.minRequired,
-        maxSelection: mod.maxAllowed,
-        options: mod.modifierOptions.map((opt: any) => ({
-          modifierOptionName: opt.optionName,
-          cost: opt.sellPrice,
-        })),
-        selectedValue: [],
-        selectionType: "Optional",
-        freeCustomization: mod?.freeCustomization ?? 1,
-      }));
-      setModifications(newModifications);
-    } else {
-      setModifications(initialModificationValue);
-    }
-  }, [modifier]);
+  // useEffect(() => {
+  //   if (searchQuery.length > 1 && ListOfmodifier && ListOfmodifier.length > 0) {
+  //     const newModifications = ListOfmodifier.map((mod) => ({
+  //       id: mod.id,
+  //       modifierName: mod.modifierName,
+  //       minSelection: mod.minRequired,
+  //       maxSelection: mod.maxAllowed,
+  //       options: mod.modifierOptions.map((opt: any) => ({
+  //         modifierOptionName: opt.optionName,
+  //         cost: opt.sellPrice,
+  //       })),
+  //       selectedValue: [],
+  //       selectionType: "Optional",
+  //       freeCustomization: mod?.freeCustomization ?? 1,
+  //     }));
+  //     setModifications(newModifications);
+  //   } else {
+  //     setModifications(initialModificationValue);
+  //   }
+  // }, [ListOfmodifier]);
 
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -157,32 +207,32 @@ const ItemCustomizations: React.FC = () => {
     Modification[]
   >([]);
 
-  useEffect(()=>{
-    setFilteredModifications(editData[0]?.modifiers)
-  },[editData])
+  useEffect(() => {
+    setFilteredModifications(editData[0]?.modifiers);
+  }, [editData]);
 
   useEffect(() => {
     if (showModifiers === false) {
       setIsValid(true);
-      setShowModifiers(true)
+      setShowModifiers(true);
     }
 
     if (itemCustomizationData.length > 0) {
       const mappedModifications = itemCustomizationData.map((item: any) => ({
-        modifierName: item.modifierName || "",
-        options: item.options
+        modifierName: item?.modifierName || "",
+        modifierOptions: item?.options
           ? item.options.map((option: any) => ({
-              item: option.modifierOptionName || "",
+            modifierOptionName: option.modifierOptionName || "",
               cost: option.cost,
             }))
           : [{ modifierOptionName: "", cost: 0 }],
         minSelection: item.minSelection || 1,
         maxSelection: item.maxSelection || 1,
-        freeCustomization: item.freeCustomization || 1,
-        selectedValue: item.selectedValue.map((elem: any) => elem) || "",
-        endDate: item.endDate || "",
-        startDate: item.startDate || "",
-        selectionType: item.selectionType || "",
+        freeCustomization: item?.freeCustomization || 1,
+        selectedValue: item?.selectedValue?.map((elem: any) => elem) || "",
+        endDate: item?.endDate || "",
+        startDate: item?.startDate || "",
+        selectionType: item?.selectionType || "",
       }));
       setModifications(mappedModifications);
     }
@@ -193,10 +243,10 @@ const ItemCustomizations: React.FC = () => {
       ...modifications,
       {
         modifierName: "",
-        options: [
+        modifierOptions: [
           {
-            modifierOptionName: "",
-            cost: 0,
+            optionName: "",
+            sellPrice: 0,
           },
         ],
         minSelection: 1,
@@ -216,23 +266,23 @@ const ItemCustomizations: React.FC = () => {
     return formData;
   };
 
-  const handleModifierChange = (
-    index: number,
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
-    const newModifications = [...modifications];
-    const property = name.split("-")[0];
+  const handleModifierChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+  const property = name.split("-")[0];
 
-    newModifications[index][property] = value as Modification[typeof property];
-    setModifications(newModifications);
-  };
+  const newModifications = [...modifications];
+
+  newModifications[index] = { ...newModifications[index], [property]: value };
+
+  setModifications(newModifications);
+};
+
 
   const addOption = (index: number) => {
     const newOption = [...modifications];
-    newOption[index].options.push({
-      modifierOptionName: "",
-      cost: 0,
+    newOption[index].modifierOptions.push({
+      optionName: "",
+      sellPrice: 0,
     });
     setModifications(newOption);
   };
@@ -262,18 +312,19 @@ const ItemCustomizations: React.FC = () => {
     optIndex: number,
     e: ChangeEvent<HTMLInputElement>
   ) => {
+    
     const newModifier = [...modifications];
-
-    // Convert the value to a number if the name is "cost"
     if (e.target.name === "cost") {
-      newModifier[modIndex].options[optIndex][e.target.name as keyof Option] =
-        parseFloat(e.target.value) || 0; // Convert to number, default to 0 if NaN
+      console.log("1",e.target.value)
+      newModifier[modIndex].modifierOptions[optIndex][e.target.name as keyof Option] =
+        parseFloat(e.target.value) || 0;
     } else {
-      newModifier[modIndex].options[optIndex][e.target.name as keyof Option] =
-        e.target.value; // Keep as string for other fields
+      console.log('2',e.target.value)
+      newModifier[modIndex].modifierOptions[optIndex][e.target.name as keyof Option] =
+        e.target?.value;
     }
-
     setModifications(newModifier);
+    console.log({newModifier})
   };
 
   const incrementSpinner = (index: number, field: keyof Modification) => {
@@ -326,9 +377,9 @@ const ItemCustomizations: React.FC = () => {
 
   const deleteOption = (modIndex: number, optIndex: number) => {
     const newModifications = [...modifications];
-    newModifications[modIndex].options.splice(optIndex, 1);
+    newModifications[modIndex].modifierOptions?.splice(optIndex, 1);
     setModifications(newModifications);
-    dispatch(deleteModifierRequest(optIndex))
+    dispatch(deleteModifierRequest(optIndex));
   };
 
   const dispatch1 = () => {
@@ -358,10 +409,10 @@ const ItemCustomizations: React.FC = () => {
       prevModifications.map((modification: any) => ({
         ...modification,
         modifierName: "",
-        options: modification.options.map((option: any) => ({
+        modifierOptions: modification.modifierOptions.map((option: any) => ({
           ...option,
-          modifierOptionName: "",
-          cost: 0,
+          optionName: "",
+          sellPrice: 0,
         })),
         selectedValue: [],
         selectionType: "Optional", // Optional field, can be omitted if not needed
@@ -384,12 +435,30 @@ const ItemCustomizations: React.FC = () => {
     });
   };
 
+  const ordertypesdetails=useSelector((state:any)=>state.PricingDetailReducer.prizingData)
+
   useEffect(() => {
-    const filtered = modifications.filter((modifier: any) =>
-      modifier.modifierName.toLowerCase().includes(searchQuery.toLowerCase())
+    const filtered = modifications?.filter((modifier: any) =>
+      modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
     );
     setFilteredModifications(filtered);
   }, [searchQuery, modifications]);
+  
+  const [selectedModifiers,setSelectedModifiers]=useState<Modification>();
+  
+  const handleSelecteModifiers =(Modifiers:Modification)=>{
+    // console.log("Modifiers",Modifiers);
+    
+    setSelectedModifiers(Modifiers);
+    setSearchQuery('');
+    setModifications((prevModifications: Modification[]) => {
+      const newModifications = [...prevModifications,Modifiers];
+     
+      return newModifications;
+    });
+
+  }
+// console.log("selectedModifiers",selectedModifiers);
 
   const handleSearchChange = () => {
     if (searchQuery.length > 1) {
@@ -402,6 +471,84 @@ const ItemCustomizations: React.FC = () => {
     newmodification.splice(index, 1);
     setModifications(newmodification);
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowDown") {
+      setHighlightedIndex((prevIndex) => {
+        const newIndex = Math.min(ModifierList?.length - 1, prevIndex + 1);
+        setSearchQuery(ModifierList[newIndex]?.modifierName);
+
+        return newIndex;
+      });
+    }
+
+    if (e.key === "ArrowUp") {
+      setHighlightedIndex((prevIndex) => {
+        const newIndex = Math.max(0, prevIndex - 1);
+        setSearchQuery(ModifierList[newIndex]?.modifierName);
+
+        return newIndex;
+      });
+    }
+
+    // if (e.key === "Enter") {
+    //   if (highlightedIndex >= 0 && highlightedIndex < ModifierList?.length) {
+    //     // setHighlightedIndex(-1);
+    //     // handleSelecteModifiers(ModifierList[highlightedIndex]);
+    //   }
+    // }
+
+    // if (e.key === 'Backspace') {
+    //   if (optionSelected) {
+    //     // If an option was selected, reset searchTerm and displayTerm
+    //     setSearchTerm('');
+    //     setDisplayTerm('');
+    //     setOptionSelected(false); // Allow new input
+    //     setFilteredOptions([]);   // Clear suggestions
+    //   } else {
+    //     setOptionSelected(false); // Allow for changing selection
+    //   }
+    // }
+  };
+  const [ShowSearchList, setShowSearchList] = useState(false);
+
+  const Outsideref = useRef<HTMLDivElement | null>(null);
+  const Outsideclicking = (event: MouseEvent) => {
+    if (Outsideref.current && !Outsideref.current.contains(event.target as Node)) {
+      setShowSearchList(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", Outsideclicking, true);
+    return () => {
+      document.removeEventListener("click", Outsideclicking, true);
+    };
+  }, [ShowSearchList]);
+  const [listOfStreams, setListOfStreams] = useState<string[]>([]);
+
+  useEffect(() => {
+    const streams: string[] = []; // Temporary array to store the values
+  
+    if (ordertypesdetails?.normalForm?.dineInDetails?.price) {
+      streams.push(ordertypesdetails.normalForm.dineInDetails.typeName);
+    }
+  
+    if (ordertypesdetails?.normalForm?.pickupDetails?.price) {
+      streams.push(ordertypesdetails.normalForm.pickupDetails.typeName);
+    }
+  
+    if (ordertypesdetails?.normalForm?.thirdpartyDetails?.price) {
+      streams.push(ordertypesdetails.normalForm.thirdpartyDetails.typeName);
+    }
+  
+    // Update the state
+    setListOfStreams(streams);
+  
+  }, [ordertypesdetails]);
+  
+  // This will now correctly print the updated list after the useEffect runs
+  
 
   return (
     <div style={{ display: "flex" }}>
@@ -439,17 +586,24 @@ const ItemCustomizations: React.FC = () => {
                 className="searchBox-input"
                 type="text"
                 value={searchQuery}
+                onKeyDown={handleKeyDown}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   if (e.target.value === "") {
-                    setModifications(initialModificationValue);
+                    // setModifications(initialModificationValue);
+                    setSelectedModifiers(undefined);
+
                   }
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearchChange();
+                  else{
+                    setShowSearchList(true)
                   }
+
                 }}
+                // onKeyDown={(e) => {
+                //   if (e.key === "Enter") {
+                //     handleSearchChange();
+                //   }
+                // }}
               ></input>
               <img
                 src={Serachicon}
@@ -458,15 +612,63 @@ const ItemCustomizations: React.FC = () => {
                 onClick={() => handleSearchChange()}
               />
             </div>
+            {searchQuery && (
+              <div
+                className={
+                  isExpanded
+                    ? "Search-Container-options1-modifiers"
+                    : "Search-Container-options-modifiers"
+                }
+                ref={Outsideref}
+              >
+                {ShowSearchList  && searchQuery && (
+                  <ul>
+                    { ModifierList?.length !== 0 ? (
+                      ModifierList?.map((item, index) =>  <li
+                      key={index}
+                     
+                      className={index === highlightedIndex ? 'highlighted-modifiers' : ''}
+                    >
+                      <div  className={isExpanded ? 'Search-Container-options1-items-modifiers' : "Search-Container-options-items-modifiers"}>
+                        {item.modifierName} {index === highlightedIndex  && <button onClick={()=>handleSelecteModifiers(item)} className="Addmodificationfromsearch" >Add</button>} 
+                      </div>
+                    </li>)
+                    ) : (
+                      <div
+                        className={
+                          isExpanded
+                            ? "Search-Container-options1-none-modifiers"
+                            : "Search-Container-options-none-modifiers"
+                        }
+                      >
+                        <div className="Search-Container-options-none-flex-direction-modifiers">
+                          <img
+                            className="NotFoundImage-modifiers"
+                            src={NotFound}
+                            alt="No Results Found"
+                          />
+                          <h3 className="heading-none-modifiers">
+                            No Results Found
+                          </h3>
+                        </div>
+                      </div>
+                    )}
+                  </ul>
+                )}
+              </div>
+            )}
 
-            <div className="modifiersitem">
+
+
+    
+             <div className="modifiersitem">
               <div className="modifiers">
-                {filteredModifications.length === 0 ? (
-                  <div className="modifier-no-content">No modifiers found</div>
+                {modifications?.length === 0 ? (
+                  <div className="modifier-no-content"></div>
                 ) : (
-                  filteredModifications.map((modifier, modIndex) => (
+                  modifications?.map((modifier:Modification, modIndex:number) => (
                     <div
-                      className={getModifierClassName(modifier.options.length)}
+                      className={getModifierClassName(modifier?.options?.length)}
                       key={modIndex}
                       draggable
                       onDragStart={(e) => onDragStart(e, modIndex)}
@@ -494,7 +696,7 @@ const ItemCustomizations: React.FC = () => {
                               }
                               name="modifierName"
                               value={
-                                filteredModifications[modIndex].modifierName
+                                modifications[modIndex]?.modifierName
                               }
                               onChange={(e) =>
                                 handleModifierChange(modIndex, e)
@@ -518,7 +720,7 @@ const ItemCustomizations: React.FC = () => {
                                 className="radioItemCustomizations"
                                 name={`selectionType-${modIndex}`}
                                 value="Mandatory"
-                                checked={modifier.selectionType === "Mandatory"} // Bind the checked property to the state
+                                checked={modifier.selectionType === "Mandatory"} 
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
@@ -545,12 +747,12 @@ const ItemCustomizations: React.FC = () => {
                           </div>
 
                           <div className="option-input-ItemCustomizations">
-                            {modifier.options &&
-                              modifier.options.map((option, optIndex) => (
+                            {modifier?.modifierOptions &&
+                              modifier?.modifierOptions.map((option, optIndex) => (
                                 <div
                                   key={optIndex}
                                   className={
-                                    modifier.options.length - 1 >= 1
+                                    modifier?.modifierOptions.length - 1 >= 1
                                       ? "option-input-flex-column1-ItemCustomizations"
                                       : "option-input-flex-column-ItemCustomizations"
                                   }
@@ -562,8 +764,8 @@ const ItemCustomizations: React.FC = () => {
                                       name="modifierOptionName"
                                       type="text"
                                       value={
-                                        modifier.options[optIndex]
-                                          .modifierOptionName
+                                        modifier?.modifierOptions[optIndex]
+                                          .optionName
                                       }
                                       onChange={(e) =>
                                         addOptionChange(modIndex, optIndex, e)
@@ -572,14 +774,14 @@ const ItemCustomizations: React.FC = () => {
                                         handleBlur(e, modIndex, optIndex)
                                       }
                                     />
-                                    {modificationError[modIndex]?.options?.[
-                                      optIndex
-                                    ]?.modifierOptionName && (
+                                    {modificationError[modIndex]
+                                            ?.options?.[optIndex]
+                                            ?.optionName && (
                                       <div className="error-message1">
                                         {
                                           modificationError[modIndex]
                                             ?.options?.[optIndex]
-                                            ?.modifierOptionName
+                                            ?.optionName
                                         }
                                       </div>
                                     )}
@@ -591,7 +793,7 @@ const ItemCustomizations: React.FC = () => {
                                       className="input2ItemCustomizations"
                                       name="cost"
                                       type="number"
-                                      value={modifier.options[optIndex].cost}
+                                      value={modifier.modifierOptions[optIndex].sellPrice}
                                       onChange={(e) =>
                                         addOptionChange(modIndex, optIndex, e)
                                       }
@@ -603,7 +805,7 @@ const ItemCustomizations: React.FC = () => {
 
                                   <div
                                     className={
-                                      modifier.options.length - 1 >= 1
+                                      modifier?.modifierOptions.length - 1 >= 1
                                         ? "btn1"
                                         : "btn2"
                                     }
@@ -611,7 +813,7 @@ const ItemCustomizations: React.FC = () => {
                                     {optIndex === 0 && (
                                       <a
                                         className={
-                                          modifier.options.length - 1 >= 1
+                                          modifier?.modifierOptions.length - 1 >= 1
                                             ? "btn-ItemCustomizations"
                                             : "btn-ItemCustomizations2"
                                         }
@@ -619,7 +821,7 @@ const ItemCustomizations: React.FC = () => {
                                       >
                                         <span
                                           className={
-                                            modifier.options.length - 1 >= 1
+                                            modifier?.modifierOptions.length - 1 >= 1
                                               ? "spanOption-button2"
                                               : "spanOption-button"
                                           }
@@ -658,17 +860,19 @@ const ItemCustomizations: React.FC = () => {
                                 placeholder=""
                                 className="input3ItemCustomizations"
                                 value={
-                                  filteredModifications[modIndex].selectionType === "Mandatory" &&
-                                  filteredModifications[modIndex].minSelection != 1
+                                  modifications[modIndex]?.selectionType === "Mandatory" &&
+                                    modifications[modIndex].minSelection != 1
                                     ? 1 // Set value to 1 if conditions are met
-                                    : filteredModifications[modIndex].minSelection // Otherwise, use minSelection
+                                    : modifications[modIndex]
+                                        .minSelection // Otherwise, use minSelection
                                 }
                                 name="minSelection"
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
                                 disabled={
-                                  filteredModifications[modIndex].selectionType === "Mandatory" 
+                                  modifications[modIndex]
+                                    ?.selectionType === "Mandatory"
                                 }
                               />
                               <div className="polydiv-ItemCustomizations">
@@ -678,8 +882,8 @@ const ItemCustomizations: React.FC = () => {
                                   alt=""
                                   onClick={() => {
                                     if (
-                                      filteredModifications[modIndex]
-                                        .selectionType !== "Mandatory"
+                                      modifications[modIndex]
+                                        ?.selectionType !== "Mandatory"
                                     ) {
                                       incrementSpinner(
                                         modIndex,
@@ -694,8 +898,7 @@ const ItemCustomizations: React.FC = () => {
                                   alt=""
                                   onClick={() => {
                                     if (
-                                      filteredModifications[modIndex]
-                                        .selectionType !== "Mandatory"
+                                      modifications[modIndex]?.selectionType !== "Mandatory"
                                     ) {
                                       decrementSpinner(
                                         modIndex,
@@ -718,7 +921,7 @@ const ItemCustomizations: React.FC = () => {
                                 placeholder=""
                                 className="input3ItemCustomizations"
                                 value={
-                                  filteredModifications[modIndex].maxSelection
+                                  modifications[modIndex]?.maxSelection
                                 }
                                 name="maxSelection"
                                 onChange={(e) =>
@@ -756,8 +959,8 @@ const ItemCustomizations: React.FC = () => {
                                 className="input3ItemCustomizations"
                                 name="freeCustomization"
                                 value={
-                                  filteredModifications[modIndex]
-                                    .freeCustomization
+                                  modifications[modIndex]
+                                    ?.freeCustomization
                                 }
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
@@ -796,7 +999,7 @@ const ItemCustomizations: React.FC = () => {
                                 onSelect={(value) =>
                                   handleSelect3(value, modIndex)
                                 }
-                                options={availableServiceNames}
+                                options={listOfStreams}
                                 width="Drop1"
                                 validation={validationState.items}
                                 label="Available Service Stream*"
@@ -821,6 +1024,15 @@ const ItemCustomizations: React.FC = () => {
                 </div>
               </div>
             </div>
+  
+            
+
+             
+         
+
+
+
+        
           </div>
         </div>
       </div>
