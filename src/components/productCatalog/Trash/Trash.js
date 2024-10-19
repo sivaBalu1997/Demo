@@ -6,10 +6,12 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { deleteMenuItemRequest } from "redux/productCatalog/productCatalogActions";
 
 const EyeModal = ({ onTrashclose }) => {
-  const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
+  const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
 
-  const dispatch = useDispatch();
-  const locationid = useSelector((state) => state.auth.credentials.locationId);
+  const dispatch=useDispatch();
+  const locationid = useSelector(
+    (state) => state.auth.credentials.locationId
+  );
   const trashmodalRef = useRef();
   const TrashClose = (e) => {
     if (trashmodalRef.current === e.target) {
@@ -19,17 +21,22 @@ const EyeModal = ({ onTrashclose }) => {
   const closeModal = () => {
     onTrashclose();
   };
-
-  console.log({ApiPayload})
-
   const handleChange = () => {
-    const payload = {
-      locationid: locationid,
-      itemId: ApiPayload,
-    };
-    dispatch(deleteMenuItemRequest(payload));
+    const payload={
+      locationid:locationid,
+      itemId:ApiPayload
+
+    }
+    dispatch(deleteMenuItemRequest(payload))
+
+
+   
     onTrashclose();
   };
+  
+
+
+  console.log(locationid)
 
   return (
     <div
@@ -53,7 +60,7 @@ const EyeModal = ({ onTrashclose }) => {
               Cancel
             </button>
             <button className="TrashButton2" onClick={handleChange}>
-              Delete
+              Change
             </button>
           </div>
         </div>

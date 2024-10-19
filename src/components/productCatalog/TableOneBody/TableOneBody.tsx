@@ -65,6 +65,7 @@ interface Item {
   }[];
 }
 
+
 interface Category {
   categoryId: string;
   categoryName: string;
@@ -84,13 +85,14 @@ interface MenuObject {
   itemResponseList: Item[];
 }
 
+
 interface ItemRowProps {
   object: Category; // Updated to use the Category type from the JSON
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
-  handleRowDragStart: (categoryId: string, item: Item) => void;
-  handleRowDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
-  handleRowDragEnd: (categoryId: string, dropIndex: number) => void;
+  handleRowDragStart: (categoryId: string, item:Item) => void;
+  handleRowDragOver: (e:React.DragEvent<HTMLDivElement>) => void;
+  handleRowDragEnd:  (categoryId: string,dropIndex:number) => void;
   handleDragScroll: (
     e: React.DragEvent,
     ref1: React.RefObject<HTMLDivElement>,
@@ -120,69 +122,71 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   tableBodyRef1,
   tableBodyRef2,
 }) => {
+
   const dispatch = useDispatch();
 
   const baseImageUrl = process.env.REACT_APP_IMAGE_DOMAIN;
 
   const handleItemnameClick = (value: string) => {
+    console.log({value})
     handlemodal(value);
   };
+ 
+  const menuData = useSelector((state : RootState) => state.productCatalog?.menuData)
+  const [menudatalist,setMenudatalist]=useState(menuData);
 
-  const menuData = useSelector(
-    (state: RootState) => state.productCatalog?.menuData
-  );
-  const [menudatalist, setMenudatalist] = useState(menuData);
+  useEffect(()=>{
+    setMenudatalist(menuData)
 
-  useEffect(() => {
-    setMenudatalist(menuData);
-  }, [menuData]);
+  },[menuData])
   const [draggedItem, setDraggedItem] = useState<DraggedItem | null>(null);
 
+  // console.log("object",object);
+  
+  
   return (
     <>
-      {object?.itemResponseList?.length > 0 &&
-        object.categoryName !== "" &&
-        object?.itemResponseList?.map((item, index) => (
-          <tr key={index}>
-            {draggingOverIndex === index && (
-              <td className="placeholderplace"></td>
-            )}
-            <td
-              draggable
-              onDragStart={(e) => {
-                handleRowDragStart(object.categoryId, item);
-                handleDragScroll(e, tableBodyRef1, tableBodyRef2);
-              }}
-              onDragOver={(e) => {
-                handleRowDragOver(e);
-                handleDragScroll(e, tableBodyRef1, tableBodyRef2);
-              }}
-              onDrop={() => handleRowDragEnd(object.categoryId, index)}
-              className={`itemdetails-row ${
-                draggedRowIndex?.index === index ? "selected" : ""
-              } ${index === 0 ? "removebottomrowline" : ""}`}
+      {object?.itemResponseList?.map((item, index) => (
+        <tr key={index}>
+          {draggingOverIndex === index && (
+            <td className="placeholderplace"></td>
+          )}
+          <td
+            draggable
+            onDragStart={(e) => {
+              handleRowDragStart(object.categoryId,item);
+              handleDragScroll(e, tableBodyRef1, tableBodyRef2);
+            }}
+            onDragOver={(e) => {
+              handleRowDragOver(e);
+              handleDragScroll(e, tableBodyRef1, tableBodyRef2);
+            }}
+            onDrop={()=>handleRowDragEnd(object.categoryId,index)}
+            className={`itemdetails-row ${
+              draggedRowIndex?.index === index ? "selected" : ""
+            } ${index === 0 ? "removebottomrowline" : ""}`}
+          >
+            <span className="itemimage2">
+              <img src={dots} alt="" className="draggableimg" />
+              <img
+                src={
+                  baseImageUrl +
+                  "photo/2023/07/12/20/40/ai-generated-8123328_640.png"
+                }
+                alt=""
+                className="foodimage"
+              />
+            </span>
+            <span
+              className="itemname2"
+              onClick={() => handleItemnameClick(item.itemId)}
             >
-              <span className="itemimage2">
-                <img src={dots} alt="" className="draggableimg" />
-                <img
-                  src={
-                    baseImageUrl +
-                    "photo/2023/07/12/20/40/ai-generated-8123328_640.png"
-                  }
-                  alt=""
-                  className="foodimage"
-                />
-              </span>
-              <span
-                className="itemname2"
-                onClick={() => handleItemnameClick(item.itemId)}
-              >
-                <HoverText text={item.itemName} lengthvale={14} />
-              </span>
-              <span className="itemcode2">{item.itemCode}</span>
-            </td>
-          </tr>
-        ))}
+              <HoverText text={item.itemName}  lengthvale={14}/>
+            </span>
+            <span className="itemcode2">{item.itemCode}</span>
+          </td>
+        </tr>
+      ))}
     </>
   );
 };

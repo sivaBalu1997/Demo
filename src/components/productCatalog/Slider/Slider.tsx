@@ -59,16 +59,17 @@ const Slider: React.FC<SliderProps> = ({
   sidebartext,
   SideBarData,
 }) => {
-
+  
   const dataFromRedux = useSelector(
     (state: any) => state?.storeDataReducer?.data
   );
+  const data1=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
 
-  const data1 = useSelector(
-    (state: any) => state?.selectedMockDataReducer?.data
-  );
+  console.log("aaadta",data1)
+  const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
 
-  const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
+
+
 
   const history = useHistory();
   const { pen, setPen } = useContext(Contextpagejs);
@@ -81,7 +82,8 @@ const Slider: React.FC<SliderProps> = ({
   const data = useSelector(
     (state: RootState) => state.storeMockDataReducer.data
   );
-  const menuData = useSelector((state: any) => state.productCatalog?.menuData);
+  const menuData = useSelector((state:any) => state.productCatalog?.menuData)
+
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
     // Your modal close logic here
@@ -102,7 +104,8 @@ const Slider: React.FC<SliderProps> = ({
     const removedItem = menuData.find(
       (item: any) => item?.categoryId === dataFromRedux?.categoryId
     );
-
+    
+    
     // Ensure removedItem exists and has itemResponseList
     if (removedItem && Array.isArray(removedItem?.itemResponseList)) {
       // Find the final sub-item inside the itemResponseList array
@@ -110,9 +113,11 @@ const Slider: React.FC<SliderProps> = ({
         (subItem: any) => subItem?.itemId === data1[0].itemId
       );
       setApiPayload({
-        itemId: finalSubItem.itemId,
-      });
+        itemId:finalSubItem.itemId
 
+      })
+
+    
       console.log("finalidtobe", finalSubItem);
     } else {
       console.log("No valid itemResponseList or removedItem found");
@@ -123,27 +128,36 @@ const Slider: React.FC<SliderProps> = ({
     // dispatch(addMockDataHiddenRequest(removedItem));
   };
 
-  console.log({dataFromRedux})
-
   const handleBinClick = () => {
-    const removedItem = menuData.find(
-      (item: any) => item?.categoryId === dataFromRedux?.itemId
-    );
-    console.log({removedItem},dataFromRedux?.itemId)
+    // const UpdatedeleteItem = data.filter(
+    //   (item: SideBarData) => item.id !== dataFromRedux[0].id
+    // );
+    // dispatch(storeMockDataRequest(UpdatedeleteItem));
 
+
+      const removedItem = menuData.find(
+      (item: any) => item?.categoryId === dataFromRedux?.categoryId
+    );
+    
+    
+    // Ensure removedItem exists and has itemResponseList
     if (removedItem && Array.isArray(removedItem?.itemResponseList)) {
+      // Find the final sub-item inside the itemResponseList array
       const finalSubItem = removedItem.itemResponseList.find(
         (subItem: any) => subItem?.itemId === data1[0].itemId
       );
       setApiPayload({
-        itemId: finalSubItem.itemId,
-      });
-    }
-    setTrash(true);
+        itemId:finalSubItem.itemId
+
+      })}
+    
+      setTrash(true)
+
   };
 
-  // const handleOnclose = () => {
-  // };
+  const handleOnclose = () => {
+    // Logic for on close
+  };
 
   const handlePen = () => {
     history.push("/productCatalog/PrimaryDetails", { id: dataFromRedux[0].id });
@@ -163,6 +177,7 @@ const Slider: React.FC<SliderProps> = ({
     // Dispatch action when ParentComponent mounts and the Slider is rendered
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
+  console.log(dataFromRedux)
 
   return (
     <div ref={modelref} className="Slider-Container" onClick={closeModal}>
@@ -201,7 +216,7 @@ const Slider: React.FC<SliderProps> = ({
                 <img
                   src={Bin}
                   alt="Delete"
-                  onClick={handleBinClick}
+                  onClick={ handleBinClick}
                   className="BinImage"
                 />
                 <div className="DelTool">
@@ -218,7 +233,12 @@ const Slider: React.FC<SliderProps> = ({
 
           {eye && <EyeModal onEyeclose={() => setEye(false)} />}
 
-          {trash && <Trash onTrashclose={() => setTrash(false)} />}
+          {trash && (
+            <Trash
+              onTrashclose={() => setTrash(false)}
+            
+            />
+          )}
         </div>
 
         <div className="NavSlider-Component">
