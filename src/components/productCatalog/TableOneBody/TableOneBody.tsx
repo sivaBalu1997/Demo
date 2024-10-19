@@ -146,47 +146,54 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   
   return (
     <>
-      {object?.itemResponseList?.map((item, index) => (
-        <tr key={index}>
-          {draggingOverIndex === index && (
-            <td className="placeholderplace"></td>
-          )}
-          <td
-            draggable
-            onDragStart={(e) => {
-              handleRowDragStart(object.categoryId,item);
-              handleDragScroll(e, tableBodyRef1, tableBodyRef2);
-            }}
-            onDragOver={(e) => {
-              handleRowDragOver(e);
-              handleDragScroll(e, tableBodyRef1, tableBodyRef2);
-            }}
-            onDrop={()=>handleRowDragEnd(object.categoryId,index)}
-            className={`itemdetails-row ${
-              draggedRowIndex?.index === index ? "selected" : ""
-            } ${index === 0 ? "removebottomrowline" : ""}`}
-          >
-            <span className="itemimage2">
-              <img src={dots} alt="" className="draggableimg" />
-              <img
-                src={
-                  baseImageUrl +
-                  "photo/2023/07/12/20/40/ai-generated-8123328_640.png"
-                }
-                alt=""
-                className="foodimage"
-              />
-            </span>
-            <span
-              className="itemname2"
-              onClick={() => handleItemnameClick(item.itemId)}
+
+
+    {
+       object?.itemResponseList?.length>0 && object.categoryName!=="" && (
+        object?.itemResponseList?.map((item, index) => (
+          <tr key={index}>
+            {draggingOverIndex === index && (
+              <td className="placeholderplace"></td>
+            )}
+            <td
+              draggable
+              onDragStart={(e) => {
+                handleRowDragStart(object.categoryId,item);
+                handleDragScroll(e, tableBodyRef1, tableBodyRef2);
+              }}
+              onDragOver={(e) => {
+                handleRowDragOver(e);
+                handleDragScroll(e, tableBodyRef1, tableBodyRef2);
+              }}
+              onDrop={()=>handleRowDragEnd(object.categoryId,index)}
+              className={`itemdetails-row ${
+                draggedRowIndex?.index === index ? "selected" : ""
+              } ${index === 0 ? "removebottomrowline" : ""}`}
             >
-              <HoverText text={item.itemName}  lengthvale={14}/>
-            </span>
-            <span className="itemcode2">{item.itemCode}</span>
-          </td>
-        </tr>
-      ))}
+              <span className="itemimage2">
+                <img src={dots} alt="" className="draggableimg" />
+                <img
+                  src={
+                    baseImageUrl +
+                    "photo/2023/07/12/20/40/ai-generated-8123328_640.png"
+                  }
+                  alt=""
+                  className="foodimage"
+                />
+              </span>
+              <span
+                className="itemname2"
+                onClick={() => handleItemnameClick(item.itemId)}
+              >
+                <HoverText text={item.itemName}  lengthvale={14}/>
+              </span>
+              <span className="itemcode2">{item.itemCode}</span>
+            </td>
+          </tr>
+        ))
+       )
+    }
+     
     </>
   );
 };

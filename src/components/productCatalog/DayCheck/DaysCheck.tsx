@@ -91,7 +91,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
                 name={index.toString()} 
                 onChange={handleCheckboxChange}
                 checked={isChecked}
-                className="aa"
+                className="days"
               />
               <label>{elem}</label>
             </div>

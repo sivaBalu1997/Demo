@@ -98,12 +98,17 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
         //     .map(item => item.itemName)}</div>
         // ))
       }
+
+      
+
+
+
       {itemobject.categoryName !== "" &&
         itemobject?.itemResponseList?.length > 0 && (
-          <tr className="categoryname"></tr>
+          <tr className="categoryname" style={{border:'border: 1px solid red !important;'}}></tr>
         )}
 
-      {itemobject?.itemResponseList?.map((item) => (
+      {  itemobject.categoryName !== "" &&  itemobject?.itemResponseList?.length > 0 &&  itemobject?.itemResponseList?.map((item) => (
         <>
           <tr
             key={item.itemId}

@@ -75,13 +75,15 @@ const Dropdown: React.FC<DropdownProps> = ({
       onBlur && onBlur();
     }
   };
+  console.log("Option of sreams",options);
+  
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef}>
       <label className="droplabelPricing">{label}</label>
       <div
         className="dropdownPricingList"
-        style={{ width: "Drop1" ? "300px" : "100px" }}
+        style={{ width: width==="Drop1" ? "300px" : "100px" }}
         onClick={handleDropdownClick}
         tabIndex={0}
       >

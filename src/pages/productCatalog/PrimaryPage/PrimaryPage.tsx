@@ -640,9 +640,11 @@ const PrimaryPage = () => {
   };
 
   // console.log(getValues())
-  const hansleshwadd = () => {
-    dispatch(addDropDowRequest(dataforadd));
-  };
+
+  const restaurantDetails = useSelector((state:any) => state.auth.restaurantDetails)
+// console.log("restaurantDetails",restaurantDetails?.containsAlcohol);
+
+const alcoholconstain=restaurantDetails?.containsAlcohol;
 
   const dataFromRedux = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -968,16 +970,21 @@ const PrimaryPage = () => {
                   </div>
                 </div>
 
-                <div className="Primary-page-InputFields alcoholradiobutton">
-                  <h3>Contains Alcohol ?</h3>
-                  <RadioButtonGroup
-                    options={alcoholradio}
-                    name="alcohol"
-                    selectedValue={selectedradiowatch.alcohol}
-                    onChange={(value) => handleRadioChange("alcohol", value)}
-                    register={register}
-                  />
-                </div>
+{
+  alcoholconstain  && <div className="Primary-page-InputFields alcoholradiobutton">
+  <h3>Contains Alcohol ?</h3>
+  <RadioButtonGroup
+    options={alcoholradio}
+    name="alcohol"
+    selectedValue={selectedradiowatch.alcohol}
+    onChange={(value) => handleRadioChange("alcohol", value)}
+    register={register}
+  />
+</div>
+}
+               
+
+                
               </div>
 
               <div className="Primary-page-container-pairtwo">
@@ -1071,9 +1078,11 @@ const PrimaryPage = () => {
                     name="popularItem"
                     control={control}
                     defaultValue={false}
+
                     render={({ field }: any) => (
                       <input
                         type="checkbox"
+                        className="input"
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);
@@ -1155,8 +1164,8 @@ const PrimaryPage = () => {
                 </div>
               </div>
             </div>
-            <div className="Primary-page-container-two">
-              <div className="Primary-page-ingredients-selection">
+            <div  className={alcoholconstain?"Primary-page-container-two-heightdynamic":"Primary-page-container-two"}>
+              <div className="Primary-page-ingredients-selection" >
                 <Imagepillsselection
                   heading="Ingredients*"
                   options={ingredientsFromAPi}

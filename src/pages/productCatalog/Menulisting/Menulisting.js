@@ -40,7 +40,7 @@ const modify = menuData?.map((item) => {
     const result = responseItem?.modifiers && Array.isArray(responseItem.modifiers)
       ? responseItem.modifiers.map((modifier) => {
           const modifierLength = modifier?.modifierName ? modifier.modifierName.length : 0;
-          console.log(`Modifier length: ${modifierLength}`);
+          
           return modifierLength; // Return the length of each modifierName
         })
       : []; // Return an empty array if modifiers is undefined or not an array
@@ -48,7 +48,7 @@ const modify = menuData?.map((item) => {
   });
 });
 
-console.log("modify", modify);
+// console.log("modify", modify);
 
 
   const { isExpanded } = useContext(Contextpagejs);

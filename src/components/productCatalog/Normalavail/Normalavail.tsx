@@ -170,7 +170,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [DayDelivery, setDayDelivery] = useState<number[]>([]);
   const [DayThird, setDayThird] = useState<number[]>([]);
   const [dineInDates1, setDineInDates1] = useState<number[][]>([[]]);
-  console.log(dineInDates1)
+  // console.log(dineInDates1)
 
   //   {_-------------------Use State  for Showing Day checck ---------------------------------}
   const [showDay, setShowDay] = useState(false);
@@ -208,7 +208,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   );
 
 
-  console.log({orderTypes})
+  // console.log({orderTypes})
 
   const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
   const pickUpId = orderTypess?.find((item: any) => item.typeGroup === "P")?.id;
@@ -323,7 +323,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     })
   };
 
-  console.log({ mainForm });
+  // console.log({ mainForm });
 
 
   const optionsselectthird = orderTypes
@@ -531,7 +531,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setShowDayThird(false);
   };
 
-  console.log({mainForm})
+  // console.log({mainForm})
 
   useEffect(() => {
     if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
@@ -628,7 +628,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
   };
 
   const handleSelectMealtype = (value: MealType, index: number): void => {
-    const newSelectedValues = [...selectedValuesmealtype];
+    // Ensure selectedValuesmealtype is iterable
+    const newSelectedValues = Array.isArray(selectedValuesmealtype)
+      ? [...selectedValuesmealtype]
+      : [];
     newSelectedValues[index] = value;
     setSelectedValuesMealType(newSelectedValues);
   
@@ -656,6 +659,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       validateDropdown(value, index);
     }
   };
+  
   
   const addOptionMealType = (newOption: OptionType): void => {
     setOptionsMealType([...optionsmealtype, newOption]);
@@ -811,7 +815,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
             const DineInService = `DineInService_${index}`;
             return (
               <>
-                <div className="LabelPrice">
+              <div className="DineIn-Fields">
+              <div className="LabelPrice">
                   <LableComponent lable="Price*" />
                 </div>
                 <div
@@ -873,7 +878,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     className="dineInChooseDayContainer-chooseheading"
                     onClick={() => addDay(index)}
                   >
-                    {entry.dayButtonText}
+                   Choose Day
                   </h3>
                 </div>
                 <div className="dayspickup">
@@ -888,6 +893,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     />
                   )}
                 </div>
+              </div>
+                
               </>
             );
           })}
@@ -929,7 +936,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     <input
                       type="text"
                       className="DineInInput1Normal"
-                      value={pickupDetails.price} // Use pickupDetails state
+                      value={pickupDetails.price} 
                       onChange={(e) =>
                         setPickUpDetails({
                           ...pickupDetails,
@@ -962,33 +969,33 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="dineInChooseDayContainer">
+                  <div className="PickupChooseDayContainer">
                     {showDayPickup ? (
-                      <h3 className="dineInChooseDayContainerHeading">
+                      <h3 className="pickupChooseDayContainerHeading">
                         Back for default days
                       </h3>
                     ) : (
-                      <h3 className="dineInChooseDayContainerHeading">
+                      <h3 className="pickupChooseDayContainerHeading">
                         Setup for specific days?
                       </h3>
                     )}
                     {showDayPickup ? (
                       <h3
-                        className="dineInChooseDayContainer-chooseheading"
+                        className="pickupChooseDayContainer-chooseheading"
                         onClick={addDayPickupfalse}
                       >
                         Default days
                       </h3>
                     ) : (
                       <h3
-                        className="dineInChooseDayContainer-chooseheading"
+                        className="pickupChooseDayContainer-chooseheading"
                         onClick={addDayPickup}
                       >
                         Choose Day
                       </h3>
                     )}
                   </div>
-                  <div className="dayspickup">
+                  <div className="dayspick-pickup">
                     {showDayPickup ? (
                       <DaysCheck
                         checkedItems={DayPickup}
@@ -1022,7 +1029,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
             >
               {delivery && deliveryTypes ? (
                 <div>
-                  <p className="LabelPrice"> Price*</p>
+                  <div></div>
+                  <p className="LabelPrice-delivery"> Price*</p>
                   <div className="Online-delivery">
                     <input
                       type="text"
@@ -1058,26 +1066,26 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="dineInChooseDayContainer">
+                  <div className="deliveryChooseDayContainer">
                     {showDayDelivery ? (
-                      <h3 className="dineInChooseDayContainerHeading">
+                      <h3 className="deliveryChooseDayContainerHeading">
                         Back for default days
                       </h3>
                     ) : (
-                      <h3 className="dineInChooseDayContainerHeading">
+                      <h3 className="deliveryChooseDayContainerHeading">
                         Setup for specific days?
                       </h3>
                     )}
                     {showDayDelivery ? (
                       <h3
-                        className="dineInChooseDayContainer-chooseheading"
+                        className="deliveryChooseDayContainer-chooseheading"
                         onClick={addDayDeliveryfalse}
                       >
                         Default days
                       </h3>
                     ) : (
                       <h3
-                        className="dineInChooseDayContainer-chooseheading"
+                        className="deliveryChooseDayContainer-chooseheading"
                         onClick={addDayDelivery}
                       >
                         Choose Day
@@ -1103,7 +1111,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
               Third Party delivery
             </h1>
             <div>
-              <div className="Delivery11">
+              <div className="ThridParty-dropdown ">
                 <DropDown
                   selectedValues={selectedthirdvalues}
                   onSelect={handleSelectThird}
@@ -1123,9 +1131,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   return (
                     <div key={option} className="LabelSwiggyInputDropDown">
                       <div className="LabelSwiggyInput">
-                        <label className="swiggyZomatoHeading">
+                        {/* <label className="swiggyZomatoHeading">
                           {option} Price
-                        </label>
+                        </label> */}
+                        <p className="Thrid-party-price"> {option} Price</p>
                         <input
                           className="swiggyZomato-input"
                           type="text"
@@ -1138,7 +1147,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                           }
                         />
                       </div>
-                      <div className={`Third${option}`}>
+                      <div className={`Third${option}  thridparties-dropdown `}>
                         <DropDown
                           selectedValues={mealTypes[option] || []}
                           onSelect={(selected) =>
@@ -1162,26 +1171,26 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 return null;
               })}
 
-              <div className="dineInChooseDayContainer">
+              <div className="ThirdPartyChooseDayContainer">
                 {showDayThird ? (
-                  <h3 className="dineInChooseDayContainerHeading">
+                  <h3 className="ThirdPartyChooseDayContainerHeading">
                     Back to Default days
                   </h3>
                 ) : (
-                  <h3 className="dineInChooseDayContainerHeading">
+                  <h3 className="ThirdPartyChooseDayContainerHeading">
                     Setup for specific days?
                   </h3>
                 )}
                 {showDayThird ? (
                   <h3
-                    className="dineInChooseDayContainer-chooseheading"
+                    className="ThirdPartyChooseDayContainer-chooseheading"
                     onClick={addDayThirdfalse}
                   >
                     Default Days
                   </h3>
                 ) : (
                   <h3
-                    className="dineInChooseDayContainer-chooseheading"
+                    className="ThirdPartyChooseDayContainer-chooseheading"
                     onClick={addDayThird}
                   >
                     Choose Day

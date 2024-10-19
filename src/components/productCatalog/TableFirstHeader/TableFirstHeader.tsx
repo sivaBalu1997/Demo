@@ -44,9 +44,9 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
           onDragOver={() => handleColumnwiseDragOver(index)}
           onDragEnd={handleColumnwiseDragEnd}
         >
-          <span className="dots">
+          {/* <span className="dots">
             <img src={dots} alt="" />
-          </span>
+          </span> */}
           <span>
           {header.label !== 'Inventory1' && header.label !== 'Customize1' && (
             <span className="dollar">

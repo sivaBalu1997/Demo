@@ -151,7 +151,7 @@ const ItemCustomizations: React.FC = () => {
     
 
   },[ListOfmodifier,searchQuery])
-  console.log("ModifierList-dat",ListOfmodifier);
+  // console.log("ModifierList-dat",ListOfmodifier);
 
  
   
@@ -159,10 +159,10 @@ const ItemCustomizations: React.FC = () => {
   const initialModificationValue = [
     {
       modifierName: "",
-      options: [
+      modifierOptions: [
         {
-          modifierOptionName: "",
-          cost: 0,
+          optionName: "",
+          sellPrice: 0,
         },
       ],
       minSelection: 1,
@@ -219,20 +219,20 @@ const ItemCustomizations: React.FC = () => {
 
     if (itemCustomizationData.length > 0) {
       const mappedModifications = itemCustomizationData.map((item: any) => ({
-        modifierName: item.modifierName || "",
-        options: item.options
+        modifierName: item?.modifierName || "",
+        modifierOptions: item?.options
           ? item.options.map((option: any) => ({
-              item: option.modifierOptionName || "",
-              cost: option.cost,
+            optionName: option?.modifierOptionName || "",
+              sellPrice: option.cost,
             }))
           : [{ modifierOptionName: "", cost: 0 }],
         minSelection: item.minSelection || 1,
         maxSelection: item.maxSelection || 1,
-        freeCustomization: item.freeCustomization || 1,
-        selectedValue: item.selectedValue.map((elem: any) => elem) || "",
-        endDate: item.endDate || "",
-        startDate: item.startDate || "",
-        selectionType: item.selectionType || "",
+        freeCustomization: item?.freeCustomization || 1,
+        selectedValue: item?.selectedValue?.map((elem: any) => elem) || "",
+        endDate: item?.endDate || "",
+        startDate: item?.startDate || "",
+        selectionType: item?.selectionType || "",
       }));
       setModifications(mappedModifications);
     }
@@ -243,10 +243,10 @@ const ItemCustomizations: React.FC = () => {
       ...modifications,
       {
         modifierName: "",
-        options: [
+        modifierOptions: [
           {
-            modifierOptionName: "",
-            cost: 0,
+            optionName: "",
+            sellPrice: 0,
           },
         ],
         minSelection: 1,
@@ -280,9 +280,9 @@ const ItemCustomizations: React.FC = () => {
 
   const addOption = (index: number) => {
     const newOption = [...modifications];
-    newOption[index].options.push({
-      modifierOptionName: "",
-      cost: 0,
+    newOption[index].modifierOptions.push({
+      optionName: "",
+      sellPrice: 0,
     });
     setModifications(newOption);
   };
@@ -407,10 +407,10 @@ const ItemCustomizations: React.FC = () => {
       prevModifications.map((modification: any) => ({
         ...modification,
         modifierName: "",
-        options: modification.options.map((option: any) => ({
+        modifierOptions: modification.modifierOptions.map((option: any) => ({
           ...option,
-          modifierOptionName: "",
-          cost: 0,
+          optionName: "",
+          sellPrice: 0,
         })),
         selectedValue: [],
         selectionType: "Optional", // Optional field, can be omitted if not needed
@@ -433,6 +433,9 @@ const ItemCustomizations: React.FC = () => {
     });
   };
 
+  const ordertypesdetails=useSelector((state:any)=>state.PricingDetailReducer.prizingData)
+console.log("ordertypesdetails",ordertypesdetails);
+
   useEffect(() => {
     const filtered = modifications?.filter((modifier: any) =>
       modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
@@ -443,7 +446,7 @@ const ItemCustomizations: React.FC = () => {
   const [selectedModifiers,setSelectedModifiers]=useState<Modification>();
   
   const handleSelecteModifiers =(Modifiers:Modification)=>{
-    console.log("Modifiers",Modifiers);
+    // console.log("Modifiers",Modifiers);
     
     setSelectedModifiers(Modifiers);
     setSearchQuery('');
@@ -454,7 +457,7 @@ const ItemCustomizations: React.FC = () => {
     });
 
   }
-console.log("selectedModifiers",selectedModifiers);
+// console.log("selectedModifiers",selectedModifiers);
 
   const handleSearchChange = () => {
     if (searchQuery.length > 1) {
@@ -521,6 +524,34 @@ console.log("selectedModifiers",selectedModifiers);
       document.removeEventListener("click", Outsideclicking, true);
     };
   }, [ShowSearchList]);
+  const [listOfStreams, setListOfStreams] = useState<string[]>([]);
+
+  useEffect(() => {
+    const streams: string[] = []; // Temporary array to store the values
+  
+    if (ordertypesdetails?.normalForm?.dineInDetails?.price) {
+      console.log("running dine-in");
+      streams.push(ordertypesdetails.normalForm.dineInDetails.typeName);
+    }
+  
+    if (ordertypesdetails?.normalForm?.pickupDetails?.price) {
+      console.log("running pickup");
+      streams.push(ordertypesdetails.normalForm.pickupDetails.typeName);
+    }
+  
+    if (ordertypesdetails?.normalForm?.thirdpartyDetails?.price) {
+      console.log("running third-party");
+      streams.push(ordertypesdetails.normalForm.thirdpartyDetails.typeName);
+    }
+  
+    // Update the state
+    setListOfStreams(streams);
+  
+  }, [ordertypesdetails]);
+  
+  // This will now correctly print the updated list after the useEffect runs
+  console.log("listOfStreams", listOfStreams);
+  
 
   return (
     <div style={{ display: "flex" }}>
@@ -630,7 +661,7 @@ console.log("selectedModifiers",selectedModifiers);
               </div>
             )}
 
-<div className="modifiersitem">
+
 
     
              <div className="modifiersitem">
@@ -971,7 +1002,7 @@ console.log("selectedModifiers",selectedModifiers);
                                 onSelect={(value) =>
                                   handleSelect3(value, modIndex)
                                 }
-                                options={availableServiceNames}
+                                options={listOfStreams}
                                 width="Drop1"
                                 validation={validationState.items}
                                 label="Available Service Stream*"
@@ -1000,7 +1031,7 @@ console.log("selectedModifiers",selectedModifiers);
             
 
              
-            </div>
+         
 
 
 
