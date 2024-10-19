@@ -25,31 +25,34 @@ import {
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 
+
 export const Menulisting = () => {
   const dispatch = useDispatch();
+
   const location = useSelector((state) => state.auth.selectedBranch);
+
   const menuData = useSelector((state) => state.productCatalog?.menuData);
+  const loadingRequest = useSelector((state) => state.productCatalog?.addMenuLoading);
+  console.log("loadingRequest",loadingRequest);
   const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
-  const FilteredData = useSelector((state) => state.storeMockDataFilteredReducer.data);
   const { isExpanded } = useContext(Contextpagejs);
+  const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
-  const [draggingOverIndex, setDraggingOverIndex] = useState(null);
-  const [dragtablefirstHeaderindex, setdragtablefirstHeaderindex] =useState(null);
+  const FilteredData = useSelector((state) => state.storeMockDataFilteredReducer.data);
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [sidebartext, setSideBarText] = useState(null);
   const tableBodyRef1 = useRef(null);
   const tableBodyRef2 = useRef(null);
   const Outsideref = useRef(null);
+  const [draggingOverIndex, setDraggingOverIndex] = useState(null);
+  const [dragtablefirstHeaderindex, setdragtablefirstHeaderindex] = useState(null);
   const [SideBarData, setSideBar] = useState([]);
   const [draggedItem, setDraggedItem] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [draggedRowIndex, setDraggedRowIndex] = useState({
     objectId: null,
     index: null,
-  });
-  const [rowindex, setrowindex] = useState({
-    categoryId: null,
-    itemIndex: null,
   });
   const [classNames, setclassNames] = useState([
     "Dinein1-class",
@@ -83,6 +86,7 @@ export const Menulisting = () => {
     Inventory1: true,
     Customize1: true,
   });
+
   const insertlists = {
     Pricing: {
       show: "Pricing",
@@ -99,6 +103,7 @@ export const Menulisting = () => {
     Inventory: "Inventory",
     Customization: "Customization",
   };
+
   const [firstRowTable, setFirstRowTable] = useState([
     { label: "Dinein1" },
     { label: "Pickup1" },
@@ -109,6 +114,7 @@ export const Menulisting = () => {
     // { label: "Inventory1" },
     { label: "Customize1" },
   ]);
+
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
     ["Inhouse", "Swiggy", "Zomato"],
@@ -120,7 +126,20 @@ export const Menulisting = () => {
     [""],
   ]);
 
-  
+  const [steamType, setsteamType] = useState([
+    {
+      id: 1,
+      name: [],
+      type: "SteamedVeg",
+    },
+    {
+      id: 2,
+      name: [],
+      type: "SteameNondVeg",
+    },
+  ]);
+
+ 
 
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
@@ -147,6 +166,76 @@ export const Menulisting = () => {
     setMenudatalist(updatedCategories);
     setDraggedItem(null);
   };
+
+  const handleColumnwiseDragStart = (index) => {
+    setDraggedIndexsample(index);
+  };
+
+  const handleColumnwiseDragOver = (index) => {
+    if (draggedIndexsample !== index) {
+      setdragtablefirstHeaderindex(index);
+      const updatedFirstRowTable = [...firstRowTable];
+      const updatedSecondRowTable = [...secondRowTable];
+      const updatedclassnames = [...classNames];
+      const updatedclassinnerdatanames = [...classNamesinner];
+      const updatedItems = [...steamType];
+      const item1 = updatedItems[0].name || [];
+      const item2 = updatedItems[1].name || [];
+      const draggedItem = updatedFirstRowTable[draggedIndexsample];
+      const draggedSubheader = updatedSecondRowTable[draggedIndexsample];
+      const draggedclassname = updatedclassnames[draggedIndexsample];
+      const draggedclassinnerdata =
+        updatedclassinnerdatanames[draggedIndexsample];
+      updatedFirstRowTable.splice(draggedIndexsample, 1);
+      updatedFirstRowTable.splice(index, 0, draggedItem);
+      updatedSecondRowTable.splice(draggedIndexsample, 1);
+      updatedSecondRowTable.splice(index, 0, draggedSubheader);
+      updatedclassnames.splice(draggedIndexsample, 1);
+      updatedclassnames.splice(index, 0, draggedclassname);
+      updatedclassinnerdatanames.splice(draggedIndexsample, 1);
+      updatedclassinnerdatanames.splice(index, 0, draggedclassinnerdata);
+      const updatePricingDetails = (itemsArray, index) => {
+        return itemsArray.map((item) => {
+          if (item && item.pricingdetails) {
+            const reorderedPricingDetails = { ...item.pricingdetails };
+            const reorderedKeys = Object.keys(reorderedPricingDetails);
+
+            const draggedKey = reorderedKeys.splice(draggedIndexsample, 1)[0];
+            reorderedKeys.splice(index, 0, draggedKey);
+
+            const updatedPricingDetails = {};
+            reorderedKeys.forEach((key) => {
+              updatedPricingDetails[key] = reorderedPricingDetails[key];
+            });
+
+            return {
+              ...item,
+              pricingdetails: updatedPricingDetails,
+            };
+          }
+          return { ...item };
+        });
+      };
+
+      const updatedsteamType = updatePricingDetails(item1, index);
+      const updatedsteamType1 = updatePricingDetails(item2, index);
+      setFirstRowTable(updatedFirstRowTable);
+      setSecondRowTable(updatedSecondRowTable);
+      setclassNames(updatedclassnames);
+      setclassNamesinner(updatedclassinnerdatanames);
+      setsteamType([
+        { ...updatedItems[0], name: updatedsteamType },
+        { ...updatedItems[1], name: updatedsteamType1 },
+      ]);
+      setDraggedIndexsample(index);
+    }
+  };
+
+  const handleColumnwiseDragEnd = () => {
+    setDraggedIndexsample(null);
+    setdragtablefirstHeaderindex(null);
+  };
+
   const handledragvegnonvegdragstart = (e, index) => {
     setDraggedRowIndex(index);
   };
@@ -163,75 +252,6 @@ export const Menulisting = () => {
     setMenudatalist(updatedCategories);
     setDraggedRowIndex(null);
   };
-
-  // const handleColumnwiseDragStart = (index) => {
-  //   setDraggedIndexsample(index);
-  // };
-
-  // const handleColumnwiseDragOver = (index) => {
-  //   if (draggedIndexsample !== index) {
-  //     setdragtablefirstHeaderindex(index);
-  //     const updatedFirstRowTable = [...firstRowTable];
-  //     const updatedSecondRowTable = [...secondRowTable];
-  //     const updatedclassnames = [...classNames];
-  //     const updatedclassinnerdatanames = [...classNamesinner];
-  //     const updatedItems = [...steamType];
-  //     const item1 = updatedItems[0].name || [];
-  //     const item2 = updatedItems[1].name || [];
-  //     const draggedItem = updatedFirstRowTable[draggedIndexsample];
-  //     const draggedSubheader = updatedSecondRowTable[draggedIndexsample];
-  //     const draggedclassname = updatedclassnames[draggedIndexsample];
-  //     const draggedclassinnerdata =
-  //       updatedclassinnerdatanames[draggedIndexsample];
-  //     updatedFirstRowTable.splice(draggedIndexsample, 1);
-  //     updatedFirstRowTable.splice(index, 0, draggedItem);
-  //     updatedSecondRowTable.splice(draggedIndexsample, 1);
-  //     updatedSecondRowTable.splice(index, 0, draggedSubheader);
-  //     updatedclassnames.splice(draggedIndexsample, 1);
-  //     updatedclassnames.splice(index, 0, draggedclassname);
-  //     updatedclassinnerdatanames.splice(draggedIndexsample, 1);
-  //     updatedclassinnerdatanames.splice(index, 0, draggedclassinnerdata);
-  //     const updatePricingDetails = (itemsArray, index) => {
-  //       return itemsArray.map((item) => {
-  //         if (item && item.pricingdetails) {
-  //           const reorderedPricingDetails = { ...item.pricingdetails };
-  //           const reorderedKeys = Object.keys(reorderedPricingDetails);
-
-  //           const draggedKey = reorderedKeys.splice(draggedIndexsample, 1)[0];
-  //           reorderedKeys.splice(index, 0, draggedKey);
-
-  //           const updatedPricingDetails = {};
-  //           reorderedKeys.forEach((key) => {
-  //             updatedPricingDetails[key] = reorderedPricingDetails[key];
-  //           });
-
-  //           return {
-  //             ...item,
-  //             pricingdetails: updatedPricingDetails,
-  //           };
-  //         }
-  //         return { ...item };
-  //       });
-  //     };
-
-  //     const updatedsteamType = updatePricingDetails(item1, index);
-  //     const updatedsteamType1 = updatePricingDetails(item2, index);
-  //     setFirstRowTable(updatedFirstRowTable);
-  //     setSecondRowTable(updatedSecondRowTable);
-  //     setclassNames(updatedclassnames);
-  //     setclassNamesinner(updatedclassinnerdatanames);
-  //     setsteamType([
-  //       { ...updatedItems[0], name: updatedsteamType },
-  //       { ...updatedItems[1], name: updatedsteamType1 },
-  //     ]);
-  //     setDraggedIndexsample(index);
-  //   }
-  // };
-
-  // const handleColumnwiseDragEnd = () => {
-  //   setDraggedIndexsample(null);
-  //   setdragtablefirstHeaderindex(null);
-  // };
 
   // const handleRowDragStart = (objectId, index) => {
   //   setDraggedRowIndex({ objectId, index });
@@ -265,78 +285,12 @@ export const Menulisting = () => {
   //   setDraggedRowIndex({ objectId: null, index: null });
   //   setDraggingOverIndex(null);
   // };
+  const [rowindex, setrowindex] = useState({
+    categoryId: null,
+    itemIndex: null,
+  });
 
-  // const handleRowDragStart = (categoryId, itemIndex) => {
-  //   setrowindex({ categoryId, itemIndex });
-  // };
-
-  // const handleRowDragOver = (categoryId, targetItemIndex) => {
-  //   if (rowindex.categoryId === null || rowindex.itemIndex === null) {
-  //     return;
-  //   }
-
-  //   const { categoryId: draggedCategoryId, itemIndex: draggedItemIndex } =
-  //     rowindex;
-
-  //   const updatedCategories = [...menudatalist];
-
-  //   const draggedCategoryIndex = updatedCategories.findIndex(
-  //     (category) => category.categoryId === draggedCategoryId
-  //   );
-  //   const draggedCategory = updatedCategories[draggedCategoryIndex];
-
-  //   if (draggedCategory && draggedCategory.itemResponseList) {
-  //     const updatedItemList = [...draggedCategory.itemResponseList];
-
-  //     const draggedItem = updatedItemList[draggedItemIndex];
-
-  //     updatedItemList.splice(draggedItemIndex, 1);
-
-  //     updatedItemList.splice(targetItemIndex, 0, draggedItem);
-
-  //     const updatedCategory = {
-  //       ...draggedCategory,
-  //       itemResponseList: updatedItemList,
-  //     };
-  //     updatedCategories[draggedCategoryIndex] = updatedCategory;
-
-  //     setMenudatalist(updatedCategories);
-
-  //     setDraggedRowIndex({ categoryId, itemIndex: targetItemIndex });
-  //   }
-  // };
-
-  // const handleRowDragEnd = (categoryId, targetItemIndex) => {
-  //   if (rowindex.categoryId === null || rowindex.itemIndex === null) {
-  //     return;
-  //   }
-
-  //   const { categoryId: draggedCategoryId, itemIndex: draggedItemIndex } =
-  //     rowindex;
-
-  //   const updatedCategories = [...menudatalist];
-  //   const draggedCategoryIndex = updatedCategories.findIndex(
-  //     (category) => category.categoryId === draggedCategoryId
-  //   );
-  //   const draggedCategory = updatedCategories[draggedCategoryIndex];
-
-  //   if (draggedCategory && draggedCategory.itemResponseList) {
-  //     const updatedItemList = [...draggedCategory.itemResponseList];
-  //     const draggedItem = updatedItemList[draggedItemIndex];
-  //     updatedItemList.splice(draggedItemIndex, 1);
-  //     updatedItemList.splice(targetItemIndex, 0, draggedItem);
-  //     const updatedCategory = {
-  //       ...draggedCategory,
-  //       itemResponseList: updatedItemList,
-  //     };
-  //     updatedCategories[draggedCategoryIndex] = updatedCategory;
-
-  //     setMenudatalist(updatedCategories);
-
-  //     setDraggedRowIndex({ categoryId, itemIndex: targetItemIndex });
-  //   }
-  //   setrowindex({ categoryId: null, itemIndex: null });
-  // };
+ 
 
   const handlemodal = (value) => {
     setmodal(true);
@@ -375,7 +329,6 @@ export const Menulisting = () => {
       setSideBarText("Customize");
     }
   };
-
   useEffect(() => {
     const isObjectEmpty = (obj) => {
       return Object.keys(obj).length === 0;
@@ -387,11 +340,13 @@ export const Menulisting = () => {
     }
   }, [menuData, SearchedmenuItem]);
 
+  useEffect(() => {
+    dispatch(getMenuRequest(location?.id));
+  }, []);
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
-
 
   useEffect(() => {
     const syncScroll = (sourceTable, targetTable) => {
@@ -447,22 +402,34 @@ export const Menulisting = () => {
     (value) => value === false
   );
 
-  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (menudatalist.length > 0 && menuData.length > 0) {
+    if (menudatalist.length > 0 && menuData.length>0) {
       setLoading(false);
     }
-  }, [menudatalist, menuData]);
-  useEffect(() => {
-    if (menuData.length === 0) {
+  }, [menudatalist,menuData]);
+
+  useEffect(()=>{
+    if(menuData.length===0)
+    {
       setLoading(true);
     }
-  }, [menuData]);
+  },[menuData])
 
   useEffect(() => {
     dispatch(getMenuRequest(location?.id));
   }, []);
-  // console.log("menuData",menuData);
+
+console.log("menuData",menuData);
+
+  // if(loading)
+  // {
+  //   return(
+  //     <div style={{display:'flex',justifyContent:'center',alignItems:'center'}} >
+  //    Loading
+  //   </div>
+  //   );
+  // }
 
   return (
     <>
@@ -508,43 +475,46 @@ export const Menulisting = () => {
                       className="Menu-Listing-TableOneBody Menu-listing-Body"
                       ref={tableBodyRef1}
                     >
-                      {loading ? (
-                        <>
-                        </>
-                      ) : (
-                        menudatalist.map((object, index) => (
-                          <React.Fragment key={index}>
-                            <RowHeading
-                              objectId={object.categoryId}
-                              object={object}
-                              index={index}
-                              onDragStart={handledragvegnonvegdragstart}
-                              onDragOver={handledragvegnonvegdropover}
-                              onDrop={handledragvegnonvegdropend}
-                            />
+                      { loading ? (
+                            <div className="Menu-noOptions">
+                              {/* <img
+                                className="imgLoader2"
+                                src={Loader}
+                                alt="Loading..."
+                              /> */}
+                            </div>
+                          ) :menudatalist.map((object, index) => (
+                        <React.Fragment key={index}>
+                          <RowHeading
+                            objectId={object.categoryId}
+                            object={object}
+                            index={index}
+                            onDragStart={handledragvegnonvegdragstart}
+                            onDragOver={handledragvegnonvegdropover}
+                            onDrop={handledragvegnonvegdropend}
+                          />
 
-                            <TableOneBody
-                              object={object}
-                              typevalue={object.type}
-                              index={index}
-                              FilteredData={FilteredData}
-                              objectLength={FilteredData.length}
-                              draggingOverIndex={draggingOverIndex}
-                              draggedRowIndex={draggedRowIndex}
-                              handleRowDragStart={handleDragStart}
-                              handleRowDragOver={handleDragOver}
-                              handleRowDragEnd={handleDrop}
-                              handleDragScroll={handleDragScroll}
-                              handlemodal={handlemodal}
-                              tableBodyRef1={tableBodyRef1}
-                              tableBodyRef2={tableBodyRef2}
-                              handlevegrowstart={handledragvegnonvegdragstart}
-                              handlevegrowover={handledragvegnonvegdropover}
-                              handlevegrowend={handledragvegnonvegdropend}
-                            />
-                          </React.Fragment>
-                        ))
-                      )}
+                          <TableOneBody
+                            object={object}
+                            typevalue={object.type}
+                            index={index}
+                            FilteredData={FilteredData}
+                            objectLength={FilteredData.length}
+                            draggingOverIndex={draggingOverIndex}
+                            draggedRowIndex={draggedRowIndex}
+                            handleRowDragStart={handleDragStart}
+                            handleRowDragOver={handleDragOver}
+                            handleRowDragEnd={handleDrop}
+                            handleDragScroll={handleDragScroll}
+                            handlemodal={handlemodal}
+                            tableBodyRef1={tableBodyRef1}
+                            tableBodyRef2={tableBodyRef2}
+                            handlevegrowstart={handledragvegnonvegdragstart}
+                            handlevegrowover={handledragvegnonvegdropover}
+                            handlevegrowend={handledragvegnonvegdropend}
+                          />
+                        </React.Fragment>
+                      ))}
                     </tbody>
                   }
                 </table>
@@ -669,3 +639,233 @@ export const Menulisting = () => {
   );
 };
 
+// [
+//   {
+//     "categoryId": "119cd4b7-f44a-45d6-8c21-c8d4559d52ab",
+//     "categoryName": "",
+//     "subCategoryResponseList": null,
+//     "itemResponseList": [
+//         {
+//             "itemId": "9be15fd4-43fe-497a-b857-42d89bffb8be",
+//             "itemName": "Rasam",
+//             "mediaResponseList": [],
+//             "orderTypes": [
+//                 {
+//                     "typeName": "DineIn",
+//                     "typeId": "6e006c2d-1dd2-4b81-9af1-9e02a8336107",
+//                     "price": 17.0,
+//                     "isEnabled": 1,
+//                     "availabilities": [
+//                         {
+//                             "availabilityDays": [
+//                                 "0",
+//                                 "0"
+//                             ],
+//                             "sessions": [
+//                                 "One",
+//                                 "Two"
+//                             ]
+//                         }
+//                     ]
+//                 },
+//                 {
+//                     "typeName": "Pickup",
+//                     "typeId": "b1eddc4e-710e-437c-871c-609b84af43cd",
+//                     "price": 17.0,
+//                     "isEnabled": 1,
+//                     "availabilities": [
+//                         {
+//                             "availabilityDays": [
+//                                 "0",
+//                                 "0"
+//                             ],
+//                             "sessions": [
+//                                 "One",
+//                                 "Two"
+//                             ]
+//                         }
+//                     ]
+//                 },
+//                 {
+//                     "typeName": "Delivery",
+//                     "typeId": "df8eb2dc-6789-4b2a-bdc9-46df7c19add9",
+//                     "price": 17.0,
+//                     "isEnabled": 1,
+//                     "availabilities": [
+//                         {
+//                             "availabilityDays": [
+//                                 "0",
+//                                 "0"
+//                             ],
+//                             "sessions": [
+//                                 "One",
+//                                 "Two"
+//                             ]
+//                         }
+//                     ]
+//                 }
+//             ],
+//             "modifiers": [
+//                 {
+//                     "id": "7929429d-b45e-40f0-ba86-2f96457cf3f9",
+//                     "modifierName": "Vegan",
+//                     "isEnabled": 1,
+//                     "minCount": 0,
+//                     "maxCount": 0,
+//                     "noFreeCustomization": 0,
+//                     "options": [
+//                         {
+//                             "optionId": "71485264-ecee-41f1-a36f-9e0cd8d21229",
+//                             "name": "Vegan",
+//                             "price": 0.0,
+//                             "isEnabled": 1
+//                         },
+//                         {
+//                             "optionId": "71485264-ecee-41f1-a36f-9e0cd8d21230",
+//                             "name": "Vegan One",
+//                             "price": 10.0,
+//                             "isEnabled": 1
+//                         }
+//                     ]
+//                 }
+//             ],
+//             "dietTypes": [],
+//             "ingredients": [
+//                 {
+//                     "id": "066d8eaf-c70a-42b5-a9b3-956b43cf6e3e",
+//                     "name": "Gluten Free"
+//                 }
+//             ],
+//             "taxClassAssociation": [],
+//             "cuisine": [],
+//             "pairedItems": [],
+//             "description": "Spicy Tamarind based delicacy with south Indian spices",
+//             "containsAlcohol": false,
+//             "ignoreMasterKotPrint": true,
+//             "popularItem": false
+//         }
+//     ]
+// },
+// {
+//     "categoryId": "12110e90-6897-448a-9afb-da855dc42191",
+//     "categoryName": "Sandwich",
+//     "subCategoryResponseList": null,
+//     "itemResponseList": [
+//         {
+//             "itemId": "011ae68f-b878-4b79-98b2-6eedfba59b10",
+//             "itemName": "Roasted Turkey on Sourdough",
+//             "mediaResponseList": [],
+//             "orderTypes": [
+//                 {
+//                     "typeName": "GloriaFood",
+//                     "typeId": "b1eddc4e-710e-437c-871c-609b84af43c1",
+//                     "price": 25.0,
+//                     "isEnabled": 0,
+//                     "availabilities": null
+//                 }
+//             ],
+//             "modifiers": [
+//                 {
+//                     "id": "3ce5e745-2b9d-4ffa-ada1-363bbe3b9848",
+//                     "modifierName": "Size",
+//                     "isEnabled": 1,
+//                     "minCount": 0,
+//                     "maxCount": 0,
+//                     "noFreeCustomization": 0,
+//                     "options": [
+//                         {
+//                             "optionId": "0f51dc6a-faea-4e2f-a074-42dacac53d6d",
+//                             "name": "Regular",
+//                             "price": 13.0,
+//                             "isEnabled": 1
+//                         }
+//                     ]
+//                 }
+//             ],
+//             "dietTypes": [],
+//             "ingredients": [],
+//             "taxClassAssociation": [],
+//             "cuisine": [],
+//             "pairedItems": [],
+//             "description": "",
+//             "containsAlcohol": false,
+//             "ignoreMasterKotPrint": false,
+//             "popularItem": false
+//         }
+//     ]
+// },
+// {
+//     "categoryId": "12b453c3-1d34-4472-83b4-0479933db3d5",
+//     "categoryName": "",
+//     "subCategoryResponseList": null,
+//     "itemResponseList": [
+//         {
+//             "itemId": "8a50b689-5c0e-469c-91f3-5b24a40fdd0b",
+//             "itemName": "Sambar Vadai",
+//             "mediaResponseList": [],
+//             "orderTypes": [
+//                 {
+//                     "typeName": "DineIn",
+//                     "typeId": "6e006c2d-1dd2-4b81-9af1-9e02a8336107",
+//                     "price": 9.49,
+//                     "isEnabled": 1,
+//                     "availabilities": null
+//                 },
+//                 {
+//                     "typeName": "Pickup",
+//                     "typeId": "b1eddc4e-710e-437c-871c-609b84af43cd",
+//                     "price": 9.49,
+//                     "isEnabled": 1,
+//                     "availabilities": null
+//                 },
+//                 {
+//                     "typeName": "Delivery",
+//                     "typeId": "df8eb2dc-6789-4b2a-bdc9-46df7c19add9",
+//                     "price": 9.49,
+//                     "isEnabled": 1,
+//                     "availabilities": null
+//                 }
+//             ],
+//             "modifiers": [
+//                 {
+//                     "id": "27cef7a0-6696-43e5-840e-aa66ea5a7ec2",
+//                     "modifierName": "Jain",
+//                     "isEnabled": 1,
+//                     "minCount": 0,
+//                     "maxCount": 0,
+//                     "noFreeCustomization": 0,
+//                     "options": [
+//                         {
+//                             "optionId": "051555f9-1312-4761-b1ca-9019fd5a73b3",
+//                             "name": "Regular",
+//                             "price": 0.0,
+//                             "isEnabled": 1
+//                         },
+//                         {
+//                             "optionId": "d4ecf3c4-0400-4cf9-9e39-5828568ab530",
+//                             "name": "Jain",
+//                             "price": 0.0,
+//                             "isEnabled": 1
+//                         }
+//                     ]
+//                 }
+//             ],
+//             "dietTypes": [],
+//             "ingredients": [
+//                 {
+//                     "id": "066d8eaf-c70a-42b5-a9b3-956b43cf6e3e",
+//                     "name": "Gluten Free"
+//                 }
+//             ],
+//             "taxClassAssociation": [],
+//             "cuisine": [],
+//             "pairedItems": [],
+//             "description": "South Indian lentil doughnut soaked in sambar and garnished with chopped onions & cilantro",
+//             "containsAlcohol": false,
+//             "ignoreMasterKotPrint": false,
+//             "popularItem": false
+//         }
+//     ]
+// },
+
+// ]
