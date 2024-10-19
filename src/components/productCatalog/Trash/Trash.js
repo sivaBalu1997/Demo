@@ -5,13 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { deleteMenuItemRequest } from "redux/productCatalog/productCatalogActions";
 
-const EyeModal = ({ onTrashclose }) => {
+const EyeModal = ({ onTrashclose,ItemId }) => {
   const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
 
   const dispatch=useDispatch();
   const locationid = useSelector(
     (state) => state.auth.credentials.locationId
   );
+  console.log("ApiPayload",ItemId);
+  
   const trashmodalRef = useRef();
   const TrashClose = (e) => {
     if (trashmodalRef.current === e.target) {
@@ -24,7 +26,7 @@ const EyeModal = ({ onTrashclose }) => {
   const handleChange = () => {
     const payload={
       locationid:locationid,
-      itemId:ApiPayload
+      itemId:ItemId
 
     }
     dispatch(deleteMenuItemRequest(payload))

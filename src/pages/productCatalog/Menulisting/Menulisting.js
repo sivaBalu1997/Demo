@@ -298,20 +298,19 @@ export const Menulisting = () => {
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
 
-    if (filteredItem) {
-      const specificResponse = filteredItem.itemResponseList.filter(
-        (response) => response?.itemId === value
-      );
+
+   
 
       if (filteredItem) {
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
         );
         if (specificResponse.length > 0) {
+          console.log("filteredItem",specificResponse);
           setSideBar(specificResponse);
         }
       }
-    }
+    
   };
 
   const showsidebar = (key) => {

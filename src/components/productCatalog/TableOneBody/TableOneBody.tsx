@@ -130,6 +130,8 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   const handleItemnameClick = (value: string) => {
     console.log({value})
     handlemodal(value);
+
+    
   };
  
   const menuData = useSelector((state : RootState) => state.productCatalog?.menuData)
@@ -143,6 +145,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 
   
   
+
   return (
     <>
 
