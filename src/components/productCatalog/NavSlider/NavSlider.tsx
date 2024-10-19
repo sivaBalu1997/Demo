@@ -16,7 +16,7 @@ interface NavMenuProps {
   SideBarData?: SideBarData[];
 }
 interface SideBarData {
-  id: number;
+  itemId: string;
   itemName: string;
   code: string;
   type: string;

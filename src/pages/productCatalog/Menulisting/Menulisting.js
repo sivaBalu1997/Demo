@@ -9,10 +9,8 @@ import Loader from "../../../assets/Loader.gif.gif";
 import toggleround from "../../../assets/svg/toggleround.svg";
 import calendericon from "../../../assets/svg/calendericon.svg";
 import dollaricon from "../../../assets/svg/dollaricon.svg";
-// import togglebtns from "../../../assets/svg/togglebtn.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
-import { itemsdata, itemsfooddata } from "../../../assets/mockData/Moca_data";
 import InsertColumnList from "../../../components/productCatalog/InsertColumnList/InsertColumnList";
 import TableFirstHeader from "../../../components/productCatalog/TableFirstHeader/TableFirstHeader";
 import TableSecondHeader from "../../../components/productCatalog/TableSecondHeader/TableSecondHeader";
@@ -26,7 +24,7 @@ import {
   selectedMockDataRequest,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
-import { combinedItemsData } from "assets/mockData/Moca_data";
+
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
@@ -34,72 +32,28 @@ export const Menulisting = () => {
   const location = useSelector((state) => state.auth.selectedBranch);
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
-  const SearchedmenuItem = useSelector(
-    (state) => state.searchItem?.SearcheItem
-  );
-  // console.log("SearchedmenuItem",SearchedmenuItem);
-
+  const loadingRequest = useSelector((state) => state.productCatalog?.addMenuLoading);
+  console.log("loadingRequest",loadingRequest);
+  const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
-
-  useEffect(() => {
-    const isObjectEmpty = (obj) => {
-      return Object.keys(obj).length === 0;
-    };
-    if (isObjectEmpty(SearchedmenuItem)) {
-      setMenudatalist(menuData);
-    } else {
-      setMenudatalist([SearchedmenuItem]);
-    }
-  }, [menuData, SearchedmenuItem]);
-
-  useEffect(() => {
-    // dispatch(storeMockDataRequest(combinedItemsData));
-    dispatch(getMenuRequest(location?.id));
-  }, []);
-
-  // console.log({menuData})
-
-  useEffect(() => {
-    dispatch(selectedMockDataRequest(SideBarData));
-  }, [dispatch]);
-
-  const addedData = useSelector((state) => state.addMockDataReducer.data);
-
-  const Mockdata = useSelector((state) => state.storeMockDataReducer.data);
-
-  const FilteredData = useSelector(
-    (state) => state.storeMockDataFilteredReducer.data
-  );
-
-  const hiddenData = useSelector(
-    (state) => state.addMockDataHiddenReducer?.data || []
-  );
-
-  const [FilteredObject, setFilteredObject] = useState([]);
-
-  useEffect(() => {
-    setFilteredObject(FilteredData);
-  }, [FilteredData]);
-
-  const [draggedRowIndex, setDraggedRowIndex] = useState({
-    objectId: null,
-    index: null,
-  });
-
-  const [draggingOverIndex, setDraggingOverIndex] = useState(null);
-  const [dragtablefirstHeaderindex, setdragtablefirstHeaderindex] =
-    useState(null);
+  const FilteredData = useSelector((state) => state.storeMockDataFilteredReducer.data);
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [sidebartext, setSideBarText] = useState(null);
   const tableBodyRef1 = useRef(null);
   const tableBodyRef2 = useRef(null);
   const Outsideref = useRef(null);
-  const [SteamedVeg, setSteamedVeg] = useState([]);
-  const [SteamedNonVeg, setSteamedNonVeg] = useState([]);
-
+  const [draggingOverIndex, setDraggingOverIndex] = useState(null);
+  const [dragtablefirstHeaderindex, setdragtablefirstHeaderindex] = useState(null);
+  const [SideBarData, setSideBar] = useState([]);
+  const [draggedItem, setDraggedItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [draggedRowIndex, setDraggedRowIndex] = useState({
+    objectId: null,
+    index: null,
+  });
   const [classNames, setclassNames] = useState([
     "Dinein1-class",
     "Pickup1-class",
@@ -185,54 +139,14 @@ export const Menulisting = () => {
     },
   ]);
 
-  const [SideBarData, setSideBar] = useState([]);
-  const mergedMockData = [...Mockdata, ...addedData];
+ 
 
-  useEffect(() => {
-    const tempArray1 = [];
-    const tempArray2 = [];
-
-    if (FilteredData.length === 0) {
-      mergedMockData.forEach((item) => {
-        if (item.type === "steamedVeg") {
-          tempArray1.push(item);
-        } else {
-          tempArray2.push(item);
-        }
-      });
-    } else {
-      FilteredData.forEach((item) => {
-        if (item.type === "steamedVeg") {
-          tempArray1.push(item);
-        } else {
-          tempArray2.push(item);
-        }
-      });
-    }
-    setSteamedVeg(tempArray1);
-    setSteamedNonVeg(tempArray2);
-  }, [Mockdata, FilteredData]);
-
-  useEffect(() => {
-    setsteamType([
-      { id: 1, name: SteamedVeg, type: "SteamedVeg" },
-      { id: 2, name: SteamedNonVeg, type: "SteameNondVeg" },
-    ]);
-  }, [SteamedVeg, SteamedNonVeg]);
-
-  const [draggedItem, setDraggedItem] = useState(null);
-
-  // Handle the drag start
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
   };
-
-  // Allow dropping
   const handleDragOver = (e) => {
     e.preventDefault();
   };
-
-  // Handle the drop
   const handleDrop = (categoryId, dropIndex) => {
     if (!draggedItem || draggedItem.categoryId !== categoryId) return;
 
@@ -331,27 +245,11 @@ export const Menulisting = () => {
 
   const handledragvegnonvegdropend = (e, index) => {
     e.preventDefault();
-    // const updatedRows = [...steamType];
-    // const draggedRow = updatedRows[draggedRowIndex];
-    // updatedRows.splice(draggedRowIndex, 1);
-    // updatedRows.splice(index, 0, draggedRow);
-    // setsteamType(updatedRows);
-    // setDraggedRowIndex(null);
     const updatedCategories = [...menudatalist];
-
-    // Get the dragged category
     const draggedCategory = updatedCategories[draggedRowIndex];
-
-    // Remove the dragged category from its original position
     updatedCategories.splice(draggedRowIndex, 1);
-
-    // Insert the dragged category into its new position
     updatedCategories.splice(index, 0, draggedCategory);
-
-    // Update the state with the new category order
     setMenudatalist(updatedCategories);
-
-    // Reset draggedCategoryIndex
     setDraggedRowIndex(null);
   };
 
@@ -392,77 +290,7 @@ export const Menulisting = () => {
     itemIndex: null,
   });
 
-  const handleRowDragStart = (categoryId, itemIndex) => {
-    setrowindex({ categoryId, itemIndex });
-  };
-
-  const handleRowDragOver = (categoryId, targetItemIndex) => {
-    if (rowindex.categoryId === null || rowindex.itemIndex === null) {
-      return;
-    }
-
-    const { categoryId: draggedCategoryId, itemIndex: draggedItemIndex } =
-      rowindex;
-
-    const updatedCategories = [...menudatalist];
-
-    const draggedCategoryIndex = updatedCategories.findIndex(
-      (category) => category.categoryId === draggedCategoryId
-    );
-    const draggedCategory = updatedCategories[draggedCategoryIndex];
-
-    if (draggedCategory && draggedCategory.itemResponseList) {
-      const updatedItemList = [...draggedCategory.itemResponseList];
-
-      const draggedItem = updatedItemList[draggedItemIndex];
-
-      updatedItemList.splice(draggedItemIndex, 1);
-
-      updatedItemList.splice(targetItemIndex, 0, draggedItem);
-
-      const updatedCategory = {
-        ...draggedCategory,
-        itemResponseList: updatedItemList,
-      };
-      updatedCategories[draggedCategoryIndex] = updatedCategory;
-
-      setMenudatalist(updatedCategories);
-
-      setDraggedRowIndex({ categoryId, itemIndex: targetItemIndex });
-    }
-  };
-
-  const handleRowDragEnd = (categoryId, targetItemIndex) => {
-    if (rowindex.categoryId === null || rowindex.itemIndex === null) {
-      return;
-    }
-
-    const { categoryId: draggedCategoryId, itemIndex: draggedItemIndex } =
-      rowindex;
-
-    const updatedCategories = [...menudatalist];
-    const draggedCategoryIndex = updatedCategories.findIndex(
-      (category) => category.categoryId === draggedCategoryId
-    );
-    const draggedCategory = updatedCategories[draggedCategoryIndex];
-
-    if (draggedCategory && draggedCategory.itemResponseList) {
-      const updatedItemList = [...draggedCategory.itemResponseList];
-      const draggedItem = updatedItemList[draggedItemIndex];
-      updatedItemList.splice(draggedItemIndex, 1);
-      updatedItemList.splice(targetItemIndex, 0, draggedItem);
-      const updatedCategory = {
-        ...draggedCategory,
-        itemResponseList: updatedItemList,
-      };
-      updatedCategories[draggedCategoryIndex] = updatedCategory;
-
-      setMenudatalist(updatedCategories);
-
-      setDraggedRowIndex({ categoryId, itemIndex: targetItemIndex });
-    }
-    setrowindex({ categoryId: null, itemIndex: null });
-  };
+ 
 
   const handlemodal = (value) => {
     setmodal(true);
@@ -470,20 +298,19 @@ export const Menulisting = () => {
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
 
-    if (filteredItem) {
-      const specificResponse = filteredItem.itemResponseList.filter(
-        (response) => response?.itemId === value
-      );
+
+   
 
       if (filteredItem) {
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
         );
         if (specificResponse.length > 0) {
+          console.log("filteredItem",specificResponse);
           setSideBar(specificResponse);
         }
       }
-    }
+    
   };
 
   const showsidebar = (key) => {
@@ -501,6 +328,24 @@ export const Menulisting = () => {
       setSideBarText("Customize");
     }
   };
+  useEffect(() => {
+    const isObjectEmpty = (obj) => {
+      return Object.keys(obj).length === 0;
+    };
+    if (isObjectEmpty(SearchedmenuItem)) {
+      setMenudatalist(menuData);
+    } else {
+      setMenudatalist([SearchedmenuItem]);
+    }
+  }, [menuData, SearchedmenuItem]);
+
+  useEffect(() => {
+    dispatch(getMenuRequest(location?.id));
+  }, []);
+
+  useEffect(() => {
+    dispatch(selectedMockDataRequest(SideBarData));
+  }, [dispatch]);
 
   useEffect(() => {
     const syncScroll = (sourceTable, targetTable) => {
@@ -556,16 +401,25 @@ export const Menulisting = () => {
     (value) => value === false
   );
 
-  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (menudatalist.length > 0) {
+    if (menudatalist.length > 0 && menuData.length>0) {
       setLoading(false);
     }
-  }, [menudatalist]);
+  }, [menudatalist,menuData]);
+
+  useEffect(()=>{
+    if(menuData.length===0)
+    {
+      setLoading(true);
+    }
+  },[menuData])
 
   useEffect(() => {
     dispatch(getMenuRequest(location?.id));
   }, []);
+
+console.log("menuData",menuData);
 
   // if(loading)
   // {
@@ -621,13 +475,7 @@ export const Menulisting = () => {
                       ref={tableBodyRef1}
                     >
                       { loading ? (
-                            <div className="Menu-noOptions">
-                              {/* <img
-                                className="imgLoader2"
-                                src={Loader}
-                                alt="Loading..."
-                              /> */}
-                            </div>
+                           <></>
                           ) :menudatalist.map((object, index) => (
                         <React.Fragment key={index}>
                           <RowHeading
