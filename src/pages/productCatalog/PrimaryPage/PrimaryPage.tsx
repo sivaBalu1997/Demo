@@ -227,12 +227,12 @@ const PrimaryPage = () => {
   });
 
   const [popularItem, setPopularItem] = useState<any>("");
-  const [calorieInfo, setCalorieInfo] = useState<any>({
+  const [calorieInfo, setCalorieInfo] = useState<CalorieInfo>({
     type: "per 100 grams",
     value: "",
   });
 
-  const [portionInfo, setPortionInfo] = useState<any>({
+  const [portionInfo, setPortionInfo] = useState<PortionInfo>({
     type: "portion(count)",
     value: "",
   });
@@ -265,21 +265,21 @@ const PrimaryPage = () => {
     dispatch(getPopularItemRequest(locationid));
   }, []);
 
-  // useEffect(() => {
-  //   const SelectedFooditemtoedit = mergedMockData.filter(
-  //     (item) => item.id === location.state?.id
-  //   );
+  useEffect(() => {
+    const SelectedFooditemtoedit = mergedMockData.filter(
+      (item) => item.id === location.state?.id
+    );
 
-  //   if (SelectedFooditemtoedit && SelectedFooditemtoedit[0]) {
-  //     const selectedItem = SelectedFooditemtoedit[0];
+    if (SelectedFooditemtoedit && SelectedFooditemtoedit[0]) {
+      const selectedItem = SelectedFooditemtoedit[0];
 
-  //     setValue("itemName", selectedItem?.itemName);
-  //     setValue("dietaryType", selectedItem?.dietary);
-  //     setValue("cuisine", selectedItem?.cusine);
-  //     setValue("mealType", selectedItem?.mealType);
-  //     setValue("itemCode", selectedItem?.itemCode);
-  //   }
-  // }, [mergedMockData, location.state?.id, setValue]);
+      setValue("itemName", selectedItem?.itemName);
+      setValue("dietaryType", selectedItem?.dietary);
+      setValue("cuisine", selectedItem?.cusine);
+      setValue("mealType", selectedItem?.mealType);
+      setValue("itemCode", selectedItem?.itemCode);
+    }
+  }, [mergedMockData, location.state?.id, setValue]);
 
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
@@ -291,18 +291,22 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
-      setValue("itemName", ItemsPrimaryDetails.itemName);      
+      // setValue("itemName", ItemsPrimaryDetails.itemName);
+      setValue("dietaryType", ItemsPrimaryDetails.dietaryType);
+      setValue("cuisine", ItemsPrimaryDetails.cuisine);
+      setValue("mealType", ItemsPrimaryDetails.mealType);
+      setValue("bestPair", ItemsPrimaryDetails.bestPair);
       setValue("description", ItemsPrimaryDetails.description);
-      setDescription(ItemsPrimaryDetails.description);
       setValue("imageUrls", ItemsPrimaryDetails.imageUrls);
       setValue("alcohol", ItemsPrimaryDetails.alcohol);
       setValue("itemCode", ItemsPrimaryDetails.itemCode);
       setValue("barCode", ItemsPrimaryDetails.barCode);
+      setValue("category", ItemsPrimaryDetails.category);
+      setValue("categoryId", ItemsPrimaryDetails.categoryId);
+      setValue("subCategory", ItemsPrimaryDetails.subCategory);
       setValue("Ingredients", ItemsPrimaryDetails.Ingredients);
       setValue("allergens", ItemsPrimaryDetails.allergens);
       setValue("coloriePoint", ItemsPrimaryDetails.coloriePoint);
-      setCalorieInfo(ItemsPrimaryDetails.coloriePoint)
-      setPortionInfo(ItemsPrimaryDetails.portionSize)
       setValue("selectedcolorie", ItemsPrimaryDetails.selectedcolorie);
       setValue("portionSize", ItemsPrimaryDetails.portionSize);
       setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
@@ -310,7 +314,6 @@ const PrimaryPage = () => {
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
     }
   }, [ItemsPrimaryDetails, setValue]);
-
 
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
@@ -336,10 +339,6 @@ const PrimaryPage = () => {
   const [dataSubcategory, setDataSubcategory] = useState(subcategory);
   const [ingredientsFromAPi, setIngredientsFromAPi] = useState<ImageOptions[]>(
     []
-  );
-
-  const dataFromRedux = useSelector(
-    (state: any) => state?.selectedMockDataReducer?.data
   );
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -395,21 +394,21 @@ const PrimaryPage = () => {
     name: keyof typeof calorieInfo,
     value: string | boolean
   ) => {
-    setCalorieInfo((prevState:any) => ({
+    setCalorieInfo((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCalorieInfo((prevState:any) => ({
+    setCalorieInfo((prevState) => ({
       ...prevState,
       value: e.target.value,
     }));
   };
 
   const handlePortionChange = (name: keyof PortionInfo, value: string) => {
-    setPortionInfo((prevState:any) => ({
+    setPortionInfo((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -422,6 +421,7 @@ const PrimaryPage = () => {
    
      
       const updatedImageUrls = updatedImages.map((image) => image);
+       console.log("updatedImageUrls",updatedImageUrls);
       setValue("imageUrls", updatedImageUrls);
       return updatedImages;
     });
@@ -521,6 +521,7 @@ const PrimaryPage = () => {
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];       
         const updatedImageUrls = updatedImages.map((image) => image);
+         console.log("updatedImageUrls",updatedImageUrls);
         setValue("imageUrls", updatedImageUrls);
         return updatedImages;
       });
@@ -641,64 +642,39 @@ const PrimaryPage = () => {
   };
 
   // console.log(getValues())
+  const hansleshwadd = () => {
+    dispatch(addDropDowRequest(dataforadd));
+  };
 
-  const restaurantDetails = useSelector((state:any) => state.auth.restaurantDetails)
-// console.log("restaurantDetails",restaurantDetails?.containsAlcohol);
+  const dataFromRedux = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
 
-const alcoholconstain=restaurantDetails?.containsAlcohol;
-
-  const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  // useEffect(()=>{
-  //   if(primarydata){
-  //     setValue("itemName", primarydata?.itemName || null);
-  //     setValue("dietaryType", primarydata?.dietaryType || null);
-  //     setValue("cuisine", primarydata?.cuisine || null);
-  //     setValue("mealType", primarydata?.mealType || null);
-  //     setValue("bestPair", primarydata?.bestPair || null);
-  //     setValue("description", primarydata?.description || null);
-  //     setValue("imageUrls", primarydata?.imageUrls || null);
-  //     setValue("alcohol", primarydata?.alcohol || null);
-  //     setValue("itemCode", primarydata?.itemCode || null);
-  //     setValue("barCode", primarydata?.barCode || null);
-  //     setValue("category", primarydata?.category || null);
-  //     setValue("categoryId", primarydata?.categoryId || null);
-  //     setValue("subCategory", primarydata?.subCategory || null);
-  //     setValue("Ingredients", primarydata?.Ingredients || null);
-  //     setValue("allergens", primarydata?.allergens || null);
-  //     setValue("coloriePoint", primarydata?.coloriePoint || null);
-  //     setValue("selectedcolorie", primarydata?.selectedcolorie || null);
-  //     setValue("portionSize", primarydata?.portionSize || null);
-  //     setValue("selectedPortion", primarydata?.selectedPortion || null);
-  //     setValue("tax", primarydata?.tax || null);
-  //     setValue("masterCode", primarydata?.masterCode || null);
-  //   }
-  // },[primarydata])
-
-  // useEffect(() => {
-  //   if (dataFromRedux) {
-  //     setValue("itemName", dataFromRedux[0]?.itemName || null);
-  //     setValue("dietaryType", dataFromRedux[0]?.dietaryType || null);
-  //     setValue("cuisine", dataFromRedux[0]?.cuisine || null);
-  //     setValue("mealType", dataFromRedux[0]?.mealType || null);
-  //     setValue("bestPair", dataFromRedux[0]?.bestPair || null);
-  //     setValue("description", dataFromRedux[0]?.description || null);
-  //     setValue("imageUrls", dataFromRedux[0]?.imageUrls || null);
-  //     setValue("alcohol", dataFromRedux[0]?.alcohol || null);
-  //     setValue("itemCode", dataFromRedux[0]?.itemCode || null);
-  //     setValue("barCode", dataFromRedux[0]?.barCode || null);
-  //     setValue("category", dataFromRedux[0]?.category || null);
-  //     setValue("categoryId", dataFromRedux[0]?.categoryId || null);
-  //     setValue("subCategory", dataFromRedux[0]?.subCategory || null);
-  //     setValue("Ingredients", dataFromRedux[0]?.Ingredients || null);
-  //     setValue("allergens", dataFromRedux[0]?.allergens || null);
-  //     setValue("coloriePoint", dataFromRedux[0]?.coloriePoint || null);
-  //     setValue("selectedcolorie", dataFromRedux[0]?.selectedcolorie || null);
-  //     setValue("portionSize", dataFromRedux[0]?.portionSize || null);
-  //     setValue("selectedPortion", dataFromRedux[0]?.selectedPortion || null);
-  //     setValue("tax", dataFromRedux[0]?.tax || null);
-  //     setValue("masterCode", dataFromRedux[0]?.masterCode || null);
-  //   }
-  // }, [dataFromRedux]);
+  useEffect(() => {
+    if (dataFromRedux) {
+      setValue("itemName", dataFromRedux[0]?.itemName || null);
+      setValue("dietaryType", dataFromRedux[0]?.dietaryType || null);
+      setValue("cuisine", dataFromRedux[0]?.cuisine || null);
+      setValue("mealType", dataFromRedux[0]?.mealType || null);
+      setValue("bestPair", dataFromRedux[0]?.bestPair || null);
+      setValue("description", dataFromRedux[0]?.description || null);
+      setValue("imageUrls", dataFromRedux[0]?.imageUrls || null);
+      setValue("alcohol", dataFromRedux[0]?.alcohol || null);
+      setValue("itemCode", dataFromRedux[0]?.itemCode || null);
+      setValue("barCode", dataFromRedux[0]?.barCode || null);
+      setValue("category", dataFromRedux[0]?.category || null);
+      setValue("categoryId", dataFromRedux[0]?.categoryId || null);
+      setValue("subCategory", dataFromRedux[0]?.subCategory || null);
+      setValue("Ingredients", dataFromRedux[0]?.Ingredients || null);
+      setValue("allergens", dataFromRedux[0]?.allergens || null);
+      setValue("coloriePoint", dataFromRedux[0]?.coloriePoint || null);
+      setValue("selectedcolorie", dataFromRedux[0]?.selectedcolorie || null);
+      setValue("portionSize", dataFromRedux[0]?.portionSize || null);
+      setValue("selectedPortion", dataFromRedux[0]?.selectedPortion || null);
+      setValue("tax", dataFromRedux[0]?.tax || null);
+      setValue("masterCode", dataFromRedux[0]?.masterCode || null);
+    }
+  }, [dataFromRedux]);
 
 
   return (
@@ -994,21 +970,16 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                   </div>
                 </div>
 
-{
-  alcoholconstain  && <div className="Primary-page-InputFields alcoholradiobutton">
-  <h3>Contains Alcohol ?</h3>
-  <RadioButtonGroup
-    options={alcoholradio}
-    name="alcohol"
-    selectedValue={selectedradiowatch.alcohol}
-    onChange={(value) => handleRadioChange("alcohol", value)}
-    register={register}
-  />
-</div>
-}
-               
-
-                
+                <div className="Primary-page-InputFields alcoholradiobutton">
+                  <h3>Contains Alcohol ?</h3>
+                  <RadioButtonGroup
+                    options={alcoholradio}
+                    name="alcohol"
+                    selectedValue={alcoholValue}
+                    onChange={(value) => handleRadioChange("alcohol", value)}
+                    register={register}
+                  />
+                </div>
               </div>
 
               <div className="Primary-page-container-pairtwo">
@@ -1102,11 +1073,9 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                     name="popularItem"
                     control={control}
                     defaultValue={false}
-
                     render={({ field }: any) => (
                       <input
                         type="checkbox"
-                        className="input"
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);
@@ -1188,8 +1157,8 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                 </div>
               </div>
             </div>
-            <div  className={alcoholconstain?"Primary-page-container-two-heightdynamic":"Primary-page-container-two"}>
-              <div className="Primary-page-ingredients-selection" >
+            <div className="Primary-page-container-two">
+              <div className="Primary-page-ingredients-selection">
                 <Imagepillsselection
                   heading="Ingredients*"
                   options={ingredientsFromAPi}
@@ -1217,7 +1186,7 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                             onChange(e); 
                           }}
                           onBlur={onBlur}
-                          value={calorieInfo?.value} 
+                          value={calorieInfo.value} 
                           trigger={trigger}
                           placeholder="cal"
                         />
@@ -1229,7 +1198,7 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                     <RadioButtonGroup
                       options={calorieponitradio}
                       name="type"
-                      selectedValue={calorieInfo?.type}
+                      selectedValue={calorieInfo.type}
                       onChange={(value) =>
                         handleCalorieRadioChange("type", value)
                       }
@@ -1251,9 +1220,9 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                             onChange(e); // Also trigger form control
                           }}
                           onBlur={onBlur}
-                          value={portionInfo?.value} // Ensure you're using a string value
+                          value={portionInfo.value} // Ensure you're using a string value
                           trigger={trigger}
-                          placeholder={portionInfo?.type} // Ensure this is a string
+                          placeholder={portionInfo.type} // Ensure this is a string
                         />
                       )}
                     />
@@ -1264,7 +1233,7 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                     <RadioButtonGroup
                       options={portionsizeradio}
                       name="selectedPortion"
-                      selectedValue={portionInfo?.type} // Ensure this is a string
+                      selectedValue={portionInfo.type} // Ensure this is a string
                       onChange={(value) => handlePortionChange("type", value)} // Update type
                       register={register}
                     />

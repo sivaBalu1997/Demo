@@ -101,7 +101,6 @@ import {
   DELETE_MODIFIER_REQUEST,
   DELETE_MODIFIER_SUCCESS,
   DELETE_MODIFIER_FAILURE,
-  REMOVE_DATA_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -454,6 +453,7 @@ export default function productCatalogReducer(
       // Add Menu Item
       case ADD_MENU_ITEM_REQUEST:
         draft.addMenuItemdata = action.payload;
+        console.log("reducer data", action.payload);
         draft.addMenuLoading = true;
         draft.addMenuFailed = false;
         draft.addMenuSuccess = false;
@@ -676,19 +676,10 @@ const primarypagedata = {
   loading: false,
   error: null,
 };
-
 export const primarypagereducer = (state = primarypagedata, action) => {
   switch (action.type) {
     case Primary_Post_Data_Send:
-      return { 
-        ...state, 
-        data: action.payload 
-      };
-    case REMOVE_DATA_REQUEST:
-      return {
-        ...state,
-        data: []
-      }
+      return { ...state, data: action.payload };
     default:
       return state;
   }
@@ -704,11 +695,6 @@ export const itemCustomizationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Item_Customizations_Data_Request:
       return { ...state, itemData: action.payload };
-    case REMOVE_DATA_REQUEST:
-      return{
-        ...state,
-        itemData: [],
-      }
     default:
       return state;
   }
@@ -724,11 +710,7 @@ export const PricingDetailReducer = (state = PricingDetailPage, action) => {
   switch (action.type) {
     case Pricing_Detail_Data_Request:
       return { ...state, prizingData: action?.payload };
-      case REMOVE_DATA_REQUEST:
-        return{
-          ...state,
-          prizingData: [],
-        }
+
     default:
       return state;
   }

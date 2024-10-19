@@ -49,11 +49,11 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   const [data, setData] = useState<DataItem[]>([]);
   const dispatch = useDispatch();
-  const Days=["All days","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+  const Days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    const numericName = parseInt(name, 10); 
+    const numericName = parseInt(name, 10); // Convert name to number
 
     if (checked) {
       // Add the checkbox value to the state if it is checked
@@ -91,7 +91,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
                 name={index.toString()} 
                 onChange={handleCheckboxChange}
                 checked={isChecked}
-                className="days"
+                className="aa"
               />
               <label>{elem}</label>
             </div>

@@ -16,7 +16,6 @@ import {
   addMenuItemRequest,
   addMockDataRequest,
   cleanMenuItemSuccessMsg,
-  removeDataRequest,
   retryImageUpload,
   startImageUpload,
   updateMenuItemRequest,
@@ -52,10 +51,6 @@ interface imageType {
   itemId: string;
 }
 
-interface calorieandportionsize{
-  type:string,
-  value:string
-}
 interface PrimaryData {
   locationId: string;
   altName: string;
@@ -79,9 +74,9 @@ interface PrimaryData {
   Ingredients: AllergenImage[];
   alcohol: string;
   barCode: string;
-  coloriePoint?: calorieandportionsize;
+  coloriePoint?: string;
   selectedcolorie: string;
-  portionSize?: calorieandportionsize;
+  portionSize?: string;
   selectedPortion: string;
   tax: string;
   masterCode: string;
@@ -221,6 +216,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
+  console.log("primarydata", primarydata.imageUrls);
+
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
@@ -290,6 +287,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const retrymsg = useSelector(
     (state: any) => state.productCatalog.retryFailure
   );
+  console.log("subsectiondatamsg", subsectiondatamsg);
 
   const [failedImage, setfailedImage] = useState<imageType[]>();
 
@@ -297,9 +295,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     setfailedImage(subsectiondata);
   }, [subsectiondata]);
 
+  console.log("subsectiondata", subsectiondata);
   const imageFailure =
     subsectiondata?.length > 0 &&
     subsectiondata.map((img: any) => img?.file?.name);
+
+  console.log("fileArraydata true or false", imageFailure);
 
   const Wholedata = {
     locationId: "9c485244-afd4-11eb-b6c7-42010a010026",
@@ -398,6 +399,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         return;
       }
 
+      console.log("index", indexToReplace);
+
       const newImage = {
         file: filedata,
         preview: URL.createObjectURL(filedata),
@@ -415,10 +418,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         return updatedImages;
       });
 
+      console.log("slectdimg", selectedImages);
 
       // console.log("prevoiew",selectedImages[indexToReplace])
       // setRetriedImages([newImage])
       setRetriedImages([newImage]);
+      console.log("Retry images", retriedImages);
       dispatch(retryImageUpload(newImage));
 
       // setTimeout(() => {
@@ -527,10 +532,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
   const combinedDetails: Detail[] = [
-    dineInDetails && dineInDetails, 
-    pickupDetails && pickupDetails,  
-    deliveryDetails && deliveryDetails, 
-    ...(thirdPartyDetails && thirdPartyDetails)
+    dineInDetails && dineInDetails,
+    pickupDetails && pickupDetails,
+    deliveryDetails && deliveryDetails,
+    thirdPartyDetails && thirdPartyDetails,
   ].filter(Boolean);
 
   const normalDays = prizingDetail?.normalForm?.Normaldays;
@@ -567,7 +572,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: false,
     availabilityDays: stringNormalDays || null,
-
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
@@ -609,6 +613,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     orderTypesWithRespectToAvailabilityToRemove:
       editData[0]?.combinedDetails || null,
   };
+
+  console.log({ editData });
+  console.log({ menuPayload });
 
   const handleDispatch = async () => {
     checkAllImagesForErrors();
@@ -654,7 +661,61 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     }
   };
 
-  const addMenuSuccess = useSelector((state : any) => state.productCatalog.addMenuSuccess)
+  //   checkAllImagesForErrors();
+  //   const allUploaded =  uploadedimage.every(
+  //     (img) => img && !hasImageError(img.file)
+  //   );
+
+  //   if (uploadStatus.id && error && error.length > 0) {
+  //     const allSuccess = error.every((data) => data.status === "success");
+  //     if (allUploaded && allSuccess) {
+  //       dispatch(cleanMenuItemSuccessMsg())
+
+  //       setTimeout(() => {
+
+  //         setTimeout(() => checkAllImagesForErrors(), 0);
+
+  //         if(allUploaded && allSuccess){
+
+  //           history.push("/menuListing");
+
+  //         }
+
+  //       }, 5000);
+
+  //     } else {
+  //       alert("you can't go")
+  //       setdisablesubmitbtn(true)
+  //     }
+  //   }
+
+  //   // for(let [index,image] of indextoreplace.entries()){
+  //   //   console.log("image",image,"index",index)
+
+  //   // }
+  //   if (ImageId === "" || ImageId === undefined) {
+  //     dispatch(addMenuItemRequest(data));
+  //     dispatch(addMockDataRequest(data));
+  //   } else {
+  //     setindextoreplace((prev) => {
+  //       const updatedIndexToReplace = [...prev];
+
+  //       // Dispatch after state is updated
+  //       updatedIndexToReplace.forEach((item) => {
+  //         dispatch(uploadImage(item.image, item.id, item.index));
+  //       });
+
+  //       return updatedIndexToReplace; // Ensure the state is updated with the new value
+  //     });
+  //   }
+  //   dispatch(addMenuItemRequest(data));
+  //   dispatch(addMockDataRequest(data));
+
+  //   // If needed, redirect or perform other actions here
+  //   // if (allUploaded) {
+  //   //   history.push("/menuListing");
+  //   // }
+  // };
 
   useEffect(() => {
     if (subsectiondatamsg) {
@@ -662,24 +723,16 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     }
   }, [subsectiondatamsg]);
 
-  const handleSubmitItemDetails = () => {    if (Wholedata?.imageUrls?.length > 0) {
-      dispatch(startImageUpload(primarydata?.imageUrls)); 
+  const handleSubmitItemDetails = () => {
+    if (Wholedata?.imageUrls === null) {
+      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    } else {
+      dispatch(startImageUpload(primarydata?.imageUrls));
       if (subsectiondatamsg) {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
-    } else {
-      dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
   };
-
-  useEffect(()=>{
-    if(addMenuSuccess){
-      dispatch(removeDataRequest(primarydata))
-      dispatch(removeDataRequest(prizingDetail))
-      dispatch(removeDataRequest(itemCustomizationData))
-      history.push('/menuListing')
-    } 
-  },[addMenuSuccess])
 
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
@@ -698,9 +751,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         )
     );
 
+    // console.log("reult of image",imagesNotPresent);
+
     return result;
   };
-
 
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
@@ -762,26 +816,26 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       </div>
 
                       <div>
-                        <ReviewValues
+                        {/* <ReviewValues
                           label="Calorie Point"
                           textvalue={
-                            primarydata?.coloriePoint?.value
-                              ? primarydata.coloriePoint?.value
+                            fetchedprimarydata.coloriePoint
+                              ? fetchedprimarydata.coloriePoint
                               : "-"
                           }
-                        />
+                        /> */}
                       </div>
-                      
+                      {/* 
                       <div>
                         <ReviewValues
                           label="Portion Size"
                           textvalue={
-                            primarydata.portionSize?.value
-                              ? primarydata.portionSize?.value
+                            fetchedprimarydata.portionSize
+                              ? fetchedprimarydata.portionSize?.type
                               : "-"
                           }
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -832,16 +886,16 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         />
                       </div>
 
-                      <div>
+                      {/* <div>
                         <ReviewValues
                           label="Unit of measurement"
                           textvalue={
-                            fetchedprimarydata.portionSize?.type
-                              ? fetchedprimarydata.portionSize?.type
+                            fetchedprimarydata.selectedPortion
+                              ? fetchedprimarydata.selectedPortion
                               : "-"
                           }
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -958,19 +1012,19 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         type="file"
                                         name="imageUrls"
                                         className="imgfile"
-                                        id={`imgadd-${index + 1}`} 
+                                        id={`imgadd-${index + 1}`} // Unique ID for each input
                                         accept="image/png, image/jpeg"
                                         onChange={(e) =>
                                           handleRetry(e, index + 1)
                                         }
-                                        style={{ display: "none" }} 
+                                        style={{ display: "none" }} // Hide the file input, trigger it with a button
                                       />
 
                                       <span
                                         className="errromsg"
                                         onClick={() =>
                                           handleAddImage(index + 1)
-                                        } 
+                                        } // Pass the correct index to handleAddImage
                                       >
                                         Retry
                                       </span>
@@ -998,9 +1052,33 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           </div>
                         </ol>
                         <ol>
+                          {/* {selectedImages.map((img, index) => (
+                      <div key={index} className="image-container">
+                        <img
+                          className="uploaded-image"
+                          src={img.preview}
+                          alt={`Preview of ${img.file.name}`}
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover",
+                          }} // Display a small thumbnail
+                        />
+                        <div>
+                          {img.file.name} -{" "}
+                          {img.uploaded
+                            ? "Uploaded"
+                            : img.failed
+                            ? "Failed"
+                            : "Pending Upload"}
+                        </div>
+                      </div>
+                    ))} */}
                         </ol>
                       </div>
                     </div>
+
+                    {/* <PrimaryImageSelected fetchedprimarydata={uploadedimage}  /> */}
                   </div>
                 }
 
@@ -1074,6 +1152,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           </button>
           <button
             className="saveall"
+            // style={{disablesubmitbtn}}
             onClick={handleSubmitItemDetails}
             disabled={disablesubmitbtn}
           >

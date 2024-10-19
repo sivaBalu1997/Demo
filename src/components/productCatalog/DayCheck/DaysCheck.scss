@@ -4,7 +4,17 @@
   margin-bottom: 10px;
   display: flex;
   justify-content: flex-start;
-  .days{
+
+}
+.DaysCheckContainer{
+  margin-top: -7px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+ 
+}
+
+ .aa {
     transform: translateY(4px);
 width: 18px;
 height: 18px;
@@ -16,17 +26,6 @@ margin-right: 10px;
 
 accent-color: #779749;
 }
-
-}
-.DaysCheckContainer{
-  margin-top: -7px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: flex-start;
- 
-}
-
- 
 .DaysCheckContainer
 {
 

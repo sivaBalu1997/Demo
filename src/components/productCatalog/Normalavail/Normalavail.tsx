@@ -12,7 +12,6 @@ import TooltipMsg from "../Tooltip/TooltipMsg";
 import info from "../../../assets/svg/info.svg";
 import { RootState } from "redux/rootReducer";
 import { State } from "sockjs-client";
-import session from "redux-persist/lib/storage/session";
 
 type MainFormType = {
   availabilityid: string[];
@@ -158,7 +157,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>([]);
   const [selectedValuesmealtype, setSelectedValuesMealType] =
     React.useState<SelectedValuesMealTypeState>([]);
-console.log("Normaldays",Normaldays);
 
   const [optionsmealtype, setOptionsMealType] = useState([
     "Breakfast",
@@ -172,12 +170,13 @@ console.log("Normaldays",Normaldays);
   const [DayDelivery, setDayDelivery] = useState<number[]>([]);
   const [DayThird, setDayThird] = useState<number[]>([]);
   const [dineInDates1, setDineInDates1] = useState<number[][]>([[]]);
+  console.log(dineInDates1)
+
   //   {_-------------------Use State  for Showing Day checck ---------------------------------}
   const [showDay, setShowDay] = useState(false);
   const [showDayPickup, setShowDayPickup] = useState(false);
   const [showDayDelivery, setShowDayDelivery] = useState(false);
   const [showDayThird, setShowDayThird] = useState(false);
-
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData
   );
@@ -203,9 +202,13 @@ console.log("Normaldays",Normaldays);
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
+
   const orderTypes = useSelector(
     (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
+
+
+  console.log({orderTypes})
 
   const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
   const pickUpId = orderTypess?.find((item: any) => item.typeGroup === "P")?.id;
@@ -216,8 +219,6 @@ console.log("Normaldays",Normaldays);
   const thirdpartyid = orderTypess?.find(
     (item: any) => item.typeGroup === "T"
   )?.id;
-
-  const thirdPartyTypeName = orderTypes?.find((item:any) => item.typeGroup === 'T')?.typeName
 
   const [pickupDetails, setPickUpDetails] = useState<DeliveryDetails>({
     typeId: pickUpId,
@@ -256,33 +257,33 @@ console.log("Normaldays",Normaldays);
       ],
     });
 
-  const [priceInfo, setPriceInfo] = useState<PriceInfo[]>([{
-    typeId: '',
+  const [priceInfo, setPriceInfo] = useState<PriceInfo>({
+    typeId: thirdpartyid,
     price: 0,
-    typeName: "",
+    typeName: "GloriaFood",
     availabilities: [
       {
         availabilityDays: [],
         sessions: [],
       },
     ],
-  }]);
+  });
 
   const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
 
   const handleMealTypeChange = (
     option: string,
-    selectedMealTypes: string[],
-    index : number
+    selectedMealTypes: string[]
   ) => {
     setMealTypes((prev) => ({
       ...prev,
       [option]: selectedMealTypes,
     }));
 
-    const data = [...priceInfo]
-    data[index].availabilities[0].sessions = selectedMealTypes
-    setPriceInfo(data)
+    setPriceInfo((prev) => ({
+      ...prev,
+      session: selectedMealTypes,
+    }));
   };
 
   const mainForm = {
@@ -312,17 +313,22 @@ console.log("Normaldays",Normaldays);
 
    ...(delivery && { deliveryDetails: deliveryDetails}),
 
-    // ...(selectedthirdvalues?.length > 0 && {                    //need to fix 3rd Party
-    //   thirdpartyDetails: priceInfo
-    // })
-    thirdpartyDetails: priceInfo  
+    ...(selectedthirdvalues.length > 1 && {
+      thirdpartyDetails: {
+        typeName: priceInfo.typeName,
+        typeId: priceInfo.typeId,
+        price: priceInfo.price,
+        availabilities: priceInfo.availabilities,
+      }
+    })
   };
+
+  console.log({ mainForm });
+
 
   const optionsselectthird = orderTypes
     ?.filter((item) => item.typeGroup === "T")
     .map((item) => item.typeName);
-
-  const thirdPartyData = orderTypes?.filter((item) => item.typeGroup === 'T').map((item) => item)
 
   const dineInTypes = orderTypes
     ?.filter((item) => item.typeGroup === "D")
@@ -336,107 +342,102 @@ console.log("Normaldays",Normaldays);
     ?.filter((item) => item.typeGroup === "S")
     .map((item) => item.typeName);
 
-    useEffect(()=>{
-      if(selectedthirdvalues){
-        const data = [...priceInfo]
-        selectedthirdvalues.forEach((item, index) => {
-          data[index].typeName = item
-        })
-        data.forEach((item,index) => {
-          const id = thirdPartyData?.find((value) => item.typeName === value.typeName)?.id
-          data[index].typeId = String(id)
-        })
-      }
-    },[selectedthirdvalues]) 
+  useEffect(() => {
+    if (prizingDetail?.normalForm?.formNormal) {
 
-    useEffect(() => {
-      if (prizingDetail?.normalForm?.formNormal) {
-        setformNormal({
-          PickuppriceNormal: prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
-          PickupmealtypeNormal: prizingDetail?.normalForm?.formNormal?.PickupmealtypeNormal || "",
-          DeliverypriceNormal: prizingDetail?.normalForm?.formNormal?.DeliverypriceNormal || "",
-          DeliverymealtypeNormal: prizingDetail?.normalForm?.formNormal?.DeliverymealtypeNormal || "",
-          SwiggyorzomatoNormal: prizingDetail?.normalForm?.formNormal?.SwiggyorzomatoNormal || "",
-          SwiggyNormal: prizingDetail?.normalForm?.formNormal?.SwiggyNormal || "",
-          SwiggymealtypeNormal: prizingDetail.normalForm?.formNormal?.SwiggymealtypeNormal || "",
-          ZomatoNormal: prizingDetail?.normalForm?.formNormal?.ZomatoNormal || "",
-          ZomatomealtypeNormal: prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
-        });
-    
-        const updatedFields = prizingDetail?.normalForm?.dineinfields.map((item: any) => ({
+      setformNormal({
+        PickuppriceNormal:
+          prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
+        PickupmealtypeNormal:
+          prizingDetail?.normalForm?.formNormal?.PickupmealtypeNormal || "",
+        DeliverypriceNormal:
+          prizingDetail?.normalForm?.formNormal?.DeliverypriceNormal || "",
+        DeliverymealtypeNormal:
+          prizingDetail?.normalForm?.formNormal?.DeliverymealtypeNormal || "",
+        SwiggyorzomatoNormal:
+          prizingDetail?.normalForm?.formNormal?.SwiggyorzomatoNormal || "",
+        SwiggyNormal: prizingDetail?.normalForm?.formNormal?.SwiggyNormal || "",
+        SwiggymealtypeNormal:
+          prizingDetail.normalForm?.formNormal?.SwiggymealtypeNormal || "",
+        ZomatoNormal: prizingDetail?.normalForm?.formNormal?.ZomatoNormal || "",
+        ZomatomealtypeNormal:
+          prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
+      });
+
+      const updatedFields = prizingDetail?.normalForm?.dineinfields.map(
+        (item: any) => ({
           DineInPrice: item?.DineInPrice || "",
           DineInMealType: item.DineInMealType || [],
           DineInService: item?.DineInService || "",
           showDay: true,
           dayButtonText: "Choose Day",
-        }));
-    
-        setOnline(true);
-        setPickup(true);
-        setDelivery(true);
-        setDineInFields(updatedFields);
-    
-        // Set delivery details
-        const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
-        const pickupDetails = prizingDetail?.normalForm?.pickupDetails
-        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails        
-        const thirdPartyTypeName = prizingDetail?.normalForm?.thirdpartyDetails?.map
-        if(pickupDetails){
-          setPickUpDetails({
-            typeId: pickUpId,
-            price: pickupDetails?.price || '',
-            typeName: pickupDetails?.typeName || '',
-            availabilities: pickupDetails?.availabilities || [],
-          })
-        }
+        })
+      );
+      setOnline(true)
+      setPickup(true)
+      setDelivery(true)
+      
 
-        if (deliveryDetails) {
-          setDeliveryDetails({
-            typeId: deliveryId,
-            price: deliveryDetails?.price || "",
-            typeName: deliveryDetails?.typeName || "",
-            availabilities: deliveryDetails?.availabilities || [],
-          });
-        }
-    
-        if(thirdpartyDetails){
-          const data = thirdpartyDetails?.map((item : any) => item?.typeName)
-          setSelectedThirdValues(data)
-          setPriceInfo(thirdpartyDetails)
-          const object : any = {}
-          const item = thirdpartyDetails?.map((item : any) => item)
-          item.forEach((element : any) => {
-            object[element.typeName] = element?.availabilities[0]?.sessions
-          });
-          setMealTypes(object)
-        }
-        
-        // Initialize selected values
-        const initialSelectedValues = updatedFields.map((item: any) => item.DineInMealType);
-        setSelectedValuesMealType(initialSelectedValues);
-    
-        const initialSelectedValues2 = updatedFields.map((item: any) => item.DineInService);
-        setSelectedValues(initialSelectedValues2);
-        setDineIn(true);
-      }
-    
+      setDineInFields(updatedFields);
+
+      // Initialize selected values
+      const initialSelectedValues = updatedFields.map(
+        (item: any) => item.DineInMealType
+      );
+      setSelectedValuesMealType(initialSelectedValues);
+
+      const initialSelectedValues2 = updatedFields.map(
+        (item: any) => item.DineInService
+      );
+      setSelectedValues(initialSelectedValues2);
+      setDineIn(true);
+    }
+    if (prizingDetail?.normalForm) {
+      setSelectedValues2(
+        prizingDetail.normalForm.PicupMealType || selectedValues2
+      );
+    }
+
+    if (prizingDetail?.normalForm) {
+      setSelectedValues3(
+        prizingDetail.normalForm.DeliveryMealType || selectedValues3
+      );
+    }
+    if (prizingDetail?.normalForm) {
+      setSelectedValues4(prizingDetail.normalForm.Swiggy || selectedValues4);
+    }
+    if (prizingDetail?.normalForm) {
+      setSelectedValues5(prizingDetail.normalForm.Zomato || selectedValues5);
+    }
+
+    if (prizingDetail?.normalForm) {
+      setDayPickup(prizingDetail.normalForm.Pickup || []);
+
+      setShowDayPickup(true);
+    }
+
+    if (prizingDetail?.normalForm) {
+      setDayDelivery(prizingDetail.normalForm.Delivery || []);
+
+      setShowDayDelivery(true);
+    }
+
+    if (prizingDetail?.normalForm) {
+      setDayThird(prizingDetail.normalForm.thirdParty || []);
+
+      setShowDayThird(true);
+    }
+
+    if (prizingDetail?.normalForm) {
+      setNormalDays(prizingDetail.normalForm.Normaldays || []);
+    }
       if (prizingDetail?.normalForm) {
-        setSelectedValues2(prizingDetail.normalForm.PicupMealType || selectedValues2);
-        setSelectedValues3(prizingDetail.normalForm.deliveryDetails?.sessions || selectedValues3);
-        setSelectedValues4(prizingDetail.normalForm.Swiggy || selectedValues4);
-        setSelectedValues5(prizingDetail.normalForm.Zomato || selectedValues5);
-        setDayPickup(prizingDetail.normalForm.Pickup || []);
-        setShowDayPickup(true);
-        setDayDelivery(prizingDetail.normalForm.Delivery || []);
-        setShowDayDelivery(true);
-        setDayThird(prizingDetail.normalForm.thirdParty || []);
-        setShowDayThird(true);
-        setNormalDays(prizingDetail.normalForm.Normaldays || []);
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
-        // setSelectedThirdValues(["Swiggy", "Zomato"]);
-      }
-    }, [prizingDetail]);
-    
+        setSelectedThirdValues(["Swiggy","Zomato"])
+        
+   
+      }  
+    }, []);
 
   const handleDelete = (index: number): void => {
     const newEntries = dineinfields.filter((_: any, i: any) => i !== index);
@@ -530,6 +531,7 @@ console.log("Normaldays",Normaldays);
     setShowDayThird(false);
   };
 
+  console.log({mainForm})
 
   useEffect(() => {
     if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
@@ -538,13 +540,15 @@ console.log("Normaldays",Normaldays);
   }, [mainForm]);
 
   useEffect(() => {
-   if(DayThird && priceInfo[0].typeName){
-      const data = priceInfo
-      data.forEach((item) => {
-        item.availabilities[0].availabilityDays = DayThird.map((day) => day.toString())
-      })
-      setPriceInfo(data)
-   }
+    setPriceInfo((prev) => ({
+      ...prev,
+      availabilities: [
+        {
+          ...prev.availabilities[0],
+          availabilityDays: DayThird.map((day) => day.toString()),
+        },
+      ],
+    }));
   }, [DayThird]);
 
   useEffect(() => {
@@ -624,10 +628,7 @@ console.log("Normaldays",Normaldays);
   };
 
   const handleSelectMealtype = (value: MealType, index: number): void => {
-    // Ensure selectedValuesmealtype is iterable
-    const newSelectedValues = Array.isArray(selectedValuesmealtype)
-      ? [...selectedValuesmealtype]
-      : [];
+    const newSelectedValues = [...selectedValuesmealtype];
     newSelectedValues[index] = value;
     setSelectedValuesMealType(newSelectedValues);
   
@@ -655,7 +656,6 @@ console.log("Normaldays",Normaldays);
       validateDropdown(value, index);
     }
   };
-  
   
   const addOptionMealType = (newOption: OptionType): void => {
     setOptionsMealType([...optionsmealtype, newOption]);
@@ -687,6 +687,7 @@ console.log("Normaldays",Normaldays);
     validfield: string
   ): void => {
     if (index < 0 || index >= dineinfields.length) {
+      console.error("Index out of bounds");
       return;
     }
     const newDineInFields = [...dineinfields];
@@ -744,8 +745,6 @@ console.log("Normaldays",Normaldays);
       resetSelection.current = clearSelection;
     }
   }, [resetSelection]);
-
-  const [dropdownopened, setDropdownopened] = useState<boolean>(false);
 
   return (
     <div>
@@ -812,8 +811,7 @@ console.log("Normaldays",Normaldays);
             const DineInService = `DineInService_${index}`;
             return (
               <>
-              <div className="DineIn-Fields">
-              <div className="LabelPrice">
+                <div className="LabelPrice">
                   <LableComponent lable="Price*" />
                 </div>
                 <div
@@ -875,7 +873,7 @@ console.log("Normaldays",Normaldays);
                     className="dineInChooseDayContainer-chooseheading"
                     onClick={() => addDay(index)}
                   >
-                   Choose Day
+                    {entry.dayButtonText}
                   </h3>
                 </div>
                 <div className="dayspickup">
@@ -890,8 +888,6 @@ console.log("Normaldays",Normaldays);
                     />
                   )}
                 </div>
-              </div>
-                
               </>
             );
           })}
@@ -933,7 +929,7 @@ console.log("Normaldays",Normaldays);
                     <input
                       type="text"
                       className="DineInInput1Normal"
-                      value={pickupDetails?.price}
+                      value={pickupDetails.price} // Use pickupDetails state
                       onChange={(e) =>
                         setPickUpDetails({
                           ...pickupDetails,
@@ -966,33 +962,33 @@ console.log("Normaldays",Normaldays);
                       />
                     </div>
                   </div>
-                  <div className="PickupChooseDayContainer">
+                  <div className="dineInChooseDayContainer">
                     {showDayPickup ? (
-                      <h3 className="pickupChooseDayContainerHeading">
+                      <h3 className="dineInChooseDayContainerHeading">
                         Back for default days
                       </h3>
                     ) : (
-                      <h3 className="pickupChooseDayContainerHeading">
+                      <h3 className="dineInChooseDayContainerHeading">
                         Setup for specific days?
                       </h3>
                     )}
                     {showDayPickup ? (
                       <h3
-                        className="pickupChooseDayContainer-chooseheading"
+                        className="dineInChooseDayContainer-chooseheading"
                         onClick={addDayPickupfalse}
                       >
                         Default days
                       </h3>
                     ) : (
                       <h3
-                        className="pickupChooseDayContainer-chooseheading"
+                        className="dineInChooseDayContainer-chooseheading"
                         onClick={addDayPickup}
                       >
                         Choose Day
                       </h3>
                     )}
                   </div>
-                  <div className="dayspick-pickup">
+                  <div className="dayspickup">
                     {showDayPickup ? (
                       <DaysCheck
                         checkedItems={DayPickup}
@@ -1026,13 +1022,12 @@ console.log("Normaldays",Normaldays);
             >
               {delivery && deliveryTypes ? (
                 <div>
-                  <div></div>
-                  <p className="LabelPrice-delivery"> Price*</p>
+                  <p className="LabelPrice"> Price*</p>
                   <div className="Online-delivery">
                     <input
                       type="text"
                       className="DineInInput1Normal"
-                      value={deliveryDetails?.price}
+                      value={deliveryDetails.price}
                       onChange={(e) => {
                         const newPrice = e.target.value;
                         setDeliveryDetails((prevDetails:any) => ({
@@ -1063,26 +1058,26 @@ console.log("Normaldays",Normaldays);
                       />
                     </div>
                   </div>
-                  <div className="deliveryChooseDayContainer">
+                  <div className="dineInChooseDayContainer">
                     {showDayDelivery ? (
-                      <h3 className="deliveryChooseDayContainerHeading">
+                      <h3 className="dineInChooseDayContainerHeading">
                         Back for default days
                       </h3>
                     ) : (
-                      <h3 className="deliveryChooseDayContainerHeading">
+                      <h3 className="dineInChooseDayContainerHeading">
                         Setup for specific days?
                       </h3>
                     )}
                     {showDayDelivery ? (
                       <h3
-                        className="deliveryChooseDayContainer-chooseheading"
+                        className="dineInChooseDayContainer-chooseheading"
                         onClick={addDayDeliveryfalse}
                       >
                         Default days
                       </h3>
                     ) : (
                       <h3
-                        className="deliveryChooseDayContainer-chooseheading"
+                        className="dineInChooseDayContainer-chooseheading"
                         onClick={addDayDelivery}
                       >
                         Choose Day
@@ -1107,14 +1102,13 @@ console.log("Normaldays",Normaldays);
             <h1 className="ThirdDeliveryRelatedHeadingNormal">
               Third Party delivery
             </h1>
-            <div className="thirdpartyContainer">
+            <div>
               <div className="Delivery11">
                 <DropDown
                   selectedValues={selectedthirdvalues}
                   onSelect={handleSelectThird}
                   options={optionsselectthird}
                   label=""
-                  isopened={setDropdownopened}
                   onBlur={() =>
                     validateDropdown(selectedthirdvalues, "SwiggyZomato")
                   }
@@ -1124,34 +1118,34 @@ console.log("Normaldays",Normaldays);
               </div>
 
               {/* Dynamically render based on selected options */}
-              {selectedthirdvalues?.map((option, index) => {
+              {optionsselectthird?.map((option) => {
+                if (selectedthirdvalues.includes(option)) {
                   return (
                     <div key={option} className="LabelSwiggyInputDropDown">
                       <div className="LabelSwiggyInput">
-                        {/* <label className="swiggyZomatoHeading">
+                        <label className="swiggyZomatoHeading">
                           {option} Price
-                        </label> */}
-                        <p className="Thrid-party-price"> {option} Price</p>
+                        </label>
                         <input
                           className="swiggyZomato-input"
                           type="text"
-                          value={priceInfo[index]?.price || ""}
-                          onChange={(e) =>{
-                            const data = [...priceInfo]
-                            data[index].price = Number(e.target.value)
-                            setPriceInfo(data)
-                          }}
+                          value={priceInfo.price || ""}
+                          onChange={(e) =>
+                            setPriceInfo((prev: any) => ({
+                              ...prev,
+                              price: Number(e.target.value),
+                            }))
+                          }
                         />
                       </div>
-                      <div className={`Third${option}  thridparties-dropdown `} style={{zIndex:dropdownopened?'-1':''}}>
+                      <div className={`Third${option}`}>
                         <DropDown
                           selectedValues={mealTypes[option] || []}
                           onSelect={(selected) =>
-                            handleMealTypeChange(option, selected, index)
+                            handleMealTypeChange(option, selected)
                           }
                           options={options4}
                           label="Meal Type*"
-                        
                           onBlur={() =>
                             validateDropdown(
                               mealTypes[option],
@@ -1164,30 +1158,30 @@ console.log("Normaldays",Normaldays);
                       </div>
                     </div>
                   );
-                
+                }
                 return null;
               })}
 
-              <div className="ThirdPartyChooseDayContainer">
+              <div className="dineInChooseDayContainer">
                 {showDayThird ? (
-                  <h3 className="ThirdPartyChooseDayContainerHeading">
+                  <h3 className="dineInChooseDayContainerHeading">
                     Back to Default days
                   </h3>
                 ) : (
-                  <h3 className="ThirdPartyChooseDayContainerHeading">
+                  <h3 className="dineInChooseDayContainerHeading">
                     Setup for specific days?
                   </h3>
                 )}
                 {showDayThird ? (
                   <h3
-                    className="ThirdPartyChooseDayContainer-chooseheading"
+                    className="dineInChooseDayContainer-chooseheading"
                     onClick={addDayThirdfalse}
                   >
                     Default Days
                   </h3>
                 ) : (
                   <h3
-                    className="ThirdPartyChooseDayContainer-chooseheading"
+                    className="dineInChooseDayContainer-chooseheading"
                     onClick={addDayThird}
                   >
                     Choose Day

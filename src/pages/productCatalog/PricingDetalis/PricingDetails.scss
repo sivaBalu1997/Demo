@@ -48,7 +48,6 @@
   align-items: center;
   position: relative;
   top: -1rem;
-  gap: 0.8rem;
   // top: 15px;
   // gap: 20px;
 
@@ -76,7 +75,7 @@
   .Prepartiontime {
     .heading {
       position: relative;
-       top: -0.3rem;
+      //  top: -0.5rem;
       color: #424242;
       font-family: Poppins;
       font-size: 14.38px;
@@ -169,12 +168,12 @@
 .Kitchen-checkbox {
   width: 300px;
   height: 30px;
-  top: -1rem;
+  top: -2rem;
+  margin-bottom: 275px;
   position: relative;
 }
 .services-Heading {
-  // margin-top: 35px;
-  margin-top: -25%;
+  margin-top: 35px;
   font-family: Poppins;
   font-size: 16px;
   font-weight: 500;
@@ -213,13 +212,13 @@
   flex-direction: column;
 }
 .InventoryHeading {
-  // margin-top: 10px;
-  // display: flex;
-  // gap: 3.75rem;
-  // font-size: 0.875rem;
-  // font-weight: 400;
-  // color: #979797;
-  // margin-left: 1.8px;
+  margin-top: 10px;
+  display: flex;
+  gap: 3.75rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #979797;
+  margin-left: 1.8px;
 }
 .InventoryInput {
   display: flex;
