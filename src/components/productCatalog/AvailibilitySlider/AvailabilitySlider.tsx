@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'; // Access Redux for initial data
-import './AvailabilitySlider.scss';
-import ToggleSliderAvail from '../ToggleSliderAvail/ToggleSliderAvail';
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux"; // Access Redux for initial data
+import "./AvailabilitySlider.scss";
+import ToggleSliderAvail from "../ToggleSliderAvail/ToggleSliderAvail";
 
 // Define interfaces
 interface SideBarData {
@@ -29,7 +29,6 @@ interface AvailSliderProps {
   SideBarData?: SideBarData[];
 }
 
-
 const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   // Access initial data from Redux for mapping
   const dataFromRedux = useSelector((state: any) => state?.selectedMockDataReducer?.data);
@@ -41,11 +40,11 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   : [];
   const data = [
     {
-      mainHeading: 'Off-prem',
-      types: ['Section A:', 'Section B:'],
+      mainHeading: "Off-prem",
+      types: ["Section A:", "Section B:"],
     },
     {
-      mainHeading: 'On-prem',
+      mainHeading: "On-prem",
       subcategories: [
         {
           // Map through orderTypes to extract typeName values
@@ -62,79 +61,129 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const [toggleStates, setToggleStates] = useState<any[]>([]);
 
   // Map initial Redux values to local state when component mounts
+  useEffect(() => {
+    const initialToggleStates = data.map((item, index) => {
+      if (item.subcategories) {
+        return {
+          parentToggle: false,
+          subcategoryToggles: item.subcategories.map((_, subIndex) => ({
+            subParentToggle: false,
+            childToggles: Array(3)
+              .fill(false)
+              .map((_, childIndex) =>
+                mapInitialToggleState(index, subIndex, childIndex)
+              ), // Assuming 3 child toggles per subcategory
+          })),
+        };
+      } else if (item.types) {
+        return {
+          parentToggle: false,
+          childToggles: item.types.map((_, typeIndex) =>
+            mapInitialToggleState(index, 0, typeIndex)
+          ),
+        };
+      }
+      return null;
+    });
+
+    setToggleStates(initialToggleStates);
+  }, [dataFromRedux]); // Make sure to run this when Redux data changes
+
   // Function to map initial toggle state from Redux values
-  const mapInitialToggleState = (parentIndex: number, subcategoryIndex: number, childIndex: number) => {
+  const mapInitialToggleState = (
+    parentIndex: number,
+    subcategoryIndex: number,
+    childIndex: number
+  ) => {
     const orderTypes = dataFromRedux?.[0]?.orderTypes;
     const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
-  
+
     if (parentIndex === 0) {
       // Off-prem (Dinein2)
-      return orderTypes?.[0]?.isEnabled === 'Enabled'; // Assuming isEnabled is a string
+      return orderTypes?.[0]?.isEnabled === "Enabled"; // Assuming isEnabled is a string
     } else if (parentIndex === 1 && subcategoryIndex === 0) {
       // Pick up (Pickup2)
-      return orderTypes?.[0]?.isEnabled === 'Enabled'; // Ensure Pickup2 exists in pricingDetails
+      return orderTypes?.[0]?.isEnabled === "Enabled"; // Ensure Pickup2 exists in pricingDetails
     } else if (parentIndex === 1 && subcategoryIndex === 1) {
       // Delivery (Delivery2)
-      return pricingDetails?.Delivery2?.[childIndex] === 'Enabled'; // Ensure Delivery2 exists in pricingDetails
+      return pricingDetails?.Delivery2?.[childIndex] === "Enabled"; // Ensure Delivery2 exists in pricingDetails
     }
-    
+
     return false; // Default case
   };
   // Function to handle toggling at parent level
   // Function to handle toggling at parent level, including nested subcategories
-const handleParentToggle = (parentIndex: number) => {
-  const newToggleStates = [...toggleStates];
-  const currentParentToggle = newToggleStates[parentIndex].parentToggle;
+  const handleParentToggle = (parentIndex: number) => {
+    const newToggleStates = [...toggleStates];
+    const currentParentToggle = newToggleStates[parentIndex].parentToggle;
 
-  // Toggle the parent state
-  newToggleStates[parentIndex].parentToggle = !currentParentToggle;
+    // Toggle the parent state
+    newToggleStates[parentIndex].parentToggle = !currentParentToggle;
 
-  // Update child toggles based on parent toggle state
-  if (newToggleStates[parentIndex].childToggles) {
-    // For Section A or Section B (Off-prem)
-    newToggleStates[parentIndex].childToggles.forEach((_: any, childIndex: number) => {
-      newToggleStates[parentIndex].childToggles[childIndex] = !currentParentToggle;
-    });
-  } else if (newToggleStates[parentIndex].subcategoryToggles) {
-    // For Pick up / Delivery (On-prem)
-    newToggleStates[parentIndex].subcategoryToggles.forEach((subcategory: any, subIndex: number) => {
-      // Toggle the subcategory parent
-      subcategory.subParentToggle = !currentParentToggle;
+    // Update child toggles based on parent toggle state
+    if (newToggleStates[parentIndex].childToggles) {
+      // For Section A or Section B (Off-prem)
+      newToggleStates[parentIndex].childToggles.forEach(
+        (_: any, childIndex: number) => {
+          newToggleStates[parentIndex].childToggles[childIndex] =
+            !currentParentToggle;
+        }
+      );
+    } else if (newToggleStates[parentIndex].subcategoryToggles) {
+      // For Pick up / Delivery (On-prem)
+      newToggleStates[parentIndex].subcategoryToggles.forEach(
+        (subcategory: any, subIndex: number) => {
+          // Toggle the subcategory parent
+          subcategory.subParentToggle = !currentParentToggle;
 
-      // Toggle all child toggles within the subcategory
-      subcategory.childToggles.forEach((_: any, childIndex: number) => {
-        subcategory.childToggles[childIndex] = !currentParentToggle;
-      });
-    });
-  }
+          // Toggle all child toggles within the subcategory
+          subcategory.childToggles.forEach((_: any, childIndex: number) => {
+            subcategory.childToggles[childIndex] = !currentParentToggle;
+          });
+        }
+      );
+    }
 
-  setToggleStates(newToggleStates);
-};
-
+    setToggleStates(newToggleStates);
+  };
 
   // Function to handle subcategory toggling
-  const handleSubcategoryToggle = (parentIndex: number, subcategoryIndex: number) => {
+  const handleSubcategoryToggle = (
+    parentIndex: number,
+    subcategoryIndex: number
+  ) => {
     const newToggleStates = [...toggleStates];
-    const subcategoryToggle = newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle;
-  
+    const subcategoryToggle =
+      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex]
+        .subParentToggle;
+
     // Toggle the subcategory parent toggle
-    newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].subParentToggle = !subcategoryToggle;
-  
+    newToggleStates[parentIndex].subcategoryToggles[
+      subcategoryIndex
+    ].subParentToggle = !subcategoryToggle;
+
     // If toggling to true, enable all child toggles (In house, Swiggy, Zomato)
     if (!subcategoryToggle) {
-      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles.forEach((_:any, childIndex: number) => {
-        newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles[childIndex] = true;
+      newToggleStates[parentIndex].subcategoryToggles[
+        subcategoryIndex
+      ].childToggles.forEach((_: any, childIndex: number) => {
+        newToggleStates[parentIndex].subcategoryToggles[
+          subcategoryIndex
+        ].childToggles[childIndex] = true;
       });
     } else {
       // If toggling to false, retain the current logic (do not change child toggles automatically)
-      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles.forEach((_:any, childIndex: number) => {
-        newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex].childToggles[childIndex] = false;
+      newToggleStates[parentIndex].subcategoryToggles[
+        subcategoryIndex
+      ].childToggles.forEach((_: any, childIndex: number) => {
+        newToggleStates[parentIndex].subcategoryToggles[
+          subcategoryIndex
+        ].childToggles[childIndex] = false;
       });
     }
-  
+
     setToggleStates(newToggleStates);
   };
-  
 
   // Function to handle child toggle for Section A and Section B or for Pickup/Delivery
   const handleChildToggle = (parentIndex: number, subcategoryIndex: number, childIndex: number) => {
@@ -180,12 +229,12 @@ const handleParentToggle = (parentIndex: number) => {
     setToggleStates(newToggleStates);
   };
   return (
-    <div className='AvailSlider-Container'>
-      <h3 className='AvailSlider-Heading'>Availability</h3>
-      <div className='AvailOnprem-Ofprem'>
+    <div className="AvailSlider-Container">
+      <h3 className="AvailSlider-Heading">Availability</h3>
+      <div className="AvailOnprem-Ofprem">
         {data.map((elem, index) => (
-          <div key={index} className='Avail-SectionAB'>
-            <div className='AvailHeading-Section'>
+          <div key={index} className="Avail-SectionAB">
+            <div className="AvailHeading-Section">
               {elem.mainHeading}
               <ToggleSliderAvail
                 toggle={toggleStates[index]?.parentToggle || false}
@@ -194,12 +243,14 @@ const handleParentToggle = (parentIndex: number) => {
               />
             </div>
             {elem.types && (
-              <div className='SectionASectionBSection'>
+              <div className="SectionASectionBSection">
                 {elem.types.map((type, typeIndex) => (
-                  <div key={typeIndex} className='TypeHeading'>
-                    <h3 className='SectionASectionBSectionHeading'>{type}</h3>
+                  <div key={typeIndex} className="TypeHeading">
+                    <h3 className="SectionASectionBSectionHeading">{type}</h3>
                     <ToggleSliderAvail
-                      toggle={toggleStates[index]?.childToggles?.[typeIndex] || false}
+                      toggle={
+                        toggleStates[index]?.childToggles?.[typeIndex] || false
+                      }
                       setToggle={() => handleChildToggle(index, 0, typeIndex)} // For Section A and B
                       pen={pen}
                     />
@@ -208,12 +259,18 @@ const handleParentToggle = (parentIndex: number) => {
               </div>
             )}
             {elem.subcategories && (
-              <div className='PickupDeliveryAvail'>
+              <div className="PickupDeliveryAvail">
                 {elem.subcategories.map((subcategory, subIndex) => (
-                  <div key={subIndex} className='subcategorySection'>
-                    <h3 className='SectionASectionBSectionHeadingBlack'>{subcategory.subHeading}</h3>
+                  <div key={subIndex} className="subcategorySection">
+                    <h3 className="SectionASectionBSectionHeadingBlack">
+                      {subcategory.subHeading}
+                    </h3>
                     <ToggleSliderAvail
-                      toggle={dataFromRedux[0]?.orderTypes.map((elem:any)=>elem.isEnabled) || false}
+                      toggle={
+                        dataFromRedux[0]?.orderTypes.map(
+                          (elem: any) => elem.isEnabled
+                        ) || false
+                      }
                       setToggle={() => handleSubcategoryToggle(index, subIndex)}
                       pen={pen}
                     />

@@ -213,14 +213,19 @@ const PricingDetails = () => {
         Inventory2: "",
       },
       kitchenstation: "",
+      KitchenStationId:'',
       Preparationtime: {
-        hours: "",
-        minutes: "",
+        hours: "hhh",
+        minutes: "mmm",
       },
       normalForm: mainFormState,
       specialForm: [],
     },
   });
+
+  const dataFromRedux = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
 
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
@@ -246,8 +251,6 @@ const PricingDetails = () => {
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
-
-
 
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
@@ -381,37 +384,58 @@ const PricingDetails = () => {
 
   useEffect(() => {
     if (prizingDetail) {
-      setInventory(true);
+      // setInventory(true);
       setResetInventory(prizingDetail?.resetInventory);
       setNextAvailable(prizingDetail?.nextAvailable);
       setPrintKot(prizingDetail?.printKot);
-
-      // Prepare the kitchenstation array
-
-      // Reset form state
+  
+      // Prepare the kitchenstation name for the dropdown
+      const kitchenStationName = prizingDetail?.kitchenstation;
+  
+      // Set form values including kitchenstation
       reset({
         form: {
           Inventory1: prizingDetail.form?.Inventory1 || "",
           Inventory2: prizingDetail.form?.Inventory2 || "",
         },
-        kitchenstation: prizingDetail.kitchenstation,
+        // kitchenstation: kitchenStationName,
         Preparationtime: {
           hours: prizingDetail.Preparationtime?.hours || "",
           minutes: prizingDetail.Preparationtime?.minutes || "",
         },
       });
 
-      // Set options for kitchenstation
       setOptions1(prizingDetail.kitchenstation);
+      setValue("kitchenstation", kitchenStationName);
     }
-  }, [prizingDetail, reset, setOptions1]);
+  }, [prizingDetail, reset, setOptions1, setValue]);
+  
 
-  // const dispatchEvent = () => {
-  //   dispatch(PricingDetailRequest({ mainForm }));
-  //   history.push(`/productCatalog/Itemcustomizations`, {
-  //     state: { pagename: "Item customizations" },
-  //   });
-  // };
+  // useEffect(() => {
+  //   if (dataFromRedux) {
+  //     setPrintKot(prizingDetail?.printKot);
+      
+  //     const kitchenStationName = dataFromRedux[0]?.kitchenstation?.name || "";
+
+  //     console.log({kitchenStationName})
+      
+  //     reset({
+  //       form: {
+  //         Inventory1: prizingDetail.form?.Inventory1 || "",
+  //         Inventory2: prizingDetail.form?.Inventory2 || "",
+  //       },
+  //       kitchenstation: kitchenStationName,
+  //       Preparationtime: {
+  //         hours: prizingDetail.Preparationtime?.hours || "",
+  //         minutes: prizingDetail.Preparationtime?.minutes || "",
+  //       },
+  //     });
+  
+  //     setValue("kitchenstation", kitchenStationName); 
+  //     setOptions1(prizingDetail.kitchenstation);
+  //   }
+  // }, [dataFromRedux, reset, setValue, setOptions1]);
+  
 
   useEffect(() => {
     setOptions(data);
@@ -481,16 +505,6 @@ const PricingDetails = () => {
       } else {
         errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       }
-
-      // if (!field.DineInService || field.DineInService.length === 0) {
-      //   errors[DineInService] = {
-      //     isValid: false,
-      //     errorMessage: "Service area should not be empty.",
-      //   };
-      // }
-      // else {
-      //   errors[DineInService] = { isValid: true, errorMessage: "" };
-      // }
 
       if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
         errors[priceKey] = {
@@ -642,6 +656,8 @@ const PricingDetails = () => {
     return isValid;
   };
 
+  console.log("dineinfields",dineinfields);
+  
   const handleReset = () => {
     if (kitchenDetail.current) {
       kitchenDetail.current();
@@ -822,16 +838,16 @@ const PricingDetails = () => {
               </label>
             </div>
 
-            <div className="InventoryToggle">
+            {/* <div className="InventoryToggle">
               <div>
                 <p className="IHeading">Inventory</p>
               </div>
               <div className="toggleI">
                 <Toggle toggle={inventory} setToggle={setInventory} />
               </div>
-            </div>
+            </div> */}
 
-            <div className="InventorySection">
+            {/* <div className="InventorySection">
               {inventory && (
                 <div>
                   <div className="InventoryHeading">
@@ -924,7 +940,8 @@ const PricingDetails = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
+            
             <div className="services-Heading">
               <p> Service availability </p>
             </div>
@@ -940,7 +957,7 @@ const PricingDetails = () => {
                 />
                 <label className="N1">Normal Availability</label>
               </div>
-              <div className="Special">
+              {/* <div className="Special">
                 <input
                   type="radio"
                   value="false"
@@ -949,7 +966,7 @@ const PricingDetails = () => {
                   className="S1radio"
                 />
                 <label className="S1">Special Availability</label>
-              </div>
+              </div> */}
             </div>
 
             {isOptionTrue ? (
@@ -970,17 +987,18 @@ const PricingDetails = () => {
                 resetSelection={normalFormRef}
               />
             ) : (
-              <Specialavail
-                validateDropdown={validateDropdown}
-                validationState={validationState}
-                setMainFormSpecial={setMainFormSpecial}
-                mainFormSpecial={mainFormSpecial}
-                dineinfield1={dineinfields1}
-                setDineInFields1={setDineInFields1}
-                setValidationStateerr={setValidationStateerr}
-                ValidationStateerr={validationStateerr}
-                resetSelection={normalFormRef}
-              />
+              <></>
+              // <Specialavail
+              //   validateDropdown={validateDropdown}
+              //   validationState={validationState}
+              //   setMainFormSpecial={setMainFormSpecial}
+              //   mainFormSpecial={mainFormSpecial}
+              //   dineinfield1={dineinfields1}
+              //   setDineInFields1={setDineInFields1}
+              //   setValidationStateerr={setValidationStateerr}
+              //   ValidationStateerr={validationStateerr}
+              //   resetSelection={normalFormRef}
+              // />
             )}
 
             {/* <div

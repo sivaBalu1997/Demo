@@ -12,6 +12,7 @@ interface DropdownProps {
     errorMessage?: string;
   };
   onBlur?: () => void;
+  isopened?: React.Dispatch<React.SetStateAction<boolean>>;
   width: string;
   index?: number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -75,20 +76,25 @@ const Dropdown: React.FC<DropdownProps> = ({
       onBlur && onBlur();
     }
   };
+  console.log("Option of sreams",options);
+  
+
+  // console.log({selectedValues})
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef}>
       <label className="droplabelPricing">{label}</label>
       <div
         className="dropdownPricingList"
-        style={{ width: "Drop1" ? "300px" : "100px" }}
+        style={{ width: width==="Drop1" ? "300px" : "100px" }}
         onClick={handleDropdownClick}
         tabIndex={0}
       >
         {selectedValues.length > 0 ? (
           <div className="valuePricing">
+            {console.log(selectedValues)}
             {/* Display up to 3 selected values and join them with commas */}
-            {selectedValues.slice(0, 3).join(", ")}
+            {selectedValues && selectedValues?.slice(0, 3).join(", ")}
          
           </div>
         ) : (
