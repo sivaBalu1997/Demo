@@ -33,6 +33,9 @@ const EyeModal = ({ onEyeclose }) => {
 
   const dispatch = useDispatch();
   const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
+  const locationid = useSelector(
+    (state) => state.auth.credentials.locationId
+  );
 
   const eyemodalRef = useRef();
   const EyeClose = (e) => {
@@ -40,9 +43,12 @@ const EyeModal = ({ onEyeclose }) => {
       onEyeclose();
     }
   };
+  const payLoad={"itemId":data1[0].itemId, locationid:locationid
+
+  }
 
   const handleChange = () => {
-    dispatch(addMockDataHiddenRequest({"itemId":data1[0].itemId}));
+    dispatch(addMockDataHiddenRequest(payLoad));
     onEyeclose();
   };
 

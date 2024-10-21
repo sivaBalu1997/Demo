@@ -561,8 +561,14 @@ function* partialUpdateMenuSaga(action) {
 
 function* addMockDataHiddenSaga(action) {
   try {
-    const data = yield call(hideMockData, action.payload); 
-    yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: data });
+    const data = yield call(hideMockData, action.payload.params1); 
+    yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: action.payload});
+    if (data.status === 200) {
+      yield put({
+        type:  STORE_MENU_REQUEST,
+        payload: action.payload.params2,
+      })}
+    
   } catch (error) {
     yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload: error.message });
   }
