@@ -172,7 +172,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
 
-    // If there is text in the search term, ensure the dropdown is open
     if (e.target.value !== "") {
       if (!dropdownopen) {
         onToggle(); // Open the dropdown

@@ -724,12 +724,12 @@ const alcoholconstain=restaurantDetails?.containsAlcohol;
                   <Controller
                     name="itemName"
                     control={control}
-                    // rules={{ required: "ItemName is required" }}
+                    rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
                         onChange={onChange}
-                        // onBlur={onBlur}
+                        onBlur={onBlur}
                         value={value}
                         trigger={trigger}
                         error={errors.itemName}

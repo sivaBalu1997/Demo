@@ -144,8 +144,9 @@ export const Menulisting = () => {
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
   };
-  const handleDragOver = (e) => {
+  const handleDragOver = (e,index) => {
     e.preventDefault();
+   
   };
   const handleDrop = (categoryId, dropIndex) => {
     if (!draggedItem || draggedItem.categoryId !== categoryId) return;
@@ -156,8 +157,8 @@ export const Menulisting = () => {
         const draggedIndex = updatedItems.findIndex(
           (item) => item.itemId === draggedItem.item.itemId
         );
-        updatedItems.splice(draggedIndex, 1); // Remove dragged item
-        updatedItems.splice(dropIndex, 0, draggedItem.item); // Insert dragged item at new position
+        updatedItems.splice(draggedIndex, 1); 
+        updatedItems.splice(dropIndex, 0, draggedItem.item);
         return { ...category, itemResponseList: updatedItems };
       }
       return category;
@@ -165,6 +166,7 @@ export const Menulisting = () => {
 
     setMenudatalist(updatedCategories);
     setDraggedItem(null);
+   
   };
 
   const handleColumnwiseDragStart = (index) => {
@@ -415,9 +417,9 @@ export const Menulisting = () => {
     }
   },[menuData])
 
-  useEffect(() => {
-    dispatch(getMenuRequest(location?.id));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getMenuRequest(location?.id));
+  // }, []);
 
 console.log("menuData",menuData);
 

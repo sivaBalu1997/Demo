@@ -206,9 +206,9 @@ th {
     }
     .placeholderplace {
       width: 100px;
-      height: 5px; /* Adjust height as needed */
+      height: 5px; 
       border: 1px solid red;
-      margin: 10px 0; /* Adjust margin as needed */
+      margin: 10px 0; 
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       margin-top: -50px;
     }
@@ -628,6 +628,7 @@ th {
     gap: 20px;
     justify-content: left;
     font-size: 14px;
+    font-weight: 400;
   }
   .givepadding {
     padding-left: 0.7rem;
@@ -1203,5 +1204,11 @@ th {
   gap: 10px;
   height: 2rem;
   background-color: #E2E0E0;
+  border: 1px solid red !important;
 }
  
+
+.count-Of-ItemList
+{
+  font-weight: 600;
+}

@@ -91,23 +91,13 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
 
   return (
     <>
-      {
-        // itemobject.itemResponseList.map((item)=>(
-        //   <div>{item.flatMap(item => item.orderTypes)
-        //     .map(item => item.itemName)}</div>
-        // ))
-      }
-
       
-
-
-
       {itemobject.categoryName !== "" &&
         itemobject?.itemResponseList?.length > 0 && (
-          <tr className="categoryname" style={{border:'border: 1px solid red !important;'}}></tr>
+          <tr className="categoryname"></tr>
         )}
 
-      {  itemobject.categoryName !== "" &&  itemobject?.itemResponseList?.length > 0 &&  itemobject?.itemResponseList?.map((item) => (
+      {itemobject.categoryName !== "" &&  itemobject?.itemResponseList?.length > 0 &&  itemobject?.itemResponseList?.map((item) => (
         <>
           <tr
             key={item.itemId}
@@ -157,7 +147,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
                   <p>
                     {isEnabled !== "" ? (
-                      <Toggle toggle={true} />
+                      <Toggle toggle={true} width={20.81} height={14}/>
                     ) : (
                       <Toggle toggle={false} />
                     )}
@@ -171,7 +161,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
               </div>
             ) : (
               <div className="Customizedata">
-                <span>No Modifiers Available</span>
+                <span>0</span>
               </div>
             )}
           </tr>

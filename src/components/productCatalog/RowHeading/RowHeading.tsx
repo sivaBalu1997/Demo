@@ -78,7 +78,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
               onDrop={(e) => onDrop(e, index)}
               className="headingdrag"
             />{" "}
-            {<span> {object.categoryName!=="" &&object.categoryName} </span>}
+            {<span> {object.categoryName!=="" &&object.categoryName} <span className="count-Of-ItemList">({object.itemResponseList?.length})</span> </span>}
           </td>
       }
      
