@@ -308,6 +308,7 @@ const ItemCustomizations: React.FC = () => {
     }
   };
 
+
   const addOptionChange = (
     modIndex: number,
     optIndex: number,
@@ -316,15 +317,18 @@ const ItemCustomizations: React.FC = () => {
     const newModifier = [...modifications];
     if (e.target.name === "cost") {
       console.log("1", e.target.value);
+      console.log({ newModifier });
       newModifier[modIndex].modifierOptions[optIndex][
         e.target.name as keyof Option
       ] = parseFloat(e.target.value) || 0;
     } else {
-      console.log("2", e.target.value);
+      console.log("2", e.target.name);
+      console.log({ newModifier });
       newModifier[modIndex].modifierOptions[optIndex][
         e.target.name as keyof Option
       ] = e.target?.value;
     }
+    console.log({ newModifier });
     setModifications(newModifier);
     console.log({ newModifier });
   };
@@ -452,7 +456,6 @@ const ItemCustomizations: React.FC = () => {
 
   const handleSelecteModifiers = (Modifiers: Modification) => {
     // console.log("Modifiers",Modifiers);
-
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
     setModifications((prevModifications: Modification[]) => {

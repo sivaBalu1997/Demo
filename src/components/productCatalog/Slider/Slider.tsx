@@ -149,11 +149,9 @@ console.log("sidbar",SideBarData);
       );
       setApiPayload({
         itemId:finalSubItem.itemId
-
       })}
     
       setTrash(true)
-
   };
 
   const handleOnclose = () => {
