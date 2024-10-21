@@ -1,4 +1,4 @@
-.saveandnextExpanded {
+.saveandnextFooterExpanded {
     position: fixed; 
     bottom: 0; 
     width: 100%; 
@@ -43,7 +43,7 @@
   }
 }
 
-.saveandnext {
+.saveandnextfooter {
     position: fixed; 
     bottom: 0; 
     width: 100%; 
@@ -92,7 +92,7 @@
 }
 
 @media (max-width: 1281px) {
-  .saveandnext {
+  .saveandnextfooter {
     width: 55.25rem;
     height: auto;
     display: flex;

@@ -456,7 +456,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     maxCount: item?.maxSelection,
     minCount: item?.minSelection,
     noFreeCustomization: item?.freeCustomization,
-    options: item?.options,
+    options: item?.modifierOptions,
   }));
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
