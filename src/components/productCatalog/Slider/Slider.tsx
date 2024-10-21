@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { Children, useContext, useEffect, useRef, useState } from "react";
 import "./Slider.scss";
 
 import Pen from "../../../assets/images/edit 1.png";
@@ -65,6 +65,7 @@ const Slider: React.FC<SliderProps> = ({
   );
   const data1=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
 
+
   console.log("aaadta",data1)
   const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
 
@@ -113,10 +114,7 @@ console.log("sidbar",SideBarData);
       const finalSubItem = removedItem.itemResponseList.find(
         (subItem: any) => subItem?.itemId === data1[0].itemId
       );
-      setApiPayload({
-        itemId:finalSubItem.itemId
-
-      })
+    
 
     
       console.log("finalidtobe", finalSubItem);
@@ -148,7 +146,7 @@ console.log("sidbar",SideBarData);
         (subItem: any) => subItem?.itemId === data1[0].itemId
       );
       setApiPayload({
-        itemId:finalSubItem.itemId
+        itemId:data1[0].itemId
 
       })}
     
@@ -178,7 +176,7 @@ console.log("sidbar",SideBarData);
     // Dispatch action when ParentComponent mounts and the Slider is rendered
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
-  console.log(dataFromRedux)
+
 
   return (
     <div ref={modelref} className="Slider-Container" onClick={closeModal}>
