@@ -722,7 +722,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
-                    // rules={{ required: "ItemName is required" }}
+                    rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
@@ -1014,12 +1014,12 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
-                      // rules={{
-                      //   required: "Item code is required",
-                      //   validate: (value) =>
-                      //     value.toString().length >= 4 ||
-                      //     "Item code must be between 4 and 5 characters",
-                      // }}
+                      rules={{
+                        required: "Item code is required",
+                        validate: (value) =>
+                          value.toString().length >= 4 ||
+                          "Item code must be between 4 and 5 characters",
+                      }}
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
                           name="itemCode"
