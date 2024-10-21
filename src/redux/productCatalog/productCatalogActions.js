@@ -764,9 +764,9 @@ export const selectedMockDataFailure = (error) => ({
 
 // *********************PartialUpdate*********************************
 
-export const partialUpdateMenuRequest = (payload) => ({
+export const partialUpdateMenuRequest = (params1,params2) => ({
   type: PARTIAL_UPDATE_MENU_REQUEST,
-  payload, 
+  payload: { params1, params2 },
 });
 
 export const partialUpdateMenuSuccess = (payload) => ({
