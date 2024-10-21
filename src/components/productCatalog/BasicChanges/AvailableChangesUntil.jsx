@@ -68,7 +68,7 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
         </div>
       </div>
 
-      {showAvailCalender && <AvailCalender />} {/* Conditionally render the calendar */}
+      {showAvailCalender && <AvailCalender  onclose={onclose} />} {/* Conditionally render the calendar */}
     </div>
   );
 };
