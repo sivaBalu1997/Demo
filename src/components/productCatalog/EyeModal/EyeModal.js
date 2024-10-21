@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { addMockDataHiddenRequest } from "redux/productCatalog/productCatalogActions";
 import { useSelector } from "react-redux";
 
-const EyeModal = ({ onEyeclose }) => {
+const EyeModal = ({ onEyeclose,onclose }) => {
   const data1=useSelector((state)=>state?.selectedMockDataReducer?.data)
 
 
@@ -50,6 +50,7 @@ const EyeModal = ({ onEyeclose }) => {
   const handleChange = () => {
     dispatch(addMockDataHiddenRequest(payLoad));
     onEyeclose();
+    onclose();
   };
 
   
