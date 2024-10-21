@@ -4,16 +4,16 @@ import Edit from "../../../assets/images/edit.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { Link } from "react-router-dom";
-interface Option {
+interface modifierOptions {
   modifierOptionName: string;
-  price: number;
+  cost: number;
 }
 export interface ItemCustomization {
   modifierName: string;
   selectionType: string;
   minSelection?: number;
   maxSelection?: number;
-  options?: Option[];
+  modifierOptions?: modifierOptions[];
   freeCustomization?: string;
   selectedValue?: string[];
   serviceStreams?: string[];
@@ -108,8 +108,8 @@ const Step3Review: React.FC = () => {
                 </div>
                 <div className="Step-3-Modifier-Section-Each-Menu-container">
                   <h3 className="Step-3-Modifier-Section-Menu-heading">Item</h3>
-                  {elem.options &&
-                    elem.options.map((subItem, subIndex) => (
+                  {elem.modifierOptions &&
+                    elem.modifierOptions.map((subItem:any, subIndex:any) => (
                       <h2
                         key={subIndex}
                         className="Step-3-Modifier-Section-Menu-details-items"
@@ -122,13 +122,13 @@ const Step3Review: React.FC = () => {
                   <h3 className="Step-3-Modifier-Section-Menu-heading">
                     Price
                   </h3>
-                  {elem.options &&
-                    elem.options.map((price, priceIndex) => (
+                  {elem.modifierOptions &&
+                    elem.modifierOptions.map((price, priceIndex) => (
                       <h2
                         key={priceIndex}
                         className="Step-3-Modifier-Section-Menu-details-price"
                       >
-                        ₹ {price.price}
+                        ₹ {price.cost}
                       </h2>
                     ))}
                 </div>
