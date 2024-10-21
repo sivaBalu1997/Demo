@@ -32,7 +32,6 @@ export const Menulisting = () => {
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
   const loadingRequest = useSelector((state) => state.productCatalog?.addMenuLoading);
-  console.log("loadingRequest",loadingRequest);
   const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
@@ -307,7 +306,6 @@ export const Menulisting = () => {
           (response) => response?.itemId === value
         );
         if (specificResponse.length > 0) {
-          console.log("filteredItem",specificResponse);
           setSideBar(specificResponse);
         }
       }
@@ -419,8 +417,6 @@ export const Menulisting = () => {
   useEffect(() => {
     dispatch(getMenuRequest(location?.id));
   }, []);
-
-console.log("menuData",menuData);
 
   return (
     <>
