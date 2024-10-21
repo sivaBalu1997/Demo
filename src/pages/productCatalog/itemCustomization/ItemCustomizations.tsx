@@ -455,7 +455,6 @@ const ItemCustomizations: React.FC = () => {
   const [selectedModifiers, setSelectedModifiers] = useState<Modification>();
 
   const handleSelecteModifiers = (Modifiers: Modification) => {
-    // console.log("Modifiers",Modifiers);
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
     setModifications((prevModifications: Modification[]) => {
@@ -464,10 +463,10 @@ const ItemCustomizations: React.FC = () => {
       return newModifications;
     });
   };
-  // console.log("selectedModifiers",selectedModifiers);
 
   const handleSearchChange = () => {
     if (searchQuery.length > 1) {
+      setShowSearchList(true)
       dispatch(getModifierRequest({ name: searchQuery, locationId }));
     }
   };
@@ -483,7 +482,6 @@ const ItemCustomizations: React.FC = () => {
       setHighlightedIndex((prevIndex) => {
         const newIndex = Math.min(ModifierList?.length - 1, prevIndex + 1);
         setSearchQuery(ModifierList[newIndex]?.modifierName);
-
         return newIndex;
       });
     }
@@ -492,30 +490,15 @@ const ItemCustomizations: React.FC = () => {
       setHighlightedIndex((prevIndex) => {
         const newIndex = Math.max(0, prevIndex - 1);
         setSearchQuery(ModifierList[newIndex]?.modifierName);
-
         return newIndex;
       });
     }
-
-    // if (e.key === "Enter") {
-    //   if (highlightedIndex >= 0 && highlightedIndex < ModifierList?.length) {
-    //     // setHighlightedIndex(-1);
-    //     // handleSelecteModifiers(ModifierList[highlightedIndex]);
-    //   }
-    // }
-
-    // if (e.key === 'Backspace') {
-    //   if (optionSelected) {
-    //     // If an option was selected, reset searchTerm and displayTerm
-    //     setSearchTerm('');
-    //     setDisplayTerm('');
-    //     setOptionSelected(false); // Allow new input
-    //     setFilteredOptions([]);   // Clear suggestions
-    //   } else {
-    //     setOptionSelected(false); // Allow for changing selection
-    //   }
-    // }
   };
+
+  const handleMouseEnter = (index: number) => {
+    setHighlightedIndex(index);
+  };
+
   const [ShowSearchList, setShowSearchList] = useState(false);
 
   const Outsideref = useRef<HTMLDivElement | null>(null);
@@ -597,7 +580,6 @@ const ItemCustomizations: React.FC = () => {
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   if (e.target.value === "") {
-                    // setModifications(initialModificationValue);
                     setSelectedModifiers(undefined);
                   } else {
                     setShowSearchList(true);
@@ -636,6 +618,7 @@ const ItemCustomizations: React.FC = () => {
                               ? "highlighted-modifiers"
                               : ""
                           }
+                          onMouseEnter={() => handleMouseEnter(index)}
                         >
                           <div
                             className={
