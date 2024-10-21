@@ -154,8 +154,8 @@ export const Menulisting = () => {
         const draggedIndex = updatedItems.findIndex(
           (item) => item.itemId === draggedItem.item.itemId
         );
-        updatedItems.splice(draggedIndex, 1); // Remove dragged item
-        updatedItems.splice(dropIndex, 0, draggedItem.item); // Insert dragged item at new position
+        updatedItems.splice(draggedIndex, 1); 
+        updatedItems.splice(dropIndex, 0, draggedItem.item); 
         return { ...category, itemResponseList: updatedItems };
       }
       return category;
@@ -290,17 +290,11 @@ export const Menulisting = () => {
     itemIndex: null,
   });
 
- 
-
   const handlemodal = (value) => {
     setmodal(true);
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
-
-
-   
-
       if (filteredItem) {
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
@@ -464,7 +458,7 @@ export const Menulisting = () => {
                     >
                       { loading ? (
                            <></>
-                          ) :menudatalist.map((object, index) => (
+                          ) : menudatalist.map((object, index) => (
                         <React.Fragment key={index}>
                           <RowHeading
                             objectId={object.categoryId}

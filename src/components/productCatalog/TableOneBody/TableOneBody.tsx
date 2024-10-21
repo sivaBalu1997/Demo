@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import apple from "../../../assets/svg/fish.svg";
 import dots from "../../../assets/svg/dots.svg";
 import { useDispatch, useSelector } from "react-redux";
 import HoverText from "../HoverText/HoverText";
 import { RootState } from "redux/rootReducer";
+import { STORAGE_BUCKET_URL } from "shared/constants";
 
 interface Media {
   id: string;
@@ -65,7 +66,6 @@ interface Item {
   }[];
 }
 
-
 interface Category {
   categoryId: string;
   categoryName: string;
@@ -85,14 +85,13 @@ interface MenuObject {
   itemResponseList: Item[];
 }
 
-
 interface ItemRowProps {
-  object: Category; // Updated to use the Category type from the JSON
+  object: any; // Updated to use the Category type from the JSON
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
-  handleRowDragStart: (categoryId: string, item:Item) => void;
-  handleRowDragOver: (e:React.DragEvent<HTMLDivElement>) => void;
-  handleRowDragEnd:  (categoryId: string,dropIndex:number) => void;
+  handleRowDragStart: (categoryId: string, item: Item) => void;
+  handleRowDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+  handleRowDragEnd: (categoryId: string, dropIndex: number) => void;
   handleDragScroll: (
     e: React.DragEvent,
     ref1: React.RefObject<HTMLDivElement>,
@@ -111,7 +110,6 @@ interface ItemRowProps {
 
 const TableOneBody: React.FC<ItemRowProps> = ({
   object,
-  // typevalue,
   draggingOverIndex,
   draggedRowIndex,
   handleRowDragStart,
@@ -122,38 +120,35 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   tableBodyRef1,
   tableBodyRef2,
 }) => {
-
   const dispatch = useDispatch();
 
   const baseImageUrl = process.env.REACT_APP_IMAGE_DOMAIN;
 
   const handleItemnameClick = (value: string) => {
-    console.log({value})
+    console.log({ value });
     handlemodal(value);
-
-    
   };
- 
-  const menuData = useSelector((state : RootState) => state.productCatalog?.menuData)
-  const [menudatalist,setMenudatalist]=useState(menuData);
 
-  useEffect(()=>{
-    setMenudatalist(menuData)
+  const menuData = useSelector(
+    (state: RootState) => state.productCatalog?.menuData
+  );
+  const [menudatalist, setMenudatalist] = useState(menuData);
 
-  },[menuData])
+  useEffect(() => {
+    setMenudatalist(menuData);
+  }, [menuData]);
+
   const [draggedItem, setDraggedItem] = useState<DraggedItem | null>(null);
 
-  console.log("object",object);
-  
-  
+  const getImageURL = useCallback ((data) => {
+    return STORAGE_BUCKET_URL + "img/testing/" + data?.imageId + "/" + data?.imageType
+  },[]);
 
   return (
     <>
-
-
-    {
-       object?.itemResponseList?.length>0 && object.categoryName!=="" && (
-        object?.itemResponseList?.map((item, index) => (
+      {object?.itemResponseList?.length > 0 &&
+        object.categoryName !== "" &&
+        object?.itemResponseList?.map((item: any, index: any) => (
           <tr key={index}>
             {draggingOverIndex === index && (
               <td className="placeholderplace"></td>
@@ -161,14 +156,14 @@ const TableOneBody: React.FC<ItemRowProps> = ({
             <td
               draggable
               onDragStart={(e) => {
-                handleRowDragStart(object.categoryId,item);
+                handleRowDragStart(object.categoryId, item);
                 handleDragScroll(e, tableBodyRef1, tableBodyRef2);
               }}
               onDragOver={(e) => {
                 handleRowDragOver(e);
                 handleDragScroll(e, tableBodyRef1, tableBodyRef2);
               }}
-              onDrop={()=>handleRowDragEnd(object.categoryId,index)}
+              onDrop={() => handleRowDragEnd(object.categoryId, index)}
               className={`itemdetails-row ${
                 draggedRowIndex?.index === index ? "selected" : ""
               } ${index === 0 ? "removebottomrowline" : ""}`}
@@ -188,15 +183,12 @@ const TableOneBody: React.FC<ItemRowProps> = ({
                 className="itemname2"
                 onClick={() => handleItemnameClick(item.itemId)}
               >
-                <HoverText text={item.itemName}  lengthvale={14}/>
+                <HoverText text={item.itemName} lengthvale={14} />
               </span>
               <span className="itemcode2">{item.itemCode}</span>
             </td>
           </tr>
-        ))
-       )
-    }
-     
+        ))}
     </>
   );
 };
