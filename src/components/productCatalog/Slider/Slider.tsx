@@ -151,7 +151,6 @@ console.log("sidbar",SideBarData);
       })}
     
       setTrash(true)
-
   };
 
   const handleOnclose = () => {

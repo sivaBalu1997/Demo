@@ -25,7 +25,6 @@ import {
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 
-
 export const Menulisting = () => {
   const dispatch = useDispatch();
 
@@ -33,7 +32,6 @@ export const Menulisting = () => {
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
   const loadingRequest = useSelector((state) => state.productCatalog?.addMenuLoading);
-  console.log("loadingRequest",loadingRequest);
   const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
@@ -156,8 +154,8 @@ export const Menulisting = () => {
         const draggedIndex = updatedItems.findIndex(
           (item) => item.itemId === draggedItem.item.itemId
         );
-        updatedItems.splice(draggedIndex, 1); // Remove dragged item
-        updatedItems.splice(dropIndex, 0, draggedItem.item); // Insert dragged item at new position
+        updatedItems.splice(draggedIndex, 1); 
+        updatedItems.splice(dropIndex, 0, draggedItem.item); 
         return { ...category, itemResponseList: updatedItems };
       }
       return category;
@@ -170,6 +168,8 @@ export const Menulisting = () => {
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
+
+  const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess )
 
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
@@ -290,23 +290,16 @@ export const Menulisting = () => {
     itemIndex: null,
   });
 
- 
-
   const handlemodal = (value) => {
     setmodal(true);
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
-
-
-   
-
       if (filteredItem) {
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
         );
         if (specificResponse.length > 0) {
-          console.log("filteredItem",specificResponse);
           setSideBar(specificResponse);
         }
       }
@@ -419,17 +412,6 @@ export const Menulisting = () => {
     dispatch(getMenuRequest(location?.id));
   }, []);
 
-console.log("menuData",menuData);
-
-  // if(loading)
-  // {
-  //   return(
-  //     <div style={{display:'flex',justifyContent:'center',alignItems:'center'}} >
-  //    Loading
-  //   </div>
-  //   );
-  // }
-
   return (
     <>
       {
@@ -476,7 +458,7 @@ console.log("menuData",menuData);
                     >
                       { loading ? (
                            <></>
-                          ) :menudatalist.map((object, index) => (
+                          ) : menudatalist.map((object, index) => (
                         <React.Fragment key={index}>
                           <RowHeading
                             objectId={object.categoryId}
@@ -528,17 +510,17 @@ console.log("menuData",menuData);
                             key={index}
                             header={header}
                             index={index}
-                            dragtablefirstHeaderindex={
-                              dragtablefirstHeaderindex
-                            }
+                            // dragtablefirstHeaderindex={
+                            //   dragtablefirstHeaderindex
+                            // }
                             secondRowLength={secondRowTable[index].length}
                             listingobject={listingobject}
                             setlistingobject={setlistingobject}
-                            handleColumnwiseDragStart={
-                              handleColumnwiseDragStart
-                            }
-                            handleColumnwiseDragOver={handleColumnwiseDragOver}
-                            handleColumnwiseDragEnd={handleColumnwiseDragEnd}
+                            // handleColumnwiseDragStart={
+                            //   handleColumnwiseDragStart
+                            // }
+                            // handleColumnwiseDragOver={handleColumnwiseDragOver}
+                            // handleColumnwiseDragEnd={handleColumnwiseDragEnd}
                             dots={dots}
                             dollar={dollar}
                             calendericon={calendericon}
@@ -617,7 +599,7 @@ console.log("menuData",menuData);
                   }
                 </table>
               </div>
-              {modal && (
+              {deleteMenuItemSuccess ? !modal : modal && (
                 <Slider
                   sidebartext={sidebartext}
                   SideBarData={SideBarData}
@@ -632,233 +614,3 @@ console.log("menuData",menuData);
   );
 };
 
-// [
-//   {
-//     "categoryId": "119cd4b7-f44a-45d6-8c21-c8d4559d52ab",
-//     "categoryName": "",
-//     "subCategoryResponseList": null,
-//     "itemResponseList": [
-//         {
-//             "itemId": "9be15fd4-43fe-497a-b857-42d89bffb8be",
-//             "itemName": "Rasam",
-//             "mediaResponseList": [],
-//             "orderTypes": [
-//                 {
-//                     "typeName": "DineIn",
-//                     "typeId": "6e006c2d-1dd2-4b81-9af1-9e02a8336107",
-//                     "price": 17.0,
-//                     "isEnabled": 1,
-//                     "availabilities": [
-//                         {
-//                             "availabilityDays": [
-//                                 "0",
-//                                 "0"
-//                             ],
-//                             "sessions": [
-//                                 "One",
-//                                 "Two"
-//                             ]
-//                         }
-//                     ]
-//                 },
-//                 {
-//                     "typeName": "Pickup",
-//                     "typeId": "b1eddc4e-710e-437c-871c-609b84af43cd",
-//                     "price": 17.0,
-//                     "isEnabled": 1,
-//                     "availabilities": [
-//                         {
-//                             "availabilityDays": [
-//                                 "0",
-//                                 "0"
-//                             ],
-//                             "sessions": [
-//                                 "One",
-//                                 "Two"
-//                             ]
-//                         }
-//                     ]
-//                 },
-//                 {
-//                     "typeName": "Delivery",
-//                     "typeId": "df8eb2dc-6789-4b2a-bdc9-46df7c19add9",
-//                     "price": 17.0,
-//                     "isEnabled": 1,
-//                     "availabilities": [
-//                         {
-//                             "availabilityDays": [
-//                                 "0",
-//                                 "0"
-//                             ],
-//                             "sessions": [
-//                                 "One",
-//                                 "Two"
-//                             ]
-//                         }
-//                     ]
-//                 }
-//             ],
-//             "modifiers": [
-//                 {
-//                     "id": "7929429d-b45e-40f0-ba86-2f96457cf3f9",
-//                     "modifierName": "Vegan",
-//                     "isEnabled": 1,
-//                     "minCount": 0,
-//                     "maxCount": 0,
-//                     "noFreeCustomization": 0,
-//                     "options": [
-//                         {
-//                             "optionId": "71485264-ecee-41f1-a36f-9e0cd8d21229",
-//                             "name": "Vegan",
-//                             "price": 0.0,
-//                             "isEnabled": 1
-//                         },
-//                         {
-//                             "optionId": "71485264-ecee-41f1-a36f-9e0cd8d21230",
-//                             "name": "Vegan One",
-//                             "price": 10.0,
-//                             "isEnabled": 1
-//                         }
-//                     ]
-//                 }
-//             ],
-//             "dietTypes": [],
-//             "ingredients": [
-//                 {
-//                     "id": "066d8eaf-c70a-42b5-a9b3-956b43cf6e3e",
-//                     "name": "Gluten Free"
-//                 }
-//             ],
-//             "taxClassAssociation": [],
-//             "cuisine": [],
-//             "pairedItems": [],
-//             "description": "Spicy Tamarind based delicacy with south Indian spices",
-//             "containsAlcohol": false,
-//             "ignoreMasterKotPrint": true,
-//             "popularItem": false
-//         }
-//     ]
-// },
-// {
-//     "categoryId": "12110e90-6897-448a-9afb-da855dc42191",
-//     "categoryName": "Sandwich",
-//     "subCategoryResponseList": null,
-//     "itemResponseList": [
-//         {
-//             "itemId": "011ae68f-b878-4b79-98b2-6eedfba59b10",
-//             "itemName": "Roasted Turkey on Sourdough",
-//             "mediaResponseList": [],
-//             "orderTypes": [
-//                 {
-//                     "typeName": "GloriaFood",
-//                     "typeId": "b1eddc4e-710e-437c-871c-609b84af43c1",
-//                     "price": 25.0,
-//                     "isEnabled": 0,
-//                     "availabilities": null
-//                 }
-//             ],
-//             "modifiers": [
-//                 {
-//                     "id": "3ce5e745-2b9d-4ffa-ada1-363bbe3b9848",
-//                     "modifierName": "Size",
-//                     "isEnabled": 1,
-//                     "minCount": 0,
-//                     "maxCount": 0,
-//                     "noFreeCustomization": 0,
-//                     "options": [
-//                         {
-//                             "optionId": "0f51dc6a-faea-4e2f-a074-42dacac53d6d",
-//                             "name": "Regular",
-//                             "price": 13.0,
-//                             "isEnabled": 1
-//                         }
-//                     ]
-//                 }
-//             ],
-//             "dietTypes": [],
-//             "ingredients": [],
-//             "taxClassAssociation": [],
-//             "cuisine": [],
-//             "pairedItems": [],
-//             "description": "",
-//             "containsAlcohol": false,
-//             "ignoreMasterKotPrint": false,
-//             "popularItem": false
-//         }
-//     ]
-// },
-// {
-//     "categoryId": "12b453c3-1d34-4472-83b4-0479933db3d5",
-//     "categoryName": "",
-//     "subCategoryResponseList": null,
-//     "itemResponseList": [
-//         {
-//             "itemId": "8a50b689-5c0e-469c-91f3-5b24a40fdd0b",
-//             "itemName": "Sambar Vadai",
-//             "mediaResponseList": [],
-//             "orderTypes": [
-//                 {
-//                     "typeName": "DineIn",
-//                     "typeId": "6e006c2d-1dd2-4b81-9af1-9e02a8336107",
-//                     "price": 9.49,
-//                     "isEnabled": 1,
-//                     "availabilities": null
-//                 },
-//                 {
-//                     "typeName": "Pickup",
-//                     "typeId": "b1eddc4e-710e-437c-871c-609b84af43cd",
-//                     "price": 9.49,
-//                     "isEnabled": 1,
-//                     "availabilities": null
-//                 },
-//                 {
-//                     "typeName": "Delivery",
-//                     "typeId": "df8eb2dc-6789-4b2a-bdc9-46df7c19add9",
-//                     "price": 9.49,
-//                     "isEnabled": 1,
-//                     "availabilities": null
-//                 }
-//             ],
-//             "modifiers": [
-//                 {
-//                     "id": "27cef7a0-6696-43e5-840e-aa66ea5a7ec2",
-//                     "modifierName": "Jain",
-//                     "isEnabled": 1,
-//                     "minCount": 0,
-//                     "maxCount": 0,
-//                     "noFreeCustomization": 0,
-//                     "options": [
-//                         {
-//                             "optionId": "051555f9-1312-4761-b1ca-9019fd5a73b3",
-//                             "name": "Regular",
-//                             "price": 0.0,
-//                             "isEnabled": 1
-//                         },
-//                         {
-//                             "optionId": "d4ecf3c4-0400-4cf9-9e39-5828568ab530",
-//                             "name": "Jain",
-//                             "price": 0.0,
-//                             "isEnabled": 1
-//                         }
-//                     ]
-//                 }
-//             ],
-//             "dietTypes": [],
-//             "ingredients": [
-//                 {
-//                     "id": "066d8eaf-c70a-42b5-a9b3-956b43cf6e3e",
-//                     "name": "Gluten Free"
-//                 }
-//             ],
-//             "taxClassAssociation": [],
-//             "cuisine": [],
-//             "pairedItems": [],
-//             "description": "South Indian lentil doughnut soaked in sambar and garnished with chopped onions & cilantro",
-//             "containsAlcohol": false,
-//             "ignoreMasterKotPrint": false,
-//             "popularItem": false
-//         }
-//     ]
-// },
-
-// ]

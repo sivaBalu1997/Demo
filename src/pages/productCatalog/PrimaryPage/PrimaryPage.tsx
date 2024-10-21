@@ -722,7 +722,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
-                    // rules={{ required: "ItemName is required" }}
+                    rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
@@ -752,7 +752,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        // validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "dietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -781,7 +781,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        // validation={{ required: "cuisine is required" }}
+                        validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -814,7 +814,7 @@ const PrimaryPage = () => {
                         setValue={setValue}
                         trigger={trigger}
                         getValues={getValues}
-                        // validation={{ required: "category is required" }}
+                        validation={{ required: "category is required" }}
                         error={errors.category}
                         dropdownopen={DropdownOpen.category}
                         setDropdownOpen={setDropdownOpen}
@@ -846,7 +846,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          // validation={{ required: "This field is required" }}
+                          validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -1014,12 +1014,12 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
-                      // rules={{
-                      //   required: "Item code is required",
-                      //   validate: (value) =>
-                      //     value.toString().length >= 4 ||
-                      //     "Item code must be between 4 and 5 characters",
-                      // }}
+                      rules={{
+                        required: "Item code is required",
+                        validate: (value) =>
+                          value.toString().length >= 4 ||
+                          "Item code must be between 4 and 5 characters",
+                      }}
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
                           name="itemCode"
@@ -1247,13 +1247,13 @@ const PrimaryPage = () => {
                         <InputFieldComponent
                           name="portionSize"
                           onChange={(e) => {
-                            handlePortionChange("value", e.target.value); // Update the value state
-                            onChange(e); // Also trigger form control
+                            handlePortionChange("value", e.target.value); 
+                            onChange(e);
                           }}
                           onBlur={onBlur}
-                          value={portionInfo?.value} // Ensure you're using a string value
+                          value={portionInfo?.value}
                           trigger={trigger}
-                          placeholder={portionInfo?.type} // Ensure this is a string
+                          placeholder={portionInfo?.type} 
                         />
                       )}
                     />
@@ -1264,8 +1264,8 @@ const PrimaryPage = () => {
                     <RadioButtonGroup
                       options={portionsizeradio}
                       name="selectedPortion"
-                      selectedValue={portionInfo?.type} // Ensure this is a string
-                      onChange={(value) => handlePortionChange("type", value)} // Update type
+                      selectedValue={portionInfo?.type} 
+                      onChange={(value) => handlePortionChange("type", value)} 
                       register={register}
                     />
                     <div className="portionsizeTooltip">

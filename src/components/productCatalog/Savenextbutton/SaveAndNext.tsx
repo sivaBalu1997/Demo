@@ -203,7 +203,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
-     console.log("Pricing",PricingDetails);
      
       const isinValid = await triggerValidation(formData);
 
@@ -215,7 +214,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       } else {
         console.error("formData.kitchenstation is undefined");
       }
-      console.log({PricingDetails})
 
       if (formData?.form && formData?.form?.Inventory1) {
         PricingDetails = {
@@ -227,7 +225,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           },
         };
       }
-      console.log("hi", formData?.Preparationtime.hours);
       if (
         formData.Preparationtime?.hours ||
         formData.Preparationtime?.minutes
@@ -251,13 +248,11 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           state: { pagename: "Itemcustomizations" },
         });
       }
-      console.log("Pricing",PricingDetails);
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
-      console.log("modifications",modifications);
     }
   };
 
