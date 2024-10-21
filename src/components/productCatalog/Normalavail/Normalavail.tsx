@@ -315,7 +315,7 @@ console.log("Normaldays",Normaldays);
     // ...(selectedthirdvalues?.length > 0 && {                    //need to fix 3rd Party
     //   thirdpartyDetails: priceInfo
     // })
-    thirdpartyDetails: priceInfo  
+   ...( priceInfo && {thirdpartyDetails: priceInfo}  )
   };
 
   const optionsselectthird = orderTypes

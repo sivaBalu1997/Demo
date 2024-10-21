@@ -251,7 +251,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           state: { pagename: "Itemcustomizations" },
         });
       }
-
       console.log("Pricing",PricingDetails);
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
@@ -259,7 +258,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
       console.log("modifications",modifications);
-      
     }
   };
 
@@ -267,8 +265,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     reset();
   };
  
-     
-
   return (
     <div>
       <div className={isExpanded ? " saveandnextExpanded" : "saveandnext"}>
