@@ -498,8 +498,15 @@ function* deleteMenuItemSaga(action) {
   try {
     const response = yield call(deleteMenuItem, action.payload.itemId);
     if (response.status === 200) {
+<<<<<<< HEAD
       yield put(deleteMenuItemSuccess(response.data));
      
+=======
+      yield put(deleteMenuItemSuccess({
+        message: response.data,
+        itemId: action.payload.itemId
+      }));
+>>>>>>> productCatalog/sprint-99
     } else {
       yield put(deleteMenuItemFailed({ message: "please Try Again" }));
     }

@@ -431,7 +431,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [Loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
-    if (!options) {
+    console.log({options})
+    if (!options || options.length < 1) {
       setLoading(true);
     } else {
       setLoading(false);
@@ -527,8 +528,8 @@ const DropDownList: React.FC<DropdownProps> = ({
                     width="300px" 
                     style={{ 
                       filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)',
-                      height: '80px',
-                      width: '80px'
+                      height: '70px',
+                      width: '70px'
                      }}
                   />
                 </div>

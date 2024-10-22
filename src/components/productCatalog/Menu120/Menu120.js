@@ -7,8 +7,6 @@ const Menu120 = () => {
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
 
-  console.log({menuData})
-
   const data = [
     {
       OutletName: "Outlet1",

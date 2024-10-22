@@ -247,6 +247,8 @@ export const Menulisting = () => {
     e.preventDefault();
   };
 
+  console.log({menudatalist})
+
   const handledragvegnonvegdropend = (e, index) => {
     e.preventDefault();
     const updatedCategories = [...menudatalist];
