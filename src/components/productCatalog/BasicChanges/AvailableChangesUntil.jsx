@@ -11,6 +11,9 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
   const [showAvailCalender, setShowAvailCalender] = useState(false);
   const menuData = useSelector((state) => state.productCatalog?.menuData)
   const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+  const locationid = useSelector(
+    (state) => state.auth.credentials.locationId
+  );
 
 
 
@@ -23,7 +26,7 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
 
   const handleSaveBtn = () => {
     setShowModalAvailable();
-    dispatch(partialUpdateMenuRequest(patchedData))
+    dispatch(partialUpdateMenuRequest(locationid,patchedData))
 
     onclose();
   };
@@ -68,7 +71,7 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
         </div>
       </div>
 
-      {showAvailCalender && <AvailCalender />} {/* Conditionally render the calendar */}
+      {showAvailCalender && <AvailCalender  onclose={onclose} />} {/* Conditionally render the calendar */}
     </div>
   );
 };

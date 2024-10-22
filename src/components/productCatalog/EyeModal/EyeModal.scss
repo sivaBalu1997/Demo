@@ -10,57 +10,129 @@
     z-index: 1000; /* Ensure it appears above other content */
     width:416px;
     height: 848px;
+    overflow-y: auto;
     
 }
 
 .EyeModal-Window {
     margin-top: -140px;
     background-color: white;
-    width: 377px;
-    height: 184px;
+    width: 322px;
+    height: 377px;
     display: flex;
-    justify-content: center;
-    align-items: center; /* Center the content inside the modal */
+    justify-content: start;
+    align-items: start; /* Center the content inside the modal */
     border-radius: 8px; /* Optional: add rounded corners */
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+    max-height: 80vh; /* Restrict modal height */
+    overflow-y: scroll; /* Enable scrollbar when content overflows */
 }
 
 .EyeModal-Form {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
+    align-items: start; /* Center items horizontally */
+    justify-content: start; /* Center items vertically */
     text-align: center; /* Center the text */
 }
 
-.EyeImage {
-    margin-top: 5px;
-    margin-bottom: 1px; /* Add space between the image and text */
+.HideItemHeading-SelectAll-Container{
+    width: 320px;
+    display: flex;
+    justify-content: space-between;
+    padding:20px 0px 0px 20px ;
 }
 
-.Eye-Heading {
-    font-size: 16px;
+.HideItemHeading{
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000000;
+}
+.Select-all-heading{
+    font-family: Poppins;
     font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #67833E;
+    text-decoration: underline;
+    position: relative;
+    top: 10px;
+    left: -60px;
+    cursor: pointer;
 }
-.Eye-Button{
-    margin-top: 7px;
+
+.Radio-items-container{
+    width: 320px;
     display: flex;
-    justify-content: space-evenly;
-    gap: 30px;
+ 
+    padding:20px 0px 0px 20px ;
+    flex-direction: column;
+    max-height: 250px; /* Limit height for the items container */
+    overflow-y: scroll; 
+  
+
 }
-.EyeButton1{
-    width: 138.83px;
-    height: 46.28px;
-    border-radius: 3.47px;
+
+.Radio-Items-Heading{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 40px;
+}
+
+.Radio-Items-Flex{
+    width: 242px;
+    display: flex;
+    justify-content: space-between;
+}
+.checkbox-Items{
+    width: 20px;
+    height: 20px;
+    accent-color: #67833E;
+    transform: translateY(10px);
+}
+
+.Radio-sub-Items-Flex{
+    width: 242px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+
+}
+
+.Radio-sub-Items-Heading{
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 40px;
+    color: #5F5F5F;
+}
+
+.saveCancelContainer{
+    width: 300px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    top: 20px;
+}
+.SavebtnEye{
+    width: 120px;
+    height: 40px;
+    background-color: #67833E;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+.cancelbtnEye{
+    width: 120px;
+    height: 40px;
     background-color: white;
-    color: rgba(95, 95, 95, 1);
-    border: 1px solid rgba(95, 95, 95, 1);
-}
-.EyeButton2{
-    width: 138.83px;
-    height: 46.28px;
-    border-radius: 3.47px;
-    background-color:rgba(103, 131, 62, 1);
-    color: rgba(255, 255, 255, 1);
-    border: 1px solid rgba(103, 131, 62, 1);
+    color: #67833E;
+    text-align: center;
+    cursor: pointer;
+    border: 0.5px solid #929292;
 }

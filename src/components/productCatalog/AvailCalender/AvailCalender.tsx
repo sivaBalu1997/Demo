@@ -2,13 +2,26 @@ import React, { useState } from 'react'
 import "./AvailCalender.scss"
 import DatePicker from 'react-datepicker';
 
+interface AvailProps{
+  onclose:any 
+}
 
-const AvailCalender = () => {
+const AvailCalender = ({onclose}:AvailProps) => {
     const [selectedDate, setSelectedDate] = useState(new Date());  
     const [selectedTimePeriod, setSelectedTimePeriod] = useState<'AM' | 'PM' | null>("AM");
     const handleTimePeriodClick = (period: 'AM' | 'PM') => {
         setSelectedTimePeriod(period);
       };
+
+      const handleCancel=()=>{
+        onclose();
+      }
+
+      const handleChange=()=>{
+        onclose();
+
+      }
+
     
     return (
     <div className='AvailCalenderContainer'>
@@ -44,8 +57,8 @@ const AvailCalender = () => {
        </div>
       </div>
     <div className='AvailCalenderButton'>
-<button className='AvailCancel'>Cancel </button>
-<button className='AvailChange'>Change</button>
+<button onClick={handleCancel} className='AvailCancel '>Cancel </button>
+<button onClick={handleChange} className='AvailChange'>Change</button>
     </div>
         </div>  
         </div>
