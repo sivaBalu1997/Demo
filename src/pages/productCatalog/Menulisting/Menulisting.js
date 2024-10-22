@@ -419,7 +419,7 @@ export const Menulisting = () => {
   return (
     <>
       {
-        <div style={{ display: "flex", overflowX: "hidden" }}>
+        <div style={{ display: "flex", overflowX: "hidden" }} >
           <SidePanel />
           <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
             <div className="headercomponent">
