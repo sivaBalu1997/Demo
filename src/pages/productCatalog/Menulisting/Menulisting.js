@@ -5,7 +5,7 @@ import dollar from "../../../assets/svg/dollar.svg";
 import removeicon from "../../../assets/svg/removeicon.svg";
 import Header from "../../../components/productCatalog/Header/Header";
 import closeicon from "../../../assets/svg/closeicon.svg";
-import Loader from "../../../assets/Loader.gif.gif";
+// import Loader from "../../../assets/Loader.gif.gif";
 import toggleround from "../../../assets/svg/toggleround.svg";
 import calendericon from "../../../assets/svg/calendericon.svg";
 import dollaricon from "../../../assets/svg/dollaricon.svg";
@@ -19,6 +19,8 @@ import TableOneBody from "../../../components/productCatalog/TableOneBody/TableO
 import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading";
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
+import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+
 import {
   getMenuRequest,
   selectedMockDataRequest,
@@ -558,10 +560,11 @@ export const Menulisting = () => {
                         <>
                           {loading ? (
                             <div className="Menu-noOptions">
-                              <img
-                                className="imgLoader2"
-                                src={Loader}
-                                alt="Loading..."
+                              <Loader 
+                                className="imgLoader2" 
+                                height="100px"
+                                width="100px" 
+                                style={{ filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)' }}
                               />
                             </div>
                           ) : (

@@ -5,7 +5,7 @@ import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
 import { useSelector, useDispatch } from "react-redux";
-import Loader from '../../../assets/Loader.gif.gif'
+import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import {
   addDropDowRequest,
   deleteDropDowRequest,
@@ -521,7 +521,16 @@ const DropDownList: React.FC<DropdownProps> = ({
             >
               {Loading ? (
                 <div className="dropdown-no-options">
-                  <img className="imgLoader1" src={Loader}  alt="" />
+                 <Loader 
+                    className="imgLoader1" 
+                    height="300px"
+                    width="300px" 
+                    style={{ 
+                      filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)',
+                      height: '80px',
+                      width: '80px'
+                     }}
+                  />
                 </div>
               ) : (
                 <div>

@@ -6,7 +6,6 @@ import Employees from "pages/employee";
 import AddEmployee from "pages/employee/addEmployee";
 import EmployeeDetails from "pages/employee/employeeDetails";
 import AddItem from "pages/menuItem/AddItem";
-import EmptyMenu from "pages/menuItems/EmtyMenu";
 import AddOffer from "pages/offers/AddOffer";
 import CreateOffer from "pages/offers/CreateOffer";
 import Offerdetails from "pages/offers/Offerdetails";
@@ -57,6 +56,7 @@ import Template from "pages/ContentManagement/template/template";
 import PendingComponent from "pages/ContentManagement/PendingOutlet/PendingOutlet";
 
 import LiveOutlets from "pages/ContentManagement/LiveOutlets/LiveOutlets";
+import EmptyMenu from "pages/menuItem/EmptyMenu";
 
 const Routers = () => {
   const MIN_WIDTH = 800;

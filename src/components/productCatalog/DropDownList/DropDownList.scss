@@ -223,15 +223,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position:relative;
 }
 
 
 .imgLoader1{
-  width: 25px;
-  height: 25px;
-  position:relative;
-  top:8%;
-  left: -4%;
+  // width: 30px;
+  // height: 30px;
+  // position:relative;
+  top: 12vw;
+  left: 21.5vw;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (min-width: 1300px) and (max-width: 1450px) {
