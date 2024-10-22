@@ -62,6 +62,7 @@
     display: flex;
     font-size: 14px;
     width: fit-content;
+    font-weight: 500;
 }
 
 .tag {

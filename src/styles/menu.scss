@@ -133,7 +133,7 @@
         border-radius: 50%;
         padding: 5px;
         color: #d9d9d9;
-        position: relative;
+        position: fixed;
         top: 101px;
         left: -12px;
         cursor: pointer;
@@ -825,7 +825,7 @@ iframe {
   border-radius: 50%;
   padding: 5px;
   color: #d9d9d9;
-  position: relative;
+  position: fixed;
   top: 101px;
   margin-left: -12px;
   cursor: pointer;
