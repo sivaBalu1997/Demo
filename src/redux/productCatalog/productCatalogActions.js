@@ -690,9 +690,9 @@ export const uploadImageFailure = (image,id, index,error) => ({
   type: UPLOAD_IMAGE_FAILURE,
   payload: { image, id,index,error },
 });
-export const addMockDataHiddenRequest = (params1,params2) => ({
+export const addMockDataHiddenRequest = (data) => ({
   type: ADD_MOCK_DATA_HIDDEN_REQUEST,
-  payload:{ params1, params2 },
+  payload:data
 });
  
 export const addMockDataHiddenSuccess = (response) => ({
@@ -764,9 +764,9 @@ export const selectedMockDataFailure = (error) => ({
 
 // *********************PartialUpdate*********************************
 
-export const partialUpdateMenuRequest = (params1,params2) => ({
+export const partialUpdateMenuRequest = (payload) => ({
   type: PARTIAL_UPDATE_MENU_REQUEST,
-  payload: { params1, params2 },
+  payload, 
 });
 
 export const partialUpdateMenuSuccess = (payload) => ({

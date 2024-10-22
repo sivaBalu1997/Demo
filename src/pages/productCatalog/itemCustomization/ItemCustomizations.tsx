@@ -668,7 +668,7 @@ const ItemCustomizations: React.FC = () => {
                     (modifier: Modification, modIndex: number) => (
                       <div
                         className={getModifierClassName(
-                          modifier?.modifierOptions?.length
+                          modifier?.options?.length
                         )}
                         key={modIndex}
                         draggable

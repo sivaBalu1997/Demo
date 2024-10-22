@@ -520,29 +520,17 @@ function* getPopularItemSaga(action) {
 
 function* partialUpdateMenuSaga(action) {
   try {
-    const updatedMenu = yield call(apiUpdateMenu, action.payload.params2);
+    const updatedMenu = yield call(apiUpdateMenu, action.payload);
     yield put(partialUpdateMenuSuccess(updatedMenu));
-    if (updatedMenu.status === 200) {
-      yield put({
-        type:  STORE_MENU_REQUEST,
-        payload: action.payload.params1,
-      })}}
-
- catch (error) {
+  } catch (error) {
     yield put(partialUpdateMenuFailure(error.message));
   }
 }
 
 function* addMockDataHiddenSaga(action) {
   try {
-    const data = yield call(hideMockData, action.payload.params1); 
-    yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: action.payload});
-    if (data.status === 200) {
-      yield put({
-        type:  STORE_MENU_REQUEST,
-        payload: action.payload.params2,
-      })}
-    
+    const data = yield call(hideMockData, action.payload); 
+    yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: data });
   } catch (error) {
     yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload: error.message });
   }
