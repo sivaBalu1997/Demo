@@ -174,7 +174,7 @@
 }
 .services-Heading {
   // margin-top: 35px;
-  margin-top: -25%;
+  // margin-top: -25%;
   font-family: Poppins;
   font-size: 16px;
   font-weight: 500;
@@ -337,11 +337,12 @@
   height: 1.25rem;
   transform: translateY(5px);
 }
+
 .NormalSpecial {
   display: flex;
   justify-content: flex-start;
   gap: 60px;
-  margin-top: 30px;
+  margin-top: 10px;
   accent-color: #779749;
 }
 
