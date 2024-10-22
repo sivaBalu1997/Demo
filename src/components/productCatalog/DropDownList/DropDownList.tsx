@@ -523,7 +523,11 @@ const DropDownList: React.FC<DropdownProps> = ({
                     className="imgLoader1" 
                     height="300px"
                     width="300px" 
-                    style={{ filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)' }}
+                    style={{ 
+                      filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)',
+                      height: '80px',
+                      width: '80px'
+                     }}
                   />
                 </div>
               ) : (
