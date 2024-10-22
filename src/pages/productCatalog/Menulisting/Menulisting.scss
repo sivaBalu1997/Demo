@@ -45,6 +45,7 @@
   box-sizing: border-box;
   border: none;
 }
+
 table,
 thead,
 tbody,
@@ -350,11 +351,11 @@ th {
         align-items: center;
         padding-left: 10px;
         padding-right: 10px;
-        cursor: grab;
+        // cursor: grab;
         gap: 0.6rem;
 
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
 
         .removeicon {
@@ -379,9 +380,9 @@ th {
         // padding-left: 10px;
         // padding-right: 10px;
         gap: 2.7rem;
-        cursor: grab;
+        // cursor: grab;
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
         .removeicon {
           position: relative;
@@ -404,9 +405,9 @@ th {
         // padding-right: 10px;
         gap: 2.5rem;
 
-        cursor: grab;
+        // cursor: grab;
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
         .removeicon {
           position: relative;
@@ -429,9 +430,9 @@ th {
         // padding-left: 10px;
         // padding-right: 10px;
         gap: 1rem;
-        cursor: grab;
+        // cursor: grab;
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
         .removeicon {
           position: relative;
@@ -453,9 +454,9 @@ th {
         // padding-left: 10px;
         // padding-right: 10px;
         gap: 0.6rem;
-        cursor: grab;
+        // cursor: grab;
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
         .removeicon {
           position: relative;
@@ -938,7 +939,7 @@ th {
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 84%;
+    width: 150%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -988,11 +989,11 @@ th {
       height: 32.5rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 141.5%;
+      width: 150.5%;
       &::-webkit-scrollbar {
         display: none;
       }
-      // border: 1px solid red !important;
+      border: 1px solid red !important;
     }
   }
 
@@ -1013,7 +1014,7 @@ th {
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 84%;
+    width: 150%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -1025,7 +1026,7 @@ th {
 @media (max-width: 1833px) {
   .Menu-Listing-Page-main {
     height: 45rem;
-    width: 120%;
+    width: 150%;
 
     .Menu-Listing-TableOne {
       .Menu-Listing-TableOneBody {
@@ -1064,11 +1065,11 @@ th {
       height: 32.5rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 141.5%;
+      width: 150.5%;
       &::-webkit-scrollbar {
         display: none;
       }
-      // border: 1px solid red !important;
+      border: 1px solid red !important;
     }
   }
 
@@ -1089,7 +1090,7 @@ th {
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 84%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -1163,13 +1164,13 @@ th {
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 81%;
+    width: 150%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
     z-index: 0;
     transition: width 0.6s ease;
-    // border: 1px solid blue;
+    border: 1px solid blue;
   }
 }
 

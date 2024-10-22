@@ -366,11 +366,12 @@ const ItemCustomizations: React.FC = () => {
   const decrementSpinner = (index: number, field: keyof Modification) => {
     const newModifier = [...modifications];
     if (newModifier[index]) {
-      newModifier[index][field as keyof Modifier] =
-        (parseInt(
-          newModifier[index][field as keyof Modifier]?.toString() || 0,
-          10
-        ) || 0) - 1;
+      const currentValue =
+        parseInt(newModifier[index][field as keyof Modifier]?.toString() || '0', 10) || 0;
+  
+      if (currentValue > 0) {
+        newModifier[index][field as keyof Modifier] = currentValue - 1;
+      }
     }
     setModifications(newModifier);
   };
@@ -886,17 +887,17 @@ const ItemCustomizations: React.FC = () => {
                                     modifications[modIndex]?.selectionType ===
                                       "Mandatory" &&
                                     modifications[modIndex].minSelection != 1
-                                      ? 1 // Set value to 1 if conditions are met
-                                      : modifications[modIndex].minSelection // Otherwise, use minSelection
+                                      ? 1 
+                                      : modifications[modIndex].minSelection 
                                   }
                                   name="minSelection"
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
                                   }
-                                  disabled={
-                                    modifications[modIndex]?.selectionType ===
-                                    "Mandatory"
-                                  }
+                                  // disabled={
+                                  //   modifications[modIndex]?.selectionType ===
+                                  //   "Mandatory"
+                                  // }
                                 />
                                 <div className="polydiv-ItemCustomizations">
                                   <img

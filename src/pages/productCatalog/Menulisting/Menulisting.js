@@ -81,7 +81,7 @@ export const Menulisting = () => {
     Dinein2: true,
     Pickup2: true,
     Delivery2: true,
-    Inventory1: true,
+    // Inventory1: true,
     Customize1: true,
   });
 
@@ -554,11 +554,7 @@ export const Menulisting = () => {
                       } tabletwobody`}
                       ref={tableBodyRef2}
                     >
-                      {allFalse ? (
-                        <>
-                          <h1 className="columnselected">No Column Selected</h1>
-                        </>
-                      ) : (
+                      { (
                         <>
                           {loading ? (
                             <div className="Menu-noOptions">
@@ -569,6 +565,11 @@ export const Menulisting = () => {
                               />
                             </div>
                           ) : (
+                            allFalse ? (
+                              <>
+                                <h1 className="columnselected">No Column Selected</h1>
+                              </>
+                            ) : 
                             menudatalist.map((itemobject, indexvalue) => {
                               return (
                                 <React.Fragment key={indexvalue}>

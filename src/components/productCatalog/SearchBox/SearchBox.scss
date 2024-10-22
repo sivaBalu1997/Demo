@@ -42,12 +42,12 @@
   height: 21px;
   position: absolute;
   top: 20px;
-  left: 720px;
+  left: 690px;
   cursor: pointer;
 }
 
 //   {******************************Search Container*******************************************}
-.Search-Container-options {
+.Search-Container-options-menu {
   width: 612px;
   background-color: #ffffff;
   max-height: 50vh; 
@@ -58,7 +58,7 @@
   position: absolute; 
   z-index: 2; 
   top: 53px;
-  left: 177px;
+  left: 147px;
   padding-bottom: 10px;
 }
 
@@ -78,7 +78,7 @@
 }
 
 
-.Search-Container-options ul {
+.Search-Container-options-menu ul {
   list-style: none;
   // cursor: pointer;
   cursor: pointer;

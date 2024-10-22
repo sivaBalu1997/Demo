@@ -39,7 +39,7 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
           key={index}
           colSpan={secondRowLength}
           className={header.label.substring(0, header.label.length - 1)}
-          draggable
+          // draggable
           // onDragStart={() => handleColumnwiseDragStart(index)}
           // onDragOver={() => handleColumnwiseDragOver(index)}
           // onDragEnd={handleColumnwiseDragEnd}
