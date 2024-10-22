@@ -912,11 +912,23 @@
 .Menu-noOptions {
   display: flex;
   position: relative;
-  left: 14.5rem;
-  top: 10rem;
-  .imgLoader2 {
-    width: 5rem;
-    height: 5rem;
+  left: 20%;
+  top: 30%;
+}
+
+.imgLoader2 {
+  width: 5rem;
+  height: 5rem;
+  fill: #67833e;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
