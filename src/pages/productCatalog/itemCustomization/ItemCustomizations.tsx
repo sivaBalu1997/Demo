@@ -1,4 +1,10 @@
-import React, { useState, useEffect, ChangeEvent, useContext, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  useContext,
+  useRef,
+} from "react";
 import "./ItemCustomizations.scss";
 import dotted from "../../../assets/images/dotted.png";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
@@ -140,21 +146,15 @@ const ItemCustomizations: React.FC = () => {
     (state: RootState) => state.productCatalog.modifier as Modification[]
   );
 
-  const [ModifierList,setModifierList]=useState<Modification[]>([]);
+  const [ModifierList, setModifierList] = useState<Modification[]>([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const filtered = ListOfmodifier?.filter((modifier: any) =>
       modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
     );
     setModifierList(filtered);
-  
-    
-
-  },[ListOfmodifier,searchQuery])
+  }, [ListOfmodifier, searchQuery]);
   // console.log("ModifierList-dat",ListOfmodifier);
-
- 
-  
 
   const initialModificationValue = [
     {
@@ -172,7 +172,6 @@ const ItemCustomizations: React.FC = () => {
       selectionType: "Optional",
     },
   ];
-
 
   const [modifications, setModifications] = useState<any>(
     initialModificationValue
@@ -222,7 +221,7 @@ const ItemCustomizations: React.FC = () => {
         modifierName: item?.modifierName || "",
         modifierOptions: item?.options
           ? item.options.map((option: any) => ({
-            modifierOptionName: option.modifierOptionName || "",
+              modifierOptionName: option.modifierOptionName || "",
               cost: option.cost,
             }))
           : [{ modifierOptionName: "", cost: 0 }],
@@ -266,17 +265,19 @@ const ItemCustomizations: React.FC = () => {
     return formData;
   };
 
-  const handleModifierChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
-  const { name, value } = e.target;
-  const property = name.split("-")[0];
+  const handleModifierChange = (
+    index: number,
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    const property = name.split("-")[0];
 
-  const newModifications = [...modifications];
+    const newModifications = [...modifications];
 
-  newModifications[index] = { ...newModifications[index], [property]: value };
+    newModifications[index] = { ...newModifications[index], [property]: value };
 
-  setModifications(newModifications);
-};
-
+    setModifications(newModifications);
+  };
 
   const addOption = (index: number) => {
     const newOption = [...modifications];
@@ -307,24 +308,23 @@ const ItemCustomizations: React.FC = () => {
     }
   };
 
+
   const addOptionChange = (
     modIndex: number,
     optIndex: number,
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    
     const newModifier = [...modifications];
     if (e.target.name === "cost") {
-      console.log("1",e.target.value)
-      newModifier[modIndex].modifierOptions[optIndex][e.target.name as keyof Option] =
-        parseFloat(e.target.value) || 0;
+      newModifier[modIndex].modifierOptions[optIndex][
+        e.target.name as keyof Option
+      ] = parseFloat(e.target.value) || 0;
     } else {
-      console.log('2',e.target.value)
-      newModifier[modIndex].modifierOptions[optIndex][e.target.name as keyof Option] =
-        e.target?.value;
+      newModifier[modIndex].modifierOptions[optIndex][
+        e.target.name as keyof Option
+      ] = e.target?.value;
     }
     setModifications(newModifier);
-    console.log({newModifier})
   };
 
   const incrementSpinner = (index: number, field: keyof Modification) => {
@@ -366,11 +366,12 @@ const ItemCustomizations: React.FC = () => {
   const decrementSpinner = (index: number, field: keyof Modification) => {
     const newModifier = [...modifications];
     if (newModifier[index]) {
-      newModifier[index][field as keyof Modifier] =
-        (parseInt(
-          newModifier[index][field as keyof Modifier]?.toString() || 0,
-          10
-        ) || 0) - 1;
+      const currentValue =
+        parseInt(newModifier[index][field as keyof Modifier]?.toString() || '0', 10) || 0;
+  
+      if (currentValue > 0) {
+        newModifier[index][field as keyof Modifier] = currentValue - 1;
+      }
     }
     setModifications(newModifier);
   };
@@ -435,7 +436,9 @@ const ItemCustomizations: React.FC = () => {
     });
   };
 
-  const ordertypesdetails=useSelector((state:any)=>state.PricingDetailReducer.prizingData)
+  const ordertypesdetails = useSelector(
+    (state: any) => state.PricingDetailReducer.prizingData
+  );
 
   useEffect(() => {
     const filtered = modifications?.filter((modifier: any) =>
@@ -443,25 +446,22 @@ const ItemCustomizations: React.FC = () => {
     );
     setFilteredModifications(filtered);
   }, [searchQuery, modifications]);
-  
-  const [selectedModifiers,setSelectedModifiers]=useState<Modification>();
-  
-  const handleSelecteModifiers =(Modifiers:Modification)=>{
-    // console.log("Modifiers",Modifiers);
-    
+
+  const [selectedModifiers, setSelectedModifiers] = useState<Modification>();
+
+  const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
-    setSearchQuery('');
+    setSearchQuery("");
     setModifications((prevModifications: Modification[]) => {
-      const newModifications = [...prevModifications,Modifiers];
-     
+      const newModifications = [...prevModifications, Modifiers];
+
       return newModifications;
     });
-
-  }
-// console.log("selectedModifiers",selectedModifiers);
+  };
 
   const handleSearchChange = () => {
     if (searchQuery.length > 1) {
+      setShowSearchList(true)
       dispatch(getModifierRequest({ name: searchQuery, locationId }));
     }
   };
@@ -477,7 +477,6 @@ const ItemCustomizations: React.FC = () => {
       setHighlightedIndex((prevIndex) => {
         const newIndex = Math.min(ModifierList?.length - 1, prevIndex + 1);
         setSearchQuery(ModifierList[newIndex]?.modifierName);
-
         return newIndex;
       });
     }
@@ -486,35 +485,23 @@ const ItemCustomizations: React.FC = () => {
       setHighlightedIndex((prevIndex) => {
         const newIndex = Math.max(0, prevIndex - 1);
         setSearchQuery(ModifierList[newIndex]?.modifierName);
-
         return newIndex;
       });
     }
-
-    // if (e.key === "Enter") {
-    //   if (highlightedIndex >= 0 && highlightedIndex < ModifierList?.length) {
-    //     // setHighlightedIndex(-1);
-    //     // handleSelecteModifiers(ModifierList[highlightedIndex]);
-    //   }
-    // }
-
-    // if (e.key === 'Backspace') {
-    //   if (optionSelected) {
-    //     // If an option was selected, reset searchTerm and displayTerm
-    //     setSearchTerm('');
-    //     setDisplayTerm('');
-    //     setOptionSelected(false); // Allow new input
-    //     setFilteredOptions([]);   // Clear suggestions
-    //   } else {
-    //     setOptionSelected(false); // Allow for changing selection
-    //   }
-    // }
   };
+
+  const handleMouseEnter = (index: number) => {
+    setHighlightedIndex(index);
+  };
+
   const [ShowSearchList, setShowSearchList] = useState(false);
 
   const Outsideref = useRef<HTMLDivElement | null>(null);
   const Outsideclicking = (event: MouseEvent) => {
-    if (Outsideref.current && !Outsideref.current.contains(event.target as Node)) {
+    if (
+      Outsideref.current &&
+      !Outsideref.current.contains(event.target as Node)
+    ) {
       setShowSearchList(false);
     }
   };
@@ -529,26 +516,24 @@ const ItemCustomizations: React.FC = () => {
 
   useEffect(() => {
     const streams: string[] = []; // Temporary array to store the values
-  
+
     if (ordertypesdetails?.normalForm?.dineInDetails?.price) {
       streams.push(ordertypesdetails.normalForm.dineInDetails.typeName);
     }
-  
+
     if (ordertypesdetails?.normalForm?.pickupDetails?.price) {
       streams.push(ordertypesdetails.normalForm.pickupDetails.typeName);
     }
-  
+
     if (ordertypesdetails?.normalForm?.thirdpartyDetails?.price) {
       streams.push(ordertypesdetails.normalForm.thirdpartyDetails.typeName);
     }
-  
+
     // Update the state
     setListOfStreams(streams);
-  
   }, [ordertypesdetails]);
-  
+
   // This will now correctly print the updated list after the useEffect runs
-  
 
   return (
     <div style={{ display: "flex" }}>
@@ -590,14 +575,10 @@ const ItemCustomizations: React.FC = () => {
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   if (e.target.value === "") {
-                    // setModifications(initialModificationValue);
                     setSelectedModifiers(undefined);
-
+                  } else {
+                    setShowSearchList(true);
                   }
-                  else{
-                    setShowSearchList(true)
-                  }
-
                 }}
                 // onKeyDown={(e) => {
                 //   if (e.key === "Enter") {
@@ -621,18 +602,38 @@ const ItemCustomizations: React.FC = () => {
                 }
                 ref={Outsideref}
               >
-                {ShowSearchList  && searchQuery && (
+                {ShowSearchList && searchQuery && (
                   <ul>
-                    { ModifierList?.length !== 0 ? (
-                      ModifierList?.map((item, index) =>  <li
-                      key={index}
-                     
-                      className={index === highlightedIndex ? 'highlighted-modifiers' : ''}
-                    >
-                      <div  className={isExpanded ? 'Search-Container-options1-items-modifiers' : "Search-Container-options-items-modifiers"}>
-                        {item.modifierName} {index === highlightedIndex  && <button onClick={()=>handleSelecteModifiers(item)} className="Addmodificationfromsearch" >Add</button>} 
-                      </div>
-                    </li>)
+                    {ModifierList?.length !== 0 ? (
+                      ModifierList?.map((item, index) => (
+                        <li
+                          key={index}
+                          className={
+                            index === highlightedIndex
+                              ? "highlighted-modifiers"
+                              : ""
+                          }
+                          onMouseEnter={() => handleMouseEnter(index)}
+                        >
+                          <div
+                            className={
+                              isExpanded
+                                ? "Search-Container-options1-items-modifiers"
+                                : "Search-Container-options-items-modifiers"
+                            }
+                          >
+                            {item.modifierName}{" "}
+                            {index === highlightedIndex && (
+                              <button
+                                onClick={() => handleSelecteModifiers(item)}
+                                className="Addmodificationfromsearch"
+                              >
+                                Add
+                              </button>
+                            )}
+                          </div>
+                        </li>
+                      ))
                     ) : (
                       <div
                         className={
@@ -658,358 +659,380 @@ const ItemCustomizations: React.FC = () => {
               </div>
             )}
 
-
-
-    
-             <div className="modifiersitem">
+            <div className="modifiersitem">
               <div className="modifiers">
                 {modifications?.length === 0 ? (
                   <div className="modifier-no-content"></div>
                 ) : (
-                  modifications?.map((modifier:Modification, modIndex:number) => (
-                    <div
-                      className={getModifierClassName(modifier?.options?.length)}
-                      key={modIndex}
-                      draggable
-                      onDragStart={(e) => onDragStart(e, modIndex)}
-                      onDragOver={(e) => e.preventDefault()}
-                      onDrop={(e) => onDrop(e, modIndex)}
-                      style={{}}
-                    >
-                      {showModifiers && (
-                        <div className="AddModifiersMainInputSection">
-                          <div className="AddModifiersInputSection">
-                            <img
-                              className="dotedimageItemCustomizations"
-                              src={dotted}
-                              alt="dotted"
-                            />
-                            <h3 className="paraItemCustomizations">
-                              {modIndex + 1}.
-                            </h3>
-                            <input
-                              placeholder="Modifier Name"
-                              className={
-                                !modificationError[modIndex]?.modifierName
-                                  ? "inputItemCustomizations"
-                                  : "inputItemCustomizationserror"
-                              }
-                              name="modifierName"
-                              value={
-                                modifications[modIndex]?.modifierName
-                              }
-                              onChange={(e) =>
-                                handleModifierChange(modIndex, e)
-                              }
-                              onBlur={(e) => handleBlur(e, modIndex)}
-                            />
-                            <div
-                              className="deleteModiferContainer"
-                              onClick={() => handleDeleteModifier(modIndex)}
-                            >
-                              <a className="Delete-text">
-                                <span className="SpanDelete">-</span>Delete
-                              </a>
-                            </div>
-                          </div>
-
-                          <div className="flexofradio">
-                            <div className="radiobtnMargin">
+                  modifications?.map(
+                    (modifier: Modification, modIndex: number) => (
+                      <div
+                        className={getModifierClassName(
+                          modifier?.options?.length
+                        )}
+                        key={modIndex}
+                        draggable
+                        onDragStart={(e) => onDragStart(e, modIndex)}
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={(e) => onDrop(e, modIndex)}
+                        style={{}}
+                      >
+                        {showModifiers && (
+                          <div className="AddModifiersMainInputSection">
+                            <div className="AddModifiersInputSection">
+                              <img
+                                className="dotedimageItemCustomizations"
+                                src={dotted}
+                                alt="dotted"
+                              />
+                              <h3 className="paraItemCustomizations">
+                                {modIndex + 1}.
+                              </h3>
                               <input
-                                type="radio"
-                                className="radioItemCustomizations"
-                                name={`selectionType-${modIndex}`}
-                                value="Mandatory"
-                                checked={modifier.selectionType === "Mandatory"} 
+                                placeholder="Modifier Name"
+                                className={
+                                  !modificationError[modIndex]?.modifierName
+                                    ? "inputItemCustomizations"
+                                    : "inputItemCustomizationserror"
+                                }
+                                name="modifierName"
+                                value={modifications[modIndex]?.modifierName}
                                 onChange={(e) =>
                                   handleModifierChange(modIndex, e)
                                 }
+                                onBlur={(e) => handleBlur(e, modIndex)}
                               />
-                              <label className="labelItemCustomizations">
-                                Mandatory
-                              </label>
-                            </div>
-                            <div className="radiobtnMargin">
-                              <input
-                                type="radio"
-                                className="radioItemCustomizations"
-                                name={`selectionType-${modIndex}`}
-                                value="Optional"
-                                checked={modifier.selectionType === "Optional"}
-                                onChange={(e) =>
-                                  handleModifierChange(modIndex, e)
-                                }
-                              />
-                              <label className="labelItemCustomizations">
-                                Optional
-                              </label>
-                            </div>
-                          </div>
-
-                          <div className="option-input-ItemCustomizations">
-                            {modifier?.modifierOptions &&
-                              modifier?.modifierOptions.map((option, optIndex) => (
-                                <div
-                                  key={optIndex}
-                                  className={
-                                    modifier?.modifierOptions.length - 1 >= 1
-                                      ? "option-input-flex-column1-ItemCustomizations"
-                                      : "option-input-flex-column-ItemCustomizations"
-                                  }
-                                >
-                                  <div>
-                                    <input
-                                      placeholder="Option (Item)*"
-                                      className="input2ItemCustomizations"
-                                      name="modifierOptionName"
-                                      type="text"
-                                      value={
-                                        modifier?.modifierOptions[optIndex]
-                                          .optionName
-                                      }
-                                      onChange={(e) =>
-                                        addOptionChange(modIndex, optIndex, e)
-                                      }
-                                      onBlur={(e) =>
-                                        handleBlur(e, modIndex, optIndex)
-                                      }
-                                    />
-                                    {modificationError[modIndex]
-                                            ?.options?.[optIndex]
-                                            ?.optionName && (
-                                      <div className="error-message1">
-                                        {
-                                          modificationError[modIndex]
-                                            ?.options?.[optIndex]
-                                            ?.optionName
-                                        }
-                                      </div>
-                                    )}
-                                  </div>
-
-                                  <div>
-                                    <input
-                                      placeholder="Price*"
-                                      className="input2ItemCustomizations"
-                                      name="cost"
-                                      type="number"
-                                      value={modifier.modifierOptions[optIndex].sellPrice}
-                                      onChange={(e) =>
-                                        addOptionChange(modIndex, optIndex, e)
-                                      }
-                                      onBlur={(e) =>
-                                        handleBlur(e, modIndex, optIndex)
-                                      }
-                                    />
-                                  </div>
-
-                                  <div
-                                    className={
-                                      modifier?.modifierOptions.length - 1 >= 1
-                                        ? "btn1"
-                                        : "btn2"
-                                    }
-                                  >
-                                    {optIndex === 0 && (
-                                      <a
-                                        className={
-                                          modifier?.modifierOptions.length - 1 >= 1
-                                            ? "btn-ItemCustomizations"
-                                            : "btn-ItemCustomizations2"
-                                        }
-                                        onClick={() => addOption(modIndex)}
-                                      >
-                                        <span
-                                          className={
-                                            modifier?.modifierOptions.length - 1 >= 1
-                                              ? "spanOption-button2"
-                                              : "spanOption-button"
-                                          }
-                                        >
-                                          +
-                                          <span className="spanadd">
-                                            Add option
-                                          </span>{" "}
-                                        </span>
-                                      </a>
-                                    )}
-                                    {optIndex > 0 && (
-                                      <a
-                                        className="btn-ItemCustomizations-del"
-                                        onClick={() =>
-                                          deleteOption(modIndex, optIndex)
-                                        }
-                                      >
-                                        - Delete option
-                                      </a>
-                                    )}
-                                  </div>
-                                </div>
-                              ))}
-                          </div>
-
-                          <div className="Spinner-input-ItemCustomizations">
-                            <div className="Spinner-inputlabel-ItemCustomizations">
-                              <label
-                                className="labelItemCustomizations"
-                                htmlFor=""
+                              <div
+                                className="deleteModiferContainer"
+                                onClick={() => handleDeleteModifier(modIndex)}
                               >
-                                Minimum selection
-                              </label>
-                              <input
-                                placeholder=""
-                                className="input3ItemCustomizations"
-                                value={
-                                  modifications[modIndex]?.selectionType === "Mandatory" &&
+                                <a className="Delete-text">
+                                  <span className="SpanDelete">-</span>Delete
+                                </a>
+                              </div>
+                            </div>
+
+                            <div className="flexofradio">
+                              <div className="radiobtnMargin">
+                                <input
+                                  type="radio"
+                                  className="radioItemCustomizations"
+                                  name={`selectionType-${modIndex}`}
+                                  value="Mandatory"
+                                  checked={
+                                    modifier.selectionType === "Mandatory"
+                                  }
+                                  onChange={(e) =>
+                                    handleModifierChange(modIndex, e)
+                                  }
+                                />
+                                <label className="labelItemCustomizations">
+                                  Mandatory
+                                </label>
+                              </div>
+                              <div className="radiobtnMargin">
+                                <input
+                                  type="radio"
+                                  className="radioItemCustomizations"
+                                  name={`selectionType-${modIndex}`}
+                                  value="Optional"
+                                  checked={
+                                    modifier.selectionType === "Optional"
+                                  }
+                                  onChange={(e) =>
+                                    handleModifierChange(modIndex, e)
+                                  }
+                                />
+                                <label className="labelItemCustomizations">
+                                  Optional
+                                </label>
+                              </div>
+                            </div>
+
+                            <div className="option-input-ItemCustomizations">
+                              {modifier?.modifierOptions &&
+                                modifier?.modifierOptions.map(
+                                  (option, optIndex) => (
+                                    <div
+                                      key={optIndex}
+                                      className={
+                                        modifier?.modifierOptions.length - 1 >=
+                                        1
+                                          ? "option-input-flex-column1-ItemCustomizations"
+                                          : "option-input-flex-column-ItemCustomizations"
+                                      }
+                                    >
+                                      <div>
+                                        <input
+                                          placeholder="Option (Item)*"
+                                          className="input2ItemCustomizations"
+                                          name="modifierOptionName"
+                                          type="text"
+                                          value={
+                                            modifier?.modifierOptions[optIndex]
+                                              .optionName
+                                          }
+                                          onChange={(e) =>
+                                            addOptionChange(
+                                              modIndex,
+                                              optIndex,
+                                              e
+                                            )
+                                          }
+                                          onBlur={(e) =>
+                                            handleBlur(e, modIndex, optIndex)
+                                          }
+                                        />
+                                        {modificationError[modIndex]?.options?.[
+                                          optIndex
+                                        ]?.optionName && (
+                                          <div className="error-message1">
+                                            {
+                                              modificationError[modIndex]
+                                                ?.options?.[optIndex]
+                                                ?.optionName
+                                            }
+                                          </div>
+                                        )}
+                                      </div>
+
+                                      <div>
+                                        <input
+                                          placeholder="Price*"
+                                          className="input2ItemCustomizations"
+                                          name="cost"
+                                          type="number"
+                                          value={
+                                            modifier.modifierOptions[optIndex]
+                                              .sellPrice
+                                          }
+                                          onChange={(e) =>
+                                            addOptionChange(
+                                              modIndex,
+                                              optIndex,
+                                              e
+                                            )
+                                          }
+                                          onBlur={(e) =>
+                                            handleBlur(e, modIndex, optIndex)
+                                          }
+                                        />
+                                      </div>
+
+                                      <div
+                                        className={
+                                          modifier?.modifierOptions.length -
+                                            1 >=
+                                          1
+                                            ? "btn1"
+                                            : "btn2"
+                                        }
+                                      >
+                                        {optIndex === 0 && (
+                                          <a
+                                            className={
+                                              modifier?.modifierOptions.length -
+                                                1 >=
+                                              1
+                                                ? "btn-ItemCustomizations"
+                                                : "btn-ItemCustomizations2"
+                                            }
+                                            onClick={() => addOption(modIndex)}
+                                          >
+                                            <span
+                                              className={
+                                                modifier?.modifierOptions
+                                                  .length -
+                                                  1 >=
+                                                1
+                                                  ? "spanOption-button2"
+                                                  : "spanOption-button"
+                                              }
+                                            >
+                                              +
+                                              <span className="spanadd">
+                                                Add option
+                                              </span>{" "}
+                                            </span>
+                                          </a>
+                                        )}
+                                        {optIndex > 0 && (
+                                          <a
+                                            className="btn-ItemCustomizations-del"
+                                            onClick={() =>
+                                              deleteOption(modIndex, optIndex)
+                                            }
+                                          >
+                                            - Delete option
+                                          </a>
+                                        )}
+                                      </div>
+                                    </div>
+                                  )
+                                )}
+                            </div>
+
+                            <div className="Spinner-input-ItemCustomizations">
+                              <div className="Spinner-inputlabel-ItemCustomizations">
+                                <label
+                                  className="labelItemCustomizations"
+                                  htmlFor=""
+                                >
+                                  Minimum selection
+                                </label>
+                                <input
+                                  placeholder=""
+                                  className="input3ItemCustomizations"
+                                  value={
+                                    modifications[modIndex]?.selectionType ===
+                                      "Mandatory" &&
                                     modifications[modIndex].minSelection != 1
-                                    ? 1 // Set value to 1 if conditions are met
-                                    : modifications[modIndex]
-                                        .minSelection // Otherwise, use minSelection
-                                }
-                                name="minSelection"
-                                onChange={(e) =>
-                                  handleModifierChange(modIndex, e)
-                                }
-                                disabled={
-                                  modifications[modIndex]
-                                    ?.selectionType === "Mandatory"
-                                }
-                              />
-                              <div className="polydiv-ItemCustomizations">
-                                <img
-                                  className="polyimg-ItemCustomizations"
-                                  src={Polygon1}
-                                  alt=""
-                                  onClick={() => {
-                                    if (
-                                      modifications[modIndex]
-                                        ?.selectionType !== "Mandatory"
-                                    ) {
+                                      ? 1 
+                                      : modifications[modIndex].minSelection 
+                                  }
+                                  name="minSelection"
+                                  onChange={(e) =>
+                                    handleModifierChange(modIndex, e)
+                                  }
+                                  // disabled={
+                                  //   modifications[modIndex]?.selectionType ===
+                                  //   "Mandatory"
+                                  // }
+                                />
+                                <div className="polydiv-ItemCustomizations">
+                                  <img
+                                    className="polyimg-ItemCustomizations"
+                                    src={Polygon1}
+                                    alt=""
+                                    onClick={() => {
+                                      if (
+                                        modifications[modIndex]
+                                          ?.selectionType !== "Mandatory"
+                                      ) {
+                                        incrementSpinner(
+                                          modIndex,
+                                          "minSelection"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                  <img
+                                    className="polyimg-ItemCustomizations"
+                                    src={Polygon2}
+                                    alt=""
+                                    onClick={() => {
+                                      if (
+                                        modifications[modIndex]
+                                          ?.selectionType !== "Mandatory"
+                                      ) {
+                                        decrementSpinner(
+                                          modIndex,
+                                          "minSelection"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="Spinner-inputlabel-ItemCustomizations">
+                                <label
+                                  className="labelItemCustomizations"
+                                  htmlFor=""
+                                >
+                                  Maximum selection
+                                </label>
+                                <input
+                                  placeholder=""
+                                  className="input3ItemCustomizations"
+                                  value={modifications[modIndex]?.maxSelection}
+                                  name="maxSelection"
+                                  onChange={(e) =>
+                                    handleModifierChange(modIndex, e)
+                                  }
+                                />
+                                <div className="polydiv-ItemCustomizations">
+                                  <img
+                                    className="polyimg-ItemCustomizations"
+                                    src={Polygon1}
+                                    alt=""
+                                    onClick={() =>
+                                      incrementSpinner(modIndex, "maxSelection")
+                                    }
+                                  />
+                                  <img
+                                    className="polyimg-ItemCustomizations"
+                                    src={Polygon2}
+                                    alt=""
+                                    onClick={() =>
+                                      decrementSpinner(modIndex, "maxSelection")
+                                    }
+                                  />
+                                </div>
+                              </div>
+                              <div className="Spinner-inputlabel-ItemCustomizations">
+                                <label
+                                  className="label1ItemCustomizations"
+                                  htmlFor=""
+                                >
+                                  No Free customization
+                                </label>
+                                <input
+                                  placeholder=""
+                                  className="input3ItemCustomizations"
+                                  name="freeCustomization"
+                                  value={
+                                    modifications[modIndex]?.freeCustomization
+                                  }
+                                  onChange={(e) =>
+                                    handleModifierChange(modIndex, e)
+                                  }
+                                />
+                                <div className="polydiv-ItemCustomizations">
+                                  <img
+                                    className="polyimg-ItemCustomizations"
+                                    src={Polygon1}
+                                    alt=""
+                                    onClick={() =>
                                       incrementSpinner(
                                         modIndex,
-                                        "minSelection"
-                                      );
+                                        "freeCustomization"
+                                      )
                                     }
-                                  }}
-                                />
-                                <img
-                                  className="polyimg-ItemCustomizations"
-                                  src={Polygon2}
-                                  alt=""
-                                  onClick={() => {
-                                    if (
-                                      modifications[modIndex]?.selectionType !== "Mandatory"
-                                    ) {
+                                  />
+                                  <img
+                                    className="polyimg-ItemCustomizations"
+                                    src={Polygon2}
+                                    alt=""
+                                    onClick={() =>
                                       decrementSpinner(
                                         modIndex,
-                                        "minSelection"
-                                      );
+                                        "freeCustomization"
+                                      )
                                     }
-                                  }}
+                                  />
+                                </div>
+                              </div>
+                              <div className="dropDown-item">
+                                <Dropdown
+                                  selectedValues={
+                                    modifications[modIndex]?.selectedValue || []
+                                  }
+                                  onSelect={(value) =>
+                                    handleSelect3(value, modIndex)
+                                  }
+                                  options={listOfStreams}
+                                  width="Drop1"
+                                  validation={validationState.items}
+                                  label="Available Service Stream*"
                                 />
                               </div>
-                            </div>
-
-                            <div className="Spinner-inputlabel-ItemCustomizations">
-                              <label
-                                className="labelItemCustomizations"
-                                htmlFor=""
-                              >
-                                Maximum selection
-                              </label>
-                              <input
-                                placeholder=""
-                                className="input3ItemCustomizations"
-                                value={
-                                  modifications[modIndex]?.maxSelection
-                                }
-                                name="maxSelection"
-                                onChange={(e) =>
-                                  handleModifierChange(modIndex, e)
-                                }
-                              />
-                              <div className="polydiv-ItemCustomizations">
-                                <img
-                                  className="polyimg-ItemCustomizations"
-                                  src={Polygon1}
-                                  alt=""
-                                  onClick={() =>
-                                    incrementSpinner(modIndex, "maxSelection")
-                                  }
-                                />
-                                <img
-                                  className="polyimg-ItemCustomizations"
-                                  src={Polygon2}
-                                  alt=""
-                                  onClick={() =>
-                                    decrementSpinner(modIndex, "maxSelection")
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div className="Spinner-inputlabel-ItemCustomizations">
-                              <label
-                                className="label1ItemCustomizations"
-                                htmlFor=""
-                              >
-                                No Free customization
-                              </label>
-                              <input
-                                placeholder=""
-                                className="input3ItemCustomizations"
-                                name="freeCustomization"
-                                value={
-                                  modifications[modIndex]
-                                    ?.freeCustomization
-                                }
-                                onChange={(e) =>
-                                  handleModifierChange(modIndex, e)
-                                }
-                              />
-                              <div className="polydiv-ItemCustomizations">
-                                <img
-                                  className="polyimg-ItemCustomizations"
-                                  src={Polygon1}
-                                  alt=""
-                                  onClick={() =>
-                                    incrementSpinner(
-                                      modIndex,
-                                      "freeCustomization"
-                                    )
-                                  }
-                                />
-                                <img
-                                  className="polyimg-ItemCustomizations"
-                                  src={Polygon2}
-                                  alt=""
-                                  onClick={() =>
-                                    decrementSpinner(
-                                      modIndex,
-                                      "freeCustomization"
-                                    )
-                                  }
-                                />
-                              </div>
-                            </div>
-                            <div className="dropDown-item">
-                              <Dropdown
-                                selectedValues={
-                                  modifications[modIndex]?.selectedValue || []
-                                }
-                                onSelect={(value) =>
-                                  handleSelect3(value, modIndex)
-                                }
-                                options={listOfStreams}
-                                width="Drop1"
-                                validation={validationState.items}
-                                label="Available Service Stream*"
-                              />
                             </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ))
+                        )}
+                      </div>
+                    )
+                  )
                 )}
               </div>
 
@@ -1024,15 +1047,6 @@ const ItemCustomizations: React.FC = () => {
                 </div>
               </div>
             </div>
-  
-            
-
-             
-         
-
-
-
-        
           </div>
         </div>
       </div>

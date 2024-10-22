@@ -183,8 +183,10 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
+    console.log("primary",formData);
     if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
+     
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
@@ -196,6 +198,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           pathname: `/productCatalog/Pricingandkitchendetails`,
           state: { pagename: "Pricing and kitchen details" },
         });
+
+     
+        
         dispatch(primarypost(formData));
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
@@ -203,7 +208,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
-     console.log("Pricing",PricingDetails);
      
       const isinValid = await triggerValidation(formData);
 
@@ -215,7 +219,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       } else {
         console.error("formData.kitchenstation is undefined");
       }
-      console.log({PricingDetails})
 
       if (formData?.form && formData?.form?.Inventory1) {
         PricingDetails = {
@@ -227,7 +230,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           },
         };
       }
-      console.log("hi", formData?.Preparationtime.hours);
       if (
         formData.Preparationtime?.hours ||
         formData.Preparationtime?.minutes
@@ -251,15 +253,11 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           state: { pagename: "Itemcustomizations" },
         });
       }
-
-      console.log("Pricing",PricingDetails);
     } else if (seletedpage === "ItemCustomization") {
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));
       history.push("/productCatalog/Reviewpage");
-      console.log("modifications",modifications);
-      
     }
   };
 
@@ -267,11 +265,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     reset();
   };
  
-     
-
   return (
     <div>
-      <div className={isExpanded ? " saveandnextExpanded" : "saveandnext"}>
+      <div className={isExpanded ? " saveandnextFooterExpanded" : "saveandnextfooter"}>
         <button className="clearall" onClick={handleclear}>
           Clear All
         </button>

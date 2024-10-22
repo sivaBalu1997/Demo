@@ -213,9 +213,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
+
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
+
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
   );
@@ -232,48 +234,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   useEffect(() => {
     setError([]);
   }, []);
-
-  // useEffect(() => {
-  //   if (uploadStatus && uploadStatus.index !== undefined) {
-
-  //     setError((prevErro) => {
-  //       const existingErrorIndex = prevErro.findIndex(
-  //         (entry) => entry.index === uploadStatus.index
-  //       );
-
-  //       if (existingErrorIndex !== -1) {
-  //         const updatedErro = [...prevErro];
-  //         updatedErro[existingErrorIndex] = {
-  //           ...updatedErro[existingErrorIndex],
-  //           status: uploadStatus.status,
-  //           image: uploadStatus.image,
-  //           id: uploadStatus.id,
-  //         };
-  //         return updatedErro;
-  //       } else {
-  //         return [
-  //           ...prevErro,
-  //           {
-  //             index: uploadStatus.index,
-  //             status: uploadStatus.status,
-  //             image: uploadStatus.image,
-  //             id: uploadStatus.id,
-  //           },
-  //         ];
-  //       }
-  //     });
-  //   }
-  // }, [uploadStatus, errorMessages]);
-
-  // useEffect(() => {
-  //   if (uploadStatus.id && Object.keys(uploadStatus).length > 0){
-  //     setError((prev)=>[...prev,uploadStatus]);
-  //     console.log(error,"errosrs")
-  //   } else {
-  //     // If uploadStatus is not an array, you can handle it here
-  //     console.error("uploadStatus is not an array:", uploadStatus);
-  //   }
-  // }, [uploadStatus, errorMessages]);
 
   const primarypagedetails = useSelector((state: RootState) => state);
   const MAX_IMAGES = 6;
@@ -328,26 +288,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   let [selectedImages, setselectedImages] = useState(uploadedimage || []);
-  // const selectedImages=uploadedimage || [];
-
-  // console.log("selectedImages", uploadedimage);
-
-  // const imagesNotPresent = selectedImages.filter(selectedImage =>
-  //   !subsectiondata.some((subsectionFile:imageType) => subsectionFile.file.name === selectedImage.file.name)
-  // )
-
-  // useEffect(()=>(
-
-  //   setselectedImages(imagesNotPresent)
-
-  // ),[selectedImages,subsectiondata])
 
   const emptySlots =
     selectedImages.length === 0
       ? MAX_IMAGES - selectedImages.length - 1
       : MAX_IMAGES - selectedImages.length;
 
-  const [disableSubmit, setDisableSubmit] = useState<boolean>(true); // Initialize submit as disabled
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(true); 
 
   const hasImageError = (image: File): boolean => {
     return error.some(
@@ -402,12 +349,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         file: filedata,
         preview: URL.createObjectURL(filedata),
       };
-      // setUploadedimage((prevImages) => {
-      //   const updatedImages = [];
-      //   updatedImages[indexToReplace] = newImage;
-
-      //   return updatedImages;
-      // });
       setUploadedimage((prevImages) => {
         const updatedImages = prevImages;
         updatedImages[indexToReplace] = newImage;
@@ -415,9 +356,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         return updatedImages;
       });
 
-
-      // console.log("prevoiew",selectedImages[indexToReplace])
-      // setRetriedImages([newImage])
       setRetriedImages([newImage]);
       dispatch(retryImageUpload(newImage));
 
@@ -518,7 +456,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     maxCount: item?.maxSelection,
     minCount: item?.minSelection,
     noFreeCustomization: item?.freeCustomization,
-    options: item?.options,
+    options: item?.modifierOptions,
   }));
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
@@ -530,9 +468,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     dineInDetails && dineInDetails, 
     pickupDetails && pickupDetails,  
     deliveryDetails && deliveryDetails, 
-    ...(thirdPartyDetails && thirdPartyDetails)
+    ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : [])
   ].filter(Boolean);
-
+  
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
@@ -572,6 +510,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
+
+  console.log({primarypagedetails},{prizingDetail},{modifierData})
 
   const editPayload = {
     itemId: editData[0]?.id,
@@ -662,18 +602,25 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     }
   }, [subsectiondatamsg]);
 
-  const handleSubmitItemDetails = () => {    if (Wholedata?.imageUrls?.length > 0) {
+  const [buttonClicked, setButtonClicked] = useState(false)
+
+  const handleSubmitItemDetails = () => {    
+    if (Wholedata?.imageUrls?.length > 0) {
       dispatch(startImageUpload(primarydata?.imageUrls)); 
+      setButtonClicked(true)
       if (subsectiondatamsg) {
+        console.log('hi image')
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
     } else {
+      console.log('hi')
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      setButtonClicked(true)
     }
   };
 
   useEffect(()=>{
-    if(addMenuSuccess){
+    if(buttonClicked){
       dispatch(removeDataRequest(primarydata))
       dispatch(removeDataRequest(prizingDetail))
       dispatch(removeDataRequest(itemCustomizationData))
@@ -697,7 +644,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
             subsectionFile.file.name === selectedImage.file.name
         )
     );
-
     return result;
   };
 

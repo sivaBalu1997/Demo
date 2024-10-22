@@ -117,7 +117,7 @@ const EmptyMenu = () => {
                 </div>
                 <div
                   className="addItem-button-container"
-                  onClick={() => history.push("/management/menu/Items/Add")}
+                  onClick={() => history.push("/menu/Items/Add")}
                 >
                   <PlusIcon className="plus-icon" />
 
@@ -231,7 +231,7 @@ const EmptyMenu = () => {
                 <div className="buttonContainer">
                   <div
                     className="button"
-                    onClick={() => history.push("/management/menu/Items/Add")}
+                    onClick={() => history.push("/menu/Items/Add")}
                   >
                     <AddIcon height="20px" /> Add Item
                   </div>

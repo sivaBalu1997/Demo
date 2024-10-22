@@ -245,6 +245,7 @@ const AddItem = (props) => {
       );
     }
   }, [category]);
+  
   const getImageURL = useCallback((data) => {
     return data.imageType
       ? data.imageType &&

@@ -64,6 +64,8 @@ const Slider: React.FC<SliderProps> = ({
     (state: any) => state?.storeDataReducer?.data
   );
   const data1=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+
+  console.log("aaadta",data1)
   const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
 
 
@@ -147,11 +149,9 @@ console.log("sidbar",SideBarData);
       );
       setApiPayload({
         itemId:finalSubItem.itemId
-
       })}
     
       setTrash(true)
-
   };
 
   const handleOnclose = () => {
@@ -176,7 +176,7 @@ console.log("sidbar",SideBarData);
     // Dispatch action when ParentComponent mounts and the Slider is rendered
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
-  console.log(menuData)
+  console.log(dataFromRedux)
 
   return (
     <div ref={modelref} className="Slider-Container" onClick={closeModal}>
@@ -184,7 +184,7 @@ console.log("sidbar",SideBarData);
         <div className="Slider-Mainform">
           <div className="Slider-First-Row">
           <h1 className="Slider-Heading1">
-          {dataFromRedux?.length > 0 ? dataFromRedux[0]?.itemName : "No Item Available"}
+          {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
           </h1>
             <div className="Slider-icons">
               <div className="PenImage-Section">

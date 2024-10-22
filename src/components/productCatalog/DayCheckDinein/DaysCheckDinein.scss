@@ -1,48 +1,36 @@
-.container-daycheck{
+.container-daycheck {
   display: flex;
-    justify-content: start;
-    gap: 10px;
+  justify-content: start;
+  gap: 10px;
 }
 
+.DaysCheckContainer1 {
+  margin-top: 25px;
+  margin-left: -15px;
+  margin-bottom: 10px;
+}
+.DaysCheckContainer {
+  margin-top: -7px;
+  margin-bottom: 20px;
+}
 
-.DaysCheckContainer1{
-    margin-top: -5px;
-    margin-left: -15px;
-    margin-bottom: 10px;
-  
-  
-  }
-  .DaysCheckContainer{
-    margin-top: -7px;
-    margin-bottom: 20px;
-    
-  }
-  
-   .aa {
-      transform: translateY(4px);
+.aa {
+  transform: translateY(4px);
   width: 18px;
   height: 18px;
   margin-left: 15px;
   margin-right: 10px;
-  
-  
-  
+
   accent-color: #779749;
+}
+.DaysCheckContainer {
+  label {
+    padding-left: 8px;
+    // border: 1px solid red;
+    padding-right: 20px;
+    font-family: "Poppins", sans-serif;
+    color: #2f2f2f;
+    font-size: 16px;
+    font-weight: 400;
   }
-  .DaysCheckContainer
-  {
-      label{
-          padding-left: 8px;
-  // border: 1px solid red;
-  padding-right: 20px;
-  font-family: "Poppins",sans-serif;
-  color: #2F2F2F;
-  font-size: 16px;
-  font-weight: 400;
-  
-  
-  
-  
-        
-      }
-  }
+}

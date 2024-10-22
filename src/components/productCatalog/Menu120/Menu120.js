@@ -1,8 +1,14 @@
 import React from "react";
 import "./Menu120.scss";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Menu120 = () => {
+
+  const menuData = useSelector((state) => state.productCatalog?.menuData);
+
+  console.log({menuData})
+
   const data = [
     {
       OutletName: "Outlet1",
@@ -21,8 +27,8 @@ const Menu120 = () => {
   return (
     <>
       <div className="Header-Heading">
-        Menu(120)
-        <div className="Menu120-Tooltip-container">
+        Menu({menuData.length})
+        {/* <div className="Menu120-Tooltip-container">
           {data.map((elem, index) => (
             <div className="Menu120-Tooltip-container-heading" key={index}>
               <div className="Menu120-Heading">{elem.OutletName}</div>
@@ -31,7 +37,7 @@ const Menu120 = () => {
               <div className="Menu120-sub-Heading">{elem.Hidden}</div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </>
   );

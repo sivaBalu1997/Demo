@@ -160,7 +160,7 @@ const SearchBox = () => {
         />
       </div>
 
-      <div className={isExpanded ? "Search-Container-options1" : 'Search-Container-options'}>
+      <div className={isExpanded ? "Search-Container-options1" : 'Search-Container-options-menu'}>
         {searchTerm && (
           <ul>
             {filteredOptions.length > 0 ? (

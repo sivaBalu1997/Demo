@@ -173,7 +173,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                 </ul>
               </li>
 
-              <li>
+              {/* <li>
                 <div className="headtext inventoryheadtext">
                   <input
                     type="checkbox"
@@ -182,7 +182,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   />
                   <span>{insertlists.Inventory}</span>
                 </div>
-              </li>
+              </li> */}
 
               <li>
                 <div className="headtext customheadtext">

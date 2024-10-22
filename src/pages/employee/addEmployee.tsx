@@ -736,9 +736,9 @@ if(!!params?.id?.length && dataFetching)  {
                             e.preventDefault();
                           }
                         }}
-                        placeholder="First Name*"
+                        // placeholder="First Name*"
                       />
-                  <TextInput
+                  {/* <TextInput
                     type="text"
                     // placeholder="First Name*"
                     //maxLength={15}
@@ -757,7 +757,7 @@ if(!!params?.id?.length && dataFetching)  {
                         e.preventDefault();
                       }
                     }}
-                  />
+                  /> */}
                   </div>
 
                   <div>

@@ -5,7 +5,7 @@ import dropdown from "../../../assets/images/dropdown.png";
 import { FieldError } from "react-hook-form";
 import { render } from "@testing-library/react";
 import { useSelector, useDispatch } from "react-redux";
-import Loader from '../../../assets/Loader.gif.gif'
+import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import {
   addDropDowRequest,
   deleteDropDowRequest,
@@ -376,18 +376,21 @@ const DropDownList: React.FC<DropdownProps> = ({
   //   : selectedOptions[0]?.name || ""}
 
   const handleCheckboxChange = (option: Option) => {
-    if (type == "checkbox") {
+    if (type === "checkbox") {
+    
       setSelectedOptions((prevSelected) => {
+        let updatedSelected;
         if (prevSelected.some((opt) => opt.id === option.id)) {
-          setValue(name, selectedOptions.map((opt) => opt.name).join(", "));
-
-          return prevSelected.filter((opt) => opt.id !== option.id);
+          updatedSelected = prevSelected.filter((opt) => opt.id !== option.id);
         } else {
-          // If not selected, add it
-          return [...prevSelected, option];
+          updatedSelected = [...prevSelected, option];
         }
-      });
-    } else if (type === "radio") {
+        setValue(name, updatedSelected.map((opt) => opt.name).join(", "));
+        trigger(name);
+  
+        return updatedSelected;
+      })}
+       else if (type === "radio") {
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
@@ -518,7 +521,16 @@ const DropDownList: React.FC<DropdownProps> = ({
             >
               {Loading ? (
                 <div className="dropdown-no-options">
-                  <img className="imgLoader1" src={Loader}  alt="" />
+                 <Loader 
+                    className="imgLoader1" 
+                    height="300px"
+                    width="300px" 
+                    style={{ 
+                      filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)',
+                      height: '80px',
+                      width: '80px'
+                     }}
+                  />
                 </div>
               ) : (
                 <div>

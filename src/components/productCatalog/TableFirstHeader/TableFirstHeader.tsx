@@ -6,14 +6,14 @@ interface TableHeaderProps {
   secondRowLength: number;
   listingobject: any;
   setlistingobject: (value: any) => void;
-  handleColumnwiseDragStart: (index: number) => void;
-  handleColumnwiseDragOver: (index: number) => void;
-  handleColumnwiseDragEnd: () => void;
+  // handleColumnwiseDragStart: (index: number) => void;
+  // handleColumnwiseDragOver: (index: number) => void;
+  // handleColumnwiseDragEnd: () => void;
   dots: string;
   dollar: string;
   calendericon: string;
   removeicon: string;
-  dragtablefirstHeaderindex:number
+  // dragtablefirstHeaderindex:number
 }
 
 const TableFirstHeader: React.FC<TableHeaderProps> = ({
@@ -22,14 +22,14 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
   secondRowLength,
   listingobject,
   setlistingobject,
-  handleColumnwiseDragStart,
-  handleColumnwiseDragOver,
-  handleColumnwiseDragEnd,
+  // handleColumnwiseDragStart,
+  // handleColumnwiseDragOver,
+  // handleColumnwiseDragEnd,
   dots,
   dollar,
   calendericon,
   removeicon,
-  dragtablefirstHeaderindex
+  // dragtablefirstHeaderindex
 }) => {
   return (
     <>
@@ -39,10 +39,10 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
           key={index}
           colSpan={secondRowLength}
           className={header.label.substring(0, header.label.length - 1)}
-          draggable
-          onDragStart={() => handleColumnwiseDragStart(index)}
-          onDragOver={() => handleColumnwiseDragOver(index)}
-          onDragEnd={handleColumnwiseDragEnd}
+          // draggable
+          // onDragStart={() => handleColumnwiseDragStart(index)}
+          // onDragOver={() => handleColumnwiseDragOver(index)}
+          // onDragEnd={handleColumnwiseDragEnd}
         >
           {/* <span className="dots">
             <img src={dots} alt="" />
@@ -75,9 +75,9 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
             />
           </span>
         </th>
-        {dragtablefirstHeaderindex === index && (
+        {/* {dragtablefirstHeaderindex === index && (
           <th className="placeholderplacecolumn"></th>
-        )}
+        )} */}
         
         </>
         

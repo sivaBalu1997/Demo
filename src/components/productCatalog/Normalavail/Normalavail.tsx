@@ -158,7 +158,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>([]);
   const [selectedValuesmealtype, setSelectedValuesMealType] =
     React.useState<SelectedValuesMealTypeState>([]);
-console.log("Normaldays",Normaldays);
 
   const [optionsmealtype, setOptionsMealType] = useState([
     "Breakfast",
@@ -315,7 +314,7 @@ console.log("Normaldays",Normaldays);
     // ...(selectedthirdvalues?.length > 0 && {                    //need to fix 3rd Party
     //   thirdpartyDetails: priceInfo
     // })
-    thirdpartyDetails: priceInfo  
+   ...( priceInfo && {thirdpartyDetails: priceInfo}  )
   };
 
   const optionsselectthird = orderTypes

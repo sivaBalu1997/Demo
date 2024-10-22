@@ -655,8 +655,6 @@ const PricingDetails = () => {
 
     return isValid;
   };
-
-  console.log("dineinfields",dineinfields);
   
   const handleReset = () => {
     if (kitchenDetail.current) {
