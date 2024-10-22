@@ -62,7 +62,7 @@ const EyeModal = ({ onTrashclose,ItemId }) => {
               Cancel
             </button>
             <button className="TrashButton2" onClick={handleChange}>
-              Change
+              Delete
             </button>
           </div>
         </div>

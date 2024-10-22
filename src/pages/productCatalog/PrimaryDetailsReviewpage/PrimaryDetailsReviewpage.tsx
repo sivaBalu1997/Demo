@@ -649,8 +649,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     return result;
   };
 
-  console.log({addMenuLoading},{uploadImageLoading})
-
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />

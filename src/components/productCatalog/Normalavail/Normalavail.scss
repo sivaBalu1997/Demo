@@ -677,7 +677,7 @@
   justify-content: left;
   gap: 0.313rem;
   // border: 1px solid red;
-  margin-top: -1.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
   width: 400px;
@@ -711,6 +711,7 @@
   line-height: 1.313rem;
   cursor: pointer;
   margin-top: 95px;
+  margin-bottom: 40px;
 }
 
 .ThirdPartyChooseDayContainer-chooseheading {
@@ -723,5 +724,6 @@
   width: 200px;
   height: 2rem;
   text-align: left;
+  margin-bottom: 40px;
   // border: 1px solid red;
 }
