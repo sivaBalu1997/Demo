@@ -414,9 +414,11 @@ export const Menulisting = () => {
     }
   },[menuData])
 
-  // useEffect(() => {
-  //   dispatch(getMenuRequest(location?.id));
-  // }, []);
+  useEffect(() => {
+    if(deleteMenuItemSuccess && modal){
+      setmodal(false)
+    }
+  }, [deleteMenuItemSuccess]);
 
   return (
     <>
@@ -607,7 +609,7 @@ export const Menulisting = () => {
                   }
                 </table>
               </div>
-              {deleteMenuItemSuccess ? !modal : modal && (
+               {modal && (
                 <Slider
                   sidebartext={sidebartext}
                   SideBarData={SideBarData}
