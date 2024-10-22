@@ -245,6 +245,8 @@ export const Menulisting = () => {
     e.preventDefault();
   };
 
+  console.log({menudatalist})
+
   const handledragvegnonvegdropend = (e, index) => {
     e.preventDefault();
     const updatedCategories = [...menudatalist];
@@ -409,10 +411,6 @@ export const Menulisting = () => {
       setLoading(true);
     }
   },[menuData])
-
-  useEffect(() => {
-    dispatch(getMenuRequest(location?.id));
-  }, []);
 
   return (
     <>

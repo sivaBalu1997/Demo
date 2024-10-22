@@ -498,11 +498,10 @@ function* deleteMenuItemSaga(action) {
   try {
     const response = yield call(deleteMenuItem, action.payload.itemId);
     if (response.status === 200) {
-      yield put(deleteMenuItemSuccess(response.data));
-      yield put({
-        type: STORE_MENU_REQUEST,
-        payload: action.payload.locationid
-      });
+      yield put(deleteMenuItemSuccess({
+        message: response.data,
+        itemId: action.payload.itemId
+      }));
     } else {
       yield put(deleteMenuItemFailed({ message: "please Try Again" }));
     }
