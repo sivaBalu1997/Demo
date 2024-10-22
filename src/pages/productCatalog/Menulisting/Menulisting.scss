@@ -23,17 +23,17 @@
   transition: width 0.6s ease;
 }
 
-// .Menu-Listing-Page-main {
-//   table,
-//   tr,
-//   th,
-//   td {
-//     border: none !important;
-//     padding: 0;
-//     margin: 0;
-//     border-spacing: 0;
-//   }
-// }
+.Menu-Listing-Page-main {
+  table,
+  tr,
+  th,
+  td {
+    border: none !important;
+    padding: 0;
+    margin: 0;
+    border-spacing: 0;
+  }
+}
 
 .headercomponent {
   margin-bottom: 30px;
@@ -133,30 +133,7 @@
       }
     }
 
-    .itemheading {
-      font-size: 20px !important;
-      font-weight: 500;
-      color: black !important;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      height: 2rem;
-      background-color: #e2e0e0;
-      // border: 1px solid blue;
-    }
-    .itemheadingtwo {
-      font-size: 20px;
-      width: 20rem;
-      gap: 10px;
-      font-weight: 500;
-      color: black;
-      align-items: center;
-      display: flex;
-      height: 2rem;
-      background-color: #e2e0e0;
-      border-right: 1px solid #b3b3b3 !important;
-    }
-
+    
     .Menu-listing-Body {
       display: flex;
       flex-direction: column;
@@ -165,9 +142,33 @@
       // position: relative;
       // top: 2.2%;
       margin-top: 0;
+      .itemheading {
+        font-size: 20px !important;
+        font-weight: 500;
+        color: black !important;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 2rem;
+        background-color: #e2e0e0;
+        // border: 1px solid blue;
+      }
+      .itemheadingtwo {
+        font-size: 20px;
+        width: 19.95rem;
+        gap: 10px;
+        font-weight: 500;
+        color: black;
+        align-items: center;
+        display: flex;
+        height: 2rem !important;
+        background-color: #e2e0e0;
+        border-right: 1px solid #b3b3b3 !important;
+      }
+  
 
       .itemdetails-row {
-        width: 20rem;
+        width: 19.95rem;
         height: 60px;
         border: 1px solid #b3b3b3 !important;
         border-collapse: collapse;
@@ -232,6 +233,7 @@
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
+  
 
     &::-webkit-scrollbar-track {
       background-color: #b3b3b3;
@@ -274,18 +276,21 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    // border: 1px solid red;
   }
   .pickupdata {
     width: 154px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    // border: 1px solid red;
   }
   .deliverydata {
     width: 154px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    // border: 1px solid red;
   }
 
   .Customizedata {
@@ -342,13 +347,14 @@
       .Dinein {
         width: 154px;
         height: 30px;
+        gap: 2rem;
         border-radius: 4px;
         border: 0.5px solid #d9d9d9 !important;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding-left: 10px;
-        padding-right: 10px;
+        // padding-left: 10px;
+        // padding-right: 10px;
         // cursor: grab;
         gap: 0.6rem;
 
@@ -600,7 +606,7 @@
 
   .eachobject-rowwise {
     height: 60px;
-    width: fit-content;
+    width: 100%;
     display: flex;
     align-items: center;
     border: 1px solid #b3b3b3 !important;
@@ -1138,7 +1144,7 @@
       height: 31.2rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 119%;
+      width: 125%;
       // border: 1px solid green;
       &::-webkit-scrollbar {
         display: none;

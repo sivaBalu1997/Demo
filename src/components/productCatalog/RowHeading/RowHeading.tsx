@@ -65,7 +65,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   const menuData = useSelector((state : RootState) => state.productCatalog?.menuData)
   
   return (
-    <tr>
+    <tr className="table-one-row-data">
 
       { object?.itemResponseList?.length>0 && object.categoryName!=="" &&
             <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
