@@ -70,7 +70,7 @@ const Sidenav = () => {
         </nav>
         <div className='vertical-line-navbar' />
         <div>
-          <img  onClick={toggleExpanded}className={isExpanded?"btn-nav1":"btn-nav"} src={btnnav} alt="" />
+          <img onClick={toggleExpanded}className={isExpanded?"btn-nav1":"btn-nav"} src={btnnav} alt="" />
         </div>
     </div>
   )

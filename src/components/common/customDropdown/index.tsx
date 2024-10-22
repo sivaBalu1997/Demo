@@ -41,7 +41,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       options={options}
       onChange={onSelect}
       value={typeof value === 'string' ? undefined : value}
-      placeholder={placeholder}
+      placeholder={""}
       arrowClosed={arrowClosed}
       arrowOpen={arrowOpen}
       controlClassName={`${controlClassName} add-employee-dropdown`}

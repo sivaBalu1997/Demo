@@ -149,7 +149,9 @@ const EmployeeDetails = () => {
 
     if(employeeByIdDetailsLoading){
     return(
-        <p style={{
+       <div style={{display:'flex', flexDirection:'row'}}>
+         <SidePanel />
+         <p style={{
             display: "flex",
             justifyContent: "center",
             paddingTop: "25%",
@@ -157,6 +159,7 @@ const EmployeeDetails = () => {
             }}>
             Loading, Please wait!!
         </p>
+       </div>
     )
     }   
 
