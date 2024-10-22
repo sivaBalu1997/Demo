@@ -31,6 +31,7 @@ import {
   dietarytype,
   mealType,
 } from "assets/mockData/Moca_data";
+import { stat } from "fs";
 
 interface Image {
   id: string;
@@ -229,6 +230,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: ImageId) => state.productCatalog.addMenuSuccessMessage
   );
 
+  const uploadImageLoading = useSelector((state: any) => state.productCatalog?.uploadImageLoading)
+
   // const [imageIdtosend, setimageIdtosend] = useState<string>("");
 
   useEffect(() => {
@@ -316,6 +319,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const allUploaded =
     uploadedimage &&
     uploadedimage.every((img) => img && !hasImageError(img.file));
+
   useEffect(() => {
     if (allUploaded) {
       setdisablesubmitbtn(false);
@@ -414,6 +418,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
+
+  const addMenuLoading = useSelector((state : any) => state.productCatalog?.addMenuLoading)
   //////////////
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
@@ -511,8 +517,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
 
-  console.log({primarypagedetails},{prizingDetail},{modifierData})
-
   const editPayload = {
     itemId: editData[0]?.id,
     locationId: locationid,
@@ -609,11 +613,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       dispatch(startImageUpload(primarydata?.imageUrls)); 
       setButtonClicked(true)
       if (subsectiondatamsg) {
-        console.log('hi image')
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
     } else {
-      console.log('hi')
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
       setButtonClicked(true)
     }
@@ -647,6 +649,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     return result;
   };
 
+  console.log({addMenuLoading},{uploadImageLoading})
 
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
@@ -1021,9 +1024,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             onClick={handleSubmitItemDetails}
-            disabled={disablesubmitbtn}
+            disabled={addMenuLoading}
           >
-            Submit for review
+              {!addMenuLoading ? 
+                'Submit for review' :
+                <div className="reviewLoaders"></div> 
+              }
           </button>
         </div>
       </div>
@@ -1031,4 +1037,4 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 };
 
-export default PrimaryDetailsReviewpage;
+export default PrimaryDetailsReviewpage

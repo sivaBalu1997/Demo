@@ -102,6 +102,7 @@ import {
   DELETE_MODIFIER_SUCCESS,
   DELETE_MODIFIER_FAILURE,
   REMOVE_DATA_REQUEST,
+  START_IMAGE_UPLOAD,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -185,6 +186,7 @@ const initialProductCatalogState = {
   imageerrorMessage: "",
   itemId: "",
   uploadFailures: [],
+  uploadImageLoading: false,
   imageUploadfailuremsg: "",
   imageUploadsuccessemsg: false,
   successImageId:"",
@@ -219,14 +221,10 @@ export default function productCatalogReducer(
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
-      //search for item
-
-      // case SEARCH_FORITEM:
-      //   draft.SearcheItem=action.payload;
-      //store menu
       case STORE_MENU_REQUEST:
         draft.menuData = [];
-        draft.addMenuLoading = true;
+        // draft.addMenuLoading = true;
+        draft.menuDataLoading = true;
         break;
       case STORE_MENU_SUCCESS:
         draft.menuData = action.payload;
@@ -476,24 +474,34 @@ export default function productCatalogReducer(
         break;
 
       //UPLOAD_IMAGE_SUCCESS:
+
+      case START_IMAGE_UPLOAD:
+        draft.uploadImageLoading = true;
+        break;
+
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
+        draft.uploadImageLoading = false;
         break;
 
       case UPLOAD_IMAGE_FAILURE:
+        draft.uploadImageLoading = false;
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         break;
 
       case IMAGE_UPLOAD_SUCCESS:
+        draft.uploadImageLoading = false;
         draft.itemId = action.payload;
         break;
 
       case STORE_UPLOAD_FAILURE:
+        draft.uploadImageLoading = false;
         draft.uploadFailures = action.payload.failureArray;
         draft.imageUpload = action.payload.statusmsg;
 
       case STORE_UPLOAD_SUCCESS:
+        draft.uploadImageLoading = false;
         draft.successImageId=action.payload;
         draft.imageUploadsuccessemsg = true;
 
@@ -504,7 +512,6 @@ export default function productCatalogReducer(
       case RETRY_IMAGE_FAILURE:
         draft.retryFailure.imageName = action.payload.imageName;
         draft.retryFailure.itemId = action.payload.itemId;
-
         break;
 
       // Update Menu Item

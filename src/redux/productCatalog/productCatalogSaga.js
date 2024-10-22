@@ -126,6 +126,7 @@ import {
   ADD_MOCK_DATA_HIDDEN_REQUEST,
   ADD_MOCK_DATA_HIDDEN_FALIURE,
 } from "./productCatalogConstants";
+import { showSuccessToast } from "util/toastUtils";
 // import { log } from "console";
 
 function* fetchMenuDataSaga(action) {
@@ -180,8 +181,6 @@ function* addSubsection(action) {
   // const { dropDownType } = action.payload;
   try {
     const response = yield call(addSubsectionApi, action.payload);
-    console.log("action.payload.type", action.payload.type);
-
     const viewdata = {
       locationId: action.payload.locationId,
       type: action.payload.type,
@@ -244,11 +243,7 @@ function* deleteSubSectionSaga(action) {
       id: action.payload.id,
       type: action.payload.type,
     };
-    console.log("deteleData", deteleData);
-
     const response = yield call(deleteSubSection, deteleData);
-    console.log("delete call ", action);
-
     const viewdata = {
       locationId: action.payload.locationid,
       type: action.payload.type,
@@ -333,6 +328,7 @@ function* addMenuItemSaga(action) {
     const addApiresponse = addApi.data;
 
     if (addApi.status === 200) {
+      showSuccessToast('Item Added Successfully')
       yield put(addMenuItemSuccess(addApiresponse));
     } else {
       yield put(addMenuItemFailed({ message: "Please Try Again" }));
@@ -369,14 +365,13 @@ const convertImageToBinaryString = (imageFile) => {
     reader.onload = () => {
       resolve(reader.result);
     };
-
     reader.onerror = () => {
       reject(new Error("Image conversion failed"));
     };
-
     reader.readAsDataURL(imageFile);
   });
 };
+
 function* imageUploadSaga(action) {
   const images = action.payload;
   let itemId = "";
@@ -384,60 +379,39 @@ function* imageUploadSaga(action) {
 
   try {
     const firstImage = images[0];
-
     const response = yield call(uploadImageApi, firstImage, itemId);
-
-    // console.log("First image uploaded, item ID:", response);
-    console.log("response", response);
-
     if (response.data && response.data.itemId) {
       itemId = response.data.itemId;
     }
-
-    // Dispatch success action with the updated itemId
     yield put(imageUploadSuccess(itemId));
   } catch (error) {
-    // Handle failure for the first image
     failureArray.push({
       file: images[0].file,
-      itemId: "", // No itemId available for the first image
+      itemId: "", 
     });
-    console.log("Failed to upload the first image", failureArray);
     yield put(imageUploadFailure(images[0].name, ""));
     return;
   }
 
-  // If the first image was successful, upload the remaining images with the itemId
   for (let i = 1; i < images.length; i++) {
     const image = images[i];
 
     try {
-      // Call the API to upload the remaining images with the updated itemId
       const response = yield call(uploadImageApi, image, itemId);
-
-      // console.log("Image uploaded, item ID:", response);
-
-      // Dispatch success action
       yield put(imageUploadSuccess(itemId));
     } catch (error) {
-      // Handle failure for remaining images
       failureArray.push({
         file: image.file,
-        itemId: itemId || "", // Use the itemId from the first image's response
+        itemId: itemId || "", 
       });
-
-      // console.log("Failed upload, failureArray:", failureArray);
       yield put(imageUploadFailure(image.name, itemId));
     }
   }
 
   // If there are failures, dispatch a failure action for all failed uploads
   if (failureArray.length > 0) {
-    console.log("Error uploading some images");
     yield put(storeUploadFailure(failureArray, "failed"));
   } else {
-    console.log("itemId", itemId);
-
     yield put(storeUploadSuccess(itemId));
   }
 }
@@ -498,6 +472,7 @@ function* deleteMenuItemSaga(action) {
   try {
     const response = yield call(deleteMenuItem, action.payload.itemId);
     if (response.status === 200) {
+      showSuccessToast(response?.data?.message)
       yield put(deleteMenuItemSuccess({
         message: response.data,
         itemId: action.payload.itemId
