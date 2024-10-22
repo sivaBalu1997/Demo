@@ -17,7 +17,18 @@ export const Contextpage = ({ children }) => {
     const [active, setActive] = useState('');
     const [pen, setPen] = useState(false);
     const[ApiPayload,setApiPayload]=useState({
-      itemId:""
+      itemId:"",
+      isEnabled: false,
+      itemOrderTypeStatuses: [
+          {
+              ordedrTypeId: "0593a8-81c5-40b2-a208-be1c03a93fad",
+              isEnabled: true
+          },
+          {
+              orderTypeId: "28-81c5-40b2-a208-be1c03a93fad12",
+              isEnabled: true
+          }
+      ]
     })
     const[patchedData,setPatchedData]=useState(
       {

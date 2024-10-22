@@ -8,28 +8,58 @@ import { useSelector } from "react-redux";
 
 const EyeModal = ({ onEyeclose }) => {
   const data1=useSelector((state)=>state?.selectedMockDataReducer?.data)
+  const Dinein =data1[0]?.orderTypes?.find((orderType) => orderType.typeName === "DineIn")
+ 
 
 
-  const [data, setData] = useState([
-    {
-      Heading: "On-prem",
-      subItems: [
-        { name: "SectionA", isChecked: false },
-        { name: "SectionB", isChecked: false }
-      ],
-      isChecked: false, 
-    },
-    {
-      Heading: "Of-prem",
-      subItems: data1[0]?.orderTypes?.length > 0
-        ? data1[0]?.orderTypes.map((elem) => ({
-            name: elem.typeName, // Ensure each subItem is an object
-            isChecked: false // Initialize the checked status
+    const [data, setData] = useState([
+      {
+        Heading: "On-prem",
+        subItems: [
+          { name:Dinein.typeName,
+            id:Dinein.typeId,
+            
+            isChecked: false
+          }],
+        isChecked: false, 
+      },
+      {
+        Heading: "Of-prem",
+        // ordedrTypeId:data1[0]?.orderTypes?.length > 0
+        // ? data1[0]?.orderTypes.map((elem) => ({
+        //     id: elem.typeId, // Ensure each subItem is an object
+        //   }))
+        // : [],
+        subItems: data1[0]?.orderTypes?.length > 0
+          ? data1[0]?.orderTypes.map((elem) => ({
+              name: elem.typeName,
+              id:elem.typeId, // Ensure each subItem is an object
+              isChecked: false // Initialize the checked status
+            }))
+          : [],
+        isChecked: false, 
+      },
+    ]);
+    console.log("w",data1)
+
+
+  
+  
+
+    const hidePayload = {
+      itemId: data1[0].itemId,
+      isEnabled: false,
+      itemOrderTypeStatuses: data
+        .map((section) =>
+          section.subItems.map((subItem) => ({
+             orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
+            isEnabled: subItem.isChecked // Use isChecked from subItems
           }))
-        : [],
-      isChecked: false, 
-    },
-  ]);
+        )
+        .flat() // Flatten the array of arrays
+    }
+
+    console.log("Hide",hidePayload)
 
   const dispatch = useDispatch();
   const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
@@ -42,7 +72,7 @@ const EyeModal = ({ onEyeclose }) => {
   };
 
   const handleChange = () => {
-    dispatch(addMockDataHiddenRequest({"itemId":data1[0].itemId}));
+    dispatch(addMockDataHiddenRequest(hidePayload));
     onEyeclose();
   };
 
