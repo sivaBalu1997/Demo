@@ -183,8 +183,10 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
+    console.log("primary",formData);
     if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
+     
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
@@ -196,6 +198,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           pathname: `/productCatalog/Pricingandkitchendetails`,
           state: { pagename: "Pricing and kitchen details" },
         });
+
+     
+        
         dispatch(primarypost(formData));
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {

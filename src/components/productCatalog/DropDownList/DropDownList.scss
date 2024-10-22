@@ -53,12 +53,12 @@
 .dropdown-body {
   position: absolute;
   width: 19.8vw;
-  height: 10rem;
+  height: 10.8rem;
   z-index:5;
   background: #ffffff;
 
   box-shadow: 1px 1px 10px 0px #00000040;
-  //    border: 1px solid red;
+    //  border: 1px solid red;
   display: flex;
   flex-direction: column;
   .edititem
@@ -88,6 +88,7 @@
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    margin-top: 0.5rem;
     // border: 1px solid red;
     cursor: pointer;
     &::-webkit-scrollbar {
@@ -98,6 +99,7 @@
       flex-direction: row;
       align-items: center;
       // border: 1px solid red;
+      
     }
     .dropdown-option-delete {
       position: relative;
@@ -114,6 +116,7 @@
       padding: 0.5rem;
       display: flex;
       flex-direction: row;
+      padding-left: 1rem;
       // border: 1px solid red;
 
       .dropdon-option-inputfield {
@@ -134,7 +137,7 @@
     height: 3rem;
     // border: 1px solid blue;
     position: relative;
-    right: 20px;
+    right: 5px;
     .dropdown-addnew {
       height: 3rem;
       display: flex;
@@ -214,9 +217,8 @@
 
 .dropdown-no-options
 {
-  width:300px;
+  width:20rem;
   height: 120px;
-  // border: 1px solid red;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -245,9 +247,9 @@
 
 @media screen and (min-width: 1300px) and (max-width: 1450px) {
   .imgLoader1 {
-    width: 50px;  /* Adjust size for this screen range */
+    width: 50px; 
     height: 50px;
-    top: 5%;      /* Adjust position for this screen range */
+    top: 5%;    
     left: -35%;
   }
 }

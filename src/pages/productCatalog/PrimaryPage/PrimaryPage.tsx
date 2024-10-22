@@ -727,7 +727,7 @@ const PrimaryPage = () => {
                       <InputFieldComponent
                         name="itemName"
                         onChange={onChange}
-                        // onBlur={onBlur}
+                        onBlur={onBlur}
                         value={value}
                         trigger={trigger}
                         error={errors.itemName}

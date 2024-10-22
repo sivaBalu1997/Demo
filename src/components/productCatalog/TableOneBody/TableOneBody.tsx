@@ -89,9 +89,9 @@ interface ItemRowProps {
   object: any; // Updated to use the Category type from the JSON
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
-  handleRowDragStart: (categoryId: string, item: Item) => void;
-  handleRowDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
-  handleRowDragEnd: (categoryId: string, dropIndex: number) => void;
+  handleRowDragStart: (categoryId: string, item:Item) => void;
+  handleRowDragOver: (e:React.DragEvent<HTMLDivElement>,index:number) => void;
+  handleRowDragEnd:  (categoryId: string,dropIndex:number) => void;
   handleDragScroll: (
     e: React.DragEvent,
     ref1: React.RefObject<HTMLDivElement>,
@@ -160,7 +160,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
                 handleDragScroll(e, tableBodyRef1, tableBodyRef2);
               }}
               onDragOver={(e) => {
-                handleRowDragOver(e);
+                handleRowDragOver(e,index);
                 handleDragScroll(e, tableBodyRef1, tableBodyRef2);
               }}
               onDrop={() => handleRowDragEnd(object.categoryId, index)}

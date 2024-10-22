@@ -206,9 +206,9 @@
     }
     .placeholderplace {
       width: 100px;
-      height: 5px; /* Adjust height as needed */
+      height: 5px; 
       border: 1px solid red;
-      margin: 10px 0; /* Adjust margin as needed */
+      margin: 10px 0; 
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       margin-top: -50px;
     }
@@ -349,11 +349,11 @@
         align-items: center;
         padding-left: 10px;
         padding-right: 10px;
-        cursor: grab;
+        // cursor: grab;
         gap: 0.6rem;
 
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
 
         .removeicon {
@@ -378,9 +378,9 @@
         // padding-left: 10px;
         // padding-right: 10px;
         gap: 2.7rem;
-        cursor: grab;
+        // cursor: grab;
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
         .removeicon {
           position: relative;
@@ -403,9 +403,9 @@
         // padding-right: 10px;
         gap: 2.5rem;
 
-        cursor: grab;
+        // cursor: grab;
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
         .removeicon {
           position: relative;
@@ -428,9 +428,9 @@
         // padding-left: 10px;
         // padding-right: 10px;
         gap: 1rem;
-        cursor: grab;
+        // cursor: grab;
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
         .removeicon {
           position: relative;
@@ -452,9 +452,9 @@
         // padding-left: 10px;
         // padding-right: 10px;
         gap: 0.6rem;
-        cursor: grab;
+        // cursor: grab;
         &:active {
-          cursor: grabbing;
+          // cursor: grabbing;
         }
         .removeicon {
           position: relative;
@@ -611,6 +611,7 @@
     gap: 20px;
     justify-content: left;
     font-size: 14px;
+    font-weight: 400;
   }
   .givepadding {
     padding-left: 0.7rem;
@@ -949,7 +950,7 @@
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 84%;
+    width: 150%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -999,11 +1000,11 @@
       height: 32.5rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 141.5%;
+      width: 150.5%;
       &::-webkit-scrollbar {
         display: none;
       }
-      // border: 1px solid red !important;
+      border: 1px solid red !important;
     }
   }
 
@@ -1024,7 +1025,7 @@
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 84%;
+    width: 150%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -1036,7 +1037,7 @@
 @media (max-width: 1833px) {
   .Menu-Listing-Page-main {
     height: 45rem;
-    width: 120%;
+    width: 150%;
 
     .Menu-Listing-TableOne {
       .Menu-Listing-TableOneBody {
@@ -1075,11 +1076,11 @@
       height: 32.5rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 141.5%;
+      width: 150.5%;
       &::-webkit-scrollbar {
         display: none;
       }
-      // border: 1px solid red !important;
+      border: 1px solid red !important;
     }
   }
 
@@ -1100,7 +1101,7 @@
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 84%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
@@ -1174,13 +1175,13 @@
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 81%;
+    width: 150%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
     z-index: 0;
     transition: width 0.6s ease;
-    // border: 1px solid blue;
+    border: 1px solid blue;
   }
 }
 
@@ -1192,5 +1193,12 @@
   align-items: center;
   gap: 10px;
   height: 2rem;
-  background-color: #e2e0e0;
+  background-color: #E2E0E0;
+  border: 1px solid red !important;
+}
+ 
+
+.count-Of-ItemList
+{
+  font-weight: 600;
 }

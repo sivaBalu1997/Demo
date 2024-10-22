@@ -83,7 +83,7 @@ export const Menulisting = () => {
     Dinein2: true,
     Pickup2: true,
     Delivery2: true,
-    Inventory1: true,
+    // Inventory1: true,
     Customize1: true,
   });
 
@@ -144,8 +144,9 @@ export const Menulisting = () => {
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
   };
-  const handleDragOver = (e) => {
+  const handleDragOver = (e,index) => {
     e.preventDefault();
+   
   };
   const handleDrop = (categoryId, dropIndex) => {
     if (!draggedItem || draggedItem.categoryId !== categoryId) return;
@@ -157,7 +158,7 @@ export const Menulisting = () => {
           (item) => item.itemId === draggedItem.item.itemId
         );
         updatedItems.splice(draggedIndex, 1); 
-        updatedItems.splice(dropIndex, 0, draggedItem.item); 
+        updatedItems.splice(dropIndex, 0, draggedItem.item);
         return { ...category, itemResponseList: updatedItems };
       }
       return category;
@@ -165,6 +166,7 @@ export const Menulisting = () => {
 
     setMenudatalist(updatedCategories);
     setDraggedItem(null);
+   
   };
 
   const handleColumnwiseDragStart = (index) => {
@@ -410,9 +412,9 @@ export const Menulisting = () => {
     }
   },[menuData])
 
-  useEffect(() => {
-    dispatch(getMenuRequest(location?.id));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getMenuRequest(location?.id));
+  // }, []);
 
   return (
     <>
@@ -556,11 +558,7 @@ export const Menulisting = () => {
                       } tabletwobody`}
                       ref={tableBodyRef2}
                     >
-                      {allFalse ? (
-                        <>
-                          <h1 className="columnselected">No Column Selected</h1>
-                        </>
-                      ) : (
+                      { (
                         <>
                           {loading ? (
                             <div className="Menu-noOptions">
@@ -572,6 +570,11 @@ export const Menulisting = () => {
                               />
                             </div>
                           ) : (
+                            allFalse ? (
+                              <>
+                                <h1 className="columnselected">No Column Selected</h1>
+                              </>
+                            ) : 
                             menudatalist.map((itemobject, indexvalue) => {
                               return (
                                 <React.Fragment key={indexvalue}>

@@ -5,15 +5,18 @@ interface ToggleProps {
   toggle: boolean;
   setToggle?: React.Dispatch<React.SetStateAction<boolean>>;
   togglevalue?: number;
+  width?:number;
+  height?:number;
 }
 
-const Toggle: React.FC<ToggleProps> = ({ toggle, setToggle, togglevalue }) => {
+const Toggle: React.FC<ToggleProps> = ({ toggle, setToggle, togglevalue,width ,height}) => {
  
 
   return (
     <div>
       <button
-        type="button"  // This prevents the form submission
+        type="button"  
+        // style={{width:`${width}px`,height:`${height}px`}}
         className={`toggleBtn${toggle ? " Toggled" : ""}`}
         onClick={() => {
           if (setToggle) {

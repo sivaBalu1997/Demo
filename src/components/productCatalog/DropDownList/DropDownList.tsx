@@ -172,7 +172,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
 
-    // If there is text in the search term, ensure the dropdown is open
     if (e.target.value !== "") {
       if (!dropdownopen) {
         onToggle(); // Open the dropdown
@@ -377,18 +376,21 @@ const DropDownList: React.FC<DropdownProps> = ({
   //   : selectedOptions[0]?.name || ""}
 
   const handleCheckboxChange = (option: Option) => {
-    if (type == "checkbox") {
+    if (type === "checkbox") {
+    
       setSelectedOptions((prevSelected) => {
+        let updatedSelected;
         if (prevSelected.some((opt) => opt.id === option.id)) {
-          setValue(name, selectedOptions.map((opt) => opt.name).join(", "));
-
-          return prevSelected.filter((opt) => opt.id !== option.id);
+          updatedSelected = prevSelected.filter((opt) => opt.id !== option.id);
         } else {
-          // If not selected, add it
-          return [...prevSelected, option];
+          updatedSelected = [...prevSelected, option];
         }
-      });
-    } else if (type === "radio") {
+        setValue(name, updatedSelected.map((opt) => opt.name).join(", "));
+        trigger(name);
+  
+        return updatedSelected;
+      })}
+       else if (type === "radio") {
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
