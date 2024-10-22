@@ -4,7 +4,6 @@
   font-weight: 400;
   margin-bottom: 0.063rem;
   margin-top: 10px;
-  
 }
 .AvailableServiceHeading {
   font-size: 16px;
@@ -20,14 +19,14 @@
   height: 50px;
   // border: 1px solid red;
   // margin-left: -10px;
-  .Note{
+  .Note {
     font-family: Poppins;
     font-size: 14px;
     font-style: italic;
     font-weight: 300;
     line-height: 21px;
     text-align: left;
-    color: #5F5F5F;
+    color: #5f5f5f;
   }
 }
 .ServiceDropDown {
@@ -59,15 +58,13 @@
 }
 .DineInRelated {
   display: flex;
-  justify-content:left;
-  gap:2rem;
+  justify-content: left;
+  gap: 2rem;
   align-items: center;
   width: fit-content;
   height: 30px;
   margin-top: 3rem;
   // border: 1px solid red;
- 
-
 }
 .Online-delivery {
   margin-top: 1rem;
@@ -101,9 +98,9 @@
 .DeleteButtonDine {
   margin-top: 12px;
   margin-left: 15px;
-  color: #E52333;
+  color: #e52333;
   font-size: 14px;
-  font-family: 'Poppins',sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 400;
   cursor: pointer;
 }
@@ -112,7 +109,6 @@
   margin-top: 0.5rem;
   margin-bottom: 0.7rem;
 }
-
 
 .DineInInput11Normal {
   display: flex;
@@ -144,22 +140,23 @@
 .LabelPrice {
   transform: translateY(4px);
   margin-left: 1px;
-  color:#666666;
+  color: #666666;
   font-size: 14px;
   font-weight: 400;
 }
 .LabelPrice-delivery {
   transform: translateY(15px);
   margin-left: 1px;
-  color:#666666;
+  color: #666666;
   font-size: 14px;
   font-weight: 400;
 }
-.Thrid-party-price{
-
-color:#666666;
-font-size: 14px;
-font-weight: 400;}
+.Thrid-party-price {
+  color: #666666;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
 .Service {
   margin-top: -25px;
   margin-left: -10px;
@@ -285,10 +282,10 @@ font-weight: 400;}
   gap: 1.625rem;
   margin-top: 8px;
 }
-.OnlineRelatedNormal{
+.OnlineRelatedNormal {
   display: flex;
   justify-content: flex start;
-  gap:2.2rem;
+  gap: 2.2rem;
   margin-top: 7px;
 }
 .OnlineRelatedHeadingNormal {
@@ -325,7 +322,7 @@ font-weight: 400;}
 .LabelPricePickup {
   transform: translateY(20px);
   margin-left: 1px;
-  color:#666666;
+  color: #666666;
   font-size: 14px;
   font-weight: 400;
 }
@@ -355,8 +352,7 @@ font-weight: 400;}
   margin-top: 1.25rem;
   height: 4rem;
   // border: 1px solid red;
-  gap:2.7rem;
-
+  gap: 2.7rem;
 }
 .PickupInput11Normal:nth-child(1) {
   z-index: 1;
@@ -369,26 +365,19 @@ font-weight: 400;}
   display: flex;
   justify-content: flex start;
   gap: 2rem;
- 
-
 }
 .DeliveryRelatedHeadingNormal {
   font-size: 0.875rem;
   font-weight: 500;
-
 }
-.toggleV
-{
+.toggleV {
   margin-top: -1rem;
 }
 .DeliverySectionNormal {
   display: flex;
   flex-direction: column;
-
 }
-.DeliverySectionNormalclose
-
-{
+.DeliverySectionNormalclose {
   display: flex;
   flex-direction: column;
   margin-top: 0.5rem;
@@ -398,11 +387,10 @@ font-weight: 400;}
   font-size: 0.875rem;
   font-weight: 500;
   margin-top: 0.2rem;
- 
 }
 
-.thirdpartyContainer{
-  height: 50px
+.thirdpartyContainer {
+  height: 50px;
 }
 
 .DeliveryInput2Normal {
@@ -452,12 +440,11 @@ font-weight: 400;}
 
   border-radius: 0.313rem;
   z-index: 0;
-width: 200px;
-height: 4rem;
-// border: 1px solid red;
+  width: 200px;
+  height: 4rem;
+  // border: 1px solid red;
   margin-bottom: 10px;
   input {
-
     padding-left: 15px;
   }
 }
@@ -468,10 +455,9 @@ height: 4rem;
   margin-top: 22px;
   margin-bottom: 0.1rem;
 }
-.AvailDaycheck{
+.AvailDaycheck {
   // margin-top: 200px;
-  .AvailDaycheck-Heading
-  {
+  .AvailDaycheck-Heading {
     width: 200px;
     height: 40px;
     // border:1px solid red;
@@ -480,20 +466,18 @@ height: 4rem;
     align-items: center;
     justify-content: left;
     font-family: Poppins;
-font-size: 14px;
-font-weight: 400;
-line-height: 21px;
-text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
 
-    .tooltip
-    {
+    .tooltip {
       width: 50px;
       height: 50px;
       // border:1px solid red;
-   position: relative;
-   left: 0.5rem;
-  top: 0.2rem;
-
+      position: relative;
+      left: 0.5rem;
+      top: 0.2rem;
     }
   }
 }
@@ -504,21 +488,17 @@ text-align: left;
   flex-direction: column;
   gap: 7px;
 }
-.Third1{
-
+.Third1 {
   margin-left: -2px;
   z-index: 2;
 }
-.Third2{
-
+.Third2 {
   margin-left: -2px;
   z-index: 2;
 }
 .LabelSwiggyInputDropDown {
-
-display: flex;
-
-align-items: center;
+  display: flex;
+  align-items: center;
   width: 600px;
   height: 100px;
   // border: 1px solid red;
@@ -529,12 +509,9 @@ align-items: center;
   height: 44px;
   // border: 1px solid red;
 }
-.thridparties-dropdown
-{
-  margin-top: -1.8rem;
+.thridparties-dropdown {
+  margin-top: 1.3rem;
   margin-left: 1rem;
-
-
 }
 .swiggyZomatoHeading {
   transform: translateY(24px);
@@ -546,38 +523,37 @@ align-items: center;
 .LabelSwiggyInput {
   display: flex;
   flex-direction: column;
-  // margin-top: -1.85rem;
+  margin-top: 2rem;
 }
-.ErrormsgPickup{
+.ErrormsgPickup {
   position: relative;
-  top:20px;
-  left:30px;
-  color:red;
+  top: 20px;
+  left: 30px;
+  color: red;
   font-size: 14px;
   font-weight: 400;
 }
-.Errormsg{
+.Errormsg {
   position: relative;
-  top:20px;
-  left:10px;
-  color:red;
+  top: 20px;
+  left: 10px;
+  color: red;
   font-size: 14px;
   font-weight: 400;
+}
+.ErrormsgPrice {
+  position: relative;
 
-}
-.ErrormsgPrice{
-  position: relative;
- 
-  color:red;
+  color: red;
   font-size: 14px;
   font-weight: 400;
   // border: 1px solid red;
 }
-.ErrormsgPickupPrice{
+.ErrormsgPickupPrice {
   position: relative;
   top: 44px;
   right: 10rem;
-  color:red;
+  color: red;
   font-size: 14px;
   font-weight: 400;
 }
@@ -587,8 +563,7 @@ align-items: center;
 //   flex-direction: column;
 
 // }
-.dayspick-pickup
-{
+.dayspick-pickup {
   margin-top: 0.7rem;
 }
 
@@ -632,12 +607,12 @@ align-items: center;
 }
 
 .pickupChooseDayContainer-chooseheading {
-  font-family: "Poppins",sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
 
   color: #67833e;
-margin-top: 0.8rem;
+  margin-top: 0.8rem;
   cursor: pointer;
   width: 200px;
   height: 2rem;
@@ -685,12 +660,12 @@ margin-top: 0.8rem;
 }
 
 .deliveryChooseDayContainer-chooseheading {
-  font-family: "Poppins",sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
 
   color: #67833e;
-margin-top: 0.8rem;
+  margin-top: 0.8rem;
   cursor: pointer;
   width: 200px;
   height: 2rem;
@@ -739,7 +714,7 @@ margin-top: 0.8rem;
 }
 
 .ThirdPartyChooseDayContainer-chooseheading {
-  font-family: "Poppins",sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
   color: #67833e;

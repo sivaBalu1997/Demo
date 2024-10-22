@@ -10,7 +10,7 @@
 
 .reviewContaineExpanded {
   display: flex;
-  width: 97%;
+  width: 93vw;
 }
 
 .reviewpage {
@@ -475,12 +475,12 @@
   bottom: -60px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
-  margin-left: -30px;
+  right: 90px;
   transition: 0.2s ease all;
 
   .clearall1 {
     position: relative;
-    right: 80px;
+    // right: 0px;
     width: 170px;
     height: 44px;
     padding: 10px 14px 10px 14px;
@@ -497,7 +497,7 @@
   }
   .saveall {
     position: relative;
-    right: 80px;
+    // right: 80px;
     border: none;
     width: 170px;
     height: 44px;
