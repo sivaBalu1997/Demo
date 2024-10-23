@@ -815,7 +815,7 @@
       border: 1px solid #000000;
     }
     .indenttexts {
-      margin-left: 29px;
+  
       span {
         padding-left: 10px;
       }
@@ -825,8 +825,8 @@
 
 .headingstextlist {
   position: absolute;
-  top: 14.5%;
-  left: 11vw;
+  top: 20.5%;
+  left: 14vw;
   z-index: 1;
   width: 217px;
   height: 357px;
@@ -1123,7 +1123,7 @@
       &::-webkit-scrollbar {
         display: none;
       }
-      border: 1px solid red !important;
+      // border: 1px solid red !important;
     }
   }
 
@@ -1218,13 +1218,13 @@
     height: 97vh;
     background: none;
     border-spacing: 0;
-    width: 150%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     margin-top: 1%;
     z-index: 0;
     transition: width 0.6s ease;
-    border: 1px solid blue;
+    // border: 1px solid blue;
   }
 }
 

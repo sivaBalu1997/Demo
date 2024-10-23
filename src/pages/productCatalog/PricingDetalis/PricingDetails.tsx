@@ -1060,7 +1060,7 @@ console.log("pricing main form special",mainFormStateSpecial);
                 />
                 <label className="N1">Normal Availability</label>
               </div>
-              <div className="Special">
+              {/* <div className="Special">
                 <input
                   type="radio"
                   value="false"
@@ -1069,7 +1069,7 @@ console.log("pricing main form special",mainFormStateSpecial);
                   className="S1radio"
                 />
                 <label className="S1">Special Availability</label>
-              </div>
+              </div> */}
             </div>
 
             {isOptionTrue ? (
@@ -1091,7 +1091,7 @@ console.log("pricing main form special",mainFormStateSpecial);
               />
             ) : (
               <>
-               <Specialavail
+               {/* <Specialavail
                 validateDropdown={validateDropdown}
                 dinein={dineinspecial}
                 setDineIn={setdineinspecial}
@@ -1106,7 +1106,8 @@ console.log("pricing main form special",mainFormStateSpecial);
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}
-              /></>
+              /> */}
+              </>
              
             )}
 

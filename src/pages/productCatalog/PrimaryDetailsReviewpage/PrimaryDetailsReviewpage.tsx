@@ -412,7 +412,48 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
-console.log("editData",editData);
+  const menuData = useSelector((state:any) => state.productCatalog?.menuData);
+
+
+console.log("revire menudat",menuData);
+
+
+const menudata = [
+  {
+    categoryName: "Category 1",
+    categoryId: "1",
+    itemresponse: [
+      { itemId: "101" },
+      { itemId: "102" }
+    ]
+  },
+  {
+    categoryName: "Category 2",
+    categoryId: "2",
+    itemresponse: [
+      { itemId: "103" },
+      { itemId: "104" }
+    ]
+  },
+  {
+    categoryName: "Category 3",
+    categoryId: "3",
+    itemresponse: [
+      { itemId: "105" },
+      { itemId: "106" }
+    ]
+  }
+];
+
+
+const targetItemId = "104";
+
+// Find the category with matching itemId
+const filteredCategory = menudata.find(category =>
+  category.itemresponse.some(item => item.itemId === targetItemId)
+);
+
+console.log("editData",filteredCategory);
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -567,12 +608,13 @@ console.log("combinedDetails",combinedDetails);
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
-    isCategoryUpdated: false,                                                     //need to check
+    isCategoryUpdated: false,                                                    
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
     orderTypesDTOWithRespectToAvailabilityToAdd:
       editData[0]?.combinedDetails || null,
-      // orderTypesDTOWithRespectToAvailabilityToRemove : 
+
+      
   };
 
   const handleDispatch = async () => {

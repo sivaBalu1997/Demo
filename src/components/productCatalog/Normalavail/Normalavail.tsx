@@ -344,7 +344,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
         const data = [...priceInfo]
         console.log({data}, {priceInfo})
         selectedthirdvalues.forEach((item, index) => {
-          if(data[index].typeName === ''){
+          if(data[index]?.typeName === ''){
             data[index].typeName = item
           }
         })
@@ -1160,7 +1160,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       </h3>
                     )}
                   </div>
-                  <div className="dayspickup">
+                  <div className="dayspickup-normal">
                     {showDayDelivery && (
                       <DaysCheck
                         checkedItems={DayDelivery}

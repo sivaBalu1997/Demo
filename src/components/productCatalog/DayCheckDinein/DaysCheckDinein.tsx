@@ -36,7 +36,7 @@ interface StateDataTag {
 }
 
 const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, index }) => {
-  const data=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+  const data=["All days","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 
   const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
   const tagData=useSelector((state:StateDataTag)=>state.productCatalog.availability)
@@ -77,7 +77,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, in
       {data.map((elem, idx) => {
         const isChecked = checkedItemsForIndex.includes(idx);
         return (
-          <div className='DaysCheckContainer1' key={idx}>
+          <div className='DaysCheckContainer-dinein' key={idx}>
             <input
               type="checkbox"
               name={idx.toString()}

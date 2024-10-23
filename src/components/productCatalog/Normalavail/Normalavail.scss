@@ -106,7 +106,17 @@
 }
 
 .dayspickup {
-  margin-top: 0.5rem;
+  margin-top: -1.7rem;
+  margin-bottom: 0.7rem;
+}
+.dayspick-pickup
+{ margin-top: -1.7rem;
+  margin-bottom: 0.7rem;
+
+}
+.dayspickup-normal
+{
+  margin-top: -1.7rem;
   margin-bottom: 0.7rem;
 }
 
@@ -577,9 +587,7 @@
 //   flex-direction: column;
 
 // }
-.dayspick-pickup {
-  margin-top: 0.7rem;
-}
+
 
 .PickupChooseDayContainer {
   display: flex;
