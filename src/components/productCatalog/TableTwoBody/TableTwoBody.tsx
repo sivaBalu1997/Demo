@@ -33,7 +33,6 @@ interface OrderType {
   isEnabled: number;
   availabilityEnabled:boolean
   availabilities: Availability[];
-  availabilityEnabled:boolean
 
 }
 
@@ -138,10 +137,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 console.log("data",isPriceEnabled);
                 
 
-                const isPriceEnabled=orderType && orderType.isEnabled==1
-                ? true
-                : false;
-              
+             
 
                 return (
                   <div

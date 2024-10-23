@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./EyeModal.scss";
 import Eye from "../../../assets/images/eye.png";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
@@ -9,38 +9,38 @@ import { useSelector } from "react-redux";
 const EyeModal = ({ onEyeclose }) => {
   const data1=useSelector((state)=>state?.selectedMockDataReducer?.data)
   const Dinein =data1[0]?.orderTypes?.find((orderType) => orderType.typeName === "DineIn")
- 
+  
 
-
-    const [data, setData] = useState([
+  useEffect(() => {
+    const updatedData = [
       {
         Heading: "On-prem",
         subItems: [
-          { name:Dinein.typeName,
-            id:Dinein.typeId,     
-            isChecked: false
-          }],
-        isChecked: false, 
+          {
+            name: Dinein.typeName,
+            id: Dinein.typeId,
+            isChecked: Dinein.isHidden,
+            isEnabled:Dinein.isEnabled, // Assuming isHidden is the correct property for isChecked
+          }
+        ],
       },
       {
-        Heading: "Of-prem",
-        // ordedrTypeId:data1[0]?.orderTypes?.length > 0
-        // ? data1[0]?.orderTypes.map((elem) => ({
-        //     id: elem.typeId, // Ensure each subItem is an object
-        //   }))
-        // : [],
-        subItems: data1[0]?.orderTypes?.length > 0
-        ? data1[0]?.orderTypes
-            .filter((elem) => elem.isEnabled === 1) // Filter where isEnabled is 1
-            .map((elem) => ({
-              name: elem.typeName,
-              id: elem.typeId, // Ensure each subItem is an object
-              isChecked: false // Initialize the checked status
-            }))
-        : [],
-        isChecked: false, 
+        Heading: "Off-prem",
+        subItems: data1[0].orderTypes.map((elem) => ({
+          name: elem.typeName,
+          id: elem.typeId,
+          isChecked: elem.isHidden,
+          isEnabled:elem.isEnabled, // Assuming isHidden is the correct property for isChecked
+        })),
       },
-    ]);
+    ];
+    
+    setData(updatedData);
+    
+  }, [data1]);
+
+
+  const [data, setData] = useState([]); 
     console.log("w",data1)
     const data3={
     itemId: "0ad10dd0-8e60-4431-83e5-eb23927cdf92",
@@ -73,6 +73,7 @@ const hidePayload = {
         }))
     )
 };
+
 
 
 
@@ -169,7 +170,8 @@ const hidePayload = {
                       className="checkbox-Items"
                       type="checkbox"
                       checked={subItem.isChecked} // Controlled input for subitem checkbox
-                      onChange={() => subItemToggleChange(parentIndex, subIndex)} // Toggle individual subitem
+                      onChange={() => subItemToggleChange(parentIndex, subIndex)}
+                      disabled={subItem.isEnabled === 0}
                     />
                   </div>
                 ))}
