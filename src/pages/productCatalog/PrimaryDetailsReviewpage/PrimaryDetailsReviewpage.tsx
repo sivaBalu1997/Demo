@@ -520,6 +520,10 @@ console.log("combinedDetails",combinedDetails);
 
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
 
+
+  const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)
+  console.log("editPrevData",editPrevData);
+  
   const editPayload = {
     itemId: editData[0]?.id,
     locationId: locationid,
@@ -617,10 +621,21 @@ console.log("combinedDetails",combinedDetails);
       dispatch(startImageUpload(primarydata?.imageUrls)); 
       setButtonClicked(true)
       if (subsectiondatamsg) {
-        dispatch(addMenuItemRequest({ menuPayload, locationid }));
+
+        if (editData.length > 0) {
+          dispatch(updateMenuItemRequest({ editPayload, locationid }));
+        } else {
+          dispatch(addMenuItemRequest({ menuPayload, locationid }));
+        }
+        // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
     } else {
-      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      if (editData.length > 0) {
+        dispatch(updateMenuItemRequest({ editPayload, locationid }));
+      } else {
+        dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      }
+      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       setButtonClicked(true)
     }
   };
