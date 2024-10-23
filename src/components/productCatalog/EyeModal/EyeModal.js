@@ -30,45 +30,51 @@ const EyeModal = ({ onEyeclose }) => {
         //   }))
         // : [],
         subItems: data1[0]?.orderTypes?.length > 0
-          ? data1[0]?.orderTypes.map((elem) => ({
+        ? data1[0]?.orderTypes
+            .filter((elem) => elem.isEnabled === 1) // Filter where isEnabled is 1
+            .map((elem) => ({
               name: elem.typeName,
-              id:elem.typeId, // Ensure each subItem is an object
+              id: elem.typeId, // Ensure each subItem is an object
               isChecked: false // Initialize the checked status
             }))
-          : [],
+        : [],
         isChecked: false, 
       },
     ]);
     console.log("w",data1)
-
-    
-  
-  const dataa2={
-    itemId: "9be15fd4-43fe-497a-b857-42d89bffb8be",
+    const data3={
+    itemId: "0ad10dd0-8e60-4431-83e5-eb23927cdf92",
     isEnabled: false,
     itemOrderTypeStatuses: [
-      {orderTypeId: "df8eb2dc-6789-4b2a-bdc9-46df7c19add9", isEnabled: true},
-      {orderTypeId: "1b53fad0-ce9c-4736-8710-85377d19d938", isEnabled: false},
-      {orderTypeId: "b1eddc4e-710e-437c-871c-609b84af43c1", isEnabled: false}
-       
+        {
+            orderTypeId: "0593a8-81c5-40b2-a208-be1c03a93fad",
+            isEnabled: true
+        },
+        {
+            orderTypeId: "28-81c5-40b2-a208-be1c03a93fad12",
+            isEnabled: true
+        }
     ]
 }
 
 
 
 
-    const hidePayload = {
-      itemId: data1[0].itemId,
-      isEnabled: false,
-      itemOrderTypeStatuses: data
-        .map((section) =>
-          section.subItems.map((subItem) => ({
-             orderTypeId: subItem.id, 
-            isEnabled: subItem.isChecked 
-          }))
-        )
-        .flat() 
-    }
+const hidePayload = {
+  itemId: data1[0].itemId,
+  isEnabled: false,
+  itemOrderTypeStatuses: data
+    .flatMap((section) => 
+      section.subItems
+        .filter((subItem) => subItem.isChecked) // Filter items where isChecked is true
+        .map((subItem) => ({
+          orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
+          isEnabled: subItem.isChecked // Use isChecked from subItems (it will be true here)
+        }))
+    )
+};
+
+
 
     console.log("Hide",hidePayload)
 
@@ -83,7 +89,7 @@ const EyeModal = ({ onEyeclose }) => {
   };
 
   const handleChange = () => {
-    dispatch(addMockDataHiddenRequest(dataa2));
+    dispatch(addMockDataHiddenRequest(hidePayload));
     onEyeclose();
   };
 
@@ -132,7 +138,7 @@ const EyeModal = ({ onEyeclose }) => {
     setData(newData);
   };
 
-  console.log(data)
+  console.log("jj",data1)
 
   return (
     <div ref={eyemodalRef} onClick={EyeClose} className="EyeModal-Container">
