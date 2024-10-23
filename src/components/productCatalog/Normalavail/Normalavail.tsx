@@ -338,10 +338,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
     useEffect(()=>{
       if(selectedthirdvalues){
         const data = [...priceInfo]
-        selectedthirdvalues.forEach((item, index) => {
+        selectedthirdvalues?.forEach((item, index) => {
           data[index].typeName = item
         })
-        data.forEach((item,index) => {
+        data?.forEach((item,index) => {
           const id = thirdPartyData?.find((value) => item.typeName === value.typeName)?.id
           data[index].typeId = String(id)
         })
@@ -1214,3 +1214,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
 };
 
 export default Normalavail;
+
+
+
