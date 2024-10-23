@@ -113,7 +113,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
           <div className="inserbody">
             <ul>
               <li>
-                <div className="headtext pricingheadtext">
+                <div className="headtext-fieldsselection pricingheadtext">
                   <input
                     type="checkbox"
                     checked={listingobject.showPricing}
@@ -129,13 +129,13 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                 <ul className="indenttexts">
                   {['Dinein1', 'Pickup1', 'Delivery1'].map((key) => (
                     <li key={key}>
-                      <div>
+                      <div className='inner-text-input'>
                         <input
                           type="checkbox"
                           checked={listingobject[key as keyof typeof listingobject]}
                           onClick={() => handleToggle(key as keyof typeof listingobject)}
                         />
-                        <span>{insertlists.Pricing[key.replace('1', '') as keyof typeof insertlists.Pricing]}</span>
+                        <span className='sub-texts-fileds'>{insertlists.Pricing[key.replace('1', '') as keyof typeof insertlists.Pricing]}</span>
                       </div>
                     </li>
                   ))}
@@ -143,7 +143,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
               </li>
 
               <li>
-                <div className="headtext availheadtext">
+                <div className="headtext-fieldsselection availheadtext">
                   <input
                     type="checkbox"
                     checked={listingobject.showavail}
@@ -160,13 +160,13 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                 <ul className="indenttexts">
                   {['Dinein2', 'Pickup2', 'Delivery2'].map((key) => (
                     <li key={key}>
-                      <div>
+                      <div className='inner-text-input'>
                         <input
                           type="checkbox"
                           checked={listingobject[key as keyof typeof listingobject]}
                           onClick={() => handleToggle(key as keyof typeof listingobject)}
                         />
-                        <span>{insertlists.Available[key.replace('2', '') as keyof typeof insertlists.Available]}</span>
+                        <span className='sub-texts-fileds'>{insertlists.Available[key.replace('2', '') as keyof typeof insertlists.Available]}</span>
                       </div>
                     </li>
                   ))}
@@ -185,7 +185,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
               </li> */}
 
               <li>
-                <div className="headtext customheadtext">
+                <div className="headtext-fieldsselection customheadtext">
                   <input
                     type="checkbox"
                     checked={listingobject.Customize1}
