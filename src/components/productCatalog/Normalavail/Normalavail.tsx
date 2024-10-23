@@ -338,11 +338,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
     .map((item) => item.typeName);
 
     useEffect(()=>{
-      console.log({selectedthirdvalues})
       if(selectedthirdvalues && selectedthirdvalues.length > 0){
-        console.log('2',{selectedthirdvalues})
         const data = [...priceInfo]
-        console.log({data}, {priceInfo})
         selectedthirdvalues.forEach((item, index) => {
           if(data[index].typeName === ''){
             data[index].typeName = item
@@ -358,7 +355,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     },[selectedthirdvalues]) 
 
     useEffect(() => {
-      console.log('inside use')
       if (prizingDetail?.normalForm?.formNormal) {
 
         setformNormal({
@@ -388,11 +384,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
     
         // Set delivery details
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
-        console.log('1',deliveryDetails)
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails
-        console.log('2',pickupDetails)
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails  
-        console.log('3',thirdpartyDetails)      
         const thirdPartyTypeName = prizingDetail?.normalForm?.thirdpartyDetails?.map
         if(pickupDetails){
           setPickUpDetails({
@@ -434,14 +427,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
     
       if (prizingDetail?.normalForm) {
-        console.log('inside use22222')
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
-        console.log('1',deliveryDetails)
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails
-        console.log('2',pickupDetails)
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails  
         const dineInDetails = prizingDetail?.normalForm?.dineInDetails
-        console.log('Inside useEffect',{dineInDetails})
         if(pickupDetails){
           setPickup(true)
           setPickUpDetails({
@@ -474,11 +463,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
           setMealTypes(object)
         }
 
-        const updatedFields = [{DineInPrice: dineInDetails?.price || "",
-                                DineInMealType: dineInDetails?.DineInMealType || [],
-                                DineInService: dineInDetails?.DineInService || "",
-                                showDay: true,
-                                dayButtonText: "Choose Day",}]
+        const updatedFields = [{
+          DineInId: dineInDetails.typeId,
+          DineInPrice: dineInDetails?.price || "",
+          DineInMealType: dineInDetails?.DineInMealType || [],
+          DineInService: dineInDetails?.DineInService || "",
+          showDay: true,
+          dayButtonText: "Choose Day",
+        }]
 
         setDineInFields(updatedFields)
 
@@ -497,6 +489,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
         // setSelectedThirdValues(["Swiggy", "Zomato"]);
       }
     }, [prizingDetail]);
+
+    const [initialPricingData, setInitialPricingData] = useState([])
+
+    useEffect(()=>{
+      // setInitialPricingData()
+    },[prizingDetail])
     
 
   const handleDelete = (index: number): void => {

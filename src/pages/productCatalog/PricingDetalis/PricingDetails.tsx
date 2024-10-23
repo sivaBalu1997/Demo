@@ -332,7 +332,6 @@ const PricingDetails = () => {
       isValid = false;
       errorMessage = "This field is required";
     }
-    // Handle both string and index (number) based fields
     setValidationState((prevState) => ({
       ...prevState,
       [field]: { isValid, errorMessage },
@@ -378,9 +377,6 @@ const PricingDetails = () => {
     printKot: printKot,
   };
 
-  // const formData={
-  // getValues();
-  // }
 
   useEffect(() => {
     if (prizingDetail) {
@@ -409,34 +405,7 @@ const PricingDetails = () => {
       setValue("kitchenstation", kitchenStationName);
     }
   }, [prizingDetail, reset, setOptions1, setValue]);
-  
-
-  // useEffect(() => {
-  //   if (dataFromRedux) {
-  //     setPrintKot(prizingDetail?.printKot);
-      
-  //     const kitchenStationName = dataFromRedux[0]?.kitchenstation?.name || "";
-
-  //     console.log({kitchenStationName})
-      
-  //     reset({
-  //       form: {
-  //         Inventory1: prizingDetail.form?.Inventory1 || "",
-  //         Inventory2: prizingDetail.form?.Inventory2 || "",
-  //       },
-  //       kitchenstation: kitchenStationName,
-  //       Preparationtime: {
-  //         hours: prizingDetail.Preparationtime?.hours || "",
-  //         minutes: prizingDetail.Preparationtime?.minutes || "",
-  //       },
-  //     });
-  
-  //     setValue("kitchenstation", kitchenStationName); 
-  //     setOptions1(prizingDetail.kitchenstation);
-  //   }
-  // }, [dataFromRedux, reset, setValue, setOptions1]);
-  
-
+    
   useEffect(() => {
     setOptions(data);
     getApi();
@@ -446,11 +415,8 @@ const PricingDetails = () => {
     dispatch(getTagClassRequest(locationid));
   };
 
-  // const onSubmit: SubmitHandler<any> = (data: any) => {
-  //   dispatchEvent();
-  // };
   const handleBlur = (fieldValue: string[], fieldName: string) => {
-    validateDropdown(fieldValue, fieldName); // Validate the dropdown on blur
+    validateDropdown(fieldValue, fieldName); 
   };
 
   const orderTypes = useSelector(
@@ -472,7 +438,7 @@ const PricingDetails = () => {
   const dineInMapped = dineinfields.map((field: any) => ({
     typeId: field.DineInId,
     typeName: field.DineInMealType,
-    price: parseFloat(field?.DineInPrice), // Convert price to number if needed
+    price: parseFloat(field?.DineInPrice), 
   }));
 
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
@@ -691,6 +657,9 @@ const PricingDetails = () => {
   const handlePrintKOt = (event: any) => {
     setPrintKot(event.target.checked);
   };
+
+  console.log({dineinfields})
+
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
@@ -966,6 +935,7 @@ const PricingDetails = () => {
                 <label className="S1">Special Availability</label>
               </div> */}
             </div>
+
 
             {isOptionTrue ? (
               <Normalavail

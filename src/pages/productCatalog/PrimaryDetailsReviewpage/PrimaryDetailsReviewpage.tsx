@@ -468,17 +468,34 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
+  const editDetails = editData[0]?.orderTypes
+  const removePricing = []
+  const addPricing = []
+  
+
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails, 
     pickupDetails && pickupDetails,  
     deliveryDetails && deliveryDetails, 
     ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : [])
   ].filter(Boolean);
+
+
+  // useEffect(() => {
+  //   if(editDetails?.length > 1){
+  //     editDetails?.forEach((item:any) => combinedDetails?.forEach((p:any)=>{
+        
+  //     }))
+  //   }
+  // },[editDetails])
+
   
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
     : [];
+
+    console.log({pickupDetails})
 
   const menuPayload = {
     locationId: locationid,
@@ -526,7 +543,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     setCombinedData(mergedData);
   },[deletedId, updateModifierId]);
 
-  console.log({combinedData})
+  console.log({editData})
+
 
 
   const editPayload = {
@@ -559,10 +577,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
-    isCategoryUpdated: false,                                                     //need to check
+    isCategoryUpdated: false,                                                 //need to check
+    isSingleMenu: false,                                                    
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
-    orderTypesDTOWithRespectToAvailabilityToAdd:
+    latestOrderTypesDTOWithRespectToAvailability:
       editData[0]?.combinedDetails || null,
       // orderTypesDTOWithRespectToAvailabilityToRemove : 
   };

@@ -375,7 +375,7 @@ export const Menulisting = () => {
         portionSize: editData[0]?.portionInfo,
         tax: editData[0]?.taxClassAssociation, // array
         dietaryType: editData[0]?.dietTypes,
-        cuisine: editData[0]?.cuisine[0]?.name,
+        cuisine: editData[0] && editData[0]?.cuisine[0]?.name,
         bestPair: editData[0]?.pairedItems,
         category: categoryData?.name,
       };
