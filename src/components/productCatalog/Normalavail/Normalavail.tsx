@@ -181,6 +181,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
     (state: any) => state.PricingDetailReducer.prizingData
   );
 
+  console.log({prizingDetail})
+
   const [formNormal, setformNormal] = useState({
     PickuppriceNormal: "",
     PickupmealtypeNormal: "",
@@ -336,20 +338,29 @@ const Normalavail: React.FC<NormalavailProps> = ({
     .map((item) => item.typeName);
 
     useEffect(()=>{
-      if(selectedthirdvalues){
+      console.log({selectedthirdvalues})
+      if(selectedthirdvalues && selectedthirdvalues.length > 0){
+        console.log('2',{selectedthirdvalues})
         const data = [...priceInfo]
+        console.log({data}, {priceInfo})
         selectedthirdvalues.forEach((item, index) => {
-          data[index].typeName = item
+          if(data[index].typeName === ''){
+            data[index].typeName = item
+          }
         })
         data.forEach((item,index) => {
-          const id = thirdPartyData?.find((value) => item.typeName === value.typeName)?.id
-          data[index].typeId = String(id)
+          if(data[index].typeId === ''){
+            const id = thirdPartyData?.find((value) => item.typeName === value.typeName)?.id
+            data[index].typeId = String(id)
+          }
         })
       }
     },[selectedthirdvalues]) 
 
     useEffect(() => {
+      console.log('inside use')
       if (prizingDetail?.normalForm?.formNormal) {
+
         setformNormal({
           PickuppriceNormal: prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
           PickupmealtypeNormal: prizingDetail?.normalForm?.formNormal?.PickupmealtypeNormal || "",
@@ -377,8 +388,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
     
         // Set delivery details
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
+        console.log('1',deliveryDetails)
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails
-        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails        
+        console.log('2',pickupDetails)
+        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails  
+        console.log('3',thirdpartyDetails)      
         const thirdPartyTypeName = prizingDetail?.normalForm?.thirdpartyDetails?.map
         if(pickupDetails){
           setPickUpDetails({
@@ -405,7 +419,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           const object : any = {}
           const item = thirdpartyDetails?.map((item : any) => item)
           item.forEach((element : any) => {
-            object[element.typeName] = element?.availabilities[0]?.sessions
+            object[element.typeName] = element?.availabilities && element?.availabilities[0]?.sessions
           });
           setMealTypes(object)
         }
@@ -420,6 +434,54 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
     
       if (prizingDetail?.normalForm) {
+        console.log('inside use22222')
+        const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
+        console.log('1',deliveryDetails)
+        const pickupDetails = prizingDetail?.normalForm?.pickupDetails
+        console.log('2',pickupDetails)
+        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails  
+        const dineInDetails = prizingDetail?.normalForm?.dineInDetails
+        console.log('Inside useEffect',{dineInDetails})
+        if(pickupDetails){
+          setPickup(true)
+          setPickUpDetails({
+            typeId: pickUpId,
+            price: pickupDetails?.price || '',
+            typeName: pickupDetails?.typeName || '',
+            availabilities: pickupDetails?.availabilities || [],
+          })
+        }
+
+        if (deliveryDetails) {
+          setDelivery(true)
+          setDeliveryDetails({
+            typeId: deliveryId,
+            price: deliveryDetails?.price || "",
+            typeName: deliveryDetails?.typeName || "",
+            availabilities: deliveryDetails?.availabilities || [],
+          });
+        }
+    
+        if(thirdpartyDetails){
+          const data = thirdpartyDetails?.map((item : any) => item?.typeName)
+          setSelectedThirdValues(data)
+          setPriceInfo(thirdpartyDetails)
+          const object : any = {}
+          const item = thirdpartyDetails?.map((item : any) => item)
+          item?.forEach((element : any) => {
+            object[element?.typeName] = element?.availabilities ? element?.availabilities[0]?.sessions : null
+          });
+          setMealTypes(object)
+        }
+
+        const updatedFields = [{DineInPrice: dineInDetails?.price || "",
+                                DineInMealType: dineInDetails?.DineInMealType || [],
+                                DineInService: dineInDetails?.DineInService || "",
+                                showDay: true,
+                                dayButtonText: "Choose Day",}]
+
+        setDineInFields(updatedFields)
+
         setSelectedValues2(prizingDetail.normalForm.PicupMealType || selectedValues2);
         setSelectedValues3(prizingDetail.normalForm.deliveryDetails?.sessions || selectedValues3);
         setSelectedValues4(prizingDetail.normalForm.Swiggy || selectedValues4);
@@ -539,8 +601,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
   useEffect(() => {
    if(DayThird && priceInfo[0]?.typeName){
       const data = priceInfo
-      data.forEach((item) => {
-        item.availabilities[0].availabilityDays = DayThird.map((day) => day.toString())
+      data?.forEach((item) => {
+        if(item.availabilities ){
+          item.availabilities[0].availabilityDays = DayThird?.map((day) => day?.toString())
+
+        }
       })
       setPriceInfo(data)
    }

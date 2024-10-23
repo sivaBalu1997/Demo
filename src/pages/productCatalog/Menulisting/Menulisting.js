@@ -295,12 +295,17 @@ export const Menulisting = () => {
     itemIndex: null,
   });
 
+ const [categoryData, setCategoryData] = useState({})
+
   const handlemodal = (value) => {
     setmodal(true);
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
+
+    console.log({filteredItem})
       if (filteredItem) {
+        setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
         );
@@ -370,8 +375,9 @@ export const Menulisting = () => {
         portionSize: editData[0]?.portionInfo,
         tax: editData[0]?.taxClassAssociation, // array
         dietaryType: editData[0]?.dietTypes,
-        cuisine: editData[0]?.cuisine[0],
-        bestPair: editData[0]?.pairedItems
+        cuisine: editData[0]?.cuisine[0]?.name,
+        bestPair: editData[0]?.pairedItems,
+        category: categoryData?.name,
       };
   
       const pricingPageData = {
@@ -381,7 +387,7 @@ export const Menulisting = () => {
           deliveryDetails: null,
           dineInDetails: null,
           pickupDetails: null,
-          thirdpartyDetails: null
+          thirdpartyDetails: []
         }
       };
   
@@ -399,7 +405,7 @@ export const Menulisting = () => {
             pricingPageData.normalForm.pickupDetails = orderType;
             break;
           case 'T':
-            pricingPageData.normalForm.thirdpartyDetails = orderType;
+            pricingPageData.normalForm.thirdpartyDetails.push(orderType);
             break;
           default:
             break;

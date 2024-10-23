@@ -17,6 +17,7 @@ import {
   deleteModifierRequest,
   getModifierRequest,
   itemCustomizationPost,
+  updateModifierData,
 } from "../../../redux/productCatalog/productCatalogActions";
 import Serachicon from "../../../assets/images/searchicon.png";
 import DropDown3 from "../../../components/productCatalog/DropDownItem/DropDownItem";
@@ -224,20 +225,20 @@ const ItemCustomizations: React.FC = () => {
   const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
   const [updatedModifierIds, setUpdatedModifierIds] = useState<any[]>([]);
 
+
   useEffect(()=>{
-    console.log({deletedModifierIds})
     if(deletedModifierIds.length > 0){
-      console.log('Inside')
       dispatch(deleteModifierRequest(deletedModifierIds))
     }
   },[deletedModifierIds])
 
-  const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
-
-  console.log({deletedId})
-
-
-  const handleModifierChange = (modIndex : any, e: any) => {
+  useEffect(()=>{ 
+    if(updatedModifierIds.length > 0){
+      dispatch(updateModifierData(updatedModifierIds))
+    }
+  },[updatedModifierIds])
+  
+  const handleModifierChange = (modIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setModifications((prev: any) => {
       const updated = [...prev];
@@ -245,12 +246,18 @@ const ItemCustomizations: React.FC = () => {
         ...updated[modIndex],
         [name]: value,
       };
-      if (!updatedModifierIds.includes(updated[modIndex].id)) {
-        setUpdatedModifierIds(prevIds => [...prevIds, updated[modIndex].id]);
-      }
+  
+      setUpdatedModifierIds(prevIds => {
+        if (!prevIds.includes(updated[modIndex].id)) {
+          return [...prevIds, updated[modIndex].id]; 
+        }
+        return prevIds; 
+      });
+  
       return updated;
     });
   };
+  
   
   const handleDeleteModifier = (modIndex: number) => {
     setModifications((prev: any) => {
