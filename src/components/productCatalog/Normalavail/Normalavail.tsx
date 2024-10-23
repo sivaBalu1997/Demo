@@ -464,7 +464,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
         }
 
         const updatedFields = [{
-          DineInId: dineInDetails.typeId,
+          DineInId: dineInDetails?.typeId,
           DineInPrice: dineInDetails?.price || "",
           DineInMealType: dineInDetails?.DineInMealType || [],
           DineInService: dineInDetails?.DineInService || "",
