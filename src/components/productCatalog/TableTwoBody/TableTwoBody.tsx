@@ -31,6 +31,7 @@ interface OrderType {
   typeId: string;
   price: number;
   isEnabled: number;
+  availabilityEnabled:boolean
   availabilities: Availability[];
 }
 
@@ -129,13 +130,18 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   : "";
                 const className = typeName.toLowerCase() + "data";
 
+                const isPriceEnabled=orderType && orderType.isEnabled==1
+                ? true
+                : false;
+              
+
                 return (
                   <div
                     key={typeName}
                     style={{ display: "flex" }}
                     className={className}
                   >
-                    <p>
+                    <p style={{opacity:isPriceEnabled?"100%":"50%"}}>
                       {restaurantDetails?.country === "US" ? "$" : "Rs."}{" "}
                       {price !== "" ? price : "0"}
                     </p>
@@ -158,6 +164,9 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
 
                 const isEnabled = orderType ? orderType.isEnabled : "";
                 const className = typeName.toLowerCase() + "data";
+                const isAvailEnabled=orderType && orderType.availabilityEnabled===true
+                ? true
+                : false;
 
                 return (
                   <div
@@ -167,7 +176,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   >
                     {/* 
                   <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
-                    <p>
+                    <p style={{opacity:isAvailEnabled?"100%":"50%"}}>
                       {isEnabled !== "" ? (
                         <Toggle toggle={true} />
                       ) : (
