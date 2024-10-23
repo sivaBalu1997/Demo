@@ -100,31 +100,6 @@ const ItemCustomizations: React.FC = () => {
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
-
-  // const filterOptions = (input) => {
-  //   const itemNames = menuData?.flatMap(item => item?.itemResponseList)
-  //     .map(item => item?.itemName);
-
-  //   const filtered = itemNames?.filter(item =>
-  //     item?.toLowerCase().includes(input?.toLowerCase())
-  //   );
-
-  //   setFilteredOptions(filtered);
-  //   setFilteredOptionsDispatch(filtered);
-
-  //   if (filtered.length > 0 && input.length > 0) {
-  //     const firstMatch = filtered[0];
-  //     if (firstMatch.toLowerCase().startsWith(input.toLowerCase())) {
-  //       const suggestion = firstMatch.slice(input.length);
-  //       setHighlightedIndex(0);
-  //     } else {
-
-  //     }
-  //   } else {
-
-  //   }
-  // };
-
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -135,7 +110,6 @@ const ItemCustomizations: React.FC = () => {
   ]);
 
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
-  // const [customItemavailability, setCustomItemavailability] = useState<boolean>(false);
   const [isvalid, setIsValid] = useState<boolean>(false);
 
   const locationId = useSelector(
@@ -154,7 +128,6 @@ const ItemCustomizations: React.FC = () => {
     );
     setModifierList(filtered);
   }, [ListOfmodifier, searchQuery]);
-  // console.log("ModifierList-dat",ListOfmodifier);
 
   const initialModificationValue = [
     {
@@ -177,27 +150,6 @@ const ItemCustomizations: React.FC = () => {
     initialModificationValue
   );
 
-  // useEffect(() => {
-  //   if (searchQuery.length > 1 && ListOfmodifier && ListOfmodifier.length > 0) {
-  //     const newModifications = ListOfmodifier.map((mod) => ({
-  //       id: mod.id,
-  //       modifierName: mod.modifierName,
-  //       minSelection: mod.minRequired,
-  //       maxSelection: mod.maxAllowed,
-  //       options: mod.modifierOptions.map((opt: any) => ({
-  //         modifierOptionName: opt.optionName,
-  //         cost: opt.sellPrice,
-  //       })),
-  //       selectedValue: [],
-  //       selectionType: "Optional",
-  //       freeCustomization: mod?.freeCustomization ?? 1,
-  //     }));
-  //     setModifications(newModifications);
-  //   } else {
-  //     setModifications(initialModificationValue);
-  //   }
-  // }, [ListOfmodifier]);
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -216,8 +168,9 @@ const ItemCustomizations: React.FC = () => {
       setShowModifiers(true);
     }
 
-    if (itemCustomizationData.length > 0) {
+    if (itemCustomizationData?.length > 0) {
       const mappedModifications = itemCustomizationData.map((item: any) => ({
+        id: item?.id || '',
         modifierName: item?.modifierName || "",
         modifierOptions: item?.options
           ? item.options.map((option: any) => ({
@@ -228,7 +181,9 @@ const ItemCustomizations: React.FC = () => {
         minSelection: item.minSelection || 1,
         maxSelection: item.maxSelection || 1,
         freeCustomization: item?.freeCustomization || 1,
-        selectedValue: item?.selectedValue?.map((elem: any) => elem) || "",
+        selectedValue: Array.isArray(item?.selectedValue)
+        ? item.selectedValue.map((elem: any) => elem)
+        : [],
         endDate: item?.endDate || "",
         startDate: item?.startDate || "",
         selectionType: item?.selectionType || "",
@@ -265,20 +220,55 @@ const ItemCustomizations: React.FC = () => {
     return formData;
   };
 
-  const handleModifierChange = (
-    index: number,
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
+  const [initialModifierIds, setInitialModifierIds] = useState<any[]>([]);
+  const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
+  const [updatedModifierIds, setUpdatedModifierIds] = useState<any[]>([]);
+
+  useEffect(()=>{
+    console.log({deletedModifierIds})
+    if(deletedModifierIds.length > 0){
+      console.log('Inside')
+      dispatch(deleteModifierRequest(deletedModifierIds))
+    }
+  },[deletedModifierIds])
+
+  const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
+
+  console.log({deletedId})
+
+
+  const handleModifierChange = (modIndex : any, e: any) => {
     const { name, value } = e.target;
-    const property = name.split("-")[0];
-
-    const newModifications = [...modifications];
-
-    newModifications[index] = { ...newModifications[index], [property]: value };
-
-    setModifications(newModifications);
+    setModifications((prev: any) => {
+      const updated = [...prev];
+      updated[modIndex] = {
+        ...updated[modIndex],
+        [name]: value,
+      };
+      if (!updatedModifierIds.includes(updated[modIndex].id)) {
+        setUpdatedModifierIds(prevIds => [...prevIds, updated[modIndex].id]);
+      }
+      return updated;
+    });
   };
+  
+  const handleDeleteModifier = (modIndex: number) => {
+    setModifications((prev: any) => {
+      const updated = [...prev];
+      const deletedId = updated[modIndex].id; 
+      updated.splice(modIndex, 1); 
 
+      setDeletedModifierIds(prevIds => {
+        if (!prevIds.includes(deletedId)) {
+          return [...prevIds, deletedId]; 
+        }
+        return prevIds; 
+      });
+  
+      return updated; 
+    });
+  };
+  
   const addOption = (index: number) => {
     const newOption = [...modifications];
     newOption[index].modifierOptions.push({
@@ -308,13 +298,13 @@ const ItemCustomizations: React.FC = () => {
     }
   };
 
-
   const addOptionChange = (
     modIndex: number,
     optIndex: number,
     e: ChangeEvent<HTMLInputElement>
   ) => {
     const newModifier = [...modifications];
+  
     if (e.target.name === "cost") {
       newModifier[modIndex].modifierOptions[optIndex][
         e.target.name as keyof Option
@@ -322,9 +312,20 @@ const ItemCustomizations: React.FC = () => {
     } else {
       newModifier[modIndex].modifierOptions[optIndex][
         e.target.name as keyof Option
-      ] = e.target?.value;
+      ] = e.target.value;
     }
+  
     setModifications(newModifier);
+  
+    const updatedModifierId = newModifier[modIndex].id; 
+    if (updatedModifierId) {
+      setUpdatedModifierIds((prevIds) => {
+        if (!prevIds.includes(updatedModifierId)) {
+          return [...prevIds, updatedModifierId];
+        }
+        return prevIds;
+      });
+    }
   };
 
   const incrementSpinner = (index: number, field: keyof Modification) => {
@@ -378,11 +379,23 @@ const ItemCustomizations: React.FC = () => {
 
   const deleteOption = (modIndex: number, optIndex: number) => {
     const newModifications = [...modifications];
-    newModifications[modIndex].modifierOptions?.splice(optIndex, 1);
-    setModifications(newModifications);
-    dispatch(deleteModifierRequest(optIndex));
+  
+    if (newModifications[modIndex]?.modifierOptions?.[optIndex]) {
+      const deletedOptionId = newModifications[modIndex]?.modifierOptions[optIndex].id; 
+        newModifications[modIndex]?.modifierOptions?.splice(optIndex, 1);
+      
+      setModifications(newModifications);  
+      if (deletedOptionId) {
+        setDeletedModifierIds((prevIds) => {
+          if (!prevIds.includes(deletedOptionId)) {
+            return [...prevIds, deletedOptionId];
+          }
+          return prevIds;
+        });
+      }
+    }
   };
-
+  
   const dispatch1 = () => {
     dispatch(itemCustomizationPost(modifications));
   };
@@ -416,16 +429,14 @@ const ItemCustomizations: React.FC = () => {
           sellPrice: 0,
         })),
         selectedValue: [],
-        selectionType: "Optional", // Optional field, can be omitted if not needed
+        selectionType: "Optional", 
       }))
     );
   };
 
   const handleSelect3 = (values: string[], index: number): void => {
-    // Update selectedValue state
     setSelectedValue(values);
 
-    // Update modifications state
     setModifications((prevModifications: any) => {
       const newModifications = [...prevModifications];
       newModifications[index] = {
@@ -464,12 +475,6 @@ const ItemCustomizations: React.FC = () => {
       setShowSearchList(true)
       dispatch(getModifierRequest({ name: searchQuery, locationId }));
     }
-  };
-
-  const handleDeleteModifier = (index: number) => {
-    const newmodification = [...modifications];
-    newmodification.splice(index, 1);
-    setModifications(newmodification);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -515,7 +520,7 @@ const ItemCustomizations: React.FC = () => {
   const [listOfStreams, setListOfStreams] = useState<string[]>([]);
 
   useEffect(() => {
-    const streams: string[] = []; // Temporary array to store the values
+    const streams: string[] = [];
 
     if (ordertypesdetails?.normalForm?.dineInDetails?.price) {
       streams.push(ordertypesdetails.normalForm.dineInDetails.typeName);
@@ -528,13 +533,10 @@ const ItemCustomizations: React.FC = () => {
     if (ordertypesdetails?.normalForm?.thirdpartyDetails?.price) {
       streams.push(ordertypesdetails.normalForm.thirdpartyDetails.typeName);
     }
-
-    // Update the state
     setListOfStreams(streams);
   }, [ordertypesdetails]);
-
-  // This will now correctly print the updated list after the useEffect runs
-
+  
+  
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />

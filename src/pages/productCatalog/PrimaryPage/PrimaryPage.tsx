@@ -549,6 +549,8 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.cuisineData.data
   );
 
+  console.log({cuisineData})
+
   const subCategoryData = useSelector(
     (state: any) => state.productCatalog.subCategoryData.data
   );

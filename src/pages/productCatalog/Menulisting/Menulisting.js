@@ -22,16 +22,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 
 import {
+  PricingDetailRequest,
   getMenuRequest,
+  itemCustomizationPost,
+  primarypost,
   selectedMockDataRequest,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
-
   const location = useSelector((state) => state.auth.selectedBranch);
-
   const menuData = useSelector((state) => state.productCatalog?.menuData);
   const loadingRequest = useSelector((state) => state.productCatalog?.addMenuLoading);
   const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
@@ -307,7 +308,6 @@ export const Menulisting = () => {
           setSideBar(specificResponse);
         }
       }
-    
   };
 
   const showsidebar = (key) => {
@@ -343,6 +343,95 @@ export const Menulisting = () => {
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
+
+  const editData = useSelector((state) => state.productCatalog.editData)
+  const primarypage = useSelector((state) => state.primarypage)
+  const prizingDetail = useSelector(
+    (state) => state?.PricingDetailReducer?.prizingData 
+  );
+
+  const itemCustomizationData = useSelector(
+    (state) => state?.itemCustomizationsReducer1?.itemData || []
+  );
+
+
+  useEffect(() => {
+    if (editData) {
+      const primaryPageData = {
+        itemName: editData[0]?.itemName,
+        description: editData[0]?.description,
+        imageUrls: editData[0]?.mediaResponseList,
+        alcohol: editData[0]?.containsAlcohol,
+        itemCode: editData[0]?.itemCode,
+        barCode: editData[0]?.barCode,
+        Ingredients: editData[0]?.ingredients,
+        allergens: editData[0]?.allergens,
+        coloriePoint: editData[0]?.calorieInfo,  // object
+        portionSize: editData[0]?.portionInfo,
+        tax: editData[0]?.taxClassAssociation, // array
+        dietaryType: editData[0]?.dietTypes,
+        cuisine: editData[0]?.cuisine[0],
+        bestPair: editData[0]?.pairedItems
+      };
+  
+      const pricingPageData = {
+        kitchenstation: editData[0]?.kitchenStation?.name,
+        ignoreMasterKotPrint: editData[0]?.ignoreMasterKotPrint,
+        normalForm: {
+          deliveryDetails: null,
+          dineInDetails: null,
+          pickupDetails: null,
+          thirdpartyDetails: null
+        }
+      };
+  
+      editData[0]?.orderTypes?.forEach((orderType) => {
+        const { typeGroup } = orderType;
+  
+        switch (typeGroup) {
+          case 'S':
+            pricingPageData.normalForm.deliveryDetails = orderType;
+            break;
+          case 'D':
+            pricingPageData.normalForm.dineInDetails = orderType;
+            break;
+          case 'P':
+            pricingPageData.normalForm.pickupDetails = orderType;
+            break;
+          case 'T':
+            pricingPageData.normalForm.thirdpartyDetails = orderType;
+            break;
+          default:
+            break;
+        }
+      });
+  
+      // Mapping the modifiers correctly
+      const modifierData = editData[0]?.modifiers?.map((item) => ({
+        id: item?.id || '',
+        modifierName: item?.modifierName || "",  
+        maxCount: item?.maxCount || 0,       
+        minCount: item?.minCount || 0,      
+        noFreeCustomization: item?.noFreeCustomization || false,  
+        options: item?.options?.map(option => ({     
+          optionId: option?.optionId || "",          
+          name: option?.name || "",                  
+          price: option?.price || 0,                 
+          isEnabled: option?.isEnabled || false      
+        })) || [],  
+      }));
+  
+      dispatch(primarypost(primaryPageData));
+      dispatch(PricingDetailRequest(pricingPageData));
+      dispatch(itemCustomizationPost(modifierData));
+    }
+  }, [editData]);
+  
+  
+
+  console.log({primarypage}, {prizingDetail}, {itemCustomizationData})
+  console.log({editData})
+
 
   useEffect(() => {
     const syncScroll = (sourceTable, targetTable) => {

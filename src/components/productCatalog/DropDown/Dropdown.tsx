@@ -76,7 +76,6 @@ const Dropdown: React.FC<DropdownProps> = ({
       onBlur && onBlur();
     }
   };
-  console.log("Option of sreams",options);
   
 
   // console.log({selectedValues})
@@ -92,7 +91,6 @@ const Dropdown: React.FC<DropdownProps> = ({
       >
         {selectedValues.length > 0 ? (
           <div className="valuePricing">
-            {console.log(selectedValues)}
             {/* Display up to 3 selected values and join them with commas */}
             {selectedValues && selectedValues?.slice(0, 3).join(", ")}
          

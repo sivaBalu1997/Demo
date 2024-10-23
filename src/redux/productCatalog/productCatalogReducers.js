@@ -191,6 +191,9 @@ const initialProductCatalogState = {
   imageUploadsuccessemsg: false,
   successImageId:"",
 
+  editData: [],
+
+
   retrySucess: "",
   retryFailure: {
     imageName: "",
@@ -662,7 +665,7 @@ export default function productCatalogReducer(
         draft.deleteSubCategoryLoading = false;
         break;
       case DELETE_MODIFIER_REQUEST:
-        draft.deletedId = [];
+        draft.deletedId = [action.payload];
         draft.deleteIdFailure = false;
         draft.deletedIdLoading = true;
         break;
@@ -676,6 +679,8 @@ export default function productCatalogReducer(
         draft.deleteIdFailure = false;
         draft.deletedIdLoading = false;
         break;
+      case SELECTED_MOCKDATA_REQUEST:
+        draft.editData = action.payload;
       default:
         break;
     }

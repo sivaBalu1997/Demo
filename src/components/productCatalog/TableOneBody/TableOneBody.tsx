@@ -125,7 +125,6 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   const baseImageUrl = process.env.REACT_APP_IMAGE_DOMAIN;
 
   const handleItemnameClick = (value: string) => {
-    console.log({ value });
     handlemodal(value);
   };
 
