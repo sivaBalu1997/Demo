@@ -534,7 +534,6 @@ function* addMockDataHiddenSaga(action) {
     const response = yield call(hideMockData, action.payload); 
     console.log("hide res",response.status);
     console.log("hide res",response.data);
-
     if ( response.status=== 200) {
       showSuccessToast('Item Added Successfully')
       yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: response.data.message });
@@ -542,12 +541,7 @@ function* addMockDataHiddenSaga(action) {
     } else {
       showErrorToast(response.data.message)
       yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload:response.data.message });
-
     }
-  
-   
-    
-    
   } catch (error) {
     yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload: error.message });
   }
