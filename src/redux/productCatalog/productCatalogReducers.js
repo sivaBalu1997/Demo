@@ -102,6 +102,7 @@ import {
   DELETE_MODIFIER_SUCCESS,
   DELETE_MODIFIER_FAILURE,
   REMOVE_DATA_REQUEST,
+  START_IMAGE_UPLOAD,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -185,9 +186,13 @@ const initialProductCatalogState = {
   imageerrorMessage: "",
   itemId: "",
   uploadFailures: [],
+  uploadImageLoading: false,
   imageUploadfailuremsg: "",
   imageUploadsuccessemsg: false,
   successImageId:"",
+
+  editData: [],
+
 
   retrySucess: "",
   retryFailure: {
@@ -219,14 +224,10 @@ export default function productCatalogReducer(
 ) {
   return produce(state, (draft) => {
     switch (action.type) {
-      //search for item
-
-      // case SEARCH_FORITEM:
-      //   draft.SearcheItem=action.payload;
-      //store menu
       case STORE_MENU_REQUEST:
         draft.menuData = [];
-        draft.addMenuLoading = true;
+        // draft.addMenuLoading = true;
+        draft.menuDataLoading = true;
         break;
       case STORE_MENU_SUCCESS:
         draft.menuData = action.payload;
@@ -476,24 +477,34 @@ export default function productCatalogReducer(
         break;
 
       //UPLOAD_IMAGE_SUCCESS:
+
+      case START_IMAGE_UPLOAD:
+        draft.uploadImageLoading = true;
+        break;
+
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
+        draft.uploadImageLoading = false;
         break;
 
       case UPLOAD_IMAGE_FAILURE:
+        draft.uploadImageLoading = false;
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         break;
 
       case IMAGE_UPLOAD_SUCCESS:
+        draft.uploadImageLoading = false;
         draft.itemId = action.payload;
         break;
 
       case STORE_UPLOAD_FAILURE:
+        draft.uploadImageLoading = false;
         draft.uploadFailures = action.payload.failureArray;
         draft.imageUpload = action.payload.statusmsg;
 
       case STORE_UPLOAD_SUCCESS:
+        draft.uploadImageLoading = false;
         draft.successImageId=action.payload;
         draft.imageUploadsuccessemsg = true;
 
@@ -504,7 +515,6 @@ export default function productCatalogReducer(
       case RETRY_IMAGE_FAILURE:
         draft.retryFailure.imageName = action.payload.imageName;
         draft.retryFailure.itemId = action.payload.itemId;
-
         break;
 
       // Update Menu Item
@@ -543,6 +553,13 @@ export default function productCatalogReducer(
         draft.deleteMenuItemFailed = false;
         draft.deleteMenuItemSuccess = true;
         draft.deleteMenuItemFailureMessage = "";
+        draft.menuData = draft.menuData.map(category => {
+          if (!category.itemResponseList) return category;
+          return {
+            ...category,
+            itemResponseList: category.itemResponseList.filter(item => item.itemId !== action.payload.itemId)
+          };
+        });
         draft.deleteMenuItemSuccessMessage = action.payload;
         break;
       case DELETE_MENU_ITEM_FAILED:
@@ -648,7 +665,7 @@ export default function productCatalogReducer(
         draft.deleteSubCategoryLoading = false;
         break;
       case DELETE_MODIFIER_REQUEST:
-        draft.deletedId = [];
+        draft.deletedId = [action.payload];
         draft.deleteIdFailure = false;
         draft.deletedIdLoading = true;
         break;
@@ -662,6 +679,8 @@ export default function productCatalogReducer(
         draft.deleteIdFailure = false;
         draft.deletedIdLoading = false;
         break;
+      case SELECTED_MOCKDATA_REQUEST:
+        draft.editData = action.payload;
       default:
         break;
     }

@@ -11,6 +11,7 @@ import {
   deleteDropDowRequest,
   fetchDropDownRequest,
 } from "redux/productCatalog/productCatalogActions";
+import { cuisine } from "assets/mockData/Moca_data";
 interface media {
   imageId: string;
   imageType: string;
@@ -82,6 +83,8 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const dispatch = useDispatch();
 
+  const editData = useSelector((state : any) => state.productCatalog.editData)
+
   const locationid = useSelector(
     (state: any) => state.auth.credentials.locationId
   );
@@ -105,6 +108,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   const clearSelection = () => {
     setSelectedOptions([]);
   };
+
+  console.log({options})
 
   useEffect(() => {
     if (resetSelection) {
@@ -213,6 +218,18 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
+  useEffect(()=>{
+    if(editData && ItemsPrimaryDetails?.cuisine && name === 'cuisine'){
+      console.log('hisad')
+      dispatch(fetchDropDownRequest({
+        locationId: locationid,
+        type: "CUISINES",
+        parentId: "",
+      }))
+      console.log('2222')
+    }
+  },[editData])
+
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
@@ -253,11 +270,15 @@ const DropDownList: React.FC<DropdownProps> = ({
   },[ItemsPrimaryDetails])
 
   useEffect(()=>{
+    console.log({ItemsPrimaryDetails})
+    console.log({options})
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
       const cusineName = ItemsPrimaryDetails?.cuisine;
+      console.log({cusineName})
       const dropDownName: any = options?.find(
         (item) => item.name === cusineName
       );
+      console.log({dropDownName})
       setSelectedOptions([dropDownName]);
       setValue("cuisine", [dropDownName?.name]);
     }
@@ -431,7 +452,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [Loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
-    if (!options) {
+    if (!options || options.length < 1) {
       setLoading(true);
     } else {
       setLoading(false);
@@ -449,6 +470,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
+
   const handleBelowArrowdropdown = () => {
     onToggle();
     setShowselectedOption(false);
@@ -459,6 +481,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
+
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
@@ -527,8 +550,8 @@ const DropDownList: React.FC<DropdownProps> = ({
                     width="300px" 
                     style={{ 
                       filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)',
-                      height: '80px',
-                      width: '80px'
+                      height: '70px',
+                      width: '70px'
                      }}
                   />
                 </div>
@@ -541,7 +564,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                           <li className="dropdown-option">
                             <input
                               type={type}
-                              checked={selectedOptions.some(
+                              checked={selectedOptions?.some(
                                 (opt) => opt?.id === option?.id
                               )}
                               className="dropdon-option-inputfield"

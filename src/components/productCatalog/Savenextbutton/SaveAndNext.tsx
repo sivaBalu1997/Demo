@@ -197,10 +197,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         history.push({
           pathname: `/productCatalog/Pricingandkitchendetails`,
           state: { pagename: "Pricing and kitchen details" },
-        });
-
-     
-        
+        });        
         dispatch(primarypost(formData));
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
@@ -216,6 +213,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           ...PricingDetails,
           kitchenstation: formData.kitchenstation,
         };
+        console.log({PricingDetails})
       } else {
         console.error("formData.kitchenstation is undefined");
       }

@@ -137,8 +137,7 @@ import {
   DELETE_MODIFIER_FAILURE,
   REMOVE_DATA_REQUEST,
   REMOVE_DATA_SUCCESS,
-  REMOVE_DATA_FAILURE
-
+  REMOVE_DATA_FAILURE,
 } from "./productCatalogConstants";
 
 //Get Menu

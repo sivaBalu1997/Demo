@@ -31,6 +31,7 @@ import {
   dietarytype,
   mealType,
 } from "assets/mockData/Moca_data";
+import { stat } from "fs";
 
 interface Image {
   id: string;
@@ -218,6 +219,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
 
+  console.log({prizingDetail})
+
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
   );
@@ -228,6 +231,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const ImageId = useSelector(
     (state: ImageId) => state.productCatalog.addMenuSuccessMessage
   );
+
+  const uploadImageLoading = useSelector((state: any) => state.productCatalog?.uploadImageLoading)
 
   // const [imageIdtosend, setimageIdtosend] = useState<string>("");
 
@@ -316,6 +321,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const allUploaded =
     uploadedimage &&
     uploadedimage.every((img) => img && !hasImageError(img.file));
+
   useEffect(() => {
     if (allUploaded) {
       setdisablesubmitbtn(false);
@@ -403,10 +409,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.menuDataSuccess
   );
 
-  const deletedModifierId = useSelector(
-    (state: any) => state.productCatalog.deletedId
-  );
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -414,6 +416,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
+
+  const addMenuLoading = useSelector((state : any) => state.productCatalog?.addMenuLoading)
   //////////////
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
@@ -505,13 +509,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: false,
     availabilityDays: stringNormalDays || null,
-
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
 
-  console.log({primarypagedetails},{prizingDetail},{modifierData})
+  const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
 
   const editPayload = {
     itemId: editData[0]?.id,
@@ -543,11 +546,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
-    isCategoryUpdated: false, //need to check
-    modifiersToRemove: deletedModifierId,
+    isCategoryUpdated: false,                                                     //need to check
+    modifiersToRemove: deletedId,
     availabilityDaysRemove: editData[0]?.availabilityDays,
-    orderTypesWithRespectToAvailabilityToRemove:
+    orderTypesDTOWithRespectToAvailabilityToAdd:
       editData[0]?.combinedDetails || null,
+      // orderTypesDTOWithRespectToAvailabilityToRemove : 
   };
 
   const handleDispatch = async () => {
@@ -609,11 +613,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       dispatch(startImageUpload(primarydata?.imageUrls)); 
       setButtonClicked(true)
       if (subsectiondatamsg) {
-        console.log('hi image')
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
     } else {
-      console.log('hi')
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
       setButtonClicked(true)
     }
@@ -646,7 +648,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     );
     return result;
   };
-
 
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
@@ -1021,9 +1022,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             onClick={handleSubmitItemDetails}
-            disabled={disablesubmitbtn}
+            disabled={addMenuLoading}
           >
-            Submit for review
+              {!addMenuLoading ? 
+                'Submit for review' :
+                <div className="reviewLoaders"></div> 
+              }
           </button>
         </div>
       </div>
@@ -1031,4 +1035,4 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 };
 
-export default PrimaryDetailsReviewpage;
+export default PrimaryDetailsReviewpage

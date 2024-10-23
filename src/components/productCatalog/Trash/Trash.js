@@ -5,16 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { deleteMenuItemRequest } from "redux/productCatalog/productCatalogActions";
 
-const EyeModal = ({ onTrashclose,ItemId }) => {
-  const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
+const EyeModal = ({ onTrashclose, ItemId }) => {
+  const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
 
-  const dispatch=useDispatch();
-  const locationid = useSelector(
-    (state) => state.auth.credentials.locationId
-  );
-  console.log("ApiPayload",ItemId);
-  
+  const dispatch = useDispatch();
+  const locationid = useSelector((state) => state.auth.credentials.locationId);
+  console.log("ApiPayload", ItemId);
+
   const trashmodalRef = useRef();
+  
   const TrashClose = (e) => {
     if (trashmodalRef.current === e.target) {
       onTrashclose();
@@ -24,26 +23,19 @@ const EyeModal = ({ onTrashclose,ItemId }) => {
     onTrashclose();
   };
   const handleChange = () => {
-    const payload={
-      locationid:locationid,
-      itemId:ItemId
+    const payload = {
+      locationid: locationid,
+      itemId: ItemId,
+    };
+    dispatch(deleteMenuItemRequest(payload));
 
-    }
-    dispatch(deleteMenuItemRequest(payload))
-
-
-   
     onTrashclose();
   };
-  
-
-
-  console.log(locationid)
 
   return (
     <div
       ref={trashmodalRef}
-      onClick={TrashClose}
+      // onClick={TrashClose}
       className="TrashModal-Container"
     >
       <div className="TrashModal-Window">
@@ -62,7 +54,7 @@ const EyeModal = ({ onTrashclose,ItemId }) => {
               Cancel
             </button>
             <button className="TrashButton2" onClick={handleChange}>
-              Change
+              Delete
             </button>
           </div>
         </div>

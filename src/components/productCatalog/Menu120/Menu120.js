@@ -7,8 +7,6 @@ const Menu120 = () => {
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
 
-  console.log({menuData})
-
   const data = [
     {
       OutletName: "Outlet1",
@@ -24,10 +22,15 @@ const Menu120 = () => {
       Hidden: "Hidden(10)",
     },
   ];
+
+  const itemIds = menuData?.flatMap(category => 
+    category.itemResponseList ? category?.itemResponseList?.map(item => item?.itemId) : []
+  );  
+
   return (
     <>
       <div className="Header-Heading">
-        Menu({menuData.length})
+        Menu({itemIds.length})
         {/* <div className="Menu120-Tooltip-container">
           {data.map((elem, index) => (
             <div className="Menu120-Tooltip-container-heading" key={index}>
