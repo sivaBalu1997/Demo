@@ -519,6 +519,19 @@ console.log("combinedDetails",combinedDetails);
   };
 
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
+  const updateModifierId = useSelector((state: any) => state.productCatalog.updateModifierId)
+
+  console.log({deletedId},{updateModifierId})
+
+  const [combinedData, setCombinedData] = useState<string[]>([]);
+
+  useEffect(() => {
+    const mergedData = [...updateModifierId, ...deletedId];
+    setCombinedData(mergedData);
+  },[deletedId, updateModifierId]);
+
+  console.log({combinedData})
+
 
 
   const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)
@@ -555,7 +568,7 @@ console.log("combinedDetails",combinedDetails);
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
     isCategoryUpdated: false,                                                     //need to check
-    modifiersToRemove: deletedId,
+    modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
     orderTypesDTOWithRespectToAvailabilityToAdd:
       editData[0]?.combinedDetails || null,

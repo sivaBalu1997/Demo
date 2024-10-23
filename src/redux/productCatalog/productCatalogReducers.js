@@ -103,6 +103,7 @@ import {
   DELETE_MODIFIER_FAILURE,
   REMOVE_DATA_REQUEST,
   START_IMAGE_UPLOAD,
+  UPDATE_MODIFIER_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -193,7 +194,6 @@ const initialProductCatalogState = {
 
   editData: [],
 
-
   retrySucess: "",
   retryFailure: {
     imageName: "",
@@ -216,7 +216,8 @@ const initialProductCatalogState = {
   updateMenuAttributeLoading: false,
   updateMenuAttributeSuccess: "",
   updateMenuAttributeFailed: false,
-  updatedPayload:[]
+
+  updateModifierId: []
 };
 
 export default function productCatalogReducer(
@@ -683,6 +684,9 @@ export default function productCatalogReducer(
         draft.deleteIdFailure = false;
         draft.deletedIdLoading = false;
         break;
+      case UPDATE_MODIFIER_REQUEST:
+        console.log('Reucerrrrrr',action.payload)
+        draft.updateModifierId = action.payload
       case SELECTED_MOCKDATA_REQUEST:
         draft.editData = action.payload;
       default:

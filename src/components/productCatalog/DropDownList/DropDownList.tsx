@@ -81,6 +81,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
 
+  console.log({showselectedOption})
+
   const dispatch = useDispatch();
 
   const editData = useSelector((state : any) => state.productCatalog.editData)
@@ -145,6 +147,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setDropdownOpen]);
+
 
   useEffect(() => {
     if (dropDownType !== "SUB_CATEGORY") {
@@ -232,28 +235,32 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
-      const kitchenStationName = prizingDetail?.kitchenstation;
+      const kitchenStationName =  prizingDetail?.kitchenstation;
       const dropDownName: any = options.find(
         (item) => item.name === kitchenStationName
       );
-      setSelectedOptions([dropDownName]);
-      setValue("kitchenstation", [dropDownName?.name]);
+      const dropDown1 = dropDownName === undefined ? {name: prizingDetail?.kitchenstation, id:'1'} : dropDownName
+      setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName]);
+      setValue("kitchenstation", dropDownName === undefined ? dropDown1?.name :dropDownName?.name);
     }
   }, [prizingDetail]);
 
   useEffect(()=>{
     if(ItemsPrimaryDetails?.dietaryType?.length > 0 && name === 'dietaryType'){
       const dietName = ItemsPrimaryDetails?.dietaryType
+      console.log({dietName})
       const dropdownName : any = options?.filter(
         (opt) => dietName?.includes(opt?.name)
       );
-      setSelectedOptions(dropdownName)
+      const dropDown1 = dropdownName === undefined ? ItemsPrimaryDetails?.dietaryType : dropdownName
+      console.log({dropdownName},{dropDown1})
+      setSelectedOptions(dropdownName === undefined ? dropDown1 : dropdownName )
       setValue(
         'dietaryType',
-        dropdownName?.map((opt:any) => opt?.name)
+        dropdownName === undefined ? dropDown1?.map((opt : any) => opt?.name) : dropdownName?.map((opt:any) => opt?.name) 
       );
     }
-  },[ItemsPrimaryDetails])
+  },[ItemsPrimaryDetails]) 
 
   useEffect(()=>{
     if(ItemsPrimaryDetails?.bestPair?.length > 0 && name === 'bestPair'){
@@ -271,16 +278,14 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   useEffect(()=>{
     console.log({ItemsPrimaryDetails})
-    console.log({options})
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
       const cusineName = ItemsPrimaryDetails?.cuisine;
-      console.log({cusineName})
       const dropDownName: any = options?.find(
         (item) => item.name === cusineName
       );
-      console.log({dropDownName})
-      setSelectedOptions([dropDownName]);
-      setValue("cuisine", [dropDownName?.name]);
+      const dropDown1 = dropDownName === undefined ? {name : ItemsPrimaryDetails?.cuisine, id: '1'} : dropDownName
+      setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName]);
+      setValue("cuisine", dropDownName === undefined ?  dropDown1?.name : dropDownName?.name);
     }
   },[ItemsPrimaryDetails])
 
@@ -290,8 +295,10 @@ const DropDownList: React.FC<DropdownProps> = ({
       const dropDownName: any = options?.find(
         (item) => item?.name === categoryName
       )
-      setSelectedOptions([dropDownName])
-      setValue('category', [dropDownName?.name])
+      const dropDown1 = dropDownName === undefined ? {name : ItemsPrimaryDetails?.category, id :'1'} : dropDownName
+      console.log('caiaso',{dropDown1},{dropDownName})
+      setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName])
+      setValue('category', dropDownName === undefined ? dropDown1?.name :dropDownName?.name)
     }
   },[ItemsPrimaryDetails])
 
@@ -301,8 +308,9 @@ const DropDownList: React.FC<DropdownProps> = ({
       const dropDownName: any = options?.find(
         (item) => item.name === subCategoryName
       );
-      setSelectedOptions([dropDownName]);
-      setValue("subCategory", [dropDownName?.name]);
+      const dropDown1 = dropDownName === undefined ? ItemsPrimaryDetails?.subCategory : dropDownName
+      setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName]);
+      setValue("subCategory", dropDownName === undefined? dropDown1?.name :dropDownName?.name);
     }
   },[ItemsPrimaryDetails])
 
@@ -481,6 +489,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
+
+  console.log({selectedOptions})
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
