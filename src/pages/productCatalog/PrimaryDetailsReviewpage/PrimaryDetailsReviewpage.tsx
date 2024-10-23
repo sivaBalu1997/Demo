@@ -219,6 +219,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
 
+  console.log({prizingDetail})
+
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
   );
@@ -407,10 +409,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.menuDataSuccess
   );
 
-  const deletedModifierId = useSelector(
-    (state: any) => state.productCatalog.deletedId
-  );
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -511,11 +509,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: false,
     availabilityDays: stringNormalDays || null,
-
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
   };
+
+  const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
 
   const editPayload = {
     itemId: editData[0]?.id,
@@ -547,11 +546,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
-    isCategoryUpdated: false, //need to check
-    modifiersToRemove: deletedModifierId,
+    isCategoryUpdated: false,                                                     //need to check
+    modifiersToRemove: deletedId,
     availabilityDaysRemove: editData[0]?.availabilityDays,
-    orderTypesWithRespectToAvailabilityToRemove:
+    orderTypesDTOWithRespectToAvailabilityToAdd:
       editData[0]?.combinedDetails || null,
+      // orderTypesDTOWithRespectToAvailabilityToRemove : 
   };
 
   const handleDispatch = async () => {

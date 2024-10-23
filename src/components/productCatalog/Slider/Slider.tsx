@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Slider.scss";
-
 import Pen from "../../../assets/images/edit 1.png";
 import Eye from "../../../assets/images/eye-off.png";
 import Bin from "../../../assets/images/Frame 3466811.png";
@@ -59,18 +58,17 @@ const Slider: React.FC<SliderProps> = ({
   sidebartext,
   SideBarData,
 }) => {
-  
   const dataFromRedux = useSelector(
     (state: any) => state?.storeDataReducer?.data
   );
-  const data1=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
+  const data1 = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+  const deleteMenuItemLoading = useSelector(
+    (state: any) => state.productCatalog?.deleteMenuItemLoading
+  );
 
-  console.log("aaadta",data1)
-  const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
-
-
-console.log("sidbar",SideBarData);
-
+  const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
 
   const history = useHistory();
   const { pen, setPen } = useContext(Contextpagejs);
@@ -83,11 +81,9 @@ console.log("sidbar",SideBarData);
   const data = useSelector(
     (state: RootState) => state.storeMockDataReducer.data
   );
-  const menuData = useSelector((state:any) => state.productCatalog?.menuData)
-
+  const menuData = useSelector((state: any) => state.productCatalog?.menuData);
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Your modal close logic here
   };
 
   const handleItemClick = (item: string) => {
@@ -99,67 +95,45 @@ console.log("sidbar",SideBarData);
   };
 
   const handleEyeClick = () => {
-    // const UpdatedeleteItem = menuData.filter(
-    //   (item: SideBarData) => item.ca !== dataFromRedux[0].id
-    // );
     const removedItem = menuData.find(
       (item: any) => item?.categoryId === dataFromRedux?.categoryId
     );
-    
-    
-    // Ensure removedItem exists and has itemResponseList
     if (removedItem && Array.isArray(removedItem?.itemResponseList)) {
-      // Find the final sub-item inside the itemResponseList array
       const finalSubItem = removedItem.itemResponseList.find(
         (subItem: any) => subItem?.itemId === data1[0].itemId
       );
       setApiPayload({
-        itemId:finalSubItem.itemId
-
-      })
-
-    
-      console.log("finalidtobe", finalSubItem);
-    } else {
-      console.log("No valid itemResponseList or removedItem found");
+        itemId: finalSubItem.itemId,
+      });
     }
-
     setEye(true);
-    // dispatch(storeMockDataRequest(UpdatedeleteItem));
-    // dispatch(addMockDataHiddenRequest(removedItem));
   };
 
   const handleBinClick = () => {
-    // const UpdatedeleteItem = data.filter(
-    //   (item: SideBarData) => item.id !== dataFromRedux[0].id
-    // );
-    // dispatch(storeMockDataRequest(UpdatedeleteItem));
-
-
-      const removedItem = menuData.find(
+    const removedItem = menuData.find(
       (item: any) => item?.categoryId === dataFromRedux?.categoryId
     );
-    
-    
-    // Ensure removedItem exists and has itemResponseList
+
     if (removedItem && Array.isArray(removedItem?.itemResponseList)) {
-      // Find the final sub-item inside the itemResponseList array
       const finalSubItem = removedItem.itemResponseList.find(
         (subItem: any) => subItem?.itemId === data1[0].itemId
       );
+
       setApiPayload({
-        itemId:finalSubItem.itemId
-      })}
-    
-      setTrash(true)
+        itemId: finalSubItem.itemId,
+      });
+    }
+    setTrash(true);
   };
 
   const handleOnclose = () => {
     // Logic for on close
   };
 
+  const editData = useSelector((state: any) => state.productCatalog.editData);
+
   const handlePen = () => {
-    history.push("/productCatalog/PrimaryDetails", { id: dataFromRedux[0].id });
+    history.push("/productCatalog/PrimaryDetails", { id: editData?.id });
     setPen(!pen);
   };
 
@@ -173,19 +147,17 @@ console.log("sidbar",SideBarData);
   };
 
   useEffect(() => {
-    // Dispatch action when ParentComponent mounts and the Slider is rendered
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
-  console.log(dataFromRedux)
 
   return (
     <div ref={modelref} className="Slider-Container" onClick={closeModal}>
       <div className="Slider-Window">
         <div className="Slider-Mainform">
           <div className="Slider-First-Row">
-          <h1 className="Slider-Heading1">
-          {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
-          </h1>
+            <h1 className="Slider-Heading1">
+              {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
+            </h1>
             <div className="Slider-icons">
               <div className="PenImage-Section">
                 <img
@@ -215,7 +187,7 @@ console.log("sidbar",SideBarData);
                 <img
                   src={Bin}
                   alt="Delete"
-                  onClick={ handleBinClick}
+                  onClick={handleBinClick}
                   className="BinImage"
                 />
                 <div className="DelTool">
@@ -236,7 +208,6 @@ console.log("sidbar",SideBarData);
             <Trash
               onTrashclose={() => setTrash(false)}
               ItemId={SideBarData[0].itemId}
-            
             />
           )}
         </div>

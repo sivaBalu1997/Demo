@@ -537,7 +537,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   }, [mainForm]);
 
   useEffect(() => {
-   if(DayThird && priceInfo[0].typeName){
+   if(DayThird && priceInfo[0]?.typeName){
       const data = priceInfo
       data.forEach((item) => {
         item.availabilities[0].availabilityDays = DayThird.map((day) => day.toString())

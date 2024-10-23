@@ -10,11 +10,7 @@ type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 const PricingSlider: any = ({  }) => {
   const {  patchedData,setPatchedData } = useContext(Contextpagejs);
 
-  const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)
-  console.log("Data from Redux ",data)
-
-
-  
+  const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)  
   const { pen, setPen } = useContext(Contextpagejs);
 
   const [inputs, setInputs] = useState({

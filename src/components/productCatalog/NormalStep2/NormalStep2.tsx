@@ -85,7 +85,7 @@ const NormalStep2 = () => {
 
   useEffect(() => {
     setDinein(
-      prizingDetail?.normalForm?.DineIn.map((elem, index) => {
+      prizingDetail?.normalForm?.DineIn?.map((elem, index) => {
         return elem; // or apply any transformation to elem if needed
       })
     );
@@ -105,13 +105,13 @@ const NormalStep2 = () => {
             <h1 className="Step2DineInPriceheading">Price</h1>
           </div>
           {prizingDetail &&
-            prizingDetail.normalForm &&
-            prizingDetail.normalForm.dineinfields.map((elem, index) => {
+            prizingDetail?.normalForm &&
+            prizingDetail?.normalForm?.dineinfields?.map((elem, index) => {
               return (
                 <>
                   <div key={index}>
                     <h1 className="Step2DineInPricevalue">
-                     Rs {elem.DineInPrice || "-"}
+                     Rs {elem?.DineInPrice || "-"}
                     </h1>
                   </div>
                 </>
@@ -124,7 +124,7 @@ const NormalStep2 = () => {
 
           {prizingDetail &&
             prizingDetail.normalForm &&
-            prizingDetail.normalForm.dineinfields.map((elem, index) => {
+            prizingDetail.normalForm.dineinfields?.map((elem, index) => {
               return (
                 <>
                   <div className="Step2DineInServiceTime">
@@ -147,7 +147,7 @@ const NormalStep2 = () => {
 
           {prizingDetail &&
             prizingDetail.normalForm &&
-            prizingDetail.normalForm.dineinfields.map((elem, index) => {
+            prizingDetail.normalForm.dineinfields?.map((elem, index) => {
               return (
                 <>
                   <div>
@@ -163,7 +163,7 @@ const NormalStep2 = () => {
       <h1 className="AvailDaysheading">Available Days</h1>
       {prizingDetail &&
         prizingDetail?.normalForm &&
-        prizingDetail?.normalForm.DineIn.map((elem, index) => {
+        prizingDetail?.normalForm.DineIn?.map((elem, index) => {
           return (
             <>
               <div className="dayacheckedavail">
