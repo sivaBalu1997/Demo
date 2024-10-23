@@ -599,17 +599,24 @@ const Normalavail: React.FC<NormalavailProps> = ({
   }, [mainForm]);
 
   useEffect(() => {
-   if(DayThird && priceInfo[0]?.typeName){
-      const data = priceInfo
-      data?.forEach((item) => {
-        if(item.availabilities ){
-          item.availabilities[0].availabilityDays = DayThird?.map((day) => day?.toString())
-
+    if (DayThird && priceInfo[0]?.typeName) {
+      const updatedPriceInfo = priceInfo.map((item) => {
+        if (item.availabilities) {
+          return {
+            ...item,
+            availabilities: item.availabilities.map((availability) => ({
+              ...availability,
+              availabilityDays: DayThird?.map((day) => day?.toString())
+            }))
+          };
         }
-      })
-      setPriceInfo(data)
-   }
+        return item;
+      });
+      
+      setPriceInfo(updatedPriceInfo); 
+    }
   }, [DayThird]);
+  
 
   useEffect(() => {
     setDeliveryDetails((prev) => ({

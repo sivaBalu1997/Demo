@@ -974,7 +974,7 @@ export const getPopularItemReducer = (state = popularItem, action) => {
       return {
         ...state,
         loading: false,
-        popularItems: action.payload, // Update the state with the response
+        popularItems: action.payload, 
       };
     case GET_POPULAR_ITEM_FAILURE:
       return {
@@ -987,7 +987,7 @@ export const getPopularItemReducer = (state = popularItem, action) => {
   }
 };
 
-// ****************SelectedMockData******************************
+
 
 const selectedMockData = {
   data: [],
@@ -1006,7 +1006,7 @@ export const selectedMockDataReducer = (state = selectedMockData, action) => {
 };
 
 const menuData = {
-  menuData: {}, // Menu data stored in the state
+  menuData: {}, 
   loading: false,
   error: null,
 };
@@ -1026,7 +1026,7 @@ export const menuReducer = (state = menuData, action) => {
         loading: false,
         menuData: {
           ...state.menuData,
-          ...action.payload, // Merge the updated data into the existing menu data
+          ...action.payload, 
         },
         error: null,
       };
@@ -1035,7 +1035,7 @@ export const menuReducer = (state = menuData, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload, // Set the error from the failure action
+        error: action.payload, 
       };
 
     default:
@@ -1043,7 +1043,7 @@ export const menuReducer = (state = menuData, action) => {
   }
 };
 
-// {*****StoreDatawithCatagoryID***********************}
+
 
 const CatagoryData={
   data:[]

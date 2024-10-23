@@ -15,11 +15,7 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
 
   const trashmodalRef = useRef();
   
-  const TrashClose = (e) => {
-    if (trashmodalRef.current === e.target) {
-      onTrashclose();
-    }
-  };
+  
   const closeModal = () => {
     onTrashclose();
   };
@@ -30,9 +26,6 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
     };
     dispatch(deleteMenuItemRequest(payload));
     if(deleteMenuItemSuccessMessage==="Menu item deleted successfully"){
-
-   
-
     onTrashclose();
     }
   };
