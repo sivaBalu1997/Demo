@@ -545,6 +545,9 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.dietaryData.data
   );
 
+  const editData = useSelector((state:any) => state.productCatalog.editData)
+
+  console.log({editData})
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );

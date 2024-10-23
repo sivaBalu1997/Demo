@@ -276,12 +276,12 @@
   font-family: "Poppins", sans-serif;
   width: fit-content;
 }
-.react-datepicker__month-container .OnlineRelatedNormal {
-  display: flex;
-  justify-content: flex start;
-  gap: 1.625rem;
-  margin-top: 8px;
-}
+// .react-datepicker__month-container .OnlineRelatedNormal {
+//   display: flex;
+//   justify-content: flex start;
+//   gap: 1.625rem;
+//   margin-top: 8px;
+// }
 .OnlineRelatedNormal {
   display: flex;
   justify-content: flex start;
@@ -365,10 +365,21 @@
   display: flex;
   justify-content: flex start;
   gap: 2rem;
+ 
+}
+.DeliveryRelatedNormalopen
+{
+  display: flex;
+  justify-content: flex start;
+  gap: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+
 }
 .DeliveryRelatedHeadingNormal {
   font-size: 0.875rem;
   font-weight: 500;
+  
 }
 .toggleV {
   margin-top: -1rem;
@@ -376,6 +387,7 @@
 .DeliverySectionNormal {
   display: flex;
   flex-direction: column;
+  margin-top: -1.5rem;
 }
 .DeliverySectionNormalclose {
   display: flex;
@@ -387,10 +399,12 @@
   font-size: 0.875rem;
   font-weight: 500;
   margin-top: 0.2rem;
+  margin-bottom: -1.2rem;
 }
 
 .thirdpartyContainer {
   height: 50px;
+
 }
 
 .DeliveryInput2Normal {

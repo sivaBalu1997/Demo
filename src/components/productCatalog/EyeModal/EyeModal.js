@@ -1,49 +1,210 @@
-import React, { useContext, useRef } from 'react'
-import "./EyeModal.scss"
-import Eye  from "../../../assets/images/eye.png"
-import { Contextpagejs } from 'pages/productCatalog/contextpage';
-import { useDispatch } from 'react-redux';
-import { addMockDataHiddenRequest } from 'redux/productCatalog/productCatalogActions';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import "./EyeModal.scss";
+import Eye from "../../../assets/images/eye.png";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { useDispatch } from "react-redux";
+import { addMockDataHiddenRequest } from "redux/productCatalog/productCatalogActions";
+import { useSelector } from "react-redux";
 
-const EyeModal = ({onEyeclose}) => {
-  const dispatch=useDispatch();
-  const {   setApiPayload,ApiPayload } = useContext(Contextpagejs);
+const EyeModal = ({ onEyeclose }) => {
+  const data1=useSelector((state)=>state?.selectedMockDataReducer?.data)
+  const Dinein =data1[0]?.orderTypes?.find((orderType) => orderType.typeName === "DineIn")
+  
 
-    const eyemodalRef=useRef()
-    const EyeClose=(e)=>{
-        if(eyemodalRef.current===e.target){
-            onEyeclose();
-        }
-    }
-    const closeModal=()=>{
-        onEyeclose();
-    }
+  useEffect(() => {
+    const updatedData = [
+      {
+        Heading: "On-prem",
+        subItems: [
+          {
+            name: Dinein.typeName,
+            id: Dinein.typeId,
+            isChecked: Dinein.isHidden,
+            isEnabled:Dinein.isEnabled, // Assuming isHidden is the correct property for isChecked
+          },
+          
+        ],
+      
+      },
+      {
+        Heading: "Off-prem",
+        subItems: data1[0].orderTypes.map((elem) => ({
+          name: elem.typeName,
+          id: elem.typeId,
+          isChecked: elem.isHidden,
+          isEnabled:elem.isEnabled, // Assuming isHidden is the correct property for isChecked
+        })),
+  
+      
 
-    const handleChange=()=>{
-      dispatch(addMockDataHiddenRequest(ApiPayload))
-      onEyeclose();
-    }
-  return (
-    <div ref={eyemodalRef} onClick={EyeClose} className='EyeModal-Container'>
-      <div className='EyeModal-Window'>
-        <div className='EyeModal-Form'>
-       
-         <div className='EyeImage'>
-        <img src={Eye}></img>
-         </div>
-         <div className='EyeMessage'>
-        <h1 className='Eye-Heading'>Are you sure you want to hide the </h1>
-        <h1 className='Eye-Heading'>  item from the listing?</h1>
-         </div>
-         <div className='Eye-Button'>
-          <button className='EyeButton1' onClick={closeModal} >Cancel</button>
-          <button className='EyeButton2' onClick={handleChange}>Change</button>
-         </div>
-        </div>
-        </div>
+      },
+    ];
     
-    </div>
-  )
+    setData(updatedData);
+    
+  }, [data1]);
+
+
+  const [data, setData] = useState([]); 
+    console.log("w",data1)
+    const data3={
+    itemId: "0ad10dd0-8e60-4431-83e5-eb23927cdf92",
+    isEnabled: false,
+    itemOrderTypeStatuses: [
+        {
+            orderTypeId: "0593a8-81c5-40b2-a208-be1c03a93fad",
+            isEnabled: true
+        },
+        {
+            orderTypeId: "28-81c5-40b2-a208-be1c03a93fad12",
+            isEnabled: true
+        }
+    ]
 }
 
-export default EyeModal
+
+
+
+const hidePayload = {
+  itemId: data1[0].itemId,
+  isEnabled: false,
+  itemOrderTypeStatuses: data
+    .flatMap((section) => 
+      section.subItems
+        .filter((subItem) => subItem.isChecked) // Filter items where isChecked is true
+        .map((subItem) => ({
+          orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
+          isEnabled: subItem.isChecked // Use isChecked from subItems (it will be true here)
+        }))
+    )
+};
+
+const uncheckedItems = data
+  .flatMap((section) => 
+    section.subItems.filter((subItem) => !subItem.isChecked).map((subItem) => ({
+      orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
+      isEnabled: false // Set to false as these items are unchecked
+    }))
+  );
+
+ 
+  console.log("dddd",uncheckedItems)
+
+
+    console.log("Hide",hidePayload)
+
+  const dispatch = useDispatch();
+  const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
+
+  const eyemodalRef = useRef();
+  const EyeClose = (e) => {
+    if (eyemodalRef.current === e.target) {
+      onEyeclose();
+    }
+  };
+
+  const handleChange = () => {
+    dispatch(addMockDataHiddenRequest(hidePayload));
+    onEyeclose();
+  };
+
+  
+  const parentToggleChange = (index) => {
+    const newData = [...data];
+   
+    const isChecked = !newData[index].isChecked;
+    newData[index].isChecked = isChecked;
+
+    
+    newData[index].subItems = newData[index].subItems.map(subItem => ({
+      ...subItem,
+      isChecked: isChecked
+    }));
+
+    setData(newData);
+  };
+
+ 
+  const subItemToggleChange = (parentIndex, subIndex) => {
+    const newData = [...data];
+  
+    newData[parentIndex].subItems[subIndex].isChecked = !newData[parentIndex].subItems[subIndex].isChecked;
+  
+   
+    const anyChecked = newData[parentIndex].subItems.some((subItem) => subItem.isChecked);
+    
+   
+    newData[parentIndex].isChecked = anyChecked;
+  
+    
+    setData(newData);
+  };
+
+  const handleSelectAll = () => {
+    const allSelected = data.every((item) => item.isChecked); 
+    const newData = data.map((item) => ({
+      ...item,
+      isChecked: !allSelected, 
+      subItems: item.subItems.map((subItem) => ({
+        ...subItem,
+        isChecked: !allSelected, 
+      })),
+    }));
+    setData(newData);
+  };
+
+  console.log("jj",data1)
+
+  return (
+    <div ref={eyemodalRef} onClick={EyeClose} className="EyeModal-Container">
+      <div className="EyeModal-Window">
+        <div className="EyeModal-Form">
+          <div className="HideItemHeading-SelectAll-Container">
+            <h1 className="HideItemHeading">Hide Item in</h1>
+            <p className="Select-all-heading" onClick={handleSelectAll}>Select all</p>
+          </div>
+
+          <div className="Radio-items-container">
+            {data.map((elem, parentIndex) => (
+              <div key={elem.Heading}>
+                <div className="Radio-Items-Flex">
+                  <h1 className="Radio-Items-Heading">{elem.Heading}</h1>
+                  <input
+                    className="checkbox-Items"
+                    type="checkbox"
+                    checked={elem.isChecked} 
+                    onChange={() => parentToggleChange(parentIndex)} // Toggle parent and subitems
+                  />
+                </div>
+
+                {elem.subItems.map((subItem, subIndex) => (
+                  <div key={subItem.name} className="Radio-sub-Items-Flex">
+                    <h1 className="Radio-sub-Items-Heading">{subItem.name||"s"}</h1>
+                    <input
+                      className="checkbox-Items"
+                      type="checkbox"
+                      checked={subItem.isChecked} // Controlled input for subitem checkbox
+                      onChange={() => subItemToggleChange(parentIndex, subIndex)}
+                      disabled={subItem.isEnabled === 0}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <div className="saveCancelContainer">
+            <button className="cancelbtnEye" onClick={() => onEyeclose()}>
+              Cancel
+            </button>
+            <button className="SavebtnEye" onClick={handleChange}>
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EyeModal;

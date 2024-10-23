@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from "react";
 import "./Trash.scss";
-import Trash from "../../../assets/images/trash-2.png";
+import Trash from "../../../assets/svg/trash-2.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { deleteMenuItemRequest } from "redux/productCatalog/productCatalogActions";
@@ -10,6 +10,7 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
 
   const dispatch = useDispatch();
   const locationid = useSelector((state) => state.auth.credentials.locationId);
+  const deleteMenuItemSuccessMessage = useSelector((state) => state.yourReducer?.deleteMenuItemSuccessMessage);
   console.log("ApiPayload", ItemId);
 
   const trashmodalRef = useRef();
@@ -28,8 +29,12 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
       itemId: ItemId,
     };
     dispatch(deleteMenuItemRequest(payload));
+    if(deleteMenuItemSuccessMessage==="Menu item deleted successfully"){
+
+   
 
     onTrashclose();
+    }
   };
 
   return (
