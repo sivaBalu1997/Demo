@@ -12,6 +12,8 @@ const PricingSlider: any = ({  }) => {
 
   const data=useSelector((state:any)=>state?.selectedMockDataReducer?.data)  
   const { pen, setPen } = useContext(Contextpagejs);
+  const Dinein =data[0]?.orderTypes?.find((orderType:any) => orderType?.typeName === "DineIn")
+
 
   const [inputs, setInputs] = useState({
     Dinein1: data[0]?.orderTypes[0]?.price || [],
@@ -27,7 +29,7 @@ const PricingSlider: any = ({  }) => {
   const PrizingSliderData = [
     {
       heading: "On-Prem",
-      Sections: ["SectionA", "SectionB"],
+      Sections: [Dinein?.typeName],
       inputTypes: ["text", "text"],
     },
     {
@@ -94,6 +96,8 @@ const PricingSlider: any = ({  }) => {
       }));
     }
   }, [data, inputs, setPatchedData]);
+
+  console.log("ccc",data)
   
 
 
@@ -106,7 +110,7 @@ const PricingSlider: any = ({  }) => {
           <div className="Onprem-Heading">
             {elem.heading}
             <div className="Onprem-Sections">
-              {elem.Sections?.map((section, seInd) => (
+              {elem.Sections?.map((section:any, seInd:any) => (
                 <div key={seInd} className="SectionA">
                   <div className="SectionInput">
                     <h3 className="SectionA-Heading">{section}</h3>

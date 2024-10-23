@@ -21,8 +21,10 @@ const EyeModal = ({ onEyeclose }) => {
             id: Dinein.typeId,
             isChecked: Dinein.isHidden,
             isEnabled:Dinein.isEnabled, // Assuming isHidden is the correct property for isChecked
-          }
+          },
+          
         ],
+      
       },
       {
         Heading: "Off-prem",
@@ -32,6 +34,9 @@ const EyeModal = ({ onEyeclose }) => {
           isChecked: elem.isHidden,
           isEnabled:elem.isEnabled, // Assuming isHidden is the correct property for isChecked
         })),
+  
+      
+
       },
     ];
     
@@ -74,7 +79,16 @@ const hidePayload = {
     )
 };
 
+const uncheckedItems = data
+  .flatMap((section) => 
+    section.subItems.filter((subItem) => !subItem.isChecked).map((subItem) => ({
+      orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
+      isEnabled: false // Set to false as these items are unchecked
+    }))
+  );
 
+ 
+  console.log("dddd",uncheckedItems)
 
 
     console.log("Hide",hidePayload)
