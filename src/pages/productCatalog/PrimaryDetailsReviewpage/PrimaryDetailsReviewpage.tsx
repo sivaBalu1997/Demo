@@ -412,6 +412,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
+console.log("editData",editData);
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -474,6 +475,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     deliveryDetails && deliveryDetails, 
     ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : [])
   ].filter(Boolean);
+
+console.log("combinedDetails",combinedDetails);
+
   
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)

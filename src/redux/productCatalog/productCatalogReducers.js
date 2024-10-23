@@ -216,6 +216,7 @@ const initialProductCatalogState = {
   updateMenuAttributeLoading: false,
   updateMenuAttributeSuccess: "",
   updateMenuAttributeFailed: false,
+  updatedPayload:[]
 };
 
 export default function productCatalogReducer(
@@ -519,6 +520,9 @@ export default function productCatalogReducer(
 
       // Update Menu Item
       case UPDATE_MENU_ITEM_REQUEST:
+        draft.updatedPayload=action.payload
+        console.log("action.payload",action.payload);
+        
         draft.updateMenuItemLoading = true;
         draft.updateMenuItemFailed = false;
         draft.updateMenuItemSuccess = false;

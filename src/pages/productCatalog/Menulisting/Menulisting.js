@@ -506,6 +506,7 @@ export const Menulisting = () => {
       setmodal(false)
     }
   }, [deleteMenuItemSuccess]);
+console.log("menudaat",menuData);
 
  
 
