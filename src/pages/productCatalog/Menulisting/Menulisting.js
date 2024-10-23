@@ -512,11 +512,17 @@ export const Menulisting = () => {
       setmodal(false)
     }
   }, [deleteMenuItemSuccess]);
+console.log("menudaat",menuData);
+
+ 
+
+  console.log("menu",menuData);
+  
 
   return (
     <>
       {
-        <div style={{ display: "flex", overflowX: "hidden" }}>
+        <div style={{ display: "flex", overflowX: "hidden" }} >
           <SidePanel />
           <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
             <div className="headercomponent">

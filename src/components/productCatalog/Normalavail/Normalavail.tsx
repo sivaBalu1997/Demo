@@ -341,7 +341,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       if(selectedthirdvalues && selectedthirdvalues.length > 0){
         const data = [...priceInfo]
         selectedthirdvalues.forEach((item, index) => {
-          if(data[index].typeName === ''){
+          if(data[index]?.typeName === ''){
             data[index].typeName = item
           }
         })
@@ -597,17 +597,24 @@ const Normalavail: React.FC<NormalavailProps> = ({
   }, [mainForm]);
 
   useEffect(() => {
-   if(DayThird && priceInfo[0]?.typeName){
-      const data = priceInfo
-      data?.forEach((item) => {
-        if(item.availabilities ){
-          item.availabilities[0].availabilityDays = DayThird?.map((day) => day?.toString())
-
+    if (DayThird && priceInfo[0]?.typeName) {
+      const updatedPriceInfo = priceInfo.map((item) => {
+        if (item.availabilities) {
+          return {
+            ...item,
+            availabilities: item.availabilities.map((availability) => ({
+              ...availability,
+              availabilityDays: DayThird?.map((day) => day?.toString())
+            }))
+          };
         }
-      })
-      setPriceInfo(data)
-   }
+        return item;
+      });
+      
+      setPriceInfo(updatedPriceInfo); 
+    }
   }, [DayThird]);
+  
 
   useEffect(() => {
     setDeliveryDetails((prev) => ({
@@ -940,7 +947,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                    Choose Day
                   </h3>
                 </div>
-                <div className="dayspickup">
+              <div className="dayspickup">
                   {entry.showDay && (
                     <DaysCheckDin
                       checkedItems={dineInDates1}
@@ -1074,7 +1081,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
             </div>
 
             {/* DeliveryRelated    */}
-            <div className="DeliveryRelatedNormal">
+            <div  className={`${delivery?"DeliveryRelatedNormal":"DeliveryRelatedNormalopen"}`}>
               <h1 className="DeliveryRelatedHeadingNormal">Delivery</h1>
               <div className="toggleV">
                 <Toggle toggle={delivery} setToggle={setDelivery} />
@@ -1151,7 +1158,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       </h3>
                     )}
                   </div>
-                  <div className="dayspickup">
+                  <div className="dayspickup-normal">
                     {showDayDelivery && (
                       <DaysCheck
                         checkedItems={DayDelivery}
@@ -1277,3 +1284,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
 };
 
 export default Normalavail;
+
+
+

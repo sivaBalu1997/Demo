@@ -412,6 +412,48 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
+  const menuData = useSelector((state:any) => state.productCatalog?.menuData);
+
+
+console.log("revire menudat",menuData);
+
+
+const menudata = [
+  {
+    categoryName: "Category 1",
+    categoryId: "1",
+    itemresponse: [
+      { itemId: "101" },
+      { itemId: "102" }
+    ]
+  },
+  {
+    categoryName: "Category 2",
+    categoryId: "2",
+    itemresponse: [
+      { itemId: "103" },
+      { itemId: "104" }
+    ]
+  },
+  {
+    categoryName: "Category 3",
+    categoryId: "3",
+    itemresponse: [
+      { itemId: "105" },
+      { itemId: "106" }
+    ]
+  }
+];
+
+
+const targetItemId = "104";
+
+// Find the category with matching itemId
+const filteredCategory = menudata.find(category =>
+  category.itemresponse.some(item => item.itemId === targetItemId)
+);
+
+console.log("editData",filteredCategory);
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -480,14 +522,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : [])
   ].filter(Boolean);
 
-
-  // useEffect(() => {
-  //   if(editDetails?.length > 1){
-  //     editDetails?.forEach((item:any) => combinedDetails?.forEach((p:any)=>{
-        
-  //     }))
-  //   }
-  // },[editDetails])
+console.log("combinedDetails",combinedDetails);
 
   
   const normalDays = prizingDetail?.normalForm?.Normaldays;
@@ -547,6 +582,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
 
 
+
+  const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)
+  console.log("editPrevData",editPrevData);
+  
   const editPayload = {
     itemId: editData[0]?.id,
     locationId: locationid,
@@ -583,7 +622,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDaysRemove: editData[0]?.availabilityDays,
     latestOrderTypesDTOWithRespectToAvailability:
       editData[0]?.combinedDetails || null,
-      // orderTypesDTOWithRespectToAvailabilityToRemove : 
+
+      
   };
 
   const handleDispatch = async () => {
@@ -645,10 +685,21 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       dispatch(startImageUpload(primarydata?.imageUrls)); 
       setButtonClicked(true)
       if (subsectiondatamsg) {
-        dispatch(addMenuItemRequest({ menuPayload, locationid }));
+
+        if (editData.length > 0) {
+          dispatch(updateMenuItemRequest({ editPayload, locationid }));
+        } else {
+          dispatch(addMenuItemRequest({ menuPayload, locationid }));
+        }
+        // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
     } else {
-      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      if (editData.length > 0) {
+        dispatch(updateMenuItemRequest({ editPayload, locationid }));
+      } else {
+        dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      }
+      // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       setButtonClicked(true)
     }
   };

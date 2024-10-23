@@ -62,6 +62,34 @@ type MainFormType = {
   Zomato: string[];
 };
 
+
+interface availabilities{
+  availabilityDays:number[],
+  
+sessions:string[]
+}
+
+interface thirdpartyDeliveryDetails{
+  availabilities:availabilities[],
+  price:number,
+  typeId:string,
+  typeName:string
+
+
+
+}
+type MainFormTypespecial = {
+  availabilityid: string[];
+  fromDate: string | Date | undefined;
+  toDate: string | Date | undefined;
+  specialdays: number[];
+  dineinfields: DineInField[];
+  pickupDetails:thirdpartyDeliveryDetails[];
+  deliveryDetails:thirdpartyDeliveryDetails[];
+  thirdpartyDetails:thirdpartyDeliveryDetails[];
+
+};
+
 type DineInField = {
   DineInId?: string;
   DineInPrice: string | string[];
@@ -196,6 +224,51 @@ const PricingDetails = () => {
     Zomato: [],
   });
 
+ 
+  // const [mainFormStateSpecial, setMainFormStateSpecial] = useState<MainFormTypespecial>({
+  //   availabilityid: [],
+  //   fromDate:"",
+  //   toDate:"",
+  //   dineinfields: [],
+  //   specialdays: [],
+  //   pickupDetails:[],
+  //   deliveryDetails:[],
+  //   thirdpartyDetails:[]
+  
+  
+  // });
+  const [mainFormStateSpecial, setMainFormStateSpecial] = useState<MainFormType>({
+    availabilityid: [],
+    formNormal: {
+      PickuppriceNormal: "",
+      PickupmealtypeNormal: "",
+      DeliverypriceNormal: "",
+      DeliverymealtypeNormal: "",
+      SwiggyorzomatoNormal: "",
+      SwiggyNormal: "",
+      SwiggymealtypeNormal: "",
+      ZomatoNormal: "",
+      ZomatomealtypeNormal: "",
+    },
+    dineinfields: [],
+    Normaldays: [],
+    DeliveryMealType: [],
+    PicupMealType: [],
+    Pickup: [],
+    DineInServiceArea: [],
+    Delivery: [],
+    thirdParty: [],
+    WeekDays: [],
+    DineIn: [],
+    Swiggy: [],
+    Zomato: [],
+  
+
+  
+  });
+console.log("pricing main form special",mainFormStateSpecial);
+
+
   const {
     control,
     handleSubmit,
@@ -219,7 +292,7 @@ const PricingDetails = () => {
         minutes: "mmm",
       },
       normalForm: mainFormState,
-      specialForm: [],
+      specialForm: mainFormStateSpecial,
     },
   });
 
@@ -305,6 +378,8 @@ const PricingDetails = () => {
     Inventory2: "",
   });
   const [dinein, setDineIn] = useState(false);
+
+  const [dineinspecial,setdineinspecial]=useState(false);
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
 
@@ -324,6 +399,8 @@ const PricingDetails = () => {
     NormalServiceArea: { isValid: true, errorMessage: "" },
     PickupSwiggy: { isValid: true, errorMessage: "" },
   });
+
+
 
   const validateDropdown = (value: string[], field: string | number) => {
     let isValid = true;
@@ -434,6 +511,14 @@ const PricingDetails = () => {
       DineInMealType: [],
     },
   ]);
+  const [dineinfieldsSpecial, setDineInFieldsSpecial] = useState<DineInField[]>([
+    {
+      DineInId: DineInId,
+      DineInPrice: "",
+      DineInMealType: [],
+    },
+  ]);
+
 
   const dineInMapped = dineinfields.map((field: any) => ({
     typeId: field.DineInId,
@@ -449,6 +534,7 @@ const PricingDetails = () => {
       DineInService: "",
     },
   ]);
+ 
 
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
@@ -485,13 +571,13 @@ const PricingDetails = () => {
     return errors;
   };
 
-  const validateDineInFields1 = (dineinfield1: DineinFieldSpecial[]) => {
+  const validateDineInFields1 = (dineinfieldsSpecial: DineInField[]) => {
     const errors: DropdownValidationState = {};
 
-    dineinfield1?.forEach((field, index) => {
+    dineinfieldsSpecial?.forEach((field, index) => {
       const mealTypeKey = `DineInMealType_${index}`;
       const priceKey = `DineInPrice_${index}`;
-      const DineInService = `DineInService_${index}`;
+  
 
       // Validate DineInMealType
       if (!field.DineInMealType || field.DineInMealType.length === 0) {
@@ -501,15 +587,6 @@ const PricingDetails = () => {
         };
       } else {
         errors[mealTypeKey] = { isValid: true, errorMessage: "" };
-      }
-
-      if (!field.DineInService || field.DineInService.length === 0) {
-        errors[DineInService] = {
-          isValid: false,
-          errorMessage: " MealType should not be empty.",
-        };
-      } else {
-        errors[DineInService] = { isValid: true, errorMessage: "" };
       }
 
       if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
@@ -551,6 +628,34 @@ const PricingDetails = () => {
       dropErrors.PickupPrice = { isValid: true, errorMessage: "" };
       dropErrors.DeliveryPrice = { isValid: true, errorMessage: "" };
     }
+    return dropErrors;
+  };
+  const handleValidateDropdown1 = () => {
+    const dropErrors: DropdownValidationState = {};
+
+    if (mainFormStateSpecial.dineinfields.length === 0) {
+      dropErrors.Pickup = {
+        isValid: false,
+        errorMessage: "Please fill this field",
+      };
+    }
+    // if (!mainFormStateSpecial.formNormal.PickuppriceNormal) {
+    //   dropErrors.PickupPrice = { isValid: false, errorMessage: "Price" };
+    // }
+    // if (mainFormState.DeliveryMealType.length == 0) {
+    //   dropErrors.Delivery = {
+    //     isValid: false,
+    //     errorMessage: "Please Fill this field",
+    //   };
+    //   if (!mainFormStateSpecial.formNormal.DeliverypriceNormal) {
+    //     dropErrors.DeliveryPrice = { isValid: false, errorMessage: "Price" };
+    //   }
+    // } else {
+    //   dropErrors.Delivery = { isValid: true, errorMessage: "" };
+    //   dropErrors.Pickup = { isValid: true, errorMessage: "" };
+    //   dropErrors.PickupPrice = { isValid: true, errorMessage: "" };
+    //   dropErrors.DeliveryPrice = { isValid: true, errorMessage: "" };
+    // }
     return dropErrors;
   };
   const handleValidateSpecial = () => {
@@ -602,11 +707,11 @@ const PricingDetails = () => {
   const handleValidate = (): boolean => {
     const dropdownErrors = isOptionTrue
       ? handleValidateDropdown()
-      : handleValidateSpecial();
+      : handleValidateDropdown1();
 
     const dineInErrors = isOptionTrue
       ? validateDineInFields(dineinfields)
-      : validateDineInFields1(dineinfields1);
+      : validateDineInFields1(dineinfieldsSpecial);
 
     const combinedErrors = {
       // ...dropdownErrors,
@@ -955,18 +1060,25 @@ const PricingDetails = () => {
                 resetSelection={normalFormRef}
               />
             ) : (
-              <></>
-              // <Specialavail
-              //   validateDropdown={validateDropdown}
-              //   validationState={validationState}
-              //   setMainFormSpecial={setMainFormSpecial}
-              //   mainFormSpecial={mainFormSpecial}
-              //   dineinfield1={dineinfields1}
-              //   setDineInFields1={setDineInFields1}
-              //   setValidationStateerr={setValidationStateerr}
-              //   ValidationStateerr={validationStateerr}
-              //   resetSelection={normalFormRef}
-              // />
+              <>
+               {/* <Specialavail
+                validateDropdown={validateDropdown}
+                dinein={dineinspecial}
+                setDineIn={setdineinspecial}
+                validationState={validationState}
+                setMainFormStatespecial={setMainFormStateSpecial}
+                mainFormState={mainFormStateSpecial}
+                selectedValues2={selectedValues2}
+                setSelectedValues2={setSelectedValues2}
+                dineinfields={dineinfieldsSpecial}
+                handleValidate={handleValidate}
+                setDineInFields={setDineInFieldsSpecial}
+                setValidationStateerr={setValidationStateerr}
+                ValidationStateerr={validationStateerr}
+                resetSelection={normalFormRef}
+              /> */}
+              </>
+             
             )}
 
             {/* <div

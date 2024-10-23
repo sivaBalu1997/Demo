@@ -21,6 +21,15 @@
     align-items: center; /* Center the content inside the modal */
     border-radius: 8px; /* Optional: add rounded corners */
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+
+
+    .react-datepicker {
+    width: 320px;  // Set your desired width
+  }
+  
+  .react-datepicker__month-container {
+    width: 100%; // Ensure the content fits the new width
+  }
 }
 .AvailCalenderForm{
     margin-top: -10px;
@@ -35,13 +44,13 @@
     font-size: 20px;
     font-weight: 500;
 }
-.react-datepicker {
-    width: 320px;  // Set your desired width
-  }
+// .react-datepicker {
+//     width: 320px;  // Set your desired width
+//   }
   
-  .react-datepicker__month-container {
-    width: 100%; // Ensure the content fits the new width
-  }
+//   .react-datepicker__month-container {
+//     width: 100%; // Ensure the content fits the new width
+//   }
   .AvailCalenderInputContainer{
     display: flex;
     justify-content: flex-start;

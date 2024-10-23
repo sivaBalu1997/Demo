@@ -1,97 +1,831 @@
-import { useEffect, useRef, useState } from "react";
-import DatePicker from "react-datepicker";
+import React, { useState, useEffect, useRef } from "react";
 import Toggle from "../Toggle/Toggle";
 import "./Specialvail.scss";
 import DaysCheck from "../DayCheck/DaysCheck";
-import "react-datepicker/dist/react-datepicker.css";
-import calender from "../../../assets/images/calendar 1.png";
+import Dropdown2 from "../DropDown2/DropDown2";
 import DropDown3 from "../DropDown3/DropDown3";
-import { format } from "date-fns";
+import DropDown from "../DropDown/Dropdown";
+import DaysCheckDin from "../DayCheckDinein/DaysCheckDinein";
 import { useSelector } from "react-redux";
-import React from "react";
-import Dropdown from "../DropDown/Dropdown";
+import LableComponent from "../LableComponent/LableComponent";
+import TooltipMsg from "../Tooltip/TooltipMsg";
+import info from "../../../assets/svg/info.svg";
+import { RootState } from "redux/rootReducer";
+// import { State } from "sockjs-client";
+import session from "redux-persist/lib/storage/session";
+import DatePicker from "react-datepicker";
+import calender from "../../../assets/images/calendar 1.png";
 
-import DropDown2 from "../DropDown2/DropDown2";
-
-type MainFormSpecial = {
-  form1: FormState;
-  dineinfields: DineInField[];
-  specialcheck: number[]; // Single number, not an array
-  fromDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
-  toDate: string | Date | undefined; // Allow undefined if needed; // Should be Date, not string
-  selectedValuespickup: string[];
-  selectedValuesdelivery: string[];
+type MainFormType = {
+  availabilityid: string[];
+  formNormal: {
+    PickuppriceNormal: string;
+    PickupmealtypeNormal: string;
+    DeliverypriceNormal: string;
+    DeliverymealtypeNormal: string;
+    SwiggyorzomatoNormal: string;
+    SwiggyNormal: string;
+    SwiggymealtypeNormal: string;
+    ZomatoNormal: string;
+    ZomatomealtypeNormal: string;
+  };
+  dineinfields: any;
+  Normaldays: number[];
+  DeliveryMealType: string[];
+  PicupMealType: string[];
+  Pickup: number[];
+  DineInServiceArea: SelectedValuesState[];
+  Delivery: number[];
+  thirdParty: number[];
+  WeekDays: number[][];
+  DineIn: number[][];
   Swiggy: string[];
   Zomato: string[];
-  Availabilityid: string[];
 };
 
-interface FormState {
-  Pickupprice?: string;
-  Pickupmealtype?: string;
-  Deliveryprice?: string;
-  Deliverymealtype?: string;
-  Swiggyorzomato: string;
-  Swiggy?: string;
-  Swiggymealtype?: string;
-  Zomato?: string;
-  Zomatomealtype?: string;
-  Inventory1?: string;
-  Inventory2?: string;
+interface availabilities{
+  availabilityDays:number[],
+  
+sessions:string[]
 }
-type MealType = string[];
-type SelectedValuesMealTypeState = MealType[];
-interface SpecialAvailProps {
-  validateDropdown: (value: string[], key: string | number) => void; // Expecting only string[] for value
-  validationState: Record<
-    string | number,
-    { isValid: boolean; errorMessage: string }
+
+interface thirdpartyDeliveryDetails{
+  availabilities:availabilities[],
+  price:number,
+  typeId:string,
+  typeName:string
+
+
+
+}
+type MainFormTypespecial = {
+  availabilityid: string[];
+  fromDate: string | Date | undefined;
+  toDate: string | Date | undefined;
+  specialdays: number[];
+  dineinfields: DineInField[];
+  pickupDetails:thirdpartyDeliveryDetails[];
+  deliveryDetails:thirdpartyDeliveryDetails[];
+  thirdpartyDetails:thirdpartyDeliveryDetails[];
+
+};
+interface NormalForm {
+  PickuppriceNormal: string;
+  PickupmealtypeNormal: string;
+  DeliverypriceNormal: string;
+  DeliverymealtypeNormal: string;
+  SwiggyorzomatoNormal: string;
+  SwiggyNormal: string;
+  SwiggymealtypeNormal: string;
+  ZomatoNormal: string;
+  ZomatomealtypeNormal: string;
+}
+interface DineInField {
+  DineInPrice: string;
+  DineInMealType: string[];
+  DineInService: string;
+  showDay: boolean;
+  dayButtonText: string;
+}
+
+type DropdownValidationState = {
+  [key: string]: { isValid: boolean; errorMessage: string };
+};
+
+interface DeliveryDetails {
+  typeName: string;
+  typeId: string;
+  price: number;
+  availabilities: Availability[];
+}
+
+interface NormalavailProps {
+  getNormalForm?: (form: any) => void;
+  validateDropdown: (
+    value: string[],
+    key: keyof DropdownValidationState
+  ) => void;
+
+  validationState: {
+    [key: string]: { isValid: boolean; errorMessage: string };
+  };
+
+  setValidationStateerr: React.Dispatch<
+    React.SetStateAction<DropdownValidationState>
   >;
-  setMainFormSpecial:
-    | React.Dispatch<React.SetStateAction<MainFormSpecial>>
-    | any;
-  mainFormSpecial: any;
-  dineinfield1?: any;
-  setDineInFields1?: any;
-  setValidationStateerr?: any;
   ValidationStateerr?: any;
+
+  dinein: boolean;
+  setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
+  setMainFormStatespecial: React.Dispatch<React.SetStateAction<MainFormType>>;
+  handleValidate: () => void;
+  mainFormState: any;
+  dineinfields?: any;
+  setDineInFields: (form: any) => void;
+  selectedValues2: any;
+  setSelectedValues2: (form: any) => void;
   resetSelection?: any;
 }
 
-type DineInField = {
-  DineInPrice: string | string[];
-  DineInMealType: string | string[];
-  DineInService: string | string[];
-};
+type MealType1 = string;
+type MealType = string[];
+type SelectedValueType = string;
+type SelectedValuesMealTypeState = MealType[];
+type ServiceValueType = string;
 interface SelectedValuesState {
-  [key: number]: any; // Replace `any` with the actual type of `values`
+  [key: number]: any;
 }
-const Specialavail: React.FC<SpecialAvailProps> = ({
+type OptionType = string;
+
+interface Availability {
+  availabilityDays: string[];
+  sessions: string[];
+}
+interface State {
+  auth: {
+    credentials: {
+      locationId: string;
+    };
+  };
+}
+
+interface PriceInfo {
+  typeName: string;
+  typeId: string;
+  price: number; 
+  availabilities: Availability[];
+}
+
+const Specialavail: React.FC<NormalavailProps> = ({
+  getNormalForm,
   validateDropdown,
   validationState,
-  setMainFormSpecial,
-  mainFormSpecial,
-  dineinfield1,
-  setDineInFields1,
+  dinein,
+  setDineIn,
+  setMainFormStatespecial,
+  mainFormState,
+  dineinfields,
+  setDineInFields,
   setValidationStateerr,
+  handleValidate,
   ValidationStateerr,
   resetSelection,
 }) => {
-  const [dinein, setDineIn] = useState(true);
   const [online, setOnline] = useState(false);
   const [pickup, setPickup] = useState(false);
   const [delivery, setDelivery] = useState(false);
-  const [dineinentry, setDineInEntry] = useState<string[]>([""]);
+
+  const [dineinentry, setDineInEntry] = useState<string[]>([]);
+  const [Normaldays, setNormalDays] = useState<number[]>([]);
+  const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
+
+  const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
+  const [options4, setOptions4] = useState(["Breakfast", "Lunch", "Dinner"]);
+  const [options5, setOptions5] = useState(["Breakfast", "Lunch", "Dinner"]);
+  const [options6, setOptions6] = useState(["Breakfast", "Lunch", "Dinner"]);
+  const [availabilityid, setAvailabilityid] = useState<string[]>([]);
+  const [selectedValues, setSelectedValues] =
+    React.useState<SelectedValuesState>({});
+
+  const [selectedValues2, setSelectedValues2] = useState<string[]>([]);
+  const [selectedValues3, setSelectedValues3] = useState<string[]>([]);
+  const [selectedValues4, setSelectedValues4] = useState<string[]>([]);
+  const [selectedValues5, setSelectedValues5] = useState<string[]>([]);
+  const [selectedthirdvalues, setSelectedThirdValues] = useState<string[]>([]);
+  const [selectedValuesmealtype, setSelectedValuesMealType] =
+    React.useState<SelectedValuesMealTypeState>([]);
+
+  const [optionsmealtype, setOptionsMealType] = useState([
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+  ]);
+
+  //   {_-------------------Array for Day Check---------------------------------}
+  const [dineInDates, setDineInDates] = useState([]);
+  const [DayPickup, setDayPickup] = useState<number[]>([]);
+  const [DayDelivery, setDayDelivery] = useState<number[]>([]);
+  const [DayThird, setDayThird] = useState<number[]>([]);
+  const [dineInDates1, setDineInDates1] = useState<number[][]>([[]]);
+  //   {_-------------------Use State  for Showing Day checck ---------------------------------}
+  const [showDay, setShowDay] = useState(false);
+  const [showDayPickup, setShowDayPickup] = useState(false);
+  const [showDayDelivery, setShowDayDelivery] = useState(false);
+  const [showDayThird, setShowDayThird] = useState(false);
+
+  const prizingDetail = useSelector(
+    (state: any) => state.PricingDetailReducer.prizingData
+  );
+
+  const [formNormal, setformNormal] = useState({
+    PickuppriceNormal: "",
+    PickupmealtypeNormal: "",
+    DeliverypriceNormal: "",
+    DeliverymealtypeNormal: "",
+    SwiggyorzomatoNormal: "",
+    SwiggyNormal: "",
+    SwiggymealtypeNormal: "",
+    ZomatoNormal: "",
+    ZomatomealtypeNormal: "",
+  });
+
+  const [buttonText, setButtonText] = useState([{ ChooseDay: "Choose Day" }]);
+  const [Text, setText] = useState(
+    dineinfields.map(() => "Set up for Specific Day")
+  );
+
+  const orderTypess = useSelector(
+    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+  );
+
+  const orderTypes = useSelector(
+    (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+  );
+
+  const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
+  const pickUpId = orderTypess?.find((item: any) => item.typeGroup === "P")?.id;
+  const deliveryId = orderTypess?.find(
+    (item: any) => item.typeGroup === "S"
+  )?.id;
+
+  const thirdpartyid = orderTypess?.find(
+    (item: any) => item.typeGroup === "T"
+  )?.id;
+
+  const thirdPartyTypeName = orderTypes?.find(
+    (item: any) => item.typeGroup === "T"
+  )?.typeName;
+
+  const [pickupDetails, setPickUpDetails] = useState<DeliveryDetails>({
+    typeId: pickUpId,
+    typeName: "PickUp",
+    availabilities: [
+      {
+        availabilityDays: [],
+        sessions: [],
+      },
+    ],
+    price: 0,
+  });
+
+  const [deliveryDetails, setDeliveryDetails] = useState<DeliveryDetails>({
+    typeId: deliveryId,
+    price: 0,
+    typeName: "Delivery",
+    availabilities: [
+      {
+        availabilityDays: [],
+        sessions: [],
+      },
+    ],
+  });
+
+  const [formattedDineInData, setFormattedDineInData] =
+    useState<DeliveryDetails>({
+      typeId: DineInId,
+      typeName: "DineIn",
+      price: 0,
+      availabilities: [
+        {
+          availabilityDays: [],
+          sessions: [],
+        },
+      ],
+    });
+
+  const [priceInfo, setPriceInfo] = useState<PriceInfo[]>([
+    {
+      typeId: "",
+      price: 0,
+      typeName: "",
+      availabilities: [
+        {
+          availabilityDays: [],
+          sessions: [],
+        },
+      ],
+    },
+  ]);
+
+  const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
+
+  const handleMealTypeChange = (
+    option: string,
+    selectedMealTypes: string[],
+    index: number
+  ) => {
+    setMealTypes((prev) => ({
+      ...prev,
+      [option]: selectedMealTypes,
+    }));
+
+    const data = [...priceInfo];
+    data[index].availabilities[0].sessions = selectedMealTypes;
+    setPriceInfo(data);
+  };
+  const primarypagedetails = useSelector((state: RootState) => state);
+  console.log("itemvghbj", primarypagedetails.primarypage);
+  const datePickerRef = useRef<any | null>(null);
+  const datePickerRef1 = useRef<any | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+  };
+  const handleDateChange1 = (date: Date | null) => {
+    setSelectedDate1(date);
+  };
+
+  console.log("selectedDate", selectedDate);
+
+  const handleImageClick = () => {
+    if (datePickerRef.current) {
+      datePickerRef.current.setOpen(true);
+    }
+  };
+
+  const handleImageClick2 = () => {
+    if (datePickerRef1.current) {
+      datePickerRef1.current.setOpen(true);
+    }
+  };
+
+  console.log("mainFormState", mainFormState);
+ 
+  const locationid = useSelector(
+    (state: State) => state.auth.credentials.locationId
+  );
+ 
+ 
+
+  console.log("validationStateerr", ValidationStateerr);
+  const specialItem = {
+    specialName: primarypagedetails.primarypage.data.itemName,
+    categoryId: primarypagedetails.primarypage.data.categoryId,
+    locationId: locationid,
+    validFrom: selectedDate,
+    validTo: selectedDate1,
+    orderTypeId: [
+      "993a8-81c5-40b2-a208-be1c03a93fad",
+      "28-81c5-40b2-a208-be1c03a93fad12",
+    ],
+    categoryIds: [
+      "040fb70a-4cfc-4475-ae9e-bad582a2a31a",
+      "04a8017c-ac32-449f-a7e2-cf6313316fb2",
+    ],
+    days: mainFormState?.Normaldays,
+  };
+  console.log("specialItem",specialItem);
+  
+  // const mainForm = {
+  //   availabilityid: availabilityid,
+  //   dineinfields,
+  //   specialdays: Normaldays,
+  //   ...(dinein && {
+  //     dineInDetails: formattedDineInData,
+  //   }),
+  //   pickupDetails:pickupDetails,
+  //   deliveryDetails:deliveryDetails,
+  //   thirdpartyDetails:priceInfo
+
+   
+  // };
+  const mainForm = {
+    availabilityid: availabilityid,
+    formNormal,
+    dineinfields,
+    Normaldays: Normaldays,
+    DeliveryMealType: selectedValues3,
+    PicupMealType: selectedValues2,
+    Pickup: DayPickup,
+    DineInServiceArea: [selectedValues],
+    Delivery: DayDelivery,
+    thirdParty: DayThird,
+    WeekDays: dineInDates1,
+    DineIn: dineInDates1,
+    Swiggy: selectedValues4,
+    Zomato: selectedValues5,
+    ...(dinein && {
+      dineInDetails: formattedDineInData,
+    }),
+    ...(pickup && {pickupDetails: pickupDetails}),
+   ...(delivery && { deliveryDetails: deliveryDetails}),
+   ...( priceInfo && {thirdpartyDetails: priceInfo}  )
+  };
+
+  const optionsselectthird = orderTypes
+    ?.filter((item) => item.typeGroup === "T")
+    .map((item) => item.typeName);
+
+  const thirdPartyData = orderTypes
+    ?.filter((item) => item.typeGroup === "T")
+    .map((item) => item);
+
+  const dineInTypes = orderTypes
+    ?.filter((item) => item.typeGroup === "D")
+    .map((item) => item.typeName);
+
+  const pickUpTypes = orderTypes
+    ?.filter((item) => item.typeGroup === "P")
+    .map((item) => item.typeName);
+
+  const deliveryTypes = orderTypes
+    ?.filter((item) => item.typeGroup === "S")
+    .map((item) => item.typeName);
+
+  useEffect(() => {
+    if (selectedthirdvalues) {
+      const data = [...priceInfo];
+      selectedthirdvalues.forEach((item, index) => {
+        data[index].typeName = item;
+      });
+      data.forEach((item, index) => {
+        const id = thirdPartyData?.find(
+          (value) => item.typeName === value.typeName
+        )?.id;
+        data[index].typeId = String(id);
+      });
+    }
+  }, [selectedthirdvalues]);
+
+  useEffect(() => {
+    if (prizingDetail?.normalForm?.formNormal) {
+      setformNormal({
+        PickuppriceNormal:
+          prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
+        PickupmealtypeNormal:
+          prizingDetail?.normalForm?.formNormal?.PickupmealtypeNormal || "",
+        DeliverypriceNormal:
+          prizingDetail?.normalForm?.formNormal?.DeliverypriceNormal || "",
+        DeliverymealtypeNormal:
+          prizingDetail?.normalForm?.formNormal?.DeliverymealtypeNormal || "",
+        SwiggyorzomatoNormal:
+          prizingDetail?.normalForm?.formNormal?.SwiggyorzomatoNormal || "",
+        SwiggyNormal: prizingDetail?.normalForm?.formNormal?.SwiggyNormal || "",
+        SwiggymealtypeNormal:
+          prizingDetail.normalForm?.formNormal?.SwiggymealtypeNormal || "",
+        ZomatoNormal: prizingDetail?.normalForm?.formNormal?.ZomatoNormal || "",
+        ZomatomealtypeNormal:
+          prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
+      });
+
+      const updatedFields = prizingDetail?.normalForm?.dineinfields.map(
+        (item: any) => ({
+          DineInPrice: item?.DineInPrice || "",
+          DineInMealType: item.DineInMealType || [],
+          DineInService: item?.DineInService || "",
+          showDay: true,
+          dayButtonText: "Choose Day",
+        })
+      );
+
+      setOnline(true);
+      setPickup(true);
+      setDelivery(true);
+      setDineInFields(updatedFields);
+
+      // Set delivery details
+      const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
+      const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
+      const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+      const thirdPartyTypeName =
+        prizingDetail?.normalForm?.thirdpartyDetails?.map;
+      if (pickupDetails) {
+        setPickUpDetails({
+          typeId: pickUpId,
+          price: pickupDetails?.price || "",
+          typeName: pickupDetails?.typeName || "",
+          availabilities: pickupDetails?.availabilities || [],
+        });
+      }
+
+      if (deliveryDetails) {
+        setDeliveryDetails({
+          typeId: deliveryId,
+          price: deliveryDetails?.price || "",
+          typeName: deliveryDetails?.typeName || "",
+          availabilities: deliveryDetails?.availabilities || [],
+        });
+      }
+
+      if (thirdpartyDetails) {
+        const data = thirdpartyDetails?.map((item: any) => item?.typeName);
+        setSelectedThirdValues(data);
+        setPriceInfo(thirdpartyDetails);
+        const object: any = {};
+        const item = thirdpartyDetails?.map((item: any) => item);
+        item.forEach((element: any) => {
+          object[element.typeName] = element?.availabilities[0]?.sessions;
+        });
+        setMealTypes(object);
+      }
+
+      // Initialize selected values
+      const initialSelectedValues = updatedFields.map(
+        (item: any) => item.DineInMealType
+      );
+      setSelectedValuesMealType(initialSelectedValues);
+
+      const initialSelectedValues2 = updatedFields.map(
+        (item: any) => item.DineInService
+      );
+      setSelectedValues(initialSelectedValues2);
+      setDineIn(true);
+    }
+
+    if (prizingDetail?.normalForm) {
+      setSelectedValues2(
+        prizingDetail.normalForm.PicupMealType || selectedValues2
+      );
+      setSelectedValues3(
+        prizingDetail.normalForm.deliveryDetails?.sessions || selectedValues3
+      );
+      setSelectedValues4(prizingDetail.normalForm.Swiggy || selectedValues4);
+      setSelectedValues5(prizingDetail.normalForm.Zomato || selectedValues5);
+      setDayPickup(prizingDetail.normalForm.Pickup || []);
+      setShowDayPickup(true);
+      setDayDelivery(prizingDetail.normalForm.Delivery || []);
+      setShowDayDelivery(true);
+      setDayThird(prizingDetail.normalForm.thirdParty || []);
+      setShowDayThird(true);
+      setNormalDays(prizingDetail.normalForm.Normaldays || []);
+      setDineInDates1(prizingDetail.normalForm.DineIn || []);
+      // setSelectedThirdValues(["Swiggy", "Zomato"]);
+    }
+  }, [prizingDetail]);
+
+  const handleDelete = (index: number): void => {
+    const newEntries = dineinfields.filter((_: any, i: any) => i !== index);
+    setDineInFields(newEntries);
+
+    const newSelectedValues1 = { ...selectedValues };
+    delete newSelectedValues1[index];
+    setSelectedValues(newSelectedValues1);
+
+    const newSelectedValuesMealtype = { ...selectedValuesmealtype };
+    delete newSelectedValuesMealtype[index];
+    setSelectedValuesMealType(newSelectedValuesMealtype);
+
+    const newArray = [...dineInDates1];
+    newArray.splice(index, 1);
+    setDineInDates1(newArray);
+  };
+
+  const AddDineInEntry = () => {
+    setDineInEntry([...dineinentry, ""]);
+    setDineInFields([
+      ...dineinfields,
+      {
+        DineInPrice: "",
+        DineInMealType: [],
+        DineInService: "",
+        showDay: false,
+        dayButtonText: "Choose Day",
+      },
+    ]);
+  };
+
+  const handleChange = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const newEntries = [...dineinfields];
+    newEntries[index] = {
+      ...newEntries[index],
+      [e.target.name as keyof DineInField]: e.target.value,
+    };
+    setDineInFields(newEntries);
+
+    const newPrice = parseFloat(e.target.value) || 0;
+    setFormattedDineInData((prevData: any) => ({
+      ...prevData,
+      price: newPrice,
+    }));
+  };
+
+  const addDay = (index: number): void => {
+    const newText = [...Text];
+    const tempArray = [...dineInDates1];
+    const newDineInFields = [...dineinfields];
+
+    if (Text[index] === "Set up for Specific Day") {
+      newText[index] = "Set up for All Days";
+      tempArray[index] = [];
+      newDineInFields[index].showDay = false;
+    } else {
+      newText[index] = "Set up for Specific Day";
+      newDineInFields[index].showDay = true;
+    }
+
+    setText(newText);
+    setDineInDates1(tempArray);
+    setDineInFields(newDineInFields);
+  };
+
+  const addDayPickup = () => {
+    setShowDayPickup(true);
+  };
+
+  const addDayPickupfalse = () => {
+    setShowDayPickup(false);
+  };
+
+  const addDayDelivery = () => {
+    setShowDayDelivery(true);
+  };
+  const addDayDeliveryfalse = () => {
+    setShowDayDelivery(false);
+  };
+
+  const addDayThird = () => {
+    setShowDayThird(true);
+  };
+
+  const addDayThirdfalse = () => {
+    setShowDayThird(false);
+  };
+
+  useEffect(() => {
+    if (JSON.stringify(mainFormState) !== JSON.stringify(mainForm)) {
+      setMainFormStatespecial(mainForm);
+    }
+  }, [mainForm]);
+
+  useEffect(() => {
+    if (DayThird && priceInfo[0].typeName) {
+      const data = priceInfo;
+      data.forEach((item) => {
+        item.availabilities[0].availabilityDays = DayThird.map((day) =>
+          day.toString()
+        );
+      });
+      setPriceInfo(data);
+    }
+  }, [DayThird]);
+
+  useEffect(() => {
+    setDeliveryDetails((prev) => ({
+      ...prev,
+      availabilities: [
+        {
+          ...prev.availabilities[0],
+          availabilityDays: DayDelivery.map((day) => day.toString()),
+        },
+      ],
+    }));
+  }, [DayDelivery]);
+
+  useEffect(() => {
+    setPickUpDetails((prev) => ({
+      ...prev,
+      availabilities: [
+        {
+          ...prev.availabilities[0],
+          availabilityDays: DayPickup.map((day) => day.toString()),
+        },
+      ],
+    }));
+  }, [DayPickup]);
+
+  const handleSelect2 = (values: any, index: number): void => {
+    setSelectedValues((prevState: SelectedValuesState) => ({
+      ...prevState,
+      [index]: values,
+    }));
+
+    const newDineInFields = [...dineinfields];
+    newDineInFields[index] = {
+      ...newDineInFields[index],
+      DineInService: values,
+    };
+    setDineInFields(newDineInFields);
+  };
+
+  const addOption2 = (newOption: OptionType): void => {
+    setOptions2((prevOptions) => [...prevOptions, newOption]);
+  };
+  const handleSelect3 = (newSelectedValues: string[]) => {
+    setSelectedValues2(newSelectedValues);
+  };
+
+  const addOption3 = (newOption: OptionType): void => {
+    setOptions3((prevOptions) => [...prevOptions, newOption]);
+  };
+
+  const handleSelect4 = (values: string[]): void => {
+    setSelectedValues3(values);
+    validateDropdown(values, "Pickup");
+  };
+
+  const addOption4 = (newOption: OptionType): void => {
+    setOptions4([...options4, newOption]);
+  };
+
+  const handleSelect5 = (value: string[]): void => {
+    setSelectedValues4(value);
+    validateDropdown(value, "ThirdDelivery1");
+  };
+
+  const addOption5 = (newOption: OptionType): void => {
+    setOptions5([...options5, newOption]);
+  };
+
+  const handleSelect6 = (value: string[]): void => {
+    setSelectedValues5(value);
+    validateDropdown(value, "ThirdDelivery2");
+  };
+
+  const addOption6 = (newOption: OptionType): void => {
+    setOptions6([...options6, newOption]);
+  };
+
+  const handleSelectMealtype = (value: MealType, index: number): void => {
+    // Ensure selectedValuesmealtype is iterable
+    const newSelectedValues = Array.isArray(selectedValuesmealtype)
+      ? [...selectedValuesmealtype]
+      : [];
+    newSelectedValues[index] = value;
+    setSelectedValuesMealType(newSelectedValues);
+
+    const newDineInFields = [...dineinfields];
+    newDineInFields[index].DineInMealType = value;
+    setDineInFields(newDineInFields);
+
+    // Update formattedDineInData state, ensuring you update the correct availabilities index
+    setFormattedDineInData((prevData: DeliveryDetails) => {
+      const updatedAvailabilities = [...prevData.availabilities];
+
+      // Ensure that the sessions are updated as a flat array and not nested arrays
+      updatedAvailabilities[index] = {
+        ...updatedAvailabilities[index],
+        sessions: [...newSelectedValues.filter(Boolean).flat()], // Flatten the array
+      };
+
+      return {
+        ...prevData,
+        availabilities: updatedAvailabilities,
+      };
+    });
+
+    if (dinein) {
+      validateDropdown(value, index);
+    }
+  };
+
+  
+ 
+  const handleSelectThird = (value: string[]): void => {
+    setSelectedThirdValues(value);
+    validateDropdown(value, "ThirdDeliverySwiggyZomato");
+  };
+
+  const clearSelection = () => {
+    setSelectedValuesMealType([]);
+
+    setNormalDays([]);
+    setSelectedValues2([]);
+    setformNormal({
+      PickuppriceNormal: "",
+      PickupmealtypeNormal: "",
+      DeliverypriceNormal: "",
+      DeliverymealtypeNormal: "",
+      SwiggyorzomatoNormal: "",
+      SwiggyNormal: "",
+      SwiggymealtypeNormal: "",
+      ZomatoNormal: "",
+      ZomatomealtypeNormal: "",
+    });
+    setDayPickup([]);
+    setSelectedValues3([]);
+    setDayDelivery([]);
+    setDayThird([]);
+    setSelectedValues4([]);
+    setSelectedValues5([]);
+    setSelectedValues([]);
+    setDineInFields((prevDineInFields: any) =>
+      prevDineInFields.map(() => ({
+        DineInPrice: "",
+        DineInMealType: [],
+        DineInService: [],
+      }))
+    );
+  };
+
+  useEffect(() => {
+    if (resetSelection) {
+      resetSelection.current = clearSelection;
+    }
+  }, [resetSelection]);
+
+  const [dropdownopened, setDropdownopened] = useState<boolean>(false);
+
   const [specialcheck, setSpecialcheck] = useState<number[]>([]);
   const [dateValue, setDateValue] = useState("7/1/24");
   const [showPlaceholder, setShowPlaceholder] = useState(true);
   const [selectedValues1, setSelectedValues1] =
     useState<SelectedValuesMealTypeState>([]);
-  const [options3, setOptions3] = useState<string[]>([
-    "Breakfast",
-    "Lunch",
-    "Dinner",
-  ]);
+
   const [selectedValuespickup, setSelectedValuesPickup] = useState<string[]>(
     []
   );
@@ -131,669 +865,473 @@ const Specialavail: React.FC<SpecialAvailProps> = ({
     "Lunch",
     "Dinner",
   ]);
-  const [selectedValuesMealType, setSelectedValuesMealType] =
-    useState<SelectedValuesMealTypeState>([]);
-  const [optionsmealtype, setOptionsMealType] = useState<string[]>([
-    "Breakfast",
-    "Lunch",
-    "Dinner",
-  ]);
 
-  const datePickerRef = useRef<any | null>(null);
-  const datePickerRef1 = useRef<any | null>(null);
-  const prizingDetail = useSelector(
-    (state: any) => state?.PricingDetailReducer?.prizingData
-  );
-  const [availabilityid1, setAvailabilityid1] = useState<string[]>([]);
-
-  const [form1, setForm] = useState<FormState>({
-    Pickupprice: "",
-    Pickupmealtype: "",
-    Deliveryprice: "",
-    Deliverymealtype: "",
-    Swiggyorzomato: "",
-    Swiggy: "",
-    Swiggymealtype: "",
-    Zomato: "",
-    Zomatomealtype: "",
-  });
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
-
-  const fromDate = selectedDate?.toString();
-  const toDate = selectedDate1?.toString();
-
-  const handleChange = (
-    index: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newEntries = [...dineinfield1];
-    newEntries[index][e.target.name as keyof DineInField] = e.target.value;
-    setDineInFields1(newEntries);
-  };
-
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date); // Keep date as Date object
-  };
-
-  const handleDateChange1 = (date: Date | null) => {
-    setSelectedDate1(date);
-  };
-
-  const payLoad = {
-    form1,
-    dineinfield1,
-    specialcheck: specialcheck,
-    fromDate,
-    toDate,
-    selectedValuespickup: selectedValuespickup,
-    selectedValuesdelivery: selectedValuesdelivery,
-    Swiggy: selectedValuesthird1,
-    Zomato: selectedValuesthird2,
-    Availabilityid: availabilityid1,
-  };
-
-  useEffect(() => {
-    if (JSON.stringify(mainFormSpecial) !== JSON.stringify(payLoad)) {
-      setMainFormSpecial(payLoad);
-    }
-  }, [payLoad]);
-
-  const handleImageClick = () => {
-    if (datePickerRef.current) {
-      datePickerRef.current.setOpen(true);
-    }
-  };
-
-  const handleImageClick2 = () => {
-    if (datePickerRef1.current) {
-      datePickerRef1.current.setOpen(true);
-    }
-  };
-
-  const handleSelect3 = (value: MealType, index: number) => {
-    // Ensure new selected values are an array of MealType arrays
-    const newSelectedValues: SelectedValuesMealTypeState = [
-      ...selectedValuesMealType,
-    ];
-    newSelectedValues[index] = value;
-    setSelectedValuesMealType(newSelectedValues);
-
-    // Update the dine-in fields with the selected value
-    const newDineInFields = [...dineinfield1];
-    newDineInFields[index] = {
-      ...newDineInFields[index],
-      DineInService: value,
-    };
-    setDineInFields1(newDineInFields);
-
-    // Validate the dropdown immediately after selection
-    validateDropdown(newSelectedValues[index], index);
-  };
-
-  const addOption3 = (newOption: string) => {
-    setOptions3([...options3, newOption]);
-  };
-
-  const handleSelectpick = (value: string[]) => {
-    setSelectedValuesPickup(value);
-    validateDropdown(selectedValuespickup, "Pickupspecial");
-  };
-
-  const addOptionpickup = (newOption: string) => {
-    setOptionsPick3([...optionspick, newOption]);
-  };
-
-  const handleSelectdelivery = (value: string[]) => {
-    setSelectedValuesDelivery(value);
-    validateDropdown(selectedValuesdelivery, "Deliveryspecial");
-  };
-
-  const addOptiondelivery = (newOption: string) => {
-    setOptionsDelivery([...optionsdelivery, newOption]);
-  };
-
-  const handleSelectThird1 = (value: string[]) => {
-    setSelectedValuesThird1(value);
-    validateDropdown(selectedValuesthird1, "Deliveryspecial1");
-  };
-
-  const addOptionThird1 = (newOption: string) => {
-    setOptionsThird1([...optionsthird1, newOption]);
-  };
-
-  const handleSelectThird2 = (value: string[]) => {
-    setSelectedValuesThird2(value);
-    validateDropdown(selectedValuesthird2, "Deliveryspecial2");
-  };
-
-  const addOptionThird2 = (newOption: string) => {
-    setOptionsThird2([...optionsthird2, newOption]);
-  };
-
-  const handleSelectMealtype = (value: MealType, index: number) => {
-    const newSelectedValues = [...selectedValues1];
-    newSelectedValues[index] = value;
-    setSelectedValues1(newSelectedValues);
-
-    const newArray = [...dineinfield1];
-    newArray[index].DineInMealType = value; // Assign a single string value
-    setDineInFields1(newArray);
-  };
-
-  const handleSelectService = (index: number, value: MealType) => {
-    const newSelectedValues = [...selectedValues1];
-    newSelectedValues[index] = value;
-    setSelectedValues1(newSelectedValues);
-
-    const newarrary = [...dineinfield1];
-    newarrary[index].DineInService = value;
-    setDineInFields1(newarrary);
-  };
-
-  // const addOptionMealType = (newOption) => {
-  //   setOptionsMealType([...optionsmealtype, newOption]);
-  // };
-
-  const handleDelete = (index: number) => {
-    const newEntries = dineinfield1.filter((_: any, i: any) => i !== index);
-    setDineInFields1(newEntries);
-
-    const newSelectedValues1 = [...selectedValues1];
-    newSelectedValues1.splice(index, 1);
-    setSelectedValues1(newSelectedValues1);
-
-    const newSelectedValuesMealtype = [...selectedValuesMealType];
-    newSelectedValuesMealtype.splice(index, 1);
-    setSelectedValuesMealType(newSelectedValuesMealtype);
-  };
-
-  // Add a new empty value for the new field
-  const AddDineInEntry = () => {
-    // Add an empty string to dineinentry
-    setDineInEntry([...dineinentry, ""]);
-
-    // Add a new object to dineinfields with empty initial values
-    setDineInFields1((prevFields: DineInField[]) =>
-      Array.isArray(prevFields)
-        ? [
-            ...prevFields,
-            { DineInPrice: "", DineInMealType: [], DineInService: [] },
-          ]
-        : [{ DineInPrice: "", DineInMealType: [], DineInService: [] }]
-    );
-  };
-  const handleSelectZomatoSwiggy = (value: string[]) => {
-    setSelectedSwiggyZomato(value);
-  };
-  useEffect(() => {
-    if (prizingDetail) {
-      console.log(prizingDetail); // Log prizingDetail
-
-      const fromDate = prizingDetail.specialForm?.fromDate
-        ? new Date(prizingDetail.specialForm.fromDate)
-        : null;
-
-      const toDate = prizingDetail.specialForm?.toDate
-        ? new Date(prizingDetail.specialForm.toDate)
-        : null;
-
-      setSelectedDate(fromDate);
-
-      setSelectedDate1(toDate);
-      setSpecialcheck(prizingDetail.specialForm?.specialcheck || "");
-
-      setForm({
-        Pickupprice: prizingDetail.specialForm?.form1?.Pickupprice || "",
-        Pickupmealtype: "",
-        Deliveryprice: prizingDetail.specialForm?.form1?.Deliveryprice || "",
-        Deliverymealtype: "",
-        Swiggyorzomato: prizingDetail.specialForm?.form1?.Swiggyorzomato || "",
-        Swiggy: prizingDetail.specialForm?.form1?.Swiggy || "",
-        Swiggymealtype: "",
-        Zomato: prizingDetail.specialForm?.form1?.Zomato || "",
-        Zomatomealtype: "",
-      });
-
-      setSelectedValuesPickup(
-        prizingDetail.specialForm?.selectedValuespickup || []
-      );
-      setSelectedValuesDelivery(
-        prizingDetail.specialForm?.selectedValuesdelivery || []
-      );
-      setSelectedValuesThird1(prizingDetail.specialForm?.Swiggy || []);
-      setSelectedValuesThird2(prizingDetail.specialForm?.Zomato || []);
-
-      const dineInFields = prizingDetail.specialForm?.dineinfield1;
-      console.log(dineInFields); // Log dineinfield1 for debugging
-
-      if (Array.isArray(dineInFields)) {
-        const updated = dineInFields.map((item) => ({
-          DineInPrice: item?.DineInPrice || "",
-          DineInMealType: item?.DineInMealType || [],
-          DineInService: item?.DineInService || [],
-        }));
-
-        setDineInFields1(updated);
-
-        const initialSelectedValues = updated.map(
-          (item) => item.DineInMealType
-        );
-        setSelectedValuesMealType(initialSelectedValues || []);
-
-        const initialSelectedValues2 = updated.map(
-          (item) => item.DineInService
-        );
-        setSelectedValues1(initialSelectedValues2 || []);
-        setDineIn(true);
-      } else {
-        console.error("dineinfield1 is not an array or is undefined");
-      }
-    }
-    setOnline(true);
-    setPickup(true);
-    setDelivery(true);
-    setSelectedSwiggyZomato(["Swiggy", "Zomato"]);
-  }, [prizingDetail]);
-
-  const handleSpecialDineinMealType = (index: number, value: any) => {
-    setSelectedValuesMealType((prev) => {
-      // Ensure we are working with an array
-      const newMealTypes = Array.isArray(prev) ? [...prev, value] : [value];
-      return newMealTypes;
-    });
-
-    // Clone the dineinfields array and update the specific index
-    const newDineInFields = [...dineinfield1];
-    newDineInFields[index].DineInMealType = value; // Update DineInService with the new value
-
-    // Update the state with the modified array
-    setDineInFields1(newDineInFields);
-  };
-  const clearSelection = () => {
-    setSelectedValuesMealType([]);
-    setSelectedValues1([]);
-    setForm({
-      Pickupprice: "",
-      Pickupmealtype: "",
-      Deliveryprice: "",
-      Deliverymealtype: "",
-      Swiggyorzomato: "",
-      Swiggy: "",
-      Swiggymealtype: "",
-      Zomato: "",
-      Zomatomealtype: "",
-    });
-    setSelectedValuesPickup([]);
-    setSelectedValuesDelivery([]);
-    setSelectedValuesThird1([]);
-    setSelectedValuesThird2([]);
-    setSelectedDate1(null);
-    setSelectedDate(null);
-    setSpecialcheck([]);
-    setDineInFields1((prevDineInFields: any) =>
-      prevDineInFields.map(() => ({
-        DineInPrice: "",
-        DineInMealType: "",
-        DineInService: "",
-      }))
-    );
-  };
-
-  useEffect(() => {
-    if (resetSelection) {
-      resetSelection.current = clearSelection;
-    }
-  }, [resetSelection]);
-
-  console.log("validationStateerr", ValidationStateerr);
+ 
   return (
     <div>
-      <h1 className="AvailableDaysHeading" style={{ marginTop: "40px" }}>
-        Available days
-      </h1>
-      <div className="Days-check">
-        <div className="Date_container">
-          <div className="calenderComponent">
-            <div className="date-picker-container">
-              <DatePicker
-                placeholderText="07/01/2034" // Matches the MM/dd/yyyy format
-                dateFormat="MM/dd/yyyy"
-                selected={selectedDate}
-                onChange={handleDateChange}
-                ref={datePickerRef}
-                className="datePicker"
-              />
-            </div>
+      <div className="AvailDaycheck">
+        <div className="AvailDaycheck-Heading">
+          <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+        </div>
+        <div className="date-select">
+          <div className="from-date">
+            <DatePicker
+              placeholderText="07/01/2034"
+              dateFormat="MM/dd/yyyy"
+              selected={selectedDate}
+              onChange={handleDateChange}
+              ref={datePickerRef}
+              className="datePicker-special"
+            />
             <img
               src={calender}
-              className="calender"
+              className="calender-img"
               onClick={handleImageClick}
             />
+            <div></div>
           </div>
-
-          <div className="calenderComponent">
-            <div className="date-picker-container">
-              <DatePicker
-                selected={selectedDate1}
-                onChange={handleDateChange1}
-                placeholderText="07/01/2034" // Matches the MM/dd/yyyy format
-                dateFormat="MM/dd/yyyy" // specify the format you want
-                showPopperArrow
-                ref={datePickerRef1}
-                className="datePicker"
-              />
-            </div>
+          <div className="to-date">
+            <DatePicker
+              selected={selectedDate1}
+              onChange={handleDateChange1}
+              placeholderText="07/01/2034" 
+              dateFormat="MM/dd/yyyy" 
+              showPopperArrow
+              ref={datePickerRef1}
+              className="datePicker"
+            />
             <img
               src={calender}
-              className="calender1"
+              className="calender-img1"
               onClick={handleImageClick2}
             ></img>
+            <div></div>
           </div>
         </div>
-        <div className="dayschecking-special">
+
+        <div className="dayschecking">
           <DaysCheck
-            checkedItems={specialcheck}
-            setCheckedItems={setSpecialcheck}
-            id={availabilityid1}
-            setId={setAvailabilityid1}
-          />
+            checkedItems={Normaldays}
+            setCheckedItems={setNormalDays}
+            id={availabilityid}
+            setId={setAvailabilityid}
+          ></DaysCheck>
           <p className="Note">
             Note : Changes here will apply to all service types unless specific
             day options are enabled
           </p>
         </div>
       </div>
-
-      {/* <h1 className="KitchenRelatedHeading">Avaliable Service Streams</h1> */}
+      {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
       {/* DineIn Related */}
-      <div className="DineInRelatedSpecial">
-        <h1 className="DineInRelatedHeading">Dine In</h1>
-        <div className="toggleDinein">
+
+      {
+        <div className="DineInRelated">
+          <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
           <Toggle toggle={dinein} setToggle={setDineIn} />
         </div>
-      </div>
+      }
+
       {dinein ? (
         <>
-          {dineinfield1 &&
-            dineinfield1.map((item: any, index: any) => (
-              <div
-                className="DineInInput11Special"
-                style={{ zIndex: dineinfield1.length - index }}
-                key={index} // Adding key here
-              >
-                <div className="price-input-price">
-                  <p className="LabelSpecialPrice">Price*</p>
-                  <input
-                    type="text"
-                    name="DineInPrice"
-                    value={item.DineInPrice}
-                    className="DineInInput1"
-                    onChange={(e) => handleChange(index, e)}
-                  />
-                </div>
-                {!ValidationStateerr[`DineInPrice_${index}`]?.isValid && (
-                  <span className="ErrormsgPriceSpecial">
-                    {ValidationStateerr[`DineInPrice_${index}`]?.errorMessage}
-                  </span>
-                )}
-
-                <div className="DropD4">
-                  <Dropdown
-                    selectedValues={selectedValuesMealType?.[index] || []}
-                    onSelect={(value) => handleSelect3(value, index)}
-                    options={options3}
-                    label="Meal Type*"
-                    onChange={(e) =>
-                      handleSpecialDineinMealType(index, e.target.value)
-                    }
-                    width="Drop1"
-                    // validation={
-                    //   validationState[index] || { isValid: true, errorMessage: "" }
-                    // }
-                  />
-                  {!ValidationStateerr[`DineInService_${index}`]?.isValid && (
-                    <span className="ErrormsgMealTypeSpecial">
-                      {
-                        ValidationStateerr[`DineInService_${index}`]
-                          ?.errorMessage
-                      }
-                    </span>
-                  )}
-                </div>
-
-                <div className="SpecialDropDown">
-                  <Dropdown
-                    selectedValues={selectedValues1?.[index] || ""}
-                    onSelect={(value) => handleSelectMealtype(value, index)}
-                    options={options3}
-                    label="Service Area*"
-                    width="Drop2"
-                    // validation={
-                    //   validationState[index] || { isValid: true, errorMessage: "" }
-                    // }
-                  />
-                  {!ValidationStateerr[`DineInMealType_${index}`]?.isValid && (
-                    <span className="ErrormsgMealTypeSpecial">
-                      {
-                        ValidationStateerr[`DineInMealType_${index}`]
-                          ?.errorMessage
-                      }
-                    </span>
-                  )}
-                </div>
-
-                <div>
-                  <h1
-                    onClick={() => handleDelete(index)}
-                    className="DeleteSpecial"
+          {dineinfields?.map((entry: any, index: any) => {
+            const mealTypeKey = `DineInMealType_${index}`;
+            const priceKey = `DineInPrice_${index}`;
+            const DineInService = `DineInService_${index}`;
+            return (
+              <>
+                <div className="DineIn-Fields">
+                  <div className="LabelPrice">
+                    <LableComponent lable="Price*" />
+                  </div>
+                  <div
+                    className="DineInInput11Normal"
+                    key={index}
+                    style={{ zIndex: dineinfields.length - index }}
                   >
-                    - Delete
-                  </h1>
+                    <div className="Dine-In-Price">
+                      <input
+                        type="text"
+                        name="DineInPrice"
+                        value={entry.DineInPrice}
+                        className="DineInInput1Normal"
+                        onChange={(e) => {
+                          handleChange(index, e);
+                        }}
+                      />
+                      {!ValidationStateerr[priceKey]?.isValid && (
+                        <span className="ErrormsgPrice">
+                          {ValidationStateerr[priceKey]?.errorMessage}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="Mealz">
+                      <div>
+                        <DropDown
+                          selectedValues={selectedValuesmealtype[index] || ""}
+                          onSelect={(values) =>
+                            handleSelectMealtype(values, index)
+                          }
+                          options={optionsmealtype}
+                          index={index}
+                          label="Meal Type*"
+                          width="Drop1"
+                        />
+                      </div>
+                      <div>
+                        {!ValidationStateerr[mealTypeKey]?.isValid && (
+                          <span className="Errormsg">
+                            {ValidationStateerr[mealTypeKey]?.errorMessage}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <h1
+                      onClick={() => handleDelete(index)}
+                      className="DeleteButtonDine"
+                    >
+                      - Delete
+                    </h1>
+                  </div>
+                  <div className="dineInChooseDayContainer">
+                    <h3 className="dineInChooseDayContainerHeading">
+                      Choose for Specific day
+                    </h3>
+                    <h3
+                      className="dineInChooseDayContainer-chooseheading"
+                      onClick={() => addDay(index)}
+                    >
+                      Choose Day
+                    </h3>
+                  </div>
+                  <div className="dayspickup">
+                    {entry.showDay && (
+                      <DaysCheckDin
+                        checkedItems={dineInDates1}
+                        setCheckedItems={setDineInDates1}
+                        index={index}
+                        {...(availabilityid
+                          ? { id: availabilityid, setId: setAvailabilityid }
+                          : {})}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          <div className="dineinentry" onClick={AddDineInEntry}>
+              </>
+            );
+          })}
+
+          <h1 className="AddentryNormal" onClick={AddDineInEntry}>
+            {" "}
             + Add entry
-          </div>
+          </h1>
         </>
       ) : (
         ""
       )}
+
       {/* OnlineRelated */}
-      <div className="OnlineRelated">
-        <h1 className="OnlineRelatedHeading">Online</h1>
+      <div className="OnlineRelatedNormal">
+        <h1 className="OnlineRelatedHeadingNormal">Online</h1>
         <div className="toggleIII">
           <Toggle toggle={online} setToggle={setOnline} />
         </div>
       </div>
-      <div className="OnlineSection">
+
+      <div className="OnlineSectionNormal">
         {online ? (
-          <div>
+          <div className="onlineselected">
             {/* PickupRelated */}
-            <div className="PickupRelated">
-              <h1 className="PickupRelatedHeading">Pick Up</h1>
+            <div className="PickupRelatedNormal">
+              <h1 className="PickupRelatedHeadingNormal">Pick Up</h1>
               <div className="toggleIV">
                 <Toggle toggle={pickup} setToggle={setPickup} />
               </div>
             </div>
-            <div className="PickupSection">
-              {pickup ? (
+            <div className="PickupSectionNormal">
+              {pickup && pickUpTypes ? (
                 <div>
-                  <p className="LabelPriceSpecial"> Price*</p>
-
-                  <div className="PickupInput11">
+                  <div className="LabelPricePickup">
+                    <LableComponent lable="Price*" />
+                  </div>
+                  <div className="PickupInput11Normal">
                     <input
                       type="text"
-                      className="DineInInput1"
-                      value={form1.Pickupprice}
+                      className="DineInInput1Normal"
+                      value={pickupDetails?.price}
                       onChange={(e) =>
-                        setForm({ ...form1, Pickupprice: e.target.value })
+                        setPickUpDetails({
+                          ...pickupDetails,
+                          price: Number(e.target.value),
+                        })
                       }
-                    ></input>
-                    {!ValidationStateerr.PickupPrizeSpecial?.isValid && (
-                      <span className="ErrormsgInputPickupPriceSpecial">
-                        {ValidationStateerr?.PickupPrizeSpecial?.errorMessage ||
-                          ""}
-                      </span>
-                    )}
-                    <div className="PickDrop5">
-                      <Dropdown
-                        selectedValues={selectedValuespickup}
-                        onSelect={handleSelectpick}
-                        options={optionspick}
+                    />
+                    <div className="PrizeD">
+                      <DropDown
+                        selectedValues={
+                          pickupDetails.availabilities[0].sessions
+                        }
+                        onSelect={(selectedMealTypes) =>
+                          setPickUpDetails((prevDetails) => ({
+                            ...prevDetails,
+                            availabilities: prevDetails.availabilities.map(
+                              (availability, index) =>
+                                index === 0
+                                  ? {
+                                      ...availability,
+                                      sessions: selectedMealTypes,
+                                    }
+                                  : availability
+                            ),
+                          }))
+                        }
+                        options={options3}
                         label="Meal Type*"
                         width="Drop1"
-
-                        // validation={validationState.Pickupspecial}
                       />
-                      {!ValidationStateerr.PickupSpecial?.isValid && (
-                        <span className="ErrormsgPickupPriceSpecial">
-                          {ValidationStateerr?.PickupSpecial?.errorMessage ||
-                            ""}
-                        </span>
-                      )}
                     </div>
+                  </div>
+                  <div className="PickupChooseDayContainer">
+                    {showDayPickup ? (
+                      <h3 className="pickupChooseDayContainerHeading">
+                        Back for default days
+                      </h3>
+                    ) : (
+                      <h3 className="pickupChooseDayContainerHeading">
+                        Setup for specific days?
+                      </h3>
+                    )}
+                    {showDayPickup ? (
+                      <h3
+                        className="pickupChooseDayContainer-chooseheading"
+                        onClick={addDayPickupfalse}
+                      >
+                        Default days
+                      </h3>
+                    ) : (
+                      <h3
+                        className="pickupChooseDayContainer-chooseheading"
+                        onClick={addDayPickup}
+                      >
+                        Choose Day
+                      </h3>
+                    )}
+                  </div>
+                  <div className="dayspick-pickup">
+                    {showDayPickup ? (
+                      <DaysCheck
+                        checkedItems={DayPickup}
+                        setCheckedItems={setDayPickup}
+                        {...(availabilityid.length > 0
+                          ? { id: availabilityid, setId: setAvailabilityid }
+                          : { id: [], setId: () => {} })}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               ) : (
                 ""
               )}
             </div>
+
             {/* DeliveryRelated    */}
-            <div
-              className={online ? "DeliveryRelated" : "DeliveryRelatedclosed"}
-            >
-              <h1 className="DeliveryRelatedHeading">Delivery</h1>
+            <div  className={`${delivery?"DeliveryRelatedNormal":"DeliveryRelatedNormalopen"}`}>
+              <h1 className="DeliveryRelatedHeadingNormal">Delivery</h1>
               <div className="toggleV">
                 <Toggle toggle={delivery} setToggle={setDelivery} />
               </div>
             </div>
-            <div className="DeliverySection">
-              {delivery ? (
+
+            <div
+              className={
+                online ? "DeliverySectionNormal" : "DeliverySectionNormalclose"
+              }
+            >
+              {delivery && deliveryTypes ? (
                 <div>
-                  <p className="DelLabelPrice"> Price*</p>
-                  <div className="Deliverypricefield">
+                  <div></div>
+                  <p className="LabelPrice-delivery"> Price*</p>
+                  <div className="Online-delivery">
                     <input
                       type="text"
-                      className="deliveryinput"
-                      value={form1.Deliveryprice}
-                      onChange={(e) =>
-                        setForm({ ...form1, Deliveryprice: e.target.value })
-                      }
-                    ></input>
-                    {!ValidationStateerr.DeliveryPrizeSpecial?.isValid && (
-                      <span className="ErrormsgDeliveryInputPriceSpecial">
-                        {ValidationStateerr?.DeliveryPrizeSpecial
-                          ?.errorMessage || ""}
-                      </span>
-                    )}
-                    <div className="DelDrop">
-                      <Dropdown
-                        selectedValues={selectedValuesdelivery}
-                        onSelect={handleSelectdelivery}
-                        options={optionsdelivery}
-                        label="Meal Type*"
-                        onBlur={() =>
-                          validateDropdown(
-                            selectedValuespickup,
-                            "Deliveryspecial"
-                          )
+                      className="DineInInput1Normal"
+                      value={deliveryDetails?.price}
+                      onChange={(e) => {
+                        const newPrice = e.target.value;
+                        setDeliveryDetails((prevDetails: any) => ({
+                          ...prevDetails,
+                          price: Number(newPrice),
+                        }));
+                      }}
+                    />
+                    <div className="DeliveryD">
+                      <DropDown
+                        selectedValues={
+                          deliveryDetails.availabilities[0].sessions
                         }
-                        // validation={validationState.Deliveryspecial}
+                        onSelect={(selectedMealTypes) => {
+                          setDeliveryDetails((prevDetails) => ({
+                            ...prevDetails,
+                            availabilities: [
+                              {
+                                ...prevDetails.availabilities[0],
+                                sessions: selectedMealTypes,
+                              },
+                            ],
+                          }));
+                        }}
+                        options={options4}
+                        label="Meal Type*"
                         width="Drop1"
                       />
-                      {!ValidationStateerr.DeliverySpecial?.isValid && (
-                        <span className="ErrormsgPickupPriceSpecial">
-                          {ValidationStateerr?.DeliverySpecial?.errorMessage ||
-                            ""}
-                        </span>
-                      )}
                     </div>
                   </div>
+                  <div className="deliveryChooseDayContainer">
+                    {showDayDelivery ? (
+                      <h3 className="deliveryChooseDayContainerHeading">
+                        Back for default days
+                      </h3>
+                    ) : (
+                      <h3 className="deliveryChooseDayContainerHeading">
+                        Setup for specific days?
+                      </h3>
+                    )}
+                    {showDayDelivery ? (
+                      <h3
+                        className="deliveryChooseDayContainer-chooseheading"
+                        onClick={addDayDeliveryfalse}
+                      >
+                        Default days
+                      </h3>
+                    ) : (
+                      <h3
+                        className="deliveryChooseDayContainer-chooseheading"
+                        onClick={addDayDelivery}
+                      >
+                        Choose Day
+                      </h3>
+                    )}
+                  </div>
+                  <div className="dayspickup">
+                    {showDayDelivery && (
+                      <DaysCheck
+                        checkedItems={DayDelivery}
+                        setCheckedItems={setDayDelivery}
+                        {...(availabilityid.length > 0
+                          ? { id: availabilityid, setId: setAvailabilityid }
+                          : { id: [], setId: () => {} })} // Provide default empty values if `availabilityid` is empty
+                      />
+                    )}
+                  </div>
                 </div>
-              ) : (
-                ""
-              )}
+              ) : null}
             </div>
-            <h1 className="ThirdDeliveryRelatedHeading">
+
+            <h1 className="ThirdDeliveryRelatedHeadingNormal">
               Third Party delivery
             </h1>
-            <div className="third-party-special">
-              <p className="LabelZoamtoSwiggy1"> Swiggy,Zomato*</p>
-              <div className="Thridparty-delivery">
-                <Dropdown
-                  selectedValues={selectedswiggyzomato}
-                  onSelect={handleSelectZomatoSwiggy}
-                  options={swiggyZomato}
+            <div className="thirdpartyContainer">
+              <div className="Delivery11">
+                <DropDown
+                  selectedValues={selectedthirdvalues}
+                  onSelect={handleSelectThird}
+                  options={optionsselectthird}
                   label=""
+                  isopened={setDropdownopened}
                   onBlur={() =>
-                    validateDropdown(selectedValuespickup, "Deliveryspecial")
+                    validateDropdown(selectedthirdvalues, "SwiggyZomato")
                   }
-                  // validation={validationState.Deliveryspecial}
+                  validation={validationState.PickupSwiggy}
                   width="Drop1"
                 />
               </div>
-              {selectedswiggyzomato.includes("Swiggy") && (
-                <div className="LabelSwiggyInputDropDown">
-                  <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading">Swiggy price</label>
-                    <input
-                      className="swiggyZomato-input"
-                      type="text"
-                      value={form1.Swiggy}
-                      placeholder="Enter Swiggy details"
-                      onChange={(e) =>
-                        setForm({ ...form1, Swiggy: e.target.value })
-                      }
-                    />
+
+              {/* Dynamically render based on selected options */}
+              {selectedthirdvalues?.map((option, index) => {
+                return (
+                  <div key={option} className="LabelSwiggyInputDropDown">
+                    <div className="LabelSwiggyInput">
+                      {/* <label className="swiggyZomatoHeading">
+                          {option} Price
+                        </label> */}
+                      <p className="Thrid-party-price"> {option} Price</p>
+                      <input
+                        className="swiggyZomato-input"
+                        type="text"
+                        value={priceInfo[index]?.price || ""}
+                        onChange={(e) => {
+                          const data = [...priceInfo];
+                          data[index].price = Number(e.target.value);
+                          setPriceInfo(data);
+                        }}
+                      />
+                    </div>
+                    <div
+                      className={`Third${option}  thridparties-dropdown `}
+                      style={{ zIndex: dropdownopened ? "-1" : "" }}
+                    >
+                      <DropDown
+                        selectedValues={mealTypes[option] || []}
+                        onSelect={(selected) =>
+                          handleMealTypeChange(option, selected, index)
+                        }
+                        options={options4}
+                        label="Meal Type*"
+                        onBlur={() =>
+                          validateDropdown(
+                            mealTypes[option],
+                            `ThirdDelivery${option}`
+                          )
+                        }
+                        validation={validationState[`ThirdDelivery${option}`]}
+                        width="Drop1"
+                      />
+                    </div>
                   </div>
-                  <div className="ThirdpartySpecial">
-                    <Dropdown
-                      selectedValues={selectedValuesthird1}
-                      onSelect={handleSelectThird1}
-                      options={optionsthird1}
-                      label="Meal Type*"
-                      onBlur={() =>
-                        validateDropdown(selectedValuesthird1, "ThirdDelivery1")
-                      }
-                      // validation={validationState.ThirdDelivery1}
-                      width="Drop1"
-                    />
-                  </div>
-                </div>
-              )}
-              {selectedswiggyzomato.includes("Zomato") && (
-                <div className="LabelSwiggyInputDropDown">
-                  <div className="LabelSwiggyInput">
-                    <label className="swiggyZomatoHeading">Zomato price</label>
-                    <input
-                      className="swiggyZomato-input"
-                      type="text"
-                      value={form1.Zomato}
-                      placeholder="Enter Zomato details"
-                      onChange={(e) =>
-                        setForm({
-                          ...form1,
-                          Zomato: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="Third2">
-                    <Dropdown
-                      selectedValues={selectedValuesthird2}
-                      onSelect={handleSelectThird2}
-                      options={optionsthird2}
-                      label="Meal Type*"
-                      onBlur={() =>
-                        validateDropdown(selectedValuesthird2, "ThirdDelivery2")
-                      }
-                      // validation={validationState.ThirdDelivery2}
-                      width="Drop1"
-                    />
-                  </div>
-                </div>
+                );
+
+                return null;
+              })}
+
+              <div className="ThirdPartyChooseDayContainer">
+                {showDayThird ? (
+                  <h3 className="ThirdPartyChooseDayContainerHeading">
+                    Back to Default days
+                  </h3>
+                ) : (
+                  <h3 className="ThirdPartyChooseDayContainerHeading">
+                    Setup for specific days?
+                  </h3>
+                )}
+                {showDayThird ? (
+                  <h3
+                    className="ThirdPartyChooseDayContainer-chooseheading"
+                    onClick={addDayThirdfalse}
+                  >
+                    Default Days
+                  </h3>
+                ) : (
+                  <h3
+                    className="ThirdPartyChooseDayContainer-chooseheading"
+                    onClick={addDayThird}
+                  >
+                    Choose Day
+                  </h3>
+                )}
+              </div>
+
+              {showDayThird && (
+                <DaysCheck
+                  checkedItems={DayThird}
+                  setCheckedItems={setDayThird}
+                  {...(availabilityid.length > 0
+                    ? { id: availabilityid, setId: setAvailabilityid }
+                    : { id: [], setId: () => {} })}
+                />
               )}
             </div>
           </div>

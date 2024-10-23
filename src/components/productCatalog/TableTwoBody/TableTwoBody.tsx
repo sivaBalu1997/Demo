@@ -31,7 +31,9 @@ interface OrderType {
   typeId: string;
   price: number;
   isEnabled: number;
+  availabilityEnabled:boolean
   availabilities: Availability[];
+
 }
 
 interface ItemResponse {
@@ -51,19 +53,20 @@ interface ItemResponse {
 }
 
 interface ItemObject {
+  itemId:string
   categoryId: string; 
-  categoryName: string; // Assuming categoryName is included
-  itemResponseList: ItemResponse[]; // List of items
+  categoryName: string; 
+  itemResponseList: ItemResponse[]; 
 }
 
 interface TableRowsProps {
-  itemobject: ItemObject; // Update to match new structure
+  itemobject: ItemObject; 
   indexvalue: number;
   classNamesinner: string[];
   handlemodal: (value: number) => void;
-  listingobject: Record<string, any>; // More specific typing can be applied based on usage
+  listingobject: Record<string, any>; 
   setSideBar: () => void;
-  SideBarData: any[]; // Specify if you have a specific structure
+  SideBarData: any[]; 
   showsidebar: (key: string) => void;
   listingheaders: boolean;
 }
@@ -112,7 +115,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
               style={{ display: "flex" }}
               className={`eachobject-rowwise`}
             >
-              {orderTypesToShow?.map((typeName) => {
+              {orderTypesToShow?.map((typeName,ordertypeindex) => {
 
                 const shouldDisplayType =
                 (typeName === "DineIn" && listingobject.Dinein1) ||
@@ -128,6 +131,13 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   ? orderType.price.toFixed(2).padStart(5, "0")
                   : "";
                 const className = typeName.toLowerCase() + "data";
+                const isPriceEnabled=orderType && orderType.isEnabled==1
+                ? true
+                : false;
+                console.log("data",isPriceEnabled);
+                
+
+             
 
                 return (
                   <div
@@ -135,7 +145,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                     style={{ display: "flex" }}
                     className={className}
                   >
-                    <p>
+                    <p style={{opacity:isPriceEnabled?"100%":"50%"}}>
                       {restaurantDetails?.country === "US" ? "$" : "Rs."}{" "}
                       {price !== "" ? price : "0"}
                     </p>
@@ -158,6 +168,9 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
 
                 const isEnabled = orderType ? orderType.isEnabled : "";
                 const className = typeName.toLowerCase() + "data";
+                const isAvailEnabled=orderType && orderType.availabilityEnabled===true
+                ? true
+                : false;
 
                 return (
                   <div
@@ -167,7 +180,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   >
                     {/* 
                   <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
-                    <p>
+                    <p style={{opacity:isAvailEnabled?"100%":"50%"}}>
                       {isEnabled !== "" ? (
                         <Toggle toggle={true} />
                       ) : (

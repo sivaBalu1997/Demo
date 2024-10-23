@@ -2,20 +2,22 @@
   display: flex;
   justify-content: start;
   gap: 10px;
+  // border: 1px solid red;
+  align-items: center;
+  margin-top: -2%;
+  
 }
 
-.DaysCheckContainer1 {
+.DaysCheckContainer-dinein {
   margin-top: 26px;
   margin-left: -15px;
   margin-bottom: 10px;
-}
-.DaysCheckContainer {
-  margin-top: -7px;
-  margin-bottom: 20px;
-}
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+justify-content: center;
 .aa {
-  transform: translateY(4px);
+
   width: 18px;
   height: 18px;
   margin-left: 15px;
@@ -23,6 +25,15 @@
 
   accent-color: #779749;
 }
+
+ 
+}
+.DaysCheckContainer {
+  margin-top: -7px;
+  margin-bottom: 20px;
+}
+
+
 .DaysCheckContainer {
   label {
     padding-left: 8px;
