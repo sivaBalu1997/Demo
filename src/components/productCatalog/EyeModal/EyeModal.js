@@ -17,8 +17,7 @@ const EyeModal = ({ onEyeclose }) => {
         Heading: "On-prem",
         subItems: [
           { name:Dinein.typeName,
-            id:Dinein.typeId,
-            
+            id:Dinein.typeId,     
             isChecked: false
           }],
         isChecked: false, 
@@ -42,9 +41,21 @@ const EyeModal = ({ onEyeclose }) => {
     ]);
     console.log("w",data1)
 
+    
+  
+  const dataa2={
+    itemId: "9be15fd4-43fe-497a-b857-42d89bffb8be",
+    isEnabled: false,
+    itemOrderTypeStatuses: [
+      {orderTypeId: "df8eb2dc-6789-4b2a-bdc9-46df7c19add9", isEnabled: true},
+      {orderTypeId: "1b53fad0-ce9c-4736-8710-85377d19d938", isEnabled: false},
+      {orderTypeId: "b1eddc4e-710e-437c-871c-609b84af43c1", isEnabled: false}
+       
+    ]
+}
 
-  
-  
+
+
 
     const hidePayload = {
       itemId: data1[0].itemId,
@@ -52,11 +63,11 @@ const EyeModal = ({ onEyeclose }) => {
       itemOrderTypeStatuses: data
         .map((section) =>
           section.subItems.map((subItem) => ({
-             orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
-            isEnabled: subItem.isChecked // Use isChecked from subItems
+             orderTypeId: subItem.id, 
+            isEnabled: subItem.isChecked 
           }))
         )
-        .flat() // Flatten the array of arrays
+        .flat() 
     }
 
     console.log("Hide",hidePayload)
@@ -72,7 +83,7 @@ const EyeModal = ({ onEyeclose }) => {
   };
 
   const handleChange = () => {
-    dispatch(addMockDataHiddenRequest(hidePayload));
+    dispatch(addMockDataHiddenRequest(dataa2));
     onEyeclose();
   };
 
@@ -140,7 +151,7 @@ const EyeModal = ({ onEyeclose }) => {
                   <input
                     className="checkbox-Items"
                     type="checkbox"
-                    checked={elem.isChecked} // Controlled input for parent checkbox
+                    checked={elem.isChecked} 
                     onChange={() => parentToggleChange(parentIndex)} // Toggle parent and subitems
                   />
                 </div>

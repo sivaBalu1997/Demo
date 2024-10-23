@@ -877,7 +877,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                    Choose Day
                   </h3>
                 </div>
-                <div className="dayspickup">
+              <div className="dayspickup">
                   {entry.showDay && (
                     <DaysCheckDin
                       checkedItems={dineInDates1}
@@ -1011,7 +1011,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
             </div>
 
             {/* DeliveryRelated    */}
-            <div className="DeliveryRelatedNormal">
+            <div  className={`${delivery?"DeliveryRelatedNormal":"DeliveryRelatedNormalopen"}`}>
               <h1 className="DeliveryRelatedHeadingNormal">Delivery</h1>
               <div className="toggleV">
                 <Toggle toggle={delivery} setToggle={setDelivery} />

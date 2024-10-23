@@ -7,11 +7,9 @@
 //   margin-bottom: 20px;
 //   gap: 20px;
 // }
-// .date-picker-container
-// {
-//   z-index: 1;
-// }
-
+.date-picker-container {
+  z-index: 1;
+}
 
 // .dayschecking {
 //  position: relative;
@@ -48,16 +46,17 @@
 // .react-datepicker__input-container input {
 //   width: 142px;
 //   height: 34px;
-//   padding: 8px;
-//   font-size: 14px;
-//   font-family: 400;
-//   border: 1px solid rgba(0, 0, 0, 0.3);
-//   border-radius: 4px;
+//   // padding: 8px;
+//   // font-size: 14px;
+//   // font-family: 400;
+//   // border: 1px solid rgba(0, 0, 0, 0.3);
+//   // border-radius: 4px;
 // }
 // .react-datepicker__month-container {
 //   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 //   border: 1px solid rgba(0, 0, 0, 0.3);
 //   border-radius: 4px;
+
 // }
 // .react-datepicker__day-name,
 // .react-datepicker__day {
@@ -69,6 +68,7 @@
 // .react-datepicker__day--selected {
 //   background-color: green;
 //   color: white;
+
 // }
 // .react-datepicker__day--keyboard-selected {
 //   background-color: green;
@@ -338,15 +338,15 @@
 //   font-size: 14px;
 //   margin-top: 22px;
 //   transform: translateX(40px);
-  
+
 // }
 
-.Days-check
-{
+.Days-check {
   display: flex;
   flex-direction: column;
   width: auto;
   height: 100px;
+
   // border: 1px solid red;
 }
 .OnlineSection {
@@ -354,93 +354,119 @@
   flex-direction: column;
   margin-left: 1rem;
 }
+.calender-img {
+  width: 21px;
+  height: 18px;
+  z-index: 2;
+margin-left: -3.5rem;
 
-.Date_container
-{
+top: 0.3rem;
+ 
+  position: relative;
+
+  cursor: pointer;
+}
+.calender-img1 {
+  width: 21px;
+  height: 18px;
+  z-index: 2;
+margin-left: -3.5rem;
+
+top: 0.3rem;
+  
+  position: relative;
+
+  cursor: pointer;
+}
+
+
+.Date_container {
   display: flex;
   flex-direction: row;
   gap: 30px;
-  .calender {
-  width: 21px;
-  height: 18px;
+  margin-top: 1rem;
+  
+  .from-date {
+   
+    width: 400px;
+    height: 200px;
+    display: flex;
+  }
+  .calender1 {
+    width: 21px;
+    height: 18px;
+    position: relative;
+    top: -27px;
+    // left:206px;
+    left: 10rem;
+    z-index: 1;
+    cursor: pointer;
+  }
+}
+.dayschecking-special {
   position: relative;
-  top: -27px;
-  left: 10rem;
-  cursor: pointer;
-}
-.calender1 {
-  width: 21px;
-  height: 18px;
-  position: relative;
-  top: -27px;
-  // left:206px;
-  left: 10rem;
-  z-index: 1;
-  cursor: pointer;
-}
-}
-.dayschecking-special
-{
- position: relative;
- top: 0rem;
- .Note
- {
-  font-family: Poppins;
-font-size: 14px;
-font-style: italic;
-font-weight: 300;
-line-height: 21px;
-text-align: left;
-color: #5F5F5F;
-
- }
+  top: -2rem;
+  .Note {
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 21px;
+    text-align: left;
+    color: #5f5f5f;
+  }
 }
 
-.DineInRelatedSpecial
-{
+.DineInRelatedSpecial {
   display: flex;
   gap: 30px;
   margin-top: 50px;
-  .DineInRelatedHeading
-  {
+  .DineInRelatedHeading {
     font-family: Poppins;
-font-size: 14px;
-font-weight: 500;
-line-height: 21px;
-text-align: left;
-
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    text-align: left;
   }
-
 }
 .LabelSpecialPrice {
   color: #666666;
   font-size: 14px;
   margin-top: 10px;
- 
 }
-.dineinentry
-{
+.dineinentry {
   font-family: Poppins;
-font-size: 14px;
-font-weight: 400;
-line-height: 21px;
-text-align: left;
-color: #0085FF;
-margin-top: 15px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #0085ff;
+  margin-top: 15px;
 }
-.DineInInput11Special
-{
+.AvailDaycheck-Heading {
   display: flex;
-justify-content:flex-start;
-  margin-top:0.5rem;
+  flex-direction: column;
+}
+.date-select {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 1rem;
+  // border: 1px solid red;
+}
+.DineInInput11Special {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  border: 1px solid red;
   .DropD4 {
-  margin-left: -10px;
-  margin-top: 8px;
-}
-.SpecialDropDown {
-  margin-left: -10px;
-  margin-top: 5px;
-}
+    margin-left: -10px;
+    margin-top: 8px;
+  }
+  .SpecialDropDown {
+    margin-left: -10px;
+    margin-top: 5px;
+  }
 
   .DeleteSpecial {
     margin-left: 27px;
@@ -448,33 +474,27 @@ justify-content:flex-start;
     color: red;
     font-weight: 400;
     font-size: 14px;
-  
   }
-  .price-input-price
-  {
-
+  .price-input-price {
     .DineInInput1 {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 0.313rem;
-  width: 150px;
-  height: 2.75rem;
-  border-radius: 5px;
-  font-size: 14px;
-  color: #979797;
-  font-weight: 400;
-  padding-left: 14px;
-}
-
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      border-radius: 0.313rem;
+      width: 150px;
+      height: 2.75rem;
+      border-radius: 5px;
+      font-size: 14px;
+      color: #979797;
+      font-weight: 400;
+      padding-left: 14px;
+    }
   }
 }
 
-.Add-entry
-{
+.Add-entry {
   display: flex;
   width: 100px;
   height: 40px;
   // border: 1px solid red;
-
 }
 
 .AddentrySpecialOnToggle {
@@ -487,7 +507,6 @@ justify-content:flex-start;
   // border: 1px solid red;
 }
 
-
 .AddentrySpecial {
   font-size: 0.875rem;
   font-weight: 400;
@@ -496,7 +515,6 @@ justify-content:flex-start;
   margin-top: 0.5rem;
   width: 100px;
   // border: 1px solid red;
-
 }
 
 .OnlineRelated {
@@ -514,8 +532,7 @@ justify-content:flex-start;
   display: flex;
   justify-content: flex start;
   gap: 2rem;
-  .Thridparty-delivery
-  {
+  .Thridparty-delivery {
     position: relative;
     left: 1rem;
   }
@@ -524,7 +541,6 @@ justify-content:flex-start;
   font-size: 0.875rem;
   font-weight: 500;
   margin-top: 1rem;
-  
 }
 
 .DeliveryRelated {
@@ -546,8 +562,7 @@ justify-content:flex-start;
   margin-top: 0.5%;
   margin-bottom: 1%;
 
-  .Pickup-price-mealtype
-  {
+  .Pickup-price-mealtype {
     display: flex;
     flex-direction: row;
   }
@@ -560,51 +575,45 @@ justify-content:flex-start;
 
   gap: 0.625rem;
   .PickDrop5 {
-  margin-left: -10px;
-  margin-top: -25px;
-  z-index: 10;
-}
+    margin-left: -10px;
+    margin-top: -25px;
+    z-index: 10;
+  }
 
   select {
     // margin-left: 20px;
   }
 }
 
-.DeliverySection
-{
+.DeliverySection {
   display: flex;
   gap: 30px;
   margin-bottom: 0.5%;
 
-  .Deliverypricefield
-  {
+  .Deliverypricefield {
     display: flex;
     // margin-left: 1rem;
   }
-  .deliveryinput
-  {
-      
-
+  .deliveryinput {
   }
   .DelDrop {
-  margin-top: -25px;
+    margin-top: -25px;
 
-  z-index: 3;
+    z-index: 3;
+  }
 }
-}
-
 
 .AvailableDaysHeading {
   font-size: 0.875rem;
   font-weight: 500;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 2rem;
+  margin-left: 0.3rem;
+  // margin-bottom: 1rem;
   font-family: Poppins;
-font-size: 14px;
-font-weight: 400;
-line-height: 21px;
-text-align: left;
-
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
 }
 
 .ThirdDeliveryRelatedHeading {
@@ -613,115 +622,100 @@ text-align: left;
   margin-top: 1rem;
 }
 .LabelPriceSpecial {
- 
-
   color: #979797;
   font-size: 14px;
   font-weight: 400;
 }
-.DelLabelPrice
-{
+.DelLabelPrice {
   color: #979797;
   font-size: 14px;
   font-weight: 400;
 }
-.LabelZoamtoSwiggy1
-{
+.LabelZoamtoSwiggy1 {
   color: #979797;
   font-family: Poppins;
-font-size: 14px;
-font-weight: 400;
-line-height: 21px;
-text-align: left;
-margin-top: 0.2rem;
-
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  margin-top: 0.2rem;
 }
-.Thridparty-delivery
-{
+.Thridparty-delivery {
   margin-left: -1.8rem;
   margin-top: 0.2rem;
   z-index: 1;
-
-
 }
-.ThirdpartySpecial
-{
+.ThirdpartySpecial {
   z-index: 0;
   margin-top: 1.4rem;
- 
 }
-.third-party-special
-{
+.third-party-special {
   margin-bottom: 1rem;
   // z-index: 0;
 }
-.Third2
-{
+.Third2 {
   z-index: 0;
 }
 
 .Third2Special {
   margin-top: -25px;
   margin-left: -17px;
- 
 }
-.ThirdpartySpecial, .Third2 {
-  // z-index: 3; 
-  position: relative; 
+.ThirdpartySpecial,
+.Third2 {
+  // z-index: 3;
+  position: relative;
 }
 
 .Delivery11Zomato {
-  // z-index: 1; 
+  // z-index: 1;
 }
 
 .third-party-special {
-  position: relative; 
-  z-index: 0; 
+  position: relative;
+  z-index: 0;
   top: 0.5rem;
 }
-.ErrormsgPickupPriceSpecial{
+.ErrormsgPickupPriceSpecial {
   position: relative;
   top: 24px;
   left: 20px;
-  color:red;
+  color: red;
   font-size: 14px;
-  font-weight: 400
+  font-weight: 400;
 }
-.ErrormsgPriceSpecial{
+.ErrormsgPriceSpecial {
   position: relative;
   top: 72px;
   left: -140px;
-  color:red;
+  color: red;
   font-size: 14px;
   font-weight: 400;
   height: 10px;
-
 }
-.ErrormsgMealTypeSpecial{
+.ErrormsgMealTypeSpecial {
   position: relative;
   top: 22px;
-  left:30px;
-  color:red;
+  left: 30px;
+  color: red;
   font-size: 14px;
   font-weight: 400;
   height: 10px;
-
 }
-.ErrormsgInputPickupPriceSpecial{
+.ErrormsgInputPickupPriceSpecial {
   position: relative;
   top: 42px;
-  left:-210px;
-  color:red;
+  left: -210px;
+  color: red;
   font-size: 14px;
   font-weight: 400;
   height: 10px;
-
 }
-.ErrormsgDeliveryInputPriceSpecial{
+.ErrormsgDeliveryInputPriceSpecial {
   position: relative;
   top: 42px;
-  left:-200px;
-  color:red;
+  left: -200px;
+  color: red;
   font-size: 14px;
   font-weight: 400;
   height: 10px;

@@ -751,6 +751,7 @@ export const selectedMockDataRequest = (payload) => ({
   type: SELECTED_MOCKDATA_REQUEST,
   payload,
 });
+
 export const selectedMockDataSuccess = (data) => ({
   type: SELECTED_MOCKDATA_SUCCESS,
   payload: data,

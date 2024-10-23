@@ -196,7 +196,7 @@ export function apiUpdateMenu(payload) {
 export function hideMockData(payload) {
   return API({
     method: "put",
-    url: `/api/v1/menu-items/hide`,
+    url: `/api/v1/menu-items/availability`,
     data:payload
   });
 }

@@ -76,7 +76,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       onBlur && onBlur();
     }
   };
-  console.log("Option of sreams",options);
+
   
 
   // console.log({selectedValues})

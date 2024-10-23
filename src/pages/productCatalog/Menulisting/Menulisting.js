@@ -418,6 +418,11 @@ export const Menulisting = () => {
     }
   }, [deleteMenuItemSuccess]);
 
+ 
+
+  console.log("menu",menuData);
+  
+
   return (
     <>
       {

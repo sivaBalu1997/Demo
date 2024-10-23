@@ -230,7 +230,7 @@ console.log("sidbar",SideBarData);
             </div>
           </div>
 
-          {eye && <EyeModal onEyeclose={() => setEye(false)} />}
+          {eye && <EyeModal onEyeclose={() => setEye(false)}  />}
 
           {trash && (
             <Trash
