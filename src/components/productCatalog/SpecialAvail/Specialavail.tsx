@@ -773,51 +773,8 @@ const Specialavail: React.FC<NormalavailProps> = ({
     }
   };
 
-  const addOptionMealType = (newOption: OptionType): void => {
-    setOptionsMealType([...optionsmealtype, newOption]);
-  };
-
-  const handleServiceSelect2 = (
-    index: number,
-    value: ServiceValueType,
-    validfield: string
-  ): void => {
-    setSelectedValues(value);
-
-    const newDineInFields = [...dineinfields];
-    newDineInFields[index].DineInService = value;
-    setDineInFields(newDineInFields);
-    setValidationStateerr((prevState) => ({
-      ...prevState,
-      [validfield]: {
-        ...prevState[validfield],
-        isValid: false,
-        errorMessage: "",
-      },
-    }));
-  };
-
-  const handleMealSelect2 = (
-    index: number,
-    value: MealType,
-    validfield: string
-  ): void => {
-    if (index < 0 || index >= dineinfields.length) {
-      return;
-    }
-    const newDineInFields = [...dineinfields];
-    newDineInFields[index].DineInMealType = value;
-    setDineInFields(newDineInFields);
-    setValidationStateerr((prevState) => ({
-      ...prevState,
-      [validfield]: {
-        ...prevState[validfield],
-        isValid: false,
-        errorMessage: "",
-      },
-    }));
-  };
-
+  
+ 
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
