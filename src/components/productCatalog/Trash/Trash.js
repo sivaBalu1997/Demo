@@ -10,6 +10,7 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
 
   const dispatch = useDispatch();
   const locationid = useSelector((state) => state.auth.credentials.locationId);
+  const deleteMenuItemSuccessMessage = useSelector((state) => state.yourReducer?.deleteMenuItemSuccessMessage);
   console.log("ApiPayload", ItemId);
 
   const trashmodalRef = useRef();
@@ -28,8 +29,12 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
       itemId: ItemId,
     };
     dispatch(deleteMenuItemRequest(payload));
+    if(deleteMenuItemSuccessMessage==="Menu item deleted successfully"){
+
+   
 
     onTrashclose();
+    }
   };
 
   return (
