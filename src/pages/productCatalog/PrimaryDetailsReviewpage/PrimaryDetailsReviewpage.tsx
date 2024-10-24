@@ -460,7 +460,7 @@ const filteredCategory = menuData.find((category:any) =>
   category?.itemResponseList?.some((item:any) => item.itemId === editData[0]?.itemId)
 );
 
-console.log("filter edit ",filteredCategory.categoryName
+console.log("filter edit ",filteredCategory?.categoryName
 );
 
 
@@ -595,7 +595,7 @@ console.log("combinedDetails",combinedDetails);
 
 
   const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)
-  console.log("editPrevData",filteredCategory.categoryName===primarypagedetails.primarypage.data.category);
+  console.log("editPrevData",filteredCategory?.categoryId===matchedCategory);
   
   const editPayload = {
     itemId: editData[0]?.itemId,
@@ -627,7 +627,8 @@ console.log("combinedDetails",combinedDetails);
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
-    isCategoryUpdated: filteredCategory.categoryName!==primarypagedetails.primarypage.data.category,                                                 //need to check
+    isCategoryUpdated: filteredCategory?.categoryName!==primarypagedetails.primarypage.data.category,  
+                                             
     isSingleMenu: false,                                                    
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
@@ -666,8 +667,6 @@ console.log("combinedDetails",combinedDetails);
     } else {
       setindextoreplace((prev) => {
         const updatedIndexToReplace = [...prev];
-
-        // Dispatch after state is updated
         updatedIndexToReplace.forEach((item) => {
           dispatch(uploadImage(item.image, item.id, item.index));
         });
