@@ -680,9 +680,9 @@ export const uploadImageFailure = (image, id, index, error) => ({
   type: UPLOAD_IMAGE_FAILURE,
   payload: { image, id, index, error },
 });
-export const addMockDataHiddenRequest = (data) => ({
+export const addMockDataHiddenRequest = (payload) => ({
   type: ADD_MOCK_DATA_HIDDEN_REQUEST,
-  payload: data,
+  payload,
 });
 
 export const addMockDataHiddenSuccess = (response) => ({
