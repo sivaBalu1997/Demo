@@ -214,13 +214,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
-
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
-
-  console.log({prizingDetail})
-
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
   );
@@ -409,41 +405,37 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.menuDataSuccess
   );
 
-  const editData = useSelector(
-    (state: any) => state?.selectedMockDataReducer?.data
-  );
   const menuData = useSelector((state:any) => state.productCatalog?.menuData);
 
 
-console.log("revire menudat",menuData);
+  const editData = useSelector((state : any) => state.productCatalog.editData)
 
-
-const menudata = [
-  {
-    categoryName: "Category 1",
-    categoryId: "1",
-    itemresponse: [
-      { itemId: "101" },
-      { itemId: "102" }
-    ]
-  },
-  {
-    categoryName: "Category 2",
-    categoryId: "2",
-    itemresponse: [
-      { itemId: "103" },
-      { itemId: "104" }
-    ]
-  },
-  {
-    categoryName: "Category 3",
-    categoryId: "3",
-    itemresponse: [
-      { itemId: "105" },
-      { itemId: "106" }
-    ]
-  }
-];
+  const menudata = [
+    {
+      categoryName: "Category 1",
+      categoryId: "1",
+      itemresponse: [
+        { itemId: "101" },
+        { itemId: "102" }
+      ]
+    },
+    {
+      categoryName: "Category 2",
+      categoryId: "2",
+      itemresponse: [
+        { itemId: "103" },
+        { itemId: "104" }
+      ]
+    },
+    {
+      categoryName: "Category 3",
+      categoryId: "3",
+      itemresponse: [
+        { itemId: "105" },
+        { itemId: "106" }
+      ]
+    }
+  ];
 
 
 const targetItemId = "104";
@@ -452,8 +444,6 @@ const targetItemId = "104";
 const filteredCategory = menudata.find(category =>
   category.itemresponse.some(item => item.itemId === targetItemId)
 );
-
-console.log("editData",filteredCategory);
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -521,16 +511,11 @@ console.log("editData",filteredCategory);
     deliveryDetails && deliveryDetails, 
     ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : [])
   ].filter(Boolean);
-
-console.log("combinedDetails",combinedDetails);
-
   
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
     : [];
-
-    console.log({pickupDetails})
 
   const menuPayload = {
     locationId: locationid,
@@ -569,25 +554,17 @@ console.log("combinedDetails",combinedDetails);
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
   const updateModifierId = useSelector((state: any) => state.productCatalog.updateModifierId)
 
-  console.log({deletedId},{updateModifierId})
-
   const [combinedData, setCombinedData] = useState<string[]>([]);
-
+  
   useEffect(() => {
     const mergedData = [...updateModifierId, ...deletedId];
     setCombinedData(mergedData);
   },[deletedId, updateModifierId]);
 
-  console.log({editData})
-
-
-
-
   const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)
-  console.log("editPrevData",editPrevData);
   
   const editPayload = {
-    itemId: editData[0]?.id,
+    itemId: editData[0]?.itemId,
     locationId: locationid,
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
@@ -615,15 +592,14 @@ console.log("combinedDetails",combinedDetails);
     availabilityDaysAdd: stringNormalDays || null,
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
-    ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
+    // ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
+    modifiersToAdd: modifierData || null,
     isCategoryUpdated: false,                                                 //need to check
     isSingleMenu: false,                                                    
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
     latestOrderTypesDTOWithRespectToAvailability:
       editData[0]?.combinedDetails || null,
-
-      
   };
 
   const handleDispatch = async () => {
@@ -706,9 +682,9 @@ console.log("combinedDetails",combinedDetails);
 
   useEffect(()=>{
     if(buttonClicked){
-      dispatch(removeDataRequest(primarydata))
-      dispatch(removeDataRequest(prizingDetail))
-      dispatch(removeDataRequest(itemCustomizationData))
+      dispatch(removeDataRequest())
+      // dispatch(removeDataRequest())
+      // dispatch(removeDataRequest())
       history.push('/menuListing')
     } 
   },[addMenuSuccess])
@@ -764,13 +740,14 @@ console.log("combinedDetails",combinedDetails);
                         <ReviewValues
                           label="Dietary type"
                           textvalue={
-                            primarydata.dietaryType
-                              ? primarydata.dietaryType
+                            primarydata.dietaryType && Array.isArray(primarydata.dietaryType) && primarydata.dietaryType.length > 0
+                              ? primarydata.dietaryType.map(item => item.name).join(', ') 
                               : "-"
                           }
                         />
                       </div>
-                      {/* 
+
+                      
                       <div>
                         <ReviewValues
                           label="Meal type"
@@ -780,13 +757,13 @@ console.log("combinedDetails",combinedDetails);
                               : "-"
                           }
                         />
-                      </div> */}
+                      </div>
 
                       <div>
                         <ReviewValues
                           label="Category"
                           textvalue={
-                            primarydata.category ? primarydata.category : "-"
+                            primarydata && primarydata?.category ? primarydata?.category : "-"
                           }
                         />
                       </div>
@@ -909,7 +886,7 @@ console.log("combinedDetails",combinedDetails);
                     <p>Primary Image</p>
                     <div style={{ display: "flex" }}>
                       {error.map((item) => (
-                        <p style={{ width: "100px" }}>{item.status} </p>
+                        <p style={{ width: "100px" }}>{item?.status} </p>
                       ))}
                     </div>
 
@@ -918,11 +895,6 @@ console.log("combinedDetails",combinedDetails);
                         <ol>
                           {selectedImages && selectedImages[0] && (
                             <li>
-                              {/* <img
-                                className="uploaded-image"
-                                src={selectedImages[0].preview}
-                                alt={`Preview of `}
-                              /> */}
                               <div style={{ fontSize: "30px" }}>
                                 {imagecheck(selectedImages[0]) ? (
                                   <>
@@ -1008,7 +980,7 @@ console.log("combinedDetails",combinedDetails);
                                   ) : (
                                     <img
                                       className="uploaded-image"
-                                      src={selectedImages[index + 1].preview}
+                                      src={selectedImages && selectedImages[index + 1].preview || ''}
                                       alt={`Preview of `}
                                     />
                                   )}
@@ -1047,8 +1019,8 @@ console.log("combinedDetails",combinedDetails);
                     <p>Best paired with</p>
                     <div className="bestpairfoods">
                       <p>
-                        {fetchedprimarydata.bestPair
-                          ? fetchedprimarydata.bestPair
+                        {fetchedprimarydata?.bestPair
+                          ? fetchedprimarydata?.bestPair
                           : "No item selected"}
                       </p>
                     </div>

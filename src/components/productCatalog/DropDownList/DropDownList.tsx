@@ -81,8 +81,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
 
-  console.log({showselectedOption})
-
   const dispatch = useDispatch();
 
   const editData = useSelector((state : any) => state.productCatalog.editData)
@@ -110,8 +108,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const clearSelection = () => {
     setSelectedOptions([]);
   };
-
-  console.log({options})
 
   useEffect(() => {
     if (resetSelection) {
@@ -147,7 +143,9 @@ const DropDownList: React.FC<DropdownProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setDropdownOpen]);
+  
 
+  const dropDownLoading = useSelector((state : any) => state.productCatalog.dropDownLoading)
 
   useEffect(() => {
     if (dropDownType !== "SUB_CATEGORY") {
@@ -223,20 +221,18 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   useEffect(()=>{
     if(editData && ItemsPrimaryDetails?.cuisine && name === 'cuisine'){
-      console.log('hisad')
       dispatch(fetchDropDownRequest({
         locationId: locationid,
         type: "CUISINES",
         parentId: "",
       }))
-      console.log('2222')
     }
   },[editData])
 
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName =  prizingDetail?.kitchenstation;
-      const dropDownName: any = options.find(
+      const dropDownName: any = options?.find(
         (item) => item.name === kitchenStationName
       );
       const dropDown1 = dropDownName === undefined ? {name: prizingDetail?.kitchenstation, id:'1'} : dropDownName
@@ -248,12 +244,10 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(()=>{
     if(ItemsPrimaryDetails?.dietaryType?.length > 0 && name === 'dietaryType'){
       const dietName = ItemsPrimaryDetails?.dietaryType
-      console.log({dietName})
       const dropdownName : any = options?.filter(
         (opt) => dietName?.includes(opt?.name)
       );
       const dropDown1 = dropdownName === undefined ? ItemsPrimaryDetails?.dietaryType : dropdownName
-      console.log({dropdownName},{dropDown1})
       setSelectedOptions(dropdownName === undefined ? dropDown1 : dropdownName )
       setValue(
         'dietaryType',
@@ -277,7 +271,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   },[ItemsPrimaryDetails])
 
   useEffect(()=>{
-    console.log({ItemsPrimaryDetails})
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
       const cusineName = ItemsPrimaryDetails?.cuisine;
       const dropDownName: any = options?.find(
@@ -296,7 +289,6 @@ const DropDownList: React.FC<DropdownProps> = ({
         (item) => item?.name === categoryName
       )
       const dropDown1 = dropDownName === undefined ? {name : ItemsPrimaryDetails?.category, id :'1'} : dropDownName
-      console.log('caiaso',{dropDown1},{dropDownName})
       setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName])
       setValue('category', dropDownName === undefined ? dropDown1?.name :dropDownName?.name)
     }
@@ -490,7 +482,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  console.log({selectedOptions})
+  console.log({dropDownLoading})
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -552,7 +544,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {Loading ? (
+              {dropDownLoading ? (
                 <div className="dropdown-no-options">
                  <Loader 
                     className="imgLoader1" 
