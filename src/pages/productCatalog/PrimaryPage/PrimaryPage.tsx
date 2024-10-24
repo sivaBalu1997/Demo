@@ -307,6 +307,7 @@ const PrimaryPage = () => {
       setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
       setValue("tax", ItemsPrimaryDetails.tax);
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
+      // setValue('popularItem', ItemsPrimaryDetails?.popularItem)
     }
   }, [ItemsPrimaryDetails, setValue]);
 
@@ -548,6 +549,7 @@ const PrimaryPage = () => {
   const editData = useSelector((state:any) => state.productCatalog.editData)
 
   console.log({editData})
+  
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
@@ -677,32 +679,6 @@ const PrimaryPage = () => {
   //     setValue("masterCode", primarydata?.masterCode || null);
   //   }
   // },[primarydata])
-
-  // useEffect(() => {
-  //   if (dataFromRedux) {
-  //     setValue("itemName", dataFromRedux[0]?.itemName || null);
-  //     setValue("dietaryType", dataFromRedux[0]?.dietaryType || null);
-  //     setValue("cuisine", dataFromRedux[0]?.cuisine || null);
-  //     setValue("mealType", dataFromRedux[0]?.mealType || null);
-  //     setValue("bestPair", dataFromRedux[0]?.bestPair || null);
-  //     setValue("description", dataFromRedux[0]?.description || null);
-  //     setValue("imageUrls", dataFromRedux[0]?.imageUrls || null);
-  //     setValue("alcohol", dataFromRedux[0]?.alcohol || null);
-  //     setValue("itemCode", dataFromRedux[0]?.itemCode || null);
-  //     setValue("barCode", dataFromRedux[0]?.barCode || null);
-  //     setValue("category", dataFromRedux[0]?.category || null);
-  //     setValue("categoryId", dataFromRedux[0]?.categoryId || null);
-  //     setValue("subCategory", dataFromRedux[0]?.subCategory || null);
-  //     setValue("Ingredients", dataFromRedux[0]?.Ingredients || null);
-  //     setValue("allergens", dataFromRedux[0]?.allergens || null);
-  //     setValue("coloriePoint", dataFromRedux[0]?.coloriePoint || null);
-  //     setValue("selectedcolorie", dataFromRedux[0]?.selectedcolorie || null);
-  //     setValue("portionSize", dataFromRedux[0]?.portionSize || null);
-  //     setValue("selectedPortion", dataFromRedux[0]?.selectedPortion || null);
-  //     setValue("tax", dataFromRedux[0]?.tax || null);
-  //     setValue("masterCode", dataFromRedux[0]?.masterCode || null);
-  //   }
-  // }, [dataFromRedux]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -1106,6 +1082,7 @@ const PrimaryPage = () => {
                       <input
                         type="checkbox"
                         className="input"
+                        // checked={}
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);

@@ -448,7 +448,7 @@ function* updateMenuItemSaga(action) {
   try {
     const response = yield call(updateMenuItem, action.payload);
     if (response.status === 200) {
-      
+      showSuccessToast(response.message)
       yield put(updateMenuItemSuccess(response.data));
     } else {
       showErrorToast(response.message);

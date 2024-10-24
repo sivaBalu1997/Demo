@@ -133,11 +133,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 const className = typeName.toLowerCase() + "data";
                 const isPriceEnabled=orderType && orderType.isEnabled==1
                 ? true
-                : false;
-                console.log("data",isPriceEnabled);
-                
-
-             
+                : false;             
 
                 return (
                   <div

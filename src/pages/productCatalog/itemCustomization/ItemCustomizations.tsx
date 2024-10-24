@@ -133,10 +133,13 @@ const ItemCustomizations: React.FC = () => {
   const initialModificationValue = [
     {
       modifierName: "",
+      isModifierChanged: false,
       modifierOptions: [
         {
+          modifierOptionId: "",
           modifierOptionName: "",
           cost: 0,
+          isModifierOptionChanged: false,
         },
       ],
       minSelection: 1,
@@ -159,9 +162,11 @@ const ItemCustomizations: React.FC = () => {
     Modification[]
   >([]);
 
-  useEffect(() => {
-    setFilteredModifications(editData[0]?.modifiers);
-  }, [editData]);
+  // useEffect(() => {
+  //   if(editData.length > 0){
+  //     setFilteredModifications(editData[0]?.modifiers);
+  //   }
+  // }, [editData]);
 
   useEffect(() => {
     if (showModifiers === false) {
@@ -171,7 +176,7 @@ const ItemCustomizations: React.FC = () => {
 
     if (itemCustomizationData?.length > 0) {
       const mappedModifications = itemCustomizationData.map((item: any) => ({
-        id: item?.id || '',
+        id: item?.id || "",
         modifierName: item?.modifierName || "",
         modifierOptions: item?.options
           ? item.options.map((option: any) => ({
@@ -183,8 +188,8 @@ const ItemCustomizations: React.FC = () => {
         maxSelection: item.maxSelection || 1,
         freeCustomization: item?.freeCustomization || 1,
         selectedValue: Array.isArray(item?.selectedValue)
-        ? item.selectedValue.map((elem: any) => elem)
-        : [],
+          ? item.selectedValue.map((elem: any) => elem)
+          : [],
         endDate: item?.endDate || "",
         startDate: item?.startDate || "",
         selectionType: item?.selectionType || "",
@@ -225,57 +230,59 @@ const ItemCustomizations: React.FC = () => {
   const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
   const [updatedModifierIds, setUpdatedModifierIds] = useState<any[]>([]);
 
-
-  useEffect(()=>{
-    if(deletedModifierIds.length > 0){
-      dispatch(deleteModifierRequest(deletedModifierIds))
+  useEffect(() => {
+    if (deletedModifierIds.length > 0) {
+      dispatch(deleteModifierRequest(deletedModifierIds));
     }
-  },[deletedModifierIds])
+  }, [deletedModifierIds]);
 
-  useEffect(()=>{ 
-    if(updatedModifierIds.length > 0){
-      dispatch(updateModifierData(updatedModifierIds))
+  useEffect(() => {
+    if (updatedModifierIds.length > 0) {
+      dispatch(updateModifierData(updatedModifierIds));
     }
-  },[updatedModifierIds])
-  
-  const handleModifierChange = (modIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  }, [updatedModifierIds]);
+
+  const handleModifierChange = (
+    modIndex: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = e.target;
     setModifications((prev: any) => {
       const updated = [...prev];
       updated[modIndex] = {
         ...updated[modIndex],
         [name]: value,
+        ["isModifierChanged"]: true,
       };
-  
-      setUpdatedModifierIds(prevIds => {
+
+      setUpdatedModifierIds((prevIds) => {
         if (!prevIds.includes(updated[modIndex].id)) {
-          return [...prevIds, updated[modIndex].id]; 
+          return [...prevIds, updated[modIndex].id];
         }
-        return prevIds; 
+        return prevIds;
       });
-  
+
       return updated;
     });
   };
-  
-  
+
   const handleDeleteModifier = (modIndex: number) => {
     setModifications((prev: any) => {
       const updated = [...prev];
-      const deletedId = updated[modIndex].id; 
-      updated.splice(modIndex, 1); 
+      const deletedId = updated[modIndex].id;
+      updated.splice(modIndex, 1);
 
-      setDeletedModifierIds(prevIds => {
+      setDeletedModifierIds((prevIds) => {
         if (!prevIds.includes(deletedId)) {
-          return [...prevIds, deletedId]; 
+          return [...prevIds, deletedId];
         }
-        return prevIds; 
+        return prevIds;
       });
-  
-      return updated; 
+
+      return updated;
     });
   };
-  
+
   const addOption = (index: number) => {
     const newOption = [...modifications];
     newOption[index].modifierOptions.push({
@@ -310,21 +317,28 @@ const ItemCustomizations: React.FC = () => {
     optIndex: number,
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    const newModifier = [...modifications];
-  
-    if (e.target.name === "cost") {
-      newModifier[modIndex].modifierOptions[optIndex][
-        e.target.name as keyof Option
-      ] = parseFloat(e.target.value) || 0;
-    } else {
-      newModifier[modIndex].modifierOptions[optIndex][
-        e.target.name as keyof Option
-      ] = e.target.value;
-    }
-  
+    const newModifier = modifications.map((mod: any, index: any) =>
+      index === modIndex
+        ? {
+            ...mod,
+            modifierOptions: mod.modifierOptions?.map((opt: any, optIdx: any) =>
+              optIdx === optIndex
+                ? {
+                    ...opt,
+                    [e.target.name]:
+                      e.target.name === "cost"
+                        ? parseFloat(e.target.value) || 0
+                        : e.target.value,
+                    isModifierOptionChanged: true,
+                  }
+                : opt
+            ),
+          }
+        : mod
+    );
     setModifications(newModifier);
-  
-    const updatedModifierId = newModifier[modIndex].id; 
+
+    const updatedModifierId = newModifier[modIndex]?.id;
     if (updatedModifierId) {
       setUpdatedModifierIds((prevIds) => {
         if (!prevIds.includes(updatedModifierId)) {
@@ -375,8 +389,11 @@ const ItemCustomizations: React.FC = () => {
     const newModifier = [...modifications];
     if (newModifier[index]) {
       const currentValue =
-        parseInt(newModifier[index][field as keyof Modifier]?.toString() || '0', 10) || 0;
-  
+        parseInt(
+          newModifier[index][field as keyof Modifier]?.toString() || "0",
+          10
+        ) || 0;
+
       if (currentValue > 0) {
         newModifier[index][field as keyof Modifier] = currentValue - 1;
       }
@@ -385,24 +402,32 @@ const ItemCustomizations: React.FC = () => {
   };
 
   const deleteOption = (modIndex: number, optIndex: number) => {
-    const newModifications = [...modifications];
-  
-    if (newModifications[modIndex]?.modifierOptions?.[optIndex]) {
-      const deletedOptionId = newModifications[modIndex]?.modifierOptions[optIndex].id; 
-        newModifications[modIndex]?.modifierOptions?.splice(optIndex, 1);
-      
-      setModifications(newModifications);  
-      if (deletedOptionId) {
-        setDeletedModifierIds((prevIds) => {
-          if (!prevIds.includes(deletedOptionId)) {
-            return [...prevIds, deletedOptionId];
+    const newModifications = modifications.map((mod:any, index:any) =>
+      index === modIndex
+        ? {
+            ...mod,
+            modifierOptions: mod.modifierOptions.filter(
+              (opt:any, optIdx:any) => optIdx !== optIndex
+            ),
           }
-          return prevIds;
-        });
-      }
+        : mod
+    );
+  
+    const deletedOptionId = modifications[modIndex]?.modifierOptions?.[optIndex]?.id;
+  
+    setModifications(newModifications);
+  
+    if (deletedOptionId) {
+      setDeletedModifierIds((prevIds) => {
+        if (!prevIds.includes(deletedOptionId)) {
+          return [...prevIds, deletedOptionId];
+        }
+        return prevIds;
+      });
     }
   };
   
+
   const dispatch1 = () => {
     dispatch(itemCustomizationPost(modifications));
   };
@@ -436,7 +461,7 @@ const ItemCustomizations: React.FC = () => {
           sellPrice: 0,
         })),
         selectedValue: [],
-        selectionType: "Optional", 
+        selectionType: "Optional",
       }))
     );
   };
@@ -479,7 +504,7 @@ const ItemCustomizations: React.FC = () => {
 
   const handleSearchChange = () => {
     if (searchQuery.length > 1) {
-      setShowSearchList(true)
+      setShowSearchList(true);
       dispatch(getModifierRequest({ name: searchQuery, locationId }));
     }
   };
@@ -542,8 +567,7 @@ const ItemCustomizations: React.FC = () => {
     }
     setListOfStreams(streams);
   }, [ordertypesdetails]);
-  
-  
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -896,8 +920,8 @@ const ItemCustomizations: React.FC = () => {
                                     modifications[modIndex]?.selectionType ===
                                       "Mandatory" &&
                                     modifications[modIndex].minSelection != 1
-                                      ? 1 
-                                      : modifications[modIndex].minSelection 
+                                      ? 1
+                                      : modifications[modIndex].minSelection
                                   }
                                   name="minSelection"
                                   onChange={(e) =>

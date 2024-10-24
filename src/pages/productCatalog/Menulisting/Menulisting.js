@@ -20,6 +20,7 @@ import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+import noResultsfound from "../../../assets/images/NoResultsFound.png"
 
 import {
   PricingDetailRequest,
@@ -345,6 +346,7 @@ export const Menulisting = () => {
   }, []);
 
   useEffect(() => {
+    console.log('Edit data calaede')
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
 
@@ -486,7 +488,6 @@ export const Menulisting = () => {
     (value) => value === false
   );
 
-
   useEffect(() => {
     if (menudatalist.length > 0 && menuData.length>0) {
       setLoading(false);
@@ -494,6 +495,7 @@ export const Menulisting = () => {
   }, [menudatalist,menuData]);
 
   const menuDataLoading = useSelector((state) => state.productCatalog?.menuDataLoading)
+  const menuDataFailed = useSelector((state) => state.productCatalog?.menuDataFailed)
 
   // useEffect(()=>{
   //   if(menuData.length === 0)
@@ -662,10 +664,11 @@ export const Menulisting = () => {
                               />
                             </div>
                           ) : (
-                            allFalse ? (
-                              <>
-                                <h1 className="columnselected">No data found...!</h1>
-                              </>
+                            menuDataFailed ? (
+                              <div className="NoDataFoundContainer">
+                                <img className="columnselected" src={noResultsfound} alt="noResultFound" />
+                                <h2 className="columnselectedText">No Results Found</h2>
+                              </div>
                             ) : 
                             menudatalist.map((itemobject, indexvalue) => {
                               return (

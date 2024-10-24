@@ -549,6 +549,8 @@ const filteredCategory = menudata.find(category =>
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiers: modifierData || null }),
+
+    // isSingleMenu: false,  
   };
 
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
@@ -561,7 +563,7 @@ const filteredCategory = menudata.find(category =>
     setCombinedData(mergedData);
   },[deletedId, updateModifierId]);
 
-  const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)
+  const editPrevData = useSelector((state: any) => state.productCatalog.updatedPayload)
   
   const editPayload = {
     itemId: editData[0]?.itemId,
@@ -595,7 +597,7 @@ const filteredCategory = menudata.find(category =>
     // ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
     modifiersToAdd: modifierData || null,
     isCategoryUpdated: false,                                                 //need to check
-    isSingleMenu: false,                                                    
+    // isSingleMenu: false,                                                    
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
     latestOrderTypesDTOWithRespectToAvailability:
@@ -639,7 +641,7 @@ const filteredCategory = menudata.find(category =>
         return updatedIndexToReplace;
       });
     }
-    if (editData.length > 0) {
+    if (editData.length > 0 && editData[0]) {
       dispatch(updateMenuItemRequest({ editPayload, locationid }));
     } else {
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -656,13 +658,15 @@ const filteredCategory = menudata.find(category =>
 
   const [buttonClicked, setButtonClicked] = useState(false)
 
+  console.log({editData})
+
   const handleSubmitItemDetails = () => {    
     if (Wholedata?.imageUrls?.length > 0) {
       dispatch(startImageUpload(primarydata?.imageUrls)); 
       setButtonClicked(true)
       if (subsectiondatamsg) {
 
-        if (editData.length > 0) {
+        if (editData.length > 0 && editData[0]) {
           dispatch(updateMenuItemRequest({ editPayload, locationid }));
         } else {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -670,7 +674,7 @@ const filteredCategory = menudata.find(category =>
         // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
     } else {
-      if (editData.length > 0) {
+      if (editData.length > 0 && editData[0]) {
         dispatch(updateMenuItemRequest({ editPayload, locationid }));
       } else {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
