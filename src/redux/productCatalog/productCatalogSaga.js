@@ -257,7 +257,7 @@ function* deleteSubSectionSaga(action) {
         payload: viewdata,
       });
 
-      yield put(deleteDropDownSuccess(response)); // add switch case
+      yield put(deleteDropDownSuccess(response)); 
     } else {
       yield put(deleteDropDownFailure("failed"));
     }
@@ -447,11 +447,12 @@ function* retryImage(action) {
 function* updateMenuItemSaga(action) {
   try {
     const response = yield call(updateMenuItem, action.payload);
+    console.log({response})
     if (response.status === 200) {
-      showSuccessToast(response.message)
+      showSuccessToast(response.data.message)
       yield put(updateMenuItemSuccess(response.data));
     } else {
-      showErrorToast(response.message);
+      showErrorToast(response.data.message);
       yield put(updateMenuItemFailed({ message: "please Try Again" }));
     }
   } catch (err) {

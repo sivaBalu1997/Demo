@@ -27,6 +27,7 @@ import {
   getMenuRequest,
   itemCustomizationPost,
   primarypost,
+  removeDataRequest,
   selectedMockDataRequest,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -174,6 +175,10 @@ export const Menulisting = () => {
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
+
+  useEffect(()=>{
+    dispatch(removeDataRequest())
+  },[])
 
   const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess )
 
@@ -346,7 +351,6 @@ export const Menulisting = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Edit data calaede')
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
 
@@ -362,7 +366,7 @@ export const Menulisting = () => {
 
 
   useEffect(() => {
-    if (editData) {
+    if (editData && Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
         itemName: editData[0]?.itemName,
         description: editData[0]?.description,
@@ -376,7 +380,7 @@ export const Menulisting = () => {
         portionSize: editData[0]?.portionInfo,
         tax: editData[0]?.taxClassAssociation, // array
         dietaryType: editData[0]?.dietTypes,
-        cuisine: editData && editData[0]?.cuisine[0]?.name,
+        cuisine: editData[0]?.cuisine[0]?.name,
         bestPair: editData[0]?.pairedItems,
         category: categoryData?.name,
       };

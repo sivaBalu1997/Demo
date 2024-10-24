@@ -83,8 +83,6 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   
   
   const enabledValuesArray = getEnabledValues();
-  console.log(enabledValuesArray);
-  console.log("data for side",data);
   
   const [toggleStates, setToggleStates] = useState<any[]>([]);
 
@@ -236,8 +234,6 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     }
 
     setToggleStates(newToggleStates);
-
-    console.log("Updated toggleStates:", newToggleStates);
   };
 
   return (

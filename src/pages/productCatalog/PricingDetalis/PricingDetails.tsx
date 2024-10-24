@@ -266,8 +266,6 @@ const PricingDetails = () => {
 
   
   });
-console.log("pricing main form special",mainFormStateSpecial);
-
 
   const {
     control,
@@ -763,8 +761,11 @@ console.log("pricing main form special",mainFormStateSpecial);
     setPrintKot(event.target.checked);
   };
 
-  console.log({dineinfields})
+  const ItemsPrimaryDetails = useSelector(
+    (state: any) => state.primarypage?.data
+  );
 
+  console.log({ItemsPrimaryDetails})
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>

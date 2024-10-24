@@ -75,6 +75,7 @@ interface FormData {
   selectedPortion: string;
   tax: string;
   masterCode: string;
+  popularItem: boolean;
 }
 interface Category {
   id: string;
@@ -285,15 +286,17 @@ const PrimaryPage = () => {
   );
 
   const ItemsPrimaryDetails = useSelector(
-    (state: primarypage) => state.primarypage.data
+    (state: primarypage) => state.primarypage?.data
   );
+
+  const [images, setImages] = useState<ImageFile[]>([]);
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
       setDescription(ItemsPrimaryDetails.description);
-      setValue("imageUrls", ItemsPrimaryDetails.imageUrls);
+      // Set other fields
       setValue("alcohol", ItemsPrimaryDetails.alcohol);
       setValue("itemCode", ItemsPrimaryDetails.itemCode);
       setValue("barCode", ItemsPrimaryDetails.barCode);
@@ -307,9 +310,23 @@ const PrimaryPage = () => {
       setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
       setValue("tax", ItemsPrimaryDetails.tax);
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
-      // setValue('popularItem', ItemsPrimaryDetails?.popularItem)
     }
   }, [ItemsPrimaryDetails, setValue]);
+
+
+  useEffect(()=>{
+    if (ItemsPrimaryDetails?.imageUrls) {
+      const imageArray = ItemsPrimaryDetails.imageUrls.map((img: any) => ({
+        file: img.file || {},
+        uploaded: img.uploaded || false,
+        failed: img.failed || false,
+        preview: img.preview,
+      }));
+      setImages(imageArray);
+      setValue("imageUrls", imageArray);
+      const updatedImageUrls = getValues("imageUrls");
+    }
+  },[ItemsPrimaryDetails])
 
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
@@ -342,7 +359,6 @@ const PrimaryPage = () => {
   );
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [images, setImages] = useState<ImageFile[]>([]);
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
   const maxDescriptonLength = 100;
@@ -554,8 +570,6 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.cuisineData.data
   );
 
-  console.log({cuisineData})
-
   const subCategoryData = useSelector(
     (state: any) => state.productCatalog.subCategoryData.data
   );
@@ -568,13 +582,25 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.bestPairData.data
   );
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    if (isChecked) {
+  useEffect(()=>{
+    if (ItemsPrimaryDetails?.popularItem) {
+      console.log('hi')
       setPopularItem(popularItem + 1);
       setValue("popularItem", true);
-    } else if (!isChecked) {
-      setPopularItem(popularItem - 1);
+    } else {
+      setPopularItem((prevCount:any) => Math.max(prevCount - 1, 0)); 
+      setValue("popularItem", false);
+    }
+  },[ItemsPrimaryDetails])
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    if (isChecked || ItemsPrimaryDetails?.popularItem) {
+      console.log('hi')
+      setPopularItem(popularItem + 1);
+      setValue("popularItem", true);
+    } else {
+      setPopularItem((prevCount:any) => Math.max(prevCount - 1, 0)); 
       setValue("popularItem", false);
     }
   };
@@ -679,6 +705,8 @@ const PrimaryPage = () => {
   //     setValue("masterCode", primarydata?.masterCode || null);
   //   }
   // },[primarydata])
+
+  console.log({ItemsPrimaryDetails})
 
   return (
     <div style={{ display: "flex" }}>
@@ -920,23 +948,6 @@ const PrimaryPage = () => {
                       // name="imageUrls"
                     />
 
-                    {/* {images.map((image, index) => (
-                        <div key={index} className="image-container">
-                          <button
-                            onClick={() => handleImageDeletion(index)}
-                            className="imcrossstyres"
-                          >
-                            <ImCross
-                              style={{ fontSize: "7px", color: "white" }}
-                            />
-                          </button>
-                          <img
-                            src={`data:${image.mimeType};base64,${image.base64String}`}
-                            alt={`uploaded ${index}`}
-                            className="uploaded-image"
-                          />
-                        </div>
-                      ))} */}
 
                     {images.map((img, index) => (
                       <div key={index} className="image-container">
@@ -953,14 +964,6 @@ const PrimaryPage = () => {
                           src={img.preview}
                           alt={`Preview of ${img.file.name}`}
                         />
-                        {/* <div>
-                          {img.file.name} -{" "}
-                          {img.uploaded
-                            ? "Uploaded"
-                            : img.failed
-                            ? "Failed"
-                            : "Pending Upload"}
-                        </div> */}
                       </div>
                     ))}
 
@@ -1082,7 +1085,7 @@ const PrimaryPage = () => {
                       <input
                         type="checkbox"
                         className="input"
-                        // checked={}
+                        checked={ItemsPrimaryDetails?.popularItem}
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);
@@ -1339,62 +1342,6 @@ const PrimaryPage = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <div className="Primary-page-Other-Detail-mastercode">
-                    <LableComponent lable="Master Item Code" />
-
-                    <div className="Primary-Page-inputfiled-and-tooltip">
-                      <Controller
-                        name="masterCode"
-                        control={control}
-                        render={({ field }: any) => (
-                          <DigitInput
-                            {...field}
-                            setValue={setValue}
-                            name="masterCode"
-                            register={register}
-                            inputCount={4}
-                            error={errors.masterCode}
-                            // validation={{ required: "Master code is required" }}
-                            resetSelection={digitClearRef}
-                          />
-                        )}
-                      />
-                      <div className="Mastedcode-Tooltip">
-                        <TooltipMsg
-                          message="Enter a unique code for this food item, used for identification."
-                          styles={{
-                            position: "relative",
-                            top: "-2rem",
-                            left: "1.5rem",
-                            width: "350px",
-                            height: "35px",
-                            backgroundColor: "#67833E",
-                            color: "white",
-                            textAlign: "center",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "5px",
-                          }}
-                          Arrowstyle={{
-                            marginTop: "0rem",
-                            rotate: "-90deg",
-                            position: "relative",
-                            left: "-1.6rem",
-                          }}
-                        >
-                          <div className="ToolKitchen">
-                            <img
-                              src={info}
-                              alt="info icon"
-                              width={20}
-                              height={20}
-                            />
-                          </div>
-                        </TooltipMsg>
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </div>

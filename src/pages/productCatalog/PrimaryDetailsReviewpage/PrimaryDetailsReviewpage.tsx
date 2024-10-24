@@ -517,6 +517,8 @@ const filteredCategory = menudata.find(category =>
     ? normalDays.map(String)
     : [];
 
+    console.log({itemCustomizationData})
+
   const menuPayload = {
     locationId: locationid,
     itemId: UploadImageImageID ? UploadImageImageID : "",
@@ -548,7 +550,7 @@ const filteredCategory = menudata.find(category =>
     availabilityDays: stringNormalDays || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
-    ...(modifierData.length > 1 && { modifiers: modifierData || null }),
+    ...(itemCustomizationData.length > 0 && { modifiers: modifierData || null }),
 
     // isSingleMenu: false,  
   };
@@ -562,6 +564,8 @@ const filteredCategory = menudata.find(category =>
     const mergedData = [...updateModifierId, ...deletedId];
     setCombinedData(mergedData);
   },[deletedId, updateModifierId]);
+
+  console.log({menuPayload})
 
   const editPrevData = useSelector((state: any) => state.productCatalog.updatedPayload)
   
@@ -594,8 +598,8 @@ const filteredCategory = menudata.find(category =>
     availabilityDaysAdd: stringNormalDays || null,
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
-    // ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
-    modifiersToAdd: modifierData || null,
+    ...(modifierData.length > 0 && { modifiersToAdd: modifierData || null }),
+    // modifiersToAdd: modifierData || null,
     isCategoryUpdated: false,                                                 //need to check
     // isSingleMenu: false,                                                    
     modifiersToRemove: combinedData,
@@ -632,12 +636,9 @@ const filteredCategory = menudata.find(category =>
     } else {
       setindextoreplace((prev) => {
         const updatedIndexToReplace = [...prev];
-
-        // Dispatch after state is updated
         updatedIndexToReplace.forEach((item) => {
           dispatch(uploadImage(item.image, item.id, item.index));
         });
-
         return updatedIndexToReplace;
       });
     }
@@ -652,13 +653,11 @@ const filteredCategory = menudata.find(category =>
 
   useEffect(() => {
     if (subsectiondatamsg) {
-      dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      editData.length > 0 && editData[0] ?dispatch(updateMenuItemRequest({ editPayload, locationid })) : dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
   }, [subsectiondatamsg]);
 
   const [buttonClicked, setButtonClicked] = useState(false)
-
-  console.log({editData})
 
   const handleSubmitItemDetails = () => {    
     if (Wholedata?.imageUrls?.length > 0) {
@@ -671,7 +670,6 @@ const filteredCategory = menudata.find(category =>
         } else {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
-        // dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
     } else {
       if (editData.length > 0 && editData[0]) {

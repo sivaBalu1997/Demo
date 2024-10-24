@@ -96,11 +96,7 @@ const PricingSlider: any = ({  }) => {
       }));
     }
   }, [data, inputs, setPatchedData]);
-
-  console.log("ccc",data)
   
-
-
 
   return (
     <div className="PricingSlider-Container">

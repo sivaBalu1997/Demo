@@ -482,8 +482,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  console.log({dropDownLoading})
-
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">

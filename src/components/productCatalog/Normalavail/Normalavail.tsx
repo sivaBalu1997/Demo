@@ -423,7 +423,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
         if(thirdpartyDetails.length >0){
           const data = thirdpartyDetails?.map((item : any) => item?.typeName)
           setSelectedThirdValues(data)
-          console.log('2',{data})
           setPriceInfo([...thirdpartyDetails])
           const object : any = {}
           const item = thirdpartyDetails?.map((item : any) => item)
@@ -472,7 +471,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
         if(thirdpartyDetails.length > 0){
           const data = thirdpartyDetails?.map((item : any) => item?.typeName)
           setSelectedThirdValues(data)
-          console.log('3',{thirdpartyDetails})
           setPriceInfo([...thirdpartyDetails])
           const object : any = {}
           const item = thirdpartyDetails?.map((item : any) => item)
@@ -629,7 +627,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
         }
         return item;
       });
-      console.log('4',{updatedPriceInfo})
       setPriceInfo(updatedPriceInfo); 
     }
   }, [DayThird]);
@@ -1226,7 +1223,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
                           value={priceInfo[index]?.price || ""}
                           onChange={(e) =>{
                             let data = JSON.parse(JSON.stringify([...priceInfo]))
-                            console.log('ppppp',{priceInfo},index,data[index].price)
                             data[index].price = Number(e.target.value)
                             setPriceInfo(data)
                           }}
