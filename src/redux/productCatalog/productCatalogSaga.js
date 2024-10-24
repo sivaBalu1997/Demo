@@ -125,6 +125,7 @@ import {
   ADD_MOCK_DATA_HIDDEN_SUCCESS,
   ADD_MOCK_DATA_HIDDEN_REQUEST,
   ADD_MOCK_DATA_HIDDEN_FALIURE,
+  PARTIAL_UPDATE_MENU_SUCCESS,
 } from "./productCatalogConstants";
 import { showSuccessToast } from "util/toastUtils";
 import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toastUtils';
@@ -526,7 +527,15 @@ function* getPopularItemSaga(action) {
 function* partialUpdateMenuSaga(action) {
   try {
     const updatedMenu = yield call(apiUpdateMenu, action.payload);
-    yield put(partialUpdateMenuSuccess(updatedMenu));
+    if (updatedMenu.status === 200) {
+      showSuccessToast('Item Updated Successfully');
+      yield put(partialUpdateMenuSuccess({type: PARTIAL_UPDATE_MENU_SUCCESS, payload: updatedMenu.data.message}));
+     
+      // yield put({ type: STORE_MENU_REQUEST, payload: location });
+
+    } 
+    
+   
   } catch (error) {
     yield put(partialUpdateMenuFailure(error.message));
   }

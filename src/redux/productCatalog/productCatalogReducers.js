@@ -723,6 +723,8 @@ export default function productCatalogReducer(
         draft.updateModifierId = action.payload
       case SELECTED_MOCKDATA_REQUEST:
         draft.editData = action.payload;
+        
+
       default:
     }
   });
@@ -1044,7 +1046,7 @@ const menuData = {
   error: null,
 };
 
-export const menuReducer = (state = menuData, action) => {
+export const partialUpdatemenuReducer = (state = menuData, action) => {
   switch (action.type) {
     case PARTIAL_UPDATE_MENU_REQUEST:
       return {
@@ -1057,10 +1059,7 @@ export const menuReducer = (state = menuData, action) => {
       return {
         ...state,
         loading: false,
-        menuData: {
-          ...state.menuData,
-          ...action.payload, 
-        },
+        menuData: action.payload,
         error: null,
       };
 
