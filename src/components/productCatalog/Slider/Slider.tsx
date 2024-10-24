@@ -202,7 +202,7 @@ const Slider: React.FC<SliderProps> = ({
             </div>
           </div>
 
-          {eye && <EyeModal onEyeclose={() => setEye(false)}  />}
+          {eye && <EyeModal onEyeclose={() => setEye(false)}  onclose={onclose} />}
 
           {trash && (
             <Trash

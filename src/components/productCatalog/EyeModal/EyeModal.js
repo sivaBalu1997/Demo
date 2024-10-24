@@ -6,10 +6,12 @@ import { useDispatch } from "react-redux";
 import { addMockDataHiddenRequest } from "redux/productCatalog/productCatalogActions";
 import { useSelector } from "react-redux";
 
-const EyeModal = ({ onEyeclose }) => {
+const EyeModal = ({ onEyeclose,onclose }) => {
   const data1=useSelector((state)=>state?.selectedMockDataReducer?.data)
   const Dinein =data1[0]?.orderTypes?.find((orderType) => orderType.typeName === "DineIn")
   const location = useSelector((state) => state.auth.selectedBranch.id);
+  const successMsg=useSelector((state)=>state?.addMockDataHiddenReducer?.data)
+
 
   
 
@@ -112,8 +114,17 @@ const uncheckedItems = data
 
   const handleChange = () => {
     dispatch(addMockDataHiddenRequest(payload));
-    onEyeclose();
+   
+
+  
   };
+
+  useEffect(() => {
+    if (successMsg === "Menu item updated visibility successfully") {
+      onEyeclose();
+      onclose();
+    }
+  }, [successMsg, onEyeclose, onclose]);
 
   
   const parentToggleChange = (index) => {
@@ -130,6 +141,7 @@ const uncheckedItems = data
 
     setData(newData);
   };
+  console.log(successMsg)
 
  
   const subItemToggleChange = (parentIndex, subIndex) => {
