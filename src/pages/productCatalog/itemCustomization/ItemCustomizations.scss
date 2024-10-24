@@ -690,33 +690,34 @@ input[type="number"] {
   padding-bottom: 10px;
 }
 
-.highlighted-modifiers {
-  width: 28vw;
+.modiferSearchContainer{
   position: relative;
-  right: 4px;
+  right: 3vw;
+}
+
+.highlighted-modifiers {
+  width: 25vw;
+  text-align: left;
+  display: flex;
+  padding-left: 20px;
+  justify-content: flex-start;
+  // margin-left: -30px;
+  align-items: flex-start;
   background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  height: 45px;
 }
+
 .Search-Container-options-items-modifiers {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 28vw;
+  position: relative;
+  // right: 30px;
   font-family: Poppins;
   font-weight: 400;
   font-size: 16px;
   line-height: 54px;
   color: #000000;
-  margin-left: 25 px;
-  margin-top: 10px;
-  height: 54px;
-  margin-left: -35px;
-  padding-bottom: 30px;
-  transform: translateY(-4px);
 }
 
 .Search-Container-options1-items-modifiers {
@@ -790,9 +791,8 @@ input[type="number"] {
   transform: translate(90px, -60px);
 }
 
-.Addmodificationfromsearch
-{
-  width: 5rem;
+.Addmodificationfromsearch{
+  width: 4rem;
   height: 2rem;
   background-color: #67833e;
   color: white;

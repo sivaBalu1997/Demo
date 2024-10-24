@@ -639,7 +639,8 @@ const ItemCustomizations: React.FC = () => {
                   <ul>
                     {ModifierList?.length !== 0 ? (
                       ModifierList?.map((item, index) => (
-                        <li
+                        <div className="modiferSearchContainer">
+                          <li
                           key={index}
                           className={
                             index === highlightedIndex
@@ -666,6 +667,7 @@ const ItemCustomizations: React.FC = () => {
                             )}
                           </div>
                         </li>
+                        </div>
                       ))
                     ) : (
                       <div
