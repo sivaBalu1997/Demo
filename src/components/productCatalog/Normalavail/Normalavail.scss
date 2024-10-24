@@ -141,10 +141,14 @@
   // margin-top: 0.3rem;
 }
 .DineInInput11Normal:nth-child(1) {
+  position: relative;
+  // top: 2rem;
   z-index: 1;
 }
 
 .DineInInput11Normal:nth-child(2) {
+  position: relative;
+  // top: 2rem;
   z-index: 2;
 }
 .LabelPrice {
@@ -239,7 +243,6 @@
   display: flex;
   justify-content: start;
   gap: 0.313rem;
-  margin-top: 0.5rem;
   margin-bottom: 10px;
 }
 .Mealz {
@@ -278,9 +281,11 @@
 }
 
 .AddentryNormal {
+  position: relative;
+  // top: 2rem;
+  margin-bottom: 20px;
   font-size: 0.875rem;
   font-weight: 400;
-  margin-top: 12px;
   color: #0085ff;
   cursor: pointer;
   font-family: "Poppins", sans-serif;
@@ -581,12 +586,12 @@
   font-size: 14px;
   font-weight: 400;
 }
-// .DineIn-Fields
-// {
-//   display: flex;
-//   flex-direction: column;
 
-// }
+.DineIn-Fields{
+  position: relative;
+  top: 20px;
+  margin-bottom: 46px;
+}
 
 
 .PickupChooseDayContainer {

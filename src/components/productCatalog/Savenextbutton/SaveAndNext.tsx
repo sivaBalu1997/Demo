@@ -183,7 +183,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
-    console.log("primary",formData);
     if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
      
@@ -213,7 +212,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           ...PricingDetails,
           kitchenstation: formData.kitchenstation,
         };
-        console.log({PricingDetails})
       } else {
         console.error("formData.kitchenstation is undefined");
       }

@@ -303,7 +303,6 @@ export const Menulisting = () => {
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
 
-    console.log({filteredItem})
       if (filteredItem) {
         setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })
         const specificResponse = filteredItem.itemResponseList.filter(
@@ -375,7 +374,7 @@ export const Menulisting = () => {
         portionSize: editData[0]?.portionInfo,
         tax: editData[0]?.taxClassAssociation, // array
         dietaryType: editData[0]?.dietTypes,
-        cuisine: editData[0] && editData[0]?.cuisine[0]?.name,
+        cuisine: editData && editData[0]?.cuisine[0]?.name,
         bestPair: editData[0]?.pairedItems,
         category: categoryData?.name,
       };
@@ -432,12 +431,6 @@ export const Menulisting = () => {
       dispatch(itemCustomizationPost(modifierData));
     }
   }, [editData]);
-  
-  
-
-  console.log({primarypage}, {prizingDetail}, {itemCustomizationData})
-  console.log({editData})
-
 
   useEffect(() => {
     const syncScroll = (sourceTable, targetTable) => {
@@ -500,24 +493,20 @@ export const Menulisting = () => {
     }
   }, [menudatalist,menuData]);
 
-  useEffect(()=>{
-    if(menuData.length===0)
-    {
-      setLoading(true);
-    }
-  },[menuData])
+  const menuDataLoading = useSelector((state) => state.productCatalog?.menuDataLoading)
+
+  // useEffect(()=>{
+  //   if(menuData.length === 0)
+  //   {
+  //     setLoading(true);
+  //   }
+  // },[menuData])
 
   useEffect(() => {
     if(deleteMenuItemSuccess && modal){
       setmodal(false)
     }
-  }, [deleteMenuItemSuccess]);
-console.log("menudaat",menuData);
-
- 
-
-  console.log("menu",menuData);
-  
+  }, [deleteMenuItemSuccess]);   
 
   return (
     <>
@@ -663,7 +652,7 @@ console.log("menudaat",menuData);
                     >
                       { (
                         <>
-                          {loading ? (
+                          {menuDataLoading ? (
                             <div className="Menu-noOptions">
                               <Loader 
                                 className="imgLoader2" 
@@ -675,7 +664,7 @@ console.log("menudaat",menuData);
                           ) : (
                             allFalse ? (
                               <>
-                                <h1 className="columnselected">No Column Selected</h1>
+                                <h1 className="columnselected">No data found...!</h1>
                               </>
                             ) : 
                             menudatalist.map((itemobject, indexvalue) => {

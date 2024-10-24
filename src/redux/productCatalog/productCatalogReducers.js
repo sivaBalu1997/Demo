@@ -104,6 +104,9 @@ import {
   REMOVE_DATA_REQUEST,
   START_IMAGE_UPLOAD,
   UPDATE_MODIFIER_REQUEST,
+  FETCHDROPDOWN_SUCCESS,
+  FETCHDROPDOWN_FAILURE,
+  FETCHDROPDOWN_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -193,6 +196,7 @@ const initialProductCatalogState = {
   successImageId:"",
 
   editData: [],
+  dropDownLoading: false,
 
   retrySucess: "",
   retryFailure: {
@@ -218,6 +222,8 @@ const initialProductCatalogState = {
   updateMenuAttributeFailed: false,
 
   updateModifierId: []
+
+
 };
 
 export default function productCatalogReducer(
@@ -244,16 +250,26 @@ export default function productCatalogReducer(
         draft.menuDataSuccess = false;
         break;
 
+      case FETCHDROPDOWN_REQUEST:
+        draft.dropDownLoading = true
+        break;
+
+      case FETCHDROPDOWN_FAILURE:
+        draft.dropDownLoading = false
+        break
+
       //dietary data
       case DIET_DROPDOWN_LIST_REQUEST:
         draft.dietaryData = [];
         draft.getDietaryloading = true;
         draft.getDietarySuccess = false;
+        draft.dropDownLoading = true;
         break;
       case DIET_DROPDOWN_LIST_SUCCESS:
         draft.dietaryData = action.payload;
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
+        draft.dropDownLoading = false
         break;
       case DIET_DROPDOWN_LIST_FAILURE:
         draft.dietaryData = [];
@@ -265,101 +281,121 @@ export default function productCatalogReducer(
       case CUISINE_DATA_REQUEST:
         draft.cuisineData = [];
         draft.getCuisineDataLoading = false;
+        draft.dropDownLoading = true;
         break;
       case CUISINE_DATA_SUCCESS:
         draft.cuisineData = action.payload;
         draft.getCuisineSuccess = true;
         draft.getCuisineDataLoading = false;
+        draft.dropDownLoading = false
         break;
       case CUISINE_DATA_FAILURE:
         draft.cuisineData = [];
         draft.getCuisineSuccess = false;
         draft.getCuisineDataLoading = false;
+        draft.dropDownLoading = false
         break;
 
       //category
       case CATEGORY_DATA_REQUEST:
         draft.categoryData = [];
         draft.getCategoryLoading = true;
+        draft.dropDownLoading = true;
         break;
       case CATEGORY_DATA_SUCCESS:
         draft.categoryData = action.payload;
         draft.getCategorySuccess = true;
         draft.getCategoryLoading = false;
+        draft.dropDownLoading = false
         break;
       case CATEGORY_DATA_FAILURE:
         draft.categoryData = [];
         draft.getCategorySuccess = false;
         draft.getCategoryLoading = false;
+        draft.dropDownLoading = false
         break;
 
       //subCategory
       case SUBCATEGORY_DATA_REQUEST:
         draft.subCategoryData = [];
         draft.getSubCategoryLoading = true;
+        draft.dropDownLoading = true;
         break;
       case SUBCATEGORY_DATA_SUCCESS:
         draft.subCategoryData = action.payload;
         draft.getSubCategoryLoading = false;
         draft.getCategorySuccess = true;
+        draft.dropDownLoading = false
         break;
       case SUBCATEGORY_DATA_FAILURE:
         draft.subCategoryData = [];
         draft.getSubCategoryLoading = false;
         draft.getCategorySuccess = false;
+        draft.dropDownLoading = false
         break;
 
       //bestPair
       case BESTPAIR_DATA_REQUEST:
         draft.bestPairData = [];
         draft.getBestPairDataLoading = true;
+        draft.dropDownLoading = true;
         break;
       case BESTPAIR_DATA_SUCCESS:
         draft.bestPairData = action.payload;
         draft.getBestPairDataLoading = false;
         draft.getBestPairSuccess = false;
+        draft.dropDownLoading = false
         break;
       case BESTPAIR_DATA_FAILURE:
         draft.bestPairData = [];
         draft.getBestPairDataLoading = false;
         draft.getBestPairSuccess = false;
+        draft.dropDownLoading = false
         break;
 
       //kitchenStation
       case KITCHEN_DATA_REQUEST:
         draft.kitchenStation = [];
         draft.kitchenStationLoading = true;
+        draft.dropDownLoading = true;
       case KITCHEN_DATA_SUCCESS:
         draft.kitchenStation = action.payload
         draft.kitchenStationLoading = false
         draft.kitchenStationSuccess = true
+        draft.dropDownLoading = false
         break
       case KITCHEN_DATA_FAILURE:
         draft.kitchenStation = [];
         draft.kitchenStationLoading = false;
         draft.kitchenStationSuccess = false;
+        draft.dropDownLoading = false
         break;
 
       // Get Menu Category
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
+        draft.dropDownLoading = true;
         draft.getCategoryLoading = true;
         draft.getCategorySuccess = false;
+        draft.dropDownLoading = false
         break;
       case GET_MENU_CATEGORY_SUCCESS:
         draft.categoryData = action.payload;
         draft.getCategoryLoading = false;
         draft.getCategorySuccess = true;
+        draft.dropDownLoading = false
         break;
       case GET_MENU_CATEGORY_FAILED:
         draft.categoryData = [];
         draft.getCategoryLoading = false;
         draft.getCategorySuccess = false;
+        draft.dropDownLoading = false
         break;
 
       // Get menu Sub Category
       case GET_MENU_SUB_CATEGORY_REQUEST:
         draft.subCategoryData = [];
+        draft.dropDownLoading = true;
         draft.getSubCategoryLoading = true;
         draft.getSubCategorySuccess = false;
         break;
@@ -392,7 +428,7 @@ export default function productCatalogReducer(
         break;
 
       // Get Ingredients
-      //dektesubsection
+      //deletesubsection
 
       case DELETEDROPDOWN_FAILURE:
         draft.deletesubsectionfailure = "failed";
@@ -522,7 +558,6 @@ export default function productCatalogReducer(
       // Update Menu Item
       case UPDATE_MENU_ITEM_REQUEST:
         draft.updatedPayload=action.payload
-        console.log("action.payload",action.payload);
         
         draft.updateMenuItemLoading = true;
         draft.updateMenuItemFailed = false;
@@ -685,12 +720,10 @@ export default function productCatalogReducer(
         draft.deletedIdLoading = false;
         break;
       case UPDATE_MODIFIER_REQUEST:
-        console.log('Reucerrrrrr',action.payload)
         draft.updateModifierId = action.payload
       case SELECTED_MOCKDATA_REQUEST:
         draft.editData = action.payload;
       default:
-        break;
     }
   });
 }
