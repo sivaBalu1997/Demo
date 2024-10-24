@@ -287,8 +287,15 @@ const Normalavail: React.FC<NormalavailProps> = ({
     }));
 
     const data = [...priceInfo]
+    if(!data[index].availabilities){
+      data[index].availabilities=[]
+      data[index].availabilities.push({
+        availabilityDays: [],
+        sessions: [],
+      })
+
+    }
     data[index].availabilities[0].sessions = selectedMealTypes
-    console.log('1',{data})
     setPriceInfo(data)
   };
 
@@ -413,11 +420,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
           });
         }
     
-        if(thirdpartyDetails){
+        if(thirdpartyDetails.length >0){
           const data = thirdpartyDetails?.map((item : any) => item?.typeName)
           setSelectedThirdValues(data)
           console.log('2',{data})
-          setPriceInfo(thirdpartyDetails)
+          setPriceInfo([...thirdpartyDetails])
           const object : any = {}
           const item = thirdpartyDetails?.map((item : any) => item)
           item.forEach((element : any) => {
@@ -466,7 +473,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           const data = thirdpartyDetails?.map((item : any) => item?.typeName)
           setSelectedThirdValues(data)
           console.log('3',{thirdpartyDetails})
-          setPriceInfo(thirdpartyDetails)
+          setPriceInfo([...thirdpartyDetails])
           const object : any = {}
           const item = thirdpartyDetails?.map((item : any) => item)
           item?.forEach((element : any) => {
@@ -1218,10 +1225,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
                           type="text"
                           value={priceInfo[index]?.price || ""}
                           onChange={(e) =>{
-                            const data = [...priceInfo]
-                            console.log({priceInfo})
+                            let data = JSON.parse(JSON.stringify([...priceInfo]))
+                            console.log('ppppp',{priceInfo},index,data[index].price)
                             data[index].price = Number(e.target.value)
-                            console.log('5',{data})
                             setPriceInfo(data)
                           }}
                         />
