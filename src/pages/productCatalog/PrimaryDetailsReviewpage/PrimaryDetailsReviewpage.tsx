@@ -233,6 +233,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const uploadImageLoading = useSelector((state: any) => state.productCatalog?.uploadImageLoading)
+  const selectedcategory = useSelector((state: any) => state.productCatalog?.selectedCategory)
+  
 
   // const [imageIdtosend, setimageIdtosend] = useState<string>("");
 
@@ -255,6 +257,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const retrymsg = useSelector(
     (state: any) => state.productCatalog.retryFailure
   );
+  console.log("categoryData",primarypagedetails.primarypage.data);
+  console.log("categoryDatavalue",primarypagedetails.primarypage.data.category);
+
 
   const [failedImage, setfailedImage] = useState<imageType[]>();
 
@@ -401,6 +406,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.categoryData.data
   );
 
+ 
+
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
@@ -415,7 +422,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const menuData = useSelector((state:any) => state.productCatalog?.menuData);
 
 
-console.log("revire menudat",menuData);
+console.log("revire menudat",editData);
 
 
 const menudata = [
@@ -448,12 +455,15 @@ const menudata = [
 
 const targetItemId = "104";
 
-// Find the category with matching itemId
-const filteredCategory = menudata.find(category =>
-  category.itemresponse.some(item => item.itemId === targetItemId)
+
+const filteredCategory = menuData.find((category:any) =>
+  category?.itemResponseList?.some((item:any) => item.itemId === editData[0]?.itemId)
 );
 
-console.log("editData",filteredCategory);
+console.log("filter edit ",filteredCategory.categoryName
+);
+
+
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -496,7 +506,8 @@ console.log("editData",filteredCategory);
   const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
-
+ 
+  
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierName: item?.modifierName,
     maxCount: item?.maxSelection,
@@ -578,16 +589,16 @@ console.log("combinedDetails",combinedDetails);
     setCombinedData(mergedData);
   },[deletedId, updateModifierId]);
 
-  console.log({editData})
+  console.log({editData});
 
 
 
 
   const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)
-  console.log("editPrevData",editPrevData);
+  console.log("editPrevData",filteredCategory.categoryName===primarypagedetails.primarypage.data.category);
   
   const editPayload = {
-    itemId: editData[0]?.id,
+    itemId: editData[0]?.itemId,
     locationId: locationid,
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
@@ -616,7 +627,7 @@ console.log("combinedDetails",combinedDetails);
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
-    isCategoryUpdated: false,                                                 //need to check
+    isCategoryUpdated: filteredCategory.categoryName!==primarypagedetails.primarypage.data.category,                                                 //need to check
     isSingleMenu: false,                                                    
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
@@ -625,6 +636,7 @@ console.log("combinedDetails",combinedDetails);
 
       
   };
+ 
 
   const handleDispatch = async () => {
     checkAllImagesForErrors();

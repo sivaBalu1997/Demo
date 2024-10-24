@@ -138,6 +138,7 @@ import {
   REMOVE_DATA_SUCCESS,
   REMOVE_DATA_FAILURE,
   UPDATE_MODIFIER_REQUEST,
+  SELECTED_CATEGORY_DATA_REQUEST,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -489,6 +490,13 @@ export const catogoryDataFailure = (error) => ({
   type: CATEGORY_DATA_FAILURE,
   payload: error,
 });
+
+export const selectedCategory = (data) => ({
+  type: SELECTED_CATEGORY_DATA_REQUEST,
+  payload: data,
+});
+
+
 
 //bestPair
 export const bestPairDataRequest = (data) => ({

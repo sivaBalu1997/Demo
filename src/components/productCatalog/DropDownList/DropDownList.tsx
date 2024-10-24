@@ -236,9 +236,10 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName =  prizingDetail?.kitchenstation;
-      const dropDownName: any = options.find(
-        (item) => item.name === kitchenStationName
-      );
+      // const dropDownName: any = options && options?.find(
+      //   (item) => item.name === kitchenStationName
+      // );
+      const dropDownName: any =undefined;
       const dropDown1 = dropDownName === undefined ? {name: prizingDetail?.kitchenstation, id:'1'} : dropDownName
       setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName]);
       setValue("kitchenstation", dropDownName === undefined ? dropDown1?.name :dropDownName?.name);

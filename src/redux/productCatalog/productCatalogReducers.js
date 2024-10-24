@@ -104,6 +104,7 @@ import {
   REMOVE_DATA_REQUEST,
   START_IMAGE_UPLOAD,
   UPDATE_MODIFIER_REQUEST,
+  SELECTED_CATEGORY_DATA_REQUEST,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -216,7 +217,7 @@ const initialProductCatalogState = {
   updateMenuAttributeLoading: false,
   updateMenuAttributeSuccess: "",
   updateMenuAttributeFailed: false,
-
+    selectedCategory:{},
   updateModifierId: []
 };
 
@@ -324,6 +325,8 @@ export default function productCatalogReducer(
         draft.getBestPairDataLoading = false;
         draft.getBestPairSuccess = false;
         break;
+      case  SELECTED_CATEGORY_DATA_REQUEST:  
+      draft.selectedCategory=action.payload
 
       //kitchenStation
       case KITCHEN_DATA_REQUEST:
