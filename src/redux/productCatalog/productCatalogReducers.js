@@ -107,6 +107,7 @@ import {
   FETCHDROPDOWN_SUCCESS,
   FETCHDROPDOWN_FAILURE,
   FETCHDROPDOWN_REQUEST,
+  RESET_SUCCESS_MESSAGE,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -955,6 +956,17 @@ export const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
         loading: false,
         error: action.payload,
       };
+
+      case RESET_SUCCESS_MESSAGE:
+        return{
+          ...state,
+        loading: false,
+        error: action.payload,
+        data:[]
+
+        }
+        
+      
     default:
       return state;
   }
