@@ -181,7 +181,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     (state: any) => state.PricingDetailReducer.prizingData
   );
 
-  console.log({prizingDetail})
 
   const [formNormal, setformNormal] = useState({
     PickuppriceNormal: "",

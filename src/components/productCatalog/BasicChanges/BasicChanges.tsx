@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import './BasicChanges.scss';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import Basic from '../../../assets/images/Basic.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AvailCalender from '../AvailCalender/AvailCalender';
 import AvailabilityChangesUntil from './AvailableChangesUntil';
+import { removeDataRequest } from 'redux/productCatalog/productCatalogActions';
 
 interface BasiChangesProps {
   onclose: any;
@@ -14,14 +15,15 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   const [showAvailCalender, setShowAvailCalender] = useState(false);
   const[showModalAvailable,setShowModalAvailable]=useState(false)
 
+  const dispatch = useDispatch()
+
   const handleChangeButton = () => {
+    dispatch(removeDataRequest())
     onclose();
   };
 
   const handleAvailCalender = () => {
-    
     setShowModalAvailable(true)
-
   };
 
   return (

@@ -448,8 +448,10 @@ function* updateMenuItemSaga(action) {
   try {
     const response = yield call(updateMenuItem, action.payload);
     if (response.status === 200) {
+      
       yield put(updateMenuItemSuccess(response.data));
     } else {
+      showErrorToast(response.message);
       yield put(updateMenuItemFailed({ message: "please Try Again" }));
     }
   } catch (err) {
@@ -461,6 +463,7 @@ function* updateMenuAttributeSaga(action) {
   try {
     const response = yield call(updateMenuItemAttribute, action.payload);
     if (response.status === 200) {
+      showSuccessToast(response.message)
       yield put(updateMenuAttributeSuccess(response.data));
     } else {
       yield put(updateMenuAttributeFailed({ message: "please Try Again" }));
