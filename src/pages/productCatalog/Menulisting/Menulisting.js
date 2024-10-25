@@ -358,7 +358,7 @@ export const Menulisting = () => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, [dispatch]);
 
-  const editData = useSelector((state) => state.productCatalog.editData)
+  const editData = useSelector((state) => state.productCatalog.editData || [])
   const primarypage = useSelector((state) => state.primarypage)
   const prizingDetail = useSelector(
     (state) => state?.PricingDetailReducer?.prizingData 
@@ -388,10 +388,10 @@ export const Menulisting = () => {
         bestPair: editData[0]?.pairedItems,
         category: categoryData?.name,
       };
-  
+
       const pricingPageData = {
-        kitchenstation: editData[0]?.kitchenStation?.name,
-        ignoreMasterKotPrint: editData[0]?.ignoreMasterKotPrint,
+        kitchenstation: editData[0]?.kitchenStation?.name ?? '',
+        ignoreMasterKotPrint: editData[0]?.ignoreMasterKotPrint ?? false,
         normalForm: {
           deliveryDetails: null,
           dineInDetails: null,
@@ -399,10 +399,10 @@ export const Menulisting = () => {
           thirdpartyDetails: []
         }
       };
-  
+
       editData[0]?.orderTypes?.forEach((orderType) => {
         const { typeGroup } = orderType;
-  
+
         switch (typeGroup) {
           case 'S':
             pricingPageData.normalForm.deliveryDetails = orderType;
@@ -420,22 +420,21 @@ export const Menulisting = () => {
             break;
         }
       });
-  
-      // Mapping the modifiers correctly
+
       const modifierData = editData[0]?.modifiers?.map((item) => ({
-        id: item?.id || '',
-        modifierName: item?.modifierName || "",  
-        maxCount: item?.maxCount || 0,       
-        minCount: item?.minCount || 0,      
-        noFreeCustomization: item?.noFreeCustomization || false,  
+        id: item?.id ?? '',
+        modifierName: item?.modifierName ?? '',  
+        maxCount: item?.maxCount ?? 0,       
+        minCount: item?.minCount ?? 0,      
+        noFreeCustomization: item?.noFreeCustomization ?? false,  
         options: item?.options?.map(option => ({     
-          optionId: option?.optionId || "",          
-          name: option?.name || "",                  
-          price: option?.price || 0,                 
-          isEnabled: option?.isEnabled || false      
+          optionId: option?.optionId ?? '',          
+          name: option?.name ?? '',                  
+          price: option?.price ?? 0,                 
+          isEnabled: option?.isEnabled ?? false      
         })) || [],  
       }));
-  
+
       dispatch(primarypost(primaryPageData));
       dispatch(PricingDetailRequest(pricingPageData));
       dispatch(itemCustomizationPost(modifierData));

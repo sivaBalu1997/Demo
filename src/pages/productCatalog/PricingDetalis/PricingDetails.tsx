@@ -294,7 +294,9 @@ const PricingDetails = () => {
     },
   });
 
- 
+  const dataFromRedux = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
 
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
@@ -304,16 +306,18 @@ const PricingDetails = () => {
   );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
-  // const [Preparationtime, setpreparationTime] = useState({
-  //   hours: "",
-  //   minutes: "",
-  // });
+  const [Preparationtime, setpreparationTime] = useState({
+    hours: "",
+    minutes: "",
+  });
 
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
- 
+  const cuisineData = useSelector(
+    (state: any) => state.productCatalog.cuisineData.data
+  );
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
@@ -447,43 +451,35 @@ const PricingDetails = () => {
     nextAvailable: nextAvailable,
     printKot: printKot,
   };
- 
-let  kitchenStationName;
 
 
   useEffect(() => {
     if (prizingDetail) {
-      console.log("prizingDetail",prizingDetail);
-      kitchenStationName = prizingDetail?.kitchenstation;
-      setOptions1(prizingDetail.kitchenstation);
-      setValue("kitchenstation", kitchenStationName);
-      
-     
+      // setInventory(true);
       setResetInventory(prizingDetail?.resetInventory);
       setNextAvailable(prizingDetail?.nextAvailable);
       setPrintKot(prizingDetail?.printKot);
   
-     
+      // Prepare the kitchenstation name for the dropdown
+      const kitchenStationName = prizingDetail?.kitchenstation;
+  
+      // Set form values including kitchenstation
       reset({
         form: {
           Inventory1: prizingDetail.form?.Inventory1 || "",
           Inventory2: prizingDetail.form?.Inventory2 || "",
         },
+        // kitchenstation: kitchenStationName,
         Preparationtime: {
           hours: prizingDetail.Preparationtime?.hours || "",
           minutes: prizingDetail.Preparationtime?.minutes || "",
         },
       });
 
-  
-    
-     console.log("kitchenstationdfghjk",getValues("kitchenstation"));
-     
-      trigger("kitchenstation")
-  
-      
+      setOptions1(prizingDetail.kitchenstation);
+      setValue("kitchenstation", kitchenStationName);
     }
-  }, [prizingDetail, reset, setOptions1, setValue,kitchenStationName]);
+  }, [prizingDetail, reset, setOptions1, setValue]);
     
   useEffect(() => {
     setOptions(data);
@@ -544,12 +540,11 @@ let  kitchenStationName;
 
   const validateDineInFields = (dineinfields: DineInField[]) => {
     const errors: DropdownValidationState = {};
-    trigger('kitchenstation');
 
     dineinfields.forEach((field, index) => {
       const mealTypeKey = `DineInMealType_${index}`;
       const priceKey = `DineInPrice_${index}`;
-     
+      const DineInService = `DineInService_${index}`;
 
       // Validate DineInMealType
       if (!field.DineInMealType || field.DineInMealType.length === 0) {
@@ -576,7 +571,7 @@ let  kitchenStationName;
 
   const validateDineInFields1 = (dineinfieldsSpecial: DineInField[]) => {
     const errors: DropdownValidationState = {};
-    trigger('kitchenstation');
+
     dineinfieldsSpecial?.forEach((field, index) => {
       const mealTypeKey = `DineInMealType_${index}`;
       const priceKey = `DineInPrice_${index}`;
