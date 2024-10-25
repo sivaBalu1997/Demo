@@ -139,6 +139,7 @@ import {
   REMOVE_DATA_FAILURE,
   UPDATE_MODIFIER_REQUEST,
   SELECTED_CATEGORY_DATA_REQUEST,
+  RESET_SUCCESS_MESSAGE,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -693,6 +694,7 @@ export const addMockDataHiddenRequest = (payload) => ({
   payload,
 });
 
+
 export const addMockDataHiddenSuccess = (response) => ({
   type: ADD_MOCK_DATA_HIDDEN_SUCCESS,
   payload: response,
@@ -700,6 +702,9 @@ export const addMockDataHiddenSuccess = (response) => ({
 export const addMockDataHiddenFailure = (error) => ({
   type: ADD_MOCK_DATA_HIDDEN_FALIURE,
   payload: error,
+});
+export const resetSuccessMessage = () => ({
+  type: RESET_SUCCESS_MESSAGE,
 });
 
 export const getItemCodeRequest = (params1, params2) => ({

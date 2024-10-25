@@ -108,6 +108,7 @@ import {
   FETCHDROPDOWN_SUCCESS,
   FETCHDROPDOWN_FAILURE,
   FETCHDROPDOWN_REQUEST,
+  RESET_SUCCESS_MESSAGE,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -726,6 +727,8 @@ export default function productCatalogReducer(
         draft.updateModifierId = action.payload
       case SELECTED_MOCKDATA_REQUEST:
         draft.editData = action.payload;
+        
+
       default:
     }
   });
@@ -956,6 +959,17 @@ export const addMockDataHiddenReducer = (state = addMockHiddenData, action) => {
         loading: false,
         error: action.payload,
       };
+
+      case RESET_SUCCESS_MESSAGE:
+        return{
+          ...state,
+        loading: false,
+        error: action.payload,
+        data:[]
+
+        }
+        
+      
     default:
       return state;
   }
@@ -1047,7 +1061,7 @@ const menuData = {
   error: null,
 };
 
-export const menuReducer = (state = menuData, action) => {
+export const partialUpdatemenuReducer = (state = menuData, action) => {
   switch (action.type) {
     case PARTIAL_UPDATE_MENU_REQUEST:
       return {
@@ -1060,10 +1074,7 @@ export const menuReducer = (state = menuData, action) => {
       return {
         ...state,
         loading: false,
-        menuData: {
-          ...state.menuData,
-          ...action.payload, 
-        },
+        menuData: action.payload,
         error: null,
       };
 

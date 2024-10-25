@@ -11,6 +11,7 @@ import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addMockDataHiddenRequest,
+  resetSuccessMessage,
   selectedMockDataRequest,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -148,6 +149,7 @@ const Slider: React.FC<SliderProps> = ({
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
+    dispatch(resetSuccessMessage())
   }, [dispatch]);
 
   return (

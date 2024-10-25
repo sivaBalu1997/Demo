@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import './AvailabilityChangesUntil.scss';
 import AvailCalender from '../AvailCalender/AvailCalender';
 import { useDispatch, useSelector } from 'react-redux';
-import { partialUpdateMenuRequest } from 'redux/productCatalog/productCatalogActions';
+import { getMenuRequest, partialUpdateMenuRequest } from 'redux/productCatalog/productCatalogActions';
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
@@ -11,6 +11,10 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
   const [showAvailCalender, setShowAvailCalender] = useState(false);
   const menuData = useSelector((state) => state.productCatalog?.menuData)
   const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+  const location = useSelector((state) => state.auth.selectedBranch.id);
+  const suceesMsg = useSelector((state) => state?.partialUpdatemenuReducer?.menuData?.payload);
+
+
 
 
 
@@ -24,8 +28,11 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
   const handleSaveBtn = () => {
     setShowModalAvailable();
     dispatch(partialUpdateMenuRequest(patchedData))
-
+    if(suceesMsg==="Updated successfully"){
     onclose();
+    }
+
+  
   };
 
   const handleRadioChange = (index) => {
