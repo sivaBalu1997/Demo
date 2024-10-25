@@ -9,7 +9,6 @@ interface ImageOptions {
   imageId?: string;
   imageType?: string;
 }
-
 interface Imageselection {
   heading: string;
   options: ImageOptions[];
@@ -34,7 +33,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
     setSearchImage(e.target.value);
   };
 
-  const filteredimages = options.filter((option) =>
+  const filteredimages = options?.filter((option) =>
     option.name.toLowerCase().includes(searchImage.toLowerCase())
   );
 
@@ -42,20 +41,17 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
     const isSelected = selectedImages.some(
       (selected) => selected.id === image.id
     );
-
+  
     if (!isSelected) {
       const newSelectedImages = [...selectedImages, image];
       setSelectedImages(newSelectedImages);
-      const selectedIds = newSelectedImages.map((img) => ({
-        id: img.id,
-        name: img.name,
-      }));
+  
+      const selectedIds = newSelectedImages.map((img) => img.id);
       setValue(name, selectedIds);
     }
   };
-
-
   
+
   const handleDeletingImage = (image: ImageOptions) => {
     const updataedImagelist = selectedImages.filter(
       (imageItem) => imageItem.id !== image.id
@@ -69,15 +65,13 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   };
 
   const clearSelection = () => {
-    setSelectedImages([]); // Clear local selection
+    setSelectedImages([]); 
   };
 
   useEffect(() => {
     if (resetSelection ) {
-      resetSelection.current = clearSelection; // Assign the function to the ref
+      resetSelection.current = clearSelection; 
     }
-
-   
   }, [resetSelection]);
 
   return (
@@ -125,8 +119,8 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
         </div>
         <div>
           <ul className="AllergensImage">
-            {filteredimages.length > 0 ? (
-              filteredimages.map((option) => (
+            {filteredimages?.length > 0 ? (
+              filteredimages?.map((option) => (
                 <li
                   key={option.id}
                   onClick={() => handleSelectedImage(option)}

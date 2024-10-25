@@ -451,58 +451,6 @@ const PrimaryPage = () => {
   };
   const [uploading, setUploading] = useState(false);
 
-  // const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = Array.from(event.target.files || []);
-  //   const validFiles = files.filter((file) => {
-  //     const validTypes = ["image/jpeg", "image/png"];
-  //     const maxSizeInBytes = 2 * 1024 * 1024;
-  //     if (!validTypes.includes(file.type)) {
-  //       alert(`Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
-  //       return false;
-  //     }
-
-  //     if (file.size > maxSizeInBytes) {
-  //       alert(`File too large: ${file.name}. Maximum size is 2MB.`);
-  //       return false;
-  //     }
-
-  //     return true;
-  //   });
-
-  //   if (validFiles.length + images.length > maxImages) {
-  //     alert(`You can only upload up to ${maxImages} images.`);
-  //     return;
-  //   }
-
-  //   const readFileAsDataURL = (file: File): Promise<Base64Image> => {
-  //     return new Promise((resolve, reject) => {
-  //       const reader = new FileReader();
-  //       reader.onloadend = () => {
-  //         const dataURL = reader.result as string;
-  //         const mimeType = dataURL.split(";")[0].split(":")[1];
-  //         const base64String = dataURL.split(",")[1];
-  //         resolve({ mimeType, base64String });
-  //       };
-  //       reader.onerror = reject;
-  //       reader.readAsDataURL(file);
-  //     });
-  //   };
-
-  //   Promise.all(validFiles.map(readFileAsDataURL))
-  //     .then((base64Images) => {
-  //       setImages((prevImages) => {
-  //         const updatedImages = [...prevImages, ...base64Images];
-  //         console.log("testing", setValue, typeof setValue);
-  //         return updatedImages;
-  //       });
-
-  //       setValue("imageUrls", base64Images);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error converting files to Base64", error);
-  //     });
-  // };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -541,13 +489,6 @@ const PrimaryPage = () => {
     }
   };
 
-  // const newarray = getValues("imageUrls");
-  // console.log("newarray", newarray);
-
-  useEffect(() => {
-    dispatch(getIngredientsRequest(locationid));
-    // dispatch(getMenuCategoryRequest(locationid));
-  }, []);
 
   useEffect(() => {
     setIngredientsFromAPi(ingredients);
@@ -558,13 +499,16 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
+  useEffect(()=>{
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
+  },[])
+
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
 
   const editData = useSelector((state:any) => state.productCatalog.editData)
-
-  console.log({editData})
   
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
@@ -581,6 +525,10 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
+  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
+  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
+
+  console.log({ingredientsdata})
 
   useEffect(()=>{
     if (ItemsPrimaryDetails?.popularItem) {
@@ -703,8 +651,6 @@ const PrimaryPage = () => {
   //     setValue("masterCode", primarydata?.masterCode || null);
   //   }
   // },[primarydata])
-
-  console.log({ItemsPrimaryDetails})
 
   return (
     <div style={{ display: "flex" }}>
@@ -1130,7 +1076,7 @@ const PrimaryPage = () => {
                     {" "}
                     <Imagepillsselection
                       heading="Allergens*"
-                      options={validImages}
+                      options={allergensData}
                       setValue={setValue}
                       name="allergens"
                       register={register}
@@ -1175,7 +1121,7 @@ const PrimaryPage = () => {
               <div className="Primary-page-ingredients-selection">
                 <Imagepillsselection
                   heading="Ingredients*"
-                  options={ingredientsFromAPi}
+                  options={ingredientsdata}
                   setValue={setValue}
                   name="Ingredients"
                   register={register}
