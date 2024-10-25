@@ -366,7 +366,7 @@ export const Menulisting = () => {
 
 
   useEffect(() => {
-    if (editData && Array.isArray(editData) && editData.length > 0) {
+    if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
         itemName: editData[0]?.itemName,
         description: editData[0]?.description,

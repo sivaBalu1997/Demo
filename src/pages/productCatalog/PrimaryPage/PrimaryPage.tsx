@@ -545,7 +545,7 @@ const PrimaryPage = () => {
   // console.log("newarray", newarray);
 
   useEffect(() => {
-    // dispatch(getIngredientsRequest(locationid));
+    dispatch(getIngredientsRequest(locationid));
     // dispatch(getMenuCategoryRequest(locationid));
   }, []);
 
@@ -584,7 +584,6 @@ const PrimaryPage = () => {
 
   useEffect(()=>{
     if (ItemsPrimaryDetails?.popularItem) {
-      console.log('hi')
       setPopularItem(popularItem + 1);
       setValue("popularItem", true);
     } else {
@@ -596,7 +595,6 @@ const PrimaryPage = () => {
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     if (isChecked || ItemsPrimaryDetails?.popularItem) {
-      console.log('hi')
       setPopularItem(popularItem + 1);
       setValue("popularItem", true);
     } else {

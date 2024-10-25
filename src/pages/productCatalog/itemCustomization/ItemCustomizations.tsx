@@ -132,6 +132,7 @@ const ItemCustomizations: React.FC = () => {
 
   const initialModificationValue = [
     {
+      modifierId: "",
       modifierName: "",
       isModifierChanged: false,
       modifierOptions: [
@@ -154,7 +155,6 @@ const ItemCustomizations: React.FC = () => {
     initialModificationValue
   );
 
-  console.log({modifications})
 
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -232,8 +232,6 @@ const ItemCustomizations: React.FC = () => {
   const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
   const [updatedModifierIds, setUpdatedModifierIds] = useState<any[]>([]);
 
-  console.log({updatedModifierIds})
-
   useEffect(() => {
     if (deletedModifierIds.length > 0) {
       dispatch(deleteModifierRequest(deletedModifierIds));
@@ -277,28 +275,48 @@ const ItemCustomizations: React.FC = () => {
   const handleDeleteModifier = (modIndex: number) => {
     setModifications((prev: any) => {
       const updated = [...prev];
-      const deletedId = updated[modIndex].id;
+      const deletedId = updated[modIndex].modifierId; 
+  
       updated.splice(modIndex, 1);
-
-      setDeletedModifierIds((prevIds) => {
-        if (!prevIds.includes(deletedId)) {
-          return [...prevIds, deletedId];
-        }
-        return prevIds;
-      });
-
+      if (deletedId) {
+        setDeletedModifierIds((prevIds) => {
+          if (!prevIds.includes(deletedId)) {
+            return [...prevIds, deletedId];
+          }
+          return prevIds;
+        });
+      }
+  
       return updated;
     });
   };
+  
 
   const addOption = (index: number) => {
-    const newOption = [...modifications];
-    newOption[index].modifierOptions.push({
-      optionName: "",
-      sellPrice: 0,
+    setModifications((prevModifications: any) => {
+      const newModifications = prevModifications.map((mod: any, modIndex: number) => {
+        if (modIndex === index) {
+          const newOption = {
+            optionName: "",
+            sellPrice: 0,
+            modifierOptionId: "", 
+            isModifierOptionChanged: false
+          };
+  
+          const newModifierOptions = [...mod.modifierOptions, newOption];
+          
+          return {
+            ...mod,
+            modifierOptions: newModifierOptions,
+            isModifierChanged: mod.modifierId !== ""
+          };
+        }
+        return mod;
+      });
+      return newModifications;
     });
-    setModifications(newOption);
   };
+  
 
   const addOption1 = (newOption: string) => {
     setOptions([...options, newOption]);
@@ -337,8 +355,14 @@ const ItemCustomizations: React.FC = () => {
                   e.target.name === "cost"
                     ? parseFloat(e.target.value) || 0
                     : e.target.value;
-                  const isOptionChanged =
-                  (currentValue !== newValue) && currentValue !== "";
+  
+                // Check for modifierId instead of modifierOptionId
+                const isOptionChanged =
+                  mod.modifierId !== "" && // Check modifierId
+                  currentValue !== undefined &&
+                  currentValue !== null &&
+                  currentValue !== "" &&
+                  currentValue !== newValue;
   
                 return {
                   ...opt,
@@ -353,7 +377,7 @@ const ItemCustomizations: React.FC = () => {
         return mod;
       });
   
-      const updatedModifierId = newModifier[modIndex]?.id;
+      const updatedModifierId = newModifier[modIndex]?.modifierId; 
       if (updatedModifierId) {
         setUpdatedModifierIds((prevIds) => {
           if (!prevIds.includes(updatedModifierId)) {
@@ -363,11 +387,9 @@ const ItemCustomizations: React.FC = () => {
         });
       }
   
-      return newModifier;
+      return newModifier[modIndex]?.modifierId ? newModifier : prevModifications; 
     });
-  };
-  
-  
+  };  
 
   const incrementSpinner = (index: number, field: keyof Modification) => {
     const newModifier = [...modifications];
@@ -428,16 +450,19 @@ const ItemCustomizations: React.FC = () => {
           (opt: any, optIdx: any) => optIdx !== optIndex
         );
   
+        const isModifierChanged = mod.modifierId !== "" && 
+          mod.modifierOptions.length !== updatedModifierOptions.length;
+  
         return {
           ...mod,
           modifierOptions: updatedModifierOptions,
-          isModifierChanged: true, // Set to true since an option is deleted
+          isModifierChanged: isModifierChanged, 
         };
       }
       return mod;
     });
   
-    const deletedOptionId = modifications[modIndex]?.modifierOptions?.[optIndex]?.id;
+    const deletedOptionId = modifications[modIndex]?.modifierOptions?.[optIndex]?.modifierOptionId; 
   
     setModifications(newModifications);
   
@@ -450,6 +475,7 @@ const ItemCustomizations: React.FC = () => {
       });
     }
   };
+  
   
 
   const dispatch1 = () => {

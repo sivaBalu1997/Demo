@@ -517,7 +517,7 @@ const filteredCategory = menudata.find(category =>
     ? normalDays.map(String)
     : [];
 
-    console.log({itemCustomizationData})
+    console.log({primarydata}, primarydata?.coloriePoint)
 
   const menuPayload = {
     locationId: locationid,
@@ -542,10 +542,8 @@ const filteredCategory = menudata.find(category =>
     // masterItemCode: primarydata?.masterCode || null,
 
     kitchenStation: kitchenStationId || null,
-    preparationTimeInHours:
-      prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
-    preparationTimeInMinutes:
-      prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
+    preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
+    preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: false,
     availabilityDays: stringNormalDays || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
@@ -590,10 +588,8 @@ const filteredCategory = menudata.find(category =>
     taxClassAssociation: primarydata?.taxFeeId || null,
 
     kitchenStation: kitchenStationId || null,
-    preparationTimeInHours:
-      prizingDetail?.mainForm?.normalForm?.Preparationtime?.hours || null,
-    preparationTimeInMinutes:
-      prizingDetail?.mainForm?.normalForm?.Preparationtime?.minutes || null,
+    preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
+    preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: false,
     availabilityDaysAdd: stringNormalDays || null,
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
