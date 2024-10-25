@@ -520,6 +520,9 @@ console.log("filter edit ",filteredCategory?.categoryName
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
+  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
+  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
+
   const editDetails = editData[0]?.orderTypes
   const removePricing = []
   const addPricing = []
@@ -574,8 +577,6 @@ console.log("filter edit ",filteredCategory?.categoryName
 
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
   const updateModifierId = useSelector((state: any) => state.productCatalog.updateModifierId)
-
-  console.log({deletedId},{updateModifierId})
 
   const [combinedData, setCombinedData] = useState<string[]>([]);
 
