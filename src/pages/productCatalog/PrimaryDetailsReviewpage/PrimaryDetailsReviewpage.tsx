@@ -594,7 +594,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: false,
     availabilityDaysAdd: stringNormalDays || null,
-    orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
+    latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
     isCategoryUpdated:
@@ -603,7 +603,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // isSingleMenu: false,
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
-    latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
+    // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
     specialItem: null,
   };
 
