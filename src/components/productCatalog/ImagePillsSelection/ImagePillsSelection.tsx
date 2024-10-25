@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ImagePillsSelection.scss";
 import deleteIcon from "../../../assets/images/delete copy.png";
 import Searchicon from "../../../assets/images/searchicon.png";
+import { useSelector } from "react-redux";
 
 interface ImageOptions {
   name: string;
@@ -28,7 +29,14 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
 }) => {
   const [searchImage, setSearchImage] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
+  const initialSelectionSet = useRef(false);
 
+  const ItemsPrimaryDetails = useSelector(
+    (state: any) => state.primarypage?.data
+  );
+  
+  console.log({ItemsPrimaryDetails})
+  
   const handleSearchingImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchImage(e.target.value);
   };
@@ -73,6 +81,26 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
       resetSelection.current = clearSelection; 
     }
   }, [resetSelection]);
+
+  useEffect(() => {
+    if (
+      ItemsPrimaryDetails &&
+      ItemsPrimaryDetails[name as any] &&
+      !initialSelectionSet.current 
+    ) {
+      const preselectedImages = options.filter((option) =>
+        ItemsPrimaryDetails[name as any].includes(option.id)
+      );
+      const combinedSelectedImages = [...selectedImages, ...preselectedImages];
+
+      setSelectedImages(combinedSelectedImages);
+      const selectedIds = combinedSelectedImages.map((img) => img.id);
+      setValue(name, selectedIds);
+
+      initialSelectionSet.current = true; 
+    }
+  }, [ItemsPrimaryDetails, name, options, setValue]);
+
 
   return (
     <div className="Item-Selection">

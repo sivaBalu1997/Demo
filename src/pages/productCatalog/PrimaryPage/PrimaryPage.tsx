@@ -499,11 +499,6 @@ const PrimaryPage = () => {
     register("imageUrls");
   }, [register]);
 
-  useEffect(()=>{
-    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
-    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
-  },[])
-
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
@@ -624,33 +619,6 @@ const PrimaryPage = () => {
   // console.log("restaurantDetails",restaurantDetails?.containsAlcohol);
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
-
-  const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  // useEffect(()=>{
-  //   if(primarydata){
-  //     setValue("itemName", primarydata?.itemName || null);
-  //     setValue("dietaryType", primarydata?.dietaryType || null);
-  //     setValue("cuisine", primarydata?.cuisine || null);
-  //     setValue("mealType", primarydata?.mealType || null);
-  //     setValue("bestPair", primarydata?.bestPair || null);
-  //     setValue("description", primarydata?.description || null);
-  //     setValue("imageUrls", primarydata?.imageUrls || null);
-  //     setValue("alcohol", primarydata?.alcohol || null);
-  //     setValue("itemCode", primarydata?.itemCode || null);
-  //     setValue("barCode", primarydata?.barCode || null);
-  //     setValue("category", primarydata?.category || null);
-  //     setValue("categoryId", primarydata?.categoryId || null);
-  //     setValue("subCategory", primarydata?.subCategory || null);
-  //     setValue("Ingredients", primarydata?.Ingredients || null);
-  //     setValue("allergens", primarydata?.allergens || null);
-  //     setValue("coloriePoint", primarydata?.coloriePoint || null);
-  //     setValue("selectedcolorie", primarydata?.selectedcolorie || null);
-  //     setValue("portionSize", primarydata?.portionSize || null);
-  //     setValue("selectedPortion", primarydata?.selectedPortion || null);
-  //     setValue("tax", primarydata?.tax || null);
-  //     setValue("masterCode", primarydata?.masterCode || null);
-  //   }
-  // },[primarydata])
 
   return (
     <div style={{ display: "flex" }}>
@@ -1084,6 +1052,7 @@ const PrimaryPage = () => {
                     />
                   </div>
                 </div>
+                
                 <div className="tool-tip-Allergen">
                   <TooltipMsg
                     message="Provide information about any allergens present in this food item"

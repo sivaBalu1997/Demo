@@ -24,6 +24,7 @@ import noResultsfound from "../../../assets/images/NoResultsFound.png"
 
 import {
   PricingDetailRequest,
+  fetchDropDownRequest,
   getMenuRequest,
   itemCustomizationPost,
   primarypost,
@@ -143,8 +144,6 @@ export const Menulisting = () => {
     },
   ]);
 
- 
-
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
   };
@@ -179,6 +178,13 @@ export const Menulisting = () => {
 
   useEffect(()=>{
     dispatch(removeDataRequest())
+  },[])
+
+  const locationid = useSelector((state) => state.auth.credentials?.locationId);
+
+  useEffect(()=>{
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
   },[])
 
   const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess )
