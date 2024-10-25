@@ -152,7 +152,6 @@ function* fetchDropdownDataSaga(action) {
   try {
     // Pass the entire action.payload to getSubSectionData
     const response = yield call(getSubSectionData, action.payload);
-    console.log('type',action.payload.type)
     if (response.status === 200) {
       switch (action.payload.type) {
         case "DIET":
@@ -174,7 +173,6 @@ function* fetchDropdownDataSaga(action) {
           yield put(kitchenStationSuccess(response.data));
           break;
         case 'INGREDIENTS':
-          console.log('from sagas:',response)
           yield put(ingredientsSuccess(response));
           break;
         case 'ALLERGENS':
@@ -459,7 +457,6 @@ function* retryImage(action) {
 function* updateMenuItemSaga(action) {
   try {
     const response = yield call(updateMenuItem, action.payload);
-    console.log({response})
     if (response.status === 200) {
       showSuccessToast(response.data.message)
       yield put(updateMenuItemSuccess(response.data));
@@ -558,11 +555,6 @@ function* addMockDataHiddenSaga(action) {
     const { hidePayload, location } = action.payload;  
 
     const response = yield call(hideMockData, hidePayload); 
-
-    console.log("Location", location);  
-    console.log("hide res", response.status);
-    console.log("hide res", response.data);
-
     if (response.status === 200) {
       showSuccessToast('Item Added Successfully');
       yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: response.data.message });

@@ -34,9 +34,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
   );
-  
-  console.log({ItemsPrimaryDetails})
-  
+    
   const handleSearchingImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchImage(e.target.value);
   };
@@ -65,10 +63,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
       (imageItem) => imageItem.id !== image.id
     );
     setSelectedImages(updataedImagelist);
-    const selectedIds = updataedImagelist.map((img) => ({
-      id: img.id,
-      name: img.name,
-    }));
+    const selectedIds = updataedImagelist.map((img) => img?.id);
     setValue(name, selectedIds);
   };
 

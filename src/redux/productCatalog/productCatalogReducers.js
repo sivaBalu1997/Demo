@@ -411,7 +411,6 @@ export default function productCatalogReducer(
         draft.ingredientsSuccess = false;
         break;
       case INGREDIENT_SUCESS:
-        console.log('From reducer', action.payload)
         draft.ingredients = action.payload;
         draft.ingredientsLoading = false;
         draft.ingredientsSuccess = true;

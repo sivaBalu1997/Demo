@@ -523,8 +523,6 @@ const PrimaryPage = () => {
   const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
   const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
 
-  console.log({ingredientsdata})
-
   useEffect(()=>{
     if (ItemsPrimaryDetails?.popularItem) {
       setPopularItem(popularItem + 1);
@@ -619,6 +617,11 @@ const PrimaryPage = () => {
   // console.log("restaurantDetails",restaurantDetails?.containsAlcohol);
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
+
+  useEffect(()=>{
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
+  },[])
 
   return (
     <div style={{ display: "flex" }}>
@@ -1052,7 +1055,7 @@ const PrimaryPage = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div className="tool-tip-Allergen">
                   <TooltipMsg
                     message="Provide information about any allergens present in this food item"

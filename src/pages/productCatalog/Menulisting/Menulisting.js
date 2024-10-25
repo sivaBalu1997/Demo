@@ -182,11 +182,6 @@ export const Menulisting = () => {
 
   const locationid = useSelector((state) => state.auth.credentials?.locationId);
 
-  useEffect(()=>{
-    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
-    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
-  },[])
-
   const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess )
 
   const handleColumnwiseDragOver = (index) => {
@@ -317,9 +312,7 @@ export const Menulisting = () => {
     );
 
       if (filteredItem) {
-        setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })
-        console.log("categoryDataside",categoryData);
-        
+        setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })        
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
         );
