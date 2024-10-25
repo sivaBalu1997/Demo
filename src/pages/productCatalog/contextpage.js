@@ -62,7 +62,7 @@ export const Contextpage = ({ children }) => {
         ]
       }
     )
-
+ let selectedDateOption="";
 
   return (
     <Contextpagejs.Provider value={{ 
@@ -81,7 +81,8 @@ export const Contextpage = ({ children }) => {
       patchedData,
       setPatchedData,
       setApiPayload,
-      ApiPayload
+      ApiPayload,
+      selectedDateOption
     }}>
       {children}
     </Contextpagejs.Provider>

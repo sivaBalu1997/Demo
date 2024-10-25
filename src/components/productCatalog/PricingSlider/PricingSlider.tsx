@@ -97,7 +97,7 @@ const PricingSlider: any = ({  }) => {
     }
   }, [data, inputs, setPatchedData]);
 
-  console.log("ccc",data)
+  
   
 
 

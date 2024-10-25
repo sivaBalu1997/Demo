@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './BasicChanges.scss';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import Basic from '../../../assets/images/Basic.png';
 import { useDispatch, useSelector } from 'react-redux';
 import AvailCalender from '../AvailCalender/AvailCalender';
 import AvailabilityChangesUntil from './AvailableChangesUntil';
-import { removeDataRequest } from 'redux/productCatalog/productCatalogActions';
+import { partialUpdateMenuRequest, removeDataRequest } from 'redux/productCatalog/productCatalogActions';
+import { Contextpagejs } from 'pages/productCatalog/contextpage';
 
 interface BasiChangesProps {
   onclose: any;
 }
 
 const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
-  const [showAvailCalender, setShowAvailCalender] = useState(false);
+
   const[showModalAvailable,setShowModalAvailable]=useState(false)
+  const { patchedData, setPatchedData } = useContext(Contextpagejs);
+  const partaldatasending= useSelector((state : any) => state.productCatalog.partialDataSendingLoading)
+ 
+  
 
   const dispatch = useDispatch()
 
@@ -22,8 +27,10 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
     onclose();
   };
 
-  const handleAvailCalender = () => {
+  const handledispatchforpartilChange= () => {
     setShowModalAvailable(true)
+    dispatch(partialUpdateMenuRequest(patchedData));
+    console.log("partaldatasending",partaldatasending);
   };
 
   return (
@@ -39,12 +46,12 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
           <button className="CancelBtn" onClick={handleChangeButton}>
             Cancel
           </button>
-          <button className="ChangeBtn" onClick={handleAvailCalender}>
+          <button className="ChangeBtn" onClick={handledispatchforpartilChange}>
             Change
           </button>
         </div>
       </div>
-      {showModalAvailable && <AvailabilityChangesUntil onclose={onclose} setShowModalAvailable={setShowModalAvailable}/>}
+      {/* {showModalAvailable && <AvailabilityChangesUntil  />} */}
     </>
   );
 };
