@@ -3,6 +3,8 @@ import { useSelector } from "react-redux"; // Access Redux for initial data
 import "./AvailabilitySlider.scss";
 import ToggleSliderAvail from "../ToggleSliderAvail/ToggleSliderAvail";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import AvailabilityChangesUntil from '../BasicChanges/AvailableChangesUntil';
+
 
 interface SideBarData {
   id: number;
@@ -33,7 +35,9 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const dataFromRedux = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
-  const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+  const {  patchedData,setPatchedData,selectedDateOption } = useContext(Contextpagejs);
+
+  const [selectPeriod,setSelectPeriod]=useState(false);
 
   const subcategories = Array.isArray(dataFromRedux[0]?.orderTypes)
     ? dataFromRedux[0].orderTypes.map((elem: any) => ({
@@ -54,7 +58,9 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
           types: Array.isArray(dataFromRedux[0]?.orderTypes)
             ? dataFromRedux[0].orderTypes.map((elem: any) => ({
               name:elem.typeName,
-              isEnabled:elem.availabilityEnabled
+              isEnabled:elem.availabilityEnabled,
+              orderTypeId:elem.typeId
+              
 
             }))
             : [],
@@ -66,6 +72,23 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       ],
     },
   ];
+
+  // const filteredData = data
+  // .flatMap((category) => 
+  //   category.subcategories 
+  //     ? category.subcategories.flatMap((subcat) =>
+  //         subcat.types.filter((type: any) => type.isEnabled === true)
+  //       )
+  //     : []
+  // )
+  // .map((type) => ({
+  //   name: type.name,
+  //   orderTypeId: type.orderTypeId,
+  //   isEnabled: type.isEnabled,
+  // }));
+  
+
+
 
   const getEnabledValues = () => {
     let enabledArray: boolean[] = [];
@@ -86,6 +109,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   
   
   const enabledValuesArray = getEnabledValues();
+  // console.log(enabledValuesArray);
+
   
   const [toggleStates, setToggleStates] = useState<any[]>([]);
 
@@ -103,13 +128,17 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         itemAvailabilityInfo: Array.isArray(dataFromRedux[0]?.orderTypes)
           ? dataFromRedux[0].orderTypes.map((elem: any, index: number) => ({
             orderTypeId: elem.typeId, 
+            unAvailableUntilTime:selectedDateOption
 
           
             }))
           : [],
       }));
     }
-  }, [dataFromRedux, setPatchedData]);
+  }, [dataFromRedux, setPatchedData,selectedDateOption]);
+
+ 
+  
 
   useEffect(() => {
     const initialToggleStates = data.map((item, index) => {
@@ -189,7 +218,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     parentIndex: number,
     subcategoryIndex: number
   ) => {
-    alert("hi");
+  
     const newToggleStates = [...toggleStates];
     const subcategoryToggle =
       newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex]
@@ -259,7 +288,23 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     }
 
     setToggleStates(newToggleStates);
+
+    
   };
+
+  const [selectedtypeid,setSelectedtypeid]=useState<string>();
+
+
+  const handleselectchangePeriod=(id:string)=>{
+    setSelectPeriod(true);
+    setSelectedtypeid(id)
+
+    
+  }
+ 
+
+
+  
 
   return (
     <div className="AvailSlider-Container">
@@ -314,9 +359,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                           <h4 className="SectionASectionBSectionHeading" style={{opacity:enabledValuesArray[typeIndex]?"100%":"50%"}} >
                             {type.name} 
                           </h4>
-                   
-
-                          <ToggleSliderAvail
+                   <div className="" onClick={()=>handleselectchangePeriod(type?.orderTypeId)}>
+                   <ToggleSliderAvail
                             toggle={
                               toggleStates[index]?.subcategoryToggles?.[
                                 subIndex
@@ -333,6 +377,9 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                             }
                             pen={pen}
                           />
+                   </div>
+
+                         
                               
                         </div>
                       </>
@@ -343,8 +390,10 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                 ))}
               </div>
             )}
+
           </div>
         ))}
+        {selectPeriod && <AvailabilityChangesUntil setSelectPeriod={setSelectPeriod} selectedtypeid={selectedtypeid} />}
       </div>
     </div>
   );
