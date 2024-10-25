@@ -92,7 +92,7 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
 
   return (
     <div className="imagesselected">
-      <div>
+      <div >
         {name === "Ingredients" && (
           <div className="images1">
             {imagefromapi.map((image) => (

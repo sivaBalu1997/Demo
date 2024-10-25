@@ -447,9 +447,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.kitchenStation
   );
 
-  const addMenuLoading = useSelector(
-    (state: any) => state.productCatalog?.addMenuLoading
-  );
+  const addMenuLoading = useSelector((state : any) => state.productCatalog?.addMenuLoading)
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
     primarydata?.dietaryType?.includes(dietary.name)
@@ -499,24 +497,20 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-  const ingredientsdata = useSelector(
-    (state: any) => state.productCatalog?.ingredients?.data
-  );
-  const allergensData = useSelector(
-    (state: any) => state.productCatalog?.allergens?.data
-  );
+  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
+  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
 
-  const editDetails = editData[0]?.orderTypes;
-  const removePricing = [];
-  const addPricing = [];
-
+  const editDetails = editData[0]?.orderTypes
+  const removePricing = []
+  const addPricing = []
+  
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
     pickupDetails && pickupDetails,
     deliveryDetails && deliveryDetails,
     ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
   ].filter(Boolean);
-
+  
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
@@ -609,8 +603,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // isSingleMenu: false,
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
-    latestOrderTypesDTOWithRespectToAvailability:
-      editData[0]?.combinedDetails || null,
+    latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
     specialItem: null,
   };
 
