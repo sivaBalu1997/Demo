@@ -470,6 +470,7 @@ console.log("filter edit ",filteredCategory?.categoryName
   );
 
   const addMenuLoading = useSelector((state : any) => state.productCatalog?.addMenuLoading)
+  //////////////
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
     primarydata?.dietaryType?.includes(dietary.name)
@@ -520,19 +521,20 @@ console.log("filter edit ",filteredCategory?.categoryName
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
-  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
-
   const editDetails = editData[0]?.orderTypes
   const removePricing = []
   const addPricing = []
   
+
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails, 
     pickupDetails && pickupDetails,  
     deliveryDetails && deliveryDetails, 
     ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : [])
   ].filter(Boolean);
+
+console.log("combinedDetails",combinedDetails);
+
   
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
@@ -578,15 +580,20 @@ console.log("filter edit ",filteredCategory?.categoryName
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
   const updateModifierId = useSelector((state: any) => state.productCatalog.updateModifierId)
 
+  console.log({deletedId},{updateModifierId})
+
   const [combinedData, setCombinedData] = useState<string[]>([]);
 
   useEffect(() => {
     const mergedData = [...updateModifierId, ...deletedId];
     setCombinedData(mergedData);
   },[deletedId, updateModifierId]);
-  
-  const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)  
 
+  console.log({editData});
+  
+  const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)
+  console.log("editPrevData",filteredCategory?.categoryId===matchedCategory);
+  
   const editPayload = {
     itemId: editData[0]?.itemId,
     locationId: locationid,
@@ -619,8 +626,10 @@ console.log("filter edit ",filteredCategory?.categoryName
     // isSingleMenu: false,                                                    
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
-    latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
-    specialItem: null,
+    latestOrderTypesDTOWithRespectToAvailability:
+      editData[0]?.combinedDetails || null,
+
+      
   };
  
 
@@ -700,9 +709,9 @@ console.log("filter edit ",filteredCategory?.categoryName
 
   useEffect(()=>{
     if(buttonClicked){
-      dispatch(removeDataRequest())
-      // dispatch(removeDataRequest(prizingDetail))
-      // dispatch(removeDataRequest(itemCustomizationData))
+      dispatch(removeDataRequest(primarydata))
+      dispatch(removeDataRequest(prizingDetail))
+      dispatch(removeDataRequest(itemCustomizationData))
       history.push('/menuListing')
     } 
   },[addMenuSuccess])

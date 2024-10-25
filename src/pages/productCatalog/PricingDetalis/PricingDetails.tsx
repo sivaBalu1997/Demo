@@ -770,6 +770,8 @@ let  kitchenStationName;
     (state: any) => state.primarypage?.data
   );
 
+  console.log({ItemsPrimaryDetails})
+
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />

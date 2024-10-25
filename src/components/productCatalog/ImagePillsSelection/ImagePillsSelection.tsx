@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ImagePillsSelection.scss";
 import deleteIcon from "../../../assets/images/delete copy.png";
 import Searchicon from "../../../assets/images/searchicon.png";
-import { useSelector } from "react-redux";
 
 interface ImageOptions {
   name: string;
@@ -10,6 +9,7 @@ interface ImageOptions {
   imageId?: string;
   imageType?: string;
 }
+
 interface Imageselection {
   heading: string;
   options: ImageOptions[];
@@ -29,17 +29,12 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
 }) => {
   const [searchImage, setSearchImage] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
-  const initialSelectionSet = useRef(false);
 
-  const ItemsPrimaryDetails = useSelector(
-    (state: any) => state.primarypage?.data
-  );
-    
   const handleSearchingImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchImage(e.target.value);
   };
 
-  const filteredimages = options?.filter((option) =>
+  const filteredimages = options.filter((option) =>
     option.name.toLowerCase().includes(searchImage.toLowerCase())
   );
 
@@ -47,47 +42,43 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
     const isSelected = selectedImages.some(
       (selected) => selected.id === image.id
     );
-  
+
     if (!isSelected) {
       const newSelectedImages = [...selectedImages, image];
       setSelectedImages(newSelectedImages);
-  
-      const selectedIds = newSelectedImages.map((img) => img.id);
+      const selectedIds = newSelectedImages.map((img) => ({
+        id: img.id,
+        name: img.name,
+      }));
       setValue(name, selectedIds);
     }
   };
-  
 
+
+  
   const handleDeletingImage = (image: ImageOptions) => {
     const updataedImagelist = selectedImages.filter(
       (imageItem) => imageItem.id !== image.id
     );
     setSelectedImages(updataedImagelist);
-    const selectedIds = updataedImagelist.map((img) => img?.id);
+    const selectedIds = updataedImagelist.map((img) => ({
+      id: img.id,
+      name: img.name,
+    }));
     setValue(name, selectedIds);
   };
 
   const clearSelection = () => {
-    setSelectedImages([]); 
+    setSelectedImages([]); // Clear local selection
   };
 
   useEffect(() => {
     if (resetSelection ) {
-      resetSelection.current = clearSelection; 
+      resetSelection.current = clearSelection; // Assign the function to the ref
     }
+
+   
   }, [resetSelection]);
-
-  useEffect(() => {
-    if (ItemsPrimaryDetails && ItemsPrimaryDetails[name as any] && !initialSelectionSet.current ) {
-      const preselectedImages = options?.filter((option) => ItemsPrimaryDetails[name as any].includes(option.id));
-      const combinedSelectedImages = [...selectedImages, ...(preselectedImages && preselectedImages)];
-      setSelectedImages(combinedSelectedImages);
-      const selectedIds = combinedSelectedImages.map((img) => img.id);
-      setValue(name, selectedIds);
-      initialSelectionSet.current = true; 
-    }
-  }, [ItemsPrimaryDetails, name, options, setValue]);
-
 
   return (
     <div className="Item-Selection">
@@ -134,8 +125,8 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
         </div>
         <div>
           <ul className="AllergensImage">
-            {filteredimages?.length > 0 ? (
-              filteredimages?.map((option) => (
+            {filteredimages.length > 0 ? (
+              filteredimages.map((option) => (
                 <li
                   key={option.id}
                   onClick={() => handleSelectedImage(option)}

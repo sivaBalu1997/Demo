@@ -55,10 +55,6 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
   imageselected,
   name,
 }) => {
-
-  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
-  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
-
   const [imagefromapi, setImageFromApi] = useState<ImageItem[]>([]);
   const [alleregenimgelist, setaalleregenimgelist] =
     useState<alleregenimagelist[]>(imageslist);
@@ -73,7 +69,7 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
 
   useEffect(() => {
     getApi();
-    setImageFromApi(ingredientsdata);
+    setImageFromApi(ingredients);
   }, []);
 
   const getApi = () => {
@@ -82,7 +78,7 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
 
   const foundItemsIngredient =
     imageselected?.Ingredients &&
-    imagefromapi?.filter((item) =>
+    imagefromapi.filter((item) =>
       imageselected?.Ingredients?.some((selected) => selected.id === item.id)
     );
 
@@ -94,7 +90,7 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
 
   return (
     <div className="imagesselected">
-      <div >
+      <div>
         {name === "Ingredients" && (
           <div className="images1">
             {foundItemsIngredient &&

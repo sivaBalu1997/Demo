@@ -24,7 +24,6 @@ import noResultsfound from "../../../assets/images/NoResultsFound.png"
 
 import {
   PricingDetailRequest,
-  fetchDropDownRequest,
   getMenuRequest,
   itemCustomizationPost,
   primarypost,
@@ -144,6 +143,8 @@ export const Menulisting = () => {
     },
   ]);
 
+ 
+
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
   };
@@ -179,8 +180,6 @@ export const Menulisting = () => {
   useEffect(()=>{
     dispatch(removeDataRequest())
   },[])
-
-  const locationid = useSelector((state) => state.auth.credentials?.locationId);
 
   const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess )
 
@@ -312,7 +311,9 @@ export const Menulisting = () => {
     );
 
       if (filteredItem) {
-        setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })        
+        setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })
+        console.log("categoryDataside",categoryData);
+        
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
         );

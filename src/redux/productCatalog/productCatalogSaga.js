@@ -1,4 +1,4 @@
-import { put, call, takeLatest, take, takeEvery } from "redux-saga/effects";
+import { put, call, takeLatest, take } from "redux-saga/effects";
 import {
   getMenuCategoryRequest,
   getMenuCategorySuccess,
@@ -60,9 +60,6 @@ import {
   retryimageUploadSuccess,
   retryimageUploadFailure,
   storeUploadSuccess,
-  ingredientsFailure,
-  allergensSuccess,
-  ingredientsSuccess,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -152,7 +149,8 @@ function* fetchDropdownDataSaga(action) {
   try {
     // Pass the entire action.payload to getSubSectionData
     const response = yield call(getSubSectionData, action.payload);
-    if (response.status === 200) {
+
+    if (response) {
       switch (action.payload.type) {
         case "DIET":
           yield put(dietdatasuccess(response));
@@ -171,13 +169,6 @@ function* fetchDropdownDataSaga(action) {
           break;
         case "KITCHEN_STATION":
           yield put(kitchenStationSuccess(response.data));
-          break;
-        case 'INGREDIENTS':
-          yield put(ingredientsSuccess(response));
-          break;
-        case 'ALLERGENS':
-          yield put(allergensSuccess(response));
-          break;
         default:
           throw new Error("Invalid type");
       }
@@ -457,6 +448,7 @@ function* retryImage(action) {
 function* updateMenuItemSaga(action) {
   try {
     const response = yield call(updateMenuItem, action.payload);
+    console.log({response})
     if (response.status === 200) {
       showSuccessToast(response.data.message)
       yield put(updateMenuItemSuccess(response.data));
@@ -552,9 +544,14 @@ function* partialUpdateMenuSaga(action) {
 
 function* addMockDataHiddenSaga(action) {
   try {
-    const { hidePayload, location } = action.payload;  
+    const { hidePayload, location } = action.payload;  // Destructure the payload object
 
-    const response = yield call(hideMockData, hidePayload); 
+    const response = yield call(hideMockData, hidePayload); // Pass hidePayload (data1) to the API call
+
+    console.log("Location", location);  // Log location if needed
+    console.log("hide res", response.status);
+    console.log("hide res", response.data);
+
     if (response.status === 200) {
       showSuccessToast('Item Added Successfully');
       yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: response.data.message });
@@ -573,7 +570,7 @@ export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(STORE_MENU_REQUEST, fetchMenuDataSaga);
 
-  yield takeEvery(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
+  yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
   yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga);
   yield takeLatest(ADDDROPDOWN_REQUEST, addSubsection);
 

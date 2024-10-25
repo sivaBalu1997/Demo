@@ -150,7 +150,7 @@
       // padding: 0.5rem;
       .dropdown-addnew-input-and-button {
         display: flex;
-        width: 92%;
+        width: 100%;
         height: 2rem;
         border: 1px solid #779749;
         border-radius: 0px 4px 4px 0px;
@@ -174,7 +174,6 @@
           color: #ffffff;
 
           border-radius: 0px 4px 4px 0px;
-          cursor: pointer;
         }
       }
     }
@@ -212,7 +211,6 @@
         background: #779749;
         outline: none;
         border: 1px solid #779749;
-        cursor: pointer;
       }
     }
   }

@@ -140,12 +140,6 @@ import {
   UPDATE_MODIFIER_REQUEST,
   SELECTED_CATEGORY_DATA_REQUEST,
   RESET_SUCCESS_MESSAGE,
-  ALLERGENS_REQUEST,
-  ALLERGENS_SUCCESS,
-  ALLERGENS_FAILURE,
-  INGREDIENTS_REQUEST,
-  INGREDIENT_SUCESS,
-  INGREDIENT_FAILURE,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -555,39 +549,6 @@ export const subCategoryDataFailure = (error) => ({
   payload: error,
 });
 
-//allergens
-export const allergensRequeest = (data) => ({
-  type: ALLERGENS_REQUEST,
-  payload: data
-});
-
-export const allergensSuccess = (response) => ({
-  type: ALLERGENS_SUCCESS,
-  payload: response
-});
-
-export const allergensFailure = (error) => ({
-  type: ALLERGENS_FAILURE,
-  payload: error
-})
-
-//Ingredients
-export const ingredientsRequest = (data) => ({
-  type: INGREDIENTS_REQUEST,
-  payload: data
-});
-
-export const ingredientsSuccess = (response) => ({
-  type: INGREDIENT_SUCESS,
-  payload: response
-})
-
-export const ingredientsFailure = (error) => ({
-  type: INGREDIENT_FAILURE,
-  payload: error
-})
-
-//FetchDropDown
 export const fetchDropDownRequest = (data) => ({
   type: FETCHDROPDOWN_REQUEST,
   payload: data,

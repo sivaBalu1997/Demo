@@ -1,9 +1,9 @@
-.MLSearch-Container {
+.Search-Container {
   display: flex;
   flex-direction: column;
 }
 
-.MLHeader-Search {
+.Header-Search {
   width: 606.57px;
   height: 44px;
   font-size: 14px;
@@ -15,7 +15,7 @@
   padding-left: 20px;
 }
 
-.MLHeader-Search1 {
+.Header-Search1 {
   width: 580.57px;
   height: 44px;
   font-size: 14px;
@@ -28,7 +28,7 @@
   padding-left: 20px;
 }
 
-.MLSerchIcon-Header {
+.SerchIcon-Header {
   width: 24px;
   height: 21px;
   position: relative;
@@ -37,7 +37,7 @@
   cursor: pointer;
 }
 
-.MLSerchIcon-Header1 {
+.SerchIcon-Header1 {
   width: 24px;
   height: 21px;
   position: absolute;
@@ -62,7 +62,7 @@
   padding-bottom: 10px;
 }
 
-.MLSearch-Container-options1 {
+.Search-Container-options1 {
   width: 580px;
   background-color: #ffffff;
   max-height: 50vh; 
@@ -78,21 +78,18 @@
 }
 
 
-.MLSearch-Container-options-menu ul {
+.Search-Container-options-menu ul {
   list-style: none;
+  // cursor: pointer;
   cursor: pointer;
-  background-color: white;
-  height: 500px;
-  overflow: auto;
 }
-
-.MLSearch-Container-options1 ul {
+.Search-Container-options1 ul {
   list-style: none;
   cursor: pointer;
   // cursor: pointer;
 }
 
-.MLSearch-Container-options-items {
+.Search-Container-options-items {
   width: 506.57px;
   font-family: Poppins;
   font-weight: 400;
@@ -101,7 +98,7 @@
   color: #000000;
   margin-left: 25 px;
   margin-top: 10px;
-  height: 16px;
+  height: 54px;
   margin-bottom: 10px;
   margin-left: 20px;
   padding-bottom: 30px;
@@ -109,7 +106,7 @@
   z-index: 2;
 }
 
-.MLSearch-Container-options1-items {
+.Search-Container-options1-items {
   width: 450px;
   font-family: Poppins;
   font-weight: 400;
@@ -126,53 +123,52 @@
   z-index: 2;
 }
 
-.MLSearch-Container-options ul li:hover {
-  // width: 550px;
+.Search-Container-options ul li:hover {
+  width: 550px;
   background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  border-top-left-radius: 0; 
+  border-top-left-radius: 0; /* Keeps the top-left corner square */
   border-bottom-left-radius: 0;
-  // height: 54px;
+  height: 54px;
   margin-bottom: 10px;
   margin-top: 10px;
 }
 
-.MLSearch-Container-options1 ul li:hover {
-  // width: 500px;
+.Search-Container-options1 ul li:hover {
+  width: 500px;
   background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  border-top-left-radius: 0; 
+  border-top-left-radius: 0; /* Keeps the top-left corner square */
   border-bottom-left-radius: 0;
-  // height: 54px;
-  // margin-bottom: 10px;
-  // margin-top: 10px;
+  height: 54px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.Search-Container-options1 .highlighted {
+  width: 449px;
+  background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border-top-left-radius: 0; /* Keeps the top-left corner square */
+  border-bottom-left-radius: 0;
+  height: 45px;
 }
 
-.MLSearch-Container-options1 .highlighted {
-  // width: 449px;
+.highlighted {
+  width: 550px;
   background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  border-top-left-radius: 0; 
+  border-top-left-radius: 0; /* Keeps the top-left corner square */
   border-bottom-left-radius: 0;
-  // height: 45px;
-}
-
-.MLhighlighted {
-  width: 35rem;
-  background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
-  border-top-left-radius: 0; 
-  border-bottom-left-radius: 0;
-  // height: 45px;
+  height: 45px;
 }
 
 // {******************************Search Container None*******************************************}
 
-.MLSearch-Container-options-none {
+.Search-Container-options-none {
   width: 610px;
   height: 407px;
   background-color: #ffffff;
@@ -185,8 +181,7 @@
   right: 1.5vw;
   bottom: 16px;
 }
-
-.MLSearch-Container-options1-none {
+.Search-Container-options1-none {
   width: 580px;
   height: 407px;
   background-color: #ffffff;
@@ -199,18 +194,18 @@
   align-items: center;
   margin-top: -10px;
 }
-.MLSearch-Container-options-none-flex-direction {
+.Search-Container-options-none-flex-direction {
   display: flex;
   flex-direction: column;
 }
 
-.MLNotFoundImage {
+.NotFoundImage {
   width: 372px;
   height: 338.52px;
   transform: translateX(-10px);
 }
 
-.MLheading-none {
+.heading-none {
   color: #67833e;
   font-size: 22px;
   font-family: Poppins;
