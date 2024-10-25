@@ -110,6 +110,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
         itemobject?.itemResponseList?.length > 0 &&
         itemobject?.itemResponseList?.map((item) => (
           <>
+         
             <tr
               key={item.itemId}
               style={{ display: "flex" }}
