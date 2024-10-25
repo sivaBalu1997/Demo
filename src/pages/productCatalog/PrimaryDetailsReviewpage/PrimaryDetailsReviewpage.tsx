@@ -560,6 +560,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const [combinedData, setCombinedData] = useState<string[]>([]);
 
+  console.log({combinedData},{modifierData})
+
+
   useEffect(() => {
     const mergedData = [...updateModifierId, ...deletedId];
     setCombinedData(mergedData);
@@ -593,19 +596,22 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: false,
-    availabilityDaysAdd: stringNormalDays || null,
+    availabilityDaysToAdd: stringNormalDays || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
-    ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
+    ...(modifierData.length > 0 && { modifiersToAdd: modifierData || null }),
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
-    // isSingleMenu: false,
-    modifiersToRemove: combinedData,
+    isSingleMenu: false,
+    modifiersToRemove: combinedData?.filter(Boolean),
     availabilityDaysRemove: editData[0]?.availabilityDays,
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
     specialItem: null,
   };
+
+  console.log({editPayload})
+
 
   const handleDispatch = async () => {
     checkAllImagesForErrors();
@@ -642,7 +648,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       });
     }
     if (editData.length > 0 && editData[0]) {
-      dispatch(updateMenuItemRequest({ editPayload, locationid }));
+      dispatch(updateMenuItemRequest(editPayload));
     } else {
       dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
@@ -655,7 +661,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   useEffect(() => {
     if (subsectiondatamsg) {
       editData.length > 0 && editData[0]
-        ? dispatch(updateMenuItemRequest({ editPayload, locationid }))
+        ? dispatch(updateMenuItemRequest(editPayload))
         : dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
   }, [subsectiondatamsg]);
@@ -668,14 +674,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setButtonClicked(true);
       if (subsectiondatamsg) {
         if (editData.length > 0 && editData[0]) {
-          dispatch(updateMenuItemRequest({ editPayload, locationid }));
+          dispatch(updateMenuItemRequest( editPayload ));
         } else {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
       }
     } else {
       if (editData.length > 0 && editData[0]) {
-        dispatch(updateMenuItemRequest({ editPayload, locationid }));
+        dispatch(updateMenuItemRequest( editPayload ));
       } else {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
