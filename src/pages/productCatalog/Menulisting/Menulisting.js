@@ -659,9 +659,10 @@ export const Menulisting = () => {
                       } tabletwobody`}
                       ref={tableBodyRef2}
                     >
-                      { (
+                      {   (
                         <>
-                          {menuDataLoading ? (
+                         
+                          {   menuDataLoading ? (
                             <div className="Menu-noOptions">
                               <Loader 
                                 className="imgLoader2" 
@@ -677,7 +678,9 @@ export const Menulisting = () => {
                                 <h2 className="columnselectedText">No Results Found</h2>
                               </div>
                             ) : 
-                            menudatalist.map((itemobject, indexvalue) => {
+
+                            <>
+                             { allFalse?<div className="no-colunms"> No columns selected</div>: menudatalist.map((itemobject, indexvalue) => {
                               return (
                                 <React.Fragment key={indexvalue}>
                                   <tr>
@@ -699,7 +702,8 @@ export const Menulisting = () => {
                                   />
                                 </React.Fragment>
                               );
-                            })
+                            })}</>
+                           
                           )}
                         </>
                       )}
