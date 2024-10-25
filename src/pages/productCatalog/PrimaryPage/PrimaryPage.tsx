@@ -321,10 +321,13 @@ const PrimaryPage = () => {
         uploaded: img.uploaded || false,
         failed: img.failed || false,
         preview: img.preview,
-      }));
-      setImages(imageArray);
-      setValue("imageUrls", imageArray);
-      const updatedImageUrls = getValues("imageUrls");
+      }))
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages,...imageArray];
+        const updatedImageUrls = updatedImages.map((image) => image);
+        setValue("imageUrls", updatedImageUrls);
+        return updatedImages;
+      });
     }
   },[ItemsPrimaryDetails])
 
@@ -563,8 +566,6 @@ const PrimaryPage = () => {
   );
 
   const editData = useSelector((state:any) => state.productCatalog.editData)
-
-  console.log({editData})
   
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
@@ -703,8 +704,6 @@ const PrimaryPage = () => {
   //     setValue("masterCode", primarydata?.masterCode || null);
   //   }
   // },[primarydata])
-
-  console.log({ItemsPrimaryDetails})
 
   return (
     <div style={{ display: "flex" }}>
