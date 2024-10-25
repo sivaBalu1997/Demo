@@ -53,9 +53,9 @@ interface imageType {
   itemId: string;
 }
 
-interface calorieandportionsize{
-  type:string,
-  value:string
+interface calorieandportionsize {
+  type: string;
+  value: string;
 }
 interface PrimaryData {
   locationId: string;
@@ -219,8 +219,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
 
-  console.log({prizingDetail})
-
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
   );
@@ -232,9 +230,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: ImageId) => state.productCatalog.addMenuSuccessMessage
   );
 
-  const uploadImageLoading = useSelector((state: any) => state.productCatalog?.uploadImageLoading)
-  const selectedcategory = useSelector((state: any) => state.productCatalog?.selectedCategory)
-  
+  const uploadImageLoading = useSelector(
+    (state: any) => state.productCatalog?.uploadImageLoading
+  );
+  const selectedcategory = useSelector(
+    (state: any) => state.productCatalog?.selectedCategory
+  );
 
   // const [imageIdtosend, setimageIdtosend] = useState<string>("");
 
@@ -253,13 +254,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const UploadImageImageID = useSelector(
     (state: any) => state.productCatalog.successImageId
   );
-  
+
   const retrymsg = useSelector(
     (state: any) => state.productCatalog.retryFailure
   );
-  console.log("categoryData",primarypagedetails.primarypage.data);
-  console.log("categoryDatavalue",primarypagedetails.primarypage.data.category);
-
 
   const [failedImage, setfailedImage] = useState<imageType[]>();
 
@@ -304,7 +302,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       ? MAX_IMAGES - selectedImages.length - 1
       : MAX_IMAGES - selectedImages.length;
 
-  const [disableSubmit, setDisableSubmit] = useState<boolean>(true); 
+  const [disableSubmit, setDisableSubmit] = useState<boolean>(true);
 
   const hasImageError = (image: File): boolean => {
     return error.some(
@@ -406,8 +404,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.categoryData.data
   );
 
- 
-
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
@@ -419,57 +415,41 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
-  const menuData = useSelector((state:any) => state.productCatalog?.menuData);
+  const menuData = useSelector((state: any) => state.productCatalog?.menuData);
 
+  const menudata = [
+    {
+      categoryName: "Category 1",
+      categoryId: "1",
+      itemresponse: [{ itemId: "101" }, { itemId: "102" }],
+    },
+    {
+      categoryName: "Category 2",
+      categoryId: "2",
+      itemresponse: [{ itemId: "103" }, { itemId: "104" }],
+    },
+    {
+      categoryName: "Category 3",
+      categoryId: "3",
+      itemresponse: [{ itemId: "105" }, { itemId: "106" }],
+    },
+  ];
 
-console.log("revire menudat",editData);
+  const targetItemId = "104";
 
-
-const menudata = [
-  {
-    categoryName: "Category 1",
-    categoryId: "1",
-    itemresponse: [
-      { itemId: "101" },
-      { itemId: "102" }
-    ]
-  },
-  {
-    categoryName: "Category 2",
-    categoryId: "2",
-    itemresponse: [
-      { itemId: "103" },
-      { itemId: "104" }
-    ]
-  },
-  {
-    categoryName: "Category 3",
-    categoryId: "3",
-    itemresponse: [
-      { itemId: "105" },
-      { itemId: "106" }
-    ]
-  }
-];
-
-
-const targetItemId = "104";
-
-
-const filteredCategory = menuData.find((category:any) =>
-  category?.itemResponseList?.some((item:any) => item.itemId === editData[0]?.itemId)
-);
-
-console.log("filter edit ",filteredCategory?.categoryName
-);
-
-
+  const filteredCategory = menuData.find((category: any) =>
+    category?.itemResponseList?.some(
+      (item: any) => item.itemId === editData[0]?.itemId
+    )
+  );
 
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
 
-  const addMenuLoading = useSelector((state : any) => state.productCatalog?.addMenuLoading)
+  const addMenuLoading = useSelector(
+    (state: any) => state.productCatalog?.addMenuLoading
+  );
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
     primarydata?.dietaryType?.includes(dietary.name)
@@ -505,8 +485,7 @@ console.log("filter edit ",filteredCategory?.categoryName
   const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
- 
-  
+
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierName: item?.modifierName,
     maxCount: item?.maxSelection,
@@ -520,26 +499,29 @@ console.log("filter edit ",filteredCategory?.categoryName
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
-  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
+  const ingredientsdata = useSelector(
+    (state: any) => state.productCatalog?.ingredients?.data
+  );
+  const allergensData = useSelector(
+    (state: any) => state.productCatalog?.allergens?.data
+  );
 
-  const editDetails = editData[0]?.orderTypes
-  const removePricing = []
-  const addPricing = []
-  
+  const editDetails = editData[0]?.orderTypes;
+  const removePricing = [];
+  const addPricing = [];
+
   const combinedDetails: Detail[] = [
-    dineInDetails && dineInDetails, 
-    pickupDetails && pickupDetails,  
-    deliveryDetails && deliveryDetails, 
-    ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : [])
+    dineInDetails && dineInDetails,
+    pickupDetails && pickupDetails,
+    deliveryDetails && deliveryDetails,
+    ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
   ].filter(Boolean);
-  
+
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
     : [];
 
-    console.log({primarydata}, primarydata?.coloriePoint)
 
   const menuPayload = {
     locationId: locationid,
@@ -570,22 +552,28 @@ console.log("filter edit ",filteredCategory?.categoryName
     availabilityDays: stringNormalDays || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
-    ...(itemCustomizationData.length > 0 && { modifiers: modifierData || null }),
+    ...(itemCustomizationData.length > 0 && {
+      modifiers: modifierData || null,
+    }),
 
-    // isSingleMenu: false,  
+    // isSingleMenu: false,
   };
 
-  const deletedId = useSelector((state: any) => state.productCatalog.deletedId)
-  const updateModifierId = useSelector((state: any) => state.productCatalog.updateModifierId)
+  const deletedId = useSelector((state: any) => state.productCatalog.deletedId);
+  const updateModifierId = useSelector(
+    (state: any) => state.productCatalog.updateModifierId
+  );
 
   const [combinedData, setCombinedData] = useState<string[]>([]);
 
   useEffect(() => {
     const mergedData = [...updateModifierId, ...deletedId];
     setCombinedData(mergedData);
-  },[deletedId, updateModifierId]);
-  
-  const editPrevData=useSelector((state: any) => state.productCatalog.updatedPayload)  
+  }, [deletedId, updateModifierId]);
+
+  const editPrevData = useSelector(
+    (state: any) => state.productCatalog.updatedPayload
+  );
 
   const editPayload = {
     itemId: editData[0]?.itemId,
@@ -615,14 +603,16 @@ console.log("filter edit ",filteredCategory?.categoryName
     orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
 
     ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
-    isCategoryUpdated: filteredCategory?.categoryName!==primarypagedetails.primarypage.data.category,                                          
-    // isSingleMenu: false,                                                    
+    isCategoryUpdated:
+      filteredCategory?.categoryName !==
+      primarypagedetails.primarypage.data.category,
+    // isSingleMenu: false,
     modifiersToRemove: combinedData,
     availabilityDaysRemove: editData[0]?.availabilityDays,
-    latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
+    latestOrderTypesDTOWithRespectToAvailability:
+      editData[0]?.combinedDetails || null,
     specialItem: null,
   };
- 
 
   const handleDispatch = async () => {
     checkAllImagesForErrors();
@@ -665,22 +655,25 @@ console.log("filter edit ",filteredCategory?.categoryName
     }
   };
 
-  const addMenuSuccess = useSelector((state : any) => state.productCatalog.addMenuSuccess)
+  const addMenuSuccess = useSelector(
+    (state: any) => state.productCatalog.addMenuSuccess
+  );
 
   useEffect(() => {
     if (subsectiondatamsg) {
-      editData.length > 0 && editData[0] ?dispatch(updateMenuItemRequest({ editPayload, locationid })) : dispatch(addMenuItemRequest({ menuPayload, locationid }));
+      editData.length > 0 && editData[0]
+        ? dispatch(updateMenuItemRequest({ editPayload, locationid }))
+        : dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
   }, [subsectiondatamsg]);
 
-  const [buttonClicked, setButtonClicked] = useState(false)
+  const [buttonClicked, setButtonClicked] = useState(false);
 
-  const handleSubmitItemDetails = () => {    
+  const handleSubmitItemDetails = () => {
     if (Wholedata?.imageUrls?.length > 0) {
-      dispatch(startImageUpload(primarydata?.imageUrls)); 
-      setButtonClicked(true)
+      dispatch(startImageUpload(primarydata?.imageUrls));
+      setButtonClicked(true);
       if (subsectiondatamsg) {
-
         if (editData.length > 0 && editData[0]) {
           dispatch(updateMenuItemRequest({ editPayload, locationid }));
         } else {
@@ -694,18 +687,18 @@ console.log("filter edit ",filteredCategory?.categoryName
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
       // dispatch(addMenuItemRequest({ menuPayload, locationid }));
-      setButtonClicked(true)
+      setButtonClicked(true);
     }
   };
 
-  useEffect(()=>{
-    if(buttonClicked){
-      dispatch(removeDataRequest())
+  useEffect(() => {
+    if (buttonClicked) {
+      dispatch(removeDataRequest());
       // dispatch(removeDataRequest(prizingDetail))
       // dispatch(removeDataRequest(itemCustomizationData))
-      history.push('/menuListing')
-    } 
-  },[addMenuSuccess])
+      history.push("/menuListing");
+    }
+  }, [addMenuSuccess]);
 
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
@@ -795,7 +788,7 @@ console.log("filter edit ",filteredCategory?.categoryName
                           }
                         />
                       </div>
-                      
+
                       <div>
                         <ReviewValues
                           label="Portion Size"
@@ -982,19 +975,19 @@ console.log("filter edit ",filteredCategory?.categoryName
                                         type="file"
                                         name="imageUrls"
                                         className="imgfile"
-                                        id={`imgadd-${index + 1}`} 
+                                        id={`imgadd-${index + 1}`}
                                         accept="image/png, image/jpeg"
                                         onChange={(e) =>
                                           handleRetry(e, index + 1)
                                         }
-                                        style={{ display: "none" }} 
+                                        style={{ display: "none" }}
                                       />
 
                                       <span
                                         className="errromsg"
                                         onClick={() =>
                                           handleAddImage(index + 1)
-                                        } 
+                                        }
                                       >
                                         Retry
                                       </span>
@@ -1021,8 +1014,7 @@ console.log("filter edit ",filteredCategory?.categoryName
                               ))}
                           </div>
                         </ol>
-                        <ol>
-                        </ol>
+                        <ol></ol>
                       </div>
                     </div>
                   </div>
@@ -1051,12 +1043,12 @@ console.log("filter edit ",filteredCategory?.categoryName
 
                 <div className="allergensandingredients">
                   <div>
-                    {fetchedprimarydata?.Ingredients?.length > 0 && (
+                    {primarydata?.Ingredients?.length > 0 && (
                       <>
                         {" "}
                         <p className="ingredients">Ingredients</p>
                         <ImagePillsSelected
-                          imageselected={fetchedprimarydata}
+                          imageselected={primarydata}
                           name="Ingredients"
                         />
                       </>
@@ -1064,12 +1056,12 @@ console.log("filter edit ",filteredCategory?.categoryName
                   </div>
 
                   <div>
-                    {fetchedprimarydata?.allergens?.length > 0 && (
+                    {primarydata?.allergens?.length > 0 && (
                       <>
                         {" "}
                         <p className="allergen">Allergens</p>{" "}
                         <ImagePillsSelected
-                          imageselected={fetchedprimarydata}
+                          imageselected={primarydata}
                           name="allergens"
                         />
                       </>
@@ -1101,10 +1093,11 @@ console.log("filter edit ",filteredCategory?.categoryName
             onClick={handleSubmitItemDetails}
             disabled={addMenuLoading}
           >
-              {!addMenuLoading ? 
-                'Submit for review' :
-                <div className="reviewLoaders"></div> 
-              }
+            {!addMenuLoading ? (
+              "Submit for review"
+            ) : (
+              <div className="reviewLoaders"></div>
+            )}
           </button>
         </div>
       </div>
@@ -1112,4 +1105,4 @@ console.log("filter edit ",filteredCategory?.categoryName
   );
 };
 
-export default PrimaryDetailsReviewpage
+export default PrimaryDetailsReviewpage;

@@ -78,16 +78,20 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   }, [resetSelection]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails && ItemsPrimaryDetails[name as any] && !initialSelectionSet.current ) {
-      const preselectedImages = options?.filter((option) => ItemsPrimaryDetails[name as any].includes(option.id));
-      const combinedSelectedImages = [...selectedImages, ...(preselectedImages && preselectedImages)];
+    if (ItemsPrimaryDetails && ItemsPrimaryDetails[name as any] && !initialSelectionSet.current) {
+      const preselectedImages = options?.filter((option) =>
+        ItemsPrimaryDetails[name as any].includes(option.id)
+      ) || []; 
+  
+      const combinedSelectedImages = [...selectedImages, ...preselectedImages];
       setSelectedImages(combinedSelectedImages);
+      
       const selectedIds = combinedSelectedImages.map((img) => img.id);
       setValue(name, selectedIds);
-      initialSelectionSet.current = true; 
+      initialSelectionSet.current = true;
     }
   }, [ItemsPrimaryDetails, name, options, setValue]);
-
+  
 
   return (
     <div className="Item-Selection">
