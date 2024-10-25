@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom'
 import Menu120 from '../Menu120/Menu120'
 import Filter from '../Filter/Filter'
 import ArrowHover from '../../../assets/svg/ArrowHover.svg'
+import DatePicker from 'react-datepicker';
 
 const Header = () => {
   const{isExpanded}=useContext(Contextpagejs)
@@ -21,10 +22,14 @@ const Header = () => {
     setFilterSelected(!filterSelected)
   }
 
+ 
+  
+
   return (
     <div className={isExpanded ? 'Header-Container1' : "Header-Container"}>
       <div className='Header-Heading-Search-Filter-Container'>
         <Menu120/>
+      
         <SearchBox/>
         {/* <div className='Filter-Div'>
           <div className='Filter-FlexCol'>

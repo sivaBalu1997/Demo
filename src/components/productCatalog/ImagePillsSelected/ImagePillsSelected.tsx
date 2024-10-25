@@ -21,12 +21,14 @@ interface ImageItem {
   mimeType: string;
   base64String: string;
   name: string;
+  media?: any;
 }
 
 interface alleregenimagelist {
   id: string;
   name: string;
   image?: string | null;
+  media?:any;
 }
 
 interface FetchedPrimaryData {
@@ -55,69 +57,69 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
   imageselected,
   name,
 }) => {
+  const ingredientsdata = useSelector((state: any) => state.productCatalog?.ingredients?.data);
+  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data);
+
   const [imagefromapi, setImageFromApi] = useState<ImageItem[]>([]);
-  const [alleregenimgelist, setaalleregenimgelist] =
-    useState<alleregenimagelist[]>(imageslist);
+  const [alleregenimgelist, setAllergenImgList] = useState<alleregenimagelist[]>([]);
+
+  console.log({alleregenimgelist})
 
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
-  const ingredients = useSelector(
-    (state: StateDataTag) => state.productCatalog.ingredients
-  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getApi();
-    setImageFromApi(ingredients);
-  }, []);
+    if (!ingredientsdata.length) {
+      dispatch(getIngredientsRequest(locationid));
+    }
+  }, [dispatch, ingredientsdata.length, locationid]);
 
-  const getApi = () => {
-    dispatch(getIngredientsRequest(locationid));
-  };
+  useEffect(() => {
+    if (imageselected) {
+      const selectedIngredients = ingredientsdata.filter((ingredient: any) =>
+        imageselected.Ingredients?.includes(ingredient.id)
+      );
+      const selectedAllergens = allergensData.filter((allergen: any) =>
+        imageselected.allergens?.includes(allergen.id)
+      );
 
-  const foundItemsIngredient =
-    imageselected?.Ingredients &&
-    imagefromapi.filter((item) =>
-      imageselected?.Ingredients?.some((selected) => selected.id === item.id)
-    );
-
-  const foundItemsAllergens =
-    imageselected?.allergens &&
-    alleregenimgelist.filter((item) =>
-      imageselected?.allergens?.some((selected) => selected.id === item.id)
-    );
+      setImageFromApi(selectedIngredients);
+      setAllergenImgList(selectedAllergens);
+    }
+  }, [imageselected, ingredientsdata, allergensData]);
 
   return (
     <div className="imagesselected">
       <div>
         {name === "Ingredients" && (
           <div className="images1">
-            {foundItemsIngredient &&
-              foundItemsIngredient?.map((image) => (
-                <div className="selectedingredientsimage">
-                  <img src="" alt="" />
-                  <span>{image.name}</span>
-                </div>
-              ))}
+            {imagefromapi.map((image) => (
+              <div key={image?.id} className="selectedingredientsimage">
+                <img src={image?.media.url || ""}  />
+                <span>{image?.name}</span>
+              </div>
+            ))}
           </div>
         )}
       </div>
       <div>
         {name === "allergens" && (
           <div className="images2">
-            {foundItemsAllergens &&
-              foundItemsAllergens?.map((image) => (
-                <div className="selectedallergenimage">
-                  <img src="" alt="" />
-                  <span>{image.name}</span>
-                </div>
-              ))}
+            {alleregenimgelist.map((image) => (
+              <div key={image?.id} className="selectedallergenimage">
+                <img src={image?.media.url || ""}  />
+                {console.log('ajsndakdjnskdn',image?.name)}
+                <span>{image?.name}</span>
+              </div>
+            ))}
           </div>
         )}
       </div>
     </div>
   );
 };
+
 
 export default ImagePillsSelected;

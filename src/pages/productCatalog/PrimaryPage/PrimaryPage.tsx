@@ -321,10 +321,13 @@ const PrimaryPage = () => {
         uploaded: img.uploaded || false,
         failed: img.failed || false,
         preview: img.preview,
-      }));
-      setImages(imageArray);
-      setValue("imageUrls", imageArray);
-      const updatedImageUrls = getValues("imageUrls");
+      }))
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages,...imageArray];
+        const updatedImageUrls = updatedImages.map((image) => image);
+        setValue("imageUrls", updatedImageUrls);
+        return updatedImages;
+      });
     }
   },[ItemsPrimaryDetails])
 
@@ -451,58 +454,6 @@ const PrimaryPage = () => {
   };
   const [uploading, setUploading] = useState(false);
 
-  // const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = Array.from(event.target.files || []);
-  //   const validFiles = files.filter((file) => {
-  //     const validTypes = ["image/jpeg", "image/png"];
-  //     const maxSizeInBytes = 2 * 1024 * 1024;
-  //     if (!validTypes.includes(file.type)) {
-  //       alert(`Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
-  //       return false;
-  //     }
-
-  //     if (file.size > maxSizeInBytes) {
-  //       alert(`File too large: ${file.name}. Maximum size is 2MB.`);
-  //       return false;
-  //     }
-
-  //     return true;
-  //   });
-
-  //   if (validFiles.length + images.length > maxImages) {
-  //     alert(`You can only upload up to ${maxImages} images.`);
-  //     return;
-  //   }
-
-  //   const readFileAsDataURL = (file: File): Promise<Base64Image> => {
-  //     return new Promise((resolve, reject) => {
-  //       const reader = new FileReader();
-  //       reader.onloadend = () => {
-  //         const dataURL = reader.result as string;
-  //         const mimeType = dataURL.split(";")[0].split(":")[1];
-  //         const base64String = dataURL.split(",")[1];
-  //         resolve({ mimeType, base64String });
-  //       };
-  //       reader.onerror = reject;
-  //       reader.readAsDataURL(file);
-  //     });
-  //   };
-
-  //   Promise.all(validFiles.map(readFileAsDataURL))
-  //     .then((base64Images) => {
-  //       setImages((prevImages) => {
-  //         const updatedImages = [...prevImages, ...base64Images];
-  //         console.log("testing", setValue, typeof setValue);
-  //         return updatedImages;
-  //       });
-
-  //       setValue("imageUrls", base64Images);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error converting files to Base64", error);
-  //     });
-  // };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -541,13 +492,6 @@ const PrimaryPage = () => {
     }
   };
 
-  // const newarray = getValues("imageUrls");
-  // console.log("newarray", newarray);
-
-  useEffect(() => {
-    dispatch(getIngredientsRequest(locationid));
-    // dispatch(getMenuCategoryRequest(locationid));
-  }, []);
 
   useEffect(() => {
     setIngredientsFromAPi(ingredients);
@@ -563,8 +507,6 @@ const PrimaryPage = () => {
   );
 
   const editData = useSelector((state:any) => state.productCatalog.editData)
-
-  console.log({editData})
   
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
@@ -581,6 +523,8 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
+  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
+  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
 
   useEffect(()=>{
     if (ItemsPrimaryDetails?.popularItem) {
@@ -677,34 +621,10 @@ const PrimaryPage = () => {
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
-  const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  // useEffect(()=>{
-  //   if(primarydata){
-  //     setValue("itemName", primarydata?.itemName || null);
-  //     setValue("dietaryType", primarydata?.dietaryType || null);
-  //     setValue("cuisine", primarydata?.cuisine || null);
-  //     setValue("mealType", primarydata?.mealType || null);
-  //     setValue("bestPair", primarydata?.bestPair || null);
-  //     setValue("description", primarydata?.description || null);
-  //     setValue("imageUrls", primarydata?.imageUrls || null);
-  //     setValue("alcohol", primarydata?.alcohol || null);
-  //     setValue("itemCode", primarydata?.itemCode || null);
-  //     setValue("barCode", primarydata?.barCode || null);
-  //     setValue("category", primarydata?.category || null);
-  //     setValue("categoryId", primarydata?.categoryId || null);
-  //     setValue("subCategory", primarydata?.subCategory || null);
-  //     setValue("Ingredients", primarydata?.Ingredients || null);
-  //     setValue("allergens", primarydata?.allergens || null);
-  //     setValue("coloriePoint", primarydata?.coloriePoint || null);
-  //     setValue("selectedcolorie", primarydata?.selectedcolorie || null);
-  //     setValue("portionSize", primarydata?.portionSize || null);
-  //     setValue("selectedPortion", primarydata?.selectedPortion || null);
-  //     setValue("tax", primarydata?.tax || null);
-  //     setValue("masterCode", primarydata?.masterCode || null);
-  //   }
-  // },[primarydata])
-
-  console.log({ItemsPrimaryDetails})
+  useEffect(()=>{
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
+  },[])
 
   return (
     <div style={{ display: "flex" }}>
@@ -1130,7 +1050,7 @@ const PrimaryPage = () => {
                     {" "}
                     <Imagepillsselection
                       heading="Allergens*"
-                      options={validImages}
+                      options={allergensData}
                       setValue={setValue}
                       name="allergens"
                       register={register}
@@ -1138,6 +1058,7 @@ const PrimaryPage = () => {
                     />
                   </div>
                 </div>
+
                 <div className="tool-tip-Allergen">
                   <TooltipMsg
                     message="Provide information about any allergens present in this food item"
@@ -1175,7 +1096,7 @@ const PrimaryPage = () => {
               <div className="Primary-page-ingredients-selection">
                 <Imagepillsselection
                   heading="Ingredients*"
-                  options={ingredientsFromAPi}
+                  options={ingredientsdata}
                   setValue={setValue}
                   name="Ingredients"
                   register={register}

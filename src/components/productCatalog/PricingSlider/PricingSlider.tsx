@@ -89,13 +89,15 @@ const PricingSlider: any = ({  }) => {
         ...prevState,
         pricing: Array.isArray(data[0]?.orderTypes)
           ? data[0].orderTypes.map((elem: any, index: number) => ({
-              orderTypeId: elem.typeId, // Assign orderTypeId
-              price: String(inputs.Pickup1?.[index] || elem.price), // Assign price, fallback to elem.price
+              orderTypeId: elem.typeId, 
+              price: String(inputs.Pickup1?.[index] || elem.price), 
             }))
           : [],
       }));
     }
   }, [data, inputs, setPatchedData]);
+
+  
   
 
   return (
