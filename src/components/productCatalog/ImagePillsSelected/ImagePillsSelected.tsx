@@ -63,6 +63,8 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
   const [imagefromapi, setImageFromApi] = useState<ImageItem[]>([]);
   const [alleregenimgelist, setAllergenImgList] = useState<alleregenimagelist[]>([]);
 
+  console.log({alleregenimgelist})
+
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
@@ -94,9 +96,9 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
         {name === "Ingredients" && (
           <div className="images1">
             {imagefromapi.map((image) => (
-              <div key={image.id} className="selectedingredientsimage">
-                <img src={image?.media.url || ""} alt={image.name} />
-                <span>{image.name}</span>
+              <div key={image?.id} className="selectedingredientsimage">
+                <img src={image?.media.url || ""}  />
+                <span>{image?.name}</span>
               </div>
             ))}
           </div>
@@ -106,9 +108,10 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
         {name === "allergens" && (
           <div className="images2">
             {alleregenimgelist.map((image) => (
-              <div key={image.id} className="selectedallergenimage">
-                <img src={image?.media.url || ""} alt={image.name} />
-                <span>{image.name}</span>
+              <div key={image?.id} className="selectedallergenimage">
+                <img src={image?.media.url || ""}  />
+                {console.log('ajsndakdjnskdn',image?.name)}
+                <span>{image?.name}</span>
               </div>
             ))}
           </div>
