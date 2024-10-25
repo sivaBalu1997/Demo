@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Slider.scss";
 import Pen from "../../../assets/images/edit 1.png";
 import Eye from "../../../assets/images/eye-off.png";
-import Bin from "../../../assets/images/Frame 3466811.png";
+import Bin from "../../../assets/images/trash-2.png";
 import EyeModal from "../EyeModal/EyeModal";
 import Trash from "../Trash/Trash";
 import NavSlider from "../NavSlider/NavSlider";
@@ -11,6 +11,7 @@ import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addMockDataHiddenRequest,
+  resetSuccessMessage,
   selectedMockDataRequest,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -148,6 +149,7 @@ const Slider: React.FC<SliderProps> = ({
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
+    dispatch(resetSuccessMessage())
   }, [dispatch]);
 
   return (
@@ -179,7 +181,7 @@ const Slider: React.FC<SliderProps> = ({
               <img
                 src={Eye}
                 alt="View"
-                className="PenImage"
+                className="EyeImage"
                 onClick={handleEyeClick}
               />
 

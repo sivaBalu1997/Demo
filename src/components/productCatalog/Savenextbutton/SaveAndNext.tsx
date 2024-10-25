@@ -204,13 +204,15 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
+     console.log("formData",formData);
+     
      
       const isinValid = await triggerValidation(formData);
 
       if (formData.kitchenstation) {
         PricingDetails = {
           ...PricingDetails,
-          kitchenstation: formData.kitchenstation,
+          kitchenstation: formData?.kitchenstation,
         };
       } else {
         console.error("formData.kitchenstation is undefined");

@@ -26,8 +26,10 @@
     font-family: "Inter", sans-serif;
   }
   .BasicChangesImage{
-    width: 19px;
-  }
+    width: 23px;
+    height: 33px;
+    top: 6px;
+    position: relative;  }
   .BasicChangesDiv{
     margin-top: 10px;
     width: 420px;
@@ -86,6 +88,7 @@
     color: #5F5F5F;
     background-color:white;
     border: 1px solid #5F5F5F;
+    cursor: pointer;
   }
   .ChangeBtn{
     width: 138.83px;

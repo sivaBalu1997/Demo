@@ -239,6 +239,9 @@ const DropDownList: React.FC<DropdownProps> = ({
       const dropDown1 = dropDownName === undefined ? {name: prizingDetail?.kitchenstation, id:'1'} : dropDownName
       setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName]);
       setValue("kitchenstation", dropDownName === undefined ? dropDown1?.name :dropDownName?.name);
+      console.log("sdfgh",getValues("kitchenstation"));
+     
+      
     }
   }, [prizingDetail]);
 
@@ -482,8 +485,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
-
-  console.log({dropDownLoading})
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>

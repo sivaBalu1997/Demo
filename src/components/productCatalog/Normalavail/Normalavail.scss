@@ -125,6 +125,7 @@
   justify-content: flex-start;
   margin-top: 7px;
   gap: 1.8rem;
+  margin-bottom: 0.5rem;
   position: relative;
   .Dine-In-Price {
     display: flex;
@@ -282,8 +283,8 @@
 
 .AddentryNormal {
   position: relative;
-  // top: 2rem;
-  margin-bottom: 20px;
+  top: 0.5rem;
+  margin-bottom: 1rem;
   font-size: 0.875rem;
   font-weight: 400;
   color: #0085ff;
@@ -380,6 +381,10 @@
   display: flex;
   justify-content: flex start;
   gap: 2rem;
+ 
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+
  
 }
 .DeliveryRelatedNormalopen

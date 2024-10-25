@@ -173,8 +173,8 @@ const ItemCustomizations: React.FC = () => {
       const mappedModifications = itemCustomizationData.map((item: any) => ({
         id: item?.id || '',
         modifierName: item?.modifierName || "",
-        modifierOptions: item?.options
-          ? item.options.map((option: any) => ({
+        modifierOptions: item?.modifierOptions
+          ? item.modifierOptions.map((option: any) => ({
               modifierOptionName: option.modifierOptionName || "",
               cost: option.cost,
             }))

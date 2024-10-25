@@ -122,7 +122,8 @@ const uncheckedItems = data
   useEffect(() => {
     if (successMsg === "Menu item updated visibility successfully") {
       onEyeclose();
-      onclose();
+      onclose()
+     
     }
   }, [successMsg, onEyeclose, onclose]);
 

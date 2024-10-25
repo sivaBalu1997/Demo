@@ -1475,11 +1475,11 @@ const AddItem = (props) => {
                 formData.append("itemImage", selectedImage ? selectedImage : null);
                 formData.append("item", JSON.stringify(values));
                 {console.log(formData)}
-                setTimeout(() => {
-                  values.itemId != null
-                    ? dispatch(updateMenuItemRequest(values))
-                    : dispatch(addMenuItemRequest(formData));
-                }, 1000);
+                // setTimeout(() => {
+                //   values.itemId != null
+                //     ? dispatch(updateMenuItemRequest(values))
+                //     : dispatch(addMenuItemRequest(formData));
+                // }, 1000);
                 // history.push("/management/menu/Items");
               }
             }}

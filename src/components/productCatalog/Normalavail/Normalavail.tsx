@@ -67,6 +67,7 @@ interface DeliveryDetails {
   typeName: string;
   typeId: string;
   price: number;
+  typeGroup : string,
   availabilities: Availability[];
 }
 
@@ -116,7 +117,8 @@ interface Availability {
 interface PriceInfo {
   typeName: string;
   typeId: string;
-  price: number; // Change to number to reflect the new format
+  price: number;
+  typeGroup: string,
   availabilities: Availability[];
 }
 
@@ -222,6 +224,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [pickupDetails, setPickUpDetails] = useState<DeliveryDetails>({
     typeId: pickUpId,
     typeName: "PickUp",
+    typeGroup: 'P',
     availabilities: [
       {
         availabilityDays: [],
@@ -235,6 +238,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     typeId: deliveryId,
     price: 0,
     typeName: "Delivery",
+    typeGroup: 'S',
     availabilities: [
       {
         availabilityDays: [],
@@ -248,6 +252,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       typeId: DineInId,
       typeName: "DineIn",
       price: 0,
+      typeGroup: 'D',
       availabilities: [
         {
           availabilityDays: [],
@@ -260,6 +265,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     typeId: '',
     price: 0,
     typeName: "",
+    typeGroup: 'T',
     availabilities: [
       {
         availabilityDays: [],
@@ -281,6 +287,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
     }));
 
     const data = [...priceInfo]
+    if(!data[index].availabilities){
+      data[index].availabilities=[]
+      data[index].availabilities.push({
+        availabilityDays: [],
+        sessions: [],
+      })
+
+    }
     data[index].availabilities[0].sessions = selectedMealTypes
     setPriceInfo(data)
   };
@@ -389,6 +403,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
         if(pickupDetails){
           setPickUpDetails({
             typeId: pickUpId,
+            typeGroup: 'P',
             price: pickupDetails?.price || '',
             typeName: pickupDetails?.typeName || '',
             availabilities: pickupDetails?.availabilities || [],
@@ -398,16 +413,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
         if (deliveryDetails) {
           setDeliveryDetails({
             typeId: deliveryId,
+            typeGroup: 'S',
             price: deliveryDetails?.price || "",
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
           });
         }
     
-        if(thirdpartyDetails){
+        if(thirdpartyDetails.length >0){
           const data = thirdpartyDetails?.map((item : any) => item?.typeName)
           setSelectedThirdValues(data)
-          setPriceInfo(thirdpartyDetails)
+          setPriceInfo([...thirdpartyDetails])
           const object : any = {}
           const item = thirdpartyDetails?.map((item : any) => item)
           item.forEach((element : any) => {
@@ -434,6 +450,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           setPickup(true)
           setPickUpDetails({
             typeId: pickUpId,
+            typeGroup: 'P',
             price: pickupDetails?.price || '',
             typeName: pickupDetails?.typeName || '',
             availabilities: pickupDetails?.availabilities || [],
@@ -444,16 +461,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
           setDelivery(true)
           setDeliveryDetails({
             typeId: deliveryId,
+            typeGroup: 'S',
             price: deliveryDetails?.price || "",
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
           });
         }
     
-        if(thirdpartyDetails){
+        if(thirdpartyDetails.length > 0){
           const data = thirdpartyDetails?.map((item : any) => item?.typeName)
           setSelectedThirdValues(data)
-          setPriceInfo(thirdpartyDetails)
+          setPriceInfo([...thirdpartyDetails])
           const object : any = {}
           const item = thirdpartyDetails?.map((item : any) => item)
           item?.forEach((element : any) => {
@@ -609,7 +627,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
         }
         return item;
       });
-      
       setPriceInfo(updatedPriceInfo); 
     }
   }, [DayThird]);
@@ -1205,7 +1222,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                           type="text"
                           value={priceInfo[index]?.price || ""}
                           onChange={(e) =>{
-                            const data = [...priceInfo]
+                            let data = JSON.parse(JSON.stringify([...priceInfo]))
                             data[index].price = Number(e.target.value)
                             setPriceInfo(data)
                           }}

@@ -47,6 +47,7 @@
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #c4c4c4;
+  height: 80vh;
 }
 
 .primaryreviewdetailspart1 {
@@ -470,12 +471,13 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  width: 114%;
+  width: 108%;
   background-color: white;
-  bottom: -60px;
+  top: 39px;
+  right: 30px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
-  right: 90px;
+  // right: 90px;
   transition: 0.2s ease all;
 
   .clearall1 {
@@ -519,13 +521,12 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  width: 142%;
+  width: 120%;
   background-color: white;
-  bottom: -60px;
+  top: 39px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
   transition: 0.2s ease all;
-  right: 230px;
 
   .clearall {
     position: relative;

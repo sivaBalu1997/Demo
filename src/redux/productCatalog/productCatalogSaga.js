@@ -1,4 +1,4 @@
-import { put, call, takeLatest, take } from "redux-saga/effects";
+import { put, call, takeLatest, take, takeEvery } from "redux-saga/effects";
 import {
   getMenuCategoryRequest,
   getMenuCategorySuccess,
@@ -60,6 +60,9 @@ import {
   retryimageUploadSuccess,
   retryimageUploadFailure,
   storeUploadSuccess,
+  ingredientsFailure,
+  allergensSuccess,
+  ingredientsSuccess,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -125,6 +128,7 @@ import {
   ADD_MOCK_DATA_HIDDEN_SUCCESS,
   ADD_MOCK_DATA_HIDDEN_REQUEST,
   ADD_MOCK_DATA_HIDDEN_FALIURE,
+  PARTIAL_UPDATE_MENU_SUCCESS,
 } from "./productCatalogConstants";
 import { showSuccessToast } from "util/toastUtils";
 import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toastUtils';
@@ -148,8 +152,7 @@ function* fetchDropdownDataSaga(action) {
   try {
     // Pass the entire action.payload to getSubSectionData
     const response = yield call(getSubSectionData, action.payload);
-
-    if (response) {
+    if (response.status === 200) {
       switch (action.payload.type) {
         case "DIET":
           yield put(dietdatasuccess(response));
@@ -168,6 +171,13 @@ function* fetchDropdownDataSaga(action) {
           break;
         case "KITCHEN_STATION":
           yield put(kitchenStationSuccess(response.data));
+          break;
+        case 'INGREDIENTS':
+          yield put(ingredientsSuccess(response));
+          break;
+        case 'ALLERGENS':
+          yield put(allergensSuccess(response));
+          break;
         default:
           throw new Error("Invalid type");
       }
@@ -257,7 +267,7 @@ function* deleteSubSectionSaga(action) {
         payload: viewdata,
       });
 
-      yield put(deleteDropDownSuccess(response)); // add switch case
+      yield put(deleteDropDownSuccess(response)); 
     } else {
       yield put(deleteDropDownFailure("failed"));
     }
@@ -448,10 +458,10 @@ function* updateMenuItemSaga(action) {
   try {
     const response = yield call(updateMenuItem, action.payload);
     if (response.status === 200) {
-      
+      showSuccessToast(response.data.message)
       yield put(updateMenuItemSuccess(response.data));
     } else {
-      showErrorToast(response.message);
+      showErrorToast(response.data.message);
       yield put(updateMenuItemFailed({ message: "please Try Again" }));
     }
   } catch (err) {
@@ -526,7 +536,15 @@ function* getPopularItemSaga(action) {
 function* partialUpdateMenuSaga(action) {
   try {
     const updatedMenu = yield call(apiUpdateMenu, action.payload);
-    yield put(partialUpdateMenuSuccess(updatedMenu));
+    if (updatedMenu.status === 200) {
+      showSuccessToast('Item Updated Successfully');
+      yield put(partialUpdateMenuSuccess({type: PARTIAL_UPDATE_MENU_SUCCESS, payload: updatedMenu.data.message}));
+     
+      // yield put({ type: STORE_MENU_REQUEST, payload: location });
+
+    } 
+    
+   
   } catch (error) {
     yield put(partialUpdateMenuFailure(error.message));
   }
@@ -534,14 +552,9 @@ function* partialUpdateMenuSaga(action) {
 
 function* addMockDataHiddenSaga(action) {
   try {
-    const { hidePayload, location } = action.payload;  // Destructure the payload object
+    const { hidePayload, location } = action.payload;  
 
-    const response = yield call(hideMockData, hidePayload); // Pass hidePayload (data1) to the API call
-
-    console.log("Location", location);  // Log location if needed
-    console.log("hide res", response.status);
-    console.log("hide res", response.data);
-
+    const response = yield call(hideMockData, hidePayload); 
     if (response.status === 200) {
       showSuccessToast('Item Added Successfully');
       yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: response.data.message });
@@ -560,7 +573,7 @@ export default function* productCatalog() {
   // yield takeLatest(GET_MENU_CATEGORY_REQUEST, getCategorySaga);
   yield takeLatest(STORE_MENU_REQUEST, fetchMenuDataSaga);
 
-  yield takeLatest(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
+  yield takeEvery(FETCHDROPDOWN_REQUEST, fetchDropdownDataSaga);
   yield takeLatest(DELETEDROPDOWN_REQUEST, deleteSubSectionSaga);
   yield takeLatest(ADDDROPDOWN_REQUEST, addSubsection);
 

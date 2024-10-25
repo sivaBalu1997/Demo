@@ -75,6 +75,7 @@ interface FormData {
   selectedPortion: string;
   tax: string;
   masterCode: string;
+  popularItem: boolean;
 }
 interface Category {
   id: string;
@@ -285,15 +286,17 @@ const PrimaryPage = () => {
   );
 
   const ItemsPrimaryDetails = useSelector(
-    (state: primarypage) => state.primarypage.data
+    (state: primarypage) => state.primarypage?.data
   );
+
+  const [images, setImages] = useState<ImageFile[]>([]);
 
   useEffect(() => {
     if (ItemsPrimaryDetails) {
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
       setDescription(ItemsPrimaryDetails.description);
-      setValue("imageUrls", ItemsPrimaryDetails.imageUrls);
+      // Set other fields
       setValue("alcohol", ItemsPrimaryDetails.alcohol);
       setValue("itemCode", ItemsPrimaryDetails.itemCode);
       setValue("barCode", ItemsPrimaryDetails.barCode);
@@ -309,6 +312,24 @@ const PrimaryPage = () => {
       setValue("masterCode", ItemsPrimaryDetails.masterCode);
     }
   }, [ItemsPrimaryDetails, setValue]);
+
+
+  useEffect(()=>{
+    if (ItemsPrimaryDetails?.imageUrls) {
+      const imageArray = ItemsPrimaryDetails.imageUrls.map((img: any) => ({
+        file: img.file || {},
+        uploaded: img.uploaded || false,
+        failed: img.failed || false,
+        preview: img.preview,
+      }))
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages,...imageArray];
+        const updatedImageUrls = updatedImages.map((image) => image);
+        setValue("imageUrls", updatedImageUrls);
+        return updatedImages;
+      });
+    }
+  },[ItemsPrimaryDetails])
 
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
@@ -341,7 +362,6 @@ const PrimaryPage = () => {
   );
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [images, setImages] = useState<ImageFile[]>([]);
   const [description, setDescription] = useState("");
   const [charCount, setCharCount] = useState(0);
   const maxDescriptonLength = 100;
@@ -434,58 +454,6 @@ const PrimaryPage = () => {
   };
   const [uploading, setUploading] = useState(false);
 
-  // const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const files = Array.from(event.target.files || []);
-  //   const validFiles = files.filter((file) => {
-  //     const validTypes = ["image/jpeg", "image/png"];
-  //     const maxSizeInBytes = 2 * 1024 * 1024;
-  //     if (!validTypes.includes(file.type)) {
-  //       alert(`Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
-  //       return false;
-  //     }
-
-  //     if (file.size > maxSizeInBytes) {
-  //       alert(`File too large: ${file.name}. Maximum size is 2MB.`);
-  //       return false;
-  //     }
-
-  //     return true;
-  //   });
-
-  //   if (validFiles.length + images.length > maxImages) {
-  //     alert(`You can only upload up to ${maxImages} images.`);
-  //     return;
-  //   }
-
-  //   const readFileAsDataURL = (file: File): Promise<Base64Image> => {
-  //     return new Promise((resolve, reject) => {
-  //       const reader = new FileReader();
-  //       reader.onloadend = () => {
-  //         const dataURL = reader.result as string;
-  //         const mimeType = dataURL.split(";")[0].split(":")[1];
-  //         const base64String = dataURL.split(",")[1];
-  //         resolve({ mimeType, base64String });
-  //       };
-  //       reader.onerror = reject;
-  //       reader.readAsDataURL(file);
-  //     });
-  //   };
-
-  //   Promise.all(validFiles.map(readFileAsDataURL))
-  //     .then((base64Images) => {
-  //       setImages((prevImages) => {
-  //         const updatedImages = [...prevImages, ...base64Images];
-  //         console.log("testing", setValue, typeof setValue);
-  //         return updatedImages;
-  //       });
-
-  //       setValue("imageUrls", base64Images);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error converting files to Base64", error);
-  //     });
-  // };
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -524,13 +492,6 @@ const PrimaryPage = () => {
     }
   };
 
-  // const newarray = getValues("imageUrls");
-  // console.log("newarray", newarray);
-
-  useEffect(() => {
-    // dispatch(getIngredientsRequest(locationid));
-    // dispatch(getMenuCategoryRequest(locationid));
-  }, []);
 
   useEffect(() => {
     setIngredientsFromAPi(ingredients);
@@ -546,13 +507,10 @@ const PrimaryPage = () => {
   );
 
   const editData = useSelector((state:any) => state.productCatalog.editData)
-
-  console.log({editData})
+  
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
-
-  console.log({cuisineData})
 
   const subCategoryData = useSelector(
     (state: any) => state.productCatalog.subCategoryData.data
@@ -565,14 +523,26 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
+  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
+  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
+
+  useEffect(()=>{
+    if (ItemsPrimaryDetails?.popularItem) {
+      setPopularItem(popularItem + 1);
+      setValue("popularItem", true);
+    } else {
+      setPopularItem((prevCount:any) => Math.max(prevCount - 1, 0)); 
+      setValue("popularItem", false);
+    }
+  },[ItemsPrimaryDetails])
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
-    if (isChecked) {
+    if (isChecked || ItemsPrimaryDetails?.popularItem) {
       setPopularItem(popularItem + 1);
       setValue("popularItem", true);
-    } else if (!isChecked) {
-      setPopularItem(popularItem - 1);
+    } else {
+      setPopularItem((prevCount:any) => Math.max(prevCount - 1, 0)); 
       setValue("popularItem", false);
     }
   };
@@ -651,58 +621,10 @@ const PrimaryPage = () => {
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
-  const primarydata = useSelector((state: RootState) => state.primarypage.data);
-  // useEffect(()=>{
-  //   if(primarydata){
-  //     setValue("itemName", primarydata?.itemName || null);
-  //     setValue("dietaryType", primarydata?.dietaryType || null);
-  //     setValue("cuisine", primarydata?.cuisine || null);
-  //     setValue("mealType", primarydata?.mealType || null);
-  //     setValue("bestPair", primarydata?.bestPair || null);
-  //     setValue("description", primarydata?.description || null);
-  //     setValue("imageUrls", primarydata?.imageUrls || null);
-  //     setValue("alcohol", primarydata?.alcohol || null);
-  //     setValue("itemCode", primarydata?.itemCode || null);
-  //     setValue("barCode", primarydata?.barCode || null);
-  //     setValue("category", primarydata?.category || null);
-  //     setValue("categoryId", primarydata?.categoryId || null);
-  //     setValue("subCategory", primarydata?.subCategory || null);
-  //     setValue("Ingredients", primarydata?.Ingredients || null);
-  //     setValue("allergens", primarydata?.allergens || null);
-  //     setValue("coloriePoint", primarydata?.coloriePoint || null);
-  //     setValue("selectedcolorie", primarydata?.selectedcolorie || null);
-  //     setValue("portionSize", primarydata?.portionSize || null);
-  //     setValue("selectedPortion", primarydata?.selectedPortion || null);
-  //     setValue("tax", primarydata?.tax || null);
-  //     setValue("masterCode", primarydata?.masterCode || null);
-  //   }
-  // },[primarydata])
-
-  // useEffect(() => {
-  //   if (dataFromRedux) {
-  //     setValue("itemName", dataFromRedux[0]?.itemName || null);
-  //     setValue("dietaryType", dataFromRedux[0]?.dietaryType || null);
-  //     setValue("cuisine", dataFromRedux[0]?.cuisine || null);
-  //     setValue("mealType", dataFromRedux[0]?.mealType || null);
-  //     setValue("bestPair", dataFromRedux[0]?.bestPair || null);
-  //     setValue("description", dataFromRedux[0]?.description || null);
-  //     setValue("imageUrls", dataFromRedux[0]?.imageUrls || null);
-  //     setValue("alcohol", dataFromRedux[0]?.alcohol || null);
-  //     setValue("itemCode", dataFromRedux[0]?.itemCode || null);
-  //     setValue("barCode", dataFromRedux[0]?.barCode || null);
-  //     setValue("category", dataFromRedux[0]?.category || null);
-  //     setValue("categoryId", dataFromRedux[0]?.categoryId || null);
-  //     setValue("subCategory", dataFromRedux[0]?.subCategory || null);
-  //     setValue("Ingredients", dataFromRedux[0]?.Ingredients || null);
-  //     setValue("allergens", dataFromRedux[0]?.allergens || null);
-  //     setValue("coloriePoint", dataFromRedux[0]?.coloriePoint || null);
-  //     setValue("selectedcolorie", dataFromRedux[0]?.selectedcolorie || null);
-  //     setValue("portionSize", dataFromRedux[0]?.portionSize || null);
-  //     setValue("selectedPortion", dataFromRedux[0]?.selectedPortion || null);
-  //     setValue("tax", dataFromRedux[0]?.tax || null);
-  //     setValue("masterCode", dataFromRedux[0]?.masterCode || null);
-  //   }
-  // }, [dataFromRedux]);
+  useEffect(()=>{
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
+    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
+  },[])
 
   return (
     <div style={{ display: "flex" }}>
@@ -944,23 +866,6 @@ const PrimaryPage = () => {
                       // name="imageUrls"
                     />
 
-                    {/* {images.map((image, index) => (
-                        <div key={index} className="image-container">
-                          <button
-                            onClick={() => handleImageDeletion(index)}
-                            className="imcrossstyres"
-                          >
-                            <ImCross
-                              style={{ fontSize: "7px", color: "white" }}
-                            />
-                          </button>
-                          <img
-                            src={`data:${image.mimeType};base64,${image.base64String}`}
-                            alt={`uploaded ${index}`}
-                            className="uploaded-image"
-                          />
-                        </div>
-                      ))} */}
 
                     {images.map((img, index) => (
                       <div key={index} className="image-container">
@@ -977,14 +882,6 @@ const PrimaryPage = () => {
                           src={img.preview}
                           alt={`Preview of ${img.file.name}`}
                         />
-                        {/* <div>
-                          {img.file.name} -{" "}
-                          {img.uploaded
-                            ? "Uploaded"
-                            : img.failed
-                            ? "Failed"
-                            : "Pending Upload"}
-                        </div> */}
                       </div>
                     ))}
 
@@ -1106,6 +1003,7 @@ const PrimaryPage = () => {
                       <input
                         type="checkbox"
                         className="input"
+                        checked={ItemsPrimaryDetails?.popularItem}
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);
@@ -1152,7 +1050,7 @@ const PrimaryPage = () => {
                     {" "}
                     <Imagepillsselection
                       heading="Allergens*"
-                      options={validImages}
+                      options={allergensData}
                       setValue={setValue}
                       name="allergens"
                       register={register}
@@ -1160,6 +1058,7 @@ const PrimaryPage = () => {
                     />
                   </div>
                 </div>
+
                 <div className="tool-tip-Allergen">
                   <TooltipMsg
                     message="Provide information about any allergens present in this food item"
@@ -1197,7 +1096,7 @@ const PrimaryPage = () => {
               <div className="Primary-page-ingredients-selection">
                 <Imagepillsselection
                   heading="Ingredients*"
-                  options={ingredientsFromAPi}
+                  options={ingredientsdata}
                   setValue={setValue}
                   name="Ingredients"
                   register={register}
@@ -1362,62 +1261,6 @@ const PrimaryPage = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <div className="Primary-page-Other-Detail-mastercode">
-                    <LableComponent lable="Master Item Code" />
-
-                    <div className="Primary-Page-inputfiled-and-tooltip">
-                      <Controller
-                        name="masterCode"
-                        control={control}
-                        render={({ field }: any) => (
-                          <DigitInput
-                            {...field}
-                            setValue={setValue}
-                            name="masterCode"
-                            register={register}
-                            inputCount={4}
-                            error={errors.masterCode}
-                            // validation={{ required: "Master code is required" }}
-                            resetSelection={digitClearRef}
-                          />
-                        )}
-                      />
-                      <div className="Mastedcode-Tooltip">
-                        <TooltipMsg
-                          message="Enter a unique code for this food item, used for identification."
-                          styles={{
-                            position: "relative",
-                            top: "-2rem",
-                            left: "1.5rem",
-                            width: "350px",
-                            height: "35px",
-                            backgroundColor: "#67833E",
-                            color: "white",
-                            textAlign: "center",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "5px",
-                          }}
-                          Arrowstyle={{
-                            marginTop: "0rem",
-                            rotate: "-90deg",
-                            position: "relative",
-                            left: "-1.6rem",
-                          }}
-                        >
-                          <div className="ToolKitchen">
-                            <img
-                              src={info}
-                              alt="info icon"
-                              width={20}
-                              height={20}
-                            />
-                          </div>
-                        </TooltipMsg>
-                      </div>
-                    </div>
-                  </div> */}
                 </div>
               </div>
             </div>

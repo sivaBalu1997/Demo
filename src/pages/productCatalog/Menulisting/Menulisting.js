@@ -20,12 +20,15 @@ import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+import noResultsfound from "../../../assets/images/NoResultsFound.png"
 
 import {
   PricingDetailRequest,
+  fetchDropDownRequest,
   getMenuRequest,
   itemCustomizationPost,
   primarypost,
+  removeDataRequest,
   selectedCategory,
   selectedMockDataRequest,
   storeMockDataRequest,
@@ -141,8 +144,6 @@ export const Menulisting = () => {
     },
   ]);
 
- 
-
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
   };
@@ -174,6 +175,12 @@ export const Menulisting = () => {
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
+
+  useEffect(()=>{
+    dispatch(removeDataRequest())
+  },[])
+
+  const locationid = useSelector((state) => state.auth.credentials?.locationId);
 
   const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess )
 
@@ -305,9 +312,7 @@ export const Menulisting = () => {
     );
 
       if (filteredItem) {
-        setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })
-        console.log("categoryDataside",categoryData);
-        
+        setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })        
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
         );
@@ -365,7 +370,7 @@ export const Menulisting = () => {
 
 
   useEffect(() => {
-    if (editData) {
+    if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
         itemName: editData[0]?.itemName,
         description: editData[0]?.description,
@@ -379,7 +384,7 @@ export const Menulisting = () => {
         portionSize: editData[0]?.portionInfo,
         tax: editData[0]?.taxClassAssociation, // array
         dietaryType: editData[0]?.dietTypes,
-        cuisine: editData && editData[0]?.cuisine[0]?.name,
+        cuisine: editData[0]?.cuisine[0]?.name,
         bestPair: editData[0]?.pairedItems,
         category: categoryData?.name,
       };
@@ -491,7 +496,6 @@ export const Menulisting = () => {
     (value) => value === false
   );
 
-
   useEffect(() => {
     if (menudatalist.length > 0 && menuData.length>0) {
       setLoading(false);
@@ -499,6 +503,7 @@ export const Menulisting = () => {
   }, [menudatalist,menuData]);
 
   const menuDataLoading = useSelector((state) => state.productCatalog?.menuDataLoading)
+  const menuDataFailed = useSelector((state) => state.productCatalog?.menuDataFailed)
 
   // useEffect(()=>{
   //   if(menuData.length === 0)
@@ -667,10 +672,11 @@ export const Menulisting = () => {
                               />
                             </div>
                           ) : (
-                            allFalse ? (
-                              <>
-                                <h1 className="columnselected">No data found...!</h1>
-                              </>
+                            menuDataFailed ? (
+                              <div className="NoDataFoundContainer">
+                                <img className="columnselected" src={noResultsfound} alt="noResultFound" />
+                                <h2 className="columnselectedText">No Results Found</h2>
+                              </div>
                             ) : 
                             menudatalist.map((itemobject, indexvalue) => {
                               return (
