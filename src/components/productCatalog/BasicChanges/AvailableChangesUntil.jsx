@@ -54,8 +54,8 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
                   className="AvaiilRadio"
                   type="radio"
                   name='avail-radio'
-                  checked={selectedOption === index} // Check if this radio button is selected
-                  onChange={() => handleRadioChange(index)} // Set selected radio button
+                  checked={selectedOption === index} 
+                  onChange={() => handleRadioChange(index)} 
                 />
               </div>
             </div>
@@ -68,7 +68,7 @@ const AvailabilityChangesUntil = ({ setShowModalAvailable, onclose }) => {
         </div>
       </div>
 
-      {showAvailCalender && <AvailCalender />} {/* Conditionally render the calendar */}
+      {showAvailCalender && <AvailCalender setShowModalAvailable={setShowModalAvailable}/>} 
     </div>
   );
 };

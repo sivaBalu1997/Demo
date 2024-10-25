@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import "./AvailCalender.scss"
 import DatePicker from 'react-datepicker';
 
+interface modelshow{
+  setShowModalAvailable:any;
+}
 
-const AvailCalender = () => {
+const AvailCalender:React.FC<modelshow> = ({setShowModalAvailable}) => {
     const [selectedDate, setSelectedDate] = useState(new Date());  
     const [selectedTimePeriod, setSelectedTimePeriod] = useState<'AM' | 'PM' | null>("AM");
     const handleTimePeriodClick = (period: 'AM' | 'PM') => {
@@ -45,7 +48,7 @@ const AvailCalender = () => {
       </div>
     <div className='AvailCalenderButton'>
 <button className='AvailCancel'>Cancel </button>
-<button className='AvailChange'>Change</button>
+<button className='AvailChange' onClick={()=>setShowModalAvailable(true)}>Change</button>
     </div>
         </div>  
         </div>

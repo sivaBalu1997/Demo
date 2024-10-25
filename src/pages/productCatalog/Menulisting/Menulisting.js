@@ -28,6 +28,7 @@ import {
   itemCustomizationPost,
   primarypost,
   removeDataRequest,
+  selectedCategory,
   selectedMockDataRequest,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
@@ -311,11 +312,15 @@ export const Menulisting = () => {
 
       if (filteredItem) {
         setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })
+        console.log("categoryDataside",categoryData);
+        
         const specificResponse = filteredItem.itemResponseList.filter(
           (response) => response?.itemId === value
         );
         if (specificResponse.length > 0) {
           setSideBar(specificResponse);
+          dispatch(selectedCategory(categoryData));
+         
         }
       }
   };

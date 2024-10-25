@@ -240,7 +240,7 @@ const PrimaryPage = () => {
 
   const location = useLocation<LocationState | undefined>();
   const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
+    (state: State) => state.auth.credentials?.locationId
   );
   const addedData = useSelector(
     (state: ListingData) => state.addMockDataReducer.data

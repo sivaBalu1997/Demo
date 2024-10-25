@@ -6,9 +6,13 @@ import { useDispatch } from "react-redux";
 import { addMockDataHiddenRequest } from "redux/productCatalog/productCatalogActions";
 import { useSelector } from "react-redux";
 
-const EyeModal = ({ onEyeclose }) => {
+const EyeModal = ({ onEyeclose,onclose }) => {
   const data1=useSelector((state)=>state?.selectedMockDataReducer?.data)
   const Dinein =data1[0]?.orderTypes?.find((orderType) => orderType.typeName === "DineIn")
+  const location = useSelector((state) => state.auth.selectedBranch.id);
+  const successMsg=useSelector((state)=>state?.addMockDataHiddenReducer?.data)
+
+
   
 
   useEffect(() => {
@@ -71,7 +75,7 @@ const hidePayload = {
   itemOrderTypeStatuses: data
     .flatMap((section) => 
       section.subItems
-        .filter((subItem) => subItem.isChecked) // Filter items where isChecked is true
+        .filter((subItem) => subItem.isChecked==false) // Filter items where isChecked is true
         .map((subItem) => ({
           orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
           isEnabled: subItem.isChecked // Use isChecked from subItems (it will be true here)
@@ -103,10 +107,24 @@ const uncheckedItems = data
     }
   };
 
+  const payload={
+    hidePayload,location
+
+  }
+
   const handleChange = () => {
-    dispatch(addMockDataHiddenRequest(hidePayload));
-    onEyeclose();
+    dispatch(addMockDataHiddenRequest(payload));
+   
+
+  
   };
+
+  useEffect(() => {
+    if (successMsg === "Menu item updated visibility successfully") {
+      onEyeclose();
+      onclose();
+    }
+  }, [successMsg, onEyeclose, onclose]);
 
   
   const parentToggleChange = (index) => {
@@ -123,6 +141,7 @@ const uncheckedItems = data
 
     setData(newData);
   };
+  console.log(successMsg)
 
  
   const subItemToggleChange = (parentIndex, subIndex) => {

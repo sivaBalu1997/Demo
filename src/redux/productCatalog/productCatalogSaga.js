@@ -535,16 +535,22 @@ function* partialUpdateMenuSaga(action) {
 
 function* addMockDataHiddenSaga(action) {
   try {
-    const response = yield call(hideMockData, action.payload); 
-    console.log("hide res",response.status);
-    console.log("hide res",response.data);
-    if ( response.status=== 200) {
-      showSuccessToast('Item Added Successfully')
+    const { hidePayload, location } = action.payload;  // Destructure the payload object
+
+    const response = yield call(hideMockData, hidePayload); // Pass hidePayload (data1) to the API call
+
+    console.log("Location", location);  // Log location if needed
+    console.log("hide res", response.status);
+    console.log("hide res", response.data);
+
+    if (response.status === 200) {
+      showSuccessToast('Item Added Successfully');
       yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: response.data.message });
-     
+      yield put({ type: STORE_MENU_REQUEST, payload: location });
+
     } else {
-      showErrorToast(response.data.message)
-      yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload:response.data.message });
+      showErrorToast(response.data.message);
+      yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload: response.data.message });
     }
   } catch (error) {
     yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload: error.message });

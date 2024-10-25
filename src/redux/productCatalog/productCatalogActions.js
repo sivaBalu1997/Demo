@@ -138,6 +138,7 @@ import {
   REMOVE_DATA_SUCCESS,
   REMOVE_DATA_FAILURE,
   UPDATE_MODIFIER_REQUEST,
+  SELECTED_CATEGORY_DATA_REQUEST,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -490,6 +491,13 @@ export const catogoryDataFailure = (error) => ({
   payload: error,
 });
 
+export const selectedCategory = (data) => ({
+  type: SELECTED_CATEGORY_DATA_REQUEST,
+  payload: data,
+});
+
+
+
 //bestPair
 export const bestPairDataRequest = (data) => ({
   type: BESTPAIR_DATA_REQUEST,
@@ -680,9 +688,9 @@ export const uploadImageFailure = (image, id, index, error) => ({
   type: UPLOAD_IMAGE_FAILURE,
   payload: { image, id, index, error },
 });
-export const addMockDataHiddenRequest = (data) => ({
+export const addMockDataHiddenRequest = (payload) => ({
   type: ADD_MOCK_DATA_HIDDEN_REQUEST,
-  payload: data,
+  payload,
 });
 
 export const addMockDataHiddenSuccess = (response) => ({

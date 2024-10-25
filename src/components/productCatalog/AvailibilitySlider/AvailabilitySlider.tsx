@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux"; // Access Redux for initial data
 import "./AvailabilitySlider.scss";
 import ToggleSliderAvail from "../ToggleSliderAvail/ToggleSliderAvail";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface SideBarData {
   id: number;
@@ -32,6 +33,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const dataFromRedux = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
+  const {  patchedData,setPatchedData } = useContext(Contextpagejs);
+
   const subcategories = Array.isArray(dataFromRedux[0]?.orderTypes)
     ? dataFromRedux[0].orderTypes.map((elem: any) => ({
         subHeading: elem.typeName,
@@ -85,6 +88,28 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const enabledValuesArray = getEnabledValues();
   
   const [toggleStates, setToggleStates] = useState<any[]>([]);
+
+
+  // itemAvailabilityInfo: [
+  //   {
+  //     orderTypeId: "6e006c2d-1dd2-4b81-9af1-9e02a8336107",
+  //     unAvailableUntilTime: "2025-03-21T08:04:52"
+  //   }
+  // ]
+  useEffect(() => {
+    if (dataFromRedux && dataFromRedux[0]?.orderTypes) {
+      setPatchedData((prevState: any) => ({
+        ...prevState,
+        itemAvailabilityInfo: Array.isArray(dataFromRedux[0]?.orderTypes)
+          ? dataFromRedux[0].orderTypes.map((elem: any, index: number) => ({
+            orderTypeId: elem.typeId, 
+
+          
+            }))
+          : [],
+      }));
+    }
+  }, [dataFromRedux, setPatchedData]);
 
   useEffect(() => {
     const initialToggleStates = data.map((item, index) => {
