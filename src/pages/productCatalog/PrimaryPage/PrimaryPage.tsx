@@ -321,10 +321,13 @@ const PrimaryPage = () => {
         uploaded: img.uploaded || false,
         failed: img.failed || false,
         preview: img.preview,
-      }));
-      setImages(imageArray);
-      setValue("imageUrls", imageArray);
-      const updatedImageUrls = getValues("imageUrls");
+      }))
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages,...imageArray];
+        const updatedImageUrls = updatedImages.map((image) => image);
+        setValue("imageUrls", updatedImageUrls);
+        return updatedImages;
+      });
     }
   },[ItemsPrimaryDetails])
 
