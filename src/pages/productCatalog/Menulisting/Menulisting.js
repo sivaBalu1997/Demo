@@ -380,9 +380,9 @@ export const Menulisting = () => {
         barCode: editData[0]?.barCode,
         Ingredients: editData[0]?.ingredients,
         allergens: editData[0]?.allergens,
-        coloriePoint: editData[0]?.calorieInfo,  // object
+        coloriePoint: editData[0]?.calorieInfo,  
         portionSize: editData[0]?.portionInfo,
-        tax: editData[0]?.taxClassAssociation, // array
+        tax: editData[0]?.taxClassAssociation, 
         dietaryType: editData[0]?.dietTypes,
         cuisine: editData[0]?.cuisine[0]?.name,
         bestPair: editData[0]?.pairedItems,

@@ -31,6 +31,7 @@ interface OrderType {
   typeId: string;
   price: number;
   isEnabled: number;
+  isHidden:number;
   availabilityEnabled:boolean
   availabilities: Availability[];
 
@@ -132,7 +133,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   ? orderType.price.toFixed(2).padStart(5, "0")
                   : "";
                 const className = typeName.toLowerCase() + "data";
-                const isPriceEnabled=orderType && orderType.isEnabled==1
+                const isPriceEnabled=orderType && orderType.isHidden==1
                 ? true
                 : false;             
 
