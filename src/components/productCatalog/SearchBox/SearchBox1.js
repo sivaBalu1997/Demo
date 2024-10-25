@@ -14,6 +14,7 @@ const SearchBox = () => {
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
   const [orgData, setOrgData] = useState([]);
+  const [closeModal, setCloseModal] = useState(false)
 
   const data = useSelector((state) => state.storeMockDataReducer.data);
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ const SearchBox = () => {
     setDisplayTerm(value);
     filterOptions(value);
     setOptionSelected(false);
+    setCloseModal(true)
     // if (e.key === 'Backspace') {
     //   if (optionSelected) {
     //     // If an option was selected, reset searchTerm and displayTerm
@@ -84,6 +86,7 @@ const SearchBox = () => {
     setSearchTerm(option);
     setDisplayTerm(option);
     setOptionSelected(true);
+    setCloseModal(false)
     let result = null;
     menuData?.forEach((category) => {
       category?.itemResponseList?.forEach((item) => {
@@ -143,10 +146,10 @@ const SearchBox = () => {
   };
 
   return (
-    <div className="Search-Container">
+    <div className="MLSearch-Container">
       <div>
         <input
-          className={`${isExpanded ? "Header-Search1" : "Header-Search"}`}
+          className={`${isExpanded ? "MLHeader-Search1" : "MLHeader-Search"}`}
           value={`${searchTerm}`}  
           placeholder="Search"
           onChange={handleSearch}
@@ -154,32 +157,32 @@ const SearchBox = () => {
           type="text"
         />
         <img
-          className={`${isExpanded ? "SerchIcon-Header1" : "SerchIcon-Header"}`}
+          className={`${isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"}`}
           src={searchIcon}
           alt="Search Icon"
         />
       </div>
 
-      <div className={isExpanded ? "Search-Container-options1" : 'Search-Container-options-menu'}>
-        {searchTerm && (
-          <ul>
+      <div className={isExpanded ? "MLSearch-Container-options1" : 'MLSearch-Container-options-menu'}>
+        {searchTerm && closeModal && (
+          <ul className='MLsearchBoxContainer'>
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (
                 <li
                   key={index}
                   onClick={() => handleOptionClick(option)}
-                  className={index === highlightedIndex ? 'highlighted' : ''}
+                  className={index === highlightedIndex ? 'MLhighlighted' : ''}
                 >
-                  <div className={isExpanded ? 'Search-Container-options1-items' : "Search-Container-options-items"}>
+                  <div className={isExpanded ? 'MLSearch-Container-options1-items' : "MLSearch-Container-options-items"}>
                     {option}
                   </div>
                 </li>
               ))
             ) : !optionSelected && (
-              <div className={isExpanded ? 'Search-Container-options1-none' : 'Search-Container-options-none'}>
-                <div className='Search-Container-options-none-flex-direction'>
-                  <img className="NotFoundImage" src={NotFound} alt="No Results Found" />
-                  <h3 className='heading-none'>No Results Found</h3>
+              <div className={isExpanded ? 'MLSearch-Container-options1-none' : 'MLSearch-Container-options-none'}>
+                <div className='MLSearch-Container-options-none-flex-direction'>
+                  <img className="MLNotFoundImage" src={NotFound} alt="MLNo Results Found" />
+                  <h3 className='MLheading-none'>No Results Found</h3>
                 </div>
               </div>
             )}

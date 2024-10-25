@@ -109,6 +109,12 @@ import {
   FETCHDROPDOWN_FAILURE,
   FETCHDROPDOWN_REQUEST,
   RESET_SUCCESS_MESSAGE,
+  ALLERGENS_REQUEST,
+  ALLERGENS_SUCCESS,
+  ALLERGENS_FAILURE,
+  INGREDIENTS_REQUEST,
+  INGREDIENT_SUCESS,
+  INGREDIENT_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -142,6 +148,14 @@ const initialProductCatalogState = {
   kitchenStation: [],
   kitchenStationLoading: false,
   kitchenStationSuccess: false,
+
+  allergens: [],
+  allergensLoading: false,
+  allergensSuccess: false,
+
+  ingredients: [],
+  ingredientsLoading: false,
+  ingredientsSuccess: false,
 
   taxClass: [],
   getTaxClassLoading: false,
@@ -373,6 +387,38 @@ export default function productCatalogReducer(
         draft.kitchenStationLoading = false;
         draft.kitchenStationSuccess = false;
         draft.dropDownLoading = false
+        break;
+
+      case ALLERGENS_REQUEST:
+        draft.allergens = [];
+        draft.allergensLoading = true;
+        draft.allergensSuccess = false;
+        break;
+      case ALLERGENS_SUCCESS:
+        draft.allergens = action.payload;
+        draft.allergensLoading = false;
+        draft.allergensSuccess = true;
+        break;
+      case ALLERGENS_FAILURE:
+        draft.allergens = [];
+        draft.allergensLoading = false;
+        draft.allergensSuccess = false
+        break;
+
+      case INGREDIENTS_REQUEST:
+        draft.ingredients = [];
+        draft.ingredientsLoading = true;
+        draft.ingredientsSuccess = false;
+        break;
+      case INGREDIENT_SUCESS:
+        draft.ingredients = action.payload;
+        draft.ingredientsLoading = false;
+        draft.ingredientsSuccess = true;
+        break;
+      case INGREDIENT_FAILURE:
+        draft.ingredients = [];
+        draft.ingredientsLoading = false;
+        draft.ingredientsSuccess = false;
         break;
 
       // Get Menu Category

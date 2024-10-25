@@ -23,13 +23,13 @@
 }
 .Step2-form {
   // border:2px solid red;
-
+  position: relative;
+  top: 30px;
   display: flex;
   width: 500px;
-
   flex-direction: column;
 }
-.Step2-header{
+.Step2-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -47,7 +47,7 @@
 }
 .editbuttonpricing {
   display: flex;
-  
+
   // margin-left: 150px;
   background: none;
   text-decoration: none;
@@ -58,7 +58,7 @@
   font-size: 16px;
   font-weight: 400;
   display: flex;
-  color: #67833E;
+  color: #67833e;
   justify-content: center;
   align-items: center;
   gap: 5px;
