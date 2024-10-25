@@ -132,15 +132,11 @@ const ItemCustomizations: React.FC = () => {
 
   const initialModificationValue = [
     {
-      modifierId: "",
       modifierName: "",
-      isModifierChanged: false,
       modifierOptions: [
         {
-          modifierOptionId: "",
           modifierOptionName: "",
           cost: 0,
-          isModifierOptionChanged: false,
         },
       ],
       minSelection: 1,
@@ -155,7 +151,6 @@ const ItemCustomizations: React.FC = () => {
     initialModificationValue
   );
 
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -164,11 +159,9 @@ const ItemCustomizations: React.FC = () => {
     Modification[]
   >([]);
 
-  // useEffect(() => {
-  //   if(editData.length > 0){
-  //     setFilteredModifications(editData[0]?.modifiers);
-  //   }
-  // }, [editData]);
+  useEffect(() => {
+    setFilteredModifications(editData[0]?.modifiers);
+  }, [editData]);
 
   useEffect(() => {
     if (showModifiers === false) {
@@ -178,10 +171,10 @@ const ItemCustomizations: React.FC = () => {
 
     if (itemCustomizationData?.length > 0) {
       const mappedModifications = itemCustomizationData.map((item: any) => ({
-        id: item?.id || "",
+        id: item?.id || '',
         modifierName: item?.modifierName || "",
-        modifierOptions: item?.options
-          ? item.options.map((option: any) => ({
+        modifierOptions: item?.modifierOptions
+          ? item.modifierOptions.map((option: any) => ({
               modifierOptionName: option.modifierOptionName || "",
               cost: option.cost,
             }))
@@ -190,8 +183,8 @@ const ItemCustomizations: React.FC = () => {
         maxSelection: item.maxSelection || 1,
         freeCustomization: item?.freeCustomization || 1,
         selectedValue: Array.isArray(item?.selectedValue)
-          ? item.selectedValue.map((elem: any) => elem)
-          : [],
+        ? item.selectedValue.map((elem: any) => elem)
+        : [],
         endDate: item?.endDate || "",
         startDate: item?.startDate || "",
         selectionType: item?.selectionType || "",
@@ -232,91 +225,65 @@ const ItemCustomizations: React.FC = () => {
   const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
   const [updatedModifierIds, setUpdatedModifierIds] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (deletedModifierIds.length > 0) {
-      dispatch(deleteModifierRequest(deletedModifierIds));
-    }
-  }, [deletedModifierIds]);
 
-  useEffect(() => {
-    if (updatedModifierIds.length > 0) {
-      dispatch(updateModifierData(updatedModifierIds));
+  useEffect(()=>{
+    if(deletedModifierIds.length > 0){
+      dispatch(deleteModifierRequest(deletedModifierIds))
     }
-  }, [updatedModifierIds]);
+  },[deletedModifierIds])
 
-  const handleModifierChange = (
-    modIndex: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
+  useEffect(()=>{ 
+    if(updatedModifierIds.length > 0){
+      dispatch(updateModifierData(updatedModifierIds))
+    }
+  },[updatedModifierIds])
   
+  const handleModifierChange = (modIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setModifications((prev: any) => {
       const updated = [...prev];
-      const currentModifier = updated[modIndex];
-      const isCurrentValueEmpty = currentModifier[name] === "";
-  
       updated[modIndex] = {
-        ...currentModifier,
+        ...updated[modIndex],
         [name]: value,
-        ["isModifierChanged"]: isCurrentValueEmpty && value !== "" ? false : true,
       };
   
-      setUpdatedModifierIds((prevIds) => {
+      setUpdatedModifierIds(prevIds => {
         if (!prevIds.includes(updated[modIndex].id)) {
-          return [...prevIds, updated[modIndex].id];
+          return [...prevIds, updated[modIndex].id]; 
         }
-        return prevIds;
+        return prevIds; 
       });
   
       return updated;
     });
   };
+  
   
   const handleDeleteModifier = (modIndex: number) => {
     setModifications((prev: any) => {
       const updated = [...prev];
-      const deletedId = updated[modIndex].modifierId; 
-  
-      updated.splice(modIndex, 1);
-      if (deletedId) {
-        setDeletedModifierIds((prevIds) => {
-          if (!prevIds.includes(deletedId)) {
-            return [...prevIds, deletedId];
-          }
-          return prevIds;
-        });
-      }
-  
-      return updated;
-    });
-  };
-  
+      const deletedId = updated[modIndex].id; 
+      updated.splice(modIndex, 1); 
 
-  const addOption = (index: number) => {
-    setModifications((prevModifications: any) => {
-      const newModifications = prevModifications.map((mod: any, modIndex: number) => {
-        if (modIndex === index) {
-          const newOption = {
-            optionName: "",
-            sellPrice: 0,
-            modifierOptionId: "", 
-            isModifierOptionChanged: false
-          };
-  
-          const newModifierOptions = [...mod.modifierOptions, newOption];
-          
-          return {
-            ...mod,
-            modifierOptions: newModifierOptions,
-            isModifierChanged: mod.modifierId !== ""
-          };
+      setDeletedModifierIds(prevIds => {
+        if (!prevIds.includes(deletedId)) {
+          return [...prevIds, deletedId]; 
         }
-        return mod;
+        return prevIds; 
       });
-      return newModifications;
+  
+      return updated; 
     });
   };
   
+  const addOption = (index: number) => {
+    const newOption = [...modifications];
+    newOption[index].modifierOptions.push({
+      optionName: "",
+      sellPrice: 0,
+    });
+    setModifications(newOption);
+  };
 
   const addOption1 = (newOption: string) => {
     setOptions([...options, newOption]);
@@ -343,53 +310,30 @@ const ItemCustomizations: React.FC = () => {
     optIndex: number,
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    setModifications((prevModifications: any) => {
-      const newModifier = prevModifications.map((mod: any, index: any) => {
-        if (index === modIndex) {
-          return {
-            ...mod,
-            modifierOptions: mod.modifierOptions?.map((opt: any, optIdx: any) => {
-              if (optIdx === optIndex) {
-                const currentValue = opt[e.target.name];
-                const newValue =
-                  e.target.name === "cost"
-                    ? parseFloat(e.target.value) || 0
-                    : e.target.value;
+    const newModifier = [...modifications];
   
-                // Check for modifierId instead of modifierOptionId
-                const isOptionChanged =
-                  mod.modifierId !== "" && // Check modifierId
-                  currentValue !== undefined &&
-                  currentValue !== null &&
-                  currentValue !== "" &&
-                  currentValue !== newValue;
+    if (e.target.name === "cost") {
+      newModifier[modIndex].modifierOptions[optIndex][
+        e.target.name as keyof Option
+      ] = parseFloat(e.target.value) || 0;
+    } else {
+      newModifier[modIndex].modifierOptions[optIndex][
+        e.target.name as keyof Option
+      ] = e.target.value;
+    }
   
-                return {
-                  ...opt,
-                  [e.target.name]: newValue,
-                  isModifierOptionChanged: isOptionChanged,
-                };
-              }
-              return opt;
-            }),
-          };
+    setModifications(newModifier);
+  
+    const updatedModifierId = newModifier[modIndex].id; 
+    if (updatedModifierId) {
+      setUpdatedModifierIds((prevIds) => {
+        if (!prevIds.includes(updatedModifierId)) {
+          return [...prevIds, updatedModifierId];
         }
-        return mod;
+        return prevIds;
       });
-  
-      const updatedModifierId = newModifier[modIndex]?.modifierId; 
-      if (updatedModifierId) {
-        setUpdatedModifierIds((prevIds) => {
-          if (!prevIds.includes(updatedModifierId)) {
-            return [...prevIds, updatedModifierId];
-          }
-          return prevIds;
-        });
-      }
-  
-      return newModifier[modIndex]?.modifierId ? newModifier : prevModifications; 
-    });
-  };  
+    }
+  };
 
   const incrementSpinner = (index: number, field: keyof Modification) => {
     const newModifier = [...modifications];
@@ -431,11 +375,8 @@ const ItemCustomizations: React.FC = () => {
     const newModifier = [...modifications];
     if (newModifier[index]) {
       const currentValue =
-        parseInt(
-          newModifier[index][field as keyof Modifier]?.toString() || "0",
-          10
-        ) || 0;
-
+        parseInt(newModifier[index][field as keyof Modifier]?.toString() || '0', 10) || 0;
+  
       if (currentValue > 0) {
         newModifier[index][field as keyof Modifier] = currentValue - 1;
       }
@@ -444,40 +385,24 @@ const ItemCustomizations: React.FC = () => {
   };
 
   const deleteOption = (modIndex: number, optIndex: number) => {
-    const newModifications = modifications.map((mod: any, index: any) => {
-      if (index === modIndex) {
-        const updatedModifierOptions = mod.modifierOptions.filter(
-          (opt: any, optIdx: any) => optIdx !== optIndex
-        );
+    const newModifications = [...modifications];
   
-        const isModifierChanged = mod.modifierId !== "" && 
-          mod.modifierOptions.length !== updatedModifierOptions.length;
-  
-        return {
-          ...mod,
-          modifierOptions: updatedModifierOptions,
-          isModifierChanged: isModifierChanged, 
-        };
+    if (newModifications[modIndex]?.modifierOptions?.[optIndex]) {
+      const deletedOptionId = newModifications[modIndex]?.modifierOptions[optIndex].id; 
+        newModifications[modIndex]?.modifierOptions?.splice(optIndex, 1);
+      
+      setModifications(newModifications);  
+      if (deletedOptionId) {
+        setDeletedModifierIds((prevIds) => {
+          if (!prevIds.includes(deletedOptionId)) {
+            return [...prevIds, deletedOptionId];
+          }
+          return prevIds;
+        });
       }
-      return mod;
-    });
-  
-    const deletedOptionId = modifications[modIndex]?.modifierOptions?.[optIndex]?.modifierOptionId; 
-  
-    setModifications(newModifications);
-  
-    if (deletedOptionId) {
-      setDeletedModifierIds((prevIds) => {
-        if (!prevIds.includes(deletedOptionId)) {
-          return [...prevIds, deletedOptionId];
-        }
-        return prevIds;
-      });
     }
   };
   
-  
-
   const dispatch1 = () => {
     dispatch(itemCustomizationPost(modifications));
   };
@@ -511,7 +436,7 @@ const ItemCustomizations: React.FC = () => {
           sellPrice: 0,
         })),
         selectedValue: [],
-        selectionType: "Optional",
+        selectionType: "Optional", 
       }))
     );
   };
@@ -554,7 +479,7 @@ const ItemCustomizations: React.FC = () => {
 
   const handleSearchChange = () => {
     if (searchQuery.length > 1) {
-      setShowSearchList(true);
+      setShowSearchList(true)
       dispatch(getModifierRequest({ name: searchQuery, locationId }));
     }
   };
@@ -617,7 +542,8 @@ const ItemCustomizations: React.FC = () => {
     }
     setListOfStreams(streams);
   }, [ordertypesdetails]);
-
+  
+  
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -689,8 +615,7 @@ const ItemCustomizations: React.FC = () => {
                   <ul>
                     {ModifierList?.length !== 0 ? (
                       ModifierList?.map((item, index) => (
-                        <div className="modiferSearchContainer">
-                          <li
+                        <li
                           key={index}
                           className={
                             index === highlightedIndex
@@ -717,7 +642,6 @@ const ItemCustomizations: React.FC = () => {
                             )}
                           </div>
                         </li>
-                        </div>
                       ))
                     ) : (
                       <div
@@ -972,8 +896,8 @@ const ItemCustomizations: React.FC = () => {
                                     modifications[modIndex]?.selectionType ===
                                       "Mandatory" &&
                                     modifications[modIndex].minSelection != 1
-                                      ? 1
-                                      : modifications[modIndex].minSelection
+                                      ? 1 
+                                      : modifications[modIndex].minSelection 
                                   }
                                   name="minSelection"
                                   onChange={(e) =>
