@@ -595,7 +595,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
-    // isSingleMenu: false,
+    isSingleMenu: false,
     modifiersToRemove: combinedData?.filter(Boolean),
     availabilityDaysRemove: editData[0]?.availabilityDays,
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
@@ -649,6 +649,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.addMenuSuccess
   );
 
+  const updateMenuItemSuccess = useSelector((state: any) => state.productCatalog?.updateMenuItemSuccess)
+
+  const updateMenuItemLoading = useSelector((state: any) => state.productCatalog?.updateMenuItemLoading)
+
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmitItemDetails = () => {
@@ -693,7 +697,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       // dispatch(removeDataRequest(itemCustomizationData))
       history.push("/menuListing");
     }
-  }, [addMenuSuccess]);
+  }, [addMenuSuccess, updateMenuItemSuccess]);
 
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
@@ -1086,9 +1090,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             onClick={handleSubmitItemDetails}
-            disabled={addMenuLoading}
+            disabled={addMenuLoading || updateMenuItemLoading}
           >
-            {!addMenuLoading ? (
+            {!addMenuLoading || !updateMenuItemLoading ? (
               "Submit for review"
             ) : (
               <div className="reviewLoaders"></div>

@@ -279,25 +279,25 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const handleMealTypeChange = (
     option: string,
     selectedMealTypes: string[],
-    index : number
+    index: number
   ) => {
     setMealTypes((prev) => ({
       ...prev,
       [option]: selectedMealTypes,
     }));
-
-    const data = [...priceInfo]
-    if(!data[index].availabilities){
-      data[index].availabilities=[]
-      data[index].availabilities.push({
-        availabilityDays: [],
-        sessions: [],
-      })
-
+    const data = JSON.parse(JSON.stringify(priceInfo));
+    if (!data[index].availabilities) {
+      data[index].availabilities = [
+        {
+          availabilityDays: [],
+          sessions: [],
+        },
+      ];
     }
-    data[index].availabilities[0].sessions = selectedMealTypes
-    setPriceInfo(data)
+    data[index].availabilities[0].sessions = selectedMealTypes;    
+    setPriceInfo(data);
   };
+  
 
   const mainForm = {
     availabilityid: availabilityid,

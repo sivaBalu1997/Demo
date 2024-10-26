@@ -155,9 +155,6 @@ const ItemCustomizations: React.FC = () => {
     initialModificationValue
   );
 
-  console.log({modifications})
-
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -172,7 +169,6 @@ const ItemCustomizations: React.FC = () => {
   //   }
   // }, [editData]);
 
-  console.log({itemCustomizationData})
 
   useEffect(() => {
     if (showModifiers === false) {
@@ -181,8 +177,9 @@ const ItemCustomizations: React.FC = () => {
     }
 
     if (itemCustomizationData?.length > 0) {
+      console.log({itemCustomizationData})
       const mappedModifications = itemCustomizationData.map((item: any) => ({
-        id: item?.id || "",
+        modifierId: item?.id || "",
         modifierName: item?.modifierName || item?.name ||"",
         modifierOptions: item?.options
           ? item.options.map((option: any) => ({
@@ -205,17 +202,18 @@ const ItemCustomizations: React.FC = () => {
     }
   }, [itemCustomizationData, showModifiers]);
 
-  console.log('askdlasdlnk',{modifications})
-
   const addModifier = () => {
     setModifications([
       ...modifications,
       {
+        modifierId: '',
         modifierName: "",
+        isModifierChanged: false,
         modifierOptions: [
           {
-            optionName: "",
-            sellPrice: 0,
+            modifierOptionName: "",
+            cost: 0,
+            isModifierOptionChanged: false,
           },
         ],
         minSelection: 1,
@@ -487,7 +485,6 @@ const ItemCustomizations: React.FC = () => {
   };
   
   
-
   const dispatch1 = () => {
     dispatch(itemCustomizationPost(modifications));
   };
