@@ -155,6 +155,8 @@ const ItemCustomizations: React.FC = () => {
     initialModificationValue
   );
 
+  console.log({modifications})
+
 
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -232,6 +234,8 @@ const ItemCustomizations: React.FC = () => {
   const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
   const [updatedModifierIds, setUpdatedModifierIds] = useState<any[]>([]);
 
+  console.log({deletedModifierIds},{updatedModifierIds})
+
   useEffect(() => {
     if (deletedModifierIds.length > 0) {
       dispatch(deleteModifierRequest(deletedModifierIds));
@@ -262,34 +266,38 @@ const ItemCustomizations: React.FC = () => {
       };
   
       setUpdatedModifierIds((prevIds) => {
-        if (!prevIds.includes(updated[modIndex].id)) {
-          return [...prevIds, updated[modIndex].id];
+        const updatedModifierId = updated[modIndex].modifierId;  
+        if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
+          return [...prevIds, updatedModifierId].filter(id => id !== "");
         }
-        return prevIds;
+  
+        return prevIds.filter(id => id !== ""); 
       });
   
       return updated;
     });
   };
   
+    
   const handleDeleteModifier = (modIndex: number) => {
     setModifications((prev: any) => {
       const updated = [...prev];
       const deletedId = updated[modIndex].modifierId; 
   
-      updated.splice(modIndex, 1);
+      updated.splice(modIndex, 1); 
       if (deletedId) {
         setDeletedModifierIds((prevIds) => {
           if (!prevIds.includes(deletedId)) {
-            return [...prevIds, deletedId];
+            return [...prevIds, deletedId]; 
           }
-          return prevIds;
+          return prevIds; 
         });
       }
   
-      return updated;
+      return updated; 
     });
   };
+  
   
 
   const addOption = (index: number) => {
@@ -466,14 +474,14 @@ const ItemCustomizations: React.FC = () => {
   
     setModifications(newModifications);
   
-    if (deletedOptionId) {
-      setDeletedModifierIds((prevIds) => {
-        if (!prevIds.includes(deletedOptionId)) {
-          return [...prevIds, deletedOptionId];
-        }
-        return prevIds;
-      });
-    }
+    // if (deletedOptionId) {
+    //   setDeletedModifierIds((prevIds) => {
+    //     if (!prevIds.includes(deletedOptionId)) {
+    //       return [...prevIds, deletedOptionId];
+    //     }
+    //     return prevIds;
+    //   });
+    // }
   };
   
   

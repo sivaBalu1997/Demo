@@ -368,13 +368,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setRetriedImages([newImage]);
       dispatch(retryImageUpload(newImage));
 
-      // setTimeout(() => {
-      //   dispatch(startImageUpload(retriedImages))
-      // }, 2000);
-
       dispatch(cleanMenuItemSuccessMsg());
-
-      // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
       const allUploaded = uploadedimage.every(
         (img) => img && !hasImageError(img.file)
@@ -465,13 +459,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
 
-  const matchedKitchenStation = kitchenStationData?.find(
-    (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
-  );
-
-  // const matchedBestPair = bestPairData?.find(
-  //   (bestPair : any) => bestPair.name === primarydata?.bestPair
-  // );
+  const matchedKitchenStation = Array.isArray(kitchenStationData)
+  ? kitchenStationData.find(
+      (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
+    )
+  : undefined;
 
   const matchedBestPair = bestPairData?.filter((bestPair: any) =>
     primarydata?.bestPair?.includes(bestPair?.name)
@@ -486,6 +478,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierName: item?.modifierName,
+    isModifierChanged: item?.isModifierChanged,
     maxCount: item?.maxSelection,
     minCount: item?.minSelection,
     noFreeCustomization: item?.freeCustomization,
@@ -560,11 +553,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const [combinedData, setCombinedData] = useState<string[]>([]);
 
-  console.log({combinedData},{modifierData})
-
-
   useEffect(() => {
-    const mergedData = [...updateModifierId, ...deletedId];
+    const flatDeletedId = deletedId.flat();
+    const mergedData = [...new Set([...updateModifierId, ...flatDeletedId])];
     setCombinedData(mergedData);
   }, [deletedId, updateModifierId]);
 
@@ -599,7 +590,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDaysToAdd: stringNormalDays || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
-    ...(modifierData.length > 0 && { modifiersToAdd: modifierData || null }),
+    ...(itemCustomizationData.length > 0 && { modifiersToAdd: modifierData || null }),
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
@@ -610,61 +601,61 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
-  console.log({editPayload})
+  console.log({menuPayload}, {editPayload})
 
+  // const handleDispatch = async () => {
+  //   checkAllImagesForErrors();
+  //   const allUploaded = uploadedimage.every(
+  //     (img) => img && !hasImageError(img.file)
+  //   );
 
-  const handleDispatch = async () => {
-    checkAllImagesForErrors();
-    const allUploaded = uploadedimage.every(
-      (img) => img && !hasImageError(img.file)
-    );
+  //   if (uploadStatus.id && error && error.length > 0) {
+  //     const allSuccess = error.every((data) => data.status === "success");
+  //     if (allUploaded && allSuccess) {
+  //       dispatch(cleanMenuItemSuccessMsg());
 
-    if (uploadStatus.id && error && error.length > 0) {
-      const allSuccess = error.every((data) => data.status === "success");
-      if (allUploaded && allSuccess) {
-        dispatch(cleanMenuItemSuccessMsg());
+  //       setTimeout(() => {
+  //         setTimeout(() => checkAllImagesForErrors(), 0);
 
-        setTimeout(() => {
-          setTimeout(() => checkAllImagesForErrors(), 0);
+  //         if (allUploaded && allSuccess) {
+  //           history.push("/menuListing");
+  //         }
+  //       }, 5000);
+  //     } else {
+  //       alert("you can't go");
+  //       setdisablesubmitbtn(true);
+  //     }
+  //   }
 
-          if (allUploaded && allSuccess) {
-            history.push("/menuListing");
-          }
-        }, 5000);
-      } else {
-        alert("you can't go");
-        setdisablesubmitbtn(true);
-      }
-    }
-
-    if (ImageId === "" || ImageId === undefined) {
-    } else {
-      setindextoreplace((prev) => {
-        const updatedIndexToReplace = [...prev];
-        updatedIndexToReplace.forEach((item) => {
-          dispatch(uploadImage(item.image, item.id, item.index));
-        });
-        return updatedIndexToReplace;
-      });
-    }
-    if (editData.length > 0 && editData[0]) {
-      dispatch(updateMenuItemRequest(editPayload));
-    } else {
-      dispatch(addMenuItemRequest({ menuPayload, locationid }));
-    }
-  };
+  //   if (ImageId === "" || ImageId === undefined) {
+  //   } else {
+  //     setindextoreplace((prev) => {
+  //       const updatedIndexToReplace = [...prev];
+  //       updatedIndexToReplace.forEach((item) => {
+  //         dispatch(uploadImage(item.image, item.id, item.index));
+  //       });
+  //       return updatedIndexToReplace;
+  //     });
+  //   }
+  //   if (editData.length > 0 && editData[0]) {
+  //     dispatch(updateMenuItemRequest(editPayload));
+  //   } else {
+  //     dispatch(addMenuItemRequest({ menuPayload, locationid }));
+  //   }
+  // };
 
   const addMenuSuccess = useSelector(
     (state: any) => state.productCatalog.addMenuSuccess
   );
 
-  useEffect(() => {
-    if (subsectiondatamsg) {
-      editData.length > 0 && editData[0]
-        ? dispatch(updateMenuItemRequest(editPayload))
-        : dispatch(addMenuItemRequest({ menuPayload, locationid }));
-    }
-  }, [subsectiondatamsg]);
+  // useEffect(() => {
+  //   if (subsectiondatamsg) {
+  //     console.log('5')
+  //     editData.length > 0 && editData[0]
+  //       ? dispatch(updateMenuItemRequest(editPayload))
+  //       : dispatch(addMenuItemRequest({ menuPayload, locationid }));
+  //   }
+  // }, [subsectiondatamsg]);
 
   const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -674,15 +665,19 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setButtonClicked(true);
       if (subsectiondatamsg) {
         if (editData.length > 0 && editData[0]) {
+          console.log('1')
           dispatch(updateMenuItemRequest( editPayload ));
         } else {
+          console.log('2')
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
       }
     } else {
       if (editData.length > 0 && editData[0]) {
+        console.log("3")
         dispatch(updateMenuItemRequest( editPayload ));
       } else {
+        console.log('4')
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
       // dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -750,8 +745,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Dietary type"
                           textvalue={
-                            primarydata.dietaryType
-                              ? primarydata.dietaryType
+                            Array.isArray(primarydata.dietaryType) && primarydata.dietaryType.length > 0
+                              ? primarydata.dietaryType.map((type) => type.name).join(", ")
                               : "-"
                           }
                         />
@@ -1000,17 +995,17 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                   )}
                                 </li>
                               ))}
-
-                            {Array.from({ length: emptySlots })
-                              .slice(0)
-                              .map((_, index) => (
-                                <li key={selectedImages.length + index + 1}>
-                                  <img
-                                    src={emptyfoodimg}
-                                    alt={`empty ${index}`}
-                                  />
-                                </li>
-                              ))}
+                              {Array.from({ length: emptySlots })
+                                .slice(0)
+                                .map((_, index) => (
+                                  <li key={selectedImages.length + index + 1}>
+                                    {typeof emptyfoodimg === "string" ? (
+                                      <img src={emptyfoodimg} alt={`empty ${index}`} />
+                                    ) : (
+                                      <span>Error: emptyfoodimg is not a valid image path</span>
+                                    )}
+                                  </li>
+                                ))}
                           </div>
                         </ol>
                         <ol></ol>
