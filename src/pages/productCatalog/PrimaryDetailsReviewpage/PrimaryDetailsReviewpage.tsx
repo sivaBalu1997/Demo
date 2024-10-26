@@ -477,11 +477,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const kitchenStationId = matchedKitchenStation?.id;
 
   const modifierData = itemCustomizationData?.map((item) => ({
-    modifierName: item?.modifierName,
-    isModifierChanged: item?.isModifierChanged,
-    maxCount: item?.maxSelection,
-    minCount: item?.minSelection,
-    noFreeCustomization: item?.freeCustomization,
+    modifierId: item?.modifierId|| null,
+    modifierName: item?.modifierName || null,
+    isModifierChanged: item?.isModifierChanged || false,
+    maxCount: item?.maxSelection || null,
+    minCount: item?.minSelection || null,
+    noFreeCustomization: item?.freeCustomization || null,
     options: item?.modifierOptions,
   }));
 
@@ -594,7 +595,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
-    isSingleMenu: false,
+    // isSingleMenu: false,
     modifiersToRemove: combinedData?.filter(Boolean),
     availabilityDaysRemove: editData[0]?.availabilityDays,
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
@@ -648,15 +649,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.addMenuSuccess
   );
 
-  // useEffect(() => {
-  //   if (subsectiondatamsg) {
-  //     console.log('5')
-  //     editData.length > 0 && editData[0]
-  //       ? dispatch(updateMenuItemRequest(editPayload))
-  //       : dispatch(addMenuItemRequest({ menuPayload, locationid }));
-  //   }
-  // }, [subsectiondatamsg]);
-
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmitItemDetails = () => {
@@ -684,6 +676,15 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setButtonClicked(true);
     }
   };
+
+  useEffect(() => {
+    if (subsectiondatamsg && buttonClicked) {
+      console.log('5')
+      editData.length > 0 && editData[0]
+        ? dispatch(updateMenuItemRequest(editPayload))
+        : dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    }
+  }, [subsectiondatamsg]);
 
   useEffect(() => {
     if (buttonClicked) {

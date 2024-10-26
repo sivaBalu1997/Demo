@@ -172,6 +172,8 @@ const ItemCustomizations: React.FC = () => {
   //   }
   // }, [editData]);
 
+  console.log({itemCustomizationData})
+
   useEffect(() => {
     if (showModifiers === false) {
       setIsValid(true);
@@ -181,11 +183,11 @@ const ItemCustomizations: React.FC = () => {
     if (itemCustomizationData?.length > 0) {
       const mappedModifications = itemCustomizationData.map((item: any) => ({
         id: item?.id || "",
-        modifierName: item?.modifierName || "",
+        modifierName: item?.modifierName || item?.name ||"",
         modifierOptions: item?.options
           ? item.options.map((option: any) => ({
-              modifierOptionName: option.modifierOptionName || "",
-              cost: option.cost,
+              modifierOptionName: option.modifierOptionName || option?.name || "",
+              cost: option.cost || option?.price,
             }))
           : [{ modifierOptionName: "", cost: 0 }],
         minSelection: item.minSelection || 1,
@@ -198,9 +200,12 @@ const ItemCustomizations: React.FC = () => {
         startDate: item?.startDate || "",
         selectionType: item?.selectionType || "",
       }));
+      console.log({mappedModifications})
       setModifications(mappedModifications);
     }
   }, [itemCustomizationData, showModifiers]);
+
+  console.log('askdlasdlnk',{modifications})
 
   const addModifier = () => {
     setModifications([
@@ -297,8 +302,6 @@ const ItemCustomizations: React.FC = () => {
       return updated; 
     });
   };
-  
-  
 
   const addOption = (index: number) => {
     setModifications((prevModifications: any) => {
@@ -364,9 +367,8 @@ const ItemCustomizations: React.FC = () => {
                     ? parseFloat(e.target.value) || 0
                     : e.target.value;
   
-                // Check for modifierId instead of modifierOptionId
                 const isOptionChanged =
-                  mod.modifierId !== "" && // Check modifierId
+                  mod.modifierId !== "" && 
                   currentValue !== undefined &&
                   currentValue !== null &&
                   currentValue !== "" &&

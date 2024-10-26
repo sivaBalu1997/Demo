@@ -9,6 +9,7 @@ interface modifierOptions {
   cost: number;
 }
 export interface ItemCustomization {
+  modifierId?: string;
   isModifierChanged?: boolean;
   modifierName: string;
   selectionType: string;

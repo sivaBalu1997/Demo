@@ -616,28 +616,33 @@ export default function productCatalogReducer(
 
       case START_IMAGE_UPLOAD:
         draft.uploadImageLoading = true;
+        draft.imageUploadsuccessemsg = false;
         break;
 
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
         draft.uploadImageLoading = false;
+        draft.imageUploadsuccessemsg = false;
         break;
 
       case UPLOAD_IMAGE_FAILURE:
         draft.uploadImageLoading = false;
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
+        draft.imageUploadsuccessemsg = false;
         break;
 
       case IMAGE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.itemId = action.payload;
+        draft.imageUploadsuccessemsg = false;
         break;
 
       case STORE_UPLOAD_FAILURE:
         draft.uploadImageLoading = false;
         draft.uploadFailures = action.payload.failureArray;
         draft.imageUpload = action.payload.statusmsg;
+        draft.imageUploadsuccessemsg = false;
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;

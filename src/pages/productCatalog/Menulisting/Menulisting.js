@@ -378,8 +378,8 @@ export const Menulisting = () => {
         alcohol: editData[0]?.containsAlcohol ?? false,
         itemCode: editData[0]?.itemCode ?? '',
         barCode: editData[0]?.barCode ?? '',
-        Ingredients: editData[0]?.ingredients ?? '',
-        allergens: editData[0]?.allergens ?? '',
+        Ingredients: editData[0]?.ingredients?.map(ingredient => ingredient?.id ?? '') ?? [],
+        allergens: editData[0]?.allergens?.map(allergen => allergen?.id ?? '') ?? [],
         coloriePoint: editData[0]?.calorieInfo ?? {},  // object
         portionSize: editData[0]?.portionInfo ?? '',
         tax: editData[0]?.taxClassAssociation ?? [], // array

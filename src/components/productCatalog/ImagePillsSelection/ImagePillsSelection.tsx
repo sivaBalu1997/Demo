@@ -34,6 +34,8 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
   );
+
+  console.log('2',{ItemsPrimaryDetails})
     
   const handleSearchingImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchImage(e.target.value);
