@@ -74,7 +74,7 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
     if (!ingredientsdata.length) {
       dispatch(getIngredientsRequest(locationid));
     }
-  }, [dispatch, ingredientsdata.length, locationid]);
+  }, [dispatch, ingredientsdata?.length, locationid]);
 
   useEffect(() => {
     if (imageselected) {
