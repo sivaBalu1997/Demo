@@ -32,9 +32,11 @@ import { tr } from "date-fns/locale";
 
 // Define types
 interface Option {
-  optionName: string;
-  sellPrice: number;
+  modifierOptionName: string;
+  modifierName?: any;
+  cost: number;
   item?: string;
+  sellPrice?: any;
 }
 
 interface Modifier {
@@ -58,6 +60,7 @@ interface Modification {
   id?: string;
   modifierName: string;
   modifierOptions: Option[];
+  modifierOptionName: any;
   minSelection: number;
   maxSelection: number;
   freeCustomization: number;
@@ -155,6 +158,8 @@ const ItemCustomizations: React.FC = () => {
     initialModificationValue
   );
 
+  console.log({modifications})
+
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -169,6 +174,7 @@ const ItemCustomizations: React.FC = () => {
   //   }
   // }, [editData]);
 
+  console.log({itemCustomizationData})
 
   useEffect(() => {
     if (showModifiers === false) {
@@ -177,14 +183,16 @@ const ItemCustomizations: React.FC = () => {
     }
 
     if (itemCustomizationData?.length > 0) {
-      console.log({itemCustomizationData})
       const mappedModifications = itemCustomizationData.map((item: any) => ({
         modifierId: item?.id || "",
         modifierName: item?.modifierName || item?.name ||"",
-        modifierOptions: item?.options
-          ? item.options.map((option: any) => ({
-              modifierOptionName: option.modifierOptionName || option?.name || "",
-              cost: option.cost || option?.price,
+        isModifierChanged: false,
+        modifierOptions: item?.modifierOptions
+          ? item.modifierOptions.map((option: any) => ({
+              modifierOptionId: option?.optionId || option?.modifierOptionId || null,
+              modifierOptionName: option?.modifierOptionName || option?.name || "",
+              cost: option.cost || option?.price || 0,
+              isModifierOptionChanged: false,
             }))
           : [{ modifierOptionName: "", cost: 0 }],
         minSelection: item.minSelection || 1,
@@ -193,8 +201,8 @@ const ItemCustomizations: React.FC = () => {
         selectedValue: Array.isArray(item?.selectedValue)
           ? item.selectedValue.map((elem: any) => elem)
           : [],
-        endDate: item?.endDate || "",
-        startDate: item?.startDate || "",
+        // endDate: item?.endDate || "",
+        // startDate: item?.startDate || "",
         selectionType: item?.selectionType || "",
       }));
       console.log({mappedModifications})
@@ -227,11 +235,13 @@ const ItemCustomizations: React.FC = () => {
 
   const getFormData = (): FormData => {
     const formData = new FormData();
+    console.log('1',{modifications})
     modifications.forEach((modification: any, index: any) => {
       formData.append(`modification_${index}`, JSON.stringify(modification));
     });
     return formData;
   };
+
 
   const [initialModifierIds, setInitialModifierIds] = useState<any[]>([]);
   const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
@@ -306,8 +316,8 @@ const ItemCustomizations: React.FC = () => {
       const newModifications = prevModifications.map((mod: any, modIndex: number) => {
         if (modIndex === index) {
           const newOption = {
-            optionName: "",
-            sellPrice: 0,
+            modifierOptionName: "",
+            cost: 0,
             modifierOptionId: "", 
             isModifierOptionChanged: false
           };
@@ -353,11 +363,10 @@ const ItemCustomizations: React.FC = () => {
     e: ChangeEvent<HTMLInputElement>
   ) => {
     setModifications((prevModifications: any) => {
-      const newModifier = prevModifications.map((mod: any, index: any) => {
+      const newModifier = prevModifications.map((mod: any, index: number) => {
         if (index === modIndex) {
-          return {
-            ...mod,
-            modifierOptions: mod.modifierOptions?.map((opt: any, optIdx: any) => {
+          const updatedModifierOptions = mod.modifierOptions.map(
+            (opt: any, optIdx: number) => {
               if (optIdx === optIndex) {
                 const currentValue = opt[e.target.name];
                 const newValue =
@@ -366,7 +375,7 @@ const ItemCustomizations: React.FC = () => {
                     : e.target.value;
   
                 const isOptionChanged =
-                  mod.modifierId !== "" && 
+                  mod.modifierId !== "" && // Modifier ID check for existing data
                   currentValue !== undefined &&
                   currentValue !== null &&
                   currentValue !== "" &&
@@ -379,13 +388,24 @@ const ItemCustomizations: React.FC = () => {
                 };
               }
               return opt;
-            }),
+            }
+          );
+  
+          // Set isModifierChanged only if modifierId is not empty
+          const isModifierChanged =
+            mod.modifierId !== "" &&
+            updatedModifierOptions.some((opt: any) => opt.isModifierOptionChanged);
+  
+          return {
+            ...mod,
+            modifierOptions: updatedModifierOptions,
+            isModifierChanged, // Update isModifierChanged only if modifierId is not ""
           };
         }
         return mod;
       });
   
-      const updatedModifierId = newModifier[modIndex]?.modifierId; 
+      const updatedModifierId = newModifier[modIndex]?.modifierId;
       if (updatedModifierId) {
         setUpdatedModifierIds((prevIds) => {
           if (!prevIds.includes(updatedModifierId)) {
@@ -395,21 +415,22 @@ const ItemCustomizations: React.FC = () => {
         });
       }
   
-      return newModifier[modIndex]?.modifierId ? newModifier : prevModifications; 
+      return newModifier; // Return the entire modified array here
     });
-  };  
-
-  const incrementSpinner = (index: number, field: keyof Modification) => {
-    const newModifier = [...modifications];
-    if (newModifier[index]) {
-      newModifier[index][field as keyof Modifier] =
-        (parseInt(
-          newModifier[index][field as keyof Modifier]?.toString() || 0,
-          10
-        ) || 0) + 1;
-    }
-    setModifications(newModifier);
   };
+  
+
+  // const incrementSpinner = (index: number, field: keyof Modification) => {
+  //   const newModifier = [...modifications];
+  //   if (newModifier[index]) {
+  //     newModifier[index][field as keyof Modifier] =
+  //       (parseInt(
+  //         newModifier[index][field as keyof Modifier]?.toString() || 0,
+  //         10
+  //       ) || 0) + 1;
+  //   }
+  //   setModifications(newModifier);
+  // };
 
   const getModifierClassName = (length: any) => {
     if (length == 1) {
@@ -435,19 +456,27 @@ const ItemCustomizations: React.FC = () => {
     }
   };
 
-  const decrementSpinner = (index: number, field: keyof Modification) => {
-    const newModifier = [...modifications];
+  const incrementSpinner = (index: number, field: keyof Modification) => {
+    const newModifier = JSON.parse(JSON.stringify(modifications)); 
+    
     if (newModifier[index]) {
-      const currentValue =
-        parseInt(
-          newModifier[index][field as keyof Modifier]?.toString() || "0",
-          10
-        ) || 0;
-
+      newModifier[index][field] = (parseInt(newModifier[index][field]?.toString() || "0", 10) || 0) + 1;
+    }
+  
+    setModifications(newModifier);
+  };
+  
+  const decrementSpinner = (index: number, field: keyof Modification) => {
+    const newModifier = JSON.parse(JSON.stringify(modifications)); 
+    
+    if (newModifier[index]) {
+      const currentValue = parseInt(newModifier[index][field]?.toString() || "0", 10) || 0;
+  
       if (currentValue > 0) {
-        newModifier[index][field as keyof Modifier] = currentValue - 1;
+        newModifier[index][field] = currentValue - 1;
       }
     }
+  
     setModifications(newModifier);
   };
 
@@ -514,8 +543,8 @@ const ItemCustomizations: React.FC = () => {
         modifierName: "",
         modifierOptions: modification.modifierOptions.map((option: any) => ({
           ...option,
-          optionName: "",
-          sellPrice: 0,
+          modifierOptionName: "",
+          cost: 0,
         })),
         selectedValue: [],
         selectionType: "Optional",
@@ -861,8 +890,8 @@ const ItemCustomizations: React.FC = () => {
                                           name="modifierOptionName"
                                           type="text"
                                           value={
-                                            modifier?.modifierOptions[optIndex]
-                                              .optionName
+                                            modifications[modIndex]?.modifierOptions[optIndex]?.modifierOptionName ||
+                                            modifications[modIndex]?.modifierOptions[optIndex]?.modifierName
                                           }
                                           onChange={(e) =>
                                             addOptionChange(
@@ -875,14 +904,12 @@ const ItemCustomizations: React.FC = () => {
                                             handleBlur(e, modIndex, optIndex)
                                           }
                                         />
-                                        {modificationError[modIndex]?.options?.[
-                                          optIndex
-                                        ]?.optionName && (
+                                        {modificationError[modIndex]?.options?.[optIndex]?.modifierOptionName && (
                                           <div className="error-message1">
                                             {
                                               modificationError[modIndex]
                                                 ?.options?.[optIndex]
-                                                ?.optionName
+                                                ?.modifierOptionName
                                             }
                                           </div>
                                         )}
@@ -895,8 +922,7 @@ const ItemCustomizations: React.FC = () => {
                                           name="cost"
                                           type="number"
                                           value={
-                                            modifier.modifierOptions[optIndex]
-                                              .sellPrice
+                                            modifier.modifierOptions[optIndex].cost || modifier.modifierOptions[optIndex].sellPrice
                                           }
                                           onChange={(e) =>
                                             addOptionChange(
@@ -1147,3 +1173,4 @@ const ItemCustomizations: React.FC = () => {
 };
 
 export default ItemCustomizations;
+

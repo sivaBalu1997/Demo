@@ -595,7 +595,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
-    isSingleMenu: false,
+    // isSingleMenu: false,
     modifiersToRemove: combinedData?.filter(Boolean),
     availabilityDaysRemove: editData[0]?.availabilityDays,
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
@@ -661,19 +661,15 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setButtonClicked(true);
       if (subsectiondatamsg) {
         if (editData.length > 0 && editData[0]) {
-          console.log('1')
           dispatch(updateMenuItemRequest( editPayload ));
         } else {
-          console.log('2')
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
       }
     } else {
       if (editData.length > 0 && editData[0]) {
-        console.log("3")
         dispatch(updateMenuItemRequest( editPayload ));
       } else {
-        console.log('4')
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
       // dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -683,7 +679,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   useEffect(() => {
     if (subsectiondatamsg && buttonClicked) {
-      console.log('5')
       editData.length > 0 && editData[0]
         ? dispatch(updateMenuItemRequest(editPayload))
         : dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -1092,7 +1087,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
             onClick={handleSubmitItemDetails}
             disabled={addMenuLoading || updateMenuItemLoading}
           >
-            {!addMenuLoading || !updateMenuItemLoading ? (
+            {(!addMenuLoading || !updateMenuItemLoading) ? (
               "Submit for review"
             ) : (
               <div className="reviewLoaders"></div>
