@@ -147,7 +147,7 @@ const SearchBox = () => {
 
   return (
     <div className="MLSearch-Container">
-      <div>
+      <div className='MLsearchbox'>
         <input
           className={`${isExpanded ? "MLHeader-Search1" : "MLHeader-Search"}`}
           value={`${searchTerm}`}  
