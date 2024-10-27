@@ -437,6 +437,38 @@ export default function productCatalogReducer(
         draft.ingredientsSuccess = false;
         break;
 
+      case ALLERGENS_REQUEST:
+        draft.allergens = [];
+        draft.allergensLoading = true;
+        draft.allergensSuccess = false;
+        break;
+      case ALLERGENS_SUCCESS:
+        draft.allergens = action.payload;
+        draft.allergensLoading = false;
+        draft.allergensSuccess = true;
+        break;
+      case ALLERGENS_FAILURE:
+        draft.allergens = [];
+        draft.allergensLoading = false;
+        draft.allergensSuccess = false
+        break;
+
+      case INGREDIENTS_REQUEST:
+        draft.ingredients = [];
+        draft.ingredientsLoading = true;
+        draft.ingredientsSuccess = false;
+        break;
+      case INGREDIENT_SUCESS:
+        draft.ingredients = action.payload;
+        draft.ingredientsLoading = false;
+        draft.ingredientsSuccess = true;
+        break;
+      case INGREDIENT_FAILURE:
+        draft.ingredients = [];
+        draft.ingredientsLoading = false;
+        draft.ingredientsSuccess = false;
+        break;
+
       // Get Menu Category
       case GET_MENU_CATEGORY_REQUEST:
         draft.categoryData = [];
@@ -584,28 +616,33 @@ export default function productCatalogReducer(
 
       case START_IMAGE_UPLOAD:
         draft.uploadImageLoading = true;
+        draft.imageUploadsuccessemsg = false;
         break;
 
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
         draft.uploadImageLoading = false;
+        draft.imageUploadsuccessemsg = false;
         break;
 
       case UPLOAD_IMAGE_FAILURE:
         draft.uploadImageLoading = false;
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
+        draft.imageUploadsuccessemsg = false;
         break;
 
       case IMAGE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.itemId = action.payload;
+        draft.imageUploadsuccessemsg = false;
         break;
 
       case STORE_UPLOAD_FAILURE:
         draft.uploadImageLoading = false;
         draft.uploadFailures = action.payload.failureArray;
         draft.imageUpload = action.payload.statusmsg;
+        draft.imageUploadsuccessemsg = false;
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;

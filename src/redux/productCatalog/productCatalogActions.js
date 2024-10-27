@@ -884,19 +884,17 @@ export const deleteModifierFailure = (error) => ({
   payload: error,
 });
 
-export const removeDataRequest = (data) => ({
+export const removeDataRequest = () => ({
   type: REMOVE_DATA_REQUEST,
-  payload: data,
+  
 });
 
-export const removeDataSuccess = (response) => ({
+export const removeDataSuccess = () => ({
   type: REMOVE_DATA_SUCCESS,
-  payload: response,
 });
 
-export const removeDataFailure = (error) => ({
+export const removeDataFailure = () => ({
   type: REMOVE_DATA_FAILURE,
-  payload: error,
 });
 
 export const updateModifierData = (data) => ({

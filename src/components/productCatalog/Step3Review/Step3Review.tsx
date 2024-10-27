@@ -7,13 +7,18 @@ import { Link } from "react-router-dom";
 interface modifierOptions {
   modifierOptionName: string;
   cost: number;
+  isModifierOptionChanged: any;
 }
 export interface ItemCustomization {
+  modifierId?: string;
+  isModifierChanged?: boolean;
   modifierName: string;
   selectionType: string;
   minSelection?: number;
   maxSelection?: number;
   modifierOptions?: modifierOptions[];
+  price?: any;
+  name?: any;
   freeCustomization?: string;
   selectedValue?: string[];
   serviceStreams?: string[];

@@ -289,7 +289,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     subCategory: primarypagedetails.primarypage.data.subCategory,
     itemId: null,
   };
-  // console.log("the whole data",Wholedata)
 
   const [uploadedimage, setUploadedimage] = useState<ImageFile[]>(
     fetchedprimarydata.imageUrls
@@ -368,13 +367,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setRetriedImages([newImage]);
       dispatch(retryImageUpload(newImage));
 
-      // setTimeout(() => {
-      //   dispatch(startImageUpload(retriedImages))
-      // }, 2000);
-
       dispatch(cleanMenuItemSuccessMsg());
-
-      // setindextoreplace((prev)=>[...prev,ReplaceImage]);
 
       const allUploaded = uploadedimage.every(
         (img) => img && !hasImageError(img.file)
@@ -447,9 +440,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.kitchenStation
   );
 
-  const addMenuLoading = useSelector(
-    (state: any) => state.productCatalog?.addMenuLoading
-  );
+  const addMenuLoading = useSelector((state : any) => state.productCatalog?.addMenuLoading)
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
     primarydata?.dietaryType?.includes(dietary.name)
@@ -467,13 +458,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (subCategory: any) => subCategory.name === primarydata?.subCategory
   );
 
-  const matchedKitchenStation = kitchenStationData?.find(
-    (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
-  );
-
-  // const matchedBestPair = bestPairData?.find(
-  //   (bestPair : any) => bestPair.name === primarydata?.bestPair
-  // );
+  const matchedKitchenStation = Array.isArray(kitchenStationData)
+  ? kitchenStationData.find(
+      (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
+    )
+  : undefined;
 
   const matchedBestPair = bestPairData?.filter((bestPair: any) =>
     primarydata?.bestPair?.includes(bestPair?.name)
@@ -486,12 +475,31 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
+  console.log({itemCustomizationData})
+
+  const orderTypess = useSelector(
+    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+  );
+
+  const getOrderTypeId = (value: any) => {
+    const orderTypes = orderTypess.find((item: any) => item?.typeName?.toLowerCase() === value?.toLowerCase())
+    return orderTypes ? orderTypes?.id : null;
+  }
+
   const modifierData = itemCustomizationData?.map((item) => ({
-    modifierName: item?.modifierName,
-    maxCount: item?.maxSelection,
-    minCount: item?.minSelection,
-    noFreeCustomization: item?.freeCustomization,
-    options: item?.modifierOptions,
+    modifierId: item?.modifierId || null,
+    modifierName: item?.modifierName || null,
+    isModifierChanged: item?.isModifierChanged || false,
+    maxCount: item?.maxSelection || null,
+    minCount: item?.minSelection || null,
+    noFreeCustomization: item?.freeCustomization || null,
+    orderTypeIds: (item?.selectedValue || []).map((value) => getOrderTypeId(value)),
+    options: item?.modifierOptions?.map((option: any) => ({
+      ...option,
+      optionName: option.modifierOptionName || option.name || "",
+      cost: option.cost || option.price || 0,
+      isModifierOptionChanged: option?.isModifierOptionChanged ?? false,
+    })).map(({ modifierOptionName, ...rest }) => rest) || [],
   }));
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
@@ -499,24 +507,20 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-  const ingredientsdata = useSelector(
-    (state: any) => state.productCatalog?.ingredients?.data
-  );
-  const allergensData = useSelector(
-    (state: any) => state.productCatalog?.allergens?.data
-  );
+  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
+  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
 
-  const editDetails = editData[0]?.orderTypes;
-  const removePricing = [];
-  const addPricing = [];
-
+  const editDetails = editData[0]?.orderTypes
+  const removePricing = []
+  const addPricing = []
+  
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
     pickupDetails && pickupDetails,
     deliveryDetails && deliveryDetails,
     ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
   ].filter(Boolean);
-
+  
   const normalDays = prizingDetail?.normalForm?.Normaldays;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
@@ -567,7 +571,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const [combinedData, setCombinedData] = useState<string[]>([]);
 
   useEffect(() => {
-    const mergedData = [...updateModifierId, ...deletedId];
+    const flatDeletedId = deletedId.flat();
+    const mergedData = [...new Set([...updateModifierId, ...flatDeletedId])];
     setCombinedData(mergedData);
   }, [deletedId, updateModifierId]);
 
@@ -599,73 +604,70 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: false,
-    availabilityDaysAdd: stringNormalDays || null,
-    orderTypesWithRespectToAvailabilityToAdd: combinedDetails || null,
+    availabilityDaysToAdd: stringNormalDays || null,
+    latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
-    ...(modifierData.length > 1 && { modifiersToAdd: modifierData || null }),
+    ...(itemCustomizationData.length > 0 && { modifiersToAdd: modifierData || null }),
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
-    // isSingleMenu: false,
-    modifiersToRemove: combinedData,
+    isSingleMenu: false,
+    modifiersToRemove: combinedData?.filter(Boolean),
     availabilityDaysRemove: editData[0]?.availabilityDays,
-    latestOrderTypesDTOWithRespectToAvailability:
-      editData[0]?.combinedDetails || null,
+    // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
     specialItem: null,
   };
 
-  const handleDispatch = async () => {
-    checkAllImagesForErrors();
-    const allUploaded = uploadedimage.every(
-      (img) => img && !hasImageError(img.file)
-    );
+  console.log({menuPayload}, {editPayload})
 
-    if (uploadStatus.id && error && error.length > 0) {
-      const allSuccess = error.every((data) => data.status === "success");
-      if (allUploaded && allSuccess) {
-        dispatch(cleanMenuItemSuccessMsg());
+  // const handleDispatch = async () => {
+  //   checkAllImagesForErrors();
+  //   const allUploaded = uploadedimage.every(
+  //     (img) => img && !hasImageError(img.file)
+  //   );
 
-        setTimeout(() => {
-          setTimeout(() => checkAllImagesForErrors(), 0);
+  //   if (uploadStatus.id && error && error.length > 0) {
+  //     const allSuccess = error.every((data) => data.status === "success");
+  //     if (allUploaded && allSuccess) {
+  //       dispatch(cleanMenuItemSuccessMsg());
 
-          if (allUploaded && allSuccess) {
-            history.push("/menuListing");
-          }
-        }, 5000);
-      } else {
-        alert("you can't go");
-        setdisablesubmitbtn(true);
-      }
-    }
+  //       setTimeout(() => {
+  //         setTimeout(() => checkAllImagesForErrors(), 0);
 
-    if (ImageId === "" || ImageId === undefined) {
-    } else {
-      setindextoreplace((prev) => {
-        const updatedIndexToReplace = [...prev];
-        updatedIndexToReplace.forEach((item) => {
-          dispatch(uploadImage(item.image, item.id, item.index));
-        });
-        return updatedIndexToReplace;
-      });
-    }
-    if (editData.length > 0 && editData[0]) {
-      dispatch(updateMenuItemRequest({ editPayload, locationid }));
-    } else {
-      dispatch(addMenuItemRequest({ menuPayload, locationid }));
-    }
-  };
+  //         if (allUploaded && allSuccess) {
+  //           history.push("/menuListing");
+  //         }
+  //       }, 5000);
+  //     } else {
+  //       alert("you can't go");
+  //       setdisablesubmitbtn(true);
+  //     }
+  //   }
+
+  //   if (ImageId === "" || ImageId === undefined) {
+  //   } else {
+  //     setindextoreplace((prev) => {
+  //       const updatedIndexToReplace = [...prev];
+  //       updatedIndexToReplace.forEach((item) => {
+  //         dispatch(uploadImage(item.image, item.id, item.index));
+  //       });
+  //       return updatedIndexToReplace;
+  //     });
+  //   }
+  //   if (editData.length > 0 && editData[0]) {
+  //     dispatch(updateMenuItemRequest(editPayload));
+  //   } else {
+  //     dispatch(addMenuItemRequest({ menuPayload, locationid }));
+  //   }
+  // };
 
   const addMenuSuccess = useSelector(
     (state: any) => state.productCatalog.addMenuSuccess
   );
 
-  useEffect(() => {
-    if (subsectiondatamsg) {
-      editData.length > 0 && editData[0]
-        ? dispatch(updateMenuItemRequest({ editPayload, locationid }))
-        : dispatch(addMenuItemRequest({ menuPayload, locationid }));
-    }
-  }, [subsectiondatamsg]);
+  const updateMenuItemSuccess = useSelector((state: any) => state.productCatalog?.updateMenuItemSuccess)
+
+  const updateMenuItemLoading = useSelector((state: any) => state.productCatalog?.updateMenuItemLoading)
 
   const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -675,14 +677,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setButtonClicked(true);
       if (subsectiondatamsg) {
         if (editData.length > 0 && editData[0]) {
-          dispatch(updateMenuItemRequest({ editPayload, locationid }));
+          dispatch(updateMenuItemRequest( editPayload ));
         } else {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
       }
     } else {
       if (editData.length > 0 && editData[0]) {
-        dispatch(updateMenuItemRequest({ editPayload, locationid }));
+        dispatch(updateMenuItemRequest( editPayload ));
       } else {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
@@ -692,13 +694,21 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   };
 
   useEffect(() => {
+    if (subsectiondatamsg && buttonClicked) {
+      editData.length > 0 && editData[0]
+        ? dispatch(updateMenuItemRequest(editPayload))
+        : dispatch(addMenuItemRequest({ menuPayload, locationid }));
+    }
+  }, [subsectiondatamsg]);
+
+  useEffect(() => {
     if (buttonClicked) {
       dispatch(removeDataRequest());
       // dispatch(removeDataRequest(prizingDetail))
       // dispatch(removeDataRequest(itemCustomizationData))
       history.push("/menuListing");
     }
-  }, [addMenuSuccess]);
+  }, [addMenuSuccess, updateMenuItemSuccess]);
 
   const handleAddImage = (index: number) => {
     document.getElementById(`imgadd-${index}`)?.click();
@@ -751,8 +761,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Dietary type"
                           textvalue={
-                            primarydata.dietaryType
-                              ? primarydata.dietaryType
+                            Array.isArray(primarydata.dietaryType) && primarydata.dietaryType.length > 0
+                              ? primarydata.dietaryType.map((type) => type.name).join(", ")
                               : "-"
                           }
                         />
@@ -1001,17 +1011,17 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                   )}
                                 </li>
                               ))}
-
-                            {Array.from({ length: emptySlots })
-                              .slice(0)
-                              .map((_, index) => (
-                                <li key={selectedImages.length + index + 1}>
-                                  <img
-                                    src={emptyfoodimg}
-                                    alt={`empty ${index}`}
-                                  />
-                                </li>
-                              ))}
+                              {Array.from({ length: emptySlots })
+                                .slice(0)
+                                .map((_, index) => (
+                                  <li key={selectedImages.length + index + 1}>
+                                    {typeof emptyfoodimg === "string" ? (
+                                      <img src={emptyfoodimg} alt={`empty ${index}`} />
+                                    ) : (
+                                      <span>Error: emptyfoodimg is not a valid image path</span>
+                                    )}
+                                  </li>
+                                ))}
                           </div>
                         </ol>
                         <ol></ol>
@@ -1091,9 +1101,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <button
             className="saveall"
             onClick={handleSubmitItemDetails}
-            disabled={addMenuLoading}
+            disabled={addMenuLoading || updateMenuItemLoading}
           >
-            {!addMenuLoading ? (
+            {(!addMenuLoading || !updateMenuItemLoading) ? (
               "Submit for review"
             ) : (
               <div className="reviewLoaders"></div>

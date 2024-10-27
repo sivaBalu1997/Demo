@@ -281,6 +281,7 @@ const PrimaryPage = () => {
   //   }
   // }, [mergedMockData, location.state?.id, setValue]);
 
+
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
   );
@@ -288,6 +289,8 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: primarypage) => state.primarypage?.data
   );
+  
+  console.log('1',{ItemsPrimaryDetails})
 
   const [images, setImages] = useState<ImageFile[]>([]);
 
@@ -491,7 +494,6 @@ const PrimaryPage = () => {
       });
     }
   };
-
 
   useEffect(() => {
     setIngredientsFromAPi(ingredients);
