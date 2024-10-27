@@ -475,6 +475,17 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
+  console.log({itemCustomizationData})
+
+  const orderTypess = useSelector(
+    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+  );
+
+  const getOrderTypeId = (value: any) => {
+    const orderTypes = orderTypess.find((item: any) => item?.typeName?.toLowerCase() === value?.toLowerCase())
+    return orderTypes ? orderTypes?.id : null;
+  }
+
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
     modifierName: item?.modifierName || null,
@@ -482,7 +493,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     maxCount: item?.maxSelection || null,
     minCount: item?.minSelection || null,
     noFreeCustomization: item?.freeCustomization || null,
-    options: item?.modifierOptions?.map((option) => ({
+    orderTypeIds: (item?.selectedValue || []).map((value) => getOrderTypeId(value)),
+    optionName: item?.modifierOptions?.map((option) => ({
       ...option,
       isModifierOptionChanged: option?.isModifierOptionChanged ?? false, 
     })) || [],
@@ -598,7 +610,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
-    // isSingleMenu: false,
+    isSingleMenu: false,
     modifiersToRemove: combinedData?.filter(Boolean),
     availabilityDaysRemove: editData[0]?.availabilityDays,
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,

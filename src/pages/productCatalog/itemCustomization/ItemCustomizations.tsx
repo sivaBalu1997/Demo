@@ -176,36 +176,44 @@ const ItemCustomizations: React.FC = () => {
 
   console.log({itemCustomizationData})
 
+  const orderTypes = useSelector(
+    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+  );
+
   useEffect(() => {
     if (showModifiers === false) {
       setIsValid(true);
       setShowModifiers(true);
     }
-
+  
     if (itemCustomizationData?.length > 0) {
-      const mappedModifications = itemCustomizationData.map((item: any) => ({
-        modifierId: item?.id || "",
-        modifierName: item?.modifierName || item?.name ||"",
-        isModifierChanged: false,
-        modifierOptions: item?.modifierOptions
-          ? item.modifierOptions.map((option: any) => ({
-              modifierOptionId: option?.optionId || option?.modifierOptionId || null,
-              modifierOptionName: option?.modifierOptionName || option?.name || "",
-              cost: option.cost || option?.price || 0,
-              isModifierOptionChanged: false,
-            }))
-          : [{ modifierOptionName: "", cost: 0 }],
-        minSelection: item.minSelection || 1,
-        maxSelection: item.maxSelection || 1,
-        freeCustomization: item?.freeCustomization || 1,
-        selectedValue: Array.isArray(item?.selectedValue)
-          ? item.selectedValue.map((elem: any) => elem)
-          : [],
-        // endDate: item?.endDate || "",
-        // startDate: item?.startDate || "",
-        selectionType: item?.selectionType || "",
-      }));
-      console.log({mappedModifications})
+      const mappedModifications = itemCustomizationData.map((item: any) => {
+        const selectedTypeNames = (item?.selectedValue || []).map((selectedId: string) => {
+          const orderType = orderTypes.find((type: any) => type.id === selectedId);
+          return orderType?.typeName || selectedId; 
+        });
+  
+        return {
+          modifierId: item?.id || "",
+          modifierName: item?.modifierName || item?.name || "",
+          isModifierChanged: false,
+          modifierOptions: item?.modifierOptions
+            ? item.modifierOptions.map((option: any) => ({
+                modifierOptionId: option?.optionId || option?.modifierOptionId || null,
+                modifierOptionName: option?.modifierOptionName || option?.name || "",
+                cost: option.cost || option?.price || 0,
+                isModifierOptionChanged: false,
+              }))
+            : [{ modifierOptionName: "", cost: 0 }],
+          minSelection: item.minSelection || 1,
+          maxSelection: item.maxSelection || 1,
+          freeCustomization: item?.freeCustomization || 1,
+          selectedValue: selectedTypeNames,
+          selectionType: item?.selectionType || "",
+        };
+      });
+  
+      console.log({ mappedModifications });
       setModifications(mappedModifications);
     }
   }, [itemCustomizationData, showModifiers]);
@@ -637,15 +645,19 @@ const ItemCustomizations: React.FC = () => {
     const streams: string[] = [];
 
     if (ordertypesdetails?.normalForm?.dineInDetails?.price) {
-      streams.push(ordertypesdetails.normalForm.dineInDetails.typeName);
+      streams.push(ordertypesdetails?.normalForm.dineInDetails?.typeName);
     }
 
     if (ordertypesdetails?.normalForm?.pickupDetails?.price) {
-      streams.push(ordertypesdetails.normalForm.pickupDetails.typeName);
+      streams.push(ordertypesdetails?.normalForm.pickupDetails?.typeName);
+    }
+
+    if(ordertypesdetails?.normalForm?.deliveryDetails?.price){
+      streams.push(ordertypesdetails?.normalForm.deliveryDetails?.typeName)
     }
 
     if (ordertypesdetails?.normalForm?.thirdpartyDetails?.price) {
-      streams.push(ordertypesdetails.normalForm.thirdpartyDetails.typeName);
+      streams.push(ordertypesdetails?.normalForm.thirdpartyDetails.typeName);
     }
     setListOfStreams(streams);
   }, [ordertypesdetails]);

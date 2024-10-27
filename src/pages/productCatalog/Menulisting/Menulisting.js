@@ -427,6 +427,7 @@ export const Menulisting = () => {
         maxCount: item?.maxCount ?? 0,       
         minCount: item?.minCount ?? 0,      
         noFreeCustomization: item?.noFreeCustomization ?? false,  
+        selectedValue : item?.orderTypeIds ?? [],
         options: item?.options?.map(option => ({     
           optionId: option?.optionId ?? '',          
           name: option?.name ?? '',                  
