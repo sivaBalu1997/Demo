@@ -372,21 +372,21 @@ export const Menulisting = () => {
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
-        itemName: editData[0]?.itemName,
-        description: editData[0]?.description,
-        imageUrls: editData[0]?.mediaResponseList,
-        alcohol: editData[0]?.containsAlcohol,
-        itemCode: editData[0]?.itemCode,
-        barCode: editData[0]?.barCode,
-        Ingredients: editData[0]?.ingredients,
-        allergens: editData[0]?.allergens,
-        coloriePoint: editData[0]?.calorieInfo,  
-        portionSize: editData[0]?.portionInfo,
-        tax: editData[0]?.taxClassAssociation, 
-        dietaryType: editData[0]?.dietTypes,
-        cuisine: editData[0]?.cuisine[0]?.name,
-        bestPair: editData[0]?.pairedItems,
-        category: categoryData?.name,
+        itemName: editData[0]?.itemName ?? '',
+        description: editData[0]?.description ?? '',
+        imageUrls: editData[0]?.mediaResponseList ?? [],
+        alcohol: editData[0]?.containsAlcohol ?? false,
+        itemCode: editData[0]?.itemCode ?? '',
+        barCode: editData[0]?.barCode ?? '',
+        Ingredients: editData[0]?.ingredients?.map(ingredient => ingredient?.id ?? '') ?? [],
+        allergens: editData[0]?.allergens?.map(allergen => allergen?.id ?? '') ?? [],
+        coloriePoint: editData[0]?.calorieInfo ?? {},  // object
+        portionSize: editData[0]?.portionInfo ?? '',
+        tax: editData[0]?.taxClassAssociation ?? [], // array
+        dietaryType: editData[0]?.dietTypes ?? [],
+        cuisine: editData[0]?.cuisine?.[0]?.name ?? '',
+        bestPair: editData[0]?.pairedItems ?? '',
+        category: categoryData?.name ?? '',
       };
 
       const pricingPageData = {
@@ -427,6 +427,7 @@ export const Menulisting = () => {
         maxCount: item?.maxCount ?? 0,       
         minCount: item?.minCount ?? 0,      
         noFreeCustomization: item?.noFreeCustomization ?? false,  
+        selectedValue : item?.orderTypeIds ?? [],
         options: item?.options?.map(option => ({     
           optionId: option?.optionId ?? '',          
           name: option?.name ?? '',                  

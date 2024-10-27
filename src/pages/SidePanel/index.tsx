@@ -21,6 +21,7 @@ import btnnav from '../../assets/svg/btnnav.svg'
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { ReactComponent as CMS } from "../../assets/svg/CMS.svg"
+import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 
 const SidePanel = () => {
   const credentials = useSelector((state:RootState) => state.auth.credentials);
@@ -253,6 +254,8 @@ const SidePanel = () => {
                     if (option === "Items") {
                       history.push(`/menu/${option}`);
                     } else if (option === "Product Catalog") {
+                      console.log('hi')
+                      dispatch(removeDataRequest());
                       history.push("/menuListing");
                     }
                   }}

@@ -338,11 +338,11 @@ function* addMenuItemSaga(action) {
   try {
     const addApi = yield call(addMenuItem, action.payload);
     const addApiresponse = addApi.data;
-
     if (addApi.status === 200) {
-      showSuccessToast('Item Added Successfully')
+      showSuccessToast(addApiresponse.message)
       yield put(addMenuItemSuccess(addApiresponse));
     } else {
+      showErrorToast(addApiresponse.message)
       yield put(addMenuItemFailed({ message: "Please Try Again" }));
     }
   } catch (err) {
