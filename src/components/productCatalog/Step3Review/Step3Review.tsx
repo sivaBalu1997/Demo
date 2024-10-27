@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 interface modifierOptions {
   modifierOptionName: string;
   cost: number;
+  isModifierOptionChanged: any;
 }
 export interface ItemCustomization {
   modifierId?: string;

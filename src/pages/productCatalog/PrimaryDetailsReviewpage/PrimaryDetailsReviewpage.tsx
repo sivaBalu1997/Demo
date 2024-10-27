@@ -289,7 +289,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     subCategory: primarypagedetails.primarypage.data.subCategory,
     itemId: null,
   };
-  // console.log("the whole data",Wholedata)
 
   const [uploadedimage, setUploadedimage] = useState<ImageFile[]>(
     fetchedprimarydata.imageUrls
@@ -477,14 +476,18 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const kitchenStationId = matchedKitchenStation?.id;
 
   const modifierData = itemCustomizationData?.map((item) => ({
-    modifierId: item?.modifierId|| null,
+    modifierId: item?.modifierId || null,
     modifierName: item?.modifierName || null,
     isModifierChanged: item?.isModifierChanged || false,
     maxCount: item?.maxSelection || null,
     minCount: item?.minSelection || null,
     noFreeCustomization: item?.freeCustomization || null,
-    options: item?.modifierOptions,
+    options: item?.modifierOptions?.map((option) => ({
+      ...option,
+      isModifierOptionChanged: option?.isModifierOptionChanged ?? false, 
+    })) || [],
   }));
+  
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;

@@ -235,7 +235,6 @@ const ItemCustomizations: React.FC = () => {
 
   const getFormData = (): FormData => {
     const formData = new FormData();
-    console.log('1',{modifications})
     modifications.forEach((modification: any, index: any) => {
       formData.append(`modification_${index}`, JSON.stringify(modification));
     });
@@ -246,8 +245,6 @@ const ItemCustomizations: React.FC = () => {
   const [initialModifierIds, setInitialModifierIds] = useState<any[]>([]);
   const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
   const [updatedModifierIds, setUpdatedModifierIds] = useState<any[]>([]);
-
-  console.log({deletedModifierIds},{updatedModifierIds})
 
   useEffect(() => {
     if (deletedModifierIds.length > 0) {
@@ -375,7 +372,7 @@ const ItemCustomizations: React.FC = () => {
                     : e.target.value;
   
                 const isOptionChanged =
-                  mod.modifierId !== "" && // Modifier ID check for existing data
+                  mod.modifierId !== "" && 
                   currentValue !== undefined &&
                   currentValue !== null &&
                   currentValue !== "" &&
@@ -391,7 +388,6 @@ const ItemCustomizations: React.FC = () => {
             }
           );
   
-          // Set isModifierChanged only if modifierId is not empty
           const isModifierChanged =
             mod.modifierId !== "" &&
             updatedModifierOptions.some((opt: any) => opt.isModifierOptionChanged);
@@ -399,7 +395,7 @@ const ItemCustomizations: React.FC = () => {
           return {
             ...mod,
             modifierOptions: updatedModifierOptions,
-            isModifierChanged, // Update isModifierChanged only if modifierId is not ""
+            isModifierChanged, 
           };
         }
         return mod;
@@ -415,7 +411,7 @@ const ItemCustomizations: React.FC = () => {
         });
       }
   
-      return newModifier; // Return the entire modified array here
+      return newModifier; 
     });
   };
   
