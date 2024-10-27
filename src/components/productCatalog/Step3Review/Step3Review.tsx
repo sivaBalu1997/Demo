@@ -17,6 +17,8 @@ export interface ItemCustomization {
   minSelection?: number;
   maxSelection?: number;
   modifierOptions?: modifierOptions[];
+  price?: any;
+  name?: any;
   freeCustomization?: string;
   selectedValue?: string[];
   serviceStreams?: string[];

@@ -197,11 +197,11 @@ const ItemCustomizations: React.FC = () => {
           modifierId: item?.id || "",
           modifierName: item?.modifierName || item?.name || "",
           isModifierChanged: false,
-          modifierOptions: item?.modifierOptions
-            ? item.modifierOptions.map((option: any) => ({
+          modifierOptions: item?.options  
+            ? item.options.map((option: any) => ({
                 modifierOptionId: option?.optionId || option?.modifierOptionId || null,
-                modifierOptionName: option?.modifierOptionName || option?.name || "",
-                cost: option.cost || option?.price || 0,
+                modifierOptionName: option?.name || "",  
+                cost: option?.price || 0,  
                 isModifierOptionChanged: false,
               }))
             : [{ modifierOptionName: "", cost: 0 }],
@@ -217,6 +217,7 @@ const ItemCustomizations: React.FC = () => {
       setModifications(mappedModifications);
     }
   }, [itemCustomizationData, showModifiers]);
+  
 
   const addModifier = () => {
     setModifications([

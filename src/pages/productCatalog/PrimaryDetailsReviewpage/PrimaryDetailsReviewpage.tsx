@@ -494,12 +494,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     minCount: item?.minSelection || null,
     noFreeCustomization: item?.freeCustomization || null,
     orderTypeIds: (item?.selectedValue || []).map((value) => getOrderTypeId(value)),
-    optionName: item?.modifierOptions?.map((option) => ({
+    options: item?.modifierOptions?.map((option: any) => ({
       ...option,
-      isModifierOptionChanged: option?.isModifierOptionChanged ?? false, 
-    })) || [],
+      optionName: option.modifierOptionName || option.name || "",
+      cost: option.cost || option.price || 0,
+      isModifierOptionChanged: option?.isModifierOptionChanged ?? false,
+    })).map(({ modifierOptionName, ...rest }) => rest) || [],
   }));
-  
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
