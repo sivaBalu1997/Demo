@@ -295,7 +295,7 @@
   }
 
   .Customizedata {
-    width: 154px;
+    width: 164px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -348,7 +348,7 @@
       .Dinein {
         width: 154px;
         height: 30px;
-        gap: 2rem;
+        gap: 2.7rem;
         border-radius: 4px;
         border: 0.5px solid #d9d9d9 !important;
         display: flex;
@@ -357,7 +357,7 @@
         // padding-left: 10px;
         // padding-right: 10px;
         // cursor: grab;
-        gap: 0.6rem;
+        gap: 2.7rem;
 
         &:active {
           // cursor: grabbing;
@@ -623,7 +623,7 @@
 }
   .eachobject-rowwise {
     height: 60px;
-    width: 100%;
+    width: fit-content;
     display: flex;
     align-items: center;
     border: 1px solid #b3b3b3 !important;
@@ -1251,7 +1251,15 @@
   background-color: #E2E0E0;
   border: 1px solid red !important;
 }
- 
+
+ .no-colunms
+ {
+  margin-top: 15%;
+  margin-left: 30%;
+  font-size: 24px;
+  font-weight:500 ;
+  color: #5f5f5f;
+ }
 
 .count-Of-ItemList
 {

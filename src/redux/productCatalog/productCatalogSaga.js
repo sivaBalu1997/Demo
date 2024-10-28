@@ -456,6 +456,8 @@ function* retryImage(action) {
 
 function* updateMenuItemSaga(action) {
   try {
+    console.log("action.payload",action.payload);
+    
     const response = yield call(updateMenuItem, action.payload);
     if (response.status === 200) {
       showSuccessToast(response.data.message)

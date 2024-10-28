@@ -660,6 +660,8 @@ export default function productCatalogReducer(
 
       // Update Menu Item
       case UPDATE_MENU_ITEM_REQUEST:
+        console.log("action.payloadrrrr",action.payload);
+        
         draft.updatedPayload = action.payload;
 
         draft.updateMenuItemLoading = true;
