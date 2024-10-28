@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import "./DaysCheckDinein.scss";
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAvailabilityRequest } from 'redux/productCatalog/productCatalogActions';
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActions";
 
 interface DaysCheckProps {
   checkedItems: number[][];
   setCheckedItems: (items: number[][]) => void;
   index: number;
+  getDisabledDays?: any;
 }
 
 interface DataItem {
@@ -17,73 +18,84 @@ interface DataItem {
 
 interface State {
   auth: {
-    credentials:{
-      locationId:string
-
-    }
-    
+    credentials: {
+      locationId: string;
+    };
   };
 }
 
 interface StateDataTag {
- 
-  productCatalog:{
-    availability:[]
-
-    }
-    
-  
+  productCatalog: {
+    availability: [];
+  };
 }
 
-const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, index }) => {
-  const data=["All days","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+const DaysCheck: React.FC<DaysCheckProps> = ({
+  checkedItems,
+  setCheckedItems,
+  index,
+  getDisabledDays,
+}) => {
+  const data = [
+    "All days",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
-  const locationid=useSelector((state:State)=>state.auth.credentials.locationId)
-  const tagData=useSelector((state:StateDataTag)=>state.productCatalog.availability)
+  const disabledDays = getDisabledDays(index);  
 
-
-  const dispatch=useDispatch()
-  // const [data, setData] = useState<DataItem[]>([]);
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const { name, checked } = event.target;
+    const dayIndex = parseInt(name, 10);
     const newCheckedItems = [...checkedItems];
-
-    if (checked) {
-      const newName = parseInt(name, 10); // Convert the name to an integer
-      newCheckedItems[index] = [...(newCheckedItems[index] || []), newName];
+  
+    if (dayIndex === 0) {
+      newCheckedItems[index] = checked ? data.map((_, i) => i) : [];
     } else {
-      newCheckedItems[index] = (newCheckedItems[index] || []).filter((item) => item !== parseInt(name, 10));
+      if (checked) {
+        newCheckedItems[index] = [...(newCheckedItems[index] || []), dayIndex];
+      } else {
+        newCheckedItems[index] = (newCheckedItems[index] || []).filter(
+          (item) => item !== dayIndex
+        );
+      }  
+      const allDaysSelected = data.slice(1).every((_, i) =>
+        newCheckedItems[index].includes(i + 1)
+      );  
+      if (allDaysSelected) {
+        newCheckedItems[index] = [0, ...newCheckedItems[index].filter((item) => item !== 0)];
+      } else {
+        newCheckedItems[index] = newCheckedItems[index].filter((item) => item !== 0);
+      }
     }
-
     setCheckedItems(newCheckedItems);
   };
-
-  const checkedItemsForIndex = Array.isArray(checkedItems[index]) ? checkedItems[index] : [];
-
-  // useEffect(() => {
-  //   getApi();
-  //   setData(tagData)
-
-  // }, []);
-
-  // const getApi = async (): Promise<void> => {
-  //   dispatch(getAvailabilityRequest(locationid))
-
-  // };
+  
+  const checkedItemsForIndex = Array?.isArray(checkedItems[index])
+    ? checkedItems[index]
+    : [];
 
   return (
-    <div className='container-daycheck'>
+    <div className="container-daycheck">
       {data.map((elem, idx) => {
         const isChecked = checkedItemsForIndex.includes(idx);
+        const isDisabled = disabledDays.includes(idx); 
         return (
-          <div className='DaysCheckContainer-dinein' key={idx}>
+          <div className="DaysCheckContainer-dinein" key={idx}>
             <input
               type="checkbox"
               name={idx.toString()}
               onChange={handleCheckboxChange}
-              className='aa'
+              className="aa"
               checked={isChecked}
+              disabled={isDisabled} 
             />
             <label>{elem}</label>
           </div>
@@ -92,5 +104,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({ checkedItems, setCheckedItems, in
     </div>
   );
 };
+
 
 export default DaysCheck;
