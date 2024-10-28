@@ -1232,8 +1232,8 @@ const PrimaryPage = () => {
                           message="Create or select a tax amount to associate with this item"
                           styles={{
                             position: "relative",
-                            top: "-2.5rem",
-                            left: "1.5rem",
+                            top: "-0.5rem",
+                            left: "1.8rem",
                             width: "350px",
                             height: "35px",
                             backgroundColor: "#67833E",
