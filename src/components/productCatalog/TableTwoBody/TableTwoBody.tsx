@@ -152,7 +152,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   ? orderType.price.toFixed(2).padStart(5, "0")
                   : "";
                 const className = typeName.toLowerCase() + "data";
-                const isPriceEnabled=orderType && orderType.isHidden==1
+                const isPriceEnabled=orderType && orderType.isHidden==0
                 ? true
                 : false;             
 

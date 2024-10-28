@@ -111,7 +111,7 @@ const NormalStep2 = () => {
                 <>
                   <div key={index}>
                     <h1 className="Step2DineInPricevalue">
-                     Rs {elem?.DineInPrice || "-"}
+                     Rs {elem?.DineInPrice || "N/A"}
                     </h1>
                   </div>
                 </>
@@ -131,7 +131,7 @@ const NormalStep2 = () => {
                     <div>
                       {" "}
                       <h1 className="Step2DineInPricevalue">
-                        {elem.DineInMealType || "-"}
+                        {elem.DineInMealType || "N/A"}
                       </h1>
                     </div>
                   </div>
@@ -152,7 +152,7 @@ const NormalStep2 = () => {
                 <>
                   <div>
                     <h1 className="Step2DineInPricevalue">
-                      {elem.DineInService || "-"}
+                      {elem.DineInService || "N/A"}
                     </h1>
                   </div>
                 </>
@@ -188,7 +188,7 @@ const NormalStep2 = () => {
                 prizingDetail.normalForm &&
                 prizingDetail.normalForm.formNormal &&
                 prizingDetail.normalForm.formNormal.PickuppriceNormal) ||
-                "-"}
+                "N/A"}
             </h1>
           </div>
         </div>
@@ -201,7 +201,7 @@ const NormalStep2 = () => {
               {(prizingDetail &&
                 prizingDetail.normalForm &&
                 prizingDetail.normalForm.PicupMealType) ||
-                "-"}
+                "N/A"}
             </h1>
           </div>
         </div>
@@ -224,7 +224,7 @@ const NormalStep2 = () => {
                 prizingDetail.normalForm &&
                 prizingDetail.normalForm.formNormal &&
                 prizingDetail.normalForm.formNormal.DeliverypriceNormal) ||
-                "-"}
+                "N/A"}
             </h1>
           </div>
         </div>
@@ -237,7 +237,7 @@ const NormalStep2 = () => {
               {(prizingDetail &&
                 prizingDetail.normalForm &&
                 prizingDetail.normalForm.DeliveryMealType) ||
-                "-"}
+                "N/A"}
             </h1>
           </div>
         </div>
@@ -258,7 +258,7 @@ const NormalStep2 = () => {
                 prizingDetail.normalForm &&
                 prizingDetail.normalForm.formNormal &&
                 prizingDetail.normalForm.formNormal.SwiggyNormal) ||
-                "-"}
+                "N/A"}
             </h1>
           </div>
         </div>
@@ -272,7 +272,7 @@ const NormalStep2 = () => {
                 prizingDetail.normalForm &&
                 prizingDetail.normalForm.formNormal &&
                 prizingDetail.normalForm.formNormal.ZomatoNormal) ||
-                "-"}
+                "N/A"}
             </h1>
           </div>
         </div>

@@ -50,7 +50,7 @@ const Step2 = () => {
               <h1 className="Step2KitchenStationheading">Kitchen Station</h1>
               <h1 className="Step2KitchenStationvalue">
                 {" "}
-                {prizingDetail?.kitchenstation || "-"}
+                {prizingDetail?.kitchenstation || "N/A"}
               </h1>
             </div>
             <div className="Step2Preparation">
@@ -77,7 +77,7 @@ const Step2 = () => {
                   prizingDetail.form &&
                   prizingDetail.form.Inventory1 &&
                   prizingDetail.form.Inventory1) ||
-                  "-"}{" "}
+                  "N/A"}{" "}
               </h1>
             </div>
             <div className="Step2Threshold">
@@ -86,7 +86,7 @@ const Step2 = () => {
                 {(prizingDetail &&
                   prizingDetail.form &&
                   prizingDetail.form.Inventory2) ||
-                  "-"}
+                  "N/A"}
               </h1>
             </div>
           </div>
