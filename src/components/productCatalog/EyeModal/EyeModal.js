@@ -23,7 +23,7 @@ const EyeModal = ({ onEyeclose,onclose }) => {
           {
             name: Dinein.typeName,
             id: Dinein.typeId,
-            isChecked: Dinein.isHidden,
+            isChecked: Dinein.isNotHide,
             isEnabled: Dinein.isEnabled,
           },
         ],
@@ -35,7 +35,7 @@ const EyeModal = ({ onEyeclose,onclose }) => {
           .map((elem) => ({
             name: elem.typeName,
             id: elem.typeId,
-            isChecked: elem.isHidden,
+            isChecked: elem.isNotHide,
             isEnabled: elem.isEnabled,
           })),
       },
@@ -70,10 +70,9 @@ const hidePayload = {
   itemOrderTypeStatuses: data
     .flatMap((section) => 
       section.subItems
-        .filter((subItem) => subItem.isChecked==false) // Filter items where isChecked is true
         .map((subItem) => ({
-          orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
-          isEnabled: subItem.isChecked // Use isChecked from subItems (it will be true here)
+          orderTypeId: subItem.id, 
+          isEnabled: subItem.isChecked 
         }))
     )
 };
@@ -81,8 +80,8 @@ const hidePayload = {
 const uncheckedItems = data
   .flatMap((section) => 
     section.subItems.filter((subItem) => !subItem.isChecked).map((subItem) => ({
-      orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
-      isEnabled: false // Set to false as these items are unchecked
+      orderTypeId: subItem.id, 
+      isEnabled: false 
     }))
   );
 
@@ -155,6 +154,9 @@ const uncheckedItems = data
     setData(newData);
   };
 
+ console.log("data arar",data);
+ 
+
   const handleSelectAll = () => {
     const allSelected = data.every((item) => item.isChecked); 
     const newData = data.map((item) => ({
@@ -187,7 +189,7 @@ const uncheckedItems = data
                   <input
                     className="checkbox-Items"
                     type="checkbox"
-                    checked={elem.isChecked} 
+                    checked={!elem.isChecked} 
                     onChange={() => parentToggleChange(parentIndex)} 
                   />
                 </div>
@@ -198,9 +200,9 @@ const uncheckedItems = data
                     <input
                       className="checkbox-Items"
                       type="checkbox"
-                      checked={subItem.isChecked} 
+                      checked={!subItem.isChecked} 
                       onChange={() => subItemToggleChange(parentIndex, subIndex)}
-                      disabled={ subItem.isEnabled===0}
+                      disabled={subItem.isEnabled===0}
                     />
                   </div>
                 ))}

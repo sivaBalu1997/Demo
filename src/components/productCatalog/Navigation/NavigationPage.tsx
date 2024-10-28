@@ -4,12 +4,122 @@ import "./Navigation.scss";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useLocation, useHistory } from "react-router-dom";
 
+
 interface LocationState {
   pagename: string;
+
+}
+interface Ingredients {
+  id: string;
+  name: string;
+}
+interface Allergens {
+  id: string;
+  name: string;
+}
+interface FormState {
+  Inventory1: string;
+  Inventory2: string;
+}
+interface PricingAndKitchen {
+  maxServingAllowed: string;
+  threshold: string;
+  kitchenstation: string;
+  Preparationtime: string;
+  KitchenStationId: string;
+  normalForm?: any;
+  specialForm?: any;
+}
+interface Base64Image {
+  mimeType: string;
+  base64String: string;
+}
+interface ImageFile {
+  // file: File;
+  // uploaded: boolean;
+  // failed: boolean;
+  preview: string; // To store the image preview URL
+}
+interface FormData {
+  itemName?: string;
+  dietaryType?: string;
+  cuisine?: string;
+  mealType?: string;
+  bestPair?: string;
+  description?: string;
+  imageUrls?: ImageFile[];
+  alcohol?: string;
+  itemCode?: string;
+  barCode?: string;
+  category?: string;
+  categoryId?: string;
+  subCategory?: string;
+  Ingredients?: Ingredients[];
+  allergens?: Allergens[];
+  coloriePoint?: string;
+  selectedcolorie?: string;
+  portionSize?: string;
+  selectedPortion?: string;
+  tax?: string;
+  masterCode?: string;
+  modifierName?: string;
+  options?: Option[];
+  minSelection?: number;
+  maxSelection?: number;
+  freeCustomization?: number;
+  selectedValue?: string[];
+  endDate?: string;
+  startDate?: string;
+  selectionType?: string;
+  field1?: number;
+  field2?: number;
+  [key: string]: any;
+}
+interface Option {
+  item: string;
+  price: string;
+}
+interface Modification {
+  modifierName: string;
+  options: Option[];
+  minSelection: number;
+  maxSelection: number;
+  freeCustomization: number;
+  selectedValue: string[];
+  endDate?: string;
+  startDate?: string;
+  selectionType?: string;
+  field1?: number;
+  field2?: number;
+  [key: string]: any;
+}
+interface MainForm {
+  form: FormState;
+  kitchenstation: string;
+  Preparationtime: {
+    hours: string;
+    minutes: string;
+  };
+  KitchenStationId: string;
+  normalForm?: any;
+  specialForm?: any;
+}
+interface validation{
+  triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
+  getFormData?: () => FormData | Modification | MainForm;
+  handleValidate?: any;
+  seletedpage?:string
+
+
+
 }
 
-const Navigationpage = () => {
+const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerValidation,handleValidate}) => {
   const { isExpanded } = useContext(Contextpagejs);
+  const formData = getFormData && getFormData();
+  console.log("triggerValidation", triggerValidation);
+
+  
 
   const categories = [
     "Primary Details",
@@ -35,11 +145,48 @@ const Navigationpage = () => {
     }
   }, [location.state?.pagename]);
 
-  const handleCategoryClick = (category: string) => {
-    setCurrentPage(category);
-    const path = category.replace(/\s+/g, "");
-    history.push(`/productCatalog/${path}`, { pagename: category });
-  }
+  const handleCategoryClick = async (category: string) => {
+   
+
+    if (seletedpage === "Primary" && triggerValidation) {
+    const  isFormValid =  formData && triggerValidation ? await triggerValidation(formData):true ;
+
+     
+      if (!isFormValid) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      } else {
+        setCurrentPage(category);
+      const path = category.replace(/\s+/g, "");
+      history.push(`/productCatalog/${path}`, { pagename: category });
+      }
+    } else if (seletedpage === "Pricing" && triggerValidation) {
+      const isValid = handleValidate();
+
+  
+      if (isValid) {
+        setCurrentPage(category);
+        const path = category.replace(/\s+/g, "");
+        history.push(`/productCatalog/${path}`, { pagename: category });
+        
+      }
+    } else if (seletedpage === "ItemCustomization") {
+      
+    
+      setCurrentPage(category);
+      const path = category.replace(/\s+/g, "");
+      history.push(`/productCatalog/${path}`, { pagename: category });
+      }
+    }
+
+   
+
+
+    
+  
 
   // console.log("Use Paras",location.state?.pagename)
 

@@ -189,13 +189,16 @@
           .foodimage {
             width: 45px;
             height: 45px;
+            margin-left: -0.8rem;
           }
         }
         .itemname2 {
-          width: 10rem;
+          width: 8.4rem;
           position: relative;
+          //  border: 1px solid red;
           left: 3%;
         }
+        
       }
     }
     .headingdrag {

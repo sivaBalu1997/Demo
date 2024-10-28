@@ -639,7 +639,7 @@ const PrimaryPage = () => {
         <div>
           {/* <SidePanel /> */}
           <div style={{ marginBottom: "40px" }}>
-            <Navigationpage />
+            <Navigationpage   seletedpage="Primary"  getFormData={getValues} triggerValidation={() => trigger()}/>
           </div>
           <div className="Primary-page">
             {/* <form> */}
@@ -681,7 +681,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        // validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "dietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -710,7 +710,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        // validation={{ required: "cuisine is required" }}
+                        validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -743,7 +743,7 @@ const PrimaryPage = () => {
                         setValue={setValue}
                         trigger={trigger}
                         getValues={getValues}
-                        // validation={{ required: "category is required" }}
+                        validation={{ required: "category is required" }}
                         error={errors.category}
                         dropdownopen={DropdownOpen.category}
                         setDropdownOpen={setDropdownOpen}

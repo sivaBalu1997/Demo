@@ -769,7 +769,7 @@ const PricingDetails = () => {
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
       <div>
-        <Navigationpage />
+        <Navigationpage    handleValidate={handleValidate} seletedpage="Pricing"  getFormData={getValues}    triggerValidation={() => trigger()}/>
         <div
           className={
             isExpanded

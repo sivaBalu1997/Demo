@@ -658,7 +658,7 @@ const ItemCustomizations: React.FC = () => {
     <div style={{ display: "flex" }}>
       <SidePanel />
       <div style={{ width: "84%" }}>
-        <Navigationpage />
+        <Navigationpage        seletedpage="ItemCustomization"  getFormData={getFormData} />
         <div
           className={
             isExpanded

@@ -13,6 +13,7 @@
   border: 1px solid #979797;
   opacity: 0.7;
   padding-left: 20px;
+  z-index: 0;
 }
 
 .MLHeader-Search1 {
@@ -26,25 +27,29 @@
   border: 1px solid #979797;
   opacity: 0.7;
   padding-left: 20px;
+  z-index: 0;
 }
 
 
 .MLSerchIcon-Header {
   width: 24px;
   height: 21px;
-  position: fixed;
-  top: 5px;
-  left: -40px;
+ 
+position: relative;
+left: -2.5rem;
+top: 0.3rem;
   cursor: pointer;
+  z-index: 30;
 }
 
 .MLSerchIcon-Header1 {
   width: 24px;
   height: 21px;
-  position: fixed;
-  top: 20px;
-  left: 690px;
+  position: relative;
+ top:5px;
+  left: -40px;
   cursor: pointer;
+
 }
 
 //   {******************************Search Container*******************************************}
