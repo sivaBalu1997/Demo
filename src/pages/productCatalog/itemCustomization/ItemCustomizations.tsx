@@ -267,32 +267,23 @@ const ItemCustomizations: React.FC = () => {
     }
   }, [updatedModifierIds]);
 
-  const handleModifierChange = (
-    modIndex: number,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
+  const handleModifierChange = (modIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
   
     setModifications((prev: any) => {
       const updated = [...prev];
-      const currentModifier = updated[modIndex];
-      const isCurrentValueEmpty = currentModifier[name] === "";
-  
       updated[modIndex] = {
-        ...currentModifier,
-        [name]: value,
-        ["isModifierChanged"]: isCurrentValueEmpty && value !== "" ? false : true,
+        ...updated[modIndex],
+        selectionType: value,  
       };
   
-      setUpdatedModifierIds((prevIds) => {
-        const updatedModifierId = updated[modIndex].modifierId;  
-        if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
-          return [...prevIds, updatedModifierId].filter(id => id !== "");
+      setUpdatedModifierIds(prevIds => {
+        if (!prevIds.includes(updated[modIndex].id)) {
+          return [...prevIds, updated[modIndex].id]; 
         }
-  
-        return prevIds.filter(id => id !== ""); 
+        return prevIds; 
       });
-
+  
       return updated;
     });
   };
@@ -843,41 +834,29 @@ const ItemCustomizations: React.FC = () => {
                             </div>
 
                             <div className="flexofradio">
-                              <div className="radiobtnMargin">
-                                <input
-                                  type="radio"
-                                  className="radioItemCustomizations"
-                                  name={`selectionType-${modIndex}`}
-                                  value="Mandatory"
-                                  checked={
-                                    modifier.selectionType === "Mandatory"
-                                  }
-                                  onChange={(e) =>
-                                    handleModifierChange(modIndex, e)
-                                  }
-                                />
-                                <label className="labelItemCustomizations">
-                                  Mandatory
-                                </label>
-                              </div>
-                              <div className="radiobtnMargin">
-                                <input
-                                  type="radio"
-                                  className="radioItemCustomizations"
-                                  name={`selectionType-${modIndex}`}
-                                  value="Optional"
-                                  checked={
-                                    modifier.selectionType === "Optional"
-                                  }
-                                  onChange={(e) =>
-                                    handleModifierChange(modIndex, e)
-                                  }
-                                />
-                                <label className="labelItemCustomizations">
-                                  Optional
-                                </label>
-                              </div>
-                            </div>
+  <div className="radiobtnMargin">
+    <input
+      type="radio"
+      className="radioItemCustomizations"
+      name={`selectionType-${modIndex}`}
+      value="Mandatory"
+      checked={modifier.selectionType === "Mandatory"}
+      onChange={(e) => handleModifierChange(modIndex, e)}
+    />
+    <label className="labelItemCustomizations">Mandatory</label>
+  </div>
+  <div className="radiobtnMargin">
+    <input
+      type="radio"
+      className="radioItemCustomizations"
+      name={`selectionType-${modIndex}`}
+      value="Optional"
+      checked={modifier.selectionType === "Optional"}
+      onChange={(e) => handleModifierChange(modIndex, e)}
+    />
+    <label className="labelItemCustomizations">Optional</label>
+  </div>
+</div>
 
                             <div className="option-input-ItemCustomizations">
                               {modifier?.modifierOptions &&
