@@ -292,7 +292,7 @@ const ItemCustomizations: React.FC = () => {
   
         return prevIds.filter(id => id !== ""); 
       });
-  
+
       return updated;
     });
   };

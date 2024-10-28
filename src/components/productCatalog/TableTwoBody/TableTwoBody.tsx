@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Toggle from "../Toggle/Toggle";
 import { log } from "console";
 import { tr } from "date-fns/locale";
@@ -31,6 +31,7 @@ interface OrderType {
   typeId: string;
   price: number;
   isEnabled: number;
+  isHidden:number;
   availabilityEnabled:boolean
   availabilities: Availability[];
 
@@ -84,11 +85,28 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     showsidebar(key);
     handlemodal(value);
   };
+  const filteredListing = Object.fromEntries(
+    Object.entries(listingobject).filter(
+      ([key, value]) => value === true && key !== "showavail" && key !== "showPricing"
+    )
+  );
   // const allFalse = Object.values(listingobject).every(value => value === false);
+  const [selectedFileds, setselectefields] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    const filteredList = Object.fromEntries(
+      Object.entries(filteredListing).filter(([key, value]) => value === true)
+    );
+  
+    console.log("Filtered Listing:", filteredList);
+    setselectefields(filteredList);
+  }, [listingobject]);
   const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
   const restaurantDetails = useSelector(
     (state: RootState) => state.auth.restaurantDetails
   );
+  console.log("listingobject",Object.keys(selectedFileds).length);
+  
 
   return (
     <>
@@ -102,6 +120,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
       {itemobject.categoryName !== "" &&
         itemobject?.itemResponseList?.length > 0 && (
           <tr
+          style={{width:`${(Object.keys(selectedFileds).length)*10+26}%`}}
             className="categoryname"
           ></tr>
         )}
@@ -113,7 +132,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
          
             <tr
               key={item.itemId}
-              style={{ display: "flex" }}
+              style={{ display: "flex",width:`${(Object.keys(selectedFileds).length)*10+25.9}%` }}
+
               className={`eachobject-rowwise`}
             >
               {orderTypesToShow?.map((typeName,ordertypeindex) => {
@@ -132,7 +152,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   ? orderType.price.toFixed(2).padStart(5, "0")
                   : "";
                 const className = typeName.toLowerCase() + "data";
-                const isPriceEnabled=orderType && orderType.isEnabled==1
+                const isPriceEnabled=orderType && orderType.isHidden==1
                 ? true
                 : false;             
 

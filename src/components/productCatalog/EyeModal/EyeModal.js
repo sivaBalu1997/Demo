@@ -12,7 +12,7 @@ const EyeModal = ({ onEyeclose,onclose }) => {
   const location = useSelector((state) => state.auth.selectedBranch.id);
   const successMsg=useSelector((state)=>state?.addMockDataHiddenReducer?.data)
 
-
+  const [data, setData] = useState([]); 
   
 
   useEffect(() => {
@@ -24,32 +24,27 @@ const EyeModal = ({ onEyeclose,onclose }) => {
             name: Dinein.typeName,
             id: Dinein.typeId,
             isChecked: Dinein.isHidden,
-            isEnabled:Dinein.isEnabled, // Assuming isHidden is the correct property for isChecked
+            isEnabled: Dinein.isEnabled,
           },
-          
         ],
-      
       },
       {
         Heading: "Off-prem",
-        subItems: data1[0].orderTypes.map((elem) => ({
-          name: elem.typeName,
-          id: elem.typeId,
-          isChecked: elem.isHidden,
-          isEnabled:elem.isEnabled, // Assuming isHidden is the correct property for isChecked
-        })),
-  
-      
-
+        subItems: data1[0].orderTypes
+          .filter((elem) => elem.typeName !== "DineIn") 
+          .map((elem) => ({
+            name: elem.typeName,
+            id: elem.typeId,
+            isChecked: elem.isHidden,
+            isEnabled: elem.isEnabled,
+          })),
       },
     ];
-    
+  
     setData(updatedData);
-    
-  }, [data1]);
+  }, [data1, Dinein]);
+  
 
-
-  const [data, setData] = useState([]); 
     console.log("w",data1)
     const data3={
     itemId: "0ad10dd0-8e60-4431-83e5-eb23927cdf92",
@@ -193,7 +188,7 @@ const uncheckedItems = data
                     className="checkbox-Items"
                     type="checkbox"
                     checked={elem.isChecked} 
-                    onChange={() => parentToggleChange(parentIndex)} // Toggle parent and subitems
+                    onChange={() => parentToggleChange(parentIndex)} 
                   />
                 </div>
 
@@ -203,9 +198,9 @@ const uncheckedItems = data
                     <input
                       className="checkbox-Items"
                       type="checkbox"
-                      checked={subItem.isChecked} // Controlled input for subitem checkbox
+                      checked={subItem.isChecked} 
                       onChange={() => subItemToggleChange(parentIndex, subIndex)}
-                      disabled={subItem.isEnabled === 0}
+                      disabled={ subItem.isEnabled===0}
                     />
                   </div>
                 ))}
