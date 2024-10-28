@@ -150,7 +150,9 @@ const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerV
 
     if (seletedpage === "Primary" && triggerValidation) {
     const  isFormValid =  formData && triggerValidation ? await triggerValidation(formData):true ;
-
+    setCurrentPage(category);
+    const path = category.replace(/\s+/g, "");
+    history.push(`/productCatalog/${path}`, { pagename: category });
      
       if (!isFormValid) {
         window.scrollTo({
@@ -159,18 +161,16 @@ const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerV
         });
         return;
       } else {
-        setCurrentPage(category);
-      const path = category.replace(/\s+/g, "");
-      history.push(`/productCatalog/${path}`, { pagename: category });
+       
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
       const isValid = handleValidate();
-
+      setCurrentPage(category);
+      const path = category.replace(/\s+/g, "");
+      history.push(`/productCatalog/${path}`, { pagename: category });
   
       if (isValid) {
-        setCurrentPage(category);
-        const path = category.replace(/\s+/g, "");
-        history.push(`/productCatalog/${path}`, { pagename: category });
+       
         
       }
     } else if (seletedpage === "ItemCustomization") {
