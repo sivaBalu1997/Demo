@@ -31,7 +31,7 @@ interface OrderType {
   typeId: string;
   price: number;
   isEnabled: number;
-  isHidden:number;
+  // isHidden:number;
   availabilityEnabled:boolean
   availabilities: Availability[];
   isHidden?: any;
