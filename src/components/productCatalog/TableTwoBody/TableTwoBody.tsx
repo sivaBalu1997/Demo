@@ -34,7 +34,7 @@ interface OrderType {
   isNotHide:number;
   availabilityEnabled:boolean
   availabilities: Availability[];
-
+  isHidden?: any;
 }
 
 interface ItemResponse {

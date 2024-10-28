@@ -828,9 +828,13 @@ export default function productCatalogReducer(
         break;
       case UPDATE_MODIFIER_REQUEST:
         draft.updateModifierId = action.payload;
+        break;
       case SELECTED_MOCKDATA_REQUEST:
         draft.editData = action.payload;
-        
+        break;
+      case REMOVE_DATA_REQUEST: 
+        draft.editData = [];
+        break;
 
       default:
     }

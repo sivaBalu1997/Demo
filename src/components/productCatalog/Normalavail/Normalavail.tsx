@@ -142,6 +142,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const [delivery, setDelivery] = useState(false);
 
   const [dineinentry, setDineInEntry] = useState<string[]>([]);
+  const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
+  const [deliveryEntry, setDeliveryEntry] = useState<string[]>([]);
   const [Normaldays, setNormalDays] = useState<number[]>([]);
   const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
 
@@ -329,10 +331,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
     ...(delivery && { deliveryDetails: deliveryDetails }),
 
-    // ...(selectedthirdvalues?.length > 0 && {                    //need to fix 3rd Party
+    // ...(selectedthirdvalues?.length > 0 && {                    
     //   thirdpartyDetails: priceInfo
     // })
-    ...(priceInfo && { thirdpartyDetails: priceInfo }),
+    ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
   };
 
   const optionsselectthird = orderTypes
@@ -468,7 +470,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
       const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
       if (pickupDetails) {
-        setPickup(true);
+        // setPickup(true);
         setPickUpDetails({
           typeId: pickUpId,
           typeGroup: "P",
@@ -479,7 +481,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (deliveryDetails) {
-        setDelivery(true);
+        // setDelivery(true);
         setDeliveryDetails({
           typeId: deliveryId,
           typeGroup: "S",
@@ -571,6 +573,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
         dayButtonText: "Choose Day",
       },
     ]);
+  };
+
+
+  const getDisabledDays = (index: number) => {
+    const allSelectedDays = new Set<number>();
+    dineInDates1.forEach((selectedDays, i) => {
+      if (i !== index) {
+        selectedDays.forEach((day) => allSelectedDays.add(day));
+      }
+    });
+    return Array.from(allSelectedDays);
   };
 
   const handleChange = (
@@ -992,6 +1005,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       <DaysCheckDin
                         checkedItems={dineInDates1}
                         setCheckedItems={setDineInDates1}
+                        getDisabledDays ={getDisabledDays}
                         index={index}
                         {...(availabilityid
                           ? { id: availabilityid, setId: setAvailabilityid }
@@ -1024,6 +1038,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       <div className="OnlineSectionNormal">
         {online ? (
           <div className="onlineselected">
+
             {/* PickupRelated */}
             <div className="PickupRelatedNormal">
               <h1 className="PickupRelatedHeadingNormal">Pick Up</h1>
@@ -1119,6 +1134,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       ""
                     )}
                   </div>
+                  <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
+                    {" "}
+                    + Add entry
+                  </h1>
                 </div>
               ) : (
                 ""
@@ -1214,7 +1233,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         setCheckedItems={setDayDelivery}
                         {...(availabilityid.length > 0
                           ? { id: availabilityid, setId: setAvailabilityid }
-                          : { id: [], setId: () => {} })} // Provide default empty values if `availabilityid` is empty
+                          : { id: [], setId: () => {} })} 
                       />
                     )}
                   </div>
