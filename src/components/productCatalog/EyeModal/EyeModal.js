@@ -70,7 +70,7 @@ const hidePayload = {
   itemOrderTypeStatuses: data
     .flatMap((section) => 
       section.subItems
-        .filter((subItem) => subItem.isChecked==false) // Filter items where isChecked is true
+        // .filter((subItem) => subItem.isChecked) // Filter items where isChecked is true
         .map((subItem) => ({
           orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
           isEnabled: subItem.isChecked // Use isChecked from subItems (it will be true here)

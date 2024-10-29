@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 40px;
     // align-items: center;
   }
   .dropdownimageclosed {
@@ -22,7 +23,8 @@
     line-height: 21px;
     text-align: left;
     color: #e52333;
-    height: 20px;
+    height: 4px;
+    transform: translateY(-7px);
   }
 }
 .dropdown-arrow {

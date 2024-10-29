@@ -558,7 +558,7 @@ function* addMockDataHiddenSaga(action) {
 
     const response = yield call(hideMockData, hidePayload); 
     if (response.status === 200) {
-      showSuccessToast('Item Added Successfully');
+      showSuccessToast('Item Hidden Successfully');
       yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: response.data.message });
       yield put({ type: STORE_MENU_REQUEST, payload: location });
 

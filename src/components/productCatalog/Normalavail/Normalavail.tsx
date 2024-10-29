@@ -888,6 +888,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 justifyContent: "center",
                 alignItems: "center",
                 borderRadius: "5px",
+                position:"relative",
+                top:'-10px',
+             
               }}
               Arrowstyle={{
                 marginTop: "0rem",
@@ -991,7 +994,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   </div>
                   <div className="dineInChooseDayContainer">
                     <h3 className="dineInChooseDayContainerHeading">
-                      Choose for Specific day
+                      Choose for Specific day ?
                     </h3>
                     <h3
                       className="dineInChooseDayContainer-chooseheading"

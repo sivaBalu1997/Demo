@@ -14,7 +14,7 @@
 }
 
 .dayschecking {
-  margin-top: 0.8rem;
+  margin-top: -0.8rem;
   // width: 900px;
   height: 50px;
   // border: 1px solid red;
@@ -59,7 +59,7 @@
 .DineInRelated {
   display: flex;
   justify-content: left;
-  gap: 2rem;
+  gap: 2.0rem;
   align-items: center;
   width: fit-content;
   height: 30px;
@@ -243,7 +243,7 @@
   display: flex;
   justify-content: start;
   gap: 0.313rem;
-  margin-bottom: 10px;
+  margin-bottom: 36px;
 }
 .Mealz {
   margin-top: -25px;
@@ -268,6 +268,7 @@
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.313rem;
+  transform: translate(0px, 21px);
 }
 
 .dineInChooseDayContainer-chooseheading {
@@ -278,18 +279,19 @@
   color: #67833e;
   margin-top: 0px;
   cursor: pointer;
+  transform: translateY(22px);
 }
 
 .AddentryNormal {
   position: relative;
-  // top: 2rem;
-  margin-bottom: 20px;
+  margin-bottom: 19px;
   font-size: 0.875rem;
   font-weight: 400;
   color: #0085ff;
   cursor: pointer;
   font-family: "Poppins", sans-serif;
   width: fit-content;
+  margin-top: 81px;
 }
 // .react-datepicker__month-container .OnlineRelatedNormal {
 //   display: flex;
@@ -484,11 +486,12 @@
   font-weight: 400;
   margin-top: 22px;
   margin-bottom: 0.1rem;
+  margin-left: 10px;
 }
 .AvailDaycheck {
   // margin-top: 200px;
   .AvailDaycheck-Heading {
-    width: 200px;
+    width: 170px;
     height: 40px;
     // border:1px solid red;
     display: flex;
@@ -535,9 +538,11 @@
 }
 .swiggyZomato-input {
   // margin-top: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: #979797;
   width: 200px;
   height: 44px;
-  // border: 1px solid red;
+ 
 }
 .thridparties-dropdown {
   margin-top: 1.3rem;
@@ -590,8 +595,8 @@
 
 .DineIn-Fields{
   position: relative;
-  top: 20px;
-  margin-bottom: 46px;
+  top: 5px;
+  margin-bottom: 26px;
 }
 
 
@@ -632,19 +637,20 @@
   font-size: 0.875rem;
   line-height: 1.313rem;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .pickupChooseDayContainer-chooseheading {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 0.875rem;
-
   color: #67833e;
   margin-top: 0.8rem;
   cursor: pointer;
   width: 200px;
   height: 2rem;
   text-align: left;
+  margin-top: 22px;
   // border: 1px solid red;
 }
 
@@ -722,8 +728,8 @@ bottom: 0.7rem;
 
   .Errormsg {
     position: relative;
-    top: 1.3rem;
-    left: 2rem;
+    top: 1.4rem;
+    left: 0rem;
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -739,7 +745,7 @@ bottom: 0.7rem;
   font-size: 0.875rem;
   line-height: 1.313rem;
   cursor: pointer;
-  margin-top: 95px;
+  margin-top: 64px;
   margin-bottom: 40px;
 }
 
@@ -753,6 +759,6 @@ bottom: 0.7rem;
   width: 200px;
   height: 2rem;
   text-align: left;
-  margin-bottom: 40px;
+  margin-bottom: 70px;
   // border: 1px solid red;
 }
