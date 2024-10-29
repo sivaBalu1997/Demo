@@ -200,7 +200,7 @@ const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerV
               <li
                 key={category}
                 className={isExpanded ? "listsExpanded" : "lists"}
-                onClick={() => handleCategoryClick(category)}
+                // onClick={() => handleCategoryClick(category)}
               >
                 <h1
                   className={`list-text ${category === currentPage ? "activetext" : ""}`}

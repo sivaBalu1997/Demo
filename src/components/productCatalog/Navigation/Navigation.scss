@@ -41,7 +41,7 @@
 
 .lists, .listsExpanded {
   list-style: none;
-  cursor: pointer;
+
 }
 
 .lists {
@@ -59,7 +59,7 @@
   transition: background-color 0.3s;
   border-radius: 0.625rem;
   background-color: #979797;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 .navbar {
@@ -80,7 +80,7 @@
   color: #979797;
   position: relative;
   margin-bottom: 6px;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 .list-text.activetext {

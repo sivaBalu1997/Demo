@@ -1289,10 +1289,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
             );
           })}
 
-          <h1 className="AddentryNormal" onClick={AddDineInEntry}>
+          {/* <h1 className="AddentryNormal" onClick={AddDineInEntry}>
             {" "}
             + Add entry
-          </h1>
+          </h1> */}
         </>
       ) : (
         ""
@@ -1318,7 +1318,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
               </div>
             </div>
             <div className="PickupSectionNormal">
-              {/* {pickup && pickUpTypes ? (
+              {pickup && pickUpTypes ? (
                 <div>
                   <div className="LabelPricePickup">
                     <LableComponent lable="Price*" />
@@ -1405,15 +1405,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       ""
                     )}
                   </div>
-                  <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
-                    {" "}
-                    + Add entry
-                  </h1>
+                 
                 </div>
               ) : (
                 ""
-              )} */}
-               {pickup ? (
+              )}
+               {/* {pickup ? (
         <>
           {pickupfields?.map((entry: any, index: any) => {
             const mealTypeKey = `PickupMealType_${index}`;
@@ -1512,7 +1509,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
         </>
       ) : (
         ""
-      )}
+      )} */}
             </div>
 
             {/* DeliveryRelated    */}
@@ -1532,7 +1529,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 online ? "DeliverySectionNormal" : "DeliverySectionNormalclose"
               }
             >
-              {/* {delivery && deliveryTypes ? (
+              {delivery && deliveryTypes ? (
                 <div>
                   <div></div>
                   <p className="LabelPrice-delivery"> Price*</p>
@@ -1609,10 +1606,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
                     )}
                   </div>
                 </div>
-              ) : null} */}
+              ) : null}
 
 
-
+{/* 
 {delivery ? (
         <>
           {DeliveryFields?.map((entry: any, index: any) => {
@@ -1711,7 +1708,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
         </>
       ) : (
         ""
-      )}
+      )} */}
 
 
 
@@ -1831,3 +1828,4 @@ const Normalavail: React.FC<NormalavailProps> = ({
 };
 
 export default Normalavail;
+

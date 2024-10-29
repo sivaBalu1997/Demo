@@ -899,7 +899,8 @@ const PricingDetails = () => {
             </div>
 
             <div className="KitchenRelated">
-              <div className="D1kitchen">
+           
+             
                 <Dropdown
                   name="kitchenstation"
                   options={kitchenStationData}
@@ -920,9 +921,11 @@ const PricingDetails = () => {
                   dropDownType="KITCHEN_STATION"
                   resetSelection={kitchenDetail}
                 />
-              </div>
+            
+              
+           
 
-              <div className="D2kitchen">
+            
                 <div className="Prepartiontime">
                   <label htmlFor="" className="heading">
                     Preparation time
@@ -1006,7 +1009,7 @@ const PricingDetails = () => {
                   </div>
                 </div>
               </div>
-            </div>
+          
 
             <div className="Kitchen-checkbox">
               <input
