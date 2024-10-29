@@ -1021,10 +1021,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
             );
           })}
 
-          <h1 className="AddentryNormal" onClick={AddDineInEntry}>
+          {/* <h1 className="AddentryNormal" onClick={AddDineInEntry}>
             {" "}
             + Add entry
-          </h1>
+          </h1> */}
         </>
       ) : (
         ""
@@ -1137,10 +1137,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       ""
                     )}
                   </div>
-                  <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
+                  {/* <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
                     {" "}
                     + Add entry
-                  </h1>
+                  </h1> */}
                 </div>
               ) : (
                 ""

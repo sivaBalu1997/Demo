@@ -586,11 +586,23 @@ const ItemCustomizations: React.FC = () => {
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
-    setModifications((prevModifications: Modification[]) => {
-      const newModifications = [...prevModifications, Modifiers];
-
-      return newModifications;
-    });
+    
+    const updatedModifiers = {
+      ...Modifiers,
+      modifierOptions: Modifiers.modifierOptions.length > 0
+        ? Modifiers.modifierOptions
+        : [{
+            modifierOptionId: "",
+            modifierOptionName: "",
+            cost: 0,
+            isModifierOptionChanged: false,
+          }],
+    };
+  
+    setModifications((prevModifications: Modification[]) => [
+      ...prevModifications,
+      updatedModifiers,
+    ]);
   };
 
   const handleSearchChange = () => {
