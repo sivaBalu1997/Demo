@@ -96,18 +96,6 @@ type DineInField = {
   DineInMealType: string | string[];
 };
 
-type PickupField = {
-  PickupId?: string;
-  PickupPrice: string | string[];
-  PickupMealType: string | string[];
-};
-type DeliveryField = {
-  DeliveryId?: string;
-  DeliveryPrice: string | string[];
-  DeliveryMealType: string | string[];
-};
-
-
 type DineinFieldSpecial = {
   DineInId: string;
   DineInPrice: string | string[];
@@ -521,31 +509,6 @@ const PricingDetails = () => {
       DineInMealType: [],
     },
   ]);
-
-  const [Pickupfields, setPickupFields] = useState<PickupField[]>([
-    {
-     PickupId: pickUpId,
-     PickupPrice: "",
-     PickupMealType: [],
-    },
-  ]);
-
-  const [Deliveryfields, setDeliveryFields] = useState<DeliveryField[]>([
-    {
-      DeliveryId: pickUpId,
-      DeliveryPrice: "",
-      DeliveryMealType: [],
-    },
-  ]);
-
-
-  console.log("dineinfields",dineinfields);
-  console.log("Pickupfields",Pickupfields);
-  console.log("Deliveryfields",Deliveryfields);
-  
-  
-  
-
   const [dineinfieldsSpecial, setDineInFieldsSpecial] = useState<DineInField[]>([
     {
       DineInId: DineInId,
@@ -606,68 +569,6 @@ const PricingDetails = () => {
     return errors;
   };
 
-
-
-  const validatePickupFields = (pickupfields: PickupField[]) => {
-    const errors: DropdownValidationState = {};
-
-    pickupfields.forEach((field, index) => {
-      const mealTypeKey = `PickupMealType_${index}`;
-      const priceKey = `PickupPrice_${index}`;
-     
-
-      // Validate DineInMealType
-      if (!field.PickupMealType || field.PickupMealType.length === 0) {
-        errors[mealTypeKey] = {
-          isValid: false,
-          errorMessage: "Meal type should not be empty.",
-        };
-      } else {
-        errors[mealTypeKey] = { isValid: true, errorMessage: "" };
-      }
-
-      if (!field.PickupPrice || isNaN(Number(field.PickupPrice))) {
-        errors[priceKey] = {
-          isValid: false,
-          errorMessage: "Price",
-        };
-      } else {
-        errors[priceKey] = { isValid: true, errorMessage: "" };
-      }
-    });
-
-    return errors;
-  };
-  const validateDeliveryFields = (Deliveryfields: DeliveryField[]) => {
-    const errors: DropdownValidationState = {};
-
-    Deliveryfields.forEach((field, index) => {
-      const mealTypeKey = `DeliveryMealType_${index}`;
-      const priceKey = `DeliveryPrice_${index}`;
-     
-
-      // Validate DineInMealType
-      if (!field.DeliveryMealType || field.DeliveryMealType.length === 0) {
-        errors[mealTypeKey] = {
-          isValid: false,
-          errorMessage: "Meal type should not be empty.",
-        };
-      } else {
-        errors[mealTypeKey] = { isValid: true, errorMessage: "" };
-      }
-
-      if (!field.DeliveryPrice || isNaN(Number(field.DeliveryPrice))) {
-        errors[priceKey] = {
-          isValid: false,
-          errorMessage: "Price",
-        };
-      } else {
-        errors[priceKey] = { isValid: true, errorMessage: "" };
-      }
-    });
-
-    return errors;
-  };
   const validateDineInFields1 = (dineinfieldsSpecial: DineInField[]) => {
     const errors: DropdownValidationState = {};
 
@@ -810,21 +711,9 @@ const PricingDetails = () => {
       ? validateDineInFields(dineinfields)
       : validateDineInFields1(dineinfieldsSpecial);
 
-    
-      const PickupErrors = isOptionTrue
-      ? validatePickupFields(Pickupfields)
-      : validateDineInFields1(dineinfieldsSpecial);
-
-
-      const DeliveryErrors = isOptionTrue
-      && validateDeliveryFields(Deliveryfields)
-     
-
     const combinedErrors = {
       // ...dropdownErrors,
       ...dineInErrors,
-      ...PickupErrors,
-      ...DeliveryErrors
     };
 
     setValidationStateerr(combinedErrors);
@@ -880,7 +769,7 @@ const PricingDetails = () => {
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
       <div>
-        <Navigationpage    handleValidate={handleValidate} seletedpage="Pricing"  getFormData={getValues}    triggerValidation={() => trigger()}/>
+        <Navigationpage />
         <div
           className={
             isExpanded
@@ -1165,10 +1054,6 @@ const PricingDetails = () => {
                 dineinfields={dineinfields}
                 handleValidate={handleValidate}
                 setDineInFields={setDineInFields}
-                pickupfields={Pickupfields}
-                setpickupfields={setPickupFields}
-                DeliveryFields={Deliveryfields}
-                setDeliveryFields={setDeliveryFields}
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}

@@ -153,22 +153,22 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               <td className="placeholderplace"></td>
             )}
             <td
-              // draggable
-              // onDragStart={(e) => {
-              //   handleRowDragStart(object.categoryId, item);
-              //   handleDragScroll(e, tableBodyRef1, tableBodyRef2);
-              // }}
-              // onDragOver={(e) => {
-              //   handleRowDragOver(e,index);
-              //   handleDragScroll(e, tableBodyRef1, tableBodyRef2);
-              // }}
-              // onDrop={() => handleRowDragEnd(object.categoryId, index)}
+              draggable
+              onDragStart={(e) => {
+                handleRowDragStart(object.categoryId, item);
+                handleDragScroll(e, tableBodyRef1, tableBodyRef2);
+              }}
+              onDragOver={(e) => {
+                handleRowDragOver(e,index);
+                handleDragScroll(e, tableBodyRef1, tableBodyRef2);
+              }}
+              onDrop={() => handleRowDragEnd(object.categoryId, index)}
               className={`itemdetails-row ${
                 draggedRowIndex?.index === index ? "selected" : ""
               } ${index === 0 ? "removebottomrowline" : ""}`}
             >
               <span className="itemimage2">
-                {/* <img src={dots} alt="" className="draggableimg" /> */}
+                <img src={dots} alt="" className="draggableimg" />
                 <img
                   src={
                     baseImageUrl +
