@@ -681,7 +681,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        // validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "dietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -710,7 +710,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        // validation={{ required: "cuisine is required" }}
+                        validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -743,7 +743,7 @@ const PrimaryPage = () => {
                         setValue={setValue}
                         trigger={trigger}
                         getValues={getValues}
-                        // validation={{ required: "category is required" }}
+                        validation={{ required: "category is required" }}
                         error={errors.category}
                         dropdownopen={DropdownOpen.category}
                         setDropdownOpen={setDropdownOpen}
@@ -775,7 +775,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          // validation={{ required: "This field is required" }}
+                          validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}

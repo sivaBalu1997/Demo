@@ -608,6 +608,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
     ...(itemCustomizationData.length > 0 && { modifiersToAdd: modifierData || null }),
+    
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,

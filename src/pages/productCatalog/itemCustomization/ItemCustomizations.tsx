@@ -197,7 +197,7 @@ const ItemCustomizations: React.FC = () => {
           modifierId: item?.id || "",
           modifierName: item?.modifierName || item?.name || "",
           isModifierChanged: false,
-          modifierOptions: item?.modifierOptions.length>0 
+          modifierOptions: item?.modifierOptions?.length>0 
             ? item.modifierOptions.map((option: any) => ({
                 modifierOptionId: option?.optionId || option?.modifierOptionId || null,
                 modifierOptionName: option?.name || option?.modifierOptionName|| "",  

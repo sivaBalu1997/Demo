@@ -438,9 +438,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
         });
       }
 
-      if (thirdpartyDetails.length > 0) {
+      if (thirdpartyDetails?.length > 0) {
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
-        setSelectedThirdValues(data);
+        thirdpartyDetails && setSelectedThirdValues(data);
         setPriceInfo([...thirdpartyDetails]);
         const object: any = {};
         const item = thirdpartyDetails?.map((item: any) => item);
@@ -468,6 +468,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+      console.log({thirdpartyDetails})
       const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
       if (pickupDetails) {
         // setPickup(true);
@@ -491,9 +492,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
         });
       }
 
-      if (thirdpartyDetails.length > 0) {
+      if (thirdpartyDetails?.length > 0) {
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
-        setSelectedThirdValues(data);
+        thirdpartyDetails && setSelectedThirdValues(data);
         setPriceInfo([...thirdpartyDetails]);
         const object: any = {};
         const item = thirdpartyDetails?.map((item: any) => item);

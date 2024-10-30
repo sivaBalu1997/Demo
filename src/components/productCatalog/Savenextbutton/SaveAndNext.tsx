@@ -262,7 +262,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   };
  
   return (
-    <div>
+    <div className="saveAndNextComponent">
       <div className={isExpanded ? " saveandnextFooterExpanded" : "saveandnextfooter"}>
         <button className="clearall" onClick={handleclear}>
           Clear All

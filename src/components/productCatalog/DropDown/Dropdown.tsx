@@ -36,11 +36,13 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: Event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         if (isOpen) {
           setIsOpen(false);
           setRotateImg(false);
-          // If the dropdown closes and no option is selected, run validation
         }
       }
     };
@@ -60,43 +62,34 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const newSelectedValues = selectedValues.includes(value)
-      ? selectedValues.filter((item) => item !== value) // Deselect
-      : [...selectedValues, value]; // Select
-    
-    // Trigger the parent component's onSelect and validation
+      ? selectedValues.filter((item) => item !== value) 
+      : [...selectedValues, value]; 
+
     onSelect(newSelectedValues);
-  
-    // Check if there are selected values and validate
   };
-  
 
   const validateDropdown = (values: string[]) => {
-    // If no options are selected and touched, validate on blur
     if (values.length === 0 && touched) {
       onBlur && onBlur();
     }
   };
-  
-
-  // console.log({selectedValues})
 
   return (
     <div className="dropdown-containerPricing" ref={dropdownRef}>
       <label className="droplabelPricing">{label}</label>
       <div
         className="dropdownPricingList"
-        style={{ width: width==="Drop1" ? "300px" : "100px" }}
+        style={{ width: width === "Drop1" ? "300px" : "100px" }}
         onClick={handleDropdownClick}
         tabIndex={0}
       >
-       {Array.isArray(selectedValues) && selectedValues.length > 0 ? (
-  <div className="valuePricing">
-   
-    {selectedValues.slice(0, 3).join(", ")}
-  </div>
-) : (
-  <div className="valuePlaceholder"></div>
-)}
+        {Array.isArray(selectedValues) && selectedValues.length > 0 ? (
+          <div className="valuePricing">
+            {selectedValues.slice(0, 3).join(", ")}
+          </div>
+        ) : (
+          <div className="valuePlaceholder"></div>
+        )}
         <div>
           <img
             src={UpArrow}
@@ -122,7 +115,9 @@ const Dropdown: React.FC<DropdownProps> = ({
               </label>
             ))
           ) : (
-            <div className="No-Option-Availble-dropdown">No options available</div>
+            <div className="No-Option-Availble-dropdown">
+              No options available
+            </div>
           )}
         </div>
       )}
@@ -134,4 +129,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     </div>
   );
 };
+
+
 export default Dropdown;
