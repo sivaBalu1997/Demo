@@ -1138,14 +1138,111 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       ""
                     )}
                   </div>
-                  {/* <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
-                    {" "}
-                    + Add entry
-                  </h1> */}
+                 
                 </div>
               ) : (
                 ""
               )}
+               {/* {pickup ? (
+        <>
+          {pickupfields?.map((entry: any, index: any) => {
+            const mealTypeKey = `PickupMealType_${index}`;
+            const priceKey = `PickupPrice_${index}`;
+           
+            return (
+              <>
+                <div className="DineIn-Fields">
+                  <div className="LabelPrice">
+                    <LableComponent lable="Price*" />
+                  </div>
+                  <div
+                    className="DineInInput11Normal"
+                    key={index}
+                    style={{ zIndex: pickupfields.length - index }}
+                  >
+                    <div className="Dine-In-Price">
+                      <input
+                        type="text"
+                        name="PickupPrice"
+                        value={entry.PickupPrice}
+                        className="DineInInput1Normal"
+                        onChange={(e) => {
+                          handlePickupchange(index, e);
+                        }}
+                      />
+                      {!ValidationStateerr[priceKey]?.isValid && (
+                        <span className="ErrormsgPrice">
+                          {ValidationStateerr[priceKey]?.errorMessage}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="Mealz">
+                      <div>
+                        <DropDown
+                          selectedValues={selectedValuespickupmealtype[index] || ""}
+                          onSelect={(values) =>
+                            handleSelectMealtypepickup(values, index)
+                          }
+                          options={optionsmealtype}
+                          index={index}
+                          label="Meal Type*"
+                          width="Drop1"
+                        />
+                      </div>
+                      <div>
+                        {!ValidationStateerr[mealTypeKey]?.isValid && (
+                          <span className="Errormsg">
+                            {ValidationStateerr[mealTypeKey]?.errorMessage}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <h1
+                      onClick={() => handleDeleteforpickup(index)}
+                      className="DeleteButtonDine"
+                    >
+                      - Delete
+                    </h1>
+                  </div>
+                  <div className="dineInChooseDayContainer">
+                    <h3 className="dineInChooseDayContainerHeading">
+                      Choose for Specific day
+                    </h3>
+                    <h3
+                      className="dineInChooseDayContainer-chooseheading"
+                      onClick={() => addDaypickup(index)}
+                    >
+                      Choose Day
+                    </h3>
+                  </div>
+                  <div className="dayspickup">
+                    {entry.showDay && (
+                      <DaysCheckDin
+                        checkedItems={pickupDates}
+                        setCheckedItems={setpickupDates}
+                        getDisabledDays ={getDisabledDayspickup}
+                        index={index}
+                        {...(availabilityid
+                          ? { id: availabilityid, setId: setAvailabilityid }
+                          : {})}
+                      />
+                    )}
+                  </div>
+                </div>
+              </>
+            );
+          })}
+
+          <h1 className="AddentryNormal" onClick={AddDineInEntryPickup}>
+            {" "}
+            + Add entry
+          </h1>
+        </>
+      ) : (
+        ""
+      )} */}
             </div>
 
             {/* DeliveryRelated    */}
@@ -1243,6 +1340,112 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   </div>
                 </div>
               ) : null}
+
+
+{/* 
+{delivery ? (
+        <>
+          {DeliveryFields?.map((entry: any, index: any) => {
+             const mealTypeKey = `DeliveryMealType_${index}`;
+             const priceKey = `DeliveryPrice_${index}`;
+            return (
+              <>
+                <div className="DineIn-Fields">
+                  <div className="LabelPrice">
+                    <LableComponent lable="Price*" />
+                  </div>
+                  <div
+                    className="DineInInput11Normal"
+                    key={index}
+                    style={{ zIndex: DeliveryFields.length - index }}
+                  >
+                    <div className="Dine-In-Price">
+                      <input
+                        type="text"
+                        name="DeliveryPrice"
+                        value={entry.DeliveryPrice}
+                        className="DineInInput1Normal"
+                        onChange={(e) => {
+                          handleDeliverychange(index, e);
+                        }}
+                      />
+                      {!ValidationStateerr[priceKey]?.isValid && (
+                        <span className="ErrormsgPrice">
+                          {ValidationStateerr[priceKey]?.errorMessage}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="Mealz">
+                      <div>
+                        <DropDown
+                          selectedValues={selectedValuesDeliverymealtype[index] || ""}
+                          onSelect={(values) =>
+                            handleSelectMealtypedelivery(values, index)
+                          }
+                          options={optionsmealtype}
+                          index={index}
+                          label="Meal Type*"
+                          width="Drop1"
+                        />
+                      </div>
+                      <div>
+                        {!ValidationStateerr[mealTypeKey]?.isValid && (
+                          <span className="Errormsg">
+                            {ValidationStateerr[mealTypeKey]?.errorMessage}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <h1
+                      onClick={() => handleDeletefordelivery(index)}
+                      className="DeleteButtonDine"
+                    >
+                      - Delete
+                    </h1>
+                  </div>
+                  <div className="dineInChooseDayContainer">
+                    <h3 className="dineInChooseDayContainerHeading">
+                      Choose for Specific day
+                    </h3>
+                    <h3
+                      className="dineInChooseDayContainer-chooseheading"
+                      onClick={() => Deliveryaddday(index)}
+                    >
+                      Choose Day
+                    </h3>
+                  </div>
+                  <div className="dayspickup">
+                    {entry.showDay && (
+                      <DaysCheckDin
+                        checkedItems={DeliveryDates}
+                        setCheckedItems={setDeliveryDates}
+                        getDisabledDays ={getDisabledDaysdelivery}
+                        index={index}
+                        {...(availabilityid
+                          ? { id: availabilityid, setId: setAvailabilityid }
+                          : {})}
+                      />
+                    )}
+                  </div>
+                </div>
+              </>
+            );
+          })}
+
+          <h1 className="AddentryNormal" onClick={AddDineInEntryDelivery}>
+            {" "}
+            + Add entry
+          </h1>
+        </>
+      ) : (
+        ""
+      )} */}
+
+
+
+
             </div>
 
             <h1 className="ThirdDeliveryRelatedHeadingNormal">
@@ -1358,3 +1561,4 @@ const Normalavail: React.FC<NormalavailProps> = ({
 };
 
 export default Normalavail;
+
