@@ -84,6 +84,9 @@ const NormalStep2 = () => {
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData || {}
   );
+
+  const thirdPartyDetails = useSelector((state: any) => state.PricingDetailReducer.prizingData?.normalForm?.thirdpartyDetails || []);
+
   const thirdParty =
     prizingDetail &&
     prizingDetail.normalForm &&
@@ -111,7 +114,7 @@ const NormalStep2 = () => {
   useEffect(() => {
     setDinein(
       prizingDetail?.normalForm?.DineIn?.map((elem, index) => {
-        return elem; // or apply any transformation to elem if needed
+        return elem; 
       })
     );
   }, []);
@@ -272,11 +275,15 @@ const NormalStep2 = () => {
         <DaysOfWeek days={delivery1} setDays={setDelivery1} />
       </div>
       <h1 className="Step2ThirdPartyDeliveryheading">Third Party Delivery</h1>
+
       <div className="Step2ThirdPartyDelivery">
         <div className="Step2SellingPrize">
           
+      {thirdPartyDetails.map((detail:any) => (
+        <div key={detail.typeId} className="Step2SellingPrize">
           <div>
             <h1 className="Step2SellingPrizeheading">{prizingDetail.normalForm.thirdpartyDetails.map((elem)=>elem.typeName)}</h1>
+            <h1 className="Step2SellingPrizeheading">{detail.typeName} Price Listed</h1>
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
@@ -285,15 +292,22 @@ const NormalStep2 = () => {
                 prizingDetail.normalForm.thirdpartyDetails &&
                 prizingDetail.normalForm.thirdpartyDetails.map((elem:any)=>elem.price)) ||
                 "N/A"}
+              {detail.price || "N/A"}
             </h1>
           </div>
         </div>
-        
+      ))}
+      
+      <div className="thirdPartyContainers">
+        <h1 className="AvailDaysheadingthirparty">Available Days</h1>
+        <div className="DaysThirdDelivery">
+          <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
+        </div>
       </div>
-      <h1 className="AvailDaysheadingthirparty">Available Days</h1>
-      <div className="DaysThirdDelivery">
-        <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
-      </div>
+    </div>
+
+    </div>
+
     </div>
   );
 };

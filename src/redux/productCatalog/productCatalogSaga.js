@@ -63,6 +63,7 @@ import {
   ingredientsFailure,
   allergensSuccess,
   ingredientsSuccess,
+  removeDataRequest,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -137,6 +138,7 @@ import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toas
 
 function* fetchMenuDataSaga(action) {
   try {
+    yield put(removeDataRequest())
     const response = yield call(getMenuDataApi, action.payload);
     if (response.status === 200) {
       yield put(getMenuSuccess(response.data));
@@ -462,6 +464,7 @@ function* updateMenuItemSaga(action) {
     if (response.status === 200) {
       showSuccessToast(response.data.message)
       yield put(updateMenuItemSuccess(response.data));
+      yield put(removeDataRequest())
     } else {
       showErrorToast(response.data.message);
       yield put(updateMenuItemFailed({ message: "please Try Again" }));
@@ -494,6 +497,7 @@ function* deleteMenuItemSaga(action) {
         message: response.data,
         itemId: action.payload.itemId
       }));
+      yield put(removeDataRequest())
     } else {
       yield put(deleteMenuItemFailed({ message: "please Try Again" }));
     }

@@ -242,34 +242,43 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [prizingDetail]);
 
-  useEffect(()=>{
-    if(ItemsPrimaryDetails?.dietaryType?.length > 0 && name === 'dietaryType'){
-      const dietName = ItemsPrimaryDetails?.dietaryType
-      const dropdownName : any = options?.filter(
-        (opt) => dietName?.includes(opt?.name)
-      );
-      const dropDown1 = dropdownName === undefined ? ItemsPrimaryDetails?.dietaryType : dropdownName
-      setSelectedOptions(dropdownName === undefined ? dropDown1 : dropdownName )
+  useEffect(() => {
+    if (ItemsPrimaryDetails?.dietaryType?.length > 0 && name === 'dietaryType') {
+      const dietName = ItemsPrimaryDetails?.dietaryType;
+     
+      const dropdownName = options?.filter((opt) => {
+        return Array.isArray(dietName)
+          ? dietName.some((d) => d.name === opt?.name || d === opt?.name) 
+          : dietName.includes(opt?.name); 
+      });
+  
+      const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName; 
+  
+      setSelectedOptions(dropDown1);
       setValue(
         'dietaryType',
-        dropdownName === undefined ? dropDown1?.map((opt : any) => opt?.name) : dropdownName?.map((opt:any) => opt?.name) 
+        dropDown1?.map((opt:any) => (typeof opt === 'object' ? opt?.name : opt)) 
       );
     }
-  },[ItemsPrimaryDetails]) 
-
-  useEffect(()=>{
-    if(ItemsPrimaryDetails?.bestPair?.length > 0 && name === 'bestPair'){
-      const bestPairName = ItemsPrimaryDetails?.bestPair
-      const dropdownName : any = options?.filter(
-        (opt) => bestPairName?.includes(opt?.name)
-      );
-      setSelectedOptions(dropdownName)
+  }, [ItemsPrimaryDetails]);
+  
+  useEffect(() => {
+    if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === 'bestPair') {
+      const bestPairName = ItemsPrimaryDetails?.bestPair;
+      const dropdownName = options?.filter((opt) => {
+        return Array.isArray(bestPairName)
+          ? bestPairName?.some((b) => b.name === opt?.name || b === opt?.name) 
+          : bestPairName?.includes(opt?.name); 
+      });
+  
+      setSelectedOptions(dropdownName);
       setValue(
         'bestPair',
-        dropdownName?.map((opt:any) => opt?.name)
+        dropdownName.map((opt) => (typeof opt === 'object' ? opt?.name : opt))
       );
     }
-  },[ItemsPrimaryDetails])
+  }, [ItemsPrimaryDetails]);
+  
 
   useEffect(()=>{
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {

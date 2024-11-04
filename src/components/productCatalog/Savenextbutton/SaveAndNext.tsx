@@ -201,7 +201,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(formData));
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
-      const isValid = handleValidate();
+      const isValid = handleValidate && handleValidate();
 
       let PricingDetails = { ...mainForm };
       const formData = getFormData();

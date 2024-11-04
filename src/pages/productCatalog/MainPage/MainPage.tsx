@@ -31,12 +31,12 @@ const MainPage = () => {
 
   return (
     <div >
-      {belowMinWidth ? (
+      {/* {belowMinWidth ? (
         <div className="warning-message">
           Your screen width is below the minimum width of {MIN_WIDTH}px. Please
           resize your window.
         </div>
-      ) : (
+      ) : ( */}
         <>
           <Contextpage>
           <div> <Sidenav /></div> 
@@ -54,7 +54,7 @@ const MainPage = () => {
             </div>
           </Contextpage>
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };

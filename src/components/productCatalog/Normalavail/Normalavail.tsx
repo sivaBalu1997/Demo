@@ -378,6 +378,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
+      
       setformNormal({
         PickuppriceNormal:
           prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
@@ -406,16 +407,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
           dayButtonText: "Choose Day",
         })
       );
-
-      setOnline(true);
-      setPickup(true);
-      setDelivery(true);
-      setDineInFields(updatedFields);
-
-      // Set delivery details
+      
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+
+      setOnline(true);
+      pickupDetails?.price && setPickup(true);
+      deliveryDetails?.price > 0 && setDelivery(true);
+      setDineInFields(updatedFields);
+
+      // Set delivery details
       const thirdPartyTypeName =
         prizingDetail?.normalForm?.thirdpartyDetails?.map;
       if (pickupDetails) {
@@ -470,10 +472,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-      console.log({thirdpartyDetails})
       const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
+      setDineIn(true);
       if (pickupDetails) {
-        // setPickup(true);
+        setOnline(true);
+        pickupDetails?.price && setPickup(true);
         setPickUpDetails({
           typeId: pickUpId,
           typeGroup: "P",
@@ -484,7 +487,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (deliveryDetails) {
-        // setDelivery(true);
+        setOnline(true);
+        deliveryDetails?.price && setDelivery(true);
         setDeliveryDetails({
           typeId: deliveryId,
           typeGroup: "S",
@@ -495,7 +499,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (thirdpartyDetails?.length > 0) {
-        console.log({thirdpartyDetails})
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
         if (thirdpartyDetails.some((item: any) => item?.price)) {                 //need to change the logic here
           setSelectedThirdValues(data);
@@ -764,14 +767,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
     newDineInFields[index].DineInMealType = value;
     setDineInFields(newDineInFields);
 
-    // Update formattedDineInData state, ensuring you update the correct availabilities index
     setFormattedDineInData((prevData: DeliveryDetails) => {
       const updatedAvailabilities = [...prevData.availabilities];
 
-      // Ensure that the sessions are updated as a flat array and not nested arrays
       updatedAvailabilities[index] = {
         ...updatedAvailabilities[index],
-        sessions: [...newSelectedValues.filter(Boolean).flat()], // Flatten the array
+        sessions: [...newSelectedValues.filter(Boolean).flat()], 
       };
 
       return {

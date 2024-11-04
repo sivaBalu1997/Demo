@@ -475,8 +475,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
-  console.log({itemCustomizationData})
-
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
@@ -501,6 +499,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       isModifierOptionChanged: option?.isModifierOptionChanged ?? false,
     })).map(({ modifierOptionName, ...rest }) => rest) || [],
   }));
+
+  const hasData = modifierData.some(
+    (item) =>
+      item.modifierName !== null ||
+      (item.orderTypeIds && item.orderTypeIds.length > 0) ||
+      (item.options && item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
+  );
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
@@ -557,7 +562,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(itemCustomizationData.length > 0 && {
-      modifiers: modifierData || null,
+      modifiers: hasData ? modifierData : null,
     }),
 
     // isSingleMenu: false,
@@ -607,7 +612,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDaysToAdd: stringNormalDays || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
-    ...(itemCustomizationData.length > 0 && { modifiersToAdd: modifierData || null }),
+    modifiersToAdd: hasData ? modifierData : [],
     
     isCategoryUpdated:
       filteredCategory?.categoryName !==
@@ -619,6 +624,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
+  console.log({prizingDetail})
   console.log({menuPayload}, {editPayload})
 
   // const handleDispatch = async () => {

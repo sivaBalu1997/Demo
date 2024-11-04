@@ -57,17 +57,9 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
   //Primary Details , Pricing and kitchen details , Itemcustomizations
 
-  const handleclick = async () => {
-    // if (seletedpage === "Primary" && triggerValidation) {
-    //   const isFormValid = await triggerValidation(formData);
-    //   if (!isFormValid) {
-    //     window.scrollTo({
-    //       top: 0,
-    //       behavior: "smooth",
-    //     });
-    //     return;
-    //   }
-    // }
+  const handleclick = async (category: any) => {
+    const path = category.replace(/\s+/g, "");
+
     if (currentPage === "Primary Details" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
      
@@ -83,6 +75,8 @@ const Navigationpage: React.FC<NavButtonProps> = ({
           state: { pagename: "Pricing and kitchen details" },
         });        
         dispatch(primarypost(formData));
+        setCurrentPage(category);    
+        history.push(`/productCatalog/${path}`, { pagename: category });
       }
     } 
     
@@ -130,10 +124,8 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
       if (isValid) {
         dispatch(PricingDetailRequest(PricingDetails));
-        history.push({
-          pathname: `/productCatalog/Itemcustomizations`,
-          state: { pagename: "Itemcustomizations" },
-        });
+        setCurrentPage(category);    
+        history.push(`/productCatalog/${path}`, { pagename: category });
       }
     } 
 
@@ -141,7 +133,8 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));
-      history.push("/productCatalog/Reviewpage");
+      setCurrentPage(category);    
+      history.push(`/productCatalog/${path}`, { pagename: category });
     }
   };
 
@@ -152,10 +145,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   }, [location.state?.pagename]);
 
   const handleCategoryClick = (category: string) => {
-    handleclick()
-    setCurrentPage(category);
-    const path = category.replace(/\s+/g, "");
-    history.push(`/productCatalog/${path}`, { pagename: category });
+    handleclick(category)
   }
 
   return (

@@ -168,7 +168,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               } ${index === 0 ? "removebottomrowline" : ""}`}
             >
               <span className="itemimage2">
-                <img src={dots} alt="" className="draggableimg" />
+                {/* <img src={dots} alt="" className="draggableimg" /> */}
                 <img
                   src={
                     baseImageUrl +
