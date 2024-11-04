@@ -440,7 +440,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
       if (thirdpartyDetails?.length > 0) {
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
-        thirdpartyDetails && setSelectedThirdValues(data);
+        if (thirdpartyDetails.some((item: any) => item?.price)) {
+          setSelectedThirdValues(data);
+        }
         setPriceInfo([...thirdpartyDetails]);
         const object: any = {};
         const item = thirdpartyDetails?.map((item: any) => item);
@@ -493,8 +495,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (thirdpartyDetails?.length > 0) {
+        console.log({thirdpartyDetails})
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
-        thirdpartyDetails && setSelectedThirdValues(data);
+        if (thirdpartyDetails.some((item: any) => item?.price)) {                 //need to change the logic here
+          setSelectedThirdValues(data);
+        }
         setPriceInfo([...thirdpartyDetails]);
         const object: any = {};
         const item = thirdpartyDetails?.map((item: any) => item);

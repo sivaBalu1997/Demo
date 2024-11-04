@@ -11,19 +11,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { primarypost } from "redux/productCatalog/productCatalogActions";
 // import { useNavigate } from "react-router-dom";
-interface Ingredients {
+export interface Ingredients {
   id: string;
   name: string;
 }
-interface Allergens {
+export interface Allergens {
   id: string;
   name: string;
 }
-interface FormState {
+export interface FormState {
   Inventory1: string;
   Inventory2: string;
 }
-interface PricingAndKitchen {
+export interface PricingAndKitchen {
   maxServingAllowed: string;
   threshold: string;
   kitchenstation: string;
@@ -32,17 +32,17 @@ interface PricingAndKitchen {
   normalForm?: any;
   specialForm?: any;
 }
-interface Base64Image {
+export interface Base64Image {
   mimeType: string;
   base64String: string;
 }
-interface ImageFile {
+export interface ImageFile {
   // file: File;
   // uploaded: boolean;
   // failed: boolean;
   preview: string; // To store the image preview URL
 }
-interface FormData {
+export interface FormData {
   itemName?: string;
   dietaryType?: string;
   cuisine?: string;
@@ -77,11 +77,11 @@ interface FormData {
   field2?: number;
   [key: string]: any;
 }
-interface Option {
+export interface Option {
   item: string;
   price: string;
 }
-interface Modification {
+export interface Modification {
   modifierName: string;
   options: Option[];
   minSelection: number;
@@ -95,7 +95,7 @@ interface Modification {
   field2?: number;
   [key: string]: any;
 }
-interface MainForm {
+export interface MainForm {
   form: FormState;
   kitchenstation: string;
   Preparationtime: {
@@ -106,7 +106,7 @@ interface MainForm {
   normalForm?: any;
   specialForm?: any;
 }
-interface SubmitButtonProps {
+export interface SubmitButtonProps {
   getFormData: () => FormData | Modification | MainForm;
   seletedpage: string;
   reset: () => void;
@@ -116,6 +116,7 @@ interface SubmitButtonProps {
   validation?: () => boolean;
   handleValidate?: any;
 }
+
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
   getFormData,
   seletedpage,

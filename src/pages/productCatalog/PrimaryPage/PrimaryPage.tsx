@@ -639,7 +639,12 @@ const PrimaryPage = () => {
         <div>
           {/* <SidePanel /> */}
           <div style={{ marginBottom: "40px" }}>
-            <Navigationpage />
+            <Navigationpage 
+              getFormData={getValues}
+              seletedpage="Primary"
+              reset={handleReset}
+              triggerValidation={() => trigger()}
+            />
           </div>
           <div className="Primary-page">
             {/* <form> */}

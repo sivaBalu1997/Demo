@@ -400,6 +400,8 @@ export const Menulisting = () => {
         }
       };
 
+      console.log({pricingPageData})
+
       editData[0]?.orderTypes?.forEach((orderType) => {
         const { typeGroup } = orderType;
 
