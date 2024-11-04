@@ -268,18 +268,19 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails]);
   
   useEffect(() => {
+    console.log({prizingDetail})
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
-  
-      const dropDownName: any = Array.isArray(options) && options.find(
+      const dropDownName: any = Array.isArray(options) && options?.find(
         (item) => item.name === kitchenStationName
       );
-  
-      const dropDown1 = dropDownName === undefined ? 
-        { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
-  
+      const dropDown1 = dropDownName === undefined ? { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
+
+      console.log({kitchenStationName},{dropDownName},{dropDown1})
+
       setSelectedOptions(dropDownName === undefined ? [dropDown1] : [dropDownName]);
       setValue("kitchenstation", dropDownName === undefined ? dropDown1?.name : dropDownName?.name);
+      console.log("kitchenstation value:", getValues("kitchenstation"));
     }
   }, [prizingDetail]);
 
@@ -384,7 +385,7 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handledeletion = (value: string) => {
     // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
-    setOptions((item: any) => item.filter((opt: any) => opt.id !== value));
+    setOptions((item: any) => item && item?.filter((opt: any) => opt.id !== value));
     const deletedItem = {
       id: value,
       type: dropDownType,
@@ -429,9 +430,9 @@ const DropDownList: React.FC<DropdownProps> = ({
         return updatedSelected;
       })}
        else if (type === "radio") {
-      setSelectedOptions([option]);
-      setValue(name, option.name);
-      trigger(name);
+        setSelectedOptions([option]);
+        setValue(name, option.name);
+        trigger(name);
     }
     if (dropDownType === "CATEGORY") {
       setSubCategoryId(option.id);

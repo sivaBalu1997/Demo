@@ -296,6 +296,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   let [selectedImages, setselectedImages] = useState(uploadedimage || []);
 
+  console.log({selectedImages})
+
   const emptySlots =
     selectedImages.length === 0
       ? MAX_IMAGES - selectedImages.length - 1
@@ -921,6 +923,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       <div className="images">
                         <ol>
                           {selectedImages && selectedImages[0] && (
+                            
                             <li>
                               {/* <img
                                 className="uploaded-image"

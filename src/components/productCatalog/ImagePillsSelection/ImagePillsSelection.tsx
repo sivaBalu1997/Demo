@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 interface ImageOptions {
   name: string;
   id: string;
+  media?: any;
   imageId?: string;
   imageType?: string;
 }
@@ -30,6 +31,8 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   const [searchImage, setSearchImage] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
   const initialSelectionSet = useRef(false);
+  
+  const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
 
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
@@ -117,9 +120,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                 {selectedImages.map((image) => (
                   <li key={image.id} className="Selected-Image-Item">
                     <img
-                      src={`/assets/${image.imageId}.${
-                        image.imageType && image.imageType.split("/")[1]
-                      }`}
+                      src={baseImageUrl + image?.media?.imageId}
                       alt="img"
                     />
 
@@ -150,9 +151,10 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                   }`}
                 >
                   <img
-                    src={`/assets/${option.imageId}.${
-                      option.imageType && option.imageType.split("/")[1]
-                    }`}
+                    // src={`/assets/${option.imageId}.${
+                    //   option.imageType && option.imageType.split("/")[1]
+                    // }`}
+                    src={baseImageUrl + option?.media?.imageId}
                     alt="img"
                   />
                   <span>{option.name}</span>

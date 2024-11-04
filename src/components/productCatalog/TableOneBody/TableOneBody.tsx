@@ -122,7 +122,9 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const baseImageUrl = process.env.REACT_APP_IMAGE_DOMAIN;
+  const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
+  const baseImageUrl2 = process.env.REACT_APP_IMAGE_DOMAIN;
+
 
   const handleItemnameClick = (value: string) => {
     handlemodal(value);
@@ -142,6 +144,8 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   const getImageURL = useCallback ((data) => {
     return STORAGE_BUCKET_URL + "img/testing/" + data?.imageId + "/" + data?.imageType
   },[]);
+
+  console.log({object})
 
   return (
     <>
@@ -170,10 +174,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               <span className="itemimage2">
                 {/* <img src={dots} alt="" className="draggableimg" /> */}
                 <img
-                  src={
-                    baseImageUrl +
-                    "photo/2023/07/12/20/40/ai-generated-8123328_640.png"
-                  }
+                  src={item?.mediaResponseList[0]?.imageId ? (baseImageUrl + item?.mediaResponseList[0]?.imageId) : baseImageUrl2 + "photo/2023/07/12/20/40/ai-generated-8123328_640.png" }
                   alt=""
                   className="foodimage"
                 />

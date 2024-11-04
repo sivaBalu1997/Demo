@@ -316,23 +316,31 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
+  const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
 
-  useEffect(()=>{
+  useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
+      console.log({ ItemsPrimaryDetails });
+      
       const imageArray = ItemsPrimaryDetails.imageUrls.map((img: any) => ({
-        file: img.file || {},
+        file: img.imageId ? { name: img.imageId } : {},  // Set name for alt text
         uploaded: img.uploaded || false,
         failed: img.failed || false,
-        preview: img.preview,
-      }))
-      setImages((prevImages) => {
-        const updatedImages = [...prevImages,...imageArray];
-        const updatedImageUrls = updatedImages.map((image) => image);
-        setValue("imageUrls", updatedImageUrls);
+        preview: img.imageId ? `${baseImageUrl}${img.imageId}` : null, // Construct full URL for preview
+      }));
+  
+      setImages((prevImages: any) => {
+        const updatedImages = [...prevImages, ...imageArray];
+        console.log({ updatedImages });
+        
+        // Update the form's "imageUrls" value with URLs
+        setValue("imageUrls", updatedImages.map((image) => image.preview));
+        
         return updatedImages;
       });
     }
-  },[ItemsPrimaryDetails])
+  }, [ItemsPrimaryDetails, setValue]);
+  
 
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
