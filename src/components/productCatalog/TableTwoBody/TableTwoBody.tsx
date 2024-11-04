@@ -98,14 +98,14 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
       Object.entries(filteredListing).filter(([key, value]) => value === true)
     );
   
-    console.log("Filtered Listing:", filteredList);
+    // console.log("Filtered Listing:", filteredList);
     setselectefields(filteredList);
   }, [listingobject]);
   const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
   const restaurantDetails = useSelector(
     (state: RootState) => state.auth.restaurantDetails
   );
-  console.log("listingobject",Object.keys(selectedFileds).length);
+  // console.log("listingobject",Object.keys(selectedFileds).length);
   
 
   return (

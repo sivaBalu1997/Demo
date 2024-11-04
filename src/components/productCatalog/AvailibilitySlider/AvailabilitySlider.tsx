@@ -313,13 +313,14 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         {data.map((elem, index) => (
           <div key={index} className="Avail-SectionAB">
             <div className="AvailHeading-Section">
-              {elem.mainHeading}
-
-              <ToggleSliderAvail
+             <h2 className="sub-head">{elem.mainHeading}</h2> 
+            
+   <div className="toggle-btnfor-subhead"><ToggleSliderAvail
                 toggle={toggleStates[index]?.parentToggle || false}
                 setToggle={() => handleParentToggle(index)}
                 pen={pen}
-              />
+              /></div>
+              
             </div>
             {elem.types && (
               <div className="SectionASectionBSection">
@@ -341,7 +342,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
               <div className="PickupDeliveryAvail">
                 {elem.subcategories.map((subcategory, subIndex) => (
                   <div key={subIndex} className="subcategorySection">
-                    <h3 className="SectionASectionBSectionHeadingBlack">
+                    {/* <h3 className="SectionASectionBSectionHeadingBlack">
                       {subcategory.subHeading}
                     </h3>
                     <ToggleSliderAvail
@@ -352,7 +353,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                       }
                       setToggle={() => handleSubcategoryToggle(index, subIndex)}
                       pen={pen}
-                    />
+                    /> */}
                     <div className="TypesSection">
                       {subcategory.types.map((type: any, typeIndex: any) => ( <>
                         <div key={typeIndex} className="TypeHeading">

@@ -6,8 +6,8 @@
     background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
     display: flex;
     justify-content: center;
-    align-items: center; /* Center the modal vertically */
-    z-index: 1000; /* Ensure it appears above other content */
+    align-items: center; 
+    z-index: 1000;
     width:416px;
     height: 868px;
 }
@@ -18,9 +18,9 @@
     height: 407px;
     display: flex;
     justify-content: center;
-    align-items: center; /* Center the content inside the modal */
-    border-radius: 8px; /* Optional: add rounded corners */
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+    align-items: center; 
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); 
 
 
     .react-datepicker {

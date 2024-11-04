@@ -68,9 +68,9 @@ const NavMenu: React.FC<NavMenuProps> = ({
       case "Availability":
         availabilityRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
-      case "Inventory":
-        inventoryRef.current?.scrollIntoView({ behavior: "smooth" });
-        break;
+      // case "Inventory":
+      //   inventoryRef.current?.scrollIntoView({ behavior: "smooth" });
+      //   break;
       case "Customize":
         customizeRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
@@ -96,13 +96,13 @@ const NavMenu: React.FC<NavMenuProps> = ({
 
     if (pricingRef.current) observer.observe(pricingRef.current);
     if (availabilityRef.current) observer.observe(availabilityRef.current);
-    if (inventoryRef.current) observer.observe(inventoryRef.current);
+    // if (inventoryRef.current) observer.observe(inventoryRef.current);
     if (customizeRef.current) observer.observe(customizeRef.current);
 
     return () => {
       if (pricingRef.current) observer.unobserve(pricingRef.current);
       if (availabilityRef.current) observer.unobserve(availabilityRef.current);
-      if (inventoryRef.current) observer.unobserve(inventoryRef.current);
+      // if (inventoryRef.current) observer.unobserve(inventoryRef.current);
       if (customizeRef.current) observer.unobserve(customizeRef.current);
     };
   }, []);
@@ -138,9 +138,9 @@ const NavMenu: React.FC<NavMenuProps> = ({
         >
           <AvailabilitySlider />
         </div>
-        <div ref={inventoryRef} className="section" data-section="Inventory">
+        {/* <div ref={inventoryRef} className="section" data-section="Inventory">
           <Inventory  />
-        </div>
+        </div> */}
         <div ref={customizeRef} className="section" data-section="Customize">
           <CustomizeSlider />
         </div>
