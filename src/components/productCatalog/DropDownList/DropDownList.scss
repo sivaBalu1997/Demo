@@ -23,10 +23,9 @@
     line-height: 21px;
     text-align: left;
     color: #e52333;
-    height: 20px;
-    width: fit-content;
-    position: relative;
-    top: -0.5rem;
+    height: 4px;
+    transform: translateY(-7px);
+    margin-bottom: -20px;
   }
 }
 .dropdown-arrow {

@@ -229,18 +229,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   },[editData])
 
-  useEffect(() => {
-    if (prizingDetail && name === "kitchenstation") {
-      const kitchenStationName =  prizingDetail?.kitchenstation;
-      // const dropDownName: any = options && options?.find(
-      //   (item) => item.name === kitchenStationName
-      // );
-      const dropDownName: any =undefined;
-      const dropDown1 = dropDownName === undefined ? {name: prizingDetail?.kitchenstation, id:'1'} : dropDownName
-      setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName]);
-      setValue("kitchenstation", dropDownName === undefined ? dropDown1?.name :dropDownName?.name);
-    }
-  }, [prizingDetail]);
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.dietaryType?.length > 0 && name === 'dietaryType') {
@@ -279,6 +267,21 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [ItemsPrimaryDetails]);
   
+  useEffect(() => {
+    if (prizingDetail && name === "kitchenstation") {
+      const kitchenStationName = prizingDetail?.kitchenstation;
+  
+      const dropDownName: any = Array.isArray(options) && options.find(
+        (item) => item.name === kitchenStationName
+      );
+  
+      const dropDown1 = dropDownName === undefined ? 
+        { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
+  
+      setSelectedOptions(dropDownName === undefined ? [dropDown1] : [dropDownName]);
+      setValue("kitchenstation", dropDownName === undefined ? dropDown1?.name : dropDownName?.name);
+    }
+  }, [prizingDetail]);
 
   useEffect(()=>{
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
@@ -317,13 +320,16 @@ const DropDownList: React.FC<DropdownProps> = ({
   },[ItemsPrimaryDetails])
 
   const handleSelect = (option: Option) => {
+    // Ensure selectedOptions is always an array
+    const currentSelectedOptions = Array.isArray(selectedOptions) ? selectedOptions : [];
+  
     if (type === "checkbox") {
-      const isAlreadySelected = selectedOptions?.some(
+      const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-
+  
       if (isAlreadySelected) {
-        const updatedOptions = selectedOptions?.filter(
+        const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
         );
         setSelectedOptions(updatedOptions);
@@ -332,11 +338,11 @@ const DropDownList: React.FC<DropdownProps> = ({
           updatedOptions.map((opt) => opt?.name)
         );
       } else {
-        const updatedOptions = [...selectedOptions, option];
+        const updatedOptions = [...currentSelectedOptions, option];
         setSelectedOptions(updatedOptions);
         setValue(
           name,
-          updatedOptions?.map((opt) => opt?.name)
+          updatedOptions.map((opt) => opt?.name)
         );
         trigger(name);
       }
@@ -345,7 +351,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
     }
-
+  
     if (dropDownType === "CATEGORY") {
       const viewdata = {
         locationId: locationid,
@@ -357,9 +363,10 @@ const DropDownList: React.FC<DropdownProps> = ({
         dispatch(fetchDropDownRequest(viewdata));
       }
     }
-
+  
     setSearchTerm("");
   };
+  
 
   const payload = {
     locationId: locationid,
