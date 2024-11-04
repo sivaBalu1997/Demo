@@ -3,13 +3,41 @@ import React from "react";
 import "./Navigation.scss";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useLocation, useHistory } from "react-router-dom";
+import { MainForm, Modification } from "../Savenextbutton/SaveAndNext";
+import { PricingDetailRequest, itemCustomizationPost, primarypost } from "redux/productCatalog/productCatalogActions";
+import { useDispatch } from "react-redux";
 
 interface LocationState {
   pagename: string;
 }
 
-const Navigationpage = () => {
+interface NavButtonProps {
+  getFormData?: any; 
+  seletedpage?: string;
+  reset?: () => void;
+  modifications?: Modification[];
+  triggerValidation?: (formData: any) => Promise<boolean>;
+  mainForm?: MainForm;
+  validation?: () => boolean;
+  handleValidate?: any;
+}
+
+
+const Navigationpage: React.FC<NavButtonProps> = ({
+  getFormData,
+  seletedpage,
+  reset,
+  modifications,
+  triggerValidation,
+  validation,
+  mainForm,
+  handleValidate,
+}) => {
   const { isExpanded } = useContext(Contextpagejs);
+  const formData = getFormData();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation<LocationState | undefined>(); 
 
   const categories = [
     "Primary Details",
@@ -17,10 +45,7 @@ const Navigationpage = () => {
     "Itemcustomizations",
   ];
 
-  const history = useHistory();
-  const location = useLocation<LocationState | undefined>(); 
-
-    const getPath = (pathName: string) => {
+  const getPath = (pathName: string) => {
     const matchedPath = categories.find((category) =>
       pathName.includes(category.replace(/\s+/g, ""))
     );
@@ -29,6 +54,97 @@ const Navigationpage = () => {
 
   const [currentPage, setCurrentPage] = useState<string>(getPath(location.pathname));
 
+
+  //Primary Details , Pricing and kitchen details , Itemcustomizations
+
+  const handleclick = async () => {
+    // if (seletedpage === "Primary" && triggerValidation) {
+    //   const isFormValid = await triggerValidation(formData);
+    //   if (!isFormValid) {
+    //     window.scrollTo({
+    //       top: 0,
+    //       behavior: "smooth",
+    //     });
+    //     return;
+    //   }
+    // }
+    if (currentPage === "Primary Details" && triggerValidation) {
+      const isFormValid = await triggerValidation(formData);
+     
+      if (!isFormValid) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return;
+      } else {
+        history.push({
+          pathname: `/productCatalog/Pricingandkitchendetails`,
+          state: { pagename: "Pricing and kitchen details" },
+        });        
+        dispatch(primarypost(formData));
+      }
+    } 
+    
+    else if (currentPage === "Pricing and kitchen details" && triggerValidation) {
+      const isValid = handleValidate();
+
+      let PricingDetails = { ...mainForm };
+      const formData = getFormData();
+     
+      const isinValid = await triggerValidation(formData);
+
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,
+          kitchenstation: formData.kitchenstation,
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
+      }
+
+      if (formData?.form && formData?.form?.Inventory1) {
+        PricingDetails = {
+          ...PricingDetails,
+          form: {
+            ...mainForm?.form, 
+            Inventory1: formData.form.Inventory1 || "", 
+            Inventory2: formData.form.Inventory2 || "", 
+          },
+        };
+      }
+      if (
+        formData.Preparationtime?.hours ||
+        formData.Preparationtime?.minutes
+      ) {
+        PricingDetails = {
+          ...PricingDetails,
+          Preparationtime: {
+            hours: formData.Preparationtime.hours, 
+            minutes: formData.Preparationtime.minutes, 
+          },
+        };
+      } else {
+        console.error("formData.Preparationtime is undefined");
+      }
+
+      if (isValid) {
+        dispatch(PricingDetailRequest(PricingDetails));
+        history.push({
+          pathname: `/productCatalog/Itemcustomizations`,
+          state: { pagename: "Itemcustomizations" },
+        });
+      }
+    } 
+
+    else if (currentPage === "Itemcustomizations") {
+      const modificationArray = modifications;
+      const formData = getFormData();
+      dispatch(itemCustomizationPost(modificationArray));
+      history.push("/productCatalog/Reviewpage");
+    }
+  };
+
   useEffect(() => {
     if (location.state?.pagename) {
       setCurrentPage(location.state.pagename);
@@ -36,12 +152,11 @@ const Navigationpage = () => {
   }, [location.state?.pagename]);
 
   const handleCategoryClick = (category: string) => {
+    handleclick()
     setCurrentPage(category);
     const path = category.replace(/\s+/g, "");
     history.push(`/productCatalog/${path}`, { pagename: category });
   }
-
-  // console.log("Use Paras",location.state?.pagename)
 
   return (
     <>
@@ -53,7 +168,7 @@ const Navigationpage = () => {
               <li
                 key={category}
                 className={isExpanded ? "listsExpanded" : "lists"}
-                // onClick={() => handleCategoryClick(category)}
+                onClick={() => handleCategoryClick(category)}
               >
                 <h1
                   className={`list-text ${category === currentPage ? "activetext" : ""}`}
