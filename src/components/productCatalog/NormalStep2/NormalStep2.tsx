@@ -228,7 +228,7 @@ const NormalStep2 = () => {
             <h1 className="Step2SellingPrizevalue">
               {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.pickupDetails.availabilities[0].sessions.map((elem)=>elem)) ||
+                prizingDetail.normalForm?.pickupDetails?.availabilities[0].sessions?.map((elem)=>elem)) ||
                 "N/A"}
             </h1>
           </div>
@@ -264,7 +264,7 @@ const NormalStep2 = () => {
             <h1 className="Step2SellingPrizevalue">
             {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions.map((elem)=>elem)) ||
+                prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions.map((elem)=>elem)) ||
                 "N/A"}
             </h1>
           </div>
@@ -282,7 +282,6 @@ const NormalStep2 = () => {
       {thirdPartyDetails.map((detail:any) => (
         <div key={detail.typeId} className="Step2SellingPrize">
           <div>
-            <h1 className="Step2SellingPrizeheading">{prizingDetail.normalForm.thirdpartyDetails.map((elem)=>elem.typeName)}</h1>
             <h1 className="Step2SellingPrizeheading">{detail.typeName} Price Listed</h1>
           </div>
           <div>
