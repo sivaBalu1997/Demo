@@ -34,6 +34,31 @@ interface NormalFormData {
     thirdParty: number[];
     DeliveryMealType: string[];
     PicupMealType: string[];
+    pickupDetails:{
+      price:number
+      availabilities:[
+        {
+          sessions:[]
+        }
+      ]
+    }
+    deliveryDetails:{
+      price:number
+      availabilities:[
+        {
+          sessions:[]
+        }
+      ]
+    }
+    thirdpartyDetails:[{
+      typeName:string
+      price:number
+      availabilities:[
+        {
+          sessions:[]
+        }
+      ]
+    }]
 
     formNormal: {
       PickuppriceNormal: string;
@@ -186,8 +211,8 @@ const NormalStep2 = () => {
             <h1 className="Step2SellingPrizevalue">
               {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.formNormal &&
-                prizingDetail.normalForm.formNormal.PickuppriceNormal) ||
+                prizingDetail.normalForm.pickupDetails &&
+                prizingDetail.normalForm.pickupDetails.price) ||
                 "N/A"}
             </h1>
           </div>
@@ -200,7 +225,7 @@ const NormalStep2 = () => {
             <h1 className="Step2SellingPrizevalue">
               {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.PicupMealType) ||
+                prizingDetail.normalForm.pickupDetails.availabilities[0].sessions.map((elem)=>elem)) ||
                 "N/A"}
             </h1>
           </div>
@@ -222,8 +247,8 @@ const NormalStep2 = () => {
             <h1 className="Step2SellingPrizevalue">
               {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.formNormal &&
-                prizingDetail.normalForm.formNormal.DeliverypriceNormal) ||
+                prizingDetail.normalForm.deliveryDetails &&
+                prizingDetail.normalForm.deliveryDetails.price) ||
                 "N/A"}
             </h1>
           </div>
@@ -234,9 +259,9 @@ const NormalStep2 = () => {
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
+            {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.DeliveryMealType) ||
+                prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions.map((elem)=>elem)) ||
                 "N/A"}
             </h1>
           </div>
@@ -249,33 +274,21 @@ const NormalStep2 = () => {
       <h1 className="Step2ThirdPartyDeliveryheading">Third Party Delivery</h1>
       <div className="Step2ThirdPartyDelivery">
         <div className="Step2SellingPrize">
+          
           <div>
-            <h1 className="Step2SellingPrizeheading">Swiggy Prize Listed</h1>
+            <h1 className="Step2SellingPrizeheading">{prizingDetail.normalForm.thirdpartyDetails.map((elem)=>elem.typeName)}</h1>
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
+            {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.formNormal &&
-                prizingDetail.normalForm.formNormal.SwiggyNormal) ||
+                prizingDetail.normalForm.thirdpartyDetails &&
+                prizingDetail.normalForm.thirdpartyDetails.map((elem:any)=>elem.price)) ||
                 "N/A"}
             </h1>
           </div>
         </div>
-        <div className="Step2SellingPrize2">
-          <div>
-            <h1 className="Step2SellingPrizeheading2">Zomato Price Listed</h1>
-          </div>
-          <div>
-            <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
-                prizingDetail.normalForm &&
-                prizingDetail.normalForm.formNormal &&
-                prizingDetail.normalForm.formNormal.ZomatoNormal) ||
-                "N/A"}
-            </h1>
-          </div>
-        </div>
+        
       </div>
       <h1 className="AvailDaysheadingthirparty">Available Days</h1>
       <div className="DaysThirdDelivery">
