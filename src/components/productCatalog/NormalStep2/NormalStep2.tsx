@@ -34,6 +34,31 @@ interface NormalFormData {
     thirdParty: number[];
     DeliveryMealType: string[];
     PicupMealType: string[];
+    pickupDetails:{
+      price:number
+      availabilities:[
+        {
+          sessions:[]
+        }
+      ]
+    }
+    deliveryDetails:{
+      price:number
+      availabilities:[
+        {
+          sessions:[]
+        }
+      ]
+    }
+    thirdpartyDetails:[{
+      typeName:string
+      price:number
+      availabilities:[
+        {
+          sessions:[]
+        }
+      ]
+    }]
 
     formNormal: {
       PickuppriceNormal: string;
@@ -189,8 +214,8 @@ const NormalStep2 = () => {
             <h1 className="Step2SellingPrizevalue">
               {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.formNormal &&
-                prizingDetail.normalForm.formNormal.PickuppriceNormal) ||
+                prizingDetail.normalForm.pickupDetails &&
+                prizingDetail.normalForm.pickupDetails.price) ||
                 "N/A"}
             </h1>
           </div>
@@ -203,7 +228,7 @@ const NormalStep2 = () => {
             <h1 className="Step2SellingPrizevalue">
               {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.PicupMealType) ||
+                prizingDetail.normalForm?.pickupDetails?.availabilities[0].sessions?.map((elem)=>elem)) ||
                 "N/A"}
             </h1>
           </div>
@@ -225,8 +250,8 @@ const NormalStep2 = () => {
             <h1 className="Step2SellingPrizevalue">
               {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.formNormal &&
-                prizingDetail.normalForm.formNormal.DeliverypriceNormal) ||
+                prizingDetail.normalForm.deliveryDetails &&
+                prizingDetail.normalForm.deliveryDetails.price) ||
                 "N/A"}
             </h1>
           </div>
@@ -237,9 +262,9 @@ const NormalStep2 = () => {
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
+            {(prizingDetail &&
                 prizingDetail.normalForm &&
-                prizingDetail.normalForm.DeliveryMealType) ||
+                prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions.map((elem)=>elem)) ||
                 "N/A"}
             </h1>
           </div>
@@ -252,6 +277,8 @@ const NormalStep2 = () => {
       <h1 className="Step2ThirdPartyDeliveryheading">Third Party Delivery</h1>
 
       <div className="Step2ThirdPartyDelivery">
+        <div className="Step2SellingPrize">
+          
       {thirdPartyDetails.map((detail:any) => (
         <div key={detail.typeId} className="Step2SellingPrize">
           <div>
@@ -259,6 +286,11 @@ const NormalStep2 = () => {
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
+            {(prizingDetail &&
+                prizingDetail.normalForm &&
+                prizingDetail.normalForm.thirdpartyDetails &&
+                prizingDetail.normalForm.thirdpartyDetails.map((elem:any)=>elem.price)) ||
+                "N/A"}
               {detail.price || "N/A"}
             </h1>
           </div>
@@ -271,6 +303,8 @@ const NormalStep2 = () => {
           <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
         </div>
       </div>
+    </div>
+
     </div>
 
     </div>
