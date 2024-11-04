@@ -1,0 +1,49 @@
+.session-constainer
+{
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  
+   
+    z-index: 1200;
+  
+   
+
+  
+}
+.session-window
+{
+   margin-left: -120%;
+   margin-top: -50%;
+    background-color: white;
+    width: 200px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center; 
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); 
+
+
+}
+.session-name
+{
+    display: flex;
+    gap: 10px;
+    input{
+        accent-color:#67833E ;
+    }
+}
+.save-btn-session{
+    width: 150px;
+height:  40px;
+color: white;
+border:  0.5px solid #67833E;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: #67833E;
+cursor: pointer;}

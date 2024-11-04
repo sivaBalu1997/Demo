@@ -13,39 +13,41 @@ const AvailCalender: React.FC<modelshow> = ({
   selectedtypeid,
   setShowcalender,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState<
-    "AM" | "PM" | null
-  >("AM");
+
+  const [selectedDatee, setSelectedDatee] = useState<Date | null>(null);
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState<"AM" | "PM">("AM");
+  const [hours, setHours] = useState('');
+  const [minutes, setMinutes] = useState('');
+  const [formattedTime, setFormattedTime] = useState('');
 
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
+
 
   const handleTimePeriodClick = (period: "AM" | "PM") => {
     setSelectedTimePeriod(period);
   };
 
-  const formatDateToISO = (date: Date) => {
-    const offsetTime = new Date(
-      date.getTime() - date.getTimezoneOffset() * 60000
-    );
-    return offsetTime.toISOString().slice(0, 19);
-  };
-
-  const { selectedDateOption } = useContext(Contextpagejs);
-  const formattedDate = formatDateToISO(selectedDate);
-  console.log(formattedDate);
-
-  const [selectedDatee, setSelectedDatee] = useState<Date | null>(null);
-
   const handleDateChange = (date: Date | null) => {
     setSelectedDatee(date);
   };
 
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' | 'minutes') => {
+    const value = e.target.value;
+    if (type === 'hours') {
+      setHours(value);
+    } else {
+      setMinutes(value);
+    }
+    const formattedHours = String(type === 'hours' ? value : hours).padStart(2, '0');
+    const formattedMinutes = String(type === 'minutes' ? value : minutes).padStart(2, '0');
+    setFormattedTime(`${formattedHours}:${formattedMinutes}`);
+  };
+
   const handleDateChanging = () => {
-    if (selectedDatee) {
+    if (selectedDatee && selectedTimePeriod) {
       const newAvailabilityInfo = {
         orderTypeId: selectedtypeid,
-        unAvailableUntilTime: formatDateToISO(selectedDatee),
+        unAvailableUntilTime: formatDateTime(selectedDatee, formattedTime, selectedTimePeriod),
       };
       const updatedData = {
         ...patchedData,
@@ -58,11 +60,26 @@ const AvailCalender: React.FC<modelshow> = ({
       };
 
       setPatchedData(updatedData);
-
       setShowcalender(false);
     }
   };
-  console.log("patchedDaaaaaaa", patchedData);
+
+  const formatDateTime = (selectedDatee: Date, formattedTime: string, selectedTimePeriod: string): string => {
+    const date = new Date(selectedDatee);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0');
+    const [hours, minutes] = formattedTime.split(':').map(Number);
+    const adjustedHours = selectedTimePeriod === 'PM' && hours < 12
+      ? hours + 12
+      : selectedTimePeriod === 'AM' && hours === 12
+        ? 0
+        : hours;
+    const formattedDateTime = `${year}-${month}-${day}T${String(adjustedHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+    return formattedDateTime;
+  };
+  const result = selectedDatee && selectedTimePeriod && formatDateTime(selectedDatee, formattedTime, selectedTimePeriod);
+  console.log("result", result);
 
   return (
     <div className="AvailCalenderContainer">
@@ -78,24 +95,36 @@ const AvailCalender: React.FC<modelshow> = ({
           </div>
           <div className="AvailCalenderInputContainer">
             <div>
-              <input type="text" className="AvailCalenderInput1" />
+              <input
+                type="number"
+                value={hours}
+                onChange={(e) => handleTimeChange(e, 'hours')}
+                placeholder="HH"
+                className="AvailCalenderInput1" 
+                min="1"
+                max="12"
+              />
             </div>
             <h2>:</h2>
             <div>
-              <input type="text" className="AvailCalenderInput1" />
+              <input
+                type="number"
+                value={minutes}
+                onChange={(e) => handleTimeChange(e, 'minutes')}
+                placeholder="MM"
+                className="AvailCalenderInput1"
+                min="0"
+                max="59"
+              />
             </div>
             <div
-              className={`AvailCalenderAm ${
-                selectedTimePeriod === "AM" ? "Calselected" : ""
-              }`}
+              className={`AvailCalenderAm ${selectedTimePeriod === "AM" ? "Calselected" : ""}`}
               onClick={() => handleTimePeriodClick("AM")}
             >
               <p>Am</p>
             </div>
             <div
-              className={`AvailCalenderPm ${
-                selectedTimePeriod === "PM" ? "Calselected" : ""
-              }`}
+              className={`AvailCalenderPm ${selectedTimePeriod === "PM" ? "Calselected" : ""}`}
               onClick={() => handleTimePeriodClick("PM")}
             >
               <p>Pm</p>
@@ -119,9 +148,3 @@ const AvailCalender: React.FC<modelshow> = ({
 };
 
 export default AvailCalender;
-
-
- 
- 
- 
-  

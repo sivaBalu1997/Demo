@@ -1364,3 +1364,4 @@ const Normalavail: React.FC<NormalavailProps> = ({
 };
 
 export default Normalavail;
+
