@@ -1016,6 +1016,8 @@ const PrimaryPage = () => {
                           handleCheckboxChange(e);
                           field?.onChange(e.target.checked);
                         }}
+                        disabled={popularItem>=10}
+ 
                       />
                     )}
                   />
