@@ -475,7 +475,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setDineIn(true);
       if (pickupDetails) {
         setOnline(true);
-        setPickup(true);
+        pickupDetails?.price && setPickup(true);
         setPickUpDetails({
           typeId: pickUpId,
           typeGroup: "P",
@@ -487,7 +487,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
       if (deliveryDetails) {
         setOnline(true);
-        setDelivery(true);
+        deliveryDetails?.price && setDelivery(true);
         setDeliveryDetails({
           typeId: deliveryId,
           typeGroup: "S",
