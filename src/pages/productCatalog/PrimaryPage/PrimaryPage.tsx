@@ -228,6 +228,9 @@ const PrimaryPage = () => {
   });
 
   const [popularItem, setPopularItem] = useState<any>("");
+  const [popularItemlimit, setPopularItemLimit] = useState<any>("");
+
+
   const [calorieInfo, setCalorieInfo] = useState<any>({
     type: "per 100 grams",
     value: "",
@@ -245,6 +248,10 @@ const PrimaryPage = () => {
   const addedData = useSelector(
     (state: ListingData) => state.addMockDataReducer.data
   );
+  const popularItemLimit = useSelector(
+    (state: any) => state.auth.restaurantDetails.popularItemCount
+  );
+
 
   const Mockdata = useSelector(
     (state: ListingData) => state.storeMockDataReducer.data
@@ -259,6 +266,8 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     setPopularItem(PopularItemFormApi);
+    setPopularItemLimit(popularItemLimit)
+
   }, [PopularItemFormApi]);
 
   useEffect(() => {
@@ -1016,12 +1025,12 @@ const PrimaryPage = () => {
                           handleCheckboxChange(e);
                           field?.onChange(e.target.checked);
                         }}
-                        disabled={popularItem>=10}
+                        disabled={popularItem>=popularItemlimit}
  
                       />
                     )}
                   />
-                  <span>Popular item ( {popularItem}/10 )</span>
+                  <span>Popular item ( {popularItem}/{popularItemlimit} )</span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
