@@ -472,8 +472,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
       console.log({thirdpartyDetails})
       const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
+      setDineIn(true);
       if (pickupDetails) {
-        // setPickup(true);
+        setOnline(true);
+        setPickup(true);
         setPickUpDetails({
           typeId: pickUpId,
           typeGroup: "P",
@@ -484,7 +486,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (deliveryDetails) {
-        // setDelivery(true);
+        setOnline(true);
+        setDelivery(true);
         setDeliveryDetails({
           typeId: deliveryId,
           typeGroup: "S",
