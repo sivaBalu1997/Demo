@@ -764,14 +764,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
     newDineInFields[index].DineInMealType = value;
     setDineInFields(newDineInFields);
 
-    // Update formattedDineInData state, ensuring you update the correct availabilities index
     setFormattedDineInData((prevData: DeliveryDetails) => {
       const updatedAvailabilities = [...prevData.availabilities];
 
-      // Ensure that the sessions are updated as a flat array and not nested arrays
       updatedAvailabilities[index] = {
         ...updatedAvailabilities[index],
-        sessions: [...newSelectedValues.filter(Boolean).flat()], // Flatten the array
+        sessions: [...newSelectedValues.filter(Boolean).flat()], 
       };
 
       return {
