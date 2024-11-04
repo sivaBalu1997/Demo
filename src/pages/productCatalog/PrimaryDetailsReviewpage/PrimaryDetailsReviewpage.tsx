@@ -614,7 +614,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDaysToAdd: stringNormalDays || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
-    modifiersToAdd: hasData ? modifierData : null,
+    modifiersToAdd: hasData ? modifierData : [],
     
     isCategoryUpdated:
       filteredCategory?.categoryName !==
