@@ -120,7 +120,7 @@ const CustomizeSlider = () => {
                 <ToggleSliderAvail
                   toggle={elem.isEnabled}
                   setToggle={() => handleParentToggle(index)}
-                  pen={pen} // Passing pen as a prop
+                  pen={pen} 
                 />
               </div>
             </div>
@@ -137,7 +137,7 @@ const CustomizeSlider = () => {
                       <ToggleSliderAvail
                         toggle={subitem.isEnabled}
                         setToggle={() => handleChildToggle(index, subindex)}
-                        pen={pen} // Passing pen as a prop
+                        pen={pen} 
                       />
                       <input
                         className="input-subitem"

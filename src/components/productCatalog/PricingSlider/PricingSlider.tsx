@@ -71,11 +71,11 @@ const PricingSlider: any = ({  }) => {
   
     setInputs((prev) => ({
       ...prev,
-      [section]: Array.isArray(prev[section]) // Ensure it's an array
+      [section]: Array.isArray(prev[section]) 
         ? prev[section].map((item: number, idx: number) =>
-            idx === index ? Number(value) : item // Convert value to number if needed
+            idx === index ? Number(value) : item 
           )
-        : [], // Default to an empty array if prev[section] is not an array
+        : [], 
     }));
   }
 
@@ -108,6 +108,7 @@ const PricingSlider: any = ({  }) => {
           <div className="Onprem-Heading">
             {elem.heading}
             <div className="Onprem-Sections">
+
               {elem.Sections?.map((section:any, seInd:any) => (
                 <div key={seInd} className="SectionA">
                   <div className="SectionInput">
@@ -130,7 +131,7 @@ const PricingSlider: any = ({  }) => {
               <div className="Section-Label">
                {Array.isArray(elem.labels) && elem.labels.map((label: any, sub: any) => (
                   <div key={sub} className="OnSectionLabelInput">
-                    <h3 className="OnSectionLabelInput-Heading">{label}</h3>
+                    <h3 className="OnSectionLabelInput-Heading"></h3>
                     <div className="OnPremZomatoInhouseSwiggy">
                       {elem.InputLabels?.map((inputlabels:any, idx:any) => (
                         <div
@@ -138,7 +139,7 @@ const PricingSlider: any = ({  }) => {
                           className="OnPremZomatoInhouseSwiggyInput"
                         >
                           <h3 className="OnPremZomatoInhouseSwiggyInput-Heading">
-                            {inputlabels}67
+                            {inputlabels}
                           </h3>
                           <input
                             type={elem.inputTypes[idx] || "number"}

@@ -4,22 +4,21 @@ import AvailCalender from "../AvailCalender/AvailCalender";
 import { useDispatch, useSelector } from "react-redux";
 import { partialUpdateMenuRequest } from "redux/productCatalog/productCatalogActions";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import SessionOpen from "../SessionOpen/SessionOpen";
 
 const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
   const dispatch = useDispatch();
-  const [selectedOption, setSelectedOption] = useState(null); 
+  const [selectedOption, setSelectedOption] = useState(null);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
-  const [selctedDateOption, setselctedDateOption] = useState("");
-
-  const menuData = useSelector((state) => state.productCatalog?.menuData);
+  const [showsession, setshowsession] = useState(false);
+  const [selctedDateSession, setselctedDateSession] = useState("");
+  const restaurantDetails = useSelector((state) => state.auth.restaurantDetails);
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
-  let { selectedDateOption } = useContext(Contextpagejs);
-  const dataFromRedux = useSelector(
-    (state) => state?.selectedMockDataReducer?.data
-  );
 
-  const [showcalender, setShowcalender] = useState(false);
-
+  const workingHours = [
+    // Your working hours data as shown in your original code...
+  ];
+  
   const Text = [
     "End of Today",
     "End of Sessions",
@@ -27,49 +26,88 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
     "Until manually enabled",
   ];
 
-  const handleSaveBtn = () => {
-    // setShowModalAvailable();
-    setSelectPeriod(false);
-    // dispatch(partialUpdateMenuRequest(patchedData));
-    // onclose();
+  const getTodayDay = () => {
+    const daysOfWeek = [
+      "Sunday", "Monday", "Tuesday", "Wednesday", 
+      "Thursday", "Friday", "Saturday",
+    ];
+    const today = new Date();
+    return daysOfWeek[today.getDay()];
+  };
+
+  const filterWorkingHoursBySession = (session) => {
+    const todayDay = getTodayDay();
+    const todayWorkinghours = restaurantDetails?.workingHours.filter(
+      (item) => item.weekday === todayDay
+    );
+
+    if (session === "morning") {
+      return todayWorkinghours.find(item => item.closingTime <= "11:59:59");
+    }
+    else if (session === "evening") {
+      return todayWorkinghours.find(item => item.openingTime >= "12:00:00");
+    }
+    return null;
+  };
+
+  const getFormattedDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   const handleRadioChange = (index, elem) => {
     setSelectedOption(index);
-  
+
     if (index === 2) {
       setShowAvailCalender(true);
-      setShowcalender(true);
     } else {
       setShowAvailCalender(false);
     }
-  
+
     if (elem === "End of Today") {
-      const date = new Date();
-      const formattedDate = date.toISOString().slice(0, 19); 
-      setselctedDateOption(formattedDate);
-  
+      const todayWorkinghours = filterWorkingHoursBySession("evening");
+      const formattedDate = getFormattedDate();
       
       setPatchedData((prevState) => ({
         ...prevState,
-        itemAvailabilityInfo: prevState.itemAvailabilityInfo.map((availabilityInfo) =>
-          availabilityInfo.orderTypeId === selectedtypeid
-            ? {
-                ...availabilityInfo,
-                unAvailableUntilTime: formattedDate, 
-              }
-            : availabilityInfo 
+        itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+          (availabilityInfo) =>
+            availabilityInfo.orderTypeId === selectedtypeid
+              ? {
+                  ...availabilityInfo,
+                  unAvailableUntilTime: `${formattedDate}T${todayWorkinghours?.closingTime}`,
+                }
+              : availabilityInfo
+        ),
+      }));
+    } else if (elem === "End of Sessions") {
+      setshowsession(true);
+      const formattedDate = getFormattedDate();
+      const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
+      console.log("sessionClosingHours",sessionClosingHours);
+      
+
+      setPatchedData((prevState) => ({
+        ...prevState,
+        itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+          (availabilityInfo) =>
+            availabilityInfo.orderTypeId === selectedtypeid
+              ? {
+                  ...availabilityInfo,
+                  unAvailableUntilTime: `${formattedDate}T${sessionClosingHours?.closingTime}`,
+                }
+              : availabilityInfo
         ),
       }));
     }
   };
-  
-
-  console.log("patchedData", patchedData);
 
   return (
-    <div className="AvailabilityChangesUntilContainer">
-      <div className="Availability_Changes_Until_SubContainer">
+    <div className="AvailabilityChangesUntilContainer" >
+      <div className="Availability_Changes_Until_SubContainer" style={{marginLeft:showsession?"45%":""}}>
         <div className="Avail_Changes_Form">
           <h4 className="Avail_Changes_Heading">Availability Changes Until</h4>
 
@@ -95,17 +133,25 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
             >
               Cancel
             </a>
-            <a className="Avail-btn1-Save" onClick={handleSaveBtn}>
+            <a className="Avail-btn1-Save" onClick={() => setSelectPeriod(false)}>
               Save
             </a>
           </div>
         </div>
       </div>
 
-      {showcalender && showAvailCalender && (
+      {showAvailCalender && (
         <AvailCalender
           selectedtypeid={selectedtypeid}
-          setShowcalender={setShowcalender}
+          setShowcalender={setShowAvailCalender}
+        />
+      )}
+
+      {showsession && (
+        <SessionOpen
+          selectedtypeid={selectedtypeid}
+          setshowsession={setshowsession}
+        
         />
       )}
     </div>

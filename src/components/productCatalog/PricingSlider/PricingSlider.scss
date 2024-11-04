@@ -5,7 +5,7 @@
     width:395px;
     height: 390px;
     margin-top: 20px;
-    
+ 
     margin-left: 20px;
 }
 .PricingSlider-Heading{
@@ -38,15 +38,17 @@
 .SectionA-Heading{
     font-size: 16px;
     font-weight: 400;
-    color:#5F5F5F
+    color:#5F5F5F;
+    margin-left: 5px;
 }
 .SectionInput{
     display: flex;
     justify-content: space-between;
-    gap:5px
+    gap:5px;
+    margin-top: 4%;
 }
 .SectionA-Input{
-    margin-left: 45px;
+    margin-left: 70px;
     border:1px solid #000000;
     width:100px;
     text-align: center;
@@ -79,8 +81,8 @@
 }
 .OnPremZomatoInhouseSwiggy{
     width: 320px;
-    margin-top: 30px;
-    margin-left: -50px;
+  
+  
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -100,14 +102,15 @@
     padding-left: 8.07px;
     font-size: 16px;
     font-weight: 400;
-    padding: 10px; /* Adds padding for a consistent look */
+    padding: 10px;
     box-sizing: border-box; 
 }
 .OnPremZomatoInhouseSwiggyInput-Heading{
-    width: 125px; /* Set label width to ensure proper alignment */
+    width: 125px; 
     font-size: 16px;
     font-weight: 400;
     color:#5F5F5F;
+    margin-left: 5px;
 
 }
 

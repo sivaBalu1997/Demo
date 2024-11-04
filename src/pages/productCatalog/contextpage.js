@@ -10,7 +10,7 @@ export const Contextpage = ({ children }) => {
   const datafromRedux = useSelector((state) => state?.selectedMockDataReducer?.data);
 
     const pages=['Step 1: Primary Details','Step 2: Pricing and kitchen details','Step 3: Item customizations']
-    const menuItems = ['Pricing', 'Availability','Inventory','Customize'];
+    const menuItems = ['Pricing', 'Availability','Customize'];
     const [activeCategory, setActiveCategory] = useState('Step 1: Primary Details');
     const [isExpanded, setIsExpanded]=useState()
     const [saveandnext, setsaveandnext]=useState(false);
