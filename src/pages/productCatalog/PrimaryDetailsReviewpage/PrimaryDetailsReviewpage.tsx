@@ -475,8 +475,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
-  console.log({itemCustomizationData})
-
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
@@ -626,6 +624,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
+  console.log({prizingDetail})
   console.log({menuPayload}, {editPayload})
 
   // const handleDispatch = async () => {

@@ -378,6 +378,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
+      
       setformNormal({
         PickuppriceNormal:
           prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
@@ -406,16 +407,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
           dayButtonText: "Choose Day",
         })
       );
-
-      setOnline(true);
-      setPickup(true);
-      setDelivery(true);
-      setDineInFields(updatedFields);
-
-      // Set delivery details
+      
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+
+      setOnline(true);
+      pickupDetails?.price && setPickup(true);
+      deliveryDetails?.price > 0 && setDelivery(true);
+      setDineInFields(updatedFields);
+
+      // Set delivery details
       const thirdPartyTypeName =
         prizingDetail?.normalForm?.thirdpartyDetails?.map;
       if (pickupDetails) {
@@ -470,7 +472,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-      console.log({thirdpartyDetails})
       const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
       setDineIn(true);
       if (pickupDetails) {
@@ -498,7 +499,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (thirdpartyDetails?.length > 0) {
-        console.log({thirdpartyDetails})
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
         if (thirdpartyDetails.some((item: any) => item?.price)) {                 //need to change the logic here
           setSelectedThirdValues(data);
