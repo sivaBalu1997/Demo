@@ -16,7 +16,11 @@ const PricingSlider: any = ({  }) => {
 
 
   const [inputs, setInputs] = useState({
-    Dinein1: data[0]?.orderTypes[0]?.price || [],
+    Dinein1: Array.isArray(data[0]?.orderTypes) 
+    ? data[0].orderTypes
+        .filter((elem: any) => elem.typeName === "DineIn")
+        .map((elem: any) => elem.price)
+    : [],
     Pickup1: Array.isArray(data[0]?.orderTypes) 
     ? data[0].orderTypes.map((elem: any) => elem.price) 
     : [],
@@ -133,7 +137,7 @@ const PricingSlider: any = ({  }) => {
                   <div key={sub} className="OnSectionLabelInput">
                     <h3 className="OnSectionLabelInput-Heading"></h3>
                     <div className="OnPremZomatoInhouseSwiggy">
-                      {elem.InputLabels?.map((inputlabels:any, idx:any) => (
+                      {elem.InputLabels .filter((label: any) => label !== "DineIn") ?.map((inputlabels:any, idx:any) => (
                         <div
                           key={inputlabels}
                           className="OnPremZomatoInhouseSwiggyInput"
