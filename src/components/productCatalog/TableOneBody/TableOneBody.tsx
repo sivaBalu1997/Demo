@@ -145,8 +145,6 @@ const TableOneBody: React.FC<ItemRowProps> = ({
     return STORAGE_BUCKET_URL + "img/testing/" + data?.imageId + "/" + data?.imageType
   },[]);
 
-  console.log({object})
-
   return (
     <>
       {object?.itemResponseList?.length > 0 &&
