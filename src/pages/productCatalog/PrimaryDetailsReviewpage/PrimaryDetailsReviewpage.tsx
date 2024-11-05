@@ -628,6 +628,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   console.log({prizingDetail})
   console.log({menuPayload}, {editPayload})
+  console.log({Wholedata})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -682,6 +683,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const handleSubmitItemDetails = () => {
     if (Wholedata?.imageUrls?.length > 0) {
+      console.log('Inside')
       dispatch(startImageUpload(primarydata?.imageUrls));
       setButtonClicked(true);
       if (subsectiondatamsg) {

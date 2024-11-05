@@ -328,14 +328,13 @@ const PrimaryPage = () => {
         failed: img?.failed || false,
         preview: img?.imageId 
           ? `${baseImageUrl}${img.imageId}` 
-          : img?.preview,  // Use existing preview if imageId is not available
+          : img?.preview,  
       }));
   
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...imageArray];
         console.log({ updatedImages });
         
-        // Update the form's "imageUrls" field with the updated images
         setValue("imageUrls", updatedImages);
         
         return updatedImages;
