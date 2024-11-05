@@ -254,7 +254,6 @@ const SidePanel = () => {
                     if (option === "Items") {
                       history.push(`/menu/${option}`);
                     } else if (option === "Product Catalog") {
-                      console.log('hi')
                       dispatch(removeDataRequest());
                       history.push("/menuListing");
                     }

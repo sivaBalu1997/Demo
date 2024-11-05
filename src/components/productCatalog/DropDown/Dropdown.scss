@@ -7,8 +7,6 @@
   width: 300px;
   height: 44px;
   margin-left: 30px;
-  
-
 }
 
 ::-webkit-scrollbar {
@@ -47,18 +45,12 @@
 
 .optionsPricing {
   position: absolute;
-  // top: 2.8rem;
   left: -2rem;
   width: 320px;
-
-
-  // border: 1px solid red;
   border-radius: 4px;
   background: #fff;
- 
   box-shadow: 1px 1px 10px 0px #00000040;
   z-index: 25;
-
   max-height: 125px;
   overflow-y: auto;
 }
@@ -129,7 +121,7 @@
   height: 8.67px;
   transform: rotate(180deg);
   opacity: 30%;
-  position: absolute; 
+  position: absolute;
   right: 10px;
 }
 
@@ -139,10 +131,8 @@
   font-weight: 400;
   margin-left: -1.8rem;
   margin-bottom: 0.3rem;
-  
 }
-.No-Option-Availble-dropdown
-{
+.No-Option-Availble-dropdown {
   width: 300px;
   height: 120px;
   // border: 1px solid red;
@@ -152,5 +142,4 @@
   align-items: center;
   font-size: 16px;
   color: #779749;
-
 }

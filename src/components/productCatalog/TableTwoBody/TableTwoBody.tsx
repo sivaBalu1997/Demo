@@ -31,7 +31,7 @@ interface OrderType {
   typeId: string;
   price: number;
   isEnabled: number;
-  isNotHide:number;
+  // isHidden:number;
   availabilityEnabled:boolean
   availabilities: Availability[];
   isHidden?: any;
@@ -98,14 +98,12 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
       Object.entries(filteredListing).filter(([key, value]) => value === true)
     );
   
-    // console.log("Filtered Listing:", filteredList);
     setselectefields(filteredList);
   }, [listingobject]);
   const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
   const restaurantDetails = useSelector(
     (state: RootState) => state.auth.restaurantDetails
   );
-  // console.log("listingobject",Object.keys(selectedFileds).length);
   
 
   return (
@@ -152,7 +150,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   ? orderType.price.toFixed(2).padStart(5, "0")
                   : "";
                 const className = typeName.toLowerCase() + "data";
-                const isPriceEnabled=orderType && orderType.isNotHide==1
+                const isPriceEnabled=orderType && orderType.isHidden==0
                 ? true
                 : false;             
 
@@ -197,7 +195,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   >
                     {/* 
                   <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
-                    <p style={{opacity:isAvailEnabled?"100%":"50%",marginLeft:'1.5rem'}}>
+                    <p style={{opacity:isAvailEnabled?"100%":"50%"}}>
                       {isEnabled !== "" ? (
                         <Toggle toggle={true} />
                       ) : (

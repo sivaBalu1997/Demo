@@ -475,8 +475,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
-  console.log({itemCustomizationData})
-
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
@@ -501,6 +499,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       isModifierOptionChanged: option?.isModifierOptionChanged ?? false,
     })).map(({ modifierOptionName, ...rest }) => rest) || [],
   }));
+
+  const hasData = modifierData.some(
+    (item) =>
+      item.modifierName !== null ||
+      (item.orderTypeIds && item.orderTypeIds.length > 0) ||
+      (item.options && item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
+  );
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
@@ -557,7 +562,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(itemCustomizationData.length > 0 && {
-      modifiers: modifierData || null,
+      modifiers: hasData ? modifierData : null,
     }),
 
     // isSingleMenu: false,
@@ -607,7 +612,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDaysToAdd: stringNormalDays || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
-    ...(itemCustomizationData.length > 0 && { modifiersToAdd: modifierData || null }),
+    modifiersToAdd: hasData ? modifierData : [],
+    
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
@@ -618,6 +624,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
+  console.log({prizingDetail})
   console.log({menuPayload}, {editPayload})
 
   // const handleDispatch = async () => {
@@ -735,7 +742,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="reviewheading">
           <p>
-            Review menu item - {primarypagedetails.primarypage.data?.itemName}
+            Review menu item - {primarypagedetails.primarypage.data?.itemName||"N/A"}
           </p>
         </div>
         <div className="reviewpage">
@@ -752,7 +759,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Item Name"
                           textvalue={
-                            primarydata.itemName ? primarydata?.itemName : "-"
+                            primarydata.itemName ? primarydata?.itemName : "N/A"
                           }
                         />
                       </div>
@@ -763,7 +770,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           textvalue={
                             Array.isArray(primarydata.dietaryType) && primarydata.dietaryType.length > 0
                               ? primarydata.dietaryType.map((type) => type.name).join(", ")
-                              : "-"
+                              : "N/A"
                           }
                         />
                       </div>
@@ -783,7 +790,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Category"
                           textvalue={
-                            primarydata.category ? primarydata.category : "-"
+                            primarydata.category ? primarydata.category : "N/A"
                           }
                         />
                       </div>
@@ -794,7 +801,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           textvalue={
                             primarydata?.coloriePoint?.value
                               ? primarydata.coloriePoint?.value
-                              : "-"
+                              : "N/A"
                           }
                         />
                       </div>
@@ -805,7 +812,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           textvalue={
                             primarydata.portionSize?.value
                               ? primarydata.portionSize?.value
-                              : "-"
+                              : "N/A"
                           }
                         />
                       </div>
@@ -813,7 +820,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       <div>
                         <ReviewValues
                           label="Tax Class Association"
-                          textvalue={primarydata.tax ? primarydata.tax : "-"}
+                          textvalue={primarydata.tax ? primarydata.tax : "N/A"}
                         />
                       </div>
                     </div>
@@ -823,7 +830,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Item code"
                           textvalue={
-                            primarydata.itemCode ? primarydata.itemCode : "-"
+                            primarydata.itemCode ? primarydata.itemCode : "N/A"
                           }
                         />
                       </div>
@@ -832,7 +839,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={
-                            primarydata.itemCode ? primarydata.itemCode : "-"
+                            primarydata.itemCode ? primarydata.itemCode : "N/A"
                           }
                         />
                       </div>
@@ -843,7 +850,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           textvalue={
                             fetchedprimarydata.cuisine
                               ? fetchedprimarydata.cuisine
-                              : "-"
+                              : "N/A"
                           }
                         />
                       </div>
@@ -854,7 +861,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           textvalue={
                             fetchedprimarydata.subCategory
                               ? fetchedprimarydata.subCategory
-                              : "-"
+                              : "N/A"
                           }
                         />
                       </div>
@@ -865,7 +872,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           textvalue={
                             fetchedprimarydata.portionSize?.type
                               ? fetchedprimarydata.portionSize?.type
-                              : "-"
+                              : "N/A"
                           }
                         />
                       </div>
@@ -876,7 +883,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           textvalue={
                             fetchedprimarydata.masterCode
                               ? fetchedprimarydata.masterCode
-                              : "-"
+                              : "N/A"
                           }
                         />
                       </div>

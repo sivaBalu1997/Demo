@@ -3,123 +3,41 @@ import React from "react";
 import "./Navigation.scss";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useLocation, useHistory } from "react-router-dom";
-
+import { MainForm, Modification } from "../Savenextbutton/SaveAndNext";
+import { PricingDetailRequest, itemCustomizationPost, primarypost } from "redux/productCatalog/productCatalogActions";
+import { useDispatch } from "react-redux";
 
 interface LocationState {
   pagename: string;
+}
 
-}
-interface Ingredients {
-  id: string;
-  name: string;
-}
-interface Allergens {
-  id: string;
-  name: string;
-}
-interface FormState {
-  Inventory1: string;
-  Inventory2: string;
-}
-interface PricingAndKitchen {
-  maxServingAllowed: string;
-  threshold: string;
-  kitchenstation: string;
-  Preparationtime: string;
-  KitchenStationId: string;
-  normalForm?: any;
-  specialForm?: any;
-}
-interface Base64Image {
-  mimeType: string;
-  base64String: string;
-}
-interface ImageFile {
-  // file: File;
-  // uploaded: boolean;
-  // failed: boolean;
-  preview: string; // To store the image preview URL
-}
-interface FormData {
-  itemName?: string;
-  dietaryType?: string;
-  cuisine?: string;
-  mealType?: string;
-  bestPair?: string;
-  description?: string;
-  imageUrls?: ImageFile[];
-  alcohol?: string;
-  itemCode?: string;
-  barCode?: string;
-  category?: string;
-  categoryId?: string;
-  subCategory?: string;
-  Ingredients?: Ingredients[];
-  allergens?: Allergens[];
-  coloriePoint?: string;
-  selectedcolorie?: string;
-  portionSize?: string;
-  selectedPortion?: string;
-  tax?: string;
-  masterCode?: string;
-  modifierName?: string;
-  options?: Option[];
-  minSelection?: number;
-  maxSelection?: number;
-  freeCustomization?: number;
-  selectedValue?: string[];
-  endDate?: string;
-  startDate?: string;
-  selectionType?: string;
-  field1?: number;
-  field2?: number;
-  [key: string]: any;
-}
-interface Option {
-  item: string;
-  price: string;
-}
-interface Modification {
-  modifierName: string;
-  options: Option[];
-  minSelection: number;
-  maxSelection: number;
-  freeCustomization: number;
-  selectedValue: string[];
-  endDate?: string;
-  startDate?: string;
-  selectionType?: string;
-  field1?: number;
-  field2?: number;
-  [key: string]: any;
-}
-interface MainForm {
-  form: FormState;
-  kitchenstation: string;
-  Preparationtime: {
-    hours: string;
-    minutes: string;
-  };
-  KitchenStationId: string;
-  normalForm?: any;
-  specialForm?: any;
-}
-interface validation{
-  triggerValidation?: (formData: FormData | Modification) => Promise<boolean>;
-  getFormData?: () => FormData | Modification | MainForm;
+interface NavButtonProps {
+  getFormData?: any; 
+  seletedpage?: string;
+  reset?: () => void;
+  modifications?: Modification[];
+  triggerValidation?: (formData: any) => Promise<boolean>;
+  mainForm?: MainForm;
+  validation?: () => boolean;
   handleValidate?: any;
-  seletedpage?:string
-
-
-
 }
 
-const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerValidation,handleValidate}) => {
-  const { isExpanded } = useContext(Contextpagejs);
-  const formData = getFormData && getFormData();
-  console.log("triggerValidation", triggerValidation);
 
-  
+const Navigationpage: React.FC<NavButtonProps> = ({
+  getFormData,
+  seletedpage,
+  reset,
+  modifications,
+  triggerValidation,
+  validation,
+  mainForm,
+  handleValidate,
+}) => {
+  const { isExpanded } = useContext(Contextpagejs);
+  const formData = getFormData();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation<LocationState | undefined>(); 
 
   const categories = [
     "Primary Details",
@@ -127,10 +45,7 @@ const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerV
     "Itemcustomizations",
   ];
 
-  const history = useHistory();
-  const location = useLocation<LocationState | undefined>(); 
-
-    const getPath = (pathName: string) => {
+  const getPath = (pathName: string) => {
     const matchedPath = categories.find((category) =>
       pathName.includes(category.replace(/\s+/g, ""))
     );
@@ -139,20 +54,14 @@ const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerV
 
   const [currentPage, setCurrentPage] = useState<string>(getPath(location.pathname));
 
-  useEffect(() => {
-    if (location.state?.pagename) {
-      setCurrentPage(location.state.pagename);
-    }
-  }, [location.state?.pagename]);
 
-  const handleCategoryClick = async (category: string) => {
-   
+  //Primary Details , Pricing and kitchen details , Itemcustomizations
 
-    if (seletedpage === "Primary" && triggerValidation) {
-    const  isFormValid =  formData && triggerValidation ? await triggerValidation(formData):true ;
-    setCurrentPage(category);
+  const handleclick = async (category: any) => {
     const path = category.replace(/\s+/g, "");
-    history.push(`/productCatalog/${path}`, { pagename: category });
+
+    if (currentPage === "Primary Details" && triggerValidation) {
+      const isFormValid = await triggerValidation(formData);
      
       if (!isFormValid) {
         window.scrollTo({
@@ -161,34 +70,83 @@ const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerV
         });
         return;
       } else {
-       
+        history.push({
+          pathname: `/productCatalog/Pricingandkitchendetails`,
+          state: { pagename: "Pricing and kitchen details" },
+        });        
+        dispatch(primarypost(formData));
+        setCurrentPage(category);    
+        history.push(`/productCatalog/${path}`, { pagename: category });
       }
-    } else if (seletedpage === "Pricing" && triggerValidation) {
+    } 
+    
+    else if (currentPage === "Pricing and kitchen details" && triggerValidation) {
       const isValid = handleValidate();
-      setCurrentPage(category);
-      const path = category.replace(/\s+/g, "");
-      history.push(`/productCatalog/${path}`, { pagename: category });
-  
+
+      let PricingDetails = { ...mainForm };
+      const formData = getFormData();
+     
+      const isinValid = await triggerValidation(formData);
+
+      if (formData.kitchenstation) {
+        PricingDetails = {
+          ...PricingDetails,
+          kitchenstation: formData.kitchenstation,
+        };
+      } else {
+        console.error("formData.kitchenstation is undefined");
+      }
+
+      if (formData?.form && formData?.form?.Inventory1) {
+        PricingDetails = {
+          ...PricingDetails,
+          form: {
+            ...mainForm?.form, 
+            Inventory1: formData.form.Inventory1 || "", 
+            Inventory2: formData.form.Inventory2 || "", 
+          },
+        };
+      }
+      if (
+        formData.Preparationtime?.hours ||
+        formData.Preparationtime?.minutes
+      ) {
+        PricingDetails = {
+          ...PricingDetails,
+          Preparationtime: {
+            hours: formData.Preparationtime.hours, 
+            minutes: formData.Preparationtime.minutes, 
+          },
+        };
+      } else {
+        console.error("formData.Preparationtime is undefined");
+      }
+
       if (isValid) {
-       
-        
+        dispatch(PricingDetailRequest(PricingDetails));
+        setCurrentPage(category);    
+        history.push(`/productCatalog/${path}`, { pagename: category });
       }
-    } else if (seletedpage === "ItemCustomization") {
-      
-    
-      setCurrentPage(category);
-      const path = category.replace(/\s+/g, "");
+    } 
+
+    else if (currentPage === "Itemcustomizations") {
+      const modificationArray = modifications;
+      const formData = getFormData();
+      dispatch(itemCustomizationPost(modificationArray));
+      setCurrentPage(category);    
       history.push(`/productCatalog/${path}`, { pagename: category });
-      }
     }
+  };
 
-   
+  useEffect(() => {
+    if (location.state?.pagename) {
+      setCurrentPage(location.state.pagename);
+    }
+  }, [location.state?.pagename]);
 
-
-    
-  
-
-  // console.log("Use Paras",location.state?.pagename)
+  const handleCategoryClick = (category: string) => {
+    handleclick(category)
+  }
 
   return (
     <>
@@ -200,7 +158,7 @@ const Navigationpage:React.FC<validation> = ({seletedpage, getFormData, triggerV
               <li
                 key={category}
                 className={isExpanded ? "listsExpanded" : "lists"}
-                // onClick={() => handleCategoryClick(category)}
+                onClick={() => handleCategoryClick(category)}
               >
                 <h1
                   className={`list-text ${category === currentPage ? "activetext" : ""}`}

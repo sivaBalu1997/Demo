@@ -100,7 +100,7 @@ const Step3Review: React.FC = () => {
                     Min Selection
                   </h3>
                   <h3 className="Step-3-Modifier-Section-Menu-details">
-                    {elem.minSelection || "-"}
+                    {elem.minSelection || "N/A"}
                   </h3>
                 </div>
                 <div className="Step-3-Modifier-Section-Each-Menu-container">
@@ -108,7 +108,7 @@ const Step3Review: React.FC = () => {
                     Max Selection
                   </h3>
                   <h3 className="Step-3-Modifier-Section-Menu-details">
-                    {elem.maxSelection || "-"}
+                    {elem.maxSelection || "N/A"}
                   </h3>
                 </div>
                 <div className="Step-3-Modifier-Section-Each-Menu-container">
@@ -144,7 +144,7 @@ const Step3Review: React.FC = () => {
                   Free modification
                 </h3>
                 <h3 className="Step-3-free-details">
-                  {elem.freeCustomization || "-"}
+                  {elem.freeCustomization || "N/A"}
                 </h3>
               </div>
 
@@ -155,7 +155,7 @@ const Step3Review: React.FC = () => {
                 <h3 className="Step-3-free-details">
                   {(elem?.selectedValue &&
                     elem?.selectedValue.map((e) => e + " " + "")) ||
-                    "-"}{" "}
+                    "N/A"}{" "}
                 </h3>
                 <div className="Step-3-Review-Stream-Modification-container">
                   {elem.serviceStreams &&

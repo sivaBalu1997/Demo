@@ -228,6 +228,9 @@ const PrimaryPage = () => {
   });
 
   const [popularItem, setPopularItem] = useState<any>("");
+  const [popularItemlimit, setPopularItemLimit] = useState<any>("");
+
+
   const [calorieInfo, setCalorieInfo] = useState<any>({
     type: "per 100 grams",
     value: "",
@@ -245,6 +248,10 @@ const PrimaryPage = () => {
   const addedData = useSelector(
     (state: ListingData) => state.addMockDataReducer.data
   );
+  const popularItemLimit = useSelector(
+    (state: any) => state.auth.restaurantDetails.popularItemCount
+  );
+
 
   const Mockdata = useSelector(
     (state: ListingData) => state.storeMockDataReducer.data
@@ -259,6 +266,8 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     setPopularItem(PopularItemFormApi);
+    setPopularItemLimit(popularItemLimit)
+
   }, [PopularItemFormApi]);
 
   useEffect(() => {
@@ -639,7 +648,12 @@ const PrimaryPage = () => {
         <div>
           {/* <SidePanel /> */}
           <div style={{ marginBottom: "40px" }}>
-            <Navigationpage   seletedpage="Primary"  getFormData={getValues} triggerValidation={() => trigger()}/>
+            <Navigationpage 
+              getFormData={getValues}
+              seletedpage="Primary"
+              reset={handleReset}
+              triggerValidation={() => trigger()}
+            />
           </div>
           <div className="Primary-page">
             {/* <form> */}
@@ -651,7 +665,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
-                    // rules={{ required: "ItemName is required" }}
+                    rules={{ required: "ItemName is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
@@ -681,7 +695,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        // validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "dietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -710,7 +724,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        // validation={{ required: "cuisine is required" }}
+                        validation={{ required: "cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -743,7 +757,7 @@ const PrimaryPage = () => {
                         setValue={setValue}
                         trigger={trigger}
                         getValues={getValues}
-                        // validation={{ required: "category is required" }}
+                        validation={{ required: "category is required" }}
                         error={errors.category}
                         dropdownopen={DropdownOpen.category}
                         setDropdownOpen={setDropdownOpen}
@@ -775,7 +789,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          // validation={{ required: "This field is required" }}
+                          validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -1011,10 +1025,12 @@ const PrimaryPage = () => {
                           handleCheckboxChange(e);
                           field?.onChange(e.target.checked);
                         }}
+                        disabled={popularItem>=popularItemlimit}
+ 
                       />
                     )}
                   />
-                  <span>Popular item ( {popularItem}/10 )</span>
+                  <span>Popular item ( {popularItem}/{popularItemlimit} )</span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
@@ -1232,8 +1248,8 @@ const PrimaryPage = () => {
                           message="Create or select a tax amount to associate with this item"
                           styles={{
                             position: "relative",
-                            top: "-2.5rem",
-                            left: "1.5rem",
+                            top: "-0.5rem",
+                            left: "1.8rem",
                             width: "350px",
                             height: "35px",
                             backgroundColor: "#67833E",

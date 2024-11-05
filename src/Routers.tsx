@@ -173,12 +173,12 @@ const Routers = () => {
               style={{ width: "100%", display: "flex" }}
               className="landingpage"
             >
-              {belowMinWidth ? (
+              {/* {belowMinWidth ? (
                 <div className="warning-message">
                   Your screen width is below the minimum width of {MIN_WIDTH}
                   px. Please resize your window.
                 </div>
-              ) : (
+              ) : ( */}
                 <>
                   <div>
                     <Switch>
@@ -209,7 +209,7 @@ const Routers = () => {
                     </Switch>
                   </div>
                 </>
-              )}
+              
             </div>
 
             <div>

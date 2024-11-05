@@ -197,11 +197,11 @@ const ItemCustomizations: React.FC = () => {
           modifierId: item?.id || "",
           modifierName: item?.modifierName || item?.name || "",
           isModifierChanged: false,
-          modifierOptions: item?.options  
-            ? item.options.map((option: any) => ({
+          modifierOptions: item?.modifierOptions?.length>0 
+            ? item.modifierOptions.map((option: any) => ({
                 modifierOptionId: option?.optionId || option?.modifierOptionId || null,
-                modifierOptionName: option?.name || "",  
-                cost: option?.price || 0,  
+                modifierOptionName: option?.name || option?.modifierOptionName|| "",  
+                cost: option?.cost || 0,  
                 isModifierOptionChanged: false,
               }))
             : [{ modifierOptionName: "", cost: 0 }],
@@ -214,7 +214,7 @@ const ItemCustomizations: React.FC = () => {
       });
   
       console.log({ mappedModifications });
-      setModifications(mappedModifications);
+      setModifications([...mappedModifications]);
     }
   }, [itemCustomizationData, showModifiers]);
   
@@ -267,23 +267,32 @@ const ItemCustomizations: React.FC = () => {
     }
   }, [updatedModifierIds]);
 
-  const handleModifierChange = (modIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
+  const handleModifierChange = (
+    modIndex: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
   
     setModifications((prev: any) => {
       const updated = [...prev];
+      const currentModifier = updated[modIndex];
+      const isCurrentValueEmpty = currentModifier[name] === "";
+  
       updated[modIndex] = {
-        ...updated[modIndex],
-        selectionType: value,  
+        ...currentModifier,
+        [name]: value,
+        ["isModifierChanged"]: isCurrentValueEmpty && value !== "" ? false : true,
       };
   
-      setUpdatedModifierIds(prevIds => {
-        if (!prevIds.includes(updated[modIndex].id)) {
-          return [...prevIds, updated[modIndex].id]; 
+      setUpdatedModifierIds((prevIds) => {
+        const updatedModifierId = updated[modIndex].modifierId;  
+        if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
+          return [...prevIds, updatedModifierId].filter(id => id !== "");
         }
-        return prevIds; 
-      });
   
+        return prevIds.filter(id => id !== ""); 
+      });
+
       return updated;
     });
   };
@@ -577,11 +586,23 @@ const ItemCustomizations: React.FC = () => {
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
-    setModifications((prevModifications: Modification[]) => {
-      const newModifications = [...prevModifications, Modifiers];
-
-      return newModifications;
-    });
+    
+    const updatedModifiers = {
+      ...Modifiers,
+      modifierOptions: Modifiers.modifierOptions.length > 0
+        ? Modifiers.modifierOptions
+        : [{
+            modifierOptionId: "",
+            modifierOptionName: "",
+            cost: 0,
+            isModifierOptionChanged: false,
+          }],
+    };
+  
+    setModifications((prevModifications: Modification[]) => [
+      ...prevModifications,
+      updatedModifiers,
+    ]);
   };
 
   const handleSearchChange = () => {
@@ -658,7 +679,12 @@ const ItemCustomizations: React.FC = () => {
     <div style={{ display: "flex" }}>
       <SidePanel />
       <div style={{ width: "84%" }}>
-        <Navigationpage        seletedpage="ItemCustomization"  getFormData={getFormData} />
+        <Navigationpage 
+          seletedpage="ItemCustomization"
+          getFormData={getFormData}
+          reset={clearAll}
+          modifications={showModifiers ? modifications : []}
+        />
         <div
           className={
             isExpanded
@@ -834,29 +860,41 @@ const ItemCustomizations: React.FC = () => {
                             </div>
 
                             <div className="flexofradio">
-  <div className="radiobtnMargin">
-    <input
-      type="radio"
-      className="radioItemCustomizations"
-      name={`selectionType-${modIndex}`}
-      value="Mandatory"
-      checked={modifier.selectionType === "Mandatory"}
-      onChange={(e) => handleModifierChange(modIndex, e)}
-    />
-    <label className="labelItemCustomizations">Mandatory</label>
-  </div>
-  <div className="radiobtnMargin">
-    <input
-      type="radio"
-      className="radioItemCustomizations"
-      name={`selectionType-${modIndex}`}
-      value="Optional"
-      checked={modifier.selectionType === "Optional"}
-      onChange={(e) => handleModifierChange(modIndex, e)}
-    />
-    <label className="labelItemCustomizations">Optional</label>
-  </div>
-</div>
+                              <div className="radiobtnMargin">
+                                <input
+                                  type="radio"
+                                  className="radioItemCustomizations"
+                                  name={`selectionType-${modIndex}`}
+                                  value="Mandatory"
+                                  checked={
+                                    modifier.selectionType === "Mandatory"
+                                  }
+                                  onChange={(e) =>
+                                    handleModifierChange(modIndex, e)
+                                  }
+                                />
+                                <label className="labelItemCustomizations">
+                                  Mandatory
+                                </label>
+                              </div>
+                              <div className="radiobtnMargin">
+                                <input
+                                  type="radio"
+                                  className="radioItemCustomizations"
+                                  name={`selectionType-${modIndex}`}
+                                  value="Optional"
+                                  checked={
+                                    modifier.selectionType === "Optional"
+                                  }
+                                  onChange={(e) =>
+                                    handleModifierChange(modIndex, e)
+                                  }
+                                />
+                                <label className="labelItemCustomizations">
+                                  Optional
+                                </label>
+                              </div>
+                            </div>
 
                             <div className="option-input-ItemCustomizations">
                               {modifier?.modifierOptions &&
