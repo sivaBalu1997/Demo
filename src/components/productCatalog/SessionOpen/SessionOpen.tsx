@@ -6,12 +6,14 @@ import { useSelector } from "react-redux";
 interface ModelShowProps {
   setshowsession: (value: boolean) => void;
   selectedtypeid: string;
+  setshowAvailchanges:any
 
 }
 
 const SessionOpen: React.FC<ModelShowProps> = ({
   selectedtypeid,
   setshowsession,
+  setshowAvailchanges
   
 }) => {
   const [selectedSession, setSelectedSession] = useState<string>("");
@@ -76,6 +78,7 @@ const SessionOpen: React.FC<ModelShowProps> = ({
       ),
     }));
     setshowsession(false);
+    setshowAvailchanges(true)
   };
   useEffect(()=>{
     const todayDay = "Monday";
@@ -87,7 +90,13 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   },[restaurantDetails])
   console.log("filteredsession",filteredsession);
   
+const handleSessionCancel=()=>{
+  setshowsession(false);
+  setselctedDateSession("");
+  setshowAvailchanges(true);
+  
 
+}
   return (
     <div className="session-container">
       <div className="session-window">
@@ -132,7 +141,7 @@ const SessionOpen: React.FC<ModelShowProps> = ({
 
         </div>
         <div className="session-save-cancel">
-        <button className="cancel-btn-session" onClick={handleSessionSave}>Cancel</button>
+        <button className="cancel-btn-session" onClick={handleSessionCancel}>Cancel</button>
         <button className="save-btn-session" onClick={handleSessionSave}>Save</button>
         </div>
        

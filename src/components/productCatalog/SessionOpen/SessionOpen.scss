@@ -14,8 +14,8 @@
 }
 .session-window
 {
-   margin-left: -98.5%;
-   margin-top: -50%;
+
+ margin-top: -40%;
     background-color: white;
     padding: 5px;
     width: 300px;
@@ -41,6 +41,7 @@
     
     display: flex;
     gap: 10px;
+    padding: 3px;
     input{
         accent-color:#67833E ;
         width: 20px;
