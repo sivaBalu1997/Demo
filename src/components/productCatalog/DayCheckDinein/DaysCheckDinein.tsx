@@ -48,7 +48,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   ];
 
   const disabledDays = getDisabledDays(index); 
-  console.log({checkedItems}) 
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>

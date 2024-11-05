@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useForm, Controller, SubmitHandler, useWatch } from "react-hook-form";
 import "./PricingDetails.scss";
 import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Specialavail from "../../../components/productCatalog/SpecialAvail/Specialavail";
@@ -62,21 +62,17 @@ type MainFormType = {
   Zomato: string[];
 };
 
+interface availabilities {
+  availabilityDays: number[];
 
-interface availabilities{
-  availabilityDays:number[],
-  
-sessions:string[]
+  sessions: string[];
 }
 
-interface thirdpartyDeliveryDetails{
-  availabilities:availabilities[],
-  price:number,
-  typeId:string,
-  typeName:string
-
-
-
+interface thirdpartyDeliveryDetails {
+  availabilities: availabilities[];
+  price: number;
+  typeId: string;
+  typeName: string;
 }
 type MainFormTypespecial = {
   availabilityid: string[];
@@ -84,10 +80,9 @@ type MainFormTypespecial = {
   toDate: string | Date | undefined;
   specialdays: number[];
   dineinfields: DineInField[];
-  pickupDetails:thirdpartyDeliveryDetails[];
-  deliveryDetails:thirdpartyDeliveryDetails[];
-  thirdpartyDetails:thirdpartyDeliveryDetails[];
-
+  pickupDetails: thirdpartyDeliveryDetails[];
+  deliveryDetails: thirdpartyDeliveryDetails[];
+  thirdpartyDetails: thirdpartyDeliveryDetails[];
 };
 
 type DineInField = {
@@ -224,7 +219,6 @@ const PricingDetails = () => {
     Zomato: [],
   });
 
- 
   // const [mainFormStateSpecial, setMainFormStateSpecial] = useState<MainFormTypespecial>({
   //   availabilityid: [],
   //   fromDate:"",
@@ -234,38 +228,35 @@ const PricingDetails = () => {
   //   pickupDetails:[],
   //   deliveryDetails:[],
   //   thirdpartyDetails:[]
-  
-  
-  // });
-  const [mainFormStateSpecial, setMainFormStateSpecial] = useState<MainFormType>({
-    availabilityid: [],
-    formNormal: {
-      PickuppriceNormal: "",
-      PickupmealtypeNormal: "",
-      DeliverypriceNormal: "",
-      DeliverymealtypeNormal: "",
-      SwiggyorzomatoNormal: "",
-      SwiggyNormal: "",
-      SwiggymealtypeNormal: "",
-      ZomatoNormal: "",
-      ZomatomealtypeNormal: "",
-    },
-    dineinfields: [],
-    Normaldays: [],
-    DeliveryMealType: [],
-    PicupMealType: [],
-    Pickup: [],
-    DineInServiceArea: [],
-    Delivery: [],
-    thirdParty: [],
-    WeekDays: [],
-    DineIn: [],
-    Swiggy: [],
-    Zomato: [],
-  
 
-  
-  });
+  // });
+  const [mainFormStateSpecial, setMainFormStateSpecial] =
+    useState<MainFormType>({
+      availabilityid: [],
+      formNormal: {
+        PickuppriceNormal: "",
+        PickupmealtypeNormal: "",
+        DeliverypriceNormal: "",
+        DeliverymealtypeNormal: "",
+        SwiggyorzomatoNormal: "",
+        SwiggyNormal: "",
+        SwiggymealtypeNormal: "",
+        ZomatoNormal: "",
+        ZomatomealtypeNormal: "",
+      },
+      dineinfields: [],
+      Normaldays: [],
+      DeliveryMealType: [],
+      PicupMealType: [],
+      Pickup: [],
+      DineInServiceArea: [],
+      Delivery: [],
+      thirdParty: [],
+      WeekDays: [],
+      DineIn: [],
+      Swiggy: [],
+      Zomato: [],
+    });
 
   const {
     control,
@@ -284,7 +275,7 @@ const PricingDetails = () => {
         Inventory2: "",
       },
       kitchenstation: "",
-      KitchenStationId:'',
+      KitchenStationId: "",
       Preparationtime: {
         hours: "hhh",
         minutes: "mmm",
@@ -357,6 +348,9 @@ const PricingDetails = () => {
     Availabilityid: [],
   });
 
+  const primarypagedetails = useSelector((state: RootState) => state.primarypage.data);
+  console.log({primarypagedetails})
+
   const [resetInventory, setResetInventory] = useState(false);
   const [nextAvailable, setNextAvailable] = useState(false);
   const [printKot, setPrintKot] = useState(false);
@@ -377,7 +371,7 @@ const PricingDetails = () => {
   });
   const [dinein, setDineIn] = useState(false);
 
-  const [dineinspecial,setdineinspecial]=useState(false);
+  const [dineinspecial, setdineinspecial] = useState(false);
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
 
@@ -397,8 +391,6 @@ const PricingDetails = () => {
     NormalServiceArea: { isValid: true, errorMessage: "" },
     PickupSwiggy: { isValid: true, errorMessage: "" },
   });
-
-
 
   const validateDropdown = (value: string[], field: string | number) => {
     let isValid = true;
@@ -452,17 +444,16 @@ const PricingDetails = () => {
     printKot: printKot,
   };
 
-
   useEffect(() => {
     if (prizingDetail) {
       // setInventory(true);
       setResetInventory(prizingDetail?.resetInventory);
       setNextAvailable(prizingDetail?.nextAvailable);
       setPrintKot(prizingDetail?.printKot);
-  
+
       // Prepare the kitchenstation name for the dropdown
       const kitchenStationName = prizingDetail?.kitchenstation;
-  
+
       // Set form values including kitchenstation
       reset({
         form: {
@@ -477,10 +468,13 @@ const PricingDetails = () => {
       });
 
       setOptions1(prizingDetail.kitchenstation);
-      setValue("kitchenstation", kitchenStationName);
+      // setValue("kitchenstation", kitchenStationName);
+      // setTimeout(() => {
+      //   console.log("kitchenstation value:", getValues("kitchenstation"));
+      // }, 0);
     }
   }, [prizingDetail, reset, setOptions1, setValue]);
-    
+
   useEffect(() => {
     setOptions(data);
     getApi();
@@ -491,7 +485,7 @@ const PricingDetails = () => {
   };
 
   const handleBlur = (fieldValue: string[], fieldName: string) => {
-    validateDropdown(fieldValue, fieldName); 
+    validateDropdown(fieldValue, fieldName);
   };
 
   const orderTypes = useSelector(
@@ -509,19 +503,20 @@ const PricingDetails = () => {
       DineInMealType: [],
     },
   ]);
-  const [dineinfieldsSpecial, setDineInFieldsSpecial] = useState<DineInField[]>([
-    {
-      DineInId: DineInId,
-      DineInPrice: "",
-      DineInMealType: [],
-    },
-  ]);
-
+  const [dineinfieldsSpecial, setDineInFieldsSpecial] = useState<DineInField[]>(
+    [
+      {
+        DineInId: DineInId,
+        DineInPrice: "",
+        DineInMealType: [],
+      },
+    ]
+  );
 
   const dineInMapped = dineinfields.map((field: any) => ({
     typeId: field.DineInId,
     typeName: field.DineInMealType,
-    price: parseFloat(field?.DineInPrice), 
+    price: parseFloat(field?.DineInPrice),
   }));
 
   const [dineinfields1, setDineInFields1] = useState<DineinFieldSpecial[]>([
@@ -532,7 +527,6 @@ const PricingDetails = () => {
       DineInService: "",
     },
   ]);
- 
 
   type DropdownValidationState = {
     [key: string]: { isValid: boolean; errorMessage: string };
@@ -575,7 +569,6 @@ const PricingDetails = () => {
     dineinfieldsSpecial?.forEach((field, index) => {
       const mealTypeKey = `DineInMealType_${index}`;
       const priceKey = `DineInPrice_${index}`;
-  
 
       // Validate DineInMealType
       if (!field.DineInMealType || field.DineInMealType.length === 0) {
@@ -724,7 +717,7 @@ const PricingDetails = () => {
 
     return isValid;
   };
-  
+
   const handleReset = () => {
     if (kitchenDetail.current) {
       kitchenDetail.current();
@@ -769,7 +762,7 @@ const PricingDetails = () => {
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
       <div>
-        <Navigationpage 
+        <Navigationpage
           getFormData={getValues}
           seletedpage="Pricing"
           reset={handleReset}
@@ -795,117 +788,114 @@ const PricingDetails = () => {
             </div>
 
             <div className="KitchenRelated">
-           
-             
-                <Dropdown
-                  name="kitchenstation"
-                  options={kitchenStationData}
-                  type="radio"
-                  setOptions={setOptions1}
-                  placeholder="Search for option"
-                  register={register}
-                  setValue={setValue}
-                  error={errors.kitchenstation}
-                  trigger={trigger}
-                  getValues={getValues}
-                  validation={{ required: "Kitchen Station is required" }}
-                  addNew={true}
-                  editValues={true}
-                  setDropdownOpen={setDropdownOpen}
-                  dropdownopen={DropdownOpen.Kitchen}
-                  onToggle={() => handleDropdownToggle("Kitchen")}
-                  dropDownType="KITCHEN_STATION"
-                  resetSelection={kitchenDetail}
-                />
-            
-              
-           
+              <Controller
+                name="kitchenstation"
+                control={control}
+                render={({ field }: any) => (
+                  <Dropdown
+                    {...field}
+                    name="kitchenstation"
+                    options={kitchenStationData}
+                    type="radio"
+                    setOptions={setOptions1}
+                    placeholder="Search for option"
+                    register={register}
+                    setValue={setValue}
+                    error={errors.kitchenstation}
+                    trigger={trigger}
+                    getValues={getValues}
+                    validation={{ required: "Kitchen Station is required" }}
+                    addNew={true}
+                    editValues={true}
+                    setDropdownOpen={setDropdownOpen}
+                    dropdownopen={DropdownOpen.Kitchen}
+                    onToggle={() => handleDropdownToggle("Kitchen")}
+                    dropDownType="KITCHEN_STATION"
+                    resetSelection={kitchenDetail}
+                  />
+                )}
+              />
 
-            
-                <div className="Prepartiontime">
-                  <label htmlFor="" className="heading">
-                    Preparation time
-                  </label>
+              <div className="Prepartiontime">
+                <label htmlFor="" className="heading">
+                  Preparation time
+                </label>
 
-                  <div className="Prepartiontime-input-fileds">
-                    <Controller
-                      name="Preparationtime.hours"
-                      control={control}
-                      defaultValue=""
-                      render={({ field, trigger, value }: any) => (
-                        <input
-                          type="text"
-                          name="hours"
-                          value={value}
-                          className="Prepartiontime-input-hours"
-                          onChange={(e) => {
-                            const value = e.target.value;
+                <div className="Prepartiontime-input-fileds">
+                  <Controller
+                    name="Preparationtime.hours"
+                    control={control}
+                    defaultValue=""
+                    render={({ field, trigger, value }: any) => (
+                      <input
+                        type="text"
+                        name="hours"
+                        value={value}
+                        className="Prepartiontime-input-hours"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
+                            setValue("Preparationtime.hours", Number(value));
+                          }
+                        }}
+                      />
+                    )}
+                    rules={{
+                      required: "This field is required",
+                      validate: (value) =>
+                        value === "" ||
+                        /^[1-9]$|^1[0-2]$/.test(value) ||
+                        "Please enter valid time",
+                    }}
+                  />
+
+                  <span>Hours</span>
+                  <span>:</span>
+
+                  <Controller
+                    name="Preparationtime.minutes"
+                    control={control}
+                    defaultValue=""
+                    render={({ field, trigger, value }: any) => (
+                      <input
+                        type="text"
+                        name="minutes"
+                        value={value}
+                        className="Prepartiontime-input-mins"
+                        onChange={(e) => {
+                          const inputValue = e.target.value;
+
+                          // Allow only numeric input or empty
+                          if (/^[0-9]*$/.test(inputValue)) {
+                            // Set value only if it's in the range of 0-60 or empty
                             if (
-                              /^(1[0-2]|[1-9])$/.test(value) ||
-                              value === ""
+                              inputValue === "" ||
+                              /^(59|[0-5]?[0-9])$/.test(inputValue)
                             ) {
-                              setValue("Preparationtime.hours", Number(value));
+                              setValue(
+                                "Preparationtime.minutes",
+                                Number(inputValue)
+                              );
                             }
-                          }}
-                        />
-                      )}
-                      rules={{
-                        required: "This field is required",
-                        validate: (value) =>
-                          value === "" ||
-                          /^[1-9]$|^1[0-2]$/.test(value) ||
-                          "Please enter valid time",
-                      }}
-                    />
+                          }
+                          // Optionally, trigger validation
+                          // trigger(trigger);
+                        }}
+                      />
+                    )}
+                    rules={{
+                      required: "This field is required",
+                      validate: (value) =>
+                        value === "" ||
+                        /^(60|[0-5]?[0-9])$/.test(value) ||
+                        "Please enter a valid time",
+                    }}
+                  />
 
-                    <span>Hours</span>
-                    <span>:</span>
-
-                    <Controller
-                      name="Preparationtime.minutes"
-                      control={control}
-                      defaultValue=""
-                      render={({ field, trigger, value }: any) => (
-                        <input
-                          type="text"
-                          name="minutes"
-                          value={value}
-                          className="Prepartiontime-input-mins"
-                          onChange={(e) => {
-                            const inputValue = e.target.value;
-
-                            // Allow only numeric input or empty
-                            if (/^[0-9]*$/.test(inputValue)) {
-                              // Set value only if it's in the range of 0-60 or empty
-                              if (
-                                inputValue === "" ||
-                                /^(59|[0-5]?[0-9])$/.test(inputValue)
-                              ) {
-                                setValue(
-                                  "Preparationtime.minutes",
-                                  Number(inputValue)
-                                );
-                              }
-                            }
-                            // Optionally, trigger validation
-                            // trigger(trigger);
-                          }}
-                        />
-                      )}
-                      rules={{
-                        required: "This field is required",
-                        validate: (value) =>
-                          value === "" ||
-                          /^(60|[0-5]?[0-9])$/.test(value) ||
-                          "Please enter a valid time",
-                      }}
-                    />
-
-                    <span>Minutes</span>
-                  </div>
+                  <span>Minutes</span>
                 </div>
               </div>
-          
+            </div>
 
             <div className="Kitchen-checkbox">
               <input
@@ -1022,7 +1012,7 @@ const PricingDetails = () => {
                 </div>
               )}
             </div> */}
-            
+
             <div className="services-Heading">
               <p> Service availability </p>
             </div>
@@ -1050,7 +1040,6 @@ const PricingDetails = () => {
               </div> */}
             </div>
 
-
             {isOptionTrue ? (
               <Normalavail
                 validateDropdown={validateDropdown}
@@ -1070,7 +1059,7 @@ const PricingDetails = () => {
               />
             ) : (
               <>
-               {/* <Specialavail
+                {/* <Specialavail
                 validateDropdown={validateDropdown}
                 dinein={dineinspecial}
                 setDineIn={setdineinspecial}
@@ -1087,7 +1076,6 @@ const PricingDetails = () => {
                 resetSelection={normalFormRef}
               /> */}
               </>
-             
             )}
 
             {/* <div

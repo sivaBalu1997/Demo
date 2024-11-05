@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import "./Savenextbutton.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import {
   itemCustomizationPost,
@@ -105,6 +105,7 @@ export interface MainForm {
   KitchenStationId: string;
   normalForm?: any;
   specialForm?: any;
+  imageUrls?: any;
 }
 export interface SubmitButtonProps {
   getFormData: () => FormData | Modification | MainForm;
@@ -173,6 +174,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   };
 
   const formData = getFormData();
+  const editData = useSelector((state: any) => state.productCatalog.editData)
+
   const handleclick = async () => {
     // if (seletedpage === "Primary" && triggerValidation) {
     //   const isFormValid = await triggerValidation(formData);
@@ -186,6 +189,11 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     // }
     if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
+
+      const formImageIds = formData?.imageUrls?.map((image: any) => image.file.name);
+      const editImageIds = editData[0]?.mediaResponseList?.map((media: any) => media.imageId);
+
+      const isImageDeleted = editImageIds?.some((imageId: any) => !formImageIds?.includes(imageId));
      
       if (!isFormValid) {
         window.scrollTo({
@@ -198,7 +206,11 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           pathname: `/productCatalog/Pricingandkitchendetails`,
           state: { pagename: "Pricing and kitchen details" },
         });        
-        dispatch(primarypost(formData));
+        dispatch(primarypost(
+          { 
+            ...formData, 
+            isImageDeleted 
+          }));
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
       const isValid = handleValidate && handleValidate();

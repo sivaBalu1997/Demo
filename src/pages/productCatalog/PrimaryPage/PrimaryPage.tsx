@@ -298,8 +298,8 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: primarypage) => state.primarypage?.data
   );
-  
-  console.log('1',{ItemsPrimaryDetails})
+
+  console.log({ItemsPrimaryDetails})
 
   const [images, setImages] = useState<ImageFile[]>([]);
 
@@ -325,23 +325,29 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
+  const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
 
-  useEffect(()=>{
+  useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
+  
       const imageArray = ItemsPrimaryDetails.imageUrls.map((img: any) => ({
-        file: img.file || {},
-        uploaded: img.uploaded || false,
-        failed: img.failed || false,
-        preview: img.preview,
-      }))
+        file: img?.imageId ? { name: img.imageId } : img?.file || {},
+        uploaded: img?.uploaded || false,
+        failed: img?.failed || false,
+        preview: img?.imageId 
+          ? `${baseImageUrl}${img.imageId}` 
+          : img?.preview,  
+      }));
+  
       setImages((prevImages) => {
-        const updatedImages = [...prevImages,...imageArray];
-        const updatedImageUrls = updatedImages.map((image) => image);
-        setValue("imageUrls", updatedImageUrls);
+        const updatedImages = [...prevImages, ...imageArray];        
+        setValue("imageUrls", updatedImages);
+        
         return updatedImages;
       });
     }
-  },[ItemsPrimaryDetails])
+  }, [ItemsPrimaryDetails, setValue]);
+  
 
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
@@ -445,12 +451,15 @@ const PrimaryPage = () => {
     }));
   };
 
+  const [isImageDeleted, setIsImageDeleted] = useState(false);
+
   const handleImageDeletion = (index: number) => {
     setImages((prevImages) => {
       const deletedImage = images.filter((_, i) => i !== index);
       const updatedImages = deletedImage;
 
       const updatedImageUrls = updatedImages.map((image) => image);
+      setIsImageDeleted(true);
       setValue("imageUrls", updatedImageUrls);
       return updatedImages;
     });

@@ -387,11 +387,13 @@ const convertImageToBinaryString = (imageFile) => {
 };
 
 function* imageUploadSaga(action) {
+  console.log('inside sagas 1')
   const images = action.payload;
   let itemId = "";
   const failureArray = [];
 
   try {
+    console.log('inside sagas2')
     const firstImage = images[0];
     const response = yield call(uploadImageApi, firstImage, itemId);
     if (response.data && response.data.itemId) {
@@ -399,6 +401,7 @@ function* imageUploadSaga(action) {
     }
     yield put(imageUploadSuccess(itemId));
   } catch (error) {
+    console.log('inside sagas3')
     failureArray.push({
       file: images[0].file,
       itemId: "", 

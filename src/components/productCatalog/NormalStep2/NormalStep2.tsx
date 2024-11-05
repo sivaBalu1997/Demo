@@ -213,9 +213,9 @@ const NormalStep2 = () => {
           <div>
             <h1 className="Step2SellingPrizevalue">
               {(prizingDetail &&
-                prizingDetail.normalForm &&
-                prizingDetail.normalForm.pickupDetails &&
-                prizingDetail.normalForm.pickupDetails.price) ||
+                prizingDetail?.normalForm &&
+                prizingDetail?.normalForm?.pickupDetails &&
+                prizingDetail?.normalForm?.pickupDetails?.price) ||
                 "N/A"}
             </h1>
           </div>
@@ -226,10 +226,14 @@ const NormalStep2 = () => {
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
-                prizingDetail.normalForm &&
-                prizingDetail.normalForm?.pickupDetails?.availabilities[0].sessions?.map((elem)=>elem)) ||
-                "N/A"}
+            {prizingDetail &&
+              prizingDetail.normalForm &&
+              prizingDetail.normalForm.pickupDetails &&
+              prizingDetail.normalForm.pickupDetails.availabilities &&
+              prizingDetail.normalForm.pickupDetails.availabilities.length > 0 &&
+              prizingDetail.normalForm.pickupDetails.availabilities[0].sessions
+                ? prizingDetail.normalForm.pickupDetails.availabilities[0].sessions.map((elem) => elem)
+                : "N/A"}
             </h1>
           </div>
         </div>
@@ -262,10 +266,9 @@ const NormalStep2 = () => {
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
-            {(prizingDetail &&
-                prizingDetail.normalForm &&
-                prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions.map((elem)=>elem)) ||
-                "N/A"}
+            {prizingDetail?.normalForm?.deliveryDetails?.availabilities?.length > 0
+              ? prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions?.map((elem) => elem)
+              : "N/A"}
             </h1>
           </div>
         </div>
@@ -287,9 +290,9 @@ const NormalStep2 = () => {
           <div>
             <h1 className="Step2SellingPrizevalue">
             {(prizingDetail &&
-                prizingDetail.normalForm &&
-                prizingDetail.normalForm.thirdpartyDetails &&
-                prizingDetail.normalForm.thirdpartyDetails.map((elem:any)=>elem.price)) ||
+                prizingDetail?.normalForm &&
+                prizingDetail?.normalForm?.thirdpartyDetails &&
+                prizingDetail?.normalForm?.thirdpartyDetails.map((elem:any)=>elem?.price)) ||
                 "N/A"}
               {detail.price || "N/A"}
             </h1>

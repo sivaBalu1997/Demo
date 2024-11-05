@@ -359,6 +359,8 @@ export const Menulisting = () => {
   }, [dispatch]);
 
   const editData = useSelector((state) => state.productCatalog.editData || [])
+
+  console.log('asjkdna',{editData})
   const primarypage = useSelector((state) => state.primarypage)
   const prizingDetail = useSelector(
     (state) => state?.PricingDetailReducer?.prizingData 
