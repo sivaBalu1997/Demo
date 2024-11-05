@@ -21,8 +21,10 @@ const PricingSlider: any = ({  }) => {
         .filter((elem: any) => elem.typeName === "DineIn")
         .map((elem: any) => elem.price)
     : [],
-    Pickup1: Array.isArray(data[0]?.orderTypes) 
-    ? data[0].orderTypes.map((elem: any) => elem.price) 
+    Pickup1: Array.isArray(data[0]?.orderTypes)
+    ? data[0].orderTypes
+        .filter((elem: any) => elem.typeName !== "DineIn") // Skip DineIn
+        .map((elem: any) => elem.price)
     : [],
     Delivery1:data[0]?.orderTypes[0]?.price  || [],
   });
@@ -52,14 +54,14 @@ const PricingSlider: any = ({  }) => {
     if (data && data[0]?.pricingdetails) {
       setInputs({
         Dinein1:data[0]?.orderTypes[0]?.price  || [],
-        Pickup1: data[0]?.orderTypes?.length > 0 
+        Pickup1: Array.isArray(data[0]?.orderTypes) 
         ? data[0].orderTypes.map((elem: any) => elem.price) 
-        : [],
+        :[],
       
         Delivery1: data[0]?.orderTypes[0]?.price  || [],
       });
     }
-  }, [data]);
+  }, []);
   
   useEffect(() => {
     const updatedValue = data?.[0]?.pricingdetails?.Dinein1?.[0] || "";
@@ -100,6 +102,8 @@ const PricingSlider: any = ({  }) => {
       }));
     }
   }, [data, inputs, setPatchedData]);
+
+  console.log("dd",data)
 
   
   

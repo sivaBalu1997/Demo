@@ -75,16 +75,23 @@ text-align: right;
  .TypeHeading{
     display: flex;
     justify-content: flex-start;
-    gap:25px;
+    gap:15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
  }
+ .TypeHeading1{
+   display: flex;
+   justify-content: flex-start;
+   gap:15px;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   width: 90px;
+}
  .AvailOnprem-Heading{
      font-size: 16px;
      font-weight:400;
  }
- .TypeHeading{
-    margin-top: 10px;
-   
- }
+ 
  .OnpremToggle{
     margin-top: 3px;
  }
