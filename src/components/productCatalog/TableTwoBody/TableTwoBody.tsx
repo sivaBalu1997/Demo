@@ -125,7 +125,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
 
       {itemobject.categoryName !== "" &&
         itemobject?.itemResponseList?.length > 0 &&
-        itemobject?.itemResponseList?.map((item) => (
+        itemobject?.itemResponseList?.map((item,index) => (
           <>
          
             <tr
@@ -152,15 +152,19 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 const className = typeName.toLowerCase() + "data";
                 const isPriceEnabled=orderType && orderType.isHidden==0
                 ? true
-                : false;             
-
+                : false;  
+                const sliderkey = 
+                typeName === "DineIn" ? "Dinein1" : 
+                typeName === "Pickup" ? "Pickup1" : 
+                typeName === "Delivery" ? "Delivery1" : 
+                "";
                 return (
                   <div
                     key={typeName}
                     style={{ display: "flex" }}
                     className={className}
                   >
-                    <p style={{opacity:isPriceEnabled?"100%":"50%"}}>
+                    <p style={{opacity:isPriceEnabled?"100%":"50%"}} onClick={()=>handlesidbarhandling(sliderkey,itemobject?.itemResponseList[index].itemId)}>
                       {restaurantDetails?.country === "US" ? "$" : "Rs."}{" "}
                       {price !== "" ? price : "0"}
                     </p>
@@ -186,6 +190,11 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 const isAvailEnabled=orderType && orderType.availabilityEnabled===true
                 ? true
                 : false;
+                const sliderkey = 
+                typeName === "DineIn" ? "Dinein2" : 
+                typeName === "Pickup" ? "Pickup2" : 
+                typeName === "Delivery" ? "Delivery2" : 
+                "";
 
                 return (
                   <div
@@ -195,7 +204,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   >
                     {/* 
                   <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
-                    <p style={{opacity:isAvailEnabled?"100%":"50%"}}>
+                    <p style={{opacity:isAvailEnabled?"100%":"50%"}} onClick={()=>handlesidbarhandling(sliderkey,itemobject?.itemResponseList[index].itemId)}>
                       {isEnabled !== "" ? (
                         <Toggle toggle={true} />
                       ) : (
@@ -206,7 +215,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 );
               })}
               {item?.modifiers && Array.isArray(item.modifiers) && listingobject.Customize1 ? (
-                <div className="Customizedata">
+                <div className="Customizedata" onClick={()=>handlesidbarhandling("",itemobject?.itemResponseList[index].itemId)}>
                   <span>{item.modifiers.length}</span>
                 </div>
               ) : (
