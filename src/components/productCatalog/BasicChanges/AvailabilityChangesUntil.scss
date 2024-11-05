@@ -3,11 +3,11 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+    background: rgba(0, 0, 0, 0.2); 
     display: flex;
     justify-content: center;
     align-items: center; 
-    z-index: 1000; /* Ensure it appears above other content */
+    z-index: 1000; 
     width:416px;
     height: 900px;
 }
@@ -18,9 +18,9 @@ background-color: white;
 width: 322px;
 height: 322px;
 display: flex;
- /* Center the content inside the modal */
-border-radius: 8px; /* Optional: add rounded corners */
-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+
+border-radius: 8px; 
+box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); 
  
 }
  
@@ -84,6 +84,8 @@ box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
     justify-content: space-between;
     margin-top: 20px;
     gap: 20px;
+    // border: 1px solid red;
+    padding-bottom: 10%;
 }
  
 .Avail-btn1-Cancel{

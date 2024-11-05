@@ -10,6 +10,8 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState(null);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
+  const [showAvailchanges, setshowAvailchanges] = useState(true);
+
   const [showsession, setshowsession] = useState(false);
   const [selctedDateSession, setselctedDateSession] = useState("");
   const restaurantDetails = useSelector((state) => state.auth.restaurantDetails);
@@ -85,6 +87,7 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
       }));
     } else if (elem === "End of Sessions") {
       setshowsession(true);
+      setshowAvailchanges(false)
       const formattedDate = getFormattedDate();
       const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
       console.log("sessionClosingHours",sessionClosingHours);
@@ -105,40 +108,46 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
     }
   };
 
+
   return (
+
     <div className="AvailabilityChangesUntilContainer" >
-      <div className="Availability_Changes_Until_SubContainer" style={{marginLeft:showsession?"75%":""}}>
-        <div className="Avail_Changes_Form">
-          <h4 className="Avail_Changes_Heading">Availability Changes Until</h4>
-
-          {Text.map((elem, index) => (
-            <div key={index} className="Avail_Changes_Radio_container">
-              <div className="Avail_Changes_Radio_container_Justify">
-                <h4 className="Avail_Changes_Radio_Text">{elem}</h4>
-                <input
-                  className="AvaiilRadio"
-                  type="radio"
-                  name="avail-radio"
-                  checked={selectedOption === index}
-                  onChange={() => handleRadioChange(index, elem)}
-                />
+      {
+          showAvailchanges &&   <div className="Availability_Changes_Until_SubContainer" style={{marginLeft:showsession?"75%":""}}>
+          <div className="Avail_Changes_Form">
+            <h4 className="Avail_Changes_Heading">Availability Changes Until</h4>
+  
+            {Text.map((elem, index) => (
+              <div key={index} className="Avail_Changes_Radio_container">
+                <div className="Avail_Changes_Radio_container_Justify">
+                  <h4 className="Avail_Changes_Radio_Text">{elem}</h4>
+                  <input
+                    className="AvaiilRadio"
+                    type="radio"
+                    name="avail-radio"
+                    checked={selectedOption === index}
+                    onChange={() => handleRadioChange(index, elem)}
+                  />
+                </div>
               </div>
+            ))}
+  
+            <div className="Avail_Button_Flex">
+              <a
+                className="Avail-btn1-Cancel"
+                onClick={() => setSelectPeriod(false)}
+              >
+                Cancel
+              </a>
+              <a className="Avail-btn1-Save" onClick={() => setSelectPeriod(false)}>
+                Save
+              </a>
             </div>
-          ))}
-
-          <div className="Avail_Button_Flex">
-            <a
-              className="Avail-btn1-Cancel"
-              onClick={() => setSelectPeriod(false)}
-            >
-              Cancel
-            </a>
-            <a className="Avail-btn1-Save" onClick={() => setSelectPeriod(false)}>
-              Save
-            </a>
           </div>
         </div>
-      </div>
+          
+      }
+    
 
       {showAvailCalender && (
         <AvailCalender
@@ -151,6 +160,7 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
         <SessionOpen
           selectedtypeid={selectedtypeid}
           setshowsession={setshowsession}
+          setshowAvailchanges={setshowAvailchanges}
         
         />
       )}
