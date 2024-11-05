@@ -295,9 +295,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   
   const [selectedImages, setSelectedImages] = useState<ImageFile[]>(uploadedimage || []);
   
-
-  console.log({selectedImages})
-
   const emptySlots =
     selectedImages.length === 0
       ? MAX_IMAGES - selectedImages.length - 1
@@ -626,9 +623,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
-  console.log({prizingDetail})
   console.log({menuPayload}, {editPayload})
-  console.log({Wholedata})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -683,7 +678,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const handleSubmitItemDetails = () => {
     if (Wholedata?.imageUrls?.length > 0) {
-      console.log('Inside')
       dispatch(startImageUpload(primarydata?.imageUrls));
       setButtonClicked(true);
       if (subsectiondatamsg) {
@@ -756,9 +750,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     return result;
   };
   
-  
-  
-
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />

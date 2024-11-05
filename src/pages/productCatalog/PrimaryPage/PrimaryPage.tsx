@@ -298,8 +298,6 @@ const PrimaryPage = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: primarypage) => state.primarypage?.data
   );
-  
-  console.log('1',{ItemsPrimaryDetails})
 
   const [images, setImages] = useState<ImageFile[]>([]);
 
@@ -329,7 +327,6 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
-      console.log({ ItemsPrimaryDetails });
   
       const imageArray = ItemsPrimaryDetails.imageUrls.map((img: any) => ({
         file: img?.imageId ? { name: img.imageId } : img?.file || {},
@@ -341,9 +338,7 @@ const PrimaryPage = () => {
       }));
   
       setImages((prevImages) => {
-        const updatedImages = [...prevImages, ...imageArray];
-        console.log({ updatedImages });
-        
+        const updatedImages = [...prevImages, ...imageArray];        
         setValue("imageUrls", updatedImages);
         
         return updatedImages;
@@ -454,12 +449,15 @@ const PrimaryPage = () => {
     }));
   };
 
+  const [isImageDeleted, setIsImageDeleted] = useState(false);
+
   const handleImageDeletion = (index: number) => {
     setImages((prevImages) => {
       const deletedImage = images.filter((_, i) => i !== index);
       const updatedImages = deletedImage;
 
       const updatedImageUrls = updatedImages.map((image) => image);
+      setIsImageDeleted(true);
       setValue("imageUrls", updatedImageUrls);
       return updatedImages;
     });

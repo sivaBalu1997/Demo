@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import "./Savenextbutton.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import {
   itemCustomizationPost,
@@ -105,6 +105,7 @@ export interface MainForm {
   KitchenStationId: string;
   normalForm?: any;
   specialForm?: any;
+  imageUrls?: any;
 }
 export interface SubmitButtonProps {
   getFormData: () => FormData | Modification | MainForm;
@@ -173,6 +174,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   };
 
   const formData = getFormData();
+  console.log({formData})
+  const editData = useSelector((state: any) => state.productCatalog.editData)
+
   const handleclick = async () => {
     // if (seletedpage === "Primary" && triggerValidation) {
     //   const isFormValid = await triggerValidation(formData);
@@ -186,6 +190,11 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     // }
     if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
+
+      const editImageNames = editData?.imageUrls?.map((img: any) => img?.file?.name) || [];
+      const formImageNames = formData?.imageUrls?.map((img: any) => img?.file?.name) || [];
+
+      const isImageDeleted = editImageNames.some((editImgName: any) => !formImageNames.includes(editImgName));
      
       if (!isFormValid) {
         window.scrollTo({
@@ -198,7 +207,11 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
           pathname: `/productCatalog/Pricingandkitchendetails`,
           state: { pagename: "Pricing and kitchen details" },
         });        
-        dispatch(primarypost(formData));
+        dispatch(primarypost(
+          { 
+            ...formData, 
+            isImageDeleted : isImageDeleted 
+          }));
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
       const isValid = handleValidate && handleValidate();
@@ -208,7 +221,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
      
       const isinValid = await triggerValidation(formData);
 
-      console.log({formData})
       if (formData.kitchenstation) {
         PricingDetails = {
           ...PricingDetails,

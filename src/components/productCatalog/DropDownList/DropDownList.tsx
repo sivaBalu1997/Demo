@@ -268,7 +268,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails]);
   
   useEffect(() => {
-    console.log({prizingDetail})
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
       const dropDownName: any = Array.isArray(options) && options?.find(
@@ -276,11 +275,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       );
       const dropDown1 = dropDownName === undefined ? { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
 
-      console.log({kitchenStationName},{dropDownName},{dropDown1})
-
       setSelectedOptions(dropDownName === undefined ? [dropDown1] : [dropDownName]);
       setValue("kitchenstation", dropDownName === undefined ? dropDown1?.name : dropDownName?.name);
-      console.log("kitchenstation value:", getValues("kitchenstation"));
     }
   }, [prizingDetail]);
 
