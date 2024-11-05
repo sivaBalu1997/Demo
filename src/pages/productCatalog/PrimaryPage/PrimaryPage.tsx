@@ -299,6 +299,8 @@ const PrimaryPage = () => {
     (state: primarypage) => state.primarypage?.data
   );
 
+  console.log({ItemsPrimaryDetails})
+
   const [images, setImages] = useState<ImageFile[]>([]);
 
   useEffect(() => {

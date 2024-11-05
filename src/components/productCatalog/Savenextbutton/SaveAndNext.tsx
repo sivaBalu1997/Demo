@@ -174,7 +174,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   };
 
   const formData = getFormData();
-  console.log({formData})
   const editData = useSelector((state: any) => state.productCatalog.editData)
 
   const handleclick = async () => {
@@ -191,10 +190,10 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     if (seletedpage === "Primary" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
 
-      const editImageNames = editData?.imageUrls?.map((img: any) => img?.file?.name) || [];
-      const formImageNames = formData?.imageUrls?.map((img: any) => img?.file?.name) || [];
+      const formImageIds = formData?.imageUrls?.map((image: any) => image.file.name);
+      const editImageIds = editData[0]?.mediaResponseList?.map((media: any) => media.imageId);
 
-      const isImageDeleted = editImageNames.some((editImgName: any) => !formImageNames.includes(editImgName));
+      const isImageDeleted = editImageIds?.some((imageId: any) => !formImageIds?.includes(imageId));
      
       if (!isFormValid) {
         window.scrollTo({
@@ -210,7 +209,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(primarypost(
           { 
             ...formData, 
-            isImageDeleted : isImageDeleted 
+            isImageDeleted 
           }));
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
