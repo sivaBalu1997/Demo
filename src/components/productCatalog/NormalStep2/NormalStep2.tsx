@@ -267,7 +267,7 @@ const NormalStep2 = () => {
           <div>
             <h1 className="Step2SellingPrizevalue">
             {prizingDetail?.normalForm?.deliveryDetails?.availabilities?.length > 0
-              ? prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions.map((elem) => elem)
+              ? prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions?.map((elem) => elem)
               : "N/A"}
             </h1>
           </div>

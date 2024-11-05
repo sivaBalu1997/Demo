@@ -321,19 +321,22 @@ const PrimaryPage = () => {
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
       console.log({ ItemsPrimaryDetails });
-      
+  
       const imageArray = ItemsPrimaryDetails.imageUrls.map((img: any) => ({
-        file: img.imageId ? { name: img.imageId } : {},  
-        uploaded: img.uploaded || false,
-        failed: img.failed || false,
-        preview: img.imageId ? `${baseImageUrl}${img.imageId}` : null, 
+        file: img?.imageId ? { name: img.imageId } : img?.file || {},
+        uploaded: img?.uploaded || false,
+        failed: img?.failed || false,
+        preview: img?.imageId 
+          ? `${baseImageUrl}${img.imageId}` 
+          : img?.preview,  // Use existing preview if imageId is not available
       }));
   
-      setImages((prevImages: any) => {
+      setImages((prevImages) => {
         const updatedImages = [...prevImages, ...imageArray];
         console.log({ updatedImages });
         
-        setValue("imageUrls", updatedImages.map((image) => image.preview));
+        // Update the form's "imageUrls" field with the updated images
+        setValue("imageUrls", updatedImages);
         
         return updatedImages;
       });

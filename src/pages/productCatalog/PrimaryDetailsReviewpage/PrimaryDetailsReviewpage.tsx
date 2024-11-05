@@ -168,6 +168,7 @@ interface ImageUpload {
 interface ImageFile {
   file: File;
   preview: string;
+  url?: any;
 }
 
 interface ImageId {
@@ -290,11 +291,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     itemId: null,
   };
 
-  const [uploadedimage, setUploadedimage] = useState<ImageFile[]>(
-    fetchedprimarydata.imageUrls
-  );
-
-  let [selectedImages, setselectedImages] = useState(uploadedimage || []);
+  const [uploadedimage, setUploadedimage] = useState<any[]>(fetchedprimarydata.imageUrls?.map((url) => ({ url })) || []);
+  
+  const [selectedImages, setSelectedImages] = useState<ImageFile[]>(uploadedimage || []);
+  
 
   console.log({selectedImages})
 
@@ -723,20 +723,39 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     document.getElementById(`imgadd-${index}`)?.click();
   };
 
-  const imagecheck = (imagevalue: ImageFile) => {
-    const result = subsectiondata.some(
-      (image: imageType) => image?.file?.name === imagevalue?.file?.name
-    );
+  // const imagecheck = (imagevalue: ImageFile) => {
+  //   const result = subsectiondata.some(
+  //     (image: imageType) => image?.file?.name === imagevalue?.file?.name
+  //   );
 
-    const matchingIndex = subsectiondata.findIndex(
-      (subsectionFile: imageType) =>
-        selectedImages.some(
-          (selectedImage) =>
-            subsectionFile.file.name === selectedImage.file.name
-        )
+  //   const matchingIndex = subsectiondata.findIndex(
+  //     (subsectionFile: imageType) =>
+  //       selectedImages.some(
+  //         (selectedImage) =>
+  //           subsectionFile.file.name === selectedImage.file.name
+  //       )
+  //   );
+  //   return result;
+  // };
+
+  const imagecheck = (imagevalue: any) => {
+    const result = subsectiondata.some((image: any) => 
+      image?.file?.name === imagevalue?.file?.name || image?.url === imagevalue?.url
     );
+  
+    const matchingIndex = subsectiondata.findIndex((subsectionFile: any) =>
+      selectedImages.some((selectedImage) =>
+        subsectionFile.file
+          ? subsectionFile.file.name === selectedImage.file?.name
+          : subsectionFile.url === selectedImage.url
+      )
+    );
+  
     return result;
   };
+  
+  
+  
 
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
@@ -922,46 +941,40 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                     <div className="images">
                       <div className="images">
                         <ol>
-                          {selectedImages && selectedImages[0] && (
-                            
+                          {selectedImages && selectedImages.length > 0 && (
                             <li>
-                              {/* <img
-                                className="uploaded-image"
-                                src={selectedImages[0].preview}
-                                alt={`Preview of `}
-                              /> */}
                               <div style={{ fontSize: "30px" }}>
                                 {imagecheck(selectedImages[0]) ? (
-                                  <>
-                                    <div className="imagewitherror">
-                                      <img
-                                        src={emptyfoodimg}
-                                        alt={``}
-                                        className="eerroremptyimage"
-                                      />
-
-                                      <input
-                                        type="file"
-                                        name="imageUrls"
-                                        className="imgfile"
-                                        id={`imgadd-${0}`}
-                                        accept="image/png, image/jpeg"
-                                        onChange={(e) => handleRetry(e, 0)}
-                                        style={{ display: "none" }}
-                                      />
-
-                                      <span
-                                        className="errromsg"
-                                        onClick={() => handleAddImage(0)}
-                                      >
-                                        Retry
-                                      </span>
-                                    </div>
-                                  </>
+                                  <div className="imagewitherror">
+                                    <img
+                                      src={emptyfoodimg}
+                                      alt={``}
+                                      className="eerroremptyimage"
+                                    />
+                                    <input
+                                      type="file"
+                                      name="imageUrls"
+                                      className="imgfile"
+                                      id={`imgadd-${0}`}
+                                      accept="image/png, image/jpeg"
+                                      onChange={(e) => handleRetry(e, 0)}
+                                      style={{ display: "none" }}
+                                    />
+                                    <span
+                                      className="errromsg"
+                                      onClick={() => handleAddImage(0)}
+                                    >
+                                      Retry
+                                    </span>
+                                  </div>
                                 ) : (
                                   <img
                                     className="uploaded-image"
-                                    src={selectedImages[0].preview}
+                                    src={
+                                      selectedImages[0]?.url?.file
+                                        ? selectedImages[0].url.preview
+                                        : selectedImages[0].url || emptyfoodimg 
+                                    }
                                     alt={`Preview of `}
                                   />
                                 )}
@@ -969,15 +982,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                             </li>
                           )}
 
-                          {selectedImages?.length === 0 &&
-                            [0].map((_, index) => (
-                              <li key={index + 1}>
-                                <img
-                                  src={emptyfoodimg}
-                                  alt={`sample ${index}`}
-                                />
-                              </li>
-                            ))}
+                          {selectedImages?.length === 0 && (
+                            <li>
+                              <img src={emptyfoodimg} alt={`No images available`} />
+                            </li>
+                          )}
 
                           <div className="selectediagelist">
                             {selectedImages &&
@@ -990,24 +999,18 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         alt={``}
                                         className="eerroremptyimage"
                                       />
-
                                       <input
                                         type="file"
                                         name="imageUrls"
                                         className="imgfile"
                                         id={`imgadd-${index + 1}`}
                                         accept="image/png, image/jpeg"
-                                        onChange={(e) =>
-                                          handleRetry(e, index + 1)
-                                        }
+                                        onChange={(e) => handleRetry(e, index + 1)}
                                         style={{ display: "none" }}
                                       />
-
                                       <span
                                         className="errromsg"
-                                        onClick={() =>
-                                          handleAddImage(index + 1)
-                                        }
+                                        onClick={() => handleAddImage(index + 1)}
                                       >
                                         Retry
                                       </span>
@@ -1015,28 +1018,31 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                   ) : (
                                     <img
                                       className="uploaded-image"
-                                      src={selectedImages[index + 1].preview}
-                                      alt={`Preview of `}
+                                      src={
+                                        image.url?.file
+                                          ? image.url.preview
+                                          : image.url || emptyfoodimg // Fallback to an empty image if both are unavailable
+                                      }
+                                      alt={`Preview of image ${index + 1}`}
                                     />
                                   )}
                                 </li>
                               ))}
-                              {Array.from({ length: emptySlots })
-                                .slice(0)
-                                .map((_, index) => (
-                                  <li key={selectedImages.length + index + 1}>
-                                    {typeof emptyfoodimg === "string" ? (
-                                      <img src={emptyfoodimg} alt={`empty ${index}`} />
-                                    ) : (
-                                      <span>Error: emptyfoodimg is not a valid image path</span>
-                                    )}
-                                  </li>
-                                ))}
+                            {Array.from({ length: emptySlots }).slice(0).map((_, index) => (
+                              <li key={selectedImages.length + index + 1}>
+                                {typeof emptyfoodimg === "string" ? (
+                                  <img src={emptyfoodimg} alt={`empty ${index}`} />
+                                ) : (
+                                  <span>Error: emptyfoodimg is not a valid image path</span>
+                                )}
+                              </li>
+                            ))}
                           </div>
                         </ol>
                         <ol></ol>
                       </div>
                     </div>
+
                   </div>
                 }
 
