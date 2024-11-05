@@ -107,7 +107,7 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
 
   return (
     <div className="AvailabilityChangesUntilContainer" >
-      <div className="Availability_Changes_Until_SubContainer" style={{marginLeft:showsession?"45%":""}}>
+      <div className="Availability_Changes_Until_SubContainer" style={{marginLeft:showsession?"75%":""}}>
         <div className="Avail_Changes_Form">
           <h4 className="Avail_Changes_Heading">Availability Changes Until</h4>
 

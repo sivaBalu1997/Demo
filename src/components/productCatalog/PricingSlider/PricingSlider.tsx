@@ -14,6 +14,7 @@ const PricingSlider: any = ({  }) => {
   const { pen, setPen } = useContext(Contextpagejs);
   const Dinein =data[0]?.orderTypes?.find((orderType:any) => orderType?.typeName === "DineIn")
 
+// console.log(data.map((data:any)=>data.orderTypes));
 
   const [inputs, setInputs] = useState({
     Dinein1: Array.isArray(data[0]?.orderTypes) 
@@ -35,6 +36,8 @@ const PricingSlider: any = ({  }) => {
       heading: "On-Prem",
       Sections: [Dinein?.typeName],
       inputTypes: ["text", "text"],
+      isEnabled:Dinein?.isEnabled,
+      isHidden:Dinein?.isHidden,
     },
     {
       heading: "Of-Prem",
@@ -42,8 +45,12 @@ const PricingSlider: any = ({  }) => {
       ? [data[0]?.orderTypes[0].typeName]
       : [],
       InputLabels: data[0]?.orderTypes?.length > 0
-      ? data[0]?.orderTypes.map((elem: any) => elem.typeName)  // Directly use map result
+      ? data[0]?.orderTypes.map((elem: any) => elem.typeName)  
       : [],
+      isEnabled:data[0]?.orderTypes?.length > 0
+      ? data[0]?.orderTypes.map((elem: any) => elem.isEnabled)  
+      : [],
+      isHidden:data[0]?.orderTypes[0].isHidden,
       inputTypes: ["text", "text", "text"],
     },
   ];
@@ -69,18 +76,27 @@ const PricingSlider: any = ({  }) => {
   const handleInputChange1 = (
     e: React.ChangeEvent<HTMLInputElement>,
     section: PricingKey,
-    index: number
+    index: number,
+    enable:any
   ) => {
     const value = e.target.value;
-  
-    setInputs((prev) => ({
-      ...prev,
-      [section]: Array.isArray(prev[section]) 
-        ? prev[section].map((item: number, idx: number) =>
-            idx === index ? Number(value) : item 
-          )
-        : [], 
-    }));
+    console.log("enable",enable[index]);
+    if(enable[index])
+    {
+      console.log("enable",enable[index]);
+      setInputs((prev) => ({
+        ...prev,
+        [section]: Array.isArray(prev[section]) 
+          ? prev[section].map((item: number, idx: number) =>
+              idx === index ? Number(value) : item 
+            )
+          : [], 
+      }));
+    
+    }
+
+   
+    
   }
 
   const handleComparision = () => {
@@ -120,7 +136,7 @@ const PricingSlider: any = ({  }) => {
                     <input
                       type={elem.inputTypes[seInd] || "number"}
                       className="SectionA-Input"
-                      onChange={(e) => handleInputChange1(e, "Dinein1", seInd)}
+                      onChange={(e) => handleInputChange1(e, "Dinein1", seInd,elem.isEnabled)}
                       value={inputs.Dinein1[seInd] || ""}
                     />
                     <img
@@ -142,18 +158,19 @@ const PricingSlider: any = ({  }) => {
                           key={inputlabels}
                           className="OnPremZomatoInhouseSwiggyInput"
                         >
-                          <h3 className="OnPremZomatoInhouseSwiggyInput-Heading">
+                          <h3 className="OnPremZomatoInhouseSwiggyInput-Heading" style={{color:elem.isEnabled[idx]?"black" :"#5F5F5F"}}>
                             {inputlabels}
                           </h3>
                           <input
                             type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
+                            style={{border:elem.isEnabled[idx]?"1px solid black" :"1px solid #5F5F5F"}}
                             value={inputs.Pickup1[idx] }
                             onChange={(e) =>
                               handleInputChange1(
                                 e,
                                 sub === 0 ? "Pickup1" : "Delivery1",
-                                idx
+                                idx,elem.isEnabled
                               )
                             }
                             // disabled={!pen}
