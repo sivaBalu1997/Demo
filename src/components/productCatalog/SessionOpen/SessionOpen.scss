@@ -14,11 +14,12 @@
 }
 .session-window
 {
-   margin-left: -120%;
+   margin-left: -98.5%;
    margin-top: -50%;
     background-color: white;
-    width: 200px;
-    height: 130px;
+    padding: 5px;
+    width: 300px;
+    height: auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -29,16 +30,25 @@
 
 
 }
+.sessions-head
+{
+    font-size:20px ;
+    font-weight: 500;
+    padding: 2px;
+}
 .session-name
 {
+    
     display: flex;
     gap: 10px;
     input{
         accent-color:#67833E ;
+        width: 20px;
+        height: 20px;
     }
 }
 .save-btn-session{
-    width: 150px;
+    width: 100px;
 height:  40px;
 color: white;
 border:  0.5px solid #67833E;
@@ -47,3 +57,21 @@ justify-content: center;
 align-items: center;
 background-color: #67833E;
 cursor: pointer;}
+.cancel-btn-session
+{
+    width: 100px;
+height:  40px;
+color: white;
+border:  0.5px solid #67833E;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: #67833E;
+cursor: pointer;  
+}
+.session-save-cancel
+{
+    display: flex;
+    padding-bottom: 10px;
+    gap: 10px;
+}

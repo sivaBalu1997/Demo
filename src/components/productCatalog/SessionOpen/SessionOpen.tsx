@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import './SessionOpen.scss'
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useSelector } from "react-redux";
@@ -17,7 +17,9 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   const [selectedSession, setSelectedSession] = useState<string>("");
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
   const [selctedDateSession, setselctedDateSession] = useState("");
+  const [filteredsession,setfilteredsession]=useState([]);
   const restaurantDetails = useSelector((state:any) => state.auth.restaurantDetails);
+ 
   const getTodayDay = () => {
     const daysOfWeek = [
       "Sunday", "Monday", "Tuesday", "Wednesday", 
@@ -26,20 +28,20 @@ const SessionOpen: React.FC<ModelShowProps> = ({
     const today = new Date();
     return daysOfWeek[today.getDay()];
   };
-  const filterWorkingHoursBySession = (session:any) => {
-    const todayDay = getTodayDay();
-    const todayWorkinghours = restaurantDetails?.workingHours.filter(
-      (item:any) => item.weekday === todayDay
-    );
+  // const filterWorkingHoursBySession = (session:any) => {
+  //   const todayDay = getTodayDay();
+  //   const todayWorkinghours = restaurantDetails?.workingHours.filter(
+  //     (item:any) => item.weekday === todayDay
+  //   );
 
-    if (session === "Morning") {
-      return todayWorkinghours.find((item:any) => item.closingTime <= "11:59:59");
-    }
-    else if (session === "Evening") {
-      return todayWorkinghours.find((item:any) => item.openingTime >= "12:00:00");
-    }
-    return null;
-  };
+  //   if (session === "Morning") {
+  //     return todayWorkinghours.find((item:any) => item.closingTime <= "11:59:59");
+  //   }
+  //   else if (session === "Evening") {
+  //     return todayWorkinghours.find((item:any) => item.openingTime >= "12:00:00");
+  //   }
+  //   return null;
+  // };
 
   const getFormattedDate = () => {
     const today = new Date();
@@ -57,8 +59,8 @@ const SessionOpen: React.FC<ModelShowProps> = ({
 
   const handleSessionSave = () => {
     const formattedDate = getFormattedDate();
-    const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
-    console.log("sessionClosingHours",sessionClosingHours?.closingTime);
+    // const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
+    // console.log("sessionClosingHours",sessionClosingHours?.closingTime);
     
 
     setPatchedData((prevState:any) => ({
@@ -68,18 +70,28 @@ const SessionOpen: React.FC<ModelShowProps> = ({
           availabilityInfo.orderTypeId === selectedtypeid
             ? {
                 ...availabilityInfo,
-                unAvailableUntilTime: `${formattedDate}T${sessionClosingHours?.closingTime}`,
+                unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
               }
             : availabilityInfo
       ),
     }));
     setshowsession(false);
   };
+  useEffect(()=>{
+    const todayDay = "Monday";
+    const todayWorkinghours = restaurantDetails?.workingHours.filter(
+      (item:any) => item.weekday === todayDay
+    );
+    setfilteredsession(todayWorkinghours);
+
+  },[restaurantDetails])
+  console.log("filteredsession",filteredsession);
+  
 
   return (
     <div className="session-container">
       <div className="session-window">
-        <div className="session-name">
+        {/* <div className="session-name">
           <label htmlFor="morning">Morning</label>
           <input
             type="radio"
@@ -98,8 +110,32 @@ const SessionOpen: React.FC<ModelShowProps> = ({
             checked={selectedSession === "Evening"}
             onChange={() => handleChangesession("Evening")}
           />
+        </div> */}
+        <h3 className="sessions-head">Sessions Available</h3>
+        <div>
+        {
+          filteredsession && filteredsession.map((item:any)=>(
+           <div className="session-name">
+              <label htmlFor="morning">{item?.openingTime} - {item?.closingTime}</label>
+          <input
+            type="radio"
+            id="morning"
+            name="session"
+            checked={selectedSession ===item?.closingTime}
+            onChange={() => handleChangesession(item?.closingTime)}
+          />
+           </div>
+
+
+          ))
+        }
+
         </div>
+        <div className="session-save-cancel">
+        <button className="cancel-btn-session" onClick={handleSessionSave}>Cancel</button>
         <button className="save-btn-session" onClick={handleSessionSave}>Save</button>
+        </div>
+       
       </div>
     </div>
   );
