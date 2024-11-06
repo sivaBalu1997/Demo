@@ -304,7 +304,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
               <div
                 className="toggle-btnfor-subhead"
-                onClick={handleheadingtoggle}
+                // onClick={handleheadingtoggle}
               >
                 <ToggleSliderAvail
                   toggle={toggleStates[index]?.parentToggle || false}
@@ -318,7 +318,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                 {elem.types.map((type, typeIndex) => (
                   <div key={typeIndex} className="TypeHeading1">
                     <h3 className="SectionASectionBSectionHeading">{type}</h3>
-                    <div>
+                    <div className="" style={{marginLeft:"55px"}}>
                       <ToggleSliderAvail
                         toggle={
                           toggleStates[index]?.childToggles?.[typeIndex] ||
