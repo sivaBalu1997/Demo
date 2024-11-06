@@ -79,7 +79,7 @@
   margin-top: -0.4rem;
   margin-bottom: 0.625rem;
   padding-left: 1rem;
-  font-size: 1rem;
+  font-size: 14px;
   color: #979797;
 }
 
@@ -146,8 +146,9 @@
   border-radius: 0.313rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
   opacity: 80%;
-  font-size: 1rem;
+  font-size: 14px;
   padding-left: 0.75rem;
+  color: #979797;
 }
 .input2ItemCustomizationserror {
   width: 11.375rem;
@@ -215,8 +216,9 @@
   border-radius: 0.313rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
   opacity: 80%;
-  font-size: 1rem;
+  font-size: 14px;
   padding-left: 0.625rem;
+  color: #979797;
 }
 
 .polydiv-ItemCustomizations {
@@ -585,13 +587,14 @@ input[type="number"] {
   z-index: 0;
   margin-left: 1.5rem;
   transform: translate(-20px, -5px);
+  color: #979797;
+  font-size: 14px;
 }
 
 @media (max-width: 1400px) {
   .mainItemCustomizations {
     width: 62.375rem;
     height: auto;
-    border: 2px solid red;
   }
 
   .Add-Modification-btn-ItemCustomizations {

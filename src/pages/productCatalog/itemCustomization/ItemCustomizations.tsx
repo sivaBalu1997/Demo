@@ -838,6 +838,7 @@ const ItemCustomizations: React.FC = () => {
                                     ? "inputItemCustomizations"
                                     : "inputItemCustomizationserror"
                                 }
+                                autoComplete="off"
                                 name="modifierName"
                                 value={modifications[modIndex]?.modifierName}
                                 onChange={(e) =>
