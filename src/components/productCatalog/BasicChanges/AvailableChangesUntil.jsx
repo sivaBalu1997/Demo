@@ -42,8 +42,13 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
       (item) => item.weekday === todayDay
     );
+    console.log("session",session);
+    
+console.log("todayWorkinghours",todayWorkinghours);
 
     if (session === "morning") {
+      console.log("oiuyg",todayWorkinghours.find(item => item.closingTime <= "11:59:59"));
+      
       return todayWorkinghours.find(item => item.closingTime <= "11:59:59");
     }
     else if (session === "evening") {
@@ -70,8 +75,12 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
     }
 
     if (elem === "End of Today") {
-      const todayWorkinghours = filterWorkingHoursBySession("evening");
+      const todayDay = getTodayDay();
       const formattedDate = getFormattedDate();
+      // console.log("todayWorkinghours",todayWorkinghours);
+      const todayWorkinghours = restaurantDetails?.workingHours.filter(
+        (item) => item.weekday === todayDay
+      );
       
       setPatchedData((prevState) => ({
         ...prevState,
@@ -80,7 +89,7 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
             availabilityInfo.orderTypeId === selectedtypeid
               ? {
                   ...availabilityInfo,
-                  unAvailableUntilTime: `${formattedDate}T${todayWorkinghours?.closingTime}`,
+                  unAvailableUntilTime: `${formattedDate}T${todayWorkinghours[todayWorkinghours.length-1]?.closingTime}`,
                 }
               : availabilityInfo
         ),
