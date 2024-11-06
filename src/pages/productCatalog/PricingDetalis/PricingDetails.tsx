@@ -848,8 +848,8 @@ const PricingDetails = () => {
                     }}
                   />
 
-                  <span>Hours</span>
-                  <span>:</span>
+                  <span className="timeSpan">Hours</span>
+                  <span className="timeSpan">:</span>
 
                   <Controller
                     name="Preparationtime.minutes"
@@ -891,7 +891,7 @@ const PricingDetails = () => {
                     }}
                   />
 
-                  <span>Minutes</span>
+                  <span className="timeSpan">Minutes</span>
                 </div>
               </div>
             </div>

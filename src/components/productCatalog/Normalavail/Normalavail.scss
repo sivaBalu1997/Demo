@@ -15,13 +15,14 @@
 
 .dayschecking {
   margin-top: -0.8rem;
-  // width: 900px;
+  position: relative;
+  left: 10px;
   height: 50px;
   // border: 1px solid red;
   // margin-left: -10px;
   .Note {
     font-family: Poppins;
-    font-size: 14px;
+    font-size: 13px;
     font-style: italic;
     font-weight: 300;
     line-height: 21px;
@@ -711,7 +712,7 @@ bottom: 0.7rem;
   justify-content: left;
   gap: 0.313rem;
   // border: 1px solid red;
-  margin-top: 0.5rem;
+  margin-top: 1.3rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
   width: 400px;
