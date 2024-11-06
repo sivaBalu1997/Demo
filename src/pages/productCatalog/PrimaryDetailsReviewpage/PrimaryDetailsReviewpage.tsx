@@ -677,7 +677,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmitItemDetails = () => {
-    if (Wholedata?.imageUrls?.length > 0) {
+    if (editData?.length === 0 && Wholedata?.imageUrls?.length > 0) {
       dispatch(startImageUpload(primarydata?.imageUrls));
       setButtonClicked(true);
       if (subsectiondatamsg) {
