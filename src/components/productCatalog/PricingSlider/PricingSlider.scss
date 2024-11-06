@@ -61,6 +61,7 @@
 
 .SectionA-Image{
     margin-left: 10px;
+    
 }
 .Section-Label{
     width: 220px;
@@ -91,6 +92,33 @@
 .OnPremZomatoInhouseSwiggyInput{
     display: flex;
     justify-content: flex-start;
+    // border: 1px solid red;
+    justify-content: left;
+    
+    align-items: center;
+    padding: 5px;
+    margin: 0;
+    .triangle {
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 16px solid #00B71D;
+        margin: 0;
+        padding: 0;
+
+      
+      }
+      .rev-triangle
+      {
+        width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+  border-bottom: 16px solid #E52333;
+  transform: rotate(180deg);
+
+      }
 
 }
 .OnPremZomatoInhouseSwiggyInputOrg{
@@ -107,10 +135,11 @@
 }
 .OnPremZomatoInhouseSwiggyInput-Heading{
     width: 125px; 
+    // border: 1px solid blue;
     font-size: 16px;
     font-weight: 400;
     color:#5F5F5F;
-    margin-left: 5px;
+   
 
 }
 
@@ -118,3 +147,21 @@
     margin-left: 10px;
 }
 
+.input-price
+{
+    display: flex;
+    // border: 1px solid red;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  
+    .percentage
+    {
+        margin: 0;
+        padding: 0;
+        width: 80px;
+        // border: 1px solid red;
+    }
+    
+
+}

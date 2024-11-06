@@ -37,7 +37,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const { patchedData, setPatchedData, selectedDateOption } =
     useContext(Contextpagejs);
 
-  const [selectPeriod, setSelectPeriod] = useState(false);
+  const [selectPeriod,setSelectPeriod]=useState(false);
+  const Dinein =dataFromRedux[0]?.orderTypes?.find((orderType:any) => orderType?.typeName === "DineIn")
 
   const subcategories = Array.isArray(dataFromRedux[0]?.orderTypes)
     ? dataFromRedux[0].orderTypes.map((elem: any) => ({
@@ -47,20 +48,22 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     : [];
   const data = [
     {
-      mainHeading: "Off-prem",
-      types: ["Section A:", "Section B:"],
+      mainHeading: "On-prem",
+      types: [Dinein?.typeName],
     },
     {
-      mainHeading: "On-prem",
+      mainHeading: "Off-prem",
       subcategories: [
         {
           subHeading: ["Order Types "],
           types: Array.isArray(dataFromRedux[0]?.orderTypes)
-            ? dataFromRedux[0].orderTypes.map((elem: any) => ({
-                name: elem.typeName,
-                isEnabled: elem.availabilityEnabled,
-                orderTypeId: elem.typeId,
-              }))
+            ? dataFromRedux[0].orderTypes.filter((elem: any) => elem.typeName !== "DineIn").map((elem: any) => ({
+              name:elem.typeName,
+              isEnabled:elem.availabilityEnabled,
+              orderTypeId:elem.typeId
+              
+
+            }))
             : [],
 
           isEnabled: Array.isArray(dataFromRedux[0]?.orderTypes)
@@ -313,7 +316,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
             {elem.types && (
               <div className="SectionASectionBSection">
                 {elem.types.map((type, typeIndex) => (
-                  <div key={typeIndex} className="TypeHeading">
+                  <div key={typeIndex} className="TypeHeading1">
                     <h3 className="SectionASectionBSectionHeading">{type}</h3>
                     <div>
                       <ToggleSliderAvail
