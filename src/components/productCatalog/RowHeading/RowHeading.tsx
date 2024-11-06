@@ -69,7 +69,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
 
       { object?.itemResponseList?.length>0 && object.categoryName!=="" &&
             <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
-            <img
+            {/* <img
               src={dots}
               alt=""
               draggable
@@ -77,7 +77,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
               onDragOver={onDragOver}
               onDrop={(e) => onDrop(e, index)}
               className="headingdrag"
-            />{" "}
+            />{" "} */}
             {<span> {object.categoryName!=="" &&object.categoryName} <span className="count-Of-ItemList">({object.itemResponseList?.length})</span> </span>}
           </td>
       }
