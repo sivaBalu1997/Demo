@@ -29,7 +29,7 @@ console.log(data);
     : [],
     Pickup1: Array.isArray(data[0]?.orderTypes)
     ? data[0].orderTypes
-        .filter((elem: any) => elem.typeName !== "DineIn") // Skip DineIn
+        .filter((elem: any) => elem.typeName !== "DineIn") 
         .map((elem: any) => elem.price)
     : [],
     Delivery1:data[0]?.orderTypes[0]?.price  || [],
@@ -44,7 +44,14 @@ console.log(data);
       heading: "On-Prem",
       Sections: [Dinein?.typeName],
       inputTypes: ["text", "text"],
-      isEnabled: Dinein?.isEnabled,
+      isEnabled: Dinein
+      ? [
+          {
+            name: Dinein.typeName,
+            enabled: Dinein.isEnabled
+          }
+        ]
+      : [],
       isHidden: Dinein?.isHidden,
       tyepeId: Dinein?.typeId,
     },
@@ -57,7 +64,16 @@ console.log(data);
         ? data[0]?.orderTypes.map((elem: any) => elem.typeName)
         : [],
       isEnabled: data[0]?.orderTypes?.length > 0
-        ? data[0]?.orderTypes.map((elem: any) => elem.isEnabled)
+        ? data[0]?.orderTypes.map((elem: any) =>
+        {
+          return{
+            name:elem.typeName,
+            enabled:elem.isEnabled
+          }
+        }
+       
+          
+          )
         : [],
       tyepeId: data[0]?.orderTypes?.length > 0
         ? data[0]?.orderTypes.map((elem: any) => elem.tyepeId)
@@ -84,24 +100,34 @@ console.log(data);
     const updatedValue = data?.[0]?.pricingdetails?.Dinein1?.[0] || "";
     setSectionAValue(updatedValue);
   }, [data]);
+  // console.log("PrizingSliderData",PrizingSliderData[1].isEnabled);
+  
 
   const handleInputChange1 = (
     e: React.ChangeEvent<HTMLInputElement>,
     section: PricingKey,
     index: number,
-    enable: any
+    enable: any,
+    name:string
   ) => {
     const value = e.target.value;
-    if (enable[index]) {
-      setInputs((prev) => ({
-        ...prev,
-        [section]: Array.isArray(prev[section]) 
-          ? prev[section].map((item: number, idx: number) =>
-              idx === index ? Number(value) : item 
-            )
-          : [], 
-      }));
-    }
+    // console.log("name",name,"enable",enable);
+    const filter=PrizingSliderData[enable].isEnabled.filter((item:any)=>item.name===name);
+    console.log("filter",filter);
+    
+   if(filter[0].enabled)
+   {
+    setInputs((prev) => ({
+      ...prev,
+      [section]: Array.isArray(prev[section]) 
+        ? prev[section].map((item: number, idx: number) =>
+            idx === index ? Number(value) : item 
+          )
+        : [], 
+    }));
+  
+   }
+     
   };
 
   const handleComparision = (baseprice: number, id: string) => {
@@ -126,12 +152,24 @@ console.log(data);
 
   useEffect(() => {
     if (data && data[0]?.orderTypes) {
+      const oofpremprice=data[0].orderTypes.filter((elem: any) => elem.typeName!=="DineIn").map((elem: any, index: number) => ({
+        orderTypeId: elem.typeId, 
+        price: String(inputs.Pickup1?.[index] || elem.price), 
+      }))
+      const onprem= data[0].orderTypes.filter((elem: any) => elem.typeName==="DineIn").map((elem: any, index: number) => ({
+        orderTypeId: elem.typeId, 
+        price: String(inputs.Dinein1?.[index] || elem.price), 
+      }))
+      console.log("oofpremprice",oofpremprice);
+      console.log("onprem",onprem);
+      const offpremandonprem=[...oofpremprice,...onprem]
+      
       setPatchedData((prevState: any) => ({
         ...prevState,
-        pricing: Array.isArray(data[0]?.orderTypes)
-          ? data[0].orderTypes.map((elem: any, index: number) => ({
-              orderTypeId: elem.typeId, 
-              price: String(inputs.Pickup1?.[index] || elem.price), 
+        pricing: Array.isArray(offpremandonprem)
+          ? offpremandonprem?.map((elem: any, index: number) => ({
+              orderTypeId: elem.orderTypeId, 
+              price:  elem.price, 
             }))
           : [],
       }));
@@ -154,11 +192,13 @@ console.log(data);
               {elem.Sections?.map((section: any, seInd: any) => (
                 <div key={seInd} className="SectionA">
                   <div className="SectionInput">
-                    <h3 className="SectionA-Heading">{section}</h3>
+                    <h3 className="SectionA-Heading" style={{color:PrizingSliderData[index]?.isEnabled.filter((item:any)=>item.name===section)[0]?.enabled ? "black" : "#5F5F5F"}}>{section}</h3>
                     <input
                       type={elem.inputTypes[seInd] || "number"}
+                      style={{opacity: PrizingSliderData[index]?.isEnabled.filter((item:any)=>item.name===section)[0]?.enabled ? "100%" : "50%"}}
+
                       className="SectionA-Input"
-                      onChange={(e) => handleInputChange1(e, "Dinein1", seInd, elem.isEnabled)}
+                      onChange={(e) => handleInputChange1(e, "Dinein1", seInd,index,section)}
                       value={inputs.Dinein1[seInd] || ""}
                     />
                     <div className="SectionA-Image" onClick={() => handleComparision(inputs.Dinein1[seInd], elem.tyepeId)}>
@@ -183,16 +223,16 @@ console.log(data);
                     <div className="OnPremZomatoInhouseSwiggy">
                       {elem.InputLabels.filter((label: any) => label !== "DineIn")?.map((inputlabels: any, idx: any) => (
                         <div key={inputlabels} className="OnPremZomatoInhouseSwiggyInput">
-                          <h3 className="OnPremZomatoInhouseSwiggyInput-Heading" style={{color: elem.isEnabled[idx] ? "black" : "#5F5F5F"}}>
+                          <h3 className="OnPremZomatoInhouseSwiggyInput-Heading" style={{color:PrizingSliderData[index]?.isEnabled.filter((item:any)=>item.name===inputlabels)[0]?.enabled ? "black" : "#5F5F5F"}}>
                             {inputlabels}
                           </h3>
                           <div className="input-price">
                           <input
                             type={elem.inputTypes[idx] || "number"}
                             className="OnPremZomatoInhouseSwiggyInputOrg"
-                            style={{border: elem.isEnabled[idx] ? "1px solid black" : "1px solid #5F5F5F"}}
+                            style={{opacity: PrizingSliderData[index]?.isEnabled.filter((item:any)=>item.name===inputlabels)[0]?.enabled ? "100%" : "50%"}}
                             value={inputs.Pickup1[idx]}
-                            onChange={(e) => handleInputChange1(e, sub === 0 ? "Pickup1" : "Delivery1", idx, elem.isEnabled)}
+                            onChange={(e) => handleInputChange1(e, sub === 0 ? "Pickup1" : "Delivery1", idx, index,inputlabels)}
                           />
                           {showCompare &&    <p className="percentage" style={{color:`${filteredpricelist[idx]?.increaseOrDecrease==="increase"?"#00B71D":"#E52333"}`}}>{filteredpricelist[idx]?.percentage}</p>
 }  
