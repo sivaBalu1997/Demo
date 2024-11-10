@@ -795,14 +795,14 @@ export const selectedMockDataFailure = (error) => ({
 
 // *********************PartialUpdate*********************************
 
-export const partialUpdateMenuRequest = (payload) => ({
+export const partialUpdateMenuRequest = (data,locationid) => ({
   type: PARTIAL_UPDATE_MENU_REQUEST,
-  payload,
+  payload:{data,locationid},
 });
 
-export const partialUpdateMenuSuccess = (payload) => ({
+export const partialUpdateMenuSuccess = (data) => ({
   type: PARTIAL_UPDATE_MENU_SUCCESS,
-  payload,
+  payload:data,
 });
 
 export const partialUpdateMenuFailure = (payload) => ({

@@ -5,11 +5,83 @@ import { useDispatch, useSelector } from "react-redux";
 import HoverText from "../HoverText/HoverText";
 import { RootState } from "redux/rootReducer";
 import { STORAGE_BUCKET_URL } from "shared/constants";
+import { selectedCategory } from "redux/productCatalog/productCatalogActions";
 
 interface Media {
   id: string;
   entityId: string;
 }
+interface Availability {
+  id: string;
+  availabilityDays: string;
+  sessions: string;
+  startTime: string;
+  endTime: string;
+  isEnabled: number;
+}
+
+interface OrderType {
+  typeName: string;
+  typeId: string;
+  typeGroup: string;
+  price: number;
+  isEnabled: number;
+  isNotHide: number;
+  availabilityEnabled: boolean;
+  availabilities?: Availability[];
+}
+
+interface ModifierOption {
+  optionId: string;
+  name: string;
+  price: number;
+  isEnabled: number;
+}
+
+interface Modifiers {
+  id: string;
+  modifierName: string;
+  isEnabled: number;
+  minCount: number;
+  maxCount: number;
+  noFreeCustomization: number;
+  orderTypeIds: string[];
+  options: ModifierOption[];
+}
+
+interface MediaDto {
+  imageId: string;
+  imageType: string;
+}
+
+interface Ingredient {
+  id: string;
+  name: string;
+  mediaDto: MediaDto;
+}
+
+interface ItemResponse {
+  itemId: string;
+  itemName: string;
+  mediaResponseList: any[]; // Adjust this type based on actual structure
+  orderTypes: OrderType[];
+  modifiers: Modifiers[];
+  dietTypes: any[]; // Adjust this type based on actual structure
+  ingredients: Ingredient[];
+  taxClassAssociation: any[]; // Adjust this type based on actual structure
+  cuisine: any[]; // Adjust this type based on actual structure
+  pairedItems: any[]; // Adjust this type based on actual structure
+  allergens: any[]; // Adjust this type based on actual structure
+  kitchenStation: any; // Adjust this type based on actual structure
+  description: string;
+  containsAlcohol: boolean;
+  preparationTimeInHours: string;
+  preparationTimeInMinutes: string;
+  ignoreMasterKotPrint: boolean;
+  popularItem: boolean;
+}
+
+
 
 interface Price {
   orderTypeId: string;
@@ -77,13 +149,6 @@ interface DraggedItem {
   categoryId: string;
   item: Item;
 }
-interface MenuObject {
-  categoryId: string;
-  categoryName: string;
-  subCategoryId: string;
-  subCategoryName: string;
-  itemResponseList: Item[];
-}
 
 interface ItemRowProps {
   object: any; // Updated to use the Category type from the JSON
@@ -125,14 +190,16 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
   const baseImageUrl2 = process.env.REACT_APP_IMAGE_DOMAIN;
 
+  const menuData = useSelector(
+    (state: RootState) => state.productCatalog?.menuData
+  );
 
   const handleItemnameClick = (value: string) => {
     handlemodal(value);
   };
+  
 
-  const menuData = useSelector(
-    (state: RootState) => state.productCatalog?.menuData
-  );
+ 
   const [menudatalist, setMenudatalist] = useState(menuData);
 
   useEffect(() => {

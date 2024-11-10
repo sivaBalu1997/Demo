@@ -544,12 +544,16 @@ function* getPopularItemSaga(action) {
 
 function* partialUpdateMenuSaga(action) {
   try {
-    const updatedMenu = yield call(apiUpdateMenu, action.payload);
+    console.log("666",action.payload);
+    
+    const updatedMenu = yield call(apiUpdateMenu, action.payload.data);
     if (updatedMenu.status === 200) {
       showSuccessToast('Item Updated Successfully');
-      yield put(partialUpdateMenuSuccess({type: PARTIAL_UPDATE_MENU_SUCCESS, payload: updatedMenu.data.message}));
+      console.log("updatedMenu.data.message",updatedMenu.data.message);
+      
+      yield put(partialUpdateMenuSuccess(updatedMenu.data.message));
      
-      // yield put({ type: STORE_MENU_REQUEST, payload: location });
+      yield put({ type: STORE_MENU_REQUEST, payload: action.payload.locationid });
 
     } 
     

@@ -1,24 +1,14 @@
 import { Contextpagejs } from 'pages/productCatalog/contextpage';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 interface InsertColumnListProps {
-  listingobject: {
-    showPricing: boolean;
-    Dinein1: boolean;
-    Pickup1: boolean;
-    Delivery1: boolean;
-    showavail: boolean;
-    Dinein2: boolean;
-    Pickup2: boolean;
-    Delivery2: boolean;
-    Inventory1: boolean;
-    Customize1: boolean;
-  };
+  listingobject: any;
   setlistingobject: (value: any) => void;
+  uniqueOrderTypeNames: any;
   insertlists: {
-    Pricing: { show: string; Dinein: string; Pickup: string; Delivery: string };
-    Available: { show: string; Dinein: string; Pickup: string; Delivery: string };
-    Inventory: string;
+    Pricing: any;
+    Available: any;
+
     Customization: string;
   };
   showheadinglist: boolean;
@@ -41,9 +31,12 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   toggleround,
   togglebtns,
   Outsideref,
+  uniqueOrderTypeNames,
 }) => {
   const handleToggle = useCallback(
     (key: keyof typeof listingobject, dependentKeys?: (keyof typeof listingobject)[]) => {
+      console.log("Lkjhg",key);
+      
       setlistingobject((prev: any) => {
         const updatedState = {
           ...prev,
@@ -57,45 +50,40 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
         return updatedState;
       });
     },
-    [setlistingobject]);
+    [setlistingobject]
+  );
 
-    const{isExpanded}=useContext(Contextpagejs)
+  const handlecheckbox = (key:any)=>{
+      
+    setlistingobject((prev: any) => {
+      const updatedState = {
+        ...prev,
+        [key]: !prev[key],
+      };
+      
+      return updatedState;
+    });
 
-
-  useEffect(() => {
-    if (
-      !listingobject.Dinein1 &&
-      !listingobject.Pickup1 &&
-      !listingobject.Delivery1
-    ) {
-      setlistingobject({ ...listingobject, showPricing: false });
-    }
-    if (
-      listingobject.Dinein1 ||
-      listingobject.Pickup1 ||
-      listingobject.Delivery1
-    ) {
-      setlistingobject({ ...listingobject, showPricing: true });
-    }
-  }, [listingobject.Dinein1, listingobject.Pickup1, listingobject.Delivery1]);
-
-  useEffect(() => {
-    if (
-      !listingobject.Dinein2 &&
-      !listingobject.Pickup2 &&
-      !listingobject.Delivery2
-    ) {
-      setlistingobject({ ...listingobject, showavail: false });
-    }
-    if (
-      listingobject.Dinein2 ||
-      listingobject.Pickup2 ||
-      listingobject.Delivery2
-    ) {
-      setlistingobject({ ...listingobject, showavail: true });
-    }
-  }, [listingobject.Dinein2, listingobject.Pickup2, listingobject.Delivery2]);
+  }
+      
   
+
+
+  const { isExpanded } = useContext(Contextpagejs);
+
+  const [uniqueKeys, setuniqueKeys] = useState<any>([]);
+
+  useEffect(() => {
+    setuniqueKeys(uniqueOrderTypeNames && Object.keys(uniqueOrderTypeNames) as Array<keyof typeof listingobject>);
+  }, [uniqueOrderTypeNames]);
+
+  const pricelist = uniqueKeys?.map((item: any) => `${item}1` as keyof typeof insertlists.Pricing);
+  const aviallist = uniqueKeys?.map((item: any) => `${item}2` as keyof typeof insertlists.Available);
+
+  console.log("insert",insertlists);
+  console.log("listin2",listingobject);
+
+
   return (
     <div className="headaadbtnclass" ref={Outsideref}>
       {showheadinglist && (
@@ -112,14 +100,13 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
           </div>
           <div className="inserbody">
             <ul>
+              {/* Pricing Section */}
               <li>
                 <div className="headtext-fieldsselection pricingheadtext">
                   <input
                     type="checkbox"
-                    checked={listingobject.showPricing}
-                    onClick={() =>
-                      handleToggle('showPricing', ['Dinein1', 'Delivery1', 'Pickup1'])
-                    }
+                    checked={listingobject?.showPricing}
+                    onChange={() => handleToggle('showPricing', pricelist)}
                   />
                   <span>
                     {insertlists.Pricing.show}
@@ -127,69 +114,62 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   </span>
                 </div>
                 <ul className="indenttexts">
-                  {['Dinein1', 'Pickup1', 'Delivery1'].map((key) => (
-                    <li key={key}>
-                      <div className='inner-text-input'>
+                  {pricelist.map((list:any) => (
+                    <li key={list}>
+                      <div className="inner-text-input">
                         <input
                           type="checkbox"
-                          checked={listingobject[key as keyof typeof listingobject]}
-                          onClick={() => handleToggle(key as keyof typeof listingobject)}
+                          checked={listingobject[list]}
+                          onChange={() => handlecheckbox(list)}
                         />
-                        <span className='sub-texts-fileds'>{insertlists.Pricing[key.replace('1', '') as keyof typeof insertlists.Pricing]}</span>
+                        <span className="sub-texts-fileds">
+                          {insertlists.Pricing[list.replace('1', '')]}
+                        </span>
                       </div>
                     </li>
                   ))}
                 </ul>
               </li>
 
+              {/* Availability Section */}
               <li>
                 <div className="headtext-fieldsselection availheadtext">
                   <input
                     type="checkbox"
-                    checked={listingobject.showavail}
-                    onClick={() =>
-                      handleToggle('showavail', ['Dinein2', 'Delivery2', 'Pickup2'])
-                    }
+                    checked={listingobject?.showAvail}
+                    onChange={() => handleToggle('showAvail', aviallist)}
                   />
                   <span>
-                    {insertlists.Available.show}
+                    {insertlists?.Available?.show}
                     <img src={toggleround} alt="" />
                     <img src={togglebtns} alt="" className="toggleicon" />
                   </span>
                 </div>
                 <ul className="indenttexts">
-                  {['Dinein2', 'Pickup2', 'Delivery2'].map((key) => (
+                  {aviallist.map((key:any) => (
                     <li key={key}>
-                      <div className='inner-text-input'>
+                      <div className="inner-text-input">
                         <input
                           type="checkbox"
                           checked={listingobject[key as keyof typeof listingobject]}
-                          onClick={() => handleToggle(key as keyof typeof listingobject)}
+                          onChange={() => handleToggle(key as keyof typeof listingobject)}
                         />
-                        <span className='sub-texts-fileds'>{insertlists.Available[key.replace('2', '') as keyof typeof insertlists.Available]}</span>
+                        <span className="sub-texts-fileds">
+                          {insertlists.Available[key.replace('2', '') as keyof typeof insertlists.Available]}
+                        </span>
                       </div>
                     </li>
                   ))}
                 </ul>
               </li>
 
-              {/* <li>
-                <div className="headtext inventoryheadtext">
-                  <input
-                    type="checkbox"
-                    checked={listingobject.Inventory1}
-                    onClick={() => handleToggle('Inventory1')}
-                  />
-                  <span>{insertlists.Inventory}</span>
-                </div>
-              </li> */}
-
+              {/* Customization Section */}
               <li>
                 <div className="headtext-fieldsselection customheadtext">
                   <input
                     type="checkbox"
-                    checked={listingobject.Customize1}
-                    onClick={() => handleToggle('Customize1')}
+                    checked={listingobject?.Customize1}
+                    onChange={() => handleToggle('Customize1')}
                   />
                   <span>{insertlists.Customization}</span>
                 </div>

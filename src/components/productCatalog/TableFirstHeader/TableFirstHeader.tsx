@@ -3,7 +3,7 @@ import React from 'react';
 interface TableHeaderProps {
   header: { label: string };
   index: number;
-  secondRowLength: number;
+  secondRowLength?: number;
   listingobject: any;
   setlistingobject: (value: any) => void;
   // handleColumnwiseDragStart: (index: number) => void;
@@ -31,13 +31,21 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
   removeicon,
   // dragtablefirstHeaderindex
 }) => {
+  
+
+// console.log("listingobject",header);
+
+
+
+  
+  
   return (
     <>
-      {listingobject[header.label] && (
+      { listingobject && listingobject[header.label] && (
         <>
         <th
           key={index}
-          colSpan={secondRowLength}
+        
           className={header.label.substring(0, header.label.length - 1)}
           // draggable
           // onDragStart={() => handleColumnwiseDragStart(index)}

@@ -33,6 +33,7 @@ import {
   selectedMockDataRequest,
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
+import { listenerCount } from "process";
 
 export const Menulisting = () => {
   const dispatch = useDispatch();
@@ -79,46 +80,165 @@ export const Menulisting = () => {
     "Inventory1",
     "Customize1",
   ]);
-  const [listingobject, setlistingobject] = useState({
-    showPricing: true,
-    Dinein1: true,
-    Pickup1: true,
-    Delivery1: true,
-    showavail: true,
-    Dinein2: true,
-    Pickup2: true,
-    Delivery2: true,
-    // Inventory1: true,
-    Customize1: true,
-  });
+  const getUniqueOrderTypeNames = (data) => {
+    return data.reduce((acc, category) => {
+      category?.itemResponseList?.forEach((item) => {
+        item.orderTypes?.forEach((orderType) => {
+          acc[orderType.typeName] = true;
+        });
+      });
+      return acc;
+    }, {});
+  };
+
+ 
+  const initializeListingObject = (uniqueNames) => {
+  
+    
+    const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
+      acc[`${typeName}1`] = true;  
+      return acc;
+    }, {});
+  
+    const availabilityKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
+      acc[`${typeName}2`] = true; 
+      return acc;
+    }, {});
+    
+    return {
+      showPricing: true,
+      showAvail: true,
+      Customize1: true,
+      ...pricingKeys,
+      ...availabilityKeys
+    };
+  };
+
+
+
+
+
+
+
+ 
+  const [listingobject, setlistingobject] = useState();
+  console.log("unique",listingobject);
+
+ 
+
+  const [uniqueOrderTypeNames,setuniqueOrderTypeNames]=useState();
+
+  useEffect(() => {
+    setuniqueOrderTypeNames(getUniqueOrderTypeNames(menuData));
+  
+    setlistingobject(initializeListingObject(getUniqueOrderTypeNames(menuData)));
+  }, [menuData]);
+
+  const getUniqueOrderTypes = (menuData) => {
+    const orderTypeNames = menuData.flatMap((category) =>
+      category.itemResponseList?.flatMap((item) =>
+        item.orderTypes.map((orderType) => ({ typeName: orderType?.typeName }))
+      )
+    );
+    // console.log("orderTypeNames",orderTypeNames);
+    
+  
+    const uniqueOrderTypeNames = Array.from(
+      new Map(orderTypeNames.map((orderType) => [orderType?.typeName, orderType])).values()
+    );
+    console.log("uniqueOrderTypeNames",uniqueOrderTypeNames);
+    
+  
+    return uniqueOrderTypeNames;
+  };
+
+  const uniqueOrderTypes = getUniqueOrderTypes(menuData);
+
+ 
+ 
+   const modifiedTypes = [
+    ...uniqueOrderTypes
+      .filter(type => type?.typeName) 
+      .map(type => `${type.typeName}1`),
+    ...uniqueOrderTypes
+      .filter(type => type?.typeName)
+      .map(type => `${type.typeName}2`)
+  ];
+   
+  //  console.log("uniqueOrderTypes",modifiedTypes);
+   
+   const tablefirstrow =modifiedTypes.map((item)=>
+    {
+      return{
+        label: item
+      }
+    }
+     );
+
+    //  console.log("tablefirstrow",tablefirstrow);
+     
+ 
 
   const insertlists = {
     Pricing: {
       show: "Pricing",
-      Dinein: "Dine-in",
+      DineIn: "Dine-in",
       Pickup: "Pickup",
       Delivery: "Delivery",
     },
     Available: {
       show: "Available",
-      Dinein: "Dine-in",
+      DineIn: "Dine-in",
       Pickup: "Pickup",
       Delivery: "Delivery",
     },
-    Inventory: "Inventory",
+    // Inventory: "Inventory",
     Customization: "Customization",
   };
 
   const [firstRowTable, setFirstRowTable] = useState([
-    { label: "Dinein1" },
-    { label: "Pickup1" },
-    { label: "Delivery1" },
-    { label: "Dinein2" },
-    { label: "Pickup2" },
-    { label: "Delivery2" },
-    // { label: "Inventory1" },
-    { label: "Customize1" },
+    ...tablefirstrow,
+    { label: "Customize1" }
   ]);
+
+
+
+  const insertlists2 = {
+    Pricing: {
+      show: listingobject?.showPricing ? "Pricing" : "",
+    ...(listingobject &&  Object.keys(listingobject && listingobject)
+        .filter(key => key.endsWith("1")  && key !== "Customize1")
+        .reduce((acc, key) => {
+          acc[key.replace("1", "")] = key.replace("1", "");
+          return acc;
+        }, {}))
+    },
+    Available: {
+      show: listingobject?.showAvail ? "Available" : "",
+      ...(listingobject && Object.keys(listingobject)
+        .filter(key => key.endsWith("2")  && key !== "Customize1")
+        .reduce((acc, key) => {
+          acc[key.replace("2", "")] = key.replace("2", "");
+          return acc;
+        }, {}))
+    },
+   
+    Customization: "Customization"
+  };
+  
+  // Output result
+  // console.log(insertlists2);
+
+  // Log firstRowTable whenever it changes
+  // useEffect(() => {
+  //   setFirstRowTable((prev)=>[...prev,tablefirstrow])
+
+  // }, [tablefirstrow]);
+
+  
+
+
+  
 
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
@@ -306,7 +426,7 @@ export const Menulisting = () => {
  const [categoryData, setCategoryData] = useState({})
 
   const handlemodal = (value) => {
-    setmodal(true);
+    
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -319,16 +439,18 @@ export const Menulisting = () => {
         if (specificResponse.length > 0) {
           setSideBar(specificResponse);
           dispatch(selectedCategory(categoryData));
+          dispatch(selectedMockDataRequest(specificResponse));
+          setmodal(true);
          
         }
       }
   };
 
   const showsidebar = (key) => {
-    if (key === "Dinein1" || key === "Pickup1" || key === "Delivery1") {
+    if (key === "DineIn1" || key === "Pickup1" || key === "Delivery1") {
       handlemodal();
       setSideBarText("Pricing");
-    } else if (key === "Dinein2" || key === "Pickup2" || key === "Delivery2") {
+    } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();
       setSideBarText("Availability");
     } else if (key === "Inventory1") {
@@ -356,11 +478,11 @@ export const Menulisting = () => {
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
-  }, [dispatch]);
+  }, []);
 
   const editData = useSelector((state) => state.productCatalog.editData || [])
 
-  console.log('asjkdna',{editData})
+
   const primarypage = useSelector((state) => state.primarypage)
   const prizingDetail = useSelector(
     (state) => state?.PricingDetailReducer?.prizingData 
@@ -494,7 +616,7 @@ export const Menulisting = () => {
     };
   }, [showheadinglist]);
 
-  const allFalse = Object.values(listingobject).every(
+  const allFalse =listingobject && Object.values(listingobject).every(
     (value) => value === false
   );
 
@@ -535,7 +657,7 @@ export const Menulisting = () => {
                 <InsertColumnList
                   listingobject={listingobject}
                   setlistingobject={setlistingobject}
-                  insertlists={insertlists}
+                  insertlists={insertlists2}
                   showheadinglist={showheadinglist}
                   setshowheadinglist={setshowheadinglist}
                   closeicon={closeicon}
@@ -543,6 +665,7 @@ export const Menulisting = () => {
                   toggleround={toggleround}
                   togglebtns={calendericon}
                   Outsideref={Outsideref}
+                  uniqueOrderTypeNames={uniqueOrderTypeNames}
                 />
                 <table className="Menu-Listing-TableOne">
                   <thead className="Menu-Listing-TableOneHead">
@@ -621,7 +744,7 @@ export const Menulisting = () => {
                             // dragtablefirstHeaderindex={
                             //   dragtablefirstHeaderindex
                             // }
-                            secondRowLength={secondRowTable[index].length}
+                            
                             listingobject={listingobject}
                             setlistingobject={setlistingobject}
                             // handleColumnwiseDragStart={

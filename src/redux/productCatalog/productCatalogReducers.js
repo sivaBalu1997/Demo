@@ -239,8 +239,8 @@ const initialProductCatalogState = {
   selectedCategory: {},
   updateModifierId: [],
   //partialUpdate
-  partialDataSendingLoading: false,
-  partialDataSendingsuccess: false,
+  partialDataSendingLoading: true,
+  partialDataSendingsuccess: "",
   partialDataSendingfaliure: false,
 };
 
@@ -271,16 +271,20 @@ export default function productCatalogReducer(
       //partial update
       case PARTIAL_UPDATE_MENU_REQUEST:
         draft.partialDataSendingLoading = true;
-        draft.partialDataSendingsuccess = false;
+        draft.partialDataSendingsuccess = "";
         draft.partialDataSendingfaliure = false;
+        break;
       case PARTIAL_UPDATE_MENU_SUCCESS:
         draft.partialDataSendingLoading = false;
-        draft.partialDataSendingsuccess = true;
+        console.log("payload",action.payload);      
+        draft.partialDataSendingsuccess = action.payload;
         draft.partialDataSendingfaliure = false;
+        break;
       case PARTIAL_UPDATE_MENU_FAILURE:
         draft.partialDataSendingLoading = false;
-        draft.partialDataSendingsuccess = false;
+        draft.partialDataSendingsuccess = "";
         draft.partialDataSendingfaliure = true;
+        break;
 
       case FETCHDROPDOWN_REQUEST:
         draft.dropDownLoading = true;
