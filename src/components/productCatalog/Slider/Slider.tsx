@@ -148,7 +148,7 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   useEffect(() => {
-    dispatch(selectedMockDataRequest(SideBarData));
+    // dispatch(selectedMockDataRequest(SideBarData));
     dispatch(resetSuccessMessage())
   }, [dispatch]);
 

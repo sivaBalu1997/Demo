@@ -32,9 +32,9 @@ interface OrderType {
   price: number;
   isEnabled: number;
   // isHidden:number;
-  availabilityEnabled:boolean
+  availabilityEnabled: boolean;
   availabilities: Availability[];
-  isHidden?: any;
+  isNotHide?: any;
 }
 
 interface ItemResponse {
@@ -54,20 +54,20 @@ interface ItemResponse {
 }
 
 interface ItemObject {
-  itemId:string
-  categoryId: string; 
-  categoryName: string; 
-  itemResponseList: ItemResponse[]; 
+  itemId: string;
+  categoryId: string;
+  categoryName: string;
+  itemResponseList: ItemResponse[];
 }
 
 interface TableRowsProps {
-  itemobject: ItemObject; 
+  itemobject: ItemObject;
   indexvalue: number;
   classNamesinner: string[];
   handlemodal: (value: number) => void;
-  listingobject: Record<string, any>; 
+  listingobject: Record<string, any>;
   setSideBar: () => void;
-  SideBarData: any[]; 
+  SideBarData: any[];
   showsidebar: (key: string) => void;
   listingheaders: boolean;
 }
@@ -85,26 +85,53 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     showsidebar(key);
     handlemodal(value);
   };
-  const filteredListing = Object.fromEntries(
+  const filteredListing = listingobject && Object.fromEntries(
     Object.entries(listingobject).filter(
-      ([key, value]) => value === true && key !== "showavail" && key !== "showPricing"
+      ([key, value]) =>
+        value === true && key !== "showavail" && key !== "showPricing"
     )
   );
   // const allFalse = Object.values(listingobject).every(value => value === false);
-  const [selectedFileds, setselectefields] = useState<Record<string, boolean>>({});
+  const [selectedFileds, setselectefields] = useState<Record<string, boolean>>(
+    {}
+  );
+  const menuData = useSelector((state: any) => state.productCatalog?.menuData);
 
   useEffect(() => {
-    const filteredList = Object.fromEntries(
+    const filteredList = listingobject && Object.fromEntries(
       Object.entries(filteredListing).filter(([key, value]) => value === true)
     );
-  
+
     setselectefields(filteredList);
   }, [listingobject]);
   const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
   const restaurantDetails = useSelector(
     (state: RootState) => state.auth.restaurantDetails
   );
-  
+  const getUniqueOrderTypeNames = (menuData: any) => {
+    const orderTypeNames = menuData.flatMap((category: any) =>
+      category.itemResponseList?.flatMap((item: any) =>
+        item.orderTypes.map((orderType: any) => ({
+          typeName: orderType?.typeName,
+        }))
+      )
+    );
+
+    const uniqueOrderTypeNames = Array.from(
+      new Map(
+        orderTypeNames.map((orderType: any) => [orderType?.typeName, orderType])
+      ).values()
+    );
+
+    return uniqueOrderTypeNames;
+  };
+
+  const uniqueOrderTypeNames = getUniqueOrderTypeNames(menuData);
+
+  const orderTypesToShow2 = uniqueOrderTypeNames
+    .filter((item: any) => item?.typeName)
+    .map((item: any) => item.typeName);
+
 
   return (
     <>
@@ -118,28 +145,28 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
       {itemobject.categoryName !== "" &&
         itemobject?.itemResponseList?.length > 0 && (
           <tr
-          style={{width:`${(Object.keys(selectedFileds).length)*10+26}%`}}
+            style={{
+              width: `${Object.keys(selectedFileds).length * 10 + 26}%`,
+            }}
             className="categoryname"
           ></tr>
         )}
 
       {itemobject.categoryName !== "" &&
         itemobject?.itemResponseList?.length > 0 &&
-        itemobject?.itemResponseList?.map((item,index) => (
+        itemobject?.itemResponseList?.map((item, index) => (
           <>
-         
             <tr
               key={item.itemId}
-              style={{ display: "flex",width:`${(Object.keys(selectedFileds).length)*10+25.9}%` }}
-
+              style={{
+                display: "flex",
+                width: `${Object.keys(selectedFileds).length * 10 + 25.9}%`,
+              }}
               className={`eachobject-rowwise`}
             >
-              {orderTypesToShow?.map((typeName,ordertypeindex) => {
-
-                const shouldDisplayType =
-                (typeName === "DineIn" && listingobject.Dinein1) ||
-                (typeName === "Pickup" && listingobject.Pickup1) ||
-                (typeName === "Delivery" && listingobject.Delivery1);
+              {orderTypesToShow2?.map((typeName, ordertypeindex) => {
+                const shouldDisplayType = listingobject && listingobject[`${typeName}1`];
+                // console.log("typeName", typeName, shouldDisplayType);
 
                 if (!shouldDisplayType) return null;
 
@@ -149,22 +176,36 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 const price = orderType
                   ? orderType.price.toFixed(2).padStart(5, "0")
                   : "";
-                const className = typeName.toLowerCase() + "data";
-                const isPriceEnabled=orderType && orderType.isHidden==0
-                ? true
-                : false;  
-                const sliderkey = 
-                typeName === "DineIn" ? "Dinein1" : 
-                typeName === "Pickup" ? "Pickup1" : 
-                typeName === "Delivery" ? "Delivery1" : 
-                "";
+                const className = typeName?.toLowerCase() + "data";
+                const isPriceEnabled =
+                  orderType &&
+                  orderType.isNotHide == 1 &&
+                  orderType.availabilityEnabled === true
+                    ? true
+                    : false;
+                const sliderkey =
+                  typeName === "DineIn"
+                    ? "DineIn1"
+                    : typeName === "Pickup"
+                    ? "Pickup1"
+                    : typeName === "Delivery"
+                    ? "Delivery1"
+                    : "";
                 return (
                   <div
                     key={typeName}
                     style={{ display: "flex" }}
                     className={className}
                   >
-                    <p style={{opacity:isPriceEnabled?"100%":"50%"}} onClick={()=>handlesidbarhandling(sliderkey,itemobject?.itemResponseList[index].itemId)}>
+                    <p
+                      style={{ opacity: isPriceEnabled ? "100%" : "50%" }}
+                      onClick={() =>
+                        handlesidbarhandling(
+                          sliderkey,
+                          itemobject?.itemResponseList[index].itemId
+                        )
+                      }
+                    >
                       {restaurantDetails?.country === "US" ? "$" : "Rs."}{" "}
                       {price !== "" ? price : "0"}
                     </p>
@@ -172,12 +213,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 );
               })}
 
-              {orderTypesToShow?.map((typeName) => {
-
-                const shouldDisplayType =
-                (typeName === "DineIn" && listingobject.Dinein2) ||
-                (typeName === "Pickup" && listingobject.Pickup2) ||
-                (typeName === "Delivery" && listingobject.Delivery2);
+              {orderTypesToShow2?.map((typeName) => {
+                const shouldDisplayType = listingobject && listingobject[`${typeName}2`];
 
                 if (!shouldDisplayType) return null;
 
@@ -186,15 +223,22 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 );
 
                 const isEnabled = orderType ? orderType.isEnabled : "";
-                const className = typeName.toLowerCase() + "data";
-                const isAvailEnabled=orderType && orderType.availabilityEnabled===true
-                ? true
-                : false;
-                const sliderkey = 
-                typeName === "DineIn" ? "Dinein2" : 
-                typeName === "Pickup" ? "Pickup2" : 
-                typeName === "Delivery" ? "Delivery2" : 
-                "";
+                const className = typeName?.toLowerCase() + "data";
+                // console.log("orderType", className);
+                const isAvailEnabled =
+                  orderType &&
+                  orderType.isNotHide === 1 &&
+                  orderType.availabilityEnabled === true
+                    ? true
+                    : false;
+                const sliderkey =
+                  typeName === "DineIn"
+                    ? "DineIn2"
+                    : typeName === "Pickup"
+                    ? "Pickup2"
+                    : typeName === "Delivery"
+                    ? "Delivery2"
+                    : "";
 
                 return (
                   <div
@@ -204,7 +248,15 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   >
                     {/* 
                   <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
-                    <p style={{opacity:isAvailEnabled?"100%":"50%"}} onClick={()=>handlesidbarhandling(sliderkey,itemobject?.itemResponseList[index].itemId)}>
+                    <p
+                      style={{ opacity: isAvailEnabled ? "100%" : "50%" }}
+                      onClick={() =>
+                        handlesidbarhandling(
+                          sliderkey,
+                          itemobject?.itemResponseList[index].itemId
+                        )
+                      }
+                    >
                       {isEnabled !== "" ? (
                         <Toggle toggle={true} />
                       ) : (
@@ -214,12 +266,22 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   </div>
                 );
               })}
-              {item?.modifiers && Array.isArray(item.modifiers) && listingobject.Customize1 ? (
-                <div className="Customizedata" onClick={()=>handlesidbarhandling("",itemobject?.itemResponseList[index].itemId)}>
+              {item?.modifiers &&
+              Array.isArray(item.modifiers) &&
+              listingobject&& listingobject.Customize1 ? (
+                <div
+                  className="Customizedata"
+                  onClick={() =>
+                    handlesidbarhandling(
+                      "",
+                      itemobject?.itemResponseList[index].itemId
+                    )
+                  }
+                >
                   <span>{item.modifiers.length}</span>
                 </div>
               ) : (
-                listingobject.Customize1 &&  (
+                listingobject&&  listingobject.Customize1 && (
                   <div className="Customizedata">
                     <span>No Modifiers Available</span>
                   </div>
