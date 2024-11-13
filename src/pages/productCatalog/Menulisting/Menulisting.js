@@ -146,7 +146,6 @@ export const Menulisting = () => {
     const uniqueOrderTypeNames = Array.from(
       new Map(orderTypeNames.map((orderType) => [orderType?.typeName, orderType])).values()
     );
-    console.log("uniqueOrderTypeNames",uniqueOrderTypeNames);
     
   
     return uniqueOrderTypeNames;
@@ -166,8 +165,10 @@ export const Menulisting = () => {
   ];
    
   //  console.log("uniqueOrderTypes",modifiedTypes);
+
+  // console.log({modifiedTypes})
    
-   const tablefirstrow =modifiedTypes.map((item)=>
+   const tablefirstrow = modifiedTypes.map((item)=>
     {
       return{
         label: item
@@ -175,7 +176,7 @@ export const Menulisting = () => {
     }
      );
 
-    //  console.log("tablefirstrow",tablefirstrow);
+     console.log("tablefirstrow",{tablefirstrow});
      
  
 
@@ -201,6 +202,12 @@ export const Menulisting = () => {
     { label: "Customize1" }
   ]);
 
+  useEffect(()=>{
+    setFirstRowTable([
+      ...tablefirstrow,
+    { label: "Customize1" }
+    ])
+  },[menuData])
 
 
   const insertlists2 = {

@@ -33,7 +33,7 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
 }) => {
   
 
-// console.log("listingobject",header);
+console.log("listingobject",{listingobject});
 
 
 

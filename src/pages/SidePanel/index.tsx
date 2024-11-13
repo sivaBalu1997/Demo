@@ -29,7 +29,7 @@ const SidePanel = () => {
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
   const menuOptions = ["Items", "Product Catalog"];
   const offerMenuOptions = ["Offers"];
-  const reportInsightsOptions = ['Old','New'];
+  const reportInsightsOptions = ['Reports & Insights'];
 
   const history = useHistory();
 
@@ -378,11 +378,12 @@ const SidePanel = () => {
                   key={option}
                   style={{ marginTop: "10px"}}
                   onClick={() => {
-                    if (option === "Old") {
+                    if (option === "Reports & Insights") {
                       history.push(`/old-reports`);
-                    } else if (option === "New") {
-                      history.push("/live-reports");
-                    }
+                    } 
+                    // else if (option === "New") {
+                    //   history.push("/live-reports");
+                    // }
                   }}
                 >
                   <span className="menuList">
