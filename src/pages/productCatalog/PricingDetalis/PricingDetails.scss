@@ -39,6 +39,7 @@
   margin-left: 55px;
   overflow-y: auto;
   height: 72vh;
+  // font-size: 14px;
 }
 
 .KitchenRelated {
@@ -109,10 +110,18 @@
     }
   }
 
+  .timeSpan{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+  }
 
 .KitchenRelatedHeading {
   margin-top: 20px;
   transform: translateY(15px);
+  padding-bottom: 8px;
+  font-size: 14px;
 }
 .ErrorsForm {
   font-size: 0.75rem;
@@ -169,14 +178,14 @@
   position: relative;
 }
 .services-Heading {
-  // margin-top: 35px;
-  // margin-top: -25%;
   font-family: Poppins;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 24px;
   text-align: left;
   margin-left: 8px;
+  margin-bottom: -5px;
+  margin-top: 10px;
 }
 
 .InventoryToggle {
@@ -345,7 +354,7 @@
 
 .N1 {
   margin-left: 5px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 }
 .S1 {

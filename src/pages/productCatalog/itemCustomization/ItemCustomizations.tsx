@@ -158,8 +158,6 @@ const ItemCustomizations: React.FC = () => {
     initialModificationValue
   );
 
-  console.log({modifications})
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -173,8 +171,6 @@ const ItemCustomizations: React.FC = () => {
   //     setFilteredModifications(editData[0]?.modifiers);
   //   }
   // }, [editData]);
-
-  console.log({itemCustomizationData})
 
   const orderTypes = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
@@ -213,7 +209,6 @@ const ItemCustomizations: React.FC = () => {
         };
       });
   
-      console.log({ mappedModifications });
       setModifications([...mappedModifications]);
     }
   }, [itemCustomizationData, showModifiers]);
@@ -767,16 +762,17 @@ const ItemCustomizations: React.FC = () => {
                                 ? "Search-Container-options1-items-modifiers"
                                 : "Search-Container-options-items-modifiers"
                             }
+                            onClick={() => handleSelecteModifiers(item)}
                           >
                             {item.modifierName}{" "}
-                            {index === highlightedIndex && (
+                            {/* {index === highlightedIndex && (
                               <button
                                 onClick={() => handleSelecteModifiers(item)}
                                 className="Addmodificationfromsearch"
                               >
                                 Add
                               </button>
-                            )}
+                            )} */}
                           </div>
                         </li>
                         </div>
@@ -842,6 +838,7 @@ const ItemCustomizations: React.FC = () => {
                                     ? "inputItemCustomizations"
                                     : "inputItemCustomizationserror"
                                 }
+                                autoComplete="off"
                                 name="modifierName"
                                 value={modifications[modIndex]?.modifierName}
                                 onChange={(e) =>
