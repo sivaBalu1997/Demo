@@ -239,7 +239,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                     : typeName === "Delivery"
                     ? "Delivery2"
                     : "";
-
+                   
+                    
                 return (
                   <div
                     key={typeName}
