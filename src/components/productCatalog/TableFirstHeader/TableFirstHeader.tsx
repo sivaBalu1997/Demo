@@ -31,13 +31,7 @@ const TableFirstHeader: React.FC<TableHeaderProps> = ({
   removeicon,
   // dragtablefirstHeaderindex
 }) => {
-  
 
-console.log("listingobject",{listingobject});
-
-
-
-  
   
   return (
     <>

@@ -121,11 +121,7 @@ export const Menulisting = () => {
 
 
  
-  const [listingobject, setlistingobject] = useState();
-  console.log("unique",listingobject);
-
- 
-
+  const [listingobject, setlistingobject] = useState(); 
   const [uniqueOrderTypeNames,setuniqueOrderTypeNames]=useState();
 
   useEffect(() => {
@@ -176,7 +172,6 @@ export const Menulisting = () => {
     }
      );
 
-     console.log("tablefirstrow",{tablefirstrow});
      
  
 
