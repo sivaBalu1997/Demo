@@ -23,7 +23,7 @@ const EyeModal = ({ onEyeclose,onclose }) => {
           {
             name: Dinein.typeName,
             id: Dinein.typeId,
-            isChecked: Dinein.isHidden,
+            isChecked: Dinein.isNotHide,
             isEnabled: Dinein.isEnabled,
           },
         ],
@@ -35,7 +35,7 @@ const EyeModal = ({ onEyeclose,onclose }) => {
           .map((elem) => ({
             name: elem.typeName,
             id: elem.typeId,
-            isChecked: elem.isHidden,
+            isChecked: elem.isNotHide,
             isEnabled: elem.isEnabled,
           })),
       },
