@@ -1047,9 +1047,11 @@
 
 .Menu-noOptions {
   display: flex;
-  position: relative;
-  left: 25%;
-  top: 30%;
+  // position: relative;
+  // left: 50%;
+  // top: 30%;
+  margin-left: 20vw;
+  margin-top: 20vh;
 }
 
 .imgLoader2 {

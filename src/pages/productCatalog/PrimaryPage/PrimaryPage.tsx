@@ -249,7 +249,7 @@ const PrimaryPage = () => {
     (state: ListingData) => state.addMockDataReducer.data
   );
   const popularItemLimit = useSelector(
-    (state: any) => state.auth.restaurantDetails.popularItemCount
+    (state: any) => state.auth?.restaurantDetails?.popularItemCount
   );
 
 
