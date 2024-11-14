@@ -463,6 +463,7 @@ export const Menulisting = () => {
       setSideBarText("Customize");
     }
   };
+  
   useEffect(() => {
     const isObjectEmpty = (obj) => {
       return Object.keys(obj).length === 0;

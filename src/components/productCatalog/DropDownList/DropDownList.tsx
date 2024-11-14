@@ -26,6 +26,7 @@ interface Option {
 }
 
 interface DropdownProps {
+  setParentId?: any; 
   name: string;
   id?: string;
   type?: "checkbox" | "radio";
@@ -49,6 +50,7 @@ interface DropdownProps {
     React.SetStateAction<Record<string, boolean>>
   >;
   resetSelection?: any;
+  parentId?:any;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -71,6 +73,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   dropDownType,
   actionToDispatch,
   resetSelection,
+  setParentId,
+  parentId
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -161,6 +165,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const [SubcategoryId, setSubCategoryId] = useState<string>("");
+
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
         option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
@@ -262,7 +267,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions(dropdownName);
       setValue(
         'bestPair',
-        dropdownName.map((opt) => (typeof opt === 'object' ? opt?.name : opt))
+        dropdownName?.map((opt) => (typeof opt === 'object' ? opt?.name : opt))
       );
     }
   }, [ItemsPrimaryDetails]);
@@ -271,12 +276,12 @@ const DropDownList: React.FC<DropdownProps> = ({
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
       const dropDownName: any = Array.isArray(options) && options?.find(
-        (item) => item.name === kitchenStationName
+        (item) => item.name?.toLowerCase() === kitchenStationName?.toLowerCase()
       );
-      const dropDown1 = dropDownName === undefined ? { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
+      const dropDown1 = dropDownName === undefined || dropDownName === false ? { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
 
-      setSelectedOptions(dropDownName === undefined ? [dropDown1] : [dropDownName]);
-      setValue("kitchenstation", dropDownName === undefined ? dropDown1?.name : dropDownName?.name);
+      setSelectedOptions(dropDownName === undefined || dropDownName === false ? [dropDown1] : [dropDownName]);   
+      setValue("kitchenstation", dropDownName === undefined || dropDownName === false ? dropDown1?.name : dropDownName?.name);
     }
   }, [prizingDetail]);
 
@@ -355,6 +360,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         type: "SUB_CATEGORY",
         parentId: option.id,
       };
+      setParentId(option?.id)
       subcategorydataforApi.parentId = option.id;
       if (subcategorydataforApi.parentId !== "") {
         dispatch(fetchDropDownRequest(viewdata));
@@ -433,6 +439,10 @@ const DropDownList: React.FC<DropdownProps> = ({
     if (dropDownType === "CATEGORY") {
       setSubCategoryId(option.id);
     }
+
+    // if(dropDownType === "SUB_CATEGORY") {
+    //   console.log({option})
+    // }
   };
 
   const handleNewItemAdd = () => {
@@ -442,8 +452,9 @@ const DropDownList: React.FC<DropdownProps> = ({
       locationId: locationid,
       name: newValue,
       type: dropDownType,
-      parentId: SubcategoryId && SubcategoryId,
+      parentId: parentId && parentId,
     };
+
     setOptions([
       ...(Array.isArray(initialOptions) ? initialOptions : []),
       newItem,
@@ -670,7 +681,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                     </p>
                   )}
                 </div>
-                {!Loading && addNew && !addNewButton && (
+                {(!Loading || filteredOptions?.length === 0) && addNew && !addNewButton && (
                   <button
                     className="dropdown-addbutton"
                     onClick={(e) => {

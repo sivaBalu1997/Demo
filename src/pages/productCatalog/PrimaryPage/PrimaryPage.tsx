@@ -544,6 +544,8 @@ const PrimaryPage = () => {
   const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
   const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
 
+  const [parentId, setParentId] = useState('')
+
   useEffect(()=>{
     if (ItemsPrimaryDetails?.popularItem) {
       setPopularItem(popularItem + 1);
@@ -773,6 +775,7 @@ const PrimaryPage = () => {
                         editValues={true}
                         dropDownType="CATEGORY"
                         resetSelection={categoryref}
+                        setParentId = {setParentId}
                       />
                     )}
                   />
@@ -1064,6 +1067,7 @@ const PrimaryPage = () => {
                           onToggle={() => handleDropdownToggle("subCategory")}
                           dropDownType="SUB_CATEGORY"
                           resetSelection={subCatagoryRef}
+                          parentId={parentId}
                         />
                       )}
                     />
