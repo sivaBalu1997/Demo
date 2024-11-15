@@ -416,6 +416,8 @@ const handleToggleDisable=()=>{
   //   setSelectPeriod(true);
   // };
 
+  const [parentToggle,setParrentToggle]=useState("")
+
   return (
 
     
@@ -437,6 +439,8 @@ const handleToggleDisable=()=>{
                     //handleParentToggle(index)
                     handleOrderCategoryAvailability(elem.mainHeading)
                     setSelectedOrderTypeCategory(elem.mainHeading)
+                    setParrentToggle(elem.mainHeading)
+                    setSelectPeriod(true);
                   }}
                   pen={pen}
                 />
@@ -456,11 +460,14 @@ const handleToggleDisable=()=>{
                           {
                             setSelectedOrderTypeId(type.typeId)
                             setSelectPeriod(true);
+                            setParrentToggle("")
+                            handleOrderTypesAvail(type.typeId)
                           }
                           else{
                             setSelectedOrderTypeId(type.typeId)
                             handleOrderTypesAvail(type.typeId)
                             handleToggleDisable()
+                            setParrentToggle("")
                           }
                         }
                           
@@ -534,6 +541,7 @@ const handleToggleDisable=()=>{
           <AvailabilityChangesUntil
             setSelectPeriod={setSelectPeriod}
             selectedtypeid={selectedOrderTypeId}
+            parentToggle={parentToggle}
           />
         )}
       </div>
