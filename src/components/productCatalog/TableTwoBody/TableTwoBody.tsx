@@ -179,7 +179,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 const className = typeName?.toLowerCase() + "data";
                 const isPriceEnabled =
                   orderType &&
-                  orderType.isNotHide == 0 &&
+                  orderType.isNotHide == 1 &&
                   orderType.availabilityEnabled === true
                     ? true
                     : false;

@@ -168,7 +168,7 @@ const uncheckedItems = data
     setData(newData);
   };
 
-  console.log("jj",data1)
+  console.log("jj",data.map((item)=>item.subItems.map((sub)=>"name"+sub.isChecked+"enble"+sub.isEnabled)))
 
   return (
     <div ref={eyemodalRef} onClick={EyeClose} className="EyeModal-Container">
