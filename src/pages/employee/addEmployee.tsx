@@ -214,7 +214,6 @@ const AddEmployee = () => {
         setIsDropdownDisabled(false);
       } else {
         setIsDropdownDisabled(true);
-        console.log("userBranchName",userBranchName)
         setValue('outlet', userBranchName);
       }
     }
@@ -288,7 +287,6 @@ const AddEmployee = () => {
     ];
   
     const decodedToken : any = credentials?.accessToken ? jwt_decode(credentials.accessToken) : null;
-    console.log({decodedToken})
     const roles = decodedToken?.resource_access?.["merchant-app"]?.roles || [];
   
     if (roles?.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
@@ -646,8 +644,7 @@ const validatePassword = (value:string) => {
   }
 
 const [key, setKey] = useState(Math.random());
-const d=watch()
-console.log("kkkkk",d)
+// const d=watch()
 
 const handleCleardata = () => {
   if (!editEmployee) {
@@ -680,11 +677,9 @@ if(!!params?.id?.length && dataFetching)  {
   return (
     <div style={{display:'flex', flexDirection:'row'}}>
        <SidePanel />
-       <p style={{
-        position:'absolute',
-        top:'45%',
-        left:'50%'
-      }}>Loading, Please wait!!</p>
+      <div style={{display: 'flex',width: '100%',justifyContent: 'center',alignItems:'center'}}>
+       <p style={{}}>Loading, Please wait!!</p>
+      </div>
     </div>
   )}
   return (
@@ -1062,7 +1057,6 @@ if(!!params?.id?.length && dataFetching)  {
                           required: "Required",
                         }}
                         render={({ onChange, onBlur, value, name }) => (
-                          console.log("mmmmm",restaurantBranchDefaultValue ,(editEmployee ? editEmployee?.outlet: restaurantBranchDefaultValue)),
                           <CustomDropdown
                             options={branchOptions}
                             // placeholder={"Outlets*"}
