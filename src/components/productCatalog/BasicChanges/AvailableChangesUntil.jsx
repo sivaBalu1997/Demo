@@ -217,6 +217,7 @@ console.log("todayWorkinghours",todayWorkinghours);
           selectedtypeid={selectedtypeid}
           setshowsession={setshowsession}
           setshowAvailchanges={setshowAvailchanges}
+          parentToggle={parentToggle}
         
         />
       )}
