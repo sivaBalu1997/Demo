@@ -422,7 +422,7 @@ const handleOrderTypesAvail=()=>{
                             setSelectedOrderTypeId(type.typeId)
                             // handleChildToggle(index, 0, typeIndex)
                             handleselectchangePeriod(
-                              type?.orderTypeId,
+                              type?.typeId,
                               enabledValuesArray[typeIndex]
                             );
 
