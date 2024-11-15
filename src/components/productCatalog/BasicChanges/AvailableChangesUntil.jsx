@@ -6,7 +6,7 @@ import { partialUpdateMenuRequest } from "redux/productCatalog/productCatalogAct
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import SessionOpen from "../SessionOpen/SessionOpen";
 
-const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid ,parentToggle}) => {
+const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid ,parentToggle,ParentToggles}) => {
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState(null);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
@@ -100,16 +100,22 @@ console.log("todayWorkinghours",todayWorkinghours);
       else{
         setPatchedData((prevState) => ({
           ...prevState,
-          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-            (availabilityInfo) =>{
-              return { 
-                
-              ...availabilityInfo,
-              unAvailableUntilTime: `${formattedDate}T${todayWorkinghours[todayWorkinghours.length-1]?.closingTime}`,
-            }
-          }
-          ),
+          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map((availabilityInfo) => {
+            // Check if the orderTypeId exists in the ParentToggles array
+            const matchingType = ParentToggles.find(
+              (toggle) => toggle.typeId === availabilityInfo.orderTypeId
+            );
+        
+            // If a match is found, update unAvailableUntilTime; otherwise, return as is
+            return matchingType
+              ? {
+                  ...availabilityInfo,
+                  unAvailableUntilTime: `${formattedDate}T${todayWorkinghours[todayWorkinghours.length - 1]?.closingTime}`,
+                }
+              : availabilityInfo;
+          }),
         }));
+        
       }
       
      
