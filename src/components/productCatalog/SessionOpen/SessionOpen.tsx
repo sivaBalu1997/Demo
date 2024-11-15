@@ -6,14 +6,16 @@ import { useSelector } from "react-redux";
 interface ModelShowProps {
   setshowsession: (value: boolean) => void;
   selectedtypeid: string;
-  setshowAvailchanges:any
+  setshowAvailchanges:any;
+  parentToggle:string;
 
 }
 
 const SessionOpen: React.FC<ModelShowProps> = ({
   selectedtypeid,
   setshowsession,
-  setshowAvailchanges
+  setshowAvailchanges,
+  parentToggle
   
 }) => {
   const [selectedSession, setSelectedSession] = useState<string>("");
@@ -64,19 +66,41 @@ const SessionOpen: React.FC<ModelShowProps> = ({
     // const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
     // console.log("sessionClosingHours",sessionClosingHours?.closingTime);
     
+if(parentToggle==="")
+{
+  setPatchedData((prevState:any) => ({
+    ...prevState,
+    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+      (availabilityInfo:any) =>
+        availabilityInfo.orderTypeId === selectedtypeid
+          ? {
+              ...availabilityInfo,
+              unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
+            }
+          : availabilityInfo
+    ),
+  }));
 
-    setPatchedData((prevState:any) => ({
-      ...prevState,
-      itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-        (availabilityInfo:any) =>
-          availabilityInfo.orderTypeId === selectedtypeid
-            ? {
-                ...availabilityInfo,
-                unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
-              }
-            : availabilityInfo
-      ),
-    }));
+}
+else{
+
+
+  setPatchedData((prevState:any) => ({
+    ...prevState,
+    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+      (availabilityInfo:any) =>{
+        return { 
+          
+        ...availabilityInfo,
+        unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
+      }
+    }
+    ),
+  }));
+ 
+
+}
+    
     setshowsession(false);
     setshowAvailchanges(true)
   };
