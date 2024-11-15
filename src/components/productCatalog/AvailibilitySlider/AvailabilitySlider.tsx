@@ -106,11 +106,8 @@ const handleOrderTypesAvail=()=>{
 
   const tempOderTypes=dataFromRedux[0]?.orderTypes?.map((data:any,index:number)=> {
     return  data?.typeId===selectedOrderTypeId ? {...data,availabilityEnabled:!data?.availabilityEnabled}:data } )
-
-
   const tempOnPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
   const tempOffPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
-  
   const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
   const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
   
@@ -386,8 +383,11 @@ const handleOrderTypesAvail=()=>{
   const handleheadingtoggle = () => {
     setSelectPeriod(true);
   };
+console.log("availabilityOrderTypes",availabilityOrderTypes);
 
   return (
+
+    
     <div className="AvailSlider-Container">
       <h3 className="AvailSlider-Heading">Availability</h3>
       <div className="AvailOnprem-Ofprem">
@@ -425,8 +425,6 @@ const handleOrderTypesAvail=()=>{
                               type?.typeId,
                               enabledValuesArray[typeIndex]
                             );
-
-
                           }
                           else{
                             setSelectedOrderTypeId(type.typeId)
