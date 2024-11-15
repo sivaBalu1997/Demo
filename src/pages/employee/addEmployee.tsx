@@ -214,7 +214,6 @@ const AddEmployee = () => {
         setIsDropdownDisabled(false);
       } else {
         setIsDropdownDisabled(true);
-        console.log("userBranchName",userBranchName)
         setValue('outlet', userBranchName);
       }
     }
@@ -288,7 +287,6 @@ const AddEmployee = () => {
     ];
   
     const decodedToken : any = credentials?.accessToken ? jwt_decode(credentials.accessToken) : null;
-    console.log({decodedToken})
     const roles = decodedToken?.resource_access?.["merchant-app"]?.roles || [];
   
     if (roles?.length > 0 && neighbourhoodDeliveryRole.includes(roles[0])) {
@@ -646,8 +644,7 @@ const validatePassword = (value:string) => {
   }
 
 const [key, setKey] = useState(Math.random());
-const d=watch()
-console.log("kkkkk",d)
+// const d=watch()
 
 const handleCleardata = () => {
   if (!editEmployee) {
@@ -678,12 +675,12 @@ const handleCleardata = () => {
 
 if(!!params?.id?.length && dataFetching)  {
   return (
-    <p style={{
-      display: "flex",
-      justifyContent: "center",
-      paddingTop: "25%",
-      marginLeft:'35%'
-    }}>Loading, Please wait!!</p>
+    <div style={{display:'flex', flexDirection:'row'}}>
+       <SidePanel />
+      <div style={{display: 'flex',width: '100%',justifyContent: 'center',alignItems:'center'}}>
+       <p style={{}}>Loading, Please wait!!</p>
+      </div>
+    </div>
   )}
   return (
     <div style={{display:'flex', flexDirection:'row'}}>
@@ -1060,7 +1057,6 @@ if(!!params?.id?.length && dataFetching)  {
                           required: "Required",
                         }}
                         render={({ onChange, onBlur, value, name }) => (
-                          console.log("mmmmm",restaurantBranchDefaultValue ,(editEmployee ? editEmployee?.outlet: restaurantBranchDefaultValue)),
                           <CustomDropdown
                             options={branchOptions}
                             // placeholder={"Outlets*"}
@@ -1236,7 +1232,7 @@ if(!!params?.id?.length && dataFetching)  {
                         control={control}
                         name="password"
                         rules={{
-                          required: 'Password is required',
+                          required: !editEmployee ? 'Password is required' : '',
                           minLength: {
                             value: 8,
                             message: 'Password must be at least 8 characters long',

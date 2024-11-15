@@ -106,9 +106,9 @@ const Employees = () => {
 
   const handleSearch = () => {
     if (searchInput !== '') {
-      const filteredData = employeeList.filter((item:EmployeeType) => (
-        item.firstName.toLowerCase().includes(searchInput.toLowerCase()) || 
-        item.role.toLowerCase().includes(searchInput.toLowerCase())
+      const filteredData = employeeList?.filter((item:EmployeeType) => (
+        item?.firstName?.toLowerCase()?.includes(searchInput?.toLowerCase()) || 
+        item?.role?.toLowerCase().includes(searchInput?.toLowerCase())
       ));
       setSearchedData(filteredData);
     } else {
