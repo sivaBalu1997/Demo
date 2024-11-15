@@ -47,23 +47,20 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       }))
     : [];
 
-console.log("dataFromRedux",dataFromRedux);
+
+const [parentOrderTypeArray, setParentOrderTypeArray] = useState<any>([]);
+
 const [selectedOrderTypeId,setSelectedOrderTypeId]=useState<string>("");
 const [selectedOrderTypeCategory,setSelectedOrderTypeCategory]=useState<string>("");
 
-
-
-
 const [availabilityOrderTypes,setAvailabilityOrderTypes]=useState<any>([]);
-
-
 
 useEffect(()=>{
 const tempOnPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
 const tempOffPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
 
-const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
-const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
+const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
 
 
 const tempOrderTypeAvailabilityArray=[
@@ -79,10 +76,8 @@ const tempOrderTypeAvailabilityArray=[
   },
   
 ]
-// console.log({isOnPremEnabledCount,isOffPremEnabledCount,tempOrderTypeAvailabilityArray});
-
-
-setAvailabilityOrderTypes(tempOrderTypeAvailabilityArray);
+setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
+setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
 
 },[dataFromRedux[0]?.orderTypes])
 
@@ -102,14 +97,18 @@ const handleToggleDisable=()=>{
 }
 
 
-const handleOrderTypesAvail=()=>{
+  const handleOrderTypesAvail = (OrderTypeId:string)=>{
+  const tempOderTypes=parentOrderTypeArray?.map((data:any,index:number)=> {
+    return data?.typeId === OrderTypeId ? {...data,availabilityEnabled:!data?.availabilityEnabled}:data 
+  } )
 
-  const tempOderTypes=dataFromRedux[0]?.orderTypes?.map((data:any,index:number)=> {
-    return  data?.typeId===selectedOrderTypeId ? {...data,availabilityEnabled:!data?.availabilityEnabled}:data } )
   const tempOnPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
   const tempOffPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
-  const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
-  const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
+
+  setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
+  
+  const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+  const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
   
   
   const tempOrderTypeAvailabilityArray=[
@@ -125,12 +124,45 @@ const handleOrderTypesAvail=()=>{
     },
     
   ]
-  // console.log({isOnPremEnabledCount,isOffPremEnabledCount,tempOrderTypeAvailabilityArray});
-  
-  
-  setAvailabilityOrderTypes(tempOrderTypeAvailabilityArray);
+  setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   setSelectedOrderTypeId("");
   
+  }
+
+  const handleOrderCategoryAvailability = (categoryHeading: string) => {
+
+    const tempOnPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup === "D" })
+    const tempOffPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup !== "D" })
+
+    const isOnPremEnabledCount = tempOnPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled === false }).length == 0
+    const isOffPremEnabledCount = tempOffPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled === false }).length == 0
+
+    const updatedTempOnPremarray = tempOnPremarray?.map((data: any, index: number) => {
+      return { ...data, availabilityEnabled: !isOnPremEnabledCount }
+    })
+
+    const updatedTempOffPremarray = tempOffPremarray?.map((data: any, index: number) => {
+      return { ...data, availabilityEnabled: !isOffPremEnabledCount }
+    })
+
+    setParentOrderTypeArray(categoryHeading == "On-prem" ? [...updatedTempOnPremarray, ...tempOffPremarray] : [...tempOnPremarray, ...updatedTempOffPremarray])
+
+    const tempOrderTypeAvailabilityArray = [
+      {
+        mainHeading: "On-prem",
+        types: categoryHeading == "On-prem" ? updatedTempOnPremarray : tempOnPremarray,
+        isEnabled: categoryHeading == "On-prem" ? !isOnPremEnabledCount : isOnPremEnabledCount
+      },
+      {
+        mainHeading: "Off-prem",
+        types: categoryHeading == "Off-prem" ? updatedTempOffPremarray : tempOffPremarray,
+        isEnabled: categoryHeading == "Off-prem" ? !isOffPremEnabledCount : isOffPremEnabledCount
+      },
+
+    ]
+    setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
+    setSelectedOrderTypeCategory("");
+
   }
   
   const data = [
@@ -176,23 +208,23 @@ const handleOrderTypesAvail=()=>{
   //   isEnabled: type.isEnabled,
   // }));
 
-  const getEnabledValues = () => {
-    let enabledArray: boolean[] = [];
+  // const getEnabledValues = () => {
+  //   let enabledArray: boolean[] = [];
 
-    data.forEach((item) => {
-      if (item.subcategories) {
-        item.subcategories.forEach((subcategory) => {
-          if (Array.isArray(subcategory.isEnabled)) {
-            enabledArray = enabledArray.concat(subcategory.isEnabled);
-          }
-        });
-      }
-    });
+  //   data.forEach((item) => {
+  //     if (item.subcategories) {
+  //       item.subcategories.forEach((subcategory) => {
+  //         if (Array.isArray(subcategory.isEnabled)) {
+  //           enabledArray = enabledArray.concat(subcategory.isEnabled);
+  //         }
+  //       });
+  //     }
+  //   });
 
-    return enabledArray;
-  };
+  //   return enabledArray;
+  // };
 
-  const enabledValuesArray = getEnabledValues();
+ // const enabledValuesArray = getEnabledValues();
   // console.log(enabledValuesArray);
 
   const [toggleStates, setToggleStates] = useState<any[]>([]);
@@ -217,55 +249,55 @@ const handleOrderTypesAvail=()=>{
     }
   }, [dataFromRedux, setPatchedData, selectedDateOption]);
 
-  useEffect(() => {
-    const initialToggleStates = data.map((item, index) => {
-      if (item.subcategories) {
-        return {
-          parentToggle: false,
-          subcategoryToggles: item.subcategories.map((_, subIndex) => ({
-            subParentToggle: false,
-            childToggles: Array(3)
-              .fill(false)
-              .map((_, childIndex) =>
-                mapInitialToggleState(index, subIndex, childIndex)
-              ),
-          })),
-        };
-      } else if (item.types) {
-        return {
-          parentToggle: false,
-          childToggles: item.types.map((_, typeIndex) =>
-            mapInitialToggleState(index, 0, typeIndex)
-          ),
-        };
-      }
-      return null;
-    });
+  // useEffect(() => {
+  //   const initialToggleStates = data.map((item, index) => {
+  //     if (item.subcategories) {
+  //       return {
+  //         parentToggle: false,
+  //         subcategoryToggles: item.subcategories.map((_, subIndex) => ({
+  //           subParentToggle: false,
+  //           childToggles: Array(3)
+  //             .fill(false)
+  //             .map((_, childIndex) =>
+  //               mapInitialToggleState(index, subIndex, childIndex)
+  //             ),
+  //         })),
+  //       };
+  //     } else if (item.types) {
+  //       return {
+  //         parentToggle: false,
+  //         childToggles: item.types.map((_, typeIndex) =>
+  //           mapInitialToggleState(index, 0, typeIndex)
+  //         ),
+  //       };
+  //     }
+  //     return null;
+  //   });
 
-    setToggleStates(initialToggleStates);
-  }, [dataFromRedux]);
+  //   setToggleStates(initialToggleStates);
+  // }, [dataFromRedux]);
 
-  const mapInitialToggleState = (
-    parentIndex: number,
-    subcategoryIndex: number,
-    childIndex: number
-  ) => {
-    const orderTypes = dataFromRedux?.[0]?.orderTypes;
-    const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
+  // const mapInitialToggleState = (
+  //   parentIndex: number,
+  //   subcategoryIndex: number,
+  //   childIndex: number
+  // ) => {
+  //   const orderTypes = dataFromRedux?.[0]?.orderTypes;
+  //   const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
 
-    console.log("orderTypes",orderTypes);
+  //   console.log("orderTypes",orderTypes);
     
 
-    if (parentIndex === 0) {
-      return orderTypes?.[0]?.isEnabled === "Enabled";
-    } else if (parentIndex === 1 && subcategoryIndex === 0) {
-      return orderTypes?.[0]?.isEnabled === "Enabled";
-    } else if (parentIndex === 1 && subcategoryIndex === 1) {
-      return pricingDetails?.Delivery2?.[childIndex] === "Enabled";
-    }
+  //   if (parentIndex === 0) {
+  //     return orderTypes?.[0]?.isEnabled === "Enabled";
+  //   } else if (parentIndex === 1 && subcategoryIndex === 0) {
+  //     return orderTypes?.[0]?.isEnabled === "Enabled";
+  //   } else if (parentIndex === 1 && subcategoryIndex === 1) {
+  //     return pricingDetails?.Delivery2?.[childIndex] === "Enabled";
+  //   }
 
-    return false;
-  };
+  //   return false;
+  // };
 
   const handleParentToggle = (parentIndex: number) => {
     const newToggleStates = [...toggleStates];
@@ -294,96 +326,95 @@ const handleOrderTypesAvail=()=>{
     setToggleStates(newToggleStates);
   };
 
-  const handleSubcategoryToggle = (
-    parentIndex: number,
-    subcategoryIndex: number
-  ) => {
-    const newToggleStates = [...toggleStates];
-    const subcategoryToggle =
-      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex]
-        .subParentToggle;
+  // const handleSubcategoryToggle = (
+  //   parentIndex: number,
+  //   subcategoryIndex: number
+  // ) => {
+  //   const newToggleStates = [...toggleStates];
+  //   const subcategoryToggle =
+  //     newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex]
+  //       .subParentToggle;
 
-    newToggleStates[parentIndex].subcategoryToggles[
-      subcategoryIndex
-    ].subParentToggle = !subcategoryToggle;
+  //   newToggleStates[parentIndex].subcategoryToggles[
+  //     subcategoryIndex
+  //   ].subParentToggle = !subcategoryToggle;
 
-    if (!subcategoryToggle) {
-      newToggleStates[parentIndex].subcategoryToggles[
-        subcategoryIndex
-      ].childToggles.forEach((_: any, childIndex: number) => {
-        newToggleStates[parentIndex].subcategoryToggles[
-          subcategoryIndex
-        ].childToggles[childIndex] = true;
-      });
-    } else {
-      newToggleStates[parentIndex].subcategoryToggles[
-        subcategoryIndex
-      ].childToggles.forEach((_: any, childIndex: number) => {
-        newToggleStates[parentIndex].subcategoryToggles[
-          subcategoryIndex
-        ].childToggles[childIndex] = false;
-      });
-    }
+  //   if (!subcategoryToggle) {
+  //     newToggleStates[parentIndex].subcategoryToggles[
+  //       subcategoryIndex
+  //     ].childToggles.forEach((_: any, childIndex: number) => {
+  //       newToggleStates[parentIndex].subcategoryToggles[
+  //         subcategoryIndex
+  //       ].childToggles[childIndex] = true;
+  //     });
+  //   } else {
+  //     newToggleStates[parentIndex].subcategoryToggles[
+  //       subcategoryIndex
+  //     ].childToggles.forEach((_: any, childIndex: number) => {
+  //       newToggleStates[parentIndex].subcategoryToggles[
+  //         subcategoryIndex
+  //       ].childToggles[childIndex] = false;
+  //     });
+  //   }
 
-    setToggleStates(newToggleStates);
-  };
-  const handleChildToggle = (
-    parentIndex: number,
-    subcategoryIndex: number | null,
-    childIndex: number
-  ) => {
+  //   setToggleStates(newToggleStates);
+  // };
+  // const handleChildToggle = (
+  //   parentIndex: number,
+  //   subcategoryIndex: number | null,
+  //   childIndex: number
+  // ) => {
     
     
-    const newToggleStates = [...toggleStates];
+  //   const newToggleStates = [...toggleStates];
 
-    if (subcategoryIndex !== null) {
-      const subcategoryToggles =
-        newToggleStates[parentIndex]?.subcategoryToggles;
+  //   if (subcategoryIndex !== null) {
+  //     const subcategoryToggles =
+  //       newToggleStates[parentIndex]?.subcategoryToggles;
 
-      if (subcategoryToggles && subcategoryToggles[subcategoryIndex]) {
-        const childToggles = subcategoryToggles[subcategoryIndex]?.childToggles;
+  //     if (subcategoryToggles && subcategoryToggles[subcategoryIndex]) {
+  //       const childToggles = subcategoryToggles[subcategoryIndex]?.childToggles;
 
-        if (childToggles) {
-          childToggles[childIndex] = !childToggles[childIndex];
+  //       if (childToggles) {
+  //         childToggles[childIndex] = !childToggles[childIndex];
 
-          const areAllChildrenDisabled = childToggles.every(
-            (toggle: boolean) => !toggle
-          );
+  //         const areAllChildrenDisabled = childToggles.every(
+  //           (toggle: boolean) => !toggle
+  //         );
 
-          subcategoryToggles[subcategoryIndex].subParentToggle =
-            !areAllChildrenDisabled;
-        }
-      }
-    } else {
-      const childToggles = newToggleStates[parentIndex]?.childToggles;
+  //         subcategoryToggles[subcategoryIndex].subParentToggle =
+  //           !areAllChildrenDisabled;
+  //       }
+  //     }
+  //   } else {
+  //     const childToggles = newToggleStates[parentIndex]?.childToggles;
 
-      if (childToggles) {
-        childToggles[childIndex] = !childToggles[childIndex];
+  //     if (childToggles) {
+  //       childToggles[childIndex] = !childToggles[childIndex];
 
-        const areAllChildrenDisabled = childToggles.every(
-          (toggle: boolean) => !toggle
-        );
+  //       const areAllChildrenDisabled = childToggles.every(
+  //         (toggle: boolean) => !toggle
+  //       );
 
-        newToggleStates[parentIndex].parentToggle = !areAllChildrenDisabled;
-      }
-    }
+  //       newToggleStates[parentIndex].parentToggle = !areAllChildrenDisabled;
+  //     }
+  //   }
 
-    setToggleStates(newToggleStates);
-  };
+  //   setToggleStates(newToggleStates);
+  // };
 
   const [selectedtypeid, setSelectedtypeid] = useState<string>();
 
-  const handleselectchangePeriod = (id: string, enable: boolean) => {
-    console.log("enable", enable);
+  // const handleselectchangePeriod = (id: string, enable: boolean) => {
+  //   console.log("enable", enable);
    
-      setSelectPeriod(true);
-      setSelectedtypeid(id);
+  //     setSelectPeriod(true);
+  //     setSelectedtypeid(id);
     
-  };
-  const handleheadingtoggle = () => {
-    setSelectPeriod(true);
-  };
-console.log("availabilityOrderTypes",availabilityOrderTypes);
+  // };
+  // const handleheadingtoggle = () => {
+  //   setSelectPeriod(true);
+  // };
 
   return (
 
@@ -398,11 +429,15 @@ console.log("availabilityOrderTypes",availabilityOrderTypes);
 
               <div
                 className="toggle-btnfor-subhead"
-                // onClick={handleheadingtoggle}
+               
               >
                 <ToggleSliderAvail
                   toggle={elem.isEnabled}
-                  setToggle={() => handleParentToggle(index)}
+                  setToggle={() => {
+                    //handleParentToggle(index)
+                    handleOrderCategoryAvailability(elem.mainHeading)
+                    setSelectedOrderTypeCategory(elem.mainHeading)
+                  }}
                   pen={pen}
                 />
               </div>
@@ -420,22 +455,12 @@ console.log("availabilityOrderTypes",availabilityOrderTypes);
                           if(!type.availabilityEnabled)
                           {
                             setSelectedOrderTypeId(type.typeId)
-                            // handleChildToggle(index, 0, typeIndex)
-                            handleselectchangePeriod(
-                              type?.typeId,
-                              enabledValuesArray[typeIndex]
-                            );
+                            setSelectPeriod(true);
                           }
                           else{
                             setSelectedOrderTypeId(type.typeId)
-                            handleOrderTypesAvail()
+                            handleOrderTypesAvail(type.typeId)
                             handleToggleDisable()
-                            // handleselectchangePeriod(
-                            //   type?.orderTypeId,
-                            //   enabledValuesArray[typeIndex]
-                            // );
-                            
-
                           }
                         }
                           
@@ -508,7 +533,7 @@ console.log("availabilityOrderTypes",availabilityOrderTypes);
         {selectPeriod && (
           <AvailabilityChangesUntil
             setSelectPeriod={setSelectPeriod}
-            selectedtypeid={selectedtypeid}
+            selectedtypeid={selectedOrderTypeId}
           />
         )}
       </div>
