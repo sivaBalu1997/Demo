@@ -35,7 +35,6 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
 }) => {
   const handleToggle = useCallback(
     (key: keyof typeof listingobject, dependentKeys?: (keyof typeof listingobject)[]) => {
-      console.log("Lkjhg",key);
       
       setlistingobject((prev: any) => {
         const updatedState = {
@@ -79,9 +78,6 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
 
   const pricelist = uniqueKeys?.map((item: any) => `${item}1` as keyof typeof insertlists.Pricing);
   const aviallist = uniqueKeys?.map((item: any) => `${item}2` as keyof typeof insertlists.Available);
-
-  console.log("insert",insertlists);
-  console.log("listin2",listingobject);
 
 
   return (

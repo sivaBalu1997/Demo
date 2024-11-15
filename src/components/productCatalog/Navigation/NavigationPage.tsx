@@ -42,7 +42,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   const categories = [
     "Primary Details",
     "Pricing and kitchen details",
-    "Itemcustomizations",
+    "Item customizations",
   ];
 
   const getPath = (pathName: string) => {
@@ -129,7 +129,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       }
     } 
 
-    else if (currentPage === "Itemcustomizations") {
+    else if (currentPage === "Item customizations") {
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));

@@ -214,6 +214,7 @@ const AddEmployee = () => {
         setIsDropdownDisabled(false);
       } else {
         setIsDropdownDisabled(true);
+        console.log("userBranchName",userBranchName)
         setValue('outlet', userBranchName);
       }
     }
@@ -526,7 +527,7 @@ const AddEmployee = () => {
       role: formValues.role,
       businessName: credentials?.businessName,
       userId: formValues.userId ||editEmployee?.userId,
-      nickName: formValues.nickName.trim(),
+      nickName: formValues.nickName?.trim(),
       email: formValues.email || null,
       mobileNumber: formValues?.mobileNumber && formValues?.mobileNumber?.length > 0 ? removeDashes(formValues.mobileNumber) : "" ,
       address: `${formValues.address1} ${formValues.address2}` || null,
@@ -575,7 +576,7 @@ const AddEmployee = () => {
   const splitAddress = (address:string) => {
     const parts = address?.split(',');
     if (parts?.length > 1) {
-      const addressLine1 = parts.slice(0, -1).join(',').trim();
+      const addressLine1 = parts.slice(0, -1).join(',')?.trim();
       const addressLine2 = parts[parts?.length - 1].trim();
       return [addressLine1, addressLine2];
     }
@@ -645,7 +646,8 @@ const validatePassword = (value:string) => {
   }
 
 const [key, setKey] = useState(Math.random());
-
+const d=watch()
+console.log("kkkkk",d)
 
 const handleCleardata = () => {
   if (!editEmployee) {
@@ -723,11 +725,29 @@ if(!!params?.id?.length && dataFetching)  {
                 <div className="flexContainer">
                   <div>
                     <label className={errors.firstName ? "errorLabel" : "inputLabel"}>First Name*</label>
-                    <TextInput
+                    <Controller
+                     control={control}
+                      name="firstName"
+                      rules={{
+                        required: 'First name is required',
+                        minLength: {
+                          value: 2,
+                          message: 'First name must be at least 2 characters long',
+                        },
+                        pattern: {
+                          value: /^[A-Za-z]+$/i,
+                          message: 'First name can only contain letters',
+                        },
+                      }}
+                      render={({ onChange, value, name }) => (
+                        <TextInput
                         type="text"
-                        name="firstName"
-                        formRegister={register("firstName", { required: "Required" })} 
-                        error={errors.firstName?.message || null}
+                        name={name}
+                        onChange={onChange}
+                        value={value}
+                      
+                       /// formRegister={register("firstName", { required: "Required" })} 
+                       // error={errors.firstName?.message || null}
                         className={
                           errors.firstName ? "fN errorInput" : "add-employee-text-input"
                         }
@@ -738,6 +758,14 @@ if(!!params?.id?.length && dataFetching)  {
                         }}
                         // placeholder="First Name*"
                       />
+                       
+                      )}
+                      />
+                      {(errors.firstName) && (
+                        <p className = 'employeeError'>
+                          {errors.firstName?.message}
+                        </p>
+                      )}
                   {/* <TextInput
                     type="text"
                     // placeholder="First Name*"
@@ -762,11 +790,17 @@ if(!!params?.id?.length && dataFetching)  {
 
                   <div>
                   <label className="inputLabel">Last Name</label>
+                  <Controller
+                     control={control}
+                      name="LastName"
+                      render={({ onChange, value, name }) => (
                     <TextInput
                       type="text"
                       // placeholder="Last Name"
-                      name="lastName"
-                      formRegister={register()}
+                      value={value}
+                      onChange={onChange}
+                      name={name}
+                      //formRegister={register()}
                       className={"add-employee-text-input"}
                       onKeyPress={(e : KeyboardEvent<HTMLInputElement>) => {
                         if (e.key === ' ' && (e.target as HTMLInputElement).value.length < 1 || !/^[A-Za-z\s]$/.test(e.key)) {
@@ -774,18 +808,22 @@ if(!!params?.id?.length && dataFetching)  {
                         }
                       }}
                     />
+                      )}
+                      />
                   </div>
                 </div>
 
                 <div>
                   <label className={errors.nickName ? "errorLabel" : "inputLabel"}>Nick Name</label>
+                  <Controller
+                     control={control}
+                      name="nickName"
+                      render={({ onChange, value, name }) => (
                   <TextInput
                     type="text"
-                    // placeholder="Nick Name"
-                    name="nickName"
-                    formRegister={register({
-                      required: useNickname && "Required",
-                    })}
+                    onChange={onChange}
+                    value={value}
+                    name={name}
                     className={errors.nickName ? 'fN errorNickNameBox' : 'nickNameBox'}
                     onKeyPress={(e:KeyboardEvent<HTMLInputElement>) => {
                       if (e.key === ' ' && (e.target as HTMLInputElement).value.length < 1) {
@@ -793,6 +831,8 @@ if(!!params?.id?.length && dataFetching)  {
                       }
                     }}
                   />
+                      )}
+                      />
                 </div>
 
                 <div className="checkBox" style={{marginTop:"-20px"}}>
@@ -909,36 +949,60 @@ if(!!params?.id?.length && dataFetching)  {
 
                 <div className="addressField">
                   <label className="inputLabel">Address Line 1</label>
+                  <Controller
+                     control={control}
+                      name="address1"
+                      render={({ onChange, value, name }) => (
                   <TextInput
                     type="text"
-                    name="address1"
-                    formRegister={register()}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    //formRegister={register()}
                     className={"inputBox"}
                     onKeyDown={handleSpace}
                   />
+                      )}
+                      />
                 </div>
                 <div>
                   <label className="inputLabel">Address Line 2</label>
+                  <Controller
+                     control={control}
+                      name="address2"
+                      render={({ onChange, value, name }) => (
                   <TextInput
                     type="text"
-                    name="address2"
-                    formRegister={register()}
+                    name={name}
+                    onChange={onChange}
+                    value={value}
+                    //formRegister={register()}
                     className={"inputBox"}
                     onKeyDown={handleSpace}
                   />
+                      )}
+                      />
                 </div>
 
                 <div className="flexContainer">
                   <div>
                   <label className="inputLabel">Education</label>
+                  <Controller
+                     control={control}
+                      name="education"
+                      render={({ onChange, value, name }) => (
                     <TextInput
                       type="text"
                       // placeholder="Education"
-                      name="education"
+                      onChange={onChange}
+                      value={value}
+                      name={name}
                       formRegister={register()}
                       className={"add-employee-text-input"}
                       onKeyDown={handleSpace}
                     />
+                      )}
+                      />
                   </div>
 
                   <div>
@@ -991,11 +1055,12 @@ if(!!params?.id?.length && dataFetching)  {
                       <Controller
                         control={control}
                         name="outlet"
-                        defaultValue={restaurantBranchDefaultValue}
+                        //defaultValue={restaurantBranchDefaultValue}
                         rules={{
                           required: "Required",
                         }}
                         render={({ onChange, onBlur, value, name }) => (
+                          console.log("mmmmm",restaurantBranchDefaultValue ,(editEmployee ? editEmployee?.outlet: restaurantBranchDefaultValue)),
                           <CustomDropdown
                             options={branchOptions}
                             // placeholder={"Outlets*"}
@@ -1009,7 +1074,7 @@ if(!!params?.id?.length && dataFetching)  {
                                 }
                               }
                             }}
-                            value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue)|| ''}
+                            value={restaurantBranchDefaultValue || (editEmployee ? editEmployee?.outlet : restaurantBranchDefaultValue)|| value}
                             name={name}
                             controlClassName={
                               editEmployee || isDropdownDisabled
@@ -1118,7 +1183,11 @@ if(!!params?.id?.length && dataFetching)  {
                       </div>
                       </div>
                     )}
-                    
+                    {(errors.role) && (
+                        <p className = 'employeeError'>
+                          {errors.role?.message}
+                        </p>
+                      )}
                   </div>
                 </div>
                 </div>
@@ -1127,13 +1196,19 @@ if(!!params?.id?.length && dataFetching)  {
                  <div>
                   <label className={errors.userId ? "errorLabel" : "inputLabel"}>User Id*</label>
                   <div>
+                  <Controller
+                        control={control}
+                        name="userId"
+                        rules={{
+                          required: "Required",
+                        }}
+                        render={({ onChange, onBlur, value, name }) => (
                       <TextInput
                         type="text"
+                        onChange={onChange}
+                        value={value}
                         // placeholder="User ID*"
-                        name="userId"
-                        formRegister={register({
-                          required: "Required",
-                        })}
+                        name={name}
                         className={errors.userId?.type ? 'uId errorInput' :'add-employee-text-input'}
                         autoComplete="new-password"
                         disabled={!!params?.id?.length}
@@ -1144,32 +1219,58 @@ if(!!params?.id?.length && dataFetching)  {
                         }}
                         // disabled={editEmployee}
                       />
+                        )}
+                        />
+                        {(errors.userId) && (
+                        <p className = 'employeeError'>
+                          {errors.userId?.message}
+                        </p>
+                      )}
                     </div>
                  </div>
                   
                  <div>
                   <label className={errors.password ? "errorLabel" : "inputLabel"}>Password*</label>
                   <div>
+                  <Controller
+                        control={control}
+                        name="password"
+                        rules={{
+                          required: 'Password is required',
+                          minLength: {
+                            value: 8,
+                            message: 'Password must be at least 8 characters long',
+                          },
+                          pattern: {
+                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                            message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
+                          },
+                        }}
+                        render={({ onChange, onBlur, value, name }) => (
                       <TextInput
                         type={isPasswordVisible ? "text" : "password"}
+                        onChange={onChange}
+                        value={value}
                         // placeholder="Password*"
                         // minLength={6}
-                        name="password"
-                        formRegister={register({
-                          required: !editEmployee ? "Required" : false,
-                          validate: {
-                            validatePassword,
-                            validLength: (value) => 
-                              !value || value.replace(/\D/g, '').length === 10 
-                                ? true 
-                                : "Invalid Password"
-                          }
-                        })}
+                        name={name}
+                        // formRegister={register({
+                        //   required: !editEmployee ? "Required" : false,
+                        //   validate: {
+                        //     validatePassword,
+                        //     validLength: (value) => 
+                        //       !value || value.replace(/\D/g, '').length === 10 
+                        //         ? true 
+                        //         : "Invalid Password"
+                        //   }
+                        // })}
                         className={errors.password ? 'pass errorInput' :'add-employee-text-input'}
                         containerStyle={{ paddingBottom: "0px" }}
                         autoComplete="new-password"
                         onKeyDown={handleSpace}
                       />
+                        )}
+                        />
                       {isPasswordVisible ? (
                         <OpenEyeIcon
                         onClick={() => setIsPasswordVisible(!isPasswordVisible)}
@@ -1190,6 +1291,11 @@ if(!!params?.id?.length && dataFetching)  {
                           cursor:'pointer'
                         }}
                       />
+                      )}
+                       {(errors.password) && (
+                        <p className = 'employeeError'>
+                          {errors.password?.message}
+                        </p>
                       )}
                     </div>
                     <div className="passwordErrorText">
