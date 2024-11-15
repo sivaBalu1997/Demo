@@ -39,6 +39,7 @@ const SidePanel = () => {
   //   }
   // }, [history]);
 
+
   const location = useLocation();
   const dispatch = useDispatch();
   const [showOptions, setShowOptions] = useState("employees");
@@ -46,6 +47,18 @@ const SidePanel = () => {
   const [routeTo, setRouteTo] = useState({});
   const {isExpanded,setIsExpanded}=useContext(Contextpagejs);
   const [isExpand, setIsExpand] = useState(true)
+
+  useEffect(() => {
+    if (location.pathname.includes("/menuListing")) {
+      // showOptions === "Product Catalog" && 
+      setShowOptions("Product Catalog")
+      history.push("/menuListing");
+    }
+    // else if(location.pathname.includes('Offers')){
+    //   setShowOptions('Offer')
+    // }
+  }, [showOptions, location.pathname, history]);
+
   
   
   const restaurantDetails = useSelector(
@@ -121,6 +134,9 @@ const SidePanel = () => {
   const toggleExpand = () => {
     setIsExpanded(!isExpanded)
   }
+
+  console.log(location.pathname, showOptions)
+
 
   return (
     <>
@@ -214,7 +230,8 @@ const SidePanel = () => {
           </div> */}
 
           {/* MENU ==========================================================*/}
-          <div
+          
+          {/* <div
             className={
               showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
             }
@@ -266,8 +283,45 @@ const SidePanel = () => {
               ))}
             </ul>
           )}
-          {/*Menu ===========================================*/}
+           */}
+
           <div
+            className={
+              showOptions === "Product Catalog" &&
+              location.pathname.includes("/menuListing")
+                ? "active"
+                : "down"
+            }
+            style={{ 
+              cursor: "pointer",
+              marginTop:'28px',
+            }}
+            onClick={() => {
+              if (showOptions !== "Product Catalog") {
+                setShowOptions("Product Catalog"); 
+              }
+              if (!location.pathname.includes("/menuListing")) {
+                history.push("/menuListing"); 
+              }
+            }}
+          >
+            <li style={{ marginBottom: 0 }} />
+            <Tableware className="menu-items-SVG" style={{
+              // width:'23px',
+              // height:'23px'
+            }}/>
+            {isExpanded && 
+            <span 
+              className="menu-items-name"
+              style={{
+                fontSize:'15px'
+              }}
+            >
+              ProductCatalog
+            </span>}
+          </div>
+
+          {/* <div
             className={
               showOfferOptions === "MenuOptions"
                 ? "active drop-down"
@@ -294,6 +348,39 @@ const SidePanel = () => {
                 style={{ marginLeft: "15px" }}
               />
             )}
+          </div> */}
+
+          <div
+            className={
+              showOptions === "Offer" &&
+              location.pathname.includes("/Offers")
+                ? "active"
+                : "down"
+            }
+            style={{ 
+              cursor: "pointer",
+              marginTop:'28px',
+            }}
+            onClick={() => {
+              if (showOptions !== "Offer") {
+                setShowOptions("Offer"); 
+              }
+              if (!location.pathname.includes("/Offers")) {
+                history.push("/Offers"); 
+              }
+            }}
+          >
+            <li style={{ marginBottom: 0 }} />
+            <Offer className="menu-items-SVG" />
+            {isExpanded && 
+            <span 
+              className="menu-items-name"
+              style={{
+                fontSize:'15px'
+              }}
+            >
+              Offer Management
+            </span>}
           </div>
 
           <ul className="menu-items-list">
