@@ -418,6 +418,27 @@ const handleToggleDisable=()=>{
 
   const [parentToggle,setParrentToggle]=useState("")
 
+  const [ParentToggles,setParentToggles]=useState([]);
+
+
+  const handleParentTogglesstae=(headingName:string)=>{
+
+    if(headingName==="On-prem")
+    {
+      const tempOnPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+      setParentToggles(tempOnPremarray)
+      
+    }
+    else{
+      const tempOffPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+
+      setParentToggles(tempOffPremarray)
+    }
+
+  }
+  console.log("ParentToggles",ParentToggles);
+  
+
   return (
 
     
@@ -441,6 +462,7 @@ const handleToggleDisable=()=>{
                     setSelectedOrderTypeCategory(elem.mainHeading)
                     setParrentToggle(elem.mainHeading)
                     setSelectPeriod(true);
+                    handleParentTogglesstae(elem.mainHeading)
                   }}
                   pen={pen}
                 />
@@ -542,6 +564,8 @@ const handleToggleDisable=()=>{
             setSelectPeriod={setSelectPeriod}
             selectedtypeid={selectedOrderTypeId}
             parentToggle={parentToggle}
+
+            ParentToggles={ParentToggles}
           />
         )}
       </div>
