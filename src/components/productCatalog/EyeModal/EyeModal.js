@@ -23,7 +23,7 @@ const EyeModal = ({ onEyeclose,onclose }) => {
           {
             name: Dinein.typeName,
             id: Dinein.typeId,
-            isChecked: Dinein.isHidden,
+            isChecked: Dinein.isNotHide,
             isEnabled: Dinein.isEnabled,
           },
         ],
@@ -35,7 +35,7 @@ const EyeModal = ({ onEyeclose,onclose }) => {
           .map((elem) => ({
             name: elem.typeName,
             id: elem.typeId,
-            isChecked: elem.isHidden,
+            isChecked: elem.isNotHide,
             isEnabled: elem.isEnabled,
           })),
       },
@@ -187,7 +187,7 @@ const uncheckedItems = data
                   <input
                     className="checkbox-Items"
                     type="checkbox"
-                    checked={elem.isChecked} 
+                    checked={!elem.isChecked} 
                     onChange={() => parentToggleChange(parentIndex)} 
                   />
                 </div>
@@ -198,7 +198,7 @@ const uncheckedItems = data
                     <input
                       className="checkbox-Items"
                       type="checkbox"
-                      checked={subItem.isChecked} 
+                      checked={!subItem.isChecked} 
                       onChange={() => subItemToggleChange(parentIndex, subIndex)}
                       disabled={ subItem.isEnabled===0}
                     />
