@@ -73,8 +73,8 @@ const Employees = () => {
       const fullName = item.firstName?.concat(item.lastName).toLowerCase().trim();
       const role = item.role.toLowerCase().trim();
       return (
-      fullName.includes(cleanedSearchInput) ||
-      role.includes(cleanedSearchInput)
+      fullName?.includes(cleanedSearchInput) ||
+      role?.includes(cleanedSearchInput)
     );
   });
       setSearchedData(filteredData);

@@ -527,7 +527,7 @@ const AddEmployee = () => {
       role: formValues.role,
       businessName: credentials?.businessName,
       userId: formValues.userId ||editEmployee?.userId,
-      nickName: formValues.nickName.trim(),
+      nickName: formValues.nickName?.trim(),
       email: formValues.email || null,
       mobileNumber: formValues?.mobileNumber && formValues?.mobileNumber?.length > 0 ? removeDashes(formValues.mobileNumber) : "" ,
       address: `${formValues.address1} ${formValues.address2}` || null,
@@ -576,7 +576,7 @@ const AddEmployee = () => {
   const splitAddress = (address:string) => {
     const parts = address?.split(',');
     if (parts?.length > 1) {
-      const addressLine1 = parts.slice(0, -1).join(',').trim();
+      const addressLine1 = parts.slice(0, -1).join(',')?.trim();
       const addressLine2 = parts[parts?.length - 1].trim();
       return [addressLine1, addressLine2];
     }
@@ -761,6 +761,11 @@ if(!!params?.id?.length && dataFetching)  {
                        
                       )}
                       />
+                      {(errors.firstName) && (
+                        <p className = 'employeeError'>
+                          {errors.firstName?.message}
+                        </p>
+                      )}
                   {/* <TextInput
                     type="text"
                     // placeholder="First Name*"
@@ -1178,7 +1183,11 @@ if(!!params?.id?.length && dataFetching)  {
                       </div>
                       </div>
                     )}
-                    
+                    {(errors.role) && (
+                        <p className = 'employeeError'>
+                          {errors.role?.message}
+                        </p>
+                      )}
                   </div>
                 </div>
                 </div>
@@ -1212,6 +1221,11 @@ if(!!params?.id?.length && dataFetching)  {
                       />
                         )}
                         />
+                        {(errors.userId) && (
+                        <p className = 'employeeError'>
+                          {errors.userId?.message}
+                        </p>
+                      )}
                     </div>
                  </div>
                   
@@ -1277,6 +1291,11 @@ if(!!params?.id?.length && dataFetching)  {
                           cursor:'pointer'
                         }}
                       />
+                      )}
+                       {(errors.password) && (
+                        <p className = 'employeeError'>
+                          {errors.password?.message}
+                        </p>
                       )}
                     </div>
                     <div className="passwordErrorText">

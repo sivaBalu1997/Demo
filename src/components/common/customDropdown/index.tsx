@@ -40,7 +40,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
     <Dropdown
       options={options}
       onChange={onSelect}
-      value={typeof value === 'string' ? undefined : value}
+      value={value}
       placeholder={""}
       arrowClosed={arrowClosed}
       arrowOpen={arrowOpen}
