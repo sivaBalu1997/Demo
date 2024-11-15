@@ -254,7 +254,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       );
     }
   }, [ItemsPrimaryDetails]);
-  
+
   useEffect(() => {
     if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === 'bestPair') {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
@@ -263,7 +263,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           ? bestPairName?.some((b) => b.name === opt?.name || b === opt?.name) 
           : bestPairName?.includes(opt?.name); 
       });
-  
+
       setSelectedOptions(dropdownName);
       setValue(
         'bestPair',
@@ -278,10 +278,14 @@ const DropDownList: React.FC<DropdownProps> = ({
       const dropDownName: any = Array.isArray(options) && options?.find(
         (item) => item.name?.toLowerCase() === kitchenStationName?.toLowerCase()
       );
-      const dropDown1 = dropDownName === undefined || dropDownName === false ? { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
+      const dropDown1 = (dropDownName === undefined || dropDownName === false) ? { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
 
-      setSelectedOptions(dropDownName === undefined || dropDownName === false ? [dropDown1] : [dropDownName]);   
-      setValue("kitchenstation", dropDownName === undefined || dropDownName === false ? dropDown1?.name : dropDownName?.name);
+      // setSelectedOptions((dropDownName === undefined || dropDownName === false) ? [dropDown1] : [dropDownName]);   
+      setSelectedOptions(()=> {
+        setValue("kitchenstation", (dropDownName === undefined || dropDownName === false) ? dropDown1?.name : dropDownName?.name);
+        return (dropDownName === undefined || dropDownName === false) ? [dropDown1] : [dropDownName]
+      });   
+      // setValue("kitchenstation", (dropDownName === undefined || dropDownName === false) ? dropDown1?.name : dropDownName?.name);
     }
   }, [prizingDetail]);
 

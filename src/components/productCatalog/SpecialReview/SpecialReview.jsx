@@ -93,7 +93,7 @@ const SpecialReview = () => {
           </div>
 
           <div className="dine-in-items-container-column">
-            <h3 className="dine-in-items-container-heading">Service Area</h3>
+            {/* <h3 className="dine-in-items-container-heading">Service Area</h3> */}
             {prizingDetail &&
               prizingDetail.specialForm &&
               prizingDetail.specialForm?.dineinfield1?.map((elem, index) => {

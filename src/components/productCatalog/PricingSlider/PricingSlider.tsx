@@ -24,7 +24,6 @@ const PricingSlider: any = ({}) => {
   const Dinein = data[0]?.orderTypes?.find(
     (orderType: any) => orderType?.typeName === "DineIn"
   );
-  console.log(data);
   const [inputs, setInputs] = useState({
     Dinein1: Array.isArray(data[0]?.orderTypes)
       ? data[0].orderTypes
@@ -120,7 +119,6 @@ const PricingSlider: any = ({}) => {
     const filter = PrizingSliderData[enable].isEnabled.filter(
       (item: any) => item.name === name
     );
-    console.log("filter", filter);
 
     if (filter[0].enabled) {
       setInputs((prev) => ({
@@ -169,8 +167,7 @@ const PricingSlider: any = ({}) => {
           orderTypeId: elem.typeId,
           price: String(inputs.Dinein1?.[index] || elem.price),
         }));
-      console.log("oofpremprice", oofpremprice);
-      console.log("onprem", onprem);
+
       const offpremandonprem = [...oofpremprice, ...onprem];
 
       setPatchedData((prevState: any) => ({
@@ -185,7 +182,6 @@ const PricingSlider: any = ({}) => {
     }
   }, [data, inputs, setPatchedData]);
 
-  console.log("dd", data);
 
   return (
     <div className="PricingSlider-Container">

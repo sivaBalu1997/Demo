@@ -30,7 +30,6 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
     onclose();
   };
   useEffect(()=>{
-    console.log("partaldatasendinccess",partaldatasending);
   
    },[partaldatasending,dispatch]);
     
