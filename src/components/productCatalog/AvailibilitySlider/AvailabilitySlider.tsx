@@ -86,7 +86,20 @@ setAvailabilityOrderTypes(tempOrderTypeAvailabilityArray);
 
 },[dataFromRedux[0]?.orderTypes])
 
-
+const handleToggleDisable=()=>{
+  setPatchedData((prevState:any) => ({
+    ...prevState,
+    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+      (availabilityInfo:any) =>
+        availabilityInfo.orderTypeId === selectedOrderTypeId
+          ? {
+              ...availabilityInfo,
+              unAvailableUntilTime: "",
+            }
+          : availabilityInfo
+    ),
+  }));
+}
 
 
 const handleOrderTypesAvail=()=>{
@@ -418,6 +431,7 @@ const handleOrderTypesAvail=()=>{
                           else{
                             setSelectedOrderTypeId(type.typeId)
                             handleOrderTypesAvail()
+                            handleToggleDisable()
                             // handleselectchangePeriod(
                             //   type?.orderTypeId,
                             //   enabledValuesArray[typeIndex]
