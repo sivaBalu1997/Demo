@@ -227,7 +227,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 // console.log("orderType", className);
                 const isAvailEnabled =
                   orderType &&
-                  orderType.isNotHide === 1 &&
+                
                   orderType.availabilityEnabled === true
                     ? true
                     : false;

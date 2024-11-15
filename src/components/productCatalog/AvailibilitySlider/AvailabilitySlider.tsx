@@ -46,10 +46,88 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         types: [],
       }))
     : [];
+
+console.log("dataFromRedux",dataFromRedux);
+const [selectedOrderTypeId,setSelectedOrderTypeId]=useState<string>("");
+const [selectedOrderTypeCategory,setSelectedOrderTypeCategory]=useState<string>("");
+
+
+
+
+const [availabilityOrderTypes,setAvailabilityOrderTypes]=useState<any>([]);
+
+
+
+useEffect(()=>{
+const tempOnPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+const tempOffPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+
+const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
+const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
+
+
+const tempOrderTypeAvailabilityArray=[
+  {
+    mainHeading: "On-prem",
+    types:tempOnPremarray,
+    isEnabled:isOnPremEnabledCount
+  },
+  {
+    mainHeading: "Off-prem",
+    types:tempOffPremarray,
+    isEnabled:isOffPremEnabledCount
+  },
+  
+]
+// console.log({isOnPremEnabledCount,isOffPremEnabledCount,tempOrderTypeAvailabilityArray});
+
+
+setAvailabilityOrderTypes(tempOrderTypeAvailabilityArray);
+
+},[dataFromRedux[0]?.orderTypes])
+
+
+
+
+const handleOrderTypesAvail=()=>{
+
+  const tempOderTypes=dataFromRedux[0]?.orderTypes?.map((data:any,index:number)=> {
+    return  data?.typeId===selectedOrderTypeId ? {...data,availabilityEnabled:!data?.availabilityEnabled}:data } )
+
+
+  const tempOnPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+  const tempOffPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+  
+  const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
+  const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length>0
+  
+  
+  const tempOrderTypeAvailabilityArray=[
+    {
+      mainHeading: "On-prem",
+      types:tempOnPremarray,
+      isEnabled:isOnPremEnabledCount
+    },
+    {
+      mainHeading: "Off-prem",
+      types:tempOffPremarray,
+      isEnabled:isOffPremEnabledCount
+    },
+    
+  ]
+  // console.log({isOnPremEnabledCount,isOffPremEnabledCount,tempOrderTypeAvailabilityArray});
+  
+  
+  setAvailabilityOrderTypes(tempOrderTypeAvailabilityArray);
+  setSelectedOrderTypeId("");
+  
+  }
+  
   const data = [
     {
       mainHeading: "On-prem",
       types: [Dinein?.typeName],
+      isEnabled:Dinein?.availabilityEnabled
     },
     {
       mainHeading: "Off-prem",
@@ -61,8 +139,6 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
               name:elem.typeName,
               isEnabled:elem.availabilityEnabled,
               orderTypeId:elem.typeId
-              
-
             }))
             : [],
 
@@ -167,6 +243,9 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     const orderTypes = dataFromRedux?.[0]?.orderTypes;
     const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
 
+    console.log("orderTypes",orderTypes);
+    
+
     if (parentIndex === 0) {
       return orderTypes?.[0]?.isEnabled === "Enabled";
     } else if (parentIndex === 1 && subcategoryIndex === 0) {
@@ -243,6 +322,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     subcategoryIndex: number | null,
     childIndex: number
   ) => {
+    
+    
     const newToggleStates = [...toggleStates];
 
     if (subcategoryIndex !== null) {
@@ -284,10 +365,10 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
   const handleselectchangePeriod = (id: string, enable: boolean) => {
     console.log("enable", enable);
-    if (enable) {
+   
       setSelectPeriod(true);
       setSelectedtypeid(id);
-    }
+    
   };
   const handleheadingtoggle = () => {
     setSelectPeriod(true);
@@ -297,7 +378,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     <div className="AvailSlider-Container">
       <h3 className="AvailSlider-Heading">Availability</h3>
       <div className="AvailOnprem-Ofprem">
-        {data.map((elem, index) => (
+        {availabilityOrderTypes?.map((elem:any, index:number) => (
           <div key={index} className="Avail-SectionAB">
             <div className="AvailHeading-Section">
               <h2 className="sub-head">{elem.mainHeading}</h2>
@@ -307,7 +388,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                 // onClick={handleheadingtoggle}
               >
                 <ToggleSliderAvail
-                  toggle={toggleStates[index]?.parentToggle || false}
+                  toggle={elem.isEnabled}
                   setToggle={() => handleParentToggle(index)}
                   pen={pen}
                 />
@@ -315,16 +396,39 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
             </div>
             {elem.types && (
               <div className="SectionASectionBSection">
-                {elem.types.map((type, typeIndex) => (
+                {elem.types.map((type:any, typeIndex:number) => (
                   <div key={typeIndex} className="TypeHeading1">
-                    <h3 className="SectionASectionBSectionHeading">{type}</h3>
+                    <h3 className="SectionASectionBSectionHeading">{type.typeName}</h3>
                     <div className="" style={{marginLeft:"55px"}}>
                       <ToggleSliderAvail
-                        toggle={
-                          toggleStates[index]?.childToggles?.[typeIndex] ||
-                          false
+                        toggle={type.availabilityEnabled}
+                        setToggle={() => 
+                        {
+                          if(!type.availabilityEnabled)
+                          {
+                            setSelectedOrderTypeId(type.typeId)
+                            // handleChildToggle(index, 0, typeIndex)
+                            handleselectchangePeriod(
+                              type?.orderTypeId,
+                              enabledValuesArray[typeIndex]
+                            );
+
+
+                          }
+                          else{
+                            setSelectedOrderTypeId(type.typeId)
+                            handleOrderTypesAvail()
+                            // handleselectchangePeriod(
+                            //   type?.orderTypeId,
+                            //   enabledValuesArray[typeIndex]
+                            // );
+                            
+
+                          }
                         }
-                        setToggle={() => handleChildToggle(index, 0, typeIndex)}
+                          
+                          
+                         }
                         pen={pen}
                       />
                     </div>
@@ -332,22 +436,11 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                 ))}
               </div>
             )}
-            {elem.subcategories && (
+            {/* {elem.subcategories && (
               <div className="PickupDeliveryAvail">
-                {elem.subcategories.map((subcategory, subIndex) => (
+                {elem.subcategories.map((subcategory:any, subIndex:number) => (
                   <div key={subIndex} className="subcategorySection">
-                    {/* <h3 className="SectionASectionBSectionHeadingBlack">
-                      {subcategory.subHeading}
-                    </h3>
-                    <ToggleSliderAvail
-                      toggle={
-                        dataFromRedux[0]?.orderTypes.map(
-                          (elem: any) => elem.isEnabled
-                        ) || false
-                      }
-                      setToggle={() => handleSubcategoryToggle(index, subIndex)}
-                      pen={pen}
-                    /> */}
+                   
                     <div className="TypesSection">
                       {subcategory.types.map((type: any, typeIndex: any) => (
                         <>
@@ -378,19 +471,14 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                               }}
                             >
                               <ToggleSliderAvail
-                                toggle={
-                                  toggleStates[index]?.subcategoryToggles?.[
-                                    subIndex
-                                  ]?.childToggles?.[typeIndex] || false
-                                }
+                                toggle={type.isEnabled}
+                    
                                 setToggle={() => {
-                                  if (enabledValuesArray[typeIndex]) {
-                                    handleChildToggle(
-                                      index,
-                                      subIndex,
-                                      typeIndex
-                                    );
-                                  }
+                                  handleChildToggle(
+                                    index,
+                                    subIndex,
+                                    typeIndex
+                                  )
                                 }}
                                 pen={pen}
                               />
@@ -402,7 +490,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         ))}
         {selectPeriod && (
