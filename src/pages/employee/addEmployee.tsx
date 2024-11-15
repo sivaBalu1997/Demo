@@ -678,12 +678,14 @@ const handleCleardata = () => {
 
 if(!!params?.id?.length && dataFetching)  {
   return (
-    <p style={{
-      display: "flex",
-      justifyContent: "center",
-      paddingTop: "25%",
-      marginLeft:'35%'
-    }}>Loading, Please wait!!</p>
+    <div style={{display:'flex', flexDirection:'row'}}>
+       <SidePanel />
+       <p style={{
+        position:'absolute',
+        top:'45%',
+        left:'50%'
+      }}>Loading, Please wait!!</p>
+    </div>
   )}
   return (
     <div style={{display:'flex', flexDirection:'row'}}>
@@ -1236,7 +1238,7 @@ if(!!params?.id?.length && dataFetching)  {
                         control={control}
                         name="password"
                         rules={{
-                          required: 'Password is required',
+                          required: !editEmployee ? 'Password is required' : '',
                           minLength: {
                             value: 8,
                             message: 'Password must be at least 8 characters long',
