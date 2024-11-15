@@ -49,14 +49,14 @@ const SidePanel = () => {
   const [isExpand, setIsExpand] = useState(true)
 
   useEffect(() => {
-    if (location.pathname.includes("/menuListing")) {
+    if (showOptions !== 'Product Catalog' && location.pathname.includes("/menuListing")){
       // showOptions === "Product Catalog" && 
       setShowOptions("Product Catalog")
       history.push("/menuListing");
     }
-    // else if(location.pathname.includes('Offers')){
-    //   setShowOptions('Offer')
-    // }
+    else if(location.pathname.includes('/old-reports')){
+      setShowOptions('report')
+    }
   }, [showOptions, location.pathname, history]);
 
   
@@ -135,9 +135,6 @@ const SidePanel = () => {
     setIsExpanded(!isExpanded)
   }
 
-  console.log(location.pathname, showOptions)
-
-
   return (
     <>
       <div className={`menu is-sticky ${isExpanded ? 'expanded' : ''}`}>
@@ -202,7 +199,7 @@ const SidePanel = () => {
           >
             <li style={{ marginBottom: 0 }} />
             <EmployeesIcon className="menu-items-SVG" />
-            {isExpanded && <span className="menu-items-name">Employees</span>}
+            {isExpanded && <span className="menu-items-name" style={{fontSize:'15px'}}>Employees</span>}
           </div>
 
           {/* CMS ==================*/}
@@ -307,14 +304,14 @@ const SidePanel = () => {
           >
             <li style={{ marginBottom: 0 }} />
             <Tableware className="menu-items-SVG" style={{
-              // width:'23px',
-              // height:'23px'
+              width:'23px',
+              height:'23px'
             }}/>
             {isExpanded && 
             <span 
               className="menu-items-name"
               style={{
-                fontSize:'15px'
+                fontSize:'12px'
               }}
             >
               ProductCatalog
@@ -376,7 +373,7 @@ const SidePanel = () => {
             <span 
               className="menu-items-name"
               style={{
-                fontSize:'15px'
+                fontSize:'12px'
               }}
             >
               Offer Management
@@ -428,7 +425,7 @@ const SidePanel = () => {
           </div> */}
           {/* Report ==================================================================== */}
 
-          <div
+          {/* <div
             className={
               showOptions === "reportOptions" ? "active drop-down" : "drop-down"
             }
@@ -479,7 +476,40 @@ const SidePanel = () => {
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
+
+          <div
+            className={
+              showOptions === "Offer" &&
+              location.pathname.includes("/old-reports")
+                ? "active"
+                : "down"
+            }
+            style={{ 
+              cursor: "pointer",
+              marginTop:'28px',
+            }}
+            onClick={() => {
+              if (showOptions !== "report") {
+                setShowOptions("report"); 
+              }
+              if (!location.pathname.includes("/old-reports")) {
+                history.push("/old-reports"); 
+              }
+            }}
+          >
+            <li style={{ marginBottom: 0 }} />
+            <Stats className="menu-items-SVG" />
+            {isExpanded && 
+            <span 
+              className="menu-items-name"
+              style={{
+                fontSize:'12px'
+              }}
+            >
+              Reports & Insights
+            </span>}
+          </div>
 
           <div
             className={
@@ -501,7 +531,7 @@ const SidePanel = () => {
               <div>
                 <li style={{ marginBottom: 0 }} />
                 <Payment className="menu-items-SVG" />
-                {isExpanded && <span className="menu-items-name">Payments</span>}
+                {isExpanded && <span className="menu-items-name" style={{fontSize:'15px'}}>Payments</span>}
               </div>
             }
           </div>
