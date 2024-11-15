@@ -179,7 +179,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 const className = typeName?.toLowerCase() + "data";
                 const isPriceEnabled =
                   orderType &&
-                  orderType.isNotHide == 0 &&
+                  orderType.isNotHide == 1 &&
                   orderType.availabilityEnabled === true
                     ? true
                     : false;
@@ -227,7 +227,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 // console.log("orderType", className);
                 const isAvailEnabled =
                   orderType &&
-                  orderType.isNotHide === 1 &&
+                
                   orderType.availabilityEnabled === true
                     ? true
                     : false;
@@ -239,7 +239,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                     : typeName === "Delivery"
                     ? "Delivery2"
                     : "";
-
+                   
+                    
                 return (
                   <div
                     key={typeName}

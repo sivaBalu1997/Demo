@@ -6,7 +6,7 @@ import { partialUpdateMenuRequest } from "redux/productCatalog/productCatalogAct
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import SessionOpen from "../SessionOpen/SessionOpen";
 
-const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid }) => {
+const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid ,parentToggle}) => {
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState(null);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
@@ -81,19 +81,38 @@ console.log("todayWorkinghours",todayWorkinghours);
       const todayWorkinghours = restaurantDetails?.workingHours.filter(
         (item) => item.weekday === todayDay
       );
+
+      if(parentToggle==="")
+      {
+        setPatchedData((prevState) => ({
+          ...prevState,
+          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+            (availabilityInfo) =>
+              availabilityInfo.orderTypeId === selectedtypeid
+                ? {
+                    ...availabilityInfo,
+                    unAvailableUntilTime: `${formattedDate}T${todayWorkinghours[todayWorkinghours.length-1]?.closingTime}`,
+                  }
+                : availabilityInfo
+          ),
+        }));
+      }
+      else{
+        setPatchedData((prevState) => ({
+          ...prevState,
+          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+            (availabilityInfo) =>{
+              return { 
+                
+              ...availabilityInfo,
+              unAvailableUntilTime: `${formattedDate}T${todayWorkinghours[todayWorkinghours.length-1]?.closingTime}`,
+            }
+          }
+          ),
+        }));
+      }
       
-      setPatchedData((prevState) => ({
-        ...prevState,
-        itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-          (availabilityInfo) =>
-            availabilityInfo.orderTypeId === selectedtypeid
-              ? {
-                  ...availabilityInfo,
-                  unAvailableUntilTime: `${formattedDate}T${todayWorkinghours[todayWorkinghours.length-1]?.closingTime}`,
-                }
-              : availabilityInfo
-        ),
-      }));
+     
     } else if (elem === "End of Sessions") {
       setshowsession(true);
       setshowAvailchanges(false)
@@ -102,18 +121,39 @@ console.log("todayWorkinghours",todayWorkinghours);
       console.log("sessionClosingHours",sessionClosingHours);
       
 
-      setPatchedData((prevState) => ({
-        ...prevState,
-        itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-          (availabilityInfo) =>
-            availabilityInfo.orderTypeId === selectedtypeid
-              ? {
-                  ...availabilityInfo,
-                  unAvailableUntilTime: `${formattedDate}T${sessionClosingHours?.closingTime}`,
-                }
-              : availabilityInfo
-        ),
-      }));
+
+
+      
+      if(parentToggle==="")
+        {
+          setPatchedData((prevState) => ({
+            ...prevState,
+            itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+              (availabilityInfo) =>
+                availabilityInfo.orderTypeId === selectedtypeid
+                  ? {
+                      ...availabilityInfo,
+                      unAvailableUntilTime: `${formattedDate}T${sessionClosingHours?.closingTime}`,
+                    }
+                  : availabilityInfo
+            ),
+          }));
+        }
+        else{
+          setPatchedData((prevState) => ({
+            ...prevState,
+            itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+              (availabilityInfo) =>{
+                return { 
+                  
+                ...availabilityInfo,
+                unAvailableUntilTime: `${formattedDate}T${sessionClosingHours?.closingTime}`,
+              }
+            }
+            ),
+          }));
+        }
+     
     }
   };
 
@@ -162,6 +202,7 @@ console.log("todayWorkinghours",todayWorkinghours);
         <AvailCalender
           selectedtypeid={selectedtypeid}
           setShowcalender={setShowAvailCalender}
+          parentToggle={parentToggle}
         />
       )}
 

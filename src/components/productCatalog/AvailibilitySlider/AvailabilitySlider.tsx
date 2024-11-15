@@ -46,10 +46,130 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         types: [],
       }))
     : [];
+
+
+const [parentOrderTypeArray, setParentOrderTypeArray] = useState<any>([]);
+
+const [selectedOrderTypeId,setSelectedOrderTypeId]=useState<string>("");
+const [selectedOrderTypeCategory,setSelectedOrderTypeCategory]=useState<string>("");
+
+const [availabilityOrderTypes,setAvailabilityOrderTypes]=useState<any>([]);
+
+useEffect(()=>{
+const tempOnPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+const tempOffPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+
+const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+
+
+const tempOrderTypeAvailabilityArray=[
+  {
+    mainHeading: "On-prem",
+    types:tempOnPremarray,
+    isEnabled:isOnPremEnabledCount
+  },
+  {
+    mainHeading: "Off-prem",
+    types:tempOffPremarray,
+    isEnabled:isOffPremEnabledCount
+  },
+  
+]
+setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
+setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
+
+},[dataFromRedux[0]?.orderTypes])
+
+const handleToggleDisable=()=>{
+  setPatchedData((prevState:any) => ({
+    ...prevState,
+    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+      (availabilityInfo:any) =>
+        availabilityInfo.orderTypeId === selectedOrderTypeId
+          ? {
+              ...availabilityInfo,
+              unAvailableUntilTime: "",
+            }
+          : availabilityInfo
+    ),
+  }));
+}
+
+
+  const handleOrderTypesAvail = (OrderTypeId:string)=>{
+  const tempOderTypes=parentOrderTypeArray?.map((data:any,index:number)=> {
+    return data?.typeId === OrderTypeId ? {...data,availabilityEnabled:!data?.availabilityEnabled}:data 
+  } )
+
+  const tempOnPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+  const tempOffPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+
+  setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
+  
+  const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+  const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+  
+  
+  const tempOrderTypeAvailabilityArray=[
+    {
+      mainHeading: "On-prem",
+      types:tempOnPremarray,
+      isEnabled:isOnPremEnabledCount
+    },
+    {
+      mainHeading: "Off-prem",
+      types:tempOffPremarray,
+      isEnabled:isOffPremEnabledCount
+    },
+    
+  ]
+  setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
+  setSelectedOrderTypeId("");
+  
+  }
+
+  const handleOrderCategoryAvailability = (categoryHeading: string) => {
+
+    const tempOnPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup === "D" })
+    const tempOffPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup !== "D" })
+
+    const isOnPremEnabledCount = tempOnPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled === false }).length == 0
+    const isOffPremEnabledCount = tempOffPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled === false }).length == 0
+
+    const updatedTempOnPremarray = tempOnPremarray?.map((data: any, index: number) => {
+      return { ...data, availabilityEnabled: !isOnPremEnabledCount }
+    })
+
+    const updatedTempOffPremarray = tempOffPremarray?.map((data: any, index: number) => {
+      return { ...data, availabilityEnabled: !isOffPremEnabledCount }
+    })
+
+    setParentOrderTypeArray(categoryHeading == "On-prem" ? [...updatedTempOnPremarray, ...tempOffPremarray] : [...tempOnPremarray, ...updatedTempOffPremarray])
+
+    const tempOrderTypeAvailabilityArray = [
+      {
+        mainHeading: "On-prem",
+        types: categoryHeading == "On-prem" ? updatedTempOnPremarray : tempOnPremarray,
+        isEnabled: categoryHeading == "On-prem" ? !isOnPremEnabledCount : isOnPremEnabledCount
+      },
+      {
+        mainHeading: "Off-prem",
+        types: categoryHeading == "Off-prem" ? updatedTempOffPremarray : tempOffPremarray,
+        isEnabled: categoryHeading == "Off-prem" ? !isOffPremEnabledCount : isOffPremEnabledCount
+      },
+
+    ]
+    setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
+    setSelectedOrderTypeCategory("");
+
+  }
+  
   const data = [
     {
       mainHeading: "On-prem",
       types: [Dinein?.typeName],
+      isEnabled:Dinein?.availabilityEnabled
     },
     {
       mainHeading: "Off-prem",
@@ -61,8 +181,6 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
               name:elem.typeName,
               isEnabled:elem.availabilityEnabled,
               orderTypeId:elem.typeId
-              
-
             }))
             : [],
 
@@ -90,23 +208,23 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   //   isEnabled: type.isEnabled,
   // }));
 
-  const getEnabledValues = () => {
-    let enabledArray: boolean[] = [];
+  // const getEnabledValues = () => {
+  //   let enabledArray: boolean[] = [];
 
-    data.forEach((item) => {
-      if (item.subcategories) {
-        item.subcategories.forEach((subcategory) => {
-          if (Array.isArray(subcategory.isEnabled)) {
-            enabledArray = enabledArray.concat(subcategory.isEnabled);
-          }
-        });
-      }
-    });
+  //   data.forEach((item) => {
+  //     if (item.subcategories) {
+  //       item.subcategories.forEach((subcategory) => {
+  //         if (Array.isArray(subcategory.isEnabled)) {
+  //           enabledArray = enabledArray.concat(subcategory.isEnabled);
+  //         }
+  //       });
+  //     }
+  //   });
 
-    return enabledArray;
-  };
+  //   return enabledArray;
+  // };
 
-  const enabledValuesArray = getEnabledValues();
+ // const enabledValuesArray = getEnabledValues();
   // console.log(enabledValuesArray);
 
   const [toggleStates, setToggleStates] = useState<any[]>([]);
@@ -131,52 +249,55 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     }
   }, [dataFromRedux, setPatchedData, selectedDateOption]);
 
-  useEffect(() => {
-    const initialToggleStates = data.map((item, index) => {
-      if (item.subcategories) {
-        return {
-          parentToggle: false,
-          subcategoryToggles: item.subcategories.map((_, subIndex) => ({
-            subParentToggle: false,
-            childToggles: Array(3)
-              .fill(false)
-              .map((_, childIndex) =>
-                mapInitialToggleState(index, subIndex, childIndex)
-              ),
-          })),
-        };
-      } else if (item.types) {
-        return {
-          parentToggle: false,
-          childToggles: item.types.map((_, typeIndex) =>
-            mapInitialToggleState(index, 0, typeIndex)
-          ),
-        };
-      }
-      return null;
-    });
+  // useEffect(() => {
+  //   const initialToggleStates = data.map((item, index) => {
+  //     if (item.subcategories) {
+  //       return {
+  //         parentToggle: false,
+  //         subcategoryToggles: item.subcategories.map((_, subIndex) => ({
+  //           subParentToggle: false,
+  //           childToggles: Array(3)
+  //             .fill(false)
+  //             .map((_, childIndex) =>
+  //               mapInitialToggleState(index, subIndex, childIndex)
+  //             ),
+  //         })),
+  //       };
+  //     } else if (item.types) {
+  //       return {
+  //         parentToggle: false,
+  //         childToggles: item.types.map((_, typeIndex) =>
+  //           mapInitialToggleState(index, 0, typeIndex)
+  //         ),
+  //       };
+  //     }
+  //     return null;
+  //   });
 
-    setToggleStates(initialToggleStates);
-  }, [dataFromRedux]);
+  //   setToggleStates(initialToggleStates);
+  // }, [dataFromRedux]);
 
-  const mapInitialToggleState = (
-    parentIndex: number,
-    subcategoryIndex: number,
-    childIndex: number
-  ) => {
-    const orderTypes = dataFromRedux?.[0]?.orderTypes;
-    const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
+  // const mapInitialToggleState = (
+  //   parentIndex: number,
+  //   subcategoryIndex: number,
+  //   childIndex: number
+  // ) => {
+  //   const orderTypes = dataFromRedux?.[0]?.orderTypes;
+  //   const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
 
-    if (parentIndex === 0) {
-      return orderTypes?.[0]?.isEnabled === "Enabled";
-    } else if (parentIndex === 1 && subcategoryIndex === 0) {
-      return orderTypes?.[0]?.isEnabled === "Enabled";
-    } else if (parentIndex === 1 && subcategoryIndex === 1) {
-      return pricingDetails?.Delivery2?.[childIndex] === "Enabled";
-    }
+  //   console.log("orderTypes",orderTypes);
+    
 
-    return false;
-  };
+  //   if (parentIndex === 0) {
+  //     return orderTypes?.[0]?.isEnabled === "Enabled";
+  //   } else if (parentIndex === 1 && subcategoryIndex === 0) {
+  //     return orderTypes?.[0]?.isEnabled === "Enabled";
+  //   } else if (parentIndex === 1 && subcategoryIndex === 1) {
+  //     return pricingDetails?.Delivery2?.[childIndex] === "Enabled";
+  //   }
+
+  //   return false;
+  // };
 
   const handleParentToggle = (parentIndex: number) => {
     const newToggleStates = [...toggleStates];
@@ -205,126 +326,153 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     setToggleStates(newToggleStates);
   };
 
-  const handleSubcategoryToggle = (
-    parentIndex: number,
-    subcategoryIndex: number
-  ) => {
-    const newToggleStates = [...toggleStates];
-    const subcategoryToggle =
-      newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex]
-        .subParentToggle;
+  // const handleSubcategoryToggle = (
+  //   parentIndex: number,
+  //   subcategoryIndex: number
+  // ) => {
+  //   const newToggleStates = [...toggleStates];
+  //   const subcategoryToggle =
+  //     newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex]
+  //       .subParentToggle;
 
-    newToggleStates[parentIndex].subcategoryToggles[
-      subcategoryIndex
-    ].subParentToggle = !subcategoryToggle;
+  //   newToggleStates[parentIndex].subcategoryToggles[
+  //     subcategoryIndex
+  //   ].subParentToggle = !subcategoryToggle;
 
-    if (!subcategoryToggle) {
-      newToggleStates[parentIndex].subcategoryToggles[
-        subcategoryIndex
-      ].childToggles.forEach((_: any, childIndex: number) => {
-        newToggleStates[parentIndex].subcategoryToggles[
-          subcategoryIndex
-        ].childToggles[childIndex] = true;
-      });
-    } else {
-      newToggleStates[parentIndex].subcategoryToggles[
-        subcategoryIndex
-      ].childToggles.forEach((_: any, childIndex: number) => {
-        newToggleStates[parentIndex].subcategoryToggles[
-          subcategoryIndex
-        ].childToggles[childIndex] = false;
-      });
-    }
+  //   if (!subcategoryToggle) {
+  //     newToggleStates[parentIndex].subcategoryToggles[
+  //       subcategoryIndex
+  //     ].childToggles.forEach((_: any, childIndex: number) => {
+  //       newToggleStates[parentIndex].subcategoryToggles[
+  //         subcategoryIndex
+  //       ].childToggles[childIndex] = true;
+  //     });
+  //   } else {
+  //     newToggleStates[parentIndex].subcategoryToggles[
+  //       subcategoryIndex
+  //     ].childToggles.forEach((_: any, childIndex: number) => {
+  //       newToggleStates[parentIndex].subcategoryToggles[
+  //         subcategoryIndex
+  //       ].childToggles[childIndex] = false;
+  //     });
+  //   }
 
-    setToggleStates(newToggleStates);
-  };
-  const handleChildToggle = (
-    parentIndex: number,
-    subcategoryIndex: number | null,
-    childIndex: number
-  ) => {
-    const newToggleStates = [...toggleStates];
+  //   setToggleStates(newToggleStates);
+  // };
+  // const handleChildToggle = (
+  //   parentIndex: number,
+  //   subcategoryIndex: number | null,
+  //   childIndex: number
+  // ) => {
+    
+    
+  //   const newToggleStates = [...toggleStates];
 
-    if (subcategoryIndex !== null) {
-      const subcategoryToggles =
-        newToggleStates[parentIndex]?.subcategoryToggles;
+  //   if (subcategoryIndex !== null) {
+  //     const subcategoryToggles =
+  //       newToggleStates[parentIndex]?.subcategoryToggles;
 
-      if (subcategoryToggles && subcategoryToggles[subcategoryIndex]) {
-        const childToggles = subcategoryToggles[subcategoryIndex]?.childToggles;
+  //     if (subcategoryToggles && subcategoryToggles[subcategoryIndex]) {
+  //       const childToggles = subcategoryToggles[subcategoryIndex]?.childToggles;
 
-        if (childToggles) {
-          childToggles[childIndex] = !childToggles[childIndex];
+  //       if (childToggles) {
+  //         childToggles[childIndex] = !childToggles[childIndex];
 
-          const areAllChildrenDisabled = childToggles.every(
-            (toggle: boolean) => !toggle
-          );
+  //         const areAllChildrenDisabled = childToggles.every(
+  //           (toggle: boolean) => !toggle
+  //         );
 
-          subcategoryToggles[subcategoryIndex].subParentToggle =
-            !areAllChildrenDisabled;
-        }
-      }
-    } else {
-      const childToggles = newToggleStates[parentIndex]?.childToggles;
+  //         subcategoryToggles[subcategoryIndex].subParentToggle =
+  //           !areAllChildrenDisabled;
+  //       }
+  //     }
+  //   } else {
+  //     const childToggles = newToggleStates[parentIndex]?.childToggles;
 
-      if (childToggles) {
-        childToggles[childIndex] = !childToggles[childIndex];
+  //     if (childToggles) {
+  //       childToggles[childIndex] = !childToggles[childIndex];
 
-        const areAllChildrenDisabled = childToggles.every(
-          (toggle: boolean) => !toggle
-        );
+  //       const areAllChildrenDisabled = childToggles.every(
+  //         (toggle: boolean) => !toggle
+  //       );
 
-        newToggleStates[parentIndex].parentToggle = !areAllChildrenDisabled;
-      }
-    }
+  //       newToggleStates[parentIndex].parentToggle = !areAllChildrenDisabled;
+  //     }
+  //   }
 
-    setToggleStates(newToggleStates);
-  };
+  //   setToggleStates(newToggleStates);
+  // };
 
   const [selectedtypeid, setSelectedtypeid] = useState<string>();
 
-  const handleselectchangePeriod = (id: string, enable: boolean) => {
-    console.log("enable", enable);
-    if (enable) {
-      setSelectPeriod(true);
-      setSelectedtypeid(id);
-    }
-  };
-  const handleheadingtoggle = () => {
-    setSelectPeriod(true);
-  };
+  // const handleselectchangePeriod = (id: string, enable: boolean) => {
+  //   console.log("enable", enable);
+   
+  //     setSelectPeriod(true);
+  //     setSelectedtypeid(id);
+    
+  // };
+  // const handleheadingtoggle = () => {
+  //   setSelectPeriod(true);
+  // };
+
+  const [parentToggle,setParrentToggle]=useState("")
 
   return (
+
+    
     <div className="AvailSlider-Container">
       <h3 className="AvailSlider-Heading">Availability</h3>
       <div className="AvailOnprem-Ofprem">
-        {data.map((elem, index) => (
+        {availabilityOrderTypes?.map((elem:any, index:number) => (
           <div key={index} className="Avail-SectionAB">
             <div className="AvailHeading-Section">
               <h2 className="sub-head">{elem.mainHeading}</h2>
 
               <div
                 className="toggle-btnfor-subhead"
-                // onClick={handleheadingtoggle}
+               
               >
                 <ToggleSliderAvail
-                  toggle={toggleStates[index]?.parentToggle || false}
-                  setToggle={() => handleParentToggle(index)}
+                  toggle={elem.isEnabled}
+                  setToggle={() => {
+                    //handleParentToggle(index)
+                    handleOrderCategoryAvailability(elem.mainHeading)
+                    setSelectedOrderTypeCategory(elem.mainHeading)
+                    setParrentToggle(elem.mainHeading)
+                    setSelectPeriod(true);
+                  }}
                   pen={pen}
                 />
               </div>
             </div>
             {elem.types && (
               <div className="SectionASectionBSection">
-                {elem.types.map((type, typeIndex) => (
+                {elem.types.map((type:any, typeIndex:number) => (
                   <div key={typeIndex} className="TypeHeading1">
-                    <h3 className="SectionASectionBSectionHeading">{type}</h3>
+                    <h3 className="SectionASectionBSectionHeading">{type.typeName}</h3>
                     <div className="" style={{marginLeft:"55px"}}>
                       <ToggleSliderAvail
-                        toggle={
-                          toggleStates[index]?.childToggles?.[typeIndex] ||
-                          false
+                        toggle={type.availabilityEnabled}
+                        setToggle={() => 
+                        {
+                          if(!type.availabilityEnabled)
+                          {
+                            setSelectedOrderTypeId(type.typeId)
+                            setSelectPeriod(true);
+                            setParrentToggle("")
+                            handleOrderTypesAvail(type.typeId)
+                          }
+                          else{
+                            setSelectedOrderTypeId(type.typeId)
+                            handleOrderTypesAvail(type.typeId)
+                            handleToggleDisable()
+                            setParrentToggle("")
+                          }
                         }
-                        setToggle={() => handleChildToggle(index, 0, typeIndex)}
+                          
+                          
+                         }
                         pen={pen}
                       />
                     </div>
@@ -332,22 +480,11 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                 ))}
               </div>
             )}
-            {elem.subcategories && (
+            {/* {elem.subcategories && (
               <div className="PickupDeliveryAvail">
-                {elem.subcategories.map((subcategory, subIndex) => (
+                {elem.subcategories.map((subcategory:any, subIndex:number) => (
                   <div key={subIndex} className="subcategorySection">
-                    {/* <h3 className="SectionASectionBSectionHeadingBlack">
-                      {subcategory.subHeading}
-                    </h3>
-                    <ToggleSliderAvail
-                      toggle={
-                        dataFromRedux[0]?.orderTypes.map(
-                          (elem: any) => elem.isEnabled
-                        ) || false
-                      }
-                      setToggle={() => handleSubcategoryToggle(index, subIndex)}
-                      pen={pen}
-                    /> */}
+                   
                     <div className="TypesSection">
                       {subcategory.types.map((type: any, typeIndex: any) => (
                         <>
@@ -378,19 +515,14 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                               }}
                             >
                               <ToggleSliderAvail
-                                toggle={
-                                  toggleStates[index]?.subcategoryToggles?.[
-                                    subIndex
-                                  ]?.childToggles?.[typeIndex] || false
-                                }
+                                toggle={type.isEnabled}
+                    
                                 setToggle={() => {
-                                  if (enabledValuesArray[typeIndex]) {
-                                    handleChildToggle(
-                                      index,
-                                      subIndex,
-                                      typeIndex
-                                    );
-                                  }
+                                  handleChildToggle(
+                                    index,
+                                    subIndex,
+                                    typeIndex
+                                  )
                                 }}
                                 pen={pen}
                               />
@@ -402,13 +534,14 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         ))}
         {selectPeriod && (
           <AvailabilityChangesUntil
             setSelectPeriod={setSelectPeriod}
-            selectedtypeid={selectedtypeid}
+            selectedtypeid={selectedOrderTypeId}
+            parentToggle={parentToggle}
           />
         )}
       </div>

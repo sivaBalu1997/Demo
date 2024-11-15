@@ -168,7 +168,7 @@ const uncheckedItems = data
     setData(newData);
   };
 
-  console.log("jj",data1)
+  console.log("jj",data.map((item)=>item.subItems.map((sub)=>"name"+sub.isChecked+"enble"+sub.isEnabled)))
 
   return (
     <div ref={eyemodalRef} onClick={EyeClose} className="EyeModal-Container">
@@ -187,7 +187,7 @@ const uncheckedItems = data
                   <input
                     className="checkbox-Items"
                     type="checkbox"
-                    checked={elem.isChecked} 
+                    checked={!elem.isChecked} 
                     onChange={() => parentToggleChange(parentIndex)} 
                   />
                 </div>
@@ -198,7 +198,7 @@ const uncheckedItems = data
                     <input
                       className="checkbox-Items"
                       type="checkbox"
-                      checked={subItem.isChecked} 
+                      checked={!subItem.isChecked} 
                       onChange={() => subItemToggleChange(parentIndex, subIndex)}
                       disabled={ subItem.isEnabled===0}
                     />

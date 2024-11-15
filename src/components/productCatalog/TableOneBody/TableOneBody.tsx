@@ -6,6 +6,7 @@ import HoverText from "../HoverText/HoverText";
 import { RootState } from "redux/rootReducer";
 import { STORAGE_BUCKET_URL } from "shared/constants";
 import { selectedCategory } from "redux/productCatalog/productCatalogActions";
+import placeholderimg from '../../../assets/svg/placeholderimg.svg'
 
 interface Media {
   id: string;
@@ -239,7 +240,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
               <span className="itemimage2">
                 {/* <img src={dots} alt="" className="draggableimg" /> */}
                 <img
-                  src={item?.mediaResponseList[0]?.imageId ? (baseImageUrl + item?.mediaResponseList[0]?.imageId) : baseImageUrl2 + "photo/2023/07/12/20/40/ai-generated-8123328_640.png" }
+                  src={item?.mediaResponseList[0]?.imageId ? (baseImageUrl + item?.mediaResponseList[0]?.imageId) : placeholderimg}
                   alt=""
                   className="foodimage"
                 />

@@ -2,16 +2,20 @@ import React, { useContext, useState } from "react";
 import "./AvailCalender.scss";
 import DatePicker from "react-datepicker";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { useSelector } from "react-redux";
 
 interface modelshow {
   setShowcalender: any;
   showcalender: any;
   selectedtypeid: string;
+  ParentToggle:string
+ 
 }
 
 const AvailCalender: React.FC<modelshow> = ({
   selectedtypeid,
   setShowcalender,
+  ParentToggle
 }) => {
 
   const [selectedDatee, setSelectedDatee] = useState<Date | null>(null);
@@ -19,7 +23,7 @@ const AvailCalender: React.FC<modelshow> = ({
   const [hours, setHours] = useState('');
   const [minutes, setMinutes] = useState('');
   const [formattedTime, setFormattedTime] = useState('');
-
+  const dataFromRedux = useSelector((state:any) => state?.selectedMockDataReducer?.data );
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
 
 
@@ -49,17 +53,41 @@ const AvailCalender: React.FC<modelshow> = ({
         orderTypeId: selectedtypeid,
         unAvailableUntilTime: formatDateTime(selectedDatee, formattedTime, selectedTimePeriod),
       };
-      const updatedData = {
-        ...patchedData,
-        itemAvailabilityInfo: [
-          ...patchedData.itemAvailabilityInfo.filter(
-            (info: any) => info.orderTypeId !== selectedtypeid
-          ),
-          newAvailabilityInfo,
-        ],
-      };
 
-      setPatchedData(updatedData);
+      if(ParentToggle==="")
+      {
+
+        const updatedData = {
+          ...patchedData,
+          itemAvailabilityInfo: [
+            ...patchedData.itemAvailabilityInfo.filter(
+              (info: any) => info.orderTypeId !== selectedtypeid
+            ),
+            newAvailabilityInfo,
+          ],
+        };
+        setPatchedData(updatedData);
+      }
+   
+
+     
+      else{
+        setPatchedData((prevState:any) => ({
+          ...prevState,
+          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+            (availabilityInfo:any) =>{
+              return { 
+                
+              ...availabilityInfo,
+              unAvailableUntilTime: formatDateTime(selectedDatee, formattedTime, selectedTimePeriod),
+            }
+          }
+          ),
+        }));
+      }
+       
+
+     
       setShowcalender(false);
     }
   };
@@ -80,6 +108,8 @@ const AvailCalender: React.FC<modelshow> = ({
   };
   const result = selectedDatee && selectedTimePeriod && formatDateTime(selectedDatee, formattedTime, selectedTimePeriod);
   console.log("result", result);
+
+
 
   return (
     <div className="AvailCalenderContainer">
