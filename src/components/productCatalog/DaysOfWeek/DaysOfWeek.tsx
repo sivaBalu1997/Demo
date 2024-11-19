@@ -27,7 +27,7 @@ const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays }) => {
         <li
           key={index}
           className={`list ${daysArray.includes(index) ? "included" : ""}`}
-          onClick={() => toggleHighlight(index)}
+         
           role="button"
           tabIndex={0}
           onKeyPress={(e) => { if (e.key === 'Enter') toggleHighlight(index); }}

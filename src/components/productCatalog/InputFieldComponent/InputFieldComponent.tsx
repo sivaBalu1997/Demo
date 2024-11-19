@@ -1,6 +1,5 @@
 import React from "react";
 import "./InputFieldComponent.scss";
-import { FieldError } from "react-hook-form";
 import { useSelector } from "react-redux";
 
 interface InputFieldInterface {
@@ -16,10 +15,9 @@ interface InputFieldInterface {
 }
 
 const InputFieldComponent: React.FC<InputFieldInterface> = ({
-
   name,
   type,
-  value,
+  value = "",
   onChange,
   trigger,
   onBlur,
@@ -32,17 +30,25 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e);  // Call onChange with the event
-    trigger(name);  // Trigger validation after change
+    const { value: inputValue } = e.target;
+
+    
+    if (name === "itemCode" && inputValue.length > 4) {
+      return;
+    }
+
+    onChange(e); 
+    trigger(name);
   };
 
-  const message=useSelector((state:any)=>state?.getItemCodeReducer?.itemCode?.data?.message)
+  const message = useSelector(
+    (state: any) => state?.getItemCodeReducer?.itemCode?.data?.message
+  );
 
   return (
     <div>
       <div className="input-and-spantext">
         <input
-          // {...register(name, validation)}
           type={type}
           autoComplete="off"
           name={name}
@@ -54,11 +60,10 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
         />
         <span className="placeholder">{subtext}</span>
       </div>
-      {name === "itemCode" && message && value && value.length>=4 && (
-  <p className="itemCode-Success">{message}</p>
-)}
+      {name === "itemCode" && message && value && value.length === 4 && (
+        <p className="itemCode-Success">{message}</p>
+      )}
       {error && <p className="Input-Field-Error-message">{error.message}</p>}
-
     </div>
   );
 };

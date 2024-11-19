@@ -6,6 +6,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { MainForm, Modification } from "../Savenextbutton/SaveAndNext";
 import { PricingDetailRequest, itemCustomizationPost, primarypost } from "redux/productCatalog/productCatalogActions";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 interface LocationState {
   pagename: string;
@@ -38,6 +39,16 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation<LocationState | undefined>(); 
+  const itemCustomizationData = useSelector(
+    (state: any) => state.itemCustomizationsReducer1.itemData
+  );
+  const ItemsPrimaryDetails = useSelector(
+    (state: any) => state.primarypage?.data
+  )
+  const prizingDetail = useSelector(
+    (state: any) => state.PricingDetailReducer.prizingData || {}
+  );
+
 
   const categories = [
     "Primary Details",
@@ -154,7 +165,9 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   return (
     <>
       <div className={"navigation"}>
-        <h1 className="Mainheading">Creating new menu item</h1>
+        <h1 className="Mainheading">
+      {itemCustomizationData.length|| ItemsPrimaryDetails.length|| prizingDetail.length > 0 ? "Edit your menu item" : "Creating new menu item"}
+    </h1>
         <nav className="nav">
           <ul className={isExpanded ? "listofnavigationExpanded" : "listofnavigation"}>
             {categories.map((category, index) => (
