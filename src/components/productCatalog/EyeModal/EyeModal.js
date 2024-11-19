@@ -19,12 +19,14 @@ const EyeModal = ({ onEyeclose,onclose }) => {
     const updatedData = [
       {
         Heading: "On-prem",
+
         subItems: [
           {
             name: Dinein.typeName,
             id: Dinein.typeId,
             isChecked: Dinein.isNotHide,
             isEnabled: Dinein.isEnabled,
+          
           },
         ],
       },
@@ -37,6 +39,8 @@ const EyeModal = ({ onEyeclose,onclose }) => {
             id: elem.typeId,
             isChecked: elem.isNotHide,
             isEnabled: elem.isEnabled,
+           
+
           })),
       },
     ];
@@ -44,6 +48,8 @@ const EyeModal = ({ onEyeclose,onclose }) => {
     setData(updatedData);
   }, [data1, Dinein]);
   
+  const allSelected = data.every((item) => item.isChecked); 
+
 
     console.log("w",data1)
     const data3={
@@ -70,10 +76,10 @@ const hidePayload = {
   itemOrderTypeStatuses: data
     .flatMap((section) => 
       section.subItems
-        // .filter((subItem) => subItem.isChecked) // Filter items where isChecked is true
+    
         .map((subItem) => ({
-          orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
-          isEnabled: subItem.isChecked // Use isChecked from subItems (it will be true here)
+          orderTypeId: subItem.id, 
+          isEnabled: subItem.isChecked 
         }))
     )
 };
@@ -166,6 +172,7 @@ const uncheckedItems = data
       })),
     }));
     setData(newData);
+    
   };
 
   console.log("jj",data.map((item)=>item.subItems.map((sub)=>"name"+sub.isChecked+"enble"+sub.isEnabled)))
@@ -176,7 +183,9 @@ const uncheckedItems = data
         <div className="EyeModal-Form">
           <div className="HideItemHeading-SelectAll-Container">
             <h1 className="HideItemHeading">Hide Item in</h1>
-            <p className="Select-all-heading" onClick={handleSelectAll}>Select all</p>
+            <p className="Select-all-heading" onClick={handleSelectAll}>
+  {allSelected ? "Select All" : "Deselect All"}
+</p>
           </div>
 
           <div className="Radio-items-container">

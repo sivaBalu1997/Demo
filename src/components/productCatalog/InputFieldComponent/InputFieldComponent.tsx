@@ -30,16 +30,24 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value: inputValue } = e.target;
-
-    
+    let { value: inputValue } = e.target;
+  
+  
+    if (name === "itemCode") {
+      inputValue = inputValue.replace(/e/gi, ""); // Filter out 'e' from the input
+    }
+  
+   
     if (name === "itemCode" && inputValue.length > 4) {
       return;
     }
-
+  
+    
+    e.target.value = inputValue;
     onChange(e); 
     trigger(name);
   };
+  
 
   const message = useSelector(
     (state: any) => state?.getItemCodeReducer?.itemCode?.data?.message
