@@ -830,7 +830,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
-
+useEffect(()=>{
+  setDineIn(true);
+},[])
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");

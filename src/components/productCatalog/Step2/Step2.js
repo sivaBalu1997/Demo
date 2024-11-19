@@ -65,45 +65,8 @@ const Step2 = () => {
               </h1>
             </div>
           </div>
-          <h1 className="Step2Inventory-relatedheading">Inventory</h1>
-          <div className="Step2InventoryRelated">
-            <div className="Step2InventoryServings">
-              <h1 className="Step2Servingsheading">
-                Maximum No. of servings per day
-              </h1>
-              <h1 className="Step2Servingsvalue">
-                {" "}
-                {(prizingDetail &&
-                  prizingDetail.form &&
-                  prizingDetail.form.Inventory1 &&
-                  prizingDetail.form.Inventory1) ||
-                  "N/A"}{" "}
-              </h1>
-            </div>
-            <div className="Step2Threshold">
-              <h1 className="Step2Thresholdheading">Threshold</h1>
-              <h1 className="Step2Thresholdvalue">
-                {(prizingDetail &&
-                  prizingDetail.form &&
-                  prizingDetail.form.Inventory2) ||
-                  "N/A"}
-              </h1>
-            </div>
-          </div>
-          <div className="Step2InventoryRelated">
-            <div className="Step2InventoryMaxCount">
-              <h1 className="Step2Servingsheading">
-                Next availabe time at maximum count{" "}
-              </h1>
-              <h1 className="Step2Servingsvalue"> Show </h1>
-            </div>
-            <div className="Step2ResetInventory">
-              <h1 className="Step2Thresholdheading">
-                Reset Inventory Everyday
-              </h1>
-              <h1 className="Step2Thresholdvalue">Yes</h1>
-            </div>
-          </div>
+          
+          
           {prizingDetail && prizingDetail?.normalForm ? (
             <NormalStep2 />
           ) : (

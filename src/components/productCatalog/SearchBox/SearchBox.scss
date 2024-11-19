@@ -64,18 +64,17 @@
 // }
 
 .MLSearch-Container-options1 {
-  width: 580px;
+  width: 560px;
   background-color: #ffffff;
-  max-height: 50vh; 
+  max-height: 45vh; 
   padding-left: 20px;
-  box-shadow: 0px 10px 15px -6px red;
 
   transform: translateY(1px);
   overflow-y: auto; 
   position: absolute; 
   z-index: 2; 
   top: 53px;
-  left: 183px;
+  left: 153px;
   padding-bottom: 10px;
 }
 
@@ -84,10 +83,11 @@
   list-style: none;
   cursor: pointer;
   background-color: white;
-  height: 40vh;
+  height: 45vh;
   overflow: auto;
-  width: 39vw;
+  width: 37.5vw;
   box-shadow: 0px 10px 15px -6px rgba(0, 0, 0, 0.2509803922);
+  margin-top: 0px;
 }
 
 .MLSearch-Container-options1 ul {
@@ -105,7 +105,7 @@
   color: #000000;
   margin-left: 25 px;
   margin-top: 10px;
-  height: 16px;
+  height: 10px;
   margin-bottom: 10px;
   margin-left: 20px;
   padding-bottom: 30px;
@@ -180,7 +180,6 @@
   width: 610px;
   height: 407px;
   background-color: #ffffff;
-  box-shadow: 0px 10px 15px -6px rgba(0, 0, 0, 0.2509803922);
   transform: translate(-18px);
   display: flex;
   justify-content: center;
@@ -188,6 +187,8 @@
   position: relative;
   right: 1.5vw;
   bottom: 16px;
+  margin-top: 3px;
+
 }
 
 .MLSearch-Container-options1-none {
@@ -196,12 +197,11 @@
   background-color: #ffffff;
   border:1px solid transparent;
 
-  box-shadow: 0px 10px 15px -6px #00000040;
   transform: translate(-20px);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -10px;
+  margin-top: 3px;
 }
 .MLSearch-Container-options-none-flex-direction {
   display: flex;
@@ -220,3 +220,30 @@
   font-family: Poppins;
   transform: translate(90px, -60px);
 }
+/* Apply styles for devices with a max width of 768px */
+@media (max-width: 2400px) {
+  .MLSearch-Container-options-menu ul{
+    width:30vw;
+  }
+}
+
+
+@media (max-width: 2000px) {
+  .MLSearch-Container-options-menu ul{
+    width:34vw;
+  }
+}
+@media (max-width: 1700px) {
+  .MLSearch-Container-options-menu ul{
+    width:38vw;
+  }
+}
+
+@media (max-width: 1500px) {
+  .MLSearch-Container-options-menu ul{
+    width:40vw;
+  }
+}
+
+
+
