@@ -883,7 +883,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
           <div className="tooltip">
             <TooltipMsg
-              message="Enter a unique code for this food item, used for identification."
+              message="Select Days to Display at the Bottom"
               styles={{
                 marginLeft: "2rem",
                 width: "350px",
