@@ -275,6 +275,7 @@ const ItemCustomizations: React.FC = () => {
   
       updated[modIndex] = {
         ...currentModifier,
+        selectionType: value,
         [name]: value,
         ["isModifierChanged"]: isCurrentValueEmpty && value !== "" ? false : true,
       };

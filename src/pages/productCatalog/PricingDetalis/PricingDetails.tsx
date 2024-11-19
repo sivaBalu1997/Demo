@@ -88,7 +88,7 @@ type MainFormTypespecial = {
 type DineInField = {
   DineInId?: string;
   DineInPrice: string | string[];
-  DineInMealType: string | string[];
+  // DineInMealType: string | string[];
 };
 
 type DineinFieldSpecial = {
@@ -499,7 +499,7 @@ const PricingDetails = () => {
     {
       DineInId: DineInId,
       DineInPrice: "",
-      DineInMealType: [],
+      // DineInMealType: [],
     },
   ]);
   const [dineinfieldsSpecial, setDineInFieldsSpecial] = useState<DineInField[]>(
@@ -507,7 +507,7 @@ const PricingDetails = () => {
       {
         DineInId: DineInId,
         DineInPrice: "",
-        DineInMealType: [],
+        // DineInMealType: [],
       },
     ]
   );
@@ -540,14 +540,14 @@ const PricingDetails = () => {
       const DineInService = `DineInService_${index}`;
 
       // Validate DineInMealType
-      if (!field.DineInMealType || field.DineInMealType.length === 0) {
-        errors[mealTypeKey] = {
-          isValid: false,
-          errorMessage: "Meal type should not be empty.",
-        };
-      } else {
-        errors[mealTypeKey] = { isValid: true, errorMessage: "" };
-      }
+      // if (!field.DineInMealType || field.DineInMealType.length === 0) {
+      //   errors[mealTypeKey] = {
+      //     isValid: false,
+      //     errorMessage: "Meal type should not be empty.",
+      //   };
+      // } else {
+      //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
+      // }
 
       if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
         errors[priceKey] = {
@@ -570,14 +570,14 @@ const PricingDetails = () => {
       const priceKey = `DineInPrice_${index}`;
 
       // Validate DineInMealType
-      if (!field.DineInMealType || field.DineInMealType.length === 0) {
-        errors[mealTypeKey] = {
-          isValid: false,
-          errorMessage: "Service should not be empty.",
-        };
-      } else {
-        errors[mealTypeKey] = { isValid: true, errorMessage: "" };
-      }
+      // if (!field.DineInMealType || field.DineInMealType.length === 0) {
+      //   errors[mealTypeKey] = {
+      //     isValid: false,
+      //     errorMessage: "Service should not be empty.",
+      //   };
+      // } else {
+      //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
+      // }
 
       if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
         errors[priceKey] = {
