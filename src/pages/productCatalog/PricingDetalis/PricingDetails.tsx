@@ -370,7 +370,7 @@ const PricingDetails = () => {
     Inventory1: "",
     Inventory2: "",
   });
-  const [dinein, setDineIn] = useState(false);
+  const [dinein, setDineIn] = useState(true);
 
   const [dineinspecial, setdineinspecial] = useState(false);
   const [inventory, setInventory] = useState(false);
@@ -837,7 +837,8 @@ const PricingDetails = () => {
                         onChange={(e) => {
                           const value = e.target.value;
                           if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
-                            setValue("Preparationtime.hours", Number(value));
+                            setValue("Preparationtime.hours",value === "" ? "" : Number(value));
+                            
                           }
                         }}
                       />

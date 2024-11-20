@@ -38,6 +38,9 @@ const Step3Review: React.FC = () => {
 
   // Log the data to inspect its structure
   // console.log(itemCustomizationData);
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth.restaurantDetails
+  );
 
   return (
     <div className="step3-Review-Container">
@@ -133,7 +136,7 @@ const Step3Review: React.FC = () => {
                         key={priceIndex}
                         className="Step-3-Modifier-Section-Menu-details-price"
                       >
-                        ₹ {price.cost}
+                          {restaurantDetails?.country === "US" ? "$" : "Rs."}{price.cost}
                       </h2>
                     ))}
                 </div>

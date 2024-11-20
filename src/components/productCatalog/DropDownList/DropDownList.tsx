@@ -26,7 +26,7 @@ interface Option {
 }
 
 interface DropdownProps {
-  setParentId?: any; 
+  setParentId?: any;
   name: string;
   id?: string;
   type?: "checkbox" | "radio";
@@ -50,11 +50,13 @@ interface DropdownProps {
     React.SetStateAction<Record<string, boolean>>
   >;
   resetSelection?: any;
-  parentId?:any;
+  parentId?: any;
+  bestpair?: boolean;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
   name,
+  bestpair,
   options,
   type = "checkbox",
   register,
@@ -74,7 +76,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   actionToDispatch,
   resetSelection,
   setParentId,
-  parentId
+  parentId,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -87,7 +89,7 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const dispatch = useDispatch();
 
-  const editData = useSelector((state : any) => state.productCatalog.editData)
+  const editData = useSelector((state: any) => state.productCatalog.editData);
 
   const locationid = useSelector(
     (state: any) => state.auth.credentials?.locationId
@@ -147,9 +149,10 @@ const DropDownList: React.FC<DropdownProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setDropdownOpen]);
-  
 
-  const dropDownLoading = useSelector((state : any) => state.productCatalog.dropDownLoading)
+  const dropDownLoading = useSelector(
+    (state: any) => state.productCatalog.dropDownLoading
+  );
 
   useEffect(() => {
     if (dropDownType !== "SUB_CATEGORY") {
@@ -224,116 +227,161 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
-  useEffect(()=>{
-    if(editData && ItemsPrimaryDetails?.cuisine && name === 'cuisine'){
-      dispatch(fetchDropDownRequest({
-        locationId: locationid,
-        type: "CUISINES",
-        parentId: "",
-      }))
+  useEffect(() => {
+    if (editData && ItemsPrimaryDetails?.cuisine && name === "cuisine") {
+      dispatch(
+        fetchDropDownRequest({
+          locationId: locationid,
+          type: "CUISINES",
+          parentId: "",
+        })
+      );
     }
-  },[editData])
-
+  }, [editData]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.dietaryType?.length > 0 && name === 'dietaryType') {
+    if (
+      ItemsPrimaryDetails?.dietaryType?.length > 0 &&
+      name === "dietaryType"
+    ) {
       const dietName = ItemsPrimaryDetails?.dietaryType;
-     
+
       const dropdownName = options?.filter((opt) => {
         return Array.isArray(dietName)
-          ? dietName.some((d) => d.name === opt?.name || d === opt?.name) 
-          : dietName.includes(opt?.name); 
+          ? dietName.some((d) => d.name === opt?.name || d === opt?.name)
+          : dietName.includes(opt?.name);
       });
-  
-      const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName; 
-  
+
+      const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName;
+
       setSelectedOptions(dropDown1);
       setValue(
-        'dietaryType',
-        dropDown1?.map((opt:any) => (typeof opt === 'object' ? opt?.name : opt)) 
+        "dietaryType",
+        dropDown1?.map((opt: any) =>
+          typeof opt === "object" ? opt?.name : opt
+        )
       );
     }
   }, [ItemsPrimaryDetails]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === 'bestPair') {
+    if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === "bestPair") {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
       const dropdownName = options?.filter((opt) => {
         return Array.isArray(bestPairName)
-          ? bestPairName?.some((b) => b.name === opt?.name || b === opt?.name) 
-          : bestPairName?.includes(opt?.name); 
+          ? bestPairName?.some((b) => b.name === opt?.name || b === opt?.name)
+          : bestPairName?.includes(opt?.name);
       });
 
       setSelectedOptions(dropdownName);
       setValue(
-        'bestPair',
-        dropdownName?.map((opt) => (typeof opt === 'object' ? opt?.name : opt))
+        "bestPair",
+        dropdownName?.map((opt) => (typeof opt === "object" ? opt?.name : opt))
       );
     }
   }, [ItemsPrimaryDetails]);
-  
+
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
-      const dropDownName: any = Array.isArray(options) && options?.find(
-        (item) => item.name?.toLowerCase() === kitchenStationName?.toLowerCase()
-      );
-      const dropDown1 = (dropDownName === undefined || dropDownName === false) ? { name: prizingDetail?.kitchenstation, id: '1' } : dropDownName;
+      const dropDownName: any =
+        Array.isArray(options) &&
+        options?.find(
+          (item) =>
+            item.name?.toLowerCase() === kitchenStationName?.toLowerCase()
+        );
+      const dropDown1 =
+        dropDownName === undefined || dropDownName === false
+          ? { name: prizingDetail?.kitchenstation, id: "1" }
+          : dropDownName;
 
-      // setSelectedOptions((dropDownName === undefined || dropDownName === false) ? [dropDown1] : [dropDownName]);   
-      setSelectedOptions(()=> {
-        setValue("kitchenstation", (dropDownName === undefined || dropDownName === false) ? dropDown1?.name : dropDownName?.name);
-        return (dropDownName === undefined || dropDownName === false) ? [dropDown1] : [dropDownName]
-      });   
+      // setSelectedOptions((dropDownName === undefined || dropDownName === false) ? [dropDown1] : [dropDownName]);
+      setSelectedOptions(() => {
+        setValue(
+          "kitchenstation",
+          dropDownName === undefined || dropDownName === false
+            ? dropDown1?.name
+            : dropDownName?.name
+        );
+        return dropDownName === undefined || dropDownName === false
+          ? [dropDown1]
+          : [dropDownName];
+      });
       // setValue("kitchenstation", (dropDownName === undefined || dropDownName === false) ? dropDown1?.name : dropDownName?.name);
     }
   }, [prizingDetail]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
       const cusineName = ItemsPrimaryDetails?.cuisine;
       const dropDownName: any = options?.find(
         (item) => item.name === cusineName
       );
-      const dropDown1 = dropDownName === undefined ? {name : ItemsPrimaryDetails?.cuisine, id: '1'} : dropDownName
-      setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName]);
-      setValue("cuisine", dropDownName === undefined ?  dropDown1?.name : dropDownName?.name);
+      const dropDown1 =
+        dropDownName === undefined
+          ? { name: ItemsPrimaryDetails?.cuisine, id: "1" }
+          : dropDownName;
+      setSelectedOptions(
+        dropDownName === undefined ? [dropDown1] : [dropDownName]
+      );
+      setValue(
+        "cuisine",
+        dropDownName === undefined ? dropDown1?.name : dropDownName?.name
+      );
     }
-  },[ItemsPrimaryDetails])
+  }, [ItemsPrimaryDetails]);
 
-  useEffect(()=>{
-    if(ItemsPrimaryDetails?.category && name === 'category'){
-      const categoryName = ItemsPrimaryDetails?.category
+  useEffect(() => {
+    if (ItemsPrimaryDetails?.category && name === "category") {
+      const categoryName = ItemsPrimaryDetails?.category;
       const dropDownName: any = options?.find(
         (item) => item?.name === categoryName
-      )
-      const dropDown1 = dropDownName === undefined ? {name : ItemsPrimaryDetails?.category, id :'1'} : dropDownName
-      setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName])
-      setValue('category', dropDownName === undefined ? dropDown1?.name :dropDownName?.name)
+      );
+      const dropDown1 =
+        dropDownName === undefined
+          ? { name: ItemsPrimaryDetails?.category, id: "1" }
+          : dropDownName;
+      setSelectedOptions(
+        dropDownName === undefined ? [dropDown1] : [dropDownName]
+      );
+      setValue(
+        "category",
+        dropDownName === undefined ? dropDown1?.name : dropDownName?.name
+      );
     }
-  },[ItemsPrimaryDetails])
+  }, [ItemsPrimaryDetails]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (ItemsPrimaryDetails?.subCategory && name === "subCategory") {
       const subCategoryName = ItemsPrimaryDetails?.subCategory;
       const dropDownName: any = options?.find(
         (item) => item.name === subCategoryName
       );
-      const dropDown1 = dropDownName === undefined ? ItemsPrimaryDetails?.subCategory : dropDownName
-      setSelectedOptions(dropDownName === undefined ? [dropDown1] :[dropDownName]);
-      setValue("subCategory", dropDownName === undefined? dropDown1?.name :dropDownName?.name);
+      const dropDown1 =
+        dropDownName === undefined
+          ? ItemsPrimaryDetails?.subCategory
+          : dropDownName;
+      setSelectedOptions(
+        dropDownName === undefined ? [dropDown1] : [dropDownName]
+      );
+      setValue(
+        "subCategory",
+        dropDownName === undefined ? dropDown1?.name : dropDownName?.name
+      );
     }
-  },[ItemsPrimaryDetails])
+  }, [ItemsPrimaryDetails]);
 
   const handleSelect = (option: Option) => {
     // Ensure selectedOptions is always an array
-    const currentSelectedOptions = Array.isArray(selectedOptions) ? selectedOptions : [];
-  
+    const currentSelectedOptions = Array.isArray(selectedOptions)
+      ? selectedOptions
+      : [];
+
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-  
+
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
@@ -357,23 +405,22 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
     }
-  
+
     if (dropDownType === "CATEGORY") {
       const viewdata = {
         locationId: locationid,
         type: "SUB_CATEGORY",
         parentId: option.id,
       };
-      setParentId(option?.id)
+      setParentId(option?.id);
       subcategorydataforApi.parentId = option.id;
       if (subcategorydataforApi.parentId !== "") {
         dispatch(fetchDropDownRequest(viewdata));
       }
     }
-  
+
     setSearchTerm("");
   };
-  
 
   const payload = {
     locationId: locationid,
@@ -391,7 +438,9 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handledeletion = (value: string) => {
     // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
-    setOptions((item: any) => item && item?.filter((opt: any) => opt.id !== value));
+    setOptions(
+      (item: any) => item && item?.filter((opt: any) => opt.id !== value)
+    );
     const deletedItem = {
       id: value,
       type: dropDownType,
@@ -422,23 +471,33 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handleCheckboxChange = (option: Option) => {
     if (type === "checkbox") {
-    
       setSelectedOptions((prevSelected) => {
+        const isAlreadySelected = prevSelected.findIndex(
+          (opt) => opt.id === option.id
+        );
+
         let updatedSelected;
-        if (prevSelected.some((opt) => opt.id === option.id)) {
-          updatedSelected = prevSelected.filter((opt) => opt.id !== option.id);
+
+        if (isAlreadySelected !== -1) {
+          updatedSelected = prevSelected.filter(
+            (_, index) => index !== isAlreadySelected
+          );
         } else {
+          if (bestpair && prevSelected.length >= 5) {
+            return prevSelected;
+          }
           updatedSelected = [...prevSelected, option];
         }
+
         setValue(name, updatedSelected.map((opt) => opt.name).join(", "));
         trigger(name);
-  
+
         return updatedSelected;
-      })}
-       else if (type === "radio") {
-        setSelectedOptions([option]);
-        setValue(name, option.name);
-        trigger(name);
+      });
+    } else if (type === "radio") {
+      setSelectedOptions([option]);
+      setValue(name, option.name);
+      trigger(name);
     }
     if (dropDownType === "CATEGORY") {
       setSubCategoryId(option.id);
@@ -573,15 +632,16 @@ const DropDownList: React.FC<DropdownProps> = ({
             >
               {dropDownLoading ? (
                 <div className="dropdown-no-options">
-                 <Loader 
-                    className="imgLoader1" 
+                  <Loader
+                    className="imgLoader1"
                     height="300px"
-                    width="300px" 
-                    style={{ 
-                      filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)',
-                      height: '70px',
-                      width: '70px'
-                     }}
+                    width="300px"
+                    style={{
+                      filter:
+                        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                      height: "70px",
+                      width: "70px",
+                    }}
                   />
                 </div>
               ) : (
@@ -682,17 +742,19 @@ const DropDownList: React.FC<DropdownProps> = ({
                     </p>
                   )}
                 </div>
-                {(!Loading || filteredOptions?.length === 0) && addNew && !addNewButton && (
-                  <button
-                    className="dropdown-addbutton"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleNewItemAddition();
-                    }}
-                  >
-                    Add new
-                  </button>
-                )}
+                {(!Loading || filteredOptions?.length === 0) &&
+                  addNew &&
+                  !addNewButton && (
+                    <button
+                      className="dropdown-addbutton"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleNewItemAddition();
+                      }}
+                    >
+                      Add new
+                    </button>
+                  )}
               </div>
             </div>
           }

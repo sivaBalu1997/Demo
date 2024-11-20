@@ -210,8 +210,21 @@ const Normalavail: React.FC<NormalavailProps> = ({
     (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
+  const data = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+
+
+
   const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
   const pickUpId = orderTypess?.find((item: any) => item.typeGroup === "P")?.id;
+  const DineInServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "D")?.isEnabled;
+  const pickUpIdServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "P")?.isEnabled;
+  const DeliveryServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "S")?.isEnabled;
+
+  console.log({DineInServiceEnabled,pickUpIdServiceEnabled});
+  
+
   const deliveryId = orderTypess?.find(
     (item: any) => item.typeGroup === "S"
   )?.id;
@@ -894,6 +907,13 @@ useEffect(()=>{
       resetSelection.current = clearSelection;
     }
   }, [resetSelection]);
+  useEffect(() => {
+    setDineIn(DineInServiceEnabled === 1);
+    setPickup(pickUpIdServiceEnabled === 1);
+    setDelivery(DeliveryServiceEnabled === 1);
+  }, [DineInServiceEnabled,pickUpIdServiceEnabled,DeliveryServiceEnabled]);
+
+ 
 
   const [dropdownopened, setDropdownopened] = useState<boolean>(false);
 
@@ -953,9 +973,11 @@ useEffect(()=>{
       {
         <div className="DineInRelated">
           <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
-          <Toggle toggle={dinein} setToggle={setDineIn} />
+          <Toggle toggle={dinein} setToggle={setDineIn} Enabled={DineInServiceEnabled===1}/>
         </div>
       }
+
+
 
       {dinein ? (
         <>
@@ -963,6 +985,7 @@ useEffect(()=>{
             const mealTypeKey = `DineInMealType_${index}`;
             const priceKey = `DineInPrice_${index}`;
             const DineInService = `DineInService_${index}`;
+            
             return (
               <>
                 <div className="DineIn-Fields">
@@ -1079,7 +1102,7 @@ useEffect(()=>{
             <div className="PickupRelatedNormal">
               <h1 className="PickupRelatedHeadingNormal">Pick Up</h1>
               <div className="toggleIV">
-                <Toggle toggle={pickup} setToggle={setPickup} />
+                <Toggle toggle={pickup} setToggle={setPickup} Enabled={pickUpIdServiceEnabled===1}/>
               </div>
             </div>
             <div className="PickupSectionNormal">
@@ -1193,7 +1216,7 @@ useEffect(()=>{
             >
               <h1 className="DeliveryRelatedHeadingNormal">Delivery</h1>
               <div className="toggleV">
-                <Toggle toggle={delivery} setToggle={setDelivery} />
+                <Toggle toggle={delivery} setToggle={setDelivery} Enabled={DeliveryServiceEnabled===1}/>
               </div>
             </div>
 
