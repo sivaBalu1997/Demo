@@ -852,7 +852,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
       ZomatoNormal: "",
       ZomatomealtypeNormal: "",
     });
-    setDayPickup([]);
+    setPickUpDetails({ ...pickupDetails, price: 0 });
+    setDeliveryDetails({
+      ...deliveryDetails, // Spread the existing state
+      price: 0,           // Update the price property
+    });    setDayPickup([]);
     setSelectedValues3([]);
     setDayDelivery([]);
     setDayThird([]);
