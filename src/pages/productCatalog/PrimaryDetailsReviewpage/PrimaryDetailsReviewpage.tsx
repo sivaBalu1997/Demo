@@ -211,7 +211,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages
   );
   const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
+    (state: State) => state?.auth?.credentials?.locationId
   );
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
@@ -530,6 +530,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ? normalDays.map(String)
     : [];
 
+    console.log({UploadImageImageID})
 
   const menuPayload = {
     locationId: locationid,

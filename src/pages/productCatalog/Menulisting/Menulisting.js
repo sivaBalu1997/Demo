@@ -524,6 +524,10 @@ export const Menulisting = () => {
           dineInDetails: null,
           pickupDetails: null,
           thirdpartyDetails: []
+        },
+        Preparationtime: {
+          hours: editData[0]?.preparationTimeInHours || '',
+          minutes: editData[0]?.preparationTimeInMinutes || ''
         }
       };
 
@@ -687,12 +691,13 @@ export const Menulisting = () => {
 
                   {
                     <tbody
-                      className="Menu-Listing-TableOneBody Menu-listing-Body"
+                      className={isExpanded ? "Menu-Listing-TableOneBodyExpanded Menu-listing-Body" : "Menu-Listing-TableOneBody Menu-listing-Body"}
                       ref={tableBodyRef1}
                     >
                       { loading ? (
                            <></>
-                          ) : menudatalist.map((object, index) => (
+                          ) : 
+                        menudatalist.map((object, index) => (
                         <React.Fragment key={index}>
                           <RowHeading
                             objectId={object.categoryId}

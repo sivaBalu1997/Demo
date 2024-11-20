@@ -110,17 +110,25 @@ const Routers = () => {
             />
 
             <div>
-              <Route exact path="/cms/welcome" component={WelcomPage} /> 
-              <Route path="/cms/restaurantInfo" component={() => <RestaurantInfo />} />
-              <Route path="/cms/exploreMenu" component={() => <ExploreMenu />} />
+              <Route exact path="/cms/welcome" component={WelcomPage} />
+              <Route
+                path="/cms/restaurantInfo"
+                component={() => <RestaurantInfo />}
+              />
+              <Route
+                path="/cms/exploreMenu"
+                component={() => <ExploreMenu />}
+              />
               <Route path="/cms/fullMenu" component={() => <FullMenu />} />
               <Route exact path="/cms/template" component={Template} />
               <Route exact path="/cms/dashboard" component={DashBoard} />
-              <Route exact path="/cms/PendingOutlet" component={PendingComponent} />
+              <Route
+                exact
+                path="/cms/PendingOutlet"
+                component={PendingComponent}
+              />
 
               <Route exact path="/cms/liveOutlets" component={LiveOutlets} />
-
-
             </div>
 
             <Route exact path="/management/billing" component={Billing} />
@@ -179,37 +187,32 @@ const Routers = () => {
                   px. Please resize your window.
                 </div>
               ) : ( */}
-                <>
-                  <div>
-                    <Switch>
-                      <Route
-                        exact
-                        path="/menuListing"
-                        component={Menulisting}
-                      />
-                      <Route
-                        path="/productCatalog/Reviewpage"
-                        component={PrimaryDetailsReviewpage}
-                      />
-                      <Route path="/productCatalog/Navigationpage">
-                        <Navigationpage />
-                      </Route>
-                      <Route
-                        path="/productCatalog/PrimaryDetails"
-                        component={PrimaryPage}
-                      />
-                      <Route
-                        path="/productCatalog/Pricingandkitchendetails"
-                        component={PricingDetails}
-                      />
-                      <Route
-                        path="/productCatalog/Itemcustomizations"
-                        component={ItemCustomizations}
-                      />
-                    </Switch>
-                  </div>
-                </>
-              
+              <>
+                <div>
+                  <Switch>
+                    <Route exact path="/menuListing" component={Menulisting} />
+                    <Route
+                      path="/productCatalog/Reviewpage"
+                      component={PrimaryDetailsReviewpage}
+                    />
+                    <Route path="/productCatalog/Navigationpage">
+                      <Navigationpage />
+                    </Route>
+                    <Route
+                      path="/productCatalog/PrimaryDetails"
+                      component={PrimaryPage}
+                    />
+                    <Route
+                      path="/productCatalog/Pricingandkitchendetails"
+                      component={PricingDetails}
+                    />
+                    <Route
+                      path="/productCatalog/Itemcustomizations"
+                      component={ItemCustomizations}
+                    />
+                  </Switch>
+                </div>
+              </>
             </div>
 
             <div>

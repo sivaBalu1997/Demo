@@ -178,12 +178,15 @@ const Slider: React.FC<SliderProps> = ({
                 </div>
               </div>
 
-              <img
-                src={Eye}
-                alt="View"
-                className="EyeImage"
-                onClick={handleEyeClick}
-              />
+              <div className="eyeImageSection">
+                <img
+                    src={Eye}
+                    alt="View"
+                    className="EyeImage"
+                    onClick={handleEyeClick}
+                  />
+                  <div className="hideTool-box">Hide/unhide</div>
+              </div>
 
               <div className="BinImageSection">
                 <img

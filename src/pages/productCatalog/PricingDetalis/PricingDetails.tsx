@@ -290,10 +290,10 @@ const PricingDetails = () => {
   );
 
   const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
+    (state: State) => state?.auth?.credentials
   );
   const data = useSelector(
-    (state: StateData) => state.productCatalog.availability
+    (state: StateData) => state?.productCatalog?.availability
   );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
