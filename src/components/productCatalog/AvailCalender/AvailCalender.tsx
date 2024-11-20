@@ -151,13 +151,13 @@ const AvailCalender: React.FC<modelshow> = ({
               className={`AvailCalenderAm ${selectedTimePeriod === "AM" ? "Calselected" : ""}`}
               onClick={() => handleTimePeriodClick("AM")}
             >
-              <p>Am</p>
+              <p className="Am-Heading">Am</p>
             </div>
             <div
               className={`AvailCalenderPm ${selectedTimePeriod === "PM" ? "Calselected" : ""}`}
               onClick={() => handleTimePeriodClick("PM")}
             >
-              <p>Pm</p>
+              <p className="Pm-Heading">Pm</p>
             </div>
           </div>
           <div className="AvailCalenderButton">

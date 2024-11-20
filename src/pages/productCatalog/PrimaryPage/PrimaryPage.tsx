@@ -1145,6 +1145,7 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
+                             type="number"
                           onChange={(e) => {
                             handleInputChange(e);
                             onChange(e);
@@ -1179,6 +1180,7 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="portionSize"
+                          type="number"
                           onChange={(e) => {
                             handlePortionChange("value", e.target.value); 
                             onChange(e);

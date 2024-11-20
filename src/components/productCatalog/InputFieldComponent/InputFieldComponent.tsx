@@ -41,6 +41,17 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     if (name === "itemCode" && inputValue.length > 4) {
       return;
     }
+    if (name === "itemName" && inputValue.length > 40) {
+      return;
+    }
+    if (name === "coloriePoint" && inputValue.length >7 ) {
+      return;
+    }
+    if (name === "portionSize" && inputValue.length > 7) {
+      return;
+    }
+    
+    
   
     
     e.target.value = inputValue;
