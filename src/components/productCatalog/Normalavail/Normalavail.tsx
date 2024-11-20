@@ -856,6 +856,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setSelectedValues3([]);
     setDayDelivery([]);
     setDayThird([]);
+    setDineIn(false)
+    setOnline(false)
+    setPickup(false)
+    setDelivery(false)
     setSelectedValues4([]);
     setSelectedValues5([]);
     setSelectedValues([]);
@@ -955,12 +959,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   >
                     <div className="Dine-In-Price">
                       <input
-                        type="text"
+                        type="number"
                         name="DineInPrice"
                         value={entry.DineInPrice}
                         className="DineInInput1Normal"
                         onChange={(e) => {
                           handleChange(index, e);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-") {
+                            e.preventDefault(); // Prevent typing -, e, or E
+                          }
                         }}
                       />
                       {!ValidationStateerr[priceKey]?.isValid && (
@@ -1064,9 +1073,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   </div>
                   <div className="PickupInput11Normal">
                     <input
-                      type="text"
+                      type="number"
                       className="DineInInput1Normal"
                       value={pickupDetails.price || ""}
+                      onKeyDown={(e) => {
+                        if (e.key === "-") {
+                          e.preventDefault(); // Prevent typing -,
+                        }
+                      }}
                       onChange={(e) => {
                         const inputValue = e.target.value;
                         const numericValue = inputValue
@@ -1177,9 +1191,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   <p className="LabelPrice-delivery"> Price*</p>
                   <div className="Online-delivery">
                     <input
-                      type="text"
+                      type="number"
+                      onKeyDown={(e) => {
+                        if (e.key === "-") {
+                          e.preventDefault(); // Prevent typing -, e, or E
+                        }
+                      }}
                       className="DineInInput1Normal"
-                      value={deliveryDetails?.price}
+                      value={deliveryDetails?.price || ""}
                       onChange={(e) => {
                         const newPrice = e.target.value;
                         setDeliveryDetails((prevDetails: any) => ({

@@ -177,10 +177,10 @@ const ItemCustomizations: React.FC = () => {
   );
 
   useEffect(() => {
-    if (showModifiers === false) {
-      setIsValid(true);
-      setShowModifiers(true);
-    }
+    // if (showModifiers === false) {
+    //   setIsValid(true);
+    //   setShowModifiers(true);
+    // }
   
     if (itemCustomizationData?.length > 0) {
       const mappedModifications = itemCustomizationData.map((item: any) => {
@@ -705,7 +705,7 @@ const ItemCustomizations: React.FC = () => {
                 </a>
               )}
             </div>
-
+            {showModifiers&&
             <div className="searchbox">
               <input
                 placeholder="Search"
@@ -733,7 +733,7 @@ const ItemCustomizations: React.FC = () => {
                 className="searchIcon"
                 onClick={() => handleSearchChange()}
               />
-            </div>
+            </div>}
             {searchQuery && (
               <div
                 className={
@@ -955,6 +955,11 @@ const ItemCustomizations: React.FC = () => {
                                               e
                                             )
                                           }
+                                          onKeyDown={(e) => {
+                                            if (e.key === "-") {
+                                              e.preventDefault(); // Prevent typing -,
+                                            }
+                                          }}
                                           onBlur={(e) =>
                                             handleBlur(e, modIndex, optIndex)
                                           }

@@ -32,8 +32,18 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e);  // Call onChange with the event
-    trigger(name);  // Trigger validation after change
+    if (name== 'itemName') {
+      if(!e.target.value.startsWith(" "))
+      onChange(e);
+      trigger(name);
+     // Update value only if it doesn't start with a space
+    }
+    else{
+      onChange(e);
+      trigger(name);
+    }
+   // onChange(e);  // Call onChange with the event
+    //trigger(name);  // Trigger validation after change
   };
 
   const message=useSelector((state:any)=>state?.getItemCodeReducer?.itemCode?.data?.message)

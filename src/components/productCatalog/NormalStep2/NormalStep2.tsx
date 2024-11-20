@@ -195,7 +195,7 @@ const NormalStep2 = () => {
           return (
             <>
               <div className="dayacheckedavail">
-                <DaysOfWeek days={elem} setDays={setDinein} />
+                <DaysOfWeek days={elem} setDays={setDinein}  />
               </div>
             </>
           );

@@ -783,7 +783,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           label="Dietary type"
                           textvalue={
                             (primarydata?.dietaryType && typeof(primarydata?.dietaryType[0]) === 'string') && primarydata?.dietaryType.length > 0
-                              ? Array.isArray(primarydata?.dietaryType) && primarydata?.dietaryType?.map((type: any) => type).join(", ")
+                              ? Array.isArray(primarydata?.dietaryType) ? primarydata?.dietaryType?.map((type: any) => type).join(", ") :primarydata?.dietaryType
                               : Array.isArray(primarydata?.dietaryType) && primarydata?.dietaryType?.length > 0 
                               ? primarydata?.dietaryType.map((type: any) => type?.name).join(", ") : "N/A"
                           }
@@ -855,7 +855,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={
-                            primarydata.itemCode ? primarydata.itemCode : "N/A"
+                           "N/A"
                           }
                         />
                       </div>
@@ -1049,14 +1049,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                     </div>
                   </div>
                 )}
-
                 {
                   <div className="primarybestpairedfood">
                     <p>Best paired with</p>
                     <div className="bestpairfoods">
                       <p>
-                        {(primarydata?.bestPair && typeof(primarydata?.bestPair[0]) === 'string') && primarydata?.bestPair.length > 0
-                              ? Array.isArray(primarydata?.bestPair) && primarydata?.bestPair?.map((type: any) => type).join(", ")
+                        {((primarydata?.bestPair && typeof(primarydata?.bestPair[0]) === 'string') && (primarydata?.bestPair.length > 0))
+                              ? Array.isArray(primarydata?.bestPair) ? primarydata?.bestPair?.map((type: any) => type).join(", ") :primarydata?.bestPair
                               : Array.isArray(primarydata?.bestPair) && primarydata?.bestPair?.length > 0 
                               ? primarydata?.bestPair.map((type: any) => type?.name).join(", ") : "N/A"}
                       </p>
