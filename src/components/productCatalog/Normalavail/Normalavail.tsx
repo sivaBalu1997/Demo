@@ -1284,6 +1284,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   }
                   validation={validationState.PickupSwiggy}
                   width="Drop1"
+                  placeHolder="Third Party"
                 />
               </div>
 

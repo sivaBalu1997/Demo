@@ -29,6 +29,10 @@
   text-overflow: ellipsis;
   // border: 1px solid red;
   z-index: 0;
+  .valuePlaceholder {
+    color: #979797;
+    font-size: smaller;
+  }
 }
 
 .dropdownPricingred {
