@@ -479,7 +479,10 @@ const PrimaryPage = () => {
             return null;
           }
           if (file.size > maxSizeInBytes) {
-            alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+            // alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+            alert(
+              "Image upload failed: File size exceeds 2 MB. Please upload a smaller file."
+            );
             return null;
           }
           return {
