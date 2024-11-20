@@ -536,6 +536,8 @@ const PrimaryPage = () => {
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
   );
+  console.log({ ingredientsdata });
+
   const allergensData = useSelector(
     (state: any) => state.productCatalog?.allergens?.data
   );
