@@ -36,7 +36,7 @@ export const Contextpage = ({ children }) => {
         pricing: [
           {
             orderTypeId: "b1eddc4e-710e-437c-871c-609b84af43cd",
-            "price": 3
+            price: 3
           }
         ],
         modifierInfo: [

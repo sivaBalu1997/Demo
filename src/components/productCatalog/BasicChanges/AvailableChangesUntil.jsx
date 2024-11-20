@@ -6,9 +6,9 @@ import { partialUpdateMenuRequest } from "redux/productCatalog/productCatalogAct
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import SessionOpen from "../SessionOpen/SessionOpen";
 
-const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid ,parentToggle,ParentToggles}) => {
+const AvailabilityChangesUntil = ({ handleOrderCategoryAvailability,setSelectPeriod, selectedtypeid ,parentToggle,ParentToggles,setcanceledChanges,handleOrderTypesAvail}) => {
   const dispatch = useDispatch();
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(-1);
   const [showAvailCalender, setShowAvailCalender] = useState(false);
   const [showAvailchanges, setshowAvailchanges] = useState(true);
 
@@ -20,6 +20,7 @@ const AvailabilityChangesUntil = ({ setSelectPeriod, selectedtypeid ,parentToggl
   const workingHours = [
     // Your working hours data as shown in your original code...
   ];
+  const [timeToSet,setTimeToSet]=useState("");
   
   const Text = [
     "End of Today",
@@ -79,46 +80,13 @@ console.log("todayWorkinghours",todayWorkinghours);
       const formattedDate = getFormattedDate();
       // console.log("todayWorkinghours",todayWorkinghours);
       const todayWorkinghours = restaurantDetails?.workingHours.filter(
-        (item) => item.weekday === todayDay
+        (item) => item.weekday === todayDay || item.weekday === "All"
       );
+     
+      const Time=`${formattedDate}T${todayWorkinghours[todayWorkinghours.length-1]?.closingTime}`
+      setTimeToSet(Time);
 
-      if(parentToggle==="")
-      {
-        console.log("selectedtypeid",selectedtypeid);
-        
-        setPatchedData((prevState) => ({
-          ...prevState,
-          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-            (availabilityInfo) =>
-              availabilityInfo.orderTypeId === selectedtypeid
-                ? {
-                    ...availabilityInfo,
-                    unAvailableUntilTime: `${formattedDate}T${todayWorkinghours[todayWorkinghours.length-1]?.closingTime}`,
-                  }
-                : availabilityInfo
-          ),
-        }));
-      }
-      else{
-        setPatchedData((prevState) => ({
-          ...prevState,
-          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map((availabilityInfo) => {
-            // Check if the orderTypeId exists in the ParentToggles array
-            const matchingType = ParentToggles.find(
-              (toggle) => toggle.typeId === availabilityInfo.orderTypeId
-            );
-        
-            // If a match is found, update unAvailableUntilTime; otherwise, return as is
-            return matchingType
-              ? {
-                  ...availabilityInfo,
-                  unAvailableUntilTime: `${formattedDate}T${todayWorkinghours[todayWorkinghours.length - 1]?.closingTime}`,
-                }
-              : availabilityInfo;
-          }),
-        }));
-        
-      }
+     
       
      
     } else if (elem === "End of Sessions") {
@@ -128,44 +96,108 @@ console.log("todayWorkinghours",todayWorkinghours);
       const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
       console.log("sessionClosingHours",sessionClosingHours);
       
-
+      const Time=`${formattedDate}T${sessionClosingHours?.closingTime}`;
+      setTimeToSet(Time);
 
 
       
-      if(parentToggle==="")
-        {
-          setPatchedData((prevState) => ({
-            ...prevState,
-            itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-              (availabilityInfo) =>
-                availabilityInfo.orderTypeId === selectedtypeid
-                  ? {
-                      ...availabilityInfo,
-                      unAvailableUntilTime: `${formattedDate}T${sessionClosingHours?.closingTime}`,
-                    }
-                  : availabilityInfo
-            ),
-          }));
-        }
-        else{
-          setPatchedData((prevState) => ({
-            ...prevState,
-            itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-              (availabilityInfo) =>{
-                return { 
-                  
-                ...availabilityInfo,
-                unAvailableUntilTime: `${formattedDate}T${sessionClosingHours?.closingTime}`,
-              }
-            }
-            ),
-          }));
-        }
      
+     
+    }
+    else if (elem === "Until manually enabled") { 
+      setTimeToSet("");
     }
   };
 
+const handleTimeChange=()=>{
+  console.log({timeToSet});
 
+  if(selectedOption!==-1)
+  {
+    if(parentToggle==="")
+      {
+        setPatchedData((prevState) => ({
+          ...prevState,
+          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+            (availabilityInfo) =>
+              availabilityInfo.orderTypeId === selectedtypeid
+                ? {
+                    ...availabilityInfo,
+                    unAvailableUntilTime: timeToSet,
+                  }
+                : availabilityInfo
+          ),
+        }));
+      }
+      else{
+        setPatchedData((prevState) => ({
+          ...prevState,
+          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map((availabilityInfo) => {
+          
+            const matchingType = ParentToggles.find(
+              (toggle) => toggle.typeId === availabilityInfo.orderTypeId
+            );
+        
+          
+            return matchingType
+              ? {
+                  ...availabilityInfo,
+                  unAvailableUntilTime: timeToSet,
+                }
+              : availabilityInfo;
+          }),
+        }));
+      }
+      setSelectPeriod(false) 
+     
+  }
+  
+  
+            }
+
+
+         const handleTimeChangeCancel=()=>
+         {
+          if(parentToggle==="")
+            {
+              setPatchedData((prevState) => ({
+                ...prevState,
+                itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+                  (availabilityInfo) =>
+                    availabilityInfo.orderTypeId === selectedtypeid
+                      ? {
+                          ...availabilityInfo,
+                          unAvailableUntilTime: "",
+                        }
+                      : availabilityInfo
+                ),
+              }));
+              handleOrderTypesAvail(selectedtypeid)
+
+            }
+            else{
+              setPatchedData((prevState) => ({
+                ...prevState,
+                itemAvailabilityInfo: prevState.itemAvailabilityInfo.map((availabilityInfo) => {
+                
+                  const matchingType = ParentToggles.find(
+                    (toggle) => toggle.typeId === availabilityInfo.orderTypeId
+                  );
+              
+                
+                  return matchingType
+                    ? {
+                        ...availabilityInfo,
+                        unAvailableUntilTime: "",
+                      }
+                    : availabilityInfo;
+                }),
+              }));
+              // handleOrderCategoryAvailability(parentToggle)
+            }
+            setcanceledChanges(true)
+           
+         }   
   return (
 
     <div className="AvailabilityChangesUntilContainer" >
@@ -192,11 +224,17 @@ console.log("todayWorkinghours",todayWorkinghours);
             <div className="Avail_Button_Flex">
               <a
                 className="Avail-btn1-Cancel"
-                onClick={() => setSelectPeriod(false)}
+                onClick={() => {setSelectPeriod(false)
+                  handleTimeChangeCancel()
+                }}
               >
                 Cancel
               </a>
-              <a className="Avail-btn1-Save" onClick={() => setSelectPeriod(false)}>
+              <a className="Avail-btn1-Save" onClick={() => {
+               
+                handleTimeChange()
+
+              }}>
                 Save
               </a>
             </div>

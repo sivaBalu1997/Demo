@@ -799,6 +799,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
+                          bestpair={true}
                           validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
@@ -942,12 +943,16 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
+                        // required: "Item code is required",
                       rules={{
-                        required: "Item code is required",
-                        validate: (value) =>
-                          value.toString().length >= 4 ||
-                          "Item code must be between 4 and 5 characters",
+                        validate: (value) => {
+                          if (!value) {
+                            return true; 
+                          }
+                          return value.toString().length >= 4|| "Item code must be at least 4 characters";
+                        },
                       }}
+                     
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
                           name="itemCode"

@@ -85,6 +85,8 @@ const NormalStep2 = () => {
     (state: RootState) => state?.PricingDetailReducer?.prizingData || {}
   );
 
+  
+
   const thirdPartyDetails = useSelector((state: any) => state.PricingDetailReducer.prizingData?.normalForm?.thirdpartyDetails || []);
 
   const thirdParty =
@@ -118,6 +120,11 @@ const NormalStep2 = () => {
       })
     );
   }, []);
+  console.log("prizingDetail",prizingDetail.normalForm &&prizingDetail.normalForm?.dineinfields);
+
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth.restaurantDetails
+  );
 
   return (
     <div>
@@ -139,7 +146,7 @@ const NormalStep2 = () => {
                 <>
                   <div key={index}>
                     <h1 className="Step2DineInPricevalue">
-                     Rs {elem?.DineInPrice || "N/A"}
+                    {restaurantDetails?.country === "US" ? "$" : "Rs."}{elem?.DineInPrice || "N/A"}
                     </h1>
                   </div>
                 </>
@@ -211,13 +218,21 @@ const NormalStep2 = () => {
             </h1>
           </div>
           <div>
-            <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
-                prizingDetail?.normalForm &&
-                prizingDetail?.normalForm?.pickupDetails &&
-                prizingDetail?.normalForm?.pickupDetails?.price) ||
-                "N/A"}
-            </h1>
+
+          {
+              prizingDetail &&
+              prizingDetail.normalForm &&
+              prizingDetail.normalForm.pickupDetails &&
+              prizingDetail.normalForm.pickupDetails.price ?
+              <h1 className="Step2SellingPrizevalue">
+             {restaurantDetails?.country === "US" ? "$" : "Rs."}
+
+              {
+                prizingDetail.normalForm.deliveryDetails.price 
+                }
+            </h1>:<><h1 className="Step2SellingPrizevalue">N/A</h1></>
+            }
+           
           </div>
         </div>
         <div className="Step2SellingPrize2">
@@ -251,13 +266,20 @@ const NormalStep2 = () => {
             </h1>
           </div>
           <div>
-            <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
-                prizingDetail.normalForm &&
-                prizingDetail.normalForm.deliveryDetails &&
-                prizingDetail.normalForm.deliveryDetails.price) ||
-                "N/A"}
-            </h1>
+            {
+              prizingDetail &&
+              prizingDetail.normalForm &&
+              prizingDetail.normalForm.deliveryDetails &&
+              prizingDetail.normalForm.deliveryDetails.price ?
+              <h1 className="Step2SellingPrizevalue">
+             {restaurantDetails?.country === "US" ? "$" : "Rs."}
+
+              {
+                prizingDetail.normalForm.deliveryDetails.price 
+                }
+            </h1>:<><h1 className="Step2SellingPrizevalue">N/A</h1></>
+            }
+            
           </div>
         </div>
         <div className="Step2SellingPrize2">
