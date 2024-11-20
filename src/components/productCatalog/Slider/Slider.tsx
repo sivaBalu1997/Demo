@@ -190,7 +190,7 @@ const Slider: React.FC<SliderProps> = ({
                     className="ArrowHoverEye"
                     alt="View Tool"
                   />
-                  <div className="EyeTool-box">Hide/Unhide</div>
+                  <div className="EyeTool-box">Hide/unhide</div>
                 </div>
               </div>
 

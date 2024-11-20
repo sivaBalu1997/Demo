@@ -1,5 +1,5 @@
-import { Contextpagejs } from 'pages/productCatalog/contextpage';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 interface InsertColumnListProps {
   listingobject: any;
@@ -34,8 +34,10 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   uniqueOrderTypeNames,
 }) => {
   const handleToggle = useCallback(
-    (key: keyof typeof listingobject, dependentKeys?: (keyof typeof listingobject)[]) => {
-      
+    (
+      key: keyof typeof listingobject,
+      dependentKeys?: (keyof typeof listingobject)[]
+    ) => {
       setlistingobject((prev: any) => {
         const updatedState = {
           ...prev,
@@ -52,33 +54,34 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
     [setlistingobject]
   );
 
-  const handlecheckbox = (key:any)=>{
-      
+  const handlecheckbox = (key: any) => {
     setlistingobject((prev: any) => {
       const updatedState = {
         ...prev,
         [key]: !prev[key],
       };
-      
+
       return updatedState;
     });
-
-  }
-      
-  
-
+  };
 
   const { isExpanded } = useContext(Contextpagejs);
 
   const [uniqueKeys, setuniqueKeys] = useState<any>([]);
 
   useEffect(() => {
-    setuniqueKeys(uniqueOrderTypeNames && Object.keys(uniqueOrderTypeNames) as Array<keyof typeof listingobject>);
+    setuniqueKeys(
+      uniqueOrderTypeNames &&
+        (Object.keys(uniqueOrderTypeNames) as Array<keyof typeof listingobject>)
+    );
   }, [uniqueOrderTypeNames]);
 
-  const pricelist = uniqueKeys?.map((item: any) => `${item}1` as keyof typeof insertlists.Pricing);
-  const aviallist = uniqueKeys?.map((item: any) => `${item}2` as keyof typeof insertlists.Available);
-
+  const pricelist = uniqueKeys?.map(
+    (item: any) => `${item}1` as keyof typeof insertlists.Pricing
+  );
+  const aviallist = uniqueKeys?.map(
+    (item: any) => `${item}2` as keyof typeof insertlists.Available
+  );
 
   return (
     <div className="headaadbtnclass" ref={Outsideref}>
@@ -102,7 +105,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   <input
                     type="checkbox"
                     checked={listingobject?.showPricing}
-                    onChange={() => handleToggle('showPricing', pricelist)}
+                    onChange={() => handleToggle("showPricing", pricelist)}
                   />
                   <span>
                     {insertlists.Pricing.show}
@@ -110,7 +113,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   </span>
                 </div>
                 <ul className="indenttexts">
-                  {pricelist.map((list:any) => (
+                  {pricelist.map((list: any) => (
                     <li key={list}>
                       <div className="inner-text-input">
                         <input
@@ -119,7 +122,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                           onChange={() => handlecheckbox(list)}
                         />
                         <span className="sub-texts-fileds">
-                          {insertlists.Pricing[list.replace('1', '')]}
+                          {insertlists.Pricing[list.replace("1", "")]}
                         </span>
                       </div>
                     </li>
@@ -133,25 +136,36 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   <input
                     type="checkbox"
                     checked={listingobject?.showAvail}
-                    onChange={() => handleToggle('showAvail', aviallist)}
+                    onChange={() => handleToggle("showAvail", aviallist)}
                   />
                   <span>
                     {insertlists?.Available?.show}
-                    <img src={toggleround} alt="" />
-                    <img src={togglebtns} alt="" className="toggleicon" />
+                    {/* <img src={toggleround} alt="" /> */}
+                    <img src={togglebtns} alt="tog" className="toggleiconNew" />
                   </span>
                 </div>
                 <ul className="indenttexts">
-                  {aviallist.map((key:any) => (
+                  {aviallist.map((key: any) => (
                     <li key={key}>
                       <div className="inner-text-input">
                         <input
                           type="checkbox"
-                          checked={listingobject[key as keyof typeof listingobject]}
-                          onChange={() => handleToggle(key as keyof typeof listingobject)}
+                          checked={
+                            listingobject[key as keyof typeof listingobject]
+                          }
+                          onChange={() =>
+                            handleToggle(key as keyof typeof listingobject)
+                          }
                         />
                         <span className="sub-texts-fileds">
-                          {insertlists.Available[key.replace('2', '') as keyof typeof insertlists.Available]}
+                          {
+                            insertlists.Available[
+                              key.replace(
+                                "2",
+                                ""
+                              ) as keyof typeof insertlists.Available
+                            ]
+                          }
                         </span>
                       </div>
                     </li>
@@ -165,7 +179,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   <input
                     type="checkbox"
                     checked={listingobject?.Customize1}
-                    onChange={() => handleToggle('Customize1')}
+                    onChange={() => handleToggle("Customize1")}
                   />
                   <span>{insertlists.Customization}</span>
                 </div>

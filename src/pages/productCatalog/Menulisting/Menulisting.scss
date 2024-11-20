@@ -865,10 +865,11 @@
       }
 
       .dollaricon {
-        width: 27px;
-        height: 27px;
+        width: 20px;
+        height: 20px;
         // margin-top: -12px;
         margin-left: 15px;
+        // background-color: pink;
       }
       .toggleicon {
         position: relative;
@@ -970,14 +971,16 @@
       }
 
       .dollaricon {
-        width: 27px;
-        height: 27px;
+        width: 22px;
+        height: 22px;
         // margin-top: -12px;
         margin-left: 15px;
       }
-      .toggleicon {
+      .toggleiconNew {
         position: relative;
-        left: -22px;
+        width: 20px;
+        height: 20px;
+        left: 15px;
       }
     }
     .pricingheadtext {
