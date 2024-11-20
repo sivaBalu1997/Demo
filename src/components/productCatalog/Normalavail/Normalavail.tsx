@@ -841,7 +841,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
-
+useEffect(()=>{
+  setDineIn(true);
+},[])
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
@@ -863,7 +865,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
       ZomatoNormal: "",
       ZomatomealtypeNormal: "",
     });
-    setDayPickup([]);
+    setPickUpDetails({ ...pickupDetails, price: 0 });
+    setDeliveryDetails({
+      ...deliveryDetails, // Spread the existing state
+      price: 0,           // Update the price property
+    });    setDayPickup([]);
     setSelectedValues3([]);
     setDayDelivery([]);
     setDayThird([]);
@@ -898,7 +904,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
           <div className="tooltip">
             <TooltipMsg
-              message="Enter a unique code for this food item, used for identification."
+              message="Select Days to Display at the Bottom"
               styles={{
                 marginLeft: "2rem",
                 width: "350px",

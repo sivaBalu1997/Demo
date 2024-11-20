@@ -1,6 +1,5 @@
 import React from "react";
 import "./InputFieldComponent.scss";
-import { FieldError } from "react-hook-form";
 import { useSelector } from "react-redux";
 
 interface InputFieldInterface {
@@ -17,10 +16,9 @@ interface InputFieldInterface {
 }
 
 const InputFieldComponent: React.FC<InputFieldInterface> = ({
-
   name,
   type,
-  value,
+  value = "",
   onChange,
   trigger,
   onBlur,
@@ -34,27 +32,44 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (name== 'itemName') {
-      if(!e.target.value.startsWith(" "))
-      onChange(e);
-      trigger(name);
-     // Update value only if it doesn't start with a space
+    let { value: inputValue } = e.target;
+  
+  
+    if (name === "itemCode") {
+      inputValue = inputValue.replace(/e/gi, ""); // Filter out 'e' from the input
     }
-    else{
-      onChange(e);
-      trigger(name);
+  
+   
+    if (name === "itemCode" && inputValue.length > 4) {
+      return;
     }
-   // onChange(e);  // Call onChange with the event
-    //trigger(name);  // Trigger validation after change
+    if (name === "itemName" && inputValue.length > 40) {
+      return;
+    }
+    if (name === "coloriePoint" && inputValue.length >7 ) {
+      return;
+    }
+    if (name === "portionSize" && inputValue.length > 7) {
+      return;
+    }
+    
+    
+  
+    
+    e.target.value = inputValue;
+    onChange(e); 
+    trigger(name);
   };
+  
 
-  const message=useSelector((state:any)=>state?.getItemCodeReducer?.itemCode?.data?.message)
+  const message = useSelector(
+    (state: any) => state?.getItemCodeReducer?.itemCode?.data?.message
+  );
 
   return (
     <div>
       <div className="input-and-spantext">
         <input
-          // {...register(name, validation)}
           type={type}
           autoComplete="off"
           name={name}
@@ -67,11 +82,10 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
         />
         <span className="placeholder">{subtext}</span>
       </div>
-      {name === "itemCode" && message && value && value.length>=4 && (
-  <p className="itemCode-Success">{message}</p>
-)}
+      {name === "itemCode" && message && value && value.length === 4 && (
+        <p className="itemCode-Success">{message}</p>
+      )}
       {error && <p className="Input-Field-Error-message">{error.message}</p>}
-
     </div>
   );
 };

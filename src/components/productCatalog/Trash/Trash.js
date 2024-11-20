@@ -43,9 +43,9 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
           </div>
           <div className="TrashMessage">
             <h1 className="Trash-Heading">
-              Are you sure you want to delete the{" "}
+            Are you certain you want to delete this item{" "}
             </h1>
-            <h1 className="Trash-Heading"> item from the listing?</h1>
+            <h1 className="Trash-Heading"> from both the listing and the database? </h1>
           </div>
           <div className="Trash-Button">
             <button className="TrashButton1" onClick={closeModal}>

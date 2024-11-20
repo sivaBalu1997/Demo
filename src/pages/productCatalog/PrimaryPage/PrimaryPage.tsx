@@ -684,7 +684,7 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                   <Controller
                     name="itemName"
                     control={control}
-                    rules={{ required: "ItemName is required" }}
+                    rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
@@ -710,11 +710,11 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
-                        name="dietaryType"
+                        name="DietaryType"
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "DietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -743,7 +743,7 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        validation={{ required: "cuisine is required" }}
+                        validation={{ required: "Cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -776,7 +776,7 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                         setValue={setValue}
                         trigger={trigger}
                         getValues={getValues}
-                        validation={{ required: "category is required" }}
+                        validation={{ required: "Category is required" }}
                         error={errors.category}
                         dropdownopen={DropdownOpen.category}
                         setDropdownOpen={setDropdownOpen}
@@ -809,7 +809,7 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          validation={{ required: "This field is required" }}
+                          validation={{ required: "Best Pair Item is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -953,7 +953,7 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                       name="itemCode"
                       control={control}
                       rules={{
-                        required: "Item code is required",
+                        required: "Item Code is required",
                         validate: (value) =>
                           value.toString().length >= 4 ||
                           "Item code must be between 4 and 5 characters",
@@ -1161,6 +1161,7 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
+                             type="number"
                           onChange={(e) => {
                             handleInputChange(e);
                             onChange(e);
@@ -1195,6 +1196,7 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="portionSize"
+                          type="number"
                           onChange={(e) => {
                             handlePortionChange("value", e.target.value); 
                             onChange(e);

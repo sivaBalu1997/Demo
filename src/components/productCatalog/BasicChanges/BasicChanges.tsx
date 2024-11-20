@@ -60,7 +60,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
             Cancel
           </button>
           <button className="ChangeBtn" onClick={handledispatchforpartilChange}>
-            Change
+            Update
           </button>
         </div>
       </div>
