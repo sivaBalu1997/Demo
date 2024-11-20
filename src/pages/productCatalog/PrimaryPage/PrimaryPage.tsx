@@ -1196,7 +1196,9 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={portionInfo?.value}
                           trigger={trigger}
-                          placeholder={portionInfo?.type}
+                          placeholder={
+                            portionInfo?.type || "portion(count) / grams/ml"
+                          }
                         />
                       )}
                     />

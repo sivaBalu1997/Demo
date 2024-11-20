@@ -1,67 +1,232 @@
-.Slider-Container{
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.1); /* Semi-transparent background */
-    display: flex;
-    justify-content: flex-end;
-    transition: 0.3s ease-out;
-    z-index: 1000; /* Ensure it appears above other content */
-  }
-  .Slider-Window{
-    // margin-top: 90px;
-    width:416px;
+.Slider-Container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1); /* Semi-transparent background */
+  display: flex;
+  justify-content: flex-end;
+  transition: 0.3s ease-out;
+  z-index: 1000; /* Ensure it appears above other content */
+
+  .Slider-Window {
+    width: 416px;
     height: 848px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     background-color: white;
-    
-   
-    
+
+    .Slider-Mainform {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+
+      .Slider-First-Row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+
+        .Slider-Heading1 {
+          font-size: 20px;
+          font-weight: 600;
+          font-family: "Poppins", sans-serif;
+          margin-left: 20px;
+        }
+
+        .Slider-icons {
+          position: relative;
+          left: -5%;
+          display: flex;
+          justify-content: flex-start;
+          gap: 25px;
+
+          .PenImage-Section {
+            position: relative;
+            cursor: pointer;
+            // background-color: pink;
+
+            .PenImage {
+              width: 20px;
+              height: 20px;
+              transform: translate(15px, 2px);
+            }
+
+            .PenTool {
+              position: absolute;
+              visibility: hidden;
+              top: 15px;
+              right: 0;
+              width: fit-content;
+              display: flex;
+              flex-direction: column;
+              opacity: 0;
+              transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+              .PenTool-box {
+                width: fit-content;
+                height: fit-content;
+                border-radius: 8px;
+                // padding: 4px;
+                padding-top: 4px;
+                padding-bottom: 4px;
+                padding-left: 5px;
+                padding-right: 5px;
+                background-color: rgba(103, 131, 62, 1);
+                color: white;
+                transform: translate(25px, 1px);
+                font-size: small;
+              }
+
+              .ArrowHoverPen {
+                width: 10px;
+                height: 10px;
+                transform: translate(25px, 4px);
+                position: relative;
+                left: 30%;
+              }
+            }
+
+            &:hover .PenTool {
+              visibility: visible;
+              opacity: 1;
+            }
+          }
+
+          .EyeImage-Section {
+            position: relative;
+            cursor: pointer;
+
+            .EyeImage {
+              width: 20px;
+              height: 20px;
+              transform: translate(7px, 3px);
+            }
+
+            .EyeTool {
+              position: absolute;
+              visibility: hidden;
+              top: 15px;
+              right: 0;
+              width: fit-content;
+              display: flex;
+              flex-direction: column;
+              opacity: 0;
+              transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+              .EyeTool-box {
+                width: fit-content;
+                height: fit-content;
+                border-radius: 8px;
+                padding: 4px;
+                background-color: rgba(103, 131, 62, 1);
+                color: white;
+                transform: translate(38px, 1px);
+                font-size: small;
+              }
+
+              .ArrowHoverEye {
+                width: 10px;
+                height: 10px;
+                transform: translate(25px, 4px);
+                position: relative;
+                left: 60%;
+              }
+            }
+
+            &:hover .EyeTool {
+              visibility: visible;
+              opacity: 1;
+            }
+          }
+
+          .BinImageSection {
+            position: relative;
+            cursor: pointer;
+
+            .BinImage {
+              width: 20px;
+              height: 20px;
+              transform: translateY(3px);
+            }
+
+            .DelTool {
+              position: absolute;
+              visibility: hidden;
+              top: 20px;
+              right: 0;
+              // left: 1%;
+              width: fit-content;
+              display: flex;
+              flex-direction: column;
+              opacity: 0;
+              transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+              // background-color: pink;
+
+              .DelTool-box {
+                width: fit-content;
+                height: fit-content;
+                border-radius: 8px;
+                // padding: 6px;
+                padding-left: 4px;
+                padding-right: 4px;
+                padding-top: 2px;
+                padding-bottom: 2px;
+                background-color: rgba(103, 131, 62, 1);
+                color: white;
+                font-size: small;
+                margin-bottom: 0;
+              }
+
+              .ArrowHoverDel {
+                display: flex;
+                justify-content: flex-end;
+                position: relative;
+
+                width: 10px;
+                height: 10px;
+                top: 3px;
+                // background-color: lightcoral;
+                left: 67%;
+                // margin-bottom: 2px;
+              }
+            }
+
+            &:hover .DelTool {
+              visibility: visible;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
+    .NavSlider-Component {
+      width: 416px;
+      height: 600px;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .Basic-Component {
+      width: 416px;
+      height: 190px;
+      position: relative;
+      top: -100px;
+    }
   }
-  .Slider-WindowBlur{
-    width:416px;
+
+  .Slider-WindowBlur {
+    width: 416px;
     height: 908px;
-    background: rgba(0, 0, 0, 0.1); 
-     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1200;
-    
   }
-  
 
-  .Slider-Mainform{
-  
-  
-margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .Slider-First-Row{
-    
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-
-    
-  }
-  .Slider-Heading1{
-    
-    font-size: 20px;
-    font-weight: 600;
-    font-family: "Poppins",sans-serif;
-    margin-left: 20px;
-  }
-  .Slider-icons{
-   position: relative;
-   left: -5%;
-    display: flex;
-    justify-content: flex-start;
-    gap: 25px;
-  }
-  .Types-Menu{
+  .Types-Menu {
     margin-top: 20px;
     display: flex;
     font-size: 16px;
@@ -72,128 +237,14 @@ margin-top: 30px;
     margin-left: 30px;
     cursor: pointer;
   }
-  
-  .Types-Line{
+
+  .Types-Line {
     width: 420px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #d9d9d9;
   }
-  .active{
-    color: #67833E;
+
+  .active {
+    color: #67833e;
     font-weight: 500;
-  
   }
-  .PenImage{
-    width: 20px;
-    height: 20px;
-    transform: translate(15px, 2px);
-  }
-
-  .EyeImage{
-    width: 20px;
-    height: 20px;
-    transform: translate(7px,3px)
-  }
-  .PenImage-Section{
-    position: relative;
-    cursor: pointer;
-  }
-  .PenTool{
-    position: absolute;
-    visibility: hidden;
-    top: 15px;
-    right: 0px;
-    width: 59px;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-
-  }
-  .PenTool-box{
-    width: 57px;
-    height: 33px;
-    border-radius: 8px;
-    padding: 4px;
-    background-color: rgba(103, 131, 62, 1);
-    color: white;
-    transform: translate(30px,1px);
-
-  }
-  .PenImage-Section:hover .PenTool {
-    visibility: visible;
-    opacity: 1;
 }
-.ArrowHoverPen{
-
-  width: 10px;
-  height: 10px;
-  transform: translate(25px,4px);
- position: relative;
- left: 50%;
-}
-  .BinImageSection {
-    position: relative;
-    cursor: pointer;
-    
-}
-
-.BinImage {
-    width: 20px;
-    height: 20px;
-    transform: translateY(3px);
-    
-}
-
-.DelTool {
-    position: absolute;
-    visibility: hidden;
-    top: 11px;
-    right: 0;
-    width: 59px;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-}
-
-.DelTool-box {
-    width: 57px;
-    height: 33px;
-    border-radius: 8px;
-    padding: 4px;
-    background-color: rgba(103, 131, 62, 1);
-    color: white;
-}
-
-.ArrowHoverDel {
-
-    width: 10px;
-    height: 10px;
-}
-
-.BinImageSection:hover .DelTool {
-    visibility: visible;
-    opacity: 1;
-}
-
-  
-  .NavSlider-Component{
-    width:416px;
-    height: 600px;
- 
-  
-
-  overflow-y: scroll;
-    // margin-top: 20px;
-    &::-webkit-scrollbar {
-    display: none;
-}
-  }
-  .Basic-Component{
-    width:416px;
-    height: 190px;
-  position: relative;
-  top: -100px;
- 
- 
-  }

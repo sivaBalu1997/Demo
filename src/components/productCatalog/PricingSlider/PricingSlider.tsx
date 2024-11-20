@@ -61,7 +61,7 @@ const PricingSlider: any = ({}) => {
       tyepeId: Dinein?.typeId,
     },
     {
-      heading: "Of-Prem",
+      heading: "Off-Prem",
       labels:
         data[0]?.orderTypes?.length > 0
           ? [data[0]?.orderTypes[0].typeName]
@@ -181,7 +181,6 @@ const PricingSlider: any = ({}) => {
       }));
     }
   }, [data, inputs, setPatchedData]);
-
 
   return (
     <div className="PricingSlider-Container">
