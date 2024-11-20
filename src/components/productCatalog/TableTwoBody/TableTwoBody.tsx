@@ -85,12 +85,14 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     showsidebar(key);
     handlemodal(value);
   };
-  const filteredListing = listingobject && Object.fromEntries(
-    Object.entries(listingobject).filter(
-      ([key, value]) =>
-        value === true && key !== "showavail" && key !== "showPricing"
-    )
-  );
+  const filteredListing =
+    listingobject &&
+    Object.fromEntries(
+      Object.entries(listingobject).filter(
+        ([key, value]) =>
+          value === true && key !== "showavail" && key !== "showPricing"
+      )
+    );
   // const allFalse = Object.values(listingobject).every(value => value === false);
   const [selectedFileds, setselectefields] = useState<Record<string, boolean>>(
     {}
@@ -98,9 +100,11 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   const menuData = useSelector((state: any) => state.productCatalog?.menuData);
 
   useEffect(() => {
-    const filteredList = listingobject && Object.fromEntries(
-      Object.entries(filteredListing).filter(([key, value]) => value === true)
-    );
+    const filteredList =
+      listingobject &&
+      Object.fromEntries(
+        Object.entries(filteredListing).filter(([key, value]) => value === true)
+      );
 
     setselectefields(filteredList);
   }, [listingobject]);
@@ -131,7 +135,6 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
   const orderTypesToShow2 = uniqueOrderTypeNames
     .filter((item: any) => item?.typeName)
     .map((item: any) => item.typeName);
-
 
   return (
     <>
@@ -165,7 +168,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
               className={`eachobject-rowwise`}
             >
               {orderTypesToShow2?.map((typeName, ordertypeindex) => {
-                const shouldDisplayType = listingobject && listingobject[`${typeName}1`];
+                const shouldDisplayType =
+                  listingobject && listingobject[`${typeName}1`];
                 // console.log("typeName", typeName, shouldDisplayType);
 
                 if (!shouldDisplayType) return null;
@@ -214,7 +218,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
               })}
 
               {orderTypesToShow2?.map((typeName) => {
-                const shouldDisplayType = listingobject && listingobject[`${typeName}2`];
+                const shouldDisplayType =
+                  listingobject && listingobject[`${typeName}2`];
 
                 if (!shouldDisplayType) return null;
 
@@ -222,13 +227,13 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   (ot: OrderType) => ot.typeName === typeName
                 );
 
+                console.log({ orderType });
+
                 const isEnabled = orderType ? orderType.isEnabled : "";
                 const className = typeName?.toLowerCase() + "data";
                 // console.log("orderType", className);
                 const isAvailEnabled =
-                  orderType &&
-                
-                  orderType.availabilityEnabled === true
+                  orderType && orderType.availabilityEnabled === true
                     ? true
                     : false;
                 const sliderkey =
@@ -239,8 +244,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                     : typeName === "Delivery"
                     ? "Delivery2"
                     : "";
-                   
-                    
+
                 return (
                   <div
                     key={typeName}
@@ -250,7 +254,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                     {/* 
                   <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
                     <p
-                      style={{ opacity: isAvailEnabled ? "100%" : "50%" }}
+                      // style={{ opacity: isAvailEnabled ? "100%" : "50%" }}
                       onClick={() =>
                         handlesidbarhandling(
                           sliderkey,
@@ -259,9 +263,9 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                       }
                     >
                       {isEnabled !== "" ? (
-                        <Toggle toggle={true} />
+                        <Toggle toggle={orderType?.isNotHide === 1 && true} />
                       ) : (
-                        <Toggle toggle={false} />
+                        <Toggle toggle={orderType?.isNotHide !== 1 && false} />
                       )}
                     </p>
                   </div>
@@ -269,7 +273,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
               })}
               {item?.modifiers &&
               Array.isArray(item.modifiers) &&
-              listingobject&& listingobject.Customize1 ? (
+              listingobject &&
+              listingobject.Customize1 ? (
                 <div
                   className="Customizedata"
                   onClick={() =>
@@ -282,7 +287,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   <span>{item.modifiers.length}</span>
                 </div>
               ) : (
-                listingobject&&  listingobject.Customize1 && (
+                listingobject &&
+                listingobject.Customize1 && (
                   <div className="Customizedata">
                     <span>No Modifiers Available</span>
                   </div>

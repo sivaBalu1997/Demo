@@ -14,8 +14,8 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
   console.log("ApiPayload", ItemId);
 
   const trashmodalRef = useRef();
-  
-  
+
+
   const closeModal = () => {
     onTrashclose();
   };
@@ -25,8 +25,8 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
       itemId: ItemId,
     };
     dispatch(deleteMenuItemRequest(payload));
-    if(deleteMenuItemSuccessMessage==="Menu item deleted successfully"){
-    onTrashclose();
+    if (deleteMenuItemSuccessMessage === "Menu item deleted successfully") {
+      onTrashclose();
     }
   };
 
@@ -39,7 +39,7 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
       <div className="TrashModal-Window">
         <div className="TrashModal-Form">
           <div className="TrashImage">
-            <img src={Trash}></img>
+            <img src={Trash} alt="trash-icon"></img>
           </div>
           <div className="TrashMessage">
             <h1 className="Trash-Heading">
