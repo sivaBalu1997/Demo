@@ -549,7 +549,7 @@ const PricingDetails = () => {
       //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       // }
 
-      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
+      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))|| Number(field.DineInPrice) === 0) {
         errors[priceKey] = {
           isValid: false,
           errorMessage: "Price",
@@ -579,11 +579,12 @@ const PricingDetails = () => {
       //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       // }
 
-      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
-        errors[priceKey] = {
-          isValid: false,
-          errorMessage: "Price",
-        };
+     if (!field.DineInPrice || isNaN(Number(field.DineInPrice)) ) {
+  errors[priceKey] = {
+    isValid: false,
+    errorMessage: " Invalid Price",
+  };
+
       } else {
         errors[priceKey] = { isValid: true, errorMessage: "" };
       }

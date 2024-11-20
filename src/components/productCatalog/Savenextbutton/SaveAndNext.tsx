@@ -259,7 +259,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         dispatch(PricingDetailRequest(PricingDetails));
         history.push({
           pathname: `/productCatalog/Itemcustomizations`,
-          state: { pagename: "Itemcustomizations" },
+          state: { pagename: "Item customizations" },
         });
       }
     } else if (seletedpage === "ItemCustomization") {
