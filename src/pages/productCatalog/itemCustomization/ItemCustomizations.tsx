@@ -150,7 +150,7 @@ const ItemCustomizations: React.FC = () => {
       maxSelection: 1,
       freeCustomization: 1,
       selectedValue: selectedValue,
-      selectionType: "Optional",
+      selectionType: "Mandatory",
     },
   ];
 

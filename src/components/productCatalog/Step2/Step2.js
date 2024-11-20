@@ -37,10 +37,10 @@ const Step2 = () => {
             </div>
           </div>
 
-          <div className="Res">
+          {/* <div className="Res">
             <h1 className="Res-heading">Alagappan Nagar</h1>
-          </div>
-          <div className="CostPrice">
+          </div> */}
+          {/* <div className="CostPrice">
             <h1 className="CostPrice-heading">Cost Price</h1>
             <h1 className="Rupees-heading">{"Rs"+" "+ prizingDetail?.normalForm?.dineInDetails?.price}</h1>
           </div>

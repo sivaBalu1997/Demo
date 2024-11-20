@@ -674,7 +674,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
-                    rules={{ required: "ItemName is required" }}
+                    rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
@@ -700,11 +700,11 @@ const PrimaryPage = () => {
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
-                        name="dietaryType"
+                        name="DietaryType"
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "DietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -733,7 +733,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        validation={{ required: "cuisine is required" }}
+                        validation={{ required: "Cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -766,7 +766,7 @@ const PrimaryPage = () => {
                         setValue={setValue}
                         trigger={trigger}
                         getValues={getValues}
-                        validation={{ required: "category is required" }}
+                        validation={{ required: "Category is required" }}
                         error={errors.category}
                         dropdownopen={DropdownOpen.category}
                         setDropdownOpen={setDropdownOpen}
@@ -799,7 +799,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
-                          validation={{ required: "This field is required" }}
+                          validation={{ required: "Best Pair Item is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -943,7 +943,7 @@ const PrimaryPage = () => {
                       name="itemCode"
                       control={control}
                       rules={{
-                        required: "Item code is required",
+                        required: "Item Code is required",
                         validate: (value) =>
                           value.toString().length >= 4 ||
                           "Item code must be between 4 and 5 characters",
@@ -1145,6 +1145,7 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
+                             type="number"
                           onChange={(e) => {
                             handleInputChange(e);
                             onChange(e);
@@ -1179,6 +1180,7 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="portionSize"
+                          type="number"
                           onChange={(e) => {
                             handlePortionChange("value", e.target.value); 
                             onChange(e);
