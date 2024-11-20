@@ -4,7 +4,6 @@ import InputFieldComponent from "../../../components/productCatalog/InputFieldCo
 import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
 import DigitInput from "../../../components/productCatalog/DigitInput/DigitInput";
 import RadioButtonGroup from "../../../components/productCatalog/RadioButton/RadioButton";
-import "./PrimaryPage.scss";
 import { ImCross } from "react-icons/im";
 import info from "../../../assets/svg/info.svg";
 import ImgaeUploading from "../../../assets/images/addimage.png";
@@ -43,6 +42,7 @@ import { RootState } from "redux/rootReducer";
 import { stat } from "fs";
 import TooltipMsg from "components/productCatalog/Tooltip/TooltipMsg";
 import { useLocation } from "react-router-dom";
+import "./PrimaryPage.scss";
 
 interface Ingredients {
   id: string;
@@ -230,7 +230,6 @@ const PrimaryPage = () => {
   const [popularItem, setPopularItem] = useState<any>("");
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
 
-
   const [calorieInfo, setCalorieInfo] = useState<any>({
     type: "per 100 grams",
     value: "",
@@ -252,7 +251,6 @@ const PrimaryPage = () => {
     (state: any) => state.auth?.restaurantDetails?.popularItemCount
   );
 
-
   const Mockdata = useSelector(
     (state: ListingData) => state.storeMockDataReducer.data
   );
@@ -266,8 +264,7 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     setPopularItem(PopularItemFormApi);
-    setPopularItemLimit(popularItemLimit)
-
+    setPopularItemLimit(popularItemLimit);
   }, [PopularItemFormApi]);
 
   useEffect(() => {
@@ -289,7 +286,6 @@ const PrimaryPage = () => {
   //     setValue("itemCode", selectedItem?.itemCode);
   //   }
   // }, [mergedMockData, location.state?.id, setValue]);
-
 
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
@@ -323,29 +319,25 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
-  const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
-  
       const imageArray = ItemsPrimaryDetails.imageUrls.map((img: any) => ({
         file: img?.imageId ? { name: img.imageId } : img?.file || {},
         uploaded: img?.uploaded || false,
         failed: img?.failed || false,
-        preview: img?.imageId 
-          ? `${baseImageUrl}${img.imageId}` 
-          : img?.preview,  
+        preview: img?.imageId ? `${baseImageUrl}${img.imageId}` : img?.preview,
       }));
-  
+
       setImages((prevImages) => {
-        const updatedImages = [...prevImages, ...imageArray];        
+        const updatedImages = [...prevImages, ...imageArray];
         setValue("imageUrls", updatedImages);
-        
+
         return updatedImages;
       });
     }
   }, [ItemsPrimaryDetails, setValue]);
-  
 
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
@@ -524,8 +516,8 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.dietaryData.data
   );
 
-  const editData = useSelector((state:any) => state.productCatalog.editData)
-  
+  const editData = useSelector((state: any) => state.productCatalog.editData);
+
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
@@ -541,20 +533,24 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
-  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
-  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
+  const ingredientsdata = useSelector(
+    (state: any) => state.productCatalog?.ingredients?.data
+  );
+  const allergensData = useSelector(
+    (state: any) => state.productCatalog?.allergens?.data
+  );
 
-  const [parentId, setParentId] = useState('')
+  const [parentId, setParentId] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     if (ItemsPrimaryDetails?.popularItem) {
       setPopularItem(popularItem + 1);
       setValue("popularItem", true);
     } else {
-      setPopularItem((prevCount:any) => Math.max(prevCount - 1, 0)); 
+      setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
       setValue("popularItem", false);
     }
-  },[ItemsPrimaryDetails])
+  }, [ItemsPrimaryDetails]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -562,7 +558,7 @@ const PrimaryPage = () => {
       setPopularItem(popularItem + 1);
       setValue("popularItem", true);
     } else {
-      setPopularItem((prevCount:any) => Math.max(prevCount - 1, 0)); 
+      setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
       setValue("popularItem", false);
     }
   };
@@ -641,10 +637,22 @@ const PrimaryPage = () => {
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
-  useEffect(()=>{
-    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
-    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
-  },[])
+  useEffect(() => {
+    dispatch(
+      fetchDropDownRequest({
+        locationId: locationid,
+        type: "INGREDIENTS",
+        parentId: "",
+      })
+    );
+    dispatch(
+      fetchDropDownRequest({
+        locationId: locationid,
+        type: "ALLERGENS",
+        parentId: "",
+      })
+    );
+  }, []);
 
   return (
     <div style={{ display: "flex" }}>
@@ -657,7 +665,7 @@ const PrimaryPage = () => {
         <div>
           {/* <SidePanel /> */}
           <div style={{ marginBottom: "40px" }}>
-            <Navigationpage 
+            <Navigationpage
               getFormData={getValues}
               seletedpage="Primary"
               reset={handleReset}
@@ -775,7 +783,7 @@ const PrimaryPage = () => {
                         editValues={true}
                         dropDownType="CATEGORY"
                         resetSelection={categoryref}
-                        setParentId = {setParentId}
+                        setParentId={setParentId}
                       />
                     )}
                   />
@@ -892,8 +900,7 @@ const PrimaryPage = () => {
                       // name="imageUrls"
                     />
 
-
-                    {images.map((img, index) => (
+                    {images?.map((img, index) => (
                       <div key={index} className="image-container">
                         <button
                           onClick={() => handleImageDeletion(index)}
@@ -1035,12 +1042,13 @@ const PrimaryPage = () => {
                           handleCheckboxChange(e);
                           field?.onChange(e.target.checked);
                         }}
-                        disabled={popularItem>=popularItemlimit}
- 
+                        disabled={popularItem >= popularItemlimit}
                       />
                     )}
                   />
-                  <span>Popular item ( {popularItem}/{popularItemlimit} )</span>
+                  <span>
+                    Popular item ( {popularItem}/{popularItemlimit} )
+                  </span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
@@ -1180,32 +1188,32 @@ const PrimaryPage = () => {
                         <InputFieldComponent
                           name="portionSize"
                           onChange={(e) => {
-                            handlePortionChange("value", e.target.value); 
+                            handlePortionChange("value", e.target.value);
                             onChange(e);
                           }}
                           onBlur={onBlur}
                           value={portionInfo?.value}
                           trigger={trigger}
-                          placeholder={portionInfo?.type} 
+                          placeholder={portionInfo?.type}
                         />
                       )}
                     />
                     {/* Tooltip component can go here */}
                   </div>
 
-                  <div className="Primary-Page-inputfiled-and-tooltip portionSize-Radio">
+                  <div className="Primary-Page-inputfiled-and-tooltip-portion">
                     <RadioButtonGroup
                       options={portionsizeradio}
                       name="selectedPortion"
-                      selectedValue={portionInfo?.type} 
-                      onChange={(value) => handlePortionChange("type", value)} 
+                      selectedValue={portionInfo?.type}
+                      onChange={(value) => handlePortionChange("type", value)}
                       register={register}
                     />
-                    <div className="portionsizeTooltip">
+                    <div className="tool-tip-portion-cont">
                       <TooltipMsg
                         message="Specify the portion size for this item, either by count or weight."
                         styles={{
-                          marginTop: "-2rem",
+                          marginTop: "-0.8rem",
                           marginLeft: "2rem",
                           width: "350px",
                           height: "35px",
