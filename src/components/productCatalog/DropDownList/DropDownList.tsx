@@ -610,15 +610,12 @@ const DropDownList: React.FC<DropdownProps> = ({
                             {editList && (
                               <span
                                 className={`dropdown-option-delete `}
-                                // ${
-                                //   isOptionSelected ? "disabled-delete" : ""
-                                // }
-                                onClick={() => handledeletion(option.id)}
-                                // style={
-                                //   isOptionSelected
-                                //     ? { pointerEvents: "none" }
-                                //     : {}
-                                // }
+                                onClick={() => option?.canDelete?handledeletion(option.id):null}
+                                style={
+                                  !option?.canDelete?
+                                     { pointerEvents: "none",opacity:"50%" }
+                                    : {}
+                                }
                               >
                                 -Delete
                               </span>
@@ -634,7 +631,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               )}
             </ul>
             <div className="edititem">
-              {options?.length > 0 && !editList && editValues && (
+              {!dropDownLoading && options?.length > 0 && !editList && editValues && (
                 <p
                   className="editiconimage"
                   onMouseDown={handleOptionMouseDown}

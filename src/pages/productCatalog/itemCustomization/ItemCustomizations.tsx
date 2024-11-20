@@ -177,10 +177,10 @@ const ItemCustomizations: React.FC = () => {
   );
 
   useEffect(() => {
-    if (showModifiers === false) {
-      setIsValid(true);
-      setShowModifiers(true);
-    }
+    // if (showModifiers === false) {
+    //   setIsValid(true);
+    //   setShowModifiers(true);
+    // }
   
     if (itemCustomizationData?.length > 0) {
       const mappedModifications = itemCustomizationData.map((item: any) => {
@@ -264,10 +264,11 @@ const ItemCustomizations: React.FC = () => {
 
   const handleModifierChange = (
     modIndex: number,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
+    selectionType?:string
   ) => {
     const { name, value } = e.target;
-  
+  console.log('jjjj',name,value)
     setModifications((prev: any) => {
       const updated = [...prev];
       const currentModifier = updated[modIndex];
@@ -275,7 +276,7 @@ const ItemCustomizations: React.FC = () => {
   
       updated[modIndex] = {
         ...currentModifier,
-        selectionType: value,
+        selectionType: selectionType?selectionType:'Optional',
         [name]: value,
         ["isModifierChanged"]: isCurrentValueEmpty && value !== "" ? false : true,
       };
@@ -705,7 +706,7 @@ const ItemCustomizations: React.FC = () => {
                 </a>
               )}
             </div>
-
+            {showModifiers&&
             <div className="searchbox">
               <input
                 placeholder="Search"
@@ -733,7 +734,7 @@ const ItemCustomizations: React.FC = () => {
                 className="searchIcon"
                 onClick={() => handleSearchChange()}
               />
-            </div>
+            </div>}
             {searchQuery && (
               <div
                 className={
@@ -842,9 +843,12 @@ const ItemCustomizations: React.FC = () => {
                                 autoComplete="off"
                                 name="modifierName"
                                 value={modifications[modIndex]?.modifierName}
-                                onChange={(e) =>
-                                  handleModifierChange(modIndex, e)
-                                }
+                                onChange={(e) => {
+                                  const inputValue = e.target.value;
+                                  if (!/\d/.test(inputValue)) { // Checks if input doesn't contain any digits
+                                    handleModifierChange(modIndex, e, modifier.selectionType);
+                                  }
+                                }}
                                 onBlur={(e) => handleBlur(e, modIndex)}
                               />
                               <div
@@ -868,7 +872,7 @@ const ItemCustomizations: React.FC = () => {
                                     modifier.selectionType === "Mandatory"
                                   }
                                   onChange={(e) =>
-                                    handleModifierChange(modIndex, e)
+                                    handleModifierChange(modIndex, e,'Mandatory')
                                   }
                                 />
                                 <label className="labelItemCustomizations">
@@ -885,7 +889,7 @@ const ItemCustomizations: React.FC = () => {
                                     modifier.selectionType === "Optional"
                                   }
                                   onChange={(e) =>
-                                    handleModifierChange(modIndex, e)
+                                    handleModifierChange(modIndex, e,"Optional")
                                   }
                                 />
                                 <label className="labelItemCustomizations">
@@ -917,12 +921,17 @@ const ItemCustomizations: React.FC = () => {
                                             modifications[modIndex]?.modifierOptions[optIndex]?.modifierOptionName ||
                                             modifications[modIndex]?.modifierOptions[optIndex]?.modifierName
                                           }
-                                          onChange={(e) =>
-                                            addOptionChange(
-                                              modIndex,
-                                              optIndex,
-                                              e
-                                            )
+                                          onChange={(e) =>{
+                                            const value =e.target.value
+                                            if (!/\d/.test(value)) { // Checks if input doesn't contain any digits
+                                              addOptionChange(
+                                                modIndex,
+                                                optIndex,
+                                                e
+                                              )
+                                            }
+                                          }
+                                           
                                           }
                                           onBlur={(e) =>
                                             handleBlur(e, modIndex, optIndex)
@@ -955,6 +964,11 @@ const ItemCustomizations: React.FC = () => {
                                               e
                                             )
                                           }
+                                          onKeyDown={(e) => {
+                                            if (e.key === "-") {
+                                              e.preventDefault(); // Prevent typing -,
+                                            }
+                                          }}
                                           onBlur={(e) =>
                                             handleBlur(e, modIndex, optIndex)
                                           }

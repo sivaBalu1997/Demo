@@ -11,18 +11,22 @@ import Menu120 from '../Menu120/Menu120'
 import Filter from '../Filter/Filter'
 import ArrowHover from '../../../assets/svg/ArrowHover.svg'
 import DatePicker from 'react-datepicker';
-
+import {removeDataRequest } from 'redux/productCatalog/productCatalogActions';
+import { useDispatch} from 'react-redux';
 const Header = () => {
   const{isExpanded}=useContext(Contextpagejs)
   const [filterSelected,setFilterSelected]=useState(false)
 
   const history=useHistory()
-
+  const dispatch =useDispatch()
   const handleFilter=()=>{
     setFilterSelected(!filterSelected)
   }
 
- 
+  const handleClick=()=>{
+    dispatch(removeDataRequest())
+    history.push("/productCatalog/PrimaryDetails")
+  }
   
 
   return (
@@ -50,7 +54,7 @@ const Header = () => {
         </div>   */}
         </div>
       <div 
-        onClick={()=>history.push("/productCatalog/PrimaryDetails")} 
+        onClick={()=>handleClick()} 
         className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"
       }>
         <h3 className='Add-Item-Heading-Plus'>+</h3>

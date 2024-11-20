@@ -104,11 +104,8 @@ const Step2 = () => {
               <h1 className="Step2Thresholdvalue">Yes</h1>
             </div>
           </div>
-          {prizingDetail && prizingDetail?.normalForm ? (
             <NormalStep2 />
-          ) : (
-            <SpecialReview />
-          )}
+         
         </div>
       </div>
     </div>

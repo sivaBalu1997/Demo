@@ -116,6 +116,7 @@ export interface SubmitButtonProps {
   mainForm?: MainForm;
   validation?: () => boolean;
   handleValidate?: any;
+  itemcodeValid?:boolean
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
@@ -127,6 +128,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   validation,
   mainForm,
   handleValidate,
+  itemcodeValid,
 }) => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
@@ -187,7 +189,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
-    if (seletedpage === "Primary" && triggerValidation) {
+    if (seletedpage === "Primary" && triggerValidation && itemcodeValid) {
       const isFormValid = await triggerValidation(formData);
 
       const formImageIds = formData?.imageUrls?.map((image: any) => image.file.name);
@@ -280,7 +282,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         <button className="clearall" onClick={handleclear}>
           Clear All
         </button>
-        <button className="link saveall" onClick={handleclick}>
+        <button className="link saveall" onClick={handleclick} >
           Save & next
         </button>
       </div>

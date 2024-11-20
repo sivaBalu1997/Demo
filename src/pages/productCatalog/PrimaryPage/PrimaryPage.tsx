@@ -533,7 +533,7 @@ const PrimaryPage = () => {
   const subCategoryData = useSelector(
     (state: any) => state.productCatalog.subCategoryData.data
   );
-
+  const message=useSelector((state:any)=>state?.getItemCodeReducer?.itemCode?.data)
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -545,7 +545,7 @@ const PrimaryPage = () => {
   const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
 
   const [parentId, setParentId] = useState('')
-
+  const [itemcodeValid,setItemcodeValid]=useState(true)
   useEffect(()=>{
     if (ItemsPrimaryDetails?.popularItem) {
       setPopularItem(popularItem + 1);
@@ -555,6 +555,16 @@ const PrimaryPage = () => {
       setValue("popularItem", false);
     }
   },[ItemsPrimaryDetails])
+useEffect(()=>{
+  if(message?.httpStatus==409)
+  {
+    setItemcodeValid(false)
+  }
+  else{
+    setItemcodeValid(true)
+  }
+},[message])
+console.log("setItemcodeValid(false)",itemcodeValid)
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -948,7 +958,7 @@ const PrimaryPage = () => {
                           value.toString().length >= 4 ||
                           "Item code must be between 4 and 5 characters",
                       }}
-                      render={({ onChange, onBlur, value }) => (
+                      render={({ onChange, onBlur, value, }) => (
                         <InputFieldComponent
                           name="itemCode"
                           onChange={(newValue) => {
@@ -956,8 +966,14 @@ const PrimaryPage = () => {
                           }}
                           value={value}
                           onBlur={() => {
-                            if (value) {
+                            console.log("99",value.length)
+                            if (value.length>3) {
                               dispatch(getItemCodeRequest(locationid, value));
+                            }
+                          }}
+                          onKeyDown={(e:any) => {
+                            if (e.key === "e" || e.key === "-" || e.key === "+" || e.key === ".") {
+                              e.preventDefault(); // Block these keys
                             }
                           }}
                           type="number"
@@ -1298,6 +1314,7 @@ const PrimaryPage = () => {
               getFormData={getValues}
               seletedpage="Primary"
               reset={handleReset}
+              itemcodeValid ={itemcodeValid}
               triggerValidation={() => trigger()}
             />
             {/* </form> */}

@@ -9,6 +9,7 @@ interface InputFieldInterface {
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?:any
   trigger: any;
   error?: any;
   placeholder?: string;
@@ -23,6 +24,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   onChange,
   trigger,
   onBlur,
+  onKeyDown,
   error,
   placeholder,
   subtext,
@@ -32,8 +34,18 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e);  // Call onChange with the event
-    trigger(name);  // Trigger validation after change
+    if (name== 'itemName') {
+      if(!e.target.value.startsWith(" "))
+      onChange(e);
+      trigger(name);
+     // Update value only if it doesn't start with a space
+    }
+    else{
+      onChange(e);
+      trigger(name);
+    }
+   // onChange(e);  // Call onChange with the event
+    //trigger(name);  // Trigger validation after change
   };
 
   const message=useSelector((state:any)=>state?.getItemCodeReducer?.itemCode?.data?.message)
@@ -49,6 +61,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           value={value}
           onChange={handleChange}
           onBlur={onBlur}
+          onKeyDown={onKeyDown}
           placeholder={placeholder}
           className="Input-Filed"
         />

@@ -414,7 +414,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-      setOnline(true);
+     
       pickupDetails?.price && setPickup(true);
       deliveryDetails?.price > 0 && setDelivery(true);
       console.log('1',{updatedFields})
@@ -424,6 +424,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const thirdPartyTypeName =
         prizingDetail?.normalForm?.thirdpartyDetails?.map;
       if (pickupDetails) {
+        setOnline(true);
         setPickUpDetails({
           typeId: pickUpId,
           typeGroup: "P",
@@ -434,6 +435,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (deliveryDetails) {
+        setOnline(true);
         setDeliveryDetails({
           typeId: deliveryId,
           typeGroup: "S",
@@ -444,6 +446,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (thirdpartyDetails?.length > 0) {
+        setOnline(true);
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
         if (thirdpartyDetails.some((item: any) => item?.price)) {
           setSelectedThirdValues(data);
@@ -864,6 +867,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setSelectedValues3([]);
     setDayDelivery([]);
     setDayThird([]);
+    setDineIn(false)
+    setOnline(false)
+    setPickup(false)
+    setDelivery(false)
     setSelectedValues4([]);
     setSelectedValues5([]);
     setSelectedValues([]);
@@ -963,12 +970,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   >
                     <div className="Dine-In-Price">
                       <input
-                        type="text"
+                        type="number"
                         name="DineInPrice"
                         value={entry.DineInPrice}
                         className="DineInInput1Normal"
                         onChange={(e) => {
                           handleChange(index, e);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-") {
+                            e.preventDefault(); // Prevent typing -, e, or E
+                          }
                         }}
                       />
                       {!ValidationStateerr[priceKey]?.isValid && (
@@ -1000,12 +1012,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       </div>
                     </div>
 
-                    <h1
+                    {/* <h1
                       onClick={() => handleDelete(index)}
                       className="DeleteButtonDine"
                     >
                       - Delete
-                    </h1>
+                    </h1> */}
                   </div>
                   <div className="dineInChooseDayContainer">
                     <h3 className="dineInChooseDayContainerHeading">
@@ -1072,9 +1084,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   </div>
                   <div className="PickupInput11Normal">
                     <input
-                      type="text"
+                      type="number"
                       className="DineInInput1Normal"
                       value={pickupDetails.price || ""}
+                      onKeyDown={(e) => {
+                        if (e.key === "-") {
+                          e.preventDefault(); // Prevent typing -,
+                        }
+                      }}
                       onChange={(e) => {
                         const inputValue = e.target.value;
                         const numericValue = inputValue
@@ -1185,9 +1202,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
                   <p className="LabelPrice-delivery"> Price*</p>
                   <div className="Online-delivery">
                     <input
-                      type="text"
+                      type="number"
+                      onKeyDown={(e) => {
+                        if (e.key === "-") {
+                          e.preventDefault(); // Prevent typing -, e, or E
+                        }
+                      }}
                       className="DineInInput1Normal"
-                      value={deliveryDetails?.price}
+                      value={deliveryDetails?.price || ""}
                       onChange={(e) => {
                         const newPrice = e.target.value;
                         setDeliveryDetails((prevDetails: any) => ({
