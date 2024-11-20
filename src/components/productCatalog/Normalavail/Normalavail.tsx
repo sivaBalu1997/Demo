@@ -879,7 +879,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-          <div className="tooltip">
+          {/* <div className="tooltip">
             <TooltipMsg
               message="Enter a unique code for this food item, used for identification."
               styles={{
@@ -907,7 +907,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 <img src={info} alt="info icon" width={20} height={20} />
               </div>
             </TooltipMsg>
-          </div>
+          </div> */}
         </div>
 
         <div className="dayschecking">
