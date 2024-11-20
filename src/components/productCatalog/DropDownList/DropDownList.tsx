@@ -631,7 +631,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               )}
             </ul>
             <div className="edititem">
-              {options?.length > 0 && !editList && editValues && (
+              {!dropDownLoading && options?.length > 0 && !editList && editValues && (
                 <p
                   className="editiconimage"
                   onMouseDown={handleOptionMouseDown}

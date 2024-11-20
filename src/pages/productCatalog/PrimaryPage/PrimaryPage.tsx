@@ -971,6 +971,11 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                               dispatch(getItemCodeRequest(locationid, value));
                             }
                           }}
+                          onKeyDown={(e:any) => {
+                            if (e.key === "e" || e.key === "-" || e.key === "+" || e.key === ".") {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           type="number"
                           trigger={trigger}
                           error={errors.itemCode}

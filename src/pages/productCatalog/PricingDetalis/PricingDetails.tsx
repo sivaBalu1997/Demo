@@ -749,8 +749,8 @@ const PricingDetails = () => {
     setNextAvailable(event.target.checked);
   };
 
-  const handlePrintKOt = (event: any) => {
-    setPrintKot(event.target.checked);
+  const handlePrintKOt = (value:boolean) => {
+    setPrintKot(value);
   };
 
   const ItemsPrimaryDetails = useSelector(
@@ -900,10 +900,10 @@ const PricingDetails = () => {
               <input
                 type="checkbox"
                 className="checkbox1-Kitchen"
-                onChange={handlePrintKOt}
+                onChange={()=>handlePrintKOt(!printKot)}
                 checked={printKot}
               />
-              <label className="Inventorycheck">
+              <label onClick={()=>handlePrintKOt(!printKot)} className="Inventorycheck">
                 Don't print the item in Master KOT
               </label>
             </div>

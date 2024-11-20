@@ -26,6 +26,11 @@ const SearchBox = () => {
 
     setOrgData(itemNames); // Set original data when it is available
   }, [data]);
+  useEffect(() => {
+    if(searchTerm==''){
+      dispatch(searchForItem({}));
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch));

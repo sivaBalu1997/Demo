@@ -9,6 +9,7 @@ interface InputFieldInterface {
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?:any
   trigger: any;
   error?: any;
   placeholder?: string;
@@ -23,6 +24,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   onChange,
   trigger,
   onBlur,
+  onKeyDown,
   error,
   placeholder,
   subtext,
@@ -59,6 +61,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           value={value}
           onChange={handleChange}
           onBlur={onBlur}
+          onKeyDown={onKeyDown}
           placeholder={placeholder}
           className="Input-Filed"
         />
