@@ -198,7 +198,7 @@ const SpecialReview = () => {
               </h3>
             </div>
 
-            <div className="special-container-column-thirdparty">
+            {/* <div className="special-container-column-thirdparty">
               <h3 className="Special-container-heading-thirdparty thirdpartyprice">
                 Zomato Price{" "}
               </h3>
@@ -210,7 +210,7 @@ const SpecialReview = () => {
                   prizingDetail.specialForm.form1.Zomato) ||
                   "-"}{" "}
               </h3>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

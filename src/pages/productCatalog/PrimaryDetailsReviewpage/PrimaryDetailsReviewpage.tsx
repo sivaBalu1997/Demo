@@ -240,6 +240,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   // const [imageIdtosend, setimageIdtosend] = useState<string>("");
 
+  console.log({prizingDetail})
+
   useEffect(() => {
     setError([]);
   }, []);
@@ -517,6 +519,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editDetails = editData[0]?.orderTypes
   const removePricing = []
   const addPricing = []
+
+  console.log({dineInDetails}, {pickupDetails}, {deliveryDetails})
   
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
@@ -529,8 +533,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
     : [];
-
-    console.log({UploadImageImageID})
 
   const menuPayload = {
     locationId: locationid,
@@ -557,7 +559,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     kitchenStation: kitchenStationId || null,
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
-    ignoreMasterKotPrint: false,
+    ignoreMasterKotPrint: prizingDetail?.printKot || false,
     availabilityDays: stringNormalDays || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
@@ -567,6 +569,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     // isSingleMenu: false,
   };
+
+  console.log({menuPayload})
 
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId);
   const updateModifierId = useSelector(
@@ -608,7 +612,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     kitchenStation: kitchenStationId || null,
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
-    ignoreMasterKotPrint: false,
+    ignoreMasterKotPrint: prizingDetail?.printKot || false,
     availabilityDaysToAdd: stringNormalDays || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 

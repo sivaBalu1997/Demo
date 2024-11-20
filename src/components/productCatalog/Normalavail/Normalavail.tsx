@@ -337,6 +337,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
     ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
   };
 
+  console.log({mainForm})
+
   const optionsselectthird = orderTypes
     ?.filter((item) => item.typeGroup === "T")
     .map((item) => item.typeName);
@@ -398,11 +400,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
           prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
       });
 
-      const updatedFields = prizingDetail?.normalForm?.dineinfields.map(
+      const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
         (item: any) => ({
-          DineInPrice: item?.DineInPrice || "",
+          DineInPrice: item?.DineInPrice,
           DineInMealType: item.DineInMealType || [],
-          DineInService: item?.DineInService || "",
+          DineInService: item?.DineInService,
           showDay: true,
           dayButtonText: "Choose Day",
         })
@@ -415,6 +417,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setOnline(true);
       pickupDetails?.price && setPickup(true);
       deliveryDetails?.price > 0 && setDelivery(true);
+      console.log('1',{updatedFields})
       setDineInFields(updatedFields);
 
       // Set delivery details
@@ -456,12 +459,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       // Initialize selected values
-      const initialSelectedValues = updatedFields.map(
+      const initialSelectedValues = updatedFields?.map(
         (item: any) => item.DineInMealType
       );
       setSelectedValuesMealType(initialSelectedValues);
 
-      const initialSelectedValues2 = updatedFields.map(
+      const initialSelectedValues2 = updatedFields?.map(
         (item: any) => item.DineInService
       );
       setSelectedValues(initialSelectedValues2);
@@ -473,6 +476,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
       const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
+      console.log('22',prizingDetail?.normalForm?.dineInDetails, {prizingDetail})
       setDineIn(true);
       if (pickupDetails) {
         setOnline(true);
@@ -514,17 +518,20 @@ const Normalavail: React.FC<NormalavailProps> = ({
         setMealTypes(object);
       }
 
-      const updatedFields = [
-        {
-          DineInId: dineInDetails?.typeId,
-          DineInPrice: dineInDetails?.price || "",
-          DineInMealType: dineInDetails?.DineInMealType || [],
-          DineInService: dineInDetails?.DineInService || "",
-          showDay: true,
-          dayButtonText: "Choose Day",
-        },
-      ];
-
+      const updatedFields = dineInDetails
+      ? [
+          {
+            DineInId: dineInDetails.typeId || "",
+            DineInPrice: dineInDetails.price ?? "",
+            DineInMealType: dineInDetails.DineInMealType || [],
+            DineInService: dineInDetails.DineInService || "",
+            showDay: true,
+            dayButtonText: "Choose Day",
+          },
+        ]
+      : [];
+      
+      console.log('2',{updatedFields},dineInDetails?.price)
       setDineInFields(updatedFields);
 
       setSelectedValues2(
@@ -607,6 +614,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setDineInFields(newEntries);
 
     const newPrice = parseFloat(e.target.value) || 0;
+    console.log({newPrice})
     setFormattedDineInData((prevData: any) => ({
       ...prevData,
       price: newPrice,

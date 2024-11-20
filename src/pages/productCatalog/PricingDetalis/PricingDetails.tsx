@@ -306,6 +306,8 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
+  console.log({prizingDetail})
+
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
@@ -448,7 +450,7 @@ const PricingDetails = () => {
       // setInventory(true);
       setResetInventory(prizingDetail?.resetInventory);
       setNextAvailable(prizingDetail?.nextAvailable);
-      setPrintKot(prizingDetail?.printKot);
+      setPrintKot(prizingDetail?.printKot || prizingDetail?.ignoreMasterKotPrint);
 
       // Prepare the kitchenstation name for the dropdown
       const kitchenStationName = prizingDetail?.kitchenstation;

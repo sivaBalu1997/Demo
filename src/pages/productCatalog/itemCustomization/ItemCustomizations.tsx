@@ -672,7 +672,7 @@ const ItemCustomizations: React.FC = () => {
   }, [ordertypesdetails]);
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex"}}>
       <SidePanel />
       <div style={{ width: "84%" }}>
         <Navigationpage 
