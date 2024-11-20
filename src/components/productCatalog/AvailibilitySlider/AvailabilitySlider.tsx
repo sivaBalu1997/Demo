@@ -478,11 +478,13 @@ const handleToggleDisable=()=>{
                         toggle={type.availabilityEnabled}
                         setToggle={() => 
                         {
-                          if(!type.availabilityEnabled)
+                          if(type.availabilityEnabled)
                           {
                             setSelectedOrderTypeId(type.typeId)
                             setSelectPeriod(true);
                             setParrentToggle("")
+                            console.log("avial",type.availabilityEnabled,"id",type.typeId);
+                            
                             handleOrderTypesAvail(type.typeId)
                           }
                           else{
@@ -492,8 +494,6 @@ const handleToggleDisable=()=>{
                             setParrentToggle("")
                           }
                         }
-                          
-                          
                          }
                         pen={pen}
                       />

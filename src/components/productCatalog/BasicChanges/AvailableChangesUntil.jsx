@@ -84,6 +84,8 @@ console.log("todayWorkinghours",todayWorkinghours);
 
       if(parentToggle==="")
       {
+        console.log("selectedtypeid",selectedtypeid);
+        
         setPatchedData((prevState) => ({
           ...prevState,
           itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
