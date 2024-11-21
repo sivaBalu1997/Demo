@@ -35,29 +35,25 @@ const AvailCalender: React.FC<modelshow> = ({
     setSelectedDatee(date);
   };
 
-const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' | 'minutes') => {
-  const value = e.target.value;
-
-  // Ensure the value is a number and within valid bounds
-  if (!/^\d{0,2}$/.test(value)) return; // Allow only 0-2 digits
-  if (type === 'hours' && +value > 23) return; // Validate hours
-  if (type === 'minutes' && +value > 59) return; // Validate minutes
-
-  // Update state
-  if (type === 'hours') {
-    setHours(value);
-  } else {
-    setMinutes(value);
-  }
-}
-
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' | 'minutes') => {
+    const value = e.target.value;
+    if (type === 'hours') {
+      setHours(value);
+    } else {
+      setMinutes(value);
+    }
+    const formattedHours = String(type === 'hours' ? value : hours).padStart(2, '0')||"00";
+    const formattedMinutes = String(type === 'minutes' ? value : minutes).padStart(2, '0')||"00";
+    setFormattedTime(`${formattedHours}:${formattedMinutes}`);
+  };
 
   const handleDateChanging = () => {
-    if (selectedDatee && selectedTimePeriod) {
+    if (selectedDatee && selectedTimePeriod && formattedTime) {
       const newAvailabilityInfo = {
         orderTypeId: selectedtypeid,
         unAvailableUntilTime: formatDateTime(selectedDatee, formattedTime, selectedTimePeriod),
       };
+console.log("time", formattedTime);
 
       if(ParentToggle==="")
       {
@@ -126,6 +122,7 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
               selected={selectedDatee}
               onChange={handleDateChange}
               inline
+              minDate={new Date()}
             />
           </div>
           <div className="AvailCalenderInputContainer">
@@ -136,7 +133,7 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
                 onChange={(e) => handleTimeChange(e, 'hours')}
                 placeholder="HH"
                 className="AvailCalenderInput1" 
-                min="1"
+                min="0"
                 max="12"
                 name="hours"
               />

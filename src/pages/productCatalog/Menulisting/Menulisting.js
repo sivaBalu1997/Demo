@@ -420,7 +420,40 @@ export const Menulisting = () => {
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
 
+    const allItemResponseLists = menuData?.flatMap((category) => 
+      category?.subCategoryResponseList?.map((subCategory) => ({
+        categoryId: category.categoryId, 
+        categoryName: category?.categoryName, 
+        subCategoryId: subCategory?.subCategoryId, 
+        subCategoryName: subCategory?.subCategoryName, 
+        itemResponseList: subCategory?.itemResponseList 
+      }))
+    ).filter((item) => item?.itemResponseList?.map((data)=>data.itemId===value));
+const filtesubItems=allItemResponseLists.find((item) =>
+  item?.itemResponseList?.some((response) => response?.itemId === value)
+);
+
+  //   function findIdInSubCategories(data, idToFind) {
+  //     for (const category of data || []) { // Ensure `data` is iterable
+  //         for (const subCategory of category?.subCategoryResponseList || []) { // Check if `subCategoryResponseList` exists
+  //             for (const item of subCategory?.itemResponseList || []) { // Check if `itemResponseList` exists
+  //                 if (item.itemId === idToFind) {
+  //                     return {
+  //                         categoryName: category.categoryName,
+  //                         subCategoryName: subCategory.subCategoryName,
+  //                         item: item
+  //                     };
+  //                 }
+  //             }
+  //         }
+  //     }
+  //     return null; // Return null if the ID is not found
+  // }
+  
+  
+  
     if (filteredItem) {
+
       setCategoryData({
         name: filteredItem?.categoryName,
         id: filteredItem?.categoryId,
@@ -435,6 +468,25 @@ export const Menulisting = () => {
         setmodal(true);
       }
     }
+    else
+    {
+      console.log("result",filtesubItems,filteredItem);
+      setCategoryData({
+        name: filtesubItems?.categoryName,
+        id: filtesubItems?.categoryId,
+      });
+      const specificResponse = filtesubItems.itemResponseList.filter(
+        (response) => response?.itemId === value
+      );
+      if (specificResponse.length > 0) {
+        setSideBar(specificResponse);
+        dispatch(selectedCategory(categoryData));
+        dispatch(selectedMockDataRequest(specificResponse));
+        setmodal(true);
+      }
+      
+    }
+    
   };
 
   const showsidebar = (key) => {
@@ -648,6 +700,35 @@ export const Menulisting = () => {
     }
   }, [deleteMenuItemSuccess]);
 
+  const [itemList, setItemList] = useState([]);
+  useEffect(() => {
+    const allItemResponseLists = menuData?.flatMap((category) => 
+    category?.subCategoryResponseList?.map((subCategory) => ({
+      categoryId: category.categoryId, 
+      categoryName: category?.categoryName, 
+      subCategoryId: subCategory?.subCategoryId, 
+      subCategoryName: subCategory?.subCategoryName, 
+      itemResponseList: subCategory?.itemResponseList 
+    }))
+  )
+  .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
+
+console.log("allItemResponseLists", allItemResponseLists);
+      
+    const allItemResponseLists2 = menuData.flatMap((category) => category);
+    
+    const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
+
+    const transformedList = mergedarray.map((entry) => ({
+      id: entry.categoryId,
+      name: entry.categoryName,
+      itemResponseList: entry.itemResponseList || [],
+    }));
+
+    setItemList(transformedList);
+  }, [menuData]);
+  console.log("transformedList", itemList);
+
   return (
     <>
       {
@@ -700,38 +781,40 @@ export const Menulisting = () => {
                       {loading ? (
                         <></>
                       ) : (
-                        menudatalist.map((object, index) => (
-                          <React.Fragment key={index}>
-                            <RowHeading
-                              objectId={object.categoryId}
-                              object={object}
-                              index={index}
-                              onDragStart={handledragvegnonvegdragstart}
-                              onDragOver={handledragvegnonvegdropover}
-                              onDrop={handledragvegnonvegdropend}
-                            />
+                        itemList.map((object, index) => {
+                          return (
+                            <React.Fragment key={index}>
+                              <RowHeading
+                                objectId={object.id}
+                                object={object}
+                                index={index}
+                                onDragStart={handledragvegnonvegdragstart}
+                                onDragOver={handledragvegnonvegdropover}
+                                onDrop={handledragvegnonvegdropend}
+                              />
 
-                            <TableOneBody
-                              object={object}
-                              typevalue={object.type}
-                              index={index}
-                              FilteredData={FilteredData}
-                              objectLength={FilteredData.length}
-                              draggingOverIndex={draggingOverIndex}
-                              draggedRowIndex={draggedRowIndex}
-                              handleRowDragStart={handleDragStart}
-                              handleRowDragOver={handleDragOver}
-                              handleRowDragEnd={handleDrop}
-                              handleDragScroll={handleDragScroll}
-                              handlemodal={handlemodal}
-                              tableBodyRef1={tableBodyRef1}
-                              tableBodyRef2={tableBodyRef2}
-                              handlevegrowstart={handledragvegnonvegdragstart}
-                              handlevegrowover={handledragvegnonvegdropover}
-                              handlevegrowend={handledragvegnonvegdropend}
-                            />
-                          </React.Fragment>
-                        ))
+                              <TableOneBody
+                                object={object}
+                                typevalue={object.type}
+                                index={index}
+                                FilteredData={FilteredData}
+                                objectLength={FilteredData.length}
+                                draggingOverIndex={draggingOverIndex}
+                                draggedRowIndex={draggedRowIndex}
+                                handleRowDragStart={handleDragStart}
+                                handleRowDragOver={handleDragOver}
+                                handleRowDragEnd={handleDrop}
+                                handleDragScroll={handleDragScroll}
+                                handlemodal={handlemodal}
+                                tableBodyRef1={tableBodyRef1}
+                                tableBodyRef2={tableBodyRef2}
+                                handlevegrowstart={handledragvegnonvegdragstart}
+                                handlevegrowover={handledragvegnonvegdropover}
+                                handlevegrowend={handledragvegnonvegdropend}
+                              />
+                            </React.Fragment>
+                          );
+                        })
                       )}
                     </tbody>
                   }
@@ -830,7 +913,7 @@ export const Menulisting = () => {
                                   No columns selected
                                 </div>
                               ) : (
-                                menudatalist.map((itemobject, indexvalue) => {
+                                itemList.map((itemobject, indexvalue) => {
                                   return (
                                     <React.Fragment key={indexvalue}>
                                       <tr>

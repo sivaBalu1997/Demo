@@ -33,24 +33,35 @@ const CustomizeSlider = () => {
   );
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
 
-  const [customData, setCustomData] = useState(
-    datafromRedux.map((item: any) => ({
-      modifierName: item?.modifiers[0]?.modifierName,
-      options: item?.modifiers[0]?.options.map((opt: any) => ({
-        name: opt.name,
-        price: opt.price,
-        isEnabled: opt.isEnabled,
-      })),
-      isEnabled: item?.modifiers[0]?.isEnabled,
-    }))
-  );
+  const [customData, setCustomData] = useState<any>([]);
+
+  useEffect(() => {
+    const updatedCustomData = datafromRedux.flatMap((item: any) =>
+      item?.modifiers.map((modifier: any) => ({
+        modifierName: modifier.modifierName,
+        isEnabled: modifier.isEnabled===1?true:false,
+        options: modifier.options.map((opt: any) => ({
+          name: opt.name,
+          price: opt.price,
+          isEnabled: opt.isEnabled,
+        })),
+      }))
+    );
+
+    setCustomData(updatedCustomData);
+  }, [datafromRedux]);
+
+   
+console.log("modifires",datafromRedux[0]);
+console.log("customData",customData);
+
 
   useEffect(() => {
     if (datafromRedux && customData) {
       setPatchedData((prevState: any) => ({
         ...prevState, // Spread prevState first to maintain the other structure
         itemId: datafromRedux[0]?.itemId ?? prevState.itemId, // Safely set itemId from datafromRedux
-        modifierInfo: customData.map((item, index) => ({
+        modifierInfo: customData.map((item:any, index:number) => ({
           modifierId:
             datafromRedux[0]?.modifiers?.[index]?.id ||
             prevState.modifierInfo[index]?.optionId ||
@@ -75,15 +86,27 @@ const CustomizeSlider = () => {
   }, [datafromRedux, customData, setPatchedData]);
   const [pen, setPen] = useState(true); // Define the pen state
 
-  // Toggle for parent (modifier level)
   const handleParentToggle = (index: number) => {
     const updatedData = [...customData];
-    updatedData[index].isEnabled = !updatedData[index].isEnabled;
+  
+    // Toggle the parent isEnabled state
+    const parentEnabled = !updatedData[index].isEnabled;
+    updatedData[index].isEnabled = parentEnabled;
+  
+    // Update all child options to match the parent's isEnabled state
+    updatedData[index].options = updatedData[index].options.map((option: any) => ({
+      ...option,
+      isEnabled: parentEnabled,
+    }));
+  
+    console.log("updatedData[index]", updatedData[index]);
+  
     setCustomData(updatedData);
+  
     // Optionally, dispatch the update to Redux
     // dispatch({ type: 'UPDATE_MODIFIER_TOGGLE', payload: updatedData });
   };
-
+  
   // Toggle for child (option level)
   const handleChildToggle = (parentIndex: number, childIndex: number) => {
     const updatedData = [...customData];
@@ -98,11 +121,16 @@ const CustomizeSlider = () => {
   const handlePriceChange = (
     parentIndex: number,
     childIndex: number,
-    newPrice: number
+    newPrice: number,
+    Enabled:boolean
   ) => {
+
+    if(Enabled)
+   {
     const updatedData = [...customData];
     updatedData[parentIndex].options[childIndex].price = newPrice;
     setCustomData(updatedData);
+   }
     // Optionally, dispatch the update to Redux
     // dispatch({ type: 'UPDATE_OPTION_PRICE', payload: updatedData });
   };
@@ -112,7 +140,7 @@ const CustomizeSlider = () => {
       <h3 className="customize-heading">Customize</h3>
 
       <div className="items-container">
-        {customData.map((elem, index) => (
+        {customData.map((elem:any, index:number) => (
           <div key={index}>
             <div className="item-toggle-container-flex">
               <div className="item-heading">{elem.modifierName}</div>
@@ -132,7 +160,7 @@ const CustomizeSlider = () => {
                   key={subindex}
                 >
                   <div className="subitems-toggle-container-flex">
-                    <div className="subitem-heading">{subitem.name}</div>
+                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%"}}>{subitem.name}</div>
                     <div className="subItemToggle">
                       <ToggleSliderAvail
                         toggle={subitem.isEnabled}
@@ -143,11 +171,13 @@ const CustomizeSlider = () => {
                         className="input-subitem"
                         type="number"
                         value={subitem.price}
+                        style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",border:subitem.isEnabled?"1px solid black":"1px solid #5F5F5F"}}
                         onChange={(e) =>
                           handlePriceChange(
                             index,
                             subindex,
-                            parseFloat(e.target.value)
+                            parseFloat(e.target.value),
+                            subitem.isEnabled
                           )
                         }
                         placeholder="$100"

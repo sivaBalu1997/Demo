@@ -234,10 +234,11 @@
   height: 600px;
 
   overflow-y: scroll;
-  // margin-top: 20px;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+    // margin-top: 20px;
+//     &::-webkit-scrollbar {
+//     display: none;
+// }
+  
 }
 .Basic-Component {
   width: 416px;

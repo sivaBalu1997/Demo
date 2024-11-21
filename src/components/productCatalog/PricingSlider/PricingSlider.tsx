@@ -264,6 +264,10 @@ const PricingSlider: any = ({}) => {
    
 
   };
+  const restaurantDetails = useSelector(
+    (state: RootState) => state.auth.restaurantDetails
+  );
+
   return (
     <div className="PricingSlider-Container">
       <h3 className="PricingSlider-Heading">Pricing </h3>
@@ -276,6 +280,8 @@ const PricingSlider: any = ({}) => {
               item.types.map((price: any, index: number) => {
 
                 const enableOrNot=price.isEnabled && price.isNotHide
+
+                const Pricesymbol=`${restaurantDetails?.country === "US" ? "$" : "Rs."}`
                
                 return(
                 <div className="ordertypes-price">
@@ -295,7 +301,7 @@ const PricingSlider: any = ({}) => {
 
           )
         }
-        value={ price.price || ''}  
+        value={ price.price|| ''}  
       />
                 </div>
 )})}
