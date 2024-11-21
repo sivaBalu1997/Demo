@@ -20,32 +20,71 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   const partaldatasending= useSelector((state : any) => state.productCatalog.partialDataSendingLoading)
   const partaldatasendingsuccessmsg= useSelector((state : any) => state.productCatalog?.partialDataSendingsuccess)
 
+  const comparePrices = (patchedData: any, orderTypes: any[]) => {
+    const matchingTypes = patchedData.pricing.map((price: any) => {
+      // Filter ordertypesdata to find matches
+      const matchedPrice = ordertypesdata.filter(
+        (item: any) => item.price != price.price
+      );
+    
+      // Log the matched items
+     
 
+      if(matchedPrice.length>0)
+      {
+        console.log({ matchedPrice });
 
+      }
+    
+    
+      return matchedPrice;
+    });
+  };
+
+  const data = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+  console.log("data",data);
+
+  const ordertypesdata=data[0].orderTypes;
+  console.log("ordertypesdata",ordertypesdata);
   
   const dispatch = useDispatch()
 
-  const handleChangeButton = () => {
+  const handleCancelButton = () => {
     dispatch(removeDataRequest())
     onclose();
   };
   useEffect(()=>{
   
    },[partaldatasending,dispatch]);
-    
+   const [hasTrue, setHasTrue] = useState(false);
 
   const handledispatchforpartilChange= () => {
- 
-    dispatch(partialUpdateMenuRequest(patchedData,locationid));
-    if(partaldatasendingsuccessmsg!=="")
-    {
-      onclose();
-    }
+    const hasPriceChanged = comparePrices(patchedData, ordertypesdata);
+    console.log("hasPriceChanged",hasPriceChanged);
+   
+      setHasTrue(true)
+      dispatch(partialUpdateMenuRequest(patchedData,locationid));
+      
+      
+
+      
+    
+  
+    // if(partaldatasendingsuccessmsg!=="")
+    // {
+    //   onclose();
+    // }
    
    
 
   };
+  console.log("patchedData55",patchedData);
+  
 
+
+  
   return (
     <>
       <div className="BasicChangesContainer">
@@ -56,10 +95,10 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
           </p>
         </div>
         <div className="CancelChange">
-          <button className="CancelBtn" onClick={handleChangeButton}>
+          <button className="CancelBtn" onClick={handleCancelButton}>
             Cancel
           </button>
-          <button className="ChangeBtn" onClick={handledispatchforpartilChange}>
+          <button className="ChangeBtn" onClick={handledispatchforpartilChange} >
             Change
           </button>
         </div>

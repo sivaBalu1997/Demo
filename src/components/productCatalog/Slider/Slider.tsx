@@ -157,7 +157,11 @@ const Slider: React.FC<SliderProps> = ({
         <div className="Slider-Mainform">
           <div className="Slider-First-Row">
             <h1 className="Slider-Heading1">
-              {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
+              <span>
+                {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
+              </span>
+              <span>-</span>
+              <span>{data1?.length > 0 ? data1[0]?.itemCode : ""}</span>
             </h1>
             <div className="Slider-icons">
               <div className="PenImage-Section">

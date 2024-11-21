@@ -7,11 +7,13 @@ interface ToggleProps {
   togglevalue?: number;
   width?: number;
   height?: number;
+  Enabled?: boolean;
 }
 
 const Toggle: React.FC<ToggleProps> = ({
   toggle,
   setToggle,
+  Enabled = true,
   togglevalue,
   width,
   height,
@@ -23,8 +25,10 @@ const Toggle: React.FC<ToggleProps> = ({
         // style={{width:`${width}px`,height:`${height}px`}}
         className={`toggleBtn${toggle ? " Toggled" : ""}`}
         onClick={() => {
-          if (setToggle) {
-            setToggle((prev) => !prev);
+          if (Enabled) {
+            if (setToggle) {
+              setToggle((prev) => !prev);
+            }
           }
         }}
       >

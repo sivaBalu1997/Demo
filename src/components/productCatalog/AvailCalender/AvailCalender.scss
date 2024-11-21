@@ -41,7 +41,7 @@
     text-align: center;
     
     margin-bottom: 10px;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
 }
 // .react-datepicker {
@@ -59,28 +59,31 @@
     margin-top: 10px;
   }
   .AvailCalenderInput1{
-    width:44.08px;
+    width:49.08px;
     height:32.02px;
   }
   .AvailCalenderAm{
     border:1px solid rgba(103, 131, 62, 1);
     color: white;
     width:32.08px;
-    height:36.02px;
+    height:24.02px;
     padding: 2px;
     color: black;
-    border-top-left-radius:5.16px ;
-    border-top-right-radius: 5.16px;
+    padding: 2px;
+    
+   
   }
   .AvailCalenderPm{
+    border:1px solid rgba(103, 131, 62, 1);
+    color: white;
     width:32.08px;
-    height:36.02px;
+    height:24.02px;
     padding: 2px;
- cursor: pointer;
-    border-top-left-radius:5.16px ;
-    border-top-right-radius: 5.16px;
-    margin-left: -20px;
-    border: 1px solid rgba(103, 131, 62, 1);
+    color: black;
+    
+    transform: translate(-20px);
+    border-top-right-radius:10px;
+    cursor: pointer;
   }
   .Calselected{
     cursor: pointer;
@@ -110,4 +113,12 @@
     font-size: 14px;
     background-color: rgba(103, 131, 62, 1);
     color:white
+  }
+
+  .Am-Heading{
+    transform: translateY(-15px);
+  }
+  .Pm-Heading{
+    transform: translateY(-15px);
+
   }

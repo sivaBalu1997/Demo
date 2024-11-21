@@ -130,11 +130,13 @@
 }
 
 .droplabelPricing {
-  color: #666666;
+  color: #979797;
   font-size: 14px;
   font-weight: 400;
   margin-left: -1.8rem;
   margin-bottom: 0.3rem;
+  // border: 1px solid red;
+  z-index: 30;
 }
 .No-Option-Availble-dropdown {
   width: 300px;

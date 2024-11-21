@@ -290,10 +290,10 @@ const PricingDetails = () => {
   );
 
   const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
+    (state: State) => state?.auth?.credentials
   );
   const data = useSelector(
-    (state: StateData) => state.productCatalog.availability
+    (state: StateData) => state?.productCatalog?.availability
   );
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
@@ -305,6 +305,8 @@ const PricingDetails = () => {
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
+
+  console.log({prizingDetail})
 
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
@@ -368,7 +370,7 @@ const PricingDetails = () => {
     Inventory1: "",
     Inventory2: "",
   });
-  const [dinein, setDineIn] = useState(false);
+  const [dinein, setDineIn] = useState(true);
 
   const [dineinspecial, setdineinspecial] = useState(false);
   const [inventory, setInventory] = useState(false);
@@ -448,7 +450,7 @@ const PricingDetails = () => {
       // setInventory(true);
       setResetInventory(prizingDetail?.resetInventory);
       setNextAvailable(prizingDetail?.nextAvailable);
-      setPrintKot(prizingDetail?.printKot);
+      setPrintKot(prizingDetail?.printKot || prizingDetail?.ignoreMasterKotPrint);
 
       // Prepare the kitchenstation name for the dropdown
       const kitchenStationName = prizingDetail?.kitchenstation;
@@ -549,7 +551,7 @@ const PricingDetails = () => {
       //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       // }
 
-      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
+      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))|| Number(field.DineInPrice) === 0) {
         errors[priceKey] = {
           isValid: false,
           errorMessage: "Price",
@@ -579,11 +581,12 @@ const PricingDetails = () => {
       //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       // }
 
-      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
-        errors[priceKey] = {
-          isValid: false,
-          errorMessage: "Price",
-        };
+     if (!field.DineInPrice || isNaN(Number(field.DineInPrice)) ) {
+  errors[priceKey] = {
+    isValid: false,
+    errorMessage: " Invalid Price",
+  };
+
       } else {
         errors[priceKey] = { isValid: true, errorMessage: "" };
       }
@@ -749,8 +752,8 @@ const PricingDetails = () => {
     setNextAvailable(event.target.checked);
   };
 
-  const handlePrintKOt = (event: any) => {
-    setPrintKot(event.target.checked);
+  const handlePrintKOt = (value:boolean) => {
+    setPrintKot(value);
   };
 
   const ItemsPrimaryDetails = useSelector(
@@ -834,7 +837,8 @@ const PricingDetails = () => {
                         onChange={(e) => {
                           const value = e.target.value;
                           if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
-                            setValue("Preparationtime.hours", Number(value));
+                            setValue("Preparationtime.hours",value === "" ? "" : Number(value));
+                            
                           }
                         }}
                       />
@@ -900,10 +904,10 @@ const PricingDetails = () => {
               <input
                 type="checkbox"
                 className="checkbox1-Kitchen"
-                onChange={handlePrintKOt}
+                onChange={()=>handlePrintKOt(!printKot)}
                 checked={printKot}
               />
-              <label className="Inventorycheck">
+              <label onClick={()=>handlePrintKOt(!printKot)} className="Inventorycheck">
                 Don't print the item in Master KOT
               </label>
             </div>

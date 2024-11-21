@@ -42,7 +42,7 @@
   width: 0px;
   margin-top: 60px;
   margin-left: -10px;
-  border: 2px solid red;
+  // border: 2px solid red;
 }
 .ThirdDeliveryDrop1 {
   transform: translateY(60px);
@@ -250,6 +250,7 @@
   margin-top: -25px;
   margin-left: -10px;
   z-index: 1;
+  // border: 1px solid red;
 
   .Errormsg {
     position: relative;
@@ -335,7 +336,8 @@
 .PrizeD {
   margin-top: -25px;
   margin-left: -12px;
-  z-index: 1;
+  z-index: 30;
+  // border: 1px solid blue;
 }
 .LabelPricePickup {
   transform: translateY(20px);
@@ -348,6 +350,7 @@
   margin-top: -25px;
   margin-left: -30px;
   z-index: 1;
+  // border: 1px solid black;
 }
 .LabelPrice1 {
   transform: translateY(13px);
@@ -611,6 +614,7 @@
   margin-top: -25px;
   margin-left: -10px;
   z-index: 1;
+  // border: 1px solid red;
 
   .Errormsg {
     position: relative;
@@ -666,6 +670,7 @@
   margin-top: -25px;
   margin-left: -10px;
   z-index: 1;
+  // border: 1px solid red;
 
   .Errormsg {
     position: relative;
@@ -719,6 +724,7 @@
   margin-top: -25px;
   margin-left: -10px;
   z-index: 1;
+  // border: 1px solid red;
 
   .Errormsg {
     position: relative;

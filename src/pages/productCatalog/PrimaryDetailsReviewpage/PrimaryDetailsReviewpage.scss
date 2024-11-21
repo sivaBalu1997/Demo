@@ -630,3 +630,20 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+
+@media (max-width: 1470px) {
+  .saveandnextreview1 {
+    display: flex;
+    position: relative;
+    justify-content: flex-end;
+    width: 120%; /* Adjusted width for smaller screens */
+    height: 25px;
+    background-color: white;
+    top: 25px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    padding: 16px 16px; /* Reduced padding for smaller screens */
+    transition: 0.2s ease all;
+  }
+}

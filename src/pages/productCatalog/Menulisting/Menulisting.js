@@ -523,6 +523,10 @@ export const Menulisting = () => {
           dineInDetails: null,
           pickupDetails: null,
           thirdpartyDetails: []
+        },
+        Preparationtime: {
+          hours: editData[0]?.preparationTimeInHours || '',
+          minutes: editData[0]?.preparationTimeInMinutes || ''
         }
       };
 
@@ -686,43 +690,44 @@ export const Menulisting = () => {
 
                   {
                     <tbody
-                      className="Menu-Listing-TableOneBody Menu-listing-Body"
+                      className={isExpanded ? "Menu-Listing-TableOneBodyExpanded Menu-listing-Body" : "Menu-Listing-TableOneBody Menu-listing-Body"}
                       ref={tableBodyRef1}
                     >
                       {loading ? (
                         <></>
-                      ) : menudatalist.map((object, index) => (
-                        <React.Fragment key={index}>
-                          <RowHeading
-                            objectId={object.categoryId}
-                            object={object}
-                            index={index}
-                            onDragStart={handledragvegnonvegdragstart}
-                            onDragOver={handledragvegnonvegdropover}
-                            onDrop={handledragvegnonvegdropend}
-                          />
+                      ) :
+                        menudatalist.map((object, index) => (
+                          <React.Fragment key={index}>
+                            <RowHeading
+                              objectId={object.categoryId}
+                              object={object}
+                              index={index}
+                              onDragStart={handledragvegnonvegdragstart}
+                              onDragOver={handledragvegnonvegdropover}
+                              onDrop={handledragvegnonvegdropend}
+                            />
 
-                          <TableOneBody
-                            object={object}
-                            typevalue={object.type}
-                            index={index}
-                            FilteredData={FilteredData}
-                            objectLength={FilteredData.length}
-                            draggingOverIndex={draggingOverIndex}
-                            draggedRowIndex={draggedRowIndex}
-                            handleRowDragStart={handleDragStart}
-                            handleRowDragOver={handleDragOver}
-                            handleRowDragEnd={handleDrop}
-                            handleDragScroll={handleDragScroll}
-                            handlemodal={handlemodal}
-                            tableBodyRef1={tableBodyRef1}
-                            tableBodyRef2={tableBodyRef2}
-                            handlevegrowstart={handledragvegnonvegdragstart}
-                            handlevegrowover={handledragvegnonvegdropover}
-                            handlevegrowend={handledragvegnonvegdropend}
-                          />
-                        </React.Fragment>
-                      ))}
+                            <TableOneBody
+                              object={object}
+                              typevalue={object.type}
+                              index={index}
+                              FilteredData={FilteredData}
+                              objectLength={FilteredData.length}
+                              draggingOverIndex={draggingOverIndex}
+                              draggedRowIndex={draggedRowIndex}
+                              handleRowDragStart={handleDragStart}
+                              handleRowDragOver={handleDragOver}
+                              handleRowDragEnd={handleDrop}
+                              handleDragScroll={handleDragScroll}
+                              handlemodal={handlemodal}
+                              tableBodyRef1={tableBodyRef1}
+                              tableBodyRef2={tableBodyRef2}
+                              handlevegrowstart={handledragvegnonvegdragstart}
+                              handlevegrowover={handledragvegnonvegdropover}
+                              handlevegrowend={handledragvegnonvegdropend}
+                            />
+                          </React.Fragment>
+                        ))}
                     </tbody>
                   }
                 </table>

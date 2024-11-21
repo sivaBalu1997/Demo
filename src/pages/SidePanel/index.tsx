@@ -294,6 +294,7 @@ const SidePanel = () => {
               marginTop:'28px',
             }}
             onClick={() => {
+              dispatch(removeDataRequest());
               if (showOptions !== "Product Catalog") {
                 setShowOptions("Product Catalog"); 
               }

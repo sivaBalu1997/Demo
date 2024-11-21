@@ -51,10 +51,12 @@ interface DropdownProps {
   >;
   resetSelection?: any;
   parentId?: any;
+  bestpair?: boolean;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
   name,
+  bestpair,
   options,
   type = "checkbox",
   register,
@@ -470,12 +472,23 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleCheckboxChange = (option: Option) => {
     if (type === "checkbox") {
       setSelectedOptions((prevSelected) => {
+        const isAlreadySelected = prevSelected.findIndex(
+          (opt) => opt.id === option.id
+        );
+
         let updatedSelected;
-        if (prevSelected.some((opt) => opt.id === option.id)) {
-          updatedSelected = prevSelected.filter((opt) => opt.id !== option.id);
+
+        if (isAlreadySelected !== -1) {
+          updatedSelected = prevSelected.filter(
+            (_, index) => index !== isAlreadySelected
+          );
         } else {
+          if (bestpair && prevSelected.length >= 5) {
+            return prevSelected;
+          }
           updatedSelected = [...prevSelected, option];
         }
+
         setValue(name, updatedSelected.map((opt) => opt.name).join(", "));
         trigger(name);
 
@@ -658,15 +671,16 @@ const DropDownList: React.FC<DropdownProps> = ({
                             {editList && (
                               <span
                                 className={`dropdown-option-delete `}
-                                // ${
-                                //   isOptionSelected ? "disabled-delete" : ""
-                                // }
-                                onClick={() => handledeletion(option.id)}
-                                // style={
-                                //   isOptionSelected
-                                //     ? { pointerEvents: "none" }
-                                //     : {}
-                                // }
+                                onClick={() =>
+                                  option?.canDelete
+                                    ? handledeletion(option.id)
+                                    : null
+                                }
+                                style={
+                                  !option?.canDelete
+                                    ? { pointerEvents: "none", opacity: "50%" }
+                                    : {}
+                                }
                               >
                                 -Delete
                               </span>
@@ -682,16 +696,19 @@ const DropDownList: React.FC<DropdownProps> = ({
               )}
             </ul>
             <div className="edititem">
-              {options?.length > 0 && !editList && editValues && (
-                <p
-                  className="editiconimage"
-                  onMouseDown={handleOptionMouseDown}
-                  onClick={() => handleedit()}
-                  // style={{position:'relative',left:'-2rem'}}
-                >
-                  Edit
-                </p>
-              )}
+              {!dropDownLoading &&
+                options?.length > 0 &&
+                !editList &&
+                editValues && (
+                  <p
+                    className="editiconimage"
+                    onMouseDown={handleOptionMouseDown}
+                    onClick={() => handleedit()}
+                    // style={{position:'relative',left:'-2rem'}}
+                  >
+                    Edit
+                  </p>
+                )}
             </div>
           </div>
 

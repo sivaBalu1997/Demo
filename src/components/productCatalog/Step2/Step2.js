@@ -13,6 +13,9 @@ const Step2 = () => {
   const prizingDetail = useSelector(
     (state) => state?.PricingDetailReducer?.prizingData
   );
+  const restaurantDetails = useSelector(
+    (state) => state?.auth.restaurantDetails
+  );
 
   const { setActiveCategory } = useContext(Contextpagejs);
   return (
@@ -42,7 +45,7 @@ const Step2 = () => {
           </div>
           <div className="CostPrice">
             <h1 className="CostPrice-heading">Cost Price</h1>
-            <h1 className="Rupees-heading">Rs 30</h1>
+            <h1 className="Rupees-heading"> {restaurantDetails?.country === "US" ? "$" : "Rs."}{prizingDetail?.normalForm?.dineinfields[0]?.DineInPrice}</h1>
           </div>
           <h1 className="Step2Kitchen-relatedheading">Kitchen Related</h1>
           <div className="Step2KitchenRelated">
@@ -104,11 +107,8 @@ const Step2 = () => {
               <h1 className="Step2Thresholdvalue">Yes</h1>
             </div>
           </div>
-          {prizingDetail && prizingDetail?.normalForm ? (
             <NormalStep2 />
-          ) : (
-            <SpecialReview />
-          )}
+         
         </div>
       </div>
     </div>

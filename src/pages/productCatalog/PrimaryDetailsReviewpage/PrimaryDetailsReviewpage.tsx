@@ -211,7 +211,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages
   );
   const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
+    (state: State) => state?.auth?.credentials?.locationId
   );
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
@@ -239,6 +239,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   // const [imageIdtosend, setimageIdtosend] = useState<string>("");
+
+  console.log({prizingDetail})
 
   useEffect(() => {
     setError([]);
@@ -517,6 +519,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editDetails = editData[0]?.orderTypes
   const removePricing = []
   const addPricing = []
+
+  console.log({dineInDetails}, {pickupDetails}, {deliveryDetails})
   
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
@@ -529,7 +533,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
     : [];
-
 
   const menuPayload = {
     locationId: locationid,
@@ -556,7 +559,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     kitchenStation: kitchenStationId || null,
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
-    ignoreMasterKotPrint: false,
+    ignoreMasterKotPrint: prizingDetail?.printKot || false,
     availabilityDays: stringNormalDays || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
@@ -566,6 +569,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     // isSingleMenu: false,
   };
+
+  console.log({menuPayload})
 
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId);
   const updateModifierId = useSelector(
@@ -607,7 +612,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     kitchenStation: kitchenStationId || null,
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
-    ignoreMasterKotPrint: false,
+    ignoreMasterKotPrint: prizingDetail?.printKot || false,
     availabilityDaysToAdd: stringNormalDays || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
@@ -783,7 +788,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           label="Dietary type"
                           textvalue={
                             (primarydata?.dietaryType && typeof(primarydata?.dietaryType[0]) === 'string') && primarydata?.dietaryType.length > 0
-                              ? Array.isArray(primarydata?.dietaryType) && primarydata?.dietaryType?.map((type: any) => type).join(", ")
+                              ? Array.isArray(primarydata?.dietaryType) ? primarydata?.dietaryType?.map((type: any) => type).join(", ") :primarydata?.dietaryType
                               : Array.isArray(primarydata?.dietaryType) && primarydata?.dietaryType?.length > 0 
                               ? primarydata?.dietaryType.map((type: any) => type?.name).join(", ") : "N/A"
                           }
@@ -855,7 +860,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={
-                            primarydata.itemCode ? primarydata.itemCode : "N/A"
+                           "N/A"
                           }
                         />
                       </div>
@@ -1049,14 +1054,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                     </div>
                   </div>
                 )}
-
                 {
                   <div className="primarybestpairedfood">
                     <p>Best paired with</p>
                     <div className="bestpairfoods">
                       <p>
-                        {(primarydata?.bestPair && typeof(primarydata?.bestPair[0]) === 'string') && primarydata?.bestPair.length > 0
-                              ? Array.isArray(primarydata?.bestPair) && primarydata?.bestPair?.map((type: any) => type).join(", ")
+                        {((primarydata?.bestPair && typeof(primarydata?.bestPair[0]) === 'string') && (primarydata?.bestPair.length > 0))
+                              ? Array.isArray(primarydata?.bestPair) ? primarydata?.bestPair?.map((type: any) => type).join(", ") :primarydata?.bestPair
                               : Array.isArray(primarydata?.bestPair) && primarydata?.bestPair?.length > 0 
                               ? primarydata?.bestPair.map((type: any) => type?.name).join(", ") : "N/A"}
                       </p>

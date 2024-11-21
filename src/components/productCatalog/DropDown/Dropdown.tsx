@@ -66,7 +66,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     const newSelectedValues = selectedValues.includes(value)
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
-    console.log({ newSelectedValues });
     onSelect(newSelectedValues);
   };
 

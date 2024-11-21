@@ -27,6 +27,7 @@ interface DineInField {
 
 interface NormalFormData {
   normalForm: {
+    dineInDetails?: any;
     dineinfields: DineInField[];
     DineIn: number[];
     Pickup: number[];
@@ -85,6 +86,8 @@ const NormalStep2 = () => {
     (state: RootState) => state?.PricingDetailReducer?.prizingData || {}
   );
 
+  
+
   const thirdPartyDetails = useSelector((state: any) => state.PricingDetailReducer.prizingData?.normalForm?.thirdpartyDetails || []);
 
   const thirdParty =
@@ -118,6 +121,11 @@ const NormalStep2 = () => {
       })
     );
   }, []);
+  console.log("prizingDetail",prizingDetail.normalForm &&prizingDetail.normalForm?.dineinfields);
+
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth.restaurantDetails
+  );
 
   return (
     <div>
@@ -139,7 +147,7 @@ const NormalStep2 = () => {
                 <>
                   <div key={index}>
                     <h1 className="Step2DineInPricevalue">
-                     Rs {elem?.DineInPrice || "N/A"}
+                    {restaurantDetails?.country === "US" ? "$" : "Rs."}{elem?.DineInPrice || "N/A"}
                     </h1>
                   </div>
                 </>
@@ -195,7 +203,7 @@ const NormalStep2 = () => {
           return (
             <>
               <div className="dayacheckedavail">
-                <DaysOfWeek days={elem} setDays={setDinein} />
+                <DaysOfWeek days={elem} setDays={setDinein}  />
               </div>
             </>
           );
@@ -211,13 +219,21 @@ const NormalStep2 = () => {
             </h1>
           </div>
           <div>
-            <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
-                prizingDetail?.normalForm &&
-                prizingDetail?.normalForm?.pickupDetails &&
-                prizingDetail?.normalForm?.pickupDetails?.price) ||
-                "N/A"}
-            </h1>
+
+          {
+              prizingDetail &&
+              prizingDetail.normalForm &&
+              prizingDetail.normalForm.pickupDetails &&
+              prizingDetail.normalForm.pickupDetails.price ?
+              <h1 className="Step2SellingPrizevalue">
+             {restaurantDetails?.country === "US" ? "$" : "Rs."}
+
+              {
+                prizingDetail.normalForm.deliveryDetails.price 
+                }
+            </h1>:<><h1 className="Step2SellingPrizevalue">N/A</h1></>
+            }
+           
           </div>
         </div>
         <div className="Step2SellingPrize2">
@@ -240,7 +256,10 @@ const NormalStep2 = () => {
       </div>
       <h1 className="AvailDaysheadingPickup">Available Days</h1>
       <div className="DaysPickUp">
-        <DaysOfWeek days={Pickup1} setDays={setPickup1} />
+        { prizingDetail?.normalForm && 
+          prizingDetail?.normalForm?.pickupDetails &&
+          <DaysOfWeek days={Pickup1} setDays={setPickup1} />
+        }
       </div>
       <h1 className="Step2Deliveryheading">Delivery</h1>
       <div className="Step2Delivery">
@@ -251,13 +270,20 @@ const NormalStep2 = () => {
             </h1>
           </div>
           <div>
-            <h1 className="Step2SellingPrizevalue">
-              {(prizingDetail &&
-                prizingDetail.normalForm &&
-                prizingDetail.normalForm.deliveryDetails &&
-                prizingDetail.normalForm.deliveryDetails.price) ||
-                "N/A"}
-            </h1>
+            {
+              prizingDetail &&
+              prizingDetail.normalForm &&
+              prizingDetail.normalForm.deliveryDetails &&
+              prizingDetail.normalForm.deliveryDetails.price ?
+              <h1 className="Step2SellingPrizevalue">
+             {restaurantDetails?.country === "US" ? "$" : "Rs."}
+
+              {
+                prizingDetail.normalForm.deliveryDetails.price 
+                }
+            </h1>:<><h1 className="Step2SellingPrizevalue">N/A</h1></>
+            }
+            
           </div>
         </div>
         <div className="Step2SellingPrize2">
@@ -275,7 +301,10 @@ const NormalStep2 = () => {
       </div>
       <h1 className="AvailDaysheadingdelivery">Available Days</h1>
       <div className="DaysDelivery">
-        <DaysOfWeek days={delivery1} setDays={setDelivery1} />
+        { prizingDetail?.normalForm && 
+          prizingDetail?.normalForm?.deliveryDetails &&
+          <DaysOfWeek days={delivery1} setDays={setDelivery1} />
+        }
       </div>
       <h1 className="Step2ThirdPartyDeliveryheading">Third Party Delivery</h1>
 
@@ -303,7 +332,10 @@ const NormalStep2 = () => {
       <div className="thirdPartyContainers">
         <h1 className="AvailDaysheadingthirparty">Available Days</h1>
         <div className="DaysThirdDelivery">
-          <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
+          { prizingDetail?.normalForm && 
+            prizingDetail?.normalForm?.thirdpartyDetails &&
+            <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
+          }
         </div>
       </div>
     </div>

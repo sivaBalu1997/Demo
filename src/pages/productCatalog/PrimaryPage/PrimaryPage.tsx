@@ -528,7 +528,9 @@ const PrimaryPage = () => {
   const subCategoryData = useSelector(
     (state: any) => state.productCatalog.subCategoryData.data
   );
-
+  const message = useSelector(
+    (state: any) => state?.getItemCodeReducer?.itemCode?.data
+  );
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -545,8 +547,11 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog?.allergens?.data
   );
 
-  const [parentId, setParentId] = useState("");
+  // const [parentId, setParentId] = useState("");
 
+  // useEffect(() => {
+  const [parentId, setParentId] = useState("");
+  const [itemcodeValid, setItemcodeValid] = useState(true);
   useEffect(() => {
     if (ItemsPrimaryDetails?.popularItem) {
       setPopularItem(popularItem + 1);
@@ -556,6 +561,14 @@ const PrimaryPage = () => {
       setValue("popularItem", false);
     }
   }, [ItemsPrimaryDetails]);
+  useEffect(() => {
+    if (message?.httpStatus == 409) {
+      setItemcodeValid(false);
+    } else {
+      setItemcodeValid(true);
+    }
+  }, [message]);
+  console.log("setItemcodeValid(false)", itemcodeValid);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -687,7 +700,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
-                    rules={{ required: "ItemName is required" }}
+                    rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
@@ -713,11 +726,11 @@ const PrimaryPage = () => {
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
-                        name="dietaryType"
+                        name="DietaryType"
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "DietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -746,7 +759,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        validation={{ required: "cuisine is required" }}
+                        validation={{ required: "Cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -779,7 +792,7 @@ const PrimaryPage = () => {
                         setValue={setValue}
                         trigger={trigger}
                         getValues={getValues}
-                        validation={{ required: "category is required" }}
+                        validation={{ required: "Category is required" }}
                         error={errors.category}
                         dropdownopen={DropdownOpen.category}
                         setDropdownOpen={setDropdownOpen}
@@ -812,6 +825,7 @@ const PrimaryPage = () => {
                           setValue={setValue}
                           getValues={getValues}
                           error={errors.bestPair}
+                          bestpair={true}
                           validation={{ required: "This field is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
@@ -954,11 +968,17 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
+                      // required: "Item code is required",
                       rules={{
-                        required: "Item code is required",
-                        validate: (value) =>
-                          value.toString().length >= 4 ||
-                          "Item code must be between 4 and 5 characters",
+                        validate: (value) => {
+                          if (!value) {
+                            return true;
+                          }
+                          return (
+                            value.toString().length >= 4 ||
+                            "Item code must be at least 4 characters"
+                          );
+                        },
                       }}
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
@@ -968,8 +988,19 @@ const PrimaryPage = () => {
                           }}
                           value={value}
                           onBlur={() => {
-                            if (value) {
+                            console.log("99", value.length);
+                            if (value.length > 3) {
                               dispatch(getItemCodeRequest(locationid, value));
+                            }
+                          }}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" ||
+                              e.key === "."
+                            ) {
+                              e.preventDefault(); // Block these keys
                             }
                           }}
                           type="number"
@@ -1158,6 +1189,7 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
+                          type="number"
                           onChange={(e) => {
                             handleInputChange(e);
                             onChange(e);
@@ -1192,6 +1224,7 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="portionSize"
+                          type="number"
                           onChange={(e) => {
                             handlePortionChange("value", e.target.value);
                             onChange(e);
@@ -1313,6 +1346,7 @@ const PrimaryPage = () => {
               getFormData={getValues}
               seletedpage="Primary"
               reset={handleReset}
+              itemcodeValid={itemcodeValid}
               triggerValidation={() => trigger()}
             />
             {/* </form> */}
