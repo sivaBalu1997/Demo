@@ -146,7 +146,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
         itemobject?.itemResponseList?.length > 0 && (
           <tr
             style={{
-              width: `${Object.keys(selectedFileds).length * 10 + 26}%`,
+              width: `${Object.keys(selectedFileds).length * 10 + 100}%`,
             }}
             className="categoryname"
           ></tr>
@@ -160,7 +160,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
               key={item.itemId}
               style={{
                 display: "flex",
-                width: `${Object.keys(selectedFileds).length * 10 + 25.9}%`,
+                width: `${Object.keys(selectedFileds).length * 10 + 100}%`,
               }}
               className={`eachobject-rowwise`}
             >

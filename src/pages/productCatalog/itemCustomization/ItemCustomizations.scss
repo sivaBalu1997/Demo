@@ -661,7 +661,8 @@ input[type="number"] {
 .SpanDelete{
   font-size: 25px;
   transform: translate(-5px,-8px);
-
+  position: relative;
+  z-index: -1;
 }
 
 

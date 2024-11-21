@@ -470,7 +470,6 @@ const filtesubItems=allItemResponseLists.find((item) =>
     }
     else
     {
-      console.log("result",filtesubItems,filteredItem);
       setCategoryData({
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
@@ -713,7 +712,6 @@ const filtesubItems=allItemResponseLists.find((item) =>
   )
   .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
 
-console.log("allItemResponseLists", allItemResponseLists);
       
     const allItemResponseLists2 = menuData.flatMap((category) => category);
     
@@ -727,7 +725,6 @@ console.log("allItemResponseLists", allItemResponseLists);
 
     setItemList(transformedList);
   }, [menuData]);
-  console.log("transformedList", itemList);
 
   return (
     <>

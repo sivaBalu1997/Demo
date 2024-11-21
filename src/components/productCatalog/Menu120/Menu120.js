@@ -15,12 +15,12 @@ const Menu120 = () => {
       Hidden: "Hidden(10)",
     },
 
-    {
-      OutletName: "Outlet2",
-      Live: "Live(100)",
-      Unavailable: "Unavailable(10)",
-      Hidden: "Hidden(10)",
-    },
+    // {
+    //   OutletName: "Outlet2",
+    //   Live: "Live(100)",
+    //   Unavailable: "Unavailable(10)",
+    //   Hidden: "Hidden(10)",
+    // },
   ];
 
   const itemIds = menuData?.flatMap(category => 
@@ -31,7 +31,7 @@ const Menu120 = () => {
     <>
       <div className="Header-Heading">
         Menu({itemIds.length})
-        {/* <div className="Menu120-Tooltip-container">
+        <div className="Menu120-Tooltip-container">
           {data.map((elem, index) => (
             <div className="Menu120-Tooltip-container-heading" key={index}>
               <div className="Menu120-Heading">{elem.OutletName}</div>
@@ -40,7 +40,7 @@ const Menu120 = () => {
               <div className="Menu120-sub-Heading">{elem.Hidden}</div>
             </div>
           ))}
-        </div> */}
+        </div>
       </div>
     </>
   );

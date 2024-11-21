@@ -34,10 +34,17 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   uniqueOrderTypeNames,
 }) => {
 
-  const [pricing, setPricing] = useState<string | undefined>(insertlists?.Pricing?.show);
-  const [availability, setAvailability] = useState<string | undefined>(insertlists?.Available?.show);
+  const [pricing, setPricing] = useState<string | undefined>('');
+  const [availability, setAvailability] = useState<string | undefined>('');
 
-  console.log({pricing})
+  useEffect(()=>{
+    if(insertlists?.Pricing?.show !== ''){
+      setPricing(insertlists?.Pricing?.show)
+    }
+    if(insertlists?.Available?.show !== ''){
+      setAvailability(insertlists?.Available?.show)
+    }
+  },[insertlists?.Pricing?.show, insertlists?.Available?.show])
 
   const handleToggle = useCallback(
     (
