@@ -102,7 +102,7 @@ const PricingSlider: any = ({}) => {
       tyepeId: Dinein?.typeId,
     },
     {
-      heading: "Of-Prem",
+      heading: "Off-Prem",
       labels:
         data[0]?.orderTypes?.length > 0
           ? [data[0]?.orderTypes[0].typeName]
@@ -221,48 +221,45 @@ const PricingSlider: any = ({}) => {
           : [],
       }));
     }
-
   }, [data, inputs, setPatchedData]);
 
-  
-  const handlepriceinputchange = (typeId: string, mainHeading: string, newPrice: number,Enabled:number,hidden:number) => {
-
-    if(Enabled && hidden){
-
+  const handlepriceinputchange = (
+    typeId: string,
+    mainHeading: string,
+    newPrice: number,
+    Enabled: number,
+    hidden: number
+  ) => {
+    if (Enabled && hidden) {
       const updatedArray = availabilityOrderTypes.map((item: any) => {
         if (item.mainHeading === mainHeading) {
           return {
             ...item,
             types: item.types.map((type: any) => {
               if (type.typeId === typeId) {
-                return { ...type, price: newPrice }; 
+                return { ...type, price: newPrice };
               }
-              return type; 
+              return type;
             }),
           };
         }
-        return item; 
+        return item;
       });
-    
-      setAvailabilityOrderTypes(updatedArray); 
-  
-  setPatchedData((prevState:any) => ({
-      ...prevState,
-      pricing: prevState.pricing.map(
-        (PricingInfo:any) =>
+
+      setAvailabilityOrderTypes(updatedArray);
+
+      setPatchedData((prevState: any) => ({
+        ...prevState,
+        pricing: prevState.pricing.map((PricingInfo: any) =>
           PricingInfo.orderTypeId === typeId
             ? {
                 ...PricingInfo,
                 price: newPrice,
               }
             : PricingInfo
-      ),
-    }));
-  
-
+        ),
+      }));
     }
-   
-
   };
   const restaurantDetails = useSelector(
     (state: RootState) => state.auth.restaurantDetails
@@ -273,13 +270,14 @@ const PricingSlider: any = ({}) => {
       <h3 className="PricingSlider-Heading">Pricing </h3>
       {availabilityOrderTypes.map((item: any, index: number) => (
         <div key={index} className="Onprem-Ofprem">
-          <div className="Onprem-Heading" >{item.mainHeading}</div>
+          <div className="Onprem-Heading">{item.mainHeading}</div>
 
           <div className="Onprem-Sections">
             {item.types &&
               item.types.map((price: any, index: number) => {
+                const enableOrNot = price.isEnabled && price.isNotHide;
 
-                const enableOrNot=price.isEnabled && price.isNotHide
+               
 
                 const Pricesymbol=`${restaurantDetails?.country === "US" ? "$" : "Rs."}`
                

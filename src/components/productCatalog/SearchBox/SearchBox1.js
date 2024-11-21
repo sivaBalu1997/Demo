@@ -26,6 +26,11 @@ const SearchBox = () => {
 
     setOrgData(itemNames); // Set original data when it is available
   }, [data]);
+  useEffect(() => {
+    if(searchTerm==''){
+      dispatch(searchForItem({}));
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch));
@@ -34,8 +39,8 @@ const SearchBox = () => {
   const menuData = useSelector((state) => state.productCatalog?.menuData);
 
   const handleSearch = (e) => {
-  
-   
+
+
     dispatch(searchForItem({}));
     const value = e.target.value;
     setSearchTerm(value);
@@ -54,14 +59,14 @@ const SearchBox = () => {
     //     setOptionSelected(false); // Allow for changing selection
     //   }
     // }
-   
+
   };
 
   const filterOptions = (input) => {
     const itemNames = menuData?.flatMap(item => item?.itemResponseList)
       .map(item => item?.itemName);
 
-    const filtered = itemNames?.filter(item => 
+    const filtered = itemNames?.filter(item =>
       item?.toLowerCase().includes(input?.toLowerCase())
     );
 
@@ -72,13 +77,13 @@ const SearchBox = () => {
       const firstMatch = filtered[0];
       if (firstMatch.toLowerCase().startsWith(input.toLowerCase())) {
         const suggestion = firstMatch.slice(input.length);
-        setDisplayTerm(input + suggestion); 
-        setHighlightedIndex(0);  
+        setDisplayTerm(input + suggestion);
+        setHighlightedIndex(0);
       } else {
-        setDisplayTerm(input); 
+        setDisplayTerm(input);
       }
     } else {
-      setDisplayTerm(input); 
+      setDisplayTerm(input);
     }
   };
 
@@ -100,8 +105,8 @@ const SearchBox = () => {
       });
     });
 
-    console.log("option",result);
-     dispatch(searchForItem(result));
+    console.log("option", result);
+    dispatch(searchForItem(result));
 
     setFilteredOptions([]);
   };
@@ -131,7 +136,7 @@ const SearchBox = () => {
         setHighlightedIndex(-1);
       }
     }
-    
+
     // if (e.key === 'Backspace') {
     //   if (optionSelected) {
     //     // If an option was selected, reset searchTerm and displayTerm
@@ -150,14 +155,15 @@ const SearchBox = () => {
       <div className='MLsearchbox'>
         <input
           className={`${isExpanded ? "MLHeader-Search1" : "MLHeader-Search"}`}
-          value={`${searchTerm}`}  
+          value={`${searchTerm}`}
           placeholder="Search"
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
           type="text"
         />
         <img
-          className={`${isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"}`}
+          // className={`${isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"}`}
+          className={"MLSerchIcon-Header1"}
           src={searchIcon}
           alt="Search Icon"
         />

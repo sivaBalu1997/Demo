@@ -27,6 +27,7 @@ interface DineInField {
 
 interface NormalFormData {
   normalForm: {
+    dineInDetails?: any;
     dineinfields: DineInField[];
     DineIn: number[];
     Pickup: number[];
@@ -202,7 +203,7 @@ const NormalStep2 = () => {
           return (
             <>
               <div className="dayacheckedavail">
-                <DaysOfWeek days={elem} setDays={setDinein} />
+                <DaysOfWeek days={elem} setDays={setDinein}  />
               </div>
             </>
           );
@@ -255,7 +256,10 @@ const NormalStep2 = () => {
       </div>
       <h1 className="AvailDaysheadingPickup">Available Days</h1>
       <div className="DaysPickUp">
-        <DaysOfWeek days={Pickup1} setDays={setPickup1} />
+        { prizingDetail?.normalForm && 
+          prizingDetail?.normalForm?.pickupDetails &&
+          <DaysOfWeek days={Pickup1} setDays={setPickup1} />
+        }
       </div>
       <h1 className="Step2Deliveryheading">Delivery</h1>
       <div className="Step2Delivery">
@@ -297,7 +301,10 @@ const NormalStep2 = () => {
       </div>
       <h1 className="AvailDaysheadingdelivery">Available Days</h1>
       <div className="DaysDelivery">
-        <DaysOfWeek days={delivery1} setDays={setDelivery1} />
+        { prizingDetail?.normalForm && 
+          prizingDetail?.normalForm?.deliveryDetails &&
+          <DaysOfWeek days={delivery1} setDays={setDelivery1} />
+        }
       </div>
       <h1 className="Step2ThirdPartyDeliveryheading">Third Party Delivery</h1>
 
@@ -325,7 +332,10 @@ const NormalStep2 = () => {
       <div className="thirdPartyContainers">
         <h1 className="AvailDaysheadingthirparty">Available Days</h1>
         <div className="DaysThirdDelivery">
-          <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
+          { prizingDetail?.normalForm && 
+            prizingDetail?.normalForm?.thirdpartyDetails &&
+            <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
+          }
         </div>
       </div>
     </div>

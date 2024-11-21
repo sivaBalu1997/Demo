@@ -6,7 +6,7 @@
   width: 85%;
   display: flex;
   flex-direction: column;
-
+  // background-color: pink;
 }
 
 .Main-Primary-Page-Expanded {
@@ -32,36 +32,36 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
+    // align-items: center;
     // background-color: pink;
-    .tool-tip-best-pair{
+    width: fit-content;
+    .tool-tip-best-pair {
       margin-top: -0.5rem;
       position: relative;
       // background-color: orange;
-      left:-1.4rem; 
+      left: -1.4rem;
       width: 1px;
     }
-    .tool-tip-item-code{
+    .tool-tip-item-code {
       position: relative;
       // background-color: orange;
       left: -0.6rem;
       width: 1px;
       margin-top: -0.5rem;
     }
-    .tool-tip-portion-size{
+    .tool-tip-portion-size {
       position: relative;
-      // background-color: orange;
+      background-color: orange;
       left: -2rem;
       width: 1px;
     }
-    .tool-tip-tax-class{
-     
+    .tool-tip-tax-class {
       // background-color: orange;
-     margin-left: -0.5rem;
+      margin-left: -0.5rem;
       width: 30px;
       height: 50px;
       margin-top: -0.5rem;
       // border: 1px solid red;
-
     }
   }
 
@@ -81,11 +81,11 @@
       height: 6rem;
       width: fit-content;
 
-      .KitchenRelated{
+      .KitchenRelated {
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+      }
     }
     .alcoholradiobutton {
       display: flex;
@@ -129,9 +129,14 @@
     .Primary-Page-Foodimages {
       margin-top: 1.3rem;
       height: 11rem;
-      width: 50vw;
-      margin-bottom: 0.5rem;
+      // width: 50vw;
+      width: fit-content;
+      margin-bottom: 1rem;
       // border: 1px solid red;
+      @media (max-width: 1280px) {
+        margin-bottom: 1rem;
+        // background-color: pink;
+      }
 
       .image-container {
         position: relative;
@@ -177,6 +182,8 @@
       .imagealignment {
         display: flex;
         flex-direction: row;
+        // background-color: red;
+        width: fit-content;
       }
 
       h3 {
@@ -205,13 +212,12 @@
       gap: 10px;
       align-items: center;
       justify-content: center;
-     position: relative;
-     top: -1.2%;
+      position: relative;
+      top: -1.2%;
       input {
         width: 20px;
         height: 20px;
-        accent-color: #67833E;
-        
+        accent-color: #67833e;
       }
       span {
         font-size: 16px;
@@ -230,12 +236,10 @@
       border: 1px solid rgba(0, 0, 0, 0.3);
       margin-top: 3%;
     }
-    .tool-tip-Allergen
-    {
+    .tool-tip-Allergen {
       margin-left: 96%;
       margin-top: -7%;
     }
-
 
     .Primary-page-container-pairtwo {
       width: 45vw;
@@ -254,61 +258,56 @@
     margin-left: 20px;
     height: 80vh;
     margin-top: -11.5%;
+    // background-color: yellow;
+    width: fit-content;
   }
-    .Primary-page-ingredients-selection {
-      width: 45vw;
-      height: 40vh;
-      border-radius: 0.313rem;
-      border: 1px solid rgba(0, 0, 0, 0.3);
-    }
-    .Primary-Page-Other-Details {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      position: relative;
-      top: 3%;
-      .Primary-Page-Other-Details-heading {
-        font-family: "Poppins", sans-serif;
-        font-size: 0.875rem;
-        font-weight: 400;
+  .Primary-page-ingredients-selection {
+    width: 45vw;
+    height: 40vh;
+    border-radius: 0.313rem;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    // background-color: pink;
+    margin-top: 3rem;
+  }
+  .Primary-Page-Other-Details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    top: 3%;
+    .Primary-Page-Other-Details-heading {
+      font-family: "Poppins", sans-serif;
+      font-size: 0.875rem;
+      font-weight: 400;
 
-        color: #000000;
+      color: #000000;
+    }
+    .Primary-Page-Other-Detail {
+      display: flex;
+      flex-direction: row;
+      height: 3rem;
+      align-items: center;
+      // justify-content: center;
+      gap: 30px;
+      // background-color: red;
+      // background-color: lightcoral;
+      .Caloriepointradio {
+        position: relative;
+        left: 1%;
       }
-      .Primary-Page-Other-Detail {
+      .Primary-Page-inputfiled-and-tooltip-portion {
         display: flex;
         flex-direction: row;
-        height: 3rem;
+        gap: 10px;
         align-items: center;
-        gap: 30px;
-        // background-color: red;
-        .Caloriepointradio {
-          position: relative;
-          left: 1%;
-        }
-        .Primary-page-Other-Detail-mastercode {
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-          left: -1%;
-          // background-color: cadetblue;
-          .Mastedcode-Tooltip
-          {
-            width: 50px;
-            height: 50px;
-            // border: 1px solid red;
-            position: relative;
-            left: -1.6rem;
-          }
-        }
-        .portionsizeTooltip {
-          position: relative;
-          left: -1rem;
-          top: -1.5rem;
-          // background-color: yellow;
-          width: 50px;
+        width: fit-content;
+        .tool-tip-portion-cont {
+          // background-color: orange;
+          margin-left: -0.2rem;
+          width: 30px;
           height: 50px;
+          margin-top: -0.5rem;
+          // border: 1px solid red;
         }
       }
     }
@@ -318,10 +317,10 @@
     margin-top: 2%;
   }
 
-
-.portionSize-Radio
-{
-  position: relative;
-  left: 0.8rem;
-  top: 0.7rem;
+  // .portionSize-Radio {
+  //   position: relative;
+  //   left: 0.8rem;
+  //   top: 0.7rem;
+  // }
 }
+

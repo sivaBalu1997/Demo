@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./ImagePillsSelection.scss";
+import { useSelector } from "react-redux";
 import deleteIcon from "../../../assets/images/delete copy.png";
 import Searchicon from "../../../assets/images/searchicon.png";
-import { useSelector } from "react-redux";
+import "./ImagePillsSelection.scss";
 
 interface ImageOptions {
   name: string;
@@ -16,8 +16,8 @@ interface Imageselection {
   options: ImageOptions[];
   setValue: any;
   name?: string;
-  register:any;
-  resetSelection?:any
+  register: any;
+  resetSelection?: any;
 }
 
 const ImagePillsSelection: React.FC<Imageselection> = ({
@@ -26,18 +26,18 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   name,
   setValue,
   register,
-  resetSelection
+  resetSelection,
 }) => {
   const [searchImage, setSearchImage] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
   const initialSelectionSet = useRef(false);
-  
-  const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
+
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
 
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
   );
-    
+
   const handleSearchingImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchImage(e.target.value);
   };
@@ -50,16 +50,15 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
     const isSelected = selectedImages.some(
       (selected) => selected.id === image.id
     );
-  
+
     if (!isSelected) {
       const newSelectedImages = [...selectedImages, image];
       setSelectedImages(newSelectedImages);
-  
+
       const selectedIds = newSelectedImages.map((img) => img.id);
       setValue(name, selectedIds);
     }
   };
-  
 
   const handleDeletingImage = (image: ImageOptions) => {
     const updataedImagelist = selectedImages.filter(
@@ -71,30 +70,34 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   };
 
   const clearSelection = () => {
-    setSelectedImages([]); 
+    setSelectedImages([]);
   };
 
   useEffect(() => {
-    if (resetSelection ) {
-      resetSelection.current = clearSelection; 
+    if (resetSelection) {
+      resetSelection.current = clearSelection;
     }
   }, [resetSelection]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails && ItemsPrimaryDetails[name as any] && !initialSelectionSet.current) {
-      const preselectedImages = options?.filter((option) =>
-        ItemsPrimaryDetails[name as any].includes(option.id)
-      ) || []; 
-  
+    if (
+      ItemsPrimaryDetails &&
+      ItemsPrimaryDetails[name as any] &&
+      !initialSelectionSet.current
+    ) {
+      const preselectedImages =
+        options?.filter((option) =>
+          ItemsPrimaryDetails[name as any].includes(option.id)
+        ) || [];
+
       const combinedSelectedImages = [...selectedImages, ...preselectedImages];
       setSelectedImages(combinedSelectedImages);
-      
+
       const selectedIds = combinedSelectedImages.map((img) => img.id);
       setValue(name, selectedIds);
       initialSelectionSet.current = true;
     }
   }, [ItemsPrimaryDetails, name, options, setValue]);
-  
 
   return (
     <div className="Item-Selection">
@@ -117,14 +120,11 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
           {selectedImages.length > 0 && (
             <div>
               <ul className="Selected-Images">
-                {selectedImages.map((image) => (
+                {selectedImages?.map((image) => (
                   <li key={image.id} className="Selected-Image-Item">
-                    <img
-                      src={baseImageUrl + image?.media?.imageId}
-                      alt="img"
-                    />
+                    <img src={baseImageUrl + image?.media?.imageId} alt="img" />
 
-                    <span>{image.name}</span>
+                    <span>{image?.name}</span>
                     <img
                       src={deleteIcon}
                       alt=""
@@ -145,7 +145,9 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                   key={option.id}
                   onClick={() => handleSelectedImage(option)}
                   className={`Item-Selection-option ${
-                    selectedImages.some((selected) => selected.id === option.id)
+                    selectedImages?.some(
+                      (selected) => selected.id === option.id
+                    )
                       ? ""
                       : ""
                   }`}
@@ -157,7 +159,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                     src={baseImageUrl + option?.media?.imageId}
                     alt="img"
                   />
-                  <span>{option.name}</span>
+                  <span>{option?.name}</span>
                 </li>
               ))
             ) : (

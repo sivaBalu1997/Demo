@@ -10,6 +10,7 @@
   z-index: 0;
   transition: width 0.6s ease;
   // border: 1px solid red;
+  // background-color: pink;
 }
 .mainpagemenu1 {
   height: 97vh;
@@ -37,6 +38,11 @@
 
 .headercomponent {
   margin-bottom: 30px;
+  // background-color: pink;
+  @media (max-width: 1280px) {
+    // background-color: lightgreen;
+    width: 90vw;
+  }
 }
 
 // * {
@@ -133,7 +139,6 @@
       }
     }
 
-    
     .Menu-listing-Body {
       display: flex;
       flex-direction: column;
@@ -165,7 +170,6 @@
         background-color: #e2e0e0;
         border-right: 1px solid #b3b3b3 !important;
       }
-  
 
       .itemdetails-row {
         width: 18.44rem;
@@ -208,9 +212,9 @@
     }
     .placeholderplace {
       width: 100px;
-      height: 5px; 
+      height: 5px;
       border: 1px solid red;
-      margin: 10px 0; 
+      margin: 10px 0;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       margin-top: -50px;
     }
@@ -234,7 +238,6 @@
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-  
 
     &::-webkit-scrollbar-track {
       background-color: #b3b3b3;
@@ -303,8 +306,7 @@
     text-align: center;
   }
 
-  .gloriafooddata
-  {
+  .gloriafooddata {
     width: 200px;
     display: flex;
     flex-direction: row;
@@ -313,8 +315,7 @@
     text-align: center;
   }
 
-  .instoredata
-  {
+  .instoredata {
     width: 154px;
     flex-direction: row;
     justify-content: center;
@@ -362,8 +363,6 @@
         font-size: 16px;
         font-weight: 500;
       }
-
-      
 
       .GloriaFood {
         width: 200px;
@@ -654,7 +653,7 @@
     height: 32.5rem;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 141.5%;
+    width: 226.5%;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -680,26 +679,24 @@
     color: #5f5f5f;
   }
 
-  .columnselectedText{
+  .columnselectedText {
     position: relative;
     top: 20vh;
     left: 15vw;
     color: #5f5f5f;
   }
 
-  .NoDataFoundContainer{
+  .NoDataFoundContainer {
     position: absolute;
   }
 
   .itemheading2row {
     // height: 32px;
   }
-.headaadbtnclass
-{
-  margin: 0;
-  padding: 0;
-  
-}
+  .headaadbtnclass {
+    margin: 0;
+    padding: 0;
+  }
   .eachobject-rowwise {
     height: 60px;
     width: fit-content;
@@ -821,7 +818,7 @@
   z-index: 1;
   width: 217px;
   height: 357px;
- overflow-y: auto;
+  overflow-y: auto;
   border-radius: 4px;
   background-color: #ffffff;
   box-shadow: 0px 4px 14px 0px #00000040;
@@ -852,9 +849,9 @@
 
   .inserbody {
     margin-top: 10px;
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     // margin-left: 37px;
     li {
       padding-top: 5px;
@@ -868,10 +865,11 @@
       }
 
       .dollaricon {
-        width: 27px;
-        height: 27px;
+        width: 20px;
+        height: 20px;
         // margin-top: -12px;
         margin-left: 15px;
+        // background-color: pink;
       }
       .toggleicon {
         position: relative;
@@ -907,7 +905,6 @@
       border: 1px solid #000000;
     }
     .indenttexts {
-  
       span {
         padding-left: 10px;
       }
@@ -975,18 +972,19 @@
 
       span {
         display: flex;
-       
       }
 
       .dollaricon {
-        width: 27px;
-        height: 27px;
+        width: 22px;
+        height: 22px;
         // margin-top: -12px;
         margin-left: 15px;
       }
-      .toggleicon {
+      .toggleiconNew {
         position: relative;
-        left: -22px;
+        width: 20px;
+        height: 20px;
+        left: 15px;
       }
     }
     .pricingheadtext {
@@ -1018,31 +1016,27 @@
       border: 1px solid #000000;
       margin-top: -2%;
       display: flex;
- 
     }
     .indenttexts {
       margin-left: 10px;
       display: flex;
       flex-direction: column;
-    
+
       span {
         padding-left: 10px;
       }
     }
   }
 }
-.sub-texts-fileds
-{
- position: relative;
- top: -0.2rem;
+.sub-texts-fileds {
+  position: relative;
+  top: -0.2rem;
 }
-.inner-text-input
-{
+.inner-text-input {
   display: flex;
   justify-content: left;
   align-items: center;
-  input{
-    
+  input {
   }
 }
 .eachobject-rowwise.border-important {
@@ -1142,7 +1136,7 @@
       height: 32.5rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 150.5%;
+      width: 226.5%;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -1217,7 +1211,7 @@
       height: 32.5rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 150.5%;
+      width: 226.5%;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -1279,7 +1273,7 @@
       height: 31.2rem;
       overflow-y: auto;
       overflow-x: hidden;
-    width: fit-content;
+      width: fit-content;
       // border: 1px solid green;
       // &::-webkit-scrollbar {
       //   display: none;
@@ -1288,10 +1282,10 @@
     }
     .Menu-Listing-TableTwoBody1 {
       display: block;
-      height: 32.5rem;
+      height: 34.47rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 141.5%;
+      width: 226.5%;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -1335,20 +1329,18 @@
   gap: 10px;
   height: 2rem;
   width: 100%;
-  background-color: #E2E0E0;
+  background-color: #e2e0e0;
   border: 1px solid red !important;
 }
 
- .no-colunms
- {
+.no-colunms {
   margin-top: 15%;
   margin-left: 30%;
   font-size: 24px;
-  font-weight:500 ;
+  font-weight: 500;
   color: #5f5f5f;
- }
+}
 
-.count-Of-ItemList
-{
+.count-Of-ItemList {
   font-weight: 600;
 }

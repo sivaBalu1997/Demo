@@ -7,8 +7,8 @@ import Header from "../../../components/productCatalog/Header/Header";
 import closeicon from "../../../assets/svg/closeicon.svg";
 // import Loader from "../../../assets/Loader.gif.gif";
 import toggleround from "../../../assets/svg/toggleround.svg";
-import calendericon from "../../../assets/svg/calendericon.svg";
-import dollaricon from "../../../assets/svg/dollaricon.svg";
+import calendericon from "../../../assets/svg/availableTickFigMenu.svg";
+import dollaricon from "../../../assets/svg/dollarFigMenu.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import InsertColumnList from "../../../components/productCatalog/InsertColumnList/InsertColumnList";
@@ -98,19 +98,19 @@ export const Menulisting = () => {
     }, {});
   };
 
+
   const initializeListingObject = (uniqueNames) => {
+
+
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
       acc[`${typeName}1`] = true;
       return acc;
     }, {});
 
-    const availabilityKeys = Object.keys(uniqueNames).reduce(
-      (acc, typeName) => {
-        acc[`${typeName}2`] = true;
-        return acc;
-      },
-      {}
-    );
+    const availabilityKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
+      acc[`${typeName}2`] = true;
+      return acc;
+    }, {});
 
     return {
       showPricing: true,
@@ -121,15 +121,20 @@ export const Menulisting = () => {
     };
   };
 
+
+
+
+
+
+
+
   const [listingobject, setlistingobject] = useState();
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
     setuniqueOrderTypeNames(getUniqueOrderTypeNames(menuData));
 
-    setlistingobject(
-      initializeListingObject(getUniqueOrderTypeNames(menuData))
-    );
+    setlistingobject(initializeListingObject(getUniqueOrderTypeNames(menuData)));
   }, [menuData]);
 
   const getUniqueOrderTypes = (menuData) => {
@@ -151,10 +156,12 @@ export const Menulisting = () => {
 
   const uniqueOrderTypes = getUniqueOrderTypes(menuData);
 
+
+
   const modifiedTypes = [
     ...uniqueOrderTypes
-      .filter((type) => type?.typeName)
-      .map((type) => `${type.typeName}1`),
+      .filter(type => type?.typeName)
+      .map(type => `${type.typeName}1`),
     ...uniqueOrderTypes
       .filter((type) => type?.typeName)
       .map((type) => `${type.typeName}2`),
@@ -166,9 +173,13 @@ export const Menulisting = () => {
 
   const tablefirstrow = modifiedTypes.map((item) => {
     return {
-      label: item,
-    };
-  });
+      label: item
+    }
+  }
+  );
+
+
+
 
   const insertlists = {
     Pricing: {
@@ -193,32 +204,34 @@ export const Menulisting = () => {
   ]);
 
   useEffect(() => {
-    setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
-  }, [menuData]);
+    setFirstRowTable([
+      ...tablefirstrow,
+      { label: "Customize1" }
+    ])
+  }, [menuData])
+
 
   const insertlists2 = {
     Pricing: {
       show: listingobject?.showPricing ? "Pricing" : "",
-      ...(listingobject &&
-        Object.keys(listingobject && listingobject)
-          .filter((key) => key.endsWith("1") && key !== "Customize1")
-          .reduce((acc, key) => {
-            acc[key.replace("1", "")] = key.replace("1", "");
-            return acc;
-          }, {})),
+      ...(listingobject && Object.keys(listingobject && listingobject)
+        .filter(key => key.endsWith("1") && key !== "Customize1")
+        .reduce((acc, key) => {
+          acc[key.replace("1", "")] = key.replace("1", "");
+          return acc;
+        }, {}))
     },
     Available: {
       show: listingobject?.showAvail ? "Available" : "",
-      ...(listingobject &&
-        Object.keys(listingobject)
-          .filter((key) => key.endsWith("2") && key !== "Customize1")
-          .reduce((acc, key) => {
-            acc[key.replace("2", "")] = key.replace("2", "");
-            return acc;
-          }, {})),
+      ...(listingobject && Object.keys(listingobject)
+        .filter(key => key.endsWith("2") && key !== "Customize1")
+        .reduce((acc, key) => {
+          acc[key.replace("2", "")] = key.replace("2", "");
+          return acc;
+        }, {}))
     },
 
-    Customization: "Customization",
+    Customization: "Customization"
   };
 
   // Output result
@@ -229,6 +242,11 @@ export const Menulisting = () => {
   //   setFirstRowTable((prev)=>[...prev,tablefirstrow])
 
   // }, [tablefirstrow]);
+
+
+
+
+
 
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
@@ -285,14 +303,12 @@ export const Menulisting = () => {
   };
 
   useEffect(() => {
-    dispatch(removeDataRequest());
-  }, []);
+    dispatch(removeDataRequest())
+  }, [])
 
   const locationid = useSelector((state) => state.auth.credentials?.locationId);
 
-  const deleteMenuItemSuccess = useSelector(
-    (state) => state.productCatalog.deleteMenuItemSuccess
-  );
+  const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess)
 
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
@@ -413,9 +429,10 @@ export const Menulisting = () => {
     itemIndex: null,
   });
 
-  const [categoryData, setCategoryData] = useState({});
+  const [categoryData, setCategoryData] = useState({})
 
   const handlemodal = (value) => {
+
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -466,27 +483,9 @@ const filtesubItems=allItemResponseLists.find((item) =>
         dispatch(selectedCategory(categoryData));
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
+
       }
     }
-    else
-    {
-      console.log("result",filtesubItems,filteredItem);
-      setCategoryData({
-        name: filtesubItems?.categoryName,
-        id: filtesubItems?.categoryId,
-      });
-      const specificResponse = filtesubItems.itemResponseList.filter(
-        (response) => response?.itemId === value
-      );
-      if (specificResponse.length > 0) {
-        setSideBar(specificResponse);
-        dispatch(selectedCategory(categoryData));
-        dispatch(selectedMockDataRequest(specificResponse));
-        setmodal(true);
-      }
-      
-    }
-    
   };
 
   const showsidebar = (key) => {
@@ -542,15 +541,12 @@ const filtesubItems=allItemResponseLists.find((item) =>
         description: editData[0]?.description ?? "",
         imageUrls: editData[0]?.mediaResponseList ?? [],
         alcohol: editData[0]?.containsAlcohol ?? false,
-        itemCode: editData[0]?.itemCode ?? "",
-        barCode: editData[0]?.barCode ?? "",
-        Ingredients:
-          editData[0]?.ingredients?.map((ingredient) => ingredient?.id ?? "") ??
-          [],
-        allergens:
-          editData[0]?.allergens?.map((allergen) => allergen?.id ?? "") ?? [],
+        itemCode: editData[0]?.itemCode ?? '',
+        barCode: editData[0]?.barCode ?? '',
+        Ingredients: editData[0]?.ingredients?.map(ingredient => ingredient?.id ?? '') ?? [],
+        allergens: editData[0]?.allergens?.map(allergen => allergen?.id ?? '') ?? [],
         coloriePoint: editData[0]?.calorieInfo ?? {},
-        portionSize: editData[0]?.portionInfo ?? "",
+        portionSize: editData[0]?.portionInfo ?? '',
         tax: editData[0]?.taxClassAssociation ?? [],
         dietaryType: editData[0]?.dietTypes ?? [],
         cuisine: editData[0]?.cuisine?.[0]?.name ?? "",
@@ -565,8 +561,12 @@ const filtesubItems=allItemResponseLists.find((item) =>
           deliveryDetails: null,
           dineInDetails: null,
           pickupDetails: null,
-          thirdpartyDetails: [],
+          thirdpartyDetails: []
         },
+        Preparationtime: {
+          hours: editData[0]?.preparationTimeInHours || '',
+          minutes: editData[0]?.preparationTimeInMinutes || ''
+        }
       };
 
       editData[0]?.orderTypes?.forEach((orderType) => {
@@ -591,19 +591,18 @@ const filtesubItems=allItemResponseLists.find((item) =>
       });
 
       const modifierData = editData[0]?.modifiers?.map((item) => ({
-        id: item?.id ?? "",
-        modifierName: item?.modifierName ?? "",
+        id: item?.id ?? '',
+        modifierName: item?.modifierName ?? '',
         maxCount: item?.maxCount ?? 0,
         minCount: item?.minCount ?? 0,
         noFreeCustomization: item?.noFreeCustomization ?? false,
         selectedValue: item?.orderTypeIds ?? [],
-        options:
-          item?.options?.map((option) => ({
-            optionId: option?.optionId ?? "",
-            name: option?.name ?? "",
-            price: option?.price ?? 0,
-            isEnabled: option?.isEnabled ?? false,
-          })) || [],
+        options: item?.options?.map(option => ({
+          optionId: option?.optionId ?? '',
+          name: option?.name ?? '',
+          price: option?.price ?? 0,
+          isEnabled: option?.isEnabled ?? false
+        })) || [],
       }));
 
       dispatch(primarypost(primaryPageData));
@@ -662,9 +661,9 @@ const filtesubItems=allItemResponseLists.find((item) =>
     };
   }, [showheadinglist]);
 
-  const allFalse =
-    listingobject &&
-    Object.values(listingobject).every((value) => value === false);
+  const allFalse = listingobject && Object.values(listingobject).every(
+    (value) => value === false
+  );
 
   useEffect(() => {
     if (menudatalist.length > 0 && menuData.length > 0) {
@@ -763,7 +762,7 @@ console.log("allItemResponseLists", allItemResponseLists);
 
                   {
                     <tbody
-                      className="Menu-Listing-TableOneBody Menu-listing-Body"
+                      className={isExpanded ? "Menu-Listing-TableOneBodyExpanded Menu-listing-Body" : "Menu-Listing-TableOneBody Menu-listing-Body"}
                       ref={tableBodyRef1}
                     >
                       {loading ? (
@@ -810,11 +809,10 @@ console.log("allItemResponseLists", allItemResponseLists);
               </div>
               <div className="table-two-alignment">
                 <table
-                  className={`${
-                    isExpanded
-                      ? "Menu-Listing-TableTwo1"
-                      : "Menu-Listing-TableTwo"
-                  }`}
+                  className={`${isExpanded
+                    ? "Menu-Listing-TableTwo1"
+                    : "Menu-Listing-TableTwo"
+                    }`}
                 >
                   <thead className="Menu-Listing-TableTwoHead">
                     <tr className="headingonesection">
@@ -861,11 +859,10 @@ console.log("allItemResponseLists", allItemResponseLists);
 
                   {
                     <tbody
-                      className={`${
-                        isExpanded
-                          ? "Menu-Listing-TableTwoBody1"
-                          : "Menu-Listing-TableTwoBody"
-                      } tabletwobody`}
+                      className={`${isExpanded
+                        ? "Menu-Listing-TableTwoBody1"
+                        : "Menu-Listing-TableTwoBody"
+                        } tabletwobody`}
                       ref={tableBodyRef2}
                     >
                       {

@@ -35,17 +35,22 @@ const AvailCalender: React.FC<modelshow> = ({
     setSelectedDatee(date);
   };
 
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' | 'minutes') => {
-    const value = e.target.value;
-    if (type === 'hours') {
-      setHours(value);
-    } else {
-      setMinutes(value);
-    }
-    const formattedHours = String(type === 'hours' ? value : hours).padStart(2, '0')||"00";
-    const formattedMinutes = String(type === 'minutes' ? value : minutes).padStart(2, '0')||"00";
-    setFormattedTime(`${formattedHours}:${formattedMinutes}`);
-  };
+const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' | 'minutes') => {
+  const value = e.target.value;
+
+  // Ensure the value is a number and within valid bounds
+  if (!/^\d{0,2}$/.test(value)) return; // Allow only 0-2 digits
+  if (type === 'hours' && +value > 23) return; // Validate hours
+  if (type === 'minutes' && +value > 59) return; // Validate minutes
+
+  // Update state
+  if (type === 'hours') {
+    setHours(value);
+  } else {
+    setMinutes(value);
+  }
+}
+
 
   const handleDateChanging = () => {
     if (selectedDatee && selectedTimePeriod && formattedTime) {
@@ -135,6 +140,7 @@ console.log("time", formattedTime);
                 className="AvailCalenderInput1" 
                 min="0"
                 max="12"
+                name="hours"
               />
             </div>
             <h2>:</h2>
@@ -147,19 +153,20 @@ console.log("time", formattedTime);
                 className="AvailCalenderInput1"
                 min="0"
                 max="59"
+                name="minutes"
               />
             </div>
             <div
               className={`AvailCalenderAm ${selectedTimePeriod === "AM" ? "Calselected" : ""}`}
               onClick={() => handleTimePeriodClick("AM")}
             >
-              <p>Am</p>
+              <p className="Am-Heading">Am</p>
             </div>
             <div
               className={`AvailCalenderPm ${selectedTimePeriod === "PM" ? "Calselected" : ""}`}
               onClick={() => handleTimePeriodClick("PM")}
             >
-              <p>Pm</p>
+              <p className="Pm-Heading">Pm</p>
             </div>
           </div>
           <div className="AvailCalenderButton">

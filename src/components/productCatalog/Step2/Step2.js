@@ -24,7 +24,7 @@ const Step2 = () => {
         <div className="Step2-form">
           <div className="Step2-header">
             <h1 className="Step2-heading">
-              Step 2 Pricing and Kitchen Details
+              Step 2: Pricing and Kitchen Details
             </h1>
             <div>
               <Link
@@ -111,11 +111,8 @@ const Step2 = () => {
               <h1 className="Step2Thresholdvalue">Yes</h1>
             </div>
           </div>
-          {prizingDetail && prizingDetail?.normalForm ? (
             <NormalStep2 />
-          ) : (
-            <SpecialReview />
-          )}
+         
         </div>
       </div>
     </div>

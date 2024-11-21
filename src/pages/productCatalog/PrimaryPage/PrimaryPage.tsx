@@ -4,7 +4,6 @@ import InputFieldComponent from "../../../components/productCatalog/InputFieldCo
 import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
 import DigitInput from "../../../components/productCatalog/DigitInput/DigitInput";
 import RadioButtonGroup from "../../../components/productCatalog/RadioButton/RadioButton";
-import "./PrimaryPage.scss";
 import { ImCross } from "react-icons/im";
 import info from "../../../assets/svg/info.svg";
 import ImgaeUploading from "../../../assets/images/addimage.png";
@@ -43,6 +42,7 @@ import { RootState } from "redux/rootReducer";
 import { stat } from "fs";
 import TooltipMsg from "components/productCatalog/Tooltip/TooltipMsg";
 import { useLocation } from "react-router-dom";
+import "./PrimaryPage.scss";
 
 interface Ingredients {
   id: string;
@@ -230,7 +230,6 @@ const PrimaryPage = () => {
   const [popularItem, setPopularItem] = useState<any>("");
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
 
-
   const [calorieInfo, setCalorieInfo] = useState<any>({
     type: "per 100 grams",
     value: "",
@@ -252,7 +251,6 @@ const PrimaryPage = () => {
     (state: any) => state.auth?.restaurantDetails?.popularItemCount
   );
 
-
   const Mockdata = useSelector(
     (state: ListingData) => state.storeMockDataReducer.data
   );
@@ -266,8 +264,7 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     setPopularItem(PopularItemFormApi);
-    setPopularItemLimit(popularItemLimit)
-
+    setPopularItemLimit(popularItemLimit);
   }, [PopularItemFormApi]);
 
   useEffect(() => {
@@ -289,7 +286,6 @@ const PrimaryPage = () => {
   //     setValue("itemCode", selectedItem?.itemCode);
   //   }
   // }, [mergedMockData, location.state?.id, setValue]);
-
 
   const requestCompleted = useSelector(
     (state: RootState) => state.productCatalog.requestCompleted
@@ -323,29 +319,25 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
-  const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
-  
       const imageArray = ItemsPrimaryDetails.imageUrls.map((img: any) => ({
         file: img?.imageId ? { name: img.imageId } : img?.file || {},
         uploaded: img?.uploaded || false,
         failed: img?.failed || false,
-        preview: img?.imageId 
-          ? `${baseImageUrl}${img.imageId}` 
-          : img?.preview,  
+        preview: img?.imageId ? `${baseImageUrl}${img.imageId}` : img?.preview,
       }));
-  
+
       setImages((prevImages) => {
-        const updatedImages = [...prevImages, ...imageArray];        
+        const updatedImages = [...prevImages, ...imageArray];
         setValue("imageUrls", updatedImages);
-        
+
         return updatedImages;
       });
     }
   }, [ItemsPrimaryDetails, setValue]);
-  
 
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
@@ -487,7 +479,10 @@ const PrimaryPage = () => {
             return null;
           }
           if (file.size > maxSizeInBytes) {
-            alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+            // alert(`File too large: ${file.name}. Maximum size is 2MB.`);
+            alert(
+              "Image upload failed: File size exceeds 2 MB. Please upload a smaller file."
+            );
             return null;
           }
           return {
@@ -524,8 +519,8 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.dietaryData.data
   );
 
-  const editData = useSelector((state:any) => state.productCatalog.editData)
-  
+  const editData = useSelector((state: any) => state.productCatalog.editData);
+
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
@@ -533,7 +528,9 @@ const PrimaryPage = () => {
   const subCategoryData = useSelector(
     (state: any) => state.productCatalog.subCategoryData.data
   );
-
+  const message = useSelector(
+    (state: any) => state?.getItemCodeReducer?.itemCode?.data
+  );
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -541,20 +538,37 @@ const PrimaryPage = () => {
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
   );
-  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
-  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
+  const ingredientsdata = useSelector(
+    (state: any) => state.productCatalog?.ingredients?.data
+  );
+  console.log({ ingredientsdata });
 
-  const [parentId, setParentId] = useState('')
+  const allergensData = useSelector(
+    (state: any) => state.productCatalog?.allergens?.data
+  );
 
-  useEffect(()=>{
+  // const [parentId, setParentId] = useState("");
+
+  // useEffect(() => {
+  const [parentId, setParentId] = useState("");
+  const [itemcodeValid, setItemcodeValid] = useState(true);
+  useEffect(() => {
     if (ItemsPrimaryDetails?.popularItem) {
       setPopularItem(popularItem + 1);
       setValue("popularItem", true);
     } else {
-      setPopularItem((prevCount:any) => Math.max(prevCount - 1, 0)); 
+      setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
       setValue("popularItem", false);
     }
-  },[ItemsPrimaryDetails])
+  }, [ItemsPrimaryDetails]);
+  useEffect(() => {
+    if (message?.httpStatus == 409) {
+      setItemcodeValid(false);
+    } else {
+      setItemcodeValid(true);
+    }
+  }, [message]);
+  console.log("setItemcodeValid(false)", itemcodeValid);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -562,7 +576,7 @@ const PrimaryPage = () => {
       setPopularItem(popularItem + 1);
       setValue("popularItem", true);
     } else {
-      setPopularItem((prevCount:any) => Math.max(prevCount - 1, 0)); 
+      setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
       setValue("popularItem", false);
     }
   };
@@ -641,10 +655,22 @@ const PrimaryPage = () => {
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
-  useEffect(()=>{
-    dispatch(fetchDropDownRequest({locationId: locationid, type: 'INGREDIENTS', parentId: "",}));
-    dispatch(fetchDropDownRequest({locationId: locationid, type: 'ALLERGENS', parentId: "",}));
-  },[])
+  useEffect(() => {
+    dispatch(
+      fetchDropDownRequest({
+        locationId: locationid,
+        type: "INGREDIENTS",
+        parentId: "",
+      })
+    );
+    dispatch(
+      fetchDropDownRequest({
+        locationId: locationid,
+        type: "ALLERGENS",
+        parentId: "",
+      })
+    );
+  }, []);
 
   return (
     <div style={{ display: "flex" }}>
@@ -657,7 +683,7 @@ const PrimaryPage = () => {
         <div>
           {/* <SidePanel /> */}
           <div style={{ marginBottom: "40px" }}>
-            <Navigationpage 
+            <Navigationpage
               getFormData={getValues}
               seletedpage="Primary"
               reset={handleReset}
@@ -674,7 +700,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
-                    rules={{ required: "ItemName is required" }}
+                    rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
@@ -700,11 +726,11 @@ const PrimaryPage = () => {
                         setOptions={setDataDietaryType}
                         placeholder="search for option"
                         register={register}
-                        name="dietaryType"
+                        name="DietaryType"
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "dietaryType is required" }}
+                        validation={{ required: "DietaryType is required" }}
                         error={errors.dietaryType}
                         dropdownopen={DropdownOpen.dietaryType}
                         onToggle={() => handleDropdownToggle("dietaryType")}
@@ -733,7 +759,7 @@ const PrimaryPage = () => {
                         trigger={trigger}
                         setValue={setValue}
                         name="cuisine"
-                        validation={{ required: "cuisine is required" }}
+                        validation={{ required: "Cuisine is required" }}
                         error={errors.cuisine}
                         {...field}
                         getValues={getValues}
@@ -766,7 +792,7 @@ const PrimaryPage = () => {
                         setValue={setValue}
                         trigger={trigger}
                         getValues={getValues}
-                        validation={{ required: "category is required" }}
+                        validation={{ required: "Category is required" }}
                         error={errors.category}
                         dropdownopen={DropdownOpen.category}
                         setDropdownOpen={setDropdownOpen}
@@ -775,7 +801,7 @@ const PrimaryPage = () => {
                         editValues={true}
                         dropDownType="CATEGORY"
                         resetSelection={categoryref}
-                        setParentId = {setParentId}
+                        setParentId={setParentId}
                       />
                     )}
                   />
@@ -893,8 +919,7 @@ const PrimaryPage = () => {
                       // name="imageUrls"
                     />
 
-
-                    {images.map((img, index) => (
+                    {images?.map((img, index) => (
                       <div key={index} className="image-container">
                         <button
                           onClick={() => handleImageDeletion(index)}
@@ -943,16 +968,18 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
-                        // required: "Item code is required",
+                      // required: "Item code is required",
                       rules={{
                         validate: (value) => {
                           if (!value) {
-                            return true; 
+                            return true;
                           }
-                          return value.toString().length >= 4|| "Item code must be at least 4 characters";
+                          return (
+                            value.toString().length >= 4 ||
+                            "Item code must be at least 4 characters"
+                          );
                         },
                       }}
-                     
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
                           name="itemCode"
@@ -961,8 +988,19 @@ const PrimaryPage = () => {
                           }}
                           value={value}
                           onBlur={() => {
-                            if (value) {
+                            console.log("99", value.length);
+                            if (value.length > 3) {
                               dispatch(getItemCodeRequest(locationid, value));
+                            }
+                          }}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" ||
+                              e.key === "."
+                            ) {
+                              e.preventDefault(); // Block these keys
                             }
                           }}
                           type="number"
@@ -1040,12 +1078,13 @@ const PrimaryPage = () => {
                           handleCheckboxChange(e);
                           field?.onChange(e.target.checked);
                         }}
-                        disabled={popularItem>=popularItemlimit}
- 
+                        disabled={popularItem >= popularItemlimit}
                       />
                     )}
                   />
-                  <span>Popular item ( {popularItem}/{popularItemlimit} )</span>
+                  <span>
+                    Popular item ( {popularItem}/{popularItemlimit} )
+                  </span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
@@ -1129,7 +1168,7 @@ const PrimaryPage = () => {
             >
               <div className="Primary-page-ingredients-selection">
                 <Imagepillsselection
-                  heading="Ingredients*"
+                  heading="Ingredients"
                   options={ingredientsdata}
                   setValue={setValue}
                   name="Ingredients"
@@ -1150,6 +1189,7 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
+                          type="number"
                           onChange={(e) => {
                             handleInputChange(e);
                             onChange(e);
@@ -1184,33 +1224,36 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="portionSize"
+                          type="number"
                           onChange={(e) => {
-                            handlePortionChange("value", e.target.value); 
+                            handlePortionChange("value", e.target.value);
                             onChange(e);
                           }}
                           onBlur={onBlur}
                           value={portionInfo?.value}
                           trigger={trigger}
-                          placeholder={portionInfo?.type} 
+                          placeholder={
+                            portionInfo?.type || "portion(count) / grams/ml"
+                          }
                         />
                       )}
                     />
                     {/* Tooltip component can go here */}
                   </div>
 
-                  <div className="Primary-Page-inputfiled-and-tooltip portionSize-Radio">
+                  <div className="Primary-Page-inputfiled-and-tooltip-portion">
                     <RadioButtonGroup
                       options={portionsizeradio}
                       name="selectedPortion"
-                      selectedValue={portionInfo?.type} 
-                      onChange={(value) => handlePortionChange("type", value)} 
+                      selectedValue={portionInfo?.type}
+                      onChange={(value) => handlePortionChange("type", value)}
                       register={register}
                     />
-                    <div className="portionsizeTooltip">
+                    <div className="tool-tip-portion-cont">
                       <TooltipMsg
                         message="Specify the portion size for this item, either by count or weight."
                         styles={{
-                          marginTop: "-2rem",
+                          marginTop: "-0.8rem",
                           marginLeft: "2rem",
                           width: "350px",
                           height: "35px",
@@ -1303,6 +1346,7 @@ const PrimaryPage = () => {
               getFormData={getValues}
               seletedpage="Primary"
               reset={handleReset}
+              itemcodeValid={itemcodeValid}
               triggerValidation={() => trigger()}
             />
             {/* </form> */}

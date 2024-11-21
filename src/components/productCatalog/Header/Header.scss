@@ -11,7 +11,7 @@
   transition: left 0.4s ease-in;
   margin-left: 30px;
 
-  // background-color: orange;
+  // background-color: lightblue;
 }
 
 .Header-Container1 {
@@ -30,10 +30,12 @@
 .Header-Heading-Search-Filter-Container {
   display: flex;
   width: 962.45px;
+  // width: fit-content;
   height: 44px;
   justify-content: start;
   padding-left: -10px;
   gap: 20px;
+  // background-color: lightsalmon;
 }
 
 /* Filter Section */
@@ -140,10 +142,9 @@
 
 .Excel {
   position: relative;
-  left:  13.5rem;
+  left: 13.5rem;
   top: 5%;
 }
-
 
 .ExcelHover {
   visibility: hidden;
@@ -247,7 +248,8 @@
   align-items: center;
 }
 
-.Add-Item-Heading-Plus, .Add-Item-Heading {
+.Add-Item-Heading-Plus,
+.Add-Item-Heading {
   font-family: Poppins;
   font-weight: 500;
   font-size: 14px;
@@ -266,8 +268,8 @@
 .Add-Item-Container:hover {
   background-color: #335400f0;
 }
-@media (max-width:1700px){
-  .Header-Container{
+@media (max-width: 1700px) {
+  .Header-Container {
     width: 90%;
   }
 }

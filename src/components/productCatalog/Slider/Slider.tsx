@@ -84,8 +84,7 @@ const Slider: React.FC<SliderProps> = ({
   );
   const menuData = useSelector((state: any) => state.productCatalog?.menuData);
 
-  const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
-  };
+  const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {};
 
   const handleItemClick = (item: string) => {
     const UpdatedeleteItem = data.filter(
@@ -149,7 +148,7 @@ const Slider: React.FC<SliderProps> = ({
 
   useEffect(() => {
     // dispatch(selectedMockDataRequest(SideBarData));
-    dispatch(resetSuccessMessage())
+    dispatch(resetSuccessMessage());
   }, [dispatch]);
 
   return (
@@ -158,7 +157,11 @@ const Slider: React.FC<SliderProps> = ({
         <div className="Slider-Mainform">
           <div className="Slider-First-Row">
             <h1 className="Slider-Heading1">
-              {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
+              <span>
+                {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
+              </span>
+              <span>-</span>
+              <span>{data1?.length > 0 ? data1[0]?.itemCode : ""}</span>
             </h1>
             <div className="Slider-icons">
               <div className="PenImage-Section">
@@ -178,12 +181,22 @@ const Slider: React.FC<SliderProps> = ({
                 </div>
               </div>
 
-              <img
-                src={Eye}
-                alt="View"
-                className="EyeImage"
-                onClick={handleEyeClick}
-              />
+              <div className="EyeImage-Section">
+                <img
+                  src={Eye}
+                  alt="View"
+                  className="EyeImage"
+                  onClick={handleEyeClick}
+                />
+                <div className="EyeTool">
+                  <img
+                    src={ArrowHover}
+                    className="ArrowHoverEye"
+                    alt="View Tool"
+                  />
+                  <div className="EyeTool-box">Hide/unhide</div>
+                </div>
+              </div>
 
               <div className="BinImageSection">
                 <img
@@ -204,7 +217,9 @@ const Slider: React.FC<SliderProps> = ({
             </div>
           </div>
 
-          {eye && <EyeModal onEyeclose={() => setEye(false)}  onclose={onclose} />}
+          {eye && (
+            <EyeModal onEyeclose={() => setEye(false)} onclose={onclose} />
+          )}
 
           {trash && (
             <Trash

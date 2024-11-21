@@ -60,7 +60,7 @@
 .DineInRelated {
   display: flex;
   justify-content: left;
-  gap: 2.0rem;
+  gap: 2rem;
   align-items: center;
   width: fit-content;
   height: 30px;
@@ -110,13 +110,11 @@
   margin-top: -1.7rem;
   margin-bottom: 0.7rem;
 }
-.dayspick-pickup
-{ margin-top: -1.7rem;
+.dayspick-pickup {
+  margin-top: -1.7rem;
   margin-bottom: 0.7rem;
-
 }
-.dayspickup-normal
-{
+.dayspickup-normal {
   margin-top: -1.7rem;
   margin-bottom: 0.7rem;
 }
@@ -223,6 +221,7 @@
   color: black;
   padding-left: 10px;
   font-weight: 400;
+  // background-color: pink;
 }
 
 .DineInInput1Normal::placeholder {
@@ -387,22 +386,18 @@
   display: flex;
   justify-content: flex start;
   gap: 2rem;
- margin-top: 0.5rem;
- 
+  margin-top: 0.5rem;
 }
-.DeliveryRelatedNormalopen
-{
+.DeliveryRelatedNormalopen {
   display: flex;
   justify-content: flex start;
   gap: 2rem;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
-
 }
 .DeliveryRelatedHeadingNormal {
   font-size: 0.875rem;
   font-weight: 500;
-  
 }
 .toggleV {
   margin-top: -1rem;
@@ -547,7 +542,6 @@
   width: 200px;
   height: 44px;
   font-weight: 400;
- 
 }
 .thridparties-dropdown {
   margin-top: 1.3rem;
@@ -598,12 +592,11 @@
   font-weight: 400;
 }
 
-.DineIn-Fields{
+.DineIn-Fields {
   position: relative;
   top: 5px;
   margin-bottom: 26px;
 }
-
 
 .PickupChooseDayContainer {
   display: flex;
@@ -663,9 +656,9 @@
   display: flex;
   justify-content: left;
   gap: 0.313rem;
- 
-position: relative;
-bottom: 0.7rem;
+
+  position: relative;
+  bottom: 0.7rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;

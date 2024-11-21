@@ -575,6 +575,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       <div className="dropDownBox">
         <div>
           <input
+            placeholder={name === "kitchenstation" ? "Kitchen station*" : ""}
             type="text"
             {...register(name, validation)}
             value={
@@ -670,15 +671,16 @@ const DropDownList: React.FC<DropdownProps> = ({
                             {editList && (
                               <span
                                 className={`dropdown-option-delete `}
-                                // ${
-                                //   isOptionSelected ? "disabled-delete" : ""
-                                // }
-                                onClick={() => handledeletion(option.id)}
-                                // style={
-                                //   isOptionSelected
-                                //     ? { pointerEvents: "none" }
-                                //     : {}
-                                // }
+                                onClick={() =>
+                                  option?.canDelete
+                                    ? handledeletion(option.id)
+                                    : null
+                                }
+                                style={
+                                  !option?.canDelete
+                                    ? { pointerEvents: "none", opacity: "50%" }
+                                    : {}
+                                }
                               >
                                 -Delete
                               </span>
@@ -694,16 +696,19 @@ const DropDownList: React.FC<DropdownProps> = ({
               )}
             </ul>
             <div className="edititem">
-              {options?.length > 0 && !editList && editValues && (
-                <p
-                  className="editiconimage"
-                  onMouseDown={handleOptionMouseDown}
-                  onClick={() => handleedit()}
-                  // style={{position:'relative',left:'-2rem'}}
-                >
-                  Edit
-                </p>
-              )}
+              {!dropDownLoading &&
+                options?.length > 0 &&
+                !editList &&
+                editValues && (
+                  <p
+                    className="editiconimage"
+                    onMouseDown={handleOptionMouseDown}
+                    onClick={() => handleedit()}
+                    // style={{position:'relative',left:'-2rem'}}
+                  >
+                    Edit
+                  </p>
+                )}
             </div>
           </div>
 
