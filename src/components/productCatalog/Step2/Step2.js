@@ -21,7 +21,7 @@ const Step2 = () => {
         <div className="Step2-form">
           <div className="Step2-header">
             <h1 className="Step2-heading">
-              Step 2 Pricing and Kitchen Details
+              Step 2: Pricing and Kitchen Details
             </h1>
             <div>
               <Link
@@ -56,12 +56,12 @@ const Step2 = () => {
             <div className="Step2Preparation">
               <h1 className="Step2Preparationheading">Preparation</h1>
               <h1 className="Step2Preparationvalue">
-                {prizingDetail?.Preparationtime?.hours !== undefined 
-                  ? prizingDetail.Preparationtime.hours + " hours" 
-                  : "-"+ " hours" }{" "}
-                {prizingDetail?.Preparationtime?.minutes !== undefined 
-                  ? prizingDetail.Preparationtime.minutes + " minutes" 
-                  : "-" + " minutes" }
+                {prizingDetail?.Preparationtime?.hours !== undefined
+                  ? prizingDetail.Preparationtime.hours + " hours"
+                  : "-" + " hours"}{" "}
+                {prizingDetail?.Preparationtime?.minutes !== undefined
+                  ? prizingDetail.Preparationtime.minutes + " minutes"
+                  : "-" + " minutes"}
               </h1>
             </div>
           </div>
