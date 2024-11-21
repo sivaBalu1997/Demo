@@ -643,9 +643,9 @@
     overflow-y: auto;
     overflow-x: hidden;
     width: 200.4%;
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
 
     // border: 1px solid red !important;
   }
@@ -955,6 +955,10 @@
     height: 300px;
     overflow-y: auto;
     // border: 1px solid red;
+    &::-webkit-scrollbar
+    {
+      display: none;
+    }
   
     li {
       padding-top: 5px;
@@ -1128,9 +1132,9 @@
       overflow-y: auto;
       overflow-x: hidden;
       width: 150.4%;
-      &::-webkit-scrollbar {
-        display: none;
-      }
+      // &::-webkit-scrollbar {
+      //   display: none;
+      // }
       // border: 1px solid red !important;
     }
     .Menu-Listing-TableTwoBody1 {
@@ -1203,9 +1207,9 @@
       overflow-y: auto;
       overflow-x: hidden;
       width: 153.4%;
-      &::-webkit-scrollbar {
-        display: none;
-      }
+      // &::-webkit-scrollbar {
+      //   display: none;
+      // }
       // border: 1px solid red !important;
     }
     .Menu-Listing-TableTwoBody1 {
@@ -1277,9 +1281,9 @@
       overflow-x: hidden;
     width: fit-content;
       // border: 1px solid green;
-      &::-webkit-scrollbar {
-        display: none;
-      }
+      // &::-webkit-scrollbar {
+      //   display: none;
+      // }
       // border: 1px solid red !important;
     }
     .Menu-Listing-TableTwoBody1 {

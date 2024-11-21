@@ -20,6 +20,10 @@
   height: 77vh;
   overflow-y: auto;
   left: 2rem;
+  &::-webkit-scrollbar
+  {
+    display: none;
+  }
 
   .buttoncomponent {
     position: relative;
