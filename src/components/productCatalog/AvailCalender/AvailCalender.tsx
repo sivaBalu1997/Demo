@@ -38,10 +38,9 @@ const AvailCalender: React.FC<modelshow> = ({
 const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' | 'minutes') => {
   const value = e.target.value;
 
-  // Ensure the value is a number and within valid bounds
-  if (!/^\d{0,2}$/.test(value)) return; // Allow only 0-2 digits
-  if (type === 'hours' && +value > 23) return; // Validate hours
-  if (type === 'minutes' && +value > 59) return; // Validate minutes
+  if (!/^\d{0,2}$/.test(value)) return;
+  if (type === 'hours' && +value > 23) return; 
+  if (type === 'minutes' && +value > 59) return; 
 
   // Update state
   if (type === 'hours') {
