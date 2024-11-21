@@ -59,12 +59,16 @@ const Step2 = () => {
             <div className="Step2Preparation">
               <h1 className="Step2Preparationheading">Preparation</h1>
               <h1 className="Step2Preparationvalue">
-                {prizingDetail?.Preparationtime?.hours !== undefined
-                  ? prizingDetail.Preparationtime.hours + " hours"
-                  : "-" + " hours"}{" "}
-                {prizingDetail?.Preparationtime?.minutes !== undefined
-                  ? prizingDetail.Preparationtime.minutes + " minutes"
-                  : "-" + " minutes"}
+                {
+                  prizingDetail?.Preparationtime?.hours && prizingDetail?.Preparationtime?.hours + "hours"
+                }
+
+                {prizingDetail?.Preparationtime?.minutes
+                  && prizingDetail.Preparationtime.minutes + " minutes"
+                }
+                {
+                  !prizingDetail?.Preparationtime?.hours && !prizingDetail?.Preparationtime?.minutes && "N/A"
+                }
               </h1>
             </div>
           </div>
@@ -107,8 +111,8 @@ const Step2 = () => {
               <h1 className="Step2Thresholdvalue">Yes</h1>
             </div>
           </div>
-            <NormalStep2 />
-         
+          <NormalStep2 />
+
         </div>
       </div>
     </div>

@@ -265,6 +265,10 @@ const PricingSlider: any = ({}) => {
       }));
     }
   };
+  // const restaurantDetails = useSelector(
+  //   (state: RootState) => state.auth.restaurantDetails
+  // );
+
   return (
     <div className="PricingSlider-Container">
       <h3 className="PricingSlider-Heading">Pricing </h3>

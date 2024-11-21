@@ -140,6 +140,44 @@ const [canceledChanges,setcanceledChanges]=useState(true);
   
   }
 
+
+  const handleOrderTypesAvailCancel = (OrderTypeId:string)=>{
+  
+      const tempOderTypes=parentOrderTypeArray?.map((data:any,index:number)=> {
+        return data?.typeId === OrderTypeId ? {...data,availabilityEnabled: !data?.availabilityEnabled}:data 
+      } )
+    
+      const tempOnPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+      const tempOffPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+    
+      setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
+      
+      const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+      const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+      const tempOrderTypeAvailabilityArray=[
+        {
+          mainHeading: "On-prem",
+          types:tempOnPremarray,
+          isEnabled:isOnPremEnabledCount
+        },
+        {
+          mainHeading: "Off-prem",
+          types:tempOffPremarray,
+          isEnabled:isOffPremEnabledCount
+        },
+        
+      ]
+      setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
+      setSelectedOrderTypeId("");
+    
+
+     
+      
+    
+ 
+ 
+  
+  }
   const handleOrderCategoryAvailability = (categoryHeading: string) => {
 
     const tempOnPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup === "D" })
@@ -559,7 +597,7 @@ const [canceledChanges,setcanceledChanges]=useState(true);
             parentToggle={parentToggle}
             ParentToggles={ParentToggles}
             setcanceledChanges={setcanceledChanges}
-            handleOrderTypesAvail={handleOrderTypesAvail}
+            handleOrderTypesAvail={handleOrderTypesAvailCancel}
             handleOrderCategoryAvailability={handleOrderCategoryAvailability}
           />
         )}

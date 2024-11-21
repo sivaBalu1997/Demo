@@ -73,7 +73,7 @@ interface PrimaryData {
   subCategory?: string;
   itemCode?: string;
   description?: string;
-  dietaryType?: string;
+  DietaryType?: string;
   cuisine?: string;
   mealType?: string;
   bestPair?: string;
@@ -215,6 +215,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
+
+  console.log({primarydata})
 
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
@@ -444,8 +446,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const addMenuLoading = useSelector((state : any) => state.productCatalog?.addMenuLoading)
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
-    primarydata?.dietaryType?.includes(dietary.name)
+    primarydata?.DietaryType?.includes(dietary.name)
   );
+
+  console.log({dietaryData},{matchedDietary},{primarydata}, primarydata?.DietaryType)
 
   const matchedCuisine = cuisineData?.find(
     (cuisine: any) => cuisine.name === primarydata?.cuisine
@@ -787,10 +791,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Dietary type"
                           textvalue={
-                            (primarydata?.dietaryType && typeof(primarydata?.dietaryType[0]) === 'string') && primarydata?.dietaryType.length > 0
-                              ? Array.isArray(primarydata?.dietaryType) ? primarydata?.dietaryType?.map((type: any) => type).join(", ") :primarydata?.dietaryType
-                              : Array.isArray(primarydata?.dietaryType) && primarydata?.dietaryType?.length > 0 
-                              ? primarydata?.dietaryType.map((type: any) => type?.name).join(", ") : "N/A"
+                            (primarydata?.DietaryType && typeof(primarydata?.DietaryType[0]) === 'string') && primarydata?.DietaryType.length > 0
+                              ? Array.isArray(primarydata?.DietaryType) ? primarydata?.DietaryType?.map((type: any) => type).join(", ") :primarydata?.DietaryType
+                              : Array.isArray(primarydata?.DietaryType) && primarydata?.DietaryType?.length > 0 
+                              ? primarydata?.DietaryType.map((type: any) => type?.name).join(", ") : "N/A"
                           }
                         />
                       </div>
@@ -898,7 +902,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         />
                       </div>
 
-                      <div>
+                      {/* <div>
                         <ReviewValues
                           label="Master product code"
                           textvalue={
@@ -907,7 +911,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                               : "N/A"
                           }
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

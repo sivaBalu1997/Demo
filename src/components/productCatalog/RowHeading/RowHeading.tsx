@@ -37,6 +37,7 @@ interface Item {
 interface MenuObject {
   categoryId: string;
   categoryName: string;
+  name:string;
   subCategoryId: string;
   subCategoryName: string;
   itemResponseList: Item[];
@@ -67,7 +68,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   return (
     <tr className="table-one-row-data">
 
-      { object?.itemResponseList?.length>0 && object.categoryName!=="" &&
+      { object?.itemResponseList?.length>0 && object.name!=="" &&
             <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
             {/* <img
               src={dots}
@@ -78,7 +79,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
               onDrop={(e) => onDrop(e, index)}
               className="headingdrag"
             />{" "} */}
-            {<span> {object.categoryName!=="" &&object.categoryName} <span className="count-Of-ItemList">({object.itemResponseList?.length})</span> </span>}
+            {<span> {object.name!=="" &&object.name} <span className="count-Of-ItemList">({object.itemResponseList?.length})</span> </span>}
           </td>
       }
      

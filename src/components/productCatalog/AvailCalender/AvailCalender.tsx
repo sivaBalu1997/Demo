@@ -8,24 +8,25 @@ interface modelshow {
   setShowcalender: any;
   showcalender: any;
   selectedtypeid: string;
-  ParentToggle:string
- 
+  ParentToggle: string;
 }
 
 const AvailCalender: React.FC<modelshow> = ({
   selectedtypeid,
   setShowcalender,
-  ParentToggle
+  ParentToggle,
 }) => {
-
   const [selectedDatee, setSelectedDatee] = useState<Date | null>(null);
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState<"AM" | "PM">("AM");
-  const [hours, setHours] = useState('');
-  const [minutes, setMinutes] = useState('');
-  const [formattedTime, setFormattedTime] = useState('');
-  const dataFromRedux = useSelector((state:any) => state?.selectedMockDataReducer?.data );
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState<"AM" | "PM">(
+    "AM"
+  );
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
+  const [formattedTime, setFormattedTime] = useState("");
+  const dataFromRedux = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
-
 
   const handleTimePeriodClick = (period: "AM" | "PM") => {
     setSelectedTimePeriod(period);
@@ -35,33 +36,35 @@ const AvailCalender: React.FC<modelshow> = ({
     setSelectedDatee(date);
   };
 
-const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' | 'minutes') => {
-  const value = e.target.value;
-
-  // Ensure the value is a number and within valid bounds
-  if (!/^\d{0,2}$/.test(value)) return; // Allow only 0-2 digits
-  if (type === 'hours' && +value > 23) return; // Validate hours
-  if (type === 'minutes' && +value > 59) return; // Validate minutes
-
-  // Update state
-  if (type === 'hours') {
-    setHours(value);
-  } else {
-    setMinutes(value);
-  }
-}
-
+  const handleTimeChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: "hours" | "minutes"
+  ) => {
+    const value = e.target.value;
+    if (type === "hours") {
+      setHours(value);
+    } else {
+      setMinutes(value);
+    }
+    const formattedHours =
+      String(type === "hours" ? value : hours).padStart(2, "0") || "00";
+    const formattedMinutes =
+      String(type === "minutes" ? value : minutes).padStart(2, "0") || "00";
+    setFormattedTime(`${formattedHours}:${formattedMinutes}`);
+  };
 
   const handleDateChanging = () => {
-    if (selectedDatee && selectedTimePeriod) {
+    if (selectedDatee && selectedTimePeriod && formattedTime) {
       const newAvailabilityInfo = {
         orderTypeId: selectedtypeid,
-        unAvailableUntilTime: formatDateTime(selectedDatee, formattedTime, selectedTimePeriod),
+        unAvailableUntilTime: formatDateTime(
+          selectedDatee,
+          formattedTime,
+          selectedTimePeriod
+        ),
       };
 
-      if(ParentToggle==="")
-      {
-
+      if (ParentToggle === "") {
         const updatedData = {
           ...patchedData,
           itemAvailabilityInfo: [
@@ -72,49 +75,53 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
           ],
         };
         setPatchedData(updatedData);
-      }
-   
-
-     
-      else{
-        setPatchedData((prevState:any) => ({
+      } else {
+        setPatchedData((prevState: any) => ({
           ...prevState,
           itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-            (availabilityInfo:any) =>{
-              return { 
-                
-              ...availabilityInfo,
-              unAvailableUntilTime: formatDateTime(selectedDatee, formattedTime, selectedTimePeriod),
+            (availabilityInfo: any) => {
+              return {
+                ...availabilityInfo,
+                unAvailableUntilTime: formatDateTime(
+                  selectedDatee,
+                  formattedTime,
+                  selectedTimePeriod
+                ),
+              };
             }
-          }
           ),
         }));
       }
-       
 
-     
       setShowcalender(false);
     }
   };
 
-  const formatDateTime = (selectedDatee: Date, formattedTime: string, selectedTimePeriod: string): string => {
+  const formatDateTime = (
+    selectedDatee: Date,
+    formattedTime: string,
+    selectedTimePeriod: string
+  ): string => {
     const date = new Date(selectedDatee);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
-    const day = String(date.getDate()).padStart(2, '0');
-    const [hours, minutes] = formattedTime.split(':').map(Number);
-    const adjustedHours = selectedTimePeriod === 'PM' && hours < 12
-      ? hours + 12
-      : selectedTimePeriod === 'AM' && hours === 12
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const [hours, minutes] = formattedTime.split(":").map(Number);
+    const adjustedHours =
+      selectedTimePeriod === "PM" && hours < 12
+        ? hours + 12
+        : selectedTimePeriod === "AM" && hours === 12
         ? 0
         : hours;
-    const formattedDateTime = `${year}-${month}-${day}T${String(adjustedHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+    const formattedDateTime = `${year}-${month}-${day}T${String(
+      adjustedHours
+    ).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00`;
     return formattedDateTime;
   };
-  const result = selectedDatee && selectedTimePeriod && formatDateTime(selectedDatee, formattedTime, selectedTimePeriod);
-  console.log("result", result);
-
-
+  const result =
+    selectedDatee &&
+    selectedTimePeriod &&
+    formatDateTime(selectedDatee, formattedTime, selectedTimePeriod);
 
   return (
     <div className="AvailCalenderContainer">
@@ -126,6 +133,7 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
               selected={selectedDatee}
               onChange={handleDateChange}
               inline
+              minDate={new Date()}
             />
           </div>
           <div className="AvailCalenderInputContainer">
@@ -133,10 +141,10 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
               <input
                 type="number"
                 value={hours}
-                onChange={(e) => handleTimeChange(e, 'hours')}
+                onChange={(e) => handleTimeChange(e, "hours")}
                 placeholder="HH"
-                className="AvailCalenderInput1" 
-                min="1"
+                className="AvailCalenderInput1"
+                min="0"
                 max="12"
                 name="hours"
               />
@@ -146,7 +154,7 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
               <input
                 type="number"
                 value={minutes}
-                onChange={(e) => handleTimeChange(e, 'minutes')}
+                onChange={(e) => handleTimeChange(e, "minutes")}
                 placeholder="MM"
                 className="AvailCalenderInput1"
                 min="0"
@@ -155,13 +163,17 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
               />
             </div>
             <div
-              className={`AvailCalenderAm ${selectedTimePeriod === "AM" ? "Calselected" : ""}`}
+              className={`AvailCalenderAm ${
+                selectedTimePeriod === "AM" ? "Calselected" : ""
+              }`}
               onClick={() => handleTimePeriodClick("AM")}
             >
               <p className="Am-Heading">Am</p>
             </div>
             <div
-              className={`AvailCalenderPm ${selectedTimePeriod === "PM" ? "Calselected" : ""}`}
+              className={`AvailCalenderPm ${
+                selectedTimePeriod === "PM" ? "Calselected" : ""
+              }`}
               onClick={() => handleTimePeriodClick("PM")}
             >
               <p className="Pm-Heading">Pm</p>
