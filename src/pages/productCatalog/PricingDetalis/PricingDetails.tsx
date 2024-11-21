@@ -12,11 +12,12 @@ import {
 import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "../contextpage";
-import info from "../../assets/png/info.png";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
 import SidePanel from "pages/SidePanel";
 import SaveAndNext from "components/productCatalog/Savenextbutton/SaveAndNext";
 import Inventory from "components/productCatalog/Inventory/Inventory";
+import info from "../../../assets/svg/info.svg";
+
 import {
   imageslist,
   dietarytype,
@@ -30,6 +31,7 @@ import {
 import { StateDataTag3 } from "../PrimaryPage/PrimaryPage";
 import { RootState } from "redux/rootReducer";
 import { type } from "os";
+import Tooltip from "components/productCatalog/Tooltip/TooltipMsg";
 
 interface SelectedValuesState {
   [key: number]: any;
@@ -782,11 +784,39 @@ const PricingDetails = () => {
           <div className="pricing-form">
             <div className="Tool">
               <p className="KitchenRelatedHeading">Kitchen Related</p>
-              {/* <Tooltip message="Kitchen Related">
-                      <div className="ToolKitchen">
-                        <img src={info} alt="" width={20} height={20} />
-                      </div>
-                    </Tooltip> */}
+              <div className="tool-tip-kitchen-detail">
+                      <Tooltip
+                        message="Select up to 5 food items that pair best with this dish."
+                        styles={{
+                          marginTop: "-0.8rem",
+                          marginLeft: "2rem",
+                          width: "350px",
+                          height: "35px",
+                          backgroundColor: "#67833E",
+                          color: "white",
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRadius: "5px",
+                          
+                        }}
+                        Arrowstyle={{
+                          rotate: "-90deg",
+                          position: "relative",
+                          left: "-2.8rem",
+                        }}
+                      >
+                        <div className="ToolKitchen">
+                          <img
+                            src={info}
+                            alt="info icon"
+                            width={20}
+                            height={20}
+                          />
+                        </div>
+                      </Tooltip>
+                    </div>
             </div>
 
             <div className="KitchenRelated">
