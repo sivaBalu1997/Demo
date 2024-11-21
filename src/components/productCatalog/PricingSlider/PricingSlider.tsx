@@ -16,6 +16,10 @@ interface PriceComparison {
 }
 
 const PricingSlider: any = ({}) => {
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth.restaurantDetails
+  );
+
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
   const data = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -281,26 +285,48 @@ const PricingSlider: any = ({}) => {
                     >
                       {price.typeName}
                     </h3>
-                    <input
-                      type="number"
-                      className="SectionA-Input"
+                    <div
                       style={{
-                        border: enableOrNot
-                          ? "1px solid black"
-                          : "1px solid #5F5F5F",
-                        opacity: enableOrNot ? "100%" : "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        position: "relative",
+                        // backgroundColor: "pink",
                       }}
-                      onChange={(e) =>
-                        handlepriceinputchange(
-                          price.typeId,
-                          item.mainHeading,
-                          Number(e.target.value),
-                          price.isEnabled,
-                          price.isNotHide
-                        )
-                      }
-                      value={price.price || ""}
-                    />
+                    >
+                      <p
+                        style={{
+                          width: "fit-content",
+                          // backgroundColor: "orange",
+                          position: "absolute",
+                          left: "54%",
+                          top: "-14px",
+                          // right: 0,
+                        }}
+                      >
+                        {restaurantDetails?.country === "US" ? "$" : "Rs."}
+                      </p>
+                      <input
+                        type="number"
+                        className="SectionA-Input"
+                        // placeholder="0"
+                        style={{
+                          border: enableOrNot
+                            ? "1px solid black"
+                            : "1px solid #5F5F5F",
+                          opacity: enableOrNot ? "100%" : "50%",
+                        }}
+                        onChange={(e) =>
+                          handlepriceinputchange(
+                            price.typeId,
+                            item.mainHeading,
+                            Number(e.target.value),
+                            price.isEnabled,
+                            price.isNotHide
+                          )
+                        }
+                        value={price.price || ""}
+                      />
+                    </div>
                   </div>
                 );
               })}
