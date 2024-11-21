@@ -216,8 +216,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
 
-  console.log({primarydata})
-
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
@@ -241,8 +239,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   // const [imageIdtosend, setimageIdtosend] = useState<string>("");
-
-  console.log({prizingDetail})
 
   useEffect(() => {
     setError([]);
@@ -449,8 +445,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     primarydata?.DietaryType?.includes(dietary.name)
   );
 
-  console.log({dietaryData},{matchedDietary},{primarydata}, primarydata?.DietaryType)
-
   const matchedCuisine = cuisineData?.find(
     (cuisine: any) => cuisine.name === primarydata?.cuisine
   );
@@ -523,8 +517,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editDetails = editData[0]?.orderTypes
   const removePricing = []
   const addPricing = []
-
-  console.log({dineInDetails}, {pickupDetails}, {deliveryDetails})
   
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
@@ -573,8 +565,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     // isSingleMenu: false,
   };
-
-  console.log({menuPayload})
 
   const deletedId = useSelector((state: any) => state.productCatalog.deletedId);
   const updateModifierId = useSelector(
@@ -758,6 +748,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   
     return result;
   };
+
   
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
@@ -1124,7 +1115,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
             onClick={handleSubmitItemDetails}
             disabled={addMenuLoading || updateMenuItemLoading}
           >
-            {(!addMenuLoading || !updateMenuItemLoading) ? (
+            {(!addMenuLoading) ? (
               "Submit for review"
             ) : (
               <div className="reviewLoaders"></div>

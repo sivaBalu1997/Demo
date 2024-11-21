@@ -198,8 +198,8 @@ const SidePanel = () => {
             }}
           >
             <li style={{ marginBottom: 0 }} />
-            <EmployeesIcon className="menu-items-SVG" />
-            {isExpanded && <span className="menu-items-name" style={{fontSize:'15px'}}>Employees</span>}
+            <EmployeesIcon className="menu-items-SVG" style={{width:'24px'}}/>
+            {isExpanded && <span className="menu-items-name" style={{fontSize:'16px'}}>Employees</span>}
           </div>
 
           {/* CMS ==================*/}
@@ -305,14 +305,14 @@ const SidePanel = () => {
           >
             <li style={{ marginBottom: 0 }} />
             <Tableware className="menu-items-SVG" style={{
-              width:'23px',
-              height:'23px'
+              width:'24px',
+              height:'24px'
             }}/>
             {isExpanded && 
             <span 
               className="menu-items-name"
               style={{
-                fontSize:'12px'
+                fontSize:'16px'
               }}
             >
               ProductCatalog
@@ -369,12 +369,12 @@ const SidePanel = () => {
             }}
           >
             <li style={{ marginBottom: 0 }} />
-            <Offer className="menu-items-SVG" />
+            <Offer className="menu-items-SVG" style={{fontSize:'24px'}}/>
             {isExpanded && 
             <span 
               className="menu-items-name"
               style={{
-                fontSize:'12px'
+                fontSize:'16px'
               }}
             >
               Offer Management
@@ -500,12 +500,12 @@ const SidePanel = () => {
             }}
           >
             <li style={{ marginBottom: 0 }} />
-            <Stats className="menu-items-SVG" />
+            <Stats className="menu-items-SVG" style={{width:'24px'}}/>
             {isExpanded && 
             <span 
               className="menu-items-name"
               style={{
-                fontSize:'12px'
+                fontSize:'16px'
               }}
             >
               Reports & Insights
@@ -530,9 +530,9 @@ const SidePanel = () => {
           >
             {
               <div>
-                <li style={{ marginBottom: 0 }} />
-                <Payment className="menu-items-SVG" />
-                {isExpanded && <span className="menu-items-name" style={{fontSize:'15px'}}>Payments</span>}
+                <li style={{ marginBottom: '15px' }} />
+                <Payment className="menu-items-SVG" style={{width:'24px'}}/>
+                {isExpanded && <span className="menu-items-name" style={{fontSize:'16px'}}>Payments</span>}
               </div>
             }
           </div>

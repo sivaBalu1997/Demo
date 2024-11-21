@@ -55,8 +55,18 @@
     color: rgba(95, 95, 95, 1);
     border: 1px solid rgba(95, 95, 95, 1);
     cursor: pointer;
-
 }
+
+.TrashButtonLoad1{
+    width: 138.83px;
+    height: 46.28px;
+    border-radius: 3.47px;
+    background-color: white;
+    color: rgba(95, 95, 95, 1);
+    border: 1px solid rgba(95, 95, 95, 1);
+    cursor: not-allowed;
+}
+
 .TrashButton2{
     width: 138.83px;
     height: 46.28px;
@@ -65,6 +75,16 @@
     color: rgba(255, 255, 255, 1);
     border: 1px solid rgba(103, 131, 62, 1);
     cursor: pointer;
+}
+
+.TrashButtonLoad2{
+    width: 138.83px;
+    height: 46.28px;
+    border-radius: 3.47px;
+    background-color:rgba(103, 131, 62, 1);
+    color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(103, 131, 62, 1);
+    cursor: not-allowed;
 }
 
 @media (max-width: 1461px) {

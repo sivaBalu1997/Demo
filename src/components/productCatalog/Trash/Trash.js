@@ -11,7 +11,9 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
   const dispatch = useDispatch();
   const locationid = useSelector((state) => state.auth.credentials.locationId);
   const deleteMenuItemSuccessMessage = useSelector((state) => state.yourReducer?.deleteMenuItemSuccessMessage);
-  console.log("ApiPayload", ItemId);
+  const deleteMenuItemLoading = useSelector(
+    (state) => state.productCatalog?.deleteMenuItemLoading
+  );
 
   const trashmodalRef = useRef();
   
@@ -29,6 +31,8 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
     onTrashclose();
     }
   };
+
+  console.log({deleteMenuItemLoading})
 
   return (
     <div
@@ -48,11 +52,22 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
             <h1 className="Trash-Heading"> from both the listing and the database? </h1>
           </div>
           <div className="Trash-Button">
-            <button className="TrashButton1" onClick={closeModal}>
+            <button 
+              className={deleteMenuItemLoading ? "TrashButtonLoad1" : "TrashButton1"}
+              onClick={closeModal}
+              disabled={deleteMenuItemLoading}
+            >
               Cancel
             </button>
-            <button className="TrashButton2" onClick={handleChange}>
-              Delete
+            <button 
+              className={deleteMenuItemLoading ? "TrashButtonLoad2" : "TrashButton2"}
+              onClick={handleChange}
+              disabled={deleteMenuItemLoading}
+            >
+              {!deleteMenuItemLoading ?
+                "Delete" : 
+                <div className="reviewLoaders"></div>
+              }
             </button>
           </div>
         </div>

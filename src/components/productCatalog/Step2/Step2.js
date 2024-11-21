@@ -17,6 +17,11 @@ const Step2 = () => {
     (state) => state?.auth.restaurantDetails
   );
 
+  const selectedBranch = useSelector(
+    (state) => state.auth?.selectedBranch || null
+  );
+
+
   const { setActiveCategory } = useContext(Contextpagejs);
   return (
     <div className="container-step2">
@@ -41,7 +46,7 @@ const Step2 = () => {
           </div>
 
           <div className="Res">
-            <h1 className="Res-heading">Alagappan Nagar</h1>
+            <h1 className="Res-heading">{selectedBranch?.locationName}</h1>
           </div>
           <div className="CostPrice">
             <h1 className="CostPrice-heading">Cost Price</h1>

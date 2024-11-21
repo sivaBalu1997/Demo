@@ -523,6 +523,11 @@ const filtesubItems=allItemResponseLists.find((item) =>
     selectedBranch?.id && dispatch(getMenuRequest(selectedBranch?.id));
   }, [selectedBranch?.id]);
 
+
+  useEffect(()=>{
+    dispatch(getMenuRequest(selectedBranch?.id));
+  },[])
+
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, []);

@@ -6,7 +6,7 @@ import HoverText from "../HoverText/HoverText";
 import { RootState } from "redux/rootReducer";
 import { STORAGE_BUCKET_URL } from "shared/constants";
 import { selectedCategory } from "redux/productCatalog/productCatalogActions";
-import placeholderimg from '../../../assets/svg/placeholderimg.svg'
+import placeholderimg from "../../../assets/svg/placeholderimg.svg";
 
 interface Media {
   id: string;
@@ -82,8 +82,6 @@ interface ItemResponse {
   popularItem: boolean;
 }
 
-
-
 interface Price {
   orderTypeId: string;
   name: string;
@@ -155,9 +153,12 @@ interface ItemRowProps {
   object: any; // Updated to use the Category type from the JSON
   draggingOverIndex: number | null;
   draggedRowIndex: { index: number } | null;
-  handleRowDragStart: (categoryId: string, item:Item) => void;
-  handleRowDragOver: (e:React.DragEvent<HTMLDivElement>,index:number) => void;
-  handleRowDragEnd:  (categoryId: string,dropIndex:number) => void;
+  handleRowDragStart: (categoryId: string, item: Item) => void;
+  handleRowDragOver: (
+    e: React.DragEvent<HTMLDivElement>,
+    index: number
+  ) => void;
+  handleRowDragEnd: (categoryId: string, dropIndex: number) => void;
   handleDragScroll: (
     e: React.DragEvent,
     ref1: React.RefObject<HTMLDivElement>,
@@ -188,7 +189,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const baseImageUrl = 'https://storage.googleapis.com/mhd-media/img/testing/';
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
   const baseImageUrl2 = process.env.REACT_APP_IMAGE_DOMAIN;
 
   const menuData = useSelector(
@@ -198,9 +199,7 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   const handleItemnameClick = (value: string) => {
     handlemodal(value);
   };
-  
 
- 
   const [menudatalist, setMenudatalist] = useState(menuData);
 
   useEffect(() => {
@@ -209,29 +208,30 @@ const TableOneBody: React.FC<ItemRowProps> = ({
 
   const [draggedItem, setDraggedItem] = useState<DraggedItem | null>(null);
 
-  const getImageURL = useCallback ((data) => {
-    return STORAGE_BUCKET_URL + "img/testing/" + data?.imageId + "/" + data?.imageType
-  },[]);
+  const getImageURL = useCallback((data) => {
+    return (
+      STORAGE_BUCKET_URL +
+      "img/testing/" +
+      data?.imageId +
+      "/" +
+      data?.imageType
+    );
+  }, []);
 
-  
-const subcatagoryItems=menuData.map((item:any)=>item?.subCategoryResponseList)
-const subcatagoryItem=subcatagoryItems?.map((item:any)=> item?.map((items:any)=>items?.itemResponseList))
-const subcatagory=subcatagoryItem?.filter((item:any)=> item?.filter((items:any)=>items?.length>0))
+  const subcatagoryItems = menuData.map(
+    (item: any) => item?.subCategoryResponseList
+  );
+  const subcatagoryItem = subcatagoryItems?.map((item: any) =>
+    item?.map((items: any) => items?.itemResponseList)
+  );
+  const subcatagory = subcatagoryItem?.filter((item: any) =>
+    item?.filter((items: any) => items?.length > 0)
+  );
 
-const subcatagory2=subcatagory?.map((item:any)=> item?.filter((items:any)=>items?.length>0))
-const subcatagory3=subcatagory2?.filter((item:any)=> item?.length>0)
-
-
-
-
-
-
-
-
-
-console.log("object",object);
-
-
+  const subcatagory2 = subcatagory?.map((item: any) =>
+    item?.filter((items: any) => items?.length > 0)
+  );
+  const subcatagory3 = subcatagory2?.filter((item: any) => item?.length > 0);
 
   return (
     <>
@@ -249,7 +249,7 @@ console.log("object",object);
                 handleDragScroll(e, tableBodyRef1, tableBodyRef2);
               }}
               onDragOver={(e) => {
-                handleRowDragOver(e,index);
+                handleRowDragOver(e, index);
                 handleDragScroll(e, tableBodyRef1, tableBodyRef2);
               }}
               onDrop={() => handleRowDragEnd(object.categoryId, index)}
@@ -260,7 +260,11 @@ console.log("object",object);
               <span className="itemimage2">
                 {/* <img src={dots} alt="" className="draggableimg" /> */}
                 <img
-                  src={item?.mediaResponseList[0]?.imageId ? (baseImageUrl + item?.mediaResponseList[0]?.imageId) : placeholderimg}
+                  src={
+                    item?.mediaResponseList[0]?.imageId
+                      ? baseImageUrl + item?.mediaResponseList[0]?.imageId
+                      : placeholderimg
+                  }
                   alt=""
                   className="foodimage"
                 />
