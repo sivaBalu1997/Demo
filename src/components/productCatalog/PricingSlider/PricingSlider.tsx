@@ -4,6 +4,8 @@ import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { RootState } from "redux/rootReducer";
+import weightCompare from "../../../assets/svg/weightCompare.svg";
+import TooltipMsg from "../Tooltip/TooltipMsg";
 
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
@@ -289,24 +291,8 @@ const PricingSlider: any = ({}) => {
                     >
                       {price.typeName}
                     </h3>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        position: "relative",
-                        // backgroundColor: "pink",
-                      }}
-                    >
-                      <p
-                        style={{
-                          width: "fit-content",
-                          // backgroundColor: "orange",
-                          position: "absolute",
-                          left: "54%",
-                          top: "-14px",
-                          // right: 0,
-                        }}
-                      >
+                    <div className="p-slider-input-box-container">
+                      <p className="price-unit-symbol">
                         {restaurantDetails?.country === "US" ? "$" : "Rs."}
                       </p>
                       <input
@@ -330,6 +316,42 @@ const PricingSlider: any = ({}) => {
                         }
                         value={price.price || ""}
                       />
+                      <span className="measuring-scale-tooltip-container">
+                        <TooltipMsg
+                          message="Compare prices with the base price to see differences"
+                          styles={{
+                            position: "relative",
+                            top: "-4.8rem",
+                            left: "-16rem",
+                            width: "350px",
+                            height: "35px",
+                            backgroundColor: "#67833E",
+                            color: "white",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "5px",
+                          }}
+                          Arrowstyle={{
+                            marginTop: "0rem",
+                            rotate: "-180deg",
+                            position: "relative",
+                            top: "59%",
+                            left: "14.5rem",
+                            // backgroundColor: "lightgreen",
+                          }}
+                        >
+                          <div className="measuring-scale">
+                            <img
+                              src={weightCompare}
+                              alt="info icon"
+                              width={25}
+                              height={25}
+                            />
+                          </div>
+                        </TooltipMsg>
+                      </span>
                     </div>
                   </div>
                 );

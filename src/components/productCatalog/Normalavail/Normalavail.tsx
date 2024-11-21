@@ -362,6 +362,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
     ?.filter((item) => item.typeGroup === "P")
     .map((item) => item.typeName);
 
+  const pickUpTypes = orderTypes
+    ?.filter((item) => item.typeGroup === "P")
+    .map((item) => item.typeName);
+
   const deliveryTypes = orderTypes
     ?.filter((item) => item.typeGroup === "S")
     .map((item) => item.typeName);

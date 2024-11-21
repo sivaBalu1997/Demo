@@ -53,6 +53,25 @@
   align-items: center;
   margin-top: 4%;
   margin-bottom: 3%;
+  .p-slider-input-box-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    gap: 5px;
+    // background-color: pink;
+    width: fit-content;
+    .price-unit-symbol {
+      width: fit-content;
+      position: absolute;
+      left: 44%;
+      top: -14px;
+    }
+    .measuring-scale-tooltip-container {
+      //   background-color: lightcoral;
+      width: 30px;
+      height: 30px;
+    }
+  }
 }
 .SectionInput {
   display: flex;
