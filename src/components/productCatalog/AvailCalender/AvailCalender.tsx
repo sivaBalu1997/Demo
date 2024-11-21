@@ -42,17 +42,18 @@ const AvailCalender: React.FC<modelshow> = ({
     } else {
       setMinutes(value);
     }
-    const formattedHours = String(type === 'hours' ? value : hours).padStart(2, '0');
-    const formattedMinutes = String(type === 'minutes' ? value : minutes).padStart(2, '0');
+    const formattedHours = String(type === 'hours' ? value : hours).padStart(2, '0')||"00";
+    const formattedMinutes = String(type === 'minutes' ? value : minutes).padStart(2, '0')||"00";
     setFormattedTime(`${formattedHours}:${formattedMinutes}`);
   };
 
   const handleDateChanging = () => {
-    if (selectedDatee && selectedTimePeriod) {
+    if (selectedDatee && selectedTimePeriod && formattedTime) {
       const newAvailabilityInfo = {
         orderTypeId: selectedtypeid,
         unAvailableUntilTime: formatDateTime(selectedDatee, formattedTime, selectedTimePeriod),
       };
+console.log("time", formattedTime);
 
       if(ParentToggle==="")
       {
@@ -121,6 +122,7 @@ const AvailCalender: React.FC<modelshow> = ({
               selected={selectedDatee}
               onChange={handleDateChange}
               inline
+              minDate={new Date()}
             />
           </div>
           <div className="AvailCalenderInputContainer">
@@ -131,7 +133,7 @@ const AvailCalender: React.FC<modelshow> = ({
                 onChange={(e) => handleTimeChange(e, 'hours')}
                 placeholder="HH"
                 className="AvailCalenderInput1" 
-                min="1"
+                min="0"
                 max="12"
               />
             </div>
