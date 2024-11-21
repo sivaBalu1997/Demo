@@ -352,6 +352,8 @@ const PricingDetails = () => {
 
   const primarypagedetails = useSelector((state: RootState) => state.primarypage.data);
 
+  console.log({primarypagedetails})
+
   const [resetInventory, setResetInventory] = useState(false);
   const [nextAvailable, setNextAvailable] = useState(false);
   const [printKot, setPrintKot] = useState(false);

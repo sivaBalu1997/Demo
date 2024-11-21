@@ -221,8 +221,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
   const DineInServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "D")?.isEnabled;
   const pickUpIdServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "P")?.isEnabled;
   const DeliveryServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "S")?.isEnabled;
-
-  console.log({DineInServiceEnabled,pickUpIdServiceEnabled});
   
 
   const deliveryId = orderTypess?.find(
@@ -350,7 +348,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
   };
 
-  console.log({mainForm})
 
   const optionsselectthird = orderTypes
     ?.filter((item) => item.typeGroup === "T")
@@ -430,8 +427,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
      
       pickupDetails?.price && setPickup(true);
       deliveryDetails?.price > 0 && setDelivery(true);
-      console.log('1',{updatedFields})
       setDineInFields(updatedFields);
+      setFormattedDineInData((prevData) => ({
+        ...prevData,
+        price: updatedFields[0]?.DineInPrice,
+      }))
 
       // Set delivery details
       const thirdPartyTypeName =
@@ -492,7 +492,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
       const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
-      console.log('22',prizingDetail?.normalForm?.dineInDetails, {prizingDetail})
       setDineIn(true);
       if (pickupDetails) {
         setOnline(true);
@@ -547,8 +546,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
         ]
       : [];
       
-      console.log('2',{updatedFields},dineInDetails?.price)
       setDineInFields(updatedFields);
+      setFormattedDineInData((prevData) => ({
+        ...prevData,
+        price: updatedFields[0]?.DineInPrice,
+      }))
 
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
@@ -630,7 +632,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     setDineInFields(newEntries);
 
     const newPrice = parseFloat(e.target.value) || 0;
-    console.log({newPrice})
     setFormattedDineInData((prevData: any) => ({
       ...prevData,
       price: newPrice,

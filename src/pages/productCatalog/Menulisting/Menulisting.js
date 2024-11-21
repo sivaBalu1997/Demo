@@ -20,7 +20,7 @@ import RowHeading from "../../../components/productCatalog/RowHeading/RowHeading
 import SidePanel from "pages/SidePanel";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
-import noResultsfound from "../../../assets/images/NoResultsFound.png"
+import noResultsfound from "../../../assets/images/NoResultsFound.png";
 
 import {
   PricingDetailRequest,
@@ -39,12 +39,18 @@ export const Menulisting = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
   const menuData = useSelector((state) => state.productCatalog?.menuData);
-  const loadingRequest = useSelector((state) => state.productCatalog?.addMenuLoading);
-  const SearchedmenuItem = useSelector((state) => state.searchItem?.SearcheItem);
+  const loadingRequest = useSelector(
+    (state) => state.productCatalog?.addMenuLoading
+  );
+  const SearchedmenuItem = useSelector(
+    (state) => state.searchItem?.SearcheItem
+  );
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
-  const FilteredData = useSelector((state) => state.storeMockDataFilteredReducer.data);
+  const FilteredData = useSelector(
+    (state) => state.storeMockDataFilteredReducer.data
+  );
   const [modal, setmodal] = useState(false);
   const [showheadinglist, setshowheadinglist] = useState(false);
   const [sidebartext, setSideBarText] = useState(null);
@@ -52,7 +58,8 @@ export const Menulisting = () => {
   const tableBodyRef2 = useRef(null);
   const Outsideref = useRef(null);
   const [draggingOverIndex, setDraggingOverIndex] = useState(null);
-  const [dragtablefirstHeaderindex, setdragtablefirstHeaderindex] = useState(null);
+  const [dragtablefirstHeaderindex, setdragtablefirstHeaderindex] =
+    useState(null);
   const [SideBarData, setSideBar] = useState([]);
   const [draggedItem, setDraggedItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -91,43 +98,38 @@ export const Menulisting = () => {
     }, {});
   };
 
- 
   const initializeListingObject = (uniqueNames) => {
-  
-    
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
-      acc[`${typeName}1`] = true;  
+      acc[`${typeName}1`] = true;
       return acc;
     }, {});
-  
-    const availabilityKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
-      acc[`${typeName}2`] = true; 
-      return acc;
-    }, {});
-    
+
+    const availabilityKeys = Object.keys(uniqueNames).reduce(
+      (acc, typeName) => {
+        acc[`${typeName}2`] = true;
+        return acc;
+      },
+      {}
+    );
+
     return {
       showPricing: true,
       showAvail: true,
       Customize1: true,
       ...pricingKeys,
-      ...availabilityKeys
+      ...availabilityKeys,
     };
   };
 
-
-
-
-
-
-
- 
-  const [listingobject, setlistingobject] = useState(); 
-  const [uniqueOrderTypeNames,setuniqueOrderTypeNames]=useState();
+  const [listingobject, setlistingobject] = useState();
+  const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
     setuniqueOrderTypeNames(getUniqueOrderTypeNames(menuData));
-  
-    setlistingobject(initializeListingObject(getUniqueOrderTypeNames(menuData)));
+
+    setlistingobject(
+      initializeListingObject(getUniqueOrderTypeNames(menuData))
+    );
   }, [menuData]);
 
   const getUniqueOrderTypes = (menuData) => {
@@ -137,43 +139,36 @@ export const Menulisting = () => {
       )
     );
     // console.log("orderTypeNames",orderTypeNames);
-    
-  
+
     const uniqueOrderTypeNames = Array.from(
-      new Map(orderTypeNames.map((orderType) => [orderType?.typeName, orderType])).values()
+      new Map(
+        orderTypeNames.map((orderType) => [orderType?.typeName, orderType])
+      ).values()
     );
-    
-  
+
     return uniqueOrderTypeNames;
   };
 
   const uniqueOrderTypes = getUniqueOrderTypes(menuData);
 
- 
- 
-   const modifiedTypes = [
+  const modifiedTypes = [
     ...uniqueOrderTypes
-      .filter(type => type?.typeName) 
-      .map(type => `${type.typeName}1`),
+      .filter((type) => type?.typeName)
+      .map((type) => `${type.typeName}1`),
     ...uniqueOrderTypes
-      .filter(type => type?.typeName)
-      .map(type => `${type.typeName}2`)
+      .filter((type) => type?.typeName)
+      .map((type) => `${type.typeName}2`),
   ];
-   
+
   //  console.log("uniqueOrderTypes",modifiedTypes);
 
   // console.log({modifiedTypes})
-   
-   const tablefirstrow = modifiedTypes.map((item)=>
-    {
-      return{
-        label: item
-      }
-    }
-     );
 
-     
- 
+  const tablefirstrow = modifiedTypes.map((item) => {
+    return {
+      label: item,
+    };
+  });
 
   const insertlists = {
     Pricing: {
@@ -194,40 +189,38 @@ export const Menulisting = () => {
 
   const [firstRowTable, setFirstRowTable] = useState([
     ...tablefirstrow,
-    { label: "Customize1" }
+    { label: "Customize1" },
   ]);
 
-  useEffect(()=>{
-    setFirstRowTable([
-      ...tablefirstrow,
-    { label: "Customize1" }
-    ])
-  },[menuData])
-
+  useEffect(() => {
+    setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
+  }, [menuData]);
 
   const insertlists2 = {
     Pricing: {
       show: listingobject?.showPricing ? "Pricing" : "",
-    ...(listingobject &&  Object.keys(listingobject && listingobject)
-        .filter(key => key.endsWith("1")  && key !== "Customize1")
-        .reduce((acc, key) => {
-          acc[key.replace("1", "")] = key.replace("1", "");
-          return acc;
-        }, {}))
+      ...(listingobject &&
+        Object.keys(listingobject && listingobject)
+          .filter((key) => key.endsWith("1") && key !== "Customize1")
+          .reduce((acc, key) => {
+            acc[key.replace("1", "")] = key.replace("1", "");
+            return acc;
+          }, {})),
     },
     Available: {
       show: listingobject?.showAvail ? "Available" : "",
-      ...(listingobject && Object.keys(listingobject)
-        .filter(key => key.endsWith("2")  && key !== "Customize1")
-        .reduce((acc, key) => {
-          acc[key.replace("2", "")] = key.replace("2", "");
-          return acc;
-        }, {}))
+      ...(listingobject &&
+        Object.keys(listingobject)
+          .filter((key) => key.endsWith("2") && key !== "Customize1")
+          .reduce((acc, key) => {
+            acc[key.replace("2", "")] = key.replace("2", "");
+            return acc;
+          }, {})),
     },
-   
-    Customization: "Customization"
+
+    Customization: "Customization",
   };
-  
+
   // Output result
   // console.log(insertlists2);
 
@@ -236,11 +229,6 @@ export const Menulisting = () => {
   //   setFirstRowTable((prev)=>[...prev,tablefirstrow])
 
   // }, [tablefirstrow]);
-
-  
-
-
-  
 
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
@@ -269,9 +257,8 @@ export const Menulisting = () => {
   const handleDragStart = (categoryId, item) => {
     setDraggedItem({ categoryId, item });
   };
-  const handleDragOver = (e,index) => {
+  const handleDragOver = (e, index) => {
     e.preventDefault();
-   
   };
   const handleDrop = (categoryId, dropIndex) => {
     if (!draggedItem || draggedItem.categoryId !== categoryId) return;
@@ -282,7 +269,7 @@ export const Menulisting = () => {
         const draggedIndex = updatedItems.findIndex(
           (item) => item.itemId === draggedItem.item.itemId
         );
-        updatedItems.splice(draggedIndex, 1); 
+        updatedItems.splice(draggedIndex, 1);
         updatedItems.splice(dropIndex, 0, draggedItem.item);
         return { ...category, itemResponseList: updatedItems };
       }
@@ -291,20 +278,21 @@ export const Menulisting = () => {
 
     setMenudatalist(updatedCategories);
     setDraggedItem(null);
-   
   };
 
   const handleColumnwiseDragStart = (index) => {
     setDraggedIndexsample(index);
   };
 
-  useEffect(()=>{
-    dispatch(removeDataRequest())
-  },[])
+  useEffect(() => {
+    dispatch(removeDataRequest());
+  }, []);
 
   const locationid = useSelector((state) => state.auth.credentials?.locationId);
 
-  const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess )
+  const deleteMenuItemSuccess = useSelector(
+    (state) => state.productCatalog.deleteMenuItemSuccess
+  );
 
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
@@ -425,27 +413,28 @@ export const Menulisting = () => {
     itemIndex: null,
   });
 
- const [categoryData, setCategoryData] = useState({})
+  const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
-    
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
 
-      if (filteredItem) {
-        setCategoryData({name: filteredItem?.categoryName, id:filteredItem?.categoryId })        
-        const specificResponse = filteredItem.itemResponseList.filter(
-          (response) => response?.itemId === value
-        );
-        if (specificResponse.length > 0) {
-          setSideBar(specificResponse);
-          dispatch(selectedCategory(categoryData));
-          dispatch(selectedMockDataRequest(specificResponse));
-          setmodal(true);
-         
-        }
+    if (filteredItem) {
+      setCategoryData({
+        name: filteredItem?.categoryName,
+        id: filteredItem?.categoryId,
+      });
+      const specificResponse = filteredItem.itemResponseList.filter(
+        (response) => response?.itemId === value
+      );
+      if (specificResponse.length > 0) {
+        setSideBar(specificResponse);
+        dispatch(selectedCategory(categoryData));
+        dispatch(selectedMockDataRequest(specificResponse));
+        setmodal(true);
       }
+    }
   };
 
   const showsidebar = (key) => {
@@ -463,7 +452,7 @@ export const Menulisting = () => {
       setSideBarText("Customize");
     }
   };
-  
+
   useEffect(() => {
     const isObjectEmpty = (obj) => {
       return Object.keys(obj).length === 0;
@@ -475,76 +464,81 @@ export const Menulisting = () => {
     }
   }, [menuData, SearchedmenuItem]);
 
+  const selectedBranch = useSelector(
+    (state) => state.auth.selectedBranch || null
+  );
+
   useEffect(() => {
-    dispatch(getMenuRequest(location?.id));
-  }, []);
+    selectedBranch?.id && dispatch(getMenuRequest(selectedBranch?.id));
+  }, [selectedBranch?.id]);
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, []);
 
-  const editData = useSelector((state) => state.productCatalog.editData || [])
+  const editData = useSelector((state) => state.productCatalog.editData || []);
 
-
-  const primarypage = useSelector((state) => state.primarypage)
+  const primarypage = useSelector((state) => state.primarypage);
   const prizingDetail = useSelector(
-    (state) => state?.PricingDetailReducer?.prizingData 
+    (state) => state?.PricingDetailReducer?.prizingData
   );
 
   const itemCustomizationData = useSelector(
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
-
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
-        itemName: editData[0]?.itemName ?? '',
-        description: editData[0]?.description ?? '',
+        itemName: editData[0]?.itemName ?? "",
+        description: editData[0]?.description ?? "",
         imageUrls: editData[0]?.mediaResponseList ?? [],
         alcohol: editData[0]?.containsAlcohol ?? false,
-        itemCode: editData[0]?.itemCode ?? '',
-        barCode: editData[0]?.barCode ?? '',
-        Ingredients: editData[0]?.ingredients?.map(ingredient => ingredient?.id ?? '') ?? [],
-        allergens: editData[0]?.allergens?.map(allergen => allergen?.id ?? '') ?? [],
-        coloriePoint: editData[0]?.calorieInfo ?? {},  
-        portionSize: editData[0]?.portionInfo ?? '',
+        itemCode: editData[0]?.itemCode ?? "",
+        barCode: editData[0]?.barCode ?? "",
+        Ingredients:
+          editData[0]?.ingredients?.map((ingredient) => ingredient?.id ?? "") ??
+          [],
+        allergens:
+          editData[0]?.allergens?.map((allergen) => allergen?.id ?? "") ?? [],
+        coloriePoint: editData[0]?.calorieInfo ?? {},
+        portionSize: editData[0]?.portionInfo ?? "",
         tax: editData[0]?.taxClassAssociation ?? [],
         dietaryType: editData[0]?.dietTypes ?? [],
-        cuisine: editData[0]?.cuisine?.[0]?.name ?? '',
-        bestPair: editData[0]?.pairedItems ?? '',
-        category: categoryData?.name ?? '',
+        cuisine: editData[0]?.cuisine?.[0]?.name ?? "",
+        bestPair: editData[0]?.pairedItems ?? "",
+        category: categoryData?.name ?? "",
       };
 
       const pricingPageData = {
-        kitchenstation: editData[0]?.kitchenStation?.name ?? '',
+        kitchenstation: editData[0]?.kitchenStation?.name ?? "",
         ignoreMasterKotPrint: editData[0]?.ignoreMasterKotPrint ?? false,
         normalForm: {
           deliveryDetails: null,
           dineInDetails: null,
           pickupDetails: null,
-          thirdpartyDetails: []
+          thirdpartyDetails: [],
         },
         Preparationtime: {
-          hours: editData[0]?.preparationTimeInHours || '',
-          minutes: editData[0]?.preparationTimeInMinutes || ''
-        }
+          hours: editData[0]?.preparationTimeInHours || "",
+          minutes: editData[0]?.preparationTimeInMinutes || "",
+        },
       };
 
       editData[0]?.orderTypes?.forEach((orderType) => {
         const { typeGroup } = orderType;
 
         switch (typeGroup) {
-          case 'S':
+          case "S":
             pricingPageData.normalForm.deliveryDetails = orderType;
             break;
-          case 'D':
+          case "D":
             pricingPageData.normalForm.dineInDetails = orderType;
             break;
-          case 'P':
+          case "P":
             pricingPageData.normalForm.pickupDetails = orderType;
             break;
-          case 'T':
+          case "T":
             pricingPageData.normalForm.thirdpartyDetails.push(orderType);
             break;
           default:
@@ -553,18 +547,19 @@ export const Menulisting = () => {
       });
 
       const modifierData = editData[0]?.modifiers?.map((item) => ({
-        id: item?.id ?? '',
-        modifierName: item?.modifierName ?? '',  
-        maxCount: item?.maxCount ?? 0,       
-        minCount: item?.minCount ?? 0,      
-        noFreeCustomization: item?.noFreeCustomization ?? false,  
-        selectedValue : item?.orderTypeIds ?? [],
-        options: item?.options?.map(option => ({     
-          optionId: option?.optionId ?? '',          
-          name: option?.name ?? '',                  
-          price: option?.price ?? 0,                 
-          isEnabled: option?.isEnabled ?? false      
-        })) || [],  
+        id: item?.id ?? "",
+        modifierName: item?.modifierName ?? "",
+        maxCount: item?.maxCount ?? 0,
+        minCount: item?.minCount ?? 0,
+        noFreeCustomization: item?.noFreeCustomization ?? false,
+        selectedValue: item?.orderTypeIds ?? [],
+        options:
+          item?.options?.map((option) => ({
+            optionId: option?.optionId ?? "",
+            name: option?.name ?? "",
+            price: option?.price ?? 0,
+            isEnabled: option?.isEnabled ?? false,
+          })) || [],
       }));
 
       dispatch(primarypost(primaryPageData));
@@ -623,18 +618,22 @@ export const Menulisting = () => {
     };
   }, [showheadinglist]);
 
-  const allFalse =listingobject && Object.values(listingobject).every(
-    (value) => value === false
-  );
+  const allFalse =
+    listingobject &&
+    Object.values(listingobject).every((value) => value === false);
 
   useEffect(() => {
-    if (menudatalist.length > 0 && menuData.length>0) {
+    if (menudatalist.length > 0 && menuData.length > 0) {
       setLoading(false);
     }
-  }, [menudatalist,menuData]);
+  }, [menudatalist, menuData]);
 
-  const menuDataLoading = useSelector((state) => state.productCatalog?.menuDataLoading)
-  const menuDataFailed = useSelector((state) => state.productCatalog?.menuDataFailed)
+  const menuDataLoading = useSelector(
+    (state) => state.productCatalog?.menuDataLoading
+  );
+  const menuDataFailed = useSelector(
+    (state) => state.productCatalog?.menuDataFailed
+  );
 
   // useEffect(()=>{
   //   if(menuData.length === 0)
@@ -644,15 +643,15 @@ export const Menulisting = () => {
   // },[menuData])
 
   useEffect(() => {
-    if(deleteMenuItemSuccess && modal){
-      setmodal(false)
+    if (deleteMenuItemSuccess && modal) {
+      setmodal(false);
     }
-  }, [deleteMenuItemSuccess]);   
+  }, [deleteMenuItemSuccess]);
 
   return (
     <>
       {
-        <div style={{ display: "flex", overflowX: "hidden" }} >
+        <div style={{ display: "flex", overflowX: "hidden" }}>
           <SidePanel />
           <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
             <div className="headercomponent">
@@ -691,44 +690,49 @@ export const Menulisting = () => {
 
                   {
                     <tbody
-                      className={isExpanded ? "Menu-Listing-TableOneBodyExpanded Menu-listing-Body" : "Menu-Listing-TableOneBody Menu-listing-Body"}
+                      className={
+                        isExpanded
+                          ? "Menu-Listing-TableOneBodyExpanded Menu-listing-Body"
+                          : "Menu-Listing-TableOneBody Menu-listing-Body"
+                      }
                       ref={tableBodyRef1}
                     >
-                      { loading ? (
-                           <></>
-                          ) : 
+                      {loading ? (
+                        <></>
+                      ) : (
                         menudatalist.map((object, index) => (
-                        <React.Fragment key={index}>
-                          <RowHeading
-                            objectId={object.categoryId}
-                            object={object}
-                            index={index}
-                            onDragStart={handledragvegnonvegdragstart}
-                            onDragOver={handledragvegnonvegdropover}
-                            onDrop={handledragvegnonvegdropend}
-                          />
+                          <React.Fragment key={index}>
+                            <RowHeading
+                              objectId={object.categoryId}
+                              object={object}
+                              index={index}
+                              onDragStart={handledragvegnonvegdragstart}
+                              onDragOver={handledragvegnonvegdropover}
+                              onDrop={handledragvegnonvegdropend}
+                            />
 
-                          <TableOneBody
-                            object={object}
-                            typevalue={object.type}
-                            index={index}
-                            FilteredData={FilteredData}
-                            objectLength={FilteredData.length}
-                            draggingOverIndex={draggingOverIndex}
-                            draggedRowIndex={draggedRowIndex}
-                            handleRowDragStart={handleDragStart}
-                            handleRowDragOver={handleDragOver}
-                            handleRowDragEnd={handleDrop}
-                            handleDragScroll={handleDragScroll}
-                            handlemodal={handlemodal}
-                            tableBodyRef1={tableBodyRef1}
-                            tableBodyRef2={tableBodyRef2}
-                            handlevegrowstart={handledragvegnonvegdragstart}
-                            handlevegrowover={handledragvegnonvegdropover}
-                            handlevegrowend={handledragvegnonvegdropend}
-                          />
-                        </React.Fragment>
-                      ))}
+                            <TableOneBody
+                              object={object}
+                              typevalue={object.type}
+                              index={index}
+                              FilteredData={FilteredData}
+                              objectLength={FilteredData.length}
+                              draggingOverIndex={draggingOverIndex}
+                              draggedRowIndex={draggedRowIndex}
+                              handleRowDragStart={handleDragStart}
+                              handleRowDragOver={handleDragOver}
+                              handleRowDragEnd={handleDrop}
+                              handleDragScroll={handleDragScroll}
+                              handlemodal={handlemodal}
+                              tableBodyRef1={tableBodyRef1}
+                              tableBodyRef2={tableBodyRef2}
+                              handlevegrowstart={handledragvegnonvegdragstart}
+                              handlevegrowover={handledragvegnonvegdropover}
+                              handlevegrowend={handledragvegnonvegdropend}
+                            />
+                          </React.Fragment>
+                        ))
+                      )}
                     </tbody>
                   }
                 </table>
@@ -752,7 +756,7 @@ export const Menulisting = () => {
                             // dragtablefirstHeaderindex={
                             //   dragtablefirstHeaderindex
                             // }
-                            
+
                             listingobject={listingobject}
                             setlistingobject={setlistingobject}
                             // handleColumnwiseDragStart={
@@ -793,59 +797,72 @@ export const Menulisting = () => {
                       } tabletwobody`}
                       ref={tableBodyRef2}
                     >
-                      {   (
+                      {
                         <>
-                         
-                          {   menuDataLoading ? (
+                          {menuDataLoading ? (
                             <div className="Menu-noOptions">
-                              <Loader 
-                                className="imgLoader2" 
+                              <Loader
+                                className="imgLoader2"
                                 height="100px"
-                                width="100px" 
-                                style={{ filter: 'invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)' }}
+                                width="100px"
+                                style={{
+                                  filter:
+                                    "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                                }}
                               />
                             </div>
+                          ) : menuDataFailed ? (
+                            <div className="NoDataFoundContainer">
+                              <img
+                                className="columnselected"
+                                src={noResultsfound}
+                                alt="noResultFound"
+                              />
+                              <h2 className="columnselectedText">
+                                No Results Found
+                              </h2>
+                            </div>
                           ) : (
-                            menuDataFailed ? (
-                              <div className="NoDataFoundContainer">
-                                <img className="columnselected" src={noResultsfound} alt="noResultFound" />
-                                <h2 className="columnselectedText">No Results Found</h2>
-                              </div>
-                            ) : 
-
                             <>
-                             { allFalse?<div className="no-colunms"> No columns selected</div>: menudatalist.map((itemobject, indexvalue) => {
-                              return (
-                                <React.Fragment key={indexvalue}>
-                                  <tr>
-                                    {indexvalue === 1 && (
-                                      <tr className="itemheading2row"></tr>
-                                    )}
-                                  </tr>
-                                  {/* //  */}
-                                  <TableTwoBody
-                                    itemobject={itemobject}
-                                    indexvalue={indexvalue}
-                                    classNamesinner={classNamesinner}
-                                    listingobject={listingobject}
-                                    showsidebar={showsidebar}
-                                    SideBarData={SideBarData}
-                                    setSideBar={setSideBar}
-                                    handlemodal={handlemodal}
-                                    listingheaders={allFalse}
-                                  />
-                                </React.Fragment>
-                              );
-                            })}</>
-                           
+                              {allFalse ? (
+                                <div className="no-colunms">
+                                  {" "}
+                                  No columns selected
+                                </div>
+                              ) : (
+                                menudatalist.map((itemobject, indexvalue) => {
+                                  return (
+                                    <React.Fragment key={indexvalue}>
+                                      <tr>
+                                        {indexvalue === 1 && (
+                                          <tr className="itemheading2row"></tr>
+                                        )}
+                                      </tr>
+                                      {/* //  */}
+                                      <TableTwoBody
+                                        itemobject={itemobject}
+                                        indexvalue={indexvalue}
+                                        classNamesinner={classNamesinner}
+                                        listingobject={listingobject}
+                                        showsidebar={showsidebar}
+                                        SideBarData={SideBarData}
+                                        setSideBar={setSideBar}
+                                        handlemodal={handlemodal}
+                                        listingheaders={allFalse}
+                                      />
+                                    </React.Fragment>
+                                  );
+                                })
+                              )}
+                            </>
                           )}
                         </>
-                      )}
+                      }
                     </tbody>
                   }
                 </table>
               </div>
-               {modal && (
+              {modal && (
                 <Slider
                   sidebartext={sidebartext}
                   SideBarData={SideBarData}
@@ -859,4 +876,3 @@ export const Menulisting = () => {
     </>
   );
 };
-

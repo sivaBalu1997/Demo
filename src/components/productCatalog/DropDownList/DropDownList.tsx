@@ -253,6 +253,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       });
 
       const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName;
+      console.log({dietName},{dropdownName},{dropDown1})
 
       setSelectedOptions(dropDown1);
       setValue(
