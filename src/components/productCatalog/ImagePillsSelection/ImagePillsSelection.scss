@@ -42,15 +42,23 @@
     height: 11rem;
     // border: 1px solid red;
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     position: relative;
     top: 1rem;
     // background-color: pink;
 
-    // &::-webkit-scrollbar {
-    //     display: none;
-    //    }
+    &::-webkit-scrollbar {
+      display: block;
+      background-color: gray;
+      width: 8px;
+      border-radius: 1rem;
+    }
+
+    // &::-webkit-scrollbar-thumb {
+    //   background-color: pink;
+    // }
 
     .Selected-Images {
       //   background-color: pink;
