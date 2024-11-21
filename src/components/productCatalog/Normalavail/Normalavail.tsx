@@ -392,6 +392,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
   }, [selectedthirdvalues]);
 
   useEffect(() => {
+    console.log("00",prizingDetail?.normalForm?.formNormal)
+    console.log("001",prizingDetail?.normalForm)
     if (prizingDetail?.normalForm?.formNormal) {
       
       setformNormal({
@@ -422,6 +424,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
           dayButtonText: "Choose Day",
         })
       );
+      console.log("1111",updatedFields)
       
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
@@ -437,6 +440,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const thirdPartyTypeName =
         prizingDetail?.normalForm?.thirdpartyDetails?.map;
       if (pickupDetails) {
+        console.log("ccc")
         setOnline(true);
         setPickUpDetails({
           typeId: pickUpId,
@@ -492,7 +496,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
       const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
-      console.log('22',prizingDetail?.normalForm?.dineInDetails, {prizingDetail})
       setDineIn(true);
       if (pickupDetails) {
         setOnline(true);

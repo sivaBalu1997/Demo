@@ -136,7 +136,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                     checked={isAllPricingChecked}
                     onChange={() => handleToggle("showPricing", pricelist)}
                   />
-                  <span>
+                  <span onClick={() => handleToggle("showPricing", pricelist)}>
                     {pricing}
                     <img src={dollaricon} alt="" className="dollaricon" />
                   </span>
@@ -152,7 +152,9 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                             handlecheckbox(list, "showPricing", pricelist)
                           }
                         />
-                        <span className="sub-texts-fileds">
+                        <span  onClick={() =>
+                            handlecheckbox(list, "showPricing", pricelist)
+                          }  className="sub-texts-fileds">
                           {insertlists.Pricing[list.replace("1", "")]}
                         </span>
                       </div>
@@ -186,7 +188,11 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                             handlecheckbox(key, "showAvail", aviallist)
                           }
                         />
-                        <span className="sub-texts-fileds">
+                        <span 
+                          onClick={() =>
+                            handlecheckbox(key, "showAvail", aviallist)
+                          }
+                        className="sub-texts-fileds">
                           {
                             insertlists.Available[
                               key.replace(
@@ -210,7 +216,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                     checked={listingobject?.Customize1}
                     onChange={() => handleToggle("Customize1")}
                   />
-                  <span>{insertlists.Customization}</span>
+                  <span style={{cursor:'pointer'}} onClick={() => handleToggle("Customize1")}>{insertlists.Customization}</span>
                 </div>
               </li>
             </ul>

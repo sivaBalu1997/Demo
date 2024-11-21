@@ -313,8 +313,8 @@ const PrimaryPage = () => {
       setValue("Ingredients", ItemsPrimaryDetails.Ingredients);
       setValue("allergens", ItemsPrimaryDetails.allergens);
       setValue("coloriePoint", ItemsPrimaryDetails.coloriePoint);
-      setCalorieInfo(ItemsPrimaryDetails.coloriePoint);
-      setPortionInfo(ItemsPrimaryDetails.portionSize);
+      setCalorieInfo(ItemsPrimaryDetails?.coloriePoint?ItemsPrimaryDetails?.coloriePoint:{ type: "per 100 grams",value: ""});
+      setPortionInfo(ItemsPrimaryDetails?.portionSize?ItemsPrimaryDetails?.portionSize:{type: "portion(count)",value: ""});
       setValue("selectedcolorie", ItemsPrimaryDetails.selectedcolorie);
       setValue("portionSize", ItemsPrimaryDetails.portionSize);
       setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
@@ -564,7 +564,6 @@ useEffect(()=>{
     setItemcodeValid(true)
   }
 },[message])
-console.log("setItemcodeValid(false)",itemcodeValid)
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -642,12 +641,10 @@ console.log("setItemcodeValid(false)",itemcodeValid)
     parentId: "",
   };
 
-  // console.log(getValues())
 
   const restaurantDetails = useSelector(
     (state: any) => state.auth.restaurantDetails
   );
-  // console.log("restaurantDetails",restaurantDetails?.containsAlcohol);
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
@@ -971,9 +968,18 @@ console.log("setItemcodeValid(false)",itemcodeValid)
                           }}
                           value={value}
                           onBlur={() => {
-                            console.log("99",value.length)
                             if (value.length>3) {
-                              dispatch(getItemCodeRequest(locationid, value));
+                              if(editData.length>0)
+                              {
+                                if(ItemsPrimaryDetails?.itemCode!=value){
+                                  dispatch(getItemCodeRequest(locationid, value));
+                                }
+                              }
+                              else{
+                                dispatch(getItemCodeRequest(locationid, value));
+
+                              }
+                             
                             }
                           }}
                           onKeyDown={(e:any) => {

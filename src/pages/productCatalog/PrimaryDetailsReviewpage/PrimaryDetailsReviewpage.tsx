@@ -898,7 +898,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         />
                       </div>
 
-                      <div>
+                      {/* <div>
                         <ReviewValues
                           label="Master product code"
                           textvalue={
@@ -907,7 +907,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                               : "N/A"
                           }
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
