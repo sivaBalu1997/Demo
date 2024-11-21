@@ -1137,7 +1137,7 @@ const PrimaryPage = () => {
             >
               <div className="Primary-page-ingredients-selection">
                 <Imagepillsselection
-                  heading="Ingredients*"
+                  heading="Ingredients"
                   options={ingredientsdata}
                   setValue={setValue}
                   name="Ingredients"
