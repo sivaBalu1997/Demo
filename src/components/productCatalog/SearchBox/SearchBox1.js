@@ -57,16 +57,17 @@ const SearchBox = () => {
   const menuData = useSelector((state) => state.productCatalog?.menuData);
 
   const handleSearch = (e) => {
-    const value = e.target.value;
-    const regex = /^[a-zA-Z\s]*$/;
-    if (regex.test(value)) {
-      dispatch(searchForItem({}));
-      const value = e.target.value;
-      setSearchTerm(value);
-      setDisplayTerm(value);
-      filterOptions(value);
-      setOptionSelected(false);
-      setCloseModal(true)
+  let value = e.target.value;
+  const regex = /^[a-zA-Z\s]*$/;
+
+  // Prevent spaces as the first character or standalone
+  if (regex.test(value) && !(value.length === 1 && value === ' ')) {
+    dispatch(searchForItem({}));
+    setSearchTerm(value);
+    setDisplayTerm(value);
+    filterOptions(value);
+    setOptionSelected(false);
+    setCloseModal(true);
     }
    
     // if (e.key === 'Backspace') {
