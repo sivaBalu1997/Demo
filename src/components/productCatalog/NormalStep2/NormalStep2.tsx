@@ -228,7 +228,7 @@ const NormalStep2 = () => {
              {restaurantDetails?.country === "US" ? "$" : "Rs."}
 
               {
-                prizingDetail.normalForm.deliveryDetails.price 
+                prizingDetail.normalForm.pickupDetails.price 
                 }
             </h1>:<><h1 className="Step2SellingPrizevalue">N/A</h1></>
             }
