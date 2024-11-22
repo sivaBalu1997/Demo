@@ -229,7 +229,7 @@ const subcatagory3=subcatagory2?.filter((item:any)=> item?.length>0)
 
 
 
-console.log("object",object);
+
 
 
 

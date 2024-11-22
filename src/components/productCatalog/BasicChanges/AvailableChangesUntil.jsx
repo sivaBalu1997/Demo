@@ -146,7 +146,8 @@ const handleTimeChange=()=>{
                 }
               : availabilityInfo;
           }),
-        }));
+        })
+      );
       }
       setSelectPeriod(false) 
      

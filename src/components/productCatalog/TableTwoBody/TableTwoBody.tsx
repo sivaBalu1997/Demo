@@ -226,7 +226,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                   (ot: OrderType) => ot.typeName === typeName
                 );
 
-                console.log({ orderType });
+                
 
                 const isEnabled = orderType ? orderType.isEnabled : "";
                 const className = typeName?.toLowerCase() + "data";
