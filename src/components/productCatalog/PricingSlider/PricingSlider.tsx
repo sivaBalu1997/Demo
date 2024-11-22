@@ -65,7 +65,6 @@ const PricingSlider: any = ({}) => {
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   }, [data[0]?.orderTypes]);
 
-  console.log("availabilityOrderTypes", availabilityOrderTypes);
 
   const { pen, setPen } = useContext(Contextpagejs);
   const Dinein = data[0]?.orderTypes?.find(
@@ -182,7 +181,6 @@ const PricingSlider: any = ({}) => {
   const handleComparision = (baseprice: number, id: string, index: number) => {
     if (baseprice !== 0) {
       setShowCompare(!showCompare);
-      console.log({ baseprice });
 
       const pricelist = availabilityOrderTypes[1].types
         .filter((elem: any) => id !== elem.typeId)

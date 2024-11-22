@@ -51,11 +51,6 @@ const CustomizeSlider = () => {
     setCustomData(updatedCustomData);
   }, [datafromRedux]);
 
-   
-console.log("modifires",datafromRedux[0]);
-console.log("customData",customData);
-
-
   useEffect(() => {
     if (datafromRedux && customData) {
       setPatchedData((prevState: any) => ({
@@ -98,9 +93,7 @@ console.log("customData",customData);
       ...option,
       isEnabled: parentEnabled,
     }));
-  
-    console.log("updatedData[index]", updatedData[index]);
-  
+    
     setCustomData(updatedData);
   
     // Optionally, dispatch the update to Redux
