@@ -552,6 +552,7 @@ export const Menulisting = () => {
       }));
   
       setItemList(transformedList);
+      setLoading(false)
     } else {
 
       const filterdItem={
@@ -566,6 +567,8 @@ export const Menulisting = () => {
 
 
       setItemList([filterdItem]);
+      setLoading(false)
+    
     }
   }, [menuData, SearchedmenuItem]);
 
