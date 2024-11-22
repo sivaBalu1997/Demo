@@ -696,6 +696,7 @@ export const Menulisting = () => {
   }, [deleteMenuItemSuccess]);
 
   const [itemList, setItemList] = useState([]);
+
   useEffect(() => {
     const allItemResponseLists = menuData?.flatMap((category) =>
       category?.subCategoryResponseList?.map((subCategory) => ({

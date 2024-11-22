@@ -126,7 +126,6 @@ const SearchBox = () => {
       });
     });
 
-    console.log("option", result);
     dispatch(searchForItem(result));
 
     setFilteredOptions([]);

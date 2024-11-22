@@ -268,7 +268,6 @@ const ItemCustomizations: React.FC = () => {
     selectionType?:string
   ) => {
     const { name, value } = e.target;
-  console.log('jjjj',name,value)
     setModifications((prev: any) => {
       const updated = [...prev];
       const currentModifier = updated[modIndex];

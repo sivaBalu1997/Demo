@@ -306,8 +306,6 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
-  console.log({ prizingDetail });
-
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
   );
@@ -353,9 +351,7 @@ const PricingDetails = () => {
   const primarypagedetails = useSelector(
     (state: RootState) => state.primarypage.data
   );
-
-  console.log({primarypagedetails})
-
+  
   const [resetInventory, setResetInventory] = useState(false);
   const [nextAvailable, setNextAvailable] = useState(false);
   const [printKot, setPrintKot] = useState(false);
