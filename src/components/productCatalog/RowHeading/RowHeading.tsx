@@ -68,7 +68,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   return (
     <tr className="table-one-row-data">
 
-      { object?.itemResponseList?.length>0 && object.name!=="" &&
+      { object?.itemResponseList?.length>0 && object.name!==""&&
             <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
             {/* <img
               src={dots}
@@ -79,7 +79,7 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
               onDrop={(e) => onDrop(e, index)}
               className="headingdrag"
             />{" "} */}
-            {<span> {object.name!=="" &&object.name} <span className="count-Of-ItemList">({object.itemResponseList?.length})</span> </span>}
+            {<span> {object.name!=="" && object.name} <span className="count-Of-ItemList">({object.itemResponseList?.length})</span> </span>}
           </td>
       }
      

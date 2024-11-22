@@ -45,6 +45,9 @@ export const Menulisting = () => {
   const SearchedmenuItem = useSelector(
     (state) => state.searchItem?.SearcheItem
   );
+
+
+
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
@@ -526,11 +529,27 @@ export const Menulisting = () => {
       return Object.keys(obj).length === 0;
     };
     if (isObjectEmpty(SearchedmenuItem)) {
-      setMenudatalist(menuData);
+      setItemList(menuData);
     } else {
-      setMenudatalist([SearchedmenuItem]);
+
+      const filterdItem={
+        name:SearchedmenuItem?.categoryName,
+        id:SearchedmenuItem?.categoryId,
+        itemResponseList:SearchedmenuItem?.itemResponseList
+
+
+
+      };
+
+
+
+      setItemList([filterdItem]);
     }
   }, [menuData, SearchedmenuItem]);
+
+console.log("SearchedmenuItem",SearchedmenuItem);
+
+
 
   const selectedBranch = useSelector(
     (state) => state.auth.selectedBranch || null
@@ -696,6 +715,8 @@ export const Menulisting = () => {
       setLoading(false);
     }
   }, [menudatalist, menuData]);
+
+
 
   const menuDataLoading = useSelector(
     (state) => state.productCatalog?.menuDataLoading

@@ -233,6 +233,10 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   );
   const subcatagory3 = subcatagory2?.filter((item: any) => item?.length > 0);
 
+
+
+
+  
   return (
     <>
       {object?.itemResponseList?.length > 0 &&
