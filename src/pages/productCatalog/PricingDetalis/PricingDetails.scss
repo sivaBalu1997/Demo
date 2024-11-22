@@ -76,9 +76,27 @@
   }
 }
 
-.Prepartiontime {
-  margin-top: -1.5rem;
-  .heading {
+  .Prepartiontime {
+    margin-top: -1.5rem;
+    .heading {
+      position: relative;
+       top: -0.3rem;
+      color: #424242;
+      font-family: Poppins;
+      font-size: 14.38px;
+      font-weight: 400;
+      line-height: 21.56px;
+      letter-spacing: 0.004em;
+      text-align: left;
+      
+    }
+  }
+
+  .Prepartiontime-input-fileds {
+    display: flex;
+    flex-direction: row;
+  
+    gap: 10px;
     position: relative;
     top: -0.3rem;
     color: #424242;
@@ -89,27 +107,28 @@
     letter-spacing: 0.004em;
     text-align: left;
   }
-}
 
-.Prepartiontime-input-fileds {
-  display: flex;
-  flex-direction: row;
 
-  gap: 10px;
-  position: relative;
+    .Prepartiontime-input-hours {
+      width: 40px;
+      height: 40px;
+      font-family: Poppins;
+      font-weight: 400;
+      line-height: 28.75px;
+      letter-spacing: 0.0015em;
+      text-align: center;
+      border-radius: 5.41px;
+      border: 1px solid #9f9f9f;
+    }
 
-  .Prepartiontime-input-hours {
-    width: 40px;
-    height: 40px;
-    font-family: Poppins;
-    font-size: 19.17px;
-    font-weight: 400;
-    line-height: 28.75px;
-    letter-spacing: 0.0015em;
-    text-align: center;
-    border-radius: 5.41px;
-    border: 1px solid #9f9f9f;
-  }
+    .Prepartiontime-input-mins {
+      width: 48px;
+      height: 40px;
+      font-weight: 400;
+      border-radius: 5.41px;
+      font-family: Poppins;
+      border: 1px solid #9f9f9f;
+    }
 
   .Prepartiontime-input-mins {
     width: 48px;
@@ -120,7 +139,7 @@
       color: #000000;
     }
   }
-}
+
 
 .timeSpan {
   display: flex;
@@ -502,4 +521,13 @@
   position: relative;
   top: 10px;
   margin-left: 100px;
+}
+
+.tool-tip-kitchen-detail{
+  position: relative;
+  // background-color: orange;
+  top: 1.2rem;
+  left: 1rem;
+  width: 1px;
+  margin-top: -0.5rem;
 }

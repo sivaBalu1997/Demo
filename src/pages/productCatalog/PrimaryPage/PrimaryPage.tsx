@@ -310,8 +310,8 @@ const PrimaryPage = () => {
       setValue("Ingredients", ItemsPrimaryDetails.Ingredients);
       setValue("allergens", ItemsPrimaryDetails.allergens);
       setValue("coloriePoint", ItemsPrimaryDetails.coloriePoint);
-      setCalorieInfo(ItemsPrimaryDetails.coloriePoint);
-      setPortionInfo(ItemsPrimaryDetails.portionSize);
+      setCalorieInfo(ItemsPrimaryDetails?.coloriePoint?ItemsPrimaryDetails?.coloriePoint:{ type: "per 100 grams",value: ""});
+      setPortionInfo(ItemsPrimaryDetails?.portionSize?ItemsPrimaryDetails?.portionSize:{type: "portion(count)",value: ""});
       setValue("selectedcolorie", ItemsPrimaryDetails.selectedcolorie);
       setValue("portionSize", ItemsPrimaryDetails.portionSize);
       setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
@@ -576,15 +576,16 @@ const PrimaryPage = () => {
       setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
       setValue("popularItem", false);
     }
-  }, [ItemsPrimaryDetails]);
-  useEffect(() => {
-    if (message?.httpStatus == 409) {
-      setItemcodeValid(false);
-    } else {
-      setItemcodeValid(true);
-    }
-  }, [message]);
-  console.log("setItemcodeValid(false)", itemcodeValid);
+  },[ItemsPrimaryDetails])
+useEffect(()=>{
+  if(message?.httpStatus==409)
+  {
+    setItemcodeValid(false)
+  }
+  else{
+    setItemcodeValid(true)
+  }
+},[message])
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -662,12 +663,10 @@ const PrimaryPage = () => {
     parentId: "",
   };
 
-  // console.log(getValues())
 
   const restaurantDetails = useSelector(
     (state: any) => state.auth.restaurantDetails
   );
-  // console.log("restaurantDetails",restaurantDetails?.containsAlcohol);
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
@@ -1012,9 +1011,18 @@ const PrimaryPage = () => {
                           }}
                           value={value}
                           onBlur={() => {
-                            console.log("99", value.length);
-                            if (value.length > 3) {
-                              dispatch(getItemCodeRequest(locationid, value));
+                            if (value.length>3) {
+                              if(editData.length>0)
+                              {
+                                if(ItemsPrimaryDetails?.itemCode!=value){
+                                  dispatch(getItemCodeRequest(locationid, value));
+                                }
+                              }
+                              else{
+                                dispatch(getItemCodeRequest(locationid, value));
+
+                              }
+                             
                             }
                           }}
                           onKeyDown={(e: any) => {

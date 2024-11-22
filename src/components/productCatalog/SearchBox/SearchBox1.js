@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext,useRef } from 'react';
 import './SearchBox.scss';
 import searchIcon from '../../../assets/images/searchicon.png';
 import NotFound from '../../../assets/svg/NotFound copy.svg';
@@ -19,7 +19,7 @@ const SearchBox = () => {
   const data = useSelector((state) => state.storeMockDataReducer.data);
   const dispatch = useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
-
+  const popupRef = useRef(null);
   useEffect(() => {
     const itemNames = menuData?.flatMap(item => item?.itemResponseList)
       .map(item => item?.itemName);
@@ -32,6 +32,24 @@ const SearchBox = () => {
     }
   }, []);
 
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setCloseModal(false); // Close the popup
+    }
+  };
+
+  useEffect(() => {
+    if (closeModal) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup on unmount
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [closeModal]);
+
   useEffect(() => {
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch));
   }, [filteredOptionsDispatch]);
@@ -39,15 +57,18 @@ const SearchBox = () => {
   const menuData = useSelector((state) => state.productCatalog?.menuData);
 
   const handleSearch = (e) => {
-
-
-    dispatch(searchForItem({}));
     const value = e.target.value;
-    setSearchTerm(value);
-    setDisplayTerm(value);
-    filterOptions(value);
-    setOptionSelected(false);
-    setCloseModal(true)
+    const regex = /^[a-zA-Z\s]*$/;
+    if (regex.test(value)) {
+      dispatch(searchForItem({}));
+      const value = e.target.value;
+      setSearchTerm(value);
+      setDisplayTerm(value);
+      filterOptions(value);
+      setOptionSelected(false);
+      setCloseModal(true)
+    }
+   
     // if (e.key === 'Backspace') {
     //   if (optionSelected) {
     //     // If an option was selected, reset searchTerm and displayTerm
@@ -169,7 +190,7 @@ const SearchBox = () => {
         />
       </div>
 
-      <div className={isExpanded ? "MLSearch-Container-options1" : 'MLSearch-Container-options-menu'}>
+      <div ref={popupRef} className={isExpanded ? "MLSearch-Container-options1" : 'MLSearch-Container-options-menu'}>
         {searchTerm && closeModal && (
           <ul className='MLsearchBoxContainer'>
             {filteredOptions.length > 0 ? (
