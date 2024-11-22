@@ -183,7 +183,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 const className = typeName?.toLowerCase() + "data";
                 const isPriceEnabled =
                   orderType &&
-                  orderType.isNotHide == 1 && orderType.availabilityEnabled
+                  orderType.isNotHide == 1 && orderType.availabilityEnabled && orderType.isEnabled===1
                     ? true
                     : false;
                 const sliderkey =
