@@ -438,7 +438,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
+    //console.log("kkkk",selectedOptions,value)
+    
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
@@ -456,9 +457,11 @@ const DropDownList: React.FC<DropdownProps> = ({
 
     if (deletedItem) {
       dispatch(deleteDropDowRequest(deletedItem));
-
+      const data= selectedOptions.filter((item)=> item.id!=value)
+      setSelectedOptions([...data])
       if (deleteApicall === "success") {
         dispatch(fetchDropDownRequest(viewdata));
+       
       }
     }
   };
