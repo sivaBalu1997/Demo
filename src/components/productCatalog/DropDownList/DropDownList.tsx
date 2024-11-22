@@ -89,7 +89,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [hasCleared, setHasCleared] = useState<boolean>(false);
   const [manuallyCleared, setManuallyCleared] = useState(false);
 
-
   const dispatch = useDispatch();
 
   const editData = useSelector((state: any) => state.productCatalog.editData);
@@ -189,12 +188,17 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-  
+
     if (value === "") {
       setManuallyCleared(true);
       setShowselectedOption(false);
+      if (type === "checkbox") {
+        setSelectedOptions([]);
+        setValue(name, []);
+        trigger(name);
+      }
       if (dropdownopen) {
-        onToggle(); 
+        onToggle();
       }
     } else {
       setManuallyCleared(false);
@@ -203,11 +207,9 @@ const DropDownList: React.FC<DropdownProps> = ({
       }
       setShowselectedOption(false);
     }
-  
+
     setOptions(filteredOptions);
   };
-  
-  
 
   // useEffect(() => {
   //   const initialSelectedValue = getValues(name);
@@ -262,7 +264,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       });
 
       const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName;
-      console.log({dietName},{dropdownName},{dropDown1})
+      console.log({ dietName }, { dropdownName }, { dropDown1 });
 
       setSelectedOptions(dropDown1);
       setValue(
@@ -385,12 +387,12 @@ const DropDownList: React.FC<DropdownProps> = ({
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-  
+
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-  
+
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
@@ -400,6 +402,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           name,
           updatedOptions.map((opt) => opt?.name)
         );
+        trigger(name);
       } else {
         const updatedOptions = [...currentSelectedOptions, option];
         setSelectedOptions(updatedOptions);
@@ -414,24 +417,10 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
     }
-  
-    if (dropDownType === "CATEGORY") {
-      const viewdata = {
-        locationId: locationid,
-        type: "SUB_CATEGORY",
-        parentId: option.id,
-      };
-      setParentId(option?.id);
-      subcategorydataforApi.parentId = option.id;
-      if (subcategorydataforApi.parentId !== "") {
-        dispatch(fetchDropDownRequest(viewdata));
-      }
-    }
-  
-    setSearchTerm(""); 
-    setHasCleared(false); 
+
+    setSearchTerm("");
+    setManuallyCleared(false);
   };
-  
 
   const payload = {
     locationId: locationid,
@@ -449,7 +438,7 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   const handledeletion = (value: string) => {
     //console.log("kkkk",selectedOptions,value)
-    
+
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
@@ -467,11 +456,10 @@ const DropDownList: React.FC<DropdownProps> = ({
 
     if (deletedItem) {
       dispatch(deleteDropDowRequest(deletedItem));
-      const data= selectedOptions.filter((item)=> item.id!=value)
-      setSelectedOptions([...data])
+      const data = selectedOptions.filter((item) => item.id != value);
+      setSelectedOptions([...data]);
       if (deleteApicall === "success") {
         dispatch(fetchDropDownRequest(viewdata));
-       
       }
     }
   };
@@ -596,15 +584,13 @@ const DropDownList: React.FC<DropdownProps> = ({
               searchTerm !== ""
                 ? searchTerm
                 : manuallyCleared
-                ? "" 
+                ? ""
                 : showselectedOption
                 ? type === "checkbox"
                   ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
-                  : selectedOptions[0]?.name || "" 
+                  : selectedOptions[0]?.name || ""
                 : ""
             }
-            
-            
             onChange={handleSearch}
             name={name}
             // onBlur={handleBlur}
