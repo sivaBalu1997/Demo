@@ -9,12 +9,14 @@ interface modelshow {
   showcalender: any;
   selectedtypeid: string;
   ParentToggle: string;
+  setUntillTime:any;
 }
 
 const AvailCalender: React.FC<modelshow> = ({
   selectedtypeid,
   setShowcalender,
   ParentToggle,
+  setUntillTime
 }) => {
   const [selectedDatee, setSelectedDatee] = useState<Date | null>(null);
   const [selectedTimePeriod, setSelectedTimePeriod] = useState<"AM" | "PM">(
@@ -37,29 +39,40 @@ const AvailCalender: React.FC<modelshow> = ({
     setSelectedDatee(date);
   };
 
-  const handleTimeChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    type: "hours" | "minutes"
-  ) => {
-    const value = e.target.value;
-    if (type === "hours") {
-      setHours(value);
-    } else {
-      setMinutes(value);
-    }
-    const formattedHours =
-      String(type === "hours" ? value : hours).padStart(2, "0") || "00";
-    const formattedMinutes =
-      String(type === "minutes" ? value : minutes).padStart(2, "0") || "00";
+const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' | 'minutes') => {
+  const value = e.target.value;
+
+  if (!/^\d{0,2}$/.test(value)) return;
+  if (type === 'hours' && +value > 23) return; 
+  if (type === 'minutes' && +value > 59) return; 
+
+  // Update state
+  if (type === 'hours') {
+    setHours(value);
+  } else {
+    setMinutes(value);
+  }
+  const formattedHours = String(type === 'hours' ? value : hours).padStart(2, '0');
+    const formattedMinutes = String(type === 'minutes' ? value : minutes).padStart(2, '0');
     setFormattedTime(`${formattedHours}:${formattedMinutes}`);
-  };
+}
+
 
   const handleDateChanging = () => {
-    if (selectedDatee && selectedTimePeriod && formattedTime) {
+   
+    
+    if (selectedDatee&&formattedTime&&selectedTimePeriod) {
+      console.log({formattedTime});
+      const formattedDate = selectedDatee.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+      setUntillTime(`(${formattedDate}/${formattedTime}/${selectedTimePeriod})`)
       const newAvailabilityInfo = {
         orderTypeId: selectedtypeid,
         unAvailableUntilTime: formatDateTime(
-          selectedDatee,
+           selectedDatee,
           formattedTime,
           selectedTimePeriod
         ),

@@ -21,11 +21,15 @@ const AvailabilityChangesUntil = ({ handleOrderCategoryAvailability,setSelectPer
     // Your working hours data as shown in your original code...
   ];
   const [timeToSet,setTimeToSet]=useState("");
+
+  const [untillTime,setUntillTime]=useState("(DD/MM/YYYY HH:MM AM/PM)");
+
+  
   
   const Text = [
     "End of Today",
     "End of Sessions",
-    "Until(DD/MM/YYYY HH:MM AM/PM)",
+    `Until${untillTime}`,
     "Until manually enabled",
   ];
 
@@ -271,6 +275,7 @@ const handleTimeChange=()=>{
           selectedtypeid={selectedtypeid}
           setShowcalender={setShowAvailCalender}
           parentToggle={parentToggle}
+          setUntillTime={setUntillTime}
         />
       )}
 
