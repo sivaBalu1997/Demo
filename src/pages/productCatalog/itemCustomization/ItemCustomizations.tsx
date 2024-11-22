@@ -913,7 +913,7 @@ const ItemCustomizations: React.FC = () => {
                                     >
                                       <div>
                                         <input
-                                          placeholder="Option (Item)*"
+                                          placeholder="Option (Item)"
                                           className="input2ItemCustomizations"
                                           name="modifierOptionName"
                                           type="text"
@@ -950,7 +950,7 @@ const ItemCustomizations: React.FC = () => {
 
                                       <div>
                                         <input
-                                          placeholder="Price*"
+                                          placeholder="Price"
                                           className="input2ItemCustomizations"
                                           name="cost"
                                           type="number"
@@ -1180,7 +1180,7 @@ const ItemCustomizations: React.FC = () => {
                                   options={listOfStreams}
                                   width="Drop1"
                                   validation={validationState.items}
-                                  label="Available Service Stream*"
+                                  label="Available Service Stream"
                                 />
                               </div>
                             </div>
