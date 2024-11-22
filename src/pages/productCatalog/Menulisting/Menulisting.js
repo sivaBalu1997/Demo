@@ -506,8 +506,30 @@ export const Menulisting = () => {
     const isObjectEmpty = (obj) => {
       return Object.keys(obj).length === 0;
     };
-    if (isObjectEmpty(SearchedmenuItem)) {
-      setItemList(menuData);
+    if (isObjectEmpty(SearchedmenuItem)) {    
+      const allItemResponseLists = menuData?.flatMap((category) =>
+        category?.subCategoryResponseList?.map((subCategory) => ({
+          categoryId: category.categoryId,
+          categoryName: category?.categoryName,
+          subCategoryId: subCategory?.subCategoryId,
+          subCategoryName: subCategory?.subCategoryName,
+          itemResponseList: subCategory?.itemResponseList
+        }))
+      )
+        .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
+  
+  
+      const allItemResponseLists2 = menuData.flatMap((category) => category);
+  
+      const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
+  
+      const transformedList = mergedarray.map((entry) => ({
+        id: entry.categoryId,
+        name: entry.categoryName,
+        itemResponseList: entry.itemResponseList || [],
+      }));
+  
+      setItemList(transformedList);
     } else {
 
       const filterdItem={
