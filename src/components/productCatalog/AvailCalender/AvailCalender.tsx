@@ -20,7 +20,8 @@ const AvailCalender: React.FC<modelshow> = ({
   const [selectedTimePeriod, setSelectedTimePeriod] = useState<"AM" | "PM">(
     "AM"
   );
-  const [hours, setHours] = useState("");
+  // const [hours, setHours] = useState("");
+  const [hours,setHours]=useState("");
   const [minutes, setMinutes] = useState("");
   const [formattedTime, setFormattedTime] = useState("");
   const dataFromRedux = useSelector(

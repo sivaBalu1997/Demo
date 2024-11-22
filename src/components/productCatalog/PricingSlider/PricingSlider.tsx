@@ -317,7 +317,7 @@ const PricingSlider: any = ({}) => {
       {
         price.typeGroup==="D" && item.mainHeading==="On-prem"?
         <div
-                      className="SectionA-Image"
+                      className="compare-Image"
                       onClick={() =>
                         handleComparision(price.price,price.tyepeId,index)
                       }

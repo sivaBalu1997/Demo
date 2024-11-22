@@ -38,17 +38,32 @@
 //   left: -40px;
 //   cursor: pointer;
 // }
-
+.MLsearchbox
+{
+  position: relative;
+  // border: 1px solid red;
+}
+.MLSerchIcon-Header
+{
+  width: 24px;
+  height: 21px;
+  position: absolute;
+  right: 5%;
+  top: 25%;
+  @media (max-width: 1280px) {
+    left: 70%;
+  }
+}
 .MLSerchIcon-Header1 {
   width: 24px;
   height: 21px;
-  position: fixed;
-  top: 37px;
-  cursor: pointer;
-  // right: 40%;
-  left: 59%;
-  z-index: 15;
+  position: absolute;
+  right: 5%;
+  top: 25%;
+
   // background-color: pink;
+  // border: 1px solid red;
+  
   @media (max-width: 1280px) {
     left: 70%;
   }

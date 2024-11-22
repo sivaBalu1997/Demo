@@ -37,7 +37,15 @@ const AvailabilityChangesUntil = ({ handleOrderCategoryAvailability,setSelectPer
     const today = new Date();
     return daysOfWeek[today.getDay()];
   };
+  const [filteredsession,setfilteredsession]=useState([]);
+  useEffect(()=>{
+    const todayDay = getTodayDay();
+    const todayWorkinghours = restaurantDetails?.workingHours.filter(
+      (item) => item.weekday === todayDay||item.weekday === "All"
+    );
+    setfilteredsession(todayWorkinghours);
 
+  },[restaurantDetails])
   const filterWorkingHoursBySession = (session) => {
     const todayDay = getTodayDay();
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
@@ -90,14 +98,25 @@ console.log("todayWorkinghours",todayWorkinghours);
       
      
     } else if (elem === "End of Sessions") {
-      setshowsession(true);
-      setshowAvailchanges(false)
+
+      console.log({filteredsession});
       const formattedDate = getFormattedDate();
-      const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
-      console.log("sessionClosingHours",sessionClosingHours);
+      const SessionTime=`${formattedDate}T${filteredsession[0].closingTime}`
+      if(filteredsession?.length===1)
+      {
+        setTimeToSet(SessionTime)
+      }
+      else{
+ setshowsession(true);
+      }
+     
+      // setshowAvailchanges(false)
+      // const formattedDate = getFormattedDate();
+      // const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
+      // console.log("sessionClosingHours",sessionClosingHours);
       
-      const Time=`${formattedDate}T${sessionClosingHours?.closingTime}`;
-      setTimeToSet(Time);
+      // const Time=`${formattedDate}T${sessionClosingHours?.closingTime}`;
+      // setTimeToSet(Time);
 
 
       

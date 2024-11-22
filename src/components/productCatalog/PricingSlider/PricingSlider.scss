@@ -1,79 +1,75 @@
-*{
-   font-family: "Poppins",sans-serif;
+* {
+  font-family: "Poppins", sans-serif;
 }
-.PricingSlider-Container{
-    width:395px;
-    height: 390px;
-    margin-top: 20px;
- 
-    margin-left: 20px;
+.PricingSlider-Container {
+  width: 395px;
+  height: 390px;
+  margin-top: 20px;
+
+  margin-left: 20px;
 }
-.PricingSlider-Heading{
-    margin-left: 10px;
-    font-size: 20px;
-    font-weight: 500;
+.PricingSlider-Heading {
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: 500;
 }
-.Onprem-Ofprem{
-   
-    margin-top: 10px;
-    margin-left: 20px;
-    display: flex;
-    flex-direction:column ;
-    margin-bottom: 20px;
-    
+.Onprem-Ofprem {
+  margin-top: 10px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
-.Onprem-Heading{
-    margin-left: -4px;
-    font-size: 16px;
-    font-weight:400;
+.Onprem-Heading {
+  margin-left: -4px;
+  font-size: 16px;
+  font-weight: 400;
 }
-.SectionA{
-    width: 200px;
-    height: 35px;
-    margin-left: 27px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.SectionA {
+  width: 200px;
+  height: 35px;
+  margin-left: 27px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.SectionA-Heading{
-    font-size: 16px;
-    font-weight: 400;
-    color:#5F5F5F;
-    margin-left: 5px;
-    width: 5rem;
+.SectionA-Heading {
+  font-size: 16px;
+  font-weight: 400;
+  color: #5f5f5f;
+  margin-left: 5px;
+  width: 5rem;
 }
-.OrderType-Name
-{
-    font-size: 16px;
-    font-weight: 400;
-    // color:#5F5F5F;
-    margin-left: 5px;
-    width: 5rem;
+.OrderType-Name {
+  font-size: 16px;
+  font-weight: 400;
+  // color:#5F5F5F;
+  margin-left: 5px;
+  width: 5rem;
 }
-.ordertypes-price
-{
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    margin-top: 4%;
-    margin-bottom: 5%;
+.ordertypes-price {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 4%;
+  margin-bottom: 5%;
 }
-.SectionInput{
-    display: flex;
-    justify-content: space-between;
-    gap:5px;
-    margin-top: 4%;
+.SectionInput {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin-top: 4%;
 }
-.SectionA-Input{
-    margin-left: 70px;
-    border:1px solid #000000;
-    width:100px;
-    text-align: center;
-    height: 28px;
-    border-radius: 3.18px;
-    padding-left: 8.07px;
-    font-size: 16px;
-    font-weight: 400;
+.SectionA-Input {
+  margin-left: 70px;
+  border: 1px solid #000000;
+  width: 100px;
+  text-align: center;
+  height: 28px;
+  border-radius: 3.18px;
+  padding-left: 8.07px;
+  font-size: 16px;
+  font-weight: 400;
 }
 .PricingSlider-Container {
   width: 395px;
@@ -127,107 +123,94 @@
   align-items: center;
   margin-top: 4%;
   margin-bottom: 3%;
-  .p-slider-input-box-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
-.OnSectionLabelInput-Heading{
-    font-size: 16px;
-    font-weight: 400;
-    
+.p-slider-input-box-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.OnPremZomatoInhouseSwiggy{
-    width: 320px;
-  
-  
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  
+.OnSectionLabelInput-Heading {
+  font-size: 16px;
+  font-weight: 400;
 }
-.OnPremZomatoInhouseSwiggyInput{
-    display: flex;
-    justify-content: flex-start;
-    // border: 1px solid red;
-    justify-content: left;
-    
-    align-items: center;
-    padding: 5px;
-    margin: 0;
-   
+.compare-Image {
+  margin-left: 2%;
 }
-.OnPremZomatoInhouseSwiggyInputOrg{
-    border:1px solid #000000;
-    width:100px;
-    text-align: center;
-    height: 28px;
-    border-radius: 3.18px;
-    padding-left: 8.07px;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 10px;
-    box-sizing: border-box; 
-}
-.OnPremZomatoInhouseSwiggyInput-Heading{
-    width: 125px; 
-    // border: 1px solid blue;
-    font-size: 16px;
-    font-weight: 400;
-    color:#5F5F5F;
-   
+.OnPremZomatoInhouseSwiggy {
+  width: 320px;
 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.OnPremZomatoInhouseSwiggyInput {
+  display: flex;
+  justify-content: flex-start;
+  // border: 1px solid red;
+  justify-content: left;
+
+  align-items: center;
+  padding: 5px;
+  margin: 0;
+}
+.OnPremZomatoInhouseSwiggyInputOrg {
+  border: 1px solid #000000;
+  width: 100px;
+  text-align: center;
+  height: 28px;
+  border-radius: 3.18px;
+  padding-left: 8.07px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.OnPremZomatoInhouseSwiggyInput-Heading {
+  width: 125px;
+  // border: 1px solid blue;
+  font-size: 16px;
+  font-weight: 400;
+  color: #5f5f5f;
 }
 
-.Compare{
-    margin-left: 10px;
+.Compare {
+  margin-left: 10px;
 }
-.percentage
-    {
-        margin: 0;
-        padding: 0;
-        width: 80px;
-        margin-left: 10%;
-        // border: 1px solid red;
-    }
-    
-.input-price
-{
-    display: flex;
-    // border: 1px solid red;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  
-    
+.percentage {
+  margin: 0;
+  padding: 0;
+  width: 80px;
+  margin-left: 10%;
+  // border: 1px solid red;
+}
 
+.input-price {
+  display: flex;
+  // border: 1px solid red;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
-.percentage-diff
-{
-    display: flex;
-    align-items: center;
-    justify-content: left;
+.percentage-diff {
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
 .triangle {
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 16px solid #00B71D;
-    margin: 0;
-    padding: 0;
-
-  
-  }
-  .rev-triangle
-  {
-    width: 0;
-height: 0;
-border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-border-bottom: 16px solid #E52333;
-transform: rotate(180deg);
-
-  }
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 16px solid #00b71d;
+  margin: 0;
+  padding: 0;
+}
+.rev-triangle {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 16px solid #e52333;
+  transform: rotate(180deg);
 }
