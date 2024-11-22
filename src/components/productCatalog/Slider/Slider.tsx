@@ -160,7 +160,7 @@ const Slider: React.FC<SliderProps> = ({
               <span>
                 {data1?.length > 0 ? data1[0]?.itemName : "No Item Available"}
               </span>
-              <span>-</span>
+              <span>{ data1[0]?.itemCode?"-":""}</span>
               <span>{data1?.length > 0 ? data1[0]?.itemCode : ""}</span>
             </h1>
             <div className="Slider-icons">

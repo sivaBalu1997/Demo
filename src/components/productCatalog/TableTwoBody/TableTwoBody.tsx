@@ -136,6 +136,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     .filter((item: any) => item?.typeName)
     .map((item: any) => item.typeName);
 
+
   return (
     <>
       {
@@ -183,7 +184,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                 const className = typeName?.toLowerCase() + "data";
                 const isPriceEnabled =
                   orderType &&
-                  orderType.isNotHide == 1 
+                  orderType.isNotHide == 1 && orderType.availabilityEnabled && orderType.isEnabled===1
                     ? true
                     : false;
                 const sliderkey =
@@ -262,9 +263,9 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
                       }
                     >
                       {isEnabled !== "" ? (
-                        <Toggle toggle={orderType?.isNotHide === 1 && true} />
+                        <Toggle toggle={orderType?.availabilityEnabled===true && orderType?.isNotHide === 1 && orderType?.isEnabled === 1&& true} />
                       ) : (
-                        <Toggle toggle={orderType?.isNotHide !== 1 && false} />
+                        <Toggle toggle={orderType?.availabilityEnabled===false &&orderType?.isNotHide !== 1 &&  orderType?.isEnabled!==1 && false} />
                       )}
                     </p>
                   </div>

@@ -121,7 +121,6 @@ const NormalStep2 = () => {
       })
     );
   }, []);
-  console.log("prizingDetail",prizingDetail.normalForm &&prizingDetail.normalForm?.dineinfields);
 
   const restaurantDetails = useSelector(
     (state: any) => state?.auth.restaurantDetails
