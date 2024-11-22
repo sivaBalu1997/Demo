@@ -217,14 +217,15 @@
   font-size: 16px;
   font-weight: 400;
 }
-.measuring-scale-tooltip-container {
+.compare-Image {
   margin-left: 2%;
-  // background-color: lightgreen;
+  // background-color: pink;
   width: 30px;
   height: 23px;
-  .compare-Image {
+  .measuring-scale-tooltip-container {
+    position: fixed;
     // margin-left: 2%;
-    // background-color: pink;
+    // background-color: lightgreen;
     width: 30px;
     height: 23px;
   }

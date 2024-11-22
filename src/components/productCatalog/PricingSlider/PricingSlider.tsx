@@ -329,44 +329,39 @@ const PricingSlider: any = ({}) => {
                         value={price.price || ""}
                       />
                     </div>
-
-                    <span className="measuring-scale-tooltip-container">
-                      <TooltipMsg
-                        message="Compare prices with the base price to see differences"
-                        styles={{
-                          position: "relative",
-                          top: "-4.3rem",
-                          left: "-18rem",
-                          width: "350px",
-                          height: "35px",
-                          backgroundColor: "#67833E",
-                          color: "white",
-                          textAlign: "center",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "5px",
-                        }}
-                        Arrowstyle={{
-                          marginTop: "0rem",
-                          rotate: "-180deg",
-                          position: "relative",
-                          top: "59%",
-                          left: "16.4rem",
-                          // backgroundColor: "lightgreen",
-                        }}
+                    {price.typeGroup === "D" &&
+                    item.mainHeading === "On-prem" ? (
+                      <div
+                        className="compare-Image"
+                        onClick={() =>
+                          handleComparision(price.price, price.tyepeId, index)
+                        }
                       >
-                        {price.typeGroup === "D" &&
-                        item.mainHeading === "On-prem" ? (
-                          <div
-                            className="compare-Image"
-                            onClick={() =>
-                              handleComparision(
-                                price.price,
-                                price.tyepeId,
-                                index
-                              )
-                            }
+                        <span className="measuring-scale-tooltip-container">
+                          <TooltipMsg
+                            message="Compare prices with the base price to see differences"
+                            styles={{
+                              position: "relative",
+                              top: "-5.3rem",
+                              left: "-18rem",
+                              width: "350px",
+                              height: "35px",
+                              backgroundColor: "#67833E",
+                              color: "white",
+                              textAlign: "center",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderRadius: "5px",
+                            }}
+                            Arrowstyle={{
+                              marginTop: "0rem",
+                              rotate: "-180deg",
+                              position: "relative",
+                              top: "59%",
+                              left: "16.4rem",
+                              // backgroundColor: "lightgreen",
+                            }}
                           >
                             <svg
                               width="30"
@@ -380,38 +375,38 @@ const PricingSlider: any = ({}) => {
                                 fill={`${showCompare ? "#67833E" : "#B3B3B3"}`}
                               />
                             </svg>
-                          </div>
-                        ) : (
-                          <div className="percentage-diff">
-                            {showCompare && (
-                              <p
-                                className="percentage"
-                                style={{
-                                  color: `${
-                                    filteredpricelist[idx]
-                                      ?.increaseOrDecrease === "increase"
-                                      ? "#00B71D"
-                                      : "#E52333"
-                                  }`,
-                                }}
-                              >
-                                {filteredpricelist[idx]?.percentage}
-                              </p>
-                            )}
-                            {showCompare && (
-                              <div
-                                className={`${
-                                  filteredpricelist[idx]?.increaseOrDecrease ===
-                                  "increase"
-                                    ? "triangle"
-                                    : "rev-triangle"
-                                }`}
-                              ></div>
-                            )}
-                          </div>
+                          </TooltipMsg>
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="percentage-diff">
+                        {showCompare && (
+                          <p
+                            className="percentage"
+                            style={{
+                              color: `${
+                                filteredpricelist[idx]?.increaseOrDecrease ===
+                                "increase"
+                                  ? "#00B71D"
+                                  : "#E52333"
+                              }`,
+                            }}
+                          >
+                            {filteredpricelist[idx]?.percentage}
+                          </p>
                         )}
-                      </TooltipMsg>
-                    </span>
+                        {showCompare && (
+                          <div
+                            className={`${
+                              filteredpricelist[idx]?.increaseOrDecrease ===
+                              "increase"
+                                ? "triangle"
+                                : "rev-triangle"
+                            }`}
+                          ></div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               })}
