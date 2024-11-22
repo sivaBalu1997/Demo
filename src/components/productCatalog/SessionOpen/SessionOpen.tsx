@@ -105,9 +105,9 @@ else{
     setshowAvailchanges(true)
   };
   useEffect(()=>{
-    const todayDay = "Monday";
+    const todayDay = getTodayDay();
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
-      (item:any) => item.weekday === todayDay
+      (item:any) => item.weekday === todayDay||item.weekday === "All"
     );
     setfilteredsession(todayWorkinghours);
 

@@ -199,26 +199,24 @@ export const Menulisting = () => {
   const insertlists2 = {
     Pricing: {
       show: listingobject?.showPricing ? "Pricing" : "",
-      ...(listingobject &&
-        Object.keys(listingobject && listingobject)
-          .filter((key) => key.endsWith("1") && key !== "Customize1")
-          .reduce((acc, key) => {
-            acc[key.replace("1", "")] = key.replace("1", "");
-            return acc;
-          }, {})),
+      ...(listingobject && Object.keys(listingobject && listingobject)
+        .filter(key => key.endsWith("1") && key !== "Customize1")
+        .reduce((acc, key) => {
+          acc[key.replace("1", "")] = key.replace("1", "");
+          return acc;
+        }, {}))
     },
     Available: {
       show: listingobject?.showAvail ? "Available" : "",
-      ...(listingobject &&
-        Object.keys(listingobject)
-          .filter((key) => key.endsWith("2") && key !== "Customize1")
-          .reduce((acc, key) => {
-            acc[key.replace("2", "")] = key.replace("2", "");
-            return acc;
-          }, {})),
+      ...(listingobject && Object.keys(listingobject)
+        .filter(key => key.endsWith("2") && key !== "Customize1")
+        .reduce((acc, key) => {
+          acc[key.replace("2", "")] = key.replace("2", "");
+          return acc;
+        }, {}))
     },
 
-    Customization: "Customization",
+    Customization: "Customization"
   };
 
   // Output result
@@ -285,14 +283,12 @@ export const Menulisting = () => {
   };
 
   useEffect(() => {
-    dispatch(removeDataRequest());
-  }, []);
+    dispatch(removeDataRequest())
+  }, [])
 
   const locationid = useSelector((state) => state.auth.credentials?.locationId);
 
-  const deleteMenuItemSuccess = useSelector(
-    (state) => state.productCatalog.deleteMenuItemSuccess
-  );
+  const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess)
 
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
@@ -481,10 +477,10 @@ export const Menulisting = () => {
         dispatch(selectedCategory(categoryData));
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
+
       }
 
     }
-
   };
 
   const showsidebar = (key) => {
@@ -549,15 +545,12 @@ export const Menulisting = () => {
         description: editData[0]?.description ?? "",
         imageUrls: editData[0]?.mediaResponseList ?? [],
         alcohol: editData[0]?.containsAlcohol ?? false,
-        itemCode: editData[0]?.itemCode ?? "",
-        barCode: editData[0]?.barCode ?? "",
-        Ingredients:
-          editData[0]?.ingredients?.map((ingredient) => ingredient?.id ?? "") ??
-          [],
-        allergens:
-          editData[0]?.allergens?.map((allergen) => allergen?.id ?? "") ?? [],
+        itemCode: editData[0]?.itemCode ?? '',
+        barCode: editData[0]?.barCode ?? '',
+        Ingredients: editData[0]?.ingredients?.map(ingredient => ingredient?.id ?? '') ?? [],
+        allergens: editData[0]?.allergens?.map(allergen => allergen?.id ?? '') ?? [],
         coloriePoint: editData[0]?.calorieInfo ?? {},
-        portionSize: editData[0]?.portionInfo ?? "",
+        portionSize: editData[0]?.portionInfo ?? '',
         tax: editData[0]?.taxClassAssociation ?? [],
         dietaryType: editData[0]?.dietTypes ?? [],
         cuisine: editData[0]?.cuisine?.[0]?.name ?? "",
@@ -572,12 +565,12 @@ export const Menulisting = () => {
           deliveryDetails: null,
           dineInDetails: null,
           pickupDetails: null,
-          thirdpartyDetails: [],
+          thirdpartyDetails: []
         },
         Preparationtime: {
-          hours: editData[0]?.preparationTimeInHours || "",
-          minutes: editData[0]?.preparationTimeInMinutes || "",
-        },
+          hours: editData[0]?.preparationTimeInHours || '',
+          minutes: editData[0]?.preparationTimeInMinutes || ''
+        }
       };
 
       editData[0]?.orderTypes?.forEach((orderType) => {
@@ -602,19 +595,18 @@ export const Menulisting = () => {
       });
 
       const modifierData = editData[0]?.modifiers?.map((item) => ({
-        id: item?.id ?? "",
-        modifierName: item?.modifierName ?? "",
+        id: item?.id ?? '',
+        modifierName: item?.modifierName ?? '',
         maxCount: item?.maxCount ?? 0,
         minCount: item?.minCount ?? 0,
         noFreeCustomization: item?.noFreeCustomization ?? false,
         selectedValue: item?.orderTypeIds ?? [],
-        options:
-          item?.options?.map((option) => ({
-            optionId: option?.optionId ?? "",
-            name: option?.name ?? "",
-            price: option?.price ?? 0,
-            isEnabled: option?.isEnabled ?? false,
-          })) || [],
+        options: item?.options?.map(option => ({
+          optionId: option?.optionId ?? '',
+          name: option?.name ?? '',
+          price: option?.price ?? 0,
+          isEnabled: option?.isEnabled ?? false
+        })) || [],
       }));
 
       dispatch(primarypost(primaryPageData));

@@ -75,7 +75,7 @@
   background-color: #ffffff;
   max-height: 45vh;
   padding-left: 20px;
-
+  // border: 1px solid red;
   transform: translateY(1px);
   overflow-y: auto;
   position: absolute;
@@ -83,13 +83,24 @@
   top: 53px;
   left: 153px;
   padding-bottom: 10px;
+  overflow-x: hidden;
+  &::-webkit-scrollbar
+  {
+    display: none;
+  }
 }
 
 .MLSearch-Container-options-menu ul {
   list-style: none;
   cursor: pointer;
+  overflow-x: hidden;
   background-color: white;
   height: 45vh;
+  // border: 1px solid red;
+  &::-webkit-scrollbar
+  {
+    display: none;
+  }
   overflow: auto;
   width: 37.5vw;
   box-shadow: 0px 10px 15px -6px rgba(0, 0, 0, 0.2509803922);
@@ -184,7 +195,7 @@
 
 .MLSearch-Container-options-none {
   width: 610px;
-  height: 407px;
+  height: 45vh;
   background-color: #ffffff;
   transform: translate(-18px);
   display: flex;
@@ -193,12 +204,13 @@
   position: relative;
   right: 1.5vw;
   bottom: 16px;
-  margin-top: 3px;
+  margin-top: -2rem;
+  // border: 1px solid blue;
 }
 
 .MLSearch-Container-options1-none {
   width: 580px;
-  height: 407px;
+  height: 45vh;
   background-color: #ffffff;
   border: 1px solid transparent;
 
@@ -216,14 +228,18 @@
 .MLNotFoundImage {
   width: 372px;
   height: 338.52px;
-  transform: translateX(-10px);
+  // transform: translateX(-10px);
+position: relative;
+top: 2.3rem;
 }
 
 .MLheading-none {
   color: #67833e;
   font-size: 22px;
   font-family: Poppins;
-  transform: translate(90px, -60px);
+  transform: translate(90px, -30px);
+//   position: relative;
+// top: 2.3rem;
 }
 /* Apply styles for devices with a max width of 768px */
 @media (max-width: 2400px) {

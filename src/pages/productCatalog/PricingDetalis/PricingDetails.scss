@@ -20,6 +20,10 @@
   height: 38.5rem;
   width: 100%;
   overflow-y: auto;
+  &::-webkit-scrollbar
+  {
+    display: none;
+  }
 }
 
 .pricingdetails-container {
@@ -30,6 +34,10 @@
   height: 37.5rem;
   width: 93.3%;
   overflow-y: auto;
+  &::-webkit-scrollbar
+  {
+    display: none;
+  }
 }
 
 .pricing-form {
@@ -39,6 +47,10 @@
   margin-left: 55px;
   // overflow-y: auto;
   height: 82vh;
+  &::-webkit-scrollbar
+  {
+    display: none;
+  }
   // font-size: 14px;
 }
 

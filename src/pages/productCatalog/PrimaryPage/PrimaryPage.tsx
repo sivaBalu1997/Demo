@@ -43,6 +43,7 @@ import { stat } from "fs";
 import TooltipMsg from "components/productCatalog/Tooltip/TooltipMsg";
 import { useLocation } from "react-router-dom";
 import "./PrimaryPage.scss";
+import { showErrorToast } from "util/toastUtils";
 
 interface Ingredients {
   id: string;
@@ -453,7 +454,12 @@ const PrimaryPage = () => {
       setValue("imageUrls", updatedImageUrls);
       return updatedImages;
     });
+    console.log("length",images.length);
+    
+
+
   };
+  const [restrictToAdd,setRestrictToAdd]=useState(true);
 
   const selectedradiowatch = watch();
   const alcoholValue = selectedradiowatch.alcohol || "no";
@@ -461,7 +467,10 @@ const PrimaryPage = () => {
     selectedradiowatch.portionSize || "Portion(count)";
 
   const handleAddImage = () => {
-    document.getElementById("imgadd")?.click();
+    
+      document.getElementById("imgadd")?.click();
+    
+   
   };
   const [uploading, setUploading] = useState(false);
 
@@ -473,16 +482,14 @@ const PrimaryPage = () => {
       const fileArray = Array.from(files)
         .map((file) => {
           if (!validImageTypes.includes(file.type)) {
-            alert(
-              `Invalid file type: ${file.name}. Only PNG and JPG are allowed.`
-            );
+            
+            
+            showErrorToast( `Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
             return null;
           }
           if (file.size > maxSizeInBytes) {
-            // alert(`File too large: ${file.name}. Maximum size is 2MB.`);
-            alert(
-              "Image upload failed: File size exceeds 2 MB. Please upload a smaller file."
-            );
+            
+            showErrorToast( "Image upload failed: File size exceeds 2 MB. Please upload a smaller file.");
             return null;
           }
           return {
@@ -493,9 +500,18 @@ const PrimaryPage = () => {
           };
         })
         .filter((file): file is ImageFile => file !== null);
+        if(images.length===5)
+        {
+          setRestrictToAdd(false);
+        }
       if (fileArray.length + images.length > 6) {
-        alert("You can upload a maximum of 6 images.");
+       
+        showErrorToast("You can upload a maximum of 6 images.");
+        // setRestrictToAdd(false);
         return;
+      }
+      else{
+        setRestrictToAdd(true);
       }
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
@@ -935,13 +951,21 @@ useEffect(()=>{
                         />
                       </div>
                     ))}
+{ images.length <6 &&
+ <img
+ src={ImgaeUploading}
+ alt="Add"
+ className="addingimg"
+ style={{cursor:images.length <6?"pointer":"not-allowed"}}
+ onClick={() => {
+   if (images.length <6) { 
+     handleAddImage();
+   }
+ }}
+/>
 
-                    <img
-                      src={ImgaeUploading}
-                      alt="Add"
-                      className="addingimg"
-                      onClick={handleAddImage}
-                    />
+}
+                   
                   </div>
                 </div>
 
