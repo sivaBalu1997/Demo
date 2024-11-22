@@ -188,15 +188,21 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-
+  
     if (value === "") {
       setManuallyCleared(true);
       setShowselectedOption(false);
+  
       if (type === "checkbox") {
         setSelectedOptions([]);
         setValue(name, []);
         trigger(name);
+      } else if (type === "radio") {
+        setSelectedOptions([]);
+        setValue(name, "");
+        trigger(name);
       }
+  
       if (dropdownopen) {
         onToggle();
       }
@@ -207,9 +213,10 @@ const DropDownList: React.FC<DropdownProps> = ({
       }
       setShowselectedOption(false);
     }
-
+  
     setOptions(filteredOptions);
   };
+  
 
   // useEffect(() => {
   //   const initialSelectedValue = getValues(name);
@@ -387,40 +394,35 @@ const DropDownList: React.FC<DropdownProps> = ({
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-
+  
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-
+  
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
         );
         setSelectedOptions(updatedOptions);
-        setValue(
-          name,
-          updatedOptions.map((opt) => opt?.name)
-        );
+        setValue(name, updatedOptions.map((opt) => opt?.name));
         trigger(name);
       } else {
         const updatedOptions = [...currentSelectedOptions, option];
         setSelectedOptions(updatedOptions);
-        setValue(
-          name,
-          updatedOptions.map((opt) => opt?.name)
-        );
+        setValue(name, updatedOptions.map((opt) => opt?.name));
         trigger(name);
       }
     } else if (type === "radio") {
-      setSelectedOptions([option]);
-      setValue(name, option.name);
+      setSelectedOptions([option]); 
+      setValue(name, option.name); 
       trigger(name);
     }
-
-    setSearchTerm("");
-    setManuallyCleared(false);
+  
+    setSearchTerm(""); 
+    setManuallyCleared(false); 
   };
+  
 
   const payload = {
     locationId: locationid,
