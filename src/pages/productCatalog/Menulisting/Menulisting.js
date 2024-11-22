@@ -46,8 +46,6 @@ export const Menulisting = () => {
     (state) => state.searchItem?.SearcheItem
   );
 
-
-
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
@@ -202,24 +200,26 @@ export const Menulisting = () => {
   const insertlists2 = {
     Pricing: {
       show: listingobject?.showPricing ? "Pricing" : "",
-      ...(listingobject && Object.keys(listingobject && listingobject)
-        .filter(key => key.endsWith("1") && key !== "Customize1")
-        .reduce((acc, key) => {
-          acc[key.replace("1", "")] = key.replace("1", "");
-          return acc;
-        }, {}))
+      ...(listingobject &&
+        Object.keys(listingobject && listingobject)
+          .filter((key) => key.endsWith("1") && key !== "Customize1")
+          .reduce((acc, key) => {
+            acc[key.replace("1", "")] = key.replace("1", "");
+            return acc;
+          }, {})),
     },
     Available: {
       show: listingobject?.showAvail ? "Available" : "",
-      ...(listingobject && Object.keys(listingobject)
-        .filter(key => key.endsWith("2") && key !== "Customize1")
-        .reduce((acc, key) => {
-          acc[key.replace("2", "")] = key.replace("2", "");
-          return acc;
-        }, {}))
+      ...(listingobject &&
+        Object.keys(listingobject)
+          .filter((key) => key.endsWith("2") && key !== "Customize1")
+          .reduce((acc, key) => {
+            acc[key.replace("2", "")] = key.replace("2", "");
+            return acc;
+          }, {})),
     },
 
-    Customization: "Customization"
+    Customization: "Customization",
   };
 
   // Output result
@@ -286,12 +286,14 @@ export const Menulisting = () => {
   };
 
   useEffect(() => {
-    dispatch(removeDataRequest())
-  }, [])
+    dispatch(removeDataRequest());
+  }, []);
 
   const locationid = useSelector((state) => state.auth.credentials?.locationId);
 
-  const deleteMenuItemSuccess = useSelector((state) => state.productCatalog.deleteMenuItemSuccess)
+  const deleteMenuItemSuccess = useSelector(
+    (state) => state.productCatalog.deleteMenuItemSuccess
+  );
 
   const handleColumnwiseDragOver = (index) => {
     if (draggedIndexsample !== index) {
@@ -419,15 +421,19 @@ export const Menulisting = () => {
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
 
-    const allItemResponseLists = menuData?.flatMap((category) =>
-      category?.subCategoryResponseList?.map((subCategory) => ({
-        categoryId: category.categoryId,
-        categoryName: category?.categoryName,
-        subCategoryId: subCategory?.subCategoryId,
-        subCategoryName: subCategory?.subCategoryName,
-        itemResponseList: subCategory?.itemResponseList
-      }))
-    ).filter((item) => item?.itemResponseList?.map((data) => data.itemId === value));
+    const allItemResponseLists = menuData
+      ?.flatMap((category) =>
+        category?.subCategoryResponseList?.map((subCategory) => ({
+          categoryId: category.categoryId,
+          categoryName: category?.categoryName,
+          subCategoryId: subCategory?.subCategoryId,
+          subCategoryName: subCategory?.subCategoryName,
+          itemResponseList: subCategory?.itemResponseList,
+        }))
+      )
+      .filter((item) =>
+        item?.itemResponseList?.map((data) => data.itemId === value)
+      );
     const filtesubItems = allItemResponseLists.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -449,10 +455,7 @@ export const Menulisting = () => {
     //     return null; // Return null if the ID is not found
     // }
 
-
-
     if (filteredItem) {
-
       setCategoryData({
         name: filteredItem?.categoryName,
         id: filteredItem?.categoryId,
@@ -466,8 +469,7 @@ export const Menulisting = () => {
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
-    }
-    else {
+    } else {
       setCategoryData({
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
@@ -480,9 +482,7 @@ export const Menulisting = () => {
         dispatch(selectedCategory(categoryData));
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
-
       }
-
     }
   };
 
@@ -506,50 +506,47 @@ export const Menulisting = () => {
     const isObjectEmpty = (obj) => {
       return Object.keys(obj).length === 0;
     };
-    if (isObjectEmpty(SearchedmenuItem)) {    
-      const allItemResponseLists = menuData?.flatMap((category) =>
-        category?.subCategoryResponseList?.map((subCategory) => ({
-          categoryId: category.categoryId,
-          categoryName: category?.categoryName,
-          subCategoryId: subCategory?.subCategoryId,
-          subCategoryName: subCategory?.subCategoryName,
-          itemResponseList: subCategory?.itemResponseList
-        }))
-      )
-        .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
-  
-  
+    if (isObjectEmpty(SearchedmenuItem)) {
+      const allItemResponseLists = menuData
+        ?.flatMap((category) =>
+          category?.subCategoryResponseList?.map((subCategory) => ({
+            categoryId: category.categoryId,
+            categoryName: category?.categoryName,
+            subCategoryId: subCategory?.subCategoryId,
+            subCategoryName: subCategory?.subCategoryName,
+            itemResponseList: subCategory?.itemResponseList,
+          }))
+        )
+        .filter(
+          (item) =>
+            item?.itemResponseList !== null &&
+            item?.itemResponseList?.length > 0
+        );
+
       const allItemResponseLists2 = menuData.flatMap((category) => category);
-  
+
       const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
-  
+
       const transformedList = mergedarray.map((entry) => ({
         id: entry.categoryId,
         name: entry.categoryName,
         itemResponseList: entry.itemResponseList || [],
       }));
-  
+
       setItemList(transformedList);
+      setLoading(false)
     } else {
-
-      const filterdItem={
-        name:SearchedmenuItem?.categoryName,
-        id:SearchedmenuItem?.categoryId,
-        itemResponseList:SearchedmenuItem?.itemResponseList
-
-
-
+      const filterdItem = {
+        name: SearchedmenuItem?.categoryName,
+        id: SearchedmenuItem?.categoryId,
+        itemResponseList: SearchedmenuItem?.itemResponseList,
       };
 
-
-
       setItemList([filterdItem]);
+      setLoading(false)
+    
     }
   }, [menuData, SearchedmenuItem]);
-
-console.log("SearchedmenuItem",SearchedmenuItem);
-
-
 
   const selectedBranch = useSelector(
     (state) => state.auth.selectedBranch || null
@@ -559,10 +556,9 @@ console.log("SearchedmenuItem",SearchedmenuItem);
     selectedBranch?.id && dispatch(getMenuRequest(selectedBranch?.id));
   }, [selectedBranch?.id]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getMenuRequest(selectedBranch?.id));
-  },[])
+  }, []);
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
@@ -586,12 +582,15 @@ console.log("SearchedmenuItem",SearchedmenuItem);
         description: editData[0]?.description ?? "",
         imageUrls: editData[0]?.mediaResponseList ?? [],
         alcohol: editData[0]?.containsAlcohol ?? false,
-        itemCode: editData[0]?.itemCode ?? '',
-        barCode: editData[0]?.barCode ?? '',
-        Ingredients: editData[0]?.ingredients?.map(ingredient => ingredient?.id ?? '') ?? [],
-        allergens: editData[0]?.allergens?.map(allergen => allergen?.id ?? '') ?? [],
+        itemCode: editData[0]?.itemCode ?? "",
+        barCode: editData[0]?.barCode ?? "",
+        Ingredients:
+          editData[0]?.ingredients?.map((ingredient) => ingredient?.id ?? "") ??
+          [],
+        allergens:
+          editData[0]?.allergens?.map((allergen) => allergen?.id ?? "") ?? [],
         coloriePoint: editData[0]?.calorieInfo ?? {},
-        portionSize: editData[0]?.portionInfo ?? '',
+        portionSize: editData[0]?.portionInfo ?? "",
         tax: editData[0]?.taxClassAssociation ?? [],
         dietaryType: editData[0]?.dietTypes ?? [],
         cuisine: editData[0]?.cuisine?.[0]?.name ?? "",
@@ -606,12 +605,12 @@ console.log("SearchedmenuItem",SearchedmenuItem);
           deliveryDetails: null,
           dineInDetails: null,
           pickupDetails: null,
-          thirdpartyDetails: []
+          thirdpartyDetails: [],
         },
         Preparationtime: {
-          hours: editData[0]?.preparationTimeInHours || '',
-          minutes: editData[0]?.preparationTimeInMinutes || ''
-        }
+          hours: editData[0]?.preparationTimeInHours || "",
+          minutes: editData[0]?.preparationTimeInMinutes || "",
+        },
       };
 
       editData[0]?.orderTypes?.forEach((orderType) => {
@@ -636,18 +635,19 @@ console.log("SearchedmenuItem",SearchedmenuItem);
       });
 
       const modifierData = editData[0]?.modifiers?.map((item) => ({
-        id: item?.id ?? '',
-        modifierName: item?.modifierName ?? '',
+        id: item?.id ?? "",
+        modifierName: item?.modifierName ?? "",
         maxCount: item?.maxCount ?? 0,
         minCount: item?.minCount ?? 0,
         noFreeCustomization: item?.noFreeCustomization ?? false,
         selectedValue: item?.orderTypeIds ?? [],
-        options: item?.options?.map(option => ({
-          optionId: option?.optionId ?? '',
-          name: option?.name ?? '',
-          price: option?.price ?? 0,
-          isEnabled: option?.isEnabled ?? false
-        })) || [],
+        options:
+          item?.options?.map((option) => ({
+            optionId: option?.optionId ?? "",
+            name: option?.name ?? "",
+            price: option?.price ?? 0,
+            isEnabled: option?.isEnabled ?? false,
+          })) || [],
       }));
 
       dispatch(primarypost(primaryPageData));
@@ -716,8 +716,6 @@ console.log("SearchedmenuItem",SearchedmenuItem);
     }
   }, [menudatalist, menuData]);
 
-
-
   const menuDataLoading = useSelector(
     (state) => state.productCatalog?.menuDataLoading
   );
@@ -741,17 +739,20 @@ console.log("SearchedmenuItem",SearchedmenuItem);
   const [itemList, setItemList] = useState([]);
 
   useEffect(() => {
-    const allItemResponseLists = menuData?.flatMap((category) =>
-      category?.subCategoryResponseList?.map((subCategory) => ({
-        categoryId: category.categoryId,
-        categoryName: category?.categoryName,
-        subCategoryId: subCategory?.subCategoryId,
-        subCategoryName: subCategory?.subCategoryName,
-        itemResponseList: subCategory?.itemResponseList
-      }))
-    )
-      .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
-
+    const allItemResponseLists = menuData
+      ?.flatMap((category) =>
+        category?.subCategoryResponseList?.map((subCategory) => ({
+          categoryId: category.categoryId,
+          categoryName: category?.categoryName,
+          subCategoryId: subCategory?.subCategoryId,
+          subCategoryName: subCategory?.subCategoryName,
+          itemResponseList: subCategory?.itemResponseList,
+        }))
+      )
+      .filter(
+        (item) =>
+          item?.itemResponseList !== null && item?.itemResponseList?.length > 0
+      );
 
     const allItemResponseLists2 = menuData.flatMap((category) => category);
 
@@ -764,6 +765,7 @@ console.log("SearchedmenuItem",SearchedmenuItem);
     }));
 
     setItemList(transformedList);
+    setLoading(false);
   }, [menuData]);
 
   return (
@@ -859,10 +861,11 @@ console.log("SearchedmenuItem",SearchedmenuItem);
               </div>
               <div className="table-two-alignment">
                 <table
-                  className={`${isExpanded
-                    ? "Menu-Listing-TableTwo1"
-                    : "Menu-Listing-TableTwo"
-                    }`}
+                  className={`${
+                    isExpanded
+                      ? "Menu-Listing-TableTwo1"
+                      : "Menu-Listing-TableTwo"
+                  }`}
                 >
                   <thead className="Menu-Listing-TableTwoHead">
                     <tr className="headingonesection">
@@ -909,10 +912,11 @@ console.log("SearchedmenuItem",SearchedmenuItem);
 
                   {
                     <tbody
-                      className={`${isExpanded
-                        ? "Menu-Listing-TableTwoBody1"
-                        : "Menu-Listing-TableTwoBody"
-                        } tabletwobody`}
+                      className={`${
+                        isExpanded
+                          ? "Menu-Listing-TableTwoBody1"
+                          : "Menu-Listing-TableTwoBody"
+                      } tabletwobody`}
                       ref={tableBodyRef2}
                     >
                       {
@@ -976,10 +980,10 @@ console.log("SearchedmenuItem",SearchedmenuItem);
                           )}
                         </>
                       }
-                    </tbody >
+                    </tbody>
                   }
-                </table >
-              </div >
+                </table>
+              </div>
               {modal && (
                 <Slider
                   sidebartext={sidebartext}
@@ -987,9 +991,9 @@ console.log("SearchedmenuItem",SearchedmenuItem);
                   onclose={() => setmodal(false)}
                 />
               )}
-            </div >
-          </div >
-        </div >
+            </div>
+          </div>
+        </div>
       }
     </>
   );
