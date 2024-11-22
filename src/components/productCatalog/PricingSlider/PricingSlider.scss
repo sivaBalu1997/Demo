@@ -76,6 +76,11 @@
   // border: 1px solid red;
   outline: none;
   border: none;
+  &::placeholder {
+    text-align: center;
+    // background-color: #00b71d;
+    margin-right: 7px;
+  }
 }
 .PricingSlider-Container {
   width: 395px;
