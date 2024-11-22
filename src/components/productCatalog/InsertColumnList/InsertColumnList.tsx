@@ -33,14 +33,24 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   Outsideref,
   uniqueOrderTypeNames,
 }) => {
-  const [pricing, setPricing] = useState<string | undefined>(
-    insertlists?.Pricing?.show
-  );
-  const [availability, setAvailability] = useState<string | undefined>(
-    insertlists?.Available?.show
-  );
+  // const [pricing, setPricing] = useState<string | undefined>(
+  //   insertlists?.Pricing?.show
+  // );
+  // const [availability, setAvailability] = useState<string | undefined>(
+  //   insertlists?.Available?.show
+  // );
 
-  console.log({ pricing });
+  const [pricing, setPricing] = useState<string | undefined>("");
+  const [availability, setAvailability] = useState<string | undefined>("");
+
+  useEffect(() => {
+    if (insertlists?.Pricing?.show !== "") {
+      setPricing(insertlists?.Pricing?.show);
+    }
+    if (insertlists?.Available?.show !== "") {
+      setAvailability(insertlists?.Available?.show);
+    }
+  }, [insertlists?.Pricing?.show, insertlists?.Available?.show]);
 
   const handleToggle = useCallback(
     (
@@ -115,6 +125,9 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
     (key: any) => listingobject[key]
   );
 
+  console.log({ pricing });
+  console.log({ availability });
+
   return (
     <div className="headaadbtnclass" ref={Outsideref}>
       {showheadinglist && (
@@ -174,8 +187,12 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   />
                   <span>
                     {availability}
-                    <img src={toggleround} alt="" />
-                    <img src={togglebtns} alt="" className="toggleicon" />
+                    {/* <img src={toggleround} alt="" /> */}
+                    <img
+                      src={togglebtns}
+                      alt="toggle-btn"
+                      className="toggleiconNew"
+                    />
                   </span>
                 </div>
                 <ul className="indenttexts">

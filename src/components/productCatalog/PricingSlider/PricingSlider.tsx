@@ -4,6 +4,8 @@ import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { RootState } from "redux/rootReducer";
+import weightCompare from "../../../assets/svg/weightCompare.svg";
+import TooltipMsg from "../Tooltip/TooltipMsg";
 
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
@@ -16,6 +18,10 @@ interface PriceComparison {
 }
 
 const PricingSlider: any = ({}) => {
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth.restaurantDetails
+  );
+
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
   const data = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -267,9 +273,9 @@ const PricingSlider: any = ({}) => {
       }));
     }
   };
-  const restaurantDetails = useSelector(
-    (state: RootState) => state.auth.restaurantDetails
-  );
+  // const restaurantDetails = useSelector(
+  //   (state: RootState) => state.auth.restaurantDetails
+  // );
 
   return (
     <div className="PricingSlider-Container">

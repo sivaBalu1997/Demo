@@ -75,18 +75,59 @@
     font-size: 16px;
     font-weight: 400;
 }
+.PricingSlider-Container {
+  width: 395px;
+  height: 390px;
+  margin-top: 20px;
 
-.SectionA-Image{
-    margin-left: 10px;
-    
+  margin-left: 20px;
 }
-.Section-Label{
-    width: 220px;
-    margin-top:0px;
-    margin-left: 28px;
-    
+.PricingSlider-Heading {
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: 500;
 }
-.OnSectionLabelInput{
+.Onprem-Ofprem {
+  margin-top: 10px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.Onprem-Heading {
+  margin-left: -4px;
+  font-size: 16px;
+  font-weight: 400;
+}
+.SectionA {
+  width: 200px;
+  height: 35px;
+  margin-left: 27px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.SectionA-Heading {
+  font-size: 16px;
+  font-weight: 400;
+  color: #5f5f5f;
+  margin-left: 5px;
+  width: 5rem;
+}
+.OrderType-Name {
+  font-size: 16px;
+  font-weight: 400;
+  // color:#5F5F5F;
+  margin-left: 5px;
+  width: 5rem;
+}
+.ordertypes-price {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-top: 4%;
+  margin-bottom: 3%;}
+  .p-slider-input-box-container {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;

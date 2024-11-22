@@ -439,36 +439,36 @@ export const Menulisting = () => {
 
     const allItemResponseLists = menuData?.flatMap((category) => 
       category?.subCategoryResponseList?.map((subCategory) => ({
-        categoryId: category.categoryId, 
-        categoryName: category?.categoryName, 
-        subCategoryId: subCategory?.subCategoryId, 
-        subCategoryName: subCategory?.subCategoryName, 
-        itemResponseList: subCategory?.itemResponseList 
+        categoryId: category.categoryId,
+        categoryName: category?.categoryName,
+        subCategoryId: subCategory?.subCategoryId,
+        subCategoryName: subCategory?.subCategoryName,
+        itemResponseList: subCategory?.itemResponseList
       }))
-    ).filter((item) => item?.itemResponseList?.map((data)=>data.itemId===value));
-const filtesubItems=allItemResponseLists.find((item) =>
-  item?.itemResponseList?.some((response) => response?.itemId === value)
-);
+    ).filter((item) => item?.itemResponseList?.map((data) => data.itemId === value));
+    const filtesubItems = allItemResponseLists.find((item) =>
+      item?.itemResponseList?.some((response) => response?.itemId === value)
+    );
 
-  //   function findIdInSubCategories(data, idToFind) {
-  //     for (const category of data || []) { // Ensure `data` is iterable
-  //         for (const subCategory of category?.subCategoryResponseList || []) { // Check if `subCategoryResponseList` exists
-  //             for (const item of subCategory?.itemResponseList || []) { // Check if `itemResponseList` exists
-  //                 if (item.itemId === idToFind) {
-  //                     return {
-  //                         categoryName: category.categoryName,
-  //                         subCategoryName: subCategory.subCategoryName,
-  //                         item: item
-  //                     };
-  //                 }
-  //             }
-  //         }
-  //     }
-  //     return null; // Return null if the ID is not found
-  // }
-  
-  
-  
+    //   function findIdInSubCategories(data, idToFind) {
+    //     for (const category of data || []) { // Ensure `data` is iterable
+    //         for (const subCategory of category?.subCategoryResponseList || []) { // Check if `subCategoryResponseList` exists
+    //             for (const item of subCategory?.itemResponseList || []) { // Check if `itemResponseList` exists
+    //                 if (item.itemId === idToFind) {
+    //                     return {
+    //                         categoryName: category.categoryName,
+    //                         subCategoryName: subCategory.subCategoryName,
+    //                         item: item
+    //                     };
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return null; // Return null if the ID is not found
+    // }
+
+
+
     if (filteredItem) {
 
       setCategoryData({
@@ -491,10 +491,10 @@ const filtesubItems=allItemResponseLists.find((item) =>
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
       });
-      const specificResponse = filtesubItems.itemResponseList.filter(
+      const specificResponse = filtesubItems?.itemResponseList?.filter(
         (response) => response?.itemId === value
       );
-      if (specificResponse.length > 0) {
+      if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
         dispatch(selectedMockDataRequest(specificResponse));
@@ -532,9 +532,13 @@ const filtesubItems=allItemResponseLists.find((item) =>
     }
   }, [menuData, SearchedmenuItem]);
 
+  const selectedBranch = useSelector(
+    (state) => state.auth.selectedBranch || null
+  );
+
   useEffect(() => {
-    dispatch(getMenuRequest(location?.id));
-  }, []);
+    selectedBranch?.id && dispatch(getMenuRequest(selectedBranch?.id));
+  }, [selectedBranch?.id]);
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
@@ -710,21 +714,20 @@ const filtesubItems=allItemResponseLists.find((item) =>
 
   const [itemList, setItemList] = useState([]);
   useEffect(() => {
-    const allItemResponseLists = menuData?.flatMap((category) => 
-    category?.subCategoryResponseList?.map((subCategory) => ({
-      categoryId: category.categoryId, 
-      categoryName: category?.categoryName, 
-      subCategoryId: subCategory?.subCategoryId, 
-      subCategoryName: subCategory?.subCategoryName, 
-      itemResponseList: subCategory?.itemResponseList 
-    }))
-  )
-  .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
+    const allItemResponseLists = menuData?.flatMap((category) =>
+      category?.subCategoryResponseList?.map((subCategory) => ({
+        categoryId: category.categoryId,
+        categoryName: category?.categoryName,
+        subCategoryId: subCategory?.subCategoryId,
+        subCategoryName: subCategory?.subCategoryName,
+        itemResponseList: subCategory?.itemResponseList
+      }))
+    )
+      .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
 
-console.log("allItemResponseLists", allItemResponseLists);
-      
+
     const allItemResponseLists2 = menuData.flatMap((category) => category);
-    
+
     const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
 
     const transformedList = mergedarray.map((entry) => ({
@@ -779,7 +782,11 @@ console.log("allItemResponseLists", allItemResponseLists);
 
                   {
                     <tbody
-                      className={isExpanded ? "Menu-Listing-TableOneBodyExpanded Menu-listing-Body" : "Menu-Listing-TableOneBody Menu-listing-Body"}
+                      className={
+                        isExpanded
+                          ? "Menu-Listing-TableOneBodyExpanded Menu-listing-Body"
+                          : "Menu-Listing-TableOneBody Menu-listing-Body"
+                      }
                       ref={tableBodyRef1}
                     >
                       {loading ? (
@@ -943,10 +950,10 @@ console.log("allItemResponseLists", allItemResponseLists);
                           )}
                         </>
                       }
-                    </tbody>
+                    </tbody >
                   }
-                </table>
-              </div>
+                </table >
+              </div >
               {modal && (
                 <Slider
                   sidebartext={sidebartext}
@@ -954,9 +961,9 @@ console.log("allItemResponseLists", allItemResponseLists);
                   onclose={() => setmodal(false)}
                 />
               )}
-            </div>
-          </div>
-        </div>
+            </div >
+          </div >
+        </div >
       }
     </>
   );
