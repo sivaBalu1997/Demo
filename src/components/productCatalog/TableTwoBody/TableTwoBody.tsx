@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Toggle from "../Toggle/Toggle";
 import { log } from "console";
 import { tr } from "date-fns/locale";
 import { RootState } from "redux/rootReducer";
 import { useSelector } from "react-redux";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface ModifierOption {
   optionId: string;
@@ -94,9 +95,10 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
       )
     );
   // const allFalse = Object.values(listingobject).every(value => value === false);
-  const [selectedFileds, setselectefields] = useState<Record<string, boolean>>(
-    {}
-  );
+  const [selectedFileds, setselectefields] = useState<Record<string, boolean>>({});
+  const { isExpanded } = useContext(Contextpagejs);
+  const style = isExpanded ? { width: `100%` } : { width: `${Object.keys(selectedFileds).length * 10 + 100}%` };
+
   const menuData = useSelector((state: any) => state.productCatalog?.menuData);
 
   useEffect(() => {
@@ -149,9 +151,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
       {itemobject.categoryName !== "" &&
         itemobject?.itemResponseList?.length > 0 && (
           <tr
-            style={{
-              width: `${Object.keys(selectedFileds).length * 10 + 100}%`,
-            }}
+            style={style}
             className="categoryname"
           ></tr>
         )}
