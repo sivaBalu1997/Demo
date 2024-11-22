@@ -198,7 +198,7 @@ const SearchBox = () => {
                 <li
                   key={index}
                   onClick={() => handleOptionClick(option)}
-                  className={`${index === highlightedIndex ? 'MLhighlighted' : ''} list-of-item-name`}
+                  className={`${index === highlightedIndex ? 'MLhighlighted' : ''}   ${isExpanded ? 'list-of-item-name-expand' : "list-of-item-name"}`}
                 >
                   <div className={isExpanded ? 'MLSearch-Container-options1-items' : "MLSearch-Container-options-items"}>
                     {option}
