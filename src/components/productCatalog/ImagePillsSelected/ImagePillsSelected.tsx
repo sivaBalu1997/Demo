@@ -28,7 +28,7 @@ interface alleregenimagelist {
   id: string;
   name: string;
   image?: string | null;
-  media?:any;
+  media?: any;
 }
 
 interface FetchedPrimaryData {
@@ -57,11 +57,17 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
   imageselected,
   name,
 }) => {
-  const ingredientsdata = useSelector((state: any) => state.productCatalog?.ingredients?.data);
-  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data);
+  const ingredientsdata = useSelector(
+    (state: any) => state.productCatalog?.ingredients?.data
+  );
+  const allergensData = useSelector(
+    (state: any) => state.productCatalog?.allergens?.data
+  );
 
   const [imagefromapi, setImageFromApi] = useState<ImageItem[]>([]);
-  const [alleregenimgelist, setAllergenImgList] = useState<alleregenimagelist[]>([]);
+  const [alleregenimgelist, setAllergenImgList] = useState<
+    alleregenimagelist[]
+  >([]);
 
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
@@ -90,12 +96,12 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
 
   return (
     <div className="imagesselected">
-      <div >
+      <div>
         {name === "Ingredients" && (
           <div className="images1">
-            {imagefromapi.map((image) => (
+            {imagefromapi?.map((image) => (
               <div key={image?.id} className="selectedingredientsimage">
-                <img src={image?.media.url || ""}  />
+                <img src={image?.media.url || ""} alt="ingredient-image" />
                 <span>{image?.name}</span>
               </div>
             ))}
@@ -105,9 +111,9 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
       <div>
         {name === "allergens" && (
           <div className="images2">
-            {alleregenimgelist.map((image) => (
+            {alleregenimgelist?.map((image) => (
               <div key={image?.id} className="selectedallergenimage">
-                <img src={image?.media.url || ""}  />
+                <img src={image?.media.url || ""} alt="allergen-image" />
                 <span>{image?.name}</span>
               </div>
             ))}
@@ -117,6 +123,5 @@ const ImagePillsSelected: React.FC<ImageGalleryProps> = ({
     </div>
   );
 };
-
 
 export default ImagePillsSelected;

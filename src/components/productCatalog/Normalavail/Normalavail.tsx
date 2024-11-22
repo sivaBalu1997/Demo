@@ -214,14 +214,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
-
-
   const DineInId = orderTypess?.find((item: any) => item.typeGroup === "D")?.id;
   const pickUpId = orderTypess?.find((item: any) => item.typeGroup === "P")?.id;
-  const DineInServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "D")?.isEnabled;
-  const pickUpIdServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "P")?.isEnabled;
-  const DeliveryServiceEnabled = orderTypess?.find((item: any) => item.typeGroup === "S")?.isEnabled;
-  
+  const DineInServiceEnabled = orderTypess?.find(
+    (item: any) => item.typeGroup === "D"
+  )?.isEnabled;
+  const pickUpIdServiceEnabled = orderTypess?.find(
+    (item: any) => item.typeGroup === "P"
+  )?.isEnabled;
+  const DeliveryServiceEnabled = orderTypess?.find(
+    (item: any) => item.typeGroup === "S"
+  )?.isEnabled;
 
   const deliveryId = orderTypess?.find(
     (item: any) => item.typeGroup === "S"
@@ -310,10 +313,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
         },
       ];
     }
-    data[index].availabilities[0].sessions = selectedMealTypes;    
+    data[index].availabilities[0].sessions = selectedMealTypes;
     setPriceInfo(data);
   };
-  
 
   const mainForm = {
     availabilityid: availabilityid,
@@ -342,12 +344,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
     ...(delivery && { deliveryDetails: deliveryDetails }),
 
-    // ...(selectedthirdvalues?.length > 0 && {                    
+    // ...(selectedthirdvalues?.length > 0 && {
     //   thirdpartyDetails: priceInfo
     // })
     ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
   };
-
 
   const optionsselectthird = orderTypes
     ?.filter((item) => item.typeGroup === "T")
@@ -358,7 +359,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     .map((item) => item);
 
   const dineInTypes = orderTypes
-    ?.filter((item) => item.typeGroup === "D")
+    ?.filter((item) => item.typeGroup === "P")
     .map((item) => item.typeName);
 
   const pickUpTypes = orderTypes
@@ -392,7 +393,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
     console.log("00",prizingDetail?.normalForm?.formNormal)
     console.log("001",prizingDetail?.normalForm)
     if (prizingDetail?.normalForm?.formNormal) {
-      
       setformNormal({
         PickuppriceNormal:
           prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
@@ -421,20 +421,17 @@ const Normalavail: React.FC<NormalavailProps> = ({
           dayButtonText: "Choose Day",
         })
       );
-      console.log("1111",updatedFields)
-      
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-     
       pickupDetails?.price && setPickup(true);
       deliveryDetails?.price > 0 && setDelivery(true);
       setDineInFields(updatedFields);
       setFormattedDineInData((prevData) => ({
         ...prevData,
         price: updatedFields[0]?.DineInPrice,
-      }))
+      }));
 
       // Set delivery details
       const thirdPartyTypeName =
@@ -523,7 +520,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
       if (thirdpartyDetails?.length > 0) {
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
-        if (thirdpartyDetails.some((item: any) => item?.price)) {                 //need to change the logic here
+        if (thirdpartyDetails.some((item: any) => item?.price)) {
+          //need to change the logic here
           setSelectedThirdValues(data);
         }
         setPriceInfo([...thirdpartyDetails]);
@@ -538,23 +536,23 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       const updatedFields = dineInDetails
-      ? [
-          {
-            DineInId: dineInDetails.typeId || "",
-            DineInPrice: dineInDetails.price ?? "",
-            DineInMealType: dineInDetails.DineInMealType || [],
-            DineInService: dineInDetails.DineInService || "",
-            showDay: true,
-            dayButtonText: "Choose Day",
-          },
-        ]
-      : [];
-      
+        ? [
+            {
+              DineInId: dineInDetails.typeId || "",
+              DineInPrice: dineInDetails.price ?? "",
+              DineInMealType: dineInDetails.DineInMealType || [],
+              DineInService: dineInDetails.DineInService || "",
+              showDay: true,
+              dayButtonText: "Choose Day",
+            },
+          ]
+        : [];
+
       setDineInFields(updatedFields);
       setFormattedDineInData((prevData) => ({
         ...prevData,
         price: updatedFields[0]?.DineInPrice,
-      }))
+      }));
 
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
@@ -612,7 +610,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     ]);
   };
-
 
   const getDisabledDays = (index: number) => {
     const allSelectedDays = new Set<number>();
@@ -801,7 +798,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
       updatedAvailabilities[index] = {
         ...updatedAvailabilities[index],
-        sessions: [...newSelectedValues.filter(Boolean).flat()], 
+        sessions: [...newSelectedValues.filter(Boolean).flat()],
       };
 
       return {
@@ -859,9 +856,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
-useEffect(()=>{
-  setDineIn(true);
-},[])
+  useEffect(() => {
+    setDineIn(true);
+  }, []);
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
@@ -886,15 +883,16 @@ useEffect(()=>{
     setPickUpDetails({ ...pickupDetails, price: 0 });
     setDeliveryDetails({
       ...deliveryDetails, // Spread the existing state
-      price: 0,           // Update the price property
-    });    setDayPickup([]);
+      price: 0, // Update the price property
+    });
+    setDayPickup([]);
     setSelectedValues3([]);
     setDayDelivery([]);
     setDayThird([]);
-    setDineIn(false)
-    setOnline(false)
-    setPickup(false)
-    setDelivery(false)
+    setDineIn(false);
+    setOnline(false);
+    setPickup(false);
+    setDelivery(false);
     setSelectedValues4([]);
     setSelectedValues5([]);
     setSelectedValues([]);
@@ -916,9 +914,7 @@ useEffect(()=>{
     setDineIn(DineInServiceEnabled === 1);
     setPickup(pickUpIdServiceEnabled === 1);
     setDelivery(DeliveryServiceEnabled === 1);
-  }, [DineInServiceEnabled,pickUpIdServiceEnabled,DeliveryServiceEnabled]);
-
- 
+  }, [DineInServiceEnabled, pickUpIdServiceEnabled, DeliveryServiceEnabled]);
 
   const [dropdownopened, setDropdownopened] = useState<boolean>(false);
 
@@ -927,7 +923,7 @@ useEffect(()=>{
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-          <div className="tooltip">
+          {/* <div className="tooltip">
             <TooltipMsg
               message="Select Days to Display at the Bottom"
               styles={{
@@ -941,9 +937,8 @@ useEffect(()=>{
                 justifyContent: "center",
                 alignItems: "center",
                 borderRadius: "5px",
-                position:"relative",
-                top:'-10px',
-             
+                position: "relative",
+                top: "-10px",
               }}
               Arrowstyle={{
                 marginTop: "0rem",
@@ -956,7 +951,7 @@ useEffect(()=>{
                 <img src={info} alt="info icon" width={20} height={20} />
               </div>
             </TooltipMsg>
-          </div>
+          </div> */}
         </div>
 
         <div className="dayschecking">
@@ -978,11 +973,13 @@ useEffect(()=>{
       {
         <div className="DineInRelated">
           <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
-          <Toggle toggle={dinein} setToggle={setDineIn} Enabled={DineInServiceEnabled===1}/>
+          <Toggle
+            toggle={dinein}
+            setToggle={setDineIn}
+            Enabled={DineInServiceEnabled === 1}
+          />
         </div>
       }
-
-
 
       {dinein ? (
         <>
@@ -990,7 +987,7 @@ useEffect(()=>{
             const mealTypeKey = `DineInMealType_${index}`;
             const priceKey = `DineInPrice_${index}`;
             const DineInService = `DineInService_${index}`;
-            
+
             return (
               <>
                 <div className="DineIn-Fields">
@@ -1011,9 +1008,14 @@ useEffect(()=>{
                         onChange={(e) => {
                           handleChange(index, e);
                         }}
-                        onKeyDown={(e) => {
-                          if (e.key === "-") {
-                            e.preventDefault(); // Prevent typing -, e, or E
+                        onInput={(e) => {
+                          // Cast event target to HTMLInputElement to access value
+                          const inputElement = e.target as HTMLInputElement;
+                          const value = inputElement.value;
+
+                          // Regex allows only numbers and one decimal point
+                          if (!/^(\d+(\.\d*)?|\.\d+)$/.test(value)) {
+                            inputElement.value = value.slice(0, -1); // Remove invalid character
                           }
                         }}
                       />
@@ -1069,7 +1071,7 @@ useEffect(()=>{
                       <DaysCheckDin
                         checkedItems={dineInDates1}
                         setCheckedItems={setDineInDates1}
-                        getDisabledDays ={getDisabledDays}
+                        getDisabledDays={getDisabledDays}
                         index={index}
                         {...(availabilityid
                           ? { id: availabilityid, setId: setAvailabilityid }
@@ -1102,12 +1104,15 @@ useEffect(()=>{
       <div className="OnlineSectionNormal">
         {online ? (
           <div className="onlineselected">
-
             {/* PickupRelated */}
             <div className="PickupRelatedNormal">
               <h1 className="PickupRelatedHeadingNormal">Pick Up</h1>
               <div className="toggleIV">
-                <Toggle toggle={pickup} setToggle={setPickup} Enabled={pickUpIdServiceEnabled===1}/>
+                <Toggle
+                  toggle={pickup}
+                  setToggle={setPickup}
+                  Enabled={pickUpIdServiceEnabled === 1}
+                />
               </div>
             </div>
             <div className="PickupSectionNormal">
@@ -1221,7 +1226,11 @@ useEffect(()=>{
             >
               <h1 className="DeliveryRelatedHeadingNormal">Delivery</h1>
               <div className="toggleV">
-                <Toggle toggle={delivery} setToggle={setDelivery} Enabled={DeliveryServiceEnabled===1}/>
+                <Toggle
+                  toggle={delivery}
+                  setToggle={setDelivery}
+                  Enabled={DeliveryServiceEnabled === 1}
+                />
               </div>
             </div>
 
@@ -1250,6 +1259,17 @@ useEffect(()=>{
                           ...prevDetails,
                           price: Number(newPrice),
                         }));
+                      }}
+                      onInput={(e) => {
+                        // onInput for real-time validation (allows only numbers and one decimal point)
+                        const inputElement = e.target as HTMLInputElement;
+                        const newPrice = inputElement.value;
+
+                        // Regex allows only digits and one decimal point
+                        if (!/^\d*\.?\d*$/.test(newPrice)) {
+                          // If invalid input, restore the last valid value by slicing off the invalid character
+                          inputElement.value = newPrice.slice(0, -1);
+                        }
                       }}
                     />
                     <div className="DeliveryD">
@@ -1307,7 +1327,7 @@ useEffect(()=>{
                         setCheckedItems={setDayDelivery}
                         {...(availabilityid.length > 0
                           ? { id: availabilityid, setId: setAvailabilityid }
-                          : { id: [], setId: () => {} })} 
+                          : { id: [], setId: () => {} })}
                       />
                     )}
                   </div>
@@ -1331,6 +1351,7 @@ useEffect(()=>{
                   }
                   validation={validationState.PickupSwiggy}
                   width="Drop1"
+                  placeHolder="Third Party"
                 />
               </div>
 
@@ -1428,4 +1449,3 @@ useEffect(()=>{
 };
 
 export default Normalavail;
-

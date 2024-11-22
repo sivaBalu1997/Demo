@@ -17,6 +17,7 @@ interface DropdownProps {
   index?: number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleValidate?: () => void;
+  placeHolder?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -28,6 +29,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   width,
   onBlur,
   handleValidate,
+  placeHolder,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -62,8 +64,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const newSelectedValues = selectedValues.includes(value)
-      ? selectedValues.filter((item) => item !== value) 
-      : [...selectedValues, value]; 
+      ? selectedValues.filter((item) => item !== value)
+      : [...selectedValues, value];
     onSelect(newSelectedValues);
   };
 
@@ -87,7 +89,9 @@ const Dropdown: React.FC<DropdownProps> = ({
             {selectedValues.slice(0, 3).join(", ")}
           </div>
         ) : (
-          <div className="valuePlaceholder"></div>
+          <div className="valuePlaceholder">
+            {placeHolder === "Third Party" ? "Third Party" : ""}
+          </div>
         )}
         <div>
           <img
@@ -128,6 +132,5 @@ const Dropdown: React.FC<DropdownProps> = ({
     </div>
   );
 };
-
 
 export default Dropdown;

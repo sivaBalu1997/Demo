@@ -1,36 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import "./Toggle.css";
 
 interface ToggleProps {
   toggle: boolean;
   setToggle?: React.Dispatch<React.SetStateAction<boolean>>;
   togglevalue?: number;
-  width?:number;
-  height?:number;
-  Enabled?:boolean
+  width?: number;
+  height?: number;
+  Enabled?: boolean;
 }
 
-const Toggle: React.FC<ToggleProps> = ({ toggle, setToggle,Enabled=true, togglevalue,width ,height}) => {
- 
-
+const Toggle: React.FC<ToggleProps> = ({
+  toggle,
+  setToggle,
+  Enabled = true,
+  togglevalue,
+  width,
+  height,
+}) => {
   return (
     <div>
       <button
-        type="button"  
+        type="button"
         // style={{width:`${width}px`,height:`${height}px`}}
         className={`toggleBtn${toggle ? " Toggled" : ""}`}
         onClick={() => {
-
-          if(Enabled)
-          {
+          if (Enabled) {
             if (setToggle) {
-              setToggle(prev => !prev);
+              setToggle((prev) => !prev);
             }
           }
-         
         }}
       >
-        <div className='thumb'></div>
+        <div className="thumb"></div>
       </button>
     </div>
   );

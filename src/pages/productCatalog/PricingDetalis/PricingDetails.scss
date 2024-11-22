@@ -46,9 +46,6 @@
   display: flex;
   height: 4rem;
   // border: 1px solid red;
-
-  
-
 }
 // .KitchenRelated > div {
 //   flex: 1; /* This will make the divs take equal space */
@@ -89,6 +86,16 @@
   
     gap: 10px;
     position: relative;
+    top: -0.3rem;
+    color: #424242;
+    font-family: Poppins;
+    font-size: 14.38px;
+    font-weight: 400;
+    line-height: 21.56px;
+    letter-spacing: 0.004em;
+    text-align: left;
+  }
+
 
     .Prepartiontime-input-hours {
       width: 40px;
@@ -110,14 +117,24 @@
       font-family: Poppins;
       border: 1px solid #9f9f9f;
     }
+
+  .Prepartiontime-input-mins {
+    width: 48px;
+    height: 40px;
+    border-radius: 5.41px;
+    border: 1px solid #9f9f9f;
+    &::placeholder {
+      color: #000000;
+    }
   }
 
-  .timeSpan{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-  }
+
+.timeSpan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
 
 .KitchenRelatedHeading {
   margin-top: 20px;

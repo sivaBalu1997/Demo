@@ -7,8 +7,8 @@ import Header from "../../../components/productCatalog/Header/Header";
 import closeicon from "../../../assets/svg/closeicon.svg";
 // import Loader from "../../../assets/Loader.gif.gif";
 import toggleround from "../../../assets/svg/toggleround.svg";
-import calendericon from "../../../assets/svg/calendericon.svg";
-import dollaricon from "../../../assets/svg/dollaricon.svg";
+import calendericon from "../../../assets/svg/availableTickFigMenu.svg";
+import dollaricon from "../../../assets/svg/dollarFigMenu.svg";
 import Slider from "../../../components/productCatalog/Slider/Slider";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import InsertColumnList from "../../../components/productCatalog/InsertColumnList/InsertColumnList";
@@ -420,38 +420,38 @@ export const Menulisting = () => {
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
 
-    const allItemResponseLists = menuData?.flatMap((category) => 
+    const allItemResponseLists = menuData?.flatMap((category) =>
       category?.subCategoryResponseList?.map((subCategory) => ({
-        categoryId: category.categoryId, 
-        categoryName: category?.categoryName, 
-        subCategoryId: subCategory?.subCategoryId, 
-        subCategoryName: subCategory?.subCategoryName, 
-        itemResponseList: subCategory?.itemResponseList 
+        categoryId: category.categoryId,
+        categoryName: category?.categoryName,
+        subCategoryId: subCategory?.subCategoryId,
+        subCategoryName: subCategory?.subCategoryName,
+        itemResponseList: subCategory?.itemResponseList
       }))
-    ).filter((item) => item?.itemResponseList?.map((data)=>data.itemId===value));
-const filtesubItems=allItemResponseLists.find((item) =>
-  item?.itemResponseList?.some((response) => response?.itemId === value)
-);
+    ).filter((item) => item?.itemResponseList?.map((data) => data.itemId === value));
+    const filtesubItems = allItemResponseLists.find((item) =>
+      item?.itemResponseList?.some((response) => response?.itemId === value)
+    );
 
-  //   function findIdInSubCategories(data, idToFind) {
-  //     for (const category of data || []) { // Ensure `data` is iterable
-  //         for (const subCategory of category?.subCategoryResponseList || []) { // Check if `subCategoryResponseList` exists
-  //             for (const item of subCategory?.itemResponseList || []) { // Check if `itemResponseList` exists
-  //                 if (item.itemId === idToFind) {
-  //                     return {
-  //                         categoryName: category.categoryName,
-  //                         subCategoryName: subCategory.subCategoryName,
-  //                         item: item
-  //                     };
-  //                 }
-  //             }
-  //         }
-  //     }
-  //     return null; // Return null if the ID is not found
-  // }
-  
-  
-  
+    //   function findIdInSubCategories(data, idToFind) {
+    //     for (const category of data || []) { // Ensure `data` is iterable
+    //         for (const subCategory of category?.subCategoryResponseList || []) { // Check if `subCategoryResponseList` exists
+    //             for (const item of subCategory?.itemResponseList || []) { // Check if `itemResponseList` exists
+    //                 if (item.itemId === idToFind) {
+    //                     return {
+    //                         categoryName: category.categoryName,
+    //                         subCategoryName: subCategory.subCategoryName,
+    //                         item: item
+    //                     };
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return null; // Return null if the ID is not found
+    // }
+
+
+
     if (filteredItem) {
 
       setCategoryData({
@@ -468,8 +468,7 @@ const filtesubItems=allItemResponseLists.find((item) =>
         setmodal(true);
       }
     }
-    else
-    {
+    else {
       setCategoryData({
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
@@ -483,9 +482,9 @@ const filtesubItems=allItemResponseLists.find((item) =>
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
-      
+
     }
-    
+
   };
 
   const showsidebar = (key) => {
@@ -706,20 +705,20 @@ const filtesubItems=allItemResponseLists.find((item) =>
 
   const [itemList, setItemList] = useState([]);
   useEffect(() => {
-    const allItemResponseLists = menuData?.flatMap((category) => 
-    category?.subCategoryResponseList?.map((subCategory) => ({
-      categoryId: category.categoryId, 
-      categoryName: category?.categoryName, 
-      subCategoryId: subCategory?.subCategoryId, 
-      subCategoryName: subCategory?.subCategoryName, 
-      itemResponseList: subCategory?.itemResponseList 
-    }))
-  )
-  .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
+    const allItemResponseLists = menuData?.flatMap((category) =>
+      category?.subCategoryResponseList?.map((subCategory) => ({
+        categoryId: category.categoryId,
+        categoryName: category?.categoryName,
+        subCategoryId: subCategory?.subCategoryId,
+        subCategoryName: subCategory?.subCategoryName,
+        itemResponseList: subCategory?.itemResponseList
+      }))
+    )
+      .filter((item) => item?.itemResponseList !== null && item?.itemResponseList?.length > 0);
 
-      
+
     const allItemResponseLists2 = menuData.flatMap((category) => category);
-    
+
     const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
 
     const transformedList = mergedarray.map((entry) => ({
@@ -824,11 +823,10 @@ const filtesubItems=allItemResponseLists.find((item) =>
               </div>
               <div className="table-two-alignment">
                 <table
-                  className={`${
-                    isExpanded
-                      ? "Menu-Listing-TableTwo1"
-                      : "Menu-Listing-TableTwo"
-                  }`}
+                  className={`${isExpanded
+                    ? "Menu-Listing-TableTwo1"
+                    : "Menu-Listing-TableTwo"
+                    }`}
                 >
                   <thead className="Menu-Listing-TableTwoHead">
                     <tr className="headingonesection">
@@ -875,11 +873,10 @@ const filtesubItems=allItemResponseLists.find((item) =>
 
                   {
                     <tbody
-                      className={`${
-                        isExpanded
-                          ? "Menu-Listing-TableTwoBody1"
-                          : "Menu-Listing-TableTwoBody"
-                      } tabletwobody`}
+                      className={`${isExpanded
+                        ? "Menu-Listing-TableTwoBody1"
+                        : "Menu-Listing-TableTwoBody"
+                        } tabletwobody`}
                       ref={tableBodyRef2}
                     >
                       {
@@ -943,10 +940,10 @@ const filtesubItems=allItemResponseLists.find((item) =>
                           )}
                         </>
                       }
-                    </tbody>
+                    </tbody >
                   }
-                </table>
-              </div>
+                </table >
+              </div >
               {modal && (
                 <Slider
                   sidebartext={sidebartext}
@@ -954,9 +951,9 @@ const filtesubItems=allItemResponseLists.find((item) =>
                   onclose={() => setmodal(false)}
                 />
               )}
-            </div>
-          </div>
-        </div>
+            </div >
+          </div >
+        </div >
       }
     </>
   );

@@ -4,6 +4,8 @@ import Weigh from "../../../assets/images/weigh.png";
 import { useSelector } from "react-redux";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { RootState } from "redux/rootReducer";
+import weightCompare from "../../../assets/svg/weightCompare.svg";
+import TooltipMsg from "../Tooltip/TooltipMsg";
 
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
@@ -16,6 +18,10 @@ interface PriceComparison {
 }
 
 const PricingSlider: any = ({}) => {
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth.restaurantDetails
+  );
+
   const { patchedData, setPatchedData } = useContext(Contextpagejs);
   const data = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -102,7 +108,7 @@ const PricingSlider: any = ({}) => {
       tyepeId: Dinein?.typeId,
     },
     {
-      heading: "Of-Prem",
+      heading: "Off-Prem",
       labels:
         data[0]?.orderTypes?.length > 0
           ? [data[0]?.orderTypes[0].typeName]
@@ -221,90 +227,135 @@ const PricingSlider: any = ({}) => {
           : [],
       }));
     }
-
   }, [data, inputs, setPatchedData]);
 
-  
-  const handlepriceinputchange = (typeId: string, mainHeading: string, newPrice: number,Enabled:number,hidden:number) => {
-
-    if(Enabled && hidden){
-
+  const handlepriceinputchange = (
+    typeId: string,
+    mainHeading: string,
+    newPrice: number,
+    Enabled: number,
+    hidden: number
+  ) => {
+    if (Enabled && hidden) {
       const updatedArray = availabilityOrderTypes.map((item: any) => {
         if (item.mainHeading === mainHeading) {
           return {
             ...item,
             types: item.types.map((type: any) => {
               if (type.typeId === typeId) {
-                return { ...type, price: newPrice }; 
+                return { ...type, price: newPrice };
               }
-              return type; 
+              return type;
             }),
           };
         }
-        return item; 
+        return item;
       });
-    
-      setAvailabilityOrderTypes(updatedArray); 
-  
-  setPatchedData((prevState:any) => ({
-      ...prevState,
-      pricing: prevState.pricing.map(
-        (PricingInfo:any) =>
+
+      setAvailabilityOrderTypes(updatedArray);
+
+      setPatchedData((prevState: any) => ({
+        ...prevState,
+        pricing: prevState.pricing.map((PricingInfo: any) =>
           PricingInfo.orderTypeId === typeId
             ? {
                 ...PricingInfo,
                 price: newPrice,
               }
             : PricingInfo
-      ),
-    }));
-  
-
+        ),
+      }));
     }
-   
-
   };
-  const restaurantDetails = useSelector(
-    (state: RootState) => state.auth.restaurantDetails
-  );
+  // const restaurantDetails = useSelector(
+  //   (state: RootState) => state.auth.restaurantDetails
+  // );
 
   return (
     <div className="PricingSlider-Container">
       <h3 className="PricingSlider-Heading">Pricing </h3>
       {availabilityOrderTypes.map((item: any, index: number) => (
         <div key={index} className="Onprem-Ofprem">
-          <div className="Onprem-Heading" >{item.mainHeading}</div>
+          <div className="Onprem-Heading">{item.mainHeading}</div>
 
           <div className="Onprem-Sections">
             {item.types &&
               item.types.map((price: any, index: number) => {
+                const enableOrNot = price.isEnabled && price.isNotHide;
 
-                const enableOrNot=price.isEnabled && price.isNotHide
-
-                const Pricesymbol=`${restaurantDetails?.country === "US" ? "$" : "Rs."}`
-               
-                return(
-                <div className="ordertypes-price">
-                  <h3 className="OrderType-Name"   style={{opacity:enableOrNot?"100%":"50%"}}
-                  >{price.typeName}</h3>
-                  <input
-        type="number"
-        className="SectionA-Input"
-        style={{border:enableOrNot?"1px solid black":"1px solid #5F5F5F",opacity:enableOrNot?"100%":"50%"}}
-        onChange={(e) =>
-          handlepriceinputchange(
-            price.typeId,
-            item.mainHeading,
-            Number(e.target.value) ,
-            price.isEnabled,
-            price.isNotHide
-
-          )
-        }
-        value={ price.price|| ''}  
-      />
-                </div>
-)})}
+                return (
+                  <div className="ordertypes-price">
+                    <h3
+                      className="OrderType-Name"
+                      style={{ opacity: enableOrNot ? "100%" : "50%" }}
+                    >
+                      {price.typeName}
+                    </h3>
+                    <div className="p-slider-input-box-container">
+                      <p className="price-unit-symbol">
+                        {restaurantDetails?.country === "US" ? "$" : "Rs."}
+                      </p>
+                      <input
+                        type="number"
+                        className="SectionA-Input"
+                        // placeholder="0"
+                        style={{
+                          border: enableOrNot
+                            ? "1px solid black"
+                            : "1px solid #5F5F5F",
+                          opacity: enableOrNot ? "100%" : "50%",
+                        }}
+                        onChange={(e) =>
+                          handlepriceinputchange(
+                            price.typeId,
+                            item.mainHeading,
+                            Number(e.target.value),
+                            price.isEnabled,
+                            price.isNotHide
+                          )
+                        }
+                        value={price.price || ""}
+                      />
+                      <span className="measuring-scale-tooltip-container">
+                        <TooltipMsg
+                          message="Compare prices with the base price to see differences"
+                          styles={{
+                            position: "relative",
+                            top: "-4.8rem",
+                            left: "-16rem",
+                            width: "350px",
+                            height: "35px",
+                            backgroundColor: "#67833E",
+                            color: "white",
+                            textAlign: "center",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "5px",
+                          }}
+                          Arrowstyle={{
+                            marginTop: "0rem",
+                            rotate: "-180deg",
+                            position: "relative",
+                            top: "59%",
+                            left: "14.5rem",
+                            // backgroundColor: "lightgreen",
+                          }}
+                        >
+                          <div className="measuring-scale">
+                            <img
+                              src={weightCompare}
+                              alt="info icon"
+                              width={25}
+                              height={25}
+                            />
+                          </div>
+                        </TooltipMsg>
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </div>
       ))}

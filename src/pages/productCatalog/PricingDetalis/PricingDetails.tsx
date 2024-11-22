@@ -291,9 +291,7 @@ const PricingDetails = () => {
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
-  const locationid = useSelector(
-    (state: State) => state?.auth?.credentials
-  );
+  const locationid = useSelector((state: State) => state?.auth?.credentials);
   const data = useSelector(
     (state: StateData) => state?.productCatalog?.availability
   );
@@ -308,7 +306,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
-  console.log({prizingDetail})
+  console.log({ prizingDetail });
 
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
@@ -352,7 +350,9 @@ const PricingDetails = () => {
     Availabilityid: [],
   });
 
-  const primarypagedetails = useSelector((state: RootState) => state.primarypage.data);
+  const primarypagedetails = useSelector(
+    (state: RootState) => state.primarypage.data
+  );
 
   console.log({primarypagedetails})
 
@@ -454,7 +454,9 @@ const PricingDetails = () => {
       // setInventory(true);
       setResetInventory(prizingDetail?.resetInventory);
       setNextAvailable(prizingDetail?.nextAvailable);
-      setPrintKot(prizingDetail?.printKot || prizingDetail?.ignoreMasterKotPrint);
+      setPrintKot(
+        prizingDetail?.printKot || prizingDetail?.ignoreMasterKotPrint
+      );
 
       // Prepare the kitchenstation name for the dropdown
       const kitchenStationName = prizingDetail?.kitchenstation;
@@ -555,7 +557,11 @@ const PricingDetails = () => {
       //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       // }
 
-      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))|| Number(field.DineInPrice) === 0) {
+      if (
+        !field.DineInPrice ||
+        isNaN(Number(field.DineInPrice)) ||
+        Number(field.DineInPrice) === 0
+      ) {
         errors[priceKey] = {
           isValid: false,
           errorMessage: "Price",
@@ -585,12 +591,11 @@ const PricingDetails = () => {
       //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       // }
 
-     if (!field.DineInPrice || isNaN(Number(field.DineInPrice)) ) {
-  errors[priceKey] = {
-    isValid: false,
-    errorMessage: " Invalid Price",
-  };
-
+      if (!field.DineInPrice || isNaN(Number(field.DineInPrice))) {
+        errors[priceKey] = {
+          isValid: false,
+          errorMessage: " Invalid Price",
+        };
       } else {
         errors[priceKey] = { isValid: true, errorMessage: "" };
       }
@@ -756,7 +761,7 @@ const PricingDetails = () => {
     setNextAvailable(event.target.checked);
   };
 
-  const handlePrintKOt = (value:boolean) => {
+  const handlePrintKOt = (value: boolean) => {
     setPrintKot(value);
   };
 
@@ -869,8 +874,10 @@ const PricingDetails = () => {
                         onChange={(e) => {
                           const value = e.target.value;
                           if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
-                            setValue("Preparationtime.hours",value === "" ? "" : Number(value));
-                            
+                            setValue(
+                              "Preparationtime.hours",
+                              value === "" ? "" : Number(value)
+                            );
                           }
                         }}
                       />
@@ -896,6 +903,7 @@ const PricingDetails = () => {
                         type="text"
                         name="minutes"
                         value={value}
+                        placeholder="00"
                         className="Prepartiontime-input-mins"
                         onChange={(e) => {
                           const inputValue = e.target.value;
@@ -936,10 +944,13 @@ const PricingDetails = () => {
               <input
                 type="checkbox"
                 className="checkbox1-Kitchen"
-                onChange={()=>handlePrintKOt(!printKot)}
+                onChange={() => handlePrintKOt(!printKot)}
                 checked={printKot}
               />
-              <label onClick={()=>handlePrintKOt(!printKot)} className="Inventorycheck">
+              <label
+                onClick={() => handlePrintKOt(!printKot)}
+                className="Inventorycheck"
+              >
                 Don't print the item in Master KOT
               </label>
             </div>
