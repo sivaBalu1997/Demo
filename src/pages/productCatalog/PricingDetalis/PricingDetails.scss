@@ -79,6 +79,7 @@
       line-height: 21.56px;
       letter-spacing: 0.004em;
       text-align: left;
+      
     }
   }
 
@@ -490,4 +491,13 @@
   position: relative;
   top: 10px;
   margin-left: 100px;
+}
+
+.tool-tip-kitchen-detail{
+  position: relative;
+  // background-color: orange;
+  top: 1.2rem;
+  left: 1rem;
+  width: 1px;
+  margin-top: -0.5rem;
 }
