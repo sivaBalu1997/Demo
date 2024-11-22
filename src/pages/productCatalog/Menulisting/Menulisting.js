@@ -474,10 +474,10 @@ const filtesubItems=allItemResponseLists.find((item) =>
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
       });
-      const specificResponse = filtesubItems.itemResponseList.filter(
+      const specificResponse = filtesubItems?.itemResponseList?.filter(
         (response) => response?.itemId === value
       );
-      if (specificResponse.length > 0) {
+      if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
         dispatch(selectedMockDataRequest(specificResponse));
