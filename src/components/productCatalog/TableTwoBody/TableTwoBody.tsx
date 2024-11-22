@@ -136,6 +136,7 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
     .filter((item: any) => item?.typeName)
     .map((item: any) => item.typeName);
 
+
   return (
     <>
       {

@@ -764,6 +764,7 @@ console.log("SearchedmenuItem",SearchedmenuItem);
     }));
 
     setItemList(transformedList);
+    setLoading(false)
   }, [menuData]);
 
   return (
