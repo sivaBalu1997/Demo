@@ -260,7 +260,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (
       ItemsPrimaryDetails?.dietaryType?.length > 0 &&
-      name === "dietaryType"
+      name === "DietaryType"
     ) {
       const dietName = ItemsPrimaryDetails?.dietaryType;
 
@@ -275,7 +275,7 @@ const DropDownList: React.FC<DropdownProps> = ({
 
       setSelectedOptions(dropDown1);
       setValue(
-        "dietaryType",
+        "DietaryType",
         dropDown1?.map((opt: any) =>
           typeof opt === "object" ? opt?.name : opt
         )
