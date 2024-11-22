@@ -67,13 +67,21 @@
 .SectionA-Input{
     margin-left: 70px;
     border:1px solid #000000;
-    width:100px;
+    width:90px;
     text-align: center;
     height: 28px;
     border-radius: 3.18px;
     padding-left: 8.07px;
     font-size: 16px;
     font-weight: 400;
+    display: flex;
+    
+}
+.Priceing-input-field
+{
+    // border: 1px solid red;
+    outline: none;
+    border: none;
 }
 .PricingSlider-Container {
   width: 395px;
@@ -113,6 +121,15 @@
   color: #5f5f5f;
   margin-left: 5px;
   width: 5rem;
+}
+.priceSymbol
+{
+    width: 20px;
+    // border: 1px solid red;
+    position: relative;
+    left: 10%;
+    top: 5%;
+
 }
 .OrderType-Name {
   font-size: 16px;
