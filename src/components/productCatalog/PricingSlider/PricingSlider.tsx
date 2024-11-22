@@ -287,7 +287,7 @@ const PricingSlider: any = ({}) => {
           <div className="Onprem-Sections">
             {item.types &&
               item.types.map((price: any, idx: number) => {
-                const enableOrNot = price.isEnabled && price.isNotHide;
+                const enableOrNot = price.isEnabled && price.isNotHide && price.availabilityEnabled;
 
                 const Pricesymbol = `${
                   restaurantDetails?.country === "US" ? "$" : "Rs."

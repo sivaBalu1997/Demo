@@ -190,7 +190,7 @@ const SearchBox = () => {
         />
       </div>
 
-      <div ref={popupRef} className={isExpanded ? "MLSearch-Container-options1" : 'MLSearch-Container-options-menu'}>
+      <div ref={popupRef} className={`${isExpanded ? "MLSearch-Container-options1" : 'MLSearch-Container-options-menu'} ${filteredOptions.length>0 && searchTerm!=="" && "searched-item-box"}`}>
         {searchTerm && closeModal && (
           <ul className='MLsearchBoxContainer'>
             {filteredOptions.length > 0 ? (
@@ -198,7 +198,7 @@ const SearchBox = () => {
                 <li
                   key={index}
                   onClick={() => handleOptionClick(option)}
-                  className={index === highlightedIndex ? 'MLhighlighted' : ''}
+                  className={`${index === highlightedIndex ? 'MLhighlighted' : ''}   ${isExpanded ? 'list-of-item-name-expand' : "list-of-item-name"}`}
                 >
                   <div className={isExpanded ? 'MLSearch-Container-options1-items' : "MLSearch-Container-options-items"}>
                     {option}

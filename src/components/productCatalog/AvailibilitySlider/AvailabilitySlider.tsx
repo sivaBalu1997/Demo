@@ -552,7 +552,7 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
                     <h3 className="SectionASectionBSectionHeading" style={{opacity:Enabledtoedit?"100%":"50%"}}>{type?.typeName}</h3>
                     <div className="" style={{marginLeft:"55px"}}>
                       <ToggleSliderAvail
-                        toggle={type?.availabilityEnabled &&type?.isEnabled && type?.isNotHide}
+                        toggle={type?.availabilityEnabled &&type?.isEnabled===1 && type?.isNotHide===1}
                         setToggle={() => 
                         {
                           if(type?.availabilityEnabled)
