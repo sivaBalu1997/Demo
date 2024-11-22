@@ -183,8 +183,8 @@ const SearchBox = () => {
           type="text"
         />
         <img
-          // className={`${isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"}`}
-          className={"MLSerchIcon-Header1"}
+          className={`${isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"}`}
+          // className={"MLSerchIcon-Header1"}
           src={searchIcon}
           alt="Search Icon"
         />
