@@ -721,12 +721,12 @@ export const alcoholradio = [
 ];
 
 export const calorieponitradio = [
-  { value: "per100grams", label: "per 100 grams " },
-  { value: "perserving", label: "per serving" },
+  { value: "per 100 grams", label: "per 100 grams " },
+  { value: "per serving", label: "per serving" },
 ];
 
 export const portionsizeradio = [
-  { value: "Portion(count)", label: "Portion(count)" },
+  { value: "portion(count)", label: "Portion(count)" },
   { value: "grams/ml", label: "grams/ml" },
 ];
 

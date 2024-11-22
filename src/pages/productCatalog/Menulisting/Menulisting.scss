@@ -193,6 +193,7 @@
           width: 8.5rem;
           position: relative;
           left: 3%;
+          cursor: pointer;
         }
       }
     }
@@ -1013,9 +1014,11 @@
     }
   }
 }
-.sub-texts-fileds {
-  position: relative;
-  top: -0.2rem;
+.sub-texts-fileds
+{
+ position: relative;
+ top: -0.2rem;
+ cursor: pointer;
 }
 .inner-text-input {
   display: flex;
