@@ -49,29 +49,27 @@ const SidePanel = () => {
   const [isExpand, setIsExpand] = useState(true)
 
   useEffect(() => {
-    if (showOptions !== 'Product Catalog' && location.pathname.includes("/menuListing")){
-      // showOptions === "Product Catalog" && 
+    if (showOptions !== 'Product Catalog' && (location?.pathname?.includes("/productCatalog"))){
       setShowOptions("Product Catalog")
-      history.push("/menuListing");
+      // history.push("/productCatalog/menuListing");
     }
-    else if(location.pathname.includes('/old-reports')){
+    else if(location?.pathname?.includes('/old-reports')){
       setShowOptions('report')
     }
-  }, [showOptions, location.pathname, history]);
-
+  }, [showOptions, location?.pathname, history]);
   
   
   const restaurantDetails = useSelector(
-    (state:RootState) => state.auth.restaurantDetails
+    (state:RootState) => state.auth?.restaurantDetails
   );
   
   const UserRole = useSelector((state:RootState) => state.auth.credentials?.role);
 
   const locationId = useSelector(
-    (state:RootState) => state.auth.credentials && state.auth.credentials.locationId
+    (state:RootState) => state.auth.credentials && state.auth?.credentials?.locationId
   );
 
-  const branchDetails = useSelector((state:RootState) => state.auth.selectedBranch);
+  const branchDetails = useSelector((state:RootState) => state.auth?.selectedBranch);
 
   const getImageURL = useCallback(
     (type:any) => {
@@ -285,7 +283,7 @@ const SidePanel = () => {
           <div
             className={
               showOptions === "Product Catalog" &&
-              location.pathname.includes("/menuListing")
+              location.pathname.includes("/productCatalog/menuListing")
                 ? "active"
                 : "down"
             }
@@ -298,8 +296,8 @@ const SidePanel = () => {
               if (showOptions !== "Product Catalog") {
                 setShowOptions("Product Catalog"); 
               }
-              if (!location.pathname.includes("/menuListing")) {
-                history.push("/menuListing"); 
+              if (!location.pathname.includes("/productCatalog/menuListing")) {
+                history.push("/productCatalog/menuListing"); 
               }
             }}
           >

@@ -86,6 +86,9 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
+  const [hasCleared, setHasCleared] = useState<boolean>(false);
+  const [manuallyCleared, setManuallyCleared] = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -96,11 +99,11 @@ const DropDownList: React.FC<DropdownProps> = ({
   );
 
   const subsectiondata = useSelector(
-    (state: any) => state.productCatalog.cuisineData.data
+    (state: any) => state.productCatalog?.cuisineData?.data
   );
 
   const deleteApicall = useSelector(
-    (state: any) => state.productCatalog.deletesubsectionsuccess
+    (state: any) => state.productCatalog?.deletesubsectionsuccess
   );
 
   const ItemsPrimaryDetails = useSelector(
@@ -184,21 +187,27 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [getValues]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-
-    if (e.target.value !== "") {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    if (value === "") {
+      setManuallyCleared(true);
+      setShowselectedOption(false);
+      if (dropdownopen) {
+        onToggle(); 
+      }
+    } else {
+      setManuallyCleared(false);
       if (!dropdownopen) {
-        onToggle(); // Open the dropdown
+        onToggle();
       }
       setShowselectedOption(false);
-    } else {
-      setShowselectedOption(true);
-      if (dropdownopen) {
-        onToggle(); // Close the dropdown
-      }
     }
+  
     setOptions(filteredOptions);
   };
+  
+  
 
   // useEffect(() => {
   //   const initialSelectedValue = getValues(name);
@@ -373,16 +382,15 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails]);
 
   const handleSelect = (option: Option) => {
-    // Ensure selectedOptions is always an array
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-
+  
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-
+  
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
@@ -406,7 +414,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
     }
-
+  
     if (dropDownType === "CATEGORY") {
       const viewdata = {
         locationId: locationid,
@@ -419,9 +427,11 @@ const DropDownList: React.FC<DropdownProps> = ({
         dispatch(fetchDropDownRequest(viewdata));
       }
     }
-
-    setSearchTerm("");
+  
+    setSearchTerm(""); 
+    setHasCleared(false); 
   };
+  
 
   const payload = {
     locationId: locationid,
@@ -580,12 +590,18 @@ const DropDownList: React.FC<DropdownProps> = ({
             type="text"
             {...register(name, validation)}
             value={
-              searchTerm === "" && showselectedOption
+              searchTerm !== ""
+                ? searchTerm
+                : manuallyCleared
+                ? "" 
+                : showselectedOption
                 ? type === "checkbox"
                   ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
-                  : selectedOptions[0]?.name || ""
-                : searchTerm
+                  : selectedOptions[0]?.name || "" 
+                : ""
             }
+            
+            
             onChange={handleSearch}
             name={name}
             // onBlur={handleBlur}
