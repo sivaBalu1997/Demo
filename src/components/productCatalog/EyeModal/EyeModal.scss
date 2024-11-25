@@ -11,6 +11,11 @@
     width:416px;
     height: 848px;
     overflow-y: auto;
+
+    &::-webkit-scrollbar
+    {
+        display: none;
+    }
     
 }
 

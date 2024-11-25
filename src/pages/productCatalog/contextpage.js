@@ -30,6 +30,17 @@ export const Contextpage = ({ children }) => {
           }
       ]
     })
+    const[partialData,setPartialData]=useState({
+      itemId: datafromRedux[0]?.itemId,
+      pricing:[],
+      modifierInfo:[],
+      itemAvailabilityInfo:[]
+
+
+    })
+
+    console.log({partialData});
+    
     const[patchedData,setPatchedData]=useState(
       {
         itemId: datafromRedux[0]?.itemId,
@@ -82,7 +93,9 @@ export const Contextpage = ({ children }) => {
       setPatchedData,
       setApiPayload,
       ApiPayload,
-      selectedDateOption
+      selectedDateOption,
+      partialData,
+      setPartialData
     }}>
       {children}
     </Contextpagejs.Provider>
