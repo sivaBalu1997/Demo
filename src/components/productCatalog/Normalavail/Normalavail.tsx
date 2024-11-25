@@ -920,7 +920,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-          {/* <div className="tooltip">
+          <div className="tooltip">
             <TooltipMsg
               message="Select Days to Display at the Bottom"
               styles={{
@@ -941,14 +941,15 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 marginTop: "0rem",
                 rotate: "-90deg",
                 position: "relative",
-                left: "-1.6rem",
+                left: "-5.3rem",
+              
               }}
             >
               <div className="ToolKitchen">
                 <img src={info} alt="info icon" width={20} height={20} />
               </div>
             </TooltipMsg>
-          </div> */}
+          </div>
         </div>
 
         <div className="dayschecking">
