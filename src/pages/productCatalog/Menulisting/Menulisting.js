@@ -188,14 +188,13 @@ export const Menulisting = () => {
     Customization: "Customization",
   };
 
-  const [firstRowTable, setFirstRowTable] = useState([
-    ...tablefirstrow,
-    { label: "Customize1" },
-  ]);
+  const [firstRowTable, setFirstRowTable] = useState();
 
   useEffect(() => {
-    setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
-  }, [menuData]);
+    if (tablefirstrow.length > 0) {
+      setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
+    }
+  }, [menuData,tablefirstrow]);
 
   const insertlists2 = {
     Pricing: {
@@ -801,7 +800,15 @@ export const Menulisting = () => {
                       <th className="itemcode">Code</th>
                       <th
                         className="addbtn"
-                        onClick={() => setshowheadinglist(true)}
+                        onClick={() => 
+                        {
+                          if(firstRowTable?.length>0)
+                          {
+                            setshowheadinglist(true)
+                          }
+                        }
+                          
+                         }
                       >
                         +
                       </th>
@@ -869,7 +876,7 @@ export const Menulisting = () => {
                 >
                   <thead className="Menu-Listing-TableTwoHead">
                     <tr className="headingonesection">
-                      {firstRowTable.map((header, index) => (
+                      {firstRowTable?.map((header, index) => (
                         <React.Fragment key={index}>
                           <TableFirstHeader
                             key={index}

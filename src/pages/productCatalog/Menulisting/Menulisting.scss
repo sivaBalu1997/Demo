@@ -122,7 +122,7 @@
       }
     }
     .Menu-Listing-TableOneBody {
-      height: 32.5rem;
+      height: 31.5rem !important;
       display: block;
       overflow-y: auto;
       &::-webkit-scrollbar {
@@ -239,18 +239,25 @@
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-
-    &::-webkit-scrollbar-track {
-      background-color: #b3b3b3;
-    }
-
+     &::-webkit-scrollbar {
+        width: 12px; 
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #B3B3B3;
+      }
+      
     &::-webkit-scrollbar-thumb {
-      background-color: #5f5f5f;
-    }
+        background: #5F5F5F; 
+        border-radius: 10px; 
+      }
+      
+      &::-webkit-scrollbar-thumb:hover {
+        background: #5F5F5F; 
+      }
+    
 
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #555;
-    }
+    
   }
   .Menu-Listing-TableTwo1 {
     width: 55rem;
@@ -258,17 +265,7 @@
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-    &::-webkit-scrollbar-track {
-      background-color: #b3b3b3;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #5f5f5f;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #555;
-    }
+   
 
     // &::-webkit-scrollbar{
     //   display: none;
@@ -639,7 +636,7 @@
 
   .Menu-Listing-TableTwoBody {
     display: block;
-    height: 33.2rem !important;
+    height: 31.5rem !important;
     overflow-y: auto;
     overflow-x: hidden;
     width: 200.4%;
@@ -655,9 +652,9 @@
     overflow-y: auto;
     overflow-x: hidden;
     width: fit-content;
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
     // border: 1px solid red !important;
   }
 
@@ -666,6 +663,25 @@
     flex-direction: column;
     // padding-top: -5.85%;
     margin-top: -0.7%;
+  //   overflow-y: auto;
+  //   border: 1px solid red;
+  //   height: 32rem !important ;
+  //   &::-webkit-scrollbar {
+  //     width: 12px; /* Adjust the width of the scrollbar */
+  //   }
+    
+  //   &::-webkit-scrollbar-track {
+  //     background: #f1f1f1; /* Background color of the scrollbar track */
+  //   }
+    
+  // &::-webkit-scrollbar-thumb {
+  //     background: red; /* Color of the scrollbar handle */
+  //     border-radius: 10px; /* Rounded corners for the scrollbar handle */
+  //   }
+    
+  //   &::-webkit-scrollbar-thumb:hover {
+  //     background: red; /* Darker shade when hovered */
+  //   }
   }
   .columnselected {
     // width: 247px;
@@ -1105,9 +1121,9 @@
         height: 38rem;
         display: block;
         overflow-y: auto;
-        &::-webkit-scrollbar {
-          display: none;
-        }
+        // &::-webkit-scrollbar {
+        //   display: none;
+        // }
         // border: 1px solid red;
       }
       .Menu-Listing-TableOneBodyExpanded {
@@ -1127,6 +1143,24 @@
       overflow-y: auto;
       overflow-x: hidden;
       width: 150.4%;
+
+      &::-webkit-scrollbar {
+        width: 12px; /* Adjust the width of the scrollbar */
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background color of the scrollbar track */
+      }
+      
+    &::-webkit-scrollbar-thumb {
+        background: red; /* Color of the scrollbar handle */
+        border-radius: 10px; /* Rounded corners for the scrollbar handle */
+      }
+      
+      &::-webkit-scrollbar-thumb:hover {
+        background: red; /* Darker shade when hovered */
+      }
+
       // &::-webkit-scrollbar {
       //   display: none;
       // }
@@ -1275,6 +1309,23 @@
       overflow-y: auto;
       overflow-x: hidden;
       width: fit-content;
+      &::-webkit-scrollbar {
+        width: 12px; 
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #B3B3B3;
+      }
+      
+    &::-webkit-scrollbar-thumb {
+        background: #5F5F5F; 
+        border-radius: 10px; 
+      }
+      
+      &::-webkit-scrollbar-thumb:hover {
+        background: #5F5F5F; 
+      }
+
       // border: 1px solid green;
       // &::-webkit-scrollbar {
       //   display: none;
