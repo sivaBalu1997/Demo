@@ -480,7 +480,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleCheckboxChange = (option: Option) => {
     if (type === "checkbox") {
       setSelectedOptions((prevSelected) => {
-        const isAlreadySelected = prevSelected.findIndex(
+        const isAlreadySelected = prevSelected?.findIndex(
           (opt) => opt.id === option.id
         );
 
