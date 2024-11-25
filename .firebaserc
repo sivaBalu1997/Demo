@@ -1,18 +1,21 @@
 {
   "projects": {
-    "default": "customerapp-2d3e1",
-    "staging": "customerapp-2d3e1"
+    "default": "merchant-portal-f1a52"
   },
   "targets": {
-    "customerapp-2d3e1": {
+    "merchant-portal-f1a52": {
       "hosting": {
-        "staging": [
-          "merchantportal-staging"
-        ],
         "dev": [
-          "merchantportal-dev"
+          "merchantportaldev"
+        ],
+        "staging": [
+          "merchantportalstaging"
+        ],
+        "production": [
+          "merchant-portal-f1a52"
         ]
       }
     }
   }
 }
+
