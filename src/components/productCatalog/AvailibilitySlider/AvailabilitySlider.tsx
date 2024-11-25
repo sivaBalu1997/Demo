@@ -35,7 +35,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const dataFromRedux = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
-  const { patchedData, setPatchedData, selectedDateOption } =
+  const { patchedData, setPatchedData, selectedDateOption ,setPartialData} =
     useContext(Contextpagejs);
 
   const [selectPeriod,setSelectPeriod]=useState(false);
@@ -85,7 +85,35 @@ setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
 
 },[dataFromRedux[0]?.orderTypes])
 
-const handleToggleDisable=()=>{
+const handleToggleDisable=(orderId:any)=>{
+
+  const pushData={
+    orderTypeId:orderId,
+    unAvailableUntilTime:""
+
+}
+  
+  setPartialData((prev:any) => {
+    const existingInfo = prev.itemAvailabilityInfo || []; 
+    const existingIndex = existingInfo.findIndex(
+      (item:any) => item.orderTypeId === orderId
+    );
+  
+    const updatedInfo =
+      existingIndex > -1
+        ? existingInfo.map((item:any, index:number) =>
+            index === existingIndex
+              ? { ...item, unAvailableUntilTime: "" }
+              : item
+          )
+        : [...existingInfo, pushData];
+  
+    return {
+      ...prev,
+      itemId: dataFromRedux[0].itemId,
+      itemAvailabilityInfo: updatedInfo,
+    };
+  });
   setPatchedData((prevState:any) => ({
     ...prevState,
     itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
@@ -226,6 +254,7 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
     ]
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
     setSelectedOrderTypeCategory("");
+
 
   }
   
@@ -499,7 +528,22 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
 
   console.log({ParentToggles});
   
-  
+  const handleSetPartialData=()=>{
+    setPartialData((prev:any) => {
+      const dataToAdd = ParentToggles
+      .filter((item:any) => item.isEnabled === 1) 
+      .map((item:any) => ({
+        orderTypeId: item.typeId,          
+        unAvailableUntilTime: ""
+      }));
+      
+      return {
+        ...prev,
+        itemId: dataFromRedux[0].itemId,
+        itemAvailabilityInfo: dataToAdd,
+      };
+    });
+  }
 
   return (
 
@@ -531,7 +575,7 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
                     handleOrderCategoryAvailability(elem.mainHeading)
                     setSelectedOrderTypeCategory(elem.mainHeading)
                     setParrentToggle(elem.mainHeading)
-                    
+                    handleSetPartialData();
                     handleParentTogglesstae(elem.mainHeading)}
                     handleToggleDisableParent()
 
@@ -567,7 +611,7 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
                           else{
                             setSelectedOrderTypeId(type?.typeId)
                             handleOrderTypesAvail(type?.typeId,type?.isEnabled,type?.isNotHide)
-                            handleToggleDisable()
+                            handleToggleDisable(type?.typeId)
                             setSelectedTypeId(type?.typeId)
                             setParrentToggle("")
                           }

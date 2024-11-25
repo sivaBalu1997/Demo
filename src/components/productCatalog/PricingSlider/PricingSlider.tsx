@@ -6,6 +6,8 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { RootState } from "redux/rootReducer";
 import weightCompare from "../../../assets/svg/weightCompare.svg";
 import TooltipMsg from "../Tooltip/TooltipMsg";
+import { log } from "console";
+import tooltiparrow from "../../../assets/svg/ArrowHover.svg";
 
 type PricingKey = "Dinein1" | "Pickup1" | "Delivery1";
 
@@ -22,7 +24,7 @@ const PricingSlider: any = ({}) => {
     (state: any) => state?.auth.restaurantDetails
   );
 
-  const { patchedData, setPatchedData } = useContext(Contextpagejs);
+  const { patchedData, setPatchedData ,partialData,setPartialData} = useContext(Contextpagejs);
   const data = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -260,6 +262,29 @@ const PricingSlider: any = ({}) => {
 
       setAvailabilityOrderTypes(updatedArray);
 
+      const datamatched=patchedData?.itemAvailabilityInfo.filter((data:any)=>data.orderTypeId===typeId)
+
+        console.log({datamatched});
+        
+        setPartialData((prev: any) => {
+         
+          const existingIndex = prev.pricing?.findIndex(
+            (item: any) => item.orderTypeId === typeId
+          );
+        
+          const updatedPricing = existingIndex > -1
+              ?  prev.pricing.map((item: any, index: number) =>
+                  index === existingIndex ? { ...item, price: newPrice } : item
+                )
+              : [... prev.pricing, { orderTypeId: typeId, price: newPrice }];
+        
+          return {
+            ...prev,
+            itemId: data[0].itemId,
+            pricing: updatedPricing,
+          };
+        });
+
       setPatchedData((prevState: any) => ({
         ...prevState,
         pricing: prevState.pricing.map((PricingInfo: any) =>
@@ -337,6 +362,7 @@ const PricingSlider: any = ({}) => {
                           handleComparision(price.price, price.tyepeId, index)
                         }
                       >
+                        <div className="comparision">
                         <svg
                           width="30"
                           height="23"
@@ -349,6 +375,13 @@ const PricingSlider: any = ({}) => {
                             fill={`${showCompare ? "#67833E" : "#B3B3B3"}`}
                           />
                         </svg>
+                        </div>
+                        <div className="tooltip-texts">
+                        Compare prices with the base price to see differences
+                        <img src={tooltiparrow} alt="" style={{width:"100px",height:"10px"}} className="arraow-image" />
+                        </div>
+                        
+
                       </div>
                     ) : (
                       <div className="percentage-diff">
