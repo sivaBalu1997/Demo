@@ -237,7 +237,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   let subcategorydataforApi = {
     locationId: locationid,
     type: "SUB_CATEGORY",
-    parentId: "",
+    parentId: parentId,
   };
 
   const prizingDetail = useSelector(
@@ -271,8 +271,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       });
 
       const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName;
-      console.log({ dietName }, { dropdownName }, { dropDown1 });
-
       setSelectedOptions(dropDown1);
       setValue(
         "DietaryType",
@@ -423,6 +421,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
+      dropDownType ==='CATEGORY' && setParentId(option?.id)
     }
 
     setSearchTerm("");
