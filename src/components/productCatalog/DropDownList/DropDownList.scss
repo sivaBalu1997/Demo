@@ -23,9 +23,11 @@
     line-height: 21px;
     text-align: left;
     color: #e52333;
-    height: 4px;
+    height: fit-content;
     transform: translateY(-7px);
     margin-bottom: -20px;
+    // background-color: pink;
+    width: fit-content;
   }
 }
 .dropdown-arrow {
@@ -57,15 +59,14 @@
   position: absolute;
   width: 19.8vw;
   height: 10.8rem;
-  z-index:5;
+  z-index: 5;
   background: #ffffff;
 
   box-shadow: 1px 1px 10px 0px #00000040;
-    //  border: 1px solid red;
+  //  border: 1px solid red;
   display: flex;
   flex-direction: column;
-  .edititem
-  {
+  .edititem {
     margin-left: -10px;
   }
 
@@ -76,8 +77,8 @@
 
     .editiconimage {
       margin-top: 0.5rem;
- position: relative;
- left: -2rem;
+      position: relative;
+      left: -2rem;
       font-size: 16px;
       font-weight: 400;
       color: #67833e;
@@ -102,7 +103,6 @@
       flex-direction: row;
       align-items: center;
       // border: 1px solid red;
-      
     }
     .dropdown-option-delete {
       display: flex;
@@ -221,20 +221,17 @@
   }
 }
 
-
-.dropdown-no-options
-{
-  width:20rem;
+.dropdown-no-options {
+  width: 20rem;
   height: 120px;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  position:relative;
+  position: relative;
 }
 
-
-.imgLoader1{
+.imgLoader1 {
   // width: 30px;
   // height: 30px;
   // position:relative;
@@ -254,9 +251,9 @@
 
 @media screen and (min-width: 1300px) and (max-width: 1450px) {
   .imgLoader1 {
-    width: 50px; 
+    width: 50px;
     height: 50px;
-    top: 10%;    
+    top: 10%;
     left: 1vw;
     margin-right: 2vw;
   }
