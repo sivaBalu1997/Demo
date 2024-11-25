@@ -268,7 +268,6 @@ const ItemCustomizations: React.FC = () => {
     selectionType?:string
   ) => {
     const { name, value } = e.target;
-  console.log('jjjj',name,value)
     setModifications((prev: any) => {
       const updated = [...prev];
       const currentModifier = updated[modIndex];
@@ -675,7 +674,7 @@ const ItemCustomizations: React.FC = () => {
   return (
     <div style={{ display: "flex"}}>
       <SidePanel />
-      <div style={{ width: "84%" }}>
+      <div style={{ width: "83%" }}>
         <Navigationpage 
           seletedpage="ItemCustomization"
           getFormData={getFormData}
@@ -913,7 +912,7 @@ const ItemCustomizations: React.FC = () => {
                                     >
                                       <div>
                                         <input
-                                          placeholder="Option (Item)*"
+                                          placeholder="Option (Item)"
                                           className="input2ItemCustomizations"
                                           name="modifierOptionName"
                                           type="text"
@@ -950,7 +949,7 @@ const ItemCustomizations: React.FC = () => {
 
                                       <div>
                                         <input
-                                          placeholder="Price*"
+                                          placeholder="Price"
                                           className="input2ItemCustomizations"
                                           name="cost"
                                           type="number"
@@ -1180,7 +1179,7 @@ const ItemCustomizations: React.FC = () => {
                                   options={listOfStreams}
                                   width="Drop1"
                                   validation={validationState.items}
-                                  label="Available Service Stream*"
+                                  label="Available Service Stream"
                                 />
                               </div>
                             </div>

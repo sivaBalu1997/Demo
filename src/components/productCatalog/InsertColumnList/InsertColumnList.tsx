@@ -125,9 +125,6 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
     (key: any) => listingobject[key]
   );
 
-  console.log({ pricing });
-  console.log({ availability });
-
   return (
     <div className="headaadbtnclass" ref={Outsideref}>
       {showheadinglist && (

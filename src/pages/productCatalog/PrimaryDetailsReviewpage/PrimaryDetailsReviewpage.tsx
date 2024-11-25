@@ -710,7 +710,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       dispatch(removeDataRequest());
       // dispatch(removeDataRequest(prizingDetail))
       // dispatch(removeDataRequest(itemCustomizationData))
-      history.push("/menuListing");
+      history.push("/productCatalog/menuListing");
     }
   }, [addMenuSuccess, updateMenuItemSuccess]);
 
@@ -1106,7 +1106,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         >
           <button
             className={`${isExpanded ? "clearall1" : "clearall"}`}
-            onClick={() => history.push("/menuListing")}
+            onClick={() => history.push("/productCatalog/menuListing")}
           >
             Cancel
           </button>

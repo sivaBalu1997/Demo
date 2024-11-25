@@ -86,6 +86,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
+  const [hasCleared, setHasCleared] = useState<boolean>(false);
+  const [manuallyCleared, setManuallyCleared] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -96,11 +98,11 @@ const DropDownList: React.FC<DropdownProps> = ({
   );
 
   const subsectiondata = useSelector(
-    (state: any) => state.productCatalog.cuisineData.data
+    (state: any) => state.productCatalog?.cuisineData?.data
   );
 
   const deleteApicall = useSelector(
-    (state: any) => state.productCatalog.deletesubsectionsuccess
+    (state: any) => state.productCatalog?.deletesubsectionsuccess
   );
 
   const ItemsPrimaryDetails = useSelector(
@@ -184,21 +186,37 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [getValues]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-
-    if (e.target.value !== "") {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    if (value === "") {
+      setManuallyCleared(true);
+      setShowselectedOption(false);
+  
+      if (type === "checkbox") {
+        setSelectedOptions([]);
+        setValue(name, []);
+        trigger(name);
+      } else if (type === "radio") {
+        setSelectedOptions([]);
+        setValue(name, "");
+        trigger(name);
+      }
+  
+      if (dropdownopen) {
+        onToggle();
+      }
+    } else {
+      setManuallyCleared(false);
       if (!dropdownopen) {
-        onToggle(); // Open the dropdown
+        onToggle();
       }
       setShowselectedOption(false);
-    } else {
-      setShowselectedOption(true);
-      if (dropdownopen) {
-        onToggle(); // Close the dropdown
-      }
     }
+  
     setOptions(filteredOptions);
   };
+  
 
   // useEffect(() => {
   //   const initialSelectedValue = getValues(name);
@@ -242,7 +260,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (
       ItemsPrimaryDetails?.dietaryType?.length > 0 &&
-      name === "dietaryType"
+      name === "DietaryType"
     ) {
       const dietName = ItemsPrimaryDetails?.dietaryType;
 
@@ -253,11 +271,11 @@ const DropDownList: React.FC<DropdownProps> = ({
       });
 
       const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName;
-      console.log({dietName},{dropdownName},{dropDown1})
+      console.log({ dietName }, { dropdownName }, { dropDown1 });
 
       setSelectedOptions(dropDown1);
       setValue(
-        "dietaryType",
+        "DietaryType",
         dropDown1?.map((opt: any) =>
           typeof opt === "object" ? opt?.name : opt
         )
@@ -373,55 +391,38 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails]);
 
   const handleSelect = (option: Option) => {
-    // Ensure selectedOptions is always an array
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-
+  
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-
+  
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
         );
         setSelectedOptions(updatedOptions);
-        setValue(
-          name,
-          updatedOptions.map((opt) => opt?.name)
-        );
+        setValue(name, updatedOptions.map((opt) => opt?.name));
+        trigger(name);
       } else {
         const updatedOptions = [...currentSelectedOptions, option];
         setSelectedOptions(updatedOptions);
-        setValue(
-          name,
-          updatedOptions.map((opt) => opt?.name)
-        );
+        setValue(name, updatedOptions.map((opt) => opt?.name));
         trigger(name);
       }
     } else if (type === "radio") {
-      setSelectedOptions([option]);
-      setValue(name, option.name);
+      setSelectedOptions([option]); 
+      setValue(name, option.name); 
       trigger(name);
     }
-
-    if (dropDownType === "CATEGORY") {
-      const viewdata = {
-        locationId: locationid,
-        type: "SUB_CATEGORY",
-        parentId: option.id,
-      };
-      setParentId(option?.id);
-      subcategorydataforApi.parentId = option.id;
-      if (subcategorydataforApi.parentId !== "") {
-        dispatch(fetchDropDownRequest(viewdata));
-      }
-    }
-
-    setSearchTerm("");
+  
+    setSearchTerm(""); 
+    setManuallyCleared(false); 
   };
+  
 
   const payload = {
     locationId: locationid,
@@ -438,7 +439,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    // setSelectedOptions((prev) => prev.filter((opt) => opt.id !== value));
+    //console.log("kkkk",selectedOptions,value)
+
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
@@ -456,7 +458,8 @@ const DropDownList: React.FC<DropdownProps> = ({
 
     if (deletedItem) {
       dispatch(deleteDropDowRequest(deletedItem));
-
+      const data = selectedOptions.filter((item) => item.id != value);
+      setSelectedOptions([...data]);
       if (deleteApicall === "success") {
         dispatch(fetchDropDownRequest(viewdata));
       }
@@ -580,11 +583,15 @@ const DropDownList: React.FC<DropdownProps> = ({
             type="text"
             {...register(name, validation)}
             value={
-              searchTerm === "" && showselectedOption
+              searchTerm !== ""
+                ? searchTerm
+                : manuallyCleared
+                ? ""
+                : showselectedOption
                 ? type === "checkbox"
                   ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
                   : selectedOptions[0]?.name || ""
-                : searchTerm
+                : ""
             }
             onChange={handleSearch}
             name={name}

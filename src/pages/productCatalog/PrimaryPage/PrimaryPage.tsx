@@ -310,8 +310,16 @@ const PrimaryPage = () => {
       setValue("Ingredients", ItemsPrimaryDetails.Ingredients);
       setValue("allergens", ItemsPrimaryDetails.allergens);
       setValue("coloriePoint", ItemsPrimaryDetails.coloriePoint);
-      setCalorieInfo(ItemsPrimaryDetails?.coloriePoint?ItemsPrimaryDetails?.coloriePoint:{ type: "per 100 grams",value: ""});
-      setPortionInfo(ItemsPrimaryDetails?.portionSize?ItemsPrimaryDetails?.portionSize:{type: "portion(count)",value: ""});
+      setCalorieInfo(
+        ItemsPrimaryDetails?.coloriePoint
+          ? ItemsPrimaryDetails?.coloriePoint
+          : { type: "per 100 grams", value: "" }
+      );
+      setPortionInfo(
+        ItemsPrimaryDetails?.portionSize
+          ? ItemsPrimaryDetails?.portionSize
+          : { type: "portion(count)", value: "" }
+      );
       setValue("selectedcolorie", ItemsPrimaryDetails.selectedcolorie);
       setValue("portionSize", ItemsPrimaryDetails.portionSize);
       setValue("selectedPortion", ItemsPrimaryDetails.selectedPortion);
@@ -454,12 +462,8 @@ const PrimaryPage = () => {
       setValue("imageUrls", updatedImageUrls);
       return updatedImages;
     });
-    console.log("length",images.length);
-    
-
-
   };
-  const [restrictToAdd,setRestrictToAdd]=useState(true);
+  const [restrictToAdd, setRestrictToAdd] = useState(true);
 
   const selectedradiowatch = watch();
   const alcoholValue = selectedradiowatch.alcohol || "no";
@@ -467,10 +471,7 @@ const PrimaryPage = () => {
     selectedradiowatch.portionSize || "Portion(count)";
 
   const handleAddImage = () => {
-    
-      document.getElementById("imgadd")?.click();
-    
-   
+    document.getElementById("imgadd")?.click();
   };
   const [uploading, setUploading] = useState(false);
 
@@ -482,14 +483,15 @@ const PrimaryPage = () => {
       const fileArray = Array.from(files)
         .map((file) => {
           if (!validImageTypes.includes(file.type)) {
-            
-            
-            showErrorToast( `Invalid file type: ${file.name}. Only PNG and JPG are allowed.`);
+            showErrorToast(
+              `Invalid file type: ${file.name}. Only PNG and JPG are allowed.`
+            );
             return null;
           }
           if (file.size > maxSizeInBytes) {
-            
-            showErrorToast( "Image upload failed: File size exceeds 2 MB. Please upload a smaller file.");
+            showErrorToast(
+              "Image upload failed: File size exceeds 2 MB. Please upload a smaller file."
+            );
             return null;
           }
           return {
@@ -500,17 +502,14 @@ const PrimaryPage = () => {
           };
         })
         .filter((file): file is ImageFile => file !== null);
-        if(images.length===5)
-        {
-          setRestrictToAdd(false);
-        }
+      if (images.length === 5) {
+        setRestrictToAdd(false);
+      }
       if (fileArray.length + images.length > 6) {
-       
         showErrorToast("You can upload a maximum of 6 images.");
         // setRestrictToAdd(false);
         return;
-      }
-      else{
+      } else {
         setRestrictToAdd(true);
       }
       setImages((prevImages) => {
@@ -557,7 +556,6 @@ const PrimaryPage = () => {
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
   );
-  console.log({ ingredientsdata });
 
   const allergensData = useSelector(
     (state: any) => state.productCatalog?.allergens?.data
@@ -576,16 +574,14 @@ const PrimaryPage = () => {
       setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
       setValue("popularItem", false);
     }
-  },[ItemsPrimaryDetails])
-useEffect(()=>{
-  if(message?.httpStatus==409)
-  {
-    setItemcodeValid(false)
-  }
-  else{
-    setItemcodeValid(true)
-  }
-},[message])
+  }, [ItemsPrimaryDetails]);
+  useEffect(() => {
+    if (message?.httpStatus == 409) {
+      setItemcodeValid(false);
+    } else {
+      setItemcodeValid(true);
+    }
+  }, [message]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -662,7 +658,6 @@ useEffect(()=>{
     type: "DIET",
     parentId: "",
   };
-
 
   const restaurantDetails = useSelector(
     (state: any) => state.auth.restaurantDetails
@@ -951,21 +946,21 @@ useEffect(()=>{
                         />
                       </div>
                     ))}
-{ images.length <6 &&
- <img
- src={ImgaeUploading}
- alt="Add"
- className="addingimg"
- style={{cursor:images.length <6?"pointer":"not-allowed"}}
- onClick={() => {
-   if (images.length <6) { 
-     handleAddImage();
-   }
- }}
-/>
-
-}
-                   
+                    {images.length < 6 && (
+                      <img
+                        src={ImgaeUploading}
+                        alt="Add"
+                        className="addingimg"
+                        style={{
+                          cursor: images.length < 6 ? "pointer" : "not-allowed",
+                        }}
+                        onClick={() => {
+                          if (images.length < 6) {
+                            handleAddImage();
+                          }
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -1011,18 +1006,16 @@ useEffect(()=>{
                           }}
                           value={value}
                           onBlur={() => {
-                            if (value.length>3) {
-                              if(editData.length>0)
-                              {
-                                if(ItemsPrimaryDetails?.itemCode!=value){
-                                  dispatch(getItemCodeRequest(locationid, value));
+                            if (value.length > 3) {
+                              if (editData.length > 0) {
+                                if (ItemsPrimaryDetails?.itemCode != value) {
+                                  dispatch(
+                                    getItemCodeRequest(locationid, value)
+                                  );
                                 }
-                              }
-                              else{
+                              } else {
                                 dispatch(getItemCodeRequest(locationid, value));
-
                               }
-                             
                             }
                           }}
                           onKeyDown={(e: any) => {

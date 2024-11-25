@@ -121,7 +121,6 @@ const NormalStep2 = () => {
       })
     );
   }, []);
-  console.log("prizingDetail",prizingDetail.normalForm &&prizingDetail.normalForm?.dineinfields);
 
   const restaurantDetails = useSelector(
     (state: any) => state?.auth.restaurantDetails
@@ -229,7 +228,7 @@ const NormalStep2 = () => {
              {restaurantDetails?.country === "US" ? "$" : "Rs."}
 
               {
-                prizingDetail.normalForm.deliveryDetails.price 
+                prizingDetail.normalForm.pickupDetails.price 
                 }
             </h1>:<><h1 className="Step2SellingPrizevalue">N/A</h1></>
             }

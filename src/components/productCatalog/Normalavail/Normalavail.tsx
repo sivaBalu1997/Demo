@@ -390,8 +390,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
   }, [selectedthirdvalues]);
 
   useEffect(() => {
-    console.log("00",prizingDetail?.normalForm?.formNormal)
-    console.log("001",prizingDetail?.normalForm)
     if (prizingDetail?.normalForm?.formNormal) {
       setformNormal({
         PickuppriceNormal:
@@ -437,7 +435,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const thirdPartyTypeName =
         prizingDetail?.normalForm?.thirdpartyDetails?.map;
       if (pickupDetails) {
-        console.log("ccc")
         setOnline(true);
         setPickUpDetails({
           typeId: pickUpId,

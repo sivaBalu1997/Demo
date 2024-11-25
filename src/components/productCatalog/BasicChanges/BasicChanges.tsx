@@ -35,10 +35,8 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   const data = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
-  console.log("data", data);
 
   const ordertypesdata = data[0].orderTypes;
-  console.log("ordertypesdata", ordertypesdata);
 
   const dispatch = useDispatch();
 
@@ -83,7 +81,6 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
     //   onclose();
     // }
   };
-  console.log("patchedData55", patchedData);
 
   return (
     <>

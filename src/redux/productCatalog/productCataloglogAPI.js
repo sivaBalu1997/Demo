@@ -36,7 +36,6 @@ export function getSubSectionData(payload) {
 
 //Delete subsection
 export const deleteSubSection = (data) => {
-  console.log("delwteitem", data);
   return API({
     method: "delete",
     url: `/api/v1/menu-items/sub-section`,

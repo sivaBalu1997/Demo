@@ -218,6 +218,13 @@ const TableOneBody: React.FC<ItemRowProps> = ({
     );
   }, []);
 
+  // const subcatagoryItems=menuData.map((item:any)=>item?.subCategoryResponseList)
+  // const subcatagoryItem=subcatagoryItems?.map((item:any)=> item?.map((items:any)=>items?.itemResponseList))
+  // const subcatagory=subcatagoryItem?.filter((item:any)=> item?.filter((items:any)=>items?.length>0))
+
+  // const subcatagory2=subcatagory?.map((item:any)=> item?.filter((items:any)=>items?.length>0))
+  // const subcatagory3=subcatagory2?.filter((item:any)=> item?.length>0)
+
   const subcatagoryItems = menuData.map(
     (item: any) => item?.subCategoryResponseList
   );
@@ -234,9 +241,6 @@ const TableOneBody: React.FC<ItemRowProps> = ({
   const subcatagory3 = subcatagory2?.filter((item: any) => item?.length > 0);
 
 
-
-
-  
   return (
     <>
       {object?.itemResponseList?.length > 0 &&

@@ -54,11 +54,6 @@ const CustomizeSlider = () => {
     setCustomData(updatedCustomData);
   }, [datafromRedux]);
 
-   
-console.log("modifires",datafromRedux[0]);
-console.log("customData",customData);
-
-
   useEffect(() => {
     if (datafromRedux && customData) {
 

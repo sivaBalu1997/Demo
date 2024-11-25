@@ -276,7 +276,6 @@ export default function productCatalogReducer(
         break;
       case PARTIAL_UPDATE_MENU_SUCCESS:
         draft.partialDataSendingLoading = false;
-        console.log("payload",action.payload);      
         draft.partialDataSendingsuccess = action.payload;
         draft.partialDataSendingfaliure = false;
         break;
@@ -663,11 +662,8 @@ export default function productCatalogReducer(
         break;
 
       // Update Menu Item
-      case UPDATE_MENU_ITEM_REQUEST:
-        console.log("action.payloadrrrr",action.payload);
-        
+      case UPDATE_MENU_ITEM_REQUEST:        
         draft.updatedPayload = action.payload;
-
         draft.updateMenuItemLoading = true;
         draft.updateMenuItemFailed = false;
         draft.updateMenuItemSuccess = false;
