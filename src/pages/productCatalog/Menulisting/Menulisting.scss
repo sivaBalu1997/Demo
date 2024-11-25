@@ -1235,10 +1235,26 @@
       height: 40rem;
       overflow-y: auto;
       overflow-x: hidden;
-      width: 153.4%;
+      width: fit-content;
       // &::-webkit-scrollbar {
       //   display: none;
       // }
+      &::-webkit-scrollbar {
+        width: 12px; 
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #B3B3B3;
+      }
+      
+    &::-webkit-scrollbar-thumb {
+        background: #5F5F5F; 
+        border-radius: 10px; 
+      }
+      
+      &::-webkit-scrollbar-thumb:hover {
+        background: #5F5F5F; 
+      }
       // border: 1px solid red !important;
     }
     .Menu-Listing-TableTwoBody1 {
@@ -1247,8 +1263,24 @@
       overflow-y: auto;
       overflow-x: hidden;
       width: fit-content;
+      // &::-webkit-scrollbar {
+      //   display: none;
+      // }
       &::-webkit-scrollbar {
-        display: none;
+        width: 12px; 
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #B3B3B3;
+      }
+      
+    &::-webkit-scrollbar-thumb {
+        background: #5F5F5F; 
+        border-radius: 10px; 
+      }
+      
+      &::-webkit-scrollbar-thumb:hover {
+        background: #5F5F5F; 
       }
       // border: 1px solid red !important;
     }
