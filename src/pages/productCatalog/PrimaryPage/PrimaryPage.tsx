@@ -1006,8 +1006,8 @@ const PrimaryPage = () => {
                           }}
                           value={value}
                           onBlur={() => {
-                            if (value.length > 3) {
-                              if (editData.length > 0) {
+                            if (value?.length > 3) {
+                              if (editData?.length > 0) {
                                 if (ItemsPrimaryDetails?.itemCode != value) {
                                   dispatch(
                                     getItemCodeRequest(locationid, value)
