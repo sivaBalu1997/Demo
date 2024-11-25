@@ -1,13 +1,16 @@
 .dropdown-component {
   margin: 0;
   padding: 0;
+  height: fit-content;
+  width: fit-content;
 
   .dropDownBox {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 40px;
+    height: fit-content;
     // align-items: center;
+    // position: fixed;
   }
   .dropdownimageclosed {
     rotate: 180deg;
@@ -23,10 +26,12 @@
     line-height: 21px;
     text-align: left;
     color: #e52333;
-    height: fit-content;
     transform: translateY(-7px);
-    margin-bottom: -20px;
+    // margin-bottom: -20px;
+    margin-top: 8px;
+    // margin: 0;
     // background-color: pink;
+    height: fit-content;
     width: fit-content;
   }
 }
