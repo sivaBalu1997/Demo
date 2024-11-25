@@ -35,14 +35,12 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const dataFromRedux = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
-  const { patchedData, setPatchedData, selectedDateOption } =
+  const { patchedData, setPatchedData, selectedDateOption ,setPartialData} =
     useContext(Contextpagejs);
 
-  const [selectPeriod, setSelectPeriod] = useState(false);
+  const [selectPeriod,setSelectPeriod]=useState(false);
 
-  const Dinein = dataFromRedux[0]?.orderTypes?.find(
-    (orderType: any) => orderType?.typeName === "DineIn"
-  );
+  const Dinein =dataFromRedux[0]?.orderTypes?.find((orderType:any) => orderType?.typeName === "DineIn")
 
   const subcategories = Array.isArray(dataFromRedux[0]?.orderTypes)
     ? dataFromRedux[0].orderTypes.map((elem: any) => ({
@@ -51,246 +49,218 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       }))
     : [];
 
-  const [parentOrderTypeArray, setParentOrderTypeArray] = useState<any>([]);
 
-  const [selectedOrderTypeId, setSelectedOrderTypeId] = useState<string>("");
-  const [selectedTypeId, setSelectedTypeId] = useState<string>("");
+const [parentOrderTypeArray, setParentOrderTypeArray] = useState<any>([]);
 
-  const [selectedOrderTypeCategory, setSelectedOrderTypeCategory] =
-    useState<string>("");
+const [selectedOrderTypeId,setSelectedOrderTypeId]=useState<string>("");
+const [selectedTypeId,setSelectedTypeId]=useState<string>("");
 
-  const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState<any>([]);
+const [selectedOrderTypeCategory,setSelectedOrderTypeCategory]=useState<string>("");
 
-  useEffect(() => {
-    const tempOnPremarray = dataFromRedux[0]?.orderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup === "D";
-      }
+const [availabilityOrderTypes,setAvailabilityOrderTypes]=useState<any>([]);
+
+useEffect(()=>{
+const tempOnPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+const tempOffPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+
+const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+
+
+const tempOrderTypeAvailabilityArray=[
+  {
+    mainHeading: "On-prem",
+    types:tempOnPremarray,
+    isEnabled:isOnPremEnabledCount
+  },
+  {
+    mainHeading: "Off-prem",
+    types:tempOffPremarray,
+    isEnabled:isOffPremEnabledCount
+  },
+  
+]
+setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
+setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
+
+},[dataFromRedux[0]?.orderTypes])
+
+const handleToggleDisable=(orderId:any)=>{
+
+  const pushData={
+    orderTypeId:orderId,
+    unAvailableUntilTime:""
+
+}
+  
+  setPartialData((prev:any) => {
+    const existingInfo = prev.itemAvailabilityInfo || []; 
+    const existingIndex = existingInfo.findIndex(
+      (item:any) => item.orderTypeId === orderId
     );
-    const tempOffPremarray = dataFromRedux[0]?.orderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup !== "D";
-      }
-    );
+  
+    const updatedInfo =
+      existingIndex > -1
+        ? existingInfo.map((item:any, index:number) =>
+            index === existingIndex
+              ? { ...item, unAvailableUntilTime: "" }
+              : item
+          )
+        : [...existingInfo, pushData];
+  
+    return {
+      ...prev,
+      itemId: dataFromRedux[0].itemId,
+      itemAvailabilityInfo: updatedInfo,
+    };
+  });
+  setPatchedData((prevState:any) => ({
+    ...prevState,
+    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+      (availabilityInfo:any) =>
+        availabilityInfo.orderTypeId === selectedOrderTypeId
+          ? {
+              ...availabilityInfo,
+              unAvailableUntilTime: "",
+            }
+          : availabilityInfo
+    ),
+  }));
+}
 
-    const isOnPremEnabledCount =
-      tempOnPremarray?.filter((data: any, index: number) => {
-        return data?.availabilityEnabled === false;
-      }).length == 0;
-    const isOffPremEnabledCount =
-      tempOffPremarray?.filter((data: any, index: number) => {
-        return data?.availabilityEnabled === false;
-      }).length == 0;
+const [canceledChanges,setcanceledChanges]=useState(true);
 
-    const tempOrderTypeAvailabilityArray = [
-      {
-        mainHeading: "On-prem",
-        types: tempOnPremarray,
-        isEnabled: isOnPremEnabledCount,
-      },
-      {
-        mainHeading: "Off-prem",
-        types: tempOffPremarray,
-        isEnabled: isOffPremEnabledCount,
-      },
-    ];
-    setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
-    setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray]);
-  }, [dataFromRedux[0]?.orderTypes]);
 
-  const handleToggleDisable = () => {
-    setPatchedData((prevState: any) => ({
-      ...prevState,
-      itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-        (availabilityInfo: any) =>
-          availabilityInfo.orderTypeId === selectedOrderTypeId
-            ? {
-                ...availabilityInfo,
-                unAvailableUntilTime: "",
-              }
-            : availabilityInfo
-      ),
-    }));
-  };
-
-  const [canceledChanges, setcanceledChanges] = useState(true);
-
-  const handleOrderTypesAvail = (
-    OrderTypeId: string,
-    Enabled: number,
-    hidden: number
-  ) => {
-    if (Enabled && hidden) {
-      const tempOderTypes = parentOrderTypeArray?.map(
-        (data: any, index: number) => {
-          return data?.typeId === OrderTypeId
-            ? { ...data, availabilityEnabled: !data?.availabilityEnabled }
-            : data;
-        }
-      );
-
-      const tempOnPremarray = tempOderTypes?.filter(
-        (data: any, index: number) => {
-          return data?.typeGroup === "D";
-        }
-      );
-      const tempOffPremarray = tempOderTypes?.filter(
-        (data: any, index: number) => {
-          return data?.typeGroup !== "D";
-        }
-      );
-
-      setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray]);
-
-      const isOnPremEnabledCount =
-        tempOnPremarray?.filter((data: any, index: number) => {
-          return data?.availabilityEnabled === false;
-        }).length == 0;
-      const isOffPremEnabledCount =
-        tempOffPremarray?.filter((data: any, index: number) => {
-          return data?.availabilityEnabled === false;
-        }).length == 0;
-      const tempOrderTypeAvailabilityArray = [
+  const handleOrderTypesAvail = (OrderTypeId:string,Enabled:number,hidden:number)=>{
+    if(Enabled && hidden)
+    {
+      const tempOderTypes=parentOrderTypeArray?.map((data:any,index:number)=> {
+        return data?.typeId === OrderTypeId ? {...data,availabilityEnabled: !data?.availabilityEnabled}:data 
+      } )
+    
+      const tempOnPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+      const tempOffPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+    
+      setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
+      
+      const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+      const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+      const tempOrderTypeAvailabilityArray=[
         {
           mainHeading: "On-prem",
-          types: tempOnPremarray,
-          isEnabled: isOnPremEnabledCount,
+          types:tempOnPremarray,
+          isEnabled:isOnPremEnabledCount
         },
         {
           mainHeading: "Off-prem",
-          types: tempOffPremarray,
-          isEnabled: isOffPremEnabledCount,
+          types:tempOffPremarray,
+          isEnabled:isOffPremEnabledCount
         },
-      ];
+        
+      ]
       setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
       setSelectedOrderTypeId("");
     }
-  };
 
-  const handleOrderTypesAvailCancel = (OrderTypeId: string) => {
-    const tempOderTypes = parentOrderTypeArray?.map(
-      (data: any, index: number) => {
-        return data?.typeId === OrderTypeId
-          ? { ...data, availabilityEnabled: !data?.availabilityEnabled }
-          : data;
-      }
-    );
+     
+      
+    
+ 
+ 
+  
+  }
 
-    const tempOnPremarray = tempOderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup === "D";
-      }
-    );
-    const tempOffPremarray = tempOderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup !== "D";
-      }
-    );
 
-    setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray]);
+  const handleOrderTypesAvailCancel = (OrderTypeId:string)=>{
+  
+      const tempOderTypes=parentOrderTypeArray?.map((data:any,index:number)=> {
+        return data?.typeId === OrderTypeId ? {...data,availabilityEnabled: !data?.availabilityEnabled}:data 
+      } )
+    
+      const tempOnPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+      const tempOffPremarray=tempOderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+    
+      setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
+      
+      const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+      const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+      const tempOrderTypeAvailabilityArray=[
+        {
+          mainHeading: "On-prem",
+          types:tempOnPremarray,
+          isEnabled:isOnPremEnabledCount
+        },
+        {
+          mainHeading: "Off-prem",
+          types:tempOffPremarray,
+          isEnabled:isOffPremEnabledCount
+        },
+        
+      ]
+      setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
+      setSelectedOrderTypeId("");
+    
 
-    const isOnPremEnabledCount =
-      tempOnPremarray?.filter((data: any, index: number) => {
-        return data?.availabilityEnabled === false;
-      }).length == 0;
-    const isOffPremEnabledCount =
-      tempOffPremarray?.filter((data: any, index: number) => {
-        return data?.availabilityEnabled === false;
-      }).length == 0;
-    const tempOrderTypeAvailabilityArray = [
-      {
-        mainHeading: "On-prem",
-        types: tempOnPremarray,
-        isEnabled: isOnPremEnabledCount,
-      },
-      {
-        mainHeading: "Off-prem",
-        types: tempOffPremarray,
-        isEnabled: isOffPremEnabledCount,
-      },
-    ];
-    setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
-    setSelectedOrderTypeId("");
-  };
+     
+      
+    
+ 
+ 
+  
+  }
   const handleOrderCategoryAvailability = (categoryHeading: string) => {
-    const tempOnPremarray = parentOrderTypeArray?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup === "D";
-      }
-    );
-    const tempOffPremarray = parentOrderTypeArray?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup !== "D";
-      }
-    );
 
-    const isOnPremEnabledCount =
-      tempOnPremarray?.filter((data: any, index: number) => {
-        return data?.availabilityEnabled === false;
-      }).length == 0;
-    const isOffPremEnabledCount =
-      tempOffPremarray?.filter((data: any, index: number) => {
-        return data?.availabilityEnabled === false;
-      }).length == 0;
+    const tempOnPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup === "D" })
+    const tempOffPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup !== "D" })
 
-    const updatedTempOnPremarray = tempOnPremarray?.map(
-      (data: any, index: number) => {
-        return { ...data, availabilityEnabled: !isOnPremEnabledCount };
-      }
-    );
+    const isOnPremEnabledCount = tempOnPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled === false }).length == 0
+    const isOffPremEnabledCount = tempOffPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled === false }).length == 0
 
-    const updatedTempOffPremarray = tempOffPremarray?.map(
-      (data: any, index: number) => {
-        return { ...data, availabilityEnabled: !isOffPremEnabledCount };
+    const updatedTempOnPremarray = tempOnPremarray?.map((data: any, index: number) => {
+      return { ...data, availabilityEnabled: !isOnPremEnabledCount }
+    })
 
-        // if (data.isEnabled === 1) {
+    const updatedTempOffPremarray = tempOffPremarray?.map((data: any, index: number) => {
+      return { ...data, availabilityEnabled: !isOffPremEnabledCount };
+     
+      // if (data.isEnabled === 1) {
+       
+       
+      // } else {
+        
+      //   return { ...data };
+      // }
+      
 
-        // } else {
+    })
+    
 
-        //   return { ...data };
-        // }
-      }
-    );
-
-    setParentOrderTypeArray(
-      categoryHeading == "On-prem"
-        ? [...updatedTempOnPremarray, ...tempOffPremarray]
-        : [...tempOnPremarray, ...updatedTempOffPremarray]
-    );
+    setParentOrderTypeArray(categoryHeading == "On-prem" ? [...updatedTempOnPremarray, ...tempOffPremarray] : [...tempOnPremarray, ...updatedTempOffPremarray])
 
     const tempOrderTypeAvailabilityArray = [
       {
         mainHeading: "On-prem",
-        types:
-          categoryHeading == "On-prem"
-            ? updatedTempOnPremarray
-            : tempOnPremarray,
-        isEnabled:
-          categoryHeading == "On-prem"
-            ? !isOnPremEnabledCount
-            : isOnPremEnabledCount,
+        types: categoryHeading == "On-prem" ? updatedTempOnPremarray : tempOnPremarray,
+        isEnabled: categoryHeading == "On-prem" ? !isOnPremEnabledCount : isOnPremEnabledCount
       },
       {
         mainHeading: "Off-prem",
-        types:
-          categoryHeading == "Off-prem"
-            ? updatedTempOffPremarray
-            : tempOffPremarray,
-        isEnabled:
-          categoryHeading == "Off-prem"
-            ? !isOffPremEnabledCount
-            : isOffPremEnabledCount,
+        types: categoryHeading == "Off-prem" ? updatedTempOffPremarray : tempOffPremarray,
+        isEnabled: categoryHeading == "Off-prem" ? !isOffPremEnabledCount : isOffPremEnabledCount
       },
-    ];
+
+    ]
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
     setSelectedOrderTypeCategory("");
-  };
 
+
+  }
+  
   const data = [
     {
       mainHeading: "On-prem",
       types: [Dinein?.typeName],
-      isEnabled: Dinein?.availabilityEnabled,
+      isEnabled:Dinein?.availabilityEnabled
     },
     {
       mainHeading: "Off-prem",
@@ -298,13 +268,11 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         {
           subHeading: ["Order Types "],
           types: Array.isArray(dataFromRedux[0]?.orderTypes)
-            ? dataFromRedux[0].orderTypes
-                .filter((elem: any) => elem.typeName !== "DineIn")
-                .map((elem: any) => ({
-                  name: elem.typeName,
-                  isEnabled: elem.availabilityEnabled,
-                  orderTypeId: elem.typeId,
-                }))
+            ? dataFromRedux[0].orderTypes.filter((elem: any) => elem.typeName !== "DineIn").map((elem: any) => ({
+              name:elem.typeName,
+              isEnabled:elem.availabilityEnabled,
+              orderTypeId:elem.typeId
+            }))
             : [],
 
           isEnabled: Array.isArray(dataFromRedux[0]?.orderTypes)
@@ -347,7 +315,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   //   return enabledArray;
   // };
 
-  // const enabledValuesArray = getEnabledValues();
+ // const enabledValuesArray = getEnabledValues();
   // console.log(enabledValuesArray);
 
   const [toggleStates, setToggleStates] = useState<any[]>([]);
@@ -409,6 +377,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   //   const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
 
   //   console.log("orderTypes",orderTypes);
+    
 
   //   if (parentIndex === 0) {
   //     return orderTypes?.[0]?.isEnabled === "Enabled";
@@ -420,6 +389,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
   //   return false;
   // };
+
+ 
 
   // const handleSubcategoryToggle = (
   //   parentIndex: number,
@@ -459,7 +430,8 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   //   subcategoryIndex: number | null,
   //   childIndex: number
   // ) => {
-
+    
+    
   //   const newToggleStates = [...toggleStates];
 
   //   if (subcategoryIndex !== null) {
@@ -501,86 +473,124 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
   // const handleselectchangePeriod = (id: string, enable: boolean) => {
   //   console.log("enable", enable);
-
+   
   //     setSelectPeriod(true);
   //     setSelectedtypeid(id);
-
+    
   // };
   // const handleheadingtoggle = () => {
   //   setSelectPeriod(true);
   // };
 
-  const [parentToggle, setParrentToggle] = useState("");
+  const [parentToggle,setParrentToggle]=useState("")
 
-  const [ParentToggles, setParentToggles] = useState([]);
+  const [ParentToggles,setParentToggles]=useState([]);
 
-  const handleParentTogglesstae = (headingName: string) => {
-    if (headingName === "On-prem") {
-      const tempOnPremarray = dataFromRedux[0]?.orderTypes?.filter(
-        (data: any, index: number) => {
-          return data?.typeGroup === "D";
-        }
-      );
-      setParentToggles(tempOnPremarray);
-    } else {
-      const tempOffPremarray = dataFromRedux[0]?.orderTypes?.filter(
-        (data: any, index: number) => {
-          return data?.typeGroup !== "D";
-        }
-      );
 
-      setParentToggles(tempOffPremarray);
+  const handleParentTogglesstae=(headingName:string)=>{
+
+    if(headingName==="On-prem")
+    {
+      const tempOnPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
+      setParentToggles(tempOnPremarray)
+      
     }
-  };
-  const handleToggleDisableParent = () => {
-    setPatchedData((prevState: any) => ({
+    else{
+      const tempOffPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
+
+      setParentToggles(tempOffPremarray)
+    }
+
+  }
+  const handleToggleDisableParent=()=>{
+    
+    setPatchedData((prevState:any) => ({
       ...prevState,
-      itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-        (availabilityInfo: any) => {
-          const matchingType = ParentToggles.find(
-            (toggle: any) => toggle.typeId === availabilityInfo.orderTypeId
-          );
+      itemAvailabilityInfo: prevState.itemAvailabilityInfo.map((availabilityInfo:any) => {
+      
+        const matchingType = ParentToggles.find(
+          (toggle:any) => toggle.typeId === availabilityInfo.orderTypeId
+        );
+    
+      
+        return matchingType
+          ? {
+              ...availabilityInfo,
+              unAvailableUntilTime: "",
+            }
+          : availabilityInfo;
+      }),
+    })
+  );
+  }
 
-          return matchingType
-            ? {
-                ...availabilityInfo,
-                unAvailableUntilTime: "",
-              }
-            : availabilityInfo;
-        }
-      ),
-    }));
+  
+  const handleSetPartialData = (parentName: string) => {
+    let filteredArray = [];
+    if (parentName === "On-prem") {
+      filteredArray = dataFromRedux[0]?.orderTypes?.filter(
+        (data: any) => data?.typeGroup === "D"
+      );
+    } else {
+      filteredArray = dataFromRedux[0]?.orderTypes?.filter(
+        (data: any) => data?.typeGroup !== "D"
+      );
+    }
+    setParentToggles(filteredArray);
+    const dataToAdd = filteredArray
+      .filter((item: any) => item.isEnabled === 1)
+      .map((item: any) => ({
+        orderTypeId: item.typeId,
+        unAvailableUntilTime: "", 
+      }));
+
+    setPartialData((prev: any) => {
+      console.log({ dataToAdd });
+  
+      return {
+        ...prev,
+        itemId: dataFromRedux[0]?.itemId,
+        itemAvailabilityInfo: dataToAdd,
+      };
+    });
   };
-
+  
   return (
+
+    
     <div className="AvailSlider-Container">
       <h3 className="AvailSlider-Heading">Availability</h3>
       <div className="AvailOnprem-Ofprem">
-        {availabilityOrderTypes?.map((elem: any, index: number) => (
+        {availabilityOrderTypes?.map((elem:any, index:number) => (
           <div key={index} className="Avail-SectionAB">
             <div className="AvailHeading-Section">
               <h2 className="sub-head">{elem.mainHeading}</h2>
 
-              <div className="toggle-btnfor-subhead">
+              <div
+                className="toggle-btnfor-subhead"
+               
+              >
                 <ToggleSliderAvail
                   toggle={elem.isEnabled}
                   setToggle={() => {
                     //handleParentToggle(index)
 
-                    if (elem.isEnabled) {
-                      handleOrderCategoryAvailability(elem.mainHeading);
-                      setSelectedOrderTypeCategory(elem.mainHeading);
-                      setParrentToggle(elem.mainHeading);
-                      setSelectPeriod(true);
-                      handleParentTogglesstae(elem.mainHeading);
-                    } else {
-                      handleOrderCategoryAvailability(elem.mainHeading);
-                      setSelectedOrderTypeCategory(elem.mainHeading);
-                      setParrentToggle(elem.mainHeading);
+                    if(elem.isEnabled){
+                    handleOrderCategoryAvailability(elem.mainHeading)
+                    setSelectedOrderTypeCategory(elem.mainHeading)
+                    setParrentToggle(elem.mainHeading)
+                    setSelectPeriod(true);
+                    handleParentTogglesstae(elem.mainHeading)}
+                  else{
+                    handleOrderCategoryAvailability(elem.mainHeading)
+                    setSelectedOrderTypeCategory(elem.mainHeading)
+                    setParrentToggle(elem.mainHeading)
+                   
+                    handleParentTogglesstae(elem.mainHeading)}
+                    handleToggleDisableParent()
+                    handleSetPartialData(elem.mainHeading);
 
-                      handleParentTogglesstae(elem.mainHeading);
-                    }
-                    handleToggleDisableParent();
+                    
                   }}
                   pen={pen}
                 />
@@ -588,54 +598,43 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
             </div>
             {elem.types && (
               <div className="SectionASectionBSection">
-                {elem.types.map((type: any, typeIndex: number) => {
-                  const Enabledtoedit = type?.isEnabled && type?.isNotHide;
+                {elem.types.map((type:any, typeIndex:number) => {
 
-                  return (
+                  const Enabledtoedit=type?.isEnabled && type?.isNotHide;
+
+                  return(
                     <div key={typeIndex} className="TypeHeading1">
-                      <h3
-                        className="SectionASectionBSectionHeading"
-                        style={{ opacity: Enabledtoedit ? "100%" : "50%" }}
-                      >
-                        {type?.typeName}
-                      </h3>
-                      <div className="" style={{ marginLeft: "55px" }}>
-                        <ToggleSliderAvail
-                          toggle={
-                            type?.availabilityEnabled &&
-                            type?.isEnabled === 1 &&
-                            type?.isNotHide === 1
+                    <h3 className="SectionASectionBSectionHeading" style={{opacity:Enabledtoedit?"100%":"50%"}}>{type?.typeName}</h3>
+                    <div className="" style={{marginLeft:"55px"}}>
+                      <ToggleSliderAvail
+                        toggle={type?.availabilityEnabled &&type?.isEnabled===1 && type?.isNotHide===1}
+                        setToggle={() => 
+                        {
+                          if(type?.availabilityEnabled)
+                          {
+                            setSelectedOrderTypeId(type?.typeId)
+                            setSelectPeriod(true);
+                            setParrentToggle("")
+                           
+                            setSelectedTypeId(type?.typeId)
+                            handleOrderTypesAvail(type?.typeId,type?.isEnabled,type?.isNotHide)
                           }
-                          setToggle={() => {
-                            if (type?.availabilityEnabled) {
-                              setSelectedOrderTypeId(type?.typeId);
-                              setSelectPeriod(true);
-                              setParrentToggle("");
-
-                              setSelectedTypeId(type?.typeId);
-                              handleOrderTypesAvail(
-                                type?.typeId,
-                                type?.isEnabled,
-                                type?.isNotHide
-                              );
-                            } else {
-                              setSelectedOrderTypeId(type?.typeId);
-                              handleOrderTypesAvail(
-                                type?.typeId,
-                                type?.isEnabled,
-                                type?.isNotHide
-                              );
-                              handleToggleDisable();
-                              setSelectedTypeId(type?.typeId);
-                              setParrentToggle("");
-                            }
-                          }}
-                          pen={pen}
-                        />
-                      </div>
+                          else{
+                            setSelectedOrderTypeId(type?.typeId)
+                            handleOrderTypesAvail(type?.typeId,type?.isEnabled,type?.isNotHide)
+                            handleToggleDisable(type?.typeId)
+                            setSelectedTypeId(type?.typeId)
+                            setParrentToggle("")
+                          }
+                        }
+                         }
+                        pen={pen}
+                      />
                     </div>
+                  </div>
                   );
-                })}
+                 
+})}
               </div>
             )}
             {/* {elem.subcategories && (

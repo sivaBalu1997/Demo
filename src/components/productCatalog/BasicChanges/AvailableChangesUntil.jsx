@@ -25,7 +25,8 @@ const AvailabilityChangesUntil = ({
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails
   );
-  const { patchedData, setPatchedData } = useContext(Contextpagejs);
+  const { patchedData, setPatchedData, partialData, setPartialData } =
+    useContext(Contextpagejs);
 
   const workingHours = [
     // Your working hours data as shown in your original code...
@@ -33,6 +34,35 @@ const AvailabilityChangesUntil = ({
   const [timeToSet, setTimeToSet] = useState("");
 
   const [untillTime, setUntillTime] = useState("(DD/MM/YYYY HH:MM AM/PM)");
+
+  const dataFromRedux = useSelector(
+    (state) => state?.selectedMockDataReducer?.data
+  );
+  useEffect(() => {
+    const tempOnPremarray = dataFromRedux[0]?.orderTypes?.filter(
+      (data, index) => {
+        return data?.typeGroup === "D";
+      }
+    );
+    const tempOffPremarray = dataFromRedux[0]?.orderTypes?.filter(
+      (data, index) => {
+        return data?.typeGroup !== "D";
+      }
+    );
+
+    const combinedArray = [...tempOnPremarray, ...tempOffPremarray];
+
+    const PartialArrayPrice = combinedArray.map((data, index) => ({
+      orderTypeId: data.typeId,
+      price: data.price,
+    }));
+    const PartialArrayAvailbility = combinedArray.map((data, index) => ({
+      orderTypeId: data.typeId,
+      unAvailableUntilTime: "",
+    }));
+
+   
+  }, [dataFromRedux[0].orderTypes]);
 
   const Text = [
     "End of Today",
@@ -134,42 +164,70 @@ const AvailabilityChangesUntil = ({
       setTimeToSet("");
     }
   };
+  const [matchedChildArray,setMatchedChildArray]=useState([]);
 
   const handleTimeChange = () => {
     console.log({ timeToSet });
 
     if (selectedOption !== -1) {
       if (parentToggle === "") {
+        const datamatched = patchedData?.itemAvailabilityInfo.filter(
+          (data) => data.orderTypeId === selectedtypeid
+        );
+
+        console.log({ datamatched });
+        const pushData = {
+          orderTypeId: selectedtypeid,
+          unAvailableUntilTime: timeToSet,
+        };
+
+        setPartialData((prev) => {
+          const existingInfo = prev.itemAvailabilityInfo || [];
+          const existingIndex = existingInfo.findIndex(
+            (item) => item.orderTypeId === selectedtypeid
+          );
+
+          const updatedInfo =
+            existingIndex > -1
+              ? existingInfo.map((item, index) =>
+                  index === existingIndex
+                    ? { ...item, unAvailableUntilTime: timeToSet }
+                    : item
+                )
+              : [...existingInfo, pushData];
+
+          return {
+            ...prev,
+            itemId: dataFromRedux[0].itemId,
+            itemAvailabilityInfo: updatedInfo,
+          };
+        });
+
         setPatchedData((prevState) => ({
           ...prevState,
           itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
             (availabilityInfo) =>
-              availabilityInfo.orderTypeId === selectedtypeid
-                ? {
-                    ...availabilityInfo,
-                    unAvailableUntilTime: timeToSet,
-                  }
-                : availabilityInfo
+              availabilityInfo.orderTypeId === selectedtypeid && {
+                orderTypeId: availabilityInfo.orderTypeId,
+                unAvailableUntilTime: timeToSet,
+              }
           ),
         }));
       } else {
-        setPatchedData((prevState) => ({
-          ...prevState,
-          itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-            (availabilityInfo) => {
-              const matchingType = ParentToggles.find(
-                (toggle) => toggle.typeId === availabilityInfo.orderTypeId
-              );
-
-              return matchingType
-                ? {
-                    ...availabilityInfo,
-                    unAvailableUntilTime: timeToSet,
-                  }
-                : availabilityInfo;
-            }
-          ),
-        }));
+        setPartialData((prev) => {
+          const dataToAdd = ParentToggles
+          .filter((item) => item.isEnabled === 1) 
+          .map((item) => ({
+            orderTypeId: item.typeId,          
+            unAvailableUntilTime: timeToSet
+          }));
+          
+          return {
+            ...prev,
+            itemId: dataFromRedux[0].itemId,
+            itemAvailabilityInfo: dataToAdd,
+          };
+        });
       }
       setSelectPeriod(false);
     }
@@ -177,38 +235,39 @@ const AvailabilityChangesUntil = ({
 
   const handleTimeChangeCancel = () => {
     if (parentToggle === "") {
-      setPatchedData((prevState) => ({
-        ...prevState,
-        itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-          (availabilityInfo) =>
-            availabilityInfo.orderTypeId === selectedtypeid
-              ? {
-                  ...availabilityInfo,
-                  unAvailableUntilTime: "",
-                }
-              : availabilityInfo
-        ),
-      }));
       handleOrderTypesAvail(selectedtypeid);
+      // setPatchedData((prevState) => ({
+      //   ...prevState,
+      //   itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+      //     (availabilityInfo) =>
+      //       availabilityInfo.orderTypeId === selectedtypeid
+      //         ? {
+      //             ...availabilityInfo,
+      //             unAvailableUntilTime: "",
+      //           }
+      //         : availabilityInfo
+      //   ),
+      // }));
+    
     } else {
-      setPatchedData((prevState) => ({
-        ...prevState,
-        itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-          (availabilityInfo) => {
-            const matchingType = ParentToggles.find(
-              (toggle) => toggle.typeId === availabilityInfo.orderTypeId
-            );
+      handleOrderCategoryAvailability(parentToggle)
+      // setPatchedData((prevState) => ({
+      //   ...prevState,
+      //   itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+      //     (availabilityInfo) => {
+      //       const matchingType = ParentToggles.find(
+      //         (toggle) => toggle.typeId === availabilityInfo.orderTypeId
+      //       );
 
-            return matchingType
-              ? {
-                  ...availabilityInfo,
-                  unAvailableUntilTime: "",
-                }
-              : availabilityInfo;
-          }
-        ),
-      }));
-      // handleOrderCategoryAvailability(parentToggle)
+      //       return matchingType
+      //         ? {
+      //             ...availabilityInfo,
+      //             unAvailableUntilTime: "",
+      //           }
+      //         : availabilityInfo;
+      //     }
+      //   ),
+      // }));
     }
     setcanceledChanges(true);
   };

@@ -22,7 +22,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   );
 
   const [showModalAvailable, setShowModalAvailable] = useState(false);
-  const { patchedData, setPatchedData } = useContext(Contextpagejs);
+  const { patchedData, setPatchedData,partialData,setPartialData} = useContext(Contextpagejs);
   const partaldatasending = useSelector(
     (state: any) => state.productCatalog.partialDataSendingLoading
   );
@@ -30,21 +30,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
     (state: any) => state.productCatalog?.partialDataSendingsuccess
   );
 
-  const comparePrices = (patchedData: any, orderTypes: any[]) => {
-    const matchingTypes = patchedData.pricing.map((price: any) => {
-      // Filter ordertypesdata to find matches
-      const matchedPrice = ordertypesdata.filter(
-        (item: any) => item.price != price.price
-      );
-
-      // Log the matched items
-
-      if (matchedPrice.length > 0) {
-      }
-
-      return matchedPrice;
-    });
-  };
+ 
 
   const data = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -62,10 +48,33 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   const [hasTrue, setHasTrue] = useState(false);
 
   const handledispatchforpartilChange = () => {
-    const hasPriceChanged = comparePrices(patchedData, ordertypesdata);
+ 
 
     setHasTrue(true);
-    dispatch(partialUpdateMenuRequest(patchedData, locationid));
+
+    const isPartialDataValid = () => {
+      const { itemId, pricing, modifierInfo, itemAvailabilityInfo } = partialData;
+    
+      // Check if any field is non-empty
+      if ( pricing.length || modifierInfo.length || itemAvailabilityInfo.length) {
+        return true;
+      }
+    
+      // Return false if all fields are empty
+      return false;
+    };
+    if(isPartialDataValid())
+    {
+      dispatch(partialUpdateMenuRequest(partialData, locationid));
+      setPartialData({
+       
+        pricing:[],
+        modifierInfo:[],
+        itemAvailabilityInfo:[]
+      })
+
+    }
+   
 
     // if(partaldatasendingsuccessmsg!=="")
     // {

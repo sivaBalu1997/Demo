@@ -10,6 +10,7 @@ interface Option {
 }
 
 interface ItemCustomization {
+
   modifierName: string;
   selectionType: string;
   minSelection?: number;
@@ -31,16 +32,18 @@ const CustomizeSlider = () => {
   const datafromRedux = useSelector(
     (state: RootState) => state?.selectedMockDataReducer?.data
   );
-  const { patchedData, setPatchedData } = useContext(Contextpagejs);
+  const { patchedData, setPatchedData ,setPartialData} = useContext(Contextpagejs);
 
   const [customData, setCustomData] = useState<any>([]);
 
   useEffect(() => {
     const updatedCustomData = datafromRedux.flatMap((item: any) =>
       item?.modifiers.map((modifier: any) => ({
+       modifierId:modifier.id,
         modifierName: modifier.modifierName,
         isEnabled: modifier.isEnabled===1?true:false,
         options: modifier.options.map((opt: any) => ({
+          id:opt.optionId,
           name: opt.name,
           price: opt.price,
           isEnabled: opt.isEnabled,
@@ -53,6 +56,10 @@ const CustomizeSlider = () => {
 
   useEffect(() => {
     if (datafromRedux && customData) {
+
+
+
+
       setPatchedData((prevState: any) => ({
         ...prevState, // Spread prevState first to maintain the other structure
         itemId: datafromRedux[0]?.itemId ?? prevState.itemId, // Safely set itemId from datafromRedux
@@ -83,31 +90,108 @@ const CustomizeSlider = () => {
 
   const handleParentToggle = (index: number) => {
     const updatedData = [...customData];
-  
-    // Toggle the parent isEnabled state
-    const parentEnabled = !updatedData[index].isEnabled;
-    updatedData[index].isEnabled = parentEnabled;
-  
-    // Update all child options to match the parent's isEnabled state
-    updatedData[index].options = updatedData[index].options.map((option: any) => ({
+    // const parentEnabled = !updatedData[index].isEnabled;
+    // updatedData[index].isEnabled = parentEnabled;
+    // updatedData[index].options = updatedData[index].options.map((option: any) => ({
+    //   ...option,
+    //   isEnabled: parentEnabled,
+    // }));
+    const modifierParent=customData[index];
+    const parentEnable = !modifierParent.isEnabled;
+    modifierParent.isEnabled = parentEnable;
+    modifierParent.options = modifierParent.options.map((option: any) => ({
       ...option,
-      isEnabled: parentEnabled,
+      isEnabled: parentEnable,
+      modifierOptionId:option.id,
+      modifierOptionName: option.name,
+      price:option.price
     }));
-    
+
+
     setCustomData(updatedData);
-  
-    // Optionally, dispatch the update to Redux
-    // dispatch({ type: 'UPDATE_MODIFIER_TOGGLE', payload: updatedData });
+    setPartialData((prev: any) => {
+      const existingModifierInfo = prev.modifierInfo || []; 
+      const existingIndex = existingModifierInfo.findIndex(
+        (item: any) => item.modifierId === customData[index].modifierId
+      );
+     
+    
+      const updatedModifierInfo =
+        existingIndex > -1
+          ? existingModifierInfo.map((item: any, index: number) =>
+              index === existingIndex
+                ? {
+                    ...item,
+                    modifierName: item.modifierName,
+                    isEnabled: parentEnable,
+                    options: item.options.map((opt: any) => ({
+                      modifierOptionId:opt.id,
+                      modifierOptionName: opt.name,
+                      price: opt.price,
+                      isEnabled: parentEnable,
+                      
+                    })),
+                  }
+                : item
+            )
+          : [...existingModifierInfo, modifierParent];
+    
+      return {
+        ...prev,
+        itemId: datafromRedux[0].itemId,
+        modifierInfo: updatedModifierInfo,
+      };
+    });
+    
+ 
   };
   
   // Toggle for child (option level)
   const handleChildToggle = (parentIndex: number, childIndex: number) => {
     const updatedData = [...customData];
-    updatedData[parentIndex].options[childIndex].isEnabled =
-      !updatedData[parentIndex].options[childIndex].isEnabled;
+    // updatedData[parentIndex].options[childIndex].isEnabled =
+    //   !updatedData[parentIndex].options[childIndex].isEnabled;
     setCustomData(updatedData);
-    // Optionally, dispatch the update to Redux
-    // dispatch({ type: 'UPDATE_OPTION_TOGGLE', payload: updatedData });
+const modifieddata=customData[parentIndex]
+modifieddata.options[childIndex].isEnabled =modifieddata.options[childIndex].isEnabled===1?0:1
+    console.log("3456",modifieddata);
+    
+    setPartialData((prev: any) => {
+      const existingModifierInfo = prev.modifierInfo || []; 
+      const existingIndex = existingModifierInfo.findIndex(
+        (item: any) => item.modifierId === customData[parentIndex].modifierId
+      );
+     
+    
+      const updatedModifierInfo =
+        existingIndex > -1
+          ? existingModifierInfo.map((item: any, index: number) =>
+              index === existingIndex
+                ? {
+                    ...item,
+                    modifierName: item.modifierName,
+                    isEnabled: !item.isEnabled,
+                    options: item.options.map((opt: any) => ({
+                      modifierOptionId:opt.id,
+                      modifierOptionName: opt.name,
+                      price: opt.price,
+                      isEnabled: opt.isEnabled===1?0:1,
+                      
+                    })),
+                  }
+                : item
+            )
+          : [...existingModifierInfo, modifieddata];
+    
+      return {
+        ...prev,
+        itemId: datafromRedux[0].itemId,
+        modifierInfo: updatedModifierInfo,
+      };
+    });
+    
+
+   
   };
 
   // Handle input changes for price
@@ -115,13 +199,73 @@ const CustomizeSlider = () => {
     parentIndex: number,
     childIndex: number,
     newPrice: number,
-    Enabled:boolean
+    Enabled:boolean,
+    name:string,
+    Enable:number,
+    options:any,
+    modifierIdhead:string
+
+
   ) => {
+
+    console.log("options",options);
+    
 
     if(Enabled)
    {
+   
+    setPartialData((prev: any) => {
+      const existingModifierInfo = prev.modifierInfo || []; // Ensure 'modifierInfo' is initialized
+      const existingIndex = existingModifierInfo.findIndex(
+        (item: any) => item.modifierId === modifierIdhead
+      );
+      const modifierupdate={
+        modifierId:modifierIdhead,
+        modifierName:name,
+        isEnabled:Enable,
+        options:options.map((opt: any) => ({
+          modifierOptionId:opt.id,
+          modifierOptionName: opt.name,
+          price: newPrice,
+          isEnabled: Enabled,
+        }))
+ 
+      }
+    
+      const updatedModifierInfo =
+        existingIndex > -1
+          ? existingModifierInfo.map((item: any, index: number) =>
+              index === existingIndex
+                ? {
+                    ...item,
+                    modifierName: name,
+                    isEnabled: Enable,
+                    options: options.map((opt: any) => ({
+                      modifierOptionId:opt.id,
+                      modifierOptionName: opt.name,
+                      price: newPrice,
+                      isEnabled: Enabled,
+                      
+                    })),
+                  }
+                : item
+            )
+          : [...existingModifierInfo, modifierupdate];
+    
+      return {
+        ...prev,
+        itemId: datafromRedux[0].itemId,
+        modifierInfo: updatedModifierInfo,
+      };
+    });
+    
+
     const updatedData = [...customData];
     updatedData[parentIndex].options[childIndex].price = newPrice;
+
+
+
+
     setCustomData(updatedData);
    }
     // Optionally, dispatch the update to Redux
@@ -170,7 +314,14 @@ const CustomizeSlider = () => {
                             index,
                             subindex,
                             parseFloat(e.target.value),
-                            subitem.isEnabled
+                            subitem.isEnabled,
+                            elem.modifierName,
+                            elem.isEnabled,
+                            elem.options,
+                            elem.modifierId
+
+
+
                           )
                         }
                         placeholder="$100"
