@@ -134,7 +134,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen({
-          dietaryType: false,
+          DietaryType: false,
           cuisine: false,
           mealType: false,
           bestPair: false,
@@ -256,12 +256,13 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [editData]);
 
+
   useEffect(() => {
     if (
-      ItemsPrimaryDetails?.dietaryType?.length > 0 &&
+      ItemsPrimaryDetails?.DietaryType?.length > 0 &&
       name === "DietaryType"
     ) {
-      const dietName = ItemsPrimaryDetails?.dietaryType;
+      const dietName = ItemsPrimaryDetails?.DietaryType;
 
       const dropdownName = options?.filter((opt) => {
         return Array.isArray(dietName)
@@ -570,6 +571,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleBelowArrowdropdown = () => {
     onToggle();
     setShowselectedOption(false);
+    setManuallyCleared(false)
     if (dropDownType !== "SUB_CATEGORY") {
       dispatch(fetchDropDownRequest(payload));
     }

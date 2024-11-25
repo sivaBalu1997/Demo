@@ -56,7 +56,7 @@ interface Allergens {
 
 interface FormData {
   itemName: string;
-  dietaryType: string;
+  DietaryType: string;
   cuisine: string;
   mealType: string;
   bestPair: string;
@@ -205,7 +205,7 @@ const PrimaryPage = () => {
   } = useForm<FormData>({
     defaultValues: {
       itemName: "",
-      dietaryType: "",
+      DietaryType: "",
       cuisine: "",
       mealType: "",
       bestPair: "",
@@ -384,7 +384,7 @@ const PrimaryPage = () => {
   const maxDescriptonLength = 100;
   const maxImages = 7;
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
-    dietaryType: false,
+    DietaryType: false,
     cuisine: false,
     mealType: false,
     bestPair: false,
@@ -407,7 +407,7 @@ const PrimaryPage = () => {
   const handleDropdownToggle = (dropdownName: string) => {
     setDropdownOpen((prevState) => {
       return {
-        dietaryType: false,
+        DietaryType: false,
         cuisine: false,
         mealType: false,
         bestPair: false,
@@ -596,7 +596,7 @@ const PrimaryPage = () => {
 
   const handleReset = () => {
     setValue("itemName", "");
-    setValue("dietaryType", "");
+    setValue("DietaryType", "");
     setValue("cuisine", "");
     setValue("mealType", "");
     setValue("bestPair", "");
@@ -727,7 +727,7 @@ const PrimaryPage = () => {
                 <div className="Primary-page-InputFields">
                   <LableComponent lable="DietaryType *" />
                   <Controller
-                    name="dietaryType"
+                    name="DietaryType"
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
@@ -741,9 +741,9 @@ const PrimaryPage = () => {
                         setValue={setValue}
                         getValues={getValues}
                         validation={{ required: "DietaryType is required" }}
-                        error={errors.dietaryType}
-                        dropdownopen={DropdownOpen.dietaryType}
-                        onToggle={() => handleDropdownToggle("dietaryType")}
+                        error={errors.DietaryType}
+                        dropdownopen={DropdownOpen.DietaryType}
+                        onToggle={() => handleDropdownToggle("DietaryType")}
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={true}
