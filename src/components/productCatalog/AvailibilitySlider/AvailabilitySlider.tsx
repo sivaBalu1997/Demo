@@ -219,7 +219,6 @@ const [canceledChanges,setcanceledChanges]=useState(true);
     const updatedTempOnPremarray = tempOnPremarray?.map((data: any, index: number) => {
       return { ...data, availabilityEnabled: !isOnPremEnabledCount }
     })
-console.log({tempOffPremarray,isOffPremEnabledCount});
 
     const updatedTempOffPremarray = tempOffPremarray?.map((data: any, index: number) => {
       return { ...data, availabilityEnabled: !isOffPremEnabledCount };
@@ -234,7 +233,6 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
       
 
     })
-    console.log({updatedTempOffPremarray});
     
 
     setParentOrderTypeArray(categoryHeading == "On-prem" ? [...updatedTempOnPremarray, ...tempOffPremarray] : [...tempOnPremarray, ...updatedTempOffPremarray])
@@ -526,7 +524,6 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
   );
   }
 
-  console.log({ParentToggles});
   
   const handleSetPartialData=()=>{
     setPartialData((prev:any) => {
