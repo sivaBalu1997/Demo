@@ -131,7 +131,7 @@
       // border: 1px solid red;
     }
     .Menu-Listing-TableOneBodyExpanded {
-      height: 34.5rem;
+      height: 33.5rem !important;
       display: block;
       overflow-y: auto;
       &::-webkit-scrollbar {
@@ -161,6 +161,19 @@
       .itemheadingtwo {
         font-size: 20px;
         width: 19.95rem;
+        gap: 10px;
+        font-weight: 500;
+        color: black;
+        align-items: center;
+        display: flex;
+        height: 2rem !important;
+        background-color: #e2e0e0;
+        border-right: 1px solid #b3b3b3 !important;
+      }
+      .itemheadingExpand
+      {
+        font-size: 20px;
+        width: 19.92rem;
         gap: 10px;
         font-weight: 500;
         color: black;
@@ -265,7 +278,22 @@
     overflow-x: auto;
     display: block;
     overflow-y: hidden;
-   
+    &::-webkit-scrollbar {
+      width: 12px; 
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #B3B3B3;
+    }
+    
+  &::-webkit-scrollbar-thumb {
+      background: #5F5F5F; 
+      border-radius: 10px; 
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background: #5F5F5F; 
+    }
 
     // &::-webkit-scrollbar{
     //   display: none;
@@ -648,10 +676,12 @@
   }
   .Menu-Listing-TableTwoBody1 {
     display: block;
-    height: 32.5rem;
+    height: 33.41rem !important;
     overflow-y: auto;
     overflow-x: hidden;
     width: fit-content;
+   position: relative;
+  
     // &::-webkit-scrollbar {
     //   display: none;
     // }
@@ -1145,20 +1175,20 @@
       width: 150.4%;
 
       &::-webkit-scrollbar {
-        width: 12px; /* Adjust the width of the scrollbar */
+        width: 12px; 
       }
       
       &::-webkit-scrollbar-track {
-        background: #f1f1f1; /* Background color of the scrollbar track */
+        background: #B3B3B3;
       }
       
     &::-webkit-scrollbar-thumb {
-        background: red; /* Color of the scrollbar handle */
-        border-radius: 10px; /* Rounded corners for the scrollbar handle */
+        background: #5F5F5F; 
+        border-radius: 10px; 
       }
       
       &::-webkit-scrollbar-thumb:hover {
-        background: red; /* Darker shade when hovered */
+        background: #5F5F5F; 
       }
 
       // &::-webkit-scrollbar {
@@ -1173,7 +1203,20 @@
       overflow-x: hidden;
       width: fit-content;
       &::-webkit-scrollbar {
-        display: none;
+        width: 12px; 
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #B3B3B3;
+      }
+      
+    &::-webkit-scrollbar-thumb {
+        background: #5F5F5F; 
+        border-radius: 10px; 
+      }
+      
+      &::-webkit-scrollbar-thumb:hover {
+        background: #5F5F5F; 
       }
     }
   }
@@ -1414,7 +1457,7 @@
   height: 2rem;
   // width: fit-content!important;
   background-color: #e2e0e0;
-  border: 1px solid red !important;
+  
 }
 
 .no-colunms {
