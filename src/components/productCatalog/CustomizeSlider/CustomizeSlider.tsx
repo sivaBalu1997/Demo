@@ -153,7 +153,7 @@ const CustomizeSlider = () => {
     //   !updatedData[parentIndex].options[childIndex].isEnabled;
     setCustomData(updatedData);
 const modifieddata=customData[parentIndex]
-modifieddata.options[childIndex].isEnabled =!modifieddata.options[childIndex].isEnabled
+modifieddata.options[childIndex].isEnabled =modifieddata.options[childIndex].isEnabled===1?0:1
     console.log("3456",modifieddata);
     
     setPartialData((prev: any) => {
@@ -175,7 +175,7 @@ modifieddata.options[childIndex].isEnabled =!modifieddata.options[childIndex].is
                       modifierOptionId:opt.id,
                       modifierOptionName: opt.name,
                       price: opt.price,
-                      isEnabled: !opt.isEnabled,
+                      isEnabled: opt.isEnabled===1?0:1,
                       
                     })),
                   }

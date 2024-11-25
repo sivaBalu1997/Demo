@@ -836,7 +836,7 @@ const PrimaryPage = () => {
                           getValues={getValues}
                           error={errors.bestPair}
                           bestpair={true}
-                          validation={{ required: "This field is required" }}
+                          validation={{ required: "Best Pair is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
