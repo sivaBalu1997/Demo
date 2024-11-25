@@ -254,6 +254,7 @@
     overflow-y: hidden;
      &::-webkit-scrollbar {
         width: 12px; 
+       
       }
       
       &::-webkit-scrollbar-track {
@@ -263,6 +264,8 @@
     &::-webkit-scrollbar-thumb {
         background: #5F5F5F; 
         border-radius: 10px; 
+        width: 100px !important;
+        height: 17px;
       }
       
       &::-webkit-scrollbar-thumb:hover {
@@ -668,6 +671,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     width: 200.4%;
+    
     // &::-webkit-scrollbar {
     //   display: none;
     // }
@@ -1395,6 +1399,7 @@
     &::-webkit-scrollbar-thumb {
         background: #5F5F5F; 
         border-radius: 10px; 
+      
       }
       
       &::-webkit-scrollbar-thumb:hover {
