@@ -528,23 +528,36 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
 
   console.log({ParentToggles});
   
-  const handleSetPartialData=()=>{
-    setPartialData((prev:any) => {
-      const dataToAdd = ParentToggles
-      .filter((item:any) => item.isEnabled === 1) 
-      .map((item:any) => ({
-        orderTypeId: item.typeId,          
-        unAvailableUntilTime: ""
+  const handleSetPartialData = (parentName: string) => {
+    let filteredArray = [];
+    if (parentName === "On-prem") {
+      filteredArray = dataFromRedux[0]?.orderTypes?.filter(
+        (data: any) => data?.typeGroup === "D"
+      );
+    } else {
+      filteredArray = dataFromRedux[0]?.orderTypes?.filter(
+        (data: any) => data?.typeGroup !== "D"
+      );
+    }
+    setParentToggles(filteredArray);
+    const dataToAdd = filteredArray
+      .filter((item: any) => item.isEnabled === 1)
+      .map((item: any) => ({
+        orderTypeId: item.typeId,
+        unAvailableUntilTime: "", 
       }));
-      
+
+    setPartialData((prev: any) => {
+      console.log({ dataToAdd });
+  
       return {
         ...prev,
-        itemId: dataFromRedux[0].itemId,
+        itemId: dataFromRedux[0]?.itemId,
         itemAvailabilityInfo: dataToAdd,
       };
     });
-  }
-
+  };
+  
   return (
 
     
@@ -575,9 +588,10 @@ console.log({tempOffPremarray,isOffPremEnabledCount});
                     handleOrderCategoryAvailability(elem.mainHeading)
                     setSelectedOrderTypeCategory(elem.mainHeading)
                     setParrentToggle(elem.mainHeading)
-                    handleSetPartialData();
+                   
                     handleParentTogglesstae(elem.mainHeading)}
                     handleToggleDisableParent()
+                    handleSetPartialData(elem.mainHeading);
 
                     
                   }}
