@@ -134,7 +134,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen({
-          dietaryType: false,
+          DietaryType: false,
           cuisine: false,
           mealType: false,
           bestPair: false,
@@ -188,11 +188,11 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-  
+
     if (value === "") {
       setManuallyCleared(true);
       setShowselectedOption(false);
-  
+
       if (type === "checkbox") {
         setSelectedOptions([]);
         setValue(name, []);
@@ -202,7 +202,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         setValue(name, "");
         trigger(name);
       }
-  
+
       if (dropdownopen) {
         onToggle();
       }
@@ -213,10 +213,9 @@ const DropDownList: React.FC<DropdownProps> = ({
       }
       setShowselectedOption(false);
     }
-  
+
     setOptions(filteredOptions);
   };
-  
 
   // useEffect(() => {
   //   const initialSelectedValue = getValues(name);
@@ -238,7 +237,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   let subcategorydataforApi = {
     locationId: locationid,
     type: "SUB_CATEGORY",
-    parentId: "",
+    parentId: parentId,
   };
 
   const prizingDetail = useSelector(
@@ -257,12 +256,13 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [editData]);
 
+
   useEffect(() => {
     if (
-      ItemsPrimaryDetails?.dietaryType?.length > 0 &&
+      ItemsPrimaryDetails?.DietaryType?.length > 0 &&
       name === "DietaryType"
     ) {
-      const dietName = ItemsPrimaryDetails?.dietaryType;
+      const dietName = ItemsPrimaryDetails?.DietaryType;
 
       const dropdownName = options?.filter((opt) => {
         return Array.isArray(dietName)
@@ -271,8 +271,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       });
 
       const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName;
-      console.log({ dietName }, { dropdownName }, { dropDown1 });
-
       setSelectedOptions(dropDown1);
       setValue(
         "DietaryType",
@@ -394,35 +392,41 @@ const DropDownList: React.FC<DropdownProps> = ({
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-  
+
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-  
+
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
         );
         setSelectedOptions(updatedOptions);
-        setValue(name, updatedOptions.map((opt) => opt?.name));
+        setValue(
+          name,
+          updatedOptions.map((opt) => opt?.name)
+        );
         trigger(name);
       } else {
         const updatedOptions = [...currentSelectedOptions, option];
         setSelectedOptions(updatedOptions);
-        setValue(name, updatedOptions.map((opt) => opt?.name));
+        setValue(
+          name,
+          updatedOptions.map((opt) => opt?.name)
+        );
         trigger(name);
       }
     } else if (type === "radio") {
-      setSelectedOptions([option]); 
-      setValue(name, option.name); 
+      setSelectedOptions([option]);
+      setValue(name, option.name);
       trigger(name);
+      dropDownType ==='CATEGORY' && setParentId(option?.id)
     }
-  
-    setSearchTerm(""); 
-    setManuallyCleared(false); 
+
+    setSearchTerm("");
+    setManuallyCleared(false);
   };
-  
 
   const payload = {
     locationId: locationid,
@@ -566,6 +570,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleBelowArrowdropdown = () => {
     onToggle();
     setShowselectedOption(false);
+    setManuallyCleared(false)
     if (dropDownType !== "SUB_CATEGORY") {
       dispatch(fetchDropDownRequest(payload));
     }
@@ -627,7 +632,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           </span>
         </div>
 
-        <div>
+        <div style={{ margin: 0 }}>
           {error && <p className="Dropdown-Error-message">{error.message}</p>}
         </div>
       </div>

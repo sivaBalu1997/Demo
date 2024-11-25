@@ -36,7 +36,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   
   
     if (name === "itemCode") {
-      inputValue = inputValue.replace(/e/gi, ""); // Filter out 'e' from the input
+      inputValue = inputValue.replace(/e/gi, ""); 
     }
   
    
@@ -53,12 +53,20 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
       return;
     }
     
-    
+    e.target.value = inputValue;
+   
+    if (name== 'itemName') {
+      if(!e.target.value.startsWith(" "))
+        onChange(e); 
+      trigger(name);
+    }
+    else{
+      onChange(e); 
+      trigger(name);
+    }
   
     
-    e.target.value = inputValue;
-    onChange(e); 
-    trigger(name);
+  
   };
   
 
