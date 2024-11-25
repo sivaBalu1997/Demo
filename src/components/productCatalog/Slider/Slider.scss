@@ -9,12 +9,15 @@
   justify-content: flex-end;
   transition: 0.3s ease-out;
   z-index: 1000; 
+
  
 
   .Slider-Window {
     width: 416px;
     // height: 848px;
     height: 530px;
+    // overflow-y: hidden;
+    // border: 1px solid red;
     margin-top: 5%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     background-color: white;
@@ -231,9 +234,9 @@
 
   overflow-y: scroll;
   // margin-top: 20px;
-  //     &::-webkit-scrollbar {
-  //     display: none;
-  // }
+      &::-webkit-scrollbar {
+      display: none;
+  }
   .Types-Menu {
     margin-top: 20px;
     display: flex;

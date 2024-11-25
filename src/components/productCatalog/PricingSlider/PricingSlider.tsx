@@ -310,7 +310,10 @@ const PricingSlider: any = ({}) => {
           <div className="Onprem-Sections">
             {item.types &&
               item.types.map((price: any, idx: number) => {
-                const enableOrNot = price.isEnabled && price.isNotHide && price.availabilityEnabled;
+                const enableOrNot =
+                  price.isEnabled &&
+                  price.isNotHide &&
+                  price.availabilityEnabled;
 
                 const Pricesymbol = `${
                   restaurantDetails?.country === "US" ? "$" : "Rs."
@@ -340,6 +343,7 @@ const PricingSlider: any = ({}) => {
                       <input
                         type="number"
                         className="Priceing-input-field"
+                        placeholder="0"
                         onChange={(e) =>
                           handlepriceinputchange(
                             price.typeId,
