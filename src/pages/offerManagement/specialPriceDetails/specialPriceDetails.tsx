@@ -1,4 +1,5 @@
 import React from 'react'
+import './specialPriceDetails.scss'
 
 const specialPriceDetails = () => {
   return (
