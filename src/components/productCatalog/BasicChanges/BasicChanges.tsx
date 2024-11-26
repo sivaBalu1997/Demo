@@ -42,6 +42,14 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
 
   const handleCancelButton = () => {
     dispatch(removeDataRequest());
+    setPartialData((prev:any)=>({
+
+    
+       ...prev,
+      pricing:[],
+      modifierInfo:[],
+      itemAvailabilityInfo:[]
+   } ))
     onclose();
   };
   useEffect(() => {}, [partaldatasending, dispatch]);
@@ -66,12 +74,14 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
     if(isPartialDataValid())
     {
       dispatch(partialUpdateMenuRequest(partialData, locationid));
-      setPartialData({
-       
-        pricing:[],
-        modifierInfo:[],
-        itemAvailabilityInfo:[]
-      })
+      setPartialData((prev:any)=>({
+
+    
+        ...prev,
+       pricing:[],
+       modifierInfo:[],
+       itemAvailabilityInfo:[]
+    } ))
 
     }
    

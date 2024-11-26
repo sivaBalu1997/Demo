@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import dots from "../../../assets/images/dots.png";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/rootReducer";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface Item {
   itemId: string;
@@ -62,14 +63,14 @@ const RowHeading: React.FC<ItemHeadingProps> = ({
   object,
 }) => {
 
-
+  const { isExpanded } = useContext(Contextpagejs);
   const menuData = useSelector((state : RootState) => state.productCatalog?.menuData)
   
   return (
     <tr className="table-one-row-data">
 
       { object?.itemResponseList?.length>0 && object.name!==""&&
-            <td className={`${index === 0 ? "itemheading" : "itemheadingtwo"}`}>
+            <td className={`${isExpanded? "itemheadingExpand" : "itemheadingtwo"}  `} >
             {/* <img
               src={dots}
               alt=""

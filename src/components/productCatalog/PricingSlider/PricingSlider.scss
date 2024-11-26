@@ -71,11 +71,19 @@
   font-size: 16px;
   font-weight: 400;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .Priceing-input-field {
   // border: 1px solid red;
   outline: none;
+  margin-top: 0.25rem;
+  width: 70px;
+  height: 24px;
+  margin-left: -0.3rem;
   border: none;
+  // border: none;
+  // padding-left: 25px;
   &::placeholder {
     text-align: center;
     // background-color: #00b71d;
@@ -125,7 +133,7 @@
   width: 20px;
   // border: 1px solid red;
   position: relative;
-  left: 10%;
+  // left: 25%;
   top: 5%;
 }
 .OrderType-Name {
@@ -149,6 +157,7 @@
   margin-top: 4%;
 }
 .SectionA-Input {
+  display: flex;
   margin-left: 70px;
   border: 1px solid #000000;
   width: 100px;

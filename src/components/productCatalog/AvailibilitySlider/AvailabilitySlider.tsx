@@ -63,6 +63,9 @@ useEffect(()=>{
 const tempOnPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup==="D"} )
 const tempOffPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:number)=> {return data?.typeGroup!=="D"} )
 
+// const checkOnPremEnabledArray=tempOnPremarray?.filter((data:any,index:number)=>data.isEnabled===true && data.isNotHide===1);
+// const checkOffPremEnabledArray=tempOffPremarray?.filter((data:any,index:number)=>data.isEnabled===true && data.isNotHide===1);
+
 const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
 const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
 
@@ -143,8 +146,9 @@ const [canceledChanges,setcanceledChanges]=useState(true);
     
       setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
       
-      const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+      const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false } ).length == 0
       const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+
       const tempOrderTypeAvailabilityArray=[
         {
           mainHeading: "On-prem",
