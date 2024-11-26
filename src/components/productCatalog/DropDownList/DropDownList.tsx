@@ -487,7 +487,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         let updatedSelected;
 
         if (isAlreadySelected !== -1) {
-          updatedSelected = prevSelected.filter(
+          updatedSelected = prevSelected?.filter(
             (_, index) => index !== isAlreadySelected
           );
         } else {
@@ -497,7 +497,7 @@ const DropDownList: React.FC<DropdownProps> = ({
           updatedSelected = [...prevSelected, option];
         }
 
-        setValue(name, updatedSelected.map((opt) => opt.name).join(", "));
+        setValue(name, updatedSelected?.map((opt) => opt.name).join(", "));
         trigger(name);
 
         return updatedSelected;
