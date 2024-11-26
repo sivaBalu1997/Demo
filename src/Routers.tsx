@@ -35,6 +35,7 @@ import MenuCustomization from "pages/menuCustomization";
 import AddCustomizationInput from "pages/menuCustomization/AddCustomizationInput";
 import NotFound from "pages/notFound";
 import { Menulisting } from "pages/productCatalog/Menulisting/Menulisting";
+import offers from 'pages/offerManagement/specialPriceDetails/specialPriceDetails'
 import Publish from "pages/productCatalog/Publish/Publish";
 import PrimaryDetailsReviewpage from "pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
@@ -82,7 +83,7 @@ const Routers = () => {
         <Contextpage>
           <ThemeProvider>
             <Route exact path="/review" component={ReviewMenu} />
-            <Route exact path="/Offers" component={Offerdetails} />
+            <Route exact path="/Offers" component={offers} />
             <Route
               exact
               path="/management/Offers/TemplateOffer"
@@ -191,6 +192,7 @@ const Routers = () => {
                 <div>
                   <Switch>
                     <Route exact path="/productCatalog/menuListing" component={Menulisting} />
+                    <Route exact path="/offer/special" component={offers} />
                     <Route
                       path="/productCatalog/Reviewpage"
                       component={PrimaryDetailsReviewpage}
