@@ -40,7 +40,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   setId,
 }) => {
   const locationid = useSelector(
-    (state: State) => state.auth.credentials.locationId
+    (state: State) => state.auth.credentials?.locationId
   );
   const tagData = useSelector(
     (state: StateDataTag) => state.productCatalog.availability
