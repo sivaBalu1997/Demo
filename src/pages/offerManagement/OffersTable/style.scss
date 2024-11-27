@@ -9,6 +9,7 @@
   top:140px;
   left:360px;
     font-family: "Poppins";
+    
     /* Adds a smooth transition effect on transform */
 
   }
@@ -19,6 +20,7 @@
     left:160px;
       font-family: "Poppins";
       transition: transform 0.2s ease-in;
+
 
 
   }
@@ -33,30 +35,51 @@
   td.OffrtsTabletd {
     text-align: left;
     padding: 12px;
-    width: 10px;
+    width: 150px;
     padding: 20px;
     padding-left: 5px;
+    // border: 2px solid;
   }
   
   th.OffrtsTableth {
     background-color:white;
+  }
+  th.OffrtsTableth:nth-child(3) {
+    width: 200px;
+    padding-left: 60px;
+
+  }
+  th.OffrtsTableth:nth-child(4) {
+    width: 200px;
+    padding-left: 60px;
+
   }
   
 
   tr.OffrtsTabletr:nth-child(odd) {
     background-color: #E4E0E1;
   }
+ 
   tr.OffrsTabletr:hover {
     background-color: #E8E8E8;
   }
   td.OffrtsTabletd:nth-child(4) {
     padding-right: 30px;
+    width: 300px;
+    padding-left: 50px;
   }
+  td.OffrtsTabletd:nth-child(3) {
+    width: 200px;
+    padding-left: 50px;
+
+    }
   
   td.OffrtsTabletd:nth-child(5) {
     padding-left: 30px;
   }
-  
+  td.OffrtsTabletd:nth-child(2){
+    border:2px solid red
+  }
   .extra-items {
     color: green;
     font-size: 0.9em;
@@ -89,5 +112,9 @@
     margin: 20px 0; 
     width:900%
 
+  }
+  .RowDuration{
+  display:flex ;
+  flex-direction: column;
   }
   

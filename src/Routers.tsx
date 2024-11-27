@@ -60,6 +60,7 @@ import LiveOutlets from "pages/ContentManagement/LiveOutlets/LiveOutlets";
 import EmptyMenu from "pages/menuItem/EmptyMenu";
 import OffersTable from "pages/offerManagement/OffersTable"
 import OffersHeader from "./components/offerManagement/OffersHeader"
+import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/"
 
 const Routers = () => {
   const MIN_WIDTH = 800;

@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./style.scss"; // Import SCSS for styling
 import OfferHeader from "../../../components/offerManagement/OffersHeader";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import ThreeDotsImage from "../../../../src/assets/images/ThreeDots.png"
-
+import DaysWeekOffer from "../../../components/offerManagement/DaysOfweekOffers"
 const Table = () => {
   const { isExpanded } = useContext(Contextpagejs);
 
@@ -48,7 +48,7 @@ const Table = () => {
       </>
     );
   };
-
+  const [highligteddays, setHigligtedDays] = useState<string[]>([]); // Correct type for array of strings
   return (
     <div>
       <OfferHeader />
@@ -70,7 +70,10 @@ const Table = () => {
             {data.map((row, index) => (
               <tr key={index} className="OffrtsTabletr">
                 <td className="OffrtsTabletd">{row.name}</td>
-                <td className="OffrtsTabletd">{row.duration}</td>
+                <div className="RowDuration">
+                <td className="OffrtsTabletd">{row.duration}   <DaysWeekOffer highlightedDays={["S","F","T"]} /></td>
+              
+                </div>
                 <td className="OffrtsTabletd">{row.channel}</td>
                 <td className="OffrtsTabletd">{renderItems(row.items)}</td>
                 <td className="OffrtsTabletd">{row.totalItems}</td>
