@@ -388,7 +388,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
       });
     }
   }, [selectedthirdvalues]);
-
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
       setformNormal({
@@ -413,7 +412,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
         (item: any) => ({
           DineInPrice: item?.DineInPrice,
-          DineInMealType: item.DineInMealType || [],
+          DineInMealType: item?.DineInMealType || [],
           DineInService: item?.DineInService,
           showDay: true,
           dayButtonText: "Choose Day",
@@ -422,14 +421,28 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-
       pickupDetails?.price && setPickup(true);
       deliveryDetails?.price > 0 && setDelivery(true);
       setDineInFields(updatedFields);
-      setFormattedDineInData((prevData) => ({
-        ...prevData,
-        price: updatedFields[0]?.DineInPrice,
-      }));
+      // setFormattedDineInData((prevData) => ({
+      //   ...prevData,
+      //   price: updatedFields[0]?.DineInPrice
+      //   availabilities[0].sessions:updatedFields[0]?.DineInMealType
+      // }));
+      setFormattedDineInData((prevData: DeliveryDetails) => {
+        const updatedAvailabilities = [...prevData.availabilities];
+  
+        updatedAvailabilities[0]= {
+          ...updatedAvailabilities[0],
+          sessions: [...updatedFields[0]?.DineInMealType],
+        };
+  
+        return {
+          ...prevData,
+          price:updatedFields[0]?.DineInPrice,
+          availabilities: updatedAvailabilities,
+        };
+      });
 
       // Set delivery details
       const thirdPartyTypeName =
@@ -537,7 +550,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
             {
               DineInId: dineInDetails.typeId || "",
               DineInPrice: dineInDetails.price ?? "",
-              DineInMealType: dineInDetails.DineInMealType || [],
+              DineInMealType: dineInDetails?.availabilities && dineInDetails?.availabilities[0]?.sessions || [],
               DineInService: dineInDetails.DineInService || "",
               showDay: true,
               dayButtonText: "Choose Day",
@@ -546,10 +559,20 @@ const Normalavail: React.FC<NormalavailProps> = ({
         : [];
 
       setDineInFields(updatedFields);
-      setFormattedDineInData((prevData) => ({
-        ...prevData,
-        price: updatedFields[0]?.DineInPrice,
-      }));
+      setFormattedDineInData((prevData: DeliveryDetails) => {
+        const updatedAvailabilities = [...prevData.availabilities];
+  
+        updatedAvailabilities[0] = {
+          ...updatedAvailabilities[0],
+          sessions: [...updatedFields[0]?.DineInMealType],
+        };
+  
+        return {
+          ...prevData,
+          price:updatedFields[0]?.DineInPrice,
+          availabilities: updatedAvailabilities,
+        };
+      });
 
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
