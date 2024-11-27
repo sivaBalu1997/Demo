@@ -17,11 +17,14 @@ interface InputFieldInterface {
   error?: any;
   placeholder?: string;
   subtext?: string;
+  height?:string;
+  width?:string
 }
 
 const InputComponent: React.FC<InputFieldInterface> = ({
   name,
   type,
+  height,
   value = "",
   onChange,
   trigger,
@@ -30,6 +33,7 @@ const InputComponent: React.FC<InputFieldInterface> = ({
   error,
   placeholder,
   subtext,
+  width
 }) => {
   const handleBlur = () => {
     trigger(name);
@@ -59,15 +63,15 @@ const InputComponent: React.FC<InputFieldInterface> = ({
     
     e.target.value = inputValue;
    
-    // if (name== 'itemName') {
-    //   if(!e.target.value.startsWith(" "))
-    //     onChange(e); 
-    //   trigger(name);
-    // }
-    // else{
-    //   onChange(e); 
-    //   trigger(name);
-    // }
+    if (name== 'itemName') {
+      if(!e.target.value.startsWith(" "))
+        onChange(e); 
+      trigger(name);
+    }
+    else{
+      onChange(e); 
+      trigger(name);
+    }
   
     
   
@@ -91,6 +95,7 @@ const InputComponent: React.FC<InputFieldInterface> = ({
           onKeyDown={onKeyDown}
           placeholder={placeholder}
           className="Input-Filed"
+          style={{height:height,width:width}}
         />
         <span className="placeholder">{subtext}</span>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import "./DaysCheck.scss";
+import "./DaysChecking.scss";
 import axios from "axios";
 import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActions";
 
@@ -123,7 +123,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
                 type="checkbox"
                 name={index.toString()}
                 onChange={handleCheckboxChange}
-                // {...register(valueName)}
+                {...register(valueName)}
                 checked={isChecked}
                 className="days"
               />

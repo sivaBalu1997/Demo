@@ -8,7 +8,7 @@ interface RadioButtonOption {
 
 interface RadioButtonGroupProps {
   options: RadioButtonOption[];
-  selectedValue: string;
+  selectedValue?: string;
   name: string;
   onChange: (value: string) => void;
   register: any;
@@ -26,7 +26,7 @@ const RadioButton: React.FC<RadioButtonGroupProps> = ({ options, selectedValue, 
               {...register(name)}
               value={option.value}
               checked={selectedValue === option.value}
-              onChange={() => onChange(option.value)} // Use onChange here
+              onChange={() => onChange(option.value)} 
               className="radio-button-input"
             />
             {option.label}
