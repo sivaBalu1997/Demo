@@ -35,11 +35,10 @@
   td.OffrtsTabletd {
     text-align: left;
     padding: 12px;
-    width: 150px;
+    width: px;
     padding: 20px;
     padding-left: 5px;
-    // border: 2px solid;
-  }
+    }
   
   th.OffrtsTableth {
     background-color:white;
@@ -48,6 +47,10 @@
     width: 200px;
     padding-left: 60px;
 
+  }
+  th.OffrtsTableth:nth-child(2) {
+    width: 200px;
+    padding-left: 60px;
   }
   th.OffrtsTableth:nth-child(4) {
     width: 200px;
@@ -69,17 +72,26 @@
     padding-left: 50px;
   }
   td.OffrtsTabletd:nth-child(3) {
-    width: 200px;
+    width: 300px;
     padding-left: 50px;
+    
 
     }
-  
+    td.OffrtsTabletd:nth-child(1) {
+      width: 270px;
+      padding-left:40px
+    }
+
   td.OffrtsTabletd:nth-child(5) {
     padding-left: 30px;
   }
-  td.OffrtsTabletd:nth-child(2){
-    border:2px solid red
+  td.OffrtsTabletd:nth-child(2) {
+    width:200px;
+    border: 2px solid green;
   }
+  
+ 
+  
   .extra-items {
     color: green;
     font-size: 0.9em;
