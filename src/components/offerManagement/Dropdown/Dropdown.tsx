@@ -30,6 +30,7 @@ interface Option {
 }
 
 interface DropdownProps {
+    width?:string;
   setParentId?: any;
   name: string;
   id?: string;
@@ -60,6 +61,7 @@ interface DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({
   name,
+  width,
   bestpair,
   options,
   type = "checkbox",
@@ -70,6 +72,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   setOptions,
   validation,
   trigger,
+  placeholder,
   dropdownopen,
   onToggle,
   getValues,
@@ -588,7 +591,8 @@ const Dropdown: React.FC<DropdownProps> = ({
       <div className="dropDownBox">
         <div>
           <input
-            placeholder=""
+          style={{width:width,height:"44px"}}
+            placeholder={placeholder}
             type="text"
             {...register(name, validation)}
             value={

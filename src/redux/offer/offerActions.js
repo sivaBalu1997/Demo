@@ -23,6 +23,9 @@ import {
   DISABLE_OFFER_SUCCESS,
   DISABLE_OFFER_FAILED,
   RESET_DISABLE_DATA,
+  OFFER_DATA_REQUEST,
+  OFFER_DATA_SUCCESS,
+  OFFER_DATA_FAILED,
 } from "./offerConstants";
 
 export const getOfferList = (offerListParams) => ({
@@ -139,4 +142,20 @@ export const deleteOfferFailed = (data) => ({
 
 export const resetDeleteData = () => ({
   type: RESET_DELETE_DATA,
+});
+
+
+export const OfferDataSendingRequest = (data) => ({
+  type: OFFER_DATA_REQUEST,
+  payload: data,
+});
+
+export const OfferDataSendingrSuccess = (data) => ({
+  type:  OFFER_DATA_SUCCESS,
+  payload: data,
+});
+
+export const OfferDataSendingFailed = (data) => ({
+  type:  OFFER_DATA_FAILED,
+  payload: data,
 });
