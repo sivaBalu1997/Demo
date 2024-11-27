@@ -1,6 +1,7 @@
 import React from "react";
 import "./InputFieldComponent.scss";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import {getItemCodeRequest} from "redux/productCatalog/productCatalogActions";
 
 interface InputFieldInterface {
   name: string;
@@ -13,6 +14,7 @@ interface InputFieldInterface {
   error?: any;
   placeholder?: string;
   subtext?: string;
+  oldValue?:any
 }
 
 const InputFieldComponent: React.FC<InputFieldInterface> = ({
@@ -26,11 +28,15 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   error,
   placeholder,
   subtext,
+  oldValue
 }) => {
   const handleBlur = () => {
     trigger(name);
   };
-
+  const dispatch = useDispatch();
+  const locationid = useSelector(
+    (state: any) => state.auth.credentials?.locationId
+  );
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let { value: inputValue } = e.target;
   
@@ -52,9 +58,19 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     if (name === "portionSize" && inputValue.length > 7) {
       return;
     }
+   
+   
     
     e.target.value = inputValue;
-   
+    if (name === "itemCode") {
+      if (inputValue?.length > 3) {
+        if (oldValue != inputValue) {
+          dispatch(
+            getItemCodeRequest(locationid, inputValue)
+          );
+        }
+      }
+    }
     if (name== 'itemName') {
       if(!e.target.value.startsWith(" "))
         onChange(e); 

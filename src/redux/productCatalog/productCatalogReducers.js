@@ -1107,6 +1107,13 @@ export const getItemCodeReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+      case REMOVE_DATA_REQUEST: 
+        return {
+          ...state,
+          itemCode: null,
+          loading: false,
+          error: null,
+        };
     default:
       return state;
   }

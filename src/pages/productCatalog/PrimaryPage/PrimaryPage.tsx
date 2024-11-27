@@ -546,6 +546,9 @@ const PrimaryPage = () => {
   const message = useSelector(
     (state: any) => state?.getItemCodeReducer?.itemCode?.data
   );
+  const messageLoader = useSelector(
+    (state: any) => state?.getItemCodeReducer?.loading
+  );
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -576,12 +579,12 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails]);
   useEffect(() => {
-    if (message?.httpStatus == 409) {
+    if (message?.httpStatus == 409 || messageLoader) {
       setItemcodeValid(false);
     } else {
       setItemcodeValid(true);
     }
-  }, [message]);
+  }, [message,messageLoader]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -1001,23 +1004,15 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
                           name="itemCode"
+                          oldValue={ItemsPrimaryDetails?.itemCode}
                           onChange={(newValue) => {
                             onChange(newValue);
                           }}
                           value={value}
-                          onBlur={() => {
-                            if (value?.length > 3) {
-                              if (editData?.length > 0) {
-                                if (ItemsPrimaryDetails?.itemCode != value) {
-                                  dispatch(
-                                    getItemCodeRequest(locationid, value)
-                                  );
-                                }
-                              } else {
-                                dispatch(getItemCodeRequest(locationid, value));
-                              }
-                            }
-                          }}
+                          // onBlur={() => {
+                          //   console.log("kkkkk111")
+                           
+                          // }}
                           onKeyDown={(e: any) => {
                             if (
                               e.key === "e" ||
