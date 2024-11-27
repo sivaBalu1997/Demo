@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./specialPriceDetails.scss";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-
+import DatePicker from "react-datepicker";
 import SidePanel from "pages/SidePanel";
 import InputComponent from "components/offerManagement/InputComponent/InputComponent";
 import Dropdown from "components/offerManagement/Dropdown/Dropdown";
@@ -15,6 +15,10 @@ import dropdown from "../../../assets/images/dropdown.png";
 import { useDispatch } from "react-redux";
 import { AnyAaaaRecord } from "dns";
 import { OfferDataSendingRequest } from "redux/offer/offerActions";
+import calender from "../../../assets/images/calendar 1.png";
+import Overlap from "components/offerManagement/Overlapping/Overlap";
+
+ 
 interface itemobject
 {
   id:number;
@@ -37,6 +41,8 @@ interface specialPriceForm {
   DatePicked: boolean;
   fromTime: string;
   toTime: string;
+  fromDate:string;
+  toDate:string;
   AvailableDays: number[];
 }
 
@@ -45,11 +51,13 @@ const SpecialPriceDetails = () => {
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
   const selectName = [
     { value: "Happy Hour", label: "Happy Hour" },
     { value: "Surge Hour", label: "Surge Hour" },
   ];
-
+ 
   const selectType = [
     { value: "Percentage", label: "Percentage" },
     { value: "Amount", label: "Amount" },
@@ -95,6 +103,8 @@ const SpecialPriceDetails = () => {
       DatePicked: true,
       fromTime: "",
       toTime: "",
+      fromDate:"",
+      toDate:"",
       AvailableDays: [],
     },
   });
@@ -116,6 +126,8 @@ const SpecialPriceDetails = () => {
   const [selectedFrom, setSelectedFrom] = useState("AM");
   const [selectedTo, setSelectedTo] = useState("AM");
 const [selectedFoodItems,setselectedFoodItems]=useState([]);
+const datePickerRef = useRef<any | null>(null);
+const datePickerRef1 = useRef<any | null>(null);
 
   const selecteFoodItems = [
     {
@@ -186,7 +198,15 @@ const [selectedFoodItems,setselectedFoodItems]=useState([]);
   //   (state: any) => state.offer.OfferDataSendingRequest
   // );
   
-  
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    setValue("fromDate",date);
+  };
+  const handleDateChange1 = (date: Date | null) => {
+    setSelectedDate1(date);
+    setValue("toDate",date);
+  };
+
   const selectedradiowatch = watch();
   const handleFromToTime = (value: string, timePeriod: string) => {
  
@@ -200,10 +220,12 @@ const [selectedFoodItems,setselectedFoodItems]=useState([]);
     } 
   };
   const [showlistOfItems,setShowlistOfItems]=useState(false);
+  const [overlapShow,setOverlapShow]=useState(false);
   const [highlighted,setHighlighted]=useState<any>();
   const selectedValue = watch("specialTypeName");
   const handleItemClick=(index:number,item:any)=>{
     setHighlighted(index)
+    setOverlapShow(true);
     setselectedFoodItems((prev:any) => {
       const exists = prev.some((food:any) => food.id === item.id);
     
@@ -245,6 +267,9 @@ const [selectedFoodItems,setselectedFoodItems]=useState([]);
     }
   };
 
+  const closeOverlapPopUp=()=>{
+    setOverlapShow(false)
+  }
   useEffect(() => {
     if (showlistOfItems) {
       document.addEventListener('mousedown', handleClickOutside);
@@ -253,6 +278,20 @@ const [selectedFoodItems,setselectedFoodItems]=useState([]);
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showlistOfItems]);
+  
+  const handleImageClick = () => {
+    if (datePickerRef.current) {
+      datePickerRef.current.setOpen(true);
+    }
+  };
+
+  const handleImageClick2 = () => {
+    if (datePickerRef1.current) {
+      datePickerRef1.current.setOpen(true);
+    }
+  };
+
+  const [dateShow,setDateShow]=useState(false);
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }} className="offer-creationpage">
@@ -524,6 +563,10 @@ const [selectedFoodItems,setselectedFoodItems]=useState([]);
               </div>
             </div>
 
+            {
+              overlapShow && <Overlap  onclose={closeOverlapPopUp}/>
+            }
+
             <div className="list-of-offeritems">
               <table
                 style={{
@@ -574,9 +617,113 @@ const [selectedFoodItems,setselectedFoodItems]=useState([]);
               <div className="Date-available">
                 <h3>Date </h3>
                 <span>
-                  <Toggle toggle={true} togglecolor="white" />
+                  <Toggle toggle={dateShow} setToggle={setDateShow} togglecolor="white" />
                 </span>
+              
               </div>
+              { dateShow&& 
+                  <div className="offerdate-select">
+                  <div className="offer-from-date">
+
+
+                  <Controller
+                    name="fromDate"
+                    control={control}
+                    defaultValue=""
+                    render={({
+                      field,
+                      trigger,
+                      value,
+                      error,
+                      onChange,
+                      onBlur,
+                    }: any) => (
+                      <div>
+                       <DatePicker
+                      placeholderText="07/01/2034"
+                      dateFormat="MM/dd/yyyy"
+                      selected={selectedDate}
+                      onChange={handleDateChange}
+                      ref={datePickerRef}
+                      className="offerdatePicker-special"
+
+                    />
+                    <img
+                      src={calender}
+                      className="calender-img-offer"
+                      onClick={handleImageClick}
+                    />
+                        {error && (
+                          <span className="error-message">{error.message}</span>
+                        )}
+                      </div>
+                    )}
+                    rules={{
+                      required: "This field is required",
+                      validate: (value) => {
+                        const timeRegex = /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                        return (
+                          timeRegex.test(value) ||
+                          "Please enter a valid time in hh:mm format"
+                        );
+                      },
+                    }}
+                  />
+                    
+                    <div></div>
+                  </div>
+                  To
+                  <div className="offer-to-date">
+
+                  <Controller
+                    name="toDate"
+                    control={control}
+                    defaultValue=""
+                    render={({
+                      field,
+                      trigger,
+                      value,
+                      error,
+                      onChange,
+                      onBlur,
+                    }: any) => (
+                      <div>
+                       <DatePicker
+                      selected={selectedDate1}
+                      onChange={handleDateChange1}
+                      placeholderText="07/01/2034" 
+                      dateFormat="MM/dd/yyyy" 
+                      showPopperArrow
+                      ref={datePickerRef1}
+                      className="offerdatePicker"
+                    />
+                    <img
+                      src={calender}
+                      className="calender-img1-offer"
+                      onClick={handleImageClick2}
+                    ></img>
+                        {error && (
+                          <span className="error-message">{error.message}</span>
+                        )}
+                      </div>
+                    )}
+                    rules={{
+                      required: "This field is required",
+                      validate: (value) => {
+                        const timeRegex = /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                        return (
+                          timeRegex.test(value) ||
+                          "Please enter a valid time in hh:mm format"
+                        );
+                      },
+                    }}
+                  />
+                    
+                   
+                    <div></div>
+                  </div>
+                </div>
+              }
               <h4 className="Time-heading">Time</h4>
 
               <div className="time-format">
@@ -756,7 +903,7 @@ const [selectedFoodItems,setselectedFoodItems]=useState([]);
                 </div>
               </div>
 
-              <div>
+              <div className="checkeddays">
                 <DaysCheck
                   checkedItems={DayThird}
                   setCheckedItems={setDayThird}

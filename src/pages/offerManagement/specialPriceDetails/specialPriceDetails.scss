@@ -375,6 +375,7 @@ opacity: 0.5;
 
 
   }
+ 
   .searched-items-listed
   {
     width: 630px;
@@ -394,13 +395,13 @@ box-shadow: 0px 8px 10px 2px #00000040;
   }
   
 &::-webkit-scrollbar-thumb {
-    background: #5F5F5F; 
+    background: #979797; 
     border-radius: 10px; 
     height: 1rem;
   }
   
   &::-webkit-scrollbar-thumb:hover {
-    background: #5F5F5F; 
+    background: #979797; 
   }
 
 .listing-selected-items
@@ -485,3 +486,30 @@ text-decoration-skip-ink: none;
 
 
   }
+
+  .offerdate-select{
+    display: flex;
+    margin-bottom: 2%;
+    gap: 1rem;
+    align-items: center;
+    .calender-img-offer,.calender-img1-offer
+    {
+      position: relative;
+      left: -1.5rem;
+      
+    
+
+
+    }
+    
+  }
+  .offerdatePicker,.offerdatePicker-special
+  {
+    width: 120px;
+    padding-right: 1rem;
+    height: 44px;
+  }
+  .offerdatePicker
+  {margin-left: 1rem;
+  }
+
