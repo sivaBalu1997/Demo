@@ -1,16 +1,36 @@
+.OfferSideNavbarContainer{
+  display: flex;
+  justify-content: center;
+  
+}
 .table-container {
-    margin: 20px;
+  width:1750px;
+  position: absolute;
+  top:140px;
+  left:360px;
     font-family: "Poppins";
+    /* Adds a smooth transition effect on transform */
+
+  }
+  .table-container1{
+    width:1150px;
+    position: absolute;
+    top:140px;
+    left:160px;
+      font-family: "Poppins";
+      transition: transform 0.2s ease-in;
+
+
   }
   
-  table {
-    transform: translateX(180px);
+  .OffersTable {
+    transform: translateX(20px);
     width: 1320px;
     border-collapse: collapse;
   }
   
-  th,
-  td {
+  th.OffrtsTableth,
+  td.OffrtsTabletd {
     text-align: left;
     padding: 12px;
     width: 10px;
@@ -18,23 +38,23 @@
     padding-left: 5px;
   }
   
-  th {
+  th.OffrtsTableth {
     background-color:white;
   }
   
-  tr:nth-child(odd) {
+
+  tr.OffrtsTabletr:nth-child(odd) {
     background-color: #E4E0E1;
   }
-  
-  tr:hover {
+  tr.OffrsTabletr:hover {
     background-color: #E8E8E8;
   }
-  td:nth-child(4) {
-    padding-right: 30px; /* Adjust this value for more space */
+  td.OffrtsTabletd:nth-child(4) {
+    padding-right: 30px;
   }
   
-  td:nth-child(5) {
-    padding-left: 30px; /* Adjust this value for more space */
+  td.OffrtsTabletd:nth-child(5) {
+    padding-left: 30px;
   }
   
   .extra-items {
@@ -59,7 +79,15 @@
   height: 1px;
   background-color: #E9E9E9; /* Light gray color */
   margin: 20px 0; 
-  transform: translateY(-20px);
-  width:750%;
+  width:800%
+  
+  }
+  .OfferDiv2{
+    border: 0;
+    height: 1px;
+    background-color: #E9E9E9; /* Light gray color */
+    margin: 20px 0; 
+    width:900%
+
   }
   

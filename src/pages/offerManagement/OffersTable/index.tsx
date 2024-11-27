@@ -1,7 +1,12 @@
-import React from "react";
-import "./style.scss"; // Import CSS for styling
+import React, { useContext } from "react";
+import "./style.scss"; // Import SCSS for styling
+import OfferHeader from "../../../components/offerManagement/OffersHeader";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+import ThreeDotsImage from "../../../../src/assets/images/ThreeDots.png"
 
 const Table = () => {
+  const { isExpanded } = useContext(Contextpagejs);
+
   const data = [
     {
       name: "Bar Happy Hour",
@@ -26,49 +31,57 @@ const Table = () => {
       duration: "10:00AM–12:00AM",
       days: ["S", "M", "T", "W", "T", "F", "S"],
       channel: "Dine In, Delivery, Pickup",
-      items: ["Biriyani", "Chapati", "Parotta", "Parotta", "Parotta","Parotta"],
+      items: ["Biriyani", "Chapati", "Parotta", "Parotta", "Parotta", "Parotta"],
       totalItems: 5,
       specialPrice: "10%",
     },
   ];
 
+  const renderItems = (items:any) => {
+    const maxVisibleItems = 5;
+    return (
+      <>
+        {items.slice(0, maxVisibleItems).join(", ")}
+        {items.length > maxVisibleItems && (
+          <span className="extra-items"> +{items.length - maxVisibleItems} Items</span>
+        )}
+      </>
+    );
+  };
+
   return (
-    <div className="table-container">
-      <table>
-        <thead>
-          
-          <tr>
-            <th>Name</th>
-            <th>Duration</th>
-            <th>Channel</th>
-            <th>Items</th>
-            <th>Total Items</th>
-            <th>Special Price</th>
-          </tr>
-          <div className="OfferDiv"></div>
-        </thead>
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              <td>{row.name}</td>
-              <td>{row.duration}</td>
-              <td>{row.channel}</td>
-              <td>
-                {row.items.slice(0, 5).join(", ")}
-                {row.items.length > 5 && (
-                  <span className="extra-items">
-                    {" "}
-                    +{row.items.length - 5} Items
-                  </span>
-                )}
-              </td>
-              <td>{row.totalItems}</td>
-              <td>{row.specialPrice}</td>
-              <td>:</td>
+    <div>
+      <OfferHeader />
+      <div className={isExpanded==true?"table-container":"table-container1"}>
+        <table className="OffersTable">
+          <thead>
+            <tr className="OffrtsTabletr">
+              <th className="OffrtsTableth">Name</th>
+              <th className="OffrtsTableth">Duration</th>
+              <th className="OffrtsTableth">Channel</th>
+              <th className="OffrtsTableth">Items</th>
+              <th className="OffrtsTableth">Total Items</th>
+              <th className="OffrtsTableth">Special Price</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+            <div className={isExpanded?"OfferDiv":"OfferDiv2"}></div>
+
+          </thead>
+          <tbody className="OffrTablebody">
+            {data.map((row, index) => (
+              <tr key={index} className="OffrtsTabletr">
+                <td className="OffrtsTabletd">{row.name}</td>
+                <td className="OffrtsTabletd">{row.duration}</td>
+                <td className="OffrtsTabletd">{row.channel}</td>
+                <td className="OffrtsTabletd">{renderItems(row.items)}</td>
+                <td className="OffrtsTabletd">{row.totalItems}</td>
+                <td className="OffrtsTabletd">{row.specialPrice}</td>
+                <td className="OffrtsTabletd"><img src={ThreeDotsImage} width="5" height="20"></img></td>
+
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
