@@ -58,6 +58,8 @@ import PendingComponent from "pages/ContentManagement/PendingOutlet/PendingOutle
 
 import LiveOutlets from "pages/ContentManagement/LiveOutlets/LiveOutlets";
 import EmptyMenu from "pages/menuItem/EmptyMenu";
+import OffersTable from "pages/offerManagement/OffersTable"
+import OffersHeader from "./components/offerManagement/OffersHeader"
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -83,7 +85,9 @@ const Routers = () => {
         <Contextpage>
           <ThemeProvider>
             <Route exact path="/review" component={ReviewMenu} />
-            <Route exact path="/Offers" component={offers} />
+            <Route exact path="/Offers" component={OffersHeader} />
+            <Route exact path="/Offers/active" component={OffersTable} />
+
             <Route
               exact
               path="/management/Offers/TemplateOffer"
