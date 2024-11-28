@@ -81,7 +81,7 @@ const Table = () => {
         <OfferHeader />
         <div className={isExpanded ? "table-container" : "table-container1"}>
           <table className={isExpanded ? "OffersTable" : "OffersTable1"}>
-            <thead>
+            <thead className={isExpanded ? "tableHeading" : "tableHeading1"}>
               <tr className="OffrtsTabletr">
                 <th className="OffrtsTableth">Name</th>
                 <th className="OffrtsTableth">Duration</th>
@@ -96,7 +96,7 @@ const Table = () => {
                 <tr key={index} className="OffrtsTabletr">
                   <td className="OffrtsTabletd">{row.name}</td>
                   <td className="OffrtsTabletd">
-                    {row.duration}
+                    <p className="duration">{row.duration}</p>
                     <DaysWeekOffer highlightedDays={[1, 2]} />
                   </td>
                   <td className="OffrtsTabletd">{row.channel}</td>
