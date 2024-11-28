@@ -48,7 +48,7 @@ const Table = () => {
       </>
     );
   };
-  const [highligteddays, setHigligtedDays] = useState<string[]>([]); // Correct type for array of strings
+  const [highligteddays, setHigligtedDays] = useState<number[]>([]); // Correct type for array of strings
   return (
     <div>
       <OfferHeader />
@@ -71,7 +71,7 @@ const Table = () => {
               <tr key={index} className="OffrtsTabletr">
                 <td className="OffrtsTabletd">{row.name}</td>
                 <div className="RowDuration">
-                <td className="OffrtsTabletd">{row.duration}   <DaysWeekOffer highlightedDays={["S","F","T"]} /></td>
+                <td className="OffrtsTabletd">{row.duration}   <DaysWeekOffer highlightedDays={[1,2]} /></td>
               
                 </div>
                 <td className="OffrtsTabletd">{row.channel}</td>

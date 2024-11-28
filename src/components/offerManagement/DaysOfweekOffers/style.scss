@@ -1,34 +1,28 @@
-.OfferWeekDaysContainer {
-    width: 173px;
-    height: 35px;
-    transform: translate(5px, -45px);
-  }
-  
-  .OfferWeekDaysContainer .DaysOfWeekOffers {
+.days-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%; // Adjust as needed
+  margin-left: -10px;
+
+  .day {
+    width: 20px; 
+    height: 20px; 
     display: flex;
-    width: 200px;
-    height: 52px;
-    cursor: pointer;
-    justify-content: flex-start;
-    list-style: none;
-    gap: 0px;
-    background-color: inherit; 
+    border: none;
+    justify-content: center;
+    align-items: center;
     
-  } 
-  
-  .OfferWeekDaysContainer .OfferDaysOfWeekHeading {
-    text-align: start;
-    color: #868686;
     font-size: 10px;
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
+    font-weight: bold;
+    
+    color:#868686;
+    transition: background-color 0.3s, color 0.3s;
+
+    &.active {
+      background-color: #67833E; 
+      color: white;
+      border-radius: 50%; 
+    }
   }
-  
-  .OfferWeekDaysContainer .OfferDaysOfWeekHeading.highlight {
-    border-radius: 50%;
-    background-color: #67833E;
-    color: white;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-  
+}

@@ -1,33 +1,27 @@
-import React from 'react'
-import "./style.scss"
-interface DaysOfWeekProps {
-  highlightedDays: string[]; // Array of strings representing highlighted days
+import React from 'react';
+import './style.scss';
+
+interface DaysSelectorProps {
+  highlightedDays: number[]; // Array of indices for days to highlight (e.g., [1, 2, 4])
 }
-const index :React.FC<DaysOfWeekProps> =({highlightedDays}) => {
-  const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
+
+const DaysSelector: React.FC<DaysSelectorProps> = ({ highlightedDays }) => {
+  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   return (
-    
-        <div className='OfferWeekDaysContainer'>
-          <ul className='DaysOfWeekOffers'>
-          {
-            daysOfWeek.map((days,index)=>{
-              return(
-                <>
-                  <li
-              key={index}
-              className={`OfferDaysOfWeekHeading ${
-                highlightedDays.includes(days) ? "highlight" : ""
-              }`}
-            >{days}</li>
-                </>
-              )
-            })
-          }
-          </ul>
+    <div className="days-selector">
+      {days.map((day, index) => (
+        <div
+          key={index}
+          className={`day ${
+            highlightedDays.includes(index) ? 'active' : ''
+          }`}
+        >
+          {day}
         </div>
-      
-  )
-}
+      ))}
+    </div>
+  );
+};
 
-export default index
+export default DaysSelector;
