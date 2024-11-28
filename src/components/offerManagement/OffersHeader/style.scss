@@ -4,7 +4,16 @@
 }
 
 .OffersHeadersWindow {
-    width: 1900px;
+    width: 83%;
+    height: 10%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.OffersHeadersWindow1{
+    width: 60%;
     height: 10%;
     background-color: white;
     display: flex;
@@ -13,16 +22,14 @@
 }
 
 .SpecialPriceContainer {
-    width: 1500px;
+    width: 183%;
     display: flex;
-    justify-content: flex-start;
-    gap: 1100px;
+    justify-content: space-between;
 }
 .SpecialPriceContainer2{
-    width: 1650px;
+    width: 116%;
     display: flex;
-    justify-content: flex-start;
-    gap: 1300px;
+    justify-content: space-between;
 }
 
 .SpecialPriceHeading {
