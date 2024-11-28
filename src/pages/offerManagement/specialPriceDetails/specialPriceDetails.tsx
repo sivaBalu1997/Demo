@@ -308,6 +308,7 @@ const SpecialPriceDetails = () => {
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
+    setSelectedDate1(null)
     setValue("fromDate", date);
   };
   const handleDateChange1 = (date: Date | null) => {
@@ -782,6 +783,7 @@ function handleSingleDayRange(startDate:any, endDate:any) {
                               dateFormat="MM/dd/yyyy"
                               selected={selectedDate}
                               onChange={handleDateChange}
+                              minDate={new Date()}
                               ref={datePickerRef}
                               className="offerdatePicker-special"
                             />
@@ -833,6 +835,7 @@ function handleSingleDayRange(startDate:any, endDate:any) {
                               dateFormat="MM/dd/yyyy"
                               showPopperArrow
                               ref={datePickerRef1}
+                              minDate={selectedDate || new Date()}
                               className="offerdatePicker"
                             />
                             {error && (
