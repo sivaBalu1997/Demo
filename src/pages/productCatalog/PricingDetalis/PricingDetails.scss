@@ -17,7 +17,8 @@
   top: 160px;
   margin-left: -35px;
   overflow-x: hidden;
-  height: 38.5rem;
+  // height: 38.5rem;
+  height: 29rem;
   width: 100%;
   overflow-y: auto;
   // background-color: pink;
@@ -58,7 +59,7 @@
 .KitchenRelated {
   display: flex;
   // align-items: center;
-  height: 4rem;
+  height: auto;
   // border: 1px solid red;
 }
 // .KitchenRelated > div {
@@ -204,7 +205,7 @@
   width: fit-content;
   height: fit-content;
   // bottom: -0.5rem;
-  margin-top: -4px;
+  margin-top: 14px;
   // position: relative;
   // top: 22px;
   // margin-bottom: 30px;
