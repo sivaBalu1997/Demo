@@ -120,23 +120,23 @@
   border: 1px solid #9f9f9f;
 }
 
-.Prepartiontime-input-mins {
-  width: 48px;
-  height: 40px;
-  font-weight: 400;
-  border-radius: 5.41px;
-  font-family: Poppins;
-  border: 1px solid #9f9f9f;
-}
+// .Prepartiontime-input-mins {
+//   width: 48px;
+//   height: 40px;
+//   font-weight: 400;
+//   border-radius: 5.41px;
+//   font-family: Poppins;
+//   border: 1px solid #9f9f9f;
+// }
 
 .Prepartiontime-input-mins {
   width: 48px;
   height: 40px;
   border-radius: 5.41px;
   border: 1px solid #9f9f9f;
-  &::placeholder {
-    color: #000000;
-  }
+  // &::placeholder {
+  //   color: ;
+  // }
 }
 
 .timeSpan {
