@@ -344,7 +344,8 @@ const PricingSlider: any = ({}) => {
                         type="number"
                         className="Priceing-input-field"
                         placeholder="0"
-                        onChange={(e) =>
+                        disabled={!enableOrNot}
+                    onChange={(e) =>
                           handlepriceinputchange(
                             price.typeId,
                             item.mainHeading,
