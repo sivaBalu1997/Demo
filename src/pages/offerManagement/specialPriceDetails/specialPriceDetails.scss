@@ -1,3 +1,21 @@
+.offer-creationpage {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.offer-creationpage1 {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .offer-primary-part1 {
   width: 50rem;
   height: 7rem;
@@ -7,6 +25,7 @@
   margin-bottom: 3%;
   // border: 1px solid red;
 }
+
 .offer-creationpage {
   display: flex;
   flex-direction: row;
@@ -17,18 +36,18 @@
 
 .offer-creationpage-container {
   position: relative;
-  width: 80%;
+  width: 124%;
 }
 
 .offer-creationpage-container1 {
   position: relative;
-  width: 81%;
+  width: 90%;
 }
 
 .specialprice-container1 {
   height: 80vh;
   overflow-y: auto;
-  margin-left: 0.5rem;
+  margin-left: 1.5rem;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -45,6 +64,10 @@
 
 .selectChannel {
   margin-left: 1.74%;
+}
+
+.visibleDropdown{
+  margin-right: 20px;
 }
 
 .items-details {
@@ -105,7 +128,7 @@
 }
 .effectiveperiod {
   width: 60rem;
-  height: 272px;
+  // height: 272px;
   // border: 1px solid red;
   margin-top: 1rem;
   font-family: "Poppins", sans-serif;
@@ -396,8 +419,8 @@
 }
 
 .saveandcancel-btn-offer {
-  position: absolute;
-  width: 129%;
+  position: relative;
+  width: 100%;
   bottom: 0;
   padding-top: 2%;
   padding-bottom: 2%;
@@ -440,8 +463,8 @@
 }
 
 .saveandcancel-btn-offer1 {
-  position: absolute;
-  width: 144%;
+  position: relative;
+  width: 100%;
   bottom: 0;
   padding-top: 2%;
   padding-bottom: 2%;
@@ -483,23 +506,53 @@
   }
 }
 
-.offerdate-select {
+// .offerdate-select {
+//   display: flex;
+//   margin-bottom: 2%;
+//   gap: 1rem;
+//   align-items: center;
+  
+//   .calender-img-offer,
+//   .calender-img1-offer {
+//     position: relative;
+//     left: -1.5rem;
+//   }
+// }
+
+// .offerdatePicker,
+// .offerdatePicker-special {
+//   width: 120px;
+//   padding-right: 1rem;
+//   height: 44px;
+// }
+
+// .offerdatePicker {
+//   margin-left: 1rem;
+// }
+
+.offerdate-select{
+  // position: fixed;
   display: flex;
-  margin-bottom: 2%;
-  gap: 1rem;
-  align-items: center;
-  .calender-img-offer,
-  .calender-img1-offer {
-    position: relative;
-    left: -1.5rem;
+  gap: 30px;
+
+  .offer-from-date, .offer-to-date{
+    display: flex;
+
+    img{
+      position: relative;
+      width: 20px;
+      height: 20px;
+      margin-left: -23px;
+      margin-top: 10px;
+    }
   }
-}
-.offerdatePicker,
-.offerdatePicker-special {
-  width: 120px;
-  padding-right: 1rem;
-  height: 44px;
-}
-.offerdatePicker {
-  margin-left: 1rem;
+
+  .calender-img-offer{
+    // position: relative;
+    // margin-left: -20px;
+  }
+  .calender-img1-offer{
+    // position: relative;
+    // margin-left: -20px;
+  }
 }

@@ -197,7 +197,6 @@ const Routers = () => {
                 <div>
                   <Switch>
                     <Route exact path="/productCatalog/menuListing" component={Menulisting} />
-                    <Route exact path="/offer/special" component={offers} />
                     <Route
                       path="/productCatalog/Reviewpage"
                       component={PrimaryDetailsReviewpage}
@@ -220,6 +219,10 @@ const Routers = () => {
                   </Switch>
                 </div>
               </>
+            </div>
+
+            <div className="specialOffers">
+              <Route exact path="/offer/special" component={offers} />
             </div>
 
             <div>

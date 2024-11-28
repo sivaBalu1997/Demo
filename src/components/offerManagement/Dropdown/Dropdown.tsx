@@ -330,147 +330,149 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
 
       {dropdownopen && (
-        <div className="dropdown-body">
-          <div className="Dropdown-lists-and-edit">
-            <ul
-              className="dropdown-options"
-              onMouseDown={handleOptionMouseDown}
-            >
-              {dropDownLoading ? (
-                <div className="dropdown-no-options">
-                  <Loader
-                    className="imgLoader1"
-                    height="300px"
-                    width="300px"
-                    style={{
-                      filter:
-                        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
-                      height: "70px",
-                      width: "70px",
-                    }}
-                  />
-                </div>
-              ) : (
-                <div>
-                  {!Loading && filteredOptions?.length > 0 ? (
-                    filteredOptions?.map((option, index) => {
-                      return (
-                        <div className="dropdown-option-list" key={index}>
-                          <li className="dropdown-option">
-                            <input
-                              type={type}
-                              checked={selectedOptions?.some(
-                                (opt) => opt?.id === option?.id
-                              )}
-                              className="dropdon-option-inputfield"
-                              onChange={() => handleCheckboxChange(option)}
-                            />
-                            <span
-                              className="dropdon-option-label"
-                              onClick={() => handleSelect(option)}
-                            >
-                              {option.name}
-                            </span>
-                          </li>
-                          <div>
-                            {editList && (
-                              <span
-                                className={`dropdown-option-delete `}
-                                onClick={() =>
-                                  option?.canDelete
-                                    ? handledeletion(option.id)
-                                    : null
-                                }
-                                style={
-                                  !option?.canDelete
-                                    ? { pointerEvents: "none", opacity: "50%" }
-                                    : {}
-                                }
-                              >
-                                -Delete
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <li className="dropdown-no-options">No options found</li>
-                  )}
-                </div>
-              )}
-            </ul>
-            <div className="edititem">
-              {!dropDownLoading &&
-                options?.length > 0 &&
-                !editList &&
-                editValues && (
-                  <p
-                    className="editiconimage"
-                    onMouseDown={handleOptionMouseDown}
-                    onClick={() => handleedit()}
-                    // style={{position:'relative',left:'-2rem'}}
-                  >
-                    Edit
-                  </p>
-                )}
-            </div>
-          </div>
-
-          {
-            <div
-              className="dropdown-Addbutton"
-              onMouseDown={handleOptionMouseDown}
-            >
-              {addNew && addNewButton && (
-                <div className="dropdown-addnew">
-                  <div className="dropdown-addnew-input-and-button">
-                    <input
-                      type="text"
-                      ref={NewItemref}
-                      className="dropdown-addnew-input-filed"
+        <div className="dropdownBodyContainer">
+          <div className="dropdown-body">
+            <div className="Dropdown-lists-and-edit">
+              <ul
+                className="dropdown-options"
+                onMouseDown={handleOptionMouseDown}
+              >
+                {dropDownLoading ? (
+                  <div className="dropdown-no-options">
+                    <Loader
+                      className="imgLoader1"
+                      height="300px"
+                      width="300px"
+                      style={{
+                        filter:
+                          "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                        height: "70px",
+                        width: "70px",
+                      }}
                     />
-                    <button
-                      type="button"
-                      onClick={handleNewItemAdd}
-                      className="dropdown-addnew-button"
-                    >
-                      Add
-                    </button>
                   </div>
-                </div>
-              )}
-
-              <div className="Addnew-edit-fields">
-                <div className="dropdown-edit-button">
-                  {editList && editValues && !addNewButton && (
+                ) : (
+                  <div>
+                    {!Loading && filteredOptions?.length > 0 ? (
+                      filteredOptions?.map((option, index) => {
+                        return (
+                          <div className="dropdown-option-list" key={index}>
+                            <li className="dropdown-option">
+                              <input
+                                type={type}
+                                checked={selectedOptions?.some(
+                                  (opt) => opt?.id === option?.id
+                                )}
+                                className="dropdon-option-inputfield"
+                                onChange={() => handleCheckboxChange(option)}
+                              />
+                              <span
+                                className="dropdon-option-label"
+                                onClick={() => handleSelect(option)}
+                              >
+                                {option.name}
+                              </span>
+                            </li>
+                            <div>
+                              {editList && (
+                                <span
+                                  className={`dropdown-option-delete `}
+                                  onClick={() =>
+                                    option?.canDelete
+                                      ? handledeletion(option.id)
+                                      : null
+                                  }
+                                  style={
+                                    !option?.canDelete
+                                      ? { pointerEvents: "none", opacity: "50%" }
+                                      : {}
+                                  }
+                                >
+                                  -Delete
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <li className="dropdown-no-options">No options found</li>
+                    )}
+                  </div>
+                )}
+              </ul>
+              <div className="edititem">
+                {!dropDownLoading &&
+                  options?.length > 0 &&
+                  !editList &&
+                  editValues && (
                     <p
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleedit();
-                      }}
-                      className="dropdown-edit-done"
+                      className="editiconimage"
+                      onMouseDown={handleOptionMouseDown}
+                      onClick={() => handleedit()}
+                      // style={{position:'relative',left:'-2rem'}}
                     >
-                      Done
+                      Edit
                     </p>
-                  )}
-                </div>
-                {(!Loading || filteredOptions?.length === 0) &&
-                  addNew &&
-                  !addNewButton && (
-                    <button
-                      className="dropdown-addbutton"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleNewItemAddition();
-                      }}
-                    >
-                      Add new
-                    </button>
                   )}
               </div>
             </div>
-          }
+
+            {
+              <div
+                className="dropdown-Addbutton"
+                onMouseDown={handleOptionMouseDown}
+              >
+                {addNew && addNewButton && (
+                  <div className="dropdown-addnew">
+                    <div className="dropdown-addnew-input-and-button">
+                      <input
+                        type="text"
+                        ref={NewItemref}
+                        className="dropdown-addnew-input-filed"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleNewItemAdd}
+                        className="dropdown-addnew-button"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="Addnew-edit-fields">
+                  <div className="dropdown-edit-button">
+                    {editList && editValues && !addNewButton && (
+                      <p
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleedit();
+                        }}
+                        className="dropdown-edit-done"
+                      >
+                        Done
+                      </p>
+                    )}
+                  </div>
+                  {(!Loading || filteredOptions?.length === 0) &&
+                    addNew &&
+                    !addNewButton && (
+                      <button
+                        className="dropdown-addbutton"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleNewItemAddition();
+                        }}
+                      >
+                        Add new
+                      </button>
+                    )}
+                </div>
+              </div>
+            }
+          </div>
         </div>
       )}
     </div>

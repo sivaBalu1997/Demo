@@ -396,7 +396,7 @@ const SpecialPriceDetails = () => {
   const [dateShow, setDateShow] = useState(false);
 
   return (
-    <div className="offer-creationpage">
+    <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
       <>
         <div className={isExpanded ? "offer-creationpage-container" : "offer-creationpage-container1"}>
@@ -404,7 +404,7 @@ const SpecialPriceDetails = () => {
             <h1>Create Special Price Details</h1>
           </div>
 
-          <div className="specialprice-container">
+          <div className={isExpanded ? "specialprice-container" : "specialprice-container1"}>
             <div className="offer-primary-details">
               <h3>Primary Details</h3>
             </div>
@@ -456,7 +456,7 @@ const SpecialPriceDetails = () => {
                   )}
                 />
               </div>
-              <div>
+              <div className="visibleDropdown">
                 <Controller
                   name="offerToVisible"
                   control={control}
@@ -747,11 +747,6 @@ const SpecialPriceDetails = () => {
                               ref={datePickerRef}
                               className="offerdatePicker-special"
                             />
-                            <img
-                              src={calender}
-                              className="calender-img-offer"
-                              onClick={handleImageClick}
-                            />
                             {error && (
                               <span className="error-message">
                                 {error.message}
@@ -771,7 +766,11 @@ const SpecialPriceDetails = () => {
                           },
                         }}
                       />
-
+                      <img
+                        src={calender}
+                        className="calender-img-offer"
+                        onClick={handleImageClick}
+                      />
                       <div></div>
                     </div>
                     To
@@ -798,11 +797,82 @@ const SpecialPriceDetails = () => {
                               ref={datePickerRef1}
                               className="offerdatePicker"
                             />
-                            <img
-                              src={calender}
-                              className="calender-img1-offer"
-                              onClick={handleImageClick2}
-                            ></img>
+                            {error && (
+                              <span className="error-message">
+                                {error.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        rules={{
+                          required: "This field is required",
+                          validate: (value) => {
+                            const timeRegex =
+                              /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                            return (
+                              timeRegex.test(value) ||
+                              "Please enter a valid time in hh:mm format"
+                            );
+                          },
+                        }}
+                      />
+                      <img
+                        src={calender}
+                        className="calender-img1-offer"
+                        onClick={handleImageClick2}
+                      ></img>
+                      <div></div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="timeContainer">
+                <h4 className="Time-heading">Time</h4>
+                  <div className="time-format">
+                    <div className="time-selector">
+                      <Controller
+                        name="fromTime"
+                        control={control}
+                        defaultValue=""
+                        render={({
+                          field,
+                          trigger,
+                          value,
+                          error,
+                          onChange,
+                          onBlur,
+                        }: any) => (
+                          <div>
+                            <input
+                              type="text"
+                              placeholder="hh:mm"
+                              className={`time-selector__input ${
+                                error ? "error" : ""
+                              }`}
+                              value={value}
+                              onChange={(e) => {
+                                const inputValue = e.target.value;
+                                if (/^[0-9:]*$/.test(inputValue)) {
+                                  if (inputValue.length <= 5) {
+                                    const formattedValue = inputValue
+                                      .replace(/[^0-9]/g, "")
+                                      .match(/(\d{0,2})(\d{0,2})?/);
+
+                                    const hours =
+                                      (formattedValue && formattedValue[1]) || "";
+                                    const minutes =
+                                      (formattedValue && formattedValue[2]) || "";
+
+                                    const formattedTime = [hours, minutes]
+                                      .filter(Boolean)
+                                      .join(":");
+
+                                    onChange(formattedTime);
+                                  }
+                                }
+                              }}
+                              onBlur={onBlur}
+                            />
                             {error && (
                               <span className="error-message">
                                 {error.message}
@@ -823,190 +893,120 @@ const SpecialPriceDetails = () => {
                         }}
                       />
 
-                      <div></div>
+                      <button
+                        className={`time-selector__button_fromtime ${
+                          selectedFrom === "AM" ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedFrom("AM");
+
+                          handleFromToTime("fromTime", "AM");
+                        }}
+                      >
+                        AM
+                      </button>
+                      <button
+                        className={`time-selector__button_fromtime ${
+                          selectedFrom === "PM" ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedFrom("PM");
+                          handleFromToTime("fromTime", "PM");
+                        }}
+                      >
+                        PM
+                      </button>
                     </div>
-                  </div>
-                )}
-                <h4 className="Time-heading">Time</h4>
+                    To
+                    <div className="time-selector">
+                      <Controller
+                        name="toTime"
+                        control={control}
+                        defaultValue=""
+                        render={({
+                          field,
+                          trigger,
+                          value,
+                          error,
+                          onChange,
+                          onBlur,
+                        }: any) => (
+                          <div>
+                            <input
+                              type="text"
+                              placeholder="hh:mm"
+                              className={`time-selector__input ${
+                                error ? "error" : ""
+                              }`}
+                              value={value}
+                              onChange={(e) => {
+                                const inputValue = e.target.value;
 
-                <div className="time-format">
-                  <div className="time-selector">
-                    <Controller
-                      name="fromTime"
-                      control={control}
-                      defaultValue=""
-                      render={({
-                        field,
-                        trigger,
-                        value,
-                        error,
-                        onChange,
-                        onBlur,
-                      }: any) => (
-                        <div>
-                          <input
-                            type="text"
-                            placeholder="hh:mm"
-                            className={`time-selector__input ${
-                              error ? "error" : ""
-                            }`}
-                            value={value}
-                            onChange={(e) => {
-                              const inputValue = e.target.value;
-                              if (/^[0-9:]*$/.test(inputValue)) {
-                                if (inputValue.length <= 5) {
-                                  const formattedValue = inputValue
-                                    .replace(/[^0-9]/g, "")
-                                    .match(/(\d{0,2})(\d{0,2})?/);
+                                if (/^[0-9:]*$/.test(inputValue)) {
+                                  if (inputValue.length <= 5) {
+                                    const formattedValue = inputValue
+                                      .replace(/[^0-9]/g, "")
+                                      .match(/(\d{0,2})(\d{0,2})?/);
 
-                                  const hours =
-                                    (formattedValue && formattedValue[1]) || "";
-                                  const minutes =
-                                    (formattedValue && formattedValue[2]) || "";
+                                    const hours =
+                                      (formattedValue && formattedValue[1]) || "";
+                                    const minutes =
+                                      (formattedValue && formattedValue[2]) || "";
 
-                                  const formattedTime = [hours, minutes]
-                                    .filter(Boolean)
-                                    .join(":");
+                                    const formattedTime = [hours, minutes]
+                                      .filter(Boolean)
+                                      .join(":");
 
-                                  onChange(formattedTime);
+                                    onChange(formattedTime);
+                                  }
                                 }
-                              }
-                            }}
-                            onBlur={onBlur}
-                          />
-                          {error && (
-                            <span className="error-message">
-                              {error.message}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                      rules={{
-                        required: "This field is required",
-                        validate: (value) => {
-                          const timeRegex =
-                            /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
-                          return (
-                            timeRegex.test(value) ||
-                            "Please enter a valid time in hh:mm format"
-                          );
-                        },
-                      }}
-                    />
+                              }}
+                              onBlur={onBlur}
+                            />
+                            {error && (
+                              <span className="error-message">
+                                {error.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        rules={{
+                          required: "This field is required",
+                          validate: (value) => {
+                            // Validate hh:mm format
+                            const timeRegex =
+                              /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                            return (
+                              timeRegex.test(value) ||
+                              "Please enter a valid time in hh:mm format"
+                            );
+                          },
+                        }}
+                      />
 
-                    <button
-                      className={`time-selector__button_fromtime ${
-                        selectedFrom === "AM" ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedFrom("AM");
-
-                        handleFromToTime("fromTime", "AM");
-                      }}
-                    >
-                      AM
-                    </button>
-                    <button
-                      className={`time-selector__button_fromtime ${
-                        selectedFrom === "PM" ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedFrom("PM");
-                        handleFromToTime("fromTime", "PM");
-                      }}
-                    >
-                      PM
-                    </button>
-                  </div>
-                  To
-                  <div className="time-selector">
-                    <Controller
-                      name="toTime"
-                      control={control}
-                      defaultValue=""
-                      render={({
-                        field,
-                        trigger,
-                        value,
-                        error,
-                        onChange,
-                        onBlur,
-                      }: any) => (
-                        <div>
-                          <input
-                            type="text"
-                            placeholder="hh:mm"
-                            className={`time-selector__input ${
-                              error ? "error" : ""
-                            }`}
-                            value={value}
-                            onChange={(e) => {
-                              const inputValue = e.target.value;
-
-                              if (/^[0-9:]*$/.test(inputValue)) {
-                                if (inputValue.length <= 5) {
-                                  const formattedValue = inputValue
-                                    .replace(/[^0-9]/g, "")
-                                    .match(/(\d{0,2})(\d{0,2})?/);
-
-                                  const hours =
-                                    (formattedValue && formattedValue[1]) || "";
-                                  const minutes =
-                                    (formattedValue && formattedValue[2]) || "";
-
-                                  const formattedTime = [hours, minutes]
-                                    .filter(Boolean)
-                                    .join(":");
-
-                                  onChange(formattedTime);
-                                }
-                              }
-                            }}
-                            onBlur={onBlur}
-                          />
-                          {error && (
-                            <span className="error-message">
-                              {error.message}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                      rules={{
-                        required: "This field is required",
-                        validate: (value) => {
-                          // Validate hh:mm format
-                          const timeRegex =
-                            /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
-                          return (
-                            timeRegex.test(value) ||
-                            "Please enter a valid time in hh:mm format"
-                          );
-                        },
-                      }}
-                    />
-
-                    <button
-                      className={`time-selector__button ${
-                        selectedTo === "AM" ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedTo("AM");
-                        handleFromToTime("toTime", "AM");
-                      }}
-                    >
-                      AM
-                    </button>
-                    <button
-                      className={`time-selector__button ${
-                        selectedTo === "PM" ? "selected" : ""
-                      }`}
-                      onClick={() => {
-                        setSelectedTo("PM");
-                        handleFromToTime("toTime", "PM");
-                      }}
-                    >
-                      PM
-                    </button>
+                      <button
+                        className={`time-selector__button ${
+                          selectedTo === "AM" ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedTo("AM");
+                          handleFromToTime("toTime", "AM");
+                        }}
+                      >
+                        AM
+                      </button>
+                      <button
+                        className={`time-selector__button ${
+                          selectedTo === "PM" ? "selected" : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedTo("PM");
+                          handleFromToTime("toTime", "PM");
+                        }}
+                      >
+                        PM
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -1025,7 +1025,7 @@ const SpecialPriceDetails = () => {
             </div>
           </div>
 
-          <div className={isExpanded ? "saveandcancel-btn-offer" : "saveandcancel-btn-offer1"}>
+          <div className = {isExpanded ? "saveandcancel-btn-offer" : "saveandcancel-btn-offer1"}>
             <button 
               className="cancel-btn" 
               onClick={() => history.push('/Offers/active')}
