@@ -421,7 +421,7 @@
 }
 
 .thirdpartyContainer {
-  height: 20rem;
+  height: fit-content;
 }
 
 .DeliveryInput2Normal {
@@ -519,6 +519,8 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
+  // background-color: lightblue;
+  height: fit-content;
 }
 .Third1 {
   margin-left: -2px;

@@ -31,9 +31,12 @@
   top: 160px;
   margin-left: -1rem;
   overflow-x: hidden;
-  height: 37.5rem;
+  // height: 37.5rem;
+  // height: 42rem;
+  height: 31rem;
   width: 93.3%;
   overflow-y: auto;
+  // background-color: pink;
   &::-webkit-scrollbar {
     display: none;
   }
