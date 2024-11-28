@@ -619,6 +619,17 @@ const PrimaryPage = () => {
     setValue("selectedPortion", "Portion(count)");
     setValue("tax", "");
     setValue("masterCode", "");
+    setCalorieInfo(
+      ItemsPrimaryDetails?.coloriePoint
+        ? ItemsPrimaryDetails?.coloriePoint
+        : { type: "per 100 grams", value: "" }
+    );
+    setPortionInfo(
+      ItemsPrimaryDetails?.portionSize
+        ? ItemsPrimaryDetails?.portionSize
+        : { type: "portion(count)", value: "" }
+    );
+    
     if (resetSelectionRef.current) {
       resetSelectionRef.current();
     }
@@ -1073,12 +1084,19 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
-                        name="barCode"
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
-                        trigger={trigger}
-                      />
+                      name="barCode"
+                      onChange={(e) => {
+                        const newValue = e.target.value;
+                        // Prevent space as the first character
+                        if (newValue.length === 1 && newValue[0] === " ") {
+                          return;
+                        }
+                        onChange(newValue);
+                      }}
+                      onBlur={onBlur}
+                      value={value}
+                      trigger={trigger}
+                    />
                     )}
                   />
                 </div>

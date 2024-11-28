@@ -869,7 +869,7 @@ const PricingDetails = () => {
                         className="Prepartiontime-input-hours"
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
+                          if (/^(1[0-9]|[1-9])$/.test(value) || value === "") {
                             setValue(
                               "Preparationtime.hours",
                               value === "" ? "" : Number(value)
