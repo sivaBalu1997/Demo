@@ -297,14 +297,10 @@ const SpecialPriceDetails = () => {
   ];
   const handleonclick = () => {
     const values = getValues();
-    console.log("Current form values:", values);
-
     trigger();
     dispatch(OfferDataSendingRequest(values));
+    setOverlapShow(true)
   };
-  // const offerdata = useSelector(
-  //   (state: any) => state.offer.OfferDataSendingRequest
-  // );
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
@@ -416,6 +412,7 @@ function handleSingleDayRange(startDate:any, endDate:any) {
   const closeOverlapPopUp = () => {
     setOverlapShow(false);
   };
+
   useEffect(() => {
     if (showlistOfItems) {
       document.addEventListener("mousedown", handleClickOutside);
