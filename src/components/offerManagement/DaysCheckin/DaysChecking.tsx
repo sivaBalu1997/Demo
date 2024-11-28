@@ -16,6 +16,8 @@ interface DaysCheckProps {
   valueName?:string;
   getValues?:any;
   register?:any
+  disabledays?:any
+  dateShow?:any
 }
 
 // Define the type for the data returned by the API
@@ -44,7 +46,9 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   setId,
   setValue,
   getValues,register,
-  valueName
+  valueName,
+  disabledays,
+  dateShow
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
@@ -117,6 +121,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       <div className="DaysCheckContainer1">
         {Days.map((elem, index) => {
           const isChecked = checkedItems.includes(index);
+          const isEnabled = dateShow ?disabledays.includes(index):true
           return (
             <div key={index}>
               <input
@@ -126,6 +131,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
                 {...register(valueName)}
                 checked={isChecked}
                 className="days"
+                disabled={!isEnabled}
               />
               <label>{elem}</label>
             </div>
