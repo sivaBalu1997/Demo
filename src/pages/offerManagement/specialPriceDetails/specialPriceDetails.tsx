@@ -53,6 +53,107 @@ const SpecialPriceDetails = () => {
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
+  const channelOption = [  {id: '1',
+    name: "Dine-In",
+    locationId:"",
+    type: "D",
+    parentId: '',
+    canDelete: false},
+    {id: '2',
+    name: "Delivery",
+    locationId:"",
+    type: "D",
+    parentId: '',
+    canDelete: false},
+    {id: '3',
+      name: "PickUp",
+      locationId:"",
+      type: "D",
+      parentId: '',
+      canDelete: false},
+      {id: '2',
+        name: "Thired Party",
+        locationId:"",
+        type: "D",
+        parentId: '',
+        canDelete: false},
+      ]
+      const visibleOption = [  {id: '1',
+        name: "Customer",
+        locationId:"",
+        type: "D",
+        parentId: '',
+        canDelete: false},
+        {id: '3',
+          name: "Merchant",
+          locationId:"",
+          type: "D",
+          parentId: '',
+          canDelete: false}
+          ]
+         const termsOption =[  {id: '1',
+          name: "Term1",
+          locationId:"",
+          type: "D",
+          parentId: '',
+          canDelete: false},
+          {id: '3',
+            name: "Term2",
+            locationId:"",
+            type: "D",
+            parentId: '',
+            canDelete: false}
+            ]
+      const catagoryOption = [  {id: '1',
+        name: "Veg",
+        locationId:"",
+        type: "D",
+        parentId: '',
+        canDelete: false},
+        {id: '2',
+        name: "Non-veg",
+        locationId:"",
+        type: "D",
+        parentId: '',
+        canDelete: false},
+        {id: '3',
+          name: "Vegan",
+          locationId:"",
+          type: "D",
+          parentId: '',
+          canDelete: false},
+          {id: '2',
+            name: "Butter",
+            locationId:"",
+            type: "D",
+            parentId: '',
+            canDelete: false},
+          ]
+          const subCatagoryOption=[  {id: '1',
+            name: "Veg-sub",
+            locationId:"",
+            type: "D",
+            parentId: '',
+            canDelete: false},
+            {id: '2',
+            name: "Non-veg",
+            locationId:"",
+            type: "D",
+            parentId: '',
+            canDelete: false},
+            {id: '3',
+              name: "Vegan-sub",
+              locationId:"",
+              type: "D",
+              parentId: '',
+              canDelete: false},
+              {id: '2',
+                name: "Butter-sub",
+                locationId:"",
+                type: "D",
+                parentId: '',
+                canDelete: false},
+              ]
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
   const selectName = [
@@ -70,7 +171,11 @@ const SpecialPriceDetails = () => {
   ) => {
     setValue(radioname, value);
   };
-  const [dataDietaryType, setDataDietaryType] = useState([]);
+  const [channal, setChannal] = useState([]);
+  const [vissibleTo,setvissibleTo] =useState([]) 
+  const [terms,setterms] =useState([]) 
+  const [catagory,setCatagory] =useState([]) 
+  const [subCatagory,setSubCatagory] =useState([])
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
     ordertype: false,
@@ -79,7 +184,7 @@ const SpecialPriceDetails = () => {
     subCategory: false,
     fooditems: false,
   });
-  const [loading, setLoading] = useState(true);
+
   const {
     register,
     handleSubmit,
@@ -252,13 +357,15 @@ const SpecialPriceDetails = () => {
     console.log("44", getValues("selectedFooditems"));
   }, [selectedFoodItems]);
 
-  const listpopupRef = useRef<HTMLDivElement | null>(null);
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      listpopupRef?.current &&
-      !listpopupRef?.current?.contains(event.target as Node)
-    ) {
-      setShowlistOfItems(false);
+  useEffect(()=>{
+    setValue("selectedFooditems",selectedFoodItems)
+    console.log("44",getValues("selectedFooditems"));
+  },[selectedFoodItems])
+
+ const listpopupRef = useRef<HTMLDivElement | null>(null);
+  const handleClickOutside = (event:MouseEvent) => {
+    if (listpopupRef?.current && !listpopupRef?.current?.contains(event.target as Node)) {
+      setShowlistOfItems(false); 
     }
   };
 
@@ -328,9 +435,9 @@ const SpecialPriceDetails = () => {
                   control={control}
                   render={({ field }: any) => (
                     <Dropdown
-                      options={dietaryData}
+                      options={channelOption}
                       type="checkbox"
-                      setOptions={setDataDietaryType}
+                      setOptions={setChannal}
                       placeholder="Select Channel"
                       register={register}
                       name="offerChannel"
@@ -342,8 +449,8 @@ const SpecialPriceDetails = () => {
                       dropdownopen={DropdownOpen.channel}
                       onToggle={() => handleDropdownToggle("channel")}
                       setDropdownOpen={setDropdownOpen}
-                      addNew={true}
-                      editValues={true}
+                      addNew={false}
+                      editValues={false}
                       dropDownType="DIET"
                     />
                   )}
@@ -355,9 +462,9 @@ const SpecialPriceDetails = () => {
                   control={control}
                   render={({ field }: any) => (
                     <Dropdown
-                      options={dietaryData}
+                      options={visibleOption}
                       type="checkbox"
-                      setOptions={setDataDietaryType}
+                      setOptions={setvissibleTo}
                       placeholder="Select Visible to"
                       register={register}
                       name="offerToVisible"
@@ -369,8 +476,8 @@ const SpecialPriceDetails = () => {
                       dropdownopen={DropdownOpen.ordertype}
                       onToggle={() => handleDropdownToggle("ordertype")}
                       setDropdownOpen={setDropdownOpen}
-                      addNew={true}
-                      editValues={true}
+                      addNew={false}
+                      editValues={false}
                       dropDownType="DIET"
                     />
                   )}
@@ -382,9 +489,9 @@ const SpecialPriceDetails = () => {
                   control={control}
                   render={({ field }: any) => (
                     <Dropdown
-                      options={dietaryData}
+                      options={termsOption}
                       type="checkbox"
-                      setOptions={setDataDietaryType}
+                      setOptions={setterms}
                       placeholder="Select Terms and Conditions"
                       register={register}
                       name="termsAndConditions"
@@ -398,8 +505,8 @@ const SpecialPriceDetails = () => {
                       dropdownopen={DropdownOpen.terms}
                       onToggle={() => handleDropdownToggle("terms")}
                       setDropdownOpen={setDropdownOpen}
-                      addNew={true}
-                      editValues={true}
+                      addNew={false}
+                      editValues={false}
                       dropDownType="DIET"
                     />
                   )}
@@ -458,9 +565,9 @@ const SpecialPriceDetails = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dietaryData}
+                        options={catagoryOption}
                         type="checkbox"
-                        setOptions={setDataDietaryType}
+                        setOptions={setCatagory}
                         placeholder="Select Category"
                         register={register}
                         name="category"
@@ -472,8 +579,8 @@ const SpecialPriceDetails = () => {
                         dropdownopen={DropdownOpen.category}
                         onToggle={() => handleDropdownToggle("category")}
                         setDropdownOpen={setDropdownOpen}
-                        addNew={true}
-                        editValues={true}
+                        addNew={false}
+                        editValues={false}
                         dropDownType="DIET"
                       />
                     )}
@@ -485,9 +592,9 @@ const SpecialPriceDetails = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={dietaryData}
+                        options={subCatagoryOption}
                         type="checkbox"
-                        setOptions={setDataDietaryType}
+                        setOptions={setSubCatagory}
                         placeholder="Select Sub Category"
                         register={register}
                         name="subCategory"
@@ -499,8 +606,8 @@ const SpecialPriceDetails = () => {
                         dropdownopen={DropdownOpen.subCategory}
                         onToggle={() => handleDropdownToggle("subCategory")}
                         setDropdownOpen={setDropdownOpen}
-                        addNew={true}
-                        editValues={true}
+                        addNew={false}
+                        editValues={false}
                         dropDownType="DIET"
                       />
                     )}

@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useRef, useState, useEffect } from "react";
 import "./Dropdown.scss";
 import edit from "../../../assets/images/edit copy.png";
@@ -89,36 +85,20 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [addNewButton, setAddNewButton] = useState<boolean>(false);
   const NewItemref = useRef<HTMLInputElement>(null);
-  const [Disablesubcategory, setDisablesubcategory] = useState<boolean>(false);
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
-  const [hasCleared, setHasCleared] = useState<boolean>(false);
   const [manuallyCleared, setManuallyCleared] = useState(false);
+  const [dropDownLoading,setdropDownLoading] =useState(false)
 
   const dispatch = useDispatch();
-
-  const editData = useSelector((state: any) => state.productCatalog.editData);
 
   const locationid = useSelector(
     (state: any) => state.auth.credentials?.locationId
   );
 
-  const subsectiondata = useSelector(
-    (state: any) => state.productCatalog?.cuisineData?.data
-  );
-
   const deleteApicall = useSelector(
     (state: any) => state.productCatalog?.deletesubsectionsuccess
   );
-
-  const ItemsPrimaryDetails = useSelector(
-    (state: any) => state.primarypage.data
-  );
-
-  const getdatafrosaga = () => {
-    dispatch(fetchDropDownRequest(payload));
-  };
 
   const clearSelection = () => {
     setSelectedOptions([]);
@@ -141,259 +121,33 @@ const Dropdown: React.FC<DropdownProps> = ({
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen({
-          DietaryType: false,
-          cuisine: false,
-          mealType: false,
-          bestPair: false,
-          category: false,
-          subCategory: false,
+          channel: false,
+         ordertype: false,
+          terms: false,
+         category: false,
+         subCategory: false,
+         fooditems: false,
         });
         setAddNewButton(false);
         setEditList(false);
-        setShowselectedOption(true);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setDropdownOpen]);
+  }, [setDropdownOpen])
 
-  const dropDownLoading = useSelector(
-    (state: any) => state.productCatalog.dropDownLoading
-  );
-
-  useEffect(() => {
-    if (dropDownType !== "SUB_CATEGORY") {
-      dispatch(fetchDropDownRequest(payload));
-    }
-  }, [dropDownType]);
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
-    if (dropDownType) {
-      // getdatafrosaga();
-    }
   };
-
-  const [SubcategoryId, setSubCategoryId] = useState<string>("");
 
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
         option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
       )
     : [];
-  useEffect(() => {
-    const categoryValue = getValues("category");
-    if (!categoryValue) {
-      setDisablesubcategory(true);
-    } else {
-      setDisablesubcategory(false);
-    }
-  }, [getValues]);
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-
-    if (value === "") {
-      setManuallyCleared(true);
-      setShowselectedOption(false);
-
-      if (type === "checkbox") {
-        setSelectedOptions([]);
-        setValue(name, []);
-        trigger(name);
-      } else if (type === "radio") {
-        setSelectedOptions([]);
-        setValue(name, "");
-        trigger(name);
-      }
-
-      if (dropdownopen) {
-        onToggle();
-      }
-    } else {
-      setManuallyCleared(false);
-      if (!dropdownopen) {
-        onToggle();
-      }
-      setShowselectedOption(false);
-    }
-
-    setOptions(filteredOptions);
-  };
-
-  // useEffect(() => {
-  //   const initialSelectedValue = getValues(name);
-  //   if (initialSelectedValue) {
-  //     const selectedOptionIds = initialSelectedValue
-  //       .split(", ")
-  //       .map((value: string) => {
-  //         if (Array.isArray(initialOptions)) {
-  //           return initialOptions.find((opt) => opt.name === value);
-  //         }
-  //       });
-  //     const validOptions = selectedOptionIds.filter(Boolean) as Option[];
-  //     setSelectedOptions(validOptions);
-
-  //     setValue(name, validOptions.map((opt) => opt.name).join(", "));
-  //   }
-  // }, [getValues(name), setValue, initialOptions]);
-
-  let subcategorydataforApi = {
-    locationId: locationid,
-    type: "SUB_CATEGORY",
-    parentId: parentId,
-  };
-
-  const prizingDetail = useSelector(
-    (state: any) => state.PricingDetailReducer.prizingData || {}
-  );
-
-  useEffect(() => {
-    if (editData && ItemsPrimaryDetails?.cuisine && name === "cuisine") {
-      dispatch(
-        fetchDropDownRequest({
-          locationId: locationid,
-          type: "CUISINES",
-          parentId: "",
-        })
-      );
-    }
-  }, [editData]);
-
-
-  useEffect(() => {
-    if (
-      ItemsPrimaryDetails?.DietaryType?.length > 0 &&
-      name === "DietaryType"
-    ) {
-      const dietName = ItemsPrimaryDetails?.DietaryType;
-
-      const dropdownName = options?.filter((opt) => {
-        return Array.isArray(dietName)
-          ? dietName.some((d) => d.name === opt?.name || d === opt?.name)
-          : dietName.includes(opt?.name);
-      });
-
-      const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName;
-      setSelectedOptions(dropDown1);
-      setValue(
-        "DietaryType",
-        dropDown1?.map((opt: any) =>
-          typeof opt === "object" ? opt?.name : opt
-        )
-      );
-    }
-  }, [ItemsPrimaryDetails]);
-
-  useEffect(() => {
-    if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === "bestPair") {
-      const bestPairName = ItemsPrimaryDetails?.bestPair;
-      const dropdownName = options?.filter((opt) => {
-        return Array.isArray(bestPairName)
-          ? bestPairName?.some((b) => b.name === opt?.name || b === opt?.name)
-          : bestPairName?.includes(opt?.name);
-      });
-
-      setSelectedOptions(dropdownName);
-      setValue(
-        "bestPair",
-        dropdownName?.map((opt) => (typeof opt === "object" ? opt?.name : opt))
-      );
-    }
-  }, [ItemsPrimaryDetails]);
-
-  useEffect(() => {
-    if (prizingDetail && name === "kitchenstation") {
-      const kitchenStationName = prizingDetail?.kitchenstation;
-      const dropDownName: any =
-        Array.isArray(options) &&
-        options?.find(
-          (item) =>
-            item.name?.toLowerCase() === kitchenStationName?.toLowerCase()
-        );
-      const dropDown1 =
-        dropDownName === undefined || dropDownName === false
-          ? { name: prizingDetail?.kitchenstation, id: "1" }
-          : dropDownName;
-
-      // setSelectedOptions((dropDownName === undefined || dropDownName === false) ? [dropDown1] : [dropDownName]);
-      setSelectedOptions(() => {
-        setValue(
-          "kitchenstation",
-          dropDownName === undefined || dropDownName === false
-            ? dropDown1?.name
-            : dropDownName?.name
-        );
-        return dropDownName === undefined || dropDownName === false
-          ? [dropDown1]
-          : [dropDownName];
-      });
-      // setValue("kitchenstation", (dropDownName === undefined || dropDownName === false) ? dropDown1?.name : dropDownName?.name);
-    }
-  }, [prizingDetail]);
-
-  useEffect(() => {
-    if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
-      const cusineName = ItemsPrimaryDetails?.cuisine;
-      const dropDownName: any = options?.find(
-        (item) => item.name === cusineName
-      );
-      const dropDown1 =
-        dropDownName === undefined
-          ? { name: ItemsPrimaryDetails?.cuisine, id: "1" }
-          : dropDownName;
-      setSelectedOptions(
-        dropDownName === undefined ? [dropDown1] : [dropDownName]
-      );
-      setValue(
-        "cuisine",
-        dropDownName === undefined ? dropDown1?.name : dropDownName?.name
-      );
-    }
-  }, [ItemsPrimaryDetails]);
-
-  useEffect(() => {
-    if (ItemsPrimaryDetails?.category && name === "category") {
-      const categoryName = ItemsPrimaryDetails?.category;
-      const dropDownName: any = options?.find(
-        (item) => item?.name === categoryName
-      );
-      const dropDown1 =
-        dropDownName === undefined
-          ? { name: ItemsPrimaryDetails?.category, id: "1" }
-          : dropDownName;
-      setSelectedOptions(
-        dropDownName === undefined ? [dropDown1] : [dropDownName]
-      );
-      setValue(
-        "category",
-        dropDownName === undefined ? dropDown1?.name : dropDownName?.name
-      );
-    }
-  }, [ItemsPrimaryDetails]);
-
-  useEffect(() => {
-    if (ItemsPrimaryDetails?.subCategory && name === "subCategory") {
-      const subCategoryName = ItemsPrimaryDetails?.subCategory;
-      const dropDownName: any = options?.find(
-        (item) => item.name === subCategoryName
-      );
-      const dropDown1 =
-        dropDownName === undefined
-          ? ItemsPrimaryDetails?.subCategory
-          : dropDownName;
-      setSelectedOptions(
-        dropDownName === undefined ? [dropDown1] : [dropDownName]
-      );
-      setValue(
-        "subCategory",
-        dropDownName === undefined ? dropDown1?.name : dropDownName?.name
-      );
-    }
-  }, [ItemsPrimaryDetails]);
 
   const handleSelect = (option: Option) => {
     const currentSelectedOptions = Array.isArray(selectedOptions)
@@ -432,7 +186,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     }
 
     setSearchTerm("");
-    setManuallyCleared(false);
   };
 
   const payload = {
@@ -455,35 +208,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
-    const deletedItem = {
-      id: value,
-      type: dropDownType,
-      locationid: locationid,
-    };
-
-    const viewdata = {
-      locationId: locationid,
-      type: dropDownType,
-      parentId: SubcategoryId && SubcategoryId,
-    };
-
-    if (deletedItem) {
-      dispatch(deleteDropDowRequest(deletedItem));
-      const data = selectedOptions.filter((item) => item.id != value);
-      setSelectedOptions([...data]);
-      if (deleteApicall === "success") {
-        dispatch(fetchDropDownRequest(viewdata));
-      }
-    }
   };
-
-  // const handleBlur = () => {
-  //   trigger(name);
-  // };
-  // value={type === "checkbox"
-  //   ? selectedOptions.map((opt) => opt.name).join(", ")
-  //   : selectedOptions[0]?.name || ""}
-
   const handleCheckboxChange = (option: Option) => {
     if (type === "checkbox") {
       setSelectedOptions((prevSelected) => {
@@ -514,20 +239,14 @@ const Dropdown: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
     }
-    if (dropDownType === "CATEGORY") {
-      setSubCategoryId(option.id);
-    }
 
-    // if(dropDownType === "SUB_CATEGORY") {
-    //   console.log({option})
-    // }
   };
 
   const handleNewItemAdd = () => {
     const newValue = NewItemref?.current?.value;
 
     const newItem = {
-      locationId: locationid,
+      locationId: '',
       name: newValue,
       type: dropDownType,
       parentId: parentId && parentId,
@@ -541,15 +260,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     // handleSelect(newItem);
     setSearchTerm("");
     setAddNewButton(false);
-    const viewdata = {
-      locationId: locationid,
-      type: dropDownType,
-      parentId: SubcategoryId && SubcategoryId,
-    };
-    if (addNewButton && newItem) {
-      dispatch(addDropDowRequest(newItem));
-      // dispatch(fetchDropDownRequest(viewdata));
-    }
   };
 
   const [Loading, setLoading] = useState<boolean>();
@@ -564,26 +274,10 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const handleAboveArrowdropdown = () => {
     onToggle();
-    setShowselectedOption(true);
-    if (dropDownType !== "SUB_CATEGORY") {
-      dispatch(fetchDropDownRequest(payload));
-    }
-
-    if (subcategorydataforApi.parentId !== "") {
-      dispatch(fetchDropDownRequest(subcategorydataforApi));
-    }
   };
 
   const handleBelowArrowdropdown = () => {
     onToggle();
-    setShowselectedOption(false);
-    setManuallyCleared(false)
-    if (dropDownType !== "SUB_CATEGORY") {
-      dispatch(fetchDropDownRequest(payload));
-    }
-    if (subcategorydataforApi.parentId !== "") {
-      dispatch(fetchDropDownRequest(subcategorydataforApi));
-    }
   };
 
   return (
@@ -596,17 +290,11 @@ const Dropdown: React.FC<DropdownProps> = ({
             type="text"
             {...register(name, validation)}
             value={
-              searchTerm !== ""
-                ? searchTerm
-                : manuallyCleared
-                ? ""
-                : showselectedOption
-                ? type === "checkbox"
+                type === "checkbox"
                   ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
                   : selectedOptions[0]?.name || ""
-                : ""
             }
-            onChange={handleSearch}
+           // onChange={handleSearch}
             name={name}
             // onBlur={handleBlur}
             autoComplete="off"
