@@ -298,6 +298,7 @@ modifieddata.isEnabled=modifieddata.options.every(
 
             <div>
               {elem?.options?.map((subitem: any, subindex: any) => (
+                
                 <div
                   className="subitems-toggle-container-flex-direction"
                   key={subindex}
@@ -314,6 +315,7 @@ modifieddata.isEnabled=modifieddata.options.every(
                         className="input-subitem"
                         type="number"
                         value={subitem.price}
+                        
                         style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",border:subitem.isEnabled?"1px solid black":"1px solid #5F5F5F"}}
                         onChange={(e) =>
                           handlePriceChange(
