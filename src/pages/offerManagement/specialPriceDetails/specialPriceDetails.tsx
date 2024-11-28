@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./specialPriceDetails.scss";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
@@ -18,6 +18,7 @@ import { OfferDataSendingRequest } from "redux/offer/offerActions";
 import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface itemobject {
   id: number;
@@ -48,6 +49,7 @@ interface specialPriceForm {
 const SpecialPriceDetails = () => {
   const dispatch = useDispatch();
   const history = useHistory()
+  const { isExpanded } = useContext(Contextpagejs);
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
@@ -290,7 +292,7 @@ const SpecialPriceDetails = () => {
     <div className="offer-creationpage">
       <SidePanel />
       <>
-        <div className="offer-creationpage-container">
+        <div className={isExpanded ? "offer-creationpage-container" : "offer-creationpage-container1"}>
           <div className="specialoffer-heading">
             <h1>Create Special Price Details</h1>
           </div>
@@ -915,8 +917,14 @@ const SpecialPriceDetails = () => {
               </div>
             </div>
           </div>
-          <div className="saveandcancel-btn-offer">
-            <button className="cancel-btn" onClick={() => history.push('/Offers/active')}>cancel</button>
+
+          <div className={isExpanded ? "saveandcancel-btn-offer" : "saveandcancel-btn-offer1"}>
+            <button 
+              className="cancel-btn" 
+              onClick={() => history.push('/Offers/active')}
+            >
+              Cancel
+            </button>
             <button className="save-btn" onClick={handleonclick}>
               Save
             </button>
