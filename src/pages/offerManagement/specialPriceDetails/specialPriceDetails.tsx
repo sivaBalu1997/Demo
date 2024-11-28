@@ -230,6 +230,7 @@ const SpecialPriceDetails = () => {
   };
   const [availabilityid, setAvailabilityid] = useState<string[]>([]);
   const [DayThird, setDayThird] = useState<number[]>([]);
+  const [disabledDay,setDisableDay] =useState<any[]>([])
   const [selectedFrom, setSelectedFrom] = useState("AM");
   const [selectedTo, setSelectedTo] = useState("AM");
   const [selectedFoodItems, setselectedFoodItems] = useState([]);
@@ -307,6 +308,7 @@ const SpecialPriceDetails = () => {
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
+    setSelectedDate1(null)
     setValue("fromDate", date);
   };
   const handleDateChange1 = (date: Date | null) => {
@@ -351,8 +353,21 @@ const SpecialPriceDetails = () => {
       }
     });
   };
-
-
+  
+  useEffect(() => {
+    if(selectedDate && selectedDate1)
+    {
+      if(selectedDate ==selectedDate1)
+      {
+        handleSingleDayRange(selectedDate,selectedDate1)
+      }
+      else{
+        validateDaysInRange(selectedDate,selectedDate1)
+      }
+     
+    }
+    
+  }, [selectedDate,selectedDate1]);
   useEffect(() => {
     setValue("selectedFooditems", selectedFoodItems);
     console.log("44", getValues("selectedFooditems"));
@@ -369,6 +384,30 @@ const SpecialPriceDetails = () => {
       setShowlistOfItems(false); 
     }
   };
+  const  validateDaysInRange =(startDate:any, endDate:any)=> {
+    let dateRange = generateDateRange(startDate, endDate); // All dates in range
+    let availableDays = dateRange.map((date:any) => (date.getDay() === 0 ? 7 : date.getDay())); // Map Sunday to 7
+    setDisableDay(availableDays)
+
+}
+const generateDateRange =(startDate:any, endDate:any)=> {
+  let currentDate = new Date(startDate);
+  let range = [];
+
+  while (currentDate <= new Date(endDate)) {
+      range.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1); // Increment by 1 day
+  }
+  return range;
+}
+function handleSingleDayRange(startDate:any, endDate:any) {
+  if (startDate === endDate) {
+      let dayIndex = new Date(startDate).getDay();
+      let mappedDay:any = dayIndex === 0 ? 7 : dayIndex; // Map Sunday to 7
+       setDisableDay(mappedDay)
+  }
+}
+
 
   const closeOverlapPopUp = () => {
     setOverlapShow(false);
@@ -754,6 +793,7 @@ const SpecialPriceDetails = () => {
                               dateFormat="MM/dd/yyyy"
                               selected={selectedDate}
                               onChange={handleDateChange}
+                              minDate={new Date()}
                               ref={datePickerRef}
                               className="offerdatePicker-special"
                             />
@@ -805,6 +845,7 @@ const SpecialPriceDetails = () => {
                               dateFormat="MM/dd/yyyy"
                               showPopperArrow
                               ref={datePickerRef1}
+                              minDate={selectedDate || new Date()}
                               className="offerdatePicker"
                             />
                             {error && (
@@ -1029,6 +1070,8 @@ const SpecialPriceDetails = () => {
                     getValues={getValues}
                     valueName="AvailableDays"
                     register={register}
+                    disabledays={disabledDay}
+                    dateShow ={dateShow}
                   />
                 </div>
               </div>
