@@ -19,11 +19,20 @@
 .offer-primary-part1 {
   width: 50rem;
   height: 7rem;
-  flex-wrap: wrap;
-  display: flex;
   margin-top: 1%;
-  // border: 1px solid red;
+
+  .offerPrimaryRow1{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+  }
+
+  .offerPrimaryRow2{
+    display: flex;
+    flex-direction: row;
+  }
 }
+
 
 .offer-creationpage {
   display: flex;
@@ -61,13 +70,6 @@
   }
 }
 
-.selectChannel {
-  margin-left: 1.74%;
-}
-
-.visibleDropdown{
-  margin-right: 20px;
-}
 
 .items-details {
   // border: 1px solid red;
@@ -369,7 +371,7 @@
 }
 
 .searched-items-listed {
-  width: 630px;
+  width: 600px;
   height: 380px;
   overflow-y: auto;
   overflow-x: hidden;

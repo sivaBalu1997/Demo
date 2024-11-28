@@ -329,11 +329,11 @@ const SpecialPriceDetails = () => {
   const [overlapShow, setOverlapShow] = useState(false);
   const [highlighted, setHighlighted] = useState<any>();
   const selectedValue = watch("specialTypeName");
+
   const handleItemClick = (index: number, item: any) => {
-    setHighlighted(index);
-    setOverlapShow(true);
-    setselectedFoodItems((prev: any) => {
-      const exists = prev.some((food: any) => food.id === item.id);
+  setHighlighted(index);
+  setselectedFoodItems((prev : any) => {
+    const exists = prev.some((food: any) => food.id === item.id);
 
       if (exists) {
         return prev.filter((food: any) => food.id !== item.id);
@@ -351,6 +351,7 @@ const SpecialPriceDetails = () => {
       }
     });
   };
+
 
   useEffect(() => {
     setValue("selectedFooditems", selectedFoodItems);
@@ -410,109 +411,118 @@ const SpecialPriceDetails = () => {
             </div>
 
             <div className="offer-primary-part1">
-              <div>
-                <Controller
-                  name="offerName"
-                  control={control}
-                  rules={{ required: "offer is required" }}
-                  render={({ onChange, onBlur, value }: any) => (
-                    <InputComponent
-                      name="offerName"
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      value={value}
-                      trigger={trigger}
-                      error={errors.offerName}
-                      height="44px"
-                      placeholder="Offer Name"
-                    />
-                  )}
-                />
-              </div>
-              <div className="selectChannel">
-                <Controller
-                  name="offerChannel"
-                  control={control}
-                  render={({ field }: any) => (
-                    <Dropdown
-                      options={channelOption}
-                      type="checkbox"
-                      setOptions={setChannal}
-                      placeholder="Select Channel"
-                      register={register}
+              <div className="offerPrimaryRow1">
+                <div className="offerNameContainer">
+                  <Controller
+                    name="offerName"
+                    control={control}
+                    rules={{ required: "offer is required" }}
+                    render={({ onChange, onBlur, value }: any) => (
+                      <InputComponent
+                        name="offerName"
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        value={value}
+                        trigger={trigger}
+                        error={errors.offerName}
+                        height="44px"
+                        placeholder="Offer Name"
+                      />
+                    )}
+                  />
+                </div>
+
+                <div className="offerChannelContainer">
+                  <div className="OfferSelectChannel">
+                    <Controller
                       name="offerChannel"
-                      trigger={trigger}
-                      setValue={setValue}
-                      getValues={getValues}
-                      validation={{ required: "offerChannel is required" }}
-                      error={errors.offerChannel}
-                      dropdownopen={DropdownOpen.channel}
-                      onToggle={() => handleDropdownToggle("channel")}
-                      setDropdownOpen={setDropdownOpen}
-                      addNew={false}
-                      editValues={false}
-                      dropDownType="DIET"
+                      control={control}
+                      render={({ field }: any) => (
+                        <Dropdown
+                          options={channelOption}
+                          type="checkbox"
+                          setOptions={setChannal}
+                          placeholder="Select Channel"
+                          register={register}
+                          name="offerChannel"
+                          trigger={trigger}
+                          setValue={setValue}
+                          getValues={getValues}
+                          validation={{ required: "offerChannel is required" }}
+                          error={errors.offerChannel}
+                          dropdownopen={DropdownOpen.channel}
+                          onToggle={() => handleDropdownToggle("channel")}
+                          setDropdownOpen={setDropdownOpen}
+                          addNew={false}
+                          editValues={false}
+                          dropDownType="DIET"
+                        />
+                      )}
                     />
-                  )}
-                />
+                  </div>
+                </div>
               </div>
-              <div className="visibleDropdown">
-                <Controller
-                  name="offerToVisible"
-                  control={control}
-                  render={({ field }: any) => (
-                    <Dropdown
-                      options={visibleOption}
-                      type="checkbox"
-                      setOptions={setvissibleTo}
-                      placeholder="Select Visible to"
-                      register={register}
-                      name="offerToVisible"
-                      trigger={trigger}
-                      setValue={setValue}
-                      getValues={getValues}
-                      validation={{ required: "offerToVisible is required" }}
-                      error={errors.offerToVisible}
-                      dropdownopen={DropdownOpen.ordertype}
-                      onToggle={() => handleDropdownToggle("ordertype")}
-                      setDropdownOpen={setDropdownOpen}
-                      addNew={false}
-                      editValues={false}
-                      dropDownType="DIET"
-                    />
-                  )}
-                />
-              </div>
-              <div>
-                <Controller
-                  name="termsAndConditions"
-                  control={control}
-                  render={({ field }: any) => (
-                    <Dropdown
-                      options={termsOption}
-                      type="checkbox"
-                      setOptions={setterms}
-                      placeholder="Select Terms and Conditions"
-                      register={register}
-                      name="termsAndConditions"
-                      trigger={trigger}
-                      setValue={setValue}
-                      getValues={getValues}
-                      validation={{
-                        required: "termsAndConditions is required",
-                      }}
-                      error={errors.termsAndConditions}
-                      dropdownopen={DropdownOpen.terms}
-                      onToggle={() => handleDropdownToggle("terms")}
-                      setDropdownOpen={setDropdownOpen}
-                      addNew={false}
-                      editValues={false}
-                      dropDownType="DIET"
-                    />
-                  )}
-                />
+
+              <div className="offerPrimaryRow2">
+                <div className="visibleDropdown">
+                  <Controller
+                    name="offerToVisible"
+                    control={control}
+                    render={({ field }: any) => (
+                      <Dropdown
+                        options={visibleOption}
+                        type="checkbox"
+                        setOptions={setvissibleTo}
+                        placeholder="Select Visible to"
+                        register={register}
+                        name="offerToVisible"
+                        trigger={trigger}
+                        setValue={setValue}
+                        getValues={getValues}
+                        validation={{ required: "offerToVisible is required" }}
+                        error={errors.offerToVisible}
+                        dropdownopen={DropdownOpen.ordertype}
+                        onToggle={() => handleDropdownToggle("ordertype")}
+                        setDropdownOpen={setDropdownOpen}
+                        addNew={false}
+                        editValues={false}
+                        dropDownType="DIET"
+                      />
+                    )}
+                  />
+                </div>
+                <div className="termsAndConditionsContainer">
+                  <Controller
+                    name="termsAndConditions"
+                    control={control}
+                    render={({ field }: any) => (
+                      <Dropdown
+                        options={termsOption}
+                        type="checkbox"
+                        setOptions={setterms}
+                        placeholder="Select Terms and Conditions"
+                        register={register}
+                        name="termsAndConditions"
+                        trigger={trigger}
+                        setValue={setValue}
+                        getValues={getValues}
+                        validation={{
+                          required: "termsAndConditions is required",
+                        }}
+                        error={errors.termsAndConditions}
+                        dropdownopen={DropdownOpen.terms}
+                        onToggle={() => handleDropdownToggle("terms")}
+                        setDropdownOpen={setDropdownOpen}
+                        addNew={false}
+                        editValues={false}
+                        dropDownType="DIET"
+                      />
+                    )}
+                  />
+                </div>
               </div>
             </div>
+
             <div className="specialType-details">
               <h3>Special Type</h3>
               <div>
@@ -621,7 +631,7 @@ const SpecialPriceDetails = () => {
                     <Controller
                       name="selectedFooditems"
                       control={control}
-                      render={({ field }: any) => (
+                      render={({ field }:any) => (
                         <input
                           type="text"
                           name="selectedFooditems"
@@ -646,9 +656,9 @@ const SpecialPriceDetails = () => {
                         {selecteFoodItems.map((item: any, index: number) => (
                           <li
                             key={index}
-                            className={`${
-                              index === highlighted && "highlighted"
-                            } selectedlist`}
+                            className={`selectedlist ${
+                              selectedFoodItems.some((food: any) => food.id === item.id) ? "highlighted" : ""
+                            }`}
                             onClick={() => handleItemClick(index, item)}
                           >
                             {item.itemName}
