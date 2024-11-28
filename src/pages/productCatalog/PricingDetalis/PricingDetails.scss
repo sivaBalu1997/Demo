@@ -57,6 +57,7 @@
 
 .KitchenRelated {
   display: flex;
+  // align-items: center;
   height: 4rem;
   // border: 1px solid red;
 }
@@ -78,7 +79,7 @@
 }
 
 .Prepartiontime {
-  margin-top: -1.5rem;
+  margin-top: -1.2rem;
   .heading {
     position: relative;
     top: -0.3rem;
@@ -527,8 +528,8 @@
 .tool-tip-kitchen-detail {
   position: relative;
   // background-color: orange;
-  top: 1.2rem;
-  left: 1rem;
-  width: 1px;
+  top: 1.4rem;
+  left: 0.5rem;
+  width: fit-content;
   margin-top: -0.5rem;
 }
