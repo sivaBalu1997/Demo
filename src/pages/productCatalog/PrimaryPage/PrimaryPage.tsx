@@ -1222,6 +1222,16 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={calorieInfo?.value}
                           trigger={trigger}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" ||
+                              e.key === "."
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           placeholder="cal"
                         />
                       )}
@@ -1257,6 +1267,16 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={portionInfo?.value}
                           trigger={trigger}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" ||
+                              e.key === "."
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           placeholder={
                             portionInfo?.type || "portion(count) / grams/ml"
                           }
