@@ -14,7 +14,7 @@
 
   }
   .table-container1{
-    width:1150px;
+    width:1750px;
     position: absolute;
     top:140px;
     left:160px;
@@ -35,13 +35,14 @@
   td.OffrtsTabletd {
     text-align: left;
     padding: 12px;
-    width: px;
     padding: 20px;
     padding-left: 5px;
+    cursor: pointer;
     }
   
   th.OffrtsTableth {
     background-color:white;
+    
   }
   th.OffrtsTableth:nth-child(3) {
     width: 200px;
@@ -50,30 +51,43 @@
   }
   th.OffrtsTableth:nth-child(2) {
     width: 200px;
-    padding-left: 60px;
+    padding-left: 30px;
   }
   th.OffrtsTableth:nth-child(4) {
+    width: 220px;
+    padding-left: 60px;
+
+  }
+  th.OffrtsTableth:nth-child(1) {
     width: 200px;
     padding-left: 60px;
 
   }
-  
+  th.OffrtsTableth:nth-child(6) {
+    width: 200px;
+    
 
-  tr.OffrtsTabletr:nth-child(odd) {
-    background-color: #E4E0E1;
+
   }
- 
-  tr.OffrsTabletr:hover {
+  th.OffrtsTableth:nth-child(5) {
+    width: 200px;
+    
+
+
+  }
+  tr.OffrtsTabletr:nth-child(odd) {
     background-color: #E8E8E8;
   }
+ 
+  
   td.OffrtsTabletd:nth-child(4) {
     padding-right: 30px;
-    width: 300px;
+    width: 450px;
     padding-left: 50px;
   }
   td.OffrtsTabletd:nth-child(3) {
     width: 300px;
-    padding-left: 50px;
+    padding-left: -10px;
     
 
     }
@@ -87,9 +101,12 @@
   }
   td.OffrtsTabletd:nth-child(2) {
     width:200px;
-    border: 2px solid green;
+    
   }
   
+  td.OffrtsTabletd:nth-child(6) {
+    padding-left: 10px;
+  }
  
   
   .extra-items {
@@ -113,15 +130,16 @@
     border: 0;
   height: 1px;
   background-color: #E9E9E9; /* Light gray color */
-  margin: 20px 0; 
-  width:800%
+  margin-top:-20px;
+  width:800%;
+  
   
   }
   .OfferDiv2{
     border: 0;
     height: 1px;
     background-color: #E9E9E9; /* Light gray color */
-    margin: 20px 0; 
+    margin-top: -20px; 
     width:900%
 
   }
@@ -130,3 +148,7 @@
   flex-direction: column;
   }
   
+  .OffersDropDownTable{
+    position: absolute;
+    right:200px
+  }
