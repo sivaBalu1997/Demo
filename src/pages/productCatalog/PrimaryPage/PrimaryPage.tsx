@@ -1086,11 +1086,21 @@ const PrimaryPage = () => {
                       <InputFieldComponent
                       name="barCode"
                       onChange={(e) => {
-                        const newValue = e.target.value;
+                        let newValue = e.target.value;
+                
                         // Prevent space as the first character
                         if (newValue.length === 1 && newValue[0] === " ") {
                           return;
                         }
+                
+                        // Remove special characters and prevent space at the beginning
+                        newValue = newValue.replace(/[^a-zA-Z0-9]/g, ""); // Remove special characters
+                
+                        // Prevent space as the first character
+                        if (newValue[0] === " ") {
+                          return;
+                        }
+                
                         onChange(newValue);
                       }}
                       onBlur={onBlur}
