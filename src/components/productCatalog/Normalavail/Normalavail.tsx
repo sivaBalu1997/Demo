@@ -671,7 +671,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
   };
 
   const addDayThird = () => {
-    setShowDayThird(true);
+
+    if(selectedthirdvalues.length>0)
+    {
+      setShowDayThird(true);
+    }
+    
   };
 
   const addDayThirdfalse = () => {
