@@ -120,8 +120,8 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     <div>
       <div className="DaysCheckContainer1">
         {Days.map((elem, index) => {
-          const isChecked = checkedItems.includes(index);
-          const isEnabled = dateShow ?disabledays.includes(index):true
+          const isChecked = checkedItems?.includes(index);
+          const isEnabled = dateShow?disabledays?.includes(index):true
           return (
             <div key={index}>
               <input

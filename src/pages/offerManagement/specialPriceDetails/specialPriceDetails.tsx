@@ -357,6 +357,7 @@ const SpecialPriceDetails = () => {
   useEffect(() => {
     if(selectedDate && selectedDate1)
     {
+      setDayThird([])
       if(selectedDate ==selectedDate1)
       {
         handleSingleDayRange(selectedDate,selectedDate1)
