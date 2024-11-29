@@ -209,6 +209,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
   };
+
   const handleCheckboxChange = (option: Option) => {
     if (type === "checkbox") {
       setSelectedOptions((prevSelected) => {
@@ -239,7 +240,6 @@ const Dropdown: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
     }
-
   };
 
   const handleNewItemAdd = () => {
@@ -324,7 +324,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           </span>
         </div>
 
-        <div style={{ margin: 0 }}>
+        <div className="errorContainer">
           {error && <p className="Dropdown-Error-message">{error.message}</p>}
         </div>
       </div>

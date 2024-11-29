@@ -297,14 +297,10 @@ const SpecialPriceDetails = () => {
   ];
   const handleonclick = () => {
     const values = getValues();
-    console.log("Current form values:", values);
-
     trigger();
     dispatch(OfferDataSendingRequest(values));
+    setOverlapShow(true)
   };
-  // const offerdata = useSelector(
-  //   (state: any) => state.offer.OfferDataSendingRequest
-  // );
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
@@ -369,6 +365,7 @@ const SpecialPriceDetails = () => {
     }
     
   }, [selectedDate,selectedDate1]);
+
   useEffect(() => {
     setValue("selectedFooditems", selectedFoodItems);
     console.log("44", getValues("selectedFooditems"));
@@ -379,32 +376,35 @@ const SpecialPriceDetails = () => {
     console.log("44",getValues("selectedFooditems"));
   },[selectedFoodItems])
 
- const listpopupRef = useRef<HTMLDivElement | null>(null);
+  const listpopupRef = useRef<HTMLDivElement | null>(null);
+  
   const handleClickOutside = (event:MouseEvent) => {
     if (listpopupRef?.current && !listpopupRef?.current?.contains(event.target as Node)) {
       setShowlistOfItems(false); 
     }
   };
-  const  validateDaysInRange =(startDate:any, endDate:any)=> {
-    let dateRange = generateDateRange(startDate, endDate); // All dates in range
-    let availableDays = dateRange.map((date:any) => (date.getDay() === 0 ? 7 : date.getDay())); // Map Sunday to 7
-    setDisableDay(availableDays)
 
-}
+  const  validateDaysInRange =(startDate:any, endDate:any)=> {
+    let dateRange = generateDateRange(startDate, endDate); 
+    let availableDays = dateRange.map((date:any) => (date.getDay() === 0 ? 7 : date.getDay())); 
+    setDisableDay(availableDays)
+  }
+
 const generateDateRange =(startDate:any, endDate:any)=> {
   let currentDate = new Date(startDate);
   let range = [];
 
   while (currentDate <= new Date(endDate)) {
       range.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1); // Increment by 1 day
+      currentDate.setDate(currentDate.getDate() + 1); 
   }
   return range;
 }
+
 function handleSingleDayRange(startDate:any, endDate:any) {
   if (startDate === endDate) {
       let dayIndex = new Date(startDate).getDay();
-      let mappedDay:any = dayIndex === 0 ? 7 : dayIndex; // Map Sunday to 7
+      let mappedDay:any = dayIndex === 0 ? 7 : dayIndex; 
        setDisableDay(mappedDay)
   }
 }
@@ -413,6 +413,7 @@ function handleSingleDayRange(startDate:any, endDate:any) {
   const closeOverlapPopUp = () => {
     setOverlapShow(false);
   };
+
   useEffect(() => {
     if (showlistOfItems) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -435,6 +436,14 @@ function handleSingleDayRange(startDate:any, endDate:any) {
   };
 
   const [dateShow, setDateShow] = useState(false);
+
+  console.log({selectedFoodItems})
+
+  const handleDelete = (id: any) => {
+    const data = selectedFoodItems.filter((item: any) => item?.id !== id)
+    console.log({data})
+    setselectedFoodItems(data)
+  }
 
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
@@ -616,7 +625,7 @@ function handleSingleDayRange(startDate:any, endDate:any) {
                     render={({ field }: any) => (
                       <Dropdown
                         options={catagoryOption}
-                        type="checkbox"
+                        type="radio"
                         setOptions={setCatagory}
                         placeholder="Select Category"
                         register={register}
@@ -667,7 +676,7 @@ function handleSingleDayRange(startDate:any, endDate:any) {
 
               <div className="select-offerfooditems">
                 <div className="seraching-for-items">
-                  <div>
+                  <div className="seraching-for-itemsbox">
                     <Controller
                       name="selectedFooditems"
                       control={control}
@@ -712,53 +721,56 @@ function handleSingleDayRange(startDate:any, endDate:any) {
 
               {overlapShow && <Overlap onclose={closeOverlapPopUp} />}
 
-              <div className="list-of-offeritems">
-                <table
-                  style={{
-                    borderCollapse: "collapse",
-                    width: "100%",
-                    margin: 0,
-                    padding: 0,
-                  }}
-                >
-                  <thead>
-                    <tr className="offer-table-row">
-                      <th className="offer-table-heading">S.No</th>
-                      <th className="offer-table-heading">Item Name</th>
-                      <th className="offer-table-heading">Original Price</th>
-                      <th className="offer-table-heading">Updated Price</th>
-                      <th className="offer-table-heading">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedFoodItems?.map((item: any, index) => (
-                      <tr key={index} className="offeritems-listed">
-                        <td className="offer-table-data">{index + 1}</td>
-                        <td className="offer-table-data">{item.itemName}</td>
-                        <td className="offer-table-data">
-                          {item.originalPrice}
-                        </td>
-                        <td className="offer-table-data">
-                          {item.updatedPrice}
-                        </td>
-                        <td
-                          className="offer-table-data bin-image"
-                          style={{ paddingLeft: "-1rem" }}
-                        >
-                          <img
-                            src={Bin}
-                            alt="Delete"
-                            className="deletebinImage"
-                          />
-                        </td>
-                        <td className="offer-table-data toggle-icon-data">
-                          <Toggle toggle={item.available} togglecolor="white" />
-                        </td>
+              {selectedFoodItems.length > 0 && 
+                <div className="list-of-offeritems">
+                  <table
+                    style={{
+                      borderCollapse: "collapse",
+                      width: "100%",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  >
+                    <thead>
+                      <tr className="offer-table-row">
+                        <th className="offer-table-heading">S.No</th>
+                        <th className="offer-table-heading">Item Name</th>
+                        <th className="offer-table-heading">Original Price</th>
+                        <th className="offer-table-heading">Updated Price</th>
+                        <th className="offer-table-heading">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {selectedFoodItems?.map((item: any, index) => (
+                        <tr key={index} className="offeritems-listed">
+                          <td className="offer-table-data">{index + 1}</td>
+                          <td className="offer-table-data">{item.itemName}</td>
+                          <td className="offer-table-data">
+                            {item.originalPrice}
+                          </td>
+                          <td className="offer-table-data">
+                            {item.updatedPrice}
+                          </td>
+                          <td
+                            className="offer-table-data bin-image"
+                            style={{ paddingLeft: "-1rem" }}
+                          >
+                            <img
+                              src={Bin}
+                              alt="Delete"
+                              className="deletebinImage"
+                              onClick={() => handleDelete(item?.id)}
+                            />
+                          </td>
+                          <td className="offer-table-data toggle-icon-data">
+                            <Toggle toggle={item.available} togglecolor="white" />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              }
 
               <div className="effectiveperiod">
                 <h3>Effective period</h3>
