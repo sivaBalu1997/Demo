@@ -322,7 +322,7 @@ const NormalStep2 = () => {
                 prizingDetail?.normalForm?.thirdpartyDetails &&
                 prizingDetail?.normalForm?.thirdpartyDetails.map((elem:any)=>elem?.price)) ||
                 "N/A"}
-              {detail.price || "N/A"}
+              {/* {detail.price || "N/A"} */}
             </h1>
           </div>
         </div>

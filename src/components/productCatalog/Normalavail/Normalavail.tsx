@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,forwardRef, useImperativeHandle} from "react";
 import Toggle from "../Toggle/Toggle";
 import "./Normalavail.scss";
 import DaysCheck from "../DayCheck/DaysCheck";
@@ -70,7 +70,10 @@ interface DeliveryDetails {
   typeGroup: string;
   availabilities: Availability[];
 }
-
+export interface NormalavailRef {
+  handleValidate: () => boolean;
+  resetSelection: () => void;
+}
 interface NormalavailProps {
   getNormalForm?: (form: any) => void;
   validateDropdown: (
@@ -86,7 +89,7 @@ interface NormalavailProps {
     React.SetStateAction<DropdownValidationState>
   >;
   ValidationStateerr?: any;
-
+  sendFunctionToParent:any;
   dinein: boolean;
   setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
   setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>;
@@ -122,24 +125,30 @@ interface PriceInfo {
   availabilities: Availability[];
 }
 
-const Normalavail: React.FC<NormalavailProps> = ({
-  getNormalForm,
-  validateDropdown,
-  validationState,
-  dinein,
-  setDineIn,
-  setMainFormState,
-  mainFormState,
-  dineinfields,
-  setDineInFields,
-  setValidationStateerr,
-  handleValidate,
-  ValidationStateerr,
-  resetSelection,
-}) => {
+const Normalavail=forwardRef<NormalavailRef, NormalavailProps>((props, ref) => {
+    const {
+      getNormalForm,
+      validateDropdown,
+      validationState,
+      dinein,
+      setDineIn,
+      setMainFormState,
+      mainFormState,
+      dineinfields,
+      setDineInFields,
+      setValidationStateerr,
+      handleValidate,
+      ValidationStateerr,
+      resetSelection,
+      sendFunctionToParent,
+    } = props;
+  
+ 
   const [online, setOnline] = useState(false);
   const [pickup, setPickup] = useState(false);
   const [delivery, setDelivery] = useState(false);
+  const [showDineIn, setShowDineIn] = useState(false);
+
 
   const [dineinentry, setDineInEntry] = useState<string[]>([]);
   const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
@@ -199,9 +208,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
   const [buttonText, setButtonText] = useState([{ ChooseDay: "Choose Day" }]);
   const [Text, setText] = useState(
-    dineinfields.map(() => "Set up for Specific Day")
+    dineinfields?.map(() => "Set up for Specific Day")
   );
 
+    console.log({});
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
@@ -349,6 +359,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
     // })
     ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
   };
+console.log({mainForm});
 
   const optionsselectthird = orderTypes
     ?.filter((item) => item.typeGroup === "T")
@@ -389,6 +400,24 @@ const Normalavail: React.FC<NormalavailProps> = ({
     }
   }, [selectedthirdvalues]);
 
+
+  useEffect(()=>{
+
+    if(prizingDetail?.normalForm?.dineinfields?.length>0)
+    {
+        setShowDineIn(true);
+    }
+    else{
+      setShowDineIn(false);
+
+    }
+
+  },[])
+
+ 
+
+  
+
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
       setformNormal({
@@ -409,6 +438,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
         ZomatomealtypeNormal:
           prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
       });
+console.log({prizingDetail});
 
       const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
         (item: any) => ({
@@ -419,12 +449,20 @@ const Normalavail: React.FC<NormalavailProps> = ({
           dayButtonText: "Choose Day",
         })
       );
+      console.log("hgdf",updatedFields);
+      if(updatedFields.length>0)
+      {
+         setShowDineIn(true);
+      }
+
+      
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-      pickupDetails?.price && setPickup(true);
+      pickupDetails?.price >0 && setPickup(true);
       deliveryDetails?.price > 0 && setDelivery(true);
+   
       setDineInFields(updatedFields);
       setFormattedDineInData((prevData) => ({
         ...prevData,
@@ -435,7 +473,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       const thirdPartyTypeName =
         prizingDetail?.normalForm?.thirdpartyDetails?.map;
       if (pickupDetails) {
-        setOnline(true);
+        // setOnline(true);
         setPickUpDetails({
           typeId: pickUpId,
           typeGroup: "P",
@@ -446,7 +484,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (deliveryDetails) {
-        setOnline(true);
+        // setOnline(true);
         setDeliveryDetails({
           typeId: deliveryId,
           typeGroup: "S",
@@ -457,7 +495,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (thirdpartyDetails?.length > 0) {
-        setOnline(true);
+        // setOnline(true);
         const data = thirdpartyDetails?.map((item: any) => item?.typeName);
         if (thirdpartyDetails.some((item: any) => item?.price)) {
           setSelectedThirdValues(data);
@@ -482,18 +520,23 @@ const Normalavail: React.FC<NormalavailProps> = ({
         (item: any) => item.DineInService
       );
       setSelectedValues(initialSelectedValues2);
-      setDineIn(true);
+      // setDineIn(true);
     }
 
     if (prizingDetail?.normalForm) {
       const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
       const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
       const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-      const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
-      setDineIn(true);
+      const dineInDetails = prizingDetail?.normalForm?.dineinfields;
+    
+
+      
+      
+      // setDineIn(true);
       if (pickupDetails) {
-        setOnline(true);
-        pickupDetails?.price && setPickup(true);
+        pickupDetails?.price>0 ? setOnline(true):setOnline(false);
+        
+        pickupDetails?.price>0 && setPickup(true);
         setPickUpDetails({
           typeId: pickUpId,
           typeGroup: "P",
@@ -504,8 +547,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
       }
 
       if (deliveryDetails) {
-        setOnline(true);
-        deliveryDetails?.price && setDelivery(true);
+       
+        deliveryDetails?.price>0  ? setOnline(true):setOnline(false);
+        deliveryDetails?.price>0 && setDelivery(true);
         setDeliveryDetails({
           typeId: deliveryId,
           typeGroup: "S",
@@ -531,24 +575,23 @@ const Normalavail: React.FC<NormalavailProps> = ({
         });
         setMealTypes(object);
       }
+console.log({dineInDetails});
 
-      const updatedFields = dineInDetails
-        ? [
-            {
-              DineInId: dineInDetails.typeId || "",
-              DineInPrice: dineInDetails.price ?? "",
-              DineInMealType: dineInDetails.DineInMealType || [],
-              DineInService: dineInDetails.DineInService || "",
-              showDay: true,
-              dayButtonText: "Choose Day",
-            },
-          ]
-        : [];
+const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
+  (item: any) => ({
+    DineInPrice: item?.DineInPrice,
+    DineInMealType: item.DineInMealType || [],
+    DineInService: item?.DineInService,
+    showDay: true,
+    dayButtonText: "Choose Day",
+  })
+);
+console.log({updatedFields});
 
       setDineInFields(updatedFields);
       setFormattedDineInData((prevData) => ({
         ...prevData,
-        price: updatedFields[0]?.DineInPrice,
+        price:updatedFields&& updatedFields[0]?.DineInPrice,
       }));
 
       setSelectedValues2(
@@ -572,6 +615,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
   }, [prizingDetail]);
 
   const [initialPricingData, setInitialPricingData] = useState([]);
+
+
+
 
   useEffect(() => {
     // setInitialPricingData()
@@ -674,7 +720,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
 
     if(selectedthirdvalues.length>0)
     {
-      setShowDayThird(true);
+setShowDayThird(true);
     }
     
   };
@@ -688,6 +734,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setMainFormState(mainForm);
     }
   }, [mainForm]);
+
+
+
 
   useEffect(() => {
     if (DayThird && priceInfo[0]?.typeName) {
@@ -858,9 +907,7 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
-  useEffect(() => {
-    setDineIn(true);
-  }, []);
+  
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
@@ -912,19 +959,127 @@ const Normalavail: React.FC<NormalavailProps> = ({
       resetSelection.current = clearSelection;
     }
   }, [resetSelection]);
-  useEffect(() => {
-    setDineIn(DineInServiceEnabled === 1);
-    setPickup(pickUpIdServiceEnabled === 1);
-    setDelivery(DeliveryServiceEnabled === 1);
-  }, [DineInServiceEnabled, pickUpIdServiceEnabled, DeliveryServiceEnabled]);
+  // useEffect(()=>{
+  //   if(dineinfields.length>0)
+  //   {
+  //     setDineIn(true);
+  //   }
+  //   else{
+  //     setDineIn(false);
+  //   }
+    
+    
+  // },[dineinfields])
+  // useEffect(()=>{
+  //   pickupDetails.price >0&&deliveryDetails.price>0 && setOnline(true);
+  // },[pickupDetails,deliveryDetails])
+  // useEffect(() => {
+  //   setDineIn(DineInServiceEnabled === 1);
+  //   setPickup(pickUpIdServiceEnabled === 1);
+  //   setDelivery(DeliveryServiceEnabled === 1);
+  // }, [DineInServiceEnabled, pickUpIdServiceEnabled, DeliveryServiceEnabled]);
 
   const [dropdownopened, setDropdownopened] = useState<boolean>(false);
+
+  const [errors, setErrors] = useState<Record<string, string>>({}); 
+
+  const validateDineinFields = () => {
+    const validationErrors: Record<string, string> = {}; 
+
+    dineinfields?.forEach((field:any, index:number) => {
+
+      if(showDineIn)
+
+      
+     {
+      if ( showDineIn && !field?.DineInPrice || Number(field?.DineInPrice) <= 0) {
+        validationErrors[`DineInPrice-${index}`] = "Price is empty.";
+      }
+
+      if ( showDineIn && !field?.DineInMealType || field?.DineInMealType?.length === 0) {
+        validationErrors[`DineInMealType-${index}`] = "Meal type is empty.";
+      }
+     }
+     
+
+
+      
+    });
+    if(pickup)
+    {
+      if (!pickupDetails?.price || pickupDetails?.price <= 0) {
+        validationErrors.pickupprice = "Price is missing or invalid.";
+      }
+  
+      // // Validate availabilityDays
+      // const availabilityDays = pickupDetails.availabilities[0]?.availabilityDays || [];
+      // if (availabilityDays.length === 0) {
+      //   validationErrors.availabilityDays = "Availability days are missing.";
+      // }
+  
+      // Validate sessions
+      const Pickupsessions = pickupDetails?.availabilities[0]?.sessions || [];
+      if (Pickupsessions?.length === 0) {
+        validationErrors.pickupmealTypeSessions = "Sessions are missing.";
+      }
+    }
+
+    if(delivery)
+    {
+      if (!deliveryDetails?.price || deliveryDetails?.price <= 0) {
+        validationErrors.deliveryprice = "Price is missing or invalid.";
+      }
+  
+      // // Validate availabilityDays
+      // const availabilityDays = pickupDetails.availabilities[0]?.availabilityDays || [];
+      // if (availabilityDays.length === 0) {
+      //   validationErrors.availabilityDays = "Availability days are missing.";
+      // }
+  
+      // Validate sessions
+      const deliverysessions = deliveryDetails?.availabilities[0]?.sessions || [];
+      if (deliverysessions?.length === 0) {
+        validationErrors.deliverymealTypeSessions = "Sessions are missing.";
+      }
+    }
+
+   
+  
+
+
+    
+
+    setErrors(validationErrors);
+
+   
+    return Object.keys(validationErrors).length === 0;
+  };
+
+
+  
+  
+  const handleSubmit = () => {
+    const isValid = validateDineinFields();
+    if (!isValid) {
+      console.log("Validation failed:", errors);
+      return false;
+    }
+    console.log("Validation passed. Proceed with submission.");
+    return true;
+  };
+  useEffect(() => {
+    sendFunctionToParent(validateDineinFields);
+  }, [sendFunctionToParent]);
+  console.log({pickupDetails});
+
+  
 
   return (
     <div>
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
+          <button onClick={handleSubmit}>Validate</button>
           <div className="tooltip">
             <TooltipMsg
               message="Select Days to Display at the Bottom"
@@ -977,15 +1132,16 @@ const Normalavail: React.FC<NormalavailProps> = ({
         <div className="DineInRelated">
           <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
           <Toggle
-            toggle={dinein}
-            setToggle={setDineIn}
+            toggle={showDineIn}
+            setToggle={setShowDineIn}
             Enabled={DineInServiceEnabled === 1}
           />
         </div>
       }
 
-      {dinein ? (
+      {showDineIn ? (
         <>
+        {/* <h1>jhgf</h1> */}
           {dineinfields?.map((entry: any, index: any) => {
             const mealTypeKey = `DineInMealType_${index}`;
             const priceKey = `DineInPrice_${index}`;
@@ -1022,11 +1178,15 @@ const Normalavail: React.FC<NormalavailProps> = ({
                           }
                         }}
                       />
-                      {!ValidationStateerr[priceKey]?.isValid && (
+                      {/* { !ValidationStateerr[priceKey]?.isValid && (
                         <span className="ErrormsgPrice">
                           {ValidationStateerr[priceKey]?.errorMessage}
                         </span>
-                      )}
+                      )} */}
+                       <span className="ErrormsgPrice">
+                       {errors[`DineInPrice-${index}`]}
+                        </span>
+                      
                     </div>
 
                     <div className="Mealz">
@@ -1041,7 +1201,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
                           label="Meal Type*"
                           width="Drop1"
                         />
+                        
+                       
                       </div>
+                      <span className="ErrormsgPrice">
+                         {errors[`DineInMealType-${index}`]}
+                        </span>
                       <div>
                         {!ValidationStateerr[mealTypeKey]?.isValid && (
                           <span className="Errormsg">
@@ -1147,6 +1312,12 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         }
                       }}
                     />
+
+<span className="Errormsg">
+{errors.pickupprice}
+                          </span>
+
+
                     <div className="PrizeD">
                       <DropDown
                         selectedValues={
@@ -1170,6 +1341,9 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         label="Meal Type*"
                         width="Drop1"
                       />
+                      <span className="Errormsg">
+{errors.pickupmealTypeSessions}
+                          </span>
                     </div>
                   </div>
                   <div className="PickupChooseDayContainer">
@@ -1275,6 +1449,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         }
                       }}
                     />
+
+<span className="Errormsg">
+{errors.deliveryprice}
+                          </span>
                     <div className="DeliveryD">
                       <DropDown
                         selectedValues={
@@ -1295,6 +1473,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         label="Meal Type*"
                         width="Drop1"
                       />
+                      <span className="Errormsg">
+{errors.deliverymealTypeSessions}
+                          </span>
+                      
                     </div>
                   </div>
                   <div className="deliveryChooseDayContainer">
@@ -1449,6 +1631,8 @@ const Normalavail: React.FC<NormalavailProps> = ({
       </div>
     </div>
   );
-};
+  }
+);
+
 
 export default Normalavail;
