@@ -1040,7 +1040,7 @@ const ItemCustomizations: React.FC = () => {
                                   className="input3ItemCustomizations"
                                   value={
                                     modifications[modIndex]?.selectionType ===
-                                      "Mandatory" &&
+                                      "Optional" &&
                                     modifications[modIndex].minSelection != 1
                                       ? 1
                                       : modifications[modIndex].minSelection
@@ -1049,10 +1049,10 @@ const ItemCustomizations: React.FC = () => {
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
                                   }
-                                  // disabled={
-                                  //   modifications[modIndex]?.selectionType ===
-                                  //   "Mandatory"
-                                  // }
+                                  disabled={
+                                    modifications[modIndex]?.selectionType ===
+                                    "Optional"
+                                  }
                                 />
                                 <div className="polydiv-ItemCustomizations">
                                   <img
@@ -1062,7 +1062,7 @@ const ItemCustomizations: React.FC = () => {
                                     onClick={() => {
                                       if (
                                         modifications[modIndex]
-                                          ?.selectionType !== "Mandatory"
+                                          ?.selectionType !== "Optional"
                                       ) {
                                         incrementSpinner(
                                           modIndex,
@@ -1078,7 +1078,7 @@ const ItemCustomizations: React.FC = () => {
                                     onClick={() => {
                                       if (
                                         modifications[modIndex]
-                                          ?.selectionType !== "Mandatory"
+                                          ?.selectionType !== "Optional"
                                       ) {
                                         decrementSpinner(
                                           modIndex,
