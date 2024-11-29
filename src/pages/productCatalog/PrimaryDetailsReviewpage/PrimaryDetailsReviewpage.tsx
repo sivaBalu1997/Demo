@@ -1051,7 +1051,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                 )}
                 {
                   <div className="primarybestpairedfood">
-                    <p>Best paired with</p>
+                    <p>Best paired with food items</p>
                     <div className="bestpairfoods">
                       <p>
                         {((primarydata?.bestPair && typeof(primarydata?.bestPair[0]) === 'string') && (primarydata?.bestPair.length > 0))

@@ -1155,6 +1155,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
                         if (e.key === "-") {
                           e.preventDefault(); // Prevent typing -,
                         }
+                        if (
+                          e.key === "e" ||
+                          e.key === "-" ||
+                          e.key === "+" ||
+                          e.key === "."
+                        ) {
+                          e.preventDefault(); // Block these keys
+                        }
                       }}
                       onChange={(e) => {
                         const inputValue = e.target.value;
@@ -1274,6 +1282,14 @@ const Normalavail: React.FC<NormalavailProps> = ({
                       onKeyDown={(e) => {
                         if (e.key === "-") {
                           e.preventDefault(); // Prevent typing -, e, or E
+                        }
+                        if (
+                          e.key === "e" ||
+                          e.key === "-" ||
+                          e.key === "+" ||
+                          e.key === "."
+                        ) {
+                          e.preventDefault(); // Block these keys
                         }
                       }}
                       className="DineInInput1Normal"
