@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
 }
+
 .offerTable1{
   width: 100%;
   display: flex;
@@ -15,25 +16,41 @@
   display: flex;
   justify-content: center;
 }
-.table-container {
-  width: 159%;
 
+.table-container {
+  width: 162%; 
+  height: 80vh;
+  overflow-y: auto; 
+  overflow-x: auto;
   font-family: "Poppins";
+  margin-left: -20px;
 }
+
 .table-container1 {
   width: 135%;
-
+  height: 80vh;
+  overflow-y: auto; 
+  overflow-x: auto;
   font-family: "Poppins";
   transition: transform 0.2s ease-in;
 }
 
 .tableHeading{
+  position: relative;
   margin-left: -30px;
 }
 
 .tableHeading1{
+  position: relative;
   margin-left: -20px;
 }
+
+.OffrtsTableth {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 
 .OffersTable {
   transform: translateX(20px);
@@ -51,7 +68,6 @@
 
 .duration{
   width: 240px;
-
 }
 
 th.OffrtsTableth,
@@ -61,33 +77,42 @@ td.OffrtsTabletd {
   padding: 20px;
   padding-left: 5px;
   cursor: pointer;
+  // background-color: pink;
 }
 
 th.OffrtsTableth {
   background-color: white;
+  position: relative;
 }
+
 th.OffrtsTableth:nth-child(3) {
   width: 200px;
   padding-left: 60px;
 }
+
 th.OffrtsTableth:nth-child(2) {
   width: 200px;
   padding-left: 30px;
 }
+
 th.OffrtsTableth:nth-child(4) {
   width: 220px;
   padding-left: 60px;
 }
+
 th.OffrtsTableth:nth-child(1) {
   width: 200px;
   padding-left: 60px;
 }
+
 th.OffrtsTableth:nth-child(6) {
   width: 200px;
 }
+
 th.OffrtsTableth:nth-child(5) {
   width: 200px;
 }
+
 tr.OffrtsTabletr:nth-child(odd) {
   background-color: #e8e8e8;
 }
@@ -97,10 +122,12 @@ td.OffrtsTabletd:nth-child(4) {
   width: 450px;
   padding-left: 50px;
 }
+
 td.OffrtsTabletd:nth-child(3) {
   width: 300px;
   padding-left: -10px;
 }
+
 td.OffrtsTabletd:nth-child(1) {
   width: 270px;
   padding-left: 40px;
@@ -109,6 +136,7 @@ td.OffrtsTabletd:nth-child(1) {
 td.OffrtsTabletd:nth-child(5) {
   padding-left: 30px;
 }
+
 td.OffrtsTabletd:nth-child(2) {
   width: 200px;
 }
@@ -137,14 +165,14 @@ td.OffrtsTabletd:nth-child(6) {
 .OfferDiv {
   border: 0;
   height: 1px;
-  background-color: #e9e9e9; /* Light gray color */
+  background-color: #e9e9e9; 
   margin-top: -20px;
   width: 800%;
 }
 .OfferDiv2 {
   border: 0;
   height: 1px;
-  background-color: #e9e9e9; /* Light gray color */
+  background-color: #e9e9e9; 
   margin-top: -20px;
   width: 900%;
 }

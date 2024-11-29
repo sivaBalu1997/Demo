@@ -61,6 +61,7 @@ import EmptyMenu from "pages/menuItem/EmptyMenu";
 import OffersTable from "pages/offerManagement/OffersTable"
 import OffersHeader from "./components/offerManagement/OffersHeader"
 import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/"
+import completedTable from "pages/offerManagement/completedTable/completedTable";
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -223,6 +224,7 @@ const Routers = () => {
 
             <div className="specialOffers">
               <Route exact path="/offer/special" component={offers} />
+              <Route exact path='/Offers/completed' component={completedTable} />
             </div>
 
             <div>
