@@ -739,7 +739,7 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields">
-                  <LableComponent lable="DietaryType *" />
+                  <LableComponent lable="Dietary Type *" />
                   <Controller
                     name="DietaryType"
                     control={control}
@@ -995,7 +995,7 @@ const PrimaryPage = () => {
               <div className="Primary-page-container-pairtwo">
                 <div className="Primary-page-InputFields">
                   {" "}
-                  <LableComponent lable="ItemCode" />
+                  <LableComponent lable="Item Code" />
                   <div className="Primary-Page-inputfiled-and-tooltip">
                     <Controller
                       name="itemCode"
