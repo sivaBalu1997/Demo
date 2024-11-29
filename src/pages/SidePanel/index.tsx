@@ -313,7 +313,7 @@ const SidePanel = () => {
                 fontSize:'16px'
               }}
             >
-              ProductCatalog
+              Product Catalog
             </span>}
           </div>
 

@@ -64,7 +64,11 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   };
 
   const [currentPage, setCurrentPage] = useState<string>(getPath(location.pathname));
-
+  const datafromRedux = useSelector(
+    (state: any) => state?.selectedMockDataReducer?.data
+  );
+ 
+  
 
   //Primary Details , Pricing and kitchen details , Itemcustomizations
 
@@ -166,7 +170,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     <>
       <div className={"navigation"}>
         <h1 className="Mainheading">
-      {itemCustomizationData.length|| ItemsPrimaryDetails.length|| prizingDetail.length > 0 ? "Edit your menu item" : "Creating new menu item"}
+      {datafromRedux?.length > 0 ? "Update menu item" : "Creating new menu item"}
     </h1>
         <nav className="nav">
           <ul className={isExpanded ? "listofnavigationExpanded" : "listofnavigation"}>
