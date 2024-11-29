@@ -50,7 +50,7 @@ const Step2 = () => {
           </div>
           <div className="CostPrice">
             <h1 className="CostPrice-heading">Cost Price</h1>
-            <h1 className="Rupees-heading"> {restaurantDetails?.country === "US" ? "$" : "Rs."}{prizingDetail?.normalForm?.dineInDetails?.price}</h1>
+            <h1 className="Rupees-heading"> {prizingDetail?.normalForm?.dineInDetails?.price ? restaurantDetails?.country === "US" ? "$" : "Rs." : ""}{prizingDetail?.normalForm?.dineInDetails?.price}</h1>
           </div>
           <h1 className="Step2Kitchen-relatedheading">Kitchen Related</h1>
           <div className="Step2KitchenRelated">
