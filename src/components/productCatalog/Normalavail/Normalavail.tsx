@@ -89,7 +89,7 @@ interface NormalavailProps {
     React.SetStateAction<DropdownValidationState>
   >;
   ValidationStateerr?: any;
-  sendFunctionToParent:any;
+ 
   dinein: boolean;
   setDineIn: React.Dispatch<React.SetStateAction<boolean>>;
   setMainFormState: React.Dispatch<React.SetStateAction<MainFormType>>;
@@ -140,7 +140,7 @@ const Normalavail=forwardRef<NormalavailRef, NormalavailProps>((props, ref) => {
       handleValidate,
       ValidationStateerr,
       resetSelection,
-      sendFunctionToParent,
+     
     } = props;
   
  
@@ -1078,9 +1078,7 @@ setShowDayThird(true);
     console.log("Validation passed. Proceed with submission.");
     return true;
   };
-  useEffect(() => {
-    sendFunctionToParent(validateDineinFields);
-  }, [sendFunctionToParent]);
+
   console.log({pickupDetails});
 
   

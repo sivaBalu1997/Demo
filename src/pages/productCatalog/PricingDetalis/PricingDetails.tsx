@@ -1096,7 +1096,7 @@ const PricingDetails = () => {
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}
-                sendFunctionToParent={(func:any) => setChildFunction(() => func)}
+               
               />
             ) : (
               <>

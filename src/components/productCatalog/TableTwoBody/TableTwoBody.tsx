@@ -151,7 +151,8 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
       {itemobject.categoryName !== "" &&
         itemobject?.itemResponseList?.length > 0 && (
           <tr
-            style={style}
+            // style={style}
+           
             className="categoryname"
           ></tr>
         )}
@@ -162,10 +163,10 @@ const TableTwoBody: React.FC<TableRowsProps> = ({
           <>
             <tr
               key={item.itemId}
-              style={{
-                display: "flex",
-                width: `${Object.keys(selectedFileds).length * 10 + 100}%`,
-              }}
+              // style={{
+              //   display: "flex",
+              //   width: `${Object.keys(selectedFileds).length * 10 + 100}%`,
+              // }}
               className={`eachobject-rowwise`}
             >
               {orderTypesToShow2?.map((typeName, ordertypeindex) => {
