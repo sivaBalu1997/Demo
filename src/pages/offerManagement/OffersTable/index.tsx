@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./style.scss";
 import OfferHeader from "../../../components/offerManagement/OffersHeader";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
@@ -52,13 +52,91 @@ const Table = () => {
       totalItems: 5,
       specialPrice: "10%",
     },
+    {
+      name: "Bar Happy Hour",
+      duration: "10:00AM–12:00AM",
+      days: ["S", "M", "T", "W", "T", "F", "S"],
+      channel: "Dine In, Delivery, Pickup",
+      items: [
+        "Biriyani",
+        "Chapati",
+        "Parotta",
+        "Parotta",
+        "Parotta",
+        "Parotta",
+      ],
+      totalItems: 9,
+      specialPrice: "$5.89",
+    },
+    {
+      name: "Bar Happy Hour",
+      duration: "10:00AM–12:00AM",
+      days: ["S", "M", "T", "W", "T", "F", "S"],
+      channel: "Dine In, Delivery, Pickup",
+      items: [
+        "Biriyani",
+        "Chapati",
+        "Parotta",
+        "Parotta",
+        "Parotta",
+        "Parotta",
+      ],
+      totalItems: 9,
+      specialPrice: "$5.89",
+    },
+    {
+      name: "Bar Happy Hour",
+      duration: "10:00AM–12:00AM",
+      days: ["S", "M", "T", "W", "T", "F", "S"],
+      channel: "Dine In, Delivery, Pickup",
+      items: [
+        "Biriyani",
+        "Chapati",
+        "Parotta",
+        "Parotta",
+        "Parotta",
+        "Parotta",
+      ],
+      totalItems: 9,
+      specialPrice: "$5.89",
+    },
+    {
+      name: "Bar Happy Hour",
+      duration: "10:00AM–12:00AM",
+      days: ["S", "M", "T", "W", "T", "F", "S"],
+      channel: "Dine In, Delivery, Pickup",
+      items: [
+        "Biriyani",
+        "Chapati",
+        "Parotta",
+        "Parotta",
+        "Parotta",
+        "Parotta",
+      ],
+      totalItems: 9,
+      specialPrice: "$5.89",
+    },
   ];
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const componentRef = useRef<HTMLDivElement | null>(null);
 
   const handleOfferDropdown = (index: number) => {
     setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (componentRef.current && !componentRef.current.contains(event.target as Node)) {
+      setActiveIndex(null);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const renderItems = (items: any) => {
     const maxVisibleItems = 5;
@@ -81,7 +159,7 @@ const Table = () => {
         <OfferHeader />
         <div className={isExpanded ? "table-container" : "table-container1"}>
           <table className={isExpanded ? "OffersTable" : "OffersTable1"}>
-            <thead className={isExpanded ? "tableHeading" : "tableHeading1"}>
+            <thead>
               <tr className="OffrtsTabletr">
                 <th className="OffrtsTableth">Name</th>
                 <th className="OffrtsTableth">Duration</th>
@@ -91,7 +169,7 @@ const Table = () => {
                 <th className="OffrtsTableth">Special Price</th>
               </tr>
             </thead>
-            <tbody className="OffrTablebody">
+            <tbody>
               {data.map((row, index) => (
                 <tr key={index} className="OffrtsTabletr">
                   <td className="OffrtsTabletd">{row.name}</td>
@@ -104,11 +182,12 @@ const Table = () => {
                   <td className="OffrtsTabletd">{row.totalItems}</td>
                   <td className="OffrtsTabletd">{row.specialPrice}</td>
                   <td className="OffrtsTabletd">
-                    <div className="action-container">
+                    <div className="action-container" ref={componentRef}>
                       <img
                         src={ThreeDotsImage}
                         width="5"
                         height="20"
+                        // ref={componentRef}
                         onClick={() => handleOfferDropdown(index)}
                         alt="Actions"
                       />
