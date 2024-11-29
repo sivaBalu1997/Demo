@@ -619,6 +619,17 @@ const PrimaryPage = () => {
     setValue("selectedPortion", "Portion(count)");
     setValue("tax", "");
     setValue("masterCode", "");
+    setCalorieInfo(
+      ItemsPrimaryDetails?.coloriePoint
+        ? ItemsPrimaryDetails?.coloriePoint
+        : { type: "per 100 grams", value: "" }
+    );
+    setPortionInfo(
+      ItemsPrimaryDetails?.portionSize
+        ? ItemsPrimaryDetails?.portionSize
+        : { type: "portion(count)", value: "" }
+    );
+    
     if (resetSelectionRef.current) {
       resetSelectionRef.current();
     }
@@ -1073,12 +1084,29 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
-                        name="barCode"
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
-                        trigger={trigger}
-                      />
+                      name="barCode"
+                      onChange={(e) => {
+                        let newValue = e.target.value;
+                
+                        // Prevent space as the first character
+                        if (newValue.length === 1 && newValue[0] === " ") {
+                          return;
+                        }
+                
+                        // Remove special characters and prevent space at the beginning
+                        newValue = newValue.replace(/[^a-zA-Z0-9]/g, ""); // Remove special characters
+                
+                        // Prevent space as the first character
+                        if (newValue[0] === " ") {
+                          return;
+                        }
+                
+                        onChange(newValue);
+                      }}
+                      onBlur={onBlur}
+                      value={value}
+                      trigger={trigger}
+                    />
                     )}
                   />
                 </div>
@@ -1217,6 +1245,16 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={calorieInfo?.value}
                           trigger={trigger}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" ||
+                              e.key === "."
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           placeholder="cal"
                         />
                       )}
@@ -1252,6 +1290,16 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={portionInfo?.value}
                           trigger={trigger}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" ||
+                              e.key === "."
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           placeholder={
                             portionInfo?.type || "portion(count) / grams/ml"
                           }

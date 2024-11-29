@@ -182,7 +182,7 @@ const uncheckedItems = data
       <div className="EyeModal-Window">
         <div className="EyeModal-Form">
           <div className="HideItemHeading-SelectAll-Container">
-            <h1 className="HideItemHeading">Hide Item in</h1>
+            <h1 className="HideItemHeading">Hide/Unhide</h1>
             <p className="Select-all-heading" onClick={handleSelectAll}>
   {allSelected ? "Select All" : "Deselect All"}
 </p>

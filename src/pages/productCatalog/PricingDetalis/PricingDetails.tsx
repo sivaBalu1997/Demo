@@ -516,7 +516,7 @@ const PricingDetails = () => {
     ]
   );
 
-  const dineInMapped = dineinfields.map((field: any) => ({
+  const dineInMapped = dineinfields?.map((field: any) => ({
     typeId: field.DineInId,
     typeName: field.DineInMealType,
     price: parseFloat(field?.DineInPrice),
@@ -552,19 +552,23 @@ const PricingDetails = () => {
       // } else {
       //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       // }
-
-      if (
-        !field.DineInPrice ||
-        isNaN(Number(field.DineInPrice)) ||
-        Number(field.DineInPrice) === 0
-      ) {
-        errors[priceKey] = {
-          isValid: false,
-          errorMessage: "Price",
-        };
-      } else {
-        errors[priceKey] = { isValid: true, errorMessage: "" };
+      if(dinein)
+      {
+        if (
+          !field.DineInPrice ||
+          isNaN(Number(field.DineInPrice)) ||
+          Number(field.DineInPrice) === 0
+        ) {
+          errors[priceKey] = {
+            isValid: false,
+            errorMessage: "Price",
+          };
+        } else {
+          errors[priceKey] = { isValid: true, errorMessage: "" };
+        }  
       }
+      
+     
     });
 
     return errors;
@@ -703,9 +707,7 @@ const PricingDetails = () => {
     useState<DropdownValidationState>({});
 
   const handleValidate = (): boolean => {
-    const dropdownErrors = isOptionTrue
-      ? handleValidateDropdown()
-      : handleValidateDropdown1();
+   
 
     const dineInErrors = isOptionTrue
       ? validateDineInFields(dineinfields)
@@ -764,6 +766,8 @@ const PricingDetails = () => {
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
   );
+
+  const [childFunction, setChildFunction] = useState<() => void>(() => () => {});
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
@@ -863,7 +867,7 @@ const PricingDetails = () => {
                         className="Prepartiontime-input-hours"
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
+                          if (/^(1[0-9]|[1-9])$/.test(value) || value === "") {
                             setValue(
                               "Preparationtime.hours",
                               value === "" ? "" : Number(value)
@@ -1092,6 +1096,7 @@ const PricingDetails = () => {
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}
+                sendFunctionToParent={(func:any) => setChildFunction(() => func)}
               />
             ) : (
               <>

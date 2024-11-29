@@ -362,7 +362,7 @@ const NormalStep2 = () => {
                       (elem: any) => elem?.price
                     )) ||
                     "N/A"}
-                  {detail.price || "N/A"}
+                  {/* {detail.price || "N/A"} */}
                 </h1>
               </div>
             </div>

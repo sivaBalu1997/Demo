@@ -13,6 +13,8 @@ import {
   deleteOfferFailed,
   disableOfferSuccess,
   disableOfferFailed,
+  OfferDataSendingrSuccess,
+  OfferDataSendingFailed,
 } from "./offerActions";
 import {
   deleteOffer,
@@ -30,6 +32,7 @@ import {
   DROPDOWN_DATA_REQUEST,
   DELETE_OFFER_REQUEST,
   DISABLE_OFFER_REQUEST,
+  OFFER_DATA_REQUEST,
   
 } from "./offerConstants";
 
@@ -55,6 +58,18 @@ export function* createOfferSaga(action) {
   } catch (err) {
  
     yield put(createOfferFailure(err.response.data[0] ));
+  }
+}
+
+export function* OfferDataPostSaga(action) {
+  try {
+    const response = yield call(createOffer, action.payload);
+    if (response.status === 200) {
+      yield put(OfferDataSendingrSuccess(response.data));
+    }
+  } catch (err) {
+ 
+    yield put(OfferDataSendingFailed(err.response.data[0] ));
   }
 }
 
@@ -110,6 +125,8 @@ export function* disableOfferSaga(action) {
 export default function* offerSaga() {
   yield takeLatest(OFFER_LIST_REQUEST, getOfferListSaga);
   yield takeLatest(CREATE_OFFER_REQUEST, createOfferSaga);
+  yield takeLatest(OFFER_DATA_REQUEST, OfferDataPostSaga);
+
   yield takeLatest(DELETE_OFFER_REQUEST, deleteOfferSaga);
   yield takeLatest(DISABLE_OFFER_REQUEST, disableOfferSaga);
   yield takeLatest(DROPDOWN_DATA_REQUEST, dropdownDataSaga);

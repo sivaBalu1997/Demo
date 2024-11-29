@@ -154,9 +154,9 @@ const CustomizeSlider = () => {
     setCustomData(updatedData);
 const modifieddata=customData[parentIndex]
 modifieddata.options[childIndex].isEnabled =modifieddata.options[childIndex].isEnabled===1?false:true;
-modifieddata.isEnabled=modifieddata.options.every(
-  (opt:any) => opt.isEnabled === true || opt.isEnabled === 1
-)
+// modifieddata.isEnabled=modifieddata.options.every(
+//   (opt:any) => opt.isEnabled === true || opt.isEnabled === 1
+// )
 
     console.log("3456",modifieddata);
     
@@ -209,12 +209,13 @@ modifieddata.isEnabled=modifieddata.options.every(
     name:string,
     Enable:number,
     options:any,
-    modifierIdhead:string
+    modifierIdhead:string,
+    optionId:string
 
 
   ) => {
 
-    console.log("options",options);
+    console.log("options",optionId);
     
 
     if(Enabled)
@@ -232,7 +233,7 @@ modifieddata.isEnabled=modifieddata.options.every(
         options:options.map((opt: any) => ({
           modifierOptionId:opt.id,
           modifierOptionName: opt.name,
-          price: newPrice,
+          price: opt.id === optionId ? newPrice : opt.price,
           isEnabled: Enabled,
         }))
  
@@ -249,7 +250,7 @@ modifieddata.isEnabled=modifieddata.options.every(
                     options: options.map((opt: any) => ({
                       modifierOptionId:opt.id,
                       modifierOptionName: opt.name,
-                      price: newPrice,
+                      price: opt.id === optionId ? newPrice : opt.price,
                       isEnabled: Enabled,
                       
                     })),
@@ -298,6 +299,7 @@ modifieddata.isEnabled=modifieddata.options.every(
 
             <div>
               {elem?.options?.map((subitem: any, subindex: any) => (
+                
                 <div
                   className="subitems-toggle-container-flex-direction"
                   key={subindex}
@@ -314,6 +316,7 @@ modifieddata.isEnabled=modifieddata.options.every(
                         className="input-subitem"
                         type="number"
                         value={subitem.price}
+                        
                         style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",border:subitem.isEnabled?"1px solid black":"1px solid #5F5F5F"}}
                         onChange={(e) =>
                           handlePriceChange(
@@ -322,9 +325,11 @@ modifieddata.isEnabled=modifieddata.options.every(
                             parseFloat(e.target.value),
                             subitem.isEnabled,
                             elem.modifierName,
+                            
                             elem.isEnabled,
                             elem.options,
-                            elem.modifierId
+                            elem.modifierId,
+                            subitem.id,
 
 
 

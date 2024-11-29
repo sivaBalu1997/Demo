@@ -9,9 +9,6 @@
   margin-left: 30px;
 }
 
-// ::-webkit-scrollbar {
-//   display: none;
-// }
 
 .dropdownPricingList {
   display: flex;
@@ -57,6 +54,10 @@
   z-index: 25;
   max-height: 125px;
   overflow-y: auto;
+  
+&::-webkit-scrollbar {
+  display: none;
+}
 }
 
 .optionsPricing label {

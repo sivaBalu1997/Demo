@@ -313,7 +313,7 @@ const SidePanel = () => {
                 fontSize:'16px'
               }}
             >
-              ProductCatalog
+              Product Catalog
             </span>}
           </div>
 
@@ -362,7 +362,7 @@ const SidePanel = () => {
                 setShowOptions("Offer"); 
               }
               if (!location.pathname.includes("/Offers")) {
-                history.push("/Offers"); 
+                history.push("/Offers/active"); 
               }
             }}
           >
