@@ -431,15 +431,15 @@ const Normalavail: React.FC<NormalavailProps> = ({
       // }));
       setFormattedDineInData((prevData: DeliveryDetails) => {
         const updatedAvailabilities = [...prevData.availabilities];
-  
-        updatedAvailabilities[0]= {
+
+        updatedAvailabilities[0] = {
           ...updatedAvailabilities[0],
           sessions: [...updatedFields[0]?.DineInMealType],
         };
-  
+
         return {
           ...prevData,
-          price:updatedFields[0]?.DineInPrice,
+          price: updatedFields[0]?.DineInPrice,
           availabilities: updatedAvailabilities,
         };
       });
@@ -550,7 +550,10 @@ const Normalavail: React.FC<NormalavailProps> = ({
             {
               DineInId: dineInDetails.typeId || "",
               DineInPrice: dineInDetails.price ?? "",
-              DineInMealType: dineInDetails?.availabilities && dineInDetails?.availabilities[0]?.sessions || [],
+              DineInMealType:
+                (dineInDetails?.availabilities &&
+                  dineInDetails?.availabilities[0]?.sessions) ||
+                [],
               DineInService: dineInDetails.DineInService || "",
               showDay: true,
               dayButtonText: "Choose Day",
@@ -561,15 +564,15 @@ const Normalavail: React.FC<NormalavailProps> = ({
       setDineInFields(updatedFields);
       setFormattedDineInData((prevData: DeliveryDetails) => {
         const updatedAvailabilities = [...prevData.availabilities];
-  
+
         updatedAvailabilities[0] = {
           ...updatedAvailabilities[0],
           sessions: [...updatedFields[0]?.DineInMealType],
         };
-  
+
         return {
           ...prevData,
-          price:updatedFields[0]?.DineInPrice,
+          price: updatedFields[0]?.DineInPrice,
           availabilities: updatedAvailabilities,
         };
       });
@@ -876,9 +879,11 @@ const Normalavail: React.FC<NormalavailProps> = ({
       },
     }));
   };
-  useEffect(() => {
-    setDineIn(true);
-  }, []);
+
+  // useEffect(() => {
+  //   setDineIn(false);
+  // }, []);
+
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
@@ -965,7 +970,6 @@ const Normalavail: React.FC<NormalavailProps> = ({
                 rotate: "-90deg",
                 position: "relative",
                 left: "-5.3rem",
-              
               }}
             >
               <div className="ToolKitchen">
