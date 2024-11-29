@@ -201,8 +201,8 @@ const SpecialPriceDetails = () => {
       offerChannel: "",
       offerToVisible: "",
       termsAndConditions: "",
-      specialTypeName: "",
-      specialType: "",
+      specialTypeName: "Happy Hour",
+      specialType: "Percentage",
       specialTypeValue: "",
       category: "",
       subCategory: "",
@@ -233,11 +233,11 @@ const SpecialPriceDetails = () => {
   const [disabledDay,setDisableDay] =useState<any[]>([])
   const [selectedFrom, setSelectedFrom] = useState("AM");
   const [selectedTo, setSelectedTo] = useState("AM");
-  const [selectedFoodItems, setselectedFoodItems] = useState([]);
+  const [selectedFoodItems, setselectedFoodItems] = useState<any[]>([]);
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
 
-  const selecteFoodItems = [
+  const [selecteFoodItems,setselecteFoodItems] =useState( [
     {
       id: 1,
       itemName: "Parotta",
@@ -294,7 +294,7 @@ const SpecialPriceDetails = () => {
       updatedPrice: "$50.00",
       available: false,
     },
-  ];
+  ])
   const handleonclick = () => {
     const values = getValues();
     trigger();
@@ -323,6 +323,7 @@ const SpecialPriceDetails = () => {
       setValue(`${value}`, timeWithPeriod);
     }
   };
+  const[updatedPrice,setUpdatedPrice] =useState(-1)
   const [showlistOfItems, setShowlistOfItems] = useState(false);
   const [overlapShow, setOverlapShow] = useState(false);
   const [highlighted, setHighlighted] = useState<any>();
@@ -330,14 +331,16 @@ const SpecialPriceDetails = () => {
 
   const handleItemClick = (index: number, item: any) => {
   setHighlighted(index);
-  setselectedFoodItems((prev : any) => {
-    const exists = prev.some((food: any) => food.id === item.id);
+  const data =[...selectedFoodItems]
+  let data1=[] 
+  // setselectedFoodItems((prev : any) => {
+    const exists = data.some((food: any) => food.id === item.id);
 
       if (exists) {
-        return prev.filter((food: any) => food.id !== item.id);
+        data1= data.filter((food: any) => food.id !== item.id);
       } else {
-        return [
-          ...prev,
+        data1= [
+          ...data,
           {
             id: item.id,
             itemName: item.itemName,
@@ -347,9 +350,14 @@ const SpecialPriceDetails = () => {
           },
         ];
       }
-    });
+      if(selectedradiowatch?.specialTypeValue && selectedradiowatch?.specialType && selectedradiowatch?.specialTypeName)
+      {
+         priceCalulate(data1)
+      }
+      else{
+        setselectedFoodItems([...data1])
+      }
   };
-  
   useEffect(() => {
     if(selectedDate && selectedDate1)
     {
@@ -368,13 +376,7 @@ const SpecialPriceDetails = () => {
 
   useEffect(() => {
     setValue("selectedFooditems", selectedFoodItems);
-    console.log("44", getValues("selectedFooditems"));
   }, [selectedFoodItems]);
-
-  useEffect(()=>{
-    setValue("selectedFooditems",selectedFoodItems)
-    console.log("44",getValues("selectedFooditems"));
-  },[selectedFoodItems])
 
   const listpopupRef = useRef<HTMLDivElement | null>(null);
   
@@ -408,11 +410,45 @@ function handleSingleDayRange(startDate:any, endDate:any) {
        setDisableDay(mappedDay)
   }
 }
+const applyOffer = (type:any, name:any, value:any,item:any) => {
+  console.log(type,name,value)
+  const data:any= item.map((item:any) => {
+    const originalPrice = parseFloat(item.originalPrice.replace("$", ""));
+    let updatedPrice = originalPrice;
+    if (name === "Happy Hour" && type=='Percentage') {
+      updatedPrice = originalPrice - (originalPrice * (value / 100));
+    } else if (name === "Happy Hour" && type=='Amount') {
+      updatedPrice = originalPrice - value;
+    } else if (name === "Surge Hour" && type=='Percentage') {
+      updatedPrice = originalPrice * (1 + value / 100);
+    } else if (name === "Surge Hour" && type=='Amount') {
+      updatedPrice = originalPrice + Number(value);
+    }
+    return {
+      ...item,
+      updatedPrice: `$${updatedPrice.toFixed(2)}`,
+    };
+  });
 
+  setselectedFoodItems([...data])
+};
+
+const priceCalulate =(data:any)=>{
+  if(selectedradiowatch?.specialTypeValue && selectedradiowatch?.specialType && selectedradiowatch?.specialTypeName &&data.length>0){
+    applyOffer(selectedradiowatch?.specialType,selectedradiowatch?.specialTypeName,selectedradiowatch?.specialTypeValue,data)
+  }
+}
 
   const closeOverlapPopUp = () => {
     setOverlapShow(false);
   };
+  useEffect(()=>{
+    if(selectedradiowatch?.specialType&&selectedradiowatch?.specialTypeName&&selectedradiowatch?.specialTypeValue && selectedFoodItems.length>0)
+    {
+      priceCalulate(selectedFoodItems);
+    }
+    
+  },[selectedradiowatch?.specialType,selectedradiowatch?.specialTypeName,selectedradiowatch?.specialTypeValue])
 
   useEffect(() => {
     if (showlistOfItems) {
@@ -437,7 +473,6 @@ function handleSingleDayRange(startDate:any, endDate:any) {
 
   const [dateShow, setDateShow] = useState(false);
 
-  console.log({selectedFoodItems})
 
   const handleDelete = (id: any) => {
     const data = selectedFoodItems.filter((item: any) => item?.id !== id)
@@ -604,7 +639,9 @@ function handleSingleDayRange(startDate:any, endDate:any) {
                     <InputComponent
                       name="specialTypeValue"
                       onChange={onChange}
-                      onBlur={onBlur}
+                      onBlur={()=>{
+                        priceCalulate(selectedFoodItems)
+                      }}
                       value={value}
                       trigger={trigger}
                       error={errors.specialTypeValue}
