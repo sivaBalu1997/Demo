@@ -54,23 +54,26 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   };
   useEffect(() => {}, [partaldatasending, dispatch]);
   const [hasTrue, setHasTrue] = useState(false);
-
+  const isPartialDataValid = () => {
+    const { itemId, pricing, modifierInfo, itemAvailabilityInfo } = partialData;
+  
+  
+    if ( pricing.length || modifierInfo.length || itemAvailabilityInfo.length) {
+      return true;
+    }
+  
+    return false;
+  };
   const handledispatchforpartilChange = () => {
  
 
     setHasTrue(true);
 
-    const isPartialDataValid = () => {
-      const { itemId, pricing, modifierInfo, itemAvailabilityInfo } = partialData;
-    
-      // Check if any field is non-empty
-      if ( pricing.length || modifierInfo.length || itemAvailabilityInfo.length) {
-        return true;
-      }
-    
-      // Return false if all fields are empty
-      return false;
-    };
+   
+
+
+
+
     if(isPartialDataValid())
     {
       dispatch(partialUpdateMenuRequest(partialData, locationid));
@@ -105,7 +108,11 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
           <button className="CancelBtn" onClick={handleCancelButton}>
             Cancel
           </button>
-          <button className="ChangeBtn" onClick={handledispatchforpartilChange}>
+          <button className="ChangeBtn"style={{
+         
+          opacity: isPartialDataValid() ? '100%' : '60%',
+          
+        }} onClick={handledispatchforpartilChange} disabled={!isPartialDataValid()}>
             Change
           </button>
         </div>

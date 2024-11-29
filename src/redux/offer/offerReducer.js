@@ -23,6 +23,9 @@ import {
   DISABLE_OFFER_SUCCESS,
   DISABLE_OFFER_FAILED,
   RESET_DISABLE_DATA,
+  OFFER_DATA_REQUEST,
+  OFFER_DATA_SUCCESS,
+  OFFER_DATA_FAILED,
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -61,11 +64,38 @@ const initialOfferState = {
   disableOfferFailed: false,
   disableOfferSuccessMessage: "",
   disableOfferFailureMessage: "",
+  OfferDataSendingRequest:[],
+  OfferDataSendingrSuccess:false,
+  OfferDataSendingFailed:false,
+  OfferDataSendingloading:false,
+
+
+
+
+
 };
 
 export default function offerReducer(state = initialOfferState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
+
+      case OFFER_DATA_REQUEST:
+        console.log("eeee",action.payload);
+        
+        draft.OfferDataSendingRequest =action.payload;
+        draft.OfferDataSendingloading = true;
+        break;
+      case OFFER_DATA_SUCCESS:
+        draft.OfferDataSendingrSuccess = action.payload;
+        draft.OfferDataSendingloading = false;
+        draft.OfferDataSendingFailed=false
+        break;
+      case OFFER_DATA_FAILED:
+        draft.OfferDataSendingloading = false;
+        draft.OfferDataSendingrSuccess=false
+        draft.OfferDataSendingFailed = action.payload;
+        break;
+
       // SignUp Reducers
       case OFFER_LIST_REQUEST:
         draft.offerList = [];
