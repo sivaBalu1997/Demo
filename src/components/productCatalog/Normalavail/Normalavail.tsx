@@ -1066,7 +1066,11 @@ setShowDayThird(true);
     return Object.keys(validationErrors).length === 0;
   };
 
-
+  useEffect(()=>{
+   if(pickup==false && delivery==false){
+    setOnline(false);
+   }
+  },[pickup,delivery])
   
   
   const handleSubmit = () => {
@@ -1309,8 +1313,8 @@ setShowDayThird(true);
                         if (
                           e.key === "e" ||
                           e.key === "-" ||
-                          e.key === "+" ||
-                          e.key === "."
+                          e.key === "+"
+                          
                         ) {
                           e.preventDefault(); // Block these keys
                         }
@@ -1446,8 +1450,8 @@ setShowDayThird(true);
                         if (
                           e.key === "e" ||
                           e.key === "-" ||
-                          e.key === "+" ||
-                          e.key === "."
+                          e.key === "+" 
+                        
                         ) {
                           e.preventDefault(); // Block these keys
                         }
