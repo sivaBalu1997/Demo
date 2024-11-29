@@ -137,6 +137,7 @@ const NormalStep2 = () => {
   // console.log({ formattedMeals });
 
   const onlinePickup =
+    prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions &&
     prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions?.map(
       (elem) => elem
     );
@@ -145,6 +146,7 @@ const NormalStep2 = () => {
   // console.log("O", online?.join(", "));
 
   const onlineDelivery =
+    prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions &&
     prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions?.map(
       (elem) => elem
     );
@@ -272,7 +274,9 @@ const NormalStep2 = () => {
               prizingDetail.normalForm.pickupDetails.availabilities &&
               prizingDetail.normalForm.pickupDetails.availabilities.length >
                 0 &&
-              prizingDetail.normalForm.pickupDetails.availabilities[0].sessions
+              prizingDetail.normalForm.pickupDetails.availabilities[0]
+                .sessions &&
+              onlinePickupFormatted?.length > 0
                 ? //  prizingDetail.normalForm.pickupDetails.availabilities[0].sessions.map(
                   //     (elem) => elem
                   //   )
@@ -321,7 +325,7 @@ const NormalStep2 = () => {
           <div>
             <h1 className="Step2SellingPrizevalue">
               {prizingDetail?.normalForm?.deliveryDetails?.availabilities
-                ?.length > 0
+                ?.length > 0 && onlineDeliveryFormatted?.length > 0
                 ? onlineDeliveryFormatted
                 : // prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions?.map(
                   //     (elem) => elem
