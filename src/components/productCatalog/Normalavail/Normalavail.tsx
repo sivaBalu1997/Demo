@@ -1090,7 +1090,7 @@ setShowDayThird(true);
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-          <button onClick={handleSubmit}>Validate</button>
+          {/* <button onClick={handleSubmit}>Validate</button> */}
           <div className="tooltip">
             <TooltipMsg
               message="Select Days to Display at the Bottom"
