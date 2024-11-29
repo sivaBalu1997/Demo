@@ -51,14 +51,16 @@
 
     &::-webkit-scrollbar {
       display: block;
-      background-color: gray;
+      background-color: #8f8f8f;
       width: 8px;
       border-radius: 1rem;
     }
 
-    // &::-webkit-scrollbar-thumb {
-    //   background-color: pink;
-    // }
+    &::-webkit-scrollbar-thumb {
+      background-color: #4c4c4c;
+      border-radius: 1rem;
+      height: 3rem;
+    }
 
     .Selected-Images {
       //   background-color: pink;
