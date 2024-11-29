@@ -351,7 +351,7 @@ const PricingDetails = () => {
   const primarypagedetails = useSelector(
     (state: RootState) => state.primarypage.data
   );
-  
+
   const [resetInventory, setResetInventory] = useState(false);
   const [nextAvailable, setNextAvailable] = useState(false);
   const [printKot, setPrintKot] = useState(false);
@@ -792,38 +792,32 @@ const PricingDetails = () => {
             <div className="Tool">
               <p className="KitchenRelatedHeading">Kitchen Related</p>
               <div className="tool-tip-kitchen-detail">
-                      <Tooltip
-                        message="Select up to 5 food items that pair best with this dish."
-                        styles={{
-                          marginTop: "-0.8rem",
-                          marginLeft: "2rem",
-                          width: "350px",
-                          height: "35px",
-                          backgroundColor: "#67833E",
-                          color: "white",
-                          textAlign: "center",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "5px",
-                          
-                        }}
-                        Arrowstyle={{
-                          rotate: "-90deg",
-                          position: "relative",
-                          left: "-2.8rem",
-                        }}
-                      >
-                        <div className="ToolKitchen">
-                          <img
-                            src={info}
-                            alt="info icon"
-                            width={20}
-                            height={20}
-                          />
-                        </div>
-                      </Tooltip>
-                    </div>
+                <Tooltip
+                  message="Select up to 5 food items that pair best with this dish."
+                  styles={{
+                    marginTop: "-0.8rem",
+                    marginLeft: "2rem",
+                    width: "350px",
+                    height: "35px",
+                    backgroundColor: "#67833E",
+                    color: "white",
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "5px",
+                  }}
+                  Arrowstyle={{
+                    rotate: "-90deg",
+                    position: "relative",
+                    left: "-2.8rem",
+                  }}
+                >
+                  <div className="ToolKitchen">
+                    <img src={info} alt="info icon" width={20} height={20} />
+                  </div>
+                </Tooltip>
+              </div>
             </div>
 
             <div className="KitchenRelated">
@@ -873,7 +867,7 @@ const PricingDetails = () => {
                         className="Prepartiontime-input-hours"
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (/^(1[0-2]|[1-9])$/.test(value) || value === "") {
+                          if (/^(1[0-9]|[1-9])$/.test(value) || value === "") {
                             setValue(
                               "Preparationtime.hours",
                               value === "" ? "" : Number(value)

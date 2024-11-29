@@ -399,25 +399,6 @@ console.log({mainForm});
       });
     }
   }, [selectedthirdvalues]);
-
-
-  useEffect(()=>{
-
-    if(prizingDetail?.normalForm?.dineinfields?.length>0)
-    {
-        setShowDineIn(true);
-    }
-    else{
-      setShowDineIn(false);
-
-    }
-
-  },[])
-
- 
-
-  
-
   useEffect(() => {
     if (prizingDetail?.normalForm?.formNormal) {
       setformNormal({
@@ -443,7 +424,7 @@ console.log({prizingDetail});
       const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
         (item: any) => ({
           DineInPrice: item?.DineInPrice,
-          DineInMealType: item.DineInMealType || [],
+          DineInMealType: item?.DineInMealType || [],
           DineInService: item?.DineInService,
           showDay: true,
           dayButtonText: "Choose Day",
@@ -464,10 +445,25 @@ console.log({prizingDetail});
       deliveryDetails?.price > 0 && setDelivery(true);
    
       setDineInFields(updatedFields);
-      setFormattedDineInData((prevData) => ({
-        ...prevData,
-        price: updatedFields[0]?.DineInPrice,
-      }));
+      // setFormattedDineInData((prevData) => ({
+      //   ...prevData,
+      //   price: updatedFields[0]?.DineInPrice
+      //   availabilities[0].sessions:updatedFields[0]?.DineInMealType
+      // }));
+      setFormattedDineInData((prevData: DeliveryDetails) => {
+        const updatedAvailabilities = [...prevData.availabilities];
+
+        updatedAvailabilities[0] = {
+          ...updatedAvailabilities[0],
+          sessions: [...updatedFields[0]?.DineInMealType],
+        };
+
+        return {
+          ...prevData,
+          price: updatedFields[0]?.DineInPrice,
+          availabilities: updatedAvailabilities,
+        };
+      });
 
       // Set delivery details
       const thirdPartyTypeName =
@@ -577,22 +573,37 @@ console.log({prizingDetail});
       }
 console.log({dineInDetails});
 
-const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
-  (item: any) => ({
-    DineInPrice: item?.DineInPrice,
-    DineInMealType: item.DineInMealType || [],
-    DineInService: item?.DineInService,
-    showDay: true,
-    dayButtonText: "Choose Day",
-  })
-);
-console.log({updatedFields});
+      const updatedFields = dineInDetails
+        ? [
+            {
+              DineInId: dineInDetails.typeId || "",
+              DineInPrice: dineInDetails.price ?? "",
+              DineInMealType:
+                (dineInDetails?.availabilities &&
+                  dineInDetails?.availabilities[0]?.sessions) ||
+                [],
+              DineInService: dineInDetails.DineInService || "",
+              showDay: true,
+              dayButtonText: "Choose Day",
+            },
+          ]
+        : [];
 
       setDineInFields(updatedFields);
-      setFormattedDineInData((prevData) => ({
-        ...prevData,
-        price:updatedFields&& updatedFields[0]?.DineInPrice,
-      }));
+      setFormattedDineInData((prevData: DeliveryDetails) => {
+        const updatedAvailabilities = [...prevData.availabilities];
+
+        updatedAvailabilities[0] = {
+          ...updatedAvailabilities[0],
+          sessions: [...updatedFields[0]?.DineInMealType],
+        };
+
+        return {
+          ...prevData,
+          price: updatedFields[0]?.DineInPrice,
+          availabilities: updatedAvailabilities,
+        };
+      });
 
       setSelectedValues2(
         prizingDetail.normalForm.PicupMealType || selectedValues2
@@ -1079,7 +1090,7 @@ setShowDayThird(true);
       <div className="AvailDaycheck">
         <div className="AvailDaycheck-Heading">
           <h1 className="AvailableDaysHeadingNormal">Available days</h1>
-          <button onClick={handleSubmit}>Validate</button>
+          {/* <button onClick={handleSubmit}>Validate</button> */}
           <div className="tooltip">
             <TooltipMsg
               message="Select Days to Display at the Bottom"
@@ -1102,7 +1113,6 @@ setShowDayThird(true);
                 rotate: "-90deg",
                 position: "relative",
                 left: "-5.3rem",
-              
               }}
             >
               <div className="ToolKitchen">
@@ -1298,6 +1308,14 @@ setShowDayThird(true);
                         if (e.key === "-") {
                           e.preventDefault(); // Prevent typing -,
                         }
+                        if (
+                          e.key === "e" ||
+                          e.key === "-" ||
+                          e.key === "+" ||
+                          e.key === "."
+                        ) {
+                          e.preventDefault(); // Block these keys
+                        }
                       }}
                       onChange={(e) => {
                         const inputValue = e.target.value;
@@ -1426,6 +1444,14 @@ setShowDayThird(true);
                       onKeyDown={(e) => {
                         if (e.key === "-") {
                           e.preventDefault(); // Prevent typing -, e, or E
+                        }
+                        if (
+                          e.key === "e" ||
+                          e.key === "-" ||
+                          e.key === "+" ||
+                          e.key === "."
+                        ) {
+                          e.preventDefault(); // Block these keys
                         }
                       }}
                       className="DineInInput1Normal"

@@ -546,6 +546,9 @@ const PrimaryPage = () => {
   const message = useSelector(
     (state: any) => state?.getItemCodeReducer?.itemCode?.data
   );
+  const messageLoader = useSelector(
+    (state: any) => state?.getItemCodeReducer?.loading
+  );
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -576,12 +579,12 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails]);
   useEffect(() => {
-    if (message?.httpStatus == 409) {
+    if (message?.httpStatus == 409 || messageLoader) {
       setItemcodeValid(false);
     } else {
       setItemcodeValid(true);
     }
-  }, [message]);
+  }, [message,messageLoader]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -616,6 +619,17 @@ const PrimaryPage = () => {
     setValue("selectedPortion", "Portion(count)");
     setValue("tax", "");
     setValue("masterCode", "");
+    setCalorieInfo(
+      ItemsPrimaryDetails?.coloriePoint
+        ? ItemsPrimaryDetails?.coloriePoint
+        : { type: "per 100 grams", value: "" }
+    );
+    setPortionInfo(
+      ItemsPrimaryDetails?.portionSize
+        ? ItemsPrimaryDetails?.portionSize
+        : { type: "portion(count)", value: "" }
+    );
+    
     if (resetSelectionRef.current) {
       resetSelectionRef.current();
     }
@@ -1001,23 +1015,15 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
                           name="itemCode"
+                          oldValue={ItemsPrimaryDetails?.itemCode}
                           onChange={(newValue) => {
                             onChange(newValue);
                           }}
                           value={value}
-                          onBlur={() => {
-                            if (value?.length > 3) {
-                              if (editData?.length > 0) {
-                                if (ItemsPrimaryDetails?.itemCode != value) {
-                                  dispatch(
-                                    getItemCodeRequest(locationid, value)
-                                  );
-                                }
-                              } else {
-                                dispatch(getItemCodeRequest(locationid, value));
-                              }
-                            }
-                          }}
+                          // onBlur={() => {
+                          //   console.log("kkkkk111")
+                           
+                          // }}
                           onKeyDown={(e: any) => {
                             if (
                               e.key === "e" ||
@@ -1078,12 +1084,29 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
-                        name="barCode"
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
-                        trigger={trigger}
-                      />
+                      name="barCode"
+                      onChange={(e) => {
+                        let newValue = e.target.value;
+                
+                        // Prevent space as the first character
+                        if (newValue.length === 1 && newValue[0] === " ") {
+                          return;
+                        }
+                
+                        // Remove special characters and prevent space at the beginning
+                        newValue = newValue.replace(/[^a-zA-Z0-9]/g, ""); // Remove special characters
+                
+                        // Prevent space as the first character
+                        if (newValue[0] === " ") {
+                          return;
+                        }
+                
+                        onChange(newValue);
+                      }}
+                      onBlur={onBlur}
+                      value={value}
+                      trigger={trigger}
+                    />
                     )}
                   />
                 </div>
@@ -1222,6 +1245,16 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={calorieInfo?.value}
                           trigger={trigger}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" ||
+                              e.key === "."
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           placeholder="cal"
                         />
                       )}
@@ -1257,6 +1290,16 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={portionInfo?.value}
                           trigger={trigger}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" ||
+                              e.key === "."
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           placeholder={
                             portionInfo?.type || "portion(count) / grams/ml"
                           }
