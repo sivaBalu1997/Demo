@@ -362,7 +362,7 @@ const SidePanel = () => {
                 setShowOptions("Offer"); 
               }
               if (!location.pathname.includes("/Offers")) {
-                history.push("/Offers/active"); 
+                history.push("/Offers"); 
               }
             }}
           >
