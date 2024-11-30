@@ -9,6 +9,7 @@ import './style.scss'
 
 const CompletedTable = () => {
   const { isExpanded } = useContext(Contextpagejs);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const componentRef = useRef<HTMLDivElement | null>(null);
 
   const data = [
@@ -88,6 +89,10 @@ const CompletedTable = () => {
     );
   };
 
+  const handleOfferDropdown = (index: number) => {
+    setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   return (
       <div className={isExpanded ? "completedTable" : "completedTable1"}>
       <SidePanel />
@@ -117,6 +122,23 @@ const CompletedTable = () => {
                   <td className="completedtsTabletd">{renderItems(row.items)}</td>
                   <td className="completedtsTabletd">{row.totalItems}</td>
                   <td className="completedtsTabletd">{row.specialPrice}</td>
+                  <td className="OffrtsTabletd">
+                    <div className="action-container" ref={componentRef}>
+                      <img
+                        src={ThreeDotsImage}
+                        width="5"
+                        height="20"
+                        // ref={componentRef}
+                        onClick={() => handleOfferDropdown(index)}
+                        alt="Actions"
+                      />
+                      {activeIndex === index && (
+                        <div className="OffersDropDownTable">
+                          <OfferDropDown />
+                        </div>
+                      )}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
