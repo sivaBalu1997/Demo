@@ -59,11 +59,11 @@
 .OfferListItem {
     display: flex;
     align-items: center;
-    color: #9a9fa4; /* Default color */
+    color: #9a9fa4; 
     font-family: "Poppins";
     font-weight: 500;
     text-decoration: none;
-    cursor: pointer; /* Change the cursor to indicate clickable */
+    cursor: pointer; 
 }
 
 .OfferList-Section {
@@ -92,15 +92,16 @@
     padding: 0;
     color: #ffffff;
     font-family: "Poppins";
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
-    border-radius: 6px;
+    border-radius: 7px;
     border-color: #67833e;
+    border: none;
+    cursor: pointer;
 }
 
-/* Styling for the active link */
 .OfferListItem.active-link {
-    color: #67833e; /* Active color */
+    color: #67833e; 
     font-weight: bold;
     text-decoration: underline;
     text-underline-offset:4px ;

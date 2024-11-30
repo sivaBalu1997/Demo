@@ -1,59 +1,48 @@
-.Offersdropdown-container{
-    width: 132px;
-    height: 180px;
-    box-shadow: 0px 0px 4px 0px #00000040;
-    background-color: white;
-    /* border: 2px solid red; */
-    position: absolute;
-    top: 20px;
-    left:40px;
-    padding-top: 2px;
-    z-index: 1;
-    
-    
-    }
-    .Offersdropdown-items{
-        width:  115 px;
-        height: 33px;
-        padding: 0px 0px 10px 15px;
-        gap: 6px;
-        border-bottom: 1px solid #00000033;
-        
-    
-        opacity: 0px;
-        display: flex;
-        justify-content: start;
-        cursor: pointer;
-        
-    
-    
-    }
-    
-    .Offersdropdown-heading{
-    font-family: Poppins;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 22.5px;
-    letter-spacing: -0.02em;
-    text-align: left;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-    
-    }
-    
-    .Offersdropdown_img{
-    width: 16.32px;
-    height: 16.32px;
-    transform: translateY(5px);
-    
-    
-    }
-    .Offersdropdown-items:hover{
-        background-color: #E9E9E9;
-    }
-    
-    .Offersdropdown-items:nth-last-child(1) {
-    
-        border: none;
-        height: 40px;
-      }
+.Offersdropdown-container {
+  width: 132px;
+  height: 180px;
+  box-shadow: 0px 0px 4px 0px #00000040;
+  background-color: white;
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  padding-top: 2px;
+  z-index: 1;
+}
+
+.Offersdropdown-items {
+  width: 115px;
+  height: 33px;
+  padding-right: 18px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  border-bottom: 1px solid #00000033;
+  opacity: 0px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.Offersdropdown-heading {
+  font-family: Poppins;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22.5px;
+  letter-spacing: -0.02em;
+  padding-top: 7px;
+}
+
+.Offersdropdown_img {
+  width: 17px;
+  height: 17px;
+  transform: translateY(5px);
+}
+.Offersdropdown-items:hover {
+  background-color: #e9e9e9;
+}
+
+.Offersdropdown-items:nth-last-child(1) {
+  border: none;
+  height: 40px;
+}

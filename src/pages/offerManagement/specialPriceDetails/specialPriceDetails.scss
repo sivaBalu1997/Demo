@@ -21,18 +21,17 @@
   margin-top: 1%;
   margin-left: 10px;
 
-  .offerPrimaryRow1{
+  .offerPrimaryRow1 {
     display: flex;
     flex-direction: row;
     height: 72px;
   }
 
-  .offerPrimaryRow2{
+  .offerPrimaryRow2 {
     display: flex;
     flex-direction: row;
   }
 }
-
 
 .offer-creationpage {
   display: flex;
@@ -70,10 +69,6 @@
   }
 }
 
-
-.items-details {
-  // border: 1px solid red;
-}
 .category-details {
   display: flex;
 }
@@ -93,6 +88,7 @@
     padding: 0;
   }
 }
+
 .offer-table-heading {
   // border: 1px solid red !important;
   text-align: left;
@@ -105,6 +101,7 @@
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 }
+
 .offer-table-data {
   // border: 1px solid red !important;
   text-align: left;
@@ -118,15 +115,19 @@
   text-underline-position: from-font;
   text-decoration-skip-ink: none;
 }
+
 .bin-image {
   text-align: center;
 }
+
 .deletebinImage {
   margin-left: -2.5rem !important;
 }
+
 .offeritems-listed {
   border: none !important;
 }
+
 .effectiveperiod {
   width: 60rem;
   // height: 272px;
@@ -151,6 +152,7 @@
     color: #7f7f7f;
   }
 }
+
 .time-format {
   padding-top: 1.2%;
 
@@ -168,10 +170,12 @@
     opacity: 0.3px;
   }
 }
+
 .select-offerfooditems {
   position: relative;
   margin-top: 3%;
 }
+
 .specialoffer-heading {
   width: 120%;
   height: 5rem;
@@ -193,6 +197,7 @@
     color: #67833e;
   }
 }
+
 .offer-primary-details {
   margin-left: 10px;
   h3 {
@@ -207,10 +212,11 @@
     text-decoration-skip-ink: none;
   }
 }
+
 .specialType-details {
   position: relative;
   min-height: 5rem;
-  margin-left: 20px;
+  margin-left: 10px;
   .type-dropdown {
     margin-bottom: 1.5%;
   }
@@ -334,6 +340,7 @@
   position: relative;
   top: 0.3rem;
 }
+
 .Date-available {
   margin-top: -2%;
   display: flex;
@@ -352,10 +359,12 @@
     color: #7f7f7f;
   }
 }
+
 .seraching-for-items {
   display: flex;
   align-items: center;
 }
+
 .selectedFooditems {
   width: 41vw;
   height: 45px;
@@ -364,6 +373,7 @@
     border-radius: 5px;
   }
 }
+
 .dropdownimage {
   width: 16px;
   height: 16px;
@@ -509,53 +519,21 @@
   }
 }
 
-// .offerdate-select {
-//   display: flex;
-//   margin-bottom: 2%;
-//   gap: 1rem;
-//   align-items: center;
-  
-//   .calender-img-offer,
-//   .calender-img1-offer {
-//     position: relative;
-//     left: -1.5rem;
-//   }
-// }
-
-// .offerdatePicker,
-// .offerdatePicker-special {
-//   width: 120px;
-//   padding-right: 1rem;
-//   height: 44px;
-// }
-
-// .offerdatePicker {
-//   margin-left: 1rem;
-// }
-
-.offerdate-select{
+.offerdate-select {
   // position: fixed;
   display: flex;
   gap: 30px;
 
-  .offer-from-date, .offer-to-date{
+  .offer-from-date,
+  .offer-to-date {
     display: flex;
 
-    img{
+    img {
       position: relative;
       width: 20px;
       height: 20px;
       margin-left: -23px;
       margin-top: 10px;
     }
-  }
-
-  .calender-img-offer{
-    // position: relative;
-    // margin-left: -20px;
-  }
-  .calender-img1-offer{
-    // position: relative;
-    // margin-left: -20px;
   }
 }
