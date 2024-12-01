@@ -602,7 +602,7 @@ const SpecialPriceDetails = () => {
                       render={({ field }: any) => (
                         <Dropdown
                           options={channelOption}
-                          type="checkbox"
+                          type="radio"
                           setOptions={setChannal}
                           placeholder="Select Channel"
                           register={register}
@@ -675,8 +675,8 @@ const SpecialPriceDetails = () => {
                         dropdownopen={DropdownOpen.terms}
                         onToggle={() => handleDropdownToggle("terms")}
                         setDropdownOpen={setDropdownOpen}
-                        addNew={false}
-                        editValues={false}
+                        addNew={true}
+                        editValues={true}
                         dropDownType="DIET"
                       />
                     )}
@@ -730,6 +730,7 @@ const SpecialPriceDetails = () => {
                 />
               </div>
             </div>
+
             <div className="items-details">
               <h3>Items</h3>
               <div className="category-details">
@@ -760,6 +761,7 @@ const SpecialPriceDetails = () => {
                     )}
                   />
                 </div>
+                
                 <div>
                   <Controller
                     name="subCategory"
