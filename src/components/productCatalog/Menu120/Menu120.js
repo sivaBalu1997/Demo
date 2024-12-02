@@ -6,10 +6,12 @@ import { useSelector } from "react-redux";
 const Menu120 = () => {
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
+  const outletName = useSelector((state) => state.auth?.restaurantDetails?.branchName);
+
   console.log({ menuData })
   const data = [
     {
-      OutletName: "Outlet1",
+      OutletName: outletName,
       Live: "Live(100)",
       Unavailable: "Unavailable(10)",
       Hidden: "Hidden(10)",
@@ -74,7 +76,7 @@ const Menu120 = () => {
         <div className="Menu120-Tooltip-container">
           {data.map((elem, index) => (
             <div className="Menu120-Tooltip-container-heading" key={index}>
-              <div className="Menu120-Heading">{elem.OutletName}</div>
+              <div className="Menu120-Heading"> {elem.OutletName.split(",")[0]}</div>
               <div className="Menu120-sub-Heading">{elem.Live}</div>
               <div className="Menu120-sub-Heading">{elem.Unavailable}</div>
               <div className="Menu120-sub-Heading">{elem.Hidden}</div>
