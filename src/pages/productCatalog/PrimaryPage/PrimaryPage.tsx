@@ -584,7 +584,7 @@ const PrimaryPage = () => {
     } else {
       setItemcodeValid(true);
     }
-  }, [message,messageLoader]);
+  }, [message, messageLoader]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -629,7 +629,7 @@ const PrimaryPage = () => {
         ? ItemsPrimaryDetails?.portionSize
         : { type: "portion(count)", value: "" }
     );
-    
+
     if (resetSelectionRef.current) {
       resetSelectionRef.current();
     }
@@ -739,7 +739,7 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields">
-                  <LableComponent lable="DietaryType *" />
+                  <LableComponent lable="Dietary Type *" />
                   <Controller
                     name="DietaryType"
                     control={control}
@@ -995,7 +995,7 @@ const PrimaryPage = () => {
               <div className="Primary-page-container-pairtwo">
                 <div className="Primary-page-InputFields">
                   {" "}
-                  <LableComponent lable="ItemCode" />
+                  <LableComponent lable="Item Code" />
                   <div className="Primary-Page-inputfiled-and-tooltip">
                     <Controller
                       name="itemCode"
@@ -1022,7 +1022,7 @@ const PrimaryPage = () => {
                           value={value}
                           // onBlur={() => {
                           //   console.log("kkkkk111")
-                           
+
                           // }}
                           onKeyDown={(e: any) => {
                             if (
@@ -1084,29 +1084,29 @@ const PrimaryPage = () => {
                     control={control}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
-                      name="barCode"
-                      onChange={(e) => {
-                        let newValue = e.target.value;
-                
-                        // Prevent space as the first character
-                        if (newValue.length === 1 && newValue[0] === " ") {
-                          return;
-                        }
-                
-                        // Remove special characters and prevent space at the beginning
-                        newValue = newValue.replace(/[^a-zA-Z0-9]/g, ""); // Remove special characters
-                
-                        // Prevent space as the first character
-                        if (newValue[0] === " ") {
-                          return;
-                        }
-                
-                        onChange(newValue);
-                      }}
-                      onBlur={onBlur}
-                      value={value}
-                      trigger={trigger}
-                    />
+                        name="barCode"
+                        onChange={(e) => {
+                          let newValue = e.target.value;
+
+                          // Prevent space as the first character
+                          if (newValue.length === 1 && newValue[0] === " ") {
+                            return;
+                          }
+
+                          // Remove special characters and prevent space at the beginning
+                          newValue = newValue.replace(/[^a-zA-Z0-9]/g, ""); // Remove special characters
+
+                          // Prevent space as the first character
+                          if (newValue[0] === " ") {
+                            return;
+                          }
+
+                          onChange(newValue);
+                        }}
+                        onBlur={onBlur}
+                        value={value}
+                        trigger={trigger}
+                      />
                     )}
                   />
                 </div>
@@ -1137,7 +1137,7 @@ const PrimaryPage = () => {
 
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
-                    <LableComponent lable="SubCategory" />
+                    <LableComponent lable="Sub Category" />
                     <Controller
                       name="subCategory"
                       control={control}
@@ -1374,7 +1374,7 @@ const PrimaryPage = () => {
                           message="Create or select a tax amount to associate with this item"
                           styles={{
                             position: "relative",
-                            top: "-0.5rem",
+                            top: "-0.7rem",
                             left: "1.8rem",
                             width: "350px",
                             height: "35px",
