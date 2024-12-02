@@ -506,7 +506,7 @@ const PrimaryPage = () => {
         setRestrictToAdd(false);
       }
       if (fileArray.length + images.length > 6) {
-        showErrorToast("You can upload a maximum of 6 images.");
+        showErrorToast("You can upload up to 6 images.");
         // setRestrictToAdd(false);
         return;
       } else {
@@ -1131,7 +1131,7 @@ const PrimaryPage = () => {
                     )}
                   />
                   <span>
-                    Popular item ( {popularItem}/{popularItemlimit} )
+                    Popular item (  {popularItem}/{popularItemlimit} )
                   </span>
                 </div>
 
