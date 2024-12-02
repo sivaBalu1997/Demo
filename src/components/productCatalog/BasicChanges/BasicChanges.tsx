@@ -89,10 +89,8 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
     }
    
 
-    // if(partaldatasendingsuccessmsg!=="")
-    // {
-    //   onclose();
-    // }
+     onclose();
+    
   };
 
   return (
