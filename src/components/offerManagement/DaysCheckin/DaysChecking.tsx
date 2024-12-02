@@ -13,11 +13,11 @@ interface DaysCheckProps {
   id?: string[];
   setId: React.Dispatch<React.SetStateAction<string[]>>;
   setValue?: any;
-  valueName?:string;
-  getValues?:any;
-  register?:any
-  disabledays?:any
-  dateShow?:any
+  valueName?: string;
+  getValues?: any;
+  register?: any;
+  disabledays?: any;
+  dateShow?: any;
 }
 
 // Define the type for the data returned by the API
@@ -45,10 +45,11 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   id,
   setId,
   setValue,
-  getValues,register,
+  getValues,
+  register,
   valueName,
   disabledays,
-  dateShow
+  dateShow,
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
@@ -59,16 +60,24 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   const [data, setData] = useState<DataItem[]>([]);
   const dispatch = useDispatch();
-  const Days = ["All days", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const Days = [
+    "All days",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
     const dayIndex = parseInt(name, 10);
 
-  
     setCheckedItems((prevCheckedItems) => {
       let updatedCheckedItems: number[];
-  
+
       if (dayIndex === 0) {
         updatedCheckedItems = checked ? Days.map((_, i) => i) : [];
         setId(checked ? data.map((item) => item?.id) : []);
@@ -77,36 +86,37 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
           updatedCheckedItems = [...prevCheckedItems, dayIndex];
           setId((prevId) => [...prevId, data[dayIndex]?.id]);
         } else {
-          updatedCheckedItems = prevCheckedItems.filter((item) => item !== dayIndex);
-          setId((prevId) => prevId.filter((itemId) => itemId !== data[dayIndex]?.id));
+          updatedCheckedItems = prevCheckedItems.filter(
+            (item) => item !== dayIndex
+          );
+          setId((prevId) =>
+            prevId.filter((itemId) => itemId !== data[dayIndex]?.id)
+          );
         }
-  
+
         const allDaysSelected = Days.slice(1).every((_, i) =>
           updatedCheckedItems.includes(i + 1)
         );
-  
+
         if (allDaysSelected) {
-          updatedCheckedItems = [0, ...updatedCheckedItems.filter((item) => item !== 0)];
+          updatedCheckedItems = [
+            0,
+            ...updatedCheckedItems.filter((item) => item !== 0),
+          ];
         } else {
-          updatedCheckedItems = updatedCheckedItems.filter((item) => item !== 0);
+          updatedCheckedItems = updatedCheckedItems.filter(
+            (item) => item !== 0
+          );
         }
       }
-  
-      // Call setValue whenever checkedItems change
-      
-      
-      if (valueName) {
-       
-        setValue(valueName, updatedCheckedItems);
-      
-       
 
+      if (valueName) {
+        setValue(valueName, updatedCheckedItems);
       }
-    
+
       return updatedCheckedItems;
     });
   };
-  
 
   useEffect(() => {
     getApi();
@@ -121,7 +131,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       <div className="DaysCheckContainer1">
         {Days.map((elem, index) => {
           const isChecked = checkedItems?.includes(index);
-          const isEnabled = dateShow?disabledays?.includes(index):true
+          const isEnabled = dateShow ? disabledays?.includes(index) : true;
           return (
             <div key={index}>
               <input
@@ -143,4 +153,3 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 };
 
 export default DaysCheck;
-

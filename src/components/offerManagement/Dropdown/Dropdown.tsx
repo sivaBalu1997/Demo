@@ -87,8 +87,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   const NewItemref = useRef<HTMLInputElement>(null);
   const [editList, setEditList] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [manuallyCleared, setManuallyCleared] = useState(false);
   const [dropDownLoading,setdropDownLoading] =useState(false)
+  const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
+  const [hasCleared, setHasCleared] = useState<boolean>(false);
+  const [manuallyCleared, setManuallyCleared] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -149,44 +151,49 @@ const Dropdown: React.FC<DropdownProps> = ({
       )
     : [];
 
-  const handleSelect = (option: Option) => {
-    const currentSelectedOptions = Array.isArray(selectedOptions)
-      ? selectedOptions
-      : [];
-
-    if (type === "checkbox") {
-      const isAlreadySelected = currentSelectedOptions.some(
-        (opt) => opt?.id === option?.id
-      );
-
-      if (isAlreadySelected) {
-        const updatedOptions = currentSelectedOptions.filter(
-          (opt) => opt.id !== option?.id
+    const handleSelect = (option: Option) => {
+      const currentSelectedOptions = Array.isArray(selectedOptions)
+        ? selectedOptions
+        : [];
+    
+      if (type === "checkbox") {
+        const isAlreadySelected = currentSelectedOptions.some(
+          (opt) => opt?.id === option?.id
         );
-        setSelectedOptions(updatedOptions);
-        setValue(
-          name,
-          updatedOptions.map((opt) => opt?.name)
+    
+        if (isAlreadySelected) {
+          const updatedOptions = currentSelectedOptions.filter(
+            (opt) => opt.id !== option?.id
+          );
+          setSelectedOptions(updatedOptions);
+          setValue(
+            name,
+            updatedOptions.map((opt) => opt?.name)
+          );
+          trigger(name);
+        } else {
+          const updatedOptions = [...currentSelectedOptions, option];
+          setSelectedOptions(updatedOptions);
+          setValue(
+            name,
+            updatedOptions.map((opt) => opt?.name)
+          );
+          trigger(name);
+        }
+        setSearchTerm(
+          [...currentSelectedOptions, option]
+            .map((opt) => opt?.name)
+            .join(", ")
         );
+      } else if (type === "radio") {
+        setSelectedOptions([option]);
+        setValue(name, option.name);
         trigger(name);
-      } else {
-        const updatedOptions = [...currentSelectedOptions, option];
-        setSelectedOptions(updatedOptions);
-        setValue(
-          name,
-          updatedOptions.map((opt) => opt?.name)
-        );
-        trigger(name);
+        dropDownType === "CATEGORY" && setParentId(option?.id);
+        setSearchTerm(option.name); 
       }
-    } else if (type === "radio") {
-      setSelectedOptions([option]);
-      setValue(name, option.name);
-      trigger(name);
-      dropDownType ==='CATEGORY' && setParentId(option?.id)
-    }
-
-    setSearchTerm("");
-  };
+    };
+    
 
   const payload = {
     locationId: locationid,
@@ -277,27 +284,78 @@ const Dropdown: React.FC<DropdownProps> = ({
     onToggle();
   };
 
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    if (value === "") {
+      setManuallyCleared(true);
+      setShowselectedOption(false);
+  
+      if (type === "checkbox") {
+        setSelectedOptions([]);
+        setValue(name, []);
+        trigger(name);
+      } else if (type === "radio") {
+        setSelectedOptions([]);
+        setValue(name, "");
+        trigger(name);
+      }
+  
+      if (dropdownopen) {
+        onToggle();
+      }
+    } else {
+      setManuallyCleared(false);
+      if (!dropdownopen) {
+        onToggle();
+      }
+      setShowselectedOption(false);
+    }
+  
+    setOptions(filteredOptions);
+  };
+  
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !searchTerm) {
+      setShowselectedOption(false);
+      setSelectedOptions([]);
+  
+      if (type === "checkbox") {
+        setValue(name, []);
+      } else if (type === "radio") {
+        setValue(name, "");
+      }
+  
+      trigger(name);
+    }
+  };
+  
+
   return (
     <div className="sPdropdown-component" ref={dropdownRef}>
       <div className="sPdropDownBox">
         <div>
           <input
-          style={{width:width,height:"44px"}}
+            style={{ width: width, height: "44px" }}
             placeholder={placeholder}
             type="text"
             {...register(name, validation)}
             value={
-                type === "checkbox"
-                  ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
-                  : selectedOptions[0]?.name || ""
+              dropdownopen
+                ? searchTerm
+                : type === "checkbox"
+                ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
+                : selectedOptions[0]?.name || ""
             }
-           // onChange={handleSearch}
+            onChange={handleSearch}
+            onKeyDown={handleKeyDown}
             name={name}
-            // onBlur={handleBlur}
             autoComplete="off"
             className={`cPdropdown-search`}
-            // disabled={Disablesubcategory && name === "subCategory"}
           />
+
           <span className="cPdropdown-arrow" onMouseDown={handleOptionMouseDown}>
             {dropdownopen ? (
               <img
@@ -328,7 +386,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       {dropdownopen && (
         <div className="cPdropdownBodyContainer">
-          <div className="cPdropdown-body">
+          <div className="cPdropdownbody">
             <div className="cPDropdown-lists-and-edit">
               <ul
                 className="cPdropdown-options"

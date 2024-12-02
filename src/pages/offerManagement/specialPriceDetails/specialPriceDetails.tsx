@@ -198,6 +198,7 @@ const SpecialPriceDetails = () => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
+
   const selectName = [
     { value: "Happy Hour", label: "Happy Hour" },
     { value: "Surge Hour", label: "Surge Hour" },
@@ -378,7 +379,6 @@ const SpecialPriceDetails = () => {
     const timeRegex = /^([01]?\d|2[0-3]):[0-5]\d$/;
     if (timeRegex.test(currentTime)) {
       const timeWithPeriod = `${currentTime} ${timePeriod}`.trim();
-      console.log({ timeWithPeriod });
       setValue(`${value}`, timeWithPeriod);
     }
   };
@@ -453,6 +453,9 @@ const SpecialPriceDetails = () => {
       date.getDay() === 0 ? 7 : date.getDay()
     );
     setDisableDay(availableDays);
+    if(availableDays.length === 1){
+      setDayThird(availableDays)
+    }
   };
 
   const generateDateRange = (startDate: any, endDate: any) => {
@@ -471,11 +474,11 @@ const SpecialPriceDetails = () => {
       let dayIndex = new Date(startDate).getDay();
       let mappedDay: any = dayIndex === 0 ? 7 : dayIndex;
       setDisableDay(mappedDay);
+      setDayThird(mappedDay)
     }
   }
 
   const applyOffer = (type: any, name: any, value: any, item: any) => {
-    console.log(type, name, value);
     const data: any = item.map((item: any) => {
       const originalPrice = parseFloat(item.originalPrice.replace("$", ""));
       let updatedPrice = originalPrice;
@@ -556,7 +559,6 @@ const SpecialPriceDetails = () => {
 
   const handleDelete = (id: any) => {
     const data = selectedFoodItems.filter((item: any) => item?.id !== id);
-    console.log({ data });
     setselectedFoodItems(data);
   };
 
