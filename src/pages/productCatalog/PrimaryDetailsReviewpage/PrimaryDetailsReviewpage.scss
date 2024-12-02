@@ -6,11 +6,16 @@
 .reviewContainer {
   display: flex;
   width: 105%;
+  // background-color: pink;
 }
 
 .reviewContaineExpanded {
   display: flex;
   width: 93vw;
+  @media(max-width: 1280px){
+    width: 105vw;
+    // background-color: lightsalmon;
+  }
 }
 
 .reviewpage {
@@ -30,7 +35,8 @@
 }
 
 .reviewheading {
-  width: 120%;
+  // width: 120%;
+  width: fit-content;
   height: 50px;
   left: 2rem;
   position: relative;
@@ -491,6 +497,16 @@
   padding: 16px 32px;
   // right: 90px;
   transition: 0.2s ease all;
+  @media(max-width: 1280px){
+    width: 75vw;
+    height: fit-content;
+    // background-color: pink;
+  }
+  @media(max-width: 1470px) and (min-width: 1281px){
+    width: 75vw;
+    height: fit-content;
+    // background-color: lightskyblue;
+  }
 
   .clearall1 {
     position: relative;
@@ -534,12 +550,28 @@
   position: relative;
   justify-content: flex-end;
   width: 86vw;
-  height: 5px;
+  height: fit-content;
   background-color: white;
+  // background-color: pink;
   top: 48px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
   transition: 0.2s ease all;
+  @media(max-width: 1470px) and (min-width: 1281px){
+    // width: 120%; /* Adjusted width for smaller screens */
+    width: 86.2vw;
+    height: fit-content;
+    top: 25px;
+    padding: 16px 16px; 
+    transition: 0.2s ease all;
+    // background-color: lightseagreen;
+  }
+  @media(max-width: 1280px){
+    // width: 70vw;
+    width: 86.2vw;
+    height: fit-content;
+    // background-color: pink;
+  }
 
   .clearall {
     position: relative;
@@ -624,6 +656,7 @@
   border-top: 4px solid #929496;
   width: 20px;
   height: 20px;
+
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
   position: relative;
@@ -650,17 +683,17 @@
   }
 }
 
-@media (max-width: 1470px) {
-  .saveandnextreview1 {
-    display: flex;
-    position: relative;
-    justify-content: flex-end;
-    width: 120%; /* Adjusted width for smaller screens */
-    height: 25px;
-    background-color: white;
-    top: 25px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    padding: 16px 16px; /* Reduced padding for smaller screens */
-    transition: 0.2s ease all;
-  }
-}
+// @media (max-width: 1470px) {
+//   .saveandnextreview1 {
+//     display: flex;
+//     position: relative;
+//     justify-content: flex-end;
+//     width: 120%; /* Adjusted width for smaller screens */
+//     height: 25px;
+//     background-color: white;
+//     top: 25px;
+//     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+//     padding: 16px 16px; /* Reduced padding for smaller screens */
+//     transition: 0.2s ease all;
+//   }
+// }
