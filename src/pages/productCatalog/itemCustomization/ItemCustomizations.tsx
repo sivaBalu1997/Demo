@@ -651,12 +651,14 @@ const ItemCustomizations: React.FC = () => {
         options: [],
       };
   
-      // Validate Modifier Name
+      
       if (!modifierName.trim()) {
         modifierErrors.modifierNameError = `Modifier Name is required`;
       }
-  
-      // Validate Modifier Options
+      if (selectedValue.length === 0) {
+        modifierErrors.errormsgforselectedvalues = "Available service streams required";
+      }
+     
       if (Array.isArray(modifierOptions)) {
         modifierOptions.forEach((option: any, optIndex: number) => {
           let optionErrors: any = {
@@ -1007,7 +1009,7 @@ const handleBlur = (
                                     >
                                       <div>
                                         <input
-                                          placeholder="Option (Item)"
+                                          placeholder="Option (Item)*"
                                           className="input2ItemCustomizations"
                                           name="modifierOptionName"
                                           type="text"
@@ -1056,7 +1058,7 @@ const handleBlur = (
 
                                       <div>
                                         <input
-                                          placeholder="Price"
+                                          placeholder="Price*"
                                           className="input2ItemCustomizations"
                                           name="cost"
                                           type="number"
@@ -1303,8 +1305,10 @@ const handleBlur = (
                                   options={listOfStreams}
                                   width="Drop1"
                                   validation={validationState.items}
-                                  label="Available Service Stream"
+                                  label="Available Service Stream*"
                                 />
+                                {                                customizationerrors[modIndex]?.errormsgforselectedvalues &&   <span className="nameErrormsg">{customizationerrors[modIndex]?.errormsgforselectedvalues}</span>
+                              }
                               </div>
                             </div>
                           </div>
