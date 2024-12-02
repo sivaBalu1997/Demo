@@ -216,7 +216,6 @@ const SpecialPriceDetails = () => {
   };
 
   const [channal, setChannal] = useState([]);
-<<<<<<< HEAD
   const [vissibleTo,setvissibleTo] =useState([]) 
   const [terms,setterms] =useState([{id: '1',
     name: "Term1",
@@ -233,12 +232,6 @@ const SpecialPriceDetails = () => {
       ]) 
   const [catagory,setCatagory] =useState([]) 
   const [subCatagory,setSubCatagory] =useState([])
-=======
-  const [vissibleTo, setvissibleTo] = useState([]);
-  const [terms, setterms] = useState([]);
-  const [catagory, setCatagory] = useState([]);
-  const [subCatagory, setSubCatagory] = useState([]);
->>>>>>> happyHours/v2
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
     ordertype: false,
@@ -695,11 +688,7 @@ const SpecialPriceDetails = () => {
                         onToggle={() => handleDropdownToggle("terms")}
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
-<<<<<<< HEAD
                         editValues={false}
-=======
-                        editValues={true}
->>>>>>> happyHours/v2
                         dropDownType="DIET"
                       />
                     )}
