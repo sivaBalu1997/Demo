@@ -8,6 +8,7 @@
 
 // export default MenuPage
 import React, { useEffect, useState, useRef, useContext } from "react";
+import Toggle from "components/productCatalog/Toggle/Toggle";
 import HoverText from "../../../components/productCatalog/HoverText/HoverText";
 import placeholderimg from "../../../assets/svg/placeholderimg.svg";
 import "./MenuPage.scss";
@@ -45,6 +46,7 @@ import {
   storeMockDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import { listenerCount } from "process";
+import { th } from "date-fns/locale";
 
 export const MenuPage = () => {
   const dispatch = useDispatch();
@@ -428,6 +430,9 @@ export const MenuPage = () => {
   const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
+
+    console.log({value});
+    
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -740,6 +745,61 @@ export const MenuPage = () => {
   //   }
   // },[menuData])
 
+  const handlesidbarhandling = (key, value) => {
+    showsidebar(key);
+    handlemodal(value);
+  };
+  const filteredListing =
+    listingobject &&
+    Object.fromEntries(
+      Object.entries(listingobject).filter(
+        ([key, value]) =>
+          value === true && key !== "showavail" && key !== "showPricing"
+      )
+    );
+  // const allFalse = Object.values(listingobject).every(value => value === false);
+  const [selectedFileds, setselectefields] = useState({});
+
+  // const style = isExpanded ? { width: `100%` } : { width: `${Object.keys(selectedFileds).length * 10 + 100}%` };
+
+  useEffect(() => {
+    const filteredList =
+      listingobject &&
+      Object.fromEntries(
+        Object.entries(filteredListing).filter(([key, value]) => value === true)
+      );
+
+    setselectefields(filteredList);
+  }, [listingobject]);
+  const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
+  const restaurantDetails = useSelector(
+    (state) => state.auth.restaurantDetails
+  );
+  const getUniqueOrderTypeNamesfortableprice = (menuData) => {
+    const orderTypeNames = menuData.flatMap((category) =>
+      category.itemResponseList?.flatMap((item) =>
+        item.orderTypes.map((orderType) => ({
+          typeName: orderType?.typeName,
+        }))
+      )
+    );
+
+    const uniqueOrderTypeNames = Array.from(
+      new Map(
+        orderTypeNames.map((orderType) => [orderType?.typeName, orderType])
+      ).values()
+    );
+
+    return uniqueOrderTypeNames;
+  };
+
+  const uniqueOrderTypeNamesforprice =
+    getUniqueOrderTypeNamesfortableprice(menuData);
+
+  const orderTypesToShow2 = uniqueOrderTypeNamesforprice
+    .filter((item) => item?.typeName)
+    .map((item) => item.typeName);
+
   useEffect(() => {
     if (deleteMenuItemSuccess && modal) {
       setmodal(false);
@@ -782,75 +842,429 @@ export const MenuPage = () => {
   const handleItemnameClick = (value) => {
     handlemodal(value);
   };
+
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  const handleScroll = (sourceRef, targetRef) => {
+    if (isScrolling) return; // Prevent recursive loop
+
+    setIsScrolling(true);
+
+    if (sourceRef.current && targetRef.current) {
+      targetRef.current.scrollTop = sourceRef.current.scrollTop; // Synchronize scroll position
+    }
+
+    setTimeout(() => setIsScrolling(false), 10); // Allow a brief pause before enabling scrolling again
+  };
+
+
+  const headerRef = useRef(null);
+  const bodyRef = useRef(null);
+
+  useEffect(() => {
+    const syncScroll = (source, target) => {
+      target.scrollLeft = source.scrollLeft;
+    };
+
+    const handleHeaderScroll = () => syncScroll(headerRef.current, bodyRef.current);
+    const handleBodyScroll = () => syncScroll(bodyRef.current, headerRef.current);
+
+    const headerElement = headerRef.current;
+    const bodyElement = bodyRef.current;
+
+    headerElement.addEventListener("scroll", handleHeaderScroll);
+    bodyElement.addEventListener("scroll", handleBodyScroll);
+
+    return () => {
+      headerElement.removeEventListener("scroll", handleHeaderScroll);
+      bodyElement.removeEventListener("scroll", handleBodyScroll);
+    };
+  }, []);
+  
+
   return (
     <>
-      <div className="MenuPage-container">
+      <div className="MenuPage-container" >
         <SidePanel />
-        <div className="MenuPage-Part">
+        <div  className={`${isExpanded ? "MenuPage-Part-expand" : "MenuPage-Part"}`}>
           <div className="MenuPage-HeaderComponent">
             {" "}
             <Header />
           </div>
-          <div className="MenuPage-Listing">
-            <div className="table-one-div">
-              <table>
-                <thead>
-                  <tr className="headerrow">
-                    <th className="itemimage ">Image</th>
-                    <th className="itemname">Item name</th>
-                    <th className="itemcode">Code</th>
-                    <th
-                      className="addbtn"
-                      onClick={() => setshowheadinglist(true)}
-                    >
-                      +
-                    </th>
-                  </tr>
-                </thead>
-                <tbody ref={tableBodyRef1}>
-  {itemList?.map((data, parentIndex) => (
-    <React.Fragment key={parentIndex}>
-      {/* Render the name */}
-      <tr>
-        <td colSpan={4} className="item-group-name">
-          {data?.name}
-        </td>
-      </tr>
-      {/* Render the items under each name */}
-      {data?.itemResponseList?.length > 0 &&
-       data.name !== "" &&
-        data?.itemResponseList.map((item, index) => (
-          <tr key={index}>
-            <td>
-              {/* Image */}
-              <span className="itemimage2">
-                <img
-                  src={placeholderimg}
-                  alt=""
-                  className="foodimage"
+          <InsertColumnList
+                  listingobject={listingobject}
+                  setlistingobject={setlistingobject}
+                  insertlists={insertlists2}
+                  showheadinglist={showheadinglist}
+                  setshowheadinglist={setshowheadinglist}
+                  closeicon={closeicon}
+                  dollaricon={dollaricon}
+                  toggleround={toggleround}
+                  togglebtns={calendericon}
+                  Outsideref={Outsideref}
+                  uniqueOrderTypeNames={uniqueOrderTypeNames}
                 />
-              </span>
-            </td>
-            <td>
-              {/* Item Name */}
-              <span
-                className="itemname2"
-                onClick={() => handleItemnameClick(item.itemId)}
-              >
-                <HoverText text={item?.itemName} lengthvale={14} />
-              </span>
-            </td>
-            <td>
-              {/* Item Code */}
-              <span className="itemcode2">{item?.itemCode}</span>
-            </td>
-          </tr>
-        ))}
-    </React.Fragment>
-  ))}
-</tbody>
 
-              </table>
+          <div  className={`${isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"}`}>
+            <div>
+              <div className="header-container">
+                <div className="first-div-header">
+                  <p className="image">Image</p>
+                  <p className="name-item">ItemName</p>
+                  <p className="item-code">Code  
+                    <button  className="addbtn"
+                        onClick={() => setshowheadinglist(true)}>
+                      +
+                    </button>
+                  </p>
+                </div>
+
+                <div  ref={headerRef} className={`${isExpanded ? "scroll-container-expand" : "scroll-container"}`} >
+                <div className="second-div-header">
+                  {firstRowTable.map((header, index) => (
+                    <>
+                    {
+
+listingobject && listingobject[header.label] &&  
+<p
+                        className={header.label.substring(
+                          0,
+                          header.label.length - 1
+                        )}
+                      >
+                        <span className="borderfor-header">
+                          {header.label !== "Inventory1" &&
+                            header.label !== "Customize1" && (
+                              <span className="dollar">
+                                {header.label.charAt(
+                                  header.label.length - 1
+                                ) === "2" ? (
+                                  <img src={calendericon} alt="" />
+                                ) : (
+                                  <img src={dollar} alt="" />
+                                )}
+                              </span>
+                            )}
+                          <span className="spanheadertext">
+                            {header.label.substring(0, header.label.length - 1)}
+                          </span>
+                          <span className="removeicon">
+            <img
+              src={removeicon}
+              alt=""
+              onClick={() =>
+                setlistingobject({
+                  ...listingobject,
+                  [header.label]: false,
+                })
+              }
+            />
+          </span>
+                        </span>
+
+                      </p>
+
+                    }
+                      
+                    </>
+                  ))}
+                </div>
+
+                </div>
+               
+              </div>
+              <div  className={`${isExpanded ? "body-container-expand" : "body-container"}`}>
+              <div className="first-div-body">
+                    {itemList?.map((data, parentIndex) => (
+                      <React.Fragment key={parentIndex}>
+                        {data?.itemResponseList?.length > 0 &&
+                          data.name !== "" && (
+                            <div className="categoryName-data">
+                              <p>{data.name}</p>
+                            </div>
+                          )}
+  
+                        {data?.itemResponseList?.length > 0 &&
+                          data.name !== "" &&
+                          data?.itemResponseList.map((item, index) => (
+                            <div key={index} className="item-name-code-data" style={{marginTop:itemList.length===1 ?"-1.5rem":""}}>
+                              <p>
+                                <span className="itemimage2">
+                                  <img
+                                    src={placeholderimg}
+                                    alt=""
+                                    className="foodimage"
+                                  />
+                                </span>
+                              </p>
+                              <p>
+                                <span
+                                  className="itemname2"
+                                  onClick={() => {
+                                    
+                                    
+                                    
+                                    handlemodal(item.itemId)}}
+                                >
+                                  <HoverText
+                                    text={item?.itemName}
+                                    lengthvale={14}
+                                  />
+                                </span>
+                              </p>
+                              <p>
+                                <span className="itemcode2">
+                                  {item?.itemCode}
+                                </span>
+                              </p>
+                            </div>
+                          ))}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                  
+
+                  <div className="scroll-container22" >
+                  <div className={`${isExpanded ? "second-div-body-expand" : "second-div-body"}`}  ref={bodyRef} style={{height:menuDataLoading?"39.5rem":""}}>
+
+                  {menuDataLoading ? (
+                            <div className="Menu-noOptions">
+                              <Loader
+                                className="imgLoader2"
+                                height="100px"
+                                width="100px"
+                                style={{
+                                  filter:
+                                    "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                                }}
+                              />
+                            </div>
+                          ) : menuDataFailed ? (
+                            <div className="NoDataFoundContainer">
+                              <img
+                                className="columnselected"
+                                src={noResultsfound}
+                                alt="noResultFound"
+                              />
+                              <h2 className="columnselectedText">
+                                No Results Found
+                              </h2>
+                            </div>
+                          ) : (
+                            <>
+                              {allFalse ? (
+                                <div className="no-colunms">
+                                  {" "}
+                                  No columns selected
+                                </div>
+                              ) : (
+                               
+                                  itemList?.map((data, parentIndex) => (
+                                    <React.Fragment key={parentIndex}>
+                
+                                      {data?.itemResponseList?.length > 0 &&
+                                        data.name !== "" && (
+                                          <div className="categoryName-data">
+                                            <p></p>
+                                          </div>
+                                        )}
+                
+                                      {data?.itemResponseList?.length > 0 &&
+                                        data?.itemResponseList.map((item, index) => (
+                                          <div key={index} className="table-two-row">
+                
+                
+                
+                                            <p>
+                                              
+                                                   {orderTypesToShow2?.map(
+                                                    (typeName, ordertypeindex) => {
+                                                      const shouldDisplayType =
+                                                        listingobject &&
+                                                        listingobject[`${typeName}1`];
+                                                  
+                      
+                                                      if (!shouldDisplayType) return null;
+                      
+                                                      const orderType = item.orderTypes?.find(
+                                                        (ot) => ot.typeName === typeName
+                                                      );
+                                                      const price = orderType
+                                                        ? orderType.price.toFixed(2).padStart(5, "0")
+                                                        : "";
+                      
+                                                      const className =
+                                                        typeName?.toLowerCase() + "data";
+                                                      const isPriceEnabled =
+                                                        orderType &&
+                                                        orderType.isNotHide == 1 &&
+                                                        orderType.availabilityEnabled &&
+                                                        orderType.isEnabled === 1
+                                                          ? true
+                                                          : false;
+                                                      const sliderkey =
+                                                        typeName === "DineIn"
+                                                          ? "DineIn1"
+                                                          : typeName === "Pickup"
+                                                          ? "Pickup1"
+                                                          : typeName === "Delivery"
+                                                          ? "Delivery1"
+                                                          : "";
+                                                      return (
+                                                       
+                                                          <span
+                                                          className={className}
+                                                            key={typeName}
+                                                            style={{
+                                                              opacity: isPriceEnabled
+                                                                ? "100%"
+                                                                : "50%",
+                                                            }}
+                                                            onClick={() =>
+                                                              handlesidbarhandling(
+                                                                sliderkey,
+                                                                data?.itemResponseList[index].itemId
+                                                              )
+                                                            }
+                                                          >
+                                                            {restaurantDetails?.country === "US"
+                                                              ? "$"
+                                                              : "Rs."}{" "}
+                                                            {price !== "" ? price : "0"}
+                                                          </span>
+                                                       
+                                                      );
+                                                    }
+                                                  )}
+                                              
+                                            </p>
+                                           <p style={{display:'flex'}}> {orderTypesToShow2?.map((typeName) => {
+                                              const shouldDisplayType =
+                                                listingobject && listingobject[`${typeName}2`];
+                
+                                              if (!shouldDisplayType) return null;
+                
+                                              const orderType = item.orderTypes?.find(
+                                                (ot) => ot.typeName === typeName
+                                              );
+                
+                                              const isEnabled = orderType
+                                                ? orderType.isEnabled
+                                                : "";
+                                              const className =
+                                                typeName?.toLowerCase() + "data";
+                                              // console.log("orderType", className);
+                                              const isAvailEnabled =
+                                                orderType &&
+                                                orderType.availabilityEnabled === true
+                                                  ? true
+                                                  : false;
+                                              const sliderkey =
+                                                typeName === "DineIn"
+                                                  ? "DineIn2"
+                                                  : typeName === "Pickup"
+                                                  ? "Pickup2"
+                                                  : typeName === "Delivery"
+                                                  ? "Delivery2"
+                                                  : "";
+                
+                                              return (
+                                                <>
+                                                  {/* 
+                                  <p>{isEnabled !== "" ? isEnabled : "0"}</p> */}
+                                                  <span
+                                                    key={typeName}
+                                                    className={className}
+                                                    // style={{ opacity: isAvailEnabled ? "100%" : "50%" }}
+                                                    onClick={() =>
+                                                      handlesidbarhandling(
+                                                        sliderkey,
+                                                        data?.itemResponseList[index].itemId
+                                                      )
+                                                    }
+                                                  >
+                                                    {isEnabled !== "" ? (
+                                                      <Toggle
+                                                        toggle={
+                                                          orderType?.availabilityEnabled ===
+                                                            true &&
+                                                          orderType?.isNotHide === 1 &&
+                                                          orderType?.isEnabled === 1 &&
+                                                          true
+                                                        }
+                                                      />
+                                                    ) : (
+                                                      <Toggle
+                                                        toggle={
+                                                          orderType?.availabilityEnabled ===
+                                                            false &&
+                                                          orderType?.isNotHide !== 1 &&
+                                                          orderType?.isEnabled !== 1 &&
+                                                          false
+                                                        }
+                                                      />
+                                                    )}
+                                                  </span>
+                                                </>
+                                              );
+                                            })}</p>
+                
+                <p>
+                {item?.modifiers &&
+                                            Array.isArray(item.modifiers) &&
+                                            listingobject &&
+                                            listingobject.Customize1 ? (
+                                              <span
+                                                className="Customizedata"
+                                                onClick={() =>
+                                                  handlesidbarhandling(
+                                                    "",
+                                                    data?.itemResponseList[index].itemId
+                                                  )
+                                                }
+                                              >
+                                                <span>{item.modifiers.length}</span>
+                                              </span>
+                                            ) : (
+                                              listingobject &&
+                                              listingobject.Customize1 && (
+                                                <span className="Customizedata">
+                                                  <span>No Modifiers Availablee</span>
+                                                </span>
+                                              )
+                                            )}
+                </p>
+                                           
+                                            
+                                          </div>
+                                        ))}
+                                    </React.Fragment>
+                                  ))
+                             
+                               
+                              )}
+                            </>
+                          )}
+
+                    </div>
+                    </div>
+
+
+
+
+
+
+                    {modal && (
+                <Slider
+                  sidebartext={sidebartext}
+                  SideBarData={SideBarData}
+                  onclose={() => setmodal(false)}
+                />
+              )}
+               
+               
+                
+              </div>
             </div>
           </div>
         </div>

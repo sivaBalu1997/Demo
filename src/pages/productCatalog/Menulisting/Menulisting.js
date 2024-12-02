@@ -466,6 +466,7 @@ export const Menulisting = () => {
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
+       
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
@@ -774,7 +775,7 @@ export const Menulisting = () => {
         <div style={{ display: "flex", overflowX: "hidden" }}>
           <SidePanel />
           <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
-            <div className="headercomponent">
+            <div  className={`${isExpanded ? "headercomponent-expand" : "headercomponent"}`}>
               <Header />
             </div>
 
