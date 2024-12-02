@@ -1249,8 +1249,7 @@ const PrimaryPage = () => {
                             if (
                               e.key === "e" ||
                               e.key === "-" ||
-                              e.key === "+" ||
-                              e.key === "."
+                              e.key === "+" 
                             ) {
                               e.preventDefault(); // Block these keys
                             }
@@ -1294,8 +1293,8 @@ const PrimaryPage = () => {
                             if (
                               e.key === "e" ||
                               e.key === "-" ||
-                              e.key === "+" ||
-                              e.key === "."
+                              e.key === "+" 
+                              
                             ) {
                               e.preventDefault(); // Block these keys
                             }

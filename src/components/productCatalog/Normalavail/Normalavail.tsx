@@ -1475,8 +1475,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                           if (
                             e.key === "e" ||
                             e.key === "-" ||
-                            e.key === "+" ||
-                            e.key === "."
+                            e.key === "+"
                           ) {
                             e.preventDefault(); 
                           }
@@ -1618,8 +1617,8 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                           if (
                             e.key === "e" ||
                             e.key === "-" ||
-                            e.key === "+" ||
-                            e.key === "."
+                            e.key === "+" 
+
                           ) {
                             e.preventDefault(); // Block these keys
                           }
