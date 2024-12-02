@@ -5,6 +5,8 @@ import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useDispatch } from "react-redux";
 import { addMockDataHiddenRequest } from "redux/productCatalog/productCatalogActions";
 import { useSelector } from "react-redux";
+import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+
 
 const EyeModal = ({ onEyeclose,onclose }) => {
   const data1=useSelector((state)=>state?.selectedMockDataReducer?.data)
@@ -14,6 +16,7 @@ const EyeModal = ({ onEyeclose,onclose }) => {
 
   const [data, setData] = useState([]); 
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState([]);
+  const[showLoader,setShowLoader]=useState(false)
 
   useEffect(() => {
     const tempOnPremarray = data1[0]?.orderTypes?.filter(
@@ -172,6 +175,7 @@ const uncheckedItems = data
     console.log({hidePayload});
     
     dispatch(addMockDataHiddenRequest(payload));
+    setShowLoader(true)
    
 
   
@@ -345,9 +349,27 @@ const uncheckedItems = data
             <button className="cancelbtnEye" onClick={() => onEyeclose()}>
               Cancel
             </button>
+          
             <button className="SavebtnEye" onClick={handleChange}>
-              Save
+            {showLoader ? (
+  <span>
+   
+   <Loader
+                    className="Hide-Loader"
+                    height="40px"
+                    width="40px"
+                    style={{
+                      filter: "invert(100%)",
+                      height: "40px",
+                      width: "40px",
+                    }}
+                  />
+  </span>
+) : (
+  <span>Save</span>
+)}
             </button>
+    
           </div>
         </div>
       </div>
