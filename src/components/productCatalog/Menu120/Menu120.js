@@ -70,7 +70,7 @@ const Menu120 = () => {
   return (
     <>
       <div className="Header-Heading">
-        Menu({itemIds?.length})
+        Menu({itemCount})
         <div className="Menu120-Tooltip-container">
           {data.map((elem, index) => (
             <div className="Menu120-Tooltip-container-heading" key={index}>
