@@ -131,7 +131,7 @@ const ItemCustomizations: React.FC = () => {
           isModifierOptionChanged: false,
         },
       ],
-      minSelection: 1,
+      minSelection: 0,
       maxSelection: 0,
       freeCustomization: 0,
       selectedValue: selectedValue,
@@ -190,7 +190,7 @@ const ItemCustomizations: React.FC = () => {
                   isModifierOptionChanged: false,
                 }))
               : [{ modifierOptionName: "", cost: 0 }],
-          minSelection: item.minSelection || 1,
+          minSelection: item.minSelection || 0,
           maxSelection: item.maxSelection || 0,
           freeCustomization: item?.freeCustomization || 0,
           selectedValue: selectedTypeNames,
@@ -216,7 +216,7 @@ const ItemCustomizations: React.FC = () => {
             isModifierOptionChanged: false,
           },
         ],
-        minSelection: 1,
+        minSelection: 0,
         maxSelection: 0,
         freeCustomization: 0,
         selectedValue: selectedValue,
@@ -1169,19 +1169,21 @@ const ItemCustomizations: React.FC = () => {
                             <div className="Spinner-input-ItemCustomizations">
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
-                                  className="labelItemCustomizations"
+                            className={modifications[modIndex]?.selectionType === "Optional" ? "labelItemCustomizations-disable" : "labelItemCustomizations"}
+
                                   htmlFor=""
                                 >
                                   Minimum selection
                                 </label>
                                 <input
                                   placeholder=""
-                                  className="input3ItemCustomizations"
+                                  className={modifications[modIndex]?.selectionType === "Optional" ? "input3ItemCustomizations-disable" : "input3ItemCustomizations"}
+
                                   value={
                                     modifications[modIndex]?.selectionType ===
                                       "Optional" &&
-                                    modifications[modIndex].minSelection != 1
-                                      ? 1
+                                    modifications[modIndex].minSelection != 0
+                                      ? 0
                                       : modifications[modIndex].minSelection
                                   }
                                   name="minSelection"
@@ -1195,9 +1197,11 @@ const ItemCustomizations: React.FC = () => {
                                 />
                                 <div className="polydiv-ItemCustomizations">
                                   <img
-                                    className="polyimg-ItemCustomizations"
+                                 className={modifications[modIndex]?.selectionType === "Optional" ? "polyimg-ItemCustomizations-disable" : "polyimg-ItemCustomizations"}
+
                                     src={Polygon1}
                                     alt=""
+                                  
                                     onClick={() => {
                                       if (
                                         modifications[modIndex]
@@ -1211,7 +1215,8 @@ const ItemCustomizations: React.FC = () => {
                                     }}
                                   />
                                   <img
-                                    className="polyimg-ItemCustomizations"
+                                 className={modifications[modIndex]?.selectionType === "Optional" ? "polyimg-ItemCustomizations-disable" : "polyimg-ItemCustomizations"}
+                                
                                     src={Polygon2}
                                     alt=""
                                     onClick={() => {
