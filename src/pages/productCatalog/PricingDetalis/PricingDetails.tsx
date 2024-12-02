@@ -1110,7 +1110,6 @@ const PricingDetails = () => {
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}
                 setValidationFunction={setValidationFunction}
-               
               />
             ) : (
               <>
