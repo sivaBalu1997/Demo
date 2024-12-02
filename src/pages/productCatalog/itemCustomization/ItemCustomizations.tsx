@@ -89,12 +89,7 @@ const ItemCustomizations: React.FC = () => {
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
 
-  const deleteModifier = useSelector(
-    (state: any) => state.productCatalog?.deletedId
-  );
 
-  const availableServiceNames =
-    availableService?.map((service) => service?.typeName) || [];
 
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
@@ -102,16 +97,10 @@ const ItemCustomizations: React.FC = () => {
     items: { isValid: true, errorMessage: "" },
   });
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [filteredOptions, setFilteredOptions] = useState([]);
-  const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const [options, setOptions] = useState<string[]>([
-    "Option2",
-    "Option2",
-    "Option 3",
-  ]);
+
 
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
   const [isvalid, setIsValid] = useState<boolean>(false);
@@ -177,12 +166,11 @@ const ItemCustomizations: React.FC = () => {
   );
 
   useEffect(() => {
-    // if (showModifiers === false) {
-    //   setIsValid(true);
-    //   setShowModifiers(true);
-    // }
+    
   
     if (itemCustomizationData?.length > 0) {
+      setShowModifiers(true);
+      
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map((selectedId: string) => {
           const orderType = orderTypes.find((type: any) => type.id === selectedId);
@@ -339,25 +327,9 @@ const ItemCustomizations: React.FC = () => {
   };
   
 
-  const addOption1 = (newOption: string) => {
-    setOptions([...options, newOption]);
-  };
 
-  const handleBlur = (
-    e: ChangeEvent<HTMLInputElement>,
-    modIndex: number,
-    optIndex?: number
-  ) => {
-    const { name, value } = e.target;
-    let error = "";
 
-    if (!value.trim()) {
-      error = `Please Enter ${name.charAt(0).toUpperCase() + name.slice(1)}`;
-      setIsValid(false);
-    } else {
-      setIsValid(true);
-    }
-  };
+  
 
   const addOptionChange = (
     modIndex: number,
@@ -421,17 +393,7 @@ const ItemCustomizations: React.FC = () => {
   };
   
 
-  // const incrementSpinner = (index: number, field: keyof Modification) => {
-  //   const newModifier = [...modifications];
-  //   if (newModifier[index]) {
-  //     newModifier[index][field as keyof Modifier] =
-  //       (parseInt(
-  //         newModifier[index][field as keyof Modifier]?.toString() || 0,
-  //         10
-  //       ) || 0) + 1;
-  //   }
-  //   setModifications(newModifier);
-  // };
+ 
 
   const getModifierClassName = (length: any) => {
     if (length == 1) {
@@ -515,9 +477,7 @@ const ItemCustomizations: React.FC = () => {
   };
   
   
-  const dispatch1 = () => {
-    dispatch(itemCustomizationPost(modifications));
-  };
+  
 
   const onDragStart = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.dataTransfer.setData("index", index.toString());
@@ -533,9 +493,7 @@ const ItemCustomizations: React.FC = () => {
     }
   };
 
-  const validationforitemcustom = (): boolean => {
-    return isvalid;
-  };
+
 
   const clearAll = () => {
     setModifications((prevModifications: any) =>
@@ -670,6 +628,129 @@ const ItemCustomizations: React.FC = () => {
     }
     setListOfStreams(streams);
   }, [ordertypesdetails]);
+
+  const [customizationerrors, setcustomizationerrors] = useState<any>([]);
+  const validateModifiers = (modifications: any[]) => {
+    const errors: any[] = []; // This will hold all errors
+    console.log({ modifications });
+  
+    modifications?.forEach((modifier, index) => {
+      const {
+        modifierName,
+        modifierId,
+        modifierOptions,
+        selectedValue,
+        selectionType,
+      } = modifier;
+  
+      // Initialize error object for the current modifier
+      let modifierErrors: any = {
+        modifierNameError: modifierName.trim() ? "" : `Modifier Name is required`,
+        id: modifierId || "",
+        errormsgforselectedvalues: "",
+        options: [],
+      };
+  
+      // Validate Modifier Name
+      if (!modifierName.trim()) {
+        modifierErrors.modifierNameError = `Modifier Name is required`;
+      }
+  
+      // Validate Modifier Options
+      if (Array.isArray(modifierOptions)) {
+        modifierOptions.forEach((option: any, optIndex: number) => {
+          let optionErrors: any = {
+            optionName: option.modifierOptionName || "",
+            optionId: option.modifierOptionId || "",
+            optionNameError: "",
+            optionPrice: option.cost || 0,
+            optionPriceError: "",
+          };
+  
+          // Validate Option Name
+          const nameRegex = /^[a-zA-Z0-9\s]+$/; // Allow alphanumeric and spaces
+          if (!option.modifierOptionName.trim()) {
+            optionErrors.optionNameError = `Option Name is required`;
+          } else if (!nameRegex.test(option.modifierOptionName)) {
+            optionErrors.optionNameError = `Option Name must not contain special characters`;
+          }
+  
+          // Validate Option Price
+          if (isNaN(option.cost) || option.cost <= 0) {
+            optionErrors.optionPriceError = `Price field is required`;
+          }
+  
+          modifierErrors.options.push(optionErrors);
+        });
+      } else {
+        modifierErrors.options.push({
+          optionNameError: `Options must be an array`,
+        });
+      }
+  
+      // Push errors for the current modifier if any exist
+      if (
+        modifierErrors.modifierNameError ||
+        modifierErrors.errormsgforselectedvalues ||
+        modifierErrors.options.some(
+          (opt: any) => opt.optionNameError || opt.optionPriceError
+        )
+      ) {
+        errors[index] = modifierErrors;
+      } else {
+        errors[index] = null; // No errors for this modifier
+      }
+    });
+  
+    // Update customization errors in state
+    setcustomizationerrors(errors);
+  
+    // Check if all modifiers are valid
+    const validateCustomizationErrors = () => {
+      return errors.every((error) => {
+        if (!error) return true; // No errors for this modifier
+        const hasNoTopLevelErrors =
+          error.modifierNameError === "" &&
+          error.errormsgforselectedvalues === "";
+        const hasNoOptionErrors = error.options.every(
+          (option: any) =>
+            option.optionNameError === "" && option.optionPriceError === ""
+        );
+  
+        return hasNoTopLevelErrors && hasNoOptionErrors;
+      });
+    };
+  
+    return validateCustomizationErrors();
+  };
+  
+
+
+
+
+
+  
+
+console.log({customizationerrors});
+
+const handleBlur = (
+  e: ChangeEvent<HTMLInputElement>,
+  modIndex: number,
+  optIndex?: number
+) => {
+  const { name, value } = e.target;
+  let error = "";
+
+  if (!value.trim()) {
+    error = `Please Enter ${name.charAt(0).toUpperCase() + name.slice(1)}`;
+    setIsValid(false);
+  } else {
+    setIsValid(true);
+  }
+  validateModifiers(modifications)
+
+  
+};
 
   return (
     <div style={{ display: "flex",height:"99vh",overflowY:'hidden'}}>
@@ -832,6 +913,7 @@ const ItemCustomizations: React.FC = () => {
                               <h3 className="paraItemCustomizations">
                                 {modIndex + 1}.
                               </h3>
+                              <div className="" style={{display:'flex',flexDirection:'column'}}>
                               <input
                                 placeholder="Modifier Name"
                                 className={
@@ -844,12 +926,25 @@ const ItemCustomizations: React.FC = () => {
                                 value={modifications[modIndex]?.modifierName}
                                 onChange={(e) => {
                                   const inputValue = e.target.value;
-                                  if (!/\d/.test(inputValue)) { // Checks if input doesn't contain any digits
+                                  console.log({modIndex});
+                                  
+                                  validateModifiers(modifications)
+                                  if (!/\d/.test(inputValue)) { 
+
                                     handleModifierChange(modIndex, e, modifier.selectionType);
                                   }
-                                }}
+                                  
+                                }
+                               
+                              }
                                 onBlur={(e) => handleBlur(e, modIndex)}
                               />
+                              {
+                                customizationerrors[modIndex]?.modifierNameError &&   <span className="nameErrormsg">{customizationerrors[modIndex]?.modifierNameError}</span>
+
+                              }
+                              </div>
+                             
                               <div
                                 className="deleteModiferContainer"
                                 onClick={() => handleDeleteModifier(modIndex)}
@@ -922,21 +1017,33 @@ const ItemCustomizations: React.FC = () => {
                                           }
                                           onChange={(e) =>{
                                             const value =e.target.value
-                                            if (!/\d/.test(value)) { // Checks if input doesn't contain any digits
+                                           
+                                              validateModifiers(modifications)
                                               addOptionChange(
                                                 modIndex,
                                                 optIndex,
                                                 e
                                               )
-                                            }
+                                            
+                                           
                                           }
                                            
                                           }
                                           onBlur={(e) =>
+                                          {
                                             handleBlur(e, modIndex, optIndex)
+                                            validateModifiers(modifications)
+                                          }
+                                           
                                           }
                                         />
-                                        {modificationError[modIndex]?.options?.[optIndex]?.modifierOptionName && (
+                                        {
+                                          customizationerrors[modIndex]?.options[optIndex]?.optionNameError !=="" && 
+                                          <span className="nameErrormsg">{customizationerrors[modIndex]?.options[optIndex]?.optionNameError}</span>
+
+                                        }
+
+                                        {/* {modificationError[modIndex]?.options?.[optIndex]?.modifierOptionName && (
                                           <div className="error-message1">
                                             {
                                               modificationError[modIndex]
@@ -944,7 +1051,7 @@ const ItemCustomizations: React.FC = () => {
                                                 ?.modifierOptionName
                                             }
                                           </div>
-                                        )}
+                                        )} */}
                                       </div>
 
                                       <div>
@@ -957,21 +1064,38 @@ const ItemCustomizations: React.FC = () => {
                                             modifier.modifierOptions[optIndex].cost || modifier.modifierOptions[optIndex].sellPrice
                                           }
                                           onChange={(e) =>
+                                          {
+                                            validateModifiers(modifications)
                                             addOptionChange(
                                               modIndex,
                                               optIndex,
                                               e
                                             )
+                                           
+                                          }
+                                           
                                           }
                                           onKeyDown={(e) => {
                                             if (e.key === "-") {
-                                              e.preventDefault(); // Prevent typing -,
+                                              e.preventDefault(); 
                                             }
                                           }}
                                           onBlur={(e) =>
+                                          {
                                             handleBlur(e, modIndex, optIndex)
+                                            validateModifiers(modifications)
+                                          }
+                                           
                                           }
                                         />
+
+                                        {
+                                          customizationerrors[modIndex]?.options[optIndex]?.optionPriceError !=="" &&
+                                          <span className="nameErrormsg">{customizationerrors[modIndex]?.options[optIndex]?.optionPriceError}</span>
+                                        }
+
+
+
                                       </div>
 
                                       <div
@@ -1197,6 +1321,8 @@ const ItemCustomizations: React.FC = () => {
                     seletedpage="ItemCustomization"
                     getFormData={getFormData}
                     reset={clearAll}
+                    validateModifiers={validateModifiers}
+                    handleValidate={validateModifiers}
                     modifications={showModifiers ? modifications : []}
                   />
                 </div>

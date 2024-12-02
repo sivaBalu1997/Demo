@@ -13,9 +13,16 @@ export const Contextpage = ({ children }) => {
     const menuItems = ['Pricing', 'Availability','Customize'];
     const [activeCategory, setActiveCategory] = useState('Step 1: Primary Details');
     const [isExpanded, setIsExpanded]=useState()
+    const [valiadtePriceFields, setValiadtePriceFields]=useState(false)
     const [saveandnext, setsaveandnext]=useState(false);
     const [active, setActive] = useState('');
     const [pen, setPen] = useState(false);
+    let storedFunction= null;
+
+    const setStoredFunction = (fn) => {
+      storedFunction = fn;
+    };
+  
     const[ApiPayload,setApiPayload]=useState({
       itemId:"",
       isEnabled: false,
@@ -95,7 +102,11 @@ export const Contextpage = ({ children }) => {
       ApiPayload,
       selectedDateOption,
       partialData,
-      setPartialData
+      setPartialData,
+      valiadtePriceFields,
+      setValiadtePriceFields,
+      storedFunction,
+      setStoredFunction
     }}>
       {children}
     </Contextpagejs.Provider>

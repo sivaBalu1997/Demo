@@ -66,23 +66,40 @@ const tempOffPremarray=dataFromRedux[0]?.orderTypes?.filter((data:any,index:numb
 // const checkOnPremEnabledArray=tempOnPremarray?.filter((data:any,index:number)=>data.isEnabled===true && data.isNotHide===1);
 // const checkOffPremEnabledArray=tempOffPremarray?.filter((data:any,index:number)=>data.isEnabled===true && data.isNotHide===1);
 
-const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
-const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false } ).length == 0
+const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false } ).length == 0
+
+const allChildrenonEnabled = tempOnPremarray?.some(
+  (child:any) => child.isEnabled === 1 && child.isNotHide===1 
+);
+const allChildrenoffEnabled = tempOffPremarray?.some(
+  (child:any) => child.isEnabled === 1&& child.isNotHide===1 
+);
+
+
+console.log({allChildrenoffEnabled});
 
 
 const tempOrderTypeAvailabilityArray=[
   {
     mainHeading: "On-prem",
     types:tempOnPremarray,
-    isEnabled:isOnPremEnabledCount
+    isEnabled:isOnPremEnabledCount && allChildrenonEnabled,
+    isAble:allChildrenonEnabled
   },
   {
     mainHeading: "Off-prem",
     types:tempOffPremarray,
-    isEnabled:isOffPremEnabledCount
+    isEnabled:isOffPremEnabledCount && allChildrenonEnabled,
+    isAble:allChildrenoffEnabled
   },
   
 ]
+console.log({isOnPremEnabledCount});
+console.log("gfdfgh",tempOrderTypeAvailabilityArray[0].types);
+console.log("gfdfgh",tempOrderTypeAvailabilityArray[1].types);
+
+
 setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
 setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
 
@@ -147,18 +164,26 @@ const [canceledChanges,setcanceledChanges]=useState(true);
       setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
       
       const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false } ).length == 0
-      const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
-
+      const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false } ).length == 0
+      const allChildrenonEnabled = tempOnPremarray?.some(
+        (child:any) => child.isEnabled === 1 && child.isNotHide===1 
+      );
+      const allChildrenoffEnabled = tempOffPremarray?.some(
+        (child:any) => child.isEnabled === 1&& child.isNotHide===1 
+      );
+  
       const tempOrderTypeAvailabilityArray=[
         {
           mainHeading: "On-prem",
           types:tempOnPremarray,
-          isEnabled:isOnPremEnabledCount
+          isEnabled:isOnPremEnabledCount && allChildrenonEnabled,
+          isAble:allChildrenonEnabled
         },
         {
           mainHeading: "Off-prem",
           types:tempOffPremarray,
-          isEnabled:isOffPremEnabledCount
+          isEnabled:isOffPremEnabledCount && allChildrenoffEnabled,
+          isAble:allChildrenoffEnabled
         },
         
       ]
@@ -186,18 +211,27 @@ const [canceledChanges,setcanceledChanges]=useState(true);
     
       setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray])
       
-      const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
-      const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false} ).length == 0
+      const isOnPremEnabledCount=tempOnPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false || data?.isEnabled===0 || data?.isNotHide===0} ).length == 0
+      const isOffPremEnabledCount=tempOffPremarray?.filter((data:any,index:number)=> {return data?.availabilityEnabled===false || data?.isEnabled===0 || data?.isNotHide===0} ).length == 0
+      const allChildrenonEnabled = tempOnPremarray?.some(
+        (child:any) => child.isEnabled === 1&& child.isNotHide===1 
+      );
+      const allChildrenoffEnabled = tempOffPremarray?.some(
+        (child:any) => child.isEnabled === 1&& child.isNotHide===1 
+      );
+  
       const tempOrderTypeAvailabilityArray=[
         {
           mainHeading: "On-prem",
           types:tempOnPremarray,
-          isEnabled:isOnPremEnabledCount
+          isEnabled:isOnPremEnabledCount && allChildrenonEnabled,
+          isAble:allChildrenonEnabled
         },
         {
           mainHeading: "Off-prem",
           types:tempOffPremarray,
-          isEnabled:isOffPremEnabledCount
+          isEnabled:isOffPremEnabledCount && allChildrenoffEnabled,
+          isAble:allChildrenoffEnabled
         },
         
       ]
@@ -217,8 +251,14 @@ const [canceledChanges,setcanceledChanges]=useState(true);
     const tempOnPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup === "D" })
     const tempOffPremarray = parentOrderTypeArray?.filter((data: any, index: number) => { return data?.typeGroup !== "D" })
 
-    const isOnPremEnabledCount = tempOnPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled === false }).length == 0
-    const isOffPremEnabledCount = tempOffPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled === false }).length == 0
+    const isOnPremEnabledCount = tempOnPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled===false  }).length == 0
+    const isOffPremEnabledCount = tempOffPremarray?.filter((data: any, index: number) => { return data?.availabilityEnabled===false  }).length == 0
+    const allChildrenonEnabled = tempOnPremarray?.some(
+      (child:any) => child.isEnabled === 1&& child.isNotHide===1 
+    );
+    const allChildrenoffEnabled = tempOffPremarray?.some(
+      (child:any) => child.isEnabled === 1&& child.isNotHide===1 
+    );
 
     const updatedTempOnPremarray = tempOnPremarray?.map((data: any, index: number) => {
       return { ...data, availabilityEnabled: !isOnPremEnabledCount }
@@ -245,17 +285,21 @@ const [canceledChanges,setcanceledChanges]=useState(true);
       {
         mainHeading: "On-prem",
         types: categoryHeading == "On-prem" ? updatedTempOnPremarray : tempOnPremarray,
-        isEnabled: categoryHeading == "On-prem" ? !isOnPremEnabledCount : isOnPremEnabledCount
+        isEnabled: categoryHeading == "On-prem" ? !isOnPremEnabledCount : isOnPremEnabledCount && allChildrenonEnabled,
+        isAble:allChildrenonEnabled
       },
       {
         mainHeading: "Off-prem",
         types: categoryHeading == "Off-prem" ? updatedTempOffPremarray : tempOffPremarray,
-        isEnabled: categoryHeading == "Off-prem" ? !isOffPremEnabledCount : isOffPremEnabledCount
+        isEnabled: categoryHeading == "Off-prem" ? !isOffPremEnabledCount : isOffPremEnabledCount && allChildrenoffEnabled,
+        isAble:allChildrenoffEnabled
       },
 
     ]
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
     setSelectedOrderTypeCategory("");
+
+
 
 
   }
@@ -372,106 +416,13 @@ const [canceledChanges,setcanceledChanges]=useState(true);
   //   setToggleStates(initialToggleStates);
   // }, [dataFromRedux]);
 
-  // const mapInitialToggleState = (
-  //   parentIndex: number,
-  //   subcategoryIndex: number,
-  //   childIndex: number
-  // ) => {
-  //   const orderTypes = dataFromRedux?.[0]?.orderTypes;
-  //   const pricingDetails = dataFromRedux?.[0]?.pricingdetails;
-
-  //   console.log("orderTypes",orderTypes);
-    
-
-  //   if (parentIndex === 0) {
-  //     return orderTypes?.[0]?.isEnabled === "Enabled";
-  //   } else if (parentIndex === 1 && subcategoryIndex === 0) {
-  //     return orderTypes?.[0]?.isEnabled === "Enabled";
-  //   } else if (parentIndex === 1 && subcategoryIndex === 1) {
-  //     return pricingDetails?.Delivery2?.[childIndex] === "Enabled";
-  //   }
-
-  //   return false;
-  // };
+  
 
  
 
-  // const handleSubcategoryToggle = (
-  //   parentIndex: number,
-  //   subcategoryIndex: number
-  // ) => {
-  //   const newToggleStates = [...toggleStates];
-  //   const subcategoryToggle =
-  //     newToggleStates[parentIndex].subcategoryToggles[subcategoryIndex]
-  //       .subParentToggle;
-
-  //   newToggleStates[parentIndex].subcategoryToggles[
-  //     subcategoryIndex
-  //   ].subParentToggle = !subcategoryToggle;
-
-  //   if (!subcategoryToggle) {
-  //     newToggleStates[parentIndex].subcategoryToggles[
-  //       subcategoryIndex
-  //     ].childToggles.forEach((_: any, childIndex: number) => {
-  //       newToggleStates[parentIndex].subcategoryToggles[
-  //         subcategoryIndex
-  //       ].childToggles[childIndex] = true;
-  //     });
-  //   } else {
-  //     newToggleStates[parentIndex].subcategoryToggles[
-  //       subcategoryIndex
-  //     ].childToggles.forEach((_: any, childIndex: number) => {
-  //       newToggleStates[parentIndex].subcategoryToggles[
-  //         subcategoryIndex
-  //       ].childToggles[childIndex] = false;
-  //     });
-  //   }
-
-  //   setToggleStates(newToggleStates);
-  // };
-  // const handleChildToggle = (
-  //   parentIndex: number,
-  //   subcategoryIndex: number | null,
-  //   childIndex: number
-  // ) => {
-    
-    
-  //   const newToggleStates = [...toggleStates];
-
-  //   if (subcategoryIndex !== null) {
-  //     const subcategoryToggles =
-  //       newToggleStates[parentIndex]?.subcategoryToggles;
-
-  //     if (subcategoryToggles && subcategoryToggles[subcategoryIndex]) {
-  //       const childToggles = subcategoryToggles[subcategoryIndex]?.childToggles;
-
-  //       if (childToggles) {
-  //         childToggles[childIndex] = !childToggles[childIndex];
-
-  //         const areAllChildrenDisabled = childToggles.every(
-  //           (toggle: boolean) => !toggle
-  //         );
-
-  //         subcategoryToggles[subcategoryIndex].subParentToggle =
-  //           !areAllChildrenDisabled;
-  //       }
-  //     }
-  //   } else {
-  //     const childToggles = newToggleStates[parentIndex]?.childToggles;
-
-  //     if (childToggles) {
-  //       childToggles[childIndex] = !childToggles[childIndex];
-
-  //       const areAllChildrenDisabled = childToggles.every(
-  //         (toggle: boolean) => !toggle
-  //       );
-
-  //       newToggleStates[parentIndex].parentToggle = !areAllChildrenDisabled;
-  //     }
-  //   }
-
-  //   setToggleStates(newToggleStates);
-  // };
+  
+  
+  
 
   const [selectedtypeid, setSelectedtypeid] = useState<string>();
 
@@ -576,23 +527,28 @@ const [canceledChanges,setcanceledChanges]=useState(true);
               >
                 <ToggleSliderAvail
                   toggle={elem.isEnabled}
+                  Enable={elem.isAble===true}
                   setToggle={() => {
                     //handleParentToggle(index)
 
-                    if(elem.isEnabled){
+                    if(elem.isEnabled===1 ){
                     handleOrderCategoryAvailability(elem.mainHeading)
                     setSelectedOrderTypeCategory(elem.mainHeading)
                     setParrentToggle(elem.mainHeading)
                     setSelectPeriod(true);
                     handleParentTogglesstae(elem.mainHeading)}
                   else{
-                    handleOrderCategoryAvailability(elem.mainHeading)
-                    setSelectedOrderTypeCategory(elem.mainHeading)
-                    setParrentToggle(elem.mainHeading)
+                    if(elem.isAble){
+                      handleOrderCategoryAvailability(elem.mainHeading)
+                      setSelectedOrderTypeCategory(elem.mainHeading)
+                      setParrentToggle(elem.mainHeading)
+                     
+                      handleParentTogglesstae(elem.mainHeading)}
+                      handleToggleDisableParent()
+                      handleSetPartialData(elem.mainHeading);
+
+                    }
                    
-                    handleParentTogglesstae(elem.mainHeading)}
-                    handleToggleDisableParent()
-                    handleSetPartialData(elem.mainHeading);
 
                     
                   }}
@@ -612,6 +568,7 @@ const [canceledChanges,setcanceledChanges]=useState(true);
                     <div className="" style={{marginLeft:"55px"}}>
                       <ToggleSliderAvail
                         toggle={type?.availabilityEnabled &&type?.isEnabled===1 && type?.isNotHide===1}
+                        Enable={type.isEnabled===1 && type?.isNotHide===1}
                         setToggle={() => 
                         {
                           if(type?.availabilityEnabled)

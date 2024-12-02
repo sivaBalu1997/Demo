@@ -768,7 +768,18 @@ const PricingDetails = () => {
   );
 
   const [childFunction, setChildFunction] = useState<() => void>(() => () => {});
+  const [validationFunction, setValidationFunction] = useState<(() => boolean) | null>(null);
 
+  const handleValidationCheck = () => {
+    if (validationFunction) {
+      const isValid = validationFunction(); 
+      console.log("Validation Result:", isValid);
+      
+    } else {
+      console.log("No validation function provided by child");
+      
+    }
+  };
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />
@@ -790,6 +801,8 @@ const PricingDetails = () => {
         >
           <div className="pricing-form">
             <div className="Tool">
+
+           
               <p className="KitchenRelatedHeading">Kitchen Related</p>
               <div className="tool-tip-kitchen-detail">
                 <Tooltip
@@ -1096,6 +1109,7 @@ const PricingDetails = () => {
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}
+                setValidationFunction={setValidationFunction}
                
               />
             ) : (
@@ -1137,7 +1151,7 @@ const PricingDetails = () => {
               reset={handleReset}
               triggerValidation={() => trigger()}
               mainForm={mainForm}
-              handleValidate={handleValidate}
+              handleValidate={validationFunction}
             />
           </div>
         </div>
