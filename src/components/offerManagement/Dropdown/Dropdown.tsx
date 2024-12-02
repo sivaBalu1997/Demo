@@ -252,10 +252,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       parentId: parentId && parentId,
     };
 
-    setOptions([
-      ...(Array.isArray(initialOptions) ? initialOptions : []),
-      newItem,
-    ]);
+    setOptions((prev:any)=>([...prev,newItem]));
 
     // handleSelect(newItem);
     setSearchTerm("");

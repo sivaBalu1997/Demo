@@ -173,7 +173,19 @@ const SpecialPriceDetails = () => {
   };
   const [channal, setChannal] = useState([]);
   const [vissibleTo,setvissibleTo] =useState([]) 
-  const [terms,setterms] =useState([]) 
+  const [terms,setterms] =useState([{id: '1',
+    name: "Term1",
+    locationId:"",
+    type: "D",
+    parentId: '',
+    canDelete: false},
+    {id: '3',
+      name: "Term2",
+      locationId:"",
+      type: "D",
+      parentId: '',
+      canDelete: false}
+      ]) 
   const [catagory,setCatagory] =useState([]) 
   const [subCatagory,setSubCatagory] =useState([])
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
@@ -581,7 +593,7 @@ const priceCalulate =(data:any)=>{
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
-                        options={termsOption}
+                        options={terms}
                         type="checkbox"
                         setOptions={setterms}
                         placeholder="Select Terms and Conditions"
@@ -597,7 +609,7 @@ const priceCalulate =(data:any)=>{
                         dropdownopen={DropdownOpen.terms}
                         onToggle={() => handleDropdownToggle("terms")}
                         setDropdownOpen={setDropdownOpen}
-                        addNew={false}
+                        addNew={true}
                         editValues={false}
                         dropDownType="DIET"
                       />
