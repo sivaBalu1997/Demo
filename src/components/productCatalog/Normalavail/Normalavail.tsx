@@ -1051,8 +1051,23 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     };
 
     const clearSelection = () => {
+      setMealTypes({})
+      setPriceInfo([
+        {
+          typeId: "",
+          price: 0,
+          typeName: "",
+          typeGroup: "T",
+          availabilities: [
+            {
+              availabilityDays: [],
+              sessions: [],
+            },
+          ],
+        },
+      ])
       setSelectedValuesMealType([]);
-
+      setSelectedThirdValues([])
       setNormalDays([]);
       setSelectedValues2([]);
       setformNormal({
@@ -1309,7 +1324,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
             <Toggle
               toggle={showDineIn}
               setToggle={setShowDineIn}
-              Enabled={DineInServiceEnabled === 1 && dineInEnable===true}
+              // Enabled={DineInServiceEnabled === 1 && dineInEnable===true}
             />
           </div>
         }
@@ -1342,6 +1357,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
+                          onBlur={()=>validateDineinFields()}
                           onInput={(e) => {
                             // Cast event target to HTMLInputElement to access value
                             const inputElement = e.target as HTMLInputElement;
@@ -1373,6 +1389,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                             options={optionsmealtype}
                             index={index}
                             label="Meal Type*"
+                            onBlur={()=>validateDineinFields()}
                             width="Drop1"
                           />
                         </div>
@@ -1451,7 +1468,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                   <Toggle
                     toggle={pickup}
                     setToggle={setPickup}
-                    Enabled={pickUpIdServiceEnabled === 1 && pickupEnable===true}
+                    // Enabled={pickUpIdServiceEnabled === 1 && pickupEnable===true}
                   />
                 </div>
               </div>
@@ -1468,6 +1485,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                         type="number"
                         className="PriceInput1Normal-input"
                         value={pickupDetails.price || ""}
+                        onBlur={()=>validateDineinFields()}
                         onKeyDown={(e) => {
                           if (e.key === "-") {
                             e.preventDefault(); // Prevent typing -,
@@ -1520,6 +1538,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                           options={options3}
                           label="Meal Type*"
                           width="Drop1"
+                          onBlur={()=>validateDineinFields()}
                         />
                         <span className="Errormsg pickuperrormsgmealType">
                           {errors.pickupmealTypeSessions}
@@ -1588,7 +1607,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                   <Toggle
                     toggle={delivery}
                     setToggle={setDelivery}
-                    Enabled={DeliveryServiceEnabled === 1 &&deliveryEnable===true}
+                    // Enabled={DeliveryServiceEnabled === 1 &&deliveryEnable===true}
                   />
                 </div>
               </div>
@@ -1623,6 +1642,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                             e.preventDefault(); // Block these keys
                           }
                         }}
+                        onBlur={()=>validateDineinFields()}
                         className="DeliveryInput1Normal"
                         value={deliveryDetails?.price || ""}
                         onChange={(e) => {
@@ -1664,6 +1684,7 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                               ],
                             }));
                           }}
+                          onBlur={()=>validateDineinFields()}
                           options={options4}
                           label="Meal Type*"
                           width="Drop1"
@@ -1748,7 +1769,20 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                         <p className="Thrid-party-price"> {option} Price</p>
                         <input
                           className="swiggyZomato-input"
-                          type="text"
+                          type="number"
+                          onKeyDown={(e) => {
+                            if (e.key === "-") {
+                              e.preventDefault(); // Prevent typing -, e, or E
+                            }
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+" 
+  
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           value={priceInfo[index]?.price || ""}
                           onChange={(e) => {
                             let data = JSON.parse(

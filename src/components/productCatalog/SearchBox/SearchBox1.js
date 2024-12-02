@@ -27,6 +27,7 @@ const SearchBox = () => {
     setOrgData(itemNames); // Set original data when it is available
   }, [data]);
   useEffect(() => {
+    console.log("kkkkk")
     if(searchTerm==''){
       dispatch(searchForItem({}));
     }
@@ -53,8 +54,14 @@ const SearchBox = () => {
   useEffect(() => {
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch));
   }, [filteredOptionsDispatch]);
-
+    
   const menuData = useSelector((state) => state.productCatalog?.menuData);
+  useEffect(()=>{
+    if(menuData){
+      setSearchTerm('')
+    }
+
+  },[menuData])
 
   const handleSearch = (e) => {
   let value = e.target.value;

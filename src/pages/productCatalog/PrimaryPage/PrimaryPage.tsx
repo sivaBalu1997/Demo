@@ -302,6 +302,10 @@ const PrimaryPage = () => {
     if (ItemsPrimaryDetails) {
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
+      if(ItemsPrimaryDetails?.description)
+      {
+      setCharCount(ItemsPrimaryDetails?.description.length);
+      }
       setDescription(ItemsPrimaryDetails.description);
       // Set other fields
       setValue("alcohol", ItemsPrimaryDetails.alcohol);
@@ -400,7 +404,7 @@ const PrimaryPage = () => {
     if (length <= maxDescriptonLength) {
       setDescription(value);
       setCharCount(length);
-      setValue(name, description);
+      setValue(name, value);
     }
   };
 
@@ -477,6 +481,7 @@ const PrimaryPage = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+    console.log(";;;;",files)
     if (files) {
       const validImageTypes = ["image/jpeg", "image/png"];
       const maxSizeInBytes = 2 * 1024 * 1024;
@@ -512,12 +517,14 @@ const PrimaryPage = () => {
       } else {
         setRestrictToAdd(true);
       }
+      console.log("fileArray",fileArray)
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
         const updatedImageUrls = updatedImages.map((image) => image);
         setValue("imageUrls", updatedImageUrls);
         return updatedImages;
       });
+      e.target.value = ""
     }
   };
 

@@ -111,6 +111,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                   name={option}
                   className="checkboxPricing"
                   value={option}
+                  onBlur={onBlur}
                   checked={selectedValues.includes(option)}
                   onChange={handleOptionClick}
                 />
