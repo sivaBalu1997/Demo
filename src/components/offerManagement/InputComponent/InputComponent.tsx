@@ -1,7 +1,3 @@
-
-
-
-
 import React from "react";
 import "./InputComponent.scss";
 import { useSelector } from "react-redux";
@@ -12,13 +8,13 @@ interface InputFieldInterface {
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onKeyDown?:any
+  onKeyDown?: any;
   trigger: any;
   error?: any;
   placeholder?: string;
   subtext?: string;
-  height?:string;
-  width?:string
+  height?: string;
+  width?: string;
 }
 
 const InputComponent: React.FC<InputFieldInterface> = ({
@@ -33,72 +29,45 @@ const InputComponent: React.FC<InputFieldInterface> = ({
   error,
   placeholder,
   subtext,
-  width
+  width,
 }) => {
+
   const handleBlur = () => {
     trigger(name);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let { value: inputValue } = e.target;
-  
-  
-    // if (name === "itemCode") {
-    //   inputValue = inputValue.replace(/e/gi, ""); 
-    // }
-  
-   
-    // if (name === "itemCode" && inputValue.length > 4) {
-    //   return;
-    // }
-    // if (name === "itemName" && inputValue.length > 40) {
-    //   return;
-    // }
-    // if (name === "coloriePoint" && inputValue.length >7 ) {
-    //   return;
-    // }
-    // if (name === "portionSize" && inputValue.length > 7) {
-    //   return;
-    // }
-    
     e.target.value = inputValue;
-   
-    if (name== 'itemName') {
-      if(!e.target.value.startsWith(" "))
-        onChange(e); 
+
+    if (name == "itemName") {
+      if (!e.target.value.startsWith(" ")) onChange(e);
+      trigger(name);
+    } else {
+      onChange(e);
       trigger(name);
     }
-    else{
-      onChange(e); 
-      trigger(name);
-    }
-  
-    
-  
   };
-  
 
   const message = useSelector(
     (state: any) => state?.getItemCodeReducer?.itemCode?.data?.message
   );
 
   return (
-    <div>
-      <div className="input-and-spantext">
-        <input
-          type={type}
-          autoComplete="off"
-          name={name}
-          value={value}
-          onChange={handleChange}
-          onBlur={onBlur}
-          onKeyDown={onKeyDown}
-          placeholder={placeholder}
-          className="Input-Filed"
-          style={{height:height,width:width}}
-        />
+    <div className="input-and-spantext">
+      <input
+        type={type}
+        autoComplete="off"
+        name={name}
+        value={value}
+        onChange={handleChange}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+        className="Input-Filed"
+        style={{ height: height, width: width }}
+      />
         <span className="placeholder">{subtext}</span>
-      </div>
       {name === "itemCode" && message && value && value.length === 4 && (
         <p className="itemCode-Success">{message}</p>
       )}

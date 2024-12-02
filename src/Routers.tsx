@@ -89,6 +89,7 @@ const Routers = () => {
             <Route exact path="/review" component={ReviewMenu} />
             <Route exact path="/Offers" component={OffersHeader} />
             <Route exact path="/Offers/active" component={OffersTable} />
+            <Route exact path='/Offers/completed' component={completedTable} />
 
             <Route
               exact
@@ -224,7 +225,6 @@ const Routers = () => {
 
             <div className="specialOffers">
               <Route exact path="/offer/special" component={offers} />
-              <Route exact path='/Offers/completed' component={completedTable} />
             </div>
 
             <div>

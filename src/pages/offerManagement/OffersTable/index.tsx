@@ -16,7 +16,7 @@ const Table = () => {
       duration: "10:00AM–12:00AM",
       days: ["S", "M", "T", "W", "T", "F", "S"],
       channel: "Dine In, Delivery, Pickup",
-      items: ["Biriyani", "Chapati", "Parotta", "Parotta", "Parotta"],
+      items: ["Biriyani", "Chapati"],
       totalItems: 5,
       specialPrice: "$5.89",
     },
@@ -159,14 +159,15 @@ const Table = () => {
         <OfferHeader />
         <div className={isExpanded ? "table-container" : "table-container1"}>
           <table className={isExpanded ? "OffersTable" : "OffersTable1"}>
-            <thead>
-              <tr className="OffrtsTabletr">
+            <thead className="OfferTableHeading">
+              <tr className="">
                 <th className="OffrtsTableth">Name</th>
                 <th className="OffrtsTableth">Duration</th>
                 <th className="OffrtsTableth">Channel</th>
                 <th className="OffrtsTableth">Items</th>
                 <th className="OffrtsTableth">Total Items</th>
                 <th className="OffrtsTableth">Special Price</th>
+                <th className="OffrtsTableth"></th>
               </tr>
             </thead>
             <tbody>

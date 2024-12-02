@@ -57,6 +57,7 @@
   width: 63.5%;
   border-collapse: collapse;
   margin-left: -30px;
+  height: 50vh;
 }
 
 .OffersTable1 {
@@ -64,6 +65,7 @@
   width: 83.5%;
   border-collapse: collapse;
   margin-left: -20px;
+  height: 50vh;
 }
 
 .duration{
@@ -85,32 +87,54 @@ th.OffrtsTableth {
   position: relative;
 }
 
-th.OffrtsTableth:nth-child(3) {
-  width: 200px;
-  padding-left: 60px;
-}
-
-th.OffrtsTableth:nth-child(2) {
-  width: 200px;
-  padding-left: 30px;
-}
-
-th.OffrtsTableth:nth-child(4) {
-  width: 220px;
-  padding-left: 60px;
+.OfferTableHeading{
+  width: 100px
 }
 
 th.OffrtsTableth:nth-child(1) {
   width: 200px;
   padding-left: 60px;
+  position: sticky;
+  top: 0;
 }
 
-th.OffrtsTableth:nth-child(6) {
+th.OffrtsTableth:nth-child(2) {
   width: 200px;
+  padding-left: 30px;
+  position: sticky;
+  top: 0;
+}
+
+th.OffrtsTableth:nth-child(3) {
+  width: 200px;
+  padding-left: 60px;
+  position: sticky;
+  top: 0;
+}
+
+th.OffrtsTableth:nth-child(4) {
+  width: 220px;
+  padding-left: 60px;
+  position: sticky;
+  top: 0;
 }
 
 th.OffrtsTableth:nth-child(5) {
   width: 200px;
+  position: sticky;
+  top: 0;
+}
+
+th.OffrtsTableth:nth-child(6) {
+  width: 200px;
+  position: sticky;
+  top: 0;
+}
+
+th.OffrtsTableth:nth-child(7) {
+  width: 20px;
+  position: sticky;
+  top: 0;
 }
 
 tr.OffrtsTabletr:nth-child(odd) {
@@ -142,7 +166,7 @@ td.OffrtsTabletd:nth-child(2) {
 }
 
 td.OffrtsTabletd:nth-child(6) {
-  padding-left: 10px;
+  padding-left: 34px;
 }
 
 .extra-items {

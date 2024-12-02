@@ -48,112 +48,154 @@ interface specialPriceForm {
 
 const SpecialPriceDetails = () => {
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
-  const channelOption = [  {id: '1',
-    name: "Dine-In",
-    locationId:"",
-    type: "D",
-    parentId: '',
-    canDelete: false},
-    {id: '2',
-    name: "Delivery",
-    locationId:"",
-    type: "D",
-    parentId: '',
-    canDelete: false},
-    {id: '3',
-      name: "PickUp",
-      locationId:"",
+  const channelOption = [
+    {
+      id: "1",
+      name: "Dine-In",
+      locationId: "",
       type: "D",
-      parentId: '',
-      canDelete: false},
-      {id: '2',
-        name: "Thired Party",
-        locationId:"",
-        type: "D",
-        parentId: '',
-        canDelete: false},
-      ]
-      const visibleOption = [  {id: '1',
-        name: "Customer",
-        locationId:"",
-        type: "D",
-        parentId: '',
-        canDelete: false},
-        {id: '3',
-          name: "Merchant",
-          locationId:"",
-          type: "D",
-          parentId: '',
-          canDelete: false}
-          ]
-         const termsOption =[  {id: '1',
-          name: "Term1",
-          locationId:"",
-          type: "D",
-          parentId: '',
-          canDelete: false},
-          {id: '3',
-            name: "Term2",
-            locationId:"",
-            type: "D",
-            parentId: '',
-            canDelete: false}
-            ]
-      const catagoryOption = [  {id: '1',
-        name: "Veg",
-        locationId:"",
-        type: "D",
-        parentId: '',
-        canDelete: false},
-        {id: '2',
-        name: "Non-veg",
-        locationId:"",
-        type: "D",
-        parentId: '',
-        canDelete: false},
-        {id: '3',
-          name: "Vegan",
-          locationId:"",
-          type: "D",
-          parentId: '',
-          canDelete: false},
-          {id: '2',
-            name: "Butter",
-            locationId:"",
-            type: "D",
-            parentId: '',
-            canDelete: false},
-          ]
-          const subCatagoryOption=[  {id: '1',
-            name: "Veg-sub",
-            locationId:"",
-            type: "D",
-            parentId: '',
-            canDelete: false},
-            {id: '2',
-            name: "Non-veg",
-            locationId:"",
-            type: "D",
-            parentId: '',
-            canDelete: false},
-            {id: '3',
-              name: "Vegan-sub",
-              locationId:"",
-              type: "D",
-              parentId: '',
-              canDelete: false},
-              {id: '2',
-                name: "Butter-sub",
-                locationId:"",
-                type: "D",
-                parentId: '',
-                canDelete: false},
-              ]
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "2",
+      name: "Delivery",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "3",
+      name: "PickUp",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "2",
+      name: "Thired Party",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+  ];
+
+  const visibleOption = [
+    {
+      id: "1",
+      name: "Customer",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "3",
+      name: "Merchant",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+  ];
+
+  const termsOption = [
+    {
+      id: "1",
+      name: "Term1",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "3",
+      name: "Term2",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+  ];
+
+  const catagoryOption = [
+    {
+      id: "1",
+      name: "Veg",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "2",
+      name: "Non-veg",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "3",
+      name: "Vegan",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "2",
+      name: "Butter",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+  ];
+
+  const subCatagoryOption = [
+    {
+      id: "1",
+      name: "Veg-sub",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "2",
+      name: "Non-veg",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "3",
+      name: "Vegan-sub",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "2",
+      name: "Butter-sub",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+  ];
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
   const selectName = [
@@ -165,13 +207,16 @@ const SpecialPriceDetails = () => {
     { value: "Percentage", label: "Percentage" },
     { value: "Amount", label: "Amount" },
   ];
+
   const handleRadioChange = (
     radioname: keyof specialPriceForm,
     value: string
   ) => {
     setValue(radioname, value);
   };
+
   const [channal, setChannal] = useState([]);
+<<<<<<< HEAD
   const [vissibleTo,setvissibleTo] =useState([]) 
   const [terms,setterms] =useState([{id: '1',
     name: "Term1",
@@ -188,6 +233,12 @@ const SpecialPriceDetails = () => {
       ]) 
   const [catagory,setCatagory] =useState([]) 
   const [subCatagory,setSubCatagory] =useState([])
+=======
+  const [vissibleTo, setvissibleTo] = useState([]);
+  const [terms, setterms] = useState([]);
+  const [catagory, setCatagory] = useState([]);
+  const [subCatagory, setSubCatagory] = useState([]);
+>>>>>>> happyHours/v2
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
     ordertype: false,
@@ -227,6 +278,7 @@ const SpecialPriceDetails = () => {
       AvailableDays: [],
     },
   });
+
   const handleDropdownToggle = (dropdownName: string) => {
     setDropdownOpen((prevState) => {
       return {
@@ -240,16 +292,17 @@ const SpecialPriceDetails = () => {
       };
     });
   };
+
   const [availabilityid, setAvailabilityid] = useState<string[]>([]);
   const [DayThird, setDayThird] = useState<number[]>([]);
-  const [disabledDay,setDisableDay] =useState<any[]>([])
+  const [disabledDay, setDisableDay] = useState<any[]>([]);
   const [selectedFrom, setSelectedFrom] = useState("AM");
   const [selectedTo, setSelectedTo] = useState("AM");
   const [selectedFoodItems, setselectedFoodItems] = useState<any[]>([]);
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
 
-  const [selecteFoodItems,setselecteFoodItems] =useState( [
+  const [selecteFoodItems, setselecteFoodItems] = useState([
     {
       id: 1,
       itemName: "Parotta",
@@ -306,17 +359,18 @@ const SpecialPriceDetails = () => {
       updatedPrice: "$50.00",
       available: false,
     },
-  ])
+  ]);
+
   const handleonclick = () => {
     const values = getValues();
     trigger();
     dispatch(OfferDataSendingRequest(values));
-    setOverlapShow(true)
+    setOverlapShow(true);
   };
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
-    setSelectedDate1(null)
+    setSelectedDate1(null);
     setValue("fromDate", date);
   };
   const handleDateChange1 = (date: Date | null) => {
@@ -335,132 +389,154 @@ const SpecialPriceDetails = () => {
       setValue(`${value}`, timeWithPeriod);
     }
   };
-  const[updatedPrice,setUpdatedPrice] =useState(-1)
+
+  const [updatedPrice, setUpdatedPrice] = useState(-1);
   const [showlistOfItems, setShowlistOfItems] = useState(false);
   const [overlapShow, setOverlapShow] = useState(false);
   const [highlighted, setHighlighted] = useState<any>();
   const selectedValue = watch("specialTypeName");
 
   const handleItemClick = (index: number, item: any) => {
-  setHighlighted(index);
-  const data =[...selectedFoodItems]
-  let data1=[] 
-  // setselectedFoodItems((prev : any) => {
+    setHighlighted(index);
+    const data = [...selectedFoodItems];
+    let data1 = [];
+    // setselectedFoodItems((prev : any) => {
     const exists = data.some((food: any) => food.id === item.id);
 
-      if (exists) {
-        data1= data.filter((food: any) => food.id !== item.id);
-      } else {
-        data1= [
-          ...data,
-          {
-            id: item.id,
-            itemName: item.itemName,
-            originalPrice: item.originalPrice,
-            updatedPrice: item.updatedPrice,
-            available: item.available,
-          },
-        ];
-      }
-      if(selectedradiowatch?.specialTypeValue && selectedradiowatch?.specialType && selectedradiowatch?.specialTypeName)
-      {
-         priceCalulate(data1)
-      }
-      else{
-        setselectedFoodItems([...data1])
-      }
-  };
-  useEffect(() => {
-    if(selectedDate && selectedDate1)
-    {
-      setDayThird([])
-      if(selectedDate ==selectedDate1)
-      {
-        handleSingleDayRange(selectedDate,selectedDate1)
-      }
-      else{
-        validateDaysInRange(selectedDate,selectedDate1)
-      }
-     
+    if (exists) {
+      data1 = data.filter((food: any) => food.id !== item.id);
+    } else {
+      data1 = [
+        ...data,
+        {
+          id: item.id,
+          itemName: item.itemName,
+          originalPrice: item.originalPrice,
+          updatedPrice: item.updatedPrice,
+          available: item.available,
+        },
+      ];
     }
-    
-  }, [selectedDate,selectedDate1]);
+    if (
+      selectedradiowatch?.specialTypeValue &&
+      selectedradiowatch?.specialType &&
+      selectedradiowatch?.specialTypeName
+    ) {
+      priceCalulate(data1);
+    } else {
+      setselectedFoodItems([...data1]);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedDate && selectedDate1) {
+      setDayThird([]);
+      if (selectedDate == selectedDate1) {
+        handleSingleDayRange(selectedDate, selectedDate1);
+      } else {
+        validateDaysInRange(selectedDate, selectedDate1);
+      }
+    }
+  }, [selectedDate, selectedDate1]);
 
   useEffect(() => {
     setValue("selectedFooditems", selectedFoodItems);
   }, [selectedFoodItems]);
 
   const listpopupRef = useRef<HTMLDivElement | null>(null);
-  
-  const handleClickOutside = (event:MouseEvent) => {
-    if (listpopupRef?.current && !listpopupRef?.current?.contains(event.target as Node)) {
-      setShowlistOfItems(false); 
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      listpopupRef?.current &&
+      !listpopupRef?.current?.contains(event.target as Node)
+    ) {
+      setShowlistOfItems(false);
     }
   };
 
-  const  validateDaysInRange =(startDate:any, endDate:any)=> {
-    let dateRange = generateDateRange(startDate, endDate); 
-    let availableDays = dateRange.map((date:any) => (date.getDay() === 0 ? 7 : date.getDay())); 
-    setDisableDay(availableDays)
-  }
+  const validateDaysInRange = (startDate: any, endDate: any) => {
+    let dateRange = generateDateRange(startDate, endDate);
+    let availableDays = dateRange.map((date: any) =>
+      date.getDay() === 0 ? 7 : date.getDay()
+    );
+    setDisableDay(availableDays);
+  };
 
-const generateDateRange =(startDate:any, endDate:any)=> {
-  let currentDate = new Date(startDate);
-  let range = [];
+  const generateDateRange = (startDate: any, endDate: any) => {
+    let currentDate = new Date(startDate);
+    let range = [];
 
-  while (currentDate <= new Date(endDate)) {
+    while (currentDate <= new Date(endDate)) {
       range.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1); 
-  }
-  return range;
-}
-
-function handleSingleDayRange(startDate:any, endDate:any) {
-  if (startDate === endDate) {
-      let dayIndex = new Date(startDate).getDay();
-      let mappedDay:any = dayIndex === 0 ? 7 : dayIndex; 
-       setDisableDay(mappedDay)
-  }
-}
-const applyOffer = (type:any, name:any, value:any,item:any) => {
-  console.log(type,name,value)
-  const data:any= item.map((item:any) => {
-    const originalPrice = parseFloat(item.originalPrice.replace("$", ""));
-    let updatedPrice = originalPrice;
-    if (name === "Happy Hour" && type=='Percentage') {
-      updatedPrice = originalPrice - (originalPrice * (value / 100));
-    } else if (name === "Happy Hour" && type=='Amount') {
-      updatedPrice = originalPrice - value;
-    } else if (name === "Surge Hour" && type=='Percentage') {
-      updatedPrice = originalPrice * (1 + value / 100);
-    } else if (name === "Surge Hour" && type=='Amount') {
-      updatedPrice = originalPrice + Number(value);
+      currentDate.setDate(currentDate.getDate() + 1);
     }
-    return {
-      ...item,
-      updatedPrice: `$${updatedPrice.toFixed(2)}`,
-    };
-  });
+    return range;
+  };
 
-  setselectedFoodItems([...data])
-};
-
-const priceCalulate =(data:any)=>{
-  if(selectedradiowatch?.specialTypeValue && selectedradiowatch?.specialType && selectedradiowatch?.specialTypeName &&data.length>0){
-    applyOffer(selectedradiowatch?.specialType,selectedradiowatch?.specialTypeName,selectedradiowatch?.specialTypeValue,data)
+  function handleSingleDayRange(startDate: any, endDate: any) {
+    if (startDate === endDate) {
+      let dayIndex = new Date(startDate).getDay();
+      let mappedDay: any = dayIndex === 0 ? 7 : dayIndex;
+      setDisableDay(mappedDay);
+    }
   }
-}
+
+  const applyOffer = (type: any, name: any, value: any, item: any) => {
+    console.log(type, name, value);
+    const data: any = item.map((item: any) => {
+      const originalPrice = parseFloat(item.originalPrice.replace("$", ""));
+      let updatedPrice = originalPrice;
+      if (name === "Happy Hour" && type == "Percentage") {
+        updatedPrice = originalPrice - originalPrice * (value / 100);
+      } else if (name === "Happy Hour" && type == "Amount") {
+        updatedPrice = originalPrice - value;
+      } else if (name === "Surge Hour" && type == "Percentage") {
+        updatedPrice = originalPrice * (1 + value / 100);
+      } else if (name === "Surge Hour" && type == "Amount") {
+        updatedPrice = originalPrice + Number(value);
+      }
+      return {
+        ...item,
+        updatedPrice: `$${updatedPrice.toFixed(2)}`,
+      };
+    });
+    setselectedFoodItems([...data]);
+  };
+
+  const priceCalulate = (data: any) => {
+    if (
+      selectedradiowatch?.specialTypeValue &&
+      selectedradiowatch?.specialType &&
+      selectedradiowatch?.specialTypeName &&
+      data.length > 0
+    ) {
+      applyOffer(
+        selectedradiowatch?.specialType,
+        selectedradiowatch?.specialTypeName,
+        selectedradiowatch?.specialTypeValue,
+        data
+      );
+    }
+  };
 
   const closeOverlapPopUp = () => {
     setOverlapShow(false);
   };
-  useEffect(()=>{
-    if(selectedradiowatch?.specialType&&selectedradiowatch?.specialTypeName&&selectedradiowatch?.specialTypeValue && selectedFoodItems.length>0)
-    {
+
+  useEffect(() => {
+    if (
+      selectedradiowatch?.specialType &&
+      selectedradiowatch?.specialTypeName &&
+      selectedradiowatch?.specialTypeValue &&
+      selectedFoodItems.length > 0
+    ) {
       priceCalulate(selectedFoodItems);
     }
-    
-  },[selectedradiowatch?.specialType,selectedradiowatch?.specialTypeName,selectedradiowatch?.specialTypeValue])
+  }, [
+    selectedradiowatch?.specialType,
+    selectedradiowatch?.specialTypeName,
+    selectedradiowatch?.specialTypeValue,
+  ]);
 
   useEffect(() => {
     if (showlistOfItems) {
@@ -485,23 +561,32 @@ const priceCalulate =(data:any)=>{
 
   const [dateShow, setDateShow] = useState(false);
 
-
   const handleDelete = (id: any) => {
-    const data = selectedFoodItems.filter((item: any) => item?.id !== id)
-    console.log({data})
-    setselectedFoodItems(data)
-  }
+    const data = selectedFoodItems.filter((item: any) => item?.id !== id);
+    console.log({ data });
+    setselectedFoodItems(data);
+  };
 
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
       <>
-        <div className={isExpanded ? "offer-creationpage-container" : "offer-creationpage-container1"}>
+        <div
+          className={
+            isExpanded
+              ? "offer-creationpage-container"
+              : "offer-creationpage-container1"
+          }
+        >
           <div className="specialoffer-heading">
             <h1>Create Special Price Details</h1>
           </div>
 
-          <div className={isExpanded ? "specialprice-container" : "specialprice-container1"}>
+          <div
+            className={
+              isExpanded ? "specialprice-container" : "specialprice-container1"
+            }
+          >
             <div className="offer-primary-details">
               <h3>Primary Details</h3>
             </div>
@@ -536,7 +621,7 @@ const priceCalulate =(data:any)=>{
                       render={({ field }: any) => (
                         <Dropdown
                           options={channelOption}
-                          type="checkbox"
+                          type="radio"
                           setOptions={setChannal}
                           placeholder="Select Channel"
                           register={register}
@@ -610,7 +695,11 @@ const priceCalulate =(data:any)=>{
                         onToggle={() => handleDropdownToggle("terms")}
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
+<<<<<<< HEAD
                         editValues={false}
+=======
+                        editValues={true}
+>>>>>>> happyHours/v2
                         dropDownType="DIET"
                       />
                     )}
@@ -642,7 +731,7 @@ const priceCalulate =(data:any)=>{
                   register={register}
                 />
               </div>
-              <div>
+              <div className="cPspecialTypeContainer">
                 <Controller
                   name="specialTypeValue"
                   control={control}
@@ -651,8 +740,8 @@ const priceCalulate =(data:any)=>{
                     <InputComponent
                       name="specialTypeValue"
                       onChange={onChange}
-                      onBlur={()=>{
-                        priceCalulate(selectedFoodItems)
+                      onBlur={() => {
+                        priceCalulate(selectedFoodItems);
                       }}
                       value={value}
                       trigger={trigger}
@@ -664,6 +753,7 @@ const priceCalulate =(data:any)=>{
                 />
               </div>
             </div>
+
             <div className="items-details">
               <h3>Items</h3>
               <div className="category-details">
@@ -694,6 +784,7 @@ const priceCalulate =(data:any)=>{
                     )}
                   />
                 </div>
+                
                 <div>
                   <Controller
                     name="subCategory"
@@ -729,7 +820,7 @@ const priceCalulate =(data:any)=>{
                     <Controller
                       name="selectedFooditems"
                       control={control}
-                      render={({ field }:any) => (
+                      render={({ field }: any) => (
                         <input
                           type="text"
                           name="selectedFooditems"
@@ -755,7 +846,11 @@ const priceCalulate =(data:any)=>{
                           <li
                             key={index}
                             className={`selectedlist ${
-                              selectedFoodItems.some((food: any) => food.id === item.id) ? "highlighted" : ""
+                              selectedFoodItems.some(
+                                (food: any) => food.id === item.id
+                              )
+                                ? "highlighted"
+                                : ""
                             }`}
                             onClick={() => handleItemClick(index, item)}
                           >
@@ -770,7 +865,7 @@ const priceCalulate =(data:any)=>{
 
               {overlapShow && <Overlap onclose={closeOverlapPopUp} />}
 
-              {selectedFoodItems.length > 0 && 
+              {selectedFoodItems.length > 0 && (
                 <div className="list-of-offeritems">
                   <table
                     style={{
@@ -812,14 +907,17 @@ const priceCalulate =(data:any)=>{
                             />
                           </td>
                           <td className="offer-table-data toggle-icon-data">
-                            <Toggle toggle={item.available} togglecolor="white" />
+                            <Toggle
+                              toggle={item.available}
+                              togglecolor="white"
+                            />
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-              }
+              )}
 
               <div className="effectiveperiod">
                 <h3>Effective period</h3>
@@ -940,7 +1038,7 @@ const priceCalulate =(data:any)=>{
                 )}
 
                 <div className="timeContainer">
-                <h4 className="Time-heading">Time</h4>
+                  <h4 className="Time-heading">Time</h4>
                   <div className="time-format">
                     <div className="time-selector">
                       <Controller
@@ -972,9 +1070,11 @@ const priceCalulate =(data:any)=>{
                                       .match(/(\d{0,2})(\d{0,2})?/);
 
                                     const hours =
-                                      (formattedValue && formattedValue[1]) || "";
+                                      (formattedValue && formattedValue[1]) ||
+                                      "";
                                     const minutes =
-                                      (formattedValue && formattedValue[2]) || "";
+                                      (formattedValue && formattedValue[2]) ||
+                                      "";
 
                                     const formattedTime = [hours, minutes]
                                       .filter(Boolean)
@@ -1062,9 +1162,11 @@ const priceCalulate =(data:any)=>{
                                       .match(/(\d{0,2})(\d{0,2})?/);
 
                                     const hours =
-                                      (formattedValue && formattedValue[1]) || "";
+                                      (formattedValue && formattedValue[1]) ||
+                                      "";
                                     const minutes =
-                                      (formattedValue && formattedValue[2]) || "";
+                                      (formattedValue && formattedValue[2]) ||
+                                      "";
 
                                     const formattedTime = [hours, minutes]
                                       .filter(Boolean)
@@ -1133,17 +1235,23 @@ const priceCalulate =(data:any)=>{
                     valueName="AvailableDays"
                     register={register}
                     disabledays={disabledDay}
-                    dateShow ={dateShow}
+                    dateShow={dateShow}
                   />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className = {isExpanded ? "saveandcancel-btn-offer" : "saveandcancel-btn-offer1"}>
-            <button 
-              className="cancel-btn" 
-              onClick={() => history.push('/Offers/active')}
+          <div
+            className={
+              isExpanded
+                ? "saveandcancel-btn-offer"
+                : "saveandcancel-btn-offer1"
+            }
+          >
+            <button
+              className="cancel-btn"
+              onClick={() => history.push("/Offers/active")}
             >
               Cancel
             </button>

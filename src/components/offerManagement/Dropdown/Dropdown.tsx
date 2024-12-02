@@ -278,8 +278,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className="dropdown-component" ref={dropdownRef}>
-      <div className="dropDownBox">
+    <div className="sPdropdown-component" ref={dropdownRef}>
+      <div className="sPdropDownBox">
         <div>
           <input
           style={{width:width,height:"44px"}}
@@ -295,10 +295,10 @@ const Dropdown: React.FC<DropdownProps> = ({
             name={name}
             // onBlur={handleBlur}
             autoComplete="off"
-            className={`dropdown-search`}
+            className={`cPdropdown-search`}
             // disabled={Disablesubcategory && name === "subCategory"}
           />
-          <span className="dropdown-arrow" onMouseDown={handleOptionMouseDown}>
+          <span className="cPdropdown-arrow" onMouseDown={handleOptionMouseDown}>
             {dropdownopen ? (
               <img
                 src={dropdown}
@@ -306,7 +306,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                   handleAboveArrowdropdown();
                 }}
                 alt="dropdown"
-                className="dropdownimageclosed"
+                className="cPdropdownimageclosed"
               />
             ) : (
               <img
@@ -315,29 +315,29 @@ const Dropdown: React.FC<DropdownProps> = ({
                   handleBelowArrowdropdown();
                 }}
                 alt="dropdown"
-                className="dropdownimageopen"
+                className="cPdropdownimageopen"
               />
             )}
           </span>
         </div>
 
         <div className="errorContainer">
-          {error && <p className="Dropdown-Error-message">{error.message}</p>}
+          {error && <p className="cPDropdown-Error-message">{error.message}</p>}
         </div>
       </div>
 
       {dropdownopen && (
-        <div className="dropdownBodyContainer">
-          <div className="dropdown-body">
-            <div className="Dropdown-lists-and-edit">
+        <div className="cPdropdownBodyContainer">
+          <div className="cPdropdown-body">
+            <div className="cPDropdown-lists-and-edit">
               <ul
-                className="dropdown-options"
+                className="cPdropdown-options"
                 onMouseDown={handleOptionMouseDown}
               >
                 {dropDownLoading ? (
-                  <div className="dropdown-no-options">
+                  <div className="cPdropdown-no-options">
                     <Loader
-                      className="imgLoader1"
+                      className="cPimgLoader1"
                       height="300px"
                       width="300px"
                       style={{
@@ -353,18 +353,18 @@ const Dropdown: React.FC<DropdownProps> = ({
                     {!Loading && filteredOptions?.length > 0 ? (
                       filteredOptions?.map((option, index) => {
                         return (
-                          <div className="dropdown-option-list" key={index}>
-                            <li className="dropdown-option">
+                          <div className="cPdropdown-option-list" key={index}>
+                            <li className="cPdropdown-option">
                               <input
                                 type={type}
                                 checked={selectedOptions?.some(
                                   (opt) => opt?.id === option?.id
                                 )}
-                                className="dropdon-option-inputfield"
+                                className="cPdropdon-option-inputfield"
                                 onChange={() => handleCheckboxChange(option)}
                               />
                               <span
-                                className="dropdon-option-label"
+                                className="cPdropdon-option-label"
                                 onClick={() => handleSelect(option)}
                               >
                                 {option.name}
@@ -373,7 +373,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                             <div>
                               {editList && (
                                 <span
-                                  className={`dropdown-option-delete `}
+                                  className={`cPdropdown-option-delete `}
                                   onClick={() =>
                                     option?.canDelete
                                       ? handledeletion(option.id)
@@ -393,18 +393,18 @@ const Dropdown: React.FC<DropdownProps> = ({
                         );
                       })
                     ) : (
-                      <li className="dropdown-no-options">No options found</li>
+                      <li className="cPdropdown-no-options">No options found</li>
                     )}
                   </div>
                 )}
               </ul>
-              <div className="edititem">
+              <div className="cPedititem">
                 {!dropDownLoading &&
                   options?.length > 0 &&
                   !editList &&
                   editValues && (
                     <p
-                      className="editiconimage"
+                      className="cPediticonimage"
                       onMouseDown={handleOptionMouseDown}
                       onClick={() => handleedit()}
                       // style={{position:'relative',left:'-2rem'}}
@@ -417,21 +417,21 @@ const Dropdown: React.FC<DropdownProps> = ({
 
             {
               <div
-                className="dropdown-Addbutton"
+                className="cPdropdown-Addbutton"
                 onMouseDown={handleOptionMouseDown}
               >
                 {addNew && addNewButton && (
-                  <div className="dropdown-addnew">
-                    <div className="dropdown-addnew-input-and-button">
+                  <div className="cPdropdown-addnew">
+                    <div className="cPdropdown-addnew-input-and-button">
                       <input
                         type="text"
                         ref={NewItemref}
-                        className="dropdown-addnew-input-filed"
+                        className="cPdropdown-addnew-input-filed"
                       />
                       <button
                         type="button"
                         onClick={handleNewItemAdd}
-                        className="dropdown-addnew-button"
+                        className="cPdropdown-addnew-button"
                       >
                         Add
                       </button>
@@ -439,15 +439,15 @@ const Dropdown: React.FC<DropdownProps> = ({
                   </div>
                 )}
 
-                <div className="Addnew-edit-fields">
-                  <div className="dropdown-edit-button">
+                <div className="cPAddnew-edit-fields">
+                  <div className="cPdropdown-edit-button">
                     {editList && editValues && !addNewButton && (
                       <p
                         onClick={(e) => {
                           e.stopPropagation();
                           handleedit();
                         }}
-                        className="dropdown-edit-done"
+                        className="cPdropdown-edit-done"
                       >
                         Done
                       </p>
@@ -457,7 +457,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                     addNew &&
                     !addNewButton && (
                       <button
-                        className="dropdown-addbutton"
+                        className="cPdropdown-addbutton"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleNewItemAddition();

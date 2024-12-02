@@ -9,9 +9,40 @@ import './style.scss'
 
 const CompletedTable = () => {
   const { isExpanded } = useContext(Contextpagejs);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const componentRef = useRef<HTMLDivElement | null>(null);
 
   const data = [
+    {
+      name: "Bar Happy Hour",
+      duration: "10:00AM–12:00AM",
+      date: '28/10/24 - 14/11/24',
+      days: ["S", "M", "T", "W", "T", "F", "S"],
+      channel: "Dine In, Delivery, Pickup",
+      items: ["Biriyani", "Chapati", "Parotta", "Parotta", "Parotta"],
+      totalItems: 5,
+      specialPrice: "$5.89",
+    },
+    {
+      name: "Bar Happy Hour",
+      duration: "10:00AM–12:00AM",
+      date: '28/10/24 - 14/11/24',
+      days: ["S", "M", "T", "W", "T", "F", "S"],
+      channel: "Dine In, Delivery, Pickup",
+      items: ["Biriyani", "Chapati", "Parotta", "Parotta", "Parotta"],
+      totalItems: 5,
+      specialPrice: "$5.89",
+    },
+    {
+      name: "Bar Happy Hour",
+      duration: "10:00AM–12:00AM",
+      date: '28/10/24 - 14/11/24',
+      days: ["S", "M", "T", "W", "T", "F", "S"],
+      channel: "Dine In, Delivery, Pickup",
+      items: ["Biriyani", "Chapati", "Parotta", "Parotta", "Parotta"],
+      totalItems: 5,
+      specialPrice: "$5.89",
+    },
     {
       name: "Bar Happy Hour",
       duration: "10:00AM–12:00AM",
@@ -58,43 +89,62 @@ const CompletedTable = () => {
     );
   };
 
+  const handleOfferDropdown = (index: number) => {
+    setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   return (
-    <div className='completedTable'>
-          <div className={isExpanded ? " offerTable" : "offerTable1"}>
+      <div className={isExpanded ? "completedTable" : "completedTable1"}>
       <SidePanel />
-      <div className="offerTableBody">
+      <div className="completedTableBody">
         <OfferHeader />
-        <div className={isExpanded ? "table-container" : "table-container1"}>
-          <table className={isExpanded ? "OffersTable" : "OffersTable1"}>
+        <div className={isExpanded ? "completedtable-container" : "completedtable-container1"}>
+          <table className={isExpanded ? "completedTablee" : "completedTablee1"}>
             <thead>
-              <tr className="OffrtsTabletr">
-                <th className="OffrtsTableth">Name</th>
-                <th className="OffrtsTableth">Duration</th>
-                <th className="OffrtsTableth">Channel</th>
-                <th className="OffrtsTableth">Items</th>
-                <th className="OffrtsTableth">Total Items</th>
-                <th className="OffrtsTableth">Special Price</th>
+              <tr className="completedtsTabletr">
+                <th className="completedtsTableth">Name</th>
+                <th className="completedtsTableth">Duration</th>
+                <th className="completedtsTableth">Channel</th>
+                <th className="completedtsTableth">Items</th>
+                <th className="completedtsTableth">Total Items</th>
+                <th className="completedtsTableth">Special Price</th>
               </tr>
             </thead>
             <tbody>
               {data.map((row, index) => (
-                <tr key={index} className="OffrtsTabletr">
-                  <td className="OffrtsTabletd">{row.name}</td>
-                  <td className="OffrtsTabletd">
+                <tr key={index} className="completedtsTabletr">
+                  <td className="completedtsTabletd">{row.name}</td>
+                  <td className="completedtsTabletd">
                     <p className="duration"><span>{row.duration}</span>{row.date}</p>
                     <DaysWeekOffer highlightedDays={[1, 2]} />
                   </td>
-                  <td className="OffrtsTabletd">{row.channel}</td>
-                  <td className="OffrtsTabletd">{renderItems(row.items)}</td>
-                  <td className="OffrtsTabletd">{row.totalItems}</td>
-                  <td className="OffrtsTabletd">{row.specialPrice}</td>
+                  <td className="completedtsTabletd">{row.channel}</td>
+                  <td className="completedtsTabletd">{renderItems(row.items)}</td>
+                  <td className="completedtsTabletd">{row.totalItems}</td>
+                  <td className="completedtsTabletd">{row.specialPrice}</td>
+                  <td className="OffrtsTabletd">
+                    <div className="action-container" ref={componentRef}>
+                      <img
+                        src={ThreeDotsImage}
+                        width="5"
+                        height="20"
+                        // ref={componentRef}
+                        onClick={() => handleOfferDropdown(index)}
+                        alt="Actions"
+                      />
+                      {activeIndex === index && (
+                        <div className="OffersDropDownTable">
+                          <OfferDropDown />
+                        </div>
+                      )}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
-    </div>
     </div>
   )
 }
