@@ -1137,7 +1137,7 @@ const PrimaryPage = () => {
 
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
-                    <LableComponent lable="SubCategory" />
+                    <LableComponent lable="Sub Category" />
                     <Controller
                       name="subCategory"
                       control={control}
