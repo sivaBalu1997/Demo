@@ -1307,7 +1307,7 @@ const handleBlur = (
                                   validation={validationState.items}
                                   label="Available Service Stream*"
                                 />
-                                {                                customizationerrors[modIndex]?.errormsgforselectedvalues &&   <span className="nameErrormsg">{customizationerrors[modIndex]?.errormsgforselectedvalues}</span>
+                                {   customizationerrors[modIndex]?.errormsgforselectedvalues &&   <span className="nameErrormsg">{customizationerrors[modIndex]?.errormsgforselectedvalues}</span>
                               }
                               </div>
                             </div>
