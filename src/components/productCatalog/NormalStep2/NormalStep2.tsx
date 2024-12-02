@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
 interface NormalForm {
-  PickuppriceNormal: string;
+  PickuppriceNormal: any;
   PickupmealtypeNormal: string;
   DeliverypriceNormal: string;
   DeliverymealtypeNormal: string;
@@ -34,9 +34,9 @@ interface NormalFormData {
     Delivery: number[];
     thirdParty: number[];
     DeliveryMealType: string[];
-    PicupMealType: string[];
+    PicupMealType: number[];
     pickupDetails: {
-      price: number;
+      price: any;
       availabilities: [
         {
           sessions: [];
@@ -44,7 +44,7 @@ interface NormalFormData {
       ];
     };
     deliveryDetails: {
-      price: number;
+      price: any;
       availabilities: [
         {
           sessions: [];
@@ -64,15 +64,15 @@ interface NormalFormData {
     ];
 
     formNormal: {
-      PickuppriceNormal: string;
+      PickuppriceNormal: number;
       PicupMealType: string;
-      DeliverypriceNormal: string;
-      SwiggyNormal: string;
-      ZomatoNormal: string;
+      DeliverypriceNormal: number;
+      SwiggyNormal: number;
+      ZomatoNormal: number;
     };
     thirdPartyOrder: {
-      SwiggyNormal: string;
-      ZomatoNormal: string;
+      SwiggyNormal: number;
+      ZomatoNormal: number;
     };
   };
 }
@@ -174,7 +174,9 @@ const NormalStep2 = () => {
                   <div key={index}>
                     <h1 className="Step2DineInPricevalue">
                       {restaurantDetails?.country === "US" ? "$" : "Rs."}
-                      {elem?.DineInPrice || "N/A"}
+                      {elem?.DineInPrice
+                        ? parseFloat(elem.DineInPrice).toFixed(2) // Ensure two decimal places
+                        : "N/A"}
                     </h1>
                   </div>
                 </>
@@ -203,25 +205,7 @@ const NormalStep2 = () => {
             })}
         </div>
 
-        <div className="Step2DineInServiceArea">
-          <div>
-            <h1 className="Step2DineInServiceAreaheading">Service Area</h1>
-          </div>
 
-          {prizingDetail &&
-            prizingDetail?.normalForm &&
-            prizingDetail?.normalForm?.dineinfields?.map((elem, index) => {
-              return (
-                <>
-                  <div>
-                    <h1 className="Step2DineInPricevalue">
-                      {elem?.DineInService || "N/A"}
-                    </h1>
-                  </div>
-                </>
-              );
-            })}
-        </div>
       </div>
       <h1 className="AvailDaysheading">Available Days</h1>
       {prizingDetail &&
@@ -247,13 +231,13 @@ const NormalStep2 = () => {
           </div>
           <div>
             {prizingDetail &&
-            prizingDetail.normalForm &&
-            prizingDetail.normalForm.pickupDetails &&
-            prizingDetail.normalForm.pickupDetails.price ? (
+              prizingDetail.normalForm &&
+              prizingDetail.normalForm.pickupDetails &&
+              prizingDetail.normalForm.pickupDetails.price ? (
               <h1 className="Step2SellingPrizevalue">
                 {restaurantDetails?.country === "US" ? "$" : "Rs."}
 
-                {prizingDetail.normalForm.pickupDetails.price}
+                {parseFloat(prizingDetail.normalForm.pickupDetails.price).toFixed(2)}
               </h1>
             ) : (
               <>
@@ -269,18 +253,16 @@ const NormalStep2 = () => {
           <div>
             <h1 className="Step2SellingPrizevalue">
               {prizingDetail &&
-              prizingDetail.normalForm &&
-              prizingDetail.normalForm.pickupDetails &&
-              prizingDetail.normalForm.pickupDetails.availabilities &&
-              prizingDetail.normalForm.pickupDetails.availabilities.length >
+                prizingDetail.normalForm &&
+                prizingDetail.normalForm.pickupDetails &&
+                prizingDetail.normalForm.pickupDetails.availabilities &&
+                prizingDetail.normalForm.pickupDetails.availabilities.length >
                 0 &&
-              prizingDetail.normalForm.pickupDetails.availabilities[0]
-                .sessions &&
-              onlinePickupFormatted?.length > 0
+                prizingDetail.normalForm.pickupDetails.availabilities[0].sessions
                 ? //  prizingDetail.normalForm.pickupDetails.availabilities[0].sessions.map(
-                  //     (elem) => elem
-                  //   )
-                  onlinePickupFormatted
+                //     (elem) => elem
+                //   )
+                onlinePickupFormatted
                 : "N/A"}
             </h1>
           </div>
@@ -303,13 +285,13 @@ const NormalStep2 = () => {
           </div>
           <div>
             {prizingDetail &&
-            prizingDetail.normalForm &&
-            prizingDetail.normalForm.deliveryDetails &&
-            prizingDetail.normalForm.deliveryDetails.price ? (
+              prizingDetail.normalForm &&
+              prizingDetail.normalForm.deliveryDetails &&
+              prizingDetail.normalForm.deliveryDetails.price ? (
               <h1 className="Step2SellingPrizevalue">
                 {restaurantDetails?.country === "US" ? "$" : "Rs."}
 
-                {prizingDetail.normalForm.deliveryDetails.price}
+                {parseFloat(prizingDetail.normalForm.deliveryDetails.price).toFixed(2)}
               </h1>
             ) : (
               <>
@@ -328,9 +310,9 @@ const NormalStep2 = () => {
                 ?.length > 0 && onlineDeliveryFormatted?.length > 0
                 ? onlineDeliveryFormatted
                 : // prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions?.map(
-                  //     (elem) => elem
-                  //   )
-                  "N/A"}
+                //     (elem) => elem
+                //   )
+                "N/A"}
             </h1>
           </div>
         </div>
