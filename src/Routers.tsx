@@ -36,7 +36,7 @@ import AddCustomizationInput from "pages/menuCustomization/AddCustomizationInput
 import NotFound from "pages/notFound";
 import { Menulisting } from "pages/productCatalog/Menulisting/Menulisting";
 import { MenuPage } from "pages/productCatalog/Menulisting/MenuPage";
-import offers from 'pages/offerManagement/specialPriceDetails/specialPriceDetails'
+// import offers from 'pages/offerManagement/specialPriceDetails/specialPriceDetails'
 import Publish from "pages/productCatalog/Publish/Publish";
 import PrimaryDetailsReviewpage from "pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
@@ -59,8 +59,7 @@ import PendingComponent from "pages/ContentManagement/PendingOutlet/PendingOutle
 
 import LiveOutlets from "pages/ContentManagement/LiveOutlets/LiveOutlets";
 import EmptyMenu from "pages/menuItem/EmptyMenu";
-import OffersTable from "pages/offerManagement/OffersTable"
-import OffersHeader from "./components/offerManagement/OffersHeader"
+// import OffersTable from "pages/offerManagement/OffersTable"
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -86,8 +85,7 @@ const Routers = () => {
         <Contextpage>
           <ThemeProvider>
             <Route exact path="/review" component={ReviewMenu} />
-            <Route exact path="/Offers" component={OffersHeader} />
-            <Route exact path="/Offers/active" component={OffersTable} />
+            {/* <Route exact path="/Offers/active" component={OffersTable} /> */}
 
             <Route
               exact
@@ -198,7 +196,7 @@ const Routers = () => {
                   <Switch>
                     <Route exact path="/productCatalog/menuListing" component={MenuPage} />
                     {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
-                    <Route exact path="/offer/special" component={offers} />
+                    {/* <Route exact path="/offer/special" component={offers} /> */}
                     <Route
                       path="/productCatalog/Reviewpage"
                       component={PrimaryDetailsReviewpage}
