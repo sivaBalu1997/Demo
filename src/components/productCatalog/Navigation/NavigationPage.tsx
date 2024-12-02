@@ -100,6 +100,8 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
+      
+      console.log("PricingDetails",PricingDetails);
      
       const isinValid = await triggerValidation(formData);
 
@@ -138,6 +140,9 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       }
 
       if (isValid) {
+
+
+        
         dispatch(PricingDetailRequest(PricingDetails));
         setCurrentPage(category);    
         history.push(`/productCatalog/${path}`, { pagename: category });

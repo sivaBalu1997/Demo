@@ -116,7 +116,9 @@ export interface SubmitButtonProps {
   mainForm?: MainForm;
   validation?: () => boolean;
   handleValidate?: any;
-  itemcodeValid?:boolean
+  itemcodeValid?:boolean;
+  errors?:any
+  validateModifiers?:any;
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
@@ -129,9 +131,12 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   mainForm,
   handleValidate,
   itemcodeValid,
+  errors,
+  validateModifiers
 }) => {
   const history = useHistory();
-  const { isExpanded } = useContext(Contextpagejs);
+  const { isExpanded ,setValiadtePriceFields} = useContext(Contextpagejs);
+
   // Safely invoking validation
 
   // const extractFields = (formData: FormData) => {
@@ -216,9 +221,13 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
       const isValid = handleValidate && handleValidate();
+      const valid=setValiadtePriceFields
 
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
+
+      console.log("PricingDetails",PricingDetails);
+      
      
       const isinValid = await triggerValidation(formData);
 
@@ -265,10 +274,16 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         });
       }
     } else if (seletedpage === "ItemCustomization") {
+      const isValid = validateModifiers && validateModifiers(modifications);
       const modificationArray = modifications;
       const formData = getFormData();
-      dispatch(itemCustomizationPost(modificationArray));
-      history.push("/productCatalog/Reviewpage");
+     
+      if(isValid)
+      {
+        dispatch(itemCustomizationPost(modificationArray));
+        history.push("/productCatalog/Reviewpage");
+      }
+     
     }
   };
 
