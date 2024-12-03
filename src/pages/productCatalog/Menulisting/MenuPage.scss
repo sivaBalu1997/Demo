@@ -108,72 +108,42 @@
 
 .header-container {
   display: flex;
-  width: 23rem;
-  height: 3rem;
-  z-index: 1;
-  background-color: white;
- 
-  align-items: center;
-  // gap:2rem;
+  height: 4rem;
+  // width: 100%;
+  z-index: 0;
+  .first-div-header {
+    display: flex;
+    width: 23rem;
+    height: 3rem;
+    z-index: 1;
+    background-color: white;
+    // gap:2rem;
 
-  .image
-  {
- width: 5rem;
- padding: 5px;
- font-size: 16px;
-font-weight: 500;
-line-height: 24px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-//  border: 1px solid blue;
+    .image {
+      width: 5rem;
+      padding: 5px;
+      //  border: 1px solid blue;
+    }
+    .name-item {
+      width: 10rem;
+      // border: 1px solid blue;
+      padding: 5px;
+    }
+    .item-code {
+      width: 4rem;
+      padding: 5px;
+      display: flex;
+      // border: 1px solid blue;
+    }
   }
-  .name-item
-  {
-    width: 10rem;
-    // border: 1px solid blue;
-    padding: 5px;
-    // font-family: Poppins;
-font-size: 16px;
-font-weight: 500;
-line-height: 24px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-
-  }
-  .item-code
-  {
-width: 4rem;
-padding: 5px;
-display: flex;
-// font-family: Poppins;
-font-size: 16px;
-font-weight: 500;
-line-height: 24px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-
-// border: 1px solid blue;
-  }
-
-  }
-  .second-div-header
-  {
+  .second-div-header {
     height: 3rem;
     display: flex;
     gap: 0.5rem;
     background-color: white;
     // border: 1px solid red;
-  // margin-top: 2rem;
-  z-index: 0;
-  font-size: 16px;
-font-weight: 500;
-line-height: 24px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
+    // margin-top: 2rem;
+    z-index: 0;
   }
 
   .scroll-container-expand {
@@ -204,7 +174,7 @@ text-decoration-skip-ink: none;
       display: none;
     }
   }
-
+}
 
 .itemimage2 {
   width: 5rem;
@@ -215,27 +185,11 @@ text-decoration-skip-ink: none;
   width: 10rem;
   // border: 1px solid blue;
   padding: 5px;
-  // font-family: Poppins;
-font-size: 16px;
-font-weight: 400;
-line-height: 24px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-
 }
 .itemcode2 {
   width: 4rem;
   padding: 5px;
   display: flex;
-  // font-family: Poppins;
-font-size: 16px;
-font-weight: 500;
-line-height: 24px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-
 }
 .item-name-code-data {
   display: flex;
@@ -542,13 +496,12 @@ text-decoration-skip-ink: none;
   // border: 1px solid red;
 }
 
-.addbtn-menupage
-{
+.addbtn {
   background: none;
   border: 0.5px solid #5f5f5f;
   position: relative;
   left: 1rem;
-  // top: 0.5rem;
+  top: 0.5rem;
   width: 24px;
   height: 27px;
   border-radius: 4px;
