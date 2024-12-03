@@ -101,7 +101,16 @@
     // border: 1px solid red;
     cursor: pointer;
     &::-webkit-scrollbar {
-      display: none;
+      display: block;
+      width: 0.5rem;
+      height: 10px;
+      background-color: #8f8f8f;
+      border-radius: 1rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #4c4c4c;
+      border-radius: 0.6rem;
+      height: 0.5rem;
     }
     .dropdown-option-list {
       display: flex;

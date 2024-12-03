@@ -197,9 +197,16 @@ const SearchBox = () => {
         />
       </div>
 
-      <div ref={popupRef} className={`${isExpanded ? "MLSearch-Container-options1" : 'MLSearch-Container-options-menu'} ${filteredOptions.length>0 && searchTerm!=="" && "searched-item-box"}`}>
+      <div 
+        ref={popupRef} 
+        className={`${isExpanded ? 
+          "MLSearch-Container-options1" : 
+          'MLSearch-Container-options-menu'
+        } ${filteredOptions.length>0 && searchTerm!=="" && "searched-item-box"}`
+        }
+      >
         {searchTerm && closeModal && (
-          <ul className='MLsearchBoxContainer'>
+          <ul className={isExpanded ? 'MLsearchBoxContainer1' : 'MLsearchBoxContainer'}>
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (
                 <li
@@ -213,11 +220,15 @@ const SearchBox = () => {
                 </li>
               ))
             ) : !optionSelected && (
-              <div className={isExpanded ? 'MLSearch-Container-options1-none' : 'MLSearch-Container-options-none'}>
-                <div className='MLSearch-Container-options-none-flex-direction'>
-                  <img className="MLNotFoundImage" src={NotFound} alt="MLNo Results Found" />
-                  <h3 className='MLheading-none'>No Results Found</h3>
-                </div>
+              <div 
+                className={
+                  isExpanded ? 
+                    'MLSearch-Container-options1-none' : 
+                    'MLSearch-Container-options-none'
+                }
+              >
+                <img className="MLNotFoundImage" src={NotFound} alt="MLNo Results Found" />
+                <h3 className='MLheading-none'>No Results Found</h3>
               </div>
             )}
           </ul>

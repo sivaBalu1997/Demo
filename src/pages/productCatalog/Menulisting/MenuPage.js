@@ -979,8 +979,16 @@ export const MenuPage = () => {
                 </div>
               </div>
               <div
-                className={`${isExpanded ? "body-container-expand" : "body-container"
-                  }`}
+
+className={`${isExpanded  && !menuDataLoading&& "body-container-expand" 
+} ${!isExpanded  && !menuDataLoading&& "body-container" 
+}`}
+                // className={`${isExpanded ? "body-container-expand" : "body-container"
+                //   }`}
+
+
+
+
               >
                 <div className="first-div-body">
                   {itemList?.map((data, parentIndex) => (
@@ -1037,8 +1045,10 @@ export const MenuPage = () => {
 
                 <div className="scroll-container22">
                   <div
-                    className={`${isExpanded ? "second-div-body-expand" : "second-div-body"
-                      }`}
+                   className={`${isExpanded  && !menuDataLoading&& "second-div-body-expand" 
+                   } ${!isExpanded  && !menuDataLoading&& "second-div-body" 
+                   }`}
+                   
                     ref={bodyRef}
                     style={{ height: menuDataLoading ? "39.5rem" : "" }}
                   >

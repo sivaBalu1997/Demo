@@ -621,12 +621,14 @@ export default function productCatalogReducer(
       case START_IMAGE_UPLOAD:
         draft.uploadImageLoading = true;
         draft.imageUploadsuccessemsg = false;
+        draft.addMenuLoading = true;
         break;
 
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
         draft.uploadImageLoading = false;
         draft.imageUploadsuccessemsg = false;
+        draft.addMenuLoading = false;
         break;
 
       case UPLOAD_IMAGE_FAILURE:
@@ -634,12 +636,14 @@ export default function productCatalogReducer(
         draft.imageuploadStatus = action.payload;
         draft.imageerrorMessage = action.payload;
         draft.imageUploadsuccessemsg = false;
+        draft.addMenuLoading = false;
         break;
 
       case IMAGE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.itemId = action.payload;
         draft.imageUploadsuccessemsg = false;
+        draft.addMenuLoading = false;
         break;
 
       case STORE_UPLOAD_FAILURE:
@@ -647,11 +651,15 @@ export default function productCatalogReducer(
         draft.uploadFailures = action.payload.failureArray;
         draft.imageUpload = action.payload.statusmsg;
         draft.imageUploadsuccessemsg = false;
+        draft.addMenuLoading = false;
+        break;
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.successImageId = action.payload;
         draft.imageUploadsuccessemsg = true;
+        draft.addMenuLoading = false;
+        break;
 
       case RETRY_IMAGE_SUCCESS:
         draft.retrySucess = action.payload;
