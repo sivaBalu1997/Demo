@@ -157,7 +157,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
     const [showDineIn, setShowDineIn] = useState(false);
-     const { setValiadtePriceFields ,setStoredFunction} = useContext(Contextpagejs);
+    const { setValiadtePriceFields, setStoredFunction } =
+      useContext(Contextpagejs);
 
     const [dineinentry, setDineInEntry] = useState<string[]>([]);
     const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
@@ -204,8 +205,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const prizingDetail = useSelector(
       (state: any) => state.PricingDetailReducer.prizingData
     );
-    console.log("jhg",prizingDetail);
-    
 
     const [formNormal, setformNormal] = useState({
       PickuppriceNormal: "",
@@ -235,11 +234,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
     );
 
-
     // const seletedItemOrderTypes=data
 
-    console.log({orderTypes});
-    
     const data = useSelector(
       (state: any) => state?.selectedMockDataReducer?.data
     );
@@ -327,72 +323,53 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       },
     ]);
 
- 
-    const [dineInEnable,setdineInEnable]=useState<boolean>(true)
-    const [pickupEnable,setpickupEnable]=useState<boolean>(true)
-    const [deliveryEnable,setdeliveryEnable]=useState<boolean>(true)
+    const [dineInEnable, setdineInEnable] = useState<boolean>(true);
+    const [pickupEnable, setpickupEnable] = useState<boolean>(true);
+    const [deliveryEnable, setdeliveryEnable] = useState<boolean>(true);
 
-const seletedOrdertypes=dataFromRedux[0].orderTypes;
-console.log({seletedOrdertypes});
+    const seletedOrdertypes = dataFromRedux[0]?.orderTypes;
 
+    // useEffect(() => {
+    //   const DineInEnable = seletedOrdertypes?.find(
+    //     (item: any) => item.typeGroup === "D"
+    //   )?.isEnabled;
+    //   const pickUpenable = seletedOrdertypes?.find(
+    //     (item: any) => item.typeGroup === "P"
+    //   )?.isEnabled;
+    //   const deliveryEnable = seletedOrdertypes?.find(
+    //     (item: any) => item.typeGroup === "S"
+    //   )?.isEnabled;
 
-    useEffect(()=>{
-      const DineInEnable = seletedOrdertypes?.find(
-        (item: any) => item.typeGroup === "D"
-      )?.isEnabled;
-      const pickUpenable = seletedOrdertypes?.find(
-        (item: any) => item.typeGroup === "P"
-      )?.isEnabled;
-      const deliveryEnable = seletedOrdertypes?.find(
-        (item: any) => item.typeGroup === "S"
-      )?.isEnabled;
+    //   if (DineInEnable === 0) {
+    //     setShowDineIn(false);
+    //     setdineInEnable(false);
+    //   } else {
+    //     setShowDineIn(true);
+    //     setdineInEnable(true);
+    //   }
 
-      console.log({DineInEnable,pickUpenable,deliveryEnable});
+    //   if (pickUpenable === 0) {
+    //     setPickup(false);
+    //     setpickupEnable(false);
+    //   } else {
+    //     setPickup(true);
+    //     setpickupEnable(true);
+    //   }
 
-      if(DineInEnable===1)
-        {
-          setShowDineIn(true);
-          setdineInEnable(true);
-        }
-        else{
-        
-          setShowDineIn(false);
-          setdineInEnable(false);
-        }
-        
-        if(pickUpenable===1)
-          {
-            setPickup(true);
-            setpickupEnable(true);
-          }
-          else{
-          
-            setPickup(false);
-            setpickupEnable(false);
-          }
+    //   if (deliveryEnable === 0) {
+    //     setDelivery(false);
+    //     setdeliveryEnable(false);
+    //   } else {
+    //     setDelivery(true);
+    //     setdeliveryEnable(true);
+    //   }
 
-          if( deliveryEnable===1)
-            {
-              setDelivery(true);
-              setdeliveryEnable(true);
-            }
-            else{
-            
-              setDelivery(false);
-              setdeliveryEnable(false);
-            }
-      
-
-            if(pickUpenable===1 || deliveryEnable===1)
-            {
-              setOnline(true)
-            }
-            else{
-              setOnline(false)
-            }
-
-
-    },[])
+    //   if (pickUpenable === 1 || deliveryEnable === 1) {
+    //     setOnline(true);
+    //   } else {
+    //     setOnline(false);
+    //   }
+    // }, []);
 
     const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
 
@@ -450,7 +427,6 @@ console.log({seletedOrdertypes});
       // })
       ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
     };
-   
 
     const optionsselectthird = orderTypes
       ?.filter((item) => item.typeGroup === "T")
@@ -491,8 +467,27 @@ console.log({seletedOrdertypes});
       }
     }, [selectedthirdvalues]);
 
+    const editData = useSelector((state: any) => state.productCatalog.editData);
+
     useEffect(() => {
+      
       if (prizingDetail?.normalForm?.formNormal) {
+        const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
+        const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
+        const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
+        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+
+        const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === dineIndetail?.typeId
+        );
+        const filterOrderTypeAvailableorNotPickup = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === pickupDetails?.typeId
+        );
+        const filterOrderTypeAvailableorNotDelivery = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === deliveryDetails?.typeId
+        );
+
+
         setformNormal({
           PickuppriceNormal:
             prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
@@ -514,11 +509,29 @@ console.log({seletedOrdertypes});
             prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
         });
 
-     
-        console.log("prizing",prizingDetail?.normalForm);
-        
-     
-       
+        // if (editData?.length > 0 &&
+        //   filterOrderTypeAvailableorNotDineIn &&
+        //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 1
+        // ) {
+        //   setShowDineIn(true);
+        //   setdineInEnable(true);
+        // } else {
+        //   setShowDineIn(false);
+        //   setdineInEnable(false);
+        // }
+
+        // if (
+        //   editData?.length > 0 &&
+        //   filterOrderTypeAvailableorNotPickup &&
+        //   filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 1 &&
+        //   pickupDetails?.price > 0
+        // ) {
+        //   setPickup(true);
+        //   setpickupEnable(true);
+        // } else {
+        //   setPickup(false);
+        //   setpickupEnable(false);
+        // }
 
         const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
           (item: any) => ({
@@ -529,71 +542,16 @@ console.log({seletedOrdertypes});
             dayButtonText: "Choose Day",
           })
         );
-        const dineIndetail= prizingDetail?.normalForm?.dineInDetails
-    
+
         const updatedField = {
           DineInPrice: dineIndetail?.price,
           DineInMealType: dineIndetail?.availabilities[0]?.sessions,
-          showDay:
-          prizingDetail.normalForm.DineIn[0].length > 0
-              ? true
-              : false,
+          showDay: prizingDetail.normalForm.DineIn[0]?.length > 0 ? true : false,
           dayButtonText: "Choose Day",
         };
 
-       
-
-        
-        
-
-
-       
-        const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
-        const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
-        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-       
-        const filterOrderTypeAvailableorNotDineIn=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.typeId===dineIndetail?.typeId
-
-          
-        ))
-        const filterOrderTypeAvailableorNotPickup=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.typeId===pickupDetails?.typeId
-
-          
-        ))
-        const filterOrderTypeAvailableorNotDelivery=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.typeId===deliveryDetails?.typeId
-
-          
-        ))
-     
-
-        console.log({filterOrderTypeAvailableorNotPickup,filterOrderTypeAvailableorNotDelivery});
-
-
-if(filterOrderTypeAvailableorNotDineIn && filterOrderTypeAvailableorNotDineIn[0]?.isEnabled===1)
-{
-  setShowDineIn(true);
-  setdineInEnable(true);
-}
-else{
-
-  setShowDineIn(false);
-  setdineInEnable(false);
-}
-
-
-
-  
- 
-        
-        // setdineInEnable(dineIndetail?.isEnabled===1)
-        // setpickupEnable(pickupDetails?.isEnabled===1)
-        // setdeliveryEnable(deliveryDetails?.isEnabled===1)
-
         setDineInFields([updatedField]);
-       
+
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
@@ -613,28 +571,6 @@ else{
         const thirdPartyTypeName =
           prizingDetail?.normalForm?.thirdpartyDetails?.map;
         if (pickupDetails) {
-          // setOnline(true);
-          if(filterOrderTypeAvailableorNotPickup && filterOrderTypeAvailableorNotPickup[0]?.isEnabled===1 && pickupDetails?.price > 0)
-            {
-              setPickup(true);
-              setpickupEnable(true);
-            }
-            else{
-            
-              setPickup(false);
-              setpickupEnable(false);
-            }
-          
-
-          // if(pickupDetails?.isEnabled===1)
-          //   {
-          //     setPickup(true);
-          //   }
-
-          //   else{
-          //     setPickup(false);
-          //   }
-
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
@@ -645,27 +581,6 @@ else{
         }
 
         if (deliveryDetails) {
-          if(filterOrderTypeAvailableorNotDelivery && filterOrderTypeAvailableorNotDelivery[0]?.isEnabled===1 && deliveryDetails?.price > 0)
-            {
-              setDelivery(true);
-              setdeliveryEnable(true);
-            }
-            else{
-            
-              setDelivery(false);
-              setdeliveryEnable(false);
-            }
-          
-          // if(deliveryDetails?.isEnabled===1)
-          //   {
-          //     setDelivery(true);
-          //   }
-
-          //   else{
-          //     setDelivery(false);
-          //   }
-          // setOnline(true);
-          // deliveryDetails?.price > 0 && setDelivery(true);
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
@@ -713,74 +628,40 @@ else{
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
-      
-        console.log("prizing2",prizingDetail?.normalForm);
-           
-           
-        // setDineIn(true);
-        // setdineInEnable(dineIndetail?.isEnabled===1)
-        // setpickupEnable(pickupDetails?.isEnabled===1)
-        // setdeliveryEnable(deliveryDetails?.isEnabled===1)
-        // console.log("1234",dineIndetail?.isEnabled===1);
-        // setShowDineIn(true);
-         
-        //  if(dineIndetail?.isEnabled===1)
-        //  {
 
-        //  }
+        const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === dineIndetail?.typeId
+        );
+        const filterOrderTypeAvailableorNotPickup = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === pickupDetails?.typeId
+        );
+        const filterOrderTypeAvailableorNotDelivery = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === deliveryDetails?.typeId
+        );
 
-        //  else{
-        //   setShowDineIn(false);
-        //  }
-
-
-
-        const filterOrderTypeAvailableorNotDineIn=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.typeId===dineIndetail?.typeId
-
-          
-        ))
-        const filterOrderTypeAvailableorNotPickup=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.typeId===pickupDetails?.typeId
-
-          
-        ))
-        const filterOrderTypeAvailableorNotDelivery=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.typeId===deliveryDetails?.typeId
-
-          
-        ))
-     
-
-        console.log({filterOrderTypeAvailableorNotPickup,filterOrderTypeAvailableorNotDelivery});
-
-
-if(filterOrderTypeAvailableorNotDineIn && filterOrderTypeAvailableorNotDineIn[0]?.isEnabled===1)
-{
-  setShowDineIn(true);
-  setdineInEnable(true);
-}
-else{
-
-  setShowDineIn(false);
-  setdineInEnable(false);
-}
-
+        if(dineIndetail){
+          setShowDineIn(true);
+          if (editData?.length > 0 &&
+            filterOrderTypeAvailableorNotDineIn &&
+            filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
+          ) {
+            setShowDineIn(false);
+            setdineInEnable(false);
+          } 
+        }
 
         if (pickupDetails) {
+          setPickup(true);
+          if (
+            editData?.length > 0 &&
+            filterOrderTypeAvailableorNotPickup &&
+            filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 0
+          ) {
+            setPickup(false);
+            setpickupEnable(false);
+          } 
 
-          
           pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
-
-          // if(pickupDetails?.isEnabled===1)
-          //   {
-          //     setPickup(true);
-          //   }
-
-          //   else{
-          //     setPickup(false);
-          //   }
-
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
@@ -791,24 +672,15 @@ else{
         }
 
         if (deliveryDetails) {
-          // if(deliveryDetails?.isEnabled===1)
-          //   {
-          //     setDelivery(true);
-          //   }
-
-          //   else{
-          //     setDelivery(false);
-          //   }
-          if(filterOrderTypeAvailableorNotDelivery && filterOrderTypeAvailableorNotDelivery[0]?.isEnabled===1 && deliveryDetails?.price > 0)
-            {
-              setDelivery(true);
-              setdeliveryEnable(true);
-            }
-            else{
-            
-              setDelivery(false);
-              setdeliveryEnable(false);
-            }
+          setDelivery(true);
+          if (
+            editData?.length > 0 &&
+            filterOrderTypeAvailableorNotDelivery &&
+            filterOrderTypeAvailableorNotDelivery[0]?.isEnabled === 0 
+          ) {
+            setDelivery(false);
+            setdeliveryEnable(false);
+          } 
 
           deliveryDetails?.price > 0 ? setOnline(true) : setOnline(false);
           // deliveryDetails?.price > 0 && setDelivery(true);
@@ -847,7 +719,7 @@ else{
             dayButtonText: "Choose Day",
           })
         );
-      
+
         const updatedField = {
           DineInPrice: dineIndetail?.price,
           DineInMealType:
@@ -858,7 +730,7 @@ else{
           showDay:
             dineIndetail &&
             dineIndetail?.availabilities &&
-            prizingDetail.normalForm.DineIn[0].length > 0
+            prizingDetail.normalForm.DineIn[0]?.length > 0
               ? true
               : false,
           dayButtonText: "Choose Day",
@@ -897,12 +769,8 @@ else{
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
         // setSelectedThirdValues(["Swiggy", "Zomato"]);
-        console.log('222',prizingDetail.normalForm.DineIn)
       }
-
-
-      
-    }, [prizingDetail,dataFromRedux[0]]);
+    }, [prizingDetail, dataFromRedux[0]]);
 
     const [initialPricingData, setInitialPricingData] = useState([]);
 
@@ -955,8 +823,6 @@ else{
       index: number,
       e: React.ChangeEvent<HTMLInputElement>
     ): void => {
-      
-      
       const newEntries = [...dineinfields];
       newEntries[index] = {
         ...newEntries[index],
@@ -1197,7 +1063,7 @@ else{
     };
 
     const clearSelection = () => {
-      setMealTypes({})
+      setMealTypes({});
       setPriceInfo([
         {
           typeId: "",
@@ -1211,9 +1077,9 @@ else{
             },
           ],
         },
-      ])
+      ]);
       setSelectedValuesMealType([]);
-      setSelectedThirdValues([])
+      setSelectedThirdValues([]);
       setNormalDays([]);
       setSelectedValues2([]);
       setformNormal({
@@ -1257,74 +1123,10 @@ else{
         resetSelection.current = clearSelection;
       }
     }, [resetSelection]);
-    // useEffect(()=>{
-    //   if(dineinfields.length>0)
-    //   {
-    //     setDineIn(true);
-    //   }
-    //   else{
-    //     setDineIn(false);
-    //   }
-
-    // },[dineinfields])
-    // useEffect(()=>{
-    //   pickupDetails.price >0&&deliveryDetails.price>0 && setOnline(true);
-    // },[pickupDetails,deliveryDetails])
-    // useEffect(() => {
-    //   setDineIn(DineInServiceEnabled === 1);
-    //   setPickup(pickUpIdServiceEnabled === 1);
-    //   setDelivery(DeliveryServiceEnabled === 1);
-    // }, [DineInServiceEnabled, pickUpIdServiceEnabled, DeliveryServiceEnabled]);
 
     const [dropdownopened, setDropdownopened] = useState<boolean>(false);
 
     const [errors, setErrors] = useState<Record<string, string>>({});
-
-    // useEffect(() => {
-    //   const validationErrors: Record<string, string> = {};
-
-    //   dineinfields?.forEach((field: any, index: number) => {
-    //     if (showDineIn) {
-    //       if (
-    //         (showDineIn && !field?.DineInPrice) ||
-    //         Number(field?.DineInPrice) <= 0
-    //       ) {
-    //         validationErrors[`DineInPrice-${index}`] = "Price is empty.";
-    //       }
-
-    //       if (
-    //         (showDineIn && !field?.DineInMealType) ||
-    //         field?.DineInMealType?.length === 0
-    //       ) {
-    //         validationErrors[`DineInMealType-${index}`] = "Meal type is empty.";
-    //       }
-    //     }
-    //   });
-    //   if (pickup) {
-    //     if (!pickupDetails?.price || pickupDetails?.price <= 0) {
-    //       validationErrors.pickupprice = "Price is missing or invalid.";
-    //     }
-
-    //     const Pickupsessions = pickupDetails?.availabilities[0]?.sessions || [];
-    //     if (Pickupsessions?.length === 0) {
-    //       validationErrors.pickupmealTypeSessions = "Sessions are missing.";
-    //     }
-    //   }
-
-    //   if (delivery) {
-    //     if (!deliveryDetails?.price || deliveryDetails?.price <= 0) {
-    //       validationErrors.deliveryprice = "Price is missing or invalid.";
-    //     }
-    //     const deliverysessions =
-    //       deliveryDetails?.availabilities[0]?.sessions || [];
-    //     if (deliverysessions?.length === 0) {
-    //       validationErrors.deliverymealTypeSessions = "Sessions are missing.";
-    //     }
-    //   }
-
-    //   setErrors(validationErrors);
-    //   setValiadtePriceFields(Object.keys(validationErrors).length === 0)
-    // },[dineinfields,pickupDetails,deliveryDetails]);
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
@@ -1347,16 +1149,16 @@ else{
         }
       });
       if (pickup) {
-        if (pickup&&!pickupDetails?.price || pickupDetails?.price <= 0) {
+        if ((pickup && !pickupDetails?.price) || pickupDetails?.price <= 0) {
           validationErrors.pickupprice = "Price is empty";
         }
         const Pickupsessions = pickupDetails?.availabilities[0]?.sessions || [];
-        if (pickup &&Pickupsessions?.length === 0) {
+        if (pickup && Pickupsessions?.length === 0) {
           validationErrors.pickupmealTypeSessions = "Meal type is empty";
         }
       }
 
-      if (pickup&&delivery) {
+      if (pickup && delivery) {
         if (!deliveryDetails?.price || deliveryDetails?.price <= 0) {
           validationErrors.deliveryprice = "Price is empty";
         }
@@ -1376,7 +1178,7 @@ else{
       }
 
       setErrors(validationErrors);
-// console.log("outttt",Object.keys(validationErrors).length === 0);
+      // console.log("outttt",Object.keys(validationErrors).length === 0);
 
       return Object.keys(validationErrors).length === 0;
     };
@@ -1390,8 +1192,6 @@ else{
       // console.log("Validation passed. Proceed with submission.");
       return true;
     };
-
-
 
     const validate = () => {
       const isValid = Math.random() > 0.5;
@@ -1409,9 +1209,6 @@ else{
       pickup,
       delivery,
     ]);
-
-
-    console.log({dineinfields})
 
     return (
       <div>
@@ -1468,11 +1265,16 @@ else{
 
         {
           <div className="DineInRelated">
-            <h1 className="DineInRelatedHeadingNormalAvail" style={{opacity:dineInEnable?"100%":"50%"}}>Dine In</h1>
+            <h1
+              className="DineInRelatedHeadingNormalAvail"
+              style={{ opacity: dineInEnable ? "100%" : "50%" }}
+            >
+              Dine In
+            </h1>
             <Toggle
               toggle={showDineIn}
               setToggle={setShowDineIn}
-              Enabled={dineInEnable===true}
+              Enabled={dineInEnable === true}
             />
           </div>
         }
@@ -1505,13 +1307,13 @@ else{
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
-                          onBlur={()=>validateDineinFields()}
+                          onBlur={() => validateDineinFields()}
                           onInput={(e) => {
                             const inputElement = e.target as HTMLInputElement;
                             const value = inputElement.value;
 
                             if (!/^(\d+(\.\d*)?|\.\d+)$/.test(value)) {
-                              inputElement.value = value.slice(0, -1); 
+                              inputElement.value = value.slice(0, -1);
                             }
                           }}
                         />
@@ -1535,7 +1337,7 @@ else{
                             options={optionsmealtype}
                             index={index}
                             label="Meal Type*"
-                            onBlur={()=>validateDineinFields()}
+                            onBlur={() => validateDineinFields()}
                             width="Drop1"
                           />
                         </div>
@@ -1609,12 +1411,17 @@ else{
             <div className="onlineselected">
               {/* PickupRelated */}
               <div className="PickupRelatedNormal">
-                <h1 className="PickupRelatedHeadingNormal" style={{opacity:pickupEnable?"100%":"50%"}}>Pick Up</h1>
+                <h1
+                  className="PickupRelatedHeadingNormal"
+                  style={{ opacity: pickupEnable ? "100%" : "50%" }}
+                >
+                  Pick Up
+                </h1>
                 <div className="toggleIV">
                   <Toggle
                     toggle={pickup}
                     setToggle={setPickup}
-                    Enabled={pickupEnable===true}
+                    Enabled={pickupEnable === true}
                     // Enabled={pickUpIdServiceEnabled === 1 && pickupEnable===true}
                   />
                 </div>
@@ -1627,38 +1434,39 @@ else{
                     </div>
                     <div className="PickupInput11Normal">
                       <div className="pickupprice-errormsg">
-                      <input
-                        type="number"
-                        className="PriceInput1Normal-input"
-                        value={pickupDetails.price || ""}
-                        onBlur={()=>validateDineinFields()}
-                        onKeyDown={(e) => {
-                          if (e.key === "-") {
-                            e.preventDefault(); // Prevent typing -,
-                          }
-                          if (
-                            e.key === "e" ||
-                            e.key === "-" ||
-                            e.key === "+"
-                          ) {
-                            e.preventDefault(); 
-                          }
-                        }}
-                        onChange={(e) => {
-                          const inputValue = e.target.value;
-                          const numericValue = inputValue
-                            ? Number(inputValue)
-                            : 0;
-                          if (!isNaN(numericValue)) {
-                            setPickUpDetails({
-                              ...pickupDetails,
-                              price: numericValue,
-                            });
-                          }
-                        }}
-                      />
-                     <span className="Errormsg pickuperrormsg">{errors.pickupprice}</span>
-                    
+                        <input
+                          type="number"
+                          className="PriceInput1Normal-input"
+                          value={pickupDetails.price || ""}
+                          onBlur={() => validateDineinFields()}
+                          onKeyDown={(e) => {
+                            if (e.key === "-") {
+                              e.preventDefault(); // Prevent typing -,
+                            }
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+"
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
+                          onChange={(e) => {
+                            const inputValue = e.target.value;
+                            const numericValue = inputValue
+                              ? Number(inputValue)
+                              : 0;
+                            if (!isNaN(numericValue)) {
+                              setPickUpDetails({
+                                ...pickupDetails,
+                                price: numericValue,
+                              });
+                            }
+                          }}
+                        />
+                        <span className="Errormsg pickuperrormsg">
+                          {errors.pickupprice}
+                        </span>
                       </div>
 
                       <div className="PrizeD">
@@ -1683,7 +1491,7 @@ else{
                           options={options3}
                           label="Meal Type*"
                           width="Drop1"
-                          onBlur={()=>validateDineinFields()}
+                          onBlur={() => validateDineinFields()}
                         />
                         <span className="Errormsg pickuperrormsgmealType">
                           {errors.pickupmealTypeSessions}
@@ -1747,12 +1555,17 @@ else{
                     : "DeliveryRelatedNormalopen"
                 }`}
               >
-                <h1 className="DeliveryRelatedHeadingNormal" style={{opacity:deliveryEnable?"100%":"50%"}}>Delivery</h1>
+                <h1
+                  className="DeliveryRelatedHeadingNormal"
+                  style={{ opacity: deliveryEnable ? "100%" : "50%" }}
+                >
+                  Delivery
+                </h1>
                 <div className="toggleV">
                   <Toggle
                     toggle={delivery}
                     setToggle={setDelivery}
-                    Enabled={deliveryEnable===true}
+                    Enabled={deliveryEnable === true}
                   />
                 </div>
               </div>
@@ -1786,7 +1599,7 @@ else{
                           }}
                           className="DeliveryInput1Normal"
                           value={deliveryDetails?.price || ""}
-                          onBlur={()=>validateDineinFields()}
+                          onBlur={() => validateDineinFields()}
                           onChange={(e) => {
                             const newPrice = e.target.value;
                             setDeliveryDetails((prevDetails: any) => ({
@@ -1828,7 +1641,7 @@ else{
                               ],
                             }));
                           }}
-                          onBlur={()=>validateDineinFields()}
+                          onBlur={() => validateDineinFields()}
                           options={options4}
                           label="Meal Type*"
                           width="Drop1"
@@ -1916,18 +1729,16 @@ else{
                               value={priceInfo[index]?.price || ""}
                               onKeyDown={(e) => {
                                 if (e.key === "-") {
-                                  e.preventDefault(); 
+                                  e.preventDefault();
                                 }
                                 if (
                                   e.key === "e" ||
                                   e.key === "-" ||
                                   e.key === "+"
-     
                                 ) {
-                                  e.preventDefault(); 
+                                  e.preventDefault();
                                 }
                               }}
-     
                               onChange={(e) => {
                                 let data = JSON.parse(
                                   JSON.stringify([...priceInfo])
