@@ -26,7 +26,7 @@ interface Option {
 }
 
 interface DropdownProps {
-    width?:string;
+  width?:string;
   setParentId?: any;
   name: string;
   id?: string;
@@ -46,6 +46,7 @@ interface DropdownProps {
   dropdownopen?: boolean;
   dropDownType?: string;
   actionToDispatch?: any;
+  search?: boolean;
   onToggle: () => void;
   setDropdownOpen: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
@@ -80,6 +81,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   resetSelection,
   setParentId,
   parentId,
+  search
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -260,8 +262,6 @@ const Dropdown: React.FC<DropdownProps> = ({
     };
 
     setOptions((prev:any)=>([...prev,newItem]));
-
-    // handleSelect(newItem);
     setSearchTerm("");
     setAddNewButton(false);
   };
@@ -349,7 +349,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
                 : selectedOptions[0]?.name || ""
             }
-            onChange={handleSearch}
+            onChange={search ? handleSearch : undefined}
             onKeyDown={handleKeyDown}
             name={name}
             autoComplete="off"

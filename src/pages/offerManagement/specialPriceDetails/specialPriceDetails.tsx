@@ -632,6 +632,7 @@ const SpecialPriceDetails = () => {
                           addNew={false}
                           editValues={false}
                           dropDownType="DIET"
+                          search = {false}
                         />
                       )}
                     />
@@ -663,6 +664,7 @@ const SpecialPriceDetails = () => {
                         addNew={false}
                         editValues={false}
                         dropDownType="DIET"
+                        search = {false}
                       />
                     )}
                   />
@@ -692,6 +694,7 @@ const SpecialPriceDetails = () => {
                         addNew={true}
                         editValues={false}
                         dropDownType="DIET"
+                        search = {false}
                       />
                     )}
                   />
@@ -771,6 +774,7 @@ const SpecialPriceDetails = () => {
                         addNew={false}
                         editValues={false}
                         dropDownType="DIET"
+                        search = {true}
                       />
                     )}
                   />
@@ -799,6 +803,7 @@ const SpecialPriceDetails = () => {
                         addNew={false}
                         editValues={false}
                         dropDownType="DIET"
+                        search = {false}
                       />
                     )}
                   />
