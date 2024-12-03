@@ -907,8 +907,9 @@ export const MenuPage = () => {
           />
 
           <div
-            className={`${isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
-              }`}
+            className={`${
+              isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
+            }`}
           >
             <div>
               <div className="header-container">
@@ -916,9 +917,11 @@ export const MenuPage = () => {
                   <p className="image">Image</p>
                   <p className="name-item">ItemName</p>
                   <p className="item-code">
-                    <span> Code </span> 
-                    <button  className="addbtn-menupage"
-                        onClick={() => setshowheadinglist(true)}>
+                    <span> Code </span>
+                    <button
+                      className="addbtn-menupage"
+                      onClick={() => setshowheadinglist(true)}
+                    >
                       <span>+</span>
                     </button>
                   </p>
@@ -926,8 +929,9 @@ export const MenuPage = () => {
 
                 <div
                   ref={headerRef}
-                  className={`${isExpanded ? "scroll-container-expand" : "scroll-container"
-                    }`}
+                  className={`${
+                    isExpanded ? "scroll-container-expand" : "scroll-container"
+                  }`}
                 >
                   <div className="second-div-header">
                     {firstRowTable.map((header, index) => (
@@ -979,16 +983,11 @@ export const MenuPage = () => {
                 </div>
               </div>
               <div
-
-className={`${isExpanded  && !menuDataLoading&& "body-container-expand" 
-} ${!isExpanded  && !menuDataLoading&& "body-container" 
-}`}
+                className={`${
+                  isExpanded && !menuDataLoading && "body-container-expand"
+                } ${!isExpanded && !menuDataLoading && "body-container"}`}
                 // className={`${isExpanded ? "body-container-expand" : "body-container"
                 //   }`}
-
-
-
-
               >
                 <div className="first-div-body">
                   {itemList?.map((data, parentIndex) => (
@@ -1045,10 +1044,9 @@ className={`${isExpanded  && !menuDataLoading&& "body-container-expand"
 
                 <div className="scroll-container22">
                   <div
-                   className={`${isExpanded  && !menuDataLoading&& "second-div-body-expand" 
-                   } ${!isExpanded  && !menuDataLoading&& "second-div-body" 
-                   }`}
-                   
+                    className={`${
+                      isExpanded && !menuDataLoading && "second-div-body-expand"
+                    } ${!isExpanded && !menuDataLoading && "second-div-body"}`}
                     ref={bodyRef}
                     style={{ height: menuDataLoading ? "39.5rem" : "" }}
                   >
@@ -1076,7 +1074,16 @@ className={`${isExpanded  && !menuDataLoading&& "body-container-expand"
                     ) : (
                       <>
                         {allFalse ? (
-                          <div className={`${isExpanded ? "no-colunms-menu-page-expanded" : "no-colunms-menu-page"}`}> No columns selected</div>
+                          <div
+                            className={`${
+                              isExpanded
+                                ? "no-colunms-menu-page-expanded"
+                                : "no-colunms-menu-page"
+                            }`}
+                          >
+                            {" "}
+                            No columns selected
+                          </div>
                         ) : (
                           itemList?.map((data, parentIndex) => (
                             <React.Fragment key={parentIndex}>
@@ -1105,27 +1112,27 @@ className={`${isExpanded  && !menuDataLoading&& "body-container-expand"
                                             );
                                           const price = orderType
                                             ? orderType.price
-                                              .toFixed(2)
-                                              .padStart(5, "0")
+                                                .toFixed(2)
+                                                .padStart(5, "0")
                                             : "";
 
                                           const className =
                                             typeName?.toLowerCase() + "data";
                                           const isPriceEnabled =
                                             orderType &&
-                                              orderType.isNotHide == 1 &&
-                                              orderType.availabilityEnabled &&
-                                              orderType.isEnabled === 1
+                                            orderType.isNotHide == 1 &&
+                                            orderType.availabilityEnabled &&
+                                            orderType.isEnabled === 1
                                               ? true
                                               : false;
                                           const sliderkey =
                                             typeName === "DineIn"
                                               ? "DineIn1"
                                               : typeName === "Pickup"
-                                                ? "Pickup1"
-                                                : typeName === "Delivery"
-                                                  ? "Delivery1"
-                                                  : "";
+                                              ? "Pickup1"
+                                              : typeName === "Delivery"
+                                              ? "Delivery1"
+                                              : "";
                                           return (
                                             <span
                                               className={className}
@@ -1144,7 +1151,7 @@ className={`${isExpanded  && !menuDataLoading&& "body-container-expand"
                                               }
                                             >
                                               {restaurantDetails?.country ===
-                                                "US"
+                                              "US"
                                                 ? "$"
                                                 : "Rs."}{" "}
                                               {price !== "" ? price : "0"}
@@ -1174,17 +1181,17 @@ className={`${isExpanded  && !menuDataLoading&& "body-container-expand"
                                         // console.log("orderType", className);
                                         const isAvailEnabled =
                                           orderType &&
-                                            orderType.availabilityEnabled === true
+                                          orderType.availabilityEnabled === true
                                             ? true
                                             : false;
                                         const sliderkey =
                                           typeName === "DineIn"
                                             ? "DineIn2"
                                             : typeName === "Pickup"
-                                              ? "Pickup2"
-                                              : typeName === "Delivery"
-                                                ? "Delivery2"
-                                                : "";
+                                            ? "Pickup2"
+                                            : typeName === "Delivery"
+                                            ? "Delivery2"
+                                            : "";
 
                                         return (
                                           <>
@@ -1206,11 +1213,11 @@ className={`${isExpanded  && !menuDataLoading&& "body-container-expand"
                                                 <Toggle
                                                   toggle={
                                                     orderType?.availabilityEnabled ===
-                                                    true &&
+                                                      true &&
                                                     orderType?.isNotHide ===
-                                                    1 &&
+                                                      1 &&
                                                     orderType?.isEnabled ===
-                                                    1 &&
+                                                      1 &&
                                                     true
                                                   }
                                                 />
@@ -1218,11 +1225,11 @@ className={`${isExpanded  && !menuDataLoading&& "body-container-expand"
                                                 <Toggle
                                                   toggle={
                                                     orderType?.availabilityEnabled ===
-                                                    false &&
+                                                      false &&
                                                     orderType?.isNotHide !==
-                                                    1 &&
+                                                      1 &&
                                                     orderType?.isEnabled !==
-                                                    1 &&
+                                                      1 &&
                                                     false
                                                   }
                                                 />
@@ -1235,9 +1242,9 @@ className={`${isExpanded  && !menuDataLoading&& "body-container-expand"
 
                                     <p>
                                       {item?.modifiers &&
-                                        Array.isArray(item.modifiers) &&
-                                        listingobject &&
-                                        listingobject.Customize1 ? (
+                                      Array.isArray(item.modifiers) &&
+                                      listingobject &&
+                                      listingobject.Customize1 ? (
                                         <span
                                           className="Customizedata"
                                           onClick={() =>

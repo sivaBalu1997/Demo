@@ -124,6 +124,8 @@ const initialProductCatalogState = {
   menuDataSuccess: false,
   menuDataFailed: false,
 
+  getDataLoading: false,
+
   dietaryData: [],
   getDietaryloading: false,
   getDietarySuccess: false,
@@ -295,19 +297,24 @@ export default function productCatalogReducer(
 
       //dietary data
       case DIET_DROPDOWN_LIST_REQUEST:
+        console.log('filteredOptions0')
         draft.dietaryData = [];
+        draft.getDataLoading = true;
         draft.getDietaryloading = true;
         draft.getDietarySuccess = false;
         draft.dropDownLoading = true;
         break;
       case DIET_DROPDOWN_LIST_SUCCESS:
+        console.log('filteredOptions1')
         draft.dietaryData = action.payload;
+        draft.getDataLoading = false;
         draft.getDietaryloading = false;
         draft.getDietarySuccess = true;
         draft.dropDownLoading = false;
         break;
       case DIET_DROPDOWN_LIST_FAILURE:
         draft.dietaryData = [];
+        draft.getDataLoading = false;
         draft.getDietaryloading = false;
         draft.getDietarySuccess = false;
         break;
@@ -315,11 +322,13 @@ export default function productCatalogReducer(
       //cuisine data
       case CUISINE_DATA_REQUEST:
         draft.cuisineData = [];
+        draft.getDataLoading = true;
         draft.getCuisineDataLoading = false;
         draft.dropDownLoading = true;
         break;
       case CUISINE_DATA_SUCCESS:
         draft.cuisineData = action.payload;
+        draft.getDataLoading = false;
         draft.getCuisineSuccess = true;
         draft.getCuisineDataLoading = false;
         draft.dropDownLoading = false;
@@ -327,6 +336,7 @@ export default function productCatalogReducer(
       case CUISINE_DATA_FAILURE:
         draft.cuisineData = [];
         draft.getCuisineSuccess = false;
+        draft.getDataLoading = false;
         draft.getCuisineDataLoading = false;
         draft.dropDownLoading = false;
         break;
@@ -334,17 +344,20 @@ export default function productCatalogReducer(
       //category
       case CATEGORY_DATA_REQUEST:
         draft.categoryData = [];
+        draft.getDataLoading = true;
         draft.getCategoryLoading = true;
         draft.dropDownLoading = true;
         break;
       case CATEGORY_DATA_SUCCESS:
         draft.categoryData = action.payload;
+        draft.getDataLoading = false;
         draft.getCategorySuccess = true;
         draft.getCategoryLoading = false;
         draft.dropDownLoading = false;
         break;
       case CATEGORY_DATA_FAILURE:
         draft.categoryData = [];
+        draft.getDataLoading = false;
         draft.getCategorySuccess = false;
         draft.getCategoryLoading = false;
         draft.dropDownLoading = false;
@@ -353,17 +366,20 @@ export default function productCatalogReducer(
       //subCategory
       case SUBCATEGORY_DATA_REQUEST:
         draft.subCategoryData = [];
+        draft.getDataLoading = true;
         draft.getSubCategoryLoading = true;
         draft.dropDownLoading = true;
         break;
       case SUBCATEGORY_DATA_SUCCESS:
         draft.subCategoryData = action.payload;
-        draft.getSubCategoryLoading = false;
+        draft.getSubCategoryLoading = false; 
+        draft.getDataLoading = false;
         draft.getCategorySuccess = true;
         draft.dropDownLoading = false;
         break;
       case SUBCATEGORY_DATA_FAILURE:
         draft.subCategoryData = [];
+        draft.getDataLoading = false;
         draft.getSubCategoryLoading = false;
         draft.getCategorySuccess = false;
         draft.dropDownLoading = false;
@@ -372,17 +388,20 @@ export default function productCatalogReducer(
       //bestPair
       case BESTPAIR_DATA_REQUEST:
         draft.bestPairData = [];
+        draft.getDataLoading = true;
         draft.getBestPairDataLoading = true;
         draft.dropDownLoading = true;
         break;
       case BESTPAIR_DATA_SUCCESS:
         draft.bestPairData = action.payload;
+        draft.getDataLoading = false;
         draft.getBestPairDataLoading = false;
         draft.getBestPairSuccess = false;
         draft.dropDownLoading = false;
         break;
       case BESTPAIR_DATA_FAILURE:
         draft.bestPairData = [];
+        draft.getDataLoading = false;
         draft.getBestPairDataLoading = false;
         draft.getBestPairSuccess = false;
         draft.dropDownLoading = false;
@@ -393,17 +412,20 @@ export default function productCatalogReducer(
       //kitchenStation
       case KITCHEN_DATA_REQUEST:
         draft.kitchenStation = [];
+        draft.getDataLoading = true;
         draft.kitchenStationLoading = true;
         draft.dropDownLoading = true;
       case KITCHEN_DATA_SUCCESS:
         draft.kitchenStation = action.payload;
         draft.kitchenStationLoading = false;
+        draft.getDataLoading = false;
         draft.kitchenStationSuccess = true;
         draft.dropDownLoading = false;
         break;
       case KITCHEN_DATA_FAILURE:
         draft.kitchenStation = [];
         draft.kitchenStationLoading = false;
+        draft.getDataLoading = false;
         draft.kitchenStationSuccess = false;
         draft.dropDownLoading = false;
         break;

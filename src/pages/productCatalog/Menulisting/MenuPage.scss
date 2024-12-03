@@ -46,6 +46,12 @@
   }
 }
 
+.scroll-container22{
+  &::-webkit-scrollbar {
+    display: block;
+  }
+}
+
 .body-container-expand {
   height: 35rem;
   overflow-y: auto;

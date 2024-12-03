@@ -327,8 +327,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [pickupEnable, setpickupEnable] = useState<boolean>(true);
     const [deliveryEnable, setdeliveryEnable] = useState<boolean>(true);
 
-const seletedOrdertypes=dataFromRedux[0]?.orderTypes;
-console.log({seletedOrdertypes});
+    const seletedOrdertypes=dataFromRedux[0]?.orderTypes;
+
 
     // useEffect(() => {
     //   const DineInEnable = seletedOrdertypes?.find(
@@ -429,6 +429,8 @@ console.log({seletedOrdertypes});
       ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
     };
 
+    console.log({mainForm},'1', prizingDetail?.normalForm?.dineinfields,'2', prizingDetail?.normalForm?.dineInDetails)
+
     const optionsselectthird = orderTypes
       ?.filter((item) => item.typeGroup === "T")
       .map((item) => item.typeName);
@@ -473,7 +475,7 @@ console.log({seletedOrdertypes});
     useEffect(() => {
       
       if (prizingDetail?.normalForm?.formNormal) {
-        const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
+        const dineIndetail = prizingDetail?.normalForm?.dineinfields;
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
@@ -546,12 +548,14 @@ console.log({seletedOrdertypes});
 
         const updatedField = {
           DineInPrice: dineIndetail?.price,
-          DineInMealType: dineIndetail?.availabilities[0]?.sessions,
+          DineInMealType: dineIndetail?.availabilities && dineIndetail?.availabilities[0]?.sessions,
           showDay: prizingDetail.normalForm.DineIn[0]?.length > 0 ? true : false,
           dayButtonText: "Choose Day",
         };
 
         setDineInFields([updatedField]);
+
+        console.log('3331',{updatedField})
 
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
@@ -563,7 +567,7 @@ console.log({seletedOrdertypes});
 
           return {
             ...prevData,
-            price: updatedFields[0]?.DineInPrice,
+            price: updatedField?.DineInPrice,
             availabilities: updatedAvailabilities,
           };
         });
@@ -737,6 +741,7 @@ console.log({seletedOrdertypes});
           dayButtonText: "Choose Day",
         };
 
+        console.log('3332',{updatedField},{formattedDineInData})
         setDineInFields([updatedField]);
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
@@ -748,7 +753,7 @@ console.log({seletedOrdertypes});
 
           return {
             ...prevData,
-            price: updatedFields && updatedFields[0]?.DineInPrice,
+            price: updatedField && updatedField?.DineInPrice,
             availabilities: updatedAvailabilities && updatedAvailabilities,
           };
         });

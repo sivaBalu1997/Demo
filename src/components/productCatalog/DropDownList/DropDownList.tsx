@@ -156,11 +156,11 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.productCatalog.dropDownLoading
   );
 
-  useEffect(() => {
-    if (dropDownType !== "SUB_CATEGORY") {
-      dispatch(fetchDropDownRequest(payload));
-    }
-  }, [dropDownType]);
+  // useEffect(() => {
+  //   if (dropDownType !== "SUB_CATEGORY") {
+  //     dispatch(fetchDropDownRequest(payload));
+  //   }
+  // }, [dropDownType]);
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -176,7 +176,13 @@ const DropDownList: React.FC<DropdownProps> = ({
         option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
       )
     : [];
-    const categoryValue = getValues("category");
+
+    useEffect(()=>{
+      console.log({filteredOptions},{Loading})
+    },[filteredOptions])
+
+  const categoryValue = getValues("category");
+
   useEffect(() => {
    
     if (!categoryValue) {
@@ -245,17 +251,17 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
-  useEffect(() => {
-    if (editData && ItemsPrimaryDetails?.cuisine && name === "cuisine") {
-      dispatch(
-        fetchDropDownRequest({
-          locationId: locationid,
-          type: "CUISINES",
-          parentId: "",
-        })
-      );
-    }
-  }, [editData]);
+  // useEffect(() => {
+  //   if (editData && ItemsPrimaryDetails?.cuisine && name === "cuisine") {
+  //     dispatch(
+  //       fetchDropDownRequest({
+  //         locationId: locationid,
+  //         type: "CUISINES",
+  //         parentId: "",
+  //       })
+  //     );
+  //   }
+  // }, [editData]);
 
 
   useEffect(() => {
@@ -546,15 +552,17 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  const [Loading, setLoading] = useState<boolean>();
+  // const [Loading, setLoading] = useState<boolean>();
 
-  useEffect(() => {
-    if (!options || options.length < 1) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [options]);
+  // useEffect(() => {
+  //   if (!options || options.length < 1) {
+  //     setLoading(true);
+  //   } else {
+  //     setLoading(false);
+  //   }
+  // }, [options]);
+
+  const Loading = useSelector((state: any) => state.productCatalog.getDataLoading)
 
   const handleAboveArrowdropdown = () => {
     onToggle();
@@ -579,6 +587,10 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
+
+  useEffect(()=>{
+    console.log('2221',!Loading, filteredOptions)
+  },[Loading])
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -661,7 +673,9 @@ const DropDownList: React.FC<DropdownProps> = ({
                 </div>
               ) : (
                 <div>
-                  {!Loading && filteredOptions?.length > 0 ? (
+                  {Loading ?  (
+                    <li className="dropdown-no-options">No options found</li>
+                  ) : (filteredOptions?.length > 0 &&
                     filteredOptions?.map((option, index) => {
                       return (
                         <div className="dropdown-option-list" key={index}>
@@ -703,9 +717,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                         </div>
                       );
                     })
-                  ) : (
-                    <li className="dropdown-no-options">No options found</li>
-                  )}
+                  ) }
                 </div>
               )}
             </ul>
