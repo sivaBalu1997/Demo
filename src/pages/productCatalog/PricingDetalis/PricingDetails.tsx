@@ -806,7 +806,7 @@ const PricingDetails = () => {
               <p className="KitchenRelatedHeading">Kitchen Related</p>
               <div className="tool-tip-kitchen-detail">
                 <Tooltip
-                  message="Select up to 5 food items that pair best with this dish."
+                  message="Select the Kitchen Station."
                   styles={{
                     marginTop: "-0.8rem",
                     marginLeft: "2rem",
@@ -1110,7 +1110,6 @@ const PricingDetails = () => {
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}
                 setValidationFunction={setValidationFunction}
-               
               />
             ) : (
               <>

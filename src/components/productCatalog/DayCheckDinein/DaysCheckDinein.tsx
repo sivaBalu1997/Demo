@@ -82,6 +82,8 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     ? checkedItems[index]
     : [];
 
+    console.log({checkedItems})
+
   return (
     <div className="container-daycheck">
       {data.map((elem, idx) => {

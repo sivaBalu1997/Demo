@@ -11,7 +11,16 @@
     transition: width 0.6s ease;
     right: 2px;
     z-index: 2;
-    background-color: white;
+    // background-color: white;
+    // background-color: pink;
+    @media(max-width: 1536px){
+      // background-color: lightseagreen;
+      width: 78.7%; 
+    }
+    @media(max-width: 1280px){
+      // background-color: lightseagreen;
+      width: 74.5%; 
+    }
 
   .clearall {
     width: 135px;
@@ -55,8 +64,17 @@
     right: 2px;
     gap: 20px;
     z-index: 0;
-    background-color: white;
+    // background-color: white;
+    // background-color: lightgreen;
     z-index: 2;
+    @media(max-width: 1536px){
+      // background-color: lightsalmon;
+      width: 85.7%;
+    }
+    @media(max-width: 1280px){
+      // background-color: lightsalmon;
+      width: 84.9%;
+    }
   
 
   .clearall {
@@ -97,46 +115,46 @@
   text-decoration: none;
 }
 
-@media (max-width: 1281px) {
-  .saveandnextfooter {
-    width: 55.25rem;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    padding: 32px 32px 32px 560px;
-    margin-left: 20px;
-    box-shadow: 3px 0px 10px 0px #00000040;
-    background-color: white;
+// @media (max-width: 1280px) {
+//   .saveandnextfooter {
+//     width: 74.5%;
+//     height: auto;
+//     display: flex;
+//     flex-direction: row;
+//     padding: 32px 32px 32px 560px;
+//     margin-left: 20px;
+//     box-shadow: 3px 0px 10px 0px #00000040;
+//     background-color: white;
 
-    .clearall {
-      width: 135px;
-      height: 44px;
-      padding: 10px 14px 10px 14px;
-      gap: 10px;
-      border-radius: 4px;
-      background: white;
-      color: #67833e;
-      border: 1px solid #67833e;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-    }
+//     .clearall {
+//       width: 135px;
+//       height: 44px;
+//       padding: 10px 14px 10px 14px;
+//       gap: 10px;
+//       border-radius: 4px;
+//       background: white;
+//       color: #67833e;
+//       border: 1px solid #67833e;
+//       font-size: 16px;
+//       font-weight: 500;
+//       cursor: pointer;
+//     }
 
-    .saveall {
-      border: none;
-      width: 135px;
-      margin-left: 10px;
-      height: 44px;
-      padding: 10px 14px 10px 14px;
-      gap: 10px;
-      border-radius: 4px;
-      background: #67833e;
-      color: white;
-      font-size: 16px;
-      font-weight: 500;
-    }
-  }
-}
+//     .saveall {
+//       border: none;
+//       width: 135px;
+//       margin-left: 10px;
+//       height: 44px;
+//       padding: 10px 14px 10px 14px;
+//       gap: 10px;
+//       border-radius: 4px;
+//       background: #67833e;
+//       color: white;
+//       font-size: 16px;
+//       font-weight: 500;
+//     }
+//   }
+// }
 
 .saveAndNextComponent {
   z-index: 9;

@@ -175,7 +175,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     <>
       <div className={"navigation"}>
         <h1 className="Mainheading">
-      {datafromRedux?.length > 0 ? "Update menu item" : "Creating new menu item"}
+      {datafromRedux?.length > 0 ? "Edit Item" : "Creating new menu item"}
     </h1>
         <nav className="nav">
           <ul className={isExpanded ? "listofnavigationExpanded" : "listofnavigation"}>

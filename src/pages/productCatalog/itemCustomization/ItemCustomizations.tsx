@@ -79,7 +79,8 @@ interface State {
   };
 }
 
-const ItemCustomizations: React.FC = () => {
+const ItemCustomizations: React.FC<any> = () => {
+  
   const dispatch = useDispatch();
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
@@ -89,8 +90,6 @@ const ItemCustomizations: React.FC = () => {
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
 
-
-
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const [validationState, setValidationState] = useState({
@@ -99,8 +98,6 @@ const ItemCustomizations: React.FC = () => {
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
-
-
 
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
   const [isvalid, setIsValid] = useState<boolean>(false);
@@ -135,9 +132,9 @@ const ItemCustomizations: React.FC = () => {
           isModifierOptionChanged: false,
         },
       ],
-      minSelection: 1,
-      maxSelection: 1,
-      freeCustomization: 1,
+      minSelection: 0,
+      maxSelection: 0,
+      freeCustomization: 0,
       selectedValue: selectedValue,
       selectionType: "Mandatory",
     },
@@ -166,47 +163,51 @@ const ItemCustomizations: React.FC = () => {
   );
 
   useEffect(() => {
-    
-  
     if (itemCustomizationData?.length > 0) {
       setShowModifiers(true);
-      
+
       const mappedModifications = itemCustomizationData.map((item: any) => {
-        const selectedTypeNames = (item?.selectedValue || []).map((selectedId: string) => {
-          const orderType = orderTypes.find((type: any) => type.id === selectedId);
-          return orderType?.typeName || selectedId; 
-        });
-  
+        const selectedTypeNames = (item?.selectedValue || []).map(
+          (selectedId: string) => {
+            const orderType = orderTypes.find(
+              (type: any) => type.id === selectedId
+            );
+            return orderType?.typeName || selectedId;
+          }
+        );
+
         return {
           modifierId: item?.id || "",
           modifierName: item?.modifierName || item?.name || "",
           isModifierChanged: false,
-          modifierOptions: item?.modifierOptions?.length>0 
-            ? item.modifierOptions.map((option: any) => ({
-                modifierOptionId: option?.optionId || option?.modifierOptionId || null,
-                modifierOptionName: option?.name || option?.modifierOptionName|| "",  
-                cost: option?.cost || 0,  
-                isModifierOptionChanged: false,
-              }))
-            : [{ modifierOptionName: "", cost: 0 }],
-          minSelection: item.minSelection || 1,
-          maxSelection: item.maxSelection || 1,
-          freeCustomization: item?.freeCustomization || 1,
+          modifierOptions:
+            item?.modifierOptions?.length > 0
+              ? item.modifierOptions.map((option: any) => ({
+                  modifierOptionId:
+                    option?.optionId || option?.modifierOptionId || null,
+                  modifierOptionName:
+                    option?.name || option?.modifierOptionName || "",
+                  cost: option?.cost || 0,
+                  isModifierOptionChanged: false,
+                }))
+              : [{ modifierOptionName: "", cost: 0 }],
+          minSelection: item.minSelection || 0,
+          maxSelection: item.maxSelection || 0,
+          freeCustomization: item?.freeCustomization || 0,
           selectedValue: selectedTypeNames,
           selectionType: item?.selectionType || "",
         };
       });
-  
+
       setModifications([...mappedModifications]);
     }
   }, [itemCustomizationData, showModifiers]);
-  
 
   const addModifier = () => {
     setModifications([
       ...modifications,
       {
-        modifierId: '',
+        modifierId: "",
         modifierName: "",
         isModifierChanged: false,
         modifierOptions: [
@@ -216,9 +217,9 @@ const ItemCustomizations: React.FC = () => {
             isModifierOptionChanged: false,
           },
         ],
-        minSelection: 1,
-        maxSelection: 1,
-        freeCustomization: 1,
+        minSelection: 0,
+        maxSelection: 0,
+        freeCustomization: 0,
         selectedValue: selectedValue,
         selectionType: "Optional",
       },
@@ -232,7 +233,6 @@ const ItemCustomizations: React.FC = () => {
     });
     return formData;
   };
-
 
   const [initialModifierIds, setInitialModifierIds] = useState<any[]>([]);
   const [deletedModifierIds, setDeletedModifierIds] = useState<any[]>([]);
@@ -253,83 +253,80 @@ const ItemCustomizations: React.FC = () => {
   const handleModifierChange = (
     modIndex: number,
     e: React.ChangeEvent<HTMLInputElement>,
-    selectionType?:string
+    selectionType?: string
   ) => {
     const { name, value } = e.target;
     setModifications((prev: any) => {
       const updated = [...prev];
       const currentModifier = updated[modIndex];
       const isCurrentValueEmpty = currentModifier[name] === "";
-  
+
       updated[modIndex] = {
         ...currentModifier,
-        selectionType: selectionType?selectionType:'Optional',
+        selectionType: selectionType ? selectionType : "Optional",
         [name]: value,
-        ["isModifierChanged"]: isCurrentValueEmpty && value !== "" ? false : true,
+        ["isModifierChanged"]:
+          isCurrentValueEmpty && value !== "" ? false : true,
       };
-  
+
       setUpdatedModifierIds((prevIds) => {
-        const updatedModifierId = updated[modIndex].modifierId;  
+        const updatedModifierId = updated[modIndex].modifierId;
         if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
-          return [...prevIds, updatedModifierId].filter(id => id !== "");
+          return [...prevIds, updatedModifierId].filter((id) => id !== "");
         }
-  
-        return prevIds.filter(id => id !== ""); 
+
+        return prevIds.filter((id) => id !== "");
       });
 
       return updated;
     });
   };
-  
-    
+
   const handleDeleteModifier = (modIndex: number) => {
     setModifications((prev: any) => {
       const updated = [...prev];
-      const deletedId = updated[modIndex].modifierId; 
-  
-      updated.splice(modIndex, 1); 
+      const deletedId = updated[modIndex].modifierId;
+
+      updated.splice(modIndex, 1);
       if (deletedId) {
         setDeletedModifierIds((prevIds) => {
           if (!prevIds.includes(deletedId)) {
-            return [...prevIds, deletedId]; 
+            return [...prevIds, deletedId];
           }
-          return prevIds; 
+          return prevIds;
         });
       }
-  
-      return updated; 
+
+      return updated;
     });
   };
 
   const addOption = (index: number) => {
     setModifications((prevModifications: any) => {
-      const newModifications = prevModifications.map((mod: any, modIndex: number) => {
-        if (modIndex === index) {
-          const newOption = {
-            modifierOptionName: "",
-            cost: 0,
-            modifierOptionId: "", 
-            isModifierOptionChanged: false
-          };
-  
-          const newModifierOptions = [...mod.modifierOptions, newOption];
-          
-          return {
-            ...mod,
-            modifierOptions: newModifierOptions,
-            isModifierChanged: mod.modifierId !== ""
-          };
+      const newModifications = prevModifications.map(
+        (mod: any, modIndex: number) => {
+          if (modIndex === index) {
+            const newOption = {
+              modifierOptionName: "",
+              cost: 0,
+              modifierOptionId: "",
+              isModifierOptionChanged: false,
+            };
+
+            const newModifierOptions = [...mod.modifierOptions, newOption];
+
+            return {
+              ...mod,
+              modifierOptions: newModifierOptions,
+              isModifierChanged: mod.modifierId !== "",
+            };
+          }
+          return mod;
         }
-        return mod;
-      });
+      );
       return newModifications;
     });
   };
-  
-
-
-
-  
 
   const addOptionChange = (
     modIndex: number,
@@ -347,14 +344,14 @@ const ItemCustomizations: React.FC = () => {
                   e.target.name === "cost"
                     ? parseFloat(e.target.value) || 0
                     : e.target.value;
-  
+
                 const isOptionChanged =
-                  mod.modifierId !== "" && 
+                  mod.modifierId !== "" &&
                   currentValue !== undefined &&
                   currentValue !== null &&
                   currentValue !== "" &&
                   currentValue !== newValue;
-  
+
                 return {
                   ...opt,
                   [e.target.name]: newValue,
@@ -364,20 +361,22 @@ const ItemCustomizations: React.FC = () => {
               return opt;
             }
           );
-  
+
           const isModifierChanged =
             mod.modifierId !== "" &&
-            updatedModifierOptions.some((opt: any) => opt.isModifierOptionChanged);
-  
+            updatedModifierOptions.some(
+              (opt: any) => opt.isModifierOptionChanged
+            );
+
           return {
             ...mod,
             modifierOptions: updatedModifierOptions,
-            isModifierChanged, 
+            isModifierChanged,
           };
         }
         return mod;
       });
-  
+
       const updatedModifierId = newModifier[modIndex]?.modifierId;
       if (updatedModifierId) {
         setUpdatedModifierIds((prevIds) => {
@@ -387,13 +386,10 @@ const ItemCustomizations: React.FC = () => {
           return prevIds;
         });
       }
-  
-      return newModifier; 
+
+      return newModifier;
     });
   };
-  
-
- 
 
   const getModifierClassName = (length: any) => {
     if (length == 1) {
@@ -420,26 +416,28 @@ const ItemCustomizations: React.FC = () => {
   };
 
   const incrementSpinner = (index: number, field: keyof Modification) => {
-    const newModifier = JSON.parse(JSON.stringify(modifications)); 
-    
+    const newModifier = JSON.parse(JSON.stringify(modifications));
+
     if (newModifier[index]) {
-      newModifier[index][field] = (parseInt(newModifier[index][field]?.toString() || "0", 10) || 0) + 1;
+      newModifier[index][field] =
+        (parseInt(newModifier[index][field]?.toString() || "0", 10) || 0) + 1;
     }
-  
+
     setModifications(newModifier);
   };
-  
+
   const decrementSpinner = (index: number, field: keyof Modification) => {
-    const newModifier = JSON.parse(JSON.stringify(modifications)); 
-    
+    const newModifier = JSON.parse(JSON.stringify(modifications));
+
     if (newModifier[index]) {
-      const currentValue = parseInt(newModifier[index][field]?.toString() || "0", 10) || 0;
-  
+      const currentValue =
+        parseInt(newModifier[index][field]?.toString() || "0", 10) || 0;
+
       if (currentValue > 0) {
         newModifier[index][field] = currentValue - 1;
       }
     }
-  
+
     setModifications(newModifier);
   };
 
@@ -449,23 +447,25 @@ const ItemCustomizations: React.FC = () => {
         const updatedModifierOptions = mod.modifierOptions.filter(
           (opt: any, optIdx: any) => optIdx !== optIndex
         );
-  
-        const isModifierChanged = mod.modifierId !== "" && 
+
+        const isModifierChanged =
+          mod.modifierId !== "" &&
           mod.modifierOptions.length !== updatedModifierOptions.length;
-  
+
         return {
           ...mod,
           modifierOptions: updatedModifierOptions,
-          isModifierChanged: isModifierChanged, 
+          isModifierChanged: isModifierChanged,
         };
       }
       return mod;
     });
-  
-    const deletedOptionId = modifications[modIndex]?.modifierOptions?.[optIndex]?.modifierOptionId; 
-  
+
+    const deletedOptionId =
+      modifications[modIndex]?.modifierOptions?.[optIndex]?.modifierOptionId;
+
     setModifications(newModifications);
-  
+
     // if (deletedOptionId) {
     //   setDeletedModifierIds((prevIds) => {
     //     if (!prevIds.includes(deletedOptionId)) {
@@ -475,9 +475,6 @@ const ItemCustomizations: React.FC = () => {
     //   });
     // }
   };
-  
-  
-  
 
   const onDragStart = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.dataTransfer.setData("index", index.toString());
@@ -492,8 +489,6 @@ const ItemCustomizations: React.FC = () => {
       setModifications(newModifications);
     }
   };
-
-
 
   const clearAll = () => {
     setModifications((prevModifications: any) =>
@@ -540,19 +535,22 @@ const ItemCustomizations: React.FC = () => {
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
-    
+
     const updatedModifiers = {
       ...Modifiers,
-      modifierOptions: Modifiers.modifierOptions.length > 0
-        ? Modifiers.modifierOptions
-        : [{
-            modifierOptionId: "",
-            modifierOptionName: "",
-            cost: 0,
-            isModifierOptionChanged: false,
-          }],
+      modifierOptions:
+        Modifiers.modifierOptions.length > 0
+          ? Modifiers.modifierOptions
+          : [
+              {
+                modifierOptionId: "",
+                modifierOptionName: "",
+                cost: 0,
+                isModifierOptionChanged: false,
+              },
+            ],
     };
-  
+
     setModifications((prevModifications: Modification[]) => [
       ...prevModifications,
       updatedModifiers,
@@ -619,8 +617,8 @@ const ItemCustomizations: React.FC = () => {
       streams.push(ordertypesdetails?.normalForm.pickupDetails?.typeName);
     }
 
-    if(ordertypesdetails?.normalForm?.deliveryDetails?.price){
-      streams.push(ordertypesdetails?.normalForm.deliveryDetails?.typeName)
+    if (ordertypesdetails?.normalForm?.deliveryDetails?.price) {
+      streams.push(ordertypesdetails?.normalForm.deliveryDetails?.typeName);
     }
 
     if (ordertypesdetails?.normalForm?.thirdpartyDetails?.price) {
@@ -630,10 +628,11 @@ const ItemCustomizations: React.FC = () => {
   }, [ordertypesdetails]);
 
   const [customizationerrors, setcustomizationerrors] = useState<any>([]);
+
   const validateModifiers = (modifications: any[]) => {
     const errors: any[] = []; // This will hold all errors
+    console.log({ modifications });
 
-  
     modifications?.forEach((modifier, index) => {
       const {
         modifierName,
@@ -642,23 +641,24 @@ const ItemCustomizations: React.FC = () => {
         selectedValue,
         selectionType,
       } = modifier;
-  
+
       // Initialize error object for the current modifier
       let modifierErrors: any = {
-        modifierNameError: modifierName.trim() ? "" : `Modifier Name is required`,
+        modifierNameError: modifierName.trim()
+          ? ""
+          : `Modifier Name is required`,
         id: modifierId || "",
         errormsgforselectedvalues: "",
         options: [],
       };
-  
-      
+
       if (!modifierName.trim()) {
         modifierErrors.modifierNameError = `Modifier Name is required`;
       }
-      if (selectedValue.length === 0) {
-        modifierErrors.errormsgforselectedvalues = "Available service streams required";
-      }
-     
+      // if (selectedValue.length === 0) {
+      //   modifierErrors.errormsgforselectedvalues = "Available service streams required";
+      // }
+
       if (Array.isArray(modifierOptions)) {
         modifierOptions.forEach((option: any, optIndex: number) => {
           let optionErrors: any = {
@@ -668,7 +668,7 @@ const ItemCustomizations: React.FC = () => {
             optionPrice: option.cost || 0,
             optionPriceError: "",
           };
-  
+
           // Validate Option Name
           const nameRegex = /^[a-zA-Z0-9\s]+$/; // Allow alphanumeric and spaces
           if (!option.modifierOptionName.trim()) {
@@ -676,12 +676,12 @@ const ItemCustomizations: React.FC = () => {
           } else if (!nameRegex.test(option.modifierOptionName)) {
             optionErrors.optionNameError = `Option Name must not contain special characters`;
           }
-  
+
           // Validate Option Price
           if (isNaN(option.cost) || option.cost <= 0) {
             optionErrors.optionPriceError = `Price field is required`;
           }
-  
+
           modifierErrors.options.push(optionErrors);
         });
       } else {
@@ -689,7 +689,7 @@ const ItemCustomizations: React.FC = () => {
           optionNameError: `Options must be an array`,
         });
       }
-  
+
       // Push errors for the current modifier if any exist
       if (
         modifierErrors.modifierNameError ||
@@ -703,10 +703,10 @@ const ItemCustomizations: React.FC = () => {
         errors[index] = null; // No errors for this modifier
       }
     });
-  
+
     // Update customization errors in state
     setcustomizationerrors(errors);
-  
+
     // Check if all modifiers are valid
     const validateCustomizationErrors = () => {
       return errors.every((error) => {
@@ -718,47 +718,53 @@ const ItemCustomizations: React.FC = () => {
           (option: any) =>
             option.optionNameError === "" && option.optionPriceError === ""
         );
-  
+
         return hasNoTopLevelErrors && hasNoOptionErrors;
       });
     };
-  
+
     return validateCustomizationErrors();
   };
+
+  console.log({ customizationerrors });
+
+
+
+
+
+  const handleBlur = (
+    e: ChangeEvent<HTMLInputElement>,
+    modIndex: number,
+    optIndex?: number
+  ) => {
+    const { name, value } = e.target;
+    let error = "";
+  
+    if (!value.trim()) {
+      error = `Please Enter ${name.charAt(0).toUpperCase() + name.slice(1)}`;
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+    validateModifiers(modifications)
+  
+    
+  };
+
+ 
+
+
   
 
 
 
 
-
-  
-
-
-
-const handleBlur = (
-  e: ChangeEvent<HTMLInputElement>,
-  modIndex: number,
-  optIndex?: number
-) => {
-  const { name, value } = e.target;
-  let error = "";
-
-  if (!value.trim()) {
-    error = `Please Enter ${name.charAt(0).toUpperCase() + name.slice(1)}`;
-    setIsValid(false);
-  } else {
-    setIsValid(true);
-  }
-  validateModifiers(modifications)
-
-  
-};
 
   return (
-    <div style={{ display: "flex",height:"99vh",overflowY:'hidden'}}>
+    <div style={{ display: "flex", height: "99vh", overflowY: "hidden", overflowX: "hidden" }}>
       <SidePanel />
-      <div style={{ width: "83%" }}>
-        <Navigationpage 
+      <div className={isExpanded ? "ItemCustomization-container-level-one-expanded" : "ItemCustomization-container-level-one"}>
+        <Navigationpage
           seletedpage="ItemCustomization"
           getFormData={getFormData}
           reset={clearAll}
@@ -788,35 +794,36 @@ const handleBlur = (
                 </a>
               )}
             </div>
-            {showModifiers&&
-            <div className="searchbox">
-              <input
-                placeholder="Search"
-                className="searchBox-input"
-                type="text"
-                value={searchQuery}
-                onKeyDown={handleKeyDown}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  if (e.target.value === "") {
-                    setSelectedModifiers(undefined);
-                  } else {
-                    setShowSearchList(true);
-                  }
-                }}
-                // onKeyDown={(e) => {
-                //   if (e.key === "Enter") {
-                //     handleSearchChange();
-                //   }
-                // }}
-              ></input>
-              <img
-                src={Serachicon}
-                alt=""
-                className="searchIcon"
-                onClick={() => handleSearchChange()}
-              />
-            </div>}
+            {showModifiers && (
+              <div className="searchbox">
+                <input
+                  placeholder="Search"
+                  className="searchBox-input"
+                  type="text"
+                  value={searchQuery}
+                  onKeyDown={handleKeyDown}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    if (e.target.value === "") {
+                      setSelectedModifiers(undefined);
+                    } else {
+                      setShowSearchList(true);
+                    }
+                  }}
+                  // onKeyDown={(e) => {
+                  //   if (e.key === "Enter") {
+                  //     handleSearchChange();
+                  //   }
+                  // }}
+                ></input>
+                <img
+                  src={Serachicon}
+                  alt=""
+                  className="searchIcon"
+                  onClick={() => handleSearchChange()}
+                />
+              </div>
+            )}
             {searchQuery && (
               <div
                 className={
@@ -832,24 +839,24 @@ const handleBlur = (
                       ModifierList?.map((item, index) => (
                         <div className="modiferSearchContainer">
                           <li
-                          key={index}
-                          className={
-                            index === highlightedIndex
-                              ? "highlighted-modifiers"
-                              : ""
-                          }
-                          onMouseEnter={() => handleMouseEnter(index)}
-                        >
-                          <div
+                            key={index}
                             className={
-                              isExpanded
-                                ? "Search-Container-options1-items-modifiers"
-                                : "Search-Container-options-items-modifiers"
+                              index === highlightedIndex
+                                ? "highlighted-modifiers"
+                                : ""
                             }
-                            onClick={() => handleSelecteModifiers(item)}
+                            onMouseEnter={() => handleMouseEnter(index)}
                           >
-                            {item.modifierName}{" "}
-                            {/* {index === highlightedIndex && (
+                            <div
+                              className={
+                                isExpanded
+                                  ? "Search-Container-options1-items-modifiers"
+                                  : "Search-Container-options-items-modifiers"
+                              }
+                              onClick={() => handleSelecteModifiers(item)}
+                            >
+                              {item.modifierName}{" "}
+                              {/* {index === highlightedIndex && (
                               <button
                                 onClick={() => handleSelecteModifiers(item)}
                                 className="Addmodificationfromsearch"
@@ -857,8 +864,8 @@ const handleBlur = (
                                 Add
                               </button>
                             )} */}
-                          </div>
-                        </li>
+                            </div>
+                          </li>
                         </div>
                       ))
                     ) : (
@@ -915,38 +922,49 @@ const handleBlur = (
                               <h3 className="paraItemCustomizations">
                                 {modIndex + 1}.
                               </h3>
-                              <div className="" style={{display:'flex',flexDirection:'column'}}>
-                              <input
-                                placeholder="Modifier Name"
-                                className={
-                                  !modificationError[modIndex]?.modifierName
-                                    ? "inputItemCustomizations"
-                                    : "inputItemCustomizationserror"
-                                }
-                                autoComplete="off"
-                                name="modifierName"
-                                value={modifications[modIndex]?.modifierName}
-                                onChange={(e) => {
-                                  const inputValue = e.target.value;
-                                 
-                                  
-                                  validateModifiers(modifications)
-                                  if (!/\d/.test(inputValue)) { 
-
-                                    handleModifierChange(modIndex, e, modifier.selectionType);
+                              <div
+                                className=""
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <input
+                                  placeholder="Modifier Name"
+                                  className={
+                                    !modificationError[modIndex]?.modifierName
+                                      ? "inputItemCustomizations"
+                                      : "inputItemCustomizationserror"
                                   }
-                                  
-                                }
-                               
-                              }
-                                onBlur={(e) => handleBlur(e, modIndex)}
-                              />
-                              {
-                                customizationerrors[modIndex]?.modifierNameError &&   <span className="nameErrormsg">{customizationerrors[modIndex]?.modifierNameError}</span>
+                                  autoComplete="off"
+                                  name="modifierName"
+                                  value={modifications[modIndex]?.modifierName}
+                                  onChange={(e) => {
+                                    const inputValue = e.target.value;
+                                    console.log({ modIndex });
 
-                              }
+                                    validateModifiers(modifications);
+                                    if (!/\d/.test(inputValue)) {
+                                      handleModifierChange(
+                                        modIndex,
+                                        e,
+                                        modifier.selectionType
+                                      );
+                                    }
+                                  }}
+                                  onBlur={(e) => handleBlur(e, modIndex)}
+                                />
+                                {customizationerrors[modIndex]
+                                  ?.modifierNameError && (
+                                  <span className="nameErrormsg">
+                                    {
+                                      customizationerrors[modIndex]
+                                        ?.modifierNameError
+                                    }
+                                  </span>
+                                )}
                               </div>
-                             
+
                               <div
                                 className="deleteModiferContainer"
                                 onClick={() => handleDeleteModifier(modIndex)}
@@ -968,7 +986,11 @@ const handleBlur = (
                                     modifier.selectionType === "Mandatory"
                                   }
                                   onChange={(e) =>
-                                    handleModifierChange(modIndex, e,'Mandatory')
+                                    handleModifierChange(
+                                      modIndex,
+                                      e,
+                                      "Mandatory"
+                                    )
                                   }
                                 />
                                 <label className="labelItemCustomizations">
@@ -985,7 +1007,11 @@ const handleBlur = (
                                     modifier.selectionType === "Optional"
                                   }
                                   onChange={(e) =>
-                                    handleModifierChange(modIndex, e,"Optional")
+                                    handleModifierChange(
+                                      modIndex,
+                                      e,
+                                      "Optional"
+                                    )
                                   }
                                 />
                                 <label className="labelItemCustomizations">
@@ -1014,36 +1040,39 @@ const handleBlur = (
                                           name="modifierOptionName"
                                           type="text"
                                           value={
-                                            modifications[modIndex]?.modifierOptions[optIndex]?.modifierOptionName ||
-                                            modifications[modIndex]?.modifierOptions[optIndex]?.modifierName
+                                            modifications[modIndex]
+                                              ?.modifierOptions[optIndex]
+                                              ?.modifierOptionName ||
+                                            modifications[modIndex]
+                                              ?.modifierOptions[optIndex]
+                                              ?.modifierName
                                           }
-                                          onChange={(e) =>{
-                                            const value =e.target.value
-                                           
-                                              validateModifiers(modifications)
-                                              addOptionChange(
-                                                modIndex,
-                                                optIndex,
-                                                e
-                                              )
-                                            
-                                           
-                                          }
-                                           
-                                          }
-                                          onBlur={(e) =>
-                                          {
-                                            handleBlur(e, modIndex, optIndex)
-                                            validateModifiers(modifications)
-                                          }
-                                           
-                                          }
-                                        />
-                                        {
-                                          customizationerrors[modIndex]?.options[optIndex]?.optionNameError !=="" && 
-                                          <span className="nameErrormsg">{customizationerrors[modIndex]?.options[optIndex]?.optionNameError}</span>
+                                          onChange={(e) => {
+                                            const value = e.target.value;
 
-                                        }
+                                            validateModifiers(modifications);
+                                            addOptionChange(
+                                              modIndex,
+                                              optIndex,
+                                              e
+                                            );
+                                          }}
+                                          onBlur={(e) => {
+                                            handleBlur(e, modIndex, optIndex);
+                                            validateModifiers(modifications);
+                                          }}
+                                        />
+                                        {customizationerrors[modIndex]?.options[
+                                          optIndex
+                                        ]?.optionNameError !== "" && (
+                                          <span className="nameErrormsg">
+                                            {
+                                              customizationerrors[modIndex]
+                                                ?.options[optIndex]
+                                                ?.optionNameError
+                                            }
+                                          </span>
+                                        )}
 
                                         {/* {modificationError[modIndex]?.options?.[optIndex]?.modifierOptionName && (
                                           <div className="error-message1">
@@ -1063,41 +1092,41 @@ const handleBlur = (
                                           name="cost"
                                           type="number"
                                           value={
-                                            modifier.modifierOptions[optIndex].cost || modifier.modifierOptions[optIndex].sellPrice
+                                            modifier.modifierOptions[optIndex]
+                                              .cost ||
+                                            modifier.modifierOptions[optIndex]
+                                              .sellPrice
                                           }
-                                          onChange={(e) =>
-                                          {
-                                            validateModifiers(modifications)
+                                          onChange={(e) => {
+                                            validateModifiers(modifications);
                                             addOptionChange(
                                               modIndex,
                                               optIndex,
                                               e
-                                            )
-                                           
-                                          }
-                                           
-                                          }
+                                            );
+                                          }}
                                           onKeyDown={(e) => {
                                             if (e.key === "-") {
-                                              e.preventDefault(); 
+                                              e.preventDefault();
                                             }
                                           }}
-                                          onBlur={(e) =>
-                                          {
-                                            handleBlur(e, modIndex, optIndex)
-                                            validateModifiers(modifications)
-                                          }
-                                           
-                                          }
+                                          onBlur={(e) => {
+                                            handleBlur(e, modIndex, optIndex);
+                                            validateModifiers(modifications);
+                                          }}
                                         />
 
-                                        {
-                                          customizationerrors[modIndex]?.options[optIndex]?.optionPriceError !=="" &&
-                                          <span className="nameErrormsg">{customizationerrors[modIndex]?.options[optIndex]?.optionPriceError}</span>
-                                        }
-
-
-
+                                        {customizationerrors[modIndex]?.options[
+                                          optIndex
+                                        ]?.optionPriceError !== "" && (
+                                          <span className="nameErrormsg">
+                                            {
+                                              customizationerrors[modIndex]
+                                                ?.options[optIndex]
+                                                ?.optionPriceError
+                                            }
+                                          </span>
+                                        )}
                                       </div>
 
                                       <div
@@ -1156,19 +1185,21 @@ const handleBlur = (
                             <div className="Spinner-input-ItemCustomizations">
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
-                                  className="labelItemCustomizations"
+                            className={modifications[modIndex]?.selectionType === "Optional" ? "labelItemCustomizations-disable" : "labelItemCustomizations"}
+
                                   htmlFor=""
                                 >
                                   Minimum selection
                                 </label>
                                 <input
                                   placeholder=""
-                                  className="input3ItemCustomizations"
+                                  className={modifications[modIndex]?.selectionType === "Optional" ? "input3ItemCustomizations-disable" : "input3ItemCustomizations"}
+
                                   value={
                                     modifications[modIndex]?.selectionType ===
                                       "Optional" &&
-                                    modifications[modIndex].minSelection != 1
-                                      ? 1
+                                    modifications[modIndex].minSelection != 0
+                                      ? 0
                                       : modifications[modIndex].minSelection
                                   }
                                   name="minSelection"
@@ -1182,9 +1213,11 @@ const handleBlur = (
                                 />
                                 <div className="polydiv-ItemCustomizations">
                                   <img
-                                    className="polyimg-ItemCustomizations"
+                                 className={modifications[modIndex]?.selectionType === "Optional" ? "polyimg-ItemCustomizations-disable" : "polyimg-ItemCustomizations"}
+
                                     src={Polygon1}
                                     alt=""
+                                  
                                     onClick={() => {
                                       if (
                                         modifications[modIndex]
@@ -1198,7 +1231,8 @@ const handleBlur = (
                                     }}
                                   />
                                   <img
-                                    className="polyimg-ItemCustomizations"
+                                 className={modifications[modIndex]?.selectionType === "Optional" ? "polyimg-ItemCustomizations-disable" : "polyimg-ItemCustomizations"}
+                                
                                     src={Polygon2}
                                     alt=""
                                     onClick={() => {
@@ -1340,4 +1374,3 @@ const handleBlur = (
 };
 
 export default ItemCustomizations;
-
