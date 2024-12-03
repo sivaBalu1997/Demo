@@ -640,7 +640,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
-  // console.log({menuPayload}, {editPayload})
+  console.log({menuPayload}, {editPayload})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -695,7 +695,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog?.updateMenuItemLoading
   );
 
-  console.log({ updateMenuItemLoading });
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmitItemDetails = () => {
