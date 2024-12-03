@@ -184,7 +184,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                     checked={isAllAvailabilityChecked}
                     onChange={() => handleToggle("showAvail", aviallist)}
                   />
-                  <span>
+               <span onClick={() => handleToggle("showAvail", aviallist)}>
                     {availability}
                     {/* <img src={toggleround} alt="" /> */}
                     <img
