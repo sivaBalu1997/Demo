@@ -27,6 +27,7 @@
   margin-left: 0px;
   width: 90%;
   height: 565px;
+  // border: 1px solid blue;
 }
 .AddModifiersSection {
   width: 65rem;
@@ -46,11 +47,22 @@
 
 .AddModifiersMainInputSection {
   width: 65.625rem;
-  height: 24.563rem;
-  margin-top: 0.5rem;
-  margin-bottom: 20px;
-}
+  // height: 24.563rem;
+  height: auto;
 
+  margin-top: 0.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  top: 2rem;
+  bottom: 2rem;
+  // border: 1px solid red;
+}
+.availbleservicestreams
+{
+  margin-top: 3%;
+  position: relative;
+  top: 1.5rem;
+}
 .AddModifiersInputSection {
   display: flex;
   justify-content: start;

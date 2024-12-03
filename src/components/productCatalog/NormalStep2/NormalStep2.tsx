@@ -127,16 +127,11 @@ const NormalStep2 = () => {
   }, []);
 
   const restaurantDetails = useSelector(
-    (state: any) => state?.auth.restaurantDetails
+    (state: any) => state?.auth?.restaurantDetails
   );
 
-  // const pd = prizingDetail?.normalForm?.dineinfields;
-  // const meals = pd?.map((meal) => meal?.DineInMealType);
-  // console.log({ meals });
-  // const formattedMeals = meals?.[0]?.join(", "); // Join the first array with commas
-  // console.log({ formattedMeals });
-
-  const onlinePickup =
+ 
+  const onlinePickup = prizingDetail?.normalForm?.pickupDetails?.availabilities && prizingDetail?.normalForm?.pickupDetails?.availabilities[0] &&
     prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions?.map(
       (elem) => elem
     );
@@ -144,7 +139,7 @@ const NormalStep2 = () => {
   const onlinePickupFormatted = onlinePickup?.join(", ");
   // console.log("O", online?.join(", "));
 
-  const onlineDelivery =
+  const onlineDelivery = prizingDetail?.normalForm?.deliveryDetails?.availabilities &&
     prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions?.map(
       (elem) => elem
     );

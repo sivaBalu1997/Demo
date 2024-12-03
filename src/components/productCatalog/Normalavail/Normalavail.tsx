@@ -153,9 +153,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     } = props;
 
     const [online, setOnline] = useState(false);
-    const [pickup, setPickup] = useState(true);
-    const [delivery, setDelivery] = useState(true);
-    const [showDineIn, setShowDineIn] = useState(true);
+    const [pickup, setPickup] = useState(false);
+    const [delivery, setDelivery] = useState(false);
+    const [showDineIn, setShowDineIn] = useState(false);
      const { setValiadtePriceFields ,setStoredFunction} = useContext(Contextpagejs);
 
     const [dineinentry, setDineInEntry] = useState<string[]>([]);
@@ -203,7 +203,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const prizingDetail = useSelector(
       (state: any) => state.PricingDetailReducer.prizingData
     );
-    console.log("jhg",prizingDetail);
+    // console.log("jhg",prizingDetail);
     
 
     const [formNormal, setformNormal] = useState({
@@ -235,6 +235,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
     );
 
+
+    // const seletedItemOrderTypes=data
+
+    console.log({orderTypes});
+    
     const data = useSelector(
       (state: any) => state?.selectedMockDataReducer?.data
     );
@@ -323,11 +328,69 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     ]);
 
  
-    const [dineInEnable,setdineInEnable]=useState<boolean>()
-    const [pickupEnable,setpickupEnable]=useState<boolean>()
-    const [deliveryEnable,setdeliveryEnable]=useState<boolean>()
+    const [dineInEnable,setdineInEnable]=useState<boolean>(true)
+    const [pickupEnable,setpickupEnable]=useState<boolean>(true)
+    const [deliveryEnable,setdeliveryEnable]=useState<boolean>(true)
 
 
+
+    useEffect(()=>{
+      const DineInEnable = orderTypess?.find(
+        (item: any) => item.typeGroup === "D"
+      )?.isEnabled;
+      const pickUpenable = orderTypess?.find(
+        (item: any) => item.typeGroup === "P"
+      )?.isEnabled;
+      const deliveryEnable = orderTypess?.find(
+        (item: any) => item.typeGroup === "S"
+      )?.isEnabled;
+
+      console.log({DineInEnable,pickUpenable,deliveryEnable});
+
+      if(DineInEnable===1)
+        {
+          setShowDineIn(true);
+          setdineInEnable(true);
+        }
+        else{
+        
+          setShowDineIn(false);
+          setdineInEnable(false);
+        }
+        
+        if(pickUpenable===1)
+          {
+            setPickup(true);
+            setpickupEnable(true);
+          }
+          else{
+          
+            setPickup(false);
+            setpickupEnable(false);
+          }
+
+          if( deliveryEnable===1)
+            {
+              setDelivery(true);
+              setdeliveryEnable(true);
+            }
+            else{
+            
+              setDelivery(false);
+              setdeliveryEnable(false);
+            }
+      
+
+            if(pickUpenable===1 || deliveryEnable===1)
+            {
+              setOnline(true)
+            }
+            else{
+              setOnline(false)
+            }
+
+
+    },[])
 
     const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
 
@@ -385,7 +448,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       // })
       ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
     };
-    console.log({ mainForm });
+   
 
     const optionsselectthird = orderTypes
       ?.filter((item) => item.typeGroup === "T")
@@ -453,8 +516,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
         });
 
+     
         console.log("prizing",prizingDetail?.normalForm);
         
+     
        
 
         const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
@@ -467,7 +532,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           })
         );
         const dineIndetail= prizingDetail?.normalForm?.dineInDetails
-        console.log("normalform",prizingDetail);
+    
         const updatedField = {
           DineInPrice:dineIndetail?.price,
           DineInMealType:dineIndetail?.availabilities[0]?.sessions,
@@ -476,39 +541,58 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
 
         }
-     
-      
-          setShowDineIn(true);
-       
 
+        
+        
+
+
+       
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
        
+        const filterOrderTypeAvailableorNotDineIn=orderTypes?.filter((data:any,index:number)=>(
+          data.id===dineIndetail?.typeId
+
+          
+        ))
+        const filterOrderTypeAvailableorNotPickup=orderTypes?.filter((data:any,index:number)=>(
+          data.id===pickupDetails?.typeId
+
+          
+        ))
+        const filterOrderTypeAvailableorNotDelivery=orderTypes?.filter((data:any,index:number)=>(
+          data.id===deliveryDetails?.typeId
+
+          
+        ))
+     
+
+        console.log({filterOrderTypeAvailableorNotPickup,filterOrderTypeAvailableorNotDelivery});
+
+
+if(filterOrderTypeAvailableorNotDineIn && filterOrderTypeAvailableorNotDineIn[0]?.isEnabled===1)
+{
+  setShowDineIn(true);
+  setdineInEnable(true);
+}
+else{
+
+  setShowDineIn(false);
+  setdineInEnable(false);
+}
+
+
+
+  
+ 
         
         // setdineInEnable(dineIndetail?.isEnabled===1)
         // setpickupEnable(pickupDetails?.isEnabled===1)
         // setdeliveryEnable(deliveryDetails?.isEnabled===1)
 
-
-
-
-        console.log("normal",prizingDetail);
-        
-      
-        console.log("pickupiuytr",pickupDetails);
-        console.log("delihg",deliveryDetails);
-       
-
-       
-        
-
         setDineInFields([updatedField]);
-        // setFormattedDineInData((prevData) => ({
-        //   ...prevData,
-        //   price: updatedFields[0]?.DineInPrice
-        //   availabilities[0].sessions:updatedFields[0]?.DineInMealType
-        // }));
+       
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
@@ -529,7 +613,17 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           prizingDetail?.normalForm?.thirdpartyDetails?.map;
         if (pickupDetails) {
           // setOnline(true);
-          pickupDetails?.price > 0 && setPickup(true);
+          if(filterOrderTypeAvailableorNotPickup && filterOrderTypeAvailableorNotPickup[0]?.isEnabled===1 && pickupDetails?.price > 0)
+            {
+              setPickup(true);
+              setpickupEnable(true);
+            }
+            else{
+            
+              setPickup(false);
+              setpickupEnable(false);
+            }
+          
 
           // if(pickupDetails?.isEnabled===1)
           //   {
@@ -552,6 +646,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
 
         if (deliveryDetails) {
+          if(filterOrderTypeAvailableorNotDelivery && filterOrderTypeAvailableorNotDelivery[0]?.isEnabled===1 && deliveryDetails?.price > 0)
+            {
+              setDelivery(true);
+              setdeliveryEnable(true);
+            }
+            else{
+            
+              setDelivery(false);
+              setdeliveryEnable(false);
+            }
           
           // if(deliveryDetails?.isEnabled===1)
           //   {
@@ -562,7 +666,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           //     setDelivery(false);
           //   }
           // setOnline(true);
-          deliveryDetails?.price > 0 && setDelivery(true);
+          // deliveryDetails?.price > 0 && setDelivery(true);
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
@@ -602,7 +706,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
 
 
-        setShowDineIn(true);
+        // setShowDineIn(true);
       }
 
       if (prizingDetail?.normalForm) {
@@ -615,20 +719,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
-        console.log("normalform2",prizingDetail);
-        
-           console.log({dineIndetail});
-           console.log("pickuppps",pickupDetails);
-           console.log("deliveryyy",deliveryDetails);
-
+      
+        console.log("prizing2",prizingDetail?.normalForm);
            
            
         // setDineIn(true);
         // setdineInEnable(dineIndetail?.isEnabled===1)
         // setpickupEnable(pickupDetails?.isEnabled===1)
         // setdeliveryEnable(deliveryDetails?.isEnabled===1)
-        console.log("1234",dineIndetail?.isEnabled===1);
-        setShowDineIn(true);
+        // console.log("1234",dineIndetail?.isEnabled===1);
+        // setShowDineIn(true);
          
         //  if(dineIndetail?.isEnabled===1)
         //  {
@@ -758,7 +858,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
         // setSelectedThirdValues(["Swiggy", "Zomato"]);
       }
-    }, [prizingDetail]);
+
+
+      
+    }, [prizingDetail,dataFromRedux,dataFromRedux[0]]);
 
     const [initialPricingData, setInitialPricingData] = useState([]);
 
@@ -811,6 +914,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       index: number,
       e: React.ChangeEvent<HTMLInputElement>
     ): void => {
+      
+      
       const newEntries = [...dineinfields];
       newEntries[index] = {
         ...newEntries[index],
@@ -995,7 +1100,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         };
       });
 
-      if (dinein) {
+      if (showDineIn) {
         validateDropdown(value, index);
       }
     };
@@ -1186,16 +1291,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
       });
       if (pickup) {
-        if (!pickupDetails?.price || pickupDetails?.price <= 0) {
+        if (pickup&&!pickupDetails?.price || pickupDetails?.price <= 0) {
           validationErrors.pickupprice = "Price is empty";
         }
         const Pickupsessions = pickupDetails?.availabilities[0]?.sessions || [];
-        if (Pickupsessions?.length === 0) {
+        if (pickup &&Pickupsessions?.length === 0) {
           validationErrors.pickupmealTypeSessions = "Meal type is empty";
         }
       }
 
-      if (delivery) {
+      if (pickup&&delivery) {
         if (!deliveryDetails?.price || deliveryDetails?.price <= 0) {
           validationErrors.deliveryprice = "Price is empty";
         }
@@ -1215,7 +1320,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       }
 
       setErrors(validationErrors);
-console.log("outttt",Object.keys(validationErrors).length === 0);
+// console.log("outttt",Object.keys(validationErrors).length === 0);
 
       return Object.keys(validationErrors).length === 0;
     };
@@ -1223,21 +1328,18 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
     const handleSubmit = () => {
       const isValid = validateDineinFields();
       if (!isValid) {
-        console.log("Validation failed:", errors);
+        // console.log("Validation failed:", errors);
         return false;
       }
-      console.log("Validation passed. Proceed with submission.");
+      // console.log("Validation passed. Proceed with submission.");
       return true;
     };
 
-    console.log({ pickupDetails });
+
 
    
 
-  // Define the function you want to store in the context
-  const myFunction = () => {
-    alert("Hello from the stored function!");
-  };
+  
 
   const validate = () => {
     const isValid = Math.random() > 0.5; 
@@ -1305,11 +1407,11 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
 
         {
           <div className="DineInRelated">
-            <h1 className="DineInRelatedHeadingNormalAvail">Dine In</h1>
+            <h1 className="DineInRelatedHeadingNormalAvail" style={{opacity:dineInEnable?"100%":"50%"}}>Dine In</h1>
             <Toggle
               toggle={showDineIn}
               setToggle={setShowDineIn}
-              Enabled={DineInServiceEnabled === 1 && dineInEnable===true}
+              Enabled={dineInEnable===true}
             />
           </div>
         }
@@ -1446,12 +1548,13 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
             <div className="onlineselected">
               {/* PickupRelated */}
               <div className="PickupRelatedNormal">
-                <h1 className="PickupRelatedHeadingNormal">Pick Up</h1>
+                <h1 className="PickupRelatedHeadingNormal" style={{opacity:pickupEnable?"100%":"50%"}}>Pick Up</h1>
                 <div className="toggleIV">
                   <Toggle
                     toggle={pickup}
                     setToggle={setPickup}
-                    Enabled={pickUpIdServiceEnabled === 1 && pickupEnable===true}
+                    Enabled={pickupEnable===true}
+                    // Enabled={pickUpIdServiceEnabled === 1 && pickupEnable===true}
                   />
                 </div>
               </div>
@@ -1584,12 +1687,12 @@ console.log("outttt",Object.keys(validationErrors).length === 0);
                     : "DeliveryRelatedNormalopen"
                 }`}
               >
-                <h1 className="DeliveryRelatedHeadingNormal">Delivery</h1>
+                <h1 className="DeliveryRelatedHeadingNormal" style={{opacity:deliveryEnable?"100%":"50%"}}>Delivery</h1>
                 <div className="toggleV">
                   <Toggle
                     toggle={delivery}
                     setToggle={setDelivery}
-                    Enabled={DeliveryServiceEnabled === 1 &&deliveryEnable===true}
+                    Enabled={deliveryEnable===true}
                   />
                 </div>
               </div>

@@ -666,7 +666,7 @@ export const MenuPage = () => {
       }));
 
       dispatch(primarypost(primaryPageData));
-      dispatch(PricingDetailRequest(pricingPageData));
+      // dispatch(PricingDetailRequest(pricingPageData));
       dispatch(itemCustomizationPost(modifierData));
     }
   }, [editData]);
@@ -911,10 +911,11 @@ export const MenuPage = () => {
                 <div className="first-div-header">
                   <p className="image">Image</p>
                   <p className="name-item">ItemName</p>
-                  <p className="item-code">Code  
-                    <button  className="addbtn"
+                  <p className="item-code">
+                    <span> Code </span> 
+                    <button  className="addbtn-menupage"
                         onClick={() => setshowheadinglist(true)}>
-                      +
+                      <span>+</span>
                     </button>
                   </p>
                 </div>

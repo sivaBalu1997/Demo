@@ -46,7 +46,7 @@ export const Contextpage = ({ children }) => {
 
     })
 
-    console.log({partialData});
+  
     
     const[patchedData,setPatchedData]=useState(
       {

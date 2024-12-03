@@ -23,6 +23,7 @@ const Toggle: React.FC<ToggleProps> = ({
       <button
         type="button"
         // style={{width:`${width}px`,height:`${height}px`}}
+        style={{opacity:Enabled===true?"100%":"50%"}}
         className={`toggleBtn${toggle ? " Toggled" : ""}`}
         onClick={() => {
           if (Enabled) {

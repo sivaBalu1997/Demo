@@ -127,12 +127,20 @@ z-index: 0;
   height: 3rem;
   z-index: 1;
   background-color: white;
+ 
+  align-items: center;
   // gap:2rem;
 
   .image
   {
  width: 5rem;
  padding: 5px;
+ font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
 //  border: 1px solid blue;
   }
   .name-item
@@ -140,12 +148,28 @@ z-index: 0;
     width: 10rem;
     // border: 1px solid blue;
     padding: 5px;
+    // font-family: Poppins;
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
   }
   .item-code
   {
 width: 4rem;
 padding: 5px;
 display: flex;
+// font-family: Poppins;
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
 // border: 1px solid blue;
   }
 
@@ -159,6 +183,12 @@ display: flex;
     // border: 1px solid red;
   // margin-top: 2rem;
   z-index: 0;
+  font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
   }
 
 
@@ -210,12 +240,28 @@ background-color: white;
   width: 10rem;
   // border: 1px solid blue;
   padding: 5px;
+  // font-family: Poppins;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
 }
 .itemcode2
 {
   width: 4rem;
   padding: 5px;
   display: flex;
+  // font-family: Poppins;
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
 }
 .item-name-code-data
 {
@@ -565,13 +611,13 @@ background-color: white;
   // border: 1px solid red;
 }
 
-.addbtn
+.addbtn-menupage
 {
   background: none;
   border: 0.5px solid #5F5F5F;
   position: relative;
   left: 1rem;
-  top: 0.5rem;
+  // top: 0.5rem;
   width: 24px;
   height: 27px;
   border-radius: 4px;

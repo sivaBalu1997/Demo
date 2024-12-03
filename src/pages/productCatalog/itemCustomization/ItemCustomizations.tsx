@@ -632,7 +632,7 @@ const ItemCustomizations: React.FC = () => {
   const [customizationerrors, setcustomizationerrors] = useState<any>([]);
   const validateModifiers = (modifications: any[]) => {
     const errors: any[] = []; // This will hold all errors
-    console.log({ modifications });
+
   
     modifications?.forEach((modifier, index) => {
       const {
@@ -733,7 +733,7 @@ const ItemCustomizations: React.FC = () => {
 
   
 
-console.log({customizationerrors});
+
 
 const handleBlur = (
   e: ChangeEvent<HTMLInputElement>,
@@ -928,7 +928,7 @@ const handleBlur = (
                                 value={modifications[modIndex]?.modifierName}
                                 onChange={(e) => {
                                   const inputValue = e.target.value;
-                                  console.log({modIndex});
+                                 
                                   
                                   validateModifiers(modifications)
                                   if (!/\d/.test(inputValue)) { 
@@ -1307,7 +1307,7 @@ const handleBlur = (
                                   validation={validationState.items}
                                   label="Available Service Stream*"
                                 />
-                                {   customizationerrors[modIndex]?.errormsgforselectedvalues &&   <span className="nameErrormsg">{customizationerrors[modIndex]?.errormsgforselectedvalues}</span>
+                                {   customizationerrors[modIndex]?.errormsgforselectedvalues &&   <span className="nameErrormsg  availbleservicestreams">{customizationerrors[modIndex]?.errormsgforselectedvalues}</span>
                               }
                               </div>
                             </div>

@@ -176,14 +176,15 @@ const DropDownList: React.FC<DropdownProps> = ({
         option?.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
       )
     : [];
-  useEffect(() => {
     const categoryValue = getValues("category");
+  useEffect(() => {
+   
     if (!categoryValue) {
       setDisablesubcategory(true);
     } else {
       setDisablesubcategory(false);
     }
-  }, [getValues]);
+  }, [categoryValue]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
