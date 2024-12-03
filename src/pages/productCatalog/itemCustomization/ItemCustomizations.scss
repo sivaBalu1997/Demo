@@ -109,6 +109,15 @@
   font-weight: 400;
   color: #979797;
 }
+.labelItemCustomizations-disable{
+  font-size: 0.875rem;
+  line-height: 1.313rem;
+  font-family: Poppins;
+  font-weight: 400;
+  color: #979797;
+  opacity: 0.2;
+
+}
 
 .label1ItemCustomizations {
   font-size: 0.775rem;
@@ -222,13 +231,25 @@
   color: black;
   font-weight: 400;
 }
+.input3ItemCustomizations-disable{
+  width: 9.375rem;
+  height: 2.75rem;
+  border-radius: 0.313rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  opacity: 0.2;
+  font-size: 14px;
+  padding-left: 0.625rem;
+  color: black;
+  font-weight: 400;
+
+}
 
 .polydiv-ItemCustomizations {
   background-color: #d9d9d9;
-  height: 43.5px;
+  height: 44.5px;
   width: 44px;
   margin: 0.125rem;
-  top: -45.5px;
+  top: -46.5px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   left: 116px;
@@ -247,6 +268,18 @@
   cursor: pointer;
 
   cursor: pointer;
+}
+.polyimg-ItemCustomizations-disable{
+  position: relative;
+  left: 15px;
+  padding: 0.125rem;
+  top: 8px;
+  width: 17px;
+  cursor: pointer;
+
+  cursor: pointer;
+  opacity: 0.1;
+
 }
 
 .selectbox-ItemCustomizations {
