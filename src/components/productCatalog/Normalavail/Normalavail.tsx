@@ -20,6 +20,7 @@ import { RootState } from "redux/rootReducer";
 import { State } from "sockjs-client";
 import session from "redux-persist/lib/storage/session";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { log } from "util";
 
 type MainFormType = {
   availabilityid: string[];
@@ -331,16 +332,18 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [pickupEnable,setpickupEnable]=useState<boolean>(true)
     const [deliveryEnable,setdeliveryEnable]=useState<boolean>(true)
 
+const seletedOrdertypes=dataFromRedux[0].orderTypes;
+console.log({seletedOrdertypes});
 
 
     useEffect(()=>{
-      const DineInEnable = orderTypess?.find(
+      const DineInEnable = seletedOrdertypes?.find(
         (item: any) => item.typeGroup === "D"
       )?.isEnabled;
-      const pickUpenable = orderTypess?.find(
+      const pickUpenable = seletedOrdertypes?.find(
         (item: any) => item.typeGroup === "P"
       )?.isEnabled;
-      const deliveryEnable = orderTypess?.find(
+      const deliveryEnable = seletedOrdertypes?.find(
         (item: any) => item.typeGroup === "S"
       )?.isEnabled;
 
@@ -538,7 +541,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           dayButtonText: "Choose Day",
         };
 
-        setShowDineIn(true);
+       
 
         
         
@@ -549,17 +552,17 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
        
-        const filterOrderTypeAvailableorNotDineIn=orderTypes?.filter((data:any,index:number)=>(
+        const filterOrderTypeAvailableorNotDineIn=seletedOrdertypes?.filter((data:any,index:number)=>(
           data.id===dineIndetail?.typeId
 
           
         ))
-        const filterOrderTypeAvailableorNotPickup=orderTypes?.filter((data:any,index:number)=>(
+        const filterOrderTypeAvailableorNotPickup=seletedOrdertypes?.filter((data:any,index:number)=>(
           data.id===pickupDetails?.typeId
 
           
         ))
-        const filterOrderTypeAvailableorNotDelivery=orderTypes?.filter((data:any,index:number)=>(
+        const filterOrderTypeAvailableorNotDelivery=seletedOrdertypes?.filter((data:any,index:number)=>(
           data.id===deliveryDetails?.typeId
 
           
@@ -730,7 +733,43 @@ else{
         //   setShowDineIn(false);
         //  }
 
+
+
+        const filterOrderTypeAvailableorNotDineIn=seletedOrdertypes?.filter((data:any,index:number)=>(
+          data.id===dineIndetail?.typeId
+
+          
+        ))
+        const filterOrderTypeAvailableorNotPickup=seletedOrdertypes?.filter((data:any,index:number)=>(
+          data.id===pickupDetails?.typeId
+
+          
+        ))
+        const filterOrderTypeAvailableorNotDelivery=seletedOrdertypes?.filter((data:any,index:number)=>(
+          data.id===deliveryDetails?.typeId
+
+          
+        ))
+     
+
+        console.log({filterOrderTypeAvailableorNotPickup,filterOrderTypeAvailableorNotDelivery});
+
+
+if(filterOrderTypeAvailableorNotDineIn && filterOrderTypeAvailableorNotDineIn[0]?.isEnabled===1)
+{
+  setShowDineIn(true);
+  setdineInEnable(true);
+}
+else{
+
+  setShowDineIn(false);
+  setdineInEnable(false);
+}
+
+
         if (pickupDetails) {
+
+          
           pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
 
           // if(pickupDetails?.isEnabled===1)
@@ -760,6 +799,16 @@ else{
           //   else{
           //     setDelivery(false);
           //   }
+          if(filterOrderTypeAvailableorNotDelivery && filterOrderTypeAvailableorNotDelivery[0]?.isEnabled===1 && deliveryDetails?.price > 0)
+            {
+              setDelivery(true);
+              setdeliveryEnable(true);
+            }
+            else{
+            
+              setDelivery(false);
+              setdeliveryEnable(false);
+            }
 
           deliveryDetails?.price > 0 ? setOnline(true) : setOnline(false);
           // deliveryDetails?.price > 0 && setDelivery(true);
@@ -798,7 +847,7 @@ else{
             dayButtonText: "Choose Day",
           })
         );
-        console.log('4444',prizingDetail.normalForm.DineIn[0].length > 0)
+      
         const updatedField = {
           DineInPrice: dineIndetail?.price,
           DineInMealType:
@@ -853,7 +902,7 @@ else{
 
 
       
-    }, [prizingDetail,dataFromRedux,dataFromRedux[0]]);
+    }, [prizingDetail]);
 
     const [initialPricingData, setInitialPricingData] = useState([]);
 
