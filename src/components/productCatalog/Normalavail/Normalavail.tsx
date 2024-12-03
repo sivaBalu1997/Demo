@@ -330,47 +330,47 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 const seletedOrdertypes=dataFromRedux[0]?.orderTypes;
 console.log({seletedOrdertypes});
 
-    useEffect(() => {
-      const DineInEnable = seletedOrdertypes?.find(
-        (item: any) => item.typeGroup === "D"
-      )?.isEnabled;
-      const pickUpenable = seletedOrdertypes?.find(
-        (item: any) => item.typeGroup === "P"
-      )?.isEnabled;
-      const deliveryEnable = seletedOrdertypes?.find(
-        (item: any) => item.typeGroup === "S"
-      )?.isEnabled;
+    // useEffect(() => {
+    //   const DineInEnable = seletedOrdertypes?.find(
+    //     (item: any) => item.typeGroup === "D"
+    //   )?.isEnabled;
+    //   const pickUpenable = seletedOrdertypes?.find(
+    //     (item: any) => item.typeGroup === "P"
+    //   )?.isEnabled;
+    //   const deliveryEnable = seletedOrdertypes?.find(
+    //     (item: any) => item.typeGroup === "S"
+    //   )?.isEnabled;
 
-      if (DineInEnable === 0) {
-        setShowDineIn(false);
-        setdineInEnable(false);
-      } else {
-        setShowDineIn(true);
-        setdineInEnable(true);
-      }
+    //   if (DineInEnable === 0) {
+    //     setShowDineIn(false);
+    //     setdineInEnable(false);
+    //   } else {
+    //     setShowDineIn(true);
+    //     setdineInEnable(true);
+    //   }
 
-      if (pickUpenable === 0) {
-        setPickup(false);
-        setpickupEnable(false);
-      } else {
-        setPickup(true);
-        setpickupEnable(true);
-      }
+    //   if (pickUpenable === 0) {
+    //     setPickup(false);
+    //     setpickupEnable(false);
+    //   } else {
+    //     setPickup(true);
+    //     setpickupEnable(true);
+    //   }
 
-      if (deliveryEnable === 0) {
-        setDelivery(false);
-        setdeliveryEnable(false);
-      } else {
-        setDelivery(true);
-        setdeliveryEnable(true);
-      }
+    //   if (deliveryEnable === 0) {
+    //     setDelivery(false);
+    //     setdeliveryEnable(false);
+    //   } else {
+    //     setDelivery(true);
+    //     setdeliveryEnable(true);
+    //   }
 
-      if (pickUpenable === 1 || deliveryEnable === 1) {
-        setOnline(true);
-      } else {
-        setOnline(false);
-      }
-    }, []);
+    //   if (pickUpenable === 1 || deliveryEnable === 1) {
+    //     setOnline(true);
+    //   } else {
+    //     setOnline(false);
+    //   }
+    // }, []);
 
     const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
 
@@ -471,7 +471,24 @@ console.log({seletedOrdertypes});
     const editData = useSelector((state: any) => state.productCatalog.editData);
 
     useEffect(() => {
+      
       if (prizingDetail?.normalForm?.formNormal) {
+        const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
+        const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
+        const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
+        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+
+        const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === dineIndetail?.typeId
+        );
+        const filterOrderTypeAvailableorNotPickup = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === pickupDetails?.typeId
+        );
+        const filterOrderTypeAvailableorNotDelivery = seletedOrdertypes?.filter(
+          (data: any, index: number) => data.typeId === deliveryDetails?.typeId
+        );
+
+
         setformNormal({
           PickuppriceNormal:
             prizingDetail?.normalForm?.formNormal?.PickuppriceNormal || "",
@@ -493,6 +510,30 @@ console.log({seletedOrdertypes});
             prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
         });
 
+        // if (editData?.length > 0 &&
+        //   filterOrderTypeAvailableorNotDineIn &&
+        //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 1
+        // ) {
+        //   setShowDineIn(true);
+        //   setdineInEnable(true);
+        // } else {
+        //   setShowDineIn(false);
+        //   setdineInEnable(false);
+        // }
+
+        // if (
+        //   editData?.length > 0 &&
+        //   filterOrderTypeAvailableorNotPickup &&
+        //   filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 1 &&
+        //   pickupDetails?.price > 0
+        // ) {
+        //   setPickup(true);
+        //   setpickupEnable(true);
+        // } else {
+        //   setPickup(false);
+        //   setpickupEnable(false);
+        // }
+
         const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
           (item: any) => ({
             DineInPrice: item?.DineInPrice,
@@ -502,28 +543,13 @@ console.log({seletedOrdertypes});
             dayButtonText: "Choose Day",
           })
         );
-        const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
 
         const updatedField = {
           DineInPrice: dineIndetail?.price,
           DineInMealType: dineIndetail?.availabilities[0]?.sessions,
-          showDay: prizingDetail.normalForm.DineIn[0].length > 0 ? true : false,
+          showDay: prizingDetail.normalForm.DineIn[0]?.length > 0 ? true : false,
           dayButtonText: "Choose Day",
         };
-
-        const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
-        const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
-        const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-
-        const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === dineIndetail?.typeId
-        );
-        const filterOrderTypeAvailableorNotPickup = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === pickupDetails?.typeId
-        );
-        const filterOrderTypeAvailableorNotDelivery = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === deliveryDetails?.typeId
-        );
 
         setDineInFields([updatedField]);
 
@@ -614,31 +640,28 @@ console.log({seletedOrdertypes});
           (data: any, index: number) => data.typeId === deliveryDetails?.typeId
         );
 
-        if (
-          editData?.length > 0 &&
-          filterOrderTypeAvailableorNotDineIn &&
-          filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 1
-        ) {
+        if(dineIndetail){
           setShowDineIn(true);
-          setdineInEnable(true);
-        } else {
-          setShowDineIn(false);
-          setdineInEnable(false);
-        }
-        if (
-          editData?.length > 0 &&
-          filterOrderTypeAvailableorNotPickup &&
-          filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 1 &&
-          pickupDetails?.price > 0
-        ) {
-          setPickup(true);
-          setpickupEnable(true);
-        } else {
-          setPickup(false);
-          setpickupEnable(false);
+          if (editData?.length > 0 &&
+            filterOrderTypeAvailableorNotDineIn &&
+            filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
+          ) {
+            setShowDineIn(false);
+            setdineInEnable(false);
+          } 
         }
 
         if (pickupDetails) {
+          setPickup(true);
+          if (
+            editData?.length > 0 &&
+            filterOrderTypeAvailableorNotPickup &&
+            filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 0
+          ) {
+            setPickup(false);
+            setpickupEnable(false);
+          } 
+
           pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
           setPickUpDetails({
             typeId: pickUpId,
@@ -650,18 +673,15 @@ console.log({seletedOrdertypes});
         }
 
         if (deliveryDetails) {
+          setDelivery(true);
           if (
             editData?.length > 0 &&
             filterOrderTypeAvailableorNotDelivery &&
-            filterOrderTypeAvailableorNotDelivery[0]?.isEnabled === 1 &&
-            deliveryDetails?.price > 0
+            filterOrderTypeAvailableorNotDelivery[0]?.isEnabled === 0 
           ) {
-            setDelivery(true);
-            setdeliveryEnable(true);
-          } else {
             setDelivery(false);
             setdeliveryEnable(false);
-          }
+          } 
 
           deliveryDetails?.price > 0 ? setOnline(true) : setOnline(false);
           // deliveryDetails?.price > 0 && setDelivery(true);
@@ -711,7 +731,7 @@ console.log({seletedOrdertypes});
           showDay:
             dineIndetail &&
             dineIndetail?.availabilities &&
-            prizingDetail.normalForm.DineIn[0].length > 0
+            prizingDetail.normalForm.DineIn[0]?.length > 0
               ? true
               : false,
           dayButtonText: "Choose Day",
@@ -1104,74 +1124,10 @@ console.log({seletedOrdertypes});
         resetSelection.current = clearSelection;
       }
     }, [resetSelection]);
-    // useEffect(()=>{
-    //   if(dineinfields.length>0)
-    //   {
-    //     setDineIn(true);
-    //   }
-    //   else{
-    //     setDineIn(false);
-    //   }
-
-    // },[dineinfields])
-    // useEffect(()=>{
-    //   pickupDetails.price >0&&deliveryDetails.price>0 && setOnline(true);
-    // },[pickupDetails,deliveryDetails])
-    // useEffect(() => {
-    //   setDineIn(DineInServiceEnabled === 1);
-    //   setPickup(pickUpIdServiceEnabled === 1);
-    //   setDelivery(DeliveryServiceEnabled === 1);
-    // }, [DineInServiceEnabled, pickUpIdServiceEnabled, DeliveryServiceEnabled]);
 
     const [dropdownopened, setDropdownopened] = useState<boolean>(false);
 
     const [errors, setErrors] = useState<Record<string, string>>({});
-
-    // useEffect(() => {
-    //   const validationErrors: Record<string, string> = {};
-
-    //   dineinfields?.forEach((field: any, index: number) => {
-    //     if (showDineIn) {
-    //       if (
-    //         (showDineIn && !field?.DineInPrice) ||
-    //         Number(field?.DineInPrice) <= 0
-    //       ) {
-    //         validationErrors[`DineInPrice-${index}`] = "Price is empty.";
-    //       }
-
-    //       if (
-    //         (showDineIn && !field?.DineInMealType) ||
-    //         field?.DineInMealType?.length === 0
-    //       ) {
-    //         validationErrors[`DineInMealType-${index}`] = "Meal type is empty.";
-    //       }
-    //     }
-    //   });
-    //   if (pickup) {
-    //     if (!pickupDetails?.price || pickupDetails?.price <= 0) {
-    //       validationErrors.pickupprice = "Price is missing or invalid.";
-    //     }
-
-    //     const Pickupsessions = pickupDetails?.availabilities[0]?.sessions || [];
-    //     if (Pickupsessions?.length === 0) {
-    //       validationErrors.pickupmealTypeSessions = "Sessions are missing.";
-    //     }
-    //   }
-
-    //   if (delivery) {
-    //     if (!deliveryDetails?.price || deliveryDetails?.price <= 0) {
-    //       validationErrors.deliveryprice = "Price is missing or invalid.";
-    //     }
-    //     const deliverysessions =
-    //       deliveryDetails?.availabilities[0]?.sessions || [];
-    //     if (deliverysessions?.length === 0) {
-    //       validationErrors.deliverymealTypeSessions = "Sessions are missing.";
-    //     }
-    //   }
-
-    //   setErrors(validationErrors);
-    //   setValiadtePriceFields(Object.keys(validationErrors).length === 0)
-    // },[dineinfields,pickupDetails,deliveryDetails]);
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
