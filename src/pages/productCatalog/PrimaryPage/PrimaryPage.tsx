@@ -1177,7 +1177,7 @@ const PrimaryPage = () => {
                   <div>
                     {" "}
                     <Imagepillsselection
-                      heading="Allergens"
+                      heading="Allergens*"
                       options={allergensData}
                       setValue={setValue}
                       name="allergens"

@@ -772,6 +772,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     return result;
   };
+
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
@@ -1054,7 +1055,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                       src={
                                         image.url?.file
                                           ? image.url.preview
-                                          : image.url || emptyfoodimg // Fallback to an empty image if both are unavailable
+                                          : image.url || emptyfoodimg 
                                       }
                                       alt={`Preview of image ${index + 1}`}
                                     />
@@ -1170,10 +1171,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
             onClick={handleSubmitItemDetails}
             disabled={addMenuLoading || updateMenuItemLoading}
           >
-            {!addMenuLoading || !updateMenuItemLoading ? (
-              "Submit for review"
-            ) : (
+            {(addMenuLoading || updateMenuItemLoading) ? (
               <div className="reviewLoaders"></div>
+            ) : (
+               "Submit for review"
             )}
           </button>
         </div>
