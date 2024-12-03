@@ -327,7 +327,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [pickupEnable, setpickupEnable] = useState<boolean>(true);
     const [deliveryEnable, setdeliveryEnable] = useState<boolean>(true);
 
-    const seletedOrdertypes = dataFromRedux[0]?.orderTypes;
+const seletedOrdertypes=dataFromRedux[0]?.orderTypes;
+console.log({seletedOrdertypes});
 
     // useEffect(() => {
     //   const DineInEnable = seletedOrdertypes?.find(

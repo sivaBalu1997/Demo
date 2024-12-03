@@ -507,7 +507,7 @@ const ItemCustomizations: React.FC<any> = () => {
   };
 
   const handleSelect3 = (values: string[], index: number): void => {
-    setSelectedValue(values);
+    // setSelectedValue(values);
 
     setModifications((prevModifications: any) => {
       const newModifications = [...prevModifications];
@@ -778,7 +778,7 @@ const ItemCustomizations: React.FC<any> = () => {
           }
         >
           <div className="itemcustomizationpage">
-            <div className="AddModifiersSection">
+            <div className="AddModifiersSection ">
               <div>
                 <h3 className="headingItemCustomizations">Add Modifiers</h3>
               </div>
@@ -912,7 +912,7 @@ const ItemCustomizations: React.FC<any> = () => {
                         style={{}}
                       >
                         {showModifiers && (
-                          <div className="AddModifiersMainInputSection">
+                          <div className="AddModifiersMainInputSection ">
                             <div className="AddModifiersInputSection">
                               <img
                                 className="dotedimageItemCustomizations"

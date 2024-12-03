@@ -62,6 +62,7 @@
   margin-left: 55px;
   gap: 1.4rem;
   margin-bottom: 0.5rem;
+ 
 }
 
 .headingItemCustomizations {
@@ -71,16 +72,11 @@
 }
 
 .AddModifiersMainInputSection {
-  width: 65.625rem;
-  // height: 24.563rem;
-  height: auto;
-
-  margin-top: 0.5rem;
-  margin-bottom: 3rem;
-  position: relative;
-  top: 2rem;
-  bottom: 2rem;
-  // border: 1px solid red;
+ 
+height: auto;
+margin-top: 2%;
+margin-bottom: 2%;
+  // border: 1px solid black;
 }
 .availbleservicestreams
 {
@@ -399,7 +395,7 @@
   display: flex;
   justify-content: start;
   gap: 1.25rem;
-  margin-top: -17.125rem;
+  // margin-top: -17.125rem;
   margin-left: -0.313rem;
 }
 
@@ -490,12 +486,15 @@ input[type="number"] {
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
-  // width: fit-content;
+  width: fit-content;
   z-index: 0;
   // background-color: lightgreen;
   .modifiers {
     padding-left: 55px;
     // background-color: pink;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     width: fit-content;
   }
   &::-webkit-scrollbar{
@@ -503,57 +502,8 @@ input[type="number"] {
   }
 }
 
-.modifier-div-margin2 {
-  height: 15.625rem;
-  margin-top: 30px;
-  margin-bottom: 80px;
-}
 
-.modifier-div-margin3 {
-  height: 15.625rem;
-  transform: translateY(20px);
-  margin-bottom: 180px;
-}
 
-.modifier-div-margin4 {
-  height: 15.625rem;
-
-  transform: translateY(50px);
-  margin-bottom: 240px;
-}
-.modifier-div-margin5 {
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 320px;
-}
-.modifier-div-margin6 {
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 380px;
-}
-
-.modifier-div-margin7 {
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 450px;
-}
-
-.modifier-div-margin8 {
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 490px;
-}
-.modifier-div-margin9 {
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 540px;
-}
-
-.modifier-div-margin10 {
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 650px;
-}
 
 .radiobtnMargin {
   display: flex;
