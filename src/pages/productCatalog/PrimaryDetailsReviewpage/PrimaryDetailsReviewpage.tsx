@@ -772,7 +772,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
     return result;
   };
-
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
@@ -850,7 +849,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           label="Calorie Point"
                           textvalue={
                             primarydata?.coloriePoint?.value
-                              ? primarydata.coloriePoint?.value
+                              ?`${primarydata.coloriePoint?.value} ${primarydata.coloriePoint?.type}`
                               : "N/A"
                           }
                         />

@@ -228,7 +228,7 @@ const PrimaryPage = () => {
     },
   });
 
-  const [popularItem, setPopularItem] = useState<any>("");
+  const [popularItem, setPopularItem] = useState<any>(0);
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
 
   const [calorieInfo, setCalorieInfo] = useState<any>({
@@ -264,7 +264,7 @@ const PrimaryPage = () => {
     useState<Item[]>();
 
   useEffect(() => {
-    setPopularItem(PopularItemFormApi);
+    setPopularItem(PopularItemFormApi? PopularItemFormApi:0);
     setPopularItemLimit(popularItemLimit);
   }, [PopularItemFormApi]);
 
