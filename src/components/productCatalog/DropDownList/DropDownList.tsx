@@ -546,7 +546,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  const [Loading, setLoading] = useState<boolean>();
+  const [Loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (!options || options.length < 1) {
@@ -645,7 +645,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {dropDownLoading ? (
+              {dropDownLoading || Loading? (
                 <div className="dropdown-no-options">
                   <Loader
                     className="imgLoader1"
@@ -661,7 +661,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 </div>
               ) : (
                 <div>
-                  {!Loading && filteredOptions?.length > 0 ? (
+                  { filteredOptions?.length > 0 ? (
                     filteredOptions?.map((option, index) => {
                       return (
                         <div className="dropdown-option-list" key={index}>

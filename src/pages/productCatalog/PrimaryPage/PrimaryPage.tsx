@@ -33,6 +33,7 @@ import {
   getItemCodeRequest,
   getMenuCategoryRequest,
   getPopularItemRequest,
+  removeCodeRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -270,6 +271,7 @@ const PrimaryPage = () => {
 
   useEffect(() => {
     dispatch(getPopularItemRequest(locationid));
+    dispatch(removeCodeRequest())
   }, []);
 
   // useEffect(() => {

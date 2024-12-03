@@ -137,6 +137,9 @@ import {
   REMOVE_DATA_REQUEST,
   REMOVE_DATA_SUCCESS,
   REMOVE_DATA_FAILURE,
+  REMOVE_CODE_REQUEST,
+  REMOVE_CODE_SUCCESS,
+  REMOVE_CODE_FAILURE,
   UPDATE_MODIFIER_REQUEST,
   SELECTED_CATEGORY_DATA_REQUEST,
   RESET_SUCCESS_MESSAGE,
@@ -895,6 +898,18 @@ export const removeDataSuccess = () => ({
 
 export const removeDataFailure = () => ({
   type: REMOVE_DATA_FAILURE,
+});
+export const removeCodeRequest = () => ({
+  type: REMOVE_CODE_REQUEST,
+  
+});
+
+export const removeCodeSuccess = () => ({
+  type: REMOVE_CODE_SUCCESS,
+});
+
+export const removeCodeFailure = () => ({
+  type: REMOVE_CODE_FAILURE,
 });
 
 export const updateModifierData = (data) => ({
