@@ -208,17 +208,21 @@ const NormalStep2 = () => {
 
       </div>
       <h1 className="AvailDaysheading">Available Days</h1>
-      {prizingDetail &&
-        prizingDetail?.normalForm &&
-        prizingDetail?.normalForm?.DineIn?.map((elem, index) => {
-          return (
-            <>
-              <div className="dayacheckedavail">
-                <DaysOfWeek days={elem} setDays={setDinein} />
-              </div>
-            </>
-          );
-        })}
+        {prizingDetail &&
+          prizingDetail?.normalForm &&
+          prizingDetail?.normalForm?.DineIn?.map((elem, index) => {
+            return (
+              <>
+                <div className="dayacheckedavail">
+                  <DaysOfWeek 
+                    days={elem} 
+                    setDays={setDinein} 
+                  />
+                </div>
+              </>
+            );
+          })
+        }
 
       <h1 className="Step2Onlineheading">Online</h1>
       <h1 className="Step2Pickupheading">Pickup</h1>

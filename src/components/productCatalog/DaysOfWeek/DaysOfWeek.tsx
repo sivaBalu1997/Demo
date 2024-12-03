@@ -10,8 +10,9 @@ interface DaysOfWeekProps {
 const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays }) => {
   const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
+  console.log({days})
   
-  const daysArray = Array.isArray(days) && days.length > 0 ? days : [0, 1, 2, 3, 4, 5, 6]; 
+  const daysArray = Array.isArray(days) && days.length > 0 ? days : []; 
 
   const toggleHighlight = (index: number) => {
     if (daysArray.includes(index)) {
