@@ -1148,8 +1148,23 @@ else{
     };
 
     const clearSelection = () => {
+      setMealTypes({})
+      setPriceInfo([
+        {
+          typeId: "",
+          price: 0,
+          typeName: "",
+          typeGroup: "T",
+          availabilities: [
+            {
+              availabilityDays: [],
+              sessions: [],
+            },
+          ],
+        },
+      ])
       setSelectedValuesMealType([]);
-
+      setSelectedThirdValues([])
       setNormalDays([]);
       setSelectedValues2([]);
       setformNormal({
@@ -1441,6 +1456,7 @@ else{
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
+                          onBlur={()=>validateDineinFields()}
                           onInput={(e) => {
                             const inputElement = e.target as HTMLInputElement;
                             const value = inputElement.value;
@@ -1470,6 +1486,7 @@ else{
                             options={optionsmealtype}
                             index={index}
                             label="Meal Type*"
+                            onBlur={()=>validateDineinFields()}
                             width="Drop1"
                           />
                         </div>
@@ -1561,38 +1578,38 @@ else{
                     </div>
                     <div className="PickupInput11Normal">
                       <div className="pickupprice-errormsg">
-                        <input
-                          type="number"
-                          className="PriceInput1Normal-input"
-                          value={pickupDetails.price || ""}
-                          onKeyDown={(e) => {
-                            if (e.key === "-") {
-                              e.preventDefault();
-                            }
-                            if (
-                              e.key === "e" ||
-                              e.key === "-" ||
-                              e.key === "+"
-                            ) {
-                              e.preventDefault();
-                            }
-                          }}
-                          onChange={(e) => {
-                            const inputValue = e.target.value;
-                            const numericValue = inputValue
-                              ? Number(inputValue)
-                              : 0;
-                            if (!isNaN(numericValue)) {
-                              setPickUpDetails({
-                                ...pickupDetails,
-                                price: numericValue,
-                              });
-                            }
-                          }}
-                        />
-                        <span className="Errormsg pickuperrormsg">
-                          {errors.pickupprice}
-                        </span>
+                      <input
+                        type="number"
+                        className="PriceInput1Normal-input"
+                        value={pickupDetails.price || ""}
+                        onBlur={()=>validateDineinFields()}
+                        onKeyDown={(e) => {
+                          if (e.key === "-") {
+                            e.preventDefault(); // Prevent typing -,
+                          }
+                          if (
+                            e.key === "e" ||
+                            e.key === "-" ||
+                            e.key === "+"
+                          ) {
+                            e.preventDefault(); 
+                          }
+                        }}
+                        onChange={(e) => {
+                          const inputValue = e.target.value;
+                          const numericValue = inputValue
+                            ? Number(inputValue)
+                            : 0;
+                          if (!isNaN(numericValue)) {
+                            setPickUpDetails({
+                              ...pickupDetails,
+                              price: numericValue,
+                            });
+                          }
+                        }}
+                      />
+                     <span className="Errormsg pickuperrormsg">{errors.pickupprice}</span>
+                    
                       </div>
 
                       <div className="PrizeD">
@@ -1617,6 +1634,7 @@ else{
                           options={options3}
                           label="Meal Type*"
                           width="Drop1"
+                          onBlur={()=>validateDineinFields()}
                         />
                         <span className="Errormsg pickuperrormsgmealType">
                           {errors.pickupmealTypeSessions}
@@ -1719,6 +1737,7 @@ else{
                           }}
                           className="DeliveryInput1Normal"
                           value={deliveryDetails?.price || ""}
+                          onBlur={()=>validateDineinFields()}
                           onChange={(e) => {
                             const newPrice = e.target.value;
                             setDeliveryDetails((prevDetails: any) => ({
@@ -1760,6 +1779,7 @@ else{
                               ],
                             }));
                           }}
+                          onBlur={()=>validateDineinFields()}
                           options={options4}
                           label="Meal Type*"
                           width="Drop1"
@@ -1843,8 +1863,22 @@ else{
                             <p className="Thrid-party-price"> {option} Price</p>
                             <input
                               className="swiggyZomato-input"
-                              type="text"
+                              type="number"
                               value={priceInfo[index]?.price || ""}
+                              onKeyDown={(e) => {
+                                if (e.key === "-") {
+                                  e.preventDefault(); 
+                                }
+                                if (
+                                  e.key === "e" ||
+                                  e.key === "-" ||
+                                  e.key === "+"
+     
+                                ) {
+                                  e.preventDefault(); 
+                                }
+                              }}
+     
                               onChange={(e) => {
                                 let data = JSON.parse(
                                   JSON.stringify([...priceInfo])
