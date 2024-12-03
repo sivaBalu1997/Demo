@@ -745,9 +745,9 @@ const ItemCustomizations: React.FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", height: "99vh", overflowY: "hidden" }}>
+    <div style={{ display: "flex", height: "99vh", overflowY: "hidden", overflowX: "hidden" }}>
       <SidePanel />
-      <div style={{ width: "83%" }}>
+      <div className={isExpanded ? "ItemCustomization-container-level-one-expanded" : "ItemCustomization-container-level-one"}>
         <Navigationpage
           seletedpage="ItemCustomization"
           getFormData={getFormData}
