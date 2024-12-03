@@ -327,12 +327,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [pickupEnable, setpickupEnable] = useState<boolean>(true);
     const [deliveryEnable, setdeliveryEnable] = useState<boolean>(true);
 
-<<<<<<< HEAD
 const seletedOrdertypes=dataFromRedux[0]?.orderTypes;
 console.log({seletedOrdertypes});
-=======
-    const seletedOrdertypes = dataFromRedux[0]?.orderTypes;
->>>>>>> productCatalog/BaseBrach
 
     useEffect(() => {
       const DineInEnable = seletedOrdertypes?.find(
