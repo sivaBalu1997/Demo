@@ -64,17 +64,17 @@ const Step2 = () => {
             <div className="Step2Preparation">
               <h1 className="Step2Preparationheading">Preparation</h1>
               <h1 className="Step2Preparationvalue">
-                {
-                  prizingDetail?.Preparationtime?.hours && prizingDetail?.Preparationtime?.hours + "hours"
-                }
+              {prizingDetail?.Preparationtime?.hours &&
+  `${prizingDetail.Preparationtime.hours} ${prizingDetail.Preparationtime.hours === 1 ? "hour" : "hours"}`}
 
-                {prizingDetail?.Preparationtime?.minutes
-                  && prizingDetail.Preparationtime.minutes + " minutes"
-                }
-                {
-                  !prizingDetail?.Preparationtime?.hours && !prizingDetail?.Preparationtime?.minutes && "N/A"
-                }
-              </h1>
+  
+  {prizingDetail?.Preparationtime?.minutes &&
+  ` ${prizingDetail.Preparationtime.minutes} minutes`}
+
+{!prizingDetail?.Preparationtime?.hours && !prizingDetail?.Preparationtime?.minutes && "N/A"}
+
+</h1>
+
             </div>
           </div>
           {/* <h1 className="Step2Inventory-relatedheading">Inventory</h1>

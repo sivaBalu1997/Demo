@@ -343,7 +343,7 @@ const CustomizeSlider = () => {
 
                           )
                         }
-                        placeholder="$100"
+                        placeholder="$0.00"
                       />
                     </div>
                   </div>
