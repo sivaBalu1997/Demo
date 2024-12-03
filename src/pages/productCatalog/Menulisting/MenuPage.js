@@ -665,7 +665,7 @@ export const MenuPage = () => {
       }));
 
       dispatch(primarypost(primaryPageData));
-      // dispatch(PricingDetailRequest(pricingPageData));
+      dispatch(PricingDetailRequest(pricingPageData));
       dispatch(itemCustomizationPost(modifierData));
     }
   }, [editData]);

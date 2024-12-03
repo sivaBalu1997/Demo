@@ -204,7 +204,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const prizingDetail = useSelector(
       (state: any) => state.PricingDetailReducer.prizingData
     );
-    // console.log("jhg",prizingDetail);
+    console.log("jhg",prizingDetail);
     
 
     const [formNormal, setformNormal] = useState({
@@ -553,17 +553,17 @@ console.log({seletedOrdertypes});
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
        
         const filterOrderTypeAvailableorNotDineIn=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.id===dineIndetail?.typeId
+          data.typeId===dineIndetail?.typeId
 
           
         ))
         const filterOrderTypeAvailableorNotPickup=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.id===pickupDetails?.typeId
+          data.typeId===pickupDetails?.typeId
 
           
         ))
         const filterOrderTypeAvailableorNotDelivery=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.id===deliveryDetails?.typeId
+          data.typeId===deliveryDetails?.typeId
 
           
         ))
@@ -736,17 +736,17 @@ else{
 
 
         const filterOrderTypeAvailableorNotDineIn=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.id===dineIndetail?.typeId
+          data.typeId===dineIndetail?.typeId
 
           
         ))
         const filterOrderTypeAvailableorNotPickup=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.id===pickupDetails?.typeId
+          data.typeId===pickupDetails?.typeId
 
           
         ))
         const filterOrderTypeAvailableorNotDelivery=seletedOrdertypes?.filter((data:any,index:number)=>(
-          data.id===deliveryDetails?.typeId
+          data.typeId===deliveryDetails?.typeId
 
           
         ))
@@ -902,7 +902,7 @@ else{
 
 
       
-    }, [prizingDetail]);
+    }, [prizingDetail,dataFromRedux[0]]);
 
     const [initialPricingData, setInitialPricingData] = useState([]);
 
