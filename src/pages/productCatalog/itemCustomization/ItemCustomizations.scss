@@ -377,7 +377,7 @@
   display: flex;
   justify-content: center;
   gap: 1.625rem;
-  margin-left: 7.625rem;
+  margin-left: 4.320rem;
 }
 
 .option-input-flex-column1-ItemCustomizations {
@@ -444,6 +444,9 @@
 }
 
 .btn-ItemCustomizations-del {
+  width: 110px;
+  
+
   color: red;
   margin-left: 2.5rem;
   margin-top: 0.5rem;
