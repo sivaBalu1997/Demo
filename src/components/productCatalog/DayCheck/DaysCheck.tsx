@@ -13,9 +13,9 @@ interface DaysCheckProps {
   id?: string[];
   setId: React.Dispatch<React.SetStateAction<string[]>>;
   setValue?: any;
-  valueName?:string;
-  getValues?:any;
-  register?:any
+  valueName?: string;
+  getValues?: any;
+  register?: any;
 }
 
 // Define the type for the data returned by the API
@@ -43,8 +43,9 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   id,
   setId,
   setValue,
-  getValues,register,
-  valueName
+  getValues,
+  register,
+  valueName,
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials?.locationId
@@ -55,26 +56,41 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 
   const [data, setData] = useState<DataItem[]>([]);
   const dispatch = useDispatch();
-  const Days = ["All days", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  const Days = [
+    "All days",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
+
+  const [visualCheckedItems, setVisualCheckedItems] = useState<number[]>([]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
     const dayIndex = parseInt(name, 10);
-
   
     setCheckedItems((prevCheckedItems) => {
       let updatedCheckedItems: number[];
   
       if (dayIndex === 0) {
-        updatedCheckedItems = checked ? Days.map((_, i) => i) : [];
+        updatedCheckedItems = checked ? [0] : [];
+        setVisualCheckedItems(checked ? Days.map((_, i) => i) : []);
         setId(checked ? data.map((item) => item?.id) : []);
       } else {
         if (checked) {
           updatedCheckedItems = [...prevCheckedItems, dayIndex];
           setId((prevId) => [...prevId, data[dayIndex]?.id]);
         } else {
-          updatedCheckedItems = prevCheckedItems.filter((item) => item !== dayIndex);
-          setId((prevId) => prevId.filter((itemId) => itemId !== data[dayIndex]?.id));
+          updatedCheckedItems = prevCheckedItems.filter(
+            (item) => item !== dayIndex
+          );
+          setId((prevId) =>
+            prevId.filter((itemId) => itemId !== data[dayIndex]?.id)
+          );
         }
   
         const allDaysSelected = Days.slice(1).every((_, i) =>
@@ -82,23 +98,22 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
         );
   
         if (allDaysSelected) {
-          updatedCheckedItems = [0, ...updatedCheckedItems.filter((item) => item !== 0)];
+          updatedCheckedItems = [
+            0,
+            ...updatedCheckedItems.filter((item) => item !== 0),
+          ];
+          setVisualCheckedItems(Days.map((_, i) => i));
         } else {
-          updatedCheckedItems = updatedCheckedItems.filter((item) => item !== 0);
+          updatedCheckedItems = updatedCheckedItems.filter(
+            (item) => item !== 0
+          );
+          setVisualCheckedItems(updatedCheckedItems);
         }
+      }  
+      if (valueName) {
+        setValue(valueName, updatedCheckedItems);
       }
   
-      // Call setValue whenever checkedItems change
-      
-      
-      if (valueName) {
-       
-        setValue(valueName, updatedCheckedItems);
-      
-       
-
-      }
-    
       return updatedCheckedItems;
     });
   };
@@ -116,14 +131,14 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     <div>
       <div className="DaysCheckContainer1">
         {Days.map((elem, index) => {
-          const isChecked = checkedItems.includes(index);
+          const isChecked =
+            checkedItems.includes(index) || visualCheckedItems.includes(index);
           return (
             <div key={index}>
               <input
                 type="checkbox"
                 name={index.toString()}
                 onChange={handleCheckboxChange}
-                // {...register(valueName)}
                 checked={isChecked}
                 className="days"
               />
@@ -137,4 +152,3 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
 };
 
 export default DaysCheck;
-
