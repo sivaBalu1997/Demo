@@ -809,3 +809,14 @@
   left: 50%; /* Center horizontally in the viewport */
   transform: translate(85%, -50%); /* Adjust positioning to fully center */
 }
+
+.Menu-noOptions {
+  width: 10rem;
+  height: 15rem;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 45%;
+  top: 40%;
+}

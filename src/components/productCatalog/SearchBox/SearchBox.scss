@@ -38,13 +38,11 @@
 //   left: -40px;
 //   cursor: pointer;
 // }
-.MLsearchbox
-{
+.MLsearchbox {
   position: relative;
   // border: 1px solid red;
 }
-.MLSerchIcon-Header
-{
+.MLSerchIcon-Header {
   width: 24px;
   height: 21px;
   position: absolute;
@@ -63,7 +61,7 @@
 
   // background-color: pink;
   // border: 1px solid red;
-  
+
   @media (max-width: 1280px) {
     left: 70%;
   }
@@ -84,8 +82,7 @@
 //   left: 9.5vw;
 //   padding-bottom: 10px;
 // }
-.searched-item-box
-{
+.searched-item-box {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 }
 .MLSearch-Container-options1 {
@@ -94,7 +91,6 @@
   max-height: 45vh;
   padding-left: 20px;
   // border: 1px solid red;
-  
   transform: translateY(1px);
   overflow-y: auto;
   position: absolute;
@@ -103,15 +99,19 @@
   left: 12rem;
   padding-bottom: 10px;
   overflow-x: hidden;
-  &::-webkit-scrollbar
-  {
+  &::-webkit-scrollbar {
     display: none;
   }
 }
-.MLsearchBoxContainer
-{
-  // border: 1px solid blue;
+
+.MLsearchBoxContainer {
+  box-shadow: 0xp 2px 2px 2px #ccc;
 }
+
+.MLsearchBoxContainer1 {
+  box-shadow: 0xp 2px 2px 2px #ccc;
+}
+
 .MLSearch-Container-options-menu ul {
   list-style: none;
   cursor: pointer;
@@ -119,8 +119,7 @@
   background-color: white;
   height: 45vh;
   // border: 1px solid red;
-  &::-webkit-scrollbar
-  {
+  &::-webkit-scrollbar {
     display: none;
   }
   overflow: auto;
@@ -215,13 +214,10 @@
 
   // height: 45px;
 }
-.list-of-item-name
-{
- 
+.list-of-item-name {
   margin-left: -5%;
 }
-.list-of-item-name-expand
-{
+.list-of-item-name-expand {
   margin-left: -10%;
 }
 // {******************************Search Container None*******************************************}
@@ -238,21 +234,23 @@
   right: 1.5vw;
   bottom: 16px;
   margin-top: -2rem;
-  // border: 1px solid blue;
+  flex-direction: column;
 }
 
 .MLSearch-Container-options1-none {
-  width: 580px;
-  height: 45vh;
+  width: 36vw;
+  height: 40vh;
+  // background-color: #979797;
   background-color: #ffffff;
   border: 1px solid transparent;
-
   transform: translate(-20px);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 3px;
 }
+
 .MLSearch-Container-options-none-flex-direction {
   display: flex;
   flex-direction: column;
@@ -261,9 +259,8 @@
 .MLNotFoundImage {
   width: 372px;
   height: 338.52px;
-  // transform: translateX(-10px);
-position: relative;
-top: 2.3rem;
+  position: relative;
+  top: 2.3rem;
 }
 
 .MLheading-none {
@@ -271,9 +268,9 @@ top: 2.3rem;
   font-size: 22px;
   font-family: Poppins;
   transform: translate(90px, -30px);
-//   position: relative;
-// top: 2.3rem;
+  margin-right: 140px;
 }
+
 /* Apply styles for devices with a max width of 768px */
 @media (max-width: 2400px) {
   .MLSearch-Container-options-menu ul {
