@@ -922,10 +922,8 @@ const PricingDetails = () => {
                               inputValue === "" ||
                               /^(59|[0-5]?[0-9])$/.test(inputValue)
                             ) {
-                              setValue(
-                                "Preparationtime.minutes",
-                                Number(inputValue)
-                              );
+                              setValue("Preparationtime.minutes", inputValue);
+
                             }
                           }
                           // Optionally, trigger validation
