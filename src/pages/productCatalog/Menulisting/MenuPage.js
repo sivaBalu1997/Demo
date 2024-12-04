@@ -965,9 +965,15 @@ export const MenuPage = () => {
                                   header.label.length - 1
                                 )}
                               </span>
-                              <span className="removeicon">
+                              <span className="removeicon"    onClick={() =>
+                                    setlistingobject({
+                                      ...listingobject,
+                                      [header.label]: false,
+                                    })
+                                  }>
                                 <img
                                   src={removeicon}
+                                  className="removeicon-img"
                                   alt=""
                                   onClick={() =>
                                     setlistingobject({

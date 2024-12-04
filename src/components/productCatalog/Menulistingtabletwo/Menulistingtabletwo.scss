@@ -338,7 +338,7 @@
           }
           .removeicon {
             position: relative;
-            top: 0px;
+            top: -20px;
             right: -5px;
             img {
               width: 10px;
@@ -434,7 +434,8 @@
           }
           .removeicon {
             position: relative;
-            // top: -5px;
+            top: -5px;
+            border: 2px solid;
             right: 0px;
             img {
               width: 10px;
