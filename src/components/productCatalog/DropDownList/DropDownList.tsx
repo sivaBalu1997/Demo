@@ -552,7 +552,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  // const [Loading, setLoading] = useState<boolean>();
+  // const [Loading, setLoading] = useState<boolean>(true);
 
   // useEffect(() => {
   //   if (!options || options.length < 1) {
@@ -657,7 +657,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {dropDownLoading ? (
+              {dropDownLoading || Loading? (
                 <div className="dropdown-no-options">
                   <Loader
                     className="imgLoader1"
@@ -673,9 +673,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 </div>
               ) : (
                 <div>
-                  {Loading ?  (
-                    <li className="dropdown-no-options">No options found</li>
-                  ) : (filteredOptions?.length > 0 &&
+                  {filteredOptions?.length > 0 ? (
                     filteredOptions?.map((option, index) => {
                       return (
                         <div className="dropdown-option-list" key={index}>
@@ -698,7 +696,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                           <div>
                             {editList && (
                               <span
-                                className={`dropdown-option-delete `}
+                                className={`dropdown-option-delete`}
                                 onClick={() =>
                                   option?.canDelete
                                     ? handledeletion(option.id)
@@ -717,8 +715,10 @@ const DropDownList: React.FC<DropdownProps> = ({
                         </div>
                       );
                     })
-                  ) }
-                </div>
+                  ) : (
+                    <div className="dropdown-no-options">No options available</div>
+                  )}
+                </div>              
               )}
             </ul>
             <div className="edititem">

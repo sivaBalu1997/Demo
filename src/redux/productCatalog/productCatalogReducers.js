@@ -102,6 +102,7 @@ import {
   DELETE_MODIFIER_SUCCESS,
   DELETE_MODIFIER_FAILURE,
   REMOVE_DATA_REQUEST,
+  REMOVE_CODE_REQUEST,
   START_IMAGE_UPLOAD,
   UPDATE_MODIFIER_REQUEST,
   SELECTED_CATEGORY_DATA_REQUEST,
@@ -1138,6 +1139,13 @@ export const getItemCodeReducer = (state = initialState, action) => {
         error: action.payload,
       };
       case REMOVE_DATA_REQUEST: 
+        return {
+          ...state,
+          itemCode: null,
+          loading: false,
+          error: null,
+        };
+        case REMOVE_CODE_REQUEST: 
         return {
           ...state,
           itemCode: null,

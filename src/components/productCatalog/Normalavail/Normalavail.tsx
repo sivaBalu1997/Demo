@@ -371,6 +371,67 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     //     setOnline(false);
     //   }
     // }, []);
+    useEffect(()=>{
+      if(!showDineIn){
+        setDineInFields((prevDineInFields: any) =>
+          prevDineInFields.map(() => ({
+            DineInPrice: "",
+            DineInMealType: [],
+            DineInService: [],
+          }))
+        );
+        setSelectedValuesMealType([])
+      }
+      if(!pickup){
+        setPickUpDetails({
+          typeId: pickUpId,
+          typeName: "PickUp",
+          typeGroup: "P",
+          availabilities: [
+            {
+              availabilityDays: [],
+              sessions: [],
+            },
+          ],
+          price: 0,
+        })
+      }
+      if(!delivery){
+        setDeliveryDetails({typeId: deliveryId,
+      price: 0,
+      typeName: "Delivery",
+      typeGroup: "S",
+      availabilities: [
+        {
+          availabilityDays: [],
+          sessions: [],
+        },
+      ],
+    })
+    setMealTypes({});
+    setSelectedThirdValues([]);
+    setPriceInfo([
+      {
+        typeId: "",
+        price: 0,
+        typeName: "",
+        typeGroup: "T",
+        availabilities: [
+          {
+            availabilityDays: [],
+            sessions: [],
+          },
+        ],
+      },
+    ]);
+   
+      }
+      if(!online){
+        setPickup(false)
+        setDelivery(false)
+      }
+
+    },[showDineIn,online,pickup,delivery])
 
     const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
 
@@ -626,7 +687,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         // setShowDineIn(true);
       }
-
+console.log("jjjjj",prizingDetail)
       if (prizingDetail?.normalForm) {
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;

@@ -276,10 +276,10 @@ const NormalStep2 = () => {
       </div>
       <h1 className="AvailDaysheadingPickup">Available Days</h1>
       <div className="DaysPickUp">
-        {prizingDetail?.normalForm &&
-          prizingDetail?.normalForm?.pickupDetails && (
+        {/* {prizingDetail?.normalForm &&
+          prizingDetail?.normalForm?.pickupDetails && ( */}
             <DaysOfWeek days={Pickup1} setDays={setPickup1} />
-          )}
+          {/* )} */}
       </div>
       <h1 className="Step2Deliveryheading">Delivery</h1>
       <div className="Step2Delivery">
@@ -325,11 +325,13 @@ const NormalStep2 = () => {
       </div>
       <h1 className="AvailDaysheadingdelivery">Available Days</h1>
       <div className="DaysDelivery">
-        {prizingDetail?.normalForm &&
-          prizingDetail?.normalForm?.deliveryDetails && (
+        {/* {prizingDetail?.normalForm &&
+          prizingDetail?.normalForm?.deliveryDetails && ( */}
             <DaysOfWeek days={delivery1} setDays={setDelivery1} />
-          )}
+          {/* )} */}
       </div>
+      {thirdPartyDetails?.length>0 && 
+      <>
       <h1 className="Step2ThirdPartyDeliveryheading">Third Party Delivery</h1>
 
       <div className="Step2ThirdPartyDelivery">
@@ -367,6 +369,8 @@ const NormalStep2 = () => {
           </div>
         </div>
       </div>
+      </>
+      }
     </div>
   );
 };
