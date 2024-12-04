@@ -138,6 +138,9 @@ export const MenuPage = () => {
   const [listingobject, setlistingobject] = useState();
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
+  console.log({listingobject})
+  // const listingLength = Object.keys(listingobject)?.length;
+
   useEffect(() => {
     setuniqueOrderTypeNames(getUniqueOrderTypeNames(menuData));
 
@@ -647,7 +650,6 @@ export const MenuPage = () => {
             break;
         }
       });
-      console.log("jhgfghj",editData[0]);
       
       const modifierData = editData[0]?.modifiers?.map((item) => ({
         id: item?.id ?? "",
@@ -997,7 +999,7 @@ export const MenuPage = () => {
                     <React.Fragment key={parentIndex}>
                       {data?.itemResponseList?.length > 0 &&
                         data.name !== "" && (
-                          <div className="categoryName-data">
+                          <div className="categoryName-data" >
                             <p>{data.name}</p>
                           </div>
                         )}
