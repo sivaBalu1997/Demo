@@ -511,7 +511,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     if (dropDownType === "CATEGORY") {
       setSubCategoryId(option.id);
     }
-
+    setSearchTerm("");
     // if(dropDownType === "SUB_CATEGORY") {
     //   console.log({option})
     // }

@@ -239,7 +239,7 @@ const initialProductCatalogState = {
   selectedCategory: {},
   updateModifierId: [],
   //partialUpdate
-  partialDataSendingLoading: true,
+  partialDataSendingLoading: false,
   partialDataSendingsuccess: "",
   partialDataSendingfaliure: false,
 };

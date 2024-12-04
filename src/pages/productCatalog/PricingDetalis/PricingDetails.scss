@@ -112,7 +112,7 @@
 }
 
 .Prepartiontime-input-hours {
-  width: 40px;
+  width: 48px;
   height: 40px;
   font-family: Poppins;
   font-weight: 400;
@@ -136,6 +136,7 @@
   width: 48px;
   height: 40px;
   border-radius: 5.41px;
+  text-align: center;
   border: 1px solid #9f9f9f;
   // &::placeholder {
   //   color: ;
@@ -178,6 +179,8 @@
 .ToolKitchen {
   transform: translateY(22px);
   opacity: 40%;
+  border: none;
+  outline: none;
 }
 .Imgarrow {
   position: relative;

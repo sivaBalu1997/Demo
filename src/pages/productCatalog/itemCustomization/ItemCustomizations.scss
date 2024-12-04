@@ -76,6 +76,7 @@
 height: auto;
 margin-top: 2%;
 margin-bottom: 2%;
+padding-bottom: 7rem !important;
   // border: 1px solid black;
 }
 .availbleservicestreams
@@ -491,10 +492,11 @@ input[type="number"] {
   // background-color: lightgreen;
   .modifiers {
     padding-left: 55px;
+
     // background-color: pink;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
     width: fit-content;
   }
   &::-webkit-scrollbar{

@@ -8,7 +8,7 @@ const Menu120 = () => {
   const menuData = useSelector((state) => state.productCatalog?.menuData);
   const outletName = useSelector((state) => state.auth?.restaurantDetails?.branchName);
 
-  console.log({ menuData })
+ 
   const data = [
     {
       OutletName: outletName,
@@ -32,7 +32,7 @@ const Menu120 = () => {
   // const subCategoryArray = menuData?.flatMap(category => category.subCategoryResponseList ? category?.itemResponseList?.map(item => item?.itemid) : [])
   // console.log({ subCategoryArray })
 
-  console.log(itemIds?.length)
+ 
 
   // Function to extract and combine all itemResponseLists (outer and inner)
   const getCombinedItems = () => {
@@ -58,7 +58,7 @@ const Menu120 = () => {
   // Get the length of the combined items array
   const itemCount = combinedItems?.length || 0;
 
-  console.log("IC", { itemCount })
+ 
 
   // const combinedItemList = [
   //   ...menuData?.itemResponseList,

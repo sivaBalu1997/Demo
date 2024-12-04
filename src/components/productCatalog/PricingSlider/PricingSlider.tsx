@@ -319,6 +319,14 @@ const PricingSlider: any = ({}) => {
                   restaurantDetails?.country === "US" ? "$" : "Rs."
                 }`;
 
+
+                const pricewithdigit = price
+                                            ? price.price
+                                              .toFixed(2)
+                                              .padStart(5, "0")
+                                            : "";
+            
+
                 return (
                   <div className="ordertypes-price">
                     <h3
