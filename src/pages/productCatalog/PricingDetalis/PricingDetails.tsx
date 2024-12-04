@@ -823,7 +823,7 @@ const PricingDetails = () => {
                   Arrowstyle={{
                     rotate: "-90deg",
                     position: "relative",
-                    left: "-2.8rem",
+                    right: "7rem",
                   }}
                 >
                   <div className="ToolKitchen" style={{border:"none",outline:"none"}}>
@@ -882,12 +882,12 @@ const PricingDetails = () => {
                         className="Prepartiontime-input-hours"
                         onChange={(e) => {
                           const value = e.target.value;
-                          if (/^(1[0-9]|[1-9])$/.test(value) || value === "") {
+                          if (/^(1[0-9]|2[0-3]|[1-9])$/.test(value) || value === "") {
                             setValue(
                               "Preparationtime.hours",
                               value === "" ? "" : Number(value)
                             );
-                          }
+                        }
                         }}
                       />
                     )}
