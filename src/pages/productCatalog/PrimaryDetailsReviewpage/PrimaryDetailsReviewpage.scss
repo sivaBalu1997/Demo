@@ -56,7 +56,8 @@
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #c4c4c4;
-  height: 80vh;
+  height: fit-content;
+  // background-color: lightsalmon;
 }
 
 .primaryreviewdetailspart1 {
@@ -150,10 +151,12 @@
 }
 .primaryreviewdetailspart2 {
   width: 500px;
-  height: 580px;
+  // height: 580px;
+  height: fit-content;
   // border: 1px solid black;
   position: relative;
   // background-color: orange;
+  // background-color: lightgreen;
 
   left: 30px;
   // background-color: red;
@@ -305,10 +308,13 @@
     display: flex;
     flex-direction: row;
     width: 500px;
-    height: 105px;
-    position: relative;
+    // height: 105px;
+    height: fit-content;
+    // position: relative;
     top: 35px;
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
+    margin-top: 1.2vh;
+    gap: 2vw;
     // background-color: pink;
 
     .ingredients {
