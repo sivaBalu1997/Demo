@@ -1,7 +1,7 @@
 .Header-Container {
   width: 100%;
   position: sticky;
-  height: 80px;
+  height: 60px;
   left: -20px;
   padding: 10px;
   top: 25px;
@@ -10,6 +10,7 @@
   justify-content: space-between;
   transition: left 0.4s ease-in;
   margin-left: 30px;
+  margin-bottom: 30px;
 
   // background-color: lightblue;
 }

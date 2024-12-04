@@ -394,8 +394,16 @@
 }
 .removeicon {
   position: relative;
-  top: 0.2rem;
-  left: 1.5rem;
+  top: 0.4rem;
+  left: 1.4rem;
+  // border: 2px solid;
+  cursor: pointer;
+  padding: 4px;
+}
+.removeicon-img{
+  // border: 2px solid gold;
+  padding: 4px;
+ 
 }
 
 // .scroll-container {
@@ -531,6 +539,7 @@
   border-radius: 4px;
   background-color: white;
   border: 0.5px solid #5F5F5F;
+  cursor: pointer;
 }
 
 .Menupage-insert-column-span{
