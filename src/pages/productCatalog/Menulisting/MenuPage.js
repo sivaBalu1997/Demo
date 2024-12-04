@@ -1005,8 +1005,8 @@ export const MenuPage = () => {
                     <React.Fragment key={parentIndex}>
                       {data?.itemResponseList?.length > 0 &&
                         data.name !== "" && (
-                          <div className="categoryName-data" >
-                            <p>{data.name}</p>
+                          <div className="categoryName-data">
+                            <p>{data.name} ({data?.itemResponseList?.length})</p>
                           </div>
                         )}
 
