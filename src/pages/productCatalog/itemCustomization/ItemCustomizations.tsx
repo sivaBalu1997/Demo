@@ -1161,7 +1161,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                             >
                                               +
                                               <span className="spanadd">
-                                                Add option
+                                                Add 
                                               </span>{" "}
                                             </span>
                                           </a>
@@ -1173,7 +1173,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                               deleteOption(modIndex, optIndex)
                                             }
                                           >
-                                            - Delete option
+                                            - Delete           
                                           </a>
                                         )}
                                       </div>

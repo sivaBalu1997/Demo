@@ -13,7 +13,7 @@
 }
 
 .TrashModal-Window {
-  margin-top: 50px;
+  margin-top: -20vh;
   background-color: white;
   width: 377px;
   height: 184px;
@@ -103,7 +103,7 @@
 
 @media (max-width: 1677px) and (min-width: 1525px) {
   .TrashModal-Window {
-    margin-top: -20px;
+    margin-top: -20vh;
   }
 }
 
