@@ -544,10 +544,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   ].filter(Boolean);
 
   const normalDays = prizingDetail?.normalForm?.Normaldays;
-  const stringNormalDays = Array.isArray(normalDays)
-    ? normalDays.map(String)
-    : [];
 
+  const stringNormalDays = Array.isArray(normalDays) ? normalDays.map(String) : [];
+  const result = stringNormalDays.includes('0') ? ['0'] : stringNormalDays;
+    
   const menuPayload = {
     locationId: locationid,
     itemId: UploadImageImageID ? UploadImageImageID : "",
@@ -574,7 +574,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: prizingDetail?.printKot || false,
-    availabilityDays: stringNormalDays || null,
+    availabilityDays: result || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(itemCustomizationData.length > 0 && {
@@ -625,7 +625,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: prizingDetail?.printKot || false,
-    availabilityDaysToAdd: stringNormalDays || null,
+    availabilityDaysToAdd: result || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
     modifiersToAdd: hasData ? modifierData : [],

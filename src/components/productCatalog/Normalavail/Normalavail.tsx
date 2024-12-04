@@ -1325,7 +1325,7 @@ console.log("jjjjj",prizingDetail)
               setCheckedItems={setNormalDays}
               id={availabilityid}
               setId={setAvailabilityid}
-            ></DaysCheck>
+            />
             <p className="Note">
               Note : Changes here will apply to all service types unless
               specific day options are enabled
