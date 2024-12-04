@@ -354,6 +354,8 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
+  console.log({ItemsPrimaryDetails})
+
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
   }, [calorieInfo]);
@@ -605,6 +607,8 @@ const PrimaryPage = () => {
       setValue("popularItem", false);
     }
   };
+
+  console.log({dietaryData})
 
   const handleReset = () => {
     setValue("itemName", "");

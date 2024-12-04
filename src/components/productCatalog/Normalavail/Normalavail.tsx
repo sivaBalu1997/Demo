@@ -154,6 +154,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     } = props;
 
     const [online, setOnline] = useState(false);
+    console.log({online})
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
     const [showDineIn, setShowDineIn] = useState(false);
@@ -225,7 +226,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const dataFromRedux = useSelector(
       (state: any) => state?.selectedMockDataReducer?.data
     );
-console.log({dataFromRedux});
 
     const orderTypess = useSelector(
       (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
@@ -372,6 +372,7 @@ console.log({dataFromRedux});
     //     setOnline(false);
     //   }
     // }, []);
+    
     useEffect(()=>{
       if(!showDineIn){
         setDineInFields((prevDineInFields: any) =>
@@ -491,8 +492,6 @@ console.log({dataFromRedux});
       ...(selectedthirdvalues?.length > 0 && { thirdpartyDetails: priceInfo }),
     };
 
-    console.log({mainForm},'1', prizingDetail?.normalForm?.dineinfields,'2', prizingDetail?.normalForm?.dineInDetails)
-
     const optionsselectthird = orderTypes
       ?.filter((item) => item.typeGroup === "T")
       .map((item) => item.typeName);
@@ -576,7 +575,7 @@ console.log({dataFromRedux});
 
         // if (editData?.length > 0 &&
         //   filterOrderTypeAvailableorNotDineIn &&
-        //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 1
+        //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
         // ) {
         //   setShowDineIn(true);
         //   setdineInEnable(true);
@@ -598,6 +597,16 @@ console.log({dataFromRedux});
         //   setpickupEnable(false);
         // }
 
+        // if (pickupDetails) {
+        //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
+        // }
+
+
+        // if (deliveryDetails) {
+        //   deliveryDetails?.price > 0 ? setOnline(true) : setOnline(false);
+        //   thirdpartyDetails && thirdpartyDetails[0]?.price > 0 ? setOnline(true) : setOnline(false);
+        // }
+
         const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
           (item: any) => ({
             DineInPrice: item?.DineInPrice,
@@ -616,9 +625,6 @@ console.log({dataFromRedux});
         };
 
         setDineInFields([updatedField]);
-
-        console.log('3331',{updatedField})
-
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
@@ -688,7 +694,9 @@ console.log({dataFromRedux});
 
         // setShowDineIn(true);
       }
-console.log("jjjjj",prizingDetail)
+
+      console.log({prizingDetail})
+
       if (prizingDetail?.normalForm) {
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
@@ -728,7 +736,8 @@ console.log("jjjjj",prizingDetail)
             setpickupEnable(false);
           } 
 
-          pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
+          setOnline(true);
+
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
@@ -748,9 +757,9 @@ console.log("jjjjj",prizingDetail)
             setDelivery(false);
             setdeliveryEnable(false);
           } 
+          setOnline(true);
 
-          deliveryDetails?.price > 0 ? setOnline(true) : setOnline(false);
-          thirdpartyDetails && thirdpartyDetails[0]?.price>0?setOnline(true) : setOnline(false);
+          // thirdpartyDetails && thirdpartyDetails[0]?.price > 0 ? setOnline(true) : setOnline(false);
           // deliveryDetails?.price > 0 && setDelivery(true);
           setDeliveryDetails({
             typeId: deliveryId,
@@ -761,10 +770,7 @@ console.log("jjjjj",prizingDetail)
           });
         }
 
-        if (thirdpartyDetails?.length > 0) {
-
-          console.log({thirdpartyDetails});
-          
+        if (thirdpartyDetails?.length > 0) {          
           const data = thirdpartyDetails?.map((item: any) => item?.typeName);
           if (thirdpartyDetails.some((item: any) => item?.price)) {
             //need to change the logic here
@@ -779,6 +785,7 @@ console.log("jjjjj",prizingDetail)
               : null;
           });
           setMealTypes(object);
+          setOnline(true);
         }
 
         const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
@@ -807,7 +814,6 @@ console.log("jjjjj",prizingDetail)
           dayButtonText: "Choose Day",
         };
 
-        console.log('3332',{updatedField},{formattedDineInData})
         setDineInFields([updatedField]);
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
@@ -1250,7 +1256,6 @@ console.log("jjjjj",prizingDetail)
       }
 
       setErrors(validationErrors);
-      // console.log("outttt",Object.keys(validationErrors).length === 0);
 
       return Object.keys(validationErrors).length === 0;
     };
@@ -1258,10 +1263,8 @@ console.log("jjjjj",prizingDetail)
     const handleSubmit = () => {
       const isValid = validateDineinFields();
       if (!isValid) {
-        // console.log("Validation failed:", errors);
         return false;
       }
-      // console.log("Validation passed. Proceed with submission.");
       return true;
     };
 
@@ -1325,7 +1328,7 @@ console.log("jjjjj",prizingDetail)
               setCheckedItems={setNormalDays}
               id={availabilityid}
               setId={setAvailabilityid}
-            ></DaysCheck>
+            />
             <p className="Note">
               Note : Changes here will apply to all service types unless
               specific day options are enabled

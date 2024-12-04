@@ -298,7 +298,6 @@ export default function productCatalogReducer(
 
       //dietary data
       case DIET_DROPDOWN_LIST_REQUEST:
-        console.log('filteredOptions0')
         draft.dietaryData = [];
         draft.getDataLoading = true;
         draft.getDietaryloading = true;
@@ -306,7 +305,6 @@ export default function productCatalogReducer(
         draft.dropDownLoading = true;
         break;
       case DIET_DROPDOWN_LIST_SUCCESS:
-        console.log('filteredOptions1')
         draft.dietaryData = action.payload;
         draft.getDataLoading = false;
         draft.getDietaryloading = false;
