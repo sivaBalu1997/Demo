@@ -430,7 +430,7 @@ export const MenuPage = () => {
   const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
-    console.log({ value });
+    // console.log({ value });
 
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
@@ -647,9 +647,11 @@ export const MenuPage = () => {
             break;
         }
       });
-
+      console.log("jhgfghj",editData[0]);
+      
       const modifierData = editData[0]?.modifiers?.map((item) => ({
         id: item?.id ?? "",
+        isEnabled:item?.isEnabled,
         modifierName: item?.modifierName ?? "",
         maxCount: item?.maxCount ?? 0,
         minCount: item?.minCount ?? 0,
@@ -658,6 +660,7 @@ export const MenuPage = () => {
         options:
           item?.options?.map((option) => ({
             optionId: option?.optionId ?? "",
+            isEnabled:option?.isEnabled,
             name: option?.name ?? "",
             price: option?.price ?? 0,
             isEnabled: option?.isEnabled ?? false,
