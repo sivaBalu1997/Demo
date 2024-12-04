@@ -564,17 +564,16 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  // const [Loading, setLoading] = useState<boolean>(true);
+  const [Loading, setLoading] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   if (!options || options.length < 1) {
-  //     setLoading(true);
-  //   } else {
-  //     setLoading(false);
-  //   }
-  // }, [options]);
+  useEffect(() => {
+    if (!options || options.length < 1) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [options]);
 
-  const Loading = useSelector((state: any) => state.productCatalog.getDataLoading)
 
   const handleAboveArrowdropdown = () => {
     onToggle();
@@ -600,9 +599,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  useEffect(()=>{
-    console.log('2221',!Loading, filteredOptions)
-  },[Loading])
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -669,7 +665,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {dropDownLoading || Loading? (
+              {dropDownLoading || Loading ? (
                 <div className="dropdown-no-options">
                   <Loader
                     className="imgLoader1"
