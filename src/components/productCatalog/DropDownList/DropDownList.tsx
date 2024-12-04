@@ -177,10 +177,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       )
     : [];
 
-    useEffect(()=>{
-      console.log({filteredOptions},{Loading})
-    },[filteredOptions])
-
   const categoryValue = getValues("category");
 
   useEffect(() => {
@@ -268,28 +264,26 @@ const DropDownList: React.FC<DropdownProps> = ({
       const dietName = ItemsPrimaryDetails?.DietaryType;
   
       const normalizedDietName = Array.isArray(dietName)
-        ? dietName
-        : dietName.split(",").map((d: any) => d.trim());
+        ? dietName.map((d) =>
+            typeof d === "string" ? { name: d } : { name: d.name }
+          )
+        : dietName
+            .split(",")
+            .map((d: any) => ({ name: d.trim() })); 
   
-      const dietObjects = normalizedDietName.map((d: any) => ({ name: d }));
-  
-      const dropdownName = (options || dietObjects)?.filter((opt) => {
-        return dietObjects.some((d: any) => d.name === opt?.name);
+      const dropdownName = (options || normalizedDietName)?.filter((opt) => {
+        return normalizedDietName.some((d: any) => d.name === opt?.name);
       });
   
-      const dropDown1 = dropdownName?.length === 0 ? dietObjects : dropdownName;
+      const dropDown1 = dropdownName?.length === 0 ? normalizedDietName : dropdownName;
   
       setSelectedOptions(dropDown1);
       setValue(
         "DietaryType",
-        dropDown1?.map((opt: any) => (typeof opt === "object" ? opt?.name : opt))
-      );
-  
-      console.log({ dietName, normalizedDietName, dropDown1 });
+        dropDown1?.map((opt: any) => opt?.name)
+      );  
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
-  
-  
   
 
   useEffect(() => {
@@ -297,26 +291,29 @@ const DropDownList: React.FC<DropdownProps> = ({
       const bestPairName = ItemsPrimaryDetails?.bestPair;
   
       const normalizedBestPair = Array.isArray(bestPairName)
-        ? bestPairName.map((b) => (typeof b === "string" ? b : b.name))
-        : bestPairName.split(",").map((b: any) => b.trim());
+        ? bestPairName.map((b) =>
+            typeof b === "string" ? { name: b } : { name: b.name }
+          )
+        : bestPairName
+            .split(",")
+            .map((b: any) => ({ name: b.trim() })); 
   
-      const bestPairObjects = normalizedBestPair.map((b: any) => ({ name: b }));
-  
-      const dropdownOptions = options || bestPairObjects;
+      const dropdownOptions = options || normalizedBestPair;
   
       const dropdownName = dropdownOptions?.filter((opt) => {
-        return bestPairObjects.some((b: any) => b.name === opt?.name);
+        return normalizedBestPair.some((b: any) => b.name === opt?.name);
       });
   
+      // Update state and form values
       setSelectedOptions(dropdownName);
       setValue(
         "bestPair",
-        dropdownName?.map((opt) => (typeof opt === "object" ? opt?.name : opt))
+        dropdownName?.map((opt) => opt?.name)
       );
   
-      console.log({ bestPairName, normalizedBestPair, dropdownName });
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
+  
   
   
   
@@ -354,7 +351,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
       const cusineName = ItemsPrimaryDetails?.cuisine;
-      console.log('990',{options})
       const dropDownName: any = options?.find(
         (item) => item.name === cusineName
       );
@@ -467,7 +463,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    //console.log("kkkk",selectedOptions,value)
 
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
