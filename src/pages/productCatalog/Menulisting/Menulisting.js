@@ -801,10 +801,10 @@ export const Menulisting = () => {
                       <th className="itemname">Item name</th>
                       <th className="itemcode">Code</th>
                       <th
-                        className="addbtn"
+                        className="addbtn-menu"
                         onClick={() => setshowheadinglist(true)}
                       >
-                        +
+                       <span className="addbtn-menu"> + </span>
                       </th>
                     </tr>
                   </thead>

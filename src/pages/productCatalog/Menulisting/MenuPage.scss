@@ -503,21 +503,30 @@
   // border: 1px solid red;
 }
 
-.addbtn {
-  background: none;
-  border: 0.5px solid #5f5f5f;
+.addbtn-menupage {
   position: relative;
-  left: 1rem;
-  top: 0.5rem;
-  width: 24px;
+  left: 0.4rem;
+  top: 0.1rem;
+  width: 30px;
   height: 27px;
   border-radius: 4px;
+  background-color: white;
+  border: 0.5px solid #5F5F5F;
+}
+.Menupage-insert-column-span{
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+
+  
+
 }
 
 .headingstextlist1 {
   position: absolute;
-  top: 13.5%;
-  left: 27vw;
+  top: 14.0%;
+  left: 28.5vw;
   z-index: 2;
   width: 230px;
   height: 357px;
@@ -636,7 +645,7 @@
 .headingstextlist {
   position: absolute;
   top: 13.5%;
-  left: 18vw;
+  left: 20vw;
   z-index: 2;
   width: 217px;
   height: 357px;

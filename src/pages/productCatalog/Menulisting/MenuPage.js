@@ -925,7 +925,7 @@ export const MenuPage = () => {
                       className="addbtn-menupage"
                       onClick={() => setshowheadinglist(true)}
                     >
-                      <span>+</span>
+                      <span className="Menupage-insert-column-span">+</span>
                     </button>
                   </p>
                 </div>
