@@ -264,46 +264,48 @@ const DropDownList: React.FC<DropdownProps> = ({
   // }, [editData]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.DietaryType?.length > 0 && name === "DietaryType") {
+    if (ItemsPrimaryDetails?.DietaryType && name === "DietaryType") {
       const dietName = ItemsPrimaryDetails?.DietaryType;
   
-      const normalizedDietName = dietName.map((d: any) =>
-        typeof d === "string" ? { name: d } : d
-      );
+      const normalizedDietName = Array.isArray(dietName)
+        ? dietName
+        : dietName.split(",").map((d: any) => d.trim());
   
-      const dropdownName = (options || normalizedDietName)?.filter((opt) => {
-        return Array.isArray(normalizedDietName)
-          ? normalizedDietName.some((d) => d.name === opt?.name)
-          : normalizedDietName.includes(opt?.name);
+      const dietObjects = normalizedDietName.map((d: any) => ({ name: d }));
+  
+      const dropdownName = (options || dietObjects)?.filter((opt) => {
+        return dietObjects.some((d: any) => d.name === opt?.name);
       });
   
-      const dropDown1 = dropdownName?.length === 0 ? normalizedDietName : dropdownName;
+      const dropDown1 = dropdownName?.length === 0 ? dietObjects : dropdownName;
+  
       setSelectedOptions(dropDown1);
       setValue(
         "DietaryType",
-        dropDown1?.map((opt: any) =>
-          typeof opt === "object" ? opt?.name : opt
-        )
-      );  
+        dropDown1?.map((opt: any) => (typeof opt === "object" ? opt?.name : opt))
+      );
+  
+      console.log({ dietName, normalizedDietName, dropDown1 });
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
   
   
+  
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === "bestPair") {
+    if (ItemsPrimaryDetails?.bestPair && name === "bestPair") {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
   
-      const normalizedBestPair = bestPairName.map((b: any) =>
-        typeof b === "string" ? { name: b } : b
-      );
+      const normalizedBestPair = Array.isArray(bestPairName)
+        ? bestPairName.map((b) => (typeof b === "string" ? b : b.name))
+        : bestPairName.split(",").map((b: any) => b.trim());
   
-      const dropdownOptions = options || normalizedBestPair;
+      const bestPairObjects = normalizedBestPair.map((b: any) => ({ name: b }));
+  
+      const dropdownOptions = options || bestPairObjects;
   
       const dropdownName = dropdownOptions?.filter((opt) => {
-        return Array.isArray(normalizedBestPair)
-          ? normalizedBestPair.some((b) => b.name === opt?.name)
-          : normalizedBestPair.includes(opt?.name);
+        return bestPairObjects.some((b: any) => b.name === opt?.name);
       });
   
       setSelectedOptions(dropdownName);
@@ -311,8 +313,11 @@ const DropDownList: React.FC<DropdownProps> = ({
         "bestPair",
         dropdownName?.map((opt) => (typeof opt === "object" ? opt?.name : opt))
       );
+  
+      console.log({ bestPairName, normalizedBestPair, dropdownName });
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
+  
   
   
 
