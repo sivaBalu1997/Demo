@@ -267,7 +267,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     if (ItemsPrimaryDetails?.DietaryType?.length > 0 && name === "DietaryType") {
       const dietName = ItemsPrimaryDetails?.DietaryType;
   
-      // Normalize `dietName` to always be an array of objects with `name`
       const normalizedDietName = dietName.map((d: any) =>
         typeof d === "string" ? { name: d } : d
       );
@@ -278,7 +277,6 @@ const DropDownList: React.FC<DropdownProps> = ({
           : normalizedDietName.includes(opt?.name);
       });
   
-      // Determine the final value for dropdown
       const dropDown1 = dropdownName?.length === 0 ? normalizedDietName : dropdownName;
       setSelectedOptions(dropDown1);
       setValue(
@@ -286,9 +284,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         dropDown1?.map((opt: any) =>
           typeof opt === "object" ? opt?.name : opt
         )
-      );
-  
-      console.log({ dietName, normalizedDietName, dropdownName, dropDown1 });
+      );  
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
   
@@ -298,35 +294,22 @@ const DropDownList: React.FC<DropdownProps> = ({
     if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === "bestPair") {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
   
-      // Normalize bestPair to always be an array of objects with `name`
       const normalizedBestPair = bestPairName.map((b: any) =>
         typeof b === "string" ? { name: b } : b
       );
   
-      // Use options if available, fallback to normalizedBestPair
       const dropdownOptions = options || normalizedBestPair;
   
-      // Filter dropdown options based on normalizedBestPair
       const dropdownName = dropdownOptions?.filter((opt) => {
         return Array.isArray(normalizedBestPair)
           ? normalizedBestPair.some((b) => b.name === opt?.name)
           : normalizedBestPair.includes(opt?.name);
       });
   
-      // Update state and form values
       setSelectedOptions(dropdownName);
       setValue(
         "bestPair",
         dropdownName?.map((opt) => (typeof opt === "object" ? opt?.name : opt))
-      );
-  
-      // Debugging logs
-      console.log(
-        { bestPairName },
-        { normalizedBestPair },
-        { dropdownOptions },
-        { dropdownName },
-        ItemsPrimaryDetails?.bestPair
       );
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
