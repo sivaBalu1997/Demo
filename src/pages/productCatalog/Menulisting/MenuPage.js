@@ -921,12 +921,12 @@ export const MenuPage = () => {
                   <p className="name-item">ItemName</p>
                   <p className="item-code">
                     <span> Code </span>
-                    <div
+                    <button
                       className="addbtn-menupage"
                       onClick={() => setshowheadinglist(true)}
                     >
-                      <span className="spanAddBtn">+</span>
-                    </div>
+                      <span className="Menupage-insert-column-span">+</span>
+                    </button>
                   </p>
                 </div>
 
