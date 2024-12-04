@@ -137,8 +137,8 @@ const NormalStep2 = () => {
   // console.log({ formattedMeals });
 
   const onlinePickup =
-    prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions &&
-    prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions?.map(
+    prizingDetail?.normalForm?.pickupDetails?.availabilities && prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions &&
+    prizingDetail?.normalForm?.pickupDetails?.availabilities && prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions?.map(
       (elem) => elem
     );
 
@@ -146,8 +146,8 @@ const NormalStep2 = () => {
   // console.log("O", online?.join(", "));
 
   const onlineDelivery =
-    prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions &&
-    prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions?.map(
+  prizingDetail?.normalForm?.deliveryDetails?.availabilities && prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions &&
+  prizingDetail?.normalForm?.deliveryDetails?.availabilities && prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions?.map(
       (elem) => elem
     );
   const onlineDeliveryFormatted = onlineDelivery?.join(", ");
