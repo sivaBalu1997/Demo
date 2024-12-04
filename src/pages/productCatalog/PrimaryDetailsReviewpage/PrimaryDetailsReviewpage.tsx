@@ -225,6 +225,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
+  console.log({fetchedprimarydata})
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
@@ -1087,14 +1088,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                   </div>
                 }
 
-                {fetchedprimarydata.description && (
+                
                   <div className="primarydescription">
                     <p>Description</p>
                     <div className="description">
-                      <p>{fetchedprimarydata.description}</p>
+                      <p>{fetchedprimarydata?.description ? fetchedprimarydata?.description : "N/A"}</p>
                     </div>
                   </div>
-                )}
+                
                 {
                   <div className="primarybestpairedfood">
                     <p>Best paired with food items</p>
@@ -1120,30 +1121,30 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                 }
 
                 <div className="allergensandingredients">
-                  <div>
-                    {primarydata?.Ingredients?.length > 0 && (
+                  <div className="ingredients-review">
+                    <p className="ingredients">Ingredients</p>
+                    {primarydata?.Ingredients?.length > 0 ? (
                       <>
                         {" "}
-                        <p className="ingredients">Ingredients</p>
                         <ImagePillsSelected
                           imageselected={primarydata}
                           name="Ingredients"
                         />
                       </>
-                    )}
+                    ) : "N/A"}
                   </div>
 
-                  <div>
-                    {primarydata?.allergens?.length > 0 && (
+                  <div className="allergens-review">
+                    <p className="allergen">Allergens</p>{" "}
+                    {primarydata?.allergens?.length > 0 ? (
                       <>
                         {" "}
-                        <p className="allergen">Allergens</p>{" "}
                         <ImagePillsSelected
                           imageselected={primarydata}
                           name="allergens"
                         />
                       </>
-                    )}
+                    ) : "N/A"}
                   </div>
                 </div>
               </div>
