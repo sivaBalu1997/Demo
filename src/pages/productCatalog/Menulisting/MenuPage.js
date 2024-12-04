@@ -998,7 +998,7 @@ export const MenuPage = () => {
                       {data?.itemResponseList?.length > 0 &&
                         data.name !== "" && (
                           <div className="categoryName-data">
-                            <p>{data.name}</p>
+                            <p>{data.name} ({data?.itemResponseList?.length})</p>
                           </div>
                         )}
 
