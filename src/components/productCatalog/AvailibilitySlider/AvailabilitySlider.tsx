@@ -77,7 +77,6 @@ const allChildrenoffEnabled = tempOffPremarray?.some(
 );
 
 
-console.log({allChildrenoffEnabled});
 
 
 const tempOrderTypeAvailabilityArray=[
@@ -95,9 +94,7 @@ const tempOrderTypeAvailabilityArray=[
   },
   
 ]
-console.log({isOnPremEnabledCount});
-console.log("gfdfgh",tempOrderTypeAvailabilityArray[0].types);
-console.log("gfdfgh",tempOrderTypeAvailabilityArray[1].types);
+
 
 
 setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
@@ -531,7 +528,9 @@ const [canceledChanges,setcanceledChanges]=useState(true);
                   setToggle={() => {
                     //handleParentToggle(index)
 
-                    if(elem.isEnabled===1 ){
+                    if(elem.isEnabled){
+                      console.log("true");
+                      
                     handleOrderCategoryAvailability(elem.mainHeading)
                     setSelectedOrderTypeCategory(elem.mainHeading)
                     setParrentToggle(elem.mainHeading)

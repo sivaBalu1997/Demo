@@ -37,14 +37,14 @@ const EyeModal = ({ onEyeclose, onclose }) => {
       (item) => item.isNotHide === 0
     );
 
-    const isOnPremEnabledCount =
-      tempOnPremarray?.filter((data, index) => {
-        return data?.isNotHide === 1;
-      }).length == 0;
-    const isOffPremEnabledCount =
-      tempOffPremarray?.filter((data, index) => {
-        return data?.isNotHide === 1;
-      }).length == 0;
+    // const isOnPremEnabledCount =
+    //   tempOnPremarray?.filter((data, index) => {
+    //     return data?.isNotHide === 1;
+    //   }).length == 0;
+    // const isOffPremEnabledCount =
+    //   tempOffPremarray?.filter((data, index) => {
+    //     return data?.isNotHide === 1;
+    //   }).length == 0;
 
     const allChildrenonEnabled = tempOnPremarray?.some(
       (child) => child.isEnabled === 1

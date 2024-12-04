@@ -36,7 +36,7 @@ const CustomizeSlider = () => {
 
   const [customData, setCustomData] = useState<any>([]);
 
-  console.log({datafromRedux});
+ 
   
   useEffect(() => {
     const updatedCustomData = datafromRedux.flatMap((item: any) =>
@@ -222,7 +222,7 @@ const CustomizeSlider = () => {
 
   ) => {
 
-    console.log("options",optionId);
+  
     
 
     if(Enabled)

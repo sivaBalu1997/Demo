@@ -826,7 +826,7 @@ const PricingDetails = () => {
                     left: "-2.8rem",
                   }}
                 >
-                  <div className="ToolKitchen">
+                  <div className="ToolKitchen" style={{border:"none",outline:"none"}}>
                     <img src={info} alt="info icon" width={20} height={20} />
                   </div>
                 </Tooltip>
@@ -872,10 +872,12 @@ const PricingDetails = () => {
                     name="Preparationtime.hours"
                     control={control}
                     defaultValue=""
+              
                     render={({ field, trigger, value }: any) => (
                       <input
                         type="text"
                         name="hours"
+                          placeholder="00"
                         value={value}
                         className="Prepartiontime-input-hours"
                         onChange={(e) => {

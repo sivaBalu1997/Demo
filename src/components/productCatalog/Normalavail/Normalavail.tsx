@@ -225,6 +225,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const dataFromRedux = useSelector(
       (state: any) => state?.selectedMockDataReducer?.data
     );
+console.log({dataFromRedux});
 
     const orderTypess = useSelector(
       (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
@@ -717,7 +718,7 @@ console.log("jjjjj",prizingDetail)
         }
 
         if (pickupDetails) {
-          setPickup(true);
+          pickupDetails.price>0 && setPickup(true);
           if (
             editData?.length > 0 &&
             filterOrderTypeAvailableorNotPickup &&
@@ -738,7 +739,7 @@ console.log("jjjjj",prizingDetail)
         }
 
         if (deliveryDetails) {
-          setDelivery(true);
+          deliveryDetails?.price>0 && setDelivery(true)||thirdpartyDetails&& thirdpartyDetails[0]?.price>0 && setDelivery(true)
           if (
             editData?.length > 0 &&
             filterOrderTypeAvailableorNotDelivery &&
@@ -749,6 +750,7 @@ console.log("jjjjj",prizingDetail)
           } 
 
           deliveryDetails?.price > 0 ? setOnline(true) : setOnline(false);
+          thirdpartyDetails && thirdpartyDetails[0]?.price>0?setOnline(true) : setOnline(false);
           // deliveryDetails?.price > 0 && setDelivery(true);
           setDeliveryDetails({
             typeId: deliveryId,
@@ -760,6 +762,9 @@ console.log("jjjjj",prizingDetail)
         }
 
         if (thirdpartyDetails?.length > 0) {
+
+          console.log({thirdpartyDetails});
+          
           const data = thirdpartyDetails?.map((item: any) => item?.typeName);
           if (thirdpartyDetails.some((item: any) => item?.price)) {
             //need to change the logic here
@@ -1225,7 +1230,7 @@ console.log("jjjjj",prizingDetail)
         }
       }
 
-      if (pickup && delivery) {
+      if ( delivery ) {
         if (!deliveryDetails?.price || deliveryDetails?.price <= 0) {
           validationErrors.deliveryprice = "Price is empty";
         }

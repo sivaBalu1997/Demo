@@ -85,6 +85,8 @@ const ItemCustomizations: React.FC<any> = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
+  console.log({itemCustomizationData});
+  
 
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
@@ -1091,6 +1093,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                           className="input2ItemCustomizations"
                                           name="cost"
                                           type="number"
+
                                           value={
                                             modifier.modifierOptions[optIndex]
                                               .cost ||
