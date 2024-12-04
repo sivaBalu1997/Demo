@@ -263,47 +263,58 @@ const DropDownList: React.FC<DropdownProps> = ({
   //   }
   // }, [editData]);
 
-
   useEffect(() => {
-    if (
-      ItemsPrimaryDetails?.DietaryType?.length > 0 &&
-      name === "DietaryType"
-    ) {
+    if (ItemsPrimaryDetails?.DietaryType?.length > 0 && name === "DietaryType") {
       const dietName = ItemsPrimaryDetails?.DietaryType;
-
-      const dropdownName = options?.filter((opt) => {
-        return Array.isArray(dietName)
-          ? dietName.some((d) => d.name === opt?.name || d === opt?.name)
-          : dietName.includes(opt?.name);
+  
+      const normalizedDietName = dietName.map((d: any) =>
+        typeof d === "string" ? { name: d } : d
+      );
+  
+      const dropdownName = (options || normalizedDietName)?.filter((opt) => {
+        return Array.isArray(normalizedDietName)
+          ? normalizedDietName.some((d) => d.name === opt?.name)
+          : normalizedDietName.includes(opt?.name);
       });
-
-      const dropDown1 = dropdownName?.length === 0 ? dietName : dropdownName;
+  
+      const dropDown1 = dropdownName?.length === 0 ? normalizedDietName : dropdownName;
       setSelectedOptions(dropDown1);
       setValue(
         "DietaryType",
         dropDown1?.map((opt: any) =>
           typeof opt === "object" ? opt?.name : opt
         )
-      );
+      );  
     }
-  }, [ItemsPrimaryDetails]);
+  }, [ItemsPrimaryDetails, options, name, setValue]);
+  
+  
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === "bestPair") {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
-      const dropdownName = options?.filter((opt) => {
-        return Array.isArray(bestPairName)
-          ? bestPairName?.some((b) => b.name === opt?.name || b === opt?.name)
-          : bestPairName?.includes(opt?.name);
+  
+      const normalizedBestPair = bestPairName.map((b: any) =>
+        typeof b === "string" ? { name: b } : b
+      );
+  
+      const dropdownOptions = options || normalizedBestPair;
+  
+      const dropdownName = dropdownOptions?.filter((opt) => {
+        return Array.isArray(normalizedBestPair)
+          ? normalizedBestPair.some((b) => b.name === opt?.name)
+          : normalizedBestPair.includes(opt?.name);
       });
-
+  
       setSelectedOptions(dropdownName);
       setValue(
         "bestPair",
         dropdownName?.map((opt) => (typeof opt === "object" ? opt?.name : opt))
       );
     }
-  }, [ItemsPrimaryDetails]);
+  }, [ItemsPrimaryDetails, options, name, setValue]);
+  
+  
 
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
@@ -338,6 +349,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
       const cusineName = ItemsPrimaryDetails?.cuisine;
+      console.log('990',{options})
       const dropDownName: any = options?.find(
         (item) => item.name === cusineName
       );
@@ -552,17 +564,16 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  // const [Loading, setLoading] = useState<boolean>(true);
+  const [Loading, setLoading] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   if (!options || options.length < 1) {
-  //     setLoading(true);
-  //   } else {
-  //     setLoading(false);
-  //   }
-  // }, [options]);
+  useEffect(() => {
+    if (!options || options.length < 1) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [options]);
 
-  const Loading = useSelector((state: any) => state.productCatalog.getDataLoading)
 
   const handleAboveArrowdropdown = () => {
     onToggle();
@@ -588,9 +599,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  useEffect(()=>{
-    console.log('2221',!Loading, filteredOptions)
-  },[Loading])
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -657,7 +665,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {dropDownLoading || Loading? (
+              {dropDownLoading || Loading ? (
                 <div className="dropdown-no-options">
                   <Loader
                     className="imgLoader1"

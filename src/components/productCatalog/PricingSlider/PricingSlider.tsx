@@ -299,6 +299,15 @@ const PricingSlider: any = ({}) => {
   // const restaurantDetails = useSelector(
   //   (state: RootState) => state.auth.restaurantDetails
   // );
+  const truncateToTwoDecimals = (value: string | number) => {
+    const stringValue = String(value);
+    if (stringValue.includes(".")) {
+      const [integerPart, decimalPart] = stringValue.split(".");
+      return `${integerPart}.${decimalPart.slice(0, 2)}`; // Limit to 2 decimal places
+    }
+    return stringValue; // No decimals, return as is
+  };
+
 
   return (
     <div className="PricingSlider-Container">
@@ -325,6 +334,9 @@ const PricingSlider: any = ({}) => {
                                               .toFixed(2)
                                               .padStart(5, "0")
                                             : "";
+
+                                            const pricewithtwodigit = price ? truncateToTwoDecimals(price.price) : "";
+
             
 
                 return (
@@ -362,8 +374,8 @@ const PricingSlider: any = ({}) => {
                             price.isNotHide
                           )
                         }
-                        value={price.price || ""}
-                      />
+                        value={pricewithtwodigit|| ""}
+                        />
                     </div>
                     {price.typeGroup === "D" &&
                     item.mainHeading === "On-prem" ? (

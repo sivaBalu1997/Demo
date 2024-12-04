@@ -37,6 +37,7 @@ interface Option {
   cost: number;
   item?: string;
   sellPrice?: any;
+  isEnabled:boolean
 }
 
 interface Modifier {
@@ -112,6 +113,7 @@ const ItemCustomizations: React.FC<any> = () => {
     (state: RootState) => state.productCatalog.modifier as Modification[]
   );
 
+
   const [ModifierList, setModifierList] = useState<Modification[]>([]);
 
   useEffect(() => {
@@ -126,11 +128,13 @@ const ItemCustomizations: React.FC<any> = () => {
       modifierId: "",
       modifierName: "",
       isModifierChanged: false,
+      isEnabled:true,
       modifierOptions: [
         {
           modifierOptionId: "",
           modifierOptionName: "",
           cost: 0,
+          isEnabled:true,
           isModifierOptionChanged: false,
         },
       ],
@@ -166,7 +170,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
-      setShowModifiers(true);
+      setShowModifiers(!showModifiers);
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
@@ -182,15 +186,17 @@ const ItemCustomizations: React.FC<any> = () => {
           modifierId: item?.id || "",
           modifierName: item?.modifierName || item?.name || "",
           isModifierChanged: false,
+          isEnabled:item.isEnabled,
           modifierOptions:
-            item?.modifierOptions?.length > 0
-              ? item.modifierOptions.map((option: any) => ({
+            item?.options?.length > 0
+              ? item.options.map((option: any) => ({
                   modifierOptionId:
                     option?.optionId || option?.modifierOptionId || null,
                   modifierOptionName:
                     option?.name || option?.modifierOptionName || "",
-                  cost: option?.cost || 0,
+                  cost: option?.price || 0,
                   isModifierOptionChanged: false,
+                  isEnabled:option?.isEnabled,
                 }))
               : [{ modifierOptionName: "", cost: 0 }],
           minSelection: item.minSelection || 0,
@@ -203,7 +209,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
       setModifications([...mappedModifications]);
     }
-  }, [itemCustomizationData, showModifiers]);
+  }, [itemCustomizationData, ]);
 
   const addModifier = () => {
     setModifications([
@@ -211,12 +217,14 @@ const ItemCustomizations: React.FC<any> = () => {
       {
         modifierId: "",
         modifierName: "",
+        isEnabled:true,
         isModifierChanged: false,
         modifierOptions: [
           {
             modifierOptionName: "",
             cost: 0,
             isModifierOptionChanged: false,
+            isEnabled:true
           },
         ],
         minSelection: 0,
@@ -417,10 +425,10 @@ const ItemCustomizations: React.FC<any> = () => {
     }
   };
 
-  const incrementSpinner = (index: number, field: keyof Modification) => {
+  const incrementSpinner = (index: number, field: keyof Modification,EnableOrnot:boolean) => {
     const newModifier = JSON.parse(JSON.stringify(modifications));
 
-    if (newModifier[index]) {
+    if (newModifier[index] &&EnableOrnot) {
       newModifier[index][field] =
         (parseInt(newModifier[index][field]?.toString() || "0", 10) || 0) + 1;
     }
@@ -428,10 +436,10 @@ const ItemCustomizations: React.FC<any> = () => {
     setModifications(newModifier);
   };
 
-  const decrementSpinner = (index: number, field: keyof Modification) => {
+  const decrementSpinner = (index: number, field: keyof Modification,EnableOrnot:boolean) => {
     const newModifier = JSON.parse(JSON.stringify(modifications));
 
-    if (newModifier[index]) {
+    if (newModifier[index] &&EnableOrnot) {
       const currentValue =
         parseInt(newModifier[index][field]?.toString() || "0", 10) || 0;
 
@@ -508,17 +516,21 @@ const ItemCustomizations: React.FC<any> = () => {
     );
   };
 
-  const handleSelect3 = (values: string[], index: number): void => {
+  const handleSelect3 = (values: string[], index: number,enableorNot:boolean): void => {
     // setSelectedValue(values);
 
-    setModifications((prevModifications: any) => {
-      const newModifications = [...prevModifications];
-      newModifications[index] = {
-        ...newModifications[index],
-        selectedValue: values,
-      };
-      return newModifications;
-    });
+    if(enableorNot)
+    {
+      setModifications((prevModifications: any) => {
+        const newModifications = [...prevModifications];
+        newModifications[index] = {
+          ...newModifications[index],
+          selectedValue: values,
+        };
+        return newModifications;
+      });
+    }
+   
   };
 
   const ordertypesdetails = useSelector(
@@ -728,7 +740,7 @@ const ItemCustomizations: React.FC<any> = () => {
     return validateCustomizationErrors();
   };
 
-  console.log({ customizationerrors });
+
 
 
 
@@ -757,6 +769,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
 
   
+console.log({modifications});
 
 
 
@@ -911,7 +924,7 @@ const ItemCustomizations: React.FC<any> = () => {
                         onDragStart={(e) => onDragStart(e, modIndex)}
                         onDragOver={(e) => e.preventDefault()}
                         onDrop={(e) => onDrop(e, modIndex)}
-                        style={{}}
+                        style={{opacity:modifications[modIndex]?.isEnabled?"100%":"50%"}}
                       >
                         {showModifiers && (
                           <div className="AddModifiersMainInputSection ">
@@ -941,6 +954,8 @@ const ItemCustomizations: React.FC<any> = () => {
                                   autoComplete="off"
                                   name="modifierName"
                                   value={modifications[modIndex]?.modifierName}
+                                  style={{opacity:modifications[modIndex]?.isEnabled?"100%":"50%"}}
+                                  disabled={!modifications[modIndex]?.isEnabled}
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
                                     console.log({ modIndex });
@@ -984,6 +999,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   className="radioItemCustomizations"
                                   name={`selectionType-${modIndex}`}
                                   value="Mandatory"
+                                  disabled={!modifications[modIndex]?.isEnabled}
                                   checked={
                                     modifier.selectionType === "Mandatory"
                                   }
@@ -1003,6 +1019,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                 <input
                                   type="radio"
                                   className="radioItemCustomizations"
+                                  disabled={!modifications[modIndex]?.isEnabled}
                                   name={`selectionType-${modIndex}`}
                                   value="Optional"
                                   checked={
@@ -1041,6 +1058,9 @@ const ItemCustomizations: React.FC<any> = () => {
                                           className="input2ItemCustomizations"
                                           name="modifierOptionName"
                                           type="text"
+                                          disabled={!modifications[modIndex]
+                                            ?.modifierOptions[optIndex]
+                                            ?.isEnabled}
                                           value={
                                             modifications[modIndex]
                                               ?.modifierOptions[optIndex]
@@ -1093,6 +1113,9 @@ const ItemCustomizations: React.FC<any> = () => {
                                           className="input2ItemCustomizations"
                                           name="cost"
                                           type="number"
+
+                                          disabled={!modifier.modifierOptions[optIndex]
+                                            ?.isEnabled}
 
                                           value={
                                             modifier.modifierOptions[optIndex]
@@ -1197,7 +1220,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                 <input
                                   placeholder=""
                                   className={modifications[modIndex]?.selectionType === "Optional" ? "input3ItemCustomizations-disable" : "input3ItemCustomizations"}
-
+                                
                                   value={
                                     modifications[modIndex]?.selectionType ===
                                       "Optional" &&
@@ -1211,7 +1234,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   }
                                   disabled={
                                     modifications[modIndex]?.selectionType ===
-                                    "Optional"
+                                    "Optional" ||!modifications[modIndex]?.isEnabled
                                   }
                                 />
                                 <div className="polydiv-ItemCustomizations">
@@ -1228,7 +1251,8 @@ const ItemCustomizations: React.FC<any> = () => {
                                       ) {
                                         incrementSpinner(
                                           modIndex,
-                                          "minSelection"
+                                          "minSelection",
+                                          modifications[modIndex]?.isEnabled
                                         );
                                       }
                                     }}
@@ -1245,7 +1269,8 @@ const ItemCustomizations: React.FC<any> = () => {
                                       ) {
                                         decrementSpinner(
                                           modIndex,
-                                          "minSelection"
+                                          "minSelection",
+                                          modifications[modIndex]?.isEnabled
                                         );
                                       }
                                     }}
@@ -1263,6 +1288,9 @@ const ItemCustomizations: React.FC<any> = () => {
                                 <input
                                   placeholder=""
                                   className="input3ItemCustomizations"
+                                  disabled={
+                                    !modifications[modIndex]?.isEnabled
+                                  }
                                   value={modifications[modIndex]?.maxSelection}
                                   name="maxSelection"
                                   onChange={(e) =>
@@ -1275,7 +1303,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     src={Polygon1}
                                     alt=""
                                     onClick={() =>
-                                      incrementSpinner(modIndex, "maxSelection")
+                                      incrementSpinner(modIndex, "maxSelection",modifications[modIndex]?.isEnabled)
                                     }
                                   />
                                   <img
@@ -1283,7 +1311,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     src={Polygon2}
                                     alt=""
                                     onClick={() =>
-                                      decrementSpinner(modIndex, "maxSelection")
+                                      decrementSpinner(modIndex, "maxSelection",modifications[modIndex]?.isEnabled)
                                     }
                                   />
                                 </div>
@@ -1299,6 +1327,9 @@ const ItemCustomizations: React.FC<any> = () => {
                                   placeholder=""
                                   className="input3ItemCustomizations"
                                   name="freeCustomization"
+                                  disabled={
+                                    !modifications[modIndex]?.isEnabled
+                                  }
                                   value={
                                     modifications[modIndex]?.freeCustomization
                                   }
@@ -1311,10 +1342,12 @@ const ItemCustomizations: React.FC<any> = () => {
                                     className="polyimg-ItemCustomizations"
                                     src={Polygon1}
                                     alt=""
+                                    
                                     onClick={() =>
                                       incrementSpinner(
                                         modIndex,
-                                        "freeCustomization"
+                                        "freeCustomization",
+                                        modifications[modIndex]?.isEnabled
                                       )
                                     }
                                   />
@@ -1325,7 +1358,8 @@ const ItemCustomizations: React.FC<any> = () => {
                                     onClick={() =>
                                       decrementSpinner(
                                         modIndex,
-                                        "freeCustomization"
+                                        "freeCustomization",
+                                        modifications[modIndex]?.isEnabled
                                       )
                                     }
                                   />
@@ -1337,7 +1371,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     modifications[modIndex]?.selectedValue || []
                                   }
                                   onSelect={(value) =>
-                                    handleSelect3(value, modIndex)
+                                    handleSelect3(value, modIndex,modifications[modIndex]?.isEnabled)
                                   }
                                   options={listOfStreams}
                                   width="Drop1"
