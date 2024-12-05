@@ -602,12 +602,12 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  if (
-                    (name !== "subCategory" && !Disablesubcategory) ||
-                    (name === "subCategory" && Disablesubcategory)
-                  ) {
+                  // if (
+                  //   (name !== "subCategory" && !Disablesubcategory) ||
+                  //   (name === "subCategory" && Disablesubcategory)
+                  // ) {
                     handleBelowArrowdropdown();
-                  }
+                  // }
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"
