@@ -357,7 +357,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       );
       const dropDown1 =
         dropDownName === undefined
-          ? ItemsPrimaryDetails?.subCategory
+          ? { name: ItemsPrimaryDetails?.subCategory, id: "1" }
           : dropDownName;
       setSelectedOptions(
         dropDownName === undefined ? [dropDown1] : [dropDownName]
@@ -602,12 +602,17 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  // if (
-                  //   (name !== "subCategory" && !Disablesubcategory) ||
-                  //   (name === "subCategory" && Disablesubcategory)
-                  // ) {
+                  if (
+                    (name !== "subCategory" && !Disablesubcategory) ||
+                    ((name === "category" || 
+                      name === 'subCategory' ||
+                      name === 'cuisine' || 
+                      name === 'bestPair' || 
+                      name === 'DietaryType' || 
+                      name === 'kitchenstation') && Disablesubcategory)
+                  ) {
                     handleBelowArrowdropdown();
-                  // }
+                  }
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"
