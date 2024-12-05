@@ -1292,10 +1292,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             {/* <button onClick={handleSubmit}>Validate</button> */}
             <div className="tooltip">
               <TooltipMsg
-                message="Select Days to Display at the Bottom"
+                message="Select the default days this item is available for both on-premise and off-premise services."
                 styles={{
                   marginLeft: "2rem",
-                  width: "350px",
+                  width: "480px",
                   height: "35px",
                   backgroundColor: "#67833E",
                   color: "white",
@@ -1311,7 +1311,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                   marginTop: "0rem",
                   rotate: "-90deg",
                   position: "relative",
-                  left: "-5.3rem",
+                  left: "-1.0rem",
                 }}
               >
                 <div className="ToolKitchen">

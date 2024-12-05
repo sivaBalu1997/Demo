@@ -149,6 +149,9 @@ import {
   INGREDIENTS_REQUEST,
   INGREDIENT_SUCESS,
   INGREDIENT_FAILURE,
+  Remove_ItemCust_Data_Request,
+  Remove_Primary_Data_Request,
+  Remove_Pricing_Data_Request,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -357,6 +360,9 @@ export const primaryfailure = (error) => ({
   type: Primary_Post_Data_Failure,
   payload: error,
 });
+export const PrimaryDataClear=()=>({
+  type:Remove_Primary_Data_Request,
+})
 
 // {******************Item Customization  Redux Actions*****************************************************}
 
@@ -374,6 +380,9 @@ export const itemCustomizationFaaliure = (error) => ({
   type: Item_Customizations_Data_Failure,
   payload: error,
 });
+export const itemCustomizationClear=()=>({
+  type:Remove_ItemCust_Data_Request,
+})
 
 // {******************Pricing Detail  Redux Actions*****************************************************}
 
@@ -389,6 +398,9 @@ export const PricingDetailFailure = (error) => ({
   type: Pricing_Detail_Data_Failure,
   payload: error,
 });
+export const PricingDetailsClear=()=>({
+  type:Remove_Pricing_Data_Request,
+})
 
 //{******************Item_Image_From_Internet*****************************************************}
 

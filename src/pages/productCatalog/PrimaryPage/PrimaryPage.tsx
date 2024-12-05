@@ -33,7 +33,9 @@ import {
   getItemCodeRequest,
   getMenuCategoryRequest,
   getPopularItemRequest,
+  PrimaryDataClear,
   removeCodeRequest,
+  removeDataRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -678,6 +680,7 @@ const PrimaryPage = () => {
     setDescription(" ");
     setCharCount(0);
     setImages([]);
+    dispatch(PrimaryDataClear())
   };
 
   const dataforadd = {

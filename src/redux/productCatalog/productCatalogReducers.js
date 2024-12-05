@@ -116,6 +116,9 @@ import {
   INGREDIENTS_REQUEST,
   INGREDIENT_SUCESS,
   INGREDIENT_FAILURE,
+  Remove_Pricing_Data_Request,
+  Remove_ItemCust_Data_Request,
+  Remove_Primary_Data_Request,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -892,6 +895,11 @@ export const primarypagereducer = (state = primarypagedata, action) => {
         ...state,
         data: [],
       };
+      case Remove_Primary_Data_Request:
+      return {
+        ...state,
+        data: [],
+      };
     default:
       return state;
   }
@@ -912,6 +920,11 @@ export const itemCustomizationsReducer = (state = initialState, action) => {
         ...state,
         itemData: [],
       };
+      case Remove_ItemCust_Data_Request:
+      return {
+        ...state,
+        itemData: [],
+      };
     default:
       return state;
   }
@@ -928,6 +941,11 @@ export const PricingDetailReducer = (state = PricingDetailPage, action) => {
     case Pricing_Detail_Data_Request:
       return { ...state, prizingData: action?.payload };
     case REMOVE_DATA_REQUEST:
+      return {
+        ...state,
+        prizingData: [],
+      };
+      case Remove_Pricing_Data_Request:
       return {
         ...state,
         prizingData: [],
