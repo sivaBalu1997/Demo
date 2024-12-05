@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext,useRef } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import './SearchBox.scss';
 import searchIcon from '../../../assets/images/searchicon.png';
 import NotFound from '../../../assets/svg/NotFound copy.svg';
@@ -28,7 +28,7 @@ const SearchBox = () => {
   }, [data]);
   useEffect(() => {
     console.log("kkkkk")
-    if(searchTerm==''){
+    if (searchTerm == '') {
       dispatch(searchForItem({}));
     }
   }, []);
@@ -54,29 +54,29 @@ const SearchBox = () => {
   useEffect(() => {
     dispatch(storeMockDataFilteredRequest(filteredOptionsDispatch));
   }, [filteredOptionsDispatch]);
-    
+
   const menuData = useSelector((state) => state.productCatalog?.menuData);
-  useEffect(()=>{
-    if(menuData){
+  useEffect(() => {
+    if (menuData) {
       setSearchTerm('')
     }
 
-  },[menuData])
+  }, [menuData])
 
   const handleSearch = (e) => {
-  let value = e.target.value;
-  const regex = /^[a-zA-Z\s]*$/;
+    let value = e.target.value;
+    const regex = /^[a-zA-Z\s]*$/;
 
-  // Prevent spaces as the first character or standalone
-  if (regex.test(value) && !(value.length === 1 && value === ' ')) {
-    dispatch(searchForItem({}));
-    setSearchTerm(value);
-    setDisplayTerm(value);
-    filterOptions(value);
-    setOptionSelected(false);
-    setCloseModal(true);
+    // Prevent spaces as the first character or standalone
+    if (regex.test(value) && !(value.length === 1 && value === ' ')) {
+      dispatch(searchForItem({}));
+      setSearchTerm(value);
+      setDisplayTerm(value);
+      filterOptions(value);
+      setOptionSelected(false);
+      setCloseModal(true);
     }
-   
+
     // if (e.key === 'Backspace') {
     //   if (optionSelected) {
     //     // If an option was selected, reset searchTerm and displayTerm
@@ -178,6 +178,8 @@ const SearchBox = () => {
     // }
   };
 
+  console.log({ isExpanded })
+
   return (
     <div className="MLSearch-Container">
       <div className='MLsearchbox'>
@@ -197,12 +199,12 @@ const SearchBox = () => {
         />
       </div>
 
-      <div 
-        ref={popupRef} 
-        className={`${isExpanded ? 
-          "MLSearch-Container-options1" : 
+      <div
+        ref={popupRef}
+        className={`${isExpanded ?
+          "MLSearch-Container-options1" :
           'MLSearch-Container-options-menu'
-        } ${filteredOptions.length>0 && searchTerm!=="" && "searched-item-box"}`
+          } ${filteredOptions.length > 0 && searchTerm !== "" && "searched-item-box"}`
         }
       >
         {searchTerm && closeModal && (
@@ -220,10 +222,10 @@ const SearchBox = () => {
                 </li>
               ))
             ) : !optionSelected && (
-              <div 
+              <div
                 className={
-                  isExpanded ? 
-                    'MLSearch-Container-options1-none' : 
+                  isExpanded ?
+                    'MLSearch-Container-options1-none' :
                     'MLSearch-Container-options-none'
                 }
               >
