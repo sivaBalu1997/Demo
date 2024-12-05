@@ -51,6 +51,8 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
+  const editData = useSelector((state: any) => state.productCatalog.editData);
+
 
   const categories = [
     "Primary Details",
@@ -171,7 +173,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     <>
       <div className={"navigation"}>
         <h1 className="Mainheading">
-          {datafromRedux?.length > 1 ? "Edit Item" : "Creating new menu item"}
+          {editData?.length >= 1 ? "Edit Item" : "Creating new menu item"}
         </h1>
         <nav className="nav">
           <ul
