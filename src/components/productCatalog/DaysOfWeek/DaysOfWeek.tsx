@@ -10,7 +10,6 @@ interface DaysOfWeekProps {
 const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays }) => {
   const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
-  console.log({days})
   
   const daysArray = Array.isArray(days) && days.length > 0 ? days : []; 
 
@@ -22,12 +21,18 @@ const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays }) => {
     }
   };
 
+  console.log("Days",days)
+
+  const adjustedDaysArray = Array.isArray(days)
+  ? days.map(day => (day === 0 ? 7 : day))
+  : [];
+
   return (
     <ul className="DaysOfWeek">
       {daysOfWeek.map((day, index) => (
         <li
           key={index}
-          className={`list ${daysArray.includes(index) ? "included" : ""}`}
+            className={`list ${adjustedDaysArray.includes(index === 0 ? 7 : index) ? "included" : ""}`}
          // onClick={() => toggleHighlight(index)}
           role="button"
           tabIndex={0}
