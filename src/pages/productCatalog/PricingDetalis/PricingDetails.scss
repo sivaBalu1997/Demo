@@ -19,7 +19,9 @@
   margin-left: -35px;
   overflow-x: hidden;
   // height: 38.5rem;
-  height: 29rem;
+  // height: 29rem;
+  height: 31rem;
+  // height: fit-content;
   width: 100%;
   overflow-y: auto;
   // background-color: pink;
@@ -35,7 +37,8 @@
   overflow-x: hidden;
   // height: 37.5rem;
   // height: 42rem;
-  height: 29rem;
+  // height: 29rem;
+  height: 31rem;
   width: 93.3%;
   overflow-y: auto;
   // background-color: pink;
@@ -51,6 +54,7 @@
   margin-left: 55px;
   // overflow-y: auto;
   height: 82vh;
+  // background-color: pink;
   &::-webkit-scrollbar {
     display: none;
   }

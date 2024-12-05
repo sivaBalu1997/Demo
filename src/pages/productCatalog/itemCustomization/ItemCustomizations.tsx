@@ -86,9 +86,7 @@ const ItemCustomizations: React.FC<any> = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
-  console.log({itemCustomizationData});
   
-
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
@@ -990,16 +988,6 @@ const ItemCustomizations: React.FC<any> = () => {
     
   };
 
- 
-
-
-  
-console.log({modifications});
-
-
-
-
-
   return (
     <div style={{ display: "flex", height: "99vh", overflowY: "hidden", overflowX: "hidden" }}>
       <SidePanel />
@@ -1180,10 +1168,7 @@ console.log({modifications});
                                   style={{opacity:modifications[modIndex]?.isEnabled?"100%":"50%"}}
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   onChange={(e) => {
-                                    const inputValue = e.target.value;
-                                    console.log({ modIndex });
-
-                                   
+                                    const inputValue = e.target.value;                                   
                                     if (!/\d/.test(inputValue)) {
                                       handleModifierChange(
                                         modIndex,

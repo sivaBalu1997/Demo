@@ -154,7 +154,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     } = props;
 
     const [online, setOnline] = useState(false);
-    console.log({online})
+    // console.log({online})
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
     const [showDineIn, setShowDineIn] = useState(false);
@@ -953,6 +953,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       if (selectedthirdvalues.length > 0) {
         setShowDayThird(true);
       }
+      // setShowDayThird(true);
     };
 
     const addDayThirdfalse = () => {
@@ -1284,6 +1285,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       pickup,
       delivery,
     ]);
+
+    console.log({showDayThird})
 
     return (
       <div>

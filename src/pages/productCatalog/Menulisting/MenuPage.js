@@ -647,7 +647,6 @@ export const MenuPage = () => {
             break;
         }
       });
-      console.log("jhgfghj",editData[0]);
       
       const modifierData = editData[0]?.modifiers?.map((item) => ({
         id: item?.id ?? "",
@@ -760,19 +759,20 @@ export const MenuPage = () => {
       )
     );
   // const allFalse = Object.values(listingobject).every(value => value === false);
-  const [selectedFileds, setselectefields] = useState({});
+  // const [selectedFileds, setselectefields] = useState({});
 
-  // const style = isExpanded ? { width: `100%` } : { width: `${Object.keys(selectedFileds).length * 10 + 100}%` };
+  // const style = isExpanded ? { width: `100%` } : selectedFileds && { width: `${Object?.keys(selectedFileds)?.length * 2}%` };
 
-  useEffect(() => {
-    const filteredList =
-      listingobject &&
-      Object.fromEntries(
-        Object.entries(filteredListing).filter(([key, value]) => value === true)
-      );
+  // useEffect(() => {
+  //   const filteredList =
+  //     listingobject &&
+  //     Object.fromEntries(
+  //       Object.entries(filteredListing).filter(([key, value]) => value === true)
+  //     );
 
-    setselectefields(filteredList);
-  }, [listingobject]);
+  //   setselectefields(filteredList);
+  // }, [listingobject]);
+
   const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails
@@ -925,7 +925,7 @@ export const MenuPage = () => {
                       className="addbtn-menupage"
                       onClick={() => setshowheadinglist(true)}
                     >
-                      <span>+</span>
+                      <span className="Menupage-insert-column-span">+</span>
                     </button>
                   </p>
                 </div>
@@ -965,9 +965,15 @@ export const MenuPage = () => {
                                   header.label.length - 1
                                 )}
                               </span>
-                              <span className="removeicon">
+                              <span className="removeicon"    onClick={() =>
+                                    setlistingobject({
+                                      ...listingobject,
+                                      [header.label]: false,
+                                    })
+                                  }>
                                 <img
                                   src={removeicon}
+                                  className="removeicon-img"
                                   alt=""
                                   onClick={() =>
                                     setlistingobject({
@@ -998,7 +1004,7 @@ export const MenuPage = () => {
                       {data?.itemResponseList?.length > 0 &&
                         data.name !== "" && (
                           <div className="categoryName-data">
-                            <p>{data.name}({data?.itemResponseList?.length})</p>
+                            <p>{data.name} ({data?.itemResponseList?.length})</p>
                           </div>
                         )}
 

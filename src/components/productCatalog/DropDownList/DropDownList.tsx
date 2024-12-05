@@ -177,15 +177,10 @@ const DropDownList: React.FC<DropdownProps> = ({
       )
     : [];
 
-    useEffect(()=>{
-      console.log({filteredOptions},{Loading})
-    },[filteredOptions])
-
   const categoryValue = getValues("category");
 
   useEffect(() => {
-   
-    if (!categoryValue) {
+    if (categoryValue !== "") {
       setDisablesubcategory(true);
     } else {
       setDisablesubcategory(false);
@@ -224,23 +219,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     setOptions(filteredOptions);
   };
 
-  // useEffect(() => {
-  //   const initialSelectedValue = getValues(name);
-  //   if (initialSelectedValue) {
-  //     const selectedOptionIds = initialSelectedValue
-  //       .split(", ")
-  //       .map((value: string) => {
-  //         if (Array.isArray(initialOptions)) {
-  //           return initialOptions.find((opt) => opt.name === value);
-  //         }
-  //       });
-  //     const validOptions = selectedOptionIds.filter(Boolean) as Option[];
-  //     setSelectedOptions(validOptions);
-
-  //     setValue(name, validOptions.map((opt) => opt.name).join(", "));
-  //   }
-  // }, [getValues(name), setValue, initialOptions]);
-
   let subcategorydataforApi = {
     locationId: locationid,
     type: "SUB_CATEGORY",
@@ -251,70 +229,55 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
-  // useEffect(() => {
-  //   if (editData && ItemsPrimaryDetails?.cuisine && name === "cuisine") {
-  //     dispatch(
-  //       fetchDropDownRequest({
-  //         locationId: locationid,
-  //         type: "CUISINES",
-  //         parentId: "",
-  //       })
-  //     );
-  //   }
-  // }, [editData]);
-
   useEffect(() => {
-    if (ItemsPrimaryDetails?.DietaryType?.length > 0 && name === "DietaryType") {
+    if (ItemsPrimaryDetails?.DietaryType && name === "DietaryType") {
       const dietName = ItemsPrimaryDetails?.DietaryType;
-  
-      const normalizedDietName = dietName.map((d: any) =>
-        typeof d === "string" ? { name: d } : d
-      );
-  
+
+      const normalizedDietName = Array.isArray(dietName)
+        ? dietName.map((d) =>
+            typeof d === "string" ? { name: d } : { name: d.name }
+          )
+        : dietName.split(",").map((d: any) => ({ name: d.trim() }));
+
       const dropdownName = (options || normalizedDietName)?.filter((opt) => {
-        return Array.isArray(normalizedDietName)
-          ? normalizedDietName.some((d) => d.name === opt?.name)
-          : normalizedDietName.includes(opt?.name);
+        return normalizedDietName.some((d: any) => d.name === opt?.name);
       });
-  
-      const dropDown1 = dropdownName?.length === 0 ? normalizedDietName : dropdownName;
+
+      const dropDown1 =
+        dropdownName?.length === 0 ? normalizedDietName : dropdownName;
+
       setSelectedOptions(dropDown1);
       setValue(
         "DietaryType",
-        dropDown1?.map((opt: any) =>
-          typeof opt === "object" ? opt?.name : opt
-        )
-      );  
+        dropDown1?.map((opt: any) => opt?.name)
+      );
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
-  
-  
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.bestPair?.length > 0 && name === "bestPair") {
+    if (ItemsPrimaryDetails?.bestPair && name === "bestPair") {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
-  
-      const normalizedBestPair = bestPairName.map((b: any) =>
-        typeof b === "string" ? { name: b } : b
-      );
-  
+
+      const normalizedBestPair = Array.isArray(bestPairName)
+        ? bestPairName.map((b) =>
+            typeof b === "string" ? { name: b } : { name: b.name }
+          )
+        : bestPairName.split(",").map((b: any) => ({ name: b.trim() }));
+
       const dropdownOptions = options || normalizedBestPair;
-  
+
       const dropdownName = dropdownOptions?.filter((opt) => {
-        return Array.isArray(normalizedBestPair)
-          ? normalizedBestPair.some((b) => b.name === opt?.name)
-          : normalizedBestPair.includes(opt?.name);
+        return normalizedBestPair.some((b: any) => b.name === opt?.name);
       });
-  
+
+      // Update state and form values
       setSelectedOptions(dropdownName);
       setValue(
         "bestPair",
-        dropdownName?.map((opt) => (typeof opt === "object" ? opt?.name : opt))
+        dropdownName?.map((opt) => opt?.name)
       );
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
-  
-  
 
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
@@ -349,7 +312,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
       const cusineName = ItemsPrimaryDetails?.cuisine;
-      console.log('990',{options})
       const dropDownName: any = options?.find(
         (item) => item.name === cusineName
       );
@@ -440,7 +402,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
-      dropDownType ==='CATEGORY' && setParentId(option?.id)
+      dropDownType === "CATEGORY" && setParentId(option?.id);
     }
 
     setSearchTerm("");
@@ -462,8 +424,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    //console.log("kkkk",selectedOptions,value)
-
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
@@ -564,17 +524,15 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  // const [Loading, setLoading] = useState<boolean>(true);
+  const [Loading, setLoading] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   if (!options || options.length < 1) {
-  //     setLoading(true);
-  //   } else {
-  //     setLoading(false);
-  //   }
-  // }, [options]);
-
-  const Loading = useSelector((state: any) => state.productCatalog.getDataLoading)
+  useEffect(() => {
+    if (!options || options.length < 1) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [options]);
 
   const handleAboveArrowdropdown = () => {
     onToggle();
@@ -591,7 +549,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleBelowArrowdropdown = () => {
     onToggle();
     setShowselectedOption(false);
-    setManuallyCleared(false)
+    setManuallyCleared(false);
     if (dropDownType !== "SUB_CATEGORY") {
       dispatch(fetchDropDownRequest(payload));
     }
@@ -599,10 +557,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
-
-  useEffect(()=>{
-    console.log('2221',!Loading, filteredOptions)
-  },[Loading])
 
   return (
     <div className="dropdown-component" ref={dropdownRef}>
@@ -632,7 +586,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 ? "subCategorysearch disabled"
                 : ""
             }`}
-            disabled={Disablesubcategory && name === "subCategory"}
+            disabled={!Disablesubcategory && name === "subCategory"}
           />
           <span className="dropdown-arrow" onMouseDown={handleOptionMouseDown}>
             {dropdownopen ? (
@@ -648,7 +602,12 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  handleBelowArrowdropdown();
+                  if (
+                    (name !== "subCategory" && !Disablesubcategory) ||
+                    (name === "subCategory" && Disablesubcategory)
+                  ) {
+                    handleBelowArrowdropdown();
+                  }
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"
@@ -669,7 +628,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {dropDownLoading || Loading? (
+              {dropDownLoading || Loading ? (
                 <div className="dropdown-no-options">
                   <Loader
                     className="imgLoader1"
@@ -728,9 +687,11 @@ const DropDownList: React.FC<DropdownProps> = ({
                       );
                     })
                   ) : (
-                    <div className="dropdown-no-options">No options available</div>
+                    <div className="dropdown-no-options">
+                      No options available
+                    </div>
                   )}
-                </div>              
+                </div>
               )}
             </ul>
             <div className="edititem">

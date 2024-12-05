@@ -21,6 +21,10 @@
       // background-color: lightseagreen;
       width: 74.5%; 
     }
+    @media(min-width: 1281px) and (max-width: 1440px){
+      // background-color: lightseagreen;
+      width: 77.3%; 
+    }
 
   .clearall {
     width: 135px;
@@ -69,7 +73,7 @@
     z-index: 2;
     @media(max-width: 1536px){
       // background-color: lightsalmon;
-      width: 85.7%;
+      width: 85.4%;
     }
     @media(max-width: 1280px){
       // background-color: lightsalmon;

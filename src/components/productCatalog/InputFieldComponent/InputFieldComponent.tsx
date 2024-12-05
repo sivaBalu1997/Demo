@@ -2,6 +2,7 @@ import React from "react";
 import "./InputFieldComponent.scss";
 import { useSelector,useDispatch } from "react-redux";
 import {getItemCodeRequest} from "redux/productCatalog/productCatalogActions";
+import { REMOVE_CODE_REQUEST } from "redux/productCatalog/productCatalogConstants";
 
 interface InputFieldInterface {
   name: string;
@@ -62,15 +63,19 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
    
     
     e.target.value = inputValue;
-    if (name === "itemCode") {
-      if (inputValue?.length > 3) {
-        if (oldValue != inputValue) {
-          dispatch(
-            getItemCodeRequest(locationid, inputValue)
-          );
-        }
-      }
+   
+  if (name === "itemCode") {
+   
+    if (inputValue.length <= 3 || inputValue !== oldValue) {
+      dispatch({ type: REMOVE_CODE_REQUEST });
     }
+
+    
+    if (inputValue.length > 3 && inputValue !== oldValue) {
+      dispatch(getItemCodeRequest(locationid, inputValue));
+    }
+  }
+
     if (name== 'itemName') {
       if(!e.target.value.startsWith(" "))
         onChange(e); 
@@ -109,7 +114,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
       {name === "itemCode" && message && value && value.length === 4 && (
         <p className="itemCode-Success">{message}</p>
       )}
-      {error && <p className="Input-Field-Error-message">{error.message}</p>}
+      { !message && error && <p className="Input-Field-Error-message">{error.message}</p>}
     </div>
   );
 };
