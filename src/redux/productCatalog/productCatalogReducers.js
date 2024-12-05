@@ -863,6 +863,7 @@ export default function productCatalogReducer(
         break;
       case REMOVE_DATA_REQUEST: 
         draft.editData = [];
+        draft.successImageId = '';
         break;
 
       default:

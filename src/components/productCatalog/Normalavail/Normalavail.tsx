@@ -695,8 +695,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         // setShowDineIn(true);
       }
 
-      console.log({prizingDetail})
-
       if (prizingDetail?.normalForm) {
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
@@ -1285,8 +1283,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       pickup,
       delivery,
     ]);
-
-    console.log({showDayThird})
 
     return (
       <div>
