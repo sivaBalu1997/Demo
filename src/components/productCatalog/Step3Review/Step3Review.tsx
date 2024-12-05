@@ -114,7 +114,7 @@ const Step3Review: React.FC = () => {
                     {elem.maxSelection || "N/A"}
                   </h3>
                 </div>
-                <div className="Step-3-Modifier-Section-Each-Menu-container">
+                <div className="Step-3-Modifier-Section-Each-Menu-container-item">
                   <h3 className="Step-3-Modifier-Section-Menu-heading">Item</h3>
                   {elem.modifierOptions &&
                     elem.modifierOptions.map((subItem:any, subIndex:any) => (
@@ -126,7 +126,7 @@ const Step3Review: React.FC = () => {
                       </h2>
                     ))}
                 </div>
-                <div className="Step-3-Modifier-Section-Each-Menu-container">
+                <div className="Step-3-Modifier-Section-Each-Menu-container-price">
                   <h3 className="Step-3-Modifier-Section-Menu-heading">
                     Price
                   </h3>

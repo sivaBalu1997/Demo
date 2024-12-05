@@ -10,13 +10,15 @@ interface modelshow {
   selectedtypeid: string;
   ParentToggle: string;
   setUntillTime:any;
+  setTimeToSet:any;
 }
 
 const AvailCalender: React.FC<modelshow> = ({
   selectedtypeid,
   setShowcalender,
   ParentToggle,
-  setUntillTime
+  setUntillTime,
+  setTimeToSet
 }) => {
   const [selectedDatee, setSelectedDatee] = useState<Date | null>(null);
   const [selectedTimePeriod, setSelectedTimePeriod] = useState<"AM" | "PM">(
@@ -68,7 +70,23 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
         month: "2-digit",
         year: "numeric",
       });
+
+
+
       setUntillTime(`(${formattedDate}/${formattedTime}/${selectedTimePeriod})`)
+
+      console.log("datechanging",formatDateTime(
+        selectedDatee,
+       formattedTime,
+       selectedTimePeriod
+     ));
+
+     setTimeToSet(formatDateTime(
+      selectedDatee,
+     formattedTime,
+     selectedTimePeriod
+   ))
+      
       const newAvailabilityInfo = {
         orderTypeId: selectedtypeid,
         unAvailableUntilTime: formatDateTime(
@@ -108,6 +126,10 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
       }
 
       setShowcalender(false);
+
+
+      console.log();
+      
     }
   };
 

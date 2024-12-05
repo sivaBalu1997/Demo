@@ -8,6 +8,7 @@ interface ModelShowProps {
   selectedtypeid: string;
   setshowAvailchanges:any;
   parentToggle:string;
+  setTimeToSet:any;
 
 }
 
@@ -15,7 +16,8 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   selectedtypeid,
   setshowsession,
   setshowAvailchanges,
-  parentToggle
+  parentToggle,
+  setTimeToSet
   
 }) => {
   const [selectedSession, setSelectedSession] = useState<string>("");
@@ -66,40 +68,42 @@ const SessionOpen: React.FC<ModelShowProps> = ({
     // const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
     // console.log("sessionClosingHours",sessionClosingHours?.closingTime);
     
-if(parentToggle==="")
-{
-  setPatchedData((prevState:any) => ({
-    ...prevState,
-    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-      (availabilityInfo:any) =>
-        availabilityInfo.orderTypeId === selectedtypeid
-          ? {
-              ...availabilityInfo,
-              unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
-            }
-          : availabilityInfo
-    ),
-  }));
+// if(parentToggle==="")
+// {
+//   setPatchedData((prevState:any) => ({
+//     ...prevState,
+//     itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+//       (availabilityInfo:any) =>
+//         availabilityInfo.orderTypeId === selectedtypeid
+//           ? {
+//               ...availabilityInfo,
+//               unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
+//             }
+//           : availabilityInfo
+//     ),
+//   }));
 
-}
-else{
+// }
+// else{
 
 
-  setPatchedData((prevState:any) => ({
-    ...prevState,
-    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-      (availabilityInfo:any) =>{
-        return { 
+//   setPatchedData((prevState:any) => ({
+//     ...prevState,
+//     itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+//       (availabilityInfo:any) =>{
+//         return { 
           
-        ...availabilityInfo,
-        unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
-      }
-    }
-    ),
-  }));
+//         ...availabilityInfo,
+//         unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
+//       }
+//     }
+//     ),
+//   }));
  
 
-}
+// }
+
+setTimeToSet(`${formattedDate}T${selctedDateSession}`)
     
     setshowsession(false);
     setshowAvailchanges(true)
