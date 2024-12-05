@@ -327,6 +327,7 @@ const AvailabilityChangesUntil = ({
           setShowcalender={setShowAvailCalender}
           parentToggle={parentToggle}
           setUntillTime={setUntillTime}
+          setTimeToSet={setTimeToSet}
         />
       )}
 
@@ -336,6 +337,9 @@ const AvailabilityChangesUntil = ({
           setshowsession={setshowsession}
           setshowAvailchanges={setshowAvailchanges}
           parentToggle={parentToggle}
+          setTimeToSet={setTimeToSet}
+
+
         />
       )}
     </div>

@@ -81,6 +81,7 @@
         justify-content: center;
         align-items: center;
       }
+      
     }
     .alcoholradiobutton {
       display: flex;
@@ -95,7 +96,11 @@
         color: #000000;
       }
     }
-
+    .barcode{
+      height: 6rem;
+      width: fit-content;
+      margin-top: 20px;
+    }
     .Primary-Page-description-field {
       position: relative;
       .description {

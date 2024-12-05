@@ -87,6 +87,8 @@
   margin-top: 1rem;
   display: flex;
   overflow-x: hidden;
+  width: 100%;
+  // border: 1px solid red;
 
   &::-webkit-scrollbar {
     width: 12px;

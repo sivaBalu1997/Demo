@@ -73,11 +73,28 @@
 
 .AddModifiersMainInputSection {
  
-height: auto;
-margin-top: 2%;
-margin-bottom: 2%;
-padding-bottom: 7rem !important;
-  // border: 1px solid black;
+// height: auto;
+// margin-top: 2%;
+// padding: 0;
+// border: 1px solid red;
+padding-bottom: 3rem;
+margin-left: 2.3%;
+
+}
+.option1-errormsg
+{
+ position: relative;
+ left: 1rem;
+  // border: 1px solid red;
+
+}
+.option11-errormsg
+{
+  position: relative;
+  left: -1rem;
+  // border: 1px solid red;
+
+
 }
 .availbleservicestreams
 {
@@ -110,7 +127,7 @@ padding-bottom: 7rem !important;
   height: 2.75rem;
   border-radius: 0.313rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  margin-top: -0.4rem;
+
   margin-bottom: 0.625rem;
   padding-left: 1rem;
   font-size: 14px;
@@ -121,8 +138,8 @@ padding-bottom: 7rem !important;
   width: 10.813rem;
   height: 2.75rem;
   border-radius: 0.313rem;
-  border: 1px solid red;
-  margin-top: -0.4rem;
+  // border: 1px solid red;
+ 
   margin-bottom: 0.625rem;
   padding-left: 1rem;
   font-size: 1rem;
@@ -180,9 +197,53 @@ padding-bottom: 7rem !important;
   gap: 1.25rem;
   margin-bottom: 1.25rem;
 
-  margin-left: -20px;
+  // margin-left: -20px;
 }
+.modifiers-to-select
+{
+  margin-left: 7%;
+  margin-bottom: 0;
+  padding: 0;
+}
+.option-name-errormsg,.option-price-errormsg
+{
+  width: 12.5rem;
+// height: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  // border: 1px solid red;
+  gap: 0.2rem;
+}
+.modifieroptions-div
+{
+  display: flex;
+  margin-top: 1%;
 
+gap: 1rem;
+}
+.input-option-name-field
+{
+  width: 11.375rem;
+  height: 44px;
+  border-radius: 0.313rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  opacity: 80%;
+  font-size: 14px;
+
+  color: black;
+}
+.input-option-price-field
+{
+  width: 11.375rem;
+  height: 44px !important;
+  border-radius: 0.313rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+
+  opacity: 80%;
+  font-size: 14px;
+
+  color: black;
+}
 .input2ItemCustomizations {
   width: 11.375rem;
   height: 2.75rem;
@@ -201,7 +262,7 @@ padding-bottom: 7rem !important;
   opacity: 80%;
   font-size: 1rem;
   padding-left: 0.75rem;
-  border: 1px solid red;
+  // border: 1px solid red;
 }
 
 .btn-ItemCustomizations {
@@ -246,7 +307,10 @@ padding-bottom: 7rem !important;
   margin-left: 4rem;
   gap: 1.25rem;
   width: 850px;
-  height: 30vh;
+  height: auto;
+  margin-top: 1%;
+
+  // border: 1px solid red;
 }
 
 .Spinner-inputlabel-ItemCustomizations {
@@ -374,15 +438,16 @@ padding-bottom: 7rem !important;
   display: flex;
   justify-content: center;
   gap: 1.625rem;
-  margin-left: 4.320rem;
+  margin-left: 5rem;
 }
 
 .option-input-flex-column1-ItemCustomizations {
   display: flex;
   justify-content: center;
   gap: 1.625rem;
+  margin-left: 10rem;
   // border: 1px solid red;
-  margin-left: 10.625rem;
+ 
 }
 
 .Custom-Item-availability-container {
@@ -483,6 +548,15 @@ input[type="number"] {
   margin-bottom: 1.25rem;
   margin-left: 3.125rem;
   width: 20rem;
+  margin-top: 1rem;
+}
+.modifier-and-options
+{
+  height: auto;
+  margin: 0;
+  padding: 0;
+  // border: 1px solid blue;
+
 }
 .modifiersitem {
   height: 500px;
@@ -854,4 +928,9 @@ input[type="number"] {
   margin-bottom: 1rem;
   font-size: 14px;
   font-weight: 500;
+}
+.modifiernameerror
+{
+  height: 1rem;
+  // border: 1px solid red;
 }
