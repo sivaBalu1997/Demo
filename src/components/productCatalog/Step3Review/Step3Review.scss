@@ -106,7 +106,11 @@
   margin-left: 1.5rem;
   // background-color: lightskyblue;
 }
+.Step-3-Modifier-Section-Each-Menu-container-item
+{
 
+
+}
 .Step-3-Modifier-Section-Each-Menu-container {
   display: flex;
   flex-direction: column;
@@ -117,9 +121,9 @@
 }
 
 .Step-3-Modifier-Section-Menu-heading {
-  font-family: Poppins;
+  font-family: "Poppins",sans-serif;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 18px;
   color: #6e6e6e;
   // background-color: lightcoral;
@@ -127,7 +131,7 @@
 }
 
 .Step-3-Modifier-Section-Menu-details {
-  font-family: Poppins;
+  font-family: "Poppins",sans-serif;
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
@@ -138,23 +142,38 @@
   width: fit-content;
 }
 .Step-3-Modifier-Section-Menu-details-items {
-  font-family: Poppins;
-  font-weight: 500;
+  font-family: "Poppins",sans-serif;
+  font-weight: 400;
   font-size: 14px;
   line-height: 21px;
   position: relative;
-
+  display: flex;
+width: 6rem;
+height: auto;
+// border: 1px solid red;
   // margin-left: 3x;
-  margin-top: -2px;
+  // margin-top: -2px;
+  margin-top: 2%;
+  padding: 0.3rem;
+  padding-left: 0;
 }
 
 .Step-3-Modifier-Section-Menu-details-price {
-  font-family: Poppins;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  position: relative;
-  margin-left: -2px;
+ 
+font-family: "Poppins",sans-serif;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+position: relative;
+display: flex;
+width: 6rem;
+height: auto;
+// border: 1px solid red;
+// margin-left: 3x;
+// margin-top: -2px;
+margin-top: 2%;
+padding: 0.3rem;
+padding-left: 0;
 }
 
 /* {-----------------------------Free Modification Section---------------------------------- } */
