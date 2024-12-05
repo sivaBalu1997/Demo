@@ -244,6 +244,15 @@ function* addSubsection(action) {
       // }
     } else {
       yield put(addDropDownFailure({ message: "Please try again" }));
+      console.log(response)
+
+      if(response.data.message && response.data.message.includes("already exist"))
+        {
+        showErrorToast(" Type already exist  . Please Try With Other Input  ")
+        yield put(addDropDownFailure({ message: "Please try again" }));
+
+      }
+      
     }
   } catch (err) {
     yield put(addDropDownFailure({ message: "Please try again" }));
