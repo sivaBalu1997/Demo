@@ -294,11 +294,19 @@ function* getTagClassSaga(action) {
 function* getModifierSaga(action) {
   try {
     const response = yield call(getModifier, action.payload);
+
     if (response.status === 200) {
-      yield put(getModifierSuccess(response.data));
+      if (Array.isArray(response.data) && response.data.length === 0) {
+        yield put(getModifierFailed());
+        showErrorToast('No Modifier Present In Database');
+      } else {
+        yield put(getModifierSuccess(response.data));
+      }
     } else {
       yield put(getModifierFailed());
+      showErrorToast('No Modifier Present');
     }
+   
   } catch (err) {
     yield put(getModifierFailed());
   }
