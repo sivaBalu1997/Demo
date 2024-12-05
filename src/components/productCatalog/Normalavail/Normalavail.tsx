@@ -1288,6 +1288,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     console.log({showDayThird})
 
+    console.log("pickupdays",DayPickup)
+
     return (
       <div>
         <div className="AvailDaycheck">
