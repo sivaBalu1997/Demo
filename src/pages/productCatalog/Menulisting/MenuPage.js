@@ -138,9 +138,6 @@ export const MenuPage = () => {
   const [listingobject, setlistingobject] = useState();
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
-  console.log({listingobject})
-  // const listingLength = Object.keys(listingobject)?.length;
-
   useEffect(() => {
     setuniqueOrderTypeNames(getUniqueOrderTypeNames(menuData));
 
@@ -762,19 +759,20 @@ export const MenuPage = () => {
       )
     );
   // const allFalse = Object.values(listingobject).every(value => value === false);
-  const [selectedFileds, setselectefields] = useState({});
+  // const [selectedFileds, setselectefields] = useState({});
 
-  // const style = isExpanded ? { width: `100%` } : { width: `${Object.keys(selectedFileds).length * 10 + 100}%` };
+  // const style = isExpanded ? { width: `100%` } : selectedFileds && { width: `${Object?.keys(selectedFileds)?.length * 2}%` };
 
-  useEffect(() => {
-    const filteredList =
-      listingobject &&
-      Object.fromEntries(
-        Object.entries(filteredListing).filter(([key, value]) => value === true)
-      );
+  // useEffect(() => {
+  //   const filteredList =
+  //     listingobject &&
+  //     Object.fromEntries(
+  //       Object.entries(filteredListing).filter(([key, value]) => value === true)
+  //     );
 
-    setselectefields(filteredList);
-  }, [listingobject]);
+  //   setselectefields(filteredList);
+  // }, [listingobject]);
+
   const orderTypesToShow = ["DineIn", "Pickup", "Delivery"];
   const restaurantDetails = useSelector(
     (state) => state.auth.restaurantDetails

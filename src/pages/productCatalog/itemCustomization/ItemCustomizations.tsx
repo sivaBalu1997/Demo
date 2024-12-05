@@ -86,9 +86,7 @@ const ItemCustomizations: React.FC<any> = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
-  console.log({itemCustomizationData});
   
-
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
@@ -645,8 +643,6 @@ const ItemCustomizations: React.FC<any> = () => {
 
   const validateModifiers = (modifications: any[]) => {
     const errors: any[] = []; // This will hold all errors
-    console.log({ modifications });
-
     modifications?.forEach((modifier, index) => {
       const {
         modifierName,
@@ -764,16 +760,6 @@ const ItemCustomizations: React.FC<any> = () => {
   
     
   };
-
- 
-
-
-  
-console.log({modifications});
-
-
-
-
 
   return (
     <div style={{ display: "flex", height: "99vh", overflowY: "hidden", overflowX: "hidden" }}>
@@ -958,8 +944,6 @@ console.log({modifications});
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
-                                    console.log({ modIndex });
-
                                     validateModifiers(modifications);
                                     if (!/\d/.test(inputValue)) {
                                       handleModifierChange(
