@@ -116,6 +116,8 @@ import {
   INGREDIENTS_REQUEST,
   INGREDIENT_SUCESS,
   INGREDIENT_FAILURE,
+  Remove_ItemCust_Data_Request,
+  Remove_Primary_Data_Request,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -886,7 +888,7 @@ export const primarypagereducer = (state = primarypagedata, action) => {
         ...state,
         data: action.payload,
       };
-    case REMOVE_DATA_REQUEST:
+    case Remove_Primary_Data_Request:
       return {
         ...state,
         data: [],
@@ -906,7 +908,7 @@ export const itemCustomizationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Item_Customizations_Data_Request:
       return { ...state, itemData: action.payload };
-    case REMOVE_DATA_REQUEST:
+    case Remove_ItemCust_Data_Request:
       return {
         ...state,
         itemData: [],

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getTagClassRequest,
   PricingDetailRequest,
+  removeDataRequest,
 } from "../../../redux/productCatalog/productCatalogActions";
 import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
 import { useHistory } from "react-router-dom";
@@ -749,6 +750,7 @@ const PricingDetails = () => {
         minutes: "",
       },
     });
+    dispatch(removeDataRequest())
   };
 
   const handleInventoryCheck = (event: any) => {
@@ -806,11 +808,11 @@ const PricingDetails = () => {
               <p className="KitchenRelatedHeading">Kitchen Related</p>
               <div className="tool-tip-kitchen-detail">
                 <Tooltip
-                  message="Select the Kitchen Station."
+                  message="Specify the kitchen station for this item and the maximum preparation time required."
                   styles={{
                     marginTop: "-0.8rem",
                     marginLeft: "2rem",
-                    width: "350px",
+                    width: "450px",
                     height: "35px",
                     backgroundColor: "#67833E",
                     color: "white",
@@ -823,7 +825,7 @@ const PricingDetails = () => {
                   Arrowstyle={{
                     rotate: "-90deg",
                     position: "relative",
-                    right: "7rem",
+                    right: "1rem",
                   }}
                 >
                   <div className="ToolKitchen" style={{border:"none",outline:"none"}}>

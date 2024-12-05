@@ -56,13 +56,14 @@ export const UPDATE_MENU_ATTRIBUTE_FAILED = "UPDATE_MENU_ATTRIBUTE_FAILED";
 export const Primary_Post_Data_Send = "Primary_Post_Data_Send";
 export const Primary_Post_Data_Success = "Primary_Post_Data_Success";
 export const Primary_Post_Data_Failure = "Primary_Post_Data_Failure";
+export const Remove_Primary_Data_Request = "Remove_Primary_Data_Request"
 
 // Item Customization  Reducer Attributes
 
 export const Item_Customizations_Data_Request = "Item_Customizations_Data_Request";
 export const Item_Customizations_Data_Success = "Item_Customizations_Data_Success";
 export const Item_Customizations_Data_Failure = "Item_Customizations_Data_Failure";
-
+export const Remove_ItemCust_Data_Request = "Remove_ItemCust_Data_Request";
 // Prizing Detail   Reducer Attributes
 
 export const Pricing_Detail_Data_Request = "Pricing_Detail_Data_Request";

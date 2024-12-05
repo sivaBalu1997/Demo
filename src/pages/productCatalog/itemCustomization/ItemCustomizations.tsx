@@ -16,7 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteModifierRequest,
   getModifierRequest,
+  itemCustomizationClear,
   itemCustomizationPost,
+  removeDataRequest,
   updateModifierData,
 } from "../../../redux/productCatalog/productCatalogActions";
 import Serachicon from "../../../assets/images/searchicon.png";
@@ -556,17 +558,22 @@ const ItemCustomizations: React.FC<any> = () => {
       prevModifications.map((modification: any) => ({
         ...modification,
         modifierName: "",
+        maxSelection: "", // Clear maxSelection field
+        freeCustomization: "", // Clear maxCustomizations field
         modifierOptions: modification.modifierOptions.map((option: any) => ({
           ...option,
-          modifierOptionName: "",
+          modifierOptionName: "", // Clear option item
           cost: 0,
         })),
         selectedValue: [],
         selectionType: "Optional",
       }))
     );
+  
+    dispatch(itemCustomizationClear());
   };
-
+  
+  
   const validateSelectedValue = (index: number, values: string[]): void => {
     const errors = [...customizationerrors]; // Clone the existing errors
   
@@ -1276,7 +1283,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                               ?.modifierOptionName ||
                                             modifications[modIndex]
                                               ?.modifierOptions[optIndex]
-                                              ?.modifierName
+                                              ?.modifierName||""
                                           }
                                           onChange={(e) => {
                                             const value = e.target.value;
@@ -1337,7 +1344,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                             modifier.modifierOptions[optIndex]
                                               .cost ||
                                             modifier.modifierOptions[optIndex]
-                                              .sellPrice
+                                              .sellPrice||""
                                           }
                                           onChange={(e) => {
                                            
@@ -1510,7 +1517,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   disabled={
                                     !modifications[modIndex]?.isEnabled
                                   }
-                                  value={modifications[modIndex]?.maxSelection}
+                                  value={modifications[modIndex]?.maxSelection||0}
                                   name="maxSelection"
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
@@ -1550,7 +1557,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     !modifications[modIndex]?.isEnabled
                                   }
                                   value={
-                                    modifications[modIndex]?.freeCustomization
+                                    modifications[modIndex]?.freeCustomization||0
                                   }
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
