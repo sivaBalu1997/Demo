@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getTagClassRequest,
   PricingDetailRequest,
+  PricingDetailsClear,
   removeDataRequest,
 } from "../../../redux/productCatalog/productCatalogActions";
 import Dropdown from "../../../components/productCatalog/DropDownList/DropDownList";
@@ -750,7 +751,7 @@ const PricingDetails = () => {
         minutes: "",
       },
     });
-    dispatch(removeDataRequest())
+    dispatch(PricingDetailsClear())
   };
 
   const handleInventoryCheck = (event: any) => {

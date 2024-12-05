@@ -151,6 +151,7 @@ import {
   INGREDIENT_FAILURE,
   Remove_ItemCust_Data_Request,
   Remove_Primary_Data_Request,
+  Remove_Pricing_Data_Request,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -397,6 +398,9 @@ export const PricingDetailFailure = (error) => ({
   type: Pricing_Detail_Data_Failure,
   payload: error,
 });
+export const PricingDetailsClear=()=>({
+  type:Remove_Pricing_Data_Request,
+})
 
 //{******************Item_Image_From_Internet*****************************************************}
 

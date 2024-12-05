@@ -116,6 +116,7 @@ import {
   INGREDIENTS_REQUEST,
   INGREDIENT_SUCESS,
   INGREDIENT_FAILURE,
+  Remove_Pricing_Data_Request,
   Remove_ItemCust_Data_Request,
   Remove_Primary_Data_Request,
 } from "../productCatalog/productCatalogConstants";
@@ -888,7 +889,12 @@ export const primarypagereducer = (state = primarypagedata, action) => {
         ...state,
         data: action.payload,
       };
-    case Remove_Primary_Data_Request:
+    case REMOVE_DATA_REQUEST:
+      return {
+        ...state,
+        data: [],
+      };
+      case Remove_Primary_Data_Request:
       return {
         ...state,
         data: [],
@@ -908,7 +914,12 @@ export const itemCustomizationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Item_Customizations_Data_Request:
       return { ...state, itemData: action.payload };
-    case Remove_ItemCust_Data_Request:
+    case REMOVE_DATA_REQUEST:
+      return {
+        ...state,
+        itemData: [],
+      };
+      case Remove_ItemCust_Data_Request:
       return {
         ...state,
         itemData: [],
@@ -929,6 +940,11 @@ export const PricingDetailReducer = (state = PricingDetailPage, action) => {
     case Pricing_Detail_Data_Request:
       return { ...state, prizingData: action?.payload };
     case REMOVE_DATA_REQUEST:
+      return {
+        ...state,
+        prizingData: [],
+      };
+      case Remove_Pricing_Data_Request:
       return {
         ...state,
         prizingData: [],
