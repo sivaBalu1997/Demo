@@ -260,6 +260,7 @@ const PrimaryPage = () => {
     (state: any) =>
       state?.getPopularItemReducer?.popularItems?.data?.popularItemCount
   );
+  
   const mergedMockData = [...Mockdata, ...addedData];
   const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
     useState<Item[]>();
@@ -555,7 +556,7 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.subCategoryData.data
   );
   const message = useSelector(
-    (state: any) => state?.getItemCodeReducer?.itemCode?.data
+    (state: any) => state?.getItemCodeReducer?.itemCode?.data?.message
   );
   const messageLoader = useSelector(
     (state: any) => state?.getItemCodeReducer?.loading
@@ -708,6 +709,8 @@ const PrimaryPage = () => {
       })
     );
   }, []);
+
+  console.log("message",message?.length)
 
   return (
     <div style={{ display: "flex" }}>
@@ -1089,12 +1092,13 @@ const PrimaryPage = () => {
                   </div>
                 </div>
 
-                <div className="Primary-page-InputFields">
-                  {" "}
+                <div className={message?.length > 10 ? "barcode" : "Primary-page-InputFields"}>
+                {" "}
                   <LableComponent lable="Upc / Barcode number" />
                   <Controller
                     name="barCode"
                     control={control}
+                  
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="barCode"
