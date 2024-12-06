@@ -357,8 +357,6 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
-  console.log({ItemsPrimaryDetails})
-
   useEffect(() => {
     setValue("coloriePoint", calorieInfo);
   }, [calorieInfo]);
@@ -488,7 +486,6 @@ const PrimaryPage = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    console.log(";;;;",files)
     if (files) {
       const validImageTypes = ["image/jpeg", "image/png"];
       const maxSizeInBytes = 2 * 1024 * 1024;
@@ -524,7 +521,6 @@ const PrimaryPage = () => {
       } else {
         setRestrictToAdd(true);
       }
-      console.log("fileArray",fileArray)
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...fileArray];
         const updatedImageUrls = updatedImages.map((image) => image);
@@ -610,8 +606,6 @@ const PrimaryPage = () => {
       setValue("popularItem", false);
     }
   };
-
-  console.log({dietaryData})
 
   const handleReset = () => {
     setValue("itemName", "");
@@ -712,8 +706,6 @@ const PrimaryPage = () => {
       })
     );
   }, []);
-
-  console.log("message",message?.length)
 
   return (
     <div style={{ display: "flex" }}>

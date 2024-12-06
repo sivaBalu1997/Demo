@@ -301,7 +301,6 @@ export const MenuPage = () => {
   const editData = useSelector((state) => state.productCatalog.editData || []);
 
   useEffect(() => {
-    console.log('hi', {editData})
     dispatch(removeDataRequest());
   }, []);
 

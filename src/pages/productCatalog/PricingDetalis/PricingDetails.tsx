@@ -776,11 +776,7 @@ const PricingDetails = () => {
   const handleValidationCheck = () => {
     if (validationFunction) {
       const isValid = validationFunction(); 
-      console.log("Validation Result:", isValid);
-      
-    } else {
-      console.log("No validation function provided by child");
-      
+    } else {      
     }
   };
   return (

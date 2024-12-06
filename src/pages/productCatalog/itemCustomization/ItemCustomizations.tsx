@@ -120,7 +120,6 @@ const ItemCustomizations: React.FC<any> = () => {
     const filtered = ListOfmodifier?.filter((modifier: any) =>
       modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
     );
-    console.log({filtered});
     
     setModifierList(filtered);
   }, [ListOfmodifier, searchQuery]);
@@ -173,9 +172,7 @@ const ItemCustomizations: React.FC<any> = () => {
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       setShowModifiers(!showModifiers);
-      console.log({itemCustomizationData});
       
-
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
@@ -329,8 +326,6 @@ const ItemCustomizations: React.FC<any> = () => {
     setModifications((prev: any) => {
       const updated = [...prev];
       const deletedId = updated[modIndex].modifierId; // Retrieve the modifier ID
-      console.log({ deletedId });
-      console.log({ modIndex });
   
       // Remove the modifier from the array
       updated.splice(modIndex, 1);
@@ -355,9 +350,6 @@ const ItemCustomizations: React.FC<any> = () => {
       return updatedErrors;
     });
   };
-  
-
-  console.log(modifications);
   
   const addOption = (index: number) => {
     setModifications((prevModifications: any) => {
@@ -392,7 +384,6 @@ const ItemCustomizations: React.FC<any> = () => {
     optIndex: number,
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("Updating:", { modIndex, optIndex, fieldName: e.target.name, newValue: e.target.value });
     
     setModifications((prevModifications: any) => {
       const newModifier = prevModifications.map((mod: any, index: number) => {
@@ -437,9 +428,7 @@ const ItemCustomizations: React.FC<any> = () => {
         }
         return mod;
       });
-  
-      console.log("Updated Modifier:", newModifier);
-  
+    
       const updatedModifierId = newModifier[modIndex]?.modifierId;
       if (updatedModifierId) {
         setUpdatedModifierIds((prevIds) => {
@@ -635,9 +624,7 @@ const ItemCustomizations: React.FC<any> = () => {
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
-    console.log("Modifiers123",Modifiers);
     
-
     const updatedModifiers = {
       ...Modifiers,
       isEnabled:true,
@@ -875,7 +862,6 @@ const ItemCustomizations: React.FC<any> = () => {
   
   const validateModifiers = (modifications: any[]) => {
     const errors = [...customizationerrors];
-    console.log({ modifications });
 
     modifications?.forEach((modifier, index) => {
       const {
