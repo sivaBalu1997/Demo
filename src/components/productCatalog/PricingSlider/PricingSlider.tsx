@@ -345,7 +345,7 @@ const PricingSlider: any = ({}) => {
                       className="OrderType-Name"
                       style={{ opacity: enableOrNot ? "100%" : "50%" }}
                     >
-                      {price.typeName}
+                      {price.typeName}:
                     </h3>
                     <div
                       className="SectionA-Input"

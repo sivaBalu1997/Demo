@@ -1,8 +1,11 @@
 import React, { useContext, useState } from "react";
 import "./AvailCalender.scss";
-import DatePicker from "react-datepicker";
+import DatePicker,{ registerLocale} from "react-datepicker";
+import { setDefaultLocale } from "react-datepicker";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useSelector } from "react-redux";
+import "react-datepicker/dist/react-datepicker.css";
+import { enUS } from "date-fns/locale";
 
 interface modelshow {
   setShowcalender: any;
@@ -158,21 +161,38 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
     selectedDatee &&
     selectedTimePeriod &&
     formatDateTime(selectedDatee, formattedTime, selectedTimePeriod);
+    const customDayNames = ["S", "M", "T", "W", "T", "F", "S"];
+
+    // Create a custom locale by extending `enUS`
+    const customLocale = {
+      ...enUS,
+      localize: {
+        ...enUS.localize,
+        day: (n: number) => customDayNames[n], // Override day names
+      },
+    };
+    
+    // Register the custom locale
+    registerLocale("custom", customLocale);
 
   return (
     <div className="AvailCalenderContainer">
       <div className="AvailCalenderWindow">
         <div className="AvailCalenderForm">
           <h2 className="AvailCalenderHeading">Availability Changes Until</h2>
-          <div>
+          <div className="date-picking-div" >
             <DatePicker
               selected={selectedDatee}
               onChange={handleDateChange}
               inline
               minDate={new Date()}
+               locale="custom"
             />
           </div>
           <div className="AvailCalenderInputContainer">
+
+
+            <div className="time-input-fields">
             <div>
               <input
                 type="number"
@@ -198,6 +218,8 @@ const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'hours' 
                 name="minutes"
               />
             </div>
+            </div>
+           
             <div
               className={`AvailCalenderAm ${
                 selectedTimePeriod === "AM" ? "Calselected" : ""

@@ -563,8 +563,8 @@ const [canceledChanges,setcanceledChanges]=useState(true);
 
                   return(
                     <div key={typeIndex} className="TypeHeading1">
-                    <h3 className="SectionASectionBSectionHeading" style={{opacity:Enabledtoedit?"100%":"50%"}}>{type?.typeName}</h3>
-                    <div className="" style={{marginLeft:"55px"}}>
+                    <h3 className="SectionASectionBSectionHeading" style={{opacity:Enabledtoedit?"100%":"50%"}}>{type?.typeName}:</h3>
+                    <div className="" style={{marginLeft:"20px",marginTop:"3px"}}>
                       <ToggleSliderAvail
                         toggle={type?.availabilityEnabled &&type?.isEnabled===1 && type?.isNotHide===1}
                         Enable={type.isEnabled===1 && type?.isNotHide===1}

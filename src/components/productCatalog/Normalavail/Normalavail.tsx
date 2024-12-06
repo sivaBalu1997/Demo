@@ -109,6 +109,7 @@ interface NormalavailProps {
   setSelectedValues2: (form: any) => void;
   resetSelection?: any;
   setValidationFunction: any;
+  getValues:any
 }
 
 type MealType1 = string;
@@ -151,6 +152,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       ValidationStateerr,
       resetSelection,
       setValidationFunction,
+      getValues
     } = props;
 
     const [online, setOnline] = useState(false);
@@ -540,6 +542,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+        const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
+        console.log("hjk",prizingDetail?.normalForm);
+        console.log({dineIndetail,dineIndetails});
+        
+        
 
         const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
           (data: any, index: number) => data.typeId === dineIndetail?.typeId
@@ -618,13 +625,21 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         );
 
         const updatedField = {
-          DineInPrice: dineIndetail?.price,
-          DineInMealType: dineIndetail?.availabilities && dineIndetail?.availabilities[0]?.sessions,
+          DineInPrice: dineIndetails?.price,
+          DineInMealType: dineIndetails?.availabilities && dineIndetails?.availabilities[0]?.sessions,
           showDay: prizingDetail.normalForm.DineIn[0]?.length > 0 ? true : false,
           dayButtonText: "Choose Day",
         };
-
+  
+        console.log("fghj",updatedField.DineInMealType);
+        console.log();
+        
+        
         setDineInFields([updatedField]);
+        if(updatedField.DineInPrice || updatedField.DineInMealType )
+        {
+      setShowDineIn(true)
+        }
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
@@ -644,6 +659,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdPartyTypeName =
           prizingDetail?.normalForm?.thirdpartyDetails?.map;
         if (pickupDetails) {
+          setPickup(true) 
+          setOnline(true)
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
@@ -654,6 +671,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
 
         if (deliveryDetails) {
+          setPickup(true) 
+          setOnline(true)
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
@@ -1207,6 +1226,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
+
+      const Kitchenstationdata=getValues("kitchenstation");
+      console.log({Kitchenstationdata});
+      if(Kitchenstationdata===""|| Kitchenstationdata===undefined)
+      {
+        validationErrors[`kitchenstation`] = "kitchen station is required";
+      }
 
       dineinfields?.forEach((field: any, index: number) => {
         if (showDineIn) {

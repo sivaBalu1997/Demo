@@ -119,6 +119,7 @@ export interface SubmitButtonProps {
   itemcodeValid?:boolean;
   errors?:any
   validateModifiers?:any;
+  valiadtesubCategory?:any
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
@@ -132,7 +133,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   handleValidate,
   itemcodeValid,
   errors,
-  validateModifiers
+  validateModifiers,
+  valiadtesubCategory
 }) => {
   const history = useHistory();
   const { isExpanded ,setValiadtePriceFields} = useContext(Contextpagejs);
@@ -194,30 +196,41 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
-    if (seletedpage === "Primary" && triggerValidation && itemcodeValid) {
-      const isFormValid = await triggerValidation(formData);
+    if (seletedpage === "Primary" && triggerValidation && itemcodeValid && valiadtesubCategory) {
+    
+      
+      const isFormValid = await triggerValidation(formData) 
+     const valiadtesubcategorynn= valiadtesubCategory()
+       console.log("valiadte",  valiadtesubcategorynn);
+       
+            
 
       const formImageIds = formData?.imageUrls?.map((image: any) => image.file.name);
       const editImageIds = editData[0]?.mediaResponseList?.map((media: any) => media.imageId);
 
       const isImageDeleted = editImageIds?.some((imageId: any) => !formImageIds?.includes(imageId));
      
-      if (!isFormValid) {
+      if (!isFormValid ) {
         window.scrollTo({
           top: 0,
           behavior: "smooth",
         });
         return;
       } else {
-        history.push({
-          pathname: `/productCatalog/Pricingandkitchendetails`,
-          state: { pagename: "Pricing and kitchen details" },
-        });        
-        dispatch(primarypost(
-          { 
-            ...formData, 
-            isImageDeleted 
-          }));
+
+        if(valiadtesubcategorynn)
+        {
+          history.push({
+            pathname: `/productCatalog/Pricingandkitchendetails`,
+            state: { pagename: "Pricing and kitchen details" },
+          });        
+          dispatch(primarypost(
+            { 
+              ...formData, 
+              isImageDeleted 
+            }));
+        }
+        
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
       const isValid = handleValidate && handleValidate();
@@ -230,6 +243,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       
      
       const isinValid = await triggerValidation(formData);
+
+    
 
       if (formData.kitchenstation) {
         PricingDetails = {
