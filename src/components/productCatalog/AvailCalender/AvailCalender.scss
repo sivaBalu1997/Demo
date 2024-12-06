@@ -70,18 +70,19 @@
     padding: 2px;
     color: black;
     padding: 2px;
+    cursor: pointer;
     
    
   }
   .AvailCalenderPm{
     border:1px solid rgba(103, 131, 62, 1);
     color: white;
-    width:32.08px;
+    width:31.08px;
     height:24.02px;
     padding: 2px;
     color: black;
     
-    transform: translate(-20px);
+    transform: translate(-21px);
     border-top-right-radius:10px;
     cursor: pointer;
   }
@@ -89,6 +90,7 @@
     cursor: pointer;
   background-color: rgba(103, 131, 62, 1);
   color: white;
+  width: 40px;
   }
   .AvailCalenderButton{
     margin-top: 20px;
@@ -96,6 +98,7 @@
     justify-content: flex-start;
     gap:40px;
     margin-left: 30px;
+    
   }
   .AvailCancel{
     width: 120px;
@@ -103,7 +106,8 @@
     border:1px solid rgba(103, 131, 62, 1);
     font-size: 14px;
     background-color: white;
-    color:rgba(103, 131, 62, 1)
+    color:rgba(103, 131, 62, 1);
+    cursor: pointer;
 
   }
   .AvailChange{
@@ -112,13 +116,16 @@
     border:1px solid rgba(103, 131, 62, 1);
     font-size: 14px;
     background-color: rgba(103, 131, 62, 1);
-    color:white
+    color:white;
+    cursor: pointer;
+
   }
 
   .Am-Heading{
-    transform: translateY(-15px);
+    
+    text-align: center;
+
   }
   .Pm-Heading{
-    transform: translateY(-15px);
-
+    text-align: center;
   }
