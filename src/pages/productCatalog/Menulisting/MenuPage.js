@@ -938,7 +938,7 @@ export const MenuPage = () => {
                   }`}
                 >
                   <div className="second-div-header">
-                    {firstRowTable.map((header, index) => (
+                    {firstRowTable.length>1&& firstRowTable.map((header, index) => (
                       <>
                         {listingobject && listingobject[header.label] && (
                           <p
