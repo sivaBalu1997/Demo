@@ -52,6 +52,8 @@ interface DropdownProps {
   resetSelection?: any;
   parentId?: any;
   bestpair?: boolean;
+  errormsg?:string;
+  valiadtesubCategory?:any;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -77,6 +79,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   resetSelection,
   setParentId,
   parentId,
+  errormsg,
+  valiadtesubCategory
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -405,6 +409,9 @@ const DropDownList: React.FC<DropdownProps> = ({
       dropDownType === "CATEGORY" && setParentId(option?.id);
     }
 
+    if (dropDownType === "SUB_CATEGORY") {
+      valiadtesubCategory()
+    }
     setSearchTerm("");
     setManuallyCleared(false);
   };
@@ -489,6 +496,9 @@ const DropDownList: React.FC<DropdownProps> = ({
     if (dropDownType === "CATEGORY") {
       setSubCategoryId(option.id);
     }
+    if (dropDownType === "SUB_CATEGORY") {
+      valiadtesubCategory()
+    }
     setSearchTerm("");
     // if(dropDownType === "SUB_CATEGORY") {
     //   console.log({option})
@@ -551,7 +561,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     setShowselectedOption(false);
     setManuallyCleared(false);
     if (dropDownType !== "SUB_CATEGORY") {
-      dispatch(fetchDropDownRequest(payload));
+      dispatch(fetchDropDownRequest(payload)); 
     }
     if (subcategorydataforApi.parentId !== "") {
       dispatch(fetchDropDownRequest(subcategorydataforApi));
@@ -582,7 +592,7 @@ const DropDownList: React.FC<DropdownProps> = ({
             // onBlur={handleBlur}
             autoComplete="off"
             className={`dropdown-search ${
-              Disablesubcategory && name === "subCategory"
+              !Disablesubcategory && name === "subCategory"
                 ? "subCategorysearch disabled"
                 : ""
             }`}
@@ -602,12 +612,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  if (
-                    (name !== "subCategory" && !Disablesubcategory) ||
-                    (name === "subCategory" && Disablesubcategory)
-                  ) {
-                    handleBelowArrowdropdown();
-                  }
+                  handleBelowArrowdropdown();
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"
@@ -617,7 +622,11 @@ const DropDownList: React.FC<DropdownProps> = ({
         </div>
 
         <div style={{ margin: 0 }}>
-          {error && <p className="Dropdown-Error-message">{error.message}</p>}
+        {
+          errormsg ? <p className="Dropdown-Error-message" >{errormsg}</p>:
+          error && <p className="Dropdown-Error-message" style={{marginTop:name === "kitchenstation"?"1rem":"",paddingBottom:name === "kitchenstation"?"0.3rem":""}}>{error.message}</p>
+        }
+        
         </div>
       </div>
 

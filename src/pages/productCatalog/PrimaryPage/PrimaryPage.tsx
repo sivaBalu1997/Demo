@@ -229,6 +229,8 @@ const PrimaryPage = () => {
     },
   });
 
+ 
+
   const [popularItem, setPopularItem] = useState<any>(0);
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
 
@@ -712,6 +714,32 @@ const PrimaryPage = () => {
 
   console.log("message",message?.length)
 
+const [subcategortError,setsubcategortError]=useState("");
+
+  const valiadtesubCategory=()=>{
+
+    const categoryList=getValues("category")
+    const subcategoryList=getValues("subCategory")
+console.log({categoryList,subcategoryList});
+
+
+    if(categoryList!==""&&subcategoryList==="" && subCategoryData.length>0)
+    {
+      setsubcategortError("subcategory is required")
+      console.log("error occured");
+      
+
+      return false;
+    }
+    else
+    {
+      setsubcategortError("")
+    }
+    return true;
+
+
+  }
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -740,6 +768,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
+                    defaultValue="" 
                     rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
@@ -864,9 +893,9 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
-                          error={errors.bestPair}
+                          // error={errors.bestPair}
                           bestpair={true}
-                          validation={{ required: "Best Pair is required" }}
+                          // validation={{ required: "Best Pair is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -1016,6 +1045,7 @@ const PrimaryPage = () => {
                     <Controller
                       name="itemCode"
                       control={control}
+                      defaultValue="" 
                       // required: "Item code is required",
                       rules={{
                         validate: (value) => {
@@ -1169,6 +1199,10 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
+                          // validation={{ required: "subCategory is required" }}
+                          // error={errors.subCategory}
+                          valiadtesubCategory={valiadtesubCategory}
+                          errormsg={subcategortError}
                           addNew={true}
                           editValues={true}
                           dropdownopen={DropdownOpen.subCategory}
@@ -1432,6 +1466,7 @@ const PrimaryPage = () => {
               reset={handleReset}
               itemcodeValid={itemcodeValid}
               triggerValidation={() => trigger()}
+              valiadtesubCategory={valiadtesubCategory}
             />
             {/* </form> */}
           </div>

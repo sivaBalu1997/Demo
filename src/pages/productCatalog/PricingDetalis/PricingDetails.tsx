@@ -1109,6 +1109,7 @@ const PricingDetails = () => {
                 setValidationStateerr={setValidationStateerr}
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}
+                getValues={getValues}
                 setValidationFunction={setValidationFunction}
               />
             ) : (
@@ -1151,6 +1152,7 @@ const PricingDetails = () => {
               triggerValidation={() => trigger()}
               mainForm={mainForm}
               handleValidate={validationFunction}
+             
             />
           </div>
         </div>

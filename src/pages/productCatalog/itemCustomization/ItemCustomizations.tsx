@@ -776,10 +776,10 @@ const ItemCustomizations: React.FC<any> = () => {
     optionIndex: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const errors = [...customizationerrors]; // Clone the existing errors
-    const inputValue = e.target.value.trim(); // Get the trimmed input value
+    const errors = [...customizationerrors]; 
+    const inputValue = e.target.value.trim(); 
   
-    // Retrieve existing modifier error or initialize a new one
+
     const modifierErrors = errors[parentIndex] || {
       modifierNameError: "",
       id: modifications[parentIndex]?.modifierId || "",
@@ -787,10 +787,9 @@ const ItemCustomizations: React.FC<any> = () => {
       options: [],
     };
   
-    // Ensure the options array exists within modifierErrors
+    
     modifierErrors.options = modifierErrors.options || [];
   
-    // Retrieve the existing error for the specific option or initialize a new one
     const optionErrors = modifierErrors.options[optionIndex] || {
       optionName: modifications[parentIndex]?.modifierOptions[optionIndex]?.modifierOptionName || "",
       optionId: modifications[parentIndex]?.modifierOptions[optionIndex]?.modifierOptionId || "",
@@ -799,23 +798,22 @@ const ItemCustomizations: React.FC<any> = () => {
       optionPriceError: "",
     };
   
-    // Validate the option name
     const nameRegex = /^[a-zA-Z0-9\s]+$/;
-    if (!inputValue) {
+    if (!inputValue && modifications[parentIndex]?.modifierName!=="") {
       optionErrors.optionNameError = `Option Name is required`;
-    } else if (!nameRegex.test(inputValue)) {
+    } else if (!nameRegex.test(inputValue)   && modifications[parentIndex]?.modifierName!=="") {
       optionErrors.optionNameError = `Option Name must not contain special characters`;
     } else {
-      optionErrors.optionNameError = ""; // Clear error if valid
+      optionErrors.optionNameError = ""; 
     }
   
-    // Update the specific option error
+
     modifierErrors.options[optionIndex] = optionErrors;
   
-    // Update the errors for the current modifier
+ 
     errors[parentIndex] = modifierErrors;
   
-    // Update the state with the modified errors
+  
     setcustomizationerrors(errors);
   };
   
@@ -849,20 +847,17 @@ const ItemCustomizations: React.FC<any> = () => {
       optionPriceError: "",
     };
   
-    // Validate the option price
-    if (inputValue <= 0) {
+  
+    if (inputValue <= 0 && modifications[parentIndex]?.modifierName) {
       optionErrors.optionPriceError = `Price field is required`;
     } else {
-      optionErrors.optionPriceError = ""; // Clear the error if the price is valid
+      optionErrors.optionPriceError = ""; 
     }
   
-    // Update the specific option errors
     modifierErrors.options[optionIndex] = optionErrors;
-  
-    // Update the errors for the current modifier
+
     errors[parentIndex] = modifierErrors;
   
-    // Update the state with the modified errors
     setcustomizationerrors(errors);
   };
   
@@ -879,20 +874,20 @@ const ItemCustomizations: React.FC<any> = () => {
         selectionType,
       } = modifier;
 
-      // Initialize error object for the current modifier
+     
       let modifierErrors: any = {
         modifierNameError: modifierName.trim()
           ? ""
-          : `Modifier Name is required`,
+          : ``,
         id: modifierId || "",
         errormsgforselectedvalues: "",
         options: [],
       };
 
-      if (!modifierName.trim()) {
-        modifierErrors.modifierNameError = `Modifier Name is required`;
-      }
-      if (selectedValue.length === 0) {
+      // if (!modifierName.trim()) {
+      //   modifierErrors.modifierNameError = `Modifier Name is required`;
+      // }
+      if (selectedValue.length === 0 && modifierName!=="") {
         modifierErrors.errormsgforselectedvalues = "Available service streams required";
       }
 
@@ -906,16 +901,16 @@ const ItemCustomizations: React.FC<any> = () => {
             optionPriceError: "",
           };
 
-          // Validate Option Name
-          const nameRegex = /^[a-zA-Z0-9\s]+$/; // Allow alphanumeric and spaces
-          if (!option.modifierOptionName.trim()) {
+          const nameRegex = /^[a-zA-Z0-9\s]+$/;
+          if (!option.modifierOptionName.trim() && modifierName!=="") {
             optionErrors.optionNameError = `Option Name is required`;
-          } else if (!nameRegex.test(option.modifierOptionName)) {
-            optionErrors.optionNameError = `Option Name must not contain special characters`;
-          }
+          } 
+          // else if (!nameRegex.test(option.modifierOptionName && modifierName!=="")) {
+          //   optionErrors.optionNameError = `Option Name must not contain special characters`;
+          // }
 
-          // Validate Option Price
-          if (isNaN(option.cost) || option.cost <= 0) {
+        
+          if (isNaN(option.cost) || option.cost <= 0 && modifierName!=="") {
             optionErrors.optionPriceError = `Price field is required`;
           }
 
@@ -927,7 +922,6 @@ const ItemCustomizations: React.FC<any> = () => {
         });
       }
 
-      // Push errors for the current modifier if any exist
       if (
         modifierErrors.modifierNameError ||
         modifierErrors.errormsgforselectedvalues ||
@@ -937,17 +931,17 @@ const ItemCustomizations: React.FC<any> = () => {
       ) {
         errors[index] = modifierErrors;
       } else {
-        errors[index] = null; // No errors for this modifier
+        errors[index] = null; 
       }
     });
 
-    // Update customization errors in state
+ 
     setcustomizationerrors(errors);
 
-    // Check if all modifiers are valid
+    
     const validateCustomizationErrors = () => {
       return errors.every((error) => {
-        if (!error) return true; // No errors for this modifier
+        if (!error) return true; 
         const hasNoTopLevelErrors =
           error.modifierNameError === "" &&
           error.errormsgforselectedvalues === "";
@@ -1176,7 +1170,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                         modifier.selectionType
                                       );
                                     }
-                                    valiadteModifierName(modIndex,e);
+                                    // valiadteModifierName(modIndex,e);
                                   }}
                                   // onBlur={(e) => handleBlur(e, modIndex)}
                                 />
