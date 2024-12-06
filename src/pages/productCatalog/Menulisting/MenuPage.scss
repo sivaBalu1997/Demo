@@ -2,6 +2,8 @@
   display: flex;
   padding: 0;
   margin: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -20,8 +22,9 @@
   height: 38rem;
   margin-top: 1%;
   overflow-x: hidden;
+  overflow-y: hidden;
   // border: 1px solid black;
-  margin-left: 10px;
+  // margin-left: 10px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -36,7 +39,7 @@
   height: 38rem;
   margin-top: -2%;
   // border: 1px solid black;
-  margin-left: 10px;
+  // margin-left: 10px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -58,8 +61,9 @@
   margin-top: 1rem;
   display: flex;
   overflow-x: hidden;
+  padding: 0;
   &::-webkit-scrollbar {
-    width: 12px;
+    width: 16px;
   }
 
   &::-webkit-scrollbar-track {
@@ -88,21 +92,25 @@
   display: flex;
   overflow-x: hidden;
   width: 100%;
+  padding: 0;
+
   // border: 1px solid red;
 
   &::-webkit-scrollbar {
-    width: 12px;
+    width: 16px;
   }
 
   &::-webkit-scrollbar-track {
     background: #b3b3b3;
+    
   }
 
   &::-webkit-scrollbar-thumb {
     background: #5f5f5f;
     border-radius: 10px;
-    width: 100px !important;
-    height: 17px;
+    width: 10px !important;
+    height: 10px !important;
+    padding: 4px !important;
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -126,38 +134,43 @@
     z-index: 1;
     background-color: white;
     // gap:2rem;
+    // padding-left: 1.5rem;
 
     .image {
-      width: 5rem;
+      width: 4.5rem;
       padding: 5px;
+      padding-left: 1.5rem;
       //  border: 1px solid blue;
     }
     .name-item {
-      width: 10rem;
+      width: 8.6rem;
       // border: 1px solid blue;
       padding: 5px;
+      padding-left: 1.5rem;
     }
     .item-code {
       width: 4rem;
       padding: 5px;
+      padding-left: 0;
       display: flex;
       cursor: pointer;
     }
   }
 
   .addbtn-menupage{
-    border: 1px solid black;
+    border: 0.5px solid #5F5F5F;
     background-color: white;
-    width: 30px;
-    padding-left: 8px;
+    width: 25px;
+    // padding-left: 8px;
     padding-right: 8px;
-    height: 27px;
+    height: 30px;
     margin-left: 11px;
     border-radius: 4px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    padding-top: 3px;
+    // padding-top: 3px;
+
   }
 
   .spanAddBtn{
@@ -204,14 +217,16 @@
 }
 
 .itemimage2 {
-  width: 5rem;
+  width: 4.5rem;
   padding: 5px;
+  padding-left: 1.5rem;
 }
 
 .itemname2 {
-  width: 10rem;
+  width: 8.85rem;
   // border: 1px solid blue;
   padding: 5px;
+  padding-left: 1rem;
 }
 .itemcode2 {
   width: 4rem;
@@ -254,14 +269,15 @@
     p {
       padding: 0;
       margin: 0;
+      padding-left: 0.5rem;
       height: 2.5rem;
       display: flex;
       align-items: center;
       justify-content: left;
       background-color: #e2e0e0;
       border-right: 1px solid #b3b3b3;
-      font-weight:500;
-      font-size: 18px;
+      font-weight:600;
+      font-size: 20px;
       // border: 1px solid red;
     }
   }
@@ -311,7 +327,7 @@
       justify-content: left;
       background-color: #e2e0e0;
       border-right: 1px solid #b3b3b3;
-      width: 229.7% !important;
+      width: 189% !important;
       // width: 63.5rem;
     }
   }
@@ -368,7 +384,7 @@
       justify-content: left;
       background-color: #e2e0e0;
       border-right: 1px solid #b3b3b3;
-      width: 191.9% !important;
+      width: 157.8% !important;
       // width: 63.5rem;
     }
   }
@@ -398,6 +414,7 @@
   align-items: center;
   border: 0.5px solid #b3b3b3;
   gap: 0.2rem;
+  border-radius: 4px;
 }
 .dollar {
   position: relative;
@@ -405,15 +422,19 @@
 }
 .removeicon {
   position: relative;
-  top: 0.4rem;
-  left: 1.4rem;
+  // top: 0.4rem;
+  // left: 0.5rem;
   // border: 2px solid;
   cursor: pointer;
-  padding: 4px;
+  // padding: 4px;
 }
 .removeicon-img{
   // border: 2px solid gold;
-  padding: 4px;
+  // padding: 4px;
+  padding-right: -1px;
+  position: relative;
+  right: -0.5rem;
+  
  
 }
 
@@ -436,14 +457,14 @@
 // }
 
 .dineindata {
-  width: 154px;
+  width: 124px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 .pickupdata {
-  width: 154px;
+  width: 124px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -452,7 +473,7 @@
 }
 .deliverydata {
   display: flex;
-  width: 154px;
+  width: 124px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -461,7 +482,7 @@
 }
 
 .Customizedata {
-  width: 164px;
+  width: 134px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -471,7 +492,7 @@
 }
 
 .gloriafooddata {
-  width: 200px;
+  width: 170px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -481,7 +502,7 @@
 }
 
 .instoredata {
-  width: 154px;
+  width: 124px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -490,7 +511,7 @@
 }
 
 .DineIn {
-  width: 154px;
+  width: 124px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -498,7 +519,7 @@
   // border: 1px solid red;
 }
 .Pickup {
-  width: 154px;
+  width: 124px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -506,7 +527,7 @@
   // border: 1px solid red;
 }
 .Delivery {
-  width: 154px;
+  width: 124px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -515,7 +536,7 @@
   position: relative;
 }
 .Customize {
-  width: 164px;
+  width: 134px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -524,7 +545,7 @@
   // border: 1px solid red;
 }
 .GloriaFood {
-  width: 200px;
+  width: 170px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -533,7 +554,7 @@
   // border: 1px solid red;
 }
 .Instore {
-  width: 154px;
+  width: 124px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -562,8 +583,8 @@
 
 .headingstextlist1 {
   position: absolute;
-  top: 14.0%;
-  left: 28.5vw;
+  top: 15.5%;
+  left: 28.6vw;
   z-index: 2;
   width: 230px;
   height: 357px;
@@ -580,6 +601,14 @@
   ul,
   li {
     list-style: none;
+  }
+  .sub-texts-fileds {
+    position: relative;
+    // top: 0.1rem;
+    // left: -0.5rem;
+    top: 0.05rem;
+
+    cursor: pointer;
   }
   .insertheading {
     width: 217px;
@@ -642,8 +671,11 @@
       }
     }
     .pricingheadtext {
+      display: flex;
+      justify-content: left;
+      align-items: center;
       span {
-        margin-top: -5px;
+        // margin-top: -5px;
       }
     }
     .availheadtext {
@@ -672,6 +704,8 @@
     }
     .indenttexts {
       margin-left: -0.5rem;
+      display: flex;
+      flex-direction: column;
       span {
         padding-left: 5px;
       }
@@ -681,7 +715,7 @@
 
 .headingstextlist {
   position: absolute;
-  top: 13.5%;
+  top: 16.5%;
   left: 19.5vw;
   z-index: 2;
   width: 217px;
@@ -694,6 +728,7 @@
   li {
     list-style: none;
   }
+  
   .insertheading {
     width: 217px;
     height: 42px;
@@ -733,6 +768,7 @@
       flex-direction: row;
       justify-content: left;
       align-items: center;
+      margin-left: 1rem;
       // border: 1px solid red;
       height: 2rem;
 
@@ -754,6 +790,9 @@
       }
     }
     .pricingheadtext {
+      display: flex;
+      gap: 0.3rem;
+      
       span {
         margin-top: -5px;
       }
@@ -797,11 +836,13 @@
 .sub-texts-fileds {
   position: relative;
   top: -0.2rem;
+  left: -0.5rem;
   cursor: pointer;
 }
 .inner-text-input {
   display: flex;
   justify-content: left;
+  gap: 0.3rem;
   align-items: center;
   input {
   }

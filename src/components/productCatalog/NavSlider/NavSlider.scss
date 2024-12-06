@@ -45,7 +45,7 @@
 }
 .type-div {
   width: 420px;
-  border: 1px solid rgba(217, 217, 217, 1);
+  border: 0.1px solid #B3B3B3;
   transform: translateY(-2px);
   height: 1px;
 }
@@ -58,7 +58,7 @@
 
   flex-direction: column;
   &::-webkit-scrollbar {
-    width: 10px !important;
+    width: 15px !important;
     height: 15px !important;
   }
 
