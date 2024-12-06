@@ -298,6 +298,8 @@ export const MenuPage = () => {
     setDraggedIndexsample(index);
   };
 
+  const editData = useSelector((state) => state.productCatalog.editData || []);
+
   useEffect(() => {
     dispatch(removeDataRequest());
   }, []);
@@ -578,7 +580,6 @@ export const MenuPage = () => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, []);
 
-  const editData = useSelector((state) => state.productCatalog.editData || []);
 
   const primarypage = useSelector((state) => state.primarypage);
   const prizingDetail = useSelector(
@@ -937,7 +938,7 @@ export const MenuPage = () => {
                   }`}
                 >
                   <div className="second-div-header">
-                    {firstRowTable.map((header, index) => (
+                    {firstRowTable.length>1&& firstRowTable.map((header, index) => (
                       <>
                         {listingobject && listingobject[header.label] && (
                           <p
@@ -1004,7 +1005,7 @@ export const MenuPage = () => {
                       {data?.itemResponseList?.length > 0 &&
                         data.name !== "" && (
                           <div className="categoryName-data">
-                            <p>{data.name} ({data?.itemResponseList?.length})</p>
+                            <p>{data.name}({data?.itemResponseList?.length})</p>
                           </div>
                         )}
 
@@ -1209,6 +1210,8 @@ export const MenuPage = () => {
                                             <span
                                               key={typeName}
                                               className={className}
+                                              style={{left:'1rem',position:'relative'}}
+                                              
                                               // style={{ opacity: isAvailEnabled ? "100%" : "50%" }}
                                               onClick={() =>
                                                 handlesidbarhandling(

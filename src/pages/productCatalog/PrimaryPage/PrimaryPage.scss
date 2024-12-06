@@ -37,12 +37,34 @@
       margin-top: -0.5rem;
       width: 1px;
       margin-left: -10px;
+      // @media(max-width: 1280px){
+      //   background-color: pink;
+      //   margin-left: -15px;
+      //   // width: fit-content;
+      //   // height: fit-content;
+      //   // margin-right: 8rem;
+      //   // transform: translateX(-15px);
+      // }
     }
 
     .tool-tip-item-code {
       width: fit-content;
       margin-top: -0.6rem;
       margin-left: -20px;
+      @media(max-width: 1280px){
+        // background-color: pink;
+        // margin-left: -50px;
+        // margin-right: 8rem;
+        transform: translateX(-35px);
+      }
+      @media(min-width: 1281px) and (max-width: 1440px){
+        // background-color: pink;
+        margin-left: -1.7rem;
+      }
+      @media(min-width: 1441px) and (max-width: 1536px){
+        // background-color: pink;
+        margin-left: -2.3rem;
+      }
     }
 
     .tool-tip-portion-size {
@@ -57,6 +79,14 @@
       width: fit-content;
       height: 50px;
       margin-top: -0.6rem;
+      @media(min-width: 1281px) and (max-width: 1440px){
+        // background-color: lightsalmon;
+        margin-left: -1.6rem;
+      }
+      @media(min-width: 1441px) and (max-width: 1536px){
+        margin-left: -0.6rem;
+        // background-color: lightgreen;
+      }
     }
   }
 
@@ -329,9 +359,9 @@
     transform: translateX(30px);
   }
 
-  .tool-tip-tax-class {
-    transform: translateX(50px);
-  }
+  // .tool-tip-tax-class {
+  //   transform: translateX(50px);
+  // }
 }
 
 @media (min-width: 1662px) and (max-width: 1826px) {

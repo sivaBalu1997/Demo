@@ -187,37 +187,48 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [categoryValue]);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value; 
+    setSearchTerm(value);   
+
+    const names = value.split(",").map((name) => name.trim());
+    
+    const updatedOptions = selectedOptions.filter((option) =>
+      names.includes(option.name)
+    );
+
+    setSelectedOptions(updatedOptions);
+  
+    const updatedSearchTerm = names.filter((name) =>
+      updatedOptions.some((option) => option.name === name)
+    ).join(", ");
+    setSearchTerm(updatedSearchTerm);
+  
+    if (type === "checkbox") {
+      setValue(name, updatedOptions.map((opt) => opt.name));
+    } else if (type === "radio") {
+      setValue(name, updatedOptions[0]?.name || "");
+    }
+    trigger(name);
+  
     if (value === "") {
       setManuallyCleared(true);
       setShowselectedOption(false);
-
-      if (type === "checkbox") {
-        setSelectedOptions([]);
-        setValue(name, []);
-        trigger(name);
-      } else if (type === "radio") {
-        setSelectedOptions([]);
-        setValue(name, "");
-        trigger(name);
-      }
-
+  
       if (dropdownopen) {
         onToggle();
       }
     } else {
       setManuallyCleared(false);
+  
       if (!dropdownopen) {
         onToggle();
       }
       setShowselectedOption(false);
     }
-
-    setOptions(filteredOptions);
   };
+  
 
   let subcategorydataforApi = {
     locationId: locationid,
@@ -357,7 +368,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       );
       const dropDown1 =
         dropDownName === undefined
-          ? ItemsPrimaryDetails?.subCategory
+          ? { name: ItemsPrimaryDetails?.subCategory, id: "1" }
           : dropDownName;
       setSelectedOptions(
         dropDownName === undefined ? [dropDown1] : [dropDownName]
@@ -404,10 +415,11 @@ const DropDownList: React.FC<DropdownProps> = ({
       trigger(name);
       dropDownType === "CATEGORY" && setParentId(option?.id);
     }
-
     setSearchTerm("");
     setManuallyCleared(false);
   };
+
+  name === 'DietaryType' && console.log({selectedOptions},{searchTerm},{manuallyCleared})
 
   const payload = {
     locationId: locationid,
@@ -602,12 +614,17 @@ const DropDownList: React.FC<DropdownProps> = ({
               <img
                 src={dropdown}
                 onClick={() => {
-                  // if (
-                  //   (name !== "subCategory" && !Disablesubcategory) ||
-                  //   (name === "subCategory" && Disablesubcategory)
-                  // ) {
+                  if (
+                    (name !== "subCategory" && !Disablesubcategory) ||
+                    ((name === "category" || 
+                      name === 'subCategory' ||
+                      name === 'cuisine' || 
+                      name === 'bestPair' || 
+                      name === 'DietaryType' || 
+                      name === 'kitchenstation') && Disablesubcategory)
+                  ) {
                     handleBelowArrowdropdown();
-                  // }
+                  }
                 }}
                 alt="dropdown"
                 className="dropdownimageopen"

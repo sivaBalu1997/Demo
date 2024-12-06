@@ -244,6 +244,15 @@ function* addSubsection(action) {
       // }
     } else {
       yield put(addDropDownFailure({ message: "Please try again" }));
+      console.log(response)
+
+      if(response.data.message && response.data.message.includes("already exist"))
+        {
+        showErrorToast(" Type already exist  . Please Try With Other Input  ")
+        yield put(addDropDownFailure({ message: "Please try again" }));
+
+      }
+      
     }
   } catch (err) {
     yield put(addDropDownFailure({ message: "Please try again" }));
@@ -294,11 +303,19 @@ function* getTagClassSaga(action) {
 function* getModifierSaga(action) {
   try {
     const response = yield call(getModifier, action.payload);
+
     if (response.status === 200) {
-      yield put(getModifierSuccess(response.data));
+      if (Array.isArray(response.data) && response.data.length === 0) {
+        yield put(getModifierFailed());
+        showErrorToast('No Modifier Present In Database');
+      } else {
+        yield put(getModifierSuccess(response.data));
+      }
     } else {
       yield put(getModifierFailed());
+      showErrorToast('No Modifier Present');
     }
+   
   } catch (err) {
     yield put(getModifierFailed());
   }
