@@ -137,7 +137,7 @@ const SearchBox = () => {
 
     setFilteredOptions([]);
   };
-
+  const highlightedRef = useRef(null);
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowDown') {
       setHighlightedIndex((prevIndex) => {
@@ -164,6 +164,13 @@ const SearchBox = () => {
       }
     }
 
+
+    setTimeout(() => {
+      highlightedRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }, 0);
     // if (e.key === 'Backspace') {
     //   if (optionSelected) {
     //     // If an option was selected, reset searchTerm and displayTerm
@@ -210,6 +217,7 @@ const SearchBox = () => {
               filteredOptions.map((option, index) => (
                 <li
                   key={index}
+                  ref={index === highlightedIndex ? highlightedRef : null}
                   onClick={() => handleOptionClick(option)}
                   className={`${index === highlightedIndex ? 'MLhighlighted' : ''}   ${isExpanded ? 'list-of-item-name-expand' : "list-of-item-name"}`}
                 >

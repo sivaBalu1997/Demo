@@ -305,7 +305,7 @@ const EyeModal = ({ onEyeclose, onclose }) => {
                 {elem.types.map((subItem, subIndex) => (
                   <div key={subItem.name} className="Radio-sub-Items-Flex">
                     <h1 className="Radio-sub-Items-Heading">
-                      {subItem.typeName || "s"}
+                      {subItem.typeName || "s"}:
                     </h1>
                     <input
                       className="checkbox-Items"
