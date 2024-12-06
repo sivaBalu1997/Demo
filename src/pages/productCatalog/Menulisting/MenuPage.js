@@ -1005,7 +1005,7 @@ export const MenuPage = () => {
                       {data?.itemResponseList?.length > 0 &&
                         data.name !== "" && (
                           <div className="categoryName-data">
-                            <p>{data.name} ({data?.itemResponseList?.length})</p>
+                            <p>{data.name}({data?.itemResponseList?.length})</p>
                           </div>
                         )}
 
@@ -1210,6 +1210,8 @@ export const MenuPage = () => {
                                             <span
                                               key={typeName}
                                               className={className}
+                                              style={{left:'1rem',position:'relative'}}
+                                              
                                               // style={{ opacity: isAvailEnabled ? "100%" : "50%" }}
                                               onClick={() =>
                                                 handlesidbarhandling(

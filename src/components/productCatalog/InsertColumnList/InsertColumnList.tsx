@@ -149,7 +149,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                     checked={isAllPricingChecked}
                     onChange={() => handleToggle("showPricing", pricelist)}
                   />
-                  <span onClick={() => handleToggle("showPricing", pricelist)}>
+                  <span onClick={() => handleToggle("showPricing", pricelist)} className="insert-column-header" >
                     {pricing}
                     <img src={dollaricon} alt="" className="dollaricon" />
                   </span>

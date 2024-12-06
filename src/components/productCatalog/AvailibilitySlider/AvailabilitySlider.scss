@@ -16,6 +16,7 @@
      
      font-size: 20px;
      font-weight: 500;
+     margin-left: 0.7rem;
      
  }
  .AvailHeading-Section{
@@ -60,7 +61,12 @@ text-align: right;
     width:100px;
     font-size: 16px;
     font-weight: 400;
-    color:black
+    color:black;
+   //  border: 1px solid red;
+    display: flex;
+    justify-content: right;
+    margin-left: -1.5rem;
+
        
  }
  .SectionASectionBSectionHeadingBlack{

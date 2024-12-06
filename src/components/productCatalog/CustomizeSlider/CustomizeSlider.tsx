@@ -284,6 +284,12 @@ const CustomizeSlider = () => {
    }
     
   };
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth.restaurantDetails
+  );
+  const Pricesymbol = `${
+    restaurantDetails?.country === "US" ? "$" : "Rs."
+  }`;
 
   return (
     <div className="customize-container">
@@ -320,7 +326,48 @@ const CustomizeSlider = () => {
                         pen={pen} 
                         Enable={true}
                       />
-                      <input
+
+
+<div
+                     className="input-subitem"
+                      
+                     style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",border:subitem.isEnabled?"1px solid black":"1px solid #5F5F5F"}}
+
+                    >
+                      {subitem.price !== 0 && (
+                        <span className="priceSymbol-customize">{Pricesymbol}</span>
+                      )}
+
+<input
+                        className="input-subitem-field"
+                        type="number"
+                        value={subitem.price}
+                        disabled={!subitem.isEnabled}
+                        onChange={(e) =>
+                          handlePriceChange(
+                            index,
+                            subindex,
+                            parseFloat(e.target.value),
+                            subitem.isEnabled,
+                            elem.modifierName,
+                            
+                            elem.isEnabled,
+                            elem.options,
+                            elem.modifierId,
+                            subitem.id,
+
+
+
+                          )
+                        }
+                        placeholder="$0.00"
+                      />
+                    </div>
+
+
+
+
+                      {/* <input
                         className="input-subitem"
                         type="number"
                         value={subitem.price}
@@ -344,7 +391,7 @@ const CustomizeSlider = () => {
                           )
                         }
                         placeholder="$0.00"
-                      />
+                      /> */}
                     </div>
                   </div>
                 </div>
