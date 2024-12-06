@@ -16,7 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteModifierRequest,
   getModifierRequest,
+  itemCustomizationClear,
   itemCustomizationPost,
+  removeDataRequest,
   updateModifierData,
 } from "../../../redux/productCatalog/productCatalogActions";
 import Serachicon from "../../../assets/images/searchicon.png";
@@ -118,7 +120,6 @@ const ItemCustomizations: React.FC<any> = () => {
     const filtered = ListOfmodifier?.filter((modifier: any) =>
       modifier?.modifierName?.toLowerCase().includes(searchQuery?.toLowerCase())
     );
-    console.log({filtered});
     
     setModifierList(filtered);
   }, [ListOfmodifier, searchQuery]);
@@ -171,9 +172,7 @@ const ItemCustomizations: React.FC<any> = () => {
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       setShowModifiers(!showModifiers);
-      console.log({itemCustomizationData});
       
-
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
@@ -327,8 +326,6 @@ const ItemCustomizations: React.FC<any> = () => {
     setModifications((prev: any) => {
       const updated = [...prev];
       const deletedId = updated[modIndex].modifierId; // Retrieve the modifier ID
-      console.log({ deletedId });
-      console.log({ modIndex });
   
       // Remove the modifier from the array
       updated.splice(modIndex, 1);
@@ -353,9 +350,6 @@ const ItemCustomizations: React.FC<any> = () => {
       return updatedErrors;
     });
   };
-  
-
-  console.log(modifications);
   
   const addOption = (index: number) => {
     setModifications((prevModifications: any) => {
@@ -390,7 +384,6 @@ const ItemCustomizations: React.FC<any> = () => {
     optIndex: number,
     e: ChangeEvent<HTMLInputElement>
   ) => {
-    console.log("Updating:", { modIndex, optIndex, fieldName: e.target.name, newValue: e.target.value });
     
     setModifications((prevModifications: any) => {
       const newModifier = prevModifications.map((mod: any, index: number) => {
@@ -435,9 +428,7 @@ const ItemCustomizations: React.FC<any> = () => {
         }
         return mod;
       });
-  
-      console.log("Updated Modifier:", newModifier);
-  
+    
       const updatedModifierId = newModifier[modIndex]?.modifierId;
       if (updatedModifierId) {
         setUpdatedModifierIds((prevIds) => {
@@ -556,17 +547,22 @@ const ItemCustomizations: React.FC<any> = () => {
       prevModifications.map((modification: any) => ({
         ...modification,
         modifierName: "",
+        maxSelection: "", // Clear maxSelection field
+        freeCustomization: "", // Clear maxCustomizations field
         modifierOptions: modification.modifierOptions.map((option: any) => ({
           ...option,
-          modifierOptionName: "",
+          modifierOptionName: "", // Clear option item
           cost: 0,
         })),
         selectedValue: [],
         selectionType: "Optional",
       }))
     );
+  
+    dispatch(itemCustomizationClear());
   };
-
+  
+  
   const validateSelectedValue = (index: number, values: string[]): void => {
     const errors = [...customizationerrors]; // Clone the existing errors
   
@@ -628,9 +624,7 @@ const ItemCustomizations: React.FC<any> = () => {
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");
-    console.log("Modifiers123",Modifiers);
     
-
     const updatedModifiers = {
       ...Modifiers,
       isEnabled:true,
@@ -863,7 +857,6 @@ const ItemCustomizations: React.FC<any> = () => {
   
   const validateModifiers = (modifications: any[]) => {
     const errors = [...customizationerrors];
-    console.log({ modifications });
 
     modifications?.forEach((modifier, index) => {
       const {
@@ -1270,7 +1263,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                               ?.modifierOptionName ||
                                             modifications[modIndex]
                                               ?.modifierOptions[optIndex]
-                                              ?.modifierName
+                                              ?.modifierName||""
                                           }
                                           onChange={(e) => {
                                             const value = e.target.value;
@@ -1331,7 +1324,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                             modifier.modifierOptions[optIndex]
                                               .cost ||
                                             modifier.modifierOptions[optIndex]
-                                              .sellPrice
+                                              .sellPrice||""
                                           }
                                           onChange={(e) => {
                                            
@@ -1504,7 +1497,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   disabled={
                                     !modifications[modIndex]?.isEnabled
                                   }
-                                  value={modifications[modIndex]?.maxSelection}
+                                  value={modifications[modIndex]?.maxSelection||0}
                                   name="maxSelection"
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
@@ -1544,7 +1537,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     !modifications[modIndex]?.isEnabled
                                   }
                                   value={
-                                    modifications[modIndex]?.freeCustomization
+                                    modifications[modIndex]?.freeCustomization||0
                                   }
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)

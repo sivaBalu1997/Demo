@@ -551,7 +551,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     
   const menuPayload = {
     locationId: locationid,
-    itemId: UploadImageImageID ? UploadImageImageID : "",
+    itemId: editData.length === 0 && (UploadImageImageID ? UploadImageImageID : ""),
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -699,6 +699,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmitItemDetails = () => {
+    console.log({editData})
     if (editData?.length === 0 && Wholedata?.imageUrls?.length > 0) {
       dispatch(startImageUpload(primarydata?.imageUrls));
       setButtonClicked(true);

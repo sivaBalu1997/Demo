@@ -1,7 +1,7 @@
 .saveandnextFooterExpanded {
     position: fixed; 
     bottom: 0; 
-    width: 77.3%; 
+    width: 80.3%; 
     display: flex;
     justify-content: flex-end;
     background-color: white; 
@@ -59,7 +59,7 @@
 .saveandnextfooter {
     position: fixed; 
     bottom: 0; 
-    width: 85.4%; 
+    width: 88.4%; 
     display: flex;
     justify-content: flex-end;
     background-color: white; 
@@ -73,12 +73,13 @@
     z-index: 2;
     @media(max-width: 1536px){
       // background-color: lightsalmon;
-      width: 85.4%;
+      width: 85.7%;
     }
     @media(max-width: 1280px){
       // background-color: lightsalmon;
       width: 84.9%;
     }
+    // @media(min-width)
   
 
   .clearall {

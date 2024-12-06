@@ -298,6 +298,8 @@ export const MenuPage = () => {
     setDraggedIndexsample(index);
   };
 
+  const editData = useSelector((state) => state.productCatalog.editData || []);
+
   useEffect(() => {
     dispatch(removeDataRequest());
   }, []);
@@ -578,7 +580,6 @@ export const MenuPage = () => {
     dispatch(selectedMockDataRequest(SideBarData));
   }, []);
 
-  const editData = useSelector((state) => state.productCatalog.editData || []);
 
   const primarypage = useSelector((state) => state.primarypage);
   const prizingDetail = useSelector(

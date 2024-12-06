@@ -580,7 +580,30 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
         });
 
-       
+        // if (editData?.length > 0 &&
+        //   filterOrderTypeAvailableorNotDineIn &&
+        //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
+        // ) {
+        //   setShowDineIn(true);
+        //   setdineInEnable(true);
+        // } else {
+        //   setShowDineIn(false);
+        //   setdineInEnable(false);
+        // }
+
+        // if (
+        //   editData?.length > 0 &&
+        //   filterOrderTypeAvailableorNotPickup &&
+        //   filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 1 &&
+        //   pickupDetails?.price > 0
+        // ) {
+        //   setPickup(true);
+        //   setpickupEnable(true);
+        // } else {
+        //   setPickup(false);
+        //   setpickupEnable(false);
+        // }
+
         // if (pickupDetails) {
         //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
         // }
@@ -688,49 +711,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         // setDineIn(true);
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
 
-
-        
-          if (editData?.length > 0 &&
-            filterOrderTypeAvailableorNotDineIn &&
-            filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
-          ) {
-            setShowDineIn(false);
-            setdineInEnable(false);
-          } 
-        
-
-      
-          if (
-            editData?.length > 0 &&
-            filterOrderTypeAvailableorNotPickup &&
-            filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 0
-          ) {
-            setPickup(false);
-            setpickupEnable(false);
-          } 
-
-        
-      
-          deliveryDetails?.price>0 && setDelivery(true)||thirdpartyDetails&& thirdpartyDetails[0]?.price>0 && setDelivery(true)
-          if (
-            editData?.length > 0 &&
-            filterOrderTypeAvailableorNotDelivery &&
-            filterOrderTypeAvailableorNotDelivery[0]?.isEnabled === 0 
-          ) {
-            setDelivery(false);
-            setdeliveryEnable(false);
-          } 
-         
-
-
         // setShowDineIn(true);
       }
 
-      console.log({prizingDetail})
-
-
-
-      if (prizingDetail?.normalForm && !prizingDetail?.normalForm?.formNormal) {
+      if (prizingDetail?.normalForm) {
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
@@ -1326,8 +1310,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       delivery,
     ]);
 
-    console.log({showDayThird})
-
     return (
       <div>
         <div className="AvailDaycheck">
@@ -1336,10 +1318,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             {/* <button onClick={handleSubmit}>Validate</button> */}
             <div className="tooltip">
               <TooltipMsg
-                message="Select Days to Display at the Bottom"
+                message="Select the default days this item is available for both on-premise and off-premise services."
                 styles={{
                   marginLeft: "2rem",
-                  width: "350px",
+                  width: "480px",
                   height: "35px",
                   backgroundColor: "#67833E",
                   color: "white",
@@ -1355,7 +1337,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                   marginTop: "0rem",
                   rotate: "-90deg",
                   position: "relative",
-                  left: "-5.3rem",
+                  left: "-1.0rem",
                 }}
               >
                 <div className="ToolKitchen">

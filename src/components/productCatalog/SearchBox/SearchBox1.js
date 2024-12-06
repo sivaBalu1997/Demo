@@ -27,7 +27,6 @@ const SearchBox = () => {
     setOrgData(itemNames); // Set original data when it is available
   }, [data]);
   useEffect(() => {
-    console.log("kkkkk")
     if (searchTerm == '') {
       dispatch(searchForItem({}));
     }
@@ -184,8 +183,6 @@ const SearchBox = () => {
     //   }
     // }
   };
-
-  console.log({ isExpanded })
 
   return (
     <div className="MLSearch-Container">

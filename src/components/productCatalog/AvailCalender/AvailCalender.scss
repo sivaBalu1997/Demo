@@ -204,6 +204,7 @@ text-decoration-skip-ink: none;
     cursor: pointer;
   background-color: rgba(103, 131, 62, 1);
   color: white;
+  width: 40px;
   }
   .AvailCalenderButton{
     margin-top: 20px;
@@ -211,6 +212,7 @@ text-decoration-skip-ink: none;
     justify-content: flex-start;
     gap:40px;
     margin-left: 30px;
+    
   }
   .AvailCancel{
     width: 120px;
@@ -219,6 +221,7 @@ text-decoration-skip-ink: none;
     font-size: 14px;
     background-color: white;
     color:rgba(103, 131, 62, 1);
+    cursor: pointer;
     border-radius: 3.47px;
 
   }
