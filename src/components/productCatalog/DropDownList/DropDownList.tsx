@@ -639,7 +639,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         <div style={{ margin: 0 }}>
         {
           errormsg ? <p className="Dropdown-Error-message" >{errormsg}</p>:
-          error && <p className="Dropdown-Error-message" style={{marginTop:name === "kitchenstation"?"1rem":"",paddingBottom:name === "kitchenstation"?"0.3rem":""}}>{error.message}</p>
+          error && <p className="Dropdown-Error-message" >{error.message}</p>
         }
         
         </div>
