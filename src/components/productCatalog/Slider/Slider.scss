@@ -1,6 +1,6 @@
 .Slider-Container {
   position: fixed;
-  top: 0rem;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -18,10 +18,11 @@
  
 
   .Slider-Window {
+    position: fixed;
     width: 416px;
     // height: 848px;
-    height: 39.8rem;
-    overflow-y: hidden;
+    height: 530px;
+    // overflow-y: hidden;
     // border: 1px solid red;
     margin-top: 5.5%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
