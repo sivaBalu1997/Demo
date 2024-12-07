@@ -22,25 +22,22 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   );
 
   const [showModal, setShowModal] = useState(false);
-  const { patchedData, setPatchedData,partialData,setPartialData} = useContext(Contextpagejs);
+  const { patchedData, setPatchedData, partialData, setPartialData } =
+    useContext(Contextpagejs);
   const partaldatasending = useSelector(
     (state: any) => state.productCatalog.partialDataSendingLoading
   );
   const partaldatasendingsuccessmsg = useSelector(
     (state: any) => state.productCatalog?.partialDataSendingsuccess
   );
-useEffect(()=>{
-  // console.log({partaldatasending});
+  useEffect(() => {
+    // console.log({partaldatasending});
 
-  if(!partaldatasending && showModal)
-  {
-    onclose();
-    setShowModal(false)
-
-  }
-  
-},[partaldatasending])
- 
+    if (!partaldatasending && showModal) {
+      onclose();
+      setShowModal(false);
+    }
+  }, [partaldatasending]);
 
   const data = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
@@ -52,61 +49,46 @@ useEffect(()=>{
 
   const handleCancelButton = () => {
     dispatch(removeDataRequest());
-    setPartialData((prev:any)=>({
-
-    
-       ...prev,
-      pricing:[],
-      modifierInfo:[],
-      itemAvailabilityInfo:[]
-   } ))
-   if(!partaldatasending){
-    onclose();
-
-   }
-  
+    setPartialData((prev: any) => ({
+      ...prev,
+      pricing: [],
+      modifierInfo: [],
+      itemAvailabilityInfo: [],
+    }));
+    if (!partaldatasending) {
+      onclose();
+    }
   };
+
   useEffect(() => {}, [partaldatasending, dispatch]);
+
   const [hasTrue, setHasTrue] = useState(false);
+
   const isPartialDataValid = () => {
     const { itemId, pricing, modifierInfo, itemAvailabilityInfo } = partialData;
-  
-  
-    if ( pricing.length || modifierInfo.length || itemAvailabilityInfo.length) {
+
+    if (pricing.length || modifierInfo.length || itemAvailabilityInfo.length) {
       return true;
     }
-  
+
     return false;
   };
-  const handledispatchforpartilChange = () => {
- 
 
+  const handledispatchforpartilChange = () => {
     setHasTrue(true);
 
-   
-
-
-
-
-    if(isPartialDataValid())
-    {
-
+    if (isPartialDataValid()) {
       dispatch(partialUpdateMenuRequest(partialData, locationid));
       setShowModal(true);
-      setPartialData((prev:any)=>({
-
-    
+      setPartialData((prev: any) => ({
         ...prev,
-       pricing:[],
-       modifierInfo:[],
-       itemAvailabilityInfo:[]
-    } ))
-
+        pricing: [],
+        modifierInfo: [],
+        itemAvailabilityInfo: [],
+      }));
     }
-   
 
     //  onclose();
-    
   };
 
   return (
@@ -115,25 +97,30 @@ useEffect(()=>{
         <div className="BasicChanges">
           <img src={Basic} className="BasicChangesImage" alt="Basic" />
           <p className="BasicChangesText">
-          Edit basic settings here. Click the edit icon to see all options.
+            Edit basic settings here. Click the edit icon to see all options.
           </p>
         </div>
         <div className="CancelChange">
-          <button className="CancelBtn" onClick={handleCancelButton}>
+          <button 
+            className="CancelBtn" 
+            onClick={handleCancelButton}
+          >
             Cancel
           </button>
-          <button 
-              className="ChangeBtn"style={{
-         
-                opacity: isPartialDataValid() ? '100%' : '60%',
-                
-              }} onClick={handledispatchforpartilChange} disabled={!isPartialDataValid()}
-            >
-              {!partaldatasending ?
-                "Change" : 
-                <div className="reviewLoaders"></div>
-              }
-            </button>
+          <button
+            className="ChangeBtn"
+            style={{
+              opacity: isPartialDataValid() ? "100%" : "60%",
+            }}
+            onClick={handledispatchforpartilChange}
+            disabled={!isPartialDataValid()}
+          >
+            {!partaldatasending ? (
+              "Change"
+            ) : (
+              <div className="reviewLoaders"></div>
+            )}
+          </button>
           {/* <button className="ChangeBtn"style={{
          
           opacity: isPartialDataValid() ? '100%' : '60%',
