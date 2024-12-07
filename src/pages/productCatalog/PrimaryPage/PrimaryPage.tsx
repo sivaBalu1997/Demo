@@ -710,7 +710,7 @@ const PrimaryPage = () => {
 
   const valiadtesubCategory = () => {
     const categoryList = getValues("category");
-    const subcategoryList = getValues("subCategory");
+    const subcategoryList = getValues("subCategory");    
 
     if (
       categoryList !== "" &&
