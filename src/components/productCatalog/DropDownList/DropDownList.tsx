@@ -726,7 +726,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               )}
             </ul>
             <div className="edititem">
-              {(dropDownSuccess ? Loading : !dropDownLoading) &&
+              {!dropDownLoading &&
                 options?.length > 0 &&
                 !editList &&
                 editValues && (
