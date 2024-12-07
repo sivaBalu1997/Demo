@@ -1242,6 +1242,15 @@ const ItemCustomizations: React.FC<any> = () => {
                                     <div
                                       key={optIndex}
                                       className="modifieroptions-div"
+
+                                      // style={{
+                                      //   height:customizationerrors[modIndex]?.options[
+                                      //     optIndex
+                                      //   ]?.optionNameError !== "" ||customizationerrors[modIndex]?.options[
+                                      //     optIndex
+                                      //   ]?.optionPriceError !== "" ?"5.2rem":"3rem"
+                                      // }}
+
                                      
 
                                      
@@ -1337,8 +1346,12 @@ const ItemCustomizations: React.FC<any> = () => {
                                               optIndex,
                                               e)
                                           }}
-                                          onKeyDown={(e) => {
-                                            if (e.key === "-") {
+                                          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                            const input = e.target as HTMLInputElement; 
+                                            if (
+                                              ["e", "E", "+", "-"].includes(e.key) || 
+                                              (e.key === "." && input.value.includes(".")) 
+                                            ) {
                                               e.preventDefault();
                                             }
                                           }}

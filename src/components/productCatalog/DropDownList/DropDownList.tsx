@@ -160,6 +160,10 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.productCatalog.dropDownLoading
   );
 
+  const dropDownSuccess = useSelector(
+    (state: any) => state.productCatalog.dropDownSuccess
+  );
+
   // useEffect(() => {
   //   if (dropDownType !== "SUB_CATEGORY") {
   //     dispatch(fetchDropDownRequest(payload));
@@ -191,46 +195,36 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [categoryValue]);
 
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value; 
-    setSearchTerm(value);   
+    const value = e.target.value;
+    setSearchTerm(value);
 
-    const names = value.split(",").map((name) => name.trim());
-    
-    const updatedOptions = selectedOptions.filter((option) =>
-      names.includes(option.name)
-    );
-
-    setSelectedOptions(updatedOptions);
-  
-    const updatedSearchTerm = names.filter((name) =>
-      updatedOptions.some((option) => option.name === name)
-    ).join(", ");
-    setSearchTerm(updatedSearchTerm);
-  
-    if (type === "checkbox") {
-      setValue(name, updatedOptions.map((opt) => opt.name));
-    } else if (type === "radio") {
-      setValue(name, updatedOptions[0]?.name || "");
-    }
-    trigger(name);
-  
     if (value === "") {
       setManuallyCleared(true);
       setShowselectedOption(false);
-  
+
+      if (type === "checkbox") {
+        setSelectedOptions([]);
+        setValue(name, []);
+        trigger(name);
+      } else if (type === "radio") {
+        setSelectedOptions([]);
+        setValue(name, "");
+        trigger(name);
+      }
+
       if (dropdownopen) {
         onToggle();
       }
     } else {
       setManuallyCleared(false);
-  
       if (!dropdownopen) {
         onToggle();
       }
       setShowselectedOption(false);
     }
+
+    setOptions(filteredOptions);
   };
   
 
@@ -427,8 +421,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     setManuallyCleared(false);
   };
 
-  name === 'DietaryType' && console.log({selectedOptions},{searchTerm},{manuallyCleared})
-
   const payload = {
     locationId: locationid,
     type: dropDownType,
@@ -550,7 +542,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [Loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!options || options.length < 1) {
+    if (options?.length === 0) {
       setLoading(true);
     } else {
       setLoading(false);
@@ -660,7 +652,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
             >
-              {dropDownLoading || Loading ? (
+              {dropDownLoading ? (
                 <div className="dropdown-no-options">
                   <Loader
                     className="imgLoader1"
@@ -718,7 +710,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                         </div>
                       );
                     })
-                  ) : (
+                  ) : ((Loading) &&
                     <div className="dropdown-no-options">
                       No options available
                     </div>
@@ -727,7 +719,7 @@ const DropDownList: React.FC<DropdownProps> = ({
               )}
             </ul>
             <div className="edititem">
-              {!dropDownLoading &&
+              {(dropDownSuccess ? Loading : !dropDownLoading) &&
                 options?.length > 0 &&
                 !editList &&
                 editValues && (
