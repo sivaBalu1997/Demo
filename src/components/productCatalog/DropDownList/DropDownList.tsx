@@ -382,12 +382,12 @@ const DropDownList: React.FC<DropdownProps> = ({
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-
+  
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-
+  
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
@@ -399,6 +399,10 @@ const DropDownList: React.FC<DropdownProps> = ({
         );
         trigger(name);
       } else {
+        if (currentSelectedOptions.length >= 5) {
+          return; 
+        }
+  
         const updatedOptions = [...currentSelectedOptions, option];
         setSelectedOptions(updatedOptions);
         setValue(
@@ -413,13 +417,15 @@ const DropDownList: React.FC<DropdownProps> = ({
       trigger(name);
       dropDownType === "CATEGORY" && setParentId(option?.id);
     }
-
+  
     if (dropDownType === "SUB_CATEGORY") {
-      valiadtesubCategory()
+      valiadtesubCategory();
     }
+  
     setSearchTerm("");
     setManuallyCleared(false);
   };
+  
 
   const payload = {
     locationId: locationid,
@@ -557,6 +563,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
 
     if (subcategorydataforApi.parentId !== "") {
+      console.log('hiiiooo')
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
@@ -568,6 +575,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     if (dropDownType !== "SUB_CATEGORY") {
       dispatch(fetchDropDownRequest(payload)); 
     }
+
     if (subcategorydataforApi.parentId !== "") {
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
@@ -638,8 +646,19 @@ const DropDownList: React.FC<DropdownProps> = ({
 
         <div style={{ margin: 0 }}>
         {
-          errormsg ? <p className="Dropdown-Error-message" >{errormsg}</p>:
-          error && <p className="Dropdown-Error-message" style={{marginTop:name === "kitchenstation"?"1rem":"",paddingBottom:name === "kitchenstation"?"0.3rem":""}}>{error.message}</p>
+          errormsg ? 
+            <p 
+              className="Dropdown-Error-message" 
+            >
+              {errormsg}
+            </p> :
+          error && 
+            <p 
+              className="Dropdown-Error-message" 
+              style={{marginTop:name === "kitchenstation" ? "1rem" : "", paddingBottom:name === "kitchenstation"?"0.3rem":""}
+            }>
+              {error.message}
+            </p>
         }
         
         </div>

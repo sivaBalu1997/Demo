@@ -231,8 +231,6 @@ const PrimaryPage = () => {
     },
   });
 
- 
-
   const [popularItem, setPopularItem] = useState<any>(0);
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
 
@@ -264,19 +262,19 @@ const PrimaryPage = () => {
     (state: any) =>
       state?.getPopularItemReducer?.popularItems?.data?.popularItemCount
   );
-  
+
   const mergedMockData = [...Mockdata, ...addedData];
   const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
     useState<Item[]>();
 
   useEffect(() => {
-    setPopularItem(PopularItemFormApi? PopularItemFormApi:0);
+    setPopularItem(PopularItemFormApi ? PopularItemFormApi : 0);
     setPopularItemLimit(popularItemLimit);
   }, [PopularItemFormApi]);
 
   useEffect(() => {
     dispatch(getPopularItemRequest(locationid));
-    dispatch(removeCodeRequest())
+    dispatch(removeCodeRequest());
   }, []);
 
   // useEffect(() => {
@@ -309,9 +307,8 @@ const PrimaryPage = () => {
     if (ItemsPrimaryDetails) {
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
-      if(ItemsPrimaryDetails?.description)
-      {
-      setCharCount(ItemsPrimaryDetails?.description.length);
+      if (ItemsPrimaryDetails?.description) {
+        setCharCount(ItemsPrimaryDetails?.description.length);
       }
       setDescription(ItemsPrimaryDetails.description);
       // Set other fields
@@ -529,7 +526,7 @@ const PrimaryPage = () => {
         setValue("imageUrls", updatedImageUrls);
         return updatedImages;
       });
-      e.target.value = ""
+      e.target.value = "";
     }
   };
 
@@ -676,7 +673,7 @@ const PrimaryPage = () => {
     setDescription(" ");
     setCharCount(0);
     setImages([]);
-    dispatch(PrimaryDataClear())
+    dispatch(PrimaryDataClear());
   };
 
   const dataforadd = {
@@ -709,33 +706,25 @@ const PrimaryPage = () => {
     );
   }, []);
 
-  console.log("message",message?.length)
+  const [subcategortError, setsubcategortError] = useState("");
 
-const [subcategortError,setsubcategortError]=useState("");
+  const valiadtesubCategory = () => {
+    const categoryList = getValues("category");
+    const subcategoryList = getValues("subCategory");
 
-  const valiadtesubCategory=()=>{
-
-    const categoryList=getValues("category")
-    const subcategoryList=getValues("subCategory")
-console.log({categoryList,subcategoryList});
-
-
-    if(categoryList!==""&&subcategoryList==="" && subCategoryData.length>0)
-    {
-      setsubcategortError("subcategory is required")
-      console.log("error occured");
-      
+    if (
+      categoryList !== "" &&
+      subcategoryList === "" &&
+      subCategoryData?.length > 0
+    ) {
+      setsubcategortError("subcategory is required");
 
       return false;
-    }
-    else
-    {
-      setsubcategortError("")
+    } else {
+      setsubcategortError("");
     }
     return true;
-
-
-  }
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -765,7 +754,7 @@ console.log({categoryList,subcategoryList});
                   <Controller
                     name="itemName"
                     control={control}
-                    defaultValue="" 
+                    defaultValue=""
                     rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
@@ -1042,7 +1031,7 @@ console.log({categoryList,subcategoryList});
                     <Controller
                       name="itemCode"
                       control={control}
-                      defaultValue="" 
+                      defaultValue=""
                       // required: "Item code is required",
                       rules={{
                         validate: (value) => {
@@ -1119,13 +1108,18 @@ console.log({categoryList,subcategoryList});
                   </div>
                 </div>
 
-                <div className={message?.length > 10 ? "barcode" : "Primary-page-InputFields"}>
-                {" "}
+                <div
+                  className={
+                    message?.length > 10
+                      ? "barcode"
+                      : "Primary-page-InputFields"
+                  }
+                >
+                  {" "}
                   <LableComponent lable="Upc / Barcode number" />
                   <Controller
                     name="barCode"
                     control={control}
-                  
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="barCode"
@@ -1175,7 +1169,7 @@ console.log({categoryList,subcategoryList});
                     )}
                   />
                   <span>
-                    Popular item (  {popularItem}/{popularItemlimit} )
+                    Popular item ( {popularItem}/{popularItemlimit} )
                   </span>
                 </div>
 
@@ -1198,7 +1192,7 @@ console.log({categoryList,subcategoryList});
                           getValues={getValues}
                           // validation={{ required: "subCategory is required" }}
                           // error={errors.subCategory}
-                          valiadtesubCategory={valiadtesubCategory}
+                          valiadtesubCategory={editData[0]?.length > 0 ? "" : valiadtesubCategory}
                           errormsg={subcategortError}
                           addNew={true}
                           editValues={true}
@@ -1297,7 +1291,7 @@ console.log({categoryList,subcategoryList});
                             if (
                               e.key === "e" ||
                               e.key === "-" ||
-                              e.key === "+" 
+                              e.key === "+"
                             ) {
                               e.preventDefault(); // Block these keys
                             }
@@ -1341,8 +1335,7 @@ console.log({categoryList,subcategoryList});
                             if (
                               e.key === "e" ||
                               e.key === "-" ||
-                              e.key === "+" 
-                              
+                              e.key === "+"
                             ) {
                               e.preventDefault(); // Block these keys
                             }
