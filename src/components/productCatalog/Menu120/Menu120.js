@@ -76,7 +76,7 @@ const Menu120 = () => {
         <div className="Menu120-Tooltip-container">
           {data.map((elem, index) => (
             <div className="Menu120-Tooltip-container-heading" key={index}>
-              <div className="Menu120-Heading"> {elem.OutletName.split(",")[0]}</div>
+              <div className="Menu120-Heading"> {elem?.OutletName?.split(",")[0]}</div>
               <div className="Menu120-sub-Heading">{elem.Live}</div>
               <div className="Menu120-sub-Heading">{elem.Unavailable}</div>
               <div className="Menu120-sub-Heading">{elem.Hidden}</div>
