@@ -399,6 +399,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           ],
           price: 0,
         })
+        setDayPickup([])
+        setShowDayPickup(false)
       }
       if(!delivery){
         setDeliveryDetails({typeId: deliveryId,
@@ -428,11 +430,19 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         ],
       },
     ]);
+    setDayDelivery([])
+    setShowDayDelivery(false)
+
+
    
       }
       if(!online){
         setPickup(false)
         setDelivery(false)
+        setDayDelivery([])
+        setShowDayDelivery(false)
+        setDayPickup([])
+        setShowDayPickup(false)
       }
 
     },[showDineIn,online,pickup,delivery])
@@ -543,8 +553,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
-        console.log("hjk",prizingDetail?.normalForm);
-        console.log({dineIndetail,dineIndetails});
+
         
         
 
@@ -630,9 +639,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           showDay: prizingDetail.normalForm.DineIn[0]?.length > 0 ? true : false,
           dayButtonText: "Choose Day",
         };
-  
-        console.log("fghj",updatedField.DineInMealType);
-        console.log();
+
         
         
         setDineInFields([updatedField]);
@@ -1228,7 +1235,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const validationErrors: Record<string, string> = {};
 
       const Kitchenstationdata=getValues("kitchenstation");
-      console.log({Kitchenstationdata});
       if(Kitchenstationdata===""|| Kitchenstationdata===undefined)
       {
         validationErrors[`kitchenstation`] = "kitchen station is required";

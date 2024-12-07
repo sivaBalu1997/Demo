@@ -880,7 +880,7 @@ const ItemCustomizations: React.FC<any> = () => {
       // if (!modifierName.trim()) {
       //   modifierErrors.modifierNameError = `Modifier Name is required`;
       // }
-      if (selectedValue.length === 0 && modifierName!=="") {
+      if (selectedValue?.length === 0 && modifierName!=="") {
         modifierErrors.errormsgforselectedvalues = "Available service streams required";
       }
 
