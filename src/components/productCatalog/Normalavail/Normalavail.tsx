@@ -399,6 +399,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           ],
           price: 0,
         })
+        setDayPickup([])
+        setShowDayPickup(false)
       }
       if(!delivery){
         setDeliveryDetails({typeId: deliveryId,
@@ -428,11 +430,19 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         ],
       },
     ]);
+    setDayDelivery([])
+    setShowDayDelivery(false)
+
+
    
       }
       if(!online){
         setPickup(false)
         setDelivery(false)
+        setDayDelivery([])
+        setShowDayDelivery(false)
+        setDayPickup([])
+        setShowDayPickup(false)
       }
 
     },[showDineIn,online,pickup,delivery])
