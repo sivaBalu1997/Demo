@@ -1473,11 +1473,10 @@ const ItemCustomizations: React.FC<any> = () => {
                                   className={modifications[modIndex]?.selectionType === "Optional" ? "input3ItemCustomizations-disable" : "input3ItemCustomizations"}
                                 
                                   value={
-                                    modifications[modIndex]?.selectionType ===
-                                      "Optional" &&
-                                    modifications[modIndex].minSelection != 0
+                                    modifications[modIndex]?.selectionType === "Optional" &&
+                                    modifications[modIndex].minSelection !== 0
                                       ? 0
-                                      : modifications[modIndex].minSelection
+                                      : modifications[modIndex]?.minSelection || ""
                                   }
                                   name="minSelection"
                                   onChange={(e) =>

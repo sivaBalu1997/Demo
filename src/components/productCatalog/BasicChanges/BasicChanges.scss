@@ -18,24 +18,21 @@
      display: flex;
     justify-content: flex-start;
     gap: 5px;
-    margin-top: 10px;
-    align-items: center;
-    // border: 1px solid red;
+    margin-top: 20px;
     
     
   }
   .BasicChangesText{
     font-size: 14px;
     font-family: "Inter", sans-serif;
-    margin-top: 10px;
-    position: relative;
-    top: 0.35rem;
-    // border: 1px solid red;
-  }
+    // transform: translateY(10px);
+    display: flex;
+align-items: center; 
+ }
   .BasicChangesImage{
     width: 23px;
     height: 33px;
-    top: 6px;
+    top: 2px;
     position: relative;  }
   .BasicChangesDiv{
     margin-top: 10px;

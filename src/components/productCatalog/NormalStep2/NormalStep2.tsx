@@ -349,13 +349,16 @@ const NormalStep2 = () => {
                   </div>
                   <div>
                     <h1 className="Step2SellingPrizevalue">
-                      {(prizingDetail &&
+                    {restaurantDetails?.country === "US" ? "$" : "Rs."}  {(prizingDetail &&
                         prizingDetail?.normalForm &&
                         prizingDetail?.normalForm?.thirdpartyDetails &&
                         prizingDetail?.normalForm?.thirdpartyDetails.map(
-                          (elem: any) => elem?.price
+                          (elem: any) =>  elem?.price?.toFixed(2)
                         )) ||
                         "N/A"}
+
+
+                        
                       {/* {detail.price || "N/A"} */}
                     </h1>
                   </div>

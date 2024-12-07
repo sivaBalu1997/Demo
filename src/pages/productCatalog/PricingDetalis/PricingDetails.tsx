@@ -1066,7 +1066,7 @@ const PricingDetails = () => {
             </div> */}
 
             <div className="services-Heading">
-              <p> Service availability </p>
+              <p> Available Service Streams </p>
             </div>
 
             <div className="NormalSpecial">
