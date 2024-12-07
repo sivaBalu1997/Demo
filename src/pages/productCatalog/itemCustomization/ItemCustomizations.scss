@@ -217,9 +217,10 @@ margin-left: 2.3%;
 .modifieroptions-div
 {
   display: flex;
-  margin-top: 1%;
-
-gap: 1rem;
+  // margin-top: 1%;
+height: 4rem;
+// border: 1px solid red;
+gap: 0.5rem;
 }
 .input-option-name-field
 {
@@ -925,7 +926,7 @@ input[type="number"] {
 
 .nameErrormsg {
   color: #e52333;
-  margin-bottom: 1rem;
+  // margin-bottom: 1rem;
   font-size: 14px;
   font-weight: 500;
 }

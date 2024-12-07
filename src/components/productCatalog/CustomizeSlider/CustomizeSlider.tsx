@@ -299,7 +299,7 @@ const CustomizeSlider = () => {
         {customData.map((elem:any, index:number) => (
           <div key={index}>
             <div className="item-toggle-container-flex">
-              <div className="item-heading">{elem.modifierName}</div>
+              <div className="item-heading" style={{color:"black",opacity:elem.isEnabled?"100%":"50%",cursor:elem.isEnabled?"pointer":""}}>{elem.modifierName}</div>
               <div className="toggle-container">
                 <ToggleSliderAvail
                   toggle={elem.isEnabled}
@@ -318,7 +318,7 @@ const CustomizeSlider = () => {
                   key={subindex}
                 >
                   <div className="subitems-toggle-container-flex">
-                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%"}}>{subitem.name}</div>
+                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":""}}>{subitem.name}</div>
                     <div className="subItemToggle">
                       <ToggleSliderAvail
                         toggle={subitem.isEnabled}
