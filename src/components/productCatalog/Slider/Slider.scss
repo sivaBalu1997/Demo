@@ -215,6 +215,7 @@
     .NavSlider-Component {
       width: 410px;
       height: 600px;
+      margin-top: -15px;
       overflow-y: scroll;
 // border: 1px solid blue;
       &::-webkit-scrollbar {
