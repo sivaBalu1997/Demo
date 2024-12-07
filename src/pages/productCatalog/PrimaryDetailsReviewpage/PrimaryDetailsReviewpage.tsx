@@ -225,7 +225,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
-  console.log({fetchedprimarydata})
+  
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
@@ -412,6 +412,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
+
   const menuData = useSelector((state: any) => state.productCatalog?.menuData);
 
   const menudata = [
@@ -699,7 +700,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleSubmitItemDetails = () => {
-    console.log({editData})
     if (editData?.length === 0 && Wholedata?.imageUrls?.length > 0) {
       dispatch(startImageUpload(primarydata?.imageUrls));
       setButtonClicked(true);

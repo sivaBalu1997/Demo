@@ -1238,6 +1238,11 @@ export const selectedMockDataReducer = (state = selectedMockData, action) => {
         ...state,
         data: action?.payload,
       };
+      case REMOVE_DATA_REQUEST:
+        return {
+          ...state,
+          data: [],
+        };
     default:
       return state;
   }
