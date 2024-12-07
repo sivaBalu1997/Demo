@@ -1055,8 +1055,8 @@ export const MenuPage = () => {
                 <div className="scroll-container22">
                   <div
                     className={`${
-                      isExpanded && !menuDataLoading && "second-div-body-expand"
-                    } ${!isExpanded && !menuDataLoading && "second-div-body"}`}
+                      isExpanded && !menuDataLoading && !menuDataFailed && "second-div-body-expand"
+                    } ${!isExpanded && !menuDataLoading &&!menuDataFailed && "second-div-body"}`}
                     ref={bodyRef}
                     style={{ height: menuDataLoading ? "39.5rem" : "" }}
                   >
@@ -1104,7 +1104,7 @@ export const MenuPage = () => {
                                   </div>
                                 )}
 
-                              {data?.itemResponseList?.length > 0 &&
+                              {data?.itemResponseList?.length > 0 &&  data.name !== ""  &&
                                 data?.itemResponseList.map((item, index) => (
                                   <div key={index} className="table-two-row">
                                     <p>

@@ -369,9 +369,11 @@
   }
 
 
-  .NoDataFoundContainer {
-    margin-top: 10%;
-    margin-left: 20%;
+  
+  .columnselected
+  {
+    position: relative;
+    left: 5rem;
   }
   
   .categoryName-data {
@@ -924,4 +926,14 @@
   align-items: center;
   left: 45%;
   top: 40%;
+}
+
+.NoDataFoundContainer {
+  width: 30rem;
+  margin-top: 15%;
+  margin-left: 20%;
+  overflow-x: hidden;
+  z-index: 1;
+  overflow-y: hidden;
+  // border: 1px solid red;
 }

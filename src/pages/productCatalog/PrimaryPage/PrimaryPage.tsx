@@ -717,10 +717,10 @@ const [subcategortError,setsubcategortError]=useState("");
 
     const categoryList=getValues("category")
     const subcategoryList=getValues("subCategory")
-console.log({categoryList,subcategoryList});
 
 
-    if(categoryList!==""&&subcategoryList==="" && subCategoryData.length>0)
+
+    if(categoryList!==""&&subcategoryList==="" && subCategoryData && subCategoryData?.length>0)
     {
       setsubcategortError("subcategory is required")
       console.log("error occured");

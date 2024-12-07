@@ -534,6 +534,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     }, [selectedthirdvalues]);
 
     const editData = useSelector((state: any) => state.productCatalog.editData);
+ 
+    
 
     useEffect(() => {
       
@@ -580,30 +582,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
         });
 
-        // if (editData?.length > 0 &&
-        //   filterOrderTypeAvailableorNotDineIn &&
-        //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
-        // ) {
-        //   setShowDineIn(true);
-        //   setdineInEnable(true);
-        // } else {
-        //   setShowDineIn(false);
-        //   setdineInEnable(false);
-        // }
+      
 
-        // if (
-        //   editData?.length > 0 &&
-        //   filterOrderTypeAvailableorNotPickup &&
-        //   filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 1 &&
-        //   pickupDetails?.price > 0
-        // ) {
-        //   setPickup(true);
-        //   setpickupEnable(true);
-        // } else {
-        //   setPickup(false);
-        //   setpickupEnable(false);
-        // }
+       
 
+        console.log({editData});
+       
         // if (pickupDetails) {
         //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
         // }
@@ -614,15 +598,27 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         //   thirdpartyDetails && thirdpartyDetails[0]?.price > 0 ? setOnline(true) : setOnline(false);
         // }
 
-        const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
-          (item: any) => ({
-            DineInPrice: item?.DineInPrice,
-            DineInMealType: item?.DineInMealType || [],
-            DineInService: item?.DineInService,
-            showDay: true,
-            dayButtonText: "Choose Day",
-          })
-        );
+        // const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
+        //   (item: any) => ({
+        //     DineInPrice: item?.DineInPrice,
+        //     DineInMealType: item?.DineInMealType || [],
+        //     DineInService: item?.DineInService,
+        //     showDay: true,
+        //     dayButtonText: "Choose Day",
+        //   })
+        // );
+        // Initialize selected values
+        // const initialSelectedValues = updatedFields?.map(
+        //   (item: any) => item.DineInMealType
+        // );
+        // const initialSelectedValues2 = updatedFields?.map(
+        //   (item: any) => item.DineInService
+        // );
+        // const initialSelectedValues2 = updatedField?.DineInService
+        // setSelectedValues(initialSelectedValues2);
+        // setDineIn(true);
+        
+        // setShowDineIn(true);
 
         const updatedField = {
           DineInPrice: dineIndetails?.price,
@@ -631,21 +627,26 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           dayButtonText: "Choose Day",
         };
   
-        console.log("fghj",updatedField.DineInMealType);
+        console.log("fghj",updatedField);
         console.log();
         
         
         setDineInFields([updatedField]);
-        if(updatedField.DineInPrice || updatedField.DineInMealType )
+        if(updatedField.DineInPrice>0)
         {
-      setShowDineIn(true)
+          setShowDineIn(true);
+          setdineInEnable(true);
         }
+        // else{
+        //   setShowDineIn(false);
+        //   setdineInEnable(false);
+        // }
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
           updatedAvailabilities[0] = {
             ...updatedAvailabilities[0],
-            sessions: [...updatedFields[0]?.DineInMealType],
+            sessions:updatedField.DineInMealType,
           };
 
           return {
@@ -659,8 +660,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdPartyTypeName =
           prizingDetail?.normalForm?.thirdpartyDetails?.map;
         if (pickupDetails) {
-          setPickup(true) 
-          setOnline(true)
+          // setPickup(true) 
+          // setOnline(true)
+          console.log("pickupDetails",pickupDetails);
+          pickupDetails.price>0 &&  setPickup(true) 
+          setOnline(true);
+          setPickup(true);
+          setpickupEnable(true);
+         
+  
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
@@ -671,8 +679,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
 
         if (deliveryDetails) {
-          setPickup(true) 
-          setOnline(true)
+          setOnline(true);
+          setDelivery(true);
+          setdeliveryEnable(true);
+          
+         
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
@@ -683,7 +694,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
 
         if (thirdpartyDetails?.length > 0) {
-          // setOnline(true);
+          setOnline(true);
           const data = thirdpartyDetails?.map((item: any) => item?.typeName);
           if (thirdpartyDetails.some((item: any) => item?.price)) {
             setSelectedThirdValues(data);
@@ -698,23 +709,49 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setMealTypes(object);
         }
 
-        // Initialize selected values
-        const initialSelectedValues = updatedFields?.map(
-          (item: any) => item.DineInMealType
-        );
+        
+        const initialSelectedValues = [updatedField.DineInMealType]
         setSelectedValuesMealType(initialSelectedValues);
 
-        const initialSelectedValues2 = updatedFields?.map(
-          (item: any) => item.DineInService
-        );
-        setSelectedValues(initialSelectedValues2);
-        // setDineIn(true);
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
 
-        // setShowDineIn(true);
+
+  const pickupEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="P")
+  const DeliveryEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="S")
+  const DineInEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="D")
+
+
+  
+console.log({pickupEnableOrnotWhneEdit});
+if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneEdit[0].isEnabled===0)
+  {
+    
+    setShowDineIn(false);
+    setdineInEnable(false);
+  }
+
+          if( editData?.length > 0 &&!pickupDetails && pickupEnableOrnotWhneEdit && pickupEnableOrnotWhneEdit[0].isEnabled===0)
+          {
+            console.log("going inside");
+            setOnline(true)
+            setPickup(false);
+            setpickupEnable(false);
+          }
+
+          if( editData?.length > 0 &&!deliveryDetails&& DeliveryEnableOrnotWhneEdit && DeliveryEnableOrnotWhneEdit[0].isEnabled===0)
+            {
+              console.log("going inside");
+              setOnline(true)
+              setDelivery(false);
+              setdeliveryEnable(false);
+            }
+         
+         
+          
       }
 
-      if (prizingDetail?.normalForm) {
+      if (prizingDetail?.normalForm && !prizingDetail?.normalForm?.formNormal) {
+        console.log("gggg",prizingDetail);
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
@@ -744,6 +781,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         if (pickupDetails) {
           pickupDetails.price>0 && setPickup(true);
+          // setPickup(true);
           if (
             editData?.length > 0 &&
             filterOrderTypeAvailableorNotPickup &&
@@ -765,6 +803,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
 
         if (deliveryDetails) {
+          
           deliveryDetails?.price>0 && setDelivery(true)||thirdpartyDetails&& thirdpartyDetails[0]?.price>0 && setDelivery(true)
           if (
             editData?.length > 0 &&
