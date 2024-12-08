@@ -969,6 +969,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
         ...prevData,
         price: newPrice,
       }));
+      validateDineInPrice(index, newPrice);
     };
 
     const addDay = (index: number): void => {
@@ -1263,6 +1264,80 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
 
     const [errors, setErrors] = useState<Record<string, string>>({});
 
+    const validatedineMealType = () => {
+      const validationErrors: Record<string, string> = { ...errors }; 
+    
+      dineinfields?.forEach((field: any, index: number) => {
+        if (showDineIn) {
+          if (
+            (showDineIn && !field?.DineInMealType) ||
+            field?.DineInMealType?.length === 0
+          ) {
+            validationErrors[`DineInMealType-${index}`] = "Meal type is empty";
+          } else {
+            delete validationErrors[`DineInMealType-${index}`];
+          }
+        }
+      });
+    
+      setErrors(validationErrors); 
+    
+      return Object.keys(validationErrors).length === 0; 
+    };
+    
+    const validatepickup= (togglestatus:boolean,selectedValluesArray:any) => {
+      const validationErrors: Record<string, string> = { ...errors };
+      
+      if (togglestatus) {
+       
+       
+        if (togglestatus && selectedValluesArray?.length === 0) {
+          validationErrors.pickupmealTypeSessions = "Meal type is empty";
+        }
+        else {
+          delete validationErrors.pickupmealTypeSessions ;
+        }
+      }
+
+      
+
+      setErrors(validationErrors);
+
+      return Object.keys(validationErrors).length === 0;
+    };
+    const validatedelivery = (togglestatus:boolean,selectedValluesArray:any) => {
+      const validationErrors: Record<string, string> = { ...errors };
+      
+      if (togglestatus) {
+       
+       
+        if (togglestatus && selectedValluesArray?.length === 0) {
+          validationErrors.deliverymealTypeSessions = "Meal type is empty";
+        }
+        else {
+          delete validationErrors.deliverymealTypeSessions ;
+        }
+      }
+
+      
+
+      setErrors(validationErrors);
+
+      return Object.keys(validationErrors).length === 0;
+    };
+
+
+
+    const validateDineInPrice = (index: number, price: number): void => {
+      const validationErrors = { ...errors }; 
+      if (!price || price <= 0) {
+        validationErrors[`DineInPrice-${index}`] = "Price is empty";
+      } else {
+        delete validationErrors[`DineInPrice-${index}`]; 
+      }
+      setErrors(validationErrors); 
+    };
+
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
 
@@ -1348,7 +1423,36 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
       pickup,
       delivery,
     ]);
-
+    const validatePickupPrice = (price:number): void => {
+      const validationErrors = { ...errors }; 
+      if(pickup)
+      {
+        if (!price || price <= 0) {
+          validationErrors.pickupprice = "Price is empty";
+        } else {
+          delete validationErrors.pickupprice;
+        }
+      }
+    
+      
+    
+      setErrors(validationErrors); 
+    };
+    const validateDeliveryPrice = (price:number): void => {
+      const validationErrors = { ...errors }; 
+      if(delivery)
+      {
+        if (!price || price <= 0) {
+          validationErrors.deliveryprice = "Price is empty";
+        } else {
+          delete validationErrors.deliveryprice; 
+        }
+      }
+    
+     
+    
+      setErrors(validationErrors); 
+    };
     return (
       <div>
         <div className="AvailDaycheck">
@@ -1446,7 +1550,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
-                          onBlur={() => validateDineinFields()}
+                         
                           onInput={(e) => {
                             const inputElement = e.target as HTMLInputElement;
                             const value = inputElement.value;
@@ -1469,6 +1573,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                       <div className="Mealz">
                         <div>
                           <DropDown
+                          validatedineMealType={validatedineMealType}
                             selectedValues={selectedValuesmealtype[index] || ""}
                             onSelect={(values) =>
                               handleSelectMealtype(values, index)
@@ -1577,10 +1682,10 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                           type="number"
                           className="PriceInput1Normal-input"
                           value={pickupDetails.price || ""}
-                          onBlur={() => validateDineinFields()}
+                         
                           onKeyDown={(e) => {
                             if (e.key === "-") {
-                              e.preventDefault(); // Prevent typing -,
+                              e.preventDefault(); 
                             }
                             if (
                               e.key === "e" ||
@@ -1601,6 +1706,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                                 price: numericValue,
                               });
                             }
+                            validatePickupPrice(Number(inputValue))
                           }}
                         />
                         <span className="Errormsg pickuperrormsg">
@@ -1628,9 +1734,11 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                             }))
                           }
                           options={options3}
+                          toggleOnorOff={pickup}
+                          validatepickupdelivery={validatepickup}
                           label="Meal Type*"
                           width="Drop1"
-                          onBlur={() => validateDineinFields()}
+                          // onBlur={() => validatepickupdelivery()}
                         />
                         <span className="Errormsg pickuperrormsgmealType">
                           {errors.pickupmealTypeSessions}
@@ -1738,22 +1846,20 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                           }}
                           className="DeliveryInput1Normal"
                           value={deliveryDetails?.price || ""}
-                          onBlur={() => validateDineinFields()}
+                      
                           onChange={(e) => {
                             const newPrice = e.target.value;
                             setDeliveryDetails((prevDetails: any) => ({
                               ...prevDetails,
                               price: Number(newPrice),
                             }));
+                            validateDeliveryPrice(Number(newPrice));
                           }}
                           onInput={(e) => {
-                            // onInput for real-time validation (allows only numbers and one decimal point)
                             const inputElement = e.target as HTMLInputElement;
                             const newPrice = inputElement.value;
 
-                            // Regex allows only digits and one decimal point
                             if (!/^\d*\.?\d*$/.test(newPrice)) {
-                              // If invalid input, restore the last valid value by slicing off the invalid character
                               inputElement.value = newPrice.slice(0, -1);
                             }
                           }}
@@ -1781,6 +1887,8 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                             }));
                           }}
                           onBlur={() => validateDineinFields()}
+                          toggleOnorOff={delivery}
+                          validatepickupdelivery={validatedelivery}
                           options={options4}
                           label="Meal Type*"
                           width="Drop1"
