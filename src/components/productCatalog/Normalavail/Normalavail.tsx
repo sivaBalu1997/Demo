@@ -1594,13 +1594,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     </div>
                     <div className="dineInChooseDayContainer">
                       <h3 className="dineInChooseDayContainerHeading">
-                        Choose for Specific day ?
+                      {entry.showDay?"Back for default days?":"Setup for specific days?"}
                       </h3>
                       <h3
                         className="dineInChooseDayContainer-chooseheading"
                         onClick={() => addDay(index)}
                       >
-                        Choose Day
+                        {entry.showDay?"Default days":"Choose day"}
                       </h3>
                     </div>
                     <div className="dayspickup">

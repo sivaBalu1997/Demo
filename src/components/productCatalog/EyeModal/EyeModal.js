@@ -229,7 +229,7 @@ const EyeModal = ({ onEyeclose, onclose }) => {
   // Function to handle toggle behavior for all
   const handleToggleAll = () => {
       // Check if all parents and children are `isEnabled`
-      const allEnabled = availabilityOrderTypes.every(
+      const allEnabled = availabilityOrderTypes.some(
         (parent) =>
           parent.isEnabled && parent.types.some((child) => child.isEnabled)
       );
