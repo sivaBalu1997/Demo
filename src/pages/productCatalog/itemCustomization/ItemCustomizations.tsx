@@ -180,55 +180,64 @@ const ItemCustomizations: React.FC<any> = () => {
             return orderType?.typeName || selectedId;
           }
         );
-        if (item?.options) {
-          return {
-            modifierId: item?.id || "",
-            modifierName: item?.modifierName || item?.name || "",
-            isModifierChanged: false,
-            isEnabled: item.isEnabled,
-            modifierOptions:
-              item?.options?.length > 0
-                ? item.options.map((option: any) => ({
-                    modifierOptionId:
-                      option?.optionId || option?.modifierOptionId || null,
-                    modifierOptionName:
-                      option?.name || option?.modifierOptionName || "",
-                    cost: option?.price || 0,
-                    isModifierOptionChanged: false,
-                    isEnabled: option?.isEnabled,
-                  }))
-                : [{ modifierOptionName: "", cost: 0 }],
-            minSelection: item.minSelection || 0,
-            maxSelection: item.maxSelection || 0,
-            freeCustomization: item?.freeCustomization || 0,
-            selectedValue: selectedTypeNames,
-            selectionType: item?.selectionType || "",
-          };
-        } else if (item?.modifierOptions) {
-          return {
-            modifierId: item?.id || "",
-            modifierName: item?.modifierName || item?.name || "",
-            isModifierChanged: false,
-            isEnabled: item.isEnabled,
-            modifierOptions:
-              item?.modifierOptions?.length > 0
-                ? item.modifierOptions.map((option: any) => ({
-                    modifierOptionId:
-                      option?.optionId || option?.modifierOptionId || null,
-                    modifierOptionName:
-                      option?.name || option?.modifierOptionName || "",
-                    cost: option?.cost || 0,
-                    isModifierOptionChanged: false,
-                    isEnabled: option?.isEnabled,
-                  }))
-                : [{ modifierOptionName: "", cost: 0 }],
-            minSelection: item.minSelection || 0,
-            maxSelection: item.maxSelection || 0,
-            freeCustomization: item?.freeCustomization || 0,
-            selectedValue: selectedTypeNames,
-            selectionType: item?.selectionType || "",
-          };
-        }
+           if(item?.options)
+           {
+            return {
+              modifierId: item?.id || "",
+              modifierName: item?.modifierName || item?.name || "",
+              isModifierChanged: false,
+              isEnabled:item.isEnabled,
+              selectionType: "Mandatory",
+           
+              modifierOptions:
+                item?.options?.length > 0
+                  ? item.options.map((option: any) => ({
+                      modifierOptionId:
+                        option?.optionId || option?.modifierOptionId || null,
+                      modifierOptionName:
+                        option?.name || option?.modifierOptionName || "",
+                      cost: option?.price || 0,
+                      isModifierOptionChanged: false,
+                      isEnabled:option?.isEnabled,
+                    }))
+                  : [{ modifierOptionName: "", cost: 0 }],
+              minSelection: item.minSelection || 0,
+              maxSelection: item.maxSelection || 0,
+              freeCustomization: item?.freeCustomization || 0,
+              selectedValue: selectedTypeNames,
+              // selectionType: item?.selectionType || "Mandatory",
+             
+            };
+           }
+           else if(item?.modifierOptions)
+           {
+            return {
+              modifierId: item?.id || "",
+              modifierName: item?.modifierName || item?.name || "",
+              isModifierChanged: false,
+              isEnabled:item.isEnabled,
+              modifierOptions:
+                item?.modifierOptions?.length > 0
+                  ? item.modifierOptions.map((option: any) => ({
+                      modifierOptionId:
+                        option?.optionId || option?.modifierOptionId || null,
+                      modifierOptionName:
+                        option?.name || option?.modifierOptionName || "",
+                      cost: option?.cost || 0,
+                      isModifierOptionChanged: false,
+                      isEnabled:option?.isEnabled,
+                    }))
+                  : [{ modifierOptionName: "", cost: 0 }],
+              minSelection: item.minSelection || 0,
+              maxSelection: item.maxSelection || 0,
+              freeCustomization: item?.freeCustomization || 0,
+              selectedValue: selectedTypeNames,
+              // selectionType: item?.selectionType || "Mandatory",
+              selectionType:  "Mandatory",
+
+            };
+           }
+       
       });
 
       setModifications([...mappedModifications]);
@@ -323,6 +332,8 @@ const ItemCustomizations: React.FC<any> = () => {
     selectionType?: string
   ) => {
     const { name, value } = e.target;
+    console.log({modifications});
+    
     setModifications((prev: any) => {
       const updated = [...prev];
       const currentModifier = updated[modIndex];
@@ -333,6 +344,7 @@ const ItemCustomizations: React.FC<any> = () => {
         selectionType: selectionType ? selectionType:"Mandatory",
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
+
       };
 
       setUpdatedModifierIds((prevIds) => {
@@ -819,12 +831,9 @@ const ItemCustomizations: React.FC<any> = () => {
     };
 
     const nameRegex = /^[a-zA-Z0-9\s]+$/;
-    if (!inputValue && modifications[parentIndex]?.modifierName !== "") {
+    if (!inputValue ) {
       optionErrors.optionNameError = `Option Name is required`;
-    } else if (
-      !nameRegex.test(inputValue) &&
-      modifications[parentIndex]?.modifierName !== ""
-    ) {
+    } else if (!nameRegex.test(inputValue)  ) {
       optionErrors.optionNameError = `Option Name must not contain special characters`;
     } else {
       optionErrors.optionNameError = "";
@@ -867,8 +876,9 @@ const ItemCustomizations: React.FC<any> = () => {
         modifications[parentIndex]?.modifierOptions[optionIndex]?.cost || 0,
       optionPriceError: "",
     };
-
-    if (inputValue <= 0 && modifications[parentIndex]?.modifierName) {
+  
+  
+    if (inputValue <= 0 ) {
       optionErrors.optionPriceError = `Price field is required`;
     } else {
       optionErrors.optionPriceError = "";
@@ -900,12 +910,11 @@ const ItemCustomizations: React.FC<any> = () => {
         options: [],
       };
 
-      // if (!modifierName.trim()) {
-      //   modifierErrors.modifierNameError = `Modifier Name is required`;
-      // }
-      if (selectedValue?.length === 0 && modifierName !== "") {
-        modifierErrors.errormsgforselectedvalues =
-          "Available service streams required";
+      if (!modifierName.trim()) {
+        modifierErrors.modifierNameError = `Modifier Name is required`;
+      }
+      if (selectedValue.length === 0 ) {
+        modifierErrors.errormsgforselectedvalues = "Available service streams required";
       }
 
       if (Array.isArray(modifierOptions)) {
@@ -919,14 +928,15 @@ const ItemCustomizations: React.FC<any> = () => {
           };
 
           const nameRegex = /^[a-zA-Z0-9\s]+$/;
-          if (!option.modifierOptionName.trim() && modifierName !== "") {
+          if (!option.modifierOptionName.trim() ) {
             optionErrors.optionNameError = `Option Name is required`;
           }
           // else if (!nameRegex.test(option.modifierOptionName && modifierName!=="")) {
           //   optionErrors.optionNameError = `Option Name must not contain special characters`;
           // }
 
-          if (isNaN(option.cost) || (option.cost <= 0 && modifierName !== "")) {
+        
+          if (isNaN(option.cost) || option.cost <= 0 ) {
             optionErrors.optionPriceError = `Price field is required`;
           }
 
@@ -1199,7 +1209,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                         modifier.selectionType
                                       );
                                     }
-                                    // valiadteModifierName(modIndex,e);
+                                    valiadteModifierName(modIndex,e);
                                   }}
                                   // onBlur={(e) => handleBlur(e, modIndex)}
                                 />
@@ -1513,19 +1523,17 @@ const ItemCustomizations: React.FC<any> = () => {
                                 <input
                                 type='number'
                                   placeholder=""
-                                  className={
-                                    modifications[modIndex]?.selectionType ===
-                                    "Optional"
-                                      ? "input3ItemCustomizations-disable"
-                                      : "input3ItemCustomizations"
-                                  }
+                                  className={modifications[modIndex]?.selectionType === "Optional" ? "input3ItemCustomizations-disable" : "input3ItemCustomizations"}
                                   value={
-                                    modifications[modIndex]?.selectionType ===
-                                      "Optional" &&
-                                    modifications[modIndex].minSelection !== 0
+                                  
+
+
+
+                                    modifications[modIndex]?.minSelection 
+                                      ? modifications[modIndex]?.minSelection
+                                      : modifications[modIndex]?.selectionType === "Optional"
                                       ? 0
-                                      : modifications[modIndex]?.minSelection ||
-                                        ""
+                                      : 1
                                   }
                                   name="minSelection"
                                   onChange={(e) =>
@@ -1540,6 +1548,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                       e.preventDefault();
                                     }
                                   }}
+
                                   disabled={
                                     modifications[modIndex]?.selectionType ===
                                       "Optional" ||
@@ -1609,6 +1618,13 @@ const ItemCustomizations: React.FC<any> = () => {
                                   value={
                                     modifications[modIndex]?.maxSelection || 0
                                   }
+                                  value={
+                                    modifications[modIndex]?.maxSelection
+                                      ? modifications[modIndex]?.maxSelection
+                                      : modifications[modIndex]?.selectionType === "Optional"
+                                      ? 0
+                                      : 1
+                                  }
                                   name="maxSelection"
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
@@ -1662,10 +1678,14 @@ const ItemCustomizations: React.FC<any> = () => {
                                      type="number"
                                   className="input3ItemCustomizations"
                                   name="freeCustomization"
-                                  disabled={!modifications[modIndex]?.isEnabled}
+                                  disabled={
+                                    !modifications[modIndex]?.isEnabled
+                                  }
+                                  
                                   value={
-                                    modifications[modIndex]
-                                      ?.freeCustomization || 0
+                                    modifications[modIndex]?.freeCustomization!== undefined
+                                      ?modifications[modIndex]?.freeCustomization
+                                      : 0
                                   }
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)

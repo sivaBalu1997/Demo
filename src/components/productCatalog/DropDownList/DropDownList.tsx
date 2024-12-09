@@ -177,7 +177,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-  const [SubcategoryId, setSubCategoryId] = useState<string>("");
+  const [SubcategoryParentId, setSubcategoryParentId] = useState<string>("");
 
   const filteredOptions = Array.isArray(options)
     ? options.filter((option) =>
@@ -466,7 +466,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     const viewdata = {
       locationId: locationid,
       type: dropDownType,
-      parentId: SubcategoryId && SubcategoryId,
+      parentId: SubcategoryParentId && SubcategoryParentId,
     };
 
     if (deletedItem) {
@@ -517,7 +517,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       trigger(name);
     }
     if (dropDownType === "CATEGORY") {
-      setSubCategoryId(option.id);
+      setSubcategoryParentId(option.id);
     }
     if (dropDownType === "SUB_CATEGORY") {
       valiadtesubCategory()
@@ -549,7 +549,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     const viewdata = {
       locationId: locationid,
       type: dropDownType,
-      parentId: SubcategoryId && SubcategoryId,
+      parentId: SubcategoryParentId && SubcategoryParentId,
     };
     if (addNewButton && newItem) {
       dispatch(addDropDowRequest(newItem));

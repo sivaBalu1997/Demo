@@ -1338,6 +1338,18 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
 
+
+  //   useEffect(()=>{
+
+  //  if(!online)
+  //  {
+  //   setPickup(false);
+  //   setDelivery(false);
+  //  }
+   
+
+  //   },[online])
+
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
 

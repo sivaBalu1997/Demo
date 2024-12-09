@@ -68,6 +68,32 @@ const AvailabilityChangesUntil = ({
     `Until${untillTime}`,
     "Until manually enabled",
   ];
+  const sessionavailable=[
+    {
+      openingTime:"12.00",
+      closingTime:"11.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    }
+  ]
 
   const getTodayDay = () => {
     const daysOfWeek = [
@@ -136,8 +162,11 @@ const AvailabilityChangesUntil = ({
     } else if (elem === "End of Sessions") {
       const formattedDate = getFormattedDate();
       const SessionTime = `${formattedDate}T${filteredsession[0].closingTime}`;
-      if (filteredsession?.length === 1) {
+      if (filteredsession?.length ===1) {
         setTimeToSet(SessionTime);
+       
+        // setshowAvailchanges(false)
+        // setshowsession(true);
 
         setshowAvailchanges(false);
       } else {

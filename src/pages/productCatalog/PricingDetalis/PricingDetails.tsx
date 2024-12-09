@@ -882,13 +882,12 @@ const PricingDetails = () => {
                         value={value}
                         className="Prepartiontime-input-hours"
                         onChange={(e) => {
-                          const value = e.target.value;
-                          if (/^(1[0-9]|2[0-3]|[1-9])$/.test(value) || value === "") {
-                            setValue(
-                              "Preparationtime.hours",
-                              value === "" ? "" : Number(value)
-                            );
-                        }
+                          const inputValue = e.target.value;
+                      
+                          if (/^(0|[1-9]|1[0-9]|2[0-3])$/.test(inputValue) || inputValue === "") {
+                            setValue("Preparationtime.hours", inputValue === "" ? "" : Number(inputValue));
+                          }
+                         
                         }}
                       />
                     )}
