@@ -1338,6 +1338,18 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
       setErrors(validationErrors); 
     };
 
+
+  //   useEffect(()=>{
+
+  //  if(!online)
+  //  {
+  //   setPickup(false);
+  //   setDelivery(false);
+  //  }
+   
+
+  //   },[online])
+
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
 

@@ -1476,7 +1476,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     modifications[modIndex]?.selectionType === "Optional" &&
                                     modifications[modIndex].minSelection !== 0
                                       ? 0
-                                      : modifications[modIndex]?.minSelection || ""
+                                      : modifications[modIndex]?.minSelection || 0
                                   }
                                   name="minSelection"
                                   onChange={(e) =>
@@ -1491,6 +1491,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                       e.preventDefault();
                                     }
                                   }}
+                                  
                                   disabled={
                                     modifications[modIndex]?.selectionType ===
                                     "Optional" ||!modifications[modIndex]?.isEnabled
