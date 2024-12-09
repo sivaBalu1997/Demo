@@ -139,8 +139,8 @@ const ItemCustomizations: React.FC<any> = () => {
           isModifierOptionChanged: false,
         },
       ],
-      minSelection: 0,
-      maxSelection: 0,
+      minSelection: 1,
+      maxSelection: 1,
       freeCustomization: 0,
       selectedValue: selectedValue,
       selectionType: "Mandatory",
@@ -189,6 +189,8 @@ const ItemCustomizations: React.FC<any> = () => {
               modifierName: item?.modifierName || item?.name || "",
               isModifierChanged: false,
               isEnabled:item.isEnabled,
+              selectionType: "Mandatory",
+           
               modifierOptions:
                 item?.options?.length > 0
                   ? item.options.map((option: any) => ({
@@ -201,11 +203,12 @@ const ItemCustomizations: React.FC<any> = () => {
                       isEnabled:option?.isEnabled,
                     }))
                   : [{ modifierOptionName: "", cost: 0 }],
-              minSelection: item.minSelection || 0,
-              maxSelection: item.maxSelection || 0,
+              minSelection: item.minSelection || 1,
+              maxSelection: item.maxSelection || 1,
               freeCustomization: item?.freeCustomization || 0,
               selectedValue: selectedTypeNames,
-              selectionType: item?.selectionType || "",
+              // selectionType: item?.selectionType || "Mandatory",
+             
             };
            }
            else if(item?.modifierOptions)
@@ -227,11 +230,13 @@ const ItemCustomizations: React.FC<any> = () => {
                       isEnabled:option?.isEnabled,
                     }))
                   : [{ modifierOptionName: "", cost: 0 }],
-              minSelection: item.minSelection || 0,
-              maxSelection: item.maxSelection || 0,
+              minSelection: item.minSelection || 1,
+              maxSelection: item.maxSelection || 1,
               freeCustomization: item?.freeCustomization || 0,
               selectedValue: selectedTypeNames,
-              selectionType: item?.selectionType || "",
+              // selectionType: item?.selectionType || "Mandatory",
+              selectionType:  "Mandatory",
+
             };
            }
        
@@ -257,8 +262,8 @@ const ItemCustomizations: React.FC<any> = () => {
             isEnabled:true
           },
         ],
-        minSelection: 0,
-        maxSelection: 0,
+        minSelection: 1,
+        maxSelection: 1,
         freeCustomization: 0,
         selectedValue: selectedValue,
         selectionType: "Mandatory",
@@ -329,6 +334,8 @@ const ItemCustomizations: React.FC<any> = () => {
     selectionType?: string
   ) => {
     const { name, value } = e.target;
+    console.log({modifications});
+    
     setModifications((prev: any) => {
       const updated = [...prev];
       const currentModifier = updated[modIndex];
@@ -339,6 +346,7 @@ const ItemCustomizations: React.FC<any> = () => {
         selectionType: selectionType ? selectionType:"Mandatory",
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
+
       };
 
       setUpdatedModifierIds((prevIds) => {
@@ -824,9 +832,9 @@ const ItemCustomizations: React.FC<any> = () => {
     };
   
     const nameRegex = /^[a-zA-Z0-9\s]+$/;
-    if (!inputValue && modifications[parentIndex]?.modifierName!=="") {
+    if (!inputValue ) {
       optionErrors.optionNameError = `Option Name is required`;
-    } else if (!nameRegex.test(inputValue)   && modifications[parentIndex]?.modifierName!=="") {
+    } else if (!nameRegex.test(inputValue)  ) {
       optionErrors.optionNameError = `Option Name must not contain special characters`;
     } else {
       optionErrors.optionNameError = ""; 
@@ -873,7 +881,7 @@ const ItemCustomizations: React.FC<any> = () => {
     };
   
   
-    if (inputValue <= 0 && modifications[parentIndex]?.modifierName) {
+    if (inputValue <= 0 ) {
       optionErrors.optionPriceError = `Price field is required`;
     } else {
       optionErrors.optionPriceError = ""; 
@@ -908,10 +916,10 @@ const ItemCustomizations: React.FC<any> = () => {
         options: [],
       };
 
-      // if (!modifierName.trim()) {
-      //   modifierErrors.modifierNameError = `Modifier Name is required`;
-      // }
-      if (selectedValue.length === 0 && modifierName!=="") {
+      if (!modifierName.trim()) {
+        modifierErrors.modifierNameError = `Modifier Name is required`;
+      }
+      if (selectedValue.length === 0 ) {
         modifierErrors.errormsgforselectedvalues = "Available service streams required";
       }
 
@@ -926,7 +934,7 @@ const ItemCustomizations: React.FC<any> = () => {
           };
 
           const nameRegex = /^[a-zA-Z0-9\s]+$/;
-          if (!option.modifierOptionName.trim() && modifierName!=="") {
+          if (!option.modifierOptionName.trim() ) {
             optionErrors.optionNameError = `Option Name is required`;
           } 
           // else if (!nameRegex.test(option.modifierOptionName && modifierName!=="")) {
@@ -934,7 +942,7 @@ const ItemCustomizations: React.FC<any> = () => {
           // }
 
         
-          if (isNaN(option.cost) || option.cost <= 0 && modifierName!=="") {
+          if (isNaN(option.cost) || option.cost <= 0 ) {
             optionErrors.optionPriceError = `Price field is required`;
           }
 
@@ -1194,7 +1202,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                         modifier.selectionType
                                       );
                                     }
-                                    // valiadteModifierName(modIndex,e);
+                                    valiadteModifierName(modIndex,e);
                                   }}
                                   // onBlur={(e) => handleBlur(e, modIndex)}
                                 />
@@ -1471,12 +1479,12 @@ const ItemCustomizations: React.FC<any> = () => {
                                 type='number'
                                   placeholder=""
                                   className={modifications[modIndex]?.selectionType === "Optional" ? "input3ItemCustomizations-disable" : "input3ItemCustomizations"}
-                                
                                   value={
-                                    modifications[modIndex]?.selectionType === "Optional" &&
-                                    modifications[modIndex].minSelection !== 0
+                                    modifications[modIndex]?.minSelection !== undefined
+                                      ? modifications[modIndex]?.minSelection
+                                      : modifications[modIndex]?.selectionType === "Optional"
                                       ? 0
-                                      : modifications[modIndex]?.minSelection || 0
+                                      : 1
                                   }
                                   name="minSelection"
                                   onChange={(e) =>
@@ -1491,7 +1499,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                       e.preventDefault();
                                     }
                                   }}
-                                  
+
                                   disabled={
                                     modifications[modIndex]?.selectionType ===
                                     "Optional" ||!modifications[modIndex]?.isEnabled
@@ -1552,7 +1560,13 @@ const ItemCustomizations: React.FC<any> = () => {
                                   disabled={
                                     !modifications[modIndex]?.isEnabled
                                   }
-                                  value={modifications[modIndex]?.maxSelection||0}
+                                  value={
+                                    modifications[modIndex]?.maxSelection !== undefined
+                                      ? modifications[modIndex]?.maxSelection
+                                      : modifications[modIndex]?.selectionType === "Optional"
+                                      ? 0
+                                      : 1
+                                  }
                                   name="maxSelection"
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
@@ -1601,8 +1615,11 @@ const ItemCustomizations: React.FC<any> = () => {
                                   disabled={
                                     !modifications[modIndex]?.isEnabled
                                   }
+                                  
                                   value={
-                                    modifications[modIndex]?.freeCustomization||0
+                                    modifications[modIndex]?.freeCustomization!== undefined
+                                      ?modifications[modIndex]?.freeCustomization
+                                      : 0
                                   }
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
