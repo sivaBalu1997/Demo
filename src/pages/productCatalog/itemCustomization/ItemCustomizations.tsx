@@ -139,8 +139,8 @@ const ItemCustomizations: React.FC<any> = () => {
           isModifierOptionChanged: false,
         },
       ],
-      minSelection: 1,
-      maxSelection: 1,
+      minSelection: 0,
+      maxSelection: 0,
       freeCustomization: 0,
       selectedValue: selectedValue,
       selectionType: "Mandatory",
@@ -203,8 +203,8 @@ const ItemCustomizations: React.FC<any> = () => {
                       isEnabled:option?.isEnabled,
                     }))
                   : [{ modifierOptionName: "", cost: 0 }],
-              minSelection: item.minSelection || 1,
-              maxSelection: item.maxSelection || 1,
+              minSelection: item.minSelection || 0,
+              maxSelection: item.maxSelection || 0,
               freeCustomization: item?.freeCustomization || 0,
               selectedValue: selectedTypeNames,
               // selectionType: item?.selectionType || "Mandatory",
@@ -230,8 +230,8 @@ const ItemCustomizations: React.FC<any> = () => {
                       isEnabled:option?.isEnabled,
                     }))
                   : [{ modifierOptionName: "", cost: 0 }],
-              minSelection: item.minSelection || 1,
-              maxSelection: item.maxSelection || 1,
+              minSelection: item.minSelection || 0,
+              maxSelection: item.maxSelection || 0,
               freeCustomization: item?.freeCustomization || 0,
               selectedValue: selectedTypeNames,
               // selectionType: item?.selectionType || "Mandatory",
@@ -262,8 +262,8 @@ const ItemCustomizations: React.FC<any> = () => {
             isEnabled:true
           },
         ],
-        minSelection: 1,
-        maxSelection: 1,
+        minSelection: 0,
+        maxSelection: 0,
         freeCustomization: 0,
         selectedValue: selectedValue,
         selectionType: "Mandatory",
@@ -1480,7 +1480,11 @@ const ItemCustomizations: React.FC<any> = () => {
                                   placeholder=""
                                   className={modifications[modIndex]?.selectionType === "Optional" ? "input3ItemCustomizations-disable" : "input3ItemCustomizations"}
                                   value={
-                                    modifications[modIndex]?.minSelection !== undefined
+                                  
+
+
+
+                                    modifications[modIndex]?.minSelection 
                                       ? modifications[modIndex]?.minSelection
                                       : modifications[modIndex]?.selectionType === "Optional"
                                       ? 0
@@ -1561,7 +1565,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     !modifications[modIndex]?.isEnabled
                                   }
                                   value={
-                                    modifications[modIndex]?.maxSelection !== undefined
+                                    modifications[modIndex]?.maxSelection
                                       ? modifications[modIndex]?.maxSelection
                                       : modifications[modIndex]?.selectionType === "Optional"
                                       ? 0
