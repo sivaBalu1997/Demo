@@ -51,10 +51,11 @@
 }
 .navmenu-container {
   overflow-x: hidden;
-  height: 370px;
+  height: 350px;
   overflow-y: scroll;
   z-index: 0;
   display: flex;
+  margin-top: 2%;
 
   flex-direction: column;
   &::-webkit-scrollbar {

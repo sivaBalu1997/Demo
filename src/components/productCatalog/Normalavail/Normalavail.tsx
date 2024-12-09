@@ -544,6 +544,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     }, [selectedthirdvalues]);
 
     const editData = useSelector((state: any) => state.productCatalog.editData);
+ 
+    
 
     useEffect(() => {
       
@@ -589,30 +591,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
         });
 
-        // if (editData?.length > 0 &&
-        //   filterOrderTypeAvailableorNotDineIn &&
-        //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
-        // ) {
-        //   setShowDineIn(true);
-        //   setdineInEnable(true);
-        // } else {
-        //   setShowDineIn(false);
-        //   setdineInEnable(false);
-        // }
+      
 
-        // if (
-        //   editData?.length > 0 &&
-        //   filterOrderTypeAvailableorNotPickup &&
-        //   filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 1 &&
-        //   pickupDetails?.price > 0
-        // ) {
-        //   setPickup(true);
-        //   setpickupEnable(true);
-        // } else {
-        //   setPickup(false);
-        //   setpickupEnable(false);
-        // }
+       
 
+        console.log({editData});
+       
         // if (pickupDetails) {
         //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
         // }
@@ -623,15 +607,27 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         //   thirdpartyDetails && thirdpartyDetails[0]?.price > 0 ? setOnline(true) : setOnline(false);
         // }
 
-        const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
-          (item: any) => ({
-            DineInPrice: item?.DineInPrice,
-            DineInMealType: item?.DineInMealType || [],
-            DineInService: item?.DineInService,
-            showDay: true,
-            dayButtonText: "Choose Day",
-          })
-        );
+        // const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
+        //   (item: any) => ({
+        //     DineInPrice: item?.DineInPrice,
+        //     DineInMealType: item?.DineInMealType || [],
+        //     DineInService: item?.DineInService,
+        //     showDay: true,
+        //     dayButtonText: "Choose Day",
+        //   })
+        // );
+        // Initialize selected values
+        // const initialSelectedValues = updatedFields?.map(
+        //   (item: any) => item.DineInMealType
+        // );
+        // const initialSelectedValues2 = updatedFields?.map(
+        //   (item: any) => item.DineInService
+        // );
+        // const initialSelectedValues2 = updatedField?.DineInService
+        // setSelectedValues(initialSelectedValues2);
+        // setDineIn(true);
+        
+        // setShowDineIn(true);
 
         const updatedField = {
           DineInPrice: dineIndetails?.price,
@@ -639,20 +635,24 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           showDay: prizingDetail.normalForm.DineIn[0]?.length > 0 ? true : false,
           dayButtonText: "Choose Day",
         };
-
         
         
         setDineInFields([updatedField]);
-        if(updatedField.DineInPrice || updatedField.DineInMealType )
+        if(updatedField.DineInPrice>0)
         {
-      setShowDineIn(true)
+          setShowDineIn(true);
+          setdineInEnable(true);
         }
+        // else{
+        //   setShowDineIn(false);
+        //   setdineInEnable(false);
+        // }
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
           updatedAvailabilities[0] = {
             ...updatedAvailabilities[0],
-            sessions: [...updatedFields[0]?.DineInMealType],
+            sessions:updatedField.DineInMealType,
           };
 
           return {
@@ -666,8 +666,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdPartyTypeName =
           prizingDetail?.normalForm?.thirdpartyDetails?.map;
         if (pickupDetails) {
-          setPickup(true) 
-          setOnline(true)
+          // setPickup(true) 
+          // setOnline(true)
+          console.log("pickupDetails",pickupDetails);
+          pickupDetails.price>0 &&  setPickup(true) 
+          setOnline(true);
+          setPickup(true);
+          setpickupEnable(true);
+         
+  
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
@@ -678,8 +685,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
 
         if (deliveryDetails) {
-          setPickup(true) 
-          setOnline(true)
+          setOnline(true);
+          setDelivery(true);
+          setdeliveryEnable(true);
+          
+         
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
@@ -690,7 +700,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
 
         if (thirdpartyDetails?.length > 0) {
-          // setOnline(true);
+          setOnline(true);
           const data = thirdpartyDetails?.map((item: any) => item?.typeName);
           if (thirdpartyDetails.some((item: any) => item?.price)) {
             setSelectedThirdValues(data);
@@ -705,23 +715,49 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setMealTypes(object);
         }
 
-        // Initialize selected values
-        const initialSelectedValues = updatedFields?.map(
-          (item: any) => item.DineInMealType
-        );
+        
+        const initialSelectedValues = [updatedField.DineInMealType]
         setSelectedValuesMealType(initialSelectedValues);
 
-        const initialSelectedValues2 = updatedFields?.map(
-          (item: any) => item.DineInService
-        );
-        setSelectedValues(initialSelectedValues2);
-        // setDineIn(true);
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
 
-        // setShowDineIn(true);
+
+  const pickupEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="P")
+  const DeliveryEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="S")
+  const DineInEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="D")
+
+
+  
+console.log({pickupEnableOrnotWhneEdit});
+if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneEdit[0].isEnabled===0)
+  {
+    
+    setShowDineIn(false);
+    setdineInEnable(false);
+  }
+
+          if( editData?.length > 0 &&!pickupDetails && pickupEnableOrnotWhneEdit && pickupEnableOrnotWhneEdit[0].isEnabled===0)
+          {
+            console.log("going inside");
+            setOnline(true)
+            setPickup(false);
+            setpickupEnable(false);
+          }
+
+          if( editData?.length > 0 &&!deliveryDetails&& DeliveryEnableOrnotWhneEdit && DeliveryEnableOrnotWhneEdit[0].isEnabled===0)
+            {
+              console.log("going inside");
+              setOnline(true)
+              setDelivery(false);
+              setdeliveryEnable(false);
+            }
+         
+         
+          
       }
 
-      if (prizingDetail?.normalForm) {
+      if (prizingDetail?.normalForm && !prizingDetail?.normalForm?.formNormal) {
+        console.log("gggg",prizingDetail);
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
@@ -751,6 +787,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         if (pickupDetails) {
           pickupDetails.price>0 && setPickup(true);
+          // setPickup(true);
           if (
             editData?.length > 0 &&
             filterOrderTypeAvailableorNotPickup &&
@@ -772,6 +809,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         }
 
         if (deliveryDetails) {
+          
           deliveryDetails?.price>0 && setDelivery(true)||thirdpartyDetails&& thirdpartyDetails[0]?.price>0 && setDelivery(true)
           if (
             editData?.length > 0 &&
@@ -937,6 +975,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         ...prevData,
         price: newPrice,
       }));
+      validateDineInPrice(index, newPrice);
     };
 
     const addDay = (index: number): void => {
@@ -1231,6 +1270,80 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const [errors, setErrors] = useState<Record<string, string>>({});
 
+    const validatedineMealType = () => {
+      const validationErrors: Record<string, string> = { ...errors }; 
+    
+      dineinfields?.forEach((field: any, index: number) => {
+        if (showDineIn) {
+          if (
+            (showDineIn && !field?.DineInMealType) ||
+            field?.DineInMealType?.length === 0
+          ) {
+            validationErrors[`DineInMealType-${index}`] = "Meal type is empty";
+          } else {
+            delete validationErrors[`DineInMealType-${index}`];
+          }
+        }
+      });
+    
+      setErrors(validationErrors); 
+    
+      return Object.keys(validationErrors).length === 0; 
+    };
+    
+    const validatepickup= (togglestatus:boolean,selectedValluesArray:any) => {
+      const validationErrors: Record<string, string> = { ...errors };
+      
+      if (togglestatus) {
+       
+       
+        if (togglestatus && selectedValluesArray?.length === 0) {
+          validationErrors.pickupmealTypeSessions = "Meal type is empty";
+        }
+        else {
+          delete validationErrors.pickupmealTypeSessions ;
+        }
+      }
+
+      
+
+      setErrors(validationErrors);
+
+      return Object.keys(validationErrors).length === 0;
+    };
+    const validatedelivery = (togglestatus:boolean,selectedValluesArray:any) => {
+      const validationErrors: Record<string, string> = { ...errors };
+      
+      if (togglestatus) {
+       
+       
+        if (togglestatus && selectedValluesArray?.length === 0) {
+          validationErrors.deliverymealTypeSessions = "Meal type is empty";
+        }
+        else {
+          delete validationErrors.deliverymealTypeSessions ;
+        }
+      }
+
+      
+
+      setErrors(validationErrors);
+
+      return Object.keys(validationErrors).length === 0;
+    };
+
+
+
+    const validateDineInPrice = (index: number, price: number): void => {
+      const validationErrors = { ...errors }; 
+      if (!price || price <= 0) {
+        validationErrors[`DineInPrice-${index}`] = "Price is empty";
+      } else {
+        delete validationErrors[`DineInPrice-${index}`]; 
+      }
+      setErrors(validationErrors); 
+    };
+
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
 
@@ -1315,7 +1428,36 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       pickup,
       delivery,
     ]);
-
+    const validatePickupPrice = (price:number): void => {
+      const validationErrors = { ...errors }; 
+      if(pickup)
+      {
+        if (!price || price <= 0) {
+          validationErrors.pickupprice = "Price is empty";
+        } else {
+          delete validationErrors.pickupprice;
+        }
+      }
+    
+      
+    
+      setErrors(validationErrors); 
+    };
+    const validateDeliveryPrice = (price:number): void => {
+      const validationErrors = { ...errors }; 
+      if(delivery)
+      {
+        if (!price || price <= 0) {
+          validationErrors.deliveryprice = "Price is empty";
+        } else {
+          delete validationErrors.deliveryprice; 
+        }
+      }
+    
+     
+    
+      setErrors(validationErrors); 
+    };
     return (
       <div>
         <div className="AvailDaycheck">
@@ -1413,7 +1555,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
-                          onBlur={() => validateDineinFields()}
+                         
                           onInput={(e) => {
                             const inputElement = e.target as HTMLInputElement;
                             const value = inputElement.value;
@@ -1436,6 +1578,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                       <div className="Mealz">
                         <div>
                           <DropDown
+                          validatedineMealType={validatedineMealType}
                             selectedValues={selectedValuesmealtype[index] || ""}
                             onSelect={(values) =>
                               handleSelectMealtype(values, index)
@@ -1544,10 +1687,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           type="number"
                           className="PriceInput1Normal-input"
                           value={pickupDetails.price || ""}
-                          onBlur={() => validateDineinFields()}
+                         
                           onKeyDown={(e) => {
                             if (e.key === "-") {
-                              e.preventDefault(); // Prevent typing -,
+                              e.preventDefault(); 
                             }
                             if (
                               e.key === "e" ||
@@ -1568,6 +1711,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 price: numericValue,
                               });
                             }
+                            validatePickupPrice(Number(inputValue))
                           }}
                         />
                         <span className="Errormsg pickuperrormsg">
@@ -1595,9 +1739,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             }))
                           }
                           options={options3}
+                          toggleOnorOff={pickup}
+                          validatepickupdelivery={validatepickup}
                           label="Meal Type*"
                           width="Drop1"
-                          onBlur={() => validateDineinFields()}
+                          // onBlur={() => validatepickupdelivery()}
                         />
                         <span className="Errormsg pickuperrormsgmealType">
                           {errors.pickupmealTypeSessions}
@@ -1705,22 +1851,20 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           }}
                           className="DeliveryInput1Normal"
                           value={deliveryDetails?.price || ""}
-                          onBlur={() => validateDineinFields()}
+                      
                           onChange={(e) => {
                             const newPrice = e.target.value;
                             setDeliveryDetails((prevDetails: any) => ({
                               ...prevDetails,
                               price: Number(newPrice),
                             }));
+                            validateDeliveryPrice(Number(newPrice));
                           }}
                           onInput={(e) => {
-                            // onInput for real-time validation (allows only numbers and one decimal point)
                             const inputElement = e.target as HTMLInputElement;
                             const newPrice = inputElement.value;
 
-                            // Regex allows only digits and one decimal point
                             if (!/^\d*\.?\d*$/.test(newPrice)) {
-                              // If invalid input, restore the last valid value by slicing off the invalid character
                               inputElement.value = newPrice.slice(0, -1);
                             }
                           }}
@@ -1748,6 +1892,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             }));
                           }}
                           onBlur={() => validateDineinFields()}
+                          toggleOnorOff={delivery}
+                          validatepickupdelivery={validatedelivery}
                           options={options4}
                           label="Meal Type*"
                           width="Drop1"
