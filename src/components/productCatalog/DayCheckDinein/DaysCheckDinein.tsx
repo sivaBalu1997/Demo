@@ -47,7 +47,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     "Sunday",
   ];
 
-  const disabledDays = getDisabledDays(index); 
+  const disabledDays = getDisabledDays(index);
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -55,7 +55,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     const { name, checked } = event.target;
     const dayIndex = parseInt(name, 10);
     const newCheckedItems = [...checkedItems];
-  
+
     if (dayIndex === 0) {
       newCheckedItems[index] = checked ? data.map((_, i) => i) : [];
     } else {
@@ -65,30 +65,33 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
         newCheckedItems[index] = (newCheckedItems[index] || []).filter(
           (item) => item !== dayIndex
         );
-      }  
-      const allDaysSelected = data.slice(1).every((_, i) =>
-        newCheckedItems[index].includes(i + 1)
-      );  
+      }
+      const allDaysSelected = data
+        .slice(1)
+        .every((_, i) => newCheckedItems[index].includes(i + 1));
       if (allDaysSelected) {
-        newCheckedItems[index] = [0, ...newCheckedItems[index].filter((item) => item !== 0)];
+        newCheckedItems[index] = [
+          0,
+          ...newCheckedItems[index].filter((item) => item !== 0),
+        ];
       } else {
-        newCheckedItems[index] = newCheckedItems[index].filter((item) => item !== 0);
+        newCheckedItems[index] = newCheckedItems[index].filter(
+          (item) => item !== 0
+        );
       }
     }
     setCheckedItems(newCheckedItems);
   };
-  
+
   const checkedItemsForIndex = Array?.isArray(checkedItems[index])
     ? checkedItems[index]
     : [];
-
-    console.log({checkedItems})
 
   return (
     <div className="container-daycheck">
       {data.map((elem, idx) => {
         const isChecked = checkedItemsForIndex.includes(idx);
-        const isDisabled = disabledDays.includes(idx); 
+        const isDisabled = disabledDays.includes(idx);
         return (
           <div className="DaysCheckContainer-dinein" key={idx}>
             <input
@@ -97,7 +100,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
               onChange={handleCheckboxChange}
               className="aa"
               checked={isChecked}
-              disabled={isDisabled} 
+              disabled={isDisabled}
             />
             <label>{elem}</label>
           </div>
@@ -106,6 +109,5 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     </div>
   );
 };
-
 
 export default DaysCheck;

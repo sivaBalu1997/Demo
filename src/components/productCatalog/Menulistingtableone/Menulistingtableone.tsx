@@ -355,7 +355,6 @@ const Menulistingtableone =forwardRef(( ref: React.Ref<{ tableBodyRef1: HTMLInpu
             updatedRows.splice(Drgavegnonveg, 1);
             updatedRows.splice(index, 0, draggedRow);
             setnooftypes(updatedRows);
-            console.log("nooftypes", nooftypes);
           }
         
           setDrgavegnonveg(null); 
@@ -386,7 +385,6 @@ const Menulistingtableone =forwardRef(( ref: React.Ref<{ tableBodyRef1: HTMLInpu
         const draggingitme=updatednooftypes[draggedIndex];
         updatednooftypes.splice(draggedIndex,1);
         updatednooftypes.splice(index,0,draggingitme)
-        console.log("indexofvalue",updatednooftypes)
         updatedTypes[indexofvalue].name=updatednooftypes;
         setnooftypes(updatedTypes);
         setDraggedRowIndex({ objectId, index });
@@ -450,7 +448,6 @@ const Menulistingtableone =forwardRef(( ref: React.Ref<{ tableBodyRef1: HTMLInpu
     const offset = 80; // Amount to scroll
     const clientY = e.clientY;
     
-    console.log('Client Y:', clientY); // Debugging
   
     if (clientY < 100) { // Near the top of the screen
       table1.scrollTop -= offset;

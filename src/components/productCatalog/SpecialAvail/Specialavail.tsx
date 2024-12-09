@@ -43,20 +43,17 @@ type MainFormType = {
   Zomato: string[];
 };
 
-interface availabilities{
-  availabilityDays:number[],
-  
-sessions:string[]
+interface availabilities {
+  availabilityDays: number[];
+
+  sessions: string[];
 }
 
-interface thirdpartyDeliveryDetails{
-  availabilities:availabilities[],
-  price:number,
-  typeId:string,
-  typeName:string
-
-
-
+interface thirdpartyDeliveryDetails {
+  availabilities: availabilities[];
+  price: number;
+  typeId: string;
+  typeName: string;
 }
 type MainFormTypespecial = {
   availabilityid: string[];
@@ -64,10 +61,9 @@ type MainFormTypespecial = {
   toDate: string | Date | undefined;
   specialdays: number[];
   dineinfields: DineInField[];
-  pickupDetails:thirdpartyDeliveryDetails[];
-  deliveryDetails:thirdpartyDeliveryDetails[];
-  thirdpartyDetails:thirdpartyDeliveryDetails[];
-
+  pickupDetails: thirdpartyDeliveryDetails[];
+  deliveryDetails: thirdpartyDeliveryDetails[];
+  thirdpartyDetails: thirdpartyDeliveryDetails[];
 };
 interface NormalForm {
   PickuppriceNormal: string;
@@ -152,7 +148,7 @@ interface State {
 interface PriceInfo {
   typeName: string;
   typeId: string;
-  price: number; 
+  price: number;
   availabilities: Availability[];
 }
 
@@ -324,7 +320,6 @@ const Specialavail: React.FC<NormalavailProps> = ({
     setPriceInfo(data);
   };
   const primarypagedetails = useSelector((state: RootState) => state);
-  console.log("itemvghbj", primarypagedetails.primarypage);
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -336,8 +331,6 @@ const Specialavail: React.FC<NormalavailProps> = ({
   const handleDateChange1 = (date: Date | null) => {
     setSelectedDate1(date);
   };
-
-  console.log("selectedDate", selectedDate);
 
   const handleImageClick = () => {
     if (datePickerRef.current) {
@@ -351,15 +344,10 @@ const Specialavail: React.FC<NormalavailProps> = ({
     }
   };
 
-  console.log("mainFormState", mainFormState);
- 
   const locationid = useSelector(
     (state: State) => state.auth.credentials.locationId
   );
- 
- 
 
-  console.log("validationStateerr", ValidationStateerr);
   const specialItem = {
     specialName: primarypagedetails.primarypage.data.itemName,
     categoryId: primarypagedetails.primarypage.data.categoryId,
@@ -376,8 +364,7 @@ const Specialavail: React.FC<NormalavailProps> = ({
     ],
     days: mainFormState?.Normaldays,
   };
-  console.log("specialItem",specialItem);
-  
+
   // const mainForm = {
   //   availabilityid: availabilityid,
   //   dineinfields,
@@ -389,7 +376,6 @@ const Specialavail: React.FC<NormalavailProps> = ({
   //   deliveryDetails:deliveryDetails,
   //   thirdpartyDetails:priceInfo
 
-   
   // };
   const mainForm = {
     availabilityid: availabilityid,
@@ -409,9 +395,9 @@ const Specialavail: React.FC<NormalavailProps> = ({
     ...(dinein && {
       dineInDetails: formattedDineInData,
     }),
-    ...(pickup && {pickupDetails: pickupDetails}),
-   ...(delivery && { deliveryDetails: deliveryDetails}),
-   ...( priceInfo && {thirdpartyDetails: priceInfo}  )
+    ...(pickup && { pickupDetails: pickupDetails }),
+    ...(delivery && { deliveryDetails: deliveryDetails }),
+    ...(priceInfo && { thirdpartyDetails: priceInfo }),
   };
 
   const optionsselectthird = orderTypes
@@ -773,8 +759,6 @@ const Specialavail: React.FC<NormalavailProps> = ({
     }
   };
 
-  
- 
   const handleSelectThird = (value: string[]): void => {
     setSelectedThirdValues(value);
     validateDropdown(value, "ThirdDeliverySwiggyZomato");
@@ -866,7 +850,6 @@ const Specialavail: React.FC<NormalavailProps> = ({
     "Dinner",
   ]);
 
- 
   return (
     <div>
       <div className="AvailDaycheck">
@@ -894,8 +877,8 @@ const Specialavail: React.FC<NormalavailProps> = ({
             <DatePicker
               selected={selectedDate1}
               onChange={handleDateChange1}
-              placeholderText="07/01/2034" 
-              dateFormat="MM/dd/yyyy" 
+              placeholderText="07/01/2034"
+              dateFormat="MM/dd/yyyy"
               showPopperArrow
               ref={datePickerRef1}
               className="datePicker"
@@ -1139,7 +1122,11 @@ const Specialavail: React.FC<NormalavailProps> = ({
             </div>
 
             {/* DeliveryRelated    */}
-            <div  className={`${delivery?"DeliveryRelatedNormal":"DeliveryRelatedNormalopen"}`}>
+            <div
+              className={`${
+                delivery ? "DeliveryRelatedNormal" : "DeliveryRelatedNormalopen"
+              }`}
+            >
               <h1 className="DeliveryRelatedHeadingNormal">Delivery</h1>
               <div className="toggleV">
                 <Toggle toggle={delivery} setToggle={setDelivery} />
