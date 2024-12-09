@@ -1300,6 +1300,13 @@ const ItemCustomizations: React.FC<any> = () => {
                                               ? "100%"
                                               : "50%",
                                           }}
+                                          onInput={(e) => {
+                                            const input = e.target as HTMLInputElement; 
+                                            const regex = /^[a-zA-Z\s]*$/; 
+                                            if (!regex.test(input.value)) {
+                                              input.value = input.value.replace(/[^a-zA-Z\s]/g, ""); 
+                                            }
+                                          }}
                                           disabled={
                                             !modifications[modIndex]
                                               ?.modifierOptions[optIndex]
