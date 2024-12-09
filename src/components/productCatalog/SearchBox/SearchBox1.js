@@ -55,6 +55,7 @@ const SearchBox = () => {
   }, [filteredOptionsDispatch]);
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
+  console.log({ menuData })
   useEffect(() => {
     if (menuData) {
       setSearchTerm('')
@@ -90,11 +91,50 @@ const SearchBox = () => {
 
   };
 
+  // // All - Categories and subCategory ItemResponse List
+  // const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
+  // console.log({ allItems });
+
+  // const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
+  // console.log({ allItemsPlusSubItemList })
+
+  // const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
+  // console.log({ allNew })
+
+  // const allArray = [...allItems, ...allNew]
+  // console.log({ allArray })
+
+  // const everything = allArray?.map(everything => everything?.itemName)
+  // console.log({ everything })
+
+  // const everythingFM = allArray?.flatMap(everything => everything?.itemName)
+  // console.log({ everythingFM })
+
+
+
   const filterOptions = (input) => {
     const itemNames = menuData?.flatMap(item => item?.itemResponseList)
       .map(item => item?.itemName);
 
-    const filtered = itemNames?.filter(item =>
+    console.log("in filterOptions function", { itemNames })
+
+    // All - Categories and subCategory ItemResponse List
+    const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
+    // console.log({ allItems });
+
+    const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
+    // console.log({ allItemsPlusSubItemList })
+
+    const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
+    // console.log({ allNew })
+
+    const allArray = [...allItems, ...allNew]
+    console.log({ allArray })
+
+    const everything = allArray?.map(everything => everything?.itemName)
+    console.log({ everything })
+
+    const filtered = everything?.filter(item =>
       item?.toLowerCase().includes(input?.toLowerCase())
     );
 
@@ -234,8 +274,8 @@ const SearchBox = () => {
                     'MLSearch-Container-options-none'
                 }
               >
-                <img className="MLNotFoundImage" src={NotFound} alt="MLNo Results Found" />
-                <h3 className='MLheading-none'>No Results Found</h3>
+                <img className={isExpanded ? "MLNotFoundImageExpanded" : "MLNotFoundImage"} src={NotFound} alt="MLNo Results Found" />
+                <h3 className={isExpanded ? "MLheading-none-expanded" : 'MLheading-none'}>No Results Found</h3>
               </div>
             )}
           </ul>

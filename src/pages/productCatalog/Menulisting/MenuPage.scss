@@ -52,6 +52,7 @@
 .scroll-container22{
   &::-webkit-scrollbar {
     display: block;
+    // background-color: pink;
   }
 }
 
@@ -300,6 +301,7 @@
   // border: 1px solid blue;
   &::-webkit-scrollbar {
     width: 12px;
+    height: 15px;
   }
 
   &::-webkit-scrollbar-track {

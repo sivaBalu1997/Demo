@@ -521,7 +521,7 @@ export const MenuPage = () => {
 
   useEffect(() => {
     const isObjectEmpty = (obj) => {
-      return Object.keys(obj).length === 0;
+      return Object?.keys(obj)?.length === 0;
     };
     if (isObjectEmpty(SearchedmenuItem)) {
       const allItemResponseLists = menuData
@@ -543,6 +543,7 @@ export const MenuPage = () => {
       const allItemResponseLists2 = menuData.flatMap((category) => category);
 
       const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
+      console.log({ mergedarray })
 
       const transformedList = mergedarray.map((entry) => ({
         id: entry.categoryId,
@@ -648,10 +649,10 @@ export const MenuPage = () => {
             break;
         }
       });
-      
+
       const modifierData = editData[0]?.modifiers?.map((item) => ({
         id: item?.id ?? "",
-        isEnabled:item?.isEnabled,
+        isEnabled: item?.isEnabled,
         modifierName: item?.modifierName ?? "",
         maxCount: item?.maxCount ?? 0,
         minCount: item?.minCount ?? 0,
@@ -660,7 +661,7 @@ export const MenuPage = () => {
         options:
           item?.options?.map((option) => ({
             optionId: option?.optionId ?? "",
-            isEnabled:option?.isEnabled,
+            isEnabled: option?.isEnabled,
             name: option?.name ?? "",
             price: option?.price ?? 0,
             isEnabled: option?.isEnabled ?? false,
@@ -830,6 +831,7 @@ export const MenuPage = () => {
     const allItemResponseLists2 = menuData.flatMap((category) => category);
 
     const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
+    // console.log({ mergedarray });
 
     const transformedList = mergedarray.map((entry) => ({
       id: entry.categoryId,
@@ -911,9 +913,8 @@ export const MenuPage = () => {
           />
 
           <div
-            className={`${
-              isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
-            }`}
+            className={`${isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
+              }`}
           >
             <div>
               <div className="header-container">
@@ -933,12 +934,11 @@ export const MenuPage = () => {
 
                 <div
                   ref={headerRef}
-                  className={`${
-                    isExpanded ? "scroll-container-expand" : "scroll-container"
-                  }`}
+                  className={`${isExpanded ? "scroll-container-expand" : "scroll-container"
+                    }`}
                 >
                   <div className="second-div-header">
-                    {firstRowTable.length>1&& firstRowTable.map((header, index) => (
+                    {firstRowTable.length > 1 && firstRowTable.map((header, index) => (
                       <>
                         {listingobject && listingobject[header.label] && (
                           <p
@@ -966,12 +966,12 @@ export const MenuPage = () => {
                                   header.label.length - 1
                                 )}
                               </span>
-                              <span className="removeicon"    onClick={() =>
-                                    setlistingobject({
-                                      ...listingobject,
-                                      [header.label]: false,
-                                    })
-                                  }>
+                              <span className="removeicon" onClick={() =>
+                                setlistingobject({
+                                  ...listingobject,
+                                  [header.label]: false,
+                                })
+                              }>
                                 <img
                                   src={removeicon}
                                   className="removeicon-img"
@@ -993,11 +993,10 @@ export const MenuPage = () => {
                 </div>
               </div>
               <div
-                className={`${
-                  isExpanded && !menuDataLoading && "body-container-expand"
-                } ${!isExpanded && !menuDataLoading && "body-container"}`}
-                // className={`${isExpanded ? "body-container-expand" : "body-container"
-                //   }`}
+                className={`${isExpanded && !menuDataLoading && "body-container-expand"
+                  } ${!isExpanded && !menuDataLoading && "body-container"}`}
+              // className={`${isExpanded ? "body-container-expand" : "body-container"
+              //   }`}
               >
                 <div className="first-div-body">
                   {itemList?.map((data, parentIndex) => (
@@ -1054,9 +1053,8 @@ export const MenuPage = () => {
 
                 <div className="scroll-container22">
                   <div
-                    className={`${
-                      isExpanded && !menuDataLoading && !menuDataFailed && "second-div-body-expand"
-                    } ${!isExpanded && !menuDataLoading &&!menuDataFailed && "second-div-body"}`}
+                    className={`${isExpanded && !menuDataLoading && !menuDataFailed && "second-div-body-expand"
+                      } ${!isExpanded && !menuDataLoading && !menuDataFailed && "second-div-body"}`}
                     ref={bodyRef}
                     style={{ height: menuDataLoading ? "39.5rem" : "" }}
                   >
@@ -1085,11 +1083,10 @@ export const MenuPage = () => {
                       <>
                         {allFalse ? (
                           <div
-                            className={`${
-                              isExpanded
-                                ? "no-colunms-menu-page-expanded"
-                                : "no-colunms-menu-page"
-                            }`}
+                            className={`${isExpanded
+                              ? "no-colunms-menu-page-expanded"
+                              : "no-colunms-menu-page"
+                              }`}
                           >
                             {" "}
                             No columns selected
@@ -1104,7 +1101,7 @@ export const MenuPage = () => {
                                   </div>
                                 )}
 
-                              {data?.itemResponseList?.length > 0 &&  data.name !== ""  &&
+                              {data?.itemResponseList?.length > 0 && data.name !== "" &&
                                 data?.itemResponseList.map((item, index) => (
                                   <div key={index} className="table-two-row">
                                     <p>
@@ -1122,27 +1119,27 @@ export const MenuPage = () => {
                                             );
                                           const price = orderType
                                             ? orderType.price
-                                                .toFixed(2)
-                                                .padStart(5, "0")
+                                              .toFixed(2)
+                                              .padStart(5, "0")
                                             : "";
 
                                           const className =
                                             typeName?.toLowerCase() + "data";
                                           const isPriceEnabled =
                                             orderType &&
-                                            orderType.isNotHide == 1 &&
-                                            orderType.availabilityEnabled &&
-                                            orderType.isEnabled === 1
+                                              orderType.isNotHide == 1 &&
+                                              orderType.availabilityEnabled &&
+                                              orderType.isEnabled === 1
                                               ? true
                                               : false;
                                           const sliderkey =
                                             typeName === "DineIn"
                                               ? "DineIn1"
                                               : typeName === "Pickup"
-                                              ? "Pickup1"
-                                              : typeName === "Delivery"
-                                              ? "Delivery1"
-                                              : "";
+                                                ? "Pickup1"
+                                                : typeName === "Delivery"
+                                                  ? "Delivery1"
+                                                  : "";
                                           return (
                                             <span
                                               className={className}
@@ -1161,7 +1158,7 @@ export const MenuPage = () => {
                                               }
                                             >
                                               {restaurantDetails?.country ===
-                                              "US"
+                                                "US"
                                                 ? "$"
                                                 : "Rs."}{" "}
                                               {price !== "" ? price : "0"}
@@ -1191,17 +1188,17 @@ export const MenuPage = () => {
                                         // console.log("orderType", className);
                                         const isAvailEnabled =
                                           orderType &&
-                                          orderType.availabilityEnabled === true
+                                            orderType.availabilityEnabled === true
                                             ? true
                                             : false;
                                         const sliderkey =
                                           typeName === "DineIn"
                                             ? "DineIn2"
                                             : typeName === "Pickup"
-                                            ? "Pickup2"
-                                            : typeName === "Delivery"
-                                            ? "Delivery2"
-                                            : "";
+                                              ? "Pickup2"
+                                              : typeName === "Delivery"
+                                                ? "Delivery2"
+                                                : "";
 
                                         return (
                                           <>
@@ -1210,8 +1207,8 @@ export const MenuPage = () => {
                                             <span
                                               key={typeName}
                                               className={className}
-                                              style={{left:'1rem',position:'relative'}}
-                                              
+                                              style={{ left: '1rem', position: 'relative' }}
+
                                               // style={{ opacity: isAvailEnabled ? "100%" : "50%" }}
                                               onClick={() =>
                                                 handlesidbarhandling(
@@ -1225,11 +1222,11 @@ export const MenuPage = () => {
                                                 <Toggle
                                                   toggle={
                                                     orderType?.availabilityEnabled ===
-                                                      true &&
+                                                    true &&
                                                     orderType?.isNotHide ===
-                                                      1 &&
+                                                    1 &&
                                                     orderType?.isEnabled ===
-                                                      1 &&
+                                                    1 &&
                                                     true
                                                   }
                                                 />
@@ -1237,11 +1234,11 @@ export const MenuPage = () => {
                                                 <Toggle
                                                   toggle={
                                                     orderType?.availabilityEnabled ===
-                                                      false &&
+                                                    false &&
                                                     orderType?.isNotHide !==
-                                                      1 &&
+                                                    1 &&
                                                     orderType?.isEnabled !==
-                                                      1 &&
+                                                    1 &&
                                                     false
                                                   }
                                                 />
@@ -1254,9 +1251,9 @@ export const MenuPage = () => {
 
                                     <p>
                                       {item?.modifiers &&
-                                      Array.isArray(item.modifiers) &&
-                                      listingobject &&
-                                      listingobject.Customize1 ? (
+                                        Array.isArray(item.modifiers) &&
+                                        listingobject &&
+                                        listingobject.Customize1 ? (
                                         <span
                                           className="Customizedata"
                                           onClick={() =>
