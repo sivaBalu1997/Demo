@@ -201,7 +201,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       
       const isFormValid = await triggerValidation(formData) 
      const valiadtesubcategorynn= valiadtesubCategory()
-       console.log("valiadte",  valiadtesubcategorynn);
        
             
 
@@ -239,7 +238,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
 
-      console.log("PricingDetails",PricingDetails);
       
      
       const isinValid = await triggerValidation(formData);

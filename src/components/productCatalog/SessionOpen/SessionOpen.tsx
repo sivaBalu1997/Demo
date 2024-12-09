@@ -142,7 +142,6 @@ setTimeToSet(`${formattedDate}T${selctedDateSession}`)
     setfilteredsession(todayWorkinghours);
 
   },[restaurantDetails])
-  console.log("filteredsession",filteredsession);
   
 const handleSessionCancel=()=>{
   setshowsession(false);

@@ -25,6 +25,10 @@
   width: 100%;
   overflow-y: auto;
   // background-color: pink;
+  // @media (min-width: 1441px) and (max-width: 1536px){
+  //   background-color: lightseagreen;
+  //   height: 38rem;
+  // }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -55,6 +59,12 @@
   // overflow-y: auto;
   height: 82vh;
   // background-color: pink;
+  @media (min-width: 1441px) and (max-width: 1536px){
+    padding-left: 5px;
+    // background-color: lightgreen;
+    height: 65vh;
+    overflow-y: scroll;
+  }
   &::-webkit-scrollbar {
     display: none;
   }

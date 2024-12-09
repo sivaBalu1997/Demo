@@ -73,7 +73,6 @@ const Dropdown: React.FC<DropdownProps> = ({
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
     onSelect(newSelectedValues);
-    console.log({newSelectedValues});
     
     validatedineMealType && validatedineMealType();
     validatepickupdelivery && validatepickupdelivery(toggleOnorOff,newSelectedValues)

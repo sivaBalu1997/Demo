@@ -264,7 +264,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails, options, name, setValue]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.bestPair && name === "bestPair") {
+    if (ItemsPrimaryDetails?.bestPair && name === "bestPair") { 
       const bestPairName = ItemsPrimaryDetails?.bestPair;
 
       const normalizedBestPair = Array.isArray(bestPairName)
@@ -319,7 +319,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [prizingDetail]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
+    if (ItemsPrimaryDetails?.cuisine && name === "cuisine") { 
       const cusineName = ItemsPrimaryDetails?.cuisine;
       const dropDownName: any = options?.find(
         (item) => item.name === cusineName
@@ -339,7 +339,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.category && name === "category") {
+    if (ItemsPrimaryDetails?.category && name === "category") { 
       const categoryName = ItemsPrimaryDetails?.category;
       const dropDownName: any = options?.find(
         (item) => item?.name === categoryName
@@ -382,12 +382,12 @@ const DropDownList: React.FC<DropdownProps> = ({
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-
+  
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-
+  
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
@@ -399,6 +399,10 @@ const DropDownList: React.FC<DropdownProps> = ({
         );
         trigger(name);
       } else {
+        if (currentSelectedOptions.length >= 5) {
+          return; 
+        }
+  
         const updatedOptions = [...currentSelectedOptions, option];
         setSelectedOptions(updatedOptions);
         setValue(
@@ -411,15 +415,29 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
-      dropDownType === "CATEGORY" && setParentId(option?.id);
+      if(dropDownType === "CATEGORY"){
+        setParentId(option?.id);
+        setValue(
+          "subCategory",
+          ""
+        );
+      }
     }
-
+  
     if (dropDownType === "SUB_CATEGORY") {
-      valiadtesubCategory()
+      valiadtesubCategory();
     }
+  
     setSearchTerm("");
     setManuallyCleared(false);
   };
+
+  useEffect(() => {
+  if(dropDownType === "SUB_CATEGORY" && parentId !== ""){
+      setSelectedOptions([])
+    }
+  },[parentId])
+  
 
   const payload = {
     locationId: locationid,
@@ -552,22 +570,26 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleAboveArrowdropdown = () => {
     onToggle();
     setShowselectedOption(true);
-    if (dropDownType !== "SUB_CATEGORY") {
-      dispatch(fetchDropDownRequest(payload));
-    }
+    // if (dropDownType !== "SUB_CATEGORY") {
+    //   dispatch(fetchDropDownRequest(payload));
+    // }
 
-    if (subcategorydataforApi.parentId !== "") {
-      dispatch(fetchDropDownRequest(subcategorydataforApi));
-    }
+    // if (subcategorydataforApi.parentId !== "" ) {
+    //   console.log('Sub called')
+    //   dispatch(fetchDropDownRequest(subcategorydataforApi));
+    // }
   };
 
   const handleBelowArrowdropdown = () => {
     onToggle();
     setShowselectedOption(false);
     setManuallyCleared(false);
-    if (dropDownType !== "SUB_CATEGORY") {
+
+    if (dropDownType !== "SUB_CATEGORY" && name !== 'subCategory') {
       dispatch(fetchDropDownRequest(payload)); 
     }
+
+
     if (subcategorydataforApi.parentId !== "") {
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
@@ -639,7 +661,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         <div style={{ margin: 0 }}>
         {
           errormsg ? <p className="Dropdown-Error-message" >{errormsg}</p>:
-          error && <p className="Dropdown-Error-message" style={{marginTop:name === "kitchenstation"?"1rem":"",paddingBottom:name === "kitchenstation"?"0.3rem":""}}>{error.message}</p>
+          error && <p className="Dropdown-Error-message" >{error.message}</p>
         }
         
         </div>
@@ -710,16 +732,29 @@ const DropDownList: React.FC<DropdownProps> = ({
                         </div>
                       );
                     })
-                  ) : ((Loading) &&
+                  ) : ((searchTerm==''?name === "kitchenstation"?false:(Loading) :true) ?
                     <div className="dropdown-no-options">
                       No options available
                     </div>
+                    : <div className="dropdown-no-options">
+                    <Loader
+                      className="imgLoader1"
+                      height="300px"
+                      width="300px"
+                      style={{
+                        filter:
+                          "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                        height: "70px",
+                        width: "70px",
+                      }}
+                    />
+                  </div>
                   )}
                 </div>
               )}
             </ul>
             <div className="edititem">
-              {(dropDownSuccess ? Loading : !dropDownLoading) &&
+              {!dropDownLoading &&
                 options?.length > 0 &&
                 !editList &&
                 editValues && (

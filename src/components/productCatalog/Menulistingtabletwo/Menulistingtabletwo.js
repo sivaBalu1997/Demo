@@ -527,7 +527,6 @@ export const Menulistingtabletwo = () => {
     updatedRows.splice(draggedRowIndex, 1);
     updatedRows.splice(index, 0, draggedRow);
     setnooftypes(updatedRows);
-    console.log("nooftypes", nooftypes);
     setDraggedRowIndex(null);
   };
 
@@ -551,7 +550,6 @@ export const Menulistingtabletwo = () => {
         const draggingitme = updatednooftypes[draggedIndex];
         updatednooftypes.splice(draggedIndex, 1);
         updatednooftypes.splice(index, 0, draggingitme);
-        console.log("indexofvalue", updatednooftypes);
         updatedTypes[indexofvalue].name = updatednooftypes;
         setnooftypes(updatedTypes);
         setDraggedRowIndex({ objectId, index });

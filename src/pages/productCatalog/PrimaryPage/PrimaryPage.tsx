@@ -231,8 +231,6 @@ const PrimaryPage = () => {
     },
   });
 
- 
-
   const [popularItem, setPopularItem] = useState<any>(0);
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
 
@@ -264,19 +262,19 @@ const PrimaryPage = () => {
     (state: any) =>
       state?.getPopularItemReducer?.popularItems?.data?.popularItemCount
   );
-  
+
   const mergedMockData = [...Mockdata, ...addedData];
   const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
     useState<Item[]>();
 
   useEffect(() => {
-    setPopularItem(PopularItemFormApi? PopularItemFormApi:0);
+    setPopularItem(PopularItemFormApi ? PopularItemFormApi : 0);
     setPopularItemLimit(popularItemLimit);
   }, [PopularItemFormApi]);
 
   useEffect(() => {
     dispatch(getPopularItemRequest(locationid));
-    dispatch(removeCodeRequest())
+    dispatch(removeCodeRequest());
   }, []);
 
   // useEffect(() => {
@@ -309,9 +307,8 @@ const PrimaryPage = () => {
     if (ItemsPrimaryDetails) {
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
-      if(ItemsPrimaryDetails?.description)
-      {
-      setCharCount(ItemsPrimaryDetails?.description.length);
+      if (ItemsPrimaryDetails?.description) {
+        setCharCount(ItemsPrimaryDetails?.description.length);
       }
       setDescription(ItemsPrimaryDetails.description);
       // Set other fields
@@ -529,7 +526,7 @@ const PrimaryPage = () => {
         setValue("imageUrls", updatedImageUrls);
         return updatedImages;
       });
-      e.target.value = ""
+      e.target.value = "";
     }
   };
 
@@ -580,6 +577,7 @@ const PrimaryPage = () => {
 
   // useEffect(() => {
   const [parentId, setParentId] = useState("");
+
   const [itemcodeValid, setItemcodeValid] = useState(true);
   useEffect(() => {
     if (ItemsPrimaryDetails?.popularItem) {
@@ -676,7 +674,7 @@ const PrimaryPage = () => {
     setDescription(" ");
     setCharCount(0);
     setImages([]);
-    dispatch(PrimaryDataClear())
+    dispatch(PrimaryDataClear());
   };
 
   const dataforadd = {
@@ -709,33 +707,25 @@ const PrimaryPage = () => {
     );
   }, []);
 
-  console.log("message",message?.length)
+  const [subcategortError, setsubcategortError] = useState("");
 
-const [subcategortError,setsubcategortError]=useState("");
+  const valiadtesubCategory = () => {
+    const categoryList = getValues("category");
+    const subcategoryList = getValues("subCategory");    
 
-  const valiadtesubCategory=()=>{
-
-    const categoryList=getValues("category")
-    const subcategoryList=getValues("subCategory")
-
-
-
-    if(categoryList!==""&&subcategoryList==="" && subCategoryData && subCategoryData?.length>0)
-    {
-      setsubcategortError("subcategory is required")
-      console.log("error occured");
-      
+    if (
+      categoryList !== "" &&
+      subcategoryList === "" &&
+      subCategoryData?.length > 0
+    ) {
+      setsubcategortError("subcategory is required");
 
       return false;
-    }
-    else
-    {
-      setsubcategortError("")
+    } else {
+      setsubcategortError("");
     }
     return true;
-
-
-  }
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -765,7 +755,7 @@ const [subcategortError,setsubcategortError]=useState("");
                   <Controller
                     name="itemName"
                     control={control}
-                    defaultValue="" 
+                    defaultValue=""
                     rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
@@ -805,6 +795,8 @@ const [subcategortError,setsubcategortError]=useState("");
                         editValues={true}
                         dropDownType="DIET"
                         resetSelection={resetSelectionRef}
+                        parentId={parentId}
+                        setParentId={setParentId}
                       />
                     )}
                   />
@@ -836,6 +828,8 @@ const [subcategortError,setsubcategortError]=useState("");
                         editValues={true}
                         dropDownType="CUISINES"
                         resetSelection={cuisineRef}
+                        parentId={parentId}
+                        setParentId={setParentId}
                       />
                     )}
                   />
@@ -867,6 +861,7 @@ const [subcategortError,setsubcategortError]=useState("");
                         editValues={true}
                         dropDownType="CATEGORY"
                         resetSelection={categoryref}
+                        parentId={parentId}
                         setParentId={setParentId}
                       />
                     )}
@@ -890,9 +885,9 @@ const [subcategortError,setsubcategortError]=useState("");
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
-                          // error={errors.bestPair}
+                          error={errors.bestPair}
                           bestpair={true}
-                          // validation={{ required: "Best Pair is required" }}
+                          validation={{ required: "Best Pair is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -900,6 +895,8 @@ const [subcategortError,setsubcategortError]=useState("");
                           editValues={false}
                           dropDownType="BEST_PAIRED_ITEMS"
                           resetSelection={BestpairedRef}
+                          parentId={parentId}
+                          setParentId={setParentId}
                         />
                       )}
                     />
@@ -1042,7 +1039,7 @@ const [subcategortError,setsubcategortError]=useState("");
                     <Controller
                       name="itemCode"
                       control={control}
-                      defaultValue="" 
+                      defaultValue=""
                       // required: "Item code is required",
                       rules={{
                         validate: (value) => {
@@ -1119,13 +1116,18 @@ const [subcategortError,setsubcategortError]=useState("");
                   </div>
                 </div>
 
-                <div className={message?.length > 10 ? "barcode" : "Primary-page-InputFields"}>
-                {" "}
+                <div
+                  className={
+                    message?.length > 10
+                      ? "barcode"
+                      : "Primary-page-InputFields"
+                  }
+                >
+                  {" "}
                   <LableComponent lable="Upc / Barcode number" />
                   <Controller
                     name="barCode"
                     control={control}
-                  
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="barCode"
@@ -1175,7 +1177,7 @@ const [subcategortError,setsubcategortError]=useState("");
                     )}
                   />
                   <span>
-                    Popular item (  {popularItem}/{popularItemlimit} )
+                    Popular item ( {popularItem}/{popularItemlimit} )
                   </span>
                 </div>
 
@@ -1198,7 +1200,7 @@ const [subcategortError,setsubcategortError]=useState("");
                           getValues={getValues}
                           // validation={{ required: "subCategory is required" }}
                           // error={errors.subCategory}
-                          valiadtesubCategory={valiadtesubCategory}
+                          valiadtesubCategory={editData[0]?.length > 0 ? "" : valiadtesubCategory}
                           errormsg={subcategortError}
                           addNew={true}
                           editValues={true}
@@ -1208,6 +1210,7 @@ const [subcategortError,setsubcategortError]=useState("");
                           dropDownType="SUB_CATEGORY"
                           resetSelection={subCatagoryRef}
                           parentId={parentId}
+                          setParentId={setParentId}
                         />
                       )}
                     />
@@ -1297,7 +1300,7 @@ const [subcategortError,setsubcategortError]=useState("");
                             if (
                               e.key === "e" ||
                               e.key === "-" ||
-                              e.key === "+" 
+                              e.key === "+"
                             ) {
                               e.preventDefault(); // Block these keys
                             }
@@ -1341,8 +1344,7 @@ const [subcategortError,setsubcategortError]=useState("");
                             if (
                               e.key === "e" ||
                               e.key === "-" ||
-                              e.key === "+" 
-                              
+                              e.key === "+"
                             ) {
                               e.preventDefault(); // Block these keys
                             }

@@ -55,6 +55,7 @@ const SearchBox = () => {
   }, [filteredOptionsDispatch]);
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
+
   useEffect(() => {
     if (menuData) {
       setSearchTerm('')
@@ -90,13 +91,42 @@ const SearchBox = () => {
 
   };
 
-  const filterOptions = (input) => {
-    const itemNames = menuData?.flatMap(item => item?.itemResponseList)
-      .map(item => item?.itemName);
+  // // All - Categories and subCategory ItemResponse List
+  // const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
+  // console.log({ allItems });
 
-    const filtered = itemNames?.filter(item =>
+  // const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
+  // console.log({ allItemsPlusSubItemList })
+
+  // const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
+  // console.log({ allNew })
+
+  // const allArray = [...allItems, ...allNew]
+  // console.log({ allArray })
+
+  // const everything = allArray?.map(everything => everything?.itemName)
+  // console.log({ everything })
+
+  // const everythingFM = allArray?.flatMap(everything => everything?.itemName)
+  // console.log({ everythingFM })
+
+
+
+  const filterOptions = (input) => {
+    const itemNames = menuData?.flatMap(item => item?.itemResponseList)?.map(item => item?.itemName);
+    const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
+
+    const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
+    const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
+
+    const allArray = [...allItems, ...allNew]
+
+    const everything = allArray?.map(everything => everything?.itemName)
+
+    const filtered = everything?.filter(item =>
       item?.toLowerCase().includes(input?.toLowerCase())
     );
+
 
     setFilteredOptions(filtered);
     setFilteredOptionsDispatch(filtered);
@@ -114,13 +144,14 @@ const SearchBox = () => {
       setDisplayTerm(input);
     }
   };
-
   const handleOptionClick = (option) => {
     setSearchTerm(option);
     setDisplayTerm(option);
     setOptionSelected(true);
-    setCloseModal(false)
+    setCloseModal(false);
+  
     let result = null;
+  
     menuData?.forEach((category) => {
       category?.itemResponseList?.forEach((item) => {
         if (item?.itemName === option) {
@@ -131,12 +162,25 @@ const SearchBox = () => {
           };
         }
       });
+  
+      category?.subCategoryResponseList?.forEach((subCategory) => {
+        subCategory?.itemResponseList?.forEach((item) => {
+          if (item?.itemName === option) {
+            result = {
+              categoryId: subCategory.categoryId,
+              categoryName: `${category.categoryName} > ${subCategory.categoryName}`, 
+              itemResponseList: [item],
+            };
+          }
+        });
+      });
     });
-
-    dispatch(searchForItem(result));
-
+  
+    dispatch(searchForItem(result));  
     setFilteredOptions([]);
   };
+  
+
   const highlightedRef = useRef(null);
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowDown') {
@@ -234,8 +278,8 @@ const SearchBox = () => {
                     'MLSearch-Container-options-none'
                 }
               >
-                <img className="MLNotFoundImage" src={NotFound} alt="MLNo Results Found" />
-                <h3 className='MLheading-none'>No Results Found</h3>
+                <img className={isExpanded ? "MLNotFoundImageExpanded" : "MLNotFoundImage"} src={NotFound} alt="MLNo Results Found" />
+                <h3 className={isExpanded ? "MLheading-none-expanded" : 'MLheading-none'}>No Results Found</h3>
               </div>
             )}
           </ul>

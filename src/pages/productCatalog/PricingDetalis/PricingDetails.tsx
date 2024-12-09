@@ -779,6 +779,8 @@ const PricingDetails = () => {
     } else {      
     }
   };
+
+
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
       <SidePanel />

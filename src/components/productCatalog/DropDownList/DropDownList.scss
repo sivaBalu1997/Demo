@@ -70,18 +70,20 @@
   display: flex;
   flex-direction: column;
 
-  // &::-webkit-scrollbar {
-  //   display: block;
-  //   width: 0.5rem; 
-  //   height: 5px; 
-  //   background-color: #8f8f8f;   
-  //   border-radius: 1rem;   
-  // }
+  &::-webkit-scrollbar {
+    // display: block;
+    // width: 0.5rem; 
+    // height: 5px; 
+    // background-color: #8f8f8f;   
+    // border-radius: 1rem;  
+    display: none; 
+  }
   
-  // &::-webkit-scrollbar-thumb {
-  //   background-color: #4c4c4c;
-  //   border-radius: 0.6rem;
-  // }
+  &::-webkit-scrollbar-thumb {
+    // background-color: #4c4c4c;
+    // border-radius: 0.6rem;
+    display: none; 
+  }
 
   .edititem {
     margin-left: -10px;
@@ -100,6 +102,9 @@
       font-weight: 400;
       color: #67833e;
       text-decoration: underline;
+    }
+    ::-webkit-scrollbar{
+      display: none;
     }
   }
 

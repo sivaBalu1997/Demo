@@ -8,6 +8,7 @@ interface ToggleProps {
   width?: number;
   height?: number;
   Enabled?: boolean;
+  toggleOffCheck?: any;
 }
 
 const Toggle: React.FC<ToggleProps> = ({
@@ -17,6 +18,7 @@ const Toggle: React.FC<ToggleProps> = ({
   togglevalue,
   width,
   height,
+  toggleOffCheck
 }) => {
   return (
     <div>
