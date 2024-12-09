@@ -28,7 +28,6 @@ const EyeModal = ({ onEyeclose, onclose }) => {
     const tempOffPremarray = data1[0]?.orderTypes?.filter((data, index) => {
       return data?.typeGroup !== "D";
     });
-    console.log({ tempOnPremarray });
 
     const allIsNotHideOnPrem = tempOnPremarray.every(
       (item) => item.isNotHide === 0
@@ -153,8 +152,6 @@ const EyeModal = ({ onEyeclose, onclose }) => {
   };
 
   const handleChange = () => {
-    console.log({ hidePayload });
-
     dispatch(addMockDataHiddenRequest(payload));
     setShowLoader(true);
   };
@@ -184,24 +181,25 @@ const EyeModal = ({ onEyeclose, onclose }) => {
 
   const handleParentHide = (index) => {
     const updatedOrderTypes = [...availabilityOrderTypes];
-  
+
     // Toggle isNotHide for the parent
     updatedOrderTypes[index].isNotHide = !updatedOrderTypes[index].isNotHide;
-  
+
     const updateNotHide = updatedOrderTypes[index].isNotHide;
-  
+
     // Update isNotHide for child types based on isEnabled
     if (Array.isArray(updatedOrderTypes[index].types)) {
-      updatedOrderTypes[index].types = updatedOrderTypes[index].types.map((type) => ({
-        ...type,
-        isNotHide: type.isEnabled ? !updateNotHide : type.isNotHide, // Only toggle if isEnabled is true
-      }));
+      updatedOrderTypes[index].types = updatedOrderTypes[index].types.map(
+        (type) => ({
+          ...type,
+          isNotHide: type.isEnabled ? !updateNotHide : type.isNotHide, // Only toggle if isEnabled is true
+        })
+      );
     }
-  
+
     // Update the state
     setAvailabilityOrderTypes(updatedOrderTypes);
   };
-  
 
   const handleChildHide = (parentIndex, childIndex) => {
     const updatedOrderTypes = [...availabilityOrderTypes];
