@@ -4,10 +4,13 @@
 
 .container-step2 {
   position: absolute;
-  top: 700px;
+  top: 635px;
   left: 10px;
-
   width: 510px;
+  // background-color: lightsalmon;
+  @media(max-width: 1080px){
+    // background-color: lightsalmon;
+  }
 }
 .Step2-container {
   position: relative;
@@ -61,8 +64,10 @@
   align-items: center;
   gap: 5px;
 
-  button {
+  @media(max-width: 1080px){
+    left: 4rem;
   }
+
 }
 
 .Res-heading {

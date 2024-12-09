@@ -585,9 +585,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
         setDayPickup(prizingDetail.normalForm?.Pickup || [])
         setDayDelivery(prizingDetail.normalForm?.Delivery || [])
+        setDayThird(prizingDetail?.normalForm?.thirdParty || [])
+        
 
        setShowDayPickup(prizingDetail.normalForm?.Pickup?.length > 0 ? true : false)
        setShowDayDelivery(prizingDetail.normalForm?.Delivery?.length > 0 ? true : false)
+       setShowDayThird(prizingDetail?.normalForm?.thirdParty?.length > 0 ? true : false)
         
         // if (pickupDetails) {
         //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
@@ -1335,6 +1338,18 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
 
+
+  //   useEffect(()=>{
+
+  //  if(!online)
+  //  {
+  //   setPickup(false);
+  //   setDelivery(false);
+  //  }
+   
+
+  //   },[online])
+
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
 
@@ -1594,13 +1609,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     </div>
                     <div className="dineInChooseDayContainer">
                       <h3 className="dineInChooseDayContainerHeading">
-                      {entry.showDay?"Back for default days?":"Setup for specific days?"}
+                        {entry?.showDay ? "Back to default days?":"Setup for specific days?"}
                       </h3>
                       <h3
                         className="dineInChooseDayContainer-chooseheading"
                         onClick={() => addDay(index)}
                       >
-                        {entry.showDay?"Default days":"Choose day"}
+                        {entry?.showDay ? "Default Day":"Choose Day"}
                       </h3>
                     </div>
                     <div className="dayspickup">

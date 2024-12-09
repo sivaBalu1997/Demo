@@ -334,7 +334,7 @@ const CustomizeSlider = () => {
                      style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",border:subitem.isEnabled?"1px solid black":"1px solid #5F5F5F"}}
 
                     >
-                      {subitem.price !== 0 && (
+                      {subitem.price !== 0 && subitem.price !== undefined&& (
                         <span className="priceSymbol-customize">{Pricesymbol}</span>
                       )}
 
@@ -360,7 +360,7 @@ const CustomizeSlider = () => {
 
                           )
                         }
-                        placeholder="$0.00"
+                        placeholder="0.00"
                       />
                     </div>
 
