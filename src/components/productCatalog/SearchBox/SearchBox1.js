@@ -55,7 +55,7 @@ const SearchBox = () => {
   }, [filteredOptionsDispatch]);
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
-  console.log({ menuData })
+
   useEffect(() => {
     if (menuData) {
       setSearchTerm('')
@@ -113,30 +113,20 @@ const SearchBox = () => {
 
 
   const filterOptions = (input) => {
-    const itemNames = menuData?.flatMap(item => item?.itemResponseList)
-      .map(item => item?.itemName);
-
-    console.log("in filterOptions function", { itemNames })
-
-    // All - Categories and subCategory ItemResponse List
+    const itemNames = menuData?.flatMap(item => item?.itemResponseList)?.map(item => item?.itemName);
     const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
-    // console.log({ allItems });
 
     const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
-    // console.log({ allItemsPlusSubItemList })
-
     const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
-    // console.log({ allNew })
 
     const allArray = [...allItems, ...allNew]
-    console.log({ allArray })
 
     const everything = allArray?.map(everything => everything?.itemName)
-    console.log({ everything })
 
     const filtered = everything?.filter(item =>
       item?.toLowerCase().includes(input?.toLowerCase())
     );
+
 
     setFilteredOptions(filtered);
     setFilteredOptionsDispatch(filtered);
@@ -154,13 +144,14 @@ const SearchBox = () => {
       setDisplayTerm(input);
     }
   };
-
   const handleOptionClick = (option) => {
     setSearchTerm(option);
     setDisplayTerm(option);
     setOptionSelected(true);
-    setCloseModal(false)
+    setCloseModal(false);
+  
     let result = null;
+  
     menuData?.forEach((category) => {
       category?.itemResponseList?.forEach((item) => {
         if (item?.itemName === option) {
@@ -171,12 +162,25 @@ const SearchBox = () => {
           };
         }
       });
+  
+      category?.subCategoryResponseList?.forEach((subCategory) => {
+        subCategory?.itemResponseList?.forEach((item) => {
+          if (item?.itemName === option) {
+            result = {
+              categoryId: subCategory.categoryId,
+              categoryName: `${category.categoryName} > ${subCategory.categoryName}`, 
+              itemResponseList: [item],
+            };
+          }
+        });
+      });
     });
-
-    dispatch(searchForItem(result));
-
+  
+    dispatch(searchForItem(result));  
     setFilteredOptions([]);
   };
+  
+
   const highlightedRef = useRef(null);
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowDown') {

@@ -523,6 +523,7 @@ export const MenuPage = () => {
     const isObjectEmpty = (obj) => {
       return Object?.keys(obj)?.length === 0;
     };
+
     if (isObjectEmpty(SearchedmenuItem)) {
       const allItemResponseLists = menuData
         ?.flatMap((category) =>
@@ -543,7 +544,6 @@ export const MenuPage = () => {
       const allItemResponseLists2 = menuData.flatMap((category) => category);
 
       const mergedarray = [...allItemResponseLists, ...allItemResponseLists2];
-      console.log({ mergedarray })
 
       const transformedList = mergedarray.map((entry) => ({
         id: entry.categoryId,

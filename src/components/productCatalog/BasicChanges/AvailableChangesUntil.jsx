@@ -60,8 +60,6 @@ const AvailabilityChangesUntil = ({
       orderTypeId: data.typeId,
       unAvailableUntilTime: "",
     }));
-
-   
   }, [dataFromRedux[0].orderTypes]);
 
   const Text = [
@@ -70,6 +68,32 @@ const AvailabilityChangesUntil = ({
     `Until${untillTime}`,
     "Until manually enabled",
   ];
+  const sessionavailable=[
+    {
+      openingTime:"12.00",
+      closingTime:"11.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    }
+  ]
 
   const getTodayDay = () => {
     const daysOfWeek = [
@@ -97,16 +121,8 @@ const AvailabilityChangesUntil = ({
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
       (item) => item.weekday === todayDay
     );
-    console.log("session", session);
-
-    console.log("todayWorkinghours", todayWorkinghours);
 
     if (session === "morning") {
-      console.log(
-        "oiuyg",
-        todayWorkinghours.find((item) => item.closingTime <= "11:59:59")
-      );
-
       return todayWorkinghours.find((item) => item.closingTime <= "11:59:59");
     } else if (session === "evening") {
       return todayWorkinghours.find((item) => item.openingTime >= "12:00:00");
@@ -144,17 +160,18 @@ const AvailabilityChangesUntil = ({
       }`;
       setTimeToSet(Time);
     } else if (elem === "End of Sessions") {
-      console.log({ filteredsession });
       const formattedDate = getFormattedDate();
       const SessionTime = `${formattedDate}T${filteredsession[0].closingTime}`;
-      if (filteredsession?.length === 1) {
+      if (filteredsession?.length ===1) {
         setTimeToSet(SessionTime);
        
-        setshowAvailchanges(false)
+        // setshowAvailchanges(false)
+        // setshowsession(true);
 
+        setshowAvailchanges(false);
       } else {
         setshowsession(true);
-        setshowAvailchanges(false)
+        setshowAvailchanges(false);
       }
 
       // setshowAvailchanges(false)
@@ -168,18 +185,15 @@ const AvailabilityChangesUntil = ({
       setTimeToSet("");
     }
   };
-  const [matchedChildArray,setMatchedChildArray]=useState([]);
+  const [matchedChildArray, setMatchedChildArray] = useState([]);
 
   const handleTimeChange = () => {
-    console.log({ timeToSet });
-
     if (selectedOption !== -1) {
       if (parentToggle === "") {
         const datamatched = patchedData?.itemAvailabilityInfo.filter(
           (data) => data.orderTypeId === selectedtypeid
         );
 
-        console.log({ datamatched });
         const pushData = {
           orderTypeId: selectedtypeid,
           unAvailableUntilTime: timeToSet,
@@ -219,13 +233,13 @@ const AvailabilityChangesUntil = ({
         }));
       } else {
         setPartialData((prev) => {
-          const dataToAdd = ParentToggles
-          .filter((item) => item.isEnabled === 1) 
-          .map((item) => ({
-            orderTypeId: item.typeId,          
-            unAvailableUntilTime: timeToSet
+          const dataToAdd = ParentToggles.filter(
+            (item) => item.isEnabled === 1
+          ).map((item) => ({
+            orderTypeId: item.typeId,
+            unAvailableUntilTime: timeToSet,
           }));
-          
+
           return {
             ...prev,
             itemId: dataFromRedux[0].itemId,
@@ -252,9 +266,8 @@ const AvailabilityChangesUntil = ({
       //         : availabilityInfo
       //   ),
       // }));
-    
     } else {
-      handleOrderCategoryAvailability(parentToggle)
+      handleOrderCategoryAvailability(parentToggle);
       // setPatchedData((prevState) => ({
       //   ...prevState,
       //   itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
@@ -342,8 +355,6 @@ const AvailabilityChangesUntil = ({
           setshowAvailchanges={setshowAvailchanges}
           parentToggle={parentToggle}
           setTimeToSet={setTimeToSet}
-
-
         />
       )}
     </div>

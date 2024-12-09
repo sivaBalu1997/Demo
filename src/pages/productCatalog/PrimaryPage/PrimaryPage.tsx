@@ -577,6 +577,7 @@ const PrimaryPage = () => {
 
   // useEffect(() => {
   const [parentId, setParentId] = useState("");
+
   const [itemcodeValid, setItemcodeValid] = useState(true);
   useEffect(() => {
     if (ItemsPrimaryDetails?.popularItem) {
@@ -794,6 +795,8 @@ const PrimaryPage = () => {
                         editValues={true}
                         dropDownType="DIET"
                         resetSelection={resetSelectionRef}
+                        parentId={parentId}
+                        setParentId={setParentId}
                       />
                     )}
                   />
@@ -825,6 +828,8 @@ const PrimaryPage = () => {
                         editValues={true}
                         dropDownType="CUISINES"
                         resetSelection={cuisineRef}
+                        parentId={parentId}
+                        setParentId={setParentId}
                       />
                     )}
                   />
@@ -856,6 +861,7 @@ const PrimaryPage = () => {
                         editValues={true}
                         dropDownType="CATEGORY"
                         resetSelection={categoryref}
+                        parentId={parentId}
                         setParentId={setParentId}
                       />
                     )}
@@ -879,9 +885,9 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
-                          // error={errors.bestPair}
+                          error={errors.bestPair}
                           bestpair={true}
-                          // validation={{ required: "Best Pair is required" }}
+                          validation={{ required: "Best Pair is required" }}
                           dropdownopen={DropdownOpen.bestPair}
                           onToggle={() => handleDropdownToggle("bestPair")}
                           setDropdownOpen={setDropdownOpen}
@@ -889,6 +895,8 @@ const PrimaryPage = () => {
                           editValues={false}
                           dropDownType="BEST_PAIRED_ITEMS"
                           resetSelection={BestpairedRef}
+                          parentId={parentId}
+                          setParentId={setParentId}
                         />
                       )}
                     />
@@ -1202,6 +1210,7 @@ const PrimaryPage = () => {
                           dropDownType="SUB_CATEGORY"
                           resetSelection={subCatagoryRef}
                           parentId={parentId}
+                          setParentId={setParentId}
                         />
                       )}
                     />

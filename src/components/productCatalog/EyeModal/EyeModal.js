@@ -28,7 +28,6 @@ const EyeModal = ({ onEyeclose, onclose }) => {
     const tempOffPremarray = data1[0]?.orderTypes?.filter((data, index) => {
       return data?.typeGroup !== "D";
     });
-    console.log({ tempOnPremarray });
 
     const allIsNotHideOnPrem = tempOnPremarray.every(
       (item) => item.isNotHide === 0
@@ -153,8 +152,6 @@ const EyeModal = ({ onEyeclose, onclose }) => {
   };
 
   const handleChange = () => {
-    console.log({ hidePayload });
-
     dispatch(addMockDataHiddenRequest(payload));
     setShowLoader(true);
   };
@@ -184,24 +181,25 @@ const EyeModal = ({ onEyeclose, onclose }) => {
 
   const handleParentHide = (index) => {
     const updatedOrderTypes = [...availabilityOrderTypes];
-  
+
     // Toggle isNotHide for the parent
     updatedOrderTypes[index].isNotHide = !updatedOrderTypes[index].isNotHide;
-  
+
     const updateNotHide = updatedOrderTypes[index].isNotHide;
-  
+
     // Update isNotHide for child types based on isEnabled
     if (Array.isArray(updatedOrderTypes[index].types)) {
-      updatedOrderTypes[index].types = updatedOrderTypes[index].types.map((type) => ({
-        ...type,
-        isNotHide: type.isEnabled ? !updateNotHide : type.isNotHide, // Only toggle if isEnabled is true
-      }));
+      updatedOrderTypes[index].types = updatedOrderTypes[index].types.map(
+        (type) => ({
+          ...type,
+          isNotHide: type.isEnabled ? !updateNotHide : type.isNotHide, // Only toggle if isEnabled is true
+        })
+      );
     }
-  
+
     // Update the state
     setAvailabilityOrderTypes(updatedOrderTypes);
   };
-  
 
   const handleChildHide = (parentIndex, childIndex) => {
     const updatedOrderTypes = [...availabilityOrderTypes];
@@ -228,15 +226,14 @@ const EyeModal = ({ onEyeclose, onclose }) => {
 
   // Function to handle toggle behavior for all
   const handleToggleAll = () => {
-      // Check if all parents and children are `isEnabled`
-      const allEnabled = availabilityOrderTypes.every(
-        (parent) =>
-          parent.isEnabled && parent.types.some((child) => child.isEnabled)
-      );
-      if (!allEnabled) {
-        console.log("Not all items are enabled. Toggle action aborted.");
-        return;
-      }
+    // Check if all parents and children are `isEnabled`
+    const allEnabled = availabilityOrderTypes?.some(
+      (parent) =>
+        parent.isEnabled && parent.types.some((child) => child.isEnabled)
+    );
+    if (!allEnabled) {
+      return;
+    }
 
     const updatedOrderTypes = availabilityOrderTypes.map((parent) => {
       // Toggle isNotHide based on toggleState

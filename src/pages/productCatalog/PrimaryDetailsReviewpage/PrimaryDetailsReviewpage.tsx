@@ -482,6 +482,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
+  console.log({subCategoryData},{matchedSubCategory},{matchedSubCategoryId})
+
+
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );

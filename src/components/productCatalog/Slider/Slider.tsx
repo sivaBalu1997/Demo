@@ -63,7 +63,6 @@ const Slider: React.FC<SliderProps> = ({
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
-  console.log({dataFromRedux});
   
   const data1 = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
