@@ -8,6 +8,14 @@
   gap: 0px;
   top: 95vh;
   // background-color: lightseagreen;
+  @media(max-width: 1080px){
+    // background-color: lightseagreen;
+    top: 119vh;
+    left: 535px;
+  }
+  @media (min-width: 1081px) and (max-width: 1440px){
+    top: 120vh;
+  }
 }
 
 .step3-Review-Container-heading-and-button-container {
