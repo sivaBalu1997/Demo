@@ -585,9 +585,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
         setDayPickup(prizingDetail.normalForm?.Pickup || [])
         setDayDelivery(prizingDetail.normalForm?.Delivery || [])
+        setDayThird(prizingDetail?.normalForm?.thirdParty || [])
+        
 
        setShowDayPickup(prizingDetail.normalForm?.Pickup?.length > 0 ? true : false)
        setShowDayDelivery(prizingDetail.normalForm?.Delivery?.length > 0 ? true : false)
+       setShowDayThird(prizingDetail?.normalForm?.thirdParty?.length > 0 ? true : false)
         
         // if (pickupDetails) {
         //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
