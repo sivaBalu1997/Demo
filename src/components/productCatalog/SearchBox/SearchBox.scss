@@ -102,6 +102,7 @@
   left: 12rem;
   // padding-bottom: 10px;
   overflow-x: hidden;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -122,19 +123,28 @@
   background-color: white;
   height: 45vh;
   // border: 1px solid red;
+  // width: 36.9vw !important;
   &::-webkit-scrollbar {
     display: none;
   }
   overflow: auto;
   width: 37.5vw;
   // box-shadow: 0px 10px 15px -6px rgba(0, 0, 0, 0.2509803922);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   margin-top: 0px;
+  @media (min-width: 1441px) and (max-width: 1536px){
+    width: 36.9vw !important;
+    // background-color: palegreen;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  }
 }
 
 .MLSearch-Container-options1 ul {
   list-style: none;
   cursor: pointer;
+  // background-color: paleturquoise;
   // cursor: pointer;
+  // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 }
 
 .MLSearch-Container-options-items {
@@ -261,8 +271,10 @@
   height: 40vh;
   // background-color: #979797;
   background-color: #ffffff;
+  // background-color: pink;
   border: 1px solid transparent;
-  transform: translate(-20px);
+  // border: 1px solid palegreen;
+  transform: translate(-45px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -282,6 +294,14 @@
   top: 2.3rem;
 }
 
+.MLNotFoundImageExpanded{
+  width: 372px;
+  height: 338.52px;
+  position: relative;
+  top: 0.7rem;
+  // border: 1px solid palevioletred
+}
+
 .MLheading-none {
   color: #67833e;
   font-size: 22px;
@@ -290,26 +310,49 @@
   margin-right: 140px;
 }
 
+.MLheading-none-expanded{
+  color: #67833e;
+  font-size: 22px;
+  font-family: Poppins;
+  transform: translate(90px, -60px);
+  margin-right: 140px;
+  // background-color: lightsalmon;
+}
+
 /* Apply styles for devices with a max width of 768px */
 @media (max-width: 2400px) {
   .MLSearch-Container-options-menu ul {
     width: 31vw;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
 
 @media (max-width: 2000px) {
   .MLSearch-Container-options-menu ul {
     width: 30vw;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
 @media (max-width: 1700px) {
   .MLSearch-Container-options-menu ul {
     width: 35vw;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
 
 @media (max-width: 1500px) {
   .MLSearch-Container-options-menu ul {
-    width: 40vw;
+    // border: 1px solid palevioletred;
+    width: 39.4vw;
+    // background-color: palevioletred;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
+
+// @media (max-width: 1536px) {
+//   .MLSearch-Container-options-menu ul {
+//     width: 40vw;
+//     // background-color: pink;
+//     background-color: white;
+//   }
+// }
