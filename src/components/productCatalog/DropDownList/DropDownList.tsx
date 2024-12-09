@@ -717,10 +717,23 @@ const DropDownList: React.FC<DropdownProps> = ({
                         </div>
                       );
                     })
-                  ) : ((Loading) &&
+                  ) : ((searchTerm==''?name === "kitchenstation"?false:(Loading) :true) ?
                     <div className="dropdown-no-options">
                       No options available
                     </div>
+                    : <div className="dropdown-no-options">
+                    <Loader
+                      className="imgLoader1"
+                      height="300px"
+                      width="300px"
+                      style={{
+                        filter:
+                          "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                        height: "70px",
+                        width: "70px",
+                      }}
+                    />
+                  </div>
                   )}
                 </div>
               )}
