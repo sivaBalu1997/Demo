@@ -109,7 +109,7 @@ interface NormalavailProps {
   setSelectedValues2: (form: any) => void;
   resetSelection?: any;
   setValidationFunction: any;
-  getValues:any
+  getValues: any;
 }
 
 type MealType1 = string;
@@ -152,11 +152,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       ValidationStateerr,
       resetSelection,
       setValidationFunction,
-      getValues
+      getValues,
     } = props;
 
     const [online, setOnline] = useState(false);
-    // console.log({online})
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
     const [showDineIn, setShowDineIn] = useState(false);
@@ -203,6 +202,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [showDay, setShowDay] = useState(false);
     const [showDayPickup, setShowDayPickup] = useState(false);
     const [showDayDelivery, setShowDayDelivery] = useState(false);
+
     const [showDayThird, setShowDayThird] = useState(false);
 
     const prizingDetail = useSelector(
@@ -330,8 +330,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [pickupEnable, setpickupEnable] = useState<boolean>(true);
     const [deliveryEnable, setdeliveryEnable] = useState<boolean>(true);
 
-    const seletedOrdertypes=dataFromRedux[0]?.orderTypes;
-
+    const seletedOrdertypes = dataFromRedux[0]?.orderTypes;
 
     // useEffect(() => {
     //   const DineInEnable = seletedOrdertypes?.find(
@@ -374,9 +373,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     //     setOnline(false);
     //   }
     // }, []);
-    
-    useEffect(()=>{
-      if(!showDineIn){
+
+    useEffect(() => {
+      if (!showDineIn) {
         setDineInFields((prevDineInFields: any) =>
           prevDineInFields.map(() => ({
             DineInPrice: "",
@@ -384,9 +383,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             DineInService: [],
           }))
         );
-        setSelectedValuesMealType([])
+        setSelectedValuesMealType([]);
       }
-      if(!pickup){
+      if (!pickup) {
         setPickUpDetails({
           typeId: pickUpId,
           typeName: "PickUp",
@@ -398,54 +397,52 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             },
           ],
           price: 0,
-        })
-        setDayPickup([])
-        setShowDayPickup(false)
+        });
+        setDayPickup([]);
+        setShowDayPickup(false);
       }
-      if(!delivery){
-        setDeliveryDetails({typeId: deliveryId,
-      price: 0,
-      typeName: "Delivery",
-      typeGroup: "S",
-      availabilities: [
-        {
-          availabilityDays: [],
-          sessions: [],
-        },
-      ],
-    })
-    setMealTypes({});
-    setSelectedThirdValues([]);
-    setPriceInfo([
-      {
-        typeId: "",
-        price: 0,
-        typeName: "",
-        typeGroup: "T",
-        availabilities: [
+      
+      if (!delivery) {
+        setDeliveryDetails({
+          typeId: deliveryId,
+          price: 0,
+          typeName: "Delivery",
+          typeGroup: "S",
+          availabilities: [
+            {
+              availabilityDays: [],
+              sessions: [],
+            },
+          ],
+        });
+        setMealTypes({});
+        setSelectedThirdValues([]);
+        setPriceInfo([
           {
-            availabilityDays: [],
-            sessions: [],
+            typeId: "",
+            price: 0,
+            typeName: "",
+            typeGroup: "T",
+            availabilities: [
+              {
+                availabilityDays: [],
+                sessions: [],
+              },
+            ],
           },
-        ],
-      },
-    ]);
-    setDayDelivery([])
-    setShowDayDelivery(false)
-
-
-   
+        ]);
+        setDayDelivery([]);
+        setShowDayDelivery(false);
       }
-      if(!online){
-        setPickup(false)
-        setDelivery(false)
-        setDayDelivery([])
-        setShowDayDelivery(false)
-        setDayPickup([])
-        setShowDayPickup(false)
+      if (!online) {
+        setPickup(false);
+        setDelivery(false);
+        setDayDelivery([]);
+        setShowDayDelivery(false);
+        setDayPickup([]);
+        setShowDayPickup(false);
       }
-
-    },[showDineIn,online,pickup,delivery])
+    }, [showDineIn, online, pickup, delivery]);
 
     const [mealTypes, setMealTypes] = useState<Record<string, string[]>>({});
 
@@ -532,6 +529,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             data[index].typeName = item;
           }
         });
+        
         data.forEach((item, index) => {
           if (data[index].typeId === "") {
             const id = thirdPartyData?.find(
@@ -544,20 +542,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     }, [selectedthirdvalues]);
 
     const editData = useSelector((state: any) => state.productCatalog.editData);
- 
-    
 
     useEffect(() => {
-      
       if (prizingDetail?.normalForm?.formNormal) {
         const dineIndetail = prizingDetail?.normalForm?.dineinfields;
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
-
-        
-        
 
         const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
           (data: any, index: number) => data.typeId === dineIndetail?.typeId
@@ -568,7 +560,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const filterOrderTypeAvailableorNotDelivery = seletedOrdertypes?.filter(
           (data: any, index: number) => data.typeId === deliveryDetails?.typeId
         );
-
 
         setformNormal({
           PickuppriceNormal:
@@ -591,16 +582,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             prizingDetail.normalForm?.formNormal?.ZomatomealtypeNormal || "",
         });
 
-      
+        setNormalDays(prizingDetail.normalForm.Normaldays || []);
+        setDayPickup(prizingDetail.normalForm?.Pickup || [])
+        setDayDelivery(prizingDetail.normalForm?.Delivery || [])
 
-       
-
-        console.log({editData});
-       
+       setShowDayPickup(prizingDetail.normalForm?.Pickup?.length > 0 ? true : false)
+       setShowDayDelivery(prizingDetail.normalForm?.Delivery?.length > 0 ? true : false)
+        
         // if (pickupDetails) {
         //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
         // }
-
 
         // if (deliveryDetails) {
         //   deliveryDetails?.price > 0 ? setOnline(true) : setOnline(false);
@@ -626,20 +617,21 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         // const initialSelectedValues2 = updatedField?.DineInService
         // setSelectedValues(initialSelectedValues2);
         // setDineIn(true);
-        
+
         // setShowDineIn(true);
 
         const updatedField = {
           DineInPrice: dineIndetails?.price,
-          DineInMealType: dineIndetails?.availabilities && dineIndetails?.availabilities[0]?.sessions,
-          showDay: prizingDetail.normalForm.DineIn[0]?.length > 0 ? true : false,
+          DineInMealType:
+            dineIndetails?.availabilities &&
+            dineIndetails?.availabilities[0]?.sessions,
+          showDay:
+            prizingDetail.normalForm.DineIn[0]?.length > 0 ? true : false,
           dayButtonText: "Choose Day",
         };
-        
-        
+
         setDineInFields([updatedField]);
-        if(updatedField.DineInPrice>0)
-        {
+        if (updatedField.DineInPrice > 0) {
           setShowDineIn(true);
           setdineInEnable(true);
         }
@@ -647,12 +639,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         //   setShowDineIn(false);
         //   setdineInEnable(false);
         // }
+
         setFormattedDineInData((prevData: DeliveryDetails) => {
           const updatedAvailabilities = [...prevData.availabilities];
 
           updatedAvailabilities[0] = {
             ...updatedAvailabilities[0],
-            sessions:updatedField.DineInMealType,
+            sessions: updatedField.DineInMealType,
           };
 
           return {
@@ -663,18 +656,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         });
 
         // Set delivery details
-        const thirdPartyTypeName =
-          prizingDetail?.normalForm?.thirdpartyDetails?.map;
+        const thirdPartyTypeName = prizingDetail?.normalForm?.thirdpartyDetails?.map;
+
         if (pickupDetails) {
-          // setPickup(true) 
+          // setPickup(true)
           // setOnline(true)
-          console.log("pickupDetails",pickupDetails);
-          pickupDetails.price>0 &&  setPickup(true) 
+          pickupDetails.price > 0 && setPickup(true);
           setOnline(true);
           setPickup(true);
           setpickupEnable(true);
-         
-  
+
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
@@ -688,8 +679,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setOnline(true);
           setDelivery(true);
           setdeliveryEnable(true);
-          
-         
+
           setDeliveryDetails({
             typeId: deliveryId,
             typeGroup: "S",
@@ -715,49 +705,54 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setMealTypes(object);
         }
 
-        
-        const initialSelectedValues = [updatedField.DineInMealType]
+        const initialSelectedValues = [updatedField.DineInMealType];
         setSelectedValuesMealType(initialSelectedValues);
 
         setDineInDates1(prizingDetail.normalForm.DineIn || []);
 
+        const pickupEnableOrnotWhneEdit = editData[0]?.orderTypes?.filter(
+          (item: any) => item.typeGroup === "P"
+        );
+        const DeliveryEnableOrnotWhneEdit = editData[0]?.orderTypes?.filter(
+          (item: any) => item.typeGroup === "S"
+        );
+        const DineInEnableOrnotWhneEdit = editData[0]?.orderTypes?.filter(
+          (item: any) => item.typeGroup === "D"
+        );
 
-  const pickupEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="P")
-  const DeliveryEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="S")
-  const DineInEnableOrnotWhneEdit=editData[0]?.orderTypes?.filter((item:any)=>item.typeGroup==="D")
+        if (
+          editData?.length > 0 &&
+          DineInEnableOrnotWhneEdit &&
+          DineInEnableOrnotWhneEdit[0].isEnabled === 0
+        ) {
+          setShowDineIn(false);
+          setdineInEnable(false);
+        }
 
+        if (
+          editData?.length > 0 &&
+          !pickupDetails &&
+          pickupEnableOrnotWhneEdit &&
+          pickupEnableOrnotWhneEdit[0].isEnabled === 0
+        ) {
+          setOnline(true);
+          setPickup(false);
+          setpickupEnable(false);
+        }
 
-  
-console.log({pickupEnableOrnotWhneEdit});
-if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneEdit[0].isEnabled===0)
-  {
-    
-    setShowDineIn(false);
-    setdineInEnable(false);
-  }
-
-          if( editData?.length > 0 &&!pickupDetails && pickupEnableOrnotWhneEdit && pickupEnableOrnotWhneEdit[0].isEnabled===0)
-          {
-            console.log("going inside");
-            setOnline(true)
-            setPickup(false);
-            setpickupEnable(false);
-          }
-
-          if( editData?.length > 0 &&!deliveryDetails&& DeliveryEnableOrnotWhneEdit && DeliveryEnableOrnotWhneEdit[0].isEnabled===0)
-            {
-              console.log("going inside");
-              setOnline(true)
-              setDelivery(false);
-              setdeliveryEnable(false);
-            }
-         
-         
-          
+        if (
+          editData?.length > 0 &&
+          !deliveryDetails &&
+          DeliveryEnableOrnotWhneEdit &&
+          DeliveryEnableOrnotWhneEdit[0].isEnabled === 0
+        ) {
+          setOnline(true);
+          setDelivery(false);
+          setdeliveryEnable(false);
+        }
       }
 
       if (prizingDetail?.normalForm && !prizingDetail?.normalForm?.formNormal) {
-        console.log("gggg",prizingDetail);
         const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
         const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
@@ -774,19 +769,23 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
           (data: any, index: number) => data.typeId === deliveryDetails?.typeId
         );
 
-        if(dineIndetail){
+        setShowDayPickup(prizingDetail.normalForm?.Pickup?.length > 0 ? true : false)
+        setShowDayDelivery(prizingDetail.normalForm?.Delivery?.length > 0 ? true : false)
+
+        if (dineIndetail) {
           setShowDineIn(true);
-          if (editData?.length > 0 &&
+          if (
+            editData?.length > 0 &&
             filterOrderTypeAvailableorNotDineIn &&
             filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
           ) {
             setShowDineIn(false);
             setdineInEnable(false);
-          } 
+          }
         }
 
         if (pickupDetails) {
-          pickupDetails.price>0 && setPickup(true);
+          pickupDetails.price > 0 && setPickup(true);
           // setPickup(true);
           if (
             editData?.length > 0 &&
@@ -795,7 +794,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
           ) {
             setPickup(false);
             setpickupEnable(false);
-          } 
+          }
 
           setOnline(true);
 
@@ -809,16 +808,18 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
         }
 
         if (deliveryDetails) {
-          
-          deliveryDetails?.price>0 && setDelivery(true)||thirdpartyDetails&& thirdpartyDetails[0]?.price>0 && setDelivery(true)
+          (deliveryDetails?.price > 0 && setDelivery(true)) ||
+            (thirdpartyDetails &&
+              thirdpartyDetails[0]?.price > 0 &&
+              setDelivery(true));
           if (
             editData?.length > 0 &&
             filterOrderTypeAvailableorNotDelivery &&
-            filterOrderTypeAvailableorNotDelivery[0]?.isEnabled === 0 
+            filterOrderTypeAvailableorNotDelivery[0]?.isEnabled === 0
           ) {
             setDelivery(false);
             setdeliveryEnable(false);
-          } 
+          }
           setOnline(true);
 
           // thirdpartyDetails && thirdpartyDetails[0]?.price > 0 ? setOnline(true) : setOnline(false);
@@ -832,7 +833,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
           });
         }
 
-        if (thirdpartyDetails?.length > 0) {          
+        if (thirdpartyDetails?.length > 0) {
           const data = thirdpartyDetails?.map((item: any) => item?.typeName);
           if (thirdpartyDetails.some((item: any) => item?.price)) {
             //need to change the logic here
@@ -913,10 +914,6 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
     }, [prizingDetail, dataFromRedux[0]]);
 
     const [initialPricingData, setInitialPricingData] = useState([]);
-
-    useEffect(() => {
-      // setInitialPricingData()
-    }, [prizingDetail]);
 
     const handleDelete = (index: number): void => {
       const newEntries = dineinfields.filter((_: any, i: any) => i !== index);
@@ -1271,8 +1268,8 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const validatedineMealType = () => {
-      const validationErrors: Record<string, string> = { ...errors }; 
-    
+      const validationErrors: Record<string, string> = { ...errors };
+
       dineinfields?.forEach((field: any, index: number) => {
         if (showDineIn) {
           if (
@@ -1285,71 +1282,64 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
           }
         }
       });
-    
-      setErrors(validationErrors); 
-    
-      return Object.keys(validationErrors).length === 0; 
+
+      setErrors(validationErrors);
+
+      return Object.keys(validationErrors).length === 0;
     };
-    
-    const validatepickup= (togglestatus:boolean,selectedValluesArray:any) => {
+
+    const validatepickup = (
+      togglestatus: boolean,
+      selectedValluesArray: any
+    ) => {
       const validationErrors: Record<string, string> = { ...errors };
-      
+
       if (togglestatus) {
-       
-       
         if (togglestatus && selectedValluesArray?.length === 0) {
           validationErrors.pickupmealTypeSessions = "Meal type is empty";
-        }
-        else {
-          delete validationErrors.pickupmealTypeSessions ;
+        } else {
+          delete validationErrors.pickupmealTypeSessions;
         }
       }
-
-      
 
       setErrors(validationErrors);
 
       return Object.keys(validationErrors).length === 0;
     };
-    const validatedelivery = (togglestatus:boolean,selectedValluesArray:any) => {
+    const validatedelivery = (
+      togglestatus: boolean,
+      selectedValluesArray: any
+    ) => {
       const validationErrors: Record<string, string> = { ...errors };
-      
+
       if (togglestatus) {
-       
-       
         if (togglestatus && selectedValluesArray?.length === 0) {
           validationErrors.deliverymealTypeSessions = "Meal type is empty";
-        }
-        else {
-          delete validationErrors.deliverymealTypeSessions ;
+        } else {
+          delete validationErrors.deliverymealTypeSessions;
         }
       }
-
-      
 
       setErrors(validationErrors);
 
       return Object.keys(validationErrors).length === 0;
     };
 
-
-
     const validateDineInPrice = (index: number, price: number): void => {
-      const validationErrors = { ...errors }; 
+      const validationErrors = { ...errors };
       if (!price || price <= 0) {
         validationErrors[`DineInPrice-${index}`] = "Price is empty";
       } else {
-        delete validationErrors[`DineInPrice-${index}`]; 
+        delete validationErrors[`DineInPrice-${index}`];
       }
-      setErrors(validationErrors); 
+      setErrors(validationErrors);
     };
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
 
-      const Kitchenstationdata=getValues("kitchenstation");
-      if(Kitchenstationdata===""|| Kitchenstationdata===undefined)
-      {
+      const Kitchenstationdata = getValues("kitchenstation");
+      if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
         validationErrors[`kitchenstation`] = "kitchen station is required";
       }
 
@@ -1380,7 +1370,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
         }
       }
 
-      if ( delivery ) {
+      if (delivery) {
         if (!deliveryDetails?.price || deliveryDetails?.price <= 0) {
           validationErrors.deliveryprice = "Price is empty";
         }
@@ -1428,35 +1418,29 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
       pickup,
       delivery,
     ]);
-    const validatePickupPrice = (price:number): void => {
-      const validationErrors = { ...errors }; 
-      if(pickup)
-      {
+    const validatePickupPrice = (price: number): void => {
+      const validationErrors = { ...errors };
+      if (pickup) {
         if (!price || price <= 0) {
           validationErrors.pickupprice = "Price is empty";
         } else {
           delete validationErrors.pickupprice;
         }
       }
-    
-      
-    
-      setErrors(validationErrors); 
+
+      setErrors(validationErrors);
     };
-    const validateDeliveryPrice = (price:number): void => {
-      const validationErrors = { ...errors }; 
-      if(delivery)
-      {
+    const validateDeliveryPrice = (price: number): void => {
+      const validationErrors = { ...errors };
+      if (delivery) {
         if (!price || price <= 0) {
           validationErrors.deliveryprice = "Price is empty";
         } else {
-          delete validationErrors.deliveryprice; 
+          delete validationErrors.deliveryprice;
         }
       }
-    
-     
-    
-      setErrors(validationErrors); 
+
+      setErrors(validationErrors);
     };
     return (
       <div>
@@ -1555,7 +1539,6 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
-                         
                           onInput={(e) => {
                             const inputElement = e.target as HTMLInputElement;
                             const value = inputElement.value;
@@ -1578,7 +1561,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                       <div className="Mealz">
                         <div>
                           <DropDown
-                          validatedineMealType={validatedineMealType}
+                            validatedineMealType={validatedineMealType}
                             selectedValues={selectedValuesmealtype[index] || ""}
                             onSelect={(values) =>
                               handleSelectMealtype(values, index)
@@ -1687,10 +1670,9 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                           type="number"
                           className="PriceInput1Normal-input"
                           value={pickupDetails.price || ""}
-                         
                           onKeyDown={(e) => {
                             if (e.key === "-") {
-                              e.preventDefault(); 
+                              e.preventDefault();
                             }
                             if (
                               e.key === "e" ||
@@ -1711,7 +1693,7 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                                 price: numericValue,
                               });
                             }
-                            validatePickupPrice(Number(inputValue))
+                            validatePickupPrice(Number(inputValue));
                           }}
                         />
                         <span className="Errormsg pickuperrormsg">
@@ -1851,7 +1833,6 @@ if( editData?.length > 0  && DineInEnableOrnotWhneEdit && DineInEnableOrnotWhneE
                           }}
                           className="DeliveryInput1Normal"
                           value={deliveryDetails?.price || ""}
-                      
                           onChange={(e) => {
                             const newPrice = e.target.value;
                             setDeliveryDetails((prevDetails: any) => ({
