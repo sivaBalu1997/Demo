@@ -1608,9 +1608,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   placeholder=""
                                   className="input3ItemCustomizations"
                                   disabled={!modifications[modIndex]?.isEnabled}
-                                  value={
-                                    modifications[modIndex]?.maxSelection || 0
-                                  }
+                                 
                                   value={
                                     modifications[modIndex]?.maxSelection
                                       ? modifications[modIndex]?.maxSelection
