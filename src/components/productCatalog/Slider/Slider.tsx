@@ -60,8 +60,11 @@ const Slider: React.FC<SliderProps> = ({
   SideBarData,
 }) => {
   const dataFromRedux = useSelector(
-    (state: any) => state?.storeDataReducer?.data
+    (state: any) => state?.selectedMockDataReducer?.data
   );
+
+  console.log({dataFromRedux});
+  
   const data1 = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );

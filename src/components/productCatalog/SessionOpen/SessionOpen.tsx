@@ -26,6 +26,32 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   const [filteredsession,setfilteredsession]=useState([]);
   const restaurantDetails = useSelector((state:any) => state.auth.restaurantDetails);
  
+  const sessionavailable=[
+    {
+      openingTime:"12.00",
+      closingTime:"11.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    }
+  ]
   const getTodayDay = () => {
     const daysOfWeek = [
       "Sunday", "Monday", "Tuesday", "Wednesday", 
@@ -122,6 +148,7 @@ const handleSessionCancel=()=>{
   setshowsession(false);
   setselctedDateSession("");
   setshowAvailchanges(true);
+  setTimeToSet("")
   
 
 }
@@ -148,12 +175,12 @@ const handleSessionCancel=()=>{
             onChange={() => handleChangesession("Evening")}
           />
         </div> */}
-        <h3 className="sessions-head">Sessions Available</h3>
+        <h3 className="sessions-head">Available Sessions</h3>
         <div>
         {
           filteredsession && filteredsession.map((item:any)=>(
            <div className="session-name">
-              <label htmlFor="morning">{item?.openingTime} - {item?.closingTime}</label>
+              <label htmlFor="morning" className="session-lable">{item?.openingTime} - {item?.closingTime}</label>
           <input
             type="radio"
             id="morning"

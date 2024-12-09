@@ -297,7 +297,7 @@ const ItemCustomizations: React.FC<any> = () => {
 
       updated[modIndex] = {
         ...currentModifier,
-        selectionType: selectionType ? selectionType : "Optional",
+
         [name]: value,
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
@@ -316,11 +316,42 @@ const ItemCustomizations: React.FC<any> = () => {
     });
   };
 
+
+  const handleModifierChangeforradio = (
+    modIndex: number,
+    e: React.ChangeEvent<HTMLInputElement>,
+    selectionType?: string
+  ) => {
+    const { name, value } = e.target;
+    setModifications((prev: any) => {
+      const updated = [...prev];
+      const currentModifier = updated[modIndex];
+      const isCurrentValueEmpty = currentModifier[name] === "";
+
+      updated[modIndex] = {
+        ...currentModifier,
+        selectionType: selectionType ? selectionType:"Mandatory",
+        ["isModifierChanged"]:
+          isCurrentValueEmpty && value !== "" ? false : true,
+      };
+
+      setUpdatedModifierIds((prevIds) => {
+        const updatedModifierId = updated[modIndex].modifierId;
+        if (updatedModifierId && !prevIds?.includes(updatedModifierId)) {
+          return [...prevIds, updatedModifierId].filter((id) => id !== "");
+        }
+
+        return prevIds.filter((id) => id !== "");
+      });
+
+      return updated;
+    });
+  };
   const handleDeleteModifier = (modIndex: number) => {
     setModifications((prev: any) => {
       const updated = [...prev];
-      const deletedId = updated[modIndex].modifierId; // Retrieve the modifier ID
-
+      const deletedId = updated[modIndex].modifierId; 
+  
       // Remove the modifier from the array
       updated.splice(modIndex, 1);
 
@@ -1205,7 +1236,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     modifier.selectionType === "Mandatory"
                                   }
                                   onChange={(e) =>
-                                    handleModifierChange(
+                                    handleModifierChangeforradio(
                                       modIndex,
                                       e,
                                       "Mandatory"
@@ -1227,7 +1258,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                     modifier.selectionType === "Optional"
                                   }
                                   onChange={(e) =>
-                                    handleModifierChange(
+                                    handleModifierChangeforradio(
                                       modIndex,
                                       e,
                                       "Optional"
@@ -1473,6 +1504,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   Minimum selection
                                 </label>
                                 <input
+                                type='number'
                                   placeholder=""
                                   className={
                                     modifications[modIndex]?.selectionType ===
@@ -1492,6 +1524,15 @@ const ItemCustomizations: React.FC<any> = () => {
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
                                   }
+                                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                    const input = e.target as HTMLInputElement; 
+                                    if (
+                                      ["e", "E", "+", "-"].includes(e.key) || 
+                                      (e.key === "." && input.value.includes(".")) 
+                                    ) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                   disabled={
                                     modifications[modIndex]?.selectionType ===
                                       "Optional" ||
@@ -1554,6 +1595,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   Maximum selection
                                 </label>
                                 <input
+                                type="number"
                                   placeholder=""
                                   className="input3ItemCustomizations"
                                   disabled={!modifications[modIndex]?.isEnabled}
@@ -1564,6 +1606,15 @@ const ItemCustomizations: React.FC<any> = () => {
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
                                   }
+                                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                    const input = e.target as HTMLInputElement; 
+                                    if (
+                                      ["e", "E", "+", "-"].includes(e.key) || 
+                                      (e.key === "." && input.value.includes(".")) 
+                                    ) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                                 <div className="polydiv-ItemCustomizations">
                                   <img
@@ -1601,6 +1652,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                 </label>
                                 <input
                                   placeholder=""
+                                     type="number"
                                   className="input3ItemCustomizations"
                                   name="freeCustomization"
                                   disabled={!modifications[modIndex]?.isEnabled}
@@ -1611,6 +1663,15 @@ const ItemCustomizations: React.FC<any> = () => {
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
                                   }
+                                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                                    const input = e.target as HTMLInputElement; 
+                                    if (
+                                      ["e", "E", "+", "-"].includes(e.key) || 
+                                      (e.key === "." && input.value.includes(".")) 
+                                    ) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                                 />
                                 <div className="polydiv-ItemCustomizations">
                                   <img

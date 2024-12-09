@@ -18,6 +18,9 @@ interface DropdownProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleValidate?: () => void;
   placeHolder?: string;
+  validatedineMealType?:any;
+  toggleOnorOff?:boolean;
+  validatepickupdelivery?:any
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -30,6 +33,9 @@ const Dropdown: React.FC<DropdownProps> = ({
   onBlur,
   handleValidate,
   placeHolder,
+  validatedineMealType,
+  toggleOnorOff,
+  validatepickupdelivery
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -67,6 +73,10 @@ const Dropdown: React.FC<DropdownProps> = ({
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
     onSelect(newSelectedValues);
+    console.log({newSelectedValues});
+    
+    validatedineMealType && validatedineMealType();
+    validatepickupdelivery && validatepickupdelivery(toggleOnorOff,newSelectedValues)
   };
 
   const validateDropdown = (values: string[]) => {

@@ -115,6 +115,9 @@
     margin: 0;
     padding: 0;
     margin-top: 0.5rem;
+    &::-webkit-scrollbar{
+      display: none;
+    }
     // border: 1px solid red;
     cursor: pointer;
     .dropdown-option-list {

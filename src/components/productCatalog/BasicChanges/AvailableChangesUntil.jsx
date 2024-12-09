@@ -149,8 +149,12 @@ const AvailabilityChangesUntil = ({
       const SessionTime = `${formattedDate}T${filteredsession[0].closingTime}`;
       if (filteredsession?.length === 1) {
         setTimeToSet(SessionTime);
+       
+        setshowAvailchanges(false)
+
       } else {
         setshowsession(true);
+        setshowAvailchanges(false)
       }
 
       // setshowAvailchanges(false)
