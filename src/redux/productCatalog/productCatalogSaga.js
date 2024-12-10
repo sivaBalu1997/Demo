@@ -205,6 +205,7 @@ function* addSubsection(action) {
       type: action.payload.type,
       parentId: action.payload.type === 'SUB_CATEGORY' ? action.payload.parentId : "",
     };
+    
     if (response.status === 200) {
       yield put({
         type: FETCHDROPDOWN_REQUEST,

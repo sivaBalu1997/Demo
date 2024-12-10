@@ -245,7 +245,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
-console.log({ItemsPrimaryDetails});
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.DietaryType && name === "DietaryType") {
@@ -436,7 +435,6 @@ console.log({ItemsPrimaryDetails});
 
       if(dropDownType === "CATEGORY"){
         setParentId(option?.id);
-        console.log({parentId});
       
         setValue(
           "subCategory",
@@ -586,7 +584,7 @@ console.log({ItemsPrimaryDetails});
       locationId: locationid,
       name: newValue,
       type: dropDownType,
-      parentId: parentId && parentId,
+      parentId: dropDownType === 'SUB_CATEGORY' ? parentId : "",
     };
 
     setOptions([
