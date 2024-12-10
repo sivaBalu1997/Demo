@@ -224,6 +224,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
+  console.log("from review page",{itemCustomizationData})
+
   const fetchedprimarydata = primarydata;
   
   const [error, setError] = useState<Status[]>([]);
@@ -500,9 +502,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     modifierId: item?.modifierId || null,
     modifierName: item?.modifierName || null,
     isModifierChanged: item?.isModifierChanged || false,
-    maxCount: item?.maxSelection || null,
-    minCount: item?.minSelection || null,
-    noFreeCustomization: item?.freeCustomization || null,
+    maxCount: item?.maxSelection,
+    minCount: item?.minSelection,
+    noFreeCustomization: item?.freeCustomization,
     orderTypeIds: (item?.selectedValue || []).map((value) =>
       getOrderTypeId(value)
     ),
