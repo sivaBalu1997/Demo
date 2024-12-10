@@ -580,6 +580,9 @@ const PrimaryPage = () => {
   // useEffect(() => {
   const [parentId, setParentId] = useState("");
 
+
+  
+
   const [itemcodeValid, setItemcodeValid] = useState(true);
   useEffect(() => {
     if (ItemsPrimaryDetails?.popularItem) {

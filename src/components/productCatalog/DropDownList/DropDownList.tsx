@@ -12,6 +12,7 @@ import {
   fetchDropDownRequest,
 } from "redux/productCatalog/productCatalogActions";
 import { cuisine } from "assets/mockData/Moca_data";
+import { iteratorSymbol } from "immer/dist/internal";
 interface media {
   imageId: string;
   imageType: string;
@@ -115,6 +116,8 @@ const DropDownList: React.FC<DropdownProps> = ({
 
 
 
+
+
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
   };
@@ -166,11 +169,14 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.productCatalog.dropDownSuccess
   );
 
-  // useEffect(() => {
-  //   if (dropDownType !== "SUB_CATEGORY") {
-  //     dispatch(fetchDropDownRequest(payload));
-  //   }
-  // }, [dropDownType]);
+  useEffect(() => {
+    if ( ItemsPrimaryDetails && dropDownType === "SUB_CATEGORY") {
+      setParentId(ItemsPrimaryDetails?.categoryId)
+    }
+  }, [ItemsPrimaryDetails]);
+
+
+
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -239,6 +245,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
+console.log({ItemsPrimaryDetails});
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.DietaryType && name === "DietaryType") {
@@ -295,7 +302,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.productCatalog.categoryData.data
   );
 
-  console.log({editData});
+ 
   
 
   useEffect(() => {
@@ -370,6 +377,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (ItemsPrimaryDetails?.subCategory && name === "subCategory") {
       const subCategoryName = ItemsPrimaryDetails?.subCategory;
+
       const dropDownName: any = options?.find(
         (item) => item.name === subCategoryName
       );
