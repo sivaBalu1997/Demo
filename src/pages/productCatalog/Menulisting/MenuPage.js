@@ -1015,9 +1015,7 @@ export const MenuPage = () => {
                           <div
                             key={index}
                             className="item-name-code-data"
-                            style={{
-                              marginTop: itemList.length === 1 ? "-1.5rem" : "",
-                            }}
+                            
                           >
                             <p>
                               <span className="itemimage2">
