@@ -470,10 +470,16 @@ const PricingDetails = () => {
           hours: prizingDetail.Preparationtime?.hours || "",
           minutes: prizingDetail.Preparationtime?.minutes || "",
         },
+
       });
 
       setOptions1(prizingDetail.kitchenstation);
       // setValue("kitchenstation", kitchenStationName);
+      const kitchh=getValues("kitchenstation")
+      console.log({kitchh});
+      console.log({kitchenStationName});
+      
+      
       // setTimeout(() => {
       //   console.log("kitchenstation value:", getValues("kitchenstation"));
       // }, 0);
@@ -1110,6 +1116,7 @@ const PricingDetails = () => {
                 ValidationStateerr={validationStateerr}
                 resetSelection={normalFormRef}
                 getValues={getValues}
+                setValue={setValue}
                 setValidationFunction={setValidationFunction}
               />
             ) : (

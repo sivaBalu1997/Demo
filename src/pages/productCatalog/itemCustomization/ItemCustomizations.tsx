@@ -753,6 +753,8 @@ const ItemCustomizations: React.FC<any> = () => {
   }, [ShowSearchList]);
   const [listOfStreams, setListOfStreams] = useState<string[]>([]);
 
+  const [atleastOnestream,setAtleastOnestream]=useState(false);
+
   useEffect(() => {
     const streams: string[] = [];
 
@@ -772,6 +774,15 @@ const ItemCustomizations: React.FC<any> = () => {
       streams.push(ordertypesdetails?.normalForm.thirdpartyDetails.typeName);
     }
     setListOfStreams(streams);
+
+    if(streams.length>0)
+    {
+      setAtleastOnestream(true);
+    }
+
+   
+    
+
   }, [ordertypesdetails]);
 
   const [customizationerrors, setcustomizationerrors] = useState<any>([]);
@@ -918,7 +929,7 @@ const ItemCustomizations: React.FC<any> = () => {
       if (!modifierName.trim()) {
         modifierErrors.modifierNameError = `Modifier Name is required`;
       }
-      if (selectedValue.length === 0 ) {
+      if (atleastOnestream && selectedValue.length === 0 ) {
         modifierErrors.errormsgforselectedvalues = "Available service streams required";
       }
 
@@ -1608,6 +1619,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                 </div>
                               </div>
 
+
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
                                   className="labelItemCustomizations"
@@ -1745,7 +1757,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   options={listOfStreams}
                                   width="Drop1"
                                   validation={validationState.items}
-                                  label="Available Service Stream*"
+                                  label= {`Available Service Stream${atleastOnestream?"*":""}`} 
                                 />
                                 {customizationerrors[modIndex]
                                   ?.errormsgforselectedvalues && (
