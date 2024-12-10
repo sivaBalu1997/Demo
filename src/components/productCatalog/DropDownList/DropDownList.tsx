@@ -12,6 +12,7 @@ import {
   fetchDropDownRequest,
 } from "redux/productCatalog/productCatalogActions";
 import { cuisine } from "assets/mockData/Moca_data";
+import { iteratorSymbol } from "immer/dist/internal";
 interface media {
   imageId: string;
   imageType: string;
@@ -113,6 +114,10 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.primarypage.data
   );
 
+
+
+
+
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
   };
@@ -164,11 +169,14 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.productCatalog.dropDownSuccess
   );
 
-  // useEffect(() => {
-  //   if (dropDownType !== "SUB_CATEGORY") {
-  //     dispatch(fetchDropDownRequest(payload));
-  //   }
-  // }, [dropDownType]);
+  useEffect(() => {
+    if ( ItemsPrimaryDetails && dropDownType === "SUB_CATEGORY") {
+      setParentId(ItemsPrimaryDetails?.categoryId)
+    }
+  }, [ItemsPrimaryDetails]);
+
+
+
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -237,6 +245,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const prizingDetail = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
+console.log({ItemsPrimaryDetails});
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.DietaryType && name === "DietaryType") {
@@ -288,8 +297,17 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
 
+
+  const categoryData = useSelector(
+    (state: any) => state.productCatalog.categoryData.data
+  );
+
+ 
+  
+
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
+      
       const kitchenStationName = prizingDetail?.kitchenstation;
       const dropDownName: any =
         Array.isArray(options) &&
@@ -302,7 +320,6 @@ const DropDownList: React.FC<DropdownProps> = ({
           ? { name: prizingDetail?.kitchenstation, id: "1" }
           : dropDownName;
 
-      // setSelectedOptions((dropDownName === undefined || dropDownName === false) ? [dropDown1] : [dropDownName]);
       setSelectedOptions(() => {
         setValue(
           "kitchenstation",
@@ -314,7 +331,6 @@ const DropDownList: React.FC<DropdownProps> = ({
           ? [dropDown1]
           : [dropDownName];
       });
-      // setValue("kitchenstation", (dropDownName === undefined || dropDownName === false) ? dropDown1?.name : dropDownName?.name);
     }
   }, [prizingDetail]);
 
@@ -361,6 +377,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (ItemsPrimaryDetails?.subCategory && name === "subCategory") {
       const subCategoryName = ItemsPrimaryDetails?.subCategory;
+
       const dropDownName: any = options?.find(
         (item) => item.name === subCategoryName
       );
@@ -404,6 +421,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         }
   
         const updatedOptions = [...currentSelectedOptions, option];
+
         setSelectedOptions(updatedOptions);
         setValue(
           name,
@@ -415,8 +433,11 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
+
       if(dropDownType === "CATEGORY"){
         setParentId(option?.id);
+        console.log({parentId});
+      
         setValue(
           "subCategory",
           ""
@@ -432,59 +453,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     setManuallyCleared(false);
   };
 
-  useEffect(() => {
-  if(dropDownType === "SUB_CATEGORY" && parentId !== ""){
-      setSelectedOptions([])
-    }
-  },[parentId])
-  
-
-  const payload = {
-    locationId: locationid,
-    type: dropDownType,
-    parentId: "",
-  };
-
-  const handleNewItemAddition = () => {
-    setAddNewButton((prevAddNew) => !prevAddNew);
-  };
-
-  const handleedit = () => {
-    setEditList((prevEditList) => !prevEditList);
-  };
-
-  const handledeletion = (value: string) => {
-    setOptions(
-      (item: any) => item && item?.filter((opt: any) => opt.id !== value)
-    );
-    const deletedItem = {
-      id: value,
-      type: dropDownType,
-      locationid: locationid,
-    };
-
-    const viewdata = {
-      locationId: locationid,
-      type: dropDownType,
-      parentId: SubcategoryParentId && SubcategoryParentId,
-    };
-
-    if (deletedItem) {
-      dispatch(deleteDropDowRequest(deletedItem));
-      const data = selectedOptions.filter((item) => item.id != value);
-      setSelectedOptions([...data]);
-      if (deleteApicall === "success") {
-        dispatch(fetchDropDownRequest(viewdata));
-      }
-    }
-  };
-
-  // const handleBlur = () => {
-  //   trigger(name);
-  // };
-  // value={type === "checkbox"
-  //   ? selectedOptions.map((opt) => opt.name).join(", ")
-  //   : selectedOptions[0]?.name || ""}
 
   const handleCheckboxChange = (option: Option) => {
     if (type === "checkbox") {
@@ -515,9 +483,15 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
-    }
-    if (dropDownType === "CATEGORY") {
-      setSubcategoryParentId(option.id);
+
+      if(dropDownType === "CATEGORY"){
+        setParentId(option?.id);
+        setSubcategoryParentId(option.id);
+        setValue(
+          "subCategory",
+          ""
+        );
+      }
     }
     if (dropDownType === "SUB_CATEGORY") {
       valiadtesubCategory()
@@ -527,6 +501,83 @@ const DropDownList: React.FC<DropdownProps> = ({
     //   console.log({option})
     // }
   };
+
+
+  useEffect(() => {
+  if(dropDownType === "SUB_CATEGORY" && parentId !== ""){
+      setSelectedOptions([])
+    }
+  },[parentId])
+  
+ 
+  
+
+  const payload = {
+    locationId: locationid,
+    type: dropDownType,
+    parentId: "",
+  };
+
+  const handleNewItemAddition = () => {
+    setAddNewButton((prevAddNew) => !prevAddNew);
+  };
+
+  const handleedit = () => {
+    setEditList((prevEditList) => !prevEditList);
+  };
+
+  const handledeletion = (value: string) => {
+    setOptions(
+      (item: any) => item && item?.filter((opt: any) => opt.id !== value)
+    );
+
+    const deletedItem = {
+      id: value,
+      type: dropDownType,
+      locationid: locationid,
+    };
+
+    const viewdata = {
+      locationId: locationid,
+      type: dropDownType,
+      parentId: SubcategoryParentId && SubcategoryParentId,
+    };
+
+    const deletedSubCategory = {
+      id: value,
+      type: dropDownType,
+      locationid: locationid,
+      parentId: parentId && parentId,
+    }
+
+    if (deletedItem) {
+      if(dropDownType !== "SUB_CATEGORY"){
+        dispatch(deleteDropDowRequest(deletedItem));
+      }
+      else{
+        dispatch(deleteDropDowRequest(deletedSubCategory));
+      }
+
+      const data = selectedOptions.filter((item) => item.id != value);
+      setSelectedOptions([...data]);
+      // if (deleteApicall === "success") {
+      //   if (dropDownType !== "SUB_CATEGORY" && name !== 'subCategory') {
+      //     dispatch(fetchDropDownRequest(payload));
+      //   }
+    
+      //   if (dropDownType === "SUB_CATEGORY" && subcategorydataforApi.parentId !== "") {
+      //     dispatch(fetchDropDownRequest(subcategorydataforApi));
+      //   }
+      // }
+    }
+  };
+
+  // const handleBlur = () => {
+  //   trigger(name);
+  // };
+  // value={type === "checkbox"
+  //   ? selectedOptions.map((opt) => opt.name).join(", ")
+  //   : selectedOptions[0]?.name || ""}
 
   const handleNewItemAdd = () => {
     const newValue = NewItemref?.current?.value;
@@ -590,7 +641,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
 
 
-    if (subcategorydataforApi.parentId !== "") {
+    if (dropDownType === "SUB_CATEGORY" && subcategorydataforApi.parentId !== "") {
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };

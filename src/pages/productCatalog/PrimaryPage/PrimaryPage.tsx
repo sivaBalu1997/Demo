@@ -558,6 +558,8 @@ const PrimaryPage = () => {
   const messageLoader = useSelector(
     (state: any) => state?.getItemCodeReducer?.loading
   );
+
+  
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -577,6 +579,9 @@ const PrimaryPage = () => {
 
   // useEffect(() => {
   const [parentId, setParentId] = useState("");
+
+
+  
 
   const [itemcodeValid, setItemcodeValid] = useState(true);
   useEffect(() => {

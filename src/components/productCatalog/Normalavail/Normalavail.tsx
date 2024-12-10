@@ -110,6 +110,7 @@ interface NormalavailProps {
   resetSelection?: any;
   setValidationFunction: any;
   getValues: any;
+  setValue:any;
 }
 
 type MealType1 = string;
@@ -153,6 +154,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       resetSelection,
       setValidationFunction,
       getValues,
+      setValue
     } = props;
 
     const [online, setOnline] = useState(false);
@@ -208,6 +210,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const prizingDetail = useSelector(
       (state: any) => state.PricingDetailReducer.prizingData
     );
+console.log({prizingDetail});
 
     const [formNormal, setformNormal] = useState({
       PickuppriceNormal: "",
@@ -753,6 +756,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setDelivery(false);
           setdeliveryEnable(false);
         }
+
+
+        // setValue("kitchenstation",prizingDetail?.kitchenstation)
       }
 
       if (prizingDetail?.normalForm && !prizingDetail?.normalForm?.formNormal) {
@@ -761,6 +767,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         const thirdpartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
         const dineInDetails = prizingDetail?.normalForm?.dineinfields;
         const dineIndetail = prizingDetail?.normalForm?.dineInDetails;
+        // setValue("kitchenstation",prizingDetail?.kitchenstation)
 
         const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
           (data: any, index: number) => data.typeId === dineIndetail?.typeId
@@ -1354,6 +1361,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       const validationErrors: Record<string, string> = {};
 
       const Kitchenstationdata = getValues("kitchenstation");
+
+      console.log({Kitchenstationdata});
+      
+
       if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
         validationErrors[`kitchenstation`] = "kitchen station is required";
       }

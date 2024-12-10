@@ -575,6 +575,10 @@ export const MenuPage = () => {
 
   useEffect(() => {
     dispatch(getMenuRequest(selectedBranch?.id));
+  },[deleteMenuItemSuccess])
+
+  useEffect(() => {
+    dispatch(getMenuRequest(selectedBranch?.id));
   }, []);
 
   useEffect(() => {
@@ -590,7 +594,7 @@ export const MenuPage = () => {
   const itemCustomizationData = useSelector(
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
-
+  console.log("fff",categoryData);
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
@@ -612,6 +616,7 @@ export const MenuPage = () => {
         cuisine: editData[0]?.cuisine?.[0]?.name ?? "",
         bestPair: editData[0]?.pairedItems ?? "",
         category: categoryData?.name ?? "",
+        categoryId:categoryData?.id
       };
 
       const pricingPageData = {
