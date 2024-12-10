@@ -575,6 +575,10 @@ export const MenuPage = () => {
 
   useEffect(() => {
     dispatch(getMenuRequest(selectedBranch?.id));
+  },[deleteMenuItemSuccess])
+
+  useEffect(() => {
+    dispatch(getMenuRequest(selectedBranch?.id));
   }, []);
 
   useEffect(() => {
