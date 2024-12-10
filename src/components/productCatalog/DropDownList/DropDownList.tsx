@@ -466,14 +466,12 @@ const DropDownList: React.FC<DropdownProps> = ({
 
       if(dropDownType === "CATEGORY"){
         setParentId(option?.id);
+        setSubcategoryParentId(option.id);
         setValue(
           "subCategory",
           ""
         );
       }
-    }
-    if (dropDownType === "CATEGORY") {
-      setSubcategoryParentId(option.id);
     }
     if (dropDownType === "SUB_CATEGORY") {
       valiadtesubCategory()
@@ -510,6 +508,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
+
     const deletedItem = {
       id: value,
       type: dropDownType,
@@ -522,13 +521,32 @@ const DropDownList: React.FC<DropdownProps> = ({
       parentId: SubcategoryParentId && SubcategoryParentId,
     };
 
+    const deletedSubCategory = {
+      id: value,
+      type: dropDownType,
+      locationid: locationid,
+      parentId: parentId && parentId,
+    }
+
     if (deletedItem) {
-      dispatch(deleteDropDowRequest(deletedItem));
+      if(dropDownType !== "SUB_CATEGORY"){
+        dispatch(deleteDropDowRequest(deletedItem));
+      }
+      else{
+        dispatch(deleteDropDowRequest(deletedSubCategory));
+      }
+
       const data = selectedOptions.filter((item) => item.id != value);
       setSelectedOptions([...data]);
-      if (deleteApicall === "success") {
-        dispatch(fetchDropDownRequest(viewdata));
-      }
+      // if (deleteApicall === "success") {
+      //   if (dropDownType !== "SUB_CATEGORY" && name !== 'subCategory') {
+      //     dispatch(fetchDropDownRequest(payload));
+      //   }
+    
+      //   if (dropDownType === "SUB_CATEGORY" && subcategorydataforApi.parentId !== "") {
+      //     dispatch(fetchDropDownRequest(subcategorydataforApi));
+      //   }
+      // }
     }
   };
 
@@ -601,7 +619,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
 
 
-    if (subcategorydataforApi.parentId !== "") {
+    if (dropDownType === "SUB_CATEGORY" && subcategorydataforApi.parentId !== "") {
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };

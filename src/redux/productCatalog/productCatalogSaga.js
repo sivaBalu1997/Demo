@@ -202,54 +202,17 @@ function* addSubsection(action) {
     const viewdata = {
       locationId: action.payload.locationId,
       type: action.payload.type,
-      parentId: action.payload.parentId,
+      parentId: action.payload.type === 'SUB_CATEGORY' ? action.payload.parentId : "",
     };
     if (response.status === 200) {
       yield put({
         type: FETCHDROPDOWN_REQUEST,
         payload: viewdata,
       });
-      yield put(addDropDownSuccess("success"));
-      // switch (action.payload.type) {
-      //   case "DIET":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload: viewdata
-      //     });
-      //     yield put(addDropDownSuccess("success"));
 
-      //     break;
-      //   case "CUISINES":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload:viewdata,
-      //     });
-      //     break;
-      //   case "CATEGORY":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload: viewdata,
-      //     });
-      //     break;
-      //   case "SUB_CATEGORY":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload: viewdata,
-      //     });
-      //     break;
-      //   case "BEST_PAIRED_ITEMS":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload: viewdata,
-      //     });
-      //     break;
-      //   default:
-      //     throw new Error("Invalid type");
-      // }
+      yield put(addDropDownSuccess("success"));
     } else {
       yield put(addDropDownFailure({ message: "Please try again" }));
-      console.log(response);
-
       if (
         response.data.message &&
         response.data.message.includes("already exist")
@@ -270,12 +233,17 @@ function* deleteSubSectionSaga(action) {
       id: action.payload.id,
       type: action.payload.type,
     };
+
+    const parenId = action.payload?.parentId;
     const response = yield call(deleteSubSection, deteleData);
+
     const viewdata = {
       locationId: action.payload.locationid,
       type: action.payload.type,
-      parentId: "",
+      parentId: action.payload.type === 'SUB_CATEGORY' ? parenId : "",
     };
+
+
     if (response.status === 200) {
       yield put({
         type: FETCHDROPDOWN_REQUEST,
@@ -407,13 +375,11 @@ const convertImageToBinaryString = (imageFile) => {
 };
 
 function* imageUploadSaga(action) {
-  console.log("inside sagas 1");
   const images = action.payload;
   let itemId = "";
   const failureArray = [];
 
   try {
-    console.log("inside sagas2");
     const firstImage = images[0];
     const response = yield call(uploadImageApi, firstImage, itemId);
     if (response.data && response.data.itemId) {
@@ -421,7 +387,6 @@ function* imageUploadSaga(action) {
     }
     yield put(imageUploadSuccess(itemId));
   } catch (error) {
-    console.log("inside sagas3");
     failureArray.push({
       file: images[0].file,
       itemId: "",
@@ -481,8 +446,6 @@ function* retryImage(action) {
 
 function* updateMenuItemSaga(action) {
   try {
-    console.log("action.payload", action.payload);
-
     const response = yield call(updateMenuItem, action.payload);
     if (response.status === 200) {
       showSuccessToast(response.data.message);
@@ -566,13 +529,9 @@ function* getPopularItemSaga(action) {
 
 function* partialUpdateMenuSaga(action) {
   try {
-    console.log("666", action.payload);
-
     const updatedMenu = yield call(apiUpdateMenu, action.payload.data);
     if (updatedMenu.status === 200) {
       showSuccessToast("Item Updated Successfully");
-      console.log("updatedMenu.data.message", updatedMenu.data.message);
-
       yield put(partialUpdateMenuSuccess(updatedMenu.data.message));
 
       yield put({
