@@ -87,6 +87,7 @@ const ItemCustomizations: React.FC<any> = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
+ console.log("item customization page",{itemCustomizationData})
 
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
@@ -149,6 +150,7 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
+  console.log("modifications from item customizations",{modifications})
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -211,6 +213,8 @@ const ItemCustomizations: React.FC<any> = () => {
            }
            else if(item?.modifierOptions)
            {
+            console.log("He-He",{itemCustomizationData})
+
             return {
               modifierId: item?.id || "",
               modifierName: item?.modifierName || item?.name || "",
@@ -232,8 +236,8 @@ const ItemCustomizations: React.FC<any> = () => {
               maxSelection: item.maxSelection || 0,
               freeCustomization: item?.freeCustomization || 0,
               selectedValue: selectedTypeNames,
-              // selectionType: item?.selectionType || "Mandatory",
-              selectionType:  "Mandatory",
+              selectionType: item?.selectionType || "Mandatory",
+              // selectionType:  "Mandatory",
 
             };
            }
@@ -298,6 +302,7 @@ const ItemCustomizations: React.FC<any> = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     selectionType?: string
   ) => {
+    console.log("hi from handleModifierChange start")
     const { name, value } = e.target;
     setModifications((prev: any) => {
       const updated = [...prev];
@@ -320,7 +325,6 @@ const ItemCustomizations: React.FC<any> = () => {
 
         return prevIds.filter((id) => id !== "");
       });
-
       return updated;
     });
   };
@@ -654,6 +658,7 @@ const ItemCustomizations: React.FC<any> = () => {
   const ordertypesdetails = useSelector(
     (state: any) => state.PricingDetailReducer.prizingData
   );
+  // console.log({ordertypesdetails})
 
   useEffect(() => {
     const filtered = modifications?.filter((modifier: any) =>

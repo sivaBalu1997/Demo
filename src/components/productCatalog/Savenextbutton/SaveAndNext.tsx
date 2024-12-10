@@ -288,7 +288,20 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       }
     } else if (seletedpage === "ItemCustomization") {
       const isValid = validateModifiers && validateModifiers(modifications);
-      const modificationArray = modifications;
+      // const modificationArray = modifications;
+      const modificationArray = modifications?.map((modifier) => {
+        if (
+          modifier.selectionType === "Mandatory" &&
+          modifier.minSelection === 0 &&
+          modifier.maxSelection === 0
+        ) {
+          return { ...modifier, minSelection: 1, maxSelection: 1 };
+        }
+        return modifier;
+      });
+
+
+      console.log("from review page modificationArray",{modificationArray})
       const formData = getFormData();
      
       if(isValid)
