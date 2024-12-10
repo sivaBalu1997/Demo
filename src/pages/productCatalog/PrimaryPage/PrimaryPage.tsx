@@ -558,6 +558,8 @@ const PrimaryPage = () => {
   const messageLoader = useSelector(
     (state: any) => state?.getItemCodeReducer?.loading
   );
+
+  
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
