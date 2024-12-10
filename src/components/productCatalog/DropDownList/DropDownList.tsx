@@ -113,6 +113,8 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.primarypage.data
   );
 
+
+
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
   };
@@ -287,6 +289,14 @@ const DropDownList: React.FC<DropdownProps> = ({
       );
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
+
+
+  const categoryData = useSelector(
+    (state: any) => state.productCatalog.categoryData.data
+  );
+
+  console.log({editData});
+  
 
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
