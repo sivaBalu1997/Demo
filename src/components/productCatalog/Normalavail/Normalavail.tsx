@@ -1750,7 +1750,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     <div className="PickupChooseDayContainer">
                       {showDayPickup ? (
                         <h3 className="pickupChooseDayContainerHeading">
-                          Back for default days
+                          Back to default days?
                         </h3>
                       ) : (
                         <h3 className="pickupChooseDayContainerHeading">
@@ -1762,7 +1762,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           className="pickupChooseDayContainer-chooseheading"
                           onClick={addDayPickupfalse}
                         >
-                          Default days
+                          Default day
                         </h3>
                       ) : (
                         <h3
@@ -1902,7 +1902,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     <div className="deliveryChooseDayContainer">
                       {showDayDelivery ? (
                         <h3 className="deliveryChooseDayContainerHeading">
-                          Back for default days
+                          Back to default days?
                         </h3>
                       ) : (
                         <h3 className="deliveryChooseDayContainerHeading">
@@ -1914,7 +1914,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           className="deliveryChooseDayContainer-chooseheading"
                           onClick={addDayDeliveryfalse}
                         >
-                          Default days
+                          Default day
                         </h3>
                       ) : (
                         <h3
