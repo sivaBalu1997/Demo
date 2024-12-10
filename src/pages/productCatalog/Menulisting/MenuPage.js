@@ -210,6 +210,7 @@ export const MenuPage = () => {
     setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
   }, [menuData]);
 
+
   const insertlists2 = {
     Pricing: {
       show: listingobject?.showPricing ? "Pricing" : "",

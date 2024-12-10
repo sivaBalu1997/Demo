@@ -669,6 +669,9 @@ const ItemCustomizations: React.FC<any> = () => {
 
     const updatedModifiers = {
       ...Modifiers,
+      freeCustomization: Modifiers?.noFreeCustomization,
+      maxSelection: Modifiers?.maxAllowed,
+      minSelection: Modifiers?.minRequired,
       isEnabled: true,
       modifierOptions:
         Modifiers.modifierOptions.length > 0
@@ -691,6 +694,8 @@ const ItemCustomizations: React.FC<any> = () => {
               },
             ],
     };
+
+    console.log("Bhahaha",{Modifiers})
 
     setModifications((prevModifications: Modification[]) => [
       ...prevModifications,
@@ -923,7 +928,7 @@ const ItemCustomizations: React.FC<any> = () => {
       if (!modifierName.trim()) {
         modifierErrors.modifierNameError = `Modifier Name is required`;
       }
-      if (atleastOnestream && selectedValue.length === 0 ) {
+      if (atleastOnestream && selectedValue?.length === 0 ) {
         modifierErrors.errormsgforselectedvalues = "Available service streams required";
       }
 
@@ -1009,6 +1014,9 @@ const ItemCustomizations: React.FC<any> = () => {
   };
 
   // const editData = useSelector((state: any) => state.productCatalog.editData);
+
+  const searched = ModifierList?.map((item, index) => (item?.modifierName))
+  console.log("IC page",{searched})
 
   return (
     <div
