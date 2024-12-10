@@ -570,16 +570,16 @@ export const MenuPage = () => {
   );
 
   useEffect(() => {
-    selectedBranch?.id && dispatch(getMenuRequest(selectedBranch?.id));
+     if(selectedBranch?.id){
+      dispatch(getMenuRequest(selectedBranch?.id));
+     }
   }, [selectedBranch?.id]);
 
   useEffect(() => {
-    dispatch(getMenuRequest(selectedBranch?.id));
+    if(deleteMenuItemSuccess){
+      dispatch(getMenuRequest(selectedBranch?.id));
+    }
   },[deleteMenuItemSuccess])
-
-  useEffect(() => {
-    dispatch(getMenuRequest(selectedBranch?.id));
-  }, []);
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
