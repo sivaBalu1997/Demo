@@ -226,14 +226,15 @@ const EyeModal = ({ onEyeclose, onclose }) => {
 
   // Function to handle toggle behavior for all
   const handleToggleAll = () => {
-    // Check if all parents and children are `isEnabled`
-    const allEnabled = availabilityOrderTypes?.some(
-      (parent) =>
-        parent.isEnabled && parent.types.some((child) => child.isEnabled)
-    );
-    if (!allEnabled) {
-      return;
-    }
+      // Check if all parents and children are `isEnabled`
+      const allEnabled = availabilityOrderTypes.some(
+        (parent) =>
+          parent.isEnabled && parent.types.some((child) => child.isEnabled)
+      );
+      if (!allEnabled) {
+        console.log("Not all items are enabled. Toggle action aborted.");
+        return;
+      }
 
     const updatedOrderTypes = availabilityOrderTypes.map((parent) => {
       // Toggle isNotHide based on toggleState

@@ -1421,6 +1421,16 @@ const PrimaryPage = () => {
                             value={value}
                             trigger={trigger}
                             placeholder="Tax Class Association"
+                            onKeyDown={(e: any) => {
+                              if (
+                                (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) || // Restrict alphabets
+                                e.key === "e" || // Prevent 'e' for scientific notation
+                                e.key === "-" || // Prevent negative sign
+                                e.key === "+" // Prevent positive sign
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         )}
                       />
