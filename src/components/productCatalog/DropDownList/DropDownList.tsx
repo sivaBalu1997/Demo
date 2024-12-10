@@ -415,6 +415,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
+
       if(dropDownType === "CATEGORY"){
         setParentId(option?.id);
         setValue(
@@ -431,6 +432,58 @@ const DropDownList: React.FC<DropdownProps> = ({
     setSearchTerm("");
     setManuallyCleared(false);
   };
+
+
+  const handleCheckboxChange = (option: Option) => {
+    if (type === "checkbox") {
+      setSelectedOptions((prevSelected) => {
+        const isAlreadySelected = prevSelected?.findIndex(
+          (opt) => opt.id === option.id
+        );
+
+        let updatedSelected;
+
+        if (isAlreadySelected !== -1) {
+          updatedSelected = prevSelected?.filter(
+            (_, index) => index !== isAlreadySelected
+          );
+        } else {
+          if (bestpair && prevSelected.length >= 5) {
+            return prevSelected;
+          }
+          updatedSelected = [...prevSelected, option];
+        }
+
+        setValue(name, updatedSelected?.map((opt) => opt.name).join(", "));
+        trigger(name);
+
+        return updatedSelected;
+      });
+    } else if (type === "radio") {
+      setSelectedOptions([option]);
+      setValue(name, option.name);
+      trigger(name);
+
+      if(dropDownType === "CATEGORY"){
+        setParentId(option?.id);
+        setValue(
+          "subCategory",
+          ""
+        );
+      }
+    }
+    if (dropDownType === "CATEGORY") {
+      setSubcategoryParentId(option.id);
+    }
+    if (dropDownType === "SUB_CATEGORY") {
+      valiadtesubCategory()
+    }
+    setSearchTerm("");
+    // if(dropDownType === "SUB_CATEGORY") {
+    //   console.log({option})
+    // }
+  };
+
 
   useEffect(() => {
   if(dropDownType === "SUB_CATEGORY" && parentId !== ""){
@@ -485,48 +538,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   // value={type === "checkbox"
   //   ? selectedOptions.map((opt) => opt.name).join(", ")
   //   : selectedOptions[0]?.name || ""}
-
-  const handleCheckboxChange = (option: Option) => {
-    if (type === "checkbox") {
-      setSelectedOptions((prevSelected) => {
-        const isAlreadySelected = prevSelected?.findIndex(
-          (opt) => opt.id === option.id
-        );
-
-        let updatedSelected;
-
-        if (isAlreadySelected !== -1) {
-          updatedSelected = prevSelected?.filter(
-            (_, index) => index !== isAlreadySelected
-          );
-        } else {
-          if (bestpair && prevSelected.length >= 5) {
-            return prevSelected;
-          }
-          updatedSelected = [...prevSelected, option];
-        }
-
-        setValue(name, updatedSelected?.map((opt) => opt.name).join(", "));
-        trigger(name);
-
-        return updatedSelected;
-      });
-    } else if (type === "radio") {
-      setSelectedOptions([option]);
-      setValue(name, option.name);
-      trigger(name);
-    }
-    if (dropDownType === "CATEGORY") {
-      setSubcategoryParentId(option.id);
-    }
-    if (dropDownType === "SUB_CATEGORY") {
-      valiadtesubCategory()
-    }
-    setSearchTerm("");
-    // if(dropDownType === "SUB_CATEGORY") {
-    //   console.log({option})
-    // }
-  };
 
   const handleNewItemAdd = () => {
     const newValue = NewItemref?.current?.value;
