@@ -290,6 +290,7 @@ const DropDownList: React.FC<DropdownProps> = ({
 
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
+      
       const kitchenStationName = prizingDetail?.kitchenstation;
       const dropDownName: any =
         Array.isArray(options) &&
@@ -302,7 +303,6 @@ const DropDownList: React.FC<DropdownProps> = ({
           ? { name: prizingDetail?.kitchenstation, id: "1" }
           : dropDownName;
 
-      // setSelectedOptions((dropDownName === undefined || dropDownName === false) ? [dropDown1] : [dropDownName]);
       setSelectedOptions(() => {
         setValue(
           "kitchenstation",
@@ -314,7 +314,6 @@ const DropDownList: React.FC<DropdownProps> = ({
           ? [dropDown1]
           : [dropDownName];
       });
-      // setValue("kitchenstation", (dropDownName === undefined || dropDownName === false) ? dropDown1?.name : dropDownName?.name);
     }
   }, [prizingDetail]);
 
