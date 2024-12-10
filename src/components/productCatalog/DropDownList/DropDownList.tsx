@@ -404,6 +404,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         }
   
         const updatedOptions = [...currentSelectedOptions, option];
+
         setSelectedOptions(updatedOptions);
         setValue(
           name,
@@ -417,6 +418,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       trigger(name);
       if(dropDownType === "CATEGORY"){
         setParentId(option?.id);
+        console.log({parentId});
+      
         setValue(
           "subCategory",
           ""
@@ -437,6 +440,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([])
     }
   },[parentId])
+  
+ 
   
 
   const payload = {
@@ -518,6 +523,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
     if (dropDownType === "CATEGORY") {
       setSubcategoryParentId(option.id);
+      setParentId(option?.id);
     }
     if (dropDownType === "SUB_CATEGORY") {
       valiadtesubCategory()
