@@ -576,6 +576,9 @@ export const Menulisting = () => {
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
+  console.log("fff",editData);
+  
+
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
