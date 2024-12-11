@@ -281,13 +281,11 @@ function* getModifierSaga(action) {
     if (response.status === 200) {
       if (Array.isArray(response.data) && response.data.length === 0) {
         yield put(getModifierFailed());
-        showErrorToast("No Modifier Present In Database");
       } else {
         yield put(getModifierSuccess(response.data));
       }
     } else {
       yield put(getModifierFailed());
-      showErrorToast("No Modifier Present");
     }
   } catch (err) {
     yield put(getModifierFailed());
