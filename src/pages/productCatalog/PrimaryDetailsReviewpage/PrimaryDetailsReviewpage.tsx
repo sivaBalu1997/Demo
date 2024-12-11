@@ -482,6 +482,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
+  console.log({subCategoryData}, {matchedSubCategory}, {matchedSubCategory}, {matchedSubCategoryId})
+
+
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
@@ -549,6 +552,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const stringNormalDays = Array.isArray(normalDays) ? normalDays.map(String) : [];
   const result = stringNormalDays.includes('0') ? ['0'] : stringNormalDays;
+
     
   const menuPayload = {
     locationId: locationid,

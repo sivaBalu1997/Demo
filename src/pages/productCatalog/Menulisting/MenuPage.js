@@ -424,8 +424,6 @@ export const MenuPage = () => {
   const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
-    // console.log({ value });
-
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -469,9 +467,13 @@ export const MenuPage = () => {
         name: filteredItem?.categoryName,
         id: filteredItem?.categoryId,
       });
+
       const specificResponse = filteredItem.itemResponseList.filter(
         (response) => response?.itemId === value
       );
+
+      console.log('1', {specificResponse})
+
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
@@ -483,9 +485,17 @@ export const MenuPage = () => {
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
       });
-      const specificResponse = filtesubItems?.itemResponseList?.filter(
-        (response) => response?.itemId === value
-      );
+
+      const specificResponse = filtesubItems?.itemResponseList
+      ?.filter((response) => response?.itemId === value)
+      ?.map((response) => ({
+        ...response,
+        subCategoryName: filtesubItems?.subCategoryName, 
+      }));
+
+      console.log('2', {filtesubItems}, {specificResponse})
+
+
       if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
@@ -586,7 +596,7 @@ export const MenuPage = () => {
   const itemCustomizationData = useSelector(
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
-  
+
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
@@ -608,7 +618,8 @@ export const MenuPage = () => {
         cuisine: editData[0]?.cuisine?.[0]?.name ?? "",
         bestPair: editData[0]?.pairedItems ?? "",
         category: categoryData?.name ?? "",
-        categoryId:categoryData?.id
+        categoryId:categoryData?.id,  
+        subCategory: editData[0]?.subCategoryName ?? "",
       };
 
       const pricingPageData = {
