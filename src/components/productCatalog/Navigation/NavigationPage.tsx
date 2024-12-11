@@ -185,7 +185,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
               <li
                 key={category}
                 className={isExpanded ? "listsExpanded" : "lists"}
-                onClick={() => handleCategoryClick(category)}
+              
               >
                 <h1
                   className={`list-text ${
