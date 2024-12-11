@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// const MenuPage = () => {
-//   return (
-//     <div>MenuPage</div>
-//   )
-// }
-
-// export default MenuPage
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Toggle from "components/productCatalog/Toggle/Toggle";
 import HoverText from "../../../components/productCatalog/HoverText/HoverText";
@@ -595,7 +586,7 @@ export const MenuPage = () => {
   const itemCustomizationData = useSelector(
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
-  console.log("fff",categoryData);
+  
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
@@ -850,6 +841,7 @@ export const MenuPage = () => {
   }, [menuData]);
 
   const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
+
   const handleItemnameClick = (value) => {
     handlemodal(value);
   };
@@ -1027,7 +1019,11 @@ export const MenuPage = () => {
                             <p>
                               <span className="itemimage2">
                                 <img
-                                  src={placeholderimg}
+                                   src={
+                                    item?.mediaResponseList[0]?.imageId
+                                      ? baseImageUrl + item?.mediaResponseList[0]?.imageId
+                                      : placeholderimg
+                                  }
                                   alt=""
                                   className="foodimage"
                                 />

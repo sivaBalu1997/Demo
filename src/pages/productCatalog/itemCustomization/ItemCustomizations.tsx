@@ -695,8 +695,6 @@ const ItemCustomizations: React.FC<any> = () => {
             ],
     };
 
-    console.log("Bhahaha",{Modifiers})
-
     setModifications((prevModifications: Modification[]) => [
       ...prevModifications,
       updatedModifiers,
@@ -1016,7 +1014,6 @@ const ItemCustomizations: React.FC<any> = () => {
   // const editData = useSelector((state: any) => state.productCatalog.editData);
 
   const searched = ModifierList?.map((item, index) => (item?.modifierName))
-  console.log("IC page",{searched})
 
   return (
     <div
