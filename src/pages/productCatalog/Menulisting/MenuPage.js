@@ -939,7 +939,7 @@ export const MenuPage = () => {
                     }`}
                 >
                   <div className="second-div-header">
-                    {firstRowTable.length > 1 && firstRowTable.map((header, index) => (
+                    {!menuDataLoading && firstRowTable.map((header, index) => (
                       <>
                         {listingobject && listingobject[header.label] && (
                           <p
