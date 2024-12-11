@@ -29,6 +29,18 @@ import {
   SP_OFFER_LIST_REQUEST,
   SP_OFFER_LIST_SUCCESS,
   SP_OFFER_LIST_FAILED,
+  SP_OFFER_LIST_SENDING_REQUEST,
+  SP_OFFER_LIST_SENDING_SUCCESS,
+  SP_OFFER_LIST_SENDING_FAILED,
+  SP_OFFER_LIST_VIEW_REQUEST,
+  SP_OFFER_LIST_VIEW_SUCCESS,
+  SP_OFFER_LIST_VIEW_FAILED,
+  SP_OFFER_LIST_DELETE_REQUEST,
+  SP_OFFER_LIST_DELETE_SUCCESS,
+  SP_OFFER_LIST_DELETE_FAILED,
+  SP_OFFER_LIST_DISABLE_REQUEST,
+  SP_OFFER_LIST_DISABLE_SUCCESS,
+  SP_OFFER_LIST_DISABLE_FAILED,
 } from "./offerConstants";
 
 export const getOfferList = (offerListParams) => ({
@@ -149,16 +161,69 @@ export const resetDeleteData = () => ({
 
 
 export const SPOfferListSendingRequest = (data) => ({
-  type: SP_OFFER_LIST_REQUEST,
+  type: SP_OFFER_LIST_SENDING_REQUEST,
   payload: data,
 });
 
 export const SPOfferListSendingrSuccess = (success) => ({
-  type:  SP_OFFER_LIST_SUCCESS,
+  type:  SP_OFFER_LIST_SENDING_SUCCESS,
   payload: success,
 });
 
 export const SPOfferListSendingFailed = (failed) => ({
-  type: SP_OFFER_LIST_FAILED,
+  type: SP_OFFER_LIST_SENDING_FAILED,
+  payload: failed,
+});
+
+
+
+export const SPOfferListRequest = (data) => ({
+  type: SP_OFFER_LIST_VIEW_REQUEST,
+  payload: data,
+});
+
+export const SPOfferListSuccess = (success) => ({
+  type:  SP_OFFER_LIST_VIEW_SUCCESS,
+  payload: success,
+});
+
+export const SPOfferListFailed = (failed) => ({
+  type: SP_OFFER_LIST_VIEW_FAILED,
+  payload: failed,
+});
+
+
+
+export const SPOfferListDelete = (data) => ({
+  type: SP_OFFER_LIST_DELETE_REQUEST,
+  payload: data,
+});
+
+export const SPOfferListDeleteSuccess = (success) => ({
+  type:  SP_OFFER_LIST_DELETE_SUCCESS,
+  payload: success,
+});
+
+export const SPOfferListDeleteFailed = (failed) => ({
+  type: SP_OFFER_LIST_DELETE_FAILED,
+  payload: failed,
+});
+
+
+
+
+
+export const SPOfferListDisable = (data) => ({
+  type: SP_OFFER_LIST_DISABLE_REQUEST,
+  payload: data,
+});
+
+export const SPOfferListDisableSuccess = (success) => ({
+  type:  SP_OFFER_LIST_DISABLE_SUCCESS,
+  payload: success,
+});
+
+export const SPOfferListDisableFailed = (failed) => ({
+  type: SP_OFFER_LIST_DISABLE_FAILED,
   payload: failed,
 });

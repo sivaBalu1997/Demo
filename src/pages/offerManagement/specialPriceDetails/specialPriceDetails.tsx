@@ -14,7 +14,7 @@ import Toggle from "components/offerManagement/Toggle/Toggle";
 import dropdown from "../../../assets/images/dropdown.png";
 import { useDispatch } from "react-redux";
 import { AnyAaaaRecord } from "dns";
-import { OfferDataSendingRequest } from "redux/offer/offerActions";
+import { SPOfferListSendingRequest } from "redux/offer/offerActions";
 import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
@@ -358,7 +358,7 @@ const SpecialPriceDetails = () => {
   const handleonclick = () => {
     const values = getValues();
     trigger();
-    dispatch(OfferDataSendingRequest(values));
+    dispatch(SPOfferListSendingRequest(values));
     setOverlapShow(true);
   };
 

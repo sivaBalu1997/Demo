@@ -1,3 +1,4 @@
+
 import Store from "../store";
 import { API } from "redux/api";
 
@@ -74,3 +75,35 @@ export function getDropdownData(dropdownDataparams) {
     },
   });
 }
+
+
+
+export const getSPOfferList = (locationId) => {
+  return API({
+    method: "get",
+    url: `/coupon/happy-hour/list?locationId=${locationId}`,
+  });
+};
+
+export const getSPOfferListItemDelete = (offerId) => {
+  return API({
+    method: "DELETE",
+    url: `/coupon/happy-hours?offerId=${offerId}`,
+  });
+};
+
+
+export const getSPOfferListItemDisable = (disableItem) => {
+  console.log({disableItem});
+  
+  return API({
+    method: "patch",
+    url: `/coupon/happy-hours?offerId=${disableItem.offerId}&toEnable=${disableItem.toEnable}`,
+  });
+};
+
+
+
+
+
+// /coupon/happy-hours?offerId=a00c82e3-7e5f-45ed-8314-97cc1072e12b

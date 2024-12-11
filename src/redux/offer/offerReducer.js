@@ -23,9 +23,21 @@ import {
   DISABLE_OFFER_SUCCESS,
   DISABLE_OFFER_FAILED,
   RESET_DISABLE_DATA,
-  OFFER_DATA_REQUEST,
-  OFFER_DATA_SUCCESS,
-  OFFER_DATA_FAILED,
+  SP_OFFER_LIST_REQUEST,
+ SP_OFFER_LIST_SUCCESS,
+SP_OFFER_LIST_FAILED,
+SP_OFFER_LIST_SENDING_REQUEST,
+SP_OFFER_LIST_SENDING_SUCCESS,
+SP_OFFER_LIST_SENDING_FAILED,
+SP_OFFER_LIST_VIEW_REQUEST,
+SP_OFFER_LIST_VIEW_SUCCESS,
+SP_OFFER_LIST_VIEW_FAILED,
+SP_OFFER_LIST_DELETE_REQUEST,
+SP_OFFER_LIST_DELETE_SUCCESS,
+SP_OFFER_LIST_DELETE_FAILED,
+SP_OFFER_LIST_DISABLE_REQUEST,
+SP_OFFER_LIST_DISABLE_SUCCESS,
+SP_OFFER_LIST_DISABLE_FAILED
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -73,28 +85,31 @@ const initialOfferState = {
 
 
 
+  SpOfferListLoading:false,
+  SpofferListSuccessResponse:[],
+  SpofferListFailureResponse:false,
+   
+
+  SPofferItemDeleteLoading:false,
+  SPofferItemDeleteSuccess:"",
+  SPofferItemDeleteFailed:"",
+  SPofferItemDisableLoading:false,
+  SPofferItemDisableSuccess:"",
+  SPofferItemDisableFailed:""
+
+
+
+
+
+
+
 };
 
 export default function offerReducer(state = initialOfferState, action) {
   return produce(state, (draft) => {
     switch (action.type) {
 
-      case OFFER_DATA_REQUEST:
-        console.log("eeee",action.payload);
-        
-        draft.OfferDataSendingRequest =action.payload;
-        draft.OfferDataSendingloading = true;
-        break;
-      case OFFER_DATA_SUCCESS:
-        draft.OfferDataSendingrSuccess = action.payload;
-        draft.OfferDataSendingloading = false;
-        draft.OfferDataSendingFailed=false
-        break;
-      case OFFER_DATA_FAILED:
-        draft.OfferDataSendingloading = false;
-        draft.OfferDataSendingrSuccess=false
-        draft.OfferDataSendingFailed = action.payload;
-        break;
+     
 
       // SignUp Reducers
       case OFFER_LIST_REQUEST:
@@ -258,6 +273,83 @@ export default function offerReducer(state = initialOfferState, action) {
       case SET_OFFER_STATUS:
         draft.offerStatus = action.payload;
         break;
+
+        case  SP_OFFER_LIST_SENDING_REQUEST:
+          console.log("eeee",action.payload);
+          
+          draft.OfferDataSendingRequest =action.payload;
+          draft.OfferDataSendingloading = true;
+          break;
+        case  SP_OFFER_LIST_SENDING_SUCCESS:
+          draft.OfferDataSendingrSuccess = action.payload;
+          draft.OfferDataSendingloading = false;
+          draft.OfferDataSendingFailed=false
+          break;
+        case SP_OFFER_LIST_SENDING_FAILED:
+          draft.OfferDataSendingloading = false;
+          draft.OfferDataSendingrSuccess=false
+          draft.OfferDataSendingFailed = action.payload;
+          break;
+          
+        case  SP_OFFER_LIST_SENDING_REQUEST:
+        console.log("eeee",action.payload);
+        
+        draft.OfferDataSendingRequest =action.payload;
+        draft.OfferDataSendingloading = true;
+        break;
+      case  SP_OFFER_LIST_SENDING_SUCCESS:
+        draft.OfferDataSendingrSuccess = action.payload;
+        draft.OfferDataSendingloading = false;
+        draft.OfferDataSendingFailed=false
+        break;
+      case SP_OFFER_LIST_SENDING_FAILED:
+        draft.OfferDataSendingloading = false;
+        draft.OfferDataSendingrSuccess=false
+        draft.OfferDataSendingFailed = action.payload;
+        break;
+
+
+        case  SP_OFFER_LIST_VIEW_REQUEST:
+          draft.SpOfferListLoading =true;
+          draft.SpofferListSuccessResponse = [];
+          break;
+        case  SP_OFFER_LIST_VIEW_SUCCESS:
+          draft.SpOfferListLoading =false;
+          draft.SpofferListSuccessResponse = action.payload;
+          break;
+        case SP_OFFER_LIST_VIEW_FAILED:
+          draft.SpOfferListLoading =false;
+         draft.SpofferListFailureResponse=true;
+          break;  
+
+
+
+          case  SP_OFFER_LIST_DELETE_REQUEST:
+            draft.SPofferItemDeleteLoading =true;
+           
+            break;
+          case  SP_OFFER_LIST_DELETE_SUCCESS:
+            draft.SPofferItemDeleteLoading =false;
+            draft.SPofferItemDeleteSuccess = action.payload;
+            break;
+          case SP_OFFER_LIST_DELETE_FAILED:
+            draft.SPofferItemDeleteLoading =false;
+           draft.SPofferItemDeleteFailed=action.payload;
+            break;   
+            
+            
+            case  SP_OFFER_LIST_DISABLE_REQUEST:
+            draft.SPofferItemDisableLoading =true;
+           
+            break;
+          case  SP_OFFER_LIST_DISABLE_SUCCESS:
+            draft.SPofferItemDisableLoading =false;
+            draft.SPofferItemDisableSuccess = action.payload;
+            break;
+          case SP_OFFER_LIST_DISABLE_FAILED:
+            draft.SPofferItemDisableLoading =false;
+           draft.SPofferItemDisableFailed=action.payload;
+            break;   
       default:
         break;
     }

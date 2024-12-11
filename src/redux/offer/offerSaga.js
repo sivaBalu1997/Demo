@@ -13,8 +13,15 @@ import {
   deleteOfferFailed,
   disableOfferSuccess,
   disableOfferFailed,
-  OfferDataSendingrSuccess,
-  OfferDataSendingFailed,
+  SPOfferListSendingrSuccess,
+  SPOfferListSendingFailed,
+  SPOfferListRequest,
+  SPOfferListSuccess,
+  SPOfferListFailed,
+  SPOfferListDeleteFailed,
+  SPOfferListDeleteSuccess,
+  SPOfferListDisableSuccess,
+  SPOfferListDisableFailed
 } from "./offerActions";
 import {
   deleteOffer,
@@ -23,6 +30,9 @@ import {
   createOffer,
   EditOffer,
   getDropdownData,
+  getSPOfferList,
+  getSPOfferListItemDelete,
+  getSPOfferListItemDisable,
 } from "../offer/offersAPI";
 import {
   OFFER_LIST_REQUEST,
@@ -32,9 +42,16 @@ import {
   DROPDOWN_DATA_REQUEST,
   DELETE_OFFER_REQUEST,
   DISABLE_OFFER_REQUEST,
-  OFFER_DATA_REQUEST,
+ SP_OFFER_LIST_REQUEST,
+ SP_OFFER_LIST_SENDING_REQUEST,
+ SP_OFFER_LIST_VIEW_REQUEST,
+ SP_OFFER_LIST_DELETE_REQUEST,
+ SP_OFFER_LIST_DISABLE_REQUEST
   
 } from "./offerConstants";
+import { showSuccessToast } from "util/toastUtils";
+import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toastUtils';
+
 
 export function* getOfferListSaga(action) {
   try {
@@ -61,17 +78,7 @@ export function* createOfferSaga(action) {
   }
 }
 
-export function* OfferDataPostSaga(action) {
-  try {
-    const response = yield call(createOffer, action.payload);
-    if (response.status === 200) {
-      yield put(OfferDataSendingrSuccess(response.data));
-    }
-  } catch (err) {
- 
-    yield put(OfferDataSendingFailed(err.response.data[0] ));
-  }
-}
+
 
 export function* EditOfferSaga(action) {
   try {
@@ -122,10 +129,106 @@ export function* disableOfferSaga(action) {
   }
 }
 
+export function* OfferDataPostSaga(action) {
+  try {
+    const response = yield call(createOffer, action.payload);
+    if (response.status === 200) {
+      yield put(SPOfferListSendingrSuccess(response.data));
+    }
+  } catch (err) {
+ 
+    yield put(SPOfferListSendingFailed(err.response.data[0] ));
+  }
+}
+
+
+export function* getSpofferList(action) {
+  try {
+    const response = yield call(getSPOfferList,action.payload);
+    console.log({response});
+    
+
+    if (response.status === 200) {
+   
+      yield put(SPOfferListSuccess(response.data));
+    }
+  } catch (err) {
+    yield put(SPOfferListFailed({ message: "Please Try Again" }));
+  }
+}
+
+
+function* deleteSpOfferSaga(action) {
+  try {
+    const response = yield call(getSPOfferListItemDelete, action.payload);
+    console.log(response);
+    
+    if (response.status === 200) {
+      yield put(SPOfferListDeleteSuccess(response.data.
+        message
+        ));
+
+        showSuccessToast(response.data.message)
+
+
+    } else {
+      yield put(SPOfferListDeleteFailed(response.data.
+        message
+        ));
+
+        showErrorToast(response.data.message)
+    }
+  } catch (err) {
+    yield put(SPOfferListDeleteFailed("failed"));
+  }
+}
+
+
+
+
+function* disableSpOfferSaga(action) {
+
+
+
+  try {
+
+
+    console.log("data",action.payload);
+    
+    const response = yield call(getSPOfferListItemDisable, action.payload);
+    console.log(response);
+    
+    if (response.status === 200) {
+      yield put(SPOfferListDisableSuccess(response.data.
+        message
+        ));
+
+        showSuccessToast(response.data.message)
+
+
+    } else {
+      yield put(SPOfferListDisableFailed(response.data.
+        message
+        ));
+
+        showErrorToast(response.data.message)
+    }
+  } catch (err) {
+    yield put(SPOfferListDisableFailed("failed"));
+  }
+}
+
 export default function* offerSaga() {
   yield takeLatest(OFFER_LIST_REQUEST, getOfferListSaga);
   yield takeLatest(CREATE_OFFER_REQUEST, createOfferSaga);
-  yield takeLatest(OFFER_DATA_REQUEST, OfferDataPostSaga);
+  yield takeLatest(SP_OFFER_LIST_SENDING_REQUEST, OfferDataPostSaga);
+  yield takeLatest(SP_OFFER_LIST_VIEW_REQUEST, getSpofferList);
+  yield takeLatest(SP_OFFER_LIST_DELETE_REQUEST, deleteSpOfferSaga);
+  yield takeLatest(SP_OFFER_LIST_DISABLE_REQUEST, disableSpOfferSaga);
+
+
+
+
 
   yield takeLatest(DELETE_OFFER_REQUEST, deleteOfferSaga);
   yield takeLatest(DISABLE_OFFER_REQUEST, disableOfferSaga);

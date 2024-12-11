@@ -1,43 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import edit from "../../../assets/svg/editoffer.svg";
 import duplicate from "../../../assets/svg/Duplicate.svg";
 import disable from "../../../assets/svg/offerdisable.svg";
 import bin from "../../../assets/svg/offerbin.svg";
+import { useDispatch } from "react-redux";
+import { SPOfferListDelete, SPOfferListDisable } from "redux/offer/offerActions";
 
-const index = () => {
+interface DropdownParams {
+  EnableorNot?: number;
+  offerData?: any;
+}
+
+const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
+  const dispatch = useDispatch();
+  const [showDropdown,setShowDropdown]=useState(true);
+
+  const handleEdit = (offer: any) => {
+    console.log("Edit offer:", offer);
+ 
+  };
+
+  const handleDisable = (offer: any) => {
+    console.log("Disable offer:", offer);
+
+  
+    const disableOffer = {
+      offerId: offer.offerId,
+      toEnable: EnableorNot === 1 || EnableorNot === 2 ? false : true,
+    };
+
+    dispatch(SPOfferListDisable(disableOffer));
+    setShowDropdown(false)
+  };
+
+  const handleDelete = (offer: any) => {
+    console.log("Delete offer:", offer);
+    dispatch(SPOfferListDelete(offer.offerId));
+    setShowDropdown(false)
+  };
+
   const data = [
     {
       name: "Edit",
       img: edit,
+      onclickFn: () => handleEdit(offerData),
     },
     {
       name: "Duplicate",
       img: duplicate,
+      onclickFn: () => handleEdit(offerData),
     },
     {
-      name: "Disable",
+      name: offerData?.EnableorNot === 0 ? "Enable" : "Disable",
       img: disable,
+      onclickFn: () => handleDisable(offerData),
     },
     {
       name: "Delete",
       img: bin,
+      onclickFn: () => handleDelete(offerData),
     },
   ];
+
   return (
-    <div className="Offersdropdown-container">
-      {data.map((elem) => {
-        return (
-          <>
-            <div className="Offersdropdown-items">
-              <img className="Offersdropdown_img" src={elem.img} alt="" />
-              <h4 className="Offersdropdown-heading">{elem.name}</h4>
-            </div>
-          </>
-        );
-      })}
+<>{
+  showDropdown &&  <div className="Offersdropdown-container">
+
+  {   data.map((elem, index) => (
+    <div
+      key={index}
+      className="Offersdropdown-items"
+      onClick={elem.onclickFn}
+    >
+      <img className="Offersdropdown_img" src={elem.img} alt={elem.name} />
+      <h4 className="Offersdropdown-heading">{elem.name}</h4>
     </div>
+  ))}
+</div>
+}
+</>
+    
+   
+    
+    
   );
 };
 
-export default index;
+export default Index;
