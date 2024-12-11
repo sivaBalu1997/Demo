@@ -732,6 +732,8 @@ const PrimaryPage = () => {
     return true;
   };
 
+  console.log({ItemsPrimaryDetails})
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
