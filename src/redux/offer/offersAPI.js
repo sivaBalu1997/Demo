@@ -74,3 +74,10 @@ export function getDropdownData(dropdownDataparams) {
     },
   });
 }
+export function getCatagoryDropdownData(payload) {
+  return API({
+    method: "post",
+    url: `/api/v1/menu-items/view/sub-section`,
+    data: payload, // Send the full payload as the request body
+  });
+}

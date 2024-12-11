@@ -13,8 +13,6 @@ import Input from "components/common/input";
 import Toggle from "components/offerManagement/Toggle/Toggle";
 import dropdown from "../../../assets/images/dropdown.png";
 import { useDispatch } from "react-redux";
-import { AnyAaaaRecord } from "dns";
-import { OfferDataSendingRequest } from "redux/offer/offerActions";
 import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
@@ -30,7 +28,7 @@ interface itemobject {
 interface specialPriceForm {
   offerName: string;
   offerChannel: string;
-  offerToVisible: string;
+  offerToVisible: string[];
   termsAndConditions: string;
   specialTypeName: string;
   specialType: string;
@@ -53,6 +51,12 @@ const SpecialPriceDetails = () => {
   const dietaryData = useSelector(
     (state: any) => state.productCatalog.dietaryData.data
   );
+  const orderTypes = useSelector(
+    (state:any) => state.auth.restaurantDetails?.orderTypes
+  );
+  const locationid = useSelector(
+    (state: any) => state.auth.credentials?.locationId
+  );
   const channelOption = [
     {
       id: "1",
@@ -74,15 +78,7 @@ const SpecialPriceDetails = () => {
       id: "3",
       name: "PickUp",
       locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "2",
-      name: "Thired Party",
-      locationId: "",
-      type: "D",
+      type: "P",
       parentId: "",
       canDelete: false,
     },
@@ -98,7 +94,7 @@ const SpecialPriceDetails = () => {
       canDelete: false,
     },
     {
-      id: "3",
+      id: "2",
       name: "Merchant",
       locationId: "",
       type: "D",
@@ -107,95 +103,13 @@ const SpecialPriceDetails = () => {
     },
   ];
 
-  const termsOption = [
-    {
-      id: "1",
-      name: "Term1",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "3",
-      name: "Term2",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-  ];
+  const catagoryOption = useSelector(
+    (state: any) => state.offer.categoryData
+  )
 
-  const catagoryOption = [
-    {
-      id: "1",
-      name: "Veg",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "2",
-      name: "Non-veg",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "3",
-      name: "Vegan",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "2",
-      name: "Butter",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-  ];
-
-  const subCatagoryOption = [
-    {
-      id: "1",
-      name: "Veg-sub",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "2",
-      name: "Non-veg",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "3",
-      name: "Vegan-sub",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "2",
-      name: "Butter-sub",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-  ];
-
+  const subCatagoryOption = useSelector(
+    (state: any) => state.offer.subCategoryData
+  )
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
 
@@ -216,7 +130,7 @@ const SpecialPriceDetails = () => {
     setValue(radioname, value);
   };
 
-  const [channal, setChannal] = useState([]);
+  const [channal, setChannal] = useState<any>([]);
   const [vissibleTo,setvissibleTo] =useState([]) 
   const [terms,setterms] =useState([{id: '1',
     name: "Term1",
@@ -256,7 +170,7 @@ const SpecialPriceDetails = () => {
     defaultValues: {
       offerName: "",
       offerChannel: "",
-      offerToVisible: "",
+      offerToVisible: [],
       termsAndConditions: "",
       specialTypeName: "Happy Hour",
       specialType: "Percentage",
@@ -272,7 +186,6 @@ const SpecialPriceDetails = () => {
       AvailableDays: [],
     },
   });
-
   const handleDropdownToggle = (dropdownName: string) => {
     setDropdownOpen((prevState) => {
       return {
@@ -295,71 +208,96 @@ const SpecialPriceDetails = () => {
   const [selectedFoodItems, setselectedFoodItems] = useState<any[]>([]);
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
-
+  const [parentId,setParentId]=useState("")
   const [selecteFoodItems, setselecteFoodItems] = useState([
     {
-      id: 1,
-      itemName: "Parotta",
-      originalPrice: "$100.00",
-      updatedPrice: "$50.00",
-      available: true,
-    },
-    {
-      id: 2,
-      itemName: "Briyani",
-      originalPrice: "$100.00",
-      updatedPrice: "$50.00",
-      available: false,
-    },
-    {
-      id: 3,
-      itemName: "Tandoori",
-      originalPrice: "$100.00",
-      updatedPrice: "$50.00",
-      available: true,
-    },
-    {
-      id: 4,
-      itemName: "Mutton Dum Biriyani",
-      originalPrice: "$100.00",
-      updatedPrice: "$50.00",
-      available: false,
-    },
-    {
-      id: 5,
-      itemName: "Tandoori",
-      originalPrice: "$100.00",
-      updatedPrice: "$50.00",
-      available: true,
-    },
-    {
-      id: 6,
-      itemName: "Mutton Dum Biriyani",
-      originalPrice: "$100.00",
-      updatedPrice: "$50.00",
-      available: false,
-    },
-    {
-      id: 7,
-      itemName: "Tandoori",
-      originalPrice: "$100.00",
-      updatedPrice: "$50.00",
-      available: true,
-    },
-    {
-      id: 8,
-      itemName: "Mutton Dum Biriyani",
-      originalPrice: "$100.00",
-      updatedPrice: "$50.00",
-      available: false,
-    },
-  ]);
+    "itemId": "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
+    "itemName": "Paneer Fried Rice",
+    "originalPrice": 16.4500,
+    "isEnabled": 1
+},
+{
+    "itemId": "01601102-5fc1-4b80-80a1-3788e6c563cc",
+    "itemName": "Strawberry Milkshake",
+    "originalPrice": 7.4900,
+    "isEnabled": 1
+},
+{
+    "itemId": "0192bf12-1884-795d-9916-b55b0606293e",
+    "itemName": "chocolate cream",
+    "originalPrice": 35.0000,
+    "isEnabled": 1
+},
+{
+    "itemId": "0192bf1b-b715-7fe1-89c8-387681b3b115",
+    "itemName": "chocolate ice cream",
+    "originalPrice": 35.0000,
+    "isEnabled": 1
+},
+{
+    "itemId": "0192bf1f-7639-7369-aeef-d1e9bb98a922",
+    "itemName": "test1",
+    "originalPrice": 35.0000,
+    "isEnabled": 1
+},
+{
+    "itemId": "0192bf2c-2552-71a4-81ef-96f008af84cb",
+    "itemName": "Rose Milk",
+    "originalPrice": 35.0000,
+    "isEnabled": 1
+},
+{
+    "itemId": "0192bf5e-d6be-7fab-9903-3b50c6e9006b",
+    "itemName": "Rose Milk",
+    "originalPrice": 35.0000,
+    "isEnabled": 1
+},
+{
+    "itemId": "0192bf64-966c-73a3-b2dd-b5a58efe4c38",
+    "itemName": "Strawberry dessert",
+    "originalPrice": 35.0000,
+    "isEnabled": 1
+}
+]);
 
   const handleonclick = () => {
     const values = getValues();
     trigger();
-    dispatch(OfferDataSendingRequest(values));
-    setOverlapShow(true);
+    const payload={
+  locationId:locationid,
+  offerId:null,
+  offerName: values?.offerName,
+  channel:values?.offerChannel,
+  visibleTo:values?.offerToVisible?.map((item:any)=>item[0]), 
+  termsAndConditions:values?.termsAndConditions,
+  specialType:values?.specialTypeName,
+  type:values?.specialType,
+  value:values?.specialTypeValue,
+  items:selectedFoodItems.map((item)=>{
+    return{
+      itemId:item?.itemId,
+      isEnabled:item?.isEnabled
+    }
+  }),
+  effectivePeriod:{
+    isDateEnabled:dateShow,
+    startDate:dateShow?formatDate(values?.fromDate):null,
+    endDate:dateShow?formatDate(values?.toDate):null,
+    startTime:values?.fromTime,
+    endTime:values?.toTime,
+    validDays:values?.AvailableDays
+ }
+    }
+    //console.log("kkkkk",payload)
+    //setOverlapShow(true);
+  };
+  const formatDate = (dateString:any) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear(); 
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0'); 
+  
+    return `${year}-${month}-${day}`; 
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -394,19 +332,18 @@ const SpecialPriceDetails = () => {
     const data = [...selectedFoodItems];
     let data1 = [];
     // setselectedFoodItems((prev : any) => {
-    const exists = data.some((food: any) => food.id === item.id);
+    const exists = data.some((food: any) => food.itemId === item.itemId);
 
     if (exists) {
-      data1 = data.filter((food: any) => food.id !== item.id);
+      data1 = data.filter((food: any) => food.itemId !== item.itemId);
     } else {
       data1 = [
         ...data,
         {
-          id: item.id,
+          itemId: item.itemId,
           itemName: item.itemName,
           originalPrice: item.originalPrice,
-          updatedPrice: item.updatedPrice,
-          available: item.available,
+          isEnabled: item.isEnabled,
         },
       ];
     }
@@ -435,6 +372,19 @@ const SpecialPriceDetails = () => {
   useEffect(() => {
     setValue("selectedFooditems", selectedFoodItems);
   }, [selectedFoodItems]);
+
+  useEffect(()=>{
+  if(orderTypes?.length>0){
+   const data= orderTypes.map((item:any)=>{
+        return{
+          name:item?.typeName,
+          id:item?.id,
+          type:item?.typeGroup
+        }
+    })
+    setChannal([...data])
+  }
+  },[orderTypes])
 
   const listpopupRef = useRef<HTMLDivElement | null>(null);
 
@@ -480,7 +430,7 @@ const SpecialPriceDetails = () => {
 
   const applyOffer = (type: any, name: any, value: any, item: any) => {
     const data: any = item.map((item: any) => {
-      const originalPrice = parseFloat(item.originalPrice.replace("$", ""));
+      const originalPrice = item.originalPrice;
       let updatedPrice = originalPrice;
       if (name === "Happy Hour" && type == "Percentage") {
         updatedPrice = originalPrice - originalPrice * (value / 100);
@@ -493,7 +443,7 @@ const SpecialPriceDetails = () => {
       }
       return {
         ...item,
-        updatedPrice: `$${updatedPrice.toFixed(2)}`,
+        updatedPrice: updatedPrice.toFixed(2),
       };
     });
     setselectedFoodItems([...data]);
@@ -558,7 +508,7 @@ const SpecialPriceDetails = () => {
   const [dateShow, setDateShow] = useState(false);
 
   const handleDelete = (id: any) => {
-    const data = selectedFoodItems.filter((item: any) => item?.id !== id);
+    const data = selectedFoodItems.filter((item: any) => item?.itemId !== id);
     setselectedFoodItems(data);
   };
 
@@ -615,7 +565,7 @@ const SpecialPriceDetails = () => {
                       control={control}
                       render={({ field }: any) => (
                         <Dropdown
-                          options={channelOption}
+                          options={channal}
                           type="radio"
                           setOptions={setChannal}
                           placeholder="Select Channel"
@@ -631,7 +581,7 @@ const SpecialPriceDetails = () => {
                           setDropdownOpen={setDropdownOpen}
                           addNew={false}
                           editValues={false}
-                          dropDownType="DIET"
+                          dropDownType="offerChannel"
                           search = {false}
                         />
                       )}
@@ -657,13 +607,13 @@ const SpecialPriceDetails = () => {
                         setValue={setValue}
                         getValues={getValues}
                         validation={{ required: "offerToVisible is required" }}
-                        error={errors.offerToVisible}
+                        error={errors?.offerToVisible&&errors?.offerToVisible[0] }
                         dropdownopen={DropdownOpen.ordertype}
                         onToggle={() => handleDropdownToggle("ordertype")}
                         setDropdownOpen={setDropdownOpen}
                         addNew={false}
                         editValues={false}
-                        dropDownType="DIET"
+                        dropDownType="offerToVisible"
                         search = {false}
                       />
                     )}
@@ -693,7 +643,7 @@ const SpecialPriceDetails = () => {
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
                         editValues={false}
-                        dropDownType="DIET"
+                        dropDownType="termsAndConditions"
                         search = {false}
                       />
                     )}
@@ -773,7 +723,8 @@ const SpecialPriceDetails = () => {
                         setDropdownOpen={setDropdownOpen}
                         addNew={false}
                         editValues={false}
-                        dropDownType="DIET"
+                        setParentId={setParentId}
+                        dropDownType="CATEGORY"
                         search = {true}
                       />
                     )}
@@ -802,7 +753,8 @@ const SpecialPriceDetails = () => {
                         setDropdownOpen={setDropdownOpen}
                         addNew={false}
                         editValues={false}
-                        dropDownType="DIET"
+                        dropDownType="SUB_CATEGORY"
+                        parentId={parentId}
                         search = {false}
                       />
                     )}
@@ -843,7 +795,7 @@ const SpecialPriceDetails = () => {
                             key={index}
                             className={`selectedlist ${
                               selectedFoodItems.some(
-                                (food: any) => food.id === item.id
+                                (food: any) => food.itemId === item.itemId
                               )
                                 ? "highlighted"
                                 : ""
@@ -899,12 +851,12 @@ const SpecialPriceDetails = () => {
                               src={Bin}
                               alt="Delete"
                               className="deletebinImage"
-                              onClick={() => handleDelete(item?.id)}
+                              onClick={() => handleDelete(item?.itemId)}
                             />
                           </td>
                           <td className="offer-table-data toggle-icon-data">
                             <Toggle
-                              toggle={item.available}
+                              toggle={item.isEnabled}
                               togglecolor="white"
                             />
                           </td>

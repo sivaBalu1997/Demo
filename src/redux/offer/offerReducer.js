@@ -26,6 +26,13 @@ import {
   OFFER_DATA_REQUEST,
   OFFER_DATA_SUCCESS,
   OFFER_DATA_FAILED,
+  CATEGORY_FETCHDROPDOWN_REQUEST,
+  CATEGORY_FETCHDROPDOWN_FAILURE,
+  CATEGORY_FETCHDROPDOWN_SUCCESS,
+  SUB_CATEGORY_FETCHDROPDOWN_REQUEST,
+  SUB_CATEGORY_FETCHDROPDOWN_FAILURE,
+  SUB_CATEGORY_FETCHDROPDOWN_SUCCESS,
+  
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -68,11 +75,16 @@ const initialOfferState = {
   OfferDataSendingrSuccess:false,
   OfferDataSendingFailed:false,
   OfferDataSendingloading:false,
-
-
-
-
-
+  categoryData :[],
+  getCategorySuccess :false,
+  getCategoryLoading :false,
+  getCategorySuccessMessage :"",
+  getCategorySuccessMessage :'',
+  subCategoryData : [],
+  getSubCategorySuccess : false,
+  getSubCategoryLoading : false,
+  getSubCategoryMessage : "",
+  getSubCategoryMessage : ''
 };
 
 export default function offerReducer(state = initialOfferState, action) {
@@ -252,8 +264,48 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.disableOfferFailed = false;
         draft.disableOfferSuccess = false;
         draft.disableOfferFailureMessage = "";
-        draft.disableOfferSuccessMessage = "";
+        draft.disableOfferFailureMessage = "";
         break;
+      case CATEGORY_FETCHDROPDOWN_REQUEST:
+        draft.categoryData = [];
+        draft.getCategoryLoading = true;
+        draft.getCategorySuccessMessage = "";
+        draft.getCategorySuccessMessage = "";
+        break;
+      case CATEGORY_FETCHDROPDOWN_SUCCESS:
+        draft.categoryData = action.payload;
+        draft.getCategorySuccess = true;
+        draft.getCategoryLoading = false;
+        draft.getCategorySuccessMessage = "";
+        draft.getCategorySuccessMessage = action.payload;
+        break;
+      case CATEGORY_FETCHDROPDOWN_FAILURE:
+        draft.categoryData = [];
+        draft.getCategorySuccess = false;
+        draft.getCategoryLoading = false;
+        draft.getCategorySuccessMessage = action.payload;
+        draft.getCategorySuccessMessage = "";
+        break;
+        case SUB_CATEGORY_FETCHDROPDOWN_REQUEST:
+          draft.subCategoryData = [];
+          draft.getSubCategoryLoading = true;
+          draft.getSubCategoryMessage = "";
+          draft.getSubCategoryMessage = "";
+          break;
+        case SUB_CATEGORY_FETCHDROPDOWN_SUCCESS:
+          draft.subCategoryData = action.payload;
+          draft.getSubCategorySuccess = true;
+          draft.getSubCategoryLoading = false;
+          draft.getSubCategoryMessage = "";
+          draft.getSubCategoryMessage = action.payload;
+          break;
+        case SUB_CATEGORY_FETCHDROPDOWN_FAILURE:
+          draft.subCategoryData = [];
+          draft.getSubCategorySuccess = false;
+          draft.getSubCategoryLoading = false;
+          draft.getSubCategorySuccessMessage = action.payload;
+          draft.getSubCategorySuccessMessage = "";
+          break;
 
       case SET_OFFER_STATUS:
         draft.offerStatus = action.payload;

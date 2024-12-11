@@ -15,6 +15,11 @@ import {
   disableOfferFailed,
   OfferDataSendingrSuccess,
   OfferDataSendingFailed,
+  fetchDropDownFailure,
+  fetchDropDownSuccess,
+  fetchSubDropDownFailure,
+  fetchSubDropDownSuccess
+  
 } from "./offerActions";
 import {
   deleteOffer,
@@ -23,6 +28,7 @@ import {
   createOffer,
   EditOffer,
   getDropdownData,
+  getCatagoryDropdownData,
 } from "../offer/offersAPI";
 import {
   OFFER_LIST_REQUEST,
@@ -33,6 +39,8 @@ import {
   DELETE_OFFER_REQUEST,
   DISABLE_OFFER_REQUEST,
   OFFER_DATA_REQUEST,
+  CATEGORY_FETCHDROPDOWN_REQUEST,
+  SUB_CATEGORY_FETCHDROPDOWN_REQUEST
   
 } from "./offerConstants";
 
@@ -121,8 +129,34 @@ export function* disableOfferSaga(action) {
     yield put(disableOfferFailed({ message: "Please Try Again" }));
   }
 }
+function* categoryDropdownSaga(action) {
+  try {
+    const response = yield call(getCatagoryDropdownData, action.payload);
+    if (response.status === 200) {
+      yield put(fetchDropDownSuccess(response.data));
+    } else {
+      yield put(fetchDropDownFailure({ message: "please Try Again" }));
+    }
+  } catch (err) {
+    yield put(fetchDropDownFailure({ message: "please Try Again" }));
+  }
+}
+function* subCategoryDropdownSaga(action) {
+  try {
+    const response = yield call(getCatagoryDropdownData, action.payload);
+    if (response.status === 200) {
+      yield put(fetchSubDropDownSuccess(response.data));
+    } else {
+      yield put(fetchSubDropDownFailure({ message: "please Try Again" }));
+    }
+  } catch (err) {
+    yield put(fetchSubDropDownFailure({ message: "please Try Again" }));
+  }
+}
 
 export default function* offerSaga() {
+  yield takeLatest(SUB_CATEGORY_FETCHDROPDOWN_REQUEST, subCategoryDropdownSaga);
+  yield takeLatest(CATEGORY_FETCHDROPDOWN_REQUEST, categoryDropdownSaga);
   yield takeLatest(OFFER_LIST_REQUEST, getOfferListSaga);
   yield takeLatest(CREATE_OFFER_REQUEST, createOfferSaga);
   yield takeLatest(OFFER_DATA_REQUEST, OfferDataPostSaga);
