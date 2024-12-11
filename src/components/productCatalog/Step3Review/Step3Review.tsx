@@ -124,7 +124,7 @@ const Step3Review: React.FC = () => {
                     Min Selection
                   </h3>
                   <h3 className="Step-3-Modifier-Section-Menu-details">
-                    {elem?.minSelection && elem?.minSelection}{!minSelectionArray?.length && "N/A"}
+                    {elem.selectionType === "Optional" ? 0 : elem?.minSelection && elem?.minSelection}{!minSelectionArray?.length && "N/A"}
                   </h3>
                 </div>
                 <div className="Step-3-Modifier-Section-Each-Menu-container">

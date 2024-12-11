@@ -87,7 +87,6 @@ const ItemCustomizations: React.FC<any> = () => {
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
- console.log("item customization page",{itemCustomizationData})
 
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
@@ -150,7 +149,6 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
-  console.log("modifications from item customizations",{modifications})
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -213,8 +211,6 @@ const ItemCustomizations: React.FC<any> = () => {
            }
            else if(item?.modifierOptions)
            {
-            console.log("He-He",{itemCustomizationData})
-
             return {
               modifierId: item?.id || "",
               modifierName: item?.modifierName || item?.name || "",
@@ -302,7 +298,6 @@ const ItemCustomizations: React.FC<any> = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     selectionType?: string
   ) => {
-    console.log("hi from handleModifierChange start")
     const { name, value } = e.target;
     setModifications((prev: any) => {
       const updated = [...prev];
@@ -336,7 +331,6 @@ const ItemCustomizations: React.FC<any> = () => {
     selectionType?: string
   ) => {
     const { name, value } = e.target;
-    console.log({modifications});
     
     setModifications((prev: any) => {
       const updated = [...prev];
@@ -675,6 +669,9 @@ const ItemCustomizations: React.FC<any> = () => {
 
     const updatedModifiers = {
       ...Modifiers,
+      freeCustomization: Modifiers?.noFreeCustomization,
+      maxSelection: Modifiers?.maxAllowed,
+      minSelection: Modifiers?.minRequired,
       isEnabled: true,
       modifierOptions:
         Modifiers.modifierOptions.length > 0
@@ -697,6 +694,8 @@ const ItemCustomizations: React.FC<any> = () => {
               },
             ],
     };
+
+    console.log("Bhahaha",{Modifiers})
 
     setModifications((prevModifications: Modification[]) => [
       ...prevModifications,
@@ -929,7 +928,7 @@ const ItemCustomizations: React.FC<any> = () => {
       if (!modifierName.trim()) {
         modifierErrors.modifierNameError = `Modifier Name is required`;
       }
-      if (atleastOnestream && selectedValue.length === 0 ) {
+      if (atleastOnestream && selectedValue?.length === 0 ) {
         modifierErrors.errormsgforselectedvalues = "Available service streams required";
       }
 
@@ -1015,6 +1014,9 @@ const ItemCustomizations: React.FC<any> = () => {
   };
 
   // const editData = useSelector((state: any) => state.productCatalog.editData);
+
+  const searched = ModifierList?.map((item, index) => (item?.modifierName))
+  console.log("IC page",{searched})
 
   return (
     <div

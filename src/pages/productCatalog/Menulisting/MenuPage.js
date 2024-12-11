@@ -210,6 +210,7 @@ export const MenuPage = () => {
     setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
   }, [menuData]);
 
+
   const insertlists2 = {
     Pricing: {
       show: listingobject?.showPricing ? "Pricing" : "",
@@ -570,16 +571,16 @@ export const MenuPage = () => {
   );
 
   useEffect(() => {
-    selectedBranch?.id && dispatch(getMenuRequest(selectedBranch?.id));
+     if(selectedBranch?.id){
+      dispatch(getMenuRequest(selectedBranch?.id));
+     }
   }, [selectedBranch?.id]);
 
   useEffect(() => {
-    dispatch(getMenuRequest(selectedBranch?.id));
+    if(deleteMenuItemSuccess){
+      dispatch(getMenuRequest(selectedBranch?.id));
+    }
   },[deleteMenuItemSuccess])
-
-  useEffect(() => {
-    dispatch(getMenuRequest(selectedBranch?.id));
-  }, []);
 
   useEffect(() => {
     dispatch(selectedMockDataRequest(SideBarData));
