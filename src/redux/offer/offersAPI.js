@@ -1,3 +1,4 @@
+
 import Store from "../store";
 import { API } from "redux/api";
 
@@ -81,3 +82,29 @@ export function getCatagoryDropdownData(payload) {
     data: payload, // Send the full payload as the request body
   });
 }
+
+
+
+export const getSPOfferList = (locationId) => {
+  return API({
+    method: "get",
+    url: `/coupon/happy-hour/list?locationId=${locationId}`,
+  });
+};
+
+export const getSPOfferListItemDelete = (offerId) => {
+  return API({
+    method: "DELETE",
+    url: `/coupon/happy-hours?offerId=${offerId}`,
+  });
+};
+
+
+export const getSPOfferListItemDisable = (disableItem) => {
+  console.log({disableItem});
+  
+  return API({
+    method: "patch",
+    url: `/coupon/happy-hours?offerId=${disableItem.offerId}&toEnable=${disableItem.toEnable}`,
+  });
+};

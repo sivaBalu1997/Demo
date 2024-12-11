@@ -35,6 +35,21 @@ import {
   CREATE_SPECIAL_OFFER_REQUEST,
   CREATE_SPECIAL_OFFER_SUCCESS,
   CREATE_SPECIAL_OFFER_FAILURE,
+  SP_OFFER_LIST_REQUEST,
+  SP_OFFER_LIST_SUCCESS,
+  SP_OFFER_LIST_FAILED,
+  SP_OFFER_LIST_SENDING_REQUEST,
+  SP_OFFER_LIST_SENDING_SUCCESS,
+  SP_OFFER_LIST_SENDING_FAILED,
+  SP_OFFER_LIST_VIEW_REQUEST,
+  SP_OFFER_LIST_VIEW_SUCCESS,
+  SP_OFFER_LIST_VIEW_FAILED,
+  SP_OFFER_LIST_DELETE_REQUEST,
+  SP_OFFER_LIST_DELETE_SUCCESS,
+  SP_OFFER_LIST_DELETE_FAILED,
+  SP_OFFER_LIST_DISABLE_REQUEST,
+  SP_OFFER_LIST_DISABLE_SUCCESS,
+  SP_OFFER_LIST_DISABLE_FAILED,
 } from "./offerConstants";
 export const getOfferList = (offerListParams) => ({
   type: OFFER_LIST_REQUEST,
@@ -153,18 +168,42 @@ export const resetDeleteData = () => ({
 });
 
 
-export const OfferDataSendingRequest = (data) => ({
-  type: OFFER_DATA_REQUEST,
+export const SPOfferListSendingRequest = (data) => ({
+  type: SP_OFFER_LIST_SENDING_REQUEST,
   payload: data,
 });
 
-export const OfferDataSendingrSuccess = (data) => ({
-  type:  OFFER_DATA_SUCCESS,
+export const SPOfferListSendingrSuccess = (success) => ({
+  type:  SP_OFFER_LIST_SENDING_SUCCESS,
+  payload: success,
+});
+
+export const SPOfferListSendingFailed = (failed) => ({
+  type: SP_OFFER_LIST_SENDING_FAILED,
+  payload: failed,
+});
+
+
+
+export const SPOfferListRequest = (data) => ({
+  type: SP_OFFER_LIST_VIEW_REQUEST,
   payload: data,
 });
 
-export const OfferDataSendingFailed = (data) => ({
-  type:  OFFER_DATA_FAILED,
+export const SPOfferListSuccess = (success) => ({
+  type:  SP_OFFER_LIST_VIEW_SUCCESS,
+  payload: success,
+});
+
+export const SPOfferListFailed = (failed) => ({
+  type: SP_OFFER_LIST_VIEW_FAILED,
+  payload: failed,
+});
+
+
+
+export const SPOfferListDelete = (data) => ({
+  type: SP_OFFER_LIST_DELETE_REQUEST,
   payload: data,
 });
 export const fetchDropDownRequest = (data) => ({
@@ -208,4 +247,33 @@ export const createSpecialOfferSuccess = (response) => ({
 export const createSpecialOfferFailure = (error) => ({
   type: CREATE_SPECIAL_OFFER_FAILURE,
   payload: error,
+});
+
+export const SPOfferListDeleteSuccess = (success) => ({
+  type:  SP_OFFER_LIST_DELETE_SUCCESS,
+  payload: success,
+});
+
+export const SPOfferListDeleteFailed = (failed) => ({
+  type: SP_OFFER_LIST_DELETE_FAILED,
+  payload: failed,
+});
+
+
+
+
+
+export const SPOfferListDisable = (data) => ({
+  type: SP_OFFER_LIST_DISABLE_REQUEST,
+  payload: data,
+});
+
+export const SPOfferListDisableSuccess = (success) => ({
+  type:  SP_OFFER_LIST_DISABLE_SUCCESS,
+  payload: success,
+});
+
+export const SPOfferListDisableFailed = (failed) => ({
+  type: SP_OFFER_LIST_DISABLE_FAILED,
+  payload: failed,
 });
