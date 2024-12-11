@@ -26,6 +26,9 @@ import {
   OFFER_DATA_REQUEST,
   OFFER_DATA_SUCCESS,
   OFFER_DATA_FAILED,
+  SP_OFFER_LIST_REQUEST,
+  SP_OFFER_LIST_SUCCESS,
+  SP_OFFER_LIST_FAILED,
 } from "./offerConstants";
 
 export const getOfferList = (offerListParams) => ({
@@ -145,17 +148,17 @@ export const resetDeleteData = () => ({
 });
 
 
-export const OfferDataSendingRequest = (data) => ({
-  type: OFFER_DATA_REQUEST,
+export const SPOfferListSendingRequest = (data) => ({
+  type: SP_OFFER_LIST_REQUEST,
   payload: data,
 });
 
-export const OfferDataSendingrSuccess = (data) => ({
-  type:  OFFER_DATA_SUCCESS,
-  payload: data,
+export const SPOfferListSendingrSuccess = (success) => ({
+  type:  SP_OFFER_LIST_SUCCESS,
+  payload: success,
 });
 
-export const OfferDataSendingFailed = (data) => ({
-  type:  OFFER_DATA_FAILED,
-  payload: data,
+export const SPOfferListSendingFailed = (failed) => ({
+  type: SP_OFFER_LIST_FAILED,
+  payload: failed,
 });
