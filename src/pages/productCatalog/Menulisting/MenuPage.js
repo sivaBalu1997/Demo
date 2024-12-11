@@ -1,12 +1,3 @@
-// import React from 'react'
-
-// const MenuPage = () => {
-//   return (
-//     <div>MenuPage</div>
-//   )
-// }
-
-// export default MenuPage
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Toggle from "components/productCatalog/Toggle/Toggle";
 import HoverText from "../../../components/productCatalog/HoverText/HoverText";
@@ -433,8 +424,6 @@ export const MenuPage = () => {
   const [categoryData, setCategoryData] = useState({});
 
   const handlemodal = (value) => {
-    // console.log({ value });
-
     const filteredItem = menuData.find((item) =>
       item?.itemResponseList?.some((response) => response?.itemId === value)
     );
@@ -478,9 +467,13 @@ export const MenuPage = () => {
         name: filteredItem?.categoryName,
         id: filteredItem?.categoryId,
       });
+
       const specificResponse = filteredItem.itemResponseList.filter(
         (response) => response?.itemId === value
       );
+
+      console.log('1', {specificResponse})
+
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
@@ -492,9 +485,17 @@ export const MenuPage = () => {
         name: filtesubItems?.categoryName,
         id: filtesubItems?.categoryId,
       });
-      const specificResponse = filtesubItems?.itemResponseList?.filter(
-        (response) => response?.itemId === value
-      );
+
+      const specificResponse = filtesubItems?.itemResponseList
+      ?.filter((response) => response?.itemId === value)
+      ?.map((response) => ({
+        ...response,
+        subCategoryName: filtesubItems?.subCategoryName, 
+      }));
+
+      console.log('2', {filtesubItems}, {specificResponse})
+
+
       if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
@@ -595,7 +596,7 @@ export const MenuPage = () => {
   const itemCustomizationData = useSelector(
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
-  console.log("fff",categoryData);
+
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
@@ -617,7 +618,8 @@ export const MenuPage = () => {
         cuisine: editData[0]?.cuisine?.[0]?.name ?? "",
         bestPair: editData[0]?.pairedItems ?? "",
         category: categoryData?.name ?? "",
-        categoryId:categoryData?.id
+        categoryId:categoryData?.id,  
+        subCategory: editData[0]?.subCategoryName ?? "",
       };
 
       const pricingPageData = {
@@ -850,6 +852,7 @@ export const MenuPage = () => {
   }, [menuData]);
 
   const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
+
   const handleItemnameClick = (value) => {
     handlemodal(value);
   };
@@ -1027,7 +1030,11 @@ export const MenuPage = () => {
                             <p>
                               <span className="itemimage2">
                                 <img
-                                  src={placeholderimg}
+                                   src={
+                                    item?.mediaResponseList[0]?.imageId
+                                      ? baseImageUrl + item?.mediaResponseList[0]?.imageId
+                                      : placeholderimg
+                                  }
                                   alt=""
                                   className="foodimage"
                                 />

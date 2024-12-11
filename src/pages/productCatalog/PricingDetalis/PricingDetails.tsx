@@ -475,10 +475,7 @@ const PricingDetails = () => {
 
       setOptions1(prizingDetail.kitchenstation);
       // setValue("kitchenstation", kitchenStationName);
-      const kitchh=getValues("kitchenstation")
-      console.log({kitchh});
-      console.log({kitchenStationName});
-      
+      const kitchh=getValues("kitchenstation")      
       
       // setTimeout(() => {
       //   console.log("kitchenstation value:", getValues("kitchenstation"));
