@@ -69,6 +69,7 @@ import {
  SP_OFFER_LIST_DISABLE_REQUEST,
  CREATE_SPECIAL_OFFER_REQUEST,
  GET_OFFER_ITEMS_REQUEST,
+ UPDATE_SPECIAL_OFFER_REQUEST,
   
 } from "./offerConstants";
 import { showSuccessToast } from "util/toastUtils";

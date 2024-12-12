@@ -324,7 +324,7 @@ const SpecialPriceDetails = () => {
       locationId:locationid,
       offerId:null,
       offerName: values?.offerName,
-      channel:values?.offerChannel,
+      channel:orderTypes.filter((item:any)=>item?.typeName=== values.offerChannel).map((data:any)=>data?.id),
       visibleTo:values?.offerToVisible?.map((item:any)=>item[0]), 
       termsAndConditions:values?.termsAndConditions,
       specialType:values?.specialTypeName,
@@ -350,10 +350,11 @@ const SpecialPriceDetails = () => {
 
     const isvalid= valiadtionforDateandTime()
     console.log("errorsdate",valiadtionforDateandTime());
+    dispatch(createSpecialOfferRequest(payload));
     
     if(isvalid)
     {
-      dispatch(createSpecialOfferRequest(payload));
+      
       setOverlapShow(true);
     }
    
@@ -387,18 +388,30 @@ const SpecialPriceDetails = () => {
     setSelectedDate(date);
     setSelectedDate1(null);
     setValue("fromDate", date);
-    setValidationErrors((prevErrors:any) => {
-      const updatedErrors = [...prevErrors];
-      updatedErrors[0].fromDateError = ""; 
-      return updatedErrors;
-    });
+   
+      setValidationErrors((prevErrors:any) => {
+        const updatedErrors = [...prevErrors];
+        if(updatedErrors && updatedErrors[0])
+        {
+          updatedErrors[0].fromDateError = ""; 
+          return updatedErrors;
+        }
+        return updatedErrors;
+
+      });
+    
+    
   };
   const handleDateChange1 = (date: Date | null) => {
     setSelectedDate1(date);
     setValue("toDate", date);
     setValidationErrors((prevErrors:any) => {
       const updatedErrors = [...prevErrors];
-      updatedErrors[0].toDateError = ""; 
+      if(updatedErrors && updatedErrors[0])
+      {
+        updatedErrors[0].toDateError = ""; 
+        return updatedErrors;
+      }
       return updatedErrors;
     });
   };
