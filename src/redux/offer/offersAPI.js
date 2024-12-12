@@ -108,3 +108,11 @@ export const getSPOfferListItemDisable = (disableItem) => {
     url: `/coupon/happy-hours?offerId=${disableItem.offerId}&toEnable=${disableItem.toEnable}`,
   });
 };
+
+export const createSpecialOffer = (payload) => {
+  return API({
+    method: "post",
+    url: `/coupon/happy-hour/create`,
+    data: payload,
+  });
+};

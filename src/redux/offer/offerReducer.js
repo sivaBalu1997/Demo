@@ -47,7 +47,10 @@ SP_OFFER_LIST_DELETE_SUCCESS,
 SP_OFFER_LIST_DELETE_FAILED,
 SP_OFFER_LIST_DISABLE_REQUEST,
 SP_OFFER_LIST_DISABLE_SUCCESS,
-SP_OFFER_LIST_DISABLE_FAILED
+SP_OFFER_LIST_DISABLE_FAILED,
+CREATE_SPECIAL_OFFER_REQUEST,
+CREATE_SPECIAL_OFFER_SUCCESS,
+CREATE_SPECIAL_OFFER_FAILURE,
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -108,7 +111,10 @@ const initialOfferState = {
   SPofferItemDeleteFailed:"",
   SPofferItemDisableLoading:false,
   SPofferItemDisableSuccess:"",
-  SPofferItemDisableFailed:""
+  SPofferItemDisableFailed:"",
+  createSpecialOfferError:'',
+  createSpecialOfferSuccess:'',
+  createSpecialOfferloading :false,
 };
 
 export default function offerReducer(state = initialOfferState, action) {
@@ -396,6 +402,21 @@ export default function offerReducer(state = initialOfferState, action) {
             draft.SPofferItemDisableLoading =false;
            draft.SPofferItemDisableFailed=action.payload;
             break;   
+            case  CREATE_SPECIAL_OFFER_REQUEST:
+              draft.createSpecialOfferError=''
+              draft.createSpecialOfferSuccess=''
+              draft.createSpecialOfferloading = true;
+              break;
+            case  CREATE_SPECIAL_OFFER_SUCCESS:
+              draft.createSpecialOfferSuccess = action.payload;
+              draft.createSpecialOfferloading = false;
+              draft.createSpecialOfferError=''
+              break;
+            case CREATE_SPECIAL_OFFER_FAILURE:
+              draft.createSpecialloading = false;
+              draft.createSpecialSuccess=''
+              draft.createSpecialError = action.payload;
+              break;
       default:
         break;
     }
