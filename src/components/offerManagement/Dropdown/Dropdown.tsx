@@ -181,6 +181,10 @@ const Dropdown: React.FC<DropdownProps> = ({
           );
           trigger(name);
         } else {
+          if(dropDownType === "SUB_CATEGORY")
+            {
+             setSubCatagoryId(option?.id);
+            }
           const updatedOptions = [...currentSelectedOptions, option];
           setSelectedOptions(updatedOptions);
           setValue(
@@ -202,10 +206,6 @@ const Dropdown: React.FC<DropdownProps> = ({
         {
          setParentId(option?.id);
         }
-        if(dropDownType === "SUB_CATEGORY")
-          {
-           setSubCatagoryId(option?.id);
-          }
        // setSearchTerm(option.name); 
       }
     };

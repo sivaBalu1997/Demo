@@ -110,6 +110,9 @@ const SpecialPriceDetails = () => {
   const subCatagoryOption = useSelector(
     (state: any) => state.offer.subCategoryData
   )
+  const OfferlistData = useSelector(
+    (state: any) => state.offer.getOfferListData
+  )
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
 
@@ -272,7 +275,7 @@ const SpecialPriceDetails = () => {
   visibleTo:values?.offerToVisible?.map((item:any)=>item[0]), 
   termsAndConditions:values?.termsAndConditions,
   specialType:values?.specialTypeName,
-  type:values?.specialType ==="Percentage"?"PERCENT":"AMOUNT",
+  type:values?.specialType ==="Percentage"?"PERCENT":"FLAT FEE",
   value:values?.specialTypeValue,
   items:selectedFoodItems.map((item)=>{
     return{
@@ -524,14 +527,13 @@ const SpecialPriceDetails = () => {
     const data = selectedFoodItems.filter((item: any) => item?.itemId !== id);
     setselectedFoodItems(data);
   };
-   const itemlistfunction =( )=>{
+   const itemlistfunction =()=>{
     setShowlistOfItems(!showlistOfItems)
-    console.log("llllllllllllllllllllllllll")
     const payload ={
-      locationid:locationid,
+      locationId:locationid,
       catagoryId:subCatagoryId?subCatagoryId:parentId
     }
-    getOfferItemsRequest(payload)
+   dispatch(getOfferItemsRequest(payload))
     
    }
   return (
@@ -810,10 +812,11 @@ const SpecialPriceDetails = () => {
                   </div>
                 </div>
                 <div>
+                  {console.log(OfferlistData)}
                   {showlistOfItems && (
                     <div className="searched-items-listed" ref={listpopupRef}>
-                      <ul className="listing-selected-items">
-                        {selecteFoodItems.map((item: any, index: number) => (
+                      <ul className="listing-selected-items"> 
+                        {OfferlistData?.map((item: any, index: number) => (
                           <li
                             key={index}
                             className={`selectedlist ${

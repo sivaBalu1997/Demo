@@ -31,6 +31,8 @@ import {
   SPOfferListDisableFailed,
   createSpecialOfferSuccess,
   createSpecialOfferFailure,
+  getOfferItemsSuccess,
+  getOfferItemsFailure,
 } from "./offerActions";
 import {
   deleteOffer,
@@ -278,13 +280,10 @@ function* createSpecialOfferSaga(action) {
   }
 }
 function* getOfferListItemSage(action) {
-  console.log("KKKKKK00000")
   try {
     const response = yield call(getOfferListdata, action.payload)
     if (response.status === 200) {
-      yield put(getOfferItemsSuccess(response.data.
-        message
-        ));
+      yield put(getOfferItemsSuccess(response.data));
     } else {
       yield put(getOfferItemsFailure(response.data.
         message

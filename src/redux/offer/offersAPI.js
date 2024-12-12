@@ -101,7 +101,6 @@ export const getSPOfferListItemDelete = (offerId) => {
 
 
 export const getSPOfferListItemDisable = (disableItem) => {
-  console.log({disableItem});
   
   return API({
     method: "patch",
@@ -113,7 +112,7 @@ export const getOfferListdata = (payload) => {
  
   return API({
     method: "GET",
-    url: `coupon/happy-hours/list/items?locationId=${payload.locationId}&categoryId=${payload.categoryId}`,
+    url: `coupon/happy-hours/list/items?locationId=${payload.locationId}&categoryId=${payload.catagoryId}`,
   });
 };
 
