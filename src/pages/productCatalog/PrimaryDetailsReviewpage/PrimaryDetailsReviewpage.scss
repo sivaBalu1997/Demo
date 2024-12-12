@@ -51,6 +51,12 @@
     font-weight: 500;
     color: #67833e;
   }
+  @media(min-width: 2000px) and (max-width: 2048px){
+    // border-bottom-width: 120vw;
+    // border-bottom-height:  ;
+    // background-color: pink;
+    width: 150%;
+  }
 }
 
 .primaryreview {
@@ -517,6 +523,24 @@
     width: 75vw;
     height: fit-content;
     // background-color: lightskyblue;
+  }
+
+  @media(min-width: 1700px) and (max-width: 1706.67px){
+    // background-color: #67833e;
+    height: fit-content;
+    width: 122%;
+  }
+
+  @media(min-width: 1900px) and (max-width: 1920px){
+        // background-color: #67833e;
+        height: fit-content;
+        width: 138%;
+  }
+
+  @media (min-width: 2000px) and (max-width: 2048px){
+    // background-color: pink;
+    height: fit-content;
+    width: 148%;
   }
 
   .clearall1 {

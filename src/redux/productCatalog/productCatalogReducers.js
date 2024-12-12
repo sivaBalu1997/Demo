@@ -119,6 +119,9 @@ import {
   Remove_Pricing_Data_Request,
   Remove_ItemCust_Data_Request,
   Remove_Primary_Data_Request,
+  TAXCLASS_REQUEST,
+  TAXCLASS_SUCCESS,
+  TAXCLASS_FAILURE,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -516,6 +519,24 @@ export default function productCatalogReducer(
         draft.ingredients = [];
         draft.ingredientsLoading = false;
         draft.ingredientsSuccess = false;
+        break;
+
+      case TAXCLASS_REQUEST:
+        draft.taxClass = [];
+        draft.getTaxClassLoading = true;
+        draft.getTaxClassSuccess = false;
+        break;
+      
+      case TAXCLASS_SUCCESS:
+        draft.taxClass = action.payload;
+        draft.getTaxClassLoading = false;
+        draft.getTaxClassSuccess = true;
+        break;
+      
+      case TAXCLASS_FAILURE:
+        draft.taxClass = action.payload;
+        draft.getTaxClassLoading = false;
+        draft.getTaxClassSuccess = false;
         break;
 
       // Get Menu Category

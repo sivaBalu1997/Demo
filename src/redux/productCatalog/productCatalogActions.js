@@ -152,6 +152,9 @@ import {
   Remove_ItemCust_Data_Request,
   Remove_Primary_Data_Request,
   Remove_Pricing_Data_Request,
+  TAXCLASS_REQUEST,
+  TAXCLASS_SUCCESS,
+  TAXCLASS_FAILURE,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -599,6 +602,22 @@ export const ingredientsSuccess = (response) => ({
 
 export const ingredientsFailure = (error) => ({
   type: INGREDIENT_FAILURE,
+  payload: error
+})
+
+//Tax Class
+export const taxClassRequest = (data) => ({
+  type: TAXCLASS_REQUEST,
+  payload: data
+});
+
+export const taxClassSuccess = (response) => ({
+  type: TAXCLASS_SUCCESS,
+  payload: response
+})
+
+export const taxClassFailure = (error) => ({
+  type: TAXCLASS_FAILURE,
   payload: error
 })
 

@@ -38,6 +38,60 @@
   
   }
 
+  .ToolKitchen {
+    transform: translateY(22px);
+    opacity: 40%;
+    border: none;
+    outline: none;
+    @media(min-width: 1700px) and (max-width: 1706.67px){
+      // border: 1px solid darkred;
+    }
+  }
+  .Tool-tax-class{
+    transform: translateY(22px);
+    opacity: 40%;
+    border: none;
+    outline: none;
+
+    @media(min-width: 1599px) and (max-width: 1600.00px){
+      transform: translate(28px, 20px);
+      // border: 1px solid darkslategrey;
+    }
+
+    @media(min-width: 1700px) and (max-width: 1706.67px){
+      transform: translate(-20px, 20px);
+      // border: 1px solid darkslategrey;
+    }
+    @media(min-width: 1900px) and (max-width: 1920px){
+      transform: translate(5vw, 20px);
+      // border: 1px solid darkslategrey;
+      // background-color: darkorange;
+    }
+    @media (min-width: 2000px) and (max-width: 2048px){
+      transform: translate(6vw, 20px);
+      // border: 1px solid darkslategrey;
+      // background-color: darkorange;
+    }
+  }
+  .Tool-item-code{
+    transform: translateY(22px);
+    opacity: 40%;
+    border: none;
+    outline: none;
+    @media(min-width: 1700px) and (max-width: 1706.67px){
+      transform: translate(-30px, 20px);
+      // border: 1px solid darkgoldenrod;
+    }
+    @media(min-width: 1900px) and (max-width: 1920px){
+      transform: translate(90px, 20px);
+      // border: 1px solid darkgoldenrod;
+    }
+    @media(min-width: 2000px) and (max-width: 2048px){
+      transform: translate(120px, 20px);
+      // border: 1px solid darkgoldenrod;
+    }
+  }
+
   .Primary-Page-inputfiled-and-tooltip {
     display: flex;
     flex-direction: row;
@@ -326,15 +380,33 @@
     .Primary-Page-Other-Detail {
       display: flex;
       flex-direction: row;
-      height: 3rem;
+      height: fit-content;
       align-items: center;
       // justify-content: center;
       gap: 30px;
       // background-color: red;
       // background-color: lightcoral;
+      width: 100%;
+      @media(min-width: 1700px) and (max-width: 1706.67px){
+        // border: 1px solid darkblue;
+        gap: 3vw;
+      }
+      @media(min-width: 1900px) and (max-width: 1920px){
+        // border: 1px solid darkblue;
+        gap: 5vw;
+      }
+      @media(min-width: 2000px) and (max-width: 2048px){
+        // border: 1px solid darkblue;
+        gap: 5vw;
+      }
       .Caloriepointradio {
         position: relative;
         left: 1%;
+        // border: 1px solid black;
+        //hehe
+        @media(min-width: 1700px) and (max-width: 1706.67px){
+          // border: 1px solid darkorchid;
+        }    
       }
       .Primary-Page-inputfiled-and-tooltip-portion {
         display: flex;

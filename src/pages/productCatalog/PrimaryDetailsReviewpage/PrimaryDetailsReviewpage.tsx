@@ -482,9 +482,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
-  console.log({subCategoryData}, {matchedSubCategory}, {matchedSubCategory}, {matchedSubCategoryId})
-
-
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
@@ -645,6 +642,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
     specialItem: null,
   };
+
+  console.log({menuPayload})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -1178,7 +1177,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
             {(addMenuLoading || updateMenuItemLoading) ? (
               <div className="reviewLoaders"></div>
             ) : (
-               "Submit for review"
+               "Publish"
             )}
           </button>
         </div>

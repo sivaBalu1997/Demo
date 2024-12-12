@@ -64,6 +64,7 @@ import {
   allergensSuccess,
   ingredientsSuccess,
   removeDataRequest,
+  taxClassSuccess,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -184,6 +185,9 @@ function* fetchDropdownDataSaga(action) {
           break;
         case "ALLERGENS":
           yield put(allergensSuccess(response));
+          break;
+        case "TAX":
+          yield put(taxClassSuccess(response))
           break;
         default:
           throw new Error("Invalid type");
