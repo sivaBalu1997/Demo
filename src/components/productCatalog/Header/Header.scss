@@ -224,6 +224,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @media(max-width: 2048px){
+    margin-right: 4vw;
+  }
+  @media(max-width: 1920px){
+    margin-right: 4vw;
+  }
+  @media(max-width: 1536px){
+    // background-color: lightblue;
+    margin-right: 5vw;
+  }
+  @media(max-width: 1707.67px){
+    margin-right: 4vw;
+  }
+  @media(max-width: 1600px){
+    margin-right: 5vw;
+  }
+  @media(max-width: 1440px){
+    margin-right: 8vw;
+  }
 }
 
 .Add-Item-Container1 {
@@ -240,6 +259,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @media(max-width: 2048px){
+    margin-right: 9vw;
+  }
+  @media(max-width: 1920px){
+    margin-right: 8vw;
+  }
+  @media(max-width: 1536px){
+    // background-color: lightblue;
+    margin-right: 12vw;
+  }
+  @media(max-width: 1707.67px){
+    margin-right: 10vw;
+  }
+  @media(max-width: 1600px){
+    margin-right: 10vw;
+  }
+  @media(max-width: 1440px){
+    margin-right: 18vw;
+  }
 }
 
 .Add-Item-Heading-Plus,
