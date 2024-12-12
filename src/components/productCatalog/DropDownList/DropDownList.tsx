@@ -617,7 +617,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       const option = filteredOptions[0];
       setSelectedOptions([option]);
       setValue(name, option.name);
-      trigger(name);
+      // trigger(name);
     }
   }, [isTaxDropDown]);
 
