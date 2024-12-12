@@ -319,6 +319,7 @@ const DropDownList: React.FC<DropdownProps> = ({
             ? dropDown1?.name
             : dropDownName?.name
         );
+
         return dropDownName === undefined || dropDownName === false
           ? [dropDown1]
           : [dropDownName];
@@ -364,6 +365,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         "category",
         dropDownName === undefined ? dropDown1?.name : dropDownName?.name
       );
+      setParentId(ItemsPrimaryDetails?.categoryId)
     }
   }, [ItemsPrimaryDetails]);
 
@@ -479,14 +481,14 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [dropdownopen])
   
 
-  useEffect(() => {
-    if (
-      dropDownType === "SUB_CATEGORY" &&
-      parentId !== ""
-    ) {
-      setSelectedOptions([]);
-    }
-  }, [parentId]);
+  // useEffect(() => {
+  //   if (
+  //     dropDownType === "SUB_CATEGORY" &&
+  //     parentId !== ""
+  //   ) {
+  //     setSelectedOptions([]);
+  //   }
+  // }, [parentId]);
 
   const payload = {
     locationId: locationid,

@@ -206,7 +206,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 
       const formImageIds = formData?.imageUrls?.map((image: any) => image.file.name);
       const editImageIds = editData[0]?.mediaResponseList?.map((media: any) => media.imageId);
-
       const isImageDeleted = editImageIds?.some((imageId: any) => !formImageIds?.includes(imageId));
      
       if (!isFormValid ) {

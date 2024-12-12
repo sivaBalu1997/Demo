@@ -591,6 +591,48 @@ const PrimaryPage = () => {
   // useEffect(() => {
   const [parentId, setParentId] = useState("");
 
+  const dietPayload = {
+    locationId: locationid,
+    type: 'DIET',
+    parentId: "",
+  }
+
+  const cuisinePayload = {
+    locationId: locationid,
+    type: 'CUISINES',
+    parentId: "",
+  }
+
+
+  const categoryPayload = {
+    locationId: locationid,
+    type: 'CATEGORY',
+    parentId: "",
+  }
+
+
+  const bestPairPayload = {
+    locationId: locationid,
+    type: 'BEST_PAIRED_ITEMS',
+    parentId: "",
+  }
+
+  const kitchenpayload = {
+    locationId: locationid,
+    type: 'KITCHEN_STATION',
+    parentId: "",
+  }
+
+  useEffect(() => {
+    if(editData){
+      dispatch(fetchDropDownRequest(dietPayload))
+      dispatch(fetchDropDownRequest(cuisinePayload))
+      dispatch(fetchDropDownRequest(categoryPayload))
+      dispatch(fetchDropDownRequest(bestPairPayload))
+      dispatch(fetchDropDownRequest(kitchenpayload))
+    }
+  },[])
+
   const [itemcodeValid, setItemcodeValid] = useState(true);
   useEffect(() => {
     if (ItemsPrimaryDetails?.popularItem) {
@@ -1450,7 +1492,7 @@ const PrimaryPage = () => {
                         render={({ field }: any) => (
                           <Dropdown
                             options={taxData}
-                            type="checkbox"
+                            type="radio"
                             setOptions={setTaxType}
                             placeholder="Tax Class Association"
                             register={register}

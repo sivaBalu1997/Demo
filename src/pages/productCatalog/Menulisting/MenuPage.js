@@ -491,6 +491,7 @@ export const MenuPage = () => {
       ?.map((response) => ({
         ...response,
         subCategoryName: filtesubItems?.subCategoryName, 
+        subCategoryId: filtesubItems?.subCategoryId,
       }));
 
       console.log('2', {filtesubItems}, {specificResponse})
@@ -597,6 +598,8 @@ export const MenuPage = () => {
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
+  console.log({editData})
+
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
@@ -618,8 +621,9 @@ export const MenuPage = () => {
         cuisine: editData[0]?.cuisine?.[0]?.name ?? "",
         bestPair: editData[0]?.pairedItems ?? "",
         category: categoryData?.name ?? "",
-        categoryId:categoryData?.id,  
+        categoryId: categoryData?.id,  
         subCategory: editData[0]?.subCategoryName ?? "",
+        subCategoryId: editData[0]?.subCategoryId ?? ""
       };
 
       const pricingPageData = {

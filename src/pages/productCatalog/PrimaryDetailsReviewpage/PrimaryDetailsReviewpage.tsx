@@ -16,6 +16,7 @@ import {
   addMenuItemRequest,
   addMockDataRequest,
   cleanMenuItemSuccessMsg,
+  fetchDropDownRequest,
   removeDataRequest,
   retryImageUpload,
   startImageUpload,
@@ -393,10 +394,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.cuisineData.data
   );
 
-  const subCategoryData = useSelector(
-    (state: any) => state.productCatalog.subCategoryData.data
-  );
-
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -461,13 +458,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (category: any) => category.name === primarydata?.category
   );
 
-  const matchedSubCategory = subCategoryData?.find(
-    (subCategory: any) => subCategory.name === primarydata?.subCategory
-  );
+
 
   const matchedKitchenStation = Array.isArray(kitchenStationData)
     ? kitchenStationData.find(
-        (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
+        (kitchen: any) => kitchen.name?.toLowerCase() === prizingDetail?.kitchenstation?.toLowerCase()
       )
     : undefined;
 
@@ -478,9 +473,30 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedDietaryId = matchedDietary?.map((m: any) => m?.id);
   const matchedCuisineId = matchedCuisine?.id;
   const matchedCategoryId = matchedCategory?.id;
-  const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
+  
+  const payload = {
+    locationId: locationid,
+    type: 'SUB_CATEGORY',
+    parentId: matchedCategoryId && matchedCategoryId,
+  };
+
+  useEffect(() => {
+    if(subCategoryData === undefined || matchedSubCategory === undefined){
+      dispatch(fetchDropDownRequest(payload))
+    }
+  },[matchedCategoryId])
+
+  const subCategoryData = useSelector(
+    (state: any) => state.productCatalog.subCategoryData.data
+  );
+
+  const matchedSubCategory = subCategoryData?.find(
+    (subCategory: any) => subCategory.name === primarydata?.subCategory
+  );
+
+  const matchedSubCategoryId = matchedSubCategory?.id;
 
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
@@ -550,6 +566,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const stringNormalDays = Array.isArray(normalDays) ? normalDays.map(String) : [];
   const result = stringNormalDays.includes('0') ? ['0'] : stringNormalDays;
 
+const taxData = typeof primarydata?.tax === 'string'
+  ? primarydata.tax
+  : Array.isArray(primarydata?.tax)
+  ? (primarydata.tax as any[])?.join(', ') 
+  : '';
+
+  console.log({primarydata}, {taxData})
     
   const menuPayload = {
     locationId: locationid,
@@ -570,7 +593,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ingredients: primarydata?.Ingredients || null,
     calorieInfo: primarydata?.coloriePoint || null,
     portionInfo: primarydata?.portionSize || null,
-    taxClassAssociation: primarydata?.tax || null,
+    taxClassAssociation: taxData || null,
     // masterItemCode: primarydata?.masterCode || null,
 
     kitchenStation: kitchenStationId || null,
@@ -622,7 +645,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ingredients: primarydata?.Ingredients || null,
     calorieInfo: primarydata?.coloriePoint || null,
     portionInfo: primarydata?.portionSize || null,
-    taxClassAssociation: primarydata?.tax || null,
+    taxClassAssociation: taxData || null,
 
     kitchenStation: kitchenStationId || null,
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,

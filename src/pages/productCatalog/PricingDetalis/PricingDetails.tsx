@@ -6,6 +6,7 @@ import Specialavail from "../../../components/productCatalog/SpecialAvail/Specia
 import Normalavail from "../../../components/productCatalog/Normalavail/Normalavail";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchDropDownRequest,
   getTagClassRequest,
   PricingDetailRequest,
   PricingDetailsClear,
@@ -579,6 +580,10 @@ const PricingDetails = () => {
     return errors;
   };
 
+
+
+  const editData = useSelector((state: any) => state.productCatalog.editData);
+
   const validateDineInFields1 = (dineinfieldsSpecial: DineInField[]) => {
     const errors: DropdownValidationState = {};
 
@@ -783,6 +788,12 @@ const PricingDetails = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if(editData.length > 0){
+  //     console.log('kkkkkkk')
+  //     fetchDropDownRequest(kitchenpayload)
+  //   }
+  // },[])
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
