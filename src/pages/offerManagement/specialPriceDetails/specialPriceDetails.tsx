@@ -110,7 +110,56 @@ const SpecialPriceDetails = () => {
 
   const subCatagoryOption = useSelector(
     (state: any) => state.offer.subCategoryData
+    
   )
+
+
+  const editOfferData2 = {
+    "offerId": "a00c82e3-7e5f-45ed-8314-97cc1072e12b",
+    "offerName": "OFFER2023",
+    "offerCode": "2023off",
+    "type": "PERCENT",
+    "value": 5.0,
+    "channel": [
+        "02feb858-c58d-48c5-8dd4-9a173390b4eb",
+        "cd5996ed-7201-4faf-b996-5757aa684ad8",
+        "bc534a3f-4080-4014-83b5-aeb5cee93d95"
+    ],
+    "effectivePeriod": {
+        "isDateEnabled": null,
+        "startDate": null,
+        "endDate": null,
+        "startTime": null,
+        "endTime": null,
+        "validDays": null
+    },
+    "items": [
+        {
+            "itemId": "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
+            "itemName": "Paneer Fried Rice",
+            "specialPrice": 13.9825,
+            "originalPrice": 16.4500,
+            "isEnabled": 1
+        },
+        {
+            "itemId": "01601102-5fc1-4b80-80a1-3788e6c563cc",
+            "itemName": "Strawberry Milkshake",
+            "specialPrice": 6.3665,
+            "originalPrice": 7.4900,
+            "isEnabled": 1
+        }
+    ],
+    "isEnabled": 2,
+    
+  };
+  
+  const editOfferData = useSelector(
+    (state: any) => state.offer.editSpData
+  );
+  console.log({editOfferData});
+
+
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
 
@@ -133,6 +182,9 @@ const SpecialPriceDetails = () => {
   ) => {
     setValue(radioname, value);
   };
+
+
+
 
   const [channal, setChannal] = useState<any>([]);
   const [vissibleTo,setvissibleTo] =useState([]) 
@@ -320,10 +372,20 @@ const SpecialPriceDetails = () => {
     setSelectedDate(date);
     setSelectedDate1(null);
     setValue("fromDate", date);
+    setValidationErrors((prevErrors:any) => {
+      const updatedErrors = [...prevErrors];
+      updatedErrors[0].fromDateError = ""; 
+      return updatedErrors;
+    });
   };
   const handleDateChange1 = (date: Date | null) => {
     setSelectedDate1(date);
     setValue("toDate", date);
+    setValidationErrors((prevErrors:any) => {
+      const updatedErrors = [...prevErrors];
+      updatedErrors[0].toDateError = ""; 
+      return updatedErrors;
+    });
   };
 
   const selectedradiowatch = watch();
@@ -530,6 +592,27 @@ const SpecialPriceDetails = () => {
   const [validationErrors,setValidationErrors]=useState<any>([])
 
 
+  useEffect(()=>{
+    if(editOfferData)
+    {
+      setValue("offerName",editOfferData?.offerName)
+      setValue("offerChannel",editOfferData?.channel?.join(",") || "")
+      setValue("DatePicked",editOfferData?.effectivePeriod?.isDateEnabled)
+      setValue("fromTime",editOfferData?.effectivePeriod?.startTime)
+      setValue("toTime",editOfferData?.effectivePeriod?.endTime)
+      setValue("fromDate",editOfferData?.effectivePeriod?.startDate)
+      setValue("toDate",editOfferData?.effectivePeriod?.endDate)
+      setValue("specialType",editOfferData?.type)
+      setValue("AvailableDays",editOfferData?.effectivePeriod?.validDays)
+      setValue("selectedFooditems",editOfferData?.items)
+      setValue("specialTypeValue",editOfferData?.value)
+
+      
+
+    }
+
+  },[editOfferData,setValue])
+  
   // const validateModifiers = (modifications: any[]) => {
   //   const errors = [...customizationerrors];
 
@@ -652,9 +735,9 @@ const SpecialPriceDetails = () => {
    {
    
     if (EndTime === "") {
-      errors[0].endTimeError = "Time is required";
+      errors[0].EndTimeError = "Time is required";
     } else {
-      errors[0].endTimeError = "";
+      errors[0].EndTimeError = "";
     }
     if (StartTime && EndTime) {
       const startTimeHours = parseInt(StartTime.split(":")[0]);
@@ -666,9 +749,9 @@ const SpecialPriceDetails = () => {
         endTimeHours < startTimeHours ||
         (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)
       ) {
-        errors[0].endTimeError = "End time must be greater than start time";
+        errors[0].EndTimeError = "End time must be greater than start time";
       } else {
-        errors[0].endTimeError = "";
+        errors[0].EndTimeError = "";
       }
     }
    }
@@ -821,7 +904,7 @@ const SpecialPriceDetails = () => {
                       render={({ field }: any) => (
                         <Dropdown
                           options={channal}
-                          type="radio"
+                          type="checkbox"
                           setOptions={setChannal}
                           placeholder="Select Channel"
                           register={register}
@@ -1156,7 +1239,10 @@ const SpecialPriceDetails = () => {
                               placeholderText="07/01/2034"
                               dateFormat="MM/dd/yyyy"
                               selected={selectedDate}
-                              onChange={handleDateChange}
+                              onChange={(date:any) => {
+                                onChange(date); 
+                                handleDateChange(date); 
+                              }}
                               minDate={new Date()}
                               ref={datePickerRef}
                               className="offerdatePicker-special"
@@ -1214,7 +1300,9 @@ const SpecialPriceDetails = () => {
                           <div>
                             <DatePicker
                               selected={selectedDate1}
-                              onChange={handleDateChange1}
+                              onChange={(date:any)=>{
+                                onChange(date)
+                                handleDateChange1(date)}}
                               placeholderText="07/01/2034"
                               dateFormat="MM/dd/yyyy"
                               showPopperArrow

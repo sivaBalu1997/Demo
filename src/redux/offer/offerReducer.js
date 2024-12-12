@@ -54,6 +54,7 @@ CREATE_SPECIAL_OFFER_FAILURE,
 UPDATE_SPECIAL_OFFER_REQUEST,
 UPDATE_SPECIAL_OFFER_SUCCESS,
 UPDATE_SPECIAL_OFFER_FAILURE,
+SP_OFFER_LIST_EDIT_REQUEST,
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -122,6 +123,8 @@ const initialOfferState = {
   updateSpecialOfferError:'',
   updateSpecialOfferSuccess:'',
   updateSpecialOfferloading :false,
+
+  editSpData:[]
 
 
 
@@ -443,6 +446,9 @@ export default function offerReducer(state = initialOfferState, action) {
                 draft.updateSpecialOfferSuccess=''
                 draft.updateSpecialOfferError = action.payload;
                 break;
+                case SP_OFFER_LIST_EDIT_REQUEST:
+                  draft.editSpData = action.payload;
+                  break;
       default:
         break;
     }

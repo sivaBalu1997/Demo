@@ -53,6 +53,7 @@ import {
   UPDATE_SPECIAL_OFFER_FAILURE,
   UPDATE_SPECIAL_OFFER_REQUEST,
   UPDATE_SPECIAL_OFFER_SUCCESS,
+  SP_OFFER_LIST_EDIT_REQUEST,
 } from "./offerConstants";
 export const getOfferList = (offerListParams) => ({
   type: OFFER_LIST_REQUEST,
@@ -314,6 +315,13 @@ export const SPOfferListDisableSuccess = (success) => ({
 export const SPOfferListDisableFailed = (failed) => ({
   type: SP_OFFER_LIST_DISABLE_FAILED,
   payload: failed,
+});
+
+
+
+export const SPOfferListEdit = (data) => ({
+  type: SP_OFFER_LIST_EDIT_REQUEST,
+  payload: data,
 });
 
 

@@ -354,6 +354,42 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
   
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const editOfferData = useSelector(
+    (state: any) => state.offer.editSpData
+  );
+
+  useEffect(() => {
+    if (
+      editOfferData?.channel?.length > 0 &&
+      name === "offerChannel"
+    ) {
+      const dietName = editOfferData?.channel;
+
+     
+
+     
+      setSelectedOptions(dietName);
+      setValue(
+        "offerChannel",
+        dietName
+      );
+    }
+  }, [editOfferData]);
+
+
   return (
     <div className="sPdropdown-component" ref={dropdownRef}>
       <div className="sPdropDownBox">

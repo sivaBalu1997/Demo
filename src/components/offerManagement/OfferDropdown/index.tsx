@@ -5,7 +5,7 @@ import duplicate from "../../../assets/svg/Duplicate.svg";
 import disable from "../../../assets/svg/offerdisable.svg";
 import bin from "../../../assets/svg/offerbin.svg";
 import { useDispatch } from "react-redux";
-import { SPOfferListDelete, SPOfferListDisable } from "redux/offer/offerActions";
+import { SPOfferListDelete, SPOfferListDisable ,SPOfferListEdit} from "redux/offer/offerActions";
 
 interface DropdownParams {
   EnableorNot?: number;
@@ -18,6 +18,7 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
 
   const handleEdit = (offer: any) => {
     console.log("Edit offer:", offer);
+    dispatch(SPOfferListEdit(offer))
  
   };
 

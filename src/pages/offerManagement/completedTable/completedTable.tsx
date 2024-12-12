@@ -7,7 +7,7 @@ import ThreeDotsImage from "../../../../src/assets/images/ThreeDots.png";
 import OfferDropDown from "../../../components/offerManagement/OfferDropdown";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { SPOfferListRequest,SPOfferListDelete,SPOfferListDisable } from "redux/offer/offerActions";
+import { SPOfferListRequest,SPOfferListDelete,SPOfferListDisable, } from "redux/offer/offerActions";
 
 const CompletedTable = () => {
  
