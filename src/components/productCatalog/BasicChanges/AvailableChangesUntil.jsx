@@ -168,7 +168,7 @@ const AvailabilityChangesUntil = ({
         // setshowAvailchanges(false)
         // setshowsession(true);
 
-        setshowAvailchanges(false);
+        
       } else {
         setshowsession(true);
         setshowAvailchanges(false);
