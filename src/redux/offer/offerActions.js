@@ -50,6 +50,9 @@ import {
   SP_OFFER_LIST_DISABLE_REQUEST,
   SP_OFFER_LIST_DISABLE_SUCCESS,
   SP_OFFER_LIST_DISABLE_FAILED,
+  UPDATE_SPECIAL_OFFER_FAILURE,
+  UPDATE_SPECIAL_OFFER_REQUEST,
+  UPDATE_SPECIAL_OFFER_SUCCESS,
 } from "./offerConstants";
 export const getOfferList = (offerListParams) => ({
   type: OFFER_LIST_REQUEST,
@@ -210,10 +213,10 @@ export const SPOfferListFailed = (failed) => ({
 
 
 
-export const SPOfferListDelete = (data) => ({
-  type: SP_OFFER_LIST_DELETE_REQUEST,
-  payload: data,
-});
+
+
+
+
 export const fetchDropDownRequest = (data) => ({
   type: CATEGORY_FETCHDROPDOWN_REQUEST,
   payload: data,
@@ -242,6 +245,8 @@ export const fetchSubDropDownFailure = (error) => ({
   type: SUB_CATEGORY_FETCHDROPDOWN_FAILURE,
   payload: error,
 });
+
+
 export const createSpecialOfferRequest = (data) => ({
   type: CREATE_SPECIAL_OFFER_REQUEST,
   payload: data,
@@ -252,9 +257,34 @@ export const createSpecialOfferSuccess = (response) => ({
   payload: response,
 });
 
+
+
+export const updateSpecialOfferFailure = (error) => ({
+  type: UPDATE_SPECIAL_OFFER_FAILURE,
+  payload: error,
+});
+
+export const updateSpecialOfferRequest = (data) => ({
+  type: UPDATE_SPECIAL_OFFER_REQUEST,
+  payload: data,
+});
+
+export const updateSpecialOfferSuccess = (response) => ({
+  type: UPDATE_SPECIAL_OFFER_SUCCESS,
+  payload: response,
+});
+
+
+
 export const createSpecialOfferFailure = (error) => ({
   type: CREATE_SPECIAL_OFFER_FAILURE,
   payload: error,
+});
+
+
+export const SPOfferListDelete = (data) => ({
+  type: SP_OFFER_LIST_DELETE_REQUEST,
+  payload: data,
 });
 
 export const SPOfferListDeleteSuccess = (success) => ({

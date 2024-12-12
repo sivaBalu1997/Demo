@@ -125,7 +125,7 @@ const handledeleteoffer=(offerid:string,EnabledorNot:number)=>{
               {offerListDataArray.map((row: any, index) => (
 
 
-                row.isEnabled===2 && (
+                row.isEnabled!==1&& (
                   <tr key={index} className="completedtsTabletr">
                   <td className="completedtsTabletd" >{row.offerName}</td>
                   <td className="completedtsTabletd">

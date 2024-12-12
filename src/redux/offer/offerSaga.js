@@ -31,6 +31,8 @@ import {
   SPOfferListDisableFailed,
   createSpecialOfferSuccess,
   createSpecialOfferFailure,
+  updateSpecialOfferSuccess,
+  updateSpecialOfferFailure,
 } from "./offerActions";
 import {
   deleteOffer,
@@ -44,6 +46,7 @@ import {
   getSPOfferListItemDelete,
   getSPOfferListItemDisable,
   createSpecialOffer,
+  UpdateSpecialOffer,
 } from "../offer/offersAPI";
 import {
   OFFER_LIST_REQUEST,
@@ -62,6 +65,7 @@ import {
  SP_OFFER_LIST_DELETE_REQUEST,
  SP_OFFER_LIST_DISABLE_REQUEST,
  CREATE_SPECIAL_OFFER_REQUEST,
+ UPDATE_SPECIAL_OFFER_REQUEST,
   
 } from "./offerConstants";
 import { showSuccessToast } from "util/toastUtils";
@@ -276,6 +280,18 @@ function* createSpecialOfferSaga(action) {
   }
 }
 
+
+export function* updateSpOfferSaga(action) {
+  try {
+    const response = yield call(UpdateSpecialOffer, action.payload);
+    if (response.status === 200) {
+      yield put(updateSpecialOfferSuccess(response.data));
+    }
+  } catch (err) {
+    yield put(updateSpecialOfferFailure(err.response.data[0]));
+  }
+}
+
 export default function* offerSaga() {
   yield takeLatest(CREATE_SPECIAL_OFFER_REQUEST, createSpecialOfferSaga);
   yield takeLatest(SUB_CATEGORY_FETCHDROPDOWN_REQUEST, subCategoryDropdownSaga);
@@ -286,11 +302,7 @@ export default function* offerSaga() {
   yield takeLatest(SP_OFFER_LIST_VIEW_REQUEST, getSpofferList);
   yield takeLatest(SP_OFFER_LIST_DELETE_REQUEST, deleteSpOfferSaga);
   yield takeLatest(SP_OFFER_LIST_DISABLE_REQUEST, disableSpOfferSaga);
-
-
-
-
-
+  yield takeLatest(UPDATE_SPECIAL_OFFER_REQUEST, updateSpOfferSaga);
   yield takeLatest(DELETE_OFFER_REQUEST, deleteOfferSaga);
   yield takeLatest(DISABLE_OFFER_REQUEST, disableOfferSaga);
   yield takeLatest(DROPDOWN_DATA_REQUEST, dropdownDataSaga);

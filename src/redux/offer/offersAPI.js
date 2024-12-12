@@ -116,3 +116,12 @@ export const createSpecialOffer = (payload) => {
     data: payload,
   });
 };
+
+
+export const UpdateSpecialOffer = (payload) => {
+  return API({
+    method: "put",
+    url: `/coupon/happy-hour/update`,
+    data: payload,
+  });
+};

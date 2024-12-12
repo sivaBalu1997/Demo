@@ -248,7 +248,7 @@ useEffect(()=>{
             </thead>
             <tbody>
   {offerListDataArray?.map((row: any, index: number) => (
-    row.isEnabled === 1 && (
+    row.isEnabled !==2&& (
       <tr key={index} className="OffrtsTabletr">
         <td className="OffrtsTabletd">{row?.offerName}</td>
         <td className="OffrtsTabletd">

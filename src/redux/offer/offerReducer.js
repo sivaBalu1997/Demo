@@ -51,6 +51,9 @@ SP_OFFER_LIST_DISABLE_FAILED,
 CREATE_SPECIAL_OFFER_REQUEST,
 CREATE_SPECIAL_OFFER_SUCCESS,
 CREATE_SPECIAL_OFFER_FAILURE,
+UPDATE_SPECIAL_OFFER_REQUEST,
+UPDATE_SPECIAL_OFFER_SUCCESS,
+UPDATE_SPECIAL_OFFER_FAILURE,
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -115,6 +118,13 @@ const initialOfferState = {
   createSpecialOfferError:'',
   createSpecialOfferSuccess:'',
   createSpecialOfferloading :false,
+
+  updateSpecialOfferError:'',
+  updateSpecialOfferSuccess:'',
+  updateSpecialOfferloading :false,
+
+
+
 };
 
 export default function offerReducer(state = initialOfferState, action) {
@@ -413,10 +423,26 @@ export default function offerReducer(state = initialOfferState, action) {
               draft.createSpecialOfferError=''
               break;
             case CREATE_SPECIAL_OFFER_FAILURE:
-              draft.createSpecialloading = false;
-              draft.createSpecialSuccess=''
-              draft.createSpecialError = action.payload;
+              draft.createSpecialOfferloading = false;
+              draft.createSpecialOfferSuccess=''
+              draft.createSpecialOfferError = action.payload;
               break;
+
+              case  UPDATE_SPECIAL_OFFER_REQUEST:
+                draft.updateSpecialOfferError=''
+                draft.updateSpecialOfferSuccess=''
+                draft.updateSpecialOfferloading = true;
+                break;
+              case  UPDATE_SPECIAL_OFFER_SUCCESS:
+                draft.updateSpecialOfferSuccess = action.payload;
+                draft.updateSpecialOfferloading = false;
+                draft.updateSpecialOfferError=''
+                break;
+              case UPDATE_SPECIAL_OFFER_FAILURE:
+                draft.updateSpecialOfferloading = false;
+                draft.updateSpecialOfferSuccess=''
+                draft.updateSpecialOfferError = action.payload;
+                break;
       default:
         break;
     }

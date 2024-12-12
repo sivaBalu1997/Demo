@@ -537,3 +537,35 @@
     }
   }
 }
+
+
+.time-error-message
+{
+  
+  color: #e52333;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "poppins",sans-serif;
+  height: 1.5rem;
+  // border: 1px solid black;
+}
+.to-time-errormsg
+{
+  height: 5rem;
+  // border: 1px solid red;
+  .time-selector
+  {
+    height: 2.5rem;
+    // border: 1px solid blue;
+  }
+}
+.from-time-errormsg
+{
+  height: 5rem;
+  // border: 1px solid red;
+  .time-selector
+  {
+    height: 2.5rem;
+    // border: 1px solid blue;
+  }
+}

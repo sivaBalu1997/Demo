@@ -114,6 +114,9 @@ const SpecialPriceDetails = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
 
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
+
   const selectName = [
     { value: "Happy Hour", label: "Happy Hour" },
     { value: "Surge Hour", label: "Surge Hour" },
@@ -267,7 +270,7 @@ const SpecialPriceDetails = () => {
     trigger();
 
     const isvalid= valiadtionforDateandTime()
-    console.log("errors",valiadtionforDateandTime());
+    console.log("errorsdate",valiadtionforDateandTime());
     
     if(isvalid)
     {
@@ -524,7 +527,7 @@ const SpecialPriceDetails = () => {
     const data = selectedFoodItems.filter((item: any) => item?.itemId !== id);
     setselectedFoodItems(data);
   };
-  const [validationErrors,setValidationErrors]=useState([])
+  const [validationErrors,setValidationErrors]=useState<any>([])
 
 
   // const validateModifiers = (modifications: any[]) => {
@@ -619,38 +622,67 @@ const SpecialPriceDetails = () => {
 
 
 
-  const validationForimeValidation = () => {
-    let TimeErrors:any = [...validationErrors];
+  const validationForstartTimeValidation = () => {
+    const errors = [...validationErrors];
+    const StartTime = getValues("fromTime");
+    
+   if(errors && errors[0])
+   {
+    if (StartTime === "" ) {
+       errors[0].startTimeError = "Time is required";
+    } else {
+      errors[0].startTimeError = "";
+    }
+    
+   
+   }
+   
   
-    let errors = {
-      startTimeError: "",
-      endTimeError: "",
-    };
-    const StartTime=getValues("fromTime");
-    const EndTime=getValues("toTime");
+   
   
+   
+  
+    setValidationErrors(errors); 
+  };
+  const validationForEndTimeValidation = () => {
+    const errors = [...validationErrors];
+    const StartTime = getValues("fromTime");
+    const EndTime = getValues("toTime");
+   if(errors && errors[0])
+   {
+   
+    if (EndTime === "") {
+      errors[0].endTimeError = "Time is required";
+    } else {
+      errors[0].endTimeError = "";
+    }
     if (StartTime && EndTime) {
       const startTimeHours = parseInt(StartTime.split(":")[0]);
       const startTimeMinutes = parseInt(StartTime.split(":")[1]);
       const endTimeHours = parseInt(EndTime.split(":")[0]);
       const endTimeMinutes = parseInt(EndTime.split(":")[1]);
   
-      if (endTimeHours < startTimeHours ||
-          (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)) {
-        errors.endTimeError = "End time must be greater than start time";
+      if (
+        endTimeHours < startTimeHours ||
+        (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)
+      ) {
+        errors[0].endTimeError = "End time must be greater than start time";
+      } else {
+        errors[0].endTimeError = "";
       }
     }
-    if(errors.startTimeError||errors.endTimeError)
-      {
-        TimeErrors[0]=errors;
-      }
-      setValidationErrors(TimeErrors);
-
+   }
+   
   
-    
+   
+  
+   
+  
+    setValidationErrors(errors); 
   };
-  const valiadtionforDateandTime=()=>{
-   let dataandTimeerrors:any=[...validationErrors];
+
+  const valiadtionforDateandTime= ()=>{
+   let dataandTimeerrors:any=[];
 
    let Errors={
     fromDateError:"",
@@ -664,19 +696,38 @@ const SpecialPriceDetails = () => {
     {
       Errors.fromDateError="Date must be given"
     }
+    else{
+      Errors.fromDateError=""
+
+    }
     if(dateShow && selectedDate1===null)
     {
         Errors.toDateError="Date must be given"
     }
-    const StartTime=getValues("fromTime");
-    if(StartTime==="")
+    else{
+      Errors.toDateError=""
+
+    }
+    const StartTime=  getValues("fromTime");
+    console.log({startTime});
+    
+    if(startTime==="")
     {
       Errors.startTimeError="Time is required"
     }
+    else{
+       Errors.startTimeError=""
+
+    }
     const EndTime=getValues("toTime");
-    if(EndTime==="")
+ 
+    console.log({endTime});
+    if(endTime==="")
     {
       Errors.EndTimeError="Time is required"
+    }
+    else{
+      Errors.EndTimeError=""
     }
     if (StartTime && EndTime) {
       const startTimeHours = parseInt(StartTime.split(":")[0]);
@@ -687,6 +738,10 @@ const SpecialPriceDetails = () => {
       if (endTimeHours < startTimeHours ||
           (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)) {
         Errors.EndTimeError = "End time must be greater than start time";
+      }
+      else{
+        Errors.EndTimeError = "";
+
       }
     }
 
@@ -699,19 +754,19 @@ const SpecialPriceDetails = () => {
     setValidationErrors(dataandTimeerrors);
 
 
-    if(Errors.fromDateError===""&&Errors.toDateError===""&&Errors.startTimeError===""&&Errors.toDateError==="")
+    if(Errors.fromDateError===""&&Errors.toDateError===""&&Errors.startTimeError===""&&Errors.EndTimeError==="")
       {
         return true;
       }
       else{
         return false;
       }
-
-
-
-    
-
   }
+
+  console.log({validationErrors});
+  
+
+
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
@@ -1082,6 +1137,7 @@ const SpecialPriceDetails = () => {
                 </div>
                 {dateShow && (
                   <div className="offerdate-select">
+                    <div>
                     <div className="offer-from-date">
                       <Controller
                         name="fromDate"
@@ -1129,9 +1185,19 @@ const SpecialPriceDetails = () => {
                         className="calender-img-offer"
                         onClick={handleImageClick}
                       />
-                      <div></div>
+                      
                     </div>
+                    <div>
+                      {validationErrors[0]?.fromDateError && (
+                              <span className="time-error-message">
+                                {validationErrors[0]?.fromDateError}
+                              </span>
+                            )}
+                      </div>
+                    </div>
+                 
                     To
+                    <div >
                     <div className="offer-to-date">
                       <Controller
                         name="toDate"
@@ -1180,14 +1246,28 @@ const SpecialPriceDetails = () => {
                         className="calender-img1-offer"
                         onClick={handleImageClick2}
                       ></img>
-                      <div></div>
+                     
                     </div>
+                    <div>
+                      {validationErrors[0]?.toDateError && (
+                              <span className="time-error-message">
+                                {validationErrors[0]?.toDateError}
+                              </span>
+                            )}
+                      </div>
+                    </div>
+                    
+                    
                   </div>
                 )}
 
                 <div className="timeContainer">
                   <h4 className="Time-heading">Time</h4>
                   <div className="time-format">
+
+                    <div className="from-time-errormsg">
+
+
                     <div className="time-selector">
                       <Controller
                         name="fromTime"
@@ -1202,38 +1282,42 @@ const SpecialPriceDetails = () => {
                           onBlur,
                         }: any) => (
                           <div>
-                            <input
-                              type="text"
-                              placeholder="hh:mm"
-                              className={`time-selector__input ${
-                                error ? "error" : ""
-                              }`}
-                              value={value}
-                              onChange={(e) => {
-                                const inputValue = e.target.value;
-                                if (/^[0-9:]*$/.test(inputValue)) {
-                                  if (inputValue.length <= 5) {
-                                    const formattedValue = inputValue
-                                      .replace(/[^0-9]/g, "")
-                                      .match(/(\d{0,2})(\d{0,2})?/);
+                           <input
+  type="text"
+  placeholder="hh:mm"
+  className={`time-selector__input ${error ? "error" : ""}`}
+  value={value}
+  onChange={(e) => {
+    const inputValue = e.target.value;
 
-                                    const hours =
-                                      (formattedValue && formattedValue[1]) ||
-                                      "";
-                                    const minutes =
-                                      (formattedValue && formattedValue[2]) ||
-                                      "";
+   
+    if (/^[0-9:]*$/.test(inputValue)) {
+      if (inputValue.length <= 5) {
+        const formattedValue = inputValue
+          .replace(/[^0-9]/g, "") 
+          .match(/(\d{0,2})(\d{0,2})?/); 
 
-                                    const formattedTime = [hours, minutes]
-                                      .filter(Boolean)
-                                      .join(":");
+        let hours = (formattedValue && formattedValue[1]) || "";
+        let minutes = (formattedValue && formattedValue[2]) || "";
 
-                                    onChange(formattedTime);
-                                  }
-                                }
-                              }}
-                              onBlur={onBlur}
-                            />
+        if (hours.length === 2 && parseInt(hours, 10) > 12) {
+          return; 
+        }
+        if (minutes.length === 2 && parseInt(minutes, 10) > 59) {
+          return; 
+        }
+
+        const formattedTime = [hours, minutes].filter(Boolean).join(":");
+
+        onChange(formattedTime); 
+        setStartTime(formattedTime); 
+      }
+    }
+    validationForstartTimeValidation()
+  }}
+  onBlur={onBlur}
+/>
+
                             {error && (
                               <span className="error-message">
                                 {error.message}
@@ -1278,7 +1362,17 @@ const SpecialPriceDetails = () => {
                         PM
                       </button>
                     </div>
+                    {validationErrors[0]?.startTimeError && (
+                              <span className="time-error-message">
+                                {validationErrors[0]?.startTimeError}
+                              </span>
+                            )}
+
+                    </div>
+                   
+
                     To
+                    <div className="to-time-errormsg">
                     <div className="time-selector">
                       <Controller
                         name="toTime"
@@ -1312,17 +1406,27 @@ const SpecialPriceDetails = () => {
                                     const hours =
                                       (formattedValue && formattedValue[1]) ||
                                       "";
-                                    const minutes =
+                                    let minutes =
                                       (formattedValue && formattedValue[2]) ||
                                       "";
+                                      if (hours.length === 2 && parseInt(hours, 10) > 12) {
+                                        return; 
+                                      }
+                                      
+                                      if (minutes.length === 2 && parseInt(minutes, 10) > 59) {
+                                        return; 
+                                      }
+                                      
 
                                     const formattedTime = [hours, minutes]
                                       .filter(Boolean)
                                       .join(":");
 
                                     onChange(formattedTime);
+                                    setEndTime(formattedTime)
                                   }
                                 }
+                                validationForEndTimeValidation();
                               }}
                               onBlur={onBlur}
                             />
@@ -1336,7 +1440,7 @@ const SpecialPriceDetails = () => {
                         rules={{
                           required: "This field is required",
                           validate: (value) => {
-                            // Validate hh:mm format
+                          
                             const timeRegex =
                               /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
                             return (
@@ -1370,6 +1474,15 @@ const SpecialPriceDetails = () => {
                         PM
                       </button>
                     </div>
+                    <div>
+                    {validationErrors[0]?.EndTimeError && (
+                              <span className="time-error-message">
+                                {validationErrors[0]?.EndTimeError}
+                              </span>
+                            )}
+                    </div>
+                    </div>
+                    
                   </div>
                 </div>
 
