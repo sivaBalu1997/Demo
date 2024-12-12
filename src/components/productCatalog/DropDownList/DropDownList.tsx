@@ -53,8 +53,8 @@ interface DropdownProps {
   resetSelection?: any;
   parentId?: any;
   bestpair?: boolean;
-  errormsg?:string;
-  valiadtesubCategory?:any;
+  errormsg?: string;
+  valiadtesubCategory?: any;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -81,7 +81,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   setParentId,
   parentId,
   errormsg,
-  valiadtesubCategory
+  valiadtesubCategory,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -113,10 +113,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage.data
   );
-
-
-
-
 
   const getdatafrosaga = () => {
     dispatch(fetchDropDownRequest(payload));
@@ -170,13 +166,10 @@ const DropDownList: React.FC<DropdownProps> = ({
   );
 
   useEffect(() => {
-    if ( ItemsPrimaryDetails && dropDownType === "SUB_CATEGORY") {
-      setParentId(ItemsPrimaryDetails?.categoryId)
+    if (ItemsPrimaryDetails && dropDownType === "SUB_CATEGORY") {
+      setParentId(ItemsPrimaryDetails?.categoryId);
     }
   }, [ItemsPrimaryDetails]);
-
-
-
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -234,7 +227,6 @@ const DropDownList: React.FC<DropdownProps> = ({
 
     setOptions(filteredOptions);
   };
-  
 
   let subcategorydataforApi = {
     locationId: locationid,
@@ -272,7 +264,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails, options, name, setValue]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.bestPair && name === "bestPair") { 
+    if (ItemsPrimaryDetails?.bestPair && name === "bestPair") {
       const bestPairName = ItemsPrimaryDetails?.bestPair;
 
       const normalizedBestPair = Array.isArray(bestPairName)
@@ -296,17 +288,12 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
 
-
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
 
- 
-  
-
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
-      
       const kitchenStationName = prizingDetail?.kitchenstation;
       const dropDownName: any =
         Array.isArray(options) &&
@@ -334,7 +321,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [prizingDetail]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.cuisine && name === "cuisine") { 
+    if (ItemsPrimaryDetails?.cuisine && name === "cuisine") {
       const cusineName = ItemsPrimaryDetails?.cuisine;
       const dropDownName: any = options?.find(
         (item) => item.name === cusineName
@@ -343,6 +330,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         dropDownName === undefined
           ? { name: ItemsPrimaryDetails?.cuisine, id: "1" }
           : dropDownName;
+
       setSelectedOptions(
         dropDownName === undefined ? [dropDown1] : [dropDownName]
       );
@@ -354,7 +342,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails]);
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.category && name === "category") { 
+    if (ItemsPrimaryDetails?.category && name === "category") {
       const categoryName = ItemsPrimaryDetails?.category;
       const dropDownName: any = options?.find(
         (item) => item?.name === categoryName
@@ -384,6 +372,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         dropDownName === undefined
           ? { name: ItemsPrimaryDetails?.subCategory, id: "1" }
           : dropDownName;
+
       setSelectedOptions(
         dropDownName === undefined ? [dropDown1] : [dropDownName]
       );
@@ -398,12 +387,12 @@ const DropDownList: React.FC<DropdownProps> = ({
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
-  
+
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
         (opt) => opt?.id === option?.id
       );
-  
+
       if (isAlreadySelected) {
         const updatedOptions = currentSelectedOptions.filter(
           (opt) => opt.id !== option?.id
@@ -416,9 +405,9 @@ const DropDownList: React.FC<DropdownProps> = ({
         trigger(name);
       } else {
         if (currentSelectedOptions.length >= 5) {
-          return; 
+          return;
         }
-  
+
         const updatedOptions = [...currentSelectedOptions, option];
 
         setSelectedOptions(updatedOptions);
@@ -433,24 +422,20 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
 
-      if(dropDownType === "CATEGORY"){
+      if (dropDownType === "CATEGORY") {
         setParentId(option?.id);
-      
-        setValue(
-          "subCategory",
-          ""
-        );
+
+        setValue("subCategory", "");
       }
     }
-  
+
     if (dropDownType === "SUB_CATEGORY") {
       valiadtesubCategory();
     }
-  
+
     setSearchTerm("");
     setManuallyCleared(false);
   };
-
 
   const handleCheckboxChange = (option: Option) => {
     if (type === "checkbox") {
@@ -482,17 +467,14 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
 
-      if(dropDownType === "CATEGORY"){
+      if (dropDownType === "CATEGORY") {
         setParentId(option?.id);
         setSubcategoryParentId(option.id);
-        setValue(
-          "subCategory",
-          ""
-        );
+        setValue("subCategory", "");
       }
     }
     if (dropDownType === "SUB_CATEGORY") {
-      valiadtesubCategory()
+      valiadtesubCategory();
     }
     setSearchTerm("");
     // if(dropDownType === "SUB_CATEGORY") {
@@ -500,15 +482,15 @@ const DropDownList: React.FC<DropdownProps> = ({
     // }
   };
 
-
   useEffect(() => {
-  if(dropDownType === "SUB_CATEGORY" && parentId !== ""){
-      setSelectedOptions([])
+    console.log('2', ItemsPrimaryDetails?.subCategory)
+    if (
+      dropDownType === "SUB_CATEGORY" &&
+      parentId !== ""
+    ) {
+      setSelectedOptions([]);
     }
-  },[parentId])
-  
- 
-  
+  }, [parentId]);
 
   const payload = {
     locationId: locationid,
@@ -546,13 +528,12 @@ const DropDownList: React.FC<DropdownProps> = ({
       type: dropDownType,
       locationid: locationid,
       parentId: parentId && parentId,
-    }
+    };
 
     if (deletedItem) {
-      if(dropDownType !== "SUB_CATEGORY"){
+      if (dropDownType !== "SUB_CATEGORY") {
         dispatch(deleteDropDowRequest(deletedItem));
-      }
-      else{
+      } else {
         dispatch(deleteDropDowRequest(deletedSubCategory));
       }
 
@@ -562,7 +543,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       //   if (dropDownType !== "SUB_CATEGORY" && name !== 'subCategory') {
       //     dispatch(fetchDropDownRequest(payload));
       //   }
-    
+
       //   if (dropDownType === "SUB_CATEGORY" && subcategorydataforApi.parentId !== "") {
       //     dispatch(fetchDropDownRequest(subcategorydataforApi));
       //   }
@@ -584,7 +565,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       locationId: locationid,
       name: newValue,
       type: dropDownType,
-      parentId: dropDownType === 'SUB_CATEGORY' ? parentId : "",
+      parentId: dropDownType === "SUB_CATEGORY" ? parentId : "",
     };
 
     setOptions([
@@ -634,12 +615,14 @@ const DropDownList: React.FC<DropdownProps> = ({
     setShowselectedOption(false);
     setManuallyCleared(false);
 
-    if (dropDownType !== "SUB_CATEGORY" && name !== 'subCategory') {
-      dispatch(fetchDropDownRequest(payload)); 
+    if (dropDownType !== "SUB_CATEGORY" && name !== "subCategory") {
+      dispatch(fetchDropDownRequest(payload));
     }
 
-
-    if (dropDownType === "SUB_CATEGORY" && subcategorydataforApi.parentId !== "") {
+    if (
+      dropDownType === "SUB_CATEGORY" &&
+      subcategorydataforApi.parentId !== ""
+    ) {
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
@@ -690,12 +673,13 @@ const DropDownList: React.FC<DropdownProps> = ({
                 onClick={() => {
                   if (
                     (name !== "subCategory" && !Disablesubcategory) ||
-                    ((name === "category" || 
-                      name === 'subCategory' ||
-                      name === 'cuisine' || 
-                      name === 'bestPair' || 
-                      name === 'DietaryType' || 
-                      name === 'kitchenstation') && Disablesubcategory)
+                    ((name === "category" ||
+                      name === "subCategory" ||
+                      name === "cuisine" ||
+                      name === "bestPair" ||
+                      name === "DietaryType" ||
+                      name === "kitchenstation") &&
+                      Disablesubcategory)
                   ) {
                     handleBelowArrowdropdown();
                   }
@@ -708,11 +692,11 @@ const DropDownList: React.FC<DropdownProps> = ({
         </div>
 
         <div style={{ margin: 0 }}>
-        {
-          errormsg ? <p className="Dropdown-Error-message" >{errormsg}</p>:
-          error && <p className="Dropdown-Error-message" >{error.message}</p>
-        }
-        
+          {errormsg ? (
+            <p className="Dropdown-Error-message">{errormsg}</p>
+          ) : (
+            error && <p className="Dropdown-Error-message">{error.message}</p>
+          )}
         </div>
       </div>
 
@@ -781,23 +765,30 @@ const DropDownList: React.FC<DropdownProps> = ({
                         </div>
                       );
                     })
-                  ) : ((searchTerm==''?name === "kitchenstation"?false:(Loading) :true) ?
+                  ) : (
+                      searchTerm == ""
+                        ? name === "kitchenstation"
+                          ? false
+                          : Loading
+                        : true
+                    ) ? (
                     <div className="dropdown-no-options">
                       No options available
                     </div>
-                    : <div className="dropdown-no-options">
-                    <Loader
-                      className="imgLoader1"
-                      height="300px"
-                      width="300px"
-                      style={{
-                        filter:
-                          "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
-                        height: "70px",
-                        width: "70px",
-                      }}
-                    />
-                  </div>
+                  ) : (
+                    <div className="dropdown-no-options">
+                      <Loader
+                        className="imgLoader1"
+                        height="300px"
+                        width="300px"
+                        style={{
+                          filter:
+                            "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                          height: "70px",
+                          width: "70px",
+                        }}
+                      />
+                    </div>
                   )}
                 </div>
               )}

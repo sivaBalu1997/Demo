@@ -210,7 +210,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const prizingDetail = useSelector(
       (state: any) => state.PricingDetailReducer.prizingData
     );
-console.log({prizingDetail});
 
     const [formNormal, setformNormal] = useState({
       PickuppriceNormal: "",
@@ -1361,10 +1360,7 @@ console.log({prizingDetail});
       const validationErrors: Record<string, string> = {};
 
       const Kitchenstationdata = getValues("kitchenstation");
-
-      console.log({Kitchenstationdata});
       
-
       if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
         validationErrors[`kitchenstation`] = "kitchen station is required";
       }

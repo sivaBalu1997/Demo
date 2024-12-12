@@ -224,8 +224,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: RootStateIC) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
-  console.log("from review page",{itemCustomizationData})
-
   const fetchedprimarydata = primarydata;
   
   const [error, setError] = useState<Status[]>([]);
@@ -484,7 +482,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
 
-  console.log({subCategoryData},{matchedSubCategory},{matchedSubCategoryId})
+  console.log({subCategoryData}, {matchedSubCategory}, {matchedSubCategory}, {matchedSubCategoryId})
 
 
   const orderTypess = useSelector(
@@ -554,6 +552,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const stringNormalDays = Array.isArray(normalDays) ? normalDays.map(String) : [];
   const result = stringNormalDays.includes('0') ? ['0'] : stringNormalDays;
+
     
   const menuPayload = {
     locationId: locationid,
@@ -646,8 +645,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     // latestOrderTypesDTOWithRespectToAvailability: editData[0]?.combinedDetails || null,
     specialItem: null,
   };
-
-  console.log({menuPayload}, {editPayload})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();

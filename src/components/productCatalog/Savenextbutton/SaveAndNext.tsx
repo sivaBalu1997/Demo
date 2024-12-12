@@ -300,8 +300,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         return modifier;
       });
 
-
-      console.log("from review page modificationArray",{modificationArray})
       const formData = getFormData();
      
       if(isValid)

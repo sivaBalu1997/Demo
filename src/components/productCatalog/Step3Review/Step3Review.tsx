@@ -35,25 +35,17 @@ const Step3Review: React.FC = () => {
     (state: RootStateIC) => state.itemCustomizationsReducer1.itemData
   );
 
-  console.log("from step3Review-itemCustomizationData",{itemCustomizationData})
-
   const minSelectionArray = Array.isArray(itemCustomizationData) &&
       itemCustomizationData.length > 0 ? (
         itemCustomizationData
           .filter((elem) => elem.modifierName !== "")
           .map((elem, index) => (elem?.minSelection))):""
 
-  console.log("from step3Review minSelectionArray",minSelectionArray,"length", minSelectionArray?.length)
-
   const maxSelectionArray = Array.isArray(itemCustomizationData) &&
   itemCustomizationData.length > 0 ? (
     itemCustomizationData
       .filter((elem) => elem.modifierName !== "")
       .map((elem, index) => (elem?.minSelection))):""
-
-  console.log("from step3Review maxSelectionArray",maxSelectionArray,"length", maxSelectionArray?.length)
-
-
 
   const { setActiveCategory } = useContext(Contextpagejs);
 
