@@ -1,5 +1,4 @@
 .MenuPage-container {
-  width: 100%;
   display: flex;
   padding: 0;
   margin: 0;
@@ -10,7 +9,6 @@
   }
 }
 .MenuPage-HeaderComponent {
-  width: 100%;
   margin-top: 2%;
 }
 
@@ -61,19 +59,13 @@
   }
 }
 
-.tableContainerComponent{
-  
-}
-
 .body-container-expand {
   height: 35rem;
-  max-height: 35rem;
   overflow-y: auto;
   margin-top: 1rem;
   display: flex;
   overflow-x: hidden;
   padding: 0;
-
   &::-webkit-scrollbar {
     width: 16px;
   }
@@ -98,7 +90,7 @@
   bottom: 2rem;
 }
 .body-container {
-  height: 80vh;
+  height: 34rem;
   overflow-y: auto;
   margin-top: 1rem;
   display: flex;

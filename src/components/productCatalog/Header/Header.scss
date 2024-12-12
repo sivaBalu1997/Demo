@@ -1,32 +1,42 @@
 .Header-Container {
   width: 100%;
+  position: sticky;
   height: 60px;
-  // padding: 10px;
+  left: -20px;
+  padding: 10px;
+  top: 25px;
   z-index: 600;
   display: flex;
   justify-content: space-between;
   transition: left 0.4s ease-in;
-  // margin-left: 30px;
+  margin-left: 30px;
   margin-bottom: 30px;
+
   // background-color: lightblue;
 }
 
 .Header-Container1 {
   width: 100%;
+  position: relative;
   padding: 10px;
   z-index: 600;
+  top: 0px;
   display: flex;
   justify-content: space-between;
   transition: left 0.4s ease-in;
+  // background-color: orange;
   height: fit-content;
 }
 
 .Header-Heading-Search-Filter-Container {
   display: flex;
+  width: 962.45px;
+  // width: fit-content;
   height: 44px;
   justify-content: start;
   padding-left: -10px;
   gap: 20px;
+  // background-color: lightsalmon;
 }
 
 /* Filter Section */
@@ -205,20 +215,22 @@
 .Add-Item-Container {
   width: 101px;
   height: 1.5rem;
-  // display: flex;
-  // justify-content: flex-start;
+  display: flex;
+  justify-content: flex-start;
   background-color: #67833e;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   display: flex;
-  // justify-content: center;
-  // align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .Add-Item-Container1 {
   width: 100px;
   height: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
   background-color: #67833e;
   padding: 10px;
   border-radius: 5px;
@@ -226,8 +238,8 @@
   cursor: pointer;
   transform: translateX(80px);
   display: flex;
-  // justify-content: center;
-  // align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .Add-Item-Heading-Plus,
@@ -250,4 +262,8 @@
 .Add-Item-Container:hover {
   background-color: #335400f0;
 }
-
+@media (max-width: 1700px) {
+  .Header-Container {
+    width: 100%;
+  }
+}
