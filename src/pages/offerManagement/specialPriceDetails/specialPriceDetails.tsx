@@ -17,7 +17,7 @@ import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
-import { SPOfferListSendingRequest } from "redux/offer/offerActions";
+import { createSpecialOfferRequest, SPOfferListSendingRequest } from "redux/offer/offerActions";
 
 interface itemobject {
   id: number;
@@ -318,6 +318,31 @@ const SpecialPriceDetails = () => {
 
   const handleonclick = () => {
     const values = getValues();
+    const payload={
+      locationId:locationid,
+      offerId:null,
+      offerName: values?.offerName,
+      channel:values?.offerChannel,
+      visibleTo:values?.offerToVisible?.map((item:any)=>item[0]), 
+      termsAndConditions:values?.termsAndConditions,
+      specialType:values?.specialTypeName,
+      type:values?.specialType,
+      value:values?.specialTypeValue,
+      items:selectedFoodItems.map((item)=>{
+        return{
+          itemId:item?.itemId,
+          isEnabled:item?.isEnabled
+        }
+      }),
+      effectivePeriod:{
+        isDateEnabled:dateShow,
+        startDate:dateShow?formatDate(values?.fromDate):null,
+        endDate:dateShow?formatDate(values?.toDate):null,
+        startTime:values?.fromTime,
+        endTime:values?.toTime,
+        validDays:values?.AvailableDays
+     }
+        }
 
     trigger();
 
@@ -326,36 +351,12 @@ const SpecialPriceDetails = () => {
     
     if(isvalid)
     {
-      dispatch(SPOfferListSendingRequest(values));
+      dispatch(createSpecialOfferRequest(payload));
       setOverlapShow(true);
     }
    
    
-    const payload={
-  locationId:locationid,
-  offerId:null,
-  offerName: values?.offerName,
-  channel:values?.offerChannel,
-  visibleTo:values?.offerToVisible?.map((item:any)=>item[0]), 
-  termsAndConditions:values?.termsAndConditions,
-  specialType:values?.specialTypeName,
-  type:values?.specialType,
-  value:values?.specialTypeValue,
-  items:selectedFoodItems.map((item)=>{
-    return{
-      itemId:item?.itemId,
-      isEnabled:item?.isEnabled
-    }
-  }),
-  effectivePeriod:{
-    isDateEnabled:dateShow,
-    startDate:dateShow?formatDate(values?.fromDate):null,
-    endDate:dateShow?formatDate(values?.toDate):null,
-    startTime:values?.fromTime,
-    endTime:values?.toTime,
-    validDays:values?.AvailableDays
- }
-    }
+   
     //console.log("kkkkk",payload)
     //setOverlapShow(true);
   };
