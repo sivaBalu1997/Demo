@@ -75,6 +75,13 @@ export function getDropdownData(dropdownDataparams) {
     },
   });
 }
+export function getCatagoryDropdownData(payload) {
+  return API({
+    method: "post",
+    url: `/api/v1/menu-items/view/sub-section`,
+    data: payload, // Send the full payload as the request body
+  });
+}
 
 
 
@@ -102,8 +109,10 @@ export const getSPOfferListItemDisable = (disableItem) => {
   });
 };
 
-
-
-
-
-// /coupon/happy-hours?offerId=a00c82e3-7e5f-45ed-8314-97cc1072e12b
+export const createSpecialOffer = (payload) => {
+  return API({
+    method: "post",
+    url: `/coupon/happy-hour/create`,
+    data: payload,
+  });
+};

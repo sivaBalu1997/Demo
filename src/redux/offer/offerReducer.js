@@ -23,6 +23,16 @@ import {
   DISABLE_OFFER_SUCCESS,
   DISABLE_OFFER_FAILED,
   RESET_DISABLE_DATA,
+  OFFER_DATA_REQUEST,
+  OFFER_DATA_SUCCESS,
+  OFFER_DATA_FAILED,
+  CATEGORY_FETCHDROPDOWN_REQUEST,
+  CATEGORY_FETCHDROPDOWN_FAILURE,
+  CATEGORY_FETCHDROPDOWN_SUCCESS,
+  SUB_CATEGORY_FETCHDROPDOWN_REQUEST,
+  SUB_CATEGORY_FETCHDROPDOWN_FAILURE,
+  SUB_CATEGORY_FETCHDROPDOWN_SUCCESS,
+  
   SP_OFFER_LIST_REQUEST,
  SP_OFFER_LIST_SUCCESS,
 SP_OFFER_LIST_FAILED,
@@ -37,7 +47,10 @@ SP_OFFER_LIST_DELETE_SUCCESS,
 SP_OFFER_LIST_DELETE_FAILED,
 SP_OFFER_LIST_DISABLE_REQUEST,
 SP_OFFER_LIST_DISABLE_SUCCESS,
-SP_OFFER_LIST_DISABLE_FAILED
+SP_OFFER_LIST_DISABLE_FAILED,
+CREATE_SPECIAL_OFFER_REQUEST,
+CREATE_SPECIAL_OFFER_SUCCESS,
+CREATE_SPECIAL_OFFER_FAILURE,
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -80,29 +93,28 @@ const initialOfferState = {
   OfferDataSendingrSuccess:false,
   OfferDataSendingFailed:false,
   OfferDataSendingloading:false,
-
-
-
-
-
+  categoryData :[],
+  getCategorySuccess :false,
+  getCategoryLoading :false,
+  getCategorySuccessMessage :"",
+  getCategorySuccessMessage :'',
+  subCategoryData : [],
+  getSubCategorySuccess : false,
+  getSubCategoryLoading : false,
+  getSubCategoryMessage : "",
+  getSubCategoryMessage : '',
   SpOfferListLoading:false,
   SpofferListSuccessResponse:[],
   SpofferListFailureResponse:false,
-   
-
   SPofferItemDeleteLoading:false,
   SPofferItemDeleteSuccess:"",
   SPofferItemDeleteFailed:"",
   SPofferItemDisableLoading:false,
   SPofferItemDisableSuccess:"",
-  SPofferItemDisableFailed:""
-
-
-
-
-
-
-
+  SPofferItemDisableFailed:"",
+  createSpecialOfferError:'',
+  createSpecialOfferSuccess:'',
+  createSpecialOfferloading :false,
 };
 
 export default function offerReducer(state = initialOfferState, action) {
@@ -267,8 +279,48 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.disableOfferFailed = false;
         draft.disableOfferSuccess = false;
         draft.disableOfferFailureMessage = "";
-        draft.disableOfferSuccessMessage = "";
+        draft.disableOfferFailureMessage = "";
         break;
+      case CATEGORY_FETCHDROPDOWN_REQUEST:
+        draft.categoryData = [];
+        draft.getCategoryLoading = true;
+        draft.getCategorySuccessMessage = "";
+        draft.getCategorySuccessMessage = "";
+        break;
+      case CATEGORY_FETCHDROPDOWN_SUCCESS:
+        draft.categoryData = action.payload;
+        draft.getCategorySuccess = true;
+        draft.getCategoryLoading = false;
+        draft.getCategorySuccessMessage = "";
+        draft.getCategorySuccessMessage = action.payload;
+        break;
+      case CATEGORY_FETCHDROPDOWN_FAILURE:
+        draft.categoryData = [];
+        draft.getCategorySuccess = false;
+        draft.getCategoryLoading = false;
+        draft.getCategorySuccessMessage = action.payload;
+        draft.getCategorySuccessMessage = "";
+        break;
+        case SUB_CATEGORY_FETCHDROPDOWN_REQUEST:
+          draft.subCategoryData = [];
+          draft.getSubCategoryLoading = true;
+          draft.getSubCategoryMessage = "";
+          draft.getSubCategoryMessage = "";
+          break;
+        case SUB_CATEGORY_FETCHDROPDOWN_SUCCESS:
+          draft.subCategoryData = action.payload;
+          draft.getSubCategorySuccess = true;
+          draft.getSubCategoryLoading = false;
+          draft.getSubCategoryMessage = "";
+          draft.getSubCategoryMessage = action.payload;
+          break;
+        case SUB_CATEGORY_FETCHDROPDOWN_FAILURE:
+          draft.subCategoryData = [];
+          draft.getSubCategorySuccess = false;
+          draft.getSubCategoryLoading = false;
+          draft.getSubCategorySuccessMessage = action.payload;
+          draft.getSubCategorySuccessMessage = "";
+          break;
 
       case SET_OFFER_STATUS:
         draft.offerStatus = action.payload;
@@ -350,6 +402,21 @@ export default function offerReducer(state = initialOfferState, action) {
             draft.SPofferItemDisableLoading =false;
            draft.SPofferItemDisableFailed=action.payload;
             break;   
+            case  CREATE_SPECIAL_OFFER_REQUEST:
+              draft.createSpecialOfferError=''
+              draft.createSpecialOfferSuccess=''
+              draft.createSpecialOfferloading = true;
+              break;
+            case  CREATE_SPECIAL_OFFER_SUCCESS:
+              draft.createSpecialOfferSuccess = action.payload;
+              draft.createSpecialOfferloading = false;
+              draft.createSpecialOfferError=''
+              break;
+            case CREATE_SPECIAL_OFFER_FAILURE:
+              draft.createSpecialloading = false;
+              draft.createSpecialSuccess=''
+              draft.createSpecialError = action.payload;
+              break;
       default:
         break;
     }

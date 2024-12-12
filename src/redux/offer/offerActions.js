@@ -26,6 +26,15 @@ import {
   OFFER_DATA_REQUEST,
   OFFER_DATA_SUCCESS,
   OFFER_DATA_FAILED,
+  CATEGORY_FETCHDROPDOWN_REQUEST,
+  CATEGORY_FETCHDROPDOWN_SUCCESS,
+  CATEGORY_FETCHDROPDOWN_FAILURE,
+  SUB_CATEGORY_FETCHDROPDOWN_REQUEST,
+  SUB_CATEGORY_FETCHDROPDOWN_SUCCESS,
+  SUB_CATEGORY_FETCHDROPDOWN_FAILURE,
+  CREATE_SPECIAL_OFFER_REQUEST,
+  CREATE_SPECIAL_OFFER_SUCCESS,
+  CREATE_SPECIAL_OFFER_FAILURE,
   SP_OFFER_LIST_REQUEST,
   SP_OFFER_LIST_SUCCESS,
   SP_OFFER_LIST_FAILED,
@@ -42,7 +51,6 @@ import {
   SP_OFFER_LIST_DISABLE_SUCCESS,
   SP_OFFER_LIST_DISABLE_FAILED,
 } from "./offerConstants";
-
 export const getOfferList = (offerListParams) => ({
   type: OFFER_LIST_REQUEST,
   payload: offerListParams,
@@ -205,6 +213,48 @@ export const SPOfferListFailed = (failed) => ({
 export const SPOfferListDelete = (data) => ({
   type: SP_OFFER_LIST_DELETE_REQUEST,
   payload: data,
+});
+export const fetchDropDownRequest = (data) => ({
+  type: CATEGORY_FETCHDROPDOWN_REQUEST,
+  payload: data,
+});
+
+export const fetchDropDownSuccess = (response) => ({
+  type: CATEGORY_FETCHDROPDOWN_SUCCESS,
+  payload: response,
+});
+
+export const fetchDropDownFailure = (error) => ({
+  type: CATEGORY_FETCHDROPDOWN_FAILURE,
+  payload: error,
+});
+export const fetchSubDropDownRequest = (data) => ({
+  type: SUB_CATEGORY_FETCHDROPDOWN_REQUEST,
+  payload: data,
+});
+
+export const fetchSubDropDownSuccess = (response) => ({
+  type: SUB_CATEGORY_FETCHDROPDOWN_SUCCESS,
+  payload: response,
+});
+
+export const fetchSubDropDownFailure = (error) => ({
+  type: SUB_CATEGORY_FETCHDROPDOWN_FAILURE,
+  payload: error,
+});
+export const createSpecialOfferRequest = (data) => ({
+  type: CREATE_SPECIAL_OFFER_REQUEST,
+  payload: data,
+});
+
+export const createSpecialOfferSuccess = (response) => ({
+  type: CREATE_SPECIAL_OFFER_SUCCESS,
+  payload: response,
+});
+
+export const createSpecialOfferFailure = (error) => ({
+  type: CREATE_SPECIAL_OFFER_FAILURE,
+  payload: error,
 });
 
 export const SPOfferListDeleteSuccess = (success) => ({

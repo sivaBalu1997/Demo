@@ -7,10 +7,10 @@ import { render } from "@testing-library/react";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import {
-  addDropDowRequest,
-  deleteDropDowRequest,
+
   fetchDropDownRequest,
-} from "redux/productCatalog/productCatalogActions";
+  fetchSubDropDownRequest,
+} from "redux/offer/offerActions";
 import { cuisine } from "assets/mockData/Moca_data";
 interface media {
   imageId: string;
@@ -93,6 +93,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
   const [hasCleared, setHasCleared] = useState<boolean>(false);
   const [manuallyCleared, setManuallyCleared] = useState(false);
+  const [disabled,setDisabled] =useState(false)
 
   const dispatch = useDispatch();
 
@@ -100,23 +101,24 @@ const Dropdown: React.FC<DropdownProps> = ({
     (state: any) => state.auth.credentials?.locationId
   );
 
-  const deleteApicall = useSelector(
-    (state: any) => state.productCatalog?.deletesubsectionsuccess
-  );
 
   const clearSelection = () => {
     setSelectedOptions([]);
   };
+  useEffect(()=>{
+    if(name=='subCategory' && parentId==''){
+      setDisabled(true)
+    }
+    else{
+      setDisabled(false)
+    }
+  },[parentId,name])
 
   useEffect(() => {
     if (resetSelection) {
       resetSelection.current = clearSelection;
     }
   }, [resetSelection]);
-
-  const initialOptions = Array.isArray(options)
-    ? options.map((elem: any) => elem.name)
-    : [];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -144,7 +146,10 @@ const Dropdown: React.FC<DropdownProps> = ({
 
 
   const handleOptionMouseDown = (event: React.MouseEvent) => {
+    if(!disabled)
+      {
     event.stopPropagation();
+      }
   };
 
   const filteredOptions = Array.isArray(options)
@@ -182,17 +187,20 @@ const Dropdown: React.FC<DropdownProps> = ({
           );
           trigger(name);
         }
-        setSearchTerm(
-          [...currentSelectedOptions, option]
-            .map((opt) => opt?.name)
-            .join(", ")
-        );
+        // setSearchTerm(
+        //   [...currentSelectedOptions, option]
+        //     .map((opt) => opt?.name)
+        //     .join(", ")
+        // );
       } else if (type === "radio") {
         setSelectedOptions([option]);
         setValue(name, option.name);
         trigger(name);
-        dropDownType === "CATEGORY" && setParentId(option?.id);
-        setSearchTerm(option.name); 
+        if(dropDownType === "CATEGORY")
+        {
+         setParentId(option?.id);
+        }
+       // setSearchTerm(option.name); 
       }
     };
     
@@ -200,7 +208,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const payload = {
     locationId: locationid,
     type: dropDownType,
-    parentId: "",
+    parentId: parentId?parentId:null,
   };
 
   const handleNewItemAddition = () => {
@@ -277,11 +285,24 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [options]);
 
   const handleAboveArrowdropdown = () => {
+    if(!disabled)
+    {
     onToggle();
+    }
   };
 
   const handleBelowArrowdropdown = () => {
+    if(!disabled)
+      {
+    if(name=="category" ){
+      dispatch(fetchDropDownRequest(payload));
+    }
+    if(name=='subCategory')
+    {
+      dispatch(fetchSubDropDownRequest(payload));
+    }
     onToggle();
+  }
   };
 
 
@@ -354,9 +375,10 @@ const Dropdown: React.FC<DropdownProps> = ({
             name={name}
             autoComplete="off"
             className={`cPdropdown-search`}
+            disabled={disabled}
           />
 
-          <span className="cPdropdown-arrow" onMouseDown={handleOptionMouseDown}>
+          <span className="cPdropdown-arrow"  onMouseDown={handleOptionMouseDown}>
             {dropdownopen ? (
               <img
                 src={dropdown}
@@ -419,7 +441,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                                   (opt) => opt?.id === option?.id
                                 )}
                                 className="cPdropdon-option-inputfield"
-                                onChange={() => handleCheckboxChange(option)}
+                                onChange={() => handleSelect(option)}
                               />
                               <span
                                 className="cPdropdon-option-label"

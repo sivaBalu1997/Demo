@@ -13,6 +13,13 @@ import {
   deleteOfferFailed,
   disableOfferSuccess,
   disableOfferFailed,
+  OfferDataSendingrSuccess,
+  OfferDataSendingFailed,
+  fetchDropDownFailure,
+  fetchDropDownSuccess,
+  fetchSubDropDownFailure,
+  fetchSubDropDownSuccess,
+  
   SPOfferListSendingrSuccess,
   SPOfferListSendingFailed,
   SPOfferListRequest,
@@ -21,7 +28,9 @@ import {
   SPOfferListDeleteFailed,
   SPOfferListDeleteSuccess,
   SPOfferListDisableSuccess,
-  SPOfferListDisableFailed
+  SPOfferListDisableFailed,
+  createSpecialOfferSuccess,
+  createSpecialOfferFailure,
 } from "./offerActions";
 import {
   deleteOffer,
@@ -30,9 +39,11 @@ import {
   createOffer,
   EditOffer,
   getDropdownData,
+  getCatagoryDropdownData,
   getSPOfferList,
   getSPOfferListItemDelete,
   getSPOfferListItemDisable,
+  createSpecialOffer,
 } from "../offer/offersAPI";
 import {
   OFFER_LIST_REQUEST,
@@ -42,11 +53,15 @@ import {
   DROPDOWN_DATA_REQUEST,
   DELETE_OFFER_REQUEST,
   DISABLE_OFFER_REQUEST,
+  OFFER_DATA_REQUEST,
+  CATEGORY_FETCHDROPDOWN_REQUEST,
+  SUB_CATEGORY_FETCHDROPDOWN_REQUEST,
  SP_OFFER_LIST_REQUEST,
  SP_OFFER_LIST_SENDING_REQUEST,
  SP_OFFER_LIST_VIEW_REQUEST,
  SP_OFFER_LIST_DELETE_REQUEST,
- SP_OFFER_LIST_DISABLE_REQUEST
+ SP_OFFER_LIST_DISABLE_REQUEST,
+ CREATE_SPECIAL_OFFER_REQUEST,
   
 } from "./offerConstants";
 import { showSuccessToast } from "util/toastUtils";
@@ -126,6 +141,30 @@ export function* disableOfferSaga(action) {
     }
   } catch (err) {
     yield put(disableOfferFailed({ message: "Please Try Again" }));
+  }
+}
+function* categoryDropdownSaga(action) {
+  try {
+    const response = yield call(getCatagoryDropdownData, action.payload);
+    if (response.status === 200) {
+      yield put(fetchDropDownSuccess(response.data));
+    } else {
+      yield put(fetchDropDownFailure({ message: "please Try Again" }));
+    }
+  } catch (err) {
+    yield put(fetchDropDownFailure({ message: "please Try Again" }));
+  }
+}
+function* subCategoryDropdownSaga(action) {
+  try {
+    const response = yield call(getCatagoryDropdownData, action.payload);
+    if (response.status === 200) {
+      yield put(fetchSubDropDownSuccess(response.data));
+    } else {
+      yield put(fetchSubDropDownFailure({ message: "please Try Again" }));
+    }
+  } catch (err) {
+    yield put(fetchSubDropDownFailure({ message: "please Try Again" }));
   }
 }
 
@@ -218,7 +257,29 @@ function* disableSpOfferSaga(action) {
   }
 }
 
+function* createSpecialOfferSaga(action) {
+  try {
+    const response = yield call(createSpecialOffer, action.payload)
+    if (response.status === 200) {
+      yield put(createSpecialOfferSuccess(response.data.
+        message
+        ));
+        showSuccessToast(response.data.message)
+    } else {
+      yield put(createSpecialOfferFailure(response.data.
+        message
+        ));
+        showErrorToast(response.data.message)
+    }
+  } catch (err) {
+    yield put(createSpecialOfferFailure({ message: "Please Try Again" }));
+  }
+}
+
 export default function* offerSaga() {
+  yield takeLatest(CREATE_SPECIAL_OFFER_REQUEST, createSpecialOfferSaga);
+  yield takeLatest(SUB_CATEGORY_FETCHDROPDOWN_REQUEST, subCategoryDropdownSaga);
+  yield takeLatest(CATEGORY_FETCHDROPDOWN_REQUEST, categoryDropdownSaga);
   yield takeLatest(OFFER_LIST_REQUEST, getOfferListSaga);
   yield takeLatest(CREATE_OFFER_REQUEST, createOfferSaga);
   yield takeLatest(SP_OFFER_LIST_SENDING_REQUEST, OfferDataPostSaga);
