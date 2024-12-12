@@ -283,6 +283,17 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   }, [ItemsPrimaryDetails, options, name, setValue]);
 
+  useEffect(() => {
+    if (name === 'tax' && filteredOptions?.length === 1) {
+      const option = filteredOptions[0];
+      setSelectedOptions([option]);
+      console.log({selectedOptions})
+      setValue('tax', option.name);
+      getValues('2111','tax')
+      trigger(name);
+    }
+  }, [ItemsPrimaryDetails, isTaxDropDown]);
+
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -611,15 +622,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       dispatch(fetchDropDownRequest(subcategorydataforApi));
     }
   };
-
-  useEffect(() => {
-    if (isTaxDropDown && filteredOptions?.length === 1) {
-      const option = filteredOptions[0];
-      setSelectedOptions([option]);
-      setValue(name, option.name);
-      // trigger(name);
-    }
-  }, [isTaxDropDown]);
 
 
   return (

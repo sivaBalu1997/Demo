@@ -729,7 +729,7 @@ const PrimaryPage = () => {
     if (
       categoryList !== "" &&
       subcategoryList === "" &&
-      subCategoryData?.length > 0
+     ( subCategoryData?.length > 0 || subCategoryData === undefined)
     ) {
       setsubcategortError("subcategory is required");
 
@@ -1458,8 +1458,8 @@ const PrimaryPage = () => {
                             trigger={trigger}
                             setValue={setValue}
                             getValues={getValues}
-                            validation={{ required: "Tax is required" }}
-                            error={errors.tax}
+                            // validation={{ required: "Tax is required" }}
+                            // error={errors.tax}
                             dropdownopen={DropdownOpen.tax}
                             onToggle={() => handleDropdownToggle("tax")}
                             setDropdownOpen={setDropdownOpen}
