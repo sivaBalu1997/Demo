@@ -149,7 +149,7 @@ const Step3Review: React.FC = () => {
                         key={priceIndex}
                         className="Step-3-Modifier-Section-Menu-details-price"
                       >
-                          {restaurantDetails?.country === "US" ? "$" : "Rs."}{price.cost}
+                          {restaurantDetails?.country === "US" ? "$" : "Rs."}{price.cost.toFixed(2)}
                       </h2>
                     ))}
                 </div>
