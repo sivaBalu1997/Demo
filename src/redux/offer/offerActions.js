@@ -50,6 +50,9 @@ import {
   SP_OFFER_LIST_DISABLE_REQUEST,
   SP_OFFER_LIST_DISABLE_SUCCESS,
   SP_OFFER_LIST_DISABLE_FAILED,
+  GET_OFFER_ITEMS_REQUEST,
+  GET_OFFER_ITEMS_SUCCESS,
+  GET_OFFER_ITEMS_FAILURE,
 } from "./offerConstants";
 export const getOfferList = (offerListParams) => ({
   type: OFFER_LIST_REQUEST,
@@ -277,3 +280,19 @@ export const SPOfferListDisableFailed = (failed) => ({
   type: SP_OFFER_LIST_DISABLE_FAILED,
   payload: failed,
 });
+
+export const getOfferItemsRequest = (data) => ({
+  type: GET_OFFER_ITEMS_REQUEST,
+  payload: data,
+});
+
+export const getOfferItemsSuccess = (response) => ({
+  type: GET_OFFER_ITEMS_SUCCESS,
+  payload: response,
+});
+
+export const getOfferItemsFailure = (error) => ({
+  type: GET_OFFER_ITEMS_FAILURE,
+  payload: error,
+});
+

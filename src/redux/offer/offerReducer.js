@@ -51,6 +51,9 @@ SP_OFFER_LIST_DISABLE_FAILED,
 CREATE_SPECIAL_OFFER_REQUEST,
 CREATE_SPECIAL_OFFER_SUCCESS,
 CREATE_SPECIAL_OFFER_FAILURE,
+GET_OFFER_ITEMS_SUCCESS,
+GET_OFFER_ITEMS_REQUEST,
+GET_OFFER_ITEMS_FAILURE,
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -97,12 +100,12 @@ const initialOfferState = {
   getCategorySuccess :false,
   getCategoryLoading :false,
   getCategorySuccessMessage :"",
-  getCategorySuccessMessage :'',
+  getCategoryErrorMessage :'',
   subCategoryData : [],
   getSubCategorySuccess : false,
   getSubCategoryLoading : false,
-  getSubCategoryMessage : "",
-  getSubCategoryMessage : '',
+  getSubCategoryErrorMessage : "",
+  getSubCategoryErrorMessage : '',
   SpOfferListLoading:false,
   SpofferListSuccessResponse:[],
   SpofferListFailureResponse:false,
@@ -115,6 +118,11 @@ const initialOfferState = {
   createSpecialOfferError:'',
   createSpecialOfferSuccess:'',
   createSpecialOfferloading :false,
+  getOfferListData : [],
+  getOfferListSuccess : false,
+  getOfferListLoading : false,
+  getOfferListSuccessMessage : "",
+  getOfferListErrorMessage : '',
 };
 
 export default function offerReducer(state = initialOfferState, action) {
@@ -285,40 +293,40 @@ export default function offerReducer(state = initialOfferState, action) {
         draft.categoryData = [];
         draft.getCategoryLoading = true;
         draft.getCategorySuccessMessage = "";
-        draft.getCategorySuccessMessage = "";
+        draft.getCategoryErrorMessage = "";
         break;
       case CATEGORY_FETCHDROPDOWN_SUCCESS:
         draft.categoryData = action.payload;
         draft.getCategorySuccess = true;
         draft.getCategoryLoading = false;
-        draft.getCategorySuccessMessage = "";
+        draft.getCategoryErrorMessage = "";
         draft.getCategorySuccessMessage = action.payload;
         break;
       case CATEGORY_FETCHDROPDOWN_FAILURE:
         draft.categoryData = [];
         draft.getCategorySuccess = false;
         draft.getCategoryLoading = false;
-        draft.getCategorySuccessMessage = action.payload;
+        draft.getCategoryErrorMessage = action.payload;
         draft.getCategorySuccessMessage = "";
         break;
         case SUB_CATEGORY_FETCHDROPDOWN_REQUEST:
           draft.subCategoryData = [];
           draft.getSubCategoryLoading = true;
-          draft.getSubCategoryMessage = "";
-          draft.getSubCategoryMessage = "";
+          draft.getSubCategorySuccessMessage = "";
+          draft.getSubCategoryErrorMessage = "";
           break;
         case SUB_CATEGORY_FETCHDROPDOWN_SUCCESS:
           draft.subCategoryData = action.payload;
           draft.getSubCategorySuccess = true;
           draft.getSubCategoryLoading = false;
-          draft.getSubCategoryMessage = "";
-          draft.getSubCategoryMessage = action.payload;
+          draft.getSubCategorySuccessMessage = "";
+          draft.getSubCategoryErrorMessage = action.payload;
           break;
         case SUB_CATEGORY_FETCHDROPDOWN_FAILURE:
           draft.subCategoryData = [];
           draft.getSubCategorySuccess = false;
           draft.getSubCategoryLoading = false;
-          draft.getSubCategorySuccessMessage = action.payload;
+          draft.getSubCategoryErrorMessage = action.payload;
           draft.getSubCategorySuccessMessage = "";
           break;
 
@@ -413,10 +421,30 @@ export default function offerReducer(state = initialOfferState, action) {
               draft.createSpecialOfferError=''
               break;
             case CREATE_SPECIAL_OFFER_FAILURE:
-              draft.createSpecialloading = false;
-              draft.createSpecialSuccess=''
-              draft.createSpecialError = action.payload;
+              draft.createSpecialOfferloading = false;
+              draft.createSpecialOfferSuccess=''
+              draft.createSpecialOfferError = action.payload;
               break;
+              case GET_OFFER_ITEMS_REQUEST:
+                draft.getOfferListData = [];
+                draft.getOfferListLoading = true;
+                draft.getOfferListSuccessMessage = "";
+                draft.getOfferListErrorMessage = "";
+                break;
+              case GET_OFFER_ITEMS_SUCCESS:
+                draft.getOfferListData = action.payload;
+                draft.getOfferListSuccess = true;
+                draft.getOfferListLoading = false;
+                draft.getOfferListSuccessMessage = "";
+                draft.getOfferListErrorMessage = action.payload;
+                break;
+              case GET_OFFER_ITEMS_FAILURE:
+                draft.getOfferListData = [];
+                draft.getOfferListSuccess = false;
+                draft.getOfferListLoading = false;
+                draft.getOfferListErrorMessage = action.payload;
+                draft.getOfferListSuccessMessage = "";
+                break;
       default:
         break;
     }

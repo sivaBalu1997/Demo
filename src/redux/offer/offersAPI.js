@@ -109,6 +109,14 @@ export const getSPOfferListItemDisable = (disableItem) => {
   });
 };
 
+export const getOfferListdata = (payload) => {
+ 
+  return API({
+    method: "GET",
+    url: `coupon/happy-hours/list/items?locationId=${payload.locationId}&categoryId=${payload.categoryId}`,
+  });
+};
+
 export const createSpecialOffer = (payload) => {
   return API({
     method: "post",

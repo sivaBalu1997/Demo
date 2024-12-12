@@ -44,6 +44,7 @@ import {
   getSPOfferListItemDelete,
   getSPOfferListItemDisable,
   createSpecialOffer,
+  getOfferListdata,
 } from "../offer/offersAPI";
 import {
   OFFER_LIST_REQUEST,
@@ -62,6 +63,7 @@ import {
  SP_OFFER_LIST_DELETE_REQUEST,
  SP_OFFER_LIST_DISABLE_REQUEST,
  CREATE_SPECIAL_OFFER_REQUEST,
+ GET_OFFER_ITEMS_REQUEST,
   
 } from "./offerConstants";
 import { showSuccessToast } from "util/toastUtils";
@@ -275,8 +277,26 @@ function* createSpecialOfferSaga(action) {
     yield put(createSpecialOfferFailure({ message: "Please Try Again" }));
   }
 }
+function* getOfferListItemSage(action) {
+  console.log("KKKKKK00000")
+  try {
+    const response = yield call(getOfferListdata, action.payload)
+    if (response.status === 200) {
+      yield put(getOfferItemsSuccess(response.data.
+        message
+        ));
+    } else {
+      yield put(getOfferItemsFailure(response.data.
+        message
+        ));
+    }
+  } catch (err) {
+    yield put(getOfferItemsFailure({ message: "Please Try Again" }));
+  }
+}
 
 export default function* offerSaga() {
+  yield takeLatest(GET_OFFER_ITEMS_REQUEST, getOfferListItemSage);
   yield takeLatest(CREATE_SPECIAL_OFFER_REQUEST, createSpecialOfferSaga);
   yield takeLatest(SUB_CATEGORY_FETCHDROPDOWN_REQUEST, subCategoryDropdownSaga);
   yield takeLatest(CATEGORY_FETCHDROPDOWN_REQUEST, categoryDropdownSaga);

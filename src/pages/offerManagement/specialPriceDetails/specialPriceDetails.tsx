@@ -17,6 +17,9 @@ import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import {
+  getOfferItemsRequest,
+} from "redux/offer/offerActions";
 
 interface itemobject {
   id: number;
@@ -48,9 +51,6 @@ const SpecialPriceDetails = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
-  const dietaryData = useSelector(
-    (state: any) => state.productCatalog.dietaryData.data
-  );
   const orderTypes = useSelector(
     (state:any) => state.auth.restaurantDetails?.orderTypes
   );
@@ -209,6 +209,7 @@ const SpecialPriceDetails = () => {
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
   const [parentId,setParentId]=useState("")
+  const [subCatagoryId,setSubCatagoryId]=useState("")
   const [selecteFoodItems, setselecteFoodItems] = useState([
     {
     "itemId": "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
@@ -267,11 +268,11 @@ const SpecialPriceDetails = () => {
   locationId:locationid,
   offerId:null,
   offerName: values?.offerName,
-  channel:values?.offerChannel,
+  channel:orderTypes.filter((item:any)=>item?.typeName=== values.offerChannel).map((data:any)=>data?.id),
   visibleTo:values?.offerToVisible?.map((item:any)=>item[0]), 
   termsAndConditions:values?.termsAndConditions,
   specialType:values?.specialTypeName,
-  type:values?.specialType,
+  type:values?.specialType ==="Percentage"?"PERCENT":"AMOUNT",
   value:values?.specialTypeValue,
   items:selectedFoodItems.map((item)=>{
     return{
@@ -283,12 +284,12 @@ const SpecialPriceDetails = () => {
     isDateEnabled:dateShow,
     startDate:dateShow?formatDate(values?.fromDate):null,
     endDate:dateShow?formatDate(values?.toDate):null,
-    startTime:values?.fromTime,
-    endTime:values?.toTime,
+    startTime:convertTo24HourFormatWithSeconds(values?.fromTime),
+    endTime:convertTo24HourFormatWithSeconds(values?.toTime),
     validDays:values?.AvailableDays
  }
     }
-    //console.log("kkkkk",payload)
+    console.log("kkkkk",payload)
     //setOverlapShow(true);
   };
   const formatDate = (dateString:any) => {
@@ -298,6 +299,18 @@ const SpecialPriceDetails = () => {
     const day = String(date.getDate()).padStart(2, '0'); 
   
     return `${year}-${month}-${day}`; 
+  };
+  const convertTo24HourFormatWithSeconds = (time12h:any) => {
+    const [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":").map(Number);
+  
+    if (modifier === "PM" && hours !== 12) {
+      hours += 12;
+    } else if (modifier === "AM" && hours === 12) {
+      hours = 0;
+    }
+  
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -511,7 +524,16 @@ const SpecialPriceDetails = () => {
     const data = selectedFoodItems.filter((item: any) => item?.itemId !== id);
     setselectedFoodItems(data);
   };
-
+   const itemlistfunction =( )=>{
+    setShowlistOfItems(!showlistOfItems)
+    console.log("llllllllllllllllllllllllll")
+    const payload ={
+      locationid:locationid,
+      catagoryId:subCatagoryId?subCatagoryId:parentId
+    }
+    getOfferItemsRequest(payload)
+    
+   }
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
@@ -754,6 +776,7 @@ const SpecialPriceDetails = () => {
                         addNew={false}
                         editValues={false}
                         dropDownType="SUB_CATEGORY"
+                        setSubCatagoryId={setSubCatagoryId}
                         parentId={parentId}
                         search = {false}
                       />
@@ -782,7 +805,7 @@ const SpecialPriceDetails = () => {
                     <img
                       src={dropdown}
                       alt="dropdown"
-                      onClick={() => setShowlistOfItems(!showlistOfItems)}
+                     onClick={() => {itemlistfunction()}}
                     />
                   </div>
                 </div>
