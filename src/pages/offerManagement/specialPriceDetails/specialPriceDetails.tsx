@@ -17,7 +17,8 @@ import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
-import { createSpecialOfferRequest, SPOfferListSendingRequest } from "redux/offer/offerActions";
+import { createSpecialOfferRequest, SPOfferListSendingRequest,getOfferItemsRequest } from "redux/offer/offerActions";
+
 
 interface itemobject {
   id: number;
@@ -49,9 +50,6 @@ const SpecialPriceDetails = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
-  const dietaryData = useSelector(
-    (state: any) => state.productCatalog.dietaryData.data
-  );
   const orderTypes = useSelector(
     (state:any) => state.auth.restaurantDetails?.orderTypes
   );
@@ -160,6 +158,9 @@ const SpecialPriceDetails = () => {
 
 
 
+  const OfferlistData = useSelector(
+    (state: any) => state.offer.getOfferListData
+  )
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
 
@@ -265,6 +266,7 @@ const SpecialPriceDetails = () => {
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
   const [parentId,setParentId]=useState("")
+  const [subCatagoryId,setSubCatagoryId]=useState("")
   const [selecteFoodItems, setselecteFoodItems] = useState([
     {
     "itemId": "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
@@ -367,6 +369,18 @@ const SpecialPriceDetails = () => {
     const day = String(date.getDate()).padStart(2, '0'); 
   
     return `${year}-${month}-${day}`; 
+  };
+  const convertTo24HourFormatWithSeconds = (time12h:any) => {
+    const [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":").map(Number);
+  
+    if (modifier === "PM" && hours !== 12) {
+      hours += 12;
+    } else if (modifier === "AM" && hours === 12) {
+      hours = 0;
+    }
+  
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -851,6 +865,15 @@ const SpecialPriceDetails = () => {
   
 
 
+   const itemlistfunction =()=>{
+    setShowlistOfItems(!showlistOfItems)
+    const payload ={
+      locationId:locationid,
+      catagoryId:subCatagoryId?subCatagoryId:parentId
+    }
+   dispatch(getOfferItemsRequest(payload))
+    
+   }
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
@@ -1093,6 +1116,7 @@ const SpecialPriceDetails = () => {
                         addNew={false}
                         editValues={false}
                         dropDownType="SUB_CATEGORY"
+                        setSubCatagoryId={setSubCatagoryId}
                         parentId={parentId}
                         search = {false}
                       />
@@ -1121,15 +1145,16 @@ const SpecialPriceDetails = () => {
                     <img
                       src={dropdown}
                       alt="dropdown"
-                      onClick={() => setShowlistOfItems(!showlistOfItems)}
+                     onClick={() => {itemlistfunction()}}
                     />
                   </div>
                 </div>
                 <div>
+                  {console.log(OfferlistData)}
                   {showlistOfItems && (
                     <div className="searched-items-listed" ref={listpopupRef}>
-                      <ul className="listing-selected-items">
-                        {selecteFoodItems.map((item: any, index: number) => (
+                      <ul className="listing-selected-items"> 
+                        {OfferlistData?.map((item: any, index: number) => (
                           <li
                             key={index}
                             className={`selectedlist ${

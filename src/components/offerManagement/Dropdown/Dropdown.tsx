@@ -54,6 +54,7 @@ interface DropdownProps {
   resetSelection?: any;
   parentId?: any;
   bestpair?: boolean;
+  setSubCatagoryId?:any
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -81,7 +82,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   resetSelection,
   setParentId,
   parentId,
-  search
+  search,
+  setSubCatagoryId
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -179,6 +181,10 @@ const Dropdown: React.FC<DropdownProps> = ({
           );
           trigger(name);
         } else {
+          if(dropDownType === "SUB_CATEGORY")
+            {
+             setSubCatagoryId(option?.id);
+            }
           const updatedOptions = [...currentSelectedOptions, option];
           setSelectedOptions(updatedOptions);
           setValue(

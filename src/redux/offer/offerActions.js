@@ -54,6 +54,9 @@ import {
   UPDATE_SPECIAL_OFFER_REQUEST,
   UPDATE_SPECIAL_OFFER_SUCCESS,
   SP_OFFER_LIST_EDIT_REQUEST,
+  GET_OFFER_ITEMS_REQUEST,
+  GET_OFFER_ITEMS_SUCCESS,
+  GET_OFFER_ITEMS_FAILURE,
 } from "./offerConstants";
 export const getOfferList = (offerListParams) => ({
   type: OFFER_LIST_REQUEST,
@@ -324,4 +327,18 @@ export const SPOfferListEdit = (data) => ({
   payload: data,
 });
 
+export const getOfferItemsRequest = (data) => ({
+  type: GET_OFFER_ITEMS_REQUEST,
+  payload: data,
+});
+
+export const getOfferItemsSuccess = (response) => ({
+  type: GET_OFFER_ITEMS_SUCCESS,
+  payload: response,
+});
+
+export const getOfferItemsFailure = (error) => ({
+  type: GET_OFFER_ITEMS_FAILURE,
+  payload: error,
+});
 

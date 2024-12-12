@@ -101,11 +101,18 @@ export const getSPOfferListItemDelete = (offerId) => {
 
 
 export const getSPOfferListItemDisable = (disableItem) => {
-  console.log({disableItem});
   
   return API({
     method: "patch",
     url: `/coupon/happy-hours?offerId=${disableItem.offerId}&toEnable=${disableItem.toEnable}`,
+  });
+};
+
+export const getOfferListdata = (payload) => {
+ 
+  return API({
+    method: "GET",
+    url: `coupon/happy-hours/list/items?locationId=${payload.locationId}&categoryId=${payload.catagoryId}`,
   });
 };
 
