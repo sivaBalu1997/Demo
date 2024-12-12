@@ -154,7 +154,7 @@ const SpecialPriceDetails = () => {
   const editOfferData = useSelector(
     (state: any) => state.offer.editSpData
   );
-  console.log({editOfferData});
+ 
 
 
 
@@ -318,17 +318,42 @@ const SpecialPriceDetails = () => {
 }
 ]);
 
+
   const handleonclick = () => {
     const values = getValues();
+    const fromTiming=getValues("fromTime")
+    const endTiming=getValues("toTime")
+    const offerChannel=getValues("offerChannel")
+    console.log({offerChannel});
+    
+
+    const fromTimeFormat = fromTiming && selectedFrom 
+    ? fromTiming + " " + selectedFrom 
+    : ""; 
+  
+  const toTimeFormat = endTiming && selectedTo 
+    ? endTiming + " " + selectedTo 
+    : ""; 
+ 
+  
+  if (fromTimeFormat && toTimeFormat) {
+    const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
+    console.log({ converttime });
+  } else {
+    console.error("Invalid time format. Please ensure both time and AM/PM are selected.");
+  }
+    
     const payload={
       locationId:locationid,
       offerId:null,
       offerName: values?.offerName,
-      channel:orderTypes.filter((item:any)=>item?.typeName=== values.offerChannel).map((data:any)=>data?.id),
+      channel: orderTypes
+      .filter((item: any) => values.offerChannel.includes(item?.typeName)) 
+      .map((data: any) => data?.id)  ,
       visibleTo:values?.offerToVisible?.map((item:any)=>item[0]), 
       termsAndConditions:values?.termsAndConditions,
       specialType:values?.specialTypeName,
-      type:values?.specialType,
+      type:values?.specialType ==="Percentage"?"PERCENT":"FLATFEE",
       value:values?.specialTypeValue,
       items:selectedFoodItems.map((item)=>{
         return{
@@ -340,20 +365,24 @@ const SpecialPriceDetails = () => {
         isDateEnabled:dateShow,
         startDate:dateShow?formatDate(values?.fromDate):null,
         endDate:dateShow?formatDate(values?.toDate):null,
-        startTime:values?.fromTime,
-        endTime:values?.toTime,
+        // startTime:null,
+        // endTime:null,
+
+        startTime:convertTo24HourFormatWithSeconds(fromTimeFormat),
+        endTime:convertTo24HourFormatWithSeconds(fromTimeFormat),
         validDays:values?.AvailableDays
      }
-        }
+    }
 
     trigger();
 
     const isvalid= valiadtionforDateandTime()
-    console.log("errorsdate",valiadtionforDateandTime());
+    // console.log("errorsdate",valiadtionforDateandTime());
     dispatch(createSpecialOfferRequest(payload));
     
     if(isvalid)
     {
+     
       
       setOverlapShow(true);
     }
@@ -820,7 +849,7 @@ const SpecialPriceDetails = () => {
 
     }
     const StartTime=  getValues("fromTime");
-    console.log({startTime});
+  
     
     if(startTime==="")
     {
@@ -832,7 +861,7 @@ const SpecialPriceDetails = () => {
     }
     const EndTime=getValues("toTime");
  
-    console.log({endTime});
+
     if(endTime==="")
     {
       Errors.EndTimeError="Time is required"
@@ -874,7 +903,7 @@ const SpecialPriceDetails = () => {
       }
   }
 
-  console.log({validationErrors});
+
   
 
 
@@ -1163,7 +1192,7 @@ const SpecialPriceDetails = () => {
                   </div>
                 </div>
                 <div>
-                  {console.log(OfferlistData)}
+                 
                   {showlistOfItems && (
                     <div className="searched-items-listed" ref={listpopupRef}>
                       <ul className="listing-selected-items"> 

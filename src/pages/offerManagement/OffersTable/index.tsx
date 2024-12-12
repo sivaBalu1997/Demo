@@ -8,6 +8,9 @@ import OfferDropDown from "../../../components/offerManagement/OfferDropdown";
 import SidePanel from "pages/SidePanel";
 import { SPOfferListRequest } from "redux/offer/offerActions";
 import { useDispatch, useSelector } from "react-redux";
+import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+import noResultsfound from "../../../assets/images/NoResultsFound.png";
+
 
 const Table = () => {
   const { isExpanded } = useContext(Contextpagejs);
@@ -19,6 +22,11 @@ const dispatch=useDispatch();
   },[])
 
 const offerlistdata=useSelector((state:any)=>state.offer.SpofferListSuccessResponse)
+
+const offerlistdataloading=useSelector((state:any)=>state.offer.SpOfferListLoading)
+
+const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailureResponse)
+
 // console.log({offerlistdata});
 
 const [offerListDataArray,setOfferListDataArray]=useState([])
@@ -246,8 +254,33 @@ useEffect(()=>{
                 <th className="OffrtsTableth"></th>
               </tr>
             </thead>
-            <tbody>
-  {offerListDataArray?.map((row: any, index: number) => (
+            <tbody className={offerlistdataloading && "table-body-data-offer"}>
+
+
+{
+  offerlistdataloading ? <div className="Menu-noOptions-offer">
+  <Loader
+    className="imgLoader2-offer"
+    height="100px"
+    width="100px"
+    style={{
+      filter:
+        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+    }}
+  />
+</div>:
+offerlistdatafailed? <div className="NoDataFoundContainer-offer">
+<img
+  className="columnselected"
+  src={noResultsfound}
+  alt="noResultFound"
+/>
+<h2 className="columnselectedText">
+  No Results Found
+</h2>
+</div>:
+
+offerlistdataloading===false && offerListDataArray?.map((row: any, index: number) => (
     row.isEnabled !==2&& (
       <tr key={index} className="OffrtsTabletr">
         <td className="OffrtsTabletd">{row?.offerName}</td>
@@ -282,7 +315,12 @@ useEffect(()=>{
         </td>
       </tr>
     )
-  ))}
+  ))
+}
+
+
+
+ 
 </tbody>
 
           </table>

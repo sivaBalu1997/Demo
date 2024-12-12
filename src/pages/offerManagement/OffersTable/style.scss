@@ -209,3 +209,25 @@ td.OffrtsTabletd:nth-child(6) {
   position: absolute;
   right: 200px;
 }
+.Menu-noOptions-offer
+{
+  display: flex;
+  position: absolute;
+  top: 65%;
+  left: 40%;
+}
+.table-body-data-offer
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.NoDataFoundContainer-offer
+{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+
+}

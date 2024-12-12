@@ -8,6 +8,8 @@ import OfferDropDown from "../../../components/offerManagement/OfferDropdown";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { SPOfferListRequest,SPOfferListDelete,SPOfferListDisable, } from "redux/offer/offerActions";
+import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+import noResultsfound from "../../../assets/images/NoResultsFound.png";
 
 const CompletedTable = () => {
  
@@ -22,6 +24,9 @@ const CompletedTable = () => {
   const offerlistdata = useSelector(
     (state: any) => state.offer.SpofferListSuccessResponse
   );
+  const offerlistdataloading=useSelector((state:any)=>state.offer.SpOfferListLoading)
+
+const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailureResponse)
   // console.log({ offerlistdata });
 
   const [offerListDataArray, setOfferListDataArray] = useState([]);
@@ -121,8 +126,28 @@ const handledeleteoffer=(offerid:string,EnabledorNot:number)=>{
               </tr>
             </thead>
           
-            <tbody>
-              {offerListDataArray.map((row: any, index) => (
+            <tbody>{
+            offerlistdataloading ? <div className="Menu-noOptions-offer">
+  <Loader
+    className="imgLoader2-offer"
+    height="100px"
+    width="100px"
+    style={{
+      filter:
+        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+    }}
+  />
+</div>:offerlistdatafailed? <div className="NoDataFoundContainer-offer">
+<img
+  className="columnselected"
+  src={noResultsfound}
+  alt="noResultFound"
+/>
+<h2 className="columnselectedText">
+  No Results Found
+</h2>
+</div>:
+              offerListDataArray.map((row: any, index) => (
 
 
                 row.isEnabled!==1&& (
