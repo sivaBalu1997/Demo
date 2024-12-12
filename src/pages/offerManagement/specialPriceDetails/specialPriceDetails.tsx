@@ -357,9 +357,19 @@ const SpecialPriceDetails = () => {
 
   const handleonclick = () => {
     const values = getValues();
+
     trigger();
-    dispatch(SPOfferListSendingRequest(values));
-    setOverlapShow(true);
+
+    const isvalid= valiadtionforDateandTime()
+    console.log("errors",valiadtionforDateandTime());
+    
+    if(isvalid)
+    {
+      dispatch(SPOfferListSendingRequest(values));
+      setOverlapShow(true);
+    }
+   
+   
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -561,7 +571,194 @@ const SpecialPriceDetails = () => {
     const data = selectedFoodItems.filter((item: any) => item?.id !== id);
     setselectedFoodItems(data);
   };
+  const [validationErrors,setValidationErrors]=useState([])
 
+
+  // const validateModifiers = (modifications: any[]) => {
+  //   const errors = [...customizationerrors];
+
+  //   modifications?.forEach((modifier, index) => {
+  //     const {
+  //       modifierName,
+  //       modifierId,
+  //       modifierOptions,
+  //       selectedValue,
+  //       selectionType,
+  //     } = modifier;
+
+  //     let modifierErrors: any = {
+  //       modifierNameError: modifierName.trim() ? "" : ``,
+  //       id: modifierId || "",
+  //       errormsgforselectedvalues: "",
+  //       options: [],
+  //     };
+
+  //     if (!modifierName.trim()) {
+  //       modifierErrors.modifierNameError = `Modifier Name is required`;
+  //     }
+  //     if (atleastOnestream && selectedValue.length === 0 ) {
+  //       modifierErrors.errormsgforselectedvalues = "Available service streams required";
+  //     }
+
+  //     if (Array.isArray(modifierOptions)) {
+  //       modifierOptions.forEach((option: any, optIndex: number) => {
+  //         let optionErrors: any = {
+  //           optionName: option.modifierOptionName || "",
+  //           optionId: option.modifierOptionId || "",
+  //           optionNameError: "",
+  //           optionPrice: option.cost || 0,
+  //           optionPriceError: "",
+  //         };
+
+  //         const nameRegex = /^[a-zA-Z0-9\s]+$/;
+  //         if (!option.modifierOptionName.trim() ) {
+  //           optionErrors.optionNameError = `Option Name is required`;
+  //         }
+  //         // else if (!nameRegex.test(option.modifierOptionName && modifierName!=="")) {
+  //         //   optionErrors.optionNameError = `Option Name must not contain special characters`;
+  //         // }
+
+        
+  //         if (isNaN(option.cost) || option.cost <= 0 ) {
+  //           optionErrors.optionPriceError = `Price field is required`;
+  //         }
+
+  //         modifierErrors.options.push(optionErrors);
+  //       });
+  //     } else {
+  //       modifierErrors.options.push({
+  //         optionNameError: `Options must be an array`,
+  //       });
+  //     }
+
+  //     if (
+  //       modifierErrors.modifierNameError ||
+  //       modifierErrors.errormsgforselectedvalues ||
+  //       modifierErrors.options.some(
+  //         (opt: any) => opt.optionNameError || opt.optionPriceError
+  //       )
+  //     ) {
+  //       errors[index] = modifierErrors;
+  //     } else {
+  //       errors[index] = null;
+  //     }
+  //   });
+
+  //   setcustomizationerrors(errors);
+
+  //   const validateCustomizationErrors = () => {
+  //     return errors.every((error) => {
+  //       if (!error) return true;
+  //       const hasNoTopLevelErrors =
+  //         error.modifierNameError === "" &&
+  //         error.errormsgforselectedvalues === "";
+  //       const hasNoOptionErrors = error.options.every(
+  //         (option: any) =>
+  //           option.optionNameError === "" && option.optionPriceError === ""
+  //       );
+
+  //       return hasNoTopLevelErrors && hasNoOptionErrors;
+  //     });
+  //   };
+
+  //   return validateCustomizationErrors();
+  // };
+
+
+
+  const validationForimeValidation = () => {
+    let TimeErrors:any = [...validationErrors];
+  
+    let errors = {
+      startTimeError: "",
+      endTimeError: "",
+    };
+    const StartTime=getValues("fromTime");
+    const EndTime=getValues("toTime");
+  
+    if (StartTime && EndTime) {
+      const startTimeHours = parseInt(StartTime.split(":")[0]);
+      const startTimeMinutes = parseInt(StartTime.split(":")[1]);
+      const endTimeHours = parseInt(EndTime.split(":")[0]);
+      const endTimeMinutes = parseInt(EndTime.split(":")[1]);
+  
+      if (endTimeHours < startTimeHours ||
+          (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)) {
+        errors.endTimeError = "End time must be greater than start time";
+      }
+    }
+    if(errors.startTimeError||errors.endTimeError)
+      {
+        TimeErrors[0]=errors;
+      }
+      setValidationErrors(TimeErrors);
+
+  
+    
+  };
+  const valiadtionforDateandTime=()=>{
+   let dataandTimeerrors:any=[...validationErrors];
+
+   let Errors={
+    fromDateError:"",
+    toDateError:"",
+    startTimeError:"",
+    EndTimeError:""
+
+   }
+
+    if(dateShow && selectedDate===null)
+    {
+      Errors.fromDateError="Date must be given"
+    }
+    if(dateShow && selectedDate1===null)
+    {
+        Errors.toDateError="Date must be given"
+    }
+    const StartTime=getValues("fromTime");
+    if(StartTime==="")
+    {
+      Errors.startTimeError="Time is required"
+    }
+    const EndTime=getValues("toTime");
+    if(EndTime==="")
+    {
+      Errors.EndTimeError="Time is required"
+    }
+    if (StartTime && EndTime) {
+      const startTimeHours = parseInt(StartTime.split(":")[0]);
+      const startTimeMinutes = parseInt(StartTime.split(":")[1]);
+      const endTimeHours = parseInt(EndTime.split(":")[0]);
+      const endTimeMinutes = parseInt(EndTime.split(":")[1]);
+  
+      if (endTimeHours < startTimeHours ||
+          (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)) {
+        Errors.EndTimeError = "End time must be greater than start time";
+      }
+    }
+
+
+    if(Errors.fromDateError||Errors.toDateError||Errors.startTimeError||Errors.toDateError)
+    {
+      dataandTimeerrors[0]=Errors;
+    }
+
+    setValidationErrors(dataandTimeerrors);
+
+
+    if(Errors.fromDateError===""&&Errors.toDateError===""&&Errors.startTimeError===""&&Errors.toDateError==="")
+      {
+        return true;
+      }
+      else{
+        return false;
+      }
+
+
+
+    
+
+  }
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
