@@ -1110,7 +1110,7 @@ const PrimaryPage = () => {
                           left: "-1.6rem",
                         }}
                       >
-                        <div className="ToolKitchen">
+                        <div className="Tool-item-code">
                           <img
                             src={info}
                             alt="info icon"
@@ -1460,7 +1460,7 @@ const PrimaryPage = () => {
                             left: "-2.25rem",
                           }}
                         >
-                          <div className="ToolKitchen">
+                          <div className="Tool-tax-class">
                             <img
                               src={info}
                               alt="info icon"

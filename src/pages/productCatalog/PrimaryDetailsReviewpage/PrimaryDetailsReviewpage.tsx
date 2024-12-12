@@ -1178,7 +1178,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
             {(addMenuLoading || updateMenuItemLoading) ? (
               <div className="reviewLoaders"></div>
             ) : (
-               "Submit for review"
+               "Publish"
             )}
           </button>
         </div>
