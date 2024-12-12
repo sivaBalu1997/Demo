@@ -41,6 +41,12 @@
     opacity: 40%;
     border: none;
     outline: none;
+
+    @media(min-width: 1599px) and (max-width: 1600.00px){
+      transform: translate(28px, 20px);
+      // border: 1px solid darkslategrey;
+    }
+
     @media(min-width: 1700px) and (max-width: 1706.67px){
       transform: translate(-20px, 20px);
       // border: 1px solid darkslategrey;
