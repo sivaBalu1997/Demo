@@ -374,6 +374,7 @@ const PrimaryPage = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
+  const [taxType, setTaxType] = useState([])
   const [dataCuisine, setDataCuisine] = useState(cuisine);
   const [dataMealType, setDataMealType] = useState(mealType);
   const [dataBestPair, setDataBestPair] = useState();
@@ -1450,7 +1451,7 @@ const PrimaryPage = () => {
                           <Dropdown
                             options={taxData}
                             type="checkbox"
-                            setOptions={setDataDietaryType}
+                            setOptions={setTaxType}
                             placeholder="Tax Class Association"
                             register={register}
                             name="tax"

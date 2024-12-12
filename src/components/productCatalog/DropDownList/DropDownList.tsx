@@ -613,31 +613,13 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   useEffect(() => {
-    if (filteredOptions?.length === 1) {
+    if (isTaxDropDown && filteredOptions?.length === 1) {
       const option = filteredOptions[0];
-      if (type === "checkbox") {
-        setSelectedOptions((prevSelected) => {
-          if (!prevSelected.some((opt) => opt.id === option.id)) {
-            const updatedSelected = [...prevSelected, option];
-            setValue(name, updatedSelected.map((opt) => opt.name).join(", "));
-            trigger(name);
-            return updatedSelected;
-          }
-          return prevSelected;
-        });
-      } else if (type === "radio") {
-        setSelectedOptions([option]);
-        setValue(name, option.name);
-        trigger(name);
-  
-        if (dropDownType === "CATEGORY") {
-          setParentId(option.id);
-          setSubcategoryParentId(option.id);
-          setValue("subCategory", "");
-        }
-      }
+      setSelectedOptions([option]);
+      setValue(name, option.name);
+      trigger(name);
     }
-  }, [filteredOptions]);
+  }, [isTaxDropDown]);
 
 
   return (
