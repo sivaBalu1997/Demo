@@ -570,7 +570,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ingredients: primarydata?.Ingredients || null,
     calorieInfo: primarydata?.coloriePoint || null,
     portionInfo: primarydata?.portionSize || null,
-    taxClassAssociation: primarydata?.taxFeeId || null,
+    taxClassAssociation: primarydata?.tax || null,
     // masterItemCode: primarydata?.masterCode || null,
 
     kitchenStation: kitchenStationId || null,
@@ -622,7 +622,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ingredients: primarydata?.Ingredients || null,
     calorieInfo: primarydata?.coloriePoint || null,
     portionInfo: primarydata?.portionSize || null,
-    taxClassAssociation: primarydata?.taxFeeId || null,
+    taxClassAssociation: primarydata?.tax || null,
 
     kitchenStation: kitchenStationId || null,
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,

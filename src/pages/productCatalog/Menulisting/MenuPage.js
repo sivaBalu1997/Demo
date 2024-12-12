@@ -947,7 +947,7 @@ export const MenuPage = () => {
                     }`}
                 >
                   <div className="second-div-header">
-                    {firstRowTable.length > 1 && firstRowTable.map((header, index) => (
+                    {!menuDataLoading && firstRowTable.map((header, index) => (
                       <>
                         {listingobject && listingobject[header.label] && (
                           <p
@@ -1023,9 +1023,7 @@ export const MenuPage = () => {
                           <div
                             key={index}
                             className="item-name-code-data"
-                            style={{
-                              marginTop: itemList.length === 1 ? "-1.5rem" : "",
-                            }}
+                            
                           >
                             <p>
                               <span className="itemimage2">
