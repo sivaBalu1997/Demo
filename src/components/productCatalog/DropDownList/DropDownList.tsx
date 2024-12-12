@@ -55,6 +55,7 @@ interface DropdownProps {
   bestpair?: boolean;
   errormsg?: string;
   valiadtesubCategory?: any;
+  isTaxDropDown?: boolean;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -82,6 +83,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   parentId,
   errormsg,
   valiadtesubCategory,
+  placeholder,
+  isTaxDropDown,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -136,7 +139,8 @@ const DropDownList: React.FC<DropdownProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        !dropdownRef.current.contains(event.target as Node) && 
+        !(event.target as HTMLElement).classList.contains("dropdown-search") 
       ) {
         setDropdownOpen({
           DietaryType: false,
@@ -199,32 +203,23 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-
+  
     if (value === "") {
       setManuallyCleared(true);
-      setShowselectedOption(false);
-
-      if (type === "checkbox") {
-        setSelectedOptions([]);
-        setValue(name, []);
-        trigger(name);
-      } else if (type === "radio") {
-        setSelectedOptions([]);
-        setValue(name, "");
-        trigger(name);
-      }
-
+      setShowselectedOption(true);
+  
       if (dropdownopen) {
         onToggle();
       }
     } else {
       setManuallyCleared(false);
+  
       if (!dropdownopen) {
         onToggle();
       }
       setShowselectedOption(false);
     }
-
+  
     setOptions(filteredOptions);
   };
 
@@ -443,9 +438,9 @@ const DropDownList: React.FC<DropdownProps> = ({
         const isAlreadySelected = prevSelected?.findIndex(
           (opt) => opt.id === option.id
         );
-
+  
         let updatedSelected;
-
+  
         if (isAlreadySelected !== -1) {
           updatedSelected = prevSelected?.filter(
             (_, index) => index !== isAlreadySelected
@@ -456,34 +451,24 @@ const DropDownList: React.FC<DropdownProps> = ({
           }
           updatedSelected = [...prevSelected, option];
         }
-
+  
         setValue(name, updatedSelected?.map((opt) => opt.name).join(", "));
         trigger(name);
-
+  
         return updatedSelected;
       });
-    } else if (type === "radio") {
-      setSelectedOptions([option]);
-      setValue(name, option.name);
-      trigger(name);
-
-      if (dropDownType === "CATEGORY") {
-        setParentId(option?.id);
-        setSubcategoryParentId(option.id);
-        setValue("subCategory", "");
-      }
     }
-    if (dropDownType === "SUB_CATEGORY") {
-      valiadtesubCategory();
-    }
-    setSearchTerm("");
-    // if(dropDownType === "SUB_CATEGORY") {
-    //   console.log({option})
-    // }
   };
 
   useEffect(() => {
-    console.log('2', ItemsPrimaryDetails?.subCategory)
+   if(!dropdownopen){
+    setSearchTerm('')
+    searchTerm === '' && setShowselectedOption(true)
+   }
+  }, [dropdownopen])
+  
+
+  useEffect(() => {
     if (
       dropDownType === "SUB_CATEGORY" &&
       parentId !== ""
@@ -627,28 +612,66 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (filteredOptions?.length === 1) {
+      const option = filteredOptions[0];
+      if (type === "checkbox") {
+        setSelectedOptions((prevSelected) => {
+          if (!prevSelected.some((opt) => opt.id === option.id)) {
+            const updatedSelected = [...prevSelected, option];
+            setValue(name, updatedSelected.map((opt) => opt.name).join(", "));
+            trigger(name);
+            return updatedSelected;
+          }
+          return prevSelected;
+        });
+      } else if (type === "radio") {
+        setSelectedOptions([option]);
+        setValue(name, option.name);
+        trigger(name);
+  
+        if (dropDownType === "CATEGORY") {
+          setParentId(option.id);
+          setSubcategoryParentId(option.id);
+          setValue("subCategory", "");
+        }
+      }
+    }
+  }, [filteredOptions]);
+
+
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
         <div>
           <input
-            placeholder={name === "kitchenstation" ? "Kitchen station*" : ""}
+            placeholder={name === "kitchenstation" ? "Kitchen station*" : "" || name === 'tax' ? placeholder : ''}
             type="text"
             {...register(name, validation)}
+
             value={
               searchTerm !== ""
                 ? searchTerm
-                : manuallyCleared
-                ? ""
                 : showselectedOption
                 ? type === "checkbox"
                   ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
                   : selectedOptions[0]?.name || ""
                 : ""
             }
-            onChange={handleSearch}
+            
+            onChange={(e) => {
+              if (dropdownopen) {
+                handleSearch(e); 
+              }
+            }}
+
             name={name}
             // onBlur={handleBlur}
+            onKeyDown={(e) => {
+              if (e.key === "Backspace" && !dropdownopen) {
+                e.preventDefault();
+              }
+            }}
             autoComplete="off"
             className={`dropdown-search ${
               !Disablesubcategory && name === "subCategory"

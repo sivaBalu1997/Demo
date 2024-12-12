@@ -543,6 +543,17 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.dietaryData.data
   );
 
+  const taxData = [
+    {
+      id: '1',
+      name: '10',
+      locationId: "",
+      type: "tax",
+      parentId: "",
+      canDelete: true,
+    },
+  ];
+
   const editData = useSelector((state: any) => state.productCatalog.editData);
 
   const cuisineData = useSelector(
@@ -559,7 +570,6 @@ const PrimaryPage = () => {
     (state: any) => state?.getItemCodeReducer?.loading
   );
 
-  
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -579,9 +589,6 @@ const PrimaryPage = () => {
 
   // useEffect(() => {
   const [parentId, setParentId] = useState("");
-
-
-  
 
   const [itemcodeValid, setItemcodeValid] = useState(true);
   useEffect(() => {
@@ -716,7 +723,7 @@ const PrimaryPage = () => {
 
   const valiadtesubCategory = () => {
     const categoryList = getValues("category");
-    const subcategoryList = getValues("subCategory");    
+    const subcategoryList = getValues("subCategory");
 
     if (
       categoryList !== "" &&
@@ -731,8 +738,6 @@ const PrimaryPage = () => {
     }
     return true;
   };
-
-  console.log({ItemsPrimaryDetails})
 
   return (
     <div style={{ display: "flex" }}>
@@ -1207,7 +1212,9 @@ const PrimaryPage = () => {
                           getValues={getValues}
                           // validation={{ required: "subCategory is required" }}
                           // error={errors.subCategory}
-                          valiadtesubCategory={editData[0]?.length > 0 ? "" : valiadtesubCategory}
+                          valiadtesubCategory={
+                            editData[0]?.length > 0 ? "" : valiadtesubCategory
+                          }
                           errormsg={subcategortError}
                           addNew={true}
                           editValues={true}
@@ -1412,7 +1419,7 @@ const PrimaryPage = () => {
                   <div>
                     {" "}
                     <div className="Primary-Page-inputfiled-and-tooltip">
-                      <Controller
+                      {/* <Controller
                         name="tax"
                         control={control}
                         render={({ onChange, onBlur, value }: any) => (
@@ -1435,7 +1442,37 @@ const PrimaryPage = () => {
                             }}
                           />
                         )}
+                      /> */}
+                      <Controller
+                        name="tax"
+                        control={control}
+                        render={({ field }: any) => (
+                          <Dropdown
+                            options={taxData}
+                            type="checkbox"
+                            setOptions={setDataDietaryType}
+                            placeholder="Tax Class Association"
+                            register={register}
+                            name="tax"
+                            trigger={trigger}
+                            setValue={setValue}
+                            getValues={getValues}
+                            validation={{ required: "Tax is required" }}
+                            error={errors.tax}
+                            dropdownopen={DropdownOpen.tax}
+                            onToggle={() => handleDropdownToggle("tax")}
+                            setDropdownOpen={setDropdownOpen}
+                            addNew={false}
+                            editValues={false}
+                            dropDownType="TAX"
+                            resetSelection={resetSelectionRef}
+                            parentId={parentId}
+                            setParentId={setParentId}
+                            isTaxDropDown = {true}
+                          />
+                        )}
                       />
+
                       <div className="tool-tip-tax-class">
                         <TooltipMsg
                           message="Create or select a tax amount to associate with this item"
