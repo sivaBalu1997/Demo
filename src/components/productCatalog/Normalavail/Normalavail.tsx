@@ -1365,6 +1365,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         validationErrors[`kitchenstation`] = "kitchen station is required";
       }
 
+        if (Normaldays.length === 0) {
+          validationErrors["daysCheck"] = "Please select at least one day.";
+        }
+        if (Normaldays && Normaldays.length > 0) {
+          delete validationErrors["daysCheck"];
+        }
+
+
       dineinfields?.forEach((field: any, index: number) => {
         if (showDineIn) {
           if (
@@ -1439,6 +1447,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       showDineIn,
       pickup,
       delivery,
+      Normaldays
     ]);
     const validatePickupPrice = (price: number): void => {
       const validationErrors = { ...errors };
@@ -1508,6 +1517,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               id={availabilityid}
               setId={setAvailabilityid}
             />
+             <span className="daycheckvalidation">
+                          {errors[`daysCheck`]||""}
+                        </span>
             <p className="Note">
               Note : Changes here will apply to all service types unless
               specific day options are enabled
