@@ -238,8 +238,8 @@ const SpecialPriceDetails = () => {
       fromDate: "",
       toDate: "",
       AvailableDays: [],
-      fromPeriod: "",
-      toPeriod: "",
+      fromPeriod: "AM",
+      toPeriod: "AM",
     },
   });
   const handleDropdownToggle = (dropdownName: string) => {
@@ -1370,7 +1370,7 @@ const SpecialPriceDetails = () => {
                         )}
                       </div>
                     </div>
-                    To
+                    <span className="To-text">To</span>
                     <div>
                       <div className="offer-to-date">
                         <Controller
@@ -1576,7 +1576,7 @@ const SpecialPriceDetails = () => {
                         </span>
                       )}
                     </div>
-                    To
+                    <span className="To-text">To</span>
                     <div className="to-time-errormsg">
                       <div className="time-selector">
                         <Controller
@@ -1636,7 +1636,7 @@ const SpecialPriceDetails = () => {
                                       setEndTime(formattedTime);
                                     }
                                   }
-                                  validationForEndTimeValidation();
+                                  validationForEndTime();
                                 }}
                                 onBlur={onBlur}
                               />
