@@ -203,6 +203,9 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        left: 10rem;
+        top: 20%;
+        color: red;
       }
 
       .cPimgLoader1 {
@@ -376,4 +379,33 @@
   top: -3px;
   left: 185px;
   border-radius: 4px;
+}
+
+.cPdropdown-no-options-msg
+{
+  width: 18rem;
+        height: 150px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        // left: 5%;
+        // border: 1px solid red;
+        top: 30%;
+        
+}
+.cPdropdown-no-options
+{
+  width: 18rem;
+        height: 150px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        // left: 5%;
+        // border: 1px solid red;
+        // top: 30%;
+        
 }

@@ -17,8 +17,11 @@ import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
-import { createSpecialOfferRequest, SPOfferListSendingRequest,getOfferItemsRequest } from "redux/offer/offerActions";
-
+import {
+  createSpecialOfferRequest,
+  SPOfferListSendingRequest,
+  getOfferItemsRequest,
+} from "redux/offer/offerActions";
 
 interface itemobject {
   id: number;
@@ -30,7 +33,7 @@ interface itemobject {
 interface specialPriceForm {
   offerName: string;
   offerChannel: string;
-  offerToVisible: string[];
+  offerToVisible: string;
   termsAndConditions: string;
   specialTypeName: string;
   specialType: string;
@@ -44,6 +47,8 @@ interface specialPriceForm {
   fromDate: string;
   toDate: string;
   AvailableDays: number[];
+  fromPeriod: string;
+  toPeriod: string;
 }
 
 const SpecialPriceDetails = () => {
@@ -51,7 +56,7 @@ const SpecialPriceDetails = () => {
   const history = useHistory();
   const { isExpanded } = useContext(Contextpagejs);
   const orderTypes = useSelector(
-    (state:any) => state.auth.restaurantDetails?.orderTypes
+    (state: any) => state.auth.restaurantDetails?.orderTypes
   );
   const locationid = useSelector(
     (state: any) => state.auth.credentials?.locationId
@@ -102,65 +107,55 @@ const SpecialPriceDetails = () => {
     },
   ];
 
-  const catagoryOption = useSelector(
-    (state: any) => state.offer.categoryData
-  )
+  const catagoryOption = useSelector((state: any) => state.offer.categoryData);
 
   const subCatagoryOption = useSelector(
     (state: any) => state.offer.subCategoryData
-    
-  )
-
+  );
 
   const editOfferData2 = {
-    "offerId": "a00c82e3-7e5f-45ed-8314-97cc1072e12b",
-    "offerName": "OFFER2023",
-    "offerCode": "2023off",
-    "type": "PERCENT",
-    "value": 5.0,
-    "channel": [
-        "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-        "cd5996ed-7201-4faf-b996-5757aa684ad8",
-        "bc534a3f-4080-4014-83b5-aeb5cee93d95"
+    offerId: "a00c82e3-7e5f-45ed-8314-97cc1072e12b",
+    offerName: "OFFER2023",
+    offerCode: "2023off",
+    type: "PERCENT",
+    value: 5.0,
+    channel: [
+      "02feb858-c58d-48c5-8dd4-9a173390b4eb",
+      "cd5996ed-7201-4faf-b996-5757aa684ad8",
+      "bc534a3f-4080-4014-83b5-aeb5cee93d95",
     ],
-    "effectivePeriod": {
-        "isDateEnabled": null,
-        "startDate": null,
-        "endDate": null,
-        "startTime": null,
-        "endTime": null,
-        "validDays": null
+    effectivePeriod: {
+      isDateEnabled: null,
+      startDate: null,
+      endDate: null,
+      startTime: null,
+      endTime: null,
+      validDays: null,
     },
-    "items": [
-        {
-            "itemId": "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
-            "itemName": "Paneer Fried Rice",
-            "specialPrice": 13.9825,
-            "originalPrice": 16.4500,
-            "isEnabled": 1
-        },
-        {
-            "itemId": "01601102-5fc1-4b80-80a1-3788e6c563cc",
-            "itemName": "Strawberry Milkshake",
-            "specialPrice": 6.3665,
-            "originalPrice": 7.4900,
-            "isEnabled": 1
-        }
+    items: [
+      {
+        itemId: "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
+        itemName: "Paneer Fried Rice",
+        specialPrice: 13.9825,
+        originalPrice: 16.45,
+        isEnabled: 1,
+      },
+      {
+        itemId: "01601102-5fc1-4b80-80a1-3788e6c563cc",
+        itemName: "Strawberry Milkshake",
+        specialPrice: 6.3665,
+        originalPrice: 7.49,
+        isEnabled: 1,
+      },
     ],
-    "isEnabled": 2,
-    
+    isEnabled: 2,
   };
-  
-  const editOfferData = useSelector(
-    (state: any) => state.offer.editSpData
-  );
- 
 
-
+  const editOfferData = useSelector((state: any) => state.offer.editSpData);
 
   const OfferlistData = useSelector(
     (state: any) => state.offer.getOfferListData
-  )
+  );
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
 
@@ -184,26 +179,28 @@ const SpecialPriceDetails = () => {
     setValue(radioname, value);
   };
 
-
-
-
   const [channal, setChannal] = useState<any>([]);
-  const [vissibleTo,setvissibleTo] =useState([]) 
-  const [terms,setterms] =useState([{id: '1',
-    name: "Term1",
-    locationId:"",
-    type: "D",
-    parentId: '',
-    canDelete: false},
-    {id: '3',
-      name: "Term2",
-      locationId:"",
+  const [vissibleTo, setvissibleTo] = useState([]);
+  const [terms, setterms] = useState([
+    {
+      id: "1",
+      name: "Term1",
+      locationId: "",
       type: "D",
-      parentId: '',
-      canDelete: false}
-      ]) 
-  const [catagory,setCatagory] =useState([]) 
-  const [subCatagory,setSubCatagory] =useState([])
+      parentId: "",
+      canDelete: false,
+    },
+    {
+      id: "3",
+      name: "Term2",
+      locationId: "",
+      type: "D",
+      parentId: "",
+      canDelete: false,
+    },
+  ]);
+  const [catagory, setCatagory] = useState([]);
+  const [subCatagory, setSubCatagory] = useState([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
     ordertype: false,
@@ -227,7 +224,7 @@ const SpecialPriceDetails = () => {
     defaultValues: {
       offerName: "",
       offerChannel: "",
-      offerToVisible: [],
+      offerToVisible: "",
       termsAndConditions: "",
       specialTypeName: "Happy Hour",
       specialType: "Percentage",
@@ -241,6 +238,8 @@ const SpecialPriceDetails = () => {
       fromDate: "",
       toDate: "",
       AvailableDays: [],
+      fromPeriod: "",
+      toPeriod: "",
     },
   });
   const handleDropdownToggle = (dropdownName: string) => {
@@ -260,185 +259,175 @@ const SpecialPriceDetails = () => {
   const [availabilityid, setAvailabilityid] = useState<string[]>([]);
   const [DayThird, setDayThird] = useState<number[]>([]);
   const [disabledDay, setDisableDay] = useState<any[]>([]);
-  const [selectedFrom, setSelectedFrom] = useState("AM");
-  const [selectedTo, setSelectedTo] = useState("AM");
+  const [selectedFrom, setSelectedFrom] = useState("");
+  const [selectedTo, setSelectedTo] = useState("");
   const [selectedFoodItems, setselectedFoodItems] = useState<any[]>([]);
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
-  const [parentId,setParentId]=useState("")
-  const [subCatagoryId,setSubCatagoryId]=useState("")
+  const [parentId, setParentId] = useState("");
+  const [subCatagoryId, setSubCatagoryId] = useState("");
   const [selecteFoodItems, setselecteFoodItems] = useState([
     {
-    "itemId": "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
-    "itemName": "Paneer Fried Rice",
-    "originalPrice": 16.4500,
-    "isEnabled": 1
-},
-{
-    "itemId": "01601102-5fc1-4b80-80a1-3788e6c563cc",
-    "itemName": "Strawberry Milkshake",
-    "originalPrice": 7.4900,
-    "isEnabled": 1
-},
-{
-    "itemId": "0192bf12-1884-795d-9916-b55b0606293e",
-    "itemName": "chocolate cream",
-    "originalPrice": 35.0000,
-    "isEnabled": 1
-},
-{
-    "itemId": "0192bf1b-b715-7fe1-89c8-387681b3b115",
-    "itemName": "chocolate ice cream",
-    "originalPrice": 35.0000,
-    "isEnabled": 1
-},
-{
-    "itemId": "0192bf1f-7639-7369-aeef-d1e9bb98a922",
-    "itemName": "test1",
-    "originalPrice": 35.0000,
-    "isEnabled": 1
-},
-{
-    "itemId": "0192bf2c-2552-71a4-81ef-96f008af84cb",
-    "itemName": "Rose Milk",
-    "originalPrice": 35.0000,
-    "isEnabled": 1
-},
-{
-    "itemId": "0192bf5e-d6be-7fab-9903-3b50c6e9006b",
-    "itemName": "Rose Milk",
-    "originalPrice": 35.0000,
-    "isEnabled": 1
-},
-{
-    "itemId": "0192bf64-966c-73a3-b2dd-b5a58efe4c38",
-    "itemName": "Strawberry dessert",
-    "originalPrice": 35.0000,
-    "isEnabled": 1
-}
-]);
-
+      itemId: "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
+      itemName: "Paneer Fried Rice",
+      originalPrice: 16.45,
+      isEnabled: 1,
+    },
+    {
+      itemId: "01601102-5fc1-4b80-80a1-3788e6c563cc",
+      itemName: "Strawberry Milkshake",
+      originalPrice: 7.49,
+      isEnabled: 1,
+    },
+    {
+      itemId: "0192bf12-1884-795d-9916-b55b0606293e",
+      itemName: "chocolate cream",
+      originalPrice: 35.0,
+      isEnabled: 1,
+    },
+    {
+      itemId: "0192bf1b-b715-7fe1-89c8-387681b3b115",
+      itemName: "chocolate ice cream",
+      originalPrice: 35.0,
+      isEnabled: 1,
+    },
+    {
+      itemId: "0192bf1f-7639-7369-aeef-d1e9bb98a922",
+      itemName: "test1",
+      originalPrice: 35.0,
+      isEnabled: 1,
+    },
+    {
+      itemId: "0192bf2c-2552-71a4-81ef-96f008af84cb",
+      itemName: "Rose Milk",
+      originalPrice: 35.0,
+      isEnabled: 1,
+    },
+    {
+      itemId: "0192bf5e-d6be-7fab-9903-3b50c6e9006b",
+      itemName: "Rose Milk",
+      originalPrice: 35.0,
+      isEnabled: 1,
+    },
+    {
+      itemId: "0192bf64-966c-73a3-b2dd-b5a58efe4c38",
+      itemName: "Strawberry dessert",
+      originalPrice: 35.0,
+      isEnabled: 1,
+    },
+  ]);
 
   const handleonclick = () => {
     const values = getValues();
-    const fromTiming=getValues("fromTime")
-    const endTiming=getValues("toTime")
-    const offerChannel=getValues("offerChannel")
-    console.log({offerChannel});
-    
+    const fromTiming = getValues("fromTime");
+    const endTiming = getValues("toTime");
+    const offerChannel = getValues("offerChannel");
+    console.log({ offerChannel });
 
-    const fromTimeFormat = fromTiming && selectedFrom 
-    ? fromTiming + " " + selectedFrom 
-    : ""; 
-  
-  const toTimeFormat = endTiming && selectedTo 
-    ? endTiming + " " + selectedTo 
-    : ""; 
- 
-  
-  if (fromTimeFormat && toTimeFormat) {
-    const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
-    console.log({ converttime });
-  } else {
-    console.error("Invalid time format. Please ensure both time and AM/PM are selected.");
-  }
-    
-    const payload={
-      locationId:locationid,
-      offerId:null,
+    const fromTimeFormat =
+      fromTiming && selectedFrom ? fromTiming + " " + selectedFrom : "";
+
+    const toTimeFormat =
+      endTiming && selectedTo ? endTiming + " " + selectedTo : "";
+
+    if (fromTimeFormat && toTimeFormat) {
+      const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
+      console.log({ converttime });
+    } else {
+      console.error(
+        "Invalid time format. Please ensure both time and AM/PM are selected."
+      );
+    }
+
+    const payload = {
+      locationId: locationid,
+      offerId: null,
       offerName: values?.offerName,
       channel: orderTypes
-      .filter((item: any) => values.offerChannel.includes(item?.typeName)) 
-      .map((data: any) => data?.id)  ,
-      visibleTo:values?.offerToVisible?.map((item:any)=>item[0]), 
-      termsAndConditions:values?.termsAndConditions,
-      specialType:values?.specialTypeName,
-      type:values?.specialType ==="Percentage"?"PERCENT":"FLATFEE",
-      value:values?.specialTypeValue,
-      items:selectedFoodItems.map((item)=>{
-        return{
-          itemId:item?.itemId,
-          isEnabled:item?.isEnabled
-        }
+        .filter((item: any) => values.offerChannel.includes(item?.typeName))
+        .map((data: any) => data?.id),
+      visibleTo: values?.offerToVisible,
+      termsAndConditions: values?.termsAndConditions,
+      specialType: values?.specialTypeName,
+      type: values?.specialType === "Percentage" ? "PERCENT" : "FLATFEE",
+      value: values?.specialTypeValue,
+      items: selectedFoodItems.map((item) => {
+        return {
+          itemId: item?.itemId,
+          isEnabled: item?.isEnabled,
+        };
       }),
-      effectivePeriod:{
-        isDateEnabled:dateShow,
-        startDate:dateShow?formatDate(values?.fromDate):null,
-        endDate:dateShow?formatDate(values?.toDate):null,
+      effectivePeriod: {
+        isDateEnabled: dateShow,
+        startDate: dateShow ? formatDate(values?.fromDate) : null,
+        endDate: dateShow ? formatDate(values?.toDate) : null,
         // startTime:null,
         // endTime:null,
 
-        startTime:convertTo24HourFormatWithSeconds(fromTimeFormat),
-        endTime:convertTo24HourFormatWithSeconds(fromTimeFormat),
-        validDays:values?.AvailableDays
-     }
-    }
+        startTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
+        endTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
+        validDays: values?.AvailableDays,
+      },
+    };
 
     trigger();
 
-    const isvalid= valiadtionforDateandTime()
+    const isvalid = valiadtionforDateandTime();
     // console.log("errorsdate",valiadtionforDateandTime());
     dispatch(createSpecialOfferRequest(payload));
-    
-    if(isvalid)
-    {
-     
-      
+
+    if (isvalid) {
       setOverlapShow(true);
     }
-   
-   
-   
+
     //console.log("kkkkk",payload)
     //setOverlapShow(true);
   };
-  const formatDate = (dateString:any) => {
+  const formatDate = (dateString: any) => {
     const date = new Date(dateString);
-    const year = date.getFullYear(); 
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0'); 
-  
-    return `${year}-${month}-${day}`; 
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
   };
-  const convertTo24HourFormatWithSeconds = (time12h:any) => {
+  const convertTo24HourFormatWithSeconds = (time12h: any) => {
     const [time, modifier] = time12h.split(" ");
     let [hours, minutes] = time.split(":").map(Number);
-  
+
     if (modifier === "PM" && hours !== 12) {
       hours += 12;
     } else if (modifier === "AM" && hours === 12) {
       hours = 0;
     }
-  
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:00`;
   };
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
     setSelectedDate1(null);
     setValue("fromDate", date);
-   
-      setValidationErrors((prevErrors:any) => {
-        const updatedErrors = [...prevErrors];
-        if(updatedErrors && updatedErrors[0])
-        {
-          updatedErrors[0].fromDateError = ""; 
-          return updatedErrors;
-        }
-        return updatedErrors;
 
-      });
-    
-    
+    setValidationErrors((prevErrors: any) => {
+      const updatedErrors = [...prevErrors];
+      if (updatedErrors && updatedErrors[0]) {
+        updatedErrors[0].fromDateError = "";
+        return updatedErrors;
+      }
+      return updatedErrors;
+    });
   };
   const handleDateChange1 = (date: Date | null) => {
     setSelectedDate1(date);
     setValue("toDate", date);
-    setValidationErrors((prevErrors:any) => {
+    setValidationErrors((prevErrors: any) => {
       const updatedErrors = [...prevErrors];
-      if(updatedErrors && updatedErrors[0])
-      {
-        updatedErrors[0].toDateError = ""; 
+      if (updatedErrors && updatedErrors[0]) {
+        updatedErrors[0].toDateError = "";
         return updatedErrors;
       }
       return updatedErrors;
@@ -447,20 +436,24 @@ const SpecialPriceDetails = () => {
 
   const selectedradiowatch = watch();
   const handleFromToTime = (value: string, timePeriod: string) => {
+    console.log({ timePeriod });
+
     let currentTime = String(getValues(`${value}`));
     currentTime = currentTime.replace(/\s?(AM|PM)$/i, "").trim();
     const timeRegex = /^([01]?\d|2[0-3]):[0-5]\d$/;
     if (timeRegex.test(currentTime)) {
       const timeWithPeriod = `${currentTime} ${timePeriod}`.trim();
-      setValue(`${value}`, timeWithPeriod);
+      // setValue(`${value}`, timeWithPeriod);
     }
+    // validationForstartTimeValidation()
+    // validationForEndTimeValidation()
   };
 
   const [updatedPrice, setUpdatedPrice] = useState(-1);
   const [showlistOfItems, setShowlistOfItems] = useState(false);
   const [overlapShow, setOverlapShow] = useState(false);
   const [highlighted, setHighlighted] = useState<any>();
-  const selectedValue = watch("specialTypeName");
+  const selectedValue = watch("specialType");
 
   const handleItemClick = (index: number, item: any) => {
     setHighlighted(index);
@@ -508,18 +501,18 @@ const SpecialPriceDetails = () => {
     setValue("selectedFooditems", selectedFoodItems);
   }, [selectedFoodItems]);
 
-  useEffect(()=>{
-  if(orderTypes?.length>0){
-   const data= orderTypes.map((item:any)=>{
-        return{
-          name:item?.typeName,
-          id:item?.id,
-          type:item?.typeGroup
-        }
-    })
-    setChannal([...data])
-  }
-  },[orderTypes])
+  useEffect(() => {
+    if (orderTypes?.length > 0) {
+      const data = orderTypes.map((item: any) => {
+        return {
+          name: item?.typeName,
+          id: item?.id,
+          type: item?.typeGroup,
+        };
+      });
+      setChannal([...data]);
+    }
+  }, [orderTypes]);
 
   const listpopupRef = useRef<HTMLDivElement | null>(null);
 
@@ -538,8 +531,8 @@ const SpecialPriceDetails = () => {
       date.getDay() === 0 ? 7 : date.getDay()
     );
     setDisableDay(availableDays);
-    if(availableDays.length === 1){
-      setDayThird(availableDays)
+    if (availableDays.length === 1) {
+      setDayThird(availableDays);
     }
   };
 
@@ -559,7 +552,7 @@ const SpecialPriceDetails = () => {
       let dayIndex = new Date(startDate).getDay();
       let mappedDay: any = dayIndex === 0 ? 7 : dayIndex;
       setDisableDay(mappedDay);
-      setDayThird(mappedDay)
+      setDayThird(mappedDay);
     }
   }
 
@@ -646,30 +639,31 @@ const SpecialPriceDetails = () => {
     const data = selectedFoodItems.filter((item: any) => item?.itemId !== id);
     setselectedFoodItems(data);
   };
-  const [validationErrors,setValidationErrors]=useState<any>([])
-
-
-  useEffect(()=>{
-    if(editOfferData)
+  const [validationErrors, setValidationErrors] = useState<any>([
     {
-      setValue("offerName",editOfferData?.offerName)
-      setValue("offerChannel",editOfferData?.channel?.join(",") || "")
-      setValue("DatePicked",editOfferData?.effectivePeriod?.isDateEnabled)
-      setValue("fromTime",editOfferData?.effectivePeriod?.startTime)
-      setValue("toTime",editOfferData?.effectivePeriod?.endTime)
-      setValue("fromDate",editOfferData?.effectivePeriod?.startDate)
-      setValue("toDate",editOfferData?.effectivePeriod?.endDate)
-      setValue("specialType",editOfferData?.type)
-      setValue("AvailableDays",editOfferData?.effectivePeriod?.validDays)
-      setValue("selectedFooditems",editOfferData?.items)
-      setValue("specialTypeValue",editOfferData?.value)
+      fromDateError: "",
+      toDateError: "",
+      startTimeError: "",
+      endTimeError: "",
+    },
+  ]);
 
-      
-
+  useEffect(() => {
+    if (editOfferData) {
+      setValue("offerName", editOfferData?.offerName);
+      setValue("offerChannel", editOfferData?.channel?.join(",") || "");
+      setValue("DatePicked", editOfferData?.effectivePeriod?.isDateEnabled);
+      setValue("fromTime", editOfferData?.effectivePeriod?.startTime);
+      setValue("toTime", editOfferData?.effectivePeriod?.endTime);
+      setValue("fromDate", editOfferData?.effectivePeriod?.startDate);
+      setValue("toDate", editOfferData?.effectivePeriod?.endDate);
+      setValue("specialType", editOfferData?.type);
+      setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
+      setValue("selectedFooditems", editOfferData?.items);
+      setValue("specialTypeValue", editOfferData?.value);
     }
+  }, [editOfferData, setValue]);
 
-  },[editOfferData,setValue])
-  
   // const validateModifiers = (modifications: any[]) => {
   //   const errors = [...customizationerrors];
 
@@ -714,7 +708,6 @@ const SpecialPriceDetails = () => {
   //         //   optionErrors.optionNameError = `Option Name must not contain special characters`;
   //         // }
 
-        
   //         if (isNaN(option.cost) || option.cost <= 0 ) {
   //           optionErrors.optionPriceError = `Price field is required`;
   //         }
@@ -760,162 +753,176 @@ const SpecialPriceDetails = () => {
   //   return validateCustomizationErrors();
   // };
 
-
-
   const validationForstartTimeValidation = () => {
     const errors = [...validationErrors];
     const StartTime = getValues("fromTime");
-    
-   if(errors && errors[0])
-   {
-    if (StartTime === "" ) {
-       errors[0].startTimeError = "Time is required";
-    } else {
-      errors[0].startTimeError = "";
+
+    if (errors && errors[0]) {
+      if (StartTime === "") {
+        errors[0].startTimeError = "Time is required";
+      } else {
+        errors[0].startTimeError = "";
+      }
     }
-    
-   
-   }
-   
-  
-   
-  
-   
-  
-    setValidationErrors(errors); 
+
+    setValidationErrors(errors);
   };
   const validationForEndTimeValidation = () => {
     const errors = [...validationErrors];
     const StartTime = getValues("fromTime");
     const EndTime = getValues("toTime");
-   if(errors && errors[0])
-   {
-   
-    if (EndTime === "") {
-      errors[0].EndTimeError = "Time is required";
+    console.log("errorhandling");
+    console.log({ selectedFrom });
+    console.log({ selectedTo });
+
+    if (errors && errors[0]) {
+      if (EndTime === "") {
+        errors[0].EndTimeError = "Time is required";
+      } else {
+        errors[0].EndTimeError = "";
+      }
+      if (StartTime && EndTime) {
+        const startTimeHours = parseInt(StartTime.split(":")[0]);
+        const startTimeMinutes = parseInt(StartTime.split(":")[1]);
+        const endTimeHours = parseInt(EndTime.split(":")[0]);
+        const endTimeMinutes = parseInt(EndTime.split(":")[1]);
+
+        if (
+          endTimeHours < startTimeHours ||
+          (endTimeHours === startTimeHours &&
+            endTimeMinutes <= startTimeMinutes &&
+            ((selectedFrom === "AM" && selectedTo === "AM") ||
+              (selectedFrom === "PM" && selectedTo === "PM")))
+        ) {
+          errors[0].EndTimeError = "End time must be greater than start time";
+        } else {
+          errors[0].EndTimeError = "";
+        }
+      }
+    }
+
+    setValidationErrors(errors);
+  };
+
+  const validationForEndTime = () => {
+    const errors = [...validationErrors];
+    const StartTime = getValues("fromTime");
+    const EndTime = getValues("toTime");
+    const fromPeriod = getValues("fromPeriod");
+    const toPeriod = getValues("toPeriod");
+    console.log("errorhandling");
+    console.log({ fromPeriod });
+    console.log({ toPeriod });
+
+    if (errors && errors[0]) {
+      if (EndTime === "") {
+        errors[0].EndTimeError = "Time is required";
+      } else {
+        errors[0].EndTimeError = "";
+      }
+      if (StartTime && EndTime) {
+        const startTimeHours = parseInt(StartTime.split(":")[0]);
+        const startTimeMinutes = parseInt(StartTime.split(":")[1]);
+        const endTimeHours = parseInt(EndTime.split(":")[0]);
+        const endTimeMinutes = parseInt(EndTime.split(":")[1]);
+
+        if (
+          endTimeHours < startTimeHours ||
+          (endTimeHours === startTimeHours &&
+            endTimeMinutes <= startTimeMinutes &&
+            ((fromPeriod === "AM" && toPeriod === "AM") ||
+              (fromPeriod === "PM" && toPeriod === "PM")))
+        ) {
+          errors[0].EndTimeError = "End time must be greater than start time";
+        } else {
+          errors[0].EndTimeError = "";
+        }
+      }
+    }
+
+    setValidationErrors(errors);
+  };
+  const valiadtionforDateandTime = () => {
+    let dataandTimeerrors: any = [];
+
+    let Errors = {
+      fromDateError: "",
+      toDateError: "",
+      startTimeError: "",
+      EndTimeError: "",
+    };
+
+    if (dateShow && selectedDate === null) {
+      Errors.fromDateError = "Date must be given";
     } else {
-      errors[0].EndTimeError = "";
+      Errors.fromDateError = "";
+    }
+    if (dateShow && selectedDate1 === null) {
+      Errors.toDateError = "Date must be given";
+    } else {
+      Errors.toDateError = "";
+    }
+    const StartTime = getValues("fromTime");
+
+    if (startTime === "") {
+      Errors.startTimeError = "Time is required";
+    } else {
+      Errors.startTimeError = "";
+    }
+    const EndTime = getValues("toTime");
+
+    if (endTime === "") {
+      Errors.EndTimeError = "Time is required";
+    } else {
+      Errors.EndTimeError = "";
     }
     if (StartTime && EndTime) {
       const startTimeHours = parseInt(StartTime.split(":")[0]);
       const startTimeMinutes = parseInt(StartTime.split(":")[1]);
       const endTimeHours = parseInt(EndTime.split(":")[0]);
       const endTimeMinutes = parseInt(EndTime.split(":")[1]);
-  
+
       if (
         endTimeHours < startTimeHours ||
         (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)
       ) {
-        errors[0].EndTimeError = "End time must be greater than start time";
-      } else {
-        errors[0].EndTimeError = "";
-      }
-    }
-   }
-   
-  
-   
-  
-   
-  
-    setValidationErrors(errors); 
-  };
-
-  const valiadtionforDateandTime= ()=>{
-   let dataandTimeerrors:any=[];
-
-   let Errors={
-    fromDateError:"",
-    toDateError:"",
-    startTimeError:"",
-    EndTimeError:""
-
-   }
-
-    if(dateShow && selectedDate===null)
-    {
-      Errors.fromDateError="Date must be given"
-    }
-    else{
-      Errors.fromDateError=""
-
-    }
-    if(dateShow && selectedDate1===null)
-    {
-        Errors.toDateError="Date must be given"
-    }
-    else{
-      Errors.toDateError=""
-
-    }
-    const StartTime=  getValues("fromTime");
-  
-    
-    if(startTime==="")
-    {
-      Errors.startTimeError="Time is required"
-    }
-    else{
-       Errors.startTimeError=""
-
-    }
-    const EndTime=getValues("toTime");
- 
-
-    if(endTime==="")
-    {
-      Errors.EndTimeError="Time is required"
-    }
-    else{
-      Errors.EndTimeError=""
-    }
-    if (StartTime && EndTime) {
-      const startTimeHours = parseInt(StartTime.split(":")[0]);
-      const startTimeMinutes = parseInt(StartTime.split(":")[1]);
-      const endTimeHours = parseInt(EndTime.split(":")[0]);
-      const endTimeMinutes = parseInt(EndTime.split(":")[1]);
-  
-      if (endTimeHours < startTimeHours ||
-          (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)) {
         Errors.EndTimeError = "End time must be greater than start time";
-      }
-      else{
+      } else {
         Errors.EndTimeError = "";
-
       }
     }
 
-
-    if(Errors.fromDateError||Errors.toDateError||Errors.startTimeError||Errors.toDateError)
-    {
-      dataandTimeerrors[0]=Errors;
+    if (
+      Errors.fromDateError ||
+      Errors.toDateError ||
+      Errors.startTimeError ||
+      Errors.toDateError
+    ) {
+      dataandTimeerrors[0] = Errors;
     }
 
     setValidationErrors(dataandTimeerrors);
 
-
-    if(Errors.fromDateError===""&&Errors.toDateError===""&&Errors.startTimeError===""&&Errors.EndTimeError==="")
-      {
-        return true;
-      }
-      else{
-        return false;
-      }
-  }
-
-
-  
-
-
-   const itemlistfunction =()=>{
-    setShowlistOfItems(!showlistOfItems)
-    const payload ={
-      locationId:locationid,
-      catagoryId:subCatagoryId?subCatagoryId:parentId
+    if (
+      Errors.fromDateError === "" &&
+      Errors.toDateError === "" &&
+      Errors.startTimeError === "" &&
+      Errors.EndTimeError === ""
+    ) {
+      return true;
+    } else {
+      return false;
     }
-   dispatch(getOfferItemsRequest(payload))
-    
-   }
+  };
+
+  const itemlistfunction = () => {
+    setShowlistOfItems(!showlistOfItems);
+    const payload = {
+      locationId: locationid,
+      catagoryId: subCatagoryId ? subCatagoryId : parentId,
+    };
+    dispatch(getOfferItemsRequest(payload));
+  };
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
@@ -986,7 +993,7 @@ const SpecialPriceDetails = () => {
                           addNew={false}
                           editValues={false}
                           dropDownType="offerChannel"
-                          search = {false}
+                          search={false}
                         />
                       )}
                     />
@@ -1011,14 +1018,16 @@ const SpecialPriceDetails = () => {
                         setValue={setValue}
                         getValues={getValues}
                         validation={{ required: "offerToVisible is required" }}
-                        error={errors?.offerToVisible&&errors?.offerToVisible[0] }
+                        error={
+                          errors?.offerToVisible 
+                        }
                         dropdownopen={DropdownOpen.ordertype}
                         onToggle={() => handleDropdownToggle("ordertype")}
                         setDropdownOpen={setDropdownOpen}
                         addNew={false}
                         editValues={false}
                         dropDownType="offerToVisible"
-                        search = {false}
+                        search={false}
                       />
                     )}
                   />
@@ -1048,7 +1057,7 @@ const SpecialPriceDetails = () => {
                         addNew={true}
                         editValues={false}
                         dropDownType="termsAndConditions"
-                        search = {false}
+                        search={false}
                       />
                     )}
                   />
@@ -1063,9 +1072,10 @@ const SpecialPriceDetails = () => {
                   options={selectName}
                   name="specialTypeName"
                   selectedValue={selectedradiowatch.specialTypeName}
-                  onChange={(value) =>
-                    handleRadioChange("specialTypeName", value)
-                  }
+                  onChange={(value) => {
+                    setValue("specialTypeName", value);
+                    handleRadioChange("specialTypeName", value);
+                  }}
                   register={register}
                 />
               </div>
@@ -1073,9 +1083,12 @@ const SpecialPriceDetails = () => {
               <div className="type-dropdown">
                 <RadioButtonGroup
                   options={selectType}
-                  selectedValue={selectedradiowatch.specialType}
+                  selectedValue={selectedValue}
                   name="specialType"
-                  onChange={(value) => handleRadioChange("specialType", value)}
+                  onChange={(value) => {
+                    setValue("specialType", value);
+                    handleRadioChange("specialType", value);
+                  }}
                   register={register}
                 />
               </div>
@@ -1129,12 +1142,12 @@ const SpecialPriceDetails = () => {
                         editValues={false}
                         setParentId={setParentId}
                         dropDownType="CATEGORY"
-                        search = {true}
+                        search={true}
                       />
                     )}
                   />
                 </div>
-                
+
                 <div>
                   <Controller
                     name="subCategory"
@@ -1160,7 +1173,7 @@ const SpecialPriceDetails = () => {
                         dropDownType="SUB_CATEGORY"
                         setSubCatagoryId={setSubCatagoryId}
                         parentId={parentId}
-                        search = {false}
+                        search={false}
                       />
                     )}
                   />
@@ -1187,15 +1200,20 @@ const SpecialPriceDetails = () => {
                     <img
                       src={dropdown}
                       alt="dropdown"
-                     onClick={() => {itemlistfunction()}}
+                      onClick={() => {
+                        const category = getValues("category");
+                        const subcategory = getValues("subCategory");
+                        if (category !== "" && subcategory !== "") {
+                          itemlistfunction();
+                        }
+                      }}
                     />
                   </div>
                 </div>
                 <div>
-                 
                   {showlistOfItems && (
                     <div className="searched-items-listed" ref={listpopupRef}>
-                      <ul className="listing-selected-items"> 
+                      <ul className="listing-selected-items">
                         {OfferlistData?.map((item: any, index: number) => (
                           <li
                             key={index}
@@ -1289,356 +1307,427 @@ const SpecialPriceDetails = () => {
                 {dateShow && (
                   <div className="offerdate-select">
                     <div>
-                    <div className="offer-from-date">
-                      <Controller
-                        name="fromDate"
-                        control={control}
-                        defaultValue=""
-                        render={({
-                          field,
-                          trigger,
-                          value,
-                          error,
-                          onChange,
-                          onBlur,
-                        }: any) => (
-                          <div>
-                            <DatePicker
-                              placeholderText="07/01/2034"
-                              dateFormat="MM/dd/yyyy"
-                              selected={selectedDate}
-                              onChange={(date:any) => {
-                                onChange(date); 
-                                handleDateChange(date); 
-                              }}
-                              minDate={new Date()}
-                              ref={datePickerRef}
-                              className="offerdatePicker-special"
-                            />
-                            {error && (
-                              <span className="error-message">
-                                {error.message}
-                              </span>
-                            )}
-                          </div>
+                      <div className="offer-from-date">
+                        <Controller
+                          name="fromDate"
+                          control={control}
+                          defaultValue=""
+                          render={({
+                            field,
+                            trigger,
+                            value,
+                            error,
+                            onChange,
+                            onBlur,
+                          }: any) => (
+                            <div>
+                              <DatePicker
+                                placeholderText="07/01/2034"
+                                dateFormat="MM/dd/yyyy"
+                                selected={value}
+                                onChange={(date: any) => {
+                                  onChange(date);
+                                  handleDateChange(date);
+                                }}
+                                minDate={new Date()}
+                                ref={datePickerRef}
+                                onKeyDown={(e: React.KeyboardEvent) =>
+                                  e.preventDefault()
+                                }
+                                className="offerdatePicker-special"
+                              />
+                              {error && (
+                                <span className="error-message">
+                                  {error.message}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          rules={{
+                            required: "This field is required",
+                            validate: (value) => {
+                              const timeRegex =
+                                /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                              return (
+                                timeRegex.test(value) ||
+                                "Please enter a valid time in hh:mm format"
+                              );
+                            },
+                          }}
+                        />
+                        <img
+                          src={calender}
+                          className="calender-img-offer"
+                          onClick={handleImageClick}
+                        />
+                      </div>
+
+                      <div>
+                        {validationErrors[0]?.fromDateError && (
+                          <span className="time-error-message">
+                            {validationErrors[0]?.fromDateError}
+                          </span>
                         )}
-                        rules={{
-                          required: "This field is required",
-                          validate: (value) => {
-                            const timeRegex =
-                              /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
-                            return (
-                              timeRegex.test(value) ||
-                              "Please enter a valid time in hh:mm format"
-                            );
-                          },
-                        }}
-                      />
-                      <img
-                        src={calender}
-                        className="calender-img-offer"
-                        onClick={handleImageClick}
-                      />
-                      
-                    </div>
-                    <div>
-                      {validationErrors[0]?.fromDateError && (
-                              <span className="time-error-message">
-                                {validationErrors[0]?.fromDateError}
-                              </span>
-                            )}
                       </div>
                     </div>
-                 
                     To
-                    <div >
-                    <div className="offer-to-date">
-                      <Controller
-                        name="toDate"
-                        control={control}
-                        defaultValue=""
-                        render={({
-                          field,
-                          trigger,
-                          value,
-                          error,
-                          onChange,
-                          onBlur,
-                        }: any) => (
-                          <div>
-                            <DatePicker
-                              selected={selectedDate1}
-                              onChange={(date:any)=>{
-                                onChange(date)
-                                handleDateChange1(date)}}
-                              placeholderText="07/01/2034"
-                              dateFormat="MM/dd/yyyy"
-                              showPopperArrow
-                              ref={datePickerRef1}
-                              minDate={selectedDate || new Date()}
-                              className="offerdatePicker"
-                            />
-                            {error && (
-                              <span className="error-message">
-                                {error.message}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                        rules={{
-                          required: "This field is required",
-                          validate: (value) => {
-                            const timeRegex =
-                              /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
-                            return (
-                              timeRegex.test(value) ||
-                              "Please enter a valid time in hh:mm format"
-                            );
-                          },
-                        }}
-                      />
-                      <img
-                        src={calender}
-                        className="calender-img1-offer"
-                        onClick={handleImageClick2}
-                      ></img>
-                     
-                    </div>
                     <div>
-                      {validationErrors[0]?.toDateError && (
-                              <span className="time-error-message">
-                                {validationErrors[0]?.toDateError}
-                              </span>
-                            )}
+                      <div className="offer-to-date">
+                        <Controller
+                          name="toDate"
+                          control={control}
+                          defaultValue=""
+                          render={({
+                            field,
+                            trigger,
+                            value,
+                            error,
+                            onChange,
+                            onBlur,
+                          }: any) => (
+                            <div>
+                              <DatePicker
+                                selected={selectedDate1}
+                                onChange={(date: any) => {
+                                  onChange(date);
+                                  handleDateChange1(date);
+                                }}
+                                placeholderText="07/01/2034"
+                                dateFormat="MM/dd/yyyy"
+                                showPopperArrow
+                                ref={datePickerRef1}
+                                minDate={selectedDate || new Date()}
+                                className="offerdatePicker"
+                                onKeyDown={(e: React.KeyboardEvent) =>
+                                  e.preventDefault()
+                                }
+                              />
+                              {error && (
+                                <span className="error-message">
+                                  {error.message}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          rules={{
+                            required: "This field is required",
+                            validate: (value) => {
+                              const timeRegex =
+                                /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                              return (
+                                timeRegex.test(value) ||
+                                "Please enter a valid time in hh:mm format"
+                              );
+                            },
+                          }}
+                        />
+                        <img
+                          src={calender}
+                          className="calender-img1-offer"
+                          onClick={handleImageClick2}
+                        ></img>
+                      </div>
+                      <div>
+                        {validationErrors[0]?.toDateError && (
+                          <span className="time-error-message">
+                            {validationErrors[0]?.toDateError}
+                          </span>
+                        )}
                       </div>
                     </div>
-                    
-                    
                   </div>
                 )}
 
                 <div className="timeContainer">
                   <h4 className="Time-heading">Time</h4>
                   <div className="time-format">
-
                     <div className="from-time-errormsg">
+                      <div className="time-selector">
+                        <Controller
+                          name="fromTime"
+                          control={control}
+                          defaultValue=""
+                          render={({
+                            field,
+                            trigger,
+                            value,
+                            error,
+                            onChange,
+                            onBlur,
+                          }: any) => (
+                            <div>
+                              <input
+                                type="text"
+                                placeholder="hh:mm"
+                                className={`time-selector__input ${
+                                  error ? "error" : ""
+                                }`}
+                                value={value}
+                                onChange={(e) => {
+                                  const inputValue = e.target.value;
 
+                                  if (/^[0-9:]*$/.test(inputValue)) {
+                                    if (inputValue.length <= 5) {
+                                      const formattedValue = inputValue
+                                        .replace(/[^0-9]/g, "")
+                                        .match(/(\d{0,2})(\d{0,2})?/);
 
-                    <div className="time-selector">
-                      <Controller
-                        name="fromTime"
-                        control={control}
-                        defaultValue=""
-                        render={({
-                          field,
-                          trigger,
-                          value,
-                          error,
-                          onChange,
-                          onBlur,
-                        }: any) => (
-                          <div>
-                           <input
-  type="text"
-  placeholder="hh:mm"
-  className={`time-selector__input ${error ? "error" : ""}`}
-  value={value}
-  onChange={(e) => {
-    const inputValue = e.target.value;
+                                      let hours =
+                                        (formattedValue && formattedValue[1]) ||
+                                        "";
+                                      let minutes =
+                                        (formattedValue && formattedValue[2]) ||
+                                        "";
 
-   
-    if (/^[0-9:]*$/.test(inputValue)) {
-      if (inputValue.length <= 5) {
-        const formattedValue = inputValue
-          .replace(/[^0-9]/g, "") 
-          .match(/(\d{0,2})(\d{0,2})?/); 
+                                      if (
+                                        hours.length === 2 &&
+                                        parseInt(hours, 10) > 12
+                                      ) {
+                                        return;
+                                      }
+                                      if (
+                                        minutes.length === 2 &&
+                                        parseInt(minutes, 10) > 59
+                                      ) {
+                                        return;
+                                      }
 
-        let hours = (formattedValue && formattedValue[1]) || "";
-        let minutes = (formattedValue && formattedValue[2]) || "";
+                                      const formattedTime = [hours, minutes]
+                                        .filter(Boolean)
+                                        .join(":");
 
-        if (hours.length === 2 && parseInt(hours, 10) > 12) {
-          return; 
-        }
-        if (minutes.length === 2 && parseInt(minutes, 10) > 59) {
-          return; 
-        }
+                                      onChange(formattedTime);
+                                      setStartTime(formattedTime);
+                                    }
+                                  }
+                                  validationForstartTimeValidation();
+                                }}
+                                onBlur={onBlur}
+                              />
 
-        const formattedTime = [hours, minutes].filter(Boolean).join(":");
+                              {error && (
+                                <span className="error-message">
+                                  {error.message}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          rules={{
+                            required: "This field is required",
+                            validate: (value) => {
+                              const timeRegex =
+                                /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                              return (
+                                timeRegex.test(value) ||
+                                "Please enter a valid time in hh:mm format"
+                              );
+                            },
+                          }}
+                        />
 
-        onChange(formattedTime); 
-        setStartTime(formattedTime); 
-      }
-    }
-    validationForstartTimeValidation()
-  }}
-  onBlur={onBlur}
-/>
-
-                            {error && (
-                              <span className="error-message">
-                                {error.message}
-                              </span>
+                        <div>
+                          <Controller
+                            name="fromPeriod"
+                            control={control}
+                            defaultValue="AM"
+                            render={({
+                              field,
+                              trigger,
+                              value,
+                              error,
+                              onChange,
+                              onBlur,
+                            }: any) => (
+                              <div className="" style={{ display: "flex" }}>
+                                <button
+                                  type="button"
+                                  className={`time-selector__button_fromtime ${
+                                    value === "AM" ? "selected" : ""
+                                  }`}
+                                  name="fromPeriod"
+                                  onClick={() => {
+                                    setValue("fromPeriod", "AM"); // Update fromPeriod in the form
+                                    validationForEndTime(); // Validate
+                                  }}
+                                >
+                                  AM
+                                </button>
+                                <button
+                                  type="button"
+                                  className={`time-selector__button_fromtime ${
+                                    value === "PM" ? "selected" : ""
+                                  }`}
+                                  name="fromPeriod"
+                                  onClick={() => {
+                                    setValue("fromPeriod", "PM");
+                                    validationForEndTime(); // Validate
+                                  }}
+                                >
+                                  PM
+                                </button>
+                              </div>
                             )}
-                          </div>
-                        )}
-                        rules={{
-                          required: "This field is required",
-                          validate: (value) => {
-                            const timeRegex =
-                              /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
-                            return (
-                              timeRegex.test(value) ||
-                              "Please enter a valid time in hh:mm format"
-                            );
-                          },
-                        }}
-                      />
-
-                      <button
-                        className={`time-selector__button_fromtime ${
-                          selectedFrom === "AM" ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          setSelectedFrom("AM");
-
-                          handleFromToTime("fromTime", "AM");
-                        }}
-                      >
-                        AM
-                      </button>
-                      <button
-                        className={`time-selector__button_fromtime ${
-                          selectedFrom === "PM" ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          setSelectedFrom("PM");
-                          handleFromToTime("fromTime", "PM");
-                        }}
-                      >
-                        PM
-                      </button>
+                          />
+                        </div>
+                      </div>
+                      {validationErrors[0]?.startTimeError && (
+                        <span className="time-error-message">
+                          {validationErrors[0]?.startTimeError}
+                        </span>
+                      )}
                     </div>
-                    {validationErrors[0]?.startTimeError && (
-                              <span className="time-error-message">
-                                {validationErrors[0]?.startTimeError}
-                              </span>
-                            )}
-
-                    </div>
-                   
-
                     To
                     <div className="to-time-errormsg">
-                    <div className="time-selector">
-                      <Controller
-                        name="toTime"
-                        control={control}
-                        defaultValue=""
-                        render={({
-                          field,
-                          trigger,
-                          value,
-                          error,
-                          onChange,
-                          onBlur,
-                        }: any) => (
-                          <div>
-                            <input
-                              type="text"
-                              placeholder="hh:mm"
-                              className={`time-selector__input ${
-                                error ? "error" : ""
-                              }`}
-                              value={value}
-                              onChange={(e) => {
-                                const inputValue = e.target.value;
+                      <div className="time-selector">
+                        <Controller
+                          name="toTime"
+                          control={control}
+                          defaultValue=""
+                          render={({
+                            field,
+                            trigger,
+                            value,
+                            error,
+                            onChange,
+                            onBlur,
+                          }: any) => (
+                            <div>
+                              <input
+                                type="text"
+                                placeholder="hh:mm"
+                                className={`time-selector__input ${
+                                  error ? "error" : ""
+                                }`}
+                                value={value}
+                                onChange={(e) => {
+                                  const inputValue = e.target.value;
 
-                                if (/^[0-9:]*$/.test(inputValue)) {
-                                  if (inputValue.length <= 5) {
-                                    const formattedValue = inputValue
-                                      .replace(/[^0-9]/g, "")
-                                      .match(/(\d{0,2})(\d{0,2})?/);
+                                  if (/^[0-9:]*$/.test(inputValue)) {
+                                    if (inputValue.length <= 5) {
+                                      const formattedValue = inputValue
+                                        .replace(/[^0-9]/g, "")
+                                        .match(/(\d{0,2})(\d{0,2})?/);
 
-                                    const hours =
-                                      (formattedValue && formattedValue[1]) ||
-                                      "";
-                                    let minutes =
-                                      (formattedValue && formattedValue[2]) ||
-                                      "";
-                                      if (hours.length === 2 && parseInt(hours, 10) > 12) {
-                                        return; 
+                                      const hours =
+                                        (formattedValue && formattedValue[1]) ||
+                                        "";
+                                      let minutes =
+                                        (formattedValue && formattedValue[2]) ||
+                                        "";
+                                      if (
+                                        hours.length === 2 &&
+                                        parseInt(hours, 10) > 12
+                                      ) {
+                                        return;
                                       }
-                                      
-                                      if (minutes.length === 2 && parseInt(minutes, 10) > 59) {
-                                        return; 
+
+                                      if (
+                                        minutes.length === 2 &&
+                                        parseInt(minutes, 10) > 59
+                                      ) {
+                                        return;
                                       }
-                                      
 
-                                    const formattedTime = [hours, minutes]
-                                      .filter(Boolean)
-                                      .join(":");
+                                      const formattedTime = [hours, minutes]
+                                        .filter(Boolean)
+                                        .join(":");
 
-                                    onChange(formattedTime);
-                                    setEndTime(formattedTime)
+                                      onChange(formattedTime);
+                                      setEndTime(formattedTime);
+                                    }
                                   }
-                                }
-                                validationForEndTimeValidation();
-                              }}
-                              onBlur={onBlur}
-                            />
-                            {error && (
-                              <span className="error-message">
-                                {error.message}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                        rules={{
-                          required: "This field is required",
-                          validate: (value) => {
-                          
-                            const timeRegex =
-                              /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
-                            return (
-                              timeRegex.test(value) ||
-                              "Please enter a valid time in hh:mm format"
-                            );
-                          },
-                        }}
-                      />
+                                  validationForEndTimeValidation();
+                                }}
+                                onBlur={onBlur}
+                              />
+                              {error && (
+                                <span className="error-message">
+                                  {error.message}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          rules={{
+                            required: "This field is required",
+                            validate: (value) => {
+                              const timeRegex =
+                                /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                              return (
+                                timeRegex.test(value) ||
+                                "Please enter a valid time in hh:mm format"
+                              );
+                            },
+                          }}
+                        />
 
-                      <button
-                        className={`time-selector__button ${
-                          selectedTo === "AM" ? "selected" : ""
-                        }`}
-                        onClick={() => {
-                          setSelectedTo("AM");
-                          handleFromToTime("toTime", "AM");
-                        }}
-                      >
-                        AM
-                      </button>
-                      <button
+                        <div className="">
+                          <Controller
+                            name="toPeriod"
+                            control={control}
+                            defaultValue="AM"
+                            render={({
+                              field,
+                              trigger,
+                              value,
+                              error,
+                              onChange,
+                              onBlur,
+                            }: any) => (
+                              <div className="period-buttons">
+                                <button
+                                  type="button"
+                                  className={`time-selector__button ${
+                                    value === "AM" ? "selected" : ""
+                                  }`}
+                                  name="toPeriod"
+                                  onClick={() => {
+                                    setValue("toPeriod", "AM"); // Update the form value
+                                    validationForEndTime(); // Call validation logic
+                                  }}
+                                >
+                                  AM
+                                </button>
+                                <button
+                                  type="button"
+                                  className={`time-selector__button ${
+                                    value === "PM" ? "selected" : ""
+                                  }`}
+                                  name="toPeriod"
+                                  onClick={() => {
+                                    setValue("toPeriod", "PM"); // Update the form value
+                                    validationForEndTime(); // Call validation logic
+                                  }}
+                                >
+                                  PM
+                                </button>
+                              </div>
+                            )}
+                          />
+                        </div>
+                        {/* <button
                         className={`time-selector__button ${
                           selectedTo === "PM" ? "selected" : ""
                         }`}
+                         name="toPeriod"
+                         
                         onClick={() => {
                           setSelectedTo("PM");
-                          handleFromToTime("toTime", "PM");
+                          validationForEndTime("PM")
+                          setValue("toPeriod","PM")
+                          // handleFromToTime("toTime", "PM");
                         }}
                       >
                         PM
-                      </button>
+                      </button> */}
+                      </div>
+                      <div>
+                        {validationErrors[0]?.EndTimeError && (
+                          <span className="time-error-message">
+                            {validationErrors[0]?.EndTimeError}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                    {validationErrors[0]?.EndTimeError && (
-                              <span className="time-error-message">
-                                {validationErrors[0]?.EndTimeError}
-                              </span>
-                            )}
-                    </div>
-                    </div>
-                    
                   </div>
                 </div>
 

@@ -90,8 +90,15 @@ td.completedtsTabletd {
 th.completedtsTableth {
   background-color: white;
   position: relative;
+  // border: 1px solid red;
 }
-
+.totalitem
+{
+  padding-left: 3rem;
+  text-align: center;
+  
+ 
+}
 .OfferTableHeading{
   width: 100px
 }
@@ -118,7 +125,7 @@ th.completedtsTableth:nth-child(3) {
 }
 
 th.completedtsTableth:nth-child(4) {
-  width: 220px;
+  width: 200px;
   padding-left: 60px;
   position: sticky;
   top: 0;
@@ -128,6 +135,8 @@ th.completedtsTableth:nth-child(5) {
   width: 200px;
   position: sticky;
   top: 0;
+ 
+ 
 }
 
 th.completedtsTableth:nth-child(6) {
@@ -144,6 +153,9 @@ th.completedtsTableth:nth-child(7) {
 
 tr.completedtsTabletr:nth-child(odd) {
   background-color: #e8e8e8;
+}
+.completedtsTabletr {
+  transition: height 0.3s ease; 
 }
 
 td.completedtsTabletd:nth-child(4) {

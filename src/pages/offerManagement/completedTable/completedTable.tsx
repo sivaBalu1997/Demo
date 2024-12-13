@@ -53,6 +53,24 @@ const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailur
       setActiveIndex(null);
     }
   };
+  const convertTo12HourFormat = (time24: any) => {
+    if (!time24) {
+      return ''; 
+    }
+  
+    const [hours, minutes] = time24.split(':'); 
+    
+    if (hours === undefined || minutes === undefined) {
+      return ''; 
+    }
+  
+    let hours12 = parseInt(hours);
+    const ampm = hours12 >= 12 ? 'PM' : 'AM';
+    hours12 = hours12 % 12;
+    hours12 = hours12 ? hours12 : 12; 
+  
+    return `${hours12.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+  };
 
   // useEffect(() => {
   //   document.addEventListener("mousedown", handleClickOutside);
@@ -87,6 +105,38 @@ const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailur
       </>
     );
   };
+  const [expandedRows, setExpandedRows] = useState<boolean[]>([]);
+  const handleShowRemainingItems = (index: number) => {
+    setExpandedRows((prevRows) => {
+      const updatedRows = [...prevRows];
+      updatedRows[index] = !updatedRows[index];
+      return updatedRows;
+    });
+  };
+  // const renderItems = (items: { itemId: string; itemName: string }[], index: number) => {
+  //   const maxVisibleItems = 5;
+  //   const itemNames = items?.map((item) => item?.itemName);
+
+  //   const displayedItems = expandedRows[index]
+  //     ? itemNames
+  //     : itemNames?.slice(0, maxVisibleItems);
+
+  //   return (
+  //     <>
+  //       {displayedItems?.join(", ")}
+  //       {items?.length > maxVisibleItems && !expandedRows[index] && (
+  //         <span
+  //           className="extra-items"
+  //           onClick={() => handleShowRemainingItems(index)} // Toggle show remaining items
+  //         >
+  //           +{items?.length - maxVisibleItems} Items
+  //         </span>
+  //       )}
+  //     </>
+  //   );
+  // };
+
+
   const countryC = restaurantDetails?.country;
 const handledeleteoffer=(offerid:string,EnabledorNot:number)=>{
 
@@ -97,6 +147,7 @@ const handledeleteoffer=(offerid:string,EnabledorNot:number)=>{
 
   }
   // dispatch(SPOfferListDelete(offerid))
+  
 
   dispatch(SPOfferListDisable(disableOffer))
 }
@@ -121,8 +172,9 @@ const handledeleteoffer=(offerid:string,EnabledorNot:number)=>{
                 <th className="completedtsTableth">Duration</th>
                 <th className="completedtsTableth">Channel</th>
                 <th className="completedtsTableth">Items</th>
-                <th className="completedtsTableth">Total Items</th>
+                <th className="completedtsTableth"  >Total Items</th>
                 <th className="completedtsTableth">Special Price</th>
+                <th className="completedtsTableth"></th>
               </tr>
             </thead>
           
@@ -152,27 +204,26 @@ const handledeleteoffer=(offerid:string,EnabledorNot:number)=>{
 
                 row.isEnabled!==1&& (
                   <tr key={index} className="completedtsTabletr">
-                  <td className="completedtsTabletd" >{row.offerName}</td>
-                  <td className="completedtsTabletd">
+                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row.offerName}</td>
+                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
                     <p className="duration">
                       <span>
-                        {" "}
-                        {row?.effectivePeriod?.startTime} -{" "}
-                        {row?.effectivePeriod?.endTime}
+                      {convertTo12HourFormat(row?.effectivePeriod?.startTime)} - {convertTo12HourFormat(row?.effectivePeriod?.endTime)}
+
                       </span>
                       {row.date}
                     </p>
                     <DaysWeekOffer highlightedDays={row?.effectivePeriod?.validDays} />
                   </td>
-                  <td className="completedtsTabletd">
+                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
                     {isChannelAvailable(row.channel)}
                   </td>
-                  <td className="completedtsTabletd">
+                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
                     {renderItems(row.items)}
                   </td>
-                  <td className="completedtsTabletd">{row?.totalItems}</td>
+                  <td className="completedtsTabletd totalitem" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row?.totalItems}</td>
 
-                  <td className="completedtsTabletd">
+                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
                     {row.type === "PERCENT" ? `${row?.value}%` : null}
                     {row.type === "FLATFEE"
                       ? `${countryC === "US" ? "$" : "RS"}${row.value}`

@@ -15,6 +15,9 @@ interface RadioButtonGroupProps {
 }
 
 const RadioButton: React.FC<RadioButtonGroupProps> = ({ options, selectedValue, name, onChange, register }) => {
+  console.log({options});
+  console.log({selectedValue});
+  
   
   return (
     <div className="radio-button-group">

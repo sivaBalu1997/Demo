@@ -6,6 +6,7 @@ import disable from "../../../assets/svg/offerdisable.svg";
 import bin from "../../../assets/svg/offerbin.svg";
 import { useDispatch } from "react-redux";
 import { SPOfferListDelete, SPOfferListDisable ,SPOfferListEdit} from "redux/offer/offerActions";
+import { useHistory } from "react-router";
 
 interface DropdownParams {
   EnableorNot?: number;
@@ -13,14 +14,20 @@ interface DropdownParams {
 }
 
 const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
+  const history = useHistory();
   const [showDropdown,setShowDropdown]=useState(true);
 
   const handleEdit = (offer: any) => {
     console.log("Edit offer:", offer);
     dispatch(SPOfferListEdit(offer))
+    history.push("/offer/special");
  
   };
+
+
+
+
 
   const handleDisable = (offer: any) => {
     console.log("Disable offer:", offer);
@@ -42,18 +49,22 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
   };
 
   const data = [
+    ...(EnableorNot !== 0
+      ? [
+          {
+            name: "Edit",
+            img: edit,
+            onclickFn: () => handleEdit(offerData),
+          },
+          {
+            name: "Duplicate",
+            img: duplicate,
+            onclickFn: () => handleEdit(offerData),
+          },
+        ]
+      : []),
     {
-      name: "Edit",
-      img: edit,
-      onclickFn: () => handleEdit(offerData),
-    },
-    {
-      name: "Duplicate",
-      img: duplicate,
-      onclickFn: () => handleEdit(offerData),
-    },
-    {
-      name: offerData?.EnableorNot === 0 ? "Enable" : "Disable",
+      name: EnableorNot === 0 ? "Enable" : "Disable",
       img: disable,
       onclickFn: () => handleDisable(offerData),
     },
@@ -63,6 +74,7 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
       onclickFn: () => handleDelete(offerData),
     },
   ];
+
 
   return (
 <>{

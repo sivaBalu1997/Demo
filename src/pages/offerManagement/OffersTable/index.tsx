@@ -196,12 +196,12 @@ useEffect(()=>{
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
 
  
  
@@ -236,6 +236,28 @@ useEffect(()=>{
           );
         };
   const countryC = restaurantDetails?.country;
+
+
+  const convertTo12HourFormat = (time24: any) => {
+    if (!time24) {
+      return ''; 
+    }
+  
+    const [hours, minutes] = time24.split(':'); 
+    
+    if (hours === undefined || minutes === undefined) {
+      return ''; 
+    }
+  
+    let hours12 = parseInt(hours);
+    const ampm = hours12 >= 12 ? 'PM' : 'AM';
+    hours12 = hours12 % 12;
+    hours12 = hours12 ? hours12 : 12; 
+  
+    return `${hours12.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+  };
+  
+  
   return (
     <div className={isExpanded ? " offerTable" : "offerTable1"}>
       <SidePanel />
@@ -283,17 +305,17 @@ offerlistdatafailed? <div className="NoDataFoundContainer-offer">
 offerlistdataloading===false && offerListDataArray?.map((row: any, index: number) => (
     row.isEnabled !==2&& (
       <tr key={index} className="OffrtsTabletr">
-        <td className="OffrtsTabletd">{row?.offerName}</td>
-        <td className="OffrtsTabletd">
+        <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row?.offerName}</td>
+        <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
           <p className="duration">
-            {row?.effectivePeriod?.startTime} - {row?.effectivePeriod?.endTime}
+            {convertTo12HourFormat(row?.effectivePeriod?.startTime)} - {convertTo12HourFormat(row?.effectivePeriod?.endTime)}
           </p>
           <DaysWeekOffer highlightedDays={row?.effectivePeriod?.validDays} />
         </td>
-        <td className="OffrtsTabletd">{isChannelAvailable(row.channel)}</td>
-        <td className="OffrtsTabletd">{renderItems(row?.items)}</td>
-        <td className="OffrtsTabletd">{row?.totalItems}</td>
-        <td className="OffrtsTabletd">
+        <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{isChannelAvailable(row.channel)}</td>
+        <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{renderItems(row?.items)}</td>
+        <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row?.totalItems}</td>
+        <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
           {row.type === "PERCENT" ? `${row?.value}%` : null}
           {row.type === "FLATFEE" ? `${countryC === "US" ? "$" : "RS"}${row.value}` : null}
         </td>
@@ -308,7 +330,7 @@ offerlistdataloading===false && offerListDataArray?.map((row: any, index: number
             />
             {activeIndex === index && (
               <div className="OffersDropDownTable">
-                <OfferDropDown />
+                <OfferDropDown EnableorNot={row.isEnabled} offerData={row}/>
               </div>
             )}
           </div>
@@ -317,10 +339,6 @@ offerlistdataloading===false && offerListDataArray?.map((row: any, index: number
     )
   ))
 }
-
-
-
- 
 </tbody>
 
           </table>

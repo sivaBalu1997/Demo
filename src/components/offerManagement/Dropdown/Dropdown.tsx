@@ -456,7 +456,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 className="cPdropdown-options"
                 onMouseDown={handleOptionMouseDown}
               >
-                {dropDownLoading ? (
+                {Loading ? (
                   <div className="cPdropdown-no-options">
                     <Loader
                       className="cPimgLoader1"
@@ -515,7 +515,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                         );
                       })
                     ) : (
-                      <li className="cPdropdown-no-options">No options found</li>
+                      <li className="cPdropdown-no-options-msg">No options found</li>
                     )}
                   </div>
                 )}

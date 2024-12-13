@@ -528,11 +528,30 @@
   .offer-to-date {
     display: flex;
 
+    width: 130px;
+    height: 44px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+.offerdatePicker-special
+{
+  width: 6.5rem;
+  border: none;
+  outline: none;
+  height: 44px;
+  // border: 1px solid blue;
+}
+.offerdatePicker
+{
+  width: 6.5rem;
+  border: none;
+  outline: none;
+  height: 44px;
+}
     img {
       position: relative;
       width: 20px;
       height: 20px;
-      margin-left: -23px;
+      // margin-left: -23px;
       margin-top: 10px;
     }
   }
@@ -568,4 +587,9 @@
     height: 2.5rem;
     // border: 1px solid blue;
   }
+}
+
+.period-buttons
+{
+  display: flex;
 }
