@@ -432,7 +432,6 @@ const DropDownList: React.FC<DropdownProps> = ({
 
       if (dropDownType === "CATEGORY") {
         setParentId(option?.id);
-
         setValue("subCategory", "");
       }
     }
@@ -537,24 +536,8 @@ const DropDownList: React.FC<DropdownProps> = ({
 
       const data = selectedOptions.filter((item) => item.id != value);
       setSelectedOptions([...data]);
-      // if (deleteApicall === "success") {
-      //   if (dropDownType !== "SUB_CATEGORY" && name !== 'subCategory') {
-      //     dispatch(fetchDropDownRequest(payload));
-      //   }
-
-      //   if (dropDownType === "SUB_CATEGORY" && subcategorydataforApi.parentId !== "") {
-      //     dispatch(fetchDropDownRequest(subcategorydataforApi));
-      //   }
-      // }
     }
   };
-
-  // const handleBlur = () => {
-  //   trigger(name);
-  // };
-  // value={type === "checkbox"
-  //   ? selectedOptions.map((opt) => opt.name).join(", ")
-  //   : selectedOptions[0]?.name || ""}
 
   const handleNewItemAdd = () => {
     const newValue = NewItemref?.current?.value;
@@ -571,7 +554,6 @@ const DropDownList: React.FC<DropdownProps> = ({
       newItem,
     ]);
 
-    // handleSelect(newItem);
     setSearchTerm("");
     setAddNewButton(false);
     const viewdata = {
@@ -687,6 +669,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                       name === "cuisine" ||
                       name === "bestPair" ||
                       name === "DietaryType" ||
+                      name === "tax" ||
                       name === "kitchenstation") &&
                       Disablesubcategory)
                   ) {
