@@ -878,6 +878,10 @@ export const MenuPage = () => {
   const headerRef = useRef(null);
   const bodyRef = useRef(null);
 
+
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+
   useEffect(() => {
     const syncScroll = (source, target) => {
       target.scrollLeft = source.scrollLeft;
@@ -900,6 +904,45 @@ export const MenuPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const syncScroll = (source, target) => {
+      if (target) target.scrollTop = source.scrollTop;
+    };
+  
+    const handleHeaderScroll = () => {
+      if (ref1.current && ref2.current) {
+        syncScroll(ref1.current, ref2.current);
+      }
+    };
+    const handleBodyScroll = () => {
+      if (ref1.current && ref2.current) {
+        syncScroll(ref2.current, ref1.current);
+      }
+    };
+  
+    const headerElement = ref1.current;
+    const bodyElement = ref2.current;
+  
+    if (headerElement && bodyElement) {
+      headerElement.addEventListener("scroll", handleHeaderScroll);
+      bodyElement.addEventListener("scroll", handleBodyScroll);
+  
+      return () => {
+        headerElement.removeEventListener("scroll", handleHeaderScroll);
+        bodyElement.removeEventListener("scroll", handleBodyScroll);
+      };
+    }
+  }, []);
+  
+  const mergeRefs = (...refs) => (element) => {
+    refs.forEach((ref) => {
+      if (typeof ref === "function") {
+        ref(element);
+      } else if (ref && typeof ref === "object") {
+        ref.current = element;
+      }
+    });
+  };
   return (
     <>
       <div className="MenuPage-container">
@@ -1011,7 +1054,8 @@ export const MenuPage = () => {
               // className={`${isExpanded ? "body-container-expand" : "body-container"
               //   }`}
               >
-                <div className="first-div-body">
+                <div></div>
+                <div className="first-div-body" ref={ref1}>
                   {itemList?.map((data, parentIndex) => (
                     <React.Fragment key={parentIndex}>
                       {data?.itemResponseList?.length > 0 &&
@@ -1070,7 +1114,7 @@ export const MenuPage = () => {
                   <div
                     className={`${isExpanded && !menuDataLoading && !menuDataFailed && "second-div-body-expand"
                       } ${!isExpanded && !menuDataLoading && !menuDataFailed && "second-div-body"}`}
-                    ref={bodyRef}
+                      ref={mergeRefs(ref2, bodyRef)}
                     style={{ height: menuDataLoading ? "39.5rem" : "" }}
                   >
                     {menuDataLoading ? (
