@@ -6,7 +6,7 @@ import disable from "../../../assets/svg/offerdisable.svg";
 import bin from "../../../assets/svg/offerbin.svg";
 import { useDispatch } from "react-redux";
 import { SPOfferListDelete, SPOfferListDisable ,SPOfferListEdit} from "redux/offer/offerActions";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 interface DropdownParams {
   EnableorNot?: number;

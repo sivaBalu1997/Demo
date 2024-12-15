@@ -151,13 +151,74 @@ const SpecialPriceDetails = () => {
     isEnabled: 2,
   };
 
-  const editOfferData = useSelector((state: any) => state.offer.editSpData);
+  //const editOfferData = useSelector((state: any) => state.offer.editSpData);
+  const editOfferData = {
+    "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
+    "offerName": "tesolap24",
+    "offerCode": "TESOLAP24",
+    "type": "PERCENT",
+    "value": 10.0,
+    "channel": [
+        "02feb858-c58d-48c5-8dd4-9a173390b4eb",
+        "cd5996ed-7201-4faf-b996-5757aa684ad8",
+        "23864e56-e70d-4838-b5b4-eebe07e2bb63"
+    ],
+    "visibleTo": [
+        "C",
+        "M"
+    ],
+    "termsAndConditions": [
+        "Offer starts from dec 21"
+    ],
+    "specialType": "Santa Hour",
+    "category": {
+        "id": "109e48f3-14b4-45d0-a346-1d9aee1a538e",
+        "name": "Frozen Treats"
+    },
+    "subCategory": [
+        {
+            "id": "7934b27d-1f67-4464-8cc5-0a206978aaf4",
+            "name": "Faluda varieties"
+        }
+    ],
+    "items": [
+        {
+            "itemId": "0192d2c3-3ae7-7b51-84a6-c98bf555c854",
+            "itemName": "Mango Faluda",
+            "specialPrice": 6.3000,
+            "originalPrice": 7.0000,
+            "isEnabled": 1
+        },
+        {
+            "itemId": "0192d2c3-bfb7-73ac-a072-6f491639a005",
+            "itemName": "Mango Faluda edit",
+            "specialPrice": 6.3000,
+            "originalPrice": 7.0000,
+            "isEnabled": 1
+        }
+    ],
+    "effectivePeriod": {
+        "isDateEnabled": true,
+        "startDate": "2024-12-05T00:00:00.000+00:00",
+        "endDate": "2024-12-06T00:00:00.000+00:00",
+        "startTime": "04:45:00",
+        "endTime": "05:00:00",
+        "validDays": [
+            1,
+            2,
+            3,
+            4
+        ]
+    },
+    "isEnabled": 2,
+    "totalItems": 2
+}
 
   const OfferlistData = useSelector(
     (state: any) => state.offer.getOfferListData
   );
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedDate1, setSelectedDate1] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [selectedDate1, setSelectedDate1] = useState<any>(null);
 
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
@@ -181,26 +242,15 @@ const SpecialPriceDetails = () => {
 
   const [channal, setChannal] = useState<any>([]);
   const [vissibleTo, setvissibleTo] = useState([]);
-  const [terms, setterms] = useState([
-    {
-      id: "1",
-      name: "Term1",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "3",
-      name: "Term2",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-  ]);
+  const [terms, setterms] = useState<any>([]);
+  const [selectedTerm,setSelectedTerm]=useState<any>()
   const [catagory, setCatagory] = useState([]);
   const [subCatagory, setSubCatagory] = useState([]);
+  const [SelectedCatagory, setSelectedCatagory] = useState<any>([]);
+  const [SelectedsubCatagory, setSelectedSubCatagory] = useState<any>([]);
+  const [selectedChannal, setSelectedChannal] = useState<any>([]);
+  const [selectedVissibleTo, setSelectedVissibleTo] = useState<any>([]);
+  const [flag,setFlag]=useState(false)
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
     ordertype: false,
@@ -357,6 +407,7 @@ const SpecialPriceDetails = () => {
           isEnabled: item?.isEnabled,
         };
       }),
+
       effectivePeriod: {
         isDateEnabled: dateShow,
         startDate: dateShow ? formatDate(values?.fromDate) : null,
@@ -373,8 +424,9 @@ const SpecialPriceDetails = () => {
     trigger();
 
     const isvalid = valiadtionforDateandTime();
+    console.log("kkkkk888k",payload)
     // console.log("errorsdate",valiadtionforDateandTime());
-    dispatch(createSpecialOfferRequest(payload));
+   // dispatch(createSpecialOfferRequest(payload));
 
     if (isvalid) {
       setOverlapShow(true);
@@ -411,6 +463,7 @@ const SpecialPriceDetails = () => {
     setSelectedDate(date);
     setSelectedDate1(null);
     setValue("fromDate", date);
+    console.log("kkkkkkk",date)
 
     setValidationErrors((prevErrors: any) => {
       const updatedErrors = [...prevErrors];
@@ -488,7 +541,10 @@ const SpecialPriceDetails = () => {
 
   useEffect(() => {
     if (selectedDate && selectedDate1) {
-      setDayThird([]);
+      if(!editOfferData){
+        setDayThird([]);
+      }
+     
       if (selectedDate == selectedDate1) {
         handleSingleDayRange(selectedDate, selectedDate1);
       } else {
@@ -509,8 +565,10 @@ const SpecialPriceDetails = () => {
           id: item?.id,
           type: item?.typeGroup,
         };
+
       });
       setChannal([...data]);
+      setFlag(true)
     }
   }, [orderTypes]);
 
@@ -647,22 +705,110 @@ const SpecialPriceDetails = () => {
       endTimeError: "",
     },
   ]);
+  const convertStringToDate = (inputDate:any) => {
+    const date = new Date(inputDate); // Automatically parses ISO 8601 dates like "2024-12-05"
+    return date; // Returns a valid Date object
+  };
 
+
+  const convertToPeriodFormat=(time24:any)=> {
+    const [hours, minutes] = time24.split(":").map(Number);
+    const period = hours >= 12 ? "PM" : "AM";
+    const hours12 = hours % 12 || 12;
+    const formattedTime = `${hours12}:${minutes.toString().padStart(2, "0")}`;
+    return {
+        time: formattedTime,
+        period: period,
+    };
+}
   useEffect(() => {
-    if (editOfferData) {
+    if (editOfferData&&flag) {
       setValue("offerName", editOfferData?.offerName);
-      setValue("offerChannel", editOfferData?.channel?.join(",") || "");
-      setValue("DatePicked", editOfferData?.effectivePeriod?.isDateEnabled);
-      setValue("fromTime", editOfferData?.effectivePeriod?.startTime);
-      setValue("toTime", editOfferData?.effectivePeriod?.endTime);
-      setValue("fromDate", editOfferData?.effectivePeriod?.startDate);
-      setValue("toDate", editOfferData?.effectivePeriod?.endDate);
-      setValue("specialType", editOfferData?.type);
-      setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
-      setValue("selectedFooditems", editOfferData?.items);
-      setValue("specialTypeValue", editOfferData?.value);
+      if(editOfferData?.channel?.length>0 && channal.length>0){
+        const data=channal.filter((item:any) =>editOfferData?.channel.includes(item.id));
+        console.log("iiii",data,editOfferData?.channel,channal)
+        setValue("offerChannel",data[0]?.name)
+        setSelectedChannal([...data])
+        }
+        if(editOfferData?.visibleTo?.length>0){
+         const data=visibleOption.filter((item:any) =>editOfferData?.visibleTo.includes(item?.name[0]));
+         setValue("offerToVisible", data.map((opt) => opt.name).join(", "))
+         setSelectedVissibleTo([...data])
+         }
+         if(editOfferData?.termsAndConditions?.length>0){
+          const data= editOfferData?.termsAndConditions.map((item:any,index:any)=>{
+              return {
+                id: index,
+                name: item,
+                locationId: "",
+                type: "T",
+                parentId: "",
+                canDelete: false,
+              }
+          })
+          setterms([...data])
+          setSelectedTerm([...data])
+         }
+         if(editOfferData?.specialType){
+          setValue("specialTypeName",editOfferData?.specialType)
+         }
+         if(editOfferData?.type){
+          setValue("specialType", editOfferData?.type=="PERCENT"?"Percentage":"Amount");
+         }
+         setValue("specialTypeValue", editOfferData?.value);
+         if(editOfferData?.category){
+          setSelectedCatagory([editOfferData?.category])
+          setParentId(editOfferData?.category?.id)
+         }
+         if(editOfferData?.subCategory?.length>0){
+          setSelectedSubCatagory([...editOfferData?.subCategory])
+         }
+         if(editOfferData?.items?.length>0){
+          setselectedFoodItems([...editOfferData?.items])
+         }
+         if(editOfferData.effectivePeriod){
+            if(editOfferData.effectivePeriod?.isDateEnabled){
+              setDateShow(editOfferData.effectivePeriod?.isDateEnabled)
+              if(editOfferData.effectivePeriod?.startDate){
+                setSelectedDate(convertStringToDate(editOfferData.effectivePeriod?.startDate))
+                setValue("fromDate", convertStringToDate(editOfferData.effectivePeriod?.startDate));
+      
+              
+              }
+              if(editOfferData.effectivePeriod?.endDate){
+               setSelectedDate1(convertStringToDate(editOfferData.effectivePeriod?.endDate))
+               setValue("toDate", convertStringToDate(editOfferData.effectivePeriod?.endDate));
+              }
+            }
+            if(editOfferData?.effectivePeriod?.startTime){
+              const data =convertToPeriodFormat(editOfferData?.effectivePeriod?.startTime)
+              setValue("fromTime", data.time);
+              setValue("fromPeriod",data.period)
+             // setStartTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.startTime))
+            }
+            if(editOfferData?.effectivePeriod?.endTime){
+              const data =convertToPeriodFormat(editOfferData?.effectivePeriod?.endTime)
+              setValue("toTime", data.time);
+              setValue("toPeriod",data.period)
+              //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
+            }
+            if(editOfferData?.effectivePeriod?.validDays.length>0)
+            {
+            setDayThird(editOfferData?.effectivePeriod?.validDays)
+            }
+         }
+      // setValue("offerChannel", editOfferData?.channel?.join(",") || "");
+      // setValue("DatePicked", editOfferData?.effectivePeriod?.isDateEnabled);
+      // setValue("fromTime", editOfferData?.effectivePeriod?.startTime);
+      // setValue("toTime", editOfferData?.effectivePeriod?.endTime);
+      // setValue("fromDate", editOfferData?.effectivePeriod?.startDate);
+      // setValue("toDate", editOfferData?.effectivePeriod?.endDate);
+      // setValue("specialType", editOfferData?.type);
+      // setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
+      // setValue("selectedFooditems", editOfferData?.items);
+      // setValue("specialTypeValue", editOfferData?.value);
     }
-  }, [editOfferData, setValue]);
+  }, [flag]);
 
   // const validateModifiers = (modifications: any[]) => {
   //   const errors = [...customizationerrors];
@@ -977,6 +1123,8 @@ const SpecialPriceDetails = () => {
                       render={({ field }: any) => (
                         <Dropdown
                           options={channal}
+                          selectedOptions={selectedChannal}
+                          setSelectedOptions={setSelectedChannal}
                           type="checkbox"
                           setOptions={setChannal}
                           placeholder="Select Channel"
@@ -1008,6 +1156,8 @@ const SpecialPriceDetails = () => {
                     control={control}
                     render={({ field }: any) => (
                       <Dropdown
+                        setSelectedOptions={setSelectedVissibleTo}
+                        selectedOptions={selectedVissibleTo}
                         options={visibleOption}
                         type="checkbox"
                         setOptions={setvissibleTo}
@@ -1039,6 +1189,8 @@ const SpecialPriceDetails = () => {
                     render={({ field }: any) => (
                       <Dropdown
                         options={terms}
+                        setSelectedOptions={setSelectedTerm}
+                        selectedOptions={selectedTerm}
                         type="checkbox"
                         setOptions={setterms}
                         placeholder="Select Terms and Conditions"
@@ -1126,6 +1278,8 @@ const SpecialPriceDetails = () => {
                       <Dropdown
                         options={catagoryOption}
                         type="radio"
+                        setSelectedOptions={setSelectedCatagory}
+                        selectedOptions={SelectedCatagory}
                         setOptions={setCatagory}
                         placeholder="Select Category"
                         register={register}
@@ -1155,6 +1309,8 @@ const SpecialPriceDetails = () => {
                     render={({ field }: any) => (
                       <Dropdown
                         options={subCatagoryOption}
+                        setSelectedOptions={setSelectedSubCatagory}
+                        selectedOptions={SelectedsubCatagory}
                         type="checkbox"
                         setOptions={setSubCatagory}
                         placeholder="Select Sub Category"
@@ -1324,7 +1480,7 @@ const SpecialPriceDetails = () => {
                               <DatePicker
                                 placeholderText="07/01/2034"
                                 dateFormat="MM/dd/yyyy"
-                                selected={value}
+                                selected={selectedDate}
                                 onChange={(date: any) => {
                                   onChange(date);
                                   handleDateChange(date);

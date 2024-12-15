@@ -55,6 +55,8 @@ interface DropdownProps {
   parentId?: any;
   bestpair?: boolean;
   setSubCatagoryId?:any
+  setSelectedOptions:any
+  selectedOptions:any
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -83,10 +85,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   setParentId,
   parentId,
   search,
-  setSubCatagoryId
+  setSubCatagoryId,
+  setSelectedOptions,
+  selectedOptions,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  //const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
   const [addNewButton, setAddNewButton] = useState<boolean>(false);
   const NewItemref = useRef<HTMLInputElement>(null);
   const [editList, setEditList] = useState<boolean>(false);
@@ -235,16 +239,16 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const handleCheckboxChange = (option: Option) => {
     if (type === "checkbox") {
-      setSelectedOptions((prevSelected) => {
+      setSelectedOptions((prevSelected:any) => {
         const isAlreadySelected = prevSelected?.findIndex(
-          (opt) => opt.id === option.id
+          (opt:any) => opt.id === option.id
         );
 
         let updatedSelected;
 
         if (isAlreadySelected !== -1) {
           updatedSelected = prevSelected.filter(
-            (_, index) => index !== isAlreadySelected
+            (_:any, index:any) => index !== isAlreadySelected
           );
         } else {
           if (bestpair && prevSelected.length >= 5) {
@@ -253,7 +257,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           updatedSelected = [...prevSelected, option];
         }
 
-        setValue(name, updatedSelected.map((opt) => opt.name).join(", "));
+        setValue(name, updatedSelected.map((opt:any) => opt.name).join(", "));
         trigger(name);
 
         return updatedSelected;
@@ -409,7 +413,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               dropdownopen
                 ? searchTerm
                 : type === "checkbox"
-                ? selectedOptions?.map((opt) => opt?.name)?.join(", ")
+                ? selectedOptions?.map((opt:any) => opt?.name)?.join(", ")
                 : selectedOptions[0]?.name || ""
             }
             onChange={search ? handleSearch : undefined}
@@ -480,7 +484,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                               <input
                                 type={type}
                                 checked={selectedOptions?.some(
-                                  (opt) => opt?.id === option?.id
+                                  (opt:any) => opt?.id === option?.id
                                 )}
                                 className="cPdropdon-option-inputfield"
                                 onChange={() => handleSelect(option)}
