@@ -251,6 +251,8 @@ const SpecialPriceDetails = () => {
   const [selectedChannal, setSelectedChannal] = useState<any>([]);
   const [selectedVissibleTo, setSelectedVissibleTo] = useState<any>([]);
   const [flag,setFlag]=useState(false)
+  console.log({SelectedCatagory,SelectedsubCatagory});
+  
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
     ordertype: false,
@@ -401,6 +403,18 @@ const SpecialPriceDetails = () => {
       specialType: values?.specialTypeName,
       type: values?.specialType === "Percentage" ? "PERCENT" : "FLATFEE",
       value: values?.specialTypeValue,
+      
+      category:{
+        "id":"ff42295b-ef61-434b-a966-450892a50875"
+        },
+        subCategory:[
+          {
+            id:"ae5df797-fac1-4922-aa7d-2fb7e568d626"
+           },
+           {
+            id:"c52ef617-42e8-44db-aec0-76ec90cf737b"
+           }
+        ],
       items: selectedFoodItems.map((item) => {
         return {
           itemId: item?.itemId,
