@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  overflow-y: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -23,6 +24,7 @@
 
   .offerPrimaryRow1 {
     display: flex;
+    gap: 1.5rem;
     flex-direction: row;
     height: 72px;
   }
@@ -30,6 +32,8 @@
   .offerPrimaryRow2 {
     display: flex;
     flex-direction: row;
+    display: flex;
+    gap: 1.5rem;
   }
 }
 
@@ -44,15 +48,24 @@
 .offer-creationpage-container {
   position: relative;
   width: 124%;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
 }
 
 .offer-creationpage-container1 {
   position: relative;
   width: 90%;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .specialprice-container1 {
-  height: 80vh;
+  height: 78vh;
   overflow-y: auto;
   margin-left: 1.5rem;
   &::-webkit-scrollbar {
@@ -61,7 +74,7 @@
 }
 
 .specialprice-container {
-  height: 80vh;
+  height: 78vh;
   overflow-y: auto;
   margin-left: 1.5rem;
   &::-webkit-scrollbar {
@@ -150,11 +163,17 @@
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
     color: #7f7f7f;
+    margin-top: -2%;
   }
+}
+.timeContainer
+{
+position: relative;
+top: -2%;
 }
 
 .time-format {
-  padding-top: 1.5%;
+  padding-top: 3%;
 // border: 1px solid red;
   display: flex;
   justify-content: left;
@@ -350,7 +369,7 @@
 }
 
 .Date-available {
-  margin-top: -2%;
+  margin-top: -1%;
   display: flex;
   justify-content: left;
   align-items: center;
@@ -532,18 +551,11 @@
   display: flex;
   gap: 30px;
   align-items: center;
+  margin-bottom: 2%;
+  height: 3.5rem;
+ 
 
-  .To-text
-  {
-    font-family: "Poppins",sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 18px;
-    text-align: left;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-    
-  }
+  
 
   .offer-from-date,
   .offer-to-date {
@@ -614,3 +626,21 @@
 {
   display: flex;
 }
+.To-text
+  {
+    font-family: "Poppins",sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    
+  }
+
+  .checkeddays
+  {
+    
+    margin-top: -2%;
+    
+  }

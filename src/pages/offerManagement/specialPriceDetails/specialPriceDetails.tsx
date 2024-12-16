@@ -21,7 +21,9 @@ import {
   createSpecialOfferRequest,
   SPOfferListSendingRequest,
   getOfferItemsRequest,
+  updateSpecialOfferRequest,
 } from "redux/offer/offerActions";
+import { selectedCategory } from "redux/productCatalog/productCatalogActions";
 
 interface itemobject {
   id: number;
@@ -49,6 +51,8 @@ interface specialPriceForm {
   AvailableDays: number[];
   fromPeriod: string;
   toPeriod: string;
+  startTime:string;
+  endTime:string;
 }
 
 const SpecialPriceDetails = () => {
@@ -251,7 +255,7 @@ const SpecialPriceDetails = () => {
   const [selectedChannal, setSelectedChannal] = useState<any>([]);
   const [selectedVissibleTo, setSelectedVissibleTo] = useState<any>([]);
   const [flag,setFlag]=useState(false)
-  console.log({SelectedCatagory,SelectedsubCatagory});
+  console.log({selectedChannal});
   
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
@@ -292,6 +296,8 @@ const SpecialPriceDetails = () => {
       AvailableDays: [],
       fromPeriod: "AM",
       toPeriod: "AM",
+      startTime:"",
+      endTime:""
     },
   });
   const handleDropdownToggle = (dropdownName: string) => {
@@ -374,13 +380,16 @@ const SpecialPriceDetails = () => {
     const fromTiming = getValues("fromTime");
     const endTiming = getValues("toTime");
     const offerChannel = getValues("offerChannel");
-    console.log({ offerChannel });
+    const st=getValues("fromPeriod")
+    const en=getValues("toPeriod")
+
+    // console.log({ offerChannel });
 
     const fromTimeFormat =
-      fromTiming && selectedFrom ? fromTiming + " " + selectedFrom : "";
+      fromTiming && st ? fromTiming + " " + st : "";
 
     const toTimeFormat =
-      endTiming && selectedTo ? endTiming + " " + selectedTo : "";
+      endTiming && en ? endTiming + " " + en : "";
 
     if (fromTimeFormat && toTimeFormat) {
       const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
@@ -393,11 +402,9 @@ const SpecialPriceDetails = () => {
 
     const payload = {
       locationId: locationid,
-      offerId: null,
+      offerId: editOfferData?.offerId|| null,
       offerName: values?.offerName,
-      channel: orderTypes
-        .filter((item: any) => values.offerChannel.includes(item?.typeName))
-        .map((data: any) => data?.id),
+      channel: selectedChannal.map((item:any)=>item.id),
       visibleTo: values?.offerToVisible,
       termsAndConditions: values?.termsAndConditions,
       specialType: values?.specialTypeName,
@@ -405,16 +412,9 @@ const SpecialPriceDetails = () => {
       value: values?.specialTypeValue,
       
       category:{
-        "id":"ff42295b-ef61-434b-a966-450892a50875"
+        id:SelectedCatagory[0].id
         },
-        subCategory:[
-          {
-            id:"ae5df797-fac1-4922-aa7d-2fb7e568d626"
-           },
-           {
-            id:"c52ef617-42e8-44db-aec0-76ec90cf737b"
-           }
-        ],
+        subCategory:SelectedsubCatagory.map((item:any) => ({ id: item.id })),
       items: selectedFoodItems.map((item) => {
         return {
           itemId: item?.itemId,
@@ -440,9 +440,22 @@ const SpecialPriceDetails = () => {
     const isvalid = valiadtionforDateandTime();
     console.log("kkkkk888k",payload)
     // console.log("errorsdate",valiadtionforDateandTime());
-   // dispatch(createSpecialOfferRequest(payload));
+    if(editOfferData?.offerId!==null)
+      {
+         dispatch(updateSpecialOfferRequest(payload))
+      }
+      else{
+ dispatch(createSpecialOfferRequest(payload));
+      }
 
     if (isvalid) {
+
+      
+
+
+
+
+      
       setOverlapShow(true);
     }
 
@@ -809,6 +822,8 @@ const SpecialPriceDetails = () => {
             if(editOfferData?.effectivePeriod?.validDays.length>0)
             {
             setDayThird(editOfferData?.effectivePeriod?.validDays)
+            setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
+
             }
          }
       // setValue("offerChannel", editOfferData?.channel?.join(",") || "");
@@ -1094,7 +1109,7 @@ const SpecialPriceDetails = () => {
               : "offer-creationpage-container1"
           }
         >
-          <div className="specialoffer-heading">
+          <div  className="specialoffer-heading">
             <h1>Create Special Price Details</h1>
           </div>
 
@@ -1670,7 +1685,7 @@ const SpecialPriceDetails = () => {
                                       setStartTime(formattedTime);
                                     }
                                   }
-                                  validationForstartTimeValidation();
+                                  validationForEndTime();
                                 }}
                                 onBlur={onBlur}
                               />
