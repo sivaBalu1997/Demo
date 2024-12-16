@@ -893,12 +893,7 @@ const taxData = typeof primarydata?.tax === 'string'
                         />
                       </div>
 
-                      <div>
-                        <ReviewValues
-                          label="Tax Class Association"
-                          textvalue={primarydata.tax ? primarydata.tax : "N/A"}
-                        />
-                      </div>
+                     
                     </div>
 
                     <div className="primaryreviewdetails2">
@@ -911,12 +906,12 @@ const taxData = typeof primarydata?.tax === 'string'
                         />
                       </div>
 
-                      <div>
+                      {/* <div>
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={"N/A"}
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -948,6 +943,12 @@ const taxData = typeof primarydata?.tax === 'string'
                               ? fetchedprimarydata.portionSize?.type
                               : "N/A"
                           }
+                        />
+                      </div>
+                      <div>
+                        <ReviewValues
+                          label="Tax Class Association"
+                          textvalue={primarydata.tax ? primarydata.tax : "N/A"}
                         />
                       </div>
 

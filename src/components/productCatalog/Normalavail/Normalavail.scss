@@ -108,10 +108,11 @@
 }
 
 .dayspickup {
-  margin-top: -3.8rem;
+  margin-top: 2rem;
   margin-bottom: 2.5rem;
   // background-color: pink;
   width: fit-content;
+  margin: 0;
 }
 .dayspick-pickup {
   margin-top: -1.7rem;
@@ -235,7 +236,7 @@
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 0.313rem;
   width: 9.8rem;
-  height: 2.8rem;
+  height: 2.7rem;
   border-radius: 5px;
   font-size: 14px;
   color: black;
@@ -248,7 +249,7 @@
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 0.313rem;
   width: 9.75rem;
-  height: 2.75rem;
+  height: 2.7rem;
   border-radius: 5px;
   font-size: 14px;
   color: black;
@@ -276,7 +277,8 @@
   display: flex;
   justify-content: start;
   gap: 0.313rem;
-  margin-bottom: 80px;
+  margin-bottom: 25px;
+  margin-top: -0.7rem;
 }
 .Mealz {
   margin-top: -25px;
@@ -369,8 +371,9 @@
 .PickupSectionNormal {
   display: flex;
   flex-direction: column;
-  margin-top: -14px;
-  margin-bottom: 0.5rem;
+  margin-top: -10px;
+  margin-bottom: 0.2rem;
+  // border: 1px solid red;
 }
 .PrizeD {
   margin-top: -25px;
@@ -574,6 +577,8 @@
   align-items: center;
   width: 600px;
   height: 100px;
+ margin-bottom: -1rem;
+  
   // border: 1px solid red;
 }
 .swiggyZomato-input {
@@ -645,12 +650,12 @@
   justify-content: left;
   gap: 0.313rem;
   // border: 1px solid red;
-  margin-top: -0.8rem;
+  margin-top: -1.7rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;
   align-items: center;
-  margin-bottom: 42px;
+  margin-bottom: 37px;
 }
 .Mealz {
   margin-top: -25px;
@@ -700,13 +705,13 @@
   gap: 0.313rem;
 
   position: relative;
-  bottom: 0.7rem;
+  bottom: 0.5rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;
   align-items: center;
 
-  // margin-top: -5px;
+  margin-top: -0.7rem;
 }
 .Mealz {
   margin-top: -25px;
@@ -753,8 +758,8 @@
   justify-content: left;
   gap: 0.313rem;
   // border: 1px solid red;
-  margin-top: 1.3rem;
-  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: -0.6rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;
@@ -820,11 +825,15 @@
 {
   margin-top: -1.2rem;
   margin-left: -0.5rem;
-  margin-bottom: 1.5rem;
+ position: relative;
+ 
+
 }
 .pickuperrormsgmealType
 {
   margin-left: -0.5rem;
+  
+ 
 }
 
 .delivery-price-errormsg

@@ -1072,7 +1072,7 @@ const PrimaryPage = () => {
                   </div>
                 </div>
 
-                {alcoholconstain && (
+                {true && (
                   <div className="Primary-page-InputFields alcoholradiobutton">
                     <h3>Contains Alcohol ?</h3>
                     <RadioButtonGroup
@@ -1322,7 +1322,11 @@ const PrimaryPage = () => {
                   : "Primary-page-container-two"
               }
             >
-              <div className="Primary-page-ingredients-selection">
+              <div   className={
+                alcoholconstain
+                  ? "Primary-page-ingredients-selection1"
+                  : "Primary-page-ingredients-selection"
+              }>
                 <Imagepillsselection
                   heading="Ingredients"
                   options={ingredientsdata}
