@@ -7,13 +7,15 @@ import ThreeDotsImage from "../../../../src/assets/images/ThreeDots.png";
 import OfferDropDown from "../../../components/offerManagement/OfferDropdown";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { SPOfferListRequest,SPOfferListDelete,SPOfferListDisable, } from "redux/offer/offerActions";
+import {
+  SPOfferListRequest,
+  SPOfferListDelete,
+  SPOfferListDisable,
+} from "redux/offer/offerActions";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import noResultsfound from "../../../assets/images/NoResultsFound.png";
 
 const CompletedTable = () => {
- 
-
   const { isExpanded } = useContext(Contextpagejs);
   const locationId = "969c059b-6597-47a8-b175-08658e9bf41c";
   const dispatch = useDispatch();
@@ -24,9 +26,13 @@ const CompletedTable = () => {
   const offerlistdata = useSelector(
     (state: any) => state.offer.SpofferListSuccessResponse
   );
-  const offerlistdataloading=useSelector((state:any)=>state.offer.SpOfferListLoading)
+  const offerlistdataloading = useSelector(
+    (state: any) => state.offer.SpOfferListLoading
+  );
 
-const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailureResponse)
+  const offerlistdatafailed = useSelector(
+    (state: any) => state.offer.SpofferListFailureResponse
+  );
   // console.log({ offerlistdata });
 
   const [offerListDataArray, setOfferListDataArray] = useState([]);
@@ -55,21 +61,21 @@ const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailur
   };
   const convertTo12HourFormat = (time24: any) => {
     if (!time24) {
-      return ''; 
+      return "";
     }
-  
-    const [hours, minutes] = time24.split(':'); 
-    
+
+    const [hours, minutes] = time24.split(":");
+
     if (hours === undefined || minutes === undefined) {
-      return ''; 
+      return "";
     }
-  
+
     let hours12 = parseInt(hours);
-    const ampm = hours12 >= 12 ? 'PM' : 'AM';
+    const ampm = hours12 >= 12 ? "PM" : "AM";
     hours12 = hours12 % 12;
-    hours12 = hours12 ? hours12 : 12; 
-  
-    return `${hours12.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+    hours12 = hours12 ? hours12 : 12;
+
+    return `${hours12.toString().padStart(2, "0")}:${minutes} ${ampm}`;
   };
 
   // useEffect(() => {
@@ -136,21 +142,16 @@ const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailur
   //   );
   // };
 
-
   const countryC = restaurantDetails?.country;
-const handledeleteoffer=(offerid:string,EnabledorNot:number)=>{
+  const handledeleteoffer = (offerid: string, EnabledorNot: number) => {
+    const disableOffer = {
+      offerId: offerid,
+      toEnable: EnabledorNot === 1 || EnabledorNot === 2 ? false : true,
+    };
+    // dispatch(SPOfferListDelete(offerid))
 
-
-  const disableOffer={
-    offerId:offerid,
-    toEnable:EnabledorNot===1||EnabledorNot===2?false:true
-
-  }
-  // dispatch(SPOfferListDelete(offerid))
-  
-
-  dispatch(SPOfferListDisable(disableOffer))
-}
+    dispatch(SPOfferListDisable(disableOffer));
+  };
   return (
     <div className={isExpanded ? "completedTable" : "completedTable1"}>
       <SidePanel />
@@ -172,86 +173,129 @@ const handledeleteoffer=(offerid:string,EnabledorNot:number)=>{
                 <th className="completedtsTableth">Duration</th>
                 <th className="completedtsTableth">Channel</th>
                 <th className="completedtsTableth">Items</th>
-                <th className="completedtsTableth"  >Total Items</th>
+                <th className="completedtsTableth">Total Items</th>
                 <th className="completedtsTableth">Special Price</th>
                 <th className="completedtsTableth"></th>
               </tr>
             </thead>
-          
-            <tbody>{
-            offerlistdataloading ? <div className="Menu-noOptions-offer">
-  <Loader
-    className="imgLoader2-offer"
-    height="100px"
-    width="100px"
-    style={{
-      filter:
-        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
-    }}
-  />
-</div>:offerlistdatafailed? <div className="NoDataFoundContainer-offer">
-<img
-  className="columnselected"
-  src={noResultsfound}
-  alt="noResultFound"
-/>
-<h2 className="columnselectedText">
-  No Results Found
-</h2>
-</div>:
-              offerListDataArray.map((row: any, index) => (
 
+            <tbody>
+              {offerlistdataloading ? (
+                <div className="Menu-noOptions-offer">
+                  <Loader
+                    className="imgLoader2-offer"
+                    height="100px"
+                    width="100px"
+                    style={{
+                      filter:
+                        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                    }}
+                  />
+                </div>
+              ) : offerlistdatafailed ? (
+                <div className="NoDataFoundContainer-offer">
+                  <img
+                    className="columnselected"
+                    src={noResultsfound}
+                    alt="noResultFound"
+                  />
+                  <h2 className="columnselectedText">No Results Found</h2>
+                </div>
+              ) : (
+                offerListDataArray.map(
+                  (row: any, index) =>
+                    row.isEnabled !== 1 && (
+                      <tr key={index} className="completedtsTabletr">
+                        <td
+                          className="completedtsTabletd"
+                          style={{
+                            opacity: row.isEnabled === 0 ? "50%" : "100%",
+                          }}
+                        >
+                          {row.offerName}
+                        </td>
+                        <td
+                          className="completedtsTabletd"
+                          style={{
+                            opacity: row.isEnabled === 0 ? "50%" : "100%",
+                          }}
+                        >
+                          <p className="duration">
+                            <span>
+                              {convertTo12HourFormat(
+                                row?.effectivePeriod?.startTime
+                              )}{" "}
+                              -{" "}
+                              {convertTo12HourFormat(
+                                row?.effectivePeriod?.endTime
+                              )}
+                            </span>
+                            {row.date}
+                          </p>
+                          <DaysWeekOffer
+                            highlightedDays={row?.effectivePeriod?.validDays}
+                          />
+                        </td>
+                        <td
+                          className="completedtsTabletd"
+                          style={{
+                            opacity: row.isEnabled === 0 ? "50%" : "100%",
+                          }}
+                        >
+                          {isChannelAvailable(row.channel)}
+                        </td>
+                        <td
+                          className="completedtsTabletd"
+                          style={{
+                            opacity: row.isEnabled === 0 ? "50%" : "100%",
+                          }}
+                        >
+                          {renderItems(row.items)}
+                        </td>
+                        <td
+                          className="completedtsTabletd totalitem"
+                          style={{
+                            opacity: row.isEnabled === 0 ? "50%" : "100%",
+                          }}
+                        >
+                          {row?.totalItems}
+                        </td>
 
-                row.isEnabled!==1&& (
-                  <tr key={index} className="completedtsTabletr">
-                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row.offerName}</td>
-                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
-                    <p className="duration">
-                      <span>
-                      {convertTo12HourFormat(row?.effectivePeriod?.startTime)} - {convertTo12HourFormat(row?.effectivePeriod?.endTime)}
-
-                      </span>
-                      {row.date}
-                    </p>
-                    <DaysWeekOffer highlightedDays={row?.effectivePeriod?.validDays} />
-                  </td>
-                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
-                    {isChannelAvailable(row.channel)}
-                  </td>
-                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
-                    {renderItems(row.items)}
-                  </td>
-                  <td className="completedtsTabletd totalitem" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row?.totalItems}</td>
-
-                  <td className="completedtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
-                    {row.type === "PERCENT" ? `${row?.value}%` : null}
-                    {row.type === "FLATFEE"
-                      ? `${countryC === "US" ? "$" : "RS"}${row.value}`
-                      : null}
-                  </td>
-                  <td className="OffrtsTabletd">
-                    <div className="action-container" ref={componentRef}>
-                      <img
-                        src={ThreeDotsImage}
-                        width="5"
-                        height="20"
-                        // ref={componentRef}
-                        onClick={() => handleOfferDropdown(index)}
-                        alt="Actions"
-                      />
-                      {activeIndex === index && (
-                        <div className="OffersDropDownTable">
-                          <OfferDropDown EnableorNot={row.isEnabled} offerData={row}/>
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                </tr>
+                        <td
+                          className="completedtsTabletd"
+                          style={{
+                            opacity: row.isEnabled === 0 ? "50%" : "100%",
+                          }}
+                        >
+                          {row.type === "PERCENT" ? `${row?.value}%` : null}
+                          {row.type === "FLATFEE"
+                            ? `${countryC === "US" ? "$" : "RS"}${row.value}`
+                            : null}
+                        </td>
+                        <td className="OffrtsTabletd">
+                          <div className="action-container" ref={componentRef}>
+                            <img
+                              src={ThreeDotsImage}
+                              width="5"
+                              height="20"
+                              // ref={componentRef}
+                              onClick={() => handleOfferDropdown(index)}
+                              alt="Actions"
+                            />
+                            {activeIndex === index && (
+                              <div className="OffersDropDownTable">
+                                <OfferDropDown
+                                  EnableorNot={row.isEnabled}
+                                  offerData={row}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    )
                 )
-
-
-               
-              ))}
+              )}
             </tbody>
           </table>
         </div>

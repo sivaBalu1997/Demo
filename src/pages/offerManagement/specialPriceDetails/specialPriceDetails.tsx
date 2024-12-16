@@ -440,20 +440,20 @@ const SpecialPriceDetails = () => {
     const isvalid = valiadtionforDateandTime();
     console.log("kkkkk888k",payload)
     // console.log("errorsdate",valiadtionforDateandTime());
-    if(editOfferData?.offerId!==null)
-      {
-         dispatch(updateSpecialOfferRequest(payload))
-      }
-      else{
- dispatch(createSpecialOfferRequest(payload));
-      }
+   
 
     if (isvalid) {
 
       
 
 
-
+      if(editOfferData?.offerId!==null)
+        {
+           dispatch(updateSpecialOfferRequest(payload))
+        }
+        else{
+   dispatch(createSpecialOfferRequest(payload));
+        }
 
       
       setOverlapShow(true);
@@ -515,6 +515,8 @@ const SpecialPriceDetails = () => {
   };
 
   const selectedradiowatch = watch();
+  console.log({selectedradiowatch});
+  
   const handleFromToTime = (value: string, timePeriod: string) => {
     console.log({ timePeriod });
 
@@ -757,6 +759,7 @@ const SpecialPriceDetails = () => {
         setValue("offerChannel",data[0]?.name)
         setSelectedChannal([...data])
         }
+
         if(editOfferData?.visibleTo?.length>0){
          const data=visibleOption.filter((item:any) =>editOfferData?.visibleTo.includes(item?.name[0]));
          setValue("offerToVisible", data.map((opt) => opt.name).join(", "))
@@ -775,6 +778,7 @@ const SpecialPriceDetails = () => {
           })
           setterms([...data])
           setSelectedTerm([...data])
+          setValue("termsAndConditions",editOfferData?.termsAndConditions?.join(","))
          }
          if(editOfferData?.specialType){
           setValue("specialTypeName",editOfferData?.specialType)
@@ -786,13 +790,19 @@ const SpecialPriceDetails = () => {
          if(editOfferData?.category){
           setSelectedCatagory([editOfferData?.category])
           setParentId(editOfferData?.category?.id)
+          setValue("category",editOfferData?.category?.name)
          }
          if(editOfferData?.subCategory?.length>0){
           setSelectedSubCatagory([...editOfferData?.subCategory])
+          setValue("subCategory",editOfferData?.subCategory?.map((item)=>item.name).join(","))
          }
          if(editOfferData?.items?.length>0){
           setselectedFoodItems([...editOfferData?.items])
          }
+
+
+
+
          if(editOfferData.effectivePeriod){
             if(editOfferData.effectivePeriod?.isDateEnabled){
               setDateShow(editOfferData.effectivePeriod?.isDateEnabled)
@@ -942,6 +952,8 @@ const SpecialPriceDetails = () => {
 
     setValidationErrors(errors);
   };
+
+  
   const validationForEndTimeValidation = () => {
     const errors = [...validationErrors];
     const StartTime = getValues("fromTime");
@@ -988,6 +1000,12 @@ const SpecialPriceDetails = () => {
     console.log("errorhandling");
     console.log({ fromPeriod });
     console.log({ toPeriod });
+
+    if (startTime === "") {
+      errors[0].startTimeError = "Time is required  sss";
+    } else {
+      errors[0].startTimeError = "";
+    }
 
     if (errors && errors[0]) {
       if (EndTime === "") {
@@ -1038,9 +1056,11 @@ const SpecialPriceDetails = () => {
       Errors.toDateError = "";
     }
     const StartTime = getValues("fromTime");
+    // console.log({StartTime});
+    
 
-    if (startTime === "") {
-      Errors.startTimeError = "Time is required";
+    if (StartTime === "") {
+      Errors.startTimeError = "Time is required ";
     } else {
       Errors.startTimeError = "";
     }
