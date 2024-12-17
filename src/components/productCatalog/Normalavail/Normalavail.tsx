@@ -1571,6 +1571,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           name="DineInPrice"
                           value={entry.DineInPrice}
                           className="DineInInput1Normal"
+                          
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
