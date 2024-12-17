@@ -57,6 +57,7 @@ import {
   GET_OFFER_ITEMS_REQUEST,
   GET_OFFER_ITEMS_SUCCESS,
   GET_OFFER_ITEMS_FAILURE,
+  REMOVE_EDITDATA_WHEN_ADD,
 } from "./offerConstants";
 export const getOfferList = (offerListParams) => ({
   type: OFFER_LIST_REQUEST,
@@ -342,3 +343,8 @@ export const getOfferItemsFailure = (error) => ({
   payload: error,
 });
 
+
+export const removeeditdata = () => ({
+  type: REMOVE_EDITDATA_WHEN_ADD,
+ 
+});

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import "./style.scss";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { removeeditdata } from "redux/offer/offerActions";
 
 const Index = () => {
   const MenuItems = ["Active", "Completed"];
@@ -24,7 +25,7 @@ const Index = () => {
           <p className="SpecialPriceHeading">Special Price</p>
           <button
             className="AddOfferButton"
-            onClick={() => history.push("/offer/special")}
+            onClick={() => {history.push("/offer/special")}}
           >
             + Add New Offers
           </button>

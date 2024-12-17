@@ -58,6 +58,7 @@ SP_OFFER_LIST_EDIT_REQUEST,
 GET_OFFER_ITEMS_SUCCESS,
 GET_OFFER_ITEMS_REQUEST,
 GET_OFFER_ITEMS_FAILURE,
+REMOVE_EDITDATA_WHEN_ADD,
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -457,6 +458,12 @@ export default function offerReducer(state = initialOfferState, action) {
                 case SP_OFFER_LIST_EDIT_REQUEST:
                   draft.editSpData = action.payload;
                   break;
+
+                  case REMOVE_EDITDATA_WHEN_ADD:
+                  draft.editSpData = [];
+                  break;
+
+
               case GET_OFFER_ITEMS_REQUEST:
                 draft.getOfferListData = [];
                 draft.getOfferListLoading = true;
