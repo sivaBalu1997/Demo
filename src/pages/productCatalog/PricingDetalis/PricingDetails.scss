@@ -77,7 +77,8 @@
 
   @media (max-width: 1600px){
     // background-color: lightseagreen;
-    max-height: 59vh;
+    overflow-x: hidden;
+    max-height: 66.5vh;
   }
 
   @media (min-width: 1641px) and (max-width: 1766px) {   

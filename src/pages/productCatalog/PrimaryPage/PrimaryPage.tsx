@@ -745,6 +745,7 @@ const PrimaryPage = () => {
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
+  // const alcoholconstain = false;
   useEffect(() => {
     dispatch(
       fetchDropDownRequest({
@@ -1072,7 +1073,7 @@ const PrimaryPage = () => {
                   </div>
                 </div>
 
-                {true && (
+                {alcoholconstain && (
                   <div className="Primary-page-InputFields alcoholradiobutton">
                     <h3>Contains Alcohol ?</h3>
                     <RadioButtonGroup

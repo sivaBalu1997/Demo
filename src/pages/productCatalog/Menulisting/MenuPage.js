@@ -585,6 +585,9 @@ console.log({orderTypess});
       dispatch(getMenuRequest(selectedBranch?.id));
      }
   }, [selectedBranch?.id]);
+  useEffect(() => {
+   dispatch(getMenuRequest(locationid));
+ }, []);
 
   useEffect(() => {
     if(deleteMenuItemSuccess){
@@ -989,7 +992,12 @@ console.log({orderTypess});
                     <span> Code </span>
                     <button
                       className="addbtn-menupage"
-                      onClick={() => setshowheadinglist(true)}
+                      onClick={() => {
+                        if(itemList.length>0 &&!menuDataLoading && !menuDataFailed )
+                        {
+                          setshowheadinglist(true)}
+                        }
+                      }
                     >
                       <span className="Menupage-insert-column-span">+</span>
                     </button>
