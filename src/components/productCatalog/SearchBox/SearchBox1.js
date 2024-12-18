@@ -62,6 +62,7 @@ const SearchBox = () => {
     }
 
   }, [menuData])
+  const [placeholder,setplaceholder]=useState("");
 
   const handleSearch = (e) => {
     let value = e.target.value;
@@ -126,7 +127,11 @@ const SearchBox = () => {
     const filtered = everything?.filter(item =>
       item?.toLowerCase().includes(input?.toLowerCase())
     );
-
+    const startsWithInput = filtered.find((item) =>
+      item.toLowerCase().startsWith(input.toLowerCase())
+    );
+console.log({filtered});
+setplaceholder(startsWithInput || "")
 
     setFilteredOptions(filtered);
     setFilteredOptionsDispatch(filtered);
@@ -136,6 +141,8 @@ const SearchBox = () => {
       if (firstMatch.toLowerCase().startsWith(input.toLowerCase())) {
         const suggestion = firstMatch.slice(input.length);
         setDisplayTerm(input + suggestion);
+console.log({firstMatch});
+
         setHighlightedIndex(0);
       } else {
         setDisplayTerm(input);
@@ -227,6 +234,8 @@ const SearchBox = () => {
     //   }
     // }
   };
+  console.log({displayTerm});
+  
 
   return (
     <div className="MLSearch-Container">
@@ -234,7 +243,7 @@ const SearchBox = () => {
         <input
           className={`${isExpanded ? "MLHeader-Search1" : "MLHeader-Search"}`}
           value={`${searchTerm}`}
-          placeholder="Search"
+          placeholder={"Search"}
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
           type="text"

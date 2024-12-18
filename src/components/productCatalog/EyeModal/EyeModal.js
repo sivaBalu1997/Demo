@@ -36,6 +36,7 @@ const EyeModal = ({ onEyeclose, onclose }) => {
       (item) => item.isNotHide === 0
     );
 
+
     // const isOnPremEnabledCount =
     //   tempOnPremarray?.filter((data, index) => {
     //     return data?.isNotHide === 1;
@@ -66,6 +67,11 @@ const EyeModal = ({ onEyeclose, onclose }) => {
         isNotHide: allIsNotHideOffPrem,
       },
     ];
+
+const allTrue = tempOrderTypeAvailabilityArray.every(
+      (item) => item.isNotHide
+    );
+    setToggleState(allTrue)
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   }, [data1[0]?.orderTypes]);
 
@@ -192,7 +198,7 @@ const EyeModal = ({ onEyeclose, onclose }) => {
       updatedOrderTypes[index].types = updatedOrderTypes[index].types.map(
         (type) => ({
           ...type,
-          isNotHide: type.isEnabled ? !updateNotHide : type.isNotHide, // Only toggle if isEnabled is true
+          isNotHide: type.isEnabled ? !updateNotHide : type.isNotHide,
         })
       );
     }
@@ -243,7 +249,7 @@ const EyeModal = ({ onEyeclose, onclose }) => {
         isNotHide: !toggleState,
         types: parent.types.map((child) => ({
           ...child,
-          isNotHide: toggleState,
+          isNotHide: child.isEnabled ? toggleState : child.isNotHide
         })),
       };
 

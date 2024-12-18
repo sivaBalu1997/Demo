@@ -317,6 +317,7 @@ const PricingDetails = () => {
     (state: any) => state.productCatalog.kitchenStation
   );
 
+
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
@@ -459,6 +460,7 @@ const PricingDetails = () => {
 
       // Prepare the kitchenstation name for the dropdown
       const kitchenStationName = prizingDetail?.kitchenstation;
+
 
       // Set form values including kitchenstation
       reset({

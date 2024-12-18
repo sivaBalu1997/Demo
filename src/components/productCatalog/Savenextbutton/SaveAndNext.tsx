@@ -241,7 +241,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
      
       const isinValid = await triggerValidation(formData);
 
-    
+       console.log("vbn",formData.kitchenstation);
+       
 
       if (formData.kitchenstation) {
         PricingDetails = {

@@ -85,6 +85,7 @@
 .searched-item-box {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   background-color: #ffffff;
+  
 
 }
 .MLSearch-Container-options1 {
@@ -102,18 +103,24 @@
   left: 12rem;
   // padding-bottom: 10px;
   overflow-x: hidden;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  // border: 1px solid red;
   &::-webkit-scrollbar {
     display: none;
   }
 }
 
 .MLsearchBoxContainer {
-  box-shadow: 0xp 2px 2px 2px #ccc;
+  // box-shadow: 0xp 2px 2px 2px #ccc;
+  box-shadow: none;
+  border: none;
+  outline: none;
+ 
 }
 
 .MLsearchBoxContainer1 {
-  box-shadow: 0xp 2px 2px 2px #ccc;
+  // box-shadow: 0px 2px 2px 2px #ccc;
+  box-shadow: none;
 }
 
 .MLSearch-Container-options-menu ul {
@@ -130,12 +137,13 @@
   overflow: auto;
   width: 37.5vw;
   // box-shadow: 0px 10px 15px -6px rgba(0, 0, 0, 0.2509803922);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
   margin-top: 0px;
   @media (min-width: 1441px) and (max-width: 1536px){
     width: 36.9vw !important;
     // background-color: palegreen;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
 
