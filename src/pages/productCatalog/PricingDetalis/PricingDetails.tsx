@@ -316,8 +316,7 @@ const PricingDetails = () => {
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
-  const watchkitchen=watch("kitchenstation");
-  console.log({watchkitchen});
+
 
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
