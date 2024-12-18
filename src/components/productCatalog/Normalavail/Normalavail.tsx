@@ -1372,7 +1372,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
-
       const Kitchenstationdata = getValues("kitchenstation");
       
       if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
@@ -1385,7 +1384,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         if (Normaldays && Normaldays.length > 0) {
           delete validationErrors["daysCheck"];
         }
-
 
       dineinfields?.forEach((field: any, index: number) => {
         if (showDineIn) {
@@ -1535,9 +1533,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               id={availabilityid}
               setId={setAvailabilityid}
             />
-             <span className="daycheckvalidation">
-                          {errors[`daysCheck`]||""}
-                        </span>
+             {Normaldays && Normaldays.length === 0 && 
+              <span className="daycheckvalidation">
+                {errors[`daysCheck`]||""}
+              </span>}
             <p  className={errors[`daysCheck`]?"Note":"Note-error"}  >
               Note : Changes here will apply to all service types unless
               specific day options are enabled
