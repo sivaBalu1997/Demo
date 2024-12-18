@@ -589,6 +589,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setDayPickup(prizingDetail.normalForm?.Pickup || [])
         setDayDelivery(prizingDetail.normalForm?.Delivery || [])
         setDayThird(prizingDetail?.normalForm?.thirdParty || [])
+        dineIndetails?.availabilities?.forEach((availability: any) => {
+          availability.availabilityDays = prizingDetail?.normalForm?.Normaldays || [];
+      });
         
 
        setShowDayPickup(prizingDetail.normalForm?.Pickup?.length > 0 ? true : false)
