@@ -207,7 +207,7 @@
     height: 215px;
     // border: 1px solid green;
     position: relative;
-    top: 30px;
+    top: 40px;
     bottom: 10px;
     p {
       font-family: "Poppins", sans-serif;
@@ -485,11 +485,11 @@
 
   .verticalLine {
     width: 1px;
-    height: 201%;
+    height: 180%;
     background-color: #c4c4c4;
     // background-color: red;
     position: relative;
-    top: 160%;
+    top: 145%;
     left: -479px;
     @media(max-width: 1080px){
       left: -545px;

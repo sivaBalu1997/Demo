@@ -745,6 +745,7 @@ const PrimaryPage = () => {
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
+  // const alcoholconstain = false;
   useEffect(() => {
     dispatch(
       fetchDropDownRequest({
@@ -1322,7 +1323,11 @@ const PrimaryPage = () => {
                   : "Primary-page-container-two"
               }
             >
-              <div className="Primary-page-ingredients-selection">
+              <div   className={
+                alcoholconstain
+                  ? "Primary-page-ingredients-selection1"
+                  : "Primary-page-ingredients-selection"
+              }>
                 <Imagepillsselection
                   heading="Ingredients"
                   options={ingredientsdata}

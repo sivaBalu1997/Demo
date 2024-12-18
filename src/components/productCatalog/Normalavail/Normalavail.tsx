@@ -254,6 +254,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const DineInServiceEnabled = orderTypess?.find(
       (item: any) => item.typeGroup === "D"
     )?.isEnabled;
+    //  const DeliveryServiceEnabled = false;
     const pickUpIdServiceEnabled = orderTypess?.find(
       (item: any) => item.typeGroup === "P"
     )?.isEnabled;
@@ -1529,7 +1530,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
         {/* DineIn Related */}
 
-        {
+        { DineInServiceEnabled &&
           <div className="DineInRelated">
             <h1
               className="DineInRelatedHeadingNormalAvail"
@@ -1545,7 +1546,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           </div>
         }
 
-        {showDineIn ? (
+        {DineInServiceEnabled&& showDineIn ? (
           <>
             {/* <h1>jhgf</h1> */}
             {dineinfields?.map((entry: any, index: any) => {
@@ -1570,6 +1571,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           name="DineInPrice"
                           value={entry.DineInPrice}
                           className="DineInInput1Normal"
+                          
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
@@ -1673,10 +1675,11 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         </div>
 
         <div className="OnlineSectionNormal">
-          {online ? (
+          {online && (pickUpIdServiceEnabled ||DeliveryServiceEnabled)? (
             <div className="onlineselected">
               {/* PickupRelated */}
-              <div className="PickupRelatedNormal">
+
+              {pickUpIdServiceEnabled  && <> <div className="PickupRelatedNormal">
                 <h1
                   className="PickupRelatedHeadingNormal"
                   style={{ opacity: pickupEnable ? "100%" : "50%" }}
@@ -1766,7 +1769,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                         </span>
                       </div>
                     </div>
-                    <div className="PickupChooseDayContainer">
+                    <div className="PickupChooseDayContainer" >
                       {showDayPickup ? (
                         <h3 className="pickupChooseDayContainerHeading">
                           Back to default days?
@@ -1813,10 +1816,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 ) : (
                   ""
                 )}
-              </div>
-
-              {/* DeliveryRelated    */}
-              <div
+              </div></>}
+             
+ {DeliveryServiceEnabled && <>
+  <div
                 className={`${
                   delivery
                     ? "DeliveryRelatedNormal"
@@ -1918,7 +1921,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                         </span>
                       </div>
                     </div>
-                    <div className="deliveryChooseDayContainer">
+                    <div className="deliveryChooseDayContainer" >
                       {showDayDelivery ? (
                         <h3 className="deliveryChooseDayContainerHeading">
                           Back to default days?
@@ -2070,7 +2073,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                         </h3>
                       )}
                     </div>
-
+                       
                     {showDayThird && (
                       <DaysCheck
                         checkedItems={DayThird}
@@ -2082,7 +2085,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     )}
                   </div>
                 </>
-              )}
+              )}</>}
+              {/* DeliveryRelated    */}
+             
             </div>
           ) : (
             ""

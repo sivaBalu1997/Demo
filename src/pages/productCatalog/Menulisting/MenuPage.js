@@ -155,6 +155,13 @@ export const MenuPage = () => {
   };
 
   const uniqueOrderTypes = getUniqueOrderTypes(menuData);
+    const orderTypess = useSelector(
+        (state) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+      );
+
+      const nameOfOrderTypes=orderTypess?.filter((item) => item.isEnabled).map((item)=>item.typeName)
+
+console.log({orderTypess});
 
   const modifiedTypes = [
     ...uniqueOrderTypes
@@ -170,6 +177,7 @@ export const MenuPage = () => {
   // console.log({modifiedTypes})
 
   const tablefirstrow = modifiedTypes.map((item) => {
+
     return {
       label: item,
     };
@@ -577,6 +585,9 @@ export const MenuPage = () => {
       dispatch(getMenuRequest(selectedBranch?.id));
      }
   }, [selectedBranch?.id]);
+  useEffect(() => {
+   dispatch(getMenuRequest(locationid));
+ }, []);
 
   useEffect(() => {
     if(deleteMenuItemSuccess){
@@ -981,7 +992,12 @@ export const MenuPage = () => {
                     <span> Code </span>
                     <button
                       className="addbtn-menupage"
-                      onClick={() => setshowheadinglist(true)}
+                      onClick={() => {
+                        if(itemList.length>0 &&!menuDataLoading && !menuDataFailed )
+                        {
+                          setshowheadinglist(true)}
+                        }
+                      }
                     >
                       <span className="Menupage-insert-column-span">+</span>
                     </button>
@@ -993,59 +1009,64 @@ export const MenuPage = () => {
                   className={`${isExpanded ? "scroll-container-expand" : "scroll-container"
                     }`}
                 >
-                  <div className="second-div-header">
-                    {!menuDataLoading && firstRowTable.map((header, index) => (
-                      <>
-                        {listingobject && listingobject[header.label] && (
-                          <p
-                            className={header.label.substring(
-                              0,
-                              header.label.length - 1
-                            )}
-                          >
-                            <span className="borderfor-header">
-                              {header.label !== "Inventory1" &&
-                                header.label !== "Customize1" && (
-                                  <span className="dollar">
-                                    {header.label.charAt(
-                                      header.label.length - 1
-                                    ) === "2" ? (
-                                      <img src={calendericon} alt="" />
-                                    ) : (
-                                      <img src={dollar} alt="" />
-                                    )}
-                                  </span>
-                                )}
-                              <span className="spanheadertext">
-                                {header.label.substring(
-                                  0,
-                                  header.label.length - 1
-                                )}
-                              </span>
-                              <span className="removeicon" onClick={() =>
-                                setlistingobject({
-                                  ...listingobject,
-                                  [header.label]: false,
-                                })
-                              }>
-                                <img
-                                  src={removeicon}
-                                  className="removeicon-img"
-                                  alt=""
-                                  onClick={() =>
-                                    setlistingobject({
-                                      ...listingobject,
-                                      [header.label]: false,
-                                    })
-                                  }
-                                />
-                              </span>
-                            </span>
-                          </p>
+             
+
+
+
+             <div className="second-div-header">
+  {!menuDataLoading && !menuDataFailed && itemList.length>0&&
+    firstRowTable.map((header, index) => {
+      const headerName = header.label.substring(0, header.label.length - 1);
+
+   
+      if (header.label === "Customize1" || nameOfOrderTypes.includes(headerName)) {
+        return (
+          <>
+            {listingobject && listingobject[header.label] && (
+              <p className={headerName}>
+                <span className="borderfor-header">
+                  {header.label !== "Inventory1" &&
+                    header.label !== "Customize1" && (
+                      <span className="dollar">
+                        {header.label.charAt(header.label.length - 1) === "2" ? (
+                          <img src={calendericon} alt="" />
+                        ) : (
+                          <img src={dollar} alt="" />
                         )}
-                      </>
-                    ))}
-                  </div>
+                      </span>
+                    )}
+                  <span className="spanheadertext">{headerName}</span>
+                  <span
+                    className="removeicon"
+                    onClick={() =>
+                      setlistingobject({
+                        ...listingobject,
+                        [header.label]: false,
+                      })
+                    }
+                  >
+                    <img
+                      src={removeicon}
+                      className="removeicon-img"
+                      alt=""
+                      onClick={() =>
+                        setlistingobject({
+                          ...listingobject,
+                          [header.label]: false,
+                        })
+                      }
+                    />
+                  </span>
+                </span>
+              </p>
+            )}
+          </>
+        );
+      }
+      return null; 
+    })}
+</div>
+
                 </div>
               </div>
               <div
