@@ -806,7 +806,7 @@ const PricingDetails = () => {
           reset={handleReset}
           triggerValidation={() => trigger()}
           mainForm={mainForm}
-          handleValidate={handleValidate}
+          handleValidate={validationFunction}
         />
         <div
           className={

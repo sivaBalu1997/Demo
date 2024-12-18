@@ -803,6 +803,8 @@ const PrimaryPage = () => {
               seletedpage="Primary"
               reset={handleReset}
               triggerValidation={() => trigger()}
+              itemcodeValid={itemcodeValid}
+              valiadtesubCategory={valiadtesubCategory}
             />
           </div>
           <div className="Primary-page">
