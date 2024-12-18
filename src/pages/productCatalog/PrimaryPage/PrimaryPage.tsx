@@ -184,6 +184,7 @@ interface Item {
 
 const PrimaryPage = () => {
   const dispatch = useDispatch();
+  const dietRef = useRef<(() => void) | null>(null);
   const resetSelectionRef = useRef<(() => void) | null>(null);
   const cuisineRef = useRef<(() => void) | null>(null);
   const categoryref = useRef<(() => void) | null>(null);
@@ -698,6 +699,9 @@ const PrimaryPage = () => {
     if (resetSelectionRef.current) {
       resetSelectionRef.current();
     }
+    if(dietRef.current){
+      dietRef.current()
+    }
     if (BestpairedRef.current) {
       BestpairedRef.current();
     }
@@ -850,7 +854,7 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="DIET"
-                        resetSelection={resetSelectionRef}
+                        resetSelection={dietRef}
                         parentId={parentId}
                         setParentId={setParentId}
                       />
