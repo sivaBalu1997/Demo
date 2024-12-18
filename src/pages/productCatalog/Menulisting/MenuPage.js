@@ -1024,7 +1024,7 @@ export const MenuPage = () => {
                           0,
                           header.label.length - 1
                         );
-                        console.log({ headerName });
+                     
 
                         if (
                           header.label === "Customize1" ||

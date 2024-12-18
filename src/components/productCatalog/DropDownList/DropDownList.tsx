@@ -300,6 +300,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
+      console.log({kitchenStationName});
+      
       const dropDownName: any =
         Array.isArray(options) &&
         options?.find(
@@ -318,6 +320,10 @@ const DropDownList: React.FC<DropdownProps> = ({
             ? dropDown1?.name
             : dropDownName?.name
         );
+        console.log("ghj",dropDownName === undefined || dropDownName === false
+          ? dropDown1?.name
+          : dropDownName?.name);
+        
 
         return dropDownName === undefined || dropDownName === false
           ? [dropDown1]
