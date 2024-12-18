@@ -231,6 +231,11 @@
   }
 }
 
+.foodimage{
+  width: 45px;
+  height: 45px;
+}
+
 .itemname2 {
   width: 8.85rem;
   // border: 1px solid blue;
@@ -267,7 +272,6 @@
 .first-div-body {
   display: flex;
   flex-direction: column;
-
   height: 33rem;
   width: 23rem;
   z-index: 0;

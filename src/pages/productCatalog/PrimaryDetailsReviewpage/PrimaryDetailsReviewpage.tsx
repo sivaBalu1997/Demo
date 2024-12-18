@@ -542,7 +542,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
-console.log({});
 
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
@@ -572,8 +571,6 @@ const taxData = typeof primarydata?.tax === 'string'
   : Array.isArray(primarydata?.tax)
   ? (primarydata.tax as any[])?.join(', ') 
   : '';
-
-  console.log({primarydata}, {taxData})
     
   const menuPayload = {
     locationId: locationid,
@@ -667,7 +664,7 @@ const taxData = typeof primarydata?.tax === 'string'
     specialItem: null,
   };
 
-  console.log({menuPayload})
+  console.log({menuPayload}, {editPayload})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
