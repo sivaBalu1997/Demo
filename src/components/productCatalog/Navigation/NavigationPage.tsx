@@ -42,6 +42,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation<LocationState | undefined>();
+  const [navigate, setNavigate] = useState(false)
   const itemCustomizationData = useSelector(
     (state: any) => state.itemCustomizationsReducer1.itemData
   );
@@ -89,19 +90,20 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         });
         return;
       } else {
-        history.push({
-          pathname: `/productCatalog/Pricingandkitchendetails`,
-          state: { pagename: "Pricing and kitchen details" },
-        });
+        // history.push({
+        //   pathname: `/productCatalog/Pricingandkitchendetails`,
+        //   state: { pagename: "Pricing and kitchen details" },
+        // });
         dispatch(primarypost(formData));
         setCurrentPage(category);
         history.push(`/productCatalog/${path}`, { pagename: category });
       }
+      setNavigate(true)
     } else if (
       currentPage === "Pricing and kitchen details" &&
       triggerValidation
     ) {
-      const isValid = handleValidate();
+      const isValid = handleValidate && handleValidate();
 
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
@@ -147,12 +149,14 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         setCurrentPage(category);
         history.push(`/productCatalog/${path}`, { pagename: category });
       }
+      setNavigate(true)
     } else if (currentPage === "Item customizations") {
       const modificationArray = modifications;
       const formData = getFormData();
       dispatch(itemCustomizationPost(modificationArray));
       setCurrentPage(category);
       history.push(`/productCatalog/${path}`, { pagename: category });
+      setNavigate(true)
     }
   };
 
@@ -164,9 +168,9 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
   const handleCategoryClick = (category: string) => {
     const path = category.replace(/\s+/g, "");
-    // handleclick(category)
-    setCurrentPage(category);
-    history.push(`/productCatalog/${path}`, { pagename: category });
+    handleclick(category)
+    navigate && setCurrentPage(category);
+    // navigate && history.push(`/productCatalog/${path}`, { pagename: category });
   };
 
   return (
@@ -185,7 +189,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
               <li
                 key={category}
                 className={isExpanded ? "listsExpanded" : "lists"}
-                // onClick={()=>handleCategoryClick(category)}
+                onClick={()=>handleCategoryClick(category)}
               
               >
                 <h1
