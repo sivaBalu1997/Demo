@@ -287,7 +287,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     if (name === 'tax' && filteredOptions?.length === 1) {
       const option = filteredOptions[0];
       setSelectedOptions([option]);
-      console.log({selectedOptions})
       setValue('tax', option.name);
       getValues('2111','tax')
       trigger(name);
@@ -469,6 +468,11 @@ const DropDownList: React.FC<DropdownProps> = ({
   
         return updatedSelected;
       });
+    }
+    else if (type === "radio") {
+      setSelectedOptions([option]);
+      setValue(name, option.name);
+      trigger(name);
     }
   };
 

@@ -164,7 +164,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                 <ul className="indenttexts">
   {pricelist
     ?.filter((list: any) =>
-      nameOfOrderTypes.includes(list.replace("1", "")) 
+      nameOfOrderTypes?.includes(list.replace("1", "")) 
     )
     .map((list: any) => (
       <li key={list}>
@@ -210,7 +210,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                 </div>
                 <ul className="indenttexts">
                   {aviallist?.filter((list: any) =>
-      nameOfOrderTypes.includes(list.replace("1", "")) 
+      nameOfOrderTypes?.includes(list.replace("1", "")) 
     ).map((key: any) => (
                     <li key={key}>
                       <div className="inner-text-input">

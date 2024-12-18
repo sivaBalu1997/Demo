@@ -1019,7 +1019,7 @@ console.log({orderTypess});
       const headerName = header.label.substring(0, header.label.length - 1);
 
    
-      if (header.label === "Customize1" || nameOfOrderTypes.includes(headerName)) {
+      if (header?.label === "Customize1" || nameOfOrderTypes?.includes(headerName)) {
         return (
           <>
             {listingobject && listingobject[header.label] && (

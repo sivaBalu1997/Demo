@@ -174,7 +174,7 @@ const ItemCustomizations: React.FC<any> = () => {
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
-            const orderType = orderTypes.find(
+            const orderType = orderTypes?.find(
               (type: any) => type.id === selectedId
             );
             return orderType?.typeName || selectedId;

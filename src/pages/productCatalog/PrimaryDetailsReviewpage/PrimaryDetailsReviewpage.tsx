@@ -503,7 +503,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const getOrderTypeId = (value: any) => {
-    const orderTypes = orderTypess.find(
+    const orderTypes = orderTypess?.find(
       (item: any) => item?.typeName?.toLowerCase() === value?.toLowerCase()
     );
     return orderTypes ? orderTypes?.id : null;
@@ -571,8 +571,6 @@ const taxData = typeof primarydata?.tax === 'string'
   : Array.isArray(primarydata?.tax)
   ? (primarydata.tax as any[])?.join(', ') 
   : '';
-
-  console.log({primarydata}, {taxData})
     
   const menuPayload = {
     locationId: locationid,
