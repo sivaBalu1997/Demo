@@ -970,19 +970,29 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       index: number,
       e: React.ChangeEvent<HTMLInputElement>
     ): void => {
-      const newEntries = [...dineinfields];
-      newEntries[index] = {
-        ...newEntries[index],
-        [e.target.name as keyof DineInField]: e.target.value,
-      };
-      setDineInFields(newEntries);
-
-      const newPrice = parseFloat(e.target.value) || 0;
-      setFormattedDineInData((prevData: any) => ({
-        ...prevData,
-        price: newPrice,
-      }));
-      validateDineInPrice(index, newPrice);
+      const inputValue = e.target.value;
+    
+      
+      if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
+        const newEntries = [...dineinfields];
+    
+        
+        newEntries[index] = {
+          ...newEntries[index],
+          [e.target.name as keyof DineInField]: inputValue,
+        };
+        setDineInFields(newEntries);
+    
+      
+        const newPrice = parseFloat(inputValue) || 0;
+        setFormattedDineInData((prevData: any) => ({
+          ...prevData,
+          price: newPrice,
+        }));
+    
+       
+        validateDineInPrice(index, newPrice);
+      }
     };
 
     const addDay = (index: number): void => {
@@ -1705,6 +1715,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                       <div className="pickupprice-errormsg">
                         <input
                           type="number"
+                          step="any"
+
                           className="PriceInput1Normal-input"
                           value={pickupDetails.price || ""}
                           onKeyDown={(e) => {
@@ -1714,23 +1726,27 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             if (
                               e.key === "e" ||
                               e.key === "-" ||
-                              e.key === "+"
+                              e.key === "+"||
+                              e.key === "E" 
                             ) {
                               e.preventDefault();
                             }
                           }}
                           onChange={(e) => {
                             const inputValue = e.target.value;
-                            const numericValue = inputValue
-                              ? Number(inputValue)
-                              : 0;
-                            if (!isNaN(numericValue)) {
-                              setPickUpDetails({
-                                ...pickupDetails,
-                                price: numericValue,
-                              });
+                        
+                            // Ensure the input value is valid and limited to two decimal places
+                            if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
+                              const numericValue = inputValue ? parseFloat(inputValue) : 0;
+                        
+                              if (!isNaN(numericValue)) {
+                                setPickUpDetails({
+                                  ...pickupDetails,
+                                  price: numericValue,
+                                });
+                                validatePickupPrice(numericValue);
+                              }
                             }
-                            validatePickupPrice(Number(inputValue));
                           }}
                         />
                         <span className="Errormsg pickuperrormsg">
@@ -1872,11 +1888,17 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           value={deliveryDetails?.price || ""}
                           onChange={(e) => {
                             const newPrice = e.target.value;
-                            setDeliveryDetails((prevDetails: any) => ({
-                              ...prevDetails,
-                              price: Number(newPrice),
-                            }));
-                            validateDeliveryPrice(Number(newPrice));
+                          
+                        
+                            if (/^\d*\.?\d{0,2}$/.test(newPrice)) {
+                              setDeliveryDetails((prevDetails: any) => ({
+                                ...prevDetails,
+                                price: Number(newPrice),
+                              }));
+                          
+                              // Validate the updated price
+                              validateDeliveryPrice(Number(newPrice));
+                            }
                           }}
                           onInput={(e) => {
                             const inputElement = e.target as HTMLInputElement;
@@ -2010,11 +2032,20 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                 }
                               }}
                               onChange={(e) => {
-                                let data = JSON.parse(
-                                  JSON.stringify([...priceInfo])
-                                );
-                                data[index].price = Number(e.target.value);
-                                setPriceInfo(data);
+                                const inputValue = e.target.value;
+                              
+                               
+                                if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
+                             
+                                  const updatedData = [...priceInfo].map((item, idx) =>
+                                    idx === index
+                                      ? { ...item, price: Number(inputValue) }
+                                      : item
+                                  );
+                              
+                                
+                                  setPriceInfo(updatedData);
+                                }
                               }}
                             />
                           </div>
