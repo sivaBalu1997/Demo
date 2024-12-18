@@ -635,15 +635,19 @@ const PrimaryPage = () => {
   },[])
 
   const [itemcodeValid, setItemcodeValid] = useState(true);
-  useEffect(() => {
-    if (ItemsPrimaryDetails?.popularItem) {
-      setPopularItem(popularItem + 1);
-      setValue("popularItem", true);
-    } else {
-      setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
-      setValue("popularItem", false);
-    }
-  }, [ItemsPrimaryDetails]);
+
+  // useEffect(() => {
+  //   if (ItemsPrimaryDetails?.popularItem) {
+  //     setPopularItem(PopularItemFormApi ?? 0);
+  //     setValue("popularItem", true);
+  //   } else {
+  //     setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
+  //     setValue("popularItem", false);
+  //   }
+  // }, [ItemsPrimaryDetails]);
+
+  // console.log({popularItem},{PopularItemFormApi})
+
   useEffect(() => {
     if (message?.httpStatus == 409 || messageLoader) {
       setItemcodeValid(false);
@@ -652,13 +656,22 @@ const PrimaryPage = () => {
     }
   }, [message, messageLoader]);
 
+  const [isChecked, setIsChecked] = useState<boolean>(ItemsPrimaryDetails?.popularItem || false);
+
+  useEffect(() => {
+    setIsChecked(ItemsPrimaryDetails?.popularItem || false);
+  }, [ItemsPrimaryDetails?.popularItem]);
+
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    if (isChecked || ItemsPrimaryDetails?.popularItem) {
-      setPopularItem(popularItem + 1);
+    const isCheckedValue = e.target.checked;
+  
+    setIsChecked(isCheckedValue); 
+  
+    if (isCheckedValue) {
+      setPopularItem((prevCount: number) => prevCount + 1);
       setValue("popularItem", true);
     } else {
-      setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
+      setPopularItem((prevCount: number) => Math.max(prevCount - 1, 0));
       setValue("popularItem", false);
     }
   };
@@ -1228,7 +1241,7 @@ const PrimaryPage = () => {
                       <input
                         type="checkbox"
                         className="input"
-                        checked={ItemsPrimaryDetails?.popularItem}
+                        checked={isChecked}
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);

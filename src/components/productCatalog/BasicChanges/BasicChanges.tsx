@@ -33,7 +33,6 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   const partaldatasendingfailuremsg= useSelector(
     (state: any) => state.productCatalog?.partialDataSendingfaliure
   );
-  console.log({partaldatasendingfailuremsg});
   
   useEffect(() => {
     // console.log({partaldatasending});

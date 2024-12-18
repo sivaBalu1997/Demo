@@ -625,6 +625,7 @@ export const MenuPage = () => {
         categoryId: categoryData?.id,
         subCategory: editData[0]?.subCategoryName ?? "",
         subCategoryId: editData[0]?.subCategoryId ?? "",
+        popularItem: editData[0]?.popularItem ?? false,
       };
 
       const pricingPageData = {
@@ -1099,12 +1100,11 @@ export const MenuPage = () => {
                               <span className="itemimage2">
                                 <img
                                   src={
-                                    item?.mediaResponseList[0]?.imageId
-                                      ? baseImageUrl +
+                                   baseImageUrl +
                                         item?.mediaResponseList[0]?.imageId
-                                      : placeholderimg
+                                      
                                   }
-                                  alt=""
+                                  alt="No Image"
                                   className="foodimage"
                                 />
                               </span>

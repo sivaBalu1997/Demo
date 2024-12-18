@@ -432,7 +432,7 @@ const PricingDetails = () => {
       Inventory2: "",
     },
 
-    kitchenstation: "",
+    kitchenstation: prizingDetail?.kitchenstation ? prizingDetail?.kitchenstation : '',
 
     Preparationtime: {
       hours: "",
@@ -475,7 +475,7 @@ const PricingDetails = () => {
       });
 
       setOptions1(prizingDetail.kitchenstation);
-      // setValue("kitchenstation", kitchenStationName);
+      setValue("kitchenstation", kitchenStationName);
       const kitchh=getValues("kitchenstation")      
       
       // setTimeout(() => {
