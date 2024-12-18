@@ -427,8 +427,8 @@ const ItemCustomizations: React.FC<any> = () => {
               if (optIdx === optIndex) {
                 const currentValue = opt[e.target.name];
                 const newValue =
-                  e.target.name === "cost"
-                    ? parseFloat(e.target.value) || 0
+                e.target.name === "cost"
+                ? parseFloat(e.target.value.replace(/^(\d+)(\.\d{0,2})?.*$/, "$1$2")) || 0  || 0 || 0
                     : e.target.value;
 
                 const isOptionChanged =
