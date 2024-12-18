@@ -116,10 +116,27 @@
     margin: 0;
     padding: 0;
     margin-top: 0.5rem;
-    // border: 2px solid;
-    &::-webkit-scrollbar{
-      // display: none;
+    &::-webkit-scrollbar {
+      width: 8px;
+      border-radius: 10px;
     }
+
+    &::-webkit-scrollbar-track {
+      background: #b3b3b3;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #5f5f5f;
+      border-radius: 10px;
+      height: 40px;
+      
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #5f5f5f;
+    }
+
+   
     // border: 1px solid red;
     cursor: pointer;
     .dropdown-option-list {

@@ -6,28 +6,28 @@
   display: flex;
   flex-direction: column;
   gap: 0px;
-  top: 86.5vh;
+ margin-top: 1.7rem;
   // background-color: lightseagreen;
-  @media(max-width: 1080px){
-    // background-color: lightseagreen;
-    top: 119vh;
-    left: 535px;
-  }
-  @media (min-width: 1081px) and (max-width: 1440px){
-    top: 120vh;
-  }
-  @media(min-width: 1700px) and (max-width: 1706.67px){
-    // background-color: lightslategray;
-    top: 85vh;
-  }
-  @media(min-width: 1900px) and (max-width: 1920px){
-    // background-color: lightslategray;
-    top: 76vh;
-  }
-  @media(min-width: 2000px) and (max-width: 2048px){
-        // background-color: lightslategray;
-        top: 71.8vh;
-  }
+  // @media(max-width: 1080px){
+  //   // background-color: lightseagreen;
+  //   top: 119vh;
+  //   left: 535px;
+  // }
+  // @media (min-width: 1081px) and (max-width: 1440px){
+  //   top: 120vh;
+  // }
+  // @media(min-width: 1700px) and (max-width: 1706.67px){
+  //   // background-color: lightslategray;
+  //   top: 85vh;
+  // }
+  // @media(min-width: 1900px) and (max-width: 1920px){
+  //   // background-color: lightslategray;
+  //   top: 76vh;
+  // }
+  // @media(min-width: 2000px) and (max-width: 2048px){
+  //       // background-color: lightslategray;
+  //       top: 71.8vh;
+  // }
 }
 
 .step3-Review-Container-heading-and-button-container {

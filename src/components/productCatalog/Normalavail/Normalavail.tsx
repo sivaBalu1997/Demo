@@ -1484,6 +1484,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
       setErrors(validationErrors);
     };
+
+
+
+  
     return (
       <div>
         <div className="AvailDaycheck">
@@ -1531,7 +1535,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
              <span className="daycheckvalidation">
                           {errors[`daysCheck`]||""}
                         </span>
-            <p className="Note">
+            <p  className={errors[`daysCheck`]?"Note":"Note-error"}  >
               Note : Changes here will apply to all service types unless
               specific day options are enabled
             </p>
@@ -1677,15 +1681,19 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         )}
 
         {/* OnlineRelated */}
-        <div className="OnlineRelatedNormal">
+        {
+          (pickUpIdServiceEnabled ||DeliveryServiceEnabled) &&
+          <div className="OnlineRelatedNormal">
           <h1 className="OnlineRelatedHeadingNormal">Online</h1>
           <div className="toggleIII">
             <Toggle toggle={online} setToggle={setOnline} />
           </div>
         </div>
+        }
+       
 
         <div className="OnlineSectionNormal">
-          {online && (pickUpIdServiceEnabled ||DeliveryServiceEnabled)? (
+          {online  ? (
             <div className="onlineselected">
               {/* PickupRelated */}
 
@@ -1724,7 +1732,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               e.preventDefault();
                             }
                             if (
-                              e.key === "e" ||
+                              e.key === "e" ||e.key === "E"||
                               e.key === "-" ||
                               e.key === "+"||
                               e.key === "E" 
@@ -1877,7 +1885,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               e.preventDefault(); // Prevent typing -, e, or E
                             }
                             if (
-                              e.key === "e" ||
+                              e.key === "e" ||e.key === "E"||
                               e.key === "-" ||
                               e.key === "+"
                             ) {
@@ -2024,7 +2032,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   e.preventDefault();
                                 }
                                 if (
-                                  e.key === "e" ||
+                                  e.key === "e" ||e.key === "E"||
                                   e.key === "-" ||
                                   e.key === "+"
                                 ) {
