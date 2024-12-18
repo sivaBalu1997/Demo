@@ -535,7 +535,7 @@ function* partialUpdateMenuSaga(action) {
   try {
     const updatedMenu = yield call(apiUpdateMenu, action.payload.data);
     if (updatedMenu.status === 200) {
-      showSuccessToast("Item Updated Successfully");
+      showSuccessToast(updatedMenu.data.message);
       yield put(partialUpdateMenuSuccess(updatedMenu.data.message));
 
       yield put({
@@ -554,7 +554,7 @@ function* addMockDataHiddenSaga(action) {
 
     const response = yield call(hideMockData, hidePayload);
     if (response.status === 200) {
-      showSuccessToast("Item Hidden Successfully");
+      showSuccessToast(response.data.message);
       yield put({
         type: ADD_MOCK_DATA_HIDDEN_SUCCESS,
         payload: response.data.message,

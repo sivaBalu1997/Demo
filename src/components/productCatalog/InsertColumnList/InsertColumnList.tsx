@@ -210,7 +210,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                 </div>
                 <ul className="indenttexts">
                   {aviallist?.filter((list: any) =>
-      nameOfOrderTypes?.includes(list.replace("1", "")) 
+      nameOfOrderTypes?.includes(list.replace("2", "")) 
     ).map((key: any) => (
                     <li key={key}>
                       <div className="inner-text-input">

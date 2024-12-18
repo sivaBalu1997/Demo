@@ -61,8 +61,8 @@
 
 .primaryreview {
   display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid #c4c4c4;
+  flex-direction: column;
+  // border-bottom: 1px solid #c4c4c4;
   height: fit-content;
   // background-color: lightsalmon;
 }
@@ -477,25 +477,6 @@
     }
   }
 }
-.part-two {
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  // background-color: lightgreen;
-
-  .verticalLine {
-    width: 1px;
-    height: 180%;
-    background-color: #c4c4c4;
-    // background-color: red;
-    position: relative;
-    top: 145%;
-    left: -479px;
-    @media(max-width: 1080px){
-      left: -545px;
-    }
-  }
-}
 
 .Edit-heading {
   margin-left: 5px;
@@ -732,3 +713,49 @@
 //     transition: 0.2s ease all;
 //   }
 // }
+
+
+// .part-two {
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   // margin-left: 20px;
+//   // justify-content: center;
+// width: 70%;
+//   background-color: lightgreen;
+
+//   .verticalLine {
+//     width: 5px;
+//     height: 180%;
+//     background-color: #c4c4c4;
+//     // background-color: red;
+//     position: relative;
+//     top: 145%;
+//     left: -479px;
+//     @media(max-width: 1080px){
+//       left: -545px;
+//     }
+//   }
+// }
+
+
+
+.part-two
+{
+  display: flex;
+  height: 100%;
+  // border: 1px solid red;
+
+}
+  .verticalLine {
+    width: 1px;
+    height: 90rem;
+    background-color: #c4c4c4;
+    // background-color: red;
+    position: relative;
+    // top: 145%;
+    left: 34%;
+    // @media(max-width: 1080px){
+    //   left: -545px;
+    // }
+  }

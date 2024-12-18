@@ -473,6 +473,12 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
+
+      if (dropDownType === "CATEGORY") {
+        setParentId(option?.id);
+
+        setValue("subCategory", "");
+      }
     }
   };
 
