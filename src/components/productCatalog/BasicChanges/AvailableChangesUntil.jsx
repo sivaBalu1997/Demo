@@ -156,12 +156,12 @@ const AvailabilityChangesUntil = ({
       );
 
       const Time = `${formattedDate}T${
-        todayWorkinghours[todayWorkinghours.length - 1]?.closingTime
+        todayWorkinghours&& todayWorkinghours[todayWorkinghours.length - 1]?.closingTime
       }`;
       setTimeToSet(Time);
     } else if (elem === "End of Sessions") {
       const formattedDate = getFormattedDate();
-      const SessionTime = `${formattedDate}T${filteredsession[0].closingTime}`;
+      const SessionTime = `${formattedDate}T${filteredsession&& filteredsession[0].closingTime}`;
       if (filteredsession?.length ===1) {
         setTimeToSet(SessionTime);
        

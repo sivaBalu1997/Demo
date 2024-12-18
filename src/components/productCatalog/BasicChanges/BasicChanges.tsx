@@ -30,6 +30,11 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
   const partaldatasendingsuccessmsg = useSelector(
     (state: any) => state.productCatalog?.partialDataSendingsuccess
   );
+  const partaldatasendingfailuremsg= useSelector(
+    (state: any) => state.productCatalog?.partialDataSendingfaliure
+  );
+  console.log({partaldatasendingfailuremsg});
+  
   useEffect(() => {
     // console.log({partaldatasending});
 
@@ -43,7 +48,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
-  const ordertypesdata = data[0].orderTypes;
+  const ordertypesdata = data &&data[0]?.orderTypes;
 
   const dispatch = useDispatch();
 
@@ -115,7 +120,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
             onClick={handledispatchforpartilChange}
             disabled={!isPartialDataValid()}
           >
-            {!partaldatasending ? (
+            {!partaldatasending  ? (
               "Change"
             ) : (
               <div className="reviewLoaders"></div>

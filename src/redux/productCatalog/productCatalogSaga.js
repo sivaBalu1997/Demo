@@ -543,6 +543,11 @@ function* partialUpdateMenuSaga(action) {
         payload: action.payload.locationid,
       });
     }
+    else{
+      yield put(partialUpdateMenuFailure(true));
+      showErrorToast(updatedMenu.data.message);
+
+    }
   } catch (error) {
     yield put(partialUpdateMenuFailure(error.message));
   }
