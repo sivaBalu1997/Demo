@@ -5,9 +5,10 @@
 .container-step2 {
   position: absolute;
   // top: 635px;
-  left: 10px;
+  // left: 10px;
   width: 510px;
-  margin-top: 82.3%;
+  height: auto;
+  // margin-top: 82.5%;
   // background-color: lightsalmon;
   @media(max-width: 1080px){
     // background-color: lightsalmon;
@@ -15,7 +16,7 @@
 }
 .Step2-container {
   position: relative;
-  top: 100px;
+  // top: 100px;
 
   border: 2px solid red;
   display: flex;

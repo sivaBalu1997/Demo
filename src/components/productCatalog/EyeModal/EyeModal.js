@@ -12,7 +12,7 @@ const EyeModal = ({ onEyeclose, onclose }) => {
   const Dinein = data1[0]?.orderTypes?.find(
     (orderType) => orderType.typeName === "DineIn"
   );
-  const location = useSelector((state) => state.auth.selectedBranch.id);
+  const location = useSelector((state) => state?.auth?.selectedBranch?.id);
   const successMsg = useSelector(
     (state) => state?.addMockDataHiddenReducer?.data
   );

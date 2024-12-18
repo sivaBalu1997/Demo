@@ -503,7 +503,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const getOrderTypeId = (value: any) => {
-    const orderTypes = orderTypess.find(
+    const orderTypes = orderTypess?.find(
       (item: any) => item?.typeName?.toLowerCase() === value?.toLowerCase()
     );
     return orderTypes ? orderTypes?.id : null;
@@ -542,6 +542,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
+console.log({});
 
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
@@ -812,6 +813,7 @@ const taxData = typeof primarydata?.tax === 'string'
         <div className="reviewpage">
           <div className="reviewpagebody">
             <div className="primaryreview">
+              <div style={{display:"flex",borderBottom: "1px solid #c4c4c4"}}>
               <div className="primaryreviewdetailspart1">
                 <div className="primaryreviewheading">
                   <p>Step 1: Primary Details</p>
@@ -1174,12 +1176,20 @@ const taxData = typeof primarydata?.tax === 'string'
                   </div>
                 </div>
               </div>
+              </div>
+            
 
               <div className="part-two">
+               
                 <Step2 />
-                <div className="verticalLine" />
+              
+                <span className="verticalLine" />
+               
+               
 
-                <Step3Review />
+<Step3Review />
+
+                
               </div>
             </div>
           </div>

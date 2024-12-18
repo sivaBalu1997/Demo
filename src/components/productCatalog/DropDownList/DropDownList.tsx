@@ -471,6 +471,17 @@ const DropDownList: React.FC<DropdownProps> = ({
         return updatedSelected;
       });
     }
+    else if (type === "radio") {
+      setSelectedOptions([option]);
+      setValue(name, option.name);
+      trigger(name);
+
+      if (dropDownType === "CATEGORY") {
+        setParentId(option?.id);
+
+        setValue("subCategory", "");
+      }
+    }
   };
 
   useEffect(() => {

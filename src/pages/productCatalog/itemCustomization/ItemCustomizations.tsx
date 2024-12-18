@@ -164,7 +164,7 @@ const ItemCustomizations: React.FC<any> = () => {
   // }, [editData]);
 
   const orderTypes = useSelector(
-    (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+    (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
   useEffect(() => {
@@ -174,7 +174,7 @@ const ItemCustomizations: React.FC<any> = () => {
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
           (selectedId: string) => {
-            const orderType = orderTypes.find(
+            const orderType = orderTypes?.find(
               (type: any) => type.id === selectedId
             );
             return orderType?.typeName || selectedId;
@@ -504,17 +504,21 @@ const ItemCustomizations: React.FC<any> = () => {
   const incrementSpinner = (
     index: number,
     field: keyof Modification,
-    EnableOrnot: boolean
+    EnableOrnot: boolean,
+    selectionType: "Mandatory" | "Optional"
   ) => {
     const newModifier = JSON.parse(JSON.stringify(modifications));
-
+  
     if (newModifier[index] && EnableOrnot) {
+      const baseValue = selectionType === "Mandatory" ? 1 : 0;
+  
       newModifier[index][field] =
-        (parseInt(newModifier[index][field]?.toString() || "0", 10) || 0) + 1;
+        (parseInt(newModifier[index][field]?.toString() || baseValue.toString(), 10) || baseValue) + 1;
     }
-
+  
     setModifications(newModifier);
   };
+  
 
   const decrementSpinner = (
     index: number,
@@ -1588,7 +1592,10 @@ const ItemCustomizations: React.FC<any> = () => {
                                         incrementSpinner(
                                           modIndex,
                                           "minSelection",
-                                          modifications[modIndex]?.isEnabled
+                                          modifications[modIndex]?.isEnabled,
+                                          modifications[modIndex]?.selectionType
+                                          
+
                                         );
                                       }
                                     }}
@@ -1662,7 +1669,8 @@ const ItemCustomizations: React.FC<any> = () => {
                                       incrementSpinner(
                                         modIndex,
                                         "maxSelection",
-                                        modifications[modIndex]?.isEnabled
+                                        modifications[modIndex]?.isEnabled,
+                                        modifications[modIndex]?.selectionType
                                       )
                                     }
                                   />
@@ -1723,7 +1731,9 @@ const ItemCustomizations: React.FC<any> = () => {
                                       incrementSpinner(
                                         modIndex,
                                         "freeCustomization",
-                                        modifications[modIndex]?.isEnabled
+                                        modifications[modIndex]?.isEnabled,
+                                       "Optional"
+
                                       )
                                     }
                                   />
