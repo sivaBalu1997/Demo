@@ -316,6 +316,8 @@ const PricingDetails = () => {
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
+  const watchkitchen=watch("kitchenstation");
+  console.log({watchkitchen});
 
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
@@ -432,7 +434,7 @@ const PricingDetails = () => {
       Inventory2: "",
     },
 
-    kitchenstation: "",
+    kitchenstation: prizingDetail?.kitchenstation ||"",
 
     Preparationtime: {
       hours: "",
@@ -460,6 +462,7 @@ const PricingDetails = () => {
       // Prepare the kitchenstation name for the dropdown
       const kitchenStationName = prizingDetail?.kitchenstation;
 
+
       // Set form values including kitchenstation
       reset({
         form: {
@@ -475,7 +478,7 @@ const PricingDetails = () => {
       });
 
       setOptions1(prizingDetail.kitchenstation);
-      // setValue("kitchenstation", kitchenStationName);
+      setValue("kitchenstation", kitchenStationName);
       const kitchh=getValues("kitchenstation")      
       
       // setTimeout(() => {
