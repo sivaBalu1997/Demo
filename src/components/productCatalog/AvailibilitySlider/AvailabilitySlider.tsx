@@ -62,36 +62,30 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState<any>([]);
 
   useEffect(() => {
-    const tempOnPremarray = dataFromRedux[0]?.orderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup === "D";
-      }
-    );
-    const tempOffPremarray = dataFromRedux[0]?.orderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup !== "D";
-      }
-    );
-
-    // const checkOnPremEnabledArray=tempOnPremarray?.filter((data:any,index:number)=>data.isEnabled===true && data.isNotHide===1);
-    // const checkOffPremEnabledArray=tempOffPremarray?.filter((data:any,index:number)=>data.isEnabled===true && data.isNotHide===1);
-
+    const orderTypes = dataFromRedux[0]?.orderTypes || [];
+  
+    const tempOnPremarray = orderTypes.filter((data: any) => {
+      return data?.typeGroup === "D";
+    });
+  
+    const tempOffPremarray = orderTypes.filter((data: any) => {
+      return data?.typeGroup !== "D";
+    });
+  
     const isOnPremEnabledCount =
-      tempOnPremarray?.filter((data: any, index: number) => {
-        return data?.availabilityEnabled === false;
-      }).length == 0;
+      tempOnPremarray.filter((data: any) => data?.availabilityEnabled === false).length === 0;
+  
     const isOffPremEnabledCount =
-      tempOffPremarray?.filter((data: any, index: number) => {
-        return data?.availabilityEnabled === false;
-      }).length == 0;
-
-    const allChildrenonEnabled = tempOnPremarray?.some(
+      tempOffPremarray.filter((data: any) => data?.availabilityEnabled === false).length === 0;
+  
+    const allChildrenonEnabled = tempOnPremarray.some(
       (child: any) => child.isEnabled === 1 && child.isNotHide === 1
     );
-    const allChildrenoffEnabled = tempOffPremarray?.some(
+  
+    const allChildrenoffEnabled = tempOffPremarray.some(
       (child: any) => child.isEnabled === 1 && child.isNotHide === 1
     );
-
+  
     const tempOrderTypeAvailabilityArray = [
       {
         mainHeading: "On-prem",
@@ -102,14 +96,15 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       {
         mainHeading: "Off-prem",
         types: tempOffPremarray,
-        isEnabled: isOffPremEnabledCount && allChildrenonEnabled,
+        isEnabled: isOffPremEnabledCount && allChildrenoffEnabled,
         isAble: allChildrenoffEnabled,
       },
     ];
-
+  
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
     setParentOrderTypeArray([...tempOnPremarray, ...tempOffPremarray]);
   }, [dataFromRedux[0]?.orderTypes]);
+  
 
   const handleToggleDisable = (orderId: any) => {
     const pushData = {

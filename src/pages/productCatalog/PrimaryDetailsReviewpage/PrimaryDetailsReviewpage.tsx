@@ -1182,8 +1182,8 @@ const taxData = typeof primarydata?.tax === 'string'
               <div className="part-two">
                
                 <Step2 />
-              
-                <span className="verticalLine" />
+               
+                <span   className={isExpanded ? "verticalLineExpand" : "verticalLine"}/>
                
                
 
