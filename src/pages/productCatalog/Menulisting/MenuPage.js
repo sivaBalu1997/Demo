@@ -1033,8 +1033,8 @@ export const MenuPage = () => {
                           return (
                             <>
                               {listingobject && listingobject[header.label] && (
-                                <p className={headerName}>
-                                  <span className="borderfor-header">
+                                <p  style={{display:"flex",gap:"20px",height:"1rem"}}>
+                                  <span className="borderfor-header" style={{padding:"0",paddingLeft:"20px",paddingRight:"20px",height:"2rem"}}>
                                     {header.label !== "Inventory1" &&
                                       header.label !== "Customize1" && (
                                         <span className="dollar">
@@ -1259,15 +1259,21 @@ export const MenuPage = () => {
                                               : typeName === "Delivery"
                                               ? "Delivery1"
                                               : "";
+                                              const dynamicWidth = `${typeName.length * 10 + 20}px`;
 
                                           return (
                                             <span
-                                              className={className}
+                                              
                                               key={typeName}
                                               style={{
-                                                opacity: isPriceEnabled
-                                                  ? "100%"
-                                                  : "50%",
+                                                opacity: isPriceEnabled ? "100%" : "50%",
+                                               
+                                                width: dynamicWidth, 
+                                                padding: "0 22px", 
+                                                textAlign: "center",
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
                                               }}
                                               onClick={() =>
                                                 handlesidbarhandling(
@@ -1325,14 +1331,21 @@ export const MenuPage = () => {
                                             : typeName === "Delivery"
                                             ? "Delivery2"
                                             : "";
-
+                                          const dynamicWidth = `${typeName.length * 10 + 20}px`;
                                         return (
                                           <span
                                             key={typeName}
-                                            className={className}
+                                          
                                             style={{
-                                              left: "1rem",
-                                              position: "relative",
+                                              position:"relative",
+                                               left:"1rem",
+                                             
+                                              width: dynamicWidth, 
+                                              padding: "0 22px", 
+                                              textAlign: "center",
+                                              display: "flex",
+                                              justifyContent: "center",
+                                              alignItems: "center",
                                             }}
                                             onClick={() =>
                                               handlesidbarhandling(

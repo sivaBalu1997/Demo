@@ -39,7 +39,8 @@
   }
 
   .ToolKitchen {
-    transform: translateY(22px);
+    // transform: translateY(20px);
+    // border: 1px solid darkred;
     opacity: 40%;
     border: none;
     outline: none;
@@ -99,9 +100,10 @@
     width: fit-content;
 
     .tool-tip-best-pair {
-      margin-top: -0.5rem;
+      margin-top: -0.3rem;
       width: 1px;
-      margin-left: -10px;
+      margin-left: -16px;
+      // border: 1px solid red;
       // @media(max-width: 1280px){
       //   background-color: pink;
       //   margin-left: -15px;
@@ -114,8 +116,8 @@
 
     .tool-tip-item-code {
       width: fit-content;
-      margin-top: -0.6rem;
-      margin-left: -20px;
+      margin-top: -0.3rem;
+      margin-left: -16px;
       @media(max-width: 1280px){
         // background-color: pink;
         // margin-left: -50px;
@@ -149,7 +151,7 @@
         margin-left: -1.6rem;
       }
       @media(min-width: 1441px) and (max-width: 1536px){
-        margin-left: -0.6rem;
+        margin-left: -1.4rem;
         // background-color: lightgreen;
       }
     }
@@ -333,8 +335,8 @@
       margin-top: 3%;
     }
     .tool-tip-Allergen {
-      margin-left: 98%;
-      margin-top: -7%;
+      margin-left: 96.5%;
+      margin-top: -6.5%;
     }
 
     .Primary-page-container-pairtwo {
@@ -426,7 +428,7 @@
         width: fit-content;
         margin-left: 0.45rem;
         .tool-tip-portion-cont {
-          margin-left: -0.2rem;
+          margin-left: -0.3rem;
           width: 30px;
           height: 50px;
           margin-top: -0.5rem;
