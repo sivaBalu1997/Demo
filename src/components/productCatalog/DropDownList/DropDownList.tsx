@@ -302,7 +302,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   );
 
   useEffect(() => {
-    console.log({prizingDetail})
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
 
@@ -322,15 +321,15 @@ const DropDownList: React.FC<DropdownProps> = ({
           : dropDownName;
 
       setSelectedOptions(() => {
-        setValue(
-          "kitchenstation",
-          dropDownName === undefined || dropDownName === false
-            ? dropDown1?.name
-            : dropDownName?.name
-        );
+        // setValue(
+        //   "kitchenstation",
+        //   dropDownName === undefined || dropDownName === false
+        //     ? dropDown1?.name
+        //     : dropDownName?.name
+        // );
 
 
-        typeof(kitchenStationName) === 'string' && setValue("kitchenstation", kitchenStationName)
+        // typeof(kitchenStationName) === 'string' && setValue("kitchenstation", kitchenStationName)
 
         return dropDownName === undefined || dropDownName === false
           ? [dropDown1]
@@ -723,6 +722,12 @@ const DropDownList: React.FC<DropdownProps> = ({
           ) : (
             error && <p className="Dropdown-Error-message">{error.message}</p>
           )}
+        </div>
+
+        <div style={{ margin: 0 }}>
+          {dropDownType === "KITCHEN_STATION" && selectedOptions[0]?.name === undefined && (
+            <p className="Dropdown-Error-message">Kitchen Station is required</p>
+          ) }
         </div>
       </div>
 

@@ -1372,11 +1372,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
-      const Kitchenstationdata = getValues("kitchenstation");
+      // const Kitchenstationdata = getValues("kitchenstation") || prizingDetail?.kitchenstation;
+
+      // console.log({Kitchenstationdata})
       
-      if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
-        validationErrors[`kitchenstation`] = "kitchen station is required";
-      }
+      // if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
+      //   validationErrors[`kitchenstation`] = "kitchen station is required";
+      // }
 
         if (Normaldays.length === 0) {
           validationErrors["daysCheck"] = "Please select at least one day.";

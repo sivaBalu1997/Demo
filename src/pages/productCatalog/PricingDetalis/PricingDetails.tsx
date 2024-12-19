@@ -478,7 +478,7 @@ const PricingDetails = () => {
       });
 
       setOptions1(prizingDetail.kitchenstation);
-      setValue("kitchenstation", kitchenStationName);
+      // setValue("kitchenstation", kitchenStationName);
       const kitchh=getValues("kitchenstation")      
       
       // setTimeout(() => {
@@ -737,6 +737,8 @@ const PricingDetails = () => {
       (error) => error.isValid === true
     );
 
+    console.log({dineInErrors}, {combinedErrors}, {isValid})
+
     return isValid;
   };
 
@@ -858,7 +860,7 @@ const PricingDetails = () => {
                 control={control}
                 render={({ field }: any) => (
                   <Dropdown
-                    {...field}
+                    // {...field}
                     name="kitchenstation"
                     options={kitchenStationData}
                     type="radio"
@@ -866,10 +868,10 @@ const PricingDetails = () => {
                     placeholder="Search for option"
                     register={register}
                     setValue={setValue}
-                    error={errors.kitchenstation}
+                    // error={errors.kitchenstation}
                     trigger={trigger}
                     getValues={getValues}
-                    validation={{ required: "Kitchen Station is required" }}
+                    // validation={{ required: "Kitchen Station is required" }}
                     addNew={true}
                     editValues={true}
                     setDropdownOpen={setDropdownOpen}

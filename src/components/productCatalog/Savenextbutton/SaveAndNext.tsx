@@ -231,7 +231,9 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
-      const isValid = handleValidate && handleValidate();
+      
+      const isValid = handleValidate();
+      console.log({isValid})
       const valid=setValiadtePriceFields
 
       let PricingDetails = { ...mainForm };
@@ -239,7 +241,7 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
 
       
      
-      const isinValid = await triggerValidation(formData);
+      // const isinValid = await triggerValidation(formData);
 
        console.log("vbn",formData.kitchenstation);
        
@@ -278,7 +280,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         console.error("formData.Preparationtime is undefined");
       }
 
-      // Add further logic to proceed after validation passes
       if (isValid) {
         dispatch(PricingDetailRequest(PricingDetails));
         history.push({
