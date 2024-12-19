@@ -58,6 +58,7 @@ interface DropdownProps {
   isTaxDropDown?: boolean;
   categoryChange?: any;
   setCategoryChange?: any;
+  kitchenError?: boolean;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -88,7 +89,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   placeholder,
   isTaxDropDown,
   categoryChange,
-  setCategoryChange
+  setCategoryChange,
+  kitchenError
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -304,10 +306,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
-
-      console.log(prizingDetail?.kitchenstation)
-      console.log({kitchenStationName})
-      console.log(typeof(kitchenStationName))
 
       const dropDownName: any =
         Array.isArray(options) &&
@@ -640,7 +638,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
@@ -725,7 +722,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         </div>
 
         <div style={{ margin: 0 }}>
-          {dropDownType === "KITCHEN_STATION" && selectedOptions[0]?.name === undefined && (
+          {dropDownType === "KITCHEN_STATION" && selectedOptions[0]?.name === undefined && kitchenError &&(
             <p className="Dropdown-Error-message">Kitchen Station is required</p>
           ) }
         </div>

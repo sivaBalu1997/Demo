@@ -120,6 +120,7 @@ export interface SubmitButtonProps {
   errors?:any
   validateModifiers?:any;
   valiadtesubCategory?:any
+  setKitchenError?: any;
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
@@ -134,7 +135,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   itemcodeValid,
   errors,
   validateModifiers,
-  valiadtesubCategory
+  valiadtesubCategory,
+  setKitchenError
 }) => {
   const history = useHistory();
   const { isExpanded ,setValiadtePriceFields} = useContext(Contextpagejs);
@@ -231,9 +233,8 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
-      
+      setKitchenError(true)
       const isValid = handleValidate();
-      console.log({isValid})
       const valid=setValiadtePriceFields
 
       let PricingDetails = { ...mainForm };
@@ -242,8 +243,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
       
      
       // const isinValid = await triggerValidation(formData);
-
-       console.log("vbn",formData.kitchenstation);
        
 
       if (formData.kitchenstation) {

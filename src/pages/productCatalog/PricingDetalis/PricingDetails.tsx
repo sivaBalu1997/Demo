@@ -381,6 +381,8 @@ const PricingDetails = () => {
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
 
+  const [kitchenError, setKitchenError] = useState(false)
+
   const [validationState, setValidationState] = useState({
     kitchen: { isValid: true, errorMessage: "" },
     preparationTime: { isValid: true, errorMessage: "" },
@@ -737,8 +739,6 @@ const PricingDetails = () => {
       (error) => error.isValid === true
     );
 
-    console.log({dineInErrors}, {combinedErrors}, {isValid})
-
     return isValid;
   };
 
@@ -879,6 +879,7 @@ const PricingDetails = () => {
                     onToggle={() => handleDropdownToggle("Kitchen")}
                     dropDownType="KITCHEN_STATION"
                     resetSelection={kitchenDetail}
+                    kitchenError= {kitchenError}
                   />
                 )}
               />
@@ -1173,7 +1174,7 @@ const PricingDetails = () => {
               triggerValidation={() => trigger()}
               mainForm={mainForm}
               handleValidate={validationFunction}
-             
+              setKitchenError = {setKitchenError}
             />
           </div>
         </div>
