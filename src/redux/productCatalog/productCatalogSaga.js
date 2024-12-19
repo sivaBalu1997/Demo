@@ -332,7 +332,7 @@ function* addMenuItemSaga(action) {
   try {
     const addApi = yield call(addMenuItem, action.payload);
     const addApiresponse = addApi.data;
-    if (addApi.status === 200) {
+    if (addApi.statusCodeValue === 200) {
       showSuccessToast(addApiresponse.message);
       yield put(addMenuItemSuccess(addApiresponse));
     } else {
