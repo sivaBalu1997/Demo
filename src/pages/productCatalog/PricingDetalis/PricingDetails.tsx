@@ -279,7 +279,10 @@ const PricingDetails = () => {
         Inventory1: "",
         Inventory2: "",
       },
+
+
       kitchenstation: "",
+      
       KitchenStationId: "",
       Preparationtime: {
         hours: "hhh",
