@@ -56,6 +56,8 @@ interface DropdownProps {
   errormsg?: string;
   valiadtesubCategory?: any;
   isTaxDropDown?: boolean;
+  categoryChange?: any;
+  setCategoryChange?: any;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -85,6 +87,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   valiadtesubCategory,
   placeholder,
   isTaxDropDown,
+  categoryChange,
+  setCategoryChange
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -300,7 +304,6 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
-      console.log({kitchenStationName});
       
       const dropDownName: any =
         Array.isArray(options) &&
@@ -320,10 +323,6 @@ const DropDownList: React.FC<DropdownProps> = ({
             ? dropDown1?.name
             : dropDownName?.name
         );
-        console.log("ghj",dropDownName === undefined || dropDownName === false
-          ? dropDown1?.name
-          : dropDownName?.name);
-        
 
         return dropDownName === undefined || dropDownName === false
           ? [dropDown1]
@@ -435,8 +434,17 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
 
+      // if (dropDownType === "CATEGORY") {
+      //   setParentId(option?.id);
+      //   setValue("subCategory", "");
+      // }
       if (dropDownType === "CATEGORY") {
-        setParentId(option?.id);
+        if(parentId === option?.id){
+          setCategoryChange(false)
+        }else{
+          setParentId(option?.id);
+          setCategoryChange(true)
+        }
         setValue("subCategory", "");
       }
     }
@@ -479,10 +487,14 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
-
       if (dropDownType === "CATEGORY") {
-        setParentId(option?.id);
+        if(parentId === option?.id){
 
+          setCategoryChange(false)
+        }else{
+          setParentId(option?.id);
+          setCategoryChange(true)
+        }
         setValue("subCategory", "");
       }
     }
@@ -496,14 +508,12 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [dropdownopen])
   
 
-  // useEffect(() => {
-  //   if (
-  //     dropDownType === "SUB_CATEGORY" &&
-  //     parentId !== ""
-  //   ) {
-  //     setSelectedOptions([]);
-  //   }
-  // }, [parentId]);
+  useEffect(() => {
+    if (dropDownType === "SUB_CATEGORY" && categoryChange) {
+     setCategoryChange(false)
+     setSelectedOptions([])
+    }
+  }, [parentId, categoryChange]);
 
   const payload = {
     locationId: locationid,

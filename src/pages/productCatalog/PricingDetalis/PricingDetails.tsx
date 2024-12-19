@@ -262,6 +262,11 @@ const PricingDetails = () => {
       Swiggy: [],
       Zomato: [],
     });
+    
+    const prizingDetail = useSelector(
+      (state: any) => state.PricingDetailReducer.prizingData || {}
+    );
+  
 
   const {
     control,
@@ -279,7 +284,7 @@ const PricingDetails = () => {
         Inventory1: "",
         Inventory2: "",
       },
-      kitchenstation: "",
+      kitchenstation: prizingDetail?.kitchenstation ? prizingDetail?.kitchenstation : "",
       KitchenStationId: "",
       Preparationtime: {
         hours: "hhh",
@@ -304,10 +309,6 @@ const PricingDetails = () => {
     hours: "",
     minutes: "",
   });
-
-  const prizingDetail = useSelector(
-    (state: any) => state.PricingDetailReducer.prizingData || {}
-  );
 
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data

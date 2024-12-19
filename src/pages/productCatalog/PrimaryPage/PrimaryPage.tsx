@@ -782,6 +782,8 @@ const PrimaryPage = () => {
 
   const [subcategortError, setsubcategortError] = useState("");
 
+  const [categoryChange, setCategoryChange] = useState(false)
+
   const valiadtesubCategory = () => {
     const categoryList = getValues("category");
     const subcategoryList = getValues("subCategory");
@@ -938,6 +940,8 @@ const PrimaryPage = () => {
                         resetSelection={categoryref}
                         parentId={parentId}
                         setParentId={setParentId}
+                        categoryChange = {categoryChange}
+                        setCategoryChange = {setCategoryChange}
                       />
                     )}
                   />
@@ -1279,6 +1283,8 @@ const PrimaryPage = () => {
                             editData[0]?.length > 0 ? "" : valiadtesubCategory
                           }
                           errormsg={subcategortError}
+                          categoryChange = {categoryChange}
+                          setCategoryChange = {setCategoryChange}
                           addNew={true}
                           editValues={true}
                           dropdownopen={DropdownOpen.subCategory}
