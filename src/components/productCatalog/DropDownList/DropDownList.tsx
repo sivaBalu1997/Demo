@@ -302,9 +302,14 @@ const DropDownList: React.FC<DropdownProps> = ({
   );
 
   useEffect(() => {
+    console.log({prizingDetail})
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
-      
+
+      console.log(prizingDetail?.kitchenstation)
+      console.log({kitchenStationName})
+      console.log(typeof(kitchenStationName))
+
       const dropDownName: any =
         Array.isArray(options) &&
         options?.find(
@@ -323,6 +328,9 @@ const DropDownList: React.FC<DropdownProps> = ({
             ? dropDown1?.name
             : dropDownName?.name
         );
+
+
+        typeof(kitchenStationName) === 'string' && setValue("kitchenstation", kitchenStationName)
 
         return dropDownName === undefined || dropDownName === false
           ? [dropDown1]
