@@ -554,6 +554,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const removePricing = [];
   const addPricing = [];
 
+
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
     pickupDetails && pickupDetails,

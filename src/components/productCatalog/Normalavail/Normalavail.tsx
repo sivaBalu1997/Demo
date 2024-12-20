@@ -77,6 +77,7 @@ interface DeliveryDetails {
   price: number;
   typeGroup: string;
   availabilities: Availability[];
+  inActiveUntil?: any;
 }
 export interface NormalavailRef {
   handleValidate: () => boolean;
@@ -134,6 +135,7 @@ interface PriceInfo {
   price: number;
   typeGroup: string;
   availabilities: Availability[];
+  inActiveUntil?: any;
 }
 
 const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
@@ -223,6 +225,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       ZomatomealtypeNormal: "",
     });
 
+    const editData = useSelector((state: any) => state.productCatalog.editData);
+
     const [buttonText, setButtonText] = useState([{ ChooseDay: "Choose Day" }]);
     const [Text, setText] = useState(
       dineinfields?.map(() => "Set up for Specific Day")
@@ -285,6 +289,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         },
       ],
       price: 0,
+      ...(editData?.length  && { inActiveUntil: prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split('.')[0] || null }),
     });
 
     const [deliveryDetails, setDeliveryDetails] = useState<DeliveryDetails>({
@@ -298,6 +303,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           sessions: [],
         },
       ],
+      ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split('.')[0] || null})
     });
 
     const [formattedDineInData, setFormattedDineInData] =
@@ -312,6 +318,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             sessions: [],
           },
         ],
+        ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.dineInDetails?.inActiveUntil?.split('.')[0] || null})
       });
 
     const [priceInfo, setPriceInfo] = useState<PriceInfo[]>([
@@ -326,6 +333,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             sessions: [],
           },
         ],
+       ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split('.')[0] || null})
       },
     ]);
 
@@ -400,12 +408,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             },
           ],
           price: 0,
+          ...(editData?.length  && {inActiveUntil: prizingDetail?.normalForm?.pickupDetails?.inActiveUntil || null})
         });
         setDayPickup([]);
         setShowDayPickup(false);
       }
       
       if (!delivery) {
+        
         setDeliveryDetails({
           typeId: deliveryId,
           price: 0,
@@ -417,6 +427,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               sessions: [],
             },
           ],
+          ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil || null})
         });
         setMealTypes({});
         setSelectedThirdValues([]);
@@ -432,6 +443,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 sessions: [],
               },
             ],
+            ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil || null})
           },
         ]);
         setDayDelivery([]);
@@ -543,8 +555,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         });
       }
     }, [selectedthirdvalues]);
-
-    const editData = useSelector((state: any) => state.productCatalog.editData);
 
     useEffect(() => {
       if (prizingDetail?.normalForm?.formNormal) {
@@ -681,6 +691,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: pickupDetails?.price || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
+            ...(editData?.length  && {inActiveUntil: prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split('.')[0] || null})
           });
         }
 
@@ -695,6 +706,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: deliveryDetails?.price || "",
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
+            ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split('.')[0] || null})
           });
         }
 
@@ -817,6 +829,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: pickupDetails?.price || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
+            ...(editData?.length  && {inActiveUntil: prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split('.')[0] || null})
           });
         }
 
@@ -843,6 +856,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: deliveryDetails?.price || 0,
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
+            ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split('.')[0] || null})
           });
         }
 
@@ -1235,6 +1249,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               sessions: [],
             },
           ],
+          ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split('.')[0] || null})
         },
       ]);
       setSelectedValuesMealType([]);

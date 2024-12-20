@@ -278,6 +278,10 @@ const PrimaryPage = () => {
     dispatch(removeCodeRequest());
   }, []);
 
+  const prizingDetail = useSelector(
+    (state: any) => state?.PricingDetailReducer?.prizingData
+  );
+
   // useEffect(() => {
   //   const SelectedFooditemtoedit = mergedMockData.filter(
   //     (item) => item.id === location.state?.id
