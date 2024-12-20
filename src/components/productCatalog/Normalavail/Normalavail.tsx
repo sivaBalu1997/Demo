@@ -1735,7 +1735,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               className="PriceInput1Normal-input"
                               value={pickupDetails.price || ""}
                               onKeyDown={(e) => {
-                                // Prevent invalid keys like '-', '+', 'e', or 'E'.
                                 if (["-", "+", "e", "E"].includes(e.key)) {
                                   e.preventDefault();
                                 }
@@ -1745,18 +1744,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   e.target as HTMLInputElement;
                                 const value = inputElement.value;
 
-                                // Allow empty input to handle deletions
                                 if (value === "") {
                                   inputElement.value = "";
                                   return;
                                 }
 
-                                // Allow only valid numbers with up to 2 decimal places
                                 if (!/^\d*\.?\d{0,2}$/.test(value)) {
                                   inputElement.value = value.slice(0, -1);
                                 }
 
-                                // Prevent leading zero if it's not followed by a decimal point
                                 if (/^0\d/.test(value)) {
                                   inputElement.value = value.slice(1);
                                 }
@@ -1764,7 +1760,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               onChange={(e) => {
                                 const inputValue = e.target.value;
 
-                                // Allow empty input to handle deletions
                                 if (inputValue === "") {
                                   setPickUpDetails({
                                     ...pickupDetails,
@@ -1773,17 +1768,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   return;
                                 }
 
-                                // Validate numeric input with up to 2 decimal places
                                 if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
                                   const numericValue = parseFloat(inputValue);
 
-                                  // Update state with the valid value
                                   setPickUpDetails({
                                     ...pickupDetails,
                                     price: numericValue,
                                   });
 
-                                  // Call validation function with numeric value
                                   validatePickupPrice(numericValue);
                                 }
                               }}
@@ -1926,18 +1918,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   e.target as HTMLInputElement;
                                 const value = inputElement.value;
 
-                                // Allow empty input to handle deletions
+                               
                                 if (value === "") {
                                   inputElement.value = "";
                                   return;
                                 }
 
-                                // Allow only valid numbers with up to 2 decimal places
                                 if (!/^\d*\.?\d{0,2}$/.test(value)) {
                                   inputElement.value = value.slice(0, -1);
                                 }
 
-                                // Prevent leading zero if it's not followed by a decimal point
                                 if (/^0\d/.test(value)) {
                                   inputElement.value = value.slice(1);
                                 }
@@ -1950,7 +1940,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               onChange={(e) => {
                                 const inputValue = e.target.value;
 
-                                // Allow empty input to handle deletions
                                 if (inputValue === "") {
                                   setDeliveryDetails((prevDetails: any) => ({
                                     ...prevDetails,
@@ -1959,11 +1948,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                                   return;
                                 }
 
-                                // Ensure the input value is valid and limited to two decimal places
                                 if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
                                   const numericValue = parseFloat(inputValue);
 
-                                  // Update state only if numericValue is valid
                                   if (
                                     !isNaN(numericValue) &&
                                     numericValue !== 0
@@ -2088,9 +2075,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               className="LabelSwiggyInputDropDown"
                             >
                               <div className="LabelSwiggyInput">
-                                {/* <label className="swiggyZomatoHeading">
-                          {option} Price
-                        </label> */}
+                                
                                 <p className="Thrid-party-price">
                                   {" "}
                                   {option} Price
@@ -2100,7 +2085,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
   type="number"
   value={priceInfo[index]?.price || ""}
   onKeyDown={(e) => {
-    // Prevent invalid keys like '-', '+', 'e', or 'E'.
+   
     if (["-", "+", "e", "E"].includes(e.key)) {
       e.preventDefault();
     }
@@ -2108,7 +2093,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
   onChange={(e) => {
     const inputValue = e.target.value;
 
-    // Allow empty input to handle deletions
+   
     if (inputValue === "") {
       const updatedData = [...priceInfo].map(
         (item, idx) =>
@@ -2123,13 +2108,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setPriceInfo(updatedData);
     }
 
-    // Validate numeric input with up to 2 decimal places
+    
     if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
       const updatedData = [...priceInfo].map((item, idx) =>
         idx === index
           ? {
               ...item,
-              price: parseFloat(inputValue), // Parse the input to a numeric value
+              price: parseFloat(inputValue), 
             }
           : item
       );
