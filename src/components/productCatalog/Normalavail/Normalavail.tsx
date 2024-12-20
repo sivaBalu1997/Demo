@@ -110,7 +110,7 @@ interface NormalavailProps {
   resetSelection?: any;
   setValidationFunction: any;
   getValues: any;
-  setValue:any;
+  setValue: any;
 }
 
 type MealType1 = string;
@@ -154,7 +154,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       resetSelection,
       setValidationFunction,
       getValues,
-      setValue
+      setValue,
     } = props;
 
     const [online, setOnline] = useState(false);
@@ -404,7 +404,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setDayPickup([]);
         setShowDayPickup(false);
       }
-      
+
       if (!delivery) {
         setDeliveryDetails({
           typeId: deliveryId,
@@ -532,7 +532,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             data[index].typeName = item;
           }
         });
-        
+
         data.forEach((item, index) => {
           if (data[index].typeId === "") {
             const id = thirdPartyData?.find(
@@ -586,18 +586,24 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         });
 
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
-        setDayPickup(prizingDetail.normalForm?.Pickup || [])
-        setDayDelivery(prizingDetail.normalForm?.Delivery || [])
-        setDayThird(prizingDetail?.normalForm?.thirdParty || [])
+        setDayPickup(prizingDetail.normalForm?.Pickup || []);
+        setDayDelivery(prizingDetail.normalForm?.Delivery || []);
+        setDayThird(prizingDetail?.normalForm?.thirdParty || []);
         dineIndetails?.availabilities?.forEach((availability: any) => {
-          availability.availabilityDays = prizingDetail?.normalForm?.Normaldays || [];
-      });
-        
+          availability.availabilityDays =
+            prizingDetail?.normalForm?.Normaldays || [];
+        });
 
-       setShowDayPickup(prizingDetail.normalForm?.Pickup?.length > 0 ? true : false)
-       setShowDayDelivery(prizingDetail.normalForm?.Delivery?.length > 0 ? true : false)
-       setShowDayThird(prizingDetail?.normalForm?.thirdParty?.length > 0 ? true : false)
-        
+        setShowDayPickup(
+          prizingDetail.normalForm?.Pickup?.length > 0 ? true : false
+        );
+        setShowDayDelivery(
+          prizingDetail.normalForm?.Delivery?.length > 0 ? true : false
+        );
+        setShowDayThird(
+          prizingDetail?.normalForm?.thirdParty?.length > 0 ? true : false
+        );
+
         // if (pickupDetails) {
         //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
         // }
@@ -665,7 +671,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         });
 
         // Set delivery details
-        const thirdPartyTypeName = prizingDetail?.normalForm?.thirdpartyDetails?.map;
+        const thirdPartyTypeName =
+          prizingDetail?.normalForm?.thirdpartyDetails?.map;
 
         if (pickupDetails) {
           // setPickup(true)
@@ -760,7 +767,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           setdeliveryEnable(false);
         }
 
-
         // setValue("kitchenstation",prizingDetail?.kitchenstation)
       }
 
@@ -782,8 +788,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           (data: any, index: number) => data.typeId === deliveryDetails?.typeId
         );
 
-        setShowDayPickup(prizingDetail.normalForm?.Pickup?.length > 0 ? true : false)
-        setShowDayDelivery(prizingDetail.normalForm?.Delivery?.length > 0 ? true : false)
+        setShowDayPickup(
+          prizingDetail.normalForm?.Pickup?.length > 0 ? true : false
+        );
+        setShowDayDelivery(
+          prizingDetail.normalForm?.Delivery?.length > 0 ? true : false
+        );
 
         if (dineIndetail) {
           setShowDineIn(true);
@@ -974,23 +984,22 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       e: React.ChangeEvent<HTMLInputElement>
     ): void => {
       const inputValue = e.target.value;
-    
-      
+
       if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
         const newEntries = [...dineinfields];
-        
+
         newEntries[index] = {
           ...newEntries[index],
           [e.target.name as keyof DineInField]: inputValue,
         };
         setDineInFields(newEntries);
-    
+
         const newPrice = parseFloat(inputValue) || 0;
         setFormattedDineInData((prevData: any) => ({
           ...prevData,
           price: newPrice,
         }));
-    
+
         validateDineInPrice(index, newPrice);
       }
     };
@@ -1355,34 +1364,32 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
 
+    //   useEffect(()=>{
 
-  //   useEffect(()=>{
+    //  if(!online)
+    //  {
+    //   setPickup(false);
+    //   setDelivery(false);
+    //  }
 
-  //  if(!online)
-  //  {
-  //   setPickup(false);
-  //   setDelivery(false);
-  //  }
-   
-
-  //   },[online])
+    //   },[online])
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
       // const Kitchenstationdata = getValues("kitchenstation") || prizingDetail?.kitchenstation;
 
       // console.log({Kitchenstationdata})
-      
+
       // if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
       //   validationErrors[`kitchenstation`] = "kitchen station is required";
       // }
 
-        if (Normaldays.length === 0) {
-          validationErrors["daysCheck"] = "Please select at least one day.";
-        }
-        if (Normaldays && Normaldays.length > 0) {
-          delete validationErrors["daysCheck"];
-        }
+      if (Normaldays.length === 0) {
+        validationErrors["daysCheck"] = "Please select at least one day.";
+      }
+      if (Normaldays && Normaldays.length > 0) {
+        delete validationErrors["daysCheck"];
+      }
 
       dineinfields?.forEach((field: any, index: number) => {
         if (showDineIn) {
@@ -1458,7 +1465,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       showDineIn,
       pickup,
       delivery,
-      Normaldays
+      Normaldays,
     ]);
     const validatePickupPrice = (price: number): void => {
       const validationErrors = { ...errors };
@@ -1485,9 +1492,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       setErrors(validationErrors);
     };
 
-
-
-  
     return (
       <div>
         <div className="AvailDaycheck">
@@ -1532,11 +1536,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               id={availabilityid}
               setId={setAvailabilityid}
             />
-             {Normaldays && Normaldays.length === 0 && 
+            {Normaldays && Normaldays.length === 0 && (
               <span className="daycheckvalidation">
-                {errors[`daysCheck`]||""}
-              </span>}
-            <p  className={errors[`daysCheck`]?"Note":"Note-error"}  >
+                {errors[`daysCheck`] || ""}
+              </span>
+            )}
+            <p className={errors[`daysCheck`] ? "Note" : "Note-error"}>
               Note : Changes here will apply to all service types unless
               specific day options are enabled
             </p>
@@ -1545,7 +1550,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         {/* <h1 className="AvailableServiceHeading">Avaliable Service Streams</h1> */}
         {/* DineIn Related */}
 
-        { DineInServiceEnabled &&
+        {DineInServiceEnabled && (
           <div className="DineInRelated">
             <h1
               className="DineInRelatedHeadingNormalAvail"
@@ -1559,9 +1564,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               Enabled={dineInEnable === true}
             />
           </div>
-        }
+        )}
 
-        {DineInServiceEnabled&& showDineIn ? (
+        {DineInServiceEnabled && showDineIn ? (
           <>
             {/* <h1>jhgf</h1> */}
             {dineinfields?.map((entry: any, index: any) => {
@@ -1644,13 +1649,15 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     </div>
                     <div className="dineInChooseDayContainer">
                       <h3 className="dineInChooseDayContainerHeading">
-                        {entry?.showDay ? "Back to default days?":"Setup for specific days?"}
+                        {entry?.showDay
+                          ? "Back to default days?"
+                          : "Setup for specific days?"}
                       </h3>
                       <h3
                         className="dineInChooseDayContainer-chooseheading"
                         onClick={() => addDay(index)}
                       >
-                        {entry?.showDay ? "Default Day":"Choose Day"}
+                        {entry?.showDay ? "Default Day" : "Choose Day"}
                       </h3>
                     </div>
                     <div className="dayspickup">
@@ -1681,462 +1688,532 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         )}
 
         {/* OnlineRelated */}
-        {
-          (pickUpIdServiceEnabled ||DeliveryServiceEnabled) &&
+        {(pickUpIdServiceEnabled || DeliveryServiceEnabled) && (
           <div className="OnlineRelatedNormal">
-          <h1 className="OnlineRelatedHeadingNormal">Online</h1>
-          <div className="toggleIII">
-            <Toggle toggle={online} setToggle={setOnline} />
+            <h1 className="OnlineRelatedHeadingNormal">Online</h1>
+            <div className="toggleIII">
+              <Toggle toggle={online} setToggle={setOnline} />
+            </div>
           </div>
-        </div>
-        }
-       
+        )}
 
         <div className="OnlineSectionNormal">
-          {online  ? (
+          {online ? (
             <div className="onlineselected">
               {/* PickupRelated */}
 
-              {pickUpIdServiceEnabled  && <> <div className="PickupRelatedNormal">
-                <h1
-                  className="PickupRelatedHeadingNormal"
-                  style={{ opacity: pickupEnable ? "100%" : "50%" }}
-                >
-                  Pick Up
-                </h1>
-                <div className="toggleIV">
-                  <Toggle
-                    toggle={pickup}
-                    setToggle={setPickup}
-                    Enabled={pickupEnable === true}
-                    // Enabled={pickUpIdServiceEnabled === 1 && pickupEnable===true}
-                  />
-                </div>
-              </div>
-              <div className="PickupSectionNormal">
-                {pickup && pickUpTypes ? (
-                  <div>
-                    <div className="LabelPricePickup">
-                      <LableComponent lable="Price*" />
+              {pickUpIdServiceEnabled && (
+                <>
+                  {" "}
+                  <div className="PickupRelatedNormal">
+                    <h1
+                      className="PickupRelatedHeadingNormal"
+                      style={{ opacity: pickupEnable ? "100%" : "50%" }}
+                    >
+                      Pick Up
+                    </h1>
+                    <div className="toggleIV">
+                      <Toggle
+                        toggle={pickup}
+                        setToggle={setPickup}
+                        Enabled={pickupEnable === true}
+                        // Enabled={pickUpIdServiceEnabled === 1 && pickupEnable===true}
+                      />
                     </div>
-                    <div className="PickupInput11Normal">
-                      <div className="pickupprice-errormsg">
-                        <input
-                          type="number"
-                          step="any"
+                  </div>
+                  <div className="PickupSectionNormal">
+                    {pickup && pickUpTypes ? (
+                      <div>
+                        <div className="LabelPricePickup">
+                          <LableComponent lable="Price*" />
+                        </div>
+                        <div className="PickupInput11Normal">
+                          <div className="pickupprice-errormsg">
+                            <input
+                              type="number"
+                              step="any"
+                              className="PriceInput1Normal-input"
+                              value={pickupDetails.price || ""}
+                              onKeyDown={(e) => {
+                                // Prevent invalid keys like '-', '+', 'e', or 'E'.
+                                if (["-", "+", "e", "E"].includes(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
+                              onInput={(e) => {
+                                const inputElement =
+                                  e.target as HTMLInputElement;
+                                const value = inputElement.value;
 
-                          className="PriceInput1Normal-input"
-                          value={pickupDetails.price || ""}
-                          onKeyDown={(e) => {
-                            if (e.key === "-") {
-                              e.preventDefault();
-                            }
-                            if (
-                              e.key === "e" ||e.key === "E"||
-                              e.key === "-" ||
-                              e.key === "+"||
-                              e.key === "E" 
-                            ) {
-                              e.preventDefault();
-                            }
-                          }}
+                                // Allow empty input to handle deletions
+                                if (value === "") {
+                                  inputElement.value = "";
+                                  return;
+                                }
 
-                          onInput={(e) => {
-                            const inputElement = e.target as HTMLInputElement;
-                            const value = inputElement.value;
+                                // Allow only valid numbers with up to 2 decimal places
+                                if (!/^\d*\.?\d{0,2}$/.test(value)) {
+                                  inputElement.value = value.slice(0, -1);
+                                }
 
-                            if (!/^(\d+(\.\d*)?|\.\d+)$/.test(value)) {
-                              inputElement.value = value.slice(0, -1);
-                            }
-                          }}
+                                // Prevent leading zero if it's not followed by a decimal point
+                                if (/^0\d/.test(value)) {
+                                  inputElement.value = value.slice(1);
+                                }
+                              }}
+                              onChange={(e) => {
+                                const inputValue = e.target.value;
 
-                          onChange={(e) => {
-                            const inputValue = e.target.value;
-                        
-                            // Ensure the input value is valid and limited to two decimal places
-                            if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
-                              const numericValue = inputValue ? parseFloat(inputValue) : 0;
-                        
-                              if (!isNaN(numericValue)) {
-                                setPickUpDetails({
-                                  ...pickupDetails,
-                                  price: numericValue,
-                                });
-                                validatePickupPrice(numericValue);
+                                // Allow empty input to handle deletions
+                                if (inputValue === "") {
+                                  setPickUpDetails({
+                                    ...pickupDetails,
+                                    price: 0,
+                                  });
+                                  return;
+                                }
+
+                                // Validate numeric input with up to 2 decimal places
+                                if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
+                                  const numericValue = parseFloat(inputValue);
+
+                                  // Update state with the valid value
+                                  setPickUpDetails({
+                                    ...pickupDetails,
+                                    price: numericValue,
+                                  });
+
+                                  // Call validation function with numeric value
+                                  validatePickupPrice(numericValue);
+                                }
+                              }}
+                            />
+
+                            <span className="Errormsg pickuperrormsg">
+                              {errors.pickupprice}
+                            </span>
+                          </div>
+
+                          <div className="PrizeD">
+                            <DropDown
+                              selectedValues={
+                                pickupDetails.availabilities[0].sessions
                               }
-                            }
-                          }}
-                        />
-                        <span className="Errormsg pickuperrormsg">
-                          {errors.pickupprice}
-                        </span>
-                      </div>
-
-                      <div className="PrizeD">
-                        <DropDown
-                          selectedValues={
-                            pickupDetails.availabilities[0].sessions
-                          }
-                          onSelect={(selectedMealTypes) =>
-                            setPickUpDetails((prevDetails) => ({
-                              ...prevDetails,
-                              availabilities: prevDetails.availabilities.map(
-                                (availability, index) =>
-                                  index === 0
-                                    ? {
-                                        ...availability,
-                                        sessions: selectedMealTypes,
-                                      }
-                                    : availability
-                              ),
-                            }))
-                          }
-                          options={options3}
-                          toggleOnorOff={pickup}
-                          validatepickupdelivery={validatepickup}
-                          label="Meal Type*"
-                          width="Drop1"
-                          // onBlur={() => validatepickupdelivery()}
-                        />
-                        <span className="Errormsg pickuperrormsgmealType">
-                          {errors.pickupmealTypeSessions}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="PickupChooseDayContainer" >
-                      {showDayPickup ? (
-                        <h3 className="pickupChooseDayContainerHeading">
-                          Back to default days?
-                        </h3>
-                      ) : (
-                        <h3 className="pickupChooseDayContainerHeading">
-                          Setup for specific days?
-                        </h3>
-                      )}
-                      {showDayPickup ? (
-                        <h3
-                          className="pickupChooseDayContainer-chooseheading"
-                          onClick={addDayPickupfalse}
-                        >
-                          Default day
-                        </h3>
-                      ) : (
-                        <h3
-                          className="pickupChooseDayContainer-chooseheading"
-                          onClick={addDayPickup}
-                        >
-                          Choose Day
-                        </h3>
-                      )}
-                    </div>
-                    <div className="dayspick-pickup">
-                      {showDayPickup ? (
-                        <DaysCheck
-                          checkedItems={DayPickup}
-                          setCheckedItems={setDayPickup}
-                          {...(availabilityid.length > 0
-                            ? { id: availabilityid, setId: setAvailabilityid }
-                            : { id: [], setId: () => {} })}
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    {/* <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
+                              onSelect={(selectedMealTypes) =>
+                                setPickUpDetails((prevDetails) => ({
+                                  ...prevDetails,
+                                  availabilities:
+                                    prevDetails.availabilities.map(
+                                      (availability, index) =>
+                                        index === 0
+                                          ? {
+                                              ...availability,
+                                              sessions: selectedMealTypes,
+                                            }
+                                          : availability
+                                    ),
+                                }))
+                              }
+                              options={options3}
+                              toggleOnorOff={pickup}
+                              validatepickupdelivery={validatepickup}
+                              label="Meal Type*"
+                              width="Drop1"
+                              // onBlur={() => validatepickupdelivery()}
+                            />
+                            <span className="Errormsg pickuperrormsgmealType">
+                              {errors.pickupmealTypeSessions}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="PickupChooseDayContainer">
+                          {showDayPickup ? (
+                            <h3 className="pickupChooseDayContainerHeading">
+                              Back to default days?
+                            </h3>
+                          ) : (
+                            <h3 className="pickupChooseDayContainerHeading">
+                              Setup for specific days?
+                            </h3>
+                          )}
+                          {showDayPickup ? (
+                            <h3
+                              className="pickupChooseDayContainer-chooseheading"
+                              onClick={addDayPickupfalse}
+                            >
+                              Default day
+                            </h3>
+                          ) : (
+                            <h3
+                              className="pickupChooseDayContainer-chooseheading"
+                              onClick={addDayPickup}
+                            >
+                              Choose Day
+                            </h3>
+                          )}
+                        </div>
+                        <div className="dayspick-pickup">
+                          {showDayPickup ? (
+                            <DaysCheck
+                              checkedItems={DayPickup}
+                              setCheckedItems={setDayPickup}
+                              {...(availabilityid.length > 0
+                                ? {
+                                    id: availabilityid,
+                                    setId: setAvailabilityid,
+                                  }
+                                : { id: [], setId: () => {} })}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                        {/* <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
                     {" "}
                     + Add entry
                   </h1> */}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div></>}
-             
- {DeliveryServiceEnabled && <>
-  <div
-                className={`${
-                  delivery
-                    ? "DeliveryRelatedNormal"
-                    : "DeliveryRelatedNormalopen"
-                }`}
-              >
-                <h1
-                  className="DeliveryRelatedHeadingNormal"
-                  style={{ opacity: deliveryEnable ? "100%" : "50%" }}
-                >
-                  Delivery
-                </h1>
-                <div className="toggleV">
-                  <Toggle
-                    toggle={delivery}
-                    setToggle={setDelivery}
-                    Enabled={deliveryEnable === true}
-                  />
-                </div>
-              </div>
-
-              <div
-                className={
-                  online
-                    ? "DeliverySectionNormal"
-                    : "DeliverySectionNormalclose"
-                }
-              >
-                {delivery && deliveryTypes ? (
-                  <div>
-                    <div></div>
-                    <p className="LabelPrice-delivery"> Price*</p>
-                    <div className="Online-delivery">
-                      <div className="delivery-price-errormsg">
-                        <input
-                          type="number"
-                          onKeyDown={(e) => {
-                            if (e.key === "-") {
-                              e.preventDefault(); // Prevent typing -, e, or E
-                            }
-                            if (
-                              e.key === "e" ||e.key === "E"||
-                              e.key === "-" ||
-                              e.key === "+"
-                            ) {
-                              e.preventDefault(); // Block these keys
-                            }
-                          }}
-                          className="DeliveryInput1Normal"
-                          value={deliveryDetails?.price || ""}
-                          onChange={(e) => {
-                            const newPrice = e.target.value;
-                          
-                        
-                            if (/^\d*\.?\d{0,2}$/.test(newPrice)) {
-                              setDeliveryDetails((prevDetails: any) => ({
-                                ...prevDetails,
-                                price: Number(newPrice),
-                              }));
-                          
-                              // Validate the updated price
-                              validateDeliveryPrice(Number(newPrice));
-                            }
-                          }}
-                          onInput={(e) => {
-                            const inputElement = e.target as HTMLInputElement;
-                            const newPrice = inputElement.value;
-
-                            if (!/^\d*\.?\d*$/.test(newPrice)) {
-                              inputElement.value = newPrice.slice(0, -1);
-                            }
-                          }}
-                        />
-
-                        <span className="Errormsg deliverypriceerrormsg">
-                          {errors.deliveryprice}
-                        </span>
                       </div>
-
-                      <div className="DeliveryD">
-                        <DropDown
-                          selectedValues={
-                            deliveryDetails.availabilities[0].sessions
-                          }
-                          onSelect={(selectedMealTypes) => {
-                            setDeliveryDetails((prevDetails) => ({
-                              ...prevDetails,
-                              availabilities: [
-                                {
-                                  ...prevDetails.availabilities[0],
-                                  sessions: selectedMealTypes,
-                                },
-                              ],
-                            }));
-                          }}
-                          onBlur={() => validateDineinFields()}
-                          toggleOnorOff={delivery}
-                          validatepickupdelivery={validatedelivery}
-                          options={options4}
-                          label="Meal Type*"
-                          width="Drop1"
-                        />
-                        <span className="Errormsg deliverymealtypeerrormsg">
-                          {errors.deliverymealTypeSessions}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="deliveryChooseDayContainer" >
-                      {showDayDelivery ? (
-                        <h3 className="deliveryChooseDayContainerHeading">
-                          Back to default days?
-                        </h3>
-                      ) : (
-                        <h3 className="deliveryChooseDayContainerHeading">
-                          Setup for specific days?
-                        </h3>
-                      )}
-                      {showDayDelivery ? (
-                        <h3
-                          className="deliveryChooseDayContainer-chooseheading"
-                          onClick={addDayDeliveryfalse}
-                        >
-                          Default day
-                        </h3>
-                      ) : (
-                        <h3
-                          className="deliveryChooseDayContainer-chooseheading"
-                          onClick={addDayDelivery}
-                        >
-                          Choose Day
-                        </h3>
-                      )}
-                    </div>
-                    <div className="dayspickup-normal">
-                      {showDayDelivery && (
-                        <DaysCheck
-                          checkedItems={DayDelivery}
-                          setCheckedItems={setDayDelivery}
-                          {...(availabilityid.length > 0
-                            ? { id: availabilityid, setId: setAvailabilityid }
-                            : { id: [], setId: () => {} })}
-                        />
-                      )}
-                    </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
-                ) : null}
-              </div>
+                </>
+              )}
 
-              {delivery && (
+              {DeliveryServiceEnabled && (
                 <>
-                  <h1 className="ThirdDeliveryRelatedHeadingNormal">
-                    Third Party delivery
-                  </h1>
-                  <div className="thirdpartyContainer">
-                    <div className="Delivery11">
-                      <DropDown
-                        selectedValues={selectedthirdvalues}
-                        onSelect={handleSelectThird}
-                        options={optionsselectthird}
-                        label=""
-                        isopened={setDropdownopened}
-                        onBlur={() =>
-                          validateDropdown(selectedthirdvalues, "SwiggyZomato")
-                        }
-                        validation={validationState.PickupSwiggy}
-                        width="Drop1"
-                        placeHolder="Third Party"
+                  <div
+                    className={`${
+                      delivery
+                        ? "DeliveryRelatedNormal"
+                        : "DeliveryRelatedNormalopen"
+                    }`}
+                  >
+                    <h1
+                      className="DeliveryRelatedHeadingNormal"
+                      style={{ opacity: deliveryEnable ? "100%" : "50%" }}
+                    >
+                      Delivery
+                    </h1>
+                    <div className="toggleV">
+                      <Toggle
+                        toggle={delivery}
+                        setToggle={setDelivery}
+                        Enabled={deliveryEnable === true}
                       />
                     </div>
+                  </div>
 
-                    {/* Dynamically render based on selected options */}
-                    {selectedthirdvalues?.map((option, index) => {
-                      return (
-                        <div key={option} className="LabelSwiggyInputDropDown">
-                          <div className="LabelSwiggyInput">
-                            {/* <label className="swiggyZomatoHeading">
-                          {option} Price
-                        </label> */}
-                            <p className="Thrid-party-price"> {option} Price</p>
+                  <div
+                    className={
+                      online
+                        ? "DeliverySectionNormal"
+                        : "DeliverySectionNormalclose"
+                    }
+                  >
+                    {delivery && deliveryTypes ? (
+                      <div>
+                        <div></div>
+                        <p className="LabelPrice-delivery"> Price*</p>
+                        <div className="Online-delivery">
+                          <div className="delivery-price-errormsg">
                             <input
-                              className="swiggyZomato-input"
                               type="number"
-                              value={priceInfo[index]?.price || ""}
-                              onKeyDown={(e) => {
-                                if (e.key === "-") {
-                                  e.preventDefault();
+                              className="DeliveryInput1Normal"
+                              value={deliveryDetails?.price || ""}
+                              onInput={(e) => {
+                                const inputElement =
+                                  e.target as HTMLInputElement;
+                                const value = inputElement.value;
+
+                                // Allow empty input to handle deletions
+                                if (value === "") {
+                                  inputElement.value = "";
+                                  return;
                                 }
-                                if (
-                                  e.key === "e" ||e.key === "E"||
-                                  e.key === "-" ||
-                                  e.key === "+"
-                                ) {
+
+                                // Allow only valid numbers with up to 2 decimal places
+                                if (!/^\d*\.?\d{0,2}$/.test(value)) {
+                                  inputElement.value = value.slice(0, -1);
+                                }
+
+                                // Prevent leading zero if it's not followed by a decimal point
+                                if (/^0\d/.test(value)) {
+                                  inputElement.value = value.slice(1);
+                                }
+                              }}
+                              onKeyDown={(e) => {
+                                if (["-", "+", "e", "E"].includes(e.key)) {
                                   e.preventDefault();
                                 }
                               }}
                               onChange={(e) => {
                                 const inputValue = e.target.value;
-                              
-                               
+
+                                // Allow empty input to handle deletions
+                                if (inputValue === "") {
+                                  setDeliveryDetails((prevDetails: any) => ({
+                                    ...prevDetails,
+                                    price: "",
+                                  }));
+                                  return;
+                                }
+
+                                // Ensure the input value is valid and limited to two decimal places
                                 if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
-                             
-                                  const updatedData = [...priceInfo].map((item, idx) =>
-                                    idx === index
-                                      ? { ...item, price: Number(inputValue) }
-                                      : item
-                                  );
-                              
-                                
-                                  setPriceInfo(updatedData);
+                                  const numericValue = parseFloat(inputValue);
+
+                                  // Update state only if numericValue is valid
+                                  if (
+                                    !isNaN(numericValue) &&
+                                    numericValue !== 0
+                                  ) {
+                                    setDeliveryDetails((prevDetails: any) => ({
+                                      ...prevDetails,
+                                      price: numericValue,
+                                    }));
+                                    validateDeliveryPrice(numericValue);
+                                  }
                                 }
                               }}
                             />
+
+                            <span className="Errormsg deliverypriceerrormsg">
+                              {errors.deliveryprice}
+                            </span>
                           </div>
-                          <div
-                            className={`Third${option}  thridparties-dropdown `}
-                            style={{ zIndex: dropdownopened ? "-1" : "" }}
-                          >
+
+                          <div className="DeliveryD">
                             <DropDown
-                              selectedValues={mealTypes[option] || []}
-                              onSelect={(selected) =>
-                                handleMealTypeChange(option, selected, index)
+                              selectedValues={
+                                deliveryDetails.availabilities[0].sessions
                               }
+                              onSelect={(selectedMealTypes) => {
+                                setDeliveryDetails((prevDetails) => ({
+                                  ...prevDetails,
+                                  availabilities: [
+                                    {
+                                      ...prevDetails.availabilities[0],
+                                      sessions: selectedMealTypes,
+                                    },
+                                  ],
+                                }));
+                              }}
+                              onBlur={() => validateDineinFields()}
+                              toggleOnorOff={delivery}
+                              validatepickupdelivery={validatedelivery}
                               options={options4}
                               label="Meal Type*"
-                              onBlur={() =>
-                                validateDropdown(
-                                  mealTypes[option],
-                                  `ThirdDelivery${option}`
-                                )
-                              }
-                              validation={
-                                validationState[`ThirdDelivery${option}`]
-                              }
                               width="Drop1"
                             />
+                            <span className="Errormsg deliverymealtypeerrormsg">
+                              {errors.deliverymealTypeSessions}
+                            </span>
                           </div>
                         </div>
-                      );
-
-                      return null;
-                    })}
-
-                    <div className="ThirdPartyChooseDayContainer">
-                      {showDayThird ? (
-                        <h3 className="ThirdPartyChooseDayContainerHeading">
-                          Back to Default days
-                        </h3>
-                      ) : (
-                        <h3 className="ThirdPartyChooseDayContainerHeading">
-                          Setup for specific days?
-                        </h3>
-                      )}
-                      {showDayThird ? (
-                        <h3
-                          className="ThirdPartyChooseDayContainer-chooseheading"
-                          onClick={addDayThirdfalse}
-                        >
-                          Default Days
-                        </h3>
-                      ) : (
-                        <h3
-                          className="ThirdPartyChooseDayContainer-chooseheading"
-                          onClick={addDayThird}
-                        >
-                          Choose Day
-                        </h3>
-                      )}
-                    </div>
-                       
-                    {showDayThird && (
-                      <DaysCheck
-                        checkedItems={DayThird}
-                        setCheckedItems={setDayThird}
-                        {...(availabilityid.length > 0
-                          ? { id: availabilityid, setId: setAvailabilityid }
-                          : { id: [], setId: () => {} })}
-                      />
-                    )}
+                        <div className="deliveryChooseDayContainer">
+                          {showDayDelivery ? (
+                            <h3 className="deliveryChooseDayContainerHeading">
+                              Back to default days?
+                            </h3>
+                          ) : (
+                            <h3 className="deliveryChooseDayContainerHeading">
+                              Setup for specific days?
+                            </h3>
+                          )}
+                          {showDayDelivery ? (
+                            <h3
+                              className="deliveryChooseDayContainer-chooseheading"
+                              onClick={addDayDeliveryfalse}
+                            >
+                              Default day
+                            </h3>
+                          ) : (
+                            <h3
+                              className="deliveryChooseDayContainer-chooseheading"
+                              onClick={addDayDelivery}
+                            >
+                              Choose Day
+                            </h3>
+                          )}
+                        </div>
+                        <div className="dayspickup-normal">
+                          {showDayDelivery && (
+                            <DaysCheck
+                              checkedItems={DayDelivery}
+                              setCheckedItems={setDayDelivery}
+                              {...(availabilityid.length > 0
+                                ? {
+                                    id: availabilityid,
+                                    setId: setAvailabilityid,
+                                  }
+                                : { id: [], setId: () => {} })}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
+
+                  {delivery && (
+                    <>
+                      <h1 className="ThirdDeliveryRelatedHeadingNormal">
+                        Third Party delivery
+                      </h1>
+                      <div className="thirdpartyContainer">
+                        <div className="Delivery11">
+                          <DropDown
+                            selectedValues={selectedthirdvalues}
+                            onSelect={handleSelectThird}
+                            options={optionsselectthird}
+                            label=""
+                            isopened={setDropdownopened}
+                            onBlur={() =>
+                              validateDropdown(
+                                selectedthirdvalues,
+                                "SwiggyZomato"
+                              )
+                            }
+                            validation={validationState.PickupSwiggy}
+                            width="Drop1"
+                            placeHolder="Third Party"
+                          />
+                        </div>
+
+                        
+                        {selectedthirdvalues?.map((option, index) => {
+                          return (
+                            <div
+                              key={option}
+                              className="LabelSwiggyInputDropDown"
+                            >
+                              <div className="LabelSwiggyInput">
+                                {/* <label className="swiggyZomatoHeading">
+                          {option} Price
+                        </label> */}
+                                <p className="Thrid-party-price">
+                                  {" "}
+                                  {option} Price
+                                </p>
+                                <input
+  className="swiggyZomato-input"
+  type="number"
+  value={priceInfo[index]?.price || ""}
+  onKeyDown={(e) => {
+    // Prevent invalid keys like '-', '+', 'e', or 'E'.
+    if (["-", "+", "e", "E"].includes(e.key)) {
+      e.preventDefault();
+    }
+  }}
+  onChange={(e) => {
+    const inputValue = e.target.value;
+
+    // Allow empty input to handle deletions
+    if (inputValue === "") {
+      const updatedData = [...priceInfo].map(
+        (item, idx) =>
+          idx === index
+            ? {
+                ...item,
+                price: Number(inputValue),
+              }
+            : item
+      );
+
+      setPriceInfo(updatedData);
+    }
+
+    // Validate numeric input with up to 2 decimal places
+    if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
+      const updatedData = [...priceInfo].map((item, idx) =>
+        idx === index
+          ? {
+              ...item,
+              price: parseFloat(inputValue), // Parse the input to a numeric value
+            }
+          : item
+      );
+      setPriceInfo(updatedData);
+    }
+  }}
+/>
+
+                              </div>
+                              <div
+                                className={`Third${option}  thridparties-dropdown `}
+                                style={{ zIndex: dropdownopened ? "-1" : "" }}
+                              >
+                                <DropDown
+                                  selectedValues={mealTypes[option] || []}
+                                  onSelect={(selected) =>
+                                    handleMealTypeChange(
+                                      option,
+                                      selected,
+                                      index
+                                    )
+                                  }
+                                  options={options4}
+                                  label="Meal Type*"
+                                  onBlur={() =>
+                                    validateDropdown(
+                                      mealTypes[option],
+                                      `ThirdDelivery${option}`
+                                    )
+                                  }
+                                  validation={
+                                    validationState[`ThirdDelivery${option}`]
+                                  }
+                                  width="Drop1"
+                                />
+                              </div>
+                            </div>
+                          );
+
+                          return null;
+                        })}
+
+                        <div className="ThirdPartyChooseDayContainer">
+                          {showDayThird ? (
+                            <h3 className="ThirdPartyChooseDayContainerHeading">
+                              Back to Default days
+                            </h3>
+                          ) : (
+                            <h3 className="ThirdPartyChooseDayContainerHeading">
+                              Setup for specific days?
+                            </h3>
+                          )}
+                          {showDayThird ? (
+                            <h3
+                              className="ThirdPartyChooseDayContainer-chooseheading"
+                              onClick={addDayThirdfalse}
+                            >
+                              Default Days
+                            </h3>
+                          ) : (
+                            <h3
+                              className="ThirdPartyChooseDayContainer-chooseheading"
+                              onClick={addDayThird}
+                            >
+                              Choose Day
+                            </h3>
+                          )}
+                        </div>
+
+                        {showDayThird && (
+                          <DaysCheck
+                            checkedItems={DayThird}
+                            setCheckedItems={setDayThird}
+                            {...(availabilityid.length > 0
+                              ? { id: availabilityid, setId: setAvailabilityid }
+                              : { id: [], setId: () => {} })}
+                          />
+                        )}
+                      </div>
+                    </>
+                  )}
                 </>
-              )}</>}
+              )}
               {/* DeliveryRelated    */}
-             
             </div>
           ) : (
             ""

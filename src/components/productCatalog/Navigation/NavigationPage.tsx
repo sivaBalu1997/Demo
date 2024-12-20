@@ -187,9 +187,9 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
   const handleCategoryClick = (category: string) => {
     const path = category.replace(/\s+/g, "");
-    handleclick(category);
+    // handleclick(category);
     // navigate && setCurrentPage(category);
-    // navigate && history.push(`/productCatalog/${path}`, { pagename: category });
+     history.push(`/productCatalog/${path}`, { pagename: category });
   };
 
   return (
