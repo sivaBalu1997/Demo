@@ -1260,7 +1260,7 @@ const PrimaryPage = () => {
                     )}
                   />
                   <span>
-                    Popular item ( {popularItem}/{popularItemlimit} )
+                    Popular item ( {popularItemlimit > 0 ? {popularItem} : 0}/{popularItemlimit} )
                   </span>
                 </div>
 
