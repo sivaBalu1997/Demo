@@ -978,7 +978,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       
       if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
         const newEntries = [...dineinfields];
-    
         
         newEntries[index] = {
           ...newEntries[index],
@@ -986,14 +985,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         };
         setDineInFields(newEntries);
     
-      
         const newPrice = parseFloat(inputValue) || 0;
         setFormattedDineInData((prevData: any) => ({
           ...prevData,
           price: newPrice,
         }));
     
-       
         validateDineInPrice(index, newPrice);
       }
     };
@@ -1589,7 +1586,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           name="DineInPrice"
                           value={entry.DineInPrice}
                           className="DineInInput1Normal"
-                          
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
@@ -1744,6 +1740,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               e.preventDefault();
                             }
                           }}
+
+                          onInput={(e) => {
+                            const inputElement = e.target as HTMLInputElement;
+                            const value = inputElement.value;
+
+                            if (!/^(\d+(\.\d*)?|\.\d+)$/.test(value)) {
+                              inputElement.value = value.slice(0, -1);
+                            }
+                          }}
+
                           onChange={(e) => {
                             const inputValue = e.target.value;
                         
