@@ -82,6 +82,12 @@
           border: 1px solid #000;
           border-radius: 0.8rem;
           cursor: pointer;
+          @media(max-width: 800px){
+            // background-color: pink;
+            font-size: x-small;
+            font-weight: 600;
+            // color: ;
+          }
         }
 
         .filter-drop-down-options {

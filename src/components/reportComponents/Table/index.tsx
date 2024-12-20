@@ -251,7 +251,7 @@ const Table = ({
                                   {Object.values(nestedRow).map(
                                     (nestedValue, nestedValueIndex) => (
                                       <td key={nestedValueIndex}>
-                                        {nestedValue}
+                                        {nestedValue ? nestedValue : "NA"}
                                       </td>
                                     )
                                   )}

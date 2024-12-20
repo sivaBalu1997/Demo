@@ -213,4 +213,17 @@ export const S = {
     },
     { "Payment Mode": "CASH", "#Total Orders": 3, "#Amount Paid": 141.53 },
   ],
+  // Direct Store/Online Sales (Maghil) MOCK
+  "Direct Store/Online Sales": [
+    { "Payment Mode": "CASH", "#TotalSales": 14324.5500, "#Total Orders": 115 },
+    { "Payment Mode": "CASH", "#TotalSales": 14324.5, "#Total Orders": 112 },
+    { "Payment Mode": "CASH", "#TotalSales": 14324.550, "#Total Orders": 113 }
+  ],
+  "Actual 3rd Party Sales":
+    [
+      { "Payment Mode": "Zomato", "#Total Orders": 2, "#TotalSales": 200.0000 },
+      { "Payment Mode": "Grubhub", "#Total Orders": 1, "#TotalSales": 22.7300 },
+      { "Payment Mode": "CASH", "#Total Orders": 1, "#TotalSales": 21.0000 }
+    ]
+
 };

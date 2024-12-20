@@ -33,10 +33,13 @@ const CustomerInsights = () => {
         <div className="tables-container-one">
           <Table
             Heading="Live Orders"
-            tableData={LD["Dine-In"]}
+            tableData={LD["Live Orders New"]}
             viewType="full"
             recordsPerPage={3}
           />
+        </div>
+        <div className="live-orders-non-dine-in">
+          <Table Heading="Live Orders (Non-Dine-In)" tableData={LD["Live Orders (Non Dine In)"]} viewType="full" recordsPerPage={5} />
         </div>
         <div className="tables-container-two">
           <Table

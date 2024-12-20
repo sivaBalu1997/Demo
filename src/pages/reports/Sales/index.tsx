@@ -309,43 +309,118 @@ const Sales: React.FC = () => {
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>
         <div className="s-overall-summary">
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              {formatNumberIndian(
-                Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
-              )}
-            </h2>
-            <h3>Total Orders</h3>
+          <div className="s-overall-summary-inner-wrap">
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {formatNumberIndian(
+                  Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
+                )}
+              </h2>
+              <h3>Total Orders</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                $
+                {formatNumberIndian(
+                  Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
+                )}
+              </h2>
+              <h3>Total Sales</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                $
+                {formatNumberIndian(
+                  Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
+                )}
+              </h2>
+              <h3>Net Sales</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
+              </h2>
+              <h3>Tips</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))}
+              </h2>
+              <h3>Tax</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                $1628
+              </h2>
+              <h3>Service Fee - US</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                $0
+              </h2>
+              <h3>Store Delivery Charges</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                $0.5
+              </h2>
+              <h3>Convenience Fee (Maghil)</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                $0
+              </h2>
+              <h3>Card Processsing Fee</h3>
+            </div>
           </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              $
-              {formatNumberIndian(
-                Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
-              )}
-            </h2>
-            <h3>Total Sales</h3>
+        </div>
+        {/* Total Sales (Direct Sales + Store price adjusted third party orders) START */}
+        <div className="s-overall-total-sales-ds">
+          <h1 className="title-overall-total-sales-ds">Total Sales (Direct Sales + Store price adjusted third party orders)</h1>
+          <div className="s-overall-total-sales-ds-inner-wrap">
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {formatNumberIndian(
+                  Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
+                )}
+              </h2>
+              <h3>Total Orders</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                $
+                {formatNumberIndian(
+                  Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
+                )}
+              </h2>
+              <h3>Total Sales</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                $
+                {formatNumberIndian(
+                  Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
+                )}
+              </h2>
+              <h3>Net Sales</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
+              </h2>
+              <h3>Tips</h3>
+            </div>
           </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              $
-              {formatNumberIndian(
-                Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
-              )}
-            </h2>
-            <h3>Net Sales</h3>
-          </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
-            </h2>
-            <h3>Tips</h3>
-          </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))}
-            </h2>
-            <h3>Tax</h3>
+        </div>
+        {/* Total Sales (Direct Sales + Store price adjusted third party orders) END */}
+        <div className="direct-sales-store-price-cont">
+          <div className="inner-direct-sales-store-prices">
+            <Table Heading="Direct Store/Online Sales (Maghil)" tableData={S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={5}/>
+            <Table Heading="Actual 3rd Party Sales" tableData={S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={5}/>
           </div>
         </div>
         <div className="s-day-of-the-week">
