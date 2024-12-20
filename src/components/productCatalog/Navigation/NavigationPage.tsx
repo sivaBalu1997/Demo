@@ -25,6 +25,9 @@ interface NavButtonProps {
   mainForm?: MainForm;
   validation?: () => boolean;
   handleValidate?: any;
+  validateModifiers?: any;
+  itemcodeValid?: any;
+  valiadtesubCategory?: any;
 }
 
 const Navigationpage: React.FC<NavButtonProps> = ({
@@ -35,14 +38,17 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   triggerValidation,
   validation,
   mainForm,
+  validateModifiers,
   handleValidate,
+  itemcodeValid,
+  valiadtesubCategory,
 }) => {
   const { isExpanded } = useContext(Contextpagejs);
   const formData = getFormData();
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation<LocationState | undefined>();
-  const [navigate, setNavigate] = useState(false)
+  const [navigate, setNavigate] = useState(false);
   const itemCustomizationData = useSelector(
     (state: any) => state.itemCustomizationsReducer1.itemData
   );
@@ -53,7 +59,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
   const editData = useSelector((state: any) => state.productCatalog.editData);
-
+  const { setValiadtePriceFields } = useContext(Contextpagejs);
 
   const categories = [
     "Primary Details",
@@ -71,18 +77,17 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   const [currentPage, setCurrentPage] = useState<string>(
     getPath(location.pathname)
   );
+
   const datafromRedux = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
 
-  //Primary Details , Pricing and kitchen details , Itemcustomizations
 
   const handleclick = async (category: any) => {
     const path = category.replace(/\s+/g, "");
 
     if (currentPage === "Primary Details" && triggerValidation) {
       const isFormValid = await triggerValidation(formData);
-
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
@@ -90,21 +95,19 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         });
         return;
       } else {
-        // history.push({
-        //   pathname: `/productCatalog/Pricingandkitchendetails`,
-        //   state: { pagename: "Pricing and kitchen details" },
-        // });
+        setNavigate(true)
         dispatch(primarypost(formData));
-        setCurrentPage(category);
+        isFormValid && setCurrentPage(category);
         history.push(`/productCatalog/${path}`, { pagename: category });
       }
-      setNavigate(true)
-    } else if (
+    } 
+    
+    else if (
       currentPage === "Pricing and kitchen details" &&
       triggerValidation
     ) {
       const isValid = handleValidate && handleValidate();
-
+      setNavigate(true)
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
 
@@ -146,30 +149,46 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
       if (isValid) {
         dispatch(PricingDetailRequest(PricingDetails));
+        setNavigate(true)
         setCurrentPage(category);
         history.push(`/productCatalog/${path}`, { pagename: category });
       }
+    }
+    
+    else if (currentPage === "Item customizations") {
+      const isValid = validateModifiers && validateModifiers(modifications);
       setNavigate(true)
-    } else if (currentPage === "Item customizations") {
-      const modificationArray = modifications;
-      const formData = getFormData();
-      dispatch(itemCustomizationPost(modificationArray));
+      const modificationArray = modifications?.map((modifier) => {
+        if (
+          modifier.selectionType === "Mandatory" &&
+          modifier.minSelection === 0 &&
+          modifier.maxSelection === 0
+        ) {
+          return { ...modifier, minSelection: 1, maxSelection: 1 };
+        }
+        return modifier;
+      });
+
+      if(isValid){
+        dispatch(itemCustomizationPost(modificationArray));
+        history.push(`/productCatalog/${path}`, { pagename: category });
+      }
+      const formData = getFormData(); 
       setCurrentPage(category);
-      history.push(`/productCatalog/${path}`, { pagename: category });
-      setNavigate(true)
     }
   };
 
+
   useEffect(() => {
     if (location.state?.pagename) {
-      setCurrentPage(location.state.pagename);
+      navigate && setCurrentPage(location.state.pagename);
     }
   }, [location.state?.pagename]);
 
   const handleCategoryClick = (category: string) => {
     const path = category.replace(/\s+/g, "");
-    handleclick(category)
-    navigate && setCurrentPage(category);
+    handleclick(category);
+    // navigate && setCurrentPage(category);
     // navigate && history.push(`/productCatalog/${path}`, { pagename: category });
   };
 
@@ -189,8 +208,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
               <li
                 key={category}
                 className={isExpanded ? "listsExpanded" : "lists"}
-                onClick={()=>handleCategoryClick(category)}
-              
+                onClick={() => handleCategoryClick(category)}
               >
                 <h1
                   className={`list-text ${

@@ -56,6 +56,9 @@ interface DropdownProps {
   errormsg?: string;
   valiadtesubCategory?: any;
   isTaxDropDown?: boolean;
+  categoryChange?: any;
+  setCategoryChange?: any;
+  kitchenError?: boolean;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -85,6 +88,9 @@ const DropDownList: React.FC<DropdownProps> = ({
   valiadtesubCategory,
   placeholder,
   isTaxDropDown,
+  categoryChange,
+  setCategoryChange,
+  kitchenError
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -300,8 +306,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   useEffect(() => {
     if (prizingDetail && name === "kitchenstation") {
       const kitchenStationName = prizingDetail?.kitchenstation;
-      console.log({kitchenStationName});
-      
+
       const dropDownName: any =
         Array.isArray(options) &&
         options?.find(
@@ -314,16 +319,15 @@ const DropDownList: React.FC<DropdownProps> = ({
           : dropDownName;
 
       setSelectedOptions(() => {
-        setValue(
-          "kitchenstation",
-          dropDownName === undefined || dropDownName === false
-            ? dropDown1?.name
-            : dropDownName?.name
-        );
-        console.log("ghj",dropDownName === undefined || dropDownName === false
-          ? dropDown1?.name
-          : dropDownName?.name);
-        
+        // setValue(
+        //   "kitchenstation",
+        //   dropDownName === undefined || dropDownName === false
+        //     ? dropDown1?.name
+        //     : dropDownName?.name
+        // );
+
+
+        // typeof(kitchenStationName) === 'string' && setValue("kitchenstation", kitchenStationName)
 
         return dropDownName === undefined || dropDownName === false
           ? [dropDown1]
@@ -435,8 +439,17 @@ const DropDownList: React.FC<DropdownProps> = ({
       setValue(name, option.name);
       trigger(name);
 
+      // if (dropDownType === "CATEGORY") {
+      //   setParentId(option?.id);
+      //   setValue("subCategory", "");
+      // }
       if (dropDownType === "CATEGORY") {
-        setParentId(option?.id);
+        if(parentId === option?.id){
+          setCategoryChange(false)
+        }else{
+          setParentId(option?.id);
+          setCategoryChange(true)
+        }
         setValue("subCategory", "");
       }
     }
@@ -479,10 +492,14 @@ const DropDownList: React.FC<DropdownProps> = ({
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
-
       if (dropDownType === "CATEGORY") {
-        setParentId(option?.id);
+        if(parentId === option?.id){
 
+          setCategoryChange(false)
+        }else{
+          setParentId(option?.id);
+          setCategoryChange(true)
+        }
         setValue("subCategory", "");
       }
     }
@@ -496,14 +513,12 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [dropdownopen])
   
 
-  // useEffect(() => {
-  //   if (
-  //     dropDownType === "SUB_CATEGORY" &&
-  //     parentId !== ""
-  //   ) {
-  //     setSelectedOptions([]);
-  //   }
-  // }, [parentId]);
+  useEffect(() => {
+    if (dropDownType === "SUB_CATEGORY" && categoryChange) {
+     setCategoryChange(false)
+     setSelectedOptions([])
+    }
+  }, [parentId, categoryChange]);
 
   const payload = {
     locationId: locationid,
@@ -623,7 +638,6 @@ const DropDownList: React.FC<DropdownProps> = ({
     }
   };
 
-
   return (
     <div className="dropdown-component" ref={dropdownRef}>
       <div className="dropDownBox">
@@ -705,6 +719,12 @@ const DropDownList: React.FC<DropdownProps> = ({
           ) : (
             error && <p className="Dropdown-Error-message">{error.message}</p>
           )}
+        </div>
+
+        <div style={{ margin: 0 }}>
+          {dropDownType === "KITCHEN_STATION" && selectedOptions[0]?.name === undefined && kitchenError &&(
+            <p className="Dropdown-Error-message">Kitchen Station is required</p>
+          ) }
         </div>
       </div>
 

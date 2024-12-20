@@ -262,6 +262,11 @@ const PricingDetails = () => {
       Swiggy: [],
       Zomato: [],
     });
+    
+    const prizingDetail = useSelector(
+      (state: any) => state.PricingDetailReducer.prizingData || {}
+    );
+  
 
   const {
     control,
@@ -279,10 +284,7 @@ const PricingDetails = () => {
         Inventory1: "",
         Inventory2: "",
       },
-
-
-      kitchenstation: "",
-      
+      kitchenstation: prizingDetail?.kitchenstation ? prizingDetail?.kitchenstation : "",
       KitchenStationId: "",
       Preparationtime: {
         hours: "hhh",
@@ -307,10 +309,6 @@ const PricingDetails = () => {
     hours: "",
     minutes: "",
   });
-
-  const prizingDetail = useSelector(
-    (state: any) => state.PricingDetailReducer.prizingData || {}
-  );
 
   const cuisineData = useSelector(
     (state: any) => state.productCatalog.cuisineData.data
@@ -383,6 +381,8 @@ const PricingDetails = () => {
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
 
+  const [kitchenError, setKitchenError] = useState(false)
+
   const [validationState, setValidationState] = useState({
     kitchen: { isValid: true, errorMessage: "" },
     preparationTime: { isValid: true, errorMessage: "" },
@@ -436,7 +436,7 @@ const PricingDetails = () => {
       Inventory2: "",
     },
 
-    kitchenstation: prizingDetail?.kitchenstation ||"",
+    kitchenstation: prizingDetail?.kitchenstation ? prizingDetail?.kitchenstation : '',
 
     Preparationtime: {
       hours: "",
@@ -480,7 +480,7 @@ const PricingDetails = () => {
       });
 
       setOptions1(prizingDetail.kitchenstation);
-      setValue("kitchenstation", kitchenStationName);
+      // setValue("kitchenstation", kitchenStationName);
       const kitchh=getValues("kitchenstation")      
       
       // setTimeout(() => {
@@ -811,7 +811,7 @@ const PricingDetails = () => {
           reset={handleReset}
           triggerValidation={() => trigger()}
           mainForm={mainForm}
-          handleValidate={handleValidate}
+          handleValidate={validationFunction}
         />
         <div
           className={
@@ -860,7 +860,7 @@ const PricingDetails = () => {
                 control={control}
                 render={({ field }: any) => (
                   <Dropdown
-                    {...field}
+                    // {...field}
                     name="kitchenstation"
                     options={kitchenStationData}
                     type="radio"
@@ -868,10 +868,10 @@ const PricingDetails = () => {
                     placeholder="Search for option"
                     register={register}
                     setValue={setValue}
-                    error={errors.kitchenstation}
+                    // error={errors.kitchenstation}
                     trigger={trigger}
                     getValues={getValues}
-                    validation={{ required: "Kitchen Station is required" }}
+                    // validation={{ required: "Kitchen Station is required" }}
                     addNew={true}
                     editValues={true}
                     setDropdownOpen={setDropdownOpen}
@@ -879,6 +879,7 @@ const PricingDetails = () => {
                     onToggle={() => handleDropdownToggle("Kitchen")}
                     dropDownType="KITCHEN_STATION"
                     resetSelection={kitchenDetail}
+                    kitchenError= {kitchenError}
                   />
                 )}
               />
@@ -1173,7 +1174,7 @@ const PricingDetails = () => {
               triggerValidation={() => trigger()}
               mainForm={mainForm}
               handleValidate={validationFunction}
-             
+              setKitchenError = {setKitchenError}
             />
           </div>
         </div>

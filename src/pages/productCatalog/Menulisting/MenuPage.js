@@ -163,8 +163,6 @@ export const MenuPage = () => {
     ?.filter((item) => item.isEnabled)
     .map((item) => item.typeName);
 
-  console.log({ orderTypess });
-
   const modifiedTypes = [
     ...uniqueOrderTypes
       .filter((type) => type?.typeName)
@@ -480,8 +478,6 @@ export const MenuPage = () => {
         (response) => response?.itemId === value
       );
 
-      console.log("1", { specificResponse });
-
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
@@ -501,8 +497,6 @@ export const MenuPage = () => {
           subCategoryName: filtesubItems?.subCategoryName,
           subCategoryId: filtesubItems?.subCategoryId,
         }));
-
-      console.log("2", { filtesubItems }, { specificResponse });
 
       if (specificResponse?.length > 0) {
         setSideBar(specificResponse);
@@ -607,8 +601,6 @@ export const MenuPage = () => {
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
-  console.log({ editData });
-
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
@@ -633,6 +625,7 @@ export const MenuPage = () => {
         categoryId: categoryData?.id,
         subCategory: editData[0]?.subCategoryName ?? "",
         subCategoryId: editData[0]?.subCategoryId ?? "",
+        popularItem: editData[0]?.popularItem ?? false,
       };
 
       const pricingPageData = {
@@ -953,7 +946,6 @@ export const MenuPage = () => {
         }
       });
     };
-  console.log({ nameOfOrderTypes });
 
   return (
     <>
@@ -1024,8 +1016,6 @@ export const MenuPage = () => {
                           0,
                           header.label.length - 1
                         );
-                     
-
                         if (
                           header.label === "Customize1" ||
                           nameOfOrderTypes?.includes(headerName)
@@ -1110,12 +1100,11 @@ export const MenuPage = () => {
                               <span className="itemimage2">
                                 <img
                                   src={
-                                    item?.mediaResponseList[0]?.imageId
-                                      ? baseImageUrl +
+                                   baseImageUrl +
                                         item?.mediaResponseList[0]?.imageId
-                                      : placeholderimg
+                                      
                                   }
-                                  alt=""
+                                  alt="No Image"
                                   className="foodimage"
                                 />
                               </span>

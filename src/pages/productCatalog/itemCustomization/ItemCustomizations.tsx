@@ -1041,6 +1041,8 @@ const ItemCustomizations: React.FC<any> = () => {
           getFormData={getFormData}
           reset={clearAll}
           modifications={showModifiers ? modifications : []}
+          validateModifiers={validateModifiers}
+          handleValidate={validateModifiers}
         />
         <div
           className={

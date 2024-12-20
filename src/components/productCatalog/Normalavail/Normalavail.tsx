@@ -978,7 +978,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       
       if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
         const newEntries = [...dineinfields];
-    
         
         newEntries[index] = {
           ...newEntries[index],
@@ -986,14 +985,12 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         };
         setDineInFields(newEntries);
     
-      
         const newPrice = parseFloat(inputValue) || 0;
         setFormattedDineInData((prevData: any) => ({
           ...prevData,
           price: newPrice,
         }));
     
-       
         validateDineInPrice(index, newPrice);
       }
     };
@@ -1372,12 +1369,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
+      // const Kitchenstationdata = getValues("kitchenstation") || prizingDetail?.kitchenstation;
 
-      const Kitchenstationdata = getValues("kitchenstation");
+      // console.log({Kitchenstationdata})
       
-      if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
-        validationErrors[`kitchenstation`] = "kitchen station is required";
-      }
+      // if (Kitchenstationdata === "" || Kitchenstationdata === undefined) {
+      //   validationErrors[`kitchenstation`] = "kitchen station is required";
+      // }
 
         if (Normaldays.length === 0) {
           validationErrors["daysCheck"] = "Please select at least one day.";
@@ -1385,7 +1383,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         if (Normaldays && Normaldays.length > 0) {
           delete validationErrors["daysCheck"];
         }
-
 
       dineinfields?.forEach((field: any, index: number) => {
         if (showDineIn) {
@@ -1535,9 +1532,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               id={availabilityid}
               setId={setAvailabilityid}
             />
-             <span className="daycheckvalidation">
-                          {errors[`daysCheck`]||""}
-                        </span>
+             {Normaldays && Normaldays.length === 0 && 
+              <span className="daycheckvalidation">
+                {errors[`daysCheck`]||""}
+              </span>}
             <p  className={errors[`daysCheck`]?"Note":"Note-error"}  >
               Note : Changes here will apply to all service types unless
               specific day options are enabled
@@ -1588,7 +1586,6 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                           name="DineInPrice"
                           value={entry.DineInPrice}
                           className="DineInInput1Normal"
-                          
                           onChange={(e) => {
                             handleChange(index, e);
                           }}
@@ -1743,6 +1740,16 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                               e.preventDefault();
                             }
                           }}
+
+                          onInput={(e) => {
+                            const inputElement = e.target as HTMLInputElement;
+                            const value = inputElement.value;
+
+                            if (!/^(\d+(\.\d*)?|\.\d+)$/.test(value)) {
+                              inputElement.value = value.slice(0, -1);
+                            }
+                          }}
+
                           onChange={(e) => {
                             const inputValue = e.target.value;
                         
