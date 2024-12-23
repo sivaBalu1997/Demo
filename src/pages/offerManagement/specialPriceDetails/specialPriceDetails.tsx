@@ -155,68 +155,69 @@ const SpecialPriceDetails = () => {
     isEnabled: 2,
   };
 
-  //const editOfferData = useSelector((state: any) => state.offer.editSpData);
-  const editOfferData = {
-    "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
-    "offerName": "tesolap24",
-    "offerCode": "TESOLAP24",
-    "type": "PERCENT",
-    "value": 10.0,
-    "channel": [
-        "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-        "cd5996ed-7201-4faf-b996-5757aa684ad8",
-        "23864e56-e70d-4838-b5b4-eebe07e2bb63"
-    ],
-    "visibleTo": [
-        "C",
-        "M"
-    ],
-    "termsAndConditions": [
-        "Offer starts from dec 21"
-    ],
-    "specialType": "Santa Hour",
-    "category": {
-        "id": "109e48f3-14b4-45d0-a346-1d9aee1a538e",
-        "name": "Frozen Treats"
-    },
-    "subCategory": [
-        {
-            "id": "7934b27d-1f67-4464-8cc5-0a206978aaf4",
-            "name": "Faluda varieties"
-        }
-    ],
-    "items": [
-        {
-            "itemId": "0192d2c3-3ae7-7b51-84a6-c98bf555c854",
-            "itemName": "Mango Faluda",
-            "specialPrice": 6.3000,
-            "originalPrice": 7.0000,
-            "isEnabled": 1
-        },
-        {
-            "itemId": "0192d2c3-bfb7-73ac-a072-6f491639a005",
-            "itemName": "Mango Faluda edit",
-            "specialPrice": 6.3000,
-            "originalPrice": 7.0000,
-            "isEnabled": 1
-        }
-    ],
-    "effectivePeriod": {
-        "isDateEnabled": true,
-        "startDate": "2024-12-05T00:00:00.000+00:00",
-        "endDate": "2024-12-06T00:00:00.000+00:00",
-        "startTime": "04:45:00",
-        "endTime": "05:00:00",
-        "validDays": [
-            1,
-            2,
-            3,
-            4
-        ]
-    },
-    "isEnabled": 2,
-    "totalItems": 2
-}
+  const editOfferData = useSelector((state: any) => state.offer.editSpData);
+  console.log("lllll",editOfferData)
+//   const editOfferData = {
+//     "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
+//     "offerName": "tesolap24",
+//     "offerCode": "TESOLAP24",
+//     "type": "PERCENT",
+//     "value": 10.0,
+//     "channel": [
+//         "02feb858-c58d-48c5-8dd4-9a173390b4eb",
+//         "cd5996ed-7201-4faf-b996-5757aa684ad8",
+//         "23864e56-e70d-4838-b5b4-eebe07e2bb63"
+//     ],
+//     "visibleTo": [
+//         "C",
+//         "M"
+//     ],
+//     "termsAndConditions": [
+//         "Offer starts from dec 21"
+//     ],
+//     "specialType": "Santa Hour",
+//     "category": {
+//         "id": "109e48f3-14b4-45d0-a346-1d9aee1a538e",
+//         "name": "Frozen Treats"
+//     },
+//     "subCategory": [
+//         {
+//             "id": "7934b27d-1f67-4464-8cc5-0a206978aaf4",
+//             "name": "Faluda varieties"
+//         }
+//     ],
+//     "items": [
+//         {
+//             "itemId": "0192d2c3-3ae7-7b51-84a6-c98bf555c854",
+//             "itemName": "Mango Faluda",
+//             "specialPrice": 6.3000,
+//             "originalPrice": 7.0000,
+//             "isEnabled": 1
+//         },
+//         {
+//             "itemId": "0192d2c3-bfb7-73ac-a072-6f491639a005",
+//             "itemName": "Mango Faluda edit",
+//             "specialPrice": 6.3000,
+//             "originalPrice": 7.0000,
+//             "isEnabled": 1
+//         }
+//     ],
+//     "effectivePeriod": {
+//         "isDateEnabled": true,
+//         "startDate": "2024-12-05T00:00:00.000+00:00",
+//         "endDate": "2024-12-06T00:00:00.000+00:00",
+//         "startTime": "04:45:00",
+//         "endTime": "05:00:00",
+//         "validDays": [
+//             1,
+//             2,
+//             3,
+//             4
+//         ]
+//     },
+//     "isEnabled": 2,
+//     "totalItems": 2
+// }
 
   const OfferlistData = useSelector(
     (state: any) => state.offer.getOfferListData
@@ -323,7 +324,7 @@ const SpecialPriceDetails = () => {
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
   const [parentId, setParentId] = useState("");
-  const [subCatagoryId, setSubCatagoryId] = useState("");
+  const [subCatagoryId, setSubCatagoryId] = useState([]);
   const [selecteFoodItems, setselecteFoodItems] = useState([
     {
       itemId: "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
@@ -383,7 +384,7 @@ const SpecialPriceDetails = () => {
     const st=getValues("fromPeriod")
     const en=getValues("toPeriod")
 
-    // console.log({ offerChannel });
+     console.log("ppppp0000",values?.fromDate,values?.toDate);
 
     const fromTimeFormat =
       fromTiming && st ? fromTiming + " " + st : "";
@@ -399,14 +400,13 @@ const SpecialPriceDetails = () => {
         "Invalid time format. Please ensure both time and AM/PM are selected."
       );
     }
-
     const payload = {
       locationId: locationid,
       offerId: editOfferData?.offerId|| null,
       offerName: values?.offerName,
-      channel: selectedChannal.map((item:any)=>item.id),
-      visibleTo: values?.offerToVisible,
-      termsAndConditions: values?.termsAndConditions,
+      channel: selectedChannal?.map((item:any)=>item.id),
+      visibleTo: selectedVissibleTo?.map((item:any)=>item?.name[0]),
+      termsAndConditions: selectedTerm?.map((item:any)=>item?.name),
       specialType: values?.specialTypeName,
       type: values?.specialType === "Percentage" ? "PERCENT" : "FLATFEE",
       value: values?.specialTypeValue,
@@ -424,13 +424,13 @@ const SpecialPriceDetails = () => {
 
       effectivePeriod: {
         isDateEnabled: dateShow,
-        startDate: dateShow ? formatDate(values?.fromDate) : null,
-        endDate: dateShow ? formatDate(values?.toDate) : null,
+        startDate: dateShow ? formatDate(selectedDate) : null,
+        endDate: dateShow ? formatDate(selectedDate1) : null,
         // startTime:null,
         // endTime:null,
 
         startTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
-        endTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
+        endTime: convertTo24HourFormatWithSeconds(toTimeFormat),
         validDays: values?.AvailableDays,
       },
     };
@@ -447,7 +447,7 @@ const SpecialPriceDetails = () => {
       
 
 
-      if(editOfferData?.offerId!==null)
+      if(editOfferData?.offerId)
         {
            dispatch(updateSpecialOfferRequest(payload))
         }
@@ -456,7 +456,7 @@ const SpecialPriceDetails = () => {
         }
 
       
-      setOverlapShow(true);
+      //setOverlapShow(true);
     }
 
     //console.log("kkkkk",payload)
@@ -755,7 +755,6 @@ const SpecialPriceDetails = () => {
       setValue("offerName", editOfferData?.offerName);
       if(editOfferData?.channel?.length>0 && channal.length>0){
         const data=channal.filter((item:any) =>editOfferData?.channel.includes(item.id));
-        console.log("iiii",data,editOfferData?.channel,channal)
         setValue("offerChannel",data[0]?.name)
         setSelectedChannal([...data])
         }
@@ -794,7 +793,8 @@ const SpecialPriceDetails = () => {
          }
          if(editOfferData?.subCategory?.length>0){
           setSelectedSubCatagory([...editOfferData?.subCategory])
-          setValue("subCategory",editOfferData?.subCategory?.map((item)=>item.name).join(","))
+          setValue("subCategory",editOfferData?.subCategory?.map((item:any)=>item.name).join(","))
+          setSubCatagoryId(editOfferData?.subCategory?.map((item:any)=>item.id))
          }
          if(editOfferData?.items?.length>0){
           setselectedFoodItems([...editOfferData?.items])
@@ -807,14 +807,18 @@ const SpecialPriceDetails = () => {
             if(editOfferData.effectivePeriod?.isDateEnabled){
               setDateShow(editOfferData.effectivePeriod?.isDateEnabled)
               if(editOfferData.effectivePeriod?.startDate){
-                setSelectedDate(convertStringToDate(editOfferData.effectivePeriod?.startDate))
-                setValue("fromDate", convertStringToDate(editOfferData.effectivePeriod?.startDate));
+                const data= convertStringToDate(editOfferData.effectivePeriod?.startDate)
+                setSelectedDate(data)
+                console.log("000",data)
+                setValue("fromDate", data);
       
               
               }
               if(editOfferData.effectivePeriod?.endDate){
-               setSelectedDate1(convertStringToDate(editOfferData.effectivePeriod?.endDate))
-               setValue("toDate", convertStringToDate(editOfferData.effectivePeriod?.endDate));
+              const data=convertStringToDate(editOfferData.effectivePeriod?.endDate)
+              console.log("00",data)
+               setSelectedDate1(data)
+               setValue("toDate", data);
               }
             }
             if(editOfferData?.effectivePeriod?.startTime){
@@ -1112,9 +1116,10 @@ const SpecialPriceDetails = () => {
 
   const itemlistfunction = () => {
     setShowlistOfItems(!showlistOfItems);
+    console.log("subCatagoryId",subCatagoryId)
     const payload = {
       locationId: locationid,
-      catagoryId: subCatagoryId ? subCatagoryId : parentId,
+      catagoryId: subCatagoryId ? subCatagoryId.map((opt) => opt).join(','): parentId,
     };
     dispatch(getOfferItemsRequest(payload));
   };

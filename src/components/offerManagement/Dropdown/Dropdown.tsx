@@ -183,18 +183,23 @@ const Dropdown: React.FC<DropdownProps> = ({
             name,
             updatedOptions.map((opt) => opt?.name)
           );
-          trigger(name);
-        } else {
           if(dropDownType === "SUB_CATEGORY")
             {
-             setSubCatagoryId(option?.id);
+             setSubCatagoryId(updatedOptions.map((opt) => opt?.id));
             }
+          trigger(name);
+        } else {
+         
           const updatedOptions = [...currentSelectedOptions, option];
           setSelectedOptions(updatedOptions);
           setValue(
             name,
             updatedOptions.map((opt) => opt?.name)
           );
+          if(dropDownType === "SUB_CATEGORY")
+            {
+             setSubCatagoryId(updatedOptions.map((opt) => opt?.id));
+            }
           trigger(name);
         }
         // setSearchTerm(
