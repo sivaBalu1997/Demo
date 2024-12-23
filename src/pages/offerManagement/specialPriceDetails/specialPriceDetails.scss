@@ -408,6 +408,7 @@ top: -2%;
   opacity: 0.5;
 }
 
+
 .searched-items-listed {
   position: absolute;
   background-color: white;
@@ -643,4 +644,10 @@ top: -2%;
     
     margin-top: -2%;
     
+  }
+
+  .nodata-found{
+    font-size: 16px;
+    font-family: "Poppins",sans-serif;
+    font-weight: 500;
   }

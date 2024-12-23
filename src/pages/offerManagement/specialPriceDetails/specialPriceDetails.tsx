@@ -17,6 +17,8 @@ import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+
 import {
   createSpecialOfferRequest,
   SPOfferListSendingRequest,
@@ -156,6 +158,9 @@ const SpecialPriceDetails = () => {
   };
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
+  const editOfferDataLoading = useSelector((state: any) => state.offer.getOfferListLoading);
+  const editOfferDataFailed = useSelector((state: any) => state.offer.getOfferListSuccess);
+
   console.log({editOfferData});
   
 //   const editOfferData = {
@@ -1439,24 +1444,41 @@ const SpecialPriceDetails = () => {
                 </div>
                 <div>
                   {showlistOfItems && (
-                    <div className="searched-items-listed" ref={listpopupRef}>
-                      <ul className="listing-selected-items">
-                        {OfferlistData?.map((item: any, index: number) => (
-                          <li
-                            key={index}
-                            className={`selectedlist ${
-                              selectedFoodItems.some(
-                                (food: any) => food.itemId === item.itemId
-                              )
-                                ? "highlighted"
-                                : ""
-                            }`}
-                            onClick={() => handleItemClick(index, item)}
-                          >
-                            {item.itemName}
-                          </li>
-                        ))}
-                      </ul>
+
+ <div className="searched-items-listed" ref={listpopupRef} style={{display:"flex",justifyContent:editOfferDataLoading||!editOfferDataFailed ?"center":"",alignItems:editOfferDataLoading||!editOfferDataFailed?"center":""}}>
+
+  {
+    editOfferDataLoading?<Loader
+    className="cPimgLoader1"
+    height="300px"
+    width="300px"
+    style={{
+      filter:
+        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+      height: "70px",
+      width: "70px",
+    }}
+    />: 
+    !editOfferDataFailed||OfferlistData.length===0?<div><h1 className="nodata-found">No data found</h1></div>:
+    <ul className="listing-selected-items">
+    {OfferlistData?.map((item: any, index: number) => (
+      <li
+        key={index}
+        className={`selectedlist ${
+          selectedFoodItems.some(
+            (food: any) => food.itemId === item.itemId
+          )
+            ? "highlighted"
+            : ""
+        }`}
+        onClick={() => handleItemClick(index, item)}
+      >
+        {item.itemName}
+      </li>
+    ))}
+  </ul>
+  }
+                     
                     </div>
                   )}
                 </div>
