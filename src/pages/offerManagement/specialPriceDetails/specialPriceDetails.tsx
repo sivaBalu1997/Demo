@@ -17,6 +17,8 @@ import calender from "../../../assets/images/calendar 1.png";
 import Overlap from "components/offerManagement/Overlapping/Overlap";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
+
 import {
   createSpecialOfferRequest,
   SPOfferListSendingRequest,
@@ -157,6 +159,11 @@ const SpecialPriceDetails = () => {
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
   console.log("lllll",editOfferData)
+  const editOfferDataLoading = useSelector((state: any) => state.offer.getOfferListLoading);
+  const editOfferDataFailed = useSelector((state: any) => state.offer.getOfferListSuccess);
+
+  console.log({editOfferData});
+  
 //   const editOfferData = {
 //     "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
 //     "offerName": "tesolap24",
@@ -256,7 +263,7 @@ const SpecialPriceDetails = () => {
   const [selectedChannal, setSelectedChannal] = useState<any>([]);
   const [selectedVissibleTo, setSelectedVissibleTo] = useState<any>([]);
   const [flag,setFlag]=useState(false)
-  console.log({selectedChannal});
+  // console.log({selectedChannal});
   
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
@@ -394,7 +401,7 @@ const SpecialPriceDetails = () => {
 
     if (fromTimeFormat && toTimeFormat) {
       const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
-      console.log({ converttime });
+      // console.log({ converttime });
     } else {
       console.error(
         "Invalid time format. Please ensure both time and AM/PM are selected."
@@ -440,7 +447,7 @@ const SpecialPriceDetails = () => {
     const isvalid = valiadtionforDateandTime();
     console.log("kkkkk888k",payload)
     // console.log("errorsdate",valiadtionforDateandTime());
-   
+    dispatch(createSpecialOfferRequest(payload));
 
     if (isvalid) {
 
@@ -833,7 +840,7 @@ const SpecialPriceDetails = () => {
               setValue("toPeriod",data.period)
               //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
             }
-            if(editOfferData?.effectivePeriod?.validDays.length>0)
+            if(editOfferData?.effectivePeriod?.validDays?.length>0)
             {
             setDayThird(editOfferData?.effectivePeriod?.validDays)
             setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
@@ -962,9 +969,9 @@ const SpecialPriceDetails = () => {
     const errors = [...validationErrors];
     const StartTime = getValues("fromTime");
     const EndTime = getValues("toTime");
-    console.log("errorhandling");
-    console.log({ selectedFrom });
-    console.log({ selectedTo });
+    // console.log("errorhandling");
+    // console.log({ selectedFrom });
+    // console.log({ selectedTo });
 
     if (errors && errors[0]) {
       if (EndTime === "") {
@@ -1001,44 +1008,64 @@ const SpecialPriceDetails = () => {
     const EndTime = getValues("toTime");
     const fromPeriod = getValues("fromPeriod");
     const toPeriod = getValues("toPeriod");
-    console.log("errorhandling");
-    console.log({ fromPeriod });
-    console.log({ toPeriod });
-
-    if (startTime === "") {
-      errors[0].startTimeError = "Time is required  sss";
-    } else {
-      errors[0].startTimeError = "";
+  
+    // Ensure errors array has an object to store the errors
+    if (!errors[0]) {
+      errors[0] = {};
     }
+  
+    // Reset previous errors
+    errors[0].startTimeError = "";
+    errors[0].EndTimeError = "";
+  
+    // Validate Start Time
+    if (!StartTime) {
+      errors[0].startTimeError = "Start time is required";
+    }
+  
+    // Validate End Time
+    if (!EndTime) {
+      errors[0].EndTimeError = "End time is required";
+    }
+  
+    if (StartTime && EndTime) {
+      // Helper to convert time to total minutes from midnight
+      const parseTime = (time:any, period:any) => {
+        const [hours, minutes] = time.split(":").map(Number);
+        const normalizedHours =
+          period === "PM" && hours !== 12 ? hours + 12 : period === "AM" && hours === 12 ? 0 : hours;
+        return normalizedHours * 60 + minutes;
+      };
+  
+      const startMinutes = parseTime(StartTime, fromPeriod);
+      const endMinutes = parseTime(EndTime, toPeriod);
+  
+      // Validation Logic
+      console.log({StartTime});
+      console.log({EndTime});
+      console.log({fromPeriod});
+      
+      
+      
+      
+      if (
+        (fromPeriod === "AM" && toPeriod === "PM" && endMinutes >= startMinutes) || 
+        (fromPeriod === "PM" && toPeriod === "AM" ) || // Evening to morning (valid)
+        (fromPeriod === toPeriod && endMinutes >= startMinutes) // Same period but valid end time
+      ) {
 
-    if (errors && errors[0]) {
-      if (EndTime === "") {
-        errors[0].EndTimeError = "Time is required";
-      } else {
         errors[0].EndTimeError = "";
-      }
-      if (StartTime && EndTime) {
-        const startTimeHours = parseInt(StartTime.split(":")[0]);
-        const startTimeMinutes = parseInt(StartTime.split(":")[1]);
-        const endTimeHours = parseInt(EndTime.split(":")[0]);
-        const endTimeMinutes = parseInt(EndTime.split(":")[1]);
-
-        if (
-          endTimeHours < startTimeHours ||
-          (endTimeHours === startTimeHours &&
-            endTimeMinutes <= startTimeMinutes &&
-            ((fromPeriod === "AM" && toPeriod === "AM") ||
-              (fromPeriod === "PM" && toPeriod === "PM")))
-        ) {
-          errors[0].EndTimeError = "End time must be greater than start time";
-        } else {
-          errors[0].EndTimeError = "";
-        }
+      } else {
+        errors[0].EndTimeError = "End time must be greater than start time";
       }
     }
-
+  
+    // Update the validationErrors state
     setValidationErrors(errors);
   };
+  
+  
+  
   const valiadtionforDateandTime = () => {
     let dataandTimeerrors: any = [];
 
@@ -1422,24 +1449,41 @@ const SpecialPriceDetails = () => {
                 </div>
                 <div>
                   {showlistOfItems && (
-                    <div className="searched-items-listed" ref={listpopupRef}>
-                      <ul className="listing-selected-items">
-                        {OfferlistData?.map((item: any, index: number) => (
-                          <li
-                            key={index}
-                            className={`selectedlist ${
-                              selectedFoodItems.some(
-                                (food: any) => food.itemId === item.itemId
-                              )
-                                ? "highlighted"
-                                : ""
-                            }`}
-                            onClick={() => handleItemClick(index, item)}
-                          >
-                            {item.itemName}
-                          </li>
-                        ))}
-                      </ul>
+
+ <div className="searched-items-listed" ref={listpopupRef} style={{display:"flex",justifyContent:editOfferDataLoading||!editOfferDataFailed ?"center":"",alignItems:editOfferDataLoading||!editOfferDataFailed?"center":""}}>
+
+  {
+    editOfferDataLoading?<Loader
+    className="cPimgLoader1"
+    height="300px"
+    width="300px"
+    style={{
+      filter:
+        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+      height: "70px",
+      width: "70px",
+    }}
+    />: 
+    !editOfferDataFailed||OfferlistData.length===0?<div><h1 className="nodata-found">No data found</h1></div>:
+    <ul className="listing-selected-items">
+    {OfferlistData?.map((item: any, index: number) => (
+      <li
+        key={index}
+        className={`selectedlist ${
+          selectedFoodItems.some(
+            (food: any) => food.itemId === item.itemId
+          )
+            ? "highlighted"
+            : ""
+        }`}
+        onClick={() => handleItemClick(index, item)}
+      >
+        {item.itemName}
+      </li>
+    ))}
+  </ul>
+  }
+                     
                     </div>
                   )}
                 </div>
@@ -1675,6 +1719,7 @@ const SpecialPriceDetails = () => {
                                 value={value}
                                 onChange={(e) => {
                                   const inputValue = e.target.value;
+                                  validationForEndTime();
 
                                   if (/^[0-9:]*$/.test(inputValue)) {
                                     if (inputValue.length <= 5) {
@@ -1710,7 +1755,7 @@ const SpecialPriceDetails = () => {
                                       setStartTime(formattedTime);
                                     }
                                   }
-                                  validationForEndTime();
+                                 
                                 }}
                                 onBlur={onBlur}
                               />
@@ -1891,8 +1936,8 @@ const SpecialPriceDetails = () => {
                                   }`}
                                   name="toPeriod"
                                   onClick={() => {
-                                    setValue("toPeriod", "AM"); // Update the form value
-                                    validationForEndTime(); // Call validation logic
+                                    setValue("toPeriod", "AM"); 
+                                    validationForEndTime(); 
                                   }}
                                 >
                                   AM
@@ -1904,8 +1949,8 @@ const SpecialPriceDetails = () => {
                                   }`}
                                   name="toPeriod"
                                   onClick={() => {
-                                    setValue("toPeriod", "PM"); // Update the form value
-                                    validationForEndTime(); // Call validation logic
+                                    setValue("toPeriod", "PM"); 
+                                    validationForEndTime(); 
                                   }}
                                 >
                                   PM
