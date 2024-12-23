@@ -211,9 +211,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const errorMessages = useSelector(
     (state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages
   );
-  const locationid = useSelector(
-    (state: State) => state?.auth?.credentials?.locationId
-  );
+  // const locationid = useSelector(
+  //   (state: State) => state?.auth?.credentials?.locationId
+  // );
+
+  const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
+
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
 

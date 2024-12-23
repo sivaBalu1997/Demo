@@ -196,6 +196,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       "Dinner",
     ]);
 
+    const locationid = useSelector((state: any) => state.auth.selectedBranch);
+
     //   {_-------------------Array for Day Check---------------------------------}
     const [dineInDates, setDineInDates] = useState([]);
     const [DayPickup, setDayPickup] = useState<number[]>([]);
@@ -235,13 +237,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       (state: any) => state?.selectedMockDataReducer?.data
     );
 
-    const orderTypess = useSelector(
-      (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
-    );
+    const orderTypess = locationid?.orderTypes
 
-    const orderTypes = useSelector(
-      (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
-    );
+    const orderTypes = locationid?.orderTypes
+
 
     // const seletedItemOrderTypes=data
 
@@ -252,6 +251,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const DineInId = orderTypess?.find(
       (item: any) => item.typeGroup === "D"
     )?.id;
+
+    console.log({orderTypess}, {orderTypes}, {DineInId})
+
     const pickUpId = orderTypess?.find(
       (item: any) => item.typeGroup === "P"
     )?.id;
@@ -517,24 +519,24 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     };
 
     const optionsselectthird = orderTypes
-      ?.filter((item) => item.typeGroup === "T")
-      .map((item) => item.typeName);
+      ?.filter((item: any) => item.typeGroup === "T")
+      .map((item: any) => item.typeName);
 
     const thirdPartyData = orderTypes
-      ?.filter((item) => item.typeGroup === "T")
-      .map((item) => item);
+      ?.filter((item: any) => item.typeGroup === "T")
+      .map((item: any) => item);
 
     const dineInTypes = orderTypes
-      ?.filter((item) => item.typeGroup === "P")
-      .map((item) => item.typeName);
+      ?.filter((item: any) => item.typeGroup === "P")
+      .map((item: any) => item.typeName);
 
     const pickUpTypes = orderTypes
-      ?.filter((item) => item.typeGroup === "P")
-      .map((item) => item.typeName);
+      ?.filter((item: any) => item.typeGroup === "P")
+      .map((item: any) => item.typeName);
 
     const deliveryTypes = orderTypes
-      ?.filter((item) => item.typeGroup === "S")
-      .map((item) => item.typeName);
+      ?.filter((item: any) => item.typeGroup === "S")
+      .map((item: any) => item.typeName);
 
     useEffect(() => {
       if (selectedthirdvalues && selectedthirdvalues.length > 0) {
@@ -548,7 +550,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         data.forEach((item, index) => {
           if (data[index].typeId === "") {
             const id = thirdPartyData?.find(
-              (value) => item.typeName === value.typeName
+              (value: any) => item.typeName === value.typeName
             )?.id;
             data[index].typeId = String(id);
           }

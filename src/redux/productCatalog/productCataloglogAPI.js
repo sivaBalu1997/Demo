@@ -99,7 +99,7 @@ export function addMenuItem(data) {
   const { menuPayload, locationid } = data;
   return API({
     method: "post",
-    url: `/api/v1/menu-items`,
+    url: `/api/v1/menu-items/create`,
     data: menuPayload,
     headers: {
       "Content-Type": "application/json",
