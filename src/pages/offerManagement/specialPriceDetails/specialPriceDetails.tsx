@@ -155,68 +155,70 @@ const SpecialPriceDetails = () => {
     isEnabled: 2,
   };
 
-  //const editOfferData = useSelector((state: any) => state.offer.editSpData);
-  const editOfferData = {
-    "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
-    "offerName": "tesolap24",
-    "offerCode": "TESOLAP24",
-    "type": "PERCENT",
-    "value": 10.0,
-    "channel": [
-        "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-        "cd5996ed-7201-4faf-b996-5757aa684ad8",
-        "23864e56-e70d-4838-b5b4-eebe07e2bb63"
-    ],
-    "visibleTo": [
-        "C",
-        "M"
-    ],
-    "termsAndConditions": [
-        "Offer starts from dec 21"
-    ],
-    "specialType": "Santa Hour",
-    "category": {
-        "id": "109e48f3-14b4-45d0-a346-1d9aee1a538e",
-        "name": "Frozen Treats"
-    },
-    "subCategory": [
-        {
-            "id": "7934b27d-1f67-4464-8cc5-0a206978aaf4",
-            "name": "Faluda varieties"
-        }
-    ],
-    "items": [
-        {
-            "itemId": "0192d2c3-3ae7-7b51-84a6-c98bf555c854",
-            "itemName": "Mango Faluda",
-            "specialPrice": 6.3000,
-            "originalPrice": 7.0000,
-            "isEnabled": 1
-        },
-        {
-            "itemId": "0192d2c3-bfb7-73ac-a072-6f491639a005",
-            "itemName": "Mango Faluda edit",
-            "specialPrice": 6.3000,
-            "originalPrice": 7.0000,
-            "isEnabled": 1
-        }
-    ],
-    "effectivePeriod": {
-        "isDateEnabled": true,
-        "startDate": "2024-12-05T00:00:00.000+00:00",
-        "endDate": "2024-12-06T00:00:00.000+00:00",
-        "startTime": "04:45:00",
-        "endTime": "05:00:00",
-        "validDays": [
-            1,
-            2,
-            3,
-            4
-        ]
-    },
-    "isEnabled": 2,
-    "totalItems": 2
-}
+  const editOfferData = useSelector((state: any) => state.offer.editSpData);
+  console.log({editOfferData});
+  
+//   const editOfferData = {
+//     "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
+//     "offerName": "tesolap24",
+//     "offerCode": "TESOLAP24",
+//     "type": "PERCENT",
+//     "value": 10.0,
+//     "channel": [
+//         "02feb858-c58d-48c5-8dd4-9a173390b4eb",
+//         "cd5996ed-7201-4faf-b996-5757aa684ad8",
+//         "23864e56-e70d-4838-b5b4-eebe07e2bb63"
+//     ],
+//     "visibleTo": [
+//         "C",
+//         "M"
+//     ],
+//     "termsAndConditions": [
+//         "Offer starts from dec 21"
+//     ],
+//     "specialType": "Santa Hour",
+//     "category": {
+//         "id": "109e48f3-14b4-45d0-a346-1d9aee1a538e",
+//         "name": "Frozen Treats"
+//     },
+//     "subCategory": [
+//         {
+//             "id": "7934b27d-1f67-4464-8cc5-0a206978aaf4",
+//             "name": "Faluda varieties"
+//         }
+//     ],
+//     "items": [
+//         {
+//             "itemId": "0192d2c3-3ae7-7b51-84a6-c98bf555c854",
+//             "itemName": "Mango Faluda",
+//             "specialPrice": 6.3000,
+//             "originalPrice": 7.0000,
+//             "isEnabled": 1
+//         },
+//         {
+//             "itemId": "0192d2c3-bfb7-73ac-a072-6f491639a005",
+//             "itemName": "Mango Faluda edit",
+//             "specialPrice": 6.3000,
+//             "originalPrice": 7.0000,
+//             "isEnabled": 1
+//         }
+//     ],
+//     "effectivePeriod": {
+//         "isDateEnabled": true,
+//         "startDate": "2024-12-05T00:00:00.000+00:00",
+//         "endDate": "2024-12-06T00:00:00.000+00:00",
+//         "startTime": "04:45:00",
+//         "endTime": "05:00:00",
+//         "validDays": [
+//             1,
+//             2,
+//             3,
+//             4
+//         ]
+//     },
+//     "isEnabled": 2,
+//     "totalItems": 2
+// }
 
   const OfferlistData = useSelector(
     (state: any) => state.offer.getOfferListData
@@ -255,7 +257,7 @@ const SpecialPriceDetails = () => {
   const [selectedChannal, setSelectedChannal] = useState<any>([]);
   const [selectedVissibleTo, setSelectedVissibleTo] = useState<any>([]);
   const [flag,setFlag]=useState(false)
-  console.log({selectedChannal});
+  // console.log({selectedChannal});
   
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
@@ -393,7 +395,7 @@ const SpecialPriceDetails = () => {
 
     if (fromTimeFormat && toTimeFormat) {
       const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
-      console.log({ converttime });
+      // console.log({ converttime });
     } else {
       console.error(
         "Invalid time format. Please ensure both time and AM/PM are selected."
@@ -794,7 +796,7 @@ const SpecialPriceDetails = () => {
          }
          if(editOfferData?.subCategory?.length>0){
           setSelectedSubCatagory([...editOfferData?.subCategory])
-          setValue("subCategory",editOfferData?.subCategory?.map((item)=>item.name).join(","))
+          setValue("subCategory",editOfferData?.subCategory?.map((item:any)=>item.name).join(","))
          }
          if(editOfferData?.items?.length>0){
           setselectedFoodItems([...editOfferData?.items])
@@ -829,7 +831,7 @@ const SpecialPriceDetails = () => {
               setValue("toPeriod",data.period)
               //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
             }
-            if(editOfferData?.effectivePeriod?.validDays.length>0)
+            if(editOfferData?.effectivePeriod?.validDays?.length>0)
             {
             setDayThird(editOfferData?.effectivePeriod?.validDays)
             setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
@@ -958,9 +960,9 @@ const SpecialPriceDetails = () => {
     const errors = [...validationErrors];
     const StartTime = getValues("fromTime");
     const EndTime = getValues("toTime");
-    console.log("errorhandling");
-    console.log({ selectedFrom });
-    console.log({ selectedTo });
+    // console.log("errorhandling");
+    // console.log({ selectedFrom });
+    // console.log({ selectedTo });
 
     if (errors && errors[0]) {
       if (EndTime === "") {
@@ -997,44 +999,45 @@ const SpecialPriceDetails = () => {
     const EndTime = getValues("toTime");
     const fromPeriod = getValues("fromPeriod");
     const toPeriod = getValues("toPeriod");
-    console.log("errorhandling");
-    console.log({ fromPeriod });
-    console.log({ toPeriod });
-
-    if (startTime === "") {
-      errors[0].startTimeError = "Time is required  sss";
+  
+    // Clear previous errors
+    if (!errors[0]) {
+      errors[0] = {};
+    }
+  
+    if (!StartTime) {
+      errors[0].startTimeError = "Start time is required";
     } else {
       errors[0].startTimeError = "";
     }
-
-    if (errors && errors[0]) {
-      if (EndTime === "") {
-        errors[0].EndTimeError = "Time is required";
+  
+    if (!EndTime) {
+      errors[0].EndTimeError = "End time is required";
+    } else {
+      errors[0].EndTimeError = "";
+    }
+  
+    if (StartTime && EndTime) {
+      const parseTime = (time:any, period:any) => {
+        const [hours, minutes] = time.split(":").map(Number);
+        const normalizedHours =
+          period === "PM" && hours !== 12 ? hours + 12 : period === "AM" && hours === 12 ? 0 : hours;
+        return normalizedHours * 60 + minutes; // Convert to total minutes for easy comparison
+      };
+  
+      const startMinutes = parseTime(StartTime, fromPeriod);
+      const endMinutes = parseTime(EndTime, toPeriod);
+  
+      if (endMinutes <= startMinutes) {
+        errors[0].EndTimeError = "End time must be greater than start time";
       } else {
         errors[0].EndTimeError = "";
       }
-      if (StartTime && EndTime) {
-        const startTimeHours = parseInt(StartTime.split(":")[0]);
-        const startTimeMinutes = parseInt(StartTime.split(":")[1]);
-        const endTimeHours = parseInt(EndTime.split(":")[0]);
-        const endTimeMinutes = parseInt(EndTime.split(":")[1]);
-
-        if (
-          endTimeHours < startTimeHours ||
-          (endTimeHours === startTimeHours &&
-            endTimeMinutes <= startTimeMinutes &&
-            ((fromPeriod === "AM" && toPeriod === "AM") ||
-              (fromPeriod === "PM" && toPeriod === "PM")))
-        ) {
-          errors[0].EndTimeError = "End time must be greater than start time";
-        } else {
-          errors[0].EndTimeError = "";
-        }
-      }
     }
-
+  
     setValidationErrors(errors);
   };
+  
   const valiadtionforDateandTime = () => {
     let dataandTimeerrors: any = [];
 
