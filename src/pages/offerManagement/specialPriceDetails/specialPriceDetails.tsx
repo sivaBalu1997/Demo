@@ -442,7 +442,7 @@ const SpecialPriceDetails = () => {
     const isvalid = valiadtionforDateandTime();
     console.log("kkkkk888k",payload)
     // console.log("errorsdate",valiadtionforDateandTime());
-   
+    dispatch(createSpecialOfferRequest(payload));
 
     if (isvalid) {
 
@@ -1000,43 +1000,62 @@ const SpecialPriceDetails = () => {
     const fromPeriod = getValues("fromPeriod");
     const toPeriod = getValues("toPeriod");
   
-    // Clear previous errors
+    // Ensure errors array has an object to store the errors
     if (!errors[0]) {
       errors[0] = {};
     }
   
+    // Reset previous errors
+    errors[0].startTimeError = "";
+    errors[0].EndTimeError = "";
+  
+    // Validate Start Time
     if (!StartTime) {
       errors[0].startTimeError = "Start time is required";
-    } else {
-      errors[0].startTimeError = "";
     }
   
+    // Validate End Time
     if (!EndTime) {
       errors[0].EndTimeError = "End time is required";
-    } else {
-      errors[0].EndTimeError = "";
     }
   
     if (StartTime && EndTime) {
+      // Helper to convert time to total minutes from midnight
       const parseTime = (time:any, period:any) => {
         const [hours, minutes] = time.split(":").map(Number);
         const normalizedHours =
           period === "PM" && hours !== 12 ? hours + 12 : period === "AM" && hours === 12 ? 0 : hours;
-        return normalizedHours * 60 + minutes; // Convert to total minutes for easy comparison
+        return normalizedHours * 60 + minutes;
       };
   
       const startMinutes = parseTime(StartTime, fromPeriod);
       const endMinutes = parseTime(EndTime, toPeriod);
   
-      if (endMinutes <= startMinutes) {
-        errors[0].EndTimeError = "End time must be greater than start time";
-      } else {
+      // Validation Logic
+      console.log({StartTime});
+      console.log({EndTime});
+      console.log({fromPeriod});
+      
+      
+      
+      
+      if (
+        (fromPeriod === "AM" && toPeriod === "PM" && endMinutes >= startMinutes) || 
+        (fromPeriod === "PM" && toPeriod === "AM" ) || // Evening to morning (valid)
+        (fromPeriod === toPeriod && endMinutes >= startMinutes) // Same period but valid end time
+      ) {
+
         errors[0].EndTimeError = "";
+      } else {
+        errors[0].EndTimeError = "End time must be greater than start time";
       }
     }
   
+    // Update the validationErrors state
     setValidationErrors(errors);
   };
+  
+  
   
   const valiadtionforDateandTime = () => {
     let dataandTimeerrors: any = [];
@@ -1673,6 +1692,7 @@ const SpecialPriceDetails = () => {
                                 value={value}
                                 onChange={(e) => {
                                   const inputValue = e.target.value;
+                                  validationForEndTime();
 
                                   if (/^[0-9:]*$/.test(inputValue)) {
                                     if (inputValue.length <= 5) {
@@ -1708,7 +1728,7 @@ const SpecialPriceDetails = () => {
                                       setStartTime(formattedTime);
                                     }
                                   }
-                                  validationForEndTime();
+                                 
                                 }}
                                 onBlur={onBlur}
                               />
@@ -1889,8 +1909,8 @@ const SpecialPriceDetails = () => {
                                   }`}
                                   name="toPeriod"
                                   onClick={() => {
-                                    setValue("toPeriod", "AM"); // Update the form value
-                                    validationForEndTime(); // Call validation logic
+                                    setValue("toPeriod", "AM"); 
+                                    validationForEndTime(); 
                                   }}
                                 >
                                   AM
@@ -1902,8 +1922,8 @@ const SpecialPriceDetails = () => {
                                   }`}
                                   name="toPeriod"
                                   onClick={() => {
-                                    setValue("toPeriod", "PM"); // Update the form value
-                                    validationForEndTime(); // Call validation logic
+                                    setValue("toPeriod", "PM"); 
+                                    validationForEndTime(); 
                                   }}
                                 >
                                   PM
