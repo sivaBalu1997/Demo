@@ -3,13 +3,15 @@ import "./Toggle.scss";
 
 interface ToggleProps {
   toggle: boolean;
-  setToggle?: React.Dispatch<React.SetStateAction<boolean>>;
+  setToggle?: any;
   togglevalue?: number;
   width?: number;
   height?: number;
   togglecolor?: string;
   roundwidth?: number;
   roundheight?: number;
+  item?:any
+  name:any
 }
 
 const Toggle: React.FC<ToggleProps> = ({
@@ -19,6 +21,8 @@ const Toggle: React.FC<ToggleProps> = ({
   width,
   height,
   togglecolor,
+  item,
+  name,
 }) => {
   return (
     <div>
@@ -26,9 +30,14 @@ const Toggle: React.FC<ToggleProps> = ({
         type="button"
         className={`toggleBtn${toggle ? " Toggled" : ""}`}
         onClick={() => {
-          if (setToggle) {
-            setToggle((prev) => !prev);
+          if(name=='Date')
+          {
+setToggle((pre:any)=>!pre)
           }
+          else{
+            setToggle(item)
+          }
+         
         }}
       >
         <div className="thumb"></div>
