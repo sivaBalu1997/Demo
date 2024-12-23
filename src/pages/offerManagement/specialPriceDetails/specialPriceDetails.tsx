@@ -158,6 +158,7 @@ const SpecialPriceDetails = () => {
   };
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
+  console.log("lllll",editOfferData)
   const editOfferDataLoading = useSelector((state: any) => state.offer.getOfferListLoading);
   const editOfferDataFailed = useSelector((state: any) => state.offer.getOfferListSuccess);
 
@@ -330,7 +331,7 @@ const SpecialPriceDetails = () => {
   const datePickerRef = useRef<any | null>(null);
   const datePickerRef1 = useRef<any | null>(null);
   const [parentId, setParentId] = useState("");
-  const [subCatagoryId, setSubCatagoryId] = useState("");
+  const [subCatagoryId, setSubCatagoryId] = useState([]);
   const [selecteFoodItems, setselecteFoodItems] = useState([
     {
       itemId: "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
@@ -390,7 +391,7 @@ const SpecialPriceDetails = () => {
     const st=getValues("fromPeriod")
     const en=getValues("toPeriod")
 
-    // console.log({ offerChannel });
+     console.log("ppppp0000",values?.fromDate,values?.toDate);
 
     const fromTimeFormat =
       fromTiming && st ? fromTiming + " " + st : "";
@@ -406,14 +407,13 @@ const SpecialPriceDetails = () => {
         "Invalid time format. Please ensure both time and AM/PM are selected."
       );
     }
-
     const payload = {
       locationId: locationid,
       offerId: editOfferData?.offerId|| null,
       offerName: values?.offerName,
-      channel: selectedChannal.map((item:any)=>item.id),
-      visibleTo: values?.offerToVisible,
-      termsAndConditions: values?.termsAndConditions,
+      channel: selectedChannal?.map((item:any)=>item.id),
+      visibleTo: selectedVissibleTo?.map((item:any)=>item?.name[0]),
+      termsAndConditions: selectedTerm?.map((item:any)=>item?.name),
       specialType: values?.specialTypeName,
       type: values?.specialType === "Percentage" ? "PERCENT" : "FLATFEE",
       value: values?.specialTypeValue,
@@ -431,13 +431,13 @@ const SpecialPriceDetails = () => {
 
       effectivePeriod: {
         isDateEnabled: dateShow,
-        startDate: dateShow ? formatDate(values?.fromDate) : null,
-        endDate: dateShow ? formatDate(values?.toDate) : null,
+        startDate: dateShow ? formatDate(selectedDate) : null,
+        endDate: dateShow ? formatDate(selectedDate1) : null,
         // startTime:null,
         // endTime:null,
 
         startTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
-        endTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
+        endTime: convertTo24HourFormatWithSeconds(toTimeFormat),
         validDays: values?.AvailableDays,
       },
     };
@@ -456,7 +456,7 @@ const SpecialPriceDetails = () => {
       
 
 
-      if(editOfferData?.offerId!==null)
+      if(editOfferData?.offerId)
         {
            dispatch(updateSpecialOfferRequest(payload))
         }
@@ -465,7 +465,7 @@ const SpecialPriceDetails = () => {
         }
 
       
-      setOverlapShow(true);
+      //setOverlapShow(true);
     }
 
     //console.log("kkkkk",payload)
@@ -764,7 +764,6 @@ const SpecialPriceDetails = () => {
       setValue("offerName", editOfferData?.offerName);
       if(editOfferData?.channel?.length>0 && channal.length>0){
         const data=channal.filter((item:any) =>editOfferData?.channel.includes(item.id));
-        console.log("iiii",data,editOfferData?.channel,channal)
         setValue("offerChannel",data[0]?.name)
         setSelectedChannal([...data])
         }
@@ -804,6 +803,7 @@ const SpecialPriceDetails = () => {
          if(editOfferData?.subCategory?.length>0){
           setSelectedSubCatagory([...editOfferData?.subCategory])
           setValue("subCategory",editOfferData?.subCategory?.map((item:any)=>item.name).join(","))
+          setSubCatagoryId(editOfferData?.subCategory?.map((item:any)=>item.id))
          }
          if(editOfferData?.items?.length>0){
           setselectedFoodItems([...editOfferData?.items])
@@ -816,14 +816,18 @@ const SpecialPriceDetails = () => {
             if(editOfferData.effectivePeriod?.isDateEnabled){
               setDateShow(editOfferData.effectivePeriod?.isDateEnabled)
               if(editOfferData.effectivePeriod?.startDate){
-                setSelectedDate(convertStringToDate(editOfferData.effectivePeriod?.startDate))
-                setValue("fromDate", convertStringToDate(editOfferData.effectivePeriod?.startDate));
+                const data= convertStringToDate(editOfferData.effectivePeriod?.startDate)
+                setSelectedDate(data)
+                console.log("000",data)
+                setValue("fromDate", data);
       
               
               }
               if(editOfferData.effectivePeriod?.endDate){
-               setSelectedDate1(convertStringToDate(editOfferData.effectivePeriod?.endDate))
-               setValue("toDate", convertStringToDate(editOfferData.effectivePeriod?.endDate));
+              const data=convertStringToDate(editOfferData.effectivePeriod?.endDate)
+              console.log("00",data)
+               setSelectedDate1(data)
+               setValue("toDate", data);
               }
             }
             if(editOfferData?.effectivePeriod?.startTime){
@@ -1144,9 +1148,10 @@ const SpecialPriceDetails = () => {
 
   const itemlistfunction = () => {
     setShowlistOfItems(!showlistOfItems);
+    console.log("subCatagoryId",subCatagoryId)
     const payload = {
       locationId: locationid,
-      catagoryId: subCatagoryId ? subCatagoryId : parentId,
+      catagoryId: subCatagoryId ? subCatagoryId.map((opt) => opt).join(','): parentId,
     };
     dispatch(getOfferItemsRequest(payload));
   };
