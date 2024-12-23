@@ -445,11 +445,13 @@ const SpecialPriceDetails = () => {
     trigger();
 
     const isvalid = valiadtionforDateandTime();
-    console.log("kkkkk888k",payload)
+   
     // console.log("errorsdate",valiadtionforDateandTime());
     dispatch(createSpecialOfferRequest(payload));
 
     if (isvalid) {
+
+
 
       
 
@@ -497,7 +499,7 @@ const SpecialPriceDetails = () => {
     setSelectedDate(date);
     setSelectedDate1(null);
     setValue("fromDate", date);
-    console.log("kkkkkkk",date)
+  
 
     setValidationErrors((prevErrors: any) => {
       const updatedErrors = [...prevErrors];
@@ -1093,6 +1095,9 @@ const SpecialPriceDetails = () => {
     }
     const EndTime = getValues("toTime");
 
+   
+    
+
     if (endTime === "") {
       Errors.EndTimeError = "Time is required";
     } else {
@@ -1118,7 +1123,7 @@ const SpecialPriceDetails = () => {
       Errors.fromDateError ||
       Errors.toDateError ||
       Errors.startTimeError ||
-      Errors.toDateError
+      Errors.EndTimeError
     ) {
       dataandTimeerrors[0] = Errors;
     }
