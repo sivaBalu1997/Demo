@@ -332,7 +332,7 @@ offerlistdataloading===false && offerListDataArray?.map((row: any, index: number
               alt="Actions"
             />
             {activeIndex === index && (
-              <div className="OffersDropDownTable">
+              <div className="OffersDropDownTable" style={{position:"relative",top:activeIndex===index && (index===offerListDataArray.length-1)?"-4rem":"",left:activeIndex===index && (index===offerListDataArray.length-1)?"-2rem":""}}>
                 <OfferDropDown EnableorNot={row.isEnabled} offerData={row}/>
               </div>
             )}

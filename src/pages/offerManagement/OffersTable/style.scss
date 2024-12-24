@@ -18,10 +18,11 @@
 }
 
 .table-container {
-  width: 162%; 
+  width: 166%; 
   height: 80vh;
   overflow-y: auto; 
   overflow-x: auto;
+  
   font-family: "Poppins";
   margin-left: -20px;
 }
@@ -54,7 +55,7 @@
 
 .OffersTableo {
   transform: translateX(20px);
-  width: 65.5%;
+  width: 63.5%;
 
   border-collapse: collapse;
   margin-left: -30px;
@@ -266,8 +267,10 @@ td.OffrtsTabletd{
 }
 
 .OffersDropDownTable {
-  position: absolute;
-  right: 200px;
+  // position: absolute;
+  // right: 250px;
+  // top: -4rem;
+ 
 }
 .Menu-noOptions-offertable
 {

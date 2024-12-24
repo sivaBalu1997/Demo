@@ -1184,7 +1184,7 @@ const SpecialPriceDetails = () => {
   };
 
   const itemlistfunction = () => {
-    setShowlistOfItems(!showlistOfItems);
+    setShowlistOfItems(true);
     console.log("subCatagoryId",subCatagoryId)
     const payload = {
       locationId: locationid,
@@ -1510,7 +1510,7 @@ useEffect(()=>{
                 </div>
               </div>
 
-              <div className="select-offerfooditems">
+              <div className="select-offerfooditems"  ref={listpopupRef}>
                 <div className="seraching-for-items">
                   <div className="seraching-for-itemsbox">
                     <Controller
@@ -1526,7 +1526,20 @@ useEffect(()=>{
                       )}
                     />
                   </div>
-                  <div className="dropdownimage">
+                  {
+                    showlistOfItems ?<div className="dropdownimage">
+                    <img
+                      src={dropdown}
+                      alt="dropdown"
+                      style={{rotate:"180deg"}}
+                      onClick={() => {
+                        setShowlistOfItems(false);
+                        
+
+                        
+                      }}
+                    />
+                  </div>:<div className="dropdownimage">
                     <img
                       src={dropdown}
                       alt="dropdown"
@@ -1535,10 +1548,13 @@ useEffect(()=>{
                         const subcategory = getValues("subCategory");
                         if (category !== "" && subcategory !== "") {
                           itemlistfunction();
+                          
                         }
                       }}
                     />
                   </div>
+                  }
+                  
                   
                 </div>
                 {validationErrors[0]?.selectedItems && selectedFoodItems.length===0&&  (
@@ -1549,7 +1565,7 @@ useEffect(()=>{
                 <div>
                   {showlistOfItems && (
 
- <div className="searched-items-listed" ref={listpopupRef} style={{display:"flex",justifyContent:editOfferDataLoading||(!editOfferDataFailed||OfferlistData.length===0) ?"center":"",alignItems:editOfferDataLoading||(!editOfferDataFailed||OfferlistData.length===0)?"center":""}}>
+ <div className="searched-items-listed" style={{display:"flex",justifyContent:editOfferDataLoading||(!editOfferDataFailed||OfferlistData.length===0) ?"center":"",alignItems:editOfferDataLoading||(!editOfferDataFailed||OfferlistData.length===0)?"center":""}}>
 
   {
     editOfferDataLoading?<Loader
@@ -1614,7 +1630,7 @@ useEffect(()=>{
                         <tr key={index} className="offeritems-listed">
                           <td className="offer-table-data">{index + 1}</td>
                           <td className="offer-table-data">{item.itemName}</td>
-                          <td className="offer-table-data">
+                          <td className="offer-table-data originalprice">
                             {item.originalPrice}
                           </td>
                           <td className="offer-table-data">
