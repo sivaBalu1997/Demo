@@ -296,9 +296,9 @@ function* createSpecialOfferSaga(action) {
         statusCodeValue: 409,
       };
 
-      if(resdata.statusCodeValue===409)
+      if(response.data.statusCodeValue===409)
       {
-        yield put(createSpecialOfferOverlapData(resdata.body));
+        yield put(createSpecialOfferOverlapData(response.data.body));
 
       }
       else{
