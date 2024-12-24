@@ -177,7 +177,7 @@ const AddOffer = (props:any) => {
           <h3 className="green-txt m-b-15 d-inline-block">
           <Link
               to={{
-                pathname: "/management/Offers",
+                pathname: "/Offer",
                
               }}
             > <img src={Back} alt="" className="back_arrow" /></Link>  Add Offer
@@ -187,7 +187,7 @@ const AddOffer = (props:any) => {
             <img src={Plus} alt="" className="plus_img" />{" "}
             <Link
               to={{
-                pathname: "/management/Offers/CreateOffer",
+                pathname: "/Offers/CreateOffer",
                 state: offerData,
               }}
             >
