@@ -454,11 +454,7 @@ const SpecialPriceDetails = () => {
     // console.log("errorsdate",valiadtionforDateandTime());
     // dispatch(createSpecialOfferRequest(payload));
 
-
-
-    if(isvalid)
-    {
-      if(editOfferData?.offerId && !duplicateOffer)
+    if(editOfferData?.offerId && !duplicateOffer)
       {
         dispatch(updateSpecialOfferRequest(payload))
       }
@@ -466,6 +462,10 @@ const SpecialPriceDetails = () => {
         dispatch(createSpecialOfferRequest(payload));
 
       }
+
+    if(isvalid)
+    {
+      
     }
 
   //   if (isvalid) {
@@ -1279,7 +1279,7 @@ useEffect(()=>{
                           options={channal}
                           selectedOptions={selectedChannal}
                           setSelectedOptions={setSelectedChannal}
-                          type="checkbox"
+                          type="radio"
                           setOptions={setChannal}
                           placeholder="Select Channel"
                           register={register}

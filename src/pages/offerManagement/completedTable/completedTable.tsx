@@ -181,7 +181,7 @@ const CompletedTable = () => {
 
             <tbody>
               {offerlistdataloading ? (
-                <div className="Menu-noOptions-offer">
+                <div className="Menu-noOptions-completed">
                   <Loader
                     className="imgLoader2-offer"
                     height="100px"

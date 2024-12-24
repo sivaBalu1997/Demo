@@ -283,7 +283,7 @@ useEffect(()=>{
 
 
 {
-  offerlistdataloading ? <div className="Menu-noOptions-offer">
+  offerlistdataloading ? <div className="Menu-noOptions-offertable">
   <Loader
     className="imgLoader2-offer"
     height="100px"
@@ -294,7 +294,7 @@ useEffect(()=>{
     }}
   />
 </div>:
-offerlistdatafailed? <div className="NoDataFoundContainer-offer">
+offerlistdatafailed||offerListDataArray.length===0 ? <div className="NoDataFoundContainer-offer">
 <img
   className="columnselected"
   src={noResultsfound}
@@ -307,7 +307,7 @@ offerlistdatafailed? <div className="NoDataFoundContainer-offer">
 
 offerlistdataloading===false && offerListDataArray?.map((row: any, index: number) => (
     row.isEnabled !==2&& (
-      <tr key={index} className="OffrtsTabletr">
+      <tr key={index} className="OffrtsTabletr" >
         <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row?.offerName}</td>
         <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
           <p className="duration">

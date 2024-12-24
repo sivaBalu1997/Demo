@@ -168,6 +168,14 @@ th.completedtsTableth:nth-child(7) {
   top: 0;
 }
 
+.Menu-noOptions-completed
+{
+  display: flex;
+  position: absolute;
+  top: 16rem;
+  left: 40%;
+}
+
 tr.completedtsTabletr:nth-child(odd) {
   background-color: #e8e8e8;
 }
