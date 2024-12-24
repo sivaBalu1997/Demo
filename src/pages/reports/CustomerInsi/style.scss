@@ -26,7 +26,7 @@
 }
 
 .ci-on-close-side {
-  width: 90vw !important;
+  width: 103vw !important;
 }
 
 .ci-employee-container {
@@ -61,6 +61,11 @@
       .label-time-period {
         font-weight: 600;
         color: var(--table-text);
+        .e-time-period-label{
+          @media(max-width: 500px){
+            display: none;
+          }
+        }
       }
       .filter-toggle-btn-container {
         position: relative;

@@ -37,9 +37,8 @@ const CustIns: React.FC = () => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`ci-employee-container ${
-          isDarkTheme ? "dark-theme" : "light-theme"
-        } ${!isExpanded && "ci-on-close-side"}`}
+        className={`ci-employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
+          } ${!isExpanded && "ci-on-close-side"}`}
       >
         <Topnavbar />
         <div className="employee-head">
@@ -48,7 +47,7 @@ const CustIns: React.FC = () => {
           </div>
           <div className="dates">
             <div className="label-time-period">
-              <p>Select Time Period</p>
+              <p className="e-time-period-label">Select Time Period</p>
             </div>
             <div className="filter-toggle-btn-container">
               <div className="filter-toggle-btn" onClick={openFilterDropDown}>

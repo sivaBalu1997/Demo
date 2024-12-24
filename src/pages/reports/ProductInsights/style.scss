@@ -47,7 +47,8 @@
   width: 91vw !important;
   margin-left: -1.5rem;
   @media (max-width: 500px) {
-    width: 100vw;
+    width: 100vw !important;
+    margin-left: 0;
   }
 
   .p-prod-insights-head {
@@ -109,6 +110,7 @@
             height: 1rem;
             font-size: smaller;
           }
+          // @media(max-wid)
         }
 
         .p-filter-drop-down-options {
@@ -254,6 +256,11 @@
         height: 2rem;
         @media (max-width: 800px) {
           width: 5rem;
+          height: 1rem;
+          font-size: xx-small;
+        }
+        @media(max-width: 500px){
+          width: 6rem;
           height: 1rem;
           font-size: xx-small;
         }

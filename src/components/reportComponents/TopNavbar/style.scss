@@ -38,7 +38,8 @@
   align-items: center;
   width: 92vw;
   @media (max-width: 500px) {
-    width: 100vw;
+    width: 103vw;
+    // background-color: pink;
   }
   @media (max-width: 800px) {
     justify-content: space-between;
