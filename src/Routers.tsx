@@ -87,6 +87,7 @@ const Routers = () => {
         <Contextpage>
           <ThemeProvider>
             <Route exact path="/review" component={ReviewMenu} />
+            <Route exact path='/Offer' component={Offerdetails}/>
             <Route exact path="/Offers" component={OffersHeader} />
             <Route exact path="/Offers/active" component={OffersTable} />
             <Route exact path='/Offers/completed' component={completedTable} />

@@ -4,6 +4,13 @@
   align-items: flex-start;
   // background-color: greenyellow;
 
+  .menu-items-list{
+    span{
+      padding: 0;
+      margin: 0;
+    }
+  }
+
   & .menu {
     z-index: 9;
     background-color: #fff;
