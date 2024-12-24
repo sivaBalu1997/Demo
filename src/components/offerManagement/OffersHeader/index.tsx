@@ -3,11 +3,13 @@ import { useHistory, useLocation } from "react-router-dom";
 import "./style.scss";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { removeeditdata } from "redux/offer/offerActions";
+import { useDispatch } from "react-redux";
 
 const Index = () => {
   const MenuItems = ["Active", "Completed"];
   const history = useHistory();
   const location = useLocation();
+  const dispatch=useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
 
   const handleItemClick = (item: string) => {
@@ -25,7 +27,10 @@ const Index = () => {
           <p className="SpecialPriceHeading">Special Price</p>
           <button
             className="AddOfferButton"
-            onClick={() => {history.push("/offer/special")}}
+            onClick={() => {history.push("/offer/special")
+              
+              dispatch(removeeditdata())
+            }}
           >
             + Add New Offers
           </button>

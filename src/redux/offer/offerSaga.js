@@ -316,6 +316,10 @@ export function* updateSpOfferSaga(action) {
     const response = yield call(UpdateSpecialOffer, action.payload);
     if (response.status === 200) {
       yield put(updateSpecialOfferSuccess(response.data));
+      yield put({
+        type: SP_OFFER_LIST_VIEW_REQUEST,
+        payload: action?.payload?.locationId,
+      });
     }
   } catch (err) {
     yield put(updateSpecialOfferFailure(err.response.data[0]));

@@ -24,8 +24,9 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
   const handleEdit = (offer: any) => {
  
     dispatch(SPOfferListEdit(offer))
-    history.push("/offer/special");
     setDuplicateOffer(false);
+    history.push("/offer/special");
+   
  
   };
 

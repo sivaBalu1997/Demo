@@ -121,11 +121,11 @@ const initialOfferState = {
   SPofferItemDisableSuccess:"",
   SPofferItemDisableFailed:"",
   createSpecialOfferError:'',
-  createSpecialOfferSuccess:'',
+  createSpecialOfferSuccess:false,
   createSpecialOfferloading :false,
 
   updateSpecialOfferError:'',
-  updateSpecialOfferSuccess:'',
+  updateSpecialOfferSuccess:false,
   updateSpecialOfferloading :false,
 
   editSpData:[],
@@ -386,6 +386,10 @@ export default function offerReducer(state = initialOfferState, action) {
         case  SP_OFFER_LIST_VIEW_REQUEST:
           draft.SpOfferListLoading =true;
           draft.SpofferListSuccessResponse = [];
+          draft.createSpecialOfferSuccess=false;
+          draft.updateSpecialOfferSuccess=false
+          
+        
           break;
         case  SP_OFFER_LIST_VIEW_SUCCESS:
           draft.SpOfferListLoading =false;
@@ -426,33 +430,33 @@ export default function offerReducer(state = initialOfferState, action) {
             break;   
             case  CREATE_SPECIAL_OFFER_REQUEST:
               draft.createSpecialOfferError=''
-              draft.createSpecialOfferSuccess=''
+              draft.createSpecialOfferSuccess=false
               draft.createSpecialOfferloading = true;
               break;
             case  CREATE_SPECIAL_OFFER_SUCCESS:
-              draft.createSpecialOfferSuccess = action.payload;
+              draft.createSpecialOfferSuccess = true;
               draft.createSpecialOfferloading = false;
               draft.createSpecialOfferError=''
               break;
             case CREATE_SPECIAL_OFFER_FAILURE:
               draft.createSpecialOfferloading = false;
-              draft.createSpecialOfferSuccess=''
+              draft.createSpecialOfferSuccess=false
               draft.createSpecialOfferError = action.payload;
               break;
 
               case  UPDATE_SPECIAL_OFFER_REQUEST:
                 draft.updateSpecialOfferError=''
-                draft.updateSpecialOfferSuccess=''
+                draft.updateSpecialOfferSuccess=false
                 draft.updateSpecialOfferloading = true;
                 break;
               case  UPDATE_SPECIAL_OFFER_SUCCESS:
-                draft.updateSpecialOfferSuccess = action.payload;
+                draft.updateSpecialOfferSuccess = true;
                 draft.updateSpecialOfferloading = false;
                 draft.updateSpecialOfferError=''
                 break;
               case UPDATE_SPECIAL_OFFER_FAILURE:
                 draft.updateSpecialOfferloading = false;
-                draft.updateSpecialOfferSuccess=''
+                draft.updateSpecialOfferSuccess=false
                 draft.updateSpecialOfferError = action.payload;
                 break;
                 case SP_OFFER_LIST_EDIT_REQUEST:

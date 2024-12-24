@@ -162,6 +162,10 @@ const SpecialPriceDetails = () => {
   const editOfferDataLoading = useSelector((state: any) => state.offer.getOfferListLoading);
   const editOfferDataFailed = useSelector((state: any) => state.offer.getOfferListSuccess);
   const createLoading=useSelector((state: any) => state.offer.createSpecialOfferloading);
+  const createLoadingsucess=useSelector((state: any) => state.offer.createSpecialOfferSuccess);
+  const updateLoadingsucess=useSelector((state: any) => state.offer.updateSpecialOfferSuccess);
+
+
 
   console.log({editOfferData});
   
@@ -1195,6 +1199,18 @@ const SpecialPriceDetails = () => {
   })
 setselecteFoodItems([...data])
  }
+useEffect(()=>{
+
+  if(!createLoading && (createLoadingsucess || updateLoadingsucess))
+  {
+    history.push("/Offers/active")
+  }
+
+
+
+},[createLoadingsucess,createLoading,updateLoadingsucess])
+
+
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
@@ -1207,7 +1223,8 @@ setselecteFoodItems([...data])
           }
         >
           <div  className="specialoffer-heading">
-            <h1>Create Special Price Details</h1>
+            {editOfferData?.offerId && !duplicateOffer ? <h1>Edit offer</h1>: <h1>Create Special Price Details</h1>}
+           
           </div>
 
           <div
@@ -1501,7 +1518,7 @@ setselecteFoodItems([...data])
                 <div>
                   {showlistOfItems && (
 
- <div className="searched-items-listed" ref={listpopupRef} style={{display:"flex",justifyContent:editOfferDataLoading||!editOfferDataFailed ?"center":"",alignItems:editOfferDataLoading||!editOfferDataFailed?"center":""}}>
+ <div className="searched-items-listed" ref={listpopupRef} style={{display:"flex",justifyContent:editOfferDataLoading||(!editOfferDataFailed||OfferlistData.length===0) ?"center":"",alignItems:editOfferDataLoading||(!editOfferDataFailed||OfferlistData.length===0)?"center":""}}>
 
   {
     editOfferDataLoading?<Loader
