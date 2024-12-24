@@ -24,7 +24,7 @@ const Index = () => {
             isExpanded ? "SpecialPriceContainer2" : "SpecialPriceContainer"
           }
         >
-          <p className="SpecialPriceHeading">Special Price</p>
+          <p className="SpecialPriceHeading">Special Price</p>o
           <button
             className="AddOfferButton"
             onClick={() => {history.push("/offer/special")

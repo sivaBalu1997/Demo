@@ -1239,23 +1239,34 @@ useEffect(()=>{
             <div className="offer-primary-part1">
               <div className="offerPrimaryRow1">
                 <div className="offerNameContainer">
-                  <Controller
-                    name="offerName"
-                    control={control}
-                    rules={{ required: "offer is required" }}
-                    render={({ onChange, onBlur, value }: any) => (
-                      <InputComponent
-                        name="offerName"
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
-                        trigger={trigger}
-                        error={errors.offerName}
-                        height="44px"
-                        placeholder="Offer Name"
-                      />
-                    )}
-                  />
+                <Controller
+  name="offerName"
+  control={control}
+  rules={{
+    required: "Offer is required",
+    validate: (value) =>
+      value.trimStart() === value || "Offer name cannot start with a space",
+  }}
+  render={({ onChange, onBlur, value,error }: any) => (
+    <InputComponent
+      name="offerName"
+      onChange={(e) => {
+        const inputValue = e.target.value;
+        // Prevent updating value if it starts with a space
+        if (inputValue === "" || inputValue[0] !== " ") {
+          onChange(inputValue);
+        }
+      }}
+      onBlur={onBlur}
+      value={value}
+      trigger={trigger}
+      error={error}
+      height="44px"
+      placeholder="Offer Name"
+    />
+  )}
+/>
+
                 </div>
 
                 <div className="offerChannelContainer">
@@ -1388,25 +1399,36 @@ useEffect(()=>{
                 />
               </div>
               <div className="cPspecialTypeContainer">
-                <Controller
-                  name="specialTypeValue"
-                  control={control}
-                  rules={{ required: "specialTypeValue is required" }}
-                  render={({ onChange, onBlur, value }: any) => (
-                    <InputComponent
-                      name="specialTypeValue"
-                      onChange={onChange}
-                      onBlur={() => {
-                        priceCalulate(selectedFoodItems);
-                      }}
-                      value={value}
-                      trigger={trigger}
-                      error={errors.specialTypeValue}
-                      width="400px"
-                      placeholder="Enter the Value"
-                    />
-                  )}
-                />
+              <Controller
+  name="specialTypeValue"
+  control={control}
+  rules={{
+    required: "Special type value is required",
+    validate: (value) =>
+      !isNaN(value) || "Only numeric values are allowed",
+  }}
+  render={({ onChange, onBlur, value,error }: any) => (
+    <InputComponent
+      name="specialTypeValue"
+      onChange={(e) => {
+        const inputValue = e.target.value;
+        // Allow only numeric values
+        if (/^\d*$/.test(inputValue)) {
+          onChange(inputValue);
+        }
+      }}
+      onBlur={() => {
+        priceCalulate(selectedFoodItems);
+      }}
+      value={value}
+      trigger={trigger}
+      error={error}
+      width="400px"
+      placeholder="Enter the Value"
+    />
+  )}
+/>
+
               </div>
             </div>
 

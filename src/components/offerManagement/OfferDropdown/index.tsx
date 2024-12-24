@@ -4,7 +4,7 @@ import edit from "../../../assets/svg/editoffer.svg";
 import duplicate from "../../../assets/svg/Duplicate.svg";
 import disable from "../../../assets/svg/offerdisable.svg";
 import bin from "../../../assets/svg/offerbin.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SPOfferListDelete, SPOfferListDisable ,SPOfferListEdit} from "redux/offer/offerActions";
 import { useHistory } from "react-router-dom";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
@@ -19,6 +19,9 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
   const history = useHistory();
   const [showDropdown,setShowDropdown]=useState(true);
     const { isExpanded ,setDuplicateOffer,duplicateOffer} = useContext(Contextpagejs);
+      const locationid = useSelector(
+        (state: any) => state.auth.credentials.locationId
+      );
   
 
   const handleEdit = (offer: any) => {
@@ -41,6 +44,7 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
     const disableOffer = {
       offerId: offer.offerId,
       toEnable: EnableorNot === 1 || EnableorNot === 2 ? false : true,
+      locationId:locationid
     };
 
     dispatch(SPOfferListDisable(disableOffer));
@@ -55,7 +59,11 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
 
   const handleDelete = (offer: any) => {
     console.log("Delete offer:", offer);
-    dispatch(SPOfferListDelete(offer.offerId));
+    const payload={
+      offerId:offer.offerId,
+      loactionId:locationid
+    }
+    dispatch(SPOfferListDelete(payload));
     setShowDropdown(false)
   };
 

@@ -95,7 +95,7 @@ export const getSPOfferList = (locationId) => {
 export const getSPOfferListItemDelete = (offerId) => {
   return API({
     method: "DELETE",
-    url: `/coupon/happy-hours?offerId=${offerId}`,
+    url: `/coupon/happy-hours?offerId=${offerId.offerId}`,
   });
 };
 

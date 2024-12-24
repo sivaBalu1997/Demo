@@ -207,14 +207,20 @@ export function* getSpofferList(action) {
 
 function* deleteSpOfferSaga(action) {
   try {
+    console.log("vbnm",action.payload);
     const response = yield call(getSPOfferListItemDelete, action.payload);
     console.log(response);
+    
     
     if (response.status === 200) {
       yield put(SPOfferListDeleteSuccess(response.data.
         message
         ));
 
+        yield put({
+          type: SP_OFFER_LIST_VIEW_REQUEST,
+          payload: action?.payload?.loactionId,
+        });
         showSuccessToast(response.data.message)
 
 
@@ -244,12 +250,17 @@ function* disableSpOfferSaga(action) {
     
     const response = yield call(getSPOfferListItemDisable, action.payload);
     console.log(response);
+   
+    
     
     if (response.status === 200) {
       yield put(SPOfferListDisableSuccess(response.data.
         message
         ));
-
+        yield put({
+          type: SP_OFFER_LIST_VIEW_REQUEST,
+          payload: action?.payload?.locationId,
+        });
         showSuccessToast(response.data.message)
 
 

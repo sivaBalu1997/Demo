@@ -465,7 +465,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 className="cPdropdown-options"
                 onMouseDown={handleOptionMouseDown}
               >
-                {Loading ? (
+                {Loading&&dropDownType!=="termsAndConditions" ? (
                   <div className="cPdropdown-no-options">
                     <Loader
                       className="cPimgLoader1"
