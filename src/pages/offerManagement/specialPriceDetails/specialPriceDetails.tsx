@@ -344,7 +344,7 @@ const SpecialPriceDetails = () => {
 
         startTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
         endTime: convertTo24HourFormatWithSeconds(toTimeFormat),
-        validDays: values?.AvailableDays,
+        validDays: values?.AvailableDays.filter((data)=>data!=0).map((data)=>data==7?0:data),
       },
     };
 
