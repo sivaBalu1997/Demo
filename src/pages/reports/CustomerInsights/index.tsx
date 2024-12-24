@@ -17,9 +17,8 @@ const CustomerInsights = () => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`live-reports ${
-          isDarkTheme ? "dark-theme" : "light-theme"
-        } ${isExpanded ? "l-expanded-width-sales" : ""}`}
+        className={`live-reports ${isDarkTheme ? "dark-theme" : "light-theme"
+          } ${isExpanded ? "l-expanded-width-sales" : ""}`}
       >
         <Topnavbar />
         <div className="cust-insights-head">
@@ -29,6 +28,26 @@ const CustomerInsights = () => {
         </div>
         <div className="location-name">
           <h1>Maghil Restaurant, Parsippany</h1>
+        </div>
+        <div className="l-live-boxes-container">
+          <div className={isExpanded ? "l-live-inner-box-expanded" : "l-live-inner-box"}>
+            <div className="l-live-box">
+              <h2>Discounts</h2>
+              <h3>{LD?.discounts?.map((dis) => dis?.Discounts)}</h3>
+            </div>
+            <div className="l-live-box">
+              <h2>Refund</h2>
+              <h3>{LD?.refunds?.map((refund) => refund?.refunds)}</h3>
+            </div>
+            <div className="l-live-box">
+              <h2>Open Sales</h2>
+              <h3>{LD?.["open sales"]?.map((openSale) => openSale?.["Open Sales"])}</h3>
+            </div>
+            <div className="l-live-box">
+              <h2>Net Sales</h2>
+              <h3>{LD?.["net sales"]?.map((netSale) => netSale?.["Net Sales"])}</h3>
+            </div>
+          </div>
         </div>
         <div className="tables-container-one">
           <Table
@@ -41,7 +60,7 @@ const CustomerInsights = () => {
         <div className="live-orders-non-dine-in">
           <Table Heading="Live Orders (Non-Dine-In)" tableData={LD["Live Orders (Non Dine In)"]} viewType="full" recordsPerPage={5} />
         </div>
-        <div className="tables-container-two">
+        {/* <div className="tables-container-two">
           <Table
             Heading="Pick-Up & Delivery"
             tableData={DDDD["PickUp/Delivery"]}
@@ -54,7 +73,7 @@ const CustomerInsights = () => {
             viewType="full"
             recordsPerPage={5}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

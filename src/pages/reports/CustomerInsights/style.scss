@@ -188,6 +188,75 @@
       margin-top: 30px;
     }
   }
+  .l-live-boxes-container{
+    // background-color: pink;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4vh;
+
+    .l-live-inner-box{
+      // background-color: lightskyblue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2vw;
+      // flex-wrap: wrap;
+      width: 63vw;
+      margin: 0;
+      .l-live-box{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1vh;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: 0;
+        padding-right: 0;
+        background-color: var(--table-bg);
+        border: 1px solid var(--table-text);
+        border-radius: 1vw;
+        width: 15vw;
+        h1{
+          width: 100%;
+          // background-color: lightseagreen;
+        }
+        // h3
+      }
+    }
+    .l-live-inner-box-expanded{
+      // background-color: lightcoral;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2vw;
+      // flex-wrap: wrap;
+      width: 57vw;
+      margin: 0;
+      .l-live-box{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1vh;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: 0;
+        padding-right: 0;
+        background-color: var(--table-bg);
+        border: 1px solid var(--table-text);
+        border-radius: 1vw;
+        width: 15vw;
+        h1{
+          width: 100%;
+          // background-color: lightseagreen;
+        }
+        // h3
+      }
+    }
+  }
   .canva-pie-chart-cont {
     display: flex;
     flex-direction: column;

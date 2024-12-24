@@ -391,5 +391,17 @@ export const LD = {
     { "Time Elapsed": "88 mins", "Order Total": "$149.36", "Customer Name": "Durg", "Customer Number": "-", "Order Channel": "Direct-DineIn", "Order Date": "2024-12-18 03:28 AM", "Order Status": "Order accepted", "Order Number": "004364", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:13 AM" },
     { "Time Elapsed": "72 mins", "Order Total": "$93.15", "Customer Name": "", "Customer Number": "-", "Order Channel": "Direct-DineIn", "Order Date": "2024-12-18 03:44 AM", "Order Status": "Order accepted", "Order Number": "004370", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:31 AM" },
     { "Time Elapsed": "63 mins", "Order Total": "$6.38", "Customer Name": "VINLNTRS", "Customer Number": "xxx-xxx-3834", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 03:54 AM", "Order Status": "Order in prep", "Order Number": "004371", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:39 AM" }
+  ],
+  "discounts": [
+    { "Discounts": 0.1900 }
+  ],
+  "refunds": [
+    { "refunds": 42.0200 }
+  ],
+  "open sales": [
+    { "Open Sales": 570.6000 }
+  ],
+  "net sales": [
+    { "Net Sales": 4.6900 }
   ]
 };
