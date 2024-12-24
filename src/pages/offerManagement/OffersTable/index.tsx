@@ -32,7 +32,7 @@ const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailur
 const [offerListDataArray,setOfferListDataArray]=useState([])
 useEffect(()=>{
   setOfferListDataArray(offerlistdata);
-
+  setActiveIndex(null)
 
 },[offerlistdata])
 
