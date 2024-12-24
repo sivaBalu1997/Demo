@@ -158,7 +158,6 @@ const SpecialPriceDetails = () => {
   };
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
-  console.log("lllll",editOfferData)
   const editOfferDataLoading = useSelector((state: any) => state.offer.getOfferListLoading);
   const editOfferDataFailed = useSelector((state: any) => state.offer.getOfferListSuccess);
   const createLoading=useSelector((state: any) => state.offer.createSpecialOfferloading);
@@ -167,7 +166,6 @@ const SpecialPriceDetails = () => {
 
 
 
-  console.log({editOfferData});
   
 //   const editOfferData = {
 //     "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
@@ -450,23 +448,22 @@ const SpecialPriceDetails = () => {
     trigger();
 
     const isvalid = valiadtionforDateandTime();
-   
     // console.log("errorsdate",valiadtionforDateandTime());
     // dispatch(createSpecialOfferRequest(payload));
+    // if(isvalid)
+    //   {
+    //     if(editOfferData?.offerId && !duplicateOffer)
+    //       {
+    //         dispatch(updateSpecialOfferRequest(payload))
+    //       }
+    //       else{
+    //         dispatch(createSpecialOfferRequest(payload));
+    
+    //       }
+    //   }
+  
 
-    if(editOfferData?.offerId && !duplicateOffer)
-      {
-        dispatch(updateSpecialOfferRequest(payload))
-      }
-      else{
-        dispatch(createSpecialOfferRequest(payload));
-
-      }
-
-    if(isvalid)
-    {
-      
-    }
+   
 
   //   if (isvalid) {
 
@@ -543,7 +540,6 @@ const SpecialPriceDetails = () => {
   };
 
   const selectedradiowatch = watch();
-  console.log({selectedradiowatch});
   
   const handleFromToTime = (value: string, timePeriod: string) => {
     console.log({ timePeriod });
@@ -838,14 +834,12 @@ const SpecialPriceDetails = () => {
               if(editOfferData.effectivePeriod?.startDate){
                 const data= convertStringToDate(editOfferData.effectivePeriod?.startDate)
                 setSelectedDate(data)
-                console.log("000",data)
                 setValue("fromDate", data);
       
               
               }
               if(editOfferData.effectivePeriod?.endDate){
               const data=convertStringToDate(editOfferData.effectivePeriod?.endDate)
-              console.log("00",data)
                setSelectedDate1(data)
                setValue("toDate", data);
               }
@@ -1051,35 +1045,23 @@ const SpecialPriceDetails = () => {
     }
   
     if (StartTime && EndTime) {
-      // Helper to convert time to total minutes from midnight
-      const parseTime = (time:any, period:any) => {
-        const [hours, minutes] = time.split(":").map(Number);
-        const normalizedHours =
-          period === "PM" && hours !== 12 ? hours + 12 : period === "AM" && hours === 12 ? 0 : hours;
-        return normalizedHours * 60 + minutes;
-      };
-  
-      const startMinutes = parseTime(StartTime, fromPeriod);
-      const endMinutes = parseTime(EndTime, toPeriod);
-  
-      // Validation Logic
-      console.log({StartTime});
-      console.log({EndTime});
-      console.log({fromPeriod});
-      
-      
-      
-      
-      if (
-        (fromPeriod === "AM" && toPeriod === "PM" && endMinutes >= startMinutes) || 
-        (fromPeriod === "PM" && toPeriod === "AM" ) || // Evening to morning (valid)
-        (fromPeriod === toPeriod && endMinutes >= startMinutes) // Same period but valid end time
-      ) {
-
-        errors[0].EndTimeError = "";
-      } else {
-        errors[0].EndTimeError = "End time must be greater than start time";
-      }
+      function convertTo24Hour(time:any, period:any) {
+        let [hours, minutes] = time.split(":").map(Number);
+        if (period === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (period === "AM" && hours === 12) {
+            hours = 0;
+        }
+        return { hours, minutes };
+    }
+    const start = convertTo24Hour(StartTime, fromPeriod);
+    const end = convertTo24Hour(EndTime, toPeriod);
+    if ((end.hours < start.hours ) || (end.hours === start.hours && end.minutes < start.minutes))
+       {
+        errors[0].EndTimeError = "End time must be greater than start00 time"
+    } else {
+      errors[0].EndTimeError  = ""
+  }
     }
   
     // Update the validationErrors state
@@ -1121,9 +1103,9 @@ const SpecialPriceDetails = () => {
       Errors.startTimeError = "";
     }
     const EndTime = getValues("toTime");
-    console.log({EndTime});
 
-   
+   const fromPeriod = getValues("fromPeriod");
+    const toPeriod = getValues("toPeriod");
     
 
     if (endTime === "") {
@@ -1132,19 +1114,23 @@ const SpecialPriceDetails = () => {
       Errors.EndTimeError = "";
     }
     if (StartTime && EndTime) {
-      const startTimeHours = parseInt(StartTime.split(":")[0]);
-      const startTimeMinutes = parseInt(StartTime.split(":")[1]);
-      const endTimeHours = parseInt(EndTime.split(":")[0]);
-      const endTimeMinutes = parseInt(EndTime.split(":")[1]);
-
-      if (
-        endTimeHours < startTimeHours ||
-        (endTimeHours === startTimeHours && endTimeMinutes <= startTimeMinutes)
-      ) {
-        Errors.EndTimeError = "End time must be greater than start time";
-      } else {
-        Errors.EndTimeError = "";
-      }
+      function convertTo24Hour(time:any, period:any) {
+        let [hours, minutes] = time.split(":").map(Number);
+        if (period === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (period === "AM" && hours === 12) {
+            hours = 0;
+        }
+        return { hours, minutes };
+    }
+    const start = convertTo24Hour(StartTime, fromPeriod);
+    const end = convertTo24Hour(EndTime, toPeriod);
+    if ((end.hours < start.hours ) || (end.hours === start.hours && end.minutes < start.minutes))
+       {
+      Errors.EndTimeError = "End time must be greater than start00 time"
+    } else {
+      Errors.EndTimeError = ""
+  }
     }
     if(selectedFoodItems?.length===0)
     {
@@ -1899,7 +1885,7 @@ useEffect(()=>{
                                   name="fromPeriod"
                                   onClick={() => {
                                     setValue("fromPeriod", "AM"); // Update fromPeriod in the form
-                                    validationForEndTime(); // Validate
+                                   validationForEndTime(); // Validate
                                   }}
                                 >
                                   AM
@@ -1912,7 +1898,7 @@ useEffect(()=>{
                                   name="fromPeriod"
                                   onClick={() => {
                                     setValue("fromPeriod", "PM");
-                                    validationForEndTime(); // Validate
+                                   validationForEndTime(); // Validate
                                   }}
                                 >
                                   PM
@@ -1988,7 +1974,7 @@ useEffect(()=>{
                                       setEndTime(formattedTime);
                                     }
                                   }
-                                  validationForEndTime();
+                                 validationForEndTime();
                                 }}
                                 onBlur={onBlur}
                               />
