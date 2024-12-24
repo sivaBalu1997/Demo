@@ -861,7 +861,7 @@ export const MenuPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
+  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
 
   const handleItemnameClick = (value) => {
     handlemodal(value);
@@ -1105,9 +1105,9 @@ export const MenuPage = () => {
                                 <img
                                   src={
                                    baseImageUrl +
-                                        item?.mediaResponseList[0]?.imageId
-                                      
+                                    item?.mediaResponseList[0]?.imageId
                                   }
+                                  // src={`${baseImageUrl}${item?.mediaResponseList[0]?.imageId}.${item?.mediaResponseList[0]?.imageType}`}
                                   alt="No Image"
                                   className="foodimage"
                                 />
