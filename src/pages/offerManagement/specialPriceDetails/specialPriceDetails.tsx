@@ -467,19 +467,19 @@ const SpecialPriceDetails = () => {
     //   }
   
 
-    if(editOfferData?.offerId && !duplicateOffer)
-      {
-        dispatch(updateSpecialOfferRequest(payload))
-      }
-      else{
-        dispatch(createSpecialOfferRequest(payload));
-
-
-      }
+  
 
     if(isvalid)
     {
-      
+      if(editOfferData?.offerId && !duplicateOffer)
+        {
+          dispatch(updateSpecialOfferRequest(payload))
+        }
+        else{
+          dispatch(createSpecialOfferRequest(payload));
+  
+  
+        }
     }
 
   //   if (isvalid) {
