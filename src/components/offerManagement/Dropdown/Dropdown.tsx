@@ -278,6 +278,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     const newValue = NewItemref?.current?.value;
 
     const newItem = {
+      id:options?.length,
       locationId: '',
       name: newValue,
       type: dropDownType,
