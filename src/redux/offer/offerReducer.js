@@ -59,6 +59,7 @@ GET_OFFER_ITEMS_SUCCESS,
 GET_OFFER_ITEMS_REQUEST,
 GET_OFFER_ITEMS_FAILURE,
 REMOVE_EDITDATA_WHEN_ADD,
+CREATE_SPECIAL_OFFER_OVERLAP,
 } from "../offer/offerConstants";
 
 const initialOfferState = {
@@ -123,7 +124,7 @@ const initialOfferState = {
   createSpecialOfferError:'',
   createSpecialOfferSuccess:false,
   createSpecialOfferloading :false,
-
+  createSpecialOfferOverlapData:[],
   updateSpecialOfferError:'',
   updateSpecialOfferSuccess:false,
   updateSpecialOfferloading :false,
@@ -432,6 +433,7 @@ export default function offerReducer(state = initialOfferState, action) {
               draft.createSpecialOfferError=''
               draft.createSpecialOfferSuccess=false
               draft.createSpecialOfferloading = true;
+              draft.createSpecialOfferOverlapData=[]
               break;
             case  CREATE_SPECIAL_OFFER_SUCCESS:
               draft.createSpecialOfferSuccess = true;
@@ -443,6 +445,13 @@ export default function offerReducer(state = initialOfferState, action) {
               draft.createSpecialOfferSuccess=false
               draft.createSpecialOfferError = action.payload;
               break;
+
+              case CREATE_SPECIAL_OFFER_OVERLAP:
+                draft.createSpecialOfferloading = false;
+              draft.createSpecialOfferOverlapData=action.payload
+              draft.createSpecialOfferSuccess = false;
+              draft.createSpecialOfferError ="";
+
 
               case  UPDATE_SPECIAL_OFFER_REQUEST:
                 draft.updateSpecialOfferError=''

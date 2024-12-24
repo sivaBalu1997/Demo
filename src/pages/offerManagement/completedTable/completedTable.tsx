@@ -250,7 +250,10 @@ const CompletedTable = () => {
                             opacity: row.isEnabled === 0 ? "50%" : "100%",
                           }}
                         >
-                          {renderItems(row.items)}
+                          {
+                            row.items?.length>0?renderItems(row.items): <span>-</span>
+                          }
+                          {}
                         </td>
                         <td
                           className="completedtsTabletd totalitem"
@@ -258,7 +261,9 @@ const CompletedTable = () => {
                             opacity: row.isEnabled === 0 ? "50%" : "100%",
                           }}
                         >
-                          {row?.totalItems}
+                         {
+                            row.items?.length>0?row?.totalItems: <span>-</span>
+                          } 
                         </td>
 
                         <td

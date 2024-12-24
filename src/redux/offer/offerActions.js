@@ -58,6 +58,7 @@ import {
   GET_OFFER_ITEMS_SUCCESS,
   GET_OFFER_ITEMS_FAILURE,
   REMOVE_EDITDATA_WHEN_ADD,
+  CREATE_SPECIAL_OFFER_OVERLAP,
 } from "./offerConstants";
 export const getOfferList = (offerListParams) => ({
   type: OFFER_LIST_REQUEST,
@@ -262,7 +263,10 @@ export const createSpecialOfferSuccess = (response) => ({
   payload: response,
 });
 
-
+export const createSpecialOfferOverlapData = (response) => ({
+  type: CREATE_SPECIAL_OFFER_OVERLAP,
+  payload: response,
+});
 
 export const updateSpecialOfferFailure = (error) => ({
   type: UPDATE_SPECIAL_OFFER_FAILURE,

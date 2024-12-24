@@ -114,6 +114,10 @@ const SpecialPriceDetails = () => {
   ];
 
   const catagoryOption = useSelector((state: any) => state.offer.categoryData);
+  const  createSpecialOfferOverlap= useSelector((state: any) => state.offer.createSpecialOfferOverlapData);
+
+  console.log({createSpecialOfferOverlap});
+  
 
   const subCatagoryOption = useSelector(
     (state: any) => state.offer.subCategoryData
@@ -463,7 +467,20 @@ const SpecialPriceDetails = () => {
     //   }
   
 
-   
+    if(editOfferData?.offerId && !duplicateOffer)
+      {
+        dispatch(updateSpecialOfferRequest(payload))
+      }
+      else{
+        dispatch(createSpecialOfferRequest(payload));
+
+
+      }
+
+    if(isvalid)
+    {
+      
+    }
 
   //   if (isvalid) {
 
@@ -1195,7 +1212,12 @@ useEffect(()=>{
 
 
 },[createLoadingsucess,createLoading,updateLoadingsucess])
-
+useEffect(()=>{
+  if(createSpecialOfferOverlap.length>0)
+  {
+    setOverlapShow(true)
+  }
+},[createSpecialOfferOverlap])
 
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
@@ -1391,15 +1413,15 @@ useEffect(()=>{
   rules={{
     required: "Special type value is required",
     validate: (value) =>
-      !isNaN(value) || "Only numeric values are allowed",
+      /^\d*\.?\d{0,2}$/.test(value) || "Only numbers with up to 2 decimal places are allowed",
   }}
   render={({ onChange, onBlur, value,error }: any) => (
     <InputComponent
       name="specialTypeValue"
       onChange={(e) => {
         const inputValue = e.target.value;
-        // Allow only numeric values
-        if (/^\d*$/.test(inputValue)) {
+        // Allow numbers with up to two decimal places
+        if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
           onChange(inputValue);
         }
       }}
@@ -1408,12 +1430,13 @@ useEffect(()=>{
       }}
       value={value}
       trigger={trigger}
-      error={error}
+      error={error?.message}
       width="400px"
       placeholder="Enter the Value"
     />
   )}
 />
+
 
               </div>
             </div>
