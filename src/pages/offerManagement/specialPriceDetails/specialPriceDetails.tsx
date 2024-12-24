@@ -393,7 +393,6 @@ const SpecialPriceDetails = () => {
     const st=getValues("fromPeriod")
     const en=getValues("toPeriod")
 
-     console.log("ppppp0000",values?.fromDate,values?.toDate);
 
     const fromTimeFormat =
       fromTiming && st ? fromTiming + " " + st : "";
@@ -806,7 +805,7 @@ const SpecialPriceDetails = () => {
           setValue("termsAndConditions",editOfferData?.termsAndConditions?.join(","))
          }
          if(editOfferData?.specialType){
-          setValue("specialTypeName",editOfferData?.specialType)
+          setValue("specialTypeName",editOfferData?.specialType=='SURGE HOUR'?"Surge Hour":"Happy Hour")
          }
          if(editOfferData?.type){
           setValue("specialType", editOfferData?.type=="PERCENT"?"Percentage":"Amount");
@@ -1109,7 +1108,7 @@ const SpecialPriceDetails = () => {
       Errors.toDateError = "";
     }
     const StartTime = getValues("fromTime");
-    // console.log({StartTime});
+     console.log({StartTime});
     
 
     if (StartTime === "") {
@@ -1118,6 +1117,7 @@ const SpecialPriceDetails = () => {
       Errors.startTimeError = "";
     }
     const EndTime = getValues("toTime");
+    console.log({EndTime});
 
    
     
@@ -1185,15 +1185,16 @@ const SpecialPriceDetails = () => {
     };
     dispatch(getOfferItemsRequest(payload));
   };
-
-// useEffect(()=>{
-// if(!createLoading)
-// {
-//   history.push("/Offers/active")
-// }
-// },[createLoading])
-
-
+  console.log("selectedFoodItems",selectedFoodItems)
+ const  handleToggle =(item:any)=>{
+  const data=[...selectedFoodItems]
+  data.forEach((item1)=>{
+      if(item.id==item1.id){
+        item1.isEnabled=item1.isEnabled?0:1
+      }
+  })
+setselecteFoodItems([...data])
+ }
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
@@ -1585,7 +1586,10 @@ const SpecialPriceDetails = () => {
                           <td className="offer-table-data toggle-icon-data">
                             <Toggle
                               toggle={item.isEnabled}
+                              item={item}
+                              setToggle={handleToggle}
                               togglecolor="white"
+                              name='enable'
                             />
                           </td>
                         </tr>
@@ -1605,6 +1609,7 @@ const SpecialPriceDetails = () => {
                   <h3>Date </h3>
                   <span>
                     <Toggle
+                    name='Date'
                       toggle={dateShow}
                       setToggle={setDateShow}
                       togglecolor="white"
