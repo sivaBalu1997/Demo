@@ -45,25 +45,25 @@
   margin-left: -20px;
 }
 
-.OffrtsTableth {
+.OffrtsTabletho {
   position: sticky;
   top: 0;
   z-index: 1;
 }
 
 
-.OffersTable {
+.OffersTableo {
   transform: translateX(20px);
-  width: 67.5%;
+  width: 65.5%;
 
   border-collapse: collapse;
   margin-left: -30px;
   height: 50vh;
 }
 
-.OffersTable1 {
+.OffersTable1o {
   transform: translateX(20px);
-  width: 83.5%;
+  width: 85.5%;
   border-collapse: collapse;
   margin-left: -20px;
   height: 50vh;
@@ -73,14 +73,14 @@
   width: 240px;
 }
 
-th.OffrtsTableth,
+th.OffrtsTabletho,
 td.OffrtsTabletd {
   text-align: left;
   padding: 12px;
   padding: 20px;
   padding-left: 5px;
   cursor: pointer;
-  background-color: pink;
+  // background-color: pink;
  
 font-size: 16px;
 font-weight: 500;
@@ -91,7 +91,7 @@ text-decoration-skip-ink: none;
 
 }
 
-th.OffrtsTableth {
+th.OffrtsTabletho {
   background-color: white;
   position: relative;
   
@@ -104,10 +104,11 @@ text-decoration-skip-ink: none;
 
 }
 
-.OfferTableHeading{
-  width: 100px;
+.OfferTableHeadingo{
+
   position: relative;
   left: -1.5rem;
+top: -0.2rem;
   font-family: "Poppins",sans-serif;
 font-size: 16px;
 font-weight: 500;
@@ -119,50 +120,54 @@ text-decoration-skip-ink: none;
   
 }
 
-th.OffrtsTableth:nth-child(1) {
+th.OffrtsTabletho:nth-child(1) {
   width: 250px;
   padding-left: 60px;
   position: sticky;
   top: 0;
 }
 
-th.OffrtsTableth:nth-child(2) {
+th.OffrtsTabletho:nth-child(2) {
   width: 200px;
   padding-left: 30px;
   position: sticky;
   top: 0;
 }
 
-th.OffrtsTableth:nth-child(3) {
+th.OffrtsTabletho:nth-child(3) {
   width: 300px;
   padding-left: 60px;
   position: sticky;
   top: 0;
 }
 
-th.OffrtsTableth:nth-child(4) {
+th.OffrtsTabletho:nth-child(4) {
   width: 220px;
   padding-left: 60px;
   position: sticky;
   top: 0;
 }
 
-th.OffrtsTableth:nth-child(5) {
+th.OffrtsTabletho:nth-child(5) {
   width: 200px;
   position: sticky;
   top: 0;
 }
 
-th.OffrtsTableth:nth-child(6) {
+th.OffrtsTabletho:nth-child(6) {
   width: 200px;
   position: sticky;
   top: 0;
+  padding-left: 30px;
 }
 
-th.OffrtsTableth:nth-child(7) {
-  width: 20px;
+th.OffrtsTabletho:nth-child(7) {
+  width: 100px;
+  // background-color: red;
+
   position: sticky;
   top: 0;
+
 }
 
 tr.OffrtsTabletr:nth-child(odd) {
@@ -196,6 +201,12 @@ td.OffrtsTabletd:nth-child(2) {
 td.OffrtsTabletd:nth-child(6) {
   padding-left: 34px;
 }
+
+td.OffrtsTabletd:nth-child(7) {
+  padding-left: 34px;
+  width: 100px;
+}
+
 
 .extra-items {
   color: green;

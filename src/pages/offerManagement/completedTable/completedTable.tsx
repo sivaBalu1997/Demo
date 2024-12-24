@@ -175,7 +175,7 @@ const CompletedTable = () => {
                 <th className="completedtsTableth">Items</th>
                 <th className="completedtsTableth">Total Items</th>
                 <th className="completedtsTableth">Special Price</th>
-                <th className="completedtsTableth"></th>
+                {/* <th className="completedtsTableth"></th> */}
               </tr>
             </thead>
 
@@ -272,7 +272,7 @@ const CompletedTable = () => {
                             ? `${countryC === "US" ? "$" : "RS"}${row.value}`
                             : null}
                         </td>
-                        <td className="OffrtsTabletd">
+                        {/* <td className="OffrtsTabletd">
                           <div className="action-container" ref={componentRef}>
                             <img
                               src={ThreeDotsImage}
@@ -291,7 +291,7 @@ const CompletedTable = () => {
                               </div>
                             )}
                           </div>
-                        </td>
+                        </td> */}
                       </tr>
                     )
                 )

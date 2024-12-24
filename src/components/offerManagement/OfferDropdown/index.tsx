@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./style.scss";
 import edit from "../../../assets/svg/editoffer.svg";
 import duplicate from "../../../assets/svg/Duplicate.svg";
@@ -7,6 +7,7 @@ import bin from "../../../assets/svg/offerbin.svg";
 import { useDispatch } from "react-redux";
 import { SPOfferListDelete, SPOfferListDisable ,SPOfferListEdit} from "redux/offer/offerActions";
 import { useHistory } from "react-router-dom";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 interface DropdownParams {
   EnableorNot?: number;
@@ -17,11 +18,14 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
   const dispatch = useDispatch(); 
   const history = useHistory();
   const [showDropdown,setShowDropdown]=useState(true);
+    const { isExpanded ,setDuplicateOffer,duplicateOffer} = useContext(Contextpagejs);
+  
 
   const handleEdit = (offer: any) => {
-    console.log("Edit offer:", offer);
+ 
     dispatch(SPOfferListEdit(offer))
     history.push("/offer/special");
+    setDuplicateOffer(false);
  
   };
 
@@ -42,6 +46,12 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
     setShowDropdown(false)
   };
 
+  const handleDuplicate= (offer: any) => {
+    dispatch(SPOfferListEdit(offer))
+    setDuplicateOffer(true);
+    history.push("/offer/special");
+  };
+
   const handleDelete = (offer: any) => {
     console.log("Delete offer:", offer);
     dispatch(SPOfferListDelete(offer.offerId));
@@ -59,7 +69,7 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
           {
             name: "Duplicate",
             img: duplicate,
-            onclickFn: () => handleEdit(offerData),
+            onclickFn: () => handleDuplicate(offerData),
           },
         ]
       : []),
@@ -74,11 +84,23 @@ const Index: React.FC<DropdownParams> = ({ EnableorNot, offerData }) => {
       onclickFn: () => handleDelete(offerData),
     },
   ];
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false); // Close dropdown when clicking outside
+      }
+    };
 
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
   return (
 <>{
-  showDropdown &&  <div className="Offersdropdown-container">
+  showDropdown &&  <div className="Offersdropdown-container" ref={dropdownRef}>
 
   {   data.map((elem, index) => (
     <div

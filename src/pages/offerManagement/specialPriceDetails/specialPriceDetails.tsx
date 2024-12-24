@@ -60,7 +60,7 @@ interface specialPriceForm {
 const SpecialPriceDetails = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isExpanded } = useContext(Contextpagejs);
+  const { isExpanded ,setDuplicateOffer,duplicateOffer} = useContext(Contextpagejs);
   const orderTypes = useSelector(
     (state: any) => state.auth.restaurantDetails?.orderTypes
   );
@@ -161,6 +161,7 @@ const SpecialPriceDetails = () => {
   console.log("lllll",editOfferData)
   const editOfferDataLoading = useSelector((state: any) => state.offer.getOfferListLoading);
   const editOfferDataFailed = useSelector((state: any) => state.offer.getOfferListSuccess);
+  const createLoading=useSelector((state: any) => state.offer.createSpecialOfferloading);
 
   console.log({editOfferData});
   
@@ -323,6 +324,7 @@ const SpecialPriceDetails = () => {
   };
 
   const [availabilityid, setAvailabilityid] = useState<string[]>([]);
+  
   const [DayThird, setDayThird] = useState<number[]>([]);
   const [disabledDay, setDisableDay] = useState<any[]>([]);
   const [selectedFrom, setSelectedFrom] = useState("");
@@ -419,10 +421,10 @@ const SpecialPriceDetails = () => {
       value: values?.specialTypeValue,
       
       category:{
-        id:SelectedCatagory[0].id
+        id:SelectedCatagory && SelectedCatagory[0]?.id
         },
-        subCategory:SelectedsubCatagory.map((item:any) => ({ id: item.id })),
-      items: selectedFoodItems.map((item) => {
+        subCategory:SelectedsubCatagory?.map((item:any) => ({ id: item.id })),
+      items: selectedFoodItems?.map((item) => {
         return {
           itemId: item?.itemId,
           isEnabled: item?.isEnabled,
@@ -447,26 +449,40 @@ const SpecialPriceDetails = () => {
     const isvalid = valiadtionforDateandTime();
    
     // console.log("errorsdate",valiadtionforDateandTime());
-    dispatch(createSpecialOfferRequest(payload));
-
-    if (isvalid) {
+    // dispatch(createSpecialOfferRequest(payload));
 
 
 
-      
+    if(isvalid)
+    {
+      if(editOfferData?.offerId && !duplicateOffer)
+      {
+        dispatch(updateSpecialOfferRequest(payload))
+      }
+      else{
+        dispatch(createSpecialOfferRequest(payload));
 
-
-      if(editOfferData?.offerId)
-        {
-           dispatch(updateSpecialOfferRequest(payload))
-        }
-        else{
-   dispatch(createSpecialOfferRequest(payload));
-        }
-
-      
-      //setOverlapShow(true);
+      }
     }
+
+  //   if (isvalid) {
+
+
+
+      
+
+
+  //     if(editOfferData?.offerId)
+  //       {
+  //          dispatch(updateSpecialOfferRequest(payload))
+  //       }
+  //       else{
+  //  dispatch(createSpecialOfferRequest(payload));
+  //       }
+
+      
+  //     //setOverlapShow(true);
+  //   }
 
     //console.log("kkkkk",payload)
     //setOverlapShow(true);
@@ -741,6 +757,7 @@ const SpecialPriceDetails = () => {
       toDateError: "",
       startTimeError: "",
       endTimeError: "",
+      selectedItems:""
     },
   ]);
   const convertStringToDate = (inputDate:any) => {
@@ -1076,6 +1093,9 @@ const SpecialPriceDetails = () => {
       toDateError: "",
       startTimeError: "",
       EndTimeError: "",
+      selectedItems:""
+
+
     };
 
     if (dateShow && selectedDate === null) {
@@ -1122,12 +1142,22 @@ const SpecialPriceDetails = () => {
         Errors.EndTimeError = "";
       }
     }
+    if(selectedFoodItems?.length===0)
+    {
+      console.log("array length",selectedFoodItems?.length);
+      
+      Errors.selectedItems="No item selected";
+    }
+    else{
+      Errors.selectedItems="";
+
+    }
 
     if (
       Errors.fromDateError ||
       Errors.toDateError ||
       Errors.startTimeError ||
-      Errors.EndTimeError
+      Errors.EndTimeError||  Errors.selectedItems
     ) {
       dataandTimeerrors[0] = Errors;
     }
@@ -1138,7 +1168,7 @@ const SpecialPriceDetails = () => {
       Errors.fromDateError === "" &&
       Errors.toDateError === "" &&
       Errors.startTimeError === "" &&
-      Errors.EndTimeError === ""
+      Errors.EndTimeError === "" &&   Errors.selectedItems==""
     ) {
       return true;
     } else {
@@ -1155,6 +1185,15 @@ const SpecialPriceDetails = () => {
     };
     dispatch(getOfferItemsRequest(payload));
   };
+
+// useEffect(()=>{
+// if(!createLoading)
+// {
+//   history.push("/Offers/active")
+// }
+// },[createLoading])
+
+
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
       <SidePanel />
@@ -1451,7 +1490,13 @@ const SpecialPriceDetails = () => {
                       }}
                     />
                   </div>
+                  
                 </div>
+                {validationErrors[0]?.selectedItems && selectedFoodItems.length===0&&  (
+                          <span className="time-error-message">
+                            {validationErrors[0]?.selectedItems}
+                          </span>
+                        )}
                 <div>
                   {showlistOfItems && (
 
@@ -1546,7 +1591,10 @@ const SpecialPriceDetails = () => {
                         </tr>
                       ))}
                     </tbody>
+                    
+
                   </table>
+                 
                 </div>
               )}
 
@@ -2022,7 +2070,11 @@ const SpecialPriceDetails = () => {
               Cancel
             </button>
             <button className="save-btn" onClick={handleonclick}>
-              Save
+              
+              {!createLoading ?
+                "Save" : 
+                <div className="reviewLoaders"></div>
+              }
             </button>
           </div>
           {/* <button onClick={handleonclick}>click</button> */}
@@ -2033,3 +2085,57 @@ const SpecialPriceDetails = () => {
 };
 
 export default SpecialPriceDetails;
+
+
+
+
+
+
+
+
+// {
+//   "headers": {},
+//   "body": [
+//       {
+//           "offerId": "cefb0ef2-65ff-44e5-861b-3633c0e23c94",
+//           "offerName": "Diwali201overlap",
+//           "offerPrice": 20.0,
+//           "offerStartTime": "12:30:00",
+//           "offerEndTime": "13:30:00",
+//           "itemId": "0193aad5-cfe3-7afd-8db0-1e5e4c632557",
+//           "itemName": "heqe",
+//           "currentOfferName": "Offertest34",
+//           "currentOfferPrice": 25.0,
+//           "currentOfferStartTime": "00:00:00",
+//           "currentOfferEndTime": "12:35:00"
+//       },
+//       {
+//           "offerId": "cefb0ef2-65ff-44e5-861b-3633c0e23c94",
+//           "offerName": "Diwali201overlap",
+//           "offerPrice": 20.0,
+//           "offerStartTime": "12:30:00",
+//           "offerEndTime": "13:30:00",
+//           "itemId": "0193aafb-a8f3-77d4-b45f-e2faaba5788c",
+//           "itemName": "heqe",
+//           "currentOfferName": "Offertest34",
+//           "currentOfferPrice": 25.0,
+//           "currentOfferStartTime": "00:00:00",
+//           "currentOfferEndTime": "12:35:00"
+//       },
+//       {
+//           "offerId": "cefb0ef2-65ff-44e5-861b-3633c0e23c94",
+//           "offerName": "Diwali201overlap",
+//           "offerPrice": 20.0,
+//           "offerStartTime": "12:30:00",
+//           "offerEndTime": "13:30:00",
+//           "itemId": "0193ab90-1165-79c1-82b7-a688a44027e2",
+//           "itemName": "kasbjndk",
+//           "currentOfferName": "Offertest34",
+//           "currentOfferPrice": 25.0,
+//           "currentOfferStartTime": "00:00:00",
+//           "currentOfferEndTime": "12:35:00"
+//       }
+//   ],
+//   "statusCode": "CONFLICT",
+//   "statusCodeValue": 409
+// }

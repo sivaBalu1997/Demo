@@ -16,6 +16,7 @@ export const Contextpage = ({ children }) => {
     const [saveandnext, setsaveandnext]=useState(false);
     const [active, setActive] = useState('');
     const [pen, setPen] = useState(false);
+    const [duplicateOffer,setDuplicateOffer]=useState(false);
     const[ApiPayload,setApiPayload]=useState({
       itemId:"",
       isEnabled: false,
@@ -95,7 +96,9 @@ export const Contextpage = ({ children }) => {
       ApiPayload,
       selectedDateOption,
       partialData,
-      setPartialData
+      setPartialData,
+      duplicateOffer,
+      setDuplicateOffer
     }}>
       {children}
     </Contextpagejs.Provider>

@@ -196,6 +196,9 @@ useEffect(()=>{
     }
   };
 
+
+  
+
   // useEffect(() => {
   //   document.addEventListener('mousedown', handleClickOutside);
   //   return () => {
@@ -264,16 +267,16 @@ useEffect(()=>{
       <div className="offerTableBody">
         <OfferHeader />
         <div className={isExpanded ? "table-container" : "table-container1"}>
-          <table className={isExpanded ? "OffersTable" : "OffersTable1"}>
-            <thead className="OfferTableHeading">
+          <table className={isExpanded ? "OffersTableo" : "OffersTable1o"}>
+            <thead className="OfferTableHeadingo">
               <tr className="">
-                <th className="OffrtsTableth">Name</th>
-                <th className="OffrtsTableth">Duration</th>
-                <th className="OffrtsTableth">Channel</th>
-                <th className="OffrtsTableth">Items</th>
-                <th className="OffrtsTableth">Total Items</th>
-                <th className="OffrtsTableth">Special Price</th>
-                <th className="OffrtsTableth"></th>
+                <th className="OffrtsTabletho">Name</th>
+                <th className="OffrtsTabletho">Duration</th>
+                <th className="OffrtsTabletho">Channel</th>
+                <th className="OffrtsTabletho">Items</th>
+                <th className="OffrtsTabletho">Total Items</th>
+                <th className="OffrtsTabletho">Special Price</th>
+                <th className="OffrtsTabletho"></th>
               </tr>
             </thead>
             <tbody className={offerlistdataloading && "table-body-data-offer"}>

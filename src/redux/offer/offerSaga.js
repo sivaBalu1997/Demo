@@ -268,12 +268,23 @@ function* disableSpOfferSaga(action) {
 function* createSpecialOfferSaga(action) {
   try {
     const response = yield call(createSpecialOffer, action.payload)
+    console.log("vb",action.payload);
+
+
+    
     if (response.status === 200) {
+
+
       yield put(createSpecialOfferSuccess(response.data.
         message
         ));
         showSuccessToast(response.data.message)
-    } else {
+        yield put({
+                type: SP_OFFER_LIST_VIEW_REQUEST,
+                payload: action?.payload?.locationId,
+              });
+   
+      } else {
       yield put(createSpecialOfferFailure(response.data.
         message
         ));
@@ -282,6 +293,7 @@ function* createSpecialOfferSaga(action) {
   } catch (err) {
     yield put(createSpecialOfferFailure({ message: "Please Try Again" }));
   }
+
 }
 function* getOfferListItemSage(action) {
   try {
