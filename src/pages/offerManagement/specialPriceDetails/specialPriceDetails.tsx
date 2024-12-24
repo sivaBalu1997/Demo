@@ -465,6 +465,7 @@ const SpecialPriceDetails = () => {
       else{
         dispatch(createSpecialOfferRequest(payload));
 
+
       }
 
     if(isvalid)
@@ -1213,7 +1214,12 @@ useEffect(()=>{
 
 
 },[createLoadingsucess,createLoading,updateLoadingsucess])
-
+useEffect(()=>{
+  if(createSpecialOfferOverlap.length>0)
+  {
+    setOverlapShow(true)
+  }
+},[createSpecialOfferOverlap])
 
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>

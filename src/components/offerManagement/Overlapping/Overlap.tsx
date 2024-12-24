@@ -36,14 +36,16 @@ const Overlap:React.FC<overlap> = ({onclose}) => {
     <div className="modal-overlay">
   <div className="modal-content">
     <h2 className="modal-title">Special Price Overlap Detected</h2>
-    <p className="modal-subtitle">Overlapping period: <span className="highlight">{createSpecialOfferOverlap && convertTo12HourFormat(createSpecialOfferOverlap[0]?.currentOfferStartTime)} - {createSpecialOfferOverlap&& convertTo12HourFormat(createSpecialOfferOverlap[0]?.currentOfferEndTime) }
-    </span></p>
+    {/* <p className="modal-subtitle">Overlapping period: <span className="highlight">{createSpecialOfferOverlap && convertTo12HourFormat(createSpecialOfferOverlap[0]?.currentOfferStartTime)} - {createSpecialOfferOverlap&& convertTo12HourFormat(createSpecialOfferOverlap[0]?.currentOfferEndTime) }
+    </span></p> */}
     <p className="modal-description">The following items will have overlapping Special hours:</p>
 
     <div className="modal-item">
-      <h3 className="item-name">{createSpecialOfferOverlap[0].currentOfferName}</h3>
+      <h3 className="item-name">{createSpecialOfferOverlap[0].itemName}</h3>
       <ul className="item-details">
-        <li>{createSpecialOfferOverlap[0].itemName}:{convertTo12HourFormat(createSpecialOfferOverlap[0].offerStartTime)} -{convertTo12HourFormat(createSpecialOfferOverlap[0].offerStartTime)} (5% off)</li>
+        <li>{createSpecialOfferOverlap[0].offerName}:{convertTo12HourFormat(createSpecialOfferOverlap[0].offerStartTime)} -{convertTo12HourFormat(createSpecialOfferOverlap[0].offerEndTime)} (5% off)</li>
+        <li>{createSpecialOfferOverlap[0].currentOfferName}:{convertTo12HourFormat(createSpecialOfferOverlap[0].currentOfferStartTime)} -{convertTo12HourFormat(createSpecialOfferOverlap[0].currentOfferEndTime)} (5% off)</li>
+
         {/* <li>Pizza Hour SP Name: 10:00 AM - 12:00 PM (10% off)</li> */}
       </ul>
     </div>
