@@ -445,6 +445,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 src={dropdown}
                 onClick={() => {
                   handleBelowArrowdropdown();
+                  setSearchTerm('')
                 }}
                 alt="dropdown"
                 className="cPdropdownimageopen"

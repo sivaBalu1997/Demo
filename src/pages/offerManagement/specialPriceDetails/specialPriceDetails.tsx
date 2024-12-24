@@ -123,43 +123,6 @@ const SpecialPriceDetails = () => {
     (state: any) => state.offer.subCategoryData
   );
 
-  const editOfferData2 = {
-    offerId: "a00c82e3-7e5f-45ed-8314-97cc1072e12b",
-    offerName: "OFFER2023",
-    offerCode: "2023off",
-    type: "PERCENT",
-    value: 5.0,
-    channel: [
-      "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-      "cd5996ed-7201-4faf-b996-5757aa684ad8",
-      "bc534a3f-4080-4014-83b5-aeb5cee93d95",
-    ],
-    effectivePeriod: {
-      isDateEnabled: null,
-      startDate: null,
-      endDate: null,
-      startTime: null,
-      endTime: null,
-      validDays: null,
-    },
-    items: [
-      {
-        itemId: "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
-        itemName: "Paneer Fried Rice",
-        specialPrice: 13.9825,
-        originalPrice: 16.45,
-        isEnabled: 1,
-      },
-      {
-        itemId: "01601102-5fc1-4b80-80a1-3788e6c563cc",
-        itemName: "Strawberry Milkshake",
-        specialPrice: 6.3665,
-        originalPrice: 7.49,
-        isEnabled: 1,
-      },
-    ],
-    isEnabled: 2,
-  };
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
   const editOfferDataLoading = useSelector((state: any) => state.offer.getOfferListLoading);
@@ -168,70 +131,6 @@ const SpecialPriceDetails = () => {
   const createLoadingsucess=useSelector((state: any) => state.offer.createSpecialOfferSuccess);
   const updateLoadingsucess=useSelector((state: any) => state.offer.updateSpecialOfferSuccess);
 
-
-
-  
-//   const editOfferData = {
-//     "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
-//     "offerName": "tesolap24",
-//     "offerCode": "TESOLAP24",
-//     "type": "PERCENT",
-//     "value": 10.0,
-//     "channel": [
-//         "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-//         "cd5996ed-7201-4faf-b996-5757aa684ad8",
-//         "23864e56-e70d-4838-b5b4-eebe07e2bb63"
-//     ],
-//     "visibleTo": [
-//         "C",
-//         "M"
-//     ],
-//     "termsAndConditions": [
-//         "Offer starts from dec 21"
-//     ],
-//     "specialType": "Santa Hour",
-//     "category": {
-//         "id": "109e48f3-14b4-45d0-a346-1d9aee1a538e",
-//         "name": "Frozen Treats"
-//     },
-//     "subCategory": [
-//         {
-//             "id": "7934b27d-1f67-4464-8cc5-0a206978aaf4",
-//             "name": "Faluda varieties"
-//         }
-//     ],
-//     "items": [
-//         {
-//             "itemId": "0192d2c3-3ae7-7b51-84a6-c98bf555c854",
-//             "itemName": "Mango Faluda",
-//             "specialPrice": 6.3000,
-//             "originalPrice": 7.0000,
-//             "isEnabled": 1
-//         },
-//         {
-//             "itemId": "0192d2c3-bfb7-73ac-a072-6f491639a005",
-//             "itemName": "Mango Faluda edit",
-//             "specialPrice": 6.3000,
-//             "originalPrice": 7.0000,
-//             "isEnabled": 1
-//         }
-//     ],
-//     "effectivePeriod": {
-//         "isDateEnabled": true,
-//         "startDate": "2024-12-05T00:00:00.000+00:00",
-//         "endDate": "2024-12-06T00:00:00.000+00:00",
-//         "startTime": "04:45:00",
-//         "endTime": "05:00:00",
-//         "validDays": [
-//             1,
-//             2,
-//             3,
-//             4
-//         ]
-//     },
-//     "isEnabled": 2,
-//     "totalItems": 2
-// }
 
   const OfferlistData = useSelector(
     (state: any) => state.offer.getOfferListData
@@ -557,7 +456,7 @@ const SpecialPriceDetails = () => {
   };
 
   const selectedradiowatch = watch();
-  
+  console.log("selectedradiowatch",errors)
   const handleFromToTime = (value: string, timePeriod: string) => {
     console.log({ timePeriod });
 
@@ -794,7 +693,8 @@ const SpecialPriceDetails = () => {
 }
   useEffect(() => {
     if (editOfferData&&flag) {
-      setValue("offerName", editOfferData?.offerName);
+      if(editOfferData?.offerName){
+      setValue("offerName", editOfferData?.offerName);}
       if(editOfferData?.channel?.length>0 && channal.length>0){
         const data=channal.filter((item:any) =>editOfferData?.channel.includes(item.id));
         setValue("offerChannel",data[0]?.name)
@@ -827,7 +727,10 @@ const SpecialPriceDetails = () => {
          if(editOfferData?.type){
           setValue("specialType", editOfferData?.type=="PERCENT"?"Percentage":"Amount");
          }
+         if(editOfferData?.value)
+         {
          setValue("specialTypeValue", editOfferData?.value);
+         }
          if(editOfferData?.category){
           setSelectedCatagory([editOfferData?.category])
           setParentId(editOfferData?.category?.id)
@@ -1192,7 +1095,6 @@ const SpecialPriceDetails = () => {
     };
     dispatch(getOfferItemsRequest(payload));
   };
-  console.log("selectedFoodItems",selectedFoodItems)
  const  handleToggle =(item:any)=>{
   const data=[...selectedFoodItems]
   data.forEach((item1)=>{
@@ -1200,7 +1102,7 @@ const SpecialPriceDetails = () => {
         item1.isEnabled=item1.isEnabled?0:1
       }
   })
-setselecteFoodItems([...data])
+setselectedFoodItems([...data])
  }
 useEffect(()=>{
 
@@ -1255,7 +1157,7 @@ useEffect(()=>{
     validate: (value) =>
       value.trimStart() === value || "Offer name cannot start with a space",
   }}
-  render={({ onChange, onBlur, value,error }: any) => (
+  render={({ onChange, onBlur, value}: any) => (
     <InputComponent
       name="offerName"
       onChange={(e) => {
@@ -1268,7 +1170,7 @@ useEffect(()=>{
       onBlur={onBlur}
       value={value}
       trigger={trigger}
-      error={error}
+      error={errors?.offerName}
       height="44px"
       placeholder="Offer Name"
     />
@@ -1430,7 +1332,7 @@ useEffect(()=>{
       }}
       value={value}
       trigger={trigger}
-      error={error?.message}
+      error={errors?.specialTypeValue}
       width="400px"
       placeholder="Enter the Value"
     />
@@ -1647,7 +1549,7 @@ useEffect(()=>{
                               onClick={() => handleDelete(item?.itemId)}
                             />
                           </td>
-                          <td className="offer-table-data toggle-icon-data">
+                         {editOfferData?.offerId&&  <td className="offer-table-data toggle-icon-data">
                             <Toggle
                               toggle={item.isEnabled}
                               item={item}
@@ -1655,7 +1557,7 @@ useEffect(()=>{
                               togglecolor="white"
                               name='enable'
                             />
-                          </td>
+                          </td>}
                         </tr>
                       ))}
                     </tbody>
