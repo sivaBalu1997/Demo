@@ -114,6 +114,8 @@ const SpecialPriceDetails = () => {
 
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
+  const [stFlag,setstFlag]=useState(false)
+  const [etFlag,setetFlag]=useState(false)
 
   const selectName = [
     { value: "Happy Hour", label: "Happy Hour" },
@@ -221,8 +223,8 @@ const SpecialPriceDetails = () => {
     const offerChannel = getValues("offerChannel");
     const st=getValues("fromPeriod")
     const en=getValues("toPeriod")
-
-
+setetFlag(true)
+setstFlag(true)
     const fromTimeFormat =
       fromTiming && st ? fromTiming + " " + st : "";
 
@@ -529,6 +531,12 @@ const SpecialPriceDetails = () => {
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showlistOfItems]);
+  useEffect(()=>{
+       if(subCatagoryId?.length==0 && parentId){
+        setSelectedSubCatagory([])
+        setselectedFoodItems([])
+       }
+  },[subCatagoryId])
 
   const handleImageClick = () => {
     if (datePickerRef.current) {
@@ -1244,6 +1252,8 @@ useEffect(()=>{
                         addNew={false}
                         editValues={false}
                         setParentId={setParentId}
+                        setSubCatagoryId={setSubCatagoryId}
+                        parentId={parentId}
                         dropDownType="CATEGORY"
                         search={true}
                       />
@@ -1654,7 +1664,9 @@ useEffect(()=>{
                                   }
                                  
                                 }}
-                                onBlur={onBlur}
+                                onBlur={()=>{
+                                  setstFlag(true)
+                                }}
                               />
 
                               {error && (
@@ -1722,7 +1734,7 @@ useEffect(()=>{
                           />
                         </div>
                       </div>
-                      {validationErrors[0]?.startTimeError && (
+                      {validationErrors[0]?.startTimeError && stFlag && (
                         <span className="time-error-message">
                           {validationErrors[0]?.startTimeError}
                         </span>
@@ -1790,7 +1802,9 @@ useEffect(()=>{
                                   }
                                  validationForEndTime();
                                 }}
-                                onBlur={onBlur}
+                                onBlur={()=>{
+                                  setetFlag(true)
+                                }}
                               />
                               {error && (
                                 <span className="error-message">
@@ -1873,7 +1887,7 @@ useEffect(()=>{
                       </button> */}
                       </div>
                       <div>
-                        {validationErrors[0]?.EndTimeError && (
+                        {validationErrors[0]?.EndTimeError && etFlag && (
                           <span className="time-error-message">
                             {validationErrors[0]?.EndTimeError}
                           </span>
