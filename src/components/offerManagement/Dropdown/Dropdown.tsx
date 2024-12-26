@@ -100,7 +100,11 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [hasCleared, setHasCleared] = useState<boolean>(false);
   const [manuallyCleared, setManuallyCleared] = useState(false);
   const [disabled,setDisabled] =useState(false)
+  const dropdownLoading = useSelector((state: any) => state.offer.getSubCategoryLoading);
+  const dropdownLoadingsuc = useSelector((state: any) => state.offer.getSubCategoryErrorMessage);
 
+  console.log({dropdownLoadingsuc});
+  
   const dispatch = useDispatch();
 
   const locationid = useSelector(
@@ -294,12 +298,15 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [Loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
-    if (!options || options.length < 1) {
+    if (dropdownLoading &&(!options || options.length < 1)) {
       setLoading(true);
     } else {
       setLoading(false);
     }
-  }, [options]);
+
+
+    
+  }, [options,dropdownLoading]);
 
   const handleAboveArrowdropdown = () => {
     if(!disabled)

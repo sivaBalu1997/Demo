@@ -98,6 +98,7 @@ const SpecialPriceDetails = () => {
   const subCatagoryOption = useSelector(
     (state: any) => state.offer.subCategoryData
   );
+console.log({subCatagoryOption});
 
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
@@ -1048,7 +1049,7 @@ const SpecialPriceDetails = () => {
     console.log("subCatagoryId", subCatagoryId);
     const payload = {
       locationId: locationid,
-      catagoryId: subCatagoryId
+      catagoryId: subCatagoryId.length>0
         ? subCatagoryId.map((opt) => opt).join(",")
         : parentId,
     };
@@ -1409,17 +1410,24 @@ const SpecialPriceDetails = () => {
                     </div>
                   ) : (
                     <div className="dropdownimage">
-                      <img
-                        src={dropdown}
-                        alt="dropdown"
-                        onClick={() => {
-                          const category = getValues("category");
-                          const subcategory = getValues("subCategory");
-                          if (category !== "" && subcategory !== "") {
-                            itemlistfunction();
-                          }
-                        }}
-                      />
+                     <img
+  src={dropdown}
+  alt="dropdown"
+  onClick={() => {
+    const category = getValues("category");
+    const subcategory = getValues("subCategory");
+
+    if (subCatagoryOption?.length > 0) {
+      if (!subcategory) {
+        return;
+      }
+    }
+    if (category !== "" && (subcategory !== "" || subCatagoryOption?.length === 0)) {
+      itemlistfunction();
+    }
+  }}
+/>
+
                     </div>
                   )}
                 </div>
