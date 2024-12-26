@@ -1457,6 +1457,8 @@ setstFlag(true)
                     <div
                       className="searched-items-listed"
                       style={{
+                       position:"relative",
+                       top:validationErrors[0]?.selectedItems!==""&&selectedFoodItems.length===0?"-1.3rem":"",
                         display: "flex",
                         justifyContent:
                           editOfferDataLoading ||
@@ -1500,7 +1502,10 @@ setstFlag(true)
                                   ? "highlighted"
                                   : ""
                               }`}
-                              onClick={() => handleItemClick(index, item)}
+                              onClick={() => {
+                              
+                                handleItemClick(index, item)}
+                              }
                             >
                               {item.itemName}
                             </li>
