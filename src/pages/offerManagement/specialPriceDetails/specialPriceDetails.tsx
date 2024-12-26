@@ -1143,10 +1143,11 @@ setstFlag(true)
                             onChange(inputValue);
                           }
                         }}
+
                         onBlur={onBlur}
                         value={value}
                         trigger={trigger}
-                        error={error}
+                        error={errors?.offerName}
                         height="44px"
                         placeholder="Offer Name"
                       />
@@ -1314,7 +1315,8 @@ setstFlag(true)
                       }}
                       value={value}
                       trigger={trigger}
-                      error={error?.message}
+                     
+                      error={errors?.specialTypeValue}
                       width="400px"
                       placeholder="Enter the Value"
                     />
