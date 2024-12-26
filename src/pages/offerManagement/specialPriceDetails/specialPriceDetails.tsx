@@ -68,32 +68,6 @@ const SpecialPriceDetails = () => {
   const locationid = useSelector(
     (state: any) => state.auth.credentials?.locationId
   );
-  const channelOption = [
-    {
-      id: "1",
-      name: "Dine-In",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "2",
-      name: "Delivery",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "3",
-      name: "PickUp",
-      locationId: "",
-      type: "P",
-      parentId: "",
-      canDelete: false,
-    },
-  ];
 
   const visibleOption = [
     {
@@ -125,43 +99,6 @@ const SpecialPriceDetails = () => {
     (state: any) => state.offer.subCategoryData
   );
 
-  const editOfferData2 = {
-    offerId: "a00c82e3-7e5f-45ed-8314-97cc1072e12b",
-    offerName: "OFFER2023",
-    offerCode: "2023off",
-    type: "PERCENT",
-    value: 5.0,
-    channel: [
-      "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-      "cd5996ed-7201-4faf-b996-5757aa684ad8",
-      "bc534a3f-4080-4014-83b5-aeb5cee93d95",
-    ],
-    effectivePeriod: {
-      isDateEnabled: null,
-      startDate: null,
-      endDate: null,
-      startTime: null,
-      endTime: null,
-      validDays: null,
-    },
-    items: [
-      {
-        itemId: "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
-        itemName: "Paneer Fried Rice",
-        specialPrice: 13.9825,
-        originalPrice: 16.45,
-        isEnabled: 1,
-      },
-      {
-        itemId: "01601102-5fc1-4b80-80a1-3788e6c563cc",
-        itemName: "Strawberry Milkshake",
-        specialPrice: 6.3665,
-        originalPrice: 7.49,
-        isEnabled: 1,
-      },
-    ],
-    isEnabled: 2,
-  };
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
   const editOfferDataLoading = useSelector(
@@ -349,56 +286,6 @@ const SpecialPriceDetails = () => {
   const datePickerRef1 = useRef<any | null>(null);
   const [parentId, setParentId] = useState("");
   const [subCatagoryId, setSubCatagoryId] = useState([]);
-  const [selecteFoodItems, setselecteFoodItems] = useState([
-    {
-      itemId: "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
-      itemName: "Paneer Fried Rice",
-      originalPrice: 16.45,
-      isEnabled: 1,
-    },
-    {
-      itemId: "01601102-5fc1-4b80-80a1-3788e6c563cc",
-      itemName: "Strawberry Milkshake",
-      originalPrice: 7.49,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf12-1884-795d-9916-b55b0606293e",
-      itemName: "chocolate cream",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf1b-b715-7fe1-89c8-387681b3b115",
-      itemName: "chocolate ice cream",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf1f-7639-7369-aeef-d1e9bb98a922",
-      itemName: "test1",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf2c-2552-71a4-81ef-96f008af84cb",
-      itemName: "Rose Milk",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf5e-d6be-7fab-9903-3b50c6e9006b",
-      itemName: "Rose Milk",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf64-966c-73a3-b2dd-b5a58efe4c38",
-      itemName: "Strawberry dessert",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-  ]);
 
   const handleonclick = () => {
     const values = getValues();
@@ -446,17 +333,13 @@ const SpecialPriceDetails = () => {
         isDateEnabled: dateShow,
         startDate: dateShow ? formatDate(selectedDate) : null,
         endDate: dateShow ? formatDate(selectedDate1) : null,
-        // startTime:null,
-        // endTime:null,
-
         startTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
         endTime: convertTo24HourFormatWithSeconds(toTimeFormat),
-        validDays: values?.AvailableDays,
+        validDays: values?.AvailableDays.filter((data)=>data!=0).map((data)=>data==7?0:data),
       },
     };
 
     trigger();
-
     const isvalid = valiadtionforDateandTime();
     // console.log("errorsdate",valiadtionforDateandTime());
     // dispatch(createSpecialOfferRequest(payload));
@@ -548,7 +431,6 @@ const SpecialPriceDetails = () => {
   };
 
   const selectedradiowatch = watch();
-
   const handleFromToTime = (value: string, timePeriod: string) => {
     console.log({ timePeriod });
 
@@ -782,130 +664,104 @@ const SpecialPriceDetails = () => {
     };
   };
   useEffect(() => {
-    if (editOfferData && flag) {
-      setValue("offerName", editOfferData?.offerName);
-      if (editOfferData?.channel?.length > 0 && channal.length > 0) {
-        const data = channal.filter((item: any) =>
-          editOfferData?.channel.includes(item.id)
-        );
-        setValue("offerChannel", data[0]?.name);
-        setSelectedChannal([...data]);
-      }
+    if (editOfferData&&flag) {
+      if(editOfferData?.offerName){
+      setValue("offerName", editOfferData?.offerName);}
+      if(editOfferData?.channel?.length>0 && channal.length>0){
+        const data=channal.filter((item:any) =>editOfferData?.channel.includes(item.id));
+        setValue("offerChannel",data[0]?.name)
+        setSelectedChannal([...data])
+        }
 
-      if (editOfferData?.visibleTo?.length > 0) {
-        const data = visibleOption.filter((item: any) =>
-          editOfferData?.visibleTo.includes(item?.name[0])
-        );
-        setValue("offerToVisible", data.map((opt) => opt.name).join(", "));
-        setSelectedVissibleTo([...data]);
-      }
-      if (editOfferData?.termsAndConditions?.length > 0) {
-        const data = editOfferData?.termsAndConditions.map(
-          (item: any, index: any) => {
-            return {
-              id: index,
-              name: item,
-              locationId: "",
-              type: "T",
-              parentId: "",
-              canDelete: false,
-            };
-          }
-        );
-        setterms([...data]);
-        setSelectedTerm([...data]);
-        setValue(
-          "termsAndConditions",
-          editOfferData?.termsAndConditions?.join(",")
-        );
-      }
-      if (editOfferData?.specialType) {
-        setValue(
-          "specialTypeName",
-          editOfferData?.specialType == "SURGE HOUR"
-            ? "Surge Hour"
-            : "Happy Hour"
-        );
-      }
-      if (editOfferData?.type) {
-        setValue(
-          "specialType",
-          editOfferData?.type == "PERCENT" ? "Percentage" : "Amount"
-        );
-      }
-      setValue("specialTypeValue", editOfferData?.value);
-      if (editOfferData?.category) {
-        setSelectedCatagory([editOfferData?.category]);
-        setParentId(editOfferData?.category?.id);
-        setValue("category", editOfferData?.category?.name);
-      }
-      if (editOfferData?.subCategory?.length > 0) {
-        setSelectedSubCatagory([...editOfferData?.subCategory]);
-        setValue(
-          "subCategory",
-          editOfferData?.subCategory?.map((item: any) => item.name).join(",")
-        );
-        setSubCatagoryId(
-          editOfferData?.subCategory?.map((item: any) => item.id)
-        );
-      }
-      if (editOfferData?.items?.length > 0) {
-        setselectedFoodItems([...editOfferData?.items]);
-      }
+        if(editOfferData?.visibleTo?.length>0){
+         const data=visibleOption.filter((item:any) =>editOfferData?.visibleTo.includes(item?.name[0]));
+         setValue("offerToVisible", data.map((opt) => opt.name).join(", "))
+         setSelectedVissibleTo([...data])
+         }
+         if(editOfferData?.termsAndConditions?.length>0){
+          const data= editOfferData?.termsAndConditions.map((item:any,index:any)=>{
+              return {
+                id: index,
+                name: item,
+                locationId: "",
+                type: "T",
+                parentId: "",
+                canDelete: true,
+              }
+          })
+          setterms([...data])
+          setSelectedTerm([...data])
+          setValue("termsAndConditions",editOfferData?.termsAndConditions?.join(","))
+         }
+         if(editOfferData?.specialType){
+          setValue("specialTypeName",editOfferData?.specialType=='SURGE HOUR'?"Surge Hour":"Happy Hour")
+         }
+         if(editOfferData?.type){
+          setValue("specialType", editOfferData?.type=="PERCENT"?"Percentage":"Amount");
+         }
+         if(editOfferData?.value)
+         {
+         setValue("specialTypeValue", editOfferData?.value);
+         }
+         if(editOfferData?.category){
+          setSelectedCatagory([editOfferData?.category])
+          setParentId(editOfferData?.category?.id)
+          setValue("category",editOfferData?.category?.name)
+         }
+         if(editOfferData?.subCategory?.length>0){
+          setSelectedSubCatagory([...editOfferData?.subCategory])
+          setValue("subCategory",editOfferData?.subCategory?.map((item:any)=>item.name).join(","))
+          setSubCatagoryId(editOfferData?.subCategory?.map((item:any)=>item.id))
+         }
+         if(editOfferData?.items?.length>0){
+          setselectedFoodItems([...editOfferData?.items])
+         }
 
-      if (editOfferData.effectivePeriod) {
-        if (editOfferData.effectivePeriod?.isDateEnabled) {
-          setDateShow(editOfferData.effectivePeriod?.isDateEnabled);
-          if (editOfferData.effectivePeriod?.startDate) {
-            const data = convertStringToDate(
-              editOfferData.effectivePeriod?.startDate
-            );
-            setSelectedDate(data);
-            setValue("fromDate", data);
-          }
-          if (editOfferData.effectivePeriod?.endDate) {
-            const data = convertStringToDate(
-              editOfferData.effectivePeriod?.endDate
-            );
-            setSelectedDate1(data);
-            setValue("toDate", data);
-          }
-        }
-        if (editOfferData?.effectivePeriod?.startTime) {
-          const data = convertToPeriodFormat(
-            editOfferData?.effectivePeriod?.startTime
-          );
-          setValue("fromTime", data.time);
-          setValue("fromPeriod", data.period);
-          // setStartTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.startTime))
-        }
-        if (editOfferData?.effectivePeriod?.endTime) {
-          const data = convertToPeriodFormat(
-            editOfferData?.effectivePeriod?.endTime
-          );
-          setValue("toTime", data.time);
-          setValue("toPeriod", data.period);
-          //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
-        }
-        if (editOfferData?.effectivePeriod?.validDays?.length > 0) {
-          setDayThird(editOfferData?.effectivePeriod?.validDays);
-          setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
-        }
-      }
-      // setValue("offerChannel", editOfferData?.channel?.join(",") || "");
-      // setValue("DatePicked", editOfferData?.effectivePeriod?.isDateEnabled);
-      // setValue("fromTime", editOfferData?.effectivePeriod?.startTime);
-      // setValue("toTime", editOfferData?.effectivePeriod?.endTime);
-      // setValue("fromDate", editOfferData?.effectivePeriod?.startDate);
-      // setValue("toDate", editOfferData?.effectivePeriod?.endDate);
-      // setValue("specialType", editOfferData?.type);
-      // setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
-      // setValue("selectedFooditems", editOfferData?.items);
-      // setValue("specialTypeValue", editOfferData?.value);
+
+
+
+         if(editOfferData.effectivePeriod){
+            if(editOfferData.effectivePeriod?.isDateEnabled){
+              setDateShow(editOfferData.effectivePeriod?.isDateEnabled)
+              if(editOfferData.effectivePeriod?.startDate){
+                const data= convertStringToDate(editOfferData.effectivePeriod?.startDate)
+                setSelectedDate(data)
+                setValue("fromDate", data);
+      
+              
+              }
+              if(editOfferData.effectivePeriod?.endDate){
+              const data=convertStringToDate(editOfferData.effectivePeriod?.endDate)
+               setSelectedDate1(data)
+               setValue("toDate", data);
+              }
+            }
+            if(editOfferData?.effectivePeriod?.startTime){
+              const data =convertToPeriodFormat(editOfferData?.effectivePeriod?.startTime)
+              setValue("fromTime", data.time);
+              setValue("fromPeriod",data.period)
+             // setStartTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.startTime))
+            }
+            if(editOfferData?.effectivePeriod?.endTime){
+              const data =convertToPeriodFormat(editOfferData?.effectivePeriod?.endTime)
+              setValue("toTime", data.time);
+              setValue("toPeriod",data.period)
+              //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
+            }
+            if(editOfferData?.effectivePeriod?.validDays?.length>0)
+            {
+              const data =editOfferData?.effectivePeriod?.validDays?.map((data:any)=>data==0?7:data)
+              if(data.length==7){
+                data.push(0)
+              }
+            setDayThird(data)
+            setValue("AvailableDays", data);
+
+            }
+         }
     }
   }, [flag]);
 
-  // const validateModifiers = (modifications: any[]) => {
   //   const errors = [...customizationerrors];
 
   //   modifications?.forEach((modifier, index) => {
@@ -1013,10 +869,6 @@ const SpecialPriceDetails = () => {
     const errors = [...validationErrors];
     const StartTime = getValues("fromTime");
     const EndTime = getValues("toTime");
-    // console.log("errorhandling");
-    // console.log({ selectedFrom });
-    // console.log({ selectedTo });
-
     if (errors && errors[0]) {
       if (EndTime === "") {
         errors[0].EndTimeError = "Time is required";
@@ -1210,7 +1062,7 @@ const SpecialPriceDetails = () => {
         item1.isEnabled = item1.isEnabled ? 0 : 1;
       }
     });
-    setselecteFoodItems([...data]);
+    setselectedFoodItems([...data]);
   };
   useEffect(() => {
     if (!createLoading && (createLoadingsucess || updateLoadingsucess)) {
@@ -1380,7 +1232,7 @@ const SpecialPriceDetails = () => {
                         onToggle={() => handleDropdownToggle("terms")}
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
-                        editValues={false}
+                        editValues={true}
                         dropDownType="termsAndConditions"
                         search={false}
                       />
@@ -1692,7 +1544,7 @@ const SpecialPriceDetails = () => {
                               onClick={() => handleDelete(item?.itemId)}
                             />
                           </td>
-                          <td className="offer-table-data toggle-icon-data">
+                         {editOfferData?.offerId&&  <td className="offer-table-data toggle-icon-data">
                             <Toggle
                               toggle={item.isEnabled}
                               item={item}
@@ -1700,7 +1552,7 @@ const SpecialPriceDetails = () => {
                               togglecolor="white"
                               name="enable"
                             />
-                          </td>
+                          </td>}
                         </tr>
                       ))}
                     </tbody>

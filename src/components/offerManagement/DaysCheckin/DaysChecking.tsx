@@ -79,7 +79,16 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       let updatedCheckedItems: number[];
 
       if (dayIndex === 0) {
-        updatedCheckedItems = checked ? Days.map((_, i) => i) : [];
+       const val:any=[]
+       val.push(0)
+        Days.forEach((_, i) => {
+            const isEnabled = dateShow ? disabledays?.includes(i) : true
+            if(isEnabled)
+            {
+              val.push(i)
+            }
+        }) 
+        updatedCheckedItems =checked ?val:[]
         setId(checked ? data.map((item) => item?.id) : []);
       } else {
         if (checked) {
@@ -113,7 +122,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       if (valueName) {
         setValue(valueName, updatedCheckedItems);
       }
-
+console.log("lll",updatedCheckedItems)
       return updatedCheckedItems;
     });
   };
@@ -139,9 +148,9 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
                 name={index.toString()}
                 onChange={handleCheckboxChange}
                 {...register(valueName)}
-                checked={isChecked}
+                checked={index==0?isChecked:isChecked&&isEnabled}
                 className="days"
-                disabled={!isEnabled}
+                disabled={index==0?false:!isEnabled}
               />
               <label>{elem}</label>
             </div>
