@@ -660,8 +660,12 @@ const SpecialPriceDetails = () => {
             }
             if(editOfferData?.effectivePeriod?.validDays?.length>0)
             {
-            setDayThird(editOfferData?.effectivePeriod?.validDays)
-            setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
+              const data =editOfferData?.effectivePeriod?.validDays?.map((data:any)=>data==0?7:data)
+              if(data.length==7){
+                data.push(0)
+              }
+            setDayThird(data)
+            setValue("AvailableDays", data);
 
             }
          }
@@ -965,10 +969,12 @@ const SpecialPriceDetails = () => {
  const  handleToggle =(item:any)=>{
   const data=[...selectedFoodItems]
   data.forEach((item1)=>{
-      if(item.id==item1.id){
+      if(item.itemId==item1.itemId){
+       
         item1.isEnabled=item1.isEnabled?0:1
       }
   })
+  console.log("kkkkk",data)
 setselectedFoodItems([...data])
  }
 useEffect(()=>{
