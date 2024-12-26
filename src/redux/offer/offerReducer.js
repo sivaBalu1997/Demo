@@ -388,7 +388,8 @@ export default function offerReducer(state = initialOfferState, action) {
           draft.SpOfferListLoading =true;
           draft.SpofferListSuccessResponse = [];
           draft.createSpecialOfferSuccess=false;
-          draft.updateSpecialOfferSuccess=false
+          draft.updateSpecialOfferSuccess=false;
+          draft.createSpecialOfferOverlapData=[]
           
         
           break;

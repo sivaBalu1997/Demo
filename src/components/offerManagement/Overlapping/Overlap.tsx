@@ -7,6 +7,8 @@ interface overlap{
 }
 const Overlap:React.FC<overlap> = ({onclose}) => {
     const  createSpecialOfferOverlap= useSelector((state: any) => state.offer.createSpecialOfferOverlapData);
+    console.log({createSpecialOfferOverlap});
+    
     const convertTo12HourFormat = (time24: string): string => {
       if (!time24) {
         return ''; 
@@ -30,7 +32,11 @@ const Overlap:React.FC<overlap> = ({onclose}) => {
     
       return `${hours12.toString().padStart(2, '0')}:${minutes} ${ampm}`;
     };
+    const restaurantDetails = useSelector(
+        (state: any) => state?.auth.restaurantDetails
+      );
     
+      const Pricesymbol = `${restaurantDetails?.country === "US" ? "$" : "Rs."}`;
   
   return (
     <div className="modal-overlay">
@@ -43,8 +49,8 @@ const Overlap:React.FC<overlap> = ({onclose}) => {
     <div className="modal-item">
       <h3 className="item-name">{createSpecialOfferOverlap[0].itemName}</h3>
       <ul className="item-details">
-        <li>{createSpecialOfferOverlap[0].offerName}: <span className='space-bet'></span> {convertTo12HourFormat(createSpecialOfferOverlap[0].offerStartTime)} -{convertTo12HourFormat(createSpecialOfferOverlap[0].offerEndTime)} (5% off)</li>
-        <li>{createSpecialOfferOverlap[0].currentOfferName}:<span className='space-bet'></span>{convertTo12HourFormat(createSpecialOfferOverlap[0].currentOfferStartTime)} -{convertTo12HourFormat(createSpecialOfferOverlap[0].currentOfferEndTime)} (5% off)</li>
+        <li>{createSpecialOfferOverlap[0].offerName}: <span className='space-bet'></span> {convertTo12HourFormat(createSpecialOfferOverlap[0].offerStartTime)} -{convertTo12HourFormat(createSpecialOfferOverlap[0].offerEndTime)} ({createSpecialOfferOverlap[0].offerType==="PERCENT" ? `${createSpecialOfferOverlap[0].offerPrice}%`:`${Pricesymbol}${createSpecialOfferOverlap[0].offerPrice}`}) </li>
+        <li>{createSpecialOfferOverlap[0].currentOfferName}:<span className='space-bet'></span>{convertTo12HourFormat(createSpecialOfferOverlap[0].currentOfferStartTime)} -{convertTo12HourFormat(createSpecialOfferOverlap[0].currentOfferEndTime)} ({createSpecialOfferOverlap[0].currentOfferType==="PERCENT" ? `${createSpecialOfferOverlap[0].currentOfferPrice}%`:`${Pricesymbol}${createSpecialOfferOverlap[0].currentOfferPrice}`})</li>
 
         {/* <li>Pizza Hour SP Name: 10:00 AM - 12:00 PM (10% off)</li> */}
       </ul>

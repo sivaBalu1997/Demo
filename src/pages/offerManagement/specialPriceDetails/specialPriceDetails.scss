@@ -91,6 +91,7 @@
 .list-of-offeritems {
   width: 60rem;
   height: auto;
+  margin-bottom: 2rem;
 
   margin-top: 4rem;
   table,
@@ -141,10 +142,11 @@
 
 .bin-image {
   text-align: center;
+
 }
 
 .deletebinImage {
-  margin-left: -2.5rem !important;
+  margin-left: -4rem !important;
 }
 
 .offeritems-listed {
@@ -211,6 +213,8 @@ top: -2%;
 .select-offerfooditems {
   position: relative;
   margin-top: 3%;
+  width: 46%;
+  
 }
 
 .specialoffer-heading {
@@ -662,4 +666,13 @@ top: -2%;
     font-size: 16px;
     font-family: "Poppins",sans-serif;
     font-weight: 500;
+  }
+
+  .negative-price
+  {
+    margin-top: 2%;
+    color: #e52333;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "poppins",sans-serif;
   }

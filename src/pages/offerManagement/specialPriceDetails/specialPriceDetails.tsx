@@ -1497,7 +1497,9 @@ if(selectedFoodItems.length>0){
                                 : item.originalPrice.toFixed(2)
                               : "0.00"}
                           </td>
-                          <td className="offer-table-data updatedprice">
+                          <td className="offer-table-data updatedprice" style={{
+    color: item.updatedPrice < 0 ? "#e52333" : "", 
+  }}>
                             {item.updatedPrice ? (
                               <>
                                 {item.updatedPrice && Pricesymbol}
@@ -1509,7 +1511,7 @@ if(selectedFoodItems.length>0){
                           </td>
                           <td
                             className="offer-table-data bin-image"
-                            style={{ paddingLeft: "-1rem" }}
+                           
                           >
                             <img
                               src={Bin}
@@ -1533,6 +1535,8 @@ if(selectedFoodItems.length>0){
                   </table>
                 </div>
               )}
+
+              {negativeError&&<span className="negative-price">*Price Cannot Be Negative,Please Enter a valid Amount</span> }
 
               <div className="effectiveperiod">
                 <h3>Effective period</h3>
