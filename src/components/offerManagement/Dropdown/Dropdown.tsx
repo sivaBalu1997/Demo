@@ -217,7 +217,11 @@ const Dropdown: React.FC<DropdownProps> = ({
         trigger(name);
         if(dropDownType === "CATEGORY")
         {
-         setParentId(option?.id);
+          if(parentId!=option?.id){
+            setParentId(option?.id);
+            setSubCatagoryId([])
+          }
+         
         }
        // setSearchTerm(option.name); 
       }
@@ -227,7 +231,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const payload = {
     locationId: locationid,
     type: dropDownType,
-    parentId: parentId?parentId:null,
+    parentId: dropDownType === "CATEGORY"?null:parentId?parentId:null,
   };
 
   const handleNewItemAddition = () => {

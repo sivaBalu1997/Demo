@@ -188,6 +188,8 @@ console.log({subCatagoryOption});
 
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
+  const [stFlag,setstFlag]=useState(false)
+  const [etFlag,setetFlag]=useState(false)
 
   const selectName = [
     { value: "Happy Hour", label: "Happy Hour" },
@@ -293,12 +295,15 @@ console.log({subCatagoryOption});
     const fromTiming = getValues("fromTime");
     const endTiming = getValues("toTime");
     const offerChannel = getValues("offerChannel");
-    const st = getValues("fromPeriod");
-    const en = getValues("toPeriod");
+    const st=getValues("fromPeriod")
+    const en=getValues("toPeriod")
+setetFlag(true)
+setstFlag(true)
+    const fromTimeFormat =
+      fromTiming && st ? fromTiming + " " + st : "";
 
-    const fromTimeFormat = fromTiming && st ? fromTiming + " " + st : "";
-
-    const toTimeFormat = endTiming && en ? endTiming + " " + en : "";
+    const toTimeFormat =
+      endTiming && en ? endTiming + " " + en : "";
 
     if (fromTimeFormat && toTimeFormat) {
       const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
@@ -621,6 +626,12 @@ console.log({subCatagoryOption});
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showlistOfItems]);
+  useEffect(()=>{
+       if(subCatagoryId?.length==0 && parentId){
+        setSelectedSubCatagory([])
+        setselectedFoodItems([])
+       }
+  },[subCatagoryId])
 
   const handleImageClick = () => {
     if (datePickerRef.current) {
@@ -1340,6 +1351,8 @@ console.log({subCatagoryOption});
                         addNew={false}
                         editValues={false}
                         setParentId={setParentId}
+                        setSubCatagoryId={setSubCatagoryId}
+                        parentId={parentId}
                         dropDownType="CATEGORY"
                         search={true}
                       />
@@ -1780,7 +1793,9 @@ console.log({subCatagoryOption});
                                     }
                                   }
                                 }}
-                                onBlur={onBlur}
+                                onBlur={()=>{
+                                  setstFlag(true)
+                                }}
                               />
 
                               {error && (
@@ -1848,7 +1863,7 @@ console.log({subCatagoryOption});
                           />
                         </div>
                       </div>
-                      {validationErrors[0]?.startTimeError && (
+                      {validationErrors[0]?.startTimeError && stFlag && (
                         <span className="time-error-message">
                           {validationErrors[0]?.startTimeError}
                         </span>
@@ -1916,7 +1931,9 @@ console.log({subCatagoryOption});
                                   }
                                   validationForEndTime();
                                 }}
-                                onBlur={onBlur}
+                                onBlur={()=>{
+                                  setetFlag(true)
+                                }}
                               />
                               {error && (
                                 <span className="error-message">
@@ -1999,7 +2016,7 @@ console.log({subCatagoryOption});
                       </button> */}
                       </div>
                       <div>
-                        {validationErrors[0]?.EndTimeError && (
+                        {validationErrors[0]?.EndTimeError && etFlag && (
                           <span className="time-error-message">
                             {validationErrors[0]?.EndTimeError}
                           </span>
