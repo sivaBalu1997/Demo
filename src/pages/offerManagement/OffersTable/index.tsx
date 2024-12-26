@@ -227,16 +227,26 @@ useEffect(()=>{
         
           const itemNames = items?.map((item) => item?.itemName);
         
-          return (
+          // return (
+          //   <>
+          //     {itemNames?.slice(0, maxVisibleItems).join(", ")}
+          //     {items?.length > maxVisibleItems && (
+          //       <span className="extra-items">
+          //         +{items?.length - maxVisibleItems} Items
+          //       </span>
+          //     )}
+          //   </>
+          // );
+
+          return(
             <>
-              {itemNames?.slice(0, maxVisibleItems).join(", ")}
-              {items?.length > maxVisibleItems && (
-                <span className="extra-items">
-                  +{items?.length - maxVisibleItems} Items
-                </span>
-              )}
+            {
+              itemNames?.map((items,index)=>(
+                <span className="extra-items">{items}</span>
+              ))
+            }
             </>
-          );
+          )
         };
   const countryC = restaurantDetails?.country;
 
