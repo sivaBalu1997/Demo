@@ -146,7 +146,7 @@ th.OffrtsTabletho:nth-child(3) {
 
 th.OffrtsTabletho:nth-child(4) {
   width: 220px;
-  padding-left: 73px;
+  padding-left: 43px;
   position: sticky;
   top: 0;
 }
@@ -186,9 +186,10 @@ tr.OffrtsTabletr:nth-child(odd) {
 td.OffrtsTabletd:nth-child(4) {
   padding-right: 30px;
   width: 200px;
-  border: 1px solid red;
-  // padding-left: 50px;
-  height: 3rem;
+  // border: 1px solid red;
+  padding-left: 20px;
+  // height: 3rem;
+  min-height: 3rem;
   margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
@@ -202,38 +203,39 @@ td.OffrtsTabletd:nth-child(4) {
 td.OffrtsTabletd:nth-child(3) {
   width: 300px;
   padding-left: -10px;
-  height: 3rem;
+  min-height: 3rem;
+ 
 }
 
 td.OffrtsTabletd:nth-child(1) {
   width: 270px;
-  padding-left: 40px;
-  height: 3rem;
+  padding-left: 60px;
+  min-height: 3rem;
 }
 
 td.OffrtsTabletd:nth-child(5) {
   padding-left: 30px;
-  height: 3rem;
+  min-height: 3rem;
 }
 
 td.OffrtsTabletd:nth-child(2) {
   width: 200px;
-  height: 3rem;
+  min-height: 3rem;
 }
 
 td.OffrtsTabletd:nth-child(6) {
   padding-left: 34px;
-  height: 3rem;
+  min-height: 3rem;
 }
 
 td.OffrtsTabletd:nth-child(7) {
   padding-left: 34px;
   width: 100px;
-  height: 3rem;
+  min-height: 3rem;
 }
 
 td.OffrtsTabletd{
-  height: 3rem;
+  min-height: 3rem;
 }
 
 .extra-items {
