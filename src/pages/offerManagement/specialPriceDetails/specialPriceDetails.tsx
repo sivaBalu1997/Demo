@@ -53,14 +53,15 @@ interface specialPriceForm {
   AvailableDays: number[];
   fromPeriod: string;
   toPeriod: string;
-  startTime:string;
-  endTime:string;
+  startTime: string;
+  endTime: string;
 }
 
 const SpecialPriceDetails = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isExpanded ,setDuplicateOffer,duplicateOffer} = useContext(Contextpagejs);
+  const { isExpanded, setDuplicateOffer, duplicateOffer } =
+    useContext(Contextpagejs);
   const orderTypes = useSelector(
     (state: any) => state.auth.restaurantDetails?.orderTypes
   );
@@ -114,10 +115,11 @@ const SpecialPriceDetails = () => {
   ];
 
   const catagoryOption = useSelector((state: any) => state.offer.categoryData);
-  const  createSpecialOfferOverlap= useSelector((state: any) => state.offer.createSpecialOfferOverlapData);
+  const createSpecialOfferOverlap = useSelector(
+    (state: any) => state.offer.createSpecialOfferOverlapData
+  );
 
-  console.log({createSpecialOfferOverlap});
-  
+  console.log({ createSpecialOfferOverlap });
 
   const subCatagoryOption = useSelector(
     (state: any) => state.offer.subCategoryData
@@ -162,76 +164,83 @@ const SpecialPriceDetails = () => {
   };
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
-  const editOfferDataLoading = useSelector((state: any) => state.offer.getOfferListLoading);
-  const editOfferDataFailed = useSelector((state: any) => state.offer.getOfferListSuccess);
-  const createLoading=useSelector((state: any) => state.offer.createSpecialOfferloading);
-  const createLoadingsucess=useSelector((state: any) => state.offer.createSpecialOfferSuccess);
-  const updateLoadingsucess=useSelector((state: any) => state.offer.updateSpecialOfferSuccess);
+  const editOfferDataLoading = useSelector(
+    (state: any) => state.offer.getOfferListLoading
+  );
+  const editOfferDataFailed = useSelector(
+    (state: any) => state.offer.getOfferListSuccess
+  );
+  const createLoading = useSelector(
+    (state: any) => state.offer.createSpecialOfferloading
+  );
+  const createLoadingsucess = useSelector(
+    (state: any) => state.offer.createSpecialOfferSuccess
+  );
+  const updateLoadingsucess = useSelector(
+    (state: any) => state.offer.updateSpecialOfferSuccess
+  );
 
-
-
-  
-//   const editOfferData = {
-//     "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
-//     "offerName": "tesolap24",
-//     "offerCode": "TESOLAP24",
-//     "type": "PERCENT",
-//     "value": 10.0,
-//     "channel": [
-//         "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-//         "cd5996ed-7201-4faf-b996-5757aa684ad8",
-//         "23864e56-e70d-4838-b5b4-eebe07e2bb63"
-//     ],
-//     "visibleTo": [
-//         "C",
-//         "M"
-//     ],
-//     "termsAndConditions": [
-//         "Offer starts from dec 21"
-//     ],
-//     "specialType": "Santa Hour",
-//     "category": {
-//         "id": "109e48f3-14b4-45d0-a346-1d9aee1a538e",
-//         "name": "Frozen Treats"
-//     },
-//     "subCategory": [
-//         {
-//             "id": "7934b27d-1f67-4464-8cc5-0a206978aaf4",
-//             "name": "Faluda varieties"
-//         }
-//     ],
-//     "items": [
-//         {
-//             "itemId": "0192d2c3-3ae7-7b51-84a6-c98bf555c854",
-//             "itemName": "Mango Faluda",
-//             "specialPrice": 6.3000,
-//             "originalPrice": 7.0000,
-//             "isEnabled": 1
-//         },
-//         {
-//             "itemId": "0192d2c3-bfb7-73ac-a072-6f491639a005",
-//             "itemName": "Mango Faluda edit",
-//             "specialPrice": 6.3000,
-//             "originalPrice": 7.0000,
-//             "isEnabled": 1
-//         }
-//     ],
-//     "effectivePeriod": {
-//         "isDateEnabled": true,
-//         "startDate": "2024-12-05T00:00:00.000+00:00",
-//         "endDate": "2024-12-06T00:00:00.000+00:00",
-//         "startTime": "04:45:00",
-//         "endTime": "05:00:00",
-//         "validDays": [
-//             1,
-//             2,
-//             3,
-//             4
-//         ]
-//     },
-//     "isEnabled": 2,
-//     "totalItems": 2
-// }
+  //   const editOfferData = {
+  //     "offerId": "6fcc8999-4a56-4347-b13b-a260b2ecca80",
+  //     "offerName": "tesolap24",
+  //     "offerCode": "TESOLAP24",
+  //     "type": "PERCENT",
+  //     "value": 10.0,
+  //     "channel": [
+  //         "02feb858-c58d-48c5-8dd4-9a173390b4eb",
+  //         "cd5996ed-7201-4faf-b996-5757aa684ad8",
+  //         "23864e56-e70d-4838-b5b4-eebe07e2bb63"
+  //     ],
+  //     "visibleTo": [
+  //         "C",
+  //         "M"
+  //     ],
+  //     "termsAndConditions": [
+  //         "Offer starts from dec 21"
+  //     ],
+  //     "specialType": "Santa Hour",
+  //     "category": {
+  //         "id": "109e48f3-14b4-45d0-a346-1d9aee1a538e",
+  //         "name": "Frozen Treats"
+  //     },
+  //     "subCategory": [
+  //         {
+  //             "id": "7934b27d-1f67-4464-8cc5-0a206978aaf4",
+  //             "name": "Faluda varieties"
+  //         }
+  //     ],
+  //     "items": [
+  //         {
+  //             "itemId": "0192d2c3-3ae7-7b51-84a6-c98bf555c854",
+  //             "itemName": "Mango Faluda",
+  //             "specialPrice": 6.3000,
+  //             "originalPrice": 7.0000,
+  //             "isEnabled": 1
+  //         },
+  //         {
+  //             "itemId": "0192d2c3-bfb7-73ac-a072-6f491639a005",
+  //             "itemName": "Mango Faluda edit",
+  //             "specialPrice": 6.3000,
+  //             "originalPrice": 7.0000,
+  //             "isEnabled": 1
+  //         }
+  //     ],
+  //     "effectivePeriod": {
+  //         "isDateEnabled": true,
+  //         "startDate": "2024-12-05T00:00:00.000+00:00",
+  //         "endDate": "2024-12-06T00:00:00.000+00:00",
+  //         "startTime": "04:45:00",
+  //         "endTime": "05:00:00",
+  //         "validDays": [
+  //             1,
+  //             2,
+  //             3,
+  //             4
+  //         ]
+  //     },
+  //     "isEnabled": 2,
+  //     "totalItems": 2
+  // }
 
   const OfferlistData = useSelector(
     (state: any) => state.offer.getOfferListData
@@ -262,16 +271,16 @@ const SpecialPriceDetails = () => {
   const [channal, setChannal] = useState<any>([]);
   const [vissibleTo, setvissibleTo] = useState([]);
   const [terms, setterms] = useState<any>([]);
-  const [selectedTerm,setSelectedTerm]=useState<any>()
+  const [selectedTerm, setSelectedTerm] = useState<any>();
   const [catagory, setCatagory] = useState([]);
   const [subCatagory, setSubCatagory] = useState([]);
   const [SelectedCatagory, setSelectedCatagory] = useState<any>([]);
   const [SelectedsubCatagory, setSelectedSubCatagory] = useState<any>([]);
   const [selectedChannal, setSelectedChannal] = useState<any>([]);
   const [selectedVissibleTo, setSelectedVissibleTo] = useState<any>([]);
-  const [flag,setFlag]=useState(false)
+  const [flag, setFlag] = useState(false);
   // console.log({selectedChannal});
-  
+
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
     channel: false,
     ordertype: false,
@@ -311,8 +320,8 @@ const SpecialPriceDetails = () => {
       AvailableDays: [],
       fromPeriod: "AM",
       toPeriod: "AM",
-      startTime:"",
-      endTime:""
+      startTime: "",
+      endTime: "",
     },
   });
   const handleDropdownToggle = (dropdownName: string) => {
@@ -330,7 +339,7 @@ const SpecialPriceDetails = () => {
   };
 
   const [availabilityid, setAvailabilityid] = useState<string[]>([]);
-  
+
   const [DayThird, setDayThird] = useState<number[]>([]);
   const [disabledDay, setDisableDay] = useState<any[]>([]);
   const [selectedFrom, setSelectedFrom] = useState("");
@@ -396,15 +405,12 @@ const SpecialPriceDetails = () => {
     const fromTiming = getValues("fromTime");
     const endTiming = getValues("toTime");
     const offerChannel = getValues("offerChannel");
-    const st=getValues("fromPeriod")
-    const en=getValues("toPeriod")
+    const st = getValues("fromPeriod");
+    const en = getValues("toPeriod");
 
+    const fromTimeFormat = fromTiming && st ? fromTiming + " " + st : "";
 
-    const fromTimeFormat =
-      fromTiming && st ? fromTiming + " " + st : "";
-
-    const toTimeFormat =
-      endTiming && en ? endTiming + " " + en : "";
+    const toTimeFormat = endTiming && en ? endTiming + " " + en : "";
 
     if (fromTimeFormat && toTimeFormat) {
       const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
@@ -416,19 +422,19 @@ const SpecialPriceDetails = () => {
     }
     const payload = {
       locationId: locationid,
-      offerId: editOfferData?.offerId|| null,
+      offerId: editOfferData?.offerId || null,
       offerName: values?.offerName,
-      channel: selectedChannal?.map((item:any)=>item.id),
-      visibleTo: selectedVissibleTo?.map((item:any)=>item?.name[0]),
-      termsAndConditions: selectedTerm?.map((item:any)=>item?.name),
+      channel: selectedChannal?.map((item: any) => item.id),
+      visibleTo: selectedVissibleTo?.map((item: any) => item?.name[0]),
+      termsAndConditions: selectedTerm?.map((item: any) => item?.name),
       specialType: values?.specialTypeName,
       type: values?.specialType === "Percentage" ? "PERCENT" : "FLATFEE",
       value: values?.specialTypeValue,
-      
-      category:{
-        id:SelectedCatagory && SelectedCatagory[0]?.id
-        },
-        subCategory:SelectedsubCatagory?.map((item:any) => ({ id: item.id })),
+
+      category: {
+        id: SelectedCatagory && SelectedCatagory[0]?.id,
+      },
+      subCategory: SelectedsubCatagory?.map((item: any) => ({ id: item.id })),
       items: selectedFoodItems?.map((item) => {
         return {
           itemId: item?.itemId,
@@ -462,44 +468,30 @@ const SpecialPriceDetails = () => {
     //       }
     //       else{
     //         dispatch(createSpecialOfferRequest(payload));
-    
+
     //       }
     //   }
-  
 
-  
-
-    if(isvalid)
-    {
-      if(editOfferData?.offerId && !duplicateOffer)
-        {
-          dispatch(updateSpecialOfferRequest(payload))
-        }
-        else{
-          dispatch(createSpecialOfferRequest(payload));
-  
-  
-        }
+    if (isvalid) {
+      if (editOfferData?.offerId && !duplicateOffer) {
+        dispatch(updateSpecialOfferRequest(payload));
+      } else {
+        dispatch(createSpecialOfferRequest(payload));
+      }
     }
 
-  //   if (isvalid) {
+    //   if (isvalid) {
 
+    //     if(editOfferData?.offerId)
+    //       {
+    //          dispatch(updateSpecialOfferRequest(payload))
+    //       }
+    //       else{
+    //  dispatch(createSpecialOfferRequest(payload));
+    //       }
 
-
-      
-
-
-  //     if(editOfferData?.offerId)
-  //       {
-  //          dispatch(updateSpecialOfferRequest(payload))
-  //       }
-  //       else{
-  //  dispatch(createSpecialOfferRequest(payload));
-  //       }
-
-      
-  //     //setOverlapShow(true);
-  //   }
+    //     //setOverlapShow(true);
+    //   }
 
     //console.log("kkkkk",payload)
     //setOverlapShow(true);
@@ -532,7 +524,6 @@ const SpecialPriceDetails = () => {
     setSelectedDate(date);
     setSelectedDate1(null);
     setValue("fromDate", date);
-  
 
     setValidationErrors((prevErrors: any) => {
       const updatedErrors = [...prevErrors];
@@ -557,7 +548,7 @@ const SpecialPriceDetails = () => {
   };
 
   const selectedradiowatch = watch();
-  
+
   const handleFromToTime = (value: string, timePeriod: string) => {
     console.log({ timePeriod });
 
@@ -611,10 +602,10 @@ const SpecialPriceDetails = () => {
 
   useEffect(() => {
     if (selectedDate && selectedDate1) {
-      if(!editOfferData){
+      if (!editOfferData) {
         setDayThird([]);
       }
-     
+
       if (selectedDate == selectedDate1) {
         handleSingleDayRange(selectedDate, selectedDate1);
       } else {
@@ -635,10 +626,9 @@ const SpecialPriceDetails = () => {
           id: item?.id,
           type: item?.typeGroup,
         };
-
       });
       setChannal([...data]);
-      setFlag(true)
+      setFlag(true);
     }
   }, [orderTypes]);
 
@@ -773,113 +763,135 @@ const SpecialPriceDetails = () => {
       toDateError: "",
       startTimeError: "",
       endTimeError: "",
-      selectedItems:""
+      selectedItems: "",
     },
   ]);
-  const convertStringToDate = (inputDate:any) => {
+  const convertStringToDate = (inputDate: any) => {
     const date = new Date(inputDate); // Automatically parses ISO 8601 dates like "2024-12-05"
     return date; // Returns a valid Date object
   };
 
-
-  const convertToPeriodFormat=(time24:any)=> {
+  const convertToPeriodFormat = (time24: any) => {
     const [hours, minutes] = time24.split(":").map(Number);
     const period = hours >= 12 ? "PM" : "AM";
     const hours12 = hours % 12 || 12;
     const formattedTime = `${hours12}:${minutes.toString().padStart(2, "0")}`;
     return {
-        time: formattedTime,
-        period: period,
+      time: formattedTime,
+      period: period,
     };
-}
+  };
   useEffect(() => {
-    if (editOfferData&&flag) {
+    if (editOfferData && flag) {
       setValue("offerName", editOfferData?.offerName);
-      if(editOfferData?.channel?.length>0 && channal.length>0){
-        const data=channal.filter((item:any) =>editOfferData?.channel.includes(item.id));
-        setValue("offerChannel",data[0]?.name)
-        setSelectedChannal([...data])
+      if (editOfferData?.channel?.length > 0 && channal.length > 0) {
+        const data = channal.filter((item: any) =>
+          editOfferData?.channel.includes(item.id)
+        );
+        setValue("offerChannel", data[0]?.name);
+        setSelectedChannal([...data]);
+      }
+
+      if (editOfferData?.visibleTo?.length > 0) {
+        const data = visibleOption.filter((item: any) =>
+          editOfferData?.visibleTo.includes(item?.name[0])
+        );
+        setValue("offerToVisible", data.map((opt) => opt.name).join(", "));
+        setSelectedVissibleTo([...data]);
+      }
+      if (editOfferData?.termsAndConditions?.length > 0) {
+        const data = editOfferData?.termsAndConditions.map(
+          (item: any, index: any) => {
+            return {
+              id: index,
+              name: item,
+              locationId: "",
+              type: "T",
+              parentId: "",
+              canDelete: false,
+            };
+          }
+        );
+        setterms([...data]);
+        setSelectedTerm([...data]);
+        setValue(
+          "termsAndConditions",
+          editOfferData?.termsAndConditions?.join(",")
+        );
+      }
+      if (editOfferData?.specialType) {
+        setValue(
+          "specialTypeName",
+          editOfferData?.specialType == "SURGE HOUR"
+            ? "Surge Hour"
+            : "Happy Hour"
+        );
+      }
+      if (editOfferData?.type) {
+        setValue(
+          "specialType",
+          editOfferData?.type == "PERCENT" ? "Percentage" : "Amount"
+        );
+      }
+      setValue("specialTypeValue", editOfferData?.value);
+      if (editOfferData?.category) {
+        setSelectedCatagory([editOfferData?.category]);
+        setParentId(editOfferData?.category?.id);
+        setValue("category", editOfferData?.category?.name);
+      }
+      if (editOfferData?.subCategory?.length > 0) {
+        setSelectedSubCatagory([...editOfferData?.subCategory]);
+        setValue(
+          "subCategory",
+          editOfferData?.subCategory?.map((item: any) => item.name).join(",")
+        );
+        setSubCatagoryId(
+          editOfferData?.subCategory?.map((item: any) => item.id)
+        );
+      }
+      if (editOfferData?.items?.length > 0) {
+        setselectedFoodItems([...editOfferData?.items]);
+      }
+
+      if (editOfferData.effectivePeriod) {
+        if (editOfferData.effectivePeriod?.isDateEnabled) {
+          setDateShow(editOfferData.effectivePeriod?.isDateEnabled);
+          if (editOfferData.effectivePeriod?.startDate) {
+            const data = convertStringToDate(
+              editOfferData.effectivePeriod?.startDate
+            );
+            setSelectedDate(data);
+            setValue("fromDate", data);
+          }
+          if (editOfferData.effectivePeriod?.endDate) {
+            const data = convertStringToDate(
+              editOfferData.effectivePeriod?.endDate
+            );
+            setSelectedDate1(data);
+            setValue("toDate", data);
+          }
         }
-
-        if(editOfferData?.visibleTo?.length>0){
-         const data=visibleOption.filter((item:any) =>editOfferData?.visibleTo.includes(item?.name[0]));
-         setValue("offerToVisible", data.map((opt) => opt.name).join(", "))
-         setSelectedVissibleTo([...data])
-         }
-         if(editOfferData?.termsAndConditions?.length>0){
-          const data= editOfferData?.termsAndConditions.map((item:any,index:any)=>{
-              return {
-                id: index,
-                name: item,
-                locationId: "",
-                type: "T",
-                parentId: "",
-                canDelete: false,
-              }
-          })
-          setterms([...data])
-          setSelectedTerm([...data])
-          setValue("termsAndConditions",editOfferData?.termsAndConditions?.join(","))
-         }
-         if(editOfferData?.specialType){
-          setValue("specialTypeName",editOfferData?.specialType=='SURGE HOUR'?"Surge Hour":"Happy Hour")
-         }
-         if(editOfferData?.type){
-          setValue("specialType", editOfferData?.type=="PERCENT"?"Percentage":"Amount");
-         }
-         setValue("specialTypeValue", editOfferData?.value);
-         if(editOfferData?.category){
-          setSelectedCatagory([editOfferData?.category])
-          setParentId(editOfferData?.category?.id)
-          setValue("category",editOfferData?.category?.name)
-         }
-         if(editOfferData?.subCategory?.length>0){
-          setSelectedSubCatagory([...editOfferData?.subCategory])
-          setValue("subCategory",editOfferData?.subCategory?.map((item:any)=>item.name).join(","))
-          setSubCatagoryId(editOfferData?.subCategory?.map((item:any)=>item.id))
-         }
-         if(editOfferData?.items?.length>0){
-          setselectedFoodItems([...editOfferData?.items])
-         }
-
-
-
-
-         if(editOfferData.effectivePeriod){
-            if(editOfferData.effectivePeriod?.isDateEnabled){
-              setDateShow(editOfferData.effectivePeriod?.isDateEnabled)
-              if(editOfferData.effectivePeriod?.startDate){
-                const data= convertStringToDate(editOfferData.effectivePeriod?.startDate)
-                setSelectedDate(data)
-                setValue("fromDate", data);
-      
-              
-              }
-              if(editOfferData.effectivePeriod?.endDate){
-              const data=convertStringToDate(editOfferData.effectivePeriod?.endDate)
-               setSelectedDate1(data)
-               setValue("toDate", data);
-              }
-            }
-            if(editOfferData?.effectivePeriod?.startTime){
-              const data =convertToPeriodFormat(editOfferData?.effectivePeriod?.startTime)
-              setValue("fromTime", data.time);
-              setValue("fromPeriod",data.period)
-             // setStartTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.startTime))
-            }
-            if(editOfferData?.effectivePeriod?.endTime){
-              const data =convertToPeriodFormat(editOfferData?.effectivePeriod?.endTime)
-              setValue("toTime", data.time);
-              setValue("toPeriod",data.period)
-              //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
-            }
-            if(editOfferData?.effectivePeriod?.validDays?.length>0)
-            {
-            setDayThird(editOfferData?.effectivePeriod?.validDays)
-            setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
-
-            }
-         }
+        if (editOfferData?.effectivePeriod?.startTime) {
+          const data = convertToPeriodFormat(
+            editOfferData?.effectivePeriod?.startTime
+          );
+          setValue("fromTime", data.time);
+          setValue("fromPeriod", data.period);
+          // setStartTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.startTime))
+        }
+        if (editOfferData?.effectivePeriod?.endTime) {
+          const data = convertToPeriodFormat(
+            editOfferData?.effectivePeriod?.endTime
+          );
+          setValue("toTime", data.time);
+          setValue("toPeriod", data.period);
+          //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
+        }
+        if (editOfferData?.effectivePeriod?.validDays?.length > 0) {
+          setDayThird(editOfferData?.effectivePeriod?.validDays);
+          setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
+        }
+      }
       // setValue("offerChannel", editOfferData?.channel?.join(",") || "");
       // setValue("DatePicked", editOfferData?.effectivePeriod?.isDateEnabled);
       // setValue("fromTime", editOfferData?.effectivePeriod?.startTime);
@@ -997,7 +1009,6 @@ const SpecialPriceDetails = () => {
     setValidationErrors(errors);
   };
 
-  
   const validationForEndTimeValidation = () => {
     const errors = [...validationErrors];
     const StartTime = getValues("fromTime");
@@ -1041,52 +1052,52 @@ const SpecialPriceDetails = () => {
     const EndTime = getValues("toTime");
     const fromPeriod = getValues("fromPeriod");
     const toPeriod = getValues("toPeriod");
-  
+
     // Ensure errors array has an object to store the errors
     if (!errors[0]) {
       errors[0] = {};
     }
-  
+
     // Reset previous errors
     errors[0].startTimeError = "";
     errors[0].EndTimeError = "";
-  
+
     // Validate Start Time
     if (!StartTime) {
       errors[0].startTimeError = "Start time is required";
     }
-  
+
     // Validate End Time
     if (!EndTime) {
       errors[0].EndTimeError = "End time is required";
     }
-  
+
     if (StartTime && EndTime) {
-      function convertTo24Hour(time:any, period:any) {
+      function convertTo24Hour(time: any, period: any) {
         let [hours, minutes] = time.split(":").map(Number);
         if (period === "PM" && hours !== 12) {
-            hours += 12;
+          hours += 12;
         } else if (period === "AM" && hours === 12) {
-            hours = 0;
+          hours = 0;
         }
         return { hours, minutes };
+      }
+      const start = convertTo24Hour(StartTime, fromPeriod);
+      const end = convertTo24Hour(EndTime, toPeriod);
+      if (
+        end.hours < start.hours ||
+        (end.hours === start.hours && end.minutes < start.minutes)
+      ) {
+        errors[0].EndTimeError = "End time must be greater than start00 time";
+      } else {
+        errors[0].EndTimeError = "";
+      }
     }
-    const start = convertTo24Hour(StartTime, fromPeriod);
-    const end = convertTo24Hour(EndTime, toPeriod);
-    if ((end.hours < start.hours ) || (end.hours === start.hours && end.minutes < start.minutes))
-       {
-        errors[0].EndTimeError = "End time must be greater than start00 time"
-    } else {
-      errors[0].EndTimeError  = ""
-  }
-    }
-  
+
     // Update the validationErrors state
     setValidationErrors(errors);
   };
-  
-  
-  
+
   const valiadtionforDateandTime = () => {
     let dataandTimeerrors: any = [];
 
@@ -1095,9 +1106,7 @@ const SpecialPriceDetails = () => {
       toDateError: "",
       startTimeError: "",
       EndTimeError: "",
-      selectedItems:""
-
-
+      selectedItems: "",
     };
 
     if (dateShow && selectedDate === null) {
@@ -1111,8 +1120,7 @@ const SpecialPriceDetails = () => {
       Errors.toDateError = "";
     }
     const StartTime = getValues("fromTime");
-     console.log({StartTime});
-    
+    console.log({ StartTime });
 
     if (StartTime === "") {
       Errors.startTimeError = "Time is required ";
@@ -1121,9 +1129,8 @@ const SpecialPriceDetails = () => {
     }
     const EndTime = getValues("toTime");
 
-   const fromPeriod = getValues("fromPeriod");
+    const fromPeriod = getValues("fromPeriod");
     const toPeriod = getValues("toPeriod");
-    
 
     if (endTime === "") {
       Errors.EndTimeError = "Time is required";
@@ -1131,40 +1138,40 @@ const SpecialPriceDetails = () => {
       Errors.EndTimeError = "";
     }
     if (StartTime && EndTime) {
-      function convertTo24Hour(time:any, period:any) {
+      function convertTo24Hour(time: any, period: any) {
         let [hours, minutes] = time.split(":").map(Number);
         if (period === "PM" && hours !== 12) {
-            hours += 12;
+          hours += 12;
         } else if (period === "AM" && hours === 12) {
-            hours = 0;
+          hours = 0;
         }
         return { hours, minutes };
+      }
+      const start = convertTo24Hour(StartTime, fromPeriod);
+      const end = convertTo24Hour(EndTime, toPeriod);
+      if (
+        end.hours < start.hours ||
+        (end.hours === start.hours && end.minutes < start.minutes)
+      ) {
+        Errors.EndTimeError = "End time must be greater than start00 time";
+      } else {
+        Errors.EndTimeError = "";
+      }
     }
-    const start = convertTo24Hour(StartTime, fromPeriod);
-    const end = convertTo24Hour(EndTime, toPeriod);
-    if ((end.hours < start.hours ) || (end.hours === start.hours && end.minutes < start.minutes))
-       {
-      Errors.EndTimeError = "End time must be greater than start00 time"
-    } else {
-      Errors.EndTimeError = ""
-  }
-    }
-    if(selectedFoodItems?.length===0)
-    {
-      console.log("array length",selectedFoodItems?.length);
-      
-      Errors.selectedItems="No item selected";
-    }
-    else{
-      Errors.selectedItems="";
+    if (selectedFoodItems?.length === 0) {
+      console.log("array length", selectedFoodItems?.length);
 
+      Errors.selectedItems = "No item selected";
+    } else {
+      Errors.selectedItems = "";
     }
 
     if (
       Errors.fromDateError ||
       Errors.toDateError ||
       Errors.startTimeError ||
-      Errors.EndTimeError||  Errors.selectedItems
+      Errors.EndTimeError ||
+      Errors.selectedItems
     ) {
       dataandTimeerrors[0] = Errors;
     }
@@ -1175,7 +1182,8 @@ const SpecialPriceDetails = () => {
       Errors.fromDateError === "" &&
       Errors.toDateError === "" &&
       Errors.startTimeError === "" &&
-      Errors.EndTimeError === "" &&   Errors.selectedItems==""
+      Errors.EndTimeError === "" &&
+      Errors.selectedItems == ""
     ) {
       return true;
     } else {
@@ -1185,39 +1193,41 @@ const SpecialPriceDetails = () => {
 
   const itemlistfunction = () => {
     setShowlistOfItems(true);
-    console.log("subCatagoryId",subCatagoryId)
+    console.log("subCatagoryId", subCatagoryId);
     const payload = {
       locationId: locationid,
-      catagoryId: subCatagoryId ? subCatagoryId.map((opt) => opt).join(','): parentId,
+      catagoryId: subCatagoryId
+        ? subCatagoryId.map((opt) => opt).join(",")
+        : parentId,
     };
     dispatch(getOfferItemsRequest(payload));
   };
-  console.log("selectedFoodItems",selectedFoodItems)
- const  handleToggle =(item:any)=>{
-  const data=[...selectedFoodItems]
-  data.forEach((item1)=>{
-      if(item.id==item1.id){
-        item1.isEnabled=item1.isEnabled?0:1
+  console.log("selectedFoodItems", selectedFoodItems);
+  const handleToggle = (item: any) => {
+    const data = [...selectedFoodItems];
+    data.forEach((item1) => {
+      if (item.id == item1.id) {
+        item1.isEnabled = item1.isEnabled ? 0 : 1;
       }
-  })
-setselecteFoodItems([...data])
- }
-useEffect(()=>{
+    });
+    setselecteFoodItems([...data]);
+  };
+  useEffect(() => {
+    if (!createLoading && (createLoadingsucess || updateLoadingsucess)) {
+      history.push("/Offers/active");
+    }
+  }, [createLoadingsucess, createLoading, updateLoadingsucess]);
+  useEffect(() => {
+    if (createSpecialOfferOverlap.length > 0) {
+      setOverlapShow(true);
+    }
+  }, [createSpecialOfferOverlap]);
 
-  if(!createLoading && (createLoadingsucess || updateLoadingsucess))
-  {
-    history.push("/Offers/active")
-  }
+  const restaurantDetails = useSelector(
+    (state: any) => state?.auth.restaurantDetails
+  );
 
-
-
-},[createLoadingsucess,createLoading,updateLoadingsucess])
-useEffect(()=>{
-  if(createSpecialOfferOverlap.length>0)
-  {
-    setOverlapShow(true)
-  }
-},[createSpecialOfferOverlap])
+  const Pricesymbol = `${restaurantDetails?.country === "US" ? "$" : "Rs."}`;
 
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
@@ -1230,9 +1240,12 @@ useEffect(()=>{
               : "offer-creationpage-container1"
           }
         >
-          <div  className="specialoffer-heading">
-            {editOfferData?.offerId && !duplicateOffer ? <h1>Edit offer</h1>: <h1>Create Special Price Details</h1>}
-           
+          <div className="specialoffer-heading">
+            {editOfferData?.offerId && !duplicateOffer ? (
+              <h1>Edit offer</h1>
+            ) : (
+              <h1>Create Special Price Details</h1>
+            )}
           </div>
 
           <div
@@ -1247,34 +1260,34 @@ useEffect(()=>{
             <div className="offer-primary-part1">
               <div className="offerPrimaryRow1">
                 <div className="offerNameContainer">
-                <Controller
-  name="offerName"
-  control={control}
-  rules={{
-    required: "Offer is required",
-    validate: (value) =>
-      value.trimStart() === value || "Offer name cannot start with a space",
-  }}
-  render={({ onChange, onBlur, value,error }: any) => (
-    <InputComponent
-      name="offerName"
-      onChange={(e) => {
-        const inputValue = e.target.value;
-        // Prevent updating value if it starts with a space
-        if (inputValue === "" || inputValue[0] !== " ") {
-          onChange(inputValue);
-        }
-      }}
-      onBlur={onBlur}
-      value={value}
-      trigger={trigger}
-      error={error}
-      height="44px"
-      placeholder="Offer Name"
-    />
-  )}
-/>
-
+                  <Controller
+                    name="offerName"
+                    control={control}
+                    rules={{
+                      required: "Offer is required",
+                      validate: (value) =>
+                        value.trimStart() === value ||
+                        "Offer name cannot start with a space",
+                    }}
+                    render={({ onChange, onBlur, value, error }: any) => (
+                      <InputComponent
+                        name="offerName"
+                        onChange={(e) => {
+                          const inputValue = e.target.value;
+                          // Prevent updating value if it starts with a space
+                          if (inputValue === "" || inputValue[0] !== " ") {
+                            onChange(inputValue);
+                          }
+                        }}
+                        onBlur={onBlur}
+                        value={value}
+                        trigger={trigger}
+                        error={error}
+                        height="44px"
+                        placeholder="Offer Name"
+                      />
+                    )}
+                  />
                 </div>
 
                 <div className="offerChannelContainer">
@@ -1330,9 +1343,7 @@ useEffect(()=>{
                         setValue={setValue}
                         getValues={getValues}
                         validation={{ required: "offerToVisible is required" }}
-                        error={
-                          errors?.offerToVisible 
-                        }
+                        error={errors?.offerToVisible}
                         dropdownopen={DropdownOpen.ordertype}
                         onToggle={() => handleDropdownToggle("ordertype")}
                         setDropdownOpen={setDropdownOpen}
@@ -1407,37 +1418,44 @@ useEffect(()=>{
                 />
               </div>
               <div className="cPspecialTypeContainer">
-              <Controller
-  name="specialTypeValue"
-  control={control}
-  rules={{
-    required: "Special type value is required",
-    validate: (value) =>
-      /^\d*\.?\d{0,2}$/.test(value) || "Only numbers with up to 2 decimal places are allowed",
-  }}
-  render={({ onChange, onBlur, value,error }: any) => (
-    <InputComponent
-      name="specialTypeValue"
-      onChange={(e) => {
-        const inputValue = e.target.value;
-        // Allow numbers with up to two decimal places
-        if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
-          onChange(inputValue);
-        }
-      }}
-      onBlur={() => {
-        priceCalulate(selectedFoodItems);
-      }}
-      value={value}
-      trigger={trigger}
-      error={error?.message}
-      width="400px"
-      placeholder="Enter the Value"
-    />
-  )}
-/>
+                <Controller
+                  name="specialTypeValue"
+                  control={control}
+                  rules={{
+                    required: "Special type value is required",
+                    validate: (value) =>
+                      /^\d*\.?\d{0,2}$/.test(value) ||
+                      "Only numbers with up to 2 decimal places are allowed",
+                  }}
+                  render={({ onChange, onBlur, value, error }: any) => (
+                    <InputComponent
+                      name="specialTypeValue"
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        const typeName = getValues("specialType");
+                        console.log({ typeName });
 
-
+                        if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
+                          if (
+                            typeName === "Percentage" &&
+                            parseFloat(inputValue) > 100
+                          ) {
+                            return;
+                          }
+                          onChange(inputValue);
+                        }
+                      }}
+                      onBlur={() => {
+                        priceCalulate(selectedFoodItems);
+                      }}
+                      value={value}
+                      trigger={trigger}
+                      error={error?.message}
+                      width="400px"
+                      placeholder="Enter the Value"
+                    />
+                  )}
+                />
               </div>
             </div>
 
@@ -1510,7 +1528,7 @@ useEffect(()=>{
                 </div>
               </div>
 
-              <div className="select-offerfooditems"  ref={listpopupRef}>
+              <div className="select-offerfooditems" ref={listpopupRef}>
                 <div className="seraching-for-items">
                   <div className="seraching-for-itemsbox">
                     <Controller
@@ -1526,79 +1544,94 @@ useEffect(()=>{
                       )}
                     />
                   </div>
-                  {
-                    showlistOfItems ?<div className="dropdownimage">
-                    <img
-                      src={dropdown}
-                      alt="dropdown"
-                      style={{rotate:"180deg"}}
-                      onClick={() => {
-                        setShowlistOfItems(false);
-                        
-
-                        
-                      }}
-                    />
-                  </div>:<div className="dropdownimage">
-                    <img
-                      src={dropdown}
-                      alt="dropdown"
-                      onClick={() => {
-                        const category = getValues("category");
-                        const subcategory = getValues("subCategory");
-                        if (category !== "" && subcategory !== "") {
-                          itemlistfunction();
-                          
-                        }
-                      }}
-                    />
-                  </div>
-                  }
-                  
-                  
+                  {showlistOfItems ? (
+                    <div className="dropdownimage">
+                      <img
+                        src={dropdown}
+                        alt="dropdown"
+                        style={{ rotate: "180deg" }}
+                        onClick={() => {
+                          setShowlistOfItems(false);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="dropdownimage">
+                      <img
+                        src={dropdown}
+                        alt="dropdown"
+                        onClick={() => {
+                          const category = getValues("category");
+                          const subcategory = getValues("subCategory");
+                          if (category !== "" && subcategory !== "") {
+                            itemlistfunction();
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
-                {validationErrors[0]?.selectedItems && selectedFoodItems.length===0&&  (
-                          <span className="time-error-message">
-                            {validationErrors[0]?.selectedItems}
-                          </span>
-                        )}
+                {validationErrors[0]?.selectedItems &&
+                  selectedFoodItems.length === 0 && (
+                    <span className="time-error-message">
+                      {validationErrors[0]?.selectedItems}
+                    </span>
+                  )}
                 <div>
                   {showlistOfItems && (
-
- <div className="searched-items-listed" style={{display:"flex",justifyContent:editOfferDataLoading||(!editOfferDataFailed||OfferlistData.length===0) ?"center":"",alignItems:editOfferDataLoading||(!editOfferDataFailed||OfferlistData.length===0)?"center":""}}>
-
-  {
-    editOfferDataLoading?<Loader
-    className="cPimgLoader1"
-    height="300px"
-    width="300px"
-    style={{
-      filter:
-        "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
-      height: "70px",
-      width: "70px",
-    }}
-    />: 
-    !editOfferDataFailed||OfferlistData.length===0?<div><h1 className="nodata-found">No data found</h1></div>:
-    <ul className="listing-selected-items">
-    {OfferlistData?.map((item: any, index: number) => (
-      <li
-        key={index}
-        className={`selectedlist ${
-          selectedFoodItems.some(
-            (food: any) => food.itemId === item.itemId
-          )
-            ? "highlighted"
-            : ""
-        }`}
-        onClick={() => handleItemClick(index, item)}
-      >
-        {item.itemName}
-      </li>
-    ))}
-  </ul>
-  }
-                     
+                    <div
+                      className="searched-items-listed"
+                      style={{
+                        display: "flex",
+                        justifyContent:
+                          editOfferDataLoading ||
+                          !editOfferDataFailed ||
+                          OfferlistData.length === 0
+                            ? "center"
+                            : "",
+                        alignItems:
+                          editOfferDataLoading ||
+                          !editOfferDataFailed ||
+                          OfferlistData.length === 0
+                            ? "center"
+                            : "",
+                      }}
+                    >
+                      {editOfferDataLoading ? (
+                        <Loader
+                          className="cPimgLoader1"
+                          height="300px"
+                          width="300px"
+                          style={{
+                            filter:
+                              "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+                            height: "70px",
+                            width: "70px",
+                          }}
+                        />
+                      ) : !editOfferDataFailed || OfferlistData.length === 0 ? (
+                        <div>
+                          <h1 className="nodata-found">No data found</h1>
+                        </div>
+                      ) : (
+                        <ul className="listing-selected-items">
+                          {OfferlistData?.map((item: any, index: number) => (
+                            <li
+                              key={index}
+                              className={`selectedlist ${
+                                selectedFoodItems.some(
+                                  (food: any) => food.itemId === item.itemId
+                                )
+                                  ? "highlighted"
+                                  : ""
+                              }`}
+                              onClick={() => handleItemClick(index, item)}
+                            >
+                              {item.itemName}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1631,10 +1664,22 @@ useEffect(()=>{
                           <td className="offer-table-data">{index + 1}</td>
                           <td className="offer-table-data">{item.itemName}</td>
                           <td className="offer-table-data originalprice">
-                            {item.originalPrice}
+                            {Pricesymbol}
+                            {item.originalPrice
+                              ? item.originalPrice.toString().length === 1
+                                ? `${item.originalPrice}.00`
+                                : item.originalPrice.toFixed(2)
+                              : "0.00"}
                           </td>
-                          <td className="offer-table-data">
-                            {item.updatedPrice}
+                          <td className="offer-table-data updatedprice">
+                            {item.updatedPrice ? (
+                              <>
+                                {item.updatedPrice && Pricesymbol}
+                                {item.updatedPrice}
+                              </>
+                            ) : (
+                              <>-</>
+                            )}
                           </td>
                           <td
                             className="offer-table-data bin-image"
@@ -1653,16 +1698,13 @@ useEffect(()=>{
                               item={item}
                               setToggle={handleToggle}
                               togglecolor="white"
-                              name='enable'
+                              name="enable"
                             />
                           </td>
                         </tr>
                       ))}
                     </tbody>
-                    
-
                   </table>
-                 
                 </div>
               )}
 
@@ -1673,7 +1715,7 @@ useEffect(()=>{
                   <h3>Date </h3>
                   <span>
                     <Toggle
-                    name='Date'
+                      name="Date"
                       toggle={dateShow}
                       setToggle={setDateShow}
                       togglecolor="white"
@@ -1877,7 +1919,6 @@ useEffect(()=>{
                                       setStartTime(formattedTime);
                                     }
                                   }
-                                 
                                 }}
                                 onBlur={onBlur}
                               />
@@ -1924,7 +1965,7 @@ useEffect(()=>{
                                   name="fromPeriod"
                                   onClick={() => {
                                     setValue("fromPeriod", "AM"); // Update fromPeriod in the form
-                                   validationForEndTime(); // Validate
+                                    validationForEndTime(); // Validate
                                   }}
                                 >
                                   AM
@@ -1937,7 +1978,7 @@ useEffect(()=>{
                                   name="fromPeriod"
                                   onClick={() => {
                                     setValue("fromPeriod", "PM");
-                                   validationForEndTime(); // Validate
+                                    validationForEndTime(); // Validate
                                   }}
                                 >
                                   PM
@@ -2013,7 +2054,7 @@ useEffect(()=>{
                                       setEndTime(formattedTime);
                                     }
                                   }
-                                 validationForEndTime();
+                                  validationForEndTime();
                                 }}
                                 onBlur={onBlur}
                               />
@@ -2058,8 +2099,8 @@ useEffect(()=>{
                                   }`}
                                   name="toPeriod"
                                   onClick={() => {
-                                    setValue("toPeriod", "AM"); 
-                                    validationForEndTime(); 
+                                    setValue("toPeriod", "AM");
+                                    validationForEndTime();
                                   }}
                                 >
                                   AM
@@ -2071,8 +2112,8 @@ useEffect(()=>{
                                   }`}
                                   name="toPeriod"
                                   onClick={() => {
-                                    setValue("toPeriod", "PM"); 
-                                    validationForEndTime(); 
+                                    setValue("toPeriod", "PM");
+                                    validationForEndTime();
                                   }}
                                 >
                                   PM
@@ -2139,11 +2180,7 @@ useEffect(()=>{
               Cancel
             </button>
             <button className="save-btn" onClick={handleonclick}>
-              
-              {!createLoading ?
-                "Save" : 
-                <div className="reviewLoaders"></div>
-              }
+              {!createLoading ? "Save" : <div className="reviewLoaders"></div>}
             </button>
           </div>
           {/* <button onClick={handleonclick}>click</button> */}
@@ -2154,13 +2191,6 @@ useEffect(()=>{
 };
 
 export default SpecialPriceDetails;
-
-
-
-
-
-
-
 
 // {
 //   "headers": {},

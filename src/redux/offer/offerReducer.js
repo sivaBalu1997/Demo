@@ -457,6 +457,7 @@ export default function offerReducer(state = initialOfferState, action) {
                 draft.updateSpecialOfferError=''
                 draft.updateSpecialOfferSuccess=false
                 draft.updateSpecialOfferloading = true;
+                draft.createSpecialOfferOverlapData=[]
                 break;
               case  UPDATE_SPECIAL_OFFER_SUCCESS:
                 draft.updateSpecialOfferSuccess = true;

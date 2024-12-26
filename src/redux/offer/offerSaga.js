@@ -339,11 +339,25 @@ export function* updateSpOfferSaga(action) {
   try {
     const response = yield call(UpdateSpecialOffer, action.payload);
     if (response.status === 200) {
-      yield put(updateSpecialOfferSuccess(response.data));
-      yield put({
-        type: SP_OFFER_LIST_VIEW_REQUEST,
-        payload: action?.payload?.locationId,
-      });
+
+
+      if(response.data.statusCodeValue===409)
+        {
+          yield put(createSpecialOfferOverlapData(response.data.body));
+  
+        }
+        else{
+   
+          showSuccessToast(response.data.message);
+         
+
+          yield put(updateSpecialOfferSuccess(response.data));
+          yield put({
+            type: SP_OFFER_LIST_VIEW_REQUEST,
+            payload: action?.payload?.locationId,
+          });
+        }
+     
     }
   } catch (err) {
     yield put(updateSpecialOfferFailure(err.response.data[0]));
