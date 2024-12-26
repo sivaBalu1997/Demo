@@ -94,22 +94,40 @@ const CompletedTable = () => {
 
     return orderTypeNames.join(", ");
   };
+  const [showFullitems,setShowFullItems]=useState(false);
 
   const renderItems = (items: { itemId: string; itemName: string }[]) => {
     const maxVisibleItems = 5;
-
+  
+  
     const itemNames = items?.map((item) => item?.itemName);
 
+
+  
     return (
       <>
-        {itemNames?.slice(0, maxVisibleItems).join(", ")}
+
+      {
+        showFullitems ? itemNames?.join(", "):itemNames?.slice(0, maxVisibleItems).join(", ")
+      }
+        
         {items?.length > maxVisibleItems && (
-          <span className="extra-items">
-            +{items?.length - maxVisibleItems} Items
+          <span className="extra-items" onClick={()=>setShowFullItems(!showFullitems)}>
+            {!showFullitems ? <> +{items?.length - maxVisibleItems} Items</>:<>show less</>}
           </span>
         )}
       </>
     );
+
+    // return(
+    //   <>
+    //   {
+    //     itemNames?.map((items,index)=>(
+    //       <span className="extra-items">{items}</span>
+    //     ))
+    //   }
+    //   </>
+    // )
   };
   const [expandedRows, setExpandedRows] = useState<boolean[]>([]);
   const handleShowRemainingItems = (index: number) => {

@@ -177,7 +177,7 @@ useEffect(()=>{
     }
   ]
   
-
+const [showFullitems,setShowFullItems]=useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const componentRef = useRef<HTMLDivElement | null>(null);
 
@@ -226,17 +226,33 @@ useEffect(()=>{
         
         
           const itemNames = items?.map((item) => item?.itemName);
+
+
         
           return (
             <>
-              {itemNames?.slice(0, maxVisibleItems).join(", ")}
+
+            {
+              showFullitems ? itemNames?.join(", "):itemNames?.slice(0, maxVisibleItems).join(", ")
+            }
+              
               {items?.length > maxVisibleItems && (
-                <span className="extra-items">
-                  +{items?.length - maxVisibleItems} Items
+                <span className="extra-items" onClick={()=>setShowFullItems(!showFullitems)}>
+                  {!showFullitems ? <> +{items?.length - maxVisibleItems} Items</>:<>show less</>}
                 </span>
               )}
             </>
           );
+
+          // return(
+          //   <>
+          //   {
+          //     itemNames?.map((items,index)=>(
+          //       <span className="extra-items">{items}</span>
+          //     ))
+          //   }
+          //   </>
+          // )
         };
   const countryC = restaurantDetails?.country;
 
@@ -316,7 +332,7 @@ offerlistdataloading===false && offerListDataArray?.map((row: any, index: number
           <DaysWeekOffer highlightedDays={row?.effectivePeriod?.validDays} />
         </td>
         <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{isChannelAvailable(row.channel)}</td>
-        <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{renderItems(row?.items)}</td>
+        <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%", }}>{renderItems(row?.items)}</td>
         <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row?.totalItems}</td>
         <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
           {row.type === "PERCENT" ? `${row?.value}%` : null}
