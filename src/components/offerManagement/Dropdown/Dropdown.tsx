@@ -101,6 +101,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [manuallyCleared, setManuallyCleared] = useState(false);
   const [disabled,setDisabled] =useState(false)
   const dropdownLoading = useSelector((state: any) => state.offer.getSubCategoryLoading);
+  const dropdownLoadingcategory = useSelector((state: any) => state.offer.getCategoryLoading);
+
   const dropdownLoadingsuc = useSelector((state: any) => state.offer.getSubCategoryErrorMessage);
 
   console.log({dropdownLoadingsuc});
@@ -305,7 +307,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [Loading, setLoading] = useState<boolean>();
 
   useEffect(() => {
-    if (dropdownLoading &&(!options || options.length < 1)) {
+    if ((dropdownLoading||dropdownLoadingcategory) &&(!options || options.length < 1)) {
       setLoading(true);
     } else {
       setLoading(false);
@@ -313,7 +315,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
 
     
-  }, [options,dropdownLoading]);
+  }, [options,dropdownLoading,dropdownLoadingcategory]);
 
   const handleAboveArrowdropdown = () => {
     if(!disabled)
