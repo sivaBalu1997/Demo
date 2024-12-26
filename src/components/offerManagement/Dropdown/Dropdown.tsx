@@ -246,6 +246,9 @@ const Dropdown: React.FC<DropdownProps> = ({
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
+    setSelectedOptions(
+      (item: any) => item && item?.filter((opt: any) => opt.id !== value)
+    );
   };
 
   const handleCheckboxChange = (option: Option) => {
@@ -282,7 +285,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const handleNewItemAdd = () => {
     const newValue:any = NewItemref?.current?.value;
-  if(newValue === "" || newValue[0] !== " "){
+  if(newValue[0]!= " " &&newValue.length>0 ){
     const newItem = {
       id:options?.length,
       locationId: '',
