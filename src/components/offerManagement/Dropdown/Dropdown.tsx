@@ -105,7 +105,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const dropdownLoadingsuc = useSelector((state: any) => state.offer.getSubCategoryErrorMessage);
 
-  console.log({dropdownLoadingsuc});
+  
   
   const dispatch = useDispatch();
 

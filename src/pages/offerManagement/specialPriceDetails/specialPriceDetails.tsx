@@ -229,7 +229,7 @@ console.log({subCatagoryOption});
   const [parentId, setParentId] = useState("");
   const [subCatagoryId, setSubCatagoryId] = useState([]);
    
-  const handleonclick = () => {
+  const handleonclick = async() => {
     const values = getValues();
     const fromTiming = getValues("fromTime");
     const endTiming = getValues("toTime");
@@ -283,8 +283,12 @@ setstFlag(true)
         validDays: values?.AvailableDays.filter((data)=>data!=0).map((data)=>data==7?0:data),
       },
     };
+    const formaData=getValues();
+    console.log({formaData});
+    
 
-    trigger();
+    const triggerValid = await trigger(); 
+    console.log({ triggerValid });
     const isvalid = valiadtionforDateandTime();
     // console.log("errorsdate",valiadtionforDateandTime());
     // dispatch(createSpecialOfferRequest(payload));
@@ -300,7 +304,7 @@ setstFlag(true)
     //       }
     //   }
 
-    if (isvalid && !negativeError) {
+    if (isvalid && !negativeError && triggerValid) {
       if (editOfferData?.offerId && !duplicateOffer) {
         dispatch(updateSpecialOfferRequest(payload));
       } else {
