@@ -67,32 +67,6 @@ const SpecialPriceDetails = () => {
   const locationid = useSelector(
     (state: any) => state.auth.credentials?.locationId
   );
-  const channelOption = [
-    {
-      id: "1",
-      name: "Dine-In",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "2",
-      name: "Delivery",
-      locationId: "",
-      type: "D",
-      parentId: "",
-      canDelete: false,
-    },
-    {
-      id: "3",
-      name: "PickUp",
-      locationId: "",
-      type: "P",
-      parentId: "",
-      canDelete: false,
-    },
-  ];
 
   const visibleOption = [
     {
@@ -239,56 +213,6 @@ const SpecialPriceDetails = () => {
   const datePickerRef1 = useRef<any | null>(null);
   const [parentId, setParentId] = useState("");
   const [subCatagoryId, setSubCatagoryId] = useState([]);
-  const [selecteFoodItems, setselecteFoodItems] = useState([
-    {
-      itemId: "0074afc7-719b-43a8-a948-bbda0fd6f9c3",
-      itemName: "Paneer Fried Rice",
-      originalPrice: 16.45,
-      isEnabled: 1,
-    },
-    {
-      itemId: "01601102-5fc1-4b80-80a1-3788e6c563cc",
-      itemName: "Strawberry Milkshake",
-      originalPrice: 7.49,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf12-1884-795d-9916-b55b0606293e",
-      itemName: "chocolate cream",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf1b-b715-7fe1-89c8-387681b3b115",
-      itemName: "chocolate ice cream",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf1f-7639-7369-aeef-d1e9bb98a922",
-      itemName: "test1",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf2c-2552-71a4-81ef-96f008af84cb",
-      itemName: "Rose Milk",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf5e-d6be-7fab-9903-3b50c6e9006b",
-      itemName: "Rose Milk",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-    {
-      itemId: "0192bf64-966c-73a3-b2dd-b5a58efe4c38",
-      itemName: "Strawberry dessert",
-      originalPrice: 35.0,
-      isEnabled: 1,
-    },
-  ]);
 
   const handleonclick = () => {
     const values = getValues();
@@ -339,9 +263,6 @@ const SpecialPriceDetails = () => {
         isDateEnabled: dateShow,
         startDate: dateShow ? formatDate(selectedDate) : null,
         endDate: dateShow ? formatDate(selectedDate1) : null,
-        // startTime:null,
-        // endTime:null,
-
         startTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
         endTime: convertTo24HourFormatWithSeconds(toTimeFormat),
         validDays: values?.AvailableDays.filter((data)=>data!=0).map((data)=>data==7?0:data),
@@ -349,25 +270,7 @@ const SpecialPriceDetails = () => {
     };
 
     trigger();
-
     const isvalid = valiadtionforDateandTime();
-    // console.log("errorsdate",valiadtionforDateandTime());
-    // dispatch(createSpecialOfferRequest(payload));
-    // if(isvalid)
-    //   {
-    //     if(editOfferData?.offerId && !duplicateOffer)
-    //       {
-    //         dispatch(updateSpecialOfferRequest(payload))
-    //       }
-    //       else{
-    //         dispatch(createSpecialOfferRequest(payload));
-    
-    //       }
-    //   }
-  
-
-  
-
     if(isvalid)
     {
       if(editOfferData?.offerId && !duplicateOffer)
@@ -381,27 +284,6 @@ const SpecialPriceDetails = () => {
         }
     }
 
-  //   if (isvalid) {
-
-
-
-      
-
-
-  //     if(editOfferData?.offerId)
-  //       {
-  //          dispatch(updateSpecialOfferRequest(payload))
-  //       }
-  //       else{
-  //  dispatch(createSpecialOfferRequest(payload));
-  //       }
-
-      
-  //     //setOverlapShow(true);
-  //   }
-
-    //console.log("kkkkk",payload)
-    //setOverlapShow(true);
   };
   const formatDate = (dateString: any) => {
     const date = new Date(dateString);
@@ -714,7 +596,7 @@ const SpecialPriceDetails = () => {
                 locationId: "",
                 type: "T",
                 parentId: "",
-                canDelete: false,
+                canDelete: true,
               }
           })
           setterms([...data])
@@ -783,20 +665,9 @@ const SpecialPriceDetails = () => {
 
             }
          }
-      // setValue("offerChannel", editOfferData?.channel?.join(",") || "");
-      // setValue("DatePicked", editOfferData?.effectivePeriod?.isDateEnabled);
-      // setValue("fromTime", editOfferData?.effectivePeriod?.startTime);
-      // setValue("toTime", editOfferData?.effectivePeriod?.endTime);
-      // setValue("fromDate", editOfferData?.effectivePeriod?.startDate);
-      // setValue("toDate", editOfferData?.effectivePeriod?.endDate);
-      // setValue("specialType", editOfferData?.type);
-      // setValue("AvailableDays", editOfferData?.effectivePeriod?.validDays);
-      // setValue("selectedFooditems", editOfferData?.items);
-      // setValue("specialTypeValue", editOfferData?.value);
     }
   }, [flag]);
 
-  // const validateModifiers = (modifications: any[]) => {
   //   const errors = [...customizationerrors];
 
   //   modifications?.forEach((modifier, index) => {
@@ -905,10 +776,6 @@ const SpecialPriceDetails = () => {
     const errors = [...validationErrors];
     const StartTime = getValues("fromTime");
     const EndTime = getValues("toTime");
-    // console.log("errorhandling");
-    // console.log({ selectedFrom });
-    // console.log({ selectedTo });
-
     if (errors && errors[0]) {
       if (EndTime === "") {
         errors[0].EndTimeError = "Time is required";
@@ -1271,7 +1138,7 @@ useEffect(()=>{
                         onToggle={() => handleDropdownToggle("terms")}
                         setDropdownOpen={setDropdownOpen}
                         addNew={true}
-                        editValues={false}
+                        editValues={true}
                         dropDownType="termsAndConditions"
                         search={false}
                       />

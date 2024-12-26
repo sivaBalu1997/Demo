@@ -235,8 +235,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const handledeletion = (value: string) => {
-    //console.log("kkkk",selectedOptions,value)
-
     setOptions(
       (item: any) => item && item?.filter((opt: any) => opt.id !== value)
     );
@@ -275,19 +273,22 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const handleNewItemAdd = () => {
-    const newValue = NewItemref?.current?.value;
-
+    const newValue:any = NewItemref?.current?.value;
+  if(newValue === "" || newValue[0] !== " "){
     const newItem = {
       id:options?.length,
       locationId: '',
       name: newValue,
       type: dropDownType,
       parentId: parentId && parentId,
+      canDelete: true,
     };
 
     setOptions((prev:any)=>([...prev,newItem]));
     setSearchTerm("");
     setAddNewButton(false);
+  }
+  
   };
 
   const [Loading, setLoading] = useState<boolean>();
