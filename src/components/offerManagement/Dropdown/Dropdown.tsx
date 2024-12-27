@@ -123,6 +123,9 @@ const Dropdown: React.FC<DropdownProps> = ({
       setDisabled(true)
     }
     else{
+      if(name=='subCategory' && selectedOptions.length==0){
+        setValue(name,'')
+    }
       setDisabled(false)
     }
   },[options])

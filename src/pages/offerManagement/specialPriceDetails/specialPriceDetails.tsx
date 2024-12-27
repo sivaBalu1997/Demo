@@ -908,7 +908,7 @@ if(selectedFoodItems.length>0){
         end.hours < start.hours ||
         (end.hours === start.hours && end.minutes < start.minutes)
       ) {
-        errors[0].EndTimeError = "End time must be greater than start00 time";
+        errors[0].EndTimeError = "End time must be greater than start time";
       } else {
         errors[0].EndTimeError = "";
       }
