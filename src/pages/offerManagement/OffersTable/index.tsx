@@ -14,7 +14,9 @@ import noResultsfound from "../../../assets/images/NoResultsFound.png";
 
 const Table = () => {
   const { isExpanded } = useContext(Contextpagejs);
-const locationId="969c059b-6597-47a8-b175-08658e9bf41c"
+  const locationId = useSelector(
+    (state: any) => state.auth.credentials?.locationId
+  );
 const dispatch=useDispatch();
   useEffect(()=>{
 
@@ -348,7 +350,7 @@ offerlistdataloading===false && offerListDataArray?.map((row: any, index: number
               alt="Actions"
             />
             {activeIndex === index && (
-              <div className="OffersDropDownTable" style={{position:"relative",top:activeIndex===index && (index===offerListDataArray.length-1)?"-4rem":"",left:activeIndex===index && (index===offerListDataArray.length-1)?"-2rem":""}}>
+              <div className="OffersDropDownTable">
                 <OfferDropDown EnableorNot={row.isEnabled} offerData={row}/>
               </div>
             )}

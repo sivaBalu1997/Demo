@@ -17,7 +17,9 @@ import noResultsfound from "../../../assets/images/NoResultsFound.png";
 
 const CompletedTable = () => {
   const { isExpanded } = useContext(Contextpagejs);
-  const locationId = "969c059b-6597-47a8-b175-08658e9bf41c";
+  const locationId = useSelector(
+     (state: any) => state.auth.credentials?.locationId
+   );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(SPOfferListRequest(locationId));

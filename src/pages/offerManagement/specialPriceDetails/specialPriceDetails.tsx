@@ -199,8 +199,6 @@ console.log({subCatagoryOption});
       AvailableDays: [],
       fromPeriod: "AM",
       toPeriod: "AM",
-      startTime: "",
-      endTime: "",
     },
   });
   const handleDropdownToggle = (dropdownName: string) => {
@@ -303,6 +301,7 @@ setstFlag(true)
 
     //       }
     //   }
+    console.log('llllpppp',isvalid,negativeError,triggerValid)
 
     if (isvalid && !negativeError && triggerValid) {
       if (editOfferData?.offerId && !duplicateOffer) {
@@ -380,6 +379,7 @@ setstFlag(true)
   };
 
   const selectedradiowatch = watch();
+  console.log("jjjjj",selectedradiowatch)
   const handleFromToTime = (value: string, timePeriod: string) => {
     console.log({ timePeriod });
 
@@ -1595,17 +1595,17 @@ if(selectedFoodItems.length>0){
                               )}
                             </div>
                           )}
-                          rules={{
-                            required: "This field is required",
-                            validate: (value) => {
-                              const timeRegex =
-                                /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
-                              return (
-                                timeRegex.test(value) ||
-                                "Please enter a valid time in hh:mm format"
-                              );
-                            },
-                          }}
+                          // rules={{
+                          //   required: "This field is required",
+                          //   validate: (value) => {
+                          //     const timeRegex =
+                          //       /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                          //     return (
+                          //       timeRegex.test(value) ||
+                          //       "Please enter a valid time in hh:mm format"
+                          //     );
+                          //   },
+                          // }}
                         />
                         <img
                           src={calender}
@@ -1661,17 +1661,17 @@ if(selectedFoodItems.length>0){
                               )}
                             </div>
                           )}
-                          rules={{
-                            required: "This field is required",
-                            validate: (value) => {
-                              const timeRegex =
-                                /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
-                              return (
-                                timeRegex.test(value) ||
-                                "Please enter a valid time in hh:mm format"
-                              );
-                            },
-                          }}
+                          // rules={{
+                          //   required: "This field is required",
+                          //   validate: (value) => {
+                          //     const timeRegex =
+                          //       /^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/;
+                          //     return (
+                          //       timeRegex.test(value) ||
+                          //       "Please enter a valid time in hh:mm format"
+                          //     );
+                          //   },
+                          // }}
                         />
                         <img
                           src={calender}
