@@ -6,7 +6,7 @@ import subscriptionSaga from "./subscription/subscriptionSaga";
 import paymentSaga from "./payment/paymentSaga";
 import productCatalogSaga from "./productCatalog/productCatalogSaga";
 import offerSaga from "./offer/offerSaga"
-
+import newReportsSagas from "./newReports/newReportsSagas";
 // Redux Saga: Root Saga
 export default function* rootSaga() {
   yield all([
@@ -17,6 +17,6 @@ export default function* rootSaga() {
     fork(paymentSaga),
     fork(productCatalogSaga),
     fork(offerSaga),
-    
+    fork(newReportsSagas),
   ]);
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import Table from "../../../components/reportComponents/Table";
 import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieChart";
@@ -11,6 +11,9 @@ import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { useDispatch, useSelector } from "react-redux";
+import { salesSummaryRequest } from "redux/newReports/newReportsActions";
+import { start } from "repl";
 
 interface PaymentModeData {
   "Payment Mode": string;
@@ -64,6 +67,10 @@ interface ChartOptions {
 }
 
 const Sales: React.FC = () => {
+
+  const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+
+
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [state, setState] = useState<SalesState>({
@@ -199,14 +206,77 @@ const Sales: React.FC = () => {
 
   // console.log({ isExpanded });
 
+  const getSalesSummaryPayload = () => {
+    const { selectedPeriod, startDate, endDate } = state;
+
+    let computedStartDate = moment().toDate();
+    let computedEndDate = moment().toDate();
+
+    switch (selectedPeriod) {
+      case "Today":
+        computedStartDate = moment().startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "This Week":
+        computedStartDate = moment().startOf("week").toDate();
+        computedEndDate = moment().endOf("week").toDate();
+        break;
+      case "Last 7 days":
+        computedStartDate = moment().subtract(7, "days").startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "This Month":
+        computedStartDate = moment().startOf("month").toDate();
+        computedEndDate = moment().endOf("month").toDate();
+        break;
+      case "Last Month":
+        computedStartDate = moment().subtract(1, "month").startOf("month").toDate();
+        computedEndDate = moment().subtract(1, "month").endOf("month").toDate();
+        break;
+      case "Last 30 days":
+        computedStartDate = moment().subtract(30, "days").startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "Select Custom Date Range":
+        computedStartDate = startDate;
+        computedEndDate = endDate;
+        break;
+      default:
+        break;
+    }
+
+    // Return payload with locationId
+    return {
+      locationid, // Use the locationId from Redux
+      startDate: moment(computedStartDate).format("YYYY-MM-DD"),
+      endDate: moment(computedEndDate).format("YYYY-MM-DD"),
+    };
+  };
+
+
+  const dispatch = useDispatch();
+
+
+  // const salesSummaryPayload = { locationId: "969c059b-6597-47a8-b175-08658e9bf41c", startDate: "2024-12-01", endDate: "2024-12-30" };
+
+
+  const salesSummaryPayload = getSalesSummaryPayload();
+  console.log({ salesSummaryPayload })
+  useEffect(() => {
+    console.log("Sales Page Mounted");
+    dispatch(salesSummaryRequest(salesSummaryPayload));
+  }, []);
+
+  const salesDataFromAPI = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
+  console.log({ salesDataFromAPI })
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       {/* <div className={`${isExpanded ? "alignment-fix-class" : ""}`}> */}
       <div
-        className={`s-sales-container ${
-          isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
-        } ${isExpanded ? "s-expanded-width-sales" : ""}`}
+        className={`s-sales-container ${isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
+          } ${isExpanded ? "s-expanded-width-sales" : ""}`}
       >
         <Topnavbar />
         <div className="s-sales-head">
@@ -419,8 +489,8 @@ const Sales: React.FC = () => {
         {/* Total Sales (Direct Sales + Store price adjusted third party orders) END */}
         <div className="direct-sales-store-price-cont">
           <div className="inner-direct-sales-store-prices">
-            <Table Heading="Direct Store/Online Sales (Maghil)" tableData={S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={5}/>
-            <Table Heading="Actual 3rd Party Sales" tableData={S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={5}/>
+            <Table Heading="Direct Store/Online Sales (Maghil)" tableData={S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={5} />
+            <Table Heading="Actual 3rd Party Sales" tableData={S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={5} />
           </div>
         </div>
         <div className="s-day-of-the-week">

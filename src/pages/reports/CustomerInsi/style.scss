@@ -36,6 +36,13 @@
   gap: 0.5rem;
   width: 82vw;
   margin-left: -1.5rem;
+  @media(max-width: 1536px){
+    width: 82vw !important;  
+  }
+  @media(max-width: 500px){
+    width: 103vw !important;  
+    // background-color: pink !important;
+  }
   .employee-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;

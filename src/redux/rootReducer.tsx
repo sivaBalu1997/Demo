@@ -5,8 +5,9 @@ import menuReducer from "./menu/menuReducer";
 import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
 // import offerReducer from "./offer/offerReducer";
-import productCatalogReducer, { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer } from "./productCatalog/productCatalogReducers";
+import productCatalogReducer, { primarypagereducer, itemCustomizationsReducer, PricingDetailReducer, imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
+import newReportsReducer from "./newReports/newReportsReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -16,12 +17,13 @@ const rootReducer = combineReducers({
   payment: paymentReducer,
   productCatalog: productCatalogReducer,
   offer: offerReducer,
-  primarypage:primarypagereducer,
-  itemCustomizationsReducer1:itemCustomizationsReducer,
-  PricingDetailReducer:PricingDetailReducer,
-  storeMockDataReducer:storeMockDataReducer,
-  storeMockDataFilteredReducer:storeMockDataFilteredReducer,
-  addMockDataReducer:addMockDataReducer
+  primarypage: primarypagereducer,
+  itemCustomizationsReducer1: itemCustomizationsReducer,
+  PricingDetailReducer: PricingDetailReducer,
+  storeMockDataReducer: storeMockDataReducer,
+  storeMockDataFilteredReducer: storeMockDataFilteredReducer,
+  addMockDataReducer: addMockDataReducer,
+  newReports: newReportsReducer,
 });
 
 export { rootReducer };
