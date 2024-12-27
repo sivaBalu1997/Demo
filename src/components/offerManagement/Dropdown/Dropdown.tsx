@@ -40,7 +40,7 @@ interface DropdownProps {
   setOptions: any;
   placeholder?: string;
   validation?: any;
-  error?: FieldError;
+  error?: FieldError | null;
   trigger: any;
   getValues: any;
   dropdownopen?: boolean;
@@ -118,13 +118,13 @@ const Dropdown: React.FC<DropdownProps> = ({
     setSelectedOptions([]);
   };
   useEffect(()=>{
-    if(name=='subCategory' && parentId==''){
+    if(name=='subCategory' && options?.length==0){
       setDisabled(true)
     }
     else{
       setDisabled(false)
     }
-  },[parentId,name])
+  },[options])
 
   useEffect(() => {
     if (resetSelection) {
@@ -185,10 +185,19 @@ const Dropdown: React.FC<DropdownProps> = ({
             (opt) => opt.id !== option?.id
           );
           setSelectedOptions(updatedOptions);
-          setValue(
-            name,
-            updatedOptions.map((opt) => opt?.name)
-          );
+          if(updatedOptions.length>0){
+            setValue(
+              name,
+              updatedOptions.map((opt) => opt?.name)
+            );
+          }
+          else{
+            setValue(
+              name,
+              ''
+            );
+          }
+        
           if(dropDownType === "SUB_CATEGORY")
             {
              setSubCatagoryId(updatedOptions.map((opt) => opt?.id));
@@ -221,6 +230,12 @@ const Dropdown: React.FC<DropdownProps> = ({
         {
           if(parentId!=option?.id){
             setParentId(option?.id);
+            const payloadsub = {
+              locationId: locationid,
+              type: dropDownType,
+              parentId: option?.id,
+            };
+            dispatch(fetchSubDropDownRequest(payloadsub));
             setSubCatagoryId([])
           }
          
@@ -330,10 +345,10 @@ const Dropdown: React.FC<DropdownProps> = ({
     if(name=="category" ){
       dispatch(fetchDropDownRequest(payload));
     }
-    if(name=='subCategory')
-    {
-      dispatch(fetchSubDropDownRequest(payload));
-    }
+    // if(name=='subCategory')
+    // {
+    //   dispatch(fetchSubDropDownRequest(payload));
+    // }
     onToggle();
   }
   };

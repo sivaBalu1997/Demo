@@ -252,7 +252,7 @@ setstFlag(true)
     }
     const payload = {
       locationId: locationid,
-      offerId: editOfferData?.offerId || null,
+      offerId:!duplicateOffer? editOfferData?.offerId || null:null,
       offerName: values?.offerName,
       channel: selectedChannal?.map((item: any) => item.id),
       visibleTo: selectedVissibleTo?.map((item: any) => item?.name[0]),
@@ -435,6 +435,7 @@ setstFlag(true)
     if (selectedDate && selectedDate1) {
       if (!editOfferData) {
         setDayThird([]);
+        setValue("AvailableDays", []);
       }
 
       if (selectedDate == selectedDate1) {
@@ -492,8 +493,10 @@ if(selectedFoodItems.length>0){
     setDisableDay(availableDays);
     if (availableDays.length === 1) {
       setDayThird(availableDays);
+      setValue("AvailableDays", availableDays);
     }
   };
+  console.log(DayThird)
 
   const generateDateRange = (startDate: any, endDate: any) => {
     let currentDate = new Date(startDate);
@@ -1329,8 +1332,8 @@ if(selectedFoodItems.length>0){
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={{ required: "subCategory is required" }}
-                        error={errors.subCategory}
+                        validation={subCatagoryOption.length>0?{ required: "subCategory is required" }:null}
+                         error={subCatagoryOption.length>0?errors.subCategory:null}
                         dropdownopen={DropdownOpen.subCategory}
                         onToggle={() => handleDropdownToggle("subCategory")}
                         setDropdownOpen={setDropdownOpen}
