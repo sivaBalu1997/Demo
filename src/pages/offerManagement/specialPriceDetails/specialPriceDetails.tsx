@@ -393,10 +393,10 @@ const SpecialPriceDetails = () => {
   const [updatedPrice, setUpdatedPrice] = useState(-1);
   const [showlistOfItems, setShowlistOfItems] = useState(false);
   const [overlapShow, setOverlapShow] = useState(false);
-  const [highlighted, setHighlighted] = useState<any>();
+  const [highlighted, setHighlighted] = useState<number>(0);
+
   const selectedValue = watch("specialType");
   useEffect(() => {
-   
     if (DropdownOpen.category || DropdownOpen.subCategory) {
       setShowlistOfItems(false);
     }
@@ -1074,6 +1074,28 @@ const SpecialPriceDetails = () => {
   );
 
   const Pricesymbol = `${restaurantDetails?.country === "US" ? "$" : "Rs."}`;
+  const handleKeyDown = (e: any) => {
+    if (e.key === "ArrowDown") {
+      setHighlighted((prev) =>
+        prev === OfferlistData.length - 1 ? 0 : prev + 1
+      );
+    }
+
+    if (e.key === "ArrowUp") {
+      setHighlighted((prev) =>
+        prev === 0 ? OfferlistData.length - 1 : prev - 1
+      );
+    }
+
+    if (e.key === "Enter") {
+      const selectedItem = OfferlistData[highlighted];
+      setselectedFoodItems((prev: any) =>
+        prev.some((item: any) => item.itemId === selectedItem.itemId)
+          ? prev // Do nothing if already selected
+          : [...prev, selectedItem]
+      );
+    }
+  };
 
   return (
     <div className={isExpanded ? "offer-creationpage" : "offer-creationpage1"}>
@@ -1120,10 +1142,13 @@ const SpecialPriceDetails = () => {
                         name="offerName"
                         onChange={(e) => {
                           const inputValue = e.target.value;
-                          // Prevent updating value if it starts with a space
-                          if ((inputValue === "" || inputValue[0] !== " ") && inputValue.length <= 12) {
-          onChange(inputValue);
-        }
+
+                          if (
+                            (inputValue === "" || inputValue[0] !== " ") &&
+                            inputValue.length <= 12
+                          ) {
+                            onChange(inputValue);
+                          }
                         }}
                         onBlur={onBlur}
                         value={value}
@@ -1267,28 +1292,29 @@ const SpecialPriceDetails = () => {
                 <Controller
                   name="specialTypeValue"
                   control={control}
-                   rules={{
-    required: "Special type value is required",
-    validate: (value) =>
-      /^\d{0,4}(\.\d{0,2})?$/.test(value) ||
-      "Only up to 4 digits with up to 2 decimal places are allowed",
-  }}
+                  rules={{
+                    required: "Special type value is required",
+                    validate: (value) =>
+                      /^\d{0,4}(\.\d{0,2})?$/.test(value) ||
+                      "Only up to 4 digits with up to 2 decimal places are allowed",
+                  }}
                   render={({ onChange, onBlur, value, error }: any) => (
                     <InputComponent
                       name="specialTypeValue"
-                     onChange={(e) => {
-        const inputValue = e.target.value;
-        const typeName = getValues("specialType");
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        const typeName = getValues("specialType");
 
-        // Validate input against number format with up to 2 decimals
-        if (/^\d{0,4}(\.\d{0,2})?$/.test(inputValue)) {
-          // Validate percentage not exceeding 100 if typeName is "Percentage"
-          if (typeName === "Percentage" && parseFloat(inputValue) > 100) {
-            return;
-          }
-          onChange(inputValue);
-        }
-      }}
+                        if (/^\d{0,4}(\.\d{0,2})?$/.test(inputValue)) {
+                          if (
+                            typeName === "Percentage" &&
+                            parseFloat(inputValue) > 100
+                          ) {
+                            return;
+                          }
+                          onChange(inputValue);
+                        }
+                      }}
                       onBlur={() => {
                         priceCalulate(selectedFoodItems);
                       }}
@@ -1406,10 +1432,6 @@ const SpecialPriceDetails = () => {
                         style={{ rotate: "180deg" }}
                         onClick={() => {
                           setShowlistOfItems(false);
-
-
-
-
                         }}
                       />
                     </div>
@@ -1488,25 +1510,35 @@ const SpecialPriceDetails = () => {
                           <h1 className="nodata-found">No data found</h1>
                         </div>
                       ) : (
-                        <ul className="listing-selected-items">
-                          {OfferlistData?.map((item: any, index: number) => (
-                            <li
-                              key={index}
-                              className={`selectedlist ${
-                                selectedFoodItems.some(
-                                  (food: any) => food.itemId === item.itemId
-                                )
-                                  ? "highlighted"
-                                  : ""
-                              }`}
-                              onClick={() => {
-                                handleItemClick(index, item);
-                              }}
-                            >
-                              {item.itemName}
-                            </li>
-                          ))}
-                        </ul>
+                        <div
+                          tabIndex={0}
+                          onKeyDown={handleKeyDown}
+                          style={{ border: "none", outline: "none" }}
+                        >
+                          <ul className="listing-selected-items">
+                            {OfferlistData?.map((item: any, index: number) => (
+                              <li
+                                key={index}
+                                className={`selectedlist ${
+                                  selectedFoodItems.some(
+                                    (food: any) => food.itemId === item.itemId
+                                  )
+                                    ? "highlighted"
+                                    : ""
+                                }   ${
+                                  highlighted === index
+                                    ? "initialhighlighted"
+                                    : ""
+                                }  `}
+                                onClick={() => {
+                                  handleItemClick(index, item);
+                                }}
+                              >
+                                {item.itemName}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       )}
                     </div>
                   )}
@@ -1742,7 +1774,7 @@ const SpecialPriceDetails = () => {
                   </div>
                 )}
 
-                <div className="timeContainer" >
+                <div className="timeContainer">
                   <h4 className="Time-heading">Time</h4>
                   <div className="time-format">
                     <div className="from-time-errormsg">

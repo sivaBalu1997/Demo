@@ -496,8 +496,8 @@ const Dropdown: React.FC<DropdownProps> = ({
       </div>
 
       {dropdownopen && (
-        <div className="cPdropdownBodyContainer">
-          <div className="cPdropdownbody">
+        <div className="cPdropdownBodyContainer" style={{ top:error?"-0.4rem":""}}>
+          <div className="cPdropdownbody" style={{maxHeight:addNew?"10.8rem":"7.7rem"}}>
             <div className="cPDropdown-lists-and-edit">
               <ul
                 className="cPdropdown-options"
@@ -588,6 +588,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               <div
                 className="cPdropdown-Addbutton"
                 onMouseDown={handleOptionMouseDown}
+
               >
                 {addNew && addNewButton && (
                   <div className="cPdropdown-addnew">

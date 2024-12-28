@@ -25,11 +25,12 @@ const dispatch=useDispatch();
 
 const offerlistdata=useSelector((state:any)=>state.offer.SpofferListSuccessResponse)
 
+
 const offerlistdataloading=useSelector((state:any)=>state.offer.SpOfferListLoading)
 
 const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailureResponse)
 
-// console.log({offerlistdata});
+console.log({offerlistdata});
 
 const [offerListDataArray,setOfferListDataArray]=useState([])
 useEffect(()=>{
@@ -337,7 +338,7 @@ offerlistdataloading===false && offerListDataArray?.map((row: any, index: number
         <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%", }}>{renderItems(row?.items)}</td>
         <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>{row?.totalItems}</td>
         <td className="OffrtsTabletd" style={{opacity:row.isEnabled===0?"50%":"100%"}}>
-          {row.type === "PERCENT" ? `${row?.value}%` : null}
+          {row.type === "PERCENT" ? ` ${row.specialType==="HAPPY HOUR"?"+":"-"}${row?.value}%` : null}
           {row.type === "FLATFEE" ? `${countryC === "US" ? "$" : "RS"}${row.value}` : null}
         </td>
         <td className="OffrtsTabletd">
