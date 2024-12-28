@@ -20,9 +20,9 @@
 .offer-primary-part1 {
   width: 100%;
   // border: 1px solid red;
-  margin-top: 1%;
+  margin-top: 0.7%;
   margin-left: 10px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.3rem;
 
   .offerPrimaryRow1 {
     display: flex;
@@ -67,9 +67,11 @@
 }
 
 .specialprice-container1 {
-  height: 78vh;
+  height: 75vh;
   overflow-y: auto;
   margin-left: 1.5rem;
+  margin-top: 1rem;
+  // border: 1px solid red;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -155,9 +157,10 @@
 
 .effectiveperiod {
   width: 60rem;
+ 
   // height: 272px;
   // border: 1px solid red;
-  margin-top: 1rem;
+  margin-top: 0.8rem;
   font-family: "Poppins", sans-serif;
   font-size: 18px;
   font-weight: 500;
@@ -181,7 +184,7 @@
 .timeContainer
 {
 position: relative;
-top: -2%;
+top: 0.5rem;
 }
 
 .time-format {
@@ -212,7 +215,7 @@ top: -2%;
 
 .select-offerfooditems {
   position: relative;
-  margin-top: 3%;
+  margin-top: 1%;
   width: 46%;
   
 }
@@ -258,6 +261,7 @@ top: -2%;
   position: relative;
   min-height: 5rem;
   margin-left: 10px;
+  
   .type-dropdown {
     margin-bottom: 1.5%;
   }
@@ -287,7 +291,7 @@ top: -2%;
 }
 
 .items-details {
-  margin-top: 20px;
+
   margin-left: 10px;
   h3 {
     font-family: "Poppins", sans-serif;
@@ -562,14 +566,24 @@ top: -2%;
     font-size: 14px;
   }
 }
-
+.offer-from-date-input
+{
+  display: flex;
+ 
+  align-items: center;
+flex-direction: column;
+height: 3.4rem;
+  
+}
 .offerdate-select {
   // position: fixed;
-  display: flex;
-  gap: 30px;
-  align-items: center;
+ display: flex;
   margin-bottom: 2%;
-  height: 3.5rem;
+  justify-content: left;
+  align-items: center;
+  gap: 30px;
+  height: 3.7rem;
+  
  
 
   
@@ -657,8 +671,11 @@ top: -2%;
 
   .checkeddays
   {
-    
-    margin-top: -2%;
+    position: relative;
+    // top: 0.2rem;
+    // bottom: 0.2rem;
+   height: 5rem;
+  //  border: 1px solid red;
     
   }
 

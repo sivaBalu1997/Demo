@@ -93,12 +93,10 @@ const SpecialPriceDetails = () => {
     (state: any) => state.offer.createSpecialOfferOverlapData
   );
 
-
   const subCatagoryOption = useSelector(
     (state: any) => state.offer.subCategoryData
   );
-console.log({subCatagoryOption});
-
+  console.log({ subCatagoryOption });
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
   const editOfferDataLoading = useSelector(
@@ -117,7 +115,6 @@ console.log({subCatagoryOption});
     (state: any) => state.offer.updateSpecialOfferSuccess
   );
 
-
   const OfferlistData = useSelector(
     (state: any) => state.offer.getOfferListData
   );
@@ -126,8 +123,8 @@ console.log({subCatagoryOption});
 
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
-  const [stFlag,setstFlag]=useState(false)
-  const [etFlag,setetFlag]=useState(false)
+  const [stFlag, setstFlag] = useState(false);
+  const [etFlag, setetFlag] = useState(false);
 
   const selectName = [
     { value: "Happy Hour", label: "Happy Hour" },
@@ -157,7 +154,7 @@ console.log({subCatagoryOption});
   const [selectedChannal, setSelectedChannal] = useState<any>([]);
   const [selectedVissibleTo, setSelectedVissibleTo] = useState<any>([]);
   const [flag, setFlag] = useState(false);
-  const [negativeError,setNegativeError]=useState(false)
+  const [negativeError, setNegativeError] = useState(false);
   // console.log({selectedChannal});
 
   const [DropdownOpen, setDropdownOpen] = useState<Record<string, boolean>>({
@@ -226,21 +223,19 @@ console.log({subCatagoryOption});
   const datePickerRef1 = useRef<any | null>(null);
   const [parentId, setParentId] = useState("");
   const [subCatagoryId, setSubCatagoryId] = useState([]);
-   
-  const handleonclick = async() => {
+
+  const handleonclick = async () => {
     const values = getValues();
     const fromTiming = getValues("fromTime");
     const endTiming = getValues("toTime");
     const offerChannel = getValues("offerChannel");
-    const st=getValues("fromPeriod")
-    const en=getValues("toPeriod")
-setetFlag(true)
-setstFlag(true)
-    const fromTimeFormat =
-      fromTiming && st ? fromTiming + " " + st : "";
+    const st = getValues("fromPeriod");
+    const en = getValues("toPeriod");
+    setetFlag(true);
+    setstFlag(true);
+    const fromTimeFormat = fromTiming && st ? fromTiming + " " + st : "";
 
-    const toTimeFormat =
-      endTiming && en ? endTiming + " " + en : "";
+    const toTimeFormat = endTiming && en ? endTiming + " " + en : "";
 
     if (fromTimeFormat && toTimeFormat) {
       const converttime = convertTo24HourFormatWithSeconds(fromTimeFormat);
@@ -252,7 +247,7 @@ setstFlag(true)
     }
     const payload = {
       locationId: locationid,
-      offerId:!duplicateOffer? editOfferData?.offerId || null:null,
+      offerId: !duplicateOffer ? editOfferData?.offerId || null : null,
       offerName: values?.offerName,
       channel: selectedChannal?.map((item: any) => item.id),
       visibleTo: selectedVissibleTo?.map((item: any) => item?.name[0]),
@@ -278,14 +273,15 @@ setstFlag(true)
         endDate: dateShow ? formatDate(selectedDate1) : null,
         startTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
         endTime: convertTo24HourFormatWithSeconds(toTimeFormat),
-        validDays: values?.AvailableDays.filter((data)=>data!=0).map((data)=>data==7?0:data),
+        validDays: values?.AvailableDays.filter((data) => data != 0).map(
+          (data) => (data == 7 ? 0 : data)
+        ),
       },
     };
-    const formaData=getValues();
-    console.log({formaData});
-    
+    const formaData = getValues();
+    console.log({ formaData });
 
-    const triggerValid = await trigger(); 
+    const triggerValid = await trigger();
     console.log({ triggerValid });
     const isvalid = valiadtionforDateandTime();
     // console.log("errorsdate",valiadtionforDateandTime());
@@ -301,7 +297,7 @@ setstFlag(true)
 
     //       }
     //   }
-    console.log('llllpppp',isvalid,negativeError,triggerValid)
+    console.log("llllpppp", isvalid, negativeError, triggerValid);
 
     if (isvalid && !negativeError && triggerValid) {
       if (editOfferData?.offerId && !duplicateOffer) {
@@ -379,7 +375,7 @@ setstFlag(true)
   };
 
   const selectedradiowatch = watch();
-  console.log("jjjjj",selectedradiowatch)
+  console.log("jjjjj", selectedradiowatch);
   const handleFromToTime = (value: string, timePeriod: string) => {
     console.log({ timePeriod });
 
@@ -399,6 +395,12 @@ setstFlag(true)
   const [overlapShow, setOverlapShow] = useState(false);
   const [highlighted, setHighlighted] = useState<any>();
   const selectedValue = watch("specialType");
+  useEffect(() => {
+   
+    if (DropdownOpen.category || DropdownOpen.subCategory) {
+      setShowlistOfItems(false);
+    }
+  }, [DropdownOpen.category, DropdownOpen.subCategory]);
 
   const handleItemClick = (index: number, item: any) => {
     setHighlighted(index);
@@ -473,17 +475,16 @@ setstFlag(true)
       setShowlistOfItems(false);
     }
   };
-  useEffect(()=>{
-if(selectedFoodItems.length>0){
-  const val=selectedFoodItems.filter((item)=>item.updatedPrice<0)
-    if(val.length>0){
-      setNegativeError(true)
+  useEffect(() => {
+    if (selectedFoodItems.length > 0) {
+      const val = selectedFoodItems.filter((item) => item.updatedPrice < 0);
+      if (val.length > 0) {
+        setNegativeError(true);
+      } else {
+        setNegativeError(false);
+      }
     }
-    else{
-      setNegativeError(false)
-    }
-}
-  },[selectedFoodItems])
+  }, [selectedFoodItems]);
 
   const validateDaysInRange = (startDate: any, endDate: any) => {
     let dateRange = generateDateRange(startDate, endDate);
@@ -496,7 +497,7 @@ if(selectedFoodItems.length>0){
       setValue("AvailableDays", availableDays);
     }
   };
-  console.log(DayThird)
+  console.log(DayThird);
 
   const generateDateRange = (startDate: any, endDate: any) => {
     let currentDate = new Date(startDate);
@@ -582,12 +583,12 @@ if(selectedFoodItems.length>0){
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showlistOfItems]);
-  useEffect(()=>{
-       if(subCatagoryId?.length==0 && parentId){
-        setSelectedSubCatagory([])
-        setselectedFoodItems([])
-       }
-  },[subCatagoryId])
+  useEffect(() => {
+    if (subCatagoryId?.length == 0 && parentId) {
+      setSelectedSubCatagory([]);
+      setselectedFoodItems([]);
+    }
+  }, [subCatagoryId]);
 
   const handleImageClick = () => {
     if (datePickerRef.current) {
@@ -632,101 +633,126 @@ if(selectedFoodItems.length>0){
     };
   };
   useEffect(() => {
-    if (editOfferData&&flag) {
-      if(editOfferData?.offerName){
-      setValue("offerName", editOfferData?.offerName);}
-      if(editOfferData?.channel?.length>0 && channal.length>0){
-        const data=channal.filter((item:any) =>editOfferData?.channel.includes(item.id));
-        setValue("offerChannel",data[0]?.name)
-        setSelectedChannal([...data])
+    if (editOfferData && flag) {
+      if (editOfferData?.offerName) {
+        setValue("offerName", editOfferData?.offerName);
+      }
+      if (editOfferData?.channel?.length > 0 && channal.length > 0) {
+        const data = channal.filter((item: any) =>
+          editOfferData?.channel.includes(item.id)
+        );
+        setValue("offerChannel", data[0]?.name);
+        setSelectedChannal([...data]);
+      }
+
+      if (editOfferData?.visibleTo?.length > 0) {
+        const data = visibleOption.filter((item: any) =>
+          editOfferData?.visibleTo.includes(item?.name[0])
+        );
+        setValue("offerToVisible", data.map((opt) => opt.name).join(", "));
+        setSelectedVissibleTo([...data]);
+      }
+      if (editOfferData?.termsAndConditions?.length > 0) {
+        const data = editOfferData?.termsAndConditions.map(
+          (item: any, index: any) => {
+            return {
+              id: index,
+              name: item,
+              locationId: "",
+              type: "T",
+              parentId: "",
+              canDelete: true,
+            };
+          }
+        );
+        setterms([...data]);
+        setSelectedTerm([...data]);
+        setValue(
+          "termsAndConditions",
+          editOfferData?.termsAndConditions?.join(",")
+        );
+      }
+      if (editOfferData?.specialType) {
+        setValue(
+          "specialTypeName",
+          editOfferData?.specialType == "SURGE HOUR"
+            ? "Surge Hour"
+            : "Happy Hour"
+        );
+      }
+      if (editOfferData?.type) {
+        setValue(
+          "specialType",
+          editOfferData?.type == "PERCENT" ? "Percentage" : "Amount"
+        );
+      }
+      if (editOfferData?.value) {
+        setValue("specialTypeValue", editOfferData?.value);
+      }
+      if (editOfferData?.category) {
+        setSelectedCatagory([editOfferData?.category]);
+        setParentId(editOfferData?.category?.id);
+        setValue("category", editOfferData?.category?.name);
+      }
+      if (editOfferData?.subCategory?.length > 0) {
+        setSelectedSubCatagory([...editOfferData?.subCategory]);
+        setValue(
+          "subCategory",
+          editOfferData?.subCategory?.map((item: any) => item.name).join(",")
+        );
+        setSubCatagoryId(
+          editOfferData?.subCategory?.map((item: any) => item.id)
+        );
+      }
+      if (editOfferData?.items?.length > 0) {
+        setselectedFoodItems([...editOfferData?.items]);
+      }
+
+      if (editOfferData.effectivePeriod) {
+        if (editOfferData.effectivePeriod?.isDateEnabled) {
+          setDateShow(editOfferData.effectivePeriod?.isDateEnabled);
+          if (editOfferData.effectivePeriod?.startDate) {
+            const data = convertStringToDate(
+              editOfferData.effectivePeriod?.startDate
+            );
+            setSelectedDate(data);
+            setValue("fromDate", data);
+          }
+          if (editOfferData.effectivePeriod?.endDate) {
+            const data = convertStringToDate(
+              editOfferData.effectivePeriod?.endDate
+            );
+            setSelectedDate1(data);
+            setValue("toDate", data);
+          }
         }
-
-        if(editOfferData?.visibleTo?.length>0){
-         const data=visibleOption.filter((item:any) =>editOfferData?.visibleTo.includes(item?.name[0]));
-         setValue("offerToVisible", data.map((opt) => opt.name).join(", "))
-         setSelectedVissibleTo([...data])
-         }
-         if(editOfferData?.termsAndConditions?.length>0){
-          const data= editOfferData?.termsAndConditions.map((item:any,index:any)=>{
-              return {
-                id: index,
-                name: item,
-                locationId: "",
-                type: "T",
-                parentId: "",
-                canDelete: true,
-              }
-          })
-          setterms([...data])
-          setSelectedTerm([...data])
-          setValue("termsAndConditions",editOfferData?.termsAndConditions?.join(","))
-         }
-         if(editOfferData?.specialType){
-          setValue("specialTypeName",editOfferData?.specialType=='SURGE HOUR'?"Surge Hour":"Happy Hour")
-         }
-         if(editOfferData?.type){
-          setValue("specialType", editOfferData?.type=="PERCENT"?"Percentage":"Amount");
-         }
-         if(editOfferData?.value)
-         {
-         setValue("specialTypeValue", editOfferData?.value);
-         }
-         if(editOfferData?.category){
-          setSelectedCatagory([editOfferData?.category])
-          setParentId(editOfferData?.category?.id)
-          setValue("category",editOfferData?.category?.name)
-         }
-         if(editOfferData?.subCategory?.length>0){
-          setSelectedSubCatagory([...editOfferData?.subCategory])
-          setValue("subCategory",editOfferData?.subCategory?.map((item:any)=>item.name).join(","))
-          setSubCatagoryId(editOfferData?.subCategory?.map((item:any)=>item.id))
-         }
-         if(editOfferData?.items?.length>0){
-          setselectedFoodItems([...editOfferData?.items])
-         }
-
-
-
-
-         if(editOfferData.effectivePeriod){
-            if(editOfferData.effectivePeriod?.isDateEnabled){
-              setDateShow(editOfferData.effectivePeriod?.isDateEnabled)
-              if(editOfferData.effectivePeriod?.startDate){
-                const data= convertStringToDate(editOfferData.effectivePeriod?.startDate)
-                setSelectedDate(data)
-                setValue("fromDate", data);
-      
-              
-              }
-              if(editOfferData.effectivePeriod?.endDate){
-              const data=convertStringToDate(editOfferData.effectivePeriod?.endDate)
-               setSelectedDate1(data)
-               setValue("toDate", data);
-              }
-            }
-            if(editOfferData?.effectivePeriod?.startTime){
-              const data =convertToPeriodFormat(editOfferData?.effectivePeriod?.startTime)
-              setValue("fromTime", data.time);
-              setValue("fromPeriod",data.period)
-             // setStartTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.startTime))
-            }
-            if(editOfferData?.effectivePeriod?.endTime){
-              const data =convertToPeriodFormat(editOfferData?.effectivePeriod?.endTime)
-              setValue("toTime", data.time);
-              setValue("toPeriod",data.period)
-              //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
-            }
-            if(editOfferData?.effectivePeriod?.validDays?.length>0)
-            {
-              const data =editOfferData?.effectivePeriod?.validDays?.map((data:any)=>data==0?7:data)
-              if(data.length==7){
-                data.push(0)
-              }
-            setDayThird(data)
-            setValue("AvailableDays", data);
-
-            }
-         }
+        if (editOfferData?.effectivePeriod?.startTime) {
+          const data = convertToPeriodFormat(
+            editOfferData?.effectivePeriod?.startTime
+          );
+          setValue("fromTime", data.time);
+          setValue("fromPeriod", data.period);
+          // setStartTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.startTime))
+        }
+        if (editOfferData?.effectivePeriod?.endTime) {
+          const data = convertToPeriodFormat(
+            editOfferData?.effectivePeriod?.endTime
+          );
+          setValue("toTime", data.time);
+          setValue("toPeriod", data.period);
+          //setEndTime(convertTo12HourFormat(editOfferData?.effectivePeriod?.endTime))
+        }
+        if (editOfferData?.effectivePeriod?.validDays?.length > 0) {
+          const data = editOfferData?.effectivePeriod?.validDays?.map(
+            (data: any) => (data == 0 ? 7 : data)
+          );
+          if (data.length == 7) {
+            data.push(0);
+          }
+          setDayThird(data);
+          setValue("AvailableDays", data);
+        }
+      }
     }
   }, [flag]);
 
@@ -1015,12 +1041,14 @@ if(selectedFoodItems.length>0){
     setShowlistOfItems(true);
     const payload = {
       locationId: locationid,
-      catagoryId: subCatagoryId.length>0
-        ? subCatagoryId.map((opt) => opt).join(",")
-        : parentId,
+      catagoryId:
+        subCatagoryId.length > 0
+          ? subCatagoryId.map((opt) => opt).join(",")
+          : parentId,
     };
     dispatch(getOfferItemsRequest(payload));
   };
+
   const handleToggle = (item: any) => {
     const data = [...selectedFoodItems];
     data.forEach((item1) => {
@@ -1093,11 +1121,10 @@ if(selectedFoodItems.length>0){
                         onChange={(e) => {
                           const inputValue = e.target.value;
                           // Prevent updating value if it starts with a space
-                          if (inputValue === "" || inputValue[0] !== " ") {
-                            onChange(inputValue);
-                          }
+                          if ((inputValue === "" || inputValue[0] !== " ") && inputValue.length <= 12) {
+          onChange(inputValue);
+        }
                         }}
-
                         onBlur={onBlur}
                         value={value}
                         trigger={trigger}
@@ -1240,35 +1267,33 @@ if(selectedFoodItems.length>0){
                 <Controller
                   name="specialTypeValue"
                   control={control}
-                  rules={{
-                    required: "Special type value is required",
-                    validate: (value) =>
-                      /^\d*\.?\d{0,2}$/.test(value) ||
-                      "Only numbers with up to 2 decimal places are allowed",
-                  }}
+                   rules={{
+    required: "Special type value is required",
+    validate: (value) =>
+      /^\d{0,4}(\.\d{0,2})?$/.test(value) ||
+      "Only up to 4 digits with up to 2 decimal places are allowed",
+  }}
                   render={({ onChange, onBlur, value, error }: any) => (
                     <InputComponent
                       name="specialTypeValue"
-                      onChange={(e) => {
-                        const inputValue = e.target.value;
-                        const typeName = getValues("specialType");
+                     onChange={(e) => {
+        const inputValue = e.target.value;
+        const typeName = getValues("specialType");
 
-                        if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
-                          if (
-                            typeName === "Percentage" &&
-                            parseFloat(inputValue) > 100
-                          ) {
-                            return;
-                          }
-                          onChange(inputValue);
-                        }
-                      }}
+        // Validate input against number format with up to 2 decimals
+        if (/^\d{0,4}(\.\d{0,2})?$/.test(inputValue)) {
+          // Validate percentage not exceeding 100 if typeName is "Percentage"
+          if (typeName === "Percentage" && parseFloat(inputValue) > 100) {
+            return;
+          }
+          onChange(inputValue);
+        }
+      }}
                       onBlur={() => {
                         priceCalulate(selectedFoodItems);
                       }}
                       value={value}
                       trigger={trigger}
-                     
                       error={errors?.specialTypeValue}
                       width="400px"
                       placeholder="Enter the Value"
@@ -1332,8 +1357,16 @@ if(selectedFoodItems.length>0){
                         trigger={trigger}
                         setValue={setValue}
                         getValues={getValues}
-                        validation={subCatagoryOption.length>0?{ required: "subCategory is required" }:null}
-                         error={subCatagoryOption.length>0?errors.subCategory:null}
+                        validation={
+                          subCatagoryOption.length > 0
+                            ? { required: "subCategory is required" }
+                            : null
+                        }
+                        error={
+                          subCatagoryOption.length > 0
+                            ? errors.subCategory
+                            : null
+                        }
                         dropdownopen={DropdownOpen.subCategory}
                         onToggle={() => handleDropdownToggle("subCategory")}
                         setDropdownOpen={setDropdownOpen}
@@ -1373,29 +1406,36 @@ if(selectedFoodItems.length>0){
                         style={{ rotate: "180deg" }}
                         onClick={() => {
                           setShowlistOfItems(false);
+
+
+
+
                         }}
                       />
                     </div>
                   ) : (
                     <div className="dropdownimage">
-                     <img
-  src={dropdown}
-  alt="dropdown"
-  onClick={() => {
-    const category = getValues("category");
-    const subcategory = getValues("subCategory");
+                      <img
+                        src={dropdown}
+                        alt="dropdown"
+                        onClick={() => {
+                          const category = getValues("category");
+                          const subcategory = getValues("subCategory");
 
-    if (subCatagoryOption?.length > 0) {
-      if (!subcategory) {
-        return;
-      }
-    }
-    if (category !== "" && (subcategory !== "" || subCatagoryOption?.length === 0)) {
-      itemlistfunction();
-    }
-  }}
-/>
-
+                          if (subCatagoryOption?.length > 0) {
+                            if (!subcategory) {
+                              return;
+                            }
+                          }
+                          if (
+                            category !== "" &&
+                            (subcategory !== "" ||
+                              subCatagoryOption?.length === 0)
+                          ) {
+                            itemlistfunction();
+                          }
+                        }}
+                      />
                     </div>
                   )}
                 </div>
@@ -1410,8 +1450,12 @@ if(selectedFoodItems.length>0){
                     <div
                       className="searched-items-listed"
                       style={{
-                       position:"relative",
-                       top:validationErrors[0]?.selectedItems!==""&&selectedFoodItems.length===0?"-1.3rem":"",
+                        position: "relative",
+                        top:
+                          validationErrors[0]?.selectedItems !== "" &&
+                          selectedFoodItems.length === 0
+                            ? "-1.3rem"
+                            : "",
                         display: "flex",
                         justifyContent:
                           editOfferDataLoading ||
@@ -1456,9 +1500,8 @@ if(selectedFoodItems.length>0){
                                   : ""
                               }`}
                               onClick={() => {
-                              
-                                handleItemClick(index, item)}
-                              }
+                                handleItemClick(index, item);
+                              }}
                             >
                               {item.itemName}
                             </li>
@@ -1504,9 +1547,12 @@ if(selectedFoodItems.length>0){
                                 : item.originalPrice.toFixed(2)
                               : "0.00"}
                           </td>
-                          <td className="offer-table-data updatedprice" style={{
-    color: item.updatedPrice < 0 ? "#e52333" : "", 
-  }}>
+                          <td
+                            className="offer-table-data updatedprice"
+                            style={{
+                              color: item.updatedPrice < 0 ? "#e52333" : "",
+                            }}
+                          >
                             {item.updatedPrice ? (
                               <>
                                 {item.updatedPrice && Pricesymbol}
@@ -1516,10 +1562,7 @@ if(selectedFoodItems.length>0){
                               <>-</>
                             )}
                           </td>
-                          <td
-                            className="offer-table-data bin-image"
-                           
-                          >
+                          <td className="offer-table-data bin-image">
                             <img
                               src={Bin}
                               alt="Delete"
@@ -1527,15 +1570,17 @@ if(selectedFoodItems.length>0){
                               onClick={() => handleDelete(item?.itemId)}
                             />
                           </td>
-                         {editOfferData?.offerId&&  <td className="offer-table-data toggle-icon-data">
-                            <Toggle
-                              toggle={item.isEnabled}
-                              item={item}
-                              setToggle={handleToggle}
-                              togglecolor="white"
-                              name="enable"
-                            />
-                          </td>}
+                          {editOfferData?.offerId && (
+                            <td className="offer-table-data toggle-icon-data">
+                              <Toggle
+                                toggle={item.isEnabled}
+                                item={item}
+                                setToggle={handleToggle}
+                                togglecolor="white"
+                                name="enable"
+                              />
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
@@ -1543,7 +1588,11 @@ if(selectedFoodItems.length>0){
                 </div>
               )}
 
-              {negativeError&&<span className="negative-price">*Price Cannot Be Negative,Please Enter a valid Amount</span> }
+              {negativeError && (
+                <span className="negative-price">
+                  *Price Cannot Be Negative,Please Enter a valid Amount
+                </span>
+              )}
 
               <div className="effectiveperiod">
                 <h3>Effective period</h3>
@@ -1561,7 +1610,7 @@ if(selectedFoodItems.length>0){
                 </div>
                 {dateShow && (
                   <div className="offerdate-select">
-                    <div>
+                    <div className="offer-from-date-input">
                       <div className="offer-from-date">
                         <Controller
                           name="fromDate"
@@ -1626,7 +1675,7 @@ if(selectedFoodItems.length>0){
                       </div>
                     </div>
                     <span className="To-text">To</span>
-                    <div>
+                    <div className="offer-from-date-input">
                       <div className="offer-to-date">
                         <Controller
                           name="toDate"
@@ -1693,7 +1742,7 @@ if(selectedFoodItems.length>0){
                   </div>
                 )}
 
-                <div className="timeContainer">
+                <div className="timeContainer" >
                   <h4 className="Time-heading">Time</h4>
                   <div className="time-format">
                     <div className="from-time-errormsg">
@@ -1757,8 +1806,8 @@ if(selectedFoodItems.length>0){
                                     }
                                   }
                                 }}
-                                onBlur={()=>{
-                                  setstFlag(true)
+                                onBlur={() => {
+                                  setstFlag(true);
                                 }}
                               />
 
@@ -1895,8 +1944,8 @@ if(selectedFoodItems.length>0){
                                   }
                                   validationForEndTime();
                                 }}
-                                onBlur={()=>{
-                                  setetFlag(true)
+                                onBlur={() => {
+                                  setetFlag(true);
                                 }}
                               />
                               {error && (
