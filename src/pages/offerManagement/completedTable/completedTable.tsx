@@ -37,10 +37,19 @@ const CompletedTable = () => {
   );
   const SpOfferlistSuccess=useSelector((state:any)=>state.offer.SpOfferlistSuccess)
   // console.log({ offerlistdata });
-
+const [loading,setLoding]=useState(false)
   const [offerListDataArray, setOfferListDataArray] = useState([]);
   useEffect(() => {
-    setOfferListDataArray(offerlistdata.filter((item:any)=>item.isEnabled == 2));
+    if(SpOfferlistSuccess){
+      const data =offerlistdata?.filter((item:any)=>item.isEnabled == 2)
+    setOfferListDataArray(data);
+    if(data.length>0){
+      setLoding(false)
+    }
+    else{
+      setLoding(true)
+    }
+  }
   }, [offerlistdata]);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -213,7 +222,7 @@ const CompletedTable = () => {
                     }}
                   />
                 </div>
-              ) : offerlistdatafailed || (offerListDataArray.length===0 && SpOfferlistSuccess) ? (
+              ) : offerlistdatafailed || (offerListDataArray.length===0 && SpOfferlistSuccess && loading) ? (
                 <div className="NoDataFoundContainer-offer">
                   <img
                     className="columnselected"
