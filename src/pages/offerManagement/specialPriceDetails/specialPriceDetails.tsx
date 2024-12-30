@@ -274,15 +274,13 @@ const SpecialPriceDetails = () => {
         startTime: convertTo24HourFormatWithSeconds(fromTimeFormat),
         endTime: convertTo24HourFormatWithSeconds(toTimeFormat),
         validDays: values?.AvailableDays.filter((data) => data != 0).map(
-          (data) => (data == 7 ? 0 : data)
+          (data) => (data)
         ),
       },
     };
     const formaData = getValues();
-    console.log({ formaData });
 
     const triggerValid = await trigger();
-    console.log({ triggerValid });
     const isvalid = valiadtionforDateandTime();
     // console.log("errorsdate",valiadtionforDateandTime());
     // dispatch(createSpecialOfferRequest(payload));
@@ -297,7 +295,6 @@ const SpecialPriceDetails = () => {
 
     //       }
     //   }
-    console.log("llllpppp", isvalid, negativeError, triggerValid);
 
     if (isvalid && !negativeError && triggerValid) {
       if (editOfferData?.offerId && !duplicateOffer) {
@@ -375,7 +372,6 @@ const SpecialPriceDetails = () => {
   };
 
   const selectedradiowatch = watch();
-  console.log("jjjjj", selectedradiowatch);
   const handleFromToTime = (value: string, timePeriod: string) => {
     console.log({ timePeriod });
 
@@ -497,7 +493,6 @@ const SpecialPriceDetails = () => {
       setValue("AvailableDays", availableDays);
     }
   };
-  console.log(DayThird);
 
   const generateDateRange = (startDate: any, endDate: any) => {
     let currentDate = new Date(startDate);
@@ -744,7 +739,7 @@ const SpecialPriceDetails = () => {
         }
         if (editOfferData?.effectivePeriod?.validDays?.length > 0) {
           const data = editOfferData?.effectivePeriod?.validDays?.map(
-            (data: any) => (data == 0 ? 7 : data)
+            (data: any) => (data)
           );
           if (data.length == 7) {
             data.push(0);
@@ -966,7 +961,6 @@ const SpecialPriceDetails = () => {
       Errors.toDateError = "";
     }
     const StartTime = getValues("fromTime");
-    console.log({ StartTime });
 
     if (StartTime === "") {
       Errors.startTimeError = "Time is required ";
@@ -1005,7 +999,6 @@ const SpecialPriceDetails = () => {
       }
     }
     if (selectedFoodItems?.length === 0) {
-      console.log("array length", selectedFoodItems?.length);
 
       Errors.selectedItems = "No item selected";
     } else {

@@ -14,7 +14,7 @@ const DaysSelector: React.FC<DaysSelectorProps> = ({ highlightedDays }) => {
         <div
           key={index}
           className={`day ${
-            highlightedDays?.includes(index) ? 'active' : ''
+            highlightedDays?.includes(index==0?7:index) ? 'active' : ''
           }`}
         >
           {day}
