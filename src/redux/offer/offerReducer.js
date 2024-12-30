@@ -113,6 +113,7 @@ const initialOfferState = {
   getSubCategoryErrorMessage : "",
   getSubCategoryErrorMessage : '',
   SpOfferListLoading:false,
+  SpOfferlistSuccess:false,
   SpofferListSuccessResponse:[],
   SpofferListFailureResponse:false,
   SPofferItemDeleteLoading:false,
@@ -389,12 +390,14 @@ export default function offerReducer(state = initialOfferState, action) {
           draft.SpofferListSuccessResponse = [];
           draft.createSpecialOfferSuccess=false;
           draft.updateSpecialOfferSuccess=false;
+          draft.SpOfferlistSuccess=false
           draft.createSpecialOfferOverlapData=[]
           
         
           break;
         case  SP_OFFER_LIST_VIEW_SUCCESS:
           draft.SpOfferListLoading =false;
+          draft.SpOfferlistSuccess=true
           draft.SpofferListSuccessResponse = action.payload;
           break;
         case SP_OFFER_LIST_VIEW_FAILED:

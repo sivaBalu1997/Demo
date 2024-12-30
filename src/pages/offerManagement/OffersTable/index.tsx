@@ -27,6 +27,8 @@ const offerlistdata=useSelector((state:any)=>state.offer.SpofferListSuccessRespo
 
 
 const offerlistdataloading=useSelector((state:any)=>state.offer.SpOfferListLoading)
+const SpOfferlistSuccess=useSelector((state:any)=>state.offer.SpOfferlistSuccess)
+
 
 const offerlistdatafailed=useSelector((state:any)=>state.offer.SpofferListFailureResponse)
 
@@ -34,7 +36,7 @@ console.log({offerlistdata});
 
 const [offerListDataArray,setOfferListDataArray]=useState([])
 useEffect(()=>{
-  setOfferListDataArray(offerlistdata);
+  setOfferListDataArray(offerlistdata.filter((item:any)=>item?.isEnabled !==2));
   setActiveIndex(null)
 
 },[offerlistdata])
@@ -313,7 +315,7 @@ const [showFullitems,setShowFullItems]=useState(false);
     }}
   />
 </div>:
-offerlistdatafailed||offerListDataArray.length===0 ? <div className="NoDataFoundContainer-offer">
+offerlistdatafailed||(offerListDataArray.length===0 && SpOfferlistSuccess)  ? <div className="NoDataFoundContainer-offer">
 <img
   className="columnselected"
   src={noResultsfound}

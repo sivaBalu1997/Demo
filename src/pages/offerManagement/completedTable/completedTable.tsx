@@ -35,11 +35,12 @@ const CompletedTable = () => {
   const offerlistdatafailed = useSelector(
     (state: any) => state.offer.SpofferListFailureResponse
   );
+  const SpOfferlistSuccess=useSelector((state:any)=>state.offer.SpOfferlistSuccess)
   // console.log({ offerlistdata });
 
   const [offerListDataArray, setOfferListDataArray] = useState([]);
   useEffect(() => {
-    setOfferListDataArray(offerlistdata);
+    setOfferListDataArray(offerlistdata.filter((item:any)=>item.isEnabled == 2));
   }, [offerlistdata]);
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -212,7 +213,7 @@ const CompletedTable = () => {
                     }}
                   />
                 </div>
-              ) : offerlistdatafailed ? (
+              ) : offerlistdatafailed || (offerListDataArray.length===0 && SpOfferlistSuccess) ? (
                 <div className="NoDataFoundContainer-offer">
                   <img
                     className="columnselected"
@@ -224,7 +225,7 @@ const CompletedTable = () => {
               ) : (
                 offerListDataArray.map(
                   (row: any, index) =>
-                    row.isEnabled !== 1 && (
+                    row.isEnabled == 2 && (
                       <tr key={index} className="completedtsTabletr">
                         <td
                           className="completedtsTabletd"
