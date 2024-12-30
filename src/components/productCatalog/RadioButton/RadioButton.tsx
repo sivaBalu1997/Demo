@@ -22,7 +22,7 @@ const RadioButton: React.FC<RadioButtonGroupProps> = ({ options, selectedValue, 
     <div className="radio-button-group">
       {options.map((option) => (
         <label key={option.value} className="radio-button">
-          <div className="radio-button-input-and-label">
+          <div className="radio-button-input-and-label" style={{color: "#000000" }}>
             <input
               type="radio"
               {...register(name)}

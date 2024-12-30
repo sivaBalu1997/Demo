@@ -479,6 +479,8 @@ export default function offerReducer(state = initialOfferState, action) {
 
                   case REMOVE_EDITDATA_WHEN_ADD:
                   draft.editSpData = [];
+                  draft.categoryData = [];
+                  draft.subCategoryData = [];
                   break;
 
 
