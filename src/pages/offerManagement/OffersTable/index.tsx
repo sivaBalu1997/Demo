@@ -343,13 +343,17 @@ offerlistdataloading===false && offerListDataArray?.map((row: any, index: number
         </td>
         <td className="OffrtsTabletd">
           <div className="action-container" ref={componentRef}>
+            <div className="action-icon-container"  onClick={() => handleOfferDropdown(index)}>
             <img
               src={ThreeDotsImage}
               width="5"
               height="20"
-              onClick={() => handleOfferDropdown(index)}
+              
+             
               alt="Actions"
             />
+            </div>
+            
             {activeIndex === index && (
               <div className="OffersDropDownTable">
                 <OfferDropDown EnableorNot={row.isEnabled} offerData={row}/>

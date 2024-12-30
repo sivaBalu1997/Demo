@@ -359,6 +359,11 @@ export function* updateSpOfferSaga(action) {
         }
      
     }
+    else {
+      yield put(updateSpecialOfferFailure(response.data.message));
+      showErrorToast(response.data.message);
+    }
+
   } catch (err) {
     yield put(updateSpecialOfferFailure(err.response.data[0]));
   }

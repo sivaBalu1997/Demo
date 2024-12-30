@@ -37,7 +37,7 @@
     color: #67833e;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
-    margin-left: 10px;
+    margin-left: 35px;
 }
 
 .ActiveCompletedHeading {
@@ -61,7 +61,7 @@
     display: flex;
     align-items: center;
     color: #9a9fa4; 
-    font-family: "Poppins";
+    font-family: "Poppins",sans-serif;
     font-weight: 500;
     text-decoration: none;
     cursor: pointer; 
@@ -104,16 +104,40 @@
 
 .OfferListItem.active-link {
     color: #67833e; 
-    font-weight: bold;
-    text-decoration: underline;
-    text-underline-offset:4px ;
-    text-decoration-thickness: 2px;
+    font-weight: 500;
+    // text-decoration: underline;
+    // text-underline-offset:4px ;
+    // text-decoration-thickness: 2px;
 }
 
-.active-link{
-    color: #67833e; 
-    font-weight: bold;
-    text-decoration: underline;
-    text-underline-offset:4px ;
-    text-decoration-thickness: 2px;
-}
+// .active-link{
+//     color: #67833e; 
+//     font-weight: bold;
+   
+//     text-decoration: underline;
+//     text-underline-offset:4px ;
+//     text-decoration-thickness: 2px;
+
+    
+// }
+ // border-bottom: 4px solid #67833e;
+    // border-bottom-right-radius: 5px;
+    // border-bottom-left-radius: 5px;
+    .active-link {
+        color: #67833e;
+        font-weight: 500;
+        position: relative; 
+    }
+    .active-link::after {
+        content: "";
+        display: block;
+        height: 3px; 
+        background-color: #67833e;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+       
+        position: absolute;
+        top: 1.37rem;
+        left: 0;
+        right: 0;
+    }
