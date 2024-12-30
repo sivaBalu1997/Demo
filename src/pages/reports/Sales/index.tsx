@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
-import Table from "../../../components/reportComponents/Table";
-import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieChart";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { ThemeContext } from "../../../context/ThemeContext";
-import BarChart from "../../../components/reportComponents/Charts/BarChart";
-import "./style.scss";
-import moment from "moment";
-import SidePanel from "pages/SidePanel";
-import Topnavbar from "components/reportComponents/TopNavbar";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useDispatch, useSelector } from "react-redux";
 import { salesSummaryRequest } from "redux/newReports/newReportsActions";
 import { start } from "repl";
+import Table from "../../../components/reportComponents/Table";
+import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieChart";
+import DatePicker from "react-datepicker";
+import BarChart from "../../../components/reportComponents/Charts/BarChart";
+import moment from "moment";
+import SidePanel from "pages/SidePanel";
+import Topnavbar from "components/reportComponents/TopNavbar";
+import "react-datepicker/dist/react-datepicker.css";
+import "./style.scss";
 
 interface PaymentModeData {
   "Payment Mode": string;

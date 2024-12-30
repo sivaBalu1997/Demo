@@ -38,7 +38,8 @@ const CustIns: React.FC = () => {
       <SidePanel />
       <div
         className={`ci-employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
-          } ${!isExpanded && "ci-on-close-side"}`}
+          } ${isExpanded ? "ci-on-expanded" : ""}`
+        }
       >
         <Topnavbar />
         <div className="employee-head">

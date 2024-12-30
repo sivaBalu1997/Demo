@@ -24,6 +24,11 @@
 
 .t-expanded-topnavbar {
   width: 83vw !important;
+  background-color: palegreen;
+  @media(max-width: 500px) {
+    width: 104vw !important;
+    // background-color: palevioletred !important;
+  }
 }
 
 .t-navbar {
@@ -37,13 +42,13 @@
   z-index: 2;
   align-items: center;
   width: 92vw;
-  @media (max-width: 500px) {
-    width: 103vw;
-    // background-color: pink;
-  }
   @media (max-width: 800px) {
     justify-content: space-between;
     padding-left: 5vw;
+  }
+  @media (max-width: 500px) {
+    width: 103vw;
+    // background-color: pink;
   }
 
   .t-nav-item {

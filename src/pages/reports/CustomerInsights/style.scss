@@ -1,3 +1,4 @@
+//live reports page css
 :root {
   --navbar-bg: #e0e0e0;
   --navbar-text: #333333;
@@ -39,12 +40,12 @@
   width: 91vw;
   margin-left: -1.5rem;
   @media (max-width: 500px) {
-    width: 100vw;
+    width: 104vw !important;
   }
-  .liveHeader {
-    font-size: 21px;
-    font-weight: 500;
-  }
+  // .liveHeader {
+  //   font-size: 21px;
+  //   font-weight: 500;
+  // }
   .cust-insights-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -52,19 +53,34 @@
     justify-content: space-between;
     width: 95%;
     margin-top: 30px;
-    @media (max-width: 480px) {
-      width: 90%;
-      height: 6rem;
-    }
     @media (max-width: 500px) {
       width: 90%;
       height: 6rem;
+    }
+    @media (max-width: 480px) {
+      width: 100%;
+      height: 6rem;
+      // background-color: pink;
+      text-align: center;
     }
     .name-board {
       display: flex;
       justify-content: center;
       align-items: center;
       color: var(--table-text);
+      @media(max-width: 480px){
+        // background-color: palegoldenrod;
+        // transform: translateX(20vw);
+        width: 100vw;
+      }
+      .liveHeader {
+        font-size: 21px;
+        font-weight: 500;
+        @media(max-width: 480px){
+          // background-color: palegoldenrod;
+          transform: translateX(3vw);
+        }
+      }
     }
     .dates {
       display: flex;

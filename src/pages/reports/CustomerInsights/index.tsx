@@ -1,13 +1,14 @@
+// live reports page
 import React, { useContext } from "react";
-import "react-datepicker/dist/react-datepicker.css";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LD } from "../../../assets/mockData/originalAPIData/OliveReportData";
 import { DDDD } from "assets/mockData/mock D/nested";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 import Table from "../../../components/reportComponents/Table";
-import "./style.scss";
 import Topnavbar from "../../../components/reportComponents/TopNavbar";
 import SidePanel from "pages/SidePanel";
-import { Contextpagejs } from "pages/productCatalog/contextpage";
+import "react-datepicker/dist/react-datepicker.css";
+import "./style.scss";
 
 const CustomerInsights = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
