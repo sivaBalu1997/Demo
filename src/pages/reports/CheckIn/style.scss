@@ -108,9 +108,15 @@
           border-radius: 0.8rem;
           cursor: pointer;
           @media (max-width: 800px) {
-            width: 5rem;
+            width: 12vw;
             height: 1rem;
             font-size: x-small;
+          }
+          @media(max-width: 500px){
+            width: 24vw;
+          }
+          @media(max-width: 400px){
+            width: 24vw;
           }
         }
 
@@ -132,9 +138,15 @@
           align-items: center;
           justify-content: center;
           @media (max-width: 800px) {
-            width: 5rem;
+            width: 12vw;
             font-size: x-small;
           }
+          @media(max-width: 500px){
+            width: 24vw;
+          }
+          // @media(max-width: 400px){
+          //   width: 24vw;
+          // }
 
           p {
             margin: 0;

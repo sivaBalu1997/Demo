@@ -87,7 +87,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
 
   const handleOptionClickForDate = (option: string) => {
     setSelectedPeriod(option);
-    if (option === "Select Custom Date Range") {
+    if (option === "Custom Range") {
       setOpenCustomDateRange(true);
       setStartDate(new Date());
       setEndDate(new Date());
@@ -99,7 +99,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
 
   const handleOptionClick = (option: string) => {
     setCategoryFilterProductSummary(option);
-    if (option === "Select Custom Date Range") {
+    if (option === "Custom Range") {
       setOpenCustomDateRange(true);
       setStartDate(new Date());
       setEndDate(new Date());
@@ -168,10 +168,10 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
                   </p>
                   <p
                     onClick={() =>
-                      handleOptionClickForDate("Select Custom Date Range")
+                      handleOptionClickForDate("Custom Range")
                     }
                   >
-                    Select Custom Date Range
+                    Custom Range
                   </p>
                 </div>
               )}

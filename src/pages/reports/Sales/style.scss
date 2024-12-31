@@ -66,6 +66,10 @@
     padding-right: 1.5rem;
     display: flex;
     justify-content: space-between;
+    @media(max-width: 500px){
+      justify-content: space-around;
+    }
+
 
     .s-name-board {
       display: flex;
@@ -125,6 +129,9 @@
             height: 1rem;
             font-size: smaller;
           }
+          @media(max-width: 500px){
+            width: 25vw;
+          }
         }
 
         .s-filter-drop-down-options {
@@ -142,6 +149,9 @@
           border-radius: 1rem;
           @media (max-width: 800px) {
             width: 5rem;
+          }
+          @media(max-width: 500px) {
+            width: 25vw;
           }
 
           p {

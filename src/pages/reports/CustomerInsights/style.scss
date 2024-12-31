@@ -224,7 +224,7 @@
       @media(max-width: 800px){
         flex-wrap: wrap;
       }
-      .l-live-box{
+      .l-live-box {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -250,6 +250,7 @@
         @media(max-width: 500px){
           width: 30vw;
           // background-color: palevioletred;
+          font-size: xx-small;
         }
         h2{
           width: 100%;
@@ -301,6 +302,9 @@
         h2{
           width: 100%;
           // background-color: lightgreen;
+          // @media(max-width: 500px){
+          //   font-size: x-small;;
+          // }
         }
         // h3
       }

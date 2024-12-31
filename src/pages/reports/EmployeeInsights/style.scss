@@ -94,6 +94,12 @@
             height: 1rem;
             font-size: smaller;
           }
+          @media(max-width: 500px){
+            width: 24vw;
+          }
+          @media(max-width: 400px){
+            width: 30vw;
+          }
         }
 
         .filter-drop-down-options {
@@ -113,6 +119,12 @@
           @media (max-width: 800px) {
             width: 5rem;
             font-size: x-small;
+          }
+          @media(max-width: 500px){
+            width: 24vw;
+          }
+          @media(max-width: 400px){
+            width: 30vw;
           }
 
           p {

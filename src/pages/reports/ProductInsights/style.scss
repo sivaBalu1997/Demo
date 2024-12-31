@@ -80,7 +80,7 @@
       .p-label-time-period {
         font-weight: 600;
         color: var(--table-text);
-        @media (max-width: 800px) {
+        @media (max-width:700px) {
           display: none;
         }
       }
@@ -106,11 +106,14 @@
           border-radius: 0.8rem;
           cursor: pointer;
           @media (max-width: 800px) {
-            width: 6rem;
+            width: 18vw;
             height: 1rem;
             font-size: smaller;
           }
-          // @media(max-wid)
+          @media (max-width: 500px) {
+            width: 20vw;
+            font-size: xx-small;
+          }
         }
 
         .p-filter-drop-down-options {
@@ -127,8 +130,12 @@
           z-index: 999;
           border-radius: 1rem;
           @media (max-width: 800px) {
-            width: 6rem;
+            width: 18vw;
             font-size: x-small;
+          }
+          @media (max-width: 500px) {
+            width: 20vw;
+            font-size: xx-small;
           }
 
           p {

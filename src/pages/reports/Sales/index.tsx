@@ -177,15 +177,15 @@ const Sales: React.FC = () => {
     setState((prevState) => ({
       ...prevState,
       selectedPeriod: option,
-      openCustomDateRange: option === "Select Custom Date Range",
-      openStartDatePicker: option === "Select Custom Date Range",
-      openEndDatePicker: option === "Select Custom Date Range",
+      openCustomDateRange: option === "Custom Range",
+      openStartDatePicker: option === "Custom Range",
+      openEndDatePicker: option === "Custom Range",
       startDate:
-        option === "Select Custom Date Range"
+        option === "Custom Range"
           ? moment().toDate()
           : prevState.startDate,
       endDate:
-        option === "Select Custom Date Range"
+        option === "Custom Range"
           ? moment().toDate()
           : prevState.endDate,
       openFilter: false,
@@ -237,7 +237,7 @@ const Sales: React.FC = () => {
         computedStartDate = moment().subtract(30, "days").startOf("day").toDate();
         computedEndDate = moment().endOf("day").toDate();
         break;
-      case "Select Custom Date Range":
+      case "Custom Range":
         computedStartDate = startDate;
         computedEndDate = endDate;
         break;
@@ -311,10 +311,10 @@ const Sales: React.FC = () => {
                   </p>
                   <p
                     onClick={() =>
-                      handleOptionClick("Select Custom Date Range")
+                      handleOptionClick("Custom Range")
                     }
                   >
-                    Select Custom Date Range
+                    Custom Range
                   </p>
                 </div>
               )}
