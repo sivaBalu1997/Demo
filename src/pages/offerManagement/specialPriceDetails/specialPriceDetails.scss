@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: row;
   overflow-y: hidden;
+  // border: 1px solid red;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -11,6 +12,8 @@
 .offer-creationpage1 {
   width: 100%;
   display: flex;
+  // border: 1px solid red;
+  height: 100vh;
   flex-direction: row;
   &::-webkit-scrollbar {
     display: none;
@@ -62,7 +65,7 @@
 
 .offer-creationpage-container1 {
   position: relative;
-  width: 90%;
+  width: 100%;
   overflow-y: hidden;
   &::-webkit-scrollbar {
     display: none;
@@ -70,11 +73,16 @@
 }
 
 .specialprice-container1 {
-  height: 75vh;
+  height: 81vh;
   overflow-y: auto;
+  overflow-x: hidden;
   margin-left: 1.5rem;
   margin-top: 1rem;
+  z-index: 0;
+  width: 95%;
   // border: 1px solid red;
+  // border: 1px solid blue; 
+  margin-top: 2rem;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -84,6 +92,9 @@
   height: 78vh;
   overflow-y: auto;
   margin-left: 1.5rem;
+  z-index: 0;
+  margin-top: 1rem;
+  // border: 1px solid blue;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -224,13 +235,16 @@ top: 0.5rem;
 }
 
 .specialoffer-heading {
-  width: 120%;
+  width: 101%;
   height: 5rem;
+  z-index: 1;
   border-bottom: 1px solid #979797;
-
+position: fixed;
+background-color: white;
   margin-left: -1%;
 
   h1 {
+    z-index: 1;
     padding-left: 30px;
     padding-top: 1rem;
     font-family: "Poppins", sans-serif;
@@ -247,6 +261,8 @@ top: 0.5rem;
 
 .offer-primary-details {
   margin-left: 10px;
+  z-index: 0;
+margin-top: 5rem;
   h3 {
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
@@ -528,13 +544,16 @@ top: 0.5rem;
 
 .saveandcancel-btn-offer1 {
   position: relative;
-  width: 100%;
+  width: 99.8%;
   bottom: 0;
+  // margin-top: 3.5rem;
   padding-top: 2%;
   padding-bottom: 2%;
   // height: 30px;
   box-shadow: 0px -4px 4px 0px #0000001a;
   margin-bottom: 20px;
+  height: 3rem;
+  // border: 1px solid red;
 
   .cancel-btn {
     position: absolute;
