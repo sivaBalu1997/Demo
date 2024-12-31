@@ -154,11 +154,10 @@
 .Prepartiontime-input-fileds {
   display: flex;
   flex-direction: row;
-
   gap: 10px;
   position: relative;
   top: -0.3rem;
-  color: #424242;
+  color: #000;
   font-family: Poppins;
   font-size: 14.38px;
   font-weight: 400;
@@ -204,6 +203,7 @@
   justify-content: center;
   align-items: center;
   font-size: 14px;
+  color: #000;
 }
 
 .KitchenRelatedHeading {

@@ -304,7 +304,11 @@ export const MenuPage = () => {
     dispatch(removeDataRequest());
   }, []);
 
-  const locationid = useSelector((state) => state.auth.credentials?.locationId);
+  const selectedBranch = useSelector(
+    (state) => state.auth.selectedBranch || null
+  );
+
+  const locationid = useSelector((state) => state.auth.selectedBranch?.id);
 
   const deleteMenuItemSuccess = useSelector(
     (state) => state.productCatalog.deleteMenuItemSuccess
@@ -571,15 +575,15 @@ export const MenuPage = () => {
     }
   }, [menuData, SearchedmenuItem]);
 
-  const selectedBranch = useSelector(
-    (state) => state.auth.selectedBranch || null
-  );
-
   useEffect(() => {
     if (selectedBranch?.id) {
       dispatch(getMenuRequest(selectedBranch?.id));
     }
   }, [selectedBranch?.id]);
+
+  console.log({locationid},{selectedBranch})
+
+
   useEffect(() => {
     dispatch(getMenuRequest(locationid));
   }, []);
@@ -859,7 +863,7 @@ export const MenuPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
+  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
 
   const handleItemnameClick = (value) => {
     handlemodal(value);
@@ -1105,9 +1109,9 @@ export const MenuPage = () => {
                                 <img
                                   src={
                                    baseImageUrl +
-                                        item?.mediaResponseList[0]?.imageId
-                                      
+                                    item?.mediaResponseList[0]?.imageId
                                   }
+                                  // src={`${baseImageUrl}${item?.mediaResponseList[0]?.imageId}.${item?.mediaResponseList[0]?.imageType}`}
                                   alt="No Image"
                                   className="foodimage"
                                 />

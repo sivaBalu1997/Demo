@@ -246,9 +246,10 @@ const PrimaryPage = () => {
   });
 
   const location = useLocation<LocationState | undefined>();
-  const locationid = useSelector(
-    (state: State) => state.auth.credentials?.locationId
-  );
+  const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
+  // const locationid = useSelector(
+  //   (state: State) => state.auth.credentials?.locationId
+  // );
   const addedData = useSelector(
     (state: ListingData) => state.addMockDataReducer.data
   );
@@ -277,6 +278,10 @@ const PrimaryPage = () => {
     dispatch(getPopularItemRequest(locationid));
     dispatch(removeCodeRequest());
   }, []);
+
+  const prizingDetail = useSelector(
+    (state: any) => state?.PricingDetailReducer?.prizingData
+  );
 
   // useEffect(() => {
   //   const SelectedFooditemtoedit = mergedMockData.filter(
@@ -1256,7 +1261,7 @@ const PrimaryPage = () => {
                     )}
                   />
                   <span>
-                    Popular item ( {popularItem}/{popularItemlimit} )
+                    Popular item ( {popularItemlimit > 0 ? {popularItem} : 0}/{popularItemlimit} )
                   </span>
                 </div>
 

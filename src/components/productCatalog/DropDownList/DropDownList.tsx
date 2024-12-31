@@ -108,7 +108,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   const editData = useSelector((state: any) => state.productCatalog.editData);
 
   const locationid = useSelector(
-    (state: any) => state.auth.credentials?.locationId
+    (state: any) => state.auth.selectedBranch?.id
   );
 
   const subsectiondata = useSelector(

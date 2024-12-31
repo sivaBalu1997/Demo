@@ -77,6 +77,7 @@ interface DeliveryDetails {
   price: number;
   typeGroup: string;
   availabilities: Availability[];
+  inActiveUntil?: any;
 }
 export interface NormalavailRef {
   handleValidate: () => boolean;
@@ -134,6 +135,7 @@ interface PriceInfo {
   price: number;
   typeGroup: string;
   availabilities: Availability[];
+  inActiveUntil?: any;
 }
 
 const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
@@ -194,6 +196,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       "Dinner",
     ]);
 
+    const locationid = useSelector((state: any) => state.auth.selectedBranch);
+
     //   {_-------------------Array for Day Check---------------------------------}
     const [dineInDates, setDineInDates] = useState([]);
     const [DayPickup, setDayPickup] = useState<number[]>([]);
@@ -223,6 +227,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       ZomatomealtypeNormal: "",
     });
 
+    const editData = useSelector((state: any) => state.productCatalog.editData);
+
     const [buttonText, setButtonText] = useState([{ ChooseDay: "Choose Day" }]);
     const [Text, setText] = useState(
       dineinfields?.map(() => "Set up for Specific Day")
@@ -231,13 +237,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       (state: any) => state?.selectedMockDataReducer?.data
     );
 
-    const orderTypess = useSelector(
-      (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
-    );
+    const orderTypess = locationid?.orderTypes
 
-    const orderTypes = useSelector(
-      (state: RootState) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
-    );
+    const orderTypes = locationid?.orderTypes
+
 
     // const seletedItemOrderTypes=data
 
@@ -248,6 +251,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const DineInId = orderTypess?.find(
       (item: any) => item.typeGroup === "D"
     )?.id;
+
+    console.log({orderTypess}, {orderTypes}, {DineInId})
+
     const pickUpId = orderTypess?.find(
       (item: any) => item.typeGroup === "P"
     )?.id;
@@ -285,6 +291,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         },
       ],
       price: 0,
+      ...(editData?.length  && { inActiveUntil: prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split('.')[0] || null }),
     });
 
     const [deliveryDetails, setDeliveryDetails] = useState<DeliveryDetails>({
@@ -298,6 +305,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           sessions: [],
         },
       ],
+      ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split('.')[0] || null})
     });
 
     const [formattedDineInData, setFormattedDineInData] =
@@ -312,6 +320,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             sessions: [],
           },
         ],
+        ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.dineInDetails?.inActiveUntil?.split('.')[0] || null})
       });
 
     const [priceInfo, setPriceInfo] = useState<PriceInfo[]>([
@@ -326,6 +335,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             sessions: [],
           },
         ],
+       ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split('.')[0] || null})
       },
     ]);
 
@@ -400,12 +410,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             },
           ],
           price: 0,
+          ...(editData?.length  && {inActiveUntil: prizingDetail?.normalForm?.pickupDetails?.inActiveUntil || null})
         });
         setDayPickup([]);
         setShowDayPickup(false);
       }
 
       if (!delivery) {
+        
         setDeliveryDetails({
           typeId: deliveryId,
           price: 0,
@@ -417,6 +429,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               sessions: [],
             },
           ],
+          ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil || null})
         });
         setMealTypes({});
         setSelectedThirdValues([]);
@@ -432,6 +445,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                 sessions: [],
               },
             ],
+            ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil || null})
           },
         ]);
         setDayDelivery([]);
@@ -505,24 +519,24 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     };
 
     const optionsselectthird = orderTypes
-      ?.filter((item) => item.typeGroup === "T")
-      .map((item) => item.typeName);
+      ?.filter((item: any) => item.typeGroup === "T")
+      .map((item: any) => item.typeName);
 
     const thirdPartyData = orderTypes
-      ?.filter((item) => item.typeGroup === "T")
-      .map((item) => item);
+      ?.filter((item: any) => item.typeGroup === "T")
+      .map((item: any) => item);
 
     const dineInTypes = orderTypes
-      ?.filter((item) => item.typeGroup === "P")
-      .map((item) => item.typeName);
+      ?.filter((item: any) => item.typeGroup === "P")
+      .map((item: any) => item.typeName);
 
     const pickUpTypes = orderTypes
-      ?.filter((item) => item.typeGroup === "P")
-      .map((item) => item.typeName);
+      ?.filter((item: any) => item.typeGroup === "P")
+      .map((item: any) => item.typeName);
 
     const deliveryTypes = orderTypes
-      ?.filter((item) => item.typeGroup === "S")
-      .map((item) => item.typeName);
+      ?.filter((item: any) => item.typeGroup === "S")
+      .map((item: any) => item.typeName);
 
     useEffect(() => {
       if (selectedthirdvalues && selectedthirdvalues.length > 0) {
@@ -536,15 +550,13 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         data.forEach((item, index) => {
           if (data[index].typeId === "") {
             const id = thirdPartyData?.find(
-              (value) => item.typeName === value.typeName
+              (value: any) => item.typeName === value.typeName
             )?.id;
             data[index].typeId = String(id);
           }
         });
       }
     }, [selectedthirdvalues]);
-
-    const editData = useSelector((state: any) => state.productCatalog.editData);
 
     useEffect(() => {
       if (prizingDetail?.normalForm?.formNormal) {
@@ -688,6 +700,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: pickupDetails?.price || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
+            ...(editData?.length  && {inActiveUntil: prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split('.')[0] || null})
           });
         }
 
@@ -702,6 +715,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: deliveryDetails?.price || "",
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
+            ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split('.')[0] || null})
           });
         }
 
@@ -827,6 +841,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: pickupDetails?.price || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
+            ...(editData?.length  && {inActiveUntil: prizingDetail?.normalForm?.pickupDetails?.inActiveUntil?.split('.')[0] || null})
           });
         }
 
@@ -853,6 +868,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             price: deliveryDetails?.price || 0,
             typeName: deliveryDetails?.typeName || "",
             availabilities: deliveryDetails?.availabilities || [],
+            ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.deliveryDetails?.inActiveUntil?.split('.')[0] || null})
           });
         }
 
@@ -1244,6 +1260,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
               sessions: [],
             },
           ],
+          ...(editData?.length && {inActiveUntil: prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split('.')[0] || null})
         },
       ]);
       setSelectedValuesMealType([]);
