@@ -1695,7 +1695,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   className="label1ItemCustomizations"
                                   htmlFor=""
                                 >
-                                  No Free customization
+                                  No.of Free customization
                                 </label>
                                 <input
                                   placeholder=""
