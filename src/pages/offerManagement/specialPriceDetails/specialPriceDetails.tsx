@@ -1414,6 +1414,7 @@ const SpecialPriceDetails = () => {
                           name="selectedFooditems"
                           placeholder="Select Food Items"
                           className="selectedFooditems"
+                          readOnly
                         />
                       )}
                     />
