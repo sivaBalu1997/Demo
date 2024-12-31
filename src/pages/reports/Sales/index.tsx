@@ -1,16 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
+import { ThemeContext } from "../../../context/ThemeContext";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { useDispatch, useSelector } from "react-redux";
+import { salesSummaryRequest } from "redux/newReports/newReportsActions";
 import Table from "../../../components/reportComponents/Table";
 import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieChart";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { ThemeContext } from "../../../context/ThemeContext";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
-import "./style.scss";
 import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
-import { Contextpagejs } from "pages/productCatalog/contextpage";
+import "react-datepicker/dist/react-datepicker.css";
+import "./style.scss";
 
 interface PaymentModeData {
   "Payment Mode": string;
@@ -64,6 +66,10 @@ interface ChartOptions {
 }
 
 const Sales: React.FC = () => {
+
+  const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+
+
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const [state, setState] = useState<SalesState>({
@@ -75,6 +81,51 @@ const Sales: React.FC = () => {
     openFilter: false,
     selectedPeriod: "Today",
   });
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setState((prevState) => ({
+          ...prevState,
+          openFilter: false,
+        }));
+      }
+    };
+
+    if (state.openFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [state.openFilter]);
+
+  const TABLE_RECORDS_LIMIT = 10;
+
+  const [currentPageForDirectStoreOnlineSalesMaghil, setCurrentPageForDirectStoreOnlineSalesMaghil] = useState<number>(1);
+  console.log({ currentPageForDirectStoreOnlineSalesMaghil });
+
+  const [currentPageForActualThirdPartySales, setCurrentPageForActualThirdPartySales] = useState<number>(1);
+  console.log({ currentPageForActualThirdPartySales });
+
+  const [currentPageSalesByItemCategory, setCurrentPageSalesByItemCategory] = useState<number>(1);
+  console.log({ currentPageSalesByItemCategory });
+
+  const [currentPageSalesByRevenueClass, setCurrentPageSalesByRevenueClass] = useState<number>(1);
+  console.log({ currentPageSalesByRevenueClass })
+
+  const [currentPageDiscountSummary, setCurrentPageDiscountSummary] = useState<number>(1);
+  console.log({ currentPageDiscountSummary });
+
+  const [currentPageCancellationSummary, setCurrentPageCancellationSummary] = useState<number>(1);
+  console.log({ currentPageCancellationSummary });
+
 
   const formatNumberIndian = (number: number): string => {
     let numStr = number.toString();
@@ -170,15 +221,15 @@ const Sales: React.FC = () => {
     setState((prevState) => ({
       ...prevState,
       selectedPeriod: option,
-      openCustomDateRange: option === "Select Custom Date Range",
-      openStartDatePicker: option === "Select Custom Date Range",
-      openEndDatePicker: option === "Select Custom Date Range",
+      openCustomDateRange: option === "Custom Range",
+      openStartDatePicker: option === "Custom Range",
+      openEndDatePicker: option === "Custom Range",
       startDate:
-        option === "Select Custom Date Range"
+        option === "Custom Range"
           ? moment().toDate()
           : prevState.startDate,
       endDate:
-        option === "Select Custom Date Range"
+        option === "Custom Range"
           ? moment().toDate()
           : prevState.endDate,
       openFilter: false,
@@ -199,14 +250,77 @@ const Sales: React.FC = () => {
 
   // console.log({ isExpanded });
 
+  const getSalesSummaryPayload = () => {
+    const { selectedPeriod, startDate, endDate } = state;
+
+    let computedStartDate = moment().toDate();
+    let computedEndDate = moment().toDate();
+
+    switch (selectedPeriod) {
+      case "Today":
+        computedStartDate = moment().startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "This Week":
+        computedStartDate = moment().startOf("week").toDate();
+        computedEndDate = moment().endOf("week").toDate();
+        break;
+      case "Last 7 days":
+        computedStartDate = moment().subtract(7, "days").startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "This Month":
+        computedStartDate = moment().startOf("month").toDate();
+        computedEndDate = moment().endOf("month").toDate();
+        break;
+      case "Last Month":
+        computedStartDate = moment().subtract(1, "month").startOf("month").toDate();
+        computedEndDate = moment().subtract(1, "month").endOf("month").toDate();
+        break;
+      case "Last 30 days":
+        computedStartDate = moment().subtract(30, "days").startOf("day").toDate();
+        computedEndDate = moment().endOf("day").toDate();
+        break;
+      case "Custom Range":
+        computedStartDate = startDate;
+        computedEndDate = endDate;
+        break;
+      default:
+        break;
+    }
+
+    // Return payload with locationId
+    return {
+      locationid, // Use the locationId from Redux
+      startDate: moment(computedStartDate).format("YYYY-MM-DD"),
+      endDate: moment(computedEndDate).format("YYYY-MM-DD"),
+    };
+  };
+
+
+  const dispatch = useDispatch();
+
+
+  // const salesSummaryPayload = { locationId: "969c059b-6597-47a8-b175-08658e9bf41c", startDate: "2024-12-01", endDate: "2024-12-30" };
+
+
+  const salesSummaryPayload = getSalesSummaryPayload();
+  console.log({ salesSummaryPayload })
+  useEffect(() => {
+    console.log("Sales Page Mounted");
+    dispatch(salesSummaryRequest(salesSummaryPayload));
+  }, []);
+
+  const salesDataFromAPI = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
+  console.log({ salesDataFromAPI })
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       {/* <div className={`${isExpanded ? "alignment-fix-class" : ""}`}> */}
       <div
-        className={`s-sales-container ${
-          isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
-        } ${isExpanded ? "s-expanded-width-sales" : ""}`}
+        className={`s-sales-container ${isDarkTheme ? "sales-dark-theme" : "sales-light-theme"
+          } ${isExpanded ? "s-expanded-width-sales" : ""}`}
       >
         <Topnavbar />
         <div className="s-sales-head">
@@ -222,7 +336,7 @@ const Sales: React.FC = () => {
                 {state.selectedPeriod}
               </div>
               {state.openFilter && (
-                <div className="s-filter-drop-down-options">
+                <div className="s-filter-drop-down-options" ref={dropdownRef}>
                   <p onClick={() => handleOptionClick("Today")}>Today</p>
                   <p onClick={() => handleOptionClick("This Week")}>
                     This Week
@@ -241,10 +355,10 @@ const Sales: React.FC = () => {
                   </p>
                   <p
                     onClick={() =>
-                      handleOptionClick("Select Custom Date Range")
+                      handleOptionClick("Custom Range")
                     }
                   >
-                    Select Custom Date Range
+                    Custom Range
                   </p>
                 </div>
               )}
@@ -309,43 +423,118 @@ const Sales: React.FC = () => {
           <h1>Maghil Restaurant, Parsippany</h1>
         </div>
         <div className="s-overall-summary">
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              {formatNumberIndian(
-                Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
-              )}
-            </h2>
-            <h3>Total Orders</h3>
+          <div className="s-overall-summary-inner-wrap">
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {formatNumberIndian(
+                  Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
+                )}
+              </h2>
+              <h3>Total Orders</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                $
+                {formatNumberIndian(
+                  Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
+                )}
+              </h2>
+              <h3>Total Sales</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                $
+                {formatNumberIndian(
+                  Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
+                )}
+              </h2>
+              <h3>Net Sales</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
+              </h2>
+              <h3>Tips</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))}
+              </h2>
+              <h3>Tax</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                $1628
+              </h2>
+              <h3>Service Fee - US</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                $0
+              </h2>
+              <h3>Store Delivery Charges</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                $0.5
+              </h2>
+              <h3>Convenience Fee (Maghil)</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                $0
+              </h2>
+              <h3>Card Processsing Fee</h3>
+            </div>
           </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              $
-              {formatNumberIndian(
-                Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
-              )}
-            </h2>
-            <h3>Total Sales</h3>
+        </div>
+        {/* Total Sales (Direct Sales + Store price adjusted third party orders) START */}
+        <div className="s-overall-total-sales-ds">
+          <h1 className="title-overall-total-sales-ds">Total Sales (Direct Sales + Store price adjusted third party orders)</h1>
+          <div className="s-overall-total-sales-ds-inner-wrap">
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                {formatNumberIndian(
+                  Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
+                )}
+              </h2>
+              <h3>Total Orders</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                $
+                {formatNumberIndian(
+                  Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
+                )}
+              </h2>
+              <h3>Total Sales</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                $
+                {formatNumberIndian(
+                  Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
+                )}
+              </h2>
+              <h3>Net Sales</h3>
+            </div>
+            <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
+              <h2>
+                ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
+              </h2>
+              <h3>Tips</h3>
+            </div>
           </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              $
-              {formatNumberIndian(
-                Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
-              )}
-            </h2>
-            <h3>Net Sales</h3>
-          </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              ${formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))}
-            </h2>
-            <h3>Tips</h3>
-          </div>
-          <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-            <h2>
-              ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))}
-            </h2>
-            <h3>Tax</h3>
+        </div>
+        {/* Total Sales (Direct Sales + Store price adjusted third party orders) END */}
+        <div className="direct-sales-store-price-cont">
+          <div className="inner-direct-sales-store-prices">
+            <Table currentPage={currentPageForDirectStoreOnlineSalesMaghil} setCurrentPage={setCurrentPageForDirectStoreOnlineSalesMaghil} Heading="Direct Store/Online Sales (Maghil)" tableData={S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={5} />
+            <Table currentPage={currentPageForActualThirdPartySales} setCurrentPage={setCurrentPageForActualThirdPartySales} Heading="Actual 3rd Party Sales" tableData={S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={5} />
           </div>
         </div>
         <div className="s-day-of-the-week">
@@ -439,12 +628,16 @@ const Sales: React.FC = () => {
         <div className="s-tab-cont">
           <div className="s-table-container-one-s">
             <Table
+              currentPage={currentPageSalesByItemCategory}
+              setCurrentPage={setCurrentPageSalesByItemCategory}
               Heading="Sales By Item Category"
               tableData={S["Category - US"]}
               viewType="half"
               recordsPerPage={6}
             />
             <Table
+              currentPage={currentPageSalesByRevenueClass}
+              setCurrentPage={setCurrentPageSalesByRevenueClass}
               Heading="Sales By Revenue Class"
               tableData={S["Revenue Class"]}
               viewType="half"
@@ -455,12 +648,16 @@ const Sales: React.FC = () => {
         <div className="s-tab-cont">
           <div className="s-table-container-two-s">
             <Table
+              currentPage={currentPageDiscountSummary}
+              setCurrentPage={setCurrentPageDiscountSummary}
               Heading="Discount Summary"
               tableData={S["Discount Summary"]}
               viewType="half"
               recordsPerPage={5}
             />
             <Table
+              currentPage={currentPageCancellationSummary}
+              setCurrentPage={setCurrentPageCancellationSummary}
               Heading="Cancellation Summary"
               tableData={S["Cancel Item Tracker"]}
               viewType="half"

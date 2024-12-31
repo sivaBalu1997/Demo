@@ -28,6 +28,7 @@
 .e-expanded-width-sales {
   width: 83% !important;
   // margin-left: -1.5rem;
+  // padding-bottom: 5vh;
 }
 
 .employee-container {
@@ -37,8 +38,9 @@
   gap: 0.5rem;
   width: 91vw !important;
   margin-left: -1.5rem;
+  padding-bottom: 5vh;
   @media (max-width: 500px) {
-    width: 100vw !important;
+    width: 105vw !important;
   }
   .employee-head {
     padding-left: 1.5rem;
@@ -94,6 +96,12 @@
             height: 1rem;
             font-size: smaller;
           }
+          @media(max-width: 500px){
+            width: 24vw;
+          }
+          @media(max-width: 400px){
+            width: 30vw;
+          }
         }
 
         .filter-drop-down-options {
@@ -113,6 +121,12 @@
           @media (max-width: 800px) {
             width: 5rem;
             font-size: x-small;
+          }
+          @media(max-width: 500px){
+            width: 24vw;
+          }
+          @media(max-width: 400px){
+            width: 30vw;
           }
 
           p {

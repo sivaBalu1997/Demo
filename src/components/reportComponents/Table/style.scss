@@ -99,7 +99,7 @@
 
           opacity: 0;
           visibility: hidden;
-          transform: translateY(1rem);
+          // transform: translateY(1rem);
           transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
 
           p {
@@ -118,8 +118,8 @@
             &:hover {
               background-color: #f4f4f4;
               color: #283347;
-              padding: 0.5rem 1.5rem;
-              transform: translateX(0.5rem);
+              // padding: 0.5rem 1.5rem;
+              // transform: translateX(0.5rem);
             }
           }
         }

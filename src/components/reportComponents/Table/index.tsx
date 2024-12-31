@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
+import { ThemeContext } from "../../../context/ThemeContext";
 import arrow from "../../../assets/images/san.svg";
 import blackarrow from "../../../assets/svg/blacksan.svg";
 import exportFromJSON from "export-from-json";
 import downloadVector from "../../../assets/svg/download-svg-2.svg";
-import { ThemeContext } from "../../../context/ThemeContext";
 import "./style.scss";
 
 interface TableProps {
@@ -11,6 +11,8 @@ interface TableProps {
   Heading: string;
   viewType: string;
   recordsPerPage: number;
+  currentPage: number,
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface SortConfig {
@@ -31,8 +33,10 @@ const Table = ({
   viewType,
   recordsPerPage = 10,
   Heading,
+  currentPage,
+  setCurrentPage
 }: TableProps) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  // const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: null,
     direction: null,
@@ -52,24 +56,24 @@ const Table = ({
 
   const sortedData = Array.isArray(tableData)
     ? [...tableData].sort((a: Row, b: Row) => {
-        if (sortConfig.key) {
-          const aValue = a[sortConfig.key];
-          const bValue = b[sortConfig.key];
+      if (sortConfig.key) {
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
 
-          if (typeof aValue === "number" && typeof bValue === "number") {
-            return sortConfig.direction === "ascending"
-              ? aValue - bValue
-              : bValue - aValue;
-          }
-
-          if (typeof aValue === "string" && typeof bValue === "string") {
-            return sortConfig.direction === "ascending"
-              ? aValue.localeCompare(bValue)
-              : bValue.localeCompare(aValue);
-          }
+        if (typeof aValue === "number" && typeof bValue === "number") {
+          return sortConfig.direction === "ascending"
+            ? aValue - bValue
+            : bValue - aValue;
         }
-        return 0;
-      })
+
+        if (typeof aValue === "string" && typeof bValue === "string") {
+          return sortConfig.direction === "ascending"
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
+        }
+      }
+      return 0;
+    })
     : [];
 
   const records = sortedData.slice(firstIndex, lastIndex);
@@ -147,9 +151,8 @@ const Table = ({
   return (
     <>
       <div
-        className={`t-report-pagination ${
-          viewType === "half" ? "t-half-width" : ""
-        } ${isDarkTheme ? "t-dark-theme" : "t-light-theme"}`}
+        className={`t-report-pagination ${viewType === "half" ? "t-half-width" : ""
+          } ${isDarkTheme ? "t-dark-theme" : "t-light-theme"}`}
       >
         <div className="t-table-head">
           <h3>{Heading}</h3>
@@ -185,16 +188,15 @@ const Table = ({
                   const isNumeric = typeof tableData[0][header] === "number";
                   return (
                     <th
-                      className={`t-header ${
-                        isNumeric ? "t-align-right" : "t-align-left"
-                      }`}
+                      className={`t-header ${isNumeric ? "t-align-right" : "t-align-left"
+                        }`}
                       key={index}
                       onClick={() => handleSort(header)}
                     >
                       {header}
                       <span className="t-sort-icon">
                         {sortConfig.key === header &&
-                        sortConfig.direction === "ascending"
+                          sortConfig.direction === "ascending"
                           ? "🔽"
                           : "🔼"}
                       </span>
@@ -212,9 +214,8 @@ const Table = ({
                   >
                     {tableHeader.map((header, cellIndex) => (
                       <td
-                        className={`t-tableCell ${
-                          typeof row[header] === "number" ? "t-align-right" : ""
-                        }`}
+                        className={`t-tableCell ${typeof row[header] === "number" ? "t-align-right" : ""
+                          }`}
                         key={cellIndex}
                       >
                         {Array.isArray(row[header])
@@ -251,7 +252,7 @@ const Table = ({
                                   {Object.values(nestedRow).map(
                                     (nestedValue, nestedValueIndex) => (
                                       <td key={nestedValueIndex}>
-                                        {nestedValue}
+                                        {nestedValue ? nestedValue : "NA"}
                                       </td>
                                     )
                                   )}

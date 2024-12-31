@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./style.scss";
 
@@ -19,6 +19,7 @@ const navItems: NavItemType[] = [
 
 const ShrinkedReportMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
   const history = useHistory();
 
   const toggleMenu = () => {
@@ -30,8 +31,22 @@ const ShrinkedReportMenu: React.FC = () => {
     setIsOpen(false);
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
   return (
-    <div className="r-hamburger-menu">
+    <div className="r-hamburger-menu" ref={menuRef}>
       <div className="r-hamburger-icon" onClick={toggleMenu}>
         &#9776;
       </div>
