@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
@@ -81,6 +81,30 @@ const Sales: React.FC = () => {
     openFilter: false,
     selectedPeriod: "Today",
   });
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setState((prevState) => ({
+          ...prevState,
+          openFilter: false,
+        }));
+      }
+    };
+
+    if (state.openFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [state.openFilter]);
 
   const TABLE_RECORDS_LIMIT = 10;
 
@@ -312,7 +336,7 @@ const Sales: React.FC = () => {
                 {state.selectedPeriod}
               </div>
               {state.openFilter && (
-                <div className="s-filter-drop-down-options">
+                <div className="s-filter-drop-down-options" ref={dropdownRef}>
                   <p onClick={() => handleOptionClick("Today")}>Today</p>
                   <p onClick={() => handleOptionClick("This Week")}>
                     This Week

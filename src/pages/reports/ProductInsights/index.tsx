@@ -1,17 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { ProdI } from "../../../assets/mockData/originalAPIData/OproductInsightsData";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import { DDDD } from "../../../assets/mockData/mock D/nested";
+import { ThemeContext } from "../../../context/ThemeContext";
+import { generateGradient } from "../../../util/color";
 import Table from "../../../components/reportComponents/Table";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Import default styles
-import { ThemeContext } from "../../../context/ThemeContext";
-import "./style.scss";
-// import moment from "moment";
-import { generateGradient } from "../../../util/color";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import "react-datepicker/dist/react-datepicker.css"; // Import default styles
 import "./style.scss";
 
 interface TopVoidedItem {
@@ -61,6 +59,27 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
   };
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenFilter(false);
+      }
+    };
+
+    if (openFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openFilter]);
 
   const getTop10Items = (data: ProductInsightsData): TopVoidedItem[] => {
     return data["Top Voided Items"]
@@ -151,7 +170,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
                 {selectedPeriod}
               </div>
               {openFilter && (
-                <div className="p-filter-drop-down-options">
+                <div className="p-filter-drop-down-options" ref={dropdownRef}>
                   <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
                   <p onClick={() => handleOptionClickForDate("This Week")}>
                     This Week
