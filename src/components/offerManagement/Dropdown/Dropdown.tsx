@@ -102,9 +102,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [disabled,setDisabled] =useState(false)
   const dropdownLoading = useSelector((state: any) => state.offer.getSubCategoryLoading);
   const dropdownLoadingcategory = useSelector((state: any) => state.offer.getCategoryLoading);
+  const [open,setOpen]=useState(false)
 
   const dropdownLoadingsuc = useSelector((state: any) => state.offer.getSubCategoryErrorMessage);
-
+  const editOfferData = useSelector(
+    (state: any) => state.offer.editSpData
+  );
   
   
   const dispatch = useDispatch();
@@ -335,6 +338,11 @@ const Dropdown: React.FC<DropdownProps> = ({
 
     
   }, [options,dropdownLoading,dropdownLoadingcategory]);
+  useEffect(()=>{
+    if(type === "radio" && selectedOptions.length==0 && !editOfferData.offerId && options.length>0 && open){
+      handleSelect(options[0])
+    }
+  },[open,options])
 
   const handleAboveArrowdropdown = () => {
     if(!disabled)
@@ -344,6 +352,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const handleBelowArrowdropdown = () => {
+  
     if(!disabled)
       {
     if(name=="category" ){
@@ -353,6 +362,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     // {
     //   dispatch(fetchSubDropDownRequest(payload));
     // }
+    setOpen(true)
     onToggle();
   }
   };
@@ -404,42 +414,9 @@ const Dropdown: React.FC<DropdownProps> = ({
       trigger(name);
     }
   };
-  
 
+ 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  const editOfferData = useSelector(
-    (state: any) => state.offer.editSpData
-  );
-
-  useEffect(() => {
-    if (
-      editOfferData?.channel?.length > 0 &&
-      name === "offerChannel"
-    ) {
-      const dietName = editOfferData?.channel;
-
-     
-
-     
-      setSelectedOptions(dietName);
-      setValue(
-        "offerChannel",
-        dietName
-      );
-    }
-  }, [editOfferData]);
 
 
   return (
