@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, Fragment ,useContext} from "react";
+import React, { useState, useCallback, useEffect, Fragment, useContext } from "react";
 import "../../styles/menu.scss";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { SELECTED_BRANCH_DATA, STORAGE_BUCKET_URL } from "../../shared/constants";
@@ -24,12 +24,12 @@ import { ReactComponent as CMS } from "../../assets/svg/CMS.svg"
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 
 const SidePanel = () => {
-  const credentials = useSelector((state:RootState) => state.auth.credentials);
-  const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || ''  
-  const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;  
+  const credentials = useSelector((state: RootState) => state.auth.credentials);
+  const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || ''
+  const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;
   const menuOptions = ["Items", "Product Catalog"];
   const offerMenuOptions = ["Offers"];
-  const reportInsightsOptions = ['Reports & Insights'];
+  const reportInsightsOptions = ['Reports & Insights', 'New Reports'];
 
   const history = useHistory();
 
@@ -45,34 +45,34 @@ const SidePanel = () => {
   const [showOptions, setShowOptions] = useState("employees");
   const [showOfferOptions, setShowOfferOptions] = useState("");
   const [routeTo, setRouteTo] = useState({});
-  const {isExpanded,setIsExpanded}=useContext(Contextpagejs);
+  const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [isExpand, setIsExpand] = useState(true)
 
   useEffect(() => {
-    if (showOptions !== 'Product Catalog' && (location?.pathname?.includes("/productCatalog"))){
+    if (showOptions !== 'Product Catalog' && (location?.pathname?.includes("/productCatalog"))) {
       setShowOptions("Product Catalog")
       // history.push("/productCatalog/menuListing");
     }
-    else if(location?.pathname?.includes('/old-reports')){
+    else if (location?.pathname?.includes('/old-reports')) {
       setShowOptions('report')
     }
   }, [showOptions, location?.pathname, history]);
-  
-  
+
+
   const restaurantDetails = useSelector(
-    (state:RootState) => state.auth?.restaurantDetails
+    (state: RootState) => state.auth?.restaurantDetails
   );
-  
-  const UserRole = useSelector((state:RootState) => state.auth.credentials?.role);
+
+  const UserRole = useSelector((state: RootState) => state.auth.credentials?.role);
 
   const locationId = useSelector(
-    (state:RootState) => state.auth.credentials && state.auth?.credentials?.locationId
+    (state: RootState) => state.auth.credentials && state.auth?.credentials?.locationId
   );
 
-  const branchDetails = useSelector((state:RootState) => state.auth?.selectedBranch);
+  const branchDetails = useSelector((state: RootState) => state.auth?.selectedBranch);
 
   const getImageURL = useCallback(
-    (type:any) => {
+    (type: any) => {
       if (
         restaurantDetails &&
         restaurantDetails.media &&
@@ -114,7 +114,7 @@ const SidePanel = () => {
         const defaultBranch = resBranch?.filter(
           (branch) => branch?.id === locationId
         );
-        if(branchDetails?.id !== defaultBranch[0]?.id){
+        if (branchDetails?.id !== defaultBranch[0]?.id) {
           dispatch(selectBranch(defaultBranch[0]));
         }
         localStorage.setItem(
@@ -122,7 +122,7 @@ const SidePanel = () => {
           JSON.stringify(defaultBranch[0])
         );
       } else {
-        if(branchDetails?.id !== branch?.id){
+        if (branchDetails?.id !== branch?.id) {
           dispatch(selectBranch(branch));
         }
       }
@@ -171,7 +171,7 @@ const SidePanel = () => {
                     return (
                       <option
                         value={`${JSON.stringify(u)}`}
-                        //selected={userBranchName}
+                      //selected={userBranchName}
                       >
                         {u.locationName.split(",")[1]}
                       </option>
@@ -185,7 +185,7 @@ const SidePanel = () => {
           <div
             className={
               showOptions === "employees" &&
-              location.pathname.includes("employees")
+                location.pathname.includes("employees")
                 ? "active"
                 : "down"
             }
@@ -196,8 +196,8 @@ const SidePanel = () => {
             }}
           >
             <li style={{ marginBottom: 0 }} />
-            <EmployeesIcon className="menu-items-SVG" style={{width:'24px'}}/>
-            {isExpanded && <span className="menu-items-name" style={{fontSize:'16px'}}>Employees</span>}
+            <EmployeesIcon className="menu-items-SVG" style={{ width: '24px' }} />
+            {isExpanded && <span className="menu-items-name" style={{ fontSize: '16px' }}>Employees</span>}
           </div>
 
           {/* CMS ==================*/}
@@ -225,7 +225,7 @@ const SidePanel = () => {
           </div> */}
 
           {/* MENU ==========================================================*/}
-          
+
           {/* <div
             className={
               showOptions === "MenuOptions" ? "active drop-down" : "drop-down"
@@ -283,38 +283,38 @@ const SidePanel = () => {
           <div
             className={
               showOptions === "Product Catalog" &&
-              location.pathname.includes("/productCatalog/menuListing")
+                location.pathname.includes("/productCatalog/menuListing")
                 ? "active"
                 : "down"
             }
-            style={{ 
+            style={{
               cursor: "pointer",
-              marginTop:'28px',
+              marginTop: '28px',
             }}
             onClick={() => {
               dispatch(removeDataRequest());
               if (showOptions !== "Product Catalog") {
-                setShowOptions("Product Catalog"); 
+                setShowOptions("Product Catalog");
               }
               if (!location.pathname.includes("/productCatalog/menuListing")) {
-                history.push("/productCatalog/menuListing"); 
+                history.push("/productCatalog/menuListing");
               }
             }}
           >
             <li style={{ marginBottom: 0 }} />
             <Tableware className="menu-items-SVG" style={{
-              width:'24px',
-              height:'24px'
-            }}/>
-            {isExpanded && 
-            <span 
-              className="menu-items-name"
-              style={{
-                fontSize:'16px'
-              }}
-            >
-              Product Catalog
-            </span>}
+              width: '24px',
+              height: '24px'
+            }} />
+            {isExpanded &&
+              <span
+                className="menu-items-name"
+                style={{
+                  fontSize: '16px'
+                }}
+              >
+                Product Catalog
+              </span>}
           </div>
 
           {/* <div
@@ -349,53 +349,53 @@ const SidePanel = () => {
           <div
             className={
               showOptions === "Offer" &&
-              location.pathname.includes("/Offers")
+                location.pathname.includes("/Offers")
                 ? "active"
                 : "down"
             }
-            style={{ 
+            style={{
               cursor: "pointer",
-              marginTop:'28px',
+              marginTop: '28px',
             }}
             onClick={() => {
               if (showOptions !== "Offer") {
-                setShowOptions("Offer"); 
+                setShowOptions("Offer");
               }
               if (!location.pathname.includes("/Offers")) {
-                history.push("/Offers"); 
+                history.push("/Offers");
               }
             }}
           >
             <li style={{ marginBottom: 0 }} />
-            <Offer className="menu-items-SVG" style={{fontSize:'24px'}}/>
-            {isExpanded && 
-            <span 
-              className="menu-items-name"
-              style={{
-                fontSize:'16px'
-              }}
-            >
-              Offer Management
-            </span>}
+            <Offer className="menu-items-SVG" style={{ fontSize: '24px' }} />
+            {isExpanded &&
+              <span
+                className="menu-items-name"
+                style={{
+                  fontSize: '16px'
+                }}
+              >
+                Offer Management
+              </span>}
           </div>
 
           <ul className="menu-items-list">
             {showOfferOptions === "MenuOptions"
               ? offerMenuOptions.map((option) => (
-                  <NavLink
-                    to={`/${option}`}
-                    activeClassName="active"
-                    key={option}
-                  >
-                    <li>
-                      <span
-                        className="menuList"
-                      >
-                        {option}
-                      </span>
-                    </li>
-                  </NavLink>
-                ))
+                <NavLink
+                  to={`/${option}`}
+                  activeClassName="active"
+                  key={option}
+                >
+                  <li>
+                    <span
+                      className="menuList"
+                    >
+                      {option}
+                    </span>
+                  </li>
+                </NavLink>
+              ))
               : null}
 
           </ul>
@@ -438,7 +438,7 @@ const SidePanel = () => {
           >
             <div>
               {showOptions === "reportOptions" &&
-              !location.pathname.includes("report") ? (
+                !location.pathname.includes("report") ? (
                 <li style={{ marginBottom: 0 }} />
               ) : null}
               <Stats className="menu-items-SVG" />
@@ -453,20 +453,21 @@ const SidePanel = () => {
               )}{" "}
             </Fragment>
           </div>
-          
+
           {showOptions === "reportOptions" && (
             <ul>
               {reportInsightsOptions.map((option) => (
                 <li
                   key={option}
-                  style={{ marginTop: "10px"}}
+                  style={{ marginTop: "10px" }}
                   onClick={() => {
                     if (option === "Reports & Insights") {
                       history.push(`/old-reports`);
-                    } 
-                    // else if (option === "New") {
-                    //   history.push("/live-reports");
-                    // }
+                      // history.push("/live-reports");
+                    }
+                    else if (option === "New Reports") {
+                      history.push("/live-reports");
+                    }
                   }}
                 >
                   <span className="menuList">
@@ -513,7 +514,7 @@ const SidePanel = () => {
           <div
             className={
               showOptions === "reportOptions" &&
-              location.pathname.includes("payment")
+                location.pathname.includes("payment")
                 ? "active drop-down"
                 : "drop-down"
             }
@@ -529,8 +530,8 @@ const SidePanel = () => {
             {
               <div>
                 <li style={{ marginBottom: '15px' }} />
-                <Payment className="menu-items-SVG" style={{width:'24px'}}/>
-                {isExpanded && <span className="menu-items-name" style={{fontSize:'16px'}}>Payments</span>}
+                <Payment className="menu-items-SVG" style={{ width: '24px' }} />
+                {isExpanded && <span className="menu-items-name" style={{ fontSize: '16px' }}>Payments</span>}
               </div>
             }
           </div>
@@ -543,7 +544,7 @@ const SidePanel = () => {
         </div>
       </div>
       <div>
-        <img onClick={toggleExpand} className={isExpanded ? "btn-nav1":"btn-nav"} src={btnnav} alt="" style={{zIndex:9}} />
+        <img onClick={toggleExpand} className={isExpanded ? "btn-nav1" : "btn-nav"} src={btnnav} alt="" style={{ zIndex: 9 }} />
       </div>
     </>
   );
