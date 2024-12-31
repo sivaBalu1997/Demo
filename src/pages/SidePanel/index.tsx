@@ -424,7 +424,7 @@ const SidePanel = () => {
           </div> */}
           {/* Report ==================================================================== */}
 
-          {/* <div
+          <div
             className={
               showOptions === "reportOptions" ? "active drop-down" : "drop-down"
             }
@@ -475,9 +475,9 @@ const SidePanel = () => {
                 </li>
               ))}
             </ul>
-          )} */}
+          )}
 
-          <div
+          {/* <div
             className={
               showOptions === "Offer" &&
               location.pathname.includes("/old-reports")
@@ -508,7 +508,7 @@ const SidePanel = () => {
             >
               Reports & Insights
             </span>}
-          </div>
+          </div> */}
 
           <div
             className={
