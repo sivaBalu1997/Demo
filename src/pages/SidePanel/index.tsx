@@ -48,6 +48,8 @@ const SidePanel = () => {
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [isExpand, setIsExpand] = useState(true)
 
+  console.log({ showOptions })
+
   useEffect(() => {
     if (showOptions !== 'Product Catalog' && (location?.pathname?.includes("/productCatalog"))) {
       setShowOptions("Product Catalog")
@@ -56,6 +58,9 @@ const SidePanel = () => {
     else if (location?.pathname?.includes('/old-reports')) {
       setShowOptions('report')
     }
+    // else if (location?.pathname?.includes('/live-reports')) {
+    //   setShowOptions('reportOptions')
+    // }
   }, [showOptions, location?.pathname, history]);
 
 
@@ -400,10 +405,10 @@ const SidePanel = () => {
 
           </ul>
           {/* Report ==================================================================== */}
-          {/* <div
+          <div
             className={
               showOptions === "reportOptions" &&
-              location.pathname.includes("report")
+                location.pathname.includes("report")
                 ? "active drop-down"
                 : "drop-down"
             }
@@ -421,10 +426,10 @@ const SidePanel = () => {
                 {isExpanded && <span className="menu-items-name">Reports & Insights</span>}
               </div>
             }
-          </div> */}
+          </div>
           {/* Report ==================================================================== */}
 
-          <div
+          {/* <div
             className={
               showOptions === "reportOptions" ? "active drop-down" : "drop-down"
             }
@@ -434,6 +439,9 @@ const SidePanel = () => {
               } else {
                 setShowOptions("reportOptions");
               }
+              //setShowOptions("reportOptions");
+
+              //history.push(`/live-reports`);
             }}
           >
             <div>
@@ -476,7 +484,7 @@ const SidePanel = () => {
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
 
           {/* <div
             className={
@@ -535,14 +543,14 @@ const SidePanel = () => {
               </div>
             }
           </div>
-        </ul>
+        </ul >
         <div>
           {isExpanded && <div className="magilhub-bottom-logo">
             <span className="powered-text1">Powered by</span>
             <span className="magilhub-logo1">Maghil</span>
           </div>}
         </div>
-      </div>
+      </div >
       <div>
         <img onClick={toggleExpand} className={isExpanded ? "btn-nav1" : "btn-nav"} src={btnnav} alt="" style={{ zIndex: 9 }} />
       </div>
