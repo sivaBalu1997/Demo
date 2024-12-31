@@ -49,6 +49,8 @@ export const MenuPage = () => {
   const SearchedmenuItem = useSelector(
     (state) => state.searchItem?.SearcheItem
   );
+  console.log("SearchedmenuItem", SearchedmenuItem);
+  
 
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
@@ -988,7 +990,7 @@ export const MenuPage = () => {
                       className="addbtn-menupage"
                       onClick={() => {
                         if (
-                          itemList.length > 0 &&
+                          itemList.length > 0 &&itemList?.some(item => item?.itemResponseList.length > 0)&&
                           !menuDataLoading &&
                           !menuDataFailed
                         ) {
@@ -1010,12 +1012,14 @@ export const MenuPage = () => {
                   <div className="second-div-header">
                     {!menuDataLoading &&
                       !menuDataFailed &&
-                      itemList.length > 0 &&
+                      itemList?.length > 0 &&itemList?.some(item => item?.itemResponseList.length > 0) &&
                       firstRowTable.map((header, index) => {
                         const headerName = header.label.substring(
                           0,
                           header.label.length - 1
                         );
+                        console.log({itemList});
+                        
                         if (
                           header.label === "Customize1" ||
                           nameOfOrderTypes?.includes(headerName)
@@ -1149,7 +1153,13 @@ export const MenuPage = () => {
                       "second-div-body"
                     }`}
                     ref={mergeRefs(ref2, bodyRef)}
-                    style={{ height: menuDataLoading ? "39.5rem" : "" }}
+                    style={{
+                      height: menuDataLoading ? "39.5rem" : "",
+                      overflowX:
+                      !menuDataLoading && itemList?.length <= 0 ? "hidden" : "auto", 
+                      overflowY:
+                        !menuDataLoading && itemList?.length <= 0 ? "hidden" : "auto", 
+                    }}
                   >
                     {menuDataLoading ? (
                       <div className="Menu-noOptions">
@@ -1163,8 +1173,8 @@ export const MenuPage = () => {
                           }}
                         />
                       </div>
-                    ) : menuDataFailed ? (
-                      <div className="NoDataFoundContainer">
+                    ) : menuDataFailed||!itemList?.some(item => item?.itemResponseList.length > 0) ? (
+                      <div className="NoDataFoundContainer-menupage">
                         <img
                           className="columnselected"
                           src={noResultsfound}

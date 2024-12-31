@@ -1421,18 +1421,17 @@ const ItemCustomizations: React.FC<any> = () => {
                                               .sellPrice ||
                                             ""
                                           }
+
                                           onChange={(e) => {
-                                            addOptionChange(
-                                              modIndex,
-                                              optIndex,
-                                              e
-                                            );
-                                            valiadteModifieroptionsprice(
-                                              modIndex,
-                                              optIndex,
-                                              e
-                                            );
+                                            const value = e.target.value;
+                                        
+                                            // Restrict to 4 digits
+                                            if (value.length <= 4) {
+                                              addOptionChange(modIndex, optIndex, e);
+                                              valiadteModifieroptionsprice(modIndex, optIndex, e);
+                                            }
                                           }}
+                                         
                                           onKeyDown={(
                                             e: React.KeyboardEvent<HTMLInputElement>
                                           ) => {
@@ -1557,9 +1556,13 @@ const ItemCustomizations: React.FC<any> = () => {
                                       : 1
                                   }
                                   name="minSelection"
-                                  onChange={(e) =>
-                                    handleModifierChange(modIndex, e)
-                                  }
+                                  onChange={(e) =>{
+                                    const value = e.target.value;
+                                        
+                                      handleModifierChange(modIndex, e)
+                                    
+                                    
+                                  }}
                                   onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                                     const input = e.target as HTMLInputElement; 
                                     if (
