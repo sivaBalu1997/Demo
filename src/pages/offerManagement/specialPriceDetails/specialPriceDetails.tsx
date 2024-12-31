@@ -251,7 +251,8 @@ const SpecialPriceDetails = () => {
       offerName: values?.offerName,
       channel: selectedChannal?.map((item: any) => item.id),
       visibleTo: selectedVissibleTo?.map((item: any) => item?.name[0]),
-      termsAndConditions: selectedTerm?.map((item: any) => item?.name),
+      // termsAndConditions: selectedTerm?.map((item: any) => item?.name),
+      termsAndConditions: ["www"],
       specialType: values?.specialTypeName,
       type: values?.specialType === "Percentage" ? "PERCENT" : "FLATFEE",
       value: values?.specialTypeValue,
@@ -662,10 +663,10 @@ const SpecialPriceDetails = () => {
         );
         setterms([...data]);
         setSelectedTerm([...data]);
-        setValue(
-          "termsAndConditions",
-          editOfferData?.termsAndConditions?.join(",")
-        );
+        // setValue(
+        //   "termsAndConditions",
+        //   editOfferData?.termsAndConditions?.join(",")
+        // );
       }
       if (editOfferData?.specialType) {
         setValue(
@@ -1219,7 +1220,7 @@ const SpecialPriceDetails = () => {
                     )}
                   />
                 </div>
-                <div className="termsAndConditionsContainer">
+                {/* <div className="termsAndConditionsContainer">
                   <Controller
                     name="termsAndConditions"
                     control={control}
@@ -1250,7 +1251,7 @@ const SpecialPriceDetails = () => {
                       />
                     )}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
 

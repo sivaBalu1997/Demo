@@ -14,7 +14,8 @@ import {
 } from "redux/offer/offerActions";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 import noResultsfound from "../../../assets/images/NoResultsFound.png";
-
+import { FaArrowDown } from "react-icons/fa";
+import { FaArrowUp } from "react-icons/fa";
 const CompletedTable = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const locationId = useSelector(
@@ -296,17 +297,31 @@ const [loading,setLoding]=useState(false)
                           } 
                         </td>
 
+                        
+
                         <td
-                          className="completedtsTabletd"
-                          style={{
-                            opacity: row.isEnabled === 0 ? "50%" : "100%",
-                          }}
-                        >
-                          {row.type === "PERCENT" ? `${row?.value}%` : null}
-                          {row.type === "FLATFEE"
-                            ? `${countryC === "US" ? "$" : "RS"}${row.value}`
-                            : null}
-                        </td>
+                                                  className="completedtsTabletd"
+                                                  style={{
+                                                    opacity: row.isEnabled === 0 ? "50%" : "100%",
+                                                  }}
+                                                >
+                                                  {row.type === "PERCENT" && (
+                                                    <>
+                                                      {`${row?.value}%`}
+                                                      {row.specialType === "HAPPY HOUR" ? (
+                                                        <FaArrowUp />
+                                                      ) : (
+                                                        <FaArrowDown />
+                                                      )}
+                                                    </>
+                                                  )}
+                                                  {row.type === "FLATFEE" && (
+                                                    <>
+                                                      {countryC === "US" ? "$" : "RS"}
+                                                      {row.value}
+                                                    </>
+                                                  )}
+                                                </td>
                         {/* <td className="OffrtsTabletd">
                           <div className="action-container" ref={componentRef}>
                             <img
