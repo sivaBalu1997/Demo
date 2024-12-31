@@ -825,7 +825,8 @@ iframe {
   border-radius: 50%;
   padding: 5px;
   color: #d9d9d9;
-  position: relative;
+  // position: relative;
+  position: sticky;
   top: 101px;
   margin-left: -12px;
   cursor: pointer;

@@ -35,6 +35,9 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const [openCustomDateRange, setOpenCustomDateRange] =
     useState<boolean>(false);
 
+  const [currentPageProductSummary, setCurrentPageProductSummary] = useState<number>(1);
+  console.log({ currentPageProductSummary })
+
   const [openStartDatePicker, setOpenStartDatePicker] =
     useState<boolean>(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
@@ -131,9 +134,8 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`p-product-insights-container ${
-          isDarkTheme ? "p-dark-theme" : "p-light-theme"
-        }`}
+        className={`p-product-insights-container ${isDarkTheme ? "p-dark-theme" : "p-light-theme"
+          }`}
       >
         <Topnavbar />
         <div className="p-prod-insights-head">
@@ -375,6 +377,8 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
           </div>
         </div>
         <Table
+          currentPage={currentPageProductSummary}
+          setCurrentPage={setCurrentPageProductSummary}
           Heading="Product Summary"
           tableData={ProdI["Product Summary US"]}
           viewType="full"

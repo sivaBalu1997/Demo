@@ -1,13 +1,12 @@
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
-// import moment from "moment";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { custIn } from "../../../assets/mockData/originalAPIData/OcustomerInsights";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
-import { custIn } from "../../../assets/mockData/originalAPIData/OcustomerInsights";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "./style.scss";
-import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const CustIns: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
@@ -17,6 +16,12 @@ const CustIns: React.FC = () => {
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+
+  const [currentPageCustomerOrderDetails, setCurrentPageCustomerOrderDetails] = useState<number>(1);
+  console.log({ currentPageCustomerOrderDetails });
+
+  const [currentPageDineInInsights, setCurrentPageDineInInsights] = useState<number>(1);
+  console.log({ currentPageDineInInsights });
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -127,6 +132,8 @@ const CustIns: React.FC = () => {
           }}
         >
           <Table
+            currentPage={currentPageCustomerOrderDetails}
+            setCurrentPage={setCurrentPageCustomerOrderDetails}
             Heading="Customer order details"
             tableData={custIn["Customer order details"]}
             viewType="full"
@@ -141,6 +148,8 @@ const CustIns: React.FC = () => {
           }}
         >
           <Table
+            currentPage={currentPageDineInInsights}
+            setCurrentPage={setCurrentPageDineInInsights}
             Heading="DineIn Insights"
             tableData={custIn["DineIn Insights"]}
             viewType="full"

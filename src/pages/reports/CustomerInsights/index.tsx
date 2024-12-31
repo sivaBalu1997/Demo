@@ -1,5 +1,5 @@
 // live reports page
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LD } from "../../../assets/mockData/originalAPIData/OliveReportData";
 import { DDDD } from "assets/mockData/mock D/nested";
@@ -13,6 +13,12 @@ import "./style.scss";
 const CustomerInsights = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+
+  const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
+  console.log({ currentPageLiveOrders })
+
+  const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
+  console.log({ currentPageLiveOrdersNonDineIn })
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -52,6 +58,8 @@ const CustomerInsights = () => {
         </div>
         <div className="tables-container-one">
           <Table
+            currentPage={currentPageLiveOrders}
+            setCurrentPage={setCurrentPageLiveOrders}
             Heading="Live Orders"
             tableData={LD["Live Orders New"]}
             viewType="full"
@@ -59,7 +67,7 @@ const CustomerInsights = () => {
           />
         </div>
         <div className="live-orders-non-dine-in">
-          <Table Heading="Live Orders (Non-Dine-In)" tableData={LD["Live Orders (Non Dine In)"]} viewType="full" recordsPerPage={5} />
+          <Table currentPage={currentPageLiveOrdersNonDineIn} setCurrentPage={setCurrentPageLiveOrdersNonDineIn} Heading="Live Orders (Non-Dine-In)" tableData={LD["Live Orders (Non Dine In)"]} viewType="full" recordsPerPage={5} />
         </div>
         {/* <div className="tables-container-two">
           <Table

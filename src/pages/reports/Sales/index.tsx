@@ -4,7 +4,6 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useDispatch, useSelector } from "react-redux";
 import { salesSummaryRequest } from "redux/newReports/newReportsActions";
-import { start } from "repl";
 import Table from "../../../components/reportComponents/Table";
 import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieChart";
 import DatePicker from "react-datepicker";
@@ -82,6 +81,27 @@ const Sales: React.FC = () => {
     openFilter: false,
     selectedPeriod: "Today",
   });
+
+  const TABLE_RECORDS_LIMIT = 10;
+
+  const [currentPageForDirectStoreOnlineSalesMaghil, setCurrentPageForDirectStoreOnlineSalesMaghil] = useState<number>(1);
+  console.log({ currentPageForDirectStoreOnlineSalesMaghil });
+
+  const [currentPageForActualThirdPartySales, setCurrentPageForActualThirdPartySales] = useState<number>(1);
+  console.log({ currentPageForActualThirdPartySales });
+
+  const [currentPageSalesByItemCategory, setCurrentPageSalesByItemCategory] = useState<number>(1);
+  console.log({ currentPageSalesByItemCategory });
+
+  const [currentPageSalesByRevenueClass, setCurrentPageSalesByRevenueClass] = useState<number>(1);
+  console.log({ currentPageSalesByRevenueClass })
+
+  const [currentPageDiscountSummary, setCurrentPageDiscountSummary] = useState<number>(1);
+  console.log({ currentPageDiscountSummary });
+
+  const [currentPageCancellationSummary, setCurrentPageCancellationSummary] = useState<number>(1);
+  console.log({ currentPageCancellationSummary });
+
 
   const formatNumberIndian = (number: number): string => {
     let numStr = number.toString();
@@ -489,8 +509,8 @@ const Sales: React.FC = () => {
         {/* Total Sales (Direct Sales + Store price adjusted third party orders) END */}
         <div className="direct-sales-store-price-cont">
           <div className="inner-direct-sales-store-prices">
-            <Table Heading="Direct Store/Online Sales (Maghil)" tableData={S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={5} />
-            <Table Heading="Actual 3rd Party Sales" tableData={S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={5} />
+            <Table currentPage={currentPageForDirectStoreOnlineSalesMaghil} setCurrentPage={setCurrentPageForDirectStoreOnlineSalesMaghil} Heading="Direct Store/Online Sales (Maghil)" tableData={S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={5} />
+            <Table currentPage={currentPageForActualThirdPartySales} setCurrentPage={setCurrentPageForActualThirdPartySales} Heading="Actual 3rd Party Sales" tableData={S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={5} />
           </div>
         </div>
         <div className="s-day-of-the-week">
@@ -584,12 +604,16 @@ const Sales: React.FC = () => {
         <div className="s-tab-cont">
           <div className="s-table-container-one-s">
             <Table
+              currentPage={currentPageSalesByItemCategory}
+              setCurrentPage={setCurrentPageSalesByItemCategory}
               Heading="Sales By Item Category"
               tableData={S["Category - US"]}
               viewType="half"
               recordsPerPage={6}
             />
             <Table
+              currentPage={currentPageSalesByRevenueClass}
+              setCurrentPage={setCurrentPageSalesByRevenueClass}
               Heading="Sales By Revenue Class"
               tableData={S["Revenue Class"]}
               viewType="half"
@@ -600,12 +624,16 @@ const Sales: React.FC = () => {
         <div className="s-tab-cont">
           <div className="s-table-container-two-s">
             <Table
+              currentPage={currentPageDiscountSummary}
+              setCurrentPage={setCurrentPageDiscountSummary}
               Heading="Discount Summary"
               tableData={S["Discount Summary"]}
               viewType="half"
               recordsPerPage={5}
             />
             <Table
+              currentPage={currentPageCancellationSummary}
+              setCurrentPage={setCurrentPageCancellationSummary}
               Heading="Cancellation Summary"
               tableData={S["Cancel Item Tracker"]}
               viewType="half"
