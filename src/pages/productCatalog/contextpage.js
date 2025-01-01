@@ -13,10 +13,17 @@ export const Contextpage = ({ children }) => {
     const menuItems = ['Pricing', 'Availability','Customize'];
     const [activeCategory, setActiveCategory] = useState('Step 1: Primary Details');
     const [isExpanded, setIsExpanded]=useState()
+    const [valiadtePriceFields, setValiadtePriceFields]=useState(false)
     const [saveandnext, setsaveandnext]=useState(false);
     const [active, setActive] = useState('');
     const [pen, setPen] = useState(false);
     const [duplicateOffer,setDuplicateOffer]=useState(false);
+    let storedFunction= null;
+
+    const setStoredFunction = (fn) => {
+      storedFunction = fn;
+    };
+  
     const[ApiPayload,setApiPayload]=useState({
       itemId:"",
       isEnabled: false,
@@ -40,7 +47,7 @@ export const Contextpage = ({ children }) => {
 
     })
 
-    console.log({partialData});
+  
     
     const[patchedData,setPatchedData]=useState(
       {
@@ -98,7 +105,11 @@ export const Contextpage = ({ children }) => {
       partialData,
       setPartialData,
       duplicateOffer,
-      setDuplicateOffer
+      setDuplicateOffer,
+      valiadtePriceFields,
+      setValiadtePriceFields,
+      storedFunction,
+      setStoredFunction
     }}>
       {children}
     </Contextpagejs.Provider>

@@ -8,6 +8,7 @@ interface ToggleProps {
   width?: number;
   height?: number;
   Enabled?: boolean;
+  toggleOffCheck?: any;
 }
 
 const Toggle: React.FC<ToggleProps> = ({
@@ -17,12 +18,14 @@ const Toggle: React.FC<ToggleProps> = ({
   togglevalue,
   width,
   height,
+  toggleOffCheck
 }) => {
   return (
     <div>
       <button
         type="button"
         // style={{width:`${width}px`,height:`${height}px`}}
+        style={{opacity:Enabled===true?"100%":"50%"}}
         className={`toggleBtn${toggle ? " Toggled" : ""}`}
         onClick={() => {
           if (Enabled) {

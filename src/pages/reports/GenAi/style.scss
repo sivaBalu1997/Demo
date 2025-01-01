@@ -32,7 +32,7 @@
   width: 91vw;
   margin-left: -1.5rem;
   @media (max-width: 500px) {
-    width: 100vw;
+    width: 104vw;
   }
   .genai-head {
     padding-left: 1.5rem;
@@ -152,6 +152,7 @@
     .genai-title-head-outer {
       display: flex;
       justify-content: space-between;
+      // background-color: lightgreen;
       h1 {
         font-size: 21px;
         font-weight: 500;
@@ -162,6 +163,9 @@
         align-items: center;
         padding: 0rem 0.9rem;
         width: 80vw;
+        @media(max-width: 500px) {
+          width: 100vw;
+        }
         h1 {
           color: var(--table-text);
           text-align: center;

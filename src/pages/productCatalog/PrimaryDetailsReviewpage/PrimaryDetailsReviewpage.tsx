@@ -16,6 +16,7 @@ import {
   addMenuItemRequest,
   addMockDataRequest,
   cleanMenuItemSuccessMsg,
+  fetchDropDownRequest,
   removeDataRequest,
   retryImageUpload,
   startImageUpload,
@@ -210,9 +211,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const errorMessages = useSelector(
     (state: { imageUpload: ImageUpload }) => state.imageUpload?.errorMessages
   );
-  const locationid = useSelector(
-    (state: State) => state?.auth?.credentials?.locationId
-  );
+  // const locationid = useSelector(
+  //   (state: State) => state?.auth?.credentials?.locationId
+  // );
+
+  const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
+
 
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
 
@@ -225,6 +229,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
+  
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
@@ -291,10 +296,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     itemId: null,
   };
 
-  const [uploadedimage, setUploadedimage] = useState<any[]>(fetchedprimarydata.imageUrls?.map((url) => ({ url })) || []);
-  
-  const [selectedImages, setSelectedImages] = useState<ImageFile[]>(uploadedimage || []);
-  
+  const [uploadedimage, setUploadedimage] = useState<any[]>(
+    fetchedprimarydata.imageUrls?.map((url) => ({ url })) || []
+  );
+
+  const [selectedImages, setSelectedImages] = useState<ImageFile[]>(
+    uploadedimage || []
+  );
+
   const emptySlots =
     selectedImages.length === 0
       ? MAX_IMAGES - selectedImages.length - 1
@@ -388,10 +397,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.cuisineData.data
   );
 
-  const subCategoryData = useSelector(
-    (state: any) => state.productCatalog.subCategoryData.data
-  );
-
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -407,6 +412,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
+
   const menuData = useSelector((state: any) => state.productCatalog?.menuData);
 
   const menudata = [
@@ -439,7 +445,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.kitchenStation
   );
 
-  const addMenuLoading = useSelector((state : any) => state.productCatalog?.addMenuLoading)
+  const addMenuLoading = useSelector(
+    (state: any) => state.productCatalog?.addMenuLoading
+  );
 
   const matchedDietary = dietaryData?.filter((dietary: any) =>
     primarydata?.DietaryType?.includes(dietary.name)
@@ -453,15 +461,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (category: any) => category.name === primarydata?.category
   );
 
-  const matchedSubCategory = subCategoryData?.find(
-    (subCategory: any) => subCategory.name === primarydata?.subCategory
-  );
+
 
   const matchedKitchenStation = Array.isArray(kitchenStationData)
-  ? kitchenStationData.find(
-      (kitchen: any) => kitchen.name === prizingDetail?.kitchenstation
-    )
-  : undefined;
+    ? kitchenStationData.find(
+        (kitchen: any) => kitchen.name?.toLowerCase() === prizingDetail?.kitchenstation?.toLowerCase()
+      )
+    : undefined;
 
   const matchedBestPair = bestPairData?.filter((bestPair: any) =>
     primarydata?.bestPair?.includes(bestPair?.name)
@@ -470,40 +476,69 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedDietaryId = matchedDietary?.map((m: any) => m?.id);
   const matchedCuisineId = matchedCuisine?.id;
   const matchedCategoryId = matchedCategory?.id;
-  const matchedSubCategoryId = matchedSubCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
+  
+  const payload = {
+    locationId: locationid,
+    type: 'SUB_CATEGORY',
+    parentId: matchedCategoryId && matchedCategoryId,
+  };
+
+  useEffect(() => {
+    if(subCategoryData === undefined || matchedSubCategory === undefined){
+      dispatch(fetchDropDownRequest(payload))
+    }
+  },[matchedCategoryId])
+
+  const subCategoryData = useSelector(
+    (state: any) => state.productCatalog.subCategoryData.data
+  );
+
+  const matchedSubCategory = subCategoryData?.find(
+    (subCategory: any) => subCategory.name === primarydata?.subCategory
+  );
+
+  const matchedSubCategoryId = matchedSubCategory?.id;
 
   const orderTypess = useSelector(
     (state: any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
   const getOrderTypeId = (value: any) => {
-    const orderTypes = orderTypess.find((item: any) => item?.typeName?.toLowerCase() === value?.toLowerCase())
+    const orderTypes = orderTypess?.find(
+      (item: any) => item?.typeName?.toLowerCase() === value?.toLowerCase()
+    );
     return orderTypes ? orderTypes?.id : null;
-  }
+  };
 
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
     modifierName: item?.modifierName || null,
     isModifierChanged: item?.isModifierChanged || false,
-    maxCount: item?.maxSelection || null,
-    minCount: item?.minSelection || null,
-    noFreeCustomization: item?.freeCustomization || null,
-    orderTypeIds: (item?.selectedValue || []).map((value) => getOrderTypeId(value)),
-    options: item?.modifierOptions?.map((option: any) => ({
-      ...option,
-      optionName: option.modifierOptionName || option.name || "",
-      cost: option.cost || option.price || 0,
-      isModifierOptionChanged: option?.isModifierOptionChanged ?? false,
-    })).map(({ modifierOptionName, ...rest }) => rest) || [],
+    maxCount: item?.maxSelection,
+    minCount: item?.minSelection,
+    noFreeCustomization: item?.freeCustomization,
+    orderTypeIds: (item?.selectedValue || []).map((value) =>
+      getOrderTypeId(value)
+    ),
+    options:
+      item?.modifierOptions
+        ?.map((option: any) => ({
+          ...option,
+          optionName: option.modifierOptionName || option.name || "",
+          cost: option.cost || option.price || 0,
+          isModifierOptionChanged: option?.isModifierOptionChanged ?? false,
+        }))
+        .map(({ modifierOptionName, ...rest }) => rest) || [],
   }));
 
   const hasData = modifierData.some(
     (item) =>
       item.modifierName !== null ||
       (item.orderTypeIds && item.orderTypeIds.length > 0) ||
-      (item.options && item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
+      (item.options &&
+        item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
   );
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
@@ -511,28 +546,39 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-  const ingredientsdata = useSelector((state : any) => state.productCatalog?.ingredients?.data) 
-  const allergensData = useSelector((state: any) => state.productCatalog?.allergens?.data)
+  const ingredientsdata = useSelector(
+    (state: any) => state.productCatalog?.ingredients?.data
+  );
+  const allergensData = useSelector(
+    (state: any) => state.productCatalog?.allergens?.data
+  );
 
-  const editDetails = editData[0]?.orderTypes
-  const removePricing = []
-  const addPricing = []
-  
+  const editDetails = editData[0]?.orderTypes;
+  const removePricing = [];
+  const addPricing = [];
+
+
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
     pickupDetails && pickupDetails,
     deliveryDetails && deliveryDetails,
     ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
   ].filter(Boolean);
-  
-  const normalDays = prizingDetail?.normalForm?.Normaldays;
-  const stringNormalDays = Array.isArray(normalDays)
-    ? normalDays.map(String)
-    : [];
 
+  const normalDays = prizingDetail?.normalForm?.Normaldays;
+
+  const stringNormalDays = Array.isArray(normalDays) ? normalDays.map(String) : [];
+  const result = stringNormalDays.includes('0') ? ['0'] : stringNormalDays;
+
+const taxData = typeof primarydata?.tax === 'string'
+  ? primarydata.tax
+  : Array.isArray(primarydata?.tax)
+  ? (primarydata.tax as any[])?.join(', ') 
+  : '';
+    
   const menuPayload = {
     locationId: locationid,
-    itemId: UploadImageImageID ? UploadImageImageID : "",
+    itemId: editData.length === 0 && (UploadImageImageID ? UploadImageImageID : ""),
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -549,14 +595,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ingredients: primarydata?.Ingredients || null,
     calorieInfo: primarydata?.coloriePoint || null,
     portionInfo: primarydata?.portionSize || null,
-    taxClassAssociation: primarydata?.taxFeeId || null,
+    taxClassAssociation: taxData || null,
     // masterItemCode: primarydata?.masterCode || null,
 
     kitchenStation: kitchenStationId || null,
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: prizingDetail?.printKot || false,
-    availabilityDays: stringNormalDays || null,
+    availabilityDays: result || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
     ...(itemCustomizationData.length > 0 && {
@@ -601,17 +647,17 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     ingredients: primarydata?.Ingredients || null,
     calorieInfo: primarydata?.coloriePoint || null,
     portionInfo: primarydata?.portionSize || null,
-    taxClassAssociation: primarydata?.taxFeeId || null,
+    taxClassAssociation: taxData || null,
 
     kitchenStation: kitchenStationId || null,
     preparationTimeInHours: prizingDetail?.Preparationtime?.hours || null,
     preparationTimeInMinutes: prizingDetail?.Preparationtime?.minutes || null,
     ignoreMasterKotPrint: prizingDetail?.printKot || false,
-    availabilityDaysToAdd: stringNormalDays || null,
+    availabilityDaysToAdd: result || null,
     latestOrderTypesDTOWithRespectToAvailability: combinedDetails || null,
 
     modifiersToAdd: hasData ? modifierData : [],
-    
+
     isCategoryUpdated:
       filteredCategory?.categoryName !==
       primarypagedetails.primarypage.data.category,
@@ -622,7 +668,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     specialItem: null,
   };
 
-  // console.log({menuPayload}, {editPayload})
+  console.log({menuPayload}, {editPayload})
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -669,9 +715,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (state: any) => state.productCatalog.addMenuSuccess
   );
 
-  const updateMenuItemSuccess = useSelector((state: any) => state.productCatalog?.updateMenuItemSuccess)
+  const updateMenuItemSuccess = useSelector(
+    (state: any) => state.productCatalog?.updateMenuItemSuccess
+  );
 
-  const updateMenuItemLoading = useSelector((state: any) => state.productCatalog?.updateMenuItemLoading)
+  const updateMenuItemLoading = useSelector(
+    (state: any) => state.productCatalog?.updateMenuItemLoading
+  );
 
   const [buttonClicked, setButtonClicked] = useState(false);
 
@@ -681,14 +731,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       setButtonClicked(true);
       if (subsectiondatamsg) {
         if (editData.length > 0 && editData[0]) {
-          dispatch(updateMenuItemRequest( editPayload ));
+          dispatch(updateMenuItemRequest(editPayload));
         } else {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
       }
     } else {
       if (editData.length > 0 && editData[0]) {
-        dispatch(updateMenuItemRequest( editPayload ));
+        dispatch(updateMenuItemRequest(editPayload));
       } else {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
       }
@@ -734,10 +784,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   // };
 
   const imagecheck = (imagevalue: any) => {
-    const result = subsectiondata.some((image: any) => 
-      image?.file?.name === imagevalue?.file?.name || image?.url === imagevalue?.url
+    const result = subsectiondata.some(
+      (image: any) =>
+        image?.file?.name === imagevalue?.file?.name ||
+        image?.url === imagevalue?.url
     );
-  
+
     const matchingIndex = subsectiondata.findIndex((subsectionFile: any) =>
       selectedImages.some((selectedImage) =>
         subsectionFile.file
@@ -745,23 +797,24 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           : subsectionFile.url === selectedImage.url
       )
     );
-  
+
     return result;
   };
 
-  
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div className="reviewheading">
           <p>
-            Review menu item - {primarypagedetails.primarypage.data?.itemName||"N/A"}
+            Review menu item -{" "}
+            {primarypagedetails.primarypage.data?.itemName || "N/A"}
           </p>
         </div>
         <div className="reviewpage">
           <div className="reviewpagebody">
             <div className="primaryreview">
+              <div style={{display:"flex",borderBottom: "1px solid #c4c4c4"}}>
               <div className="primaryreviewdetailspart1">
                 <div className="primaryreviewheading">
                   <p>Step 1: Primary Details</p>
@@ -782,10 +835,20 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <ReviewValues
                           label="Dietary type"
                           textvalue={
-                            (primarydata?.DietaryType && typeof(primarydata?.DietaryType[0]) === 'string') && primarydata?.DietaryType.length > 0
-                              ? Array.isArray(primarydata?.DietaryType) ? primarydata?.DietaryType?.map((type: any) => type).join(", ") :primarydata?.DietaryType
-                              : Array.isArray(primarydata?.DietaryType) && primarydata?.DietaryType?.length > 0 
-                              ? primarydata?.DietaryType.map((type: any) => type?.name).join(", ") : "N/A"
+                            primarydata?.DietaryType &&
+                            typeof primarydata?.DietaryType[0] === "string" &&
+                            primarydata?.DietaryType.length > 0
+                              ? Array.isArray(primarydata?.DietaryType)
+                                ? primarydata?.DietaryType?.map(
+                                    (type: any) => type
+                                  ).join(", ")
+                                : primarydata?.DietaryType
+                              : Array.isArray(primarydata?.DietaryType) &&
+                                primarydata?.DietaryType?.length > 0
+                              ? primarydata?.DietaryType.map(
+                                  (type: any) => type?.name
+                                ).join(", ")
+                              : "N/A"
                           }
                         />
                       </div>
@@ -816,7 +879,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           label="Calorie Point"
                           textvalue={
                             primarydata?.coloriePoint?.value
-                              ? primarydata.coloriePoint?.value
+                              ?`${primarydata.coloriePoint?.value} ${primarydata.coloriePoint?.type}`
                               : "N/A"
                           }
                         />
@@ -833,12 +896,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         />
                       </div>
 
-                      <div>
-                        <ReviewValues
-                          label="Tax Class Association"
-                          textvalue={primarydata.tax ? primarydata.tax : "N/A"}
-                        />
-                      </div>
+                     
                     </div>
 
                     <div className="primaryreviewdetails2">
@@ -851,14 +909,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         />
                       </div>
 
-                      <div>
+                      {/* <div>
                         <ReviewValues
                           label="Other dietary details"
-                          textvalue={
-                           "N/A"
-                          }
+                          textvalue={"N/A"}
                         />
-                      </div>
+                      </div> */}
 
                       <div>
                         <ReviewValues
@@ -890,6 +946,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                               ? fetchedprimarydata.portionSize?.type
                               : "N/A"
                           }
+                        />
+                      </div>
+                      <div>
+                        <ReviewValues
+                          label="Tax Class Association"
+                          textvalue={primarydata.tax ? primarydata.tax : "N/A"}
                         />
                       </div>
 
@@ -968,7 +1030,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                     src={
                                       selectedImages[0]?.url?.file
                                         ? selectedImages[0].url.preview
-                                        : selectedImages[0].url || emptyfoodimg 
+                                        : selectedImages[0].url || emptyfoodimg
                                     }
                                     alt={`Preview of `}
                                   />
@@ -979,7 +1041,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
                           {selectedImages?.length === 0 && (
                             <li>
-                              <img src={emptyfoodimg} alt={`No images available`} />
+                              <img
+                                src={emptyfoodimg}
+                                alt={`No images available`}
+                              />
                             </li>
                           )}
 
@@ -1000,12 +1065,16 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                         className="imgfile"
                                         id={`imgadd-${index + 1}`}
                                         accept="image/png, image/jpeg"
-                                        onChange={(e) => handleRetry(e, index + 1)}
+                                        onChange={(e) =>
+                                          handleRetry(e, index + 1)
+                                        }
                                         style={{ display: "none" }}
                                       />
                                       <span
                                         className="errromsg"
-                                        onClick={() => handleAddImage(index + 1)}
+                                        onClick={() =>
+                                          handleAddImage(index + 1)
+                                        }
                                       >
                                         Retry
                                       </span>
@@ -1016,87 +1085,112 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                                       src={
                                         image.url?.file
                                           ? image.url.preview
-                                          : image.url || emptyfoodimg // Fallback to an empty image if both are unavailable
+                                          : image.url || emptyfoodimg 
                                       }
                                       alt={`Preview of image ${index + 1}`}
                                     />
                                   )}
                                 </li>
                               ))}
-                            {Array.from({ length: emptySlots }).slice(0).map((_, index) => (
-                              <li key={selectedImages.length + index + 1}>
-                                {typeof emptyfoodimg === "string" ? (
-                                  <img src={emptyfoodimg} alt={`empty ${index}`} />
-                                ) : (
-                                  <span>Error: emptyfoodimg is not a valid image path</span>
-                                )}
-                              </li>
-                            ))}
+                            {Array.from({ length: emptySlots })
+                              .slice(0)
+                              .map((_, index) => (
+                                <li key={selectedImages.length + index + 1}>
+                                  {typeof emptyfoodimg === "string" ? (
+                                    <img
+                                      src={emptyfoodimg}
+                                      alt={`empty ${index}`}
+                                    />
+                                  ) : (
+                                    <span>
+                                      Error: emptyfoodimg is not a valid image
+                                      path
+                                    </span>
+                                  )}
+                                </li>
+                              ))}
                           </div>
                         </ol>
                         <ol></ol>
                       </div>
                     </div>
-
                   </div>
                 }
 
-                {fetchedprimarydata.description && (
+                
                   <div className="primarydescription">
                     <p>Description</p>
                     <div className="description">
-                      <p>{fetchedprimarydata.description}</p>
+                      <p>{fetchedprimarydata?.description ? fetchedprimarydata?.description : "N/A"}</p>
                     </div>
                   </div>
-                )}
+                
                 {
                   <div className="primarybestpairedfood">
-                    <p>Best paired with</p>
+                    <p>Best paired with food items</p>
                     <div className="bestpairfoods">
                       <p>
-                        {((primarydata?.bestPair && typeof(primarydata?.bestPair[0]) === 'string') && (primarydata?.bestPair.length > 0))
-                              ? Array.isArray(primarydata?.bestPair) ? primarydata?.bestPair?.map((type: any) => type).join(", ") :primarydata?.bestPair
-                              : Array.isArray(primarydata?.bestPair) && primarydata?.bestPair?.length > 0 
-                              ? primarydata?.bestPair.map((type: any) => type?.name).join(", ") : "N/A"}
+                        {primarydata?.bestPair &&
+                        typeof primarydata?.bestPair[0] === "string" &&
+                        primarydata?.bestPair.length > 0
+                          ? Array.isArray(primarydata?.bestPair)
+                            ? primarydata?.bestPair
+                                ?.map((type: any) => type)
+                                .join(", ")
+                            : primarydata?.bestPair
+                          : Array.isArray(primarydata?.bestPair) &&
+                            primarydata?.bestPair?.length > 0
+                          ? primarydata?.bestPair
+                              .map((type: any) => type?.name)
+                              .join(", ")
+                          : "N/A"}
                       </p>
                     </div>
                   </div>
                 }
 
                 <div className="allergensandingredients">
-                  <div>
-                    {primarydata?.Ingredients?.length > 0 && (
+                  <div className="ingredients-review">
+                    <p className="ingredients">Ingredients</p>
+                    {primarydata?.Ingredients?.length > 0 ? (
                       <>
                         {" "}
-                        <p className="ingredients">Ingredients</p>
                         <ImagePillsSelected
                           imageselected={primarydata}
                           name="Ingredients"
                         />
                       </>
-                    )}
+                    ) : "N/A"}
                   </div>
 
-                  <div>
-                    {primarydata?.allergens?.length > 0 && (
+                  <div className="allergens-review">
+                    <p className="allergen">Allergens</p>{" "}
+                    {primarydata?.allergens?.length > 0 ? (
                       <>
                         {" "}
-                        <p className="allergen">Allergens</p>{" "}
                         <ImagePillsSelected
                           imageselected={primarydata}
                           name="allergens"
                         />
                       </>
-                    )}
+                    ) : "N/A"}
                   </div>
                 </div>
               </div>
+              </div>
+            
 
               <div className="part-two">
+               
                 <Step2 />
-                <div className="verticalLine" />
+               
+                <span   className={isExpanded ? "verticalLineExpand" : "verticalLine"}/>
+               
+               
 
-                <Step3Review />
+<Step3Review />
+
+                
               </div>
             </div>
           </div>
@@ -1115,10 +1209,10 @@ const PrimaryDetailsReviewpage: React.FC = () => {
             onClick={handleSubmitItemDetails}
             disabled={addMenuLoading || updateMenuItemLoading}
           >
-            {(!addMenuLoading) ? (
-              "Submit for review"
-            ) : (
+            {(addMenuLoading || updateMenuItemLoading) ? (
               <div className="reviewLoaders"></div>
+            ) : (
+               "Publish"
             )}
           </button>
         </div>

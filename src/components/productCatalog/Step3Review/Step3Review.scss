@@ -6,7 +6,28 @@
   display: flex;
   flex-direction: column;
   gap: 0px;
-  top: 90vh;
+ margin-top: 1.7rem;
+  // background-color: lightseagreen;
+  // @media(max-width: 1080px){
+  //   // background-color: lightseagreen;
+  //   top: 119vh;
+  //   left: 535px;
+  // }
+  // @media (min-width: 1081px) and (max-width: 1440px){
+  //   top: 120vh;
+  // }
+  // @media(min-width: 1700px) and (max-width: 1706.67px){
+  //   // background-color: lightslategray;
+  //   top: 85vh;
+  // }
+  // @media(min-width: 1900px) and (max-width: 1920px){
+  //   // background-color: lightslategray;
+  //   top: 76vh;
+  // }
+  // @media(min-width: 2000px) and (max-width: 2048px){
+  //       // background-color: lightslategray;
+  //       top: 71.8vh;
+  // }
 }
 
 .step3-Review-Container-heading-and-button-container {
@@ -26,10 +47,12 @@
 .step3-Review-img-edit-Container {
   display: flex;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 5px;
   text-decoration: none;
   position: relative;
-  left: 15rem;
+  left: 13rem;
+  border: 2px solid;
+
 }
 
 .step3-Review-Container-heading-EditImage {
@@ -95,68 +118,97 @@
 // {--------------------------Step 3 Modifier Section Menu   ----------------------}
 
 .Step-3-Modifier-Section-Menu-container {
-  width: 500px;
+  width: fit-content;
   height: 200px;
   display: flex;
   justify-content: space-around;
   gap: 20px;
   margin-top: 0px;
-  margin-left: -10px;
+  margin-left: 1.5rem;
+  // background-color: lightskyblue;
 }
+.Step-3-Modifier-Section-Each-Menu-container-item
+{
 
+
+}
 .Step-3-Modifier-Section-Each-Menu-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  // background-color: lightseagreen;
+  width: 6rem;
+  height: fit-content;
 }
 
 .Step-3-Modifier-Section-Menu-heading {
-  font-family: Poppins;
+  font-family: "Poppins",sans-serif;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 18px;
   color: #6e6e6e;
+  // background-color: lightcoral;
+  width: fit-content;
 }
 
 .Step-3-Modifier-Section-Menu-details {
-  font-family: Poppins;
+  font-family: "Poppins",sans-serif;
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
   position: relative;
 
-  margin-left: 5px;
+  // margin-left: 5px;
+  // background-color: pink;
+  width: fit-content;
 }
 .Step-3-Modifier-Section-Menu-details-items {
-  font-family: Poppins;
-  font-weight: 500;
+  font-family: "Poppins",sans-serif;
+  font-weight: 400;
   font-size: 14px;
   line-height: 21px;
   position: relative;
-
-  margin-left: 3x;
-  margin-top: -2px;
+  display: flex;
+width: 6rem;
+height: auto;
+// border: 1px solid red;
+  // margin-left: 3x;
+  // margin-top: -2px;
+  margin-top: 2%;
+  padding: 0.3rem;
+  padding-left: 0;
 }
 
 .Step-3-Modifier-Section-Menu-details-price {
-  font-family: Poppins;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  position: relative;
-  margin-left: -2px;
+ 
+font-family: "Poppins",sans-serif;
+font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+position: relative;
+display: flex;
+width: 6rem;
+height: auto;
+// border: 1px solid red;
+// margin-left: 3x;
+// margin-top: -2px;
+margin-top: 2%;
+padding: 0.3rem;
+padding-left: 0;
 }
 
 /* {-----------------------------Free Modification Section---------------------------------- } */
 
 .Free-Modification-Section {
-  width: 200px;
+  // width: 200px;
+  width: fit-content;
   height: 60px;
   display: flex;
   flex-direction: column;
   position: relative;
   top: -142px;
-  left: 18px;
+  left: 24px;
+  // background-color: lightsalmon;
 }
 
 .Step-3-free-details {
@@ -165,11 +217,13 @@
   font-size: 14px;
   line-height: 21px;
   position: relative;
-  margin-left: 4px;
+  // margin-left: 8px;
   margin-top: 10px;
   display: flex;
   justify-content: start;
   gap: 20px;
+  // background-color: lightgreen;
+  width: fit-content;
 }
 
 /* {-----------------------------Stream  Modification Section---------------------------------- } */
@@ -189,9 +243,6 @@
   gap: 10px;
 }
 
-
-.Nodata
-{
+.Nodata {
   margin-top: 5%;
- 
 }

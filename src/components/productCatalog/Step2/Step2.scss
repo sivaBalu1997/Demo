@@ -4,14 +4,19 @@
 
 .container-step2 {
   position: absolute;
-  top: 630px;
-  left: 10px;
-
+  // top: 635px;
+  // left: 10px;
   width: 510px;
+  height: auto;
+  // margin-top: 82.5%;
+  // background-color: lightsalmon;
+  @media(max-width: 1080px){
+    // background-color: lightsalmon;
+  }
 }
 .Step2-container {
   position: relative;
-  top: 100px;
+  // top: 100px;
 
   border: 2px solid red;
   display: flex;
@@ -32,6 +37,17 @@
   flex-direction: row;
   justify-content: space-between;
   width: 40vw;
+
+  @media(min-width: 1900px) and (max-width: 1920px){
+    // border: 1px solid sienna;
+    width: 30vw;
+    // gap: 15vw;
+  }
+  @media(min-width: 2000px) and (max-width: 2048px){
+        // border: 1px solid sienna;
+        width: 28vw;
+        // gap: 15vw;
+  }
 }
 .Step2-heading {
   font-size: 17px;
@@ -48,11 +64,12 @@
 
   // margin-left: 150px;
   background: none;
+  // background-color: pink;
   text-decoration: none;
   border: none;
   font-family: Poppins;
   position: relative;
-  left: -5rem;
+  left: -7rem;
   font-size: 16px;
   font-weight: 400;
   display: flex;
@@ -61,8 +78,20 @@
   align-items: center;
   gap: 5px;
 
-  button {
+  @media(max-width: 1080px){
+    left: 4rem;
   }
+
+  @media(min-width: 1900px) and (max-width: 1920px){
+    // border: 1px solid sienna;
+    left: -1vw;
+  }
+
+  @media(min-width: 2000px) and (max-width: 2048px){
+        // border: 1px solid sienna;
+        left: -1vw;
+  }
+
 }
 
 .Res-heading {

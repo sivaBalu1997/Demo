@@ -1,7 +1,7 @@
 .Header-Container {
   width: 100%;
   position: sticky;
-  height: 80px;
+  height: 60px;
   left: -20px;
   padding: 10px;
   top: 25px;
@@ -10,6 +10,7 @@
   justify-content: space-between;
   transition: left 0.4s ease-in;
   margin-left: 30px;
+  margin-bottom: 30px;
 
   // background-color: lightblue;
 }
@@ -219,15 +220,29 @@
   background-color: #67833e;
   padding: 10px;
   border-radius: 5px;
-  gap: 2px;
   cursor: pointer;
-  left: 4rem;
-  top: 0.2rem;
-  position: relative;
-  // left: -100px;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media(max-width: 2048px){
+    margin-right: 4vw;
+  }
+  @media(max-width: 1920px){
+    margin-right: 4vw;
+  }
+  @media(max-width: 1536px){
+    // background-color: lightblue;
+    margin-right: 5vw;
+  }
+  @media(max-width: 1707.67px){
+    margin-right: 4vw;
+  }
+  @media(max-width: 1600px){
+    margin-right: 5vw;
+  }
+  @media(max-width: 1440px){
+    margin-right: 8vw;
+  }
 }
 
 .Add-Item-Container1 {
@@ -241,11 +256,28 @@
   gap: 2px;
   cursor: pointer;
   transform: translateX(80px);
-  position: relative;
-  right: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media(max-width: 2048px){
+    margin-right: 9vw;
+  }
+  @media(max-width: 1920px){
+    margin-right: 8vw;
+  }
+  @media(max-width: 1536px){
+    // background-color: lightblue;
+    margin-right: 12vw;
+  }
+  @media(max-width: 1707.67px){
+    margin-right: 10vw;
+  }
+  @media(max-width: 1600px){
+    margin-right: 10vw;
+  }
+  @media(max-width: 1440px){
+    margin-right: 18vw;
+  }
 }
 
 .Add-Item-Heading-Plus,
@@ -270,6 +302,6 @@
 }
 @media (max-width: 1700px) {
   .Header-Container {
-    width: 90%;
+    width: 100%;
   }
 }

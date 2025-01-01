@@ -8,6 +8,7 @@ interface ModelShowProps {
   selectedtypeid: string;
   setshowAvailchanges:any;
   parentToggle:string;
+  setTimeToSet:any;
 
 }
 
@@ -15,7 +16,8 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   selectedtypeid,
   setshowsession,
   setshowAvailchanges,
-  parentToggle
+  parentToggle,
+  setTimeToSet
   
 }) => {
   const [selectedSession, setSelectedSession] = useState<string>("");
@@ -24,6 +26,32 @@ const SessionOpen: React.FC<ModelShowProps> = ({
   const [filteredsession,setfilteredsession]=useState([]);
   const restaurantDetails = useSelector((state:any) => state.auth.restaurantDetails);
  
+  const sessionavailable=[
+    {
+      openingTime:"12.00",
+      closingTime:"11.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    },
+    {
+      openingTime:"01.00",
+      closingTime:"03.00"
+      
+
+    }
+  ]
   const getTodayDay = () => {
     const daysOfWeek = [
       "Sunday", "Monday", "Tuesday", "Wednesday", 
@@ -66,40 +94,42 @@ const SessionOpen: React.FC<ModelShowProps> = ({
     // const sessionClosingHours = filterWorkingHoursBySession(selctedDateSession);
     // console.log("sessionClosingHours",sessionClosingHours?.closingTime);
     
-if(parentToggle==="")
-{
-  setPatchedData((prevState:any) => ({
-    ...prevState,
-    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-      (availabilityInfo:any) =>
-        availabilityInfo.orderTypeId === selectedtypeid
-          ? {
-              ...availabilityInfo,
-              unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
-            }
-          : availabilityInfo
-    ),
-  }));
+// if(parentToggle==="")
+// {
+//   setPatchedData((prevState:any) => ({
+//     ...prevState,
+//     itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+//       (availabilityInfo:any) =>
+//         availabilityInfo.orderTypeId === selectedtypeid
+//           ? {
+//               ...availabilityInfo,
+//               unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
+//             }
+//           : availabilityInfo
+//     ),
+//   }));
 
-}
-else{
+// }
+// else{
 
 
-  setPatchedData((prevState:any) => ({
-    ...prevState,
-    itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
-      (availabilityInfo:any) =>{
-        return { 
+//   setPatchedData((prevState:any) => ({
+//     ...prevState,
+//     itemAvailabilityInfo: prevState.itemAvailabilityInfo.map(
+//       (availabilityInfo:any) =>{
+//         return { 
           
-        ...availabilityInfo,
-        unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
-      }
-    }
-    ),
-  }));
+//         ...availabilityInfo,
+//         unAvailableUntilTime: `${formattedDate}T${selctedDateSession}`,
+//       }
+//     }
+//     ),
+//   }));
  
 
-}
+// }
+
+setTimeToSet(`${formattedDate}T${selctedDateSession}`)
     
     setshowsession(false);
     setshowAvailchanges(true)
@@ -112,12 +142,12 @@ else{
     setfilteredsession(todayWorkinghours);
 
   },[restaurantDetails])
-  console.log("filteredsession",filteredsession);
   
 const handleSessionCancel=()=>{
   setshowsession(false);
   setselctedDateSession("");
   setshowAvailchanges(true);
+  setTimeToSet("")
   
 
 }
@@ -144,12 +174,12 @@ const handleSessionCancel=()=>{
             onChange={() => handleChangesession("Evening")}
           />
         </div> */}
-        <h3 className="sessions-head">Sessions Available</h3>
+        <h3 className="sessions-head">Available Sessions</h3>
         <div>
         {
           filteredsession && filteredsession.map((item:any)=>(
            <div className="session-name">
-              <label htmlFor="morning">{item?.openingTime} - {item?.closingTime}</label>
+              <label htmlFor="morning" className="session-lable">{item?.openingTime} - {item?.closingTime}</label>
           <input
             type="radio"
             id="morning"

@@ -64,6 +64,7 @@ import {
   allergensSuccess,
   ingredientsSuccess,
   removeDataRequest,
+  taxClassSuccess,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -132,13 +133,18 @@ import {
   PARTIAL_UPDATE_MENU_SUCCESS,
 } from "./productCatalogConstants";
 import { showSuccessToast } from "util/toastUtils";
-import { showErrorToast, showInfoToast, showWarningToast } from '../../util/toastUtils';
+import {
+  showErrorToast,
+  showInfoToast,
+  showWarningToast,
+} from "../../util/toastUtils";
+import { useSelector } from "react-redux";
 
 // import { log } from "console";
 
 function* fetchMenuDataSaga(action) {
   try {
-    yield put(removeDataRequest())
+    yield put(removeDataRequest());
     const response = yield call(getMenuDataApi, action.payload);
     if (response.status === 200) {
       yield put(getMenuSuccess(response.data));
@@ -174,11 +180,14 @@ function* fetchDropdownDataSaga(action) {
         case "KITCHEN_STATION":
           yield put(kitchenStationSuccess(response.data));
           break;
-        case 'INGREDIENTS':
+        case "INGREDIENTS":
           yield put(ingredientsSuccess(response));
           break;
-        case 'ALLERGENS':
+        case "ALLERGENS":
           yield put(allergensSuccess(response));
+          break;
+        case "TAX":
+          yield put(taxClassSuccess(response))
           break;
         default:
           throw new Error("Invalid type");
@@ -198,52 +207,25 @@ function* addSubsection(action) {
     const viewdata = {
       locationId: action.payload.locationId,
       type: action.payload.type,
-      parentId: action.payload.parentId,
+      parentId: action.payload.type === 'SUB_CATEGORY' ? action.payload.parentId : "",
     };
+    
     if (response.status === 200) {
       yield put({
         type: FETCHDROPDOWN_REQUEST,
         payload: viewdata,
       });
-      yield put(addDropDownSuccess("success"));
-      // switch (action.payload.type) {
-      //   case "DIET":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload: viewdata
-      //     });
-      //     yield put(addDropDownSuccess("success"));
 
-      //     break;
-      //   case "CUISINES":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload:viewdata,
-      //     });
-      //     break;
-      //   case "CATEGORY":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload: viewdata,
-      //     });
-      //     break;
-      //   case "SUB_CATEGORY":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload: viewdata,
-      //     });
-      //     break;
-      //   case "BEST_PAIRED_ITEMS":
-      //     yield put({
-      //       type: FETCHDROPDOWN_REQUEST,
-      //       payload: viewdata,
-      //     });
-      //     break;
-      //   default:
-      //     throw new Error("Invalid type");
-      // }
+      yield put(addDropDownSuccess("success"));
     } else {
       yield put(addDropDownFailure({ message: "Please try again" }));
+      if (
+        response.data.message &&
+        response.data.message.includes("already exist")
+      ) {
+        showErrorToast(" Type already exist  . Please Try With Other Input  ");
+        yield put(addDropDownFailure({ message: "Please try again" }));
+      }
     }
   } catch (err) {
     yield put(addDropDownFailure({ message: "Please try again" }));
@@ -257,19 +239,24 @@ function* deleteSubSectionSaga(action) {
       id: action.payload.id,
       type: action.payload.type,
     };
+
+    const parenId = action.payload?.parentId;
     const response = yield call(deleteSubSection, deteleData);
+
     const viewdata = {
       locationId: action.payload.locationid,
       type: action.payload.type,
-      parentId: "",
+      parentId: action.payload.type === 'SUB_CATEGORY' ? parenId : "",
     };
+
+
     if (response.status === 200) {
       yield put({
         type: FETCHDROPDOWN_REQUEST,
         payload: viewdata,
       });
 
-      yield put(deleteDropDownSuccess(response)); 
+      yield put(deleteDropDownSuccess(response));
     } else {
       yield put(deleteDropDownFailure("failed"));
     }
@@ -294,8 +281,13 @@ function* getTagClassSaga(action) {
 function* getModifierSaga(action) {
   try {
     const response = yield call(getModifier, action.payload);
+
     if (response.status === 200) {
-      yield put(getModifierSuccess(response.data));
+      if (Array.isArray(response.data) && response.data.length === 0) {
+        yield put(getModifierFailed());
+      } else {
+        yield put(getModifierSuccess(response.data));
+      }
     } else {
       yield put(getModifierFailed());
     }
@@ -341,10 +333,10 @@ function* addMenuItemSaga(action) {
     const addApi = yield call(addMenuItem, action.payload);
     const addApiresponse = addApi.data;
     if (addApi.status === 200) {
-      showSuccessToast(addApiresponse.message)
+      showSuccessToast(addApiresponse.message);
       yield put(addMenuItemSuccess(addApiresponse));
     } else {
-      showErrorToast(addApiresponse.message)
+      showErrorToast(addApiresponse.message);
       yield put(addMenuItemFailed({ message: "Please Try Again" }));
     }
   } catch (err) {
@@ -387,13 +379,11 @@ const convertImageToBinaryString = (imageFile) => {
 };
 
 function* imageUploadSaga(action) {
-  console.log('inside sagas 1')
   const images = action.payload;
   let itemId = "";
   const failureArray = [];
 
   try {
-    console.log('inside sagas2')
     const firstImage = images[0];
     const response = yield call(uploadImageApi, firstImage, itemId);
     if (response.data && response.data.itemId) {
@@ -401,10 +391,9 @@ function* imageUploadSaga(action) {
     }
     yield put(imageUploadSuccess(itemId));
   } catch (error) {
-    console.log('inside sagas3')
     failureArray.push({
       file: images[0].file,
-      itemId: "", 
+      itemId: "",
     });
     yield put(imageUploadFailure(images[0].name, ""));
     return;
@@ -419,7 +408,7 @@ function* imageUploadSaga(action) {
     } catch (error) {
       failureArray.push({
         file: image.file,
-        itemId: itemId || "", 
+        itemId: itemId || "",
       });
       yield put(imageUploadFailure(image.name, itemId));
     }
@@ -461,13 +450,11 @@ function* retryImage(action) {
 
 function* updateMenuItemSaga(action) {
   try {
-    console.log("action.payload",action.payload);
-    
     const response = yield call(updateMenuItem, action.payload);
     if (response.status === 200) {
-      showSuccessToast(response.data.message)
+      showSuccessToast(response.data.message);
       yield put(updateMenuItemSuccess(response.data));
-      yield put(removeDataRequest())
+      yield put(removeDataRequest());
     } else {
       showErrorToast(response.data.message);
       yield put(updateMenuItemFailed({ message: "please Try Again" }));
@@ -481,7 +468,7 @@ function* updateMenuAttributeSaga(action) {
   try {
     const response = yield call(updateMenuItemAttribute, action.payload);
     if (response.status === 200) {
-      showSuccessToast(response.message)
+      showSuccessToast(response.message);
       yield put(updateMenuAttributeSuccess(response.data));
     } else {
       yield put(updateMenuAttributeFailed({ message: "please Try Again" }));
@@ -495,12 +482,14 @@ function* deleteMenuItemSaga(action) {
   try {
     const response = yield call(deleteMenuItem, action.payload.itemId);
     if (response.status === 200) {
-      showSuccessToast(response?.data?.message)
-      yield put(deleteMenuItemSuccess({
-        message: response.data,
-        itemId: action.payload.itemId
-      }));
-      yield put(removeDataRequest())
+      showSuccessToast(response?.data?.message);
+      yield put(
+        deleteMenuItemSuccess({
+          message: response.data,
+          itemId: action.payload.itemId,
+        })
+      );
+      yield put(removeDataRequest());
     } else {
       yield put(deleteMenuItemFailed({ message: "please Try Again" }));
     }
@@ -544,20 +533,21 @@ function* getPopularItemSaga(action) {
 
 function* partialUpdateMenuSaga(action) {
   try {
-    console.log("666",action.payload);
-    
     const updatedMenu = yield call(apiUpdateMenu, action.payload.data);
     if (updatedMenu.status === 200) {
-      showSuccessToast('Item Updated Successfully');
-      console.log("updatedMenu.data.message",updatedMenu.data.message);
-      
+      showSuccessToast(updatedMenu.data.message);
       yield put(partialUpdateMenuSuccess(updatedMenu.data.message));
-     
-      yield put({ type: STORE_MENU_REQUEST, payload: action.payload.locationid });
 
-    } 
-    
-   
+      yield put({
+        type: STORE_MENU_REQUEST,
+        payload: action.payload.locationid,
+      });
+    }
+    else{
+      yield put(partialUpdateMenuFailure(true));
+      showErrorToast(updatedMenu.data.message);
+
+    }
   } catch (error) {
     yield put(partialUpdateMenuFailure(error.message));
   }
@@ -565,17 +555,22 @@ function* partialUpdateMenuSaga(action) {
 
 function* addMockDataHiddenSaga(action) {
   try {
-    const { hidePayload, location } = action.payload;  
+    const { hidePayload, location } = action.payload;
 
-    const response = yield call(hideMockData, hidePayload); 
+    const response = yield call(hideMockData, hidePayload);
     if (response.status === 200) {
-      showSuccessToast('Item Hidden Successfully');
-      yield put({ type: ADD_MOCK_DATA_HIDDEN_SUCCESS, payload: response.data.message });
+      showSuccessToast(response.data.message);
+      yield put({
+        type: ADD_MOCK_DATA_HIDDEN_SUCCESS,
+        payload: response.data.message,
+      });
       yield put({ type: STORE_MENU_REQUEST, payload: location });
-
     } else {
       showErrorToast(response.data.message);
-      yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload: response.data.message });
+      yield put({
+        type: ADD_MOCK_DATA_HIDDEN_FALIURE,
+        payload: response.data.message,
+      });
     }
   } catch (error) {
     yield put({ type: ADD_MOCK_DATA_HIDDEN_FALIURE, payload: error.message });
@@ -611,4 +606,3 @@ export default function* productCatalog() {
   yield takeLatest(PARTIAL_UPDATE_MENU_REQUEST, partialUpdateMenuSaga);
   yield takeLatest(ADD_MOCK_DATA_HIDDEN_REQUEST, addMockDataHiddenSaga);
 }
-

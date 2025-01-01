@@ -5,6 +5,7 @@
 .pricingDetails {
   display: flex;
   width: 105.3%;
+  // background-color: pink;
 }
 
 .pricingDetailsExpanded {
@@ -17,10 +18,37 @@
   top: 160px;
   margin-left: -35px;
   overflow-x: hidden;
-  height: 38.5rem;
+  // height: 38.5rem;
+  // height: 29rem;
+  max-height: 37rem;
+ 
+  // height: fit-content;
   width: 100%;
   overflow-y: auto;
   // background-color: pink;
+  // @media (min-width: 1441px) and (max-width: 1536px){
+  //   background-color: lightseagreen;
+  //   height: 38rem;
+  // }
+  @media (max-width: 1930px) {
+    max-height: 42rem;
+  }
+
+  @media(max-width: 1440px){
+    // background-color: yellow;
+    max-height: 54vh;
+  }
+
+  @media(max-width: 1600px){
+    // background-color: lightslategray;
+    max-height: 59vh;
+  }
+
+  @media (min-width: 1641px) and (max-width: 1766px) {
+   
+   max-height: 37rem;
+    border: none;
+  }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -31,9 +59,31 @@
   top: 160px;
   margin-left: -1rem;
   overflow-x: hidden;
-  height: 37.5rem;
+  // height: 37.5rem;
+  // height: 42rem;
+  // height: 29rem;
+  max-height: 31rem;
   width: 93.3%;
   overflow-y: auto;
+  // background-color: pink;
+  @media (max-width: 1930px) {
+    max-height: 41.7rem;
+    }
+  
+  @media (min-width: 1400px) and (max-width: 1440px){
+    // background-color: lightsalmon;
+    max-height: 54vh;
+  }
+
+  @media (max-width: 1600px){
+    // background-color: lightseagreen;
+    overflow-x: hidden;
+    max-height: 66.5vh;
+  }
+
+  @media (min-width: 1641px) and (max-width: 1766px) {   
+    max-height: 37rem;
+    }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -46,6 +96,17 @@
   margin-left: 55px;
   // overflow-y: auto;
   height: 82vh;
+  // background-color: pink;
+  // @media (min-width: 1400px) and (max-width: 1440px){
+  //   background-color: palegreen;
+  //   height: 82vh;
+  // }
+  @media (min-width: 1441px) and (max-width: 1536px){
+    padding-left: 5px;
+    // background-color: lightgreen;
+    height: 65vh;
+    overflow-y: scroll;
+  }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -54,7 +115,8 @@
 
 .KitchenRelated {
   display: flex;
-  height: 4rem;
+  // align-items: center;
+  height: auto;
   // border: 1px solid red;
 }
 // .KitchenRelated > div {
@@ -75,7 +137,7 @@
 }
 
 .Prepartiontime {
-  margin-top: -1.5rem;
+  margin-top: -1.2rem;
   .heading {
     position: relative;
     top: -0.3rem;
@@ -92,11 +154,10 @@
 .Prepartiontime-input-fileds {
   display: flex;
   flex-direction: row;
-
   gap: 10px;
   position: relative;
   top: -0.3rem;
-  color: #424242;
+  color: #000;
   font-family: Poppins;
   font-size: 14.38px;
   font-weight: 400;
@@ -106,7 +167,7 @@
 }
 
 .Prepartiontime-input-hours {
-  width: 40px;
+  width: 48px;
   height: 40px;
   font-family: Poppins;
   font-weight: 400;
@@ -117,23 +178,24 @@
   border: 1px solid #9f9f9f;
 }
 
-.Prepartiontime-input-mins {
-  width: 48px;
-  height: 40px;
-  font-weight: 400;
-  border-radius: 5.41px;
-  font-family: Poppins;
-  border: 1px solid #9f9f9f;
-}
+// .Prepartiontime-input-mins {
+//   width: 48px;
+//   height: 40px;
+//   font-weight: 400;
+//   border-radius: 5.41px;
+//   font-family: Poppins;
+//   border: 1px solid #9f9f9f;
+// }
 
 .Prepartiontime-input-mins {
   width: 48px;
   height: 40px;
   border-radius: 5.41px;
+  text-align: center;
   border: 1px solid #9f9f9f;
-  &::placeholder {
-    color: #000000;
-  }
+  // &::placeholder {
+  //   color: ;
+  // }
 }
 
 .timeSpan {
@@ -141,6 +203,7 @@
   justify-content: center;
   align-items: center;
   font-size: 14px;
+  color: #000;
 }
 
 .KitchenRelatedHeading {
@@ -172,6 +235,8 @@
 .ToolKitchen {
   transform: translateY(22px);
   opacity: 40%;
+  border: none;
+  outline: none;
 }
 .Imgarrow {
   position: relative;
@@ -193,14 +258,14 @@
   width: 1.25rem;
   height: 1.25rem;
   margin-top: 0px;
-
+margin-left:-1px ;
   transform: translateY(5px);
 }
 .Kitchen-checkbox {
   width: fit-content;
   height: fit-content;
   // bottom: -0.5rem;
-  margin-top: -4px;
+  margin-top: 14px;
   // position: relative;
   // top: 22px;
   // margin-bottom: 30px;
@@ -524,8 +589,8 @@
 .tool-tip-kitchen-detail {
   position: relative;
   // background-color: orange;
-  top: 1.2rem;
-  left: 1rem;
-  width: 1px;
+  top: 1.4rem;
+  left: 0.5rem;
+  width: fit-content;
   margin-top: -0.5rem;
 }

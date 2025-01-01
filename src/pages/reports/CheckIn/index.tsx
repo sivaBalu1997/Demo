@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
 import { checkInD } from "../../../assets/mockData/originalAPIData/OcheckinData";
+import { ThemeContext } from "../../../context/ThemeContext";
+import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
 import Table from "../../../components/reportComponents/Table";
 import ReusableCanvaChart from "../../../components/reportComponents/Charts/ReusabeCanvaChart";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { ThemeContext } from "../../../context/ThemeContext";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
-import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
-import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 declare namespace CanvasJS {
   interface ChartEventArgs {
@@ -30,6 +30,12 @@ const CheckIn: React.FC = () => {
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+
+  const [currentPageRepeatCustomers, setCurrentPageRepeatCustomers] = useState<number>(1);
+  console.log({ currentPageRepeatCustomers })
+
+  const [currentPageDailyCheckInDetails, setCurrentPageDailyCheckInDetails] = useState<number>(1);
+  console.log({ currentPageDailyCheckInDetails })
 
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
@@ -183,7 +189,7 @@ const CheckIn: React.FC = () => {
 
   const handleOptionClickForDate = (option: string) => {
     setSelectedPeriod(option);
-    if (option === "Select Custom Date Range") {
+    if (option === "Custom Range") {
       setOpenCustomDateRange(true);
     } else {
       setOpenCustomDateRange(false);
@@ -197,9 +203,8 @@ const CheckIn: React.FC = () => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`checkin-container ${
-          isDarkTheme ? "dark-theme" : "light-theme"
-        }`}
+        className={`checkin-container ${isDarkTheme ? "dark-theme" : "light-theme"
+          }`}
       >
         <Topnavbar />
         <div className="checkin-head">
@@ -234,10 +239,10 @@ const CheckIn: React.FC = () => {
                   </p>
                   <p
                     onClick={() =>
-                      handleOptionClickForDate("Select Custom Date Range")
+                      handleOptionClickForDate("Custom Range")
                     }
                   >
-                    Select Custom Date Range
+                    Custom Range
                   </p>
                 </div>
               )}
@@ -352,6 +357,8 @@ const CheckIn: React.FC = () => {
         </div>
         <div className="repeat-customers-table-container">
           <Table
+            currentPage={currentPageRepeatCustomers}
+            setCurrentPage={setCurrentPageRepeatCustomers}
             tableData={checkInD["Repeat Customers"]}
             viewType="full"
             recordsPerPage={9}
@@ -360,6 +367,8 @@ const CheckIn: React.FC = () => {
         </div>
         <div className="daily-checkin-table-container">
           <Table
+            currentPage={currentPageDailyCheckInDetails}
+            setCurrentPage={setCurrentPageDailyCheckInDetails}
             tableData={checkInD["Daily CheckIn Details"]}
             viewType="full"
             recordsPerPage={11}

@@ -1,17 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { ProdI } from "../../../assets/mockData/originalAPIData/OproductInsightsData";
 import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import { DDDD } from "../../../assets/mockData/mock D/nested";
+import { ThemeContext } from "../../../context/ThemeContext";
+import { generateGradient } from "../../../util/color";
 import Table from "../../../components/reportComponents/Table";
 import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Import default styles
-import { ThemeContext } from "../../../context/ThemeContext";
-import "./style.scss";
-// import moment from "moment";
-import { generateGradient } from "../../../util/color";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import "react-datepicker/dist/react-datepicker.css"; // Import default styles
 import "./style.scss";
 
 interface TopVoidedItem {
@@ -34,6 +32,9 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [openCustomDateRange, setOpenCustomDateRange] =
     useState<boolean>(false);
+
+  const [currentPageProductSummary, setCurrentPageProductSummary] = useState<number>(1);
+  console.log({ currentPageProductSummary })
 
   const [openStartDatePicker, setOpenStartDatePicker] =
     useState<boolean>(false);
@@ -58,6 +59,27 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
   };
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenFilter(false);
+      }
+    };
+
+    if (openFilter) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openFilter]);
 
   const getTop10Items = (data: ProductInsightsData): TopVoidedItem[] => {
     return data["Top Voided Items"]
@@ -87,7 +109,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
 
   const handleOptionClickForDate = (option: string) => {
     setSelectedPeriod(option);
-    if (option === "Select Custom Date Range") {
+    if (option === "Custom Range") {
       setOpenCustomDateRange(true);
       setStartDate(new Date());
       setEndDate(new Date());
@@ -99,7 +121,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
 
   const handleOptionClick = (option: string) => {
     setCategoryFilterProductSummary(option);
-    if (option === "Select Custom Date Range") {
+    if (option === "Custom Range") {
       setOpenCustomDateRange(true);
       setStartDate(new Date());
       setEndDate(new Date());
@@ -131,9 +153,8 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`p-product-insights-container ${
-          isDarkTheme ? "p-dark-theme" : "p-light-theme"
-        }`}
+        className={`p-product-insights-container ${isDarkTheme ? "p-dark-theme" : "p-light-theme"
+          }`}
       >
         <Topnavbar />
         <div className="p-prod-insights-head">
@@ -149,7 +170,7 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
                 {selectedPeriod}
               </div>
               {openFilter && (
-                <div className="p-filter-drop-down-options">
+                <div className="p-filter-drop-down-options" ref={dropdownRef}>
                   <p onClick={() => handleOptionClickForDate("Today")}>Today</p>
                   <p onClick={() => handleOptionClickForDate("This Week")}>
                     This Week
@@ -168,10 +189,10 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
                   </p>
                   <p
                     onClick={() =>
-                      handleOptionClickForDate("Select Custom Date Range")
+                      handleOptionClickForDate("Custom Range")
                     }
                   >
-                    Select Custom Date Range
+                    Custom Range
                   </p>
                 </div>
               )}
@@ -375,6 +396,8 @@ const ProductInsights: React.FC<ProductInsightsProps> = () => {
           </div>
         </div>
         <Table
+          currentPage={currentPageProductSummary}
+          setCurrentPage={setCurrentPageProductSummary}
           Heading="Product Summary"
           tableData={ProdI["Product Summary US"]}
           viewType="full"

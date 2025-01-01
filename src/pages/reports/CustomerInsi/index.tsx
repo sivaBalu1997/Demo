@@ -1,13 +1,12 @@
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
-// import moment from "moment";
+import { Contextpagejs } from "pages/productCatalog/contextpage";
+import { custIn } from "../../../assets/mockData/originalAPIData/OcustomerInsights";
 import DatePicker from "react-datepicker";
 import Table from "../../../components/reportComponents/Table";
-import { custIn } from "../../../assets/mockData/originalAPIData/OcustomerInsights";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
 import "./style.scss";
-import { Contextpagejs } from "pages/productCatalog/contextpage";
 
 const CustIns: React.FC = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
@@ -18,6 +17,12 @@ const CustIns: React.FC = () => {
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
+  const [currentPageCustomerOrderDetails, setCurrentPageCustomerOrderDetails] = useState<number>(1);
+  console.log({ currentPageCustomerOrderDetails });
+
+  const [currentPageDineInInsights, setCurrentPageDineInInsights] = useState<number>(1);
+  console.log({ currentPageDineInInsights });
+
   const openFilterDropDown = () => {
     setOpenFilter((op) => !op);
   };
@@ -26,7 +31,7 @@ const CustIns: React.FC = () => {
 
   const handleOptionClickForDate = (option: string) => {
     setSelectedPeriod(option);
-    if (option === "Select Custom Date Range") {
+    if (option === "Custom Range") {
       setOpenCustomDateRange(true);
     } else {
       setOpenCustomDateRange(false);
@@ -37,9 +42,9 @@ const CustIns: React.FC = () => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`ci-employee-container ${
-          isDarkTheme ? "dark-theme" : "light-theme"
-        } ${!isExpanded && "ci-on-close-side"}`}
+        className={`ci-employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
+          } ${isExpanded ? "ci-on-expanded" : ""}`
+        }
       >
         <Topnavbar />
         <div className="employee-head">
@@ -48,7 +53,7 @@ const CustIns: React.FC = () => {
           </div>
           <div className="dates">
             <div className="label-time-period">
-              <p>Select Time Period</p>
+              <p className="e-time-period-label">Select Time Period</p>
             </div>
             <div className="filter-toggle-btn-container">
               <div className="filter-toggle-btn" onClick={openFilterDropDown}>
@@ -74,10 +79,10 @@ const CustIns: React.FC = () => {
                   </p>
                   <p
                     onClick={() =>
-                      handleOptionClickForDate("Select Custom Date Range")
+                      handleOptionClickForDate("Custom Range")
                     }
                   >
-                    Select Custom Date Range
+                    Custom Range
                   </p>
                 </div>
               )}
@@ -127,6 +132,8 @@ const CustIns: React.FC = () => {
           }}
         >
           <Table
+            currentPage={currentPageCustomerOrderDetails}
+            setCurrentPage={setCurrentPageCustomerOrderDetails}
             Heading="Customer order details"
             tableData={custIn["Customer order details"]}
             viewType="full"
@@ -141,6 +148,8 @@ const CustIns: React.FC = () => {
           }}
         >
           <Table
+            currentPage={currentPageDineInInsights}
+            setCurrentPage={setCurrentPageDineInInsights}
             Heading="DineIn Insights"
             tableData={custIn["DineIn Insights"]}
             viewType="full"

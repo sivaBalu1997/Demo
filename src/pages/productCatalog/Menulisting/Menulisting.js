@@ -466,6 +466,7 @@ export const Menulisting = () => {
       if (specificResponse.length > 0) {
         setSideBar(specificResponse);
         dispatch(selectedCategory(categoryData));
+
         dispatch(selectedMockDataRequest(specificResponse));
         setmodal(true);
       }
@@ -544,7 +545,7 @@ export const Menulisting = () => {
 
       setItemList([filterdItem]);
       setLoading(false)
-    
+
     }
   }, [menuData, SearchedmenuItem]);
 
@@ -574,6 +575,9 @@ export const Menulisting = () => {
   const itemCustomizationData = useSelector(
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
+
+  console.log("fff",editData);
+  
 
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
@@ -774,7 +778,7 @@ export const Menulisting = () => {
         <div style={{ display: "flex", overflowX: "hidden" }}>
           <SidePanel />
           <div className={`${isExpanded ? "mainpagemenu1" : "mainpagemenu"}`}>
-            <div className="headercomponent">
+            <div className={`${isExpanded ? "headercomponent-expand" : "headercomponent"}`}>
               <Header />
             </div>
 
@@ -800,10 +804,10 @@ export const Menulisting = () => {
                       <th className="itemname">Item name</th>
                       <th className="itemcode">Code</th>
                       <th
-                        className="addbtn"
+                        className="addbtn-menu"
                         onClick={() => setshowheadinglist(true)}
                       >
-                        +
+                       <span className="addbtn-menu"> + </span>
                       </th>
                     </tr>
                   </thead>
@@ -861,11 +865,10 @@ export const Menulisting = () => {
               </div>
               <div className="table-two-alignment">
                 <table
-                  className={`${
-                    isExpanded
+                  className={`${isExpanded
                       ? "Menu-Listing-TableTwo1"
                       : "Menu-Listing-TableTwo"
-                  }`}
+                    }`}
                 >
                   <thead className="Menu-Listing-TableTwoHead">
                     <tr className="headingonesection">
@@ -912,11 +915,10 @@ export const Menulisting = () => {
 
                   {
                     <tbody
-                      className={`${
-                        isExpanded
+                      className={`${isExpanded
                           ? "Menu-Listing-TableTwoBody1"
                           : "Menu-Listing-TableTwoBody"
-                      } tabletwobody`}
+                        } tabletwobody`}
                       ref={tableBodyRef2}
                     >
                       {
@@ -947,7 +949,7 @@ export const Menulisting = () => {
                           ) : (
                             <>
                               {allFalse ? (
-                                <div className="no-colunms">
+                                <div className="no-colunms-menu-listing">
                                   {" "}
                                   No columns selected
                                 </div>

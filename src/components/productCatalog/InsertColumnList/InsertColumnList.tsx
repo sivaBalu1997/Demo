@@ -1,5 +1,6 @@
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 interface InsertColumnListProps {
   listingobject: any;
@@ -124,6 +125,12 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
   const isAllAvailabilityChecked = aviallist?.every(
     (key: any) => listingobject[key]
   );
+   const orderTypess = useSelector(
+          (state:any) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
+        );
+  
+        const nameOfOrderTypes=orderTypess?.filter((item:any) => item.isEnabled).map((item:any)=>item.typeName)
+  
 
   return (
     <div className="headaadbtnclass" ref={Outsideref}>
@@ -149,31 +156,38 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                     checked={isAllPricingChecked}
                     onChange={() => handleToggle("showPricing", pricelist)}
                   />
-                  <span onClick={() => handleToggle("showPricing", pricelist)}>
+                  <span onClick={() => handleToggle("showPricing", pricelist)} className="insert-column-header" >
                     {pricing}
                     <img src={dollaricon} alt="" className="dollaricon" />
                   </span>
                 </div>
                 <ul className="indenttexts">
-                  {pricelist?.map((list: any) => (
-                    <li key={list}>
-                      <div className="inner-text-input">
-                        <input
-                          type="checkbox"
-                          checked={listingobject[list]}
-                          onChange={() =>
-                            handlecheckbox(list, "showPricing", pricelist)
-                          }
-                        />
-                        <span  onClick={() =>
-                            handlecheckbox(list, "showPricing", pricelist)
-                          }  className="sub-texts-fileds">
-                          {insertlists.Pricing[list.replace("1", "")]}
-                        </span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+  {pricelist
+    ?.filter((list: any) =>
+      nameOfOrderTypes?.includes(list.replace("1", "")) 
+    )
+    .map((list: any) => (
+      <li key={list}>
+        <div className="inner-text-input">
+          <input
+            type="checkbox"
+            checked={listingobject[list]}
+            onChange={() =>
+              handlecheckbox(list, "showPricing", pricelist)
+            }
+          />
+          <span
+            onClick={() =>
+              handlecheckbox(list, "showPricing", pricelist)
+            }
+            className="sub-texts-fileds"
+          >
+            {insertlists.Pricing[list.replace("1", "")]}
+          </span>
+        </div>
+      </li>
+    ))}
+</ul>
               </li>
 
               {/* Availability Section */}
@@ -184,7 +198,7 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                     checked={isAllAvailabilityChecked}
                     onChange={() => handleToggle("showAvail", aviallist)}
                   />
-                  <span>
+               <span onClick={() => handleToggle("showAvail", aviallist)}>
                     {availability}
                     {/* <img src={toggleround} alt="" /> */}
                     <img
@@ -195,7 +209,9 @@ const InsertColumnList: React.FC<InsertColumnListProps> = ({
                   </span>
                 </div>
                 <ul className="indenttexts">
-                  {aviallist?.map((key: any) => (
+                  {aviallist?.filter((list: any) =>
+      nameOfOrderTypes?.includes(list.replace("2", "")) 
+    ).map((key: any) => (
                     <li key={key}>
                       <div className="inner-text-input">
                         <input

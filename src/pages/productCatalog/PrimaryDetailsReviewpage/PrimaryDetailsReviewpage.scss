@@ -6,16 +6,21 @@
 .reviewContainer {
   display: flex;
   width: 105%;
+  // background-color: pink;
 }
 
 .reviewContaineExpanded {
   display: flex;
   width: 93vw;
+  @media(max-width: 1280px){
+    width: 105vw;
+    // background-color: lightsalmon;
+  }
 }
 
 .reviewpage {
   position: relative;
-  top: 78px;
+  top: 28px;
   width: 120%;
   height: 73vh;
   overflow-y: auto;
@@ -30,13 +35,15 @@
 }
 
 .reviewheading {
-  width: 120%;
+  width: 100%;
+  // width: fit-content;
   height: 50px;
   left: 2rem;
   position: relative;
-  top: 65px;
+  top: 15px;
   border-bottom: 1px solid #c4c4c4;
   padding: 10px;
+  // background-color: pink;
 
   p {
     font-family: Poppins;
@@ -44,13 +51,20 @@
     font-weight: 500;
     color: #67833e;
   }
+  @media(min-width: 2000px) and (max-width: 2048px){
+    // border-bottom-width: 120vw;
+    // border-bottom-height:  ;
+    // background-color: pink;
+    width: 150%;
+  }
 }
 
 .primaryreview {
   display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid #c4c4c4;
-  height: 80vh;
+  flex-direction: column;
+  // border-bottom: 1px solid #c4c4c4;
+  height: fit-content;
+  // background-color: lightsalmon;
 }
 
 .primaryreviewdetailspart1 {
@@ -75,6 +89,7 @@
     p {
       font-size: 18px;
       font-weight: 500;
+      margin-top: 0;
     }
   }
 
@@ -143,10 +158,12 @@
 }
 .primaryreviewdetailspart2 {
   width: 500px;
-  height: 580px;
+  // height: 580px;
+  height: fit-content;
   // border: 1px solid black;
   position: relative;
   // background-color: orange;
+  // background-color: lightgreen;
 
   left: 30px;
   // background-color: red;
@@ -190,7 +207,7 @@
     height: 215px;
     // border: 1px solid green;
     position: relative;
-    top: 30px;
+    top: 40px;
     bottom: 10px;
     p {
       font-family: "Poppins", sans-serif;
@@ -207,7 +224,7 @@
       // border: 1px solid black;
       position: relative;
       margin-left: -15px;
-      
+
       margin-top: 10px;
       img {
         width: 65px;
@@ -298,10 +315,14 @@
     display: flex;
     flex-direction: row;
     width: 500px;
-    height: 105px;
-    position: relative;
+    // height: 105px;
+    height: fit-content;
+    // position: relative;
     top: 35px;
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
+    margin-top: 1.2vh;
+    gap: 2vw;
+    // background-color: pink;
 
     .ingredients {
       font-family: Poppins;
@@ -456,22 +477,6 @@
     }
   }
 }
-.part-two {
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-
-
-  .verticalLine {
-    width: 1px;
-    height: 201%;
-    background-color: #c4c4c4;
-    // background-color: red;
-    position: relative;
-    top: 160%;
-    left: -479px;
-  }
-}
 
 .Edit-heading {
   margin-left: 5px;
@@ -490,6 +495,34 @@
   padding: 16px 32px;
   // right: 90px;
   transition: 0.2s ease all;
+  @media(max-width: 1280px){
+    width: 75vw;
+    height: fit-content;
+    // background-color: pink;
+  }
+  @media(max-width: 1470px) and (min-width: 1281px){
+    width: 75vw;
+    height: fit-content;
+    // background-color: lightskyblue;
+  }
+
+  @media(min-width: 1700px) and (max-width: 1706.67px){
+    // background-color: #67833e;
+    height: fit-content;
+    width: 122%;
+  }
+
+  @media(min-width: 1900px) and (max-width: 1920px){
+        // background-color: #67833e;
+        height: fit-content;
+        width: 138%;
+  }
+
+  @media (min-width: 2000px) and (max-width: 2048px){
+    // background-color: pink;
+    height: fit-content;
+    width: 148%;
+  }
 
   .clearall1 {
     position: relative;
@@ -533,12 +566,28 @@
   position: relative;
   justify-content: flex-end;
   width: 86vw;
-  height: 5px;
+  height: fit-content;
   background-color: white;
+  // background-color: pink;
   top: 48px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
   transition: 0.2s ease all;
+  @media(max-width: 1470px) and (min-width: 1281px){
+    // width: 120%; /* Adjusted width for smaller screens */
+    width: 86.2vw;
+    height: fit-content;
+    top: 25px;
+    padding: 16px 16px; 
+    transition: 0.2s ease all;
+    // background-color: lightseagreen;
+  }
+  @media(max-width: 1280px){
+    // width: 70vw;
+    width: 86.2vw;
+    height: fit-content;
+    // background-color: pink;
+  }
 
   .clearall {
     position: relative;
@@ -623,6 +672,7 @@
   border-top: 4px solid #929496;
   width: 20px;
   height: 20px;
+
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
   position: relative;
@@ -649,17 +699,76 @@
   }
 }
 
-@media (max-width: 1470px) {
-  .saveandnextreview1 {
-    display: flex;
-    position: relative;
-    justify-content: flex-end;
-    width: 120%; /* Adjusted width for smaller screens */
-    height: 25px;
-    background-color: white;
-    top: 25px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    padding: 16px 16px; /* Reduced padding for smaller screens */
-    transition: 0.2s ease all;
-  }
+// @media (max-width: 1470px) {
+//   .saveandnextreview1 {
+//     display: flex;
+//     position: relative;
+//     justify-content: flex-end;
+//     width: 120%; /* Adjusted width for smaller screens */
+//     height: 25px;
+//     background-color: white;
+//     top: 25px;
+//     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+//     padding: 16px 16px; /* Reduced padding for smaller screens */
+//     transition: 0.2s ease all;
+//   }
+// }
+
+
+// .part-two {
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   // margin-left: 20px;
+//   // justify-content: center;
+// width: 70%;
+//   background-color: lightgreen;
+
+//   .verticalLine {
+//     width: 5px;
+//     height: 180%;
+//     background-color: #c4c4c4;
+//     // background-color: red;
+//     position: relative;
+//     top: 145%;
+//     left: -479px;
+//     @media(max-width: 1080px){
+//       left: -545px;
+//     }
+//   }
+// }
+
+
+
+.part-two
+{
+  display: flex;
+  height: 100%;
+  // border: 1px solid red;
+
 }
+  .verticalLine {
+    width: 1px;
+    height: 90rem;
+    background-color: #c4c4c4;
+    // background-color: red;
+    position: relative;
+    // top: 145%;
+    left: 34%;
+    // @media(max-width: 1080px){
+    //   left: -545px;
+    // }
+  }
+  .verticalLineExpand
+  {
+    width: 1px;
+    height: 90rem;
+    background-color: #c4c4c4;
+    // background-color: red;
+    position: relative;
+    // top: 145%;
+    left: 42%;
+    // @media(max-width: 1080px){
+    //   left: -545px;
+    // }
+  }

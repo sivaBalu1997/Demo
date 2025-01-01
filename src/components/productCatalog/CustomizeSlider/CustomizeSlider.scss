@@ -14,6 +14,7 @@
     font-size: 20px;
     line-height: 60px;
     align-items: Center;
+    margin-left: 1rem;
 }
 
 // {****************Items****************************************************************************************}
@@ -43,7 +44,15 @@
 .toggle-container{
     position: relative;
     top: 12px   ;
+    left: 20px;
 }
+// .input-subitem-field
+// {
+//     position: relative;
+//     top: -1rem;
+//     left: 1rem;
+
+// }
 
 
 // {-------------------------------------SubItems--------------------------------------------------------------------}
@@ -78,13 +87,38 @@
     position: relative;
     top: -20px;
     left: 20px;
-    width:83px;
+    width:80px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
     height: 28px;
     border-radius: 3.18px;
  border: 0.64px solid #000000;
  padding-left: 20px;
  padding-top: 4px;
  color: #000000;
+}
+.priceSymbol-customize{
+width: 10px;
+//   border: 1px solid red;
+  position: relative;
+  // left: 25%;
+//   top: 4%;
+top: -1px;
+}
+
+.input-subitem-field
+{
+    border: none;
+    height: 25px;
+    width:65px;
+    outline: none;
+    position: relative;
+    // left: -0.5rem;
+    // border: 1px solid red;
+    padding: 0;
+    padding-left: 2px;
+
 }
 
 .subitem-heading{

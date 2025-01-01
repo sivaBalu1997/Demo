@@ -17,12 +17,23 @@
   margin-top: -0.8rem;
   position: relative;
   left: 10px;
-  height: 50px;
+  height: 60px;
   // border: 1px solid red;
   // margin-left: -10px;
   .Note {
-    font-family: Poppins;
-    font-size: 13px;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 21px;
+    text-align: left;
+    color: #5f5f5f;
+    // transform: translate(-5px);
+    // border: 1px solid blue;
+  }
+  .Note-error {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
     font-style: italic;
     font-weight: 300;
     line-height: 21px;
@@ -69,7 +80,7 @@
 }
 .Online-delivery {
   margin-top: 1rem;
-  height: 4rem;
+  height: 5rem;
   // border: 1px solid red;
   display: flex;
   justify-content: flex-start;
@@ -107,16 +118,22 @@
 }
 
 .dayspickup {
-  margin-top: -1.7rem;
-  margin-bottom: 0.7rem;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+  // background-color: pink;
+  width: fit-content;
+  margin: 0;
 }
 .dayspick-pickup {
   margin-top: -1.7rem;
   margin-bottom: 0.7rem;
+  // background-color: lightcyan;
+  width: fit-content;
 }
 .dayspickup-normal {
   margin-top: -1.7rem;
   margin-bottom: 0.7rem;
+  width: fit-content;
 }
 
 .DineInInput11Normal {
@@ -221,7 +238,31 @@
   color: black;
   padding-left: 10px;
   font-weight: 400;
+  // border: 1px solid red;
   // background-color: pink;
+}
+.PriceInput1Normal-input {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0.313rem;
+  width: 9.8rem;
+  height: 2.7rem;
+  border-radius: 5px;
+  font-size: 14px;
+  color: black;
+  padding-left: 10px;
+  font-weight: 400;
+  // border: 1px solid red;
+}
+.DeliveryInput1Normal {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0.313rem;
+  width: 9.75rem;
+  height: 2.7rem;
+  border-radius: 5px;
+  font-size: 14px;
+  color: black;
+  padding-left: 10px;
+  font-weight: 400;
 }
 
 .DineInInput1Normal::placeholder {
@@ -244,7 +285,8 @@
   display: flex;
   justify-content: start;
   gap: 0.313rem;
-  margin-bottom: 54px;
+  margin-bottom: 25px;
+  margin-top: -0.7rem;
 }
 .Mealz {
   margin-top: -25px;
@@ -282,6 +324,19 @@
   margin-top: 0px;
   cursor: pointer;
   transform: translateY(22px);
+}
+.daycheckvalidation {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: -0.6rem;
+  bottom: 0rem;
 }
 
 .AddentryNormal {
@@ -330,8 +385,9 @@
 .PickupSectionNormal {
   display: flex;
   flex-direction: column;
-  margin-top: -14px;
-  margin-bottom: 0.5rem;
+  margin-top: -10px;
+  margin-bottom: 0.2rem;
+  // border: 1px solid red;
 }
 .PrizeD {
   margin-top: -25px;
@@ -371,7 +427,7 @@
   display: flex;
   justify-content: flex-start;
   margin-top: 1.25rem;
-  height: 4rem;
+  height: 5rem;
   // border: 1px solid red;
   gap: 2.7rem;
 }
@@ -421,7 +477,7 @@
 }
 
 .thirdpartyContainer {
-  height: 20rem;
+  height: fit-content;
 }
 
 .DeliveryInput2Normal {
@@ -519,6 +575,8 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
+  // background-color: lightblue;
+  height: fit-content;
 }
 .Third1 {
   margin-left: -2px;
@@ -533,6 +591,8 @@
   align-items: center;
   width: 600px;
   height: 100px;
+  margin-bottom: -1rem;
+
   // border: 1px solid red;
 }
 .swiggyZomato-input {
@@ -596,6 +656,7 @@
   position: relative;
   top: 5px;
   margin-bottom: 26px;
+  // border: 1px solid green;
 }
 
 .PickupChooseDayContainer {
@@ -603,12 +664,12 @@
   justify-content: left;
   gap: 0.313rem;
   // border: 1px solid red;
-  margin-top: -0.8rem;
+  margin-top: -1.7rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;
   align-items: center;
-  margin-bottom: 42px;
+  margin-bottom: 37px;
 }
 .Mealz {
   margin-top: -25px;
@@ -658,13 +719,13 @@
   gap: 0.313rem;
 
   position: relative;
-  bottom: 0.7rem;
+  bottom: 0.5rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;
   align-items: center;
 
-  // margin-bottom: 10px;
+  margin-top: -0.7rem;
 }
 .Mealz {
   margin-top: -25px;
@@ -711,8 +772,8 @@
   justify-content: left;
   gap: 0.313rem;
   // border: 1px solid red;
-  margin-top: 1.3rem;
-  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: -0.6rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;
@@ -761,4 +822,77 @@
   text-align: left;
   margin-bottom: 70px;
   // border: 1px solid red;
+}
+
+.mealTypeError {
+  position: relative;
+  top: 1.35rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
+}
+.pickupprice-errormsg {
+  display: flex;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
+}
+.pickuperrormsg {
+  margin-top: -1.2rem;
+  margin-left: -0.5rem;
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
+}
+.pickuperrormsgmealType {
+  margin-left: -0.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
+}
+
+.delivery-price-errormsg {
+  display: flex;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
+}
+.deliverypriceerrormsg {
+  margin-top: -1.2rem;
+  margin-left: -0.5rem;
+  margin-bottom: 2rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
+}
+.deliverymealtypeerrormsg {
+  margin-left: -0.5rem;
+  margin-bottom: 2rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  text-align: left;
+  color: #e52333;
 }

@@ -5,8 +5,9 @@ import menuReducer from "./menu/menuReducer";
 import subscriptionReducer from "./subscription/subscriptionReducer";
 import paymentReducer from "./payment/paymentReducer";
 // import offerReducer from "./offer/offerReducer";
-import productCatalogReducer, { primarypagereducer,itemCustomizationsReducer,PricingDetailReducer,imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer,imageUploadReducer, addMockDataHiddenReducer, getItemCodeReducer, selectedMockDataReducer, getPopularItemReducer, searchforamitemreducer, storeDataReducer } from "./productCatalog/productCatalogReducers";
+import productCatalogReducer, { primarypagereducer, itemCustomizationsReducer, PricingDetailReducer, imageReducer, storeMockDataReducer, storeMockDataFilteredReducer, addMockDataReducer, imageUploadReducer, addMockDataHiddenReducer, getItemCodeReducer, selectedMockDataReducer, getPopularItemReducer, searchforamitemreducer, storeDataReducer } from "./productCatalog/productCatalogReducers";
 import offerReducer from "./offer/offerReducer";
+import newReportsReducer from "./newReports/newReportsReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,7 +16,7 @@ const rootReducer = combineReducers({
   subscription: subscriptionReducer,
   payment: paymentReducer,
   productCatalog: productCatalogReducer,
-  searchItem:searchforamitemreducer,
+  searchItem: searchforamitemreducer,
   offer: offerReducer,
   primarypage: primarypagereducer,
   itemCustomizationsReducer1: itemCustomizationsReducer,
@@ -28,14 +29,12 @@ const rootReducer = combineReducers({
   getItemCodeReducer: getItemCodeReducer,
   selectedMockDataReducer: selectedMockDataReducer,
   getPopularItemReducer: getPopularItemReducer,
-  menuReducer:menuReducer,
-  storeDataReducer:storeDataReducer
-
-  
+  menuReducer: menuReducer,
+  storeDataReducer: storeDataReducer,
+  newReports: newReportsReducer,
 });
 
 export { rootReducer };
- 
+
 export type RootState = ReturnType<typeof rootReducer>;
- 
- 
+

@@ -53,7 +53,7 @@ const Employees = () => {
 
   const Header = ()=>{
     return <div className="employeeHeaderContainer">
-        <h3 className={"employeeHeading"}>Employees Management</h3>
+        <h3 className={"employeeHeading"}>Employee Management</h3>
         <div className={"employeeHeaderButtonContainer"} onClick={logoutUser}>
           <img src={logout} alt="Logout" height="20" /><span className="employeeLogoutText">&nbsp;&nbsp;&nbsp;Log Out</span>
         </div>

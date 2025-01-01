@@ -33,6 +33,9 @@ import {
   getItemCodeRequest,
   getMenuCategoryRequest,
   getPopularItemRequest,
+  PrimaryDataClear,
+  removeCodeRequest,
+  removeDataRequest,
   subCategoryDataRequest,
 } from "redux/productCatalog/productCatalogActions";
 import SidePanel from "pages/SidePanel";
@@ -181,6 +184,7 @@ interface Item {
 
 const PrimaryPage = () => {
   const dispatch = useDispatch();
+  const dietRef = useRef<(() => void) | null>(null);
   const resetSelectionRef = useRef<(() => void) | null>(null);
   const cuisineRef = useRef<(() => void) | null>(null);
   const categoryref = useRef<(() => void) | null>(null);
@@ -228,7 +232,7 @@ const PrimaryPage = () => {
     },
   });
 
-  const [popularItem, setPopularItem] = useState<any>("");
+  const [popularItem, setPopularItem] = useState<any>(0);
   const [popularItemlimit, setPopularItemLimit] = useState<any>("");
 
   const [calorieInfo, setCalorieInfo] = useState<any>({
@@ -242,9 +246,10 @@ const PrimaryPage = () => {
   });
 
   const location = useLocation<LocationState | undefined>();
-  const locationid = useSelector(
-    (state: State) => state.auth.credentials?.locationId
-  );
+  const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
+  // const locationid = useSelector(
+  //   (state: State) => state.auth.credentials?.locationId
+  // );
   const addedData = useSelector(
     (state: ListingData) => state.addMockDataReducer.data
   );
@@ -259,18 +264,24 @@ const PrimaryPage = () => {
     (state: any) =>
       state?.getPopularItemReducer?.popularItems?.data?.popularItemCount
   );
+
   const mergedMockData = [...Mockdata, ...addedData];
   const [SelectedFooditemtoedit, setSelectedFooditemtoedit] =
     useState<Item[]>();
 
   useEffect(() => {
-    setPopularItem(PopularItemFormApi);
+    setPopularItem(PopularItemFormApi ? PopularItemFormApi : 0);
     setPopularItemLimit(popularItemLimit);
   }, [PopularItemFormApi]);
 
   useEffect(() => {
     dispatch(getPopularItemRequest(locationid));
+    dispatch(removeCodeRequest());
   }, []);
+
+  const prizingDetail = useSelector(
+    (state: any) => state?.PricingDetailReducer?.prizingData
+  );
 
   // useEffect(() => {
   //   const SelectedFooditemtoedit = mergedMockData.filter(
@@ -302,6 +313,9 @@ const PrimaryPage = () => {
     if (ItemsPrimaryDetails) {
       setValue("itemName", ItemsPrimaryDetails.itemName);
       setValue("description", ItemsPrimaryDetails.description);
+      if (ItemsPrimaryDetails?.description) {
+        setCharCount(ItemsPrimaryDetails?.description.length);
+      }
       setDescription(ItemsPrimaryDetails.description);
       // Set other fields
       setValue("alcohol", ItemsPrimaryDetails.alcohol);
@@ -366,6 +380,7 @@ const PrimaryPage = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
+  const [taxType, setTaxType] = useState([])
   const [dataCuisine, setDataCuisine] = useState(cuisine);
   const [dataMealType, setDataMealType] = useState(mealType);
   const [dataBestPair, setDataBestPair] = useState();
@@ -400,7 +415,7 @@ const PrimaryPage = () => {
     if (length <= maxDescriptonLength) {
       setDescription(value);
       setCharCount(length);
-      setValue(name, description);
+      setValue(name, value);
     }
   };
 
@@ -506,7 +521,7 @@ const PrimaryPage = () => {
         setRestrictToAdd(false);
       }
       if (fileArray.length + images.length > 6) {
-        showErrorToast("You can upload a maximum of 6 images.");
+        showErrorToast("You can upload up to 6 images.");
         // setRestrictToAdd(false);
         return;
       } else {
@@ -518,6 +533,7 @@ const PrimaryPage = () => {
         setValue("imageUrls", updatedImageUrls);
         return updatedImages;
       });
+      e.target.value = "";
     }
   };
 
@@ -534,6 +550,17 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.dietaryData.data
   );
 
+  const taxData = [
+    {
+      id: '1',
+      name: '10',
+      locationId: "",
+      type: "tax",
+      parentId: "",
+      canDelete: true,
+    },
+  ];
+
   const editData = useSelector((state: any) => state.productCatalog.editData);
 
   const cuisineData = useSelector(
@@ -544,8 +571,12 @@ const PrimaryPage = () => {
     (state: any) => state.productCatalog.subCategoryData.data
   );
   const message = useSelector(
-    (state: any) => state?.getItemCodeReducer?.itemCode?.data
+    (state: any) => state?.getItemCodeReducer?.itemCode?.data?.message
   );
+  const messageLoader = useSelector(
+    (state: any) => state?.getItemCodeReducer?.loading
+  );
+
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
@@ -565,31 +596,87 @@ const PrimaryPage = () => {
 
   // useEffect(() => {
   const [parentId, setParentId] = useState("");
-  const [itemcodeValid, setItemcodeValid] = useState(true);
+
+  const dietPayload = {
+    locationId: locationid,
+    type: 'DIET',
+    parentId: "",
+  }
+
+  const cuisinePayload = {
+    locationId: locationid,
+    type: 'CUISINES',
+    parentId: "",
+  }
+
+
+  const categoryPayload = {
+    locationId: locationid,
+    type: 'CATEGORY',
+    parentId: "",
+  }
+
+
+  const bestPairPayload = {
+    locationId: locationid,
+    type: 'BEST_PAIRED_ITEMS',
+    parentId: "",
+  }
+
+  const kitchenpayload = {
+    locationId: locationid,
+    type: 'KITCHEN_STATION',
+    parentId: "",
+  }
+
   useEffect(() => {
-    if (ItemsPrimaryDetails?.popularItem) {
-      setPopularItem(popularItem + 1);
-      setValue("popularItem", true);
-    } else {
-      setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
-      setValue("popularItem", false);
+    if(editData){
+      dispatch(fetchDropDownRequest(dietPayload))
+      dispatch(fetchDropDownRequest(cuisinePayload))
+      dispatch(fetchDropDownRequest(categoryPayload))
+      dispatch(fetchDropDownRequest(bestPairPayload))
+      dispatch(fetchDropDownRequest(kitchenpayload))
     }
-  }, [ItemsPrimaryDetails]);
+  },[])
+
+  const [itemcodeValid, setItemcodeValid] = useState(true);
+
+  // useEffect(() => {
+  //   if (ItemsPrimaryDetails?.popularItem) {
+  //     setPopularItem(PopularItemFormApi ?? 0);
+  //     setValue("popularItem", true);
+  //   } else {
+  //     setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
+  //     setValue("popularItem", false);
+  //   }
+  // }, [ItemsPrimaryDetails]);
+
+  // console.log({popularItem},{PopularItemFormApi})
+
   useEffect(() => {
-    if (message?.httpStatus == 409) {
+    if (message?.httpStatus == 409 || messageLoader) {
       setItemcodeValid(false);
     } else {
       setItemcodeValid(true);
     }
-  }, [message]);
+  }, [message, messageLoader]);
+
+  const [isChecked, setIsChecked] = useState<boolean>(ItemsPrimaryDetails?.popularItem || false);
+
+  useEffect(() => {
+    setIsChecked(ItemsPrimaryDetails?.popularItem || false);
+  }, [ItemsPrimaryDetails?.popularItem]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    if (isChecked || ItemsPrimaryDetails?.popularItem) {
-      setPopularItem(popularItem + 1);
+    const isCheckedValue = e.target.checked;
+  
+    setIsChecked(isCheckedValue); 
+  
+    if (isCheckedValue) {
+      setPopularItem((prevCount: number) => prevCount + 1);
       setValue("popularItem", true);
     } else {
-      setPopularItem((prevCount: any) => Math.max(prevCount - 1, 0));
+      setPopularItem((prevCount: number) => Math.max(prevCount - 1, 0));
       setValue("popularItem", false);
     }
   };
@@ -616,8 +703,22 @@ const PrimaryPage = () => {
     setValue("selectedPortion", "Portion(count)");
     setValue("tax", "");
     setValue("masterCode", "");
+    setCalorieInfo(
+      ItemsPrimaryDetails?.coloriePoint
+        ? ItemsPrimaryDetails?.coloriePoint
+        : { type: "per 100 grams", value: "" }
+    );
+    setPortionInfo(
+      ItemsPrimaryDetails?.portionSize
+        ? ItemsPrimaryDetails?.portionSize
+        : { type: "portion(count)", value: "" }
+    );
+
     if (resetSelectionRef.current) {
       resetSelectionRef.current();
+    }
+    if(dietRef.current){
+      dietRef.current()
     }
     if (BestpairedRef.current) {
       BestpairedRef.current();
@@ -650,6 +751,7 @@ const PrimaryPage = () => {
     setDescription(" ");
     setCharCount(0);
     setImages([]);
+    dispatch(PrimaryDataClear());
   };
 
   const dataforadd = {
@@ -665,6 +767,7 @@ const PrimaryPage = () => {
 
   const alcoholconstain = restaurantDetails?.containsAlcohol;
 
+  // const alcoholconstain = false;
   useEffect(() => {
     dispatch(
       fetchDropDownRequest({
@@ -682,6 +785,28 @@ const PrimaryPage = () => {
     );
   }, []);
 
+  const [subcategortError, setsubcategortError] = useState("");
+
+  const [categoryChange, setCategoryChange] = useState(false)
+
+  const valiadtesubCategory = () => {
+    const categoryList = getValues("category");
+    const subcategoryList = getValues("subCategory");
+
+    if (
+      categoryList !== "" &&
+      subcategoryList === "" &&
+     ( subCategoryData?.length > 0 || subCategoryData === undefined)
+    ) {
+      setsubcategortError("subcategory is required");
+
+      return false;
+    } else {
+      setsubcategortError("");
+    }
+    return true;
+  };
+
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -698,6 +823,8 @@ const PrimaryPage = () => {
               seletedpage="Primary"
               reset={handleReset}
               triggerValidation={() => trigger()}
+              itemcodeValid={itemcodeValid}
+              valiadtesubCategory={valiadtesubCategory}
             />
           </div>
           <div className="Primary-page">
@@ -710,6 +837,7 @@ const PrimaryPage = () => {
                   <Controller
                     name="itemName"
                     control={control}
+                    defaultValue=""
                     rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
@@ -725,7 +853,7 @@ const PrimaryPage = () => {
                 </div>
 
                 <div className="Primary-page-InputFields">
-                  <LableComponent lable="DietaryType *" />
+                  <LableComponent lable="Dietary Type *" />
                   <Controller
                     name="DietaryType"
                     control={control}
@@ -748,7 +876,9 @@ const PrimaryPage = () => {
                         addNew={true}
                         editValues={true}
                         dropDownType="DIET"
-                        resetSelection={resetSelectionRef}
+                        resetSelection={dietRef}
+                        parentId={parentId}
+                        setParentId={setParentId}
                       />
                     )}
                   />
@@ -780,6 +910,8 @@ const PrimaryPage = () => {
                         editValues={true}
                         dropDownType="CUISINES"
                         resetSelection={cuisineRef}
+                        parentId={parentId}
+                        setParentId={setParentId}
                       />
                     )}
                   />
@@ -811,7 +943,10 @@ const PrimaryPage = () => {
                         editValues={true}
                         dropDownType="CATEGORY"
                         resetSelection={categoryref}
+                        parentId={parentId}
                         setParentId={setParentId}
+                        categoryChange = {categoryChange}
+                        setCategoryChange = {setCategoryChange}
                       />
                     )}
                   />
@@ -844,6 +979,8 @@ const PrimaryPage = () => {
                           editValues={false}
                           dropDownType="BEST_PAIRED_ITEMS"
                           resetSelection={BestpairedRef}
+                          parentId={parentId}
+                          setParentId={setParentId}
                         />
                       )}
                     />
@@ -981,11 +1118,12 @@ const PrimaryPage = () => {
               <div className="Primary-page-container-pairtwo">
                 <div className="Primary-page-InputFields">
                   {" "}
-                  <LableComponent lable="ItemCode" />
+                  <LableComponent lable="Item Code" />
                   <div className="Primary-Page-inputfiled-and-tooltip">
                     <Controller
                       name="itemCode"
                       control={control}
+                      defaultValue=""
                       // required: "Item code is required",
                       rules={{
                         validate: (value) => {
@@ -1001,23 +1139,15 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }) => (
                         <InputFieldComponent
                           name="itemCode"
+                          oldValue={ItemsPrimaryDetails?.itemCode}
                           onChange={(newValue) => {
                             onChange(newValue);
                           }}
                           value={value}
-                          onBlur={() => {
-                            if (value?.length > 3) {
-                              if (editData?.length > 0) {
-                                if (ItemsPrimaryDetails?.itemCode != value) {
-                                  dispatch(
-                                    getItemCodeRequest(locationid, value)
-                                  );
-                                }
-                              } else {
-                                dispatch(getItemCodeRequest(locationid, value));
-                              }
-                            }
-                          }}
+                          // onBlur={() => {
+                          //   console.log("kkkkk111")
+
+                          // }}
                           onKeyDown={(e: any) => {
                             if (
                               e.key === "e" ||
@@ -1057,7 +1187,7 @@ const PrimaryPage = () => {
                           left: "-1.6rem",
                         }}
                       >
-                        <div className="ToolKitchen">
+                        <div className="Tool-item-code">
                           <img
                             src={info}
                             alt="info icon"
@@ -1070,7 +1200,13 @@ const PrimaryPage = () => {
                   </div>
                 </div>
 
-                <div className="Primary-page-InputFields">
+                <div
+                  className={
+                    message?.length > 10
+                      ? "barcode"
+                      : "Primary-page-InputFields"
+                  }
+                >
                   {" "}
                   <LableComponent lable="Upc / Barcode number" />
                   <Controller
@@ -1079,7 +1215,24 @@ const PrimaryPage = () => {
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="barCode"
-                        onChange={onChange}
+                        onChange={(e) => {
+                          let newValue = e.target.value;
+
+                          // Prevent space as the first character
+                          if (newValue.length === 1 && newValue[0] === " ") {
+                            return;
+                          }
+
+                          // Remove special characters and prevent space at the beginning
+                          newValue = newValue.replace(/[^a-zA-Z0-9]/g, ""); // Remove special characters
+
+                          // Prevent space as the first character
+                          if (newValue[0] === " ") {
+                            return;
+                          }
+
+                          onChange(newValue);
+                        }}
                         onBlur={onBlur}
                         value={value}
                         trigger={trigger}
@@ -1097,7 +1250,7 @@ const PrimaryPage = () => {
                       <input
                         type="checkbox"
                         className="input"
-                        checked={ItemsPrimaryDetails?.popularItem}
+                        checked={isChecked}
                         {...field}
                         onChange={(e) => {
                           handleCheckboxChange(e);
@@ -1108,13 +1261,13 @@ const PrimaryPage = () => {
                     )}
                   />
                   <span>
-                    Popular item ( {popularItem}/{popularItemlimit} )
+                    Popular item ( {popularItemlimit > 0 ? {popularItem} : 0}/{popularItemlimit} )
                   </span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
-                    <LableComponent lable="SubCategory" />
+                    <LableComponent lable="Sub Category" />
                     <Controller
                       name="subCategory"
                       control={control}
@@ -1129,6 +1282,14 @@ const PrimaryPage = () => {
                           trigger={trigger}
                           setValue={setValue}
                           getValues={getValues}
+                          // validation={{ required: "subCategory is required" }}
+                          // error={errors.subCategory}
+                          valiadtesubCategory={
+                            editData[0]?.length > 0 ? "" : valiadtesubCategory
+                          }
+                          errormsg={subcategortError}
+                          categoryChange = {categoryChange}
+                          setCategoryChange = {setCategoryChange}
                           addNew={true}
                           editValues={true}
                           dropdownopen={DropdownOpen.subCategory}
@@ -1137,6 +1298,7 @@ const PrimaryPage = () => {
                           dropDownType="SUB_CATEGORY"
                           resetSelection={subCatagoryRef}
                           parentId={parentId}
+                          setParentId={setParentId}
                         />
                       )}
                     />
@@ -1147,7 +1309,7 @@ const PrimaryPage = () => {
                   <div>
                     {" "}
                     <Imagepillsselection
-                      heading="Allergens*"
+                      heading="Allergens"
                       options={allergensData}
                       setValue={setValue}
                       name="allergens"
@@ -1191,7 +1353,11 @@ const PrimaryPage = () => {
                   : "Primary-page-container-two"
               }
             >
-              <div className="Primary-page-ingredients-selection">
+              <div   className={
+                alcoholconstain
+                  ? "Primary-page-ingredients-selection1"
+                  : "Primary-page-ingredients-selection"
+              }>
                 <Imagepillsselection
                   heading="Ingredients"
                   options={ingredientsdata}
@@ -1222,6 +1388,15 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={calorieInfo?.value}
                           trigger={trigger}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+"
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           placeholder="cal"
                         />
                       )}
@@ -1257,6 +1432,15 @@ const PrimaryPage = () => {
                           onBlur={onBlur}
                           value={portionInfo?.value}
                           trigger={trigger}
+                          onKeyDown={(e: any) => {
+                            if (
+                              e.key === "e" ||
+                              e.key === "-" ||
+                              e.key === "+"
+                            ) {
+                              e.preventDefault(); // Block these keys
+                            }
+                          }}
                           placeholder={
                             portionInfo?.type || "portion(count) / grams/ml"
                           }
@@ -1313,7 +1497,7 @@ const PrimaryPage = () => {
                   <div>
                     {" "}
                     <div className="Primary-Page-inputfiled-and-tooltip">
-                      <Controller
+                      {/* <Controller
                         name="tax"
                         control={control}
                         render={({ onChange, onBlur, value }: any) => (
@@ -1324,15 +1508,55 @@ const PrimaryPage = () => {
                             value={value}
                             trigger={trigger}
                             placeholder="Tax Class Association"
+                            onKeyDown={(e: any) => {
+                              if (
+                                (e.key.length === 1 && /[a-zA-Z]/.test(e.key)) || // Restrict alphabets
+                                e.key === "e" || // Prevent 'e' for scientific notation
+                                e.key === "-" || // Prevent negative sign
+                                e.key === "+" // Prevent positive sign
+                              ) {
+                                e.preventDefault();
+                              }
+                            }}
+                          />
+                        )}
+                      /> */}
+                      <Controller
+                        name="tax"
+                        control={control}
+                        render={({ field }: any) => (
+                          <Dropdown
+                            options={taxData}
+                            type="radio"
+                            setOptions={setTaxType}
+                            placeholder="Tax Class Association"
+                            register={register}
+                            name="tax"
+                            trigger={trigger}
+                            setValue={setValue}
+                            getValues={getValues}
+                            // validation={{ required: "Tax is required" }}
+                            // error={errors.tax}
+                            dropdownopen={DropdownOpen.tax}
+                            onToggle={() => handleDropdownToggle("tax")}
+                            setDropdownOpen={setDropdownOpen}
+                            addNew={false}
+                            editValues={false}
+                            dropDownType="TAX"
+                            resetSelection={resetSelectionRef}
+                            parentId={parentId}
+                            setParentId={setParentId}
+                            isTaxDropDown = {true}
                           />
                         )}
                       />
+
                       <div className="tool-tip-tax-class">
                         <TooltipMsg
                           message="Create or select a tax amount to associate with this item"
                           styles={{
                             position: "relative",
-                            top: "-0.5rem",
+                            top: "-0.7rem",
                             left: "1.8rem",
                             width: "350px",
                             height: "35px",
@@ -1351,7 +1575,7 @@ const PrimaryPage = () => {
                             left: "-2.25rem",
                           }}
                         >
-                          <div className="ToolKitchen">
+                          <div className="Tool-tax-class">
                             <img
                               src={info}
                               alt="info icon"
@@ -1373,6 +1597,7 @@ const PrimaryPage = () => {
               reset={handleReset}
               itemcodeValid={itemcodeValid}
               triggerValidation={() => trigger()}
+              valiadtesubCategory={valiadtesubCategory}
             />
             {/* </form> */}
           </div>

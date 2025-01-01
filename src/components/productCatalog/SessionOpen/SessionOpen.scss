@@ -7,6 +7,7 @@
   
    
     z-index: 1200;
+   
   
    
 
@@ -15,7 +16,10 @@
 .session-window
 {
 
- margin-top: -40%;
+//  margin-top: -30%;
+position: relative;
+// left: -19rem;
+top: -1rem;
     background-color: white;
     padding: 5px;
     width: 300px;
@@ -41,7 +45,14 @@
     
     display: flex;
     gap: 10px;
+    
     padding: 3px;
+    width: fit-content;
+    // border: 1px solid red;
+    .session-lable
+    {
+        width: 13rem;
+    }
     input{
         accent-color:#67833E ;
         width: 20px;
@@ -57,17 +68,19 @@ display: flex;
 justify-content: center;
 align-items: center;
 background-color: #67833E;
+border-radius: 3.47px;
 cursor: pointer;}
 .cancel-btn-session
 {
     width: 100px;
 height:  40px;
-color: white;
+color: 67833E;
 border:  0.5px solid #67833E;
 display: flex;
 justify-content: center;
 align-items: center;
-background-color: #67833E;
+background-color: white;
+border-radius: 3.47px;
 cursor: pointer;  
 }
 .session-save-cancel

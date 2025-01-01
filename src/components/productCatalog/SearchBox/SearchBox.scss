@@ -38,13 +38,11 @@
 //   left: -40px;
 //   cursor: pointer;
 // }
-.MLsearchbox
-{
+.MLsearchbox {
   position: relative;
   // border: 1px solid red;
 }
-.MLSerchIcon-Header
-{
+.MLSerchIcon-Header {
   width: 24px;
   height: 21px;
   position: absolute;
@@ -63,7 +61,7 @@
 
   // background-color: pink;
   // border: 1px solid red;
-  
+
   @media (max-width: 1280px) {
     left: 70%;
   }
@@ -84,34 +82,47 @@
 //   left: 9.5vw;
 //   padding-bottom: 10px;
 // }
-.searched-item-box
-{
+.searched-item-box {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  background-color: #ffffff;
+  height: 20vw;
 }
+
 .MLSearch-Container-options1 {
   width: 560px;
   background-color: #ffffff;
   max-height: 45vh;
+  // min-height: 45vh;
   padding-left: 20px;
   // border: 1px solid red;
-  
   transform: translateY(1px);
   overflow-y: auto;
   position: absolute;
   z-index: 2;
   top: 53px;
   left: 12rem;
-  padding-bottom: 10px;
+  // padding-bottom: 10px;
   overflow-x: hidden;
-  &::-webkit-scrollbar
-  {
+  // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  // border: 1px solid red;
+  &::-webkit-scrollbar {
     display: none;
   }
 }
-.MLsearchBoxContainer
-{
-  // border: 1px solid blue;
+
+.MLsearchBoxContainer {
+  // box-shadow: 0xp 2px 2px 2px #ccc;
+  box-shadow: none;
+  border: none;
+  outline: none;
+ 
 }
+
+.MLsearchBoxContainer1 {
+  // box-shadow: 0px 2px 2px 2px #ccc;
+  box-shadow: none;
+}
+
 .MLSearch-Container-options-menu ul {
   list-style: none;
   cursor: pointer;
@@ -119,20 +130,29 @@
   background-color: white;
   height: 45vh;
   // border: 1px solid red;
-  &::-webkit-scrollbar
-  {
+  // width: 36.9vw !important;
+  &::-webkit-scrollbar {
     display: none;
   }
   overflow: auto;
   width: 37.5vw;
   // box-shadow: 0px 10px 15px -6px rgba(0, 0, 0, 0.2509803922);
+  // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
   margin-top: 0px;
+  @media (min-width: 1441px) and (max-width: 1536px){
+    width: 36.9vw !important;
+    // background-color: palegreen;
+    // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  }
 }
 
 .MLSearch-Container-options1 ul {
   list-style: none;
   cursor: pointer;
+  // background-color: paleturquoise;
   // cursor: pointer;
+  // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 }
 
 .MLSearch-Container-options-items {
@@ -172,7 +192,7 @@
 
 .MLSearch-Container-options ul li:hover {
   // width: 550px;
-  background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
+  background-image: linear-gradient(to left, #EAEAEA 99%, #EAEAEA 2%);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   border-top-left-radius: 0;
@@ -184,7 +204,7 @@
 
 .MLSearch-Container-options1 ul li:hover {
   // width: 500px;
-  background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
+  background-image: linear-gradient(to left, #EAEAEA 99%, #EAEAEA 2%);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   border-top-left-radius: 0;
@@ -196,6 +216,7 @@
 
 .MLSearch-Container-options1 .highlighted {
   // width: 449px;
+ 
   background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
@@ -205,8 +226,8 @@
 }
 
 .MLhighlighted {
-  width: 30rem;
-  background-image: linear-gradient(to left, #d9d9d9 99%, #67833e 2%);
+
+  background-image: linear-gradient(to left, #B3B3B3 99%, #67833e 2%);
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   border-top-left-radius: 0;
@@ -215,14 +236,26 @@
 
   // height: 45px;
 }
-.list-of-item-name
-{
- 
+.list-of-item-name {
   margin-left: -5%;
+  &:hover{
+    background-image: linear-gradient(to left, #EAEAEA 99%, #EAEAEA 2%);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+   
+  }
 }
-.list-of-item-name-expand
-{
+.list-of-item-name-expand {
   margin-left: -10%;
+  &:hover{
+    background-image: linear-gradient(to left, #EAEAEA 99%, #EAEAEA 2%);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 // {******************************Search Container None*******************************************}
 
@@ -238,21 +271,25 @@
   right: 1.5vw;
   bottom: 16px;
   margin-top: -2rem;
-  // border: 1px solid blue;
+  flex-direction: column;
 }
 
 .MLSearch-Container-options1-none {
-  width: 580px;
-  height: 45vh;
+  width: 36vw;
+  height: 40vh;
+  // background-color: #979797;
   background-color: #ffffff;
+  // background-color: pink;
   border: 1px solid transparent;
-
-  transform: translate(-20px);
+  // border: 1px solid palegreen;
+  transform: translate(-45px);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 3px;
 }
+
 .MLSearch-Container-options-none-flex-direction {
   display: flex;
   flex-direction: column;
@@ -261,9 +298,16 @@
 .MLNotFoundImage {
   width: 372px;
   height: 338.52px;
-  // transform: translateX(-10px);
-position: relative;
-top: 2.3rem;
+  position: relative;
+  top: 2.3rem;
+}
+
+.MLNotFoundImageExpanded{
+  width: 372px;
+  height: 338.52px;
+  position: relative;
+  top: 0.7rem;
+  // border: 1px solid palevioletred
 }
 
 .MLheading-none {
@@ -271,29 +315,52 @@ top: 2.3rem;
   font-size: 22px;
   font-family: Poppins;
   transform: translate(90px, -30px);
-//   position: relative;
-// top: 2.3rem;
+  margin-right: 140px;
 }
+
+.MLheading-none-expanded{
+  color: #67833e;
+  font-size: 22px;
+  font-family: Poppins;
+  transform: translate(90px, -60px);
+  margin-right: 140px;
+  // background-color: lightsalmon;
+}
+
 /* Apply styles for devices with a max width of 768px */
 @media (max-width: 2400px) {
   .MLSearch-Container-options-menu ul {
     width: 31vw;
+    // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
 
 @media (max-width: 2000px) {
   .MLSearch-Container-options-menu ul {
     width: 30vw;
+    // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
 @media (max-width: 1700px) {
   .MLSearch-Container-options-menu ul {
     width: 35vw;
+    // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
 
 @media (max-width: 1500px) {
   .MLSearch-Container-options-menu ul {
-    width: 40vw;
+    // border: 1px solid palevioletred;
+    width: 39.4vw;
+    // background-color: palevioletred;
+    // box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 }
+
+// @media (max-width: 1536px) {
+//   .MLSearch-Container-options-menu ul {
+//     width: 40vw;
+//     // background-color: pink;
+//     background-color: white;
+//   }
+// }

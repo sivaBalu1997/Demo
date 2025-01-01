@@ -46,8 +46,10 @@
   height: 100%;
   width: 91vw !important;
   margin-left: -1.5rem;
+  padding-bottom: 5vh;
   @media (max-width: 500px) {
-    width: 100vw;
+    width: 100vw !important;
+    margin-left: 0;
   }
 
   .p-prod-insights-head {
@@ -79,7 +81,7 @@
       .p-label-time-period {
         font-weight: 600;
         color: var(--table-text);
-        @media (max-width: 800px) {
+        @media (max-width:700px) {
           display: none;
         }
       }
@@ -105,9 +107,13 @@
           border-radius: 0.8rem;
           cursor: pointer;
           @media (max-width: 800px) {
-            width: 6rem;
+            width: 18vw;
             height: 1rem;
             font-size: smaller;
+          }
+          @media (max-width: 500px) {
+            width: 20vw;
+            font-size: xx-small;
           }
         }
 
@@ -125,8 +131,12 @@
           z-index: 999;
           border-radius: 1rem;
           @media (max-width: 800px) {
-            width: 6rem;
+            width: 18vw;
             font-size: x-small;
+          }
+          @media (max-width: 500px) {
+            width: 20vw;
+            font-size: xx-small;
           }
 
           p {
@@ -254,6 +264,11 @@
         height: 2rem;
         @media (max-width: 800px) {
           width: 5rem;
+          height: 1rem;
+          font-size: xx-small;
+        }
+        @media(max-width: 500px){
+          width: 6rem;
           height: 1rem;
           font-size: xx-small;
         }

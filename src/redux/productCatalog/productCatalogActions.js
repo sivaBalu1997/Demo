@@ -137,6 +137,9 @@ import {
   REMOVE_DATA_REQUEST,
   REMOVE_DATA_SUCCESS,
   REMOVE_DATA_FAILURE,
+  REMOVE_CODE_REQUEST,
+  REMOVE_CODE_SUCCESS,
+  REMOVE_CODE_FAILURE,
   UPDATE_MODIFIER_REQUEST,
   SELECTED_CATEGORY_DATA_REQUEST,
   RESET_SUCCESS_MESSAGE,
@@ -146,6 +149,12 @@ import {
   INGREDIENTS_REQUEST,
   INGREDIENT_SUCESS,
   INGREDIENT_FAILURE,
+  Remove_ItemCust_Data_Request,
+  Remove_Primary_Data_Request,
+  Remove_Pricing_Data_Request,
+  TAXCLASS_REQUEST,
+  TAXCLASS_SUCCESS,
+  TAXCLASS_FAILURE,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -354,6 +363,9 @@ export const primaryfailure = (error) => ({
   type: Primary_Post_Data_Failure,
   payload: error,
 });
+export const PrimaryDataClear=()=>({
+  type:Remove_Primary_Data_Request,
+})
 
 // {******************Item Customization  Redux Actions*****************************************************}
 
@@ -371,6 +383,9 @@ export const itemCustomizationFaaliure = (error) => ({
   type: Item_Customizations_Data_Failure,
   payload: error,
 });
+export const itemCustomizationClear=()=>({
+  type:Remove_ItemCust_Data_Request,
+})
 
 // {******************Pricing Detail  Redux Actions*****************************************************}
 
@@ -386,6 +401,9 @@ export const PricingDetailFailure = (error) => ({
   type: Pricing_Detail_Data_Failure,
   payload: error,
 });
+export const PricingDetailsClear=()=>({
+  type:Remove_Pricing_Data_Request,
+})
 
 //{******************Item_Image_From_Internet*****************************************************}
 
@@ -584,6 +602,22 @@ export const ingredientsSuccess = (response) => ({
 
 export const ingredientsFailure = (error) => ({
   type: INGREDIENT_FAILURE,
+  payload: error
+})
+
+//Tax Class
+export const taxClassRequest = (data) => ({
+  type: TAXCLASS_REQUEST,
+  payload: data
+});
+
+export const taxClassSuccess = (response) => ({
+  type: TAXCLASS_SUCCESS,
+  payload: response
+})
+
+export const taxClassFailure = (error) => ({
+  type: TAXCLASS_FAILURE,
   payload: error
 })
 
@@ -895,6 +929,18 @@ export const removeDataSuccess = () => ({
 
 export const removeDataFailure = () => ({
   type: REMOVE_DATA_FAILURE,
+});
+export const removeCodeRequest = () => ({
+  type: REMOVE_CODE_REQUEST,
+  
+});
+
+export const removeCodeSuccess = () => ({
+  type: REMOVE_CODE_SUCCESS,
+});
+
+export const removeCodeFailure = () => ({
+  type: REMOVE_CODE_FAILURE,
 });
 
 export const updateModifierData = (data) => ({

@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
 interface NormalForm {
-  PickuppriceNormal: string;
+  PickuppriceNormal: any;
   PickupmealtypeNormal: string;
   DeliverypriceNormal: string;
   DeliverymealtypeNormal: string;
@@ -34,43 +34,45 @@ interface NormalFormData {
     Delivery: number[];
     thirdParty: number[];
     DeliveryMealType: string[];
-    PicupMealType: string[];
-    pickupDetails:{
-      price:number
-      availabilities:[
+    PicupMealType: number[];
+    pickupDetails: {
+      price: any;
+      availabilities: [
         {
-          sessions:[]
+          sessions: [];
         }
-      ]
-    }
-    deliveryDetails:{
-      price:number
-      availabilities:[
+      ];
+    };
+    deliveryDetails: {
+      price: any;
+      availabilities: [
         {
-          sessions:[]
+          sessions: [];
         }
-      ]
-    }
-    thirdpartyDetails:[{
-      typeName:string
-      price:number
-      availabilities:[
-        {
-          sessions:[]
-        }
-      ]
-    }]
+      ];
+    };
+    thirdpartyDetails: [
+      {
+        typeName: string;
+        price: number;
+        availabilities: [
+          {
+            sessions: [];
+          }
+        ];
+      }
+    ];
 
     formNormal: {
-      PickuppriceNormal: string;
+      PickuppriceNormal: number;
       PicupMealType: string;
-      DeliverypriceNormal: string;
-      SwiggyNormal: string;
-      ZomatoNormal: string;
+      DeliverypriceNormal: number;
+      SwiggyNormal: number;
+      ZomatoNormal: number;
     };
     thirdPartyOrder: {
-      SwiggyNormal: string;
-      ZomatoNormal: string;
+      SwiggyNormal: number;
+      ZomatoNormal: number;
     };
   };
 }
@@ -86,9 +88,11 @@ const NormalStep2 = () => {
     (state: RootState) => state?.PricingDetailReducer?.prizingData || {}
   );
 
-  
-
-  const thirdPartyDetails = useSelector((state: any) => state.PricingDetailReducer.prizingData?.normalForm?.thirdpartyDetails || []);
+  const thirdPartyDetails = useSelector(
+    (state: any) =>
+      state.PricingDetailReducer.prizingData?.normalForm?.thirdpartyDetails ||
+      []
+  );
 
   const thirdParty =
     prizingDetail &&
@@ -117,14 +121,40 @@ const NormalStep2 = () => {
   useEffect(() => {
     setDinein(
       prizingDetail?.normalForm?.DineIn?.map((elem, index) => {
-        return elem; 
+        return elem;
       })
     );
   }, []);
 
   const restaurantDetails = useSelector(
-    (state: any) => state?.auth.restaurantDetails
+    (state: any) => state?.auth?.restaurantDetails
   );
+
+  // const pd = prizingDetail?.normalForm?.dineinfields;
+  // const meals = pd?.map((meal) => meal?.DineInMealType);
+  // console.log({ meals });
+  // const formattedMeals = meals?.[0]?.join(", "); // Join the first array with commas
+  // console.log({ formattedMeals });
+
+  const onlinePickup =
+    prizingDetail?.normalForm?.pickupDetails?.availabilities &&
+    prizingDetail?.normalForm?.pickupDetails?.availabilities[0] &&
+    prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions &&
+    prizingDetail?.normalForm?.pickupDetails?.availabilities[0]?.sessions?.map(
+      (elem) => elem
+    );
+
+  const onlinePickupFormatted = onlinePickup?.join(", ");
+  // console.log("O", online?.join(", "));
+
+  const onlineDelivery =
+    prizingDetail?.normalForm?.deliveryDetails?.availabilities &&
+    prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions &&
+    prizingDetail?.normalForm?.deliveryDetails?.availabilities[0]?.sessions?.map(
+      (elem) => elem
+    );
+  const onlineDeliveryFormatted = onlineDelivery?.join(", ");
+  // console.log({ onlinePickupFormatted });
 
   return (
     <div>
@@ -146,7 +176,11 @@ const NormalStep2 = () => {
                 <>
                   <div key={index}>
                     <h1 className="Step2DineInPricevalue">
-                    {restaurantDetails?.country === "US" ? "$" : "Rs."}{elem?.DineInPrice || "N/A"}
+                      {elem?.DineInPrice
+                        ? `${
+                            restaurantDetails?.country === "US" ? "$" : "Rs."
+                          } ${parseFloat(elem.DineInPrice).toFixed(2)}`
+                        : ` N/A`}
                     </h1>
                   </div>
                 </>
@@ -158,37 +192,17 @@ const NormalStep2 = () => {
           <h1 className="Step2DineInServiceheading">Service Time</h1>
 
           {prizingDetail &&
-            prizingDetail.normalForm &&
-            prizingDetail.normalForm.dineinfields?.map((elem, index) => {
+            prizingDetail?.normalForm &&
+            prizingDetail?.normalForm?.dineinfields?.map((elem, index) => {
               return (
                 <>
                   <div className="Step2DineInServiceTime">
                     <div>
                       {" "}
                       <h1 className="Step2DineInPricevalue">
-                        {elem.DineInMealType || "N/A"}
+                        {elem?.DineInMealType?.join(", ") || "N/A"}
                       </h1>
                     </div>
-                  </div>
-                </>
-              );
-            })}
-        </div>
-
-        <div className="Step2DineInServiceArea">
-          <div>
-            <h1 className="Step2DineInServiceAreaheading">Service Area</h1>
-          </div>
-
-          {prizingDetail &&
-            prizingDetail.normalForm &&
-            prizingDetail.normalForm.dineinfields?.map((elem, index) => {
-              return (
-                <>
-                  <div>
-                    <h1 className="Step2DineInPricevalue">
-                      {elem.DineInService || "N/A"}
-                    </h1>
                   </div>
                 </>
               );
@@ -198,11 +212,11 @@ const NormalStep2 = () => {
       <h1 className="AvailDaysheading">Available Days</h1>
       {prizingDetail &&
         prizingDetail?.normalForm &&
-        prizingDetail?.normalForm.DineIn?.map((elem, index) => {
+        prizingDetail?.normalForm?.DineIn?.map((elem, index) => {
           return (
             <>
               <div className="dayacheckedavail">
-                <DaysOfWeek days={elem} setDays={setDinein}  />
+                <DaysOfWeek days={elem} setDays={setDinein} />
               </div>
             </>
           );
@@ -218,21 +232,22 @@ const NormalStep2 = () => {
             </h1>
           </div>
           <div>
-
-          {
-              prizingDetail &&
-              prizingDetail.normalForm &&
-              prizingDetail.normalForm.pickupDetails &&
-              prizingDetail.normalForm.pickupDetails.price ?
+            {prizingDetail &&
+            prizingDetail.normalForm &&
+            prizingDetail.normalForm.pickupDetails &&
+            prizingDetail.normalForm.pickupDetails.price ? (
               <h1 className="Step2SellingPrizevalue">
-             {restaurantDetails?.country === "US" ? "$" : "Rs."}
+                {restaurantDetails?.country === "US" ? "$" : "Rs."}
 
-              {
-                prizingDetail.normalForm.pickupDetails.price 
-                }
-            </h1>:<><h1 className="Step2SellingPrizevalue">N/A</h1></>
-            }
-           
+                {parseFloat(
+                  prizingDetail.normalForm.pickupDetails.price
+                ).toFixed(2)}
+              </h1>
+            ) : (
+              <>
+                <h1 className="Step2SellingPrizevalue">N/A</h1>
+              </>
+            )}
           </div>
         </div>
         <div className="Step2SellingPrize2">
@@ -241,13 +256,19 @@ const NormalStep2 = () => {
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
-            {prizingDetail &&
+              {prizingDetail &&
               prizingDetail.normalForm &&
               prizingDetail.normalForm.pickupDetails &&
               prizingDetail.normalForm.pickupDetails.availabilities &&
-              prizingDetail.normalForm.pickupDetails.availabilities.length > 0 &&
-              prizingDetail.normalForm.pickupDetails.availabilities[0].sessions
-                ? prizingDetail.normalForm.pickupDetails.availabilities[0].sessions.map((elem) => elem)
+              prizingDetail.normalForm.pickupDetails.availabilities.length >
+                0 &&
+              prizingDetail.normalForm.pickupDetails.availabilities[0]
+                .sessions &&
+              onlinePickupFormatted?.length > 0
+                ? //  prizingDetail.normalForm.pickupDetails.availabilities[0].sessions.map(
+                  //     (elem) => elem
+                  //   )
+                  onlinePickupFormatted
                 : "N/A"}
             </h1>
           </div>
@@ -255,10 +276,10 @@ const NormalStep2 = () => {
       </div>
       <h1 className="AvailDaysheadingPickup">Available Days</h1>
       <div className="DaysPickUp">
-        { prizingDetail?.normalForm && 
-          prizingDetail?.normalForm?.pickupDetails &&
-          <DaysOfWeek days={Pickup1} setDays={setPickup1} />
-        }
+        {/* {prizingDetail?.normalForm &&
+          prizingDetail?.normalForm?.pickupDetails && ( */}
+        <DaysOfWeek days={Pickup1} setDays={setPickup1} />
+        {/* )} */}
       </div>
       <h1 className="Step2Deliveryheading">Delivery</h1>
       <div className="Step2Delivery">
@@ -269,20 +290,22 @@ const NormalStep2 = () => {
             </h1>
           </div>
           <div>
-            {
-              prizingDetail &&
-              prizingDetail.normalForm &&
-              prizingDetail.normalForm.deliveryDetails &&
-              prizingDetail.normalForm.deliveryDetails.price ?
+            {prizingDetail &&
+            prizingDetail.normalForm &&
+            prizingDetail.normalForm.deliveryDetails &&
+            prizingDetail.normalForm.deliveryDetails.price ? (
               <h1 className="Step2SellingPrizevalue">
-             {restaurantDetails?.country === "US" ? "$" : "Rs."}
+                {restaurantDetails?.country === "US" ? "$" : "Rs."}
 
-              {
-                prizingDetail.normalForm.deliveryDetails.price 
-                }
-            </h1>:<><h1 className="Step2SellingPrizevalue">N/A</h1></>
-            }
-            
+                {parseFloat(
+                  prizingDetail.normalForm.deliveryDetails.price
+                ).toFixed(2)}
+              </h1>
+            ) : (
+              <>
+                <h1 className="Step2SellingPrizevalue">N/A</h1>
+              </>
+            )}
           </div>
         </div>
         <div className="Step2SellingPrize2">
@@ -291,56 +314,70 @@ const NormalStep2 = () => {
           </div>
           <div>
             <h1 className="Step2SellingPrizevalue">
-            {prizingDetail?.normalForm?.deliveryDetails?.availabilities?.length > 0
-              ? prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions?.map((elem) => elem)
-              : "N/A"}
+              {prizingDetail?.normalForm?.deliveryDetails?.availabilities
+                ?.length > 0 && onlineDeliveryFormatted?.length > 0
+                ? onlineDeliveryFormatted
+                : // prizingDetail.normalForm.deliveryDetails.availabilities[0].sessions?.map(
+                  //     (elem) => elem
+                  //   )
+                  "N/A"}
             </h1>
           </div>
         </div>
       </div>
       <h1 className="AvailDaysheadingdelivery">Available Days</h1>
       <div className="DaysDelivery">
-        { prizingDetail?.normalForm && 
-          prizingDetail?.normalForm?.deliveryDetails &&
-          <DaysOfWeek days={delivery1} setDays={setDelivery1} />
-        }
+        {/* {prizingDetail?.normalForm &&
+          prizingDetail?.normalForm?.deliveryDetails && ( */}
+        <DaysOfWeek days={delivery1} setDays={setDelivery1} />
+        {/* )} */}
       </div>
-      <h1 className="Step2ThirdPartyDeliveryheading">Third Party Delivery</h1>
+      {thirdPartyDetails?.length > 0 && (
+        <>
+          <h1 className="Step2ThirdPartyDeliveryheading">
+            Third Party Delivery
+          </h1>
 
-      <div className="Step2ThirdPartyDelivery">
-        <div className="Step2SellingPrize">
-          
-      {thirdPartyDetails.map((detail:any) => (
-        <div key={detail.typeId} className="Step2SellingPrize">
-          <div>
-            <h1 className="Step2SellingPrizeheading">{detail.typeName} Price Listed</h1>
+          <div className="Step2ThirdPartyDelivery">
+            <div className="Step2SellingPrize">
+              {thirdPartyDetails.map((detail: any) => (
+                <div key={detail.typeId} className="Step2SellingPrize">
+                  <div>
+                    <h1 className="Step2SellingPrizeheading">
+                      {detail.typeName} Price Listed
+                    </h1>
+                  </div>
+                  <div>
+                    <h1 className="Step2SellingPrizevalue">
+                    {restaurantDetails?.country === "US" ? "$" : "Rs."}  {(prizingDetail &&
+                        prizingDetail?.normalForm &&
+                        prizingDetail?.normalForm?.thirdpartyDetails &&
+                        prizingDetail?.normalForm?.thirdpartyDetails.map(
+                          (elem: any) =>  elem?.price?.toFixed(2)
+                        )) ||
+                        "N/A"}
+
+
+                        
+                      {/* {detail.price || "N/A"} */}
+                    </h1>
+                  </div>
+                </div>
+              ))}
+
+              <div className="thirdPartyContainers">
+                <h1 className="AvailDaysheadingthirparty">Available Days</h1>
+                <div className="DaysThirdDelivery">
+                  {prizingDetail?.normalForm &&
+                    prizingDetail?.normalForm?.thirdpartyDetails && (
+                      <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
+                    )}
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <h1 className="Step2SellingPrizevalue">
-            {(prizingDetail &&
-                prizingDetail?.normalForm &&
-                prizingDetail?.normalForm?.thirdpartyDetails &&
-                prizingDetail?.normalForm?.thirdpartyDetails.map((elem:any)=>elem?.price)) ||
-                "N/A"}
-              {detail.price || "N/A"}
-            </h1>
-          </div>
-        </div>
-      ))}
-      
-      <div className="thirdPartyContainers">
-        <h1 className="AvailDaysheadingthirparty">Available Days</h1>
-        <div className="DaysThirdDelivery">
-          { prizingDetail?.normalForm && 
-            prizingDetail?.normalForm?.thirdpartyDetails &&
-            <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
-          }
-        </div>
-      </div>
-    </div>
-
-    </div>
-
+        </>
+      )}
     </div>
   );
 };

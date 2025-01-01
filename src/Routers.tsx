@@ -35,7 +35,8 @@ import MenuCustomization from "pages/menuCustomization";
 import AddCustomizationInput from "pages/menuCustomization/AddCustomizationInput";
 import NotFound from "pages/notFound";
 import { Menulisting } from "pages/productCatalog/Menulisting/Menulisting";
-import offers from 'pages/offerManagement/specialPriceDetails/specialPriceDetails'
+import { MenuPage } from "pages/productCatalog/Menulisting/MenuPage";
+// import offers from 'pages/offerManagement/specialPriceDetails/specialPriceDetails'
 import Publish from "pages/productCatalog/Publish/Publish";
 import PrimaryDetailsReviewpage from "pages/productCatalog/PrimaryDetailsReviewpage/PrimaryDetailsReviewpage";
 import Navigationpage from "components/productCatalog/Navigation/NavigationPage";
@@ -62,6 +63,7 @@ import OffersTable from "pages/offerManagement/OffersTable"
 import OffersHeader from "./components/offerManagement/OffersHeader"
 import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/"
 import completedTable from "pages/offerManagement/completedTable/completedTable";
+import offerSpecial from './pages/offerManagement/specialPriceDetails/specialPriceDetails'
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -199,7 +201,9 @@ const Routers = () => {
               <>
                 <div>
                   <Switch>
-                    <Route exact path="/productCatalog/menuListing" component={Menulisting} />
+                    <Route exact path="/productCatalog/menuListing" component={MenuPage} />
+                    {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
+                    {/* <Route exact path="/offer/special" component={offers} /> */}
                     <Route
                       path="/productCatalog/Reviewpage"
                       component={PrimaryDetailsReviewpage}
@@ -225,7 +229,7 @@ const Routers = () => {
             </div>
 
             <div className="specialOffers">
-              <Route exact path="/offer/special" component={offers} />
+              <Route exact path="/offer/special" component={offerSpecial} />
             </div>
 
             <div>

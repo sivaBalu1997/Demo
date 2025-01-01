@@ -5,20 +5,26 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.1); 
+  background: none;
   display: flex;
   justify-content: flex-end;
   transition: 0.3s ease-out;
   z-index: 1000; 
+  height: 45rem;
+  // border: 1px solid red;
+  overflow-y: hidden;
+  // margin-top: 7.5%;
 
  
 
   .Slider-Window {
+    position: fixed;
     width: 416px;
     // height: 848px;
     height: 530px;
     // overflow-y: hidden;
     // border: 1px solid red;
-    margin-top: 5%;
+    margin-top: 5.5%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     background-color: white;
     // border: 1px solid red;
@@ -207,7 +213,7 @@
     }
 
     .NavSlider-Component {
-      width: 416px;
+      width: 410px;
       height: 600px;
       overflow-y: scroll;
 // border: 1px solid blue;

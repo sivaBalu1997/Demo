@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext,useRef } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import './SearchBox.scss';
 import searchIcon from '../../../assets/images/searchicon.png';
 import NotFound from '../../../assets/svg/NotFound copy.svg';
@@ -27,7 +27,7 @@ const SearchBox = () => {
     setOrgData(itemNames); // Set original data when it is available
   }, [data]);
   useEffect(() => {
-    if(searchTerm==''){
+    if (searchTerm == '') {
       dispatch(searchForItem({}));
     }
   }, []);
@@ -56,20 +56,28 @@ const SearchBox = () => {
 
   const menuData = useSelector((state) => state.productCatalog?.menuData);
 
-  const handleSearch = (e) => {
-  let value = e.target.value;
-  const regex = /^[a-zA-Z\s]*$/;
-
-  // Prevent spaces as the first character or standalone
-  if (regex.test(value) && !(value.length === 1 && value === ' ')) {
-    dispatch(searchForItem({}));
-    setSearchTerm(value);
-    setDisplayTerm(value);
-    filterOptions(value);
-    setOptionSelected(false);
-    setCloseModal(true);
+  useEffect(() => {
+    if (menuData) {
+      setSearchTerm('')
     }
-   
+
+  }, [menuData])
+  const [placeholder,setplaceholder]=useState("");
+
+  const handleSearch = (e) => {
+    let value = e.target.value;
+    const regex = /^[a-zA-Z\s]*$/;
+
+    // Prevent spaces as the first character or standalone
+    if (regex.test(value) && !(value.length === 1 && value === ' ')) {
+      dispatch(searchForItem({}));
+      setSearchTerm(value);
+      setDisplayTerm(value);
+      filterOptions(value);
+      setOptionSelected(false);
+      setCloseModal(true);
+    }
+
     // if (e.key === 'Backspace') {
     //   if (optionSelected) {
     //     // If an option was selected, reset searchTerm and displayTerm
@@ -84,13 +92,46 @@ const SearchBox = () => {
 
   };
 
-  const filterOptions = (input) => {
-    const itemNames = menuData?.flatMap(item => item?.itemResponseList)
-      .map(item => item?.itemName);
+  // // All - Categories and subCategory ItemResponse List
+  // const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
+  // console.log({ allItems });
 
-    const filtered = itemNames?.filter(item =>
+  // const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
+  // console.log({ allItemsPlusSubItemList })
+
+  // const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
+  // console.log({ allNew })
+
+  // const allArray = [...allItems, ...allNew]
+  // console.log({ allArray })
+
+  // const everything = allArray?.map(everything => everything?.itemName)
+  // console.log({ everything })
+
+  // const everythingFM = allArray?.flatMap(everything => everything?.itemName)
+  // console.log({ everythingFM })
+
+
+
+  const filterOptions = (input) => {
+    const itemNames = menuData?.flatMap(item => item?.itemResponseList)?.map(item => item?.itemName);
+    const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
+
+    const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
+    const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
+
+    const allArray = [...allItems, ...allNew]
+
+    const everything = allArray?.map(everything => everything?.itemName)
+
+    const filtered = everything?.filter(item =>
       item?.toLowerCase().includes(input?.toLowerCase())
     );
+    const startsWithInput = filtered.find((item) =>
+      item.toLowerCase().startsWith(input.toLowerCase())
+    );
+console.log({filtered});
+setplaceholder(startsWithInput || "")
 
     setFilteredOptions(filtered);
     setFilteredOptionsDispatch(filtered);
@@ -100,6 +141,8 @@ const SearchBox = () => {
       if (firstMatch.toLowerCase().startsWith(input.toLowerCase())) {
         const suggestion = firstMatch.slice(input.length);
         setDisplayTerm(input + suggestion);
+console.log({firstMatch});
+
         setHighlightedIndex(0);
       } else {
         setDisplayTerm(input);
@@ -108,13 +151,14 @@ const SearchBox = () => {
       setDisplayTerm(input);
     }
   };
-
   const handleOptionClick = (option) => {
     setSearchTerm(option);
     setDisplayTerm(option);
     setOptionSelected(true);
-    setCloseModal(false)
+    setCloseModal(false);
+  
     let result = null;
+  
     menuData?.forEach((category) => {
       category?.itemResponseList?.forEach((item) => {
         if (item?.itemName === option) {
@@ -125,13 +169,26 @@ const SearchBox = () => {
           };
         }
       });
+  
+      category?.subCategoryResponseList?.forEach((subCategory) => {
+        subCategory?.itemResponseList?.forEach((item) => {
+          if (item?.itemName === option) {
+            result = {
+              categoryId: subCategory.categoryId,
+              categoryName: `${category.categoryName} > ${subCategory.categoryName}`, 
+              itemResponseList: [item],
+            };
+          }
+        });
+      });
     });
-
-    dispatch(searchForItem(result));
-
+  
+    dispatch(searchForItem(result));  
     setFilteredOptions([]);
   };
+  
 
+  const highlightedRef = useRef(null);
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowDown') {
       setHighlightedIndex((prevIndex) => {
@@ -158,6 +215,13 @@ const SearchBox = () => {
       }
     }
 
+
+    setTimeout(() => {
+      highlightedRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }, 0);
     // if (e.key === 'Backspace') {
     //   if (optionSelected) {
     //     // If an option was selected, reset searchTerm and displayTerm
@@ -170,6 +234,8 @@ const SearchBox = () => {
     //   }
     // }
   };
+  console.log({displayTerm});
+  
 
   return (
     <div className="MLSearch-Container">
@@ -177,7 +243,7 @@ const SearchBox = () => {
         <input
           className={`${isExpanded ? "MLHeader-Search1" : "MLHeader-Search"}`}
           value={`${searchTerm}`}
-          placeholder="Search"
+          placeholder={"Search"}
           onChange={handleSearch}
           onKeyDown={handleKeyDown}
           type="text"
@@ -190,13 +256,21 @@ const SearchBox = () => {
         />
       </div>
 
-      <div ref={popupRef} className={`${isExpanded ? "MLSearch-Container-options1" : 'MLSearch-Container-options-menu'} ${filteredOptions.length>0 && searchTerm!=="" && "searched-item-box"}`}>
+      <div
+        ref={popupRef}
+        className={`${isExpanded ?
+          "MLSearch-Container-options1" :
+          'MLSearch-Container-options-menu'
+          } ${filteredOptions.length > 0 && searchTerm !== "" && "searched-item-box"}`
+        }
+      >
         {searchTerm && closeModal && (
-          <ul className='MLsearchBoxContainer'>
+          <ul className={isExpanded ? 'MLsearchBoxContainer1' : 'MLsearchBoxContainer'}>
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (
                 <li
                   key={index}
+                  ref={index === highlightedIndex ? highlightedRef : null}
                   onClick={() => handleOptionClick(option)}
                   className={`${index === highlightedIndex ? 'MLhighlighted' : ''}   ${isExpanded ? 'list-of-item-name-expand' : "list-of-item-name"}`}
                 >
@@ -206,11 +280,15 @@ const SearchBox = () => {
                 </li>
               ))
             ) : !optionSelected && (
-              <div className={isExpanded ? 'MLSearch-Container-options1-none' : 'MLSearch-Container-options-none'}>
-                <div className='MLSearch-Container-options-none-flex-direction'>
-                  <img className="MLNotFoundImage" src={NotFound} alt="MLNo Results Found" />
-                  <h3 className='MLheading-none'>No Results Found</h3>
-                </div>
+              <div
+                className={
+                  isExpanded ?
+                    'MLSearch-Container-options1-none' :
+                    'MLSearch-Container-options-none'
+                }
+              >
+                <img className={isExpanded ? "MLNotFoundImageExpanded" : "MLNotFoundImage"} src={NotFound} alt="MLNo Results Found" />
+                <h3 className={isExpanded ? "MLheading-none-expanded" : 'MLheading-none'}>No Results Found</h3>
               </div>
             )}
           </ul>

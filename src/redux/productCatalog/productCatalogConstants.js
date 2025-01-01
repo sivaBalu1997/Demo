@@ -56,19 +56,20 @@ export const UPDATE_MENU_ATTRIBUTE_FAILED = "UPDATE_MENU_ATTRIBUTE_FAILED";
 export const Primary_Post_Data_Send = "Primary_Post_Data_Send";
 export const Primary_Post_Data_Success = "Primary_Post_Data_Success";
 export const Primary_Post_Data_Failure = "Primary_Post_Data_Failure";
+export const Remove_Primary_Data_Request = "Remove_Primary_Data_Request"
 
 // Item Customization  Reducer Attributes
 
 export const Item_Customizations_Data_Request = "Item_Customizations_Data_Request";
 export const Item_Customizations_Data_Success = "Item_Customizations_Data_Success";
 export const Item_Customizations_Data_Failure = "Item_Customizations_Data_Failure";
-
+export const Remove_ItemCust_Data_Request = "Remove_ItemCust_Data_Request";
 // Prizing Detail   Reducer Attributes
 
 export const Pricing_Detail_Data_Request = "Pricing_Detail_Data_Request";
 export const Pricing_Detail_Data_Success = "Pricing_Detail_Data_Success";
 export const Pricing_Detail_Data_Failure = "Pricing_Detail_Data_Failure";
-
+export const Remove_Pricing_Data_Request = "Remove_Pricing_Data_Request"
 export const Get_ItemImage = "Get_Image";
 export const Get_ItemImage_Success = "Get_Image";
 export const Get_ItemImage_Failure = "Get_Image";
@@ -125,6 +126,10 @@ export const INGREDIENT_FAILURE = 'INGREDIENT_FAILURE';
 export const KITCHEN_DATA_REQUEST = "KITCHEN_DATA_REQUEST";
 export const KITCHEN_DATA_SUCCESS = "KITCHEN_DATA_SUCCESS";
 export const KITCHEN_DATA_FAILURE = "KITCHEN_DATA_FAILURE";
+
+export const TAXCLASS_REQUEST = "TAXCLASS_REQUEST";
+export const TAXCLASS_SUCCESS = "TAXCLASS_SUCCESS";
+export const TAXCLASS_FAILURE = "TAXCLASS_FAILURE";
 
 export const FETCHDROPDOWN_REQUEST = "FETCHDROPDOWN_REQUEST";
 export const FETCHDROPDOWN_SUCCESS = "FETCHDROPDOWN_SUCCESS";
@@ -217,6 +222,9 @@ export const DELETE_MODIFIER_FAILURE = "DELETE_MODIFIER_FAILURE";
 export const UPDATE_MODIFIER_REQUEST = 'UPDATE_MODIFIER_REQUEST';
 
 export const REMOVE_DATA_REQUEST = 'REMOVE_DATA_REQUEST';
+export const REMOVE_CODE_REQUEST ='REMOVE_CODE_REQUEST'
 export const REMOVE_DATA_SUCCESS = 'REMOVE_DATA_SUCCESS';
 export const REMOVE_DATA_FAILURE = 'REMOVE_DATA_FAILURE';
+export const REMOVE_CODE_SUCCESS = 'REMOVE_DATA_SUCCESS';
+export const REMOVE_CODE_FAILURE = 'REMOVE_DATA_FAILURE';
 export const RESET_SUCCESS_MESSAGE="RESET_SUCCESS_MESSAGE"

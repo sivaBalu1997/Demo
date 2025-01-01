@@ -1,9 +1,28 @@
+.ItemCustomization-container-level-one{
+  width: 83%;
+  @media(max-width: 1280px){
+    // background-color: pink;
+  }
+}
+
+.ItemCustomization-container-level-one-expanded{
+  width: 80%;
+  @media(max-width: 1280px){
+    // background-color: lightcoral;
+    width: 80%;
+  }
+}
+
 .mainItemCustomizations {
   position: relative;
   top: 100px;
   width: 95%;
   height: 600px;
   // overflow-y: auto;
+  @media(max-width: 1280px){
+    width: 90%;
+    // background-color: pink;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -16,6 +35,11 @@
   width: 100%;
   height: 600px;
   // overflow-y: auto;
+  @media(max-width: 1280px){
+    margin-left: 10px;
+    width: 80%;
+    // background-color: pink;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -24,9 +48,11 @@
 
 .itemcustomizationpage {
   position: relative;
+  // left: 20px;
   margin-left: 0px;
   width: 90%;
   height: 565px;
+  // background-color: lightsalmon;
 }
 .AddModifiersSection {
   width: 65rem;
@@ -36,6 +62,7 @@
   margin-left: 55px;
   gap: 1.4rem;
   margin-bottom: 0.5rem;
+ 
 }
 
 .headingItemCustomizations {
@@ -45,12 +72,36 @@
 }
 
 .AddModifiersMainInputSection {
-  width: 65.625rem;
-  height: 24.563rem;
-  margin-top: 0.5rem;
-  margin-bottom: 20px;
-}
+ 
+// height: auto;
+// margin-top: 2%;
+// padding: 0;
+// border: 1px solid red;
+padding-bottom: 3rem;
+margin-left: 2.3%;
 
+}
+.option1-errormsg
+{
+ position: relative;
+ left: 1rem;
+  // border: 1px solid red;
+
+}
+.option11-errormsg
+{
+  position: relative;
+  left: -1rem;
+  // border: 1px solid red;
+
+
+}
+.availbleservicestreams
+{
+  margin-top: 3%;
+  position: relative;
+  top: 1.5rem;
+}
 .AddModifiersInputSection {
   display: flex;
   justify-content: start;
@@ -76,7 +127,7 @@
   height: 2.75rem;
   border-radius: 0.313rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  margin-top: -0.4rem;
+
   margin-bottom: 0.625rem;
   padding-left: 1rem;
   font-size: 14px;
@@ -87,8 +138,8 @@
   width: 10.813rem;
   height: 2.75rem;
   border-radius: 0.313rem;
-  border: 1px solid red;
-  margin-top: -0.4rem;
+  // border: 1px solid red;
+ 
   margin-bottom: 0.625rem;
   padding-left: 1rem;
   font-size: 1rem;
@@ -103,11 +154,22 @@
   margin-bottom: 1.25rem;
 }
 .labelItemCustomizations {
-  font-size: 0.875rem;
+  font-size: 0.775rem;
+
+ 
   line-height: 1.313rem;
   font-family: Poppins;
   font-weight: 400;
   color: #979797;
+}
+.labelItemCustomizations-disable{
+  font-size: 0.775rem;
+  line-height: 1.313rem;
+  font-family: Poppins;
+  font-weight: 400;
+  color: #979797;
+  opacity: 0.5;
+
 }
 
 .label1ItemCustomizations {
@@ -137,9 +199,54 @@
   gap: 1.25rem;
   margin-bottom: 1.25rem;
 
-  margin-left: -20px;
+  // margin-left: -20px;
 }
+.modifiers-to-select
+{
+  margin-left: 7%;
+  margin-bottom: 0;
+  padding: 0;
+}
+.option-name-errormsg,.option-price-errormsg
+{
+  width: 12.5rem;
+// height: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  // border: 1px solid red;
+  gap: 0.2rem;
+}
+.modifieroptions-div
+{
+  display: flex;
+  // margin-top: 1%;
+height: 4rem;
+// border: 1px solid red;
+gap: 0.5rem;
+}
+.input-option-name-field
+{
+  width: 11.375rem;
+  height: 44px;
+  border-radius: 0.313rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  opacity: 80%;
+  font-size: 14px;
 
+  color: black;
+}
+.input-option-price-field
+{
+  width: 11.375rem;
+  height: 44px !important;
+  border-radius: 0.313rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+
+  opacity: 80%;
+  font-size: 14px;
+
+  color: black;
+}
 .input2ItemCustomizations {
   width: 11.375rem;
   height: 2.75rem;
@@ -158,7 +265,7 @@
   opacity: 80%;
   font-size: 1rem;
   padding-left: 0.75rem;
-  border: 1px solid red;
+  // border: 1px solid red;
 }
 
 .btn-ItemCustomizations {
@@ -203,7 +310,10 @@
   margin-left: 4rem;
   gap: 1.25rem;
   width: 850px;
-  height: 30vh;
+  height: auto;
+  margin-top: 1%;
+
+  // border: 1px solid red;
 }
 
 .Spinner-inputlabel-ItemCustomizations {
@@ -222,13 +332,25 @@
   color: black;
   font-weight: 400;
 }
+.input3ItemCustomizations-disable{
+  width: 9.375rem;
+  height: 2.75rem;
+  border-radius: 0.313rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  opacity: 0.2;
+  font-size: 14px;
+  padding-left: 0.625rem;
+  color: black;
+  font-weight: 400;
+
+}
 
 .polydiv-ItemCustomizations {
   background-color: #d9d9d9;
-  height: 43.5px;
+  height: 44.5px;
   width: 44px;
   margin: 0.125rem;
-  top: -45.5px;
+  top: -46.5px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   left: 116px;
@@ -247,6 +369,18 @@
   cursor: pointer;
 
   cursor: pointer;
+}
+.polyimg-ItemCustomizations-disable{
+  position: relative;
+  left: 15px;
+  padding: 0.125rem;
+  top: 8px;
+  width: 17px;
+  cursor: pointer;
+
+  cursor: pointer;
+  opacity: 0.1;
+
 }
 
 .selectbox-ItemCustomizations {
@@ -296,6 +430,7 @@
 .modifier-div-margin {
   margin-bottom: 3rem;
   height: 15.625rem;
+  width: fit-content;
 }
 
 .option-margin {
@@ -306,15 +441,16 @@
   display: flex;
   justify-content: center;
   gap: 1.625rem;
-  margin-left: 7.625rem;
+  margin-left: 5rem;
 }
 
 .option-input-flex-column1-ItemCustomizations {
   display: flex;
   justify-content: center;
   gap: 1.625rem;
-// border: 1px solid red;
-  margin-left: 10.625rem;
+  margin-left: 10rem;
+  // border: 1px solid red;
+ 
 }
 
 .Custom-Item-availability-container {
@@ -328,7 +464,7 @@
   display: flex;
   justify-content: start;
   gap: 1.25rem;
-  margin-top: -17.125rem;
+  // margin-top: -17.125rem;
   margin-left: -0.313rem;
 }
 
@@ -373,10 +509,13 @@
 }
 
 .btn-ItemCustomizations-del {
+  width: 110px;
+  
+
   color: red;
   margin-left: 2.5rem;
   margin-top: 0.5rem;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   font-size: 0.875rem;
   white-space: nowrap;
@@ -384,7 +523,6 @@
   left: -95px;
   font-weight: 400;
 }
-
 
 .btn1 {
   display: flex;
@@ -413,75 +551,41 @@ input[type="number"] {
   margin-bottom: 1.25rem;
   margin-left: 3.125rem;
   width: 20rem;
+  margin-top: 1rem;
+}
+.modifier-and-options
+{
+  height: auto;
+  margin: 0;
+  padding: 0;
+  // border: 1px solid blue;
+
 }
 .modifiersitem {
   height: 500px;
- margin-top: 2%;
-  overflow: auto;
-  width: 100vw;
+  margin-top: 2%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  width: fit-content;
   z-index: 0;
+  // background-color: lightgreen;
   .modifiers {
-    margin-left: 55px;
+    padding-left: 55px;
+
+    // background-color: pink;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: fit-content;
+  }
+  &::-webkit-scrollbar{
+    display: none;
   }
 }
 
-.modifier-div-margin2 {
-  height: 15.625rem;
-  margin-top: 30px;
-  margin-bottom: 80px;
-}
 
 
-.modifier-div-margin3 {
-  height: 15.625rem;
-  transform: translateY(20px);
-  margin-bottom: 180px;
-}
-
-.modifier-div-margin4 {
-  height: 15.625rem;
-
-  transform: translateY(50px);
-  margin-bottom: 240px;
-}
-.modifier-div-margin5 {
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 320px;
-}
-.modifier-div-margin6{
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 380px;
-
-}
-
-.modifier-div-margin7{
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 450px;
-
-}
-
-.modifier-div-margin8{
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 490px;
-
-}
-.modifier-div-margin9{
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom: 540px;
-
-}
-
-.modifier-div-margin10{
-  height: 15.625rem;
-  transform: translateY(50px);
-  margin-bottom:650px;
-
-}
 
 .radiobtnMargin {
   display: flex;
@@ -558,6 +662,8 @@ input[type="number"] {
   position: relative;
   left: 100px;
   top: -15px;
+  // background-color: lightsalmon;
+  width: fit-content;
 }
 
 .searchBox-input {
@@ -571,7 +677,6 @@ input[type="number"] {
   color: black;
   padding-left: 10px;
 }
-
 
 .searchIcon {
   width: 21px;
@@ -643,42 +748,42 @@ input[type="number"] {
   }
 }
 
-.deleteModiferContainer{
+.deleteModiferContainer {
   position: relative;
   left: 640px;
   top: -3px;
- 
+
   cursor: pointer;
 }
 
-.Delete-text{
+.Delete-text {
   width: 200px;
   color: red;
   display: flex;
   height: 20px;
   font-size: 14px;
   font-family: Poppins;
+  font-weight: 400;
 }
 
-.SpanDelete{
+.SpanDelete {
   font-size: 25px;
-  transform: translate(-5px,-8px);
+  transform: translate(-5px, -8px);
   position: relative;
   z-index: -1;
 }
 
-
 .Search-Container-options-modifiers {
   width: 23.5rem;
   background-color: #ffffff;
-  max-height: 50vh; 
+  max-height: 50vh;
   padding-left: 20px;
   box-shadow: 0px 10px 15px -6px #00000040;
   // border: 1px solid red;
   transform: translateY(1px);
-  overflow-y: auto; 
-  position: absolute; 
-  z-index: 2; 
+  overflow-y: auto;
+  position: absolute;
+  z-index: 2;
   top: 5.2rem;
   left: 6.3rem;
   padding-bottom: 10px;
@@ -692,6 +797,7 @@ input[type="number"] {
   box-shadow: 0px 10px 15px -6px rgba(0, 0, 0, 0.2509803922);
   transform: translateY(1px);
   overflow-y: auto;
+  overflow-x: hidden;
   position: absolute;
   z-index: 2;
   top: 5.2rem;
@@ -699,16 +805,25 @@ input[type="number"] {
   padding-bottom: 10px;
 }
 
-.modiferSearchContainer{
+.modiferSearchContainer {
   position: relative;
   right: 3vw;
+  // border: 1px solid red;
+  height: 3rem;
+  text-align: left;
+
+  padding-left: 0.5rem;
+  width: 20rem;
 }
 
 .highlighted-modifiers {
-  width: 25vw;
+  width: 23vw;
   text-align: left;
   display: flex;
-  padding-left: 20px;
+  height: 3rem;
+  margin-left: -0.5rem;
+  padding-left: 0.5rem;
+  // padding-left: 20px;
   justify-content: flex-start;
   // margin-left: -30px;
   align-items: flex-start;
@@ -758,17 +873,11 @@ input[type="number"] {
   // cursor: pointer;
 }
 
-// .Search-Container-options-none-modifiers {
-//   width:610px;
-//   // height: 407px;
-//   background-color: #ffffff;
-//   box-shadow: 0px 10px 15px -6px #00000040;
-//   transform: translate(-18px);
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-top: -12px;
-// }
+.Search-Container-options-none-modifiers {
+  background-color: #ffffff;
+  // box-shadow: 0px 10px 15px -6px #00000040;
+  overflow-x: hidden;
+}
 // .Search-Container-options1-none-modifiers {
 //   width: 580px;
 //   // height: 407px;
@@ -784,14 +893,19 @@ input[type="number"] {
 // }
 
 .Search-Container-options-none-flex-direction-modifiers {
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
+
+  // border: 1px solid red;
+  background: none;
+  border: none;
+  margin-left: -2rem;
+  box-shadow: none;
 }
 
 .NotFoundImage-modifiers {
-  width: 372px;
-  height: 338.52px;
-  transform: translateX(-10px);
+  width: 20rem;
+  height: 17rem;
 }
 
 .heading-none-modifiers {
@@ -801,7 +915,7 @@ input[type="number"] {
   transform: translate(90px, -60px);
 }
 
-.Addmodificationfromsearch{
+.Addmodificationfromsearch {
   width: 4rem;
   height: 2rem;
   background-color: #67833e;
@@ -810,4 +924,16 @@ input[type="number"] {
   border-radius: 5px;
   position: relative;
   left: 13rem;
+}
+
+.nameErrormsg {
+  color: #e52333;
+  // margin-bottom: 1rem;
+  font-size: 14px;
+  font-weight: 500;
+}
+.modifiernameerror
+{
+  height: 1rem;
+  // border: 1px solid red;
 }

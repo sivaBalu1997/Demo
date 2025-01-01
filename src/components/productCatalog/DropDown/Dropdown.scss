@@ -9,9 +9,6 @@
   margin-left: 30px;
 }
 
-// ::-webkit-scrollbar {
-//   display: none;
-// }
 
 .dropdownPricingList {
   display: flex;
@@ -57,6 +54,10 @@
   z-index: 25;
   max-height: 125px;
   overflow-y: auto;
+  
+&::-webkit-scrollbar {
+  display: none;
+}
 }
 
 .optionsPricing label {
@@ -88,10 +89,10 @@
   cursor: pointer;
 }
 
-.add-item-btn:hover,
-.btn-add-item:hover {
-  background-color: #0056b3;
-}
+// .add-item-btn:hover,
+// .btn-add-item:hover {
+//   background-color: #0056b3;
+// }
 
 .checkboxPricing {
   width: 20px;
@@ -130,9 +131,10 @@
 }
 
 .droplabelPricing {
-  color: #979797;
-  font-size: 14px;
   font-weight: 400;
+  color: #666666;  
+  font-size: 14px;
+  
   margin-left: -1.8rem;
   margin-bottom: 0.3rem;
   // border: 1px solid red;

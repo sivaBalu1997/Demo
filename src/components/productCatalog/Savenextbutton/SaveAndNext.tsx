@@ -116,7 +116,11 @@ export interface SubmitButtonProps {
   mainForm?: MainForm;
   validation?: () => boolean;
   handleValidate?: any;
-  itemcodeValid?:boolean
+  itemcodeValid?:boolean;
+  errors?:any
+  validateModifiers?:any;
+  valiadtesubCategory?:any
+  setKitchenError?: any;
 }
 
 const SaveAndNext: React.FC<SubmitButtonProps> = ({
@@ -129,9 +133,14 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
   mainForm,
   handleValidate,
   itemcodeValid,
+  errors,
+  validateModifiers,
+  valiadtesubCategory,
+  setKitchenError
 }) => {
   const history = useHistory();
-  const { isExpanded } = useContext(Contextpagejs);
+  const { isExpanded ,setValiadtePriceFields} = useContext(Contextpagejs);
+
   // Safely invoking validation
 
   // const extractFields = (formData: FormData) => {
@@ -189,38 +198,52 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
     //     return;
     //   }
     // }
-    if (seletedpage === "Primary" && triggerValidation && itemcodeValid) {
-      const isFormValid = await triggerValidation(formData);
+    if (seletedpage === "Primary" && triggerValidation && itemcodeValid && valiadtesubCategory) {
+    
+      
+      const isFormValid = await triggerValidation(formData) 
+     const valiadtesubcategorynn= valiadtesubCategory()
+       
+            
 
       const formImageIds = formData?.imageUrls?.map((image: any) => image.file.name);
       const editImageIds = editData[0]?.mediaResponseList?.map((media: any) => media.imageId);
-
       const isImageDeleted = editImageIds?.some((imageId: any) => !formImageIds?.includes(imageId));
      
-      if (!isFormValid) {
+      if (!isFormValid ) {
         window.scrollTo({
           top: 0,
           behavior: "smooth",
         });
         return;
       } else {
-        history.push({
-          pathname: `/productCatalog/Pricingandkitchendetails`,
-          state: { pagename: "Pricing and kitchen details" },
-        });        
-        dispatch(primarypost(
-          { 
-            ...formData, 
-            isImageDeleted 
-          }));
+
+        if(valiadtesubcategorynn)
+        {
+          history.push({
+            pathname: `/productCatalog/Pricingandkitchendetails`,
+            state: { pagename: "Pricing and kitchen details" },
+          });        
+          dispatch(primarypost(
+            { 
+              ...formData, 
+              isImageDeleted 
+            }));
+        }
+        
       }
     } else if (seletedpage === "Pricing" && triggerValidation) {
-      const isValid = handleValidate && handleValidate();
+      setKitchenError(true)
+      const isValid = handleValidate();
+      const valid=setValiadtePriceFields
 
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
+
+      
      
-      const isinValid = await triggerValidation(formData);
+      // const isinValid = await triggerValidation(formData);
+       
 
       if (formData.kitchenstation) {
         PricingDetails = {
@@ -256,7 +279,6 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         console.error("formData.Preparationtime is undefined");
       }
 
-      // Add further logic to proceed after validation passes
       if (isValid) {
         dispatch(PricingDetailRequest(PricingDetails));
         history.push({
@@ -265,10 +287,27 @@ const SaveAndNext: React.FC<SubmitButtonProps> = ({
         });
       }
     } else if (seletedpage === "ItemCustomization") {
-      const modificationArray = modifications;
+      const isValid = validateModifiers && validateModifiers(modifications);
+      // const modificationArray = modifications;
+      const modificationArray = modifications?.map((modifier) => {
+        if (
+          modifier.selectionType === "Mandatory" &&
+          modifier.minSelection === 0 &&
+          modifier.maxSelection === 0
+        ) {
+          return { ...modifier, minSelection: 1, maxSelection: 1 };
+        }
+        return modifier;
+      });
+
       const formData = getFormData();
-      dispatch(itemCustomizationPost(modificationArray));
-      history.push("/productCatalog/Reviewpage");
+     
+      if(isValid)
+      {
+        dispatch(itemCustomizationPost(modificationArray));
+        history.push("/productCatalog/Reviewpage");
+      }
+     
     }
   };
 

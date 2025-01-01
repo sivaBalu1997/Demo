@@ -11,7 +11,7 @@
     width:416px;
     height: 848px;
     overflow-y: auto;
-
+    overflow-x: hidden;
     &::-webkit-scrollbar
     {
         display: none;
@@ -22,23 +22,29 @@
 .EyeModal-Window {
     margin-top: -140px;
     background-color: white;
-    width: 322px;
+    width: 310px;
     height: 377px;
     display: flex;
+    // border: 1px solid blue;
     justify-content: start;
     align-items: start; /* Center the content inside the modal */
     border-radius: 8px; /* Optional: add rounded corners */
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
     max-height: 80vh; /* Restrict modal height */
-    overflow-y: scroll; /* Enable scrollbar when content overflows */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar
+    {
+        display: none;
+    } /* Enable scrollbar when content overflows */
 }
 
 .EyeModal-Form {
     display: flex;
     flex-direction: column;
-    align-items: start; /* Center items horizontally */
-    justify-content: start; /* Center items vertically */
-    text-align: center; /* Center the text */
+    
+  
+
 }
 
 .HideItemHeading-SelectAll-Container{
@@ -46,6 +52,7 @@
     display: flex;
     justify-content: space-between;
     padding:20px 0px 0px 20px ;
+    // border: 1px solid red;
 }
 
 .HideItemHeading{
@@ -54,6 +61,7 @@
     font-size: 20px;
     line-height: 30px;
     color: #000000;
+
 }
 .Select-all-heading{
     font-family: Poppins;
@@ -63,19 +71,43 @@
     color: #67833E;
     text-decoration: underline;
     position: relative;
-    top: 3px;
+    top: 0.8rem;
     left: -60px;
     cursor: pointer;
 }
 
 .Radio-items-container{
-    width: 320px;
+    width: 280px;
     display: flex;
  
     padding:20px 0px 0px 20px ;
     flex-direction: column;
     max-height: 210px; /* Limit height for the items container */
-    overflow-y: scroll; 
+    overflow-y: auto; 
+    // border: 1px solid red;
+
+    // &::-webkit-scrollbar
+    // {
+    //     display: none;
+    // }
+
+    &::-webkit-scrollbar {
+        width: 10px !important;
+       
+      }
+    
+      &::-webkit-scrollbar-track {
+        background-color: white;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: #D9D9D9;
+        border-radius: 1rem;
+      }
+    
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #D9D9D9;
+      }
   
 
 }
@@ -92,19 +124,29 @@
     width: 261px;
     display: flex;
     justify-content: space-between;
+    
+    .checkbox-Items{
+        position: relative;
+       left: 1px;
+        width: 20px;
+        height: 20px;
+        accent-color: #67833E;
+        transform: translateY(10px);
+    }
 }
-.checkbox-Items{
-    width: 20px;
-    height: 20px;
-    accent-color: #67833E;
-    transform: translateY(10px);
-}
+
 
 .Radio-sub-Items-Flex{
     width: 242px;
     display: flex;
     justify-content: space-between;
     padding-left: 20px;
+    .checkbox-Items{
+        width: 20px;
+        height: 20px;
+        accent-color: #67833E;
+        transform: translateY(10px);
+    }
    
 
 }
@@ -112,9 +154,14 @@
 .Radio-sub-Items-Heading{
     font-family: Poppins;
     font-weight: 400;
+    width: 5rem;
     font-size: 16px;
     line-height: 40px;
     color: #5F5F5F;
+    display: flex;
+    justify-content: right;
+    // border: 1px solid red;
+    // margin-left: -1rem;
 }
 
 .saveCancelContainer{
@@ -125,6 +172,9 @@
     gap: 20px;
     position: relative;
     top: 20px;
+    // border: 2px solid;
+    // left: 1vw;
+    left: 0.3rem;
 }
 .SavebtnEye{
     width: 120px;
@@ -134,6 +184,7 @@
     text-align: center;
     cursor: pointer;
     border: none;
+    border-radius: 3.47px;
 }
 .cancelbtnEye{
     width: 120px;
@@ -142,5 +193,16 @@
     color: #67833E;
     text-align: center;
     cursor: pointer;
+    border-radius: 3.47px;
     border: 0.5px solid #929292;
 }
+
+.Hide-Loader{
+    width: 40px;
+    height: 40px;
+    align-items: center;
+
+}
+.spinner path {
+    fill: white;
+  }

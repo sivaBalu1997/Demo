@@ -34,6 +34,19 @@ const Step3Review: React.FC = () => {
   const itemCustomizationData = useSelector(
     (state: RootStateIC) => state.itemCustomizationsReducer1.itemData
   );
+
+  const minSelectionArray = Array.isArray(itemCustomizationData) &&
+      itemCustomizationData.length > 0 ? (
+        itemCustomizationData
+          .filter((elem) => elem.modifierName !== "")
+          .map((elem, index) => (elem?.minSelection))):""
+
+  const maxSelectionArray = Array.isArray(itemCustomizationData) &&
+  itemCustomizationData.length > 0 ? (
+    itemCustomizationData
+      .filter((elem) => elem.modifierName !== "")
+      .map((elem, index) => (elem?.minSelection))):""
+
   const { setActiveCategory } = useContext(Contextpagejs);
 
   // Log the data to inspect its structure
@@ -73,7 +86,7 @@ const Step3Review: React.FC = () => {
       {Array.isArray(itemCustomizationData) &&
       itemCustomizationData.length > 0 ? (
         itemCustomizationData
-          .filter((elem) => elem.modifierName != "")
+          .filter((elem) => elem.modifierName !== "")
           .map((elem, index) => (
             <div key={index} className="item-customization">
               {/* Example of how to display properties of each item */}
@@ -103,7 +116,7 @@ const Step3Review: React.FC = () => {
                     Min Selection
                   </h3>
                   <h3 className="Step-3-Modifier-Section-Menu-details">
-                    {elem.minSelection || "N/A"}
+                    {elem.selectionType === "Optional" ? 0 : elem?.minSelection && elem?.minSelection}{!minSelectionArray?.length && "N/A"}
                   </h3>
                 </div>
                 <div className="Step-3-Modifier-Section-Each-Menu-container">
@@ -111,10 +124,10 @@ const Step3Review: React.FC = () => {
                     Max Selection
                   </h3>
                   <h3 className="Step-3-Modifier-Section-Menu-details">
-                    {elem.maxSelection || "N/A"}
+                    {elem?.maxSelection && elem?.maxSelection}{!maxSelectionArray?.length && "N/A"}
                   </h3>
                 </div>
-                <div className="Step-3-Modifier-Section-Each-Menu-container">
+                <div className="Step-3-Modifier-Section-Each-Menu-container-item">
                   <h3 className="Step-3-Modifier-Section-Menu-heading">Item</h3>
                   {elem.modifierOptions &&
                     elem.modifierOptions.map((subItem:any, subIndex:any) => (
@@ -126,7 +139,7 @@ const Step3Review: React.FC = () => {
                       </h2>
                     ))}
                 </div>
-                <div className="Step-3-Modifier-Section-Each-Menu-container">
+                <div className="Step-3-Modifier-Section-Each-Menu-container-price">
                   <h3 className="Step-3-Modifier-Section-Menu-heading">
                     Price
                   </h3>
@@ -136,7 +149,7 @@ const Step3Review: React.FC = () => {
                         key={priceIndex}
                         className="Step-3-Modifier-Section-Menu-details-price"
                       >
-                          {restaurantDetails?.country === "US" ? "$" : "Rs."}{price.cost}
+                          {restaurantDetails?.country === "US" ? "$" : "Rs."}{price.cost.toFixed(2)}
                       </h2>
                     ))}
                 </div>
