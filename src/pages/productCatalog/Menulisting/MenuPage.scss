@@ -951,12 +951,15 @@
   top: 40%;
 }
 
-.NoDataFoundContainer {
+.NoDataFoundContainer-menupage {
   width: 30rem;
-  margin-top: 15%;
-  margin-left: 20%;
+  margin-top: 12%;
+  margin-left: 10%;
   overflow-x: hidden;
   z-index: 1;
   overflow-y: hidden;
   // border: 1px solid red;
+  .columnselectedText{
+    margin-left: 4.5rem;
+  }
 }
