@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./Toggle.scss";
+// import "./Toggle.scss";
 
 interface ToggleProps {
   toggle: boolean;

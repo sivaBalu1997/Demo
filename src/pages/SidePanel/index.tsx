@@ -31,7 +31,7 @@ const SidePanel = () => {
   const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || ''
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const offerMenuOptions = ["Offers"];
+  const offerMenuOptions = ["Offers", "Special Price"];
   const reportInsightsOptions = ['Reports & Insights', 'New Reports'];
 
   const history = useHistory();

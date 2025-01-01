@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import "./DaysChecking.scss";
+// import "./DaysChecking.scss";
 import axios from "axios";
 import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActions";
 
