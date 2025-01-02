@@ -812,6 +812,7 @@ const PricingDetails = () => {
           triggerValidation={() => trigger()}
           mainForm={mainForm}
           handleValidate={validationFunction}
+          setKitchenError = {setKitchenError}
         />
         <div
           className={
