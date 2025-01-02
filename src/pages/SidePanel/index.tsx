@@ -29,7 +29,7 @@ const SidePanel = () => {
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;
   const menuOptions = ["Items", "Product Catalog"];
   const offerMenuOptions = ["Offers"];
-  const reportInsightsOptions = ['Reports & Insights', 'New Reports'];
+  const reportInsightsOptions = ['Reports & Insights', 'Chart JS'];
 
   const history = useHistory();
 
@@ -56,12 +56,14 @@ const SidePanel = () => {
       // history.push("/productCatalog/menuListing");
     }
     else if (location?.pathname?.includes('/old-reports')) {
-      setShowOptions('report')
+      setShowOptions('reportOptions')
     }
-    // else if (location?.pathname?.includes('/live-reports')) {
-    //   setShowOptions('reportOptions')
-    // }
-  }, [showOptions, location?.pathname, history]);
+    else if (location?.pathname?.includes('/live-reports')) {
+      setShowOptions('reportOptions')
+    }
+    // }, [showOptions, location?.pathname, history]);
+    // the above line is commented because it was causing infinite loop
+  }, [location?.pathname]);
 
 
   const restaurantDetails = useSelector(
@@ -405,7 +407,7 @@ const SidePanel = () => {
 
           </ul>
           {/* Report ==================================================================== */}
-          <div
+          {/* <div
             className={
               showOptions === "reportOptions" &&
                 location.pathname.includes("report")
@@ -426,22 +428,25 @@ const SidePanel = () => {
                 {isExpanded && <span className="menu-items-name">Reports & Insights</span>}
               </div>
             }
-          </div>
+          </div> */}
           {/* Report ==================================================================== */}
 
-          {/* <div
+          <div
             className={
               showOptions === "reportOptions" ? "active drop-down" : "drop-down"
             }
             onClick={() => {
-              if (showOptions === "reportOptions") {
-                setShowOptions("");
-              } else {
-                setShowOptions("reportOptions");
-              }
+              // if (showOptions === "reportOptions") {
+              //   setShowOptions("");
+              // } else {
+              //   setShowOptions("reportOptions");
+              // }
+
               //setShowOptions("reportOptions");
 
               //history.push(`/live-reports`);
+
+              setShowOptions((prevState) => (prevState === "reportOptions" ? "" : "reportOptions"));
             }}
           >
             <div>
@@ -473,7 +478,7 @@ const SidePanel = () => {
                       history.push(`/old-reports`);
                       // history.push("/live-reports");
                     }
-                    else if (option === "New Reports") {
+                    else if (option === "Chart JS") {
                       history.push("/live-reports");
                     }
                   }}
@@ -484,7 +489,7 @@ const SidePanel = () => {
                 </li>
               ))}
             </ul>
-          )} */}
+          )}
 
           {/* <div
             className={
