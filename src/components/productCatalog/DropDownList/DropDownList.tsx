@@ -115,6 +115,7 @@ const DropDownList: React.FC<DropdownProps> = ({
     (state: any) => state.productCatalog?.cuisineData?.data
   );
 
+
   const deleteApicall = useSelector(
     (state: any) => state.productCatalog?.deletesubsectionsuccess
   );

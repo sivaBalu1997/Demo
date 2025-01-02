@@ -580,6 +580,7 @@ const PrimaryPage = () => {
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
+console.log({categoryData});
 
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data

@@ -122,6 +122,7 @@ import {
   TAXCLASS_REQUEST,
   TAXCLASS_SUCCESS,
   TAXCLASS_FAILURE,
+  GET_ITEM_CODE_VaLIDATION_ERROR,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -1176,6 +1177,9 @@ const itemCode = {
   itemCode: null,
   loading: false,
   error: null,
+  success:null,
+  errormsg:null
+  
 };
 
 export const getItemCodeReducer = (state = initialState, action) => {
@@ -1192,11 +1196,20 @@ export const getItemCodeReducer = (state = initialState, action) => {
         loading: false,
         itemCode: action.payload,
       };
+      
+    case GET_ITEM_CODE_VaLIDATION_ERROR:
+      return{
+        ...state,
+        loading: false,
+        errormsg: action.payload,
+
+      } ;
     case GET_ITEM_CODE_FAILURE:
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        itemCode: action.payload,
+
       };
       case REMOVE_DATA_REQUEST: 
         return {
