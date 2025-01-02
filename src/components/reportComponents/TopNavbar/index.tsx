@@ -21,8 +21,8 @@ const Topnavbar = () => {
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
   const navItems: NavItemType[] = [
-    { name: "Sales Report", path: "/sales" },
     { name: "Live Reports", path: "/live-reports" },
+    { name: "Sales Report", path: "/sales" },
     { name: "Employee Insights", path: "/employee-insights" },
     { name: "Product Insights", path: "/product-insights" },
     { name: "Customer Insights", path: "/customer-insights" },
