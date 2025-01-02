@@ -28,6 +28,7 @@ interface NavButtonProps {
   validateModifiers?: any;
   itemcodeValid?: any;
   valiadtesubCategory?: any;
+  setKitchenError?:any
 }
 
 const Navigationpage: React.FC<NavButtonProps> = ({
@@ -42,6 +43,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   handleValidate,
   itemcodeValid,
   valiadtesubCategory,
+  setKitchenError
 }) => {
   const { isExpanded } = useContext(Contextpagejs);
   const formData = getFormData();
@@ -106,6 +108,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       currentPage === "Pricing and kitchen details" &&
       triggerValidation
     ) {
+      setKitchenError(true)
       const isValid = handleValidate && handleValidate();
       setNavigate(true)
       let PricingDetails = { ...mainForm };
