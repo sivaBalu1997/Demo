@@ -1,146 +1,146 @@
-.dropdown-containercomponentitem {
+// .dropdown-containercomponentitem {
  
-    position: relative;
-    width: 300px;
-    height: 0px;
-    z-index: 1;
-    position: relative;
-    left:20px;
-    top: 20px;
+//     position: relative;
+//     width: 300px;
+//     height: 0px;
+//     z-index: 1;
+//     position: relative;
+//     left:20px;
+//     top: 20px;
 
 
-  }
+//   }
   
-  .dropdowncomponentitem  {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+//   .dropdowncomponentitem  {
+//     width: 300px;
+//     padding: 10px;
+//     border: 1px solid #ccc;
+//     border-radius: 5px;
+//     background-color: #fff;
+//     cursor: pointer;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//   }
   
-  .ArrowPricingitem  {
-    width: 16px;
-    height: 8.67px;
-    opacity: 30%;
-  }
+//   .ArrowPricingitem  {
+//     width: 16px;
+//     height: 8.67px;
+//     opacity: 30%;
+//   }
   
-  .ArrowPricingRotateitem  {
-    transform: rotate(180deg);
-    width: 16px;
-    height: 8.67px;
-    opacity: 30%;
-  }
+//   .ArrowPricingRotateitem  {
+//     transform: rotate(180deg);
+//     width: 16px;
+//     height: 8.67px;
+//     opacity: 30%;
+//   }
   
-  .dropdown-contentitem {
-    position: absolute;
-    top: 100%; /* Align dropdown content directly below the trigger */
-    left: 0;
-    width: 100%;
-    height: 145px;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    z-index: 1000;
-    padding: 10px 0; /* Adjust padding as needed */
-  }
+//   .dropdown-contentitem {
+//     position: absolute;
+//     top: 100%; /* Align dropdown content directly below the trigger */
+//     left: 0;
+//     width: 100%;
+//     height: 145px;
+//     background: white;
+//     border: 1px solid #ccc;
+//     border-radius: 4px;
+//     z-index: 1000;
+//     padding: 10px 0; /* Adjust padding as needed */
+//   }
   
-  .optionsPricingitem  {
-    height:90px; /* Adjust height as needed */
-    overflow-y: auto;
-    scrollbar-width: 0px;
-    overflow-x: hidden;
+//   .optionsPricingitem  {
+//     height:90px; /* Adjust height as needed */
+//     overflow-y: auto;
+//     scrollbar-width: 0px;
+//     overflow-x: hidden;
     
     
-    /* Add border to separate options and button */
-    width: 300px;
-    &::-webkit-scrollbar{display: none;}
-  }
+//     /* Add border to separate options and button */
+//     width: 300px;
+//     &::-webkit-scrollbar{display: none;}
+//   }
   
-  .optionsPricing label {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
+//   .optionsPricing label {
+//     display: flex;
+//     align-items: center;
+//     padding: 10px;
+//     cursor: pointer;
   
-    margin: -10px;
-  }
+//     margin: -10px;
+//   }
   
-  .optionsPricing label:hover {
-    background-color: #f0f0f0;
-  }
+//   .optionsPricing label:hover {
+//     background-color: #f0f0f0;
+//   }
   
-  .radiobtPricingitem  {
-    accent-color: green;
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    margin-left: 10px; /* Added margin to the right */
-  }
+//   .radiobtPricingitem  {
+//     accent-color: green;
+//     width: 20px;
+//     height: 20px;
+//     margin-right: 10px;
+//     margin-left: 10px; /* Added margin to the right */
+//   }
   
-  .labelDropitem  {
-    color: #979797;
-    font-size: 14px;
-    font-weight: 400;
-  }
+//   .labelDropitem  {
+//     color: #979797;
+//     font-size: 14px;
+//     font-weight: 400;
+//   }
   
-  .options-btnPricingitem  {
-    display: flex;
-    width: 58px;
-    height: 35px;
-    font-family: Poppins;
-    font-size: 14px;
-    color: white;
-    background-color: #779749;
-    text-align: center;
-    border-radius: 13px;
-    cursor: pointer;
-    margin-left: -55px;
-    margin-top: -10px;
-    padding: 6px;
+//   .options-btnPricingitem  {
+//     display: flex;
+//     width: 58px;
+//     height: 35px;
+//     font-family: Poppins;
+//     font-size: 14px;
+//     color: white;
+//     background-color: #779749;
+//     text-align: center;
+//     border-radius: 13px;
+//     cursor: pointer;
+//     margin-left: -55px;
+//     margin-top: -10px;
+//     padding: 6px;
     
-  }
+//   }
   
-  .inputntnoptionsPricingitem  {
-   margin-top: -10px;
-   margin-left: -5px;
-    width: 292px;
-    height: 35px;
-    border-radius: 20px;
-    border: 1px solid grey;
+//   .inputntnoptionsPricingitem  {
+//    margin-top: -10px;
+//    margin-left: -5px;
+//     width: 292px;
+//     height: 35px;
+//     border-radius: 20px;
+//     border: 1px solid grey;
     
-  }
+//   }
   
-  .addbtnPricingitem {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-  }
+//   .addbtnPricingitem {
+//     display: flex;
+//     align-items: center;
+//     padding: 10px;
+//   }
   
-  .btnADDPricingitem {
-    position: relative;
-    left: 188px;
-    width: 99px;
-    height: 34px;
-    border: 1px solid #779749;
-    background-color: #779749;
-    color: #fff;
-    top: -10px;
+//   .btnADDPricingitem {
+//     position: relative;
+//     left: 188px;
+//     width: 99px;
+//     height: 34px;
+//     border: 1px solid #779749;
+//     background-color: #779749;
+//     color: #fff;
+//     top: -10px;
   
-    width: 109px;
-    height: 33px;
-    border: 1px solid #779749;
-    background-color: #779749;
-    color: #fff;
-    cursor: pointer;
-    position: relative;
-    top: -3px;
-    left: 185px;
-    border-radius: 4px;
+//     width: 109px;
+//     height: 33px;
+//     border: 1px solid #779749;
+//     background-color: #779749;
+//     color: #fff;
+//     cursor: pointer;
+//     position: relative;
+//     top: -3px;
+//     left: 185px;
+//     border-radius: 4px;
    
-  }
+//   }
   

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
-import "./style.scss";
-import ShrinkedReportMenu from "../ShrinkedReportMenu/index";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
+import ShrinkedReportMenu from "../ShrinkedReportMenu";
+import "./style.scss";
 
 interface NavItemType {
   name: string;
@@ -40,9 +40,8 @@ const Topnavbar = () => {
 
   return (
     <nav
-      className={`t-navbar ${isDarkTheme ? "t-dark-theme" : "t-light-theme"} ${
-        isExpanded ? "t-expanded-topnavbar" : ""
-      }`}
+      className={`t-navbar ${isDarkTheme ? "t-dark-theme" : "t-light-theme"} ${isExpanded ? "t-expanded-topnavbar" : ""
+        }`}
     >
       <ShrinkedReportMenu />
       {navItems.map((item) => (

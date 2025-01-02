@@ -1,0 +1,26 @@
+.days-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%; 
+  gap: 3px;
+
+  .day {
+    width: 20px; 
+    height: 17px; 
+    display: flex;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    color:#868686;
+    transition: background-color 0.3s, color 0.3s;
+
+    &.active {
+      background-color: #67833E; 
+      color: white;
+      border-radius: 50%; 
+    }
+  }
+}

@@ -321,7 +321,7 @@
   // border: 1px solid blue;
   &::-webkit-scrollbar {
     width: 12px;
-    height: 15px;
+    height: 12px;
   }
 
   &::-webkit-scrollbar-track {
@@ -373,7 +373,7 @@
   // height: fit-content;
   &::-webkit-scrollbar {
     width: 12px;
-    height: 0.8rem;
+    height: 12px;
   }
 
   &::-webkit-scrollbar-track {
@@ -662,8 +662,25 @@
     overflow-y: scroll;
     margin-left: -10px;
     &::-webkit-scrollbar {
-      width: 8px; /* Adjust the width of the scrollbar */
+      width: 10px;
+    ;
     }
+  
+    &::-webkit-scrollbar-track {
+      background: #b3b3b3;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: #5f5f5f;
+      border-radius: 10px;
+      width: 100px !important;
+      height: 17px;
+    }
+  
+    &::-webkit-scrollbar-thumb:hover {
+      background: #5f5f5f;
+    }
+  
     li {
       padding-top: 5px;
     }
@@ -779,8 +796,24 @@
     overflow-y: scroll;
     overflow-x: hidden;
     &::-webkit-scrollbar {
-
-        }
+      width: 10px;
+    ;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: #b3b3b3;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: #5f5f5f;
+      border-radius: 10px;
+      width: 100px !important;
+      height: 17px;
+    }
+  
+    &::-webkit-scrollbar-thumb:hover {
+      background: #5f5f5f;
+    }
   
       
 
@@ -951,12 +984,15 @@
   top: 40%;
 }
 
-.NoDataFoundContainer {
+.NoDataFoundContainer-menupage {
   width: 30rem;
-  margin-top: 15%;
-  margin-left: 20%;
+  margin-top: 12%;
+  margin-left: 10%;
   overflow-x: hidden;
   z-index: 1;
   overflow-y: hidden;
   // border: 1px solid red;
+  .columnselectedText{
+    margin-left: 4.5rem;
+  }
 }

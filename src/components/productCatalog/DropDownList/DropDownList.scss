@@ -63,6 +63,7 @@
 .dropdown-body {
   position: absolute;
   width: 19.8vw;
+  // border: 1px solid red;
   height: 10.8rem;
   max-height: 10.8rem;
   z-index: 5;
@@ -87,21 +88,54 @@
 
   .edititem {
     margin-left: -10px;
+    position: relative;
+  
   }
 
   .Dropdown-lists-and-edit {
     display: flex;
     justify-content: space-between;
     // padding-right: 10px;
+ width: 19rem;
+ overflow-y: scroll;
+ overflow-x: hidden;
+ height: 7.5rem;
+ &::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+}
 
+&::-webkit-scrollbar-track {
+  background: #b3b3b3;
+}
+
+&::-webkit-scrollbar-thumb {
+  background: #5f5f5f;
+  border-radius: 10px;
+  height: 40px;
+  
+}
+
+&::-webkit-scrollbar-thumb:hover {
+  background: #5f5f5f;
+}
+
+
+// border: 1px solid red;
+cursor: pointer;
     .editiconimage { 
       margin-top: 0.5rem;
-      position: relative;
-      left: -3rem;
+      position: fixed;
+      // left: -1rem;
+      // z-index: 2;
       font-size: 16px;
       font-weight: 400;
+      margin-left: -3.2rem;
       color: #67833e;
       text-decoration: underline;
+      width: 3rem;
+
+      // border: 1px solid red;
     }
     // ::-webkit-scrollbar{
     //   display: none;
@@ -109,32 +143,30 @@
   }
 
   .dropdown-options {
-    width: 298px;
-    height: 7.5rem;
-    overflow-y: auto;
-    overflow-x: hidden;
+    width: 300px;
+    // width:25rem;
+    // height: 7.5rem;
+  //  overflow-y: hidden;
+  //   overflow-x: hidden;
     margin: 0;
     padding: 0;
     margin-top: 0.5rem;
-    &::-webkit-scrollbar {
-      width: 8px;
-      border-radius: 10px;
-    }
+    // border: 1px solid red;
+    
+    // &::-webkit-scrollbar-track {
+    //   background: #b3b3b3;
+    // }
 
-    &::-webkit-scrollbar-track {
-      background: #b3b3b3;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #5f5f5f;
-      border-radius: 10px;
-      height: 40px;
+    // &::-webkit-scrollbar-thumb {
+    //   background: #5f5f5f;
+    //   border-radius: 10px;
+    //   height: 40px;
       
-    }
+    // }
 
-    &::-webkit-scrollbar-thumb:hover {
-      background: #5f5f5f;
-    }
+    // &::-webkit-scrollbar-thumb:hover {
+    //   background: #5f5f5f;
+    // }
 
    
     // border: 1px solid red;

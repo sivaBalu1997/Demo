@@ -1,3 +1,4 @@
+//live reports page css
 :root {
   --navbar-bg: #e0e0e0;
   --navbar-text: #333333;
@@ -38,13 +39,14 @@
   align-items: center;
   width: 91vw;
   margin-left: -1.5rem;
+  padding-bottom: 5vh;
   @media (max-width: 500px) {
-    width: 100vw;
+    width: 104vw !important;
   }
-  .liveHeader {
-    font-size: 21px;
-    font-weight: 500;
-  }
+  // .liveHeader {
+  //   font-size: 21px;
+  //   font-weight: 500;
+  // }
   .cust-insights-head {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -52,19 +54,34 @@
     justify-content: space-between;
     width: 95%;
     margin-top: 30px;
-    @media (max-width: 480px) {
-      width: 90%;
-      height: 6rem;
-    }
     @media (max-width: 500px) {
       width: 90%;
       height: 6rem;
+    }
+    @media (max-width: 480px) {
+      width: 100%;
+      height: 6rem;
+      // background-color: pink;
+      text-align: center;
     }
     .name-board {
       display: flex;
       justify-content: center;
       align-items: center;
       color: var(--table-text);
+      @media(max-width: 480px){
+        // background-color: palegoldenrod;
+        // transform: translateX(20vw);
+        width: 100vw;
+      }
+      .liveHeader {
+        font-size: 21px;
+        font-weight: 500;
+        @media(max-width: 480px){
+          // background-color: palegoldenrod;
+          transform: translateX(3vw);
+        }
+      }
     }
     .dates {
       display: flex;
@@ -188,6 +205,112 @@
       margin-top: 30px;
     }
   }
+  .l-live-boxes-container{
+    // background-color: pink;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4vh;
+
+    .l-live-inner-box{
+      // background-color: lightskyblue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2vw;
+      // flex-wrap: wrap;
+      width: 63vw;
+      margin: 0;
+      @media(max-width: 800px){
+        flex-wrap: wrap;
+      }
+      .l-live-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1vh;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: 0;
+        padding-right: 0;
+        background-color: var(--table-bg);;
+        border: 1px solid var(--table-text);
+        border-radius: 1vw;
+        color: var(--table-text);
+        width: 15vw;
+        text-align: center;
+        @media(max-width: 800px){
+          font-size: small;
+        }
+        @media(max-width: 576px){
+          width: 60vw;
+          // background-color: lightsalmon;
+        }
+        @media(max-width: 500px){
+          width: 30vw;
+          // background-color: palevioletred;
+          font-size: xx-small;
+        }
+        h2{
+          width: 100%;
+          // background-color: lightgreen;
+        }
+        // // h3
+      }
+    }
+    .l-live-inner-box-expanded{
+      // background-color: lightcoral;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2vw;
+      // flex-wrap: wrap;
+      width: 57vw;
+      margin: 0;
+      @media(max-width: 800px){
+        flex-wrap: wrap;
+        width: 100vw;
+      }
+      .l-live-box{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1vh;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: 0;
+        padding-right: 0;
+        background-color: var(--table-bg);
+        border: 1px solid var(--table-text);
+        border-radius: 1vw;
+        width: 15vw;
+        color: var(--table-text);
+        text-align: center;
+        @media(max-width: 800px){
+          font-size: small;
+        }
+        @media(max-width: 576px){
+          width: 30vw;
+          // background-color: lightsalmon;
+        }
+        @media(max-width: 500px){
+          width: 30vw;
+          // background-color: palevioletred;
+        }
+        h2{
+          width: 100%;
+          // background-color: lightgreen;
+          // @media(max-width: 500px){
+          //   font-size: x-small;;
+          // }
+        }
+        // h3
+      }
+    }
+  }
   .canva-pie-chart-cont {
     display: flex;
     flex-direction: column;
@@ -214,6 +337,13 @@
       justify-content: center;
       align-items: center;
     }
+  }
+  .live-orders-non-dine-in{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
   }
   .tables-container-two {
     display: flex;

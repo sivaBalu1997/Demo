@@ -44,7 +44,7 @@ const PreviewOffer = (props) => {
   useEffect(() => {
     if (addOfferSuccess && !createOfferLoading && !updateOfferSuccess) {
       alert("Offer Added Sccessfully");
-      history.push("/management/Offers");
+      history.push("/Offer");
       dispatch(createOfferClear());
       dispatch(updateOfferClear());
     } else if (addOfferFailedMessage !== "") {
@@ -58,7 +58,7 @@ const PreviewOffer = (props) => {
   // console.log(editOfferFailedMessage,"editOfferFailedMessage")
     if (updateOfferSuccess && !EditOfferLoading && updateOfferSuccess) {
       alert("Offer Edited Successfully");
-      history.push("/management/Offers");
+      history.push("/Offer");
        dispatch(createOfferClear());
       dispatch(updateOfferClear());
     } else if (editOfferFailedMessage !== "") {
@@ -480,7 +480,7 @@ const PreviewOffer = (props) => {
           )}
         </div>
         <div className="float-right buttons_Section">
-          <Link to={"/management/Offers"} className="offer-btn cancel-btn">
+          <Link to={"/Offer"} className="offer-btn cancel-btn">
             Cancel
           </Link>
 

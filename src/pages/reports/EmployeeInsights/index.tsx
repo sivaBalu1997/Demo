@@ -16,6 +16,12 @@ const EmployeeInsights: React.FC = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
+  const [currentPageEmployeeTipsFeeSummary, setCurrentPageEmployeeTipsFeeSummary] = useState<number>(1);
+  console.log({ currentPageEmployeeTipsFeeSummary });
+
+  const [currentPageSalesByEmployeeDetails, setCurrentPageSalesByEmployeeDetails] = useState<number>(1);
+  console.log({ currentPageSalesByEmployeeDetails });
+
   const [openStartDatePicker, setOpenStartDatePicker] =
     useState<boolean>(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState<boolean>(false);
@@ -38,7 +44,7 @@ const EmployeeInsights: React.FC = () => {
 
   const handleOptionClickForDate = (option: string) => {
     setSelectedPeriod(option);
-    if (option === "Select Custom Date Range") {
+    if (option === "Custom Range") {
       setOpenCustomDateRange(true);
     } else {
       setOpenCustomDateRange(false);
@@ -52,9 +58,8 @@ const EmployeeInsights: React.FC = () => {
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
       <div
-        className={`employee-container ${
-          isDarkTheme ? "dark-theme" : "light-theme"
-        } ${isExpanded ? "e-expanded-width-sales" : ""}`}
+        className={`employee-container ${isDarkTheme ? "dark-theme" : "light-theme"
+          } ${isExpanded ? "e-expanded-width-sales" : ""}`}
       >
         <Topnavbar />
         <div className="employee-head">
@@ -89,10 +94,10 @@ const EmployeeInsights: React.FC = () => {
                   </p>
                   <p
                     onClick={() =>
-                      handleOptionClickForDate("Select Custom Date Range")
+                      handleOptionClickForDate("Custom Range")
                     }
                   >
-                    Select Custom Date Range
+                    Custom Range
                   </p>
                 </div>
               )}
@@ -136,6 +141,8 @@ const EmployeeInsights: React.FC = () => {
         </div>
         <div className="employee-details-container">
           <Table
+            currentPage={currentPageEmployeeTipsFeeSummary}
+            setCurrentPage={setCurrentPageEmployeeTipsFeeSummary}
             Heading="Employee Tips & Fee Summary"
             tableData={EmployeeD["Table one"]}
             viewType="full"
@@ -144,6 +151,8 @@ const EmployeeInsights: React.FC = () => {
         </div>
         <div className="employee-details-container">
           <Table
+            currentPage={currentPageSalesByEmployeeDetails}
+            setCurrentPage={setCurrentPageSalesByEmployeeDetails}
             Heading="Sales By Employee - Details"
             tableData={EmployeeD["Sales By Employee"]}
             viewType="full"

@@ -368,4 +368,40 @@ export const LD = {
       "Type Name": "Pickup",
     },
   ],
+  "Live Orders New": [
+    { "Order Date": "2024-12-18T03:18:48-05:00", "Table Name": "A40", "Table Occupancy Duration": "95 mins", "$EST Order Amount": 88.6000 },
+    { "Order Date": "2024-12-18T03:44:57-05:00", "Table Name": "C14", "Table Occupancy Duration": "68 mins", "$EST Order Amount": 93.1500 },
+    { "Order Date": "2024-12-18T03:28:55-05:00", "Table Name": "C2", "Table Occupancy Duration": "85 mins", "$EST Order Amount": 149.3600 }
+  ],
+  "Live Orders (Non Dine In)": [
+    { "Time Elapsed": "225 mins", "Order Total": "$29.25", "Customer Name": "Nishu", "Customer Number": "xxx-xxx-9999", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 01:11 AM", "Order Status": "Order in prep", "Order Number": "004343", "Order Type": "On-demand", "Requested ETA": "2024-12-18 01:56 AM" },
+    { "Time Elapsed": "221 mins", "Order Total": "$98.04", "Customer Name": "Piyush", "Customer Number": "xxx-xxx-8888", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 01:16 AM", "Order Status": "Order in prep", "Order Number": "004344", "Order Type": "On-demand", "Requested ETA": "2024-12-18 02:01 AM" },
+    { "Time Elapsed": "215 mins", "Order Total": "$748.50", "Customer Name": "Durga ", "Customer Number": "-", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 01:22 AM", "Order Status": "Order accepted", "Order Number": "004345", "Order Type": "On-demand", "Requested ETA": "2024-12-18 02:07 AM" },
+    { "Time Elapsed": "214 mins", "Order Total": "$28.68", "Customer Name": "Pkkuku", "Customer Number": "xxx-xxx-6666", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 01:23 AM", "Order Status": "Order accepted", "Order Number": "004346", "Order Type": "On-demand", "Requested ETA": "2024-12-18 02:08 AM" },
+    { "Time Elapsed": "162 mins", "Order Total": "$6.38", "Customer Name": "IHULWKWN", "Customer Number": "xxx-xxx-7442", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 02:14 AM", "Order Status": "Order accepted", "Order Number": "004350", "Order Type": "On-demand", "Requested ETA": "2024-12-18 02:59 AM" },
+    { "Time Elapsed": "157 mins", "Order Total": "$27.70", "Customer Name": "Kittyk", "Customer Number": "xxx-xxx-6666", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 02:20 AM", "Order Status": "Order in prep", "Order Number": "004351", "Order Type": "On-demand", "Requested ETA": "2024-12-18 03:05 AM" },
+    { "Time Elapsed": "123 mins", "Order Total": "$26.05", "Customer Name": "Sam", "Customer Number": "xxx-xxx-5555", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 02:54 AM", "Order Status": "Order in prep", "Order Number": "004353", "Order Type": "On-demand", "Requested ETA": "2024-12-18 03:39 AM" },
+    { "Time Elapsed": "122 mins", "Order Total": "$14.87", "Customer Name": "Pi", "Customer Number": "xxx-xxx-9999", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 02:55 AM", "Order Status": "Order ready", "Order Number": "004354", "Order Type": "On-demand", "Requested ETA": "2024-12-18 03:40 AM" },
+    { "Time Elapsed": "121 mins", "Order Total": "$14.38", "Customer Name": "Zff", "Customer Number": "xxx-xxx-9999", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 02:55 AM", "Order Status": "Order ready", "Order Number": "004355", "Order Type": "On-demand", "Requested ETA": "2024-12-18 03:40 AM" },
+    { "Time Elapsed": "113 mins", "Order Total": "$14.87", "Customer Name": "Yu", "Customer Number": "xxx-xxx-3333", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 03:04 AM", "Order Status": "Order in prep", "Order Number": "004357", "Order Type": "On-demand", "Requested ETA": "2024-12-18 03:49 AM" },
+    { "Time Elapsed": "101 mins", "Order Total": "$133.86", "Customer Name": "Durga ", "Customer Number": "-", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 03:16 AM", "Order Status": "Order in prep", "Order Number": "004360", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:01 AM" },
+    { "Time Elapsed": "98 mins", "Order Total": "$88.60", "Customer Name": "", "Customer Number": "-", "Order Channel": "Direct-DineIn", "Order Date": "2024-12-18 03:18 AM", "Order Status": "60", "Order Number": "004362", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:05 AM" },
+    { "Time Elapsed": "90 mins", "Order Total": "$317.04", "Customer Name": "", "Customer Number": "-", "Order Channel": "Direct-DineIn", "Order Date": "2024-12-18 03:26 AM", "Order Status": "Order in prep", "Order Number": "004363", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:02 AM" },
+    { "Time Elapsed": "90 mins", "Order Total": "$317.04", "Customer Name": "", "Customer Number": "-", "Order Channel": "Direct-DineIn", "Order Date": "2024-12-18 03:26 AM", "Order Status": "63", "Order Number": "004363", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:02 AM" },
+    { "Time Elapsed": "88 mins", "Order Total": "$149.36", "Customer Name": "Durg", "Customer Number": "-", "Order Channel": "Direct-DineIn", "Order Date": "2024-12-18 03:28 AM", "Order Status": "Order accepted", "Order Number": "004364", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:13 AM" },
+    { "Time Elapsed": "72 mins", "Order Total": "$93.15", "Customer Name": "", "Customer Number": "-", "Order Channel": "Direct-DineIn", "Order Date": "2024-12-18 03:44 AM", "Order Status": "Order accepted", "Order Number": "004370", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:31 AM" },
+    { "Time Elapsed": "63 mins", "Order Total": "$6.38", "Customer Name": "VINLNTRS", "Customer Number": "xxx-xxx-3834", "Order Channel": "Direct-Instore", "Order Date": "2024-12-18 03:54 AM", "Order Status": "Order in prep", "Order Number": "004371", "Order Type": "On-demand", "Requested ETA": "2024-12-18 04:39 AM" }
+  ],
+  "discounts": [
+    { "Discounts": 0.1900 }
+  ],
+  "refunds": [
+    { "refunds": 42.0200 }
+  ],
+  "open sales": [
+    { "Open Sales": 570.6000 }
+  ],
+  "net sales": [
+    { "Net Sales": 4.6900 }
+  ]
 };

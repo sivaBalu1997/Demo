@@ -65,6 +65,7 @@ import {
   ingredientsSuccess,
   removeDataRequest,
   taxClassSuccess,
+  getItemCodeValiadtion,
 } from "./productCatalogActions";
 import {
   getCategory,
@@ -513,9 +514,24 @@ function* GetImageSaga(action) {
 
 function* getItemCodeSaga(action) {
   try {
-    const { params1, params2 } = action.payload; // Destructure the payload
+    const { params1, params2 } = action.payload;
     const response = yield call(getItemCodeRequestApi, params1, params2);
-    yield put(getItemCodeSuccess(response));
+   
+
+
+    if(response.data.httpStatus===409){
+
+      yield put(getItemCodeValiadtion(response.data.message));
+
+    }
+
+    else if(response.data.httpStatus===200){  
+      yield put(getItemCodeSuccess(response.data.message));
+    }
+    else{
+      yield put(getItemCodeFailure(response.data.message));
+    }
+    
   } catch (error) {
     yield put(getItemCodeFailure(error.message));
   }

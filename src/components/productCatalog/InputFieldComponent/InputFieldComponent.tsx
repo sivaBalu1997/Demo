@@ -93,7 +93,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   
 
   const message = useSelector(
-    (state: any) => state?.getItemCodeReducer?.itemCode?.data?.message
+    (state: any) => state?.getItemCodeReducer?.errormsg
   );
 
   return (
@@ -113,7 +113,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
         <span className="placeholder">{subtext}</span>
       </div>
       {name === "itemCode" && message && value && value.length === 4 && (
-        <p className="itemCode-Success">{message}</p>
+        <p className="itemCode-Success-validation">{message}</p>
       )}
       { !message && error && <p className="Input-Field-Error-message">{error.message}</p>}
     </div>

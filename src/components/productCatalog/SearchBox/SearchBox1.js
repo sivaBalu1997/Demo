@@ -66,10 +66,14 @@ const SearchBox = () => {
 
   const handleSearch = (e) => {
     let value = e.target.value;
-    const regex = /^[a-zA-Z\s]*$/;
-
-    // Prevent spaces as the first character or standalone
-    if (regex.test(value) && !(value.length === 1 && value === ' ')) {
+    const regex = /^[a-zA-Z0-9\s]*$/; // Allow letters, numbers, and spaces
+  
+    // Prevent spaces as the first character or standalone and limit numbers to 4 digits
+    if (
+      regex.test(value) &&
+      !(value.length === 1 && value === ' ') &&
+      (!/^\d+$/.test(value) || value.length <= 4) // Restrict numeric input to 4 digits
+    ) {
       dispatch(searchForItem({}));
       setSearchTerm(value);
       setDisplayTerm(value);
@@ -77,20 +81,8 @@ const SearchBox = () => {
       setOptionSelected(false);
       setCloseModal(true);
     }
-
-    // if (e.key === 'Backspace') {
-    //   if (optionSelected) {
-    //     // If an option was selected, reset searchTerm and displayTerm
-    //     setSearchTerm('');
-    //     setDisplayTerm('');
-    //     setOptionSelected(false); // Allow new input
-    //     setFilteredOptions([]);   // Clear suggestions
-    //   } else {
-    //     setOptionSelected(false); // Allow for changing selection
-    //   }
-    // }
-
   };
+  
 
   // // All - Categories and subCategory ItemResponse List
   // const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
@@ -114,32 +106,40 @@ const SearchBox = () => {
 
 
   const filterOptions = (input) => {
-    const itemNames = menuData?.flatMap(item => item?.itemResponseList)?.map(item => item?.itemName);
+   
     const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
 
     const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
     const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
 
     const allArray = [...allItems, ...allNew]
-
-    const everything = allArray?.map(everything => everything?.itemName)
-
+     console.log({allArray});
+     
+     const everything = allArray?.map(everything => ({
+      itemName: everything?.itemName,
+      itemCode: everything?.itemCode
+    }));
+    
     const filtered = everything?.filter(item =>
-      item?.toLowerCase().includes(input?.toLowerCase())
+      item?.itemName?.toLowerCase().includes(input?.toLowerCase()) ||
+      item?.itemCode?.toLowerCase().includes(input?.toLowerCase())
     );
     const startsWithInput = filtered.find((item) =>
-      item.toLowerCase().startsWith(input.toLowerCase())
+      item?.itemName.toLowerCase().startsWith(input.toLowerCase())
     );
-console.log({filtered});
+
 setplaceholder(startsWithInput || "")
 
     setFilteredOptions(filtered);
-    setFilteredOptionsDispatch(filtered);
+    const filteredItemNames = filtered?.map(item => item?.itemName);
+
+ 
+    setFilteredOptionsDispatch(filteredItemNames);
 
     if (filtered.length > 0 && input.length > 0) {
       const firstMatch = filtered[0];
-      if (firstMatch.toLowerCase().startsWith(input.toLowerCase())) {
-        const suggestion = firstMatch.slice(input.length);
+      if (firstMatch?.itemName.toLowerCase().startsWith(input.toLowerCase())) {
+        const suggestion = firstMatch?.itemName?.slice(input.length);
         setDisplayTerm(input + suggestion);
 console.log({firstMatch});
 
@@ -147,10 +147,14 @@ console.log({firstMatch});
       } else {
         setDisplayTerm(input);
       }
-    } else {
+    } 
+    else {
       setDisplayTerm(input);
     }
   };
+
+
+
   const handleOptionClick = (option) => {
     setSearchTerm(option);
     setDisplayTerm(option);
@@ -193,7 +197,7 @@ console.log({firstMatch});
     if (e.key === 'ArrowDown') {
       setHighlightedIndex((prevIndex) => {
         const newIndex = Math.min(filteredOptions.length - 1, prevIndex + 1);
-        setSearchTerm(filteredOptions[newIndex]);
+        setSearchTerm(filteredOptions[newIndex]?.itemName);
         setDisplayTerm(filteredOptions[newIndex]);
         return newIndex;
       });
@@ -202,15 +206,15 @@ console.log({firstMatch});
     if (e.key === 'ArrowUp') {
       setHighlightedIndex((prevIndex) => {
         const newIndex = Math.max(0, prevIndex - 1);
-        setSearchTerm(filteredOptions[newIndex]);
-        setDisplayTerm(filteredOptions[newIndex]);
+        setSearchTerm(filteredOptions[newIndex]?.itemName);
+        setDisplayTerm(filteredOptions[newIndex]?.itemName);
         return newIndex;
       });
     }
 
     if (e.key === 'Enter') {
       if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
-        handleOptionClick(filteredOptions[highlightedIndex]);
+        handleOptionClick(filteredOptions[highlightedIndex].itemName);
         setHighlightedIndex(-1);
       }
     }
@@ -234,7 +238,7 @@ console.log({firstMatch});
     //   }
     // }
   };
-  console.log({displayTerm});
+  console.log({filteredOptions});
   
 
   return (
@@ -271,11 +275,11 @@ console.log({firstMatch});
                 <li
                   key={index}
                   ref={index === highlightedIndex ? highlightedRef : null}
-                  onClick={() => handleOptionClick(option)}
+                  onClick={() => handleOptionClick(option.itemName)}
                   className={`${index === highlightedIndex ? 'MLhighlighted' : ''}   ${isExpanded ? 'list-of-item-name-expand' : "list-of-item-name"}`}
                 >
                   <div className={isExpanded ? 'MLSearch-Container-options1-items' : "MLSearch-Container-options-items"}>
-                    {option}
+                    {option.itemName}  {option.itemCode!==""&&option.itemCode!==undefined&&option.itemCode!==null ?<><span>-{option.itemCode}</span></> :""}
                   </div>
                 </li>
               ))

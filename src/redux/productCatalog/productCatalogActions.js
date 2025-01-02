@@ -155,6 +155,7 @@ import {
   TAXCLASS_REQUEST,
   TAXCLASS_SUCCESS,
   TAXCLASS_FAILURE,
+  GET_ITEM_CODE_VaLIDATION_ERROR,
 } from "./productCatalogConstants";
 
 //Get Menu
@@ -792,6 +793,10 @@ export const getItemCodeSuccess = (response) => ({
 
 export const getItemCodeFailure = (error) => ({
   type: GET_ITEM_CODE_FAILURE,
+  payload: error,
+});
+export const getItemCodeValiadtion = (error) => ({
+  type: GET_ITEM_CODE_VaLIDATION_ERROR,
   payload: error,
 });
 
