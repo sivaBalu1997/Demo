@@ -207,14 +207,14 @@ console.log({firstMatch});
       setHighlightedIndex((prevIndex) => {
         const newIndex = Math.max(0, prevIndex - 1);
         setSearchTerm(filteredOptions[newIndex]?.itemName);
-        setDisplayTerm(filteredOptions[newIndex]);
+        setDisplayTerm(filteredOptions[newIndex]?.itemName);
         return newIndex;
       });
     }
 
     if (e.key === 'Enter') {
       if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
-        handleOptionClick(filteredOptions[highlightedIndex]);
+        handleOptionClick(filteredOptions[highlightedIndex].itemName);
         setHighlightedIndex(-1);
       }
     }

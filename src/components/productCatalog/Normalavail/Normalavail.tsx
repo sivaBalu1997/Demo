@@ -519,8 +519,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     };
 
     const optionsselectthird = orderTypes
-      ?.filter((item: any) => item.typeGroup === "T")
-      .map((item: any) => item.typeName);
+    ?.filter((item: any) => item.typeGroup === "T" && (item.isEnabled === true || item.isEnabled === 1))
+    .map((item: any) => item.typeName);
 
     const thirdPartyData = orderTypes
       ?.filter((item: any) => item.typeGroup === "T")

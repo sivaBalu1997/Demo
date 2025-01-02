@@ -1,7 +1,9 @@
 .Review-values {
   width: 13rem;
-  height: 4rem;
+  height: 4.5rem;
   margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
 
   .Review-values-label {
     font-size: 12px;
@@ -12,5 +14,7 @@
     font-size: 14px;
     font-weight: 400;
     color: black;
+    
+    // border: 1px solid red;
   }
 }

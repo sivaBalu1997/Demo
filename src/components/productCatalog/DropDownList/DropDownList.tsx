@@ -729,8 +729,8 @@ const DropDownList: React.FC<DropdownProps> = ({
       </div>
 
       {dropdownopen && (
-        <div className="dropdown-body">
-          <div className="Dropdown-lists-and-edit">
+        <div className="dropdown-body"   >
+          <div className="Dropdown-lists-and-edit"    onMouseDown={handleOptionMouseDown} >
             <ul
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
@@ -828,7 +828,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                 editValues && (
                   <p
                     className="editiconimage"
-                    onMouseDown={handleOptionMouseDown}
+                    // onMouseDown={handleOptionMouseDown}
                     onClick={() => handleedit()}
                     // style={{position:'relative',left:'-2rem'}}
                   >
