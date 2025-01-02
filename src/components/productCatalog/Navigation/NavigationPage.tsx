@@ -86,8 +86,9 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   const handleclick = async (category: any) => {
     const path = category.replace(/\s+/g, "");
 
-    if (currentPage === "Primary Details" && triggerValidation) {
+    if (currentPage === "Primary Details" && triggerValidation && valiadtesubCategory) {
       const isFormValid = await triggerValidation(formData);
+      const valiadtesubcategorynn= valiadtesubCategory()
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
@@ -95,10 +96,13 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         });
         return;
       } else {
-        setNavigate(true)
-        dispatch(primarypost(formData));
-        isFormValid && setCurrentPage(category);
-        history.push(`/productCatalog/${path}`, { pagename: category });
+        if(valiadtesubcategorynn){
+          setNavigate(true)
+          dispatch(primarypost(formData));
+          isFormValid && setCurrentPage(category);
+          history.push(`/productCatalog/${path}`, { pagename: category });
+        }
+       
       }
     } 
     

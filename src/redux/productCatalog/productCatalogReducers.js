@@ -1195,6 +1195,7 @@ export const getItemCodeReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         itemCode: action.payload,
+        errormsg: null,
       };
       
     case GET_ITEM_CODE_VaLIDATION_ERROR:
