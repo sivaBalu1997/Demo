@@ -70,6 +70,7 @@
       padding: 0.5rem;
       gap: 0.7rem;
       flex-wrap: wrap;
+
       .Selected-Image-Item {
         width: auto;
         border: 1px solid #b3b3b3;
@@ -80,6 +81,8 @@
         gap: 0.8rem;
         font-size: 12px;
         font-weight: 300;
+        height: 20px;
+        // white-space: nowrap;
 
         .Selected-Image-Item-Deletion {
           cursor: pointer;
@@ -97,11 +100,21 @@
     }
   }
   .Item-Selection-option {
-    padding: 0.5rem;
+    width: 30px;
+    height: 30px;
+    padding: 2rem;
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    font-size: 12px;
+    height: 20px;
   }
+
+  .optionName{
+    width: 80px;
+    height: 100px;
+  }
+
   li {
     list-style: none;
   }
