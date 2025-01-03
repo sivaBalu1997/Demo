@@ -23,6 +23,7 @@ import {
   createSpecialOfferRequest,
   SPOfferListSendingRequest,
   getOfferItemsRequest,
+  fetchSubDropDownRequest,
   updateSpecialOfferRequest,
 } from "redux/offer/offerActions";
 import { selectedCategory } from "redux/productCatalog/productCatalogActions";
@@ -687,6 +688,12 @@ const SpecialPriceDetails = () => {
       if (editOfferData?.category) {
         setSelectedCatagory([editOfferData?.category]);
         setParentId(editOfferData?.category?.id);
+          const payloadsub = {
+                      locationId: locationid,
+                      type: "SUB_CATEGORY",
+                      parentId: editOfferData?.category?.id,
+                    };
+                    dispatch(fetchSubDropDownRequest(payloadsub));
         setValue("category", editOfferData?.category?.name);
       }
       if (editOfferData?.subCategory?.length > 0) {

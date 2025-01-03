@@ -475,6 +475,8 @@ export default function offerReducer(state = initialOfferState, action) {
                 break;
                 case SP_OFFER_LIST_EDIT_REQUEST:
                   draft.editSpData = action.payload;
+                  draft.categoryData = [];
+                  draft.subCategoryData = [];
                   break;
 
                   case REMOVE_EDITDATA_WHEN_ADD:
