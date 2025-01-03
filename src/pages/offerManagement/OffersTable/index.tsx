@@ -412,6 +412,11 @@ const Table = () => {
                             <>
                               {countryC === "US" ? "$" : "RS"}
                               {row.value}
+                              {row.specialType === "HAPPY HOUR" ? (
+                                <FaArrowUp />
+                              ) : (
+                                <FaArrowDown />
+                              )}
                             </>
                           )}
                         </td>

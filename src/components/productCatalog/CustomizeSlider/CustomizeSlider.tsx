@@ -296,7 +296,8 @@ const CustomizeSlider = () => {
       <h3 className="customize-heading">Customize</h3>
 
       <div className="items-container">
-        {customData.map((elem:any, index:number) => (
+
+        {   customData.length>0? customData.map((elem:any, index:number) => (
           <div key={index}>
             <div className="item-toggle-container-flex">
               <div className="item-heading" style={{color:"black",opacity:elem.isEnabled?"100%":"50%",cursor:elem.isEnabled?"pointer":""}}>{elem.modifierName}</div>
@@ -398,7 +399,7 @@ const CustomizeSlider = () => {
               ))}
             </div>
           </div>
-        ))}
+        )):<><span>No Data Found</span></>}
       </div>
     </div>
   );

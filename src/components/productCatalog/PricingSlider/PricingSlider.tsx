@@ -183,28 +183,27 @@ const PricingSlider: any = ({}) => {
   const handleComparision = (baseprice: number, id: string, index: number) => {
     if (baseprice !== 0) {
       setShowCompare(!showCompare);
-
+  
       const pricelist = availabilityOrderTypes[1].types
         .filter((elem: any) => id !== elem.typeId)
         .map((elem: any) => {
-          const percentageDifference = (elem.price * 100) / baseprice;
+          const percentageDifference =
+            ((elem.price - baseprice) / baseprice) * 100;
           const increaseOrDecrease =
             elem.price > baseprice ? "increase" : "decrease";
-
+  
           return {
             typeId: elem.typeId,
             price: elem.price,
-            percentage:
-              baseprice === 0
-                ? "0.00%"
-                : `${Math.abs(percentageDifference).toFixed(2)}%`,
+            percentage: `${Math.abs(percentageDifference).toFixed(2)}%`,
             increaseOrDecrease,
           };
         });
-
+  
       setFilteredPriceList(pricelist);
     }
   };
+  
 
   useEffect(() => {
     if (data && data[0]?.orderTypes) {

@@ -49,6 +49,7 @@ export const MenuPage = () => {
   const SearchedmenuItem = useSelector(
     (state) => state.searchItem?.SearcheItem
   );
+  const [itemList, setItemList] = useState([]);
   console.log("SearchedmenuItem", SearchedmenuItem);
   
 
@@ -105,6 +106,9 @@ export const MenuPage = () => {
     }, {});
   };
 
+ 
+  
+
   const initializeListingObject = (uniqueNames) => {
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
       acc[`${typeName}1`] = true;
@@ -132,12 +136,12 @@ export const MenuPage = () => {
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
-    setuniqueOrderTypeNames(getUniqueOrderTypeNames(menuData));
+    setuniqueOrderTypeNames(getUniqueOrderTypeNames(itemList));
 
     setlistingobject(
-      initializeListingObject(getUniqueOrderTypeNames(menuData))
+      initializeListingObject(getUniqueOrderTypeNames(itemList))
     );
-  }, [menuData]);
+  }, [itemList,menuData]);
 
   const getUniqueOrderTypes = (menuData) => {
     const orderTypeNames = menuData.flatMap((category) =>
@@ -156,7 +160,7 @@ export const MenuPage = () => {
     return uniqueOrderTypeNames;
   };
 
-  const uniqueOrderTypes = getUniqueOrderTypes(menuData);
+  const uniqueOrderTypes = getUniqueOrderTypes(itemList);
   const orderTypess = useSelector(
     (state) => state.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
@@ -205,10 +209,13 @@ export const MenuPage = () => {
     ...tablefirstrow,
     { label: "Customize1" },
   ]);
+  console.log({firstRowTable});
+  
 
   useEffect(() => {
     setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
-  }, [menuData]);
+  }, [menuData,itemList]);
+console.log("tablefirstrow",tablefirstrow);
 
   const insertlists2 = {
     Pricing: {
@@ -760,6 +767,7 @@ export const MenuPage = () => {
   const menuDataFailed = useSelector(
     (state) => state.productCatalog?.menuDataFailed
   );
+ 
 
   // useEffect(()=>{
   //   if(menuData.length === 0)
@@ -818,7 +826,7 @@ export const MenuPage = () => {
   };
 
   const uniqueOrderTypeNamesforprice =
-    getUniqueOrderTypeNamesfortableprice(menuData);
+    getUniqueOrderTypeNamesfortableprice(itemList);
 
   const orderTypesToShow2 = uniqueOrderTypeNamesforprice
     .filter((item) => item?.typeName)
@@ -830,7 +838,7 @@ export const MenuPage = () => {
     }
   }, [deleteMenuItemSuccess]);
 
-  const [itemList, setItemList] = useState([]);
+ 
 
   useEffect(() => {
     const allItemResponseLists = menuData
@@ -952,6 +960,7 @@ export const MenuPage = () => {
         }
       });
     };
+    console.log("bnm",getUniqueOrderTypeNames(itemList));
 
   return (
     <>

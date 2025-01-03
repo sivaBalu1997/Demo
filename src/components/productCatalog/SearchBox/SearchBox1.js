@@ -239,6 +239,11 @@ console.log({firstMatch});
     // }
   };
   console.log({filteredOptions});
+
+  const openSearchModel = () => {
+    setCloseModal(true);
+    filterOptions(searchTerm);
+  }
   
 
   return (
@@ -255,6 +260,7 @@ console.log({firstMatch});
         <img
           className={`${isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"}`}
           // className={"MLSerchIcon-Header1"}
+          onClick={() => openSearchModel()}
           src={searchIcon}
           alt="Search Icon"
         />

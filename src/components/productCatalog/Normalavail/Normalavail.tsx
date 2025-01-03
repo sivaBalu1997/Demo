@@ -1515,7 +1515,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           <div className="AvailDaycheck-Heading">
             <h1 className="AvailableDaysHeadingNormal">Available days</h1>
             {/* <button onClick={handleSubmit}>Validate</button> */}
-            <div className="tooltip">
+            {/* <div className="tooltip">
               <TooltipMsg
                 message="Select the default days this item is available for both on-premise and off-premise services."
                 styles={{
@@ -1543,7 +1543,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                   <img src={info} alt="info icon" width={20} height={20} />
                 </div>
               </TooltipMsg>
-            </div>
+            </div> */}
           </div>
 
           <div className="dayschecking">

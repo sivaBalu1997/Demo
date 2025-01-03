@@ -267,6 +267,7 @@ const [loading,setLoding]=useState(false)
                             highlightedDays={row?.effectivePeriod?.validDays}
                           />
                         </td>
+                        
                         <td
                           className="completedtsTabletd"
                           style={{
@@ -319,6 +320,12 @@ const [loading,setLoding]=useState(false)
                                                     <>
                                                       {countryC === "US" ? "$" : "RS"}
                                                       {row.value}
+                                                      {row.specialType === "HAPPY HOUR" ? (
+                                                                                      <FaArrowUp />
+                                                                                    ) : (
+                                                                                      <FaArrowDown />
+                                                                                    )}
+
                                                     </>
                                                   )}
                                                 </td>
