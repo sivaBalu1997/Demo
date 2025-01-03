@@ -122,7 +122,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       if (valueName) {
         setValue(valueName, updatedCheckedItems);
       }
-console.log("lll",updatedCheckedItems)
       return updatedCheckedItems;
     });
   };
@@ -130,6 +129,14 @@ console.log("lll",updatedCheckedItems)
   useEffect(() => {
     getApi();
   }, []);
+  useEffect(()=>{
+    if(disabledays.length>0&& checkedItems.length>0){
+         const data =checkedItems.filter((item)=>disabledays.includes(item))
+         setCheckedItems(data)
+         console.log("kkkk",data,disabledays)
+    }
+
+  },[disabledays])
 
   const getApi = async () => {
     dispatch(getAvailabilityRequest(locationid));
