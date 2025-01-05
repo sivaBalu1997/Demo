@@ -1,8 +1,8 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
-import { salesSummarySuccess, salesSummaryFailure, salesByItemCategoryFailure, salesByItemCategorySuccess, salesByRevenueClassSuccess, salesByRevenueClassFailure, actualSalesRequest, actualSalesFailure, actualSalesSuccess, actualSalesThirdPartySuccess, actualSalesThirdPartyFailure } from "./newReportsActions";
-import { ACTUAL_SALES_REQUEST, ACTUAL_SALES_THIRD_PARTY_REQUEST, SALES_BY_ITEM_CATEGORY_REQUEST, SALES_BY_REVENUE_CLASS_REQUEST, SALES_SUMMARY_REQUEST } from "./newReportsConstants";
-import { getActualSales, getSalesByItemCategory, getSalesByRevenueClass, getSalesSummary } from "./newReportsApi";
+import { salesSummarySuccess, salesSummaryFailure, salesByItemCategoryFailure, salesByItemCategorySuccess, salesByRevenueClassSuccess, salesByRevenueClassFailure, actualSalesRequest, actualSalesFailure, actualSalesSuccess, actualSalesThirdPartySuccess, actualSalesThirdPartyFailure, hourlySalesSuccess, hourlySalesFailure } from "./newReportsActions";
+import { ACTUAL_SALES_REQUEST, ACTUAL_SALES_THIRD_PARTY_REQUEST, HOURLY_SALES_REQUEST, SALES_BY_ITEM_CATEGORY_REQUEST, SALES_BY_REVENUE_CLASS_REQUEST, SALES_SUMMARY_REQUEST } from "./newReportsConstants";
+import { getActualSales, getHourlySalesChart, getSalesByItemCategory, getSalesByRevenueClass, getSalesSummary } from "./newReportsApi";
 
 export function* salesSummaryRequestSaga(action) {
     try {
@@ -84,10 +84,28 @@ export function* actualSalesThirdPartyRequestSaga(action) {
     }
 }
 
+
+export function* hourlySalesRequestSaga(action) {
+    try {
+        const response = yield call(getHourlySalesChart, action.payload);
+        if (response.status === 200) {
+            console.log("response of hourlySalesRequestSaga", { response })
+            yield put(hourlySalesSuccess(response?.data));
+            showSuccessToast(response?.data?.message);
+        } else {
+            yield put(hourlySalesFailure(response?.data?.message));
+            showErrorToast(response?.data?.message);
+        }
+    } catch (error) {
+        yield put(hourlySalesFailure(error));
+    }
+}
+
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
     yield takeLatest(SALES_BY_ITEM_CATEGORY_REQUEST, salesByItemCategoryRequestSaga);
     yield takeLatest(SALES_BY_REVENUE_CLASS_REQUEST, salesByRevenueClassRequestSaga);
     yield takeLatest(ACTUAL_SALES_REQUEST, actualSalesRequestSaga);
     yield takeLatest(ACTUAL_SALES_THIRD_PARTY_REQUEST, actualSalesThirdPartyRequestSaga);
+    yield takeLatest(HOURLY_SALES_REQUEST, hourlySalesRequestSaga);
 }

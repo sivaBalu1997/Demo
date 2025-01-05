@@ -1,14 +1,16 @@
 import { API } from "redux/api";
 import Store from "../store";
 
+//SALES PAGE APIs Start---------------------------------------------------------------------------------------------------------
+const SALES_SUMMARY_API_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/summary";
 
-const SALES_SUMMARY_API_ENDPOINT = "http://mhd-report:8080/magilhub-data-services-reports/sales/summary";
+const SALES_BY_ITEM_CATEGORY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/category";
 
-const SALES_BY_ITEM_CATEGORY_ENDPOINT = "http://mhd-report:8080/magilhub-data-services-reports/sales/category";
+const SALES_BY_REVENUE_CLASS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/tags?";
 
-const SALES_BY_REVENUE_CLASS_ENDPOINT = "http://mhd-report:8080/magilhub-data-services-reports/sales/tags?";
+const ACTUAL_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/payment?";
 
-const ACTUAL_SALES_ENDPOINT = "http://mhd-report:8080/magilhub-data-services-reports/sales/payment?";
+const HOURLY_SALES_CHART_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/hourly?";
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -53,3 +55,16 @@ export const getActualSales = (actualSalesPayload) => {
         }
     });
 }
+
+export const getHourlySalesChart = (hourlySalesPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${HOURLY_SALES_CHART_ENDPOINT}locationId=${hourlySalesPayload?.locationid}&startDate=${hourlySalesPayload?.startDate}&endDate=${hourlySalesPayload?.endDate}&page=${hourlySalesPayload?.tablePageNo}&size=${hourlySalesPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+//SALES PAGE APIs end---------------------------------------------------------------------------------------------------------
+

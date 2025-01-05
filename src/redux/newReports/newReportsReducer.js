@@ -15,8 +15,11 @@ import {
     ACTUAL_SALES_THIRD_PARTY_REQUEST,
     ACTUAL_SALES_THIRD_PARTY_SUCCESS,
     ACTUAL_SALES_THIRD_PARTY_FAILURE,
+    HOURLY_SALES_REQUEST,
+    HOURLY_SALES_SUCCESS,
+    HOURLY_SALES_FAILURE,
 } from "../newReports/newReportsConstants";
-import { actualSalesSuccess } from "./newReportsActions";
+
 
 
 const initialNewReportsState = {
@@ -35,11 +38,15 @@ const initialNewReportsState = {
     actualThirdPartySalesLoading: false,
     actualThirdPartySalesSuccess: [],
     actualThirdPartySalesFailure: false,
+    hourlySalesLoading: false,
+    hourlySalesSuccess: [],
+    hourlySalesFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
     return produce(state, (draft) => {
         switch (action.type) {
+            // Sales Summary :
             case SALES_SUMMARY_REQUEST:
                 draft.salesSummarySuccess = [];
                 draft.SalesSummaryLoading = true;
@@ -55,6 +62,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.SalesSummaryLoading = false;
                 draft.salesSummaryFailure = true;
                 break;
+            // sales by item category :
             case SALES_BY_ITEM_CATEGORY_REQUEST:
                 draft.salesByItemCategorySuccess = [];
                 draft.salesByItemCategoryLoading = true;
@@ -70,6 +78,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.salesByItemCategoryLoading = false;
                 draft.salesByItemCategoryFailure = true;
                 break;
+            //sales by revenue class :
             case SALES_BY_REVENUE_CLASS_REQUEST:
                 draft.salesByRevenueClassSuccess = [];
                 draft.salesByRevenueClassLoading = true;
@@ -85,6 +94,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.salesByRevenueClassLoading = false;
                 draft.salesByRevenueClassFailure = true;
                 break;
+            // actual sales Maghil :
             case ACTUAL_SALES_REQUEST:
                 draft.actualSalesSuccess = [];
                 draft.actualSalesLoading = true;
@@ -100,6 +110,7 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.actualSalesLoading = false;
                 draft.actualSalesFailure = true;
                 break;
+            // actual sales third party :
             case ACTUAL_SALES_THIRD_PARTY_REQUEST:
                 draft.actualThirdPartySalesSuccess = [];
                 draft.actualThirdPartySalesLoading = true;
@@ -114,6 +125,22 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.actualThirdPartySalesSuccess = [];
                 draft.actualThirdPartySalesLoading = false;
                 draft.actualThirdPartySalesFailure = true;
+                break;
+            //Hourly sales :
+            case HOURLY_SALES_REQUEST:
+                draft.hourlySalesSuccess = [];
+                draft.hourlySalesLoading = true;
+                draft.hourlySalesFailure = false;
+                break;
+            case HOURLY_SALES_SUCCESS:
+                draft.hourlySalesSuccess = action.payload;
+                draft.hourlySalesLoading = false;
+                draft.hourlySalesFailure = false;
+                break;
+            case HOURLY_SALES_FAILURE:
+                draft.hourlySalesSuccess = [];
+                draft.hourlySalesLoading = false;
+                draft.hourlySalesFailure = true;
                 break;
             default:
                 break;

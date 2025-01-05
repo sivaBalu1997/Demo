@@ -3,7 +3,7 @@ import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useDispatch, useSelector } from "react-redux";
-import { actualSalesRequest, actualSalesThirdPartyRequest, salesByItemCategoryRequest, salesByRevenueClassRequest, salesSummaryRequest } from "redux/newReports/newReportsActions";
+import { actualSalesRequest, actualSalesThirdPartyRequest, hourlySalesRequest, salesByItemCategoryRequest, salesByRevenueClassRequest, salesSummaryRequest } from "redux/newReports/newReportsActions";
 import Table from "../../../components/reportComponents/Table";
 import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieChart";
 import DatePicker from "react-datepicker";
@@ -64,6 +64,12 @@ interface ChartOptions {
   }>;
   backgroundColor: string;
 }
+
+interface transformedhourlySalesChartDataFromAPIReduxType {
+  hourlySales: string;
+  netSales: number;
+}
+
 
 const Sales: React.FC = () => {
 
@@ -416,27 +422,57 @@ const Sales: React.FC = () => {
     }
   }, [getSalesLocationStartEndDate, currentPageForDirectStoreOnlineSalesMaghil]);
 
+  useEffect(() => {
+    console.log("Sales Page Mounted");
+    if (getSalesLocationStartEndDate) {
+      dispatch(
+        hourlySalesRequest({
+          ...getSalesLocationStartEndDate,
+          // tablePageNo: currentPageForDirectStoreOnlineSalesMaghil,
+          // tableRecordLimit: TABLE_RECORDS_LIMIT,
+        })
+      );
+    }
+  }, [getSalesLocationStartEndDate]);
+
+
+
+
 
   const salesDataFromAPIRedux = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
-  console.log({ salesDataFromAPIRedux })
+  // console.log({ salesDataFromAPIRedux })
 
   const salesByItemCategoryAPIRedux = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
-  console.log({ salesByItemCategoryAPIRedux })
+  // console.log({ salesByItemCategoryAPIRedux })
 
   const salesByRevenueClassAPIRedux = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess);
-  console.log({ salesByRevenueClassAPIRedux })
+  // console.log({ salesByRevenueClassAPIRedux })
 
   const actualSalesAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesSuccess);
-  console.log({ actualSalesAPIRedux })
+  // console.log({ actualSalesAPIRedux })
 
   const actualSalesThirdPartyAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesThirdPartySuccess);
-  console.log({ actualSalesThirdPartyAPIRedux })
+  // console.log({ actualSalesThirdPartyAPIRedux })
 
   const segregatedDataForMaghilSales = actualSalesAPIRedux?.filter((item: any) => item.type === "maghil");
   console.log({ segregatedDataForMaghilSales });
 
   const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.filter((item: any) => item.type !== "maghil")
   console.log({ segregatedDataForThirdPartySales });
+
+  const hourlySalesChartDataFromAPIRedux = useSelector((state: any) => state?.newReports?.hourlySalesSuccess);
+  // console.log({ hourlySalesChartDataFromAPIRedux })
+
+  const transformedhourlySalesChartDataFromAPIRedux = hourlySalesChartDataFromAPIRedux?.map(({ hourlySales, netSales }: transformedhourlySalesChartDataFromAPIReduxType) => ({ hourlySales, netSales }));
+  console.log({ transformedhourlySalesChartDataFromAPIRedux });
+
+  const hourlyX = transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.hourlySales);
+
+  const hourlyY = transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.netSales);
+  console.log('hourly X => ', { hourlyX }, 'hourly Y => ', { hourlyY })
+
+
+  console.log('All APIs', { salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, actualSalesAPIRedux, segregatedDataForMaghilSales, actualSalesThirdPartyAPIRedux, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux })
 
   // const dataPPP = [
   //   {
@@ -705,8 +741,8 @@ const Sales: React.FC = () => {
         {/* Total Sales (Direct Sales + Store price adjusted third party orders) END */}
         <div className="direct-sales-store-price-cont">
           <div className="inner-direct-sales-store-prices">
-            <Table currentPage={currentPageForDirectStoreOnlineSalesMaghil} setCurrentPage={setCurrentPageForDirectStoreOnlineSalesMaghil} Heading="Direct Store/Online Sales (Maghil)" tableData={segregatedDataForMaghilSales || S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={TABLE_RECORDS_LIMIT} />
-            <Table currentPage={currentPageForActualThirdPartySales} setCurrentPage={setCurrentPageForActualThirdPartySales} Heading="Actual 3rd Party Sales" tableData={segregatedDataForThirdPartySales || S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={TABLE_RECORDS_LIMIT} />
+            <Table currentPage={currentPageForDirectStoreOnlineSalesMaghil} setCurrentPage={setCurrentPageForDirectStoreOnlineSalesMaghil} Heading="Direct Store/Online Sales (Maghil)" tableData={segregatedDataForMaghilSales && segregatedDataForMaghilSales?.length > 0 ? segregatedDataForMaghilSales : S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={TABLE_RECORDS_LIMIT} />
+            <Table currentPage={currentPageForActualThirdPartySales} setCurrentPage={setCurrentPageForActualThirdPartySales} Heading="Actual 3rd Party Sales" tableData={segregatedDataForThirdPartySales && segregatedDataForThirdPartySales?.length > 0 ? segregatedDataForThirdPartySales : S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={TABLE_RECORDS_LIMIT} />
           </div>
         </div>
         <div className="s-day-of-the-week">
@@ -714,8 +750,8 @@ const Sales: React.FC = () => {
             <BarChart
               BatChartTitle="Sales By Hour of the Day"
               TitleColor={isDarkTheme ? "#fff" : "#000"}
-              xAxisData={XHour}
-              yAxisData={YAverageSalesperHour}
+              xAxisData={hourlyX && hourlyX?.length > 0 ? hourlyX : XHour}
+              yAxisData={hourlyY && hourlyY?.length > 0 ? hourlyY : YAverageSalesperHour}
               label="Dollars"
               backgroundColor={[
                 "rgba(255, 99, 132, 0.2)",
@@ -804,7 +840,7 @@ const Sales: React.FC = () => {
               setCurrentPage={setCurrentPageSalesByItemCategory}
               Heading="Sales By Item Category"
               // tableData={S["Category - US"]}
-              tableData={salesByItemCategoryAPIRedux || S["Category - US"]}
+              tableData={salesByItemCategoryAPIRedux && salesByItemCategoryAPIRedux?.length > 0 ? salesByItemCategoryAPIRedux : S["Category - US"]}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
             />
@@ -812,7 +848,7 @@ const Sales: React.FC = () => {
               currentPage={currentPageSalesByRevenueClass}
               setCurrentPage={setCurrentPageSalesByRevenueClass}
               Heading="Sales By Revenue Class"
-              tableData={S["Revenue Class"]}
+              tableData={salesByRevenueClassAPIRedux && salesByRevenueClassAPIRedux?.length > 0 ? salesByRevenueClassAPIRedux : S["Revenue Class"]}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
             />
@@ -832,7 +868,7 @@ const Sales: React.FC = () => {
               currentPage={currentPageCancellationSummary}
               setCurrentPage={setCurrentPageCancellationSummary}
               Heading="Cancellation Summary"
-              tableData={salesByRevenueClassAPIRedux || S["Cancel Item Tracker"]}
+              tableData={S["Cancel Item Tracker"]}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
             />
