@@ -1186,10 +1186,10 @@ const ItemCustomizations: React.FC<any> = () => {
                       <div
                         className="modifier-and-options"
                         key={modIndex}
-                        draggable
-                        onDragStart={(e) => onDragStart(e, modIndex)}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={(e) => onDrop(e, modIndex)}
+                        // draggable
+                        // onDragStart={(e) => onDragStart(e, modIndex)}
+                        // onDragOver={(e) => e.preventDefault()}
+                        // onDrop={(e) => onDrop(e, modIndex)}
                         style={{
                           opacity: modifications[modIndex]?.isEnabled
                             ? "100%"
