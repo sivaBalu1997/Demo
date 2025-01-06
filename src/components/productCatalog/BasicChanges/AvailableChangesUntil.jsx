@@ -149,6 +149,7 @@ const AvailabilityChangesUntil = ({
 
     if (elem === "End of Today") {
       const todayDay = getTodayDay();
+      
       const formattedDate = getFormattedDate();
       // console.log("todayWorkinghours",todayWorkinghours);
       const todayWorkinghours = restaurantDetails?.workingHours.filter(

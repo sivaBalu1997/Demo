@@ -68,9 +68,6 @@ const NavMenu: React.FC<NavMenuProps> = ({
       case "Availability":
         availabilityRef.current?.scrollIntoView({ behavior: "smooth" });
         break;
-      // case "Inventory":
-      //   inventoryRef.current?.scrollIntoView({ behavior: "smooth" });
-      //   break;
       case "Customize":
         customizeRef.current?.scrollIntoView({ behavior: "smooth" });
         break;

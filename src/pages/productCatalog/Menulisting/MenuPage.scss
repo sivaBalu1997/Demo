@@ -146,6 +146,7 @@
       width: 4.5rem;
       padding: 5px;
       padding-left: 1.5rem;
+      padding-top: 0.7rem;
       //  border: 1px solid blue;
     }
     .name-item {
@@ -153,11 +154,13 @@
       // border: 1px solid blue;
       padding: 5px;
       padding-left: 1.5rem;
+      padding-top: 0.7rem;
     }
     .item-code {
       width: 4rem;
       padding: 5px;
       padding-left: 0;
+      padding-top: 0.7rem;
       display: flex;
       cursor: pointer;
     }
@@ -189,6 +192,8 @@
     gap: 0.5rem;
     background-color: white;
     z-index: 0;
+    padding-top: 0.4rem;
+
   }
 
   .scroll-container-expand {
@@ -258,7 +263,7 @@
   p {
     padding: 0;
     margin: 0;
-    height: 4rem;
+    height: 3.6rem;
     display: flex;
     align-items: center;
     justify-content: left;
@@ -291,7 +296,7 @@
       padding: 0;
       margin: 0;
       padding-left: 0.5rem;
-      height: 2.5rem;
+      height: 1.75rem;
       display: flex;
       align-items: center;
       justify-content: left;
@@ -344,7 +349,7 @@
     p {
       padding: 0;
       margin: 0;
-      height: 2.5rem;
+      height: 1.75rem;
       display: flex;
       align-items: center;
       justify-content: left;
@@ -402,7 +407,7 @@
     p {
       padding: 0;
       margin: 0;
-      height: 2.5rem;
+      height: 1.75rem;
       display: flex;
       align-items: center;
       justify-content: left;
@@ -424,7 +429,7 @@
   width: fit-content !important;
 
   p {
-    height: 4rem !important;
+    height: 3.6rem !important;
     display: flex;
     align-items: center;
     justify-content: left;
@@ -588,7 +593,7 @@
 .addbtn-menupage {
   position: relative;
   left: 0.4rem;
-  top: 0.1rem;
+  top: -0.3rem;
   width: 30px;
   height: 42px;
   border-radius: 4px;
@@ -602,6 +607,7 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
+
 }
 
 .headingstextlist1 {

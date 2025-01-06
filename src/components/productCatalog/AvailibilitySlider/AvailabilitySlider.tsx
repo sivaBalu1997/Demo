@@ -79,11 +79,15 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       tempOffPremarray.filter((data: any) => data?.availabilityEnabled === false).length === 0;
   
     const allChildrenonEnabled = tempOnPremarray.some(
-      (child: any) => child.isEnabled === 1 && child.isNotHide === 1
+      (child: any) => 
+        // child.isEnabled === 1 &&
+       child.isNotHide === 1
     );
   
     const allChildrenoffEnabled = tempOffPremarray.some(
-      (child: any) => child.isEnabled === 1 && child.isNotHide === 1
+      (child: any) =>
+        //  child.isEnabled === 1 && 
+      child.isNotHide === 1
     );
   
     const tempOrderTypeAvailabilityArray = [
@@ -154,7 +158,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     Enabled: number,
     hidden: number
   ) => {
-    if (Enabled && hidden) {
+    if ( hidden) {
       const tempOderTypes = parentOrderTypeArray?.map(
         (data: any, index: number) => {
           return data?.typeId === OrderTypeId
@@ -185,10 +189,16 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
           return data?.availabilityEnabled === false;
         }).length == 0;
       const allChildrenonEnabled = tempOnPremarray?.some(
-        (child: any) => child.isEnabled === 1 && child.isNotHide === 1
+        (child: any) =>
+          //  child.isEnabled === 1 && 
+        child.isNotHide === 1
       );
       const allChildrenoffEnabled = tempOffPremarray?.some(
-        (child: any) => child.isEnabled === 1 && child.isNotHide === 1
+        (child: any) => 
+          // child.isEnabled === 1 && 
+        
+        
+        child.isNotHide === 1
       );
 
       const tempOrderTypeAvailabilityArray = [
@@ -244,15 +254,21 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
       tempOffPremarray?.filter((data: any, index: number) => {
         return (
           data?.availabilityEnabled === false ||
-          data?.isEnabled === 0 ||
+          // data?.isEnabled === 0 ||
           data?.isNotHide === 0
         );
       }).length == 0;
     const allChildrenonEnabled = tempOnPremarray?.some(
-      (child: any) => child.isEnabled === 1 && child.isNotHide === 1
+      (child: any) => 
+        
+        
+        // child.isEnabled === 1 && 
+        child.isNotHide === 1
     );
     const allChildrenoffEnabled = tempOffPremarray?.some(
-      (child: any) => child.isEnabled === 1 && child.isNotHide === 1
+      (child: any) => 
+        // child.isEnabled === 1 &&
+       child.isNotHide === 1
     );
 
     const tempOrderTypeAvailabilityArray = [
@@ -293,10 +309,15 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
         return data?.availabilityEnabled === false;
       }).length == 0;
     const allChildrenonEnabled = tempOnPremarray?.some(
-      (child: any) => child.isEnabled === 1 && child.isNotHide === 1
+      (child: any) => 
+        
+        // child.isEnabled === 1 && 
+        child.isNotHide === 1
     );
     const allChildrenoffEnabled = tempOffPremarray?.some(
-      (child: any) => child.isEnabled === 1 && child.isNotHide === 1
+      (child: any) => 
+        // child.isEnabled === 1 && 
+      child.isNotHide === 1
     );
 
     const updatedTempOnPremarray = tempOnPremarray?.map(
@@ -536,7 +557,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     }
     setParentToggles(filteredArray);
     const dataToAdd = filteredArray
-      .filter((item: any) => item.isEnabled === 1)
+      // .filter((item: any) => item.isEnabled === 1)
       .map((item: any) => ({
         orderTypeId: item.typeId,
         unAvailableUntilTime: "",
@@ -592,7 +613,9 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
             {elem.types && (
               <div className="SectionASectionBSection">
                 {elem.types.map((type: any, typeIndex: number) => {
-                  const Enabledtoedit = type?.isEnabled && type?.isNotHide;
+                  const Enabledtoedit =
+                  //  type?.isEnabled && 
+                  type?.isNotHide;
 
                   return (
                     <div key={typeIndex} className="TypeHeading1">
@@ -609,10 +632,10 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                         <ToggleSliderAvail
                           toggle={
                             type?.availabilityEnabled &&
-                            type?.isEnabled === 1 &&
+                            // type?.isEnabled === 1 &&
                             type?.isNotHide === 1
                           }
-                          Enable={type.isEnabled === 1 && type?.isNotHide === 1}
+                          Enable={ type?.isNotHide === 1}
                           setToggle={() => {
                             if (type?.availabilityEnabled) {
                               setSelectedOrderTypeId(type?.typeId);
@@ -645,61 +668,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
                 })}
               </div>
             )}
-            {/* {elem.subcategories && (
-              <div className="PickupDeliveryAvail">
-                {elem.subcategories.map((subcategory:any, subIndex:number) => (
-                  <div key={subIndex} className="subcategorySection">
-                   
-                    <div className="TypesSection">
-                      {subcategory.types.map((type: any, typeIndex: any) => (
-                        <>
-                          <div key={typeIndex} className="TypeHeading">
-                            <h4
-                              className="SectionASectionBSectionHeading"
-                              style={{
-                                opacity: enabledValuesArray[typeIndex]
-                                  ? "100%"
-                                  : "50%",
-                              }}
-                            >
-                              {type.name}
-                            </h4>
-                            <div
-                              className=""
-                              onClick={() => {
-                                const isToggleOpen =
-                                  toggleStates[index]?.subcategoryToggles?.[
-                                    subIndex
-                                  ]?.childToggles?.[typeIndex];
-                                if (isToggleOpen) {
-                                  handleselectchangePeriod(
-                                    type?.orderTypeId,
-                                    enabledValuesArray[typeIndex]
-                                  );
-                                }
-                              }}
-                            >
-                              <ToggleSliderAvail
-                                toggle={type.isEnabled}
-                    
-                                setToggle={() => {
-                                  handleChildToggle(
-                                    index,
-                                    subIndex,
-                                    typeIndex
-                                  )
-                                }}
-                                pen={pen}
-                              />
-                            </div>
-                          </div>
-                        </>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )} */}
+            
           </div>
         ))}
         {selectPeriod && (

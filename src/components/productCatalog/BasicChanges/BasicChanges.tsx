@@ -120,7 +120,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
             disabled={!isPartialDataValid()}
           >
             {!partaldatasending  ? (
-              "Change"
+              "Update"
             ) : (
               <div className="reviewLoaders"></div>
             )}

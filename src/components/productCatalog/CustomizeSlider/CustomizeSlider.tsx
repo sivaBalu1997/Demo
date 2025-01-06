@@ -208,44 +208,36 @@ const CustomizeSlider = () => {
   
 
 
-  const handlePriceChange = (
-    parentIndex: number,
-    childIndex: number,
-    newPrice: number,
-    Enabled:boolean,
-    name:string,
-    Enable:number,
-    options:any,
-    modifierIdhead:string,
-    optionId:string
-
-
-  ) => {
-
-  
-    
-
-    if(Enabled)
-   {
-   
+ const handlePriceChange = (
+  parentIndex: number,
+  childIndex: number,
+  newPrice: number | null, // Accept `null` for cleared input
+  Enabled: boolean,
+  name: string,
+  Enable: number,
+  options: any,
+  modifierIdhead: string,
+  optionId: string
+) => {
+  if (Enabled && newPrice !== null) { // Only update if `newPrice` is not `null`
     setPartialData((prev: any) => {
-      const existingModifierInfo = prev.modifierInfo || []; 
+      const existingModifierInfo = prev.modifierInfo || [];
       const existingIndex = existingModifierInfo.findIndex(
         (item: any) => item.modifierId === modifierIdhead
       );
-      const modifierupdate={
-        modifierId:modifierIdhead,
-        modifierName:name,
-        isEnabled:Enable,
-        options:options.map((opt: any) => ({
-          modifierOptionId:opt.id,
+
+      const modifierupdate = {
+        modifierId: modifierIdhead,
+        modifierName: name,
+        isEnabled: Enable,
+        options: options.map((opt: any) => ({
+          modifierOptionId: opt.id,
           modifierOptionName: opt.name,
           price: opt.id === optionId ? newPrice : opt.price,
           isEnabled: Enabled,
-        }))
- 
-      }
-    
+        })),
+      };
+
       const updatedModifierInfo =
         existingIndex > -1
           ? existingModifierInfo.map((item: any, index: number) =>
@@ -255,35 +247,30 @@ const CustomizeSlider = () => {
                     modifierName: name,
                     isEnabled: Enable,
                     options: options.map((opt: any) => ({
-                      modifierOptionId:opt.id,
+                      modifierOptionId: opt.id,
                       modifierOptionName: opt.name,
                       price: opt.id === optionId ? newPrice : opt.price,
                       isEnabled: Enabled,
-                      
                     })),
                   }
                 : item
             )
           : [...existingModifierInfo, modifierupdate];
-    
+
       return {
         ...prev,
-        itemId: datafromRedux[0].itemId,
+        itemId: datafromRedux[0]?.itemId,
         modifierInfo: updatedModifierInfo,
       };
     });
-    
 
+    // Update `customData` safely
     const updatedData = [...customData];
     updatedData[parentIndex].options[childIndex].price = newPrice;
-
-
-
-
     setCustomData(updatedData);
-   }
-    
-  };
+  }
+};
+
   const restaurantDetails = useSelector(
     (state: any) => state?.auth.restaurantDetails
   );
@@ -340,29 +327,37 @@ const CustomizeSlider = () => {
                       )}
 
 <input
-                        className="input-subitem-field"
-                        type="number"
-                        value={subitem.price}
-                        disabled={!subitem.isEnabled}
-                        onChange={(e) =>
-                          handlePriceChange(
-                            index,
-                            subindex,
-                            parseFloat(e.target.value),
-                            subitem.isEnabled,
-                            elem.modifierName,
-                            
-                            elem.isEnabled,
-                            elem.options,
-                            elem.modifierId,
-                            subitem.id,
+  className="input-subitem-field"
+  type="text"
+  value={subitem.price || ''} // Display an empty string if the value is null/undefined
+  disabled={!subitem.isEnabled}
+  onChange={(e) => {
+    const input = e.target.value;
+
+    // Regex to allow up to 4 digits and optionally 2 decimals
+    const regex = /^\d{0,4}(\.\d{0,2})?$/;
+
+    if (regex.test(input)) {
+      handlePriceChange(
+        index,
+        subindex,
+        input === '' ? 0 : parseFloat(input), 
+        subitem.isEnabled,
+        elem.modifierName,
+        elem.isEnabled,
+        elem.options,
+        elem.modifierId,
+        subitem.id
+      );
+    }
+  }}
+  placeholder="$0.00"
+/>
 
 
 
-                          )
-                        }
-                        placeholder="0.00"
-                      />
+
+
                     </div>
 
 

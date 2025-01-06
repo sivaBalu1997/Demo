@@ -178,9 +178,16 @@ console.log({firstMatch});
         subCategory?.itemResponseList?.forEach((item) => {
           if (item?.itemName === option) {
             result = {
-              categoryId: subCategory.categoryId,
-              categoryName: `${category.categoryName} > ${subCategory.categoryName}`, 
-              itemResponseList: [item],
+              categoryId: category.categoryId,
+              categoryName: category.categoryName,
+              subCategoryResponseList:[{
+                subCategoryId:subCategory.subCategoryId,
+                subCategoryName:subCategory.subCategoryName,
+                itemResponseList: [item],
+              }]
+               
+
+              
             };
           }
         });

@@ -162,7 +162,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [online, setOnline] = useState(false);
     const [pickup, setPickup] = useState(false);
     const [delivery, setDelivery] = useState(false);
-    const [showDineIn, setShowDineIn] = useState(false);
+    const [showDineIn, setShowDineIn] = useState(true);
     const { setValiadtePriceFields, setStoredFunction } =
       useContext(Contextpagejs);
 
@@ -600,6 +600,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         setNormalDays(prizingDetail.normalForm.Normaldays || []);
         setDayPickup(prizingDetail.normalForm?.Pickup || []);
         setDayDelivery(prizingDetail.normalForm?.Delivery || []);
+
         setDayThird(prizingDetail?.normalForm?.thirdParty || []);
         dineIndetails?.availabilities?.forEach((availability: any) => {
           availability.availabilityDays =
@@ -750,36 +751,36 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
           (item: any) => item.typeGroup === "D"
         );
 
-        if (
-          editData?.length > 0 &&
-          DineInEnableOrnotWhneEdit &&
-          DineInEnableOrnotWhneEdit[0].isEnabled === 0
-        ) {
-          setShowDineIn(false);
-          setdineInEnable(false);
-        }
+        // if (
+        //   editData?.length > 0 &&
+        //   DineInEnableOrnotWhneEdit &&
+        //   DineInEnableOrnotWhneEdit[0].isEnabled === 0
+        // ) {
+        //   setShowDineIn(false);
+        //   setdineInEnable(false);
+        // }
 
-        if (
-          editData?.length > 0 &&
-          !pickupDetails &&
-          pickupEnableOrnotWhneEdit &&
-          pickupEnableOrnotWhneEdit[0].isEnabled === 0
-        ) {
-          setOnline(true);
-          setPickup(false);
-          setpickupEnable(false);
-        }
+        // if (
+        //   editData?.length > 0 &&
+        //   !pickupDetails &&
+        //   pickupEnableOrnotWhneEdit &&
+        //   pickupEnableOrnotWhneEdit[0].isEnabled === 0
+        // ) {
+        //   setOnline(true);
+        //   setPickup(false);
+        //   setpickupEnable(false);
+        // }
 
-        if (
-          editData?.length > 0 &&
-          !deliveryDetails &&
-          DeliveryEnableOrnotWhneEdit &&
-          DeliveryEnableOrnotWhneEdit[0].isEnabled === 0
-        ) {
-          setOnline(true);
-          setDelivery(false);
-          setdeliveryEnable(false);
-        }
+        // if (
+        //   editData?.length > 0 &&
+        //   !deliveryDetails &&
+        //   DeliveryEnableOrnotWhneEdit &&
+        //   DeliveryEnableOrnotWhneEdit[0].isEnabled === 0
+        // ) {
+        //   setOnline(true);
+        //   setDelivery(false);
+        //   setdeliveryEnable(false);
+        // }
 
         // setValue("kitchenstation",prizingDetail?.kitchenstation)
       }
@@ -811,27 +812,27 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
         if (dineIndetail) {
           setShowDineIn(true);
-          if (
-            editData?.length > 0 &&
-            filterOrderTypeAvailableorNotDineIn &&
-            filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
-          ) {
-            setShowDineIn(false);
-            setdineInEnable(false);
-          }
+          // if (
+          //   editData?.length > 0 &&
+          //   filterOrderTypeAvailableorNotDineIn &&
+          //   filterOrderTypeAvailableorNotDineIn[0]?.isEnabled === 0
+          // ) {
+          //   setShowDineIn(false);
+          //   setdineInEnable(false);
+          // }
         }
 
         if (pickupDetails) {
           pickupDetails.price > 0 && setPickup(true);
           // setPickup(true);
-          if (
-            editData?.length > 0 &&
-            filterOrderTypeAvailableorNotPickup &&
-            filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 0
-          ) {
-            setPickup(false);
-            setpickupEnable(false);
-          }
+          // if (
+          //   editData?.length > 0 &&
+          //   filterOrderTypeAvailableorNotPickup &&
+          //   filterOrderTypeAvailableorNotPickup[0]?.isEnabled === 0
+          // ) {
+          //   setPickup(false);
+          //   setpickupEnable(false);
+          // }
 
           setOnline(true);
 
@@ -850,14 +851,14 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             (thirdpartyDetails &&
               thirdpartyDetails[0]?.price > 0 &&
               setDelivery(true));
-          if (
-            editData?.length > 0 &&
-            filterOrderTypeAvailableorNotDelivery &&
-            filterOrderTypeAvailableorNotDelivery[0]?.isEnabled === 0
-          ) {
-            setDelivery(false);
-            setdeliveryEnable(false);
-          }
+          // if (
+          //   editData?.length > 0 &&
+          //   filterOrderTypeAvailableorNotDelivery &&
+          //   filterOrderTypeAvailableorNotDelivery[0]?.isEnabled === 0
+          // ) {
+          //   setDelivery(false);
+          //   setdeliveryEnable(false);
+          // }
           setOnline(true);
 
           // thirdpartyDetails && thirdpartyDetails[0]?.price > 0 ? setOnline(true) : setOnline(false);
@@ -1835,7 +1836,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                             </span>
                           </div>
                         </div>
-                        <div className="PickupChooseDayContainer">
+                        <div className="PickupChooseDayContainer" >
                           {showDayPickup ? (
                             <h3 className="pickupChooseDayContainerHeading">
                               Back to default days?
