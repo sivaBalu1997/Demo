@@ -37,7 +37,7 @@
   
   // }
   @media (max-width: 1791px) {
-    height: 28rem;
+    height: 32rem;
     width: 100%;
     border: 2px solid gold;
     
@@ -46,8 +46,8 @@
   }
   
   }
-  @media (min-width: 1629px) and (max-width: 1669px) {
-    height: 35rem;
+  @media (max-width: 1525px) {
+    height: 27.5rem;
     border: 1px solid red;
     
   &::-webkit-scrollbar {
