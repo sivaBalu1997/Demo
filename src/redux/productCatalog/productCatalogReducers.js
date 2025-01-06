@@ -694,7 +694,7 @@ export default function productCatalogReducer(
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
         draft.uploadImageLoading = false;
-        draft.imageUploadsuccessemsg = false;
+        draft.imageUploadsuccessemsg = true;
         draft.addMenuLoading = false;
         break;
 
@@ -709,7 +709,7 @@ export default function productCatalogReducer(
       case IMAGE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.itemId = action.payload;
-        draft.imageUploadsuccessemsg = false;
+        draft.imageUploadsuccessemsg = true;
         draft.addMenuLoading = false;
         break;
 
@@ -723,6 +723,7 @@ export default function productCatalogReducer(
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
+        console.log('From reducer',action.payload)
         draft.successImageId = action.payload;
         draft.imageUploadsuccessemsg = true;
         draft.addMenuLoading = false;

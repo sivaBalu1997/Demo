@@ -581,12 +581,9 @@ export const MenuPage = () => {
     }
   }, [selectedBranch?.id]);
 
-  console.log({locationid},{selectedBranch})
-
-
-  useEffect(() => {
-    dispatch(getMenuRequest(locationid));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getMenuRequest(locationid));
+  // }, []);
 
   useEffect(() => {
     if (deleteMenuItemSuccess) {
@@ -865,6 +862,8 @@ export const MenuPage = () => {
 
   const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
 
+  // const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing";
+
   const handleItemnameClick = (value) => {
     handlemodal(value);
   };
@@ -953,6 +952,10 @@ export const MenuPage = () => {
       });
     };
 
+    const UploadImageImageID = useSelector(
+      (state) => state.productCatalog.successImageId
+    );
+
   return (
     <>
       <div className="MenuPage-container">
@@ -1031,8 +1034,22 @@ export const MenuPage = () => {
                           return (
                             <>
                               {listingobject && listingobject[header.label] && (
-                                <p  style={{display:"flex",gap:"20px",height:"1rem"}}>
-                                  <span className="borderfor-header" style={{padding:"0",paddingLeft:"20px",paddingRight:"20px",height:"2rem"}}>
+                                <p
+                                  style={{
+                                    display: "flex",
+                                    gap: "20px",
+                                    height: "1rem",
+                                  }}
+                                >
+                                  <span
+                                    className="borderfor-header"
+                                    style={{
+                                      padding: "0",
+                                      paddingLeft: "20px",
+                                      paddingRight: "20px",
+                                      height: "2rem",
+                                    }}
+                                  >
                                     {header.label !== "Inventory1" &&
                                       header.label !== "Customize1" && (
                                         <span className="dollar">
@@ -1107,11 +1124,17 @@ export const MenuPage = () => {
                             <p>
                               <span className="itemimage2">
                                 <img
-                                  src={
-                                   baseImageUrl +
+                                  // src={
+                                  //  baseImageUrl +
+                                  //   item?.mediaResponseList[0]?.imageId
+                                  // }
+                                  src={`${baseImageUrl}${
                                     item?.mediaResponseList[0]?.imageId
-                                  }
-                                  // src={`${baseImageUrl}${item?.mediaResponseList[0]?.imageId}.${item?.mediaResponseList[0]?.imageType}`}
+                                  }.${
+                                    item?.mediaResponseList[0]?.imageType.split(
+                                      "/"
+                                    )[1]
+                                  }`}
                                   alt="No Image"
                                   className="foodimage"
                                 />
@@ -1204,11 +1227,15 @@ export const MenuPage = () => {
                             <React.Fragment key={parentIndex}>
                               {data?.itemResponseList?.length > 0 &&
                                 data.name !== "" && (
-                                  <div className="categoryName-data" >
-                                    <p style={{
-                                    
-                                    width: `${orderTypesToShow2?.length * 10}%` || "0rem", 
-                                  }}></p>
+                                  <div className="categoryName-data">
+                                    <p
+                                      style={{
+                                        width:
+                                          `${
+                                            orderTypesToShow2?.length * 10
+                                          }%` || "0rem",
+                                      }}
+                                    ></p>
                                   </div>
                                 )}
 
@@ -1262,17 +1289,20 @@ export const MenuPage = () => {
                                               : typeName === "Delivery"
                                               ? "Delivery1"
                                               : "";
-                                              const dynamicWidth = `${typeName.length * 10 + 20}px`;
+                                          const dynamicWidth = `${
+                                            typeName.length * 10 + 20
+                                          }px`;
 
                                           return (
                                             <span
-                                              
                                               key={typeName}
                                               style={{
-                                                opacity: isPriceEnabled ? "100%" : "50%",
-                                               
-                                                width: dynamicWidth, 
-                                                padding: "0 22px", 
+                                                opacity: isPriceEnabled
+                                                  ? "100%"
+                                                  : "50%",
+
+                                                width: dynamicWidth,
+                                                padding: "0 22px",
                                                 textAlign: "center",
                                                 display: "flex",
                                                 justifyContent: "center",
@@ -1334,17 +1364,18 @@ export const MenuPage = () => {
                                             : typeName === "Delivery"
                                             ? "Delivery2"
                                             : "";
-                                          const dynamicWidth = `${typeName.length * 10 + 20}px`;
+                                        const dynamicWidth = `${
+                                          typeName.length * 10 + 20
+                                        }px`;
                                         return (
                                           <span
                                             key={typeName}
-                                          
                                             style={{
-                                              position:"relative",
-                                               left:"1rem",
-                                             
-                                              width: dynamicWidth, 
-                                              padding: "0 22px", 
+                                              position: "relative",
+                                              left: "1rem",
+
+                                              width: dynamicWidth,
+                                              padding: "0 22px",
                                               textAlign: "center",
                                               display: "flex",
                                               justifyContent: "center",

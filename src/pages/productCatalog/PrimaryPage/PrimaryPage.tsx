@@ -342,7 +342,7 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
+  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
@@ -350,13 +350,12 @@ const PrimaryPage = () => {
         file: img?.imageId ? { name: img.imageId } : img?.file || {},
         uploaded: img?.uploaded || false,
         failed: img?.failed || false,
-        preview: img?.imageId ? `${baseImageUrl}${img.imageId}` : img?.preview,
+        preview: img?.imageId ? `${baseImageUrl}${img?.imageId}.${img?.imageType?.split('/')[1]}` : img?.preview,
       }));
 
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...imageArray];
         setValue("imageUrls", updatedImages);
-
         return updatedImages;
       });
     }
@@ -1084,6 +1083,7 @@ console.log({categoryData});
                         />
                       </div>
                     ))}
+
                     {images.length < 6 && (
                       <img
                         src={ImgaeUploading}
