@@ -136,6 +136,8 @@ setTimeToSet(`${formattedDate}T${selctedDateSession}`)
   };
   useEffect(()=>{
     const todayDay = getTodayDay();
+    // const todayDay = "Thursday";
+
     const todayWorkinghours = restaurantDetails?.workingHours.filter(
       (item:any) => item.weekday === todayDay||item.weekday === "All"
     );

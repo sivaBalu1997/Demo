@@ -101,6 +101,8 @@ const ItemCustomizations: React.FC<any> = () => {
   const [showModifiers, setShowModifiers] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  
+
   const [selectedValue, setSelectedValue] = useState<string[]>([]);
   const [isvalid, setIsValid] = useState<boolean>(false);
 
@@ -476,6 +478,13 @@ const ItemCustomizations: React.FC<any> = () => {
       return newModifier;
     });
   };
+  useEffect(()=>{
+    if (modifications.length > 0) {
+      
+      setShowModifiers(true);
+      
+    }
+  },[modifications])
 
   const getModifierClassName = (length: any) => {
     if (length == 1) {
@@ -1221,8 +1230,16 @@ const ItemCustomizations: React.FC<any> = () => {
                                       : "50%",
                                   }}
                                   disabled={!modifications[modIndex]?.isEnabled}
+                                  onInput={(e) => {
+                                    const input = e.target as HTMLInputElement; 
+                                    const regex = /^[a-zA-Z\s]*$/; 
+                                    if (!regex.test(input.value)) {
+                                      input.value = input.value.replace(/[^a-zA-Z\s]/g, ""); 
+                                    }
+                                  }}
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
+                                     
                                     if (!/\d/.test(inputValue)) {
                                       handleModifierChange(
                                         modIndex,

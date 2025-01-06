@@ -178,9 +178,16 @@ console.log({firstMatch});
         subCategory?.itemResponseList?.forEach((item) => {
           if (item?.itemName === option) {
             result = {
-              categoryId: subCategory.categoryId,
-              categoryName: `${category.categoryName} > ${subCategory.categoryName}`, 
-              itemResponseList: [item],
+              categoryId: category.categoryId,
+              categoryName: category.categoryName,
+              subCategoryResponseList:[{
+                subCategoryId:subCategory.subCategoryId,
+                subCategoryName:subCategory.subCategoryName,
+                itemResponseList: [item],
+              }]
+               
+
+              
             };
           }
         });
@@ -239,6 +246,11 @@ console.log({firstMatch});
     // }
   };
   console.log({filteredOptions});
+
+  const openSearchModel = () => {
+    setCloseModal(true);
+    filterOptions(searchTerm);
+  }
   
 
   return (
@@ -255,6 +267,7 @@ console.log({firstMatch});
         <img
           className={`${isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"}`}
           // className={"MLSerchIcon-Header1"}
+          onClick={() => openSearchModel()}
           src={searchIcon}
           alt="Search Icon"
         />

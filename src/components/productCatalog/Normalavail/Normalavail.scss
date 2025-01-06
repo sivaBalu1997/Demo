@@ -638,9 +638,10 @@
 .ErrormsgPrice {
   position: relative;
 
-  color: red;
+  color:#e52333;
   font-size: 14px;
   font-weight: 400;
+  margin-top: 0.3rem;
   // border: 1px solid red;
 }
 .ErrormsgPickupPrice {
@@ -826,7 +827,7 @@
 
 .mealTypeError {
   position: relative;
-  top: 1.35rem;
+  top: 1.75rem;
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -845,9 +846,11 @@
   color: #e52333;
 }
 .pickuperrormsg {
-  margin-top: -1.2rem;
+  margin-top: -1rem;
   margin-left: -0.5rem;
+  
   position: relative;
+ 
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -863,6 +866,9 @@
   line-height: 21px;
   text-align: left;
   color: #e52333;
+  margin-top: 1rem;
+  position: relative;
+  top: 1.7rem;
 }
 
 .delivery-price-errormsg {
