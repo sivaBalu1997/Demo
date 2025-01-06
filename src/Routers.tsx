@@ -199,7 +199,7 @@ const Routers = () => {
                 </div>
               ) : ( */}
               <>
-                <div style={{width:'100%'}}>
+                <div>
                   <Switch>
                     <Route exact path="/productCatalog/menuListing" component={MenuPage} />
                     {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}
