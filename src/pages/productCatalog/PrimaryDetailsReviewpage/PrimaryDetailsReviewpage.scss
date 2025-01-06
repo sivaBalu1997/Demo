@@ -11,9 +11,10 @@
 
 .reviewContaineExpanded {
   display: flex;
-  width: 93vw;
+  width: 98vw;
+
   @media(max-width: 1280px){
-    width: 105vw;
+    // width: 105vw;
     // background-color: lightsalmon;
   }
 }
@@ -487,10 +488,10 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  width: 108%;
+  width: 100%;
   background-color: white;
   top: 50px;
-  right: 30px;
+  left: -10px;
   height: 5px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
@@ -502,7 +503,7 @@
     // background-color: pink;
   }
   @media(max-width: 1470px) and (min-width: 1281px){
-    width: 75vw;
+    // width: 75vw;
     height: fit-content;
     // background-color: lightskyblue;
   }
@@ -566,7 +567,8 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  width: 86vw;
+  right: 0;
+  width: 100%;
   height: fit-content;
   background-color: white;
   // background-color: pink;
@@ -576,16 +578,17 @@
   transition: 0.2s ease all;
   @media(max-width: 1470px) and (min-width: 1281px){
     // width: 120%; /* Adjusted width for smaller screens */
-    width: 86.2vw;
+    width: 90vw;
     height: fit-content;
     top: 25px;
     padding: 16px 16px; 
     transition: 0.2s ease all;
+    right: 0 !important;
     // background-color: lightseagreen;
   }
   @media(max-width: 1280px){
     // width: 70vw;
-    width: 86.2vw;
+    // width: 86.2vw;
     height: fit-content;
     // background-color: pink;
   }

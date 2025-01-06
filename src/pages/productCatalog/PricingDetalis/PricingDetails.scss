@@ -92,7 +92,7 @@
 .pricing-form {
   display: flex;
   flex-direction: column;
-  width: 1120px;
+  width: 80%;
   margin-left: 55px;
   // overflow-y: auto;
   height: 82vh;
@@ -111,6 +111,16 @@
     display: none;
   }
   // font-size: 14px;
+  .buttonContainer{
+    width: 100%;
+    position: absolute;
+    left: 15.5px;
+  }
+  .buttonContainerExpanded{
+    width: 100%;
+    position: absolute;
+    left: 10px;
+  }
 }
 
 .KitchenRelated {
