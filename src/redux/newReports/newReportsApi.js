@@ -1,7 +1,6 @@
 import { API } from "redux/api";
 import Store from "../store";
 
-//SALES PAGE APIs Start---------------------------------------------------------------------------------------------------------
 const SALES_SUMMARY_API_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/summary";
 
 const SALES_BY_ITEM_CATEGORY_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/category";
@@ -11,6 +10,19 @@ const SALES_BY_REVENUE_CLASS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-
 const ACTUAL_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/payment?";
 
 const HOURLY_SALES_CHART_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/hourly?";
+
+const LIVE_DISCOUNT_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/discounts?"
+
+const LIVE_OPEN_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/open-sales?"
+
+const LIVE_ORDERS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/tables?"
+
+const LIVE_REFUNDS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/refunds?"
+
+const LIVE_NET_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/net-sales?"
+
+//   /sales/tracking?
+const LIVE_ORDER_NON_DINE_IN_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/tracking?"
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
     const token = Store.getState()?.auth?.credentials?.accessToken;
@@ -66,5 +78,77 @@ export const getHourlySalesChart = (hourlySalesPayload) => {
         }
     });
 }
-//SALES PAGE APIs end---------------------------------------------------------------------------------------------------------
+
+export const getLiveDiscount = (liveDiscountPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${LIVE_DISCOUNT_ENDPOINT}locationId=${liveDiscountPayload?.locationid}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getLiveOpenSales = (liveOpenSalesPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${LIVE_OPEN_SALES_ENDPOINT}locationId=${liveOpenSalesPayload?.locationid}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+
+export const getLiveOrders = (liveOrdersPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${LIVE_ORDERS_ENDPOINT}locationId=${liveOrdersPayload?.locationid}&page=${liveOrdersPayload?.tablePageNo}&size=${liveOrdersPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getLiveRefunds = (liveRefundsPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${LIVE_REFUNDS_ENDPOINT}locationId=${liveRefundsPayload?.locationid}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getLiveNetSales = (liveNetSalesPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${LIVE_NET_SALES_ENDPOINT}locationId=${liveNetSalesPayload?.locationid}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+
+
+
+
+
 

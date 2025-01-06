@@ -18,6 +18,24 @@ import {
     HOURLY_SALES_REQUEST,
     HOURLY_SALES_SUCCESS,
     HOURLY_SALES_FAILURE,
+    LIVE_DISCOUNT_REQUEST,
+    LIVE_DISOUNT_SUCCESS,
+    LIVE_DISCOUNT_FAILURE,
+    LIVE_OPEN_SALES_REQUEST,
+    LIVE_OPEN_SALES_SUCCESS,
+    LIVE_OPEN_SALES_FAILURE,
+    LIVE_ORDERS_REQUEST,
+    LIVE_ORDERS_SUCCESS,
+    LIVE_ORDERS_FAILURE,
+    LIVE_REFUNDS_REQUEST,
+    LIVE_REFUNDS_SUCCESS,
+    LIVE_REFUNDS_FAILURE,
+    LIVE_NET_SALES_REQUEST,
+    LIVE_NET_SALES_SUCCESS,
+    LIVE_NET_SALES_FAILURE,
+    LIVE_ORDER_NON_DINE_IN_SUCCESS,
+    LIVE_ORDER_NON_DINE_IN_FAILURE,
+    LIVE_ORDER_NON_DINE_IN_REQUEST,
 } from "../newReports/newReportsConstants";
 
 
@@ -41,6 +59,24 @@ const initialNewReportsState = {
     hourlySalesLoading: false,
     hourlySalesSuccess: [],
     hourlySalesFailure: false,
+    liveDiscountLoading: false,
+    liveDiscountSuccess: [],
+    liveDiscountFailure: false,
+    liveOpenSalesLoading: false,
+    liveOpenSalesSuccess: [],
+    liveOpenSalesFailure: false,
+    liveOrdersLoading: false,
+    liveOrdersSuccess: [],
+    liveOrdersFailure: false,
+    liveRefundsLoading: false,
+    liveRefundsSuccess: [],
+    liveRefundsFailure: false,
+    liveNetSalesLoading: false,
+    liveNetSalesSuccess: [],
+    liveNetSalesFailure: false,
+    liveOrderNonDineInLoading: false,
+    liveOrderNonDineInSuccess: [],
+    liveOrderNonDineInFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -141,6 +177,102 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.hourlySalesSuccess = [];
                 draft.hourlySalesLoading = false;
                 draft.hourlySalesFailure = true;
+                break;
+            // live discount
+            case LIVE_DISCOUNT_REQUEST:
+                draft.liveDiscountSuccess = [];
+                draft.liveDiscountLoading = true;
+                draft.liveDiscountFailure = false;
+                break;
+            case LIVE_DISOUNT_SUCCESS:
+                draft.liveDiscountSuccess = action.payload;
+                draft.liveDiscountLoading = false;
+                draft.liveDiscountFailure = false
+                break;
+            case LIVE_DISCOUNT_FAILURE:
+                draft.liveDiscountSuccess = [];
+                draft.liveDiscountLoading = false;
+                draft.liveDiscountFailure = true;
+                break;
+            // open sales
+            case LIVE_OPEN_SALES_REQUEST:
+                draft.liveOpenSalesSuccess = [];
+                draft.liveOpenSalesLoading = true;
+                draft.liveOpenSalesFailure = false;
+                break;
+            case LIVE_OPEN_SALES_SUCCESS:
+                draft.liveOpenSalesSuccess = action.payload;
+                draft.liveOpenSalesLoading = false;
+                draft.liveOpenSalesFailure = false
+                break;
+            case LIVE_OPEN_SALES_FAILURE:
+                draft.liveOpenSalesSuccess = [];
+                draft.liveOpenSalesLoading = false;
+                draft.liveOpenSalesFailure = true;
+                break;
+            // live orders table
+            case LIVE_ORDERS_REQUEST:
+                draft.liveOrdersSuccess = [];
+                draft.liveOrdersLoading = true;
+                draft.liveOrdersFailure = false;
+                break;
+            case LIVE_ORDERS_SUCCESS:
+                draft.liveOrdersSuccess = action.payload;
+                draft.liveOrdersLoading = false;
+                draft.liveOrdersFailure = false
+                break;
+            case LIVE_ORDERS_FAILURE:
+                draft.liveOrdersSuccess = [];
+                draft.liveOrdersLoading = false;
+                draft.liveOrdersFailure = true;
+                break;
+            // refunds
+            case LIVE_REFUNDS_REQUEST:
+                draft.liveRefundsSuccess = [];
+                draft.liveRefundsLoading = true;
+                draft.liveRefundsFailure = false;
+                break;
+            case LIVE_REFUNDS_SUCCESS:
+                draft.liveRefundsSuccess = action.payload;
+                draft.liveRefundsLoading = false;
+                draft.liveRefundsFailure = false
+                break;
+            case LIVE_REFUNDS_FAILURE:
+                draft.liveRefundsSuccess = [];
+                draft.liveRefundsLoading = false;
+                draft.liveRefundsFailure = true;
+                break;
+            // net sales
+            case LIVE_NET_SALES_REQUEST:
+                draft.liveNetSalesSuccess = [];
+                draft.liveNetSalesLoading = true;
+                draft.liveNetSalesFailure = false;
+                break;
+            case LIVE_NET_SALES_SUCCESS:
+                draft.liveNetSalesSuccess = action.payload;
+                draft.liveNetSalesLoading = false;
+                draft.liveNetSalesFailure = false
+                break;
+            case LIVE_NET_SALES_FAILURE:
+                draft.liveNetSalesSuccess = [];
+                draft.liveNetSalesLoading = false;
+                draft.liveNetSalesFailure = true;
+                break;
+            // live order non dine in
+            case LIVE_ORDER_NON_DINE_IN_REQUEST:
+                draft.liveOrderNonDineInSuccess = [];
+                draft.liveOrderNonDineInLoading = true;
+                draft.liveOrderNonDineInFailure = false;
+                break;
+            case LIVE_ORDER_NON_DINE_IN_SUCCESS:
+                draft.liveOrderNonDineInSuccess = action.payload;
+                draft.liveOrderNonDineInLoading = false;
+                draft.liveOrderNonDineInFailure = false
+                break;
+            case LIVE_ORDER_NON_DINE_IN_FAILURE:
+                draft.liveOrderNonDineInSuccess = [];
+                draft.liveOrderNonDineInLoading = false;
+                draft.liveOrderNonDineInFailure = true;
                 break;
             default:
                 break;

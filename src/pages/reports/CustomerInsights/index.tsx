@@ -1,5 +1,5 @@
 // live reports page
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LD } from "../../../assets/mockData/originalAPIData/OliveReportData";
 import { DDDD } from "assets/mockData/mock D/nested";
@@ -9,16 +9,77 @@ import Topnavbar from "../../../components/reportComponents/TopNavbar";
 import SidePanel from "pages/SidePanel";
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { liveDiscountRequest, liveNetSalesRequest, liveOpenSalesRequest, liveOrderNonDineInRequest, liveOrdersRequest, liveRefundsRequest } from "redux/newReports/newReportsActions";
 
 const CustomerInsights = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
+
+  const RECORDS_PER_PAGE_LIMIT = 15
 
   const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
   console.log({ currentPageLiveOrders })
 
   const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
   console.log({ currentPageLiveOrdersNonDineIn })
+
+  const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
+  console.log("LOC", { locationid })
+
+  const liveDiscountDataAPIRedux = useSelector((state: any) => state?.newReports?.liveDiscountSuccess);
+  console.log("liveDiscountDataAPIRedux", liveDiscountDataAPIRedux)
+
+  const liveOpenSalesDataAPIRedux = useSelector((state: any) => state?.newReports?.liveOpenSalesSuccess)
+  console.log({ liveOpenSalesDataAPIRedux })
+
+  const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess)
+  console.log({ liveOrdersAPIRedux })
+
+  const liveRefundsAPIRedux = useSelector((state: any) => state?.newReports?.liveRefundsSuccess)
+  console.log({ liveRefundsAPIRedux })
+
+  const liveNetSalesAPIRedux = useSelector((state: any) => state?.newReports?.liveNetSalesSuccess)
+  console.log({ liveNetSalesAPIRedux })
+
+  const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess)
+  console.log({ liveOrderNonDineInAPIRedux })
+
+
+  const dispatch = useDispatch();
+
+  // const [currentDate, setCurrentDate] = useState('');
+  // const formattedDate = moment().format('YYYY-MM-DD');
+  // setCurrentDate(formattedDate);
+  const [currentDate, setCurrentDate] = useState('');
+  console.log({ currentDate })
+
+  useEffect(() => {
+    dispatch(liveDiscountRequest({ locationid }))
+  }, [locationid])
+
+  useEffect(() => {
+    dispatch(liveOpenSalesRequest({ locationid }))
+  }, [locationid])
+
+  useEffect(() => {
+    dispatch(liveOrdersRequest({ locationid, tablePageNo: currentPageLiveOrders, tableRecordLimit: RECORDS_PER_PAGE_LIMIT }))
+  }, [locationid, currentPageLiveOrders])
+
+  useEffect(() => {
+    dispatch(liveRefundsRequest({ locationid }))
+  }, [locationid])
+
+  useEffect(() => {
+    dispatch(liveNetSalesRequest({ locationid }))
+  }, [locationid])
+
+  useEffect(() => {
+    const formattedDate = moment().format('YYYY-MM-DD');
+    setCurrentDate(formattedDate);
+    currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: RECORDS_PER_PAGE_LIMIT, startDate: currentDate, endDate: currentDate }))
+  }, [locationid, currentPageLiveOrdersNonDineIn, currentDate])
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -40,19 +101,19 @@ const CustomerInsights = () => {
           <div className={isExpanded ? "l-live-inner-box-expanded" : "l-live-inner-box"}>
             <div className="l-live-box">
               <h2>Discounts</h2>
-              <h3>{LD?.discounts?.map((dis) => dis?.Discounts)}</h3>
+              <h3>{liveDiscountDataAPIRedux && liveDiscountDataAPIRedux > 0 ? liveDiscountDataAPIRedux : LD?.discounts?.map((dis) => dis?.Discounts)}</h3>
             </div>
             <div className="l-live-box">
               <h2>Refund</h2>
-              <h3>{LD?.refunds?.map((refund) => refund?.refunds)}</h3>
+              <h3>{liveRefundsAPIRedux && liveRefundsAPIRedux > 0 ? liveRefundsAPIRedux : LD?.refunds?.map((refund) => refund?.refunds)}</h3>
             </div>
             <div className="l-live-box">
               <h2>Open Sales</h2>
-              <h3>{LD?.["open sales"]?.map((openSale) => openSale?.["Open Sales"])}</h3>
+              <h3>{liveOpenSalesDataAPIRedux && liveOpenSalesDataAPIRedux > 0 ? liveOpenSalesDataAPIRedux : LD?.["open sales"]?.map((openSale) => openSale?.["Open Sales"])}</h3>
             </div>
             <div className="l-live-box">
               <h2>Net Sales</h2>
-              <h3>{LD?.["net sales"]?.map((netSale) => netSale?.["Net Sales"])}</h3>
+              <h3>{liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 ? liveNetSalesAPIRedux : LD?.["net sales"]?.map((netSale) => netSale?.["Net Sales"])}</h3>
             </div>
           </div>
         </div>
@@ -61,13 +122,13 @@ const CustomerInsights = () => {
             currentPage={currentPageLiveOrders}
             setCurrentPage={setCurrentPageLiveOrders}
             Heading="Live Orders"
-            tableData={LD["Live Orders New"]}
+            tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 ? liveOrdersAPIRedux : LD["Live Orders New"]}
             viewType="full"
-            recordsPerPage={3}
+            recordsPerPage={RECORDS_PER_PAGE_LIMIT}
           />
         </div>
         <div className="live-orders-non-dine-in">
-          <Table currentPage={currentPageLiveOrdersNonDineIn} setCurrentPage={setCurrentPageLiveOrdersNonDineIn} Heading="Live Orders (Non-Dine-In)" tableData={LD["Live Orders (Non Dine In)"]} viewType="full" recordsPerPage={5} />
+          <Table currentPage={currentPageLiveOrdersNonDineIn} setCurrentPage={setCurrentPageLiveOrdersNonDineIn} Heading="Live Orders (Non-Dine-In)" tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 ? liveOrderNonDineInAPIRedux : LD["Live Orders (Non Dine In)"]} viewType="full" recordsPerPage={RECORDS_PER_PAGE_LIMIT} />
         </div>
         {/* <div className="tables-container-two">
           <Table
