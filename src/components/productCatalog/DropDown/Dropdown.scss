@@ -61,12 +61,23 @@
 }
 
 .optionsPricing label {
-  margin-top: -2px;
-  display: block;
-  padding: 10px;
+  display: flex;
+  align-items: center;
   color: #979797;
   font-size: 14px;
   z-index: 10;
+  width: fit-content;
+  margin: 0 !important;
+  padding: 0;
+
+  p{
+    display: flex;
+    align-items: center;
+    padding: 0;
+    font-size: 15px;
+    margin: 0;
+    padding-top: 10px;
+  }
 }
 
 .optionsPricing input[type="checkbox"] {
@@ -99,7 +110,8 @@
   height: 20px;
   transform: translateY(5px);
   accent-color: #779749;
-  margin-left: 10px;
+  margin: 0px 0px 0px 10px;
+  padding: 0;
 }
 
 .valuePricing {

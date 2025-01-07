@@ -805,7 +805,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "column", width:'86.5vw' }}>
         <div className="reviewheading">
           <p>
             Review menu item -{" "}

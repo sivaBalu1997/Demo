@@ -262,11 +262,10 @@ const PricingDetails = () => {
       Swiggy: [],
       Zomato: [],
     });
-    
-    const prizingDetail = useSelector(
-      (state: any) => state.PricingDetailReducer.prizingData || {}
-    );
-  
+
+  const prizingDetail = useSelector(
+    (state: any) => state.PricingDetailReducer.prizingData || {}
+  );
 
   const {
     control,
@@ -284,7 +283,9 @@ const PricingDetails = () => {
         Inventory1: "",
         Inventory2: "",
       },
-      kitchenstation: prizingDetail?.kitchenstation ? prizingDetail?.kitchenstation : "",
+      kitchenstation: prizingDetail?.kitchenstation
+        ? prizingDetail?.kitchenstation
+        : "",
       KitchenStationId: "",
       Preparationtime: {
         hours: "hhh",
@@ -317,7 +318,6 @@ const PricingDetails = () => {
   const kitchenStationData = useSelector(
     (state: any) => state.productCatalog.kitchenStation
   );
-
 
   const [options, setOptions] = useState<option[]>([]);
   const [options1, setOptions1] = useState<Option[]>([]);
@@ -381,7 +381,7 @@ const PricingDetails = () => {
   const [inventory, setInventory] = useState(false);
   const [isOptionTrue, setIsOptionTrue] = useState(true);
 
-  const [kitchenError, setKitchenError] = useState(false)
+  const [kitchenError, setKitchenError] = useState(false);
 
   const [validationState, setValidationState] = useState({
     kitchen: { isValid: true, errorMessage: "" },
@@ -436,7 +436,9 @@ const PricingDetails = () => {
       Inventory2: "",
     },
 
-    kitchenstation: prizingDetail?.kitchenstation ? prizingDetail?.kitchenstation : '',
+    kitchenstation: prizingDetail?.kitchenstation
+      ? prizingDetail?.kitchenstation
+      : "",
 
     Preparationtime: {
       hours: "",
@@ -464,7 +466,6 @@ const PricingDetails = () => {
       // Prepare the kitchenstation name for the dropdown
       const kitchenStationName = prizingDetail?.kitchenstation;
 
-
       // Set form values including kitchenstation
       reset({
         form: {
@@ -476,13 +477,12 @@ const PricingDetails = () => {
           hours: prizingDetail.Preparationtime?.hours || "",
           minutes: prizingDetail.Preparationtime?.minutes || "",
         },
-
       });
 
       setOptions1(prizingDetail.kitchenstation);
       // setValue("kitchenstation", kitchenStationName);
-      const kitchh=getValues("kitchenstation")      
-      
+      const kitchh = getValues("kitchenstation");
+
       // setTimeout(() => {
       //   console.log("kitchenstation value:", getValues("kitchenstation"));
       // }, 0);
@@ -563,8 +563,7 @@ const PricingDetails = () => {
       // } else {
       //   errors[mealTypeKey] = { isValid: true, errorMessage: "" };
       // }
-      if(dinein)
-      {
+      if (dinein) {
         if (
           !field.DineInPrice ||
           isNaN(Number(field.DineInPrice)) ||
@@ -576,16 +575,12 @@ const PricingDetails = () => {
           };
         } else {
           errors[priceKey] = { isValid: true, errorMessage: "" };
-        }  
+        }
       }
-      
-     
     });
 
     return errors;
   };
-
-
 
   const editData = useSelector((state: any) => state.productCatalog.editData);
 
@@ -722,8 +717,6 @@ const PricingDetails = () => {
     useState<DropdownValidationState>({});
 
   const handleValidate = (): boolean => {
-   
-
     const dineInErrors = isOptionTrue
       ? validateDineInFields(dineinfields)
       : validateDineInFields1(dineinfieldsSpecial);
@@ -764,7 +757,7 @@ const PricingDetails = () => {
         minutes: "",
       },
     });
-    dispatch(PricingDetailsClear())
+    dispatch(PricingDetailsClear());
   };
 
   const handleInventoryCheck = (event: any) => {
@@ -783,13 +776,17 @@ const PricingDetails = () => {
     (state: any) => state.primarypage?.data
   );
 
-  const [childFunction, setChildFunction] = useState<() => void>(() => () => {});
-  const [validationFunction, setValidationFunction] = useState<(() => boolean) | null>(null);
+  const [childFunction, setChildFunction] = useState<() => void>(
+    () => () => {}
+  );
+  const [validationFunction, setValidationFunction] = useState<
+    (() => boolean) | null
+  >(null);
 
   const handleValidationCheck = () => {
     if (validationFunction) {
-      const isValid = validationFunction(); 
-    } else {      
+      const isValid = validationFunction();
+    } else {
     }
   };
 
@@ -799,7 +796,6 @@ const PricingDetails = () => {
   //     fetchDropDownRequest(kitchenpayload)
   //   }
   // },[])
-
 
   return (
     <div className={isExpanded ? "pricingDetailsExpanded" : "pricingDetails"}>
@@ -812,6 +808,7 @@ const PricingDetails = () => {
           triggerValidation={() => trigger()}
           mainForm={mainForm}
           handleValidate={validationFunction}
+          setKitchenError={setKitchenError}
         />
         <div
           className={
@@ -822,8 +819,6 @@ const PricingDetails = () => {
         >
           <div className="pricing-form">
             <div className="Tool">
-
-           
               <p className="KitchenRelatedHeading">Kitchen Related</p>
               <div className="tool-tip-kitchen-detail">
                 <Tooltip
@@ -847,7 +842,10 @@ const PricingDetails = () => {
                     right: "1rem",
                   }}
                 >
-                  <div className="ToolKitchen" style={{border:"none",outline:"none"}}>
+                  <div
+                    className="ToolKitchen"
+                    style={{ border: "none", outline: "none" }}
+                  >
                     <img src={info} alt="info icon" width={20} height={20} />
                   </div>
                 </Tooltip>
@@ -879,7 +877,7 @@ const PricingDetails = () => {
                     onToggle={() => handleDropdownToggle("Kitchen")}
                     dropDownType="KITCHEN_STATION"
                     resetSelection={kitchenDetail}
-                    kitchenError= {kitchenError}
+                    kitchenError={kitchenError}
                   />
                 )}
               />
@@ -894,21 +892,25 @@ const PricingDetails = () => {
                     name="Preparationtime.hours"
                     control={control}
                     defaultValue=""
-              
                     render={({ field, trigger, value }: any) => (
                       <input
                         type="text"
                         name="hours"
-                          placeholder="00"
+                        placeholder="00"
                         value={value}
                         className="Prepartiontime-input-hours"
                         onChange={(e) => {
                           const inputValue = e.target.value;
-                      
-                          if (/^(0|[1-9]|1[0-9]|2[0-3])$/.test(inputValue) || inputValue === "") {
-                            setValue("Preparationtime.hours", inputValue === "" ? "" : Number(inputValue));
+
+                          if (
+                            /^(0|[1-9]|1[0-9]|2[0-3])$/.test(inputValue) ||
+                            inputValue === ""
+                          ) {
+                            setValue(
+                              "Preparationtime.hours",
+                              inputValue === "" ? "" : Number(inputValue)
+                            );
                           }
-                         
                         }}
                       />
                     )}
@@ -946,7 +948,6 @@ const PricingDetails = () => {
                               /^(59|[0-5]?[0-9])$/.test(inputValue)
                             ) {
                               setValue("Preparationtime.minutes", inputValue);
-
                             }
                           }
                           // Optionally, trigger validation
@@ -1167,15 +1168,17 @@ const PricingDetails = () => {
                   Save & next
                 </button>
               </div> */}
-            <SaveAndNext
-              getFormData={getValues}
-              seletedpage="Pricing"
-              reset={handleReset}
-              triggerValidation={() => trigger()}
-              mainForm={mainForm}
-              handleValidate={validationFunction}
-              setKitchenError = {setKitchenError}
-            />
+            <div className={isExpanded ? "buttonContainerExpanded" : "buttonContainer"}>
+              <SaveAndNext
+                getFormData={getValues}
+                seletedpage="Pricing"
+                reset={handleReset}
+                triggerValidation={() => trigger()}
+                mainForm={mainForm}
+                handleValidate={validationFunction}
+                setKitchenError={setKitchenError}
+              />
+            </div>
           </div>
         </div>
       </div>
