@@ -55,10 +55,13 @@ const Step3Review: React.FC = () => {
     (state: any) => state?.auth.restaurantDetails
   );
 
+  const { isExpanded } = useContext(Contextpagejs);
+
+
   return (
     <div className="step3-Review-Container">
       {/* Step 3 Item Customizations Heading and Edit Button */}
-      <div className="step3-Review-Container-heading-and-button-container">
+      <div className={isExpanded ? "step3-Review-Container-heading-and-button-container1" : "step3-Review-Container-heading-and-button-container"}>
         <h3 className="step3-Review-Container-heading">
           Step 3: Item customizations
         </h3>

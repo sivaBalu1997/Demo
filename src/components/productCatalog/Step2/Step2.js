@@ -21,13 +21,14 @@ const Step2 = () => {
     (state) => state.auth?.selectedBranch || null
   );
 
-
   const { setActiveCategory } = useContext(Contextpagejs);
+  const { isExpanded } = useContext(Contextpagejs);
+
   return (
     <div className="container-step2">
       <div className="Step2-Container">
         <div className="Step2-form">
-          <div className="Step2-header">
+          <div className={isExpanded ? "Step2-headerExpanded" : "Step2-header"}>
             <h1 className="Step2-heading">
               Step 2: Pricing and Kitchen Details
             </h1>
