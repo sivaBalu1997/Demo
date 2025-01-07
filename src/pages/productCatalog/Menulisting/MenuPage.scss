@@ -304,7 +304,18 @@
       border-right: 1px solid #b3b3b3;
       font-weight: 600;
       font-size: 20px;
+      white-space: nowrap;
+      max-width: 25vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
       // border: 1px solid red;
+
+      span{
+        white-space: nowrap;
+        max-width: 12vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 }

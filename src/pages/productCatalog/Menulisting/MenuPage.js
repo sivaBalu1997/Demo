@@ -1156,7 +1156,7 @@ export const MenuPage = () => {
                                     <div className="categoryName-data">
                                       <p>
                                         {data.categoryName}-{" "}
-                                        {subCategory.subCategoryName} (
+                                        <span>{subCategory.subCategoryName}</span> (
                                         {subCategory?.itemResponseList?.length})
                                       </p>
                                     </div>
