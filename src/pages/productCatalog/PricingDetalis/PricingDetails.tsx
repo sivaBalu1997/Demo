@@ -267,6 +267,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
+  
   const {
     control,
     handleSubmit,

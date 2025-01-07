@@ -35,23 +35,7 @@ const Header = () => {
         <Menu120/>
       
         <SearchBox/>
-        {/* <div className='Filter-Div'>
-          <div className='Filter-FlexCol'>
-            <img 
-              className={isExpanded ? 'FilterIcon-Header1' : "FilterIcon-Header"} 
-              onClick={handleFilter}  
-              src={filterIcon} 
-              alt=""
-            />
-            <img className='ArrowHoverHeader' src={ArrowHover} alt="" />
-            <div className='FilterHover'>Filter</div>
-          </div> 
-
-          {filterSelected && <Filter/>}
-        </div> */}
-        {/* <div className='Excel-flex-col'>
-          <img className={`${isExpanded?"Excel-Header1":"Excel-Header"}`} src={publish} alt="" />
-        </div>   */}
+        
         </div>
       <div 
         onClick={()=>handleClick()} 

@@ -945,3 +945,25 @@ input[type="number"] {
   height: 1rem;
   // border: 1px solid red;
 }
+
+
+
+
+
+.Spinner-input-ItemCustomization-height
+{
+
+  display: flex;
+  justify-content: start;
+  margin-left: 4rem;
+  gap: 1.25rem;
+  width: 850px;
+  height: auto;
+  margin-top: 1%;
+  @media (max-width:1525px) {
+    height: 47vh;
+    border: 1px solid red;
+    
+  }
+ 
+}

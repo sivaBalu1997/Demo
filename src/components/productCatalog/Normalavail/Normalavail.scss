@@ -607,6 +607,16 @@
 .thridparties-dropdown {
   margin-top: 1.3rem;
   margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+height: 3rem;
+// border: 1px solid red;
+.thirdpartyprice
+{
+  margin-top: 1.7rem;
+  margin-bottom: 1rem;
+
+}
 }
 .swiggyZomatoHeading {
   transform: translateY(24px);

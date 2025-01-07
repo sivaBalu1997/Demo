@@ -1541,6 +1541,7 @@ const PrimaryPage = () => {
                             trigger={trigger}
                             setValue={setValue}
                             getValues={getValues}
+                           
                             // validation={{ required: "Tax is required" }}
                             // error={errors.tax}
                             dropdownopen={DropdownOpen.tax}

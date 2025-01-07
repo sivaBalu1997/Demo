@@ -39,6 +39,7 @@ import {
 import { listenerCount } from "process";
 import { th } from "date-fns/locale";
 
+
 export const MenuPage = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
@@ -633,6 +634,9 @@ export const MenuPage = () => {
 
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
+
+      console.log({editData});
+      
       const primaryPageData = {
         itemName: editData[0]?.itemName ?? "",
         description: editData[0]?.description ?? "",
@@ -672,6 +676,7 @@ export const MenuPage = () => {
           minutes: editData[0]?.preparationTimeInMinutes || "",
         },
       };
+      
 
       editData[0]?.orderTypes?.forEach((orderType) => {
         const { typeGroup } = orderType;

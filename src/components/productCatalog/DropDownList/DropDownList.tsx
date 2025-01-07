@@ -59,6 +59,7 @@ interface DropdownProps {
   categoryChange?: any;
   setCategoryChange?: any;
   kitchenError?: boolean;
+  height?: string;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -91,6 +92,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   categoryChange,
   setCategoryChange,
   kitchenError,
+  height
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -731,7 +733,7 @@ const DropDownList: React.FC<DropdownProps> = ({
       </div>
 
       {dropdownopen && (
-        <div className="dropdown-body">
+        <div className="dropdown-body" style={{height:height?height:'10.8rem'}}>	
           <div
             className="Dropdown-lists-and-edit"
             onMouseDown={handleOptionMouseDown}

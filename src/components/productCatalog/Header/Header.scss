@@ -12,6 +12,7 @@
   margin-left: 30px;
   margin-bottom: 30px;
 
+
   // background-color: lightblue;
 }
 
@@ -224,25 +225,42 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  @media(max-width: 2048px){
-    margin-right: 4vw;
+  // @media(max-width: 2048px){
+  //   margin-right: 4vw;
+  // }
+  // @media(max-width: 1920px){
+  //   margin-right: 4vw;
+  // }
+  // @media(max-width: 1536px){
+  //   // background-color: lightblue;
+  //   margin-right: 5vw;
+  // }
+  // @media(max-width: 1707.67px){
+  //   margin-right: 4vw;
+  // }
+  // @media(max-width: 1600px){
+  //   margin-right: 5vw;
+  // }
+  // @media(max-width: 1440px){
+  //   margin-right: 8vw;
+  // }
+  @media (max-width:1700px) {
+    // border: 1px solid red;
+    margin-right: 10%;
+    
   }
-  @media(max-width: 1920px){
-    margin-right: 4vw;
+  
+  @media (max-width:1525px) {
+    // border: 1px solid red;
+    margin-right: 20%;
+    
   }
-  @media(max-width: 1536px){
-    // background-color: lightblue;
-    margin-right: 5vw;
-  }
-  @media(max-width: 1707.67px){
-    margin-right: 4vw;
-  }
-  @media(max-width: 1600px){
-    margin-right: 5vw;
-  }
-  @media(max-width: 1440px){
-    margin-right: 8vw;
-  }
+
+  // @media (max-width:1400px) {
+  //   border: 1px solid red;
+  //   margin-right: 20%;
+    
+  // }
 }
 
 .Add-Item-Container1 {
