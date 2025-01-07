@@ -1461,7 +1461,10 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     };
 
     const handleSubmit = () => {
-      const isValid = validateDineinFields();
+      let isValid = validateDineinFields();
+      if(!showDineIn && !pickup && !delivery){
+        isValid =false
+      }
       if (!isValid) {
         return false;
       }

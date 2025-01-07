@@ -23,7 +23,7 @@ const AvailCalender: React.FC<modelshow> = ({
   setUntillTime,
   setTimeToSet,
 }) => {
-  const [selectedDatee, setSelectedDatee] = useState<Date | null>(null);
+  const [selectedDatee, setSelectedDatee] = useState<Date | null>(new Date());
   const [selectedTimePeriod, setSelectedTimePeriod] = useState<"AM" | "PM">(
     "AM"
   );
@@ -43,7 +43,6 @@ const AvailCalender: React.FC<modelshow> = ({
   const handleDateChange = (date: Date | null) => {
     setSelectedDatee(date);
   };
-
   const handleTimeChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     type: "hours" | "minutes"
@@ -216,7 +215,7 @@ const AvailCalender: React.FC<modelshow> = ({
               }`}
               onClick={() => handleTimePeriodClick("AM")}
             >
-              <p className="Am-Heading">Am</p>
+              <p className="Am-Heading">AM</p>
             </div>
             <div
               className={`AvailCalenderPm ${
@@ -224,7 +223,7 @@ const AvailCalender: React.FC<modelshow> = ({
               }`}
               onClick={() => handleTimePeriodClick("PM")}
             >
-              <p className="Pm-Heading">Pm</p>
+              <p className="Pm-Heading">PM</p>
             </div>
           </div>
           <div className="AvailCalenderButton">
