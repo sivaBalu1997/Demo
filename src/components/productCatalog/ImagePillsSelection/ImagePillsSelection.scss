@@ -102,17 +102,32 @@
   .Item-Selection-option {
     width: 30px;
     height: 30px;
-    padding: 2rem;
+    padding: 20px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     font-size: 12px;
-    height: 20px;
+    // white-space: nowrap;
+
+
+    img{
+      width: 21px;
+      height: 21px;
+    }
   }
 
   .optionName{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 80px;
     height: 100px;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   li {

@@ -1169,7 +1169,7 @@ const PrimaryPage = () => {
                     />{" "}
                     <div className="tool-tip-item-code">
                       <TooltipMsg
-                        message="Enter a unique code for this food item, used for identification."
+                        message="Enter a unique 4-digit number to identify this food item."
                         styles={{
                           marginTop: "-1rem",
                           marginLeft: "2rem",
