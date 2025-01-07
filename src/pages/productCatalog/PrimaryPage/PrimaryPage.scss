@@ -3,31 +3,18 @@
 }
 
 .Main-Primary-Page {
-  width: 120%;
+  width: 85%;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-//  padding-left: 2%;
-  border: 1px solid blue;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-overflow-y: hidden;
+
+
   
 }
 
 .Main-Primary-Page-Expanded {
-  width: 100%;
+  width: 80%;
   display: flex;
-  border: 1px solid blue;
-  overflow-x: hidden;
   flex-direction: column;
- 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-overflow-y: hidden;
-  
 }
 
 .Primary-page {
@@ -52,7 +39,7 @@ overflow-y: hidden;
   @media (max-width: 1791px) {
     height: 32rem;
     width: 100%;
-    // border: 2px solid gold;
+    border: 2px solid gold;
     
   &::-webkit-scrollbar {
     display: none;
@@ -60,10 +47,9 @@ overflow-y: hidden;
   
   }
   @media (max-width: 1525px) {
-    height: 25.5rem;
-    width: 100%;
+    height: 27.5rem;
     border: 1px solid red;
-    padding-bottom: 8rem;
+    
   &::-webkit-scrollbar {
     display: none;
   }
@@ -314,16 +300,6 @@ overflow-y: hidden;
         flex-direction: row;
         // background-color: red;
         width: fit-content;
-
-        // @media (max-width: 1791px) {
-         
-        
-        // }
-        @media (max-width: 1525px) {
-        margin-top: -25px;
-        margin-bottom: 25px !important;
-        
-        }
       }
 
       h3 {
@@ -408,15 +384,6 @@ overflow-y: hidden;
     border: 1px solid rgba(0, 0, 0, 0.3);
     // background-color: pink;
     margin-top: 2rem;
-    @media (max-width: 1525px) {
-      // border: 1px solid red;
-     position: relative;
-     height: 40vh;
-     top: 2rem;
-     bottom: 0.5rem;
-
-       
-       }
   }
   .Primary-page-ingredients-selection1
   {
@@ -426,14 +393,6 @@ overflow-y: hidden;
     border: 1px solid rgba(0, 0, 0, 0.3);
     // background-color: pink;
     margin-top: 5rem;
-    @media (max-width: 1525px) {
-      // border: 1px solid red;
-     position: relative;
-     height: 40vh;
-     top: 2rem;
-
-       
-       }
   }
   .Primary-Page-Other-Details {
     display: flex;
@@ -441,16 +400,6 @@ overflow-y: hidden;
     gap: 20px;
     position: relative;
     top: 3%;
-    @media (max-width: 1525px) {
-      // border: 1px solid yellowgreen;
-     position: relative;
-   
-     top: 3.5rem;
-   
-
-       
-       }
-  
     .Primary-Page-Other-Details-heading {
       font-family: "Poppins", sans-serif;
       font-size: 0.875rem;
@@ -468,25 +417,26 @@ overflow-y: hidden;
       // background-color: red;
       // background-color: lightcoral;
       width: 100%;
-      // @media(min-width: 1700px) and (max-width: 1706.67px){
-      //   border: 1px solid darkblue;
-      //   gap: 3vw;
-      // }
-      // @media(min-width: 1900px) and (max-width: 1920px){
-      //   border: 1px solid black;
-      //   gap: 3vw;
-      // }
-      // @media(min-width: 2000px) and (max-width: 2048px){
-      //   border: 1px solid red;
-      //   gap: 5vw;
-      // }
-     
+      @media(min-width: 1700px) and (max-width: 1706.67px){
+        // border: 1px solid darkblue;
+        gap: 3vw;
+      }
+      @media(min-width: 1900px) and (max-width: 1920px){
+        // border: 1px solid black;
+        gap: 5vw;
+      }
+      @media(min-width: 2000px) and (max-width: 2048px){
+        // border: 1px solid red;
+        gap: 5vw;
+      }
       .Caloriepointradio {
         position: relative;
         left: 1%;
         // border: 1px solid black;
         //hehe
-          
+        @media(min-width: 1700px) and (max-width: 1706.67px){
+          // border: 1px solid darkorchid;
+        }    
       }
       .Primary-Page-inputfiled-and-tooltip-portion {
         display: flex;

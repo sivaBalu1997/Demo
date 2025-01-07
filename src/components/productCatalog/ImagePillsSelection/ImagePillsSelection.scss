@@ -49,16 +49,6 @@
     top: 1rem;
     // background-color: pink;
 
-    @media (max-width: 1525px) {
-      // border: 1px solid blue;
-     position: relative;
-     height: 10rem;
-     padding-top: -1rem;
-    //  top: 1rem;
-
-       
-       }
-
     &::-webkit-scrollbar {
       display: block;
       background-color: #8f8f8f;
@@ -73,7 +63,7 @@
     }
 
     .Selected-Images {
-        // background-color: pink;
+      //   background-color: pink;
       width: 100%;
       flex-direction: row;
       display: flex;
@@ -106,15 +96,7 @@
       display: flex;
       padding: 0.5rem;
       gap: 0.7rem;
-      
       flex-wrap: wrap;
-      @media (max-width: 1525px) {
-    //  border: 1px solid red;
-      margin-top: -1rem;
-      //  top: 1rem;
-  
-         
-         }
     }
   }
   .Item-Selection-option {
