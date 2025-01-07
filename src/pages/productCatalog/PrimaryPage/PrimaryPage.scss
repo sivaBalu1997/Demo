@@ -464,6 +464,16 @@
   //   left: 0.8rem;
   //   top: 0.7rem;
   // }
+  .buttonContainer{
+    width: 100%;
+    position: absolute;
+    left: -17px;
+  }
+  .buttonContainerExpanded{
+    width: 100%;
+    position: absolute;
+    left: 0px;
+  }
 }
 
 @media (min-width: 1462px) and (max-width: 1661px) {

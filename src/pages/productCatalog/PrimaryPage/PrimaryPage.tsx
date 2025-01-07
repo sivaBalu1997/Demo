@@ -350,7 +350,9 @@ const PrimaryPage = () => {
         file: img?.imageId ? { name: img.imageId } : img?.file || {},
         uploaded: img?.uploaded || false,
         failed: img?.failed || false,
-        preview: img?.imageId ? `${baseImageUrl}${img?.imageId}.${img?.imageType?.split('/')[1]}` : img?.preview,
+        preview: img?.imageId
+          ? `${baseImageUrl}${img?.imageId}.${img?.imageType?.split("/")[1]}`
+          : img?.preview,
       }));
 
       setImages((prevImages) => {
@@ -379,7 +381,7 @@ const PrimaryPage = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
-  const [taxType, setTaxType] = useState([])
+  const [taxType, setTaxType] = useState([]);
   const [dataCuisine, setDataCuisine] = useState(cuisine);
   const [dataMealType, setDataMealType] = useState(mealType);
   const [dataBestPair, setDataBestPair] = useState();
@@ -551,8 +553,8 @@ const PrimaryPage = () => {
 
   const taxData = [
     {
-      id: '1',
-      name: '10',
+      id: "1",
+      name: "10",
       locationId: "",
       type: "tax",
       parentId: "",
@@ -579,7 +581,7 @@ const PrimaryPage = () => {
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
-console.log({categoryData});
+  console.log({ categoryData });
 
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
@@ -599,45 +601,43 @@ console.log({categoryData});
 
   const dietPayload = {
     locationId: locationid,
-    type: 'DIET',
+    type: "DIET",
     parentId: "",
-  }
+  };
 
   const cuisinePayload = {
     locationId: locationid,
-    type: 'CUISINES',
+    type: "CUISINES",
     parentId: "",
-  }
-
+  };
 
   const categoryPayload = {
     locationId: locationid,
-    type: 'CATEGORY',
+    type: "CATEGORY",
     parentId: "",
-  }
-
+  };
 
   const bestPairPayload = {
     locationId: locationid,
-    type: 'BEST_PAIRED_ITEMS',
+    type: "BEST_PAIRED_ITEMS",
     parentId: "",
-  }
+  };
 
   const kitchenpayload = {
     locationId: locationid,
-    type: 'KITCHEN_STATION',
+    type: "KITCHEN_STATION",
     parentId: "",
-  }
+  };
 
   useEffect(() => {
-    if(editData){
-      dispatch(fetchDropDownRequest(dietPayload))
-      dispatch(fetchDropDownRequest(cuisinePayload))
-      dispatch(fetchDropDownRequest(categoryPayload))
-      dispatch(fetchDropDownRequest(bestPairPayload))
-      dispatch(fetchDropDownRequest(kitchenpayload))
+    if (editData) {
+      dispatch(fetchDropDownRequest(dietPayload));
+      dispatch(fetchDropDownRequest(cuisinePayload));
+      dispatch(fetchDropDownRequest(categoryPayload));
+      dispatch(fetchDropDownRequest(bestPairPayload));
+      dispatch(fetchDropDownRequest(kitchenpayload));
     }
-  },[])
+  }, []);
 
   const [itemcodeValid, setItemcodeValid] = useState(true);
 
@@ -661,7 +661,9 @@ console.log({categoryData});
     }
   }, [message, messageLoader]);
 
-  const [isChecked, setIsChecked] = useState<boolean>(ItemsPrimaryDetails?.popularItem || false);
+  const [isChecked, setIsChecked] = useState<boolean>(
+    ItemsPrimaryDetails?.popularItem || false
+  );
 
   useEffect(() => {
     setIsChecked(ItemsPrimaryDetails?.popularItem || false);
@@ -669,9 +671,9 @@ console.log({categoryData});
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isCheckedValue = e.target.checked;
-  
-    setIsChecked(isCheckedValue); 
-  
+
+    setIsChecked(isCheckedValue);
+
     if (isCheckedValue) {
       setPopularItem((prevCount: number) => prevCount + 1);
       setValue("popularItem", true);
@@ -717,8 +719,8 @@ console.log({categoryData});
     if (resetSelectionRef.current) {
       resetSelectionRef.current();
     }
-    if(dietRef.current){
-      dietRef.current()
+    if (dietRef.current) {
+      dietRef.current();
     }
     if (BestpairedRef.current) {
       BestpairedRef.current();
@@ -787,7 +789,7 @@ console.log({categoryData});
 
   const [subcategortError, setsubcategortError] = useState("");
 
-  const [categoryChange, setCategoryChange] = useState(false)
+  const [categoryChange, setCategoryChange] = useState(false);
 
   const valiadtesubCategory = () => {
     const categoryList = getValues("category");
@@ -796,7 +798,7 @@ console.log({categoryData});
     if (
       categoryList !== "" &&
       subcategoryList === "" &&
-     ( subCategoryData?.length > 0 || subCategoryData === undefined)
+      (subCategoryData?.length > 0 || subCategoryData === undefined)
     ) {
       setsubcategortError("subcategory is required");
 
@@ -945,8 +947,8 @@ console.log({categoryData});
                         resetSelection={categoryref}
                         parentId={parentId}
                         setParentId={setParentId}
-                        categoryChange = {categoryChange}
-                        setCategoryChange = {setCategoryChange}
+                        categoryChange={categoryChange}
+                        setCategoryChange={setCategoryChange}
                       />
                     )}
                   />
@@ -1262,7 +1264,8 @@ console.log({categoryData});
                     )}
                   />
                   <span>
-                    Popular item ( {popularItemlimit > 0 ? popularItem : 0}/{popularItemlimit} )
+                    Popular item ( {popularItemlimit > 0 ? popularItem : 0}/
+                    {popularItemlimit} )
                   </span>
                 </div>
 
@@ -1289,8 +1292,8 @@ console.log({categoryData});
                             editData[0]?.length > 0 ? "" : valiadtesubCategory
                           }
                           errormsg={subcategortError}
-                          categoryChange = {categoryChange}
-                          setCategoryChange = {setCategoryChange}
+                          categoryChange={categoryChange}
+                          setCategoryChange={setCategoryChange}
                           addNew={true}
                           editValues={true}
                           dropdownopen={DropdownOpen.subCategory}
@@ -1354,11 +1357,13 @@ console.log({categoryData});
                   : "Primary-page-container-two"
               }
             >
-              <div   className={
-                alcoholconstain
-                  ? "Primary-page-ingredients-selection1"
-                  : "Primary-page-ingredients-selection"
-              }>
+              <div
+                className={
+                  alcoholconstain
+                    ? "Primary-page-ingredients-selection1"
+                    : "Primary-page-ingredients-selection"
+                }
+              >
                 <Imagepillsselection
                   heading="Ingredients"
                   options={ingredientsdata}
@@ -1547,7 +1552,7 @@ console.log({categoryData});
                             resetSelection={resetSelectionRef}
                             parentId={parentId}
                             setParentId={setParentId}
-                            isTaxDropDown = {true}
+                            isTaxDropDown={true}
                           />
                         )}
                       />
@@ -1591,15 +1596,20 @@ console.log({categoryData});
                 </div>
               </div>
             </div>
-
-            <SaveAndNext
-              getFormData={getValues}
-              seletedpage="Primary"
-              reset={handleReset}
-              itemcodeValid={itemcodeValid}
-              triggerValidation={() => trigger()}
-              valiadtesubCategory={valiadtesubCategory}
-            />
+            <div
+              className={
+                isExpanded ? "buttonContainerExpanded" : "buttonContainer"
+              }
+            >
+              <SaveAndNext
+                getFormData={getValues}
+                seletedpage="Primary"
+                reset={handleReset}
+                itemcodeValid={itemcodeValid}
+                triggerValidation={() => trigger()}
+                valiadtesubCategory={valiadtesubCategory}
+              />
+            </div>
             {/* </form> */}
           </div>
         </div>
