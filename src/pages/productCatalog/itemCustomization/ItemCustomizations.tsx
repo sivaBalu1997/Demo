@@ -1537,13 +1537,8 @@ const ItemCustomizations: React.FC<any> = () => {
                             </div>
 
                             <div
-                              className="Spinner-input-ItemCustomizations"
-                              style={{
-                                height:
-                                  modifications.length - 1 === modIndex
-                                    ? "35vh"
-                                    : "auto",
-                              }}
+                              className={`Spinner-input-ItemCustomizations ${modifications.length - 1 === modIndex?"Spinner-input-height":""}` }
+                             
                             >
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
