@@ -17,6 +17,12 @@ const CustomerInsights = () => {
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+  );
+
+  console.log("country from sales", countryCode)
+
   const RECORDS_PER_PAGE_LIMIT = 15
 
   const [totalPageNoCurrentPageLiveOrders, setTotalPageNoCurrentPageLiveOrders] = useState<number>(5)
@@ -114,19 +120,19 @@ const CustomerInsights = () => {
           <div className={isExpanded ? "l-live-inner-box-expanded" : "l-live-inner-box"}>
             <div className="l-live-box">
               <h2>Discounts</h2>
-              <h3>{liveDiscountDataAPIRedux && liveDiscountDataAPIRedux > 0 ? liveDiscountDataAPIRedux : LD?.discounts?.map((dis) => dis?.Discounts)}</h3>
+              <h3>{countryCode === "US" ? '$' : '₹'}{liveDiscountDataAPIRedux && liveDiscountDataAPIRedux > 0 ? liveDiscountDataAPIRedux : LD?.discounts?.map((dis) => dis?.Discounts)}</h3>
             </div>
             <div className="l-live-box">
               <h2>Refund</h2>
-              <h3>{liveRefundsAPIRedux && liveRefundsAPIRedux > 0 ? liveRefundsAPIRedux : LD?.refunds?.map((refund) => refund?.refunds)}</h3>
+              <h3>{countryCode === "US" ? '$' : '₹'}{liveRefundsAPIRedux && liveRefundsAPIRedux > 0 ? liveRefundsAPIRedux : LD?.refunds?.map((refund) => refund?.refunds)}</h3>
             </div>
             <div className="l-live-box">
               <h2>Open Sales</h2>
-              <h3>{liveOpenSalesDataAPIRedux && liveOpenSalesDataAPIRedux > 0 ? liveOpenSalesDataAPIRedux : LD?.["open sales"]?.map((openSale) => openSale?.["Open Sales"])}</h3>
+              <h3>{countryCode === "US" ? '$' : '₹'}{liveOpenSalesDataAPIRedux && liveOpenSalesDataAPIRedux > 0 ? liveOpenSalesDataAPIRedux : LD?.["open sales"]?.map((openSale) => openSale?.["Open Sales"])}</h3>
             </div>
             <div className="l-live-box">
               <h2>Net Sales</h2>
-              <h3>{liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 ? liveNetSalesAPIRedux : LD?.["net sales"]?.map((netSale) => netSale?.["Net Sales"])}</h3>
+              <h3>{countryCode === "US" ? '$' : '₹'}{liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 ? liveNetSalesAPIRedux : LD?.["net sales"]?.map((netSale) => netSale?.["Net Sales"])}</h3>
             </div>
           </div>
         </div>

@@ -268,7 +268,7 @@ const Sales: React.FC = () => {
     (state: any) => state?.auth?.restaurantDetails?.country
   );
 
-  console.log("country", countryCode)
+  console.log("country from sales", countryCode)
 
   const getSalesLocationStartEndDate = useMemo(() => {
     const { selectedPeriod, startDate, endDate } = state;
@@ -601,7 +601,7 @@ const Sales: React.FC = () => {
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
-                $
+                {countryCode === "US" ? '$' : '₹'}
                 {/* {formatNumberIndian(
                   Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
                 )} */}
@@ -611,7 +611,7 @@ const Sales: React.FC = () => {
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
-                $
+                {countryCode === "US" ? '$' : '₹'}
                 {/* {formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))} */}
                 {salesDataFromAPIRedux?.totalMagilTips?.toFixed(2) || 0.00}
               </h2>
@@ -620,6 +620,7 @@ const Sales: React.FC = () => {
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
                 {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+                {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalTaxIncludingThirdparty?.toFixed(2) || 0.00}
               </h2>
               <h3>Tax</h3>
@@ -628,6 +629,7 @@ const Sales: React.FC = () => {
               <h2>
                 {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
                 {/* $1628 */}
+                {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalMagilServiceFee?.toFixed(2) || 0.00}
               </h2>
               <h3>Service Fee - US</h3>
@@ -635,21 +637,21 @@ const Sales: React.FC = () => {
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
                 {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
-                ${salesDataFromAPIRedux?.totalMagilDeliveryCharges?.toFixed(2) || 0.00}
+                {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalMagilDeliveryCharges?.toFixed(2) || 0.00}
               </h2>
               <h3>Store Delivery Charges</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
                 {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
-                ${salesDataFromAPIRedux?.totalConvenienceFee?.toFixed(2) || 0.00}
+                {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalConvenienceFee?.toFixed(2) || 0.00}
               </h2>
               <h3>Convenience Fee (Maghil)</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
                 {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
-                ${salesDataFromAPIRedux?.totalCardProcessingFee?.toFixed(2) || 0.00}
+                {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalCardProcessingFee?.toFixed(2) || 0.00}
               </h2>
               <h3>Card Processsing Fee</h3>
             </div>
@@ -670,7 +672,7 @@ const Sales: React.FC = () => {
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
-                $
+                {countryCode === "US" ? '$' : '₹'}
                 {/* {formatNumberIndian(
                   Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
                 )} */}
@@ -680,7 +682,7 @@ const Sales: React.FC = () => {
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
-                $
+                {countryCode === "US" ? '$' : '₹'}
                 {/* {formatNumberIndian(
                   Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
                 )} */}
@@ -690,7 +692,7 @@ const Sales: React.FC = () => {
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
-                $
+                {countryCode === "US" ? '$' : '₹'}
                 {/* {formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))} */}
                 {salesDataFromAPIRedux?.totalTaxIncludingThirdparty?.toFixed(2) || 0.00}
               </h2>
