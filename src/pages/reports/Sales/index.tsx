@@ -66,8 +66,8 @@ interface ChartOptions {
 }
 
 interface transformedhourlySalesChartDataFromAPIReduxType {
-  hourlySales: string;
-  netSales: number;
+  formattedHour: string;
+  itemTotal: number;
 }
 
 
@@ -89,6 +89,7 @@ const Sales: React.FC = () => {
     openFilter: false,
     selectedPeriod: "Today",
   });
+
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -116,23 +117,27 @@ const Sales: React.FC = () => {
 
   const TABLE_RECORDS_LIMIT = 15;
 
+  const [totalPageNumberDirectStoreOnlineSalesMaghil, setTotalPageNumberDirectStoreOnlineSalesMaghil] = useState<number>(5)
   const [currentPageForDirectStoreOnlineSalesMaghil, setCurrentPageForDirectStoreOnlineSalesMaghil] = useState<number>(1);
   console.log({ currentPageForDirectStoreOnlineSalesMaghil });
 
+  const [totalPageNumberCurrentPageForActualThirdPartySales, setTotalPageNumberCurrentPageForActualThirdPartySales] = useState<number>(5)
   const [currentPageForActualThirdPartySales, setCurrentPageForActualThirdPartySales] = useState<number>(1);
   console.log({ currentPageForActualThirdPartySales });
 
+  const [totalPageNumberCurrentPageSalesByItemCategory, setTotalPageNumberCurrentPageSalesByItemCategory] = useState<number>(5)
   const [currentPageSalesByItemCategory, setCurrentPageSalesByItemCategory] = useState<number>(1);
   console.log({ currentPageSalesByItemCategory });
-  //DONE
 
+  const [totalPageNumberCurrentPageSalesByRevenueClass, setTotalPageNumberCurrentPageSalesByRevenueClass] = useState<number>(5);
   const [currentPageSalesByRevenueClass, setCurrentPageSalesByRevenueClass] = useState<number>(1);
   console.log({ currentPageSalesByRevenueClass })
-  //DONE
 
+  const [totalPageNumberCurrentPageDiscountSummary, setTotalPageNumberCurrentPageDiscountSummary] = useState<number>(5)
   const [currentPageDiscountSummary, setCurrentPageDiscountSummary] = useState<number>(1);
   console.log({ currentPageDiscountSummary });
 
+  const [totalPageNumberCurrentPageCancellationSummary, setTotalPageNumberCurrentPageCancellationSummary] = useState<number>(5)
   const [currentPageCancellationSummary, setCurrentPageCancellationSummary] = useState<number>(1);
   console.log({ currentPageCancellationSummary });
 
@@ -258,54 +263,12 @@ const Sales: React.FC = () => {
     (item: HourOfTheDayData) => item["Average Sales per Hour"]
   );
 
-  // console.log({ isExpanded });
 
-  // const getSalesLocationStartEndDate = () => {
-  //   const { selectedPeriod, startDate, endDate } = state;
+  const countryCode = useSelector(
+    (state: any) => state?.auth?.restaurantDetails?.country
+  );
 
-  //   let computedStartDate = moment().toDate();
-  //   let computedEndDate = moment().toDate();
-
-  //   switch (selectedPeriod) {
-  //     case "Today":
-  //       computedStartDate = moment().startOf("day").toDate();
-  //       computedEndDate = moment().endOf("day").toDate();
-  //       break;
-  //     case "This Week":
-  //       computedStartDate = moment().startOf("week").toDate();
-  //       computedEndDate = moment().endOf("week").toDate();
-  //       break;
-  //     case "Last 7 days":
-  //       computedStartDate = moment().subtract(7, "days").startOf("day").toDate();
-  //       computedEndDate = moment().endOf("day").toDate();
-  //       break;
-  //     case "This Month":
-  //       computedStartDate = moment().startOf("month").toDate();
-  //       computedEndDate = moment().endOf("month").toDate();
-  //       break;
-  //     case "Last Month":
-  //       computedStartDate = moment().subtract(1, "month").startOf("month").toDate();
-  //       computedEndDate = moment().subtract(1, "month").endOf("month").toDate();
-  //       break;
-  //     case "Last 30 days":
-  //       computedStartDate = moment().subtract(30, "days").startOf("day").toDate();
-  //       computedEndDate = moment().endOf("day").toDate();
-  //       break;
-  //     case "Custom Range":
-  //       computedStartDate = startDate;
-  //       computedEndDate = endDate;
-  //       break;
-  //     default:
-  //       break;
-  //   }
-
-  //   // Return payload with locationId
-  //   return {
-  //     locationid, // Use the locationId from Redux
-  //     startDate: moment(computedStartDate).format("YYYY-MM-DD"),
-  //     endDate: moment(computedEndDate).format("YYYY-MM-DD"),
-  //   };
-  // };
+  console.log("country", countryCode)
 
   const getSalesLocationStartEndDate = useMemo(() => {
     const { selectedPeriod, startDate, endDate } = state;
@@ -337,6 +300,10 @@ const Sales: React.FC = () => {
         computedStartDate = moment().subtract(30, "days").startOf("day").toDate();
         computedEndDate = moment().endOf("day").toDate();
         break;
+      case "Yesterday":
+        computedStartDate = moment().subtract(1, "day").startOf("day").toDate();
+        computedEndDate = moment().subtract(1, "day").endOf("day").toDate();
+        break;
       case "Custom Range":
         computedStartDate = startDate;
         computedEndDate = endDate;
@@ -360,20 +327,10 @@ const Sales: React.FC = () => {
     };
   }, [state, locationid]);
 
+  console.log({ getSalesLocationStartEndDate })
+
 
   const dispatch = useDispatch();
-
-
-  // const salesSummaryPayload = { locationId: "969c059b-6597-47a8-b175-08658e9bf41c", startDate: "2024-12-01", endDate: "2024-12-30" };
-
-
-  // const salesSummaryPayload = getSalesLocationStartEndDate();
-  // console.log({ salesSummaryPayload })
-  // useEffect(() => {
-  //   console.log("Sales Page Mounted");
-  //   dispatch(salesSummaryRequest(salesSummaryPayload));
-  // }, []);
-
 
   useEffect(() => {
     if (getSalesLocationStartEndDate) {
@@ -441,6 +398,7 @@ const Sales: React.FC = () => {
 
   const salesDataFromAPIRedux = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
   // console.log({ salesDataFromAPIRedux })
+  const salesDataFromAPIReduxLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
 
   const salesByItemCategoryAPIRedux = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
   // console.log({ salesByItemCategoryAPIRedux })
@@ -463,16 +421,16 @@ const Sales: React.FC = () => {
   const hourlySalesChartDataFromAPIRedux = useSelector((state: any) => state?.newReports?.hourlySalesSuccess);
   // console.log({ hourlySalesChartDataFromAPIRedux })
 
-  const transformedhourlySalesChartDataFromAPIRedux = hourlySalesChartDataFromAPIRedux?.map(({ hourlySales, netSales }: transformedhourlySalesChartDataFromAPIReduxType) => ({ hourlySales, netSales }));
+  const transformedhourlySalesChartDataFromAPIRedux = hourlySalesChartDataFromAPIRedux?.map(({ formattedHour, itemTotal }: transformedhourlySalesChartDataFromAPIReduxType) => ({ formattedHour, itemTotal }));
   console.log({ transformedhourlySalesChartDataFromAPIRedux });
 
-  const hourlyX = transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.hourlySales);
+  const hourlyX = transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.formattedHour);
 
-  const hourlyY = transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.netSales);
+  const hourlyY = transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.itemTotal);
   console.log('hourly X => ', { hourlyX }, 'hourly Y => ', { hourlyY })
 
-
-  console.log('All APIs', { salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, actualSalesAPIRedux, segregatedDataForMaghilSales, actualSalesThirdPartyAPIRedux, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux })
+  console.log({ salesDataFromAPIReduxLoader })
+  console.log('All APIs', { actualSalesAPIRedux, actualSalesThirdPartyAPIRedux, salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, segregatedDataForMaghilSales, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux })
 
   // const dataPPP = [
   //   {
@@ -533,6 +491,7 @@ const Sales: React.FC = () => {
               </div>
               {state.openFilter && (
                 <div className="s-filter-drop-down-options" ref={dropdownRef}>
+                  <p onClick={() => handleOptionClick("Yesterday")}>Yesterday</p>
                   <p onClick={() => handleOptionClick("Today")}>Today</p>
                   <p onClick={() => handleOptionClick("This Week")}>
                     This Week
@@ -629,9 +588,10 @@ const Sales: React.FC = () => {
               </h2>
               <h3>Total Orders</h3>
             </div>
+
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               <h2>
-                $
+                {countryCode === "US" ? '$' : '₹'}
                 {/* {formatNumberIndian(
                   Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
                 )} */}
@@ -734,21 +694,42 @@ const Sales: React.FC = () => {
                 {/* {formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))} */}
                 {salesDataFromAPIRedux?.totalTaxIncludingThirdparty?.toFixed(2) || 0.00}
               </h2>
-              <h3>Tips</h3>
+              <h3>Tax</h3>
             </div>
           </div>
         </div>
         {/* Total Sales (Direct Sales + Store price adjusted third party orders) END */}
         <div className="direct-sales-store-price-cont">
           <div className="inner-direct-sales-store-prices">
-            <Table currentPage={currentPageForDirectStoreOnlineSalesMaghil} setCurrentPage={setCurrentPageForDirectStoreOnlineSalesMaghil} Heading="Direct Store/Online Sales (Maghil)" tableData={segregatedDataForMaghilSales && segregatedDataForMaghilSales?.length > 0 ? segregatedDataForMaghilSales : S["Direct Store/Online Sales"]} viewType="half" recordsPerPage={TABLE_RECORDS_LIMIT} />
-            <Table currentPage={currentPageForActualThirdPartySales} setCurrentPage={setCurrentPageForActualThirdPartySales} Heading="Actual 3rd Party Sales" tableData={segregatedDataForThirdPartySales && segregatedDataForThirdPartySales?.length > 0 ? segregatedDataForThirdPartySales : S["Actual 3rd Party Sales"]} viewType="half" recordsPerPage={TABLE_RECORDS_LIMIT} />
+            <Table
+              currentPage={currentPageForDirectStoreOnlineSalesMaghil}
+              setCurrentPage={setCurrentPageForDirectStoreOnlineSalesMaghil}
+              Heading="Direct Store/Online Sales (Maghil)"
+              tableData={segregatedDataForMaghilSales && segregatedDataForMaghilSales?.length > 0 && segregatedDataForMaghilSales}
+              viewType="half"
+              recordsPerPage={TABLE_RECORDS_LIMIT}
+              totalpageNo={totalPageNumberDirectStoreOnlineSalesMaghil}
+            />
+            {/* // tableData={segregatedDataForMaghilSales} viewType="half" recordsPerPage={TABLE_RECORDS_LIMIT} /> */}
+            <Table
+              currentPage={currentPageForActualThirdPartySales}
+              setCurrentPage={setCurrentPageForActualThirdPartySales}
+              Heading="Actual 3rd Party Sales"
+              // tableData={segregatedDataForThirdPartySales && segregatedDataForThirdPartySales?.length > 0 ? segregatedDataForThirdPartySales : S["Actual 3rd Party Sales"]}
+              tableData={segregatedDataForThirdPartySales && segregatedDataForThirdPartySales?.length > 0 && segregatedDataForThirdPartySales}
+              viewType="half"
+              recordsPerPage={TABLE_RECORDS_LIMIT}
+              totalpageNo={totalPageNumberCurrentPageForActualThirdPartySales}
+            />
+
           </div>
         </div>
         <div className="s-day-of-the-week">
           <div className="s-day-of-the-week-inner">
             <BarChart
-              BatChartTitle="Sales By Hour of the Day"
+              // BatChartTitle="Sales By Hour of the Day"
+              //Hourly Net (Direct) Sales
+              BatChartTitle="Hourly Net (Direct) Sales"
               TitleColor={isDarkTheme ? "#fff" : "#000"}
               xAxisData={hourlyX && hourlyX?.length > 0 ? hourlyX : XHour}
               yAxisData={hourlyY && hourlyY?.length > 0 ? hourlyY : YAverageSalesperHour}
@@ -774,14 +755,15 @@ const Sales: React.FC = () => {
               pluginLegendLabelsColor={isDarkTheme ? "#fff" : "#000"}
               ttTitleColor="#fff"
               ttBodyColor="#fff"
-              yAxisLabel="Average Sales per Hour"
+              // yAxisLabel="Average Sales per Hour"
+              yAxisLabel="Net Sales"
               xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
               xAxisLabel="Hours"
               yAxislabelColor={isDarkTheme ? "#fff" : "#000"}
             />
           </div>
         </div>
-        <div
+        {/* <div
           style={{
             display: "flex",
             justifyContent: "center",
@@ -796,8 +778,8 @@ const Sales: React.FC = () => {
               <CanvaPieChart options={optionsDolla} />
             </div>
           </div>
-        </div>
-        <div className="s-day-of-the-week">
+        </div> */}
+        {/* <div className="s-day-of-the-week">
           <div className="s-day-of-the-week-inner">
             <BarChart
               BatChartTitle="Sales By Day of the Week"
@@ -832,7 +814,7 @@ const Sales: React.FC = () => {
               xAxislabelColor={isDarkTheme ? "#fff" : "#000"}
             />
           </div>
-        </div>
+        </div> */}
         <div className="s-tab-cont">
           <div className="s-table-container-one-s">
             <Table
@@ -840,21 +822,25 @@ const Sales: React.FC = () => {
               setCurrentPage={setCurrentPageSalesByItemCategory}
               Heading="Sales By Item Category"
               // tableData={S["Category - US"]}
-              tableData={salesByItemCategoryAPIRedux && salesByItemCategoryAPIRedux?.length > 0 ? salesByItemCategoryAPIRedux : S["Category - US"]}
+              // tableData={salesByItemCategoryAPIRedux && salesByItemCategoryAPIRedux?.length > 0 ? salesByItemCategoryAPIRedux : S["Category - US"]}
+              tableData={salesByItemCategoryAPIRedux && salesByItemCategoryAPIRedux?.length > 0 && salesByItemCategoryAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
+              totalpageNo={totalPageNumberCurrentPageSalesByItemCategory}
             />
             <Table
               currentPage={currentPageSalesByRevenueClass}
               setCurrentPage={setCurrentPageSalesByRevenueClass}
               Heading="Sales By Revenue Class"
-              tableData={salesByRevenueClassAPIRedux && salesByRevenueClassAPIRedux?.length > 0 ? salesByRevenueClassAPIRedux : S["Revenue Class"]}
+              // tableData={salesByRevenueClassAPIRedux && salesByRevenueClassAPIRedux?.length > 0 ? salesByRevenueClassAPIRedux : S["Revenue Class"]}
+              tableData={salesByRevenueClassAPIRedux && salesByRevenueClassAPIRedux?.length > 0 && salesByRevenueClassAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
+              totalpageNo={totalPageNumberCurrentPageSalesByRevenueClass}
             />
           </div>
         </div>
-        <div className="s-tab-cont">
+        {/* <div className="s-tab-cont">
           <div className="s-table-container-two-s">
             <Table
               currentPage={currentPageDiscountSummary}
@@ -873,7 +859,7 @@ const Sales: React.FC = () => {
               recordsPerPage={TABLE_RECORDS_LIMIT}
             />
           </div>
-        </div>
+        </div> */}
       </div>
       {/* </div> */}
     </div>

@@ -161,6 +161,7 @@
 
   .t-table {
     width: 100%;
+    height: 100%;
     border-collapse: collapse;
     font-size: 0.8125rem;
 
@@ -296,4 +297,15 @@
   @media (max-width: 800px) {
     width: 79% !important;
   }
+}
+
+
+.r-table-no-data{
+  background-color: var(--screen-bg);
+  text-align: center;
+  height: 32vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
 }

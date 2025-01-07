@@ -19,9 +19,11 @@ const CustomerInsights = () => {
 
   const RECORDS_PER_PAGE_LIMIT = 15
 
+  const [totalPageNoCurrentPageLiveOrders, setTotalPageNoCurrentPageLiveOrders] = useState<number>(5)
   const [currentPageLiveOrders, setCurrentPageLiveOrders] = useState<number>(1);
   console.log({ currentPageLiveOrders })
 
+  const [totalPageNoCurrentPageLiveOrdersNonDineIn, setTotalPageNoCurrentPageLiveOrdersNonDineIn] = useState<number>(5)
   const [currentPageLiveOrdersNonDineIn, setCurrentPageLiveOrdersNonDineIn] = useState<number>(1);
   console.log({ currentPageLiveOrdersNonDineIn })
 
@@ -81,6 +83,17 @@ const CustomerInsights = () => {
     currentDate && dispatch(liveOrderNonDineInRequest({ locationid, tablePageNo: currentPageLiveOrdersNonDineIn, tableRecordLimit: RECORDS_PER_PAGE_LIMIT, startDate: currentDate, endDate: currentDate }))
   }, [locationid, currentPageLiveOrdersNonDineIn, currentDate])
 
+
+  // <Loader
+  //   className="imgLoader2"
+  //   height="100px"
+  //   width="100px"
+  //   style={{
+  //     filter:
+  //       "invert(45%) sepia(31%) saturate(435%) hue-rotate(72deg) brightness(91%) contrast(88%)",
+  //   }}
+  // />
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
@@ -122,13 +135,24 @@ const CustomerInsights = () => {
             currentPage={currentPageLiveOrders}
             setCurrentPage={setCurrentPageLiveOrders}
             Heading="Live Orders"
-            tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 ? liveOrdersAPIRedux : LD["Live Orders New"]}
+            // tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 ? liveOrdersAPIRedux : LD["Live Orders New"]}
+            tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 && liveOrdersAPIRedux}
             viewType="full"
             recordsPerPage={RECORDS_PER_PAGE_LIMIT}
+            totalpageNo={totalPageNoCurrentPageLiveOrders}
           />
         </div>
         <div className="live-orders-non-dine-in">
-          <Table currentPage={currentPageLiveOrdersNonDineIn} setCurrentPage={setCurrentPageLiveOrdersNonDineIn} Heading="Live Orders (Non-Dine-In)" tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 ? liveOrderNonDineInAPIRedux : LD["Live Orders (Non Dine In)"]} viewType="full" recordsPerPage={RECORDS_PER_PAGE_LIMIT} />
+          <Table
+            currentPage={currentPageLiveOrdersNonDineIn}
+            setCurrentPage={setCurrentPageLiveOrdersNonDineIn}
+            Heading="Live Orders (Non-Dine-In)"
+            // tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 ? liveOrderNonDineInAPIRedux : LD["Live Orders (Non Dine In)"]}
+            tableData={liveOrderNonDineInAPIRedux && liveOrderNonDineInAPIRedux?.length > 0 && liveOrderNonDineInAPIRedux}
+            viewType="full" recordsPerPage={RECORDS_PER_PAGE_LIMIT}
+            totalpageNo={totalPageNoCurrentPageLiveOrdersNonDineIn}
+          />
+
         </div>
         {/* <div className="tables-container-two">
           <Table

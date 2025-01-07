@@ -13,6 +13,7 @@ interface TableProps {
   recordsPerPage: number;
   currentPage: number,
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  totalpageNo: number;
 }
 
 interface SortConfig {
@@ -34,7 +35,8 @@ const Table = ({
   recordsPerPage = 10,
   Heading,
   currentPage,
-  setCurrentPage
+  setCurrentPage,
+  totalpageNo
 }: TableProps) => {
   // const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({
@@ -77,7 +79,9 @@ const Table = ({
     : [];
 
   const records = sortedData.slice(firstIndex, lastIndex);
-  const nPage = Math.ceil(sortedData.length / recordsPerPage);
+  // const nPage = Math.ceil(sortedData.length / recordsPerPage);
+  const nPage = totalpageNo;
+
 
   const prePage = () => {
     if (currentPage > 1) {
@@ -92,7 +96,7 @@ const Table = ({
   };
 
   const tableHeader =
-    tableData.length > 0
+    tableData?.length > 0
       ? Object.keys(tableData[0]).filter((header) => header !== "drop down")
       : [];
 
@@ -146,7 +150,7 @@ const Table = ({
     }
   };
 
-  const hasDropDown = tableData?.some((row) => "drop down" in row);
+  const hasDropDown = tableData && tableData?.some((row) => "drop down" in row);
 
   return (
     <>
@@ -164,20 +168,22 @@ const Table = ({
                 </span>
               </div>
             )}
-            <div className="t-export-container">
-              <img
-                src={downloadVector}
-                alt="download-file-svg"
-                onClick={toggleExportDropDown}
-              />
-              {openDownloadDropDown && (
-                <div className="t-export-drop-down">
-                  <p onClick={() => jsonDownloadFn(tableData)}>JSON</p>
-                  <p onClick={() => csvDownloadFn(tableData)}>CSV</p>
-                  <p onClick={() => xlsxDownloadFn(tableData)}>XLSX</p>
-                </div>
-              )}
-            </div>
+            {records.length > 0 &&
+              <div className="t-export-container">
+                <img
+                  src={downloadVector}
+                  alt="download-file-svg"
+                  onClick={toggleExportDropDown}
+                />
+                {openDownloadDropDown && (
+                  <div className="t-export-drop-down">
+                    <p onClick={() => jsonDownloadFn(tableData)}>JSON</p>
+                    <p onClick={() => csvDownloadFn(tableData)}>CSV</p>
+                    <p onClick={() => xlsxDownloadFn(tableData)}>XLSX</p>
+                  </div>
+                )}
+              </div>
+            }
           </div>
         </div>
         <div className="t-table-wrapper">
@@ -205,7 +211,7 @@ const Table = ({
                 })}
               </tr>
             </thead>
-            <tbody className="t-tableBody">
+            {records.length > 0 ? <tbody className="t-tableBody">
               {records.map((row: Row, rowIndex: number) => (
                 <React.Fragment key={rowIndex}>
                   <tr
@@ -266,7 +272,9 @@ const Table = ({
                   )}
                 </React.Fragment>
               ))}
-            </tbody>
+            </tbody> :
+              <div className="r-table-no-data">No Data Found!</div>
+            }
           </table>
         </div>
         <div className="t-paginationCursor">

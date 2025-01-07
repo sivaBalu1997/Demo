@@ -21,7 +21,6 @@ const LIVE_REFUNDS_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-servi
 
 const LIVE_NET_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/net-sales?"
 
-//   /sales/tracking?
 const LIVE_ORDER_NON_DINE_IN_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/tracking?"
 
 export const getSalesSummary = (getSalesLocationStartEndDate) => {
