@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import './SearchBox.scss';
-import searchIcon from '../../../assets/images/searchicon.png';
+import searchIcon from '../../../assets/svg/searchIcon.svg';
 import NotFound from '../../../assets/svg/NotFound copy.svg';
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
 import { useSelector, useDispatch } from 'react-redux';

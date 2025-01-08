@@ -68,7 +68,9 @@
 .headingItemCustomizations {
   font-weight: 500;
   font-size: 1rem;
+  width: 7.5rem;
   line-height: 1.5rem;
+  
 }
 
 .AddModifiersMainInputSection {
@@ -286,6 +288,14 @@ gap: 0.5rem;
 }
 .spanadd {
   margin-top: 20px;
+
+
+font-weight: 400;
+line-height: 21px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
 }
 
 .btn-ItemCustomizations2 {
@@ -301,9 +311,9 @@ gap: 0.5rem;
   white-space: nowrap;
 }
 
-.btn-ItemCustomizations2:hover {
-  color: #505a99;
-}
+// .btn-ItemCustomizations2:hover {
+//   color: #505a99;
+// }
 
 .Spinner-input-ItemCustomizations {
   display: flex;
@@ -410,24 +420,31 @@ gap: 0.5rem;
   cursor: pointer;
 }
 
-.btn-Addnewcustomizationstyle:hover {
-  color: #505a99;
-}
+// .btn-Addnewcustomizationstyle:hover {
+//   color: #505a99;
+// }
 .Add-Modification-btn-ItemCustomizations {
   display: flex;
   justify-content: end;
+  align-items: center;
   margin-left: 43.75rem;
-
-  font-family: Poppins;
+  gap: 0.5rem;
+width: 20rem;
+// border: 1px solid red;
+  font-family: "Poppins",sans-serif;
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.313rem;
   color: #2196f3;
   cursor: pointer;
+  img{
+    width: 15px;
+    height: 15px;
+  }
 }
-.Add-Modification-btn-ItemCustomizations:hover {
-  color: #505a99;
-}
+// .Add-Modification-btn-ItemCustomizations:hover {
+//   color: #505a99;
+// }
 
 .modifier-div-margin {
   margin-bottom: 3rem;
@@ -514,7 +531,7 @@ gap: 0.5rem;
   width: 110px;
   
 
-  color: red;
+   color: #e52333;;
   margin-left: 2.5rem;
   margin-top: 0.5rem;
   font-weight: 400;
@@ -524,6 +541,10 @@ gap: 0.5rem;
   position: relative;
   left: -95px;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 0.5rem;
 }
 
 .btn1 {
@@ -609,14 +630,29 @@ input[type="number"] {
   font-size: 16px;
   position: relative;
   font-family: 400;
+  display: flex;
+  // border: 1px solid red;
+  justify-content: left;
+  align-items: center;
+}
+.spanOption-button2{
+  top: 10px;
+  font-size: 16px;
+  position: relative;
+  font-family: 400;
+  display: flex;
+  // border: 1px solid red;
+  justify-content: left;
+  align-items: center;
 }
 .panOption-button2 {
   font-size: 14px;
 }
 .spanadd {
-  margin-left: 10px;
-  font-size: 14px;
-  font-family: 400;
+  margin-left: 7px;
+margin-top: -0.1rem;
+  // font-size: 14px;
+  // font-family: 400;
 }
 
 .footer-save-next {
@@ -760,11 +796,11 @@ input[type="number"] {
 
 .Delete-text {
   width: 200px;
-  color: red;
+  color: #e52333;
   display: flex;
   height: 20px;
   font-size: 14px;
-  font-family: Poppins;
+  font-family: "Poppins",sans-serif;
   font-weight: 400;
 }
 
@@ -773,6 +809,7 @@ input[type="number"] {
   transform: translate(-5px, -8px);
   position: relative;
   z-index: -1;
+  color: #e52333;
 }
 
 .Search-Container-options-modifiers {
@@ -944,4 +981,26 @@ input[type="number"] {
 {
   height: 1rem;
   // border: 1px solid red;
+}
+
+
+
+
+
+.Spinner-input-ItemCustomization-height
+{
+
+  display: flex;
+  justify-content: start;
+  margin-left: 4rem;
+  gap: 1.25rem;
+  width: 850px;
+  height: auto;
+  margin-top: 1%;
+  @media (max-width:1525px) {
+    height: 47vh;
+    border: 1px solid #e52333;;
+    
+  }
+ 
 }

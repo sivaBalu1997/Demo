@@ -20,6 +20,7 @@ interface DropdownProps {
   placeHolder?: string;
   validatedineMealType?: any;
   toggleOnorOff?: boolean;
+  EnabledOrNot?: boolean;
   validatepickupdelivery?: any;
 }
 
@@ -31,6 +32,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   validation,
   width,
   onBlur,
+  EnabledOrNot ,
   handleValidate,
   placeHolder,
   validatedineMealType,
@@ -62,9 +64,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [isOpen, selectedValues]);
 
   const handleDropdownClick = () => {
-    setIsOpen(!isOpen);
-    setRotateImg(!rotateImg);
-    setTouched(true);
+    if(EnabledOrNot){
+      setIsOpen(!isOpen);
+      setRotateImg(!rotateImg);
+      setTouched(true);
+     }
+  
   };
 
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +91,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className="dropdown-containerPricing" ref={dropdownRef}>
+    <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "50%"}}>
       <label className="droplabelPricing">{label}</label>
       <div
         className="dropdownPricingList"

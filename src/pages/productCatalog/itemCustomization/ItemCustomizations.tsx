@@ -11,6 +11,8 @@ import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Polygon1 from "../../../assets/images/Polygon 1.png";
 import NotFound from "../../../assets/svg/NotFound copy.svg";
 
+import plusicon from "../../../assets/svg/plusIcon.svg";
+import minus from "../../../assets/svg/minusIcon.svg";
 import Polygon2 from "../../../assets/images/Polygon 2.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -1084,7 +1086,7 @@ const ItemCustomizations: React.FC<any> = () => {
                   className="Add-Modification-btn-ItemCustomizations"
                   onClick={addModifier}
                 >
-                  + Add Modification
+                  <img src={plusicon} alt="" /> Add Modification
                 </a>
               )}
             </div>
@@ -1279,7 +1281,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                 onClick={() => handleDeleteModifier(modIndex)}
                               >
                                 <a className="Delete-text">
-                                  <span className="SpanDelete">-</span>Delete
+                                  <span className="SpanDelete"><img src={minus} alt="" /></span>Delete
                                 </a>
                               </div>
                             </div>
@@ -1531,8 +1533,8 @@ const ItemCustomizations: React.FC<any> = () => {
                                                   : "spanOption-button"
                                               }
                                             >
-                                              +
-                                              <span className="spanadd">
+                                             <img src={plusicon} alt="" />
+                                              <span className="spanadd" >
                                                 Add
                                               </span>{" "}
                                             </span>
@@ -1545,7 +1547,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                               deleteOption(modIndex, optIndex)
                                             }
                                           >
-                                            - Delete
+                                            <img src={minus} alt="" /> Delete
                                           </a>
                                         )}
                                       </div>
@@ -1555,13 +1557,8 @@ const ItemCustomizations: React.FC<any> = () => {
                             </div>
 
                             <div
-                              className="Spinner-input-ItemCustomizations"
-                              style={{
-                                height:
-                                  modifications.length - 1 === modIndex
-                                    ? "35vh"
-                                    : "auto",
-                              }}
+                              className={`Spinner-input-ItemCustomizations ${modifications.length - 1 === modIndex?"Spinner-input-ItemCustomization-height":""}`}
+                             
                             >
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
@@ -1802,6 +1799,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   selectedValues={
                                     modifications[modIndex]?.selectedValue || []
                                   }
+                                  EnabledOrNot={true}
                                   onSelect={(value) =>
                                     handleSelect3(
                                       value,

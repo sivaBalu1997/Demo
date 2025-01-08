@@ -93,6 +93,7 @@ type MainFormTypespecial = {
 type DineInField = {
   DineInId?: string;
   DineInPrice: string | string[];
+  Enabled:boolean
   // DineInMealType: string | string[];
 };
 
@@ -267,6 +268,7 @@ const PricingDetails = () => {
     (state: any) => state.PricingDetailReducer.prizingData || {}
   );
 
+  
   const {
     control,
     handleSubmit,
@@ -514,6 +516,7 @@ const PricingDetails = () => {
     {
       DineInId: DineInId,
       DineInPrice: "",
+      Enabled:true
       // DineInMealType: [],
     },
   ]);
@@ -522,6 +525,7 @@ const PricingDetails = () => {
       {
         DineInId: DineInId,
         DineInPrice: "",
+        Enabled:true
         // DineInMealType: [],
       },
     ]

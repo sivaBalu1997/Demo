@@ -1,7 +1,7 @@
 .Item-Selection {
   // border: 1px solid rgba(0, 0, 0, 0.3);
   // width: 40.5rem;
-
+height: 331px;
   .Item-Selection-heading {
     font-size: 14px;
     font-family: "Poppins", sans-serif;
@@ -47,6 +47,22 @@
     flex-direction: column;
     position: relative;
     top: 1rem;
+    @media (max-width: 2000px) {
+      height: 15rem;
+       
+       }
+       @media (max-width: 1770px) {
+       height: 13.5rem;
+        
+        }
+       @media (max-width: 1600px) {
+       height: 11.5rem;
+         border: 1px solid blue;
+        
+        }
+    @media (max-width:1525px) {
+      height: 9rem;
+    }
     // background-color: pink;
 
     &::-webkit-scrollbar {
