@@ -36,18 +36,18 @@
   //   border: 1px solid blue;
   
   // }
-  @media (max-width: 1791px) {
-    height: 32rem;
-    width: 100%;
-    border: 2px solid gold;
-    
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  
-  }
+  @media (max-width: 2000px) {
+    height: 40rem;
+    border: 1px solid blue;
+   
+   }
+   @media (max-width: 1600px) {
+   height: 31rem;
+    border: 1px solid green;
+   
+   }
   @media (max-width: 1525px) {
-    height: 26rem;
+    height: 23rem;
     border: 1px solid red;
     padding-bottom: 4rem;
     
@@ -393,11 +393,29 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     // background-color: pink;
     margin-top: 2rem;
+    @media (max-width: 2000px) {
+    position: relative;
+    top: -13rem;
+    border: 1px solid red;
+     
+     }
+     @media (max-width: 1770px) {
+      position: relative;
+      top: -6rem;
+       border: 1px solid black;
+      
+      }
+     @media (max-width: 1600px) {
+      position: relative;
+      top: -1rem;
+       border: 1px solid black;
+      
+      }
     @media (max-width: 1525px) {
       position: relative;
-      top: 1rem;
+      top: 3.5rem;
       
-          border: 1px solid red;
+         
           
        
         
@@ -427,9 +445,27 @@
     gap: 20px;
     position: relative;
     top: 3%;
+    @media (max-width: 2000px) {
+      position: relative;
+      top: -10rem;
+      border: 1px solid red;
+       
+       }
+       @media (max-width: 1770px) {
+       position: relative;
+       top: -3rem;
+        border: 1px solid black;
+       
+       }
+      @media (max-width: 1600px) {
+        position: relative;
+        top: 2rem;
+        border: 1px solid blue;
+       
+       }
     @media (max-width: 1525px) {
       position: relative;
-      top: 3rem;
+      top: 5.5rem;
       
           border: 1px solid red;
           

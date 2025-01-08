@@ -734,7 +734,8 @@ const DropDownList: React.FC<DropdownProps> = ({
 
       {dropdownopen && (
         <div className="dropdown-body" style={{height:height?height:'10.8rem'}}>	
-          <div
+        <div className="dropdown-lists-edit">
+        <div
             className="Dropdown-lists-and-edit"
             onMouseDown={handleOptionMouseDown}
           >
@@ -828,14 +829,16 @@ const DropDownList: React.FC<DropdownProps> = ({
                 </div>
               )}
             </ul>
-            <div className="edititem">
+            
+          </div>
+          <div className="edititem" onMouseDown={handleOptionMouseDown}>
               {!dropDownLoading &&
                 options?.length > 0 &&
                 !editList &&
                 editValues && (
                   <p
                     className="editiconimage"
-                    // onMouseDown={handleOptionMouseDown}
+                    onMouseDown={handleOptionMouseDown}
                     onClick={() => handleedit()}
                     // style={{position:'relative',left:'-2rem'}}
                   >
@@ -843,7 +846,8 @@ const DropDownList: React.FC<DropdownProps> = ({
                   </p>
                 )}
             </div>
-          </div>
+        </div>
+        
 
           {
             <div
@@ -863,7 +867,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                       onClick={handleNewItemAdd}
                       className="dropdown-addnew-button"
                     >
-                      Add
+                      + Add
                     </button>
                   </div>
                 </div>

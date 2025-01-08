@@ -20,7 +20,12 @@ import { RootState } from "redux/rootReducer";
 import { State } from "sockjs-client";
 import session from "redux-persist/lib/storage/session";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
-import { log } from "util";
+
+import {
+  showErrorToast,
+ 
+} from "../../../util/toastUtils";
+import { de } from "date-fns/locale";
 
 type MainFormType = {
   availabilityid: string[];
@@ -330,6 +335,7 @@ console.log({selectedthirdvalues});
       useState<DeliveryDetails>({
         typeId: DineInId,
         typeName: "DineIn",
+        Enabled: true,
         price: 0,
         typeGroup: "D",
         availabilities: [
@@ -349,14 +355,14 @@ console.log({selectedthirdvalues});
     const [priceInfo, setPriceInfo] = useState<PriceInfo[]>([
       {
         typeId: "",
-        price: 0,
+        price: dineinfields[0]?.DineInPrice || 0,
         typeName: "",
         Enabled:true,
         typeGroup: "T",
         availabilities: [
           {
             availabilityDays: [],
-            sessions: [],
+            sessions: dineinfields[0]?.DineInMealType || [],
           },
         ],
         ...(editData?.length && {
@@ -423,6 +429,7 @@ console.log({selectedthirdvalues});
             DineInPrice: "",
             DineInMealType: [],
             DineInService: [],
+            Enabled: true,
           }))
         );
         setSelectedValuesMealType([]);
@@ -656,15 +663,7 @@ console.log({selectedthirdvalues});
         const dineIndetails = prizingDetail?.normalForm?.dineInDetails;
         console.log({ dineIndetails });
 
-        const filterOrderTypeAvailableorNotDineIn = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === dineIndetail?.typeId
-        );
-        const filterOrderTypeAvailableorNotPickup = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === pickupDetails?.typeId
-        );
-        const filterOrderTypeAvailableorNotDelivery = seletedOrdertypes?.filter(
-          (data: any, index: number) => data.typeId === deliveryDetails?.typeId
-        );
+        
 
         setformNormal({
           PickuppriceNormal:
@@ -737,11 +736,12 @@ console.log({selectedthirdvalues});
         // setDineIn(true);
 
         // setShowDineIn(true);
+console.log("fff",dineIndetails);
 
         const updatedField = {
           DineInPrice: dineIndetails?.price,
           Enabled:
-            dineIndetails?.isEnabled && dineIndetails?.isEnabled === 1
+            dineIndetails?.Enabled && dineIndetails?.Enabled === true
               ? true
               : false,
           DineInMealType:
@@ -773,6 +773,7 @@ console.log({selectedthirdvalues});
           return {
             ...prevData,
             price: updatedField?.DineInPrice,
+            Enabled: updatedField?.Enabled,
             availabilities: updatedAvailabilities,
           };
         });
@@ -780,6 +781,7 @@ console.log({selectedthirdvalues});
         // Set delivery details
         const thirdPartyTypeName =
           prizingDetail?.normalForm?.thirdpartyDetails?.map;
+console.log({pickupDetails});
 
         if (pickupDetails) {
           // setPickup(true)
@@ -792,7 +794,7 @@ console.log({selectedthirdvalues});
           setPickUpDetails({
             typeId: pickUpId,
             typeGroup: "P",
-            Enable: pickupDetails?.Enabled,
+            Enabled: pickupDetails?.Enabled===true?true:false,
             price: pickupDetails?.price || 0,
             typeName: pickupDetails?.typeName || "",
             availabilities: pickupDetails?.availabilities || [],
@@ -1108,6 +1110,7 @@ console.log({selectedthirdvalues});
           return {
             ...prevData,
             price: updatedField && updatedField?.DineInPrice,
+            Enabled: updatedField && updatedField?.Enabled,
             availabilities: updatedAvailabilities && updatedAvailabilities,
           };
         });
@@ -1132,38 +1135,10 @@ console.log({selectedthirdvalues});
       }
     }, [prizingDetail, dataFromRedux[0]]);
 
-    const [initialPricingData, setInitialPricingData] = useState([]);
+    
 
-    const handleDelete = (index: number): void => {
-      const newEntries = dineinfields.filter((_: any, i: any) => i !== index);
-      setDineInFields(newEntries);
-
-      const newSelectedValues1 = { ...selectedValues };
-      delete newSelectedValues1[index];
-      setSelectedValues(newSelectedValues1);
-
-      const newSelectedValuesMealtype = { ...selectedValuesmealtype };
-      delete newSelectedValuesMealtype[index];
-      setSelectedValuesMealType(newSelectedValuesMealtype);
-
-      const newArray = [...dineInDates1];
-      newArray.splice(index, 1);
-      setDineInDates1(newArray);
-    };
-
-    const AddDineInEntry = () => {
-      setDineInEntry([...dineinentry, ""]);
-      setDineInFields([
-        ...dineinfields,
-        {
-          DineInPrice: "",
-          DineInMealType: [],
-          DineInService: "",
-          showDay: false,
-          dayButtonText: "Choose Day",
-        },
-      ]);
-    };
+  
+   
 
     const getDisabledDays = (index: number) => {
       const allSelectedDays = new Set<number>();
@@ -1189,6 +1164,7 @@ console.log({selectedthirdvalues});
 
         newEntries[index] = {
           ...newEntries[index],
+          Enabled: Enable,
           [e.target.name as keyof DineInField]: inputValue,
         };
         setDineInFields(newEntries);
@@ -1196,6 +1172,7 @@ console.log({selectedthirdvalues});
         const newPrice = parseFloat(inputValue) || 0;
         setFormattedDineInData((prevData: any) => ({
           ...prevData,
+            Enabled: Enable,
           price: newPrice,
         }));
 
@@ -1428,7 +1405,46 @@ console.log({selectedthirdvalues});
 
     const handleSelectThird = (value: string[]): void => {
       setSelectedThirdValues(value);
+      const defaultMealType = dineinfields[0]?.DineInMealType || []; 
+console.log("fdgh",value);
+
+setMealTypes((prev) => {
+ 
+
+  const updatedMealTypes = { ...prev };
+
+ 
+  selectedthirdvalues.forEach((value) => {
+    updatedMealTypes[value] = defaultMealType; 
+  });
+
+  return updatedMealTypes;
+});
       validateDropdown(value, "ThirdDeliverySwiggyZomato");
+
+
+setPriceInfo(
+    dineinfields.map((dinein:any,index:number) => ({
+      typeId: "",
+      price: dinein?.DineInPrice || 0,
+      typeName: "",
+      Enabled: priceInfo[index].Enabled,
+      typeGroup: "T",
+      availabilities: [
+        {
+          availabilityDays: [],
+          sessions: dinein?.DineInMealType || [],
+        },
+      ],
+      ...(editData?.length && {
+        inActiveUntil:
+          prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split(".")[0] ||
+          null,
+      }),
+    }))
+  );
+
+
     };
 
     const clearSelection = () => {
@@ -1588,6 +1604,7 @@ console.log({selectedthirdvalues});
     const validateDineinFields = () => {
       const validationErrors: Record<string, string> = {};
      
+     console.log("validationg");
      
 
       if (Normaldays.length === 0) {
@@ -1617,41 +1634,50 @@ console.log({selectedthirdvalues});
           }
         }
       });
-      console.log({priceInfo});
+      // console.log({priceInfo});
       
+if(selectedthirdvalues.length>0){
 
-      priceInfo.forEach((item,index) => {
+
+  priceInfo.forEach((item,index) => {
        
     
-        // Check if the price is empty
-        if ( !item.price && item?.Enabled) {
-          console.log("price1",item.price);	
-          validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
-        }
-        else
-        {
-          console.log("price2",item.price);	
-          
-        }
+    // Check if the price is empty
+    if ( !item.price && item?.Enabled) {
+      console.log("price1",item.price);	
+      validationErrors[`ThirdPartyPrice-${index}`] = "Price is empty";
+    }
+    else
+    {
+      console.log("price2",item.price);	
       
-        // Check if sessions are empty
-        if(  item?.availabilities)
-        {
-          if ((item.availabilities?.some((availability) => availability.sessions.length === 0))&&item?.Enabled) {
-            validationErrors[`ThirdPartyMealType-${index}`] = "Sessions are empty";
-          }
-         
-        }
-        else{
-          if(item?.Enabled){
-            validationErrors[`ThirdPartyMealType-${index}`] = "Sessions are empty";
+    }
+  
+    // Check if sessions are empty
+    if(  item?.availabilities)
+    {
+      if ((item.availabilities?.some((availability) => availability.sessions.length === 0))&&item?.Enabled) {
+        validationErrors[`ThirdPartyMealType-${index}`] = "Sessions are empty";
+      }
+      else{
+        delete validationErrors[`ThirdPartyMealType-${index}`];
+      }
+     
+    }
+    else{
+      if(item?.Enabled){
+        validationErrors[`ThirdPartyMealType-${index}`] = "Sessions are empty";
 
-          }
-        }
-        
+      }
+    }
     
-       
-      });
+
+   
+  });
+  
+}
+
+     
       if (pickupDetails?.Enabled) {
         if (pickup) {
           if ((pickup && !pickupDetails?.price) || pickupDetails?.price <= 0) {
@@ -1679,6 +1705,15 @@ console.log({selectedthirdvalues});
         }
       }
      
+      if(!showDineIn&&!pickup&&!delivery){
+        validationErrors.atleastOneOrderType = "Please select at least one order type.";
+        showErrorToast("Please select at least one order type.");
+
+      }
+      else
+      {
+        delete validationErrors.atleastOneOrderType;
+      }
 
       setErrors(validationErrors);
 
@@ -1737,6 +1772,48 @@ console.log({selectedthirdvalues});
 
       setErrors(validationErrors);
     };
+
+
+    const preFillDataPickup=()=>{ 
+console.log({dineinfields});
+
+if (dineinfields.length > 0) {
+  setPickUpDetails((prevDetails) => ({
+    ...prevDetails,
+    price: dineinfields[0]?.DineInPrice || 0,
+    availabilities: [
+      {
+        ...prevDetails.availabilities[0],
+        sessions: dineinfields[0]?.DineInMealType || [],
+      },
+    ],
+  }));
+}
+
+
+    }
+
+
+    const preFillDataDelivery=()=>{ 
+      console.log({dineinfields});
+      
+      if (dineinfields.length > 0) {
+        setDeliveryDetails((prevDetails) => ({
+          ...prevDetails,
+          price: dineinfields[0]?.DineInPrice || 0,
+          availabilities: [
+            {
+              ...prevDetails.availabilities[0],
+              sessions: dineinfields[0]?.DineInMealType || [],
+            },
+          ],
+        }));
+      }
+      
+      
+          }
+
+
 
     return (
       <div>
@@ -1963,7 +2040,7 @@ console.log({selectedthirdvalues});
                     >
                       Pick Up
                     </h1>
-                    <div className="toggleIV">
+                    <div className="toggleIV" onClick={preFillDataPickup}>
                       <Toggle
                         toggle={pickup}
                         setToggle={setPickup}
@@ -2150,7 +2227,7 @@ console.log({selectedthirdvalues});
                     >
                       Delivery
                     </h1>
-                    <div className="toggleV">
+                    <div className="toggleV" onClick={preFillDataDelivery}>
                       <Toggle
                         toggle={delivery}
                         setToggle={setDelivery}

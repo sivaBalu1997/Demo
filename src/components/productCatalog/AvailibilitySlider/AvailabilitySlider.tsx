@@ -44,12 +44,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     (orderType: any) => orderType?.typeName === "DineIn"
   );
 
-  const subcategories = Array.isArray(dataFromRedux[0]?.orderTypes)
-    ? dataFromRedux[0].orderTypes.map((elem: any) => ({
-        subHeading: elem.typeName,
-        types: [],
-      }))
-    : [];
+ 
 
   const [parentOrderTypeArray, setParentOrderTypeArray] = useState<any>([]);
 
@@ -65,11 +60,11 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     const orderTypes = dataFromRedux[0]?.orderTypes || [];
   
     const tempOnPremarray = orderTypes.filter((data: any) => {
-      return data?.typeGroup === "D";
+      return data?.typeGroup === "D"||data?.typeGroup === "I";
     });
   
     const tempOffPremarray = orderTypes.filter((data: any) => {
-      return data?.typeGroup !== "D";
+      return data?.typeGroup !== "D" &&data?.typeGroup !== "I";
     });
   
     const isOnPremEnabledCount =
@@ -169,12 +164,12 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
       const tempOnPremarray = tempOderTypes?.filter(
         (data: any, index: number) => {
-          return data?.typeGroup === "D";
+          return data?.typeGroup === "D" ||data?.typeGroup === "I";
         }
       );
       const tempOffPremarray = tempOderTypes?.filter(
         (data: any, index: number) => {
-          return data?.typeGroup !== "D";
+          return data?.typeGroup !== "D" &&data?.typeGroup !== "I";
         }
       );
 
@@ -231,12 +226,12 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
     const tempOnPremarray = tempOderTypes?.filter(
       (data: any, index: number) => {
-        return data?.typeGroup === "D";
+        return data?.typeGroup === "D"||data?.typeGroup === "I";
       }
     );
     const tempOffPremarray = tempOderTypes?.filter(
       (data: any, index: number) => {
-        return data?.typeGroup !== "D";
+        return data?.typeGroup !== "D" &&data?.typeGroup !== "I";
       }
     );
 
@@ -291,12 +286,12 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const handleOrderCategoryAvailability = (categoryHeading: string) => {
     const tempOnPremarray = parentOrderTypeArray?.filter(
       (data: any, index: number) => {
-        return data?.typeGroup === "D";
+        return data?.typeGroup === "D"||data?.typeGroup === "I";
       }
     );
     const tempOffPremarray = parentOrderTypeArray?.filter(
       (data: any, index: number) => {
-        return data?.typeGroup !== "D";
+        return data?.typeGroup !== "D"&&data?.typeGroup !== "I";
       }
     );
 
@@ -375,78 +370,14 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     setSelectedOrderTypeCategory("");
   };
 
-  const data = [
-    {
-      mainHeading: "On-prem",
-      types: [Dinein?.typeName],
-      isEnabled: Dinein?.availabilityEnabled,
-    },
-    {
-      mainHeading: "Off-prem",
-      subcategories: [
-        {
-          subHeading: ["Order Types "],
-          types: Array.isArray(dataFromRedux[0]?.orderTypes)
-            ? dataFromRedux[0].orderTypes
-                .filter((elem: any) => elem.typeName !== "DineIn")
-                .map((elem: any) => ({
-                  name: elem.typeName,
-                  isEnabled: elem.availabilityEnabled,
-                  orderTypeId: elem.typeId,
-                }))
-            : [],
+ 
 
-          isEnabled: Array.isArray(dataFromRedux[0]?.orderTypes)
-            ? dataFromRedux[0].orderTypes.map(
-                (elem: any) => elem.availabilityEnabled
-              )
-            : [],
-        },
-      ],
-    },
-  ];
+  
+  
 
-  // const filteredData = data
-  // .flatMap((category) =>
-  //   category.subcategories
-  //     ? category.subcategories.flatMap((subcat) =>
-  //         subcat.types.filter((type: any) => type.isEnabled === true)
-  //       )
-  //     : []
-  // )
-  // .map((type) => ({
-  //   name: type.name,
-  //   orderTypeId: type.orderTypeId,
-  //   isEnabled: type.isEnabled,
-  // }));
+  
 
-  // const getEnabledValues = () => {
-  //   let enabledArray: boolean[] = [];
-
-  //   data.forEach((item) => {
-  //     if (item.subcategories) {
-  //       item.subcategories.forEach((subcategory) => {
-  //         if (Array.isArray(subcategory.isEnabled)) {
-  //           enabledArray = enabledArray.concat(subcategory.isEnabled);
-  //         }
-  //       });
-  //     }
-  //   });
-
-  //   return enabledArray;
-  // };
-
-  // const enabledValuesArray = getEnabledValues();
-  // console.log(enabledValuesArray);
-
-  const [toggleStates, setToggleStates] = useState<any[]>([]);
-
-  // itemAvailabilityInfo: [
-  //   {
-  //     orderTypeId: "6e006c2d-1dd2-4b81-9af1-9e02a8336107",
-  //     unAvailableUntilTime: "2025-03-21T08:04:52"
-  //   }
-  // ]
+ 
   useEffect(() => {
     if (dataFromRedux && dataFromRedux[0]?.orderTypes) {
       setPatchedData((prevState: any) => ({
@@ -461,46 +392,13 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     }
   }, [dataFromRedux, setPatchedData, selectedDateOption]);
 
-  // useEffect(() => {
-  //   const initialToggleStates = data.map((item, index) => {
-  //     if (item.subcategories) {
-  //       return {
-  //         parentToggle: false,
-  //         subcategoryToggles: item.subcategories.map((_, subIndex) => ({
-  //           subParentToggle: false,
-  //           childToggles: Array(3)
-  //             .fill(false)
-  //             .map((_, childIndex) =>
-  //               mapInitialToggleState(index, subIndex, childIndex)
-  //             ),
-  //         })),
-  //       };
-  //     } else if (item.types) {
-  //       return {
-  //         parentToggle: false,
-  //         childToggles: item.types.map((_, typeIndex) =>
-  //           mapInitialToggleState(index, 0, typeIndex)
-  //         ),
-  //       };
-  //     }
-  //     return null;
-  //   });
+ 
 
-  //   setToggleStates(initialToggleStates);
-  // }, [dataFromRedux]);
+  
 
-  const [selectedtypeid, setSelectedtypeid] = useState<string>();
+ 
 
-  // const handleselectchangePeriod = (id: string, enable: boolean) => {
-  //   console.log("enable", enable);
-
-  //     setSelectPeriod(true);
-  //     setSelectedtypeid(id);
-
-  // };
-  // const handleheadingtoggle = () => {
-  //   setSelectPeriod(true);
-  // };
+  
 
   const [parentToggle, setParrentToggle] = useState("");
 
@@ -510,14 +408,14 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     if (headingName === "On-prem") {
       const tempOnPremarray = dataFromRedux[0]?.orderTypes?.filter(
         (data: any, index: number) => {
-          return data?.typeGroup === "D";
+          return data?.typeGroup === "D"||data?.typeGroup === "I";
         }
       );
       setParentToggles(tempOnPremarray);
     } else {
       const tempOffPremarray = dataFromRedux[0]?.orderTypes?.filter(
         (data: any, index: number) => {
-          return data?.typeGroup !== "D";
+          return data?.typeGroup !== "D"&&data?.typeGroup !== "I";
         }
       );
 
@@ -548,11 +446,11 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     let filteredArray = [];
     if (parentName === "On-prem") {
       filteredArray = dataFromRedux[0]?.orderTypes?.filter(
-        (data: any) => data?.typeGroup === "D"
+        (data: any) => data?.typeGroup === "D"||data?.typeGroup === "I"
       );
     } else {
       filteredArray = dataFromRedux[0]?.orderTypes?.filter(
-        (data: any) => data?.typeGroup !== "D"
+        (data: any) => data?.typeGroup !== "D"&&data?.typeGroup !== "I"
       );
     }
     setParentToggles(filteredArray);

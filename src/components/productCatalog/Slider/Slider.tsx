@@ -9,6 +9,7 @@ import NavSlider from "../NavSlider/NavSlider";
 import ArrowHover from "../../../assets/svg/ArrowHover.svg";
 import BasicChanges from "../BasicChanges/BasicChanges";
 import { useSelector, useDispatch } from "react-redux";
+import eyeOpenimg from '../../../assets/svg/eyeopenIcon.svg';
 import {
   addMockDataHiddenRequest,
   resetSuccessMessage,
@@ -71,6 +72,62 @@ const Slider: React.FC<SliderProps> = ({
     (state: any) => state.productCatalog?.deleteMenuItemLoading
   );
 
+  useEffect(() => {
+    const tempOnPremarray = data1[0]?.orderTypes?.filter((data:any, index:number) => {
+      return data?.typeGroup === "D" || data?.typeGroup ==="I";
+    });
+    const tempOffPremarray = data1[0]?.orderTypes?.filter((data:any, index:number) => {
+      return data?.typeGroup !== "D"&& data?.typeGroup !=="I";
+    });
+
+    const allIsNotHideOnPrem = tempOnPremarray.every(
+      (item:any) => item.isNotHide === 0
+    );
+    const allIsNotHideOffPrem = tempOnPremarray.every(
+      (item:any) => item.isNotHide === 0
+    );
+
+
+    // const isOnPremEnabledCount =
+    //   tempOnPremarray?.filter((data, index) => {
+    //     return data?.isNotHide === 1;
+    //   }).length == 0;
+    // const isOffPremEnabledCount =
+    //   tempOffPremarray?.filter((data, index) => {
+    //     return data?.isNotHide === 1;
+    //   }).length == 0;
+
+    const allChildrenonEnabled = tempOnPremarray?.some(
+      (child:any) => child.isEnabled === 1
+    );
+    const allChildrenoffEnabled = tempOnPremarray?.some(
+      (child:any) => child.isEnabled === 1
+    );
+
+    const tempOrderTypeAvailabilityArray = [
+      {
+        mainHeading: "On-prem",
+        types: tempOnPremarray,
+        isEnabled: allChildrenonEnabled,
+        isNotHide: allIsNotHideOnPrem,
+      },
+      {
+        mainHeading: "Off-prem",
+        types: tempOffPremarray,
+        isEnabled: allChildrenoffEnabled,
+        isNotHide: allIsNotHideOffPrem,
+      },
+    ];
+
+const allTrue = tempOrderTypeAvailabilityArray.every(
+      (item) => item.isNotHide
+    );
+  
+    const allTypesHidden = tempOrderTypeAvailabilityArray.every((orderType:any) =>
+      orderType.types.every((type:any) => type.isNotHide === 0)
+    );
+    setEyeIconOpenClose(allTypesHidden)
+  }, [data1[0]?.orderTypes]);
   const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
 
   const history = useHistory();
@@ -85,6 +142,9 @@ const Slider: React.FC<SliderProps> = ({
     (state: RootState) => state.storeMockDataReducer.data
   );
   const menuData = useSelector((state: any) => state.productCatalog?.menuData);
+
+
+  const [eyeIconOpenClose, setEyeIconOpenClose] = useState<boolean>();
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {};
 
@@ -185,7 +245,7 @@ const Slider: React.FC<SliderProps> = ({
 
               <div className="EyeImage-Section">
                 <img
-                  src={Eye}
+                  src={eyeIconOpenClose?eyeOpenimg:Eye}
                   alt="View"
                   className="EyeImage"
                   onClick={handleEyeClick}
@@ -220,7 +280,7 @@ const Slider: React.FC<SliderProps> = ({
           </div>
 
           {eye && (
-            <EyeModal onEyeclose={() => setEye(false)} onclose={onclose} />
+            <EyeModal onEyeclose={() => setEye(false)} onclose={onclose} setEyeIconOpenClose ={setEyeIconOpenClose}/>
           )}
 
           {trash && (
