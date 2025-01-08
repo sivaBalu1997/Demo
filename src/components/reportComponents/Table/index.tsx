@@ -152,6 +152,13 @@ const Table = ({
 
   const hasDropDown = tableData && tableData?.some((row) => "drop down" in row);
 
+  function camelCaseToSpaceSeparated(camelCaseString: string) {
+    // Add space before each uppercase letter, and capitalize the first word
+    return camelCaseString
+      .replace(/([A-Z])/g, ' $1') // Add space before each uppercase letter
+      .replace(/^./, str => str.toUpperCase()); // Capitalize the first letter
+  }
+
   return (
     <>
       <div
@@ -199,7 +206,7 @@ const Table = ({
                       key={index}
                       onClick={() => handleSort(header)}
                     >
-                      {header}
+                      {camelCaseToSpaceSeparated(header)}
                       <span className="t-sort-icon">
                         {sortConfig.key === header &&
                           sortConfig.direction === "ascending"

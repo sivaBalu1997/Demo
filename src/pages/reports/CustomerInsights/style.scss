@@ -6,6 +6,7 @@
   --table-text: #333333;
   --chart-bg: #ffffff;
   --screen-bg: #404d66;
+  --new-bg:#ccc;
 }
 
 .dark-theme {
@@ -15,6 +16,7 @@
   --table-text: #ffffff;
   --chart-bg: #222b3c;
   --screen-bg: #2e3a4f;
+  --new-bg: #404d66;
 }
 
 .light-theme {
@@ -24,6 +26,7 @@
   --table-text: #333333;
   --chart-bg: #ffffff;
   --screen-bg: #ffffff;
+  --new-bg: #ccc;
 }
 
 .l-expanded-width-sales {
@@ -262,6 +265,16 @@
         }
         // // h3
       }
+    }
+    .s-live-no-data{
+      background-color: var(--new-bg);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-top: 0;
     }
     .l-live-inner-box-expanded{
       // background-color: lightcoral;

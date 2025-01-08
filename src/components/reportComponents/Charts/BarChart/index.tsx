@@ -56,7 +56,10 @@ const BarChart: React.FC<BarchartProps> = ({
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const isDarkTheme = useContext(ThemeContext);
 
+  const hasData = xAxisData?.length > 0 && yAxisData?.length > 0;
+
   useEffect(() => {
+    if (!hasData) return;
     Chart.register(
       BarController,
       BarElement,
@@ -152,6 +155,7 @@ const BarChart: React.FC<BarchartProps> = ({
       };
     }
   }, [
+    hasData,
     xAxisData,
     yAxisData,
     label,
@@ -175,11 +179,17 @@ const BarChart: React.FC<BarchartProps> = ({
 
   return (
     <div
-      className={`c-bar-chart-container ${
-        isDarkTheme ? "chart-dark-js" : "chart-light-js"
-      }`}
+      className={`c-bar-chart-container ${isDarkTheme ? "chart-dark-js" : "chart-light-js"
+        }`}
     >
-      <canvas ref={chartRef}></canvas>
+      {hasData ? (
+        <canvas ref={chartRef}></canvas>
+      ) : (
+        <div className="no-data-found" style={{ textAlign: "center", marginTop: "20px" }}>
+          <h2 style={{ color: pluginLegendLabelsColor }}>{BatChartTitle}</h2>
+          <p style={{ color: pluginLegendLabelsColor }}>No Data Found</p>
+        </div>
+      )}
     </div>
   );
 };

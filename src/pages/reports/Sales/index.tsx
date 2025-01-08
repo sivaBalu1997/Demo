@@ -11,6 +11,7 @@ import BarChart from "../../../components/reportComponents/Charts/BarChart";
 import moment from "moment";
 import SidePanel from "pages/SidePanel";
 import Topnavbar from "components/reportComponents/TopNavbar";
+import ToolTip from "../../../assets/svg/ToolTip.svg"
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
 
@@ -73,6 +74,82 @@ interface transformedhourlySalesChartDataFromAPIReduxType {
 
 const Sales: React.FC = () => {
 
+
+  const [showNetSaleToolTip, setShowNetSaleToolTip] = useState<boolean>(false)
+  const [showTotalSalesToolTip, setShowTotalSalesToolTip] = useState<boolean>(false)
+  const [showTotalSalesTwo, setShowTotalSalesTwo] = useState<boolean>(false)
+  const [showNetSalesTwo, setShowNetSalesTwo] = useState<boolean>(false)
+  const [showTaxTwo, setShowTaxTwo] = useState<boolean>(false)
+
+  const salesSummaryStatusAPIRedux = useSelector((state: any) => state?.newReports?.salesSummaryStatus)
+  console.log({ salesSummaryStatusAPIRedux })
+
+  //pp
+  const salesByItemCategoryAPIReduxTotalPageNo = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess?.totalPages);
+  console.log({ salesByItemCategoryAPIReduxTotalPageNo })
+
+
+  const salesDataFromAPIRedux = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
+
+  const salesDataFromAPIReduxLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
+
+  const salesByItemCategoryAPIRedux = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess?.content);
+
+  const salesByRevenueClassAPIRedux = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
+
+  const revenueClassTotalPageNo = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.totalPages)
+  console.log({ revenueClassTotalPageNo })
+
+  const actualSalesAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesSuccess);
+  console.log({ actualSalesAPIRedux })
+
+  const actualSalesThirdPartyAPIRedux = useSelector((state: any) => state?.newReports?.actualThirdPartySalesSuccess);
+
+  const segregatedDataForMaghilSales = actualSalesAPIRedux && actualSalesAPIRedux?.content?.filter((item: any) => item.type === "maghil");
+  console.log({ segregatedDataForMaghilSales });
+
+
+  const segregatedDataForMaghilSalesTotalPageNo = segregatedDataForMaghilSales?.totalPages
+  //pp
+  console.log({ segregatedDataForMaghilSalesTotalPageNo })
+
+  console.log({ actualSalesThirdPartyAPIRedux })
+
+  const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.content?.filter((item: any) => item.type === "third party")
+  console.log({ segregatedDataForThirdPartySales });
+
+
+  const segregatedDataForThirdPartySalesTotalPageNo = segregatedDataForThirdPartySales?.totalPages
+  //pp
+  console.log({ segregatedDataForThirdPartySalesTotalPageNo })
+
+  const hourlySalesChartDataFromAPIRedux = useSelector((state: any) => state?.newReports?.hourlySalesSuccess);
+
+  const transformedhourlySalesChartDataFromAPIRedux = hourlySalesChartDataFromAPIRedux && hourlySalesChartDataFromAPIRedux?.content?.map(({ formattedHour, itemTotal }: transformedhourlySalesChartDataFromAPIReduxType) => ({ formattedHour, itemTotal }));
+  console.log({ transformedhourlySalesChartDataFromAPIRedux });
+
+  const hourlyX = transformedhourlySalesChartDataFromAPIRedux && transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.formattedHour);
+
+  const hourlyY = transformedhourlySalesChartDataFromAPIRedux && transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.itemTotal);
+  console.log('hourly X => ', { hourlyX }, 'hourly Y => ', { hourlyY })
+
+  const discountSummaryAPIRedux = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content)
+  console.log({ discountSummaryAPIRedux })
+
+  const discountSummaryPageNo = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.totalPages)
+  //pp
+  console.log({ discountSummaryPageNo })
+
+  const cancellationSummaryAPIRedux = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content)
+  console.log({ cancellationSummaryAPIRedux })
+
+  const cancellationSummaryTotalPageNo = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages)
+  //pp
+  console.log({ cancellationSummaryTotalPageNo })
+
+  console.log({ salesDataFromAPIReduxLoader })
+  console.log('All APIs', { actualSalesAPIRedux, actualSalesThirdPartyAPIRedux, salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, segregatedDataForMaghilSales, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux, discountSummaryAPIRedux, cancellationSummaryAPIRedux })
+
   const locationid = useSelector((state: any) => state?.auth?.credentials?.locationId)
   console.log({ locationid })
   // const locationid = "969c059b-6597-47a8-b175-08658e9bf41c";
@@ -87,7 +164,7 @@ const Sales: React.FC = () => {
     openStartDatePicker: false,
     openEndDatePicker: false,
     openFilter: false,
-    selectedPeriod: "Today",
+    selectedPeriod: "Yesterday",
   });
 
 
@@ -117,27 +194,27 @@ const Sales: React.FC = () => {
 
   const TABLE_RECORDS_LIMIT = 15;
 
-  const [totalPageNumberDirectStoreOnlineSalesMaghil, setTotalPageNumberDirectStoreOnlineSalesMaghil] = useState<number>(5)
+  const [totalPageNumberDirectStoreOnlineSalesMaghil, setTotalPageNumberDirectStoreOnlineSalesMaghil] = useState<number>(segregatedDataForMaghilSalesTotalPageNo || 1)
   const [currentPageForDirectStoreOnlineSalesMaghil, setCurrentPageForDirectStoreOnlineSalesMaghil] = useState<number>(1);
   console.log({ currentPageForDirectStoreOnlineSalesMaghil });
 
-  const [totalPageNumberCurrentPageForActualThirdPartySales, setTotalPageNumberCurrentPageForActualThirdPartySales] = useState<number>(5)
+  const [totalPageNumberCurrentPageForActualThirdPartySales, setTotalPageNumberCurrentPageForActualThirdPartySales] = useState<number>(segregatedDataForThirdPartySalesTotalPageNo || 1)
   const [currentPageForActualThirdPartySales, setCurrentPageForActualThirdPartySales] = useState<number>(1);
   console.log({ currentPageForActualThirdPartySales });
 
-  const [totalPageNumberCurrentPageSalesByItemCategory, setTotalPageNumberCurrentPageSalesByItemCategory] = useState<number>(5)
+  const [totalPageNumberCurrentPageSalesByItemCategory, setTotalPageNumberCurrentPageSalesByItemCategory] = useState<number>(salesByItemCategoryAPIReduxTotalPageNo || 1)
   const [currentPageSalesByItemCategory, setCurrentPageSalesByItemCategory] = useState<number>(1);
   console.log({ currentPageSalesByItemCategory });
 
-  const [totalPageNumberCurrentPageSalesByRevenueClass, setTotalPageNumberCurrentPageSalesByRevenueClass] = useState<number>(5);
+  const [totalPageNumberCurrentPageSalesByRevenueClass, setTotalPageNumberCurrentPageSalesByRevenueClass] = useState<number>(revenueClassTotalPageNo || 1);
   const [currentPageSalesByRevenueClass, setCurrentPageSalesByRevenueClass] = useState<number>(1);
   console.log({ currentPageSalesByRevenueClass })
 
-  const [totalPageNumberCurrentPageDiscountSummary, setTotalPageNumberCurrentPageDiscountSummary] = useState<number>(5)
+  const [totalPageNumberCurrentPageDiscountSummary, setTotalPageNumberCurrentPageDiscountSummary] = useState<number>(discountSummaryPageNo || 1)
   const [currentPageDiscountSummary, setCurrentPageDiscountSummary] = useState<number>(1);
   console.log({ currentPageDiscountSummary });
 
-  const [totalPageNumberCurrentPageCancellationSummary, setTotalPageNumberCurrentPageCancellationSummary] = useState<number>(5)
+  const [totalPageNumberCurrentPageCancellationSummary, setTotalPageNumberCurrentPageCancellationSummary] = useState<number>(cancellationSummaryTotalPageNo || 1)
   const [currentPageCancellationSummary, setCurrentPageCancellationSummary] = useState<number>(1);
   console.log({ currentPageCancellationSummary });
 
@@ -419,49 +496,38 @@ const Sales: React.FC = () => {
 
 
 
+  const formatOrderDates = (content: Array<Record<string, any>>): Array<Record<string, any>> => {
+    return content.map(item => {
+      const date = new Date(item.orderDate);
+      const formattedDate = new Intl.DateTimeFormat('en-US', {
+        month: 'long',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      }).format(date);
+
+      return { ...item, orderDate: formattedDate };
+    });
+  };
+
+  // Example usage
+  const content = [
+    {
+      tableName: "A1",
+      orderDate: "2025-01-07T22:46:21.000+00:00",
+      tableOccupancyDuration: "315 mins",
+      orderAmount: 27.25,
+    },
+    // other objects...
+  ];
+
+  const formattedContent = formatOrderDates(content);
+  console.log("formattedContent", formattedContent);
 
 
-  const salesDataFromAPIRedux = useSelector((state: any) => state?.newReports?.salesSummarySuccess);
-  // console.log({ salesDataFromAPIRedux })
-  const salesDataFromAPIReduxLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
 
-  const salesByItemCategoryAPIRedux = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess?.content);
-  // console.log({ salesByItemCategoryAPIRedux })
-
-  const salesByRevenueClassAPIRedux = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
-  // console.log({ salesByRevenueClassAPIRedux })
-
-  const actualSalesAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesSuccess);
-  // console.log({ actualSalesAPIRedux })
-
-  const actualSalesThirdPartyAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesThirdPartySuccess);
-  // console.log({ actualSalesThirdPartyAPIRedux })
-
-  const segregatedDataForMaghilSales = actualSalesAPIRedux && actualSalesAPIRedux?.content?.filter((item: any) => item.type === "maghil");
-  console.log({ segregatedDataForMaghilSales });
-
-  const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.content?.filter((item: any) => item.type !== "maghil")
-  console.log({ segregatedDataForThirdPartySales });
-
-  const hourlySalesChartDataFromAPIRedux = useSelector((state: any) => state?.newReports?.hourlySalesSuccess);
-  // console.log({ hourlySalesChartDataFromAPIRedux })
-
-  const transformedhourlySalesChartDataFromAPIRedux = hourlySalesChartDataFromAPIRedux && hourlySalesChartDataFromAPIRedux?.content?.map(({ formattedHour, itemTotal }: transformedhourlySalesChartDataFromAPIReduxType) => ({ formattedHour, itemTotal }));
-  console.log({ transformedhourlySalesChartDataFromAPIRedux });
-
-  const hourlyX = transformedhourlySalesChartDataFromAPIRedux && transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.formattedHour);
-
-  const hourlyY = transformedhourlySalesChartDataFromAPIRedux && transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.itemTotal);
-  console.log('hourly X => ', { hourlyX }, 'hourly Y => ', { hourlyY })
-
-  const discountSummaryAPIRedux = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content)
-  console.log({ discountSummaryAPIRedux })
-
-  const cancellationSummaryAPIRedux = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content)
-  console.log({ cancellationSummaryAPIRedux })
-
-  console.log({ salesDataFromAPIReduxLoader })
-  console.log('All APIs', { actualSalesAPIRedux, actualSalesThirdPartyAPIRedux, salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, segregatedDataForMaghilSales, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux, discountSummaryAPIRedux, cancellationSummaryAPIRedux })
 
   // const dataPPP = [
   //   {
@@ -499,6 +565,9 @@ const Sales: React.FC = () => {
   // console.log('M', dataPPP.filter((item: any) => item.type === "maghil"));
   // console.log('T', dataPPP.filter((item: any) => item.type !== "maghil"));
 
+  // console.log("smp", salesSummaryStatusAPIRedux && salesSummaryStatusAPIRedux?.totalMagilDeliveryCharges)
+
+  console.log({ showNetSaleToolTip })
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <SidePanel />
@@ -611,79 +680,95 @@ const Sales: React.FC = () => {
         <div className="s-overall-summary">
           <div className="s-overall-summary-inner-wrap">
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
-                {/* {formatNumberIndian(
-                  Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
-                )} */}
-                {salesDataFromAPIRedux?.totalMagilOrders?.toFixed(2) || 0}
-              </h2>
+              {salesDataFromAPIRedux?.totalMagilOrders ? <h2>
+                {salesDataFromAPIRedux?.totalMagilOrders?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
               <h3>Total Orders</h3>
             </div>
-
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
+              {salesDataFromAPIRedux?.totalMagilSales ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
-                {/* {formatNumberIndian(
-                  Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
-                )} */}
-                {salesDataFromAPIRedux?.totalMagilSales?.toFixed(2) || 0.00}
-              </h2>
-              <h3>Total Sales</h3>
+                {salesDataFromAPIRedux?.totalMagilSales?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              <div className="label-tooltip-container">
+                <h3>Total Sales</h3>
+                <div
+                  className="s-tooltip-wrapper"
+                  onMouseEnter={() => setShowTotalSalesToolTip(true)}
+                  onMouseLeave={() => setShowTotalSalesToolTip(false)}
+                >
+                  <img className="s-tool-tip-image" src={ToolTip} alt="tool-tip" />
+                  {showTotalSalesToolTip && (
+                    <div className="tool-tip-content">
+                      Item total + Tax + Tip + Convenience fee + Delivery charges + Service tax - Discount
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
+              {salesDataFromAPIRedux?.totalMagilNetSales ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
-                {/* {formatNumberIndian(
-                  Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
-                )} */}
-                {salesDataFromAPIRedux?.totalMagilNetSales?.toFixed(2) || 0.00}
-              </h2>
-              <h3>Net Sales</h3>
+                {salesDataFromAPIRedux?.totalMagilNetSales?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              <div className="label-tooltip-container">
+                <h3>Net Sales</h3>
+                <div
+                  className="s-tooltip-wrapper"
+                  onMouseEnter={() => setShowNetSaleToolTip(true)}
+                  onMouseLeave={() => setShowNetSaleToolTip(false)}
+                >
+                  <img className="s-tool-tip-image" src={ToolTip} alt="tool-tip" />
+                  {showNetSaleToolTip && (
+                    <div className="tool-tip-content"
+                      onMouseEnter={() => setShowNetSaleToolTip(true)}
+                      onMouseLeave={() => setShowNetSaleToolTip(false)}>
+                      Net Sales = Item Total - Discount
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
+              {salesDataFromAPIRedux?.totalMagilTips ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
-                {/* {formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))} */}
-                {salesDataFromAPIRedux?.totalMagilTips?.toFixed(2) || 0.00}
-              </h2>
+                {salesDataFromAPIRedux?.totalMagilTips?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
               <h3>Tips</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
-                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
+              {salesDataFromAPIRedux?.totalMagilTax ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
-                {salesDataFromAPIRedux?.totalTaxIncludingThirdparty?.toFixed(2) || 0.00}
-              </h2>
+                {salesDataFromAPIRedux?.totalMagilTax?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
               <h3>Tax</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
-                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
-                {/* $1628 */}
+              {salesDataFromAPIRedux?.totalMagilServiceFee ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
-                {salesDataFromAPIRedux?.totalMagilServiceFee?.toFixed(2) || 0.00}
-              </h2>
+                {salesDataFromAPIRedux?.totalMagilServiceFee?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
               <h3>Service Fee - US</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
-                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
-                {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalMagilDeliveryCharges?.toFixed(2) || 0.00}
-              </h2>
+              {salesSummaryStatusAPIRedux && salesDataFromAPIRedux && salesDataFromAPIRedux.totalMagilDeliveryCharges ?
+                <h2>
+                  {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalMagilDeliveryCharges?.toFixed(2)}
+                </h2> :
+                <p className="s-summary-no-data">No data found!</p>
+              }
               <h3>Store Delivery Charges</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
-                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
-                {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalConvenienceFee?.toFixed(2) || 0.00}
-              </h2>
+              {salesDataFromAPIRedux?.totalConvenienceFee ? <h2>
+                {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalConvenienceFee?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
               <h3>Convenience Fee (Maghil)</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
-                {/* ${formatNumberIndian(Number(S["Tax - US"][0].Tax.toFixed(0)))} */}
-                {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalCardProcessingFee?.toFixed(2) || 0.00}
-              </h2>
+              {salesDataFromAPIRedux?.totalCardProcessingFee ? <h2>
+                {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalCardProcessingFee?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
               <h3>Card Processsing Fee</h3>
             </div>
           </div>
@@ -693,41 +778,73 @@ const Sales: React.FC = () => {
           <h1 className="title-overall-total-sales-ds">Total Sales (Direct Sales + Store price adjusted third party orders)</h1>
           <div className="s-overall-total-sales-ds-inner-wrap">
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
-                {/* {formatNumberIndian(
-                  Number(S["Total Sales Processed"][0]["count(o.id)"].toFixed(0))
-                )} */}
-                {salesDataFromAPIRedux?.totalOrdersIncludingThirdparty?.toFixed(2) || 0}
-              </h2>
+              {salesDataFromAPIRedux?.totalOrdersIncludingThirdparty ? <h2>
+                {salesDataFromAPIRedux?.totalOrdersIncludingThirdparty?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
               <h3>Total Orders</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
+              {salesDataFromAPIRedux?.totalGrossSalesIncludingThirdparty ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
-                {/* {formatNumberIndian(
-                  Number(S["Total Sales"][0]["Gross Sales"].toFixed(0))
-                )} */}
-                {salesDataFromAPIRedux?.totalGrossSalesIncludingThirdparty?.toFixed(2) || 0.00}
-              </h2>
-              <h3>Total Sales</h3>
+                {salesDataFromAPIRedux?.totalGrossSalesIncludingThirdparty?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              <div className="label-tooltip-container">
+                <h3>Total Sales</h3>
+                <div
+                  className="s-tooltip-wrapper"
+                  onMouseEnter={() => setShowTotalSalesTwo(true)}
+                  onMouseLeave={() => setShowTotalSalesTwo(false)}
+                >
+                  <img className="s-tool-tip-image" src={ToolTip} alt="tool-tip" />
+                  {showTotalSalesTwo && (
+                    <div className="tool-tip-content">
+                      Item total + Tax + Tip + Convenience fee + Delivery charges + Service tax - Discount
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
+              {salesDataFromAPIRedux?.totalNetSalesIncludingThirdparty ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
-                {/* {formatNumberIndian(
-                  Number(S["Net Sales"][0]["Net Sales"].toFixed(0))
-                )} */}
-                {salesDataFromAPIRedux?.totalNetSalesIncludingThirdparty?.toFixed(2) || 0.00}
-              </h2>
-              <h3>Net Sales</h3>
+                {salesDataFromAPIRedux?.totalNetSalesIncludingThirdparty?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              <div className="label-tooltip-container">
+                <h3>Net Sales</h3>
+                <div
+                  className="s-tooltip-wrapper"
+                  onMouseEnter={() => setShowNetSalesTwo(true)}
+                  onMouseLeave={() => setShowNetSalesTwo(false)}
+                >
+                  <img className="s-tool-tip-image" src={ToolTip} alt="tool-tip" />
+                  {showNetSalesTwo && (
+                    <div className="tool-tip-content">
+                      Item total - Discount
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
-              <h2>
+              {salesDataFromAPIRedux?.totalTaxIncludingThirdparty ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
-                {/* {formatNumberIndian(Number(S["Tips - US"][0].Tips.toFixed(0)))} */}
-                {salesDataFromAPIRedux?.totalTaxIncludingThirdparty?.toFixed(2) || 0.00}
-              </h2>
-              <h3>Tax</h3>
+                {salesDataFromAPIRedux?.totalTaxIncludingThirdparty?.toFixed(2)}
+              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              <div className="label-tooltip-container">
+                <h3>Tax</h3>
+                <div
+                  className="s-tooltip-wrapper"
+                  onMouseEnter={() => setShowTaxTwo(true)}
+                  onMouseLeave={() => setShowTaxTwo(false)}
+                >
+                  <img className="s-tool-tip-image" src={ToolTip} alt="tool-tip" />
+                  {showTaxTwo && (
+                    <div className="tool-tip-content">
+                      Magil tax  + Third party tax
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -743,12 +860,10 @@ const Sales: React.FC = () => {
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={totalPageNumberDirectStoreOnlineSalesMaghil}
             />
-            {/* // tableData={segregatedDataForMaghilSales} viewType="half" recordsPerPage={TABLE_RECORDS_LIMIT} /> */}
             <Table
               currentPage={currentPageForActualThirdPartySales}
               setCurrentPage={setCurrentPageForActualThirdPartySales}
               Heading="Actual 3rd Party Sales"
-              // tableData={segregatedDataForThirdPartySales && segregatedDataForThirdPartySales?.length > 0 ? segregatedDataForThirdPartySales : S["Actual 3rd Party Sales"]}
               tableData={segregatedDataForThirdPartySales && segregatedDataForThirdPartySales?.length > 0 && segregatedDataForThirdPartySales}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
@@ -760,12 +875,10 @@ const Sales: React.FC = () => {
         <div className="s-day-of-the-week">
           <div className="s-day-of-the-week-inner">
             <BarChart
-              // BatChartTitle="Sales By Hour of the Day"
-              //Hourly Net (Direct) Sales
               BatChartTitle="Hourly Net (Direct) Sales"
               TitleColor={isDarkTheme ? "#fff" : "#000"}
-              xAxisData={hourlyX && hourlyX?.length > 0 ? hourlyX : XHour}
-              yAxisData={hourlyY && hourlyY?.length > 0 ? hourlyY : YAverageSalesperHour}
+              xAxisData={hourlyX && hourlyX}
+              yAxisData={hourlyY && hourlyY}
               label="Dollars"
               backgroundColor={[
                 "rgba(255, 99, 132, 0.2)",
@@ -854,8 +967,6 @@ const Sales: React.FC = () => {
               currentPage={currentPageSalesByItemCategory}
               setCurrentPage={setCurrentPageSalesByItemCategory}
               Heading="Sales By Item Category"
-              // tableData={S["Category - US"]}
-              // tableData={salesByItemCategoryAPIRedux && salesByItemCategoryAPIRedux?.length > 0 ? salesByItemCategoryAPIRedux : S["Category - US"]}
               tableData={salesByItemCategoryAPIRedux && salesByItemCategoryAPIRedux?.length > 0 && salesByItemCategoryAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
@@ -865,7 +976,6 @@ const Sales: React.FC = () => {
               currentPage={currentPageSalesByRevenueClass}
               setCurrentPage={setCurrentPageSalesByRevenueClass}
               Heading="Sales By Revenue Class"
-              // tableData={salesByRevenueClassAPIRedux && salesByRevenueClassAPIRedux?.length > 0 ? salesByRevenueClassAPIRedux : S["Revenue Class"]}
               tableData={salesByRevenueClassAPIRedux && salesByRevenueClassAPIRedux?.length > 0 && salesByRevenueClassAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
@@ -897,7 +1007,7 @@ const Sales: React.FC = () => {
         </div>
       </div>
       {/* </div> */}
-    </div>
+    </div >
   );
 };
 

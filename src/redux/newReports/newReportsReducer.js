@@ -50,6 +50,7 @@ const initialNewReportsState = {
     SalesSummaryLoading: false,
     salesSummarySuccess: [],
     salesSummaryFailure: false,
+    salesSummaryStatus: false,
     salesByItemCategoryLoading: false,
     salesByItemCategorySuccess: [],
     salesByItemCategoryFailure: false,
@@ -99,16 +100,19 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.salesSummarySuccess = [];
                 draft.SalesSummaryLoading = true;
                 draft.salesSummaryFailure = false;
+                draft.salesSummaryStatus = false;
                 break;
             case SALES_SUMMARY_SUCCESS:
                 draft.salesSummarySuccess = action.payload;
                 draft.SalesSummaryLoading = false;
                 draft.salesSummaryFailure = false;
+                draft.salesSummaryStatus = true
                 break;
             case SALES_SUMMARY_FAILURE:
                 draft.salesSummarySuccess = [];
                 draft.SalesSummaryLoading = false;
                 draft.salesSummaryFailure = true;
+                draft.salesSummaryStatus = false;
                 break;
             // sales by item category :
             case SALES_BY_ITEM_CATEGORY_REQUEST:
