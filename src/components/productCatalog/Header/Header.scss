@@ -2,14 +2,14 @@
   width: 100%;
   position: sticky;
   height: 60px;
-  left: -20px;
-  padding: 10px;
+  // left: -20px;
+  // padding: 10px;
   top: 25px;
   z-index: 600;
   display: flex;
   justify-content: space-between;
   transition: left 0.4s ease-in;
-  margin-left: 30px;
+  // margin-left: 30px;
   margin-bottom: 30px;
 
 
@@ -31,12 +31,12 @@
 
 .Header-Heading-Search-Filter-Container {
   display: flex;
-  width: 962.45px;
-  // width: fit-content;
+  // width: 962.45px;
+  width: fit-content;
   height: 44px;
   justify-content: start;
-  padding-left: -10px;
-  gap: 20px;
+  // padding-left: -10px;
+  // gap: 20px;
   // background-color: lightsalmon;
 }
 

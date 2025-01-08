@@ -6,9 +6,6 @@
   width: 85%;
   display: flex;
   flex-direction: column;
-
-
-  
 }
 
 .Main-Primary-Page-Expanded {
@@ -26,15 +23,14 @@
   left: 1rem;
   // border: 2px solid pink;
 
-
   &::-webkit-scrollbar {
     display: none;
   }
-  
+
   // @media (min-width: 1700px) and (max-width: 1800px) {
   //   height: 35rem;
   //   border: 1px solid blue;
-  
+
   // }
   @media (max-width: 2000px) {
     height: 40rem;
@@ -63,50 +59,50 @@
     opacity: 40%;
     border: none;
     outline: none;
-    @media(min-width: 1700px) and (max-width: 1706.67px){
+    @media (min-width: 1700px) and (max-width: 1706.67px) {
       // border: 1px solid darkred;
     }
   }
-  .Tool-tax-class{
+  .Tool-tax-class {
     transform: translateY(22px);
     opacity: 40%;
     border: none;
     outline: none;
 
-    @media(min-width: 1599px) and (max-width: 1600.00px){
+    @media (min-width: 1599px) and (max-width: 1600px) {
       transform: translate(28px, 20px);
       // border: 1px solid darkslategrey;
     }
 
-    @media(min-width: 1700px) and (max-width: 1706.67px){
+    @media (min-width: 1700px) and (max-width: 1706.67px) {
       transform: translate(-20px, 20px);
       // border: 1px solid darkslategrey;
     }
-    @media(min-width: 1900px) and (max-width: 1920px){
+    @media (min-width: 1900px) and (max-width: 1920px) {
       transform: translate(5vw, 20px);
       // border: 1px solid darkslategrey;
       // background-color: darkorange;
     }
-    @media (min-width: 2000px) and (max-width: 2048px){
+    @media (min-width: 2000px) and (max-width: 2048px) {
       transform: translate(6vw, 20px);
       // border: 1px solid darkslategrey;
       // background-color: darkorange;
     }
   }
-  .Tool-item-code{
+  .Tool-item-code {
     transform: translateY(22px);
     opacity: 40%;
     border: none;
     outline: none;
-    @media(min-width: 1700px) and (max-width: 1706.67px){
+    @media (min-width: 1700px) and (max-width: 1706.67px) {
       transform: translate(-30px, 20px);
       // border: 1px solid darkgoldenrod;
     }
-    @media(min-width: 1900px) and (max-width: 1920px){
+    @media (min-width: 1900px) and (max-width: 1920px) {
       transform: translate(90px, 20px);
       // border: 1px solid darkgoldenrod;
     }
-    @media(min-width: 2000px) and (max-width: 2048px){
+    @media (min-width: 2000px) and (max-width: 2048px) {
       transform: translate(120px, 20px);
       // border: 1px solid darkgoldenrod;
     }
@@ -137,17 +133,17 @@
       width: fit-content;
       margin-top: -0.3rem;
       margin-left: -16px;
-      @media(max-width: 1280px){
+      @media (max-width: 1280px) {
         // background-color: pink;
         // margin-left: -50px;
         // margin-right: 8rem;
         transform: translateX(-35px);
       }
-      @media(min-width: 1281px) and (max-width: 1440px){
+      @media (min-width: 1281px) and (max-width: 1440px) {
         // background-color: pink;
         margin-left: -1.7rem;
       }
-      @media(min-width: 1441px) and (max-width: 1536px){
+      @media (min-width: 1441px) and (max-width: 1536px) {
         // background-color: pink;
         margin-left: -2.3rem;
       }
@@ -165,11 +161,11 @@
       width: fit-content;
       height: 50px;
       margin-top: -0.6rem;
-      @media(min-width: 1281px) and (max-width: 1440px){
+      @media (min-width: 1281px) and (max-width: 1440px) {
         // background-color: lightsalmon;
         margin-left: -1.6rem;
       }
-      @media(min-width: 1441px) and (max-width: 1536px){
+      @media (min-width: 1441px) and (max-width: 1536px) {
         margin-left: -1.4rem;
         // background-color: lightgreen;
       }
@@ -179,12 +175,11 @@
   .Primary-page-container-one {
     display: flex;
     flex-direction: row;
-    height: 137vh;
     margin-left: 20px;
 
     .Primary-page-container-pairone {
       width: 28vw;
-      height:fit-content;
+      height: fit-content;
       // border: 1px solid red;
     }
 
@@ -197,7 +192,6 @@
         justify-content: center;
         align-items: center;
       }
-      
     }
     .alcoholradiobutton {
       display: flex;
@@ -213,7 +207,7 @@
         color: #000000;
       }
     }
-    .barcode{
+    .barcode {
       height: 6rem;
       width: fit-content;
       margin-top: 20px;
@@ -246,7 +240,6 @@
     .Primary-Page-Foodimages {
       margin-top: 1.3rem;
       height: 11rem;
-      // width: 50vw;
       width: fit-content;
       margin-bottom: 1rem;
      
@@ -274,6 +267,7 @@
           align-items: center;
           cursor: pointer;
         }
+
         .uploaded-image {
           position: relative;
           top: 0.063rem;
@@ -285,6 +279,7 @@
           top: 1rem;
         }
       }
+      
       .addingimg {
         width: 5rem;
         height: 5rem;
@@ -382,7 +377,7 @@
   .Primary-page-container-two {
     margin-left: 20px;
     height: 80vh;
-    margin-top: -11.5%;
+    // margin-top: -11.5%;
     // background-color: yellow;
     width: fit-content;
   }
@@ -421,8 +416,7 @@
         
         }
   }
-  .Primary-page-ingredients-selection1
-  {
+  .Primary-page-ingredients-selection1 {
     width: 45vw;
     height: 40vh;
     border-radius: 0.313rem;
@@ -489,15 +483,15 @@
       // background-color: red;
       // background-color: lightcoral;
       width: 100%;
-      @media(min-width: 1700px) and (max-width: 1706.67px){
+      @media (min-width: 1700px) and (max-width: 1706.67px) {
         // border: 1px solid darkblue;
         gap: 3vw;
       }
-      @media(min-width: 1900px) and (max-width: 1920px){
+      @media (min-width: 1900px) and (max-width: 1920px) {
         // border: 1px solid black;
         gap: 5vw;
       }
-      @media(min-width: 2000px) and (max-width: 2048px){
+      @media (min-width: 2000px) and (max-width: 2048px) {
         // border: 1px solid red;
         gap: 5vw;
       }
@@ -506,9 +500,9 @@
         left: 1%;
         // border: 1px solid black;
         //hehe
-        @media(min-width: 1700px) and (max-width: 1706.67px){
+        @media (min-width: 1700px) and (max-width: 1706.67px) {
           // border: 1px solid darkorchid;
-        }    
+        }
       }
       .Primary-Page-inputfiled-and-tooltip-portion {
         display: flex;
@@ -536,12 +530,12 @@
   //   left: 0.8rem;
   //   top: 0.7rem;
   // }
-  .buttonContainer{
+  .buttonContainer {
     width: 100%;
     position: absolute;
     left: -17px;
   }
-  .buttonContainerExpanded{
+  .buttonContainerExpanded {
     width: 100%;
     position: absolute;
     left: 0px;
@@ -552,7 +546,6 @@
   .tool-tip-item-code {
     margin-left: -20px;
     transform: translateX(30px);
-   
   }
 
   // .tool-tip-tax-class {
