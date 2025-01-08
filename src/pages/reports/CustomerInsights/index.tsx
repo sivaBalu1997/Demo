@@ -42,7 +42,7 @@ const CustomerInsights = () => {
   const liveOpenSalesDataAPIRedux = useSelector((state: any) => state?.newReports?.liveOpenSalesSuccess)
   console.log({ liveOpenSalesDataAPIRedux })
 
-  const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess)
+  const liveOrdersAPIRedux = useSelector((state: any) => state?.newReports?.liveOrdersSuccess?.content)
   console.log({ liveOrdersAPIRedux })
 
   const liveRefundsAPIRedux = useSelector((state: any) => state?.newReports?.liveRefundsSuccess)
@@ -51,7 +51,7 @@ const CustomerInsights = () => {
   const liveNetSalesAPIRedux = useSelector((state: any) => state?.newReports?.liveNetSalesSuccess)
   console.log({ liveNetSalesAPIRedux })
 
-  const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess)
+  const liveOrderNonDineInAPIRedux = useSelector((state: any) => state?.newReports?.liveOrderNonDineInSuccess?.content)
   console.log({ liveOrderNonDineInAPIRedux })
 
 

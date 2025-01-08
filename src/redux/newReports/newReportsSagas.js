@@ -1,8 +1,8 @@
 import { put, call, takeLatest } from "redux-saga/effects";
 import { showSuccessToast, showErrorToast } from "util/toastUtils";
-import { salesSummarySuccess, salesSummaryFailure, salesByItemCategoryFailure, salesByItemCategorySuccess, salesByRevenueClassSuccess, salesByRevenueClassFailure, actualSalesRequest, actualSalesFailure, actualSalesSuccess, actualSalesThirdPartySuccess, actualSalesThirdPartyFailure, hourlySalesSuccess, hourlySalesFailure, liveDiscountSuccess, liveDiscountFailure, liveOpenSalesSuccess, liveOpenSalesFailure, liveOrdersSuccess, liveOrdersFailure, liveRefundsSuccess, liveRefundsFailure, liveNetSalesSuccess, liveNetSalesFailure, liveOrderNonDineInSuccess, liveOrderNonDineInFailure } from "./newReportsActions";
-import { ACTUAL_SALES_REQUEST, ACTUAL_SALES_THIRD_PARTY_REQUEST, HOURLY_SALES_REQUEST, LIVE_DISCOUNT_REQUEST, LIVE_NET_SALES_REQUEST, LIVE_OPEN_SALES_REQUEST, LIVE_ORDER_NON_DINE_IN_REQUEST, LIVE_ORDERS_REQUEST, LIVE_REFUNDS_REQUEST, SALES_BY_ITEM_CATEGORY_REQUEST, SALES_BY_REVENUE_CLASS_REQUEST, SALES_SUMMARY_REQUEST } from "./newReportsConstants";
-import { getActualSales, getHourlySalesChart, getLiveDiscount, getLiveNetSales, getLiveOpenSales, getLiveOrderNonDineIn, getLiveOrders, getLiveRefunds, getSalesByItemCategory, getSalesByRevenueClass, getSalesSummary } from "./newReportsApi";
+import { salesSummarySuccess, salesSummaryFailure, salesByItemCategoryFailure, salesByItemCategorySuccess, salesByRevenueClassSuccess, salesByRevenueClassFailure, actualSalesRequest, actualSalesFailure, actualSalesSuccess, actualSalesThirdPartySuccess, actualSalesThirdPartyFailure, hourlySalesSuccess, hourlySalesFailure, liveDiscountSuccess, liveDiscountFailure, liveOpenSalesSuccess, liveOpenSalesFailure, liveOrdersSuccess, liveOrdersFailure, liveRefundsSuccess, liveRefundsFailure, liveNetSalesSuccess, liveNetSalesFailure, liveOrderNonDineInSuccess, liveOrderNonDineInFailure, discountSummarySuccess, discountSummaryFailure, cancellationSummarySuccess, cancellationSummaryFailure } from "./newReportsActions";
+import { ACTUAL_SALES_REQUEST, ACTUAL_SALES_THIRD_PARTY_REQUEST, CANCELLATION_SUMMARY_REQUEST, DISCOUNT_SUMMARY_REQUEST, HOURLY_SALES_REQUEST, LIVE_DISCOUNT_REQUEST, LIVE_NET_SALES_REQUEST, LIVE_OPEN_SALES_REQUEST, LIVE_ORDER_NON_DINE_IN_REQUEST, LIVE_ORDERS_REQUEST, LIVE_REFUNDS_REQUEST, SALES_BY_ITEM_CATEGORY_REQUEST, SALES_BY_REVENUE_CLASS_REQUEST, SALES_SUMMARY_REQUEST } from "./newReportsConstants";
+import { getActualSales, getCancellationSummary, getDiscountSummary, getHourlySalesChart, getLiveDiscount, getLiveNetSales, getLiveOpenSales, getLiveOrderNonDineIn, getLiveOrders, getLiveRefunds, getSalesByItemCategory, getSalesByRevenueClass, getSalesSummary } from "./newReportsApi";
 
 export function* salesSummaryRequestSaga(action) {
     try {
@@ -202,6 +202,40 @@ export function* liveOrderNonDineInRequestSaga(action) {
     }
 }
 
+//discountSummaryRequestSaga
+export function* discountSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getDiscountSummary, action.payload);
+        if (response.status === 200) {
+            console.log("response of discountSummaryRequestSaga", { response })
+            yield put(discountSummarySuccess(response?.data));
+            showSuccessToast(response?.data?.message);
+        } else {
+            yield put(discountSummaryFailure(response?.data?.message));
+            showErrorToast(response?.data?.message);
+        }
+    } catch (error) {
+        yield put(discountSummaryFailure(error));
+    }
+}
+
+//cancellationSummaryRequestSaga
+export function* cancellationSummaryRequestSaga(action) {
+    try {
+        const response = yield call(getCancellationSummary, action.payload);
+        if (response.status === 200) {
+            console.log("response of cancellationSummaryRequestSaga", { response })
+            yield put(cancellationSummarySuccess(response?.data));
+            showSuccessToast(response?.data?.message);
+        } else {
+            yield put(cancellationSummaryFailure(response?.data?.message));
+            showErrorToast(response?.data?.message);
+        }
+    } catch (error) {
+        yield put(cancellationSummaryFailure(error));
+    }
+}
+
 
 export default function* watchNewReportRequest() {
     yield takeLatest(SALES_SUMMARY_REQUEST, salesSummaryRequestSaga);
@@ -215,5 +249,7 @@ export default function* watchNewReportRequest() {
     yield takeLatest(LIVE_ORDERS_REQUEST, liveOrdersRequestSaga);
     yield takeLatest(LIVE_REFUNDS_REQUEST, liveRefundsRequestSaga);
     yield takeLatest(LIVE_NET_SALES_REQUEST, liveNetSalesRequestSaga);
-    yield takeLatest(LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga)
+    yield takeLatest(LIVE_ORDER_NON_DINE_IN_REQUEST, liveOrderNonDineInRequestSaga);
+    yield takeLatest(DISCOUNT_SUMMARY_REQUEST, discountSummaryRequestSaga);
+    yield takeLatest(CANCELLATION_SUMMARY_REQUEST, cancellationSummaryRequestSaga);
 }

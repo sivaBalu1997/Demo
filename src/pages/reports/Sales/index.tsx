@@ -3,7 +3,7 @@ import { S } from "../../../assets/mockData/originalAPIData/OsalesReportData";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
 import { useDispatch, useSelector } from "react-redux";
-import { actualSalesRequest, actualSalesThirdPartyRequest, hourlySalesRequest, salesByItemCategoryRequest, salesByRevenueClassRequest, salesSummaryRequest } from "redux/newReports/newReportsActions";
+import { actualSalesRequest, actualSalesThirdPartyRequest, cancellationSummaryRequest, discountSummaryRequest, hourlySalesRequest, salesByItemCategoryRequest, salesByRevenueClassRequest, salesSummaryRequest } from "redux/newReports/newReportsActions";
 import Table from "../../../components/reportComponents/Table";
 import CanvaPieChart from "../../../components/reportComponents/Charts/CanvaPieChart";
 import DatePicker from "react-datepicker";
@@ -392,6 +392,31 @@ const Sales: React.FC = () => {
     }
   }, [getSalesLocationStartEndDate]);
 
+  useEffect(() => {
+    if (getSalesLocationStartEndDate) {
+      dispatch(
+        discountSummaryRequest({
+          ...getSalesLocationStartEndDate,
+          tablePageNo: currentPageDiscountSummary,
+          tableRecordLimit: TABLE_RECORDS_LIMIT,
+        })
+      );
+    }
+  }, [getSalesLocationStartEndDate, currentPageDiscountSummary]);
+
+  useEffect(() => {
+    if (getSalesLocationStartEndDate) {
+      dispatch(
+        cancellationSummaryRequest({
+          ...getSalesLocationStartEndDate,
+          tablePageNo: currentPageCancellationSummary,
+          tableRecordLimit: TABLE_RECORDS_LIMIT,
+        })
+      );
+    }
+  }, [getSalesLocationStartEndDate, currentPageCancellationSummary]);
+
+
 
 
 
@@ -400,10 +425,10 @@ const Sales: React.FC = () => {
   // console.log({ salesDataFromAPIRedux })
   const salesDataFromAPIReduxLoader = useSelector((state: any) => state?.newReports?.SalesSummaryLoading);
 
-  const salesByItemCategoryAPIRedux = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess);
+  const salesByItemCategoryAPIRedux = useSelector((state: any) => state?.newReports?.salesByItemCategorySuccess?.content);
   // console.log({ salesByItemCategoryAPIRedux })
 
-  const salesByRevenueClassAPIRedux = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess);
+  const salesByRevenueClassAPIRedux = useSelector((state: any) => state?.newReports?.salesByRevenueClassSuccess?.content);
   // console.log({ salesByRevenueClassAPIRedux })
 
   const actualSalesAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesSuccess);
@@ -412,25 +437,31 @@ const Sales: React.FC = () => {
   const actualSalesThirdPartyAPIRedux = useSelector((state: any) => state?.newReports?.actualSalesThirdPartySuccess);
   // console.log({ actualSalesThirdPartyAPIRedux })
 
-  const segregatedDataForMaghilSales = actualSalesAPIRedux?.filter((item: any) => item.type === "maghil");
+  const segregatedDataForMaghilSales = actualSalesAPIRedux && actualSalesAPIRedux?.content?.filter((item: any) => item.type === "maghil");
   console.log({ segregatedDataForMaghilSales });
 
-  const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.filter((item: any) => item.type !== "maghil")
+  const segregatedDataForThirdPartySales = actualSalesThirdPartyAPIRedux?.content?.filter((item: any) => item.type !== "maghil")
   console.log({ segregatedDataForThirdPartySales });
 
   const hourlySalesChartDataFromAPIRedux = useSelector((state: any) => state?.newReports?.hourlySalesSuccess);
   // console.log({ hourlySalesChartDataFromAPIRedux })
 
-  const transformedhourlySalesChartDataFromAPIRedux = hourlySalesChartDataFromAPIRedux?.map(({ formattedHour, itemTotal }: transformedhourlySalesChartDataFromAPIReduxType) => ({ formattedHour, itemTotal }));
+  const transformedhourlySalesChartDataFromAPIRedux = hourlySalesChartDataFromAPIRedux && hourlySalesChartDataFromAPIRedux?.content?.map(({ formattedHour, itemTotal }: transformedhourlySalesChartDataFromAPIReduxType) => ({ formattedHour, itemTotal }));
   console.log({ transformedhourlySalesChartDataFromAPIRedux });
 
-  const hourlyX = transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.formattedHour);
+  const hourlyX = transformedhourlySalesChartDataFromAPIRedux && transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.formattedHour);
 
-  const hourlyY = transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.itemTotal);
+  const hourlyY = transformedhourlySalesChartDataFromAPIRedux && transformedhourlySalesChartDataFromAPIRedux?.map((item: any) => item?.itemTotal);
   console.log('hourly X => ', { hourlyX }, 'hourly Y => ', { hourlyY })
 
+  const discountSummaryAPIRedux = useSelector((state: any) => state?.newReports?.discountSummarySuccess?.content)
+  console.log({ discountSummaryAPIRedux })
+
+  const cancellationSummaryAPIRedux = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content)
+  console.log({ cancellationSummaryAPIRedux })
+
   console.log({ salesDataFromAPIReduxLoader })
-  console.log('All APIs', { actualSalesAPIRedux, actualSalesThirdPartyAPIRedux, salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, segregatedDataForMaghilSales, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux })
+  console.log('All APIs', { actualSalesAPIRedux, actualSalesThirdPartyAPIRedux, salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, segregatedDataForMaghilSales, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux, discountSummaryAPIRedux, cancellationSummaryAPIRedux })
 
   // const dataPPP = [
   //   {
@@ -842,26 +873,28 @@ const Sales: React.FC = () => {
             />
           </div>
         </div>
-        {/* <div className="s-tab-cont">
+        <div className="s-tab-cont">
           <div className="s-table-container-two-s">
             <Table
               currentPage={currentPageDiscountSummary}
               setCurrentPage={setCurrentPageDiscountSummary}
               Heading="Discount Summary"
-              tableData={S["Discount Summary"]}
+              tableData={discountSummaryAPIRedux && discountSummaryAPIRedux?.length > 0 && discountSummaryAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
+              totalpageNo={totalPageNumberCurrentPageDiscountSummary}
             />
             <Table
               currentPage={currentPageCancellationSummary}
               setCurrentPage={setCurrentPageCancellationSummary}
               Heading="Cancellation Summary"
-              tableData={S["Cancel Item Tracker"]}
+              tableData={cancellationSummaryAPIRedux && cancellationSummaryAPIRedux?.length > 0 && cancellationSummaryAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
+              totalpageNo={totalPageNumberCurrentPageCancellationSummary}
             />
           </div>
-        </div> */}
+        </div>
       </div>
       {/* </div> */}
     </div>

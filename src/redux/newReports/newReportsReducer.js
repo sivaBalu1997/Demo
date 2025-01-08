@@ -36,6 +36,12 @@ import {
     LIVE_ORDER_NON_DINE_IN_SUCCESS,
     LIVE_ORDER_NON_DINE_IN_FAILURE,
     LIVE_ORDER_NON_DINE_IN_REQUEST,
+    DISCOUNT_SUMMARY_REQUEST,
+    DISCOUNT_SUMMARY_SUCCESS,
+    DISCOUNT_SUMMARY_FAILURE,
+    CANCELLATION_SUMMARY_REQUEST,
+    CANCELLATION_SUMMARY_SUCCESS,
+    CANCELLATION_SUMMARY_FAILURE,
 } from "../newReports/newReportsConstants";
 
 
@@ -77,6 +83,12 @@ const initialNewReportsState = {
     liveOrderNonDineInLoading: false,
     liveOrderNonDineInSuccess: [],
     liveOrderNonDineInFailure: false,
+    discountSummaryLoading: false,
+    discountSummarySuccess: [],
+    discountSummaryFailure: false,
+    cancellationSummaryLoading: false,
+    cancellationSummarySuccess: [],
+    cancellationSummaryFailure: false,
 };
 
 export default function reportsReducer(state = initialNewReportsState, action) {
@@ -273,6 +285,38 @@ export default function reportsReducer(state = initialNewReportsState, action) {
                 draft.liveOrderNonDineInSuccess = [];
                 draft.liveOrderNonDineInLoading = false;
                 draft.liveOrderNonDineInFailure = true;
+                break;
+            // discount summary 
+            case DISCOUNT_SUMMARY_REQUEST:
+                draft.discountSummarySuccess = [];
+                draft.discountSummaryLoading = true;
+                draft.discountSummaryFailure = false;
+                break;
+            case DISCOUNT_SUMMARY_SUCCESS:
+                draft.discountSummarySuccess = action.payload;
+                draft.discountSummaryLoading = false;
+                draft.discountSummaryFailure = false
+                break;
+            case DISCOUNT_SUMMARY_FAILURE:
+                draft.discountSummarySuccess = [];
+                draft.discountSummaryLoading = false;
+                draft.discountSummaryFailure = true;
+                break;
+            // cancellation summary
+            case CANCELLATION_SUMMARY_REQUEST:
+                draft.cancellationSummarySuccess = [];
+                draft.cancellationSummaryLoading = true;
+                draft.cancellationSummaryFailure = false;
+                break;
+            case CANCELLATION_SUMMARY_SUCCESS:
+                draft.cancellationSummarySuccess = action.payload;
+                draft.cancellationSummaryLoading = false;
+                draft.cancellationSummaryFailure = false
+                break;
+            case CANCELLATION_SUMMARY_FAILURE:
+                draft.cancellationSummarySuccess = [];
+                draft.cancellationSummaryLoading = false;
+                draft.cancellationSummaryFailure = true;
                 break;
             default:
                 break;

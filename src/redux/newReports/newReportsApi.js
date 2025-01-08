@@ -11,6 +11,10 @@ const ACTUAL_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-servi
 
 const HOURLY_SALES_CHART_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/hourly?";
 
+const DISCOUNT_SUMMARY_ENDPOINT = 'https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/discountSummary?';
+
+const CANCELLATION_SUMMARY_ENDPOINT = 'https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/cancelSummary?';
+
 const LIVE_DISCOUNT_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/discounts?"
 
 const LIVE_OPEN_SALES_ENDPOINT = "https://rptd.gcp.magilhub.com/magilhub-data-services-reports/sales/open-sales?"
@@ -139,6 +143,28 @@ export const getLiveOrderNonDineIn = (liveOrderNonDineInPayload) => {
     return API({
         method: "get",
         url: `${LIVE_ORDER_NON_DINE_IN_ENDPOINT}locationId=${liveOrderNonDineInPayload?.locationid}&startDate=${liveOrderNonDineInPayload?.startDate}&endDate=${liveOrderNonDineInPayload?.endDate}&page=${liveOrderNonDineInPayload?.tablePageNo}&size=${liveOrderNonDineInPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getDiscountSummary = (discountSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${DISCOUNT_SUMMARY_ENDPOINT}locationId=${discountSummaryPayload?.locationid}&startDate=${discountSummaryPayload?.startDate}&endDate=${discountSummaryPayload?.endDate}&page=${discountSummaryPayload?.tablePageNo}&size=${discountSummaryPayload?.tableRecordLimit}`,
+        headers: {
+            Authorization: 'bearer ' + token,
+        }
+    });
+}
+
+export const getCancellationSummary = (cancellationSummaryPayload) => {
+    const token = Store.getState()?.auth?.credentials?.accessToken;
+    return API({
+        method: "get",
+        url: `${CANCELLATION_SUMMARY_ENDPOINT}locationId=${cancellationSummaryPayload?.locationid}&startDate=${cancellationSummaryPayload?.startDate}&endDate=${cancellationSummaryPayload?.endDate}&page=${cancellationSummaryPayload?.tablePageNo}&size=${cancellationSummaryPayload?.tableRecordLimit}`,
         headers: {
             Authorization: 'bearer ' + token,
         }
