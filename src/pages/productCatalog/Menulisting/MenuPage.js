@@ -39,6 +39,7 @@ import {
 import { listenerCount } from "process";
 import { th } from "date-fns/locale";
 
+
 export const MenuPage = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
@@ -631,8 +632,13 @@ export const MenuPage = () => {
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
+  console.log({editData})
+
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
+
+      console.log({editData});
+      
       const primaryPageData = {
         itemName: editData[0]?.itemName ?? "",
         description: editData[0]?.description ?? "",
@@ -672,6 +678,7 @@ export const MenuPage = () => {
           minutes: editData[0]?.preparationTimeInMinutes || "",
         },
       };
+      
 
       editData[0]?.orderTypes?.forEach((orderType) => {
         const { typeGroup } = orderType;
@@ -711,6 +718,8 @@ export const MenuPage = () => {
             isEnabled: option?.isEnabled ?? false,
           })) || [],
       }));
+
+      console.log({modifierData})
 
       dispatch(primarypost(primaryPageData));
       dispatch(PricingDetailRequest(pricingPageData));
@@ -768,9 +777,17 @@ export const MenuPage = () => {
     };
   }, [showheadinglist]);
 
-  const allFalse =
-    listingobject &&
-    Object.values(listingobject).every((value) => value === false);
+  const [showColumns, setShowColumns] = useState(false);
+
+
+
+
+    useEffect(() => {
+      const allFalse =
+      listingobject &&
+      Object.values(listingobject).every((value) => value === false);
+      setShowColumns(allFalse);
+    }, [listingobject]);
 
   useEffect(() => {
     if (menudatalist.length > 0 && menuData.length > 0) {
@@ -898,15 +915,15 @@ export const MenuPage = () => {
   const [isScrolling, setIsScrolling] = useState(false);
 
   const handleScroll = (sourceRef, targetRef) => {
-    if (isScrolling) return; // Prevent recursive loop
+    if (isScrolling) return; 
 
     setIsScrolling(true);
 
     if (sourceRef.current && targetRef.current) {
-      targetRef.current.scrollTop = sourceRef.current.scrollTop; // Synchronize scroll position
+      targetRef.current.scrollTop = sourceRef.current.scrollTop; 
     }
 
-    setTimeout(() => setIsScrolling(false), 10); // Allow a brief pause before enabling scrolling again
+    setTimeout(() => setIsScrolling(false), 10); 
   };
 
   const headerRef = useRef(null);
@@ -983,7 +1000,18 @@ export const MenuPage = () => {
   const UploadImageImageID = useSelector(
     (state) => state.productCatalog.successImageId
   );
-
+const handleRemoveIcon=()=>{
+  
+  const allFalse =
+  listingobject &&
+  Object.values(listingobject).every((value) => value === false);
+  if(allFalse)
+  {
+    setShowColumns(allFalse);
+  }
+ 
+  
+}
   return (
     <>
       <div className="MenuPage-container">
@@ -1102,12 +1130,15 @@ export const MenuPage = () => {
                                     </span>
                                     <span
                                       className="removeicon"
-                                      onClick={() =>
+                                      onClick={() =>{
                                         setlistingobject({
                                           ...listingobject,
                                           [header.label]: false,
                                         })
-                                      }
+                                        handleRemoveIcon()
+
+
+                                      }}
                                     >
                                       <img
                                         src={removeicon}
@@ -1281,13 +1312,13 @@ export const MenuPage = () => {
                       isExpanded &&
                       !menuDataLoading &&
                       !menuDataFailed &&
-                      !allFalse &&
+                      !showColumns &&
                       "second-div-body-expand"
                     } ${
                       !isExpanded &&
                       !menuDataLoading &&
                       !menuDataFailed &&
-                      !allFalse &&
+                      !showColumns &&
                       "second-div-body"
                     }`}
                     ref={mergeRefs(ref2, bodyRef)}
@@ -1326,7 +1357,7 @@ export const MenuPage = () => {
                       </div>
                     ) : (
                       <>
-                        {allFalse ? (
+                        {showColumns ? (
                           <div
                             className={`${
                               isExpanded

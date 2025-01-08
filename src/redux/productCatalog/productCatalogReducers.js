@@ -959,6 +959,7 @@ const initialState = {
 export const itemCustomizationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Item_Customizations_Data_Request:
+      console.log('IC payload',action.payload)
       return { ...state, itemData: action.payload };
     case REMOVE_DATA_REQUEST:
       return {

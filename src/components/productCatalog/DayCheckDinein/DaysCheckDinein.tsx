@@ -5,10 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActions";
 
 interface DaysCheckProps {
-  checkedItems: number[][];
-  setCheckedItems: (items: number[][]) => void;
+  checkedItems: any;
+  // setCheckedItems: (items: number[][]) => void;
+  setCheckedItems: any;
   index: number;
   getDisabledDays?: any;
+  normalDays?:any;
+  defaultDays?:boolean;
 }
 
 interface DataItem {
@@ -35,6 +38,8 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   setCheckedItems,
   index,
   getDisabledDays,
+  normalDays,
+  defaultDays
 }) => {
   const data = [
     "All days",
@@ -63,7 +68,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
         newCheckedItems[index] = [...(newCheckedItems[index] || []), dayIndex];
       } else {
         newCheckedItems[index] = (newCheckedItems[index] || []).filter(
-          (item) => item !== dayIndex
+          (item: any) => item !== dayIndex
         );
       }
       const allDaysSelected = data
@@ -72,11 +77,11 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       if (allDaysSelected) {
         newCheckedItems[index] = [
           0,
-          ...newCheckedItems[index].filter((item) => item !== 0),
+          ...newCheckedItems[index].filter((item: any) => item !== 0),
         ];
       } else {
         newCheckedItems[index] = newCheckedItems[index].filter(
-          (item) => item !== 0
+          (item: any) => item !== 0
         );
       }
     }

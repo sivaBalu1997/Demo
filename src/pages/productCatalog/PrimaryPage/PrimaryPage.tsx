@@ -1203,7 +1203,7 @@ const PrimaryPage = () => {
                   </div>
                 </div>
 
-                <div
+                {/* <div
                   className={
                     message?.length > 10
                       ? "barcode"
@@ -1242,7 +1242,7 @@ const PrimaryPage = () => {
                       />
                     )}
                   />
-                </div>
+                </div> */}
 
                 <div className="Primary-page-InputFields PopularItem">
                   <Controller
@@ -1541,6 +1541,7 @@ const PrimaryPage = () => {
                             trigger={trigger}
                             setValue={setValue}
                             getValues={getValues}
+                           
                             // validation={{ required: "Tax is required" }}
                             // error={errors.tax}
                             dropdownopen={DropdownOpen.tax}

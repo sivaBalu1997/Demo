@@ -34,21 +34,20 @@ const PricingSlider: any = ({}) => {
 
   useEffect(() => {
     const tempOnPremarray = data[0]?.orderTypes
-    ?.filter((data: any) => data?.typeGroup === "D")
-    ?.map((item: any) => ({
-      ...item,
-      price: item.price !== undefined && Number(item.price).toFixed(2) , // Ensure 2 decimal places
-    }));
-    console.log({tempOnPremarray});
-    
-  
-  const tempOffPremarray = data[0]?.orderTypes
-    ?.filter((data: any) => data?.typeGroup !== "D")
-    ?.map((item: any) => ({
-      ...item,
-      price: item.price !== undefined&& Number(item.price).toFixed(2)  // Ensure 2 decimal places
-    }));
-  
+      ?.filter((data: any) => data?.typeGroup === "D" ||data?.typeGroup === "I" )
+      ?.map((item: any) => ({
+        ...item,
+        price: item.price !== undefined && Number(item.price).toFixed(2), // Ensure 2 decimal places
+      }));
+    console.log({ tempOnPremarray });
+
+    const tempOffPremarray = data[0]?.orderTypes
+      ?.filter((data: any) => data?.typeGroup !== "D"&&data?.typeGroup !== "I")
+      ?.map((item: any) => ({
+        ...item,
+        price: item.price !== undefined && Number(item.price).toFixed(2), // Ensure 2 decimal places
+      }));
+
     const isOnPremEnabledCount =
       tempOnPremarray?.filter((data: any, index: number) => {
         return data?.availabilityEnabled === false;
@@ -73,42 +72,19 @@ const PricingSlider: any = ({}) => {
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   }, [data[0]?.orderTypes]);
 
-  const { pen, setPen } = useContext(Contextpagejs);
-  const Dinein = data[0]?.orderTypes?.find(
-    (orderType: any) => orderType?.typeName === "DineIn"
-  );
-  const [inputs, setInputs] = useState({
-    Dinein1: Array.isArray(data[0]?.orderTypes)
-      ? data[0].orderTypes
-          .filter((elem: any) => elem.typeName === "DineIn")
-          .map((elem: any) => elem.price)
-      : [],
-    Pickup1: Array.isArray(data[0]?.orderTypes)
-      ? data[0].orderTypes
-          .filter((elem: any) => elem.typeName !== "DineIn")
-          .map((elem: any) => elem.price)
-      : [],
-    Delivery1: data[0]?.orderTypes[0]?.price || [],
-  });
 
-  const [sectionAValue, setSectionAValue] = useState<string>("");
+
+
+
   const [showCompare, setShowCompare] = useState(false);
   const [filteredpricelist, setFilteredPriceList] = useState<PriceComparison[]>(
     []
   );
 
- 
-
- 
-
-
-
- 
-
   const handleComparision = (baseprice: number, id: string, index: number) => {
     if (baseprice !== 0) {
       setShowCompare(!showCompare);
-  
+
       const pricelist = availabilityOrderTypes[1].types
         .filter((elem: any) => id !== elem.typeId)
         .map((elem: any) => {
@@ -116,7 +92,7 @@ const PricingSlider: any = ({}) => {
             ((elem.price - baseprice) / baseprice) * 100;
           const increaseOrDecrease =
             elem.price > baseprice ? "increase" : "decrease";
-  
+
           return {
             typeId: elem.typeId,
             price: elem.price,
@@ -124,42 +100,14 @@ const PricingSlider: any = ({}) => {
             increaseOrDecrease,
           };
         });
-  
+
       setFilteredPriceList(pricelist);
     }
   };
-  
 
-  useEffect(() => {
-    if (data && data[0]?.orderTypes) {
-      const oofpremprice = data[0].orderTypes
-        .filter((elem: any) => elem.typeName !== "DineIn")
-        .map((elem: any, index: number) => ({
-          orderTypeId: elem.typeId,
-          price: String(inputs.Pickup1?.[index] || elem.price),
-        }));
-      const onprem = data[0].orderTypes
-        .filter((elem: any) => elem.typeName === "DineIn")
-        .map((elem: any, index: number) => ({
-          orderTypeId: elem.typeId,
-          price: String(inputs.Dinein1?.[index] || elem.price),
-        }));
+ 
 
-      const offpremandonprem = [...oofpremprice, ...onprem];
-
-      setPatchedData((prevState: any) => ({
-        ...prevState,
-        pricing: Array.isArray(offpremandonprem)
-          ? offpremandonprem?.map((elem: any, index: number) => ({
-              orderTypeId: elem.orderTypeId,
-              price: elem.price,
-            }))
-          : [],
-      }));
-    }
-  }, [data, inputs, setPatchedData]);
-
-  const [temporaryInputValues, setTemporaryInputValues] = useState<Record<string, string | null>>({});
+ 
 
   const handlepriceinputchange = (
     typeId: string,
@@ -168,7 +116,7 @@ const PricingSlider: any = ({}) => {
     Enabled: number,
     hidden: number
   ) => {
-    if ( hidden) {
+    if (hidden) {
       const updatedArray = availabilityOrderTypes.map((item: any) => {
         if (item.mainHeading === mainHeading) {
           return {
@@ -246,14 +194,11 @@ const PricingSlider: any = ({}) => {
               item.types.map((price: any, idx: number) => {
                 const enableOrNot =
                   // price.isEnabled &&
-                  price.isNotHide &&
-                  price.availabilityEnabled;
+                  price.isNotHide && price.availabilityEnabled;
 
                 const Pricesymbol = `${
                   restaurantDetails?.country === "US" ? "$" : "Rs."
                 }`;
-
-              
 
                 const pricewithtwodigit = price
                   ? truncateToTwoDecimals(price.price)
@@ -296,31 +241,30 @@ const PricingSlider: any = ({}) => {
                         }
                         value={pricewithtwodigit || ""}
                       /> */}
-                       <input
-  type="number"
-  className="Priceing-input-field"
-  placeholder="$0.00"
-  disabled={!enableOrNot}
-  onChange={(e) => {
-    const value = e.target.value;
+                      <input
+                        type="number"
+                        className="Priceing-input-field"
+                        placeholder="$0.00"
+                        disabled={!enableOrNot}
+                        onChange={(e) => {
+                          const value = e.target.value;
 
-    // Regex to allow up to 4 digits in total and 2 digits after the decimal point
-    const regex = /^\d{0,4}(\.\d{0,2})?$/;
+                          // Regex to allow up to 4 digits in total and 2 digits after the decimal point
+                          const regex = /^\d{0,4}(\.\d{0,2})?$/;
 
-    // If the value matches the regex, update the price
-    if (regex.test(value)) {
-      handlepriceinputchange(
-        price.typeId,
-        item.mainHeading,
-        Number(value),
-        price.isEnabled,
-        price.isNotHide
-      );
-    }
-  }}
-  value={price.price || ""}
-/>
-
+                          // If the value matches the regex, update the price
+                          if (regex.test(value)) {
+                            handlepriceinputchange(
+                              price.typeId,
+                              item.mainHeading,
+                              Number(value),
+                              price.isEnabled,
+                              price.isNotHide
+                            );
+                          }
+                        }}
+                        value={price.price || ""}
+                      />
                     </div>
                     {price.typeGroup === "D" &&
                     item.mainHeading === "On-prem" ? (

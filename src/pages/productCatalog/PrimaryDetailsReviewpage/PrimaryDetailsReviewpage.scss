@@ -571,15 +571,16 @@
   height: fit-content;
   background-color: white;
   // background-color: pink;
-  top: 48px;
+  top: 76px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
   transition: 0.2s ease all;
+  
   @media (max-width: 1470px) and (min-width: 1281px) {
     // width: 120%; /* Adjusted width for smaller screens */
     width: 90vw;
     height: fit-content;
-    top: 25px;
+    top: 76px;
     padding: 16px 16px;
     transition: 0.2s ease all;
     right: 0 !important;
