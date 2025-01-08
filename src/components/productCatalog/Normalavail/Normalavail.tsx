@@ -170,6 +170,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [pickUpEntry, setPickUpEntry] = useState<string[]>([]);
     const [deliveryEntry, setDeliveryEntry] = useState<string[]>([]);
     const [Normaldays, setNormalDays] = useState<number[]>([]);
+    console.log({Normaldays})
     const [options2, setOptions2] = useState(["Breakfast", "Lunch", "Dinner"]);
 
     const [options3, setOptions3] = useState(["Breakfast", "Lunch", "Dinner"]);
@@ -204,6 +205,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
     const [DayDelivery, setDayDelivery] = useState<number[]>([]);
     const [DayThird, setDayThird] = useState<number[]>([]);
     const [dineInDates1, setDineInDates1] = useState<number[][]>([[]]);
+    console.log({dineInDates1},{DayPickup})
+
     //   {_-------------------Use State  for Showing Day checck ---------------------------------}
     const [showDay, setShowDay] = useState(false);
     const [showDayPickup, setShowDayPickup] = useState(false);
@@ -988,9 +991,9 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const getDisabledDays = (index: number) => {
       const allSelectedDays = new Set<number>();
-      dineInDates1.forEach((selectedDays, i) => {
+      dineInDates1?.forEach((selectedDays, i) => {
         if (i !== index) {
-          selectedDays.forEach((day) => allSelectedDays.add(day));
+          selectedDays?.forEach((day) => allSelectedDays?.add(day));
         }
       });
       return Array.from(allSelectedDays);
@@ -1000,7 +1003,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
       index: number,
       e: React.ChangeEvent<HTMLInputElement>
     ): void => {
-      const inputValue = e.target.value;
+      const inputValue = e?.target?.value;
 
       if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
         const newEntries = [...dineinfields];
@@ -1096,7 +1099,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         availabilities: [
           {
             ...prev.availabilities[0],
-            availabilityDays: DayDelivery.map((day) => day.toString()),
+            availabilityDays: DayDelivery?.map((day) => day?.toString()),
           },
         ],
       }));
@@ -1108,7 +1111,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
         availabilities: [
           {
             ...prev.availabilities[0],
-            availabilityDays: DayPickup.map((day) => day.toString()),
+            availabilityDays: DayPickup.map((day) => day?.toString()),
           },
         ],
       }));
@@ -1593,7 +1596,7 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
             {dineinfields?.map((entry: any, index: any) => {
               const mealTypeKey = `DineInMealType_${index}`;
               const priceKey = `DineInPrice_${index}`;
-              const DineInService = `DineInService_${index}`;
+              const DineInService = `DineInService_${index}`;              
 
               return (
                 <>
@@ -1684,6 +1687,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                     <div className="dayspickup">
                       {entry.showDay && (
                         <DaysCheckDin
+                          normalDays={Normaldays}
+                          defaultDays={entry?.showDay}
                           checkedItems={dineInDates1}
                           setCheckedItems={setDineInDates1}
                           getDisabledDays={getDisabledDays}
@@ -1868,6 +1873,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
                         <div className="dayspick-pickup">
                           {showDayPickup ? (
                             <DaysCheck
+                              normalDays={Normaldays}
+                              defaultDays={showDayPickup}
                               checkedItems={DayPickup}
                               setCheckedItems={setDayPickup}
                               {...(availabilityid.length > 0

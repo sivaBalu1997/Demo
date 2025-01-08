@@ -631,6 +631,8 @@ export const MenuPage = () => {
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
+  console.log({editData})
+
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
       const primaryPageData = {
@@ -711,6 +713,8 @@ export const MenuPage = () => {
             isEnabled: option?.isEnabled ?? false,
           })) || [],
       }));
+
+      console.log({modifierData})
 
       dispatch(primarypost(primaryPageData));
       dispatch(PricingDetailRequest(pricingPageData));
@@ -898,15 +902,15 @@ export const MenuPage = () => {
   const [isScrolling, setIsScrolling] = useState(false);
 
   const handleScroll = (sourceRef, targetRef) => {
-    if (isScrolling) return; // Prevent recursive loop
+    if (isScrolling) return; 
 
     setIsScrolling(true);
 
     if (sourceRef.current && targetRef.current) {
-      targetRef.current.scrollTop = sourceRef.current.scrollTop; // Synchronize scroll position
+      targetRef.current.scrollTop = sourceRef.current.scrollTop; 
     }
 
-    setTimeout(() => setIsScrolling(false), 10); // Allow a brief pause before enabling scrolling again
+    setTimeout(() => setIsScrolling(false), 10); 
   };
 
   const headerRef = useRef(null);

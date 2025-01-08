@@ -31,6 +31,7 @@ import Dropdown from "components/productCatalog/DropDown/Dropdown";
 import { RootState } from "redux/rootReducer";
 import { stat } from "fs";
 import { tr } from "date-fns/locale";
+import PricingDetails from "../PricingDetalis/PricingDetails";
 
 // Define types
 interface Option {
@@ -84,9 +85,16 @@ interface State {
 
 const ItemCustomizations: React.FC<any> = () => {
   const dispatch = useDispatch();
+
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
+  
+  const Check = useSelector(
+    (state: State) => state.itemCustomizationsReducer1
+  );
+
+  console.log({Check},{itemCustomizationData})
 
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
@@ -149,6 +157,8 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
+  console.log({modifications})
+
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -167,6 +177,8 @@ const ItemCustomizations: React.FC<any> = () => {
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
+  console.log({itemCustomizationData})
+
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       setShowModifiers(!showModifiers);
@@ -180,6 +192,10 @@ const ItemCustomizations: React.FC<any> = () => {
             return orderType?.typeName || selectedId;
           }
         );
+
+        console.log('iiii',item?.noFreeCustomization)
+        console.log('iiii',item?.freeCustomization)
+
         if (item?.options) {
           return {
             modifierId: item?.id || "",
@@ -202,7 +218,7 @@ const ItemCustomizations: React.FC<any> = () => {
                 : [{ modifierOptionName: "", cost: 0 }],
             minSelection: item.minSelection || 0,
             maxSelection: item.maxSelection || 0,
-            freeCustomization: item?.freeCustomization || 0,
+            freeCustomization: (item?.noFreeCustomization ? item?.noFreeCustomization : item?.freeCustomization) || 0,
             selectedValue: selectedTypeNames,
             // selectionType: item?.selectionType || "Mandatory",
           };
@@ -849,9 +865,11 @@ const ItemCustomizations: React.FC<any> = () => {
     const nameRegex = /^[a-zA-Z0-9\s]+$/;
     if (!inputValue) {
       optionErrors.optionNameError = `Option Name is required`;
-    } else if (!nameRegex.test(inputValue)) {
-      optionErrors.optionNameError = `Option Name must not contain special characters`;
-    } else {
+    } 
+    // else if (!nameRegex.test(inputValue)) {
+    //   optionErrors.optionNameError = `Option Name must not contain special characters`;
+    // } 
+    else {
       optionErrors.optionNameError = "";
     }
 
@@ -1016,6 +1034,10 @@ const ItemCustomizations: React.FC<any> = () => {
   // const editData = useSelector((state: any) => state.productCatalog.editData);
 
   const searched = ModifierList?.map((item, index) => item?.modifierName);
+
+  const prizingDetail = useSelector(
+    (state: RootState) => state?.PricingDetailReducer?.prizingData as any
+  );
 
   return (
     <div
@@ -1221,14 +1243,12 @@ const ItemCustomizations: React.FC<any> = () => {
                                   disabled={!modifications[modIndex]?.isEnabled}
                                   onInput={(e) => {
                                     const input = e.target as HTMLInputElement;
-                                    const regex = /^[a-zA-Z\s]*$/;
+                                    const regex = /^[a-zA-Z\s\W]*$/;                                    
                                     if (!regex.test(input.value)) {
-                                      input.value = input.value.replace(
-                                        /[^a-zA-Z\s]/g,
-                                        ""
-                                      );
+                                      input.value = input.value.replace(/[^a-zA-Z\s\W]/g, "");
                                     }
                                   }}
+                                  
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
 
@@ -1341,14 +1361,10 @@ const ItemCustomizations: React.FC<any> = () => {
                                               : "50%",
                                           }}
                                           onInput={(e) => {
-                                            const input =
-                                              e.target as HTMLInputElement;
-                                            const regex = /^[a-zA-Z\s]*$/;
+                                            const input = e.target as HTMLInputElement;
+                                            const regex = /^[a-zA-Z\s\W]*$/;                                    
                                             if (!regex.test(input.value)) {
-                                              input.value = input.value.replace(
-                                                /[^a-zA-Z\s]/g,
-                                                ""
-                                              );
+                                              input.value = input.value.replace(/[^a-zA-Z\s\W]/g, "");
                                             }
                                           }}
                                           disabled={
