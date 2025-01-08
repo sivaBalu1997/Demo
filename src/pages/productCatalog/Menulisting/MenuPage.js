@@ -139,6 +139,7 @@ export const MenuPage = () => {
   };
 
   const [listingobject, setlistingobject] = useState();
+  console.log("Adit",listingobject)
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -782,12 +783,15 @@ export const MenuPage = () => {
 
 
 
-    useEffect(() => {
-      const allFalse =
+  useEffect(() => {
+    const allFalse =
       listingobject &&
-      Object.values(listingobject).every((value) => value === false);
-      setShowColumns(allFalse);
-    }, [listingobject]);
+      Object.entries(listingobject)
+        .filter(([key]) => key !== 'showAvail' && key !== 'showPricing') 
+        .every(([, value]) => value === false); 
+  
+    setShowColumns(allFalse);
+  }, [listingobject]);
 
   useEffect(() => {
     if (menudatalist.length > 0 && menuData.length > 0) {
@@ -1366,7 +1370,7 @@ const handleRemoveIcon=()=>{
                             }`}
                           >
                             {" "}
-                            No columns selected
+                            No columns  Selected
                           </div>
                         ) : (
                           menudatalist?.map((data, parentIndex) => (
