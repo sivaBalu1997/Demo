@@ -29,7 +29,8 @@ interface NormalFormData {
   normalForm: {
     dineInDetails?: any;
     dineinfields: DineInField[];
-    DineIn: number[];
+    Normaldays:number[];
+    DineIn: any;
     Pickup: number[];
     Delivery: number[];
     thirdParty: number[];
@@ -87,6 +88,8 @@ const NormalStep2 = () => {
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData || {}
   );
+  console.log("prizingDetail", prizingDetail);
+  
 
   const thirdPartyDetails = useSelector(
     (state: any) =>
@@ -120,7 +123,7 @@ const NormalStep2 = () => {
 
   useEffect(() => {
     setDinein(
-      prizingDetail?.normalForm?.DineIn?.map((elem, index) => {
+      prizingDetail?.normalForm?.DineIn?.map((elem:any, index:number) => {
         return elem;
       })
     );
@@ -155,6 +158,7 @@ const NormalStep2 = () => {
     );
   const onlineDeliveryFormatted = onlineDelivery?.join(", ");
   // console.log({ onlinePickupFormatted });
+
 
   return (
     <div>
@@ -211,16 +215,28 @@ const NormalStep2 = () => {
       </div>
       <h1 className="AvailDaysheading">Available Days</h1>
       {prizingDetail &&
-        prizingDetail?.normalForm &&
-        prizingDetail?.normalForm?.DineIn?.map((elem, index) => {
-          return (
-            <>
-              <div className="dayacheckedavail">
-                <DaysOfWeek days={elem} setDays={setDinein} />
-              </div>
-            </>
-          );
-        })}
+  prizingDetail?.normalForm &&
+  (prizingDetail?.normalForm?.DineIn && prizingDetail?.normalForm?.DineIn[0]?.length > 0
+    ? prizingDetail?.normalForm?.DineIn?.map((elem:any, index:number) => (
+        <div key={index} className="dayacheckedavail">
+          <DaysOfWeek days={elem} setDays={setDinein} />
+        </div>
+      ))
+    : 
+    <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDinein} />
+
+    
+    // prizingDetail?.normalForm?.Normaldays?.map((elem:any, index:any) => (
+    //     <div key={index} className="dayacheckedavail">
+    //     </div>
+    //   ))
+    
+    
+    
+    )
+      
+      
+      }
 
       <h1 className="Step2Onlineheading">Online</h1>
       <h1 className="Step2Pickupheading">Pickup</h1>
@@ -240,7 +256,7 @@ const NormalStep2 = () => {
                 {restaurantDetails?.country === "US" ? "$" : "Rs."}
 
                 {parseFloat(
-                  prizingDetail.normalForm.pickupDetails.price
+                  prizingDetail.normalForm?.pickupDetails.price
                 ).toFixed(2)}
               </h1>
             ) : (
@@ -278,7 +294,13 @@ const NormalStep2 = () => {
       <div className="DaysPickUp">
         {/* {prizingDetail?.normalForm &&
           prizingDetail?.normalForm?.pickupDetails && ( */}
-        <DaysOfWeek days={Pickup1} setDays={setPickup1} />
+
+
+          {
+            Pickup?.length > 0 ? ( <DaysOfWeek days={Pickup1} setDays={setPickup1} />):
+            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setPickup1} />
+          }
+       
         {/* )} */}
       </div>
       <h1 className="Step2Deliveryheading">Delivery</h1>
@@ -329,8 +351,13 @@ const NormalStep2 = () => {
       <div className="DaysDelivery">
         {/* {prizingDetail?.normalForm &&
           prizingDetail?.normalForm?.deliveryDetails && ( */}
-        <DaysOfWeek days={delivery1} setDays={setDelivery1} />
+        {/* <DaysOfWeek days={delivery1} setDays={setDelivery1} /> */}
         {/* )} */}
+
+        {
+            Delivery.length > 0 ? ( <DaysOfWeek days={delivery1} setDays={setDelivery1} />):
+            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDelivery1} />
+          }
       </div>
       {thirdPartyDetails?.length > 0 && (
         <>
@@ -368,10 +395,15 @@ const NormalStep2 = () => {
               <div className="thirdPartyContainers">
                 <h1 className="AvailDaysheadingthirparty">Available Days</h1>
                 <div className="DaysThirdDelivery">
-                  {prizingDetail?.normalForm &&
+                  {/* {prizingDetail?.normalForm &&
                     prizingDetail?.normalForm?.thirdpartyDetails && (
                       <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />
-                    )}
+                    )} */}
+
+                      {
+             thirdParty.length > 0 ? ( <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />):
+            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setThirdParty1} />
+          }
                 </div>
               </div>
             </div>

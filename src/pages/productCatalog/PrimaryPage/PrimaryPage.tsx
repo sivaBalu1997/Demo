@@ -1203,7 +1203,7 @@ const PrimaryPage = () => {
                   </div>
                 </div>
 
-                <div
+                {/* <div
                   className={
                     message?.length > 10
                       ? "barcode"
@@ -1242,7 +1242,7 @@ const PrimaryPage = () => {
                       />
                     )}
                   />
-                </div>
+                </div> */}
 
                 <div className="Primary-page-InputFields PopularItem">
                   <Controller

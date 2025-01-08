@@ -125,15 +125,37 @@
   margin: 0;
 }
 .dayspick-pickup {
-  margin-top: -1.7rem;
-  margin-bottom: 0.7rem;
+  margin-top: -3.5rem;
+  margin-bottom: 1.5rem;
   // background-color: lightcyan;
   width: fit-content;
+height: 4rem;
+display: flex;
+flex-direction: column;
+  // border: 1px solid red;
+  .pickupdays-errormsg
+  {
+    color: #e52333;
+  }
 }
 .dayspickup-normal {
-  margin-top: -1.7rem;
-  margin-bottom: 0.7rem;
-  width: fit-content;
+  
+  border: 1px solid red;
+  
+    margin-top: -2rem;
+    margin-bottom: 1.5rem;
+    
+    width: fit-content;
+  height: 4rem;
+  display: flex;
+  flex-direction: column;
+    // border: 1px solid red;
+    .deliverydays-error
+    {
+      color: #e52333;
+      
+    }
+  
 }
 
 .DineInInput11Normal {
@@ -910,4 +932,19 @@ height: 3rem;
   line-height: 21px;
   text-align: left;
   color: #e52333;
+}
+
+
+
+.dienInDays-and-error
+{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid red;
+  gap: 1.5rem;
+
+  .dineIn-days-error
+  {
+    color: #e52333;
+  }
 }
