@@ -1,9 +1,13 @@
 .Review-values {
   width: 13rem;
-  height: 4.5rem;
+  height: auto;
   margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
+  // border: 2px solid;
+  // overflow-y: auto;
+  // overflow-x: hidden;
+  padding-left: 20px;
 
   .Review-values-label {
     font-size: 12px;
