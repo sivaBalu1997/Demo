@@ -1463,6 +1463,7 @@ setPriceInfo(
               sessions: [],
             },
           ],
+          Enabled: false,
           ...(editData?.length && {
             inActiveUntil:
               prizingDetail?.normalForm?.thirdpartyDetails?.inActiveUntil?.split(
