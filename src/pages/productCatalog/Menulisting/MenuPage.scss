@@ -121,6 +121,11 @@
   width: 100%;
   padding: 0;
 
+  @media (min-width: 1537px) and (max-width: 1770px) {
+    height: 40rem;
+   
+  }
+
   // border: 1px solid red;
 
   &::-webkit-scrollbar {
@@ -247,6 +252,13 @@
     width: 63rem;
     overflow-x: scroll;
     overflow-y: hidden;
+    @media (min-width: 1537px) and (max-width: 1770px) {
+    width: 75rem;
+    margin-left: 20px;
+    position: relative;
+    left: 2%;
+  
+     }
 
     &::-webkit-scrollbar {
       display: none;
@@ -317,7 +329,7 @@
 }
 @media (min-width: 1537px) and (max-width: 1770px) {
   height: 40rem;
-  width: 31rem;
+  width: 25rem;
 
 
    
@@ -377,9 +389,11 @@
     height: 12px;
   }
   @media (min-width: 1537px) and (max-width: 1770px) {
-    width: 58.2rem;
-    height: 40.5rem;
-  }
+    height: 40rem;
+  width: 65rem;
+
+   }
+
   
 
   &::-webkit-scrollbar-track {
@@ -432,6 +446,11 @@
   &::-webkit-scrollbar {
     width: 12px;
     height: 12px;
+  }
+  @media (min-width: 1537px) and (max-width: 1770px) {
+   height: 40rem;
+  width: 69rem;
+
   }
 
   &::-webkit-scrollbar-track {
@@ -492,6 +511,7 @@
     align-items: center;
     justify-content: left;
     gap: 0.5rem;
+    
   }
 }
 .borderfor-header {
