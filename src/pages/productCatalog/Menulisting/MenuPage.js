@@ -135,6 +135,7 @@ export const MenuPage = () => {
   };
 
   const [listingobject, setlistingobject] = useState();
+  console.log("Adit",listingobject)
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -751,10 +752,16 @@ export const MenuPage = () => {
 
   const [showColumns, setShowColumns] = useState(false);
 
+
+
+
   useEffect(() => {
     const allFalse =
       listingobject &&
-      Object.values(listingobject).every((value) => value === false);
+      Object.entries(listingobject)
+        .filter(([key]) => key !== 'showAvail' && key !== 'showPricing') 
+        .every(([, value]) => value === false); 
+  
     setShowColumns(allFalse);
   }, [listingobject]);
 
@@ -1355,7 +1362,7 @@ export const MenuPage = () => {
                             }`}
                           >
                             {" "}
-                            No columns selected
+                            No columns  Selected
                           </div>
                         ) : (
                           menudatalist?.map((data, parentIndex) => (
