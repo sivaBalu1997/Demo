@@ -804,7 +804,7 @@ const Sales: React.FC = () => {
           <div className="s-overall-total-sales-ds-inner-wrap">
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalOrdersIncludingThirdparty ? <h2>
-                {salesDataFromAPIRedux?.totalOrdersIncludingThirdparty?.toFixed(2)}
+                {salesDataFromAPIRedux?.totalOrdersIncludingThirdparty}
               </h2> :
                 // <p className="s-summary-no-data">No data found!</p>
                 <h2>0</h2>
