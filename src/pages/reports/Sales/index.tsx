@@ -681,7 +681,7 @@ const Sales: React.FC = () => {
           <div className="s-overall-summary-inner-wrap">
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalMagilOrders ? <h2>
-                {salesDataFromAPIRedux?.totalMagilOrders?.toFixed(2)}
+                {salesDataFromAPIRedux?.totalMagilOrders}
               </h2> :
                 // <p className="s-summary-no-data">No data found!</p>
                 <h2>0</h2>
@@ -732,7 +732,7 @@ const Sales: React.FC = () => {
                     <div className="tool-tip-content"
                       onMouseEnter={() => setShowNetSaleToolTip(true)}
                       onMouseLeave={() => setShowNetSaleToolTip(false)}>
-                      Net Sales = Item Total - Discount
+                      Item Total - Discount
                     </div>
                   )}
                 </div>
