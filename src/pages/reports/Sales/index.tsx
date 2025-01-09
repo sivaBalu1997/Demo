@@ -682,14 +682,20 @@ const Sales: React.FC = () => {
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalMagilOrders ? <h2>
                 {salesDataFromAPIRedux?.totalMagilOrders?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>0</h2>
+              }
               <h3>Total Orders</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalMagilSales ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalMagilSales?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <div className="label-tooltip-container">
                 <h3>Total Sales</h3>
                 <div
@@ -710,7 +716,10 @@ const Sales: React.FC = () => {
               {salesDataFromAPIRedux?.totalMagilNetSales ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalMagilNetSales?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <div className="label-tooltip-container">
                 <h3>Net Sales</h3>
                 <div
@@ -733,21 +742,30 @@ const Sales: React.FC = () => {
               {salesDataFromAPIRedux?.totalMagilTips ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalMagilTips?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <h3>Tips</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalMagilTax ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalMagilTax?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <h3>Tax</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalMagilServiceFee ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalMagilServiceFee?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <h3>Service Fee - US</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
@@ -755,20 +773,27 @@ const Sales: React.FC = () => {
                 <h2>
                   {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalMagilDeliveryCharges?.toFixed(2)}
                 </h2> :
-                <p className="s-summary-no-data">No data found!</p>
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
               }
               <h3>Store Delivery Charges</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalConvenienceFee ? <h2>
                 {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalConvenienceFee?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <h3>Convenience Fee (Maghil)</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalCardProcessingFee ? <h2>
                 {countryCode === "US" ? '$' : '₹'}{salesDataFromAPIRedux?.totalCardProcessingFee?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <h3>Card Processsing Fee</h3>
             </div>
           </div>
@@ -780,14 +805,20 @@ const Sales: React.FC = () => {
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalOrdersIncludingThirdparty ? <h2>
                 {salesDataFromAPIRedux?.totalOrdersIncludingThirdparty?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>0</h2>
+              }
               <h3>Total Orders</h3>
             </div>
             <div className={`s-box ${isExpanded ? "s-expanded-boxes" : ""}`}>
               {salesDataFromAPIRedux?.totalGrossSalesIncludingThirdparty ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalGrossSalesIncludingThirdparty?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <div className="label-tooltip-container">
                 <h3>Total Sales</h3>
                 <div
@@ -808,7 +839,10 @@ const Sales: React.FC = () => {
               {salesDataFromAPIRedux?.totalNetSalesIncludingThirdparty ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalNetSalesIncludingThirdparty?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <div className="label-tooltip-container">
                 <h3>Net Sales</h3>
                 <div
@@ -829,7 +863,10 @@ const Sales: React.FC = () => {
               {salesDataFromAPIRedux?.totalTaxIncludingThirdparty ? <h2>
                 {countryCode === "US" ? '$' : '₹'}
                 {salesDataFromAPIRedux?.totalTaxIncludingThirdparty?.toFixed(2)}
-              </h2> : <p className="s-summary-no-data">No data found!</p>}
+              </h2> :
+                // <p className="s-summary-no-data">No data found!</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <div className="label-tooltip-container">
                 <h3>Tax</h3>
                 <div

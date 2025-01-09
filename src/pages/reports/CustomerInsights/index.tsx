@@ -153,6 +153,7 @@ const CustomerInsights = () => {
   //   }}
   // />
 
+  //<p className='s-live-no-data'>No data found !</p>
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -173,19 +174,31 @@ const CustomerInsights = () => {
         <div className="l-live-boxes-container">
           <div className={isExpanded ? "l-live-inner-box-expanded" : "l-live-inner-box"}>
             <div className="l-live-box">
-              {liveDiscountDataAPIRedux && liveDiscountDataAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveDiscountDataAPIRedux && liveDiscountDataAPIRedux > 0 && liveDiscountDataAPIRedux}</h2> : <p className='s-live-no-data'>No data found !</p>}
+              {liveDiscountDataAPIRedux && liveDiscountDataAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveDiscountDataAPIRedux && liveDiscountDataAPIRedux > 0 && liveDiscountDataAPIRedux}</h2> :
+                // <p className='s-live-no-data'>No data found !</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <h3>Discounts</h3>
             </div>
             <div className="l-live-box">
-              {liveRefundsAPIRedux && liveRefundsAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveRefundsAPIRedux && liveRefundsAPIRedux > 0 && liveRefundsAPIRedux}</h2> : <p className='s-live-no-data'>No data found !</p>}
+              {liveRefundsAPIRedux && liveRefundsAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveRefundsAPIRedux && liveRefundsAPIRedux > 0 && liveRefundsAPIRedux}</h2> :
+                // <p className='s-live-no-data'>No data found !</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <h3>Refund</h3>
             </div>
             <div className="l-live-box">
-              {liveOpenSalesDataAPIRedux && liveOpenSalesDataAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveOpenSalesDataAPIRedux && liveOpenSalesDataAPIRedux > 0 && liveOpenSalesDataAPIRedux}</h2> : <p className='s-live-no-data'>No data found !</p>}
+              {liveOpenSalesDataAPIRedux && liveOpenSalesDataAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveOpenSalesDataAPIRedux && liveOpenSalesDataAPIRedux > 0 && liveOpenSalesDataAPIRedux}</h2> :
+                // <p className='s-live-no-data'>No data found !</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <h3>Open Sales</h3>
             </div>
             <div className="l-live-box">
-              {liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 && liveNetSalesAPIRedux}</h2> : <p className='s-live-no-data'>No data found !</p>}
+              {liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 && liveNetSalesAPIRedux}</h2> :
+                // <p className='s-live-no-data'>No data found !</p>
+                <h2>{countryCode === "US" ? '$' : '₹'}0.00</h2>
+              }
               <div className="l-label-tooltip-container">
                 <h3>Net Sales</h3>
                 <div
