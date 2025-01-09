@@ -1161,7 +1161,7 @@ console.log({pickupDetails});
       const inputValue = e?.target?.value;
 
       e.preventDefault();
-      if (/^\d*\.?\d{0,2}$/.test(inputValue) && Enable) {
+      if (/^\d{0,4}(\.\d{0,2})?$/.test(inputValue) && Enable) {
         const newEntries = [...dineinfields];
 
         newEntries[index] = {
@@ -1610,13 +1610,8 @@ setPriceInfo(
      console.log("validationg");
      
 
-      if (Normaldays.length === 0) {
-        validationErrors["daysCheck"] = "Please select at least one day.";
-      }
-      if (Normaldays && Normaldays.length > 0) {
-        delete validationErrors["daysCheck"];
-      }
-
+      
+      // console.log({dineinfields});
       dineinfields?.forEach((field: any, index: number) => {
         if (field?.Enabled) {
           if (showDineIn) {
@@ -1634,10 +1629,34 @@ setPriceInfo(
               validationErrors[`DineInMealType-${index}`] =
                 "Meal type is empty";
             }
+
+            if( field?.showDay && dineInDates1[0]?.length===0)
+            {
+              validationErrors[`DineInAvailableDays-${index}`] =
+                "Please enter available days";
+              
+            }
+            else
+            {
+               delete validationErrors[`DineInAvailableDays-${0}`];
+            }
+           
           }
         }
       });
       // console.log({priceInfo});
+      if(!(validationErrors[`DineInAvailableDays-${0}`]==="Please enter available days"))
+      {
+        delete validationErrors[`DineInAvailableDays-${0}`];
+
+        if (Normaldays.length === 0) {
+          validationErrors["daysCheck"] = "Please select at least one day.";
+        }
+        if (Normaldays && Normaldays.length > 0) {
+          delete validationErrors["daysCheck"];
+        }
+        
+      }
       
 if(selectedthirdvalues.length>0){
 
@@ -1691,6 +1710,23 @@ if(selectedthirdvalues.length>0){
           if (pickup && Pickupsessions?.length === 0) {
             validationErrors.pickupmealTypeSessions = "Meal type is empty";
           }
+
+          console.log({DayPickup});
+          
+          if(showDayPickup && DayPickup.length===0)
+          {
+            validationErrors.pickupAvailableDays = "Please enter available days";
+          }
+          else
+          {
+            delete validationErrors.pickupAvailableDays;
+            if (Normaldays.length === 0) {
+              validationErrors["daysCheck"] = "Please select at least one day.";
+            }
+            if (Normaldays && Normaldays.length > 0) {
+              delete validationErrors["daysCheck"];
+            }
+          }
         }
       }
 
@@ -1705,6 +1741,20 @@ if(selectedthirdvalues.length>0){
           if (deliverysessions?.length === 0) {
             validationErrors.deliverymealTypeSessions = "Meal type is empty";
           }
+          if(showDayDelivery && DayDelivery.length===0)
+            {
+              validationErrors.deliveryAvailableDays = "Please enter available days";
+            }
+            else
+            {
+              delete validationErrors.deliveryAvailableDays;
+              if (Normaldays.length === 0) {
+                validationErrors["daysCheck"] = "Please select at least one day.";
+              }
+              if (Normaldays && Normaldays.length > 0) {
+                delete validationErrors["daysCheck"];
+              }
+            }
         }
       }
      
@@ -1991,7 +2041,7 @@ if (dineinfields.length > 0) {
                         {entry?.showDay ? "Default Day" : "Choose Day"}
                       </h3>
                     </div>
-                    <div className="dayspickup">
+                    <div className="dienInDays-and-error">
                       {entry.showDay && (
                         <DaysCheckDin
                           normalDays={Normaldays}
@@ -2005,6 +2055,11 @@ if (dineinfields.length > 0) {
                             : {})}
                         />
                       )}
+                       { (
+              <span className="dineIn-days-error">
+                {errors[`DineInAvailableDays-${index}`]|| ""}
+              </span>
+            )}
                     </div>
                   </div>
                 </>
@@ -2108,7 +2163,7 @@ if (dineinfields.length > 0) {
                                     return;
                                   }
 
-                                  if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
+                                  if (/^\d{0,4}(\.\d{0,2})?$/.test(inputValue)) {
                                     const numericValue = parseFloat(inputValue);
 
                                     setPickUpDetails({
@@ -2206,6 +2261,9 @@ if (dineinfields.length > 0) {
                           ) : (
                             ""
                           )}
+                          <span className="pickupdays-errormsg">
+                              {errors.pickupAvailableDays}
+                            </span>
                         </div>
                         {/* <h1 className="AddentryNormal" onClick={AddDineInEntry} style={{marginTop:'19px'}}>
                     {" "}
@@ -2301,7 +2359,7 @@ if (dineinfields.length > 0) {
                                     return;
                                   }
 
-                                  if (/^\d*\.?\d{0,2}$/.test(inputValue)) {
+                                  if (/^\d{0,4}(\.\d{0,2})?$/.test(inputValue)) {
                                     const numericValue = parseFloat(inputValue);
 
                                     if (
@@ -2397,6 +2455,9 @@ if (dineinfields.length > 0) {
                                 : { id: [], setId: () => {} })}
                             />
                           )}
+                           <span className="deliverydays-error">
+                              {errors.deliveryAvailableDays}
+                            </span>
                         </div>
                       </div>
                     ) : null}
@@ -2467,7 +2528,7 @@ if (dineinfields.length > 0) {
                                     //   setPriceInfo(updatedData);
                                     // }
 
-                                    if (/^\d*\.?\d{0,2}$/.test(inputValue) &&priceInfo[index]?.Enabled) {
+                                    if (/^\d{0,4}(\.\d{0,2})?$/.test(inputValue) &&priceInfo[index]?.Enabled) {
                                       const updatedData = [...priceInfo].map(
                                         (item, idx) =>
                                           idx === index

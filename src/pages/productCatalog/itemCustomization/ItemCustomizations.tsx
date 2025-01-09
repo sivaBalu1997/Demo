@@ -178,12 +178,15 @@ const ItemCustomizations: React.FC<any> = () => {
   const orderTypes = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
+console.log({itemCustomizationData});
 
   console.log({itemCustomizationData})
 
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       setShowModifiers(!showModifiers);
+     
+      
 
       const mappedModifications = itemCustomizationData.map((item: any) => {
         const selectedTypeNames = (item?.selectedValue || []).map(
@@ -199,12 +202,13 @@ const ItemCustomizations: React.FC<any> = () => {
         console.log('iiii',item?.freeCustomization)
 
         if (item?.options) {
+          console.log("mod1");
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
             isModifierChanged: false,
             isEnabled: item.isEnabled,
-            selectionType: "Mandatory",
+            
 
             modifierOptions:
               item?.options?.length > 0
@@ -218,13 +222,16 @@ const ItemCustomizations: React.FC<any> = () => {
                     isEnabled: option?.isEnabled,
                   }))
                 : [{ modifierOptionName: "", cost: 0 }],
-            minSelection: item.minSelection || 0,
-            maxSelection: item.maxSelection || 0,
+            minSelection: item.minCount ,
+            maxSelection: item.maxCount ,
+            
             freeCustomization: (item?.noFreeCustomization ? item?.noFreeCustomization : item?.freeCustomization) || 0,
             selectedValue: selectedTypeNames,
+            selectionType: item.minCount===0? "Optional":"Mandatory",
             // selectionType: item?.selectionType || "Mandatory",
           };
         } else if (item?.modifierOptions) {
+          console.log("mod2");
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
@@ -246,7 +253,7 @@ const ItemCustomizations: React.FC<any> = () => {
             maxSelection: item.maxSelection || 0,
             freeCustomization: item?.freeCustomization || 0,
             selectedValue: selectedTypeNames,
-            selectionType: item?.selectionType || "Mandatory",
+            selectionType: item.minSelection===0? "Optional":"Mandatory",
             // selectionType:  "Mandatory",
           };
         }
@@ -320,6 +327,7 @@ const ItemCustomizations: React.FC<any> = () => {
         ...currentModifier,
 
         [name]: value,
+        minSelection: selectionType === "Optional" ? 0 : updated[modIndex]?.minSelection,
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
       };
@@ -351,6 +359,7 @@ const ItemCustomizations: React.FC<any> = () => {
       updated[modIndex] = {
         ...currentModifier,
         selectionType: selectionType ? selectionType : "Mandatory",
+        minSelection: selectionType === "Optional" ? 0 : updated[modIndex]?.minSelection,
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
       };
@@ -436,39 +445,39 @@ const ItemCustomizations: React.FC<any> = () => {
             (opt: any, optIdx: number) => {
               if (optIdx === optIndex) {
                 const currentValue = opt[e.target.name];
-                const newValue =
-                  e.target.name === "cost"
-                    ? parseFloat(
-                        e.target.value.replace(/^(\d+)(\.\d{0,2})?.*$/, "$1$2")
-                      ) ||
-                      0 ||
-                      0 ||
-                      0
-                    : e.target.value;
-
+                let newValue = e.target.value;
+  
+                // Restrict to 4 digits before the decimal and up to 2 digits after
+                if (e.target.name === "cost") {
+                  const regex = /^\d{0,4}(\.\d{0,2})?$/;
+                  if (!regex.test(newValue)) {
+                    newValue = currentValue; // If invalid, retain the previous value
+                  }
+                }
+  
                 const isOptionChanged =
                   mod.modifierId !== "" &&
                   currentValue !== undefined &&
                   currentValue !== null &&
                   currentValue !== "" &&
                   currentValue !== newValue;
-
+  
                 return {
                   ...opt,
-                  [e.target.name]: newValue,
+                  [e.target.name]: newValue, // Ensure newValue is always a string
                   isModifierOptionChanged: isOptionChanged,
                 };
               }
               return opt;
             }
           );
-
+  
           const isModifierChanged =
             mod.modifierId !== "" &&
             updatedModifierOptions.some(
               (opt: any) => opt.isModifierOptionChanged
             );
-
+  
           return {
             ...mod,
             modifierOptions: updatedModifierOptions,
@@ -477,7 +486,7 @@ const ItemCustomizations: React.FC<any> = () => {
         }
         return mod;
       });
-
+  
       const updatedModifierId = newModifier[modIndex]?.modifierId;
       if (updatedModifierId) {
         setUpdatedModifierIds((prevIds) => {
@@ -487,10 +496,12 @@ const ItemCustomizations: React.FC<any> = () => {
           return prevIds;
         });
       }
-
+  
       return newModifier;
     });
   };
+  
+  
   useEffect(() => {
     if (modifications.length > 0) {
       setShowModifiers(true);
@@ -1456,7 +1467,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                             const value = e.target.value;
 
                                             // Restrict to 4 digits
-                                            if (value.length <= 4) {
+                                            if (value.length <= 5) {
                                               addOptionChange(
                                                 modIndex,
                                                 optIndex,

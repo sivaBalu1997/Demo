@@ -224,32 +224,40 @@ cursor: pointer;
       .dropdon-option-label {
         padding-left: 0.5rem;
         width: 200px;
+display: flex;
+white-space: normal; /* Allows wrapping of text */
+word-break: break-word; /* Breaks words when they're too long */
+display: inline-block;
+flex-wrap: wrap;
         @media (max-width: 2000px) {
-         width: 260px;
+          max-width: 260px;
           // border: 1px solid red;
          
          }
         
         
          @media (max-width: 1770px) {
-          width: 220px;
+          max-width: 220px;
           // border: 1px solid black;
          
          }
         @media (max-width: 1600px) {
-         
-          // border: 1px solid blue;
-          position: relative;
+       
+         max-width: 180px;
+
+          // border: 1px solid red;
+     
+          
          
          }
         @media (max-width:1500px) {
-        width: 170px;
+       max-width: 170px;
           // border: 1px solid green;
         
         }
         
         @media (max-width:1350px) {
-      width: 140px;
+      max-width: 140px;
           // border: 1px solid yellow;
         
         }
@@ -335,6 +343,7 @@ top: 0.5rem;
           display: flex;
           justify-content: center;
           align-items: center;
+          cursor: pointer;
         }
       }
       .dropdown-addbutton {
@@ -402,7 +411,7 @@ position: sticky;
   width: 3rem;
   margin-top: 0.5rem;
   z-index: 2;
-
+cursor: pointer;
   // border: 1px solid red;
 }
 
