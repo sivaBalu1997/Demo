@@ -10,6 +10,7 @@ import Table from "../../../components/reportComponents/Table";
 import Topnavbar from "../../../components/reportComponents/TopNavbar";
 import SidePanel from "pages/SidePanel";
 import moment from "moment";
+import ToolTip from "../../../assets/svg/ToolTip.svg"
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
 
@@ -21,6 +22,10 @@ interface SalesData {
 }
 
 const CustomerInsights = () => {
+
+  const [showLiveNetSaleTooltip, setShowLiveNetSaleTooltip] = useState<boolean>(false);
+  // const [showLiveNetSaleTooltip, setShowLiveNetSaleTooltip] = useState<boolean>(false)
+
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const { isExpanded, setIsExpanded } = useContext(Contextpagejs);
 
@@ -181,7 +186,21 @@ const CustomerInsights = () => {
             </div>
             <div className="l-live-box">
               {liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 ? <h2>{countryCode === "US" ? '$' : '₹'}{liveNetSalesAPIRedux && liveNetSalesAPIRedux > 0 && liveNetSalesAPIRedux}</h2> : <p className='s-live-no-data'>No data found !</p>}
-              <h3>Net Sales</h3>
+              <div className="l-label-tooltip-container">
+                <h3>Net Sales</h3>
+                <div
+                  className="l-tooltip-wrapper"
+                  onMouseEnter={() => setShowLiveNetSaleTooltip(true)}
+                  onMouseLeave={() => setShowLiveNetSaleTooltip(false)}
+                >
+                  <img className="l-tool-tip-image" src={ToolTip} alt="tool-tip" />
+                  {showLiveNetSaleTooltip && (
+                    <div className="l-tool-tip-content">
+                      Net Sales = Item Total - Discount
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -190,9 +209,7 @@ const CustomerInsights = () => {
             currentPage={currentPageLiveOrders}
             setCurrentPage={setCurrentPageLiveOrders}
             Heading="Live Orders"
-            // tableData={liveOrdersAPIRedux && liveOrdersAPIRedux?.length > 0 && liveOrdersAPIRedux}
             tableData={liveOrderDateTransformed && liveOrderDateTransformed}
-            //  liveOrderDateTransformed
             viewType="full"
             recordsPerPage={RECORDS_PER_PAGE_LIMIT}
             totalpageNo={totalPageNoCurrentPageLiveOrders}

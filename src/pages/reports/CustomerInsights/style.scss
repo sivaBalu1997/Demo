@@ -264,6 +264,64 @@
           // background-color: lightgreen;
         }
         // // h3
+        .l-label-tooltip-container {
+          display: flex;
+          align-items: center;
+          gap: 1vw;
+      
+          .l-tooltip-wrapper {
+            position: relative;
+            display: inline-block;
+            // background-color: orange;
+            height: 2.9vh;
+            border-radius: 1vw;
+      
+            .l-tool-tip-image {
+              cursor: pointer;
+              height: 2.8vh;
+              // background-color: pink;
+              border-radius: 1vw;
+            }
+      
+            .l-tool-tip-content {
+              position: absolute;
+              top: 120%; // Adjust to position the tooltip below the icon
+              left: 50%;
+              transform: translateX(-50%);
+              background-color: #f9f9f9;
+              color: #333;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              padding: 0.5rem;
+              width: max-content;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              z-index: 10;
+              font-size: 0.9rem;
+              text-align: center;
+              white-space: nowrap;
+              opacity: 0; // Hidden by default
+              visibility: hidden; // Prevent interaction when hidden
+              transition: opacity 0.3s ease, visibility 0.3s ease;
+              @media (max-width: 800px) {
+                top: 110%; 
+                font-size: 0.8rem; 
+                padding: 0.4rem; 
+                max-width: 60vw; 
+                white-space: normal;
+                text-align: left;
+              }
+              @media(max-width: 500px){
+                left: -10%
+              }
+
+            }
+      
+            &:hover .l-tool-tip-content {
+              opacity: 1; // Show tooltip on hover
+              visibility: visible;
+            }
+          }
+        }
       }
     }
     .s-live-no-data{
@@ -324,6 +382,60 @@
           // }
         }
         // h3
+        .l-label-tooltip-container {
+          display: flex;
+          align-items: center;
+          gap: 1vw;
+      
+          .l-tooltip-wrapper {
+            position: relative;
+            display: inline-block;
+            // background-color: orange;
+            height: 2.9vh;
+            border-radius: 1vw;
+      
+            .l-tool-tip-image {
+              cursor: pointer;
+              height: 2.8vh;
+              // background-color: pink;
+              border-radius: 1vw;
+            }
+      
+            .l-tool-tip-content {
+              position: absolute;
+              top: 120%; // Adjust to position the tooltip below the icon
+              left: 50%;
+              transform: translateX(-50%);
+              background-color: #f9f9f9;
+              color: #333;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              padding: 0.5rem;
+              width: max-content;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+              z-index: 10;
+              font-size: 0.9rem;
+              text-align: center;
+              white-space: nowrap;
+              opacity: 0; // Hidden by default
+              visibility: hidden; // Prevent interaction when hidden
+              transition: opacity 0.3s ease, visibility 0.3s ease;
+              @media (max-width: 800px) {
+                top: 110%; 
+                font-size: 0.8rem; 
+                padding: 0.4rem; 
+                max-width: 60vw; 
+                white-space: normal;
+                text-align: left;
+              }
+            }
+      
+            &:hover .l-tool-tip-content {
+              opacity: 1; // Show tooltip on hover
+              visibility: visible;
+            }
+          }
+        }
       }
     }
   }
