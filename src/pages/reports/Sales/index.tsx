@@ -15,6 +15,10 @@ import ToolTip from "../../../assets/svg/ToolTip.svg"
 import "react-datepicker/dist/react-datepicker.css";
 import "./style.scss";
 
+type FormatCurrencyOptions = {
+  locale: 'IN' | 'US';
+};
+
 interface PaymentModeData {
   "Payment Mode": string;
   "#Total Orders": number;
@@ -567,6 +571,35 @@ const Sales: React.FC = () => {
 
   // console.log("smp", salesSummaryStatusAPIRedux && salesSummaryStatusAPIRedux?.totalMagilDeliveryCharges)
 
+  // console.log("formatNumberIndian", formatNumberIndian(salesDataFromAPIRedux?.totalMagilSales?.toFixed(2)))
+
+  type CurrencyFormatOptions = {
+    locale?: 'IN' | 'US';
+  };
+
+  const formatCurrency = (number: number, options?: CurrencyFormatOptions): string => {
+    const { locale = 'US' } = options || {};
+
+    if (locale === 'IN') {
+      // Indian format: 1,00,000
+      return number
+        .toString()
+        .replace(/\B(?=(\d{2})+(?!\d))/g, ',')
+        .replace(/^(\d+),/, '$1,');
+    }
+
+    // US format: 100,000
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  // Example usage
+  console.log('IN', formatCurrency(100000, { locale: 'IN' })); // Output: "1,00,000"
+  console.log('US', formatCurrency(100000, { locale: 'US' })); // Output: "100,000"
+  console.log('DEF', formatCurrency(100000));                  // Output: "100,000" (default to US)
+
+
+
+
   console.log({ showNetSaleToolTip })
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -628,10 +661,13 @@ const Sales: React.FC = () => {
             <DatePicker
               placeholderText="Start Date"
               selected={state.startDate}
-              onChange={(date: Date | null) =>
-                date &&
-                setState((prevState) => ({ ...prevState, startDate: date }))
-              }
+              onChange={(date: Date | null) => {
+                if (date && date > state.endDate) {
+                  alert("Start date cannot be greater than the end date.");
+                } else if (date) {
+                  setState((prevState) => ({ ...prevState, startDate: date }));
+                }
+              }}
               dateFormat="dd MMM yyyy"
               className="s-start-date"
               onSelect={() =>
@@ -653,10 +689,13 @@ const Sales: React.FC = () => {
             <DatePicker
               placeholderText="End Date"
               selected={state.endDate}
-              onChange={(date: Date | null) =>
-                date &&
-                setState((prevState) => ({ ...prevState, endDate: date }))
-              }
+              onChange={(date: Date | null) => {
+                if (date && date < state.startDate) {
+                  alert("End date cannot be earlier than the start date.");
+                } else if (date) {
+                  setState((prevState) => ({ ...prevState, endDate: date }));
+                }
+              }}
               dateFormat="dd MMM yyyy"
               className="s-end-date"
               onSelect={() =>
