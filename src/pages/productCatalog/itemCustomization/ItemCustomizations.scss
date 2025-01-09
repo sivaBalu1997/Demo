@@ -997,9 +997,25 @@ margin-top: -0.1rem;
   width: 850px;
   height: auto;
   margin-top: 1%;
+  @media (max-width: 2000px) {
+   
+    // border: 1px solid red;
+     
+     }
+     @media (max-width: 1770px) {
+    height: 24vh;
+      // border: 1px solid black;
+     
+     }
+    @media (max-width: 1600px) {
+      height: 34vh;
+      // border: 1px solid blue;
+     
+     }
+
   @media (max-width:1525px) {
-    height: 47vh;
-    border: 1px solid #e52333;;
+    height: 48vh;
+    // border: 1px solid #e52333;;
     
   }
  

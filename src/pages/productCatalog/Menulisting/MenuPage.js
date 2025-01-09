@@ -39,7 +39,6 @@ import {
 import { listenerCount } from "process";
 import { th } from "date-fns/locale";
 
-
 export const MenuPage = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
@@ -51,10 +50,8 @@ export const MenuPage = () => {
     (state) => state.searchItem?.SearcheItem
   );
 
- 
-  
   const [itemList, setItemList] = useState([]);
-  console.log("SearchedmenuItem", SearchedmenuItem);
+  // console.log("SearchedmenuItem", SearchedmenuItem);
 
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
@@ -62,7 +59,6 @@ export const MenuPage = () => {
 
   useEffect(() => {
     setMenudatalist(menuData);
-
   }, [menuData]);
 
   const FilteredData = useSelector(
@@ -215,12 +211,10 @@ export const MenuPage = () => {
     ...tablefirstrow,
     { label: "Customize1" },
   ]);
-  console.log({ firstRowTable });
 
   useEffect(() => {
     setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
   }, [menuData, itemList]);
-  console.log("tablefirstrow", tablefirstrow);
 
   const insertlists2 = {
     Pricing: {
@@ -246,15 +240,6 @@ export const MenuPage = () => {
 
     Customization: "Customization",
   };
-
-  // Output result
-  // console.log(insertlists2);
-
-  // Log firstRowTable whenever it changes
-  // useEffect(() => {
-  //   setFirstRowTable((prev)=>[...prev,tablefirstrow])
-
-  // }, [tablefirstrow]);
 
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
@@ -532,11 +517,9 @@ export const MenuPage = () => {
     } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();
       setSideBarText("Availability");
-    } 
-     else if (key === "Customize1") {
+    } else if (key === "Customize1") {
       handlemodal();
-      console.log("hghjk");
-      
+
       setSideBarText("Customize");
     }
   };
@@ -576,29 +559,26 @@ export const MenuPage = () => {
       setItemList(transformedList);
       setLoading(false);
     } else {
-
-      if(SearchedmenuItem.subCategoryResponseList)
-      {
+      if (SearchedmenuItem.subCategoryResponseList) {
         const filterdItem = {
           categoryName: SearchedmenuItem?.categoryName,
           categoryId: SearchedmenuItem?.categoryId,
           subCategoryResponseList: SearchedmenuItem.subCategoryResponseList,
-          itemResponseList:null
-
+          itemResponseList: null,
         };
-  
+
+        setItemList([filterdItem]);
+        setMenudatalist([filterdItem]);
+      } else {
+        const filterdItem = {
+          categoryName: SearchedmenuItem?.categoryName,
+          categoryId: SearchedmenuItem?.categoryId,
+          itemResponseList: SearchedmenuItem?.itemResponseList,
+        };
+
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
       }
-      else {
-      const filterdItem = {
-        categoryName: SearchedmenuItem?.categoryName,
-        categoryId: SearchedmenuItem?.categoryId,
-        itemResponseList: SearchedmenuItem?.itemResponseList,
-      };
-
-      setItemList([filterdItem]);
-      setMenudatalist([filterdItem]);}
       setLoading(false);
     }
   }, [menuData, SearchedmenuItem]);
@@ -632,13 +612,8 @@ export const MenuPage = () => {
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
-  console.log({editData})
-
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
-
-      console.log({editData});
-      
       const primaryPageData = {
         itemName: editData[0]?.itemName ?? "",
         description: editData[0]?.description ?? "",
@@ -678,7 +653,6 @@ export const MenuPage = () => {
           minutes: editData[0]?.preparationTimeInMinutes || "",
         },
       };
-      
 
       editData[0]?.orderTypes?.forEach((orderType) => {
         const { typeGroup } = orderType;
@@ -718,8 +692,6 @@ export const MenuPage = () => {
             isEnabled: option?.isEnabled ?? false,
           })) || [],
       }));
-
-      console.log({modifierData})
 
       dispatch(primarypost(primaryPageData));
       dispatch(PricingDetailRequest(pricingPageData));
@@ -779,15 +751,12 @@ export const MenuPage = () => {
 
   const [showColumns, setShowColumns] = useState(false);
 
-
-
-
-    useEffect(() => {
-      const allFalse =
+  useEffect(() => {
+    const allFalse =
       listingobject &&
       Object.values(listingobject).every((value) => value === false);
-      setShowColumns(allFalse);
-    }, [listingobject]);
+    setShowColumns(allFalse);
+  }, [listingobject]);
 
   useEffect(() => {
     if (menudatalist.length > 0 && menuData.length > 0) {
@@ -811,8 +780,7 @@ export const MenuPage = () => {
 
   const handlesidbarhandling = (key, value) => {
     showsidebar(key);
-    console.log({key});
-    
+
     handlemodal(value);
   };
   const filteredListing =
@@ -915,15 +883,15 @@ export const MenuPage = () => {
   const [isScrolling, setIsScrolling] = useState(false);
 
   const handleScroll = (sourceRef, targetRef) => {
-    if (isScrolling) return; 
+    if (isScrolling) return;
 
     setIsScrolling(true);
 
     if (sourceRef.current && targetRef.current) {
-      targetRef.current.scrollTop = sourceRef.current.scrollTop; 
+      targetRef.current.scrollTop = sourceRef.current.scrollTop;
     }
 
-    setTimeout(() => setIsScrolling(false), 10); 
+    setTimeout(() => setIsScrolling(false), 10);
   };
 
   const headerRef = useRef(null);
@@ -995,23 +963,42 @@ export const MenuPage = () => {
         }
       });
     };
-  console.log("bnm", getUniqueOrderTypeNames(itemList));
 
   const UploadImageImageID = useSelector(
     (state) => state.productCatalog.successImageId
   );
-const handleRemoveIcon=()=>{
-  
-  const allFalse =
-  listingobject &&
-  Object.values(listingobject).every((value) => value === false);
-  if(allFalse)
-  {
-    setShowColumns(allFalse);
-  }
- 
-  
-}
+  const handleRemoveIcon = () => {
+    const allFalse =
+      listingobject &&
+      Object.values(listingobject).every((value) => value === false);
+    if (allFalse) {
+      setShowColumns(allFalse);
+    }
+  };
+
+  const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
+
+  const handleClick = (event) => {
+    const element = event.currentTarget;
+    const { width, height } = element.getBoundingClientRect();
+
+    setWidthForCategoryBorder(width);
+
+    console.log(`Class Name: ${element.className}`);
+    console.log(`Width: ${width}px, Height: ${height}px`);
+  };
+
+  useEffect(() => {
+   
+    const element = document.querySelector(".table-two-row"); 
+
+    if (element) {
+      const { width } = element.getBoundingClientRect();
+      setWidthForCategoryBorder(width);
+
+      console.log(`Updated Width: ${width}px`);
+    }
+  }, [listingobject, menuData]);
   return (
     <>
       <div className="MenuPage-container">
@@ -1087,11 +1074,12 @@ const handleRemoveIcon=()=>{
                           0,
                           header.label.length - 1
                         );
-                        console.log({ itemList });
 
                         if (
-                          header.label === "Customize1" ||
-                          nameOfOrderTypes?.includes(headerName)
+                          (header.label === "Customize1" ||
+                            nameOfOrderTypes?.includes(headerName)) &&
+                          header.label !== "Instore1" &&
+                          header.label !== "Instore2"
                         ) {
                           return (
                             <>
@@ -1130,14 +1118,12 @@ const handleRemoveIcon=()=>{
                                     </span>
                                     <span
                                       className="removeicon"
-                                      onClick={() =>{
+                                      onClick={() => {
                                         setlistingobject({
                                           ...listingobject,
                                           [header.label]: false,
-                                        })
-                                        handleRemoveIcon()
-
-
+                                        });
+                                        handleRemoveIcon();
                                       }}
                                     >
                                       <img
@@ -1184,11 +1170,14 @@ const handleRemoveIcon=()=>{
                                 <>
                                   {subCategory?.itemResponseList?.length >
                                     0 && (
-                                    <div className="categoryName-data">
+                                    <div className="categoryName-data-firstbody">
                                       <p>
                                         {data.categoryName}-{" "}
-                                        <span>{subCategory.subCategoryName}</span> (
-                                        {subCategory?.itemResponseList?.length})
+                                        <span>
+                                          {subCategory.subCategoryName}
+                                        </span>{" "}
+                                        ({subCategory?.itemResponseList?.length}
+                                        )
                                       </p>
                                     </div>
                                   )}
@@ -1346,7 +1335,7 @@ const handleRemoveIcon=()=>{
                           }}
                         />
                       </div>
-                    ) : menuDataFailed  ? (
+                    ) : menuDataFailed ? (
                       <div className="NoDataFoundContainer-menupage">
                         <img
                           className="columnselected-menupage"
@@ -1380,17 +1369,15 @@ const handleRemoveIcon=()=>{
                                         {subCategory?.itemResponseList?.length >
                                           0 &&
                                           data.categoryName !== "" && (
-                                            <div className="categoryName-data">
-                                              <p
-                                                style={{
-                                                  width:
-                                                    `${
-                                                      orderTypesToShow2?.length *
-                                                      10
-                                                    }%` || "0rem",
-                                                }}
-                                              ></p>
-                                            </div>
+                                            <>
+                                              <style>{`.categoryName-data { width: ${widthForCategoryBorder}px !important; }`}</style>
+                                              <div
+                                                className="categoryName-data"
+                                               
+                                              >
+                                                <p></p>
+                                              </div>
+                                            </>
                                           )}
 
                                         {subCategory?.itemResponseList?.length >
@@ -1399,6 +1386,7 @@ const handleRemoveIcon=()=>{
                                           subCategory?.itemResponseList.map(
                                             (item, index) => (
                                               <div
+                                               
                                                 key={index}
                                                 className="table-two-row"
                                               >
@@ -1442,44 +1430,55 @@ const handleRemoveIcon=()=>{
                                                         20
                                                       }px`;
 
-                                                      return (
-                                                        <span
-                                                          key={typeName}
-                                                          style={{
-                                                            opacity:
-                                                              orderType &&
-                                                              orderType.isNotHide === 1 &&
-                                                              orderType.availabilityEnabled===true
-                                                              // &&
-                                                              // orderType.isEnabled ===
-                                                              //   1
-                                                                ? "100%"
-                                                                : "50%",
-                                                            width: dynamicWidth,
-                                                            padding: "0 22px",
-                                                            textAlign: "center",
-                                                            display: "flex",
-                                                            justifyContent:
-                                                              "center",
-                                                            alignItems:
-                                                              "center",
-                                                          }}
-                                                          onClick={() =>
-                                                            handlesidbarhandling(
-                                                              `${typeName}1`,
-                                                              item.itemId
-                                                            )
-                                                          }
-                                                        >
-                                                          {restaurantDetails?.country ===
-                                                          "US"
-                                                            ? "$"
-                                                            : "Rs."}{" "}
-                                                          {price !== ""
-                                                            ? price
-                                                            : "0"}
-                                                        </span>
-                                                      );
+                                                      if (
+                                                        orderType.typeGroup !==
+                                                        "I"
+                                                      ) {
+                                                        return (
+                                                          <span
+                                                            key={typeName}
+                                                            style={{
+
+                                                              cursor:"pointer",
+                                                              opacity:
+                                                                orderType &&
+                                                                orderType.isNotHide ===
+                                                                  1 &&
+                                                                orderType.availabilityEnabled ===
+                                                                  true
+                                                                  ? // &&
+                                                                    // orderType.isEnabled ===
+                                                                    //   1
+                                                                    "100%"
+                                                                  : "50%",
+                                                              width:
+                                                                dynamicWidth,
+                                                              padding: "0 22px",
+                                                              textAlign:
+                                                                "center",
+                                                              display: "flex",
+                                                              justifyContent:
+                                                                "center",
+                                                              alignItems:
+                                                                "center",
+                                                            }}
+                                                            onClick={() =>
+                                                              handlesidbarhandling(
+                                                                `${typeName}1`,
+                                                                item.itemId
+                                                              )
+                                                            }
+                                                          >
+                                                            {restaurantDetails?.country ===
+                                                            "US"
+                                                              ? "$"
+                                                              : "Rs."}{" "}
+                                                            {price !== ""
+                                                              ? price
+                                                              : "0"}
+                                                          </span>
+                                                        );
+                                                      }
                                                     }
                                                   )}
                                                 </p>
@@ -1514,43 +1513,51 @@ const handleRemoveIcon=()=>{
                                                         typeName.length * 10 +
                                                         20
                                                       }px`;
-
-                                                      return (
-                                                        <span
-                                                          key={typeName}
-                                                          style={{
-                                                            position:
-                                                              "relative",
-                                                            left: "1rem",
-                                                            width: dynamicWidth,
-                                                            padding: "0 22px",
-                                                            textAlign: "center",
-                                                            display: "flex",
-                                                            justifyContent:
-                                                              "center",
-                                                            alignItems:
-                                                              "center",
-                                                          }}
-                                                          onClick={() =>
-                                                            handlesidbarhandling(
-                                                              `${typeName}2`,
-                                                              item.itemId
-                                                            )
-                                                          }
-                                                        >
-                                                          <Toggle
-                                                            toggle={
-                                                              orderType &&
-                                                              orderType.availabilityEnabled ===
-                                                                true &&
-                                                              orderType.isNotHide ===1
-                                                              //    &&
-                                                              // orderType.isEnabled ===
-                                                              //   1
+                                                      if (
+                                                        orderType.typeGroup !==
+                                                        "I"
+                                                      ) {
+                                                        return (
+                                                          <span
+                                                            key={typeName}
+                                                            style={{
+                                                              position:
+                                                                "relative",
+                                                              left: "1rem",
+                                                              width:
+                                                                dynamicWidth,
+                                                              padding: "0 22px",
+                                                              textAlign:
+                                                                "center",
+                                                              display: "flex",
+                                                              justifyContent:
+                                                                "center",
+                                                              alignItems:
+                                                                "center",
+                                                                cursor:"pointer",
+                                                            }}
+                                                            onClick={() =>
+                                                              handlesidbarhandling(
+                                                                `${typeName}2`,
+                                                                item.itemId
+                                                              )
                                                             }
-                                                          />
-                                                        </span>
-                                                      );
+                                                          >
+                                                            <Toggle
+                                                              toggle={
+                                                                orderType &&
+                                                                orderType.availabilityEnabled ===
+                                                                  true &&
+                                                                orderType.isNotHide ===
+                                                                  1
+                                                                //    &&
+                                                                // orderType.isEnabled ===
+                                                                //   1
+                                                              }
+                                                            />
+                                                          </span>
+                                                        );
+                                                      }
                                                     }
                                                   )}
                                                 </p>
@@ -1597,16 +1604,12 @@ const handleRemoveIcon=()=>{
                                 <>
                                   {data?.itemResponseList?.length > 0 &&
                                     data.categoryName !== "" && (
-                                      <div className="categoryName-data">
-                                        <p
-                                          style={{
-                                            width:
-                                              `${
-                                                orderTypesToShow2?.length * 10
-                                              }%` || "0rem",
-                                          }}
-                                        ></p>
-                                      </div>
+                                      <>
+                                        <style>{`.categoryName-data { width: ${widthForCategoryBorder}px !important; }`}</style>
+                                        <div className="categoryName-data">
+                                          <p></p>
+                                        </div>
+                                      </>
                                     )}
 
                                   {data?.itemResponseList?.length > 0 &&
@@ -1649,41 +1652,51 @@ const handleRemoveIcon=()=>{
                                                 const dynamicWidth = `${
                                                   typeName.length * 10 + 20
                                                 }px`;
-
-                                                return (
-                                                  <span
-                                                    key={typeName}
-                                                    style={{
-                                                      opacity:
-                                                        orderType &&orderType.availabilityEnabled===true &&
-                                                        orderType.isNotHide ===
-                                                          1  ? "100%"
-                                                          : "50%",
+                                                if (
+                                                  orderType.typeGroup !== "I"
+                                                ) {
+                                                  return (
+                                                    <span
+                                                      key={typeName}
+                                                      style={{
+                                                        cursor:"pointer",
+                                                        opacity:
+                                                          orderType &&
+                                                          orderType.availabilityEnabled ===
+                                                            true &&
+                                                          orderType.isNotHide ===
+                                                            1
+                                                            ? "100%"
+                                                            : "50%",
                                                         //  &&
                                                         // orderType.isEnabled ===
                                                         //   1
-                                                         
-                                                      width: dynamicWidth,
-                                                      padding: "0 22px",
-                                                      textAlign: "center",
-                                                      display: "flex",
-                                                      justifyContent: "center",
-                                                      alignItems: "center",
-                                                    }}
-                                                    onClick={() =>
-                                                      handlesidbarhandling(
-                                                        `${typeName}1`,
-                                                        item.itemId
-                                                      )
-                                                    }
-                                                  >
-                                                    {restaurantDetails?.country ===
-                                                    "US"
-                                                      ? "$"
-                                                      : "Rs."}{" "}
-                                                    {price !== "" ? price : "0"}
-                                                  </span>
-                                                );
+
+                                                        width: dynamicWidth,
+                                                        padding: "0 22px",
+                                                        textAlign: "center",
+                                                        display: "flex",
+                                                        justifyContent:
+                                                          "center",
+                                                        alignItems: "center",
+                                                      }}
+                                                      onClick={() =>
+                                                        handlesidbarhandling(
+                                                          `${typeName}1`,
+                                                          item.itemId
+                                                        )
+                                                      }
+                                                    >
+                                                      {restaurantDetails?.country ===
+                                                      "US"
+                                                        ? "$"
+                                                        : "Rs."}{" "}
+                                                      {price !== ""
+                                                        ? price
+                                                        : "0"}
+                                                    </span>
+                                                  );
+                                                }
                                               }
                                             )}
                                           </p>
@@ -1714,41 +1727,46 @@ const handleRemoveIcon=()=>{
                                                 const dynamicWidth = `${
                                                   typeName.length * 10 + 20
                                                 }px`;
-
-                                                return (
-                                                  <span
-                                                    key={typeName}
-                                                    style={{
-                                                      position: "relative",
-                                                      left: "1rem",
-                                                      width: dynamicWidth,
-                                                      padding: "0 22px",
-                                                      textAlign: "center",
-                                                      display: "flex",
-                                                      justifyContent: "center",
-                                                      alignItems: "center",
-                                                    }}
-                                                    onClick={() =>
-                                                      handlesidbarhandling(
-                                                        `${typeName}2`,
-                                                        item.itemId
-                                                      )
-                                                    }
-                                                  >
-                                                    <Toggle
-                                                      toggle={
-                                                        orderType &&
-                                                        orderType.availabilityEnabled ===
-                                                          true &&
-                                                        orderType.isNotHide ===
-                                                          1 
-                                                        //   &&
-                                                        // orderType.isEnabled ===
-                                                        //   1
+                                                if (
+                                                  orderType.typeGroup !== "I"
+                                                ) {
+                                                  return (
+                                                    <span
+                                                      key={typeName}
+                                                      style={{
+                                                        position: "relative",
+                                                        left: "1rem",
+                                                        cursor:"pointer",
+                                                        width: dynamicWidth,
+                                                        padding: "0 22px",
+                                                        textAlign: "center",
+                                                        display: "flex",
+                                                        justifyContent:
+                                                          "center",
+                                                        alignItems: "center",
+                                                      }}
+                                                      onClick={() =>
+                                                        handlesidbarhandling(
+                                                          `${typeName}2`,
+                                                          item.itemId
+                                                        )
                                                       }
-                                                    />
-                                                  </span>
-                                                );
+                                                    >
+                                                      <Toggle
+                                                        toggle={
+                                                          orderType &&
+                                                          orderType.availabilityEnabled ===
+                                                            true &&
+                                                          orderType.isNotHide ===
+                                                            1
+                                                          //   &&
+                                                          // orderType.isEnabled ===
+                                                          //   1
+                                                        }
+                                                      />
+                                                    </span>
+                                                  );
+                                                }
                                               }
                                             )}
                                           </p>

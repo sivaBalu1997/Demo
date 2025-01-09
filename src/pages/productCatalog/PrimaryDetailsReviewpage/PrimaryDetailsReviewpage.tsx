@@ -511,6 +511,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     return orderTypes ? orderTypes?.id : null;
   };
 
+  
+  
+
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
     modifierName: item?.modifierName || null,
@@ -539,6 +542,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       (item.options &&
         item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
   );
+  console.log({modifierData});
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
@@ -556,6 +560,23 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const removePricing = [];
   const addPricing = [];
 
+  console.log("pickup", pickupDetails && pickupDetails);
+  // const combinedDetails: Detail[] = [
+  //   dineInDetails && {
+  //     ...dineInDetails,
+  //     availabilities: dineInDetails.availabilities.map((availability) => ({
+  //       ...availability,
+  //       availabilityDays:
+  //         availability.availabilityDays && availability.availabilityDays.length === 0
+  //           ? result
+  //           : availability.availabilityDays,
+  //     })),
+  //   },
+  //   pickupDetails && pickupDetails,
+  //   deliveryDetails && deliveryDetails,
+  //   ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
+  // ].filter(Boolean);
+  
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
     pickupDetails && pickupDetails,

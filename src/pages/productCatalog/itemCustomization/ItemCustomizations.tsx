@@ -130,7 +130,7 @@ const ItemCustomizations: React.FC<any> = () => {
     );
 
     setModifierList(filtered);
-  }, [ListOfmodifier, searchQuery]);
+  }, [ListOfmodifier]);
 
   const initialModificationValue = [
     {
@@ -184,7 +184,7 @@ console.log({itemCustomizationData});
 
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
-      setShowModifiers(!showModifiers);
+      setShowModifiers(true);
      
       
 
@@ -502,11 +502,11 @@ console.log({itemCustomizationData});
   };
   
   
-  useEffect(() => {
-    if (modifications.length > 0) {
-      setShowModifiers(true);
-    }
-  }, [modifications]);
+  // useEffect(() => {
+  //   if (modifications.length > 0) {
+  //     setShowModifiers(true);
+  //   }
+  // }, [modifications]);
 
   const getModifierClassName = (length: any) => {
     if (length == 1) {
@@ -699,7 +699,63 @@ console.log({itemCustomizationData});
   }, [searchQuery, modifications]);
 
   const [selectedModifiers, setSelectedModifiers] = useState<Modification>();
-
+  // const handleSelecteModifiers = (Modifiers: Modification) => {
+  //   setSearchQuery("");
+  
+  //   const updatedModifiers = {
+  //     ...Modifiers,
+  //     freeCustomization: Modifiers?.noFreeCustomization,
+  //     maxSelection: Modifiers?.maxAllowed,
+  //     minSelection: Modifiers?.minRequired,
+  //     isEnabled: true,
+  //     modifierOptions:
+  //       Modifiers.modifierOptions.length > 0
+  //         ? Modifiers?.modifierOptions.map((option: any) => ({
+  //             modifierOptionId:
+  //               option?.optionId || option?.modifierOptionId || null,
+  //             modifierOptionName:
+  //               option?.name || option?.modifierOptionName || "",
+  //             cost: option?.cost || 0,
+  //             isModifierOptionChanged: false,
+  //             isEnabled: true,
+  //           }))
+  //         : [
+  //             {
+  //               modifierOptionId: "",
+  //               modifierOptionName: "",
+  //               cost: 0,
+  //               isModifierOptionChanged: false,
+  //               isEnabled: true,
+  //             },
+  //           ],
+  //   };
+  
+  //   setModifications((prevModifications: Modification[]) => {
+  //     const existingModifierIndex = prevModifications.findIndex(
+  //       (modifier) =>
+  //         modifier.modifierName === updatedModifiers.modifierName && // Check if modifier name matches
+  //         modifier.modifierOptions.length === updatedModifiers.modifierOptions.length && // Check if option lengths match
+  //         modifier.modifierOptions.every(
+  //           (option, index) =>
+  //             option.modifierOptionName ===
+  //               updatedModifiers.modifierOptions[index].modifierOptionName &&
+  //             option.cost === updatedModifiers.modifierOptions[index].cost
+  //         ) &&
+  //         (!modifier.availableStreams || modifier.availableStreams.length === 0) // Check if streams are empty
+  //     );
+  
+  //     if (existingModifierIndex !== -1) {
+  //       // Replace the existing modifier
+  //       const updatedList = [...prevModifications];
+  //       updatedList[existingModifierIndex] = updatedModifiers;
+  //       return updatedList;
+  //     }
+  
+  //     // Add the new modifier
+  //     return [...prevModifications, updatedModifiers];
+  //   });
+  // };
+  
   const handleSelecteModifiers = (Modifiers: Modification) => {
     setSelectedModifiers(Modifiers);
     setSearchQuery("");

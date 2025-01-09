@@ -301,9 +301,10 @@ flex-wrap: wrap;
         }
         .dropdown-addnew-button {
           width: 28%;
-          border: none;
+         border: none;
           outline: none;
           background-color: #779749;
+
           color: #ffffff;
 //styleName: Subtitle/Text 16;
 font-family: "Poppins",sans-serif;
@@ -311,7 +312,7 @@ font-size: 16px;
 font-weight: 400;
 line-height: 24px;
 text-align: left;
-text-underline-position: from-font;
+
 text-decoration-skip-ink: none;
 
           border-radius: 0px 4px 4px 0px;

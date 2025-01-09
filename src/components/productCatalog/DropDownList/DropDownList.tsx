@@ -60,6 +60,7 @@ interface DropdownProps {
   setCategoryChange?: any;
   kitchenError?: boolean;
   height?: string;
+
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -860,12 +861,16 @@ const DropDownList: React.FC<DropdownProps> = ({
                     <input
                       type="text"
                       ref={NewItemref}
+                      maxLength={128}
                       className="dropdown-addnew-input-filed"
                     />
                     <button
+                  
                       type="button"
                       onClick={handleNewItemAdd}
                       className="dropdown-addnew-button"
+
+                      style={{cursor:"pointer"}}
                     >
                       + Add
                     </button>
