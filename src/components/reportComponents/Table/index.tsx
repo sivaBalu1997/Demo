@@ -40,66 +40,72 @@ const Table = ({
   totalpageNo,
   tabledataLoading
 }: TableProps) => {
+
+  console.log({ Heading, tableData })
   // const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: null,
     direction: null,
   });
-  console.log({ totalpageNo })
+  // console.log({ totalpageNo })
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   // const lastIndex = currentPage * recordsPerPage;
   // const firstIndex = lastIndex - recordsPerPage;
 
 
+
+  const [records, setRecords] = useState<Array<Record<string, any>>>(tableData)
+
+
+  console.log({ Heading, records })
+
+  useEffect(() => {
+    setRecords(tableData)
+  }, [tableData])
+
   const handleSort = (key: string) => {
     let direction: "ascending" | "descending" = "ascending";
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
       direction = "descending";
     }
+
     setSortConfig({ key, direction });
+
+    const recordData = Array.isArray(tableData) && tableData?.length > 0
+
+      ? [...tableData].sort((a: Row, b: Row) => {
+        if (direction) {
+          const aValue = a[key];
+          const bValue = b[key];
+
+          if (typeof aValue === "number" && typeof bValue === "number") {
+            return direction === "ascending"
+              ? aValue - bValue
+              : bValue - aValue;
+          }
+
+          if (typeof aValue === "string" && typeof bValue === "string") {
+            return direction === "ascending"
+              ? aValue.localeCompare(bValue)
+              : bValue.localeCompare(aValue);
+          }
+        }
+        return 0;
+      })
+      : tableData;
+
+    setRecords(recordData)
   };
 
-  // console.log("Inside Table", { tableData })
-  const sortedData = Array.isArray(tableData) && tableData?.length > 0
-
-    ? [...tableData].sort((a: Row, b: Row) => {
-      if (sortConfig.key) {
-        const aValue = a[sortConfig.key];
-        const bValue = b[sortConfig.key];
-
-        if (typeof aValue === "number" && typeof bValue === "number") {
-          return sortConfig.direction === "ascending"
-            ? aValue - bValue
-            : bValue - aValue;
-        }
-
-        if (typeof aValue === "string" && typeof bValue === "string") {
-          return sortConfig.direction === "ascending"
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue);
-        }
-      }
-      return 0;
-    })
-    : tableData;
-
-  console.log("Veliya", { sortedData })
-
-  const [records, setRecords] = useState<Array<Record<string, any>>>(tableData)
-
-  useEffect(() => {
-    setRecords(sortedData)
-    // console.log("inside useEff", { abcd: sortedData && sortedData?.slice(firstIndex, lastIndex), sortedData, firstIndex, lastIndex })
-  }, [sortedData])
 
 
   // const records = tableData
-  console.log({ records })
+  // console.log({ records })
 
   // const totalpageNo = Math.ceil(sortedData.length / recordsPerPage);
 
-  console.log('from table comp', { currentPage })
+  // console.log('from table comp', { currentPage })
   // console.log({ lastIndex }, { firstIndex }, "sortedDataLength: ", sortedData?.length)
 
 
@@ -120,7 +126,7 @@ const Table = ({
       ? Object.keys(tableData[0]).filter((header) => header !== "drop down")
       : [];
 
-  console.log({ tableHeader })
+  // console.log({ tableHeader })
 
   const formatItemDetails = (
     details: Array<{ itemName: string; quantity: number }>

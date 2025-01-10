@@ -1077,7 +1077,7 @@ const Sales: React.FC = () => {
               currentPage={currentPageCancellationSummary}
               setCurrentPage={setCurrentPageCancellationSummary}
               Heading="Cancellation Summary"
-              tableData={cancellationSummaryAPIRedux && cancellationSummaryAPIRedux?.length > 0 && cancellationSummaryAPIRedux}
+              tableData={cancellationSummaryAPIRedux?.length > 0 ? cancellationSummaryAPIRedux : []}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
               totalpageNo={cancellationSummaryTotalPageNo ?? 1}
