@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import arrow from "../../../assets/images/san.svg";
 import blackarrow from "../../../assets/svg/blacksan.svg";
@@ -48,8 +48,8 @@ const Table = ({
   console.log({ totalpageNo })
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
-  const lastIndex = currentPage * recordsPerPage;
-  const firstIndex = lastIndex - recordsPerPage;
+  // const lastIndex = currentPage * recordsPerPage;
+  // const firstIndex = lastIndex - recordsPerPage;
 
 
   const handleSort = (key: string) => {
@@ -60,7 +60,9 @@ const Table = ({
     setSortConfig({ key, direction });
   };
 
-  const sortedData = Array.isArray(tableData) && tableData.length > 0
+  // console.log("Inside Table", { tableData })
+  const sortedData = Array.isArray(tableData) && tableData?.length > 0
+
     ? [...tableData].sort((a: Row, b: Row) => {
       if (sortConfig.key) {
         const aValue = a[sortConfig.key];
@@ -82,17 +84,23 @@ const Table = ({
     })
     : tableData;
 
+  console.log("Veliya", { sortedData })
 
-  console.log({ sortedData })
+  const [records, setRecords] = useState<Array<Record<string, any>>>(tableData)
 
-  // const records = sortedData && sortedData?.slice(firstIndex, lastIndex);
-  const records = tableData
+  useEffect(() => {
+    setRecords(sortedData)
+    // console.log("inside useEff", { abcd: sortedData && sortedData?.slice(firstIndex, lastIndex), sortedData, firstIndex, lastIndex })
+  }, [sortedData])
+
+
+  // const records = tableData
   console.log({ records })
 
   // const totalpageNo = Math.ceil(sortedData.length / recordsPerPage);
 
   console.log('from table comp', { currentPage })
-  console.log({ lastIndex }, { firstIndex }, "sortedDataLength: ", sortedData?.length)
+  // console.log({ lastIndex }, { firstIndex }, "sortedDataLength: ", sortedData?.length)
 
 
   const prePage = () => {
