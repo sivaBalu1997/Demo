@@ -14,6 +14,7 @@ interface TableProps {
   currentPage: number,
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   totalpageNo: number;
+  tabledataLoading?: any;
 }
 
 interface SortConfig {
@@ -36,17 +37,20 @@ const Table = ({
   Heading,
   currentPage,
   setCurrentPage,
-  totalpageNo
+  totalpageNo,
+  tabledataLoading
 }: TableProps) => {
   // const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: null,
     direction: null,
   });
+  console.log({ totalpageNo })
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const { isDarkTheme } = useContext(ThemeContext) ?? { isDarkTheme: false };
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
+
 
   const handleSort = (key: string) => {
     let direction: "ascending" | "descending" = "ascending";
@@ -56,7 +60,7 @@ const Table = ({
     setSortConfig({ key, direction });
   };
 
-  const sortedData = Array.isArray(tableData)
+  const sortedData = Array.isArray(tableData) && tableData.length > 0
     ? [...tableData].sort((a: Row, b: Row) => {
       if (sortConfig.key) {
         const aValue = a[sortConfig.key];
@@ -76,11 +80,19 @@ const Table = ({
       }
       return 0;
     })
-    : [];
+    : tableData;
 
-  const records = sortedData.slice(firstIndex, lastIndex);
-  // const nPage = Math.ceil(sortedData.length / recordsPerPage);
-  const nPage = totalpageNo;
+
+  console.log({ sortedData })
+
+  // const records = sortedData && sortedData?.slice(firstIndex, lastIndex);
+  const records = tableData
+  console.log({ records })
+
+  // const totalpageNo = Math.ceil(sortedData.length / recordsPerPage);
+
+  console.log('from table comp', { currentPage })
+  console.log({ lastIndex }, { firstIndex }, "sortedDataLength: ", sortedData?.length)
 
 
   const prePage = () => {
@@ -90,7 +102,7 @@ const Table = ({
   };
 
   const nextPage = () => {
-    if (currentPage < nPage) {
+    if (currentPage < totalpageNo) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -100,11 +112,14 @@ const Table = ({
       ? Object.keys(tableData[0]).filter((header) => header !== "drop down")
       : [];
 
+  console.log({ tableHeader })
+
   const formatItemDetails = (
     details: Array<{ itemName: string; quantity: number }>
   ) => {
-    return details
-      .map((item) => `${item.itemName} x${item.quantity}`)
+    console.log({ details })
+    return details && details
+      ?.map((item) => `${item.itemName} x${item.quantity}`)
       .join(", ");
   };
 
@@ -175,7 +190,7 @@ const Table = ({
                 </span>
               </div>
             )}
-            {records.length > 0 &&
+            {records?.length > 0 &&
               <div className="t-export-container">
                 <img
                   src={downloadVector}
@@ -197,7 +212,7 @@ const Table = ({
           <table className="t-table">
             <thead className="t-tableHeader">
               <tr className="t-tableRowHead">
-                {tableHeader.map((header, index) => {
+                {tableHeader?.map((header, index) => {
                   const isNumeric = typeof tableData[0][header] === "number";
                   return (
                     <th
@@ -218,68 +233,72 @@ const Table = ({
                 })}
               </tr>
             </thead>
-            {records.length > 0 ? <tbody className="t-tableBody">
-              {records.map((row: Row, rowIndex: number) => (
-                <React.Fragment key={rowIndex}>
-                  <tr
-                    className="t-mainRow"
-                    onClick={() => toggleRowExpansion(rowIndex)}
-                  >
-                    {tableHeader.map((header, cellIndex) => (
-                      <td
-                        className={`t-tableCell ${typeof row[header] === "number" ? "t-align-right" : ""
-                          }`}
-                        key={cellIndex}
-                      >
-                        {Array.isArray(row[header])
-                          ? formatItemDetails(row[header])
-                          : row[header]}
-                      </td>
-                    ))}
-                  </tr>
-                  {expandedRows.includes(rowIndex) && row["drop down"] && (
-                    <tr className="t-expandedRow">
-                      <td colSpan={tableHeader.length}>
-                        <table className="t-nestedTable">
-                          <thead>
-                            <tr>
-                              {Object.keys(row["drop down"][0]).map(
-                                (nestedHeader, nestedIndex) => (
-                                  <th
-                                    key={nestedIndex}
-                                    className="t-nestedHeader"
-                                  >
-                                    {nestedHeader}
-                                  </th>
+            {!tabledataLoading && records?.length > 0 ?
+              <tbody className="t-tableBody">
+                {records?.map((row: Row, rowIndex: number) => (
+                  <React.Fragment key={rowIndex}>
+                    <tr
+                      className="t-mainRow"
+                      onClick={() => toggleRowExpansion(rowIndex)}
+                    >
+                      {tableHeader.map((header, cellIndex) => (
+                        <td
+                          className={`t-tableCell ${typeof row[header] === "number" ? "t-align-right" : ""
+                            }`}
+                          key={cellIndex}
+                        >
+                          {Array.isArray(row[header]) ? (
+                            formatItemDetails(row[header])
+                          ) : (
+                            row[header]
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                    {expandedRows.includes(rowIndex) && row["drop down"] && (
+                      <tr className="t-expandedRow">
+                        <td colSpan={tableHeader.length}>
+                          <table className="t-nestedTable">
+                            <thead>
+                              <tr>
+                                {Object.keys(row["drop down"][0]).map(
+                                  (nestedHeader, nestedIndex) => (
+                                    <th
+                                      key={nestedIndex}
+                                      className="t-nestedHeader"
+                                    >
+                                      {nestedHeader}
+                                    </th>
+                                  )
+                                )}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {row["drop down"].map(
+                                (
+                                  nestedRow: NestedRow,
+                                  nestedRowIndex: number
+                                ) => (
+                                  <tr key={nestedRowIndex}>
+                                    {Object.values(nestedRow).map(
+                                      (nestedValue, nestedValueIndex) => (
+                                        <td key={nestedValueIndex}>
+                                          {nestedValue ? nestedValue : "NA"}
+                                        </td>
+                                      )
+                                    )}
+                                  </tr>
                                 )
                               )}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {row["drop down"].map(
-                              (
-                                nestedRow: NestedRow,
-                                nestedRowIndex: number
-                              ) => (
-                                <tr key={nestedRowIndex}>
-                                  {Object.values(nestedRow).map(
-                                    (nestedValue, nestedValueIndex) => (
-                                      <td key={nestedValueIndex}>
-                                        {nestedValue ? nestedValue : "NA"}
-                                      </td>
-                                    )
-                                  )}
-                                </tr>
-                              )
-                            )}
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  )}
-                </React.Fragment>
-              ))}
-            </tbody> :
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
+              </tbody>
+              :
               <div className="r-table-no-data">No Data Found!</div>
             }
           </table>
@@ -306,9 +325,9 @@ const Table = ({
               </li>
             )}
             <li>
-              Page {currentPage} of {nPage}
+              Page {currentPage} of {totalpageNo}
             </li>
-            {currentPage < nPage && (
+            {currentPage < totalpageNo && (
               <li className="t-page-item">
                 {isDarkTheme ? (
                   <img

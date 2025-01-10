@@ -147,9 +147,12 @@ const Sales: React.FC = () => {
   const cancellationSummaryAPIRedux = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.content)
   console.log({ cancellationSummaryAPIRedux })
 
+  const cancellationSummaryAPIReduxLoading = useSelector((state: any) => state?.newReports?.cancellationSummaryLoading)
+  console.log({ cancellationSummaryAPIReduxLoading })
+
   const cancellationSummaryTotalPageNo = useSelector((state: any) => state?.newReports?.cancellationSummarySuccess?.totalPages)
   //pp
-  console.log({ cancellationSummaryTotalPageNo })
+
 
   console.log({ salesDataFromAPIReduxLoader })
   console.log('All APIs', { actualSalesAPIRedux, actualSalesThirdPartyAPIRedux, salesDataFromAPIRedux, salesByItemCategoryAPIRedux, salesByRevenueClassAPIRedux, segregatedDataForMaghilSales, segregatedDataForThirdPartySales, hourlySalesChartDataFromAPIRedux, discountSummaryAPIRedux, cancellationSummaryAPIRedux })
@@ -218,7 +221,7 @@ const Sales: React.FC = () => {
   const [currentPageDiscountSummary, setCurrentPageDiscountSummary] = useState<number>(1);
   console.log({ currentPageDiscountSummary });
 
-  const [totalPageNumberCurrentPageCancellationSummary, setTotalPageNumberCurrentPageCancellationSummary] = useState<number>(cancellationSummaryTotalPageNo || 1)
+  const [totalPageNumberCurrentPageCancellationSummary, setTotalPageNumberCurrentPageCancellationSummary] = useState<number>(cancellationSummaryTotalPageNo)
   const [currentPageCancellationSummary, setCurrentPageCancellationSummary] = useState<number>(1);
   console.log({ currentPageCancellationSummary });
 
@@ -1077,7 +1080,8 @@ const Sales: React.FC = () => {
               tableData={cancellationSummaryAPIRedux && cancellationSummaryAPIRedux?.length > 0 && cancellationSummaryAPIRedux}
               viewType="half"
               recordsPerPage={TABLE_RECORDS_LIMIT}
-              totalpageNo={totalPageNumberCurrentPageCancellationSummary}
+              totalpageNo={cancellationSummaryTotalPageNo ?? 1}
+              tabledataLoading={cancellationSummaryAPIReduxLoading}
             />
           </div>
         </div>
