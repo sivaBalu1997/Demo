@@ -881,7 +881,7 @@ export const MenuPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
 
   // const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing";
 
@@ -1017,7 +1017,7 @@ export const MenuPage = () => {
           >
             <div className="menuListWrapper">
               <div className="header-container">
-                <div className="first-div-header">
+                <div className={isExpanded ? "first-div-header-Expanded" : "first-div-header"}>
                   <p className="image">Image</p>
                   <p className="name-item">ItemName</p>
                   <p className="item-code">
@@ -1171,7 +1171,7 @@ export const MenuPage = () => {
                                       (item, index) => (
                                         <div
                                           key={index}
-                                          className="item-name-code-data"
+                                          className={isExpanded ? "item-name-code-data-Expanded" : "item-name-code-data"}
                                         >
                                           <p>
                                             <span className="itemimage2">
@@ -1231,7 +1231,7 @@ export const MenuPage = () => {
                                   {data?.itemResponseList.map((item, index) => (
                                     <div
                                       key={index}
-                                      className="item-name-code-data"
+                                      className={isExpanded ? "item-name-code-data-Expanded" : "item-name-code-data"}
                                     >
                                       <p>
                                         <span className="itemimage2">
@@ -1354,13 +1354,13 @@ export const MenuPage = () => {
                                           data.categoryName !== "" && (
                                             <div className="categoryName-data">
                                               <p
-                                                style={{
-                                                  width:
-                                                    `${
-                                                      orderTypesToShow2?.length *
-                                                      10
-                                                    }%` || "0rem",
-                                                }}
+                                                // style={{
+                                                //   width:
+                                                //     `${
+                                                //       orderTypesToShow2?.length *
+                                                //       10
+                                                //     }%` || "0rem",
+                                                // }}
                                               ></p>
                                             </div>
                                           )}

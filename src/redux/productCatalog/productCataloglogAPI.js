@@ -11,10 +11,15 @@ import {
 } from "assets/mockData/Moca_data";
 import { useSelector } from "react-redux";
 
+const token = Store.getState()?.auth?.credentials?.accessToken;
+
 export const getMenuDataApi = (locationId) => {
   return API({
     method: "get",
     url: `/api/v1/menu-items?locationId=${locationId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 };
 
@@ -22,6 +27,9 @@ export function getCategory(locationId) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Category`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -31,6 +39,9 @@ export function getSubSectionData(payload) {
     method: "post",
     url: `/api/v1/menu-items/view/sub-section`,
     data: payload, // Send the full payload as the request body
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -40,6 +51,9 @@ export const deleteSubSection = (data) => {
     method: "delete",
     url: `/api/v1/menu-items/sub-section`,
     data: data,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 };
 
@@ -48,6 +62,9 @@ export const addSubsectionApi = (data) => {
     method: "post",
     url: `/api/v1/menu-items/sub-section`,
     data: data,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 };
 
@@ -58,6 +75,7 @@ export const imageUploadingApi = (formData) => {
     data: formData,
     headers: {
       "Content-Type": "multipart/form-data",
+      Authorization: "bearer " + token,
     },
     // headers: {
     //   'accept': 'application/json',
@@ -70,6 +88,9 @@ export function getSubCategory({ locationId, id }) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=${id}&option=Sub-Category`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -77,6 +98,9 @@ export function getTagClass(locationId) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Tag`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -85,6 +109,9 @@ export function getModifier(data) {
   return API({
     method: "get",
     url: `/api/v1/menu-items/modifiers?name=${name}&locationId=${locationId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -92,6 +119,9 @@ export function getIngredients(locationId) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=INGR`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -103,6 +133,7 @@ export function addMenuItem(data) {
     data: menuPayload,
     headers: {
       "Content-Type": "application/json",
+      Authorization: "bearer " + token,
     },
   });
 }
@@ -120,6 +151,9 @@ export function updateMenuItem(data) {
     method: "put",
     url: `/api/v1/menu-items/edit`,
     data: data,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -128,6 +162,9 @@ export function updateMenuItemAttribute(data) {
     method: "post",
     url: `/merchants/itemAttributes`,
     data: data,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -135,8 +172,10 @@ export function deleteMenuItem(payload) {
   return API({
     method: "delete",
     url: `/api/v1/menu-items/delete`,
-    data:{itemId:payload}
-
+    data:{itemId:payload},
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -144,6 +183,9 @@ export function getAvailability(locationId) {
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Availability`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -173,6 +215,9 @@ export function getItemCodeRequestApi(locationId, itemCode) {
   return API({
     method: "get",
     url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -180,6 +225,9 @@ export function getPopularItemRequestApi(locationId) {
   return API({
     method: "get",
     url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -188,6 +236,9 @@ export function apiUpdateMenu(payload) {
     method: "patch",
     url: `/api/v1/menu-items/partial-update`,
     data: payload,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
@@ -196,6 +247,9 @@ export function hideMockData(payload) {
   return API({
     method: "put",
     url: `/api/v1/menu-items/availability`,
-    data:payload
+    data:payload,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
