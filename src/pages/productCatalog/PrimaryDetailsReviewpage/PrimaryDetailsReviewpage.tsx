@@ -217,7 +217,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
 
-
   const primarydata = useSelector((state: RootState) => state.primarypage.data);
 
   const prizingDetail = useSelector(
@@ -229,7 +228,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   );
 
   const fetchedprimarydata = primarydata;
-  
+
   const [error, setError] = useState<Status[]>([]);
 
   const ImageId = useSelector(
@@ -461,11 +460,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     (category: any) => category.name === primarydata?.category
   );
 
-
-
   const matchedKitchenStation = Array.isArray(kitchenStationData)
     ? kitchenStationData.find(
-        (kitchen: any) => kitchen.name?.toLowerCase() === prizingDetail?.kitchenstation?.toLowerCase()
+        (kitchen: any) =>
+          kitchen.name?.toLowerCase() ===
+          prizingDetail?.kitchenstation?.toLowerCase()
       )
     : undefined;
 
@@ -478,18 +477,18 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const matchedCategoryId = matchedCategory?.id;
   const bestPairId = matchedBestPair?.map((m: any) => m?.id);
   const kitchenStationId = matchedKitchenStation?.id;
-  
+
   const payload = {
     locationId: locationid,
-    type: 'SUB_CATEGORY',
+    type: "SUB_CATEGORY",
     parentId: matchedCategoryId && matchedCategoryId,
   };
 
   useEffect(() => {
-    if(subCategoryData === undefined || matchedSubCategory === undefined){
-      dispatch(fetchDropDownRequest(payload))
+    if (subCategoryData === undefined || matchedSubCategory === undefined) {
+      dispatch(fetchDropDownRequest(payload));
     }
-  },[matchedCategoryId])
+  }, [matchedCategoryId]);
 
   const subCategoryData = useSelector(
     (state: any) => state.productCatalog.subCategoryData.data
@@ -511,6 +510,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     );
     return orderTypes ? orderTypes?.id : null;
   };
+
+  
+  
 
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
@@ -540,6 +542,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       (item.options &&
         item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
   );
+  console.log({modifierData});
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
@@ -557,7 +560,23 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const removePricing = [];
   const addPricing = [];
 
-
+  console.log("pickup", pickupDetails && pickupDetails);
+  // const combinedDetails: Detail[] = [
+  //   dineInDetails && {
+  //     ...dineInDetails,
+  //     availabilities: dineInDetails.availabilities.map((availability) => ({
+  //       ...availability,
+  //       availabilityDays:
+  //         availability.availabilityDays && availability.availabilityDays.length === 0
+  //           ? result
+  //           : availability.availabilityDays,
+  //     })),
+  //   },
+  //   pickupDetails && pickupDetails,
+  //   deliveryDetails && deliveryDetails,
+  //   ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
+  // ].filter(Boolean);
+  
   const combinedDetails: Detail[] = [
     dineInDetails && dineInDetails,
     pickupDetails && pickupDetails,
@@ -567,18 +586,21 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const normalDays = prizingDetail?.normalForm?.Normaldays;
 
-  const stringNormalDays = Array.isArray(normalDays) ? normalDays.map(String) : [];
-  const result = stringNormalDays.includes('0') ? ['0'] : stringNormalDays;
+  const stringNormalDays = Array.isArray(normalDays)
+    ? normalDays.map(String)
+    : [];
+  const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
 
-const taxData = typeof primarydata?.tax === 'string'
-  ? primarydata.tax
-  : Array.isArray(primarydata?.tax)
-  ? (primarydata.tax as any[])?.join(', ') 
-  : '';
-    
+  const taxData =
+    typeof primarydata?.tax === "string"
+      ? primarydata.tax
+      : Array.isArray(primarydata?.tax)
+      ? (primarydata.tax as any[])?.join(", ")
+      : "";
+
   const menuPayload = {
     locationId: locationid,
-    itemId: editData.length === 0 && (UploadImageImageID ? UploadImageImageID : ""),
+    itemId: editData.length === 0 && UploadImageImageID ? UploadImageImageID : "",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -668,7 +690,7 @@ const taxData = typeof primarydata?.tax === 'string'
     specialItem: null,
   };
 
-  console.log({menuPayload}, {editPayload})
+  console.log({ menuPayload }, { editPayload });
 
   // const handleDispatch = async () => {
   //   checkAllImagesForErrors();
@@ -729,7 +751,7 @@ const taxData = typeof primarydata?.tax === 'string'
     if (editData?.length === 0 && Wholedata?.imageUrls?.length > 0) {
       dispatch(startImageUpload(primarydata?.imageUrls));
       setButtonClicked(true);
-      if (subsectiondatamsg) {
+      if (subsectiondatamsg && UploadImageImageID !== '') {
         if (editData.length > 0 && editData[0]) {
           dispatch(updateMenuItemRequest(editPayload));
         } else {
@@ -748,12 +770,12 @@ const taxData = typeof primarydata?.tax === 'string'
   };
 
   useEffect(() => {
-    if (subsectiondatamsg && buttonClicked) {
+    if (subsectiondatamsg && buttonClicked && UploadImageImageID !== '') {
       editData.length > 0 && editData[0]
         ? dispatch(updateMenuItemRequest(editPayload))
         : dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
-  }, [subsectiondatamsg]);
+  }, [subsectiondatamsg, UploadImageImageID]);
 
   useEffect(() => {
     if (buttonClicked) {
@@ -804,7 +826,7 @@ const taxData = typeof primarydata?.tax === 'string'
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "column", width:'86.5vw' }}>
         <div className="reviewheading">
           <p>
             Review menu item -{" "}
@@ -814,46 +836,50 @@ const taxData = typeof primarydata?.tax === 'string'
         <div className="reviewpage">
           <div className="reviewpagebody">
             <div className="primaryreview">
-              <div style={{display:"flex",borderBottom: "1px solid #c4c4c4"}}>
-              <div className="primaryreviewdetailspart1">
-                <div className="primaryreviewheading">
-                  <p>Step 1: Primary Details</p>
-                </div>
-                <div className="primaryreviews">
-                  <div className="primaryreviewdetails">
-                    <div className="primaryreviewdetails1">
-                      <div>
-                        <ReviewValues
-                          label="Item Name"
-                          textvalue={
-                            primarydata.itemName ? primarydata?.itemName : "N/A"
-                          }
-                        />
-                      </div>
+              <div
+                style={{ display: "flex", borderBottom: "1px solid #c4c4c4" }}
+              >
+                <div className="primaryreviewdetailspart1">
+                  <div className="primaryreviewheading">
+                    <p>Step 1: Primary Details</p>
+                  </div>
+                  <div className="primaryreviews">
+                    <div className="primaryreviewdetails">
+                      <div className="primaryreviewdetails1">
+                        <div>
+                          <ReviewValues
+                            label="Item Name"
+                            textvalue={
+                              primarydata.itemName
+                                ? primarydata?.itemName
+                                : "N/A"
+                            }
+                          />
+                        </div>
 
-                      <div>
-                        <ReviewValues
-                          label="Dietary type"
-                          textvalue={
-                            primarydata?.DietaryType &&
-                            typeof primarydata?.DietaryType[0] === "string" &&
-                            primarydata?.DietaryType.length > 0
-                              ? Array.isArray(primarydata?.DietaryType)
-                                ? primarydata?.DietaryType?.map(
-                                    (type: any) => type
+                        <div>
+                          <ReviewValues
+                            label="Dietary type"
+                            textvalue={
+                              primarydata?.DietaryType &&
+                              typeof primarydata?.DietaryType[0] === "string" &&
+                              primarydata?.DietaryType.length > 0
+                                ? Array.isArray(primarydata?.DietaryType)
+                                  ? primarydata?.DietaryType?.map(
+                                      (type: any) => type
+                                    ).join(", ")
+                                  : primarydata?.DietaryType
+                                : Array.isArray(primarydata?.DietaryType) &&
+                                  primarydata?.DietaryType?.length > 0
+                                ? primarydata?.DietaryType.map(
+                                    (type: any) => type?.name
                                   ).join(", ")
-                                : primarydata?.DietaryType
-                              : Array.isArray(primarydata?.DietaryType) &&
-                                primarydata?.DietaryType?.length > 0
-                              ? primarydata?.DietaryType.map(
-                                  (type: any) => type?.name
-                                ).join(", ")
-                              : "N/A"
-                          }
-                        />
-                      </div>
+                                : "N/A"
+                            }
+                          />
+                        </div>
 
-                      {/* 
+                        {/* 
                       <div>
                         <ReviewValues
                           label="Meal type"
@@ -865,97 +891,101 @@ const taxData = typeof primarydata?.tax === 'string'
                         />
                       </div> */}
 
-                      <div>
-                        <ReviewValues
-                          label="Category"
-                          textvalue={
-                            primarydata.category ? primarydata.category : "N/A"
-                          }
-                        />
+                        <div>
+                          <ReviewValues
+                            label="Category"
+                            textvalue={
+                              primarydata.category
+                                ? primarydata.category
+                                : "N/A"
+                            }
+                          />
+                        </div>
+
+                        <div>
+                          <ReviewValues
+                            label="Calorie Point"
+                            textvalue={
+                              primarydata?.coloriePoint?.value
+                                ? `${primarydata.coloriePoint?.value} ${primarydata.coloriePoint?.type}`
+                                : "N/A"
+                            }
+                          />
+                        </div>
+
+                        <div>
+                          <ReviewValues
+                            label="Portion Size"
+                            textvalue={
+                              primarydata.portionSize?.value
+                                ? primarydata.portionSize?.value
+                                : "N/A"
+                            }
+                          />
+                        </div>
                       </div>
 
-                      <div>
-                        <ReviewValues
-                          label="Calorie Point"
-                          textvalue={
-                            primarydata?.coloriePoint?.value
-                              ?`${primarydata.coloriePoint?.value} ${primarydata.coloriePoint?.type}`
-                              : "N/A"
-                          }
-                        />
-                      </div>
+                      <div className="primaryreviewdetails2">
+                        <div>
+                          <ReviewValues
+                            label="Item code"
+                            textvalue={
+                              primarydata.itemCode
+                                ? primarydata.itemCode
+                                : "N/A"
+                            }
+                          />
+                        </div>
 
-                      <div>
-                        <ReviewValues
-                          label="Portion Size"
-                          textvalue={
-                            primarydata.portionSize?.value
-                              ? primarydata.portionSize?.value
-                              : "N/A"
-                          }
-                        />
-                      </div>
-
-                     
-                    </div>
-
-                    <div className="primaryreviewdetails2">
-                      <div>
-                        <ReviewValues
-                          label="Item code"
-                          textvalue={
-                            primarydata.itemCode ? primarydata.itemCode : "N/A"
-                          }
-                        />
-                      </div>
-
-                      {/* <div>
+                        {/* <div>
                         <ReviewValues
                           label="Other dietary details"
                           textvalue={"N/A"}
                         />
                       </div> */}
 
-                      <div>
-                        <ReviewValues
-                          label="Cuisine"
-                          textvalue={
-                            fetchedprimarydata.cuisine
-                              ? fetchedprimarydata.cuisine
-                              : "N/A"
-                          }
-                        />
-                      </div>
+                        <div>
+                          <ReviewValues
+                            label="Cuisine"
+                            textvalue={
+                              fetchedprimarydata.cuisine
+                                ? fetchedprimarydata.cuisine
+                                : "N/A"
+                            }
+                          />
+                        </div>
 
-                      <div>
-                        <ReviewValues
-                          label="Sub-category"
-                          textvalue={
-                            fetchedprimarydata.subCategory
-                              ? fetchedprimarydata.subCategory
-                              : "N/A"
-                          }
-                        />
-                      </div>
+                        <div>
+                          <ReviewValues
+                            label="Sub-category"
+                            textvalue={
+                              fetchedprimarydata.subCategory
+                                ? fetchedprimarydata.subCategory
+                                : "N/A"
+                            }
+                          />
+                        </div>
 
-                      <div>
-                        <ReviewValues
-                          label="Unit of measurement"
-                          textvalue={
-                            fetchedprimarydata.portionSize?.type
-                              ? fetchedprimarydata.portionSize?.type
-                              : "N/A"
-                          }
-                        />
-                      </div>
-                      <div>
-                        <ReviewValues
-                          label="Tax Class Association"
-                          textvalue={primarydata.tax ? primarydata.tax : "N/A"}
-                        />
-                      </div>
+                        <div>
+                          <ReviewValues
+                            label="Unit of measurement"
+                            textvalue={
+                              fetchedprimarydata.portionSize?.type
+                                ? fetchedprimarydata.portionSize?.type
+                                : "N/A"
+                            }
+                          />
+                        </div>
+                        <div>
+                          <ReviewValues
+                            label="Tax Class Association"
+                            textvalue={
+                              primarydata.tax ? primarydata.tax : "N/A"
+                            }
+                          />
+                        </div>
 
-                      {/* <div>
+                        {/* <div>
                         <ReviewValues
                           label="Master product code"
                           textvalue={
@@ -965,94 +995,45 @@ const taxData = typeof primarydata?.tax === 'string'
                           }
                         />
                       </div> */}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="primaryreviewdetailspart2">
-                <div className="EditData">
-                  <Link
-                    to="/productCatalog/PrimaryDetails"
-                    className="primarypageedit"
-                    onClick={() => setActiveCategory("Step 1: Primary Details")}
-                  >
-                    <img
-                      src={edit}
-                      alt=""
-                      className="step3-Review-Container-heading-EditImage"
-                      width={15}
-                      height={15}
-                    />
-                    <h3 className="Edit-heading">Edit</h3>
-                  </Link>{" "}
-                </div>
-                {
-                  <div className="primaryimages">
-                    <p>Primary Image</p>
-                    <div style={{ display: "flex" }}>
-                      {error.map((item) => (
-                        <p style={{ width: "100px" }}>{item.status} </p>
-                      ))}
-                    </div>
+                <div className="primaryreviewdetailspart2">
+                  <div className="EditData">
+                    <Link
+                      to="/productCatalog/PrimaryDetails"
+                      className="primarypageedit"
+                      onClick={() =>
+                        setActiveCategory("Step 1: Primary Details")
+                      }
+                    >
+                      <img
+                        src={edit}
+                        alt=""
+                        className="step3-Review-Container-heading-EditImage"
+                        width={15}
+                        height={15}
+                      />
+                      <h3 className="Edit-heading">Edit</h3>
+                    </Link>{" "}
+                  </div>
+                  {
+                    <div className="primaryimages">
+                      <p>Primary Image</p>
+                      <div style={{ display: "flex" }}>
+                        {error.map((item) => (
+                          <p style={{ width: "100px" }}>{item.status} </p>
+                        ))}
+                      </div>
 
-                    <div className="images">
                       <div className="images">
-                        <ol>
-                          {selectedImages && selectedImages.length > 0 && (
-                            <li>
-                              <div style={{ fontSize: "30px" }}>
-                                {imagecheck(selectedImages[0]) ? (
-                                  <div className="imagewitherror">
-                                    <img
-                                      src={emptyfoodimg}
-                                      alt={``}
-                                      className="eerroremptyimage"
-                                    />
-                                    <input
-                                      type="file"
-                                      name="imageUrls"
-                                      className="imgfile"
-                                      id={`imgadd-${0}`}
-                                      accept="image/png, image/jpeg"
-                                      onChange={(e) => handleRetry(e, 0)}
-                                      style={{ display: "none" }}
-                                    />
-                                    <span
-                                      className="errromsg"
-                                      onClick={() => handleAddImage(0)}
-                                    >
-                                      Retry
-                                    </span>
-                                  </div>
-                                ) : (
-                                  <img
-                                    className="uploaded-image"
-                                    src={
-                                      selectedImages[0]?.url?.file
-                                        ? selectedImages[0].url.preview
-                                        : selectedImages[0].url || emptyfoodimg
-                                    }
-                                    alt={`Preview of `}
-                                  />
-                                )}
-                              </div>
-                            </li>
-                          )}
-
-                          {selectedImages?.length === 0 && (
-                            <li>
-                              <img
-                                src={emptyfoodimg}
-                                alt={`No images available`}
-                              />
-                            </li>
-                          )}
-
-                          <div className="selectediagelist">
-                            {selectedImages &&
-                              selectedImages.slice(1).map((image, index) => (
-                                <li key={index + 1}>
-                                  {imagecheck(selectedImages[index + 1]) ? (
+                        <div className="images">
+                          <ol>
+                            {selectedImages && selectedImages.length > 0 && (
+                              <li>
+                                <div style={{ fontSize: "30px" }}>
+                                  {imagecheck(selectedImages[0]) ? (
                                     <div className="imagewitherror">
                                       <img
                                         src={emptyfoodimg}
@@ -1063,18 +1044,14 @@ const taxData = typeof primarydata?.tax === 'string'
                                         type="file"
                                         name="imageUrls"
                                         className="imgfile"
-                                        id={`imgadd-${index + 1}`}
+                                        id={`imgadd-${0}`}
                                         accept="image/png, image/jpeg"
-                                        onChange={(e) =>
-                                          handleRetry(e, index + 1)
-                                        }
+                                        onChange={(e) => handleRetry(e, 0)}
                                         style={{ display: "none" }}
                                       />
                                       <span
                                         className="errromsg"
-                                        onClick={() =>
-                                          handleAddImage(index + 1)
-                                        }
+                                        onClick={() => handleAddImage(0)}
                                       >
                                         Retry
                                       </span>
@@ -1083,114 +1060,173 @@ const taxData = typeof primarydata?.tax === 'string'
                                     <img
                                       className="uploaded-image"
                                       src={
-                                        image.url?.file
-                                          ? image.url.preview
-                                          : image.url || emptyfoodimg 
+                                        selectedImages[0]?.url?.file
+                                          ? selectedImages[0].url.preview
+                                          : selectedImages[0].url ||
+                                            emptyfoodimg
                                       }
-                                      alt={`Preview of image ${index + 1}`}
+                                      alt={`Preview of `}
                                     />
                                   )}
-                                </li>
-                              ))}
-                            {Array.from({ length: emptySlots })
-                              .slice(0)
-                              .map((_, index) => (
-                                <li key={selectedImages.length + index + 1}>
-                                  {typeof emptyfoodimg === "string" ? (
-                                    <img
-                                      src={emptyfoodimg}
-                                      alt={`empty ${index}`}
-                                    />
-                                  ) : (
-                                    <span>
-                                      Error: emptyfoodimg is not a valid image
-                                      path
-                                    </span>
-                                  )}
-                                </li>
-                              ))}
-                          </div>
-                        </ol>
-                        <ol></ol>
+                                </div>
+                              </li>
+                            )}
+
+                            {selectedImages?.length === 0 && (
+                              <li>
+                                <img
+                                  src={emptyfoodimg}
+                                  alt={`No images available`}
+                                />
+                              </li>
+                            )}
+
+                            <div className="selectediagelist">
+                              {selectedImages &&
+                                selectedImages.slice(1).map((image, index) => (
+                                  <li key={index + 1}>
+                                    {imagecheck(selectedImages[index + 1]) ? (
+                                      <div className="imagewitherror">
+                                        <img
+                                          src={emptyfoodimg}
+                                          alt={``}
+                                          className="eerroremptyimage"
+                                        />
+                                        <input
+                                          type="file"
+                                          name="imageUrls"
+                                          className="imgfile"
+                                          id={`imgadd-${index + 1}`}
+                                          accept="image/png, image/jpeg"
+                                          onChange={(e) =>
+                                            handleRetry(e, index + 1)
+                                          }
+                                          style={{ display: "none" }}
+                                        />
+                                        <span
+                                          className="errromsg"
+                                          onClick={() =>
+                                            handleAddImage(index + 1)
+                                          }
+                                        >
+                                          Retry
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <img
+                                        className="uploaded-image"
+                                        src={
+                                          image.url?.file
+                                            ? image.url.preview
+                                            : image.url || emptyfoodimg
+                                        }
+                                        alt={`Preview of image ${index + 1}`}
+                                      />
+                                    )}
+                                  </li>
+                                ))}
+                              {Array.from({ length: emptySlots })
+                                .slice(0)
+                                .map((_, index) => (
+                                  <li key={selectedImages.length + index + 1}>
+                                    {typeof emptyfoodimg === "string" ? (
+                                      <img
+                                        src={emptyfoodimg}
+                                        alt={`empty ${index}`}
+                                      />
+                                    ) : (
+                                      <span>
+                                        Error: emptyfoodimg is not a valid image
+                                        path
+                                      </span>
+                                    )}
+                                  </li>
+                                ))}
+                            </div>
+                          </ol>
+                          <ol></ol>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                }
+                  }
 
-                
                   <div className="primarydescription">
                     <p>Description</p>
                     <div className="description">
-                      <p>{fetchedprimarydata?.description ? fetchedprimarydata?.description : "N/A"}</p>
-                    </div>
-                  </div>
-                
-                {
-                  <div className="primarybestpairedfood">
-                    <p>Best paired with food items</p>
-                    <div className="bestpairfoods">
                       <p>
-                        {primarydata?.bestPair &&
-                        typeof primarydata?.bestPair[0] === "string" &&
-                        primarydata?.bestPair.length > 0
-                          ? Array.isArray(primarydata?.bestPair)
-                            ? primarydata?.bestPair
-                                ?.map((type: any) => type)
-                                .join(", ")
-                            : primarydata?.bestPair
-                          : Array.isArray(primarydata?.bestPair) &&
-                            primarydata?.bestPair?.length > 0
-                          ? primarydata?.bestPair
-                              .map((type: any) => type?.name)
-                              .join(", ")
+                        {fetchedprimarydata?.description
+                          ? fetchedprimarydata?.description
                           : "N/A"}
                       </p>
                     </div>
                   </div>
-                }
 
-                <div className="allergensandingredients">
-                  <div className="ingredients-review">
-                    <p className="ingredients">Ingredients</p>
-                    {primarydata?.Ingredients?.length > 0 ? (
-                      <>
-                        {" "}
-                        <ImagePillsSelected
-                          imageselected={primarydata}
-                          name="Ingredients"
-                        />
-                      </>
-                    ) : "N/A"}
-                  </div>
+                  {
+                    <div className="primarybestpairedfood">
+                      <p>Best paired with food items</p>
+                      <div className="bestpairfoods">
+                        <p>
+                          {primarydata?.bestPair &&
+                          typeof primarydata?.bestPair[0] === "string" &&
+                          primarydata?.bestPair.length > 0
+                            ? Array.isArray(primarydata?.bestPair)
+                              ? primarydata?.bestPair
+                                  ?.map((type: any) => type)
+                                  .join(", ")
+                              : primarydata?.bestPair
+                            : Array.isArray(primarydata?.bestPair) &&
+                              primarydata?.bestPair?.length > 0
+                            ? primarydata?.bestPair
+                                .map((type: any) => type?.name)
+                                .join(", ")
+                            : "N/A"}
+                        </p>
+                      </div>
+                    </div>
+                  }
 
-                  <div className="allergens-review">
-                    <p className="allergen">Allergens</p>{" "}
-                    {primarydata?.allergens?.length > 0 ? (
-                      <>
-                        {" "}
-                        <ImagePillsSelected
-                          imageselected={primarydata}
-                          name="allergens"
-                        />
-                      </>
-                    ) : "N/A"}
+                  <div className="allergensandingredients">
+                    <div className="ingredients-review">
+                      <p className="ingredients">Ingredients</p>
+                      {primarydata?.Ingredients?.length > 0 ? (
+                        <>
+                          {" "}
+                          <ImagePillsSelected
+                            imageselected={primarydata}
+                            name="Ingredients"
+                          />
+                        </>
+                      ) : (
+                        "N/A"
+                      )}
+                    </div>
+
+                    <div className="allergens-review">
+                      <p className="allergen">Allergens</p>{" "}
+                      {primarydata?.allergens?.length > 0 ? (
+                        <>
+                          {" "}
+                          <ImagePillsSelected
+                            imageselected={primarydata}
+                            name="allergens"
+                          />
+                        </>
+                      ) : (
+                        "N/A"
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-              </div>
-            
 
               <div className="part-two">
-               
                 <Step2 />
-               
-                <span   className={isExpanded ? "verticalLineExpand" : "verticalLine"}/>
-               
-               
 
-<Step3Review />
+                <span
+                  className={isExpanded ? "verticalLineExpand" : "verticalLine"}
+                />
 
-                
+                <Step3Review />
               </div>
             </div>
           </div>
@@ -1209,10 +1245,10 @@ const taxData = typeof primarydata?.tax === 'string'
             onClick={handleSubmitItemDetails}
             disabled={addMenuLoading || updateMenuItemLoading}
           >
-            {(addMenuLoading || updateMenuItemLoading) ? (
+            {addMenuLoading || updateMenuItemLoading ? (
               <div className="reviewLoaders"></div>
             ) : (
-               "Publish"
+              "Publish"
             )}
           </button>
         </div>

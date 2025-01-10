@@ -342,7 +342,7 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
+  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
@@ -350,13 +350,14 @@ const PrimaryPage = () => {
         file: img?.imageId ? { name: img.imageId } : img?.file || {},
         uploaded: img?.uploaded || false,
         failed: img?.failed || false,
-        preview: img?.imageId ? `${baseImageUrl}${img.imageId}` : img?.preview,
+        preview: img?.imageId
+          ? `${baseImageUrl}${img?.imageId}.${img?.imageType?.split("/")[1]}`
+          : img?.preview,
       }));
 
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...imageArray];
         setValue("imageUrls", updatedImages);
-
         return updatedImages;
       });
     }
@@ -380,7 +381,7 @@ const PrimaryPage = () => {
   const { isExpanded } = useContext(Contextpagejs);
   const [dataImages, setDataImages] = useState(imageslist);
   const [dataDietaryType, setDataDietaryType] = useState([]);
-  const [taxType, setTaxType] = useState([])
+  const [taxType, setTaxType] = useState([]);
   const [dataCuisine, setDataCuisine] = useState(cuisine);
   const [dataMealType, setDataMealType] = useState(mealType);
   const [dataBestPair, setDataBestPair] = useState();
@@ -552,8 +553,8 @@ const PrimaryPage = () => {
 
   const taxData = [
     {
-      id: '1',
-      name: '10',
+      id: "1",
+      name: "10",
       locationId: "",
       type: "tax",
       parentId: "",
@@ -580,6 +581,7 @@ const PrimaryPage = () => {
   const categoryData = useSelector(
     (state: any) => state.productCatalog.categoryData.data
   );
+  console.log({ categoryData });
 
   const bestPairData = useSelector(
     (state: any) => state.productCatalog.bestPairData.data
@@ -599,45 +601,43 @@ const PrimaryPage = () => {
 
   const dietPayload = {
     locationId: locationid,
-    type: 'DIET',
+    type: "DIET",
     parentId: "",
-  }
+  };
 
   const cuisinePayload = {
     locationId: locationid,
-    type: 'CUISINES',
+    type: "CUISINES",
     parentId: "",
-  }
-
+  };
 
   const categoryPayload = {
     locationId: locationid,
-    type: 'CATEGORY',
+    type: "CATEGORY",
     parentId: "",
-  }
-
+  };
 
   const bestPairPayload = {
     locationId: locationid,
-    type: 'BEST_PAIRED_ITEMS',
+    type: "BEST_PAIRED_ITEMS",
     parentId: "",
-  }
+  };
 
   const kitchenpayload = {
     locationId: locationid,
-    type: 'KITCHEN_STATION',
+    type: "KITCHEN_STATION",
     parentId: "",
-  }
+  };
 
   useEffect(() => {
-    if(editData){
-      dispatch(fetchDropDownRequest(dietPayload))
-      dispatch(fetchDropDownRequest(cuisinePayload))
-      dispatch(fetchDropDownRequest(categoryPayload))
-      dispatch(fetchDropDownRequest(bestPairPayload))
-      dispatch(fetchDropDownRequest(kitchenpayload))
+    if (editData) {
+      dispatch(fetchDropDownRequest(dietPayload));
+      dispatch(fetchDropDownRequest(cuisinePayload));
+      dispatch(fetchDropDownRequest(categoryPayload));
+      dispatch(fetchDropDownRequest(bestPairPayload));
+      dispatch(fetchDropDownRequest(kitchenpayload));
     }
-  },[])
+  }, []);
 
   const [itemcodeValid, setItemcodeValid] = useState(true);
 
@@ -661,7 +661,9 @@ const PrimaryPage = () => {
     }
   }, [message, messageLoader]);
 
-  const [isChecked, setIsChecked] = useState<boolean>(ItemsPrimaryDetails?.popularItem || false);
+  const [isChecked, setIsChecked] = useState<boolean>(
+    ItemsPrimaryDetails?.popularItem || false
+  );
 
   useEffect(() => {
     setIsChecked(ItemsPrimaryDetails?.popularItem || false);
@@ -669,9 +671,9 @@ const PrimaryPage = () => {
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isCheckedValue = e.target.checked;
-  
-    setIsChecked(isCheckedValue); 
-  
+
+    setIsChecked(isCheckedValue);
+
     if (isCheckedValue) {
       setPopularItem((prevCount: number) => prevCount + 1);
       setValue("popularItem", true);
@@ -717,8 +719,8 @@ const PrimaryPage = () => {
     if (resetSelectionRef.current) {
       resetSelectionRef.current();
     }
-    if(dietRef.current){
-      dietRef.current()
+    if (dietRef.current) {
+      dietRef.current();
     }
     if (BestpairedRef.current) {
       BestpairedRef.current();
@@ -787,7 +789,7 @@ const PrimaryPage = () => {
 
   const [subcategortError, setsubcategortError] = useState("");
 
-  const [categoryChange, setCategoryChange] = useState(false)
+  const [categoryChange, setCategoryChange] = useState(false);
 
   const valiadtesubCategory = () => {
     const categoryList = getValues("category");
@@ -796,7 +798,7 @@ const PrimaryPage = () => {
     if (
       categoryList !== "" &&
       subcategoryList === "" &&
-     ( subCategoryData?.length > 0 || subCategoryData === undefined)
+      (subCategoryData?.length > 0 || subCategoryData === undefined)
     ) {
       setsubcategortError("subcategory is required");
 
@@ -806,6 +808,23 @@ const PrimaryPage = () => {
     }
     return true;
   };
+
+  const [showAsterisk, setShowAsterisk] = useState(false);
+  const categoryList = getValues("category");
+  const subcategoryList = getValues("subCategory");
+  useEffect(() => {
+   
+  
+    if (
+      categoryList !== "" &&
+      subcategoryList === "" &&
+      (subCategoryData?.length > 0 )
+    ) {
+      setShowAsterisk(true);
+    } else {
+      setShowAsterisk(false);
+    }
+  }, [getValues,categoryList,subCategoryData]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -838,12 +857,17 @@ const PrimaryPage = () => {
                     name="itemName"
                     control={control}
                     defaultValue=""
-                    rules={{ required: "Item Name is required" }}
+
+                    rules={{
+                      required: "Item Name is required",
+                      
+                    }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
                         onChange={onChange}
                         onBlur={onBlur}
+                         maxLength={128}
                         value={value}
                         trigger={trigger}
                         error={errors.itemName}
@@ -945,8 +969,8 @@ const PrimaryPage = () => {
                         resetSelection={categoryref}
                         parentId={parentId}
                         setParentId={setParentId}
-                        categoryChange = {categoryChange}
-                        setCategoryChange = {setCategoryChange}
+                        categoryChange={categoryChange}
+                        setCategoryChange={setCategoryChange}
                       />
                     )}
                   />
@@ -1083,6 +1107,7 @@ const PrimaryPage = () => {
                         />
                       </div>
                     ))}
+
                     {images.length < 6 && (
                       <img
                         src={ImgaeUploading}
@@ -1166,7 +1191,7 @@ const PrimaryPage = () => {
                     />{" "}
                     <div className="tool-tip-item-code">
                       <TooltipMsg
-                        message="Enter a unique code for this food item, used for identification."
+                        message="Enter a unique 4-digit number to identify this food item."
                         styles={{
                           marginTop: "-1rem",
                           marginLeft: "2rem",
@@ -1200,7 +1225,7 @@ const PrimaryPage = () => {
                   </div>
                 </div>
 
-                <div
+                {/* <div
                   className={
                     message?.length > 10
                       ? "barcode"
@@ -1239,7 +1264,7 @@ const PrimaryPage = () => {
                       />
                     )}
                   />
-                </div>
+                </div> */}
 
                 <div className="Primary-page-InputFields PopularItem">
                   <Controller
@@ -1261,13 +1286,16 @@ const PrimaryPage = () => {
                     )}
                   />
                   <span>
-                    Popular item ( {popularItemlimit > 0 ? {popularItem} : 0}/{popularItemlimit} )
+                    Popular item ( {popularItemlimit > 0 ? popularItem : 0}/
+                    {popularItemlimit} )
                   </span>
                 </div>
 
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
-                    <LableComponent lable="Sub Category" />
+                  <LableComponent 
+  lable={`Sub Category${showAsterisk ? "*" : ""}`}
+/>
                     <Controller
                       name="subCategory"
                       control={control}
@@ -1288,8 +1316,8 @@ const PrimaryPage = () => {
                             editData[0]?.length > 0 ? "" : valiadtesubCategory
                           }
                           errormsg={subcategortError}
-                          categoryChange = {categoryChange}
-                          setCategoryChange = {setCategoryChange}
+                          categoryChange={categoryChange}
+                          setCategoryChange={setCategoryChange}
                           addNew={true}
                           editValues={true}
                           dropdownopen={DropdownOpen.subCategory}
@@ -1353,11 +1381,13 @@ const PrimaryPage = () => {
                   : "Primary-page-container-two"
               }
             >
-              <div   className={
-                alcoholconstain
-                  ? "Primary-page-ingredients-selection1"
-                  : "Primary-page-ingredients-selection"
-              }>
+              <div
+                className={
+                  alcoholconstain
+                    ? "Primary-page-ingredients-selection1"
+                    : "Primary-page-ingredients-selection"
+                }
+              >
                 <Imagepillsselection
                   heading="Ingredients"
                   options={ingredientsdata}
@@ -1377,10 +1407,12 @@ const PrimaryPage = () => {
                     <Controller
                       name="coloriePoint"
                       control={control}
+                   
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
                           type="number"
+                          maxLength={5}
                           onChange={(e) => {
                             handleInputChange(e);
                             onChange(e);
@@ -1394,7 +1426,7 @@ const PrimaryPage = () => {
                               e.key === "-" ||
                               e.key === "+"
                             ) {
-                              e.preventDefault(); // Block these keys
+                              e.preventDefault(); 
                             }
                           }}
                           placeholder="cal"
@@ -1424,6 +1456,7 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="portionSize"
+                          maxLength={4}
                           type="number"
                           onChange={(e) => {
                             handlePortionChange("value", e.target.value);
@@ -1496,7 +1529,7 @@ const PrimaryPage = () => {
                 <div className="Primary-Page-Other-Detail">
                   <div>
                     {" "}
-                    <div className="Primary-Page-inputfiled-and-tooltip">
+                    <div className="Primary-Page-inputfiled-and-tooltip-taxclass">
                       {/* <Controller
                         name="tax"
                         control={control}
@@ -1521,6 +1554,7 @@ const PrimaryPage = () => {
                           />
                         )}
                       /> */}
+                      <div className="tax-with-tooltip">
                       <Controller
                         name="tax"
                         control={control}
@@ -1535,6 +1569,7 @@ const PrimaryPage = () => {
                             trigger={trigger}
                             setValue={setValue}
                             getValues={getValues}
+                           
                             // validation={{ required: "Tax is required" }}
                             // error={errors.tax}
                             dropdownopen={DropdownOpen.tax}
@@ -1546,10 +1581,11 @@ const PrimaryPage = () => {
                             resetSelection={resetSelectionRef}
                             parentId={parentId}
                             setParentId={setParentId}
-                            isTaxDropDown = {true}
+                            isTaxDropDown={true}
                           />
                         )}
                       />
+                      </div>
 
                       <div className="tool-tip-tax-class">
                         <TooltipMsg
@@ -1585,20 +1621,27 @@ const PrimaryPage = () => {
                           </div>
                         </TooltipMsg>
                       </div>
+                      
+                      
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <SaveAndNext
-              getFormData={getValues}
-              seletedpage="Primary"
-              reset={handleReset}
-              itemcodeValid={itemcodeValid}
-              triggerValidation={() => trigger()}
-              valiadtesubCategory={valiadtesubCategory}
-            />
+            <div
+              className={
+                isExpanded ? "buttonContainerExpanded" : "buttonContainer"
+              }
+            >
+              <SaveAndNext
+                getFormData={getValues}
+                seletedpage="Primary"
+                reset={handleReset}
+                itemcodeValid={itemcodeValid}
+                triggerValidation={() => trigger()}
+                valiadtesubCategory={valiadtesubCategory}
+              />
+            </div>
             {/* </form> */}
           </div>
         </div>

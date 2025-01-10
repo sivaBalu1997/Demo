@@ -17,6 +17,7 @@ export const Contextpage = ({ children }) => {
     const [saveandnext, setsaveandnext]=useState(false);
     const [active, setActive] = useState('');
     const [pen, setPen] = useState(false);
+    const [duplicateOffer,setDuplicateOffer]=useState(false);
     let storedFunction= null;
 
     const setStoredFunction = (fn) => {
@@ -103,6 +104,8 @@ export const Contextpage = ({ children }) => {
       selectedDateOption,
       partialData,
       setPartialData,
+      duplicateOffer,
+      setDuplicateOffer,
       valiadtePriceFields,
       setValiadtePriceFields,
       storedFunction,

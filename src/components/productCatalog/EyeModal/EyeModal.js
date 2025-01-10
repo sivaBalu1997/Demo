@@ -7,7 +7,9 @@ import { addMockDataHiddenRequest } from "redux/productCatalog/productCatalogAct
 import { useSelector } from "react-redux";
 import { ReactComponent as Loader } from "../../../assets/svg/loader.svg";
 
-const EyeModal = ({ onEyeclose, onclose }) => {
+
+
+const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
   const data1 = useSelector((state) => state?.selectedMockDataReducer?.data);
   const Dinein = data1[0]?.orderTypes?.find(
     (orderType) => orderType.typeName === "DineIn"
@@ -21,12 +23,15 @@ const EyeModal = ({ onEyeclose, onclose }) => {
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
 
+  console.log({availabilityOrderTypes});
+  
+
   useEffect(() => {
     const tempOnPremarray = data1[0]?.orderTypes?.filter((data, index) => {
-      return data?.typeGroup === "D";
+      return data?.typeGroup === "D" &&data?.typeGroup !== "I";
     });
     const tempOffPremarray = data1[0]?.orderTypes?.filter((data, index) => {
-      return data?.typeGroup !== "D";
+      return data?.typeGroup !== "D"&& data?.typeGroup !=="I";
     });
 
     const allIsNotHideOnPrem = tempOnPremarray.every(
@@ -49,7 +54,7 @@ const EyeModal = ({ onEyeclose, onclose }) => {
     const allChildrenonEnabled = tempOnPremarray?.some(
       (child) => child.isEnabled === 1
     );
-    const allChildrenoffEnabled = tempOnPremarray?.some(
+    const allChildrenoffEnabled = tempOffPremarray?.some(
       (child) => child.isEnabled === 1
     );
 
@@ -75,52 +80,14 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   }, [data1[0]?.orderTypes]);
 
-  useEffect(() => {
-    const updatedData = [
-      {
-        Heading: "On-prem",
-
-        subItems: [
-          {
-            name: Dinein.typeName,
-            id: Dinein.typeId,
-            isChecked: Dinein.isNotHide,
-            isEnabled: Dinein.isEnabled,
-          },
-        ],
-      },
-      {
-        Heading: "Off-prem",
-        subItems: data1[0].orderTypes
-          .filter((elem) => elem.typeName !== "DineIn")
-          .map((elem) => ({
-            name: elem.typeName,
-            id: elem.typeId,
-            isChecked: elem.isNotHide,
-            isEnabled: elem.isEnabled,
-          })),
-      },
-    ];
-
-    setData(updatedData);
-  }, [data1, Dinein]);
+ 
 
   const allSelected = data.every((item) => item.isChecked);
 
-  const data3 = {
-    itemId: "0ad10dd0-8e60-4431-83e5-eb23927cdf92",
-    isEnabled: false,
-    itemOrderTypeStatuses: [
-      {
-        orderTypeId: "0593a8-81c5-40b2-a208-be1c03a93fad",
-        isEnabled: true,
-      },
-      {
-        orderTypeId: "28-81c5-40b2-a208-be1c03a93fad12",
-        isEnabled: true,
-      },
-    ],
-  };
+
+  
+
+  
 
   const hidePayload = {
     itemId: data1[0].itemId,
@@ -133,17 +100,10 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
     ),
   };
 
-  const uncheckedItems = data.flatMap((section) =>
-    section.subItems
-      .filter((subItem) => !subItem.isChecked)
-      .map((subItem) => ({
-        orderTypeId: subItem.id, // Map 'id' from subItems to orderTypeId
-        isEnabled: false, // Set to false as these items are unchecked
-      }))
-  );
+ 
 
   const dispatch = useDispatch();
-  const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
+
 
   const eyemodalRef = useRef();
   const EyeClose = (e) => {
@@ -169,21 +129,9 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
     }
   }, [successMsg, onEyeclose, onclose]);
 
-  const parentToggleChange = (index) => {
-    const newData = [...data];
+ 
 
-    const isChecked = !newData[index].isChecked;
-    newData[index].isChecked = isChecked;
-
-    newData[index].subItems = newData[index].subItems.map((subItem) => ({
-      ...subItem,
-      isChecked: isChecked,
-    }));
-
-    setData(newData);
-  };
-
-  const [parentOrderTypeArray, setParentOrderTypeArray] = useState([]);
+ 
 
   const handleParentHide = (index) => {
     const updatedOrderTypes = [...availabilityOrderTypes];
@@ -263,33 +211,16 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
     setToggleState(!toggleState);
   };
 
-  const subItemToggleChange = (parentIndex, subIndex) => {
-    const newData = [...data];
 
-    newData[parentIndex].subItems[subIndex].isChecked =
-      !newData[parentIndex].subItems[subIndex].isChecked;
-
-    const anyChecked = newData[parentIndex].subItems.some(
-      (subItem) => subItem.isChecked
+  useEffect(()=>{
+    const allTypesHidden = availabilityOrderTypes.every((orderType) =>
+      orderType.types.every((type) => type.isNotHide === 0)
     );
+    setEyeIconOpenClose(allTypesHidden)
+  },[availabilityOrderTypes])
+ 
+ 
 
-    newData[parentIndex].isChecked = anyChecked;
-
-    setData(newData);
-  };
-
-  const handleSelectAll = () => {
-    const allSelected = data.every((item) => item.isChecked);
-    const newData = data.map((item) => ({
-      ...item,
-      isChecked: !allSelected,
-      subItems: item.subItems.map((subItem) => ({
-        ...subItem,
-        isChecked: !allSelected,
-      })),
-    }));
-    setData(newData);
-  };
 
   return (
     <div ref={eyemodalRef} onClick={EyeClose} className="EyeModal-Container">
@@ -310,7 +241,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
                   <input
                     className="checkbox-Items"
                     type="checkbox"
-                    checked={elem.isNotHide}
+                    checked={elem.isEnabled &&elem.isNotHide}
                     onChange={() => handleParentHide(parentIndex)}
                     disabled={elem.isEnabled === false}
                   />
@@ -324,7 +255,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
                     <input
                       className="checkbox-Items"
                       type="checkbox"
-                      checked={!subItem.isNotHide}
+                      checked={subItem.isEnabled && !subItem.isNotHide}
                       onChange={() => handleChildHide(parentIndex, subIndex)}
                       disabled={subItem.isEnabled === 0}
                     />

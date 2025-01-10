@@ -15,7 +15,8 @@ interface InputFieldInterface {
   error?: any;
   placeholder?: string;
   subtext?: string;
-  oldValue?:any
+  oldValue?:any;
+  maxLength?:number
 }
 
 const InputFieldComponent: React.FC<InputFieldInterface> = ({
@@ -29,7 +30,8 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   error,
   placeholder,
   subtext,
-  oldValue
+  oldValue,
+  maxLength
 }) => {
   const handleBlur = () => {
     trigger(name);
@@ -50,13 +52,13 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     if (name === "itemCode" && inputValue.length > 4) {
       return;
     }
-    if (name === "itemName" && inputValue.length > 40) {
+    if (name === "itemName" && inputValue.length > 128) {
       return;
     }
-    if (name === "coloriePoint" && inputValue.length >7 ) {
+    if (name === "coloriePoint" && inputValue.length >4 ) {
       return;
     }
-    if (name === "portionSize" && inputValue.length > 7) {
+    if (name === "portionSize" && inputValue.length > 4) {
       return;
     }
    
@@ -93,7 +95,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   
 
   const message = useSelector(
-    (state: any) => state?.getItemCodeReducer?.itemCode?.data?.message
+    (state: any) => state?.getItemCodeReducer?.errormsg
   );
 
   return (
@@ -103,6 +105,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           type={type}
           autoComplete="off"
           name={name}
+          
           value={value}
           onChange={handleChange}
           onBlur={onBlur}
@@ -113,7 +116,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
         <span className="placeholder">{subtext}</span>
       </div>
       {name === "itemCode" && message && value && value.length === 4 && (
-        <p className="itemCode-Success">{message}</p>
+        <p className="itemCode-Success-validation">{message}</p>
       )}
       { !message && error && <p className="Input-Field-Error-message">{error.message}</p>}
     </div>

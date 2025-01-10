@@ -1,0 +1,262 @@
+.completedTable{
+  width: 100%;
+  display: flex;
+}
+
+.completedTable1{
+  width: 100%;
+  display: flex;
+}
+
+.completedTableBody{
+  width: 80%;
+}
+
+.OfferSideNavbarContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.completedtable-container {
+  width: 162%; 
+  height: 80vh;
+  overflow-y: auto; 
+  overflow-x: auto;
+  font-family: "Poppins";
+  margin-left: -20px;
+}
+
+.completedtable-container1 {
+  width: 135%;
+  height: 80vh;
+  overflow-y: auto; 
+  overflow-x: auto;
+  font-family: "Poppins";
+  transition: transform 0.2s ease-in;
+}
+
+.tableHeading{
+  position: relative;
+  margin-left: -30px;
+}
+
+.tableHeading1{
+  position: relative;
+  margin-left: -20px;
+}
+
+.completedtsTableth {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+
+.completedTablee {
+  transform: translateX(20px);
+  width: 63.5%;
+  border-collapse: collapse;
+ 
+  
+}
+
+.completedTablee1 {
+  transform: translateX(20px);
+  width: 85.5%;
+  border-collapse: collapse;
+  margin-left: -20px;
+ 
+}
+
+.duration{
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  span{
+    font-size: 13px;
+  }
+}
+
+th.completedtsTableth,
+td.completedtsTabletd {
+  text-align: left;
+  padding: 12px;
+  padding: 20px;
+  padding-left: 5px;
+  cursor: pointer;
+  
+  font-family: "Poppins",sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+  // background-color: pink;
+}
+
+th.completedtsTableth {
+  background-color: white;
+  position: relative;
+  // border: 1px solid red;
+}
+.totalitem
+{
+  padding-left: 3rem;
+  text-align: center;
+  
+ 
+}
+.OfferTableHeading{
+  width: 100px;
+  position: relative;
+  left: -1.5rem;
+  font-family: "Poppins",sans-serif;
+font-size: 16px;
+font-weight: 500;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+}
+
+th.completedtsTableth:nth-child(1) {
+  width: 250px;
+  padding-left: 60px;
+  position: sticky;
+  top: 0;
+}
+
+th.completedtsTableth:nth-child(2) {
+  width: 200px;
+  padding-left: 30px;
+  position: sticky;
+  top: 0;
+}
+
+th.completedtsTableth:nth-child(3) {
+  width: 300px;
+  // padding-left: 10px;
+  position: sticky;
+  top: 0;
+}
+
+th.completedtsTableth:nth-child(4) {
+  width: 200px;
+  padding-left: 60px;
+  position: sticky;
+  top: 0;
+}
+
+th.completedtsTableth:nth-child(5) {
+  width: 200px;
+  position: sticky;
+  top: 0;
+ 
+ 
+}
+
+th.completedtsTableth:nth-child(6) {
+  width: 200px;
+  position: sticky;
+  top: 0;
+}
+
+th.completedtsTableth:nth-child(7) {
+  width: 20px;
+  position: sticky;
+  top: 0;
+}
+
+.Menu-noOptions-completed
+{
+  display: flex;
+  position: absolute;
+  top: 16rem;
+  left: 40%;
+}
+
+tr.completedtsTabletr:nth-child(odd) {
+  background-color: #e8e8e8;
+}
+.completedtsTabletr {
+  transition: height 0.3s ease; 
+  position: relative;
+  left: -1.5rem;
+}
+
+td.completedtsTabletd:nth-child(4) {
+  padding-right: 30px;
+  width: 450px;
+  padding-left: 60px;
+  min-height: 3rem;
+}
+
+td.completedtsTabletd:nth-child(3) {
+  width: 300px;
+  padding-left: -10px;
+  min-height: 3rem;
+}
+
+td.completedtsTabletd:nth-child(1) {
+  width: 270px;
+  padding-left: 60px;
+  min-height: 3rem;
+}
+
+td.completedtsTabletd:nth-child(5) {
+  padding-left: 50px;
+  min-height: 3rem;
+}
+
+td.completedtsTabletd:nth-child(2) {
+  width: 200px;
+  padding-left: 30px;
+  min-height: 3rem;
+}
+
+td.completedtsTabletd:nth-child(6) {
+  padding-left: 34px;
+  min-height: 3rem;
+}
+
+.extra-items {
+  color: green;
+  font-size: 0.9em;
+  margin-left: 5px;
+}
+
+.day-icons span {
+  display: inline-block;
+  margin-right: 4px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+}
+.OfferDiv {
+  border: 0;
+  height: 1px;
+  background-color: #e9e9e9; 
+  margin-top: -20px;
+  width: 800%;
+}
+.OfferDiv2 {
+  border: 0;
+  height: 1px;
+  background-color: #e9e9e9; 
+  margin-top: -20px;
+  width: 900%;
+}
+.RowDuration {
+  display: flex;
+  flex-direction: column;
+}
+
+.OffersDropDownTable {
+  position: absolute;
+  right: 200px;
+}

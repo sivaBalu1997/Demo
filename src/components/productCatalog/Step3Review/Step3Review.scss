@@ -1,12 +1,13 @@
 // {--------------------------Step 3 Item Customizations Heading and Edit Button ----------------------}
 .step3-Review-Container {
-  position: absolute;
+  // position: absolute;
   left: 610px;
-  width: 600px;
+  width: 40%;
   display: flex;
   flex-direction: column;
   gap: 0px;
- margin-top: 1.7rem;
+  margin-top: 1.7rem;
+  margin-left: 30px;
   // background-color: lightseagreen;
   // @media(max-width: 1080px){
   //   // background-color: lightseagreen;
@@ -31,7 +32,16 @@
 }
 
 .step3-Review-Container-heading-and-button-container {
-  width: 25vw;
+  width: 36vw;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: -1.8rem;
+}
+
+.step3-Review-Container-heading-and-button-container1{
+  width: 30vw;
   height: auto;
   display: flex;
   justify-content: space-between;

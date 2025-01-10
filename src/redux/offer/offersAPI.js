@@ -1,3 +1,4 @@
+
 import Store from "../store";
 import { API } from "redux/api";
 
@@ -74,3 +75,60 @@ export function getDropdownData(dropdownDataparams) {
     },
   });
 }
+export function getCatagoryDropdownData(payload) {
+  return API({
+    method: "post",
+    url: `/api/v1/menu-items/view/sub-section`,
+    data: payload, // Send the full payload as the request body
+  });
+}
+
+
+
+export const getSPOfferList = (locationId) => {
+  return API({
+    method: "get",
+    url: `/coupon/happy-hour/list?locationId=${locationId}`,
+  });
+};
+
+export const getSPOfferListItemDelete = (offerId) => {
+  return API({
+    method: "DELETE",
+    url: `/coupon/happy-hours?offerId=${offerId.offerId}`,
+  });
+};
+
+
+export const getSPOfferListItemDisable = (disableItem) => {
+  
+  return API({
+    method: "patch",
+    url: `/coupon/happy-hours?offerId=${disableItem.offerId}&toEnable=${disableItem.toEnable}`,
+  });
+};
+
+export const getOfferListdata = (payload) => {
+ 
+  return API({
+    method: "GET",
+    url: `coupon/happy-hours/list/items?locationId=${payload.locationId}&categoryId=${payload.catagoryId}`,
+  });
+};
+
+export const createSpecialOffer = (payload) => {
+  return API({
+    method: "post",
+    url: `/coupon/happy-hour/create`,
+    data: payload,
+  });
+};
+
+
+export const UpdateSpecialOffer = (payload) => {
+  return API({
+    method: "put",
+    url: `/coupon/happy-hour/update`,
+    data: payload,
+  });
+};

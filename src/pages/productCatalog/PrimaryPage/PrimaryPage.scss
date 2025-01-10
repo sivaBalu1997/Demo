@@ -23,18 +23,44 @@
   left: 1rem;
   // border: 2px solid pink;
 
-
   &::-webkit-scrollbar {
     display: none;
   }
-  @media (min-width: 1629px) and (max-width: 1791px) {
-    height: 39.5rem;
-    // border: 2px solid green;
-  
+
+  // @media (min-width: 1700px) and (max-width: 1800px) {
+  //   height: 35rem;
+  //   border: 1px solid blue;
+
+  // }
+  @media (max-width: 2500px) {
+    height: 45rem;
+    // border: 1px solid violet;
+   
+   }
+   @media (max-width:2000px) {
+   
+    height: 42rem;
+    // border: 1px solid brown;
   }
-  @media (min-width: 1791px) and (max-width: 1990px) {
-    height: 45.5rem;
-    // border: 2px solid gold;
+
+  @media (max-width: 1800px) {
+    height: 37rem;
+    // border: 1px solid blue;
+   
+   }
+   @media (max-width: 1600px) {
+   height: 31rem;
+    // border: 1px solid green;
+   
+   }
+  @media (max-width: 1525px) {
+    height: 23rem;
+    // border: 1px solid red;
+    padding-bottom: 4rem;
+    
+  &::-webkit-scrollbar {
+    display: none;
+  }
   
   }
 
@@ -44,53 +70,55 @@
     opacity: 40%;
     border: none;
     outline: none;
-    @media(min-width: 1700px) and (max-width: 1706.67px){
+    @media (min-width: 1700px) and (max-width: 1706.67px) {
       // border: 1px solid darkred;
     }
   }
-  .Tool-tax-class{
+  .Tool-tax-class {
     transform: translateY(22px);
     opacity: 40%;
     border: none;
     outline: none;
 
-    @media(min-width: 1599px) and (max-width: 1600.00px){
+    @media (min-width: 1599px) and (max-width: 1600px) {
       transform: translate(28px, 20px);
       // border: 1px solid darkslategrey;
     }
 
-    @media(min-width: 1700px) and (max-width: 1706.67px){
+    @media (min-width: 1700px) and (max-width: 1706.67px) {
       transform: translate(-20px, 20px);
       // border: 1px solid darkslategrey;
     }
-    @media(min-width: 1900px) and (max-width: 1920px){
+    @media (min-width: 1900px) and (max-width: 1920px) {
       transform: translate(5vw, 20px);
       // border: 1px solid darkslategrey;
       // background-color: darkorange;
     }
-    @media (min-width: 2000px) and (max-width: 2048px){
+    @media (min-width: 2000px) and (max-width: 2048px) {
       transform: translate(6vw, 20px);
       // border: 1px solid darkslategrey;
       // background-color: darkorange;
     }
   }
-  .Tool-item-code{
+  .Tool-item-code {
     transform: translateY(22px);
     opacity: 40%;
     border: none;
     outline: none;
-    @media(min-width: 1700px) and (max-width: 1706.67px){
-      transform: translate(-30px, 20px);
-      // border: 1px solid darkgoldenrod;
-    }
-    @media(min-width: 1900px) and (max-width: 1920px){
-      transform: translate(90px, 20px);
-      // border: 1px solid darkgoldenrod;
-    }
-    @media(min-width: 2000px) and (max-width: 2048px){
-      transform: translate(120px, 20px);
-      // border: 1px solid darkgoldenrod;
-    }
+    // @media (min-width: 1700px) and (max-width: 1706.67px) {
+    //   transform: translate(-30px, 20px);
+    //   // border: 1px solid darkgoldenrod;
+    // }
+    // @media (min-width: 1900px) and (max-width: 1920px) {
+    //   transform: translate(90px, 20px);
+    //   // border: 1px solid darkgoldenrod;
+    // }
+    // @media (min-width: 2000px) and (max-width: 2048px) {
+    //   transform: translate(120px, 20px);
+    //   // border: 1px solid darkgoldenrod;
+    // }
+  
+     
   }
 
   .Primary-Page-inputfiled-and-tooltip {
@@ -118,19 +146,52 @@
       width: fit-content;
       margin-top: -0.3rem;
       margin-left: -16px;
-      @media(max-width: 1280px){
-        // background-color: pink;
-        // margin-left: -50px;
-        // margin-right: 8rem;
-        transform: translateX(-35px);
+      // @media (max-width: 1280px) {
+      //   // background-color: pink;
+      //   // margin-left: -50px;
+      //   // margin-right: 8rem;
+      //   transform: translateX(-35px);
+      // }
+      // @media (min-width: 1281px) and (max-width: 1440px) {
+      //   // background-color: pink;
+      //   margin-left: -1.7rem;
+      // }
+      // @media (min-width: 1441px) and (max-width: 1536px) {
+      //   // background-color: pink;
+      //   margin-left: -2.3rem;
+      // }
+      @media (max-width: 2500px) {
+       
+        // border: 1px solid violet;
+        margin-left: 6rem;
+       
+       }
+       @media (max-width:2000px) {
+       
+      
+        // border: 1px solid brown;
+        margin-left: 4.5rem;
       }
-      @media(min-width: 1281px) and (max-width: 1440px){
-        // background-color: pink;
-        margin-left: -1.7rem;
-      }
-      @media(min-width: 1441px) and (max-width: 1536px){
-        // background-color: pink;
-        margin-left: -2.3rem;
+    
+      @media (max-width: 1800px) {
+       
+        // border: 1px solid blue;
+        margin-left: 2rem;
+       
+       }
+       @media (max-width: 1600px) {
+      
+        // border: 1px solid green;
+        margin-left: 0rem;
+       
+       }
+      @media (max-width: 1525px) {
+       
+        // border: 1px solid red;
+        margin-left: -2rem;
+   
+     
+      
       }
     }
 
@@ -141,31 +202,16 @@
       width: 1px;
     }
 
-    .tool-tip-tax-class {
-      margin-left: -25px;
-      width: fit-content;
-      height: 50px;
-      margin-top: -0.6rem;
-      @media(min-width: 1281px) and (max-width: 1440px){
-        // background-color: lightsalmon;
-        margin-left: -1.6rem;
-      }
-      @media(min-width: 1441px) and (max-width: 1536px){
-        margin-left: -1.4rem;
-        // background-color: lightgreen;
-      }
-    }
   }
 
   .Primary-page-container-one {
     display: flex;
     flex-direction: row;
-    height: 137vh;
     margin-left: 20px;
 
     .Primary-page-container-pairone {
       width: 28vw;
-      height:fit-content;
+      height: fit-content;
       // border: 1px solid red;
     }
 
@@ -178,7 +224,6 @@
         justify-content: center;
         align-items: center;
       }
-      
     }
     .alcoholradiobutton {
       display: flex;
@@ -194,7 +239,7 @@
         color: #000000;
       }
     }
-    .barcode{
+    .barcode {
       height: 6rem;
       width: fit-content;
       margin-top: 20px;
@@ -227,19 +272,17 @@
     .Primary-Page-Foodimages {
       margin-top: 1.3rem;
       height: 11rem;
-      // width: 50vw;
       width: fit-content;
       margin-bottom: 1rem;
-      // border: 1px solid red;
-      @media (max-width: 1280px) {
-        margin-bottom: 1rem;
-        // background-color: pink;
-      }
+     
 
       .image-container {
         position: relative;
         width: 100px;
         height: 100px;
+
+
+       
 
         .imcrossstyres {
           position: absolute;
@@ -256,6 +299,7 @@
           align-items: center;
           cursor: pointer;
         }
+
         .uploaded-image {
           position: relative;
           top: 0.063rem;
@@ -267,6 +311,7 @@
           top: 1rem;
         }
       }
+      
       .addingimg {
         width: 5rem;
         height: 5rem;
@@ -282,6 +327,15 @@
         flex-direction: row;
         // background-color: red;
         width: fit-content;
+        @media (max-width: 1525px) {
+          position: relative;
+          top: -1.4rem;
+          
+              // border: 1px solid red;
+              
+           
+            
+            }
       }
 
       h3 {
@@ -355,7 +409,7 @@
   .Primary-page-container-two {
     margin-left: 20px;
     height: 80vh;
-    margin-top: -11.5%;
+    // margin-top: -11.5%;
     // background-color: yellow;
     width: fit-content;
   }
@@ -366,15 +420,56 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     // background-color: pink;
     margin-top: 2rem;
+    @media (max-width: 2000px) {
+    position: relative;
+    top: -1rem;
+    // border: 1px solid red;
+     
+     }
+    //  @media (max-width: 1900px) {
+    //   // margin-left: 4.5rem;
+    //   position: relative;
+    //   top: 5rem;
+    //  border: 1px solid blue;
+    //  }
+     @media (max-width: 1770px) {
+      position: relative;
+      top: -1.5rem;
+      //  border: 1px solid black;
+      
+      }
+     @media (max-width: 1600px) {
+      position: relative;
+      top: -1rem;
+      //  border: 1px solid red;
+      
+      }
+    @media (max-width: 1525px) {
+      position: relative;
+      top: -3rem;
+      // border: 1px solid green;
+         
+          
+       
+        
+        }
   }
-  .Primary-page-ingredients-selection1
-  {
+  .Primary-page-ingredients-selection1 {
     width: 45vw;
     height: 40vh;
     border-radius: 0.313rem;
     border: 1px solid rgba(0, 0, 0, 0.3);
     // background-color: pink;
     margin-top: 5rem;
+    @media (max-width: 1525px) {
+      position: relative;
+      top: 1rem;
+      
+          // border: 1px solid red;
+          
+       
+        
+        }
   }
   .Primary-Page-Other-Details {
     display: flex;
@@ -382,6 +477,33 @@
     gap: 20px;
     position: relative;
     top: 3%;
+    @media (max-width: 2000px) {
+      position: relative;
+      top: 3rem;
+      // border: 1px solid red;
+       
+       }
+       @media (max-width: 1770px) {
+       position: relative;
+       top: 1rem;
+        // border: 1px solid black;
+       
+       }
+      @media (max-width: 1600px) {
+        position: relative;
+        top: 2rem;
+        // border: 1px solid blue;
+       
+       }
+    @media (max-width: 1525px) {
+      position: relative;
+      top: -0.5rem;
+      padding-bottom: -15rem;
+          // border: 1px solid red;
+          
+       
+        
+        }
     .Primary-Page-Other-Details-heading {
       font-family: "Poppins", sans-serif;
       font-size: 0.875rem;
@@ -399,16 +521,16 @@
       // background-color: red;
       // background-color: lightcoral;
       width: 100%;
-      @media(min-width: 1700px) and (max-width: 1706.67px){
+      @media (min-width: 1700px) and (max-width: 1706.67px) {
         // border: 1px solid darkblue;
         gap: 3vw;
       }
-      @media(min-width: 1900px) and (max-width: 1920px){
-        // border: 1px solid darkblue;
+      @media (min-width: 1900px) and (max-width: 1920px) {
+        // border: 1px solid black;
         gap: 5vw;
       }
-      @media(min-width: 2000px) and (max-width: 2048px){
-        // border: 1px solid darkblue;
+      @media (min-width: 2000px) and (max-width: 2048px) {
+        // border: 1px solid red;
         gap: 5vw;
       }
       .Caloriepointradio {
@@ -416,9 +538,9 @@
         left: 1%;
         // border: 1px solid black;
         //hehe
-        @media(min-width: 1700px) and (max-width: 1706.67px){
+        @media (min-width: 1700px) and (max-width: 1706.67px) {
           // border: 1px solid darkorchid;
-        }    
+        }
       }
       .Primary-Page-inputfiled-and-tooltip-portion {
         display: flex;
@@ -446,26 +568,64 @@
   //   left: 0.8rem;
   //   top: 0.7rem;
   // }
+  .buttonContainer {
+    width: 100%;
+    position: absolute;
+    left: -17px;
+  }
+  .buttonContainerExpanded {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+  }
 }
 
-@media (min-width: 1462px) and (max-width: 1661px) {
-  .tool-tip-item-code {
-    margin-left: -20px;
-    transform: translateX(30px);
-  }
+// @media (min-width: 1462px) and (max-width: 1661px) {
+//   .tool-tip-item-code {
+//     margin-left: -20px;
+//     transform: translateX(30px);
+//   }
 
-  // .tool-tip-tax-class {
-  //   transform: translateX(50px);
-  // }
-}
+//   // .tool-tip-tax-class {
+//   //   transform: translateX(50px);
+//   // }
+// }
 
-@media (min-width: 1662px) and (max-width: 1826px) {
-  .tool-tip-item-code {
-    margin-left: -20px;
-    transform: translateX(80px);
-  }
+// @media (min-width: 1662px) and (max-width: 1826px) {
+//   .tool-tip-item-code {
+//     margin-left: -20px;
+//     transform: translateX(80px);
+//   }
 
-  .tool-tip-tax-class {
-    transform: translateX(80px);
+//   .tool-tip-tax-class {
+//     transform: translateX(80px);
+//   }
+// }
+
+
+.Primary-Page-inputfiled-and-tooltip-taxclass
+{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+  .tool-tip-tax-class
+  {
+    margin-top: -1.8rem;
+    margin-left: -8rem;
+
+    @media (max-width:2000px) {
+      margin-left: -6.5rem;
+      
+    }
+    @media (max-width: 1800px) {
+      margin-left: 0.6rem;
+     
+     }
+     @media (max-width: 1600px) {
+    margin-left: -0.5rem;
+      
+      }
   }
+ 
 }

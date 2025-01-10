@@ -1,0 +1,50 @@
+.input-and-spantext {
+    width: 19rem;
+    height: 2.8rem;
+  }
+  .Input-Filed {
+    width: 20vw;
+    height: 44px;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.875rem;
+    padding-left: 0.625rem;
+    border-radius: 0.313rem;
+    color: black;
+    font-weight: 400;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    position: relative;
+    &:focus {
+      outline: none;
+    }
+  }
+  .Input-Field-Error-message {
+    
+    margin-top: 15px;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+    color: #e52333;
+    min-height: 0.5rem;
+    // border: 1px solid red;
+  }
+  .input-and-spantext {
+    width: 310px;
+    position: relative;
+  }
+  .placeholder {
+    position: absolute;
+    right: 6%;
+    color: #979797;
+    font-weight: 400;
+    top: 20%;
+    font-size: 0.875rem;
+  }
+  
+  
+  .itemCode-Success{
+    position: relative;
+    top: -15px;
+    color: green;
+  }

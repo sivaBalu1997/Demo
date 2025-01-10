@@ -8,7 +8,7 @@ import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActio
 // Define the types for the component's props
 interface DaysCheckProps {
   checkedItems: number[]; // Use number[] for checked items
-  setCheckedItems: React.Dispatch<React.SetStateAction<number[]>>;
+  setCheckedItems: any;
   index?: number;
   id?: string[];
   setId: React.Dispatch<React.SetStateAction<string[]>>;
@@ -16,6 +16,11 @@ interface DaysCheckProps {
   valueName?: string;
   getValues?: any;
   register?: any;
+  normalDays?: any;
+  defaultDays?: boolean;
+  errorarray?:any
+  setErrorArray?:any
+  Errorname?:string
 }
 
 // Define the type for the data returned by the API
@@ -46,6 +51,11 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   getValues,
   register,
   valueName,
+  normalDays,
+  defaultDays,
+  errorarray,
+  setErrorArray,
+  Errorname
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials?.locationId
@@ -71,36 +81,36 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     const { name, checked } = event.target;
     const dayIndex = parseInt(name, 10);
 
-    setCheckedItems((prevCheckedItems) => {
+    setCheckedItems((prevCheckedItems: any) => {
       let updatedCheckedItems: number[];
 
       if (dayIndex === 0) {
-        updatedCheckedItems = checked ? Days.map((_, i) => i) : [];
-        setId(checked ? data.map((item) => item?.id) : []);
+        updatedCheckedItems = checked ? Days?.map((_, i) => i) : [];
+        setId(checked ? data?.map((item) => item?.id) : []);
       } else {
         if (checked) {
           updatedCheckedItems = [...prevCheckedItems, dayIndex];
           setId((prevId) => [...prevId, data[dayIndex]?.id]);
         } else {
-          updatedCheckedItems = prevCheckedItems.filter(
-            (item) => item !== dayIndex
+          updatedCheckedItems = prevCheckedItems?.filter(
+            (item: any) => item !== dayIndex
           );
           setId((prevId) =>
             prevId.filter((itemId) => itemId !== data[dayIndex]?.id)
           );
         }
 
-        const allDaysSelected = Days.slice(1).every((_, i) =>
-          updatedCheckedItems.includes(i + 1)
+        const allDaysSelected = Days.slice(1)?.every((_, i) =>
+          updatedCheckedItems?.includes(i + 1)
         );
 
         if (allDaysSelected) {
           updatedCheckedItems = [
             0,
-            ...updatedCheckedItems.filter((item) => item !== 0),
+            ...updatedCheckedItems?.filter((item) => item !== 0),
           ];
         } else {
-          updatedCheckedItems = updatedCheckedItems.filter(
+          updatedCheckedItems = updatedCheckedItems?.filter(
             (item) => item !== 0
           );
         }
@@ -113,24 +123,34 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
     });
   };
 
-  useEffect(() => {
-    getApi();
-  }, []);
 
-  const getApi = async () => {
-    dispatch(getAvailabilityRequest(locationid));
-  };
+   useEffect(() => {
+        if (checkedItems && checkedItems.length > 0) {
+          console.log("checkedItemsForIndex is not empty:", checkedItems);
+          const validationErrors = { ...errorarray};
+       
+          delete validationErrors[`${Errorname}`];
+        
+          setErrorArray?.(validationErrors);
+        } else {
+          // const validationErrors = { ...errorarray};
+       
+          //  validationErrors[`${Errorname}`]="Please enter available days";
+        
+          //  setErrorArray?.(validationErrors);
+        }
+      }, [checkedItems]);
 
   return (
     <div>
       <div className="DaysCheckContainer1">
         {Days.map((elem, index) => {
-          const isChecked = checkedItems.includes(index);
+          const isChecked = checkedItems?.includes(index);
           return (
             <div key={index}>
               <input
                 type="checkbox"
-                name={index.toString()}
+                name={index?.toString()}
                 onChange={handleCheckboxChange}
                 // {...register(valueName)}
                 checked={isChecked}

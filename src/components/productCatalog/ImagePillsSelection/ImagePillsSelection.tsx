@@ -32,7 +32,9 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
   const [selectedImages, setSelectedImages] = useState<ImageOptions[]>([]);
   const initialSelectionSet = useRef(false);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing/";
+  console.log({ selectedImages });
+
+  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
 
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
@@ -122,7 +124,12 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
               <ul className="Selected-Images">
                 {selectedImages?.map((image) => (
                   <li key={image.id} className="Selected-Image-Item">
-                    <img src={baseImageUrl + image?.media?.imageId} alt="img" />
+                    <img
+                      src={`${baseImageUrl}${image?.media?.imageId}.${
+                        image?.media?.imageType?.split("/")[1]
+                      }`}
+                      alt="img"
+                    />
 
                     <span>{image?.name}</span>
                     <img
@@ -156,10 +163,12 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                     // src={`/assets/${option.imageId}.${
                     //   option.imageType && option.imageType.split("/")[1]
                     // }`}
-                    src={baseImageUrl + option?.media?.imageId}
+                    src={`${baseImageUrl}${option?.media?.imageId}.${
+                      option?.media?.imageType?.split("/")[1]
+                    }`}
                     alt="img"
                   />
-                  <span>{option?.name}</span>
+                  <span className="optionName">{option?.name}</span>
                 </li>
               ))
             ) : (

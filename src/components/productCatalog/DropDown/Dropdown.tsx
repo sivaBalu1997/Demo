@@ -18,9 +18,10 @@ interface DropdownProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleValidate?: () => void;
   placeHolder?: string;
-  validatedineMealType?:any;
-  toggleOnorOff?:boolean;
-  validatepickupdelivery?:any
+  validatedineMealType?: any;
+  toggleOnorOff?: boolean;
+  EnabledOrNot?: boolean;
+  validatepickupdelivery?: any;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -31,11 +32,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   validation,
   width,
   onBlur,
+  EnabledOrNot ,
   handleValidate,
   placeHolder,
   validatedineMealType,
   toggleOnorOff,
-  validatepickupdelivery
+  validatepickupdelivery,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [rotateImg, setRotateImg] = useState<boolean>(false);
@@ -62,9 +64,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [isOpen, selectedValues]);
 
   const handleDropdownClick = () => {
-    setIsOpen(!isOpen);
-    setRotateImg(!rotateImg);
-    setTouched(true);
+    if(EnabledOrNot){
+      setIsOpen(!isOpen);
+      setRotateImg(!rotateImg);
+      setTouched(true);
+     }
+  
   };
 
   const handleOptionClick = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,9 +78,10 @@ const Dropdown: React.FC<DropdownProps> = ({
       ? selectedValues.filter((item) => item !== value)
       : [...selectedValues, value];
     onSelect(newSelectedValues);
-    
+
     validatedineMealType && validatedineMealType();
-    validatepickupdelivery && validatepickupdelivery(toggleOnorOff,newSelectedValues)
+    validatepickupdelivery &&
+      validatepickupdelivery(toggleOnorOff, newSelectedValues);
   };
 
   const validateDropdown = (values: string[]) => {
@@ -85,7 +91,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className="dropdown-containerPricing" ref={dropdownRef}>
+    <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "60%"}}>
       <label className="droplabelPricing">{label}</label>
       <div
         className="dropdownPricingList"
@@ -102,6 +108,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             {placeHolder === "Third Party" ? "Third Party" : ""}
           </div>
         )}
+
         <div>
           <img
             src={UpArrow}
@@ -110,6 +117,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           />
         </div>
       </div>
+
       {isOpen && (
         <div className="optionsPricing">
           {options.length > 0 ? (
@@ -124,7 +132,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                   checked={selectedValues.includes(option)}
                   onChange={handleOptionClick}
                 />
-                {option}
+                <p>{option}</p>
               </label>
             ))
           ) : (
@@ -134,6 +142,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           )}
         </div>
       )}
+
       {!validation?.isValid && (
         <p style={{ color: "red", fontSize: "0.75rem", fontWeight: "500" }}>
           {validation?.errorMessage}

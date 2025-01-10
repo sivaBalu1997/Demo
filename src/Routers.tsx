@@ -59,7 +59,11 @@ import PendingComponent from "pages/ContentManagement/PendingOutlet/PendingOutle
 
 import LiveOutlets from "pages/ContentManagement/LiveOutlets/LiveOutlets";
 import EmptyMenu from "pages/menuItem/EmptyMenu";
-// import OffersTable from "pages/offerManagement/OffersTable"
+import OffersTable from "pages/offerManagement/OffersTable"
+import OffersHeader from "./components/offerManagement/OffersHeader"
+import DaysWeekOffer from "./components/offerManagement/DaysOfweekOffers/"
+import completedTable from "pages/offerManagement/completedTable/completedTable";
+import offerSpecial from './pages/offerManagement/specialPriceDetails/specialPriceDetails'
 
 const Routers = () => {
   const MIN_WIDTH = 800;
@@ -85,8 +89,10 @@ const Routers = () => {
         <Contextpage>
           <ThemeProvider>
             <Route exact path="/review" component={ReviewMenu} />
-            <Route exact path='/Offers' component={Offerdetails} />
-            {/* <Route exact path="/Offers/active" component={OffersTable} /> */}
+            <Route exact path='/Offer' component={Offerdetails} />
+            <Route exact path="/Offers" component={OffersHeader} />
+            <Route exact path="/Offers/active" component={OffersTable} />
+            <Route exact path='/Offers/completed' component={completedTable} />
 
             <Route
               exact
@@ -220,6 +226,10 @@ const Routers = () => {
                   </Switch>
                 </div>
               </>
+            </div>
+
+            <div className="specialOffers">
+              <Route exact path="/offer/special" component={offerSpecial} />
             </div>
 
             <div>

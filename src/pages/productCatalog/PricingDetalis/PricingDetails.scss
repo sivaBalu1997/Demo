@@ -92,10 +92,11 @@
 .pricing-form {
   display: flex;
   flex-direction: column;
-  width: 1120px;
+  width: 80%;
   margin-left: 55px;
   // overflow-y: auto;
   height: 82vh;
+  overflow-x: hidden;
   // background-color: pink;
   // @media (min-width: 1400px) and (max-width: 1440px){
   //   background-color: palegreen;
@@ -111,6 +112,16 @@
     display: none;
   }
   // font-size: 14px;
+  .buttonContainer{
+    width: 100%;
+    position: absolute;
+    left: 15.5px;
+  }
+  .buttonContainerExpanded{
+    width: 100%;
+    position: absolute;
+    left: 10px;
+  }
 }
 
 .KitchenRelated {
@@ -140,9 +151,9 @@
   margin-top: -1.2rem;
   .heading {
     position: relative;
-    top: -0.3rem;
+    top: -0.5rem;
     color: #424242;
-    font-family: Poppins;
+    font-family: "Poppins",sans-serif;
     font-size: 14.38px;
     font-weight: 400;
     line-height: 21.56px;
@@ -202,15 +213,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
-  color: #000;
+ ;
+  color: #000000;
+  font-family: "Poppins",sans-serif;
+font-size: 18.5px;
+font-weight: 400;
+line-height: 28.75px;
+letter-spacing: 0.0015em;
+text-align: center;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
 }
 
 .KitchenRelatedHeading {
   margin-top: 20px;
   transform: translateY(15px);
   padding-bottom: 8px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
 }
 .ErrorsForm {
   font-size: 0.75rem;
@@ -255,8 +277,8 @@
 }
 .checkbox1-Kitchen {
   accent-color: #779749;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 20px;
+  height:20px;
   margin-top: 0px;
 margin-left:-1px ;
   transform: translateY(5px);
@@ -272,12 +294,12 @@ margin-left:-1px ;
   // background-color: lightseagreen;
 }
 .services-Heading {
-  font-family: Poppins;
-  font-size: 14px;
+  font-family: "Poppins",sans-serif;
+  font-size: 16px;
   font-weight: 500;
   line-height: 24px;
   text-align: left;
-  margin-left: 8px;
+  margin-left: 6px;
   margin-bottom: -5px;
   margin-top: 10px;
 }
@@ -449,9 +471,17 @@ margin-left:-1px ;
 }
 
 .N1 {
-  margin-left: 5px;
+  margin-left: 3px;
   font-size: 14px;
   font-weight: 500;
+  font-family: "Poppins",sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
 }
 .S1 {
   margin-left: 5px;
@@ -467,6 +497,7 @@ margin-left:-1px ;
   width: 20px;
   height: 20px;
   transform: translateY(5px);
+ 
 }
 
 .buttoncomponentpricing {

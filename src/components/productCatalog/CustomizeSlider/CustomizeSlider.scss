@@ -1,50 +1,51 @@
-.customize-container{
-    width: 394px;
-   height: auto;
-    margin-left: 10px;
-    padding-top: 10px;
-    padding-left: 10px;
- 
-
+.customize-container {
+  width: 394px;
+  height: auto;
+  margin-left: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
 }
 
-.customize-heading{
-    font-family: Poppins;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 60px;
-    align-items: Center;
-    margin-left: 1rem;
+.customize-heading {
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 60px;
+  align-items: Center;
+  margin-left: 1rem;
 }
 
 // {****************Items****************************************************************************************}
 
-.items-container{
-    width: 308px;
-    height: auto;
-    margin-top: -10px;
-    padding-left: 40px;
+.items-container {
+  width: 308px;
+  height: auto;
+  margin-top: -10px;
+  padding-left: 40px;
 }
-.item-toggle-container-flex{
-    display: flex;
-    justify-content: flex-start;
-    gap: 17px;
-    margin-top: -1%;
-    margin-left: -5%;
-
-}
-
-.item-heading{
-    font-family: Poppins;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 40px;
+.item-toggle-container-flex {
+  display: flex;
+  justify-content: flex-start;
+  gap: 17px;
+  margin-top: -1%;
+  margin-left: -5%;
 }
 
-.toggle-container{
-    position: relative;
-    top: 12px   ;
-    left: 20px;
+.item-heading {
+  display: flex;
+  width: 100px;
+  font-family: Poppins;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 40px;
+  margin: 0;
+  
+}
+
+.toggle-container {
+  position: relative;
+  top: 12px;
+//   left: 20px;
 }
 // .input-subitem-field
 // {
@@ -54,76 +55,72 @@
 
 // }
 
-
 // {-------------------------------------SubItems--------------------------------------------------------------------}
-.subitems-toggle-container-flex-direction{
-    
-
-    display: flex;
-    flex-direction: column;
-    margin-left: 15px;
-    margin-bottom: 5px;
+.subitems-toggle-container-flex-direction {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  margin-bottom: 5px;
   margin-top: 10px;
-}
-.subitems-toggle-container-flex{
-    width: 200px;
-    display: flex;
-    justify-content: flex-start;
-    gap: 45px;
-    .input-subitem
-    {
-        position: relative;
-        left: 35px;
-    }
+  justify-content: center;
+  align-items: center;
 }
 
-.subItemToggle{
+.subitems-toggle-container-flex {
+  width: 200px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 45px;
+  .input-subitem {
     position: relative;
-    top: 4px;
-
+    left: 35px;
+  }
 }
 
-.input-subitem{
-    position: relative;
-    top: -20px;
-    left: 20px;
-    width:80px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    height: 28px;
-    border-radius: 3.18px;
- border: 0.64px solid #000000;
- padding-left: 20px;
- padding-top: 4px;
- color: #000000;
+.subItemToggle {
+  position: relative;
+  top: 4px;
 }
-.priceSymbol-customize{
-width: 10px;
-//   border: 1px solid red;
+
+.input-subitem {
+  position: relative;
+  top: -20px;
+  left: 20px;
+  width: 80px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 28px;
+  border-radius: 3.18px;
+  border: 0.64px solid #000000;
+  padding-left: 20px;
+  padding-top: 4px;
+  color: #000000;
+}
+.priceSymbol-customize {
+  width: 10px;
+  //   border: 1px solid red;
   position: relative;
   // left: 25%;
-//   top: 4%;
-top: -1px;
+  //   top: 4%;
+  top: -1px;
 }
 
-.input-subitem-field
-{
-    border: none;
-    height: 25px;
-    width:65px;
-    outline: none;
-    position: relative;
-    // left: -0.5rem;
-    // border: 1px solid red;
-    padding: 0;
-    padding-left: 2px;
-
+.input-subitem-field {
+  border: none;
+  height: 25px;
+  width: 65px;
+  outline: none;
+  position: relative;
+  // left: -0.5rem;
+  // border: 1px solid red;
+  padding: 0;
+  padding-left: 2px;
 }
 
-.subitem-heading{
-    width: 64px;
-    font-family: Poppins;
-    font-size: 16px;
-    color: #5F5F5F;
+.subitem-heading {
+  width: 64px;
+  font-family: Poppins;
+  font-size: 16px;
+  color: #5f5f5f;
 }

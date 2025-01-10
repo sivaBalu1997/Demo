@@ -122,6 +122,7 @@ import {
   TAXCLASS_REQUEST,
   TAXCLASS_SUCCESS,
   TAXCLASS_FAILURE,
+  GET_ITEM_CODE_VaLIDATION_ERROR,
 } from "../productCatalog/productCatalogConstants";
 import { kitchenStationSuccess } from "./productCatalogActions";
 
@@ -693,7 +694,7 @@ export default function productCatalogReducer(
       case UPLOAD_IMAGE_SUCCESS:
         draft.imageuploadStatus = action.payload;
         draft.uploadImageLoading = false;
-        draft.imageUploadsuccessemsg = false;
+        draft.imageUploadsuccessemsg = true;
         draft.addMenuLoading = false;
         break;
 
@@ -708,7 +709,7 @@ export default function productCatalogReducer(
       case IMAGE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
         draft.itemId = action.payload;
-        draft.imageUploadsuccessemsg = false;
+        draft.imageUploadsuccessemsg = true;
         draft.addMenuLoading = false;
         break;
 
@@ -722,6 +723,7 @@ export default function productCatalogReducer(
 
       case STORE_UPLOAD_SUCCESS:
         draft.uploadImageLoading = false;
+        console.log('From reducer',action.payload)
         draft.successImageId = action.payload;
         draft.imageUploadsuccessemsg = true;
         draft.addMenuLoading = false;
@@ -957,6 +959,7 @@ const initialState = {
 export const itemCustomizationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Item_Customizations_Data_Request:
+      console.log('IC payload',action.payload)
       return { ...state, itemData: action.payload };
     case REMOVE_DATA_REQUEST:
       return {
@@ -1176,6 +1179,9 @@ const itemCode = {
   itemCode: null,
   loading: false,
   error: null,
+  success:null,
+  errormsg:null
+  
 };
 
 export const getItemCodeReducer = (state = initialState, action) => {
@@ -1191,12 +1197,22 @@ export const getItemCodeReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         itemCode: action.payload,
+        errormsg: null,
       };
+      
+    case GET_ITEM_CODE_VaLIDATION_ERROR:
+      return{
+        ...state,
+        loading: false,
+        errormsg: action.payload,
+
+      } ;
     case GET_ITEM_CODE_FAILURE:
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        itemCode: action.payload,
+
       };
       case REMOVE_DATA_REQUEST: 
         return {

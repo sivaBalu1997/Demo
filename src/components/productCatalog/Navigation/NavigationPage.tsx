@@ -28,6 +28,7 @@ interface NavButtonProps {
   validateModifiers?: any;
   itemcodeValid?: any;
   valiadtesubCategory?: any;
+  setKitchenError?:any
 }
 
 const Navigationpage: React.FC<NavButtonProps> = ({
@@ -42,6 +43,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   handleValidate,
   itemcodeValid,
   valiadtesubCategory,
+  setKitchenError
 }) => {
   const { isExpanded } = useContext(Contextpagejs);
   const formData = getFormData();
@@ -86,8 +88,9 @@ const Navigationpage: React.FC<NavButtonProps> = ({
   const handleclick = async (category: any) => {
     const path = category.replace(/\s+/g, "");
 
-    if (currentPage === "Primary Details" && triggerValidation) {
+    if (currentPage === "Primary Details" && triggerValidation && valiadtesubCategory) {
       const isFormValid = await triggerValidation(formData);
+      const valiadtesubcategorynn= valiadtesubCategory()
       if (!isFormValid) {
         window.scrollTo({
           top: 0,
@@ -95,10 +98,13 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         });
         return;
       } else {
-        setNavigate(true)
-        dispatch(primarypost(formData));
-        isFormValid && setCurrentPage(category);
-        history.push(`/productCatalog/${path}`, { pagename: category });
+        if(valiadtesubcategorynn){
+          setNavigate(true)
+          dispatch(primarypost(formData));
+          isFormValid && setCurrentPage(category);
+          history.push(`/productCatalog/${path}`, { pagename: category });
+        }
+       
       }
     } 
     
@@ -106,12 +112,13 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       currentPage === "Pricing and kitchen details" &&
       triggerValidation
     ) {
+      setKitchenError(true)
       const isValid = handleValidate && handleValidate();
       setNavigate(true)
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
 
-      const isinValid = await triggerValidation(formData);
+     
 
       if (formData.kitchenstation) {
         PricingDetails = {
@@ -147,12 +154,23 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         console.error("formData.Preparationtime is undefined");
       }
 
-      if (isValid) {
+
+      if(category==="Primary Details")
+      {
         dispatch(PricingDetailRequest(PricingDetails));
         setNavigate(true)
         setCurrentPage(category);
         history.push(`/productCatalog/${path}`, { pagename: category });
       }
+      else{
+        if (category==="Item customizations" &&isValid) {
+          dispatch(PricingDetailRequest(PricingDetails));
+          setNavigate(true)
+          setCurrentPage(category);
+          history.push(`/productCatalog/${path}`, { pagename: category });
+        }
+      }
+     
     }
     
     else if (currentPage === "Item customizations") {
@@ -170,11 +188,12 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       });
 
       if(isValid){
+       
+      }
+     
+      setCurrentPage(category);
         dispatch(itemCustomizationPost(modificationArray));
         history.push(`/productCatalog/${path}`, { pagename: category });
-      }
-      const formData = getFormData(); 
-      setCurrentPage(category);
     }
   };
 
@@ -189,7 +208,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     const path = category.replace(/\s+/g, "");
     handleclick(category);
     // navigate && setCurrentPage(category);
-    // navigate && history.push(`/productCatalog/${path}`, { pagename: category });
+    //  history.push(`/productCatalog/${path}`, { pagename: category });
   };
 
   return (

@@ -11,9 +11,10 @@
 
 .reviewContaineExpanded {
   display: flex;
-  width: 93vw;
-  @media(max-width: 1280px){
-    width: 105vw;
+  width: 98vw;
+
+  @media (max-width: 1280px) {
+    // width: 105vw;
     // background-color: lightsalmon;
   }
 }
@@ -51,7 +52,7 @@
     font-weight: 500;
     color: #67833e;
   }
-  @media(min-width: 2000px) and (max-width: 2048px){
+  @media (min-width: 2000px) and (max-width: 2048px) {
     // border-bottom-width: 120vw;
     // border-bottom-height:  ;
     // background-color: pink;
@@ -205,8 +206,7 @@
   .primaryimages {
     width: 500px;
     height: 215px;
-    // border: 1px solid green;
-    position: relative;
+    margin-top: 50px;
     top: 40px;
     bottom: 10px;
     p {
@@ -256,7 +256,7 @@
   .primarydescription {
     // width: 500px;
     height: auto;
-    position: relative;
+    // position: relative;
     top: 35px;
 
     p {
@@ -273,6 +273,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
+      margin-top: -0.3rem;
 
       p {
         font-family: "Poppins", sans-serif;
@@ -290,7 +291,7 @@
   .primarybestpairedfood {
     width: 500px;
     height: 75px;
-    position: relative;
+    // position: relative;
     top: 35px;
 
     P {
@@ -486,39 +487,39 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  width: 108%;
+  width: 100%;
   background-color: white;
   top: 50px;
-  right: 30px;
+  left: -10px;
   height: 5px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
   // right: 90px;
   transition: 0.2s ease all;
-  @media(max-width: 1280px){
+  @media (max-width: 1280px) {
     width: 75vw;
     height: fit-content;
     // background-color: pink;
   }
-  @media(max-width: 1470px) and (min-width: 1281px){
-    width: 75vw;
+  @media (max-width: 1470px) and (min-width: 1281px) {
+    // width: 75vw;
     height: fit-content;
     // background-color: lightskyblue;
   }
 
-  @media(min-width: 1700px) and (max-width: 1706.67px){
+  @media (min-width: 1700px) and (max-width: 1706.67px) {
     // background-color: #67833e;
     height: fit-content;
     width: 122%;
   }
 
-  @media(min-width: 1900px) and (max-width: 1920px){
-        // background-color: #67833e;
-        height: fit-content;
-        width: 138%;
+  @media (min-width: 1900px) and (max-width: 1920px) {
+    // background-color: #67833e;
+    height: fit-content;
+    width: 138%;
   }
 
-  @media (min-width: 2000px) and (max-width: 2048px){
+  @media (min-width: 2000px) and (max-width: 2048px) {
     // background-color: pink;
     height: fit-content;
     width: 148%;
@@ -565,26 +566,29 @@
   display: flex;
   position: relative;
   justify-content: flex-end;
-  width: 86vw;
+  right: 0;
+  width: 100%;
   height: fit-content;
   background-color: white;
   // background-color: pink;
-  top: 48px;
+  top: 76px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
   transition: 0.2s ease all;
-  @media(max-width: 1470px) and (min-width: 1281px){
+  
+  @media (max-width: 1470px) and (min-width: 1281px) {
     // width: 120%; /* Adjusted width for smaller screens */
-    width: 86.2vw;
+    width: 90vw;
     height: fit-content;
-    top: 25px;
-    padding: 16px 16px; 
+    top: 76px;
+    padding: 16px 16px;
     transition: 0.2s ease all;
+    right: 0 !important;
     // background-color: lightseagreen;
   }
-  @media(max-width: 1280px){
+  @media (max-width: 1280px) {
     // width: 70vw;
-    width: 86.2vw;
+    // width: 86.2vw;
     height: fit-content;
     // background-color: pink;
   }
@@ -714,7 +718,6 @@
 //   }
 // }
 
-
 // .part-two {
 //   display: flex;
 //   flex-direction: row;
@@ -738,37 +741,32 @@
 //   }
 // }
 
-
-
-.part-two
-{
+.part-two {
   display: flex;
   height: 100%;
   // border: 1px solid red;
-
 }
-  .verticalLine {
-    width: 1px;
-    height: 90rem;
-    background-color: #c4c4c4;
-    // background-color: red;
-    position: relative;
-    // top: 145%;
-    left: 34%;
-    // @media(max-width: 1080px){
-    //   left: -545px;
-    // }
-  }
-  .verticalLineExpand
-  {
-    width: 1px;
-    height: 90rem;
-    background-color: #c4c4c4;
-    // background-color: red;
-    position: relative;
-    // top: 145%;
-    left: 42%;
-    // @media(max-width: 1080px){
-    //   left: -545px;
-    // }
-  }
+.verticalLine {
+  width: 1px;
+  height: 90rem;
+  background-color: #c4c4c4;
+  // background-color: red;
+  // position: relative;
+  // top: 145%;
+  left: 34%;
+  // @media(max-width: 1080px){
+  //   left: -545px;
+  // }
+}
+.verticalLineExpand {
+  width: 1px;
+  height: 90rem;
+  background-color: #c4c4c4;
+  // background-color: red;
+  // position: relative;
+  // top: 145%;
+  left: 42%;
+  // @media(max-width: 1080px){
+  //   left: -545px;
+  // }
+}

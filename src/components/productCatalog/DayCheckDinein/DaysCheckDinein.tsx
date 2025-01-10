@@ -5,10 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAvailabilityRequest } from "redux/productCatalog/productCatalogActions";
 
 interface DaysCheckProps {
-  checkedItems: number[][];
-  setCheckedItems: (items: number[][]) => void;
+  checkedItems: any;
+  // setCheckedItems: (items: number[][]) => void;
+  setCheckedItems: any;
   index: number;
   getDisabledDays?: any;
+  normalDays?:any;
+  defaultDays?:boolean;
+  errorarray?:any
+  setErrorArray?:any
+  Errorname?:string
 }
 
 interface DataItem {
@@ -35,6 +41,11 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   setCheckedItems,
   index,
   getDisabledDays,
+  normalDays,
+  defaultDays,
+  errorarray,
+  setErrorArray,
+  Errorname
 }) => {
   const data = [
     "All days",
@@ -48,6 +59,10 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   ];
 
   const disabledDays = getDisabledDays(index);
+
+
+
+
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -63,7 +78,7 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
         newCheckedItems[index] = [...(newCheckedItems[index] || []), dayIndex];
       } else {
         newCheckedItems[index] = (newCheckedItems[index] || []).filter(
-          (item) => item !== dayIndex
+          (item: any) => item !== dayIndex
         );
       }
       const allDaysSelected = data
@@ -72,11 +87,11 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       if (allDaysSelected) {
         newCheckedItems[index] = [
           0,
-          ...newCheckedItems[index].filter((item) => item !== 0),
+          ...newCheckedItems[index].filter((item: any) => item !== 0),
         ];
       } else {
         newCheckedItems[index] = newCheckedItems[index].filter(
-          (item) => item !== 0
+          (item: any) => item !== 0
         );
       }
     }
@@ -86,6 +101,27 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   const checkedItemsForIndex = Array?.isArray(checkedItems[index])
     ? checkedItems[index]
     : [];
+
+
+
+    useEffect(() => {
+      if (checkedItemsForIndex && checkedItemsForIndex.length > 0) {
+        // console.log("checkedItemsForIndex is not empty:", checkedItemsForIndex);
+        const validationErrors = { ...errorarray};
+     
+        delete validationErrors[`${Errorname}`];
+      
+        setErrorArray(validationErrors);
+      } else {
+        // const validationErrors = { ...errorarray};
+     
+        //  validationErrors[`${Errorname}`]="Please enter available days";
+      
+        // setErrorArray(validationErrors);
+      }
+    }, [checkedItemsForIndex]);
+    
+
 
   return (
     <div className="container-daycheck">

@@ -1,7 +1,10 @@
 import React, { useState, useCallback, useEffect, Fragment, useContext } from "react";
 import "../../styles/menu.scss";
 import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { SELECTED_BRANCH_DATA, STORAGE_BUCKET_URL } from "../../shared/constants";
+import {
+  SELECTED_BRANCH_DATA,
+  STORAGE_BUCKET_URL,
+} from "../../shared/constants";
 // import MenuItems from "../menuItems";
 import {
   getRestaurantRequest,
@@ -17,10 +20,10 @@ import { ReactComponent as Uparrow } from "../../assets/svg/up_arrow.svg";
 import { ReactComponent as Downarrow } from "../../assets/svg/down_arrow.svg";
 import { ReactComponent as Payment } from "../../assets/svg/payment.svg";
 import { ReactComponent as Offer } from "../../assets/svg/offer.svg";
-import btnnav from '../../assets/svg/btnnav.svg'
+import btnnav from "../../assets/svg/btnnav.svg";
 import { RootState } from "redux/rootReducer";
 import { Contextpagejs } from "pages/productCatalog/contextpage";
-import { ReactComponent as CMS } from "../../assets/svg/CMS.svg"
+import { ReactComponent as CMS } from "../../assets/svg/CMS.svg";
 import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
 
 const SidePanel = () => {
@@ -28,8 +31,8 @@ const SidePanel = () => {
   const selectedBranch: string = localStorage.getItem(SELECTED_BRANCH_DATA) || ''
   const branch = selectedBranch && selectedBranch !== "undefined" ? JSON.parse(selectedBranch) : null;
   const menuOptions = ["Items", "Product Catalog"];
-  const offerMenuOptions = ["Offers"];
   const reportInsightsOptions = ['Reports & Insights', 'Chart JS'];
+  const offerMenuOptions = ["Offers", "Special Price"];
 
   const history = useHistory();
 
@@ -38,7 +41,6 @@ const SidePanel = () => {
   //     history.push(`/report/32`);
   //   }
   // }, [history]);
-
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -137,55 +139,59 @@ const SidePanel = () => {
   }, [restaurantDetails]);
 
   const toggleExpand = () => {
-    setIsExpanded(!isExpanded)
-  }
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <>
-      <div className={`menu is-sticky ${isExpanded ? 'expanded' : ''}`}>
+      <div className={`menu is-sticky ${isExpanded ? "expanded" : ""}`}>
         <div className="logo-container">
           <div>
             <img src={getImageURL("LOGO")} className="restaurant-logo" />
           </div>
           <div className="restaurant-name-container">
-            {isExpanded && <span className="restaurant-name">
-              {restaurantDetails &&
-                restaurantDetails.branchName &&
-                restaurantDetails.branchName.split(",")[0]}
-            </span>}
-            {isExpanded && <div>
-              <select
-                className="branch-dropdown"
-                disabled={
-                  location.pathname?.includes("/employees/add") ||
-                  restaurantDetails?.branch?.length == 1 ||
-                  (UserRole !== "Restaurant_Owner" &&
-                    UserRole !== "Regional_Employee" &&
-                    UserRole !== "Magil_Admin")
-                }
-                onChange={(e) => {
-                  dispatch(selectBranch(JSON.parse(e.target.value)));
-                  localStorage.setItem(
-                    SELECTED_BRANCH_DATA,
-                    JSON.stringify(JSON.parse(e.target.value))
-                  );
-                }}
-                value={selectedBranch}
-              >
+            {isExpanded && (
+              <span className="restaurant-name">
                 {restaurantDetails &&
-                  restaurantDetails.branch &&
-                  restaurantDetails.branch.map((u, i) => {
-                    return (
-                      <option
-                        value={`${JSON.stringify(u)}`}
-                      //selected={userBranchName}
-                      >
-                        {u.locationName.split(",")[1]}
-                      </option>
+                  restaurantDetails.branchName &&
+                  restaurantDetails.branchName.split(",")[0]}
+              </span>
+            )}
+            {isExpanded && (
+              <div>
+                <select
+                  className="branch-dropdown"
+                  disabled={
+                    location.pathname?.includes("/employees/add") ||
+                    restaurantDetails?.branch?.length == 1 ||
+                    (UserRole !== "Restaurant_Owner" &&
+                      UserRole !== "Regional_Employee" &&
+                      UserRole !== "Magil_Admin")
+                  }
+                  onChange={(e) => {
+                    dispatch(selectBranch(JSON.parse(e.target.value)));
+                    localStorage.setItem(
+                      SELECTED_BRANCH_DATA,
+                      JSON.stringify(JSON.parse(e.target.value))
                     );
-                  })}
-              </select>
-            </div>}
+                  }}
+                  value={selectedBranch}
+                >
+                  {restaurantDetails &&
+                    restaurantDetails.branch &&
+                    restaurantDetails.branch.map((u, i) => {
+                      return (
+                        <option
+                          value={`${JSON.stringify(u)}`}
+                        //selected={userBranchName}
+                        >
+                          {u.locationName.split(",")[1]}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+            )}
           </div>
         </div>
         <ul>
@@ -296,7 +302,7 @@ const SidePanel = () => {
             }
             style={{
               cursor: "pointer",
-              marginTop: '28px',
+              marginTop: "28px",
             }}
             onClick={() => {
               dispatch(removeDataRequest());
@@ -324,7 +330,7 @@ const SidePanel = () => {
               </span>}
           </div>
 
-          {/* <div
+          <div
             className={
               showOfferOptions === "MenuOptions"
                 ? "active drop-down"
@@ -336,9 +342,11 @@ const SidePanel = () => {
                 : setShowOfferOptions("")
             }
           >
-            <div style={{ cursor: "pointer"}}>
+            <div style={{ cursor: "pointer" }}>
               <Offer className="menu-items-SVG" />
-              {isExpanded && <span className="menu-items-name">Offer Management</span>}
+              {isExpanded && (
+                <span className="menu-items-name">Offer Management</span>
+              )}
             </div>
             {showOfferOptions === "MenuOptions" ? (
               <Uparrow
@@ -351,9 +359,9 @@ const SidePanel = () => {
                 style={{ marginLeft: "15px" }}
               />
             )}
-          </div> */}
+          </div>
 
-          <div
+          {/* <div
             className={
               showOptions === "Offer" &&
                 location.pathname.includes("/Offers")
@@ -386,7 +394,7 @@ const SidePanel = () => {
               </span>}
           </div>
 
-          <ul className="menu-items-list">
+          {/* <ul className="menu-items-list">
             {showOfferOptions === "MenuOptions"
               ? offerMenuOptions.map((option) => (
                 <NavLink
@@ -405,6 +413,23 @@ const SidePanel = () => {
               ))
               : null}
 
+          </ul> */}
+
+          <ul className="menu-items-list">
+            {showOfferOptions === "MenuOptions"
+              ? offerMenuOptions.map((option) => (
+                <li>
+                  <span
+                    className="d-inline-block m-t-20"
+                    onClick={() => {
+                      option === 'Offers' ? history.push('/Offer') : history.push('/Offers/active')
+                    }}
+                  >
+                    {option}
+                  </span>
+                </li>
+              ))
+              : null}
           </ul>
           {/* Report ==================================================================== */}
           {/* <div
@@ -498,16 +523,16 @@ const SidePanel = () => {
                 ? "active"
                 : "down"
             }
-            style={{ 
+            style={{
               cursor: "pointer",
-              marginTop:'28px',
+              marginTop: "28px",
             }}
             onClick={() => {
               if (showOptions !== "report") {
-                setShowOptions("report"); 
+                setShowOptions("report");
               }
               if (!location.pathname.includes("/old-reports")) {
-                history.push("/old-reports"); 
+                history.push("/old-reports");
               }
             }}
           >
@@ -550,10 +575,12 @@ const SidePanel = () => {
           </div>
         </ul >
         <div>
-          {isExpanded && <div className="magilhub-bottom-logo">
-            <span className="powered-text1">Powered by</span>
-            <span className="magilhub-logo1">Maghil</span>
-          </div>}
+          {isExpanded && (
+            <div className="magilhub-bottom-logo">
+              <span className="powered-text1">Powered by</span>
+              <span className="magilhub-logo1">Maghil</span>
+            </div>
+          )}
         </div>
       </div >
       <div>
