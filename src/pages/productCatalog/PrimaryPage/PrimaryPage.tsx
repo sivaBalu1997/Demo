@@ -342,7 +342,7 @@ const PrimaryPage = () => {
     }
   }, [ItemsPrimaryDetails, setValue]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
 
   useEffect(() => {
     if (ItemsPrimaryDetails?.imageUrls) {
@@ -813,18 +813,18 @@ const PrimaryPage = () => {
   const categoryList = getValues("category");
   const subcategoryList = getValues("subCategory");
   useEffect(() => {
-   
-  
+
+
     if (
       categoryList !== "" &&
       subcategoryList === "" &&
-      (subCategoryData?.length > 0 )
+      (subCategoryData?.length > 0)
     ) {
       setShowAsterisk(true);
     } else {
       setShowAsterisk(false);
     }
-  }, [getValues,categoryList,subCategoryData]);
+  }, [getValues, categoryList, subCategoryData]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -860,14 +860,14 @@ const PrimaryPage = () => {
 
                     rules={{
                       required: "Item Name is required",
-                      
+
                     }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
                         onChange={onChange}
                         onBlur={onBlur}
-                         maxLength={128}
+                        maxLength={128}
                         value={value}
                         trigger={trigger}
                         error={errors.itemName}
@@ -1087,7 +1087,7 @@ const PrimaryPage = () => {
                       accept="image/png, image/jpeg"
                       multiple
                       onChange={handleImageChange}
-                      // name="imageUrls"
+                    // name="imageUrls"
                     />
 
                     {images?.map((img, index) => (
@@ -1293,9 +1293,9 @@ const PrimaryPage = () => {
 
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
-                  <LableComponent 
-  lable={`Sub Category${showAsterisk ? "*" : ""}`}
-/>
+                    <LableComponent
+                      lable={`Sub Category${showAsterisk ? "*" : ""}`}
+                    />
                     <Controller
                       name="subCategory"
                       control={control}
@@ -1407,7 +1407,7 @@ const PrimaryPage = () => {
                     <Controller
                       name="coloriePoint"
                       control={control}
-                   
+
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
@@ -1426,7 +1426,7 @@ const PrimaryPage = () => {
                               e.key === "-" ||
                               e.key === "+"
                             ) {
-                              e.preventDefault(); 
+                              e.preventDefault();
                             }
                           }}
                           placeholder="cal"
@@ -1555,36 +1555,36 @@ const PrimaryPage = () => {
                         )}
                       /> */}
                       <div className="tax-with-tooltip">
-                      <Controller
-                        name="tax"
-                        control={control}
-                        render={({ field }: any) => (
-                          <Dropdown
-                            options={taxData}
-                            type="radio"
-                            setOptions={setTaxType}
-                            placeholder="Tax Class Association"
-                            register={register}
-                            name="tax"
-                            trigger={trigger}
-                            setValue={setValue}
-                            getValues={getValues}
-                           
-                            // validation={{ required: "Tax is required" }}
-                            // error={errors.tax}
-                            dropdownopen={DropdownOpen.tax}
-                            onToggle={() => handleDropdownToggle("tax")}
-                            setDropdownOpen={setDropdownOpen}
-                            addNew={false}
-                            editValues={false}
-                            dropDownType="TAX"
-                            resetSelection={resetSelectionRef}
-                            parentId={parentId}
-                            setParentId={setParentId}
-                            isTaxDropDown={true}
-                          />
-                        )}
-                      />
+                        <Controller
+                          name="tax"
+                          control={control}
+                          render={({ field }: any) => (
+                            <Dropdown
+                              options={taxData}
+                              type="radio"
+                              setOptions={setTaxType}
+                              placeholder="Tax Class Association"
+                              register={register}
+                              name="tax"
+                              trigger={trigger}
+                              setValue={setValue}
+                              getValues={getValues}
+
+                              // validation={{ required: "Tax is required" }}
+                              // error={errors.tax}
+                              dropdownopen={DropdownOpen.tax}
+                              onToggle={() => handleDropdownToggle("tax")}
+                              setDropdownOpen={setDropdownOpen}
+                              addNew={false}
+                              editValues={false}
+                              dropDownType="TAX"
+                              resetSelection={resetSelectionRef}
+                              parentId={parentId}
+                              setParentId={setParentId}
+                              isTaxDropDown={true}
+                            />
+                          )}
+                        />
                       </div>
 
                       <div className="tool-tip-tax-class">
@@ -1621,8 +1621,8 @@ const PrimaryPage = () => {
                           </div>
                         </TooltipMsg>
                       </div>
-                      
-                      
+
+
                     </div>
                   </div>
                 </div>

@@ -34,7 +34,7 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
 
   console.log({ selectedImages });
 
-  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
 
   const ItemsPrimaryDetails = useSelector(
     (state: any) => state.primarypage?.data
@@ -125,9 +125,8 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                 {selectedImages?.map((image) => (
                   <li key={image.id} className="Selected-Image-Item">
                     <img
-                      src={`${baseImageUrl}${image?.media?.imageId}.${
-                        image?.media?.imageType?.split("/")[1]
-                      }`}
+                      src={`${baseImageUrl}${image?.media?.imageId}.${image?.media?.imageType?.split("/")[1]
+                        }`}
                       alt="img"
                     />
 
@@ -151,21 +150,19 @@ const ImagePillsSelection: React.FC<Imageselection> = ({
                 <li
                   key={option.id}
                   onClick={() => handleSelectedImage(option)}
-                  className={`Item-Selection-option ${
-                    selectedImages?.some(
-                      (selected) => selected.id === option.id
-                    )
+                  className={`Item-Selection-option ${selectedImages?.some(
+                    (selected) => selected.id === option.id
+                  )
                       ? ""
                       : ""
-                  }`}
+                    }`}
                 >
                   <img
                     // src={`/assets/${option.imageId}.${
                     //   option.imageType && option.imageType.split("/")[1]
                     // }`}
-                    src={`${baseImageUrl}${option?.media?.imageId}.${
-                      option?.media?.imageType?.split("/")[1]
-                    }`}
+                    src={`${baseImageUrl}${option?.media?.imageId}.${option?.media?.imageType?.split("/")[1]
+                      }`}
                     alt="img"
                   />
                   <span className="optionName">{option?.name}</span>

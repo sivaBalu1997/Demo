@@ -135,7 +135,7 @@ export const MenuPage = () => {
   };
 
   const [listingobject, setlistingobject] = useState();
-  console.log("Adit",listingobject)
+  console.log("Adit", listingobject)
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -759,9 +759,9 @@ export const MenuPage = () => {
     const allFalse =
       listingobject &&
       Object.entries(listingobject)
-        .filter(([key]) => key !== 'showAvail' && key !== 'showPricing') 
-        .every(([, value]) => value === false); 
-  
+        .filter(([key]) => key !== 'showAvail' && key !== 'showPricing')
+        .every(([, value]) => value === false);
+
     setShowColumns(allFalse);
   }, [listingobject]);
 
@@ -879,7 +879,7 @@ export const MenuPage = () => {
     setLoading(false);
   }, [menuData]);
 
-  const baseImageUrl = "https://storage.googleapis.com/mhp-media/img/";
+  const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/";
 
   // const baseImageUrl = "https://storage.googleapis.com/mhd-media/img/testing";
 
@@ -961,15 +961,15 @@ export const MenuPage = () => {
 
   const mergeRefs =
     (...refs) =>
-    (element) => {
-      refs.forEach((ref) => {
-        if (typeof ref === "function") {
-          ref(element);
-        } else if (ref && typeof ref === "object") {
-          ref.current = element;
-        }
-      });
-    };
+      (element) => {
+        refs.forEach((ref) => {
+          if (typeof ref === "function") {
+            ref(element);
+          } else if (ref && typeof ref === "object") {
+            ref.current = element;
+          }
+        });
+      };
 
   const UploadImageImageID = useSelector(
     (state) => state.productCatalog.successImageId
@@ -996,8 +996,8 @@ export const MenuPage = () => {
   };
 
   useEffect(() => {
-   
-    const element = document.querySelector(".table-two-row"); 
+
+    const element = document.querySelector(".table-two-row");
 
     if (element) {
       const { width } = element.getBoundingClientRect();
@@ -1032,14 +1032,12 @@ export const MenuPage = () => {
           />
 
           <div
-            className={`${
-              isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
-            }`}
+            className={`${isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
+              }`}
           >
             <div>
               <div className="header-container">
-                <div  className={`${
-                    isExpanded ? "first-div-header-expand" : "first-div-header"
+                <div className={`${isExpanded ? "first-div-header-expand" : "first-div-header"
                   }`}>
                   <p className="image">Image</p>
                   <p className="name-item">ItemName</p>
@@ -1067,9 +1065,8 @@ export const MenuPage = () => {
 
                 <div
                   ref={headerRef}
-                  className={`${
-                    isExpanded ? "scroll-container-expand" : "scroll-container"
-                  }`}
+                  className={`${isExpanded ? "scroll-container-expand" : "scroll-container"
+                    }`}
                 >
                   <div className="second-div-header">
                     {!menuDataLoading &&
@@ -1159,20 +1156,18 @@ export const MenuPage = () => {
                 </div>
               </div>
               <div
-                className={`${
-                  isExpanded && !menuDataLoading && "body-container-expand"
-                } ${!isExpanded && !menuDataLoading && "body-container"}`}
-                // className={`${isExpanded ? "body-container-expand" : "body-container"
-                //   }`}
+                className={`${isExpanded && !menuDataLoading && "body-container-expand"
+                  } ${!isExpanded && !menuDataLoading && "body-container"}`}
+              // className={`${isExpanded ? "body-container-expand" : "body-container"
+              //   }`}
               >
                 <div></div>
-                <div   className={`${
-                    isExpanded ? "first-div-body-expand" : "first-div-body"
+                <div className={`${isExpanded ? "first-div-body-expand" : "first-div-body"
                   }`} ref={ref1}>
                   {menudatalist?.map((data, parentIndex) => (
                     <React.Fragment key={parentIndex}>
                       {data?.subCategoryResponseList &&
-                      data?.subCategoryResponseList?.length > 0 ? (
+                        data?.subCategoryResponseList?.length > 0 ? (
                         data?.subCategoryResponseList?.length > 0 &&
                         data.categoryName !== "" && (
                           <>
@@ -1181,17 +1176,17 @@ export const MenuPage = () => {
                                 <>
                                   {subCategory?.itemResponseList?.length >
                                     0 && (
-                                    <div className="categoryName-data-firstbody">
-                                      <p>
-                                        {data.categoryName}-{" "}
-                                        <span>
-                                          {subCategory.subCategoryName}
-                                        </span>{" "}
-                                        ({subCategory?.itemResponseList?.length}
-                                        )
-                                      </p>
-                                    </div>
-                                  )}
+                                      <div className="categoryName-data-firstbody">
+                                        <p>
+                                          {data.categoryName}-{" "}
+                                          <span>
+                                            {subCategory.subCategoryName}
+                                          </span>{" "}
+                                          ({subCategory?.itemResponseList?.length}
+                                          )
+                                        </p>
+                                      </div>
+                                    )}
 
                                   {data?.subCategoryResponseList?.length > 0 &&
                                     subCategory?.itemResponseList?.length > 0 &&
@@ -1204,14 +1199,12 @@ export const MenuPage = () => {
                                           <p>
                                             <span className="itemimage2">
                                               <img
-                                                src={`${baseImageUrl}${
-                                                  item?.mediaResponseList[0]
+                                                src={`${baseImageUrl}${item?.mediaResponseList[0]
                                                     ?.imageId
-                                                }.${
-                                                  item?.mediaResponseList[0]?.imageType.split(
+                                                  }.${item?.mediaResponseList[0]?.imageType.split(
                                                     "/"
                                                   )[1]
-                                                }`}
+                                                  }`}
                                                 alt="No Image"
                                                 className="foodimage"
                                               />
@@ -1246,62 +1239,59 @@ export const MenuPage = () => {
                       ) : (
                         <>
                           {data?.itemResponseList &&
-                          data?.itemResponseList?.length > 0
+                            data?.itemResponseList?.length > 0
                             ? data?.itemResponseList?.length > 0 &&
-                              data.categoryName !== "" && (
-                                <>
-                                  <div className="categoryName-data-firstbody">
+                            data.categoryName !== "" && (
+                              <>
+                                <div className="categoryName-data-firstbody">
+                                  <p>
+                                    {data.categoryName} (
+                                    {data?.itemResponseList?.length})
+                                  </p>
+                                </div>
+                                {data?.itemResponseList.map((item, index) => (
+                                  <div
+                                    key={index}
+                                    className="item-name-code-data"
+                                  >
                                     <p>
-                                      {data.categoryName} (
-                                      {data?.itemResponseList?.length})
+                                      <span className="itemimage2">
+                                        <img
+                                          src={`${baseImageUrl}${item?.mediaResponseList[0]
+                                              ?.imageId
+                                            }.${item?.mediaResponseList[0]?.imageType.split(
+                                              "/"
+                                            )[1]
+                                            }`}
+                                          alt="No Image"
+                                          className="foodimage"
+                                        />
+                                      </span>
+                                    </p>
+                                    <p>
+                                      <span
+                                        className={`${isExpanded ? "itemname2-expand" : "itemname2"
+                                          }`}
+
+                                        onClick={() =>
+                                          handlemodal(item.itemId)
+                                        }
+                                      >
+                                        <HoverText
+                                          text={item?.itemName}
+                                          lengthvale={14}
+                                        />
+                                      </span>
+                                    </p>
+                                    <p>
+                                      <span className="itemcode2">
+                                        {item?.itemCode}
+                                      </span>
                                     </p>
                                   </div>
-                                  {data?.itemResponseList.map((item, index) => (
-                                    <div
-                                      key={index}
-                                      className="item-name-code-data"
-                                    >
-                                      <p>
-                                        <span className="itemimage2">
-                                          <img
-                                            src={`${baseImageUrl}${
-                                              item?.mediaResponseList[0]
-                                                ?.imageId
-                                            }.${
-                                              item?.mediaResponseList[0]?.imageType.split(
-                                                "/"
-                                              )[1]
-                                            }`}
-                                            alt="No Image"
-                                            className="foodimage"
-                                          />
-                                        </span>
-                                      </p>
-                                      <p>
-                                        <span
-                                        className={`${
-                                          isExpanded ? "itemname2-expand" : "itemname2"
-                                        }`}
-                                        
-                                          onClick={() =>
-                                            handlemodal(item.itemId)
-                                          }
-                                        >
-                                          <HoverText
-                                            text={item?.itemName}
-                                            lengthvale={14}
-                                          />
-                                        </span>
-                                      </p>
-                                      <p>
-                                        <span className="itemcode2">
-                                          {item?.itemCode}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  ))}
-                                </>
-                              )
+                                ))}
+                              </>
+                            )
                             : null}
                         </>
                       )}
@@ -1311,19 +1301,17 @@ export const MenuPage = () => {
 
                 <div className="scroll-container22">
                   <div
-                    className={`${
-                      isExpanded &&
+                    className={`${isExpanded &&
                       !menuDataLoading &&
                       !menuDataFailed &&
                       !showColumns &&
                       "second-div-body-expand"
-                    } ${
-                      !isExpanded &&
+                      } ${!isExpanded &&
                       !menuDataLoading &&
                       !menuDataFailed &&
                       !showColumns &&
                       "second-div-body"
-                    }`}
+                      }`}
                     ref={mergeRefs(ref2, bodyRef)}
                     style={{
                       height: menuDataLoading ? "39.5rem" : "",
@@ -1362,11 +1350,10 @@ export const MenuPage = () => {
                       <>
                         {showColumns ? (
                           <div
-                            className={`${
-                              isExpanded
+                            className={`${isExpanded
                                 ? "no-colunms-menu-page-expanded"
                                 : "no-colunms-menu-page"
-                            }`}
+                              }`}
                           >
                             {" "}
                             No columns  Selected
@@ -1375,7 +1362,7 @@ export const MenuPage = () => {
                           menudatalist?.map((data, parentIndex) => (
                             <React.Fragment key={parentIndex}>
                               {data?.subCategoryResponseList &&
-                              data?.subCategoryResponseList?.length > 0 ? (
+                                data?.subCategoryResponseList?.length > 0 ? (
                                 <>
                                   {data?.subCategoryResponseList?.map(
                                     (subCategory, index) => (
@@ -1387,7 +1374,7 @@ export const MenuPage = () => {
                                               <style>{`.categoryName-data { width: ${widthForCategoryBorder}px !important; }`}</style>
                                               <div
                                                 className="categoryName-data"
-                                               
+
                                               >
                                                 <p></p>
                                               </div>
@@ -1400,7 +1387,7 @@ export const MenuPage = () => {
                                           subCategory?.itemResponseList.map(
                                             (item, index) => (
                                               <div
-                                               
+
                                                 key={index}
                                                 className="table-two-row"
                                               >
@@ -1420,7 +1407,7 @@ export const MenuPage = () => {
                                                       const shouldDisplayType =
                                                         listingobject &&
                                                         listingobject[
-                                                          `${typeName}1`
+                                                        `${typeName}1`
                                                         ];
 
                                                       if (!shouldDisplayType)
@@ -1435,14 +1422,13 @@ export const MenuPage = () => {
 
                                                       const price = orderType
                                                         ? orderType.price
-                                                            .toFixed(2)
-                                                            .padStart(5, "0")
+                                                          .toFixed(2)
+                                                          .padStart(5, "0")
                                                         : "";
 
-                                                      const dynamicWidth = `${
-                                                        typeName.length * 10 +
+                                                      const dynamicWidth = `${typeName.length * 10 +
                                                         20
-                                                      }px`;
+                                                        }px`;
 
                                                       if (
                                                         orderType.typeGroup !==
@@ -1453,17 +1439,17 @@ export const MenuPage = () => {
                                                             key={typeName}
                                                             style={{
 
-                                                              cursor:"pointer",
+                                                              cursor: "pointer",
                                                               opacity:
                                                                 orderType &&
-                                                                orderType.isNotHide ===
+                                                                  orderType.isNotHide ===
                                                                   1 &&
-                                                                orderType.availabilityEnabled ===
+                                                                  orderType.availabilityEnabled ===
                                                                   true
                                                                   ? // &&
-                                                                    // orderType.isEnabled ===
-                                                                    //   1
-                                                                    "100%"
+                                                                  // orderType.isEnabled ===
+                                                                  //   1
+                                                                  "100%"
                                                                   : "50%",
                                                               width:
                                                                 dynamicWidth,
@@ -1484,7 +1470,7 @@ export const MenuPage = () => {
                                                             }
                                                           >
                                                             {restaurantDetails?.country ===
-                                                            "US"
+                                                              "US"
                                                               ? "$"
                                                               : "Rs."}{" "}
                                                             {price !== ""
@@ -1510,7 +1496,7 @@ export const MenuPage = () => {
                                                       const shouldDisplayType =
                                                         listingobject &&
                                                         listingobject[
-                                                          `${typeName}2`
+                                                        `${typeName}2`
                                                         ];
 
                                                       if (!shouldDisplayType)
@@ -1523,10 +1509,9 @@ export const MenuPage = () => {
                                                             typeName
                                                         );
 
-                                                      const dynamicWidth = `${
-                                                        typeName.length * 10 +
+                                                      const dynamicWidth = `${typeName.length * 10 +
                                                         20
-                                                      }px`;
+                                                        }px`;
                                                       if (
                                                         orderType.typeGroup !==
                                                         "I"
@@ -1548,7 +1533,7 @@ export const MenuPage = () => {
                                                                 "center",
                                                               alignItems:
                                                                 "center",
-                                                                cursor:"pointer",
+                                                              cursor: "pointer",
                                                             }}
                                                             onClick={() =>
                                                               handlesidbarhandling(
@@ -1561,9 +1546,9 @@ export const MenuPage = () => {
                                                               toggle={
                                                                 orderType &&
                                                                 orderType.availabilityEnabled ===
-                                                                  true &&
+                                                                true &&
                                                                 orderType.isNotHide ===
-                                                                  1
+                                                                1
                                                                 //    &&
                                                                 // orderType.isEnabled ===
                                                                 //   1
@@ -1578,11 +1563,11 @@ export const MenuPage = () => {
 
                                                 <p>
                                                   {item?.modifiers &&
-                                                  Array.isArray(
-                                                    item.modifiers
-                                                  ) &&
-                                                  listingobject &&
-                                                  listingobject.Customize1 ? (
+                                                    Array.isArray(
+                                                      item.modifiers
+                                                    ) &&
+                                                    listingobject &&
+                                                    listingobject.Customize1 ? (
                                                     <span
                                                       className="Customizedata"
                                                       onClick={() =>
@@ -1659,13 +1644,12 @@ export const MenuPage = () => {
 
                                                 const price = orderType
                                                   ? orderType.price
-                                                      .toFixed(2)
-                                                      .padStart(5, "0")
+                                                    .toFixed(2)
+                                                    .padStart(5, "0")
                                                   : "";
 
-                                                const dynamicWidth = `${
-                                                  typeName.length * 10 + 20
-                                                }px`;
+                                                const dynamicWidth = `${typeName.length * 10 + 20
+                                                  }px`;
                                                 if (
                                                   orderType.typeGroup !== "I"
                                                 ) {
@@ -1673,12 +1657,12 @@ export const MenuPage = () => {
                                                     <span
                                                       key={typeName}
                                                       style={{
-                                                        cursor:"pointer",
+                                                        cursor: "pointer",
                                                         opacity:
                                                           orderType &&
-                                                          orderType.availabilityEnabled ===
+                                                            orderType.availabilityEnabled ===
                                                             true &&
-                                                          orderType.isNotHide ===
+                                                            orderType.isNotHide ===
                                                             1
                                                             ? "100%"
                                                             : "50%",
@@ -1702,7 +1686,7 @@ export const MenuPage = () => {
                                                       }
                                                     >
                                                       {restaurantDetails?.country ===
-                                                      "US"
+                                                        "US"
                                                         ? "$"
                                                         : "Rs."}{" "}
                                                       {price !== ""
@@ -1738,9 +1722,8 @@ export const MenuPage = () => {
                                                       ot.typeName === typeName
                                                   );
 
-                                                const dynamicWidth = `${
-                                                  typeName.length * 10 + 20
-                                                }px`;
+                                                const dynamicWidth = `${typeName.length * 10 + 20
+                                                  }px`;
                                                 if (
                                                   orderType.typeGroup !== "I"
                                                 ) {
@@ -1750,7 +1733,7 @@ export const MenuPage = () => {
                                                       style={{
                                                         position: "relative",
                                                         left: "1rem",
-                                                        cursor:"pointer",
+                                                        cursor: "pointer",
                                                         width: dynamicWidth,
                                                         padding: "0 22px",
                                                         textAlign: "center",
@@ -1770,9 +1753,9 @@ export const MenuPage = () => {
                                                         toggle={
                                                           orderType &&
                                                           orderType.availabilityEnabled ===
-                                                            true &&
+                                                          true &&
                                                           orderType.isNotHide ===
-                                                            1
+                                                          1
                                                           //   &&
                                                           // orderType.isEnabled ===
                                                           //   1
@@ -1787,9 +1770,9 @@ export const MenuPage = () => {
 
                                           <p>
                                             {item?.modifiers &&
-                                            Array.isArray(item.modifiers) &&
-                                            listingobject &&
-                                            listingobject.Customize1 ? (
+                                              Array.isArray(item.modifiers) &&
+                                              listingobject &&
+                                              listingobject.Customize1 ? (
                                               <span
                                                 className="Customizedata"
                                                 onClick={() =>
