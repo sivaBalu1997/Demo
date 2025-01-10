@@ -28,18 +28,21 @@ const SessionOpen: React.FC<ModelShowProps> = ({
  
   const sessionavailable=[
     {
+      weekday:"All",
       openingTime:"12.00",
       closingTime:"11.00"
       
 
     },
     {
+      weekday:"Monday",
       openingTime:"01.00",
       closingTime:"03.00"
       
 
     },
     {
+      weekday:"Friday",
       openingTime:"01.00",
       closingTime:"03.00"
       

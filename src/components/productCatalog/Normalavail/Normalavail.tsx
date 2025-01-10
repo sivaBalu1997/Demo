@@ -379,48 +379,8 @@ const Normalavail = forwardRef<NormalavailRef, NormalavailProps>(
 
     const seletedOrdertypes = dataFromRedux[0]?.orderTypes;
 
-    // useEffect(() => {
-    //   const DineInEnable = seletedOrdertypes?.find(
-    //     (item: any) => item.typeGroup === "D"
-    //   )?.isEnabled;
-    //   const pickUpenable = seletedOrdertypes?.find(
-    //     (item: any) => item.typeGroup === "P"
-    //   )?.isEnabled;
-    //   const deliveryEnable = seletedOrdertypes?.find(
-    //     (item: any) => item.typeGroup === "S"
-    //   )?.isEnabled;
-
-    //   if (DineInEnable === 0) {
-    //     setShowDineIn(false);
-    //     setdineInEnable(false);
-    //   } else {
-    //     setShowDineIn(true);
-    //     setdineInEnable(true);
-    //   }
-
-    //   if (pickUpenable === 0) {
-    //     setPickup(false);
-    //     setpickupEnable(false);
-    //   } else {
-    //     setPickup(true);
-    //     setpickupEnable(true);
-    //   }
-
-    //   if (deliveryEnable === 0) {
-    //     setDelivery(false);
-    //     setdeliveryEnable(false);
-    //   } else {
-    //     setDelivery(true);
-    //     setdeliveryEnable(true);
-    //   }
-
-    //   if (pickUpenable === 1 || deliveryEnable === 1) {
-    //     setOnline(true);
-    //   } else {
-    //     setOnline(false);
-    //   }
-    // }, []);
-
+   
+    
     useEffect(() => {
       if (!showDineIn) {
         setDineInFields((prevDineInFields: any) =>
@@ -701,36 +661,13 @@ console.log("bnpm",mealTypes);
           prizingDetail?.normalForm?.thirdParty?.length > 0 ? true : false
         );
 
-        // if (pickupDetails) {
-        //   pickupDetails?.price > 0 ? setOnline(true) : setOnline(false);
-        // }
+      
 
-        // if (deliveryDetails) {
-        //   deliveryDetails?.price > 0 ? setOnline(true) : setOnline(false);
-        //   thirdpartyDetails && thirdpartyDetails[0]?.price > 0 ? setOnline(true) : setOnline(false);
-        // }
 
-        // const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
-        //   (item: any) => ({
-        //     DineInPrice: item?.DineInPrice,
-        //     DineInMealType: item?.DineInMealType || [],
-        //     DineInService: item?.DineInService,
-        //     showDay: true,
-        //     dayButtonText: "Choose Day",
-        //   })
-        // );
-        // Initialize selected values
-        // const initialSelectedValues = updatedFields?.map(
-        //   (item: any) => item.DineInMealType
-        // );
-        // const initialSelectedValues2 = updatedFields?.map(
-        //   (item: any) => item.DineInService
-        // );
-        // const initialSelectedValues2 = updatedField?.DineInService
-        // setSelectedValues(initialSelectedValues2);
-        // setDineIn(true);
 
-        // setShowDineIn(true);
+
+
+
         console.log("fff", dineIndetails);
 
         const updatedField = {
@@ -782,7 +719,7 @@ console.log("bnpm",mealTypes);
           // setPickup(true)
           // setOnline(true)
           pickupDetails.price > 0 && setPickup(true);
-          setOnline(true);
+          pickupDetails.price > 0 &&setOnline(true);
           setPickup(true);
           setpickupEnable(true);
 
@@ -803,7 +740,7 @@ console.log("bnpm",mealTypes);
         }
 
         if (deliveryDetails) {
-          setOnline(true);
+          deliveryDetails.price > 0 && setOnline(true);
           setDelivery(true);
           setdeliveryEnable(true);
 
@@ -939,7 +876,7 @@ console.log("bnpm",mealTypes);
           //   setpickupEnable(false);
           // }
 
-          setOnline(true);
+          pickupDetails.price > 0 &&setOnline(true);
 
           setPickUpDetails({
             typeId: pickUpId,
@@ -971,6 +908,12 @@ console.log("bnpm",mealTypes);
             (thirdpartyDetails &&
               thirdpartyDetails[0]?.price > 0 &&
               setDelivery(true));
+
+
+              (deliveryDetails?.price > 0 && setOnline(true) ||
+              (thirdpartyDetails &&
+                thirdpartyDetails[0]?.price > 0 &&
+                setOnline(true)))
           // if (
           //   editData?.length > 0 &&
           //   filterOrderTypeAvailableorNotDelivery &&
@@ -979,7 +922,7 @@ console.log("bnpm",mealTypes);
           //   setDelivery(false);
           //   setdeliveryEnable(false);
           // }
-          setOnline(true);
+          
 
           // thirdpartyDetails && thirdpartyDetails[0]?.price > 0 ? setOnline(true) : setOnline(false);
           // deliveryDetails?.price > 0 && setDelivery(true);
@@ -1051,7 +994,7 @@ console.log("bnpm",mealTypes);
               : null;
           });
           setMealTypes(object);
-          setOnline(true);
+          // setOnline(true);
         }
 
         const updatedFields = prizingDetail?.normalForm?.dineinfields?.map(
@@ -1664,7 +1607,7 @@ const [thirdPartiesSelected,setThirdPartiesSelected]=useState(false);
 
             if (field?.showDay && dineInDates1[0]?.length === 0) {
               console.log({dineInDates1});
-              
+            
               validationErrors[`DineInAvailableDays-${index}`] =
                 "Please enter available days for dinein";
             } else {
@@ -1899,7 +1842,10 @@ console.log("DayThird",DayThird);
       selectedthirdvalues,
       priceInfo,
       showDayThird,
-      DayThird
+      DayThird,
+      DayPickup,
+      dineInDates1,
+      DayDelivery
 
 
 
