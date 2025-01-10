@@ -994,77 +994,77 @@ console.log({itemCustomizationData});
   };
 
   const validateModifiers = (modifications: any[]) => {
-    const errors = [...customizationerrors];
-
+    const errors = showModifiers ? [...customizationerrors] : [];
+  
     modifications?.forEach((modifier, index) => {
       const {
         modifierName,
         modifierId,
         modifierOptions,
         selectedValue,
-        selectionType,
       } = modifier;
-
+  
       let modifierErrors: any = {
-        modifierNameError: modifierName.trim() ? "" : ``,
+        modifierNameError: "",
         id: modifierId || "",
         errormsgforselectedvalues: "",
         options: [],
       };
-
-      if (!modifierName.trim()) {
-        modifierErrors.modifierNameError = `Modifier Name is required`;
-      }
-      if (atleastOnestream && selectedValue?.length === 0) {
-        modifierErrors.errormsgforselectedvalues =
-          "Available service streams required";
-      }
-
-      if (Array.isArray(modifierOptions)) {
-        modifierOptions.forEach((option: any, optIndex: number) => {
-          let optionErrors: any = {
-            optionName: option.modifierOptionName || "",
-            optionId: option.modifierOptionId || "",
-            optionNameError: "",
-            optionPrice: option.cost || 0,
-            optionPriceError: "",
-          };
-
-          const nameRegex = /^[a-zA-Z0-9\s]+$/;
-          if (!option.modifierOptionName.trim()) {
-            optionErrors.optionNameError = `Option Name is required`;
-          }
-          // else if (!nameRegex.test(option.modifierOptionName && modifierName!=="")) {
-          //   optionErrors.optionNameError = `Option Name must not contain special characters`;
-          // }
-
-          if (isNaN(option.cost) || option.cost <= 0) {
-            optionErrors.optionPriceError = `Price field is required`;
-          }
-
-          modifierErrors.options.push(optionErrors);
-        });
+  
+      if (showModifiers) {
+        if (!modifierName.trim()) {
+          modifierErrors.modifierNameError = `Modifier Name is required`;
+        }
+        if (atleastOnestream && selectedValue?.length === 0) {
+          modifierErrors.errormsgforselectedvalues =
+            "Available service streams required";
+        }
+  
+        if (Array.isArray(modifierOptions)) {
+          modifierOptions.forEach((option: any) => {
+            let optionErrors: any = {
+              optionName: option.modifierOptionName || "",
+              optionId: option.modifierOptionId || "",
+              optionNameError: "",
+              optionPrice: option.cost || 0,
+              optionPriceError: "",
+            };
+  
+            if (!option.modifierOptionName.trim()) {
+              optionErrors.optionNameError = `Option Name is required`;
+            }
+  
+            if (isNaN(option.cost) || option.cost <= 0) {
+              optionErrors.optionPriceError = `Price field is required`;
+            }
+  
+            modifierErrors.options.push(optionErrors);
+          });
+        } else {
+          modifierErrors.options.push({
+            optionNameError: `Options must be an array`,
+          });
+        }
+  
+        if (
+          modifierErrors.modifierNameError ||
+          modifierErrors.errormsgforselectedvalues ||
+          modifierErrors.options.some(
+            (opt: any) => opt.optionNameError || opt.optionPriceError
+          )
+        ) {
+          errors[index] = modifierErrors;
+        } else {
+          errors[index] = null;
+        }
       } else {
-        modifierErrors.options.push({
-          optionNameError: `Options must be an array`,
-        });
-      }
-
-      if (
-        modifierErrors.modifierNameError ||
-        modifierErrors.errormsgforselectedvalues ||
-        modifierErrors.options.some(
-          (opt: any) => opt.optionNameError || opt.optionPriceError
-        )
-      ) {
-        errors[index] = modifierErrors;
-      } else {
+        // Clear all error messages when showModifiers is false
         errors[index] = null;
       }
     });
-
+  
     setcustomizationerrors(errors);
-
+  
     const validateCustomizationErrors = () => {
       return errors.every((error) => {
         if (!error) return true;
@@ -1075,14 +1075,14 @@ console.log({itemCustomizationData});
           (option: any) =>
             option.optionNameError === "" && option.optionPriceError === ""
         );
-
+  
         return hasNoTopLevelErrors && hasNoOptionErrors;
       });
     };
-
+  
     return validateCustomizationErrors();
   };
-
+  
   const handleBlur = (
     e: ChangeEvent<HTMLInputElement>,
     modIndex: number,

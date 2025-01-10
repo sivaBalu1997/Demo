@@ -13,10 +13,7 @@
   display: flex;
   width: 98vw;
 
-  @media (max-width: 1280px) {
-    // width: 105vw;
-    // background-color: lightsalmon;
-  }
+ 
 }
 
 .reviewpage {
@@ -34,6 +31,21 @@
   .buttoncomponent {
     position: relative;
   }
+  // @media  (max-wi:1300px) {
+  //   height: 50vh;
+  //   border: 1px solid red;
+  // }
+  // @media  (max-width:1900px) {
+  //   height: 64vh;
+  //   border: 1px solid blue;
+  // }
+  // @media  (max-width:1690px) {
+  //   height: 78vh;
+  //   border: 1px solid red;
+  // }
+
+
+
 }
 
 .reviewheading {
@@ -171,19 +183,27 @@
 top: -18px;
   left: 30px;
   // background-color: red;
+
+  .EditData
+  {
+    width: 100%;
+    border: 1px solid red;
+  }
   .primarypageedit {
     position: relative;
     top: 24px;
     width: 50px;
     height: 40px;
-
+    display: flex;
+// width: 100vw;
+// border: 1px solid red;
 
     display: flex;
     flex-direction: row;
     cursor: pointer;
     text-decoration: none;
 
-    margin-left: 450px;
+    margin-left: 700px;
     .link {
       list-style: none;
       text-decoration: none;
