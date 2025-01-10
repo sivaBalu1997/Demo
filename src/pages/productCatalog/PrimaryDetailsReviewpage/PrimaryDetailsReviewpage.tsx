@@ -843,7 +843,24 @@ const PrimaryDetailsReviewpage: React.FC = () => {
               >
                 <div className="primaryreviewdetailspart1">
                   <div className="primaryreviewheading">
+                    <div className="promari-and-edit-heading">
                     <p>Step 1: Primary Details</p>
+                    <Link
+                      to="/productCatalog/PrimaryDetails"
+                      className="primarypageedit"
+                      onClick={() =>
+                        setActiveCategory("Step 1: Primary Details")
+                      }
+                    >
+                      <img
+                        src={edit}
+                        alt=""
+                        className="step3-Review-Container-heading-EditImage"
+                        width={15}
+                        height={15}
+                      />
+                      <h3 className="Edit-heading">Edit</h3></Link></div>
+                   
                   </div>
                   <div className="primaryreviews">
                     <div className="primaryreviewdetails">
@@ -1002,7 +1019,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                   </div>
                 </div>
                 <div className="primaryreviewdetailspart2">
-                  <div className="EditData">
+                  {/* <div className="EditData">
                     <Link
                       to="/productCatalog/PrimaryDetails"
                       className="primarypageedit"
@@ -1019,7 +1036,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       />
                       <h3 className="Edit-heading">Edit</h3>
                     </Link>{" "}
-                  </div>
+                  </div> */}
                   {
                     <div className="primaryimages">
                       <p>Primary Image</p>
