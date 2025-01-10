@@ -39,7 +39,6 @@ import {
 import { listenerCount } from "process";
 import { th } from "date-fns/locale";
 
-
 export const MenuPage = () => {
   const dispatch = useDispatch();
   const location = useSelector((state) => state.auth.selectedBranch);
@@ -51,18 +50,13 @@ export const MenuPage = () => {
     (state) => state.searchItem?.SearcheItem
   );
 
- 
-  
   const [itemList, setItemList] = useState([]);
-  console.log("SearchedmenuItem", SearchedmenuItem);
-
   const { isExpanded } = useContext(Contextpagejs);
   const [draggedIndexsample, setDraggedIndexsample] = useState(null);
   const [menudatalist, setMenudatalist] = useState(menuData);
 
   useEffect(() => {
     setMenudatalist(menuData);
-
   }, [menuData]);
 
   const FilteredData = useSelector(
@@ -215,12 +209,10 @@ export const MenuPage = () => {
     ...tablefirstrow,
     { label: "Customize1" },
   ]);
-  console.log({ firstRowTable });
 
   useEffect(() => {
     setFirstRowTable([...tablefirstrow, { label: "Customize1" }]);
   }, [menuData, itemList]);
-  console.log("tablefirstrow", tablefirstrow);
 
   const insertlists2 = {
     Pricing: {
@@ -532,11 +524,9 @@ export const MenuPage = () => {
     } else if (key === "DineIn2" || key === "Pickup2" || key === "Delivery2") {
       handlemodal();
       setSideBarText("Availability");
-    } 
-     else if (key === "Customize1") {
+    } else if (key === "Customize1") {
       handlemodal();
-      console.log("hghjk");
-      
+
       setSideBarText("Customize");
     }
   };
@@ -576,29 +566,26 @@ export const MenuPage = () => {
       setItemList(transformedList);
       setLoading(false);
     } else {
-
-      if(SearchedmenuItem.subCategoryResponseList)
-      {
+      if (SearchedmenuItem.subCategoryResponseList) {
         const filterdItem = {
           categoryName: SearchedmenuItem?.categoryName,
           categoryId: SearchedmenuItem?.categoryId,
           subCategoryResponseList: SearchedmenuItem.subCategoryResponseList,
-          itemResponseList:null
-
+          itemResponseList: null,
         };
-  
+
+        setItemList([filterdItem]);
+        setMenudatalist([filterdItem]);
+      } else {
+        const filterdItem = {
+          categoryName: SearchedmenuItem?.categoryName,
+          categoryId: SearchedmenuItem?.categoryId,
+          itemResponseList: SearchedmenuItem?.itemResponseList,
+        };
+
         setItemList([filterdItem]);
         setMenudatalist([filterdItem]);
       }
-      else {
-      const filterdItem = {
-        categoryName: SearchedmenuItem?.categoryName,
-        categoryId: SearchedmenuItem?.categoryId,
-        itemResponseList: SearchedmenuItem?.itemResponseList,
-      };
-
-      setItemList([filterdItem]);
-      setMenudatalist([filterdItem]);}
       setLoading(false);
     }
   }, [menuData, SearchedmenuItem]);
@@ -632,13 +619,10 @@ export const MenuPage = () => {
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
-  console.log({editData})
 
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
 
-      console.log({editData});
-      
       const primaryPageData = {
         itemName: editData[0]?.itemName ?? "",
         description: editData[0]?.description ?? "",
@@ -678,7 +662,6 @@ export const MenuPage = () => {
           minutes: editData[0]?.preparationTimeInMinutes || "",
         },
       };
-      
 
       editData[0]?.orderTypes?.forEach((orderType) => {
         const { typeGroup } = orderType;
@@ -718,8 +701,6 @@ export const MenuPage = () => {
             isEnabled: option?.isEnabled ?? false,
           })) || [],
       }));
-
-      console.log({modifierData})
 
       dispatch(primarypost(primaryPageData));
       dispatch(PricingDetailRequest(pricingPageData));
@@ -779,15 +760,12 @@ export const MenuPage = () => {
 
   const [showColumns, setShowColumns] = useState(false);
 
-
-
-
-    useEffect(() => {
-      const allFalse =
+  useEffect(() => {
+    const allFalse =
       listingobject &&
       Object.values(listingobject).every((value) => value === false);
-      setShowColumns(allFalse);
-    }, [listingobject]);
+    setShowColumns(allFalse);
+  }, [listingobject]);
 
   useEffect(() => {
     if (menudatalist.length > 0 && menuData.length > 0) {
@@ -811,8 +789,7 @@ export const MenuPage = () => {
 
   const handlesidbarhandling = (key, value) => {
     showsidebar(key);
-    console.log({key});
-    
+
     handlemodal(value);
   };
   const filteredListing =
@@ -915,15 +892,15 @@ export const MenuPage = () => {
   const [isScrolling, setIsScrolling] = useState(false);
 
   const handleScroll = (sourceRef, targetRef) => {
-    if (isScrolling) return; 
+    if (isScrolling) return;
 
     setIsScrolling(true);
 
     if (sourceRef.current && targetRef.current) {
-      targetRef.current.scrollTop = sourceRef.current.scrollTop; 
+      targetRef.current.scrollTop = sourceRef.current.scrollTop;
     }
 
-    setTimeout(() => setIsScrolling(false), 10); 
+    setTimeout(() => setIsScrolling(false), 10);
   };
 
   const headerRef = useRef(null);
@@ -995,23 +972,19 @@ export const MenuPage = () => {
         }
       });
     };
-  console.log("bnm", getUniqueOrderTypeNames(itemList));
 
   const UploadImageImageID = useSelector(
     (state) => state.productCatalog.successImageId
   );
-const handleRemoveIcon=()=>{
-  
-  const allFalse =
-  listingobject &&
-  Object.values(listingobject).every((value) => value === false);
-  if(allFalse)
-  {
-    setShowColumns(allFalse);
-  }
- 
-  
-}
+
+  const handleRemoveIcon = () => {
+    const allFalse =
+      listingobject &&
+      Object.values(listingobject).every((value) => value === false);
+    if (allFalse) {
+      setShowColumns(allFalse);
+    }
+  };
   return (
     <>
       <div className="MenuPage-container">
@@ -1042,7 +1015,7 @@ const handleRemoveIcon=()=>{
               isExpanded ? "MenuPage-Listing-expand" : "MenuPage-Listing"
             }`}
           >
-            <div>
+            <div className="menuListWrapper">
               <div className="header-container">
                 <div className="first-div-header">
                   <p className="image">Image</p>
@@ -1087,7 +1060,6 @@ const handleRemoveIcon=()=>{
                           0,
                           header.label.length - 1
                         );
-                        console.log({ itemList });
 
                         if (
                           header.label === "Customize1" ||
@@ -1130,14 +1102,12 @@ const handleRemoveIcon=()=>{
                                     </span>
                                     <span
                                       className="removeicon"
-                                      onClick={() =>{
+                                      onClick={() => {
                                         setlistingobject({
                                           ...listingobject,
                                           [header.label]: false,
-                                        })
-                                        handleRemoveIcon()
-
-
+                                        });
+                                        handleRemoveIcon();
                                       }}
                                     >
                                       <img
@@ -1170,7 +1140,6 @@ const handleRemoveIcon=()=>{
                 // className={`${isExpanded ? "body-container-expand" : "body-container"
                 //   }`}
               >
-                <div></div>
                 <div className="first-div-body" ref={ref1}>
                   {menudatalist?.map((data, parentIndex) => (
                     <React.Fragment key={parentIndex}>
@@ -1187,8 +1156,11 @@ const handleRemoveIcon=()=>{
                                     <div className="categoryName-data">
                                       <p>
                                         {data.categoryName}-{" "}
-                                        <span>{subCategory.subCategoryName}</span> (
-                                        {subCategory?.itemResponseList?.length})
+                                        <span>
+                                          {subCategory.subCategoryName}
+                                        </span>{" "}
+                                        ({subCategory?.itemResponseList?.length}
+                                        )
                                       </p>
                                     </div>
                                   )}
@@ -1346,7 +1318,7 @@ const handleRemoveIcon=()=>{
                           }}
                         />
                       </div>
-                    ) : menuDataFailed  ? (
+                    ) : menuDataFailed ? (
                       <div className="NoDataFoundContainer-menupage">
                         <img
                           className="columnselected-menupage"
@@ -1448,12 +1420,14 @@ const handleRemoveIcon=()=>{
                                                           style={{
                                                             opacity:
                                                               orderType &&
-                                                              orderType.isNotHide === 1 &&
-                                                              orderType.availabilityEnabled===true
-                                                              // &&
-                                                              // orderType.isEnabled ===
-                                                              //   1
-                                                                ? "100%"
+                                                              orderType.isNotHide ===
+                                                                1 &&
+                                                              orderType.availabilityEnabled ===
+                                                                true
+                                                                ? // &&
+                                                                  // orderType.isEnabled ===
+                                                                  //   1
+                                                                  "100%"
                                                                 : "50%",
                                                             width: dynamicWidth,
                                                             padding: "0 22px",
@@ -1543,7 +1517,8 @@ const handleRemoveIcon=()=>{
                                                               orderType &&
                                                               orderType.availabilityEnabled ===
                                                                 true &&
-                                                              orderType.isNotHide ===1
+                                                              orderType.isNotHide ===
+                                                                1
                                                               //    &&
                                                               // orderType.isEnabled ===
                                                               //   1
@@ -1655,14 +1630,17 @@ const handleRemoveIcon=()=>{
                                                     key={typeName}
                                                     style={{
                                                       opacity:
-                                                        orderType &&orderType.availabilityEnabled===true &&
+                                                        orderType &&
+                                                        orderType.availabilityEnabled ===
+                                                          true &&
                                                         orderType.isNotHide ===
-                                                          1  ? "100%"
+                                                          1
+                                                          ? "100%"
                                                           : "50%",
-                                                        //  &&
-                                                        // orderType.isEnabled ===
-                                                        //   1
-                                                         
+                                                      //  &&
+                                                      // orderType.isEnabled ===
+                                                      //   1
+
                                                       width: dynamicWidth,
                                                       padding: "0 22px",
                                                       textAlign: "center",
@@ -1741,7 +1719,7 @@ const handleRemoveIcon=()=>{
                                                         orderType.availabilityEnabled ===
                                                           true &&
                                                         orderType.isNotHide ===
-                                                          1 
+                                                          1
                                                         //   &&
                                                         // orderType.isEnabled ===
                                                         //   1
