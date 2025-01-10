@@ -1038,7 +1038,9 @@ export const MenuPage = () => {
           >
             <div>
               <div className="header-container">
-                <div className="first-div-header">
+                <div  className={`${
+                    isExpanded ? "first-div-header-expand" : "first-div-header"
+                  }`}>
                   <p className="image">Image</p>
                   <p className="name-item">ItemName</p>
                   <p className="item-code">
@@ -1164,7 +1166,9 @@ export const MenuPage = () => {
                 //   }`}
               >
                 <div></div>
-                <div className="first-div-body" ref={ref1}>
+                <div   className={`${
+                    isExpanded ? "first-div-body-expand" : "first-div-body"
+                  }`} ref={ref1}>
                   {menudatalist?.map((data, parentIndex) => (
                     <React.Fragment key={parentIndex}>
                       {data?.subCategoryResponseList &&
@@ -1246,7 +1250,7 @@ export const MenuPage = () => {
                             ? data?.itemResponseList?.length > 0 &&
                               data.categoryName !== "" && (
                                 <>
-                                  <div className="categoryName-data">
+                                  <div className="categoryName-data-firstbody">
                                     <p>
                                       {data.categoryName} (
                                       {data?.itemResponseList?.length})
@@ -1275,7 +1279,10 @@ export const MenuPage = () => {
                                       </p>
                                       <p>
                                         <span
-                                          className="itemname2"
+                                        className={`${
+                                          isExpanded ? "itemname2-expand" : "itemname2"
+                                        }`}
+                                        
                                           onClick={() =>
                                             handlemodal(item.itemId)
                                           }

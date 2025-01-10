@@ -234,7 +234,7 @@ const AvailCalender: React.FC<modelshow> = ({
               Cancel
             </button>
             <button className="AvailChange" onClick={handleDateChanging}>
-              Change
+              Save
             </button>
           </div>
         </div>

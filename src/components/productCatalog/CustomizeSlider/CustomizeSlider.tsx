@@ -306,7 +306,7 @@ const CustomizeSlider = () => {
                   key={subindex}
                 >
                   <div className="subitems-toggle-container-flex">
-                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":""}}>{subitem.name}</div>
+                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":"",width:"70px"}}>{subitem.name}</div>
                     <div className="subItemToggle">
                       <ToggleSliderAvail
                         toggle={subitem.isEnabled}
@@ -338,11 +338,11 @@ const CustomizeSlider = () => {
     const regex = /^\d{0,4}(\.\d{0,2})?$/;
 
     // Allow empty string or valid regex match
-    if (input === '.' || regex.test(input)) {
+    if ( regex.test(input)) {
       handlePriceChange(
         index,
         subindex,
-        input === '' ? 0 : parseFloat(input), // Convert input to number or 0 for empty input
+        input, // Convert input to number or 0 for empty input
         subitem.isEnabled,
         elem.modifierName,
         elem.isEnabled,

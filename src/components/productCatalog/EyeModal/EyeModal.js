@@ -18,7 +18,11 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
   const successMsg = useSelector(
     (state) => state?.addMockDataHiddenReducer?.data
   );
-
+  const failed = useSelector(
+    (state) => state?.addMockDataHiddenReducer?.failed
+  );
+  console.log({failed});
+  
   const [data, setData] = useState([]);
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -37,7 +41,7 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
     const allIsNotHideOnPrem = tempOnPremarray.every(
       (item) => item.isNotHide === 0
     );
-    const allIsNotHideOffPrem = tempOnPremarray.every(
+    const allIsNotHideOffPrem = tempOffPremarray.every(
       (item) => item.isNotHide === 0
     );
 
@@ -271,7 +275,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
             </button>
 
             <button className="SavebtnEye" onClick={handleChange}>
-              {showLoader ? (
+              {showLoader && !failed? (
                 <span>
                   <Loader
                     className="Hide-Loader"

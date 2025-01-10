@@ -305,8 +305,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const emptySlots =
     selectedImages.length === 0
-      ? MAX_IMAGES - selectedImages.length - 1
-      : MAX_IMAGES - selectedImages.length;
+      ? MAX_IMAGES - selectedImages?.length - 1
+      : MAX_IMAGES - selectedImages?.length;
 
   const [disableSubmit, setDisableSubmit] = useState<boolean>(true);
 
@@ -538,7 +538,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const hasData = modifierData.some(
     (item) =>
       item.modifierName !== null ||
-      (item.orderTypeIds && item.orderTypeIds.length > 0) ||
+      (item.orderTypeIds && item.orderTypeIds?.length > 0) ||
       (item.options &&
         item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
   );
@@ -549,6 +549,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
+  console.log({thirdPartyDetails});
+  
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
   );
@@ -600,7 +602,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const menuPayload = {
     locationId: locationid,
-    itemId: editData.length === 0 && UploadImageImageID ? UploadImageImageID : "",
+    itemId: editData?.length === 0 && UploadImageImageID ? UploadImageImageID : "",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -627,7 +629,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDays: result || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
-    ...(itemCustomizationData.length > 0 && {
+    ...(itemCustomizationData?.length > 0 && {
       modifiers: hasData ? modifierData : null,
     }),
 
@@ -752,14 +754,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       dispatch(startImageUpload(primarydata?.imageUrls));
       setButtonClicked(true);
       if (subsectiondatamsg && UploadImageImageID !== '') {
-        if (editData.length > 0 && editData[0]) {
+        if (editData?.length > 0 && editData[0]) {
           dispatch(updateMenuItemRequest(editPayload));
         } else {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
       }
     } else {
-      if (editData.length > 0 && editData[0]) {
+      if (editData?.length > 0 && editData[0]) {
         dispatch(updateMenuItemRequest(editPayload));
       } else {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -771,7 +773,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   useEffect(() => {
     if (subsectiondatamsg && buttonClicked && UploadImageImageID !== '') {
-      editData.length > 0 && editData[0]
+      editData?.length > 0 && editData[0]
         ? dispatch(updateMenuItemRequest(editPayload))
         : dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
@@ -857,13 +859,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           />
                         </div>
 
-                        <div>
+                        <div >
                           <ReviewValues
                             label="Dietary type"
                             textvalue={
                               primarydata?.DietaryType &&
                               typeof primarydata?.DietaryType[0] === "string" &&
-                              primarydata?.DietaryType.length > 0
+                              primarydata?.DietaryType?.length > 0
                                 ? Array.isArray(primarydata?.DietaryType)
                                   ? primarydata?.DietaryType?.map(
                                       (type: any) => type
@@ -1030,7 +1032,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       <div className="images">
                         <div className="images">
                           <ol>
-                            {selectedImages && selectedImages.length > 0 && (
+                            {selectedImages && selectedImages?.length > 0 && (
                               <li>
                                 <div style={{ fontSize: "30px" }}>
                                   {imagecheck(selectedImages[0]) ? (
@@ -1128,7 +1130,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                               {Array.from({ length: emptySlots })
                                 .slice(0)
                                 .map((_, index) => (
-                                  <li key={selectedImages.length + index + 1}>
+                                  <li key={selectedImages?.length + index + 1}>
                                     {typeof emptyfoodimg === "string" ? (
                                       <img
                                         src={emptyfoodimg}
@@ -1168,7 +1170,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <p>
                           {primarydata?.bestPair &&
                           typeof primarydata?.bestPair[0] === "string" &&
-                          primarydata?.bestPair.length > 0
+                          primarydata?.bestPair?.length > 0
                             ? Array.isArray(primarydata?.bestPair)
                               ? primarydata?.bestPair
                                   ?.map((type: any) => type)
@@ -1224,6 +1226,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
                 <span
                   className={isExpanded ? "verticalLineExpand" : "verticalLine"}
+                  style={{height:thirdPartyDetails?.length>0?"70rem":"58rem"}}
                 />
 
                 <Step3Review />

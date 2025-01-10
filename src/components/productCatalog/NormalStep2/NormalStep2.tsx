@@ -219,11 +219,11 @@ const NormalStep2 = () => {
   (prizingDetail?.normalForm?.DineIn && prizingDetail?.normalForm?.DineIn[0]?.length > 0
     ? prizingDetail?.normalForm?.DineIn?.map((elem:any, index:number) => (
         <div key={index} className="dayacheckedavail">
-          <DaysOfWeek days={elem} setDays={setDinein} />
+          <DaysOfWeek days={elem} setDays={setDinein} Marginpresent={false}/>
         </div>
       ))
     : 
-    <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDinein} />
+    <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDinein} Marginpresent={false}/>
 
     
     // prizingDetail?.normalForm?.Normaldays?.map((elem:any, index:any) => (
@@ -244,7 +244,7 @@ const NormalStep2 = () => {
         <div className="Step2SellingPrize">
           <div>
             <h1 className="Step2SellingPrizeheading">
-              Selling Price for Pickup
+              Selling Price
             </h1>
           </div>
           <div>
@@ -297,8 +297,8 @@ const NormalStep2 = () => {
 
 
           {
-            Pickup?.length > 0 ? ( <DaysOfWeek days={Pickup1} setDays={setPickup1} />):
-            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setPickup1} />
+            Pickup?.length > 0 ? ( <DaysOfWeek days={Pickup1} setDays={setPickup1} Marginpresent={true} />):
+            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setPickup1} Marginpresent={true} />
           }
        
         {/* )} */}
@@ -308,7 +308,7 @@ const NormalStep2 = () => {
         <div className="Step2SellingPrize">
           <div>
             <h1 className="Step2SellingPrizeheading">
-              Selling Price for Delivery
+              Selling Price
             </h1>
           </div>
           <div>
@@ -320,7 +320,7 @@ const NormalStep2 = () => {
                 {restaurantDetails?.country === "US" ? "$" : "Rs."}
 
                 {parseFloat(
-                  prizingDetail.normalForm.deliveryDetails.price
+                  prizingDetail?.normalForm.deliveryDetails.price
                 ).toFixed(2)}
               </h1>
             ) : (
@@ -355,8 +355,8 @@ const NormalStep2 = () => {
         {/* )} */}
 
         {
-            Delivery.length > 0 ? ( <DaysOfWeek days={delivery1} setDays={setDelivery1} />):
-            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDelivery1} />
+            Delivery?.length > 0 ? ( <DaysOfWeek days={delivery1} setDays={setDelivery1} Marginpresent={true} />):
+            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDelivery1} Marginpresent={true}/>
           }
       </div>
       {thirdPartyDetails?.length > 0 && (
@@ -380,7 +380,7 @@ const NormalStep2 = () => {
                         prizingDetail?.normalForm &&
                         prizingDetail?.normalForm?.thirdpartyDetails &&
                         prizingDetail?.normalForm?.thirdpartyDetails.map(
-                          (elem: any) =>  elem?.price?.toFixed(2)
+                          (elem: any) =>  Number(elem?.price)?.toFixed(2)
                         )) ||
                         "N/A"}
 
@@ -401,8 +401,8 @@ const NormalStep2 = () => {
                     )} */}
 
                       {
-             thirdParty.length > 0 ? ( <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} />):
-            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setThirdParty1} />
+             thirdParty?.length > 0 ? ( <DaysOfWeek days={thirdParty1} setDays={setThirdParty1} Marginpresent={true} />):
+            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setThirdParty1} Marginpresent={true} />
           }
                 </div>
               </div>
