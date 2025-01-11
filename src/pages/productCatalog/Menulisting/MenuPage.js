@@ -1307,7 +1307,7 @@ export const MenuPage = () => {
                     }}
                   >
                     {menuDataLoading ? (
-                      <div className="Menu-noOptions">
+                      <div className="Menupage-noOptions">
                         <Loader
                           className="imgLoader2"
                           height="100px"
