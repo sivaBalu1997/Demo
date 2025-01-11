@@ -60,143 +60,6 @@ const Table = () => {
     setActiveIndex(null);
   }, [offerlistdata]);
 
-  const offerdata = [
-    {
-      offerId: "OFFER123",
-      offerName: "Summer Sale",
-      isEnabled: true,
-      channel: [
-        "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-        "cd5996ed-7201-4faf-b996-5757aa684ad8",
-        "bc534a3f-4080-4014-83b5-aeb5cee93d95",
-      ],
-      effectivePeriod: {
-        isDateEnabled: true,
-        StartDate: "2024-12-01",
-        endDate: "2024-12-31",
-      },
-      startTime: "10:00:00",
-      endTime: "20:00:00",
-      validDays: [1, 2, 3, 4, 5, 6, 7],
-      items: [
-        { itemId: "ITEM001", itemName: "Laptop" },
-        { itemId: "ITEM002", itemName: "Smartphone" },
-        { itemId: "ITEM003", itemName: "Headphones" },
-        { itemId: "ITEM004", itemName: "Smartwatch" },
-        { itemId: "ITEM005", itemName: "Tablet" },
-      ],
-      totalItems: 5,
-
-      type: "PERCENT",
-      value: 10.0,
-    },
-    {
-      offerId: "OFFER124",
-      offerName: "Winter Bonanza",
-      isEnabled: true,
-      channel: ["bc534a3f-4080-4014-83b5-aeb5cee93d95"],
-      effectivePeriod: {
-        isDateEnabled: true,
-        StartDate: "2024-01-01",
-        endDate: "2024-01-15",
-      },
-      startTime: "09:00:00",
-      endTime: "18:00:00",
-      validDays: [1, 2, 3, 4, 5],
-      items: [
-        { itemId: "ITEM006", itemName: "TV" },
-        { itemId: "ITEM007", itemName: "Refrigerator" },
-        { itemId: "ITEM008", itemName: "Microwave" },
-        { itemId: "ITEM009", itemName: "Washing Machine" },
-        { itemId: "ITEM010", itemName: "Air Conditioner" },
-      ],
-      totalItems: 5,
-      type: "FLATFEE",
-      value: 500.0,
-    },
-    {
-      offerId: "OFFER125",
-      offerName: "Flash Sale",
-      isEnabled: false,
-      channel: [
-        "02feb858-c58d-48c5-8dd4-9a173390b4eb",
-        "cd5996ed-7201-4faf-b996-5757aa684ad8",
-        "bc534a3f-4080-4014-83b5-aeb5cee93d95",
-      ],
-      effectivePeriod: {
-        isDateEnabled: false,
-        StartDate: null,
-        endDate: null,
-      },
-      startTime: "12:00:00",
-      endTime: "15:00:00",
-      validDays: [6, 7],
-      items: [
-        { itemId: "ITEM011", itemName: "Gaming Console" },
-        { itemId: "ITEM012", itemName: "Gaming Chair" },
-        { itemId: "ITEM013", itemName: "Monitor" },
-        { itemId: "ITEM014", itemName: "Keyboard" },
-        { itemId: "ITEM015", itemName: "Mouse" },
-      ],
-      totalItems: 5,
-      type: "PERCENT",
-      value: 15.0,
-    },
-    {
-      offerId: "OFFER126",
-      offerName: "Festive Deals",
-      isEnabled: true,
-      channel: ["23864e56-e70d-4838-b5b4-eebe07e2bb63"],
-      effectivePeriod: {
-        isDateEnabled: true,
-        StartDate: "2024-12-15",
-        endDate: "2025-01-15",
-      },
-      startTime: "08:00:00",
-      endTime: "22:00:00",
-      validDays: [1, 2, 3, 4, 5, 6, 7],
-      items: [
-        { itemId: "ITEM016", itemName: "Sofa" },
-        { itemId: "ITEM017", itemName: "Bed" },
-        { itemId: "ITEM018", itemName: "Dining Table" },
-        { itemId: "ITEM019", itemName: "Chair" },
-        { itemId: "ITEM020", itemName: "Wardrobe" },
-        { itemId: "ITEM016", itemName: "Sofa" },
-        { itemId: "ITEM017", itemName: "Bed" },
-        { itemId: "ITEM018", itemName: "Dining Table" },
-        { itemId: "ITEM019", itemName: "Chair" },
-        { itemId: "ITEM020", itemName: "Wardrobe" },
-      ],
-      totalItems: 5,
-      type: "FLATFEE",
-      value: 1000.0,
-    },
-    {
-      offerId: "OFFER127",
-      offerName: "Back to School",
-      isEnabled: true,
-      channel: ["23864e56-e70d-4838-b5b4-eebe07e2bb63"],
-      effectivePeriod: {
-        isDateEnabled: true,
-        StartDate: "2024-06-01",
-        endDate: "2024-06-30",
-      },
-      startTime: "09:00:00",
-      endTime: "19:00:00",
-      validDays: [1, 2, 3, 4, 5],
-      items: [
-        { itemId: "ITEM021", itemName: "Backpack" },
-        { itemId: "ITEM022", itemName: "Stationery Kit" },
-        { itemId: "ITEM023", itemName: "Notebook" },
-        { itemId: "ITEM024", itemName: "Lunchbox" },
-        { itemId: "ITEM025", itemName: "Water Bottle" },
-      ],
-      totalItems: 5,
-      type: "PERCENT",
-      value: 5.0,
-    },
-  ];
-
   const [showFullitems, setShowFullItems] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const componentRef = useRef<HTMLDivElement | null>(null);
@@ -412,6 +275,11 @@ const Table = () => {
                             <>
                               {countryC === "US" ? "$" : "RS"}
                               {row.value}
+                              {row.specialType === "HAPPY HOUR" ? (
+                                <FaArrowUp />
+                              ) : (
+                                <FaArrowDown />
+                              )}
                             </>
                           )}
                         </td>

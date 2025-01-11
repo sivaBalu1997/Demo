@@ -11,6 +11,8 @@ import Toggle from "../../../components/productCatalog/Toggle/Toggle";
 import Polygon1 from "../../../assets/images/Polygon 1.png";
 import NotFound from "../../../assets/svg/NotFound copy.svg";
 
+import plusicon from "../../../assets/svg/plusIcon.svg";
+import minus from "../../../assets/svg/minusIcon.svg";
 import Polygon2 from "../../../assets/images/Polygon 2.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -31,6 +33,7 @@ import Dropdown from "components/productCatalog/DropDown/Dropdown";
 import { RootState } from "redux/rootReducer";
 import { stat } from "fs";
 import { tr } from "date-fns/locale";
+import PricingDetails from "../PricingDetalis/PricingDetails";
 
 // Define types
 interface Option {
@@ -84,9 +87,16 @@ interface State {
 
 const ItemCustomizations: React.FC<any> = () => {
   const dispatch = useDispatch();
+
   const itemCustomizationData = useSelector(
     (state: State) => state.itemCustomizationsReducer1.itemData
   );
+  
+  const Check = useSelector(
+    (state: State) => state.itemCustomizationsReducer1
+  );
+
+  console.log({Check},{itemCustomizationData})
 
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
@@ -149,6 +159,8 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
+  console.log({modifications})
+
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -167,6 +179,8 @@ const ItemCustomizations: React.FC<any> = () => {
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
 
+  console.log({itemCustomizationData})
+
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
       setShowModifiers(!showModifiers);
@@ -180,64 +194,62 @@ const ItemCustomizations: React.FC<any> = () => {
             return orderType?.typeName || selectedId;
           }
         );
-           if(item?.options)
-           {
-            return {
-              modifierId: item?.id || "",
-              modifierName: item?.modifierName || item?.name || "",
-              isModifierChanged: false,
-              isEnabled:item.isEnabled,
-              selectionType: "Mandatory",
-           
-              modifierOptions:
-                item?.options?.length > 0
-                  ? item.options.map((option: any) => ({
-                      modifierOptionId:
-                        option?.optionId || option?.modifierOptionId || null,
-                      modifierOptionName:
-                        option?.name || option?.modifierOptionName || "",
-                      cost: option?.price || 0,
-                      isModifierOptionChanged: false,
-                      isEnabled:option?.isEnabled,
-                    }))
-                  : [{ modifierOptionName: "", cost: 0 }],
-              minSelection: item.minSelection || 0,
-              maxSelection: item.maxSelection || 0,
-              freeCustomization: item?.freeCustomization || 0,
-              selectedValue: selectedTypeNames,
-              // selectionType: item?.selectionType || "Mandatory",
-             
-            };
-           }
-           else if(item?.modifierOptions)
-           {
-            return {
-              modifierId: item?.id || "",
-              modifierName: item?.modifierName || item?.name || "",
-              isModifierChanged: false,
-              isEnabled:item.isEnabled,
-              modifierOptions:
-                item?.modifierOptions?.length > 0
-                  ? item.modifierOptions.map((option: any) => ({
-                      modifierOptionId:
-                        option?.optionId || option?.modifierOptionId || null,
-                      modifierOptionName:
-                        option?.name || option?.modifierOptionName || "",
-                      cost: option?.cost || 0,
-                      isModifierOptionChanged: false,
-                      isEnabled:option?.isEnabled,
-                    }))
-                  : [{ modifierOptionName: "", cost: 0 }],
-              minSelection: item.minSelection || 0,
-              maxSelection: item.maxSelection || 0,
-              freeCustomization: item?.freeCustomization || 0,
-              selectedValue: selectedTypeNames,
-              selectionType: item?.selectionType || "Mandatory",
-              // selectionType:  "Mandatory",
 
-            };
-           }
-       
+        console.log('iiii',item?.noFreeCustomization)
+        console.log('iiii',item?.freeCustomization)
+
+        if (item?.options) {
+          return {
+            modifierId: item?.id || "",
+            modifierName: item?.modifierName || item?.name || "",
+            isModifierChanged: false,
+            isEnabled: item.isEnabled,
+            selectionType: "Mandatory",
+
+            modifierOptions:
+              item?.options?.length > 0
+                ? item.options.map((option: any) => ({
+                    modifierOptionId:
+                      option?.optionId || option?.modifierOptionId || null,
+                    modifierOptionName:
+                      option?.name || option?.modifierOptionName || "",
+                    cost: option?.price || 0,
+                    isModifierOptionChanged: false,
+                    isEnabled: option?.isEnabled,
+                  }))
+                : [{ modifierOptionName: "", cost: 0 }],
+            minSelection: item.minSelection || 0,
+            maxSelection: item.maxSelection || 0,
+            freeCustomization: (item?.noFreeCustomization ? item?.noFreeCustomization : item?.freeCustomization) || 0,
+            selectedValue: selectedTypeNames,
+            // selectionType: item?.selectionType || "Mandatory",
+          };
+        } else if (item?.modifierOptions) {
+          return {
+            modifierId: item?.id || "",
+            modifierName: item?.modifierName || item?.name || "",
+            isModifierChanged: false,
+            isEnabled: item.isEnabled,
+            modifierOptions:
+              item?.modifierOptions?.length > 0
+                ? item.modifierOptions.map((option: any) => ({
+                    modifierOptionId:
+                      option?.optionId || option?.modifierOptionId || null,
+                    modifierOptionName:
+                      option?.name || option?.modifierOptionName || "",
+                    cost: option?.cost || 0,
+                    isModifierOptionChanged: false,
+                    isEnabled: option?.isEnabled,
+                  }))
+                : [{ modifierOptionName: "", cost: 0 }],
+            minSelection: item.minSelection || 0,
+            maxSelection: item.maxSelection || 0,
+            freeCustomization: item?.freeCustomization || 0,
+            selectedValue: selectedTypeNames,
+            selectionType: item?.selectionType || "Mandatory",
+            // selectionType:  "Mandatory",
+          };
+        }
       });
 
       setModifications([...mappedModifications]);
@@ -324,14 +336,13 @@ const ItemCustomizations: React.FC<any> = () => {
     });
   };
 
-
   const handleModifierChangeforradio = (
     modIndex: number,
     e: React.ChangeEvent<HTMLInputElement>,
     selectionType?: string
   ) => {
     const { name, value } = e.target;
-    
+
     setModifications((prev: any) => {
       const updated = [...prev];
       const currentModifier = updated[modIndex];
@@ -339,10 +350,9 @@ const ItemCustomizations: React.FC<any> = () => {
 
       updated[modIndex] = {
         ...currentModifier,
-        selectionType: selectionType ? selectionType:"Mandatory",
+        selectionType: selectionType ? selectionType : "Mandatory",
         ["isModifierChanged"]:
           isCurrentValueEmpty && value !== "" ? false : true,
-
       };
 
       setUpdatedModifierIds((prevIds) => {
@@ -360,8 +370,8 @@ const ItemCustomizations: React.FC<any> = () => {
   const handleDeleteModifier = (modIndex: number) => {
     setModifications((prev: any) => {
       const updated = [...prev];
-      const deletedId = updated[modIndex].modifierId; 
-  
+      const deletedId = updated[modIndex].modifierId;
+
       // Remove the modifier from the array
       updated.splice(modIndex, 1);
 
@@ -427,8 +437,13 @@ const ItemCustomizations: React.FC<any> = () => {
               if (optIdx === optIndex) {
                 const currentValue = opt[e.target.name];
                 const newValue =
-                e.target.name === "cost"
-                ? parseFloat(e.target.value.replace(/^(\d+)(\.\d{0,2})?.*$/, "$1$2")) || 0  || 0 || 0
+                  e.target.name === "cost"
+                    ? parseFloat(
+                        e.target.value.replace(/^(\d+)(\.\d{0,2})?.*$/, "$1$2")
+                      ) ||
+                      0 ||
+                      0 ||
+                      0
                     : e.target.value;
 
                 const isOptionChanged =
@@ -476,6 +491,11 @@ const ItemCustomizations: React.FC<any> = () => {
       return newModifier;
     });
   };
+  useEffect(() => {
+    if (modifications.length > 0) {
+      setShowModifiers(true);
+    }
+  }, [modifications]);
 
   const getModifierClassName = (length: any) => {
     if (length == 1) {
@@ -508,17 +528,19 @@ const ItemCustomizations: React.FC<any> = () => {
     selectionType: "Mandatory" | "Optional"
   ) => {
     const newModifier = JSON.parse(JSON.stringify(modifications));
-  
+
     if (newModifier[index] && EnableOrnot) {
       const baseValue = selectionType === "Mandatory" ? 1 : 0;
-  
+
       newModifier[index][field] =
-        (parseInt(newModifier[index][field]?.toString() || baseValue.toString(), 10) || baseValue) + 1;
+        (parseInt(
+          newModifier[index][field]?.toString() || baseValue.toString(),
+          10
+        ) || baseValue) + 1;
     }
-  
+
     setModifications(newModifier);
   };
-  
 
   const decrementSpinner = (
     index: number,
@@ -754,7 +776,7 @@ const ItemCustomizations: React.FC<any> = () => {
   }, [ShowSearchList]);
   const [listOfStreams, setListOfStreams] = useState<string[]>([]);
 
-  const [atleastOnestream,setAtleastOnestream]=useState(false);
+  const [atleastOnestream, setAtleastOnestream] = useState(false);
 
   useEffect(() => {
     const streams: string[] = [];
@@ -776,14 +798,9 @@ const ItemCustomizations: React.FC<any> = () => {
     }
     setListOfStreams(streams);
 
-    if(streams.length>0)
-    {
+    if (streams.length > 0) {
       setAtleastOnestream(true);
     }
-
-   
-    
-
   }, [ordertypesdetails]);
 
   const [customizationerrors, setcustomizationerrors] = useState<any>([]);
@@ -848,11 +865,13 @@ const ItemCustomizations: React.FC<any> = () => {
     };
 
     const nameRegex = /^[a-zA-Z0-9\s]+$/;
-    if (!inputValue ) {
+    if (!inputValue) {
       optionErrors.optionNameError = `Option Name is required`;
-    } else if (!nameRegex.test(inputValue)  ) {
-      optionErrors.optionNameError = `Option Name must not contain special characters`;
-    } else {
+    } 
+    // else if (!nameRegex.test(inputValue)) {
+    //   optionErrors.optionNameError = `Option Name must not contain special characters`;
+    // } 
+    else {
       optionErrors.optionNameError = "";
     }
 
@@ -893,9 +912,8 @@ const ItemCustomizations: React.FC<any> = () => {
         modifications[parentIndex]?.modifierOptions[optionIndex]?.cost || 0,
       optionPriceError: "",
     };
-  
-  
-    if (inputValue <= 0 ) {
+
+    if (inputValue <= 0) {
       optionErrors.optionPriceError = `Price field is required`;
     } else {
       optionErrors.optionPriceError = "";
@@ -930,8 +948,9 @@ const ItemCustomizations: React.FC<any> = () => {
       if (!modifierName.trim()) {
         modifierErrors.modifierNameError = `Modifier Name is required`;
       }
-      if (atleastOnestream && selectedValue?.length === 0 ) {
-        modifierErrors.errormsgforselectedvalues = "Available service streams required";
+      if (atleastOnestream && selectedValue?.length === 0) {
+        modifierErrors.errormsgforselectedvalues =
+          "Available service streams required";
       }
 
       if (Array.isArray(modifierOptions)) {
@@ -945,15 +964,14 @@ const ItemCustomizations: React.FC<any> = () => {
           };
 
           const nameRegex = /^[a-zA-Z0-9\s]+$/;
-          if (!option.modifierOptionName.trim() ) {
+          if (!option.modifierOptionName.trim()) {
             optionErrors.optionNameError = `Option Name is required`;
           }
           // else if (!nameRegex.test(option.modifierOptionName && modifierName!=="")) {
           //   optionErrors.optionNameError = `Option Name must not contain special characters`;
           // }
 
-        
-          if (isNaN(option.cost) || option.cost <= 0 ) {
+          if (isNaN(option.cost) || option.cost <= 0) {
             optionErrors.optionPriceError = `Price field is required`;
           }
 
@@ -1017,7 +1035,11 @@ const ItemCustomizations: React.FC<any> = () => {
 
   // const editData = useSelector((state: any) => state.productCatalog.editData);
 
-  const searched = ModifierList?.map((item, index) => (item?.modifierName))
+  const searched = ModifierList?.map((item, index) => item?.modifierName);
+
+  const prizingDetail = useSelector(
+    (state: RootState) => state?.PricingDetailReducer?.prizingData as any
+  );
 
   return (
     <div
@@ -1064,7 +1086,7 @@ const ItemCustomizations: React.FC<any> = () => {
                   className="Add-Modification-btn-ItemCustomizations"
                   onClick={addModifier}
                 >
-                  + Add Modification
+                  <img src={plusicon} alt="" /> Add Modification
                 </a>
               )}
             </div>
@@ -1177,10 +1199,10 @@ const ItemCustomizations: React.FC<any> = () => {
                       <div
                         className="modifier-and-options"
                         key={modIndex}
-                        draggable
-                        onDragStart={(e) => onDragStart(e, modIndex)}
-                        onDragOver={(e) => e.preventDefault()}
-                        onDrop={(e) => onDrop(e, modIndex)}
+                        // draggable
+                        // onDragStart={(e) => onDragStart(e, modIndex)}
+                        // onDragOver={(e) => e.preventDefault()}
+                        // onDrop={(e) => onDrop(e, modIndex)}
                         style={{
                           opacity: modifications[modIndex]?.isEnabled
                             ? "100%"
@@ -1221,8 +1243,17 @@ const ItemCustomizations: React.FC<any> = () => {
                                       : "50%",
                                   }}
                                   disabled={!modifications[modIndex]?.isEnabled}
+                                  onInput={(e) => {
+                                    const input = e.target as HTMLInputElement;
+                                    const regex = /^[a-zA-Z\s\W]*$/;                                    
+                                    if (!regex.test(input.value)) {
+                                      input.value = input.value.replace(/[^a-zA-Z\s\W]/g, "");
+                                    }
+                                  }}
+                                  
                                   onChange={(e) => {
                                     const inputValue = e.target.value;
+
                                     if (!/\d/.test(inputValue)) {
                                       handleModifierChange(
                                         modIndex,
@@ -1230,7 +1261,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                         modifier.selectionType
                                       );
                                     }
-                                    valiadteModifierName(modIndex,e);
+                                    valiadteModifierName(modIndex, e);
                                   }}
                                   // onBlur={(e) => handleBlur(e, modIndex)}
                                 />
@@ -1250,7 +1281,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                 onClick={() => handleDeleteModifier(modIndex)}
                               >
                                 <a className="Delete-text">
-                                  <span className="SpanDelete">-</span>Delete
+                                  <span className="SpanDelete"><img src={minus} alt="" /></span>Delete
                                 </a>
                               </div>
                             </div>
@@ -1332,10 +1363,10 @@ const ItemCustomizations: React.FC<any> = () => {
                                               : "50%",
                                           }}
                                           onInput={(e) => {
-                                            const input = e.target as HTMLInputElement; 
-                                            const regex = /^[a-zA-Z\s]*$/; 
+                                            const input = e.target as HTMLInputElement;
+                                            const regex = /^[a-zA-Z\s\W]*$/;                                    
                                             if (!regex.test(input.value)) {
-                                              input.value = input.value.replace(/[^a-zA-Z\s]/g, ""); 
+                                              input.value = input.value.replace(/[^a-zA-Z\s\W]/g, "");
                                             }
                                           }}
                                           disabled={
@@ -1421,17 +1452,23 @@ const ItemCustomizations: React.FC<any> = () => {
                                               .sellPrice ||
                                             ""
                                           }
-
                                           onChange={(e) => {
                                             const value = e.target.value;
-                                        
+
                                             // Restrict to 4 digits
                                             if (value.length <= 4) {
-                                              addOptionChange(modIndex, optIndex, e);
-                                              valiadteModifieroptionsprice(modIndex, optIndex, e);
+                                              addOptionChange(
+                                                modIndex,
+                                                optIndex,
+                                                e
+                                              );
+                                              valiadteModifieroptionsprice(
+                                                modIndex,
+                                                optIndex,
+                                                e
+                                              );
                                             }
                                           }}
-                                         
                                           onKeyDown={(
                                             e: React.KeyboardEvent<HTMLInputElement>
                                           ) => {
@@ -1496,8 +1533,8 @@ const ItemCustomizations: React.FC<any> = () => {
                                                   : "spanOption-button"
                                               }
                                             >
-                                              +
-                                              <span className="spanadd">
+                                             <img src={plusicon} alt="" />
+                                              <span className="spanadd" >
                                                 Add
                                               </span>{" "}
                                             </span>
@@ -1510,7 +1547,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                               deleteOption(modIndex, optIndex)
                                             }
                                           >
-                                            - Delete
+                                            <img src={minus} alt="" /> Delete
                                           </a>
                                         )}
                                       </div>
@@ -1520,13 +1557,8 @@ const ItemCustomizations: React.FC<any> = () => {
                             </div>
 
                             <div
-                              className="Spinner-input-ItemCustomizations"
-                              style={{
-                                height:
-                                  modifications.length - 1 === modIndex
-                                    ? "35vh"
-                                    : "auto",
-                              }}
+                              className={`Spinner-input-ItemCustomizations ${modifications.length - 1 === modIndex?"Spinner-input-ItemCustomization-height":""}`}
+                             
                             >
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
@@ -1541,44 +1573,47 @@ const ItemCustomizations: React.FC<any> = () => {
                                   Minimum selection
                                 </label>
                                 <input
-                                type='number'
+                                  type="number"
                                   placeholder=""
-                                  className={modifications[modIndex]?.selectionType === "Optional" ? "input3ItemCustomizations-disable" : "input3ItemCustomizations"}
+                                  className={
+                                    modifications[modIndex]?.selectionType ===
+                                    "Optional"
+                                      ? "input3ItemCustomizations-disable"
+                                      : "input3ItemCustomizations"
+                                  }
                                   value={
-                                  
-
-
-
-                                    modifications[modIndex]?.minSelection 
+                                    modifications[modIndex]?.minSelection
                                       ? modifications[modIndex]?.minSelection
-                                      : modifications[modIndex]?.selectionType === "Optional"
+                                      : modifications[modIndex]
+                                          ?.selectionType === "Optional"
                                       ? 0
                                       : 1
                                   }
                                   name="minSelection"
-                                  onChange={(e) =>{
+                                  onChange={(e) => {
                                     const value = e.target.value;
-                                        
-                                      handleModifierChange(modIndex, e)
-                                    
-                                    
+
+                                    handleModifierChange(modIndex, e);
                                   }}
-                                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                    const input = e.target as HTMLInputElement; 
+                                  onKeyDown={(
+                                    e: React.KeyboardEvent<HTMLInputElement>
+                                  ) => {
+                                    const input = e.target as HTMLInputElement;
                                     if (
-                                      ["e", "E", "+", "-"].includes(e.key) || 
-                                      (e.key === "." && input.value.includes(".")) 
+                                      ["e", "E", "+", "-"].includes(e.key) ||
+                                      (e.key === "." &&
+                                        input.value.includes("."))
                                     ) {
                                       e.preventDefault();
                                     }
                                   }}
-
                                   disabled={
                                     modifications[modIndex]?.selectionType ===
                                       "Optional" ||
                                     !modifications[modIndex]?.isEnabled
                                   }
                                 />
+                                
                                 <div className="polydiv-ItemCustomizations">
                                   <img
                                     className={
@@ -1599,8 +1634,6 @@ const ItemCustomizations: React.FC<any> = () => {
                                           "minSelection",
                                           modifications[modIndex]?.isEnabled,
                                           modifications[modIndex]?.selectionType
-                                          
-
                                         );
                                       }
                                     }}
@@ -1630,7 +1663,6 @@ const ItemCustomizations: React.FC<any> = () => {
                                 </div>
                               </div>
 
-
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
                                   className="labelItemCustomizations"
@@ -1639,15 +1671,15 @@ const ItemCustomizations: React.FC<any> = () => {
                                   Maximum selection
                                 </label>
                                 <input
-                                type="number"
+                                  type="number"
                                   placeholder=""
                                   className="input3ItemCustomizations"
                                   disabled={!modifications[modIndex]?.isEnabled}
-                                 
                                   value={
                                     modifications[modIndex]?.maxSelection
                                       ? modifications[modIndex]?.maxSelection
-                                      : modifications[modIndex]?.selectionType === "Optional"
+                                      : modifications[modIndex]
+                                          ?.selectionType === "Optional"
                                       ? 0
                                       : 1
                                   }
@@ -1655,11 +1687,14 @@ const ItemCustomizations: React.FC<any> = () => {
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
                                   }
-                                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                    const input = e.target as HTMLInputElement; 
+                                  onKeyDown={(
+                                    e: React.KeyboardEvent<HTMLInputElement>
+                                  ) => {
+                                    const input = e.target as HTMLInputElement;
                                     if (
-                                      ["e", "E", "+", "-"].includes(e.key) || 
-                                      (e.key === "." && input.value.includes(".")) 
+                                      ["e", "E", "+", "-"].includes(e.key) ||
+                                      (e.key === "." &&
+                                        input.value.includes("."))
                                     ) {
                                       e.preventDefault();
                                     }
@@ -1693,6 +1728,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                   />
                                 </div>
                               </div>
+
                               <div className="Spinner-inputlabel-ItemCustomizations">
                                 <label
                                   className="label1ItemCustomizations"
@@ -1702,26 +1738,28 @@ const ItemCustomizations: React.FC<any> = () => {
                                 </label>
                                 <input
                                   placeholder=""
-                                     type="number"
+                                  type="number"
                                   className="input3ItemCustomizations"
                                   name="freeCustomization"
-                                  disabled={
-                                    !modifications[modIndex]?.isEnabled
-                                  }
-                                  
+                                  disabled={!modifications[modIndex]?.isEnabled}
                                   value={
-                                    modifications[modIndex]?.freeCustomization!== undefined
-                                      ?modifications[modIndex]?.freeCustomization
+                                    modifications[modIndex]
+                                      ?.freeCustomization !== undefined
+                                      ? modifications[modIndex]
+                                          ?.freeCustomization
                                       : 0
                                   }
                                   onChange={(e) =>
                                     handleModifierChange(modIndex, e)
                                   }
-                                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                                    const input = e.target as HTMLInputElement; 
+                                  onKeyDown={(
+                                    e: React.KeyboardEvent<HTMLInputElement>
+                                  ) => {
+                                    const input = e.target as HTMLInputElement;
                                     if (
-                                      ["e", "E", "+", "-"].includes(e.key) || 
-                                      (e.key === "." && input.value.includes(".")) 
+                                      ["e", "E", "+", "-"].includes(e.key) ||
+                                      (e.key === "." &&
+                                        input.value.includes("."))
                                     ) {
                                       e.preventDefault();
                                     }
@@ -1737,8 +1775,7 @@ const ItemCustomizations: React.FC<any> = () => {
                                         modIndex,
                                         "freeCustomization",
                                         modifications[modIndex]?.isEnabled,
-                                       "Optional"
-
+                                        "Optional"
                                       )
                                     }
                                   />
@@ -1756,11 +1793,13 @@ const ItemCustomizations: React.FC<any> = () => {
                                   />
                                 </div>
                               </div>
+
                               <div className="dropDown-item">
                                 <Dropdown
                                   selectedValues={
                                     modifications[modIndex]?.selectedValue || []
                                   }
+                                  EnabledOrNot={true}
                                   onSelect={(value) =>
                                     handleSelect3(
                                       value,
@@ -1771,7 +1810,9 @@ const ItemCustomizations: React.FC<any> = () => {
                                   options={listOfStreams}
                                   width="Drop1"
                                   validation={validationState.items}
-                                  label= {`Available Service Stream${atleastOnestream?"*":""}`} 
+                                  label={`Available Service Stream${
+                                    atleastOnestream ? "*" : ""
+                                  }`}
                                 />
                                 {customizationerrors[modIndex]
                                   ?.errormsgforselectedvalues && (

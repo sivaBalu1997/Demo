@@ -371,6 +371,7 @@
   display: flex;
   flex-direction: column;
   margin-left: 1.875rem;
+  padding-bottom: 100px;
 }
 .PickupRelatedNormal {
   display: flex;
@@ -442,7 +443,7 @@
   display: flex;
   justify-content: flex start;
   gap: 2rem;
-  margin-top: 0.5rem;
+  // margin-top: 0.5rem;
 }
 .DeliveryRelatedNormalopen {
   display: flex;
@@ -472,7 +473,7 @@
 .ThirdDeliveryRelatedHeadingNormal {
   font-size: 0.875rem;
   font-weight: 500;
-  margin-top: 0.2rem;
+  margin-top: 1.2rem;
   margin-bottom: -1.2rem;
 }
 
@@ -606,6 +607,16 @@
 .thridparties-dropdown {
   margin-top: 1.3rem;
   margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+height: 3rem;
+// border: 1px solid red;
+.thirdpartyprice
+{
+  margin-top: 1.7rem;
+  margin-bottom: 1rem;
+
+}
 }
 .swiggyZomatoHeading {
   transform: translateY(24px);
@@ -637,10 +648,10 @@
 }
 .ErrormsgPrice {
   position: relative;
-
-  color: red;
+  color:#e52333;
   font-size: 14px;
   font-weight: 400;
+  margin-top: 0.3rem;
   // border: 1px solid red;
 }
 .ErrormsgPickupPrice {
@@ -664,7 +675,7 @@
   justify-content: left;
   gap: 0.313rem;
   // border: 1px solid red;
-  margin-top: -1.7rem;
+  margin-top: -0.7rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;
@@ -717,15 +728,13 @@
   display: flex;
   justify-content: left;
   gap: 0.313rem;
-
   position: relative;
   bottom: 0.5rem;
   cursor: pointer;
   width: 400px;
   height: 2rem;
   align-items: center;
-
-  margin-top: -0.7rem;
+  margin-top: -0.3rem;
 }
 .Mealz {
   margin-top: -25px;
@@ -825,14 +834,14 @@
 }
 
 .mealTypeError {
-  position: relative;
-  top: 1.35rem;
+  top: 1.75rem;
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 21px;
   text-align: left;
   color: #e52333;
+  margin-bottom: 20px;
 }
 .pickupprice-errormsg {
   display: flex;
@@ -845,9 +854,11 @@
   color: #e52333;
 }
 .pickuperrormsg {
-  margin-top: -1.2rem;
+  margin-top: -1rem;
   margin-left: -0.5rem;
+  
   position: relative;
+ 
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -863,6 +874,9 @@
   line-height: 21px;
   text-align: left;
   color: #e52333;
+  margin-top: 1rem;
+  position: relative;
+  top: 1.7rem;
 }
 
 .delivery-price-errormsg {
@@ -889,6 +903,7 @@
 .deliverymealtypeerrormsg {
   margin-left: -0.5rem;
   margin-bottom: 2rem;
+  margin-top: 20px !important;
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 400;

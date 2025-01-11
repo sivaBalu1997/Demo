@@ -23,6 +23,7 @@ import {
   createSpecialOfferRequest,
   SPOfferListSendingRequest,
   getOfferItemsRequest,
+  fetchSubDropDownRequest,
   updateSpecialOfferRequest,
 } from "redux/offer/offerActions";
 import { selectedCategory } from "redux/productCatalog/productCatalogActions";
@@ -96,7 +97,6 @@ const SpecialPriceDetails = () => {
   const subCatagoryOption = useSelector(
     (state: any) => state.offer.subCategoryData
   );
-  console.log({ subCatagoryOption });
 
   const editOfferData = useSelector((state: any) => state.offer.editSpData);
   const editOfferDataLoading = useSelector(
@@ -688,6 +688,12 @@ const SpecialPriceDetails = () => {
       if (editOfferData?.category) {
         setSelectedCatagory([editOfferData?.category]);
         setParentId(editOfferData?.category?.id);
+          const payloadsub = {
+                      locationId: locationid,
+                      type: "SUB_CATEGORY",
+                      parentId: editOfferData?.category?.id,
+                    };
+                    dispatch(fetchSubDropDownRequest(payloadsub));
         setValue("category", editOfferData?.category?.name);
       }
       if (editOfferData?.subCategory?.length > 0) {
@@ -1046,7 +1052,7 @@ const SpecialPriceDetails = () => {
   const handleToggle = (item: any) => {
     const data = [...selectedFoodItems];
     data.forEach((item1) => {
-      if (item.id == item1.id) {
+      if (item.itemId == item1.itemId) {
         item1.isEnabled = item1.isEnabled ? 0 : 1;
       }
     });

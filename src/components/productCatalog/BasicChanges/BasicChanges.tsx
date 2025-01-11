@@ -101,7 +101,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
         <div className="BasicChanges">
           <img src={Basic} className="BasicChangesImage" alt="Basic" />
           <p className="BasicChangesText">
-            Edit basic settings here. Click the edit icon to see all options.
+            Edit basic settings here. Click the edit icon to view all options.
           </p>
         </div>
         <div className="CancelChange">
@@ -120,7 +120,7 @@ const BasicChanges: React.FC<BasiChangesProps> = ({ onclose }) => {
             disabled={!isPartialDataValid()}
           >
             {!partaldatasending  ? (
-              "Change"
+              "Update"
             ) : (
               <div className="reviewLoaders"></div>
             )}

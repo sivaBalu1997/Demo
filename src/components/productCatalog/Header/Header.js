@@ -1,67 +1,49 @@
-import React, { useContext, useState } from 'react'
-import '../Header/Header.scss'
-import SearchBox from '../SearchBox/SearchBox1'
-import filterIcon from '../../../assets/svg/filter.svg'
-import Excel from '../../../assets/svg/Excel.svg'
-import publish from '../../../assets/svg/publish.svg'
-import DownloadExcel from '../../../assets/images/ExcelDownload.png'
-import { Contextpagejs } from '../../../pages/productCatalog/contextpage'
-import { useHistory } from 'react-router-dom'
-import Menu120 from '../Menu120/Menu120'
-import Filter from '../Filter/Filter'
-import ArrowHover from '../../../assets/svg/ArrowHover.svg'
-import DatePicker from 'react-datepicker';
-import {removeDataRequest } from 'redux/productCatalog/productCatalogActions';
-import { useDispatch} from 'react-redux';
+import React, { useContext, useState } from "react";
+import "../Header/Header.scss";
+import SearchBox from "../SearchBox/SearchBox1";
+import filterIcon from "../../../assets/svg/filter.svg";
+import Excel from "../../../assets/svg/Excel.svg";
+import publish from "../../../assets/svg/publish.svg";
+import DownloadExcel from "../../../assets/images/ExcelDownload.png";
+import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
+import { useHistory } from "react-router-dom";
+import Menu120 from "../Menu120/Menu120";
+import Filter from "../Filter/Filter";
+import ArrowHover from "../../../assets/svg/ArrowHover.svg";
+import DatePicker from "react-datepicker";
+import { removeDataRequest } from "redux/productCatalog/productCatalogActions";
+import { useDispatch } from "react-redux";
 const Header = () => {
-  const{isExpanded}=useContext(Contextpagejs)
-  const [filterSelected,setFilterSelected]=useState(false)
+  const { isExpanded } = useContext(Contextpagejs);
+  const [filterSelected, setFilterSelected] = useState(false);
 
-  const history=useHistory()
-  const dispatch =useDispatch()
-  const handleFilter=()=>{
-    setFilterSelected(!filterSelected)
-  }
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const handleFilter = () => {
+    setFilterSelected(!filterSelected);
+  };
 
-  const handleClick=()=>{
-    dispatch(removeDataRequest())
-    history.push("/productCatalog/PrimaryDetails")
-  }
-  
+  const handleClick = () => {
+    dispatch(removeDataRequest());
+    history.push("/productCatalog/PrimaryDetails");
+  };
 
   return (
-    <div className={isExpanded ? 'Header-Container1' : "Header-Container"}>
-      <div className='Header-Heading-Search-Filter-Container'>
-        <Menu120/>
-      
-        <SearchBox/>
-        {/* <div className='Filter-Div'>
-          <div className='Filter-FlexCol'>
-            <img 
-              className={isExpanded ? 'FilterIcon-Header1' : "FilterIcon-Header"} 
-              onClick={handleFilter}  
-              src={filterIcon} 
-              alt=""
-            />
-            <img className='ArrowHoverHeader' src={ArrowHover} alt="" />
-            <div className='FilterHover'>Filter</div>
-          </div> 
+    <div className={isExpanded ? "Header-Container1" : "Header-Container"}>
+      <div className="Header-Heading-Search-Filter-Container">
+        <Menu120 />
 
-          {filterSelected && <Filter/>}
-        </div> */}
-        {/* <div className='Excel-flex-col'>
-          <img className={`${isExpanded?"Excel-Header1":"Excel-Header"}`} src={publish} alt="" />
-        </div>   */}
-        </div>
-      <div 
-        onClick={()=>handleClick()} 
-        className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"
-      }>
-        <h3 className='Add-Item-Heading-Plus'>+</h3>
-        <h3 className='Add-Item-Heading' >Add Item</h3>
+        <SearchBox />
+      </div>
+      <div
+        onClick={() => handleClick()}
+        className={isExpanded ? "Add-Item-Container1" : "Add-Item-Container"}
+      >
+        <p className="Add-Item-Heading-Plus">+</p>
+        <p className="Add-Item-Heading">Add Item</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

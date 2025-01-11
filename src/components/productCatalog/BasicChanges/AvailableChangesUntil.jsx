@@ -149,6 +149,7 @@ const AvailabilityChangesUntil = ({
 
     if (elem === "End of Today") {
       const todayDay = getTodayDay();
+      
       const formattedDate = getFormattedDate();
       // console.log("todayWorkinghours",todayWorkinghours);
       const todayWorkinghours = restaurantDetails?.workingHours.filter(
@@ -182,7 +183,7 @@ const AvailabilityChangesUntil = ({
       // const Time=`${formattedDate}T${sessionClosingHours?.closingTime}`;
       // setTimeToSet(Time);
     } else if (elem === "Until manually enabled") {
-      setTimeToSet("");
+      setTimeToSet("9999-01-01T00:00:00");
     }
   };
   const [matchedChildArray, setMatchedChildArray] = useState([]);

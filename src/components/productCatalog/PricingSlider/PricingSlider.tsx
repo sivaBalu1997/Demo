@@ -33,16 +33,20 @@ const PricingSlider: any = ({}) => {
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState<any>([]);
 
   useEffect(() => {
-    const tempOnPremarray = data[0]?.orderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup === "D";
-      }
-    );
-    const tempOffPremarray = data[0]?.orderTypes?.filter(
-      (data: any, index: number) => {
-        return data?.typeGroup !== "D";
-      }
-    );
+    const tempOnPremarray = data[0]?.orderTypes
+      ?.filter((data: any) => data?.typeGroup === "D" ||data?.typeGroup === "I" )
+      ?.map((item: any) => ({
+        ...item,
+        price: item.price !== undefined && Number(item.price).toFixed(2), // Ensure 2 decimal places
+      }));
+    console.log({ tempOnPremarray });
+
+    const tempOffPremarray = data[0]?.orderTypes
+      ?.filter((data: any) => data?.typeGroup !== "D"&&data?.typeGroup !== "I")
+      ?.map((item: any) => ({
+        ...item,
+        price: item.price !== undefined && Number(item.price).toFixed(2), // Ensure 2 decimal places
+      }));
 
     const isOnPremEnabledCount =
       tempOnPremarray?.filter((data: any, index: number) => {
@@ -68,117 +72,14 @@ const PricingSlider: any = ({}) => {
     setAvailabilityOrderTypes([...tempOrderTypeAvailabilityArray]);
   }, [data[0]?.orderTypes]);
 
-  const { pen, setPen } = useContext(Contextpagejs);
-  const Dinein = data[0]?.orderTypes?.find(
-    (orderType: any) => orderType?.typeName === "DineIn"
-  );
-  const [inputs, setInputs] = useState({
-    Dinein1: Array.isArray(data[0]?.orderTypes)
-      ? data[0].orderTypes
-          .filter((elem: any) => elem.typeName === "DineIn")
-          .map((elem: any) => elem.price)
-      : [],
-    Pickup1: Array.isArray(data[0]?.orderTypes)
-      ? data[0].orderTypes
-          .filter((elem: any) => elem.typeName !== "DineIn")
-          .map((elem: any) => elem.price)
-      : [],
-    Delivery1: data[0]?.orderTypes[0]?.price || [],
-  });
 
-  const [sectionAValue, setSectionAValue] = useState<string>("");
+
+
+
   const [showCompare, setShowCompare] = useState(false);
   const [filteredpricelist, setFilteredPriceList] = useState<PriceComparison[]>(
     []
   );
-
-  const PrizingSliderData = [
-    {
-      heading: "On-Prem",
-      Sections: [Dinein?.typeName],
-      inputTypes: ["text", "text"],
-      isEnabled: Dinein
-        ? [
-            {
-              name: Dinein.typeName,
-              enabled: Dinein.isEnabled,
-            },
-          ]
-        : [],
-      isHidden: Dinein?.isHidden,
-      tyepeId: Dinein?.typeId,
-    },
-    {
-      heading: "Off-Prem",
-      labels:
-        data[0]?.orderTypes?.length > 0
-          ? [data[0]?.orderTypes[0].typeName]
-          : [],
-      InputLabels:
-        data[0]?.orderTypes?.length > 0
-          ? data[0]?.orderTypes.map((elem: any) => elem.typeName)
-          : [],
-      isEnabled:
-        data[0]?.orderTypes?.length > 0
-          ? data[0]?.orderTypes.map((elem: any) => {
-              return {
-                name: elem.typeName,
-                enabled: elem.isEnabled,
-              };
-            })
-          : [],
-      tyepeId:
-        data[0]?.orderTypes?.length > 0
-          ? data[0]?.orderTypes.map((elem: any) => elem.tyepeId)
-          : [],
-      isHidden: data[0]?.orderTypes[0].isHidden,
-      inputTypes: ["text", "text", "text"],
-    },
-  ];
-
-  useEffect(() => {
-    if (data && data[0]?.pricingdetails) {
-      setInputs({
-        Dinein1: data[0]?.orderTypes[0]?.price || [],
-        Pickup1: Array.isArray(data[0]?.orderTypes)
-          ? data[0].orderTypes.map((elem: any) => elem.price)
-          : [],
-
-        Delivery1: data[0]?.orderTypes[0]?.price || [],
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    const updatedValue = data?.[0]?.pricingdetails?.Dinein1?.[0] || "";
-    setSectionAValue(updatedValue);
-  }, [data]);
-  // console.log("PrizingSliderData",PrizingSliderData[1].isEnabled);
-
-  const handleInputChange1 = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    section: PricingKey,
-    index: number,
-    enable: any,
-    name: string
-  ) => {
-    const value = e.target.value;
-    // console.log("name",name,"enable",enable);
-    const filter = PrizingSliderData[enable].isEnabled.filter(
-      (item: any) => item.name === name
-    );
-
-    if (filter[0].enabled) {
-      setInputs((prev) => ({
-        ...prev,
-        [section]: Array.isArray(prev[section])
-          ? prev[section].map((item: number, idx: number) =>
-              idx === index ? Number(value) : item
-            )
-          : [],
-      }));
-    }
-  };
 
   const handleComparision = (baseprice: number, id: string, index: number) => {
     if (baseprice !== 0) {
@@ -187,17 +88,15 @@ const PricingSlider: any = ({}) => {
       const pricelist = availabilityOrderTypes[1].types
         .filter((elem: any) => id !== elem.typeId)
         .map((elem: any) => {
-          const percentageDifference = (elem.price * 100) / baseprice;
+          const percentageDifference =
+            ((elem.price - baseprice) / baseprice) * 100;
           const increaseOrDecrease =
             elem.price > baseprice ? "increase" : "decrease";
 
           return {
             typeId: elem.typeId,
             price: elem.price,
-            percentage:
-              baseprice === 0
-                ? "0.00%"
-                : `${Math.abs(percentageDifference).toFixed(2)}%`,
+            percentage: `${Math.abs(percentageDifference).toFixed(2)}%`,
             increaseOrDecrease,
           };
         });
@@ -206,34 +105,9 @@ const PricingSlider: any = ({}) => {
     }
   };
 
-  useEffect(() => {
-    if (data && data[0]?.orderTypes) {
-      const oofpremprice = data[0].orderTypes
-        .filter((elem: any) => elem.typeName !== "DineIn")
-        .map((elem: any, index: number) => ({
-          orderTypeId: elem.typeId,
-          price: String(inputs.Pickup1?.[index] || elem.price),
-        }));
-      const onprem = data[0].orderTypes
-        .filter((elem: any) => elem.typeName === "DineIn")
-        .map((elem: any, index: number) => ({
-          orderTypeId: elem.typeId,
-          price: String(inputs.Dinein1?.[index] || elem.price),
-        }));
+ 
 
-      const offpremandonprem = [...oofpremprice, ...onprem];
-
-      setPatchedData((prevState: any) => ({
-        ...prevState,
-        pricing: Array.isArray(offpremandonprem)
-          ? offpremandonprem?.map((elem: any, index: number) => ({
-              orderTypeId: elem.orderTypeId,
-              price: elem.price,
-            }))
-          : [],
-      }));
-    }
-  }, [data, inputs, setPatchedData]);
+ 
 
   const handlepriceinputchange = (
     typeId: string,
@@ -242,7 +116,7 @@ const PricingSlider: any = ({}) => {
     Enabled: number,
     hidden: number
   ) => {
-    if (Enabled && hidden) {
+    if (hidden) {
       const updatedArray = availabilityOrderTypes.map((item: any) => {
         if (item.mainHeading === mainHeading) {
           return {
@@ -319,17 +193,12 @@ const PricingSlider: any = ({}) => {
             {item.types &&
               item.types.map((price: any, idx: number) => {
                 const enableOrNot =
-                  price.isEnabled &&
-                  price.isNotHide &&
-                  price.availabilityEnabled;
+                  // price.isEnabled &&
+                  price.isNotHide && price.availabilityEnabled;
 
                 const Pricesymbol = `${
                   restaurantDetails?.country === "US" ? "$" : "Rs."
                 }`;
-
-                const pricewithdigit = price
-                  ? price.price.toFixed(2).padStart(5, "0")
-                  : "";
 
                 const pricewithtwodigit = price
                   ? truncateToTwoDecimals(price.price)
@@ -356,7 +225,7 @@ const PricingSlider: any = ({}) => {
                         <span className="priceSymbol">{Pricesymbol}</span>
                       )}
 
-                      <input
+                      {/* <input
                         type="number"
                         className="Priceing-input-field"
                         placeholder="0"
@@ -371,6 +240,30 @@ const PricingSlider: any = ({}) => {
                           )
                         }
                         value={pricewithtwodigit || ""}
+                      /> */}
+                      <input
+                        type="number"
+                        className="Priceing-input-field"
+                        placeholder="$0.00"
+                        disabled={!enableOrNot}
+                        onChange={(e) => {
+                          const value = e.target.value;
+
+                          // Regex to allow up to 4 digits in total and 2 digits after the decimal point
+                          const regex = /^\d{0,4}(\.\d{0,2})?$/;
+
+                          // If the value matches the regex, update the price
+                          if (regex.test(value)) {
+                            handlepriceinputchange(
+                              price.typeId,
+                              item.mainHeading,
+                              Number(value),
+                              price.isEnabled,
+                              price.isNotHide
+                            );
+                          }
+                        }}
+                        value={price.price || ""}
                       />
                     </div>
                     {price.typeGroup === "D" &&

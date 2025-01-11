@@ -9,7 +9,7 @@ const EyeModal = ({ onTrashclose, ItemId }) => {
   const { setApiPayload, ApiPayload } = useContext(Contextpagejs);
 
   const dispatch = useDispatch();
-  const locationid = useSelector((state) => state.auth.credentials.locationId);
+  const locationid = useSelector((state) => state.auth?.credentials?.locationId);
   const deleteMenuItemSuccessMessage = useSelector((state) => state.yourReducer?.deleteMenuItemSuccessMessage);
   const deleteMenuItemLoading = useSelector(
     (state) => state.productCatalog?.deleteMenuItemLoading

@@ -59,6 +59,7 @@ interface DropdownProps {
   categoryChange?: any;
   setCategoryChange?: any;
   kitchenError?: boolean;
+  height?: string;
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -90,7 +91,8 @@ const DropDownList: React.FC<DropdownProps> = ({
   isTaxDropDown,
   categoryChange,
   setCategoryChange,
-  kitchenError
+  kitchenError,
+  height
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -102,19 +104,17 @@ const DropDownList: React.FC<DropdownProps> = ({
   const [showselectedOption, setShowselectedOption] = useState<boolean>(true);
   const [hasCleared, setHasCleared] = useState<boolean>(false);
   const [manuallyCleared, setManuallyCleared] = useState(false);
+  const [manuallySelected, setManuallySelected] = useState(false)
 
   const dispatch = useDispatch();
 
   const editData = useSelector((state: any) => state.productCatalog.editData);
 
-  const locationid = useSelector(
-    (state: any) => state.auth.selectedBranch?.id
-  );
+  const locationid = useSelector((state: any) => state.auth.selectedBranch?.id);
 
   const subsectiondata = useSelector(
     (state: any) => state.productCatalog?.cuisineData?.data
   );
-
 
   const deleteApicall = useSelector(
     (state: any) => state.productCatalog?.deletesubsectionsuccess
@@ -146,8 +146,8 @@ const DropDownList: React.FC<DropdownProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) && 
-        !(event.target as HTMLElement).classList.contains("dropdown-search") 
+        !dropdownRef.current.contains(event.target as Node) &&
+        !(event.target as HTMLElement).classList.contains("dropdown-search")
       ) {
         setDropdownOpen({
           DietaryType: false,
@@ -210,23 +210,23 @@ const DropDownList: React.FC<DropdownProps> = ({
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-  
+
     if (value === "") {
       setManuallyCleared(true);
       setShowselectedOption(true);
-  
+
       if (dropdownopen) {
         onToggle();
       }
     } else {
       setManuallyCleared(false);
-  
+
       if (!dropdownopen) {
         onToggle();
       }
       setShowselectedOption(false);
     }
-  
+
     setOptions(filteredOptions);
   };
 
@@ -241,7 +241,7 @@ const DropDownList: React.FC<DropdownProps> = ({
   );
 
   useEffect(() => {
-    if (ItemsPrimaryDetails?.DietaryType && name === "DietaryType") {
+    if (!manuallySelected && ItemsPrimaryDetails?.DietaryType && name === "DietaryType") {
       const dietName = ItemsPrimaryDetails?.DietaryType;
 
       const normalizedDietName = Array.isArray(dietName)
@@ -291,11 +291,11 @@ const DropDownList: React.FC<DropdownProps> = ({
   }, [ItemsPrimaryDetails, options, name, setValue]);
 
   useEffect(() => {
-    if (name === 'tax' && filteredOptions?.length === 1) {
+    if (name === "tax" && filteredOptions?.length === 1) {
       const option = filteredOptions[0];
       setSelectedOptions([option]);
-      setValue('tax', option.name);
-      getValues('2111','tax')
+      setValue("tax", option.name);
+      getValues("2111", "tax");
       trigger(name);
     }
   }, [ItemsPrimaryDetails, isTaxDropDown]);
@@ -326,7 +326,6 @@ const DropDownList: React.FC<DropdownProps> = ({
         //     ? dropDown1?.name
         //     : dropDownName?.name
         // );
-
 
         // typeof(kitchenStationName) === 'string' && setValue("kitchenstation", kitchenStationName)
 
@@ -375,7 +374,7 @@ const DropDownList: React.FC<DropdownProps> = ({
         "category",
         dropDownName === undefined ? dropDown1?.name : dropDownName?.name
       );
-      setParentId(ItemsPrimaryDetails?.categoryId)
+      setParentId(ItemsPrimaryDetails?.categoryId);
     }
   }, [ItemsPrimaryDetails]);
 
@@ -405,6 +404,8 @@ const DropDownList: React.FC<DropdownProps> = ({
     const currentSelectedOptions = Array.isArray(selectedOptions)
       ? selectedOptions
       : [];
+    
+    setManuallySelected(true)
 
     if (type === "checkbox") {
       const isAlreadySelected = currentSelectedOptions.some(
@@ -445,11 +446,11 @@ const DropDownList: React.FC<DropdownProps> = ({
       //   setValue("subCategory", "");
       // }
       if (dropDownType === "CATEGORY") {
-        if(parentId === option?.id){
-          setCategoryChange(false)
-        }else{
+        if (parentId === option?.id) {
+          setCategoryChange(false);
+        } else {
           setParentId(option?.id);
-          setCategoryChange(true)
+          setCategoryChange(true);
         }
         setValue("subCategory", "");
       }
@@ -469,9 +470,10 @@ const DropDownList: React.FC<DropdownProps> = ({
         const isAlreadySelected = prevSelected?.findIndex(
           (opt) => opt.id === option.id
         );
-  
+
         let updatedSelected;
-  
+        setManuallySelected(true)
+
         if (isAlreadySelected !== -1) {
           updatedSelected = prevSelected?.filter(
             (_, index) => index !== isAlreadySelected
@@ -482,24 +484,22 @@ const DropDownList: React.FC<DropdownProps> = ({
           }
           updatedSelected = [...prevSelected, option];
         }
-  
+
         setValue(name, updatedSelected?.map((opt) => opt.name).join(", "));
         trigger(name);
-  
+
         return updatedSelected;
       });
-    }
-    else if (type === "radio") {
+    } else if (type === "radio") {
       setSelectedOptions([option]);
       setValue(name, option.name);
       trigger(name);
       if (dropDownType === "CATEGORY") {
-        if(parentId === option?.id){
-
-          setCategoryChange(false)
-        }else{
+        if (parentId === option?.id) {
+          setCategoryChange(false);
+        } else {
           setParentId(option?.id);
-          setCategoryChange(true)
+          setCategoryChange(true);
         }
         setValue("subCategory", "");
       }
@@ -507,17 +507,16 @@ const DropDownList: React.FC<DropdownProps> = ({
   };
 
   useEffect(() => {
-   if(!dropdownopen){
-    setSearchTerm('')
-    searchTerm === '' && setShowselectedOption(true)
-   }
-  }, [dropdownopen])
-  
+    if (!dropdownopen) {
+      setSearchTerm("");
+      searchTerm === "" && setShowselectedOption(true);
+    }
+  }, [dropdownopen]);
 
   useEffect(() => {
     if (dropDownType === "SUB_CATEGORY" && categoryChange) {
-     setCategoryChange(false)
-     setSelectedOptions([])
+      setCategoryChange(false);
+      setSelectedOptions([]);
     }
   }, [parentId, categoryChange]);
 
@@ -644,10 +643,12 @@ const DropDownList: React.FC<DropdownProps> = ({
       <div className="dropDownBox">
         <div>
           <input
-            placeholder={(name === "kitchenstation" ? "Kitchen station*" : '') || (name === 'tax' ? placeholder : '')}
+            placeholder={
+              (name === "kitchenstation" ? "Kitchen station*" : "") ||
+              (name === "tax" ? placeholder : "")
+            }
             type="text"
             {...register(name, validation)}
-
             value={
               searchTerm !== ""
                 ? searchTerm
@@ -657,13 +658,11 @@ const DropDownList: React.FC<DropdownProps> = ({
                   : selectedOptions[0]?.name || ""
                 : ""
             }
-            
             onChange={(e) => {
               if (dropdownopen) {
-                handleSearch(e); 
+                handleSearch(e);
               }
             }}
-
             name={name}
             // onBlur={handleBlur}
             onKeyDown={(e) => {
@@ -723,15 +722,23 @@ const DropDownList: React.FC<DropdownProps> = ({
         </div>
 
         <div style={{ margin: 0 }}>
-          {dropDownType === "KITCHEN_STATION" && selectedOptions[0]?.name === undefined && kitchenError &&(
-            <p className="Dropdown-Error-message">Kitchen Station is required</p>
-          ) }
+          {dropDownType === "KITCHEN_STATION" &&
+            selectedOptions[0]?.name === undefined &&
+            kitchenError && (
+              <p className="Dropdown-Error-message">
+                Kitchen Station is required
+              </p>
+            )}
         </div>
       </div>
 
       {dropdownopen && (
-        <div className="dropdown-body"   >
-          <div className="Dropdown-lists-and-edit"    onMouseDown={handleOptionMouseDown} >
+        <div className="dropdown-body" style={{height:height?height:'10.8rem'}}>	
+        <div className="dropdown-lists-edit">
+        <div
+            className="Dropdown-lists-and-edit"
+            onMouseDown={handleOptionMouseDown}
+          >
             <ul
               className="dropdown-options"
               onMouseDown={handleOptionMouseDown}
@@ -822,14 +829,16 @@ const DropDownList: React.FC<DropdownProps> = ({
                 </div>
               )}
             </ul>
-            <div className="edititem">
+            
+          </div>
+          <div className="edititem" onMouseDown={handleOptionMouseDown}>
               {!dropDownLoading &&
                 options?.length > 0 &&
                 !editList &&
                 editValues && (
                   <p
                     className="editiconimage"
-                    // onMouseDown={handleOptionMouseDown}
+                    onMouseDown={handleOptionMouseDown}
                     onClick={() => handleedit()}
                     // style={{position:'relative',left:'-2rem'}}
                   >
@@ -837,7 +846,8 @@ const DropDownList: React.FC<DropdownProps> = ({
                   </p>
                 )}
             </div>
-          </div>
+        </div>
+        
 
           {
             <div
@@ -857,7 +867,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                       onClick={handleNewItemAdd}
                       className="dropdown-addnew-button"
                     >
-                      Add
+                      + Add
                     </button>
                   </div>
                 </div>
