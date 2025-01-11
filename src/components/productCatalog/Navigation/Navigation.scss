@@ -6,8 +6,8 @@
   position: relative;
   height: 2.25rem;
   top: 0.363rem;
-  left: 40px;
-  width: 100%;
+  left: 35px;
+  width: 100vw;
 }
 
 .Mainheading {
@@ -24,33 +24,35 @@
 .listofnavigation {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  gap: 6rem;
+  width: 90vw;
+  gap: 3rem;
   position: relative;
   left: -3vw;
+  // padding-left: -3vw !important;
   // border: 1px solid red;
 }
 
 .listofnavigationExpanded {
   display: flex;
   flex-direction: row;
-  width: 80%;
-  gap: 6rem;
+  width: 80vw;
+  gap: 3rem;
   position: relative;
   left: -3vw;
 }
 
-.lists, .listsExpanded {
+.lists-navigation, .listsExpanded-navigation {
   list-style: none;
   cursor: pointer;
 }
 
-.lists {
-  width: 19.875rem;
+.lists-navigation {
+  width: 25vw;
+  // border: 1px solid red;
 }
 
-.listsExpanded {
-  width: 18.875rem;
+.listsExpanded-navigation {
+  width: 23vw;
 }
 
 /* Navbar styling */
@@ -64,12 +66,12 @@
 }
 
 .navbar {
-  width: 22rem;
+  width: 21vw;
   // border: 1px solid blue;
 }
 
 .navbarExpanded {
-  width: 23rem;
+  width: 25vw;
   // border: 1px solid blue;
 }
 

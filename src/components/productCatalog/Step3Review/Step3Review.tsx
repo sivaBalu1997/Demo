@@ -76,7 +76,7 @@ const Step3Review: React.FC = () => {
             <img
               src={Edit}
               alt=""
-              className="step3-Review-Container-heading-EditImage"
+              // className="step3-Review-Container-heading-EditImage"
               width={15}
               height={15}
             />

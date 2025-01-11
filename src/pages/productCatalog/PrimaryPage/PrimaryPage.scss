@@ -18,7 +18,7 @@
   position: relative;
   top: 7vh;
   width: 110%;
-  height: 32rem;
+  // height: 32rem;
   overflow-y: auto;
   left: 1rem;
   // border: 2px solid pink;
@@ -26,34 +26,35 @@
   &::-webkit-scrollbar {
     display: none;
   }
-
-  // @media (min-width: 1700px) and (max-width: 1800px) {
-  //   height: 35rem;
-  //   border: 1px solid blue;
-
-  // }
-  @media (max-width: 2500px) {
-    height: 45rem;
+  @media (max-width: 3100px) {
+    height: 85vh;
+    // border: 1px solid violet;
+    // border: 1px solid red;
+   
+   }
+ 
+  @media (max-width: 2305px) {
+    height: 80vh;
     // border: 1px solid violet;
    
    }
-   @media (max-width:2000px) {
+   @media (max-width:1920px) {
    
-    height: 42rem;
+    height: 75vh;
     // border: 1px solid brown;
   }
 
-  @media (max-width: 1800px) {
-    height: 37rem;
+  @media (max-width: 1710px) {
+    height: 70vh;
     // border: 1px solid blue;
    
    }
-   @media (max-width: 1600px) {
-   height: 31rem;
+   @media (max-width: 1536px) {
+   height: 68vh;
     // border: 1px solid green;
    
    }
-  @media (max-width: 1525px) {
+  @media (max-width: 1400px) {
     height: 23rem;
     // border: 1px solid red;
     padding-bottom: 4rem;
@@ -396,7 +397,7 @@
     .Primary-page-container-pairtwo {
       width: 45vw;
       height: 90vh;
-      margin-left: 2rem;
+      // margin-left: 2rem;
       // border: 1px solid red;
     }
   }
@@ -574,9 +575,9 @@
     left: -17px;
   }
   .buttonContainerExpanded {
-    width: 100%;
-    position: absolute;
-    left: 0px;
+    // width: 100%;
+    // position: fixed;
+    // left: 0px;
   }
 }
 

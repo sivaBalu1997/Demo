@@ -226,7 +226,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
             {categories.map((category, index) => (
               <li
                 key={category}
-                className={isExpanded ? "listsExpanded" : "lists"}
+                className={isExpanded ? "listsExpanded-navigation" : "lists-navigation"}
                 onClick={() => handleCategoryClick(category)}
               >
                 <h1

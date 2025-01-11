@@ -1,13 +1,13 @@
 // {--------------------------Step 3 Item Customizations Heading and Edit Button ----------------------}
 .step3-Review-Container {
-  // position: absolute;
-  left: 610px;
+  position: absolute;
+  left: 39vw;
   width: 40%;
   display: flex;
   flex-direction: column;
   gap: 0px;
   margin-top: 1.7rem;
-  margin-left: 30px;
+  // margin-left: 100px;
   // background-color: lightseagreen;
   // @media(max-width: 1080px){
   //   // background-color: lightseagreen;
@@ -32,36 +32,44 @@
 }
 
 .step3-Review-Container-heading-and-button-container {
-  width: 36vw;
-  height: auto;
+  width: 28.5vw;
+
   display: flex;
   justify-content: space-between;
   gap: 22px;
   margin-bottom: -1.8rem;
+  height: 2rem;
+  position: relative;
+  // border: 1px solid red;
 }
 
 .step3-Review-Container-heading-and-button-container1{
   width: 30vw;
-  height: auto;
+  height: 2rem;
   display: flex;
   justify-content: space-between;
   gap: 22px;
   margin-bottom: -1.8rem;
+  //  border: 1px solid red;
 }
 
 .step3-Review-Container-heading {
   font-family: Poppins;
   font-weight: 500;
   font-size: 18px;
+  position: absolute;
 }
 .step3-Review-img-edit-Container {
   display: flex;
   justify-content: flex-start;
   gap: 5px;
+  align-items: center;
   text-decoration: none;
-  position: relative;
-  left: 13rem;
-  border: 2px solid;
+  position: absolute;
+  left: 36vw;
+  top: 1vh;
+
+
 
 }
 
@@ -74,14 +82,17 @@
   right: 8vw;
 }
 .Edit-heading {
-  font-family: Poppins;
+  font-family: "Poppins",sans-serif;
   font-weight: 400;
   font-size: 16px;
   color: #67833e;
   text-decoration: none;
   cursor: pointer;
-  position: relative;
-  right: 8vw;
+  margin-left: -0.05rem;
+  // margin-top: -0.7vh;
+  // ma
+  // position: relative;
+  // right: 8vw;
 }
 
 // {--------------------------Step 3 Modifier Section Name   ----------------------}
