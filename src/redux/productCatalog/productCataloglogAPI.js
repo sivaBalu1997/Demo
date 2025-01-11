@@ -11,65 +11,81 @@ import {
 } from "assets/mockData/Moca_data";
 import { useSelector } from "react-redux";
 
-const token = Store.getState()?.auth?.credentials?.accessToken;
-
 export const getMenuDataApi = (locationId) => {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/api/v1/menu-items?locationId=${locationId}`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 };
 
 export function getCategory(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Category`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
 //get dropDown
 export function getSubSectionData(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "post",
     url: `/api/v1/menu-items/view/sub-section`,
-    data: payload, 
-    // headers: {
-    //   Authorization: "bearer " + token,
-    // },
+    data: payload, // Send the full payload as the request body
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
 //Delete subsection
 export const deleteSubSection = (data) => {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "delete",
     url: `/api/v1/menu-items/sub-section`,
     data: data,
-    // headers: {
-    //   Authorization: "bearer " + token,
-    // },
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 };
 
 export const addSubsectionApi = (data) => {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+  
   return API({
     method: "post",
     url: `/api/v1/menu-items/sub-section`,
     data: data,
-    // headers: {
-    //   Authorization: "bearer " + token,
-    // },
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 };
 
 export const imageUploadingApi = (formData) => {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "post",
     url: `api/v1/menu-items/upload-image`,
     data: formData,
     headers: {
       "Content-Type": "multipart/form-data",
-      // Authorization: "bearer " + token,
+      Authorization: "bearer " + token,
     },
     // headers: {
     //   'accept': 'application/json',
@@ -79,47 +95,56 @@ export const imageUploadingApi = (formData) => {
 };
 
 export function getSubCategory({ locationId, id }) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=${id}&option=Sub-Category`,
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
 export function getTagClass(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Tag`,
     headers: {
-      "Content-Type": "multipart/form-data",
-      // Authorization: "bearer " + token,
+      Authorization: "bearer " + token,
     },
   });
 }
 
 export function getModifier(data) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+  
   const { name, locationId } = data;
   return API({
     method: "get",
     url: `/api/v1/menu-items/modifiers?name=${name}&locationId=${locationId}`,
     headers: {
-      "Content-Type": "multipart/form-data",
-      // Authorization: "bearer " + token,
+      Authorization: "bearer " + token,
     },
   });
 }
 
 export function getIngredients(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=INGR`,
     headers: {
-      "Content-Type": "multipart/form-data",
-      // Authorization: "bearer " + token,
+      Authorization: "bearer " + token,
     },
   });
 }
 
 export function addMenuItem(data) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   const { menuPayload, locationid } = data;
   return API({
     method: "post",
@@ -127,8 +152,7 @@ export function addMenuItem(data) {
     data: menuPayload,
     headers: {
       "Content-Type": "application/json",
-      // Authorization: "bearer " + token,
-
+      Authorization: "bearer " + token,
     },
   });
 }
@@ -142,48 +166,48 @@ export function addMenuItem(data) {
 // }
 
 export function updateMenuItem(data) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "put",
     url: `/api/v1/menu-items/edit`,
     data: data,
     headers: {
-      "Content-Type": "multipart/form-data",
-      // Authorization: "bearer " + token,
+      Authorization: "bearer " + token,
     },
   });
 }
 
 export function updateMenuItemAttribute(data) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "post",
     url: `/merchants/itemAttributes`,
     data: data,
-    // headers: {
-    //   Authorization: "bearer " + token,
-    // },
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
 export function deleteMenuItem(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "delete",
     url: `/api/v1/menu-items/delete`,
     data:{itemId:payload},
     headers: {
-      "Content-Type": "multipart/form-data",
-      // Authorization: "bearer " + token,
+      Authorization: "bearer " + token,
     },
-
   });
 }
 
 export function getAvailability(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Availability`,
     headers: {
-      "Content-Type": "multipart/form-data",
-      // Authorization: "bearer " + token,
+      Authorization: "bearer " + token,
     },
   });
 }
@@ -211,48 +235,48 @@ export function store(formData) {
 }
 
 export function getItemCodeRequestApi(locationId, itemCode) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "get",
     url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
-    // headers: {
-    
-    //   Authorization: "bearer " + token,
-    // },
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
 export function getPopularItemRequestApi(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "get",
     url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`,
-    // headers: {
-    
-    //   Authorization: "bearer " + token,
-    // },
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
 export function apiUpdateMenu(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "patch",
     url: `/api/v1/menu-items/partial-update`,
     data: payload,
-    // headers: {
-    
-    //   Authorization: "bearer " + token,
-    // },
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }
 
 
 export function hideMockData(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "put",
     url: `/api/v1/menu-items/availability`,
     data:payload,
-    // headers: {
-    
-    //   Authorization: "bearer " + token,
-    // },
+    headers: {
+      Authorization: "bearer " + token,
+    },
   });
 }

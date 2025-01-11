@@ -84,7 +84,7 @@ const Routers = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{width:'100%', height:'100%'}}>
       <Switch>
         <Contextpage>
           <ThemeProvider>
@@ -189,7 +189,7 @@ const Routers = () => {
             />
 
             <div
-              style={{ width: "100%", display: "flex" }}
+              style={{ width: "100%", height: '100%', display: "flex" }}
               className="landingpage"
             >
               {/* {belowMinWidth ? (
@@ -199,7 +199,7 @@ const Routers = () => {
                 </div>
               ) : ( */}
               <>
-                <div>
+                <div style={{width:'100%', height:'100%', display:'flex'}}>
                   <Switch>
                     <Route exact path="/productCatalog/menuListing" component={MenuPage} />
                     {/* <Route exact path="/productCatalog/menuListing" component={MenuPageList} /> */}

@@ -1,0 +1,283 @@
+.menuList {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+
+  .menuListContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .MenuListPart {
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menuListBody {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      flex-grow: 1;
+      height: 100%;
+
+      .headerContainer {
+        width: 98%;
+        display: grid;
+        grid-template-columns: 30% 1fr;
+
+        .menuListFirstHeaderSection {
+          width: 30vw;
+          display: flex;
+          justify-content: space-evenly;
+          font-size: 16px;
+          font-weight: 400;
+          //   margin-right: 20px;
+
+          .menuListAddbtn-menupage {
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 30px;
+          }
+        }
+
+        .menuListHeaderScroll {
+          max-width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          overflow-x: auto !important;
+          overflow-y: hidden;
+          white-space: nowrap;
+          height: 70px;
+          margin-left: 20px;
+          margin-top: -5px;
+
+          .scrollContainer {
+            flex: 1 1 auto;
+            max-width: 100%;
+
+            .menuListSecondHeaderSection {
+              display: flex;
+              flex-direction: row;
+              gap: 20px;
+
+              p {
+                width: fit-content;
+                border: 1px solid #b3b3b3;
+                display: flex;
+                padding: 2px 10px;
+                border-radius: 4px;
+
+                .menuListSecondHeaderBorderfor-header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 10px;
+                }
+              }
+            }
+          }
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+      }
+
+      .bodyContainer {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 30vw 1fr;
+
+        .firstBodySection {
+          width: 100%;
+          height: 82vh;
+          overflow: auto;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          .categoryName-data1 {
+            width: 25vw;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 0 0 30px;
+            font-size: 16px;
+            font-weight: 500;
+            background-color: #e2e0e0;
+            margin: 0;
+            height: 56px;
+            padding: 0;
+          }
+          
+
+          .item-name-code-data {
+            width: 25vw;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-left: 30px;
+            gap: 20px;
+            font-size: 16px;
+            height: 70px;
+            padding: 0;
+            margin: 0;
+            border-bottom: 1px solid #b3b3b3;
+            
+            .itemimage2 {
+              width: 4.5rem;
+              padding: 5px;
+              padding-left: 1.5rem;
+              .foodimage {
+                width: 45px;
+                height: 45px;
+              }
+            }
+          }
+        }
+
+        .secondBodySection{
+          width: 100%;
+          background-color: green;
+        }
+      }
+    }
+
+    .menuListBodyExpanded {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+
+      .headerContainer {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 30% 1fr;
+
+        .menuListFirstHeaderSection {
+          width: 30vw;
+          display: flex;
+          justify-content: space-evenly;
+          font-size: 16px;
+          font-weight: 400;
+
+          .menuListAddbtn-menupage {
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 4px;
+            cursor: pointer;
+          }
+        }
+
+        .menuListHeaderScrollExpanded {
+          max-width: 90%;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          overflow-x: auto !important;
+          overflow-y: hidden;
+          white-space: nowrap;
+          height: 70px;
+          margin-left: 50px;
+          margin-top: -5px;
+
+          .scrollContainer {
+            flex: 1 1 auto;
+            max-width: 100%;
+            justify-content: center;
+
+            .menuListSecondHeaderSection {
+              display: flex;
+              flex-direction: row;
+              gap: 20px;
+
+              p {
+                width: fit-content;
+                border: 1px solid #b3b3b3;
+                display: flex;
+                padding: 2px 10px;
+                border-radius: 4px;
+
+                .menuListSecondHeaderBorderfor-header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 10px;
+                }
+              }
+            }
+          }
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+      }
+
+      .bodyContainerExpanded {
+        width: 30vw;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 30vw 1fr;
+
+
+        .firstBodySection {
+          width: 100%;
+          height: 82vh;
+          overflow: auto;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          .categoryName-data1 {
+            width: 25vw;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 0 0 30px;
+            font-size: 16px;
+            font-weight: 500;
+            background-color: #e2e0e0;
+            margin: 0;
+          }
+
+          .item-name-code-data {
+            width: 25vw;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-left: 30px;
+            gap: 20px;
+            font-size: 16px;
+
+            .itemimage2 {
+              width: 4.5rem;
+              padding: 5px;
+              padding-left: 1.5rem;
+              .foodimage {
+                width: 45px;
+                height: 45px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .MenuListExpanded {
+      width: 90%;
+    }
+  }
+}

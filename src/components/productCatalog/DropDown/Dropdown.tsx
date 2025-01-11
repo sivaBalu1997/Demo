@@ -91,7 +91,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   return (
-    <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "60%"}}>
+    <div className="dropdown-containerPricing" ref={dropdownRef} style={{opacity:EnabledOrNot ? "100%" : "50%"}}>
       <label className="droplabelPricing">{label}</label>
       <div
         className="dropdownPricingList"

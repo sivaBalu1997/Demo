@@ -118,7 +118,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
 
-     
+      const isinValid = await triggerValidation(formData);
 
       if (formData.kitchenstation) {
         PricingDetails = {
@@ -154,23 +154,12 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         console.error("formData.Preparationtime is undefined");
       }
 
-
-      if(category==="Primary Details")
-      {
+      if (isValid) {
         dispatch(PricingDetailRequest(PricingDetails));
         setNavigate(true)
         setCurrentPage(category);
         history.push(`/productCatalog/${path}`, { pagename: category });
       }
-      else{
-        if (category==="Item customizations" &&isValid) {
-          dispatch(PricingDetailRequest(PricingDetails));
-          setNavigate(true)
-          setCurrentPage(category);
-          history.push(`/productCatalog/${path}`, { pagename: category });
-        }
-      }
-     
     }
     
     else if (currentPage === "Item customizations") {
@@ -188,12 +177,11 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       });
 
       if(isValid){
-       
-      }
-     
-      setCurrentPage(category);
         dispatch(itemCustomizationPost(modificationArray));
         history.push(`/productCatalog/${path}`, { pagename: category });
+      }
+      const formData = getFormData(); 
+      setCurrentPage(category);
     }
   };
 

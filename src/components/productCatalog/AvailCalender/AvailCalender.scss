@@ -96,15 +96,7 @@ text-decoration-skip-ink: none;
 
 
     .react-datepicker {
-    width: 320px;  
-    font-family: "Poppins",sans-serif;
-font-size: 10.15px;
-font-weight: 500;
-line-height: 15.23px;
-text-align: center;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-
+    width: 320px;  // Set your desired width
   }
   
   .react-datepicker__month-container {
@@ -154,15 +146,6 @@ text-decoration-skip-ink: none;
   .AvailCalenderInput1{
     width:49.08px;
     height:32.02px;
-    font-family: "Roboto",sans-serif;
-font-size: 18.3px;
-font-weight: 500;
-line-height: 27.45px;
-letter-spacing: 0.0015em;
-text-align: center;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-
     border: 1px solid #B3B3B3;
   }
   .AvailCalenderAm{

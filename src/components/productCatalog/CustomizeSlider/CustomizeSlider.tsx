@@ -47,7 +47,7 @@ const CustomizeSlider = () => {
         options: modifier.options.map((opt: any) => ({
           id:opt.optionId,
           name: opt.name,
-          price: Number(opt.price).toFixed(2),
+          price: opt.price,
           isEnabled: opt.isEnabled,
         })),
       }))
@@ -80,7 +80,7 @@ const CustomizeSlider = () => {
                 ?.modifierOptionId ||
               "", 
             modifierOptionName: opt.name,
-            price: Number(opt.price).toFixed(2), 
+            price: opt.price, 
             isEnabled: opt.isEnabled,
           })),
         })),
@@ -211,7 +211,7 @@ const CustomizeSlider = () => {
  const handlePriceChange = (
   parentIndex: number,
   childIndex: number,
-  newPrice: any, // Accept `null` for cleared input
+  newPrice: number | null, // Accept `null` for cleared input
   Enabled: boolean,
   name: string,
   Enable: number,
@@ -219,7 +219,7 @@ const CustomizeSlider = () => {
   modifierIdhead: string,
   optionId: string
 ) => {
-  if (Enabled ) { // Only update if `newPrice` is not `null`
+  if (Enabled && newPrice !== null) { // Only update if `newPrice` is not `null`
     setPartialData((prev: any) => {
       const existingModifierInfo = prev.modifierInfo || [];
       const existingIndex = existingModifierInfo.findIndex(
@@ -306,7 +306,7 @@ const CustomizeSlider = () => {
                   key={subindex}
                 >
                   <div className="subitems-toggle-container-flex">
-                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":"",width:"70px"}}>{subitem.name}</div>
+                    <div className="subitem-heading"  style={{color:"black",opacity:subitem.isEnabled?"100%":"50%",cursor:subitem.isEnabled?"pointer":""}}>{subitem.name}</div>
                     <div className="subItemToggle">
                       <ToggleSliderAvail
                         toggle={subitem.isEnabled}
@@ -334,15 +334,14 @@ const CustomizeSlider = () => {
   onChange={(e) => {
     const input = e.target.value;
 
-    // Regex to allow up to 4 digits before the decimal and up to 2 digits after the decimal
+    // Regex to allow up to 4 digits and optionally 2 decimals
     const regex = /^\d{0,4}(\.\d{0,2})?$/;
 
-    // Allow empty string or valid regex match
-    if ( regex.test(input)) {
+    if (regex.test(input)) {
       handlePriceChange(
         index,
         subindex,
-        input, // Convert input to number or 0 for empty input
+        input === '' ? 0 : parseFloat(input), 
         subitem.isEnabled,
         elem.modifierName,
         elem.isEnabled,
@@ -354,8 +353,6 @@ const CustomizeSlider = () => {
   }}
   placeholder="$0.00"
 />
-
-
 
 
 
