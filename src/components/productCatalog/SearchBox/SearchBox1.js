@@ -1,53 +1,55 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
-import './SearchBox.scss';
-import searchIcon from '../../../assets/svg/searchIcon.svg';
-import NotFound from '../../../assets/svg/NotFound copy.svg';
+import React, { useEffect, useState, useContext, useRef } from "react";
+import "./SearchBox.scss";
+import searchIcon from "../../../assets/svg/searchIcon.svg";
+import NotFound from "../../../assets/svg/NotFound copy.svg";
 import { Contextpagejs } from "../../../pages/productCatalog/contextpage";
-import { useSelector, useDispatch } from 'react-redux';
-import { searchForItem, storeMockDataFilteredRequest } from 'redux/productCatalog/productCatalogActions';
+import { useSelector, useDispatch } from "react-redux";
+import {
+  searchForItem,
+  storeMockDataFilteredRequest,
+} from "redux/productCatalog/productCatalogActions";
 
 const SearchBox = () => {
-  const [searchTerm, setSearchTerm] = useState(''); // User input only
-  const [displayTerm, setDisplayTerm] = useState(''); // User input + suggestion for display
+  const [searchTerm, setSearchTerm] = useState("");
+  const [displayTerm, setDisplayTerm] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [optionSelected, setOptionSelected] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [filteredOptionsDispatch, setFilteredOptionsDispatch] = useState([]);
   const [orgData, setOrgData] = useState([]);
-  const [closeModal, setCloseModal] = useState(false)
+  const [closeModal, setCloseModal] = useState(false);
 
   const data = useSelector((state) => state.storeMockDataReducer.data);
   const dispatch = useDispatch();
   const { isExpanded } = useContext(Contextpagejs);
   const popupRef = useRef(null);
   useEffect(() => {
-    const itemNames = menuData?.flatMap(item => item?.itemResponseList)
-      .map(item => item?.itemName);
+    const itemNames = menuData
+      ?.flatMap((item) => item?.itemResponseList)
+      .map((item) => item?.itemName);
 
-    setOrgData(itemNames); // Set original data when it is available
+    setOrgData(itemNames);
   }, [data]);
   useEffect(() => {
-    if (searchTerm == '') {
+    if (searchTerm == "") {
       dispatch(searchForItem({}));
     }
   }, []);
 
-
   const handleClickOutside = (event) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
-      setCloseModal(false); // Close the popup
+      setCloseModal(false);
     }
   };
 
   useEffect(() => {
     if (closeModal) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
-    // Cleanup on unmount
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [closeModal]);
 
   useEffect(() => {
@@ -58,21 +60,19 @@ const SearchBox = () => {
 
   useEffect(() => {
     if (menuData) {
-      setSearchTerm('')
+      setSearchTerm("");
     }
-
-  }, [menuData])
-  const [placeholder,setplaceholder]=useState("");
+  }, [menuData]);
+  const [placeholder, setplaceholder] = useState("");
 
   const handleSearch = (e) => {
     let value = e.target.value;
-    const regex = /^[a-zA-Z0-9\s]*$/; // Allow letters, numbers, and spaces
-  
-    // Prevent spaces as the first character or standalone and limit numbers to 4 digits
+    const regex = /^[a-zA-Z0-9\s]*$/;
+
     if (
       regex.test(value) &&
-      !(value.length === 1 && value === ' ') &&
-      (!/^\d+$/.test(value) || value.length <= 4) // Restrict numeric input to 4 digits
+      !(value.length === 1 && value === " ") &&
+      (!/^\d+$/.test(value) || value.length <= 4)
     ) {
       dispatch(searchForItem({}));
       setSearchTerm(value);
@@ -82,7 +82,6 @@ const SearchBox = () => {
       setCloseModal(true);
     }
   };
-  
 
   // // All - Categories and subCategory ItemResponse List
   // const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
@@ -103,37 +102,37 @@ const SearchBox = () => {
   // const everythingFM = allArray?.flatMap(everything => everything?.itemName)
   // console.log({ everythingFM })
 
-
-
   const filterOptions = (input) => {
-   
-    const allItems = menuData?.flatMap(allC => allC?.itemResponseList)
+    const allItems = menuData?.flatMap((allC) => allC?.itemResponseList);
 
-    const allItemsPlusSubItemList = menuData?.flatMap(allItemsWithSub => allItemsWithSub?.subCategoryResponseList)
-    const allNew = allItemsPlusSubItemList?.flatMap(allNew => allNew?.itemResponseList);
+    const allItemsPlusSubItemList = menuData?.flatMap(
+      (allItemsWithSub) => allItemsWithSub?.subCategoryResponseList
+    );
+    const allNew = allItemsPlusSubItemList?.flatMap(
+      (allNew) => allNew?.itemResponseList
+    );
 
-    const allArray = [...allItems, ...allNew]
-     console.log({allArray});
-     
-     const everything = allArray?.map(everything => ({
+    const allArray = [...allItems, ...allNew];
+
+    const everything = allArray?.map((everything) => ({
       itemName: everything?.itemName,
-      itemCode: everything?.itemCode
+      itemCode: everything?.itemCode,
     }));
-    
-    const filtered = everything?.filter(item =>
-      item?.itemName?.toLowerCase().includes(input?.toLowerCase()) ||
-      item?.itemCode?.toLowerCase().includes(input?.toLowerCase())
+
+    const filtered = everything?.filter(
+      (item) =>
+        item?.itemName?.toLowerCase().includes(input?.toLowerCase()) ||
+        item?.itemCode?.toLowerCase().includes(input?.toLowerCase())
     );
     const startsWithInput = filtered.find((item) =>
       item?.itemName.toLowerCase().startsWith(input.toLowerCase())
     );
 
-setplaceholder(startsWithInput || "")
+    setplaceholder(startsWithInput || "");
 
     setFilteredOptions(filtered);
-    const filteredItemNames = filtered?.map(item => item?.itemName);
+    const filteredItemNames = filtered?.map((item) => item?.itemName);
 
- 
     setFilteredOptionsDispatch(filteredItemNames);
 
     if (filtered.length > 0 && input.length > 0) {
@@ -141,28 +140,24 @@ setplaceholder(startsWithInput || "")
       if (firstMatch?.itemName.toLowerCase().startsWith(input.toLowerCase())) {
         const suggestion = firstMatch?.itemName?.slice(input.length);
         setDisplayTerm(input + suggestion);
-console.log({firstMatch});
 
         setHighlightedIndex(0);
       } else {
         setDisplayTerm(input);
       }
-    } 
-    else {
+    } else {
       setDisplayTerm(input);
     }
   };
-
-
 
   const handleOptionClick = (option) => {
     setSearchTerm(option);
     setDisplayTerm(option);
     setOptionSelected(true);
     setCloseModal(false);
-  
+
     let result = null;
-  
+
     menuData?.forEach((category) => {
       category?.itemResponseList?.forEach((item) => {
         if (item?.itemName === option) {
@@ -173,59 +168,56 @@ console.log({firstMatch});
           };
         }
       });
-  
+
       category?.subCategoryResponseList?.forEach((subCategory) => {
         subCategory?.itemResponseList?.forEach((item) => {
           if (item?.itemName === option) {
             result = {
               categoryId: category.categoryId,
               categoryName: category.categoryName,
-              subCategoryResponseList:[{
-                subCategoryId:subCategory.subCategoryId,
-                subCategoryName:subCategory.subCategoryName,
-                itemResponseList: [item],
-              }]
-               
-
-              
+              subCategoryResponseList: [
+                {
+                  subCategoryId: subCategory.subCategoryId,
+                  subCategoryName: subCategory.subCategoryName,
+                  itemResponseList: [item],
+                },
+              ],
             };
           }
         });
       });
     });
-  
-    dispatch(searchForItem(result));  
+
+    dispatch(searchForItem(result));
     setFilteredOptions([]);
   };
-  
 
   const highlightedRef = useRef(null);
   const handleKeyDown = (e) => {
-    if (e.key === 'ArrowDown') {
-      setHighlightedIndex((prevIndex) => {
-        const newIndex = Math.min(filteredOptions.length - 1, prevIndex + 1);
-        setSearchTerm(filteredOptions[newIndex]?.itemName);
-        setDisplayTerm(filteredOptions[newIndex]);
-        return newIndex;
-      });
-    }
+    // if (e.key === "ArrowDown") {
+    //   setHighlightedIndex((prevIndex) => {
+    //     const newIndex = Math.min(filteredOptions.length - 1, prevIndex + 1);
+    //     setSearchTerm(filteredOptions[newIndex]?.itemName);
+    //     setDisplayTerm(filteredOptions[newIndex]);
+    //     return newIndex;
+    //   });
+    // }
 
-    if (e.key === 'ArrowUp') {
-      setHighlightedIndex((prevIndex) => {
-        const newIndex = Math.max(0, prevIndex - 1);
-        setSearchTerm(filteredOptions[newIndex]?.itemName);
-        setDisplayTerm(filteredOptions[newIndex]?.itemName);
-        return newIndex;
-      });
-    }
+    // if (e.key === "ArrowUp") {
+    //   setHighlightedIndex((prevIndex) => {
+    //     const newIndex = Math.max(0, prevIndex - 1);
+    //     setSearchTerm(filteredOptions[newIndex]?.itemName);
+    //     setDisplayTerm(filteredOptions[newIndex]?.itemName);
+    //     return newIndex;
+    //   });
+    // }
 
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
         handleOptionClick(filteredOptions[highlightedIndex].itemName);
         setHighlightedIndex(-1);
       }
     }
-
 
     setTimeout(() => {
       highlightedRef.current?.scrollIntoView({
@@ -245,17 +237,15 @@ console.log({firstMatch});
     //   }
     // }
   };
-  console.log({filteredOptions});
 
   const openSearchModel = () => {
     setCloseModal(true);
     filterOptions(searchTerm);
-  }
-  
+  };
 
   return (
     <div className="MLSearch-Container">
-      <div className='MLsearchbox'>
+      <div className="MLsearchbox">
         <input
           className={`${isExpanded ? "MLHeader-Search1" : "MLHeader-Search"}`}
           value={`${searchTerm}`}
@@ -265,7 +255,9 @@ console.log({firstMatch});
           type="text"
         />
         <img
-          className={`${isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"}`}
+          className={`${
+            isExpanded ? "MLSerchIcon-Header1" : "MLSerchIcon-Header"
+          }`}
           // className={"MLSerchIcon-Header1"}
           onClick={() => openSearchModel()}
           src={searchIcon}
@@ -273,44 +265,87 @@ console.log({firstMatch});
         />
       </div>
 
-      <div
+      {searchTerm && <div
         ref={popupRef}
-        className={`${isExpanded ?
-          "MLSearch-Container-options1" :
-          'MLSearch-Container-options-menu'
-          } ${filteredOptions.length > 0 && searchTerm !== "" && "searched-item-box"}`
-        }
+        className={`${
+          isExpanded
+            ? "MLSearch-Container-options1"
+            : "MLSearch-Container-options-menu"
+        } ${
+          filteredOptions.length > 0 && searchTerm !== "" && "searched-item-box"
+        }`}
       >
         {searchTerm && closeModal && (
-          <ul className={isExpanded ? 'MLsearchBoxContainer1' : 'MLsearchBoxContainer'}>
-            {filteredOptions.length > 0 ? (
-              filteredOptions.map((option, index) => (
-                <li
-                  key={index}
-                  ref={index === highlightedIndex ? highlightedRef : null}
-                  onClick={() => handleOptionClick(option.itemName)}
-                  className={`${index === highlightedIndex ? 'MLhighlighted' : ''}   ${isExpanded ? 'list-of-item-name-expand' : "list-of-item-name"}`}
-                >
-                  <div className={isExpanded ? 'MLSearch-Container-options1-items' : "MLSearch-Container-options-items"}>
-                    {option.itemName}  {option.itemCode!==""&&option.itemCode!==undefined&&option.itemCode!==null ?<><span>-{option.itemCode}</span></> :""}
+          <ul
+            className={
+              isExpanded ? "MLsearchBoxContainer1" : "MLsearchBoxContainer"
+            }
+          >
+            {filteredOptions.length > 0
+              ? filteredOptions.map((option, index) => (
+                  <li
+                    key={index}
+                    ref={index === highlightedIndex ? highlightedRef : null}
+                    onClick={() => handleOptionClick(option.itemName)}
+                    className={`${
+                      index === highlightedIndex ? "MLhighlighted" : ""
+                    }   ${
+                      isExpanded
+                        ? "list-of-item-name-expand"
+                        : "list-of-item-name"
+                    }`}
+                  >
+                    <div
+                      className={
+                        isExpanded
+                          ? "MLSearch-Container-options1-items"
+                          : "MLSearch-Container-options-items"
+                      }
+                    >
+                      {option.itemName}{" "}
+                      {option.itemCode !== "" &&
+                      option.itemCode !== undefined &&
+                      option.itemCode !== null ? (
+                        <>
+                          <span>-{option.itemCode}</span>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </li>
+                ))
+              : !optionSelected && (
+                  <div
+                    className={
+                      isExpanded
+                        ? "MLSearch-Container-options1-none"
+                        : "MLSearch-Container-options-none"
+                    }
+                  >
+                    <img
+                      className={
+                        isExpanded
+                          ? "MLNotFoundImageExpanded"
+                          : "MLNotFoundImage"
+                      }
+                      src={NotFound}
+                      alt="MLNo Results Found"
+                    />
+                    <h3
+                      className={
+                        isExpanded
+                          ? "MLheading-none-expanded"
+                          : "MLheading-none"
+                      }
+                    >
+                      No Results Found
+                    </h3>
                   </div>
-                </li>
-              ))
-            ) : !optionSelected && (
-              <div
-                className={
-                  isExpanded ?
-                    'MLSearch-Container-options1-none' :
-                    'MLSearch-Container-options-none'
-                }
-              >
-                <img className={isExpanded ? "MLNotFoundImageExpanded" : "MLNotFoundImage"} src={NotFound} alt="MLNo Results Found" />
-                <h3 className={isExpanded ? "MLheading-none-expanded" : 'MLheading-none'}>No Results Found</h3>
-              </div>
-            )}
+                )}
           </ul>
         )}
-      </div>
+      </div>}
     </div>
   );
 };

@@ -73,7 +73,7 @@ const Menu120 = () => {
     <>
       <div className="Header-Heading">
         Menu({itemCount})
-        <div className="Menu120-Tooltip-container">
+        {/* <div className="Menu120-Tooltip-container">
           {data.map((elem, index) => (
             <div className="Menu120-Tooltip-container-heading" key={index}>
               <div className="Menu120-Heading"> {elem?.OutletName?.split(",")[0]}</div>
@@ -82,7 +82,7 @@ const Menu120 = () => {
               <div className="Menu120-sub-Heading">{elem.Hidden}</div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </>
   );

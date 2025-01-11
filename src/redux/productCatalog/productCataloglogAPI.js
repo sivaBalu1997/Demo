@@ -11,9 +11,9 @@ import {
 } from "assets/mockData/Moca_data";
 import { useSelector } from "react-redux";
 
-const token = Store.getState()?.auth?.credentials?.accessToken;
-
 export const getMenuDataApi = (locationId) => {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/api/v1/menu-items?locationId=${locationId}`,
@@ -24,6 +24,8 @@ export const getMenuDataApi = (locationId) => {
 };
 
 export function getCategory(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Category`,
@@ -35,6 +37,8 @@ export function getCategory(locationId) {
 
 //get dropDown
 export function getSubSectionData(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "post",
     url: `/api/v1/menu-items/view/sub-section`,
@@ -47,6 +51,8 @@ export function getSubSectionData(payload) {
 
 //Delete subsection
 export const deleteSubSection = (data) => {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "delete",
     url: `/api/v1/menu-items/sub-section`,
@@ -58,6 +64,8 @@ export const deleteSubSection = (data) => {
 };
 
 export const addSubsectionApi = (data) => {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+  
   return API({
     method: "post",
     url: `/api/v1/menu-items/sub-section`,
@@ -69,6 +77,8 @@ export const addSubsectionApi = (data) => {
 };
 
 export const imageUploadingApi = (formData) => {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "post",
     url: `api/v1/menu-items/upload-image`,
@@ -85,6 +95,8 @@ export const imageUploadingApi = (formData) => {
 };
 
 export function getSubCategory({ locationId, id }) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=${id}&option=Sub-Category`,
@@ -95,6 +107,8 @@ export function getSubCategory({ locationId, id }) {
 }
 
 export function getTagClass(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Tag`,
@@ -105,6 +119,8 @@ export function getTagClass(locationId) {
 }
 
 export function getModifier(data) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+  
   const { name, locationId } = data;
   return API({
     method: "get",
@@ -116,6 +132,8 @@ export function getModifier(data) {
 }
 
 export function getIngredients(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
+
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=INGR`,
@@ -126,6 +144,7 @@ export function getIngredients(locationId) {
 }
 
 export function addMenuItem(data) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   const { menuPayload, locationid } = data;
   return API({
     method: "post",
@@ -147,6 +166,7 @@ export function addMenuItem(data) {
 // }
 
 export function updateMenuItem(data) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "put",
     url: `/api/v1/menu-items/edit`,
@@ -158,6 +178,7 @@ export function updateMenuItem(data) {
 }
 
 export function updateMenuItemAttribute(data) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "post",
     url: `/merchants/itemAttributes`,
@@ -169,6 +190,7 @@ export function updateMenuItemAttribute(data) {
 }
 
 export function deleteMenuItem(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "delete",
     url: `/api/v1/menu-items/delete`,
@@ -180,6 +202,7 @@ export function deleteMenuItem(payload) {
 }
 
 export function getAvailability(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "get",
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Availability`,
@@ -212,6 +235,7 @@ export function store(formData) {
 }
 
 export function getItemCodeRequestApi(locationId, itemCode) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "get",
     url: `/api/v1/menu-items/validate-item-code?locationId=${locationId}&itemCode=${itemCode}`,
@@ -222,6 +246,7 @@ export function getItemCodeRequestApi(locationId, itemCode) {
 }
 
 export function getPopularItemRequestApi(locationId) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "get",
     url: `/api/v1/menu-items/count-popular-items?locationId=${locationId}`,
@@ -232,6 +257,7 @@ export function getPopularItemRequestApi(locationId) {
 }
 
 export function apiUpdateMenu(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "patch",
     url: `/api/v1/menu-items/partial-update`,
@@ -244,6 +270,7 @@ export function apiUpdateMenu(payload) {
 
 
 export function hideMockData(payload) {
+  const token = Store.getState()?.auth?.credentials?.accessToken;
   return API({
     method: "put",
     url: `/api/v1/menu-items/availability`,
