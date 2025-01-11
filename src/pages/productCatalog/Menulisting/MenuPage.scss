@@ -19,10 +19,10 @@
     width: 90vw;
     height: 99vh;
     // border: 1px solid violet;
-    // border: 1px solid violet;
+    border: 1px solid violet;
    
    }
-   @media (max-width:2000px) {
+   @media (max-width:2048px) {
    
     // height: 42rem;
     width: 90vw;
@@ -31,7 +31,7 @@
     // background-color: brown;
   }
 
-  @media (max-width: 1800px) {
+  @media (max-width: 1920px) {
     // height: 37rem;
     // border: 1px solid blue;
   //  background-color: blue;
@@ -222,18 +222,18 @@
   padding: 0;
   @media (max-width: 2500px) {
     // height: 45rem;
-    height: 55rem;
+    height: 110vh;
     // border: 1px solid violet;
    
    }
-   @media (max-width:2000px) {
+   @media (max-width:2048px) {
    
     // height: 42rem;
     height: 52rem;
     // border: 1px solid brown;
   }
 
-  @media (max-width: 1800px) {
+  @media (max-width: 1920px) {
     // height: 37rem;
     height: 51rem;
     // border: 1px solid blue;
@@ -398,12 +398,12 @@ height: 35rem;
       // border: 1px solid violet;
      
      }
-     @media (max-width:2000px) {
-   width: 30rem;
+     @media (max-width:2048px) {
+   width: 32rem;
       // height: 42rem;
       // border: 1px solid brown;
     }
-    @media (max-width: 1800px) {
+    @media (max-width: 1920px) {
      width: 26.3rem;
       // border: 1px solid blue;
      
@@ -440,7 +440,7 @@ height: 35rem;
         // border: 1px solid violet;
        
        }
-       @media (max-width: 2000px) {
+       @media (max-width: 2048px) {
         // height: 45rem;
        
         width: 15.5rem;
@@ -448,7 +448,7 @@ height: 35rem;
        
        }
 
-      @media (max-width: 1800px) {
+      @media (max-width: 1920px) {
         width: 11rem;
        
       
@@ -575,12 +575,12 @@ height: 35rem;
       display: none;
     }
 
-    @media (max-width:2000px) {
+    @media (max-width:2048px) {
       width: 77.2rem;
          // height: 42rem;
         //  border: 1px solid brown;
        }
-       @media (max-width: 1800px) {
+       @media (max-width: 1920px) {
         // height: 37rem;
         width:69rem;
         // border: 1px solid blue;
@@ -639,14 +639,14 @@ height: 35rem;
     // border: 1px solid violet;
    
    }
-   @media (max-width:2000px) {
+   @media (max-width:2048px) {
    
     // height: 42rem;
     width: 15.7rem;
  
     // border: 1px solid brown;
   }
-  @media (max-width: 1800px) {
+  @media (max-width: 1920px) {
     width: 11.3rem;
    
   
@@ -849,19 +849,19 @@ height: 35rem;
 // border: 1px solid red;
 @media (max-width: 2500px) {
   // height: 45rem;
-  height: 49.8rem;
+  height: 85.3vh;
   width: 35rem;
   // border: 1px solid violet;
  
  }
- @media (max-width:2000px) {
+ @media (max-width:2048px) {
  
-width: 30rem;
-height: 46rem;
+width: 32rem;
+height: 83vh;
   // border: 1px solid brown;
 }
 
-@media (max-width: 1800px) {
+@media (max-width: 1920px) {
   width: 26.3rem;
   height: 40.7rem;
   // border: 1px solid blue;
@@ -870,8 +870,8 @@ height: 46rem;
  }
  @media (max-width: 1600px) {
  width: 24rem ;
-  height: 35rem;
-    //  border: 1px solid green;
+  height: 78.15vh;
+     border: 1px solid green;
     
     }
     @media (max-width: 1525px) {
@@ -917,12 +917,12 @@ height: 46rem;
       
        
        }
-       @media (max-width:2000px) {
+       @media (max-width:2048px) {
         width: 29.44rem;
            // height: 42rem;
           //  border: 1px solid brown;
          }
-         @media (max-width: 1800px) {
+         @media (max-width: 1920px) {
           width: 25.7rem;
           //  border: 1px solid blue;
           
@@ -1100,20 +1100,20 @@ height: 46rem;
   }
   @media (max-width: 2500px) {
     // height: 45rem;
-    height: 50.5rem;
+    height: 86.4vh;
     width: 79.5rem;
     // border: 1px solid violet;
    
    }
-   @media (max-width:2000px) {
+   @media (max-width:2048px) {
    
     // height: 42rem;
     width: 77.2rem;
-    height: 46.8rem;
+    height: 84.2vh;
     // border: 1px solid brown;
   }
   
-  @media (max-width: 1800px) {
+  @media (max-width: 1920px) {
     // height: 37rem;
     width:69rem ;
     height: 41.5rem;
@@ -1123,7 +1123,7 @@ height: 46rem;
    @media (max-width: 1600px) {
   //  height: 31rem;
   width: 62rem;
-  height: 36rem;
+  height:79.9vh;
     // border: 1px solid green;
    
    }
