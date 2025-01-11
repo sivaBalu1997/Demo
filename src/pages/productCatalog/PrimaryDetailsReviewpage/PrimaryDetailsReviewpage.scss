@@ -13,19 +13,17 @@
   display: flex;
   width: 98vw;
 
-  @media (max-width: 1280px) {
-    // width: 105vw;
-    // background-color: lightsalmon;
-  }
+ 
 }
 
 .reviewpage {
   position: relative;
   top: 28px;
   width: 120%;
-  height: 73vh;
+  height: 78.5vh;
   overflow-y: auto;
-  left: 2rem;
+  left: 1rem;
+  // background-color: aqua;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -33,17 +31,33 @@
   .buttoncomponent {
     position: relative;
   }
+  // @media  (max-wi:1300px) {
+  //   height: 50vh;
+  //   border: 1px solid red;
+  // }
+  // @media  (max-width:1900px) {
+  //   height: 64vh;
+  //   border: 1px solid blue;
+  // }
+  // @media  (max-width:1690px) {
+  //   height: 78vh;
+  //   border: 1px solid red;
+  // }
+
+
+
 }
 
 .reviewheading {
   width: 100%;
   // width: fit-content;
   height: 50px;
-  left: 2rem;
+  left: 1rem;
   position: relative;
   top: 15px;
   border-bottom: 1px solid #c4c4c4;
   padding: 10px;
+  padding-left: 0;
   // background-color: pink;
 
   p {
@@ -101,7 +115,8 @@
     height: 500px;
     // border: 1px solid black;
     position: relative;
-    top: 50px;
+    top: 30px;
+    margin-left: -1rem;
 
     .primaryreviewdetails1 {
       width: 200px;
@@ -165,21 +180,30 @@
   position: relative;
   // background-color: orange;
   // background-color: lightgreen;
-
+top: -18px;
   left: 30px;
   // background-color: red;
+
+  .EditData
+  {
+    width: 100%;
+    border: 1px solid red;
+  }
   .primarypageedit {
     position: relative;
     top: 24px;
     width: 50px;
     height: 40px;
+    display: flex;
+// width: 100vw;
+// border: 1px solid red;
 
     display: flex;
     flex-direction: row;
     cursor: pointer;
     text-decoration: none;
 
-    margin-left: 450px;
+    margin-left: 700px;
     .link {
       list-style: none;
       text-decoration: none;
@@ -207,7 +231,7 @@
     width: 500px;
     height: 215px;
     margin-top: 50px;
-    top: 40px;
+    top: 10px;
     bottom: 10px;
     p {
       font-family: "Poppins", sans-serif;
@@ -256,8 +280,8 @@
   .primarydescription {
     // width: 500px;
     height: auto;
-    // position: relative;
-    top: 35px;
+    position: relative;
+    top: -15px;
 
     p {
       font-family: "Poppins", sans-serif;
@@ -274,6 +298,7 @@
       flex-wrap: wrap;
       gap: 5px;
       margin-top: -0.3rem;
+    
 
       p {
         font-family: "Poppins", sans-serif;
@@ -291,8 +316,8 @@
   .primarybestpairedfood {
     width: 500px;
     height: 75px;
-    // position: relative;
-    top: 35px;
+    position: relative;
+  margin-top: -0.5rem;
 
     P {
       font-family: "Poppins", sans-serif;
@@ -300,7 +325,7 @@
       font-weight: 400;
       line-height: 18px;
       color: #6e6e6e;
-      margin-bottom: 5px;
+      // margin-bottom: 5px;
     }
 
     .bestpairfoods {
@@ -321,7 +346,7 @@
     // position: relative;
     top: 35px;
     // margin-bottom: 5px;
-    margin-top: 1.2vh;
+    margin-top: -1rem;
     gap: 2vw;
     // background-color: pink;
 
@@ -571,7 +596,7 @@
   height: fit-content;
   background-color: white;
   // background-color: pink;
-  top: 76px;
+  top: 10px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   padding: 16px 32px;
   transition: 0.2s ease all;
@@ -748,23 +773,25 @@
 }
 .verticalLine {
   width: 1px;
-  height: 90rem;
+  height: 63rem;
   background-color: #c4c4c4;
   // background-color: red;
   // position: relative;
   // top: 145%;
   left: 34%;
+  margin-top: 2%;
   // @media(max-width: 1080px){
   //   left: -545px;
   // }
 }
 .verticalLineExpand {
   width: 1px;
-  height: 90rem;
+  height: 63rem;
   background-color: #c4c4c4;
   // background-color: red;
   // position: relative;
   // top: 145%;
+  margin-top: 2%;
   left: 42%;
   // @media(max-width: 1080px){
   //   left: -545px;

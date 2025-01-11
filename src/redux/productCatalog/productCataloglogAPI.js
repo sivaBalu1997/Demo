@@ -11,6 +11,8 @@ import {
 } from "assets/mockData/Moca_data";
 import { useSelector } from "react-redux";
 
+const token = Store.getState()?.auth?.credentials?.accessToken;
+
 export const getMenuDataApi = (locationId) => {
   const token = Store.getState()?.auth?.credentials?.accessToken;
 
@@ -114,6 +116,8 @@ export function getTagClass(locationId) {
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Tag`,
     headers: {
       Authorization: "bearer " + token,
+      "Content-Type": "multipart/form-data",
+      // Authorization: "bearer " + token,
     },
   });
 }
@@ -127,6 +131,8 @@ export function getModifier(data) {
     url: `/api/v1/menu-items/modifiers?name=${name}&locationId=${locationId}`,
     headers: {
       Authorization: "bearer " + token,
+      "Content-Type": "multipart/form-data",
+      // Authorization: "bearer " + token,
     },
   });
 }
@@ -139,6 +145,8 @@ export function getIngredients(locationId) {
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=INGR`,
     headers: {
       Authorization: "bearer " + token,
+      "Content-Type": "multipart/form-data",
+      // Authorization: "bearer " + token,
     },
   });
 }
@@ -173,6 +181,8 @@ export function updateMenuItem(data) {
     data: data,
     headers: {
       Authorization: "bearer " + token,
+      "Content-Type": "multipart/form-data",
+      // Authorization: "bearer " + token,
     },
   });
 }
@@ -196,6 +206,7 @@ export function deleteMenuItem(payload) {
     url: `/api/v1/menu-items/delete`,
     data:{itemId:payload},
     headers: {
+      "Content-Type": "multipart/form-data",
       Authorization: "bearer " + token,
     },
   });
@@ -208,6 +219,8 @@ export function getAvailability(locationId) {
     url: `/merchants/itemAttributes?locationId=${locationId}&id=&option=Availability`,
     headers: {
       Authorization: "bearer " + token,
+      "Content-Type": "multipart/form-data",
+      // Authorization: "bearer " + token,
     },
   });
 }

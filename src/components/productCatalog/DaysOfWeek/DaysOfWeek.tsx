@@ -5,9 +5,10 @@ import "./DaysOfWeek.scss";
 interface DaysOfWeekProps {
   days: number[] | number;
   setDays: React.Dispatch<React.SetStateAction<number[]>>;
+  Marginpresent?:boolean
 }
 
-const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays }) => {
+const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays ,Marginpresent}) => {
   const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
   const daysArray = Array.isArray(days) && days.length > 0 ? days : [];
@@ -25,7 +26,7 @@ const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays }) => {
     : [];
 
   return (
-    <ul className="DaysOfWeek">
+    <ul className="DaysOfWeek" style={{marginLeft:Marginpresent?"21px":"0.1rem"}}>
       {daysOfWeek.map((day, index) => (
         <li
           key={index}
