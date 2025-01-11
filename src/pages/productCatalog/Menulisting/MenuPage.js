@@ -104,12 +104,16 @@ export const MenuPage = () => {
     return data.reduce((acc, category) => {
       category?.itemResponseList?.forEach((item) => {
         item.orderTypes?.forEach((orderType) => {
-          acc[orderType.typeName] = true;
+          if (orderType.typeGroup !== "I") { 
+            acc[orderType.typeName] = true;
+          }
         });
       });
       return acc;
     }, {});
   };
+  
+
 
   const initializeListingObject = (uniqueNames) => {
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
