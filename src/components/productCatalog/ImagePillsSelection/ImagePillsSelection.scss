@@ -47,13 +47,8 @@ height: 331px;
     flex-direction: column;
     position: relative;
     top: 1rem;
-    @media (max-width: 2400px) {
-      height: 18rem;
-       
-       }
-
     @media (max-width: 2000px) {
-      height: 16rem;
+      height: 15rem;
        
        }
        @media (max-width: 1770px) {
@@ -62,19 +57,12 @@ height: 331px;
         }
        @media (max-width: 1600px) {
        height: 11.5rem;
-        //  border: 1px solid blue;
+         border: 1px solid blue;
         
         }
-
     @media (max-width:1525px) {
-      height: 10rem;
+      height: 9rem;
     }
-
-
-    @media (max-width:1400px) {
-      height: 8rem;
-    }
-
     // background-color: pink;
 
     &::-webkit-scrollbar {

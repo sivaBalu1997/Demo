@@ -60,7 +60,6 @@ interface DropdownProps {
   setCategoryChange?: any;
   kitchenError?: boolean;
   height?: string;
-
 }
 
 const DropDownList: React.FC<DropdownProps> = ({
@@ -852,66 +851,29 @@ const DropDownList: React.FC<DropdownProps> = ({
 
           {
             <div
-              className="dropdown-Addbutton-add"
+              className="dropdown-Addbutton"
               onMouseDown={handleOptionMouseDown}
             >
-              <div className="">
               {addNew && addNewButton && (
-<div className="dropdown-input-and-addnewbtn">
-<div className="addnew-open-dropdown">
-  <div>
-  <input
+                <div className="dropdown-addnew">
+                  <div className="dropdown-addnew-input-and-button">
+                    <input
                       type="text"
                       ref={NewItemref}
-                      maxLength={128}
-                      className="dropdown-addnew-open-input"
+                      className="dropdown-addnew-input-filed"
                     />
-  </div>
-  <div>
-  <button
-                  
-                  type="button"
-                  onClick={handleNewItemAdd}
-                  className="dropdown-addnew-button"
-
-                  style={{cursor:"pointer"}}
-                >
-                  +Add
-                </button>
-  </div>
-</div>
-</div>
-
-
-
-
-
-              //   <div className="dropdown-addnew">
-              //     <div className="dropdown-addnew-input-and-button">
-              //   <input
-              //   type="text"
-              //   ref={NewItemref}
-              //   maxLength={128}
-              //   className="dropdown-addnew-open-input"
-              // />
-              //     <button
-                  
-              //       type="button"
-              //         onClick={handleNewItemAdd}
-              //         className="dropdown-addnew-button"
-
-              //        style={{cursor:"pointer"}}
-              //      >
-              //         +Add
-              //   </button>
-              //   </div>
-              //   </div>
+                    <button
+                      type="button"
+                      onClick={handleNewItemAdd}
+                      className="dropdown-addnew-button"
+                    >
+                      + Add
+                    </button>
+                  </div>
+                </div>
               )}
-              </div>
-             
 
-              <div className="Addnew-edit-fields dropdown-input-and-addnewbtn">
-               
+              <div className="Addnew-edit-fields">
                 <div className="dropdown-edit-button">
                   {editList && editValues && !addNewButton && (
                     <p
@@ -925,7 +887,6 @@ const DropDownList: React.FC<DropdownProps> = ({
                     </p>
                   )}
                 </div>
-                <div>
                 {(!Loading || filteredOptions?.length === 0) &&
                   addNew &&
                   !addNewButton && (
@@ -939,14 +900,7 @@ const DropDownList: React.FC<DropdownProps> = ({
                       Add new
                     </button>
                   )}
-                </div>
-             
-                
-                
               </div>
-
-
-
             </div>
           }
         </div>

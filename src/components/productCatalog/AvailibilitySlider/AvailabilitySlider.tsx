@@ -60,7 +60,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     const orderTypes = dataFromRedux[0]?.orderTypes || [];
   
     const tempOnPremarray = orderTypes.filter((data: any) => {
-      return data?.typeGroup === "D"&&data?.typeGroup !== "I";
+      return data?.typeGroup === "D"||data?.typeGroup === "I";
     });
   
     const tempOffPremarray = orderTypes.filter((data: any) => {
@@ -164,7 +164,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
       const tempOnPremarray = tempOderTypes?.filter(
         (data: any, index: number) => {
-          return data?.typeGroup === "D" &&data?.typeGroup !== "I";
+          return data?.typeGroup === "D" ||data?.typeGroup === "I";
         }
       );
       const tempOffPremarray = tempOderTypes?.filter(
@@ -226,7 +226,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
 
     const tempOnPremarray = tempOderTypes?.filter(
       (data: any, index: number) => {
-        return data?.typeGroup === "D"&&data?.typeGroup !== "I";
+        return data?.typeGroup === "D"||data?.typeGroup === "I";
       }
     );
     const tempOffPremarray = tempOderTypes?.filter(
@@ -286,7 +286,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
   const handleOrderCategoryAvailability = (categoryHeading: string) => {
     const tempOnPremarray = parentOrderTypeArray?.filter(
       (data: any, index: number) => {
-        return data?.typeGroup === "D"&&data?.typeGroup !== "I";
+        return data?.typeGroup === "D"||data?.typeGroup === "I";
       }
     );
     const tempOffPremarray = parentOrderTypeArray?.filter(
@@ -408,7 +408,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     if (headingName === "On-prem") {
       const tempOnPremarray = dataFromRedux[0]?.orderTypes?.filter(
         (data: any, index: number) => {
-          return data?.typeGroup === "D"&&data?.typeGroup !== "I";
+          return data?.typeGroup === "D"||data?.typeGroup === "I";
         }
       );
       setParentToggles(tempOnPremarray);
@@ -446,7 +446,7 @@ const PricingSlider: React.FC<AvailSliderProps> = ({ pen }) => {
     let filteredArray = [];
     if (parentName === "On-prem") {
       filteredArray = dataFromRedux[0]?.orderTypes?.filter(
-        (data: any) => data?.typeGroup === "D"&&data?.typeGroup !== "I"
+        (data: any) => data?.typeGroup === "D"||data?.typeGroup === "I"
       );
     } else {
       filteredArray = dataFromRedux[0]?.orderTypes?.filter(

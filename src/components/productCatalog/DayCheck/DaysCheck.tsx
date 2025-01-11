@@ -18,9 +18,6 @@ interface DaysCheckProps {
   register?: any;
   normalDays?: any;
   defaultDays?: boolean;
-  errorarray?:any
-  setErrorArray?:any
-  Errorname?:string
 }
 
 // Define the type for the data returned by the API
@@ -53,9 +50,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   valueName,
   normalDays,
   defaultDays,
-  errorarray,
-  setErrorArray,
-  Errorname
 }) => {
   const locationid = useSelector(
     (state: State) => state.auth.credentials?.locationId
@@ -122,24 +116,6 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
       return updatedCheckedItems;
     });
   };
-
-
-   useEffect(() => {
-        if (checkedItems && checkedItems.length > 0) {
-          console.log("checkedItemsForIndex is not empty:", checkedItems);
-          const validationErrors = { ...errorarray};
-       
-          delete validationErrors[`${Errorname}`];
-        
-          setErrorArray?.(validationErrors);
-        } else {
-          // const validationErrors = { ...errorarray};
-       
-          //  validationErrors[`${Errorname}`]="Please enter available days";
-        
-          //  setErrorArray?.(validationErrors);
-        }
-      }, [checkedItems]);
 
   return (
     <div>

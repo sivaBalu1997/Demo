@@ -808,23 +808,6 @@ const PrimaryPage = () => {
     return true;
   };
 
-  const [showAsterisk, setShowAsterisk] = useState(false);
-  const categoryList = getValues("category");
-  const subcategoryList = getValues("subCategory");
-  useEffect(() => {
-   
-  
-    if (
-      categoryList !== "" &&
-      subcategoryList === "" &&
-      (subCategoryData?.length > 0 )
-    ) {
-      setShowAsterisk(true);
-    } else {
-      setShowAsterisk(false);
-    }
-  }, [getValues,categoryList,subCategoryData]);
-
   return (
     <div style={{ display: "flex" }}>
       <SidePanel />
@@ -856,17 +839,12 @@ const PrimaryPage = () => {
                     name="itemName"
                     control={control}
                     defaultValue=""
-
-                    rules={{
-                      required: "Item Name is required",
-                      
-                    }}
+                    rules={{ required: "Item Name is required" }}
                     render={({ onChange, onBlur, value }: any) => (
                       <InputFieldComponent
                         name="itemName"
                         onChange={onChange}
                         onBlur={onBlur}
-                         maxLength={128}
                         value={value}
                         trigger={trigger}
                         error={errors.itemName}
@@ -1292,9 +1270,7 @@ const PrimaryPage = () => {
 
                 <div className="Primary-Page-categories-field">
                   <div className="Primary-page-InputFields">
-                  <LableComponent 
-  lable={`Sub Category${showAsterisk ? "*" : ""}`}
-/>
+                    <LableComponent lable="Sub Category" />
                     <Controller
                       name="subCategory"
                       control={control}
@@ -1406,12 +1382,10 @@ const PrimaryPage = () => {
                     <Controller
                       name="coloriePoint"
                       control={control}
-                   
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="coloriePoint"
                           type="number"
-                          maxLength={5}
                           onChange={(e) => {
                             handleInputChange(e);
                             onChange(e);
@@ -1425,7 +1399,7 @@ const PrimaryPage = () => {
                               e.key === "-" ||
                               e.key === "+"
                             ) {
-                              e.preventDefault(); 
+                              e.preventDefault(); // Block these keys
                             }
                           }}
                           placeholder="cal"
@@ -1455,7 +1429,6 @@ const PrimaryPage = () => {
                       render={({ onChange, onBlur, value }: any) => (
                         <InputFieldComponent
                           name="portionSize"
-                          maxLength={4}
                           type="number"
                           onChange={(e) => {
                             handlePortionChange("value", e.target.value);
@@ -1528,7 +1501,7 @@ const PrimaryPage = () => {
                 <div className="Primary-Page-Other-Detail">
                   <div>
                     {" "}
-                    <div className="Primary-Page-inputfiled-and-tooltip-taxclass">
+                    <div className="Primary-Page-inputfiled-and-tooltip">
                       {/* <Controller
                         name="tax"
                         control={control}
@@ -1553,7 +1526,6 @@ const PrimaryPage = () => {
                           />
                         )}
                       /> */}
-                      <div className="tax-with-tooltip">
                       <Controller
                         name="tax"
                         control={control}
@@ -1584,7 +1556,6 @@ const PrimaryPage = () => {
                           />
                         )}
                       />
-                      </div>
 
                       <div className="tool-tip-tax-class">
                         <TooltipMsg
@@ -1620,8 +1591,6 @@ const PrimaryPage = () => {
                           </div>
                         </TooltipMsg>
                       </div>
-                      
-                      
                     </div>
                   </div>
                 </div>

@@ -102,16 +102,12 @@ export const MenuPage = () => {
     return data.reduce((acc, category) => {
       category?.itemResponseList?.forEach((item) => {
         item.orderTypes?.forEach((orderType) => {
-          if (orderType.typeGroup !== "I") { 
-            acc[orderType.typeName] = true;
-          }
+          acc[orderType.typeName] = true;
         });
       });
       return acc;
     }, {});
   };
-  
-
 
   const initializeListingObject = (uniqueNames) => {
     const pricingKeys = Object.keys(uniqueNames).reduce((acc, typeName) => {
@@ -137,7 +133,6 @@ export const MenuPage = () => {
   };
 
   const [listingobject, setlistingobject] = useState();
-  console.log("Adit",listingobject)
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -243,6 +238,15 @@ export const MenuPage = () => {
 
     Customization: "Customization",
   };
+
+  // Output result
+  // console.log(insertlists2);
+
+  // Log firstRowTable whenever it changes
+  // useEffect(() => {
+  //   setFirstRowTable((prev)=>[...prev,tablefirstrow])
+
+  // }, [tablefirstrow]);
 
   const [secondRowTable, setSecondRowTable] = useState([
     ["Ac", "Non Ac"],
@@ -615,8 +619,10 @@ export const MenuPage = () => {
     (state) => state?.itemCustomizationsReducer1?.itemData || []
   );
 
+
   useEffect(() => {
     if (Array.isArray(editData) && editData.length > 0) {
+
       const primaryPageData = {
         itemName: editData[0]?.itemName ?? "",
         description: editData[0]?.description ?? "",
@@ -757,10 +763,7 @@ export const MenuPage = () => {
   useEffect(() => {
     const allFalse =
       listingobject &&
-      Object.entries(listingobject)
-        .filter(([key]) => key !== 'showAvail' && key !== 'showPricing') 
-        .every(([, value]) => value === false); 
-  
+      Object.values(listingobject).every((value) => value === false);
     setShowColumns(allFalse);
   }, [listingobject]);
 
@@ -973,6 +976,7 @@ export const MenuPage = () => {
   const UploadImageImageID = useSelector(
     (state) => state.productCatalog.successImageId
   );
+
   const handleRemoveIcon = () => {
     const allFalse =
       listingobject &&
@@ -981,30 +985,6 @@ export const MenuPage = () => {
       setShowColumns(allFalse);
     }
   };
-
-  const [widthForCategoryBorder, setWidthForCategoryBorder] = useState();
-
-  const handleClick = (event) => {
-    const element = event.currentTarget;
-    const { width, height } = element.getBoundingClientRect();
-
-    setWidthForCategoryBorder(width);
-
-    console.log(`Class Name: ${element.className}`);
-    console.log(`Width: ${width}px, Height: ${height}px`);
-  };
-
-  useEffect(() => {
-   
-    const element = document.querySelector(".table-two-row"); 
-
-    if (element) {
-      const { width } = element.getBoundingClientRect();
-      setWidthForCategoryBorder(width);
-
-      console.log(`Updated Width: ${width}px`);
-    }
-  }, [listingobject, menuData]);
   return (
     <>
       <div className="MenuPage-container">
@@ -1037,9 +1017,7 @@ export const MenuPage = () => {
           >
             <div className="menuListWrapper">
               <div className="header-container">
-                <div  className={`${
-                    isExpanded ? "first-div-header-expand" : "first-div-header"
-                  }`}>
+                <div className={isExpanded ? "first-div-header-Expanded" : "first-div-header"}>
                   <p className="image">Image</p>
                   <p className="name-item">ItemName</p>
                   <p className="item-code">
@@ -1084,10 +1062,8 @@ export const MenuPage = () => {
                         );
 
                         if (
-                          (header.label === "Customize1" ||
-                            nameOfOrderTypes?.includes(headerName)) &&
-                          header.label !== "Instore1" &&
-                          header.label !== "Instore2"
+                          header.label === "Customize1" ||
+                          nameOfOrderTypes?.includes(headerName)
                         ) {
                           return (
                             <>
@@ -1164,10 +1140,7 @@ export const MenuPage = () => {
                 // className={`${isExpanded ? "body-container-expand" : "body-container"
                 //   }`}
               >
-                <div></div>
-                <div   className={`${
-                    isExpanded ? "first-div-body-expand" : "first-div-body"
-                  }`} ref={ref1}>
+                <div className="first-div-body" ref={ref1}>
                   {menudatalist?.map((data, parentIndex) => (
                     <React.Fragment key={parentIndex}>
                       {data?.subCategoryResponseList &&
@@ -1180,7 +1153,7 @@ export const MenuPage = () => {
                                 <>
                                   {subCategory?.itemResponseList?.length >
                                     0 && (
-                                    <div className="categoryName-data-firstbody">
+                                    <div className="categoryName-data">
                                       <p>
                                         {data.categoryName}-{" "}
                                         <span>
@@ -1249,7 +1222,7 @@ export const MenuPage = () => {
                             ? data?.itemResponseList?.length > 0 &&
                               data.categoryName !== "" && (
                                 <>
-                                  <div className="categoryName-data-firstbody">
+                                  <div className="categoryName-data">
                                     <p>
                                       {data.categoryName} (
                                       {data?.itemResponseList?.length})
@@ -1278,10 +1251,7 @@ export const MenuPage = () => {
                                       </p>
                                       <p>
                                         <span
-                                        className={`${
-                                          isExpanded ? "itemname2-expand" : "itemname2"
-                                        }`}
-                                        
+                                          className="itemname2"
                                           onClick={() =>
                                             handlemodal(item.itemId)
                                           }
@@ -1368,7 +1338,7 @@ export const MenuPage = () => {
                             }`}
                           >
                             {" "}
-                            No columns  Selected
+                            No columns selected
                           </div>
                         ) : (
                           menudatalist?.map((data, parentIndex) => (
@@ -1382,15 +1352,17 @@ export const MenuPage = () => {
                                         {subCategory?.itemResponseList?.length >
                                           0 &&
                                           data.categoryName !== "" && (
-                                            <>
-                                              <style>{`.categoryName-data { width: ${widthForCategoryBorder}px !important; }`}</style>
-                                              <div
-                                                className="categoryName-data"
-                                               
-                                              >
-                                                <p></p>
-                                              </div>
-                                            </>
+                                            <div className="categoryName-data">
+                                              <p
+                                                // style={{
+                                                //   width:
+                                                //     `${
+                                                //       orderTypesToShow2?.length *
+                                                //       10
+                                                //     }%` || "0rem",
+                                                // }}
+                                              ></p>
+                                            </div>
                                           )}
 
                                         {subCategory?.itemResponseList?.length >
@@ -1399,7 +1371,6 @@ export const MenuPage = () => {
                                           subCategory?.itemResponseList.map(
                                             (item, index) => (
                                               <div
-                                               
                                                 key={index}
                                                 className="table-two-row"
                                               >
@@ -1443,55 +1414,46 @@ export const MenuPage = () => {
                                                         20
                                                       }px`;
 
-                                                      if (
-                                                        orderType.typeGroup !==
-                                                        "I"
-                                                      ) {
-                                                        return (
-                                                          <span
-                                                            key={typeName}
-                                                            style={{
-
-                                                              cursor:"pointer",
-                                                              opacity:
-                                                                orderType &&
-                                                                orderType.isNotHide ===
-                                                                  1 &&
-                                                                orderType.availabilityEnabled ===
-                                                                  true
-                                                                  ? // &&
-                                                                    // orderType.isEnabled ===
-                                                                    //   1
-                                                                    "100%"
-                                                                  : "50%",
-                                                              width:
-                                                                dynamicWidth,
-                                                              padding: "0 22px",
-                                                              textAlign:
-                                                                "center",
-                                                              display: "flex",
-                                                              justifyContent:
-                                                                "center",
-                                                              alignItems:
-                                                                "center",
-                                                            }}
-                                                            onClick={() =>
-                                                              handlesidbarhandling(
-                                                                `${typeName}1`,
-                                                                item.itemId
-                                                              )
-                                                            }
-                                                          >
-                                                            {restaurantDetails?.country ===
-                                                            "US"
-                                                              ? "$"
-                                                              : "Rs."}{" "}
-                                                            {price !== ""
-                                                              ? price
-                                                              : "0"}
-                                                          </span>
-                                                        );
-                                                      }
+                                                      return (
+                                                        <span
+                                                          key={typeName}
+                                                          style={{
+                                                            opacity:
+                                                              orderType &&
+                                                              orderType.isNotHide ===
+                                                                1 &&
+                                                              orderType.availabilityEnabled ===
+                                                                true
+                                                                ? // &&
+                                                                  // orderType.isEnabled ===
+                                                                  //   1
+                                                                  "100%"
+                                                                : "50%",
+                                                            width: dynamicWidth,
+                                                            padding: "0 22px",
+                                                            textAlign: "center",
+                                                            display: "flex",
+                                                            justifyContent:
+                                                              "center",
+                                                            alignItems:
+                                                              "center",
+                                                          }}
+                                                          onClick={() =>
+                                                            handlesidbarhandling(
+                                                              `${typeName}1`,
+                                                              item.itemId
+                                                            )
+                                                          }
+                                                        >
+                                                          {restaurantDetails?.country ===
+                                                          "US"
+                                                            ? "$"
+                                                            : "Rs."}{" "}
+                                                          {price !== ""
+                                                            ? price
+                                                            : "0"}
+                                                        </span>
+                                                      );
                                                     }
                                                   )}
                                                 </p>
@@ -1526,51 +1488,44 @@ export const MenuPage = () => {
                                                         typeName.length * 10 +
                                                         20
                                                       }px`;
-                                                      if (
-                                                        orderType.typeGroup !==
-                                                        "I"
-                                                      ) {
-                                                        return (
-                                                          <span
-                                                            key={typeName}
-                                                            style={{
-                                                              position:
-                                                                "relative",
-                                                              left: "1rem",
-                                                              width:
-                                                                dynamicWidth,
-                                                              padding: "0 22px",
-                                                              textAlign:
-                                                                "center",
-                                                              display: "flex",
-                                                              justifyContent:
-                                                                "center",
-                                                              alignItems:
-                                                                "center",
-                                                                cursor:"pointer",
-                                                            }}
-                                                            onClick={() =>
-                                                              handlesidbarhandling(
-                                                                `${typeName}2`,
-                                                                item.itemId
-                                                              )
+
+                                                      return (
+                                                        <span
+                                                          key={typeName}
+                                                          style={{
+                                                            position:
+                                                              "relative",
+                                                            left: "1rem",
+                                                            width: dynamicWidth,
+                                                            padding: "0 22px",
+                                                            textAlign: "center",
+                                                            display: "flex",
+                                                            justifyContent:
+                                                              "center",
+                                                            alignItems:
+                                                              "center",
+                                                          }}
+                                                          onClick={() =>
+                                                            handlesidbarhandling(
+                                                              `${typeName}2`,
+                                                              item.itemId
+                                                            )
+                                                          }
+                                                        >
+                                                          <Toggle
+                                                            toggle={
+                                                              orderType &&
+                                                              orderType.availabilityEnabled ===
+                                                                true &&
+                                                              orderType.isNotHide ===
+                                                                1
+                                                              //    &&
+                                                              // orderType.isEnabled ===
+                                                              //   1
                                                             }
-                                                          >
-                                                            <Toggle
-                                                              toggle={
-                                                                orderType &&
-                                                                orderType.availabilityEnabled ===
-                                                                  true &&
-                                                                orderType.isNotHide ===
-                                                                  1
-                                                                //    &&
-                                                                // orderType.isEnabled ===
-                                                                //   1
-                                                              }
-                                                            />
-                                                          </span>
-                                                        );
-                                                      }
+                                                          />
+                                                        </span>
+                                                      );
                                                     }
                                                   )}
                                                 </p>
@@ -1617,12 +1572,16 @@ export const MenuPage = () => {
                                 <>
                                   {data?.itemResponseList?.length > 0 &&
                                     data.categoryName !== "" && (
-                                      <>
-                                        <style>{`.categoryName-data { width: ${widthForCategoryBorder}px !important; }`}</style>
-                                        <div className="categoryName-data">
-                                          <p></p>
-                                        </div>
-                                      </>
+                                      <div className="categoryName-data">
+                                        <p
+                                          style={{
+                                            width:
+                                              `${
+                                                orderTypesToShow2?.length * 10
+                                              }%` || "0rem",
+                                          }}
+                                        ></p>
+                                      </div>
                                     )}
 
                                   {data?.itemResponseList?.length > 0 &&
@@ -1665,51 +1624,44 @@ export const MenuPage = () => {
                                                 const dynamicWidth = `${
                                                   typeName.length * 10 + 20
                                                 }px`;
-                                                if (
-                                                  orderType.typeGroup !== "I"
-                                                ) {
-                                                  return (
-                                                    <span
-                                                      key={typeName}
-                                                      style={{
-                                                        cursor:"pointer",
-                                                        opacity:
-                                                          orderType &&
-                                                          orderType.availabilityEnabled ===
-                                                            true &&
-                                                          orderType.isNotHide ===
-                                                            1
-                                                            ? "100%"
-                                                            : "50%",
-                                                        //  &&
-                                                        // orderType.isEnabled ===
-                                                        //   1
 
-                                                        width: dynamicWidth,
-                                                        padding: "0 22px",
-                                                        textAlign: "center",
-                                                        display: "flex",
-                                                        justifyContent:
-                                                          "center",
-                                                        alignItems: "center",
-                                                      }}
-                                                      onClick={() =>
-                                                        handlesidbarhandling(
-                                                          `${typeName}1`,
-                                                          item.itemId
-                                                        )
-                                                      }
-                                                    >
-                                                      {restaurantDetails?.country ===
-                                                      "US"
-                                                        ? "$"
-                                                        : "Rs."}{" "}
-                                                      {price !== ""
-                                                        ? price
-                                                        : "0"}
-                                                    </span>
-                                                  );
-                                                }
+                                                return (
+                                                  <span
+                                                    key={typeName}
+                                                    style={{
+                                                      opacity:
+                                                        orderType &&
+                                                        orderType.availabilityEnabled ===
+                                                          true &&
+                                                        orderType.isNotHide ===
+                                                          1
+                                                          ? "100%"
+                                                          : "50%",
+                                                      //  &&
+                                                      // orderType.isEnabled ===
+                                                      //   1
+
+                                                      width: dynamicWidth,
+                                                      padding: "0 22px",
+                                                      textAlign: "center",
+                                                      display: "flex",
+                                                      justifyContent: "center",
+                                                      alignItems: "center",
+                                                    }}
+                                                    onClick={() =>
+                                                      handlesidbarhandling(
+                                                        `${typeName}1`,
+                                                        item.itemId
+                                                      )
+                                                    }
+                                                  >
+                                                    {restaurantDetails?.country ===
+                                                    "US"
+                                                      ? "$"
+                                                      : "Rs."}{" "}
+                                                    {price !== "" ? price : "0"}
+                                                  </span>
+                                                );
                                               }
                                             )}
                                           </p>
@@ -1740,46 +1692,41 @@ export const MenuPage = () => {
                                                 const dynamicWidth = `${
                                                   typeName.length * 10 + 20
                                                 }px`;
-                                                if (
-                                                  orderType.typeGroup !== "I"
-                                                ) {
-                                                  return (
-                                                    <span
-                                                      key={typeName}
-                                                      style={{
-                                                        position: "relative",
-                                                        left: "1rem",
-                                                        cursor:"pointer",
-                                                        width: dynamicWidth,
-                                                        padding: "0 22px",
-                                                        textAlign: "center",
-                                                        display: "flex",
-                                                        justifyContent:
-                                                          "center",
-                                                        alignItems: "center",
-                                                      }}
-                                                      onClick={() =>
-                                                        handlesidbarhandling(
-                                                          `${typeName}2`,
-                                                          item.itemId
-                                                        )
+
+                                                return (
+                                                  <span
+                                                    key={typeName}
+                                                    style={{
+                                                      position: "relative",
+                                                      left: "1rem",
+                                                      width: dynamicWidth,
+                                                      padding: "0 22px",
+                                                      textAlign: "center",
+                                                      display: "flex",
+                                                      justifyContent: "center",
+                                                      alignItems: "center",
+                                                    }}
+                                                    onClick={() =>
+                                                      handlesidbarhandling(
+                                                        `${typeName}2`,
+                                                        item.itemId
+                                                      )
+                                                    }
+                                                  >
+                                                    <Toggle
+                                                      toggle={
+                                                        orderType &&
+                                                        orderType.availabilityEnabled ===
+                                                          true &&
+                                                        orderType.isNotHide ===
+                                                          1
+                                                        //   &&
+                                                        // orderType.isEnabled ===
+                                                        //   1
                                                       }
-                                                    >
-                                                      <Toggle
-                                                        toggle={
-                                                          orderType &&
-                                                          orderType.availabilityEnabled ===
-                                                            true &&
-                                                          orderType.isNotHide ===
-                                                            1
-                                                          //   &&
-                                                          // orderType.isEnabled ===
-                                                          //   1
-                                                        }
-                                                      />
-                                                    </span>
-                                                  );
-                                                }
+                                                    />
+                                                  </span>
+                                                );
                                               }
                                             )}
                                           </p>
