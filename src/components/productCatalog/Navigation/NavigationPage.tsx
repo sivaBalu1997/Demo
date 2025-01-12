@@ -91,21 +91,22 @@ const Navigationpage: React.FC<NavButtonProps> = ({
     if (currentPage === "Primary Details" && triggerValidation && valiadtesubCategory) {
       const isFormValid = await triggerValidation(formData);
       const valiadtesubcategorynn= valiadtesubCategory()
-      if (!isFormValid) {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        return;
-      } else {
-        if(valiadtesubcategorynn){
-          setNavigate(true)
+      setNavigate(true)
           dispatch(primarypost(formData));
           isFormValid && setCurrentPage(category);
           history.push(`/productCatalog/${path}`, { pagename: category });
-        }
+      // if (!isFormValid) {
+      //   window.scrollTo({
+      //     top: 0,
+      //     behavior: "smooth",
+      //   });
+      //   return;
+      // } else {
+      //   if(valiadtesubcategorynn){
+          
+      //   }
        
-      }
+      // }
     } 
     
     else if (
@@ -118,7 +119,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       let PricingDetails = { ...mainForm };
       const formData = getFormData();
 
-      const isinValid = await triggerValidation(formData);
+     
 
       if (formData.kitchenstation) {
         PricingDetails = {
@@ -154,12 +155,27 @@ const Navigationpage: React.FC<NavButtonProps> = ({
         console.error("formData.Preparationtime is undefined");
       }
 
-      if (isValid) {
-        dispatch(PricingDetailRequest(PricingDetails));
-        setNavigate(true)
-        setCurrentPage(category);
-        history.push(`/productCatalog/${path}`, { pagename: category });
-      }
+
+      // if(category==="Primary Details")
+      // {
+      //   dispatch(PricingDetailRequest(PricingDetails));
+      //   setNavigate(true)
+      //   setCurrentPage(category);
+      //   history.push(`/productCatalog/${path}`, { pagename: category });
+      // }
+      // else{
+      //   if (category==="Item customizations" &&isValid) {
+      //     dispatch(PricingDetailRequest(PricingDetails));
+      //     setNavigate(true)
+      //     setCurrentPage(category);
+      //     history.push(`/productCatalog/${path}`, { pagename: category });
+      //   }
+      // }
+      dispatch(PricingDetailRequest(PricingDetails));
+          setNavigate(true)
+          setCurrentPage(category);
+          history.push(`/productCatalog/${path}`, { pagename: category });
+     
     }
     
     else if (currentPage === "Item customizations") {
@@ -177,11 +193,12 @@ const Navigationpage: React.FC<NavButtonProps> = ({
       });
 
       if(isValid){
+       
+      }
+     
+      setCurrentPage(category);
         dispatch(itemCustomizationPost(modificationArray));
         history.push(`/productCatalog/${path}`, { pagename: category });
-      }
-      const formData = getFormData(); 
-      setCurrentPage(category);
     }
   };
 
@@ -214,7 +231,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
             {categories.map((category, index) => (
               <li
                 key={category}
-                className={isExpanded ? "listsExpanded" : "lists"}
+                className={isExpanded ? "listsExpanded-navigation" : "lists-navigation"}
                 onClick={() => handleCategoryClick(category)}
               >
                 <h1

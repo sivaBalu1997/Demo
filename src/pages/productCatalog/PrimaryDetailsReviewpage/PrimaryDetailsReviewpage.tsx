@@ -305,8 +305,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const emptySlots =
     selectedImages.length === 0
-      ? MAX_IMAGES - selectedImages.length - 1
-      : MAX_IMAGES - selectedImages.length;
+      ? MAX_IMAGES - selectedImages?.length - 1
+      : MAX_IMAGES - selectedImages?.length;
 
   const [disableSubmit, setDisableSubmit] = useState<boolean>(true);
 
@@ -511,6 +511,9 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     return orderTypes ? orderTypes?.id : null;
   };
 
+  
+  
+
   const modifierData = itemCustomizationData?.map((item) => ({
     modifierId: item?.modifierId || null,
     modifierName: item?.modifierName || null,
@@ -535,16 +538,19 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const hasData = modifierData.some(
     (item) =>
       item.modifierName !== null ||
-      (item.orderTypeIds && item.orderTypeIds.length > 0) ||
+      (item.orderTypeIds && item.orderTypeIds?.length > 0) ||
       (item.options &&
         item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
   );
+  console.log({modifierData});
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
+  console.log({prizingDetail});
+  
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
   );
@@ -555,20 +561,74 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   const editDetails = editData[0]?.orderTypes;
   const removePricing = [];
   const addPricing = [];
-
-  const combinedDetails: Detail[] = [
-    dineInDetails && dineInDetails,
-    pickupDetails && pickupDetails,
-    deliveryDetails && deliveryDetails,
-    ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
-  ].filter(Boolean);
-
   const normalDays = prizingDetail?.normalForm?.Normaldays;
 
+  const DineIndays = prizingDetail?.normalForm?.DineIn;
   const stringNormalDays = Array.isArray(normalDays)
     ? normalDays.map(String)
     : [];
+    const stringDineInDays = Array.isArray(DineIndays)
+    ? DineIndays.map(String)
+    : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
+  const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
+  console.log("pickup", pickupDetails && pickupDetails);
+  const combinedDetails: Detail[] = [
+    dineInDetails && {
+      ...dineInDetails,
+      availabilities: dineInDetails.availabilities.map((availability: any) => ({
+        ...availability,
+        availabilityDays:
+          availability.availabilityDays && availability.availabilityDays.length === 0 && Dineinresult.length===0 
+            ? result
+            : Dineinresult,
+      })),
+    },
+    pickupDetails && {
+      ...pickupDetails,
+      availabilities: pickupDetails.availabilities.map((availability: any) => ({
+        ...availability,
+        availabilityDays:
+          availability.availabilityDays && availability.availabilityDays.length === 0
+            ? result
+            : availability.availabilityDays,
+      })),
+    },
+    deliveryDetails && {
+      ...deliveryDetails,
+      availabilities: deliveryDetails.availabilities.map((availability: any) => ({
+        ...availability,
+        availabilityDays:
+          availability.availabilityDays && availability.availabilityDays.length === 0
+            ? result
+            : availability.availabilityDays,
+      })),
+    },
+  
+    // Process thirdPartyDetails
+    ...(Array.isArray(thirdPartyDetails)
+      ? thirdPartyDetails.map((detail) => ({
+          ...detail,
+          availabilities: detail.availabilities.map((availability: any) => ({
+            ...availability,
+            availabilityDays:
+              availability.availabilityDays && availability.availabilityDays.length === 0
+                ? result
+                : availability.availabilityDays,
+          })),
+        }))
+      : []),
+  ].filter(Boolean);
+  
+  
+  // const combinedDetails: Detail[] = [
+  //   dineInDetails && dineInDetails,
+  //   pickupDetails && pickupDetails,
+  //   deliveryDetails && deliveryDetails,
+  //   ...(Array.isArray(thirdPartyDetails) ? thirdPartyDetails : []),
+  // ].filter(Boolean);
+
+ 
 
   const taxData =
     typeof primarydata?.tax === "string"
@@ -579,7 +639,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   const menuPayload = {
     locationId: locationid,
-    itemId: editData.length === 0 && UploadImageImageID ? UploadImageImageID : "",
+    itemId: editData?.length === 0 && UploadImageImageID ? UploadImageImageID : "",
     itemName: primarydata?.itemName || null,
     itemCode: primarydata?.itemCode || null,
     dietTypes: matchedDietaryId || null,
@@ -606,7 +666,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     availabilityDays: result || null,
     orderTypesWithRespectToAvailability: combinedDetails || null,
 
-    ...(itemCustomizationData.length > 0 && {
+    ...(itemCustomizationData?.length > 0 && {
       modifiers: hasData ? modifierData : null,
     }),
 
@@ -731,14 +791,14 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       dispatch(startImageUpload(primarydata?.imageUrls));
       setButtonClicked(true);
       if (subsectiondatamsg && UploadImageImageID !== '') {
-        if (editData.length > 0 && editData[0]) {
+        if (editData?.length > 0 && editData[0]) {
           dispatch(updateMenuItemRequest(editPayload));
         } else {
           dispatch(addMenuItemRequest({ menuPayload, locationid }));
         }
       }
     } else {
-      if (editData.length > 0 && editData[0]) {
+      if (editData?.length > 0 && editData[0]) {
         dispatch(updateMenuItemRequest(editPayload));
       } else {
         dispatch(addMenuItemRequest({ menuPayload, locationid }));
@@ -750,7 +810,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
   useEffect(() => {
     if (subsectiondatamsg && buttonClicked && UploadImageImageID !== '') {
-      editData.length > 0 && editData[0]
+      editData?.length > 0 && editData[0]
         ? dispatch(updateMenuItemRequest(editPayload))
         : dispatch(addMenuItemRequest({ menuPayload, locationid }));
     }
@@ -805,8 +865,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
   return (
     <div className={isExpanded ? "reviewContaineExpanded" : "reviewContainer"}>
       <SidePanel />
-      <div style={{ display: "flex", flexDirection: "column", width:'86.5vw' }}>
-        <div className="reviewheading">
+      <div style={{ display: "flex", flexDirection: "column"}} className="reviewpage-whole-container">
+        <div  className={isExpanded ? "reviewheading-Expanded" : "reviewheading"}>
           <p>
             Review menu item -{" "}
             {primarypagedetails.primarypage.data?.itemName || "N/A"}
@@ -816,11 +876,30 @@ const PrimaryDetailsReviewpage: React.FC = () => {
           <div className="reviewpagebody">
             <div className="primaryreview">
               <div
-                style={{ display: "flex", borderBottom: "1px solid #c4c4c4" }}
+                style={{ display: "flex", borderBottom: "1px solid #c4c4c4",width:isExpanded?"78vw":"83vw" }}
               >
                 <div className="primaryreviewdetailspart1">
                   <div className="primaryreviewheading">
+                    <div className={isExpanded ? "primary-and-edit-heading-extended" : "primary-and-edit-heading"}>
                     <p>Step 1: Primary Details</p>
+                    <Link
+                      to="/productCatalog/PrimaryDetails"
+                      className="primarypageedit"
+                      onClick={() =>
+                        setActiveCategory("Step 1: Primary Details")
+                      }
+                    >
+                      <img
+                        src={edit}
+                        alt=""
+                        className="step3-Review-Container-heading-EditImage-primary"
+                        width={15}
+                        height={15}
+                      />
+
+                      <span className="edit-primary-data">Edit</span>
+                      </Link></div>
+                   
                   </div>
                   <div className="primaryreviews">
                     <div className="primaryreviewdetails">
@@ -836,13 +915,13 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                           />
                         </div>
 
-                        <div>
+                        <div >
                           <ReviewValues
                             label="Dietary type"
                             textvalue={
                               primarydata?.DietaryType &&
                               typeof primarydata?.DietaryType[0] === "string" &&
-                              primarydata?.DietaryType.length > 0
+                              primarydata?.DietaryType?.length > 0
                                 ? Array.isArray(primarydata?.DietaryType)
                                   ? primarydata?.DietaryType?.map(
                                       (type: any) => type
@@ -979,7 +1058,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                   </div>
                 </div>
                 <div className="primaryreviewdetailspart2">
-                  <div className="EditData">
+                  {/* <div className="EditData">
                     <Link
                       to="/productCatalog/PrimaryDetails"
                       className="primarypageedit"
@@ -996,7 +1075,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       />
                       <h3 className="Edit-heading">Edit</h3>
                     </Link>{" "}
-                  </div>
+                  </div> */}
                   {
                     <div className="primaryimages">
                       <p>Primary Image</p>
@@ -1009,7 +1088,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                       <div className="images">
                         <div className="images">
                           <ol>
-                            {selectedImages && selectedImages.length > 0 && (
+                            {selectedImages && selectedImages?.length > 0 && (
                               <li>
                                 <div style={{ fontSize: "30px" }}>
                                   {imagecheck(selectedImages[0]) ? (
@@ -1107,7 +1186,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                               {Array.from({ length: emptySlots })
                                 .slice(0)
                                 .map((_, index) => (
-                                  <li key={selectedImages.length + index + 1}>
+                                  <li key={selectedImages?.length + index + 1}>
                                     {typeof emptyfoodimg === "string" ? (
                                       <img
                                         src={emptyfoodimg}
@@ -1147,7 +1226,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
                         <p>
                           {primarydata?.bestPair &&
                           typeof primarydata?.bestPair[0] === "string" &&
-                          primarydata?.bestPair.length > 0
+                          primarydata?.bestPair?.length > 0
                             ? Array.isArray(primarydata?.bestPair)
                               ? primarydata?.bestPair
                                   ?.map((type: any) => type)
@@ -1203,6 +1282,7 @@ const PrimaryDetailsReviewpage: React.FC = () => {
 
                 <span
                   className={isExpanded ? "verticalLineExpand" : "verticalLine"}
+                  style={{height:thirdPartyDetails?.length>0?"70rem":"58rem"}}
                 />
 
                 <Step3Review />
@@ -1213,6 +1293,8 @@ const PrimaryDetailsReviewpage: React.FC = () => {
         <div
           className={isExpanded ? "saveandnextreview" : "saveandnextreview1"}
         >
+
+          <div  className={isExpanded ? "save-and-next-button-extended" : "save-and-next-button"}>
           <button
             className={`${isExpanded ? "clearall1" : "clearall"}`}
             onClick={() => history.push("/productCatalog/menuListing")}
@@ -1230,6 +1312,11 @@ const PrimaryDetailsReviewpage: React.FC = () => {
               "Publish"
             )}
           </button>
+          </div>
+
+
+
+         
         </div>
       </div>
     </div>

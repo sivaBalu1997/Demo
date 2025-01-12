@@ -47,8 +47,13 @@ height: 331px;
     flex-direction: column;
     position: relative;
     top: 1rem;
+    @media (max-width: 2400px) {
+      height: 18rem;
+       
+       }
+
     @media (max-width: 2000px) {
-      height: 15rem;
+      height: 16rem;
        
        }
        @media (max-width: 1770px) {
@@ -57,12 +62,19 @@ height: 331px;
         }
        @media (max-width: 1600px) {
        height: 11.5rem;
-         border: 1px solid blue;
+        //  border: 1px solid blue;
         
         }
+
     @media (max-width:1525px) {
-      height: 9rem;
+      height: 10rem;
     }
+
+
+    @media (max-width:1400px) {
+      height: 8rem;
+    }
+
     // background-color: pink;
 
     &::-webkit-scrollbar {
@@ -79,11 +91,12 @@ height: 331px;
     }
 
     .Selected-Images {
-      //   background-color: pink;
+        // background-color: pink;
       width: 100%;
       flex-direction: row;
       display: flex;
       padding: 0.5rem;
+      padding-bottom: 0;
       gap: 0.7rem;
       flex-wrap: wrap;
 
@@ -92,6 +105,7 @@ height: 331px;
         border: 1px solid #b3b3b3;
         border-radius: 0.313rem;
         padding: 0.5rem;
+        padding-bottom: 0;
         display: flex;
         flex-direction: row;
         gap: 0.8rem;
@@ -111,6 +125,7 @@ height: 331px;
       flex-direction: row;
       display: flex;
       padding: 0.5rem;
+      padding-top: 0;
       gap: 0.7rem;
       flex-wrap: wrap;
     }
@@ -149,4 +164,19 @@ height: 331px;
   li {
     list-style: none;
   }
+}
+
+
+.AllergensImage .Item-Selection-option {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.AllergensImage .Item-Selection-option.clicked img,
+.AllergensImage .Item-Selection-option.clicked .optionName {
+  transform: scale(0.8); /* Shrink the size */
+  transition: transform 0.3s ease;
 }

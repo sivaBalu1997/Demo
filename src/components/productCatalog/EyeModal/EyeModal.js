@@ -18,7 +18,11 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
   const successMsg = useSelector(
     (state) => state?.addMockDataHiddenReducer?.data
   );
-
+  const failed = useSelector(
+    (state) => state?.addMockDataHiddenReducer?.failed
+  );
+  console.log({failed});
+  
   const [data, setData] = useState([]);
   const [availabilityOrderTypes, setAvailabilityOrderTypes] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -28,7 +32,7 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
 
   useEffect(() => {
     const tempOnPremarray = data1[0]?.orderTypes?.filter((data, index) => {
-      return data?.typeGroup === "D" || data?.typeGroup ==="I";
+      return data?.typeGroup === "D" &&data?.typeGroup !== "I";
     });
     const tempOffPremarray = data1[0]?.orderTypes?.filter((data, index) => {
       return data?.typeGroup !== "D"&& data?.typeGroup !=="I";
@@ -37,7 +41,7 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
     const allIsNotHideOnPrem = tempOnPremarray.every(
       (item) => item.isNotHide === 0
     );
-    const allIsNotHideOffPrem = tempOnPremarray.every(
+    const allIsNotHideOffPrem = tempOffPremarray.every(
       (item) => item.isNotHide === 0
     );
 
@@ -54,7 +58,7 @@ const EyeModal = ({ onEyeclose, onclose ,setEyeIconOpenClose}) => {
     const allChildrenonEnabled = tempOnPremarray?.some(
       (child) => child.isEnabled === 1
     );
-    const allChildrenoffEnabled = tempOnPremarray?.some(
+    const allChildrenoffEnabled = tempOffPremarray?.some(
       (child) => child.isEnabled === 1
     );
 
@@ -241,7 +245,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
                   <input
                     className="checkbox-Items"
                     type="checkbox"
-                    checked={elem.isNotHide}
+                    checked={elem.isEnabled &&elem.isNotHide}
                     onChange={() => handleParentHide(parentIndex)}
                     disabled={elem.isEnabled === false}
                   />
@@ -255,7 +259,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
                     <input
                       className="checkbox-Items"
                       type="checkbox"
-                      checked={!subItem.isNotHide}
+                      checked={subItem.isEnabled && !subItem.isNotHide}
                       onChange={() => handleChildHide(parentIndex, subIndex)}
                       disabled={subItem.isEnabled === 0}
                     />
@@ -271,7 +275,7 @@ const allTrue = tempOrderTypeAvailabilityArray.every(
             </button>
 
             <button className="SavebtnEye" onClick={handleChange}>
-              {showLoader ? (
+              {showLoader && !failed? (
                 <span>
                   <Loader
                     className="Hide-Loader"

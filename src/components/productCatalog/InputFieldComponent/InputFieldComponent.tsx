@@ -15,7 +15,8 @@ interface InputFieldInterface {
   error?: any;
   placeholder?: string;
   subtext?: string;
-  oldValue?:any
+  oldValue?:any;
+  maxLength?:number
 }
 
 const InputFieldComponent: React.FC<InputFieldInterface> = ({
@@ -29,7 +30,8 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
   error,
   placeholder,
   subtext,
-  oldValue
+  oldValue,
+  maxLength
 }) => {
   const handleBlur = () => {
     trigger(name);
@@ -50,13 +52,13 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
     if (name === "itemCode" && inputValue.length > 4) {
       return;
     }
-    if (name === "itemName" && inputValue.length > 40) {
+    if (name === "itemName" && inputValue.length > 128) {
       return;
     }
-    if (name === "coloriePoint" && inputValue.length >7 ) {
+    if (name === "coloriePoint" && inputValue.length >4 ) {
       return;
     }
-    if (name === "portionSize" && inputValue.length > 7) {
+    if (name === "portionSize" && inputValue.length > 4) {
       return;
     }
    
@@ -103,6 +105,7 @@ const InputFieldComponent: React.FC<InputFieldInterface> = ({
           type={type}
           autoComplete="off"
           name={name}
+          
           value={value}
           onChange={handleChange}
           onBlur={onBlur}

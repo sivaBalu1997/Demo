@@ -1,8 +1,6 @@
 .ItemCustomization-container-level-one{
-  width: 83%;
-  @media(max-width: 1280px){
-    // background-color: pink;
-  }
+  width: 100%;
+  // background-color: plum;
 }
 
 .ItemCustomization-container-level-one-expanded{
@@ -16,7 +14,7 @@
 .mainItemCustomizations {
   position: relative;
   top: 100px;
-  width: 95%;
+  width: 100%;
   height: 600px;
   // overflow-y: auto;
   @media(max-width: 1280px){
@@ -260,6 +258,11 @@ gap: 0.5rem;
   padding-left: 0.75rem;
   color: black;
 }
+.draggable-item {
+  cursor: grab;
+  margin: 10px 0;
+  margin-top: 0;
+}
 .input2ItemCustomizationserror {
   width: 11.375rem;
   height: 2.75rem;
@@ -324,7 +327,6 @@ text-decoration-skip-ink: none;
   height: auto;
   margin-top: 1%;
 
-  // border: 1px solid red;
 }
 
 .Spinner-inputlabel-ItemCustomizations {
@@ -595,16 +597,63 @@ input[type="number"] {
   // background-color: lightgreen;
   .modifiers {
     padding-left: 55px;
-
+width: 100%;
     // background-color: pink;
+    // overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     width: fit-content;
   }
+  @media (max-width: 2500px) {
+    height: 45.5rem;
+    padding-bottom: 2rem;
+    overflow-y: auto;
+    // border: 1px solid burlywood;
+   
+   }
+
+
+  @media (max-width: 2200px) {
+    height: 38rem;
+    overflow-y: auto;
+    // border: 1px solid violet;
+   
+   }
+   @media (max-width:2000px) {
+   
+    height: 34rem;
+    overflow-y: auto;
+    // border: 1px solid brown;
+  }
+
+  @media (max-width: 1800px) {
+    height: 32rem;
+    overflow-y: auto;
+    // border: 1px solid blue;
+   
+   }
+   @media (max-width: 1600px) {
+   height: 31rem;
+   overflow-y: auto;
+    // border: 1px solid green;
+   
+   }
+  @media (max-width: 1525px) {
+    height: 25rem;
+    overflow-y: auto;
+    // border: 1px solid red;
+ 
+  }
+
+
+
   &::-webkit-scrollbar{
     display: none;
   }
+
+
+
 }
 
 
@@ -753,15 +802,15 @@ margin-top: -0.1rem;
   .Add-Modification-btn-ItemCustomizations {
     margin-left: 32.75rem;
   }
-  .Spinner-input-ItemCustomizations {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    margin-left: 4rem;
-    gap: 0.25rem;
-    width: 300px;
-    height: 50vh;
-  }
+  // .Spinner-input-ItemCustomizations {
+  //   display: flex;
+  //   flex-direction: column;
+  //   align-items: start;
+  //   margin-left: 4rem;
+  //   gap: 0.25rem;
+  //   width: 300px;
+  //   height: 50vh;
+  // }
   .modifier-div-margin2 {
     height: 15.625rem;
 
@@ -997,10 +1046,26 @@ margin-top: -0.1rem;
   width: 850px;
   height: auto;
   margin-top: 1%;
-  @media (max-width:1525px) {
-    height: 47vh;
-    border: 1px solid #e52333;;
+  // @media (max-width: 2000px) {
+   
+  //   // border: 1px solid red;
+     
+  //    }
+  //    @media (max-width: 1770px) {
+  //   height: 24vh;
+  //     // border: 1px solid black;
+     
+  //    }
+  //   @media (max-width: 1600px) {
+  //     height: 34vh;
+  //     // border: 1px solid blue;
+     
+  //    }
+
+  // @media (max-width:1525px) {
+  //   height: 48vh;
+  //   // border: 1px solid #e52333;;
     
-  }
+  // }
  
 }
