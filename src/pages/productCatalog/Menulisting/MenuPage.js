@@ -596,9 +596,9 @@ export const MenuPage = () => {
     }
   }, [selectedBranch?.id]);
 
-  // useEffect(() => {
-  //   dispatch(getMenuRequest(locationid));
-  // }, []);
+  useEffect(() => {
+    dispatch(getMenuRequest(locationid));
+  }, []);
 
   useEffect(() => {
     if (deleteMenuItemSuccess) {
