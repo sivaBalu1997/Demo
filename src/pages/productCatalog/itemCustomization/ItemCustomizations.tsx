@@ -96,8 +96,6 @@ const ItemCustomizations: React.FC<any> = () => {
     (state: State) => state.itemCustomizationsReducer1
   );
 
-  console.log({Check},{itemCustomizationData})
-
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
@@ -159,8 +157,6 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
-  console.log({modifications})
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -178,9 +174,6 @@ const ItemCustomizations: React.FC<any> = () => {
   const orderTypes = useSelector(
     (state: any) => state?.auth?.restaurantDetails?.branch[0]?.orderTypes
   );
-console.log({itemCustomizationData});
-
-  console.log({itemCustomizationData})
 
   useEffect(() => {
     if (itemCustomizationData?.length > 0) {
@@ -198,11 +191,7 @@ console.log({itemCustomizationData});
           }
         );
 
-        console.log('iiii',item?.noFreeCustomization)
-        console.log('iiii',item?.freeCustomization)
-
         if (item?.options) {
-          console.log("mod1");
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
@@ -231,7 +220,6 @@ console.log({itemCustomizationData});
             // selectionType: item?.selectionType || "Mandatory",
           };
         } else if (item?.modifierOptions) {
-          console.log("mod2");
           return {
             modifierId: item?.id || "",
             modifierName: item?.modifierName || item?.name || "",
