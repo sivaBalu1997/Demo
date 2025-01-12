@@ -139,7 +139,6 @@ export const MenuPage = () => {
   };
 
   const [listingobject, setlistingobject] = useState();
-  console.log("Adit",listingobject)
   const [uniqueOrderTypeNames, setuniqueOrderTypeNames] = useState();
 
   useEffect(() => {
@@ -994,9 +993,6 @@ export const MenuPage = () => {
     const { width, height } = element.getBoundingClientRect();
 
     setWidthForCategoryBorder(width);
-
-    console.log(`Class Name: ${element.className}`);
-    console.log(`Width: ${width}px, Height: ${height}px`);
   };
 
   useEffect(() => {
@@ -1006,8 +1002,6 @@ export const MenuPage = () => {
     if (element) {
       const { width } = element.getBoundingClientRect();
       setWidthForCategoryBorder(width);
-
-      console.log(`Updated Width: ${width}px`);
     }
   }, [listingobject, menuData]);
   return (

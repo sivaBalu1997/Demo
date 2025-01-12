@@ -12,6 +12,14 @@
   }
 }
 
+.Menu-noOptions{
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 30%;
+  left: 50%;
+}
+
 .MenuPage-HeaderComponent {
   margin-top: 2%;
 }
@@ -42,7 +50,7 @@
 }
 
 .MenuPage-Listing {
-  width: 100%;
+  width: 99.6%;
   height: 100%;
 
   &::-webkit-scrollbar {
@@ -303,11 +311,15 @@
 .first-div-body {
   display: flex;
   flex-direction: column;
-  height: 78vh;
+  height: 76.5vh;
   width: 100%;
   z-index: 0;
   overflow-y: scroll;
   overflow-x: hidden;
+
+  @media (max-width: 1440px){
+    height: 76.5vh !important;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -382,11 +394,15 @@
 .first-div-body-expand{
   display: flex;
   flex-direction: column;
-  height: 78vh;
+  height: 76.5vh;
   width: 100%;
   z-index: 0;
   overflow-y: scroll;
   overflow-x: hidden;
+
+  @media (max-width: 1440px){
+    height: 76.5vh !important;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -462,6 +478,11 @@
   overflow-y: scroll;
   z-index: 1;
 
+
+  @media (max-width: 1440px){
+    height: 79vh;
+  }
+
   &::-webkit-scrollbar {
     width: 12px;
     height: 12px;
@@ -508,6 +529,10 @@
   overflow-x: scroll;
   overflow-y: scroll;
   z-index: 1;
+
+  @media (max-width: 1440px){
+    height: 78vh;
+  }
 
   &::-webkit-scrollbar {
     width: 12px;

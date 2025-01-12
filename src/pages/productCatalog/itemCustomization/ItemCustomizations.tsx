@@ -96,8 +96,6 @@ const ItemCustomizations: React.FC<any> = () => {
     (state: State) => state.itemCustomizationsReducer1
   );
 
-  console.log({Check},{itemCustomizationData})
-
   const availableService = useSelector(
     (state: RootState) => state.auth.selectedBranch?.orderTypes
   );
@@ -159,8 +157,6 @@ const ItemCustomizations: React.FC<any> = () => {
     initialModificationValue
   );
 
-  console.log({modifications})
-
   const editData = useSelector(
     (state: any) => state?.selectedMockDataReducer?.data
   );
@@ -194,9 +190,6 @@ const ItemCustomizations: React.FC<any> = () => {
             return orderType?.typeName || selectedId;
           }
         );
-
-        console.log('iiii',item?.noFreeCustomization)
-        console.log('iiii',item?.freeCustomization)
 
         if (item?.options) {
           return {

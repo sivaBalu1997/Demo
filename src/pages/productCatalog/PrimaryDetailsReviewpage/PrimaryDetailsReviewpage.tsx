@@ -542,14 +542,12 @@ const PrimaryDetailsReviewpage: React.FC = () => {
       (item.options &&
         item.options.some((opt) => opt.optionName !== "" || opt.cost > 0))
   );
-  console.log({modifierData});
 
   const dineInDetails = prizingDetail?.normalForm?.dineInDetails;
   const pickupDetails = prizingDetail?.normalForm?.pickupDetails;
   const deliveryDetails = prizingDetail?.normalForm?.deliveryDetails;
   const thirdPartyDetails = prizingDetail?.normalForm?.thirdpartyDetails;
 
-  console.log({prizingDetail});
   
   const ingredientsdata = useSelector(
     (state: any) => state.productCatalog?.ingredients?.data
@@ -572,7 +570,6 @@ const PrimaryDetailsReviewpage: React.FC = () => {
     : [];
   const result = stringNormalDays.includes("0") ? ["0"] : stringNormalDays;
   const Dineinresult = stringDineInDays.includes("0") ? ["0"] : stringDineInDays;
-  console.log("pickup", pickupDetails && pickupDetails);
   const combinedDetails: Detail[] = [
     dineInDetails && {
       ...dineInDetails,
