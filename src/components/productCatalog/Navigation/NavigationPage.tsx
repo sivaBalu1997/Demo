@@ -218,7 +218,7 @@ const Navigationpage: React.FC<NavButtonProps> = ({
 
   return (
     <>
-      <div className={"navigation"}>
+      <div className={isExpanded ? "navigationExpanded" : "navigation"}>
         <h1 className="Mainheading">
           {editData?.length >= 1 ? "Edit Item" : "Creating new menu item"}
         </h1>
