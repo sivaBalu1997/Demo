@@ -312,6 +312,12 @@
   &::-webkit-scrollbar {
     display: none;
   }
+  @media (max-width: 1536px) {
+ 
+    height:73.3vh;
+      // border: 1px solid green;
+     
+     }
 
   .categoryName-data-firstbody{
 
@@ -507,45 +513,44 @@
     width: 12px;
     height: 12px;
   }
-  @media (max-width: 3703px) {
+  // @media (max-width: 3703px) {
    
-    height: 80vh;
-    width: 80rem;
-   }
-  @media (max-width: 2500px) {
-    // height: 45rem;
-    height: 79vh;
-    width: 79.5rem;
-    // border: 1px solid violet;
+  //   height: 80vh;
+  //   width: 80rem;
+  //  }
+  // @media (max-width: 2500px) {
+  //   // height: 45rem;
+  //   height: 79vh;
+  //   width: 79.5rem;
+  //   // border: 1px solid violet;
    
-   }
-   @media (max-width:2048px) {
+  //  }
+  //  @media (max-width:2048px) {
    
-    // height: 42rem;
-    width: 77.2rem;
-    height: 84.2vh;
-    // border: 1px solid brown;
-  }
+  //   // height: 42rem;
+  //   width: 77.2rem;
+  //   height: 84.2vh;
+  //   // border: 1px solid brown;
+  // }
   
-  @media (max-width: 1920px) {
-    // height: 37rem;
-    width:69rem ;
-    height: 83.3vh;
-    // border: 1px solid blue;
+  // @media (max-width: 1920px) {
+  //   // height: 37rem;
+  //   width:69rem ;
+  //   height: 83.3vh;
+  //   // border: 1px solid blue;
    
-   }
+  //  }
 
-   @media (max-width: 1710px) {
-    // height: 37rem;
-    width:69rem;
-    height: 82.3vh;
+  //  @media (max-width: 1710px) {
+  //   // height: 37rem;
+  //   width:69rem;
+  //   height: 82.3vh;
    
    
-   }
+  //  }
    @media (max-width: 1536px) {
-  //  height: 31rem;
-  width: 62rem;
-  height:79.9vh;
+ 
+  height:75vh;
     // border: 1px solid green;
    
    }
@@ -553,21 +558,21 @@
 
 
 
-  @media (max-width: 1400px) {
-    height:78vh;
-    width: 54.5rem;
-    // border: 1px solid red;
+  // @media (max-width: 1400px) {
+  //   height:78vh;
+  //   width: 54.5rem;
+  //   // border: 1px solid red;
   
   
-  }
-  @media (max-width: 1230px) {
+  // }
+  // @media (max-width: 1230px) {
  
-    height:76vh;
-    width: 48.7rem !important;
+  //   height:76vh;
+  //   width: 48.7rem !important;
       
    
     
-    }
+  //   }
 
   &::-webkit-scrollbar-track {
     background: #b3b3b3;
@@ -1157,4 +1162,12 @@
   .columnselectedText {
     margin-left: 4.5rem;
   }
+}
+
+.Menu-noOptions{
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 30%;
+  left: 50%;
 }
