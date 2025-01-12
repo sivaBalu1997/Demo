@@ -13,10 +13,7 @@
   display: flex;
   width: 112vw;
 
-  @media (max-width: 1280px) {
-    // width: 105vw;
-    // background-color: lightsalmon;
-  }
+ 
 }
 .reviewpage-whole-container
 {
@@ -26,9 +23,10 @@
   position: relative;
   top: 28px;
   width: 120%;
-  height: 73vh;
+  height: 78.5vh;
   overflow-y: auto;
-  left: 2rem;
+  left: 1rem;
+  // background-color: aqua;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -36,17 +34,33 @@
   .buttoncomponent {
     position: relative;
   }
+  // @media  (max-wi:1300px) {
+  //   height: 50vh;
+  //   border: 1px solid red;
+  // }
+  // @media  (max-width:1900px) {
+  //   height: 64vh;
+  //   border: 1px solid blue;
+  // }
+  // @media  (max-width:1690px) {
+  //   height: 78vh;
+  //   border: 1px solid red;
+  // }
+
+
+
 }
 
 .reviewheading {
   width: 83vw;
   // width: fit-content;
   height: 50px;
-  left: 2rem;
+  left: 1rem;
   position: relative;
   top: 15px;
   border-bottom: 1px solid #c4c4c4;
   padding: 10px;
+  padding-left: 0;
   // background-color: pink;
 
   p {
@@ -120,7 +134,8 @@
     height: 500px;
     // border: 1px solid black;
     position: relative;
-    top: 50px;
+    top: 30px;
+    margin-left: -1rem;
 
     .primaryreviewdetails1 {
       width: 200px;
@@ -246,8 +261,8 @@
   .primarydescription {
     // width: 500px;
     height: auto;
-    // position: relative;
-    top: 35px;
+    position: relative;
+    top: -15px;
 
     p {
       font-family: "Poppins", sans-serif;
@@ -264,6 +279,7 @@
       flex-wrap: wrap;
       gap: 5px;
       margin-top: -0.3rem;
+    
 
       p {
         font-family: "Poppins", sans-serif;
@@ -281,8 +297,8 @@
   .primarybestpairedfood {
     width: 500px;
     height: 75px;
-    // position: relative;
-    top: 35px;
+    position: relative;
+  margin-top: -0.5rem;
 
     P {
       font-family: "Poppins", sans-serif;
@@ -290,7 +306,7 @@
       font-weight: 400;
       line-height: 18px;
       color: #6e6e6e;
-      margin-bottom: 5px;
+      // margin-bottom: 5px;
     }
 
     .bestpairfoods {
@@ -311,7 +327,7 @@
     // position: relative;
     top: 35px;
     // margin-bottom: 5px;
-    margin-top: 1.2vh;
+    margin-top: -1rem;
     gap: 2vw;
     // background-color: pink;
 
@@ -783,7 +799,7 @@ margin-left: 5px;
 }
 .verticalLine {
   width: 1px;
-  height: 90rem;
+  height: 63rem;
   background-color: #c4c4c4;
 
  
@@ -794,7 +810,7 @@ margin-left: 5px;
 }
 .verticalLineExpand {
   width: 1px;
-  height: 90rem;
+  height: 63rem;
   background-color: #c4c4c4;
   // background-color: red;
   // position: relative;

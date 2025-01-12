@@ -529,7 +529,7 @@ function* getItemCodeSaga(action) {
       yield put(getItemCodeSuccess(response.data.message));
     }
     else{
-      yield put(getItemCodeFailure(response.data.message));
+      yield put(getItemCodeFailure("Item code already in use."));
     }
     
   } catch (error) {

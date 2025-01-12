@@ -34,7 +34,7 @@ const PricingSlider: any = ({}) => {
 
   useEffect(() => {
     const tempOnPremarray = data[0]?.orderTypes
-      ?.filter((data: any) => data?.typeGroup === "D" ||data?.typeGroup === "I" )
+      ?.filter((data: any) => data?.typeGroup === "D" &&data?.typeGroup !== "I" )
       ?.map((item: any) => ({
         ...item,
         price: item.price !== undefined && Number(item.price).toFixed(2), // Ensure 2 decimal places

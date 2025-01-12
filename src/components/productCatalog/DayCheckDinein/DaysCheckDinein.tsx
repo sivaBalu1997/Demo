@@ -12,6 +12,9 @@ interface DaysCheckProps {
   getDisabledDays?: any;
   normalDays?:any;
   defaultDays?:boolean;
+  errorarray?:any
+  setErrorArray?:any
+  Errorname?:string
 }
 
 interface DataItem {
@@ -39,7 +42,10 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   index,
   getDisabledDays,
   normalDays,
-  defaultDays
+  defaultDays,
+  errorarray,
+  setErrorArray,
+  Errorname
 }) => {
   const data = [
     "All days",
@@ -53,6 +59,10 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   ];
 
   const disabledDays = getDisabledDays(index);
+
+
+
+
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -91,6 +101,27 @@ const DaysCheck: React.FC<DaysCheckProps> = ({
   const checkedItemsForIndex = Array?.isArray(checkedItems[index])
     ? checkedItems[index]
     : [];
+
+
+
+    useEffect(() => {
+      if (checkedItemsForIndex && checkedItemsForIndex.length > 0) {
+        // console.log("checkedItemsForIndex is not empty:", checkedItemsForIndex);
+        const validationErrors = { ...errorarray};
+     
+        delete validationErrors[`${Errorname}`];
+      
+        setErrorArray(validationErrors);
+      } else {
+        // const validationErrors = { ...errorarray};
+     
+        //  validationErrors[`${Errorname}`]="Please enter available days";
+      
+        // setErrorArray(validationErrors);
+      }
+    }, [checkedItemsForIndex]);
+    
+
 
   return (
     <div className="container-daycheck">

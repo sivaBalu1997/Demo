@@ -8,7 +8,7 @@ interface DaysOfWeekProps {
   Marginpresent?:boolean
 }
 
-const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays,Marginpresent }) => {
+const DaysOfWeek: React.FC<DaysOfWeekProps> = ({ days = [], setDays ,Marginpresent}) => {
   const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
   const daysArray = Array.isArray(days) && days.length > 0 ? days : [];
