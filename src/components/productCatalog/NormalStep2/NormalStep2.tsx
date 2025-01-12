@@ -223,7 +223,14 @@ const NormalStep2 = () => {
         </div>
       ))
     : 
-    <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDinein} Marginpresent={false}/>
+    prizingDetail?.normalForm?.dineinfields && Number(prizingDetail?.normalForm?.dineinfields[0]?.DineInPrice) >0 ?
+
+    <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDinein} Marginpresent={false}/>:
+    prizingDetail?.normalForm?.DineIn && prizingDetail?.normalForm?.DineIn?.map((elem:any, index:number) => (
+        <div key={index} className="dayacheckedavail">
+          <DaysOfWeek days={elem} setDays={setDinein} Marginpresent={false}/>
+        </div>
+      ))
 
     
     // prizingDetail?.normalForm?.Normaldays?.map((elem:any, index:any) => (
@@ -298,7 +305,9 @@ const NormalStep2 = () => {
 
           {
             Pickup?.length > 0 ? ( <DaysOfWeek days={Pickup1} setDays={setPickup1} Marginpresent={true} />):
-            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setPickup1} Marginpresent={true} />
+
+            prizingDetail.normalForm?.pickupDetails?.price>=0 &&  onlinePickupFormatted?.length > 0?<DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setPickup1} Marginpresent={true} />:
+            <DaysOfWeek days={Pickup1} setDays={setPickup1} Marginpresent={true} />
           }
        
         {/* )} */}
@@ -355,8 +364,10 @@ const NormalStep2 = () => {
         {/* )} */}
 
         {
-            Delivery?.length > 0 ? ( <DaysOfWeek days={delivery1} setDays={setDelivery1} Marginpresent={true} />):
-            <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDelivery1} Marginpresent={true}/>
+            Delivery?.length  ? ( <DaysOfWeek days={delivery1} setDays={setDelivery1} Marginpresent={true} />):
+
+            prizingDetail?.normalForm?.deliveryDetails?.price >=0  &&  onlineDeliveryFormatted?.length> 0 ? <DaysOfWeek days={prizingDetail?.normalForm?.Normaldays} setDays={setDelivery1} Marginpresent={true}/>:
+            <DaysOfWeek days={delivery1} setDays={setDelivery1} Marginpresent={true}/>
           }
       </div>
       {thirdPartyDetails?.length > 0 && (

@@ -1,345 +1,444 @@
-.Header-Container {
-  width: 100%;
-  position: sticky;
-  height: 60px;
-  // left: -20px;
-  // padding: 10px;
-  top: 25px;
-  z-index: 600;
+// .Header-Container {
+//   width: 100%;
+//   position: sticky;
+//   height: 60px;
+//   // left: -20px;
+//   // padding: 10px;
+//   top: 25px;
+//   z-index: 600;
+//   display: flex;
+//   justify-content: space-between;
+//   transition: left 0.4s ease-in;
+//   // margin-left: 30px;
+//   margin-bottom: 30px;
+
+
+//   // background-color: lightblue;
+// }
+
+// .Header-Container1 {
+//   width: 100%;
+//   position: relative;
+//   padding: 10px;
+//   z-index: 600;
+//   top: 0px;
+//   display: flex;
+//   justify-content: space-between;
+//   transition: left 0.4s ease-in;
+//   // background-color: orange;
+//   height: fit-content;
+// }
+
+// .Header-Heading-Search-Filter-Container {
+//   display: flex;
+//   // width: 962.45px;
+//   width: fit-content;
+//   height: 44px;
+//   justify-content: start;
+//   margin-left: 2rem;
+//   // padding-left: -10px;
+//   // gap: 20px;
+//   // background-color: lightsalmon;
+// }
+
+// /* Filter Section */
+// .Filter-Div {
+//   display: flex;
+//   flex-direction: column;
+//   // border: 1px solid red;
+//   width: 50px;
+//   height: 50px;
+//   position: relative;
+// }
+
+// .FilterIcon-Header {
+//   // width: 40px;
+//   // height: 40px;
+//   // position: relative;
+//   // left: -0.5rem;
+//   // top: 0.1rem;
+//   // cursor: pointer;
+//   width: 40px;
+//   height: 40px;
+//   position: relative;
+//   top: 2px;
+//   cursor: pointer;
+// }
+
+// .FilterIcon-Header1 {
+//   width: 40px;
+//   height: 40px;
+//   position: relative;
+//   left: 0px;
+//   top: 2px;
+//   cursor: pointer;
+// }
+
+// .Filter-FlexCol {
+//   display: flex;
+//   flex-direction: column;
+//   // background-color: blueviolet;
+//   width: 33px;
+//   height: 45px;
+//   position: static;
+// }
+
+// .FilterHover {
+//   visibility: hidden;
+//   width: 60px;
+//   height: 18px;
+//   background-color: #67833e;
+//   border-radius: 4px;
+//   color: white;
+//   text-align: center;
+//   opacity: 0;
+//   transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
+//   transform: translateX(-12px);
+//   font-family: Poppins;
+//   font-weight: 400;
+//   font-size: 12px;
+//   padding: 2px;
+// }
+
+// .Filter-FlexCol:hover .FilterHover {
+//   visibility: visible;
+//   opacity: 1;
+// }
+
+// .Filter-FlexCol:hover .ArrowHoverHeader {
+//   visibility: visible;
+//   opacity: 1;
+// }
+
+// /* Excel Section */
+// .Excel-flex-col {
+//   display: flex;
+//   flex-direction: column;
+//   width: fit-content;
+//   height: fit-content;
+//   // background-color: pink;
+// }
+
+// .Excel-Header {
+//   width: 65.53px;
+//   height: 44px;
+//   position: absolute;
+//   left: 67rem;
+//   top: 14%;
+//   cursor: pointer;
+//   // background-color: yellow;
+// }
+
+// .Excel-Header1 {
+//   width: 65.53px;
+//   height: 44px;
+//   position: absolute;
+//   left: 61rem;
+//   top: 14%;
+//   cursor: pointer;
+// }
+// .Excel1 {
+//   position: relative;
+//   left: 4rem;
+//   top: 0%;
+// }
+
+// .Excel {
+//   position: relative;
+//   left: 13.5rem;
+//   top: 5%;
+// }
+
+// .ExcelHover {
+//   visibility: hidden;
+//   width: 60px;
+//   height: 18px;
+//   background-color: #67833e;
+//   border-radius: 4px;
+//   color: white;
+//   text-align: center;
+//   opacity: 0;
+//   transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
+//   transform: translate(-5px, -17px);
+//   font-family: Poppins;
+//   font-weight: 400;
+//   font-size: 12px;
+//   padding: 2px;
+// }
+
+// .Excel-flex-col:hover .ExcelHover {
+//   visibility: visible;
+//   opacity: 1;
+// }
+
+// .Excel-Header-Download {
+//   width: 24px;
+//   height: 24px;
+//   position: absolute;
+//   left: -10px;
+//   top: -18px;
+//   cursor: pointer;
+// }
+
+// .Excel-Header-Download1 {
+//   width: 24px;
+//   height: 24px;
+//   position: absolute;
+//   left: -488px;
+//   top: -16px;
+//   cursor: pointer;
+// }
+
+// .Excel-Header-Download.Exceldownloadicon {
+//   position: relative !important;
+//   left: 43px;
+// }
+
+// .Exceldownloadicon1 {
+//   position: relative !important;
+//   left: 65% !important;
+// }
+
+// .ArrowHoverHeader {
+//   visibility: hidden;
+//   position: relative;
+//   width: 10px;
+//   height: 10px;
+//   top: 3px;
+//   left: 10px;
+// }
+
+// .Excel-flex-col:hover .ArrowHoverHeaderExcel {
+//   visibility: visible;
+//   opacity: 1;
+// }
+
+// /* Add Item Section */
+// .Add-Item-Container {
+//   width: 101px;
+//   height: 1.5rem;
+//   display: flex;
+//   justify-content: flex-start;
+//   background-color: #67833e;
+//   padding: 10px;
+//   border-radius: 5px;
+//   cursor: pointer;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   // @media(max-width: 2048px){
+//   //   margin-right: 4vw;
+//   // }
+//   // @media(max-width: 1920px){
+//   //   margin-right: 4vw;
+//   // }
+//   // @media(max-width: 1536px){
+//   //   // background-color: lightblue;
+//   //   margin-right: 5vw;
+//   // }
+//   // @media(max-width: 1707.67px){
+//   //   margin-right: 4vw;
+//   // }
+//   // @media(max-width: 1600px){
+//   //   margin-right: 5vw;
+//   // }
+//   // @media(max-width: 1440px){
+//   //   margin-right: 8vw;
+//   // }
+//   @media (max-width:2500px) {
+//     // border: 1px solid red;
+//     margin-right: 5%;
+    
+//   }
+//   @media (max-width:2000px) {
+//     // border: 1px solid red;
+//     margin-right: 5%;
+    
+//   }
+//   @media (max-width:1800px) {
+//     // border: 1px solid red;
+//     margin-right: 5%;
+    
+//   }
+//   @media (max-width:1700px) {
+//     // border: 1px solid blue;
+//     margin-right: 10%;
+    
+//   }
+  
+//   @media (max-width:1525px) {
+//     // border: 1px solid aqua;
+//     margin-right: 14%;
+    
+//   }
+
+//   // @media (max-width:1400px) {
+//   //   border: 1px solid red;
+//   //   margin-right: 20%;
+    
+//   // }
+// }
+
+// .Add-Item-Container1 {
+//   width: 100px;
+//   height: 1.5rem;
+//   display: flex;
+//   justify-content: flex-start;
+//   background-color: #67833e;
+//   padding: 10px;
+//   border-radius: 5px;
+//   gap: 2px;
+//   cursor: pointer;
+//   transform: translateX(80px);
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   @media (max-width:2000px) {
+//     // border: 1px solid red;
+//     margin-right: 15%;
+    
+//   }
+//   @media (max-width:1800px) {
+//     // border: 1px solid red;
+//     margin-right: 10%;
+    
+//   }
+//   @media (max-width:1700px) {
+//     // border: 1px solid blue;
+//     // margin-right: 5%;
+//     margin-right: 15%;
+    
+//   }
+  
+//   @media (max-width:1525px) {
+//     // border: 1px solid aqua;
+//     // margin-right: 35%;
+//     margin-right: 26%;
+    
+//   }
+// }
+
+// .Add-Item-Heading-Plus,
+// .Add-Item-Heading {
+//   font-family: Poppins;
+//   font-weight: 500;
+//   font-size: 14px;
+//   color: #ffffff;
+// }
+
+// .Add-Item-Heading-Plus {
+//   // line-height: 30px;
+// }
+
+// .Add-Item-Heading {
+//   line-height: 24px;
+//   text-align: center;
+// }
+
+// .Add-Item-Container:hover {
+//   background-color: #335400f0;
+// }
+// @media (max-width: 1700px) {
+//   .Header-Container {
+//     width: 100%;
+//   }
+// }
+
+.Header-Container
+{
   display: flex;
-  justify-content: space-between;
-  transition: left 0.4s ease-in;
-  // margin-left: 30px;
-  margin-bottom: 30px;
-
-
-  // background-color: lightblue;
-}
-
-.Header-Container1 {
-  width: 100%;
-  position: relative;
-  padding: 10px;
-  z-index: 600;
-  top: 0px;
-  display: flex;
-  justify-content: space-between;
-  transition: left 0.4s ease-in;
-  // background-color: orange;
-  height: fit-content;
-}
-
-.Header-Heading-Search-Filter-Container {
-  display: flex;
-  // width: 962.45px;
-  width: fit-content;
-  height: 44px;
-  justify-content: start;
-  margin-left: 2rem;
-  // padding-left: -10px;
-  // gap: 20px;
-  // background-color: lightsalmon;
-}
-
-/* Filter Section */
-.Filter-Div {
-  display: flex;
-  flex-direction: column;
+  width: 100vw;
+gap: 3rem;
+  height: 9vh;
+  justify-content: left;
+  align-items: center;
   // border: 1px solid red;
-  width: 50px;
-  height: 50px;
   position: relative;
+  // margin-top: -1vh;
 }
-
-.FilterIcon-Header {
-  // width: 40px;
-  // height: 40px;
-  // position: relative;
-  // left: -0.5rem;
-  // top: 0.1rem;
-  // cursor: pointer;
-  width: 40px;
-  height: 40px;
-  position: relative;
-  top: 2px;
-  cursor: pointer;
-}
-
-.FilterIcon-Header1 {
-  width: 40px;
-  height: 40px;
-  position: relative;
-  left: 0px;
-  top: 2px;
-  cursor: pointer;
-}
-
-.Filter-FlexCol {
+.Header-Container1
+{
   display: flex;
-  flex-direction: column;
-  // background-color: blueviolet;
-  width: 33px;
-  height: 45px;
-  position: static;
-}
-
-.FilterHover {
-  visibility: hidden;
-  width: 60px;
-  height: 18px;
-  background-color: #67833e;
-  border-radius: 4px;
-  color: white;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
-  transform: translateX(-12px);
-  font-family: Poppins;
-  font-weight: 400;
-  font-size: 12px;
-  padding: 2px;
-}
-
-.Filter-FlexCol:hover .FilterHover {
-  visibility: visible;
-  opacity: 1;
-}
-
-.Filter-FlexCol:hover .ArrowHoverHeader {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Excel Section */
-.Excel-flex-col {
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
-  height: fit-content;
-  // background-color: pink;
-}
-
-.Excel-Header {
-  width: 65.53px;
-  height: 44px;
-  position: absolute;
-  left: 67rem;
-  top: 14%;
-  cursor: pointer;
-  // background-color: yellow;
-}
-
-.Excel-Header1 {
-  width: 65.53px;
-  height: 44px;
-  position: absolute;
-  left: 61rem;
-  top: 14%;
-  cursor: pointer;
-}
-.Excel1 {
+  width: 95vw;
+gap: 3rem;
+  height: 9vh;
+  justify-content: left;
+  align-items: center;
+  // border: 1px solid red;
   position: relative;
-  left: 4rem;
-  top: 0%;
 }
-
-.Excel {
-  position: relative;
-  left: 13.5rem;
-  top: 5%;
+.Header-Heading-Search-Filter-Container
+{
+position: absolute;
+left: 2vw;
+display: flex;
+justify-content: left;
+align-items: center;
 }
-
-.ExcelHover {
-  visibility: hidden;
-  width: 60px;
-  height: 18px;
+.Add-Item-Container
+{
+position: absolute;
+right: 15vw;
+width: 114px;
+  height:44px;
+  
   background-color: #67833e;
-  border-radius: 4px;
-  color: white;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
-  transform: translate(-5px, -17px);
-  font-family: Poppins;
-  font-weight: 400;
-  font-size: 12px;
-  padding: 2px;
-}
-
-.Excel-flex-col:hover .ExcelHover {
-  visibility: visible;
-  opacity: 1;
-}
-
-.Excel-Header-Download {
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: -10px;
-  top: -18px;
-  cursor: pointer;
-}
-
-.Excel-Header-Download1 {
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: -488px;
-  top: -16px;
-  cursor: pointer;
-}
-
-.Excel-Header-Download.Exceldownloadicon {
-  position: relative !important;
-  left: 43px;
-}
-
-.Exceldownloadicon1 {
-  position: relative !important;
-  left: 65% !important;
-}
-
-.ArrowHoverHeader {
-  visibility: hidden;
-  position: relative;
-  width: 10px;
-  height: 10px;
-  top: 3px;
-  left: 10px;
-}
-
-.Excel-flex-col:hover .ArrowHoverHeaderExcel {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Add Item Section */
-.Add-Item-Container {
-  width: 101px;
-  height: 1.5rem;
-  display: flex;
-  justify-content: flex-start;
-  background-color: #67833e;
-  padding: 10px;
+  // padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   cursor: pointer;
   display: flex;
+  gap: 5px;
   justify-content: center;
   align-items: center;
-  // @media(max-width: 2048px){
-  //   margin-right: 4vw;
-  // }
-  // @media(max-width: 1920px){
-  //   margin-right: 4vw;
-  // }
-  // @media(max-width: 1536px){
-  //   // background-color: lightblue;
-  //   margin-right: 5vw;
-  // }
-  // @media(max-width: 1707.67px){
-  //   margin-right: 4vw;
-  // }
-  // @media(max-width: 1600px){
-  //   margin-right: 5vw;
-  // }
-  // @media(max-width: 1440px){
-  //   margin-right: 8vw;
-  // }
-  @media (max-width:2500px) {
-    // border: 1px solid red;
-    margin-right: 5%;
+    font-family: "Poppins",sans-serif;
+   
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: white;
     
-  }
-  @media (max-width:2000px) {
-    // border: 1px solid red;
-    margin-right: 5%;
-    
-  }
-  @media (max-width:1800px) {
-    // border: 1px solid red;
-    margin-right: 5%;
-    
-  }
-  @media (max-width:1700px) {
-    // border: 1px solid blue;
-    margin-right: 10%;
-    
-  }
-  
-  @media (max-width:1525px) {
-    // border: 1px solid aqua;
-    margin-right: 14%;
-    
-  }
-
-  // @media (max-width:1400px) {
-  //   border: 1px solid red;
-  //   margin-right: 20%;
-    
-  // }
 }
+.Add-Item-Heading
+{
+  font-family: "Poppins",sans-serif;
 
-.Add-Item-Container1 {
-  width: 100px;
-  height: 1.5rem;
-  display: flex;
-  justify-content: flex-start;
-  background-color: #67833e;
-  padding: 10px;
-  border-radius: 5px;
-  gap: 2px;
-  cursor: pointer;
-  transform: translateX(80px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media (max-width:2000px) {
-    // border: 1px solid red;
-    margin-right: 15%;
-    
-  }
-  @media (max-width:1800px) {
-    // border: 1px solid red;
-    margin-right: 10%;
-    
-  }
-  @media (max-width:1700px) {
-    // border: 1px solid blue;
-    // margin-right: 5%;
-    margin-right: 15%;
-    
-  }
-  
-  @media (max-width:1525px) {
-    // border: 1px solid aqua;
-    // margin-right: 35%;
-    margin-right: 26%;
-    
-  }
-}
-
-.Add-Item-Heading-Plus,
-.Add-Item-Heading {
-  font-family: Poppins;
+  font-size: 16px;
   font-weight: 500;
-  font-size: 14px;
-  color: #ffffff;
-}
-
-.Add-Item-Heading-Plus {
-  // line-height: 30px;
-}
-
-.Add-Item-Heading {
   line-height: 24px;
-  text-align: center;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: white;
+  margin-top: -2px;
 }
-
-.Add-Item-Container:hover {
-  background-color: #335400f0;
-}
-@media (max-width: 1700px) {
-  .Header-Container {
-    width: 100%;
-  }
+.Add-Item-Container1
+{
+  position: absolute;
+  right: 18vw;
+  width: 114px;
+    height:44px;
+    
+    background-color: #67833e;
+    // padding: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+      font-family: "Poppins",sans-serif;
+     
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      text-align: left;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+      color: white;
+      
 }

@@ -1107,6 +1107,50 @@ console.log({itemCustomizationData});
   const prizingDetail = useSelector(
     (state: RootState) => state?.PricingDetailReducer?.prizingData as any
   );
+  const containerRef = useRef<HTMLDivElement>(null); // Reference for the scrollable container
+
+  // const onDragStart = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+  //   e.dataTransfer.setData("index", index.toString());
+  // };
+
+  // const onDrop = (e: React.DragEvent<HTMLDivElement>, index: number) => {
+  //   e.preventDefault();
+  //   const draggedIndex = parseInt(e.dataTransfer.getData("index"), 10);
+
+  //   if (draggedIndex !== index) {
+  //     const newModifications = [...modifications];
+  //     const [draggedItem] = newModifications.splice(draggedIndex, 1);
+  //     newModifications.splice(index, 0, draggedItem);
+  //     setModifications(newModifications);
+
+  //     // Scroll to the dropped item
+  //     const droppedElement = document.getElementById(`item-${index}`);
+  //     droppedElement?.scrollIntoView({ behavior: "smooth", block: "center" });
+  //   }
+  // };
+
+  // const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+
+  //   // Auto-scroll logic for the container
+  //   const container = containerRef.current;
+  //   if (container) {
+  //     const rect = container.getBoundingClientRect();
+  //     const scrollSpeed = 5; // Speed of scrolling
+
+  //     // Scroll up if near the top
+  //     if (e.clientY < rect.top + 20) {
+  //       container.scrollTop -= scrollSpeed;
+  //     }
+
+  //     // Scroll down if near the bottom
+  //     if (e.clientY > rect.bottom - 300) {
+  //       container.scrollTop += scrollSpeed;
+  //     }
+  //   }
+  // };
+
+  
 
   return (
     <div
@@ -1256,7 +1300,7 @@ console.log({itemCustomizationData});
               </div>
             )}
 
-            <div className="modifiersitem">
+            <div className="modifiersitem"   >
               <div className="modifiers">
                 {modifications?.length === 0 ? (
                   <div className="modifier-no-content"></div>
@@ -1266,10 +1310,7 @@ console.log({itemCustomizationData});
                       <div
                         className="modifier-and-options"
                         key={modIndex}
-                        // draggable
-                        // onDragStart={(e) => onDragStart(e, modIndex)}
-                        // onDragOver={(e) => e.preventDefault()}
-                        // onDrop={(e) => onDrop(e, modIndex)}
+                       
                         style={{
                           opacity: modifications[modIndex]?.isEnabled
                             ? "100%"
@@ -1278,12 +1319,16 @@ console.log({itemCustomizationData});
                       >
                         {showModifiers && (
                           <div className="AddModifiersMainInputSection">
-                            <div className="AddModifiersInputSection">
-                              {/* <img
-                                className="dotedimageItemCustomizations"
+                            <div className="AddModifiersInputSection" >
+                              <img
+                                className="dotedimageItemCustomizations draggable-item"
                                 src={dotted}
                                 alt="dotted"
-                              /> */}
+                                draggable
+                                onDragStart={(e) => onDragStart(e, modIndex)}
+                                onDragOver={(e)=>e.preventDefault()}
+                                onDrop={(e) => onDrop(e, modIndex)}
+                              />
                               <h3 className="paraItemCustomizations">
                                 {modIndex + 1}.
                               </h3>
@@ -1624,7 +1669,10 @@ console.log({itemCustomizationData});
                             </div>
 
                             <div
-                              className={`Spinner-input-ItemCustomizations ${modifications.length - 1 === modIndex?"Spinner-input-ItemCustomization-height":""}`}
+                              // className={`Spinner-input-ItemCustomizations ${modifications.length - 1 === modIndex?"Spinner-input-ItemCustomization-height":""}`}
+                              className="Spinner-input-ItemCustomizations"
+
+                              style={{height:modifications.length - 1 === modIndex?"37vh":"auto"}}
                              
                             >
                               <div className="Spinner-inputlabel-ItemCustomizations">

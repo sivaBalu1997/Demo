@@ -272,16 +272,21 @@ console.log({firstMatch});
           alt="Search Icon"
         />
       </div>
+      <div>
 
-      <div
-        ref={popupRef}
-        className={`${isExpanded ?
-          "MLSearch-Container-options1" :
-          'MLSearch-Container-options-menu'
-          } ${filteredOptions.length > 0 && searchTerm !== "" && "searched-item-box"}`
-        }
-      >
-        {searchTerm && closeModal && (
+      {searchTerm && closeModal &&
+        
+        
+        (
+          <div
+          ref={popupRef}
+          className={`${isExpanded ?
+            "MLSearch-Container-options1" :
+            'MLSearch-Container-options-menu'
+            } ${filteredOptions.length > 0 && searchTerm !== "" && "searched-item-box"}`
+          }
+        >
+
           <ul className={isExpanded ? 'MLsearchBoxContainer1' : 'MLsearchBoxContainer'}>
             {filteredOptions.length > 0 ? (
               filteredOptions.map((option, index) => (
@@ -309,8 +314,15 @@ console.log({firstMatch});
               </div>
             )}
           </ul>
-        )}
+</div>
+        )
+        
+        
+        }
       </div>
+
+     
+      
     </div>
   );
 };
