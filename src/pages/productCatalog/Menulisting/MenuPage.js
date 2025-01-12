@@ -1169,8 +1169,7 @@ export const MenuPage = () => {
                 // className={`${isExpanded ? "body-container-expand" : "body-container"
                 //   }`}
               >
-                <div></div>
-                <div   className={`${
+                <div className={`${
                     isExpanded ? "first-div-body-expand" : "first-div-body"
                   }`} ref={ref1}>
                   {menudatalist?.map((data, parentIndex) => (
@@ -1203,7 +1202,7 @@ export const MenuPage = () => {
                                       (item, index) => (
                                         <div
                                           key={index}
-                                          className="item-name-code-data"
+                                          className={"item-name-code-data"}
                                         >
                                           <p>
                                             <span className="itemimage2">
@@ -1263,7 +1262,7 @@ export const MenuPage = () => {
                                   {data?.itemResponseList.map((item, index) => (
                                     <div
                                       key={index}
-                                      className="item-name-code-data"
+                                      className={isExpanded ? "item-name-code-data-Expanded" : "item-name-code-data"}
                                     >
                                       <p>
                                         <span className="itemimage2">
