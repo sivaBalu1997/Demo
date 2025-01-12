@@ -189,7 +189,7 @@ const Routers = () => {
             />
 
             <div
-              style={{ width: "100%", display: "flex" }}
+              style={{ width: "100%"}}
               className="landingpage"
             >
               {/* {belowMinWidth ? (
